@@ -112,6 +112,16 @@ CITIES=		\
 	Colmar \
 	Kassel \
 
+OSM_AREAS= \
+	berlin.osm.bz2 \
+	africa.osm.bz2 \
+	australia-oceania.osm.bz2 \
+	baden-wuerttemberg.osm.bz2 \
+	brandenburg.osm.bz2 \
+	south-america.osm.bz2 \
+	# germany.osm.bz2 \
+	# europe.osm.bz2
+
 all: help
 
 tarball: convert convert-workarounds
@@ -153,6 +163,16 @@ city-population:
 
 update-city-population:
 	${MAKE} -s -f Makefile.osm city-population | sort -k 2 -nr | perl -npe 's/ /:/' > world/misc/population.csv
+
+
+# using GNU xargs -P parallel
+osm-areas:
+	rm -rf data-opensearch.old
+	if test -e data-opensearch; then mv data-opensearch data-opensearch.old; fi
+	mkdir -p data-opensearch
+	echo ${OSM_AREAS} " " | \
+	  perl -ne 'chomp; foreach (split) { print qq{PATH=$$PATH:world/bin; world/bin/osm2suggestions ../osm/download/$$_ /tmp/foo\0} }' | \
+	  ${NICE} ${GXARGS} -0 -n1 -P${MAX_CPU} sh -c
 
 convert: _convert convert-workarounds
 # using GNU xargs -P parallel
