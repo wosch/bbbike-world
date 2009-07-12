@@ -113,13 +113,10 @@ CITIES=		\
 	Kassel \
 
 OSM_AREAS= \
-	berlin.osm.bz2 \
 	africa.osm.bz2 \
 	australia-oceania.osm.bz2 \
-	baden-wuerttemberg.osm.bz2 \
-	brandenburg.osm.bz2 \
 	south-america.osm.bz2 \
-	# germany.osm.bz2 \
+	germany.osm.bz2 \
 	# europe.osm.bz2
 
 all: help
