@@ -216,13 +216,13 @@ create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi
 		ln -fs world.cgi $$city.en.cgi; \
 		ln -fs world.cgi.config $$city.cgi.config; \
 	done
-	ln -fs world/misc/index.html ${BBBIKE_WEB_DIR}
-	ln -fs world/misc/doc.html ${BBBIKE_WEB_DIR}
-	ln -fs world/misc/bbbike-world.kml ${BBBIKE_WEB_DIR}
-	ln -fs world/misc/world.cgi ${BBBIKE_WEB_DIR}/cgi
-	ln -fs world/misc/world.cgi.config ${BBBIKE_WEB_DIR}/cgi
-	ln -fs world/misc/streets.html ${BBBIKE_WEB_DIR}
-	ln -fs world/bin/streets.cgi ${BBBIKE_WEB_DIR}/cgi
+	ln -fs ../world/misc/index.html ${BBBIKE_WEB_DIR}
+	ln -fs ../world/misc/doc.html ${BBBIKE_WEB_DIR}
+	ln -fs ../world/misc/bbbike-world.kml ${BBBIKE_WEB_DIR}
+	ln -fs ../world/misc/world.cgi ${BBBIKE_WEB_DIR}/cgi
+	ln -fs ../world/misc/world.cgi.config ${BBBIKE_WEB_DIR}/cgi
+	ln -fs ../world/misc/streets.html ${BBBIKE_WEB_DIR}
+	ln -fs ../world/bin/streets.cgi ${BBBIKE_WEB_DIR}/cgi
 
 TAGCLOUD=	world/bin/tagcloud 
 tagcloud:
