@@ -7,6 +7,9 @@ use utf8;
 use strict;
 use warnings;
 
+# unicode sort(1) mess
+$ENV{'LC_ALL'} = 'C';
+
 #####################################################################
 my $debug    = 0;
 my $icharset = 'utf8';
