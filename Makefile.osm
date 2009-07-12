@@ -13,10 +13,10 @@ DOWNLOADOSM=	./miscsrc/downloadosm --debug=2 --step=0.02
 OSMBIKE_DATA=	data-osm.tgz
 OSM2BBD_MAPTYPE=	-map bbbike	
 OSM2BBD=	perl ./miscsrc/osm2bbd --debug=0 -f ${OSM2BBD_MAPTYPE} -ignore-unhandled -ignore-underline -experiment add_postal_code -experiment polar_coord_hack
-MAX_CPU=	`../bbbike-macos/bin/ncpu`
+MAX_CPU=	`world/bin/ncpu`
 GXARGS=		`which gxargs xargs | head -1`
 
-BBBIKE_WEB_DIR= /usr/local/www/elsif.de/bbbike
+BBBIKE_WEB_DIR= ./
 OSM_DIR=	osm
 DATA_OSM_DIR=	data-osm
 CITIES=		\
@@ -152,7 +152,7 @@ city-population:
 	done
 
 update-city-population:
-	${MAKE} -s -f Makefile.osm city-population | sort -k 2 -nr | perl -npe 's/ /:/' > ../bbbike-macos/misc/population.csv
+	${MAKE} -s -f Makefile.osm city-population | sort -k 2 -nr | perl -npe 's/ /:/' > world/misc/population.csv
 
 convert: _convert convert-workarounds
 # using GNU xargs -P parallel
@@ -171,17 +171,17 @@ convert-workarounds: osm2bbd-workarounds
 
 osm2bbd-workarounds opensearch: opensearch-bbbike
 	for i in ${CITIES}; do echo $$i; done | \
-	  ${NICE} ${GXARGS} -n 1 -P ${MAX_CPU} ../bbbike-macos/bin/osm2bbd-workarounds ${DATA_OSM_DIR}
+	  ${NICE} ${GXARGS} -n 1 -P ${MAX_CPU} world/bin/osm2bbd-workarounds ${DATA_OSM_DIR}
 
 opensearch-bbbike:
-	perl ../bbbike-macos/bin/opensearch-suggestion --input-charset=iso-8859-1 < data/strassen > data/opensearch.streetnames
+	world/bin/opensearch-suggestion --gps=0 --input-charset=iso-8859-1 < data/strassen > data/opensearch.streetnames
 
 
 _c = ${CITIES}
 _cd = $(_c:=-download)
 _cc = $(_c:=-convert)
 
-DB=../bbbike-macos/bin/bbbike-db
+DB=world/bin/bbbike-db
 
 $(_cd):
 	c=`basename $@ -download`; \
@@ -216,23 +216,22 @@ create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi
 		ln -fs world.cgi $$city.en.cgi; \
 		ln -fs world.cgi.config $$city.cgi.config; \
 	done
-	ln -fs `pwd`/misc/index.html ${BBBIKE_WEB_DIR}
-	ln -fs `pwd`/misc/doc.html ${BBBIKE_WEB_DIR}
-	ln -fs `pwd`/misc/bbbike-world.kml ${BBBIKE_WEB_DIR}
-	ln -fs `pwd`/misc/world.cgi ${BBBIKE_WEB_DIR}/cgi
-	ln -fs `pwd`/misc/world.cgi.config ${BBBIKE_WEB_DIR}/cgi
-	ln -fs `pwd`/misc/streets.html ${BBBIKE_WEB_DIR}
-	ln -fs `pwd`/bin/streets.cgi ${BBBIKE_WEB_DIR}/cgi
-	ln -fs `pwd`/Makefile.osm ${BBBIKE_WEB_DIR}
+	ln -fs world/misc/index.html ${BBBIKE_WEB_DIR}
+	ln -fs world/misc/doc.html ${BBBIKE_WEB_DIR}
+	ln -fs world/misc/bbbike-world.kml ${BBBIKE_WEB_DIR}
+	ln -fs world/misc/world.cgi ${BBBIKE_WEB_DIR}/cgi
+	ln -fs world/misc/world.cgi.config ${BBBIKE_WEB_DIR}/cgi
+	ln -fs world/misc/streets.html ${BBBIKE_WEB_DIR}
+	ln -fs world/bin/streets.cgi ${BBBIKE_WEB_DIR}/cgi
 
-TAGCLOUD=	../bbbike-macos/bin/tagcloud 
+TAGCLOUD=	world/bin/tagcloud 
 tagcloud:
 	${DB} --area=de | perl -npe 's,^,^,; s,$$,:,' > tmp/cities.tmp && \
-		egrep -f tmp/cities.tmp ../bbbike-macos/misc/population.csv | ${TAGCLOUD} --lang=de > tmp/cities.de
+		egrep -f tmp/cities.tmp world/misc/population.csv | ${TAGCLOUD} --lang=de > tmp/cities.de
 	${DB} --area=eu | perl -npe 's,^,^,; s,$$,:,' > tmp/cities.tmp && \
-		egrep -f tmp/cities.tmp ../bbbike-macos/misc/population.csv | ${TAGCLOUD} --lang=en > tmp/cities.eu
+		egrep -f tmp/cities.tmp world/misc/population.csv | ${TAGCLOUD} --lang=en > tmp/cities.eu
 	${DB} --area=other | perl -npe 's,^,^,; s,$$,:,' > tmp/cities.tmp && \
-		egrep -f tmp/cities.tmp ../bbbike-macos/misc/population.csv | ${TAGCLOUD} --lang=en > tmp/cities.other
+		egrep -f tmp/cities.tmp world/misc/population.csv | ${TAGCLOUD} --lang=en > tmp/cities.other
 	rm -f tmp/cities.tmp
 
 scp rsync rsync-tgz:
