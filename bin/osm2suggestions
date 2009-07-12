@@ -18,6 +18,7 @@ if test -z "$outdir"; then
 	outdir=./ 
 fi
 
+outdir=`echo $outdir | perl -npe 's/\.osm(\.gz|\.bz2|)$//'`
 if [ ! -d $outdir ]; then
 	echo "missing outdir: $outdir"
 	exit 2
