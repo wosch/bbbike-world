@@ -171,7 +171,7 @@ osm-areas:
 	if test -e data-opensearch; then mv data-opensearch data-opensearch.old; fi
 	mkdir -p data-opensearch
 	echo ${OSM_AREAS} " " | \
-	  perl -ne 'chomp; foreach (split) { print qq{PATH=$$PATH:world/bin; world/bin/osm2suggestions ../osm/download/$$_ /tmp/foo\0} }' | \
+	  perl -ne 'chomp; foreach (split) { print qq{PATH=\$$PATH:`pwd`/world/bin world/bin/osm2suggestions ../osm/download/$$_ /tmp/foo\0} }' | \
 	  ${NICE} ${GXARGS} -0 -n1 -P${MAX_CPU} sh -c
 
 convert: _convert convert-workarounds
