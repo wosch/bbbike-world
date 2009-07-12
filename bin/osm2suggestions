@@ -24,13 +24,20 @@ if [ ! -d $outdir ]; then
 fi
 
 
-file=`basename $filename .osm.bz2`
+file=`basename $filename | perl -npe 's/\.osm(\.gz|\.bz2|)$//'`
 
-if extract-streetnames-osm $filename | gzip > $outdir/$file.streets.gz.tmp; then
-    mv -f $outdir/$file.streets.gz.tmp $outdir/$file.streets.gz
-    gzip -dc $outdir/$file.streets.gz | \
-	opensearch-suggestion > $outdir/$file.suggestion || exit $2
-else
-	exit $?
+if ! extract-streetnames-osm $filename > $outdir/$file.streets.tmp; then
+    exit 1
 fi
+mv -f $outdir/$file.streets.tmp $outdir/$file.streets
+
+if !  opensearch-suggestion < $outdir/$file.streets > \
+	$outdir/$file.suggestion.tmp; then
+    exit 1
+fi 
+mv -f $outdir/$file.suggestion.tmp $outdir/$file.suggestion
+gzip -f $outdir/$file.streets
+
+exit 0
+
 
