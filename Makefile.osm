@@ -1,0 +1,256 @@
+###############################################################
+# Wolfram Schneider, Aug 2008
+#
+# Get and convert OpenStreetMap.org data to BBBike
+#
+# For more information about BBBike, visit http://www.bbbike.de
+#
+
+
+MAX_PARALLELS_OSM_DOWNLOADS=	3
+NICE=		nice -n 5
+DOWNLOADOSM=	./miscsrc/downloadosm --debug=2 --step=0.02
+OSMBIKE_DATA=	data-osm.tgz
+OSM2BBD_MAPTYPE=	-map bbbike	
+OSM2BBD=	perl ./miscsrc/osm2bbd --debug=0 -f ${OSM2BBD_MAPTYPE} -ignore-unhandled -ignore-underline -experiment add_postal_code -experiment polar_coord_hack
+MAX_CPU=	`../bbbike-macos/bin/ncpu`
+GXARGS=		`which gxargs xargs | head -1`
+
+BBBIKE_WEB_DIR= /usr/local/www/elsif.de/bbbike
+OSM_DIR=	osm
+DATA_OSM_DIR=	data-osm
+CITIES=		\
+	Berlin \
+	CambridgeMa \
+	Ruegen \
+	SanJose \
+	Copenhagen \
+	Hamburg \
+	Frankfurt \
+	Prag \
+	Tuscon \
+	Toronto \
+	Dresden \
+	Dortmund \
+	Bonn \
+	Duisburg \
+	London \
+	Koeln \
+	Duesseldorf \
+	Portland \
+	Hannover \
+	Mannheim \
+	Madison \
+	Providence \
+	Bremen \
+	Rotterdam \
+	PaloAlto \
+	Reval \
+	Montreal \
+	Wien \
+	SanFrancisco \
+	Miami \
+	Mainz \
+	Paris \
+	DenHaag \
+	FortCollins \
+	Amsterdam \
+	NewYork \
+	Seattle \
+	Karlsruhe \
+	Helsinki \
+	Leipzig \
+	Bielefeld \
+	SanktPetersburg \
+	Darmstadt \
+	Bruessel \
+	Rostock \
+	Aarhus \
+	Chicago \
+	Cottbus \
+	Zuerich \
+	Stockholm \
+	Danzig \
+	Vancouver \
+	Jena \
+	Budapest \
+	Strassburg \
+	Luebeck \
+	Basel \
+	Sofia \
+	Erlangen \
+	Aachen \
+	Groningen \
+	Freiburg \
+	Austin \
+	Kiew \
+	Dublin \
+	Boulder \
+	Goettingen \
+	Stettin \
+	Laibach \
+	Oslo \
+	Chemnitz \
+	Erfurt \
+	Cambridge \
+	Barcelona \
+	Zagreb \
+	Muenster \
+	SantaCruz \
+	CraterLake \
+	Riga \
+	Davis \
+	Krakau \
+	Kaunas \
+	Corvallis \
+	BrandenburgHavel \
+	Goerlitz \
+	Turin \
+	FrankfurtOder \
+	WarenMueritz \
+	Sarajewo \
+	Colmar \
+	Kassel \
+
+all: help
+
+tarball: convert convert-workarounds
+	tar cf - data-osm | gzip > ${OSMBIKE_DATA}.tmp
+	mv -f ${OSMBIKE_DATA}.tmp ${OSMBIKE_DATA}
+	cp -f ${OSMBIKE_DATA} ../bbbike-macos/download
+
+cities:
+	@for i in `perl -e 'print "x " x 16'`; do ${MAKE} -f Makefile.osm _cities; done
+	${MAKE} -f Makefile.osm _cities_complete
+
+_cities2:
+	@for i in ${CITIES}; do \
+	    ${MAKE} -f Makefile.osm $$i-download || \
+	    ${MAKE} -f Makefile.osm $$i-download || \
+	    ${MAKE} -f Makefile.osm $$i-download || \
+	    ${MAKE} -f Makefile.osm $$i-download || \
+	    ${MAKE} -f Makefile.osm $$i-download || \
+		echo "please run me again: $$i"; \
+	done
+
+_cities:
+	@echo ${CITIES} | \
+		perl -npe 's/\s+/-download /g' | \
+		xargs -n 1 -P ${MAX_PARALLELS_OSM_DOWNLOADS} ${MAKE} -f Makefile.osm
+
+_cities_complete:
+	${MAKE} -f Makefile.osm `echo ${CITIES} | perl -npe 's/\s+/-download /g'`
+
+city-count:
+	@echo ${CITIES}  | wc -w
+
+city-population:
+	@for i in ${CITIES}; do \
+		printf "$$i "; \
+		find osm/$$i -name '*.gz' -print0 | xargs -0 -n16 -P ${MAX_CPU} gzip -dc | egrep population | \
+			perl -e 'while(<>) { s,.*:,,; print "$$1\n" if /(\d+)/ }; print "0\n" ' | sort -n | sort -u | awk '{ s += $$1 } END { print s }'; \
+	done
+
+update-city-population:
+	${MAKE} -s -f Makefile.osm city-population | sort -k 2 -nr | perl -npe 's/ /:/' > ../bbbike-macos/misc/population.csv
+
+convert: _convert convert-workarounds
+# using GNU xargs -P parallel
+_convert:
+	rm -rf data-osm.old
+	if test -e data-osm; then mv data-osm data-osm.old; fi
+	mkdir -p data-osm
+	echo ${CITIES} " " | perl -npe 's/\s+/-convert /g' | \
+	  ${NICE} ${GXARGS} -n 1 -P ${MAX_CPU} ${MAKE} -f Makefile.osm
+
+check:
+	for i in ${CITIES}; do echo ${DATA_OSM_DIR}/$$i; done | \
+	  ${NICE} ${GXARGS} -n 1 -P ${MAX_CPU} ./miscsrc/check_bbd --debug=0 -dir
+
+convert-workarounds: osm2bbd-workarounds
+
+osm2bbd-workarounds opensearch: opensearch-bbbike
+	for i in ${CITIES}; do echo $$i; done | \
+	  ${NICE} ${GXARGS} -n 1 -P ${MAX_CPU} ../bbbike-macos/bin/osm2bbd-workarounds ${DATA_OSM_DIR}
+
+opensearch-bbbike:
+	perl ../bbbike-macos/bin/opensearch-suggestion --input-charset=iso-8859-1 < data/strassen > data/opensearch.streetnames
+
+
+_c = ${CITIES}
+_cd = $(_c:=-download)
+_cc = $(_c:=-convert)
+
+DB=../bbbike-macos/bin/bbbike-db
+
+$(_cd):
+	c=`basename $@ -download`; \
+		mkdir -p ${OSM_DIR}/$$c; \
+		${DOWNLOADOSM} -o ${OSM_DIR}/$$c -- `${DB} --coord $$c`
+
+$(_cc):
+	#c=`basename $@ -convert`; ${OSM2BBD} -centerdelta `${DB} --centerdelta $$c` -lang `${DB} --lang $$c` -o ${DATA_OSM_DIR}/$$c ${OSM_DIR}/$$c
+	c=`basename $@ -convert`; ${OSM2BBD} -lang `${DB} --lang $$c` -o ${DATA_OSM_DIR}/$$c ${OSM_DIR}/$$c
+
+${CITIES}:
+	${MAKE} -f Makefile.osm $@-download $@-convert
+	
+######################################################################
+
+rsync-source:
+	rsync -azv -C --exclude osm   --safe-links  $$HOME/projects/bbbike/ srand.de:/usr/local/www/srand.de/bbbike
+	rsync -azv -C --exclude osm   --safe-links  $$HOME/projects/bbbike/ elsif.de:/usr/local/www/elsif.de/bbbike
+
+rsync-osm:
+	rsync -azv --exclude='*.bak' --delete --max-delete=512 data-osm osm elsif.de:bbbike
+	rsync -azv --exclude='*.bak' data/opensearch.streetnames elsif.de:bbbike/data
+
+
+create-bbbike-web-symlinks-bbbike.en.cgi:
+	cd ${BBBIKE_WEB_DIR}/cgi && ln -fs bbbike.cgi bbbike.en.cgi
+
+create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi
+	cd ${BBBIKE_WEB_DIR}/cgi && \
+	for city in ${CITIES}; do \
+		ln -fs world.cgi $$city.cgi; \
+		ln -fs world.cgi $$city.en.cgi; \
+		ln -fs world.cgi.config $$city.cgi.config; \
+	done
+	ln -fs `pwd`/misc/index.html ${BBBIKE_WEB_DIR}
+	ln -fs `pwd`/misc/doc.html ${BBBIKE_WEB_DIR}
+	ln -fs `pwd`/misc/bbbike-world.kml ${BBBIKE_WEB_DIR}
+	ln -fs `pwd`/misc/world.cgi ${BBBIKE_WEB_DIR}/cgi
+	ln -fs `pwd`/misc/world.cgi.config ${BBBIKE_WEB_DIR}/cgi
+	ln -fs `pwd`/misc/streets.html ${BBBIKE_WEB_DIR}
+	ln -fs `pwd`/bin/streets.cgi ${BBBIKE_WEB_DIR}/cgi
+	ln -fs `pwd`/Makefile.osm ${BBBIKE_WEB_DIR}
+
+TAGCLOUD=	../bbbike-macos/bin/tagcloud 
+tagcloud:
+	${DB} --area=de | perl -npe 's,^,^,; s,$$,:,' > tmp/cities.tmp && \
+		egrep -f tmp/cities.tmp ../bbbike-macos/misc/population.csv | ${TAGCLOUD} --lang=de > tmp/cities.de
+	${DB} --area=eu | perl -npe 's,^,^,; s,$$,:,' > tmp/cities.tmp && \
+		egrep -f tmp/cities.tmp ../bbbike-macos/misc/population.csv | ${TAGCLOUD} --lang=en > tmp/cities.eu
+	${DB} --area=other | perl -npe 's,^,^,; s,$$,:,' > tmp/cities.tmp && \
+		egrep -f tmp/cities.tmp ../bbbike-macos/misc/population.csv | ${TAGCLOUD} --lang=en > tmp/cities.other
+	rm -f tmp/cities.tmp
+
+scp rsync rsync-tgz:
+	rsync -av ${OSMBIKE_DATA} wolfram.schneider.org:www/src/bbbike
+
+clean:
+	rm -rf data-osm
+	mkdir data-osm
+
+dist-clean devel-clean distclean: clean
+	rm -rf osm
+	mkdir -p osm
+
+help:
+	@echo "usage: make [ help | cities | convert | rsync-tgz | rsync-osm ]"
+	@echo "            [ tarball | clean | dist-clean | create-bbbike-web-symlinks ]"
+	@echo "            [ convert | convert-workarounds | opensearch ]"
+	@echo "            [ city-count | city-population | update-city-population ]"
+	@echo ""
+	@echo "            [ ${CITIES} ]"
+
