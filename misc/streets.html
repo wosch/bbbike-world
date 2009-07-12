@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html lang="de-DE" xmlns="http://www.w3.org/1999/xhtml" xml:lang="de-DE">
+<head>
+  <meta name="generator" content="HTML Tidy for Linux (vers 6 November 2007), see www.w3.org" />
+
+  <title>BBBike</title>
+  <link rev="made" href="mailto:slaven%40rezic.de" />
+  <meta name="keywords" content=
+  "berlin fahrrad route bike karte suche cycling route routing routenplaner routenplanung fahrradroutenplaner radroutenplaner" />
+  <meta name="copyright" content="(c) 1998-2008 Slaven Rezic" />
+  <meta name="robots" content="nofollow" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <meta name="language" content="de" />
+  <meta name="description" content="BBBike ist ein Fahrradroutenplaner f&uuml;r Berlin" />
+  <meta name="revisit-after" content="7 days" />
+  <meta name="ICBM" content="52.507377, 13.460589" />
+  <meta name="DC.title" content="BBBike - Routenplaner f&uuml;r Radfahrer in Berlin und Brandenburg" />
+  <meta name="geo.position" content="52.507377;13.460589" />
+  <link type="image/ico" rel="shortcut icon" href="http://bbbike.elsif.de/images/srtbike.ico" />
+  <link rel="Help" href="http://bbbike.elsif.de/cgi/Berlin.cgi?info=1" />
+  <link rel="Home" href="http://bbbike.elsif.de/cgi/Berlin.cgi?begin=1" />
+  <link hreflang="de" rel="Start" href="http://bbbike.elsif.de/cgi/Berlin.cgi?begin=1" />
+  <link hreflang="en" rel="Start" href="http://bbbike.elsif.de/cgi/Berlin.en.cgi?begin=1" />
+  <link rel="Author" href="mailto:slaven@rezic.de" />
+  <link rel="Up" href="http://www.rezic.de/eserte/" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <script src="html/jquery.js" type="text/javascript">
+</script>
+  <script src="html/jquery.suggest.js" type="text/javascript">
+</script>
+  <script src="html/jquery.dimensions.js" type="text/javascript">
+</script>
+  <link href="html/jquery.suggest.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" type="text/css" href="html/luft.css" />
+</head>
+
+<body onload="setFocus();">
+  <div id="all">
+    <div id="border">
+      <div id="main">
+        <div id="streets">
+          <h1><a href='http://bbbike.elsif.de/cgi/Berlin.cgi?begin=1' title='Zur&uuml;ck zur Hauptseite' style=
+          'text-decoration:none; color:black;'>BBBike<img style="position:relative; top:15px; left:-15px;" alt="" src=
+          "http://bbbike.elsif.de/images/srtbike.gif" border="0" /></a></h1>
+
+          <div style="position:absolute; top:5px; right:10px;">
+            <!--
+    <img class="selectedflag" src=
+    "http://bbbike.elsif.de/images/de_flag.png" alt="Deutsch"
+    border="0" /> <a href=
+    "http://bbbike.elsif.de/cgi/Berlin.en.cgi"><img class=
+    "unselectedflag" src=
+    "http://bbbike.elsif.de/images/gb_flag.png" alt="English"
+    border="0" /></a>
+-->
+          </div>
+
+          <div>
+            this program search for street names in:<br />
+
+            <form name="opensearchEurope" action="cgi/streets.cgi" target="_blank" id="opensearchEurope">
+              <b>Europe</b>: <input type="hidden" name="action" value="opensearch" /> <input type="hidden" name=
+              "namespace" value="1" /> <input type="hidden" name="city" value="europe" /> <input id=
+              "suggest_start_europe" size="50" type="text" name="search" autocomplete="yes" /> <input type="submit" />
+            </form><script type="text/javascript">
+//<![CDATA[
+
+            // set focus to first search field (Europe)
+            function setFocus ()  {
+            document.opensearchEurope.search.focus();
+            }
+
+
+            jQuery.noConflict();
+            jQuery(function() {
+            jQuery("#suggest_start_europe").suggest("cgi/api.cgi?action=opensearch&city=europe&namespace=1&search=", 
+
+            { minchars: 1, delay: 200, onSelect: function() {} }); });
+            // { onSelect: function() {alert("You selected: " + this.value)}}); });
+            //]]>
+            </script>
+          </div>
+
+          <p>Example Searches are: <tt>Minsk Lodz most alborg kraki</tt></p>
+	  <p>You can type the street names in any alphabet: US-ASCII, latin or cyrillic letters. With or without diacritics.
+          <hr />
+          Other regions:
+
+          <table>
+            <tr>
+              <td><b>Africa</b>:</td>
+
+              <td>
+                <form action="cgi/streets.cgi" target="_blank">
+                  <input type="hidden" name="action" value="opensearch" /> <input type="hidden" name="namespace" value=
+                  "1" /> <input id="suggest_start_africa" size="50" type="text" name="search" autocomplete="yes" />
+                  <input type="hidden" name="city" value="africa" /> <input type="submit" />
+                </form><script type="text/javascript">
+//<![CDATA[
+                jQuery.noConflict();
+                jQuery(function() {
+                jQuery("#suggest_start_africa").suggest("cgi/api.cgi?action=opensearch&city=africa&namespace=1&search=", 
+
+                { minchars: 1, delay: 200, onSelect: function() {} }); });
+                // { onSelect: function() {alert("You selected: " + this.value)}}); });
+                //]]>
+                </script><br />
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>Germany</b>:</td>
+
+              <td>
+                <form action="cgi/streets.cgi" target="_blank">
+                  <input type="hidden" name="action" value="opensearch" /> <input type="hidden" name="namespace" value=
+                  "1" /> <input id="suggest_start_germany" size="50" type="text" name="search" autocomplete="yes" />
+                  <input type="hidden" name="city" value="germany" /> <input type="submit" />
+                </form><script type="text/javascript">
+//<![CDATA[
+                jQuery.noConflict();
+                jQuery(function() {
+                jQuery("#suggest_start_germany").suggest("cgi/api.cgi?action=opensearch&city=germany&namespace=1&search=", 
+
+                { minchars: 1, delay: 200, onSelect: function() {} }); });
+                // { onSelect: function() {alert("You selected: " + this.value)}}); });
+                //]]>
+                </script><br />
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>Australia</b>:</td>
+
+              <td>
+                <form action="cgi/streets.cgi" target="_blank">
+                  <input type="hidden" name="action" value="opensearch" /> <input type="hidden" name="namespace" value=
+                  "1" /> <input id="suggest_start_australia" size="50" type="text" name="search" autocomplete="yes" />
+                  <input type="hidden" name="city" value="australia-oceania" /> <input type="submit" />
+                </form><script type="text/javascript">
+//<![CDATA[
+                jQuery.noConflict();
+                jQuery(function() {
+                jQuery("#suggest_start_australia").suggest("cgi/api.cgi?action=opensearch&city=australia-oceania&namespace=1&search=", 
+
+                { minchars: 1, delay: 200, onSelect: function() {} }); });
+                // { onSelect: function() {alert("You selected: " + this.value)}}); });
+                //]]>
+                </script><br />
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>South America</b>:</td>
+
+              <td>
+                <form action="cgi/streets.cgi" target="_blank">
+                  <input type="hidden" name="action" value="opensearch" /> <input type="hidden" name="namespace" value=
+                  "1" /> <input id="suggest_start_southamerica" size="50" type="text" name="search" autocomplete=
+                  "yes" /> <input type="hidden" name="city" value="south-america" /> <input type="submit" />
+                </form><script type="text/javascript">
+//<![CDATA[
+                jQuery.noConflict();
+                jQuery(function() {
+                jQuery("#suggest_start_southamerica").suggest("cgi/api.cgi?action=opensearch&city=south-america&namespace=1&search=", 
+
+                { minchars: 1, delay: 200, onSelect: function() {} }); });
+                // { onSelect: function() {alert("You selected: " + this.value)}}); });
+                //]]>
+                </script><br />
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>World</b> <span style="font-size:small;">(a little bit slow)</span>:</td>
+
+              <td>
+                <form action="cgi/streets.cgi" target="_blank">
+                  <input type="hidden" name="action" value="opensearch" /> <input type="hidden" name="namespace" value=
+                  "1" /> <input id="suggest_start_planet" size="50" type="text" name="search" autocomplete="yes" />
+                  <input type="hidden" name="city" value="planet" /> <input type="submit" />
+                </form><script type="text/javascript">
+//<![CDATA[
+                jQuery.noConflict();
+                jQuery(function() {
+                jQuery("#suggest_start_planet").suggest("cgi/api.cgi?action=opensearch&city=planet&namespace=1&search=", 
+
+                { minchars: 1, delay: 200, onSelect: function() {} }); });
+                // { onSelect: function() {alert("You selected: " + this.value)}}); });
+                //]]>
+                </script><br />
+              </td>
+            </tr>
+          </table>
+          <hr />
+
+                <a href="./">home</a>
+
+          <div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em;">
+            (&copy;) 2008-2009 <a href="http://wolfram.schneider.org">Wolfram Schneider</a> // <a href=
+            "http://www.bbbike.de">http://www.bbbike.de</a><br />
+            Map data by the <a href="http://www.openstreetmap.org/">OpenStreetMap</a> Project // <a href=
+            "http://wiki.openstreetmap.org/wiki/OpenStreetMap_License">OpenStreetMap License</a><br />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><script type="text/javascript">
+//<![CDATA[
+
+    // set focus to first search field (Europe)
+     function setFocus ()  {
+        document.opensearchEurope.search.focus();
+     }
+  //]]>
+  </script><script type="text/javascript">
+//<![CDATA[
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+  //]]>
+  </script><script type="text/javascript">
+//<![CDATA[
+  try {
+  var pageTracker = _gat._getTracker("UA-286675-19");
+  pageTracker._trackPageview();
+  } catch(err) {}
+  //]]>
+  </script>
+</body>
+</html>

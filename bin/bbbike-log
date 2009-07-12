@@ -1,0 +1,36 @@
+#!/bin/sh
+
+PATH=$HOME/bin:$PATH; export PATH
+
+if cd /var/log/lighttpd 2>/dev/null; then
+  : ${logfiles="bbbike.log*"}
+else 
+  if cd /var/log/apache2 2>/dev/null; then
+    : ${logfiles="access_log*"}
+  else 
+    exit 2
+  fi
+fi
+
+: ${log_html=$HOME/projects/bbbike/log.html}
+: ${max_pictures=1024}
+: ${bbbike_host=""}
+
+zcat='gzip -dc'
+
+$zcat -f `ls -rt $logfiles` | zegrep -h 'GET (/~wosch/bbbike)?/cgi/[A-Zb]' | 
+	egrep  'imagetype=png.*geometry=240x180' | 
+	awk '{print $7}'| 
+	perl -ne 'print if !$cache{$_}; $cache{$_} = 1' | perl -e 'while(<>) { push @a, $_ }; print reverse @a' |
+	head -$max_pictures |
+	perl -ne '
+		chomp; $url=$_; 
+		$url =~ m,^/cgi/([^\.]+)\.,; 
+		$city = $1;
+		$pdf = $url;
+		$pdf =~ s,=png,=pdf,;
+		print qq{<a href="$pdf"><img style="border: none" alt="" src="$url" title="$. $city"></a>\n}' > $log_html
+
+	perl -i.bak -npe "s,(href|src)=\"(.*?)\",\$1=\"$bbbike_host\$2\",g" $log_html
+	tidy -asxhtml -i -m $log_html >/dev/null 2>&1
+

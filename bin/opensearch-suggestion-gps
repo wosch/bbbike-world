@@ -1,0 +1,481 @@
+#!/usr/local/bin/perl
+
+use Getopt::Long;
+use Text::Unidecode;
+use utf8;
+
+use strict;
+use warnings;
+
+#####################################################################
+my $debug    = 0;
+my $icharset = 'utf8';
+my $help;
+my $lang_supported =
+'de_7bit,de_en,de_en_2,da,es,slavic,cyrillic_iso9,cyrillic_iso9:slavic,cyrillic_de,text_unidecode';
+my $lang      = $lang_supported;
+my $substring = 1;
+my $gps       = 1;
+
+#
+# ignore these words as single items in the database
+#
+my @stopwords = qw(
+  Rd Dr Ln St Road Ct Ave N E S W Way [ZIP de Cir Pl Rue Street Avenue Via NE NW SW SE Straße County Drive Calle Lane Trl Hill Place Creek Blvd Close Court Am Old Park Lake du Ridge Ter la Forest des Loop Crescent Weg Route West Point Highway - State Cv East North South View Chemin Grove Farm del Hollow Valley der Oak Im Hwy De ул. Run Mill River Pky Aly Terrace Green Circle Trail Rua Mountain Strada Bay San Ranch Gardens La Natl Develop Boulevard Glen Pine C Van Impasse Church utca Avenida Hills van Cove An Branch Bridge Vista Springs Woods Oaks Walk Wood Canyon Meadow Camino Township Cemetery Spring Allée Little R Rock J Heights A Pond New Brook School Mc Village John Path Mount Private Saint Zum Carrer Tree Tr B Farm-to-Market White Landing Camp rue Acres Beach Red El Service Square St. calle The Spur Manor Auf 2 Bend 1 Gate Island Fork Crest Upper Los Blue Estates In D Lee Fire Cedar Pass Indian Lower Hall den Town Club House di High Meadows Country Line Sq L Smith Big Santa Plaza Cross Bluff Stone F M Pointe Trce Weg Str. Damm Ring Platz Allee);
+
+my %stopwords;
+
+#####################################################################
+
+# German
+sub de_7bit {
+    my $s = shift;
+
+    $s =~ s/Ä/Ae/g;
+    $s =~ s/Ö/Oe/g;
+    $s =~ s/Ü/Ue/g;
+    $s =~ s/ä/ae/g;
+    $s =~ s/ö/oe/g;
+    $s =~ s/ü/ue/g;
+    $s =~ s/ß/ss/g;
+    $s =~ s/é/e/g;
+    $s =~ s/è/e/g;
+    $s =~ s/á/a/g;
+
+    return $s;
+}
+
+# English: eszet -> B
+sub de_en {
+    my $s = shift;
+
+    $s =~ s/Ä/A/g;
+    $s =~ s/Ö/O/g;
+    $s =~ s/Ü/U/g;
+    $s =~ s/ä/a/g;
+    $s =~ s/ö/o/g;
+    $s =~ s/ü/u/g;
+    $s =~ s/ß/B/g;
+    $s =~ s/é/e/g;
+    $s =~ s/è/e/g;
+
+    return $s;
+}
+
+# English II: eszet -> ss
+sub de_en_2 {
+    my $s = shift;
+
+    $s =~ s/Ä/A/g;
+    $s =~ s/Ö/O/g;
+    $s =~ s/Ü/U/g;
+    $s =~ s/ä/a/g;
+    $s =~ s/ö/o/g;
+    $s =~ s/ü/u/g;
+    $s =~ s/ß/ss/g;
+    $s =~ s/é/e/g;
+    $s =~ s/è/e/g;
+
+    return $s;
+}
+
+# slavic languages (polish, croatian, czech)
+sub slavic {
+    my $s = shift;
+
+    $s =~ s,Ë,E,g;
+    $s =~ s,á,a,g;
+    $s =~ s,ó,o,g;
+    $s =~ s,Ć,C,g;
+    $s =~ s,Č,C,g;
+    $s =~ s,Đ,D,g;
+    $s =~ s,Ł,L,g;
+    $s =~ s,Ś,S,g;
+    $s =~ s,Š,S,g;
+    $s =~ s,Ź,Z,g;
+    $s =~ s,Ż,Z,g;
+    $s =~ s,ć,c,g;
+    $s =~ s,č,c,g;
+    $s =~ s,đ,d,g;
+    $s =~ s,ę,e,g;
+    $s =~ s,ł,l,g;
+    $s =~ s,ń,n,g;
+    $s =~ s,ą,q,g;
+    $s =~ s,ś,s,g;
+    $s =~ s,š,s,g;
+    $s =~ s,Ź,z,g;
+    $s =~ s,ź,z,g;
+    $s =~ s,ż,z,g;
+    $s =~ s,Ž,z,g;
+    $s =~ s,ž,z,g;
+
+    $s =~ s/ß/ss/g;
+
+    return $s;
+}
+
+# spanish
+sub es {
+    my $s = shift;
+
+    $s =~ s,À,A,g;
+    $s =~ s,Ò,o,g;
+    $s =~ s,à,a,g;
+    $s =~ s,á,a,g;
+    $s =~ s,ç,c,g;
+    $s =~ s,è,e,g;
+    $s =~ s,é,e,g;
+    $s =~ s,ë,e,g;
+    $s =~ s,ì,i,g;
+    $s =~ s,í,i,g;
+    $s =~ s,ï,i,g;
+    $s =~ s,ñ,n,g;
+    $s =~ s,ò,o,g;
+    $s =~ s,ó,o,g;
+    $s =~ s,ú,u,g;
+    $s =~ s,ü,u,g;
+
+    $s =~ s/ß/ss/g;
+
+    return $s;
+}
+
+# danish
+sub da {
+    my $s = shift;
+
+    $s =~ s,Å,A,g;
+    $s =~ s,Æ,A,g;
+    $s =~ s,Ø,O,g;
+    $s =~ s,ä,a,g;
+    $s =~ s,å,a,g;
+    $s =~ s,æ,a,g;
+    $s =~ s,é,e,g;
+    $s =~ s,ø,o,g;
+
+    $s =~ s/ß/ss/g;
+
+    return $s;
+}
+
+# Cyrillic to czech
+sub cyrillic_iso9 {
+    my $s = shift;
+
+    $s =~ s,А,A,g;
+    $s =~ s,а,a,g;
+    $s =~ s,Б,B,g;
+    $s =~ s,б,b,g;
+    $s =~ s,В,V,g;
+    $s =~ s,в,v,g;
+    $s =~ s,Ѓ,Ǵ,g;
+    $s =~ s,ѓ,ǵ,g;
+    $s =~ s,Д,D,g;
+    $s =~ s,д,d,g;
+    $s =~ s,Ђ,Đ,g;
+    $s =~ s,ђ,đ,g;
+    $s =~ s,Е,E,g;
+    $s =~ s,е,e,g;
+    $s =~ s,Ё,Ë,g;
+    $s =~ s,ё,ë,g;
+    $s =~ s,Ж,Ž,g;
+    $s =~ s,ж,ž,g;
+    $s =~ s,З,Z,g;
+    $s =~ s,з,z,g;
+    $s =~ s,И,I,g;
+    $s =~ s,и,i,g;
+    $s =~ s,Й,J,g;
+    $s =~ s,й,j,g;
+    $s =~ s,К,K,g;
+    $s =~ s,к,k,g;
+    $s =~ s,Л,L,g;
+    $s =~ s,л,l,g;
+    $s =~ s,М,M,g;
+    $s =~ s,м,m,g;
+    $s =~ s,Н,N,g;
+    $s =~ s,н,n,g;
+    $s =~ s,О,O,g;
+    $s =~ s,о,o,g;
+    $s =~ s,П,P,g;
+    $s =~ s,п,p,g;
+    $s =~ s,Р,R,g;
+    $s =~ s,р,r,g;
+    $s =~ s,С,S,g;
+    $s =~ s,с,s,g;
+    $s =~ s,Т,T,g;
+    $s =~ s,т,t,g;
+    $s =~ s,Ќ,Ḱ,g;
+    $s =~ s,ќ,ḱ,g;
+    $s =~ s,Ћ,Ć,g;
+    $s =~ s,ћ,ć,g;
+    $s =~ s,У,U,g;
+    $s =~ s,у,u,g;
+    $s =~ s,Ў,Ǔ,g;
+    $s =~ s,ў,ŭ,g;
+    $s =~ s,Ф,F,g;
+    $s =~ s,ф,f,g;
+    $s =~ s,Ц,C,g;
+    $s =~ s,ц,c,g;
+    $s =~ s,Ч,Č,g;
+    $s =~ s,ч,č,g;
+    $s =~ s,Ш,Š,g;
+    $s =~ s,ш,š,g;
+    $s =~ s,Ь,′,g;
+    $s =~ s,ь,,g;
+    $s =~ s,Ѣ,Ě,g;
+    $s =~ s,ѣ,ě,g;
+
+    $s =~ s,Я,Ja,g;
+    $s =~ s,я,ja,g;
+    $s =~ s,Ю,Ju,g;
+    $s =~ s,ю,ju,g;
+
+    $s =~ s/ß/ss/g;
+
+    return $s;
+}
+
+# Text::Unidecode
+sub text_unidecode {
+    my $s = shift;
+
+    return unidecode($s);
+}
+
+# Cyrillic to German
+sub cyrillic_de {
+    my $s = shift;
+
+    $s =~ s,А,A,g;
+    $s =~ s,а,a,g;
+    $s =~ s,Б,B,g;
+    $s =~ s,б,b,g;
+    $s =~ s,В,W,g;
+    $s =~ s,в,w,g;
+    $s =~ s,Ѓ,G,g;
+    $s =~ s,ѓ,g,g;
+    $s =~ s,Д,D,g;
+    $s =~ s,д,d,g;
+    $s =~ s,Ђ,Đ,g;
+    $s =~ s,ђ,đ,g;
+    $s =~ s,Е,E,g;
+    $s =~ s,е,e,g;
+    $s =~ s,Ё,Jo,g;
+    $s =~ s,ё,jo,g;
+    $s =~ s,Ж,Sch,g;
+    $s =~ s,ж,sch,g;
+    $s =~ s,З,S,g;
+    $s =~ s,з,s,g;
+    $s =~ s,И,I,g;
+    $s =~ s,и,i,g;
+    $s =~ s,Й,J,g;
+    $s =~ s,й,j,g;
+    $s =~ s,К,K,g;
+    $s =~ s,к,k,g;
+    $s =~ s,Л,L,g;
+    $s =~ s,л,l,g;
+    $s =~ s,М,M,g;
+    $s =~ s,м,m,g;
+    $s =~ s,Н,N,g;
+    $s =~ s,н,n,g;
+    $s =~ s,О,O,g;
+    $s =~ s,о,o,g;
+    $s =~ s,П,P,g;
+    $s =~ s,п,p,g;
+    $s =~ s,Р,R,g;
+    $s =~ s,р,r,g;
+    $s =~ s,С,S,g;
+    $s =~ s,с,s,g;
+    $s =~ s,Т,T,g;
+    $s =~ s,т,t,g;
+    $s =~ s,Ќ,Ḱ,g;
+    $s =~ s,ќ,ḱ,g;
+    $s =~ s,Ћ,Ć,g;
+    $s =~ s,ћ,ć,g;
+    $s =~ s,У,U,g;
+    $s =~ s,у,u,g;
+    $s =~ s,Ў,Ǔ,g;
+    $s =~ s,ў,ŭ,g;
+    $s =~ s,Ф,F,g;
+    $s =~ s,ф,f,g;
+    $s =~ s,Ц,Z,g;
+    $s =~ s,ц,z,g;
+    $s =~ s,Ч,Tsch,g;
+    $s =~ s,ч,tsch,g;
+    $s =~ s,Ш,Sch,g;
+    $s =~ s,ш,sch,g;
+    $s =~ s,Ь,′,g;
+    $s =~ s,ь,,g;
+    $s =~ s,Ѣ,Ě,g;
+    $s =~ s,ѣ,ě,g;
+
+    $s =~ s,Я,Ja,g;
+    $s =~ s,я,ja,g;
+    $s =~ s,Ю,Ju,g;
+    $s =~ s,ю,ju,g;
+    $s =~ s,Х,Ch,g;
+    $s =~ s,х,ch,g;
+
+    $s =~ s/ß/ss/g;
+
+    return $s;
+}
+
+sub unicode2ascii {
+    my $string    = shift;
+    my $languages = shift;
+
+    # define a comma separated list of transliteration rules
+    # a colon applies several rules to one string
+    my $lang = $languages if defined $languages;
+
+    my @list;
+    my $s;
+
+    foreach my $rule ( split( /,/, $lang ) ) {
+        no strict "refs";
+
+        my $s = $string;
+        foreach my $r ( split( /:/, $rule ) ) {
+            $s = &$r($s);
+            push( @list, $s ) if $s ne $string;
+        }
+    }
+
+    # return unique list
+    my %hash = map { $_ => 1 } @list;
+    @list = keys %hash;
+
+    return @list;
+}
+
+# split a street name into a word list and return a list
+# of names without the first, second etc. word
+#
+# e.g.: Karl-Marx-Allee -> ('Marx-Allee', 'Allee')
+#
+# ignore stopwords like 'Avenue', 'St' etc.
+sub wordlist {
+    my $string = shift;
+
+    my @list;
+    my $s = $string;
+    $s =~ s/\s+\[.*?\]//g;     # remove zip codes
+    $s =~ s/\s+\(.*?\)//g;     # remove zip codes
+    $s =~ s/^[\[\s"'()]+//g;
+    $s =~ s/[\[\s"'()]+$//g;
+
+    if (1) {
+        while ( $s && length($s) >= 3 ) {
+            if ( $s =~ s/^([\S]+?)[\s\-]// ) {
+                warn qq{Removed "$1" from "$string"\n} if $debug >= 3;
+
+                last if exists $stopwords{$s};
+                push( @list, $s ) if length($s) >= 3;
+            }
+            else {
+                last;
+            }
+
+        }
+    }
+    else {
+        my @data = split( /[\s\-]+/, $s );
+        for ( my $i = 1 ; $i < $#data ; $i++ ) {
+        }
+    }
+
+    return @list;
+}
+
+sub usage {
+    warn <<EOF;
+usage: 
+  $0 [options] < strassen > opensearch.streetnames
+
+--input-charset=charset input character set, default: $icharset
+--debug=0..2		default: $debug
+--substring=0..1	build database with prefix-substrings, default: $substring
+--gps=0|1		with gps output, default $gps
+--help
+
+--lang=lang,lang2,lang3:lang1,lang4
+
+supported transliteration rules:
+EOF
+
+    warn "  ", join( "\n  ", sort split( /,/, $lang_supported ) ), "\n";
+    warn "default: $lang_supported\n";
+    exit(1);
+}
+
+my $rc = GetOptions(
+    "debug=i"         => \$debug,
+    "input-charset=s" => \$icharset,
+    "lang=s"          => \$lang,
+    "substring=i"     => \$substring,
+    "gps=i"           => \$gps,
+    "help"            => \$help,
+);
+
+&usage if !$rc || $help;
+
+binmode( \*STDIN,  ":encoding($icharset)" ) or die "binmode: $!\n";
+binmode( \*STDOUT, ":encoding(utf8)" )      or die "binmode: $!\n";
+
+# init stop word list
+map { $stopwords{$_} = 1 } @stopwords;
+
+my %s;
+while (<STDIN>) {
+    if ( /^\s*#/ || /^[\(" ]/ ) {
+        next;
+    }
+
+    chomp;
+
+    my ( $street, $gps ) = ( split(/\t/) )[ 0, 1 ];
+
+    my $coord;
+
+    # find the coordinates in the rest of the string
+    foreach my $c ( ( split( /\s+/, $gps ) )[ 0, 1 ] ) {
+        if ( $c =~ /,/ ) {
+            $coord = $c;
+            last;
+        }
+    }
+
+    $s{$street} = $coord if $street && !exists $s{$street};
+}
+
+open my $fd_sort, "|-", "sort", "-uf"
+  or die "Can't run sort: $!";
+binmode( $fd_sort, ":utf8" );
+select($fd_sort);
+
+while ( my ( $street, $val ) = each %s ) {
+    my @wordlist = &wordlist($street);
+    warn "Wordlist: $street: ", join( ' : ', @wordlist ), "\n"
+      if $debug >= 2 && @wordlist;
+
+    my @list = $street;
+    push( @list, @wordlist ) if $substring && @wordlist;
+
+    foreach my $street2 (@list) {
+        if ( my @strings = unicode2ascii( $street2, $lang ) ) {
+            foreach my $s (@strings) {
+                print $s, "\t", $street, ( $gps ? "\t$val" : "" ), "\n";
+            }
+        }
+        else {
+            print $street2, "\t";
+            print $street if $street ne $street2;
+            print "\t", $val if $gps;
+            print "\n";
+        }
+    }
+}
+select STDOUT;
+
+exit 0;

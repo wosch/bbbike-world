@@ -1,0 +1,102 @@
+#!/usr/bin/perl
+# (c) 2009 Wolfram Schneider
+#
+# bbbike-world-kml - create an Google Earth KML file for all bbbike@world cities
+#
+# $Id: bbbike-world-kml,v 1.18 2009/04/21 19:55:41 wosch Exp $
+
+use IO::File;
+use strict;
+use warnings;
+
+sub usage () {
+    <<EOF;
+usage: $0 bbbike-db
+
+EOF
+}
+
+sub extract_coords_from_makefile {
+    my $db = shift;
+
+    my @data;
+
+    my $fh = new IO::File $db, "r" or die "open: $!\n";
+    while (<$fh>) {
+        next if /^\s*#/;
+        chomp;
+
+        my ( $city, $name, $lang, $area, $coord ) = split(/:/);
+        my ( $x1, $y1, $x2, $y2 ) = split( /\s+/, $coord );
+
+        my $x = ( $x2 - $x1 ) / 2 + $x1;
+        my $y = ( $y2 - $y1 ) / 2 + $y1;
+
+        push( @data, [ $city, $lang, $x, $y ] );
+
+    }
+    close $fh;
+
+    return @data;
+}
+
+sub bbbike2kml_header {
+    print <<EOF;
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.2">
+<Document>
+  <name>BBBike @ World</name>
+  <description><![CDATA[List of all Cities supported by BBBike @ World]]></description>
+  <Style id="style1">
+    <IconStyle>
+      <Icon>
+        <href>http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png</href>
+      </Icon>
+    </IconStyle>
+  </Style>
+EOF
+}
+
+sub bbbike2kml_footer {
+    print <<EOF;
+</Document>
+</kml>
+EOF
+}
+
+sub bbbike2kml_placemarks {
+    my @data = @_;
+
+    foreach my $c ( sort { $a->[0] cmp $b->[0] } @data ) {
+        my ( $city, $lang, $x, $y ) = @$c;
+
+        my $bbbike_url = "http://bbbike.elsif.de/cgi/$city"
+          . ( $lang eq '' ? '.cgi' : ".$lang.cgi" );
+
+        print <<EOF;
+  <Placemark>
+    <name>$city</name>
+    <description><![CDATA[<span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="$bbbike_url">Start BBBike @ $city</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>$x,$y,0.000000</coordinates>
+    </Point>
+  </Placemark>
+EOF
+    }
+}
+
+sub bbbike2kml {
+    my @data = @_;
+
+    &bbbike2kml_header;
+    &bbbike2kml_placemarks(@data);
+    &bbbike2kml_footer;
+}
+
+my $db = $ARGV[0];
+die &usage if !$db;
+
+my @data = &extract_coords_from_makefile($db);
+&bbbike2kml(@data);
+

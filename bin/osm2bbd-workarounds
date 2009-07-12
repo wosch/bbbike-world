@@ -1,0 +1,30 @@
+#!/bin/sh
+
+prefix=$1
+city=$2
+
+if test -z $prefix -o -z $city; then
+	echo "usage $0 prefix city"
+	exit 2
+fi
+
+p=`pwd`/../bbbike-macos/bin
+
+perl ./miscsrc/osm2bbd-postprocess --debug=0 -only-largest-city-is-center -skip-inaccessible-streets $prefix/$city
+
+cd $prefix/$city || exit 2
+
+$p/strasse-str strassen
+$p/berlin-coords-data strassen > Berlin.coords.data
+
+# test -e opensearch.streetnames && mv -f opensearch.streetnames opensearch.streetnames.old
+# perl $p/opensearch-suggestion --lang=de_7bit,de_en,de_en_2,da,es,slavic,cyrillic_iso9,cyrillic_iso9:slavic,cyrillic_de,text_unidecode < strassen > opensearch.streetnames
+perl $p/opensearch-suggestion-gps --gps=0 < strassen > opensearch.streetnames
+
+# green ways
+# perl -npe 's/^\s/XYZ\t/; s/RW1/green2/g' radwege_exact > green 
+
+touch Berlin.coords.data Potsdam.coords.data comments_mount flaechen green nolighting plaetze qualitaet_s rbahn rbahnhof sbahn sbahnhof strassen ubahn ubahnhof wasserstrassen
+
+rm -f _* *.bak
+

@@ -1,0 +1,46 @@
+#!/bin/sh
+
+PATH=$HOME/bin:$PATH; export PATH
+
+cd /var/log/lighttpd || exit 2
+
+: ${logfiles="elsif.de.log bbbike.log"}
+
+echo -n "elisf.de/bbbike hosts: "
+zcat -f $logfiles | zegrep -h 'GET /cgi/[A-Zb]' | awk '{print $1}' | sort -u | wc -l
+
+zcat -f $logfiles | zegrep -h 'GET /cgi/[A-Zb]' | 
+	awk '{print $1, $7 }' | perl -npe 's/\?.*//; s,/cgi/,,; s,(\.en)?\.cgi,,;' | sort | uniq -c | sort -nr | dns
+
+echo ""
+echo "elisf.de/bbbike references:"
+zcat -f $logfiles | zegrep -h 'GET / |GET /cgi/[A-Za-z\.]+ HTTP' | 
+	awk '{print $11}' | sort | uniq -c | sort -nr
+
+echo ""
+echo -n "elisf.de/bbbike cities: "
+zcat -f $logfiles | zegrep -h 'GET /cgi/[A-Zb].*?\?' | 
+	egrep -v 'imagetype=png.*geometry=240x180' |
+	perl -ne 'print "$1\n" if m,GET /cgi/(.*?).cgi,'| wc -l
+
+zcat -f $logfiles | zegrep -h 'GET /cgi/[A-Zb].*?\?' | 
+	egrep -v 'imagetype=png.*geometry=240x180' |
+	perl -ne 'print "$1\n" if m,GET /cgi/(.*?).cgi,'|
+	sort | uniq -c | sort -nr
+
+
+echo ""
+echo "elisf.de/bbbike cities pdf:"
+zcat -f $logfiles | zegrep -h 'GET /cgi/[A-Zb].*?\?' | 
+	perl -ne 'print "$1\n" if m,GET /cgi/(.*?).cgi.*=pdf,'|
+	sort | uniq -c | sort -nr
+
+echo ""
+echo -n "OpenSearch requests: "
+zcat -f $logfiles | zegrep -h 'GET /cgi/api.*?\?' | wc -l
+
+echo ""
+echo -n "livesearch: "
+zcat -f $logfiles | zegrep -h 'GET /cgi/livesearch.*?\?' | wc -l
+
+echo ""

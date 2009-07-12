@@ -1,0 +1,21 @@
+#!/bin/sh
+#
+# detect the number of CPUs on a machine
+#
+
+ncpu=1
+if sysctl hw.ncpu >/dev/null 2>&1; then
+  # macos
+  ncpu=`sysctl -n hw.ncpu`
+elif sysctl kernel.sched_domain >/dev/null 2>&1; then
+  # linux
+  ncpu=`sysctl  kernel.sched_domain | tail -1 | \
+	perl -ne 'print ($1+1), "\n" if m,kernel.sched_domain.cpu(\d+),'`
+fi
+
+if [ "$ncpu" -ge 1 -a "$ncpu" -le 64 ]; then
+	echo "$ncpu"
+else
+	echo "1"
+fi
+

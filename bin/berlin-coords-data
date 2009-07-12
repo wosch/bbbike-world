@@ -1,0 +1,18 @@
+#!/usr/bin/perl
+
+while (<>) {
+    if (/^\s*#/) {
+        print;
+        next;
+    }
+
+    chomp;
+    $street = ( split(/\t/) )[0];
+    $s{$street} = 1 if $street;
+}
+
+foreach ( sort keys %s ) {
+    next if $_ eq '.' || $_ eq '?';
+    print "$_|district|12345|0,0\n";
+}
+
