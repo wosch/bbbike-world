@@ -3,6 +3,8 @@
 # detect the number of CPUs on a machine
 #
 
+PATH=/bin:/usr/bin:/sbin:/usr/bin; export PATH
+
 ncpu=1
 if sysctl hw.ncpu >/dev/null 2>&1; then
   # macos
