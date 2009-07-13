@@ -8,7 +8,7 @@
 
 
 MAX_PARALLELS_OSM_DOWNLOADS=	3
-NICE=		nice -n 0
+NICE=		nice -n 5
 DOWNLOADOSM=	./miscsrc/downloadosm --debug=2 --step=0.02
 OSMBIKE_DATA=	data-osm.tgz
 OSM2BBD_MAPTYPE=	-map bbbike	
