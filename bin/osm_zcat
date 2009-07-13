@@ -1,0 +1,12 @@
+#!/bin/sh
+#
+# linux wrapper for gzip
+
+PATH=/bin:/usr/bin; export PATH
+
+if which buffer; then
+	gzip -dc "$@" | buffer
+else
+	gzip -dc "$@"
+fi
+

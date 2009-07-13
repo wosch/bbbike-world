@@ -1,0 +1,12 @@
+#!/bin/sh
+#
+# linux wrapper for bzip2
+
+PATH=/bin:/usr/bin; export PATH
+
+if which buffer; then
+	bzip2 -dc "$@" | buffer
+else
+	bzip2 -dc "$@"
+fi
+
