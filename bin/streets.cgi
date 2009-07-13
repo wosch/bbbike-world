@@ -145,7 +145,7 @@ binmode( \*STDERR, ":utf8" ) if $debug >= 1;
 
 if ($use_osm_map) {
 	my ($lat, $lon) = split(/,/,  &streetnames_suggestions('city' => $city, 'street' => $street));
-print $q->redirect("http://www.openstreetmap.org/?zoom=16&layers=B000FTF&lat=$lat&lon=$lon");
+print $q->redirect("http://www.openstreetmap.org/?zoom=17&layers=B000FTF&lat=$lat&lon=$lon");
 } else {
 print $q->redirect("http://maps.google.ca/maps?q=" . &streetnames_suggestions('city' => $city, 'street' => $street));
 }
