@@ -8,7 +8,7 @@
 
 
 MAX_PARALLELS_OSM_DOWNLOADS=	3
-NICE=		nice -n 5
+NICE=		nice -n 0
 DOWNLOADOSM=	./miscsrc/downloadosm --debug=2 --step=0.02
 OSMBIKE_DATA=	data-osm.tgz
 OSM2BBD_MAPTYPE=	-map bbbike	
@@ -112,6 +112,7 @@ CITIES=		\
 	Colmar \
 	Kassel \
 
+OSM_AREAS_OPENSEARCH=data-opensearch3
 OSM_AREAS= africa.osm.bz2 \
 	australia-oceania.osm.bz2 \
 	europe.osm.bz2 \
@@ -119,6 +120,9 @@ OSM_AREAS= africa.osm.bz2 \
 	north-america.osm.bz2 \
 	planet.osm.bz2 \
 	south-america.osm.bz2
+
+# OSM_AREAS= africa.osm.bz2 australia-oceania.osm.bz2  germany.osm.bz2  south-america.osm.bz2
+
 
 
 all: help
@@ -166,12 +170,12 @@ update-city-population:
 
 # using GNU xargs -P parallel
 osm-areas:
-	#rm -rf data-opensearch.old
-	#if test -e data-opensearch; then mv data-opensearch data-opensearch.old; fi
-	mkdir -p data-opensearch
-	cd data-opensearch && mkdir -p `echo ${OSM_AREAS} | perl -npe 's/\.osm\.bz2//g'`
+	#rm -rf ${OSM_AREAS_OPENSEARCH}.old
+	#if test -e ${OSM_AREAS_OPENSEARCH}; then mv ${OSM_AREAS_OPENSEARCH} ${OSM_AREAS_OPENSEARCH}.old; fi
+	mkdir -p ${OSM_AREAS_OPENSEARCH}
+	cd ${OSM_AREAS_OPENSEARCH} && mkdir -p `echo ${OSM_AREAS} | perl -npe 's/\.osm\.bz2//g'`
 	echo ${OSM_AREAS} " " | \
-	  perl -ne 'chomp; foreach (split) { print qq{PATH=\$$PATH:`pwd`/world/bin world/bin/osm2suggestions ../osm/download/$$_ data-opensearch/$$_\0} }' | \
+	  perl -ne 'chomp; foreach (split) { print qq{PATH=\$$PATH:`pwd`/world/bin world/bin/osm2suggestions ../osm/download/$$_ '${OSM_AREAS_OPENSEARCH}'/$$_\0} }' | \
 	  ${NICE} ${GXARGS} -0 -n1 -P${MAX_CPU} sh -c
 
 convert: _convert convert-workarounds
