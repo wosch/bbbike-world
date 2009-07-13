@@ -3,7 +3,7 @@
 prefix=$1
 city=$2
 
-if test -z $prefix -o -z $city; then
+if test -z "$prefix" -o -z "$city"; then
 	echo "usage $0 prefix city"
 	exit 2
 fi
@@ -15,7 +15,8 @@ perl ./miscsrc/osm2bbd-postprocess --debug=0 -only-largest-city-is-center -skip-
 cd $prefix/$city || exit 2
 
 $p/strasse-str strassen
-$p/berlin-coords-data strassen > Berlin.coords.data
+#$p/berlin-coords-data < strassen > Berlin.coords.data
+cat /dev/null > Berlin.coords.data
 
 perl $p/opensearch-suggestion --gps=0 < strassen > opensearch.streetnames
 
