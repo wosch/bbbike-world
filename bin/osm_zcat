@@ -4,8 +4,8 @@
 
 PATH=/bin:/usr/bin; export PATH
 
-if which buffer; then
-	gzip -dc "$@" | buffer
+if which buffer >/dev/null; then
+	gzip -dc "$@" | buffer -m 6400k
 else
 	gzip -dc "$@"
 fi
