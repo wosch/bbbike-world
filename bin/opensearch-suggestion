@@ -8,7 +8,7 @@ use strict;
 use warnings;
 
 # unicode sort(1) mess
-$ENV{'LC_ALL'} = 'C';
+$ENV{'LANG'} = 'C';
 
 #####################################################################
 my $debug    = 0;

@@ -24,7 +24,7 @@ use vars qw($VERSION);
 $VERSION = 0.1;
 
 # unicode sort(1) mess
-$ENV{'LC_ALL'} = 'C';
+$ENV{'LANG'} = 'C';
 
 my $debug  = 1;    # 0: quiet, 1: normal, 2: verbose
 my $sort   = 0;
