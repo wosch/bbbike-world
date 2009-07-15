@@ -467,6 +467,7 @@ sub wordlist {
         while ( $s && length($s) >= 3 ) {
             if ( $s =~ s/^([\S]+?)[\s\-]// ) {
                 warn qq{Removed "$1" from "$string"\n} if $debug >= 3;
+	        $s =~ s/^-\s+//;
 
                 last if exists $stopwords{$s};
                 push( @list, $s ) if length($s) >= 3;
