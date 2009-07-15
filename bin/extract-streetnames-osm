@@ -123,7 +123,10 @@ sub street_names {
     while (<$s>) {
         chomp;
         my ( $point, $street ) = split(/\t/);
-        push( @{ $hash{$point} }, $street );
+        # requires twice the memory, too much for the planet file (>3.8GB) and will
+        # crash 4GB RAM machines
+        #push( @{ $hash{$point} }, $street ); 
+        $hash{$point} .= exists $hash{$point} ? "\t" . $street : $street;
     }
 
     my $p = new IO::File $points, "r" or die "open $points: $!\n";
@@ -141,7 +144,7 @@ sub street_names {
         my ( $point, $coords ) = split(/\t/);
 
         if ( exists $hash{$point} ) {
-            foreach my $street ( @{ $hash{$point} } ) {
+            foreach my $street ( split(/\t/, $hash{$point} ) ) {
                 next if $uniq && exists $streets{$street};
 
                 print $street, "\t", $coords, "\n";
