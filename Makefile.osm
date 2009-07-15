@@ -112,14 +112,16 @@ CITIES=		\
 	Colmar \
 	Kassel \
 
-OSM_AREAS_OPENSEARCH=data-opensearch3
+OSM_AREAS_OPENSEARCH=data-opensearch5
 OSM_AREAS= africa.osm.bz2 \
 	australia-oceania.osm.bz2 \
 	europe.osm.bz2 \
 	germany.osm.bz2 \
 	north-america.osm.bz2 \
 	planet.osm.bz2 \
-	south-america.osm.bz2
+	south-america.osm.bz2 \
+	sachsen.osm.bz2 \
+
 
 # OSM_AREAS= africa.osm.bz2 australia-oceania.osm.bz2  germany.osm.bz2  south-america.osm.bz2
 
