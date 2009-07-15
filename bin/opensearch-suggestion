@@ -15,7 +15,7 @@ my $debug    = 0;
 my $icharset = 'utf8';
 my $help;
 my $lang_supported =
-'de_7bit,de_en,de_en_2,da,es,slavic,cyrillic_iso9,cyrillic_iso9:slavic,cyrillic_de,text_unidecode';
+'de_7bit,de_en,de_en_2,da,es,slavic_7bit,cyrillic_iso9,cyrillic_iso9:slavic_7bit,cyrillic_de,text_unidecode';
 my $lang      = $lang_supported;
 my $substring = 1;
 my $gps       = 1;
@@ -83,7 +83,7 @@ sub de_en_2 {
 }
 
 # slavic languages (polish, croatian, czech)
-sub slavic {
+sub slavic_7bit {
     my $s = shift;
 
     $s =~ s,Ë,E,g;
@@ -256,6 +256,7 @@ sub cyrillic_de {
     $s =~ s,В,W,g;
     $s =~ s,в,w,g;
     $s =~ s,Ѓ,G,g;
+    $s =~ s,Г,G,g;
     $s =~ s,ѓ,g,g;
     $s =~ s,Д,D,g;
     $s =~ s,д,d,g;
@@ -439,14 +440,16 @@ while (<STDIN>) {
 
     my ( $street, $gps ) = ( split(/\t/) )[ 0, 1 ];
 
-    my $coord;
+    my $coord = "0,0";
 
     # find the coordinates in the rest of the string
+    if (defined $gps) {
     foreach my $c ( ( split( /\s+/, $gps ) )[ 0, 1 ] ) {
         if ( $c =~ /,/ ) {
             $coord = $c;
             last;
         }
+    }
     }
 
     $s{$street} = $coord if $street && !exists $s{$street};
