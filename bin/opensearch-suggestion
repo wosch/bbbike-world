@@ -173,6 +173,8 @@ sub cyrillic_iso9 {
     $s =~ s,в,v,g;
     $s =~ s,Ѓ,Ǵ,g;
     $s =~ s,ѓ,ǵ,g;
+    $s =~ s,Г,G,g;
+    $s =~ s,г,g,g;
     $s =~ s,Д,D,g;
     $s =~ s,д,d,g;
     $s =~ s,Ђ,Đ,g;
@@ -258,6 +260,7 @@ sub cyrillic_de {
     $s =~ s,Ѓ,G,g;
     $s =~ s,Г,G,g;
     $s =~ s,ѓ,g,g;
+    $s =~ s,г,g,g;
     $s =~ s,Д,D,g;
     $s =~ s,д,d,g;
     $s =~ s,Ђ,Đ,g;
@@ -341,6 +344,7 @@ sub cyrillic_en {
     $s =~ s,Ѓ,G,g;
     $s =~ s,Г,G,g;
     $s =~ s,ѓ,g,g;
+    $s =~ s,г,g,g;
     $s =~ s,Д,D,g;
     $s =~ s,д,d,g;
     $s =~ s,Ђ,Đ,g;
