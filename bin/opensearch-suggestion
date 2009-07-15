@@ -15,7 +15,7 @@ my $debug    = 0;
 my $icharset = 'utf8';
 my $help;
 my $lang_supported =
-'de_7bit,de_en,de_en_2,da,es,slavic_7bit,cyrillic_iso9,cyrillic_iso9:slavic_7bit,cyrillic_de,text_unidecode';
+'de_7bit,de_en,de_en_2,da,es,slavic_7bit,cyrillic_iso9,cyrillic_iso9:slavic_7bit,cyrillic_de,cyrillic_en,text_unidecode';
 my $lang      = $lang_supported;
 my $substring = 1;
 my $gps       = 1;
@@ -308,6 +308,8 @@ sub cyrillic_de {
     $s =~ s,ч,tsch,g;
     $s =~ s,Ш,Sch,g;
     $s =~ s,ш,sch,g;
+    $s =~ s,Щ,Schtsch,g;
+    $s =~ s,щ,schtsch,g;
     $s =~ s,Ь,′,g;
     $s =~ s,ь,,g;
     $s =~ s,Ѣ,Ě,g;
@@ -324,6 +326,89 @@ sub cyrillic_de {
 
     return $s;
 }
+
+
+# Cyrillic to English
+sub cyrillic_en {
+    my $s = shift;
+
+    $s =~ s,А,A,g;
+    $s =~ s,а,a,g;
+    $s =~ s,Б,B,g;
+    $s =~ s,б,b,g;
+    $s =~ s,В,V,g;
+    $s =~ s,в,v,g;
+    $s =~ s,Ѓ,G,g;
+    $s =~ s,Г,G,g;
+    $s =~ s,ѓ,g,g;
+    $s =~ s,Д,D,g;
+    $s =~ s,д,d,g;
+    $s =~ s,Ђ,Đ,g;
+    $s =~ s,ђ,đ,g;
+    $s =~ s,Е,E,g;
+    $s =~ s,е,e,g;
+    $s =~ s,Ё,Yo,g;
+    $s =~ s,ё,yo,g;
+    $s =~ s,Ж,Zh,g;
+    $s =~ s,ж,zh,g;
+    $s =~ s,З,Z,g;
+    $s =~ s,з,z,g;
+    $s =~ s,И,I,g;
+    $s =~ s,и,i,g;
+    $s =~ s,Й,Y,g;
+    $s =~ s,й,y,g;
+    $s =~ s,К,K,g;
+    $s =~ s,к,k,g;
+    $s =~ s,Л,L,g;
+    $s =~ s,л,l,g;
+    $s =~ s,М,M,g;
+    $s =~ s,м,m,g;
+    $s =~ s,Н,N,g;
+    $s =~ s,н,n,g;
+    $s =~ s,О,O,g;
+    $s =~ s,о,o,g;
+    $s =~ s,П,P,g;
+    $s =~ s,п,p,g;
+    $s =~ s,Р,R,g;
+    $s =~ s,р,r,g;
+    $s =~ s,С,S,g;
+    $s =~ s,с,s,g;
+    $s =~ s,Т,T,g;
+    $s =~ s,т,t,g;
+    $s =~ s,Ќ,Ḱ,g;
+    $s =~ s,ќ,ḱ,g;
+    $s =~ s,Ћ,Ć,g;
+    $s =~ s,ћ,ć,g;
+    $s =~ s,У,U,g;
+    $s =~ s,у,u,g;
+    $s =~ s,Ў,Ǔ,g;
+    $s =~ s,ў,ŭ,g;
+    $s =~ s,Ф,F,g;
+    $s =~ s,ф,f,g;
+    $s =~ s,Ц,Ts,g;
+    $s =~ s,ц,ts,g;
+    $s =~ s,Ч,Ch,g;
+    $s =~ s,ч,ch,g;
+    $s =~ s,Ш,Sh,g;
+    $s =~ s,ш,sh,g;
+    $s =~ s,Щ,Shch,g;
+    $s =~ s,щ,shch,g;
+    $s =~ s,Ь,′,g;
+    $s =~ s,ь,,g;
+    $s =~ s,Ѣ,Ě,g;
+    $s =~ s,ѣ,ě,g;
+    $s =~ s,Я,Ya,g;
+    $s =~ s,я,ya,g;
+    $s =~ s,Ю,Yu,g;
+    $s =~ s,ю,Yu,g;
+    $s =~ s,Х,Ch,g;
+    $s =~ s,х,ch,g;
+
+    #$s =~ s/ß/ss/g;
+
+    return $s;
+}
+
 
 sub unicode2ascii {
     my $string    = shift;
