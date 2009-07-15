@@ -225,6 +225,9 @@ sub cyrillic_iso9 {
     $s =~ s,ч,č,g;
     $s =~ s,Ш,Š,g;
     $s =~ s,ш,š,g;
+    $s =~ s,Щ,Š,g;
+    $s =~ s,щ,š,g;
+
     $s =~ s,Ь,′,g;
     $s =~ s,ь,,g;
     $s =~ s,Ѣ,Ě,g;
@@ -247,6 +250,8 @@ sub text_unidecode {
     return unidecode($s);
 }
 
+# http://de.wikipedia.org/wiki/Kyrillisches_Alphabet
+#
 # Cyrillic to German
 sub cyrillic_de {
     my $s = shift;
