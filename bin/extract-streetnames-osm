@@ -126,6 +126,8 @@ sub street_names {
         # requires twice the memory, too much for the planet file (>3.8GB) and will
         # crash 4GB RAM machines
         #push( @{ $hash{$point} }, $street ); 
+
+	next if !$street;
         $hash{$point} .= exists $hash{$point} ? "\t" . $street : $street;
     }
 
