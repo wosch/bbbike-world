@@ -101,6 +101,10 @@ sub extract_nodes {
                 $name .= ' [ZIP ' . $tag{'postal_code'} . ']'
                   if exists $tag{'postal_code'} && $name;
 
+                $name =~ s/^\s+//;
+                $name =~ s/\s+$//;
+                $name =~ s/\t/ /g;
+
                 if ($name) {
                     print $fd_streets $nodes[0], "\t", $name, "\n";
                 }
