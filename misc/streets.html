@@ -89,26 +89,6 @@
           Other regions:
 
           <table>
-            <tr>
-              <td><b>Africa</b>:</td>
-
-              <td>
-                <form action="cgi/streets.cgi" target="_blank">
-                  <input type="hidden" name="action" value="opensearch" /> <input type="hidden" name="namespace" value=
-                  "1" /> <input id="suggest_start_africa" size="50" type="text" name="search" autocomplete="yes" />
-                  <input type="hidden" name="city" value="africa" /> <input type="submit" />
-                </form><script type="text/javascript">
-//<![CDATA[
-                jQuery.noConflict();
-                jQuery(function() {
-                jQuery("#suggest_start_africa").suggest("cgi/api.cgi?action=opensearch&city=africa&namespace=1&search=", 
-
-                { minchars: 1, delay: 200, onSelect: function() {} }); });
-                // { onSelect: function() {alert("You selected: " + this.value)}}); });
-                //]]>
-                </script>
-              </td>
-            </tr>
 
             <tr>
               <td><b>Germany</b>:</td>
@@ -123,6 +103,48 @@
                 jQuery.noConflict();
                 jQuery(function() {
                 jQuery("#suggest_start_germany").suggest("cgi/api.cgi?action=opensearch&city=germany&namespace=1&search=", 
+
+                { minchars: 1, delay: 200, onSelect: function() {} }); });
+                // { onSelect: function() {alert("You selected: " + this.value)}}); });
+                //]]>
+                </script>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>Saxony</b>:</td>
+
+              <td>
+                <form action="cgi/streets.cgi" target="_blank">
+                  <input type="hidden" name="action" value="opensearch" /> <input type="hidden" name="namespace" value=
+                  "1" /> <input id="suggest_start_sachsen" size="50" type="text" name="search" autocomplete=
+                  "yes" /> <input type="hidden" name="city" value="sachsen" /> <input type="submit" />
+                </form><script type="text/javascript">
+//<![CDATA[
+                jQuery.noConflict();
+                jQuery(function() {
+                jQuery("#suggest_start_sachsen").suggest("cgi/api.cgi?action=opensearch&city=sachsen&namespace=1&search=", 
+
+                { minchars: 1, delay: 200, onSelect: function() {} }); });
+                // { onSelect: function() {alert("You selected: " + this.value)}}); });
+                //]]>
+                </script>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>World</b>:</td>
+
+              <td>
+                <form action="cgi/streets.cgi" target="_blank">
+                  <input type="hidden" name="action" value="opensearch" /> <input type="hidden" name="namespace" value=
+                  "1" /> <input id="suggest_start_planet" size="50" type="text" name="search" autocomplete="yes" />
+                  <input type="hidden" name="city" value="planet" /> <input type="submit" />
+                </form><script type="text/javascript">
+//<![CDATA[
+                jQuery.noConflict();
+                jQuery(function() {
+                jQuery("#suggest_start_planet").suggest("cgi/api.cgi?action=opensearch&city=planet&namespace=1&search=", 
 
                 { minchars: 1, delay: 200, onSelect: function() {} }); });
                 // { onSelect: function() {alert("You selected: " + this.value)}}); });
@@ -173,39 +195,20 @@
               </td>
             </tr>
 
+
             <tr>
-              <td><b>Saxony</b>:</td>
+              <td><b>Africa</b>:</td>
 
               <td>
                 <form action="cgi/streets.cgi" target="_blank">
                   <input type="hidden" name="action" value="opensearch" /> <input type="hidden" name="namespace" value=
-                  "1" /> <input id="suggest_start_sachsen" size="50" type="text" name="search" autocomplete=
-                  "yes" /> <input type="hidden" name="city" value="sachsen" /> <input type="submit" />
+                  "1" /> <input id="suggest_start_africa" size="50" type="text" name="search" autocomplete="yes" />
+                  <input type="hidden" name="city" value="africa" /> <input type="submit" />
                 </form><script type="text/javascript">
 //<![CDATA[
                 jQuery.noConflict();
                 jQuery(function() {
-                jQuery("#suggest_start_sachsen").suggest("cgi/api.cgi?action=opensearch&city=sachsen&namespace=1&search=", 
-
-                { minchars: 1, delay: 200, onSelect: function() {} }); });
-                // { onSelect: function() {alert("You selected: " + this.value)}}); });
-                //]]>
-                </script>
-              </td>
-            </tr>
-            <tr>
-              <td><b>World</b>:</td>
-
-              <td>
-                <form action="cgi/streets.cgi" target="_blank">
-                  <input type="hidden" name="action" value="opensearch" /> <input type="hidden" name="namespace" value=
-                  "1" /> <input id="suggest_start_planet" size="50" type="text" name="search" autocomplete="yes" />
-                  <input type="hidden" name="city" value="planet" /> <input type="submit" />
-                </form><script type="text/javascript">
-//<![CDATA[
-                jQuery.noConflict();
-                jQuery(function() {
-                jQuery("#suggest_start_planet").suggest("cgi/api.cgi?action=opensearch&city=planet&namespace=1&search=", 
+                jQuery("#suggest_start_africa").suggest("cgi/api.cgi?action=opensearch&city=africa&namespace=1&search=", 
 
                 { minchars: 1, delay: 200, onSelect: function() {} }); });
                 // { onSelect: function() {alert("You selected: " + this.value)}}); });
