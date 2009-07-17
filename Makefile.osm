@@ -18,7 +18,7 @@ GXARGS=		`which gxargs xargs | head -1`
 
 BBBIKE_WEB_DIR= ./
 OSM_DIR=	osm
-DATA_OSM_DIR=	data-osm
+DATA_OSM_DIR=	data-osm.wgs84
 CITIES=		\
 	Berlin \
 	CambridgeMa \
@@ -112,7 +112,7 @@ CITIES=		\
 	Colmar \
 	Kassel \
 
-OSM_AREAS_OPENSEARCH=data-opensearch2
+OSM_AREAS_OPENSEARCH=data-opensearch3
 OSM_AREAS= \
 	planet.osm.bz2 \
 	germany.osm.bz2 \
@@ -129,7 +129,7 @@ OSM_AREAS= \
 all: help
 
 tarball: convert convert-workarounds
-	tar cf - data-osm | gzip > ${OSMBIKE_DATA}.tmp
+	tar cf - ${DATA_OSM_DIR} | gzip > ${OSMBIKE_DATA}.tmp
 	mv -f ${OSMBIKE_DATA}.tmp ${OSMBIKE_DATA}
 	cp -f ${OSMBIKE_DATA} ../bbbike-macos/download
 
