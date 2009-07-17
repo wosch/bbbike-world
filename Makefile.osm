@@ -10,15 +10,15 @@
 MAX_PARALLELS_OSM_DOWNLOADS=	3
 NICE=		nice -n 5
 DOWNLOADOSM=	./miscsrc/downloadosm --debug=2 --step=0.02
-OSMBIKE_DATA=	data-osm.tgz
 OSM2BBD_MAPTYPE=	-map bbbike	
 OSM2BBD=	perl ./miscsrc/osm2bbd --debug=0 -f ${OSM2BBD_MAPTYPE} -ignore-unhandled -ignore-underline -experiment add_postal_code -experiment polar_coord_hack
 MAX_CPU=	`world/bin/ncpu`
 GXARGS=		`which gxargs xargs | head -1`
-
 BBBIKE_WEB_DIR= ./
 OSM_DIR=	osm
 DATA_OSM_DIR=	data-osm.wgs84
+OSMBIKE_DATA=	${DATA_OSM_DIR}.tgz
+
 CITIES=		\
 	Berlin \
 	CambridgeMa \
@@ -182,9 +182,9 @@ osm-areas:
 convert: _convert convert-workarounds
 # using GNU xargs -P parallel
 _convert:
-	rm -rf data-osm.old
-	if test -e data-osm; then mv data-osm data-osm.old; fi
-	mkdir -p data-osm
+	rm -rf ${DATA_OSM_DIR}.old
+	if test -e ${DATA_OSM_DIR}; then mv ${DATA_OSM_DIR} ${DATA_OSM_DIR}.old;  fi
+	mkdir -p ${DATA_OSM_DIR}
 	echo ${CITIES} " " | perl -npe 's/\s+/-convert /g' | \
 	  ${NICE} ${GXARGS} -n 1 -P ${MAX_CPU} ${MAKE} -f Makefile.osm
 
@@ -227,7 +227,7 @@ rsync-source:
 	rsync -azv -C --exclude osm   --safe-links  $$HOME/projects/bbbike/ elsif.de:/usr/local/www/elsif.de/bbbike
 
 rsync-osm:
-	rsync -azv --exclude='*.bak' --delete --max-delete=512 data-osm osm elsif.de:bbbike
+	rsync -azv --exclude='*.bak' --delete --max-delete=512 ${DATA_OSM_DIR} osm elsif.de:bbbike
 	rsync -azv --exclude='*.bak' data/opensearch.streetnames elsif.de:bbbike/data
 
 
@@ -263,8 +263,8 @@ scp rsync rsync-tgz:
 	rsync -av ${OSMBIKE_DATA} wolfram.schneider.org:www/src/bbbike
 
 clean:
-	rm -rf data-osm
-	mkdir data-osm
+	rm -rf ${DATA_OSM_DIR}
+	mkdir ${DATA_OSM_DIR}
 
 dist-clean devel-clean distclean: clean
 	rm -rf osm
