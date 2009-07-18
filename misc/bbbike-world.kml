@@ -2,7 +2,7 @@
 <kml xmlns="http://earth.google.com/kml/2.2">
 <Document>
   <name>BBBike @ World</name>
-  <description><![CDATA[List of all Cities supported by BBBike @ World]]></description>
+  <description><![CDATA[List of all Cities supported by <a href="http://www.bbbike.de/">BBBike @ World</a>.]]></description>
   <Style id="style1">
     <IconStyle>
       <Icon>
