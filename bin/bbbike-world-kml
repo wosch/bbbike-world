@@ -16,7 +16,7 @@ usage: $0 bbbike-db
 EOF
 }
 
-sub extract_coords_from_makefile {
+sub extract_coords {
     my $db = shift;
 
     my @data;
@@ -31,8 +31,10 @@ sub extract_coords_from_makefile {
 
         my $x = ( $x2 - $x1 ) / 2 + $x1;
         my $y = ( $y2 - $y1 ) / 2 + $y1;
+        
+        $name = $city if !$name;
 
-        push( @data, [ $city, $lang, $x, $y ] );
+        push( @data, [ $city, $name, $lang, $x, $y ] );
 
     }
     close $fh;
@@ -68,7 +70,7 @@ sub bbbike2kml_placemarks {
     my @data = @_;
 
     foreach my $c ( sort { $a->[0] cmp $b->[0] } @data ) {
-        my ( $city, $lang, $x, $y ) = @$c;
+        my ( $city, $name, $lang, $x, $y ) = @$c;
 
         my $bbbike_url = "http://bbbike.elsif.de/cgi/$city"
           . ( $lang eq '' ? '.cgi' : ".$lang.cgi" );
@@ -76,7 +78,7 @@ sub bbbike2kml_placemarks {
         print <<EOF;
   <Placemark>
     <name>$city</name>
-    <description><![CDATA[<span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="$bbbike_url">Start BBBike @ $city</a></span>]]></description>
+    <description><![CDATA[<span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="$bbbike_url">Start BBBike @ $name</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>$x,$y,0.000000</coordinates>
@@ -97,6 +99,6 @@ sub bbbike2kml {
 my $db = $ARGV[0];
 die &usage if !$db;
 
-my @data = &extract_coords_from_makefile($db);
+my @data = &extract_coords($db);
 &bbbike2kml(@data);
 
