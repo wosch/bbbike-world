@@ -48,7 +48,7 @@ sub bbbike2kml_header {
 <kml xmlns="http://earth.google.com/kml/2.2">
 <Document>
   <name>BBBike @ World</name>
-  <description><![CDATA[List of all Cities supported by BBBike @ World]]></description>
+  <description><![CDATA[List of all Cities supported by <a href="http://www.bbbike.de/">BBBike @ World</a>.]]></description>
   <Style id="style1">
     <IconStyle>
       <Icon>
@@ -77,8 +77,8 @@ sub bbbike2kml_placemarks {
 
         print <<EOF;
   <Placemark>
-    <name>$city</name>
-    <description><![CDATA[<span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="$bbbike_url">Start BBBike @ $name</a></span>]]></description>
+    <name><![CDATA[$name]]></name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="$bbbike_url">BBBike @ $city</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>$x,$y,0.000000</coordinates>
