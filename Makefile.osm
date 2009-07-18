@@ -259,6 +259,9 @@ tagcloud:
 		egrep -f tmp/cities.tmp world/misc/population.csv | ${TAGCLOUD} --lang=en > tmp/cities.other
 	rm -f tmp/cities.tmp
 
+kml:
+	world/bin/bbbike-world-kml world/misc/cities.csv > world/misc/bbbike-world.kml
+
 scp rsync rsync-tgz:
 	rsync -av ${OSMBIKE_DATA} wolfram.schneider.org:www/src/bbbike
 
@@ -273,7 +276,7 @@ dist-clean devel-clean distclean: clean
 help:
 	@echo "usage: make [ help | cities | convert | rsync-tgz | rsync-osm ]"
 	@echo "            [ tarball | clean | dist-clean | create-bbbike-web-symlinks ]"
-	@echo "            [ convert | convert-workarounds | opensearch ]"
+	@echo "            [ convert | convert-workarounds | opensearch | kml ]"
 	@echo "            [ city-count | city-population | update-city-population ]"
 	@echo ""
 	@echo "            [ ${CITIES} ]"
