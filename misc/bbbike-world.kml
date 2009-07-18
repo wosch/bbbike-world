@@ -11,7 +11,7 @@
     </IconStyle>
   </Style>
   <Placemark>
-    <name><![CDATA[Aachen]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Aachen.cgi">BBBike @ Aachen</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -19,15 +19,15 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[&Aring;rhus]]></name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Aarhus.en.cgi">BBBike @ Aarhus</a></span>]]></description>
+    <name></name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Aarhus.en.cgi">BBBike @ &Aring;rhus</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>10.20595,56.15135,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Amsterdam]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Amsterdam.cgi">BBBike @ Amsterdam</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -35,7 +35,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Austin]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Austin.en.cgi">BBBike @ Austin</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -43,7 +43,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Barcelona]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Barcelona.en.cgi">BBBike @ Barcelona</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -51,7 +51,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Basel]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Basel.cgi">BBBike @ Basel</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -59,7 +59,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Berlin]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Berlin.cgi">BBBike @ Berlin</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -67,7 +67,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Bielefeld]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Bielefeld.cgi">BBBike @ Bielefeld</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -75,7 +75,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Bonn]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Bonn.cgi">BBBike @ Bonn</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -83,7 +83,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Boulder]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Boulder.en.cgi">BBBike @ Boulder</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -91,15 +91,15 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Brandenburg (Havel)]]></name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/BrandenburgHavel.cgi">BBBike @ BrandenburgHavel</a></span>]]></description>
+    <name></name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/BrandenburgHavel.cgi">BBBike @ Brandenburg (Havel)</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>12.5605,52.4128,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Bremen]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Bremen.cgi">BBBike @ Bremen</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -107,15 +107,15 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Br&uuml;ssel]]></name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Bruessel.cgi">BBBike @ Bruessel</a></span>]]></description>
+    <name></name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Bruessel.cgi">BBBike @ Br&uuml;ssel</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>4.3495,50.84885,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Budapest]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Budapest.cgi">BBBike @ Budapest</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -123,7 +123,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Cambridge]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Cambridge.en.cgi">BBBike @ Cambridge</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -131,15 +131,15 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Cambridge (Massachusetts)]]></name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/CambridgeMa.en.cgi">BBBike @ CambridgeMa</a></span>]]></description>
+    <name></name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/CambridgeMa.en.cgi">BBBike @ Cambridge (Massachusetts)</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-71.1011,42.3775,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Chemnitz]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Chemnitz.cgi">BBBike @ Chemnitz</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -147,7 +147,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Chicago]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Chicago.en.cgi">BBBike @ Chicago</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -155,7 +155,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Colmar]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Colmar.cgi">BBBike @ Colmar</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -163,7 +163,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Copenhagen]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Copenhagen.en.cgi">BBBike @ Copenhagen</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -171,7 +171,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Corvallis]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Corvallis.en.cgi">BBBike @ Corvallis</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -179,7 +179,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Cottbus]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Cottbus.cgi">BBBike @ Cottbus</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -187,15 +187,15 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Crater Lake]]></name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/CraterLake.en.cgi">BBBike @ CraterLake</a></span>]]></description>
+    <name></name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/CraterLake.en.cgi">BBBike @ Crater Lake</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-122.1062,42.93115,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Danzig]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Danzig.cgi">BBBike @ Danzig</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -203,7 +203,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Darmstadt]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Darmstadt.cgi">BBBike @ Darmstadt</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -211,7 +211,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Davis]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Davis.en.cgi">BBBike @ Davis</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -219,15 +219,15 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Den Haag]]></name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/DenHaag.cgi">BBBike @ DenHaag</a></span>]]></description>
+    <name></name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/DenHaag.cgi">BBBike @ Den Haag</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>4.3132,52.06925,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Dortmund]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Dortmund.cgi">BBBike @ Dortmund</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -235,7 +235,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Dresden]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Dresden.cgi">BBBike @ Dresden</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -243,7 +243,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Dublin]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Dublin.en.cgi">BBBike @ Dublin</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -251,15 +251,15 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[D&uuml;sseldorf]]></name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Duesseldorf.cgi">BBBike @ Duesseldorf</a></span>]]></description>
+    <name></name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Duesseldorf.cgi">BBBike @ D&uuml;sseldorf</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>6.798,51.22,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Duisburg]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Duisburg.cgi">BBBike @ Duisburg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -267,7 +267,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Erfurt]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Erfurt.cgi">BBBike @ Erfurt</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -275,7 +275,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Erlangen]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Erlangen.cgi">BBBike @ Erlangen</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -283,31 +283,31 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Fort Collins]]></name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/FortCollins.en.cgi">BBBike @ FortCollins</a></span>]]></description>
+    <name></name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/FortCollins.en.cgi">BBBike @ Fort Collins</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-105.0645,40.542,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Frankfurt am Main]]></name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Frankfurt.cgi">BBBike @ Frankfurt</a></span>]]></description>
+    <name></name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Frankfurt.cgi">BBBike @ Frankfurt am Main</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>8.7095,50.1025,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Frankfurt (Oder)]]></name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/FrankfurtOder.cgi">BBBike @ FrankfurtOder</a></span>]]></description>
+    <name></name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/FrankfurtOder.cgi">BBBike @ Frankfurt (Oder)</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>14.5415,52.3399,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Freiburg]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Freiburg.cgi">BBBike @ Freiburg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -315,23 +315,23 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[G&ouml;rlitz]]></name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Goerlitz.cgi">BBBike @ Goerlitz</a></span>]]></description>
+    <name></name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Goerlitz.cgi">BBBike @ G&ouml;rlitz</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>14.9788,51.144,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[G&ouml;ttingen]]></name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Goettingen.cgi">BBBike @ Goettingen</a></span>]]></description>
+    <name></name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Goettingen.cgi">BBBike @ G&ouml;ttingen</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>9.9218,51.5379,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Groningen]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Groningen.cgi">BBBike @ Groningen</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -339,7 +339,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Hamburg]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Hamburg.cgi">BBBike @ Hamburg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -347,7 +347,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Hannover]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Hannover.cgi">BBBike @ Hannover</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -355,7 +355,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Helsinki]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Helsinki.en.cgi">BBBike @ Helsinki</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -363,7 +363,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Jena]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Jena.cgi">BBBike @ Jena</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -371,7 +371,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Karlsruhe]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Karlsruhe.cgi">BBBike @ Karlsruhe</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -379,7 +379,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Kassel]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Kassel.cgi">BBBike @ Kassel</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -387,7 +387,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Kaunas]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Kaunas.cgi">BBBike @ Kaunas</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -395,7 +395,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Kiew]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Kiew.en.cgi">BBBike @ Kiew</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -403,15 +403,15 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[K&ouml;ln]]></name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Koeln.cgi">BBBike @ Koeln</a></span>]]></description>
+    <name></name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Koeln.cgi">BBBike @ K&ouml;ln</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>6.9655,50.94,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Krakau]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Krakau.cgi">BBBike @ Krakau</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -419,7 +419,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Laibach]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Laibach.cgi">BBBike @ Laibach</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -427,7 +427,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Leipzig]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Leipzig.cgi">BBBike @ Leipzig</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -435,7 +435,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[London]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/London.en.cgi">BBBike @ London</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -443,15 +443,15 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[L&uuml;beck]]></name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Luebeck.cgi">BBBike @ Luebeck</a></span>]]></description>
+    <name></name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Luebeck.cgi">BBBike @ L&uuml;beck</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>10.69,53.8765,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Madison]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Madison.en.cgi">BBBike @ Madison</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -459,7 +459,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Mainz]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Mainz.cgi">BBBike @ Mainz</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -467,7 +467,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Mannheim]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Mannheim.cgi">BBBike @ Mannheim</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -475,7 +475,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Miami]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Miami.en.cgi">BBBike @ Miami</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -483,7 +483,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Montreal]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Montreal.en.cgi">BBBike @ Montreal</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -491,23 +491,23 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[M&uuml;nster]]></name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Muenster.cgi">BBBike @ Muenster</a></span>]]></description>
+    <name></name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Muenster.cgi">BBBike @ M&uuml;nster</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>7.6322,51.95715,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[New York]]></name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/NewYork.en.cgi">BBBike @ NewYork</a></span>]]></description>
+    <name></name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/NewYork.en.cgi">BBBike @ New York</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-73.9785,40.7485,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Oslo]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Oslo.en.cgi">BBBike @ Oslo</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -515,15 +515,15 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Palo Alto]]></name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/PaloAlto.en.cgi">BBBike @ PaloAlto</a></span>]]></description>
+    <name></name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/PaloAlto.en.cgi">BBBike @ Palo Alto</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-122.1404,37.44185,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Paris]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Paris.en.cgi">BBBike @ Paris</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -531,7 +531,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Portland]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Portland.en.cgi">BBBike @ Portland</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -539,7 +539,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Prag]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Prag.cgi">BBBike @ Prag</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -547,7 +547,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Providence]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Providence.en.cgi">BBBike @ Providence</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -555,7 +555,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Reval]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Reval.cgi">BBBike @ Reval</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -563,7 +563,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Riga]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Riga.cgi">BBBike @ Riga</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -571,7 +571,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Rostock]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Rostock.cgi">BBBike @ Rostock</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -579,7 +579,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Rotterdam]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Rotterdam.cgi">BBBike @ Rotterdam</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -587,47 +587,47 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[R&uuml;gen]]></name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Ruegen.cgi">BBBike @ Ruegen</a></span>]]></description>
+    <name></name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Ruegen.cgi">BBBike @ R&uuml;gen</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>13.357,54.4535,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[San Francisco]]></name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/SanFrancisco.en.cgi">BBBike @ SanFrancisco</a></span>]]></description>
+    <name></name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/SanFrancisco.en.cgi">BBBike @ San Francisco</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-122.439,37.7025,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[San Jos&eacute;]]></name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/SanJose.en.cgi">BBBike @ SanJose</a></span>]]></description>
+    <name></name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/SanJose.en.cgi">BBBike @ San Jos&eacute;</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-121.894,37.335,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Sankt Petersburg]]></name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/SanktPetersburg.en.cgi">BBBike @ SanktPetersburg</a></span>]]></description>
+    <name></name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/SanktPetersburg.en.cgi">BBBike @ Sankt Petersburg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>30.3265,59.9405,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Santa Cruz]]></name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/SantaCruz.en.cgi">BBBike @ SantaCruz</a></span>]]></description>
+    <name></name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/SantaCruz.en.cgi">BBBike @ Santa Cruz</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-122.002,36.977,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Sarajewo]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Sarajewo.cgi">BBBike @ Sarajewo</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -635,7 +635,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Seattle]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Seattle.en.cgi">BBBike @ Seattle</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -643,7 +643,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Sofia]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Sofia.en.cgi">BBBike @ Sofia</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -651,7 +651,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Stettin]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Stettin.cgi">BBBike @ Stettin</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -659,7 +659,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Stockholm]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Stockholm.en.cgi">BBBike @ Stockholm</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -667,15 +667,15 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Stra&szlig;burg]]></name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Strassburg.cgi">BBBike @ Strassburg</a></span>]]></description>
+    <name></name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Strassburg.cgi">BBBike @ Stra&szlig;burg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>7.76325,48.5857,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Toronto]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Toronto.en.cgi">BBBike @ Toronto</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -683,7 +683,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Turin]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Turin.en.cgi">BBBike @ Turin</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -691,7 +691,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Tuscon]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Tuscon.en.cgi">BBBike @ Tuscon</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -699,7 +699,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Vancouver]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Vancouver.en.cgi">BBBike @ Vancouver</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -707,15 +707,15 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Waren (M&uuml;ritz)]]></name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/WarenMueritz.cgi">BBBike @ WarenMueritz</a></span>]]></description>
+    <name></name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/WarenMueritz.cgi">BBBike @ Waren (M&uuml;ritz)</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>12.68145,53.51495,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Wien]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Wien.cgi">BBBike @ Wien</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -723,7 +723,7 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Zagreb]]></name>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Zagreb.cgi">BBBike @ Zagreb</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -731,8 +731,8 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name><![CDATA[Z&uuml;rich]]></name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Zuerich.cgi">BBBike @ Zuerich</a></span>]]></description>
+    <name></name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://bbbike.elsif.de/cgi/Zuerich.cgi">BBBike @ Z&uuml;rich</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>8.5377,47.3811,0.000000</coordinates>
