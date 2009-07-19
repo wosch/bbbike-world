@@ -27,21 +27,16 @@ $VERSION = 0.1;
 $ENV{'LANG'} = 'C';
 
 my $debug  = 1;    # 0: quiet, 1: normal, 2: verbose
-my $sort   = 0;
-my $uniq   = 1;
-my $unlink = 1;
+my $sort   = 1;
 
 my $xmlparser;
 
 sub usage () {
     <<EOF;
-usage: $0 [--debug={0..2}] [ --sort=0|1 ] [ --uniq=0|1 ] 
-          [ --unlink=0|1 ] osm_files ....
+usage: $0 [--debug={0..2}] [ --sort=0|1 ] osm_files ....
 
 --debug=0..2	  debug option, default: $debug
 --sort=0|1	  sort street names, default: $sort
---uniq=0|1	  filter street names, default: $uniq
---unlink=0|1	  remove temporary databases, default: $unlink
 osmfile ...       Files downloaded by downloadosm,
                   or directory containing .osm files
 EOF
@@ -50,7 +45,6 @@ EOF
 GetOptions(
     "debug=i" => \$debug,
     "sort=i"  => \$sort,
-    "uniq=i"  => \$uniq,
 ) or die usage;
 
 my @osm_files = @ARGV;
@@ -59,7 +53,7 @@ usage if !@osm_files;
 sub extract_nodes {
     my $reader     = shift;
     my $fd_nodes   = shift;
-    my $fd_streets = shift;
+    my $country   = shift;
 
     my $flag = 0;
     while ( $flag || $reader->nextElement == 1 ) {
@@ -71,98 +65,9 @@ sub extract_nodes {
             my $lat = $reader->getAttribute('lat');
             my $lon = $reader->getAttribute('lon');
 
-            print $fd_nodes $id, "\t", $lon, ",", $lat, "\n";
+            print $fd_nodes $lon, ",", $lat, "\t$country\n";
 
         }
-
-        elsif ( $reader->name eq 'way' ) {
-
-            my %tag;
-            my @nodes;
-            my $zip_code;
-
-            while ( $reader->nextElement == 1 ) {
-
-                my $node_name = $reader->name;
-                if ( $node_name eq 'nd' ) {
-                    push @nodes, $reader->getAttribute('ref');
-                }
-                elsif ( $node_name eq 'tag' ) {
-                    $tag{ $reader->getAttribute('k') } =
-                      $reader->getAttribute('v');
-                }
-                else {
-                    last;
-                }
-            }
-
-            if ( $tag{'highway'} ) {
-                my $name = $tag{'name'} || '';
-                $name .= ' [ZIP ' . $tag{'postal_code'} . ']'
-                  if exists $tag{'postal_code'} && $name;
-
-                $name =~ s/^\s+//;
-                $name =~ s/\s+$//;
-                $name =~ s/\t/ /g;
-
-                if ($name && exists $nodes[0] && $nodes[0]) {
-                    print $fd_streets $nodes[0], "\t", $name, "\n";
-                }
-            }
-
-            $flag = 1;
-        }
-    }
-}
-
-sub street_names {
-    my %args = @_;
-
-    my $streets = $args{'streets'};
-    my $points  = $args{'points'};
-    my $sort    = $args{'sort'};
-
-    my %hash;
-    my $s = new IO::File $streets, "r" or die "open $streets: $!\n";
-    while (<$s>) {
-        chomp;
-        my ( $point, $street ) = split(/\t/);
-        # requires twice the memory, too much for the planet file (>3.8GB) and will
-        # crash 4GB RAM machines
-        #push( @{ $hash{$point} }, $street ); 
-
-	next if !$street;
-        $hash{$point} .= exists $hash{$point} ? "\t" . $street : $street;
-    }
-
-    my $p = new IO::File $points, "r" or die "open $points: $!\n";
-
-    my $fd_sort;
-    if ($sort) {
-        open $fd_sort, "|-", "sort", "-uf"
-          or die "Can't run sort: $!";
-        select($fd_sort);
-    }
-
-    my %streets;
-    while (<$p>) {
-        chomp;
-        my ( $point, $coords ) = split(/\t/);
-
-        if ( exists $hash{$point} ) {
-            foreach my $street ( split(/\t/, $hash{$point} ) ) {
-                next if $uniq && exists $streets{$street};
-
-                print $street, "\t", $coords, "\n";
-
-                $streets{$street} = 1 if $uniq;
-            }
-        }
-    }
-
-    if ($sort) {
-        close($fd_sort);
-        select STDOUT;
     }
 }
 
@@ -199,10 +104,7 @@ for my $osm_file (@osm_files) {
     }
 
     binmode( $fh, ":utf8" );
-
     $reader = XML::LibXML::Reader->new( IO => $fh );
-
-    #my $reader = XML::LibXML::Reader->new( location => $osm_file );
 
     # check if osm file
     $reader->nextElement;
@@ -211,24 +113,16 @@ for my $osm_file (@osm_files) {
 "The file '$osm_file' is not starting with a <osm> tag, probably not an osm file?";
     }
 
-    my $fd_nodes = File::Temp->new( UNLINK => $unlink, SUFFIX => '.nodes' )
-      or die "File::Temp: $!\n";
-    my $fd_streets = File::Temp->new( UNLINK => $unlink, SUFFIX => '.streets' )
-      or die "File::Temp: $!\n";
-    binmode( $fd_nodes,   ":utf8" );
-    binmode( $fd_streets, ":utf8" );
-
-    extract_nodes( $reader, $fd_nodes, $fd_streets );
-
-    &street_names(
-        'streets' => $fd_streets->filename,
-        'points'  => $fd_nodes->filename,
-        'sort'    => $sort
-    );
-
-    if ( !$unlink ) {
-        warn "Nodes:   ", $fd_nodes->filename,   "\n";
-        warn "Streets: ", $fd_streets->filename, "\n";
+    if ($sort) {
+        open $fd_nodes, "|-", "sort", "-uf", "-o", "$osm_file.coords";
+          or die "Can't run sort: $!";
     }
+    binmode( $fd_nodes,   ":utf8" );
+
+    my $country = $osm_file;
+    $country =~ s/\.osm\.(gz|bz2|)$//;
+
+    extract_nodes( $reader, $fd_nodes, $country );
 }
+
 
