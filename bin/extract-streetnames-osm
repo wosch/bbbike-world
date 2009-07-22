@@ -143,16 +143,28 @@ sub street_names {
     my $p = new IO::File $points, "r" or die "open $points: $!\n";
 
     my $fd_sort;
+    my $sort_file;
+    my @sort_opt = ('-uf');
+
+    if ($look_fh) {
+        $sort = -1;
+        $uniq = -1 if $uniq;
+
+        my $fh =
+          File::Temp->new( UNLINK => $unlink, SUFFIX => '.sort' )
+          or die "File::Temp: $!\n";
+        $sort_file = $fh->filename;
+        push( @sort_opt, '-k2', "--field-separator=\t", '-o', $sort_file );
+
+    }
+
     if ($sort) {
-        open $fd_sort, "|-", "sort", "-uf"
+        open $fd_sort, "|-", "sort", @sort_opt
           or die "Can't run sort: $!";
         select($fd_sort);
     }
 
     my %streets;
-    my $look_counter      = 0;
-    my $look_counter_hits = 0;
-
     while (<$p>) {
         chomp;
         my ( $point, $coords ) = split(/\t/);
@@ -161,20 +173,7 @@ sub street_names {
             foreach my $street ( split( /\t/, $hash{$point} ) ) {
                 next if !$street;
 
-                if ($look_fh) {
-                    $look_counter++;
-                    look( $look_fh, $coords ) or die "look: $!\n";
-                    my $line = <$look_fh>;
-                    if ( defined $line ) {
-                        $look_counter_hits++;
-                        chomp $line;
-                        my ( $gps, $area ) = split( /\t/, $line );
-                        $area =~ s#/#, #;
-                        $street .= " [$area]";
-                    }
-                }
-
-                next if $uniq && exists $streets{$street};
+                next if $uniq > 0 && exists $streets{$street};
 
                 print $street, "\t", $coords, "\n";
 
@@ -183,13 +182,46 @@ sub street_names {
         }
     }
 
-    warn
-      "Lookup statistic: searches: $look_counter, hits: $look_counter_hits\n";
-
     if ($sort) {
         close($fd_sort);
         select STDOUT;
     }
+
+    # done?
+    return if $sort >= 0 or !$look_fh;
+
+
+    warn "Lookup for areas ...\n" if $debug >= 2;
+
+    my $look_counter      = 0;
+    my $look_counter_hits = 0;
+
+    open $fd_sort, "|-", "sort", "-uf"
+      or die "Can't run sort: $!";
+    select($fd_sort);
+
+    my $fh = new IO::File $sort_file, "r" or die "open $sort_file: $!\n";
+
+    while (<$fh>) {
+        chomp;
+        my ( $street, $coords ) = split(/\t/);
+
+        $look_counter++;
+        look( $look_fh, $coords ) or die "look: $!\n";
+        my $line = <$look_fh>;
+        if ( defined $line ) {
+            $look_counter_hits++;
+            chomp $line;
+            my ( $gps, $area ) = split( /\t/, $line );
+            $area =~ s#/#, #;
+            $street .= " [$area]";
+        }
+        print $street, "\t", $coords, "\n";
+    }
+
+    select STDOUT;
+    warn
+      "Lookup statistic: searches: $look_counter, hits: $look_counter_hits\n";
 }
 
 ######################################################################
