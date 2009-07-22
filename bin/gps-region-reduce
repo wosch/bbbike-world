@@ -34,16 +34,16 @@ while (<>) {
     else {
         if ( scalar(@data) ) {
             my @d = sort { length($a) <=> length($b) } @data;
-            my ($gps, $string) = split(/\t/, pop(@d));
+            my ( $gps, $string ) = split( /\t/, pop(@d) );
 
-	    $string =~ s,europe/,, if $remove_europe;
-	    if ($map_country_code) {
-		$string =~ s,great_britain/,GB/,;
-		$string =~ s,france/,FR/,;
-		$string =~ s,germany/,DE/,;
-	    }
+            $string =~ s,europe/,, if $remove_europe;
+            if ($map_country_code) {
+                $string =~ s,great_britain/,GB/,;
+                $string =~ s,france/,FR/,;
+                $string =~ s,germany/,DE/,;
+            }
 
-	    print $gps, "\t", $string;
+            print $gps, "\t", $string;
         }
         undef @data;
         push( @data, $_ );
