@@ -16,6 +16,7 @@ use IO::File;
 use File::Temp;
 use Data::Dumper;
 use Getopt::Long;
+use Search::Dict;
 
 use strict;
 use warnings;
@@ -30,6 +31,7 @@ my $debug  = 1;    # 0: quiet, 1: normal, 2: verbose
 my $sort   = 0;
 my $uniq   = 1;
 my $unlink = 1;
+my $area_lookup;
 
 my $xmlparser;
 
@@ -42,20 +44,11 @@ usage: $0 [--debug={0..2}] [ --sort=0|1 ] [ --uniq=0|1 ]
 --sort=0|1	  sort street names, default: $sort
 --uniq=0|1	  filter street names, default: $uniq
 --unlink=0|1	  remove temporary databases, default: $unlink
+--area-lookup=	  lookup database for areas
 osmfile ...       Files downloaded by downloadosm,
                   or directory containing .osm files
 EOF
 }
-
-GetOptions(
-    "debug=i"  => \$debug,
-    "sort=i"   => \$sort,
-    "unlink=i" => \$unlink,
-    "uniq=i"   => \$uniq,
-) or die usage;
-
-my @osm_files = @ARGV;
-usage if !@osm_files;
 
 sub extract_nodes {
     my $reader     = shift;
@@ -123,6 +116,7 @@ sub street_names {
     my $streets = $args{'streets'};
     my $points  = $args{'points'};
     my $sort    = $args{'sort'};
+    my $look_fh = $args{'area_lookup'};
 
     my %hash;
     my $s = new IO::File $streets, "r" or die "open $streets: $!\n";
@@ -157,6 +151,18 @@ sub street_names {
         if ( exists $hash{$point} ) {
             foreach my $street ( split( /\t/, $hash{$point} ) ) {
                 next if !$street;
+
+                if ($look_fh) {
+                    look( $look_fh, $coords ) or die "look: $!\n";
+                    my $line = <$look_fh>;
+                    if ( defined $line ) {
+                        chomp $line;
+                        my ( $gps, $area ) = split( /\t/, $line );
+                        $area =~ s#/#, #;
+                        $street .= " [$area]";
+                    }
+                }
+
                 next if $uniq && exists $streets{$street};
 
                 print $street, "\t", $coords, "\n";
@@ -177,7 +183,21 @@ sub street_names {
 # main
 #
 
+GetOptions(
+    "debug=i"       => \$debug,
+    "sort=i"        => \$sort,
+    "unlink=i"      => \$unlink,
+    "uniq=i"        => \$uniq,
+    "area_lookup=s" => \$area_lookup,
+) or die usage;
+
+my @osm_files = @ARGV;
 die &usage if !@osm_files;
+
+my $look_fh;
+if ($area_lookup) {
+    $look_fh = IO::File->new($area_lookup) or die "open $area_lookup: $!\n";
+}
 
 my $reader;
 my $fh;
@@ -227,9 +247,10 @@ for my $osm_file (@osm_files) {
     extract_nodes( $reader, $fd_nodes, $fd_streets );
 
     &street_names(
-        'streets' => $fd_streets->filename,
-        'points'  => $fd_nodes->filename,
-        'sort'    => $sort
+        'streets'     => $fd_streets->filename,
+        'points'      => $fd_nodes->filename,
+        'sort'        => $sort,
+        'area_lookup' => $look_fh,
     );
 
     if ( !$unlink ) {
