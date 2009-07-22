@@ -48,9 +48,10 @@ EOF
 }
 
 GetOptions(
-    "debug=i" => \$debug,
-    "sort=i"  => \$sort,
-    "uniq=i"  => \$uniq,
+    "debug=i"  => \$debug,
+    "sort=i"   => \$sort,
+    "unlink=i" => \$unlink,
+    "uniq=i"   => \$uniq,
 ) or die usage;
 
 my @osm_files = @ARGV;
@@ -104,6 +105,7 @@ sub extract_nodes {
                 $name =~ s/^\s+//;
                 $name =~ s/\s+$//;
                 $name =~ s/\t/ /g;
+                $name =~ s/^\s*$//;
 
                 if ( $name && exists $nodes[0] && $nodes[0] ) {
                     print $fd_streets $nodes[0], "\t", $name, "\n";
@@ -128,11 +130,13 @@ sub street_names {
         chomp;
         my ( $point, $street ) = split(/\t/);
 
+        next if !$street;
+        next if !$point;
+
      # requires twice the memory, too much for the planet file (>3.8GB) and will
      # crash 4GB RAM machines
-     #push( @{ $hash{$point} }, $street );
+     # push( @{ $hash{$point} }, $street );
 
-        next if !$street;
         $hash{$point} .= exists $hash{$point} ? "\t" . $street : $street;
     }
 
@@ -152,6 +156,7 @@ sub street_names {
 
         if ( exists $hash{$point} ) {
             foreach my $street ( split( /\t/, $hash{$point} ) ) {
+                next if !$street;
                 next if $uniq && exists $streets{$street};
 
                 print $street, "\t", $coords, "\n";
