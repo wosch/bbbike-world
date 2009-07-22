@@ -31,6 +31,7 @@ my $debug  = 1;    # 0: quiet, 1: normal, 2: verbose
 my $sort   = 0;
 my $uniq   = 1;
 my $unlink = 1;
+my $help;
 my $area_lookup;
 
 my $xmlparser;
@@ -193,6 +194,7 @@ sub street_names {
 #
 
 GetOptions(
+    "help"       => \$help,
     "debug=i"       => \$debug,
     "sort=i"        => \$sort,
     "unlink=i"      => \$unlink,
@@ -201,7 +203,7 @@ GetOptions(
 ) or die usage;
 
 my @osm_files = @ARGV;
-die &usage if !@osm_files;
+die &usage if $help or !@osm_files;
 
 my $look_fh;
 if ($area_lookup) {
