@@ -216,7 +216,10 @@ sub street_names {
             $area =~ s#/#, #;
             $street .= " [$area]";
         }
+
+        next if $uniq && exists $streets{$street};
         print $street, "\t", $coords, "\n";
+        $streets{$street} = 1 if $uniq;
     }
 
     select STDOUT;
