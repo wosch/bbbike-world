@@ -278,6 +278,7 @@ help:
 	@echo "            [ tarball | clean | dist-clean | create-bbbike-web-symlinks ]"
 	@echo "            [ convert | convert-workarounds | opensearch | kml ]"
 	@echo "            [ city-count | city-population | update-city-population ]"
+	@echo "            [ osm-areas ]"
 	@echo ""
 	@echo "            [ ${CITIES} ]"
 
