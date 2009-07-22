@@ -150,8 +150,7 @@ sub street_names {
         $sort = -1;
         $uniq = -1 if $uniq;
 
-        my $fh =
-          File::Temp->new( UNLINK => $unlink, SUFFIX => '.sort' )
+        my $fh = File::Temp->new( UNLINK => $unlink, SUFFIX => '.sort' )
           or die "File::Temp: $!\n";
         $sort_file = $fh->filename;
         push( @sort_opt, '-k2', "--field-separator=\t", '-o', $sort_file );
@@ -189,7 +188,6 @@ sub street_names {
 
     # done?
     return if $sort >= 0 or !$look_fh;
-
 
     warn "Lookup for areas ...\n" if $debug >= 2;
 
