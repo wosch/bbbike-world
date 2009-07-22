@@ -335,7 +335,6 @@ sub cyrillic_de {
     return $s;
 }
 
-
 # Cyrillic to English
 sub cyrillic_en {
     my $s = shift;
@@ -418,7 +417,6 @@ sub cyrillic_en {
     return $s;
 }
 
-
 sub unicode2ascii {
     my $string    = shift;
     my $languages = shift;
@@ -467,7 +465,7 @@ sub wordlist {
         while ( $s && length($s) >= 3 ) {
             if ( $s =~ s/^([\S]+?)[\s\-]// ) {
                 warn qq{Removed "$1" from "$string"\n} if $debug >= 3;
-	        $s =~ s/^-\s+//;
+                $s =~ s/^-\s+//;
 
                 last if exists $stopwords{$s};
                 push( @list, $s ) if length($s) >= 3;
@@ -538,13 +536,13 @@ while (<STDIN>) {
     my $coord = "0,0";
 
     # find the coordinates in the rest of the string
-    if (defined $gps) {
-    foreach my $c ( ( split( /\s+/, $gps ) )[ 0, 1 ] ) {
-        if ( $c =~ /,/ ) {
-            $coord = $c;
-            last;
+    if ( defined $gps ) {
+        foreach my $c ( ( split( /\s+/, $gps ) )[ 0, 1 ] ) {
+            if ( $c =~ /,/ ) {
+                $coord = $c;
+                last;
+            }
         }
-    }
     }
 
     $s{$street} = $coord if $street && !exists $s{$street};
