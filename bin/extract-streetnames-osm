@@ -55,7 +55,9 @@ sub extract_nodes {
     my $fd_nodes   = shift;
     my $fd_streets = shift;
 
-    my $flag = 0;
+    my $flag              = 0;
+    my $parse_street_flag = 0;
+
     while ( $flag || $reader->nextElement == 1 ) {
         $flag = 0;
         last if !$reader->name;
@@ -70,6 +72,8 @@ sub extract_nodes {
         }
 
         elsif ( $reader->name eq 'way' ) {
+            warn "Parse streets...\n" if $debug >= 2 && !$parse_street_flag;
+            $parse_street_flag++;
 
             my %tag;
             my @nodes;
@@ -194,7 +198,7 @@ sub street_names {
 #
 
 GetOptions(
-    "help"       => \$help,
+    "help"          => \$help,
     "debug=i"       => \$debug,
     "sort=i"        => \$sort,
     "unlink=i"      => \$unlink,
