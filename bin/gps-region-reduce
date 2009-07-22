@@ -1,0 +1,59 @@
+#!/usr/bin/perl
+#
+# This script tries to match GPS points to region
+# If there are more than one region, choose the smalles one.
+# E.g.
+#
+# 	0.0000002,51.7082533   europe
+# 	-0.0000002,51.7082533   europe/great_britain
+# 	-0.0000002,51.7082533   europe/great_britain/england
+#
+# will be reduced to:
+#
+# 	-0.0000002,51.7082533   europe/great_britain/england
+#
+
+use strict;
+use warnings;
+
+my $remove_europe = 1;
+
+# germany => DE
+my $map_country_code = 1;
+
+my $lastkey = '';
+my @data;
+
+while (<>) {
+    my ( $key, $value ) = split(/\t/);
+
+    if ( $key eq $lastkey ) {
+        push( @data, $_ );
+    }
+
+    else {
+        if ( scalar(@data) ) {
+            my @d = sort { length($a) <=> length($b) } @data;
+            my ($gps, $string) = split(/\t/, pop(@d));
+
+	    $string =~ s,europe/,, if $remove_europe;
+	    if ($map_country_code) {
+		$string =~ s,great_britain/,GB/,;
+		$string =~ s,france/,FR/,;
+		$string =~ s,germany/,DE/,;
+	    }
+
+	    print $gps, "\t", $string;
+        }
+        undef @data;
+        push( @data, $_ );
+    }
+    $lastkey = $key;
+}
+
+# last entry in list
+if ( scalar(@data) ) {
+    my @d = sort { length($a) <=> length($b) } @data;
+    print pop(@d);
+}
+
