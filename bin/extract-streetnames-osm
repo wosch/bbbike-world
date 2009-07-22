@@ -37,8 +37,7 @@ my $xmlparser;
 
 sub usage () {
     <<EOF;
-usage: $0 [--debug={0..2}] [ --sort=0|1 ] [ --uniq=0|1 ] 
-          [ --unlink=0|1 ] osm_files ....
+usage: $0 [ options ] osm_files ....
 
 --debug=0..2	  debug option, default: $debug
 --sort=0|1	  sort street names, default: $sort
