@@ -9,6 +9,8 @@ ALL=	bbbike-world-kml \
 	extract-streetnames-osm \
 	bbbike-db \
 	tagcloud \
+	look.pl \
+	gps-region-reduce \
 
 
 perltidy:

@@ -16,6 +16,7 @@ use IO::File;
 use File::Temp;
 use Data::Dumper;
 use Getopt::Long;
+use Search::Dict;
 
 use strict;
 use warnings;
@@ -30,38 +31,33 @@ my $debug  = 1;    # 0: quiet, 1: normal, 2: verbose
 my $sort   = 0;
 my $uniq   = 1;
 my $unlink = 1;
+my $help;
+my $area_lookup;
 
 my $xmlparser;
 
 sub usage () {
     <<EOF;
-usage: $0 [--debug={0..2}] [ --sort=0|1 ] [ --uniq=0|1 ] 
-          [ --unlink=0|1 ] osm_files ....
+usage: $0 [ options ] osm_files ....
 
 --debug=0..2	  debug option, default: $debug
 --sort=0|1	  sort street names, default: $sort
 --uniq=0|1	  filter street names, default: $uniq
 --unlink=0|1	  remove temporary databases, default: $unlink
+--area-lookup=	  lookup database for areas
 osmfile ...       Files downloaded by downloadosm,
                   or directory containing .osm files
 EOF
 }
-
-GetOptions(
-    "debug=i" => \$debug,
-    "sort=i"  => \$sort,
-    "uniq=i"  => \$uniq,
-) or die usage;
-
-my @osm_files = @ARGV;
-usage if !@osm_files;
 
 sub extract_nodes {
     my $reader     = shift;
     my $fd_nodes   = shift;
     my $fd_streets = shift;
 
-    my $flag = 0;
+    my $flag              = 0;
+    my $parse_street_flag = 0;
+
     while ( $flag || $reader->nextElement == 1 ) {
         $flag = 0;
         last if !$reader->name;
@@ -76,6 +72,8 @@ sub extract_nodes {
         }
 
         elsif ( $reader->name eq 'way' ) {
+            warn "Parse streets...\n" if $debug >= 2 && !$parse_street_flag;
+            $parse_street_flag++;
 
             my %tag;
             my @nodes;
@@ -104,8 +102,9 @@ sub extract_nodes {
                 $name =~ s/^\s+//;
                 $name =~ s/\s+$//;
                 $name =~ s/\t/ /g;
+                $name =~ s/^\s*$//;
 
-                if ($name && exists $nodes[0] && $nodes[0]) {
+                if ( $name && exists $nodes[0] && $nodes[0] ) {
                     print $fd_streets $nodes[0], "\t", $name, "\n";
                 }
             }
@@ -121,25 +120,45 @@ sub street_names {
     my $streets = $args{'streets'};
     my $points  = $args{'points'};
     my $sort    = $args{'sort'};
+    my $look_fh = $args{'area_lookup'};
 
+    warn "Parse streets db $streets...\n" if $debug >= 2;
     my %hash;
     my $s = new IO::File $streets, "r" or die "open $streets: $!\n";
     while (<$s>) {
         chomp;
         my ( $point, $street ) = split(/\t/);
-        # requires twice the memory, too much for the planet file (>3.8GB) and will
-        # crash 4GB RAM machines
-        #push( @{ $hash{$point} }, $street ); 
 
-	next if !$street;
+        next if !$street;
+        next if !$point;
+
+     # requires twice the memory, too much for the planet file (>3.8GB) and will
+     # crash 4GB RAM machines
+     # push( @{ $hash{$point} }, $street );
+
         $hash{$point} .= exists $hash{$point} ? "\t" . $street : $street;
     }
 
+    warn "Parse points db $points...\n" if $debug >= 2;
     my $p = new IO::File $points, "r" or die "open $points: $!\n";
 
     my $fd_sort;
+    my $sort_file;
+    my @sort_opt = ('-uf');
+
+    if ($look_fh) {
+        $sort = -1;
+        $uniq = -1 if $uniq;
+
+        my $fh = File::Temp->new( UNLINK => $unlink, SUFFIX => '.sort' )
+          or die "File::Temp: $!\n";
+        $sort_file = $fh->filename;
+        push( @sort_opt, '-k2', "--field-separator=\t", '-o', $sort_file );
+
+    }
+
     if ($sort) {
-        open $fd_sort, "|-", "sort", "-uf"
+        open $fd_sort, "|-", "sort", @sort_opt
           or die "Can't run sort: $!";
         select($fd_sort);
     }
@@ -150,8 +169,10 @@ sub street_names {
         my ( $point, $coords ) = split(/\t/);
 
         if ( exists $hash{$point} ) {
-            foreach my $street ( split(/\t/, $hash{$point} ) ) {
-                next if $uniq && exists $streets{$street};
+            foreach my $street ( split( /\t/, $hash{$point} ) ) {
+                next if !$street;
+
+                next if $uniq > 0 && exists $streets{$street};
 
                 print $street, "\t", $coords, "\n";
 
@@ -164,6 +185,44 @@ sub street_names {
         close($fd_sort);
         select STDOUT;
     }
+
+    # done?
+    return if $sort >= 0 or !$look_fh;
+
+    warn "Lookup for areas ...\n" if $debug >= 2;
+
+    my $look_counter      = 0;
+    my $look_counter_hits = 0;
+
+    open $fd_sort, "|-", "sort", "-uf"
+      or die "Can't run sort: $!";
+    select($fd_sort);
+
+    my $fh = new IO::File $sort_file, "r" or die "open $sort_file: $!\n";
+
+    while (<$fh>) {
+        chomp;
+        my ( $street, $coords ) = split(/\t/);
+
+        $look_counter++;
+        look( $look_fh, $coords ) or die "look: $!\n";
+        my $line = <$look_fh>;
+        if ( defined $line ) {
+            $look_counter_hits++;
+            chomp $line;
+            my ( $gps, $area ) = split( /\t/, $line );
+            $area =~ s#/#, #;
+            $street .= " [$area]";
+        }
+
+        next if $uniq && exists $streets{$street};
+        print $street, "\t", $coords, "\n";
+        $streets{$street} = 1 if $uniq;
+    }
+
+    select STDOUT;
+    warn
+      "Lookup statistic: searches: $look_counter, hits: $look_counter_hits\n";
 }
 
 ######################################################################
@@ -171,11 +230,28 @@ sub street_names {
 # main
 #
 
-die &usage if !@osm_files;
+GetOptions(
+    "help"          => \$help,
+    "debug=i"       => \$debug,
+    "sort=i"        => \$sort,
+    "unlink=i"      => \$unlink,
+    "uniq=i"        => \$uniq,
+    "area_lookup=s" => \$area_lookup,
+) or die usage;
+
+my @osm_files = @ARGV;
+die &usage if $help or !@osm_files;
+
+my $look_fh;
+if ($area_lookup) {
+    $look_fh = IO::File->new($area_lookup) or die "open $area_lookup: $!\n";
+}
 
 my $reader;
 my $fh;
 for my $osm_file (@osm_files) {
+
+    warn "Parse osm db $osm_file ...\n" if $debug >= 2;
 
     if ( $osm_file =~ m{\.osm\.bz2$} ) {
         open $fh, "-|", "osm_bzcat", $osm_file
@@ -221,9 +297,10 @@ for my $osm_file (@osm_files) {
     extract_nodes( $reader, $fd_nodes, $fd_streets );
 
     &street_names(
-        'streets' => $fd_streets->filename,
-        'points'  => $fd_nodes->filename,
-        'sort'    => $sort
+        'streets'     => $fd_streets->filename,
+        'points'      => $fd_nodes->filename,
+        'sort'        => $sort,
+        'area_lookup' => $look_fh,
     );
 
     if ( !$unlink ) {
