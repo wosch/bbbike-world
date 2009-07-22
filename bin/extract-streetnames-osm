@@ -72,7 +72,7 @@ sub extract_nodes {
         }
 
         elsif ( $reader->name eq 'way' ) {
-            warn "Parse streets...\n" if $debug >= 2 && !$parse_street_flag;
+            warn "Parse streets ...\n" if $debug >= 2 && !$parse_street_flag;
             $parse_street_flag++;
 
             my %tag;
@@ -122,7 +122,7 @@ sub street_names {
     my $sort    = $args{'sort'};
     my $look_fh = $args{'area_lookup'};
 
-    warn "Parse streets db $streets...\n" if $debug >= 2;
+    warn "Parse streets db $streets ...\n" if $debug >= 2;
     my %hash;
     my $s = new IO::File $streets, "r" or die "open $streets: $!\n";
     while (<$s>) {
@@ -139,7 +139,7 @@ sub street_names {
         $hash{$point} .= exists $hash{$point} ? "\t" . $street : $street;
     }
 
-    warn "Parse points db $points...\n" if $debug >= 2;
+    warn "Parse points db $points ...\n" if $debug >= 2;
     my $p = new IO::File $points, "r" or die "open $points: $!\n";
 
     my $fd_sort;
