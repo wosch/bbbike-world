@@ -122,10 +122,15 @@ sub street_names {
     my $sort    = $args{'sort'};
     my $look_fh = $args{'area_lookup'};
 
+    my @look_fh;
+    @look_fh = @$look_fh if ref $look_fh eq 'ARRAY';
+
+    warn Dumper( \@look_fh );
+
     warn "Parse streets db $streets ...\n" if $debug >= 2;
     my %hash;
-    my $s = new IO::File $streets, "r" or die "open $streets: $!\n";
-    while (<$s>) {
+    my $street_list = new IO::File $streets, "r" or die "open $streets: $!\n";
+    while (<$street_list>) {
         chomp;
         my ( $point, $street ) = split(/\t/);
 
@@ -138,15 +143,13 @@ sub street_names {
 
         $hash{$point} .= exists $hash{$point} ? "\t" . $street : $street;
     }
-
-    warn "Parse points db $points ...\n" if $debug >= 2;
-    my $p = new IO::File $points, "r" or die "open $points: $!\n";
+    undef $street_list;
 
     my $fd_sort;
     my $sort_file;
     my @sort_opt = ('-uf');
 
-    if ($look_fh) {
+    if ( scalar @look_fh ) {
         $sort = -1;
         $uniq = -1 if $uniq;
 
@@ -155,6 +158,7 @@ sub street_names {
         $sort_file = $fh->filename;
         push( @sort_opt, '-k2', "--field-separator=\t", '-o', $sort_file );
 
+        warn "Sort options: ", join( " ", @sort_opt ), "\n" if $debug >= 2;
     }
 
     if ($sort) {
@@ -163,8 +167,11 @@ sub street_names {
         select($fd_sort);
     }
 
+    warn "Parse points db $points ...\n" if $debug >= 2;
+    my $point_list = new IO::File $points, "r" or die "open $points: $!\n";
+
     my %streets;
-    while (<$p>) {
+    while (<$point_list>) {
         chomp;
         my ( $point, $coords ) = split(/\t/);
 
@@ -181,13 +188,14 @@ sub street_names {
         }
     }
 
+    undef $point_list;
     if ($sort) {
         close($fd_sort);
         select STDOUT;
     }
 
     # done?
-    return if $sort >= 0 or !$look_fh;
+    return if $sort >= 0 or scalar @look_fh == 0;
 
     warn "Lookup for areas ...\n" if $debug >= 2;
 
@@ -198,27 +206,46 @@ sub street_names {
       or die "Can't run sort: $!";
     select($fd_sort);
 
-    my $fh = new IO::File $sort_file, "r" or die "open $sort_file: $!\n";
+    my $street_db = new IO::File $sort_file, "r" or die "open $sort_file: $!\n";
 
-    while (<$fh>) {
+    undef %streets;
+    while (<$street_db>) {
         chomp;
         my ( $street, $coords ) = split(/\t/);
 
         $look_counter++;
-        look( $look_fh, $coords ) or die "look: $!\n";
-        my $line = <$look_fh>;
+
+        # many look(1) implementation does not support files >2GB
+        # search in several look databases
+        my $line;
+        foreach my $fh (@look_fh) {
+            look( $fh, $coords ) or die "look: $!\n";
+            $line = <$fh>;
+
+            last if defined $line;
+        }
+
         if ( defined $line ) {
             $look_counter_hits++;
             chomp $line;
             my ( $gps, $area ) = split( /\t/, $line );
+
+            warn "Look error: '$coords' <=> '$gps'\n"
+              if $gps ne $coords and $debug;
+
             $area =~ s#/#, #;
             $street .= " [$area]";
         }
 
+
+	#warn "$street, $uniq, ", $streets{$street}, "\n";
         next if $uniq && exists $streets{$street};
+
         print $street, "\t", $coords, "\n";
         $streets{$street} = 1 if $uniq;
     }
+
+    undef $street_db;
 
     select STDOUT;
     warn
@@ -242,9 +269,15 @@ GetOptions(
 my @osm_files = @ARGV;
 die &usage if $help or !@osm_files;
 
-my $look_fh;
+my @look_fh;
 if ($area_lookup) {
-    $look_fh = IO::File->new($area_lookup) or die "open $area_lookup: $!\n";
+
+    # many look(1) implementation does not support files >2GB
+    foreach my $file ( split( /:/, $area_lookup ) ) {
+        my $look_fh = IO::File->new($file) or die "open $file: $!\n";
+        warn "Open look db $file\n" if $debug >= 2;
+        push( @look_fh, $look_fh );
+    }
 }
 
 my $reader;
@@ -300,7 +333,7 @@ for my $osm_file (@osm_files) {
         'streets'     => $fd_streets->filename,
         'points'      => $fd_nodes->filename,
         'sort'        => $sort,
-        'area_lookup' => $look_fh,
+        'area_lookup' => \@look_fh,
     );
 
     if ( !$unlink ) {
