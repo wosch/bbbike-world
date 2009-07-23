@@ -18,8 +18,8 @@ my $fh = IO::File->new($file) or die "open $file: $!\n";
 
 my $coord = $string;
 
-look( $fh, $coord ) or die "look: $!\n";
+look( $fh, $coord, 0, 0 ) or die "look: $!\n";
 
 my $line = <$fh>;
-print $line if $line;
+print $line if defined $line;
 
