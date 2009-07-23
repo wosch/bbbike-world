@@ -27,7 +27,7 @@ fi
 
 file=`basename $filename | perl -npe 's/\.osm(\.gz|\.bz2|)$//'`
 
-if ! extract-streetnames-osm $filename > $outdir/streets.tmp; then
+if ! extract-streetnames-osm --area_lookup=/home/wosch/osm/all.reduced --debug=2 $filename > $outdir/streets.tmp 2> $outdir/streets.log; then
     exit 1
 fi
 mv -f $outdir/streets.tmp $outdir/streets
