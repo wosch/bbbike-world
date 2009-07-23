@@ -26,8 +26,8 @@ $VERSION = 0.1;
 # unicode sort(1) mess
 $ENV{'LANG'} = 'C';
 
-my $debug  = 1;    # 0: quiet, 1: normal, 2: verbose
-my $sort   = 1;
+my $debug = 1;    # 0: quiet, 1: normal, 2: verbose
+my $sort  = 1;
 
 my $xmlparser;
 
@@ -51,9 +51,9 @@ my @osm_files = @ARGV;
 usage if !@osm_files;
 
 sub extract_nodes {
-    my $reader     = shift;
-    my $fd_nodes   = shift;
-    my $country   = shift;
+    my $reader   = shift;
+    my $fd_nodes = shift;
+    my $country  = shift;
 
     my $flag = 0;
     while ( $flag || $reader->nextElement == 1 ) {
@@ -113,16 +113,24 @@ for my $osm_file (@osm_files) {
 "The file '$osm_file' is not starting with a <osm> tag, probably not an osm file?";
     }
 
+    my $fd_nodes;
+    my $coords_file = "$osm_file.coords";
     if ($sort) {
-        open $fd_nodes, "|-", "sort", "-uf", "-o", "$osm_file.coords";
+        open $fd_nodes, "|-", "sort", "-uf", "-o", $coords_file
           or die "Can't run sort: $!";
     }
-    binmode( $fd_nodes,   ":utf8" );
+    binmode( $fd_nodes, ":utf8" );
 
     my $country = $osm_file;
     $country =~ s/\.osm\.(gz|bz2|)$//;
 
-    extract_nodes( $reader, $fd_nodes, $country );
-}
+    #$country =~ s,.*/,,;
 
+    extract_nodes( $reader, $fd_nodes, $country );
+    close $fd_nodes;
+    system( 'gzip', '-f', $coords_file );
+    if ( $? == -1 ) {
+        print "failed to execute: $!\n";
+    }
+}
 
