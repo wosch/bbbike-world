@@ -238,8 +238,6 @@ sub street_names {
             $street .= " [$area]";
         }
 
-
-	#warn "$street, $uniq, ", $streets{$street}, "\n";
         next if $uniq && exists $streets{$street};
 
         print $street, "\t", $coords, "\n";
