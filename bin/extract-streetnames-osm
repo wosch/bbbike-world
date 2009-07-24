@@ -102,6 +102,7 @@ sub extract_nodes {
                 $name =~ s/^\s+//;
                 $name =~ s/\s+$//;
                 $name =~ s/\t/ /g;
+                $name =~ s/  +/ /g;
                 $name =~ s/^\s*$//;
 
                 if ( $name && exists $nodes[0] && $nodes[0] ) {
