@@ -44,7 +44,7 @@ usage: $0 [ options ] osm_files ....
 --sort=0|1	  sort street names, default: $sort
 --uniq=0|1	  filter street names, default: $uniq
 --unlink=0|1	  remove temporary databases, default: $unlink
---area-lookup=	  lookup database for areas
+--area-lookup	  lookup database for areas
 osmfile ...       Files downloaded by downloadosm,
                   or directory containing .osm files
 EOF
@@ -231,11 +231,14 @@ sub street_names {
             chomp $line;
             my ( $gps, $area ) = split( /\t/, $line );
 
-            warn "Look error: '$coords' <=> '$gps'\n"
-              if $gps ne $coords and $debug;
+            if ( $gps ne $coords and $debug ) {
+                warn "Look error: '$coords' <=> '$gps'\n";
+            }
+            else {
 
-            $area =~ s#/#, #;
-            $street .= " [$area]";
+                $area =~ s#/#, #;
+                $street .= " [$area]";
+            }
         }
 
         next if $uniq && exists $streets{$street};
