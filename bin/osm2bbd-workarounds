@@ -23,7 +23,7 @@ perl $p/opensearch-suggestion --gps=0 < strassen > opensearch.streetnames
 # green ways
 # perl -npe 's/^\s/XYZ\t/; s/RW1/green2/g' radwege_exact > green 
 
-for i in Berlin.coords.data Potsdam.coords.data comments_mount flaechen green nolighting plaetze qualitaet_s rbahn rbahnhof sbahn sbahnhof strassen ubahn ubahnhof wasserstrassen
+for i in Berlin.coords.data Potsdam.coords.data comments_mount flaechen green nolighting plaetze qualitaet_s rbahn rbahnhof sbahn sbahnhof strassen ubahn ubahnhof wasserstrassen `find . -type f -size 0`
 do
 
 	if ! [ -s $i ]; then
