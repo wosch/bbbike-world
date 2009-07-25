@@ -4,7 +4,7 @@
 # If there are more than one region, choose the smalles one.
 # E.g.
 #
-# 	0.0000002,51.7082533   europe
+# 	-0.0000002,51.7082533   europe
 # 	-0.0000002,51.7082533   europe/great_britain
 # 	-0.0000002,51.7082533   europe/great_britain/england
 #
