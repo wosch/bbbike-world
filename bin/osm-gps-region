@@ -24,7 +24,7 @@ mkdir -p $outdir || exit 2
 file=`basename $filename | perl -npe 's/\.osm(\.gz|\.bz2|)$//'`
 area=`echo $filename | perl -npe 's/\.osm(\.gz|\.bz2|)$//'`
 
-if ! extract-streetnames-osm --uniq=0 --sort=0 $filename > $outdir/$file.tmp 2> $outdir/$file.log; then
+if ! extract-streetnames-osm --debug=2 --uniq=0 --sort=0 $filename > $outdir/$file.tmp 2> $outdir/$file.log; then
     exit 1
 fi
 
