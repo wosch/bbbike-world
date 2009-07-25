@@ -218,7 +218,7 @@ sub street_names {
         # search in several look databases
         my $line;
         foreach my $fh (@look_fh) {
-            look( $fh, $coords ) or die "look: $!\n";
+            look( $fh, $coords ) or die "look: coords: '$coords', error: $!\n";
             $line = <$fh>;
 
             last if defined $line;
