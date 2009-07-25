@@ -5,6 +5,11 @@
 
 PATH=/bin:/usr/bin:/sbin:/usr/bin; export PATH
 
+minus=0
+case $1 in
+	-1 | -2 | +1 | +2) minus=$1 ;;
+esac
+
 ncpu=1
 if sysctl hw.ncpu >/dev/null 2>&1; then
   # macos
@@ -15,6 +20,7 @@ elif sysctl kernel.sched_domain >/dev/null 2>&1; then
 	perl -ne 'print ($1+1), "\n" if m,kernel.sched_domain.cpu(\d+),'`
 fi
 
+ncpu=`perl -e "print $ncpu + $minus"`
 if [ "$ncpu" -ge 1 -a "$ncpu" -le 64 ]; then
 	echo "$ncpu"
 else
