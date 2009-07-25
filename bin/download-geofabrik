@@ -1,0 +1,27 @@
+#!/bin/sh
+
+download_dir=$HOME/osm/download
+
+cd $download_dir || exit 2
+
+url=http://download.geofabrik.de/osm/
+
+download () 
+{
+	subdir=$1
+	test -n "$subdir" && mkdir -p $subdir
+
+	( cd $subdir
+	lynx -dump http://download.geofabrik.de/osm/$subdir | \
+		egrep http://download.geofabrik.de/osm/ | \
+		egrep bz2$ | \
+		perl -npe 's/^\s*\d+\.\s+/wget /'
+	)
+}
+
+download ""
+download europe
+download europe/germany
+download europe/great_britain
+download europe/france
+
