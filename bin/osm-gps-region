@@ -1,0 +1,45 @@
+#!/bin/sh
+#
+# extract street names from an OpenStreetMap XML dump and
+# create an OpenSearch suggestion database
+#
+# usage: osm2suggestions filename [outdirectory]
+#
+
+filename=$1
+outdir=$2
+
+if test -z "$filename"; then
+	echo "missing file name"
+	exit 2
+fi
+
+if test -z "$outdir"; then 
+	outdir=./ 
+fi
+
+outdir=`echo $outdir | perl -npe 's/\.osm(\.gz|\.bz2|)$//'`
+if [ ! -d $outdir ]; then
+	echo "missing outdir: $outdir"
+	exit 2
+fi
+
+
+file=`basename $filename | perl -npe 's/\.osm(\.gz|\.bz2|)$//'`
+
+area_lookup="--area_lookup=/home/wosch/osm/all.reduced"
+if ! extract-streetnames-osm $area_lookup --debug=2 $filename > $outdir/streets.tmp 2> $outdir/streets.log; then
+    exit 1
+fi
+mv -f $outdir/streets.tmp $outdir/streets
+
+if !  opensearch-suggestion < $outdir/streets > \
+	$outdir/opensearch.streetnames.tmp; then
+    exit 1
+fi 
+mv -f $outdir/opensearch.streetnames.tmp $outdir/opensearch.streetnames
+gzip -f $outdir/streets
+
+exit 0
+
+
