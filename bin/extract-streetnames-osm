@@ -126,8 +126,6 @@ sub street_names {
     my @look_fh;
     @look_fh = @$look_fh if ref $look_fh eq 'ARRAY';
 
-    warn Dumper( \@look_fh );
-
     warn "Parse streets db $streets ...\n" if $debug >= 2;
     my %hash;
     my $street_list = new IO::File $streets, "r" or die "open $streets: $!\n";
