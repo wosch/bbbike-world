@@ -24,16 +24,10 @@ my $map_country_code = 1;
 my $lastkey = '';
 my @data;
 
-while (<>) {
-    my ( $key, $value ) = split(/\t/);
+sub reduce {
+	my $data = shift;
 
-    if ( $key eq $lastkey ) {
-        push( @data, $_ );
-    }
-
-    else {
-        if ( scalar(@data) ) {
-            my @d = sort { length($a) <=> length($b) } @data;
+            my @d = sort { length($a) <=> length($b) } @$data;
             my ( $gps, $string ) = split( /\t/, pop(@d) );
 
             $string =~ s,europe/,, if $remove_europe;
@@ -44,6 +38,18 @@ while (<>) {
             }
 
             print $gps, "\t", $string;
+}
+
+while (<>) {
+    my ( $key, $value ) = split(/\t/);
+
+    if ( $key eq $lastkey ) {
+        push( @data, $_ );
+    }
+
+    else {
+        if ( scalar(@data) ) {
+		&reduce(\@data);
         }
         undef @data;
         push( @data, $_ );
@@ -53,7 +59,6 @@ while (<>) {
 
 # last entry in list
 if ( scalar(@data) ) {
-    my @d = sort { length($a) <=> length($b) } @data;
-    print pop(@d);
+		&reduce(\@data);
 }
 
