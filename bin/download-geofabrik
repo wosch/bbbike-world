@@ -9,14 +9,19 @@ url=http://download.geofabrik.de/osm/
 download () 
 {
 	subdir=$1
-	test -n "$subdir" && mkdir -p $subdir
+	path=$subdir
+	if test -n "$subdir"; then
+		 mkdir -p $subdir
+	else
+		subdir=.
+	fi
 
-	( cd $subdir
-	lynx -dump http://download.geofabrik.de/osm/$subdir | \
+	echo "( cd $subdir; "
+	lynx -dump http://download.geofabrik.de/osm/$path | \
 		egrep http://download.geofabrik.de/osm/ | \
 		egrep bz2$ | \
-		perl -npe 's/^\s*\d+\.\s+/wget /'
-	)
+		perl -npe 's/^\s*\d+\.\s+/wget /' 
+	echo ")"
 }
 
 download ""
