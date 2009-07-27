@@ -17,11 +17,8 @@ find [a-e]* south-america.osm.bz2 europe north-america.osm.bz2 -name '*.bz2' -ty
 	perl  -e 'while(<>) { chomp; $a{$_}=1 }; 
 		  map { $size{$_} = (stat($_))[7] } keys %a; 
 		  @b =reverse sort {$size{$a} <=> $size{$b}} keys %a; 
-		  print join("\n", @b)' | xargs -n1 -P`ncpu` osm-gps-region
-
+		  print join("\n", @b)' | env outdir=$outdir xargs -n1 -P`ncpu` osm-gps-region
 
 zcat $outdir/*.gz | sort -uf | gps-region-reduce 
 rm -rf $outdir
-
-
 
