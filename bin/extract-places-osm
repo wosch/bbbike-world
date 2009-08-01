@@ -27,12 +27,8 @@ $VERSION = 0.1;
 # unicode sort(1) mess
 $ENV{'LANG'} = 'C';
 
-my $debug  = 1;    # 0: quiet, 1: normal, 2: verbose
-my $sort   = 0;
-my $uniq   = 1;
-my $unlink = 1;
+my $debug = 1;    # 0: quiet, 1: normal, 2: verbose
 my $help;
-my $area_lookup;
 
 my $xmlparser;
 
@@ -41,19 +37,13 @@ sub usage () {
 usage: $0 [ options ] osm_files ....
 
 --debug=0..2	  debug option, default: $debug
---sort=0|1	  sort street names, default: $sort
---uniq=0|1	  filter street names, default: $uniq
---unlink=0|1	  remove temporary databases, default: $unlink
---area-lookup	  lookup database for areas
 osmfile ...       Files downloaded by downloadosm,
                   or directory containing .osm files
 EOF
 }
 
-sub extract_nodes {
-    my $reader     = shift;
-    my $fd_nodes   = shift;
-    my $fd_streets = shift;
+sub extract_places {
+    my $reader = shift;
 
     my $flag              = 0;
     my $parse_street_flag = 0;
@@ -116,7 +106,7 @@ sub extract_nodes {
                 $name =~ s/^\s*$//;
 
                 if ($name) {
-                    print $fd_streets $name, "\t", "$lon,$lat", "\n";
+                    print $name, "\t", "$lon,$lat", "\n";
                 }
             }
         }
@@ -129,12 +119,8 @@ sub extract_nodes {
 #
 
 GetOptions(
-    "help"          => \$help,
-    "debug=i"       => \$debug,
-    "sort=i"        => \$sort,
-    "unlink=i"      => \$unlink,
-    "uniq=i"        => \$uniq,
-    "area_lookup=s" => \$area_lookup,
+    "help"    => \$help,
+    "debug=i" => \$debug,
 ) or die usage;
 
 my @osm_files = @ARGV;
@@ -171,8 +157,6 @@ for my $osm_file (@osm_files) {
 
     $reader = XML::LibXML::Reader->new( IO => $fh );
 
-    #my $reader = XML::LibXML::Reader->new( location => $osm_file );
-
     # check if osm file
     $reader->nextElement;
     if ( $reader->name ne 'osm' ) {
@@ -180,30 +164,8 @@ for my $osm_file (@osm_files) {
 "The file '$osm_file' is not starting with a <osm> tag, probably not an osm file?";
     }
 
-    my $fd_streets = File::Temp->new( UNLINK => $unlink, SUFFIX => '.streets' )
-      or die "File::Temp: $!\n";
-    my $fd_nodes;
-    binmode( $fd_streets, ":utf8" );
+    binmode( \*STDOUT, ":utf8" );
 
-    extract_nodes( $reader, $fd_nodes, $fd_streets );
-
-    my $place_filename = $fd_streets->filename;
-    my $street_db = new IO::File $place_filename, "r"
-      or die "open $place_filename: $!\n";
-
-    my $fd_sort;
-    if ($sort) {
-        open $fd_sort, "|-", "sort", "-uf"
-          or die "Can't run sort: $!";
-
-        while (<$street_db>) { print $fd_sort $_; }
-    }
-    else {
-        while (<$street_db>) { print $_; }
-    }
-
-    if ( !$unlink ) {
-        warn "Streets: ", $fd_streets->filename, "\n";
-    }
+    extract_places($reader);
 }
 
