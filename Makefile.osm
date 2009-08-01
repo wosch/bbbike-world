@@ -184,7 +184,7 @@ osm-places:
 	cd ${OSM_AREAS_OPENSEARCH} && mkdir -p `echo ${OSM_AREAS} | perl -npe 's/\.osm\.bz2/-places/g'`
 	echo ${OSM_AREAS} " " | \
 	  perl -ne 'chomp; foreach (split) { $$file=$$_; $$dir=$$file; $$dir =~ s/(\.osm)?(\.(gz|bz2))?$$/-places/; print qq{PATH=\$$PATH:`pwd`/world/bin world/bin/osm2places-suggestions ../osm/download/$$file '${OSM_AREAS_OPENSEARCH}'/$$dir\0} }' | \
-	  ${NICE} ${GXARGS} -0 -n1 -P${MAX_CPU} sh -c
+	  ${NICE} ${GXARGS} -0 -n1 -P${MAX_CPU} sh -c 
 
 
 convert: _convert convert-workarounds
