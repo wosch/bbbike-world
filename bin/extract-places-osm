@@ -88,9 +88,11 @@ sub extract_places {
                         push( @{ $citynames{$val} }, $1 );
                     }
                 }
-                while ( my ( $key, $val ) = each %citynames ) {
-                    $name .= " / $key [" . join( ',', @{$val} ) . ']';
 
+                # sort languages by name: city [de,en,zu]
+                foreach my $key ( sort keys %citynames ) {
+                    my $val = $citynames{$key};
+                    $name .= " / $key [" . join( ',', sort @{$val} ) . ']';
                 }
 
                 $name .= ' [ZIP ' . $tag{'postal_code'} . ']'
