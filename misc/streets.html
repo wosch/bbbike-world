@@ -225,13 +225,13 @@
               <td>
                 <form action="cgi/streets.cgi" target="_blank">
                   <input type="hidden" name="action" value="opensearch" /> <input type="hidden" name="namespace" value=
-                  "1" /> <input id="suggest_start_europe_cities" size="50" type="text" name="search" autocomplete="yes" />
-                  <input type="hidden" name="city" value="europe-cities" /> <input type="submit" />
+                  "1" /> <input id="suggest_start_europe_places" size="50" type="text" name="search" autocomplete="yes" />
+                  <input type="hidden" name="city" value="europe-places" /> <input type="submit" />
                 </form><script type="text/javascript">
 //<![CDATA[
                 jQuery.noConflict();
                 jQuery(function() {
-                jQuery("#suggest_start_europe_cities").suggest("cgi/api.cgi?action=opensearch&city=europe-cities&namespace=1&search=", 
+                jQuery("#suggest_start_europe_places").suggest("cgi/api.cgi?action=opensearch&city=europe-places&namespace=1&search=", 
 
                 { minchars: 1, delay: 200, onSelect: function() {} }); });
                 // { onSelect: function() {alert("You selected: " + this.value)}}); });
