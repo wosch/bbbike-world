@@ -58,46 +58,50 @@ sub extract_nodes {
     my $flag              = 0;
     my $parse_street_flag = 0;
 
+    my @todo;
+
     while ( $flag || $reader->nextElement == 1 ) {
-        $flag = 0;
         last if !$reader->name;
+
+	$flag = 0;    
 
         if ( $reader->name eq 'node' ) {
             my $id  = $reader->getAttribute('id');
             my $lat = $reader->getAttribute('lat');
             my $lon = $reader->getAttribute('lon');
 
-            print $fd_nodes $id, "\t", $lon, ",", $lat, "\n";
-
-        }
-
-        elsif ( $reader->name eq 'way' ) {
-            warn "Parse streets ...\n" if $debug >= 2 && !$parse_street_flag;
-            $parse_street_flag++;
+            #print $fd_nodes $id, "\t", $lon, ",", $lat, "\n";
 
             my %tag;
-            my @nodes;
-            my $zip_code;
-
             while ( $reader->nextElement == 1 ) {
-
                 my $node_name = $reader->name;
-                if ( $node_name eq 'nd' ) {
-                    push @nodes, $reader->getAttribute('ref');
-                }
-                elsif ( $node_name eq 'tag' ) {
+
+                if ( $node_name eq 'tag' ) {
                     $tag{ $reader->getAttribute('k') } =
                       $reader->getAttribute('v');
                 }
-                else {
+                 else {
+		    # already read the next node
+		    $flag = 1;
                     last;
                 }
             }
 
-            if ( $tag{'highway'} ) {
+            if ( $tag{'place'} ) {
                 my $name = $tag{'name'} || '';
+
+	        # city name in other languages
+		foreach my $key (keys %tag) {
+		   if ($key =~ /^name:(\w+)$/) {
+			$name .= ' / ' . $tag{$key} . " [$1]";
+		   }
+	        }
+
                 $name .= ' [ZIP ' . $tag{'postal_code'} . ']'
                   if exists $tag{'postal_code'} && $name;
+
+		my $is_in = $tag{'openGeoDB:is_in'} || $tag{'is_in'};
+		$name .= ' [is in: ' . $is_in . ']' if $is_in;
 
                 $name =~ s/^\s+//;
                 $name =~ s/\s+$//;
@@ -105,152 +109,12 @@ sub extract_nodes {
                 $name =~ s/  +/ /g;
                 $name =~ s/^\s*$//;
 
-                if ( $name && exists $nodes[0] && $nodes[0] ) {
-                    print $fd_streets $nodes[0], "\t", $name, "\n";
+                if ( $name ) {
+                    print $fd_streets $name, "\t", "$lon,$lat", "\n";
                 }
             }
-
-            $flag = 1;
         }
     }
-}
-
-sub street_names {
-    my %args = @_;
-
-    my $streets = $args{'streets'};
-    my $points  = $args{'points'};
-    my $sort    = $args{'sort'};
-    my $look_fh = $args{'area_lookup'};
-
-    my @look_fh;
-    @look_fh = @$look_fh if ref $look_fh eq 'ARRAY';
-
-    warn "Parse streets db $streets ...\n" if $debug >= 2;
-    my %hash;
-    my $street_list = new IO::File $streets, "r" or die "open $streets: $!\n";
-    while (<$street_list>) {
-        chomp;
-        my ( $point, $street ) = split(/\t/);
-
-        next if !$street;
-        next if !$point;
-
-     # requires twice the memory, too much for the planet file (>3.8GB) and will
-     # crash 4GB RAM machines
-     # push( @{ $hash{$point} }, $street );
-
-        $hash{$point} .= exists $hash{$point} ? "\t" . $street : $street;
-    }
-    undef $street_list;
-
-    my $fd_sort;
-    my $sort_file;
-    my @sort_opt = ('-uf');
-
-    if ( scalar @look_fh ) {
-        $sort = -1;
-        $uniq = -1 if $uniq;
-
-        my $fh = File::Temp->new( UNLINK => $unlink, SUFFIX => '.sort' )
-          or die "File::Temp: $!\n";
-        $sort_file = $fh->filename;
-        push( @sort_opt, '-k2', "--field-separator=\t", '-o', $sort_file );
-
-        warn "Sort options: ", join( " ", @sort_opt ), "\n" if $debug >= 2;
-    }
-
-    if ($sort) {
-        open $fd_sort, "|-", "sort", @sort_opt
-          or die "Can't run sort: $!";
-        select($fd_sort);
-    }
-
-    warn "Parse points db $points ...\n" if $debug >= 2;
-    my $point_list = new IO::File $points, "r" or die "open $points: $!\n";
-
-    my %streets;
-    while (<$point_list>) {
-        chomp;
-        my ( $point, $coords ) = split(/\t/);
-
-        if ( exists $hash{$point} ) {
-            foreach my $street ( split( /\t/, $hash{$point} ) ) {
-                next if !$street;
-
-                next if $uniq > 0 && exists $streets{$street};
-
-                print $street, "\t", $coords, "\n";
-
-                $streets{$street} = 1 if $uniq;
-            }
-        }
-    }
-
-    undef $point_list;
-    if ($sort) {
-        close($fd_sort);
-        select STDOUT;
-    }
-
-    # done?
-    return if $sort >= 0 or scalar @look_fh == 0;
-
-    warn "Lookup for areas ...\n" if $debug >= 2;
-
-    my $look_counter      = 0;
-    my $look_counter_hits = 0;
-
-    open $fd_sort, "|-", "sort", "-uf"
-      or die "Can't run sort: $!";
-    select($fd_sort);
-
-    my $street_db = new IO::File $sort_file, "r" or die "open $sort_file: $!\n";
-
-    undef %streets;
-    while (<$street_db>) {
-        chomp;
-        my ( $street, $coords ) = split(/\t/);
-
-        $look_counter++;
-
-        # many look(1) implementation does not support files >2GB
-        # search in several look databases
-        my $line;
-        foreach my $fh (@look_fh) {
-            if (look( $fh, $coords ) < 0) { die "look: coords: '$coords': $!\n"; }
-
-            $line = <$fh>;
-
-            last if defined $line;
-        }
-
-        if ( defined $line ) {
-            $look_counter_hits++;
-            chomp $line;
-            my ( $gps, $area ) = split( /\t/, $line );
-
-            if ( $gps ne $coords and $debug ) {
-                warn "Look error: '$coords' <=> '$gps'\n";
-            }
-            else {
-
-                $area =~ s#/#, #;
-                $street .= " [$area]";
-            }
-        }
-
-        next if $uniq && exists $streets{$street};
-
-        print $street, "\t", $coords, "\n";
-        $streets{$street} = 1 if $uniq;
-    }
-
-    undef $street_db;
-
-    select STDOUT;
-    warn
-      "Lookup statistic: searches: $look_counter, hits: $look_counter_hits\n";
 }
 
 ######################################################################
@@ -269,17 +133,6 @@ GetOptions(
 
 my @osm_files = @ARGV;
 die &usage if $help or !@osm_files;
-
-my @look_fh;
-if ($area_lookup) {
-
-    # many look(1) implementation does not support files >2GB
-    foreach my $file ( split( /:/, $area_lookup ) ) {
-        my $look_fh = IO::File->new($file) or die "open $file: $!\n";
-        warn "Open look db $file\n" if $debug >= 2;
-        push( @look_fh, $look_fh );
-    }
-}
 
 my $reader;
 my $fh;
@@ -321,24 +174,27 @@ for my $osm_file (@osm_files) {
 "The file '$osm_file' is not starting with a <osm> tag, probably not an osm file?";
     }
 
-    my $fd_nodes = File::Temp->new( UNLINK => $unlink, SUFFIX => '.nodes' )
-      or die "File::Temp: $!\n";
     my $fd_streets = File::Temp->new( UNLINK => $unlink, SUFFIX => '.streets' )
       or die "File::Temp: $!\n";
-    binmode( $fd_nodes,   ":utf8" );
+    my $fd_nodes;
     binmode( $fd_streets, ":utf8" );
 
     extract_nodes( $reader, $fd_nodes, $fd_streets );
 
-    &street_names(
-        'streets'     => $fd_streets->filename,
-        'points'      => $fd_nodes->filename,
-        'sort'        => $sort,
-        'area_lookup' => \@look_fh,
-    );
+    my $place_filename = $fd_streets->filename; 
+    my $street_db = new IO::File $place_filename, "r" or die "open $place_filename: $!\n";
+
+    my $fd_sort;
+    if ($sort) {
+    open  $fd_sort, "|-", "sort", "-uf"
+      or die "Can't run sort: $!";
+
+	while(<$street_db>) { print $fd_sort $_; }
+    } else {
+	while(<$street_db>) { print $_; }
+    }
 
     if ( !$unlink ) {
-        warn "Nodes:   ", $fd_nodes->filename,   "\n";
         warn "Streets: ", $fd_streets->filename, "\n";
     }
 }
