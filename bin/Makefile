@@ -7,6 +7,7 @@ ALL=	bbbike-world-kml \
 	livesearch.cgi \
 	streetnames-gps \
 	extract-streetnames-osm \
+	extract-places-osm \
 	bbbike-db \
 	tagcloud \
 	look.pl \
