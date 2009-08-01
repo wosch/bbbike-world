@@ -179,6 +179,14 @@ osm-areas:
 	  perl -ne 'chomp; foreach (split) { print qq{PATH=\$$PATH:`pwd`/world/bin world/bin/osm2suggestions ../osm/download/$$_ '${OSM_AREAS_OPENSEARCH}'/$$_\0} }' | \
 	  ${NICE} ${GXARGS} -0 -n1 -P${MAX_CPU2} sh -c
 
+osm-places:
+	mkdir -p ${OSM_AREAS_OPENSEARCH}
+	cd ${OSM_AREAS_OPENSEARCH} && mkdir -p `echo ${OSM_AREAS} | perl -npe 's/\.osm\.bz2/-places/g'`
+	echo ${OSM_AREAS} " " | \
+	  perl -ne 'chomp; foreach (split) { $$file=$$_; $$dir=$$file; $$dir =~ s/(\.osm)?(\.(gz|bz2))?$$/-places/; print qq{PATH=\$$PATH:`pwd`/world/bin world/bin/osm2city-suggestions ../osm/download/$$file '${OSM_AREAS_OPENSEARCH}'/$$dir\0} }' | \
+	  ${NICE} ${GXARGS} -0 -n1 -P${MAX_CPU2} sh -c
+
+
 convert: _convert convert-workarounds
 # using GNU xargs -P parallel
 _convert:
@@ -278,7 +286,7 @@ help:
 	@echo "            [ tarball | clean | dist-clean | create-bbbike-web-symlinks ]"
 	@echo "            [ convert | convert-workarounds | opensearch | kml ]"
 	@echo "            [ city-count | city-population | update-city-population ]"
-	@echo "            [ osm-areas ]"
+	@echo "            [ osm-areas | osm-places ]"
 	@echo ""
 	@echo "            [ ${CITIES} ]"
 
