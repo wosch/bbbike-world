@@ -110,6 +110,7 @@ sub extract_nodes {
                 }
             }
 
+	    # we are already at the next element
             $flag = 1;
         }
     }
