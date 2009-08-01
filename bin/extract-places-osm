@@ -93,14 +93,13 @@ sub extract_nodes {
 
                 # city name in other languages
                 my %citynames;
-                foreach my $key ( keys %tag ) {
-                    if ( $key =~ /^name:(\w+)$/ ) {
-                        push( @{ $citynames{$key} }, $1 );
+                while ( my ( $key, $val ) = each %tag ) {
+                    if ( $key =~ /^name:(\w+)$/ && $val ) {
+                        push( @{ $citynames{$val} }, $1 );
                     }
                 }
-                foreach my $cityname ( keys %citynames ) {
-                    $name .= " / $cityname ["
-                      . join( ',', @{ $citynames{$cityname} } ) . ']';
+                while ( my ( $key, $val ) = each %citynames ) {
+                    $name .= " / $key [" . join( ',', @{$val} ) . ']';
 
                 }
 
