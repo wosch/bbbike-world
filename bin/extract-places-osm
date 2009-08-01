@@ -63,7 +63,7 @@ sub extract_nodes {
     while ( $flag || $reader->nextElement == 1 ) {
         last if !$reader->name;
 
-	$flag = 0;    
+        $flag = 0;
 
         if ( $reader->name eq 'node' ) {
             my $id  = $reader->getAttribute('id');
@@ -80,9 +80,10 @@ sub extract_nodes {
                     $tag{ $reader->getAttribute('k') } =
                       $reader->getAttribute('v');
                 }
-                 else {
-		    # already read the next node
-		    $flag = 1;
+                else {
+
+                    # already read the next node
+                    $flag = 1;
                     last;
                 }
             }
@@ -90,18 +91,24 @@ sub extract_nodes {
             if ( $tag{'place'} ) {
                 my $name = $tag{'name'} || '';
 
-	        # city name in other languages
-		foreach my $key (keys %tag) {
-		   if ($key =~ /^name:(\w+)$/) {
-			$name .= ' / ' . $tag{$key} . " [$1]";
-		   }
-	        }
+                # city name in other languages
+                my %citynames;
+                foreach my $key ( keys %tag ) {
+                    if ( $key =~ /^name:(\w+)$/ ) {
+                        push( @{ $citynames{$key} }, $1 );
+                    }
+                }
+                foreach my $lang ( keys %citynames ) {
+                    $name .= " / $lang [" . join( ',', @{ $citynames{$lang} } ),
+                      ']';
+
+                }
 
                 $name .= ' [ZIP ' . $tag{'postal_code'} . ']'
                   if exists $tag{'postal_code'} && $name;
 
-		my $is_in = $tag{'openGeoDB:is_in'} || $tag{'is_in'};
-		$name .= ' [is in: ' . $is_in . ']' if $is_in;
+                my $is_in = $tag{'openGeoDB:is_in'} || $tag{'is_in'};
+                $name .= ' [is in: ' . $is_in . ']' if $is_in;
 
                 $name =~ s/^\s+//;
                 $name =~ s/\s+$//;
@@ -109,7 +116,7 @@ sub extract_nodes {
                 $name =~ s/  +/ /g;
                 $name =~ s/^\s*$//;
 
-                if ( $name ) {
+                if ($name) {
                     print $fd_streets $name, "\t", "$lon,$lat", "\n";
                 }
             }
@@ -181,17 +188,19 @@ for my $osm_file (@osm_files) {
 
     extract_nodes( $reader, $fd_nodes, $fd_streets );
 
-    my $place_filename = $fd_streets->filename; 
-    my $street_db = new IO::File $place_filename, "r" or die "open $place_filename: $!\n";
+    my $place_filename = $fd_streets->filename;
+    my $street_db = new IO::File $place_filename, "r"
+      or die "open $place_filename: $!\n";
 
     my $fd_sort;
     if ($sort) {
-    open  $fd_sort, "|-", "sort", "-uf"
-      or die "Can't run sort: $!";
+        open $fd_sort, "|-", "sort", "-uf"
+          or die "Can't run sort: $!";
 
-	while(<$street_db>) { print $fd_sort $_; }
-    } else {
-	while(<$street_db>) { print $_; }
+        while (<$street_db>) { print $fd_sort $_; }
+    }
+    else {
+        while (<$street_db>) { print $_; }
     }
 
     if ( !$unlink ) {
