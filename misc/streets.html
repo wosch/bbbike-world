@@ -241,6 +241,26 @@
             </tr>
 
 
+            <tr>
+              <td><b>World cities</b>:</td>
+
+              <td>
+                <form action="cgi/streets.cgi" target="_blank">
+                  <input type="hidden" name="action" value="opensearch" /> <input type="hidden" name="namespace" value=
+                  "1" /> <input id="suggest_start_planet_places" size="50" type="text" name="search" autocomplete="yes" />
+                  <input type="hidden" name="city" value="planet-places" /> <input type="submit" />
+                </form><script type="text/javascript">
+//<![CDATA[
+                jQuery.noConflict();
+                jQuery(function() {
+                jQuery("#suggest_start_planet_places").suggest("cgi/api.cgi?action=opensearch&city=planet-places&namespace=1&search=", 
+
+                { minchars: 1, delay: 200, onSelect: function() {} }); });
+                // { onSelect: function() {alert("You selected: " + this.value)}}); });
+                //]]>
+                </script>
+              </td>
+            </tr>
           </table>
           <hr />
 
