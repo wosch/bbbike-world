@@ -133,7 +133,9 @@ OSM_AREAS= \
 
 all: help
 
-tarball: convert convert-workarounds _tarball
+convert-all: convert convert-workarounds
+
+tarball: convert-all _tarball
 
 _tarball:
 	tar cf - ${DATA_OSM_DIR} | gzip > ${OSMBIKE_DATA}.tmp
@@ -291,7 +293,7 @@ dist-clean devel-clean distclean: clean
 help:
 	@echo "usage: make [ help | cities | convert | rsync-tgz | rsync-osm ]"
 	@echo "            [ tarball | clean | dist-clean | create-bbbike-web-symlinks ]"
-	@echo "            [ convert | convert-workarounds | opensearch | kml ]"
+	@echo "            [ convert | convert-workarounds | convert-all | opensearch | kml ]"
 	@echo "            [ city-count | city-population | update-city-population ]"
 	@echo "            [ osm-areas | osm-places ]"
 	@echo ""
