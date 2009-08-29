@@ -114,6 +114,10 @@ CITIES=		\
 	Colmar \
 	Kassel \
 
+#
+# opensearch suggestion service for
+# the world:
+# 
 OSM_AREAS_OPENSEARCH=data-opensearch2
 OSM_AREAS_LARGE=\
 	planet.osm.bz2 \
@@ -129,7 +133,9 @@ OSM_AREAS= \
 
 all: help
 
-tarball: convert convert-workarounds
+tarball: convert convert-workarounds _tarball
+
+_tarball:
 	tar cf - ${DATA_OSM_DIR} | gzip > ${OSMBIKE_DATA}.tmp
 	mv -f ${OSMBIKE_DATA}.tmp ${OSMBIKE_DATA}
 	cp -f ${OSMBIKE_DATA} ../bbbike-macos/download
