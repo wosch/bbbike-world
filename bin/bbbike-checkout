@@ -1,0 +1,10 @@
+#!/bin/sh
+
+git clone ssh://bbbike.org/home/wosch/git/bbbike.git
+cd bbbike || exit 2
+
+git checkout -b world origin/world
+
+ln -s world/Makefile.osm
+make -f Makefile.osm create-bbbike-web-symlinks
+
