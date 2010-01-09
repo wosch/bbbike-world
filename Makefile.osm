@@ -10,8 +10,8 @@
 MAX_PARALLELS_OSM_DOWNLOADS=	3
 NICE=		nice -n 5
 DOWNLOADOSM=	./miscsrc/downloadosm --debug=2 --step=0.02
-OSM2BBD_MAPTYPE=	-map bbbike	
-OSM2BBD=	perl ./miscsrc/osm2bbd --debug=0 -f ${OSM2BBD_MAPTYPE} -ignore-unhandled -ignore-underline -experiment add_postal_code -experiment polar_coord_hack
+OSM2BBD_MAPTYPE=	#-map bbbike	
+OSM2BBD=	perl ./miscsrc/osm2bbd -f --debug=0 ${OSM2BBD_MAPTYPE} -ignore-unhandled -ignore-underline -experiment add_postal_code -experiment polar_coord_hack
 MAX_CPU=	`world/bin/ncpu`
 MAX_CPU2=	`world/bin/ncpu -1`
 GXARGS=		`which gxargs xargs | head -1`
