@@ -1,9 +1,18 @@
 #!/bin/sh
 
-git clone ssh://bbbike.org/home/wosch/git/bbbike.git
+git clone git@github.com:wolframschneider/bbbike.git
+
 cd bbbike || exit 2
 
 git checkout -b world origin/world
+
+# add remote master from eserte
+git remote add eserte git://github.com/eserte/bbbike.git
+git fetch eserte
+
+echo ""
+echo "show all branches: "
+git branch -a
 
 ln -s world/Makefile.osm
 make -f Makefile.osm create-bbbike-web-symlinks
