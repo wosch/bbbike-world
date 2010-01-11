@@ -238,11 +238,6 @@ ${CITIES}:
 	${MAKE} -f Makefile.osm $@-download $@-convert
 	
 ######################################################################
-
-rsync-source:
-	#rsync -azv -C --exclude osm   --safe-links  $$HOME/projects/bbbike/ srand.de:/usr/local/www/srand.de/bbbike
-	#rsync -azv -C --exclude osm   --safe-links  $$HOME/projects/bbbike/ bbbike.org:/usr/local/www/elsif.de/bbbike
-
 rsync-osm:
 	rsync -azv --exclude='*.bak' --delete --max-delete=512 ${DATA_OSM_DIR} osm bbbike.org:/usr/local/www/bbbike.org
 	rsync -azv --exclude='*.bak' data/opensearch.streetnames bbbike.org:/usr/local/www/bbbike.org/data
