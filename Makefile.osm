@@ -143,6 +143,7 @@ tarball:
 _tarball:
 	tar cf - ${DATA_OSM_BBBIKE_DIR} | gzip > ${OSMBIKE_DATA}.tmp
 	mv -f ${OSMBIKE_DATA}.tmp ${OSMBIKE_DATA}
+	mkdir -p ../bbbike-macos/download
 	cp -f ${OSMBIKE_DATA} ../bbbike-macos/download
 
 cities:
