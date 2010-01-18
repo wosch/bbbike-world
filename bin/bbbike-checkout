@@ -1,6 +1,7 @@
 #!/bin/sh
 
 git clone git@github.com:wolframschneider/bbbike.git
+git clone git@github.com:wolframschneider/bbbike-macos.git
 
 cd bbbike || exit 2
 
