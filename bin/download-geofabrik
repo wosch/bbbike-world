@@ -1,7 +1,10 @@
 #!/bin/sh
 
-download_dir=$HOME/osm/download
+project_dir=$HOME/projects/osm-streetnames
+download_dir=$HOME/projects/osm-streetnames/download/geofabrik
 
+cd $project_dir || exit 2
+mkdir -p $download_dir || exit 2
 cd $download_dir || exit 2
 
 url=http://download.geofabrik.de/osm/
