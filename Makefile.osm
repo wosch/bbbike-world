@@ -130,6 +130,7 @@ OSM_AREAS= \
 	australia-oceania.osm.bz2 \
 	south-america.osm.bz2 \
 	africa.osm.bz2 \
+	central-america.osm.bz2 \
 	europe.osm.bz2 \
 
 all: help
