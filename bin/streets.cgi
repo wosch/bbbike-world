@@ -8,11 +8,11 @@ use strict;
 
 $ENV{LANG} = 'C';
 
-my $use_osm_map = 0; # fall back is google maps
+my $use_osm_map = 0;    # fall back is google maps
 
 my $opensearch_file = 'opensearch.streetnames';
 my $opensearch_dir  = '../data-osm';
-my $opensearch_dir2  = '../data-opensearch-places';
+my $opensearch_dir2 = '../data-opensearch-places';
 
 my $debug         = 2;
 my $match_anyware = 1;
@@ -27,11 +27,12 @@ sub ascii2unicode {
 
     my ( $ascii, $unicode, $gps ) = split( /\t/, $string );
 
-    if ( !defined $gps) {
-	return [$ascii, $unicode];	
-    } else {
+    if ( !defined $gps ) {
+        return [ $ascii, $unicode ];
+    }
+    else {
         warn "ascii2unicode: $unicode\n" if $debug >= 1;
-	return [$unicode, $gps];	
+        return [ $unicode, $gps ];
     }
 }
 
@@ -47,8 +48,7 @@ sub street_match {
 
     warn "XXX: $street\n";
     if ($use_egrep) {
-        open( IN, '-|' ) || exec 'egrep', '-s', '-m', '2000', "$street",
-          $file;
+        open( IN, '-|' ) || exec 'egrep', '-s', '-m', '2000', "$street", $file;
     }
     else {
         if ( !open( IN, $file ) ) { warn "$!: $file\n"; return; }
@@ -96,19 +96,18 @@ sub streetnames_suggestions {
       ? "../data/$opensearch_file"
       : "$opensearch_dir/$city/$opensearch_file";
 
-    if (! -f $file && -f "$opensearch_dir2/$city/$opensearch_file") {
-	$file = "$opensearch_dir2/$city/$opensearch_file";
+    if ( !-f $file && -f "$opensearch_dir2/$city/$opensearch_file" ) {
+        $file = "$opensearch_dir2/$city/$opensearch_file";
     }
 
     my $street = &street_match( $file, $street, $limit );
 
     return if ref $street ne 'ARRAY';
 
+    my ( $name, $gps ) = ( $street->[0], $street->[1] );
+    my ( $x, $y ) = split( /,/, $gps );
 
-    my ( $name, $gps ) = ($street->[0], $street->[1]);
-    my ($x, $y) = split(/,/, $gps);
-
-    return "$y,$x"; # . escape($name);
+    return "$y,$x";    # . escape($name);
 
 }
 
@@ -144,10 +143,15 @@ my $namespace = $q->param('namespace') || '0';
 binmode( \*STDERR, ":utf8" ) if $debug >= 1;
 
 if ($use_osm_map) {
-	my ($lat, $lon) = split(/,/,  &streetnames_suggestions('city' => $city, 'street' => $street));
-	print $q->redirect("http://www.openstreetmap.org/?zoom=17&layers=B000FTF&lat=$lat&lon=$lon");
-} else {
-	print $q->redirect("http://maps.google.ca/maps?q=" . &streetnames_suggestions('city' => $city, 'street' => $street));
+    my ( $lat, $lon ) =
+      split( /,/,
+        &streetnames_suggestions( 'city' => $city, 'street' => $street ) );
+    print $q->redirect(
+        "http://www.openstreetmap.org/?zoom=17&layers=B000FTF&lat=$lat&lon=$lon"
+    );
 }
-
+else {
+    print $q->redirect( "http://maps.google.ca/maps?q="
+          . &streetnames_suggestions( 'city' => $city, 'street' => $street ) );
+}
 
