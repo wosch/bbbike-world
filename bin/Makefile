@@ -1,21 +1,10 @@
 all: perltidy
 
-ALL=	bbbike-world-kml \
-	berlin-coords-data \
-	opensearch-suggestion \
-	strasse-str \
-	livesearch.cgi \
-	streetnames-gps \
-	extract-streetnames-osm \
-	extract-places-osm \
-	bbbike-db \
-	tagcloud \
-	look.pl \
-	gps-region-reduce \
-
+ALL=	`file * | egrep perl | awk '{print $$1}' | perl -ne 's/://; print if !/.bak$$/' | sort`
 
 perltidy:
 	perltidy -b ${ALL}
 
 clean distclean:
 	rm -f *.bak *.tdy
+
