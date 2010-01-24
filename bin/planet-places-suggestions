@@ -1,44 +1,32 @@
 #!/bin/sh
 #
-# extract street names from an OpenStreetMap XML dump and
+# extract place names (cities, villages) from an OpenStreetMap XML dump and
 # create an OpenSearch suggestion database
 #
-# usage: osm2suggestions filename [outdirectory]
+# usage: planet-places-suggestions infile [outfile]
 #
 
-filename=$1
-outdir=$2
+outdir=$1
+shift
+infile=$@
 
-if test -z "$filename"; then
-	echo "missing file name"
-	exit 2
+if test -z "outdir"; then 
+	outdir=./
 fi
+mkdir -p $outdir || exit 2
 
-if test -z "$outdir"; then 
-	outdir=./ 
-fi
-
-outdir=`echo $outdir | perl -npe 's/\.osm(\.gz|\.bz2|)$//'`
-if [ ! -d $outdir ]; then
-	echo "missing outdir: $outdir"
-	exit 2
-fi
-
-
-file=`basename $filename | perl -npe 's/\.osm(\.gz|\.bz2|)$//'`
-
-if ! extract-places-osm --debug=2 $filename > $outdir/places.tmp 2> $outdir/places.log; then
+file=`mktemp foo.XXXXXXXXXXX` || exit 2
+if ! planet-extract-places --debug=2 $infile > $file.places 2> $file.err; then
+    echo "see $file.err"
     exit 1
 fi
-mv -f $outdir/places.tmp $outdir/places
 
-if !  opensearch-suggestion < $outdir/places > \
-	$outdir/opensearch.streetnames.tmp; then
+if !  opensearch-suggestion < $file.places > $file.suggestions; then
     exit 1
 fi 
-mv -f $outdir/opensearch.streetnames.tmp $outdir/opensearch.streetnames
-gzip -f $outdir/places
 
-exit 0
-
+mv -f $file.suggestions $outdir/opensearch.streetnames
+gzip <  $file.places > $outdir/places.gz
+gzip <  $file.err > $outdir/error.log.gz
+rm -f $file.err $file.places
 
