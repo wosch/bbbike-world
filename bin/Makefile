@@ -17,5 +17,5 @@ ALL=	bbbike-world-kml \
 perltidy:
 	perltidy -b ${ALL}
 
-clean:
+clean distlean:
 	rm -f *.bak *.tdy
