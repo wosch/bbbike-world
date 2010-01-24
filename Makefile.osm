@@ -134,6 +134,12 @@ OSM_AREAS= \
 	../osm-streetnames/download/geofabrik/central-america.osm.bz2 \
 	../osm-streetnames/download/geofabrik/europe.osm.bz2 \
 
+OSM_AREAS= \
+	../osm-streetnames/download/geofabrik/europe/germany/baden-wuerttemberg.osm.bz2 \
+	../osm-streetnames/download/geofabrik/europe/germany/bayern.osm.bz2 \
+	../osm-streetnames/download/geofabrik/europe/germany/berlin.osm.bz2 \
+	../osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.bz2 \
+	../osm-streetnames/download/geofabrik/europe/germany/bremen.osm.bz2 
 
 all: help
 
@@ -186,7 +192,7 @@ update-city-population:
 
 
 # using GNU xargs -P parallel
-osm-areas:
+osm-areas2:
 	#rm -rf ${OSM_AREAS_OPENSEARCH}.old
 	#if test -e ${OSM_AREAS_OPENSEARCH}; then mv ${OSM_AREAS_OPENSEARCH} ${OSM_AREAS_OPENSEARCH}.old; fi
 	mkdir -p ${OSM_AREAS_OPENSEARCH}
@@ -202,6 +208,12 @@ planet-places:
 		printf "./world/bin/planet-places-suggestions ${OSM_AREAS_OPENSEARCH}/`basename $$i .osm.bz2`-places $$i\0"; \
 	done | ${GXARGS} -0 -n1 -P${MAX_CPU} sh -c
 
+planet-streets:
+	mkdir -p ${OSM_AREAS_OPENSEARCH}
+	@PATH=$$PATH:`pwd`/world/bin; \
+	for i in ${OSM_AREAS}; do \
+		printf "./world/bin/planet-streets-suggestions ${OSM_AREAS_OPENSEARCH}/`basename $$i .osm.bz2` $$i\0"; \
+	done | ${GXARGS} -0 -n1 -P${MAX_CPU} sh -c
 
 convert: _convert convert-workarounds
 # using GNU xargs -P parallel
@@ -297,7 +309,7 @@ help:
 	@echo "            [ tarball | clean | dist-clean | create-bbbike-web-symlinks ]"
 	@echo "            [ convert | convert-workarounds | convert-all | opensearch | kml ]"
 	@echo "            [ city-count | city-population | update-city-population ]"
-	@echo "            [ osm-areas | planet-places ]"
+	@echo "            [ planet-streets | planet-places ]"
 	@echo ""
 	@echo "            [ ${CITIES} ]"
 
