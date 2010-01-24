@@ -8,17 +8,17 @@ use strict;
 
 $ENV{LANG} = 'C';
 
-my $use_osm_map = 1; # fall back is google maps
+my $use_osm_map = 0; # fall back is google maps
 
 my $opensearch_file = 'opensearch.streetnames';
 my $opensearch_dir  = '../data-osm';
-my $opensearch_dir2  = '../data-opensearch';
+my $opensearch_dir2  = '../data-opensearch-places';
 
 my $debug         = 2;
 my $match_anyware = 1;
 
 # performance tuning, egrep may be faster than perl regex
-my $use_egrep = 1;
+my $use_egrep = 0;
 
 sub ascii2unicode {
     my $string = shift;
@@ -137,17 +137,17 @@ sub strip_list {
 my $q = new CGI;
 
 my $action    = 'opensearch';
-my $street    = $q->param('search') || $q->param('q') || 'Garibaldi Court';
-my $city      = $q->param('city') || 'europe';
+my $street    = $q->param('search') || $q->param('q') || 'Garibaldi';
+my $city      = $q->param('city') || 'south-america';
 my $namespace = $q->param('namespace') || '0';
 
 binmode( \*STDERR, ":utf8" ) if $debug >= 1;
 
 if ($use_osm_map) {
 	my ($lat, $lon) = split(/,/,  &streetnames_suggestions('city' => $city, 'street' => $street));
-print $q->redirect("http://www.openstreetmap.org/?zoom=17&layers=B000FTF&lat=$lat&lon=$lon");
+	print $q->redirect("http://www.openstreetmap.org/?zoom=17&layers=B000FTF&lat=$lat&lon=$lon");
 } else {
-print $q->redirect("http://maps.google.ca/maps?q=" . &streetnames_suggestions('city' => $city, 'street' => $street));
+	print $q->redirect("http://maps.google.ca/maps?q=" . &streetnames_suggestions('city' => $city, 'street' => $street));
 }
 
 
