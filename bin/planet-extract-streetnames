@@ -16,13 +16,13 @@ use IO::File;
 use File::Temp;
 use Data::Dumper;
 use Getopt::Long;
-use Search::Dict;
+#use Search::Dict;
 
 use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = 0.1;
+$VERSION = 0.2;
 
 # unicode sort(1) mess
 $ENV{'LANG'} = 'C';
@@ -256,6 +256,49 @@ sub street_names {
       "Lookup statistic: searches: $look_counter, hits: $look_counter_hits\n";
 }
 
+sub open_osm_file {
+    my $osm_file = shift;
+    my $fh;
+    
+    warn "Parse osm db $osm_file ...\n" if $debug >= 2;
+
+    if ( $osm_file =~ m{\.osm\.bz2$} ) {
+        open $fh, "-|", "osm_bzcat", $osm_file
+          or die "Can't run bunzip2 on $osm_file: $!";
+    }
+    elsif ( $osm_file =~ m{\.osm\.gz$} ) {
+        open $fh, "-|", "osm_zcat", $osm_file
+          or die "Can't run gzip on $osm_file: $!";
+    }
+    elsif ( $osm_file =~ m{\.osm$} ) {
+        open $fh, $osm_file
+          or die "Can't open $osm_file: $!";
+    }
+    elsif ( $osm_file eq '-' ) {
+        $fh = \*STDIN;
+    }
+    else {
+        warn "Unknown file extenstion: $osm_file\n";
+        warn "Expect *.osm.gz, *.osm.bz2, *.osm or '-'\n";
+        exit(1);
+    }
+    
+    binmode( $fh, ":utf8" );
+    
+    my $reader = XML::LibXML::Reader->new( IO => $fh );
+
+    #my $reader = XML::LibXML::Reader->new( location => $osm_file );
+
+    # check if osm file
+    $reader->nextElement;
+    if ( $reader->name ne 'osm' ) {
+        die
+"The file '$osm_file' is not starting with a <osm> tag, probably not an osm file?";
+    }
+    
+    return $reader;
+}
+
 ######################################################################
 #
 # main
@@ -284,45 +327,9 @@ if ($area_lookup) {
     }
 }
 
-my $reader;
-my $fh;
+
 for my $osm_file (@osm_files) {
-
-    warn "Parse osm db $osm_file ...\n" if $debug >= 2;
-
-    if ( $osm_file =~ m{\.osm\.bz2$} ) {
-        open $fh, "-|", "osm_bzcat", $osm_file
-          or die "Can't run bunzip2 on $osm_file: $!";
-    }
-    elsif ( $osm_file =~ m{\.osm\.gz$} ) {
-        open $fh, "-|", "osm_zcat", $osm_file
-          or die "Can't run gzip on $osm_file: $!";
-    }
-    elsif ( $osm_file =~ m{\.osm$} ) {
-        open $fh, $osm_file
-          or die "Can't open $osm_file: $!";
-    }
-    elsif ( $osm_file eq '-' ) {
-        $fh = \*STDIN;
-    }
-    else {
-        warn "Unknown file extenstion: $osm_file\n";
-        warn "Expect *.osm.gz, *.osm.bz2, *.osm or '-'\n";
-        exit(1);
-    }
-
-    binmode( $fh, ":utf8" );
-
-    $reader = XML::LibXML::Reader->new( IO => $fh );
-
-    #my $reader = XML::LibXML::Reader->new( location => $osm_file );
-
-    # check if osm file
-    $reader->nextElement;
-    if ( $reader->name ne 'osm' ) {
-        die
-"The file '$osm_file' is not starting with a <osm> tag, probably not an osm file?";
-    }
+    my $reader = open_osm_file($osm_file);
 
     my $fd_nodes = File::Temp->new( UNLINK => $unlink, SUFFIX => '.nodes' )
       or die "File::Temp: $!\n";
