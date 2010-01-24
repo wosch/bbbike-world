@@ -123,22 +123,16 @@ CITIES=		\
 # 
 OSM_AREAS_OPENSEARCH=data-opensearch-places
 OSM_AREAS_LARGE=\
-	planet.osm.bz2 \
+	../osm-streetnames/download/planet.osm.bz2 \
 
 OSM_AREAS= \
-	germany.osm.bz2 \
+	../osm-streetnames/download/geofabrik/europe/germany.osm.bz2 \
 	${OSM_AREAS_LARGE} \
-	australia-oceania.osm.bz2 \
-	south-america.osm.bz2 \
-	africa.osm.bz2 \
-	central-america.osm.bz2 \
-	europe.osm.bz2 \
-
-# test
-OSM_AREAS= \
-	../osm-streetnames/download/geofabrik/europe/germany/bremen.osm.bz2 \
-	../osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.bz2 \
-	../osm-streetnames/download/geofabrik/europe/germany/berlin.osm.bz2 \
+	../osm-streetnames/download/geofabrik/australia-oceania.osm.bz2 \
+	../osm-streetnames/download/geofabrik/south-america.osm.bz2 \
+	../osm-streetnames/download/geofabrik/africa.osm.bz2 \
+	../osm-streetnames/download/geofabrik/central-america.osm.bz2 \
+	../osm-streetnames/download/geofabrik/europe.osm.bz2 \
 
 
 all: help
