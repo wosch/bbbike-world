@@ -1,11 +1,10 @@
 #!/bin/sh
 
-project_dir=$HOME/projects/osm-streetnames
-download_dir=$HOME/projects/osm-streetnames/download/geofabrik
-
-cd $project_dir || exit 2
-mkdir -p $download_dir || exit 2
-cd $download_dir || exit 2
+#project_dir=$HOME/projects/osm-streetnames
+#download_dir=$HOME/projects/osm-streetnames/download/geofabrik
+#cd $project_dir || exit 2
+#mkdir -p $download_dir || exit 2
+#cd $download_dir || exit 2
 
 url=http://download.geofabrik.de/osm/
 
@@ -13,17 +12,16 @@ download ()
 {
 	subdir=$1
 	path=$subdir
-	if test -n "$subdir"; then
-		 mkdir -p $subdir
-	else
+	if test -z "$subdir"; then
 		subdir=.
 	fi
 
-	echo "( cd $subdir; "
+	echo "( mkdir -p $subdir; cd $subdir; "
 	lynx -dump http://download.geofabrik.de/osm/$path | \
 		egrep http://download.geofabrik.de/osm/ | \
 		egrep bz2$ | \
-		perl -npe 's/^\s*\d+\.\s+/wget /' 
+		egrep -v 'alps.osm' | \
+		perl -npe 's/^\s*\d+\.\s+/wget -nv /' 
 	echo ")"
 }
 
