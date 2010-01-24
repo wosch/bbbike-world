@@ -57,21 +57,69 @@
 -->
           </div>
 
-          <div>
-            this program search for street names in:<br />
+          <div> Search for <b>city or place names</b>:<br /> </div>
 
-            <form name="opensearchEurope" action="cgi/streets.cgi" target="_blank" id="opensearchEurope">
-              <b>Europe</b>: <input type="hidden" name="action" value="opensearch" /> <input type="hidden" name=
-              "namespace" value="1" /> <input type="hidden" name="city" value="europe" /> <input id=
-              "suggest_start_europe" size="50" type="text" name="search" autocomplete="yes" /> <input type="submit" />
-            </form><script type="text/javascript">
+           <table>
+            <tr>
+              <td>European cities:</td>
+
+              <td>
+                <form name="opensearchEuropePlace" action="cgi/streets.cgi" target="_blank">
+                  <input type="hidden" name="action" value="opensearch" /> <input type="hidden" name="namespace" value=
+                  "1" /> <input id="suggest_start_europe_places" size="50" type="text" name="search" />
+                  <input type="hidden" name="city" value="europe-places" /> <input type="submit" />
+                </form><script type="text/javascript">
 //<![CDATA[
+                jQuery.noConflict();
+                jQuery(function() {
+                jQuery("#suggest_start_europe_places").suggest("cgi/api.cgi?action=opensearch&city=europe-places&namespace=1&search=", 
 
-            // set focus to first search field (Europe)
-            function setFocus ()  {
-            document.opensearchEurope.search.focus();
-            }
+                { minchars: 1, delay: 200, onSelect: function() {} }); });
+                // { onSelect: function() {alert("You selected: " + this.value)}}); });
+//]]>
+                </script>
+              </td>
+            </tr>
 
+
+            <tr>
+              <td>World cities:</td>
+
+              <td>
+                <form action="cgi/streets.cgi" target="_blank">
+                  <input type="hidden" name="action" value="opensearch" /> <input type="hidden" name="namespace" value=
+                  "1" /> <input id="suggest_start_planet_places" size="50" type="text" name="search" />
+                  <input type="hidden" name="city" value="planet-places" /> <input type="submit" />
+                </form><script type="text/javascript">
+//<![CDATA[
+                jQuery.noConflict();
+                jQuery(function() {
+                jQuery("#suggest_start_planet_places").suggest("cgi/api.cgi?action=opensearch&city=planet-places&namespace=1&search=", 
+
+                { minchars: 1, delay: 200, onSelect: function() {} }); });
+                // { onSelect: function() {alert("You selected: " + this.value)}}); });
+                //]]>
+                </script>
+              </td>
+            </tr>
+          </table>
+
+	  <p>You can type the street names in any alphabet: US-ASCII, latin or cyrillic letters. With or without diacritics.
+          Example Searches are: <tt>Minsk Lodz most alborg kraki</tt></p>
+	
+	<hr noshade="noshade" />
+
+          <div>Search for <b>street names</b>:<br /> </div>
+
+          <table>
+	    <tr>
+		<td>Europe</td><td>
+            <form name="opensearchEurope" action="cgi/streets.cgi" target="_blank" id="opensearchEurope">
+              <input type="hidden" name="action" value="opensearch" /> <input type="hidden" name=
+              "namespace" value="1" /> <input type="hidden" name="city" value="europe" /> <input id=
+              "suggest_start_europe" size="50" type="text" name="search" /> <input type="submit" />
+            </form><script type="text/javascript">
+	   //<![CDATA[
 
             jQuery.noConflict();
             jQuery(function() {
@@ -81,22 +129,15 @@
             // { onSelect: function() {alert("You selected: " + this.value)}}); });
             //]]>
             </script>
-          </div>
-
-          <p>Example Searches are: <tt>Minsk Lodz most alborg kraki</tt></p>
-	  <p>You can type the street names in any alphabet: US-ASCII, latin or cyrillic letters. With or without diacritics.</p>
-          <hr />
-          Other regions:
-
-          <table>
+	    </td></tr>
 
             <tr>
-              <td><b>Germany</b>:</td>
+              <td>Germany:</td>
 
               <td>
                 <form action="cgi/streets.cgi" target="_blank">
                   <input type="hidden" name="action" value="opensearch" /> <input type="hidden" name="namespace" value=
-                  "1" /> <input id="suggest_start_germany" size="50" type="text" name="search" autocomplete="yes" />
+                  "1" /> <input id="suggest_start_germany" size="50" type="text" name="search" />
                   <input type="hidden" name="city" value="germany" /> <input type="submit" />
                 </form><script type="text/javascript">
 //<![CDATA[
@@ -113,13 +154,12 @@
 
 <!--
             <tr>
-              <td><b>Saxony</b>:</td>
+              <td>Saxony:</td>
 
               <td>
                 <form action="cgi/streets.cgi" target="_blank">
                   <input type="hidden" name="action" value="opensearch" /> <input type="hidden" name="namespace" value=
-                  "1" /> <input id="suggest_start_sachsen" size="50" type="text" name="search" autocomplete=
-                  "yes" /> <input type="hidden" name="city" value="sachsen" /> <input type="submit" />
+                  "1" /> <input id="suggest_start_sachsen" size="50" type="text" name="search" /> <input type="hidden" name="city" value="sachsen" /> <input type="submit" />
                 </form><script type="text/javascript">
 //<![CDATA[
                 jQuery.noConflict();
@@ -134,12 +174,12 @@
             </tr>
 -->
             <tr>
-              <td><b>World</b>:</td>
+              <td>World:</td>
 
               <td>
                 <form action="cgi/streets.cgi" target="_blank">
                   <input type="hidden" name="action" value="opensearch" /> <input type="hidden" name="namespace" value=
-                  "1" /> <input id="suggest_start_planet" size="50" type="text" name="search" autocomplete="yes" />
+                  "1" /> <input id="suggest_start_planet" size="50" type="text" name="search" />
                   <input type="hidden" name="city" value="planet" /> <input type="submit" />
                 </form><script type="text/javascript">
 //<![CDATA[
@@ -155,12 +195,12 @@
             </tr>
 
             <tr>
-              <td><b>Australia</b>:</td>
+              <td>Australia:</td>
 
               <td>
                 <form action="cgi/streets.cgi" target="_blank">
                   <input type="hidden" name="action" value="opensearch" /> <input type="hidden" name="namespace" value=
-                  "1" /> <input id="suggest_start_australia" size="50" type="text" name="search" autocomplete="yes" />
+                  "1" /> <input id="suggest_start_australia" size="50" type="text" name="search" />
                   <input type="hidden" name="city" value="australia-oceania" /> <input type="submit" />
                 </form><script type="text/javascript">
 //<![CDATA[
@@ -176,13 +216,12 @@
             </tr>
 
             <tr>
-              <td><b>South America</b>:</td>
+              <td>South America:</td>
 
               <td>
                 <form action="cgi/streets.cgi" target="_blank">
                   <input type="hidden" name="action" value="opensearch" /> <input type="hidden" name="namespace" value=
-                  "1" /> <input id="suggest_start_southamerica" size="50" type="text" name="search" autocomplete=
-                  "yes" /> <input type="hidden" name="city" value="south-america" /> <input type="submit" />
+                  "1" /> <input id="suggest_start_southamerica" size="50" type="text" name="search" /> <input type="hidden" name="city" value="south-america" /> <input type="submit" />
                 </form><script type="text/javascript">
 //<![CDATA[
                 jQuery.noConflict();
@@ -198,12 +237,12 @@
 
 
             <tr>
-              <td><b>Africa</b>:</td>
+              <td>Africa:</td>
 
               <td>
                 <form action="cgi/streets.cgi" target="_blank">
                   <input type="hidden" name="action" value="opensearch" /> <input type="hidden" name="namespace" value=
-                  "1" /> <input id="suggest_start_africa" size="50" type="text" name="search" autocomplete="yes" />
+                  "1" /> <input id="suggest_start_africa" size="50" type="text" name="search" />
                   <input type="hidden" name="city" value="africa" /> <input type="submit" />
                 </form><script type="text/javascript">
 //<![CDATA[
@@ -219,48 +258,7 @@
             </tr>
 
 	   <tr><td><p/></td></tr>
-            <tr>
-              <td><b>European cities</b>:</td>
 
-              <td>
-                <form action="cgi/streets.cgi" target="_blank">
-                  <input type="hidden" name="action" value="opensearch" /> <input type="hidden" name="namespace" value=
-                  "1" /> <input id="suggest_start_europe_places" size="50" type="text" name="search" autocomplete="yes" />
-                  <input type="hidden" name="city" value="europe-places" /> <input type="submit" />
-                </form><script type="text/javascript">
-//<![CDATA[
-                jQuery.noConflict();
-                jQuery(function() {
-                jQuery("#suggest_start_europe_places").suggest("cgi/api.cgi?action=opensearch&city=europe-places&namespace=1&search=", 
-
-                { minchars: 1, delay: 200, onSelect: function() {} }); });
-                // { onSelect: function() {alert("You selected: " + this.value)}}); });
-                //]]>
-                </script>
-              </td>
-            </tr>
-
-
-            <tr>
-              <td><b>World cities</b>:</td>
-
-              <td>
-                <form action="cgi/streets.cgi" target="_blank">
-                  <input type="hidden" name="action" value="opensearch" /> <input type="hidden" name="namespace" value=
-                  "1" /> <input id="suggest_start_planet_places" size="50" type="text" name="search" autocomplete="yes" />
-                  <input type="hidden" name="city" value="planet-places" /> <input type="submit" />
-                </form><script type="text/javascript">
-//<![CDATA[
-                jQuery.noConflict();
-                jQuery(function() {
-                jQuery("#suggest_start_planet_places").suggest("cgi/api.cgi?action=opensearch&city=planet-places&namespace=1&search=", 
-
-                { minchars: 1, delay: 200, onSelect: function() {} }); });
-                // { onSelect: function() {alert("You selected: " + this.value)}}); });
-                //]]>
-                </script>
-              </td>
-            </tr>
           </table>
 
           <hr />
@@ -281,9 +279,9 @@
 
     // set focus to first search field (Europe)
      function setFocus ()  {
-        document.opensearchEurope.search.focus();
+        document.opensearchEuropePlace.search.focus();
      }
-  //]]>
+//]]>
   </script><script type="text/javascript">
 //<![CDATA[
   var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
