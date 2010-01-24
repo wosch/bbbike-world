@@ -1,9 +1,10 @@
 #!/bin/sh
+# Copyright (c) Wolfram Schneider, May 2009
 #
 # extract place names (cities, villages) from an OpenStreetMap XML dump and
 # create an OpenSearch suggestion database
 #
-# usage: planet-places-suggestions infile [outfile]
+# usage: planet-places-suggestions outdir infiles...
 #
 
 outdir=$1
