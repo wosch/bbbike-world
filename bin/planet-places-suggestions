@@ -15,7 +15,7 @@ if test -z "outdir"; then
 fi
 mkdir -p $outdir || exit 2
 
-file=`mktemp foo.XXXXXXXXXXX` || exit 2
+file=`mktemp -t foo.XXXXXXXXXXX` || exit 2
 if ! planet-extract-places --debug=2 $infile > $file.places 2> $file.err; then
     echo "see $file.err"
     exit 1
