@@ -199,7 +199,7 @@ planet-places:
 	mkdir -p ${OSM_AREAS_OPENSEARCH}
 	@PATH=$$PATH:`pwd`/world/bin; \
 	for i in ${OSM_AREAS}; do \
-		printf "./world/bin/planet-places-suggestions ${OSM_AREAS_OPENSEARCH}/`basename $$i .osm.bz2` $$i\0"; \
+		printf "./world/bin/planet-places-suggestions ${OSM_AREAS_OPENSEARCH}/`basename $$i .osm.bz2`-places $$i\0"; \
 	done | ${GXARGS} -0 -n1 -P${MAX_CPU} sh -c
 
 
