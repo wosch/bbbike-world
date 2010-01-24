@@ -17,17 +17,17 @@ fi
 mkdir -p $outdir || exit 2
 
 file=`mktemp -t foo.XXXXXXXXXXX` || exit 2
-if ! planet-extract-places --debug=2 $infile > $file.places 2> $file.err; then
+if ! planet-extract-streetnames --debug=2 $infile > $file.streets 2> $file.err; then
     echo "see $file.err"
     exit 1
 fi
 
-if !  opensearch-suggestion < $file.places > $file.suggestions; then
+if !  opensearch-suggestion < $file.streets > $file.suggestions; then
     exit 1
 fi 
 
 mv -f $file.suggestions $outdir/opensearch.streetnames
-gzip <  $file.places > $outdir/places.gz
+gzip <  $file.streets > $outdir/streets.gz
 gzip <  $file.err > $outdir/error.log.gz
-rm -f $file.err $file.places
+rm -f $file.err $file.streets
 
