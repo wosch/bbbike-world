@@ -16,6 +16,7 @@ use IO::File;
 use File::Temp;
 use Data::Dumper;
 use Getopt::Long;
+
 #use Search::Dict;
 
 use strict;
@@ -259,7 +260,7 @@ sub street_names {
 sub open_osm_file {
     my $osm_file = shift;
     my $fh;
-    
+
     warn "Parse osm db $osm_file ...\n" if $debug >= 2;
 
     if ( $osm_file =~ m{\.osm\.bz2$} ) {
@@ -282,9 +283,9 @@ sub open_osm_file {
         warn "Expect *.osm.gz, *.osm.bz2, *.osm or '-'\n";
         exit(1);
     }
-    
+
     binmode( $fh, ":utf8" );
-    
+
     my $reader = XML::LibXML::Reader->new( IO => $fh );
 
     #my $reader = XML::LibXML::Reader->new( location => $osm_file );
@@ -295,7 +296,7 @@ sub open_osm_file {
         die
 "The file '$osm_file' is not starting with a <osm> tag, probably not an osm file?";
     }
-    
+
     return $reader;
 }
 
@@ -326,7 +327,6 @@ if ($area_lookup) {
         push( @look_fh, $look_fh );
     }
 }
-
 
 for my $osm_file (@osm_files) {
     my $reader = open_osm_file($osm_file);
