@@ -12,8 +12,8 @@ NICE=		nice -n 5
 PERL=		perl
 DOWNLOADOSM=	${PERL} ./miscsrc/downloadosm --debug=2 --step=0.02
 OSM2BBD_MAPTYPE=	#-map bbbike	
-OSM_SOCKS_PROXY=	# --sockproxy=socks://localhost:1080
-OSM2BBD=	${PERL} ./miscsrc/osm2bbd -f --debug=0 ${bbbikeOSM_SOCKS_PROXY} ${OSM2BBD_MAPTYPE} -ignore-unhandled -ignore-underline -experiment add_postal_code -experiment polar_coord_hack
+OSM_SOCKS_PROXY=	# --socksproxy=socks://localhost:1080
+OSM2BBD=	${PERL} ./miscsrc/osm2bbd -f --debug=0 ${OSM_SOCKS_PROXY} ${OSM2BBD_MAPTYPE} -ignore-unhandled -ignore-underline -experiment add_postal_code -experiment polar_coord_hack
 MAX_CPU=	`world/bin/ncpu`
 MAX_CPU2=	`world/bin/ncpu -1`
 GXARGS=		`which gxargs xargs | head -1`
