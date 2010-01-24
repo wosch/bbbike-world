@@ -16,7 +16,7 @@ DOWNLOADOSM=	${PERL} ./miscsrc/downloadosm --debug=2 --step=0.02 ${OSM_SOCKS_PRO
 OSM2BBD=	${PERL} ./miscsrc/osm2bbd -f --debug=0 ${OSM2BBD_MAPTYPE} -ignore-unhandled -ignore-underline -experiment add_postal_code -experiment polar_coord_hack
 MAX_CPU=	`world/bin/ncpu`
 MAX_CPU2=	`world/bin/ncpu -1`
-GXARGS=		`which gxargs xargs | head -1`
+GXARGS=		${NICE} `which gxargs xargs | head -1`
 BBBIKE_WEB_DIR= ./
 OSM_DIR=	osm
 DATA_OSM_DIR=	data-osm
@@ -121,10 +121,9 @@ CITIES=		\
 # opensearch suggestion service for
 # the world:
 # 
-OSM_AREAS_OPENSEARCH=data-opensearch2
+OSM_AREAS_OPENSEARCH=data-opensearch-places
 OSM_AREAS_LARGE=\
 	planet.osm.bz2 \
-	north-america.osm.bz2 \
 
 OSM_AREAS= \
 	germany.osm.bz2 \
@@ -134,6 +133,13 @@ OSM_AREAS= \
 	africa.osm.bz2 \
 	central-america.osm.bz2 \
 	europe.osm.bz2 \
+
+# test
+OSM_AREAS= \
+	../osm-streetnames/download/geofabrik/europe/germany/bremen.osm.bz2 \
+	../osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.bz2 \
+	../osm-streetnames/download/geofabrik/europe/germany/berlin.osm.bz2 \
+
 
 all: help
 
@@ -193,14 +199,14 @@ osm-areas:
 	cd ${OSM_AREAS_OPENSEARCH} && mkdir -p `echo ${OSM_AREAS} | perl -npe 's/\.osm\.bz2//g'`
 	echo ${OSM_AREAS} " " | \
 	  perl -ne 'chomp; foreach (split) { print qq{PATH=\$$PATH:`pwd`/world/bin world/bin/osm2suggestions ../osm/download/$$_ '${OSM_AREAS_OPENSEARCH}'/$$_\0} }' | \
-	  ${NICE} ${GXARGS} -0 -n1 -P${MAX_CPU2} sh -c
+	  ${GXARGS} -0 -n1 -P${MAX_CPU2} sh -c
 
-osm-places:
+planet-places:
 	mkdir -p ${OSM_AREAS_OPENSEARCH}
-	cd ${OSM_AREAS_OPENSEARCH} && mkdir -p `echo ${OSM_AREAS} | perl -npe 's/\.osm\.bz2/-places/g'`
-	echo ${OSM_AREAS} " " | \
-	  perl -ne 'chomp; foreach (split) { $$file=$$_; $$dir=$$file; $$dir =~ s/(\.osm)?(\.(gz|bz2))?$$/-places/; print qq{PATH=\$$PATH:`pwd`/world/bin world/bin/osm2places-suggestions ../osm-streetnames/download/geofabrik/$$file '${OSM_AREAS_OPENSEARCH}'/$$dir\0} }' | \ 
-	  ${NICE} ${GXARGS} -0 -n1 -P${MAX_CPU} sh -c 
+	@PATH=$$PATH:`pwd`/world/bin; \
+	for i in ${OSM_AREAS}; do \
+		printf "./world/bin/planet-places-suggestions ${OSM_AREAS_OPENSEARCH}/`basename $$i .osm.bz2` $$i\0"; \
+	done | ${GXARGS} -0 -n1 -P${MAX_CPU} sh -c
 
 
 convert: _convert convert-workarounds
@@ -210,17 +216,17 @@ _convert:
 	if test -e ${DATA_OSM_DIR}; then mv ${DATA_OSM_DIR} ${DATA_OSM_DIR}.old;  fi
 	mkdir -p ${DATA_OSM_DIR}
 	echo ${CITIES} " " | perl -npe 's/\s+/-convert /g' | \
-	  ${NICE} ${GXARGS} -n 1 -P ${MAX_CPU} ${MAKE} -f Makefile.osm
+	   ${GXARGS} -n 1 -P ${MAX_CPU} ${MAKE} -f Makefile.osm
 
 check:
 	for i in ${CITIES}; do echo ${DATA_OSM_DIR}/$$i; done | \
-	  ${NICE} ${GXARGS} -n 1 -P ${MAX_CPU} ./miscsrc/check_bbd --debug=0 -dir
+	  ${GXARGS} -n 1 -P ${MAX_CPU} ./miscsrc/check_bbd --debug=0 -dir
 
 convert-workarounds: osm2bbd-workarounds
 
 osm2bbd-workarounds opensearch: opensearch-bbbike
 	for i in ${CITIES}; do echo $$i; done | \
-	  ${NICE} ${GXARGS} -n 1 -P ${MAX_CPU} world/bin/osm2bbd-workarounds ${DATA_OSM_DIR}
+	  ${GXARGS} -n 1 -P ${MAX_CPU} world/bin/osm2bbd-workarounds ${DATA_OSM_DIR}
 
 opensearch-bbbike:
 	world/bin/opensearch-suggestion --gps=0 --input-charset=iso-8859-1 < data/strassen > data/opensearch.streetnames
@@ -297,7 +303,7 @@ help:
 	@echo "            [ tarball | clean | dist-clean | create-bbbike-web-symlinks ]"
 	@echo "            [ convert | convert-workarounds | convert-all | opensearch | kml ]"
 	@echo "            [ city-count | city-population | update-city-population ]"
-	@echo "            [ osm-areas | osm-places ]"
+	@echo "            [ osm-areas | planet-places ]"
 	@echo ""
 	@echo "            [ ${CITIES} ]"
 
