@@ -235,6 +235,25 @@
               </td>
             </tr>
 
+            <tr>
+              <td>Central America:</td>
+
+              <td>
+                <form action="cgi/streets.cgi" target="_blank">
+                  <input type="hidden" name="action" value="opensearch" /> <input type="hidden" name="namespace" value=
+                  "1" /> <input id="suggest_start_centralamerica" size="50" type="text" name="search" /> <input type="hidden" name="city" value="central-america" /> <input type="submit" />
+                </form><script type="text/javascript">
+//<![CDATA[
+                jQuery.noConflict();
+                jQuery(function() {
+                jQuery("#suggest_start_centralamerica").suggest("cgi/api.cgi?action=opensearch&city=central-america&namespace=1&search=", 
+
+                { minchars: 1, delay: 200, onSelect: function() {} }); });
+                // { onSelect: function() {alert("You selected: " + this.value)}}); });
+                //]]>
+                </script>
+              </td>
+            </tr>
 
             <tr>
               <td>Africa:</td>
