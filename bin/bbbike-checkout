@@ -1,9 +1,18 @@
 #!/bin/sh
 
+git_config () {
+	git config  user.name "Wolfram Schneider"
+	git config  user.email wosch@freebsd.org
+}
+
 git clone git@github.com:wolframschneider/bbbike.git
 git clone git@github.com:wolframschneider/bbbike-macos.git
 
+( cd bbbike && git_config )
+( cd bbbike-macos && git_config )
+
 cd bbbike || exit 2
+git_config
 
 # *world  is the default branch at github for bbbike@world
 #git checkout -b world origin/world
