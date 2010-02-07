@@ -212,15 +212,8 @@ _cities_complete:
 city-count:
 	@echo ${CITIES}  | wc -w
 
-city-population:
-	@for i in ${CITIES}; do \
-		printf "$$i "; \
-		find osm/$$i -name '*.gz' -print0 | xargs -0 -n16 -P ${MAX_CPU} gzip -dc | egrep population | \
-			perl -e 'while(<>) { s,.*:,,; print "$$1\n" if /(\d+)/ }; print "0\n" ' | sort -n | sort -u | awk '{ s += $$1 } END { print s }'; \
-	done
-
-update-city-population:
-	${MAKE} -s -f Makefile.osm city-population | sort -k 2 -nr | perl -npe 's/ /:/' > world/misc/population.csv
+city-reorder:
+	@cd osm; du -ks * | sort -nr
 
 
 # using GNU xargs -P parallel
@@ -341,7 +334,7 @@ help:
 	@echo "usage: make [ help | cities | rsync-tgz | rsync-osm ]"
 	@echo "            [ clean | dist-clean | create-bbbike-web-symlinks | kml ]"
 	@echo "            [ convert-all | tarball ]"
-	@echo "            [ city-count | city-population | update-city-population ]"
+	@echo "            [ city-count | city-reorder ]"
 	@echo "            [ planet-streets | planet-places ]"
 	@echo ""
 	@echo "            [ ${CITIES} ]"
