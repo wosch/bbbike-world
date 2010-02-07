@@ -63,8 +63,9 @@ my %hash;
 
 my $fh = new IO::File $db, "r" or die "open: $!\n";
 while (<$fh>) {
-    next if /^\s*#/;
     chomp;
+    s/^\s+//;
+    next if /^#/ || $_ eq "";
 
     my ( $city, $name, $lang, $area, $coord, $population ) = split(/:/);
     $hash{$city} = {
