@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # (c) 2009 Wolfram Schneider
 #
-# bbbike-world-kml - create an Google Earth KML file for all bbbike@world cities
+# bbbike-world-kml - create an Google Earth KML file for all BBBike @ World cities
 #
 # $Id: bbbike-world-kml,v 1.18 2009/04/21 19:55:41 wosch Exp $
 
@@ -48,7 +48,7 @@ sub bbbike2kml_header {
 <kml xmlns="http://earth.google.com/kml/2.2">
 <Document>
   <name>BBBike @ World</name>
-  <description><![CDATA[List of all Cities supported by <a href="http://www.bbbike.de/">BBBike @ World</a>.]]></description>
+  <description><![CDATA[List of all Cities supported by <a href="http://www.bbbike.org/">BBBike @ World</a>.]]></description>
   <Style id="style1">
     <IconStyle>
       <Icon>

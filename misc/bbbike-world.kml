@@ -2,7 +2,7 @@
 <kml xmlns="http://earth.google.com/kml/2.2">
 <Document>
   <name>BBBike @ World</name>
-  <description><![CDATA[List of all Cities supported by <a href="http://www.bbbike.de/">BBBike @ World</a>.]]></description>
+  <description><![CDATA[List of all Cities supported by <a href="http://www.bbbike.org/">BBBike @ World</a>.]]></description>
   <Style id="style1">
     <IconStyle>
       <Icon>
@@ -688,6 +688,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-79.3755,43.7255,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name></name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Trondheim.en.cgi">BBBike @ Trondheim</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>10.4274,63.39825,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
