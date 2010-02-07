@@ -15,7 +15,7 @@ usage: $0 [--debug={0..2}] [--level=number ] [ --area=area ] < population.csv
 
 --debug=0..2    debug option
 --area=		de | eu | other
---level=16
+--level=$level
 EOF
 }
 
