@@ -97,6 +97,7 @@ CITIES=		\
 	Jena \
 	FortCollins \
 	Vancouver \
+	RiodeJaneiro \
 	Erlangen \
 	Cottbus \
 	Budapest \
@@ -135,7 +136,6 @@ CITIES=		\
 	Istanbul \
 	Davis \
 	Turin \
-	RiodeJaneiro \
 	BrandenburgHavel \
 	Beirut \
 	Krakau \
@@ -148,7 +148,6 @@ CITIES=		\
 	FrankfurtOder \
 	Baku \
 	UlanBator \
-
 #
 # opensearch suggestion service for
 # the world:
