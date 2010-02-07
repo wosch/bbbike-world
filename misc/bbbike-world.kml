@@ -52,6 +52,14 @@
   </Placemark>
   <Placemark>
     <name></name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Baghdad.en.cgi">BBBike @ Baghdad</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>44.3745,33.31405,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name></name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Baku.en.cgi">BBBike @ Baku</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
