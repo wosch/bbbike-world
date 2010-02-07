@@ -33,6 +33,7 @@ sub extract_coords {
         my $x = ( $x2 - $x1 ) / 2 + $x1;
         my $y = ( $y2 - $y1 ) / 2 + $y1;
 
+        next if $city eq 'dummy';
         $name = $city if !$name;
 
         push( @data, [ $city, $name, $lang, $x, $y ] );
