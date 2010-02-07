@@ -16,8 +16,30 @@ my $debug = 1;    # 0: quiet, 1: normal, 2: verbose
 sub osm_round {
     my $real = shift;
     my $number = shift || 100_000;
+    my $padding = 1;
+
+    # how many digits after the '.'
+    my $counter = 0;
+    for (my $i = $number; $i > 1; $i = $i / 10) {
+	$counter++;
+    }
 
     my $round = int( $real * $number + 0.5 ) / $number;
+
+    if ($padding) {
+	my $digits = $round;
+	$digits =~ s/^\d*\.?//;
+
+        warn "Digits: $digits\n" if $debug >= 2;
+
+	# no digits at all
+	$round .= '.' if !$digits;
+	
+        for(my $i = length($digits); $i < $counter; $i++) {
+		$round .= '0';
+	}
+    }
+
     warn "$real <-> $round ", $real - $round, "\n"
       if $debug >= 2 && $real != $round;
 
