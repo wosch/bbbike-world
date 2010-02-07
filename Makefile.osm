@@ -72,14 +72,24 @@ CITIES=		\
 	Rostock \
 	Aarhus \
 	Chicago \
+	Beijing \
+	CapeTown \
+	Bogota \
+	Denver \
+	WashingtonDC \
+	Orlando \
 	Cottbus \
 	Zuerich \
 	Stockholm \
 	Danzig \
 	Vancouver \
+	Sydney \
 	Jena \
 	Budapest \
 	Strassburg \
+	Perth \
+	Albuquerque \
+	Ottawa \
 	Luebeck \
 	Basel \
 	Sofia \
@@ -117,6 +127,9 @@ CITIES=		\
 	Colmar \
 	Kassel \
 	Trondheim \
+	Eugene \
+	SantaBarbara \
+	Sacramento \
 
 #
 # opensearch suggestion service for
