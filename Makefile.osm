@@ -187,18 +187,8 @@ _tarball:
 	cp -f ${OSMBIKE_DATA} ../bbbike-macos/download
 
 cities:
-	@for i in `perl -e 'print "x " x 16'`; do ${MAKE} -f Makefile.osm _cities; done
+	@for i in `perl -e 'print "x " x 4'`; do ${MAKE} -f Makefile.osm _cities; done
 	${MAKE} -f Makefile.osm _cities_complete
-
-_cities2:
-	@for i in ${CITIES}; do \
-	    ${MAKE} -f Makefile.osm $$i-download || \
-	    ${MAKE} -f Makefile.osm $$i-download || \
-	    ${MAKE} -f Makefile.osm $$i-download || \
-	    ${MAKE} -f Makefile.osm $$i-download || \
-	    ${MAKE} -f Makefile.osm $$i-download || \
-		echo "please run me again: $$i"; \
-	done
 
 _cities:
 	@echo ${CITIES} | \
