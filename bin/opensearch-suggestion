@@ -567,12 +567,11 @@ while ( my ( $street, $val ) = each %s ) {
                 print $s, "\t", $street, ( $gps ? "\t$val" : "" ), "\n";
             }
         }
-        else {
-            print $street2, "\t";
-            print $street if $street ne $street2;
-            print "\t", $val if $gps;
-            print "\n";
-        }
+
+        print $street2, "\t";
+        print $street if $street ne $street2;
+        print "\t", $val if $gps;
+        print "\n";
     }
 }
 select STDOUT;
