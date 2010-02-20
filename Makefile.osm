@@ -165,6 +165,7 @@ OSM_AREAS= \
 	../osm-streetnames/download/geofabrik/central-america.osm.bz2 \
 	../osm-streetnames/download/geofabrik/europe.osm.bz2 \
 
+# for tests only
 OSM_AREAS2= \
 	../osm-streetnames/download/geofabrik/europe/germany/baden-wuerttemberg.osm.bz2 \
 	../osm-streetnames/download/geofabrik/europe/germany/bayern.osm.bz2 \
