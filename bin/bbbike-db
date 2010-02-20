@@ -56,6 +56,7 @@ usage: $0 [--debug={0..2}] [options] city
 --coord
 --centerdelta
 --area=area
+--city-by-lang=lang
 EOF
 }
 
@@ -64,6 +65,7 @@ my $population;
 my $coord;
 my $centerdelta;
 my $area;
+my $city_by_lang;
 
 GetOptions(
     "debug=i"     => \$debug,
@@ -72,10 +74,11 @@ GetOptions(
     "coord"       => \$coord,
     "centerdelta" => \$centerdelta,
     "area=s"      => \$area,
+    "city-by-lang=s"      => \$city_by_lang,
 ) or die usage;
 
 my $city = shift;
-die &usage if !( $city || $area );
+die &usage if !( $city || $area || $city_by_lang);
 
 $city =~ s/-(convert|download)$// if $city;
 
@@ -104,6 +107,13 @@ close $fh;
 if ( defined $area ) {
     while ( my ( $key, $val ) = each %hash ) {
         print $key, "\n" if $hash{$key}->{area} eq $area;
+    }
+    exit 0;
+}
+
+if ( defined $city_by_lang ) {
+    while ( my ( $key, $val ) = each %hash ) {
+        print $key, "\n" if $hash{$key}->{lang} eq $city_by_lang;
     }
     exit 0;
 }
