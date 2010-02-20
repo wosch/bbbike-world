@@ -106,6 +106,7 @@ close $fh;
 
 if ( defined $area ) {
     while ( my ( $key, $val ) = each %hash ) {
+        next if $key eq 'dummy';
         print $key, "\n" if $hash{$key}->{area} eq $area;
     }
     exit 0;
@@ -113,7 +114,9 @@ if ( defined $area ) {
 
 if ( defined $city_by_lang ) {
     while ( my ( $key, $val ) = each %hash ) {
-        print $key, "\n" if $hash{$key}->{lang} eq $city_by_lang;
+        next if $key eq 'dummy';
+        print $key, "\n"
+          if $city_by_lang eq 'any' || $hash{$key}->{lang} eq $city_by_lang;
     }
     exit 0;
 }
