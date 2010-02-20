@@ -229,6 +229,18 @@ planet-streets:
 		printf "./world/bin/planet-streets-suggestions ${OSM_AREAS_OPENSEARCH}/`basename $$i .osm.bz2` $$i\0"; \
 	done | ${GXARGS} -0 -n1 -P${MAX_CPU} sh -c
 
+##########################################################################################
+# check if the downloaded OSM files are valid
+#
+check-osm: check-osm-gzip check-osm-error
+
+check-osm-gzip:
+	find ${OSM_DIR} -name '*.gz' -print0 | ${GXARGS} -0 -n8 -P${MAX_CPU} gzip -t
+
+check-osm-error:
+	find ${OSM_DIR} -name '*.gz' -print0 | ${GXARGS} -0 -n8 -P${MAX_CPU} zegrep -l '<error>'
+
+
 convert: _convert convert-workarounds
 # using GNU xargs -P parallel
 _convert:
@@ -327,6 +339,7 @@ help:
 	@echo "            [ convert-all | tarball ]"
 	@echo "            [ city-count | city-reorder ]"
 	@echo "            [ planet-streets | planet-places ]"
+	@echo "            [ check-osm ]"
 	@echo ""
 	@echo "            [ ${CITIES} ]"
 
