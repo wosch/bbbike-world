@@ -3,7 +3,7 @@
 #
 # Copyright (c) Wolfram Schneider, May 2009
 #
-# extract-streetnames-osm - extract street names from an OpenStreetMap
+# planet-ext-places - extract street names from an OpenStreetMap
 #	XML dump. The output format is:
 #
 #		streetname <tab> lon,lat

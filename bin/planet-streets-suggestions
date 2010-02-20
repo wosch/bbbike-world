@@ -17,7 +17,7 @@ fi
 mkdir -p $outdir || exit 2
 
 file=`mktemp -t planetstreets.XXXXXXXXXXX` || exit 2
-if ! planet-extract-streetnames --debug=2 $infile > $file.streets 2> $file.err; then
+if ! planet-ext-streetnames --debug=2 $infile > $file.streets 2> $file.err; then
     echo "see $file.err"
     exit 1
 fi
