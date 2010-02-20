@@ -189,6 +189,7 @@ _tarball:
 cities:
 	@for i in `perl -e 'print "x " x 4'`; do ${MAKE} -f Makefile.osm _cities; done
 	${MAKE} -f Makefile.osm _cities_complete
+	${MAKE} -f Makefile.osm check-osm
 
 _cities:
 	@echo ${CITIES} | \
@@ -238,7 +239,7 @@ check-osm-gzip:
 	find ${OSM_DIR} -name '*.gz' -print0 | ${GXARGS} -0 -n8 -P${MAX_CPU} gzip -t
 
 check-osm-error:
-	find ${OSM_DIR} -name '*.gz' -print0 | ${GXARGS} -0 -n8 -P${MAX_CPU} zegrep -l '<error>'
+	find ${OSM_DIR} -name '*.gz' -print0 | ${GXARGS} -0 -n8 -P${MAX_CPU} zegrep -l '<error>' || true
 
 
 convert: _convert convert-workarounds
