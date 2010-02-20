@@ -339,9 +339,8 @@ help:
 	@echo "usage: make [ help | cities | rsync-tgz | rsync-osm ]"
 	@echo "            [ clean | dist-clean | create-bbbike-web-symlinks | kml ]"
 	@echo "            [ convert-all | tarball ]"
-	@echo "            [ city-count | city-reorder ]"
+	@echo "            [ city-count | city-reorder | check-osm ]"
 	@echo "            [ planet-streets | planet-places ]"
-	@echo "            [ check-osm ]"
 	@echo ""
 	@echo "            [ ${CITIES} ]"
 
