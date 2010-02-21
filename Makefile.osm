@@ -270,20 +270,23 @@ opensearch-bbbike:
 _c = ${CITIES}
 _cd = $(_c:=-download)
 _cc = $(_c:=-convert)
+_cw = $(_c:=-workarounds)
 
 DB=world/bin/bbbike-db
 
 $(_cd):
-	c=`basename $@ -download`; \
-		mkdir -p ${OSM_DIR}/$$c; \
+	c=`basename $@ -download`; mkdir -p ${OSM_DIR}/$$c; \
 		${DOWNLOADOSM} -o ${OSM_DIR}/$$c -- `${DB} --coord $$c`
 
 #c=`basename $@ -convert`; ${OSM2BBD} -centerdelta `${DB} --centerdelta $$c` -lang `${DB} --lang $$c` -o ${DATA_OSM_DIR}/$$c ${OSM_DIR}/$$c
 $(_cc):
 	c=`basename $@ -convert`; ${OSM2BBD} -lang `${DB} --lang $$c` -o ${DATA_OSM_DIR}/$$c ${OSM_DIR}/$$c
 
+$(_cw):
+	c=`basename $@ -workarounds`; world/bin/osm2bbd-workarounds ${DATA_OSM_DIR} $$c
+
 ${CITIES}:
-	${MAKE} -f Makefile.osm $@-download $@-convert
+	${MAKE} -f Makefile.osm $@-download $@-convert $@-workarounds
 	
 ######################################################################
 rsync-osm:
