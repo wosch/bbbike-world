@@ -49,7 +49,7 @@ sub bbbike2kml_header {
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://earth.google.com/kml/2.2">
 <Document>
-  <name>BBBike @ World</name>
+  <name>BBBike @ World - a Cycle Route Planner</name>
   <description><![CDATA[List of all Cities supported by <a href="http://www.bbbike.org/">BBBike @ World</a>.]]></description>
   <Style id="style1">
     <IconStyle>
