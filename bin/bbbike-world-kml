@@ -79,7 +79,7 @@ sub bbbike2kml_placemarks {
 
         print <<EOF;
   <Placemark>
-    <name></name>
+    <name>$city</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="$bbbike_url">BBBike @ $name</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
