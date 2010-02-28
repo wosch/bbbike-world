@@ -8,7 +8,7 @@ use IO::File;
 use strict;
 use warnings;
 
-my $debug = 1;
+my $debug    = 1;
 my $homepage = 'http://dev.bbbike.org';
 
 sub usage () {
@@ -88,13 +88,13 @@ sub bbbike2opensearch {
         my ( $city, $name, @rest ) = @$d;
 
         for my $lang (qw/en de/) {
-        create_opensearch_file(
-            'file' => "$dir/$city-$lang.xml",
-            'city' => $city,
-            'name' => $name,
-            'lang' => $lang
-        );
-       }
+            create_opensearch_file(
+                'file' => "$dir/$city-$lang.xml",
+                'city' => $city,
+                'name' => $name,
+                'lang' => $lang
+            );
+        }
     }
 }
 
