@@ -46,59 +46,13 @@ sub extract_coords {
     return @data;
 }
 
-sub bbbike2kml_header {
-    print <<EOF;
-<?xml version="1.0" encoding="UTF-8"?>
-<kml xmlns="http://earth.google.com/kml/2.2">
-<Document>
-  <name>BBBike @ World - a Cycle Route Planner</name>
-  <description><![CDATA[List of all Cities supported by <a href="http://www.bbbike.org/">BBBike @ World</a>.]]></description>
-  <Style id="style1">
-    <IconStyle>
-      <Icon>
-        <href>http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png</href>
-      </Icon>
-    </IconStyle>
-  </Style>
-EOF
-}
-
-sub bbbike2kml_footer {
-    print <<EOF;
-</Document>
-</kml>
-EOF
-}
-
-sub bbbike2kml_placemarks {
-    my @data = @_;
-
-    foreach my $c ( sort { $a->[0] cmp $b->[0] } @data ) {
-        my ( $city, $name, $lang, $x, $y ) = @$c;
-
-        my $bbbike_url = "http://www.bbbike.org/cgi/$city"
-          . ( $lang eq '' ? '.cgi' : ".$lang.cgi" );
-
-        print <<EOF;
-  <Placemark>
-    <name>$city</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="$bbbike_url">BBBike @ $name</a></span>]]></description>
-    <styleUrl>#style1</styleUrl>
-    <Point>
-      <coordinates>$x,$y,0.000000</coordinates>
-    </Point>
-  </Placemark>
-EOF
-    }
-}
-
 sub create_opensearch_file {
     my %args = @_;
 
     my $file = $args{'file'} or die "no file given\n";
     my $city = $args{'city'} or die "no city given\n";
     my $name = $args{'name'} || $city;
-    my $lang = $args{'lang'} || "en";
+    my $lang = $args{'lang'} || "de";
 
     warn "Create opensearch file $file\n" if $debug;
     my $fh = new IO::File $file, "w" or die "open '$file': $!\n";
@@ -106,7 +60,7 @@ sub create_opensearch_file {
     print $fh <<EOF;
 <?xml version="1.0"?>
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"
-xml:lang="de">
+xml:lang="en">
   <ShortName>BBBike @ $city</ShortName>
   <LongName>BBBike @ <![CDATA[$name]]</LongName>
   <Description>BBBike @ World</Description>
