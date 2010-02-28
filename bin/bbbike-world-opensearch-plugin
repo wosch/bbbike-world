@@ -1,17 +1,18 @@
 #!/usr/bin/perl
 # (c) 2009 Wolfram Schneider
 #
-# bbbike-world-kml - create an Google Earth KML file for all BBBike @ World cities
+# bbbike-world-opensearch-plugin - create an opensearch plugin for  BBBike @ World cities
 #
-# $Id: bbbike-world-kml,v 1.18 2009/04/21 19:55:41 wosch Exp $
 
 use IO::File;
 use strict;
 use warnings;
 
+my $debug = 1;
+
 sub usage () {
     <<EOF;
-usage: $0 bbbike-db
+usage: $0 directory bbbike-db
 
 EOF
 }
@@ -21,6 +22,7 @@ sub extract_coords {
 
     my @data;
 
+    warn "Open $db\n" if $debug;
     my $fh = new IO::File $db, "r" or die "open: $!\n";
     while (<$fh>) {
         chomp;
@@ -90,17 +92,55 @@ EOF
     }
 }
 
-sub bbbike2kml {
-    my @data = @_;
+sub create_opensearch_file {
+    my %args = @_;
 
-    &bbbike2kml_header;
-    &bbbike2kml_placemarks(@data);
-    &bbbike2kml_footer;
+    my $file = $args{'file'} or die "no file given\n";
+    my $city = $args{'city'} or die "no city given\n";
+    my $name = $args{'name'} || $city;
+    my $lang = $args{'lang'} || "en";
+
+    warn "Create opensearch file $file\n" if $debug;
+    my $fh = new IO::File $file, "w" or die "open '$file': $!\n";
+
+    print $fh <<EOF;
+<?xml version="1.0"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"
+xml:lang="de">
+  <ShortName>BBBike @ $city</ShortName>
+  <LongName>BBBike @ <![CDATA[$name]]</LongName>
+  <Description>BBBike @ World</Description>
+  <Url template="http://www.bbbike.org/cgi/$city.$lang.cgi?sourceid=opensearch&amp;start={searchTerms}" type="text/html" />
+  <Developer>Wolfram Schneider, Slaven Rezi&#x0107;</Developer>
+  <Contact>http://www.bbbike.org/</Contact>
+  <Image height="16" type="image/png" width="16">http://www.bbbike.org/images/srtbike16.gif</Image>
+  <Language>$lang</Language>
+</OpenSearchDescription>
+EOF
+
+    close $fh;
+
 }
 
-my $db = $ARGV[0];
-die &usage if !$db;
+sub bbbike2opensearch {
+    my %args = @_;
+    my $dir  = $args{'dir'};
+    my @data = @{ $args{'data'} };
+
+    for my $d (@data) {
+        my ( $city, $name, $lang, @rest ) = @$d;
+        create_opensearch_file(
+            'file' => "$dir/$city.xml",
+            'city' => $city,
+            'name' => $name,
+            'lang' => $lang
+        );
+    }
+}
+
+my ( $dir, $db ) = @ARGV;
+die &usage if !$db || !$dir;
 
 my @data = &extract_coords($db);
-&bbbike2kml(@data);
+&bbbike2opensearch( 'dir' => $dir, 'data' => \@data );
 
