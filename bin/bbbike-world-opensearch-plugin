@@ -54,11 +54,11 @@ sub create_opensearch_file {
     my $city = $args{'city'} or die "no city given\n";
     my $name = $args{'name'} || $city;
     my $lang = $args{'lang'} || "de";
+    my $scriptname = $args{'scriptname'};
 
     warn "Create opensearch file $file\n" if $debug;
     my $fh = new IO::File $file, "w" or die "open '$file': $!\n";
 
-    my $scriptname = $city . ( $lang eq 'de' ? '' : ".$lang" ) . '.cgi';
     print $fh <<EOF;
 <?xml version="1.0"?>
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xml:lang="en">
@@ -88,19 +88,56 @@ sub bbbike2opensearch {
         my ( $city, $name, @rest ) = @$d;
 
         for my $lang (qw/en de/) {
+            my $scriptname = $city . ( $lang eq 'de' ? '' : ".$lang" ) . '.cgi';
             create_opensearch_file(
-                'file' => "$dir/$city-$lang.xml",
-                'city' => $city,
-                'name' => $name,
-                'lang' => $lang
+                'file'       => "$dir/$city-$lang.xml",
+                'city'       => $city,
+                'name'       => $name,
+                'lang'       => $lang,
+                'scriptname' => $scriptname,
             );
         }
     }
 }
 
+sub bbbike2opensearch_streets {
+    my %args       = @_;
+    my $dir        = $args{'dir'};
+    my $scriptname = $args{'scriptname'};
+    my @data       = @{ $args{'data'} };
+    my $lang       = $args{'lang'} || "en";
+
+    for my $d (@data) {
+        my ( $city, $name, @rest ) = @$d;
+
+        create_opensearch_file(
+            'file'       => "$dir/$city-$lang.xml",
+            'city'       => $city,
+            'name'       => $name,
+            'lang'       => $lang,
+            'scriptname' => $scriptname,
+        );
+    }
+}
+
+my $streets;
+if ( $ARGV[0] eq '--streets' ) {
+    $streets = 1;
+    shift @ARGV;
+}
 my ( $dir, $db ) = @ARGV;
 die &usage if !$db || !$dir;
 
 my @data = &extract_coords($db);
-&bbbike2opensearch( 'dir' => $dir, 'data' => \@data );
+
+if ( !$streets ) {
+    &bbbike2opensearch( 'dir' => $dir, 'data' => \@data );
+}
+else {
+    &bbbike2opensearch_streets(
+        'dir'        => $dir,
+        'data'       => \@data,
+        'scriptname' => 'streets.cgi'
+    );
+}
 
