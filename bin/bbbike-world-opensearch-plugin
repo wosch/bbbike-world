@@ -82,13 +82,16 @@ sub bbbike2opensearch {
     my @data = @{ $args{'data'} };
 
     for my $d (@data) {
-        my ( $city, $name, $lang, @rest ) = @$d;
+        my ( $city, $name, @rest ) = @$d;
+
+        for my $lang (qw/en de/) {
         create_opensearch_file(
-            'file' => "$dir/$city.xml",
+            'file' => "$dir/$city-$lang.xml",
             'city' => $city,
             'name' => $name,
             'lang' => $lang
         );
+       }
     }
 }
 
