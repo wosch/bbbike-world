@@ -3,7 +3,6 @@
 #
 # bbbike-world-kml - create an Google Earth KML file for all BBBike @ World cities
 #
-# $Id: bbbike-world-kml,v 1.18 2009/04/21 19:55:41 wosch Exp $
 
 use IO::File;
 use strict;
