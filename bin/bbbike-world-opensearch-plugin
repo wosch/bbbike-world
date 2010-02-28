@@ -66,7 +66,7 @@ sub create_opensearch_file {
   <LongName>BBBike @ <![CDATA[$name]]></LongName>
   <Description>BBBike @ World</Description>
   <InputEncoding>UTF-8</InputEncoding>
-  <Url template="$homepage/cgi/$scriptname?sourceid=opensearch&amp;start={searchTerms}" type="text/html" />
+  <Url template="$homepage/cgi/$scriptname?sourceid=opensearch&amp;city=$city&amp;search={searchTerms}" type="text/html" />
   <Url type="application/x-suggestions+json" template="$homepage/cgi/api.cgi?sourceid=opensearch&amp;action=opensearch&amp;city=$city&amp;namespace=0&amp;search={searchTerms}"/>
   <Developer>Wolfram Schneider, Slaven Rezi&#x0107;</Developer>
   <Contact>http://www.bbbike.org/</Contact>
