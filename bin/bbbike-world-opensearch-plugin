@@ -9,6 +9,7 @@ use strict;
 use warnings;
 
 my $debug = 1;
+my $homepage = 'http://dev.bbbike.org';
 
 sub usage () {
     <<EOF;
@@ -64,10 +65,12 @@ sub create_opensearch_file {
   <ShortName>BBBike @ $city</ShortName>
   <LongName>BBBike @ <![CDATA[$name]]></LongName>
   <Description>BBBike @ World</Description>
-  <Url template="http://www.bbbike.org/cgi/$scriptname?sourceid=opensearch&amp;start={searchTerms}" type="text/html" />
+  <InputEncoding>UTF-8</InputEncoding>
+  <Url template="$homepage/cgi/$scriptname?sourceid=opensearch&amp;start={searchTerms}" type="text/html" />
+  <Url type="application/x-suggestions+json" template="$homepage/cgi/api.cgi?sourceid=opensearch&amp;action=opensearch&amp;city=$city&amp;namespace=0&amp;search=&amp;q={searchTerms}"/>
   <Developer>Wolfram Schneider, Slaven Rezi&#x0107;</Developer>
   <Contact>http://www.bbbike.org/</Contact>
-  <Image height="16" type="image/png" width="16">http://www.bbbike.org/images/srtbike16.gif</Image>
+  <Image height="16" type="image/png" width="16">$homepage/images/srtbike16.gif</Image>
   <Language>$lang</Language>
 </OpenSearchDescription>
 EOF
