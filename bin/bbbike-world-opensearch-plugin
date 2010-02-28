@@ -57,14 +57,14 @@ sub create_opensearch_file {
     warn "Create opensearch file $file\n" if $debug;
     my $fh = new IO::File $file, "w" or die "open '$file': $!\n";
 
+    my $scriptname = $city . ( $lang eq 'de' ? '' : ".$lang" ) . '.cgi';
     print $fh <<EOF;
 <?xml version="1.0"?>
-<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"
-xml:lang="en">
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xml:lang="en">
   <ShortName>BBBike @ $city</ShortName>
-  <LongName>BBBike @ <![CDATA[$name]]</LongName>
+  <LongName>BBBike @ <![CDATA[$name]]></LongName>
   <Description>BBBike @ World</Description>
-  <Url template="http://www.bbbike.org/cgi/$city.$lang.cgi?sourceid=opensearch&amp;start={searchTerms}" type="text/html" />
+  <Url template="http://www.bbbike.org/cgi/$scriptname?sourceid=opensearch&amp;start={searchTerms}" type="text/html" />
   <Developer>Wolfram Schneider, Slaven Rezi&#x0107;</Developer>
   <Contact>http://www.bbbike.org/</Contact>
   <Image height="16" type="image/png" width="16">http://www.bbbike.org/images/srtbike16.gif</Image>
