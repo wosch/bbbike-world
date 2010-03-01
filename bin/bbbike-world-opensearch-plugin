@@ -9,7 +9,7 @@ use strict;
 use warnings;
 
 my $debug    = $ENV{DEBUG};
-my $homepage = 'http://www.bbbike.org';
+my $homepage = $ENV{BBBIKE_HOMEPAGE} || 'http://www.bbbike.org';
 
 sub usage () {
     <<EOF;
