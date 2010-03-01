@@ -8,7 +8,7 @@ use IO::File;
 use strict;
 use warnings;
 
-my $debug    = 1;
+my $debug    = $ENV{DEBUG};
 my $homepage = 'http://dev.bbbike.org';
 
 sub usage () {

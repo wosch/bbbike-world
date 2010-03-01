@@ -19,6 +19,7 @@ MAX_CPU2=	`world/bin/ncpu -1`
 GXARGS=		${NICE} `which gxargs xargs | head -1`
 BBBIKE_WEB_DIR= ./
 OSM_DIR=	osm
+OSP_DIR=	osp
 DATA_OSM_DIR=	data-osm
 DATA_OSM_BBBIKE_DIR=	data-osm.bbbike
 OSMBIKE_DATA=	${DATA_OSM_BBBIKE_DIR}.tgz
@@ -290,7 +291,7 @@ ${CITIES}:
 	
 ######################################################################
 rsync-osm:
-	rsync -azv --exclude='*.bak' --delete --max-delete=512 ${DATA_OSM_DIR} ${OSM_AREAS_OPENSEARCH} osm bbbike.org:/usr/local/www/bbbike.org
+	rsync -azv --exclude='*.bak' --delete --max-delete=512 ${DATA_OSM_DIR} ${OSM_AREAS_OPENSEARCH} osm osp bbbike.org:/usr/local/www/bbbike.org
 	rsync -azv --exclude='*.bak' data/opensearch.streetnames bbbike.org:/usr/local/www/bbbike.org/data
 
 
@@ -329,6 +330,12 @@ tagcloud:
 kml:
 	world/bin/bbbike-world-kml world/misc/cities.csv > world/misc/bbbike-world.kml
 
+create-osp:
+	rm -rf ${OSP_DIR}
+	mkdir ${OSP_DIR}
+	./world/bin/bbbike-world-opensearch-plugin --streets ${OSP_DIR} world/misc/streets.csv
+	./world/bin/bbbike-world-opensearch-plugin ${OSP_DIR}  world/misc/cities.csv
+	
 scp rsync rsync-tgz:
 	rsync -av ${OSMBIKE_DATA} wolfram.schneider.org:www/src/bbbike
 
@@ -342,7 +349,7 @@ dist-clean devel-clean distclean: clean
 
 help:
 	@echo "usage: make [ help | cities | rsync-tgz | rsync-osm ]"
-	@echo "            [ clean | dist-clean | create-bbbike-web-symlinks | kml ]"
+	@echo "            [ clean | dist-clean | create-bbbike-web-symlinks | kml | create-osp ]"
 	@echo "            [ convert-all | tarball ]"
 	@echo "            [ city-count | city-reorder | check-osm ]"
 	@echo "            [ planet-streets | planet-places ]"
