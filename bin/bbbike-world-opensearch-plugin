@@ -54,6 +54,7 @@ sub create_opensearch_file {
     my $city = $args{'city'} or die "no city given\n";
     my $name = $args{'name'} || $city;
     my $lang = $args{'lang'} || "de";
+    my $queryparam = $args{'queryparam'} || "q";
     my $scriptname = $args{'scriptname'};
 
     warn "Create opensearch file $file\n" if $debug;
@@ -66,7 +67,7 @@ sub create_opensearch_file {
   <LongName>BBBike @ <![CDATA[$name]]></LongName>
   <Description>BBBike @ World</Description>
   <InputEncoding>UTF-8</InputEncoding>
-  <Url template="$homepage/cgi/$scriptname?sourceid=opensearch&amp;city=$city&amp;search={searchTerms}" type="text/html" />
+  <Url template="$homepage/cgi/$scriptname?sourceid=opensearch&amp;city=$city&amp;$queryparam={searchTerms}" type="text/html" />
   <Url type="application/x-suggestions+json" template="$homepage/cgi/api.cgi?sourceid=opensearch&amp;action=opensearch&amp;city=$city&amp;namespace=0&amp;search={searchTerms}"/>
   <Developer>Wolfram Schneider, Slaven Rezi&#x0107;</Developer>
   <Contact>http://www.bbbike.org/</Contact>
@@ -95,6 +96,7 @@ sub bbbike2opensearch {
                 'name'       => $name,
                 'lang'       => $lang,
                 'scriptname' => $scriptname,
+                'queryparam' => 'start',
             );
         }
     }
@@ -116,6 +118,7 @@ sub bbbike2opensearch_streets {
             'name'       => $name,
             'lang'       => $lang,
             'scriptname' => $scriptname,
+            'queryparam' => 'search',
         );
     }
 }
