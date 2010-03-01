@@ -63,7 +63,7 @@ sub create_opensearch_file {
     print $fh <<EOF;
 <?xml version="1.0"?>
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xml:lang="en">
-  <ShortName>BBBike @ $city</ShortName>
+  <ShortName>BBBike @ $city ($lang)</ShortName>
   <LongName>BBBike @ <![CDATA[$name]]></LongName>
   <Description>BBBike @ World</Description>
   <InputEncoding>UTF-8</InputEncoding>
