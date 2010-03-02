@@ -33,7 +33,7 @@ zcat -f $logfiles | zegrep -h 'GET /cgi/[A-Zb].*?\?' |
 echo ""
 echo "slippymap cities: "
 zcat -f $logfiles | zegrep -h 'GET /cgi/slippymap.*?\?' | 
-	perl -ne 'print "$1\n" if m,city=(.*?)\&,' | sort | uniq -c | sort -nr
+	perl -ne 'print "$1\n" if m,city=(.*?)[&;],' | sort | uniq -c | sort -nr
 
 echo ""
 echo "bbbike cities pdf:"
