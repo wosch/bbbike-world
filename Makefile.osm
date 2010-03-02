@@ -8,7 +8,7 @@
 
 
 MAX_PARALLELS_OSM_DOWNLOADS=	1
-NICE=		nice -n 5
+NICE=		nice -n 15
 PERL=		perl
 OSM2BBD_MAPTYPE=	#-map bbbike	
 OSM_SOCKS_PROXY=	 --socksproxy=socks://localhost:1080
