@@ -11,12 +11,12 @@ echo -n "bbbike.org hosts: "
 zcat -f $logfiles | zegrep -h 'GET /cgi/[A-Zb]' | awk '{print $1}' | sort -u | wc -l
 
 zcat -f $logfiles | zegrep -h 'GET /cgi/[A-Zb]' | 
-	awk '{print $1, $7 }' | perl -npe 's/\?.*//; s,/cgi/,,; s,(\.en)?\.cgi,,;' | sort | uniq -c | sort -nr | dns
+	awk '{print $1, $7 }' | perl -npe 's/\?.*//; s,/cgi/,,; s,(\.en)?\.cgi,,;' | sort | uniq -c | sort -nr #| dns
 
 echo ""
 echo "bbbike references:"
 zcat -f $logfiles | zegrep -h 'GET / |GET /cgi/[A-Za-z\.]+ HTTP' | 
-	awk '{print $11}' | sort | uniq -c | sort -nr
+	awk '{print $11}' | perl -npe 's,(http://www.bbbike.org/cgi/\S+)\?.*,$1,g' | sort | uniq -c | sort -nr
 
 echo ""
 echo -n "bbbike cities: "
