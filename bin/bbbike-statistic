@@ -31,12 +31,14 @@ zcat -f $logfiles | zegrep -h 'GET /cgi/[A-Zb].*?\?' |
 
 
 echo ""
-echo "slippymap cities: "
+echo -n "slippymap cities: "
+zcat -f $logfiles | zegrep -h 'GET /cgi/slippymap.*?\?' | perl -ne 'print "$1\n" if m,city=(.*?)[&;],' | wc -l
 zcat -f $logfiles | zegrep -h 'GET /cgi/slippymap.*?\?' | 
 	perl -ne 'print "$1\n" if m,city=(.*?)[&;],' | sort | uniq -c | sort -nr
 
 echo ""
-echo "bbbike cities pdf:"
+echo -n "bbbike cities pdf:"
+zcat -f $logfiles | zegrep -h 'GET /cgi/[A-Zb].*?\?' | perl -ne 'print "$1\n" if m,GET /cgi/(.*?).cgi.*=pdf,' | wc -l
 zcat -f $logfiles | zegrep -h 'GET /cgi/[A-Zb].*?\?' | 
 	perl -ne 'print "$1\n" if m,GET /cgi/(.*?).cgi.*=pdf,'|
 	sort | uniq -c | sort -nr
@@ -45,8 +47,3 @@ echo ""
 echo -n "OpenSearch requests: "
 zcat -f $logfiles | zegrep -h 'GET /cgi/api.*?\?' | wc -l
 
-echo ""
-echo -n "livesearch: "
-zcat -f $logfiles | zegrep -h 'GET /cgi/livesearch.*?\?' | wc -l
-
-echo ""
