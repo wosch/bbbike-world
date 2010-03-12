@@ -150,6 +150,13 @@ CITIES=		\
 	FrankfurtOder \
 	Baku \
 	UlanBator \
+	Nuernberg \
+	Muenchen \
+	Kiel \
+	Oldenburg \
+	Genf \
+	Warschau \
+	Magdeburg \
 #
 # opensearch suggestion service for
 # the world:
