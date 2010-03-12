@@ -308,7 +308,7 @@
   </Placemark>
   <Placemark>
     <name>Dortmund</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Dortmund.cgi">BBBike @ Dortmund</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Dortmund.cgi">BBBike @ Bochum/Dortmund</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>7.3445,51.5105,0.000000</coordinates>
@@ -340,7 +340,7 @@
   </Placemark>
   <Placemark>
     <name>Duisburg</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Duisburg.cgi">BBBike @ Duisburg</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Duisburg.cgi">BBBike @ Duisburg/Essen</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>6.887,51.4825,0.000000</coordinates>
@@ -400,6 +400,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>7.84225,48.0035,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Genf</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Genf.cgi">BBBike @ Genf</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>6.15495,46.19325,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -499,6 +507,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Kiel</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Kiel.cgi">BBBike @ Kiel</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>10.13695,54.3275,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Kiew</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Kiew.en.cgi">BBBike @ Kiew</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -571,6 +587,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Magdeburg</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Magdeburg.cgi">BBBike @ Magdeburg</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>11.6232,52.12395,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Mainz</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Mainz.cgi">BBBike @ Mainz</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -627,6 +651,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Muenchen</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Muenchen.cgi">BBBike @ Muenchen</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>11.587,48.14,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Muenster</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Muenster.cgi">BBBike @ M&uuml;nster</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -640,6 +672,22 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-73.9785,40.7485,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Nuernberg</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Nuernberg.cgi">BBBike @ Nuernberg</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>11.08215,49.4436,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Oldenburg</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Oldenburg.cgi">BBBike @ Oldenburg</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>8.20635,53.145,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -976,6 +1024,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>12.68145,53.51495,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Warschau</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Warschau.cgi">BBBike @ Warschau</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>21.0545,52.2345,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
