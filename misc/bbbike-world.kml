@@ -652,7 +652,7 @@
   </Placemark>
   <Placemark>
     <name>Muenchen</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Muenchen.cgi">BBBike @ M&uml;nchen</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Muenchen.cgi">BBBike @ M&uuml;nchen</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>11.587,48.14,0.000000</coordinates>
