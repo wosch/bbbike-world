@@ -9,7 +9,6 @@ cd /var/log/lighttpd || exit 2
 echo ""
 echo -n "bbbike.org hosts: "
 zcat -f $logfiles | zegrep -h 'GET /cgi/[A-Zb]' | awk '{print $1}' | sort -u | wc -l
-
 zcat -f $logfiles | zegrep -h 'GET /cgi/[A-Zb]' | 
 	awk '{print $1, $7 }' | perl -npe 's/\?.*//; s,/cgi/,,; s,(\.en)?\.cgi,,;' | sort | uniq -c | sort -nr #| dns
 
@@ -37,7 +36,7 @@ zcat -f $logfiles | zegrep -h 'GET /cgi/slippymap.*?\?' |
 	perl -ne 'print "$1\n" if m,city=(.*?)[&;],' | sort | uniq -c | sort -nr
 
 echo ""
-echo -n "bbbike cities pdf:"
+echo -n "bbbike cities pdf: "
 zcat -f $logfiles | zegrep -h 'GET /cgi/[A-Zb].*?\?' | perl -ne 'print "$1\n" if m,GET /cgi/(.*?).cgi.*=pdf,' | wc -l
 zcat -f $logfiles | zegrep -h 'GET /cgi/[A-Zb].*?\?' | 
 	perl -ne 'print "$1\n" if m,GET /cgi/(.*?).cgi.*=pdf,'|
