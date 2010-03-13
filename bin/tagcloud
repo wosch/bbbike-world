@@ -34,6 +34,7 @@ sub select_city_name {
     my $city_lang = shift || "de";
 
     my %hash;
+    $hash{ALL} = $name;
     foreach my $n ( split /\s*,\s*/, $name ) {
         my ( $lang, $city_name ) = split( /!/, $n );
         if ($city_name) {
@@ -46,6 +47,7 @@ sub select_city_name {
         }
     }
 
+    #use Data::Dumper; warn Dumper( \%hash );
     return exists( $hash{$city_lang} ) ? $hash{$city_lang} : $hash{ALL};
 }
 
