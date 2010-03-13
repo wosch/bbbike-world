@@ -15,6 +15,30 @@ usage: $0 bbbike-db
 EOF
 }
 
+# select city name by language
+sub select_city_name {
+    my $city = shift;
+    my $name = shift or die "No city name given!\n";
+    my $city_lang = shift || "de";
+
+    my %hash;
+    $hash{ALL} = $city;
+    foreach my $n ( split /\s*,\s*/, $name ) {
+        my ( $lang, $city_name ) = split( /!/, $n );
+        if ($city_name) {
+            $hash{$lang} = $city_name;
+        }
+
+        # no city language defined, use default
+        else {
+            $hash{ALL} = $lang;
+        }
+    }
+
+    #use Data::Dumper; warn Dumper( \%hash );
+    return exists( $hash{$city_lang} ) ? $hash{$city_lang} : $hash{ALL};
+}
+
 sub extract_coords {
     my $db = shift;
 
@@ -35,6 +59,7 @@ sub extract_coords {
         next if $city eq 'dummy';
         $name = $city if !$name;
 
+        $name = &select_city_name( $city, $name, 'en' );
         push( @data, [ $city, $name, $lang, $x, $y ] );
 
     }
