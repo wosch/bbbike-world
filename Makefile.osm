@@ -336,10 +336,10 @@ CITIES_DB=	world/misc/cities.csv
 tagcloud:
 	${TAGCLOUD} --area=de < ${CITIES_DB} > tmp/de.cities.de
 	${TAGCLOUD} --area=eu < ${CITIES_DB} > tmp/de.cities.eu
-	${TAGCLOUD} --area=other < ${CITIES_DB} > tmp/de.cities.other
+	${TAGCLOUD} --area=other --level=9 < ${CITIES_DB} > tmp/de.cities.other
 	${TAGCLOUD} --lang=en --area=de < ${CITIES_DB} > tmp/en.cities.de
 	${TAGCLOUD} --lang=en --area=eu < ${CITIES_DB} > tmp/en.cities.eu
-	${TAGCLOUD} --lang=en --area=other < ${CITIES_DB} > tmp/en.cities.other
+	${TAGCLOUD} --lang=en --area=other --level=9 < ${CITIES_DB} > tmp/en.cities.other
 
 kml:
 	world/bin/bbbike-world-kml ${CITIES_DB} > world/misc/bbbike-world.kml
