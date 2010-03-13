@@ -331,23 +331,21 @@ create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi
 	ln -fs images/srtbike.ico favicon.ico # buggy browsers
 
 TAGCLOUD=	world/bin/tagcloud 
+CITIES_DB=	world/misc/cities.csv
+
 tagcloud:
-	${DB} --area=de | perl -npe 's,^,^,; s,$$,:,' > tmp/cities.tmp && \
-		egrep -f tmp/cities.tmp world/misc/population.csv | ${TAGCLOUD} --lang=de > tmp/cities.de
-	${DB} --area=eu | perl -npe 's,^,^,; s,$$,:,' > tmp/cities.tmp && \
-		egrep -f tmp/cities.tmp world/misc/population.csv | ${TAGCLOUD} --lang=en > tmp/cities.eu
-	${DB} --area=other | perl -npe 's,^,^,; s,$$,:,' > tmp/cities.tmp && \
-		egrep -f tmp/cities.tmp world/misc/population.csv | ${TAGCLOUD} --lang=en > tmp/cities.other
-	rm -f tmp/cities.tmp
+	${TAGCLOUD} --area=de < ${CITIES_DB} > tmp/cities.de
+	${TAGCLOUD} --area=eu < ${CITIES_DB} > tmp/cities.eu
+	${TAGCLOUD} --area=other < ${CITIES_DB} > tmp/cities.other
 
 kml:
-	world/bin/bbbike-world-kml world/misc/cities.csv > world/misc/bbbike-world.kml
+	world/bin/bbbike-world-kml ${CITIES_DB} > world/misc/bbbike-world.kml
 
 create-osp:
 	rm -rf ${OSP_DIR}
 	mkdir ${OSP_DIR}
 	./world/bin/bbbike-world-opensearch-plugin --streets ${OSP_DIR} world/misc/streets.csv
-	./world/bin/bbbike-world-opensearch-plugin ${OSP_DIR}  world/misc/cities.csv
+	./world/bin/bbbike-world-opensearch-plugin ${OSP_DIR} ${CITIES_DB}
 	
 scp rsync rsync-tgz:
 	rsync -av ${OSMBIKE_DATA} wolfram.schneider.org:www/src/bbbike
@@ -364,7 +362,7 @@ help:
 	@echo "usage: make [ help | cities | rsync-tgz | rsync-osm ]"
 	@echo "            [ clean | dist-clean | create-bbbike-web-symlinks | kml | create-osp ]"
 	@echo "            [ convert-all | tarball ]"
-	@echo "            [ city-count | city-reorder | check-osm ]"
+	@echo "            [ city-count | city-reorder | check-osm | tagcloud ]"
 	@echo "            [ planet-streets | planet-places ]"
 	@echo ""
 	@echo "            [ ${CITIES} ]"
