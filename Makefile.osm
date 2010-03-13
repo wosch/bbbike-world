@@ -157,6 +157,11 @@ CITIES=		\
 	Genf \
 	Warschau \
 	Magdeburg \
+	Posen \
+	Breslau \
+	Kattowitz \
+	Gleiwitz \
+
 #
 # opensearch suggestion service for
 # the world:

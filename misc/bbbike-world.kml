@@ -163,6 +163,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Breslau</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Breslau.cgi">BBBike @ Breslau</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>17.0381,51.10615,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Bruessel</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Bruessel.cgi">BBBike @ Br&uuml;ssel</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -411,6 +419,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Gleiwitz</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Gleiwitz.cgi">BBBike @ Gleiwitz</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>18.74955,50.29295,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Goerlitz</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Goerlitz.cgi">BBBike @ G&ouml;rlitz</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -499,6 +515,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Kattowitz</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Kattowitz.cgi">BBBike @ Kattowitz</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>19.0177,50.28865,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Kaunas</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Kaunas.cgi">BBBike @ Kaunas</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -528,6 +552,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>6.9655,50.94,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Krakau</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Krakau.cgi">BBBike @ Krakau</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>19.94,50.055,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -752,6 +784,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-122.67,45.51,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Posen</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Posen.cgi">BBBike @ Posen</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>16.923,52.4069,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
