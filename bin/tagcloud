@@ -30,11 +30,12 @@ sub id2class {
 
 # select city name by language
 sub select_city_name {
+    my $city = shift;
     my $name = shift or die "No city name given!\n";
     my $city_lang = shift || "de";
 
     my %hash;
-    $hash{ALL} = $name;
+    $hash{ALL} = $city;
     foreach my $n ( split /\s*,\s*/, $name ) {
         my ( $lang, $city_name ) = split( /!/, $n );
         if ($city_name) {
@@ -73,7 +74,7 @@ while (<>) {
     $name       = $city if !$name;
 
     next if $area ne $selected_area;
-    $name = &select_city_name( $name, $city_lang );
+    $name = &select_city_name( $city, $name, $city_lang );
 
     my $link = "cgi/$city" . ( $lang eq 'de' ? '' : ".$lang" ) . '.cgi';
     $cloud->add( $name, $link, $population );
