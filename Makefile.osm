@@ -189,7 +189,7 @@ OSM_AREAS2= \
 
 all: help
 
-convert-all: convert convert-workarounds
+convert-all: convert convert-workarounds create-osp
 
 tarball: 
 	${MAKE} -f Makefile.osm DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} OSM2BBD_MAPTYPE="-map bbbike" convert-all 
