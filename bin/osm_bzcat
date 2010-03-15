@@ -2,11 +2,17 @@
 #
 # linux wrapper for bzip2
 
-PATH=/bin:/usr/bin; export PATH
+PATH=/bin:/usr/bin:/opt/local/bin; export PATH
+
+if which pbzip2 >/dev/null; then
+	bzcat='pbzip2 -dc'
+else
+	bzcat='bzip2 -dc'
+fi
 
 if which buffer >/dev/null; then
-	bzip2 -dc "$@" | buffer -m 6400k
+	$bzcat "$@" | buffer -m 6400k
 else
-	bzip2 -dc "$@"
+	$bzcat "$@"
 fi
 
