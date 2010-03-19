@@ -11,7 +11,8 @@ echo -n "bbbike.org hosts: "
 zcat -f $logfiles | zegrep -h 'GET /cgi/[A-Zb]' | egrep -v '" 404 ' | awk '{print $1}' | sort -u | wc -l
 zcat -f $logfiles | zegrep -h 'GET /cgi/[A-Zb]' | egrep -v '" 404 ' |  
 	egrep -v 'Purebot|Java/1|SnapPreviewBot|Tcl http client package' |
-	awk '{print $1, $7 }' | perl -npe 's/\?.*//; s,/cgi/,,; s,(\.en)?\.cgi,,;' | sort | uniq -c | sort -nr #| dns
+	awk '{print $1, $7 }' | perl -npe 's/\?.*//; s,/cgi/,,; s,(\.en)?\.cgi,,;' | 
+	sort | uniq -c | sort -nr | head -20 | dns
 
 echo ""
 echo "bbbike references:"
