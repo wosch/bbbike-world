@@ -187,6 +187,10 @@ OSM_AREAS2= \
 	../osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.bz2 \
 	../osm-streetnames/download/geofabrik/europe/germany/bremen.osm.bz2 
 
+OSM_AREAS3= \
+	${OSM_AREAS_LARGE} \
+
+
 all: help
 
 convert-all: convert convert-workarounds create-osp
@@ -236,14 +240,14 @@ planet-places:
 	@PATH=$$PATH:`pwd`/world/bin; \
 	for i in ${OSM_AREAS}; do \
 		printf "./world/bin/planet-places-suggestions ${OSM_AREAS_OPENSEARCH}/`basename $$i .osm.bz2`-places $$i\0"; \
-	done | ${GXARGS} -0 -n1 -P${MAX_CPU} sh -c
+	done | ${GXARGS} -0 -n1 -P${MAX_CPU2} sh -c
 
 planet-streets:
 	@mkdir -p ${OSM_AREAS_OPENSEARCH}
 	@PATH=$$PATH:`pwd`/world/bin; \
 	for i in ${OSM_AREAS}; do \
 		printf "./world/bin/planet-streets-suggestions ${OSM_AREAS_OPENSEARCH}/`basename $$i .osm.bz2` $$i\0"; \
-	done | ${GXARGS} -0 -n1 -P${MAX_CPU} sh -c
+	done | ${GXARGS} -0 -n1 -P${MAX_CPU2} sh -c
 
 ##########################################################################################
 # check if the downloaded OSM files are valid
