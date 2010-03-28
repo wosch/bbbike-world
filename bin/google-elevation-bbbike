@@ -3,6 +3,10 @@
 use strict;
 use warnings;
 
+use Getopt::Long;
+use LWP::UserAgent;
+use IO::File;
+
 #
 # 'ElevationResponse' => [
 #    {
@@ -17,14 +21,75 @@ use warnings;
 #                   },
 #
 
-my $obj = require "b.pl" or die "open file: $!\n";
+#my $obj = require "b.pl" or die "open file: $!\n";
+sub usage () {
+    my $message = shift;
 
-foreach my $run ( @{ $obj->{ElevationResponse} } ) {
-    if ( $run->{'status'} eq 'OK' ) {
-        foreach my $result ( @{ $run->{result} } ) {
-            print $result->{'elevation'}, "\tX ", $result->{'location'}->{'lng'},
-              ",", $result->{'location'}->{'lat'}, "\n";
+    warn $message, "\n" if $message;
+    die <<EOF;
+usage: $0 [options] --database=file --input=file
+EOF
+
+my $debug = 1;
+my $database;
+
+sub init_height_db {
+    my $file = shift;
+
+    my %height_db;
+    my $fd = new IO::File $file, "r" or die "open '$file': $!\n";
+
+    my $use_rounding = 1;
+
+    while(<$fd>) {
+        chomp;
+        my ($height, $x, $coord) = split;
+
+        if ($use_rounding) {
+            $height = int($height + 0.5);
         }
+     
+        $height_db{ $coord } = $height;
     }
+    close $fd;
+
+    return \%height_db;
 }
 
+######################################################
+GetOptions("debug!" => \$debug,
+           "database=s" => \$database,
+          )
+    or usage;
+
+#usage("no database given\n") if !$database;
+
+my %hash;
+%hash = %{ init_height_db ($database) } if $database;
+
+
+my $url = 'http://maps.google.com/maps/api/elevation/xml?sensor=false&locations=';
+
+my $counter = 0;
+my $string  = "";
+my $ua = LWP::UserAgent->new;
+while (<>) {
+    chomp;
+    my ( $lng, $lat ) = split(/,/);
+    $string .= "|" if $string;
+    $string .= "$lat,$lng";
+
+    $counter++;
+    if ( $counter == 50 ) {
+	my $response = $ua->get("$url$string");
+	if ($response->is_success) {
+            print $response->decoded_content;  # or whatever
+        }
+        else {
+            warn "Download failed: ", $response->status_line, "\n";
+        }
+
+        $string  = "";
+        $counter = 0;
+    }
+}
