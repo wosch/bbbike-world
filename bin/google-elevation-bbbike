@@ -1,0 +1,30 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+#
+# 'ElevationResponse' => [
+#    {
+#      'status' => 'OK',
+#      'result' => [
+#                   {
+#                     'location' => {
+#                                     'lat' => '37.5909540',
+#                                     'lng' => '-122.3384660'
+#                                   },
+#                     'elevation' => '2.9659331'
+#                   },
+#
+
+my $obj = require "b.pl" or die "open file: $!\n";
+
+foreach my $run ( @{ $obj->{ElevationResponse} } ) {
+    if ( $run->{'status'} eq 'OK' ) {
+        foreach my $result ( @{ $run->{result} } ) {
+            print $result->{'elevation'}, "\tX ", $result->{'location'}->{'lng'},
+              ",", $result->{'location'}->{'lat'}, "\n";
+        }
+    }
+}
+
