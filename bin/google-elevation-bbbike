@@ -29,6 +29,7 @@ sub usage () {
     die <<EOF;
 usage: $0 [options] --database=file --input=file
 EOF
+}
 
 my $debug = 1;
 my $database;
@@ -41,15 +42,15 @@ sub init_height_db {
 
     my $use_rounding = 1;
 
-    while(<$fd>) {
+    while (<$fd>) {
         chomp;
-        my ($height, $x, $coord) = split;
+        my ( $height, $x, $coord ) = split;
 
         if ($use_rounding) {
-            $height = int($height + 0.5);
+            $height = int( $height + 0.5 );
         }
-     
-        $height_db{ $coord } = $height;
+
+        $height_db{$coord} = $height;
     }
     close $fd;
 
@@ -57,22 +58,22 @@ sub init_height_db {
 }
 
 ######################################################
-GetOptions("debug!" => \$debug,
-           "database=s" => \$database,
-          )
-    or usage;
+GetOptions(
+    "debug!"     => \$debug,
+    "database=s" => \$database,
+) or usage;
 
 #usage("no database given\n") if !$database;
 
 my %hash;
-%hash = %{ init_height_db ($database) } if $database;
+%hash = %{ init_height_db($database) } if $database;
 
-
-my $url = 'http://maps.google.com/maps/api/elevation/xml?sensor=false&locations=';
+my $url =
+  'http://maps.google.com/maps/api/elevation/xml?sensor=false&locations=';
 
 my $counter = 0;
 my $string  = "";
-my $ua = LWP::UserAgent->new;
+my $ua      = LWP::UserAgent->new;
 while (<>) {
     chomp;
     my ( $lng, $lat ) = split(/,/);
@@ -81,9 +82,9 @@ while (<>) {
 
     $counter++;
     if ( $counter == 50 ) {
-	my $response = $ua->get("$url$string");
-	if ($response->is_success) {
-            print $response->decoded_content;  # or whatever
+        my $response = $ua->get("$url$string");
+        if ( $response->is_success ) {
+            print $response->decoded_content;    # or whatever
         }
         else {
             warn "Download failed: ", $response->status_line, "\n";
@@ -93,3 +94,4 @@ while (<>) {
         $counter = 0;
     }
 }
+
