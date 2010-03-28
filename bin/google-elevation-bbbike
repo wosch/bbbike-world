@@ -178,7 +178,7 @@ while (<>) {
             next;
         }
         if ( exists $hash2{$coord} ) {
-            warn "$coord already parsed\n" if $debug >= 1;
+            warn "$coord already parsed\n" if $debug >= 2;
             next;
         }
         $hash2{ $coord } = 1;
