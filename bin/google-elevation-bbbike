@@ -52,6 +52,11 @@ sub init_height_db {
         chomp;
         my ( $height, $x, $coord ) = split;
 
+	if (!defined $height || !defined $x || !defined $coord) {
+	    warn "Ignore broken line in height db: $_\n";
+	    next;
+	}
+
         if ($use_rounding) {
             $height = int( $height + 0.5 );
         }
