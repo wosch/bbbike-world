@@ -57,6 +57,19 @@ sub init_height_db {
     return \%height_db;
 }
 
+sub download {
+    my $ua  = shift;
+    my $uri = shift;
+
+    my $response = $ua->get($uri);
+    if ( $response->is_success ) {
+        print $response->decoded_content;    # or whatever
+    }
+    else {
+        warn "Download failed: ", $response->status_line, "\n";
+    }
+}
+
 ######################################################
 GetOptions(
     "debug!"     => \$debug,
@@ -74,6 +87,8 @@ my $url =
 my $counter = 0;
 my $string  = "";
 my $ua      = LWP::UserAgent->new;
+
+my $max = 50;
 while (<>) {
     chomp;
     my ( $lng, $lat ) = split(/,/);
@@ -81,17 +96,12 @@ while (<>) {
     $string .= "$lat,$lng";
 
     $counter++;
-    if ( $counter == 50 ) {
-        my $response = $ua->get("$url$string");
-        if ( $response->is_success ) {
-            print $response->decoded_content;    # or whatever
-        }
-        else {
-            warn "Download failed: ", $response->status_line, "\n";
-        }
-
+    if ( $counter == $max ) {
+        &download( $ua, "$url$string" );
         $string  = "";
         $counter = 0;
     }
 }
+
+&download( $ua, "$url$string" ) if $string;
 
