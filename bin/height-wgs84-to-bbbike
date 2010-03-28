@@ -1,0 +1,43 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+my $map = "bbbike";
+my $center_delta;
+my $conv;
+
+my $enable_round = 1;
+
+if ($map) {
+    if ( $map ne 'bbbike' ) {
+        die "Only -map bbbike is supported.\n";
+    }
+    require Karte::Polar;
+    require Karte::Standard;
+
+    my ( $dx, $dy ) = ( 0, 0 );
+    if ($center_delta) {
+        my ( $c_lon, $c_lat ) = split /,/, $center_delta;
+        ( $dx, $dy ) =
+          $Karte::Standard::obj->trim_accuracy(
+            $Karte::Polar::obj->map2standard( $c_lon, $c_lat ) );
+    }
+
+    $conv = sub {
+        my ( $lon, $lat ) = @_;
+        my ( $x, $y ) =
+          $Karte::Standard::obj->trim_accuracy(
+            $Karte::Polar::obj->map2standard( $lon, $lat ) );
+        ( $x - $dx ) . "," . ( $y - $dy );
+    };
+}
+
+while (<>) {
+    chomp;
+    my ( $height, $x,  $lat, $lng ) = split;
+    if ($enable_round) {
+	 $height = int( $height + 0.5 );
+    }
+    print $height, "\t$x ", $conv->( $lng, $lat ), "\n";
+}
