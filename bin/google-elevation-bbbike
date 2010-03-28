@@ -79,7 +79,7 @@ sub download {
         my $data = $response->decoded_content;    # or whatever
         my $obj  = XMLin($data);
         if ( $obj->{'status'} ne 'OK' ) {
-            warn "ERROR status: ", $obj->{'status'}, "\n";
+            die "ERROR status: ", $obj->{'status'}, "\n";
             return;
         }
 
@@ -159,6 +159,7 @@ activate_socksproxy($ua) if $socksproxy;
 my $max = 50;
 
 warn Dumper( \%hash ) if $debug >= 3;
+my %hash2;
 while (<>) {
     chomp;
     next if /^\s*#/;
@@ -176,6 +177,11 @@ while (<>) {
             warn "$coord already exists\n" if $debug >= 2;
             next;
         }
+        if ( exists $hash2{$coord} ) {
+            warn "$coord already parsed\n" if $debug >= 1;
+            next;
+        }
+        $hash2{ $coord } = 1;
 
         $string .= "|" if $string;
         $string .= "$lat,$lng";
