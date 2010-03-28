@@ -160,7 +160,7 @@ while (<>) {
 
     my $coords = $_;
     if (/\t/) {
-        $coords =~ s/^[^\t]*\t\w+\s+//;
+        $coords =~ s/^[^\t]*\t\S+\s+//;
     }
 
     foreach my $c ( split( / /, $coords ) ) {
