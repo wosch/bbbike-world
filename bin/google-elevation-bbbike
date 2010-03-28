@@ -127,22 +127,31 @@ my $max = 50;
 warn Dumper( \%hash ) if $debug >= 3;
 while (<>) {
     chomp;
-    my ( $lng, $lat ) = split(/,/);
+    next if /^\s*#/;
 
-    my $coord = &padding($lng) . "," . &padding($lat);
-    if ( exists $hash{$coord} ) {
-        warn "$coord already exists\n" if $debug >= 2;
-        next;
+    my $coords = $_;
+    if (/\t/) {
+        $coords =~ s/^[^\t]*\t\w+\s+//;
     }
 
-    $string .= "|" if $string;
-    $string .= "$lat,$lng";
+    foreach my $c ( split( / /, $coords ) ) {
+        my ( $lng, $lat ) = split( /,/, $c );
 
-    $counter++;
-    if ( $counter == $max ) {
-        &download( $ua, "$url$string" );
-        $string  = "";
-        $counter = 0;
+        my $coord = &padding($lng) . "," . &padding($lat);
+        if ( exists $hash{$coord} ) {
+            warn "$coord already exists\n" if $debug >= 2;
+            next;
+        }
+
+        $string .= "|" if $string;
+        $string .= "$lat,$lng";
+
+        $counter++;
+        if ( $counter == $max ) {
+            &download( $ua, "$url$string" );
+            $string  = "";
+            $counter = 0;
+        }
     }
 }
 
