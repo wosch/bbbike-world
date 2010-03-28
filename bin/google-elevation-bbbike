@@ -6,6 +6,8 @@ use warnings;
 use Getopt::Long;
 use LWP::UserAgent;
 use IO::File;
+use XML::Simple;
+use Data::Dumper;
 
 #
 # 'ElevationResponse' => [
@@ -61,18 +63,50 @@ sub download {
     my $ua  = shift;
     my $uri = shift;
 
+    warn "download URL: $uri\n" if $debug >= 1;
+
     my $response = $ua->get($uri);
     if ( $response->is_success ) {
-        print $response->decoded_content;    # or whatever
+        my $data = $response->decoded_content;    # or whatever
+        my $obj  = XMLin($data);
+        if ( $obj->{'status'} ne 'OK' ) {
+            warn "ERROR status: ", $obj->{'status'}, "\n";
+            return;
+        }
+
+        # height  X lng,lat
+        # 108     X 13.0669708,52.3508471
+
+        my @obj =
+          ref $obj->{'result'} eq 'ARRAY'
+          ? @{ $obj->{'result'} }
+          : $obj->{'result'};
+        foreach my $result (@obj) {
+            print $result->{'elevation'}, "\tX ",
+              $result->{'location'}->{'lng'}, q{,},
+              $result->{'location'}->{'lat'}, "\n";
+        }
     }
     else {
         warn "Download failed: ", $response->status_line, "\n";
     }
 }
 
+sub padding {
+    my $lat = shift;
+
+    my ( $int, $dec ) = split( /\./, $lat );
+
+    while ( length($dec) < 7 ) {
+        $dec .= '0';
+        $lat .= '0';
+    }
+    return $lat;
+}
+
 ######################################################
 GetOptions(
-    "debug!"     => \$debug,
+    "debug=i"    => \$debug,
     "database=s" => \$database,
 ) or usage;
 
@@ -89,9 +123,18 @@ my $string  = "";
 my $ua      = LWP::UserAgent->new;
 
 my $max = 50;
+
+warn Dumper( \%hash ) if $debug >= 3;
 while (<>) {
     chomp;
     my ( $lng, $lat ) = split(/,/);
+
+    my $coord = &padding($lng) . "," . &padding($lat);
+    if ( exists $hash{$coord} ) {
+        warn "$coord already exists\n" if $debug >= 2;
+        next;
+    }
+
     $string .= "|" if $string;
     $string .= "$lat,$lng";
 
@@ -103,5 +146,6 @@ while (<>) {
     }
 }
 
+# run the rest
 &download( $ua, "$url$string" ) if $string;
 
