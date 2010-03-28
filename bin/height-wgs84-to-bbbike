@@ -35,9 +35,9 @@ if ($map) {
 
 while (<>) {
     chomp;
-    my ( $height, $x,  $lat, $lng ) = split;
+    my ( $height, $x, $lat, $lng ) = split;
     if ($enable_round) {
-	 $height = int( $height + 0.5 );
+        $height = int( $height + 0.5 );
     }
     print $height, "\t$x ", $conv->( $lng, $lat ), "\n";
 }

@@ -8,7 +8,7 @@ use IO::File;
 use strict;
 use warnings;
 
-my $debug    = $ENV{DEBUG};
+my $debug = $ENV{DEBUG};
 my $homepage = $ENV{BBBIKE_HOMEPAGE} || 'http://www.bbbike.org';
 
 sub usage () {
@@ -52,8 +52,8 @@ sub create_opensearch_file {
 
     my $file = $args{'file'} or die "no file given\n";
     my $city = $args{'city'} or die "no city given\n";
-    my $name = $args{'name'} || $city;
-    my $lang = $args{'lang'} || "de";
+    my $name       = $args{'name'}       || $city;
+    my $lang       = $args{'lang'}       || "de";
     my $queryparam = $args{'queryparam'} || "q";
     my $scriptname = $args{'scriptname'};
 

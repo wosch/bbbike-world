@@ -17,8 +17,8 @@ EOF
 
 # select city name by language
 sub select_city_name {
-    my $city = shift;
-    my $name = shift or die "No city name given!\n";
+    my $city      = shift;
+    my $name      = shift or die "No city name given!\n";
     my $city_lang = shift || "de";
 
     my %hash;
