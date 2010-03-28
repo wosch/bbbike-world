@@ -30,11 +30,15 @@ sub usage () {
     warn $message, "\n" if $message;
     die <<EOF;
 usage: $0 [options] --database=file --input=file
+
+--database=height_database
+--socksproxy=socks://host:port   set socks proxy
 EOF
 }
 
 my $debug = 1;
 my $database;
+my $socksproxy;
 
 sub init_height_db {
     my $file = shift;
@@ -104,10 +108,30 @@ sub padding {
     return $lat;
 }
 
+sub activate_socksproxy {
+    my $ua = shift;
+
+    if ( !$ua ) {
+        warn "LWP::UserAgent is not set, ignore socks proxy!\n";
+        return;
+    }
+
+    eval {
+        require LWP::Protocol::socks;
+        $ua->proxy( [qw(http https)] => $socksproxy );
+    };
+
+    if ($@) {
+        warn "Cannot load LWP::Protocol::socks, ignore socks proxy...\n";
+        return;
+    }
+}
+
 ######################################################
 GetOptions(
-    "debug=i"    => \$debug,
-    "database=s" => \$database,
+    "debug=i"      => \$debug,
+    "database=s"   => \$database,
+    "socksproxy=s" => \$socksproxy,
 ) or usage;
 
 #usage("no database given\n") if !$database;
@@ -122,6 +146,7 @@ my $counter = 0;
 my $string  = "";
 my $ua      = LWP::UserAgent->new;
 
+activate_socksproxy($ua) if $socksproxy;
 my $max = 50;
 
 warn Dumper( \%hash ) if $debug >= 3;
