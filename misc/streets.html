@@ -60,14 +60,11 @@
   rel="search" href="http://dev.bbbike.org/osp/africa-en.xml" />
   <meta http-equiv="Content-Type" content=
   "text/html; charset=utf-8" />
-  <script src="html/jquery-1.4.2.min.js" type="text/javascript">
-</script>
-  <script src="html/jquery.suggest.js" type="text/javascript">
-</script>
-  <script src="html/jquery.dimensions.js" type="text/javascript">
-</script>
-  <link href="html/jquery.suggest.css" rel="stylesheet" type=
-  "text/css" />
+
+<script src="html/jquery-1.4.2.min.js" type="text/javascript"></script>
+<script src="html/devbridge-jquery-autocomplete-1.1.2/jquery.autocomplete-min.js" type="text/javascript"></script>
+<link  href="html/devbridge-jquery-autocomplete-1.1.2/styles.css" rel="stylesheet" type="text/css">
+
   <link rel="stylesheet" type="text/css" href="html/luft.css" />
   <style type="text/css">
 /*<![CDATA[*/
@@ -124,12 +121,7 @@
                   "submit" />
                 </form><script type="text/javascript">
 //<![CDATA[
-                jQuery.noConflict();
-                jQuery(function() {
-                jQuery("#suggest_start_europe_places").suggest("cgi/api.cgi?action=opensearch&city=europe-places&namespace=1&search=", 
-
-                { minchars: 1, delay: 200, onSelect: function() {} }); });
-                // { onSelect: function() {alert("You selected: " + this.value)}}); });
+			var ac_europe_places = $('#suggest_start_europe_places').autocomplete( { serviceUrl: 'cgi/api.cgi?namespace=dbac;city=europe-places', minChars:2, maxHeight:400, width:600, deferRequestBy:100  });
                 //]]>
                 </script>
               </td>
@@ -149,12 +141,7 @@
                   "submit" />
                 </form><script type="text/javascript">
 //<![CDATA[
-                jQuery.noConflict();
-                jQuery(function() {
-                jQuery("#suggest_start_planet_places").suggest("cgi/api.cgi?action=opensearch&city=planet-places&namespace=1&search=", 
-
-                { minchars: 1, delay: 200, onSelect: function() {} }); });
-                // { onSelect: function() {alert("You selected: " + this.value)}}); });
+			var ac_planet_places = $('#suggest_start_planet_places').autocomplete( { serviceUrl: 'cgi/api.cgi?namespace=dbac;city=planet-places', minChars:2, maxHeight:400, width:600, deferRequestBy:100  });
                 //]]>
                 </script>
               </td>
@@ -188,13 +175,7 @@
                   name="search" /> <input type="submit" />
                 </form><script type="text/javascript">
 //<![CDATA[
-
-                jQuery.noConflict();
-                jQuery(function() {
-                jQuery("#suggest_start_europe").suggest("cgi/api.cgi?action=opensearch&city=europe&namespace=1&search=", 
-
-                { minchars: 1, delay: 200, onSelect: function() {} }); });
-                // { onSelect: function() {alert("You selected: " + this.value)}}); });
+			var ac_europe = $('#suggest_start_europe').autocomplete( { serviceUrl: 'cgi/api.cgi?namespace=dbac;city=europe', minChars:2, maxHeight:400, width:600, deferRequestBy:100  });
                 //]]>
                 </script>
               </td>
@@ -213,12 +194,7 @@
                   value="germany" /> <input type="submit" />
                 </form><script type="text/javascript">
 //<![CDATA[
-                jQuery.noConflict();
-                jQuery(function() {
-                jQuery("#suggest_start_germany").suggest("cgi/api.cgi?action=opensearch&city=germany&namespace=1&search=", 
-
-                { minchars: 1, delay: 200, onSelect: function() {} }); });
-                // { onSelect: function() {alert("You selected: " + this.value)}}); });
+		var ac_europe = $('#suggest_start_germany').autocomplete( { serviceUrl: 'cgi/api.cgi?namespace=dbac;city=germany', minChars:2, maxHeight:400, width:600, deferRequestBy:100  });
                 //]]>
                 </script>
               </td>
@@ -232,12 +208,7 @@
                   "1" /> <input id="suggest_start_sachsen" size="50" type="text" name="search" /> <input type="hidden" name="city" value="sachsen" /> <input type="submit" />
                 </form><script type="text/javascript">
 //<![CDATA[
-                jQuery.noConflict();
-                jQuery(function() {
-                jQuery("#suggest_start_sachsen").suggest("cgi/api.cgi?action=opensearch&city=sachsen&namespace=1&search=", 
-
-                { minchars: 1, delay: 200, onSelect: function() {} }); });
-                // { onSelect: function() {alert("You selected: " + this.value)}}); });
+		var ac_sachsen = $('#suggest_start_sachsen').autocomplete( { serviceUrl: 'cgi/api.cgi?namespace=dbac;city=sachsen', minChars:2, maxHeight:400, width:600, deferRequestBy:100  });
                 //]]>
                 </script>
               </td>
@@ -257,12 +228,7 @@
                   value="planet" /> <input type="submit" />
                 </form><script type="text/javascript">
 //<![CDATA[
-                jQuery.noConflict();
-                jQuery(function() {
-                jQuery("#suggest_start_planet").suggest("cgi/api.cgi?action=opensearch&city=planet&namespace=1&search=", 
-
-                { minchars: 1, delay: 200, onSelect: function() {} }); });
-                // { onSelect: function() {alert("You selected: " + this.value)}}); });
+		var ac_planet = $('#suggest_start_planet').autocomplete( { serviceUrl: 'cgi/api.cgi?namespace=dbac;city=planet', minChars:2, maxHeight:400, width:600, deferRequestBy:100  });
                 //]]>
                 </script>
               </td>
@@ -282,12 +248,8 @@
                   "submit" />
                 </form><script type="text/javascript">
 //<![CDATA[
-                jQuery.noConflict();
-                jQuery(function() {
-                jQuery("#suggest_start_australia").suggest("cgi/api.cgi?action=opensearch&city=australia-oceania&namespace=1&search=", 
+		var ac_australia_oceania = $('#suggest_start_australia').autocomplete( { serviceUrl: 'cgi/api.cgi?namespace=dbac;city=australia-oceania', minChars:2, maxHeight:400, width:600, deferRequestBy:100  });
 
-                { minchars: 1, delay: 200, onSelect: function() {} }); });
-                // { onSelect: function() {alert("You selected: " + this.value)}}); });
                 //]]>
                 </script>
               </td>
@@ -307,12 +269,7 @@
                   "submit" />
                 </form><script type="text/javascript">
 //<![CDATA[
-                jQuery.noConflict();
-                jQuery(function() {
-                jQuery("#suggest_start_southamerica").suggest("cgi/api.cgi?action=opensearch&city=south-america&namespace=1&search=", 
-
-                { minchars: 1, delay: 200, onSelect: function() {} }); });
-                // { onSelect: function() {alert("You selected: " + this.value)}}); });
+		var ac_south_america = $('#suggest_start_southamerica').autocomplete( { serviceUrl: 'cgi/api.cgi?namespace=dbac;city=south-america', minChars:2, maxHeight:400, width:600, deferRequestBy:100  });
                 //]]>
                 </script>
               </td>
@@ -332,12 +289,7 @@
                   <input type="submit" />
                 </form><script type="text/javascript">
 //<![CDATA[
-                jQuery.noConflict();
-                jQuery(function() {
-                jQuery("#suggest_start_centralamerica").suggest("cgi/api.cgi?action=opensearch&city=central-america&namespace=1&search=", 
-
-                { minchars: 1, delay: 200, onSelect: function() {} }); });
-                // { onSelect: function() {alert("You selected: " + this.value)}}); });
+		var ac_centralamerica = $('#suggest_start_centralamerica').autocomplete( { serviceUrl: 'cgi/api.cgi?namespace=dbac;city=central-america', minChars:2, maxHeight:400, width:600, deferRequestBy:100  });
                 //]]>
                 </script>
               </td>
@@ -356,12 +308,7 @@
                   value="africa" /> <input type="submit" />
                 </form><script type="text/javascript">
 //<![CDATA[
-                jQuery.noConflict();
-                jQuery(function() {
-                jQuery("#suggest_start_africa").suggest("cgi/api.cgi?action=opensearch&city=africa&namespace=1&search=", 
-
-                { minchars: 1, delay: 200, onSelect: function() {} }); });
-                // { onSelect: function() {alert("You selected: " + this.value)}}); });
+		var ac_africa = $('#suggest_start_africa').autocomplete( { serviceUrl: 'cgi/api.cgi?namespace=dbac;city=africa', minChars:2, maxHeight:400, width:600, deferRequestBy:100  });
                 //]]>
                 </script>
               </td>
