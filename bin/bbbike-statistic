@@ -40,15 +40,15 @@ zcat -f $logfiles | zegrep -h 'GET /cgi/[A-Zb].*?\?' | egrep -v '" 404 ' |
 
 echo ""
 echo -n "slippymap cities: "
-zcat -f $logfiles | zegrep -h 'GET /cgi/slippymap.*?\?' | egrep -v '" 404 ' | perl -ne 'print "$1\n" if m,city=(.*?)[&;],' | wc -l
-zcat -f $logfiles | zegrep -h 'GET /cgi/slippymap.*?\?' | egrep -v '" 404 ' |
-	perl -ne 'print "$1\n" if m,city=(.*?)[&;],' | sort | uniq -c | sort -nr
+zcat -f $logfiles | zegrep -h 'POST /cgi/slippymap.*?\?' | egrep -v '" 404 ' | perl -ne 'print "$1\n" if m,city=(.*?)[&;],' | wc -l
+zcat -f $logfiles | zegrep -h 'POST /cgi/slippymap.*?\?' | egrep -v '" 404 ' |
+	perl -ne 'print "$1\n" if m,city=(.*?)[&;\s],' | sort | uniq -c | sort -nr
 
 echo ""
 echo -n "bbbike cities pdf: "
-zcat -f $logfiles | zegrep -h 'GET /cgi/[A-Zb].*?\?' | egrep -v '" 404 ' | perl -ne 'print "$1\n" if m,GET /cgi/(.*?).cgi.*=pdf,' | wc -l
-zcat -f $logfiles | zegrep -h 'GET /cgi/[A-Zb].*?\?' | egrep -v '" 404 ' | 
-	perl -ne 'print "$1\n" if m,GET /cgi/(.*?).cgi.*=pdf,'|
+zcat -f $logfiles | zegrep -h 'POST /cgi/[A-Z].*?\?' | egrep -v '" 404 ' | perl -ne 'print "$1\n" if m,POST /cgi/(.*?).cgi,' | wc -l
+zcat -f $logfiles | zegrep -h 'POST /cgi/[A-Z].*?' | egrep -v '" 404 ' | 
+	perl -ne 'print "$1\n" if m,POST /cgi/(.*?).cgi,'|
 	sort | uniq -c | sort -nr
 
 echo ""
