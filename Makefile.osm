@@ -255,10 +255,13 @@ planet-streets:
 check-osm: check-osm-gzip check-osm-error
 
 check-osm-gzip:
-	find ${OSM_DIR} -name '*.gz' -print0 | ${GXARGS} -0 -n8 -P${MAX_CPU} gzip -t
+	@find ${OSM_DIR} -name '*.gz' -print0 | ${GXARGS} -0 -n4 -P${MAX_CPU} gzip -t
 
 check-osm-error:
-	find ${OSM_DIR} -name '*.gz' -print0 | ${GXARGS} -0 -n8 -P${MAX_CPU} zegrep -l '<error>' || true
+	@find ${OSM_DIR} -name '*.gz' -print0 | ${GXARGS} -0 -n8 -P${MAX_CPU} zegrep -l '<error>' || true
+
+cleanup-osm-error:
+	@find ${OSM_DIR} -name '*.gz' -print0 | ${GXARGS} -0 -n8 -P${MAX_CPU} zegrep -l '<error>' | xargs rm -f
 
 
 convert: _convert convert-workarounds
@@ -369,7 +372,7 @@ help:
 	@echo "usage: make [ help | cities | rsync-tgz | rsync-osm ]"
 	@echo "            [ clean | dist-clean | create-bbbike-web-symlinks | kml | create-osp ]"
 	@echo "            [ convert-all | tarball ]"
-	@echo "            [ city-count | city-reorder | check-osm | tagcloud ]"
+	@echo "            [ city-count | city-reorder | check-osm | cleanup-osm-error | tagcloud ]"
 	@echo "            [ planet-streets | planet-places ]"
 	@echo ""
 	@echo "            [ ${CITIES} ]"
