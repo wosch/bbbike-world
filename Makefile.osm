@@ -26,141 +26,143 @@ OSMBIKE_DATA=	${DATA_OSM_BBBIKE_DIR}.tgz
 
 CITIES=		\
 	Berlin \
+	Dortmund \
 	Denver \
 	WashingtonDC \
 	Moscow \
-	Dortmund \
-	Duisburg \
 	Ruegen \
+	Duisburg \
 	Hamburg \
+	Muenchen \
 	Orlando \
 	Sydney \
 	Mannheim \
-	CambridgeMa \
-	Toronto \
-	Sacramento \
-	Copenhagen \
-	Frankfurt \
-	Prag \
-	Albuquerque \
 	SanJose \
+	Toronto \
+	CambridgeMa \
+	Frankfurt \
+	Copenhagen \
+	Prag \
+	Sacramento \
 	Perth \
 	Strassburg \
-	Dresden \
+	Albuquerque \
 	Bonn \
+	Dresden \
 	Duesseldorf \
-	CapeTown \
-	PhnomPenh \
-	Marseille \
+	Rotterdam \
+	Wien \
 	Koeln \
+	CapeTown \
+	Paris \
 	London \
+	PhnomPenh \
+	PaloAlto \
+	Tokyo \
 	Ottawa \
 	Darmstadt \
-	Tokyo \
-	Hannover \
-	Santiago \
-	Saigon \
-	Amsterdam \
-	Montreal \
-	Paris \
-	PaloAlto \
-	Rostock \
-	Tuscon \
 	Groningen \
+	Amsterdam \
+	Santiago \
+	Warschau \
+	Hannover \
+	Montreal \
+	Saigon \
+	Rostock \
 	Mainz \
-	Rotterdam \
+	Marseille \
+	Tuscon \
+	Nuernberg \
 	Bremen \
 	Helsinki \
+	DenHaag \
 	Leipzig \
 	Portland \
-	Seoul \
 	Reval \
-	DenHaag \
+	Madison \
 	Singapore \
 	SanFrancisco \
-	Madison \
-	SantaBarbara \
-	Wien \
 	SanktPetersburg \
-	SantaCruz \
+	Seoul \
 	Karlsruhe \
-	MexicoCity \
-	Bogota \
-	Bielefeld \
-	Stockholm \
-	Kassel \
-	Miami \
+	SantaBarbara \
 	Zuerich \
-	Providence \
+	MexicoCity \
+	Bielefeld \
+	SantaCruz \
+	Bogota \
+	Stockholm \
+	Miami \
 	NewYork \
-	Bruessel \
 	Seattle \
+	Bruessel \
+	Providence \
+	Kassel \
+	Kiel \
 	Luebeck \
-	Jena \
-	FortCollins \
 	Vancouver \
-	RiodeJaneiro \
-	Erlangen \
-	Cottbus \
-	Budapest \
-	Baghdad \
-	Chicago \
-	Danzig \
-	Zagreb \
-	Aarhus \
-	Kiew \
-	Freiburg \
-	Beijing \
-	Cairo \
-	Aachen \
-	Eugene \
-	Barcelona \
-	Basel \
-	Lissabon \
-	Goettingen \
-	Sofia \
-	Dublin \
-	Trondheim \
-	Chemnitz \
+	Jena \
 	Stettin \
+	FortCollins \
+	Colmar \
+	Genf \
+	Budapest \
+	Aarhus \
+	RiodeJaneiro \
+	Freiburg \
+	Erlangen \
+	Danzig \
+	Cottbus \
+	Chicago \
+	Baghdad \
+	Kiew \
+	Breslau \
+	Cairo \
+	Oldenburg \
+	Posen \
+	Zagreb \
+	Beijing \
+	Barcelona \
+	Aachen \
+	Basel \
+	Eugene \
+	Magdeburg \
+	Dublin \
+	Lissabon \
+	Kattowitz \
+	Chemnitz \
+	Sofia \
+	Goettingen \
+	Trondheim \
 	Tehran \
 	Cambridge \
 	Laibach \
 	Bangkok \
 	Boulder \
-	Colmar \
+	Erfurt \
 	Muenster \
 	Oslo \
-	Erfurt \
 	Jerusalem \
 	Austin \
+	Gleiwitz \
 	Riga \
 	Istanbul \
-	Davis \
 	Turin \
+	Davis \
 	BrandenburgHavel \
 	Beirut \
-	Krakau \
 	Goerlitz \
+	Krakau \
 	CraterLake \
 	Kaunas \
 	WarenMueritz \
+	FrankfurtOder \
 	Corvallis \
 	Sarajewo \
-	FrankfurtOder \
 	Baku \
 	UlanBator \
-	Nuernberg \
-	Muenchen \
-	Kiel \
-	Oldenburg \
-	Genf \
-	Warschau \
-	Magdeburg \
-	Posen \
-	Breslau \
-	Kattowitz \
-	Gleiwitz \
+
+
 
 #
 # opensearch suggestion service for
