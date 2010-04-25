@@ -131,20 +131,20 @@ if ( exists $hash{$city} ) {
         print $hash{$city}->{lang} ? $hash{$city}->{lang} : "de";
         print " ";
     }
-    if ($coord) {
+    elsif ($coord) {
         my ( $x1, $y1, $x2, $y2 ) =
           map { &osm_round( $_, 100 ) } split( /\s+/, $hash{$city}->{coord} );
         print "$x1 $y1 $x2 $y2 ";
     }
-    if ($centerdelta) {
+    elsif ($centerdelta) {
         my ( $x1, $y1, $x2, $y2 ) =
           map { &osm_round( $_, 100 ) } split( /\s+/, $hash{$city}->{coord} );
         print "$x1,$y1 ";
     }
-    if ($population) {
+    elsif ($population) {
         print $hash{$city}->{population}, "\n";
     }
-    if ($step) {
+    elsif ($step) {
         print $hash{$city}->{step}, "\n";
     }
 
