@@ -57,10 +57,12 @@ usage: $0 [--debug={0..2}] [options] city
 --centerdelta
 --area=area
 --city-by-lang=lang
+--step
 EOF
 }
 
 my $lang;
+my $step;
 my $population;
 my $coord;
 my $centerdelta;
@@ -70,6 +72,7 @@ my $city_by_lang;
 GetOptions(
     "debug=i"        => \$debug,
     "lang"           => \$lang,
+    "step"           => \$step,
     "population"     => \$population,
     "coord"          => \$coord,
     "centerdelta"    => \$centerdelta,
@@ -92,11 +95,12 @@ while (<$fh>) {
     s/^\s+//;
     next if /^#/ || $_ eq "";
 
-    my ( $city, $name, $lang, $area, $coord, $population ) = split(/:/);
+    my ( $city, $name, $lang, $area, $coord, $population, $step ) = split(/:/);
     $hash{$city} = {
         city       => $city,
         name       => $name,
         lang       => $lang || "de",
+        step       => $step || "0.02",
         area       => $area || "de",
         coord      => $coord,
         population => $population || 1,
@@ -140,8 +144,11 @@ if ( exists $hash{$city} ) {
     if ($population) {
         print $hash{$city}->{population}, "\n";
     }
+    if ($step) {
+        print $hash{$city}->{step}, "\n";
+    }
 
-    # else { warn "unknown directive\n"; die &usage; }
+    else { warn "unknown directive\n"; die &usage; }
 }
 else {
     warn "Unknown city: $city\n";
