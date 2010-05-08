@@ -1,4 +1,8 @@
 #!/usr/local/bin/perl
+# Copyright (c) 2010 Wolfram Schneider, http://bbbike.org
+#
+# tagcloud - create a tagcloud for bbbike @ world cities
+
 
 use HTML::TagCloud 0.34;
 use Getopt::Long;

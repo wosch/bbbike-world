@@ -1,8 +1,7 @@
 #!/usr/bin/perl
-# (c) 2009 Wolfram Schneider
+# Copyright (c) 2010 Wolfram Schneider, http://bbbike.org
 #
 # bbbike-world-kml - create an Google Earth KML file for all BBBike @ World cities
-#
 
 use IO::File;
 use strict;

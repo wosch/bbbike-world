@@ -1,4 +1,8 @@
 #!/bin/sh
+# Copyright (c) 2010 Wolfram Schneider, http://bbbike.org
+#
+# osm2bbd-workarounds - wrapper script for osm-to-bbbike data conversion
+
 
 prefix=$1
 city=$2
