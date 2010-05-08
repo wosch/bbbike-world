@@ -170,7 +170,7 @@ CITIES=		\
 # 
 OSM_AREAS_OPENSEARCH=data-opensearch-places
 OSM_AREAS_LARGE=\
-	../osm-streetnames/download/planet.osm.bz2 \
+	../osm-streetnames/download/planet-latest.osm.bz2 \
 
 OSM_AREAS= \
 	../osm-streetnames/download/geofabrik/europe/germany.osm.bz2 \
