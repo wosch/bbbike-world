@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/local/bin/perl
 #
 # This script tries to match GPS points to region
 # If there are more than one region, choose the smalles one.

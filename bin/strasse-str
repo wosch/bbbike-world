@@ -1,4 +1,4 @@
-#!/usr/bin/perl -npi.bak
+#!/usr/local/bin/perl -npi.bak
 
 s/Strasse/Str./g;
 s/strasse/str./g;
