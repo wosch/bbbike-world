@@ -1,12 +1,10 @@
 #!/bin/sh
-
-#project_dir=$HOME/projects/osm-streetnames
-#download_dir=$HOME/projects/osm-streetnames/download/geofabrik
-#cd $project_dir || exit 2
-#mkdir -p $download_dir || exit 2
-#cd $download_dir || exit 2
+# Copyright (c) 2010 Wolfram Schneider, http://bbbike.org
+#
+# planet-geofabrik-download - download the latest osm files from geofabrik.de
 
 url=http://download.geofabrik.de/osm/
+dir=geofabrik
 
 download () 
 {
@@ -25,9 +23,15 @@ download ()
 	echo ")"
 }
 
-download ""
-download europe
-download europe/germany
-download europe/great_britain
-download europe/france
+if [ -e $dir ]; then
+	mv -f $dir $dir.old.$$
+fi
+mkdir -p $dir
+cd $dir || exit 2
+
+download "" | sh
+download europe | sh
+download europe/germany | sh
+download europe/great_britain | sh
+download europe/france | sh
 
