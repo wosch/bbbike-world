@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2010 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2010 Wolfram Schneider, http://bbbike.org
 #
 # osm2bbd-workarounds - wrapper script for osm-to-bbbike data conversion
 
