@@ -208,7 +208,7 @@ _tarball:
 	cp -f ${OSMBIKE_DATA} ../bbbike-macos/download
 
 cities:
-	@for i in `perl -e 'print "x " x 4'`; do ${MAKE} -f Makefile.osm _cities; done
+	@for i in `perl -e 'print "x " x 3'`; do ${MAKE} -f Makefile.osm _cities; done
 	${MAKE} -f Makefile.osm cleanup-osm-error
 	${MAKE} -f Makefile.osm _cities_complete
 	${MAKE} -f Makefile.osm check-osm
