@@ -1,33 +1,14 @@
 #!/bin/sh
+# Copyright (c) 2010 Wolfram Schneider, http://bbbike.org
+#
+# planet-download - download the latest planet osm file
+#
 
-#project_dir=$HOME/projects/osm-streetnames
-#download_dir=$HOME/projects/osm-streetnames/download/geofabrik
-#cd $project_dir || exit 2
-#mkdir -p $download_dir || exit 2
-#cd $download_dir || exit 2
+file=planet-latest.osm.bz2
 
-url=http://download.geofabrik.de/osm/
+mv -f $file.md5 $file.md5.old.$$
+mv -f $file $file.old.$$
 
-download () 
-{
-	subdir=$1
-	path=$subdir
-	if test -z "$subdir"; then
-		subdir=.
-	fi
-
-	echo "( mkdir -p $subdir; cd $subdir; "
-	lynx -dump http://download.geofabrik.de/osm/$path | \
-		egrep http://download.geofabrik.de/osm/ | \
-		egrep bz2$ | \
-		egrep -v 'alps.osm' | \
-		perl -npe 's/^\s*\d+\.\s+/wget -nv /' 
-	echo ")"
-}
-
-download ""
-download europe
-download europe/germany
-download europe/great_britain
-download europe/france
+wget -nv http://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org/$file.md5
+wget -nv http://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org/$file
 
