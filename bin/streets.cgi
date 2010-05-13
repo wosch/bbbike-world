@@ -1,4 +1,7 @@
-#!/usr/bin/perl
+#!/usr/local/bin/perl
+# Copyright (c) 2009-2010 Wolfram Schneider, http://bbbike.org
+#
+# streets.cgi - redirect to a street on google maps
 
 use CGI qw(escape);
 

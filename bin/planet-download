@@ -1,0 +1,14 @@
+#!/bin/sh
+# Copyright (c) 2009-2010 Wolfram Schneider, http://bbbike.org
+#
+# planet-download - download the latest planet osm file
+#
+
+file=planet-latest.osm.bz2
+
+mv -f $file.md5 $file.md5.old.$$
+mv -f $file $file.old.$$
+
+wget -nv http://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org/$file.md5
+wget -nv http://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org/$file
+

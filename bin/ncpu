@@ -1,6 +1,7 @@
 #!/bin/sh
+# Copyright (c) 2009-2010 Wolfram Schneider, http://bbbike.org
 #
-# detect the number of CPUs on a machine
+# ncpu - detect the number of CPUs on a machine
 #
 
 PATH=/bin:/usr/bin:/sbin:/usr/sbin; export PATH

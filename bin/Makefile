@@ -1,3 +1,5 @@
+# Copyright (c) 2009-2010 Wolfram Schneider, http://bbbike.org
+
 all: perltidy
 
 ALL=	`file * | egrep perl | awk '{print $$1}' | perl -ne 's/://; print if !/.bak$$/' | sort`

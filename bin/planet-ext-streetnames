@@ -1,6 +1,4 @@
 #!/usr/local/bin/perl 
-# -*- perl -*-
-#
 # Copyright (c) Wolfram Schneider, May 2009
 #
 # planet-ext-streetnames - extract street names from an OpenStreetMap

@@ -1,4 +1,8 @@
 #!/bin/sh
+# Copyright (c) 2009-2010 Wolfram Schneider, http://bbbike.org
+#
+# bbbike-statistic - command line bbbike @ world statistic
+
 
 PATH=$HOME/bin:$PATH; export PATH
 

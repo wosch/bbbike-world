@@ -1,6 +1,7 @@
 #!/bin/sh
+# Copyright (c) 2009-2010 Wolfram Schneider, http://bbbike.org
 #
-# linux wrapper for bzip2
+# linux wrapper for (parallel) bzip2
 
 #PATH=/bin:/usr/bin:/opt/local/bin; export PATH
 

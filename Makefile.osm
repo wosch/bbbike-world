@@ -1,5 +1,5 @@
 ###############################################################
-# Wolfram Schneider, Aug 2008
+# Copyright (c) 2008-2010 Wolfram Schneider, http://bbbike.org
 #
 # Get and convert OpenStreetMap.org data to BBBike
 #
@@ -170,7 +170,7 @@ CITIES=		\
 # 
 OSM_AREAS_OPENSEARCH=data-opensearch-places
 OSM_AREAS_LARGE=\
-	../osm-streetnames/download/planet.osm.bz2 \
+	../osm-streetnames/download/planet-latest.osm.bz2 \
 
 OSM_AREAS= \
 	../osm-streetnames/download/geofabrik/europe/germany.osm.bz2 \
@@ -208,7 +208,8 @@ _tarball:
 	cp -f ${OSMBIKE_DATA} ../bbbike-macos/download
 
 cities:
-	@for i in `perl -e 'print "x " x 4'`; do ${MAKE} -f Makefile.osm _cities; done
+	@for i in `perl -e 'print "x " x 2'`; do ${MAKE} -f Makefile.osm _cities; done
+	${MAKE} -f Makefile.osm cleanup-osm-error
 	${MAKE} -f Makefile.osm _cities_complete
 	${MAKE} -f Makefile.osm check-osm
 
@@ -353,6 +354,13 @@ tagcloud:
 kml:
 	world/bin/bbbike-world-kml ${CITIES_DB} > world/misc/bbbike-world.kml
 
+planet-download:
+	download_script=`pwd`/world/bin/planet-download; cd ../osm-streetnames/download && $$download_script
+
+planet-geofabrik-download:
+	download_script=`pwd`/world/bin/planet-geofabrik-download; \
+		cd ../osm-streetnames/download && $$download_script
+
 create-osp:
 	rm -rf ${OSP_DIR}
 	mkdir ${OSP_DIR}
@@ -375,6 +383,7 @@ help:
 	@echo "            [ clean | dist-clean | create-bbbike-web-symlinks | kml | create-osp ]"
 	@echo "            [ convert-all | tarball ]"
 	@echo "            [ city-count | city-reorder | check-osm | cleanup-osm-error | tagcloud ]"
+	@echo "            [ planet-download | planet-geofabrik-download ]"
 	@echo "            [ planet-streets | planet-places ]"
 	@echo ""
 	@echo "            [ ${CITIES} ]"
