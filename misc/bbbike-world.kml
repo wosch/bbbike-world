@@ -620,7 +620,7 @@
   </Placemark>
   <Placemark>
     <name>Mainz</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Mainz.cgi">BBBike @ Mainz</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Mainz.cgi">BBBike @ Mainz/Wiesbaden</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>8.2731,50.0201,0.000000</coordinates>
@@ -628,7 +628,7 @@
   </Placemark>
   <Placemark>
     <name>Mannheim</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Mannheim.cgi">BBBike @ Mannheim</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Mannheim.cgi">BBBike @ Mannheim/Heidelberg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>8.5395,49.4445,0.000000</coordinates>
@@ -1051,6 +1051,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Victoria</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Victoria.other.cgi">BBBike @ en</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-123.414,48.547,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>WarenMueritz</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/WarenMueritz.cgi">BBBike @ Waren (M&uuml;ritz)</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -1079,7 +1087,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Wien.cgi">BBBike @ Vienna</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>16.38775,48.2114,0.000000</coordinates>
+      <coordinates>16.4033,48.21475,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
