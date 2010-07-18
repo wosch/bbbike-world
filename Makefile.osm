@@ -259,12 +259,13 @@ planet-streets:
 check-osm: check-osm-gzip check-osm-error
 
 check-osm-gzip:
-	@find ${OSM_DIR} -name '*.gz' -print0 | ${GXARGS} -0 -n4 -P${MAX_CPU} gzip -t
+	@find ${OSM_DIR} -name '*.gz' -print0 | ${GXARGS} -0 -n8 -P${MAX_CPU} gzip -t
 
 check-osm-error:
 	@find ${OSM_DIR} -name '*.gz' -print0 | ${GXARGS} -0 -n8 -P${MAX_CPU} zegrep -l '<error>' || true
 
 cleanup-osm-error:
+	${MAKE} -f Makefile.osm check-osm 2>&1 | grep ^gzip | awk '{ print $$2 }' | perl -npe 's,:,,' | sort -u | xargs rm -f
 	@find ${OSM_DIR} -name '*.gz' -print0 | ${GXARGS} -0 -n8 -P${MAX_CPU} zegrep -l '<error>' | xargs rm -f
 
 
