@@ -67,6 +67,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Bamberg</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Bamberg.cgi">BBBike @ Bamberg</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>49.9001,10.88925,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Bangkok</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Bangkok.en.cgi">BBBike @ Bangkok</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -1052,7 +1060,7 @@
   </Placemark>
   <Placemark>
     <name>Victoria</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Victoria.other.cgi">BBBike @ en</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Victoria.en.cgi">BBBike @ Victoria</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-123.414,48.547,0.000000</coordinates>
