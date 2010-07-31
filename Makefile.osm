@@ -284,7 +284,7 @@ check:
 
 convert-workarounds: osm2bbd-workarounds
 
-osm2bbd-workarounds opensearch: opensearch-bbbike
+osm2bbd-workarounds opensearch: opensearch-bbbike osm2bbd-workarounds-streets-fast
 	for i in ${CITIES}; do echo $$i; done | \
 	  ${GXARGS} -n 1 -P ${MAX_CPU} world/bin/osm2bbd-workarounds ${DATA_OSM_DIR}
 
@@ -295,6 +295,8 @@ osm2bbd-workarounds-streets:
 	for i in ${CITIES}; do echo $$i; done | \
 	  ${GXARGS} -n 1 -P ${MAX_CPU} world/bin/osm2bbd-workarounds-streets ${DATA_OSM_DIR}
 
+osm2bbd-workarounds-streets-fast: 
+	for i in ${CITIES}; do cp -f ${DATA_OSM_DIR}/$$i/strassen ${DATA_OSM_DIR}/$$i/opensearch.street-coordinates2; done 
 
 _c = ${CITIES}
 _cd = $(_c:=-download)
