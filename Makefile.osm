@@ -291,6 +291,10 @@ osm2bbd-workarounds opensearch: opensearch-bbbike
 opensearch-bbbike:
 	world/bin/opensearch-suggestion --gps=0 --input-charset=iso-8859-1 < data/strassen > data/opensearch.streetnames
 
+osm2bbd-workarounds-streets: 
+	for i in ${CITIES}; do echo $$i; done | \
+	  ${GXARGS} -n 1 -P ${MAX_CPU} world/bin/osm2bbd-workarounds-streets ${DATA_OSM_DIR}
+
 
 _c = ${CITIES}
 _cd = $(_c:=-download)
