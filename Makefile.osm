@@ -25,113 +25,115 @@ DATA_OSM_BBBIKE_DIR=	data-osm.bbbike
 OSMBIKE_DATA=	${DATA_OSM_BBBIKE_DIR}.tgz
 
 CITIES=		\
+	WashingtonDC \
 	Berlin \
 	Dortmund \
 	Denver \
-	WashingtonDC \
 	Moscow \
-	Ruegen \
-	Duisburg \
 	Hamburg \
+	Duisburg \
+	Toronto \
 	Muenchen \
+	Ruegen \
+	Paris \
 	Orlando \
 	Sydney \
-	Mannheim \
 	SanJose \
-	Toronto \
-	CambridgeMa \
+	Mannheim \
 	Frankfurt \
 	Copenhagen \
+	CambridgeMa \
 	Prag \
-	Sacramento \
-	Perth \
 	Strassburg \
-	Albuquerque \
+	Perth \
+	Sacramento \
 	Bonn \
-	Dresden \
+	Albuquerque \
 	Duesseldorf \
+	Dresden \
 	Rotterdam \
 	Wien \
 	Koeln \
-	CapeTown \
-	Paris \
-	London \
+	Amsterdam \
 	PhnomPenh \
+	London \
 	PaloAlto \
+	CapeTown \
+	Stettin \
+	Marseille \
 	Tokyo \
 	Ottawa \
+	DenHaag \
 	Darmstadt \
-	Groningen \
-	Amsterdam \
-	Santiago \
 	Warschau \
 	Hannover \
-	Montreal \
+	Groningen \
 	Saigon \
-	Rostock \
+	Santiago \
 	Mainz \
-	Marseille \
-	Tuscon \
-	Nuernberg \
-	Bremen \
+	Montreal \
 	Helsinki \
-	DenHaag \
-	Leipzig \
-	Portland \
-	Reval \
-	Madison \
-	Singapore \
-	SanFrancisco \
+	Nuernberg \
+	Rostock \
+	Bremen \
 	SanktPetersburg \
+	Tuscon \
 	Seoul \
-	Karlsruhe \
+	Leipzig \
+	Singapore \
+	Reval \
+	Portland \
+	SanFrancisco \
+	Madison \
+	Victoria \
 	SantaBarbara \
 	Zuerich \
-	MexicoCity \
+	Karlsruhe \
 	Bielefeld \
-	SantaCruz \
 	Bogota \
-	Stockholm \
-	Miami \
-	NewYork \
-	Seattle \
-	Bruessel \
-	Providence \
-	Kassel \
-	Kiel \
-	Luebeck \
+	MexicoCity \
 	Vancouver \
+	Bamberg \
+	Stockholm \
+	SantaCruz \
+	Miami \
+	Seattle \
+	Kassel \
+	Bruessel \
+	NewYork \
+	Providence \
 	Jena \
-	Stettin \
+	Luebeck \
+	Kiel \
+	Genf \
+	RiodeJaneiro \
+	Budapest \
 	FortCollins \
 	Colmar \
-	Genf \
-	Budapest \
-	Aarhus \
-	RiodeJaneiro \
-	Freiburg \
-	Erlangen \
-	Danzig \
-	Cottbus \
-	Chicago \
-	Baghdad \
-	Kiew \
 	Breslau \
-	Cairo \
-	Oldenburg \
-	Posen \
-	Zagreb \
+	Danzig \
+	Aarhus \
+	Chicago \
+	Erlangen \
+	Freiburg \
+	Cottbus \
+	Kiew \
 	Beijing \
-	Barcelona \
+	Zagreb \
 	Aachen \
-	Basel \
-	Eugene \
-	Magdeburg \
+	Cairo \
+	Barcelona \
+	Baghdad \
+	Posen \
 	Dublin \
+	Oldenburg \
+	Basel \
+	Magdeburg \
+	Chemnitz \
+	Eugene \
+	Sofia \
 	Lissabon \
 	Kattowitz \
-	Chemnitz \
-	Sofia \
 	Goettingen \
 	Trondheim \
 	Tehran \
@@ -139,31 +141,28 @@ CITIES=		\
 	Laibach \
 	Bangkok \
 	Boulder \
+	Oslo \
 	Erfurt \
 	Muenster \
-	Oslo \
 	Jerusalem \
-	Austin \
 	Gleiwitz \
-	Riga \
-	Istanbul \
+	Austin \
 	Turin \
+	Istanbul \
+	Riga \
 	Davis \
-	BrandenburgHavel \
-	Beirut \
-	Goerlitz \
 	Krakau \
+	Goerlitz \
+	Beirut \
 	CraterLake \
 	Kaunas \
-	WarenMueritz \
+	BrandenburgHavel \
 	FrankfurtOder \
-	Corvallis \
 	Sarajewo \
+	WarenMueritz \
+	Corvallis \
 	Baku \
 	UlanBator \
-	Victoria \
-	Bamberg \
-
 
 
 #
