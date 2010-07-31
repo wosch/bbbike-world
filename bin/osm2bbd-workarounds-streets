@@ -1,7 +1,7 @@
 #!/bin/sh
 # Copyright (c) 2009-2010 Wolfram Schneider, http://bbbike.org
 #
-# osm2bbd-workarounds - wrapper script for osm-to-bbbike data conversion
+# osm2bbd-workarounds-streets - wrapper script for osm-to-bbbike data conversion, streets bugs
 
 
 prefix=$1
@@ -14,34 +14,6 @@ fi
 
 p=`pwd`/world/bin
 
-perl ./miscsrc/osm2bbd-postprocess --debug=0 -only-largest-city-is-center -skip-inaccessible-streets $prefix/$city
-
-cd $prefix/$city || exit 2
-
-$p/strasse-str strassen
-#$p/berlin-coords-data < strassen > Berlin.coords.data
-cat /dev/null > Berlin.coords.data
-
-perl $p/opensearch-suggestion --gps=0 < strassen > opensearch.streetnames
-
-# green ways
-# perl -npe 's/^\s/XYZ\t/; s/RW1/green2/g' radwege_exact > green 
-
-for i in Berlin.coords.data Potsdam.coords.data comments_mount flaechen green nolighting plaetze qualitaet_s rbahn rbahnhof sbahn sbahnhof strassen ubahn ubahnhof wasserstrassen `find . -type f -size 0`
-do
-
-	if ! [ -s $i ]; then
-
-cat << EOF > $i
-#: #: -*- coding: utf-8 -*-
-#:encoding: utf-8
-#:map: polar
-#:date: 20090717225331
-#:
-EOF
-	fi
-done
-
-
-rm -f _* *.bak
+perl ./miscsrc/combine_streets.pl --encoding utf-8 $prefix/$city/strassen > $prefix/$city/opensearch.street-coordinates.tmp
+mv -f $prefix/$city/opensearch.street-coordinates.tmp $prefix/$city/opensearch.street-coordinates
 
