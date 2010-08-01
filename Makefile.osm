@@ -392,10 +392,10 @@ dist-clean devel-clean distclean: clean
 
 help:
 	@echo "usage: make [ help | cities | rsync-tgz | rsync-osm | rsync-osm-dev ]"
-	@echo "            [ clean | dist-clean ]"
-	@echo "            [ osm2bbd-workarounds-streets | create-bbbike-web-symlinks | kml | create-osp ]"
+	@echo "            [ clean | dist-clean | create-osp | tagcloud ]"
+	@echo "            [ osm2bbd-workarounds-streets | create-bbbike-web-symlinks | kml ]"
 	@echo "            [ convert-wgs84 | convert-bbbike ]"
-	@echo "            [ city-count | city-reorder | check-osm | cleanup-osm-error | tagcloud ]"
+	@echo "            [ city-count | city-reorder | check-osm | cleanup-osm-error ]"
 	@echo "            [ planet-download | planet-geofabrik-download ]"
 	@echo "            [ planet-streets | planet-places ]"
 	@echo ""
