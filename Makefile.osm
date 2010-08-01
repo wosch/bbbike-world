@@ -324,7 +324,7 @@ rsync-osm:
 	rsync -azv --exclude='*.bak' --delete --max-delete=512 ${DATA_OSM_DIR} ${OSM_AREAS_OPENSEARCH} osm osp bbbike.org:/usr/local/www/bbbike.org
 	rsync -azv --exclude='*.bak' data/opensearch.streetnames bbbike.org:/usr/local/www/bbbike.org/data
 
-rsync-osm-devel:
+rsync-osm-devel rsync-osm-dev:
 	rsync -azv --delete --max-delete=512 bbbike.org:projects/bbbike/osm .
 
 
@@ -390,8 +390,9 @@ dist-clean devel-clean distclean: clean
 	mkdir -p osm
 
 help:
-	@echo "usage: make [ help | cities | rsync-tgz | rsync-osm | rsync-osm-devel ]"
-	@echo "            [ clean | dist-clean | create-bbbike-web-symlinks | kml | create-osp ]"
+	@echo "usage: make [ help | cities | rsync-tgz | rsync-osm | rsync-osm-dev ]"
+	@echo "            [ clean | dist-clean ]"
+	@echo "            [ osm2bbd-workarounds-streets | create-bbbike-web-symlinks | kml | create-osp ]"
 	@echo "            [ convert-all | tarball ]"
 	@echo "            [ city-count | city-reorder | check-osm | cleanup-osm-error | tagcloud ]"
 	@echo "            [ planet-download | planet-geofabrik-download ]"
