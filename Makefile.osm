@@ -239,6 +239,7 @@ osm-areas2:
 	  perl -ne 'chomp; foreach (split) { print qq{PATH=\$$PATH:`pwd`/world/bin world/bin/osm2suggestions ../osm/download/$$_ '${OSM_AREAS_OPENSEARCH}'/$$_\0} }' | \
 	  ${GXARGS} -0 -n1 -P${MAX_CPU2} sh -c
 
+# faster than planet-streets
 planet-places:
 	@mkdir -p ${OSM_AREAS_OPENSEARCH}
 	@PATH=$$PATH:`pwd`/world/bin; \
