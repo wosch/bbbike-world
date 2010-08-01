@@ -196,10 +196,10 @@ OSM_AREAS3= \
 
 all: help
 
-convert-all: convert convert-workarounds create-osp
+convert-wgs84: convert create-osp osm2bbd-workarounds-streets
 
-tarball: 
-	${MAKE} -f Makefile.osm DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} OSM2BBD_MAPTYPE="-map bbbike" convert-all 
+convert-bbbike: 
+	${MAKE} -f Makefile.osm DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} OSM2BBD_MAPTYPE="-map bbbike" convert
 	${MAKE} -f Makefile.osm DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} _tarball
 
 _tarball:
@@ -297,7 +297,7 @@ osm2bbd-workarounds-streets:
 	  ${GXARGS} -n 1 -P ${MAX_CPU} world/bin/osm2bbd-workarounds-streets ${DATA_OSM_DIR}
 
 osm2bbd-workarounds-streets-fast: 
-	for i in ${CITIES}; do cp -f ${DATA_OSM_DIR}/$$i/strassen ${DATA_OSM_DIR}/$$i/opensearch.street-coordinates2; done 
+	for i in ${CITIES}; do cp -f ${DATA_OSM_DIR}/$$i/strassen ${DATA_OSM_DIR}/$$i/opensearch.street-coordinates; done 
 
 _c = ${CITIES}
 _cd = $(_c:=-download)
@@ -394,7 +394,7 @@ help:
 	@echo "usage: make [ help | cities | rsync-tgz | rsync-osm | rsync-osm-dev ]"
 	@echo "            [ clean | dist-clean ]"
 	@echo "            [ osm2bbd-workarounds-streets | create-bbbike-web-symlinks | kml | create-osp ]"
-	@echo "            [ convert-all | tarball ]"
+	@echo "            [ convert-wgs84 | convert-bbbike ]"
 	@echo "            [ city-count | city-reorder | check-osm | cleanup-osm-error | tagcloud ]"
 	@echo "            [ planet-download | planet-geofabrik-download ]"
 	@echo "            [ planet-streets | planet-places ]"
