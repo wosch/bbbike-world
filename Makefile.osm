@@ -200,6 +200,7 @@ convert-wgs84: convert create-osp osm2bbd-workarounds-streets
 
 convert-bbbike: 
 	${MAKE} -f Makefile.osm DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} OSM2BBD_MAPTYPE="-map bbbike" convert
+	rm -f ${DATA_OSM_BBBIKE_DIR}/*/opensearch-suggestion
 	${MAKE} -f Makefile.osm DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} _tarball
 
 _tarball:
