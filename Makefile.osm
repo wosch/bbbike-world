@@ -398,5 +398,5 @@ help:
 	@echo "            [ planet-download | planet-geofabrik-download ]"
 	@echo "            [ planet-streets | planet-places ]"
 	@echo ""
-	@echo "            [ ${CITIES} ]"
+	@echo "            [ "`perl -e 'print join " ", sort @ARGV' ${CITIES}` "]"
 
