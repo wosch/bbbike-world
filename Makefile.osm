@@ -200,6 +200,7 @@ convert-wgs84: convert create-osp osm2bbd-workarounds-streets
 
 convert-bbbike: 
 	${MAKE} -f Makefile.osm DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} OSM2BBD_MAPTYPE="-map bbbike" convert
+	rm -f ${DATA_OSM_BBBIKE_DIR}/*/opensearch-suggestion
 	${MAKE} -f Makefile.osm DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} _tarball
 
 _tarball:
@@ -285,7 +286,7 @@ check:
 
 convert-workarounds: osm2bbd-workarounds
 
-osm2bbd-workarounds opensearch: opensearch-bbbike osm2bbd-workarounds-streets-fast
+osm2bbd-workarounds opensearch: opensearch-bbbike
 	for i in ${CITIES}; do echo $$i; done | \
 	  ${GXARGS} -n 1 -P ${MAX_CPU} world/bin/osm2bbd-workarounds ${DATA_OSM_DIR}
 
@@ -296,8 +297,6 @@ osm2bbd-workarounds-streets:
 	for i in ${CITIES}; do echo $$i; done | \
 	  ${GXARGS} -n 1 -P ${MAX_CPU} world/bin/osm2bbd-workarounds-streets ${DATA_OSM_DIR}
 
-osm2bbd-workarounds-streets-fast: 
-	for i in ${CITIES}; do cp -f ${DATA_OSM_DIR}/$$i/strassen ${DATA_OSM_DIR}/$$i/opensearch.street-coordinates; done 
 
 _c = ${CITIES}
 _cd = $(_c:=-download)
