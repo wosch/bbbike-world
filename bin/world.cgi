@@ -29,7 +29,7 @@ trap 'rm -rf "$tmpdir"' 0
 ulimit -t 180
 
 # max. 512MB RAM
-ulimit -v 712000 
+ulimit -v 1212000 
 
 env TMPDIR=$tmpdir DATA_DIR="data-osm/$name" BBBIKE_DATADIR="data-osm/$name" perl $dirname/bbbike.cgi
 
