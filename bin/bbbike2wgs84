@@ -1,0 +1,22 @@
+#!/bin/sh
+# Copyright (c) 2010 Wolfram Schneider, http://bbbike.org
+#
+# bbbike2wgs84 - xyz
+
+# name of OSM city
+city=berlin
+
+# die on exit
+set -e
+
+mkdir -p data-osm/berlin
+cd data
+
+for i in `ls -d [a-z]* | egrep -v '^opensearch|-orig$'`
+do
+    if [ -f $i ]; then
+	iconv -f iso88591 -t utf-8  $i | 
+	  perl -npe 's,-\*- coding: iso-8859-1 -,-\*- coding: utf-8 -,' |
+	  ../miscsrc/convert_coordsys standard polar > ../data-osm/$city/$i
+    fi
+done
