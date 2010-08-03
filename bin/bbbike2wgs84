@@ -1,7 +1,7 @@
 #!/bin/sh
 # Copyright (c) 2010 Wolfram Schneider, http://bbbike.org
 #
-# bbbike2wgs84 - xyz
+# bbbike2wgs84 -  convert original bbbike data for berlin to wgs84
 
 # name of OSM city
 city=berlin
