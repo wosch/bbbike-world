@@ -10,7 +10,9 @@ data_osm=data-osm
 # die on exit
 set -e
 
+rm -rf ${data_osm}/$city
 mkdir -p ${data_osm}/$city
+
 cd data
 
 for i in `ls -d [a-z]* | egrep -v '^opensearch|-orig$'`
