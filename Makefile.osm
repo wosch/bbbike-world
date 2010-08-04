@@ -333,7 +333,7 @@ create-bbbike-web-symlinks-bbbike.en.cgi:
 
 create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi
 	cd ${BBBIKE_WEB_DIR}/cgi && \
-	for city in ${CITIES}; do \
+	for city in ${CITIES} berlin; do \
 		ln -fs world.cgi $$city.cgi; \
 		ln -fs world.cgi $$city.en.cgi; \
 		ln -fs world.cgi.config $$city.cgi.config; \
@@ -365,6 +365,9 @@ tagcloud:
 kml:
 	world/bin/bbbike-world-kml ${CITIES_DB} > world/misc/bbbike-world.kml
 
+bbbike2wgs84:
+	./world/bin/bbbike2wgs84
+
 planet-download:
 	download_script=`pwd`/world/bin/planet-download; cd ../osm-streetnames/download && $$download_script
 
@@ -391,7 +394,7 @@ dist-clean devel-clean distclean: clean
 
 help:
 	@echo "usage: make [ help | cities | rsync-tgz | rsync-osm | rsync-osm-dev ]"
-	@echo "            [ clean | dist-clean | create-osp | tagcloud ]"
+	@echo "            [ clean | dist-clean | create-osp | tagcloud | bbbike2wgs84 ]"
 	@echo "            [ osm2bbd-workarounds-streets | create-bbbike-web-symlinks | kml ]"
 	@echo "            [ convert-wgs84 | convert-bbbike ]"
 	@echo "            [ city-count | city-reorder | check-osm | cleanup-osm-error ]"
