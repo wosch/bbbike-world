@@ -15,19 +15,7 @@ mkdir -p ${data_osm}/$city
 
 cd data
 
-for i in `ls -d [a-z]* | egrep -v '^opensearch|-orig$'`
-do
-    if [ -f $i ]; then
-	iconv -f iso8859-1 -t utf-8  $i | 
-	  perl -npe '
-	        $. == 1 && print "#:encoding: utf-8\n";
-		s,-\*- coding: iso-8859-1 -,-\*- coding: utf-8 -,;
-		' |
-	  ../miscsrc/convert_coordsys standard polar > ../${data_osm}/$city/$i 2>/dev/null
-    fi
-done
-
-for i in `ls -d Berlin* Potsdam*`
+for i in `ls -d [a-z]* Berlin* Potsdam*| egrep -v '^opensearch|-orig$'`
 do
     if [ -f $i ]; then
 	iconv -f iso8859-1 -t utf-8  $i | 
@@ -39,9 +27,20 @@ do
     fi
 done
 
+
 cd ..
 world/bin/opensearch-suggestion < ${data_osm}/$city/strassen > ${data_osm}/$city/opensearch.streetnames
 world/bin/osm2bbd-workarounds-streets ${data_osm} $city 
 
 cp ${data_osm}/Berlin/meta.yml ${data_osm}/$city
 cp ${data_osm}/Berlin/meta.dd ${data_osm}/$city
+
+( 
+  cd ${data_osm}/$city
+  rm -f inaccessible_*.old
+  for i in inaccessible_* 
+  do 
+	mv $i $i.old
+  done
+)
+
