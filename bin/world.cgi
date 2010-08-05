@@ -17,7 +17,7 @@ case $name in
 		;;
 esac
 
-tmpdir=/tmp/bbbike/$city
+tmpdir=/tmp/bbbike/$name
 mkdir -p $tmpdir
 
 #trap 'rm -rf "$tmpdir"; exit 1' 1 2 3 13 15
