@@ -196,7 +196,7 @@ OSM_AREAS3= \
 
 all: help
 
-convert-wgs84: convert create-osp osm2bbd-workarounds-streets
+convert-wgs84: convert create-osp osm2bbd-workarounds-streets bbbike2wgs84
 
 convert-bbbike: 
 	${MAKE} -f Makefile.osm DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} OSM2BBD_MAPTYPE="-map bbbike" convert
