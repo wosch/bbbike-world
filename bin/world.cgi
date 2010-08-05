@@ -17,19 +17,18 @@ case $name in
 		;;
 esac
 
-tmpdir=`mktemp -d /tmp/bbbike.XXXXXXXXXXXXXXX`
+tmpdir=/tmp/bbbike/$city
+mkdir -p $tmpdir
 
-trap 'rm -rf "$tmpdir"; exit 1' 1 2 3 13 15
-trap 'rm -rf "$tmpdir"' 0
-
+#trap 'rm -rf "$tmpdir"; exit 1' 1 2 3 13 15
+#trap 'rm -rf "$tmpdir"' 0
 
 # set CPU and memory limits
-
 # max. 120 seconds
 ulimit -t 180
 
 # max. 512MB RAM
 ulimit -v 1212000 
 
-env TMPDIR=$tmpdir DATA_DIR="data-osm/$name" BBBIKE_DATADIR="data-osm/$name" perl $dirname/bbbike.cgi
+time env TMPDIR=$tmpdir DATA_DIR="data-osm/$name" BBBIKE_DATADIR="data-osm/$name" perl $dirname/bbbike.cgi
 
