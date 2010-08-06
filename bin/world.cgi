@@ -22,7 +22,7 @@ if [ -z "$server" ]; then
 	server=bbbike.org
 fi
 
-cache_dir=/tmp/bbbike/${server}/$name
+cache_dir=/var/cache/bbbike/${server}/$name
 mkdir -p $cache_dir
 
 #trap 'rm -rf "$cache_dir"; exit 1' 1 2 3 13 15
