@@ -17,11 +17,16 @@ case $name in
 		;;
 esac
 
-tmpdir=/tmp/bbbike/$name
-mkdir -p $tmpdir
+server=$SERVER_NAME
+if [ -z "$server" ]; then
+	server=bbbike.org
+fi
 
-#trap 'rm -rf "$tmpdir"; exit 1' 1 2 3 13 15
-#trap 'rm -rf "$tmpdir"' 0
+cache_dir=/tmp/bbbike/${server}/$name
+mkdir -p $cache_dir
+
+#trap 'rm -rf "$cache_dir"; exit 1' 1 2 3 13 15
+#trap 'rm -rf "$cache_dir"' 0
 
 # set CPU and memory limits
 # max. 120 seconds
@@ -30,5 +35,5 @@ ulimit -t 180
 # max. 512MB RAM
 ulimit -v 1212000 
 
-time env TMPDIR=$tmpdir DATA_DIR="data-osm/$name" BBBIKE_DATADIR="data-osm/$name" perl $dirname/bbbike.cgi
+time env TMPDIR=$cache_dir DATA_DIR="data-osm/$name" BBBIKE_DATADIR="data-osm/$name" perl $dirname/bbbike.cgi
 
