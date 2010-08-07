@@ -69,7 +69,7 @@ while (<>) {
     chomp;
     next if /^\s*#/;
 
-    my ( $city, $name, $lang, $area, $coord, $population ) = split(/:/);
+    my ( $city, $name, $lang, $local_lang, $area, $coord, $population ) = split(/:/);
     next if $city eq 'dummy';
 
     $lang       = "de"  if !$lang;

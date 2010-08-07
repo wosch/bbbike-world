@@ -49,7 +49,7 @@ sub extract_coords {
         s/^\s+//;
         next if /^#/ || $_ eq "";
 
-        my ( $city, $name, $lang, $area, $coord ) = split(/:/);
+        my ( $city, $name, $lang, $local_lang, $area, $coord ) = split(/:/);
         my ( $x1, $y1, $x2, $y2 ) = split( /\s+/, $coord );
 
         my $x = ( $x2 - $x1 ) / 2 + $x1;
