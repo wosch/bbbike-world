@@ -71,7 +71,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Bamberg.cgi">BBBike @ Bamberg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>49.9001,10.88925,0.000000</coordinates>
+      <coordinates>10.88925,49.9001,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -319,7 +319,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Denver.en.cgi">BBBike @ Denver</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-104.954,39.7525,0.000000</coordinates>
+      <coordinates>-104.98,39.745,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -852,7 +852,7 @@
   </Placemark>
   <Placemark>
     <name>Ruegen</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Ruegen.cgi">BBBike @ R&uuml;gen</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Ruegen.cgi">BBBike @ Stralsund/R&uuml;gen</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>13.357,54.4535,0.000000</coordinates>
@@ -1087,7 +1087,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/WashingtonDC.en.cgi">BBBike @ Washington D.C.</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-77.0205,38.903,0.000000</coordinates>
+      <coordinates>-77.02405,38.89605,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1103,7 +1103,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Zagreb.cgi">BBBike @ Zagreb</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>15.99035,45.7946,0.000000</coordinates>
+      <coordinates>15.98245,45.8125,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
