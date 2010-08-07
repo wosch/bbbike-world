@@ -54,6 +54,7 @@ usage: $0 [--debug={0..2}] [options] city
 
 --debug=0..2	  debug option
 --lang
+--local-lang
 --population
 --coord
 --centerdelta
@@ -64,6 +65,7 @@ EOF
 }
 
 my $lang;
+my $local_lang;
 my $step;
 my $population;
 my $coord;
@@ -74,6 +76,7 @@ my $city_by_lang;
 GetOptions(
     "debug=i"        => \$debug,
     "lang"           => \$lang,
+    "local-lang"           => \$local_lang,
     "step"           => \$step,
     "population"     => \$population,
     "coord"          => \$coord,
@@ -102,6 +105,7 @@ while (<$fh>) {
         city       => $city,
         name       => $name,
         lang       => $lang || "de",
+        local_lang       => $local_lang || "",
         step       => $step || "0.02",
         area       => $area || "de",
         coord      => $coord,
@@ -132,6 +136,9 @@ if ( exists $hash{$city} ) {
     if ($lang) {
         print $hash{$city}->{lang} ? $hash{$city}->{lang} : "de";
         print " ";
+    }
+    elsif ($local_lang) {
+        print $hash{$city}->{local_lang}, " ";
     }
     elsif ($coord) {
         my ( $x1, $y1, $x2, $y2 ) =
