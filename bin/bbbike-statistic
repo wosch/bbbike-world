@@ -59,6 +59,9 @@ echo ""
 echo -n "OpenSearch requests: "
 zcat -f $logfiles | zegrep -h 'GET /cgi/api.*?\?' | egrep -v '" 40[34] ' | wc -l
 
+echo "OpenSearch requests per city: "
+zcat -f $logfiles | zegrep -h 'GET /cgi/api.*?\?' | egrep -v '" 40[34] ' | perl -ne 'print "$1\n" if /city=([^&\s]+)/' | sort | uniq -c | sort -nr
+
 echo ""
 echo -n "street requests: "
 zcat -f $logfiles | zegrep -h 'GET /cgi/street-coord.cgi\?' | egrep -v '" 40[34] ' | wc -l
