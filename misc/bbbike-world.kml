@@ -20,7 +20,7 @@
   </Placemark>
   <Placemark>
     <name>Aarhus</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Aarhus.en.cgi">BBBike @ &Aring;rhus</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Aarhus.cgi">BBBike @ &Aring;rhus</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>10.20595,56.15135,0.000000</coordinates>
@@ -52,7 +52,7 @@
   </Placemark>
   <Placemark>
     <name>Baghdad</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Baghdad.en.cgi">BBBike @ Baghdad</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Baghdad.cgi">BBBike @ Baghdad</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>44.3745,33.31405,0.000000</coordinates>
@@ -60,7 +60,7 @@
   </Placemark>
   <Placemark>
     <name>Baku</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Baku.en.cgi">BBBike @ Baku</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Baku.cgi">BBBike @ Baku</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>49.84275,40.3838,0.000000</coordinates>
@@ -76,7 +76,7 @@
   </Placemark>
   <Placemark>
     <name>Bangkok</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Bangkok.en.cgi">BBBike @ Bangkok</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Bangkok.cgi">BBBike @ Bangkok</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>100.53295,13.73665,0.000000</coordinates>
@@ -84,7 +84,7 @@
   </Placemark>
   <Placemark>
     <name>Barcelona</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Barcelona.en.cgi">BBBike @ Barcelona</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Barcelona.cgi">BBBike @ Barcelona</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>2.16125,41.38355,0.000000</coordinates>
@@ -100,7 +100,7 @@
   </Placemark>
   <Placemark>
     <name>Beijing</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Beijing.en.cgi">BBBike @ Beijing</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Beijing.cgi">BBBike @ Beijing</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>116.3935,39.9245,0.000000</coordinates>
@@ -108,7 +108,7 @@
   </Placemark>
   <Placemark>
     <name>Beirut</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Beirut.en.cgi">BBBike @ Beirut</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Beirut.cgi">BBBike @ Beirut</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>35.52705,33.85865,0.000000</coordinates>
@@ -132,7 +132,7 @@
   </Placemark>
   <Placemark>
     <name>Bogota</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Bogota.en.cgi">BBBike @ Bogotá</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Bogota.cgi">BBBike @ Bogotáen</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-74.11165,4.6455,0.000000</coordinates>
@@ -196,7 +196,7 @@
   </Placemark>
   <Placemark>
     <name>Cairo</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Cairo.en.cgi">BBBike @ Cairo</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Cairo.cgi">BBBike @ Cairo</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>31.27195,30.0382,0.000000</coordinates>
@@ -252,7 +252,7 @@
   </Placemark>
   <Placemark>
     <name>Copenhagen</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Copenhagen.en.cgi">BBBike @ Copenhagen</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Copenhagen.cgi">BBBike @ Copenhagen</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>12.4885,55.69,0.000000</coordinates>
@@ -476,7 +476,7 @@
   </Placemark>
   <Placemark>
     <name>Helsinki</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Helsinki.en.cgi">BBBike @ Helsinki</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Helsinki.cgi">BBBike @ Helsinki</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>24.94265,60.1669,0.000000</coordinates>
@@ -484,7 +484,7 @@
   </Placemark>
   <Placemark>
     <name>Istanbul</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Istanbul.en.cgi">BBBike @ Istanbul</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Istanbul.cgi">BBBike @ Istanbul</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>28.97865,41.0277,0.000000</coordinates>
@@ -500,7 +500,7 @@
   </Placemark>
   <Placemark>
     <name>Jerusalem</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Jerusalem.en.cgi">BBBike @ Jerusalem</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Jerusalem.cgi">BBBike @ Jerusalem</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>35.218,31.7968,0.000000</coordinates>
@@ -548,7 +548,7 @@
   </Placemark>
   <Placemark>
     <name>Kiew</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Kiew.en.cgi">BBBike @ Kiev</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Kiew.cgi">BBBike @ Kiev</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>30.53105,50.44085,0.000000</coordinates>
@@ -588,7 +588,7 @@
   </Placemark>
   <Placemark>
     <name>Lissabon</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Lissabon.en.cgi">BBBike @ Lissabon</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Lissabon.cgi">BBBike @ Lissabon</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-9.16065,38.7378,0.000000</coordinates>
@@ -644,7 +644,7 @@
   </Placemark>
   <Placemark>
     <name>Marseille</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Marseille.en.cgi">BBBike @ Marseille</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Marseille.cgi">BBBike @ Marseille</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>5.4985,43.29,0.000000</coordinates>
@@ -652,7 +652,7 @@
   </Placemark>
   <Placemark>
     <name>MexicoCity</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/MexicoCity.en.cgi">BBBike @ Mexico City</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/MexicoCity.cgi">BBBike @ Mexico City</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-99.1211,19.4212,0.000000</coordinates>
@@ -668,7 +668,7 @@
   </Placemark>
   <Placemark>
     <name>Montreal</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Montreal.en.cgi">BBBike @ Montreal</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Montreal.cgi">BBBike @ Montreal</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-73.5955,45.4885,0.000000</coordinates>
@@ -676,7 +676,7 @@
   </Placemark>
   <Placemark>
     <name>Moscow</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Moscow.en.cgi">BBBike @ Moscow</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Moscow.cgi">BBBike @ Moscow</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>37.6015,55.741,0.000000</coordinates>
@@ -732,7 +732,7 @@
   </Placemark>
   <Placemark>
     <name>Oslo</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Oslo.en.cgi">BBBike @ Oslo</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Oslo.cgi">BBBike @ Oslo</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>10.742,59.91785,0.000000</coordinates>
@@ -740,7 +740,7 @@
   </Placemark>
   <Placemark>
     <name>Ottawa</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Ottawa.en.cgi">BBBike @ Ottawa</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Ottawa.cgi">BBBike @ Ottawa</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-75.6865,45.4135,0.000000</coordinates>
@@ -756,7 +756,7 @@
   </Placemark>
   <Placemark>
     <name>Paris</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Paris.en.cgi">BBBike @ Paris</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Paris.cgi">BBBike @ Paris</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>2.34245,48.86075,0.000000</coordinates>
@@ -772,10 +772,10 @@
   </Placemark>
   <Placemark>
     <name>PhnomPenh</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/PhnomPenh.en.cgi">BBBike @ Phnom Penh</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/PhnomPenh.cgi">BBBike @ Phnom Penh</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>106.695,10.773,0.000000</coordinates>
+      <coordinates>104.9201,11.5595,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -828,7 +828,7 @@
   </Placemark>
   <Placemark>
     <name>RiodeJaneiro</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/RiodeJaneiro.en.cgi">BBBike @ Rio de Janeiro</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/RiodeJaneiro.cgi">BBBike @ Rio de Janeiro</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-43.19805,-22.8968,0.000000</coordinates>
@@ -868,7 +868,7 @@
   </Placemark>
   <Placemark>
     <name>Saigon</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Saigon.en.cgi">BBBike @ Saigon</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Saigon.cgi">BBBike @ Saigon</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>106.69945,10.77475,0.000000</coordinates>
@@ -892,7 +892,7 @@
   </Placemark>
   <Placemark>
     <name>SanktPetersburg</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/SanktPetersburg.en.cgi">BBBike @ Saint Petersburg</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/SanktPetersburg.cgi">BBBike @ Saint Petersburg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>30.3265,59.9405,0.000000</coordinates>
@@ -916,7 +916,7 @@
   </Placemark>
   <Placemark>
     <name>Santiago</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Santiago.en.cgi">BBBike @ Santiago</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Santiago.cgi">BBBike @ Santiago</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-70.654,-33.488,0.000000</coordinates>
@@ -940,7 +940,7 @@
   </Placemark>
   <Placemark>
     <name>Seoul</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Seoul.en.cgi">BBBike @ Seoul</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Seoul.cgi">BBBike @ Seoul</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>127.0035,37.5385,0.000000</coordinates>
@@ -948,7 +948,7 @@
   </Placemark>
   <Placemark>
     <name>Singapore</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Singapore.en.cgi">BBBike @ Singapore</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Singapore.cgi">BBBike @ Singapore</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>103.81565,1.35945,0.000000</coordinates>
@@ -956,7 +956,7 @@
   </Placemark>
   <Placemark>
     <name>Sofia</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Sofia.en.cgi">BBBike @ Sofia</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Sofia.cgi">BBBike @ Sofia</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>23.3195,42.6975,0.000000</coordinates>
@@ -972,7 +972,7 @@
   </Placemark>
   <Placemark>
     <name>Stockholm</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Stockholm.en.cgi">BBBike @ Stockholm</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Stockholm.cgi">BBBike @ Stockholm</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>18.0708,59.3284,0.000000</coordinates>
@@ -996,7 +996,7 @@
   </Placemark>
   <Placemark>
     <name>Tehran</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Tehran.en.cgi">BBBike @ Tehran</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Tehran.cgi">BBBike @ Tehran</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>51.41415,35.70385,0.000000</coordinates>
@@ -1004,7 +1004,7 @@
   </Placemark>
   <Placemark>
     <name>Tokyo</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Tokyo.en.cgi">BBBike @ Tokyo</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Tokyo.cgi">BBBike @ Tokyo</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>139.78215,35.67135,0.000000</coordinates>
@@ -1020,7 +1020,7 @@
   </Placemark>
   <Placemark>
     <name>Trondheim</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Trondheim.en.cgi">BBBike @ Trondheim</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Trondheim.cgi">BBBike @ Trondheim</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>10.4274,63.39825,0.000000</coordinates>
@@ -1028,7 +1028,7 @@
   </Placemark>
   <Placemark>
     <name>Turin</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Turin.en.cgi">BBBike @ Turin</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Turin.cgi">BBBike @ Turin</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>7.69075,45.06305,0.000000</coordinates>
@@ -1044,7 +1044,7 @@
   </Placemark>
   <Placemark>
     <name>UlanBator</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/UlanBator.en.cgi">BBBike @ Ulan Bator</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/UlanBator.cgi">BBBike @ Ulan Bator</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>106.92795,47.9166,0.000000</coordinates>
