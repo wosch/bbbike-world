@@ -25,22 +25,23 @@ DATA_OSM_BBBIKE_DIR=	data-osm.bbbike
 OSMBIKE_DATA=	${DATA_OSM_BBBIKE_DIR}.tgz
 
 CITIES=		\
-	WashingtonDC \
 	Berlin \
 	Dortmund \
-	Denver \
+	WashingtonDC \
 	Moscow \
 	Hamburg \
-	Duisburg \
-	Toronto \
-	Muenchen \
-	Ruegen \
 	Paris \
+	Marseille \
+	Duisburg \
+	Muenchen \
+	Toronto \
+	Ruegen \
 	Orlando \
+	Mannheim \
 	Sydney \
 	SanJose \
-	Mannheim \
 	Frankfurt \
+	Denver \
 	Copenhagen \
 	CambridgeMa \
 	Prag \
@@ -48,100 +49,100 @@ CITIES=		\
 	Perth \
 	Sacramento \
 	Bonn \
+	Ottawa \
 	Albuquerque \
 	Duesseldorf \
 	Dresden \
 	Rotterdam \
-	Wien \
 	Koeln \
+	Wien \
 	Amsterdam \
-	PhnomPenh \
-	London \
-	PaloAlto \
 	CapeTown \
+	London \
+	PhnomPenh \
+	PaloAlto \
 	Stettin \
-	Marseille \
 	Tokyo \
-	Ottawa \
-	DenHaag \
 	Darmstadt \
+	DenHaag \
 	Warschau \
 	Hannover \
 	Groningen \
 	Saigon \
 	Santiago \
+	Nuernberg \
 	Mainz \
 	Montreal \
 	Helsinki \
-	Nuernberg \
 	Rostock \
 	Bremen \
 	SanktPetersburg \
 	Tuscon \
 	Seoul \
 	Leipzig \
+	Portland \
 	Singapore \
 	Reval \
-	Portland \
 	SanFrancisco \
 	Madison \
 	Victoria \
+	Karlsruhe \
 	SantaBarbara \
 	Zuerich \
-	Karlsruhe \
 	Bielefeld \
 	Bogota \
 	MexicoCity \
+	Kassel \
 	Vancouver \
+	Zagreb \
 	Bamberg \
 	Stockholm \
 	SantaCruz \
 	Miami \
 	Seattle \
-	Kassel \
+	RiodeJaneiro \
 	Bruessel \
 	NewYork \
-	Providence \
 	Jena \
+	Providence \
 	Luebeck \
-	Kiel \
 	Genf \
-	RiodeJaneiro \
+	Kiel \
 	Budapest \
+	Marseilleold \
 	FortCollins \
 	Colmar \
+	Aarhus \
 	Breslau \
 	Danzig \
-	Aarhus \
 	Chicago \
-	Erlangen \
 	Freiburg \
+	Erlangen \
 	Cottbus \
 	Kiew \
 	Beijing \
-	Zagreb \
 	Aachen \
-	Cairo \
 	Barcelona \
+	Cairo \
 	Baghdad \
-	Posen \
 	Dublin \
+	Posen \
 	Oldenburg \
 	Basel \
-	Magdeburg \
 	Chemnitz \
+	Magdeburg \
 	Eugene \
-	Sofia \
-	Lissabon \
-	Kattowitz \
 	Goettingen \
+	Sofia \
+	Kattowitz \
+	Lissabon \
 	Trondheim \
 	Tehran \
 	Cambridge \
 	Laibach \
 	Bangkok \
-	Boulder \
 	Oslo \
+	Boulder \
 	Erfurt \
 	Muenster \
 	Jerusalem \
@@ -154,16 +155,15 @@ CITIES=		\
 	Krakau \
 	Goerlitz \
 	Beirut \
-	CraterLake \
 	Kaunas \
+	CraterLake \
 	BrandenburgHavel \
-	FrankfurtOder \
 	Sarajewo \
 	WarenMueritz \
+	FrankfurtOder \
 	Corvallis \
 	Baku \
 	UlanBator \
-
 
 #
 # opensearch suggestion service for
