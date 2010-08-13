@@ -17,7 +17,7 @@ p=`pwd`/world/bin
 perl ./miscsrc/osm2bbd-postprocess --debug=0 \
 	-only-largest-city-is-center \
 	-skip-inaccessible-streets \
-	--local-lang=`world/bin/bbbike-db --local-lang $city` $prefix/$city
+	--local-lang="`world/bin/bbbike-db --local-lang $city`" $prefix/$city
 
 cd $prefix/$city || exit 2
 
