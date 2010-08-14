@@ -24,6 +24,7 @@ OSP_DIR=	osp
 DATA_OSM_DIR=	data-osm
 DATA_OSM_BBBIKE_DIR=	data-osm.bbbike
 OSMBIKE_DATA=	${DATA_OSM_BBBIKE_DIR}.tgz
+DATA_DIR=	data
 
 CITIES=		\
 	Berlin \
@@ -208,6 +209,8 @@ _tarball:
 	mv -f ${OSMBIKE_DATA}.tmp ${OSMBIKE_DATA}
 	mkdir -p ../bbbike-macos/download
 	cp -f ${OSMBIKE_DATA} ../bbbike-macos/download
+	tar cf - ${DATA_DIR} | bzip2 > ${DATA_DIR}.tbz.tmp
+	mv -f ${DATA_DIR}.tbz.tmp ${DATA_DIR}.tbz
 
 cities:
 	@for i in `perl -e 'print "x " x 2'`; do ${MAKE} -f Makefile.osm _cities; done
@@ -383,6 +386,7 @@ create-osp:
 	
 scp rsync rsync-tgz:
 	rsync -av ${OSMBIKE_DATA} wolfram.schneider.org:www/src/bbbike
+	rsync -av ${DATA_DIR}.tbz wolfram.schneider.org:www/src/bbbike/${DATA_OSM_DIR}
 
 clean:
 	rm -rf ${DATA_OSM_DIR} ${DATA_OSM_BBBIKE_DIR}
