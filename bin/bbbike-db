@@ -138,7 +138,8 @@ if ( exists $hash{$city} ) {
         print " ";
     }
     elsif ($local_lang) {
-        print $hash{$city}->{local_lang}, " ";
+        print $hash{$city}->{local_lang} ? $hash{$city}->{local_lang} : "de";
+        print " ";
     }
     elsif ($coord) {
         my ( $x1, $y1, $x2, $y2 ) =
