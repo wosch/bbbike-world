@@ -8,7 +8,7 @@ PATH=/bin:/usr/bin:/sbin:/usr/sbin; export PATH
 
 minus=0
 case $1 in
-	-1 | -2 | +1 | +2) minus=$1 ;;
+	-1 | -2 | +1|+2|+3|+4|+6|+8 ) minus=$1 ;;
 esac
 
 ncpu=3
