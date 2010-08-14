@@ -26,6 +26,9 @@ DATA_OSM_BBBIKE_DIR=	data-osm.bbbike
 OSMBIKE_DATA=	${DATA_OSM_BBBIKE_DIR}.tgz
 DATA_DIR=	data
 
+GZIP:=             $(shell which pigz gzip | head -1)
+BZIP2:=            $(shell which pbzip2 bzip2 | head -1)
+
 CITIES=		\
 	Berlin \
 	Dortmund \
@@ -205,11 +208,11 @@ convert-bbbike:
 	${MAKE} -f Makefile.osm DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} _tarball
 
 _tarball:
-	tar cf - ${DATA_OSM_BBBIKE_DIR} | gzip > ${OSMBIKE_DATA}.tmp
+	tar cf - ${DATA_OSM_BBBIKE_DIR} | ${GZIP} > ${OSMBIKE_DATA}.tmp
 	mv -f ${OSMBIKE_DATA}.tmp ${OSMBIKE_DATA}
 	mkdir -p ../bbbike-macos/download
 	cp -f ${OSMBIKE_DATA} ../bbbike-macos/download
-	tar cf - ${DATA_DIR} | bzip2 > ${DATA_DIR}.tbz.tmp
+	tar cf - ${DATA_DIR} | ${BZIP2} > ${DATA_DIR}.tbz.tmp
 	mv -f ${DATA_DIR}.tbz.tmp ${DATA_DIR}.tbz
 
 cities:
