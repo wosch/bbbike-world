@@ -8,24 +8,24 @@
   "text/html; charset=utf-8" />
   <link type="image/ico" rel="shortcut icon" href=
   "images/srtbike.ico" />
-  <link rel="stylesheet" type="text/css" href="html/luft.css" />
   <meta name="KEYWORDS" content="cycle route planner, bicycle" />
   <meta name="description" content="BBBike @ World - a cycle route planner for more than 138 cities worldwide, based on OpenStreetMap data." />
 
   <link rel="alternate" type="application/atom+xml" title="BBBike @ World RSS feed" href="feed/bbbike-world.xml" />
-
+  <style>
+	div#content { text-align:left; font-size: xx-large; }
+	select, input { font-size: xx-large; }
+  </style>
 </head>
 
 <body>
   <div id="content">
-        <p>Welcome to BBBike! We'll help you find a nice bike route in your city.<br /> 
-	</p>
-
-	<p>
+        <p>Welcome to BBBike! We'll help you find a nice bike route in your city.
 	Please choose your city:
 
-	<form id="city_form" method="get" action="/cgi/m.cgi" >
+	<form id="city_form" method="get" action="/cgi/mobile.cgi" >
 	<select name="city">
+
 <option value="Aarhus.cgi">&Aring;rhus</option>
 <option value="Aachen.cgi">Aachen</option>
 <option value="Albuquerque.en.cgi">Albuquerque</option>
@@ -65,12 +65,14 @@
 <option value="Davis.en.cgi">Davis</option>
 <option value="DenHaag.cgi">Den Haag</option>
 <option value="Denver.en.cgi">Denver</option>
+<option value="Dortmund.cgi">Dortmund/Bochum</option>
 <option value="Dresden.cgi">Dresden</option>
 <option value="Dublin.en.cgi">Dublin</option>
 <option value="Duisburg.cgi">Duisburg/Essen</option>
 <option value="Duesseldorf.cgi">Dusseldorf</option>
 <option value="Erfurt.cgi">Erfurt</option>
 <option value="Erlangen.cgi">Erlangen</option>
+<option value="Duisburg.cgi">Essen/Duisburg</option>
 <option value="Eugene.en.cgi">Eugene</option>
 <option value="FortCollins.en.cgi">Fort Collins</option>
 <option value="FrankfurtOder.cgi">Frankfurt (Oder)</option>
@@ -84,6 +86,7 @@
 <option value="Groningen.cgi">Groningen</option>
 <option value="Hamburg.cgi">Hamburg</option>
 <option value="Hannover.cgi">Hanover</option>
+<option value="Mannheim.cgi">Heidelberg/Mannheim</option>
 <option value="Helsinki.cgi">Helsinki</option>
 <option value="Istanbul.cgi">Istanbul</option>
 <option value="Jena.cgi">Jena</option>
@@ -125,6 +128,7 @@
 <option value="Posen.cgi">Poznan</option>
 <option value="Prag.cgi">Prague</option>
 <option value="Providence.en.cgi">Providence</option>
+<option value="Ruegen.cgi">R&uuml;gen/Stralsund</option>
 <option value="Reval.cgi">Reval</option>
 <option value="Riga.cgi">Riga</option>
 <option value="RiodeJaneiro.cgi">Rio de Janeiro</option>
@@ -161,6 +165,7 @@
 <option value="WarenMueritz.cgi">Waren (M&uuml;ritz)</option>
 <option value="Warschau.cgi">Warsaw</option>
 <option value="WashingtonDC.en.cgi">Washington D.C.</option>
+<option value="Mainz.cgi">Wiesbaden/Mainz</option>
 <option value="Breslau.cgi">Wroclaw</option>
 <option value="Zagreb.cgi">Zagreb</option>
 <option value="Zuerich.cgi">Zurich</option>
@@ -170,7 +175,9 @@
 
 	</p>
 
+  </div>
         <div id="footer">
+	  <br/>
           <div id="footer_top">
             <a href="doc.html">help</a> |
             <a href="community.html">donate</a> 
@@ -191,7 +198,6 @@
 	</div>
       </div>
 
-   </div>
 
 <script type="text/javascript">
 //<![CDATA[
