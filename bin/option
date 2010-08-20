@@ -79,6 +79,7 @@ while (<>) {
 }
 
 foreach my $city ( sort keys %hash ) {
-    print qq[<option value="], $hash{$city}, qq[">$city</option>\n];
+    #print qq[<option value="], $hash{$city}, qq[">$city</option>\n];
+    print qq[<a href="], $hash{$city}, qq[">$city</a><br />\n];
 }
 
