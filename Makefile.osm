@@ -370,8 +370,8 @@ tagcloud:
 	${TAGCLOUD} --lang=en --area=de < ${CITIES_DB} > tmp/en.cities.de
 	${TAGCLOUD} --lang=en --area=eu < ${CITIES_DB} > tmp/en.cities.eu
 	${TAGCLOUD} --lang=en --area=other --level=9 < ${CITIES_DB} > tmp/en.cities.other
-	world/bin/option --lang=de < ${CITIES_DB} > tmp/option.de
-	world/bin/option --lang=en < ${CITIES_DB} > tmp/option.en
+	world/bin/option --split-city-names=1 --lang=de < ${CITIES_DB} > tmp/option.de
+	world/bin/option --split-city-names=1 --lang=en < ${CITIES_DB} > tmp/option.en
 
 kml:
 	world/bin/bbbike-world-kml ${CITIES_DB} > world/misc/bbbike-world.kml
