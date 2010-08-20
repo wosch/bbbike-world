@@ -1,35 +1,22 @@
 #!/usr/local/bin/perl
 # Copyright (c) 2009-2010 Wolfram Schneider, http://bbbike.org
 #
-# tagcloud - create a tagcloud for bbbike @ world cities
+# option -  create list of cities with links
 
-
-use HTML::TagCloud 0.34;
 use Getopt::Long;
 use strict;
 use warnings;
 
-my $debug         = 1;      # 0: quiet, 1: normal, 2: verbose
-my $selected_area = 'de';
-my $level         = 12;
-my $city_lang     = 'de';
+my $debug     = 1;      # 0: quiet, 1: normal, 2: verbose
+my $city_lang = 'de';
 
 sub usage () {
     <<EOF;
-usage: $0 [--debug={0..2}] [--level=number ] [ --area=area ] < population.csv
+usage: $0 [--debug={0..2}] [ --lang lang ] < population.csv
 
 --debug=0..2    debug option
---area=		de | eu | other
 --lang=		de | en
---level=$level
 EOF
-}
-
-# several tagclouds on one page
-sub id2class {
-    my $data = shift;
-    $data =~ s,<div id="htmltagcloud">,<div class="htmltagcloud">,;
-    return $data;
 }
 
 # select city name by language
@@ -58,31 +45,28 @@ sub select_city_name {
 
 GetOptions(
     "debug=i" => \$debug,
-    "area=s"  => \$selected_area,
-    "level=i" => \$level,
     "lang=s"  => \$city_lang,
 ) or die usage;
 
-my $cloud = HTML::TagCloud->new( levels => $level );
-
+my %hash;
 while (<>) {
     chomp;
     next if /^\s*#/;
 
-    my ( $city, $name, $lang, $local_lang, $area, $coord, $population ) = split(/:/);
+    my ( $city, $name, $lang, $local_lang, $area, $coord, $population ) =
+      split(/:/);
     next if $city eq 'dummy';
 
-    $lang       = "de"  if !$lang;
-    $area       = "de"  if !$area;
-    $population = 1     if $population < 1;
-    $name       = $city if !$name;
+    $lang = "de"  if !$lang;
+    $name = $city if !$name;
 
-    next if $area ne $selected_area;
     $name = &select_city_name( $city, $name, $city_lang );
 
-    my $link = "cgi/$city" . ( $lang eq 'de' ? '' : ".$lang" ) . '.cgi';
-    $cloud->add( $name, $link, $population );
+    my $link = "$city" . ( $lang eq 'de' ? '' : ".$lang" ) . '.cgi';
+    $hash{$name} = $link;
 }
 
-print &id2class( $cloud->html ), "\n";
+foreach my $city ( sort keys %hash ) {
+    print qq[<option value="], $hash{$city}, qq[">$city</option>\n];
+}
 
