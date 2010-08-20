@@ -7,15 +7,17 @@ use Getopt::Long;
 use strict;
 use warnings;
 
-my $debug     = 1;      # 0: quiet, 1: normal, 2: verbose
-my $city_lang = 'de';
+my $debug            = 1;      # 0: quiet, 1: normal, 2: verbose
+my $city_lang        = 'de';
+my $split_city_names = 0;
 
 sub usage () {
     <<EOF;
-usage: $0 [--debug={0..2}] [ --lang lang ] < population.csv
+usage: $0 [ options ] < population.csv
 
 --debug=0..2    debug option
 --lang=		de | en
+--split-city-names=0|1
 EOF
 }
 
@@ -44,8 +46,9 @@ sub select_city_name {
 }
 
 GetOptions(
-    "debug=i" => \$debug,
-    "lang=s"  => \$city_lang,
+    "debug=i"            => \$debug,
+    "lang=s"             => \$city_lang,
+    "split-city-names=i" => \$split_city_names,
 ) or die usage;
 
 my %hash;
@@ -63,7 +66,16 @@ while (<>) {
     $name = &select_city_name( $city, $name, $city_lang );
 
     my $link = "$city" . ( $lang eq 'de' ? '' : ".$lang" ) . '.cgi';
-    $hash{$name} = $link;
+
+    if ( $split_city_names && $name =~ m,^([^/]+)/([^/]+)$, ) {
+        $hash{$name} = $link;
+        $hash{"$2/$1"} = $link;
+
+    }
+    else {
+        $hash{$name} = $link;
+    }
+
 }
 
 foreach my $city ( sort keys %hash ) {
