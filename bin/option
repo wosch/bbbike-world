@@ -54,7 +54,8 @@ GetOptions(
 my %hash;
 while (<>) {
     chomp;
-    next if /^\s*#/;
+    s/^\s+//;
+    next if /^#/ || $_ eq "";
 
     my ( $city, $name, $lang, $local_lang, $area, $coord, $population ) =
       split(/:/);
