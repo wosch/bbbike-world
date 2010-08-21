@@ -363,6 +363,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Edinburgh</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Edinburgh.en.cgi">BBBike @ Edinburgh</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-3.18315,55.94405,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Erfurt</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Erfurt.cgi">BBBike @ Erfurt</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
