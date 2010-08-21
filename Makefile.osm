@@ -329,6 +329,7 @@ $(_cc):
 
 $(_cw):
 	c=`basename $@ -workarounds`; world/bin/osm2bbd-workarounds ${DATA_OSM_DIR} $$c
+	c=`basename $@ -workarounds`; world/bin/osm2bbd-workarounds-streets ${DATA_OSM_DIR} $$c
 
 ${CITIES}:
 	${MAKE} -f Makefile.osm $@-download $@-convert $@-workarounds
