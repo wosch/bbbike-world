@@ -170,6 +170,12 @@ CITIES=		\
 	UlanBator \
 	Glasgow \
 	Edinburgh \
+	Leeds \
+	Birmingham \
+	Liverpool \
+	Sheffield \
+	Bristol \
+	Manchester \
 
 #
 # opensearch suggestion service for

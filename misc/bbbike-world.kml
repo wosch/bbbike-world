@@ -131,6 +131,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Birmingham</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Birmingham.en.cgi">BBBike @ Birmingham</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-1.948,52.503,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Bogota</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Bogota.en.cgi">BBBike @ Bogotá</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -176,6 +184,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>17.0381,51.10615,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Bristol</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Bristol.en.cgi">BBBike @ Bristol</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-2.584,51.467,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -595,6 +611,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Leeds</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Leeds.en.cgi">BBBike @ Leeds</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-1.5445,53.7985,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Leipzig</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Leipzig.cgi">BBBike @ Leipzig</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -608,6 +632,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-9.16065,38.7378,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Liverpool</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Liverpool.en.cgi">BBBike @ Liverpool</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-2.937,53.4015,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -648,6 +680,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>8.2731,50.0201,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Manchester</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Manchester.en.cgi">BBBike @ Manchester</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-2.231,53.4785,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -960,6 +1000,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>127.0035,37.5385,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Sheffield</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Sheffield.en.cgi">BBBike @ Sheffield</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-1.4435,53.381,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
