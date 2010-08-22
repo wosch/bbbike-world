@@ -111,7 +111,7 @@ Orlando::en::other:-81.644 28.283 -81.072 28.822:2000000:
 WashingtonDC:Washington D.C.:en::other:-77.1703 38.8096 -76.8778 38.9825:5300000:0.01
 Albuquerque::en::other:-106.7967 34.9993 -106.4726 35.2173:830000:
 Ottawa:::fr:other:-75.932 45.295 -75.441 45.532:1200000:
-Beijing:de!Peking::cn-ZH:other:116.181 39.819 116.606 40.03:12000000:
+Beijing:de!Peking,cn-ZH!北京市 ::cn-ZH:other:116.181 39.819 116.606 40.03:12000000:
 CapeTown:Cape Town,de!Kapstadt:en::other:18.278 -34.116 18.754 -33.785:72000000:
 Bogota:Bogotá:en:es:other:-74.2155 4.5199 -74.0078 4.7711:8200000:
 Perth::en::other:115.668 -32.225 116.125 -31.634:1800000:
