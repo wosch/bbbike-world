@@ -8,22 +8,28 @@
   "text/html; charset=utf-8" />
   <link type="image/ico" rel="shortcut icon" href=
   "images/srtbike.ico" />
+  <link rel="stylesheet" type="text/css" href="html/luft.css" />
   <meta name="KEYWORDS" content="cycle route planner, bicycle" />
   <meta name="description" content="BBBike @ World - a cycle route planner for more than 138 cities worldwide, based on OpenStreetMap data." />
 
   <link rel="alternate" type="application/atom+xml" title="BBBike @ World RSS feed" href="feed/bbbike-world.xml" />
   <style>
-	div#content { text-align:left; font-size: xx-large; }
-	select, input { font-size: xx-large; }
+	div#all	    { max-width: 90%; }
+	div#content { text-align: left; font-size: 200%; }
+	p#cities    { text-align: center; font-size: 150%; }
   </style>
 </head>
 
 <body>
+  <div id="all">
+    <div id="border">
+      <div id="main">
+
   <div id="content">
             <div><p><a href="http://www.bbbike.org">[classic view]</a></p></div>
         <p>Welcome to BBBike! We'll help you find a nice bike route in your city.
 	Please choose your city:
-<p align="center">
+<p id="cities">
 
 <a href="cgi/Aarhus.cgi">&Aring;rhus</a><br />
 <a href="cgi/Aachen.cgi">Aachen</a><br />
@@ -206,6 +212,9 @@
 	</div>
       </div>
 
+    </div>
+  </div>
+</div>
 
 <script type="text/javascript">
 //<![CDATA[
