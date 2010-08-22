@@ -10,6 +10,7 @@ use warnings;
 my $debug            = 1;      # 0: quiet, 1: normal, 2: verbose
 my $city_lang        = 'de';
 my $split_city_names = 0;
+my $local_names = 0;
 
 sub usage () {
     <<EOF;
@@ -18,6 +19,7 @@ usage: $0 [ options ] < population.csv
 --debug=0..2    debug option
 --lang=		de | en
 --split-city-names=0|1
+--local-names=0|1
 EOF
 }
 
@@ -49,6 +51,7 @@ GetOptions(
     "debug=i"            => \$debug,
     "lang=s"             => \$city_lang,
     "split-city-names=i" => \$split_city_names,
+    "local-names=i" => \$local_names,
 ) or die usage;
 
 my %hash;
@@ -71,16 +74,15 @@ while (<>) {
     if ( $split_city_names && $name =~ m,^([^/]+)/([^/]+)$, ) {
         $hash{$name} = $link;
         $hash{"$2/$1"} = $link;
-
     }
     else {
         $hash{$name} = $link;
     }
-
 }
 
 foreach my $city ( sort keys %hash ) {
     #print qq[<option value="], $hash{$city}, qq[">$city</option>\n];
-    print qq[<a href="cgi/], $hash{$city}, qq[">$city</a><br />\n];
+    print qq[<a href="cgi/], $hash{$city}, qq[">$city</a>];
+    print qq[<br />\n];
 }
 
