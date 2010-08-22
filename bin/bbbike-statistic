@@ -50,8 +50,8 @@ zcat -f $logfiles | zegrep -h 'POST /cgi/slippymap.*?\?' | egrep -v '" 40[34] ' 
 
 echo ""
 echo -n "bbbike cities pdf: "
-zcat -f $logfiles | zegrep -h 'POST /cgi/[A-Z].*?\?' | egrep -v '" 40[34] ' | perl -ne 'print "$1\n" if m,POST /cgi/(.*?).cgi,' | wc -l
-zcat -f $logfiles | zegrep -h 'POST /cgi/[A-Z].*?' | egrep -v '" 40[34] ' | 
+zcat -f $logfiles | zegrep -h 'POST /cgi/[A-Zb].*?\?' | egrep -v '" 40[34] ' | perl -ne 'print "$1\n" if m,POST /cgi/(.*?).cgi,' | wc -l
+zcat -f $logfiles | zegrep -h 'POST /cgi/[A-Zb].*?' | egrep -v '" 40[34] ' | 
 	perl -ne 'print "$1\n" if m,POST /cgi/(.*?).cgi,'|
 	sort | uniq -c | sort -nr
 
