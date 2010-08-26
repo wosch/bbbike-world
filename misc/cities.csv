@@ -149,5 +149,8 @@ Kattowitz:en!Katowice::pl:eu:18.8823 50.2148 19.1531 50.3625:990000:
 Gleiwitz:en!Gliwice::pl:eu:18.6162 50.2217 18.8829 50.3642:990000:
 Victoria::en::other:-123.578 48.392 -123.25 48.702:300000:
 #
+# orginal BBBike version
+berlin:::::13.0109 52.3376 13.7613 52.6753:4500000:
+#
 dummy::en::other:44 33.2 44.5259 33.4238:6500000:
 #
