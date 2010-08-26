@@ -1,10 +1,12 @@
 # City : Real Name : language : area : coord : population
-europe-places:European cities:en::0 0 0 0:
-planet-places:World cities:en::0 0 0 0:
-europe:Europe:en::0 0 0 0:
-germany:Germany:en::0 0 0 0:
-planet:World:en::0 0 0 0:
-australia-oceania:Australia:en::0 0 0 0:
-south-america:South America:en::0 0 0 0:
-central-america:Central America:en::0 0 0 0:
-africa:Africa:en::0 0 0 0:
+# City : Real Name : pref. language : local language : area : coord : population : step?
+
+europe-places:European cities:en:::0 0 0 0:
+planet-places:World cities:en:::0 0 0 0:
+europe:Europe:en:::0 0 0 0:
+germany:Germany:en:::0 0 0 0:
+planet:World:en:::0 0 0 0:
+australia-oceania:Australia:en:::0 0 0 0:
+south-america:South America:en:::0 0 0 0:
+central-america:Central America:en:::0 0 0 0:
+africa:Africa:en:::0 0 0 0:
