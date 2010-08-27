@@ -18,6 +18,9 @@ zcat -f $logfiles | zegrep -h 'GET /cgi/[A-Zb]' | egrep -v '" 40[34] ' | awk '{p
 echo -n "mobile bbbike.org page views: "
 zcat -f $logfiles_mobile | zegrep -h 'GET /cgi/[A-Zb]' | egrep -v '" 40[34] ' | awk '{print $1}' | wc -l
 
+echo -n "weather page views: "
+zcat -f $logfiles | zegrep -h 'GET /cgi/weather.cgi' | egrep -v '" 40[34] ' | awk '{print $1}' | wc -l
+
 
 echo ""
 echo -n "bbbike.org hosts: "
