@@ -51,10 +51,16 @@ zcat -f $logfiles | zegrep -h 'GET /cgi/[A-Zb].*?\?' | egrep -v '" 40[34] ' |
 
 
 echo ""
-echo -n "slippymap cities: "
-zcat -f $logfiles | zegrep -h 'POST /cgi/slippymap.*?\?' | egrep -v '" 40[34] ' | perl -ne 'print "$1\n" if m,city=(.*?)[&;],' | wc -l
-zcat -f $logfiles | zegrep -h 'POST /cgi/slippymap.*?\?' | egrep -v '" 40[34] ' |
-	perl -ne 'print "$1\n" if m,city=(.*?)[&;\s],' | sort | uniq -c | sort -nr
+echo -n "OpenSearch requests: "
+zcat -f $logfiles | zegrep -h 'GET /cgi/api.*?\?' | egrep -v '" 40[34] ' | wc -l
+
+echo "OpenSearch requests per city: "
+zcat -f $logfiles | zegrep -h 'GET /cgi/api.*?\?' | egrep -v '" 40[34] ' | perl -ne 'print "$1\n" if /city=([^&\s]+)/' | sort | uniq -c | sort -nr
+
+echo ""
+echo -n "street requests: "
+zcat -f $logfiles | zegrep -h 'GET /cgi/street-coord.cgi\?' | egrep -v '" 40[34] ' | wc -l
+
 
 echo ""
 echo -n "bbbike cities pdf: "
@@ -72,15 +78,7 @@ zcat -f $logfiles | zegrep -h 'GET /cgi/[A-Zb].*?\?' | egrep -v '" 40[34] ' |
 	perl -ne 'print "$1 $2\n" if m,GET /cgi/(\S+)\?\S*output_as=([^;&\s]+),' | sort | uniq -c | sort -nr
 
 echo ""
-echo -n "OpenSearch requests: "
-zcat -f $logfiles | zegrep -h 'GET /cgi/api.*?\?' | egrep -v '" 40[34] ' | wc -l
-
-echo "OpenSearch requests per city: "
-zcat -f $logfiles | zegrep -h 'GET /cgi/api.*?\?' | egrep -v '" 40[34] ' | perl -ne 'print "$1\n" if /city=([^&\s]+)/' | sort | uniq -c | sort -nr
-
-echo ""
-echo -n "street requests: "
-zcat -f $logfiles | zegrep -h 'GET /cgi/street-coord.cgi\?' | egrep -v '" 40[34] ' | wc -l
-
-echo ""
-
+echo -n "slippymap cities: "
+zcat -f $logfiles | zegrep -h 'POST /cgi/slippymap.*?\?' | egrep -v '" 40[34] ' | perl -ne 'print "$1\n" if m,city=(.*?)[&;],' | wc -l
+zcat -f $logfiles | zegrep -h 'POST /cgi/slippymap.*?\?' | egrep -v '" 40[34] ' |
+	perl -ne 'print "$1\n" if m,city=(.*?)[&;\s],' | sort | uniq -c | sort -nr
