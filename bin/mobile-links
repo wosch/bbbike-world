@@ -55,6 +55,7 @@ GetOptions(
 ) or die usage;
 
 my %hash;
+my %class;
 while (<>) {
     chomp;
     s/^\s+//;
@@ -74,15 +75,19 @@ while (<>) {
     if ( $split_city_names && $name =~ m,^([^/]+)/([^/]+)$, ) {
         $hash{$name} = $link;
         $hash{"$2/$1"} = $link;
+
+        $class{$name} = $city;
+        $class{"$2/$1"} = $city;
     }
     else {
         $hash{$name} = $link;
+        $class{$name} = $city;
     }
 }
 
 foreach my $city ( sort keys %hash ) {
     #print qq[<option value="], $hash{$city}, qq[">$city</option>\n];
-    print qq[<a href="cgi/], $hash{$city}, qq[">$city</a>];
+    print qq[<a class="C_], $class{$city}, qq[" href="cgi/], $hash{$city}, qq[">$city</a>];
     print qq[<br />\n];
 }
 
