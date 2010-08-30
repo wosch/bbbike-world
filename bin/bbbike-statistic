@@ -34,7 +34,7 @@ echo ""
 
 echo ""
 echo "bbbike references:"
-zcat -f $logfiles | zegrep -h 'GET / |GET /cgi/[A-Za-z\.]+ HTTP' | egrep -v '" 40[34] ' |
+zcat -f $logfiles | zegrep -h 'GET / |GET /cgi/[A-Za-z\.]+ HTTP' | egrep '" 200 ' |
 	egrep -v 'Purebot|Java/1|SnapPreviewBot|Tcl http client package' |
 	awk '{print $11}' | perl -npe 's,(http://www.bbbike.org/cgi/\S+)\?.*,$1,g' | sort | uniq -c | sort -nr
 
