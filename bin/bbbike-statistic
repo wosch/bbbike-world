@@ -22,7 +22,7 @@ echo -n "weather page views: "
 zcat -f $logfiles | zegrep -h 'GET /cgi/weather.cgi' | egrep -v '" 40[34] ' | awk '{print $1}' | wc -l
 
 echo -n "location page views: "
-zcat -f $logfiles_mobile | zegrep -h 'GET /cgi/location.cgi' | egrep '" 200 ' | awk '{print $1}' | wc -l
+zcat -f $logfiles $logfiles_mobile | zegrep -h 'GET /cgi/location.cgi' | egrep '" 200 ' | awk '{print $1}' | wc -l
 
 echo ""
 echo -n "bbbike.org hosts: "
