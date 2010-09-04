@@ -4,6 +4,11 @@
 # option -  create list of cities with links
 
 use Getopt::Long;
+
+use lib '.';
+use lib './world/bin';
+use BBBikeWorldDB;
+
 use strict;
 use warnings;
 
@@ -23,30 +28,6 @@ usage: $0 [ options ] < population.csv
 EOF
 }
 
-# select city name by language
-sub select_city_name {
-    my $city      = shift;
-    my $name      = shift or die "No city name given!\n";
-    my $city_lang = shift || "de";
-
-    my %hash;
-    $hash{ALL} = $city;
-    foreach my $n ( split /\s*,\s*/, $name ) {
-        my ( $lang, $city_name ) = split( /!/, $n );
-        if ($city_name) {
-            $hash{$lang} = $city_name;
-        }
-
-        # no city language defined, use default
-        else {
-            $hash{ALL} = $lang;
-        }
-    }
-
-    #use Data::Dumper; warn Dumper( \%hash );
-    return exists( $hash{$city_lang} ) ? $hash{$city_lang} : $hash{ALL};
-}
-
 GetOptions(
     "debug=i"            => \$debug,
     "lang=s"             => \$city_lang,
@@ -54,23 +35,18 @@ GetOptions(
     "local-names=i"      => \$local_names,
 ) or die usage;
 
+my $db = BBBikeWorldDB->new( 'database' => '/dev/stdin' );
 my %hash;
 my %class;
-while (<>) {
-    chomp;
-    s/^\s+//;
-    next if /^#/ || $_ eq "";
 
-    my ( $city, $name, $lang, $local_lang, $area, $coord, $population ) =
-      split(/:/);
-    next if $city eq 'dummy';
+foreach my $city ( $db->list_cities ) {
+    my $c = $db->city->{$city};
 
-    $lang = "de"  if !$lang;
-    $name = $city if !$name;
-
-    $name = &select_city_name( $city, $name, $city_lang );
-
-    my $link = "$city" . ( $lang eq 'de' ? '' : ".$lang" ) . '.cgi';
+    my $name =
+      $db->select_city_name( $c->{"city"}, ( $c->{"name"} || $c->{"city"} ),
+        $city_lang );
+    my $link =
+      "cgi/$city" . ( $c->{"lang"} eq "de" ? "" : ".$c->{'lang'}" ) . ".cgi";
 
     if ( $split_city_names && $name =~ m,^([^/]+)/([^/]+)$, ) {
         $hash{$name} = $link;
@@ -88,7 +64,7 @@ while (<>) {
 foreach my $city ( sort keys %hash ) {
 
     #print qq[<option value="], $hash{$city}, qq[">$city</option>\n];
-    print qq[<a class="C_], $class{$city}, qq[" href="cgi/], $hash{$city},
+    print qq[<a class="C_], $class{$city}, qq[" href="], $hash{$city},
       qq[">$city</a>];
     print qq[<br />\n];
 }
