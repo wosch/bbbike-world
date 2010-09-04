@@ -31,13 +31,12 @@ sub extract_coords {
         my $x = ( $x2 - $x1 ) / 2 + $x1;
         my $y = ( $y2 - $y1 ) / 2 + $y1;
 
-        next if $city eq 'dummy';
         next if $city eq 'berlin';
-        my $name = $city if !exists $c->{"name"};
 
-        $name = $db->select_city_name( $city, $name, 'en' );
-
-        push( @data, [ $city, $name, $c->{"lang"}, $x, $y ] );
+        my $name =
+          $db->select_city_name( $city, ( $c->{"name"} || $city ), 'en' );
+        my $lang = $c->{"lang"} eq 'de' ? '' : 'en';
+        push( @data, [ $city, $name, $lang, $x, $y ] );
     }
     return @data;
 }
