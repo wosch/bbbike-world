@@ -76,7 +76,7 @@ my $city_by_lang;
 GetOptions(
     "debug=i"        => \$debug,
     "lang"           => \$lang,
-    "local-lang"           => \$local_lang,
+    "local-lang"     => \$local_lang,
     "step"           => \$step,
     "population"     => \$population,
     "coord"          => \$coord,
@@ -100,12 +100,13 @@ while (<$fh>) {
     s/^\s+//;
     next if /^#/ || $_ eq "";
 
-    my ( $city, $name, $lang, $local_lang, $area, $coord, $population, $step ) = split(/:/);
+    my ( $city, $name, $lang, $local_lang, $area, $coord, $population, $step ) =
+      split(/:/);
     $hash{$city} = {
         city       => $city,
         name       => $name,
         lang       => $lang || "de",
-        local_lang       => $local_lang || "",
+        local_lang => $local_lang || "",
         step       => $step || "0.02",
         area       => $area || "de",
         coord      => $coord,

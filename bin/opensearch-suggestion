@@ -3,7 +3,6 @@
 #
 # opensearch-suggestion - create a suggestion database
 
-
 use Getopt::Long;
 use Text::Unidecode;
 use utf8;

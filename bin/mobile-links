@@ -10,7 +10,7 @@ use warnings;
 my $debug            = 1;      # 0: quiet, 1: normal, 2: verbose
 my $city_lang        = 'de';
 my $split_city_names = 0;
-my $local_names = 0;
+my $local_names      = 0;
 
 sub usage () {
     <<EOF;
@@ -51,7 +51,7 @@ GetOptions(
     "debug=i"            => \$debug,
     "lang=s"             => \$city_lang,
     "split-city-names=i" => \$split_city_names,
-    "local-names=i" => \$local_names,
+    "local-names=i"      => \$local_names,
 ) or die usage;
 
 my %hash;
@@ -80,14 +80,16 @@ while (<>) {
         $class{"$2/$1"} = $city;
     }
     else {
-        $hash{$name} = $link;
+        $hash{$name}  = $link;
         $class{$name} = $city;
     }
 }
 
 foreach my $city ( sort keys %hash ) {
+
     #print qq[<option value="], $hash{$city}, qq[">$city</option>\n];
-    print qq[<a class="C_], $class{$city}, qq[" href="cgi/], $hash{$city}, qq[">$city</a>];
+    print qq[<a class="C_], $class{$city}, qq[" href="cgi/], $hash{$city},
+      qq[">$city</a>];
     print qq[<br />\n];
 }
 
