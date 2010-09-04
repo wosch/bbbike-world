@@ -3,9 +3,13 @@
 #
 # tagcloud - create a tagcloud for bbbike @ world cities
 
-
 use HTML::TagCloud 0.34;
 use Getopt::Long;
+
+use lib '.';
+use lib './world/bin';
+use BBBikeWorldDB;
+
 use strict;
 use warnings;
 
@@ -32,30 +36,6 @@ sub id2class {
     return $data;
 }
 
-# select city name by language
-sub select_city_name {
-    my $city      = shift;
-    my $name      = shift or die "No city name given!\n";
-    my $city_lang = shift || "de";
-
-    my %hash;
-    $hash{ALL} = $city;
-    foreach my $n ( split /\s*,\s*/, $name ) {
-        my ( $lang, $city_name ) = split( /!/, $n );
-        if ($city_name) {
-            $hash{$lang} = $city_name;
-        }
-
-        # no city language defined, use default
-        else {
-            $hash{ALL} = $lang;
-        }
-    }
-
-    #use Data::Dumper; warn Dumper( \%hash );
-    return exists( $hash{$city_lang} ) ? $hash{$city_lang} : $hash{ALL};
-}
-
 GetOptions(
     "debug=i" => \$debug,
     "area=s"  => \$selected_area,
@@ -65,24 +45,20 @@ GetOptions(
 
 my $cloud = HTML::TagCloud->new( levels => $level );
 
-while (<>) {
-    chomp;
-    s/^\s+//;
-    next if /^#/ || $_ eq "";
+my $db = BBBikeWorldDB->new( 'database' => '/dev/stdin' );
 
-    my ( $city, $name, $lang, $local_lang, $area, $coord, $population ) = split(/:/);
-    next if $city eq 'dummy';
+foreach my $city ( $db->list_cities ) {
+    my $c = $db->city->{$city};
 
-    $lang       = "de"  if !$lang;
-    $area       = "de"  if !$area;
-    $population = 1     if $population < 1;
-    $name       = $city if !$name;
+    next if $c->{"area"} ne $selected_area;
 
-    next if $area ne $selected_area;
-    $name = &select_city_name( $city, $name, $city_lang );
+    my $name =
+      $db->select_city_name( $c->{"city"}, ( $c->{"name"} || $c->{"city"} ),
+        $city_lang );
+    my $link =
+      "cgi/$city" . ( $c->{"lang"} eq "de" ? "" : ".$c->{'lang'}" ) . ".cgi";
 
-    my $link = "cgi/$city" . ( $lang eq 'de' ? '' : ".$lang" ) . '.cgi';
-    $cloud->add( $name, $link, $population );
+    $cloud->add( $name, $link, $c->{"population"} );
 }
 
 print &id2class( $cloud->html ), "\n";

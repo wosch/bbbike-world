@@ -20,16 +20,20 @@ sub new {
         'local_lang' => '',
         'area'       => 'de',
         'step'       => '0.02',
+        '_city'      => {},
     };
 
     bless $self, $class;
+
+    $self->parse_database;
+    return $self;
 }
 
 sub parse_database {
     my $self = shift;
 
     my $db = $self->{'database'};
-    my $fh = new IO::File $db, "r" or die "open: $!\n";
+    my $fh = new IO::File $db, "r" or die "open: $db $!\n";
 
     my %hash;
     my %raw;
@@ -41,6 +45,9 @@ sub parse_database {
         my ( $city, $name, $lang, $local_lang, $area, $coord, $population,
             $step )
           = split(/:/);
+
+        next if $city eq 'dummy';
+
         $hash{$city} = {
             city       => $city,
             name       => $name,
@@ -59,12 +66,47 @@ sub parse_database {
     }
     close $fh;
 
-    $self->{'city'} = \%hash;
-    $self->{'raw'}  = \%raw;
+    $self->{'_city'} = \%hash;
+    $self->{'_raw'}  = \%raw;
 
     return $self->city;
 }
 
-sub city { return shift->{'city'}; }
-sub raw  { return shift->{'raw'}; }
+sub city { return shift->{'_city'}; }
+sub raw  { return shift->{'_raw'}; }
+
+sub list_cities {
+    my $self = shift;
+
+    if ( $self->city ) {
+        return sort keys %{ $self->city };
+    }
+    else {
+        return;
+    }
+}
+
+# select city name by language
+sub select_city_name {
+    my $city      = shift;
+    my $name      = shift or die "No city name given!\n";
+    my $city_lang = shift || "de";
+
+    my %hash;
+    $hash{ALL} = $city;
+    foreach my $n ( split /\s*,\s*/, $name ) {
+        my ( $lang, $city_name ) = split( /!/, $n );
+        if ($city_name) {
+            $hash{$lang} = $city_name;
+        }
+
+        # no city language defined, use default
+        else {
+            $hash{ALL} = $lang;
+        }
+    }
+
+    #use Data::Dumper; warn Dumper( \%hash );
+    return exists( $hash{$city_lang} ) ? $hash{$city_lang} : $hash{ALL};
+}
 
