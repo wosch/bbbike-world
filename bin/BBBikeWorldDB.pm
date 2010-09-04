@@ -11,11 +11,14 @@ use warnings;
 
 our $VERSION = 0.1;
 
+our $debug = 1;
+
 sub new {
     my ( $class, %args ) = @_;
 
     my $self = {
         'database'   => 'world/misc/cities.csv',
+        'debug'      => $debug,
         'lang'       => 'de',
         'local_lang' => '',
         'area'       => 'de',
@@ -28,6 +31,12 @@ sub new {
     $self->parse_database;
     return $self;
 }
+
+#
+## City : Real Name : pref. language : local language : area : coord : population : step?
+#Berlin:::::13.0109 52.3376 13.7613 52.6753:4500000:
+#CambridgeMa:Cambridge (Massachusetts):en::other:-71.1986 42.3265 -71.0036 42.4285:1264990:
+#
 
 sub parse_database {
     my $self = shift;
@@ -72,8 +81,9 @@ sub parse_database {
     return $self->city;
 }
 
-sub city { return shift->{'_city'}; }
-sub raw  { return shift->{'_raw'}; }
+sub city  { return shift->{'_city'}; }
+sub raw   { return shift->{'_raw'}; }
+sub debug { return shift->{'debug'}; }
 
 sub list_cities {
     my $self = shift;
@@ -88,9 +98,13 @@ sub list_cities {
 
 # select city name by language
 sub select_city_name {
+    my $self = shift;
+
     my $city      = shift;
     my $name      = shift or die "No city name given!\n";
     my $city_lang = shift || "de";
+
+    warn "city: $city, name: $name, lang: $city_lang\n" if $self->debug >= 2;
 
     my %hash;
     $hash{ALL} = $city;
