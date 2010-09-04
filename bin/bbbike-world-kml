@@ -56,6 +56,7 @@ sub extract_coords {
         my $y = ( $y2 - $y1 ) / 2 + $y1;
 
         next if $city eq 'dummy';
+        next if $city eq 'berlin';
         $name = $city if !$name;
 
         $name = &select_city_name( $city, $name, 'en' );

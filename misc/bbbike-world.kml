@@ -1178,13 +1178,5 @@
       <coordinates>8.5377,47.3811,0.000000</coordinates>
     </Point>
   </Placemark>
-  <Placemark>
-    <name>berlin</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/berlin.cgi">BBBike @ berlin</a></span>]]></description>
-    <styleUrl>#style1</styleUrl>
-    <Point>
-      <coordinates>13.41865,52.5021565,0.000000</coordinates>
-    </Point>
-  </Placemark>
 </Document>
 </kml>
