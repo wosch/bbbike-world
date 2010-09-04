@@ -3,7 +3,9 @@
 #
 # bbbike-db - command line tool to parse bbbike @ world city database
 
-use IO::File;
+use lib '.';
+use lib './world/bin';
+use BBBikeWorldDB;
 
 use strict;
 use warnings;
@@ -90,34 +92,15 @@ die &usage if !( $city || $area || $city_by_lang );
 
 $city =~ s/-(convert|download)$// if $city;
 
-my $db = $0;
-$db =~ s,/+[^/]+$,/../misc/cities.csv,;
+my $database = $0;
+$database =~ s,/+[^/]+$,/../misc/cities.csv,;
 my %hash;
 
-my $fh = new IO::File $db, "r" or die "open: $!\n";
-while (<$fh>) {
-    chomp;
-    s/^\s+//;
-    next if /^#/ || $_ eq "";
-
-    my ( $city, $name, $lang, $local_lang, $area, $coord, $population, $step ) =
-      split(/:/);
-    $hash{$city} = {
-        city       => $city,
-        name       => $name,
-        lang       => $lang || "de",
-        local_lang => $local_lang || "",
-        step       => $step || "0.02",
-        area       => $area || "de",
-        coord      => $coord,
-        population => $population || 1,
-    };
-}
-close $fh;
+my $db = BBBikeWorldDB->new( 'database' => $database );
+%hash = %{ $db->city };
 
 if ( defined $area ) {
     while ( my ( $key, $val ) = each %hash ) {
-        next if $key eq 'dummy';
         print $key, "\n" if $hash{$key}->{area} eq $area;
     }
     exit 0;
@@ -125,14 +108,12 @@ if ( defined $area ) {
 
 if ( defined $city_by_lang ) {
     while ( my ( $key, $val ) = each %hash ) {
-        next if $key eq 'dummy';
         print $key, "\n"
           if $city_by_lang eq 'any' || $hash{$key}->{lang} eq $city_by_lang;
     }
     exit 0;
 }
 
-#use Data::Dumper; print Dumper( \%hash );
 if ( exists $hash{$city} ) {
     if ($lang) {
         print $hash{$city}->{lang} ? $hash{$city}->{lang} : "de";
