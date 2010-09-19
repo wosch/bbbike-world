@@ -339,6 +339,7 @@ ${CITIES}:
 rsync-osm:
 	rsync -azv --exclude='*.bak' --delete --max-delete=512 ${DATA_OSM_DIR} ${OSM_AREAS_OPENSEARCH} osm osp bbbike.org:/usr/local/www/bbbike.org
 	rsync -azv --exclude='*.bak' data/opensearch.streetnames bbbike.org:/usr/local/www/bbbike.org/data
+	@echo ""
 	@echo "don't forget to cleanup the data cache in /var/cache/bbbike!"
 
 rsync-osm-devel rsync-osm-dev:
