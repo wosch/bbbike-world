@@ -24,6 +24,7 @@ sub new {
         'area'       => 'de',
         'step'       => '0.02',
         '_city'      => {},
+	%args,
     };
 
     bless $self, $class;

@@ -3,8 +3,10 @@
 #
 # bbbike-db - command line tool to parse bbbike @ world city database
 
+use File::Basename;
 use lib '.';
 use lib './world/bin';
+use lib '../bbbike/world/bin';
 use BBBikeWorldDB;
 
 use strict;
@@ -92,8 +94,9 @@ die &usage if !( $city || $area || $city_by_lang );
 
 $city =~ s/-(convert|download)$// if $city;
 
-my $database = $0;
-$database =~ s,/+[^/]+$,/../misc/cities.csv,;
+my $database = dirname(dirname($0)) . "/misc/cities.csv";
+warn "XXX: $0 $database\n";
+
 my %hash;
 
 my $db = BBBikeWorldDB->new( 'database' => $database );
