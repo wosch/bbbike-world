@@ -95,7 +95,6 @@ die &usage if !( $city || $area || $city_by_lang );
 $city =~ s/-(convert|download)$// if $city;
 
 my $database = dirname(dirname($0)) . "/misc/cities.csv";
-warn "XXX: $0 $database\n";
 
 my %hash;
 
