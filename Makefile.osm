@@ -183,8 +183,8 @@ CITIES=		\
 # the world:
 # 
 OSM_AREAS_OPENSEARCH=data-opensearch-places
-OSM_AREAS_LARGE=\
-	../osm-streetnames/download/planet-latest.osm.bz2 \
+OSM_PLANET=	../osm-streetnames/download/planet-latest.osm.bz2 
+OSM_AREAS_LARGE=	${OSM_PLANET}
 
 OSM_AREAS= \
 	../osm-streetnames/download/geofabrik/europe/germany.osm.bz2 \
@@ -229,6 +229,15 @@ cities:
 	${MAKE} -f Makefile.osm cleanup-osm-error
 	${MAKE} -f Makefile.osm _cities_complete
 	${MAKE} -f Makefile.osm check-osm
+
+_osmosis_opt:
+	for i in ${CITIES}; do echo -n " --bp file=${OSM_DIR}/$$i/$$i.poly --wx file=${OSM_DIR}/$$i/$$i.gz"; done
+
+cities-poly:
+	bzcat ${OSM_PLANET} | buffer | osmosis --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --tee `${MAKE} -s -f Makefile.osm city-count` `${MAKE} -s -f Makefile.osm _osmosis_opt`
+	${MAKE} -f Makefile.osm check-osm
+	${MAKE} -f Makefile.osm cleanup-osm-error
+
 
 _cities:
 	@echo ${CITIES} | \
@@ -336,7 +345,7 @@ $(_cw):
 	c=`basename $@ -workarounds`; world/bin/osm2bbd-workarounds-streets ${DATA_OSM_DIR} $$c
 
 $(_cp):
-	@c=`basename $@ -poly`; ${DB} --poly $$c > ${OSM_DIR}/$$c.poly.tmp; mv -f ${OSM_DIR}/$$c.poly.tmp ${OSM_DIR}/$$c.poly
+	@c=`basename $@ -poly`; mkdir -p ${OSM_DIR}/$$c; ${DB} --poly $$c > ${OSM_DIR}/$$c/$$c.poly.tmp; mv -f ${OSM_DIR}/$$c/$$c.poly.tmp ${OSM_DIR}/$$c/$$c.poly
 
 ${CITIES}:
 	${MAKE} -f Makefile.osm $@-download $@-convert $@-workarounds
