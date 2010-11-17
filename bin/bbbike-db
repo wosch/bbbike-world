@@ -52,6 +52,23 @@ sub osm_round {
     return $round;
 }
 
+sub poly {
+    my ( $city, @coords ) = @_;
+    my $data = "";
+
+    $data .= "$city\n";
+    $data .= "1\n";
+
+    foreach my $c (@coords) {
+        $data .= "    " . $$c[0] . "  " . $$c[1] . "\n";
+    }
+
+    $data .= "END\n";
+    $data .= "END\n";
+
+    return $data;
+}
+
 sub usage () {
     <<EOF;
 usage: $0 [--debug={0..2}] [options] city
@@ -61,6 +78,7 @@ usage: $0 [--debug={0..2}] [options] city
 --local-lang
 --population
 --coord
+--poly
 --centerdelta
 --area=area
 --city-by-lang=lang
@@ -73,6 +91,7 @@ my $local_lang;
 my $step;
 my $population;
 my $coord;
+my $poly;
 my $centerdelta;
 my $area;
 my $city_by_lang;
@@ -84,6 +103,7 @@ GetOptions(
     "step"           => \$step,
     "population"     => \$population,
     "coord"          => \$coord,
+    "poly"           => \$poly,
     "centerdelta"    => \$centerdelta,
     "area=s"         => \$area,
     "city-by-lang=s" => \$city_by_lang,
@@ -94,7 +114,7 @@ die &usage if !( $city || $area || $city_by_lang );
 
 $city =~ s/-(convert|download)$// if $city;
 
-my $database = dirname(dirname($0)) . "/misc/cities.csv";
+my $database = dirname( dirname($0) ) . "/misc/cities.csv";
 
 my %hash;
 
@@ -129,6 +149,11 @@ if ( exists $hash{$city} ) {
         my ( $x1, $y1, $x2, $y2 ) =
           map { &osm_round( $_, 100 ) } split( /\s+/, $hash{$city}->{coord} );
         print "$x1 $y1 $x2 $y2 ";
+    }
+    elsif ($poly) {
+        my ( $x1, $y1, $x2, $y2 ) =
+          map { &osm_round( $_, 100 ) } split( /\s+/, $hash{$city}->{coord} );
+        print &poly( $city, ( [ $x1, $y1 ], [ $x2, $y2 ] ) );
     }
     elsif ($centerdelta) {
         my ( $x1, $y1, $x2, $y2 ) =
