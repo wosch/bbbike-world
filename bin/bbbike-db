@@ -53,15 +53,16 @@ sub osm_round {
 }
 
 sub poly {
-    my ( $city, @coords ) = @_;
+    my ( $city, $x1, $y1, $x2, $y2 ) = @_;
     my $data = "";
 
     $data .= "$city\n";
     $data .= "1\n";
 
-    foreach my $c (@coords) {
-        $data .= "    " . $$c[0] . "  " . $$c[1] . "\n";
-    }
+    $data .= "   $x1  $y1\n";
+    $data .= "   $x2  $y1\n";
+    $data .= "   $x2  $y2\n";
+    $data .= "   $x1  $y2\n";
 
     $data .= "END\n";
     $data .= "END\n";
@@ -153,7 +154,7 @@ if ( exists $hash{$city} ) {
     elsif ($poly) {
         my ( $x1, $y1, $x2, $y2 ) =
           map { &osm_round( $_, 100 ) } split( /\s+/, $hash{$city}->{coord} );
-        print &poly( $city, ( [ $x1, $y1 ], [ $x2, $y2 ] ) );
+        print &poly( $city, ( $x1, $y1, $x2, $y2 ) );
     }
     elsif ($centerdelta) {
         my ( $x1, $y1, $x2, $y2 ) =
