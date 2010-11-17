@@ -11,7 +11,7 @@ MAX_PARALLELS_OSM_DOWNLOADS=	2
 NICE=		nice -n 15
 PERL=		perl
 OSM2BBD_MAPTYPE=	#-map bbbike	
-OSM_SOCKS_PROXY=	# --socksproxy=socks://localhost:1080
+OSM_SOCKS_PROXY=	--socksproxy=socks://localhost:1080
 OSM_TIMEOUT=	--timeout=45
 DOWNLOADOSM_URL=	--osm-api-url=http://osmxapi.hypercube.telascience.org/api/0.6
 DOWNLOADOSM=	${PERL} ./miscsrc/downloadosm --debug=0 ${OSM_SOCKS_PROXY} ${OSM_TIMEOUT} ${DOWNLOADOSM_URL}
@@ -237,6 +237,8 @@ _cities:
 
 _cities_complete:
 	${MAKE} -f Makefile.osm OSM_TIMEOUT="--timeout=300" `echo ${CITIES} | perl -npe 's/\s+/-download /g'`
+poly:
+	${MAKE} -j ${MAX_CPU} -f Makefile.osm `echo ${CITIES} | perl -npe 's/\s+/-poly /g'`
 
 city-count:
 	@echo ${CITIES}  | wc -w
@@ -317,6 +319,7 @@ _c = ${CITIES}
 _cd = $(_c:=-download)
 _cc = $(_c:=-convert)
 _cw = $(_c:=-workarounds)
+_cp = $(_c:=-poly)
 
 DB=world/bin/bbbike-db
 
@@ -331,6 +334,9 @@ $(_cc):
 $(_cw):
 	c=`basename $@ -workarounds`; world/bin/osm2bbd-workarounds ${DATA_OSM_DIR} $$c
 	c=`basename $@ -workarounds`; world/bin/osm2bbd-workarounds-streets ${DATA_OSM_DIR} $$c
+
+$(_cp):
+	@c=`basename $@ -poly`; ${DB} --poly $$c > ${OSM_DIR}/$$c.poly.tmp; mv -f ${OSM_DIR}/$$c.poly.tmp ${OSM_DIR}/$$c.poly
 
 ${CITIES}:
 	${MAKE} -f Makefile.osm $@-download $@-convert $@-workarounds
@@ -422,6 +428,7 @@ help:
 	@echo "            [ clean | dist-clean | create-osp | tagcloud | bbbike2wgs84 ]"
 	@echo "            [ osm2bbd-workarounds-streets | create-bbbike-web-symlinks | kml ]"
 	@echo "            [ convert-wgs84 | convert-bbbike ]"
+	@echo "            [ poly ]"
 	@echo "            [ city-count | city-reorder | check-osm | cleanup-osm-error ]"
 	@echo "            [ planet-download | planet-geofabrik-download ]"
 	@echo "            [ planet-streets | planet-places ]"
