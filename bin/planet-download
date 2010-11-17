@@ -10,9 +10,12 @@ file=planet-latest.osm.bz2
 mv -f $file.md5 $file.md5.old.$$
 mv -f $file $file.old.$$
 
-wget -nv http://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org/$file.md5
+server1=http://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org
+server2=http://ftp.ecki-netz.de/osm
+
+wget -nv $server1/$file.md5
 cat $file.md5
 
-wget -nv http://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org/$file
+wget -nv $server2/$file
 $MD5 $file
 
