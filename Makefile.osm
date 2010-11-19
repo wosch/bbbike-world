@@ -431,7 +431,7 @@ clean:
 	rm -rf ${DATA_OSM_DIR} ${DATA_OSM_BBBIKE_DIR}
 	mkdir ${DATA_OSM_DIR} ${DATA_OSM_BBBIKE_DIR}
 
-clean-cache:
+clean-cache cache-clean:
 	rm -rf ${BBBIKE_CACHE_DIR}/*bbbike.org ${BBBIKE_CACHE_DIR}/localhost	
 
 dist-clean devel-clean distclean: clean
