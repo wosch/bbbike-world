@@ -29,9 +29,10 @@ fi
 mkdir -p $dir
 cd $dir || exit 2
 
-download "" | sh
-download europe | sh
-download europe/germany | sh
-download europe/great_britain | sh
-download europe/france | sh
+: ${shell=/bin/sh}
+download "" | $shell
+download europe | $shell
+download europe/germany | $shell
+download europe/great_britain | $shell
+download europe/france | $shell
 
