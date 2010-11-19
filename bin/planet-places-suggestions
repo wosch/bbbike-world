@@ -15,6 +15,7 @@ if test -z "outdir"; then
 	outdir=./
 fi
 mkdir -p $outdir || exit 2
+gzip=`which pigz gzip | head -1`
 
 file=`mktemp -t planetplaces.XXXXXXXXXXX` || exit 2
 if ! planet-ext-places --debug=2 $infile > $file.places 2> $file.err; then
@@ -27,7 +28,7 @@ if !  opensearch-suggestion < $file.places > $file.suggestions; then
 fi 
 
 mv -f $file.suggestions $outdir/opensearch.streetnames
-gzip <  $file.places > $outdir/places.gz
-gzip <  $file.err > $outdir/error.log.gz
+$gzip <  $file.places > $outdir/places.gz
+$gzip <  $file.err > $outdir/error.log.gz
 rm -f $file.err $file.places
 
