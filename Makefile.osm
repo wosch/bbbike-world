@@ -9,13 +9,14 @@
 
 MAX_PARALLELS_OSM_DOWNLOADS=	2
 NICE=		nice -n 15
+NICE5=		nice -n 5
 PERL=		perl
 OSM2BBD_MAPTYPE=	#-map bbbike	
 OSM_SOCKS_PROXY=	--socksproxy=socks://localhost:1080
 OSM_TIMEOUT=	--timeout=45
 DOWNLOADOSM_URL=	--osm-api-url=http://osmxapi.hypercube.telascience.org/api/0.6
 DOWNLOADOSM=	${PERL} ./miscsrc/downloadosm --debug=0 ${OSM_SOCKS_PROXY} ${OSM_TIMEOUT} ${DOWNLOADOSM_URL}
-OSM2BBD=	${PERL} ./miscsrc/osm2bbd -f --debug=0 ${OSM2BBD_MAPTYPE} -ignore-unhandled -ignore-underline -experiment add_postal_code -experiment polar_coord_hack
+OSM2BBD=	${PERL} ./miscsrc/osm2bbd -f --debug=0 ${OSM2BBD_MAPTYPE} -ignore-unhandled -ignore-underline -experiment add_postal_code #-experiment polar_coord_hack
 MAX_CPU=	`world/bin/ncpu`
 MAX_CPU2=	`world/bin/ncpu -1`
 GXARGS=		${NICE} `which gxargs xargs | head -1`
@@ -234,7 +235,7 @@ _osmosis_opt:
 	for i in ${CITIES}; do echo -n " --bp file=${OSM_DIR}/$$i/$$i.poly --wx file=${OSM_DIR}/$$i/$$i.osm.gz"; done
 
 cities-poly:
-	bzcat ${OSM_PLANET} | buffer | osmosis --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --tee `${MAKE} -s -f Makefile.osm city-count` `${MAKE} -s -f Makefile.osm _osmosis_opt`
+	${NICE5} bzip2 -dc ${OSM_PLANET} | buffer -s 64k -m 10m | ${NICE5} osmosis --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --tee `${MAKE} -s -f Makefile.osm city-count` `${MAKE} -s -f Makefile.osm _osmosis_opt`
 	${MAKE} -f Makefile.osm check-osm
 	${MAKE} -f Makefile.osm cleanup-osm-error
 
