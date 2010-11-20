@@ -226,7 +226,7 @@ _tarball:
 	tar cf - ${DATA_DIR} | ${BZIP2} > ${DATA_DIR}.tbz.tmp
 	mv -f ${DATA_DIR}.tbz.tmp ${DATA_DIR}.tbz
 
-cities:
+cities-api:
 	@for i in `perl -e 'print "x " x 2'`; do ${MAKE} -f Makefile.osm _cities; done
 	${MAKE} -f Makefile.osm cleanup-osm-error
 	${MAKE} -f Makefile.osm _cities_complete
@@ -235,11 +235,9 @@ cities:
 _osmosis_opt:
 	for i in ${CITIES}; do echo -n " --bp file=${OSM_DIR}/$$i/$$i.poly --wx file=${OSM_DIR}/$$i/$$i.osm.gz"; done
 
-cities-poly:
-	${NICE5} bzip2 -dc ${OSM_PLANET} | buffer -s 64k -m 10m | ${NICE5} osmosis --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --tee `${MAKE} -s -f Makefile.osm city-count` `${MAKE} -s -f Makefile.osm _osmosis_opt`
+cities-poly cities: poly
+	${NICE5} bzip2 -dc ${OSM_PLANET} | buffer -s 64k -m 4m | ${NICE5} osmosis --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --tee `${MAKE} -s -f Makefile.osm city-count` `${MAKE} -s -f Makefile.osm _osmosis_opt`
 	${MAKE} -f Makefile.osm check-osm
-	${MAKE} -f Makefile.osm cleanup-osm-error
-
 
 _cities:
 	@echo ${CITIES} | \
@@ -442,7 +440,6 @@ help:
 	@echo "            [ clean | dist-clean | clean-cache | create-osp | tagcloud | bbbike2wgs84 ]"
 	@echo "            [ osm2bbd-workarounds-streets | create-bbbike-web-symlinks | kml ]"
 	@echo "            [ convert-wgs84 | convert-bbbike ]"
-	@echo "            [ poly ]"
 	@echo "            [ city-count | city-reorder | check-osm | cleanup-osm-error ]"
 	@echo "            [ planet-download | planet-geofabrik-download ]"
 	@echo "            [ planet-streets | planet-places ]"
