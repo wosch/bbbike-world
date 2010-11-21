@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl
 # Copyright (c) 2009-2010 Wolfram Schneider, http://bbbike.org
 #
-# streets.cgi - redirect to a street on google maps
+# streets.cgi - redirect to a street on google maps / openstreetmap.org
 
 use CGI qw(escape);
 
@@ -11,7 +11,7 @@ use strict;
 
 $ENV{LANG} = 'C';
 
-my $use_osm_map = 0;    # fall back is google maps
+my $use_osm_map = 1;    # fall back is google maps
 
 my $opensearch_file = 'opensearch.streetnames';
 my $opensearch_dir  = '../data-osm';
@@ -103,15 +103,14 @@ sub streetnames_suggestions {
         $file = "$opensearch_dir2/$city/$opensearch_file";
     }
 
-    my $street = &street_match( $file, $street, $limit );
+    $street = &street_match( $file, $street, $limit );
 
     return if ref $street ne 'ARRAY';
 
     my ( $name, $gps ) = ( $street->[0], $street->[1] );
     my ( $x, $y ) = split( /,/, $gps );
 
-    return "$y,$x";    # . escape($name);
-
+    return ( $y, $x );    # . escape($name);
 }
 
 sub strip_list {
@@ -145,16 +144,13 @@ my $namespace = $q->param('namespace') || '0';
 
 binmode( \*STDERR, ":utf8" ) if $debug >= 1;
 
+my ( $lat, $lng ) =
+  &streetnames_suggestions( 'city' => $city, 'street' => $street );
 if ($use_osm_map) {
-    my ( $lat, $lon ) =
-      split( /,/,
-        &streetnames_suggestions( 'city' => $city, 'street' => $street ) );
     print $q->redirect(
-        "http://www.openstreetmap.org/?zoom=17&layers=B000FTF&lat=$lat&lon=$lon"
-    );
+        "http://www.openstreetmap.org/?mlat=$lat&mlon=$lng&zoom=16&layers=M");
 }
 else {
-    print $q->redirect( "http://maps.google.ca/maps?q="
-          . &streetnames_suggestions( 'city' => $city, 'street' => $street ) );
+    print $q->redirect("http://maps.google.ca/maps?q=$lat,$lng");
 }
 
