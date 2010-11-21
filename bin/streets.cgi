@@ -139,7 +139,7 @@ my $q = new CGI;
 
 my $action    = 'opensearch';
 my $street    = $q->param('search') || $q->param('q') || 'Garibaldi';
-my $city      = $q->param('city') || 'south-america';
+my $city      = $q->param('city') || 'planet';
 my $namespace = $q->param('namespace') || '0';
 
 binmode( \*STDERR, ":utf8" ) if $debug >= 1;
