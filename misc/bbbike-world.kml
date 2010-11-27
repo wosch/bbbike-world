@@ -587,6 +587,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Johannesburg</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Johannesburg.en.cgi">BBBike @ Johannesburg</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>28.0835,-26.2115,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Karlsruhe</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Karlsruhe.cgi">BBBike @ Karlsruhe</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -880,6 +888,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>115.8965,-31.9295,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Philadelphia</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Philadelphia.en.cgi">BBBike @ Philadelphia</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-75.1425,39.953,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>

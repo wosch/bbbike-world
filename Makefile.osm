@@ -186,6 +186,8 @@ CITIES=		\
 	Adelaide \
 	Canberra \
 	Auckland \
+	Philadelphia \
+	Johannesburg \
 
 #
 # opensearch suggestion service for
