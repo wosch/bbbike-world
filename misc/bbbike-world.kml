@@ -27,6 +27,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Adelaide</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Adelaide.en.cgi">BBBike @ Adelaide</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>138.599,-34.893,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Albuquerque</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Albuquerque.en.cgi">BBBike @ Albuquerque</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -40,6 +48,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>4.91235,52.37575,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Auckland</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Auckland.en.cgi">BBBike @ Auckland</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>174.7875,-36.8895,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -187,6 +203,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Brisbane</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Brisbane.en.cgi">BBBike @ Brisbane</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>153.049,-27.4665,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Bristol</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Bristol.en.cgi">BBBike @ Bristol</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -211,6 +235,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>BuenosAires</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/BuenosAires.en.cgi">BBBike @ Buenos Aires</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-58.4315,-34.6305,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Cairo</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Cairo.cgi">BBBike @ Cairo</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -232,6 +264,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-71.1011,42.3775,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Canberra</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Canberra.en.cgi">BBBike @ Canberra</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>149.1235,-35.2875,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -491,6 +531,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Halifax</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Halifax.en.cgi">BBBike @ Halifax</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-63.587,44.6815,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Hamburg</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Hamburg.cgi">BBBike @ Hamburg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -704,6 +752,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>5.4985,43.29,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Melbourne</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Melbourne.en.cgi">BBBike @ Melbourne</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>144.95,-37.7945,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
