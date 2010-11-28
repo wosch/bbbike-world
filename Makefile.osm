@@ -33,161 +33,162 @@ GZIP:=             $(shell which pigz gzip | head -1)
 BZIP2:=            $(shell which pbzip2 bzip2 | head -1)
 
 CITIES=		\
-	Berlin \
+	Paris \
 	Dortmund \
+	Berlin \
 	WashingtonDC \
 	Moscow \
+	Toronto \
 	Hamburg \
-	Paris \
+	Muenchen \
+	Prag \
+	CambridgeMa \
 	Marseille \
 	Duisburg \
-	Muenchen \
-	Toronto \
-	Ruegen \
 	Orlando \
-	Mannheim \
-	Sydney \
-	SanJose \
-	Frankfurt \
-	Denver \
 	Copenhagen \
-	CambridgeMa \
-	Prag \
-	Strassburg \
-	Perth \
-	Sacramento \
-	Bonn \
-	Ottawa \
 	Albuquerque \
-	Duesseldorf \
-	Dresden \
-	Rotterdam \
-	Koeln \
-	Wien \
-	Amsterdam \
-	CapeTown \
+	Birmingham \
+	Frankfurt \
+	Strassburg \
+	Sydney \
+	Melbourne \
+	Mannheim \
+	Philadelphia \
+	Liverpool \
 	London \
-	PhnomPenh \
-	PaloAlto \
+	Amsterdam \
 	Stettin \
-	Tokyo \
-	Darmstadt \
+	Manchester \
+	Perth \
+	Dresden \
+	Duesseldorf \
+	Denver \
+	SanJose \
+	Leeds \
+	Bonn \
+	Rotterdam \
+	Wien \
+	Brisbane \
 	DenHaag \
+	Groningen \
+	Koeln \
+	Ottawa \
+	Nuernberg \
+	Glasgow \
+	Adelaide \
+	SanktPetersburg \
+	Sacramento \
+	Helsinki \
+	Darmstadt \
+	CapeTown \
+	Rostock \
 	Warschau \
 	Hannover \
-	Groningen \
-	Saigon \
-	Santiago \
-	Nuernberg \
-	Mainz \
-	Montreal \
-	Helsinki \
-	Rostock \
-	Bremen \
-	SanktPetersburg \
-	Tuscon \
-	Seoul \
 	Leipzig \
-	Portland \
-	Singapore \
-	Reval \
-	SanFrancisco \
-	Madison \
-	Victoria \
-	Karlsruhe \
-	SantaBarbara \
-	Zuerich \
-	Bielefeld \
-	Bogota \
-	MexicoCity \
-	Kassel \
-	Vancouver \
-	Zagreb \
-	Bamberg \
-	Stockholm \
-	SantaCruz \
-	Miami \
-	Seattle \
-	RiodeJaneiro \
-	Bruessel \
-	NewYork \
-	Jena \
-	Providence \
-	Luebeck \
+	Tokyo \
 	Genf \
-	Kiel \
-	Budapest \
-	FortCollins \
-	Colmar \
+	Santiago \
+	Canberra \
+	Montreal \
+	Mainz \
+	Reval \
+	Zuerich \
+	Bremen \
+	Edinburgh \
+	Auckland \
+	Bamberg \
+	Portland \
+	Ruegen \
+	Karlsruhe \
+	Stockholm \
+	Bogota \
+	Bielefeld \
+	SanFrancisco \
 	Aarhus \
+	PaloAlto \
+	Colmar \
 	Breslau \
-	Danzig \
-	Chicago \
-	Freiburg \
-	Erlangen \
-	Cottbus \
-	Kiew \
-	Beijing \
+	Bruessel \
+	Johannesburg \
+	Saigon \
+	Bristol \
+	RiodeJaneiro \
+	Sheffield \
+	Vancouver \
+	Victoria \
+	Seattle \
+	Madison \
 	Aachen \
-	Barcelona \
-	Cairo \
-	Baghdad \
+	MexicoCity \
+	Erlangen \
 	Dublin \
-	Posen \
-	Oldenburg \
-	Basel \
-	Chemnitz \
+	Kassel \
+	Tuscon \
+	Kiew \
+	Cottbus \
+	Providence \
+	Seoul \
+	Budapest \
+	Kiel \
+	Zagreb \
+	NewYork \
+	SantaCruz \
+	Freiburg \
+	Luebeck \
+	Halifax \
+	Cairo \
+	Singapore \
+	Barcelona \
 	Magdeburg \
-	Eugene \
-	Goettingen \
+	BuenosAires \
+	Baghdad \
+	Chemnitz \
 	Sofia \
-	Kattowitz \
+	Chicago \
+	Oldenburg \
+	Posen \
+	Jena \
+	SantaBarbara \
+	Goettingen \
 	Lissabon \
 	Trondheim \
-	Tehran \
+	FortCollins \
+	Beijing \
+	Basel \
 	Cambridge \
+	Miami \
+	Kattowitz \
+	Erfurt \
+	Riga \
+	Oslo \
+	Tehran \
+	Muenster \
+	Istanbul \
+	Danzig \
+	Krakau \
+	Eugene \
 	Laibach \
 	Bangkok \
-	Oslo \
 	Boulder \
-	Erfurt \
-	Muenster \
-	Jerusalem \
-	Gleiwitz \
-	Austin \
 	Turin \
-	Istanbul \
-	Riga \
+	Austin \
+	Jerusalem \
 	Davis \
-	Krakau \
-	Goerlitz \
 	Beirut \
+	Gleiwitz \
 	Kaunas \
-	CraterLake \
-	BrandenburgHavel \
-	Sarajewo \
-	WarenMueritz \
+	Goerlitz \
 	FrankfurtOder \
+	Sarajewo \
+	BrandenburgHavel \
 	Corvallis \
+	WarenMueritz \
+	PhnomPenh \
+	CraterLake \
 	Baku \
 	UlanBator \
-	Glasgow \
-	Edinburgh \
-	Leeds \
-	Birmingham \
-	Liverpool \
-	Sheffield \
-	Bristol \
-	Manchester \
-	BuenosAires \
-	Halifax \
-	Melbourne \
-	Brisbane \
-	Adelaide \
-	Canberra \
-	Auckland \
-	Philadelphia \
-	Johannesburg \
+
 
 #
 # opensearch suggestion service for
