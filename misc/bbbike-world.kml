@@ -139,6 +139,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Bern</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Bern.cgi">BBBike @ Geneva</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>7.4678,46.95215,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Bielefeld</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Bielefeld.cgi">BBBike @ Bielefeld</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -767,7 +775,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Melbourne.en.cgi">BBBike @ Melbourne</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>144.95,-37.7945,0.000000</coordinates>
+      <coordinates>144.957,-37.8035,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -895,7 +903,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Philadelphia.en.cgi">BBBike @ Philadelphia</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-75.1425,39.953,0.000000</coordinates>
+      <coordinates>-75.136,39.9385,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
