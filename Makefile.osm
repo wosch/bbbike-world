@@ -267,7 +267,7 @@ city-count:
 	@echo ${CITIES}  | wc -w
 
 city-reorder:
-	@cd osm; du -ks * | sort -nr
+	@cd ${OSM_DIR}; du -ks * | sort -nr
 
 
 # using GNU xargs -P parallel
@@ -366,7 +366,7 @@ ${CITIES}:
 	
 ######################################################################
 rsync-osm:
-	rsync -azv --exclude='*.bak' --delete --max-delete=512 ${DATA_OSM_DIR} ${OSM_AREAS_OPENSEARCH} osm osp bbbike.org:/usr/local/www/bbbike.org
+	rsync -azv --exclude='*.bak' --delete --max-delete=512 ${DATA_OSM_DIR} ${OSM_AREAS_OPENSEARCH} ${OSM_DIR} ${OSP_DIR} bbbike.org:/usr/local/www/bbbike.org
 	rsync -azv --exclude='*.bak' data/opensearch.streetnames bbbike.org:/usr/local/www/bbbike.org/data
 	@echo ""
 	@echo "don't forget to cleanup the data cache in ${BBBIKE_CACHE_DIR}, run:  make clean-cache"
@@ -451,11 +451,11 @@ clean-cache cache-clean:
 	rm -rf ${BBBIKE_CACHE_DIR}/*bbbike.org ${BBBIKE_CACHE_DIR}/localhost	
 
 rotate-osm:
-	rm -rf osm.old4
-	-test -e osm.old3 && mv osm.old3 osm.old4
-	-test -e osm.old2 && mv osm.old2 osm.old3
-	-test -e osm.old  && mv osm.old  osm.old2
-	-test -e osm      && mv osm      osm.old 
+	rm -rf ${OSM_DIR}.old4
+	-test -e ${OSM_DIR}.old3 && mv ${OSM_DIR}.old3 ${OSM_DIR}.old4
+	-test -e ${OSM_DIR}.old2 && mv ${OSM_DIR}.old2 ${OSM_DIR}.old3
+	-test -e ${OSM_DIR}.old  && mv ${OSM_DIR}.old  ${OSM_DIR}.old2
+	-test -e ${OSM_DIR}      && mv ${OSM_DIR}      ${OSM_DIR}.old 
 
 update-database: distclean
 	time ${MAKE} -f Makefile.osm planet-download
@@ -464,8 +464,8 @@ update-database: distclean
 	time ${MAKE} -f Makefile.osm convert-bbbike > tmp/log.convert-bbbike 2>&1
 
 dist-clean devel-clean distclean: clean rotate-osm
-	rm -rf osm
-	mkdir -p osm
+	rm -rf ${OSM_DIR}
+	mkdir -p ${OSM_DIR}
 
 help:
 	@echo "usage: make [ help | cities | rsync-tgz | rsync-osm | rsync-osm-dev ]"
