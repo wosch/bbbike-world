@@ -445,7 +445,20 @@ clean:
 clean-cache cache-clean:
 	rm -rf ${BBBIKE_CACHE_DIR}/*bbbike.org ${BBBIKE_CACHE_DIR}/localhost	
 
-dist-clean devel-clean distclean: clean
+rotate-osm:
+	rm -rf osm.old4
+	-test -e osm.old3 && mv osm.old3 osm.old4
+	-test -e osm.old2 && mv osm.old2 osm.old3
+	-test -e osm.old  && mv osm.old  osm.old2
+	-test -e osm      && mv osm      osm.old 
+
+update-database: distclean
+	time ${MAKE} -f Makefile.osm planet-download
+	time ${MAKE} -f Makefile.osm cities > tmp/log.cities 2>&1
+	time ${MAKE} -f Makefile.osm convert-wgs84 > tmp/log.convert-wgs84 2>&1
+	time ${MAKE} -f Makefile.osm convert-bbbike > tmp/log.convert-bbbike 2>&1
+
+dist-clean devel-clean distclean: clean rotate-osm
 	rm -rf osm
 	mkdir -p osm
 
@@ -457,6 +470,7 @@ help:
 	@echo "            [ city-count | city-reorder | check-osm | cleanup-osm-error ]"
 	@echo "            [ planet-download | planet-geofabrik-download ]"
 	@echo "            [ planet-streets | planet-places ]"
+	@echo "            [ update-database ]"
 	@echo ""
 	@echo "            [ "`perl -e 'print join " ", sort @ARGV' ${CITIES}` "]"
 
