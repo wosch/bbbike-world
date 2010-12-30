@@ -1,0 +1,16 @@
+#!/bin/sh
+#
+# wrapper for Makefile bug
+#
+
+set -e
+
+tmp=tmp
+mkdir -p $tmp
+
+for i in distclean planet-download cities convert-wgs84 convert-bbbike
+do
+	\time make $i > tmp/log.$i 2>&1
+done
+
+

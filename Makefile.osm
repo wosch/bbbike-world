@@ -457,11 +457,8 @@ rotate-osm:
 	-test -e ${OSM_DIR}.old  && mv ${OSM_DIR}.old  ${OSM_DIR}.old2
 	-test -e ${OSM_DIR}      && mv ${OSM_DIR}      ${OSM_DIR}.old 
 
-update-database: distclean
-	time ${MAKE} -f Makefile.osm planet-download
-	time ${MAKE} -f Makefile.osm cities > tmp/log.cities 2>&1
-	time ${MAKE} -f Makefile.osm convert-wgs84 > tmp/log.convert-wgs84 2>&1
-	time ${MAKE} -f Makefile.osm convert-bbbike > tmp/log.convert-bbbike 2>&1
+update-database: 
+	@echo please run: time ./world/bin/update-database
 
 dist-clean devel-clean distclean: clean rotate-osm
 	rm -rf ${OSM_DIR}
