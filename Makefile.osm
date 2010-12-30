@@ -439,7 +439,12 @@ scp rsync rsync-tgz:
 	rsync -av ${DATA_DIR}.tbz wolfram.schneider.org:www/src/bbbike/${DATA_OSM_DIR}
 
 clean:
-	rm -rf ${DATA_OSM_DIR} ${DATA_OSM_BBBIKE_DIR}
+	-rm -rf ${DATA_OSM_DIR}.old2
+	-rm -rf ${DATA_OSM_BBBIKE_DIR}.old2
+	-test -e ${DATA_OSM_DIR}.old && mv ${DATA_OSM_DIR}.old ${DATA_OSM_DIR}.old2
+	-test -e ${DATA_OSM_DIR}     && mv ${DATA_OSM_DIR}     ${DATA_OSM_DIR}.old
+	-test -e ${DATA_OSM_BBBIKE_DIR}.old && mv ${DATA_OSM_BBBIKE_DIR}.old ${DATA_OSM_BBBIKE_DIR}.old2
+	-test -e ${DATA_OSM_BBBIKE_DIR}     && mv ${DATA_OSM_BBBIKE_DIR}     ${DATA_OSM_BBBIKE_DIR}.old
 	mkdir ${DATA_OSM_DIR} ${DATA_OSM_BBBIKE_DIR}
 
 clean-cache cache-clean:
