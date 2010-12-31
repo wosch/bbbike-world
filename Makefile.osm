@@ -35,6 +35,7 @@ BZIP2:=            $(shell which pbzip2 bzip2 | head -1)
 CITIES=		\
 	Paris \
 	Dortmund \
+	Bochum \
 	Berlin \
 	WashingtonDC \
 	Moscow \

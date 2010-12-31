@@ -163,6 +163,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Bochum</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Bochum.cgi">BBBike @ Bochum</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>7.2,51.5105,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Bogota</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Bogota.en.cgi">BBBike @ Bogotá</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -388,10 +396,10 @@
   </Placemark>
   <Placemark>
     <name>Dortmund</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Dortmund.cgi">BBBike @ Bochum/Dortmund</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/cgi/Dortmund.cgi">BBBike @ Dortmund</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>7.3445,51.5105,0.000000</coordinates>
+      <coordinates>7.5,51.5105,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
