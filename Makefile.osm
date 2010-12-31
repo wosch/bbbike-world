@@ -226,7 +226,7 @@ all: help
 build-runtime-perl:
 	world/bin/bbbike-build-runtime-perl.pl
 
-convert-wgs84: build-runtime-perl convert create-osp osm2bbd-workarounds-streets bbbike2wgs84
+convert-wgs84: build-runtime-perl convert create-osp bbbike2wgs84
 
 convert-bbbike: build-runtime-perl
 	${MAKE} -f Makefile.osm DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} OSM2BBD_MAPTYPE="-map bbbike" convert
@@ -334,15 +334,9 @@ osm2bbd-workarounds opensearch: opensearch-bbbike
 opensearch-bbbike:
 	world/bin/opensearch-suggestion --gps=0 --input-charset=iso-8859-1 < data/strassen > data/opensearch.streetnames
 
-osm2bbd-workarounds-streets: 
-	for i in ${CITIES}; do echo $$i; done | \
-	  ${GXARGS} -n 1 -P ${MAX_CPU} world/bin/osm2bbd-workarounds-streets ${DATA_OSM_DIR}
-
-
 _c = ${CITIES}
 _cd = $(_c:=-download)
 _cc = $(_c:=-convert)
-_cw = $(_c:=-workarounds)
 _cp = $(_c:=-poly)
 
 DB=world/bin/bbbike-db
@@ -351,19 +345,18 @@ $(_cd):
 	c=`basename $@ -download`; mkdir -p ${OSM_DIR}/$$c; \
 		${DOWNLOADOSM} --step=`${DB} --step $$c` -o ${OSM_DIR}/$$c -- `${DB} --coord $$c`
 
-#c=`basename $@ -convert`; ${OSM2BBD} -centerdelta `${DB} --centerdelta $$c` -lang `${DB} --lang $$c` -o ${DATA_OSM_DIR}/$$c ${OSM_DIR}/$$c
 $(_cc):
-	c=`basename $@ -convert`; rm -rf ${DATA_OSM_DIR}/$$c; ${OSM2BBD} -lang `${DB} --lang $$c` -o ${DATA_OSM_DIR}/$$c ${OSM_DIR}/$$c
-
-$(_cw):
-	c=`basename $@ -workarounds`; world/bin/osm2bbd-workarounds ${DATA_OSM_DIR} $$c
-	c=`basename $@ -workarounds`; world/bin/osm2bbd-workarounds-streets ${DATA_OSM_DIR} $$c
+	c=`basename $@ -convert`; \
+		rm -rf ${DATA_OSM_DIR}/$$c; \
+		${OSM2BBD} -lang `${DB} --lang $$c` -o ${DATA_OSM_DIR}/$$c ${OSM_DIR}/$$c; \
+		world/bin/osm2bbd-workarounds ${DATA_OSM_DIR} $$c; \
+		world/bin/osm2bbd-workarounds-streets ${DATA_OSM_DIR} $$c
 
 $(_cp):
 	@c=`basename $@ -poly`; mkdir -p ${OSM_DIR}/$$c; ${DB} --poly $$c > ${OSM_DIR}/$$c/$$c.poly.tmp; mv -f ${OSM_DIR}/$$c/$$c.poly.tmp ${OSM_DIR}/$$c/$$c.poly
 
 ${CITIES}:
-	${MAKE} -f Makefile.osm $@-download $@-convert $@-workarounds
+	${MAKE} -f Makefile.osm $@-download $@-convert
 	
 ######################################################################
 rsync-osm:
@@ -469,7 +462,7 @@ dist-clean devel-clean distclean: clean rotate-osm
 help:
 	@echo "usage: make [ help | cities | rsync-tgz | rsync-osm | rsync-osm-dev ]"
 	@echo "            [ clean | dist-clean | clean-cache | create-osp | tagcloud | bbbike2wgs84 ]"
-	@echo "            [ osm2bbd-workarounds-streets | create-bbbike-web-symlinks | kml ]"
+	@echo "            [ create-bbbike-web-symlinks | kml ]"
 	@echo "            [ convert-wgs84 | convert-bbbike ]"
 	@echo "            [ city-count | city-reorder | check-osm | cleanup-osm-error ]"
 	@echo "            [ planet-download | planet-geofabrik-download ]"
