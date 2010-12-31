@@ -369,7 +369,8 @@ rsync-osm:
 	rsync -azv --exclude='*.bak' --delete --max-delete=512 ${DATA_OSM_DIR} ${OSM_AREAS_OPENSEARCH} ${OSM_DIR} ${OSP_DIR} bbbike.org:/usr/local/www/bbbike.org
 	rsync -azv --exclude='*.bak' data/opensearch.streetnames bbbike.org:/usr/local/www/bbbike.org/data
 	@echo ""
-	@echo "don't forget to cleanup the data cache in ${BBBIKE_CACHE_DIR}, run:  make clean-cache"
+	@echo "don't forget to cleanup the data cache in ${BBBIKE_CACHE_DIR}, run:"
+	@echo "$$ sudo make clean-cache"
 
 rsync-osm-devel rsync-osm-dev:
 	rsync -azv --delete --max-delete=512 bbbike.org:projects/bbbike/osm .
