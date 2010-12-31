@@ -33,157 +33,157 @@ GZIP:=             $(shell which pigz gzip | head -1)
 BZIP2:=            $(shell which pbzip2 bzip2 | head -1)
 
 CITIES=		\
+	Bogota \
 	Paris \
-	Dortmund \
-	Bochum \
 	Berlin \
+	Dortmund \
 	WashingtonDC \
 	Moscow \
-	Toronto \
 	Hamburg \
+	Toronto \
 	Muenchen \
 	Prag \
 	CambridgeMa \
-	Marseille \
 	Duisburg \
-	Orlando \
-	Copenhagen \
-	Albuquerque \
+	Marseille \
+	Bochum \
 	Birmingham \
 	Frankfurt \
+	Copenhagen \
+	Orlando \
+	Albuquerque \
 	Strassburg \
 	Sydney \
-	Melbourne \
 	Mannheim \
-	Philadelphia \
-	Liverpool \
 	London \
+	Liverpool \
+	Duesseldorf \
 	Amsterdam \
 	Stettin \
 	Manchester \
+	Denver \
 	Perth \
 	Dresden \
-	Duesseldorf \
-	Denver \
-	SanJose \
 	Leeds \
 	Bonn \
-	Rotterdam \
+	SanJose \
 	Wien \
+	Rotterdam \
+	Melbourne \
+	Nuernberg \
 	Brisbane \
+	Koeln \
 	DenHaag \
 	Groningen \
-	Koeln \
 	Ottawa \
-	Nuernberg \
+	Philadelphia \
 	Glasgow \
-	Adelaide \
 	SanktPetersburg \
-	Sacramento \
 	Helsinki \
 	Darmstadt \
+	Adelaide \
+	Sacramento \
 	CapeTown \
 	Rostock \
-	Warschau \
 	Hannover \
-	Leipzig \
 	Tokyo \
+	Warschau \
 	Genf \
 	Bern \
+	Leipzig \
 	Santiago \
+	Mainz \
+	Zuerich \
 	Canberra \
 	Montreal \
-	Mainz \
-	Reval \
-	Zuerich \
 	Bremen \
+	Reval \
 	Edinburgh \
 	Auckland \
-	Bamberg \
-	Portland \
-	Ruegen \
 	Karlsruhe \
-	Stockholm \
-	Bogota \
-	Bielefeld \
-	SanFrancisco \
+	Bamberg \
 	Aarhus \
+	Ruegen \
+	Portland \
+	Stockholm \
+	Bielefeld \
+	RiodeJaneiro \
+	SanFrancisco \
 	PaloAlto \
-	Colmar \
-	Breslau \
+	Sheffield \
 	Bruessel \
+	Bristol \
+	Vancouver \
+	Breslau \
+	Colmar \
 	Johannesburg \
 	Saigon \
-	Bristol \
-	RiodeJaneiro \
-	Sheffield \
-	Vancouver \
 	Victoria \
+	Aachen \
 	Seattle \
 	Madison \
-	Aachen \
+	Freiburg \
 	MexicoCity \
 	Erlangen \
-	Dublin \
 	Kassel \
+	Dublin \
+	Kiel \
 	Tuscon \
+	Zagreb \
 	Kiew \
+	Goettingen \
 	Cottbus \
+	Budapest \
+	Oldenburg \
 	Providence \
 	Seoul \
-	Budapest \
-	Kiel \
-	Zagreb \
 	NewYork \
+	Magdeburg \
 	SantaCruz \
-	Freiburg \
 	Luebeck \
 	Halifax \
+	Trondheim \
 	Cairo \
-	Singapore \
+	Chemnitz \
 	Barcelona \
-	Magdeburg \
+	Singapore \
 	BuenosAires \
 	Baghdad \
-	Chemnitz \
 	Sofia \
 	Chicago \
-	Oldenburg \
-	Posen \
 	Jena \
-	SantaBarbara \
-	Goettingen \
-	Lissabon \
-	Trondheim \
-	FortCollins \
-	Beijing \
-	Basel \
-	Cambridge \
-	Miami \
-	Kattowitz \
-	Erfurt \
 	Riga \
-	Oslo \
-	Tehran \
-	Muenster \
-	Istanbul \
+	Posen \
+	Lissabon \
+	SantaBarbara \
+	Basel \
+	Miami \
+	Beijing \
+	FortCollins \
+	Erfurt \
+	Cambridge \
+	Kattowitz \
 	Danzig \
+	Istanbul \
+	Oslo \
+	Muenster \
+	Tehran \
 	Krakau \
+	Boulder \
+	Bangkok \
 	Eugene \
 	Laibach \
-	Bangkok \
-	Boulder \
 	Turin \
-	Austin \
 	Jerusalem \
+	Austin \
+	Gleiwitz \
 	Davis \
 	Beirut \
-	Gleiwitz \
+	BrandenburgHavel \
 	Kaunas \
 	Goerlitz \
 	FrankfurtOder \
 	Sarajewo \
-	BrandenburgHavel \
 	Corvallis \
 	WarenMueritz \
 	PhnomPenh \
@@ -325,9 +325,9 @@ check:
 	for i in ${CITIES}; do echo ${DATA_OSM_DIR}/$$i; done | \
 	  ${GXARGS} -n 1 -P ${MAX_CPU} ./miscsrc/check_bbd --debug=0 -dir
 
-convert-workarounds: osm2bbd-workarounds
+convert-workarounds: opensearch-bbbike
 
-osm2bbd-workarounds opensearch: opensearch-bbbike
+osm2bbd-workarounds opensearch:
 	for i in ${CITIES}; do echo $$i; done | \
 	  ${GXARGS} -n 1 -P ${MAX_CPU} world/bin/osm2bbd-workarounds ${DATA_OSM_DIR}
 
