@@ -251,7 +251,6 @@ _osmosis_opt:
 
 cities-poly cities: poly
 	${NICE5} bzip2 -dc ${OSM_PLANET} | buffer -s 64k -m 4m | ${NICE5} osmosis --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --tee `${MAKE} -s -f Makefile.osm city-count` `${MAKE} -s -f Makefile.osm _osmosis_opt`
-	${MAKE} -f Makefile.osm check-osm
 
 _cities:
 	@echo ${CITIES} | \
