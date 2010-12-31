@@ -32,6 +32,7 @@ cd ..
 world/bin/opensearch-suggestion < ${data_osm}/$city/strassen > ${data_osm}/$city/opensearch.streetnames
 world/bin/osm2bbd-workarounds-streets ${data_osm} $city 
 
+# copy metadata from OSM Berlin
 cp ${data_osm}/Berlin/meta.yml ${data_osm}/$city
 cp ${data_osm}/Berlin/meta.dd ${data_osm}/$city
 
