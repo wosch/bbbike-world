@@ -4,6 +4,7 @@
 # planet-download - download the latest planet osm file
 #
 
+exit 0
 
 : ${MD5=`which md5 md5sum | head -1`}
 file=planet-latest.osm.bz2
