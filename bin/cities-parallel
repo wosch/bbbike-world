@@ -1,0 +1,23 @@
+#!/usr/local/bin/perl
+
+use strict;
+use warnings;
+
+my $split = shift || 1;
+
+my $hash;
+
+my $i;
+while (<>) {
+    chomp;
+
+    $i = $. % $split;
+    push( @{ $hash->{$i} }, $_ );
+}
+
+foreach my $key ( sort { $a <=> $b } keys %$hash ) {
+    print qq{time make CITIES="}, join " ", @{$hash->{$key}}, qq{" cities > tmp/log.cities.$key &\n};
+}
+print "wait\n";
+
+
