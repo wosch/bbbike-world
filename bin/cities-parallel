@@ -16,7 +16,7 @@ while (<>) {
 }
 
 foreach my $key ( sort { $a <=> $b } keys %$hash ) {
-    print qq{time make CITIES="}, join " ", @{$hash->{$key}}, qq{" cities > tmp/log.cities.$key &\n};
+    print qq{time make CITIES="}, join " ", @{$hash->{$key}}, qq{" cities > tmp/log.$split.cities.$key 2>&1 &\n};
 }
 print "wait\n";
 
