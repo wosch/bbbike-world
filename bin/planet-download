@@ -4,6 +4,9 @@
 # planet-download - download the latest planet osm file
 #
 
+if [ -n "$IGNORE_PLANET_OSM" ]; then
+	exit 0
+fi
 
 : ${MD5=`which md5 md5sum | head -1`}
 file=planet-latest.osm.bz2
