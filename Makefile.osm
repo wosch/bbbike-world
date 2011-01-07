@@ -8,6 +8,7 @@
 
 
 MAX_PARALLELS_OSM_DOWNLOADS=	2
+MAX_OSMOSIS=	2
 NICE=		nice -n 15
 NICE5=		nice -n 5
 PERL=		perl
@@ -247,13 +248,13 @@ cities-api:
 	${MAKE} -f Makefile.osm check-osm
 
 _osmosis_opt:
-	for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i/$$i.poly completeWays=yes --wx file=${OSM_DIR}/$$i/$$i.osm.gz"; done
+	for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i/$$i.poly --wx file=${OSM_DIR}/$$i/$$i.osm.gz"; done
 
 cities-poly cities: poly
-	${NICE5} ${BZIP2} -dc ${OSM_PLANET} | buffer -s 64k | ${NICE5} osmosis --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --tee `${MAKE} -s -f Makefile.osm city-count` `${MAKE} -s -f Makefile.osm _osmosis_opt`
+	${NICE5} ${BZIP2} -dc ${OSM_PLANET} | ${NICE5} osmosis --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --tee `${MAKE} -s -f Makefile.osm city-count` `${MAKE} -s -f Makefile.osm _osmosis_opt`
 
 cities-parallel:
-	@echo ${CITIES} | perl -npe 's/\s+/\n/g' | ./world/bin/cities-parallel 4  
+	@echo ${CITIES} | perl -npe 's/\s+/\n/g' | ./world/bin/cities-parallel ${MAX_OSMOSIS}
 
 _cities:
 	@echo ${CITIES} | \
