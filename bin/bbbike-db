@@ -84,6 +84,7 @@ usage: $0 [--debug={0..2}] [options] city
 --area=area
 --city-by-lang=lang
 --step
+--list
 EOF
 }
 
@@ -96,6 +97,7 @@ my $poly;
 my $centerdelta;
 my $area;
 my $city_by_lang;
+my $list;
 
 GetOptions(
     "debug=i"        => \$debug,
@@ -108,10 +110,11 @@ GetOptions(
     "centerdelta"    => \$centerdelta,
     "area=s"         => \$area,
     "city-by-lang=s" => \$city_by_lang,
+    "list"           => \$list,
 ) or die usage;
 
 my $city = shift;
-die &usage if !( $city || $area || $city_by_lang );
+die &usage if !( $city || $area || $city_by_lang || $list );
 
 $city =~ s/-(convert|download)$// if $city;
 
@@ -129,10 +132,12 @@ if ( defined $area ) {
     exit 0;
 }
 
-if ( defined $city_by_lang ) {
+if ( defined $city_by_lang || $list ) {
     while ( my ( $key, $val ) = each %hash ) {
         print $key, "\n"
-          if $city_by_lang eq 'any' || $hash{$key}->{lang} eq $city_by_lang;
+          if $list
+              || $city_by_lang eq 'any'
+              || $hash{$key}->{lang} eq $city_by_lang;
     }
     exit 0;
 }
