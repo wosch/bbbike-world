@@ -17,7 +17,8 @@ mv -f $file $file.old.$$
 server1=http://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org
 #server2=http://ftp.ecki-netz.de/osm
 #server2=$server1
-server1=http://ftp.heanet.ie/mirrors/openstreetmap.org
+#server1=http://ftp.heanet.ie/mirrors/openstreetmap.org
+#server1=http://planet.openstreetmap.org
 
 wget -nv $server1/$file.md5
 cat $file.md5
