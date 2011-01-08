@@ -7,4 +7,3 @@ use Text::Unidecode;
 
 1;
 
-
