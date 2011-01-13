@@ -8,7 +8,6 @@
 
 
 MAX_PARALLELS_OSM_DOWNLOADS=	2
-MAX_OSMOSIS=	2
 NICE=		nice -n 15
 NICE5=		nice -n 5
 PERL=		perl
@@ -29,6 +28,7 @@ DATA_OSM_BBBIKE_DIR=	data-osm.bbbike
 OSMBIKE_DATA=	${DATA_OSM_BBBIKE_DIR}.tgz
 DATA_DIR=	data
 BBBIKE_CACHE_DIR=	/var/cache/bbbike
+MAX_OSMOSIS=	3
 
 GZIP:=             $(shell which pigz gzip | head -1)
 BZIP2:=            $(shell which pbzip2 bzip2 | head -1)
@@ -198,6 +198,8 @@ CITIES=		\
 # 
 OSM_AREAS_OPENSEARCH=data-opensearch-places
 OSM_PLANET=	../osm-streetnames/download/planet-latest.osm.bz2 
+OSM_PLANET_PBF=	../osm-streetnames/download/planet-latest.osm.pbf
+
 OSM_AREAS_LARGE=	${OSM_PLANET}
 
 OSM_AREAS= \
@@ -254,8 +256,11 @@ _osmosis_opt:
 cities-poly cities: poly
 	${NICE5} ${BZIP2} -dc ${OSM_PLANET} | ${NICE5} osmosis --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --tee `${MAKE} -s -f Makefile.osm city-count` `${MAKE} -s -f Makefile.osm _osmosis_opt`
 
+cities-pbf: poly
+	${NICE5} osmosis --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s -f Makefile.osm city-count` `${MAKE} -s -f Makefile.osm _osmosis_opt`
+
 cities-parallel:
-	@echo ${CITIES} | perl -npe 's/\s+/\n/g' | ./world/bin/cities-parallel ${MAX_OSMOSIS}
+	@echo ${CITIES} | perl -npe 's/\s+/\n/g' | ./world/bin/cities-parallel ${MAX_OSMOSIS} cities-pbf
 
 _cities:
 	@echo ${CITIES} | \
