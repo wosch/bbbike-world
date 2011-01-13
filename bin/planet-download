@@ -23,6 +23,9 @@ server1=http://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org
 wget -nv $server1/$file.md5
 cat $file.md5
 
-wget -nv $server1/$file
+#wget -nv $server1/$file
+time curl -sS $server1/$file | tee $file | pbzip2 -dc | buffer | \
+  time osmosis  --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --write-pbf `basename $file .bz2`.pbf
+
 $MD5 $file
 
