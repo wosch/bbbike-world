@@ -10,9 +10,11 @@ fi
 
 : ${MD5=`which md5 md5sum | head -1`}
 file=planet-latest.osm.bz2
+file_bpf=`basename $file .bz2`.pbf
 
 mv -f $file.md5 $file.md5.old.$$
 mv -f $file $file.old.$$
+mv -f $file_bpf $file_bpf.old.$$
 
 server1=http://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org
 #server2=http://ftp.ecki-netz.de/osm
@@ -25,7 +27,7 @@ cat $file.md5
 
 #wget -nv $server1/$file
 time curl -sS $server1/$file | tee $file | pbzip2 -dc | buffer | \
-  time osmosis  --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --write-pbf `basename $file .bz2`.pbf
+  time osmosis  --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --write-pbf $file_bpf
 
 $MD5 $file
 
