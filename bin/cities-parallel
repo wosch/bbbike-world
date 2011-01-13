@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 my $split = shift || 1;
+my $make_args = shift || 'cities';
 
 my $hash;
 
@@ -17,7 +18,7 @@ while (<>) {
 
 foreach my $key ( sort { $a <=> $b } keys %$hash ) {
     print qq{time make CITIES="}, join " ", @{ $hash->{$key} },
-      qq{" cities > tmp/log.$split.cities.$key 2>&1 &\n};
+      qq{" $make_args > tmp/log.$split.cities.$key 2>&1 &\n};
 }
 print "wait\n";
 
