@@ -406,7 +406,7 @@ create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi
 
 create-bbbike-web-symlinks-new:
 	cd world/web; \
-	  for i in images html osm data-osm; do \
+	  for i in images html cgi osm data-osm; do \
 	    ln -fs ../../$$i .; \
 	  done; \
 	  ln -fs images/srtbike.ico favicon.ico # buggy browsers
