@@ -17,7 +17,7 @@ sub new {
     my ( $class, %args ) = @_;
 
     my $self = {
-        'database'   => 'world/misc/cities.csv',
+        'database'   => 'world/etc/cities.csv',
         'debug'      => $debug,
         'lang'       => 'de',
         'local_lang' => '',

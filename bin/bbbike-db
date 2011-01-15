@@ -118,7 +118,7 @@ die &usage if !( $city || $area || $city_by_lang || $list );
 
 $city =~ s/-(convert|download)$// if $city;
 
-my $database = dirname( dirname($0) ) . "/misc/cities.csv";
+my $database = dirname( dirname($0) ) . "/etc/cities.csv";
 
 my %hash;
 
