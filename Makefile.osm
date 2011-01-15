@@ -388,24 +388,40 @@ create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi
 		ln -fs world.cgi $$city.en.cgi; \
 		ln -fs world.cgi.config $$city.cgi.config; \
 	done
-	ln -fs world/misc/index.html ${BBBIKE_WEB_DIR}
-	ln -fs world/misc/index.de.html ${BBBIKE_WEB_DIR}
-	ln -fs world/misc/index.m.html ${BBBIKE_WEB_DIR}
-	ln -fs world/misc/doc.html ${BBBIKE_WEB_DIR}
-	ln -fs world/misc/community.html ${BBBIKE_WEB_DIR}
-	ln -fs world/misc/community.de.html ${BBBIKE_WEB_DIR}
-	ln -fs world/misc/app.html ${BBBIKE_WEB_DIR}
-	ln -fs world/misc/bbbike-world.kml ${BBBIKE_WEB_DIR}
-	ln -fs world/misc/streets.html ${BBBIKE_WEB_DIR}
+	ln -fs world/etc/index.html ${BBBIKE_WEB_DIR}
+	ln -fs world/etc/index.de.html ${BBBIKE_WEB_DIR}
+	ln -fs world/etc/index.m.html ${BBBIKE_WEB_DIR}
+	ln -fs world/etc/doc.html ${BBBIKE_WEB_DIR}
+	ln -fs world/etc/community.html ${BBBIKE_WEB_DIR}
+	ln -fs world/etc/community.de.html ${BBBIKE_WEB_DIR}
+	ln -fs world/etc/app.html ${BBBIKE_WEB_DIR}
+	ln -fs world/etc/bbbike-world.kml ${BBBIKE_WEB_DIR}
+	ln -fs world/etc/streets.html ${BBBIKE_WEB_DIR}
 	ln -fs world/Makefile.osm ${BBBIKE_WEB_DIR}
 	ln -fs Makefile.osm Makefile
-	ln -fs ../world/misc/world.cgi.config ${BBBIKE_WEB_DIR}/cgi
+	ln -fs ../world/etc/world.cgi.config ${BBBIKE_WEB_DIR}/cgi
 	ln -fs ../world/bin/world.cgi ${BBBIKE_WEB_DIR}/cgi
 	ln -fs ../world/bin/streets.cgi ${BBBIKE_WEB_DIR}/cgi
 	ln -fs images/srtbike.ico favicon.ico # buggy browsers
 
+create-bbbike-web-symlinks-new:
+	cd world/web; \
+	  for i in images html osm data-osm; do \
+	    ln -fs ../../$$i .; \
+	  done; \
+	  ln -fs images/srtbike.ico favicon.ico # buggy browsers
+	cd world/web && \
+	for city in ${CITIES} berlin; do \
+		( mkdir -p $$city; cd $$city; \
+		ln -fs ../../bin/world.cgi index.cgi; \
+		ln -fs ../../bin/world.cgi index.en.cgi; \
+		ln -fs ../../etc/world.cgi.config index.cgi.config; \
+		) \
+	done
+
+
 TAGCLOUD=	world/bin/tagcloud 
-CITIES_DB=	world/misc/cities.csv
+CITIES_DB=	world/etc/cities.csv
 
 tagcloud:
 	${TAGCLOUD} --area=de < ${CITIES_DB} > tmp/de.cities.de
@@ -419,7 +435,7 @@ tagcloud:
 	world/bin/mobile-links --local-names=1 --split-city-names=1 --lang=en < ${CITIES_DB} > tmp/option.en
 
 kml:
-	world/bin/bbbike-world-kml ${CITIES_DB} > world/misc/bbbike-world.kml
+	world/bin/bbbike-world-kml ${CITIES_DB} > world/etc/bbbike-world.kml
 
 bbbike2wgs84:
 	./world/bin/bbbike2wgs84
@@ -434,7 +450,7 @@ planet-geofabrik-download:
 create-osp:
 	rm -rf ${OSP_DIR}
 	mkdir ${OSP_DIR}
-	./world/bin/bbbike-world-opensearch-plugin --streets ${OSP_DIR} world/misc/streets.csv
+	./world/bin/bbbike-world-opensearch-plugin --streets ${OSP_DIR} world/etc/streets.csv
 	./world/bin/bbbike-world-opensearch-plugin ${OSP_DIR} ${CITIES_DB}
 	
 scp rsync rsync-tgz:
