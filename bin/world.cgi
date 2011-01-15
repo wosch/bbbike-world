@@ -8,10 +8,12 @@ name="`basename $0 .cgi`"
 dirname=`dirname "$0"`
 
 # new directory layout
-if [ "$name" = "index" ]; then
-	name=`basename $dirname`
-	dirname="../../../cgi"
-fi
+case "$name" in
+	index | index.?? ) 
+		name=`basename $dirname`
+		dirname="../../../cgi"
+		;;
+esac
 
 export LANG="C"
 export PATH="/opt/local/bin:/bin:/usr/bin:/usr/local/bin"
