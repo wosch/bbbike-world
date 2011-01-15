@@ -26,7 +26,7 @@ wget -nv $server1/$file.md5
 cat $file.md5
 
 #wget -nv $server1/$file
-time curl -sS $server1/$file | tee $file | pbzip2 -dc | buffer | \
+time curl -L -sS $server1/$file | tee $file | pbzip2 -dc | buffer | \
   time osmosis  --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --write-pbf $file_bpf
 
 $MD5 $file
