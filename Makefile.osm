@@ -416,7 +416,11 @@ create-bbbike-web-symlinks-new:
 		ln -fs ../../bin/world.cgi index.cgi; \
 		ln -fs ../../bin/world.cgi index.en.cgi; \
 		ln -fs ../../etc/world.cgi.config index.cgi.config; \
-		) \
+		); \
+	done
+	rm -f world/web/*/lang*
+	for city in ${CITIES} berlin; do \
+		touch world/web/$$city/lang.`world/bin/bbbike-db --lang $$city`; \
 	done
 
 
