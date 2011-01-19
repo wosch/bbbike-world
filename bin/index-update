@@ -7,7 +7,7 @@ use warnings;
 while (<>) {
     if (s,\@{\s*(.*?)\s*}@,,) {
         my $file = "tmp/" . $1;
-        system("cat", $file);
+        system( "cat", $file );
     }
     print;
 }
