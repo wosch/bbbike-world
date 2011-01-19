@@ -433,10 +433,10 @@ INDEX_UPDATE=	world/bin/index-update
 CITIES_DB=	world/etc/cities.csv
 
 tagcloud:
-	${TAGCLOUD} --area=de < ${CITIES_DB} > tmp/de.cities.de
+	${TAGCLOUD} --area=de < ${CITIES_DB} | egrep -iv Berlin > tmp/de.cities.de
 	${TAGCLOUD} --area=eu < ${CITIES_DB} > tmp/de.cities.eu
 	${TAGCLOUD} --area=other --level=9 < ${CITIES_DB} > tmp/de.cities.other
-	${TAGCLOUD} --lang=en --area=de < ${CITIES_DB} > tmp/en.cities.de
+	${TAGCLOUD} --lang=en --area=de < ${CITIES_DB} | egrep -iv Berlin > tmp/en.cities.de
 	${TAGCLOUD} --lang=en --area=eu < ${CITIES_DB} > tmp/en.cities.eu
 	${TAGCLOUD} --lang=en --area=other --level=9 < ${CITIES_DB} > tmp/en.cities.other
 	perl -i -npe 's,( href="cgi/([^\.]+)(\.en)?.cgi"), class="C_$$2"$$1,g' tmp/de.cities.* tmp/en.cities.*
