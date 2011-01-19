@@ -278,6 +278,10 @@ city-count:
 city-reorder:
 	@cd ${OSM_DIR}; du -ks * | sort -nr
 
+update-robots.txt:
+	( cat world/web/robots.txt.in; \
+	   echo ${CITIES} | perl -npe 's,\s+,\n,g' | sort | \
+	   perl -npe 's,^,Disallow: /,; s,$$,/index,'; ) > world/web/robots.txt
 
 # using GNU xargs -P parallel
 osm-areas2:
@@ -492,7 +496,7 @@ help:
 	@echo "            [ clean | dist-clean | clean-cache | create-osp | tagcloud | bbbike2wgs84 ]"
 	@echo "            [ create-bbbike-web-symlinks | kml ]"
 	@echo "            [ convert-wgs84 | convert-bbbike ]"
-	@echo "            [ city-count | city-reorder | check-osm | cleanup-osm-error ]"
+	@echo "            [ city-count | city-reorder | check-osm | cleanup-osm-error | update-robots.txt ]"
 	@echo "            [ planet-download | planet-geofabrik-download ]"
 	@echo "            [ planet-streets | planet-places ]"
 	@echo "            [ update-database ]"

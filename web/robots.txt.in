@@ -1,0 +1,5 @@
+# general
+User-agent: *
+Disallow: /bbbike/cgi
+Disallow: /cgi
+
