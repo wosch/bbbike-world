@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2010 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2011 Wolfram Schneider, http://bbbike.org
 #
 # bbbike2wgs84 -  convert original bbbike data for berlin to wgs84
 

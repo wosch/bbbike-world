@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2009-2010 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
 #
 # world.cgi - cgi/shell wrapper for bbbike @ world city
 
