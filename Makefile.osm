@@ -392,15 +392,15 @@ create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi
 		ln -fs world.cgi $$city.en.cgi; \
 		ln -fs world.cgi.config $$city.cgi.config; \
 	done
-	ln -fs world/etc/index.html ${BBBIKE_WEB_DIR}
-	ln -fs world/etc/index.de.html ${BBBIKE_WEB_DIR}
-	ln -fs world/etc/index.m.html ${BBBIKE_WEB_DIR}
-	ln -fs world/etc/doc.html ${BBBIKE_WEB_DIR}
-	ln -fs world/etc/community.html ${BBBIKE_WEB_DIR}
-	ln -fs world/etc/community.de.html ${BBBIKE_WEB_DIR}
-	ln -fs world/etc/app.html ${BBBIKE_WEB_DIR}
-	ln -fs world/etc/bbbike-world.kml ${BBBIKE_WEB_DIR}
-	ln -fs world/etc/streets.html ${BBBIKE_WEB_DIR}
+	ln -fs world/web/index.html ${BBBIKE_WEB_DIR}
+	ln -fs world/web/index.de.html ${BBBIKE_WEB_DIR}
+	ln -fs world/web/index.m.html ${BBBIKE_WEB_DIR}
+	ln -fs world/web/doc.html ${BBBIKE_WEB_DIR}
+	ln -fs world/web/community.html ${BBBIKE_WEB_DIR}
+	ln -fs world/web/community.de.html ${BBBIKE_WEB_DIR}
+	ln -fs world/web/app.html ${BBBIKE_WEB_DIR}
+	ln -fs world/web/bbbike-world.kml ${BBBIKE_WEB_DIR}
+	ln -fs world/web/streets.html ${BBBIKE_WEB_DIR}
 	ln -fs world/Makefile.osm ${BBBIKE_WEB_DIR}
 	ln -fs Makefile.osm Makefile
 	ln -fs ../world/etc/world.cgi.config ${BBBIKE_WEB_DIR}/cgi
