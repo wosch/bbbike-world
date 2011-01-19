@@ -1,0 +1,14 @@
+#!/usr/bin/perl
+#
+# replace @{ file }@ with the contents of file
+use strict;
+use warnings;
+
+while (<>) {
+    if (s,\@{\s*(.*?)\s*}@,,) {
+        my $file = "tmp/" . $1;
+        system("cat", $file);
+    }
+    print;
+}
+

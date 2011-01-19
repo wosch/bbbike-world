@@ -429,6 +429,7 @@ create-bbbike-web-symlinks-new:
 
 
 TAGCLOUD=	world/bin/tagcloud 
+INDEX_UPDATE=	world/bin/index-update 
 CITIES_DB=	world/etc/cities.csv
 
 tagcloud:
@@ -439,8 +440,11 @@ tagcloud:
 	${TAGCLOUD} --lang=en --area=eu < ${CITIES_DB} > tmp/en.cities.eu
 	${TAGCLOUD} --lang=en --area=other --level=9 < ${CITIES_DB} > tmp/en.cities.other
 	perl -i -npe 's,( href="cgi/([^\.]+)(\.en)?.cgi"), class="C_$$2"$$1,g' tmp/de.cities.* tmp/en.cities.*
-	world/bin/mobile-links --split-city-names=1 --lang=de < ${CITIES_DB} > tmp/option.de
-	world/bin/mobile-links --local-names=1 --split-city-names=1 --lang=en < ${CITIES_DB} > tmp/option.en
+	world/bin/mobile-links --split-city-names=1 --lang=de < ${CITIES_DB} > tmp/mobile.de
+	world/bin/mobile-links --local-names=1 --split-city-names=1 --lang=en < ${CITIES_DB} > tmp/mobile.en
+	${INDEX_UPDATE} world/web/index.m.html.in > world/web/index.m.html
+	${INDEX_UPDATE} world/web/index.de.html.in > world/web/index.de.html
+	${INDEX_UPDATE} world/web/index.html.in > world/web/index.html
 
 kml:
 	world/bin/bbbike-world-kml ${CITIES_DB} > world/etc/bbbike-world.kml
