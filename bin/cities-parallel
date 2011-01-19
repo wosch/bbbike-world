@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-my $split = shift || 1;
+my $split     = shift || 1;
 my $make_args = shift || 'cities';
 
 my $hash;
