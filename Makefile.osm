@@ -28,7 +28,7 @@ DATA_OSM_BBBIKE_DIR=	data-osm.bbbike
 OSMBIKE_DATA=	${DATA_OSM_BBBIKE_DIR}.tgz
 DATA_DIR=	data
 BBBIKE_CACHE_DIR=	/var/cache/bbbike
-MAX_OSMOSIS=	4
+MAX_OSMOSIS=	${MAX_CPU}
 
 GZIP:=             $(shell which pigz gzip | head -1)
 BZIP2:=            $(shell which pbzip2 bzip2 | head -1)
