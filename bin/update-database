@@ -8,9 +8,11 @@ set -e
 tmp=tmp
 mkdir -p $tmp
 
-for i in distclean planet-download cities-parallel convert-wgs84 convert-bbbike
+: ${bbbike_cleanup="distclean planet-download"}
+
+for i in $bbbike_cleanup cities-parallel convert-wgs84 convert-bbbike
 do
-	\time make $i > tmp/log.$i 2>&1
+	\time make -s $i > tmp/log.$i 2>&1
 done
 
 

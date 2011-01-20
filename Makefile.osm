@@ -461,7 +461,7 @@ rotate-osm:
 	-test -e ${OSM_DIR}      && mv ${OSM_DIR}      ${OSM_DIR}.old 
 
 update-database: 
-	@echo please run: time ./world/bin/update-database
+	./world/bin/update-database
 
 dist-clean devel-clean distclean: clean rotate-osm
 	rm -rf ${OSM_DIR}
