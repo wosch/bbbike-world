@@ -12,9 +12,9 @@ case $1 in
 esac
 
 ncpu=3
-if sysctl -n hw.ncpu > /dev/null 2>&1; then
+if sysctl -n hw.physicalcpu > /dev/null 2>&1; then
   # macos
-  ncpu=`sysctl -n hw.ncpu`
+  ncpu=`sysctl -n hw.physicalcpu`
 elif sysctl kernel.sched_domain >/dev/null 2>&1; then
   # linux
   ncpu=`sysctl  kernel.sched_domain | tail -1 | \

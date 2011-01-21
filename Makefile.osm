@@ -28,7 +28,7 @@ DATA_OSM_BBBIKE_DIR=	data-osm.bbbike
 OSMBIKE_DATA=	${DATA_OSM_BBBIKE_DIR}.tgz
 DATA_DIR=	data
 BBBIKE_CACHE_DIR=	/var/cache/bbbike
-MAX_OSMOSIS=	3
+MAX_OSMOSIS=	${MAX_CPU}
 
 GZIP:=             $(shell which pigz gzip | head -1)
 BZIP2:=            $(shell which pbzip2 bzip2 | head -1)
@@ -260,7 +260,7 @@ cities-pbf: poly
 	${NICE5} osmosis --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s -f Makefile.osm city-count` `${MAKE} -s -f Makefile.osm _osmosis_opt`
 
 cities-parallel:
-	@echo ${CITIES} | perl -npe 's/\s+/\n/g' | ./world/bin/cities-parallel ${MAX_OSMOSIS} cities-pbf
+	@echo ${CITIES} | perl -npe 's/\s+/\n/g' | ./world/bin/cities-parallel ${MAX_OSMOSIS} cities-pbf | sh
 
 _cities:
 	@echo ${CITIES} | \
@@ -490,7 +490,7 @@ rotate-osm:
 	-test -e ${OSM_DIR}      && mv ${OSM_DIR}      ${OSM_DIR}.old 
 
 update-database: 
-	@echo please run: time ./world/bin/update-database
+	time ./world/bin/update-database
 
 dist-clean devel-clean distclean: clean rotate-osm
 	rm -rf ${OSM_DIR}
