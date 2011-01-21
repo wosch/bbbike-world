@@ -416,7 +416,7 @@ create-bbbike-web-symlinks-new:
 	  ln -fs images/srtbike.ico favicon.ico # buggy browsers
 	cd world/web && \
 	for city in ${CITIES} berlin; do \
-		( mkdir -p $$city; cd $$city; \
+		( rm -rf $$city; mkdir -p $$city; cd $$city; \
 		ln -fs ../../bin/world.cgi index.cgi; \
 		ln -fs ../../bin/world.cgi index.en.cgi; \
 		ln -fs ../../etc/world.cgi.config index.cgi.config; \
