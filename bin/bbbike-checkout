@@ -3,6 +3,7 @@
 #
 # bbbike-checkout - checkout bbbike @ world sources and setup configuration
 
+set -e
 
 git_config () {
 	git config  user.name "Wolfram Schneider"
@@ -15,7 +16,7 @@ git clone git@github.com:wolframschneider/bbbike-macos.git
 ( cd bbbike && git_config )
 ( cd bbbike-macos && git_config )
 
-cd bbbike || exit 2
+cd bbbike
 git_config
 
 # *world  is the default branch at github for bbbike@world
@@ -30,5 +31,5 @@ echo "show all branches: "
 git branch -a
 
 ln -s world/Makefile.osm
-make -f Makefile.osm create-bbbike-web-symlinks
+make -f Makefile.osm update-files
 
