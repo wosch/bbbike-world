@@ -4,6 +4,7 @@
 # bbbike-checkout - checkout bbbike @ world sources and setup configuration
 
 set -e
+make_verbose=-s
 
 git_config () {
 	git config  user.name "Wolfram Schneider"
@@ -31,5 +32,5 @@ echo "show all branches: "
 git branch -a
 
 ln -s world/Makefile.osm
-make -s -f Makefile.osm update-files
+make $make_verbose -f Makefile.osm update-files
 
