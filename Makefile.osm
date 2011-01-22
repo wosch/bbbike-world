@@ -449,7 +449,7 @@ tagcloud index:
 	${INDEX_UPDATE} world/web/index.html.in > world/web/index.html
 
 kml:
-	world/bin/bbbike-world-kml ${CITIES_DB} > world/etc/bbbike-world.kml
+	world/bin/bbbike-world-kml ${CITIES_DB} > world/web/bbbike-world.kml
 
 bbbike2wgs84:
 	./world/bin/bbbike2wgs84
