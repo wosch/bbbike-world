@@ -71,8 +71,8 @@ sub bbbike2kml_placemarks {
     foreach my $c ( sort { $a->[0] cmp $b->[0] } @data ) {
         my ( $city, $name, $lang, $x, $y ) = @$c;
 
-        my $bbbike_url = "http://www.bbbike.org/cgi/$city"
-          . ( $lang eq '' ? '.cgi' : ".$lang.cgi" );
+        my $bbbike_url = "http://www.bbbike.org/$city/"
+          . ( $lang eq '' ? '' : "index.$lang.cgi" );
 
         print <<EOF;
   <Placemark>
