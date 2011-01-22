@@ -409,6 +409,8 @@ create-bbbike-web-symlinks-bbbike.en.cgi:
 	cd ${BBBIKE_WEB_DIR}/cgi && ln -fs bbbike.cgi bbbike.en.cgi
 
 create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi
+	ln -fs world/Makefile.osm ${BBBIKE_WEB_DIR}
+	ln -fs Makefile.osm Makefile
 	cd world/web; \
 	  for i in images html cgi osm data-osm; do \
 	    ln -fs ../../$$i .; \
