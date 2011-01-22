@@ -436,7 +436,6 @@ INDEX_UPDATE=	world/bin/index-update
 CITIES_DB=	world/etc/cities.csv
 
 tagcloud index:
-	mkdir -p tmp
 	${TAGCLOUD} --area=de < ${CITIES_DB} | egrep -iv Berlin > tmp/de.cities.de
 	${TAGCLOUD} --area=eu < ${CITIES_DB} > tmp/de.cities.eu
 	${TAGCLOUD} --area=other --level=9 < ${CITIES_DB} > tmp/de.cities.other
