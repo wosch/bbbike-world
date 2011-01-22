@@ -433,7 +433,7 @@ MOBILE_LINKS=	world/bin/mobile-links
 INDEX_UPDATE=	world/bin/index-update 
 CITIES_DB=	world/etc/cities.csv
 
-tagcloud:
+tagcloud index:
 	${TAGCLOUD} --area=de < ${CITIES_DB} | egrep -iv Berlin > tmp/de.cities.de
 	${TAGCLOUD} --area=eu < ${CITIES_DB} > tmp/de.cities.eu
 	${TAGCLOUD} --area=other --level=9 < ${CITIES_DB} > tmp/de.cities.other
@@ -496,10 +496,13 @@ dist-clean devel-clean distclean: clean rotate-osm
 	rm -rf ${OSM_DIR}
 	mkdir -p ${OSM_DIR}
 
+clean-planet:
+	rm -f ../osm-streetnames/download/*.old.*
+
 help:
 	@echo "usage: make [ help | cities | rsync-tgz | rsync-osm | rsync-osm-dev ]"
-	@echo "            [ clean | dist-clean | clean-cache | create-osp | tagcloud | bbbike2wgs84 ]"
-	@echo "            [ create-bbbike-web-symlinks | kml ]"
+	@echo "            [ clean | dist-clean | clean-cache | clean-planet ]" [create-osp | tagcloud | bbbike2wgs84 ]"
+	@echo "            [ create-bbbike-web-symlinks | kml | create-osp | index | bbbike2wgs84" ]
 	@echo "            [ convert-wgs84 | convert-bbbike ]"
 	@echo "            [ city-count | city-reorder | check-osm | cleanup-osm-error | update-robots.txt ]"
 	@echo "            [ planet-download | planet-geofabrik-download ]"
