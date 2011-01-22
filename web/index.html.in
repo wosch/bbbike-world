@@ -55,9 +55,9 @@
           </tr>
         </table>
 
-        <p>Orginal BBBike data: <a class="C_berlin" href="cgi/berlin.cgi">Berlin</a> <br />
+        <p>Orginal BBBike data: <a class="C_berlin" href="berlin/">Berlin</a> <br />
 	Berlin with <a class="C_Berlin" href="cgi/Berlin.cgi">OpenStreetMaps Data</a> (not good as the orginal data)
-	<!-- Berlin mit <a href="cgi/Berlin.cgi">OpenStreetMaps Daten</a> (schlechtere Qualit&auml;t als die Orginaldaten) -->
+	<!-- Berlin mit <a href="Berlin/">OpenStreetMaps Daten</a> (schlechtere Qualit&auml;t als die Orginaldaten) -->
 </p>
 
         <div id="footer">
@@ -65,7 +65,7 @@
             <a href="doc.html">help</a> |
             <a href="app.html">app</a> |
             <a href="community.html">donate</a> |
-	    <a href="./cgi/livesearch.cgi">livesearch</a>
+	    <a href="cgi/livesearch.cgi">livesearch</a>
           </div>
           <hr />
           (&copy;) 2008-2011 <a href="http://www.rezic.de/eserte">Slaven Rezi&#x107;</a> &amp; <a href=
