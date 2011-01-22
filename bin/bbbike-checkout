@@ -31,5 +31,5 @@ echo "show all branches: "
 git branch -a
 
 ln -s world/Makefile.osm
-make -f Makefile.osm update-files
+make -s -f Makefile.osm update-files
 
