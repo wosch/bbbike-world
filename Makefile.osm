@@ -385,7 +385,9 @@ rsync-osm-devel rsync-osm-dev:
 create-bbbike-web-symlinks-bbbike.en.cgi:
 	cd ${BBBIKE_WEB_DIR}/cgi && ln -fs bbbike.cgi bbbike.en.cgi
 
-create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi create-bbbike-web-symlinks-newdir
+create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi create-bbbike-web-symlinks
+
+create-bbbike-web-symlinks-old:
 	cd ${BBBIKE_WEB_DIR}/cgi && \
 	for city in ${CITIES} berlin; do \
 		ln -fs world.cgi $$city.cgi; \
@@ -408,7 +410,7 @@ create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi create-bbbi
 	ln -fs ../world/bin/streets.cgi ${BBBIKE_WEB_DIR}/cgi
 	ln -fs images/srtbike.ico favicon.ico # buggy browsers
 
-create-bbbike-web-symlinks-newdir:
+create-bbbike-web-symlinks:
 	cd world/web; \
 	  for i in images html cgi osm data-osm; do \
 	    ln -fs ../../$$i .; \
