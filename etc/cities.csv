@@ -149,7 +149,7 @@ Breslau:en!Wroclaw::pl:eu:16.9576 51.0669 17.1186 51.1454:680000:
 Kattowitz:en!Katowice::pl:eu:18.8823 50.2148 19.1531 50.3625:990000:
 Gleiwitz:en!Gliwice::pl:eu:18.6162 50.2217 18.8829 50.3642:990000:
 Victoria::en::other:-123.578 48.392 -123.25 48.702:300000:
-BuenosAires:Buenos Aires:en::other:-58.571 -34.726 -58.292 -34.535:1200000:
+BuenosAires:Buenos Aires:en:es:other:-58.571 -34.726 -58.292 -34.535:1200000:
 Halifax::en::other:-63.716 44.609 -63.458 44.754:412000:
 Melbourne::en::other:144.792 -37.921 145.122 -37.686:3600000:
 Brisbane::en::other:152.914 -27.565 153.184 -27.368:1900000:
