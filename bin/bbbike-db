@@ -144,11 +144,11 @@ if ( defined $city_by_lang || $list ) {
 
 if ( exists $hash{$city} ) {
     if ($lang) {
-        print $hash{$city}->{lang} ? $hash{$city}->{lang} : "de";
+        print $hash{$city}->{lang} ? $hash{$city}->{lang} : "en";
         print " ";
     }
     elsif ($local_lang) {
-        print $hash{$city}->{local_lang} ? $hash{$city}->{local_lang} : "de";
+        print $hash{$city}->{local_lang} ? $hash{$city}->{local_lang} : "en";
         print " ";
     }
     elsif ($coord) {
