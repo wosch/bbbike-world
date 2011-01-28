@@ -29,6 +29,7 @@ OSMBIKE_DATA=	${DATA_OSM_BBBIKE_DIR}.tgz
 DATA_DIR=	data
 BBBIKE_CACHE_DIR=	/var/cache/bbbike
 MAX_OSMOSIS=	${MAX_CPU}
+LANGUAGES=	de en m
 
 GZIP:=             $(shell which pigz gzip | head -1)
 BZIP2:=            $(shell which pbzip2 bzip2 | head -1)
@@ -417,6 +418,10 @@ create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi
 	  done; \
 	  ln -fs images/srtbike.ico favicon.ico # buggy browsers
 	cd world/web && \
+	rm -rf ${LANGUAGES}; \
+	for lang in ${LANGUAGES}; do \
+		ln -fs . $$lang;  \
+	done; \
 	for city in ${CITIES} berlin; do \
 		( rm -rf $$city; mkdir -p $$city; cd $$city; \
 		ln -fs ../../bin/world.cgi index.cgi; \
@@ -428,6 +433,7 @@ create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi
 	for city in ${CITIES} berlin; do \
 		touch world/web/$$city/lang.`world/bin/bbbike-db --lang $$city`; \
 	done
+	( cd ${BBBIKE_WEB_DIR}/cgi && ln -fs ../world/bin/streets.cgi )
 
 
 TAGCLOUD=	world/bin/tagcloud 
