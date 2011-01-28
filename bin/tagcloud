@@ -55,7 +55,7 @@ foreach my $city ( $db->list_cities ) {
     my $name =
       $db->select_city_name( $c->{"city"}, ( $c->{"name"} || $c->{"city"} ),
         $city_lang );
-    my $link = "/$city/";
+    my $link = "$city/";
 
     $cloud->add( $name, $link, $c->{"population"} );
 }
