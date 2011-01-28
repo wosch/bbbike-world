@@ -419,15 +419,14 @@ create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi
 	  ln -fs images/srtbike.ico favicon.ico # buggy browsers
 	cd world/web && \
 	rm -rf ${LANGUAGES}; \
-	for lang in ${LANGUAGES}; do \
-		ln -fs . $$lang;  \
-	done; \
+	mkdir -p ${LANGUAGES}; \
 	for city in ${CITIES} berlin; do \
 		( rm -rf $$city; mkdir -p $$city; cd $$city; \
 		ln -fs ../../bin/world.cgi index.cgi; \
-		ln -fs ../../bin/world.cgi index.en.cgi; \
-		ln -fs ../../etc/world.cgi.config index.cgi.config; \
 		); \
+		for lang in ${LANGUAGES}; do \
+		  ( cd $$lang && ln -fs ../$$city ); \
+		done; \
 	done
 	rm -f world/web/*/lang*
 	for city in ${CITIES} berlin; do \
