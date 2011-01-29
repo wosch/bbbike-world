@@ -441,6 +441,7 @@ INDEX_UPDATE=	world/bin/index-update
 CITIES_DB=	world/etc/cities.csv
 
 tagcloud index:
+	( cd world/web && mkdir -p ${LANGUAGES} )
 	${TAGCLOUD} --area=de < ${CITIES_DB} | egrep -iv Berlin > tmp/de.cities.de
 	${TAGCLOUD} --area=eu < ${CITIES_DB} > tmp/de.cities.eu
 	${TAGCLOUD} --area=other --level=9 < ${CITIES_DB} > tmp/de.cities.other
@@ -452,7 +453,11 @@ tagcloud index:
 	${MOBILE_LINKS} --local-names=1 --split-city-names=1 --lang=en < ${CITIES_DB} > tmp/mobile.en
 	${INDEX_UPDATE} world/web/index.m.html.in > world/web/index.m.html
 	${INDEX_UPDATE} world/web/index.de.html.in > world/web/index.de.html
+	${INDEX_UPDATE} world/web/index.en.html.in > world/web/index.en.html
 	${INDEX_UPDATE} world/web/index.html.in > world/web/index.html
+	cp -f world/web/index.de.html world/web/de/index.html
+	cp -f world/web/index.m.html world/web/m/index.html
+	cp -f world/web/index.en.html world/web/en/index.html
 
 kml:
 	world/bin/bbbike-world-kml ${CITIES_DB} > world/web/bbbike-world.kml
