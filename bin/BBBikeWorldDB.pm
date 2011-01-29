@@ -44,6 +44,7 @@ sub parse_database {
 
     my $db = $self->{'database'};
     my $fh = new IO::File $db, "r" or die "open: $db $!\n";
+    binmode $fh, ":utf8";
 
     my %hash;
     my %raw;

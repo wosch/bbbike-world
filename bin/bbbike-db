@@ -18,6 +18,8 @@ $VERSION = 0.1;
 use Getopt::Long;
 
 my $debug = 1;    # 0: quiet, 1: normal, 2: verbose
+binmode \*STDOUT, ":utf8";
+binmode \*STDERR, ":utf8";
 
 sub osm_round {
     my $real    = shift;
