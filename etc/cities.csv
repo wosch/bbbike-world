@@ -1,7 +1,7 @@
 # City : Real Name : pref. language : local language : area : coord : population : step?
 Berlin:::de::13.0109 52.3376 13.7613 52.6753:4500000:
 CambridgeMa:Cambridge (Massachusetts):en::other:-71.1986 42.3265 -71.0036 42.4285:1264990:
-Ruegen:Stralsund/R&uuml;gen::de::12.904 54.199 13.81 54.708:221436:
+Ruegen:Stralsund/Rügen::de::12.904 54.199 13.81 54.708:221436:
 SanJose:San Jos&eacute;:en::other:-122.081 37.21 -121.707 37.46:1477640:
 Copenhagen:de!Kopenhagen,da!København::da:eu:12.275 55.549 12.702 55.831:661691:
 Hamburg:::de::9.77 53.426 10.24 53.663:1800000:
@@ -24,8 +24,8 @@ Sheffield::en::eu:-1.579 53.312 -1.308 53.45:640000:
 Bristol::en::eu:-2.721 51.392 -2.447 51.542:590000:
 Manchester::en::eu:-2.523 53.319 -1.934 53.641:2500000:
 
-Koeln:K&ouml;ln,en!Cologne::de::6.823 50.865 7.108 51.015:995397:
-Duesseldorf:D&uuml;sseldorf,en!Dusseldorf::de::6.637 51.145 6.959 51.295:1658557:
+Koeln:Köln,en!Cologne::de::6.823 50.865 7.108 51.015:995397:
+Duesseldorf:Düsseldorf,en!Dusseldorf::de::6.637 51.145 6.959 51.295:1658557:
 Portland::en::other:-122.81 45.43 -122.53 45.59:2100000:
 Hannover:en!Hanover::de::9.583 52.308 9.92 52.473:784784:
 Mannheim:Mannheim/Heidelberg::de::8.306 49.302 8.773 49.587:1149438:
@@ -52,19 +52,19 @@ Leipzig:::de::12.271 51.27 12.502 51.4:536773:
 Bielefeld:::de::8.399 51.946 8.657 52.071:388832:
 SanktPetersburg:de!Sankt Petersburg,en!Saint Petersburg,ru!Санкт-Петербург::ru:eu:30.151 59.865 30.502 60.016:4600000:
 Darmstadt:::de::8.455 49.77 8.842 49.974:573289:
-Bruessel:Br&uuml;ssel,en!Brussels::nl:eu:4.2614 50.7981 4.4376 50.8996:981000:
+Bruessel:Brüssel,en!Brussels::nl:eu:4.2614 50.7981 4.4376 50.8996:981000:
 Rostock:::de::12.0204 54.0599 12.2271 54.1933:409007:
 Aarhus:da!&Aring;rhus,de!&Aring;rhus,en!Aarhus::da:eu:10.0894 56.1007 10.3225 56.202:239865:
 Chicago:de!Chikago:en::other:-87.7501 41.7789 -87.5307 41.9326:9700000:
 Cottbus:::de::14.2561 51.7092 14.435 51.8101:102811:
-Zuerich:de!Z&uuml;rich,en!Zurich::de:eu:8.4483 47.3437 8.6271 47.4185:486697:
+Zuerich:de!Zürich,en!Zurich::de:eu:8.4483 47.3437 8.6271 47.4185:486697:
 Stockholm:::sv:eu:17.9752 59.2945 18.1664 59.3623:813229:
 Danzig:de!Danzig,en!Gdansk,pl!Gdańsk::pl:eu:18.411 54.303 18.812 54.57:889146:
 Vancouver::en::other:-123.2871 49.1809 -122.9818 49.3422:2182000:
 Jena:::de::11.5241 50.8597 11.6696 50.9705:105571:
 Budapest:::hu:eu:18.9482 47.434 19.1556 47.5407:1729962:
 Strassburg:de!Stra&szlig;burg,en!Strasbourg::de:eu:7.6515 48.5189 7.875 48.6525:461328:
-Luebeck:L&uuml;beck::de::10.574 53.82 10.806 53.933:255222:
+Luebeck:Lübeck::de::10.574 53.82 10.806 53.933:255222:
 Basel:::de:eu:7.5298 47.5128 7.6823 47.5943:348791:
 Sofia:bg!София::bg:eu:23.2146 42.6445 23.4244 42.7505:1397000:
 Erlangen:::de::10.9636 49.5208 11.0606 49.6199:128512:
@@ -76,7 +76,7 @@ Austin::en::other:-97.798 30.216 -97.675 30.316:1557829:
 Kiew:de!Kiew,en!Kiev,uk!Київ::uk:eu:30.4236 50.3854 30.6385 50.4963:2819566:
 Dublin::en::eu:-6.3485 53.2933 -6.1552 53.3867:477700:
 Boulder::en::other:-105.3198 39.963 -105.2017 40.07:91481:
-Goettingen:G&ouml;ttingen::de::9.8519 51.494 9.9917 51.5818:148685:
+Goettingen:Göttingen::de::9.8519 51.494 9.9917 51.5818:148685:
 Stettin:pl!Szczecin::pl:eu:14.4419 53.3575 14.7299 53.4764:410623:
 Laibach:en!Ljubljana::sl:eu:14.43 46.01 14.64 46.13:278638:
 Oslo:::no:eu:10.6517 59.8831 10.8323 59.9526:1400000:
@@ -86,19 +86,19 @@ Erfurt:::de::10.969 50.9454 11.0991 51.0087:202450:
 Cambridge::en::eu:0.0593 52.1708 0.2018 52.2577:118500 :
 Barcelona:::es:eu:2.0555 41.2953 2.267 41.4718:2248911:
 Zagreb:::hr:eu:15.8046 45.7234 16.1603 45.9016:1106000:
-Muenster:M&uuml;nster::de::7.5771 51.9226 7.6873 51.9917:272951:
+Muenster:Münster::de::7.5771 51.9226 7.6873 51.9917:272951:
 SantaCruz:Santa Cruz:en::other:-122.087 36.941 -121.917 37.013:54000:
 CraterLake:Crater Lake:en::other:-122.2593 42.8404 -121.9531 43.0219:0:
 Riga:::lv:eu:23.9847 56.9117 24.2099 56.9943:717371:
 Davis::en::other:-121.8085 38.5045 -121.6698 38.5942:60964:
-Krakau:en!Cracow,pl!Krak&oacute;w::pl:eu:19.88 50.02 20.00 50.09:801100:
+Krakau:en!Cracow,pl!Kraków::pl:eu:19.88 50.02 20.00 50.09:801100:
 Kaunas:::lt:eu:23.8001 54.8585 24.0157 54.9521:355550:
 Corvallis::en::other:-123.3293 44.5253 -123.1965 44.6072:49807:
 BrandenburgHavel:Brandenburg (Havel)::de::12.4647 52.3745 12.6563 52.4511:74875:
-Goerlitz:G&ouml;rlitz::de::14.9082 51.0989 15.0494 51.1891:92711:
+Goerlitz:Görlitz::de::14.9082 51.0989 15.0494 51.1891:92711:
 Turin:::it:eu:7.6221 45.0155 7.7594 45.1106:891314:
 FrankfurtOder:Frankfurt (Oder)::de::14.4804 52.3074 14.6026 52.3724:143466:
-WarenMueritz:Waren (M&uuml;ritz)::de::12.5982 53.4811 12.7647 53.5488:23386:
+WarenMueritz:Waren (Müritz)::de::12.5982 53.4811 12.7647 53.5488:23386:
 Sarajewo:en!Sarajevo::hr:eu:18.3664 43.8334 18.4889 43.8915:305000:
 Colmar:de!Kolmar,en!Colmar::de:eu:7.305 48.0471 7.4086 48.1236:83470:
 Kassel:::de::9.369 51.233 9.594 51.376:322935:
@@ -137,8 +137,8 @@ PhnomPenh:Phnom Penh,km!Phnum Pénh::km:other:104.8238 11.4895 105.0164 11.6295:
 Baghdad:de!Bagdad,ar!‏بغداد‎::ar:other:44.2231 33.2043 44.5259 33.4238:6500000:
 Marseille:::fr:eu:5.277 43.142 5.72 43.438:1400000:0.01
 #
-Nuernberg:de!N&uuml;rnberg,en!Nuremberg::de::10.9721 49.3933 11.1922 49.4939:2500000:
-Muenchen:M&uuml;nchen,en!Munich::de::11.36 48.015 11.814 48.265:2600000:
+Nuernberg:de!Nürnberg,en!Nuremberg::de::10.9721 49.3933 11.1922 49.4939:2500000:
+Muenchen:München,en!Munich::de::11.36 48.015 11.814 48.265:2600000:
 Kiel:::de::10.0372 54.275 10.2367 54.38:260000:
 Oldenburg:::de::8.1305 53.0859 8.2822 53.2041:160000:
 Genf:en!Geneva,fr!Genève::fr:eu:6.0566 46.1375 6.2533 46.249:470000:
