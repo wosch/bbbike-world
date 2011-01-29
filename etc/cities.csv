@@ -38,7 +38,7 @@ Reval:en!Tallin,et!Tallin::et:eu:24.6189 59.3803 24.8744 59.4872:403505:
 Montreal:::fr:other:-73.787 45.37 -73.404 45.607:2465219:
 Wien:en!Vienna::de:eu:16.2256 48.1187 16.581 48.3108:3114739:
 SanFrancisco:en!San Francisco,de!San Franzisko:en::other:-122.527 37.594 -122.351 37.811:800000:
-Miami::en::other:-80.3244 25.6548 -80.0473 25.8567:832273:
+Miami::en:es:other:-80.3244 25.6548 -80.0473 25.8567:832273:
 Mainz:Mainz/Wiesbaden::de::8.1339 49.9325 8.4123 50.1077:616490:
 Paris:::fr:eu:2.2168 48.7974 2.4681 48.9241:3956002:0.01
 DenHaag:Den Haag::nl:eu:4.2023 52.0097 4.4241 52.1288:741975:
@@ -117,7 +117,7 @@ CapeTown:Cape Town,de!Kapstadt:en::other:18.278 -34.116 18.754 -33.785:72000000:
 Bogota:es!Bogotá,en!Bogota:en:es:other:-74.2155 4.5199 -74.0078 4.7711:8200000:
 Perth::en::other:115.668 -32.225 116.125 -31.634:1800000:
 Sydney::en::other:150.827 -34.058 151.328 -33.681:4300000:
-MexicoCity:en!Mexico City,de!Mexiko-Stadt,es!Ciudad de Méxicoeses:::other:-99.2708 19.3095 -98.9714 19.5329:21000000:
+MexicoCity:en!Mexico City,de!Mexiko-Stadt,es!Ciudad de Méxicoeses::es:other:-99.2708 19.3095 -98.9714 19.5329:21000000:
 RiodeJaneiro:Rio de Janeiro::pt:other:-43.3592 -23.0103 -43.0369 -22.7833:14000000:
 Santiago:Santiago de Chile::es:other:-70.813 -33.619 -70.495 -33.357:5400000:
 Baku:::az:other:49.7796 40.3409 49.9059 40.4267:2200000:
@@ -149,7 +149,7 @@ Breslau:de!Breslau,en!Wroclaw,pl!Wrocław::pl:eu:16.9576 51.0669 17.1186 51.1454
 Kattowitz:en!Katowice,pl!Katowice,de!Kattowitz::pl:eu:18.8823 50.2148 19.1531 50.3625:990000:
 Gleiwitz:en!Gliwice,pl!Gliwice,de!Gleiwitz::pl:eu:18.6162 50.2217 18.8829 50.3642:990000:
 Victoria::en::other:-123.578 48.392 -123.25 48.702:300000:
-BuenosAires:Buenos Aires:en:es:other:-58.571 -34.726 -58.292 -34.535:1200000:
+BuenosAires:Buenos Aires::es:other:-58.571 -34.726 -58.292 -34.535:1200000:
 Halifax::en::other:-63.716 44.609 -63.458 44.754:412000:
 Melbourne::en::other:144.792 -37.921 145.122 -37.686:3600000:
 Brisbane::en::other:152.914 -27.565 153.184 -27.368:1900000:
