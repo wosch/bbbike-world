@@ -23,9 +23,18 @@
   <div id="all">
     <div id="border">
       <div id="main">
+        <a href="../da/">da</a> |
         <a href="../de/">de</a> |
+        <a href="../en/">en</a> |
+        <a href="../es/">es</a> |
+        <a href="../fr/">fr</a> |
+        <a href="../hr/">hr</a> |
+        <a href="../nl/">nl</a> |
+        <a href="../pl/">pl</a> |
+        <a href="../pt/">pt</a> |
+        <a href="../ru/">ru</a> |
         <a href="../">other</a> |
-        <a href="../m/" title="BBBike for mobile devices">[mobile]</a>
+        <a href="../m/" title="BBBike for mobile devices">mobile</a>
         <!-- <a href="./">[en]</a> -->
 
         <!-- <p>Willkommen bei BBBike! Wir helfen Dir, eine schöne Fahrradroute in Deiner Stadt und Umgebung zu finden<br/>Bitte w&auml;hle Deine Stadt:</p> -->
