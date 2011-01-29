@@ -5,6 +5,7 @@
 
 use HTML::TagCloud 0.34;
 use Getopt::Long;
+use Data::Dumper;
 
 use lib '.';
 use lib './world/bin';
@@ -16,7 +17,7 @@ use warnings;
 my $debug         = 1;      # 0: quiet, 1: normal, 2: verbose
 my $selected_area = 'de';
 my $level         = 12;
-my $city_lang     = 'de';
+my $city_lang     = 'en';
 
 sub usage () {
     <<EOF;
@@ -52,9 +53,12 @@ foreach my $city ( $db->list_cities ) {
 
     next if $c->{"area"} ne $selected_area;
 
+    # special handling for local language city names
+    my $lang = $city_lang eq 'local' ? $c->{"local_lang"} : $city_lang;
+
     my $name =
       $db->select_city_name( $c->{"city"}, ( $c->{"name"} || $c->{"city"} ),
-        $city_lang );
+        $lang );
     my $link = "$city/";
 
     $cloud->add( $name, $link, $c->{"population"} );
