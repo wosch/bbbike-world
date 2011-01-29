@@ -40,18 +40,18 @@
 
             <td width="50%" id="cell_germany" valign="top">Germany: <!-- Deutschland: -->
 
-@{ en.cities.de }@
+@{ local.cities.de }@
 </td>
           </tr>
 
           <tr>
             <td id="cell_europe" width="50%" valign="top">Europe: <!-- Europa: -->
 
-@{ en.cities.eu }@
+@{ local.cities.eu }@
 </td>
 
             <td id="cell_other" valign="top">Other: <!-- Welt: -->
-@{ en.cities.other }@
+@{ local.cities.other }@
 </td>
           </tr>
         </table>
