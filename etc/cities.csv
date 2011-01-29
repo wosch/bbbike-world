@@ -6,7 +6,7 @@ SanJose:San Jos&eacute;:en::other:-122.081 37.21 -121.707 37.46:1477640:
 Copenhagen:de!Kopenhagen,da!København::da:eu:12.275 55.549 12.702 55.831:661691:
 Hamburg:::de::9.77 53.426 10.24 53.663:1800000:
 Frankfurt:Frankfurt am Main::de::8.44 50.02 8.979 50.185:2005405:
-Prag:en!Prague,cs!Praha::cs:eu:14.3016 50.0241 14.6009 50.1468:1223368:
+Prag:de!Prag,en!Prague,cs!Praha::cs:eu:14.3016 50.0241 14.6009 50.1468:1223368:
 Tuscon::en::other:-111.108 32.114 -110.704 32.335:524527:
 Toronto::en::other:-79.674 43.602 -79.077 43.849:2500000:
 Dresden:::de::13.61 50.97 13.922 51.119:1115674:
@@ -63,7 +63,7 @@ Danzig:de!Danzig,en!Gdansk,pl!Gdańsk::pl:eu:18.411 54.303 18.812 54.57:889146:
 Vancouver::en::other:-123.2871 49.1809 -122.9818 49.3422:2182000:
 Jena:::de::11.5241 50.8597 11.6696 50.9705:105571:
 Budapest:::hu:eu:18.9482 47.434 19.1556 47.5407:1729962:
-Strassburg:Stra&szlig;burg,en!Strasbourg::de:eu:7.6515 48.5189 7.875 48.6525:461328:
+Strassburg:de!Stra&szlig;burg,en!Strasbourg::de:eu:7.6515 48.5189 7.875 48.6525:461328:
 Luebeck:L&uuml;beck::de::10.574 53.82 10.806 53.933:255222:
 Basel:::de:eu:7.5298 47.5128 7.6823 47.5943:348791:
 Sofia:bg!София::bg:eu:23.2146 42.6445 23.4244 42.7505:1397000:
@@ -145,7 +145,7 @@ Genf:en!Geneva,fr!Genève::fr:eu:6.0566 46.1375 6.2533 46.249:470000:
 Warschau:en!Warsaw,pl!Warszawa::pl:eu:20.834 52.097 21.275 52.372:3500000:
 Magdeburg:::de::11.553 52.0745 11.6934 52.1734:230000:
 Posen:en!Poznan,pl!Poznań::pl:eu:16.8109 52.3493 17.0351 52.4645:680000:
-Breslau:en!Wroclaw,pl!Wrocław::pl:eu:16.9576 51.0669 17.1186 51.1454:680000:
+Breslau:de!Breslau,en!Wroclaw,pl!Wrocław::pl:eu:16.9576 51.0669 17.1186 51.1454:680000:
 Kattowitz:en!Katowice,pl!Katowice,de!Kattowitz::pl:eu:18.8823 50.2148 19.1531 50.3625:990000:
 Gleiwitz:en!Gliwice,pl!Gliwice,de!Gleiwitz::pl:eu:18.6162 50.2217 18.8829 50.3642:990000:
 Victoria::en::other:-123.578 48.392 -123.25 48.702:300000:
