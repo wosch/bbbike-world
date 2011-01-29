@@ -459,7 +459,6 @@ tagcloud index:
 	${INDEX_UPDATE} world/web/index.en.html.in > world/web/index.en.html
 	${INDEX_UPDATE} world/web/index.html.in > world/web/index.html
 	cp -f world/web/index.de.html world/web/de/index.html
-	cp -f world/web/index.en.html world/web/index.html
 	cp -f world/web/index.m.html world/web/m/index.html
 	for i in ${LANGUAGES}; do \
 		case $$i in \
