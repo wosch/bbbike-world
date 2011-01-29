@@ -83,6 +83,7 @@ usage: $0 [--debug={0..2}] [options] city
 --centerdelta
 --area=area
 --city-by-lang=lang
+--city-names
 --step
 --list
 EOF
@@ -98,12 +99,14 @@ my $centerdelta;
 my $area;
 my $city_by_lang;
 my $list;
+my $city_names;
 
 GetOptions(
     "debug=i"        => \$debug,
     "lang"           => \$lang,
     "local-lang"     => \$local_lang,
     "step"           => \$step,
+    "city-names"     => \$city_names,
     "population"     => \$population,
     "coord"          => \$coord,
     "poly"           => \$poly,
@@ -149,6 +152,10 @@ if ( exists $hash{$city} ) {
     }
     elsif ($local_lang) {
         print $hash{$city}->{local_lang} ? $hash{$city}->{local_lang} : "en";
+        print " ";
+    }
+    elsif ($city_names) {
+        print $hash{$city}->{name} ? $hash{$city}->{name} : $city;
         print " ";
     }
     elsif ($coord) {
