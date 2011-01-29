@@ -18,7 +18,7 @@ perl ./miscsrc/osm2bbd-postprocess --debug=0 --force \
 	-only-largest-city-is-center \
 	-skip-inaccessible-streets \
 	--city-names="`world/bin/bbbike-db --city-names $city`" \
-	--local-lang="`world/bin/bbbike-db --local-lang $city`" $prefix/$city
+	--local-lang=`world/bin/bbbike-db --local-lang $city` $prefix/$city
 
 if [ $? != 0 ]; then
 	echo "failed $city"
