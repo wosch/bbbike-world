@@ -19,7 +19,7 @@ sub new {
     my $self = {
         'database'   => 'world/etc/cities.csv',
         'debug'      => $debug,
-        'lang'       => 'de',
+        'lang'       => 'en',
         'local_lang' => '',
         'area'       => 'de',
         'step'       => '0.02',
@@ -61,7 +61,7 @@ sub parse_database {
         $hash{$city} = {
             city       => $city,
             name       => $name,
-            lang       => $lang || "de",
+            lang       => $lang || "en",
             local_lang => $local_lang || "",
             step       => $step || "0.02",
             area       => $area || "de",
@@ -103,7 +103,7 @@ sub select_city_name {
 
     my $city      = shift;
     my $name      = shift or die "No city name given!\n";
-    my $city_lang = shift || "de";
+    my $city_lang = shift || "en";
 
     warn "city: $city, name: $name, lang: $city_lang\n" if $self->debug >= 2;
 
