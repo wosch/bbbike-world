@@ -420,7 +420,7 @@ create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi index
 	ln -fs world/Makefile.osm ${BBBIKE_WEB_DIR}
 	ln -fs Makefile.osm Makefile
 	cd world/web; \
-	  for i in images html cgi osm data-osm doc; do \
+	  for i in images html cgi osm data-osm doc osp; do \
 	    ln -fs ../../$$i .; \
 	  done; \
 	  ln -fs images/srtbike.ico favicon.ico # buggy browsers
