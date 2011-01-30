@@ -7,14 +7,20 @@
 PATH=/bin:/usr/bin:/sbin:/usr/sbin; export PATH
 
 minus=0
+vcpu=0
 case $1 in
 	-1 | -2 | +1|+2|+3|+4|+6|+8 ) minus=$1 ;;
+	vcpu ) vcpu=1 ;;
 esac
 
 ncpu=3
 if sysctl -n hw.physicalcpu > /dev/null 2>&1; then
   # macos
-  ncpu=`sysctl -n hw.physicalcpu`
+  if [ $vcpu = 1 ]; then
+     ncpu=`sysctl -n hw.ncpu`
+  else
+     ncpu=`sysctl -n hw.physicalcpu`
+  fi
 elif sysctl kernel.sched_domain >/dev/null 2>&1; then
   # linux
   ncpu=`sysctl  kernel.sched_domain | tail -1 | \
