@@ -19,6 +19,7 @@ DOWNLOADOSM=	${PERL} ./miscsrc/downloadosm --debug=1 ${OSM_SOCKS_PROXY} ${OSM_TI
 OSM2BBD=	${PERL} ./miscsrc/osm2bbd -f --debug=0 ${OSM2BBD_MAPTYPE} -ignore-unhandled -ignore-underline -experiment add_postal_code #-experiment polar_coord_hack
 MAX_CPU=	`world/bin/ncpu`
 MAX_CPU2=	`world/bin/ncpu -1`
+MAX_VCPU=	`world/bin/ncpu vcpu`
 GXARGS=		${NICE} `which gxargs xargs | head -1`
 BBBIKE_WEB_DIR= ./
 OSM_DIR=	osm
@@ -332,7 +333,7 @@ _convert:
 	if test -e ${DATA_OSM_DIR}; then mv ${DATA_OSM_DIR} ${DATA_OSM_DIR}.old;  fi
 	mkdir -p ${DATA_OSM_DIR}
 	echo ${CITIES} " " | perl -npe 's/\s+/-convert /g' | \
-	   ${GXARGS} -n 1 -P ${MAX_CPU} ${MAKE} -f Makefile.osm
+	   ${GXARGS} -n 1 -P ${MAX_VCPU} ${MAKE} -f Makefile.osm
 
 check:
 	for i in ${CITIES}; do echo ${DATA_OSM_DIR}/$$i; done | \
