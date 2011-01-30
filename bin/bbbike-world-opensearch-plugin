@@ -5,8 +5,16 @@
 #
 
 use IO::File;
+
+use lib '.';
+use lib './world/bin';
+use BBBikeWorldDB;
+
 use strict;
 use warnings;
+
+binmode \*STDIN,  ":utf8";
+binmode \*STDOUT, ":utf8";
 
 my $debug = $ENV{DEBUG};
 my $homepage = $ENV{BBBIKE_HOMEPAGE} || 'http://www.bbbike.org';
@@ -54,12 +62,15 @@ sub create_opensearch_file {
     my $file = $args{'file'} or die "no file given\n";
     my $city = $args{'city'} or die "no city given\n";
     my $name       = $args{'name'}       || $city;
-    my $lang       = $args{'lang'}       || "de";
+    my $lang       = $args{'lang'}       || "en";
     my $queryparam = $args{'queryparam'} || "q";
     my $scriptname = $args{'scriptname'};
 
     warn "Create opensearch file $file\n" if $debug;
     my $fh = new IO::File $file, "w" or die "open '$file': $!\n";
+    binmode $fh, ":utf8";
+
+    my $lang_prefix = $lang eq 'en' ? "$lang/" : "";
 
     print $fh <<EOF;
 <?xml version="1.0"?>
@@ -68,7 +79,7 @@ sub create_opensearch_file {
   <LongName>BBBike @ <![CDATA[$name]]></LongName>
   <Description>BBBike @ World</Description>
   <InputEncoding>UTF-8</InputEncoding>
-  <Url template="$homepage/cgi/$scriptname?sourceid=opensearch&amp;city=$city&amp;$queryparam={searchTerms}" type="text/html" />
+  <Url template="$homepage/$lang_prefix$city/?sourceid=opensearch&amp;$queryparam={searchTerms}" type="text/html" />
   <Url type="application/x-suggestions+json" template="$homepage/cgi/api.cgi?sourceid=opensearch&amp;action=opensearch&amp;city=$city&amp;namespace=0&amp;search={searchTerms}"/>
   <Developer>Wolfram Schneider, Slaven Rezi&#x0107;</Developer>
   <Contact>http://www.bbbike.org/</Contact>
@@ -82,21 +93,29 @@ EOF
 }
 
 sub bbbike2opensearch {
-    my %args = @_;
-    my $dir  = $args{'dir'};
-    my @data = @{ $args{'data'} };
+    my %args   = @_;
+    my $dir    = $args{'dir'};
+    my $db     = $args{'db'};
+    my @cities = @{ $args{'cities'} };
 
-    for my $d (@data) {
-        my ( $city, $name, @rest ) = @$d;
+    for my $city (@cities) {
+        my $c = $db->city->{$city};
 
-        for my $lang (qw/en de/) {
-            my $scriptname = $city . ( $lang eq 'de' ? '' : ".$lang" ) . '.cgi';
+        my @lang = "en";
+        push( @lang, $c->{"local_lang"} ) if $c->{"local_lang"};
+
+        for my $lang (@lang) {
+            my $xml_file =
+              "$dir/$city" . ( $lang eq 'en' ? ".$lang" : "" ) . ".xml";
+            my $city_name =
+              $db->select_city_name( $c->{"city"},
+                ( $c->{"name"} || $c->{"city"} ), $lang );
+
             create_opensearch_file(
-                'file'       => "$dir/$city-$lang.xml",
+                'file'       => $xml_file,
                 'city'       => $city,
-                'name'       => $name,
+                'name'       => $city_name,
                 'lang'       => $lang,
-                'scriptname' => $scriptname,
                 'queryparam' => 'start',
             );
         }
@@ -104,44 +123,55 @@ sub bbbike2opensearch {
 }
 
 sub bbbike2opensearch_streets {
-    my %args       = @_;
-    my $dir        = $args{'dir'};
-    my $scriptname = $args{'scriptname'};
-    my @data       = @{ $args{'data'} };
-    my $lang       = $args{'lang'} || "en";
+    my %args   = @_;
+    my $dir    = $args{'dir'};
+    my @cities = @{ $args{'cities'} };
+    my $lang   = $args{'lang'} || "en";
+    my $db     = $args{'database'};
 
-    for my $d (@data) {
-        my ( $city, $name, @rest ) = @$d;
+    for my $city (@cities) {
+        my $c = $db->city->{$city};
+
+        #my $city_lang = $lang eq '' ? $c->{"local_lang"} : $city_lang;
+
+        my $xml_file = "$dir/$city" . ( $lang ? ".$lang" : "" ) . ".xml";
+        my $name =
+          $db->select_city_name( $c->{"city"}, ( $c->{"name"} || $c->{"city"} ),
+            $lang );
 
         create_opensearch_file(
-            'file'       => "$dir/$city-$lang.xml",
+            'file'       => $xml_file,
             'city'       => $city,
             'name'       => $name,
             'lang'       => $lang,
-            'scriptname' => $scriptname,
             'queryparam' => 'search',
         );
     }
 }
 
+######################################################################
+# main
+#
 my $streets;
+my $db_file = 'world/etc/cities.csv';
 if ( $ARGV[0] eq '--streets' ) {
     $streets = 1;
     shift @ARGV;
 }
-my ( $dir, $db ) = @ARGV;
-die &usage if !$db || !$dir;
+my ( $dir, @cities ) = @ARGV;
+die &usage if !scalar(@cities) || !$dir;
 
-my @data = &extract_coords($db);
+my $database = BBBikeWorldDB->new( 'database' => $db_file );
 
 if ( !$streets ) {
-    &bbbike2opensearch( 'dir' => $dir, 'data' => \@data );
+    &bbbike2opensearch(
+        'dir'    => $dir,
+        'cities' => \@cities,
+        'db'     => $database
+    );
 }
 else {
-    &bbbike2opensearch_streets(
-        'dir'        => $dir,
-        'data'       => \@data,
-        'scriptname' => 'streets.cgi'
-    );
+
+# &bbbike2opensearch_streets( 'dir'        => $dir, 'cities'       => \@cities, 'db' => $database,);
 }
 
