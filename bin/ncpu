@@ -8,21 +8,31 @@ PATH=/bin:/usr/bin:/sbin:/usr/sbin; export PATH
 
 minus=0
 vcpu=0
+rcpu=0
 case $1 in
 	-1 | -2 | +1|+2|+3|+4|+6|+8 ) minus=$1 ;;
 	vcpu ) vcpu=1 ;;
+	rcpu ) rcpu=1 ;;
 esac
-
 ncpu=3
+
+# macos
 if sysctl -n hw.physicalcpu > /dev/null 2>&1; then
-  # macos
+  # with virtual CPUs
   if [ $vcpu = 1 ]; then
      ncpu=`sysctl -n hw.ncpu`
+
+  # real CPUs + 1/2 virtual CPUs
+  elif [ $rcpu = 1 ]; then
+     ncpu=`perl -e 'print (($ARGV[0] + $ARGV[1])/2)' $(sysctl -n hw.ncpu) $(sysctl -n hw.physicalcpu)`
+
+  # physical CPUs only
   else
      ncpu=`sysctl -n hw.physicalcpu`
   fi
+
+# linux
 elif sysctl kernel.sched_domain >/dev/null 2>&1; then
-  # linux
   ncpu=`sysctl  kernel.sched_domain | tail -1 | \
 	perl -ne 'print ($1+1), "\n" if m,kernel.sched_domain.cpu(\d+),'`
 fi
