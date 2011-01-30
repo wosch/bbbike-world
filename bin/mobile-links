@@ -16,7 +16,7 @@ binmode \*STDIN, ":utf8";
 binmode \*STDOUT, ":utf8";
 
 my $debug            = 1;      # 0: quiet, 1: normal, 2: verbose
-my $city_lang        = 'de';
+my $city_lang        = 'en';
 my $split_city_names = 0;
 my $local_names      = 0;
 
@@ -48,7 +48,7 @@ foreach my $city ( $db->list_cities ) {
     my $name =
       $db->select_city_name( $c->{"city"}, ( $c->{"name"} || $c->{"city"} ),
         $city_lang );
-    my $link = "/$city/";
+    my $link = "$city/";
 
     if ( $split_city_names && $name =~ m,^([^/]+)/([^/]+)$, ) {
         $hash{$name} = $link;
