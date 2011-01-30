@@ -12,7 +12,7 @@ use BBBikeWorldDB;
 use strict;
 use warnings;
 
-binmode \*STDIN, ":utf8";
+binmode \*STDIN,  ":utf8";
 binmode \*STDOUT, ":utf8";
 
 my $debug            = 1;      # 0: quiet, 1: normal, 2: verbose

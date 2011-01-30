@@ -5,7 +5,6 @@
 #
 # sudo /opt/local/bin/cpan HTML::TagCloud
 
-
 use Text::Unidecode;
 use HTML::TagCloud;
 
