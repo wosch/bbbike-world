@@ -522,14 +522,16 @@ clean-planet:
 	rm -f ../osm-streetnames/download/*.old.*
 
 help:
-	@echo "usage: make [ help | cities | cities-parallel | rsync-tgz | rsync-osm | rsync-osm-dev ]"
-	@echo "            [ clean | dist-clean | clean-cache | clean-planet | create-osp | bbbike2wgs84 ]"
-	@echo "            [ create-bbbike-web-symlinks | kml | create-osp | index | update-robots.txt ]"
-	@echo "            [ convert-wgs84 | convert-bbbike ]"
-	@echo "            [ city-count | city-reorder | check-osm | cleanup-osm-error | bbbike2wgs84 ]"
-	@echo "            [ planet-download | planet-geofabrik-download ]"
-	@echo "            [ planet-streets | planet-places ]"
-	@echo "            [ update-database | update-files ]"
+	@echo "usage: make [ targets ... ]"
+	@echo "  [ help | cities | cities-parallel | rsync-tgz | rsync-osm | rsync-osm-dev ]"
+	@echo "  [ clean | dist-clean | clean-cache | clean-planet ]"
+	@echo "  [ create-osp | bbbike2wgs84 | update-robots.txt ]"
+	@echo "  [ create-bbbike-web-symlinks | kml | create-osp | index ]"
+	@echo "  [ convert-wgs84 | convert-bbbike ]"
+	@echo "  [ city-count | city-reorder | check-osm | cleanup-osm-error ]"
+	@echo "  [ planet-download | planet-geofabrik-download ]"
+	@echo "  [ planet-streets | planet-places ]"
+	@echo "  [ update-database | update-files ]"
 	@echo ""
-	@echo "            [ "`perl -e 'print join " ", sort @ARGV' ${CITIES}` "]"
+	@echo "  [ "`perl -e 'print join " ", sort @ARGV' ${CITIES}` "]"
 
