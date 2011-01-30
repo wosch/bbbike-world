@@ -195,6 +195,12 @@ CITIES=		\
 	CraterLake \
 	Baku \
 	UlanBator \
+	Lima \
+	Montevideo \
+	Palma \
+	Curitiba \
+	PortoAlegre
+
 
 #
 # opensearch suggestion service for

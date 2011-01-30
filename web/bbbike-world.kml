@@ -355,6 +355,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Curitiba</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Curitiba/index.en.cgi">BBBike @ Curitiba</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-56.131,-34.866,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Danzig</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Danzig/index.en.cgi">BBBike @ Gdansk</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -699,6 +707,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Lima</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Lima/index.en.cgi">BBBike @ Lima</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-77.03115,-12.07485,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Lissabon</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Lissabon/index.en.cgi">BBBike @ Lisbon</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -803,6 +819,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Montevideo</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Montevideo/index.en.cgi">BBBike @ Montevideo</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-56.131,-34.866,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Montreal</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Montreal/index.en.cgi">BBBike @ Montreal</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -883,6 +907,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Palma</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Palma/index.en.cgi">BBBike @ Palma de Mallorca</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>2.884,39.6185,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>PaloAlto</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/PaloAlto/index.en.cgi">BBBike @ Palo Alto</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -928,6 +960,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-122.67,45.51,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>PortoAlegre</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/PortoAlegre/index.en.cgi">BBBike @ Porto Alegre</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-51.162,-30.0405,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
