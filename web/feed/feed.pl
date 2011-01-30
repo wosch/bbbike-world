@@ -25,7 +25,7 @@ $feed->add_entry(
     content => {
         type => 'text',
         content =>
-qq{BBBike.org is now available in Danish, Spanish, French, Croatian, Dutch, Polish, Portuguese and Russian}
+qq{BBBike.org is now available in Danish, German, English, Spanish, French, Croatian, Dutch, Polish, Portuguese and Russian}
     },
 
     updated  => '2011-01-30T12:30:02Z',
