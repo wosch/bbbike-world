@@ -32,6 +32,8 @@ BBBIKE_CACHE_DIR=	/var/cache/bbbike
 MAX_OSMOSIS=	${MAX_CPU}
 LANGUAGES=	m da de en es fr hr nl pl pt ru
 
+TMP=world/tmp
+
 GZIP:=             $(shell which pigz gzip | head -1)
 BZIP2:=            $(shell which pbzip2 bzip2 | head -1)
 
@@ -445,23 +447,23 @@ create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi index
 
 TAGCLOUD=	world/bin/tagcloud 
 MOBILE_LINKS=	world/bin/mobile-links 
-INDEX_UPDATE=	world/bin/index-update 
+INDEX_UPDATE=	world/bin/index-update ${TMP}
 CITIES_DB=	world/etc/cities.csv
 
 tagcloud index:
 	( cd world/web && mkdir -p ${LANGUAGES} )
-	( cd tmp && rm -f de.cities.* en.cities.* local.cities.* mobile.en )
-	${TAGCLOUD} --lang=de --area=de < ${CITIES_DB} | egrep -iv Berlin > tmp/de.cities.de
-	${TAGCLOUD} --lang=de --area=eu < ${CITIES_DB} > tmp/de.cities.eu
-	${TAGCLOUD} --lang=de --area=other --level=9 < ${CITIES_DB} > tmp/de.cities.other
-	${TAGCLOUD} --lang=en --area=de < ${CITIES_DB} | egrep -iv Berlin > tmp/en.cities.de
-	${TAGCLOUD} --lang=en --area=eu < ${CITIES_DB} > tmp/en.cities.eu
-	${TAGCLOUD} --lang=en --area=other --level=9 < ${CITIES_DB} > tmp/en.cities.other
-	${TAGCLOUD} --lang=local --area=de < ${CITIES_DB} | egrep -iv Berlin > tmp/local.cities.de
-	${TAGCLOUD} --lang=local --area=eu < ${CITIES_DB} > tmp/local.cities.eu
-	${TAGCLOUD} --lang=local --area=other --level=9 < ${CITIES_DB} > tmp/local.cities.other
-	perl -i -npe 's,( href="cgi/([^\.]+)(\.en)?.cgi"), class="C_$$2"$$1,g' tmp/de.cities.* tmp/en.cities.*
-	${MOBILE_LINKS} --local-names=1 --split-city-names=1 --lang=en < ${CITIES_DB} > tmp/mobile.en
+	( cd ${TMP} && rm -f de.cities.* en.cities.* local.cities.* mobile.en )
+	${TAGCLOUD} --lang=de --area=de < ${CITIES_DB} | egrep -iv Berlin > ${TMP}/de.cities.de
+	${TAGCLOUD} --lang=de --area=eu < ${CITIES_DB} > ${TMP}/de.cities.eu
+	${TAGCLOUD} --lang=de --area=other --level=9 < ${CITIES_DB} > ${TMP}/de.cities.other
+	${TAGCLOUD} --lang=en --area=de < ${CITIES_DB} | egrep -iv Berlin > ${TMP}/en.cities.de
+	${TAGCLOUD} --lang=en --area=eu < ${CITIES_DB} > ${TMP}/en.cities.eu
+	${TAGCLOUD} --lang=en --area=other --level=9 < ${CITIES_DB} > ${TMP}/en.cities.other
+	${TAGCLOUD} --lang=local --area=de < ${CITIES_DB} | egrep -iv Berlin > ${TMP}/local.cities.de
+	${TAGCLOUD} --lang=local --area=eu < ${CITIES_DB} > ${TMP}/local.cities.eu
+	${TAGCLOUD} --lang=local --area=other --level=9 < ${CITIES_DB} > ${TMP}/local.cities.other
+	perl -i -npe 's,( href="cgi/([^\.]+)(\.en)?.cgi"), class="C_$$2"$$1,g' ${TMP}/de.cities.* ${TMP}/en.cities.*
+	${MOBILE_LINKS} --local-names=1 --split-city-names=1 --lang=en < ${CITIES_DB} > ${TMP}/mobile.en
 	${INDEX_UPDATE} world/web/index.m.html.in > world/web/index.m.html
 	${INDEX_UPDATE} world/web/index.de.html.in > world/web/index.de.html
 	${INDEX_UPDATE} world/web/index.en.html.in > world/web/index.en.html

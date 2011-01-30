@@ -4,9 +4,11 @@
 use strict;
 use warnings;
 
+my $tmp = shift || "tmp";
+
 while (<>) {
     if (s,\@{\s*(.*?)\s*}@,,) {
-        my $file = "tmp/" . $1;
+        my $file = "$tmp/" . $1;
         system( "cat", $file );
     }
     print;
