@@ -19,6 +19,20 @@ my $feed = XML::Atom::SimpleFeed->new(
 ######################################################################
 
 $feed->add_entry(
+    title => 'More translations to other languages',
+    id    => '5569e78510bee2720280ed5cd3afee09',
+
+    content => {
+        type => 'text',
+        content =>
+qq{BBBike.org is now available in Danish, Spanish, French, Croatian, Dutch, Polish, Portuguese and Russian}
+    },
+
+    updated  => '2011-01-30T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title => 'New directory layout with shorter URLs',
     id    => '5569e78510bee2720280ed5cd3afee09',
 
