@@ -19,6 +19,20 @@ my $feed = XML::Atom::SimpleFeed->new(
 ######################################################################
 
 $feed->add_entry(
+    title => 'New directory layout with shorter URLs',
+    id    => '5569e78510bee2720280ed5cd3afee09',
+
+    content => {
+        type => 'text',
+        content =>
+qq{BBBike.org has now a new directory layout with a sub-directory for each city, e.g. the new home page for London is http://www.bbbike.org/London},
+    },
+
+    updated  => '2011-01-29T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title => 'Added new cities',
     id    => '8b4c4c5b6f1172986ef6cc55bcd0bd41',
 

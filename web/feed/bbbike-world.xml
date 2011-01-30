@@ -16,6 +16,15 @@
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>New directory layout with shorter URLs</title>
+    <id>5569e78510bee2720280ed5cd3afee09</id>
+    <content>BBBike.org has now a new directory layout with a
+    sub-directory for each city, e.g. the new home page for London
+    is http://www.bbbike.org/London</content>
+    <updated>2011-01-29T12:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title>Added new cities</title>
     <id>8b4c4c5b6f1172986ef6cc55bcd0bd41</id>
     <content>New cities: Bochum</content>
