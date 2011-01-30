@@ -3,6 +3,18 @@ User-agent: *
 Disallow: /bbbike/cgi
 Disallow: /cgi
 
+Disallow: /da/
+Disallow: /de/
+Disallow: /en/
+Disallow: /es/
+Disallow: /fr/
+Disallow: /hr/
+Disallow: /m/
+Disallow: /nl/
+Disallow: /pl/
+Disallow: /pt/
+Disallow: /ru/
+
 Disallow: /Aachen/index
 Disallow: /Aachen/?
 Disallow: /Aarhus/index

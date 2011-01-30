@@ -284,8 +284,12 @@ city-reorder:
 
 update-robots.txt:
 	( cat world/web/robots.txt.in; \
-	   echo ${CITIES} | perl -npe 's,\s+,\n,g' | sort | \
-	   perl -ne 'chomp; s,^,Disallow: /,; print "$$_/index\n$$_/?\n" '; ) > world/web/robots.txt
+	  echo ${LANGUAGES} | perl -npe 's,\s+,\n,g' | sort | \
+	   perl -ne 'chomp; s,^,Disallow: /,; print "$$_/\n" '; \
+	  echo ""; \
+	  echo ${CITIES} | perl -npe 's,\s+,\n,g' | sort | \
+	   perl -ne 'chomp; s,^,Disallow: /,; print "$$_/index\n$$_/?\n" '; \
+	) > world/web/robots.txt
 
 # using GNU xargs -P parallel
 osm-areas2:
