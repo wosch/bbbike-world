@@ -9,11 +9,16 @@ PATH=/bin:/usr/bin:/sbin:/usr/sbin; export PATH
 minus=0
 vcpu=0
 rcpu=0
+
+case $1 in
+	vcpu ) vcpu=1; shift ;;
+	rcpu ) rcpu=1; shift ;;
+esac
+
 case $1 in
 	-1 | -2 | +1|+2|+3|+4|+6|+8 ) minus=$1 ;;
-	vcpu ) vcpu=1 ;;
-	rcpu ) rcpu=1 ;;
 esac
+
 ncpu=3
 
 # macos
