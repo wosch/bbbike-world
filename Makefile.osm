@@ -37,169 +37,8 @@ TMP=world/tmp
 GZIP:=             $(shell which pigz gzip | head -1)
 BZIP2:=            $(shell which pbzip2 bzip2 | head -1)
 
-CITIES=		\
-	Bogota \
-	Paris \
-	Berlin \
-	Dortmund \
-	WashingtonDC \
-	Moscow \
-	Hamburg \
-	Toronto \
-	Muenchen \
-	Prag \
-	CambridgeMa \
-	Duisburg \
-	Marseille \
-	Bochum \
-	Birmingham \
-	Frankfurt \
-	Copenhagen \
-	Orlando \
-	Albuquerque \
-	Strassburg \
-	Sydney \
-	Mannheim \
-	London \
-	Liverpool \
-	Duesseldorf \
-	Amsterdam \
-	Stettin \
-	Manchester \
-	Denver \
-	Perth \
-	Dresden \
-	Leeds \
-	Bonn \
-	SanJose \
-	Wien \
-	Rotterdam \
-	Melbourne \
-	Nuernberg \
-	Brisbane \
-	Koeln \
-	DenHaag \
-	Groningen \
-	Ottawa \
-	Philadelphia \
-	Glasgow \
-	SanktPetersburg \
-	Helsinki \
-	Darmstadt \
-	Adelaide \
-	Sacramento \
-	CapeTown \
-	Rostock \
-	Hannover \
-	Tokyo \
-	Warschau \
-	Genf \
-	Bern \
-	Leipzig \
-	Santiago \
-	Mainz \
-	Zuerich \
-	Canberra \
-	Montreal \
-	Bremen \
-	Reval \
-	Edinburgh \
-	Auckland \
-	Karlsruhe \
-	Bamberg \
-	Aarhus \
-	Ruegen \
-	Portland \
-	Stockholm \
-	Bielefeld \
-	RiodeJaneiro \
-	SanFrancisco \
-	PaloAlto \
-	Sheffield \
-	Bruessel \
-	Bristol \
-	Vancouver \
-	Breslau \
-	Colmar \
-	Johannesburg \
-	Saigon \
-	Victoria \
-	Aachen \
-	Seattle \
-	Madison \
-	Freiburg \
-	MexicoCity \
-	Erlangen \
-	Kassel \
-	Dublin \
-	Kiel \
-	Tuscon \
-	Zagreb \
-	Kiew \
-	Goettingen \
-	Cottbus \
-	Budapest \
-	Oldenburg \
-	Providence \
-	Seoul \
-	NewYork \
-	Magdeburg \
-	SantaCruz \
-	Luebeck \
-	Halifax \
-	Trondheim \
-	Cairo \
-	Chemnitz \
-	Barcelona \
-	Singapore \
-	BuenosAires \
-	Baghdad \
-	Sofia \
-	Chicago \
-	Jena \
-	Riga \
-	Posen \
-	Lissabon \
-	SantaBarbara \
-	Basel \
-	Miami \
-	Beijing \
-	FortCollins \
-	Erfurt \
-	Cambridge \
-	Kattowitz \
-	Danzig \
-	Istanbul \
-	Oslo \
-	Muenster \
-	Tehran \
-	Krakau \
-	Boulder \
-	Bangkok \
-	Eugene \
-	Laibach \
-	Turin \
-	Jerusalem \
-	Austin \
-	Gleiwitz \
-	Davis \
-	Beirut \
-	BrandenburgHavel \
-	Kaunas \
-	Goerlitz \
-	FrankfurtOder \
-	Sarajewo \
-	Corvallis \
-	WarenMueritz \
-	PhnomPenh \
-	CraterLake \
-	Baku \
-	UlanBator \
-	Lima \
-	Montevideo \
-	Palma \
-	Curitiba \
-	PortoAlegre
+CITIES_FILE=world/etc/cities.txt
+CITIES=	`cat ${CITIES_FILE}`	
 
 
 #
@@ -287,6 +126,9 @@ city-count:
 
 city-reorder:
 	@cd ${OSM_DIR}; du -ks * | sort -nr
+
+city-file:
+	${MAKE} -s city-reorder | awk '{print $$2 }'  > ${CITIES_FILE}
 
 update-robots.txt:
 	( cat world/web/robots.txt.in; \
@@ -541,7 +383,7 @@ help:
 	@echo "  [ create-osp | bbbike2wgs84 | update-robots.txt ]"
 	@echo "  [ create-bbbike-web-symlinks | kml | create-osp | index ]"
 	@echo "  [ convert-wgs84 | convert-bbbike ]"
-	@echo "  [ city-count | city-reorder | check-osm | cleanup-osm-error ]"
+	@echo "  [ city-count | city-reorder | city-file | check-osm | cleanup-osm-error ]"
 	@echo "  [ planet-download | planet-geofabrik-download ]"
 	@echo "  [ planet-streets | planet-places ]"
 	@echo "  [ update-database | update-files ]"
