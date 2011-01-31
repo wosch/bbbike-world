@@ -908,7 +908,7 @@
   </Placemark>
   <Placemark>
     <name>Palma</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Palma/index.en.cgi">BBBike @ Palma de Mallorca</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Palma/index.en.cgi">BBBike @ Palma de Majorca</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>2.884,39.6185,0.000000</coordinates>

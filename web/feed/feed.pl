@@ -19,13 +19,13 @@ my $feed = XML::Atom::SimpleFeed->new(
 ######################################################################
 
 $feed->add_entry(
-    title => 'New: cycle routing for Palma de Mallorca',
+    title => 'New: cycle routing for Palma de Majorca',
     id    => '0b29f549319e283e04bb67e2808a3d96',
 
     content => {
         type => 'text',
         content =>
-qq{Now available - cycle routing for the island Mallorca: http://www.bbbike.org/Palma/},
+qq{Now available - cycle routing for the island Majorca: http://www.bbbike.org/Palma/},
     },
 
     updated  => '2011-01-31T12:30:02Z',

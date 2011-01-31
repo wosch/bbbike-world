@@ -16,9 +16,9 @@
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
-    <title>New: cycle routing for Palma de Mallorca</title>
+    <title>New: cycle routing for Palma de Majorca</title>
     <id>0b29f549319e283e04bb67e2808a3d96</id>
-    <content>Now available - cycle routing for the island Mallorca:
+    <content>Now available - cycle routing for the island Majorca:
     http://www.bbbike.org/Palma/</content>
     <updated>2011-01-31T12:30:02Z</updated>
     <category term="News" />
