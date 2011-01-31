@@ -38,7 +38,7 @@ GZIP:=             $(shell which pigz gzip | head -1)
 BZIP2:=            $(shell which pbzip2 bzip2 | head -1)
 
 CITIES_FILE=world/etc/cities.txt
-CITIES=	`cat ${CITIES_FILE}`	
+CITIES=$(shell cat ${CITIES_FILE})
 
 
 #
@@ -77,10 +77,10 @@ all: help
 build-runtime-perl:
 	world/bin/bbbike-build-runtime-perl.pl
 
-convert-wgs84: build-runtime-perl convert create-osp bbbike2wgs84
+convert-wgs84 convert: build-runtime-perl convert2 create-osp bbbike2wgs84
 
 convert-bbbike: build-runtime-perl
-	${MAKE} -f Makefile.osm DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} OSM2BBD_MAPTYPE="-map bbbike" convert
+	${MAKE} -f Makefile.osm DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} OSM2BBD_MAPTYPE="-map bbbike" convert2
 	rm -f ${DATA_OSM_BBBIKE_DIR}/*/opensearch-suggestion
 	${MAKE} -f Makefile.osm DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} _tarball
 
@@ -180,9 +180,9 @@ cleanup-osm-error:
 	@find ${OSM_DIR} -name '*.gz' -print0 | ${GXARGS} -0 -n32 -P${MAX_CPU} zegrep -l '<error>' | xargs rm -f
 
 
-convert: _convert convert-workarounds
+convert2: convert3 convert-workarounds
 # using GNU xargs -P parallel
-_convert:
+convert3:
 	rm -rf ${DATA_OSM_DIR}.old
 	if test -e ${DATA_OSM_DIR}; then mv ${DATA_OSM_DIR} ${DATA_OSM_DIR}.old;  fi
 	mkdir -p ${DATA_OSM_DIR}
