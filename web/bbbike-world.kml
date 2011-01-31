@@ -359,7 +359,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Curitiba/index.en.cgi">BBBike @ Curitiba</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-56.131,-34.866,0.000000</coordinates>
+      <coordinates>-49.2598,-25.45025,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -823,7 +823,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Montevideo/index.en.cgi">BBBike @ Montevideo</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-56.131,-34.866,0.000000</coordinates>
+      <coordinates>-56.131,-34.8695,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -967,7 +967,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/PortoAlegre/index.en.cgi">BBBike @ Porto Alegre</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-51.162,-30.0405,0.000000</coordinates>
+      <coordinates>-51.167,-30.0405,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
