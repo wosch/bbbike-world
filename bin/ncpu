@@ -40,7 +40,7 @@ if sysctl -n hw.physicalcpu > /dev/null 2>&1; then
 elif sysctl kernel.sched_domain >/dev/null 2>&1; then
   ncpu=`sysctl  kernel.sched_domain | tail -1 | \
 	perl -ne 'print ($1+1), "\n" if m,kernel.sched_domain.cpu(\d+),'`
-  if [ $rcpu = 1 -a $minu -ne 0 ]; then
+  if [ $rcpu = 1 -a $minus -ne 0 ]; then
      minus=0
   fi
 fi
