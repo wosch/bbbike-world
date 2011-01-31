@@ -25,7 +25,7 @@ $feed->add_entry(
     content => {
         type => 'text',
         content =>
-qq{Now available - cycle routing for the island Majorca: http://www.bbbike.org/Palma/},
+qq{Now available - cycle routing for Palma and the island Majorca: http://www.bbbike.org/Palma/},
     },
 
     updated  => '2011-01-31T12:30:02Z',
