@@ -19,3 +19,5 @@ clean:
 distclean: clean
 	rm -f ${RSS}
 
+help:
+	@echo "make [ clean | all | perltidy ]"
