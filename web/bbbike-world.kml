@@ -883,6 +883,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Oranienburg</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Oranienburg/index.en.cgi">BBBike @ Oranienburg</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>13.3025,52.7405,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Orlando</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Orlando/index.en.cgi">BBBike @ Orlando</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -976,6 +984,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>16.923,52.4069,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Potsdam</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Potsdam/index.en.cgi">BBBike @ Potsdam</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>13.0765,52.3815,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
