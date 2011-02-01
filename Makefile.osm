@@ -184,7 +184,7 @@ convert2: convert3 convert-workarounds
 # using GNU xargs -P parallel
 convert3:
 	rm -rf ${DATA_OSM_DIR}.old
-	if test -e ${DATA_OSM_DIR}; then mv ${DATA_OSM_DIR} ${DATA_OSM_DIR}.old;  fi
+	if test -e ${DATA_OSM_DIR}; then cp -rp ${DATA_OSM_DIR} ${DATA_OSM_DIR}.old;  fi
 	mkdir -p ${DATA_OSM_DIR}
 	echo ${CITIES} " " | perl -npe 's/\s+/-convert /g' | \
 	   ${GXARGS} -n 1 -P ${MAX_VCPU} ${MAKE} -f Makefile.osm
