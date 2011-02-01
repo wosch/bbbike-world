@@ -24,7 +24,8 @@ $feed->add_entry(
 
     content => {
         type => 'text',
-        content => qq{New: cycle routing for South America: http://www.bbbike.org/Montevideo and http://www.bbbike.org/Lima},
+        content =>
+qq{New: cycle routing for South America: http://www.bbbike.org/Montevideo and http://www.bbbike.org/Lima},
     },
 
     updated  => '2011-01-31T12:30:02Z',
@@ -78,9 +79,8 @@ $feed->add_entry(
     id    => '8b4c4c5b6f1172986ef6cc55bcd0bd41',
 
     content => {
-        type => 'text',
-        content =>
-qq{New cities: Bochum},
+        type    => 'text',
+        content => qq{New cities: Bochum},
     },
 
     updated  => '2010-12-31T12:30:02Z',
@@ -92,9 +92,8 @@ $feed->add_entry(
     id    => '22bc165c483f77f67e3430b6505e83fa',
 
     content => {
-        type => 'text',
-        content =>
-qq{New cities: Bern},
+        type    => 'text',
+        content => qq{New cities: Bern},
     },
 
     updated  => '2010-12-15T12:30:02Z',
