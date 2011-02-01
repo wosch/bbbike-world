@@ -233,6 +233,8 @@ Disallow: /Nuernberg/index
 Disallow: /Nuernberg/?
 Disallow: /Oldenburg/index
 Disallow: /Oldenburg/?
+Disallow: /Oranienburg/index
+Disallow: /Oranienburg/?
 Disallow: /Orlando/index
 Disallow: /Orlando/?
 Disallow: /Oslo/index
@@ -257,6 +259,8 @@ Disallow: /PortoAlegre/index
 Disallow: /PortoAlegre/?
 Disallow: /Posen/index
 Disallow: /Posen/?
+Disallow: /Potsdam/index
+Disallow: /Potsdam/?
 Disallow: /Prag/index
 Disallow: /Prag/?
 Disallow: /Providence/index
