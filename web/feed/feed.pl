@@ -19,15 +19,25 @@ my $feed = XML::Atom::SimpleFeed->new(
 ######################################################################
 
 $feed->add_entry(
-    title => 'New: cycle routing for Lima and Montevideo',
-    id    => '113b60839c9aafd096b0cfa8ac1e4235',
+    title => 'New: cycle routing for Potsdam and Oranienburg',
+    id    => '3f1d0cba91c29c0e684bab966472936e',
+    content => {
+        type => 'text',
+        content =>
+qq{New: cycle routing for Potsdam and Oranienburg: http://www.bbbike.org/Potsdam and http://www.bbbike.org/Oranienburg}
+    },
+    updated  => '2011-02-01T12:30:02Z',
+    category => 'News',
+);
 
+$feed->add_entry(
+    title   => 'New: cycle routing for Lima and Montevideo',
+    id      => '113b60839c9aafd096b0cfa8ac1e4235',
     content => {
         type => 'text',
         content =>
 qq{New: cycle routing for South America: http://www.bbbike.org/Montevideo and http://www.bbbike.org/Lima},
     },
-
     updated  => '2011-01-31T12:30:02Z',
     category => 'News',
 );
