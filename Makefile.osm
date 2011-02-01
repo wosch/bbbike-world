@@ -30,7 +30,7 @@ OSMBIKE_DATA=	${DATA_OSM_BBBIKE_DIR}.tgz
 DATA_DIR=	data
 BBBIKE_CACHE_DIR=	/var/cache/bbbike
 MAX_OSMOSIS=	${MAX_CPU}
-LANGUAGES=	m da de en es fr hr nl pl pt ru
+LANGUAGES=	m da de en es fr hr nl pl pt ru zh
 
 TMP=world/tmp
 
