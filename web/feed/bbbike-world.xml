@@ -16,6 +16,15 @@
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>New: cycle routing for Lima and Montevideo</title>
+    <id>113b60839c9aafd096b0cfa8ac1e4235</id>
+    <content>New: cycle routing for South America:
+    http://www.bbbike.org/Montevideo and
+    http://www.bbbike.org/Lima</content>
+    <updated>2011-01-31T12:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title>New: cycle routing for Palma de Majorca</title>
     <id>0b29f549319e283e04bb67e2808a3d96</id>
     <content>Now available - cycle routing for Palma and the island

@@ -19,6 +19,19 @@ my $feed = XML::Atom::SimpleFeed->new(
 ######################################################################
 
 $feed->add_entry(
+    title => 'New: cycle routing for Lima and Montevideo',
+    id    => '113b60839c9aafd096b0cfa8ac1e4235',
+
+    content => {
+        type => 'text',
+        content => qq{New: cycle routing for South America: http://www.bbbike.org/Montevideo and http://www.bbbike.org/Lima},
+    },
+
+    updated  => '2011-01-31T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title => 'New: cycle routing for Palma de Majorca',
     id    => '0b29f549319e283e04bb67e2808a3d96',
 
