@@ -129,6 +129,7 @@ city-reorder:
 
 city-file:
 	${MAKE} -s city-reorder | awk '{print $$2 }'  > ${CITIES_FILE}
+	#  ./world/bin/bbbike-db --list | sort | egrep -v '^berlin$' 
 
 update-robots.txt:
 	( cat world/web/robots.txt.in; \
