@@ -34,7 +34,7 @@ Providence::en::other:-71.5273 41.7378 -71.3141 41.9006:461056:
 Bremen:::de::8.704 53.007 9.001 53.137:611739:
 Rotterdam:::nl:eu:4.3605 51.8601 4.6053 51.969:561000:
 PaloAlto:Palo Alto:en::other:-122.2585 37.3661 -122.0223 37.5176:198418:
-Reval:en!Tallin,et!Tallin::et:eu:24.6189 59.3803 24.8744 59.4872:403505:
+Tallin:de!Reval,en!Tallin,et!Tallin::et:eu:24.6189 59.3803 24.8744 59.4872:403505:
 Montreal:::fr:other:-73.787 45.37 -73.404 45.607:2465219:
 Wien:en!Vienna::de:eu:16.2256 48.1187 16.581 48.3108:3114739:
 SanFrancisco:en!San Francisco,de!San Franzisko:en::other:-122.527 37.594 -122.351 37.811:800000:
@@ -78,7 +78,7 @@ Dublin::en::eu:-6.3485 53.2933 -6.1552 53.3867:477700:
 Boulder::en::other:-105.3198 39.963 -105.2017 40.07:91481:
 Goettingen:Göttingen::de::9.8519 51.494 9.9917 51.5818:148685:
 Szczecin:de!Stettin,pl!Szczecin::pl:eu:14.4419 53.3575 14.7299 53.4764:410623:
-Laibach:en!Ljubljana::sl:eu:14.43 46.01 14.64 46.13:278638:
+Ljubljana:de!Laibach,en!Ljubljana::sl:eu:14.43 46.01 14.64 46.13:278638:
 Oslo:::no:eu:10.6517 59.8831 10.8323 59.9526:1400000:
 Trondheim:::no:eu:10.2952 63.3345 10.5596 63.462:260000:
 Chemnitz:::de::12.8152 50.7803 13.0154 50.8796:241344 :
