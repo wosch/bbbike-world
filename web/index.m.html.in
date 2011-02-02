@@ -10,7 +10,7 @@
   "images/srtbike.ico" />
   <link rel="stylesheet" type="text/css" href="/html/luft.css" />
   <meta name="KEYWORDS" content="cycle route planner, bicycle" />
-  <meta name="description" content="BBBike @ World - a cycle route planner for more than 162 cities worldwide, based on OpenStreetMap data." />
+  <meta name="description" content="BBBike @ World - a cycle route planner for more than 164 cities worldwide, based on OpenStreetMap data." />
 
   <link rel="alternate" type="application/atom+xml" title="BBBike @ World RSS feed" href="/feed/bbbike-world.xml" />
   <style type="text/css">
