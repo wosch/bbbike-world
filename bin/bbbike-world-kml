@@ -13,7 +13,6 @@ use warnings;
 binmode \*STDIN,  ":utf8";
 binmode \*STDOUT, ":utf8";
 
-
 sub usage () {
     <<EOF;
 usage: $0 bbbike-db
@@ -37,7 +36,8 @@ sub extract_coords {
 
         next if $city eq 'berlin';
 
-        my $name = $db->select_city_name( $city, ( $c->{"name"} || $city ), 'en' );
+        my $name =
+          $db->select_city_name( $city, ( $c->{"name"} || $city ), 'en' );
         my $lang = "en";
         push( @data, [ $city, $name, $lang, $x, $y ] );
     }
