@@ -33,9 +33,8 @@ sub extract_coords {
 
         next if $city eq 'berlin';
 
-        my $name =
-          $db->select_city_name( $city, ( $c->{"name"} || $city ), 'en' );
-        my $lang = $c->{"lang"} eq 'de' ? '' : 'en';
+        my $name = $db->select_city_name( $city, ( $c->{"name"} || $city ), 'en' );
+        my $lang = "en";
         push( @data, [ $city, $name, $lang, $x, $y ] );
     }
     return @data;
@@ -71,12 +70,11 @@ sub bbbike2kml_placemarks {
     foreach my $c ( sort { $a->[0] cmp $b->[0] } @data ) {
         my ( $city, $name, $lang, $x, $y ) = @$c;
 
-        my $bbbike_url = "http://www.bbbike.org/$city/"
-          . ( $lang eq '' ? '' : "index.$lang.cgi" );
+        my $bbbike_url = "http://www.bbbike.org/$city/";
 
         print <<EOF;
   <Placemark>
-    <name>$city</name>
+    <name>$name</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="$bbbike_url">BBBike @ $name</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
