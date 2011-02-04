@@ -9,6 +9,8 @@ if [ -n "$IGNORE_PLANET_OSM" ]; then
 fi
 
 : ${MD5=`which md5 md5sum | head -1`}
+nice="nice -n 5"
+
 file=planet-latest.osm.bz2
 file_bpf=`basename $file .bz2`.pbf
 
@@ -25,8 +27,8 @@ server1=http://planet.openstreetmap.org
 wget -nv $server1/$file.md5
 
 #wget -nv $server1/$file
-time curl -L -sS $server1/$file | tee $file | pbzip2 -dc | buffer | \
-  time osmosis  --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --write-pbf $file_bpf
+time curl -L -sS $server1/$file | tee $file | $nice pbzip2 -dc | buffer | \
+  $nice time osmosis  --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --write-pbf $file_bpf
 
 cat $file.md5
 $MD5 $file
