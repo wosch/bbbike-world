@@ -19,7 +19,8 @@ DOWNLOADOSM=	${PERL} ./miscsrc/downloadosm --debug=1 ${OSM_SOCKS_PROXY} ${OSM_TI
 OSM2BBD=	${PERL} ./miscsrc/osm2bbd -f --debug=0 ${OSM2BBD_MAPTYPE} -ignore-unhandled -ignore-underline -experiment add_postal_code #-experiment polar_coord_hack
 MAX_CPU=	`world/bin/ncpu`
 MAX_CPU2=	`world/bin/ncpu -1`
-MAX_VCPU=	`world/bin/ncpu rcpu -1`
+MAX_VCPU=	`world/bin/ncpu vcpu`
+MAX_RCPU=	`world/bin/ncpu rcpu -1`
 GXARGS=		${NICE} `which gxargs xargs | head -1`
 BBBIKE_WEB_DIR= ./
 OSM_DIR=	osm
@@ -119,7 +120,7 @@ _cities:
 _cities_complete:
 	${MAKE} -f Makefile.osm OSM_TIMEOUT="--timeout=300" `echo ${CITIES} | perl -npe 's/\s+/-download /g'`
 poly:
-	${MAKE} -j ${MAX_CPU} -f Makefile.osm `echo ${CITIES} | perl -npe 's/\s+/-poly /g'`
+	${MAKE} -j ${MAX_VCPU} -f Makefile.osm `echo ${CITIES} | perl -npe 's/\s+/-poly /g'`
 
 city-count:
 	@echo ${CITIES}  | wc -w
@@ -171,10 +172,10 @@ planet-streets:
 check-osm: check-osm-gzip check-osm-error
 
 check-osm-gzip:
-	@find ${OSM_DIR} -name '*.gz' -print0 | ${GXARGS} -0 -n32 -P${MAX_CPU} gzip -t
+	@find ${OSM_DIR} -name '*.gz' -print0 | ${GXARGS} -0 -n32 -P${MAX_VCPU} gzip -t
 
 check-osm-error:
-	@find ${OSM_DIR} -name '*.gz' -print0 | ${GXARGS} -0 -n32 -P${MAX_CPU} zegrep -l '<error>' || true
+	@find ${OSM_DIR} -name '*.gz' -print0 | ${GXARGS} -0 -n32 -P${MAX_VCPU} zegrep -l '<error>' || true
 
 cleanup-osm-error:
 	${MAKE} -f Makefile.osm check-osm 2>&1 | grep ^gzip | awk '{ print $$2 }' | perl -npe 's,:,,' | sort -u | xargs rm -f
@@ -198,7 +199,7 @@ convert-workarounds: opensearch-bbbike
 
 osm2bbd-workarounds opensearch:
 	for i in ${CITIES}; do echo $$i; done | \
-	  ${GXARGS} -n 1 -P ${MAX_CPU} world/bin/osm2bbd-workarounds ${DATA_OSM_DIR}
+	  ${GXARGS} -n 1 -P ${MAX_VCPU} world/bin/osm2bbd-workarounds ${DATA_OSM_DIR}
 
 opensearch-bbbike:
 	world/bin/opensearch-suggestion --gps=0 --input-charset=iso-8859-1 < data/strassen > data/opensearch.streetnames
