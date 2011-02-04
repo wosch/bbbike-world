@@ -10,6 +10,10 @@ use BBBikeWorldDB;
 use strict;
 use warnings;
 
+binmode \*STDIN,  ":utf8";
+binmode \*STDOUT, ":utf8";
+
+
 sub usage () {
     <<EOF;
 usage: $0 bbbike-db

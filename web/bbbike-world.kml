@@ -531,16 +531,16 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name>Görlitz</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Goerlitz/">BBBike @ Görlitz</a></span>]]></description>
+    <name>GÃ¶rlitz</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Goerlitz/">BBBike @ GÃ¶rlitz</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>14.9788,51.144,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
-    <name>Göttingen</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Goettingen/">BBBike @ Göttingen</a></span>]]></description>
+    <name>GÃ¶ttingen</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Goettingen/">BBBike @ GÃ¶ttingen</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>9.9218,51.5379,0.000000</coordinates>
@@ -731,8 +731,8 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name>Lübeck</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Luebeck/">BBBike @ Lübeck</a></span>]]></description>
+    <name>LÃ¼beck</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Luebeck/">BBBike @ LÃ¼beck</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>10.69,53.8765,0.000000</coordinates>
@@ -843,8 +843,8 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name>Münster</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Muenster/">BBBike @ Münster</a></span>]]></description>
+    <name>MÃ¼nster</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Muenster/">BBBike @ MÃ¼nster</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>7.6322,51.95715,0.000000</coordinates>
@@ -1035,8 +1035,8 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name>Stralsund/Rügen</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Ruegen/">BBBike @ Stralsund/Rügen</a></span>]]></description>
+    <name>Stralsund/RÃ¼gen</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Ruegen/">BBBike @ Stralsund/RÃ¼gen</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>13.357,54.4535,0.000000</coordinates>
@@ -1267,8 +1267,8 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name>Waren (Müritz)</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/WarenMueritz/">BBBike @ Waren (Müritz)</a></span>]]></description>
+    <name>Waren (MÃ¼ritz)</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/WarenMueritz/">BBBike @ Waren (MÃ¼ritz)</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>12.68145,53.51495,0.000000</coordinates>
