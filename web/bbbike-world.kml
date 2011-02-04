@@ -1067,8 +1067,8 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name>San Jos&eacute;</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/SanJose/">BBBike @ San Jos&eacute;</a></span>]]></description>
+    <name>San José</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/SanJose/">BBBike @ San José</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-121.894,37.335,0.000000</coordinates>

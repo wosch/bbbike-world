@@ -2,7 +2,7 @@
 Berlin:::de::13.0109 52.3376 13.7613 52.6753:4500000:
 CambridgeMa:Cambridge (Massachusetts):en::other:-71.1986 42.3265 -71.0036 42.4285:1264990:
 Ruegen:Stralsund/Rügen::de::12.904 54.199 13.81 54.708:221436:
-SanJose:San Jos&eacute;:en::other:-122.081 37.21 -121.707 37.46:1477640:
+SanJose:San José:en::other:-122.081 37.21 -121.707 37.46:1477640:
 Copenhagen:de!Kopenhagen,da!København::da:eu:12.275 55.549 12.702 55.831:661691:
 Hamburg:::de::9.77 53.426 10.24 53.663:1800000:
 Frankfurt:Frankfurt am Main::de::8.44 50.02 8.979 50.185:2005405:
@@ -54,7 +54,7 @@ SanktPetersburg:de!Sankt Petersburg,en!Saint Petersburg,ru!Санкт-Петер
 Darmstadt:::de::8.455 49.77 8.842 49.974:573289:
 Bruessel:Brüssel,en!Brussels::nl:eu:4.2614 50.7981 4.4376 50.8996:981000:
 Rostock:::de::12.0204 54.0599 12.2271 54.1933:409007:
-Aarhus:da!&Aring;rhus,de!&Aring;rhus,en!Aarhus::da:eu:10.0894 56.1007 10.3225 56.202:239865:
+Aarhus:da!Århus?,de!Århus?,en!Aarhus::da:eu:10.0894 56.1007 10.3225 56.202:239865:
 Chicago:de!Chikago:en::other:-87.7501 41.7789 -87.5307 41.9326:9700000:
 Cottbus:::de::14.2561 51.7092 14.435 51.8101:102811:
 Zuerich:de!Zürich,en!Zurich::de:eu:8.4483 47.3437 8.6271 47.4185:486697:
@@ -63,7 +63,7 @@ Gdansk:de!Danzig,en!Gdansk,pl!Gdańsk::pl:eu:18.411 54.303 18.812 54.57:889146:
 Vancouver::en::other:-123.2871 49.1809 -122.9818 49.3422:2182000:
 Jena:::de::11.5241 50.8597 11.6696 50.9705:105571:
 Budapest:::hu:eu:18.9482 47.434 19.1556 47.5407:1729962:
-Strassburg:de!Stra&szlig;burg,en!Strasbourg::de:eu:7.6515 48.5189 7.875 48.6525:461328:
+Strassburg:de!Straßburg,en!Strasbourg::de:eu:7.6515 48.5189 7.875 48.6525:461328:
 Luebeck:Lübeck::de::10.574 53.82 10.806 53.933:255222:
 Basel:::de:eu:7.5298 47.5128 7.6823 47.5943:348791:
 Sofia:bg!София::bg:eu:23.2146 42.6445 23.4244 42.7505:1397000:
