@@ -107,7 +107,7 @@ cities-poly: poly
 	${NICE5} ${BZIP2} -dc ${OSM_PLANET} | ${NICE5} osmosis --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --tee `${MAKE} -s -f Makefile.osm city-count` `${MAKE} -s -f Makefile.osm _osmosis_opt`
 
 cities-pbf cities: poly
-	${NICE5} osmosis --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s -f Makefile.osm city-count` `${MAKE} -s -f Makefile.osm _osmosis_opt`
+	${NICE5} osmosis --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s CITIES="${CITIES}" -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" -f Makefile.osm _osmosis_opt`
 
 cities-parallel:
 	@echo ${CITIES} | perl -npe 's/\s+/\n/g' | ./world/bin/cities-parallel ${MAX_OSMOSIS} cities-pbf | sh
@@ -185,8 +185,8 @@ cleanup-osm-error:
 convert2: convert3 convert-workarounds
 # using GNU xargs -P parallel
 convert3:
-	rm -rf ${DATA_OSM_DIR}.old
-	if test -e ${DATA_OSM_DIR}; then cp -rp ${DATA_OSM_DIR} ${DATA_OSM_DIR}.old;  fi
+	#rm -rf ${DATA_OSM_DIR}.old
+	#if test -e ${DATA_OSM_DIR}; then cp -rp ${DATA_OSM_DIR} ${DATA_OSM_DIR}.old;  fi
 	mkdir -p ${DATA_OSM_DIR}
 	echo ${CITIES} " " | perl -npe 's/\s+/-convert /g' | \
 	   ${GXARGS} -n 1 -P ${MAX_VCPU} ${MAKE} -f Makefile.osm
