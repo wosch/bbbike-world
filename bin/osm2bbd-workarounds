@@ -45,7 +45,7 @@ cat << EOF > $i
 #: #: -*- coding: utf-8 -*-
 #:encoding: utf-8
 #:map: polar
-#:date: 20090717225331
+#:date: fixed
 #:
 EOF
 	fi
