@@ -165,7 +165,9 @@ Lima:::es:other:-77.1807 -12.2212 -76.8816 -11.9285:6500000:
 Montevideo:::es:other:-56.318 -34.950 -55.944 -34.789:1700000:
 Palma:es!Palma de Mallorca,de!Palma de Mallorca,en!Palma de Majorca::es:eu:2.266 39.252 3.502 39.985:404000:
 Curitiba:::pt:other:-49.3549 -25.5195 -49.1647 -25.381:1700000:
-PortoAlegre:Porto Alegre::pt:other:-51.28 -30.141 -51.054 -29.94:1436000
+PortoAlegre:Porto Alegre::pt:other:-51.28 -30.141 -51.054 -29.94:1436000:
+Bombay:en!Bombay,mr!मुंबई::mr:other:72.746 18.837 73.155 19.355:12000000:
+NewDehli:en!New Dehli,de!Neu-Delhi,hi!नई दिल्ली::hi:other:76.978 28.44 77.497 28.738:12000000:
 #
 # orginal BBBike version
 berlin:::de::13.087947 52.349205 13.749353 52.655108:4500000:
