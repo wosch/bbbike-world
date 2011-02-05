@@ -58,6 +58,8 @@ Disallow: /Bochum/index
 Disallow: /Bochum/?
 Disallow: /Bogota/index
 Disallow: /Bogota/?
+Disallow: /Bombay/index
+Disallow: /Bombay/?
 Disallow: /Bonn/index
 Disallow: /Bonn/?
 Disallow: /Boulder/index
@@ -226,6 +228,8 @@ Disallow: /Muenchen/index
 Disallow: /Muenchen/?
 Disallow: /Muenster/index
 Disallow: /Muenster/?
+Disallow: /NewDehli/index
+Disallow: /NewDehli/?
 Disallow: /NewYork/index
 Disallow: /NewYork/?
 Disallow: /Nuernberg/index
