@@ -162,3 +162,5 @@ PhnomPenh
 CraterLake
 Baku
 UlanBator
+NewDehli
+Bombay
