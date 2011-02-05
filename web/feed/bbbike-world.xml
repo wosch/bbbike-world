@@ -16,6 +16,15 @@
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>New: cycle routing for New Dehli and Bombay</title>
+    <id>e14f7b9315ebcbfeaf184a589400181b</id>
+    <content>New: cycle routing for New Dehli and Bombay:
+    http://www.bbbike.org/Bombay and
+    http://www.bbbike.org/NewDehli</content>
+    <updated>2011-02-05T12:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title>New: cycle routing for Potsdam and Oranienburg</title>
     <id>3f1d0cba91c29c0e684bab966472936e</id>
     <content>New: cycle routing for Potsdam and Oranienburg:
