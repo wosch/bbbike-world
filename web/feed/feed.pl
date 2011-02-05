@@ -31,6 +31,19 @@ qq{New: cycle routing for New Dehli and Bombay: http://www.bbbike.org/Bombay and
 );
 
 $feed->add_entry(
+    title =>
+      'New: cycle routing for Brazilian cities Curitiba and Porto Alegre',
+    id      => 'e14f7b9315ebcbfeaf184a589400181b',
+    content => {
+        type => 'text',
+        content =>
+qq{New: cycle routing for Brazilian cities Curitiba and Porto Alegre: http://www.bbbike.org/Curitiba and http://www.bbbike.org/PortoAlegre},
+    },
+    updated  => '2011-02-05T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title   => 'New: cycle routing for Potsdam and Oranienburg',
     id      => '3f1d0cba91c29c0e684bab966472936e',
     content => {
