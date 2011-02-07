@@ -25,9 +25,11 @@
       <div id="main">
       <div id="header_links">
 	<span id="social">
-	<a href="http://www.facebook.com/pages/BBBike/179755905394369" target="_new"><img class="logo" width="16" height="16" src="/images/facebook-t.png" alt="" title="BBBike on Facebook"></a>
-<a href="http://twitter.com/BBBikeWorld/" target="_new"><img class="logo" width="16" height="16" src="/images/twitter-t.png" alt="" title="Follow us on twitter.com/BBBikeWorld"></a>
+	<a href="http://www.facebook.com/pages/BBBike/179755905394369" target="_new"><img class="logo" width="16" height="16" src="/images/facebook-t.png" alt="" title="BBBike on Facebook" /></a>
+<a href="http://twitter.com/BBBikeWorld/" target="_new"><img class="logo" width="16" height="16" src="/images/twitter-t.png" alt="" title="Follow us on twitter.com/BBBikeWorld" /></a>
 	</span>
+
+	<span id="language_switch">
         <a href="../da/">da</a> |
         <a href="../de/">de</a> |
         <a href="../en/">en</a> |
@@ -100,7 +102,7 @@
 	<div id="footer_community">
 	  <a href="/community.html"><img src="/images/flattr-compact.png" alt="Flattr this" title="Flattr this" class="logo" /></a>
 	  <a href="/community.html"><img class="logo" src="/images/twitter-b.png" alt=""  title="Follow us on Twitter" /></a>
-          <a href="http://www.facebook.com/pages/BBBike/179755905394369" target="_new"><img class="logo" src="/images/facebook-t.png" alt=""><img src="/images/facebook-like.png" class="logo" alt="" title="BBBike on Facebook" /></a>
+          <a href="http://www.facebook.com/pages/BBBike/179755905394369" target="_new"><img class="logo" src="/images/facebook-t.png" alt="" /><img src="/images/facebook-like.png" class="logo" alt="" title="BBBike on Facebook" /></a>
 	</div>
         </div>
       </div>
