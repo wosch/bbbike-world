@@ -23,6 +23,11 @@
   <div id="all">
     <div id="border">
       <div id="main">
+      <div id="header_links">
+	<span id="social">
+	<a href="http://www.facebook.com/pages/BBBike/179755905394369" target="_new"><img class="logo" width="16" height="16" src="/images/facebook-t.png" alt="" title="BBBike on Facebook"></a>
+<a href="http://twitter.com/BBBikeWorld/" target="_new"><img class="logo" width="16" height="16" src="/images/twitter-t.png" alt="" title="Follow us on twitter.com/BBBikeWorld"></a>
+	</span>
         <a href="../da/">da</a> |
         <a href="../de/">de</a> |
         <a href="../en/">en</a> |
@@ -37,6 +42,8 @@
         <a href="../">other</a> |
         <a href="../m/" title="BBBike for mobile devices">mobile</a>
         <!-- <a href="./">[en]</a> -->
+	</span>
+    </div>
 
         <!-- <p>Willkommen bei BBBike! Wir helfen Dir, eine schöne Fahrradroute in Deiner Stadt und Umgebung zu finden<br/>Bitte w&auml;hle Deine Stadt:</p> -->
         <p>Welcome to BBBike, your bicycle route planner! We'll help you find a nice bike route in your city.<br /> Please choose your city:</p>
