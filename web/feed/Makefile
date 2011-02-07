@@ -14,10 +14,11 @@ perltidy:
 	perltidy -b ${FEED_SCRIPT}
 
 clean:
-	rm -f *.log
+	rm -f *.log *.bak *.tdy
 
 distclean: clean
 	rm -f ${RSS}
 
 help:
 	@echo "make [ clean | all | perltidy ]"
+

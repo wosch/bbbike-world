@@ -351,6 +351,10 @@ clean:
 	-test -e ${DATA_OSM_BBBIKE_DIR}.old && mv ${DATA_OSM_BBBIKE_DIR}.old ${DATA_OSM_BBBIKE_DIR}.old2
 	-test -e ${DATA_OSM_BBBIKE_DIR}     && mv ${DATA_OSM_BBBIKE_DIR}     ${DATA_OSM_BBBIKE_DIR}.old
 	mkdir ${DATA_OSM_DIR} ${DATA_OSM_BBBIKE_DIR}
+	${MAKE} -C cgi/msg $@	
+	${MAKE} -C world/bin $@	
+	${MAKE} -C world/web/feed $@	
+	rm -f *.bak *.tdy
 
 clean-cache cache-clean:
 	rm -rf ${BBBIKE_CACHE_DIR}/*bbbike.org ${BBBIKE_CACHE_DIR}/localhost	
@@ -364,6 +368,12 @@ rotate-osm:
 
 update-database: 
 	time ./world/bin/update-database
+
+perltidy:
+	perltidy -b BBBikeGooglemap.pm
+	${MAKE} -C cgi/msg $@	
+	${MAKE} -C world/bin $@	
+	${MAKE} -C world/web/feed $@	
 
 update-files: kml create-osp index update-robots.txt create-bbbike-web-symlinks
 
