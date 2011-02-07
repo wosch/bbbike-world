@@ -19,6 +19,18 @@ my $feed = XML::Atom::SimpleFeed->new(
 ######################################################################
 
 $feed->add_entry(
+    title   => 'google maps version 3',
+    id      => '6ce8624af05b0596f0c39e53b7b0987c',
+    content => {
+        type => 'text',
+        content =>
+qq{Fully use google maps version 3 for all maps on http://bbbike.org which enable new features like elevation charts and better support for mobile devices.},
+    },
+    updated  => '2011-02-07T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title   => 'New: cycle routing for New Dehli and Bombay',
     id      => 'e14f7b9315ebcbfeaf184a589400181b',
     content => {
