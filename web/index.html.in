@@ -30,17 +30,17 @@
 	</span>
 
 	<span id="language_switch">
-        <a href="da/">da</a> |
-        <a href="de/">de</a> |
-        <a href="en/">en</a> |
-        <a href="es/">es</a> |
-        <a href="fr/">fr</a> |
-        <a href="hr/">hr</a> |
-        <a href="nl/">nl</a> |
-        <a href="pl/">pl</a> |
-        <a href="pt/">pt</a> |
-        <a href="ru/">ru</a> |
-        <a href="zh/">zh</a> |
+        <a href="da/" title="Danish">da</a> |
+        <a href="de/" title="German">de</a> |
+        <a href="en/" title="English">en</a> |
+        <a href="es/" title="Spanish">es</a> |
+        <a href="fr/" title="French">fr</a> |
+        <a href="hr/" title="Croatian">hr</a> |
+        <a href="nl/" title="Dutch">nl</a> |
+        <a href="pl/" title="Polish">pl</a> |
+        <a href="pt/" title="Portuguese">pt</a> |
+        <a href="ru/" title="Russian">ru</a> |
+        <a href="zh/" title="Chinese">zh</a> |
         <a href="m/" title="BBBike for mobile devices">mobile</a>
         <!-- <a href="./">[en]</a> -->
 	</span>
