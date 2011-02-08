@@ -255,7 +255,7 @@ create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi index
 	mkdir -p ${LANGUAGES}; \
 	for city in ${CITIES} berlin; do \
 		( rm -rf $$city; mkdir -p $$city; cd $$city; \
-		ln -fs ../../bin/world.cgi index.cgi; \
+		ln -fs ../../cgi/world.cgi index.cgi; \
 		); \
 		for lang in ${LANGUAGES}; do \
 		  ( cd $$lang && ln -fs ../$$city ); \
