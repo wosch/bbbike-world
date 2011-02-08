@@ -14,6 +14,7 @@ my $max                       = 100;
 my $only_production_statistic = 1;
 my $debug                     = 1;
 
+binmode \*STDOUT, ":raw";
 my $q = new CGI;
 
 sub is_mobile {
@@ -54,9 +55,11 @@ sub extract_route {
         else {
             open( $fh, $file ) or die "open $file: $!\n";
         }
+	binmode $fh, ":raw";
 
         while (<$fh>) {
-            next if !/ (slippymap|bbbike)\.cgi: /;
+            next if !(/ slippymap\.cgi: / || m, bbbike.cgi: http://,);
+
             next
               if $only_production_statistic
                   && !m, (slippymap|bbbike)\.cgi: http://$host.bbbike.org/,i;
