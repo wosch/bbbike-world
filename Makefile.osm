@@ -239,30 +239,6 @@ rsync-osm:
 rsync-osm-devel rsync-osm-dev:
 	rsync -azv --delete --max-delete=512 bbbike.org:projects/bbbike/osm .
 
-
-create-bbbike-web-symlinks-old:
-	cd ${BBBIKE_WEB_DIR}/cgi && \
-	for city in ${CITIES} berlin; do \
-		ln -fs world.cgi $$city.cgi; \
-		ln -fs world.cgi $$city.en.cgi; \
-		ln -fs world.cgi.config $$city.cgi.config; \
-	done
-	ln -fs world/web/index.html ${BBBIKE_WEB_DIR}
-	ln -fs world/web/index.de.html ${BBBIKE_WEB_DIR}
-	ln -fs world/web/index.m.html ${BBBIKE_WEB_DIR}
-	ln -fs world/web/doc.html ${BBBIKE_WEB_DIR}
-	ln -fs world/web/community.html ${BBBIKE_WEB_DIR}
-	ln -fs world/web/community.de.html ${BBBIKE_WEB_DIR}
-	ln -fs world/web/app.html ${BBBIKE_WEB_DIR}
-	ln -fs world/web/bbbike-world.kml ${BBBIKE_WEB_DIR}
-	ln -fs world/web/streets.html ${BBBIKE_WEB_DIR}
-	ln -fs world/Makefile.osm ${BBBIKE_WEB_DIR}
-	ln -fs Makefile.osm Makefile
-	ln -fs ../world/etc/world.cgi.config ${BBBIKE_WEB_DIR}/cgi
-	ln -fs ../world/bin/world.cgi ${BBBIKE_WEB_DIR}/cgi
-	ln -fs ../world/bin/streets.cgi ${BBBIKE_WEB_DIR}/cgi
-	ln -fs images/srtbike.ico favicon.ico # buggy browsers
-
 create-bbbike-web-symlinks-bbbike.en.cgi:
 	cd ${BBBIKE_WEB_DIR}/cgi && ln -fs bbbike.cgi bbbike.en.cgi
 
