@@ -331,6 +331,7 @@ clean:
 	mkdir ${DATA_OSM_DIR} ${DATA_OSM_BBBIKE_DIR}
 	${MAKE} -C cgi/msg $@	
 	${MAKE} -C world/bin $@	
+	${MAKE} -C world/cgi $@	
 	${MAKE} -C world/web/feed $@	
 	rm -f *.bak *.tdy
 
@@ -351,6 +352,7 @@ perltidy:
 	perltidy -b BBBikeGooglemap.pm
 	${MAKE} -C cgi/msg $@	
 	${MAKE} -C world/bin $@	
+	${MAKE} -C world/cgi $@	
 	${MAKE} -C world/web/feed $@	
 
 update-files: kml create-osp index update-robots.txt create-bbbike-web-symlinks
