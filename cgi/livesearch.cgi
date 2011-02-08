@@ -32,9 +32,9 @@ sub is_mobile {
 
 # extract URLs from web server error log
 sub extract_route {
-    my $file = shift;
-    my $max  = shift;
-    my $devel  = shift;
+    my $file  = shift;
+    my $max   = shift;
+    my $devel = shift;
 
     my $host = $devel ? '(dev|devel|www)' : 'www';
 
@@ -55,10 +55,10 @@ sub extract_route {
         else {
             open( $fh, $file ) or die "open $file: $!\n";
         }
-	binmode $fh, ":raw";
+        binmode $fh, ":raw";
 
         while (<$fh>) {
-            next if !(/ slippymap\.cgi: / || m, bbbike.cgi: http://,);
+            next if !( / slippymap\.cgi: / || m, bbbike.cgi: http://, );
 
             next
               if $only_production_statistic
@@ -187,7 +187,7 @@ my $json = new JSON;
 my $cities;
 my %hash;
 my $counter;
-foreach my $url (reverse @d) {
+foreach my $url ( reverse @d ) {
     my $qq = CGI->new($url);
     print $url, "\n" if $debug >= 2;
 
