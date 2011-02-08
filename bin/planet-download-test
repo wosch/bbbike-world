@@ -1,0 +1,14 @@
+#!/bin/sh
+# Copyright (c) 2009-2010 Wolfram Schneider, http://bbbike.org
+#
+# planet-download - download the latest planet osm file
+#
+
+file=planet-latest.osm.bz2
+
+for server1 in http://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org http://ftp.ecki-netz.de/osm http://ftp.heanet.ie/mirrors/openstreetmap.org http://planet.openstreetmap.org
+do
+  echo ""
+  echo $server1/$file
+  lynx -source -head $server1/$file | egrep '^(Last-Modified|Content-Length):'
+done
