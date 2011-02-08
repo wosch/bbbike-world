@@ -67,9 +67,10 @@ zcat -f $logfiles | zegrep -h 'GET /cgi/street-coord.cgi\?' | egrep -v '" 40[34]
 
 echo ""
 echo -n "bbbike cities pdf: "
-zcat -f $logfiles | zegrep -h 'POST /cgi/[A-Zb].*?\?' | egrep -v '" 40[34] ' | perl -ne 'print "$1\n" if m,POST /cgi/(.*?).cgi,' | wc -l
-zcat -f $logfiles | zegrep -h 'POST /cgi/[A-Zb].*?' | egrep -v '" 40[34] ' | 
-	perl -ne 'print "$1\n" if m,POST /cgi/(.*?).cgi,'|
+zcat -f $logfiles | zegrep -h 'POST /[A-Z][a-z]+.*?\?' | egrep -v '" 40[34] ' | perl -ne 'print "$1\n" if m,POST /[A-Z][a-z]+/(.*?),' | wc -l
+
+zcat -f $logfiles | zegrep -h 'POST /[A-Z][a-z]+/.*?\?' | egrep -v '" 40[34] ' | 
+	perl -ne 'print "$1\n" if m,POST /([A-Z][a-z]+)/,'|
 	sort | uniq -c | sort -nr
 
 echo ""
