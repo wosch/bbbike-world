@@ -77,7 +77,7 @@
 
         <p>Orginal BBBike data: <a class="C_berlin" href="berlin/">Berlin</a> <br />
 	Berlin with <a class="C_Berlin" href="Berlin/">OpenStreetMaps Data</a> (not good as the orginal data)
-	<!-- Berlin mit <a href="Berlin/">OpenStreetMaps Daten</a> (schlechtere Qualit&auml;t als die Orginaldaten) -->
+	<!-- Berlin mit <a href="/Berlin/">OpenStreetMaps Daten</a> (schlechtere Qualit&auml;t als die Orginaldaten) -->
 </p>
 
         <div id="footer">
