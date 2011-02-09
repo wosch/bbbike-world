@@ -20,7 +20,7 @@ sub cache_file {
     my $q = shift;
 
     my $server = $q->server_name;
-    my $city   = $q->param('city');
+    my $city   = $q->param('city_script') || $q->param('city');
 
     if ( $city !~ /^[A-Za-z_-]+$/ ) {
         warn "Illegal city name: '$city'!\n";
