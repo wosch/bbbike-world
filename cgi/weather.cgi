@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 
 use CGI qw/-utf-8/;
+use CGI::Carp;
 use IO::File;
 use JSON;
 use XML::Simple;

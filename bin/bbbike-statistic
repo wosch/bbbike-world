@@ -23,7 +23,7 @@ echo -n "weather page views: "
 zcat -f $logfiles | egrep 'GET /cgi/weather.cgi' | egrep -v '" 40[34] ' | awk '{print $1}' | wc -l
 
 echo -n "location page views: "
-zcat -f $logfiles $logfiles_mobile | egrep 'GET /cgi/location.cgi' | egrep '" 200 ' | awk '{print $1}' | wc -l
+zcat -f $logfiles $logfiles_mobile | egrep 'GET /cgi/location.cgi' | egrep '" (200|301) ' | awk '{print $1}' | wc -l
 
 echo ""
 echo -n "bbbike.org hosts: "
@@ -37,7 +37,7 @@ echo ""
 
 echo ""
 echo "bbbike references:"
-zcat -f $logfiles | egrep "GET / |GET $url_match.+ HTTP" | egrep '" 200 ' |
+zcat -f $logfiles | egrep "GET / |GET $url_match.+ HTTP" | egrep '" (200|301) ' |
 	egrep -v 'Purebot|Java/1|SnapPreviewBot|Tcl http client package|http://www.bbbike.org' |
 	awk '{print $11}' | perl -npe "s,.?http://www.bbbike.org$url_match\?.*\n,$1,g" | sort | uniq -c | sort -nr
 
