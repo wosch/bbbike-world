@@ -229,7 +229,7 @@ ${CITIES}:
 	${MAKE} -f Makefile.osm $@-download $@-convert
 	
 ######################################################################
-rsync-osm:
+rsync-osm rsync:
 	rsync -azv --exclude='*.bak' --delete --max-delete=512 ${DATA_OSM_DIR} ${OSM_AREAS_OPENSEARCH} ${OSM_DIR} ${OSP_DIR} bbbike.org:/usr/local/www/bbbike.org
 	rsync -azv --exclude='*.bak' data/opensearch.streetnames bbbike.org:/usr/local/www/bbbike.org/data
 	@echo ""
@@ -317,7 +317,7 @@ create-osp:
 	#./world/bin/bbbike-world-opensearch-plugin --streets ${OSP_DIR} world/etc/streets.csv
 	./world/bin/bbbike-world-opensearch-plugin ${OSP_DIR} ${CITIES} berlin
 	
-scp rsync rsync-tgz:
+rsync-tgz:
 	rsync -av ${OSMBIKE_DATA} wolfram.schneider.org:www/src/bbbike
 	rsync -av ${DATA_DIR}.tbz wolfram.schneider.org:www/src/bbbike/${DATA_OSM_DIR}
 
