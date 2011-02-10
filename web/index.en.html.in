@@ -32,7 +32,7 @@
 	<span id="language_switch">
         <a href="../da/" title="Danish">da</a> |
         <a href="../de/" title="German">de</a> |
-        <!-- <a href="../en/" title="English">en</a> | -->
+	<span class="current_language" title="English">en</span> |
         <a href="../es/" title="Spanish">es</a> |
         <a href="../fr/" title="French">fr</a> |
         <a href="../hr/" title="Croatian">hr</a> |
