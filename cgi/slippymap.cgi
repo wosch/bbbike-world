@@ -18,6 +18,7 @@ use FindBin;
 use lib (
     grep { -d } (
         "$FindBin::RealBin/..",
+        "$FindBin::RealBin/../..",
         "$FindBin::RealBin/../lib",
 
         # für Radzeit:
