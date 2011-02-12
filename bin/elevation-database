@@ -1,0 +1,200 @@
+#!/usr/local/bin/perl
+
+use strict;
+use warnings;
+
+use Getopt::Long;
+use LWP::UserAgent;
+use IO::File;
+use XML::Simple;
+use Data::Dumper;
+
+#
+# 'ElevationResponse' => [
+#    {
+#      'status' => 'OK',
+#      'result' => [
+#                   {
+#                     'location' => {
+#                                     'lat' => '37.5909540',
+#                                     'lng' => '-122.3384660'
+#                                   },
+#                     'elevation' => '2.9659331'
+#                   },
+#
+
+#my $obj = require "b.pl" or die "open file: $!\n";
+sub usage () {
+    my $message = shift;
+
+    warn $message, "\n" if $message;
+    die <<EOF;
+usage: $0 [options] --database=file --input=file
+
+--database=height_database
+--socksproxy=socks://host:port   set socks proxy
+EOF
+}
+
+my $debug = 1;
+my $database;
+my $socksproxy;
+
+sub init_height_db {
+    my $file = shift;
+
+    my %height_db;
+    my $fd = new IO::File $file, "r" or die "open '$file': $!\n";
+
+    my $use_rounding = 1;
+
+    while (<$fd>) {
+        chomp;
+        my ( $height, $x, $coord ) = split;
+
+        if ( !defined $height || !defined $x || !defined $coord ) {
+            warn "Ignore broken line in height db: $_\n";
+            next;
+        }
+
+        if ($use_rounding) {
+            $height = int( $height + 0.5 );
+        }
+
+        $height_db{$coord} = $height;
+    }
+    close $fd;
+
+    return \%height_db;
+}
+
+sub download {
+    my $ua  = shift;
+    my $uri = shift;
+
+    warn "download URL: $uri\n" if $debug >= 1;
+
+    my $response = $ua->get($uri);
+    if ( $response->is_success ) {
+        my $data = $response->decoded_content;    # or whatever
+        my $obj  = XMLin($data);
+        if ( $obj->{'status'} ne 'OK' ) {
+            die "ERROR status: ", $obj->{'status'}, "\n";
+            return;
+        }
+
+        # height  X lng,lat
+        # 108     X 13.0669708,52.3508471
+
+        my @obj =
+          ref $obj->{'result'} eq 'ARRAY'
+          ? @{ $obj->{'result'} }
+          : $obj->{'result'};
+        foreach my $result (@obj) {
+            print $result->{'elevation'}, "\tX ",
+              $result->{'location'}->{'lng'}, q{,},
+              $result->{'location'}->{'lat'}, "\n";
+        }
+    }
+    else {
+        warn "Download failed: ", $response->status_line, "\n";
+    }
+}
+
+sub padding {
+    my $lat = shift;
+
+    my ( $int, $dec ) = split( /\./, $lat );
+    if ( !defined $dec ) {
+        $dec = "";
+        $lat .= '.';
+    }
+
+    while ( length($dec) < 7 ) {
+        $dec .= '0';
+        $lat .= '0';
+    }
+    return $lat;
+}
+
+sub activate_socksproxy {
+    my $ua = shift;
+
+    if ( !$ua ) {
+        warn "LWP::UserAgent is not set, ignore socks proxy!\n";
+        return;
+    }
+
+    eval {
+        require LWP::Protocol::socks;
+        $ua->proxy( [qw(http https)] => $socksproxy );
+    };
+
+    if ($@) {
+        warn "Cannot load LWP::Protocol::socks, ignore socks proxy...\n";
+        return;
+    }
+}
+
+######################################################
+GetOptions(
+    "debug=i"      => \$debug,
+    "database=s"   => \$database,
+    "socksproxy=s" => \$socksproxy,
+) or usage;
+
+#usage("no database given\n") if !$database;
+
+my %hash;
+%hash = %{ init_height_db($database) } if $database;
+
+my $url =
+  'http://maps.google.com/maps/api/elevation/xml?sensor=false&locations=';
+
+my $counter = 0;
+my $string  = "";
+my $ua      = LWP::UserAgent->new;
+
+activate_socksproxy($ua) if $socksproxy;
+my $max = 50;
+
+warn Dumper( \%hash ) if $debug >= 3;
+my %hash2;
+while (<>) {
+    chomp;
+    next if /^\s*#/;
+
+    my $coords = $_;
+    if (/\t/) {
+        $coords =~ s/^[^\t]*\t\S+\s+//;
+    }
+
+    foreach my $c ( split( / /, $coords ) ) {
+        my ( $lng, $lat ) = split( /,/, $c );
+
+        my $coord = &padding($lng) . "," . &padding($lat);
+        if ( exists $hash{$coord} ) {
+            warn "$coord already exists\n" if $debug >= 2;
+            next;
+        }
+        if ( exists $hash2{$coord} ) {
+            warn "$coord already parsed\n" if $debug >= 2;
+            next;
+        }
+        $hash2{$coord} = 1;
+
+        $string .= "|" if $string;
+        $string .= "$lat,$lng";
+
+        $counter++;
+        if ( $counter == $max ) {
+            &download( $ua, "$url$string" );
+            $string  = "";
+            $counter = 0;
+        }
+    }
+}
+
+# run the rest
+&download( $ua, "$url$string" ) if $string;
+
