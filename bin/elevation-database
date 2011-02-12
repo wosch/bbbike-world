@@ -1,45 +1,47 @@
 #!/usr/local/bin/perl
-
+#
+# elevation-database - get elevation data
+#
 use strict;
 use warnings;
 
+use Storable;
 use Getopt::Long;
 use LWP::UserAgent;
 use IO::File;
 use XML::Simple;
 use Data::Dumper;
 
+######################################################################
+# geonames.org API for elevation data:
 #
-# 'ElevationResponse' => [
-#    {
-#      'status' => 'OK',
-#      'result' => [
-#                   {
-#                     'location' => {
-#                                     'lat' => '37.5909540',
-#                                     'lng' => '-122.3384660'
-#                                   },
-#                     'elevation' => '2.9659331'
-#                   },
+# http://www.geonames.org/export/web-services.html#srtm3
 #
+# http://api.geonames.org/srtm3?lats=50.01,51.01&lngs=10.2,11.2&username=demo
 
-#my $obj = require "b.pl" or die "open file: $!\n";
 sub usage () {
     my $message = shift;
 
     warn $message, "\n" if $message;
     die <<EOF;
-usage: $0 [options] --database=file --input=file
+usage: $0 [options] cities ...
 
---database=height_database
+--database=elevation.db
 --socksproxy=socks://host:port   set socks proxy
+--readonly-database
+--data-osm-dir=/path/to/bbbike/data-osm
 EOF
 }
 
 my $debug = 1;
 my $database;
 my $socksproxy;
+my $readonly_database = 0;
+my $api_url           = 'http://api.geonames.org/srtm3?username=demo';
+my $data_osm_dir      = "data-osm";
 
+######################################################################
+#
 sub init_height_db {
     my $file = shift;
 
@@ -136,65 +138,141 @@ sub activate_socksproxy {
     }
 }
 
-######################################################
-GetOptions(
-    "debug=i"      => \$debug,
-    "database=s"   => \$database,
-    "socksproxy=s" => \$socksproxy,
-) or usage;
+# stale code
+sub foo {
+    my %hash;
 
-#usage("no database given\n") if !$database;
+    my $max = 50;
+    my $string;
+    warn Dumper( \%hash ) if $debug >= 3;
+    my %hash2;
+    my $counter;
+    my $ua;
+    my $url;
 
-my %hash;
-%hash = %{ init_height_db($database) } if $database;
+    while (<>) {
+        chomp;
+        next if /^\s*#/;
 
-my $url =
-  'http://maps.google.com/maps/api/elevation/xml?sensor=false&locations=';
-
-my $counter = 0;
-my $string  = "";
-my $ua      = LWP::UserAgent->new;
-
-activate_socksproxy($ua) if $socksproxy;
-my $max = 50;
-
-warn Dumper( \%hash ) if $debug >= 3;
-my %hash2;
-while (<>) {
-    chomp;
-    next if /^\s*#/;
-
-    my $coords = $_;
-    if (/\t/) {
-        $coords =~ s/^[^\t]*\t\S+\s+//;
-    }
-
-    foreach my $c ( split( / /, $coords ) ) {
-        my ( $lng, $lat ) = split( /,/, $c );
-
-        my $coord = &padding($lng) . "," . &padding($lat);
-        if ( exists $hash{$coord} ) {
-            warn "$coord already exists\n" if $debug >= 2;
-            next;
+        my $coords = $_;
+        if (/\t/) {
+            $coords =~ s/^[^\t]*\t\S+\s+//;
         }
-        if ( exists $hash2{$coord} ) {
-            warn "$coord already parsed\n" if $debug >= 2;
-            next;
-        }
-        $hash2{$coord} = 1;
 
-        $string .= "|" if $string;
-        $string .= "$lat,$lng";
+        foreach my $c ( split( / /, $coords ) ) {
+            my ( $lng, $lat ) = split( /,/, $c );
 
-        $counter++;
-        if ( $counter == $max ) {
-            &download( $ua, "$url$string" );
-            $string  = "";
-            $counter = 0;
+            my $coord = &padding($lng) . "," . &padding($lat);
+            if ( exists $hash{$coord} ) {
+                warn "$coord already exists\n" if $debug >= 2;
+                next;
+            }
+            if ( exists $hash2{$coord} ) {
+                warn "$coord already parsed\n" if $debug >= 2;
+                next;
+            }
+            $hash2{$coord} = 1;
+
+            $string .= "|" if $string;
+            $string .= "$lat,$lng";
+
+            $counter++;
+            if ( $counter == $max ) {
+                &download( $ua, "$url$string" );
+                $string  = "";
+                $counter = 0;
+            }
         }
     }
 }
 
+sub parse_hoehe {
+    my $file = shift;
+
+    my $fd = new IO::File $file, "r" or die "open '$file': $!\n";
+    binmode $fd, ":bytes";
+
+    my $hash;
+    while (<$fd>) {
+        chomp;
+        next if /^\s*#/;
+        my ( $elevation, $x, $lnglat ) = split();
+        $hash->{$lnglat} = $elevation;
+    }
+
+    return $hash;
+}
+
+sub parse_streets {
+    my $file = shift;
+
+    my $fd = new IO::File $file, "r" or die "open '$file': $!\n";
+    binmode $fd, ":bytes";
+
+    my $hash;
+    while (<$fd>) {
+        chomp;
+        next if /^\s*#/;
+        s/^[^\t]*\t\S+\s+//;
+
+        my @points = split;
+        foreach my $point (@points) {
+            if ( exists $hash->{$point} ) {
+                $hash->{$point}++;
+            }
+            else {
+                $hash->{$point} = 1;
+            }
+        }
+
+    }
+    return $hash;
+}
+
+sub update_city {
+    my %args = @_;
+    my $city = $args{'city'};
+    my $ua   = $args{'ua'};
+    my $hash = $args{'database'};
+
+    my $dir = "$data_osm_dir/$city";
+
+    my $height  = &parse_hoehe("$dir/hoehe");
+    my $corners = &parse_streets("$dir/strassen");
+
+    #while ( my ( $key, $val ) = each %$height ) { print "$key: $val\n"; }
+
+    print Dumper($corners);
+}
+
+######################################################################
+# main
+#
+
+my $help;
+GetOptions(
+    "help"              => \$help,
+    "debug=i"           => \$debug,
+    "database=s"        => \$database,
+    "socksproxy=s"      => \$socksproxy,
+    "readonly-database" => \$readonly_database,
+    "data-osm-dir=s"    => \$data_osm_dir,
+) or usage;
+
+&usage if $help;
+
+my @cities = @ARGV;
+&usage("Missing the cities!\n") if !@cities;
+
+my $ua = LWP::UserAgent->new;
+$ua->agent("BBBike @ World - http://bbbike.org");
+activate_socksproxy($ua) if $socksproxy;
+
+my $hash;
+foreach my $city (@cities) {
+    &update_city( 'city' => $city, 'ua' => $ua, 'database' => $hash );
+}
+
 # run the rest
-&download( $ua, "$url$string" ) if $string;
+#&download( $ua, "$url$string" ) if $string;
 
