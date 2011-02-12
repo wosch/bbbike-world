@@ -88,6 +88,7 @@ usage: $0 [--debug={0..2}] [options] city
 --city-names
 --step
 --list
+--city-database=/path/to/etc/cities.csv
 EOF
 }
 
@@ -102,20 +103,22 @@ my $area;
 my $city_by_lang;
 my $list;
 my $city_names;
+my $city_database;
 
 GetOptions(
-    "debug=i"        => \$debug,
-    "lang"           => \$lang,
-    "local-lang"     => \$local_lang,
-    "step"           => \$step,
-    "city-names"     => \$city_names,
-    "population"     => \$population,
-    "coord"          => \$coord,
-    "poly"           => \$poly,
-    "centerdelta"    => \$centerdelta,
-    "area=s"         => \$area,
-    "city-by-lang=s" => \$city_by_lang,
-    "list"           => \$list,
+    "debug=i"         => \$debug,
+    "lang"            => \$lang,
+    "local-lang"      => \$local_lang,
+    "step"            => \$step,
+    "city-names"      => \$city_names,
+    "population"      => \$population,
+    "coord"           => \$coord,
+    "poly"            => \$poly,
+    "centerdelta"     => \$centerdelta,
+    "area=s"          => \$area,
+    "city-by-lang=s"  => \$city_by_lang,
+    "list"            => \$list,
+    "city-database=s" => \$city_database,
 ) or die usage;
 
 my $city = shift;
@@ -123,7 +126,8 @@ die &usage if !( $city || $area || $city_by_lang || $list );
 
 $city =~ s/-(convert|download)$// if $city;
 
-my $database = dirname( dirname($0) ) . "/etc/cities.csv";
+my $database =
+  $city_database ? $city_database : dirname( dirname($0) ) . "/etc/cities.csv";
 
 my %hash;
 
