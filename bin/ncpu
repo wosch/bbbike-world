@@ -6,6 +6,7 @@
 
 PATH=/bin:/usr/bin:/sbin:/usr/sbin; export PATH
 
+cpuinfo=/proc/cpuinfo
 minus=0
 vcpu=0
 rcpu=0
@@ -19,7 +20,6 @@ case $1 in
 	-1 | -2 | +1|+2|+3|+4|+6|+8 ) minus=$1 ;;
 esac
 
-cpuinfo=/proc/cpuinfo
 
 # macos
 if sysctl -n hw.physicalcpu > /dev/null 2>&1; then
@@ -41,8 +41,10 @@ elif  [ -f $cpuinfo ]; then
   ncpu=`egrep -c ^processor $cpuinfo`
   cores=`awk '{ if (/^cpu cores/) { print $4; exit }}' $cpuinfo`
 
+  if [ $vcpu = 1 ]; then
+	:
   # real CPUs + 1/2 virtual CPUs
-  if [ $rcpu = 1 ]; then
+  elif [ $rcpu = 1 ]; then
      ncpu=`perl -e 'print (($ARGV[0] + $ARGV[1])/2)' $ncpu $cores`
   else
      ncpu=$cores
