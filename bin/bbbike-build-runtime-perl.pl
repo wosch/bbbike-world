@@ -7,6 +7,11 @@
 
 use Text::Unidecode;
 use HTML::TagCloud;
+use XML::Atom::SimpleFeed;
+use URI;
+use JSON;
+use XML::Simple;
+use XML::LibXML::Reader;
 
 1;
 

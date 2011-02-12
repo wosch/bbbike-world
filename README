@@ -1,5 +1,16 @@
-
 Required perl modules:
+------------------------------------
 
-Text::Unidecode
+see ../bin/bbbike-build-runtime-perl.p
+
+Required debian modules
+------------------------------------
+
+pbzip2 git-core openjdk-6-jdk screen lynx curl wget 
+pigz make libhtml-tagcloud-perl buffer pktstat libtext-unidecode-perl perltidy
+libxml-atom-simplefeed-perl libjson-perl liburi-perl
+
+libxml-libxml-perl
+
+
 
