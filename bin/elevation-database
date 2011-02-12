@@ -17,6 +17,7 @@ use Data::Dumper;
 #
 # http://www.geonames.org/export/web-services.html#srtm3
 #
+# http://api.geonames.org/srtm3?lat=50.01&lng=10.2&username=demo
 # http://api.geonames.org/srtm3?lats=50.01,51.01&lngs=10.2,11.2&username=demo
 
 sub usage () {
@@ -39,6 +40,7 @@ my $socksproxy;
 my $readonly_database = 0;
 my $api_url           = 'http://api.geonames.org/srtm3?username=demo';
 my $data_osm_dir      = "data-osm";
+my $max_points = 20;    # limit of geonames.org
 
 ######################################################################
 #
@@ -79,24 +81,7 @@ sub download {
     my $response = $ua->get($uri);
     if ( $response->is_success ) {
         my $data = $response->decoded_content;    # or whatever
-        my $obj  = XMLin($data);
-        if ( $obj->{'status'} ne 'OK' ) {
-            die "ERROR status: ", $obj->{'status'}, "\n";
-            return;
-        }
-
-        # height  X lng,lat
-        # 108     X 13.0669708,52.3508471
-
-        my @obj =
-          ref $obj->{'result'} eq 'ARRAY'
-          ? @{ $obj->{'result'} }
-          : $obj->{'result'};
-        foreach my $result (@obj) {
-            print $result->{'elevation'}, "\tX ",
-              $result->{'location'}->{'lng'}, q{,},
-              $result->{'location'}->{'lat'}, "\n";
-        }
+        return $data;
     }
     else {
         warn "Download failed: ", $response->status_line, "\n";
@@ -197,6 +182,11 @@ sub parse_hoehe {
         chomp;
         next if /^\s*#/;
         my ( $elevation, $x, $lnglat ) = split();
+        if ( !$lnglat ) {
+            warn "XXX: $_\n" if $debug >= 2;
+            next;
+        }
+
         $hash->{$lnglat} = $elevation;
     }
 
@@ -210,6 +200,7 @@ sub parse_streets {
     binmode $fd, ":bytes";
 
     my $hash;
+    my $counter = 0;
     while (<$fd>) {
         chomp;
         next if /^\s*#/;
@@ -219,6 +210,7 @@ sub parse_streets {
         foreach my $point (@points) {
             if ( exists $hash->{$point} ) {
                 $hash->{$point}++;
+                $counter++;
             }
             else {
                 $hash->{$point} = 1;
@@ -226,7 +218,55 @@ sub parse_streets {
         }
 
     }
+
+    warn "Corner count: $counter\n";
     return $hash;
+}
+
+sub get_elevation_data {
+    my $hash = shift;
+    my $data = shift;
+    my $ua   = shift;
+
+    my @data = @$data;
+
+    my ( @lng, @lat );
+    foreach my $key (@data) {
+        my ( $lng, $lat ) = split ",", $key;
+        push @lng, $lng;
+        push @lat, $lat;
+    }
+
+    my $url =
+      $api_url . '&lngs=' . join( ",", @lng ) . '&lats=' . join( ",", @lat );
+
+    my $content = download( $ua, $url );
+    if ($content) {
+        warn $content if $debug >= 3;
+        my @heights = split( "\r\n", $content );
+
+        if ( $#heights != $#data ) {
+            warn "odd number of heights: $#heights != $#data\n";
+        }
+        else {
+            for ( my $i = 0 ; $i < scalar(@heights) ; $i++ ) {
+                warn "XXX: '", $heights[$i], "'\n";
+
+                $hash->{ $data[$i] } = $heights[$i];
+            }
+        }
+
+    }
+
+    &mysleep(0.9);
+    undef @$data;
+}
+
+sub mysleep {
+    my $seconds = shift || "0.5";
+
+    # sleep a half second
+    select( undef, undef, undef, $seconds );
 }
 
 sub update_city {
@@ -238,11 +278,34 @@ sub update_city {
     my $dir = "$data_osm_dir/$city";
 
     my $height  = &parse_hoehe("$dir/hoehe");
-    my $corners = &parse_streets("$dir/strassen");
+    my $streets = &parse_streets("$dir/strassen");
 
-    #while ( my ( $key, $val ) = each %$height ) { print "$key: $val\n"; }
+    # fill database with data from "hoehe" file
+    while ( my ( $key, $val ) = each %$height ) {
+        if ( !exists $hash->{$key} ) {
+            $hash->{$key} = $val;
+        }
+    }
 
-    print Dumper($corners);
+    my @data;
+    while ( my ( $key, $val ) = each %$streets ) {
+
+        # no corner
+        next if $val == 1;
+        if ( exists $hash->{$key} ) {
+            print "found: $key\n" if $debug >= 2;
+        }
+        else {
+            push @data, $key;
+        }
+        &get_elevation_data( $hash, \@data, $ua )
+          if scalar(@data) >= $max_points;
+    }
+
+    # the rest
+    &get_elevation_data( $hash, \@data, $ua );
+
+    print Dumper($hash);
 }
 
 ######################################################################
@@ -270,9 +333,8 @@ activate_socksproxy($ua) if $socksproxy;
 
 my $hash;
 foreach my $city (@cities) {
+    warn "City: $city\n" if $debug;
     &update_city( 'city' => $city, 'ua' => $ua, 'database' => $hash );
 }
 
-# run the rest
-#&download( $ua, "$url$string" ) if $string;
-
+print Dumper($hash);
