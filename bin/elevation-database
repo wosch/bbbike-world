@@ -27,7 +27,7 @@ sub usage () {
     die <<EOF;
 usage: $0 [options] cities ...
 
---database=elevation.db
+--database=elevation.database
 --socksproxy=socks://host:port   set socks proxy
 --readonly-database
 --data-osm-dir=/path/to/bbbike/data-osm
@@ -219,7 +219,7 @@ sub parse_streets {
 
     }
 
-    warn "Corner count: $counter\n";
+    warn "Corner count: $counter\n" if $debug;
     return $hash;
 }
 
@@ -229,6 +229,9 @@ sub get_elevation_data {
     my $ua   = shift;
 
     my @data = @$data;
+
+    # nothing to do?
+    return if $#data < 0;
 
     my ( @lng, @lat );
     foreach my $key (@data) {
@@ -250,15 +253,13 @@ sub get_elevation_data {
         }
         else {
             for ( my $i = 0 ; $i < scalar(@heights) ; $i++ ) {
-                warn "XXX: '", $heights[$i], "'\n";
-
                 $hash->{ $data[$i] } = $heights[$i];
             }
         }
 
     }
 
-    &mysleep(0.9);
+    &mysleep(0.4);
     undef @$data;
 }
 
@@ -267,6 +268,25 @@ sub mysleep {
 
     # sleep a half second
     select( undef, undef, undef, $seconds );
+}
+
+sub update_hoehe {
+    my %args = @_;
+
+    my $file   = $args{'file'};
+    my $points = $args{'points'};
+    my $hash   = $args{'database'};
+
+    my $tmp = "$file.new";
+    my $fd = new IO::File $tmp, "w" or die "open '$tmp': $!\n";
+    binmode $fd, ":raw";
+
+    foreach my $point (@$points) {
+        print $fd $hash->{$point}, "\tX ", $point, "\n";
+    }
+    $fd->close;
+
+    rename( $tmp, $file ) or die "rename $tmp -> $file: $!\n";
 }
 
 sub update_city {
@@ -288,10 +308,16 @@ sub update_city {
     }
 
     my @data;
+    my $c       = 0;
+    my @corners = ();
     while ( my ( $key, $val ) = each %$streets ) {
 
         # no corner
         next if $val == 1;
+
+        # all corners
+        push @corners, $key;
+
         if ( exists $hash->{$key} ) {
             print "found: $key\n" if $debug >= 2;
         }
@@ -300,12 +326,42 @@ sub update_city {
         }
         &get_elevation_data( $hash, \@data, $ua )
           if scalar(@data) >= $max_points;
+
+        #last if $c++ >= 40;
     }
 
     # the rest
     &get_elevation_data( $hash, \@data, $ua );
 
-    print Dumper($hash);
+    &update_hoehe(
+        'file'     => "$dir/hoehe2",
+        'points'   => \@corners,
+        'database' => $hash
+    );
+
+    return $hash;
+}
+
+sub read_database {
+    my $database = shift;
+
+    my $hash = {};
+
+    if ( $database && -f $database ) {
+        $hash = retrieve($database)
+          or die "Storable.pm retrieve: $database $!\n";
+    }
+
+    return $hash;
+}
+
+sub write_database {
+    my $database = shift;
+    my $hash     = shift;
+
+    return if !$database;
+
+    store( $hash, $database ) or die "Storable.pm store: $database: $!\n";
 }
 
 ######################################################################
@@ -331,10 +387,12 @@ my $ua = LWP::UserAgent->new;
 $ua->agent("BBBike @ World - http://bbbike.org");
 activate_socksproxy($ua) if $socksproxy;
 
-my $hash;
+my $hash = read_database($database);
 foreach my $city (@cities) {
     warn "City: $city\n" if $debug;
-    &update_city( 'city' => $city, 'ua' => $ua, 'database' => $hash );
+    $hash = &update_city( 'city' => $city, 'ua' => $ua, 'database' => $hash );
 }
 
-print Dumper($hash);
+# write database
+&write_database( $database, $hash ) if !$readonly_database;
+
