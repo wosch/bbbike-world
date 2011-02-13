@@ -53,6 +53,21 @@ EOF
 ######################################################################
 #
 
+sub set_signal_handler {
+    my %args              = @_;
+    my $database          = $args{'database'};
+    my $hash              = $args{'hash'};
+    my $readonly_database = $args{'readonly_database'};
+
+    if ( !$database || $readonly_database ) {
+        warn "Nothing to store in database '$database'\n";
+        return;
+    }
+
+    $SIG{INFO} = $SIG{HUP} = sub { &write_database( $database, $hash ); };
+    $SIG{INT} = sub { &write_database( $database, $hash ); exit(0) };
+}
+
 sub download {
     my $ua   = shift;
     my $uri  = shift;
@@ -285,7 +300,7 @@ sub read_database {
 
     if ( $database && -f $database ) {
         $hash = retrieve($database)
-          or die "Storable.pm retrieve: $database $!\n";
+          or die "Storable.pm retrieve error for database '$database': $!\n";
     }
     else {
         warn "database '$database' does not exists (yet) or not readable!\n";
@@ -300,6 +315,7 @@ sub write_database {
 
     return if !$database;
 
+    warn "Store hash in file '$database'\n" if $debug;
     store( $hash, $database ) or die "Storable.pm store: $database: $!\n";
 }
 
@@ -343,6 +359,12 @@ my @cities = @ARGV;
 my $ua = LWP::UserAgent->new;
 $ua->agent($user_agent);
 activate_socksproxy($ua) if $socksproxy;
+
+&set_signal_handler(
+    'database'          => $database,
+    'hash'              => $hash,
+    'readonly_database' => $readonly_database
+);
 
 foreach my $city (@cities) {
     warn "City: $city\n" if $debug;
