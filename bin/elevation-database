@@ -322,7 +322,7 @@ sub update_city {
         push @corners, $key;
 
         if ( exists $hash->{$key} ) {
-            print "found: $key\n" if $debug >= 2;
+            warn "found: $key\n" if $debug >= 3;
         }
         else {
             push @data, $key;
