@@ -76,7 +76,7 @@ sub download {
     my $ua  = shift;
     my $uri = shift;
 
-    warn "download URL: $uri\n" if $debug >= 1;
+    warn "download URL: $uri\n" if $debug >= 2;
 
     my $response = $ua->get($uri);
     if ( $response->is_success ) {
