@@ -33,6 +33,7 @@ my $max_points = 20;                                     # limit of geonames.org
 my $user_agent = "BBBike @ World - http://bbbike.org";
 my $sleep      = 2.5;
 my $check_database;
+my $exit_on_error = 1;
 
 my $NO_DATA = -32768;
 
@@ -50,12 +51,20 @@ usage: $0 [options] cities ...
 --user-anget="user agent version xyz"
 --sleep=$sleep
 --check-database
+--exit-on-error=[0,1]
 EOF
 }
 
 ######################################################################
 # helper functions
 #
+
+sub Die {
+    my $message = shift;
+    warn $message;
+    alarm(0);
+    exit(1);
+}
 
 sub read_database {
     my $database = shift;
@@ -80,7 +89,7 @@ sub write_database {
     return if !$database;
 
     warn "Store hash in file '$database'\n" if $debug;
-    store( $hash, $database ) or die "Storable.pm store: $database: $!\n";
+    store( $hash, $database ) or die "Write Storable.pm store: $database: $!\n";
 }
 
 sub check_database {
@@ -103,7 +112,8 @@ sub set_signal_handler {
         return;
     }
 
-    $SIG{INFO} = $SIG{HUP} = sub { &write_database( $database, $hash ); };
+    $SIG{INFO} = $SIG{HUP} = $SIG{ALRM} =
+      sub { &write_database( $database, $hash ); };
     $SIG{INT} = sub { &write_database( $database, $hash ); exit(0) };
 }
 
@@ -223,7 +233,9 @@ sub get_elevation_data {
 
         if ( $#heights != $#data ) {
             warn "odd number of heights: $#heights != $#data\n";
+            Die("Give up\n") if $exit_on_error;
         }
+
         else {
             for ( my $i = 0 ; $i < scalar(@heights) ; $i++ ) {
                 my $height = $heights[$i];
@@ -347,6 +359,7 @@ GetOptions(
     "data-osm-dir=s"    => \$data_osm_dir,
     "user-agent=s"      => \$user_agent,
     "check-database"    => \$check_database,
+    "exit-on-error=i"   => \$exit_on_error,
 ) or usage;
 
 &usage if $help;
