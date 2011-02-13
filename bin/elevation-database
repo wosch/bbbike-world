@@ -282,7 +282,12 @@ sub update_hoehe {
     binmode $fd, ":raw";
 
     foreach my $point (@$points) {
-        print $fd $hash->{$point}, "\tX ", $point, "\n";
+        if ( defined $hash->{$point} ) {
+            print $fd $hash->{$point}, "\tX ", $point, "\n";
+        }
+        else {
+            warn "undefined height: $point\n" if $debug >= 3;
+        }
     }
     $fd->close;
 
