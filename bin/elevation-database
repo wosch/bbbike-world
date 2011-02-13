@@ -20,6 +20,16 @@ use Data::Dumper;
 # http://api.geonames.org/srtm3?lat=50.01&lng=10.2&username=demo
 # http://api.geonames.org/srtm3?lats=50.01,51.01&lngs=10.2,11.2&username=demo
 
+my $debug = 1;
+my $database;
+my $socksproxy;
+my $readonly_database = 0;
+my $api_url           = 'http://api.geonames.org/srtm3?username=demo';
+my $data_osm_dir      = "data-osm";
+my $max_points = 20;                                     # limit of geonames.org
+my $user_agent = "BBBike @ World - http://bbbike.org";
+my $sleep      = 2.5;
+
 sub usage () {
     my $message = shift;
 
@@ -32,17 +42,9 @@ usage: $0 [options] cities ...
 --readonly-database
 --data-osm-dir=/path/to/bbbike/data-osm
 --user-anget="user agent version xyz"
+--sleep=$sleep
 EOF
 }
-
-my $debug = 1;
-my $database;
-my $socksproxy;
-my $readonly_database = 0;
-my $api_url           = 'http://api.geonames.org/srtm3?username=demo';
-my $data_osm_dir      = "data-osm";
-my $max_points = 20;                                     # limit of geonames.org
-my $user_agent = "BBBike @ World - http://bbbike.org";
 
 ######################################################################
 #
@@ -261,7 +263,7 @@ sub get_elevation_data {
 
     }
 
-    &mysleep(2.4);
+    &mysleep($sleep);
     undef @$data;
 }
 
