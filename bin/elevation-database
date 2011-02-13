@@ -209,9 +209,9 @@ sub get_elevation_data {
         }
         else {
             for ( my $i = 0 ; $i < scalar(@heights) ; $i++ ) {
-                my $heights = $heights[$i];
-                if ( $heights && $heights =~ /^[\d\-]+/ ) {
-                    $hash->{ $data[$i] } = $heights[$i];
+                my $height = $heights[$i];
+                if ( $height && $height =~ /^[\d\-]+/ ) {
+                    $hash->{ $data[$i] } = $height;
                 }
                 else {
                     warn "height '$height' is not a number!\n" if $debug >= 2;
