@@ -33,6 +33,7 @@ my $max_points = 20;                                     # limit of geonames.org
 my $user_agent = "BBBike @ World - http://bbbike.org";
 my $sleep      = 2.1;
 my $check_database;
+my $repair_database;
 my $exit_on_error = 1;
 
 my $NO_DATA = -32768;
@@ -51,6 +52,7 @@ usage: $0 [options] cities ...
 --user-anget="user agent version xyz"
 --sleep=$sleep
 --check-database
+--repair-database
 --exit-on-error=[0,1]
 EOF
 }
@@ -100,9 +102,32 @@ sub check_database {
     my $hash = shift;
 
     while ( my ( $key, $val ) = each %$hash ) {
+
+        # unknown value
+        next if $val eq "" && $key =~ /^[\d\-\,\.]+$/;
+
         print "$key => $val\n"
           if $val !~ /^[\d-]+$/ || $key !~ /^[\d\-\,\.]+$/ || $val == -32768;
     }
+}
+
+sub repair_database {
+    my $hash     = shift;
+    my $database = shift;
+
+    while ( my ( $key, $val ) = each %$hash ) {
+        if ( !$val || $val eq "" || $val eq "-32768" || $val !~ /^[\d-]+$/ ) {
+            $val = "";
+            $hash->{$key} = $val;
+        }
+
+        if ( $key !~ /^[\d\-\,\.]+$/ ) {
+            warn "Delete '$key' => '$val'\n" if $debug >= 2;
+            delete $hash->{$key};
+        }
+    }
+
+    &write_database( $database, $hash );
 }
 
 sub set_signal_handler {
@@ -363,6 +388,7 @@ GetOptions(
     "data-osm-dir=s"    => \$data_osm_dir,
     "user-agent=s"      => \$user_agent,
     "check-database"    => \$check_database,
+    "repair-database"   => \$repair_database,
     "exit-on-error=i"   => \$exit_on_error,
 ) or usage;
 
@@ -375,6 +401,18 @@ if ($check_database) {
     exit;
 }
 
+# set signal handler to save state of the database
+&set_signal_handler(
+    'database'          => $database,
+    'hash'              => $hash,
+    'readonly_database' => $readonly_database
+);
+
+if ($repair_database) {
+    &repair_database( $hash, $database );
+    exit;
+}
+
 my @cities = @ARGV;
 &usage("Missing the cities!\n") if !@cities;
 
@@ -382,13 +420,6 @@ my @cities = @ARGV;
 my $ua = LWP::UserAgent->new;
 $ua->agent($user_agent);
 activate_socksproxy($ua) if $socksproxy;
-
-# set signal handler to save state of the database
-&set_signal_handler(
-    'database'          => $database,
-    'hash'              => $hash,
-    'readonly_database' => $readonly_database
-);
 
 # walk throught the list of cities
 foreach my $city (@cities) {
