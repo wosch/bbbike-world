@@ -52,33 +52,6 @@ EOF
 
 ######################################################################
 #
-sub init_height_db {
-    my $file = shift;
-
-    my %height_db;
-    my $fd = new IO::File $file, "r" or die "open '$file': $!\n";
-
-    my $use_rounding = 1;
-
-    while (<$fd>) {
-        chomp;
-        my ( $height, $x, $coord ) = split;
-
-        if ( !defined $height || !defined $x || !defined $coord ) {
-            warn "Ignore broken line in height db: $_\n";
-            next;
-        }
-
-        if ($use_rounding) {
-            $height = int( $height + 0.5 );
-        }
-
-        $height_db{$coord} = $height;
-    }
-    close $fd;
-
-    return \%height_db;
-}
 
 sub download {
     my $ua   = shift;
@@ -95,22 +68,6 @@ sub download {
     else {
         warn "Download failed: ", $response->status_line, "\n";
     }
-}
-
-sub padding {
-    my $lat = shift;
-
-    my ( $int, $dec ) = split( /\./, $lat );
-    if ( !defined $dec ) {
-        $dec = "";
-        $lat .= '.';
-    }
-
-    while ( length($dec) < 7 ) {
-        $dec .= '0';
-        $lat .= '0';
-    }
-    return $lat;
 }
 
 sub activate_socksproxy {
