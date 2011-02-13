@@ -1,9 +1,8 @@
 #!/usr/local/bin/perl
+# Copyright (c) Feb 2011 Wolfram Schneider, http://bbbike.org
 #
-# elevation-database - get elevation data
+# elevation-database - fetch SRTM3 elevation data for points in planet.osm without elevation infos
 #
-use strict;
-use warnings;
 
 use Storable;
 use Getopt::Long;
@@ -12,6 +11,9 @@ use IO::File;
 use XML::Simple;
 use Data::Dumper;
 
+use strict;
+use warnings;
+
 ######################################################################
 # geonames.org API for elevation data:
 #
@@ -19,16 +21,22 @@ use Data::Dumper;
 #
 # http://api.geonames.org/srtm3?lat=50.01&lng=10.2&username=demo
 # http://api.geonames.org/srtm3?lats=50.01,51.01&lngs=10.2,11.2&username=demo
+#
 
-my $debug = 1;
-my $database;
+my $debug    = 1;
+my $database = "";
 my $socksproxy;
 my $readonly_database = 0;
 my $api_url           = 'http://api.geonames.org/srtm3?username=demo';
 my $data_osm_dir      = "data-osm";
 my $max_points = 20;                                     # limit of geonames.org
 my $user_agent = "BBBike @ World - http://bbbike.org";
-my $sleep      = 2.5;
+my $sleep      = 2.1;
+my $check_database;
+my $repair_database;
+my $exit_on_error = 1;
+
+my $NO_DATA = -32768;
 
 sub usage () {
     my $message = shift;
@@ -43,44 +51,107 @@ usage: $0 [options] cities ...
 --data-osm-dir=/path/to/bbbike/data-osm
 --user-anget="user agent version xyz"
 --sleep=$sleep
+--check-database
+--repair-database
+--exit-on-error=[0,1]
 EOF
 }
 
 ######################################################################
+# helper functions
 #
-sub init_height_db {
-    my $file = shift;
 
-    my %height_db;
-    my $fd = new IO::File $file, "r" or die "open '$file': $!\n";
-
-    my $use_rounding = 1;
-
-    while (<$fd>) {
-        chomp;
-        my ( $height, $x, $coord ) = split;
-
-        if ( !defined $height || !defined $x || !defined $coord ) {
-            warn "Ignore broken line in height db: $_\n";
-            next;
-        }
-
-        if ($use_rounding) {
-            $height = int( $height + 0.5 );
-        }
-
-        $height_db{$coord} = $height;
-    }
-    close $fd;
-
-    return \%height_db;
+sub Die {
+    my $message = shift;
+    warn $message;
+    alarm(0);
+    exit(1);
 }
 
-sub download {
-    my $ua  = shift;
-    my $uri = shift;
+sub read_database {
+    my $database = shift;
 
-    warn "download URL: $uri\n" if $debug >= 2;
+    my $hash = {};
+
+    if ( $database && -f $database ) {
+        $hash = retrieve($database)
+          or die "Storable.pm retrieve error for database '$database'\n";
+    }
+    else {
+        warn "database '$database' does not exists (yet) or not readable!\n";
+    }
+
+    return $hash;
+}
+
+sub write_database {
+    my $database = shift;
+    my $hash     = shift;
+
+    return if !$database;
+    warn "Store hash in file '$database'\n" if $debug;
+
+    # atomic store of data
+    my $new_db = "$database.new";
+    store( $hash, $new_db ) or die "Write Storable.pm store: $new_db: $!\n";
+    rename( $new_db, $database ) or die "rename $new_db -> $database: $!\n";
+
+}
+
+sub check_database {
+    my $hash = shift;
+
+    while ( my ( $key, $val ) = each %$hash ) {
+
+        # unknown value
+        next if $val eq "" && $key =~ /^[\d\-\,\.]+$/;
+
+        print "$key => $val\n"
+          if $val !~ /^[\d-]+$/ || $key !~ /^[\d\-\,\.]+$/ || $val == -32768;
+    }
+}
+
+sub repair_database {
+    my $hash     = shift;
+    my $database = shift;
+
+    while ( my ( $key, $val ) = each %$hash ) {
+        if ( !$val || $val eq "" || $val eq "-32768" || $val !~ /^[\d-]+$/ ) {
+            $val = "";
+            $hash->{$key} = $val;
+        }
+
+        if ( $key !~ /^[\d\-\,\.]+$/ ) {
+            warn "Delete '$key' => '$val'\n" if $debug >= 2;
+            delete $hash->{$key};
+        }
+    }
+
+    &write_database( $database, $hash );
+}
+
+sub set_signal_handler {
+    my %args              = @_;
+    my $database          = $args{'database'};
+    my $hash              = $args{'hash'};
+    my $readonly_database = $args{'readonly_database'};
+
+    if ( !$database || $readonly_database ) {
+        warn "Nothing to store in database '$database'\n";
+        return;
+    }
+
+    $SIG{INFO} = $SIG{HUP} = $SIG{ALRM} =
+      sub { &write_database( $database, $hash ); };
+    $SIG{INT} = sub { &write_database( $database, $hash ); exit(0) };
+}
+
+sub download_uri {
+    my $ua   = shift;
+    my $uri  = shift;
+    my $city = shift || "";
+
+    warn "download URL for city: $city $uri\n" if $debug >= 2;
 
     my $response = $ua->get($uri);
     if ( $response->is_success ) {
@@ -90,22 +161,6 @@ sub download {
     else {
         warn "Download failed: ", $response->status_line, "\n";
     }
-}
-
-sub padding {
-    my $lat = shift;
-
-    my ( $int, $dec ) = split( /\./, $lat );
-    if ( !defined $dec ) {
-        $dec = "";
-        $lat .= '.';
-    }
-
-    while ( length($dec) < 7 ) {
-        $dec .= '0';
-        $lat .= '0';
-    }
-    return $lat;
 }
 
 sub activate_socksproxy {
@@ -127,54 +182,6 @@ sub activate_socksproxy {
     }
 }
 
-# stale code
-sub foo {
-    my %hash;
-
-    my $max = 50;
-    my $string;
-    warn Dumper( \%hash ) if $debug >= 3;
-    my %hash2;
-    my $counter;
-    my $ua;
-    my $url;
-
-    while (<>) {
-        chomp;
-        next if /^\s*#/;
-
-        my $coords = $_;
-        if (/\t/) {
-            $coords =~ s/^[^\t]*\t\S+\s+//;
-        }
-
-        foreach my $c ( split( / /, $coords ) ) {
-            my ( $lng, $lat ) = split( /,/, $c );
-
-            my $coord = &padding($lng) . "," . &padding($lat);
-            if ( exists $hash{$coord} ) {
-                warn "$coord already exists\n" if $debug >= 2;
-                next;
-            }
-            if ( exists $hash2{$coord} ) {
-                warn "$coord already parsed\n" if $debug >= 2;
-                next;
-            }
-            $hash2{$coord} = 1;
-
-            $string .= "|" if $string;
-            $string .= "$lat,$lng";
-
-            $counter++;
-            if ( $counter == $max ) {
-                &download( $ua, "$url$string" );
-                $string  = "";
-                $counter = 0;
-            }
-        }
-    }
-}
-
 sub parse_hoehe {
     my $file = shift;
 
@@ -187,7 +194,7 @@ sub parse_hoehe {
         next if /^\s*#/;
         my ( $elevation, $x, $lnglat ) = split();
         if ( !$lnglat ) {
-            warn "XXX: $_\n" if $debug >= 2;
+            warn "Unknown height in 'hoehe' file: $_\n" if $debug >= 2;
             next;
         }
 
@@ -231,6 +238,7 @@ sub get_elevation_data {
     my $hash = shift;
     my $data = shift;
     my $ua   = shift;
+    my $city = shift;
 
     my @data = @$data;
 
@@ -247,17 +255,31 @@ sub get_elevation_data {
     my $url =
       $api_url . '&lngs=' . join( ",", @lng ) . '&lats=' . join( ",", @lat );
 
-    my $content = download( $ua, $url );
+    my $content = download_uri( $ua, $url, $city );
     if ($content) {
         warn $content if $debug >= 3;
         my @heights = split( "\r\n", $content );
 
         if ( $#heights != $#data ) {
             warn "odd number of heights: $#heights != $#data\n";
+            Die("Give up\n") if $exit_on_error;
         }
+
         else {
             for ( my $i = 0 ; $i < scalar(@heights) ; $i++ ) {
-                $hash->{ $data[$i] } = $heights[$i];
+                my $height = $heights[$i];
+                if ( defined $height && $height =~ /^[\d\-]+$/ ) {
+                    if ( $height == $NO_DATA ) {
+                        warn "unknown height for: ", $data[$i], "\n";
+
+                        # keep negative hit cache
+                        $height = "";
+                    }
+                    $hash->{ $data[$i] } = $height;
+                }
+                else {
+                    warn "height '$height' is not a number!\n" if $debug >= 2;
+                }
             }
         }
 
@@ -267,6 +289,7 @@ sub get_elevation_data {
     undef @$data;
 }
 
+# sleep in seconds.miliseconds
 sub mysleep {
     my $seconds = shift || "0.5";
 
@@ -328,19 +351,19 @@ sub update_city {
         push @corners, $key;
 
         if ( exists $hash->{$key} ) {
-            print "found: $key\n" if $debug >= 2;
+            warn "found: $key\n" if $debug >= 3;
         }
         else {
             push @data, $key;
         }
-        &get_elevation_data( $hash, \@data, $ua )
+        &get_elevation_data( $hash, \@data, $ua, $city )
           if scalar(@data) >= $max_points;
 
         #last if $c++ >= 40;
     }
 
     # the rest
-    &get_elevation_data( $hash, \@data, $ua );
+    &get_elevation_data( $hash, \@data, $ua, $city );
 
     &update_hoehe(
         'file'     => "$dir/hoehe2",
@@ -349,28 +372,6 @@ sub update_city {
     );
 
     return $hash;
-}
-
-sub read_database {
-    my $database = shift;
-
-    my $hash = {};
-
-    if ( $database && -f $database ) {
-        $hash = retrieve($database)
-          or die "Storable.pm retrieve: $database $!\n";
-    }
-
-    return $hash;
-}
-
-sub write_database {
-    my $database = shift;
-    my $hash     = shift;
-
-    return if !$database;
-
-    store( $hash, $database ) or die "Storable.pm store: $database: $!\n";
 }
 
 ######################################################################
@@ -386,18 +387,41 @@ GetOptions(
     "readonly-database" => \$readonly_database,
     "data-osm-dir=s"    => \$data_osm_dir,
     "user-agent=s"      => \$user_agent,
+    "check-database"    => \$check_database,
+    "repair-database"   => \$repair_database,
+    "exit-on-error=i"   => \$exit_on_error,
 ) or usage;
 
 &usage if $help;
 
+my $hash = read_database($database);
+
+if ($check_database) {
+    &check_database($hash);
+    exit;
+}
+
+# set signal handler to save state of the database
+&set_signal_handler(
+    'database'          => $database,
+    'hash'              => $hash,
+    'readonly_database' => $readonly_database
+);
+
+if ($repair_database) {
+    &repair_database( $hash, $database );
+    exit;
+}
+
 my @cities = @ARGV;
 &usage("Missing the cities!\n") if !@cities;
 
+# set networking
 my $ua = LWP::UserAgent->new;
 $ua->agent($user_agent);
 activate_socksproxy($ua) if $socksproxy;
 
-my $hash = read_database($database);
+# walk throught the list of cities
 foreach my $city (@cities) {
     warn "City: $city\n" if $debug;
     $hash = &update_city( 'city' => $city, 'ua' => $ua, 'database' => $hash );
