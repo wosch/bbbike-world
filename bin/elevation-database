@@ -139,7 +139,7 @@ sub parse_hoehe {
         next if /^\s*#/;
         my ( $elevation, $x, $lnglat ) = split();
         if ( !$lnglat ) {
-            warn "XXX: $_\n" if $debug >= 2;
+            warn "Unknown height in 'hoehe' file: $_\n" if $debug >= 2;
             next;
         }
 
