@@ -30,6 +30,8 @@ my $max_points = 20;                                     # limit of geonames.org
 my $user_agent = "BBBike @ World - http://bbbike.org";
 my $sleep      = 2.5;
 
+my $NO_DATA = -32768;
+
 sub usage () {
     my $message = shift;
 
@@ -213,6 +215,12 @@ sub get_elevation_data {
             for ( my $i = 0 ; $i < scalar(@heights) ; $i++ ) {
                 my $height = $heights[$i];
                 if ( defined $height && $height =~ /^[\d\-]+$/ ) {
+                    if ( $height == $NO_DATA ) {
+                        warn "unknown height for: ", $data[$i], "\n";
+
+                        # keep negative hit cache
+                        $height = "";
+                    }
                     $hash->{ $data[$i] } = $height;
                 }
                 else {
