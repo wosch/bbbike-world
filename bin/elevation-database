@@ -29,6 +29,7 @@ my $data_osm_dir      = "data-osm";
 my $max_points = 20;                                     # limit of geonames.org
 my $user_agent = "BBBike @ World - http://bbbike.org";
 my $sleep      = 2.5;
+my $check_database;
 
 my $NO_DATA = -32768;
 
@@ -45,6 +46,7 @@ usage: $0 [options] cities ...
 --data-osm-dir=/path/to/bbbike/data-osm
 --user-anget="user agent version xyz"
 --sleep=$sleep
+--check-database
 EOF
 }
 
@@ -341,6 +343,15 @@ sub write_database {
     store( $hash, $database ) or die "Storable.pm store: $database: $!\n";
 }
 
+sub check_database {
+    my $hash = shift;
+
+    while ( my ( $key, $val ) = each %$hash ) {
+        print "$key => $val\n"
+          if $val !~ /^[\d-]+$/ || $key !~ /^[\d\-\,\.]+$/ || $val == -32768;
+    }
+}
+
 ######################################################################
 # main
 #
@@ -354,9 +365,17 @@ GetOptions(
     "readonly-database" => \$readonly_database,
     "data-osm-dir=s"    => \$data_osm_dir,
     "user-agent=s"      => \$user_agent,
+    "check-database"    => \$check_database,
 ) or usage;
 
 &usage if $help;
+
+my $hash = read_database($database);
+
+if ($check_database) {
+    &check_database($hash);
+    exit;
+}
 
 my @cities = @ARGV;
 &usage("Missing the cities!\n") if !@cities;
@@ -365,7 +384,6 @@ my $ua = LWP::UserAgent->new;
 $ua->agent($user_agent);
 activate_socksproxy($ua) if $socksproxy;
 
-my $hash = read_database($database);
 foreach my $city (@cities) {
     warn "City: $city\n" if $debug;
     $hash = &update_city( 'city' => $city, 'ua' => $ua, 'database' => $hash );
