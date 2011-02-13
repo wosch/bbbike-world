@@ -212,7 +212,7 @@ sub get_elevation_data {
         else {
             for ( my $i = 0 ; $i < scalar(@heights) ; $i++ ) {
                 my $height = $heights[$i];
-                if ( $height && $height =~ /^[\d\-]+/ ) {
+                if ( defined $height && $height =~ /^[\d\-]+$/ ) {
                     $hash->{ $data[$i] } = $height;
                 }
                 else {
