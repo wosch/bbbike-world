@@ -77,10 +77,11 @@ sub init_height_db {
 }
 
 sub download {
-    my $ua  = shift;
-    my $uri = shift;
+    my $ua   = shift;
+    my $uri  = shift;
+    my $city = shift || "";
 
-    warn "download URL: $uri\n" if $debug >= 2;
+    warn "download URL for city: $city $uri\n" if $debug >= 2;
 
     my $response = $ua->get($uri);
     if ( $response->is_success ) {
@@ -183,6 +184,7 @@ sub get_elevation_data {
     my $hash = shift;
     my $data = shift;
     my $ua   = shift;
+    my $city = shift;
 
     my @data = @$data;
 
@@ -199,7 +201,7 @@ sub get_elevation_data {
     my $url =
       $api_url . '&lngs=' . join( ",", @lng ) . '&lats=' . join( ",", @lat );
 
-    my $content = download( $ua, $url );
+    my $content = download( $ua, $url, $city );
     if ($content) {
         warn $content if $debug >= 3;
         my @heights = split( "\r\n", $content );
@@ -291,14 +293,14 @@ sub update_city {
         else {
             push @data, $key;
         }
-        &get_elevation_data( $hash, \@data, $ua )
+        &get_elevation_data( $hash, \@data, $ua, $city )
           if scalar(@data) >= $max_points;
 
         #last if $c++ >= 40;
     }
 
     # the rest
-    &get_elevation_data( $hash, \@data, $ua );
+    &get_elevation_data( $hash, \@data, $ua, $city );
 
     &update_hoehe(
         'file'     => "$dir/hoehe2",
