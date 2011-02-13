@@ -1,7 +1,9 @@
 #!/usr/local/bin/perl
+# Copyright (c) Feb 2011 Wolfram Schneider, http://bbbike.org
 #
-# elevation-database - get elevation data
+# elevation-database - fetch SRTM3 elevation data for points in planet.osm without elevation infos
 #
+
 use strict;
 use warnings;
 
@@ -356,16 +358,19 @@ if ($check_database) {
 my @cities = @ARGV;
 &usage("Missing the cities!\n") if !@cities;
 
+# set networking
 my $ua = LWP::UserAgent->new;
 $ua->agent($user_agent);
 activate_socksproxy($ua) if $socksproxy;
 
+# set signal handler to save state of the database
 &set_signal_handler(
     'database'          => $database,
     'hash'              => $hash,
     'readonly_database' => $readonly_database
 );
 
+# walk throught the list of cities
 foreach my $city (@cities) {
     warn "City: $city\n" if $debug;
     $hash = &update_city( 'city' => $city, 'ua' => $ua, 'database' => $hash );
