@@ -31,6 +31,7 @@ usage: $0 [options] cities ...
 --socksproxy=socks://host:port   set socks proxy
 --readonly-database
 --data-osm-dir=/path/to/bbbike/data-osm
+--user-anget="user agent version xyz"
 EOF
 }
 
@@ -40,7 +41,8 @@ my $socksproxy;
 my $readonly_database = 0;
 my $api_url           = 'http://api.geonames.org/srtm3?username=demo';
 my $data_osm_dir      = "data-osm";
-my $max_points = 20;    # limit of geonames.org
+my $max_points = 20;                                     # limit of geonames.org
+my $user_agent = "BBBike @ World - http://bbbike.org";
 
 ######################################################################
 #
@@ -259,7 +261,7 @@ sub get_elevation_data {
 
     }
 
-    &mysleep(0.4);
+    &mysleep(2.4);
     undef @$data;
 }
 
@@ -381,6 +383,7 @@ GetOptions(
     "socksproxy=s"      => \$socksproxy,
     "readonly-database" => \$readonly_database,
     "data-osm-dir=s"    => \$data_osm_dir,
+    "user-agent=s"      => \$user_agent,
 ) or usage;
 
 &usage if $help;
@@ -389,7 +392,7 @@ my @cities = @ARGV;
 &usage("Missing the cities!\n") if !@cities;
 
 my $ua = LWP::UserAgent->new;
-$ua->agent("BBBike @ World - http://bbbike.org");
+$ua->agent($user_agent);
 activate_socksproxy($ua) if $socksproxy;
 
 my $hash = read_database($database);
