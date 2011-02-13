@@ -73,7 +73,7 @@ sub read_database {
 
     if ( $database && -f $database ) {
         $hash = retrieve($database)
-          or die "Storable.pm retrieve error for database '$database': $!\n";
+          or die "Storable.pm retrieve error for database '$database'\n";
     }
     else {
         warn "database '$database' does not exists (yet) or not readable!\n";
@@ -87,9 +87,13 @@ sub write_database {
     my $hash     = shift;
 
     return if !$database;
-
     warn "Store hash in file '$database'\n" if $debug;
-    store( $hash, $database ) or die "Write Storable.pm store: $database: $!\n";
+
+    # atomic store of data
+    my $new_db = "$database.new";
+    store( $hash, $new_db ) or die "Write Storable.pm store: $new_db: $!\n";
+    rename( $new_db, $database ) or die "rename $new_db -> $database: $!\n";
+
 }
 
 sub check_database {
