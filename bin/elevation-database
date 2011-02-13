@@ -20,8 +20,8 @@ use Data::Dumper;
 # http://api.geonames.org/srtm3?lat=50.01&lng=10.2&username=demo
 # http://api.geonames.org/srtm3?lats=50.01,51.01&lngs=10.2,11.2&username=demo
 
-my $debug = 1;
-my $database;
+my $debug    = 1;
+my $database = "";
 my $socksproxy;
 my $readonly_database = 0;
 my $api_url           = 'http://api.geonames.org/srtm3?username=demo';
@@ -329,6 +329,9 @@ sub read_database {
     if ( $database && -f $database ) {
         $hash = retrieve($database)
           or die "Storable.pm retrieve: $database $!\n";
+    }
+    else {
+        warn "database '$database' does not exists (yet) or not readable!\n";
     }
 
     return $hash;
