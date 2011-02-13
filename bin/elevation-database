@@ -4,15 +4,15 @@
 # elevation-database - fetch SRTM3 elevation data for points in planet.osm without elevation infos
 #
 
-use strict;
-use warnings;
-
 use Storable;
 use Getopt::Long;
 use LWP::UserAgent;
 use IO::File;
 use XML::Simple;
 use Data::Dumper;
+
+use strict;
+use warnings;
 
 ######################################################################
 # geonames.org API for elevation data:
@@ -21,6 +21,7 @@ use Data::Dumper;
 #
 # http://api.geonames.org/srtm3?lat=50.01&lng=10.2&username=demo
 # http://api.geonames.org/srtm3?lats=50.01,51.01&lngs=10.2,11.2&username=demo
+#
 
 my $debug    = 1;
 my $database = "";
@@ -53,7 +54,43 @@ EOF
 }
 
 ######################################################################
+# helper functions
 #
+
+sub read_database {
+    my $database = shift;
+
+    my $hash = {};
+
+    if ( $database && -f $database ) {
+        $hash = retrieve($database)
+          or die "Storable.pm retrieve error for database '$database': $!\n";
+    }
+    else {
+        warn "database '$database' does not exists (yet) or not readable!\n";
+    }
+
+    return $hash;
+}
+
+sub write_database {
+    my $database = shift;
+    my $hash     = shift;
+
+    return if !$database;
+
+    warn "Store hash in file '$database'\n" if $debug;
+    store( $hash, $database ) or die "Storable.pm store: $database: $!\n";
+}
+
+sub check_database {
+    my $hash = shift;
+
+    while ( my ( $key, $val ) = each %$hash ) {
+        print "$key => $val\n"
+          if $val !~ /^[\d-]+$/ || $key !~ /^[\d\-\,\.]+$/ || $val == -32768;
+    }
+}
 
 sub set_signal_handler {
     my %args              = @_;
@@ -70,7 +107,7 @@ sub set_signal_handler {
     $SIG{INT} = sub { &write_database( $database, $hash ); exit(0) };
 }
 
-sub download {
+sub download_uri {
     my $ua   = shift;
     my $uri  = shift;
     my $city = shift || "";
@@ -179,7 +216,7 @@ sub get_elevation_data {
     my $url =
       $api_url . '&lngs=' . join( ",", @lng ) . '&lats=' . join( ",", @lat );
 
-    my $content = download( $ua, $url, $city );
+    my $content = download_uri( $ua, $url, $city );
     if ($content) {
         warn $content if $debug >= 3;
         my @heights = split( "\r\n", $content );
@@ -211,6 +248,7 @@ sub get_elevation_data {
     undef @$data;
 }
 
+# sleep in seconds.miliseconds
 sub mysleep {
     my $seconds = shift || "0.5";
 
@@ -293,41 +331,6 @@ sub update_city {
     );
 
     return $hash;
-}
-
-sub read_database {
-    my $database = shift;
-
-    my $hash = {};
-
-    if ( $database && -f $database ) {
-        $hash = retrieve($database)
-          or die "Storable.pm retrieve error for database '$database': $!\n";
-    }
-    else {
-        warn "database '$database' does not exists (yet) or not readable!\n";
-    }
-
-    return $hash;
-}
-
-sub write_database {
-    my $database = shift;
-    my $hash     = shift;
-
-    return if !$database;
-
-    warn "Store hash in file '$database'\n" if $debug;
-    store( $hash, $database ) or die "Storable.pm store: $database: $!\n";
-}
-
-sub check_database {
-    my $hash = shift;
-
-    while ( my ( $key, $val ) = each %$hash ) {
-        print "$key => $val\n"
-          if $val !~ /^[\d-]+$/ || $key !~ /^[\d\-\,\.]+$/ || $val == -32768;
-    }
 }
 
 ######################################################################
