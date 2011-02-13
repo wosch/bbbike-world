@@ -127,54 +127,6 @@ sub activate_socksproxy {
     }
 }
 
-# stale code
-sub foo {
-    my %hash;
-
-    my $max = 50;
-    my $string;
-    warn Dumper( \%hash ) if $debug >= 3;
-    my %hash2;
-    my $counter;
-    my $ua;
-    my $url;
-
-    while (<>) {
-        chomp;
-        next if /^\s*#/;
-
-        my $coords = $_;
-        if (/\t/) {
-            $coords =~ s/^[^\t]*\t\S+\s+//;
-        }
-
-        foreach my $c ( split( / /, $coords ) ) {
-            my ( $lng, $lat ) = split( /,/, $c );
-
-            my $coord = &padding($lng) . "," . &padding($lat);
-            if ( exists $hash{$coord} ) {
-                warn "$coord already exists\n" if $debug >= 2;
-                next;
-            }
-            if ( exists $hash2{$coord} ) {
-                warn "$coord already parsed\n" if $debug >= 2;
-                next;
-            }
-            $hash2{$coord} = 1;
-
-            $string .= "|" if $string;
-            $string .= "$lat,$lng";
-
-            $counter++;
-            if ( $counter == $max ) {
-                &download( $ua, "$url$string" );
-                $string  = "";
-                $counter = 0;
-            }
-        }
-    }
-}
-
 sub parse_hoehe {
     my $file = shift;
 
@@ -257,7 +209,13 @@ sub get_elevation_data {
         }
         else {
             for ( my $i = 0 ; $i < scalar(@heights) ; $i++ ) {
-                $hash->{ $data[$i] } = $heights[$i];
+                my $heights = $heights[$i];
+                if ( $heights && $heights =~ /^[\d\-]+/ ) {
+                    $hash->{ $data[$i] } = $heights[$i];
+                }
+                else {
+                    warn "height '$height' is not a number!\n" if $debug >= 2;
+                }
             }
         }
 
