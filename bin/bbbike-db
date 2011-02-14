@@ -108,10 +108,14 @@ sub neighbours {
 
     @list = sort { $a->[0] <=> $b->[0] } @list;
 
-    @list = @list[ 1 .. 20 ] ;
+    @list = @list[ 1 .. 20 ];
     local ($Data::Dumper::Indent) = 0;
-    print Dumper(\@list), "\n";
+    my $data = Dumper( \@list );
 
+    $data =~ s/^\S+\s*=\s*//;
+    $data =~ s/;//;
+
+    return $data;
 }
 
 sub usage () {
