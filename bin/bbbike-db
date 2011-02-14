@@ -108,7 +108,10 @@ sub neighbours {
 
     @list = sort { $a->[0] <=> $b->[0] } @list;
 
-    print Dumper( @list[ 0 .. 9 ] );
+    @list = @list[ 1 .. 20 ] ;
+    local ($Data::Dumper::Indent) = 0;
+    print Dumper(\@list), "\n";
+
 }
 
 sub usage () {
