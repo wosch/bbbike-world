@@ -83,6 +83,16 @@ zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -v '" 40[34] ' |
 
 echo ""
 echo -n "slippymap cities: "
+zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -v '" 40[34] ' | egrep 'startc=[0-9-]+.*zielc=[0-9-]' | 
+	perl -ne 'print "$1\n" if m,GET /([A-Z][a-z]+)/\?, || m,GET /([a-z][a-z]/[A-Z][a-z]+)/\?,' | wc -l
+zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -v '" 40[34] ' |
+	egrep 'startc=[0-9-]+.*zielc=[0-9-]' |
+	perl -ne 'print "$1\n" if m,GET /([A-Z][a-z]+)/\?, || m,GET /([a-z][a-z]/[A-Z][a-z]+)/\?,' |
+	sort | uniq -c | sort -nr
+
+echo ""
+echo -n "slippymap cities IE6/7: "
 zcat -f $logfiles | egrep 'POST /cgi/slippymap.*?\?' | egrep -v '" 40[34] ' | perl -ne 'print "$1\n" if m,city=(.*?)[&;],' | wc -l
 zcat -f $logfiles | egrep 'POST /cgi/slippymap.*?\?' | egrep -v '" 40[34] ' |
 	perl -ne 'print "$1\n" if m,city=(.*?)[&;\s],' | sort | uniq -c | sort -nr
+
