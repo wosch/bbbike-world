@@ -107,8 +107,9 @@ sub neighbours {
     }
 
     @list = sort { $a->[0] <=> $b->[0] } @list;
-
-    @list = @list[ 1 .. 20 ];
+    while ( scalar(@list) > 32 ) {
+        pop @list;
+    }
     local ($Data::Dumper::Indent) = 0;
     my $data = Dumper( \@list );
 
