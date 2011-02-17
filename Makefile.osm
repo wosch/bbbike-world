@@ -281,13 +281,13 @@ CITIES_DB=	world/etc/cities.csv
 tagcloud index:
 	( cd world/web && mkdir -p ${LANGUAGES} )
 	( cd ${TMP} && rm -f de.cities.* en.cities.* local.cities.* mobile.en )
-	${TAGCLOUD} --lang=de --area=de < ${CITIES_DB} | egrep -iv Berlin > ${TMP}/de.cities.de
+	${TAGCLOUD} --lang=de --area=de < ${CITIES_DB} > ${TMP}/de.cities.de
 	${TAGCLOUD} --lang=de --area=eu < ${CITIES_DB} > ${TMP}/de.cities.eu
 	${TAGCLOUD} --lang=de --area=other --level=9 < ${CITIES_DB} > ${TMP}/de.cities.other
-	${TAGCLOUD} --lang=en --area=de < ${CITIES_DB} | egrep -iv Berlin > ${TMP}/en.cities.de
+	${TAGCLOUD} --lang=en --area=de < ${CITIES_DB} > ${TMP}/en.cities.de
 	${TAGCLOUD} --lang=en --area=eu < ${CITIES_DB} > ${TMP}/en.cities.eu
 	${TAGCLOUD} --lang=en --area=other --level=9 < ${CITIES_DB} > ${TMP}/en.cities.other
-	${TAGCLOUD} --lang=local --area=de < ${CITIES_DB} | egrep -iv Berlin > ${TMP}/local.cities.de
+	${TAGCLOUD} --lang=local --area=de < ${CITIES_DB} > ${TMP}/local.cities.de
 	${TAGCLOUD} --lang=local --area=eu < ${CITIES_DB} > ${TMP}/local.cities.eu
 	${TAGCLOUD} --lang=local --area=other --level=9 < ${CITIES_DB} > ${TMP}/local.cities.other
 	perl -i -npe 's,( href="cgi/([^\.]+)(\.en)?.cgi"), class="C_$$2"$$1,g' ${TMP}/de.cities.* ${TMP}/en.cities.*
