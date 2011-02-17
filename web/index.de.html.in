@@ -49,16 +49,10 @@
 
         <p>Willkommen bei BBBike! Wir helfen Dir, eine schöne Fahrradroute in Deiner Stadt und Umgebung zu finden<br/>Bitte w&auml;hle Deine Stadt:</p>
 
+	<span id="maplink"><a href="http://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=http:%2F%2Fwww.bbbike.org%2Fbbbike-world.kml&amp;ie=UTF8&amp;t=p&amp;ll=52.961875,12.128906&amp;spn=22.334434,47.460938&amp;z=4" >View on a Map</a></span>
+
         <table width="740" border="1">
           <tr>
-	<!--
-            <td>
-
-            <small><a href=
-            "http://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=http:%2F%2Fwww.bbbike.org%2Fbbbike-world.kml&amp;ie=UTF8&amp;t=p&amp;ll=52.961875,12.128906&amp;spn=22.334434,47.460938&amp;z=4"
-            style=""><img src="/images/europe.png" alt="Europe" title="Europe" style="border:0" />View Larger Map</a></small></td>
-	-->
-
             <td width="50%" id="cell_germany" valign="top"><!-- Germany: --> Deutschland:
 
 @{ de.cities.de }@
@@ -73,6 +67,7 @@
 </td>
           </tr>
         </table>
+
 
         <p>Orginal BBBike data: <a class="C_berlin" href="berlin/">Berlin</a> <br />
 	<!-- Berlin with <a href="/Berlin/">OpenStreetMaps Data</a> (not good as the orginal data) -->
