@@ -2,6 +2,28 @@
 User-agent: *
 Disallow: /bbbike/cgi
 Disallow: /cgi
+Disallow: /berlin
+
+User-agent: Ezooms
+Disallow: /
+
+User-agent: Purebot
+Disallow: /
+
+User-agent: Java
+Disallow: /
+
+User-agent: Nutch
+Disallow: /
+
+User-agent: SnapPreviewBot
+Disallow: /
+
+User-agent: ScoutJet
+Disallow: /
+
+User-agent: Purebot
+Disallow: /
 
 Disallow: /da/
 Disallow: /de/
