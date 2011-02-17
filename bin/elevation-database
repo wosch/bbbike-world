@@ -27,7 +27,7 @@ my $debug    = 1;
 my $database = "";
 my $socksproxy;
 my $readonly_database = 0;
-my $api_url           = 'http://api.geonames.org/srtm3?username=demo';
+my $api_url           = 'http://api.geonames.org/srtm3?username=bbbike';
 my $data_osm_dir      = "data-osm";
 my $max_points = 20;                                     # limit of geonames.org
 my $user_agent = "BBBike @ World - http://bbbike.org";
