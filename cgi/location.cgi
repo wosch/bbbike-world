@@ -3,6 +3,10 @@
 use CGI qw/-utf-8/;
 use IO::File;
 
+use lib '../world/bin';
+use lib '../../world/bin';
+use BBBikeWorldDB;
+
 use strict;
 use warnings;
 
@@ -16,29 +20,6 @@ sub point_in_grid {
           && $x1 <= $gridx2
           && $y1 >= $gridy1
           && $y1 <= $gridy2 );
-}
-
-sub read_coord {
-    my $db = shift;
-
-    my %hash;
-    my $fh = new IO::File $db, "r" or die "open '$db': $!\n";
-    while (<$fh>) {
-        chomp;
-        s/^\s+//;
-        next if /^#/ || $_ eq "";
-
-        my ( $city, $name, $lang, $local_lang, $area, $coord, $population,
-            $step )
-          = split(/:/);
-        $hash{$city} = {
-            city  => $city,
-            name  => $name,
-            coord => $coord,
-        };
-    }
-    close $fh;
-    return \%hash;
 }
 
 sub get_city {
@@ -58,20 +39,18 @@ sub get_city {
 # main
 #
 
-my $hash = &read_coord($database);
+my $db = BBBikeWorldDB->new( 'database' => $database );
 
 print $q->header(
-    -type => 'application/json;charset=UTF-8',
-
-    #-expire => '+5m'
+    -type   => 'application/json;charset=UTF-8',
+    -expire => '+5m'
 );
 
 my $lat = $q->param('lat');
 my $lng = $q->param('lng');
 
-#( $lng, $lat ) = ( "13.3888548", "52.5170397" );
-
-my $city = get_city( $hash, $lat, $lng );
+# "13.3888548", "52.5170397" );
+my $city = get_city( $db->city, $lat, $lng );
 
 $city = "NO_CITY" if !$city;
 print <<EOF;
