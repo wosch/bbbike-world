@@ -4,7 +4,7 @@
 # bbbike2wgs84 -  convert original bbbike data for berlin to wgs84
 
 # name of OSM city
-city=berlin
+city=bbbike
 data_osm=data-osm
 
 # die on exit
