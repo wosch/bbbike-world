@@ -1,4 +1,7 @@
 #!/usr/bin/perl
+# Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
+#
+# location.cgi - find a bbbike city close to the user
 
 use CGI qw/-utf-8/;
 use IO::File;

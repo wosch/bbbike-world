@@ -1,4 +1,7 @@
 #!/usr/bin/perl
+# Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
+#
+# api.cgi - suggestion service for street names
 
 use MyCgiSimple;
 

@@ -1,4 +1,6 @@
-# striped down version of CGI::Simple;
+# Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
+#
+# MyCgiSimple.pm - striped down version of CGI::Simple;
 
 package MyCgiSimple;
 
