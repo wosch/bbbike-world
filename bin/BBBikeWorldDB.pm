@@ -58,6 +58,7 @@ sub parse_database {
           = split(/:/);
 
         next if $city eq 'dummy';
+        next if $city eq 'bbbike';
         next if $city eq '';
 
         $hash{$city} = {
