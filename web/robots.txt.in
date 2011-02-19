@@ -2,7 +2,9 @@
 User-agent: *
 Disallow: /bbbike/cgi
 Disallow: /cgi
+Disallow: /html
 Disallow: /berlin
+Disallow: /bbbike
 
 User-agent: Ezooms
 Disallow: /
@@ -23,5 +25,8 @@ User-agent: ScoutJet
 Disallow: /
 
 User-agent: Purebot
+Disallow: /
+
+User-agent: MLBot
 Disallow: /
 
