@@ -40,12 +40,8 @@
 
 <div class="htmltagcloud">
 <p id="cities">
-
 @{ mobile.en }@
-
-<br/>
-<a class="C_berlin" href="berlin/">Berlin (original data)</a><br />
-        </p>
+</p>
 </div>
 
   </div>
