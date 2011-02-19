@@ -87,10 +87,26 @@ sub extract_route {
 }
 
 sub footer {
+    my $q = new CGI;
+
+    my $data = "";
+    foreach my $number ( 25, 50, 100, 250 ) {
+        if ( $number == $max ) {
+            $data .= " | $number";
+        }
+        else {
+            $q->param( "max", $number );
+            $data .=
+                qq, | <a title="max. $number routes" href=",
+              . $q->url( -query => 1 )
+              . qq{">$number</a>\n};
+        }
+    }
     return <<EOF;
 <div id="footer">
 <div id="footer_top">
-<a href="../">home</a> 
+<a href="../">home</a>
+$data
 </div>
 </div>
 <hr>
