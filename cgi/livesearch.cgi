@@ -10,7 +10,7 @@ use strict;
 use warnings;
 
 my $logfile                   = '/var/log/lighttpd/bbbike.error.log';
-my $max                       = 100;
+my $max                       = 50;
 my $only_production_statistic = 1;
 my $debug                     = 1;
 
