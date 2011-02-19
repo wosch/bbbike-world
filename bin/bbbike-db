@@ -192,7 +192,8 @@ if ( defined $area ) {
 }
 
 if ( defined $city_by_lang || $list ) {
-    while ( my ( $key, $val ) = each %hash ) {
+    foreach my $key ( sort keys %hash ) {
+        my $val = $hash{$key};
         print $key, "\n"
           if $list
               || $city_by_lang eq 'any'
