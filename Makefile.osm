@@ -317,7 +317,7 @@ create-osp:
 	rm -rf ${OSP_DIR}
 	mkdir ${OSP_DIR}
 	#./world/bin/bbbike-world-opensearch-plugin --streets ${OSP_DIR} world/etc/streets.csv
-	./world/bin/bbbike-world-opensearch-plugin ${OSP_DIR} ${CITIES} bbbike
+	./world/bin/bbbike-world-opensearch-plugin ${OSP_DIR} ${CITIES}
 	
 rsync-tgz:
 	rsync -av ${OSMBIKE_DATA} wolfram.schneider.org:www/src/bbbike
