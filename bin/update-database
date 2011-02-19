@@ -1,4 +1,5 @@
 #!/bin/sh
+# Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
 #
 # wrapper for Makefile bug
 #

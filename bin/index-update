@@ -1,6 +1,8 @@
 #!/usr/bin/perl
+# Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
 #
-# replace @{ file }@ with the contents of file
+# index-update - replace @{ file }@ with the contents of file
+
 use strict;
 use warnings;
 

@@ -1,4 +1,7 @@
 #!/usr/local/bin/perl -npi.bak
+# Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
+#
+# strasse-str - german language "strasse" -> "str." mapping
 
 s/Strasse/Str./g;
 s/strasse/str./g;

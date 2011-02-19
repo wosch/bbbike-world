@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl 
-# Copyright (c) Wolfram Schneider, May 2009
+# Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
 #
 # planet-ext-streetnames - extract street names from an OpenStreetMap
 #	XML dump. The output format is:

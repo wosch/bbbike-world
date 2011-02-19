@@ -1,4 +1,5 @@
 #!/usr/local/bin/perl
+# Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
 #
 # This script tries to match GPS points to region
 # If there are more than one region, choose the smalles one.

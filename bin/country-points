@@ -1,7 +1,5 @@
 #!/usr/local/bin/perl 
-# -*- perl -*-
-#
-# Copyright (c) Wolfram Schneider, May 2009
+# Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
 #
 # extract-streetnames-osm - extract street names from an OpenStreetMap
 #	XML dump. The output format is:

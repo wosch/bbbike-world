@@ -1,4 +1,5 @@
 #!/usr/local/bin/perl
+# Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
 #
 # look.pl - implement look(1) in perl
 #
