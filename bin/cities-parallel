@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl
 # Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
 #
-# cities-parallel - make wrapper to extract N cities at the same time on a multi-core machine 
+# cities-parallel - make wrapper to extract N cities at the same time on a multi-core machine
 
 use strict;
 use warnings;
