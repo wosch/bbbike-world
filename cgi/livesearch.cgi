@@ -140,6 +140,7 @@ sub route_stat {
     }
     $average = $average / scalar( @{$city} );
 
+    @data = sort { $a <=> $b } @data;
     my $count = scalar(@data);
     if ( $count % 2 ) {
         $median = $data[ int( $count / 2 ) ];
