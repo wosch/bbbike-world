@@ -31,10 +31,11 @@ my $api_url           = 'http://api.geonames.org/srtm3?username=bbbike';
 my $data_osm_dir      = "data-osm";
 my $max_points = 20;                                     # limit of geonames.org
 my $user_agent = "BBBike @ World - http://bbbike.org";
-my $sleep      = 2.1;
+my $sleep      = 2.5;
 my $check_database;
 my $repair_database;
 my $exit_on_error = 1;
+my $test_mode     = 0;
 
 my $NO_DATA = -32768;
 
@@ -54,6 +55,7 @@ usage: $0 [options] cities ...
 --check-database
 --repair-database
 --exit-on-error=[0,1]
+--test-mode
 EOF
 }
 
@@ -107,9 +109,15 @@ sub read_database {
 sub write_database {
     my $database = shift;
     my $hash     = shift;
+    my $counter  = shift || "unknown";
 
     return if !$database;
-    warn "Store hash in file '$database'\n" if $debug;
+    if ($test_mode) {
+        warn "updates: $counter\n" if $debug;
+        return;
+    }
+
+    warn "Store hash in file '$database', updates: $counter\n" if $debug;
 
     # atomic store of data
     my $new_db = "$database.new";
@@ -172,6 +180,7 @@ sub download_uri {
     my $city = shift || "";
 
     warn "download URL for city: $city $uri\n" if $debug >= 2;
+    return if $test_mode;
 
     my $response = $ua->get($uri);
     if ( $response->is_success ) {
@@ -313,6 +322,8 @@ sub get_elevation_data {
 sub mysleep {
     my $seconds = shift || "0.5";
 
+    return if $test_mode;
+
     # sleep a half second
     select( undef, undef, undef, $seconds );
 }
@@ -413,6 +424,7 @@ GetOptions(
     "user-agent=s"      => \$user_agent,
     "check-database"    => \$check_database,
     "repair-database"   => \$repair_database,
+    "test-mode"         => \$test_mode,
     "exit-on-error=i"   => \$exit_on_error,
 ) or usage;
 
@@ -454,6 +466,7 @@ foreach my $city (@cities) {
       &update_city( 'city' => $city, 'ua' => $ua, 'database' => $hash );
 
     # write database
-    &write_database( $database, $hash ) if !$readonly_database && $counter;
+    &write_database( $database, $hash, $counter )
+      if !$readonly_database && $counter;
 }
 
