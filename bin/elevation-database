@@ -112,6 +112,11 @@ sub write_database {
     my $counter  = shift || "unknown";
 
     return if !$database;
+    if ($test_mode) {
+        warn "updates: $counter\n" if $debug;
+        return;
+    }
+
     warn "Store hash in file '$database', updates: $counter\n" if $debug;
 
     # atomic store of data
