@@ -3,7 +3,7 @@
 #
 # livesearch.cgi - bbbike.org live routing search
 
-use CGI qw/-utf-8/;
+use CGI qw/-utf-8 escapeHTML/;
 
 use IO::File;
 use IO::Dir;
@@ -45,12 +45,10 @@ sub footer {
 <a href="../">home</a>
 </div>
 </div>
-<hr>
+<hr/>
 
 <div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em;" >
-(&copy;) 2008-2011 <a href="http://www.rezic.de/eserte">Slaven Rezi&#x107;</a> &amp; <a href="http://wolfram.schneider.org">Wolfram Schneider</a> // <a href="http://www.bbbike.de">http://www.bbbike.de</a> <br >
-
-  Map data by the <a href="http://www.openstreetmap.org/">OpenStreetMap</a> Project // <a href="http://wiki.openstreetmap.org/wiki/OpenStreetMap_License">OpenStreetMap License</a> <br >
+(&copy;) 2008-2011 <a href="http://www.rezic.de/eserte">Slaven Rezi&#x107;</a> &amp; <a href="http://wolfram.schneider.org">Wolfram Schneider</a> // <a href="http://www.bbbike.de">http://www.bbbike.de</a> <br />
 <div id="footer_community">
 </div>
 </div>
@@ -106,13 +104,14 @@ sub display_table {
 
         $counter++;
         my $odd = $counter % 2 ? "odd" : "even";
-        print
-qq{<tr class="de $odd"><td>$counter</td><td>de</td><td>$key</td></tr>\n};
+        print qq{<tr class="de $odd"><td>$counter</td><td>de</td><td>},
+          escapeHTML($key), qq{</td></tr>\n};
         foreach my $l (@languages) {
-            my $val = Encode::decode( "utf8", $hash->{$l}->{$key} );
+            my $val =
+              Encode::decode( "utf8", $hash->{$l}->{$key} || "!!!UNKNOWN!!!" );
 
-            print
-              qq|<tr class="$l $odd"><td></td><td>$l</td><td>$val</td></tr>\n|;
+            print qq|<tr class="$l $odd"><td></td><td>$l</td><td>|,
+              escapeHTML($val), qq|</td></tr>\n|;
         }
     }
 
