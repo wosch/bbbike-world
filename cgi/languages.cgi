@@ -6,110 +6,43 @@
 use CGI qw/-utf-8/;
 
 use IO::File;
-use JSON;
+use IO::Dir;
+use Encode;
 use Data::Dumper;
 
 use strict;
 use warnings;
 
-my $logfile                   = '/var/log/lighttpd/bbbike.error.log';
-my $max                       = 50;
-my $only_production_statistic = 1;
-my $debug                     = 1;
-
-binmode \*STDOUT, ":raw";
+binmode \*STDOUT, ":utf8";
 my $q = new CGI;
 
-sub is_mobile {
-    my $q = shift;
+my $dir         = "msg";
+my $master_lang = "de";
+my $debug       = 1;
 
-    if (   $q->param('skin') && $q->param('skin') =~ m,^(m|mobile)$,
-        || $q->virtual_host() =~ /^m\.|^mobile\.|^dev2/ )
-    {
-        return 1;
-    }
-    else {
-        return 0;
-    }
-}
+sub get_languages_list {
+    my $dir = shift;
 
-# extract URLs from web server error log
-sub extract_route {
-    my $file  = shift;
-    my $max   = shift;
-    my $devel = shift;
+    my $fh = IO::Dir->new($dir);
+    if ( !defined $fh ) {
+        warn "opendir $dir: $!\n";
+        return;
 
-    my $host = $devel ? '(dev|devel|www)' : 'www';
-
-    my @data;
-    my %hash;
-    my @files = ( "$file.2.gz", "$file.1.gz", $file );
-    unshift( @files, "$file.4.gz", "$file.3.gz" ) if $max > 50;
-    unshift( @files, "$file.7.gz", "$file.6.gz", "$file.5.gz" ) if $max > 100;
-
-    foreach my $file (@files) {
-        next if !-f $file;
-
-        my $fh;
-        warn "Open $file...\n" if $debug >= 2;
-        if ( $file =~ /\.gz$/ ) {
-            open( $fh, "gzip -dc $file |" ) or die "open $file: $!\n";
-        }
-        else {
-            open( $fh, $file ) or die "open $file: $!\n";
-        }
-        binmode $fh, ":raw";
-
-        while (<$fh>) {
-            next if !( / slippymap\.cgi: / || m, bbbike.cgi: http://, );
-
-            next
-              if $only_production_statistic
-                  && !m, (slippymap|bbbike)\.cgi: http://$host.bbbike.org/,i;
-
-            next if !/coords/;
-
-            my @list = split;
-            my $url  = pop(@list);
-
-            next if exists $hash{$url};
-            push( @data, $url );
-            $hash{$url} = 1;
-
-            # limit number of URLs
-            # note: there may be duplicated in the route
-            if ( scalar(@data) > $max * 1.5 ) {
-                $url = shift @data;
-                undef $hash{$url};
-            }
-        }
-        close $fh;
     }
 
-    return @data;
+    my @list;
+    while ( defined( $_ = $fh->read ) ) {
+        push( @list, $_ ) if /^[a-z][a-z]$/;
+    }
+
+    return sort @list;
 }
 
 sub footer {
-    my $q = new CGI;
-
-    my $data = "";
-    foreach my $number ( 25, 50, 100, 250 ) {
-        if ( $number == $max ) {
-            $data .= " | $number";
-        }
-        else {
-            $q->param( "max", $number );
-            $data .=
-                qq, | <a title="max. $number routes" href=",
-              . $q->url( -query => 1 )
-              . qq{">$number</a>\n};
-        }
-    }
     return <<EOF;
 <div id="footer">
 <div id="footer_top">
 <a href="../">home</a>
-$data
 </div>
 </div>
 <hr>
@@ -124,36 +57,66 @@ $data
 EOF
 }
 
-sub route_stat {
-    my $city = shift;
+sub css {
 
-    my $average = 0;
-    my $median  = 0;
-    my $max     = 0;
+    return <<EOF;
+    <style type="text/css">
 
-    my @data;
-    foreach my $item ( @{$city} ) {
-        my $route_length = $item->{"route_length"};
-        $average += $route_length;
-        push @data, $route_length;
-        $max = $route_length if $route_length > $max;
+tr.en { color: green; }
+tr.de td { color: black; border-top: 1px solid black }
+
+tr.even { background-color: #FFF; }
+tr.odd { background-color: #EEE; }
+tr.odd:hover, tr.even:hover {  background-color:silver; }
+
+div#main { padding: 1em; }
+table { border: 1px solid black; }
+
+    </style>
+
+EOF
+
+}
+
+sub display_table {
+    my %args = @_;
+
+    my $dir       = $args{'dir'};
+    my $lang      = $args{'lang'};
+    my $languages = $args{'languages'};
+    my $q         = $args{'q'};
+
+    my $hash;
+    my @languages = sort @$languages;
+
+    @languages = grep { $_ eq $lang } @languages if $lang;
+
+    # "en" first
+    @languages = grep { $_ ne "en" } @languages;
+    unshift @languages, "en";
+
+    foreach my $l ( sort @languages ) {
+        $hash->{$l} = require "$dir/$l";
     }
-    $average = $average / scalar( @{$city} );
 
-    @data = sort { $a <=> $b } @data;
-    my $count = scalar(@data);
-    if ( $count % 2 ) {
-        $median = $data[ int( $count / 2 ) ];
+    my $counter = 0;
+    print "<table>\n";
+    foreach my $key ( sort keys %{ $hash->{"en"} } ) {
+        my $key = Encode::decode( "iso-8859-1", $key );
+
+        $counter++;
+        my $odd = $counter % 2 ? "odd" : "even";
+        print
+qq{<tr class="de $odd"><td>$counter</td><td>de</td><td>$key</td></tr>\n};
+        foreach my $l (@languages) {
+            my $val = Encode::decode( "utf8", $hash->{$l}->{$key} );
+
+            print
+              qq|<tr class="$l $odd"><td></td><td>$l</td><td>$val</td></tr>\n|;
+        }
     }
-    else {
-        $median =
-          ( $data[ int( $count / 2 ) ] + $data[ int( $count / 2 ) - 1 ] ) / 2;
-    }
 
-    $median  = int( $median * 10 + 0.5 ) / 10;
-    $average = int( $average * 10 + 0.5 ) / 10;
-
-    return " average: ${average}km, median: ${median}km, max: ${max}km";
+    print "</table>\n";
 }
 
 ##############################################################################################
@@ -163,140 +126,29 @@ sub route_stat {
 
 print $q->header( -charset => 'utf-8' );
 
-my $sensor = is_mobile($q) ? 'true' : 'false';
 print $q->start_html(
-    -title => 'BBBike @ World livesearch',
+    -title => 'BBBike @ World languages',
     -head  => $q->meta(
         {
             -http_equiv => 'Content-Type',
             -content    => 'text/html; charset=utf-8'
         }
     ),
-
-    -style => {
-        'src' => [
-            "../html/devbridge-jquery-autocomplete-1.1.2/styles.css",
-            "../html/devbridge-jquery-autocomplete-1.1.2/styles.css",
-            "../html/bbbike.css"
-        ]
-    },
-    -script => [
-        { -type => 'text/javascript', 'src' => "../html/jquery-1.4.2.min.js" },
-        {
-            -type => 'text/javascript',
-            'src' =>
-"../html/devbridge-jquery-autocomplete-1.1.2/jquery.autocomplete-min.js"
-        },
-        {
-            -type => 'text/javascript',
-            'src' =>
-"http://maps.google.com/maps/api/js?sensor=$sensor&amp;language=de"
-        },
-        { -type => 'text/javascript', 'src' => "../html/maps3.js" }
-    ]
 );
 
-print qq{<div id="routing"></div>\n};
-print qq{<div id="BBBikeGooglemap" >\n<div id="map"></div>\n};
+my @languages = &get_languages_list($dir);
+my $lang      = $q->param('lang');
 
-print <<EOF;
-    <script type="text/javascript">
-    //<![CDATA[
+print &css;
 
-    city = "Foobar";
-    bbbike_maps_init("terrain", [[30,-15],[62, 48]] );
-  
-    function jumpToCity (coord) {
-	var b = coord.split("!");
-
-	var bounds = new google.maps.LatLngBounds;
-        for (var i=0; i<b.length; i++) {
-	      var c = b[i].split(",");
-              bounds.extend(new google.maps.LatLng( c[1], c[0]));
-        }
-        map.setCenter(bounds.getCenter());
-        map.fitBounds(bounds);
-	var zoom = map.getZoom();
-
-        // no zoom level higher than 15
-         map.setZoom( zoom < 16 ? zoom + 0 : 16);
-    } 
-
-    //]]>
-    </script>
-EOF
-
-if ( $q->param('max') ) {
-    my $m = $q->param('max');
-    $max = $m if $m > 0 && $m < 1024;
-}
-my @d = &extract_route( $logfile, $max, 0 );
-print qq{<script type="text/javascript">\n};
-
-my $city_center;
-my $json = new JSON;
-my $cities;
-my %hash;
-my $counter;
-foreach my $url ( reverse @d ) {
-    my $qq = CGI->new($url);
-    print $url, "\n" if $debug >= 2;
-
-    next if !$qq->param('driving_time');
-
-    my $coords = $qq->param('coords');
-    next if !$coords;
-    next if exists $hash{$coords};
-    $hash{$coords} = 1;
-
-    last if $counter++ >= $max;
-
-    my $opt =
-      { map { $_ => ( $qq->param($_) || "" ) }
-          qw/city route_length driving_time startname zielname area/ };
-
-    $city_center->{ $opt->{'city'} } = $opt->{'area'};
-
-    my $data = "[";
-    foreach my $c ( split /!/, $coords ) {
-        $data .= qq{'$c', };
-    }
-    $data =~ s/, $/]/;
-
-    my $opt_json = $json->encode($opt);
-    print qq{plotRoute(map, $opt_json, $data);\n};
-
-    push( @{ $cities->{ $opt->{'city'} } }, $opt ) if $opt->{'city'};
-}
-
-print "/* ", Dumper($cities),      " */\n" if $debug >= 2;
-print "/* ", Dumper($city_center), " */\n" if $debug >= 2;
-
-my $d = join(
-    "<br/>",
-    map {
-            qq/<a title="area $_:/
-          . &route_stat( $cities->{$_} )
-          . qq/" href="#" onclick="jumpToCity(\\'/
-          . $city_center->{$_}
-          . qq/\\')">$_(/
-          . scalar( @{ $cities->{$_} } ) . ")</a>"
-      } sort keys %$cities
+print $q->h1('BBBike @ World languages'), "\n";
+print qq{<div id="main">\n};
+&display_table(
+    'dir'       => $dir,
+    'lang'      => $lang,
+    'languages' => \@languages,
+    'q'         => $q
 );
-
-#$d.= qq{<p><a href="javascript:flipMarkers(infoMarkers)">flip markers</a></p>};
-
-print qq{\n\$("div#routing").html('$d');\n\n};
-
-my $city = $q->param('city') || "";
-if ( $city && exists $city_center->{$city} ) {
-    print qq[\njumpToCity('$city_center->{ $city }');\n];
-}
-
-print qq{\n</script>\n};
-
-print
-qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\n</noscript>\n};
 print "</div>\n";
 print &footer;
 
