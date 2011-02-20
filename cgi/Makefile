@@ -7,7 +7,7 @@ ALL:=	$(shell file * | egrep perl | awk '{print $$1}' | perl -ne 's/://; print i
 
 perltidy:
 	echo ${ALL} | xargs -n1 -P${NCPU} -E " " perl -cw 
-	echo ${ALL} | xargs -n1 -P${NCPU} -E " " perltidy -b
+	echo ${ALL} | xargs -n2 -P${NCPU} -E " " perltidy -b
 
 clean distclean:
 	rm -f *.bak *.tdy
