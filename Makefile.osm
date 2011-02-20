@@ -323,7 +323,19 @@ rsync-tgz:
 	rsync -av ${OSMBIKE_DATA} wolfram.schneider.org:www/src/bbbike
 	rsync -av ${DATA_DIR}.tbz wolfram.schneider.org:www/src/bbbike/${DATA_OSM_DIR}
 
-clean:
+clean: rotate-data-osm
+	${MAKE} -C cgi/msg $@	
+	${MAKE} -C world/bin $@	
+	${MAKE} -C world/cgi $@	
+	${MAKE} -C world/web/feed $@	
+	rm -f *.bak *.tdy
+	cd world/web && rm -rf ${LANGUAGES}
+	cd world/web && rm -rf ${CITIES}
+
+clean-cache cache-clean:
+	rm -rf ${BBBIKE_CACHE_DIR}/*bbbike.org ${BBBIKE_CACHE_DIR}/localhost	
+
+rotate-data-osm:
 	-rm -rf ${DATA_OSM_DIR}.old2
 	-rm -rf ${DATA_OSM_BBBIKE_DIR}.old2
 	-test -e ${DATA_OSM_DIR}.old && mv ${DATA_OSM_DIR}.old ${DATA_OSM_DIR}.old2
@@ -331,14 +343,6 @@ clean:
 	-test -e ${DATA_OSM_BBBIKE_DIR}.old && mv ${DATA_OSM_BBBIKE_DIR}.old ${DATA_OSM_BBBIKE_DIR}.old2
 	-test -e ${DATA_OSM_BBBIKE_DIR}     && mv ${DATA_OSM_BBBIKE_DIR}     ${DATA_OSM_BBBIKE_DIR}.old
 	mkdir ${DATA_OSM_DIR} ${DATA_OSM_BBBIKE_DIR}
-	${MAKE} -C cgi/msg $@	
-	${MAKE} -C world/bin $@	
-	${MAKE} -C world/cgi $@	
-	${MAKE} -C world/web/feed $@	
-	rm -f *.bak *.tdy
-
-clean-cache cache-clean:
-	rm -rf ${BBBIKE_CACHE_DIR}/*bbbike.org ${BBBIKE_CACHE_DIR}/localhost	
 
 rotate-osm:
 	rm -rf ${OSM_DIR}.old4
