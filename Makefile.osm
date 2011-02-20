@@ -130,7 +130,7 @@ city-reorder:
 
 city-file:
 	${MAKE} -s city-reorder | awk '{print $$2 }'  > ${CITIES_FILE}
-	#  ./world/bin/bbbike-db --list | sort | egrep -v '^berlin$' 
+	#  ./world/bin/bbbike-db --list | sort 
 
 update-robots.txt:
 	( cat world/web/robots.txt.in; \
@@ -330,7 +330,7 @@ clean: rotate-data-osm
 	${MAKE} -C world/web/feed $@	
 	rm -f *.bak *.tdy
 	cd world/web && rm -rf ${LANGUAGES}
-	cd world/web && rm -rf ${CITIES}
+	cd world/web && rm -rf ${CITIES} bbbike
 
 clean-cache cache-clean:
 	rm -rf ${BBBIKE_CACHE_DIR}/*bbbike.org ${BBBIKE_CACHE_DIR}/localhost	
