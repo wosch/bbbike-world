@@ -124,6 +124,37 @@ $data
 EOF
 }
 
+sub route_stat {
+    my $city = shift;
+
+    my $average = 0;
+    my $median  = 0;
+    my $max     = 0;
+
+    my @data;
+    foreach my $item ( @{$city} ) {
+        my $route_length = $item->{"route_length"};
+        $average += $route_length;
+        push @data, $route_length;
+        $max = $route_length if $route_length > $max;
+    }
+    $average = $average / scalar( @{$city} );
+
+    my $count = scalar(@data);
+    if ( $count % 2 ) {
+        $median = $data[ int( $count / 2 ) ];
+    }
+    else {
+        $median =
+          ( $data[ int( $count / 2 ) ] + $data[ int( $count / 2 ) - 1 ] ) / 2;
+    }
+
+    $median  = int( $median * 10 + 0.5 ) / 10;
+    $average = int( $average * 10 + 0.5 ) / 10;
+
+    return " average: ${average}km, median: ${median}km, max: ${max}km";
+}
+
 ##############################################################################################
 #
 # main
@@ -243,7 +274,9 @@ print "/* ", Dumper($city_center), " */\n" if $debug >= 2;
 my $d = join(
     "<br/>",
     map {
-            qq/<a href="#" onclick="jumpToCity(\\'/
+            qq/<a title="area $_:/
+          . &route_stat( $cities->{$_} )
+          . qq/" href="#" onclick="jumpToCity(\\'/
           . $city_center->{$_}
           . qq/\\')">$_(/
           . scalar( @{ $cities->{$_} } ) . ")</a>"
