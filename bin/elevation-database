@@ -146,11 +146,14 @@ sub repair_database {
 
     my $counter = 0;
     while ( my ( $key, $val ) = each %$hash ) {
-        if ( !$val || $val eq "-32768" || $val !~ /^[\d-]+$/ ) {
+        if ( defined $val && $val eq "" ) {
+        }
+        elsif ( !defined $val || $val eq "-32768" || $val !~ /^[\d-]+$/ ) {
+            warn "key: $key, val: '$val'\n";
             $val = "";
             $hash->{$key} = $val;
 
-            #$counter++;
+            $counter++;
         }
 
         if ( $key !~ /^[\d\-\,\.]+$/ ) {
