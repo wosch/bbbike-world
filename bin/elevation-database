@@ -112,6 +112,11 @@ sub write_database {
     my $counter  = shift;
     $counter = "unknown" if !defined $counter;
 
+    if ( $counter ne 'unknown' && $counter == 0 ) {
+        warn "No updates for '$database'\n" if $debug;
+        return;
+    }
+
     return if !$database;
     if ($test_mode) {
         warn "updates: $counter\n" if $debug;
@@ -475,6 +480,6 @@ foreach my $city (@cities) {
 
     # write database
     &write_database( $database, $hash, $counter )
-      if !$readonly_database && $counter;
+      if !$readonly_database;
 }
 
