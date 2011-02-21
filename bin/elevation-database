@@ -381,17 +381,22 @@ sub update_city {
     my $height  = &parse_hoehe("$dir/hoehe");
     my $streets = &parse_streets("$dir/strassen");
 
+    # point to write to "hoehe"
+    my @corners = ();
+
     # fill database with data from "hoehe" file
     while ( my ( $key, $val ) = each %$height ) {
+        push @corners, $key;
         if ( !exists $hash->{$key} ) {
             $hash->{$key} = $val;
         }
     }
 
-    my @data;
     my $c       = 0;
-    my @corners = ();
     my $counter = 0;
+
+    # points to update
+    my @data;
     while ( my ( $key, $val ) = each %$streets ) {
 
         # no corner
