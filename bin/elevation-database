@@ -27,7 +27,7 @@ my $debug    = 1;
 my $database = "";
 my $socksproxy;
 my $readonly_database = 0;
-my $api_url           = 'http://api.geonames.org/srtm3?username=bbbike';
+my $api_url           = 'http://api.geonames.org/srtm3?username=demo';
 my $data_osm_dir      = "data-osm";
 my $max_points = 20;                                     # limit of geonames.org
 my $user_agent = "BBBike @ World - http://bbbike.org";
@@ -109,7 +109,8 @@ sub read_database {
 sub write_database {
     my $database = shift;
     my $hash     = shift;
-    my $counter  = shift || "unknown";
+    my $counter  = shift;
+    $counter = "unknown" if !defined $counter;
 
     return if !$database;
     if ($test_mode) {
@@ -143,19 +144,23 @@ sub repair_database {
     my $hash     = shift;
     my $database = shift;
 
+    my $counter = 0;
     while ( my ( $key, $val ) = each %$hash ) {
-        if ( !$val || $val eq "" || $val eq "-32768" || $val !~ /^[\d-]+$/ ) {
+        if ( !$val || $val eq "-32768" || $val !~ /^[\d-]+$/ ) {
             $val = "";
             $hash->{$key} = $val;
+
+            #$counter++;
         }
 
         if ( $key !~ /^[\d\-\,\.]+$/ ) {
             warn "Delete '$key' => '$val'\n" if $debug >= 2;
             delete $hash->{$key};
+            $counter++;
         }
     }
 
-    &write_database( $database, $hash );
+    &write_database( $database, $hash, $counter );
 }
 
 sub set_signal_handler {
