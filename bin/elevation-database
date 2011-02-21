@@ -351,6 +351,10 @@ sub update_hoehe {
     my $points = $args{'points'};
     my $hash   = $args{'database'};
 
+    if ( -e $file ) {
+        rename( $file, "$file.bak" );
+    }
+
     my $tmp = "$file.new";
     my $fd = new IO::File $tmp, "w" or die "open '$tmp': $!\n";
     binmode $fd, ":raw";
@@ -422,7 +426,7 @@ sub update_city {
     &get_elevation_data( $hash, \@data, $ua, $city );
 
     &update_hoehe(
-        'file'     => "$dir/hoehe2",
+        'file'     => "$dir/hoehe",
         'points'   => \@corners,
         'database' => $hash
     );
