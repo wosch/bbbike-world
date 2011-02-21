@@ -292,7 +292,7 @@ tagcloud index:
 	${TAGCLOUD} --lang=local --area=de < ${CITIES_DB} > ${TMP}/local.cities.de
 	${TAGCLOUD} --lang=local --area=eu < ${CITIES_DB} > ${TMP}/local.cities.eu
 	${TAGCLOUD} --lang=local --area=other --level=9 < ${CITIES_DB} > ${TMP}/local.cities.other
-	perl -i -npe 's,( href="cgi/([^\.]+)(\.en)?.cgi"), class="C_$$2"$$1,g' ${TMP}/de.cities.* ${TMP}/en.cities.*
+	perl -i -npe 's,( href="(.*?)/?"), class="C_$$2"$$1,g' ${TMP}/de.cities.* ${TMP}/en.cities.*
 	${MOBILE_LINKS} --local-names=1 --split-city-names=1 --lang=en < ${CITIES_DB} > ${TMP}/mobile.en
 	${INDEX_UPDATE} world/web/index.m.html.in > world/web/index.m.html
 	${INDEX_UPDATE} world/web/index.de.html.in > world/web/index.de.html
