@@ -182,8 +182,11 @@ sub set_signal_handler {
         return;
     }
 
-    $SIG{INFO} = $SIG{HUP} = $SIG{ALRM} =
-      sub { &write_database( $database, $hash ); };
+    $SIG{HUP} = $SIG{ALRM} = sub { &write_database( $database, $hash ); };
+
+    # Linux has no SIGINFO. Damn!
+    $SIG{INFO} = $SIG{HUP} if !-e "/proc";
+
     $SIG{INT} = sub { &write_database( $database, $hash ); exit(0) };
 }
 
