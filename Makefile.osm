@@ -32,6 +32,8 @@ DATA_DIR=	data
 BBBIKE_CACHE_DIR=	/var/cache/bbbike
 MAX_OSMOSIS=	${MAX_CPU}
 LANGUAGES=	m da de en es fr hr nl pl pt ru zh
+DB=world/bin/bbbike-db
+ELEVATION_SCRIPT=world/bin/elevation-database
 
 TMP=world/tmp
 
@@ -211,7 +213,6 @@ _cd = $(_c:=-download)
 _cc = $(_c:=-convert)
 _cp = $(_c:=-poly)
 
-DB=world/bin/bbbike-db
 
 $(_cd):
 	c=`basename $@ -download`; mkdir -p ${OSM_DIR}/$$c; \
@@ -370,6 +371,12 @@ dist-clean devel-clean distclean: clean rotate-osm
 clean-planet:
 	rm -f ../osm-streetnames/download/*.old.*
 
+elevation-check:
+	${ELEVATION_SCRIPT} --database=../osm-streetnames/srtm/elevation.db --check
+
+elevation-update:
+	${ELEVATION_SCRIPT} --database=../osm-streetnames/srtm/elevation.db --debug=0 `${DB} --list`
+
 help:
 	@echo "usage: make [ targets ... ]"
 	@echo "  [ help | cities | cities-parallel | rsync-tgz | rsync-osm | rsync-osm-dev ]"
@@ -378,6 +385,7 @@ help:
 	@echo "  [ create-bbbike-web-symlinks | kml | create-osp | index ]"
 	@echo "  [ convert-wgs84 | convert-bbbike ]"
 	@echo "  [ city-count | city-reorder | city-file | check-osm | cleanup-osm-error ]"
+	@echo "  [ elevation-check | elevation-update ]"
 	@echo "  [ planet-download | planet-geofabrik-download ]"
 	@echo "  [ planet-streets | planet-places ]"
 	@echo "  [ update-database | update-files ]"
