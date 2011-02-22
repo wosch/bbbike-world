@@ -41,6 +41,7 @@ Oranienburg
 Nuernberg
 Melbourne
 Potsdam
+Berkeley
 Brisbane
 SanktPetersburg
 Koeln

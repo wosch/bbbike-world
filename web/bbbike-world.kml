@@ -131,6 +131,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Berkeley</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Berkeley/">BBBike @ Berkeley</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-122.197,37.8805,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Berlin</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Berlin/">BBBike @ Berlin</a></span>]]></description>
     <styleUrl>#style1</styleUrl>

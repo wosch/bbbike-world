@@ -19,6 +19,18 @@ my $feed = XML::Atom::SimpleFeed->new(
 ######################################################################
 
 $feed->add_entry(
+    title   => 'New: cycle routing for Berkeley',
+    id      => 'df1301be6fe83a6731d7840ee3408efa',
+    content => {
+        type => 'text',
+        content =>
+qq{New: cycle routing for Berkeley, East Bay (San Francisco Bay Area): http://www.bbbike.org/Berkeley}
+    },
+    updated  => '2011-02-22T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title   => 'google maps version 3',
     id      => '6ce8624af05b0596f0c39e53b7b0987c',
     content => {

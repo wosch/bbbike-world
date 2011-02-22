@@ -75,6 +75,8 @@ Disallow: /Beijing/index
 Disallow: /Beijing/?
 Disallow: /Beirut/index
 Disallow: /Beirut/?
+Disallow: /Berkeley/index
+Disallow: /Berkeley/?
 Disallow: /Berlin/index
 Disallow: /Berlin/?
 Disallow: /Bern/index
