@@ -101,7 +101,7 @@ sub footer {
             $q->param( "max", $number );
             $data .=
                 qq, | <a title="max. $number routes" href=",
-              . $q->url( -query => 1 )
+              . $q->url( -relative => 1, -query => 1 )
               . qq{">$number</a>\n};
         }
     }
