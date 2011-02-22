@@ -458,15 +458,18 @@ $ua->agent($user_agent);
 activate_socksproxy($ua) if $socksproxy;
 
 my $counter;
-
+my $total_counter = 0;
 # walk throught the list of cities
 foreach my $city (@cities) {
     warn "City: $city\n" if $debug;
     ( $hash, $counter ) =
       &update_city( 'city' => $city, 'ua' => $ua, 'database' => $hash );
+    $total_counter += $counter;
 
     # write database
     &write_database( $database, $hash, $counter )
       if !$readonly_database && $counter;
 }
+
+warn "Total updates: $total_counter\n" if $debug;
 
