@@ -27,7 +27,7 @@ my $debug    = 1;
 my $database = "";
 my $socksproxy;
 my $readonly_database = 0;
-my $api_url           = 'http://api.geonames.org/srtm3?username=bbbike';
+my $api_url           = 'http://api.geonames.org/srtm3?username=demo';
 my $data_osm_dir      = "data-osm";
 my $max_points = 20;                                     # limit of geonames.org
 my $user_agent = "BBBike @ World - http://bbbike.org";
@@ -109,7 +109,13 @@ sub read_database {
 sub write_database {
     my $database = shift;
     my $hash     = shift;
-    my $counter  = shift || "unknown";
+    my $counter  = shift;
+    $counter = "unknown" if !defined $counter;
+
+    if ( $counter ne 'unknown' && $counter == 0 ) {
+        warn "No updates for '$database'\n" if $debug;
+        return;
+    }
 
     return if !$database;
     if ($test_mode) {
@@ -143,19 +149,26 @@ sub repair_database {
     my $hash     = shift;
     my $database = shift;
 
+    my $counter = 0;
     while ( my ( $key, $val ) = each %$hash ) {
-        if ( !$val || $val eq "" || $val eq "-32768" || $val !~ /^[\d-]+$/ ) {
+        if ( defined $val && $val eq "" ) {
+        }
+        elsif ( !defined $val || $val eq "-32768" || $val !~ /^[\d-]+$/ ) {
+            warn "key: $key, val: '$val'\n";
             $val = "";
             $hash->{$key} = $val;
+
+            $counter++;
         }
 
         if ( $key !~ /^[\d\-\,\.]+$/ ) {
             warn "Delete '$key' => '$val'\n" if $debug >= 2;
             delete $hash->{$key};
+            $counter++;
         }
     }
 
-    &write_database( $database, $hash );
+    &write_database( $database, $hash, $counter );
 }
 
 sub set_signal_handler {
@@ -169,8 +182,11 @@ sub set_signal_handler {
         return;
     }
 
-    $SIG{INFO} = $SIG{HUP} = $SIG{ALRM} =
-      sub { &write_database( $database, $hash ); };
+    $SIG{HUP} = $SIG{ALRM} = sub { &write_database( $database, $hash ); };
+
+    # Linux has no SIGINFO. Damn!
+    $SIG{INFO} = $SIG{HUP} if !-e "/proc";
+
     $SIG{INT} = sub { &write_database( $database, $hash ); exit(0) };
 }
 
@@ -335,6 +351,10 @@ sub update_hoehe {
     my $points = $args{'points'};
     my $hash   = $args{'database'};
 
+    if ( -e $file ) {
+        rename( $file, "$file.bak" );
+    }
+
     my $tmp = "$file.new";
     my $fd = new IO::File $tmp, "w" or die "open '$tmp': $!\n";
     binmode $fd, ":raw";
@@ -365,17 +385,22 @@ sub update_city {
     my $height  = &parse_hoehe("$dir/hoehe");
     my $streets = &parse_streets("$dir/strassen");
 
+    # point to write to "hoehe"
+    my @corners = ();
+
     # fill database with data from "hoehe" file
     while ( my ( $key, $val ) = each %$height ) {
+        push @corners, $key;
         if ( !exists $hash->{$key} ) {
             $hash->{$key} = $val;
         }
     }
 
-    my @data;
     my $c       = 0;
-    my @corners = ();
     my $counter = 0;
+
+    # points to update
+    my @data;
     while ( my ( $key, $val ) = each %$streets ) {
 
         # no corner
@@ -401,7 +426,7 @@ sub update_city {
     &get_elevation_data( $hash, \@data, $ua, $city );
 
     &update_hoehe(
-        'file'     => "$dir/hoehe2",
+        'file'     => "$dir/hoehe",
         'points'   => \@corners,
         'database' => $hash
     );
@@ -468,7 +493,7 @@ foreach my $city (@cities) {
 
     # write database
     &write_database( $database, $hash, $counter )
-      if !$readonly_database && $counter;
+      if !$readonly_database;
 }
 
 warn "Total updates: $total_counter\n" if $debug;
