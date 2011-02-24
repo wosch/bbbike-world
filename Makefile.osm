@@ -374,6 +374,9 @@ clean-planet:
 elevation-check:
 	${ELEVATION_SCRIPT} --database=../osm-streetnames/srtm/elevation.db --check
 
+elevation-repair:
+	${ELEVATION_SCRIPT} --database=../osm-streetnames/srtm/elevation.db --repair-database
+
 elevation-fetch:
 	${ELEVATION_SCRIPT} --database=../osm-streetnames/srtm/elevation.db --debug=0 `${DB} --list`
 
@@ -388,7 +391,7 @@ help:
 	@echo "  [ create-bbbike-web-symlinks | kml | create-osp | index ]"
 	@echo "  [ convert-wgs84 | convert-bbbike ]"
 	@echo "  [ city-count | city-reorder | city-file | check-osm | cleanup-osm-error ]"
-	@echo "  [ elevation-check | elevation-update | elevation-fetch ]"
+	@echo "  [ elevation-check | elevation-update | elevation-fetch | elevation-repair ]"
 	@echo "  [ planet-download | planet-geofabrik-download ]"
 	@echo "  [ planet-streets | planet-places ]"
 	@echo "  [ update-database | update-files ]"
