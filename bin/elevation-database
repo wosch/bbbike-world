@@ -177,10 +177,8 @@ sub set_signal_handler {
     my $hash              = $args{'hash'};
     my $readonly_database = $args{'readonly_database'};
 
-    if ( !$database || $readonly_database ) {
-        warn "Nothing to store in database '$database'\n";
-        return;
-    }
+    return if $readonly_database;
+    return if !$database;
 
     $SIG{HUP} = $SIG{ALRM} = sub { &write_database( $database, $hash ); };
 
@@ -196,7 +194,7 @@ sub download_uri {
     my $city = shift || "";
 
     warn "download URL for city: $city $uri\n" if $debug >= 2;
-    return if $test_mode;
+    return if $test_mode || $readonly_database;
 
     my $response = $ua->get($uri);
     if ( $response->is_success ) {
@@ -338,7 +336,7 @@ sub get_elevation_data {
 sub mysleep {
     my $seconds = shift || "0.5";
 
-    return if $test_mode;
+    return if $test_mode || $readonly_database;
 
     # sleep a half second
     select( undef, undef, undef, $seconds );
