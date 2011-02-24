@@ -9,7 +9,7 @@ if [ -n "$IGNORE_PLANET_OSM" ]; then
 fi
 
 : ${MD5=`which md5 md5sum | head -1`}
-nice="nice -n 5"
+nice="nice -n 9"
 
 file=planet-latest.osm.bz2
 file_bpf=`basename $file .bz2`.pbf
