@@ -113,12 +113,12 @@ sub write_database {
     $counter = "unknown" if !defined $counter;
 
     if ( $counter ne 'unknown' && $counter == 0 ) {
-        warn "No updates for '$database'\n" if $debug;
+        warn "updates: $counter\n" if $debug;
         return;
     }
 
     return if !$database;
-    if ($test_mode) {
+    if ( $test_mode || $readonly_database ) {
         warn "updates: $counter\n" if $debug;
         return;
     }
@@ -351,10 +351,6 @@ sub update_hoehe {
     my $points = $args{'points'};
     my $hash   = $args{'database'};
 
-    if ( -e $file ) {
-        rename( $file, "$file.bak" );
-    }
-
     my $tmp = "$file.new";
     my $fd = new IO::File $tmp, "w" or die "open '$tmp': $!\n";
     binmode $fd, ":raw";
@@ -370,6 +366,10 @@ sub update_hoehe {
         }
     }
     $fd->close;
+
+    if ( -e $file ) {
+        rename( $file, "$file.bak" );
+    }
 
     rename( $tmp, $file ) or die "rename $tmp -> $file: $!\n";
 }
@@ -429,7 +429,7 @@ sub update_city {
         'file'     => "$dir/hoehe",
         'points'   => \@corners,
         'database' => $hash
-    );
+    ) if !$test_mode;
 
     return ( $hash, $counter );
 }
@@ -484,6 +484,7 @@ activate_socksproxy($ua) if $socksproxy;
 
 my $counter;
 my $total_counter = 0;
+
 # walk throught the list of cities
 foreach my $city (@cities) {
     warn "City: $city\n" if $debug;
