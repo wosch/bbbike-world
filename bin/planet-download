@@ -13,16 +13,19 @@ nice="nice -n 9"
 
 file=planet-latest.osm.bz2
 file_bpf=`basename $file .bz2`.pbf
+dir="tmp.$$.new"
 
-mv -f $file.md5 $file.md5.old.$$
-mv -f $file $file.old.$$
-mv -f $file_bpf $file_bpf.old.$$
 
 #server1=http://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org
 #server2=http://ftp.ecki-netz.de/osm
 #server2=$server1
 #server1=http://ftp.heanet.ie/mirrors/openstreetmap.org
 server1=http://planet.openstreetmap.org
+server1=http://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org
+
+mkdir -p $dir
+pwd=`pwd`
+cd $dir || exit
 
 wget -nv $server1/$file.md5
 
@@ -32,4 +35,12 @@ time curl -L -sS $server1/$file | tee $file | $nice pbzip2 -dc | buffer | \
 
 cat $file.md5
 $MD5 $file
+
+cd $pwd
+mv -f $file.md5 $file.md5.old.$$
+mv -f $file $file.old.$$
+mv -f $file_bpf $file_bpf.old.$$
+
+mv -f $dir/$file $dir/$file.md5 $dir/$file_bpf $dir/$file_bpf.md5 .
+rm -rf $dir
 
