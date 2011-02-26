@@ -11,7 +11,7 @@ cd /var/log/lighttpd || exit 2
 : ${logfiles="bbbike.log"}
 : ${logfiles_mobile="m.bbbike.log"}
 
-url_match='(/cgi/[A-Zb]|/[A-Z][a-z]+/|/berlin/|/[a-z][a-z]/[A-Z][a-z]+/)'
+url_match='(/cgi/[A-Zb]|/[A-Z][a-z][A-Za-z]+/|/berlin/|/[a-z][a-z]/[A-Z][a-z][A-Za-z]+/)'
 
 echo -n "bbbike.org page views: "
 zcat -f $logfiles | egrep "GET $url_match" | egrep -v '" 40[34] ' | awk '{print $1}' | wc -l
