@@ -3,49 +3,27 @@
 #
 # bbbike2wgs84 -  convert original bbbike data for berlin to wgs84
 
-# name of OSM city
-city=bbbike
-data_osm=data-osm
+
+: ${data_osm=data-osm}
+: ${data_osm_bbbike=data-osm.bbbike}
+: ${debug=""}
 
 # die on exit
 set -e
 
-rm -rf ${data_osm}/$city
-mkdir -p ${data_osm}/$city
 
-cd data
-
-for i in `ls -d [a-z]* Berlin* Potsdam*| egrep -v '^opensearch|-orig$'`
+for city 
 do
-    if [ -f $i ]; then
-	iconv -f iso8859-1 -t utf-8  $i | 
-	  perl -npe '
-	        $. == 1 && print "#:encoding: utf-8\n";
-		s,-\*- coding: iso-8859-1 -,-\*- coding: utf-8 -,;
-		' |
-	  ../miscsrc/convert_coordsys2 standard polar > ../${data_osm}/$city/$i 2>/dev/null
-    fi
+   rm -rf ${data_osm_bbbike}/$city
+   mkdir -p ${data_osm_bbbike}/$city
+
+   ( 
+   cd $data_osm/$city
+   for i in `ls -d [a-z]* Berlin* Potsdam* | egrep -v '^opensearch|-orig$|^meta\.'`
+   do
+	test -z "$debug" || echo $i
+	../../miscsrc/convert_coordsys polar < $i > ../../${data_osm_bbbike}/$city/$i
+   done
+   )
 done
-
-
-cd ..
-world/bin/opensearch-suggestion < ${data_osm}/$city/strassen > ${data_osm}/$city/opensearch.streetnames
-world/bin/osm2bbd-workarounds-streets ${data_osm} $city 
-
-# copy metadata from OSM Berlin
-cp ${data_osm}/Berlin/meta.yml ${data_osm}/$city
-cp ${data_osm}/Berlin/meta.dd ${data_osm}/$city
-
-( 
-  cd ${data_osm}/$city
-  rm -f inaccessible_*.old
-  for i in inaccessible_* 
-  do 
-	mv $i $i.old
-  done
-)
-
-# adjust map orginal bbbike map
-# 13.087947 52.349205 13.749353 52.655108
-perl -i.bak -npe 's,13.0100000,13.087947,; s,52.3400000,52.349205,; s,13.7700000,13.749353,; s,52.6800000,52.655108,;' ${data_osm}/$city/meta.yml ${data_osm}/$city/meta.dd
 
