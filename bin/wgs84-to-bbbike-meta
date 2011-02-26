@@ -1,0 +1,69 @@
+#!/usr/local/bin/perl 
+# Copyright (c) 2011 Wolfram Schneider, http://bbbike.org
+#
+# wgs84-to-bbbike-meta -  convert polar data to bbbike internal format, for the perl/tk version
+
+use Data::Dumper;
+
+use lib qw,lib . ../.. ../../lib,;
+use Karte;
+use Strassen;
+
+use strict;
+use warnings;
+
+Karte::preload(':all');
+
+sub usage {
+
+    return <<EOF
+usage polar_meta standard_meta
+EOF
+}
+
+sub write_meta {
+    my $meta = shift;
+    my $file = shift;
+
+    open my $ofh, ">", $file or die "Cannot write to meta.dd~: $!";
+    binmode $ofh, ":utf8";
+
+    print $ofh Data::Dumper->new( [$meta], ['meta'] )->Sortkeys(1)->Useqq(1)
+      ->Dump;
+    close $ofh;
+}
+
+my $from = $Karte::map{"polar"};
+my $to   = $Karte::map{"standard"};
+
+my $meta_polar    = shift;
+my $meta_standard = shift;
+
+if (!$meta_polar || !$meta_standard) {
+	die "missing file args\n" . usage;
+};
+
+my $meta = eval { require $meta_polar };
+die usage if !$meta;
+
+sub convert {
+    my $x = shift;
+    my $y = shift;
+
+    my ( $tx, $ty ) = $to->trim_accuracy( $from->map2map( $to, $x, $y ) );
+    return ( $tx, $ty );
+}
+
+$meta->{"bbox"} = [
+    &convert( $meta->{"bbox"}->[0], $meta->{"bbox"}->[1] ),
+    &convert( $meta->{"bbox"}->[2], $meta->{"bbox"}->[3] )
+];
+$meta->{"bbox_wgs84"} = [
+    &convert( $meta->{"bbox_wgs84"}->[0], $meta->{"bbox_wgs84"}->[1] ),
+    &convert( $meta->{"bbox_wgs84"}->[2], $meta->{"bbox_wgs84"}->[3] )
+];
+$meta->{"center"} =
+  [ &convert( $meta->{"center"}->[0], $meta->{"center"}->[1] ) ];
+
+&write_meta( $meta, $meta_standard );
+
