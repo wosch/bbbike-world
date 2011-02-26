@@ -28,13 +28,14 @@ pwd=`pwd`
 cd $dir || exit
 
 wget -nv $server1/$file.md5
-
 #wget -nv $server1/$file
+
 time curl -L -sS $server1/$file | tee $file | $nice pbzip2 -dc | buffer | \
   $nice time osmosis  --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --write-pbf $file_bpf omitmetadata=true
 
 cat $file.md5
-$MD5 $file
+$MD5 $file | tee $file.md5
+$MD5 $file_bpf | tee $file_bpf.md5
 
 cd $pwd
 mv -f $file.md5 $file.md5.old.$$
