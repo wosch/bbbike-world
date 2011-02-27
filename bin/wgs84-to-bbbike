@@ -13,16 +13,24 @@ set -e
 
 for city 
 do
-   rm -rf ${data_osm_bbbike}/$city
-   mkdir -p ${data_osm_bbbike}/$city
+   rm -rf $data_osm_bbbike/$city
+   mkdir -p $data_osm_bbbike/$city
+   files=""
 
    ( 
+   pwd=`pwd`
    cd $data_osm/$city
-   for i in `ls -d [a-z]* Berlin* Potsdam* | egrep -v '^opensearch|-orig$|^meta\.'`
+   files=`ls -d [a-z]* Berlin* Potsdam* | egrep -v '^opensearch|-orig$|^meta\.|^temp_blockings'`
+   for i in $files
    do
 	test -z "$debug" || echo $i
-	../../miscsrc/convert_coordsys polar < $i > ../../${data_osm_bbbike}/$city/$i
+	../../miscsrc/convert_coordsys polar < $i > ../../$data_osm_bbbike/$city/$i
    done
+   ( cd $pwd/$data_osm_bbbike/$city; perl -i -npe 's,:map: polar,:map: standard,g; s,: map: standard,:map: standard,' $files ) 
    )
+
+   # convert meta.dd files
+   $0-meta $data_osm/$city/meta.dd $data_osm_bbbike/$city/meta.dd
+   rsync -a $data_osm/$city/temp_blockings $data_osm_bbbike/$city 
 done
 
