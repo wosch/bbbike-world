@@ -88,7 +88,7 @@ convert-bbbike-full: build-runtime-perl
 	${MAKE} -f Makefile.osm DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} _tarball
 
 convert-bbbike: build-runtime-perl
-	${DB} --list | ${NICE} time xargs -n4 -P${MAX_CPU} ./world/bin/wgs84-to-bbbike
+	${DB} --list | ${NICE} time xargs -n4 -P${MAX_VCPU} ./world/bin/wgs84-to-bbbike
 	${MAKE} -f Makefile.osm DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} _tarball
 
 _tarball:
