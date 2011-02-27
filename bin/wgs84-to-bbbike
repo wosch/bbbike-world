@@ -17,17 +17,8 @@ do
    mkdir -p $data_osm_bbbike/$city
    files=""
 
-   ( 
-   pwd=`pwd`
-   cd $data_osm/$city
-   files=`ls -d [a-z]* Berlin* Potsdam* | egrep -v '^opensearch|-orig$|^meta\.|^temp_blockings'`
-   for i in $files
-   do
-	test -z "$debug" || echo $i
-	../../miscsrc/convert_coordsys polar < $i > ../../$data_osm_bbbike/$city/$i
-   done
-   ( cd $pwd/$data_osm_bbbike/$city; perl -i -npe 's,:map: polar,:map: standard,g; s,: map: standard,:map: standard,' $files ) 
-   )
+   perl miscsrc/convert_coordsys --input-dir=$data_osm/$city --output-dir=$data_osm_bbbike/$city polar 
+   #( cd $data_osm_bbbike/$city; perl -i -npe 's,:map: polar,:map: standard,g; s,: map: standard,:map: standard,' $files ) 
 
    # convert meta.dd files
    $0-meta $data_osm/$city/meta.dd $data_osm_bbbike/$city/meta.dd
