@@ -10,7 +10,7 @@ bbbike-world.xml: ${FEED_SCRIPT} perltidy
 	${FEED_SCRIPT} | tidy -xml -i > $@ 2> $@.log
 
 perltidy:
-	perl -cw ${FEED_SCRIPT}
+	perl -cw ${FEED_SCRIPT} 2>/dev/null || perl -cw ${FEED_SCRIPT}
 	perltidy -b ${FEED_SCRIPT}
 
 clean:
