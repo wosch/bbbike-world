@@ -28,8 +28,8 @@ git remote add eserte git://github.com/eserte/bbbike.git
 git fetch eserte
 
 echo ""
-echo "show all branches: "
-git branch -a
+echo "show branch: "
+git branch 
 
 ln -s world/Makefile.osm
 make $make_verbose -f Makefile.osm update-files
