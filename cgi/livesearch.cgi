@@ -251,9 +251,11 @@ foreach my $url ( reverse @d ) {
 
     last if $counter++ >= $max;
 
-    my $opt =
-      { map { $_ => ( $qq->param($_) || "" ) }
-          qw/city route_length driving_time startname zielname area/ };
+    my @params = qw/city route_length driving_time startname zielname area/;
+    push @params,
+      qw/pref_cat pref_quality pref_specialvehicle pref_speed pref_ferry pref_unlit/;
+
+    my $opt = { map { $_ => ( $qq->param($_) || "" ) } @params };
 
     $city_center->{ $opt->{'city'} } = $opt->{'area'};
 
