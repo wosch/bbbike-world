@@ -41,9 +41,9 @@ my $to   = $Karte::map{"standard"};
 my $meta_polar    = shift;
 my $meta_standard = shift;
 
-if (!$meta_polar || !$meta_standard) {
-	die "missing file args\n" . usage;
-};
+if ( !$meta_polar || !$meta_standard ) {
+    die "missing file args\n" . usage;
+}
 
 my $meta = eval { require $meta_polar };
 die usage if !$meta;
@@ -57,7 +57,7 @@ sub convert {
 }
 
 $meta->{"coordsys"} = "bbbike";
-$meta->{"bbox"} = [
+$meta->{"bbox"}     = [
     &convert( $meta->{"bbox"}->[0], $meta->{"bbox"}->[1] ),
     &convert( $meta->{"bbox"}->[2], $meta->{"bbox"}->[3] )
 ];
@@ -73,5 +73,5 @@ $meta->{"center"} =
 my $yaml_file = $meta_standard;
 $yaml_file =~ s/\.dd/\.yml/;
 
-DumpFile($yaml_file, $meta);
+DumpFile( $yaml_file, $meta );
 
