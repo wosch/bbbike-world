@@ -38,6 +38,7 @@ sub extract_route {
     my $file  = shift;
     my $max   = shift;
     my $devel = shift;
+    my $date  = shift;
 
     my $host = $devel ? '(dev|devel|www)' : 'www';
 
@@ -46,6 +47,14 @@ sub extract_route {
     my @files = ( "$file.2.gz", "$file.1.gz", $file );
     unshift( @files, "$file.4.gz", "$file.3.gz" ) if $max > 50;
     unshift( @files, "$file.7.gz", "$file.6.gz", "$file.5.gz" ) if $max > 100;
+
+    if ($date) {
+        eval { "foo" =~ /$date/ };
+        if ($@) {
+            warn "date failed: '$date'\n";
+            $date = "";
+        }
+    }
 
     foreach my $file (@files) {
         next if !-f $file;
@@ -68,6 +77,7 @@ sub extract_route {
                   && !m, (slippymap|bbbike)\.cgi: http://$host.bbbike.org/,i;
 
             next if !/coords/;
+            next if $date && !/$date/;
 
             my @list = split;
             my $url  = pop(@list);
@@ -93,6 +103,8 @@ sub footer {
     my $q = new CGI;
 
     my $data = "";
+    $q->delete('date');
+
     foreach my $number ( 25, 50, 100, 250 ) {
         if ( $number == $max ) {
             $data .= " | $number";
@@ -105,6 +117,23 @@ sub footer {
               . qq{">$number</a>\n};
         }
     }
+
+    # date links: yesterday | today
+    $q->param( "max", "400" );
+    my $day = substr( localtime( time - 24 * 60 * 60 ), 4, 6 );
+    $q->param( "date", $day );
+    $data .=
+        qq{ | <a href="}
+      . $q->url( -relative => 1, -query => 1 )
+      . qq{">yesterday</a>\n};
+
+    $day = substr( localtime(time), 4, 6 );
+    $q->param( "date", $day );
+    $data .=
+        qq{ | <a href="}
+      . $q->url( -relative => 1, -query => 1 )
+      . qq{">today</a>\n};
+
     return <<EOF;
 <div id="footer">
 <div id="footer_top">
@@ -230,7 +259,10 @@ if ( $q->param('max') ) {
     my $m = $q->param('max');
     $max = $m if $m > 0 && $m < 1024;
 }
-my @d = &extract_route( $logfile, $max, 0 );
+
+my $date = $q->param('date') || "";
+my @d = &extract_route( $logfile, $max, 0, $date );
+
 print qq{<script type="text/javascript">\n};
 
 my $city_center;
@@ -238,6 +270,7 @@ my $json = new JSON;
 my $cities;
 my %hash;
 my $counter;
+my @route_display;
 foreach my $url ( reverse @d ) {
     my $qq = CGI->new($url);
     print $url, "\n" if $debug >= 2;
@@ -269,6 +302,7 @@ foreach my $url ( reverse @d ) {
     print qq{plotRoute(map, $opt_json, $data);\n};
 
     push( @{ $cities->{ $opt->{'city'} } }, $opt ) if $opt->{'city'};
+    push @route_display, $url;
 }
 
 print "/* ", Dumper($cities),      " */\n" if $debug >= 2;
@@ -281,12 +315,16 @@ my $d = join(
           . &route_stat( $cities->{$_} )
           . qq/" href="#" onclick="jumpToCity(\\'/
           . $city_center->{$_}
-          . qq/\\')">$_(/
+          . qq/\\')">$_ (/
           . scalar( @{ $cities->{$_} } ) . ")</a>"
       } sort keys %$cities
 );
 
 #$d.= qq{<p><a href="javascript:flipMarkers(infoMarkers)">flip markers</a></p>};
+if ( $date && @route_display ) {
+    $d .= "<hr />";
+    $d .= "Number of routes: " . scalar(@route_display) . "<br />";
+}
 
 print qq{\n\$("div#routing").html('$d');\n\n};
 
