@@ -30,6 +30,9 @@ Disallow: /
 User-agent: MLBot
 Disallow: /
 
+User-agent: sitebot
+disallow: /
+
 User-agent: *
 Disallow: /da/
 Disallow: /de/
