@@ -21,7 +21,6 @@ dir="tmp.$$.new"
 #server2=$server1
 #server1=http://ftp.heanet.ie/mirrors/openstreetmap.org
 server1=http://planet.openstreetmap.org
-server1=http://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org
 
 mkdir -p $dir
 pwd=`pwd`
