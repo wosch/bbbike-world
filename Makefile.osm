@@ -80,7 +80,7 @@ all: help
 build-runtime-perl:
 	world/bin/bbbike-build-runtime-perl.pl
 
-convert-wgs84 convert: build-runtime-perl convert2 create-osp bbbike2wgs84
+convert-wgs84 convert: build-runtime-perl convert2 create-osp bbbike2wgs84 elevation-update
 
 convert-bbbike-full: build-runtime-perl
 	${MAKE} -f Makefile.osm DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} OSM2BBD_MAPTYPE="-map bbbike" convert2
