@@ -243,8 +243,8 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name>Brussels</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Bruessel/">BBBike @ Brussels</a></span>]]></description>
+    <name>Brussel</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Bruessel/">BBBike @ Brussel</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>4.3495,50.84885,0.000000</coordinates>
@@ -511,7 +511,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Freiburg/">BBBike @ Freiburg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>7.84225,48.0035,0.000000</coordinates>
+      <coordinates>7.843,48.015,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -583,7 +583,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Hamburg/">BBBike @ Hamburg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>10.005,53.5445,0.000000</coordinates>
+      <coordinates>10.038,53.5815,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
