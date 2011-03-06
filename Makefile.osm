@@ -236,9 +236,12 @@ ${CITIES}:
 	${MAKE} -f Makefile.osm $@-download $@-convert
 	
 ######################################################################
+#BBBIKE_WEB_DIR=bbbike.org:/usr/local/www/bbbike.org
+BBBIKE_WEB_DIR=/usr/local/www/bbbike.org
+
 rsync-osm rsync:
-	rsync -azv --exclude='*.bak' --delete --max-delete=512 ${DATA_OSM_DIR} ${OSM_AREAS_OPENSEARCH} ${OSM_DIR} ${OSP_DIR} bbbike.org:/usr/local/www/bbbike.org
-	rsync -azv --exclude='*.bak' data/opensearch.streetnames bbbike.org:/usr/local/www/bbbike.org/data
+	rsync -azv --exclude='*.bak' --delete --max-delete=512 ${DATA_OSM_DIR} ${OSM_AREAS_OPENSEARCH} ${OSM_DIR} ${OSP_DIR} ${BBBIKE_WEB_DIR}
+	rsync -azv --exclude='*.bak' data/opensearch.streetnames ${BBBIKE_WEB_DIR}/data
 	@echo ""
 	@echo "don't forget to cleanup the data cache in ${BBBIKE_CACHE_DIR}, run:"
 	@echo "$$ sudo make clean-cache"
