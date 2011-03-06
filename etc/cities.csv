@@ -102,7 +102,7 @@ Melbourne::en::other:144.792 -37.921 145.122 -37.686:3600000:
 MexicoCity:en!Mexico City,de!Mexiko-Stadt,es!Ciudad de Méxicoeses::es:other:-99.2708 19.3095 -98.9714 19.5329:21000000:
 Miami::en:es:other:-80.3244 25.6548 -80.0473 25.8567:832273:
 Montevideo:::es:other:-56.318 -34.950 -55.944 -34.789:1700000:
-Montreal:::fr:other:-73.787 45.37 -73.404 45.607:2465219:
+Montreal:en!Montreal,fr!Montréal::fr:other:-73.787 45.37 -73.404 45.607:2465219:
 Moscow:de!Moskau,ru!Москва::ru:eu:37.322 55.566 37.881 55.916:15000000:
 Muenchen:de!München,en!Munich::de::11.36 48.015 11.814 48.265:2600000:
 Muenster:Münster::de::7.5771 51.9226 7.6873 51.9917:272951:
