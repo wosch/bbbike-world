@@ -132,7 +132,7 @@ usage: $0 [--debug={0..2}] [options] city
 --poly
 --centerdelta
 --area=area
---city-by-lang=lang
+--city-by-lang
 --city-names
 --step
 --list
@@ -166,7 +166,7 @@ GetOptions(
     "poly"            => \$poly,
     "centerdelta"     => \$centerdelta,
     "area=s"          => \$area,
-    "city-by-lang=s"  => \$city_by_lang,
+    "city-by-lang"    => \$city_by_lang,
     "list"            => \$list,
     "city-database=s" => \$city_database,
 ) or die usage;
@@ -181,7 +181,7 @@ my $database =
 
 my %hash;
 
-my $db = BBBikeWorldDB->new( 'database' => $database );
+my $db = BBBikeWorldDB->new( 'database' => $database, 'debug' => 0 );
 %hash = %{ $db->city };
 
 if ( defined $area ) {
@@ -191,7 +191,23 @@ if ( defined $area ) {
     exit 0;
 }
 
-if ( defined $city_by_lang || $list ) {
+if ( defined $city_by_lang ) {
+    foreach my $city ( $db->list_cities ) {
+        print "$city =>\t";
+
+        foreach my $l (qw/de en da es fr hr nl pl pt ru zh/) {
+            my $c = $db->city->{$city};
+
+            my $name = $db->select_city_name( $c->{"city"}, $c->{"name"} || $city, $l );
+            print " $l:$name";
+        }
+        print "\n";
+
+    }
+    exit;
+}
+
+if ($list) {
     foreach my $key ( sort keys %hash ) {
         my $val = $hash{$key};
         print $key, "\n"
