@@ -24,7 +24,7 @@ $feed->add_entry(
     content => {
         type => 'text',
         content =>
-          qq{New: cycle routing for Stuttgart: http://www.bbbike.org/Stutgart}
+          qq{New: cycle routing for Stuttgart: http://www.bbbike.org/Stuttgart}
     },
     updated  => '2011-03-07T12:30:02Z',
     category => 'News',
