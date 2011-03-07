@@ -344,6 +344,8 @@ Disallow: /Stockholm/index
 Disallow: /Stockholm/?
 Disallow: /Strassburg/index
 Disallow: /Strassburg/?
+Disallow: /Stuttgart/index
+Disallow: /Stuttgart/?
 Disallow: /Sydney/index
 Disallow: /Sydney/?
 Disallow: /Szczecin/index

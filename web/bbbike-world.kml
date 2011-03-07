@@ -1195,6 +1195,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Stuttgart</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Stuttgart/">BBBike @ Stuttgart</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>9.1895,48.767,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Sydney</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Sydney/">BBBike @ Sydney</a></span>]]></description>
     <styleUrl>#style1</styleUrl>

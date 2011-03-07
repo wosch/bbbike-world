@@ -16,6 +16,14 @@
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>New: cycle routing for Stuttgart</title>
+    <id>86ae45c86b9d90f50feed5c321dd61a5</id>
+    <content>New: cycle routing for Stuttgart:
+    http://www.bbbike.org/Stutgart</content>
+    <updated>2011-03-07T12:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title>New: cycle routing for Berkeley</title>
     <id>df1301be6fe83a6731d7840ee3408efa</id>
     <content>New: cycle routing for Berkeley, East Bay (San

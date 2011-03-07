@@ -39,6 +39,7 @@ SanJose
 Rotterdam
 Oranienburg
 Nuernberg
+Stuttgart
 Melbourne
 Potsdam
 Berkeley
