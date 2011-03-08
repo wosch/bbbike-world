@@ -19,12 +19,12 @@ my $feed = XML::Atom::SimpleFeed->new(
 ######################################################################
 
 $feed->add_entry(
-    title   => 'New: cycle routing for MalmÃ and Gothenburg¶',
+    title   => 'New: cycle routing for Malmoe and Gothenburg',
     id      => 'c8149d780c2dff3451db938c7b282264',
     content => {
         type => 'text',
         content =>
-qq{New: cycle routing for MalmÃ and Gothenburg: http://www.bbbike.org/Malmoe http://www.bbbike.org/Goetheburg}
+qq{New: cycle routing for Malmoe and Gothenburg: http://www.bbbike.org/Malmoe http://www.bbbike.org/Goetheburg}
     },
     updated  => '2011-03-08T12:30:02Z',
     category => 'News',
