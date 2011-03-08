@@ -184,6 +184,8 @@ Disallow: /Gliwice/index
 Disallow: /Gliwice/?
 Disallow: /Goerlitz/index
 Disallow: /Goerlitz/?
+Disallow: /Goeteborg/index
+Disallow: /Goeteborg/?
 Disallow: /Goettingen/index
 Disallow: /Goettingen/?
 Disallow: /Groningen/index
@@ -240,6 +242,8 @@ Disallow: /Magdeburg/index
 Disallow: /Magdeburg/?
 Disallow: /Mainz/index
 Disallow: /Mainz/?
+Disallow: /Malmoe/index
+Disallow: /Malmoe/?
 Disallow: /Manchester/index
 Disallow: /Manchester/?
 Disallow: /Mannheim/index

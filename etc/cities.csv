@@ -39,7 +39,10 @@ CapeTown:Cape Town,de!Kapstadt:en::other:18.278 -34.116 18.754 -33.785:72000000:
 Chemnitz:::de::12.8152 50.7803 13.0154 50.8796:241344:
 Chicago:de!Chikago:en::other:-87.7501 41.7789 -87.5307 41.9326:9700000:
 Colmar:de!Kolmar,en!Colmar::de:eu:7.305 48.0471 7.4086 48.1236:83470:
-Copenhagen:de!Kopenhagen,da!København::da:eu:12.275 55.549 12.702 55.831:661691:
+Copenhagen:de!Kopenhagen,da!København::da:eu:12.275 55.549 12.702 55.83:11261691:
+Stockholm:::sv:eu:17.794 59.178 18.324 59.484:1250000:
+Malmoe:Malmö::sv:eu:12.88 55.538 13.137 55.687:260000:
+Goeteborg:en!Gothenburg,de!Göteborgda!Gøteborg,sv!Götebo:rg:sv:eu:11.815 57.609 12.141 57.79:510000:
 Corvallis::en::other:-123.3293 44.5253 -123.1965 44.6072:49807:
 Cottbus:::de::14.2561 51.7092 14.435 51.8101:102811:
 Cracow:de!Krakau,en!Cracow,pl!Kraków::pl:eu:19.88 50.02 20.00 50.09:801100:
@@ -147,7 +150,6 @@ Seoul:ko!서울::ko:other:126.755 37.442 127.252 37.635:24000000:
 Sheffield::en::eu:-1.579 53.312 -1.308 53.45:640000:
 Singapore:en!Singapore,de!Singapur,zh!新加坡共和国::zh:other:103.6033 1.2385 104.028 1.4804:5000000:
 Sofia:bg!София::bg:eu:23.2146 42.6445 23.4244 42.7505:1397000:
-Stockholm:::sv:eu:17.9752 59.2945 18.1664 59.3623:813229:
 Strassburg:de!Straßburg,en!Strasbourg::de:eu:7.6515 48.5189 7.875 48.6525:461328:
 Sydney::en::other:150.827 -34.058 151.328 -33.681:4300000:
 Szczecin:de!Stettin,pl!Szczecin::pl:eu:14.4419 53.3575 14.7299 53.4764:410623:

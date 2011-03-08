@@ -78,6 +78,8 @@ Aarhus
 Bamberg
 Portland
 Stockholm
+Malmoe
+Goeteborg
 Bielefeld
 Wroclaw
 SanFrancisco

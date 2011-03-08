@@ -335,7 +335,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Copenhagen/">BBBike @ Copenhagen</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>12.4885,55.69,0.000000</coordinates>
+      <coordinates>12.4885,55.6895,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -552,6 +552,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>14.9788,51.144,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Gothenburg</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Goeteborg/">BBBike @ Gothenburg</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>11.978,57.6995,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -776,6 +784,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>8.2731,50.0201,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Malmö</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Malmoe/">BBBike @ Malmö</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>13.0085,55.6125,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1183,7 +1199,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Stockholm/">BBBike @ Stockholm</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>18.0708,59.3284,0.000000</coordinates>
+      <coordinates>18.059,59.331,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
