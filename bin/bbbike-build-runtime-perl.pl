@@ -12,8 +12,10 @@ use URI;
 use JSON;
 use XML::Simple;
 use XML::LibXML::Reader;
-use GPS::Point;
-use Geo::Inverse;
+
+# not used yet
+#use GPS::Point;
+#use Geo::Inverse;
 
 1;
 

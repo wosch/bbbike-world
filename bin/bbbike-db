@@ -6,6 +6,8 @@
 use File::Basename;
 use Data::Dumper;
 
+#use GPS::Point;
+
 use lib '.';
 use lib './world/bin';
 use lib '../bbbike/world/bin';
@@ -87,6 +89,15 @@ sub distance {
     return int( $distance / 1_000 );
 }
 
+sub city_length {
+    my $coord = shift;
+
+    my ( $x1, $y1, $x2, $y2 ) = split( /\s+/, $coord );
+
+    my $distance = Strassen::Util::strecke_polar( [ $x1, $y1 ], [ $x2, $y2 ] );
+    return int( $distance / 1_00 ) / 10;
+}
+
 sub neighbours {
     my %args = @_;
 
@@ -118,6 +129,20 @@ sub neighbours {
 
     return $data;
 }
+
+#sub distance {
+#    my $coord = shift;
+#
+#    my @data = split( /\s+/, $coord );
+#
+#    my $point  = GPS::Point->new( 'lat' => $data[0], 'lon' => $data[1] );
+#    my $point2 = GPS::Point->new( 'lat' => $data[2], 'lon' => $data[3] );
+#
+#    my $distance = $point->distance($point2);
+#
+#    # in 9.2 km format
+#    return int( $distance / 100 ) / 10;
+#}
 
 sub usage () {
     <<EOF;
@@ -194,12 +219,23 @@ if ( defined $area ) {
 if ( defined $city_by_lang ) {
     foreach my $city ( $db->list_cities ) {
         print "$city =>\t";
+        print &city_length( $db->city->{$city}->{"coord"} ) . "\t";
 
+        my %hash;
         foreach my $l (qw/de en da es fr hr nl pl pt ru zh/) {
             my $c = $db->city->{$city};
 
-            my $name = $db->select_city_name( $c->{"city"}, $c->{"name"} || $city, $l );
-            print " $l:$name";
+            my $name =
+              $db->select_city_name( $c->{"city"}, $c->{"name"} || $city, $l );
+            if ( exists $hash{$name} ) {
+                $hash{$name} .= "," . $l;
+            }
+            else {
+                $hash{$name} = $l;
+            }
+        }
+        foreach my $name ( sort keys %hash ) {
+            print "$name:" . $hash{$name} . " ";
         }
         print "\n";
 
