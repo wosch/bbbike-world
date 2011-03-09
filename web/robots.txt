@@ -5,6 +5,7 @@ Disallow: /cgi
 Disallow: /html
 Disallow: /berlin
 Disallow: /bbbike
+Disallow: /osp
 
 User-agent: Ezooms
 Disallow: /
