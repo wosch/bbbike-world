@@ -5,6 +5,7 @@
 
 use CGI qw/-utf-8/;
 use IO::File;
+use CGI::Carp;
 
 use lib '../world/bin';
 use lib '../../world/bin';
@@ -60,5 +61,6 @@ print <<EOF;
 { "city": "$city", "street":"", "corner":"" }
 EOF
 
-warn "lat: $lat, lng: $lng, city: $city\n" if $debug;
+my $remote_host = $q->remote_host;
+warn "lat: $lat, lng: $lng, city: $city, ip: $remote_host\n" if $debug;
 
