@@ -22,7 +22,6 @@ MAX_CPU2=	`world/bin/ncpu -1`
 MAX_VCPU=	`world/bin/ncpu vcpu`
 MAX_RCPU=	`world/bin/ncpu rcpu -1`
 GXARGS=		${NICE} `which gxargs xargs | head -1`
-BBBIKE_WEB_DIR= ./
 OSM_DIR=	osm
 OSP_DIR=	osp
 DATA_OSM_DIR=	data-osm
@@ -34,6 +33,8 @@ MAX_OSMOSIS=	${MAX_CPU}
 LANGUAGES=	m da de en es fr hr nl pl pt ru zh
 DB=world/bin/bbbike-db
 ELEVATION_SCRIPT=world/bin/elevation-database
+BBBIKE_WEBSERVER_DIR=/usr/local/www/bbbike.org
+BBBIKE_WEB_DIR= ./
 
 TMP=world/tmp
 
@@ -237,12 +238,10 @@ ${CITIES}:
 	${MAKE} -f Makefile.osm $@-download $@-convert
 	
 ######################################################################
-#BBBIKE_WEB_DIR=bbbike.org:/usr/local/www/bbbike.org
-BBBIKE_WEB_DIR=/usr/local/www/bbbike.org
 
 rsync-osm rsync:
-	rsync -azv --exclude='*.bak' --delete --max-delete=512 ${DATA_OSM_DIR} ${OSM_AREAS_OPENSEARCH} ${OSM_DIR} ${OSP_DIR} ${BBBIKE_WEB_DIR}
-	rsync -azv --exclude='*.bak' data/opensearch.streetnames ${BBBIKE_WEB_DIR}/data
+	rsync -azv --exclude='*.bak' --delete --max-delete=512 ${DATA_OSM_DIR} ${OSM_AREAS_OPENSEARCH} ${OSM_DIR} ${OSP_DIR} ${BBBIKE_WEBSERVER_DIR}
+	rsync -azv --exclude='*.bak' data/opensearch.streetnames ${BBBIKE_WEBSERVER_DIR}/data
 	@echo ""
 	@echo "don't forget to cleanup the data cache in ${BBBIKE_CACHE_DIR}, run:"
 	@echo "$$ sudo make clean-cache"
