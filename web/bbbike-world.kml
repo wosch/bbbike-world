@@ -883,8 +883,8 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name>New Dehli</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/NewDehli/">BBBike @ New Dehli</a></span>]]></description>
+    <name>New Delhi</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/NewDelhi/">BBBike @ New Delhi</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>77.2375,28.589,0.000000</coordinates>

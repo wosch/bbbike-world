@@ -292,8 +292,8 @@ Disallow: /Muenchen/index
 Disallow: /Muenchen/?
 Disallow: /Muenster/index
 Disallow: /Muenster/?
-Disallow: /NewDehli/index
-Disallow: /NewDehli/?
+Disallow: /NewDelhi/index
+Disallow: /NewDelhi/?
 Disallow: /NewYork/index
 Disallow: /NewYork/?
 Disallow: /Nuernberg/index
