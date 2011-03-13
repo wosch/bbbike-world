@@ -89,7 +89,7 @@ convert-bbbike-full: build-runtime-perl
 	${MAKE} -f Makefile.osm DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} _tarball
 
 convert-bbbike: build-runtime-perl
-	${DB} --list | ${NICE} time xargs -n4 -P${MAX_VCPU} ./world/bin/wgs84-to-bbbike
+	echo ${CITIES} | ${NICE} time xargs -E " " -n4 -P${MAX_VCPU} ./world/bin/wgs84-to-bbbike
 	${MAKE} -f Makefile.osm DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} _tarball
 
 _tarball:
@@ -389,7 +389,7 @@ elevation-repair:
 	${ELEVATION_SCRIPT} --database=../osm-streetnames/srtm/elevation.db --repair-database
 
 elevation-fetch:
-	${ELEVATION_SCRIPT} --database=../osm-streetnames/srtm/elevation.db --debug=1 `${DB} --list`
+	${ELEVATION_SCRIPT} --database=../osm-streetnames/srtm/elevation.db --debug=1 ${CITIES}
 
 elevation-update:
 	echo ${CITIES} | ${NICE5} xargs -E " " -n16 -P4 ${ELEVATION_SCRIPT} --readonly-database --database=../osm-streetnames/srtm/elevation.db --debug=0
