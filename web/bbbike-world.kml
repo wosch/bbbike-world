@@ -699,6 +699,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Lake Garda</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/LakeGarda/">BBBike @ Lake Garda</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>10.778,45.728,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Leeds</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Leeds/">BBBike @ Leeds</a></span>]]></description>
     <styleUrl>#style1</styleUrl>

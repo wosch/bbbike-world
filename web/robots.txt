@@ -246,6 +246,8 @@ Disallow: /Kiew/index
 Disallow: /Kiew/?
 Disallow: /Koeln/index
 Disallow: /Koeln/?
+Disallow: /LakeGarda/index
+Disallow: /LakeGarda/?
 Disallow: /Leeds/index
 Disallow: /Leeds/?
 Disallow: /Leipzig/index
