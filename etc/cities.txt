@@ -106,7 +106,6 @@ Lissabon
 MexicoCity
 Kiel
 NewDelhi
-NewDehli
 Oldenburg
 Erlangen
 Kassel
