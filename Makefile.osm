@@ -226,10 +226,11 @@ $(_cd):
 
 $(_cc):
 	c=`basename $@ -convert`; \
-		rm -rf ${DATA_OSM_DIR}/$$c; \
-		${OSM2BBD} -lang `${DB} --lang $$c` -o ${DATA_OSM_DIR}/$$c ${OSM_DIR}/$$c; \
-		world/bin/osm2bbd-workarounds ${DATA_OSM_DIR} $$c; \
-		world/bin/osm2bbd-workarounds-streets ${DATA_OSM_DIR} $$c
+		mkdir -p ${DATA_OSM_DIR}/tmp \
+		${OSM2BBD} -lang `${DB} --lang $$c` -o ${DATA_OSM_DIR}/tmp/$$c ${OSM_DIR}/$$c; \
+		world/bin/osm2bbd-workarounds ${DATA_OSM_DIR}/tmp $$c; \
+		world/bin/osm2bbd-workarounds-streets ${DATA_OSM_DIR}/tmp $$c; \
+		rm -rf ${DATA_OSM_DIR}/$$c; mv ${DATA_OSM_DIR}/tmp/$$c ${DATA_OSM_DIR}
 
 $(_cp):
 	@c=`basename $@ -poly`; mkdir -p ${OSM_DIR}/$$c; ${DB} --poly $$c > ${OSM_DIR}/$$c/$$c.poly.tmp; mv -f ${OSM_DIR}/$$c/$$c.poly.tmp ${OSM_DIR}/$$c/$$c.poly
