@@ -35,6 +35,9 @@ Perth
 Dresden
 Leeds
 Wien
+Linz
+Graz
+Innsbruck
 SanJose
 Rotterdam
 Oranienburg

@@ -571,6 +571,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Graz</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Graz/">BBBike @ Graz</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>15.428,47.0635,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Groningen</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Groningen/">BBBike @ Groningen</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -608,6 +616,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>24.94265,60.1669,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Innsbruck</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Innsbruck/">BBBike @ Innsbruck</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>11.4085,47.2665,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -728,6 +744,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-77.03115,-12.07485,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Linz</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Linz/">BBBike @ Linz</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>14.308,48.2695,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>

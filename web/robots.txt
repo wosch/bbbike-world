@@ -214,6 +214,8 @@ Disallow: /Goeteborg/index
 Disallow: /Goeteborg/?
 Disallow: /Goettingen/index
 Disallow: /Goettingen/?
+Disallow: /Graz/index
+Disallow: /Graz/?
 Disallow: /Groningen/index
 Disallow: /Groningen/?
 Disallow: /Halifax/index
@@ -224,6 +226,8 @@ Disallow: /Hannover/index
 Disallow: /Hannover/?
 Disallow: /Helsinki/index
 Disallow: /Helsinki/?
+Disallow: /Innsbruck/index
+Disallow: /Innsbruck/?
 Disallow: /Istanbul/index
 Disallow: /Istanbul/?
 Disallow: /Jena/index
@@ -254,6 +258,8 @@ Disallow: /Leipzig/index
 Disallow: /Leipzig/?
 Disallow: /Lima/index
 Disallow: /Lima/?
+Disallow: /Linz/index
+Disallow: /Linz/?
 Disallow: /Lissabon/index
 Disallow: /Lissabon/?
 Disallow: /Liverpool/index
