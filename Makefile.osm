@@ -392,7 +392,7 @@ elevation-fetch:
 	${ELEVATION_SCRIPT} --database=../osm-streetnames/srtm/elevation.db --debug=1 `${DB} --list`
 
 elevation-update:
-	${DB} --list | ${NICE5} xargs -n16 -P4 ${ELEVATION_SCRIPT} --readonly-database --database=../osm-streetnames/srtm/elevation.db --debug=0
+	echo ${CITIES} | ${NICE5} xargs -E " " -n16 -P4 ${ELEVATION_SCRIPT} --readonly-database --database=../osm-streetnames/srtm/elevation.db --debug=0
 
 help:
 	@echo "usage: make [ targets ... ]"
