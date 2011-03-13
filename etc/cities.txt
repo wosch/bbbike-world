@@ -149,6 +149,7 @@ Bangkok
 Eugene
 Ljubljana
 Turin
+LakeGarda
 Austin
 Gliwice
 Jerusalem

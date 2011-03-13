@@ -158,7 +158,8 @@ Tehran:de!Teheran,fa!‏تهران‎::fa:other:51.2734 35.6007 51.5549 35.807:1
 Tokyo:de!Tokio,ja!東京::ja:other:139.6165 35.5591 139.9478 35.7836:28000000:
 Toronto::en::other:-79.674 43.602 -79.077 43.849:2500000:
 Trondheim:::no:eu:10.2952 63.3345 10.5596 63.462:260000:
-Turin:::it:eu:7.6221 45.0155 7.7594 45.1106:891314:
+Turin:en!Turin,it!Torino::it:eu:7.6221 45.0155 7.7594 45.1106:891314:
+LakeGarda:en!Lake Garda,de!Gardasee,it!Lago di Garda::it:eu:10.36 45.318 11.196 46.138:270000:
 Tuscon::en::other:-111.108 32.114 -110.704 32.335:524527:
 UlanBator:Ulan Bator,mn!Улаанбаатар::mn:other:106.8392 47.8995 107.0167 47.9337:1100000:
 Vancouver::en::other:-123.2871 49.1809 -122.9818 49.3422:2182000:
