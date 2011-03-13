@@ -34,6 +34,9 @@ Disallow: /
 User-agent: sitebot
 disallow: /
 
+User-agent: MJ12bot
+Disallow: /
+
 User-agent: *
 Disallow: /da/
 Disallow: /de/
