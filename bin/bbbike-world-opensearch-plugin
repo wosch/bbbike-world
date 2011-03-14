@@ -5,6 +5,7 @@
 #
 
 use IO::File;
+use Getopt::Long;
 
 use lib '.';
 use lib './world/bin';
@@ -18,13 +19,6 @@ binmode \*STDOUT, ":utf8";
 
 my $debug = $ENV{DEBUG};
 my $homepage = $ENV{BBBIKE_HOMEPAGE} || 'http://www.bbbike.org';
-
-sub usage () {
-    <<EOF;
-usage: $0 directory bbbike-db
-
-EOF
-}
 
 sub extract_coords {
     my $db = shift;
@@ -62,20 +56,21 @@ sub create_opensearch_file {
     my $file = $args{'file'} or die "no file given\n";
     my $city = $args{'city'} or die "no city given\n";
     my $name       = $args{'name'}       || $city;
-    my $lang       = $args{'lang'}       || "en";
+    my $lang       = $args{'lang'}       || "";
+    my $local_lang = $args{'local_lang'} || $lang;
     my $queryparam = $args{'queryparam'} || "q";
     my $scriptname = $args{'scriptname'};
 
-    warn "Create opensearch file $file\n" if $debug;
+    warn "Create opensearch file $file, lang=$lang\n" if $debug;
     my $fh = new IO::File $file, "w" or die "open '$file': $!\n";
     binmode $fh, ":utf8";
 
-    my $lang_prefix = $lang eq 'en' ? "$lang/" : "";
+    my $lang_prefix = $lang ? "$lang/" : "";
 
     print $fh <<EOF;
 <?xml version="1.0"?>
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xml:lang="en">
-  <ShortName>BBBike @ $city ($lang)</ShortName>
+  <ShortName>BBBike @ $city ($local_lang)</ShortName>
   <LongName>BBBike @ <![CDATA[$name]]></LongName>
   <Description>BBBike @ World</Description>
   <InputEncoding>UTF-8</InputEncoding>
@@ -101,12 +96,15 @@ sub bbbike2opensearch {
     for my $city (@cities) {
         my $c = $db->city->{$city};
 
-        my @lang = "en";
+        my @lang = qw(en de);
         push( @lang, $c->{"local_lang"} ) if $c->{"local_lang"};
 
         for my $lang (@lang) {
+            my $local_lang = $c->{"local_lang"} ne $lang ? "" : $lang;
+
             my $xml_file =
-              "$dir/$city" . ( $lang eq 'en' ? ".$lang" : "" ) . ".xml";
+              "$dir/$city." . ( $local_lang ? "" : "$lang." ) . "xml";
+
             my $city_name =
               $db->select_city_name( $c->{"city"},
                 ( $c->{"name"} || $c->{"city"} ), $lang );
@@ -115,7 +113,8 @@ sub bbbike2opensearch {
                 'file'       => $xml_file,
                 'city'       => $city,
                 'name'       => $city_name,
-                'lang'       => $lang,
+                'lang'       => $local_lang ? "" : $lang,
+                'local_lang' => $local_lang,
                 'queryparam' => 'start',
             );
         }
@@ -149,15 +148,27 @@ sub bbbike2opensearch_streets {
     }
 }
 
+sub usage () {
+    <<EOF;
+usage: $0 [options] opensearch-directory city1 city2 ....
+
+--debug=0..2      debug option
+EOF
+}
+
 ######################################################################
 # main
 #
 my $streets;
 my $db_file = 'world/etc/cities.csv';
-if ( $ARGV[0] eq '--streets' ) {
-    $streets = 1;
-    shift @ARGV;
-}
+
+my $city_stat;
+
+GetOptions(
+    "debug=i" => \$debug,
+    "streets" => \$streets,
+) or die usage;
+
 my ( $dir, @cities ) = @ARGV;
 die &usage if !scalar(@cities) || !$dir;
 
