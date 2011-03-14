@@ -241,8 +241,8 @@ ${CITIES}:
 ######################################################################
 
 rsync-osm rsync:
-	rsync -azv --exclude='*.bak' --delete --max-delete=512 ${DATA_OSM_DIR} ${OSM_AREAS_OPENSEARCH} ${OSM_DIR} ${OSP_DIR} ${BBBIKE_WEBSERVER_DIR}
-	rsync -azv --exclude='*.bak' data/opensearch.streetnames ${BBBIKE_WEBSERVER_DIR}/data
+	rsync -a --exclude='*.bak' --delete --max-delete=512 ${DATA_OSM_DIR} ${OSM_AREAS_OPENSEARCH} ${OSM_DIR} ${OSP_DIR} ${BBBIKE_WEBSERVER_DIR}
+	rsync -av --exclude='*.bak' data/opensearch.streetnames ${BBBIKE_WEBSERVER_DIR}/data
 	@echo ""
 	@echo "don't forget to cleanup the data cache in ${BBBIKE_CACHE_DIR}, run:"
 	@echo "$$ sudo make clean-cache"
