@@ -31,7 +31,7 @@ zcat -f $logfiles | egrep "GET $url_match" | egrep -v '" 40[34] ' | awk '{print 
 zcat -f $logfiles | egrep "GET $url_match" | egrep -v '" 40[34] ' |  
 	egrep -v 'Purebot|Java/1|SnapPreviewBot|Tcl http client package|Yahoo\! Slurp|www.bing.com/bingbot.htm|crawler.html|Googlebot|ezooms.bot|covario|Ronbot/Nutch|cmsworldmap.com' |
 	awk '{print $1, $7 }' | perl -npe 's/\?.*//; s,/cgi/,,; s,(\.en)?\.cgi,,;' | 
-	sort | uniq -c | sort -nr | head -20 | dns
+	sort | uniq -c | sort -nr | head -40 | dns
 
 echo ""
 
