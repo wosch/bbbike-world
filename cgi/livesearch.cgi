@@ -190,7 +190,7 @@ sub route_stat {
 # main
 #
 
-print $q->header( -charset => 'utf-8' );
+print $q->header( -charset => 'utf-8', -expires => '+30m' );
 
 my $sensor = is_mobile($q) ? 'true' : 'false';
 print $q->start_html(
