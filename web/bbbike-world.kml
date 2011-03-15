@@ -15,7 +15,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Aachen/">BBBike @ Aachen</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>6.09685,50.7732,0.000000</coordinates>
+      <coordinates>6.114,50.778,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -111,7 +111,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Basel/">BBBike @ Basel</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>7.60605,47.55355,0.000000</coordinates>
+      <coordinates>7.652,47.5565,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -215,7 +215,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/BrandenburgHavel/">BBBike @ Brandenburg (Havel)</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>12.5605,52.4128,0.000000</coordinates>
+      <coordinates>12.557,52.43,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -247,7 +247,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Bruessel/">BBBike @ Brussel</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>4.3495,50.84885,0.000000</coordinates>
+      <coordinates>4.3905,50.8425,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -503,7 +503,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/FrankfurtOder/">BBBike @ Frankfurt (Oder)</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>14.5415,52.3399,0.000000</coordinates>
+      <coordinates>14.5315,52.3205,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -735,7 +735,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Leipzig/">BBBike @ Leipzig</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>12.3865,51.335,0.000000</coordinates>
+      <coordinates>12.385,51.326,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -807,7 +807,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Magdeburg/">BBBike @ Magdeburg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>11.6232,52.12395,0.000000</coordinates>
+      <coordinates>11.6435,52.145,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -911,7 +911,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Muenster/">BBBike @ Münster</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>7.6322,51.95715,0.000000</coordinates>
+      <coordinates>7.627,51.9575,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -935,7 +935,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Nuernberg/">BBBike @ Nuremberg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>11.08215,49.4436,0.000000</coordinates>
+      <coordinates>11.078,49.4375,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1399,7 +1399,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Zuerich/">BBBike @ Zurich</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>8.5377,47.3811,0.000000</coordinates>
+      <coordinates>8.5475,47.3755,0.000000</coordinates>
     </Point>
   </Placemark>
 </Document>
