@@ -1,6 +1,6 @@
 # City : Real Name : pref. language : local language : area : coord : population : step?
 #:::::::
-Aachen:::de::6.0388 50.7388 6.1549 50.8076:294951:
+Aachen:::de::5.968 50.693 6.26 50.863:294951:
 Aarhus:da!Århus,de!Århus,en!Aarhus::da:eu:10.0894 56.1007 10.3225 56.202:239865:
 Adelaide::en::other:138.458 -35.033 138.74 -34.753:1200000:
 Albuquerque::en::other:-106.7967 34.9993 -106.4726 35.2173:830000:
@@ -12,7 +12,7 @@ Baku:::az:other:49.7796 40.3409 49.9059 40.4267:2200000:
 Bamberg:::de::10.823 49.9437 10.9555 49.8565:200000:
 Bangkok:th!กรุงเทพมหานคร::th:other:100.4514 13.6445 100.6145 13.8288:12000000:
 Barcelona:::es:eu:2.0555 41.2953 2.267 41.4718:2248911:
-Basel:::de:eu:7.5298 47.5128 7.6823 47.5943:348791:
+Basel:::de:eu:7.488 47.449 7.816 47.664:348791:
 Beijing:de!Peking,zh!北京市 ::zh:other:116.181 39.819 116.606 40.03:12000000:
 Beirut:ar!‏بيروت::ar:other:35.4354 33.7935 35.6187 33.9238:2700000:
 Berlin:::de::13.0109 52.3376 13.7613 52.6753:4500000:
@@ -24,11 +24,11 @@ Bogota:es!Bogotá,en!Bogota:en:es:other:-74.2155 4.5199 -74.0078 4.7711:8200000:
 Bombay:en!Bombay,mr!मुंबई::mr:other:72.746 18.837 73.155 19.355:12000000:
 Bonn:::de::6.971 50.621 7.289 50.813:802194:
 Boulder::en::other:-105.3198 39.963 -105.2017 40.07:91481:
-BrandenburgHavel:Brandenburg (Havel)::de::12.4647 52.3745 12.6563 52.4511:74875:
+BrandenburgHavel:Brandenburg (Havel)::de::12.329 52.335 12.785 52.525:74875:
 Bremen:::de::8.704 53.007 9.001 53.137:611739:
 Brisbane::en::other:152.914 -27.565 153.184 -27.368:1900000:
 Bristol::en::eu:-2.721 51.392 -2.447 51.542:590000:
-Bruessel:de!Brüssel,en!Brussel,fr!Bruxelle,nl!Brussel::nl:eu:4.2614 50.7981 4.4376 50.8996:981000:
+Bruessel:de!Brüssel,en!Brussel,fr!Bruxelle,nl!Brussel::nl:eu:4.208 50.724 4.573 50.961:981000:
 Budapest:::hu:eu:18.9482 47.434 19.1556 47.5407:1729962:
 BuenosAires:Buenos Aires::es:other:-58.571 -34.726 -58.292 -34.535:1200000:
 Cairo:de!Kairo,ar!‏القاهرة::ar:other:31.1298 29.9285 31.4141 30.1479:18000000:
@@ -63,7 +63,7 @@ Erlangen:::de::10.9636 49.5208 11.0606 49.6199:128512:
 Eugene::en::other:-123.2152 43.987 -122.8694 44.1476:343000:
 FortCollins:Fort Collins:en::other:-105.196 40.463 -104.933 40.621:118652:
 Frankfurt:Frankfurt am Main::de::8.44 50.02 8.979 50.185:2005405:
-FrankfurtOder:Frankfurt (Oder)::de::14.4804 52.3074 14.6026 52.3724:143466:
+FrankfurtOder:Frankfurt (Oder)::de::14.396 52.201 14.667 52.44:143466:
 Freiburg:::de::7.68 47.897 8.006 48.133:230881:
 Stuttgart:::de::8.945 48.613 9.434 48.921:2674445:
 Gdansk:de!Danzig,en!Gdansk,pl!Gdańsk::pl:eu:18.411 54.303 18.812 54.57:889146:
@@ -89,7 +89,7 @@ Kiel:::de::10.0372 54.275 10.2367 54.38:260000:
 Kiew:de!Kiew,en!Kiev,uk!Київ::uk:eu:30.4236 50.3854 30.6385 50.4963:2819566:
 Koeln:de!Köln,en!Cologne::de::6.823 50.865 7.108 51.015:995397:
 Leeds::en::eu:-1.847 53.65 -1.276 53.879:1500000:
-Leipzig:::de::12.271 51.27 12.502 51.4:536773:
+Leipzig:::de::12.19 51.213 12.58 51.439:536773:
 Lima:::es:other:-77.1807 -12.2212 -76.8816 -11.9285:6500000:
 Lissabon:de!Lissabon,pt!Lisboa,en!Lisbon::pt:eu:-9.2956 38.6603 -9.0257 38.8153:2800000:
 Liverpool::en::eu:-3.208 53.263 -2.442 53.575:816000:
@@ -97,7 +97,7 @@ Ljubljana:de!Laibach,en!Ljubljana::sl:eu:14.43 46.01 14.64 46.13:278638:
 London::en::eu:-0.2417 51.4403 0.023 51.5621:7556900:
 Luebeck:Lübeck::de::10.574 53.82 10.806 53.933:255222:
 Madison::en::other:-89.578 42.971 -89.215 43.18:53512:
-Magdeburg:::de::11.553 52.0745 11.6934 52.1734:230000:
+Magdeburg:::de::11.385 51.991 11.902 52.299:230000:
 Mainz:Mainz/Wiesbaden::de::8.1339 49.9325 8.4123 50.1077:616490:
 Manchester::en::eu:-2.523 53.319 -1.934 53.641:2500000:
 Mannheim:Mannheim/Heidelberg::de::8.306 49.302 8.773 49.587:1149438:
@@ -109,10 +109,10 @@ Montevideo:::es:other:-56.318 -34.950 -55.944 -34.789:1700000:
 Montreal:en!Montreal,fr!Montréal::fr:other:-73.787 45.37 -73.404 45.607:2465219:
 Moscow:de!Moskau,ru!Москва::ru:eu:37.322 55.566 37.881 55.916:15000000:
 Muenchen:de!München,en!Munich::de::11.36 48.015 11.814 48.265:2600000:
-Muenster:Münster::de::7.5771 51.9226 7.6873 51.9917:272951:
+Muenster:Münster::de::7.462 51.873 7.792 52.042:272951:
 NewDelhi:en!New Delhi,de!Neu-Delhi,hi!नई दिल्ली::hi:other:76.978 28.44 77.497 28.738:12000000:
 NewYork:New York:en::other:-74.063 40.67 -73.894 40.827:19000000:
-Nuernberg:de!Nürnberg,en!Nuremberg::de::10.9721 49.3933 11.1922 49.4939:2500000:
+Nuernberg:de!Nürnberg,en!Nuremberg::de::10.867 49.31 11.289 49.565:2500000:
 Oldenburg:::de::8.1305 53.0859 8.2822 53.2041:160000:
 Oranienburg:::de::12.949 52.577 13.656 52.904:45000:
 Orlando::en::other:-81.644 28.283 -81.072 28.822:2000000:
@@ -173,7 +173,7 @@ Graz:de!Graz,hr!Gradac,en!Graz::de:eu:15.25 46.959 15.606 47.168:258000:
 Innsbruck:::de:eu:11.197 47.227 11.62 47.306:120000:
 Wroclaw:de!Breslau,en!Wroclaw,pl!Wrocław::pl:eu:16.9576 51.0669 17.1186 51.1454:680000:
 Zagreb:de!Agram,en!Zagreb::hr:eu:15.8046 45.7234 16.1603 45.9016:1106000:
-Zuerich:de!Zürich,en!Zurich::de:eu:8.4483 47.3437 8.6271 47.4185:486697:
+Zuerich:de!Zürich,en!Zurich::de:eu:8.292 47.173 8.803 47.578:486697:
 :::::::
 #:::::::
 # orginal BBBike version:::::::
