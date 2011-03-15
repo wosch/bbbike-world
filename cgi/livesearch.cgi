@@ -322,7 +322,7 @@ my $d = join(
 #$d.= qq{<p><a href="javascript:flipMarkers(infoMarkers)">flip markers</a></p>};
 if ( $date && @route_display ) {
     $d .= "<hr />";
-    $d .= "Number of routes: " . scalar(@route_display) . "<br />";
+    $d .= "Number of unique routes: " . scalar(@route_display) . "<br />";
 }
 
 print qq{\n\$("div#routing").html('$d');\n\n};
