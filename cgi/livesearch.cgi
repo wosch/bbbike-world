@@ -33,6 +33,20 @@ sub is_mobile {
     }
 }
 
+sub date_alias {
+    my $date = shift;
+
+    if ( $date eq 'today' ) {
+        return substr( localtime(time), 4, 6 );
+    }
+    elsif ( $date eq 'yesterday' ) {
+        return substr( localtime( time - 24 * 60 * 60 ), 4, 6 );
+    }
+    else {
+        return $date;
+    }
+}
+
 # extract URLs from web server error log
 sub extract_route {
     my $file  = shift;
@@ -49,6 +63,8 @@ sub extract_route {
     unshift( @files, "$file.7.gz", "$file.6.gz", "$file.5.gz" ) if $max > 100;
 
     if ($date) {
+        $date = &date_alias($date);
+
         eval { "foo" =~ /$date/ };
         if ($@) {
             warn "date failed: '$date'\n";
@@ -119,16 +135,14 @@ sub footer {
     }
 
     # date links: yesterday | today
-    $q->param( "max", "400" );
-    my $day = substr( localtime( time - 24 * 60 * 60 ), 4, 6 );
-    $q->param( "date", $day );
+    $q->param( "max",  "400" );
+    $q->param( "date", "yesterday" );
     $data .=
         qq{ | <a href="}
       . $q->url( -relative => 1, -query => 1 )
       . qq{">yesterday</a>\n};
 
-    $day = substr( localtime(time), 4, 6 );
-    $q->param( "date", $day );
+    $q->param( "date", "today" );
     $data .=
         qq{ | <a href="}
       . $q->url( -relative => 1, -query => 1 )
