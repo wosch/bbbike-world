@@ -3,15 +3,15 @@
 #
 # linux wrapper for (parallel) bzip2
 
-#PATH=/bin:/usr/bin:/opt/local/bin; export PATH
+PATH=/bin:/usr/bin:/opt/local/bin; export PATH
 
-if which pbzip2_disabled >/dev/null; then
+if which pbzip2 >/dev/null; then
 	bzcat='pbzip2 -dc'
 else
 	bzcat='bzip2 -dc'
 fi
 
-if which buffer >/dev/null; then
+if which buffer >/dev/null && -e /proc ; then
 	$bzcat "$@" | buffer -m 6400k
 else
 	$bzcat "$@"
