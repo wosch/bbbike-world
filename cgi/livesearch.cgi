@@ -121,7 +121,7 @@ sub footer {
     my $data = "";
     $q->delete('date');
 
-    foreach my $number ( 25, 50, 100, 250 ) {
+    foreach my $number ( 25, 50, 100, 250, 500 ) {
         if ( $number == $max ) {
             $data .= " | $number";
         }
@@ -135,7 +135,7 @@ sub footer {
     }
 
     # date links: yesterday | today
-    $q->param( "max",  "400" );
+    $q->param( "max",  "500" );
     $q->param( "date", "yesterday" );
     $data .=
         qq{ | <a href="}
