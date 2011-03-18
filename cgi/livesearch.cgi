@@ -169,6 +169,13 @@ EOF
 sub route_stat {
     my $city = shift;
 
+    my ( $average, $median, $max ) = route_stat2($city);
+    return " average: ${average}km, median: ${median}km, max: ${max}km";
+}
+
+sub route_stat2 {
+    my $city = shift;
+
     my $average = 0;
     my $median  = 0;
     my $max     = 0;
