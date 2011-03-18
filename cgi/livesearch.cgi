@@ -72,13 +72,12 @@ sub extract_route {
 
     my @data;
     my %hash;
-    my @files = $file;
-    push @files, &logfiles( $file, 2,  1 );
-    push @files, &logfiles( $file, 4,  3 ) if $max > 50;
-    push @files, &logfiles( $file, 7,  6, 5 ) if $max > 100;
+    my @files;
     push @files, &logfiles( $file, 11, 10, 9, 8 ) if $max > 500;
-
-    warn "XXX: ", join " ", @files;
+    push @files, &logfiles( $file, 7, 6, 5 ) if $max > 100;
+    push @files, &logfiles( $file, 4, 3 ) if $max > 50;
+    push @files, &logfiles( $file, 2, 1 );
+    push @files, $file;
 
     if ($date) {
         $date = &date_alias($date);
