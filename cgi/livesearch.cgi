@@ -42,6 +42,9 @@ sub date_alias {
     elsif ( $date eq 'yesterday' ) {
         return substr( localtime( time - 24 * 60 * 60 ), 4, 6 );
     }
+    elsif ( $date =~ /^yesterday(\d)$/ ) {
+        return substr( localtime( time - ( 24 * $1 ) * 60 * 60 ), 4, 6 );
+    }
     else {
         return $date;
     }
@@ -135,7 +138,7 @@ sub footer {
     }
 
     # date links: yesterday | today
-    $q->param( "max",  "500" );
+    $q->param( "max",  "400" );
     $q->param( "date", "yesterday" );
     $data .=
         qq{ | <a href="}
