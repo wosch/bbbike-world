@@ -170,25 +170,42 @@ sub route_stat {
     my $obj  = shift;
     my $city = shift;
 
-    my ( $average, $median, $max ) = route_stat2( $obj->{$city} );
+    my ( $average, $median, $max ) = route_stat2( $obj, $city );
     return " average: ${average}km, median: ${median}km, max: ${max}km";
 }
 
 sub route_stat2 {
-    my $city = shift;
+    my $obj  = shift;
+    my $name = shift;
+
+    my @routes;
+
+    # one city
+    if ($name) {
+        @routes = @{ $obj->{$name} };
+    }
+
+    # all cities
+    else {
+        foreach my $key ( keys %$obj ) {
+            if ( scalar( @{ $obj->{$key} } ) > 0 ) {
+                push @routes, @{ $obj->{$key} };
+            }
+        }
+    }
 
     my $average = 0;
     my $median  = 0;
     my $max     = 0;
 
     my @data;
-    foreach my $item ( @{$city} ) {
+    foreach my $item (@routes) {
         my $route_length = $item->{"route_length"};
         $average += $route_length;
         push @data, $route_length;
         $max = $route_length if $route_length > $max;
     }
-    $average = $average / scalar( @{$city} );
+    $average = $average / scalar(@routes);
 
     @data = sort { $a <=> $b } @data;
     my $count = scalar(@data);
@@ -203,7 +220,7 @@ sub route_stat2 {
     $median  = int( $median * 10 + 0.5 ) / 10;
     $average = int( $average * 10 + 0.5 ) / 10;
 
-    return " average: ${average}km, median: ${median}km, max: ${max}km";
+    return ( $average, $median, $max );
 }
 
 ##############################################################################################
@@ -345,6 +362,7 @@ my $d = join(
 if ( $date && @route_display ) {
     $d .= "<hr />";
     $d .= "Number of unique routes: " . scalar(@route_display) . "<br />";
+    $d .= "<p>Cycle Route Statistic<br/>" . &route_stat($cities) . "</p>";
 }
 
 print qq{\n\$("div#routing").html('$d');\n\n};
