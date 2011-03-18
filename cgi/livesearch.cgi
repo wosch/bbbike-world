@@ -50,6 +50,17 @@ sub date_alias {
     }
 }
 
+sub logfiles {
+    my $file    = shift;
+    my @numbers = @_;
+
+    my @files;
+    for my $num (@numbers) {
+        unshift @files, "$file.$num.gz";
+    }
+    return @files;
+}
+
 # extract URLs from web server error log
 sub extract_route {
     my $file  = shift;
@@ -61,9 +72,13 @@ sub extract_route {
 
     my @data;
     my %hash;
-    my @files = ( "$file.2.gz", "$file.1.gz", $file );
-    unshift( @files, "$file.4.gz", "$file.3.gz" ) if $max > 50;
-    unshift( @files, "$file.7.gz", "$file.6.gz", "$file.5.gz" ) if $max > 100;
+    my @files = $file;
+    push @files, &logfiles( $file, 2,  1 );
+    push @files, &logfiles( $file, 4,  3 ) if $max > 50;
+    push @files, &logfiles( $file, 7,  6, 5 ) if $max > 100;
+    push @files, &logfiles( $file, 11, 10, 9, 8 ) if $max > 500;
+
+    warn "XXX: ", join " ", @files;
 
     if ($date) {
         $date = &date_alias($date);
