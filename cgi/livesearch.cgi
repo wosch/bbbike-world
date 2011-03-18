@@ -359,10 +359,12 @@ my $d = join(
 );
 
 #$d.= qq{<p><a href="javascript:flipMarkers(infoMarkers)">flip markers</a></p>};
-if ( $date && @route_display ) {
+if (@route_display) {
+    $d .= qq{<div id="livestatistic">};
     $d .= "<hr />";
     $d .= "Number of unique routes: " . scalar(@route_display) . "<br />";
     $d .= "<p>Cycle Route Statistic<br/>" . &route_stat($cities) . "</p>";
+    $d .= "</div>";
 }
 
 print qq{\n\$("div#routing").html('$d');\n\n};
