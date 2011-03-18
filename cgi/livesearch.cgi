@@ -245,8 +245,8 @@ print <<EOF;
     <script type="text/javascript">
     //<![CDATA[
 
-    city = "Foobar";
-    bbbike_maps_init("terrain", [[30,-15],[62, 48]] );
+    city = "dummy";
+    bbbike_maps_init("terrain", [[30,-15],[62, 48]], "en", 1 );
   
     function jumpToCity (coord) {
 	var b = coord.split("!");
