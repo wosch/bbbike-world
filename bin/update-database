@@ -16,3 +16,6 @@ do
 	\time make -s $i > tmp/log.$i 2>&1
 done
 
+# set an notice
+date | mail -s "$0/done" `logname`
+
