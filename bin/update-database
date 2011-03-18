@@ -9,7 +9,7 @@ set -e
 tmp=tmp
 mkdir -p $tmp
 
-: ${bbbike_cleanup="distclean planet-download"}
+: ${bbbike_cleanup="planet-download"}
 
 for i in $bbbike_cleanup cities-parallel convert-wgs84 convert-bbbike update-files
 do
