@@ -274,7 +274,7 @@ print <<EOF;
     //<![CDATA[
 
     city = "dummy";
-    bbbike_maps_init("terrain", [[50,0],[52, 20]], "en", 1 );
+    bbbike_maps_init("terrain", [[43, 8],[57, 15]], "en", 1 );
   
     function jumpToCity (coord) {
 	var b = coord.split("!");
