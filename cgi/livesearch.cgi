@@ -167,9 +167,10 @@ EOF
 }
 
 sub route_stat {
+    my $obj  = shift;
     my $city = shift;
 
-    my ( $average, $median, $max ) = route_stat2($city);
+    my ( $average, $median, $max ) = route_stat2( $obj->{$city} );
     return " average: ${average}km, median: ${median}km, max: ${max}km";
 }
 
@@ -332,7 +333,7 @@ my $d = join(
     "<br/>",
     map {
             qq/<a title="area $_:/
-          . &route_stat( $cities->{$_} )
+          . &route_stat( $cities, $_ )
           . qq/" href="#" onclick="jumpToCity(\\'/
           . $city_center->{$_}
           . qq/\\')">$_ (/
