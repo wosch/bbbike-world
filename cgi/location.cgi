@@ -46,8 +46,8 @@ sub get_city {
 my $db = BBBikeWorldDB->new( 'database' => $database );
 
 print $q->header(
-    -type   => 'application/json;charset=UTF-8',
-    -expire => '+5m'
+    -type    => 'application/json;charset=UTF-8',
+    -expires => '+5m'
 );
 
 my $lat = $q->param('lat');
