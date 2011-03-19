@@ -19,6 +19,18 @@ my $feed = XML::Atom::SimpleFeed->new(
 ######################################################################
 
 $feed->add_entry(
+    title   => 'New: cycle routing for Augsburg and Halle (Saale)',
+    id      => '579e68d390c03319d8445fc43966a6cb',
+    content => {
+        type => 'text',
+        content =>
+qq{New: cycle routing for Augsburg and Halle (Saale): http://www.bbbike.org/Augsburg http://www.bbbike.org/Halle}
+    },
+    updated  => '2011-03-19T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title   => 'New: cycle routing for Malmoe and Gothenburg',
     id      => 'c8149d780c2dff3451db938c7b282264',
     content => {

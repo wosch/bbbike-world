@@ -59,6 +59,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Augsburg</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Augsburg/">BBBike @ Augsburg</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>10.89,48.3585,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Austin</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Austin/">BBBike @ Austin</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -431,7 +439,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Dublin/">BBBike @ Dublin</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-6.2905,53.341,0.000000</coordinates>
+      <coordinates>-6.2905,53.3285,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -592,6 +600,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-63.587,44.6815,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Halle (Saale)</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Halle/">BBBike @ Halle (Saale)</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>11.978,51.457,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1047,7 +1063,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Potsdam/">BBBike @ Potsdam</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>13.0765,52.3815,0.000000</coordinates>
+      <coordinates>13.033,52.3425,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
