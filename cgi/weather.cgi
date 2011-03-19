@@ -96,8 +96,8 @@ sub Fatal {
 
 binmode \*STDOUT, ':utf8';
 print $q->header(
-    -type   => 'application/json;charset=UTF-8',
-    -expire => '+30m'
+    -type    => 'application/json;charset=UTF-8',
+    -expires => '+30m'
 );
 
 if ( $debug >= 9 ) {
