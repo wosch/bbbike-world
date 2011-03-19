@@ -122,6 +122,7 @@ my $counter;
 my @route_display;
 
 my %hash = %{ $db->city };
+my $city_center;
 foreach my $city ( sort keys %hash ) {
 
     my $coord = $hash{$city}->{'coord'};
@@ -131,12 +132,19 @@ foreach my $city ( sort keys %hash ) {
     my $opt;
     my ( $x1, $y1, $x2, $y2 ) = split /\s+/, $coord;
 
-    $opt->{"area"} = "$x1,$y1!$x2,$y2";
-    $opt->{"city"} = "$city";
+    $opt->{"area"}        = "$x1,$y1!$x2,$y2";
+    $opt->{"city"}        = "$city";
+    $city_center->{$city} = $opt->{"area"};
 
     my $opt_json = $json->encode($opt);
     print qq{plotRoute(map, $opt_json, "[]");\n};
 }
+
+my $city = $q->param('city') || "Berlin";
+if ( $city && exists $city_center->{$city} ) {
+    print "\n", qq[jumpToCity('$city_center->{$city}');\n];
+}
+
 print qq{\n</script>\n};
 
 print
