@@ -20,7 +20,7 @@ my $feed = XML::Atom::SimpleFeed->new(
 
 $feed->add_entry(
     title =>
-'New: cycle routing for Augsburg, Halle (Saale), Konstanz, Osnabrüc, Paderbor, Regensbur, Uml',
+'New: cycle routing for Augsburg, Halle (Saale), Konstanz, Osnabrueck, Paderborn, Regensburg, Ulm',
     id      => '579e68d390c03319d8445fc43966a6cb',
     content => {
         type => 'text',
