@@ -57,7 +57,7 @@ my $sensor = 'true';
 my $city_area = $q->param('city') || "";
 
 print $q->start_html(
-    -title => 'BBBike @ World livesearch',
+    -title => 'BBBike @ World covered areas',
     -head  => $q->meta(
         {
             -http_equiv => 'Content-Type',
