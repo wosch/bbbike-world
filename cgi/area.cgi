@@ -54,6 +54,8 @@ my $db = BBBikeWorldDB->new( 'database' => $database, 'debug' => 0 );
 print $q->header( -charset => 'utf-8', -expires => '+30m' );
 
 my $sensor = 'true';
+my $city_area = $q->param('city') || "";
+
 print $q->start_html(
     -title => 'BBBike @ World livesearch',
     -head  => $q->meta(
@@ -89,12 +91,13 @@ print qq{<div id="routing"></div>\n};
 print qq{<div id="BBBikeGooglemap" style="height:94%">\n};
 print qq{<div id="map"></div>\n};
 
+my $map_type = $city_area ? "mapnik" : "terrain";
 print <<EOF;
     <script type="text/javascript">
     //<![CDATA[
 
     city = "dummy";
-    bbbike_maps_init("terrain", [[43, 8],[57, 15]], "en", 1 );
+    bbbike_maps_init('$map_type', [[43, 8],[57, 15]], "en", 1 );
   
     function jumpToCity (coord) {
 	var b = coord.split("!");
