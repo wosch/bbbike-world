@@ -23,7 +23,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Aarhus/">BBBike @ Aarhus</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>10.20595,56.15135,0.000000</coordinates>
+      <coordinates>10.0945,56.14,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -255,7 +255,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Budapest/">BBBike @ Budapest</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>19.0519,47.48735,0.000000</coordinates>
+      <coordinates>19.0855,47.49,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -495,7 +495,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Frankfurt/">BBBike @ Frankfurt am Main</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>8.7095,50.1025,0.000000</coordinates>
+      <coordinates>8.763,50.1155,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -527,7 +527,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Genf/">BBBike @ Geneva</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>6.15495,46.19325,0.000000</coordinates>
+      <coordinates>6.1585,46.2415,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -599,7 +599,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Hamburg/">BBBike @ Hamburg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>10.038,53.5815,0.000000</coordinates>
+      <coordinates>10.0295,53.5855,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -607,7 +607,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Hannover/">BBBike @ Hanover</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>9.7515,52.3905,0.000000</coordinates>
+      <coordinates>9.7635,52.372,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -639,7 +639,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Jena/">BBBike @ Jena</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>11.59685,50.9151,0.000000</coordinates>
+      <coordinates>11.618,50.9175,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -663,7 +663,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Karlsruhe/">BBBike @ Karlsruhe</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>8.3865,49.045,0.000000</coordinates>
+      <coordinates>8.418,49.0185,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1271,7 +1271,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Tallin/">BBBike @ Tallin</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>24.74665,59.43375,0.000000</coordinates>
+      <coordinates>24.766,59.432,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1303,7 +1303,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Trondheim/">BBBike @ Trondheim</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>10.4274,63.39825,0.000000</coordinates>
+      <coordinates>10.414,63.385,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
