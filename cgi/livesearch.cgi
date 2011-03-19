@@ -175,7 +175,8 @@ sub footer {
     return <<EOF;
 <div id="footer">
 <div id="footer_top">
-<a href="../">home</a>
+<a href="../">home</a> |
+<a href="../cgi/area.cgi">covered area</a>
 $data
 </div>
 </div>
@@ -287,7 +288,8 @@ print $q->start_html(
 );
 
 print qq{<div id="routing"></div>\n};
-print qq{<div id="BBBikeGooglemap" >\n<div id="map"></div>\n};
+print qq{<div id="BBBikeGooglemap" style="height:94%">\n};
+print qq{<div id="map"></div>\n};
 
 print <<EOF;
     <script type="text/javascript">

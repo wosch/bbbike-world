@@ -86,7 +86,8 @@ print $q->start_html(
 );
 
 print qq{<div id="routing"></div>\n};
-print qq{<div id="BBBikeGooglemap" >\n<div id="map"></div>\n};
+print qq{<div id="BBBikeGooglemap" style="height:94%">\n};
+print qq{<div id="map"></div>\n};
 
 print <<EOF;
     <script type="text/javascript">
