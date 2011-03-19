@@ -51,6 +51,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Arnhem</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Arnhem/">BBBike @ Arnhem</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>5.877,51.928,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Auckland</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Auckland/">BBBike @ Auckland</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -467,6 +475,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Eindhoven</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Eindhoven/">BBBike @ Eindhoven</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>5.5015,51.4565,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Erfurt</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Erfurt/">BBBike @ Erfurt</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -632,6 +648,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>24.915,60.233,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>'s-Hertogenbosch</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Hertogenbosch/">BBBike @ 's-Hertogenbosch</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>5.32,51.7105,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -816,6 +840,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>10.69,53.8765,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Maastricht</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Maastricht/">BBBike @ Maastricht</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>5.6555,50.879,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1331,6 +1363,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Tilburg</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Tilburg/">BBBike @ Tilburg</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>5.0785,51.5505,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Tokyo</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Tokyo/">BBBike @ Tokyo</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -1384,6 +1424,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>9.9985,48.3705,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Utrecht</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Utrecht/">BBBike @ Utrecht</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>5.162,52.0975,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
