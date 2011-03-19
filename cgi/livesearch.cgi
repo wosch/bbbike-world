@@ -267,7 +267,6 @@ print $q->start_html(
     -style => {
         'src' => [
             "../html/devbridge-jquery-autocomplete-1.1.2/styles.css",
-            "../html/devbridge-jquery-autocomplete-1.1.2/styles.css",
             "../html/bbbike.css"
         ]
     },
