@@ -1023,7 +1023,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Muenchen/">BBBike @ Munich</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>11.587,48.14,0.000000</coordinates>
+      <coordinates>11.57,48.135,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1551,7 +1551,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Wien/">BBBike @ Vienna</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>16.4033,48.21475,0.000000</coordinates>
+      <coordinates>16.416,48.1755,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
