@@ -43,7 +43,7 @@ CambridgeMa:Cambridge (Massachusetts):en::other:-71.1986 42.3265 -71.0036 42.428
 Canberra::en::other:148.977 -35.419 149.27 -35.156:340000:
 CapeTown:Cape Town,de!Kapstadt:en::other:18.278 -34.116 18.754 -33.785:72000000:
 Chemnitz:::de::12.759 50.733 13.123 50.899:241344:
-Chicago:de!Chikago:en::other:-87.7501 41.7789 -87.5307 41.9326:9700000:
+Chicago:de!Chikago:en::other:-88.006 41.643 -87.398 42.093:9700000:
 Colmar:de!Kolmar,en!Colmar::de:eu:7.2362 47.9964 7.482 48.1579:83470:
 Copenhagen:de!Kopenhagen,da!København::da:eu:12.275 55.549 12.702 55.83:11261691:
 Stockholm:::sv:eu:17.535 59.103 18.557 59.571:1250000:
@@ -124,7 +124,7 @@ Osnabrueck:de!Osnabrück,en!Osnabrück::de::7.819 52.148 8.263 52.369:163514:
 Konstanz:::de::8.759 47.37 9.828 47.872:83644:
 Muenster:Münster::de::7.462 51.873 7.792 52.042:272951:
 NewDelhi:en!New Delhi,de!Neu-Delhi,hi!नई दिल्ली::hi:other:76.978 28.44 77.497 28.738:12000000:
-NewYork:New York:en::other:-74.063 40.67 -73.894 40.827:19000000:
+NewYork:New York:en::other:-74.359 40.479 -73.671 40.96:19000000:
 Nuernberg:de!Nürnberg,en!Nuremberg::de::10.844 49.296 11.321 49.535:2500000:
 Oldenburg:::de::8.1004 53.0579 8.3253 53.2177:160000:
 Oranienburg:::de::12.949 52.577 13.656 52.904:45000:
@@ -132,7 +132,7 @@ Orlando::en::other:-81.644 28.283 -81.072 28.822:2000000:
 Oslo:::no:eu:10.397 59.751 11.104 60.038:1400000:
 Ottawa:::fr:other:-75.932 45.295 -75.441 45.532:1200000:
 Palma:es!Palma de Mallorca,de!Palma de Mallorca,en!Palma de Majorca::es:eu:2.266 39.252 3.502 39.985:404000:
-PaloAlto:Palo Alto:en::other:-122.2585 37.3661 -122.0223 37.5176:198418:
+PaloAlto:Palo Alto:en::other:-122.5 37.35 -122.0223 37.58:198418:
 Paris:::fr:eu:1.978 48.673 2.739 49.028:3956002:0.01
 Lyon:::fr:eu:4.579 45.608 5.156 45.928:1750000:
 Toulouse:::fr:eu:1.191 43.454 1.681 43.752:850000:
@@ -143,7 +143,7 @@ Corsica:en!Corsica,de!Korsika::fr:eu:8.474 41.166 9.592 43.032:302000:
 Perth::en::other:115.668 -32.225 116.125 -31.634:1800000:
 Philadelphia::en::other:-75.335 39.83 -74.937 40.047:5800000:
 PhnomPenh:Phnom Penh,km!Phnum Pénh::km:other:104.8238 11.4895 105.0164 11.6295:12000000:
-Portland::en::other:-122.81 45.43 -122.53 45.59:2100000:
+Portland::en::other:-122.965 45.334 -122.362 45.675:2100000:
 PortoAlegre:Porto Alegre::pt:other:-51.28 -30.141 -51.054 -29.94:1436000:
 Potsdam:::de::12.75 52.2 13.316 52.485:155000:
 Poznan:de!Posen,en!Poznan,pl!Poznań::pl:eu:16.617 52.236 17.257 52.537:680000:
@@ -162,15 +162,15 @@ Hertogenbosch:en!'s-Hertogenbosch,de!Herzogenbusch,fr!Bois-le-Du,es!Bolduque::nl
 Ruegen:Stralsund/Rügen::de::12.904 54.199 13.81 54.708:221436:
 Sacramento::en::other:-121.625 38.374 -121.154 38.738:2100000:
 Saigon:vi!Thành phố Hồ Chí Minh::vi:other:106.5444 10.6564 106.8545 10.8931:71000000:
-SanFrancisco:en!San Francisco,de!San Franzisko:en::other:-122.527 37.594 -122.351 37.811:800000:
+SanFrancisco:en!San Francisco,de!San Franzisko:en::other:-122.54 37.54 -122.32 37.93:800000:
 Berkeley::en::other:-122.395 37.698 -121.999 38.063:110000:
 SanJose:San José:en::other:-122.081 37.21 -121.707 37.46:1477640:
 SanktPetersburg:de!Sankt Petersburg,en!Saint Petersburg,ru!Санкт-Петербург::ru:eu:30.042 59.796 30.63 60.071:4600000:
 SantaBarbara:Santa Barbara:en::other:-119.9402 34.39 -119.5399 34.4735:200000:
-SantaCruz:Santa Cruz:en::other:-122.14 36.9346 -121.8396 37.0701:54000:
+SantaCruz:Santa Cruz:en::other:-122.1819 36.9139 -121.7709 37.21:54000:
 Santiago:Santiago de Chile::es:other:-70.813 -33.619 -70.495 -33.357:5400000:
 Sarajewo:en!Sarajevo,de!Sarajewo::hr:eu:18.242 43.768 18.515 43.935:305000:
-Seattle::en::other:-122.4612 47.5219 -122.1851 47.6823:2700000:
+Seattle::en::other:-122.462 47.394 -122.005 47.831:2700000:
 Seoul:ko!서울::ko:other:126.755 37.442 127.252 37.635:24000000:
 Sheffield::en::eu:-1.59 53.30 -1.26 53.48:640000:
 Singapore:en!Singapore,de!Singapur,zh!新加坡共和国::zh:other:103.6033 1.2385 104.028 1.4804:5000000:
@@ -187,7 +187,7 @@ Turin:en!Turin,it!Torino::it:eu:7.43 44.941 7.929 45.21:891314:
 LakeGarda:en!Lake Garda,de!Gardasee,it!Lago di Garda::it:eu:10.36 45.318 11.196 46.138:270000:
 Tuscon::en::other:-111.108 32.114 -110.704 32.335:524527:
 UlanBator:Ulan Bator,mn!Улаанбаатар::mn:other:106.8392 47.8995 107.0167 47.9337:1100000:
-Vancouver::en::other:-123.2871 49.1809 -122.9818 49.3422:2182000:
+Vancouver::en::other:-123.307 48.999 -122.668 49.416:2182000:
 Victoria::en::other:-123.578 48.392 -123.25 48.702:300000:
 WarenMueritz:Waren (Müritz)::de::12.371 53.313 13.002 53.622:23386:
 Warsaw:de!Warschau,en!Warsaw,pl!Warszawa::pl:eu:20.653 52.041 21.408 52.451:3500000:

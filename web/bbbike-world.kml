@@ -359,7 +359,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Chicago/">BBBike @ Chicago</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-87.6404,41.85575,0.000000</coordinates>
+      <coordinates>-87.702,41.868,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1047,7 +1047,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/NewYork/">BBBike @ New York</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-73.9785,40.7485,0.000000</coordinates>
+      <coordinates>-74.015,40.7195,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1127,7 +1127,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/PaloAlto/">BBBike @ Palo Alto</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-122.1404,37.44185,0.000000</coordinates>
+      <coordinates>-122.26115,37.465,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1167,7 +1167,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Portland/">BBBike @ Portland</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-122.67,45.51,0.000000</coordinates>
+      <coordinates>-122.6635,45.5045,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1279,7 +1279,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/SanFrancisco/">BBBike @ San Francisco</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-122.439,37.7025,0.000000</coordinates>
+      <coordinates>-122.43,37.735,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1311,7 +1311,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/SantaCruz/">BBBike @ Santa Cruz</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-121.9898,37.00235,0.000000</coordinates>
+      <coordinates>-121.9764,37.06195,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1335,7 +1335,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Seattle/">BBBike @ Seattle</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-122.32315,47.6021,0.000000</coordinates>
+      <coordinates>-122.2335,47.6125,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1511,7 +1511,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Vancouver/">BBBike @ Vancouver</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-123.13445,49.26155,0.000000</coordinates>
+      <coordinates>-122.9875,49.2075,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
