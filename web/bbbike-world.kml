@@ -183,7 +183,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Bielefeld/">BBBike @ Bielefeld</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>8.528,52.0085,0.000000</coordinates>
+      <coordinates>8.5795,52.006,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1063,7 +1063,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Oldenburg/">BBBike @ Oldenburg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>8.21285,53.1378,0.000000</coordinates>
+      <coordinates>8.2315,53.136,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
