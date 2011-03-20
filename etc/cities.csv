@@ -75,7 +75,7 @@ Stuttgart:::de::8.945 48.613 9.434 48.921:2674445:
 Gdansk:de!Danzig,en!Gdansk,pl!Gdańsk::pl:eu:18.411 54.303 18.812 54.57:889146:
 Genf:de!Genf,en!Geneva,fr!Genève::fr:eu:5.94 46.095 6.377 46.388:470000:
 Glasgow::en::eu:-4.53 55.745 -3.857 55.957:1200000:
-Gliwice:de!Gleiwitz,en!Gliwice,pl!Gliwice,de!Gleiwitz::pl:eu:18.6162 50.2217 18.8829 50.3642:990000:
+Gliwice:de!Gleiwitz,en!Gliwice,pl!Gliwice,de!Gleiwitz::pl:eu:18.55 50.17 18.8829 50.41:990000:
 Goerlitz:Görlitz::de::14.858 51.05 15.072 51.209:92711:
 Goettingen:Göttingen::de::9.811 51.464 10.067 51.615:148685:
 Groningen:::nl:eu:6.317 53.069 6.903 53.345:106000:
@@ -89,7 +89,7 @@ Jerusalem:he!ירושלים::he:other:35.1424 31.7261 35.2936 31.8675:1000000:
 Johannesburg::en::other:27.865 -26.353 28.302 -26.07:3800000:
 Karlsruhe:::de::8.055 48.805 8.781 49.232:338149:
 Kassel:::de::9.369 51.233 9.594 51.376:322935:
-Katowice:de!Kattowitz,en!Katowice,pl!Katowice,de!Kattowitz::pl:eu:18.8823 50.2148 19.1531 50.3625:990000:
+Katowice:de!Kattowitz,en!Katowice,pl!Katowice,de!Kattowitz::pl:eu:18.8829 50.17 19.3 50.41:990000:
 Kaunas:::lt:eu:23.738 54.79 24.273 55.01:355550:
 Kiel:::de::9.772 54.156 10.468 54.516:260000:
 Kiew:de!Kiew,en!Kiev,uk!Київ::uk:eu:30.4236 50.3854 30.6385 50.4963:2819566:
@@ -100,7 +100,7 @@ Halle:Halle (Saale)::de::11.756 51.332 12.2 51.582:232323:
 Lima:::es:other:-77.1807 -12.2212 -76.8816 -11.9285:6500000:
 Lissabon:de!Lissabon,pt!Lisboa,en!Lisbon::pt:eu:-9.535 38.384 -8.65 39.004:2800000:
 Liverpool::en::eu:-3.208 53.263 -2.442 53.575:816000:
-Ljubljana:de!Laibach,en!Ljubljana::sl:eu:14.43 46.01 14.64 46.13:278638:
+Ljubljana:de!Laibach,en!Ljubljana::sl:eu:14.267 45.904 14.771 46.25:278638:
 London::en::eu:-0.2417 51.4403 0.023 51.5621:7556900:
 Luebeck:Lübeck::de::10.422 53.67 10.994 54.042:255222:
 Madison::en::other:-89.578 42.971 -89.215 43.18:53512:
@@ -146,7 +146,7 @@ PhnomPenh:Phnom Penh,km!Phnum Pénh::km:other:104.8238 11.4895 105.0164 11.6295:
 Portland::en::other:-122.81 45.43 -122.53 45.59:2100000:
 PortoAlegre:Porto Alegre::pt:other:-51.28 -30.141 -51.054 -29.94:1436000:
 Potsdam:::de::12.75 52.2 13.316 52.485:155000:
-Poznan:de!Posen,en!Poznan,pl!Poznań::pl:eu:16.8109 52.3493 17.0351 52.4645:680000:
+Poznan:de!Posen,en!Poznan,pl!Poznań::pl:eu:16.617 52.236 17.257 52.537:680000:
 Prag:de!Prag,en!Prague,cs!Praha::cs:eu:14.3016 50.0241 14.6009 50.1468:1223368:
 Providence::en::other:-71.5273 41.7378 -71.3141 41.9006:461056:
 Riga:::lv:eu:23.787 56.813 24.446 57.091:717371:
@@ -190,14 +190,14 @@ UlanBator:Ulan Bator,mn!Улаанбаатар::mn:other:106.8392 47.8995 107.01
 Vancouver::en::other:-123.2871 49.1809 -122.9818 49.3422:2182000:
 Victoria::en::other:-123.578 48.392 -123.25 48.702:300000:
 WarenMueritz:Waren (Müritz)::de::12.371 53.313 13.002 53.622:23386:
-Warsaw:de!Warschau,en!Warsaw,pl!Warszawa::pl:eu:20.834 52.097 21.275 52.372:3500000:
+Warsaw:de!Warschau,en!Warsaw,pl!Warszawa::pl:eu:20.653 52.041 21.408 52.451:3500000:
 WashingtonDC:Washington D.C.:en::other:-77.1703 38.8096 -76.8778 38.9825:5300000:0.01
 Wien:en!Vienna,de!Wien::de:eu:16.2256 48.1187 16.581 48.3108:3114739:
 Linz:::de:eu:14.109 48.18 14.507 48.359:189000:
 Graz:de!Graz,hr!Gradac,en!Graz::de:eu:15.25 46.959 15.606 47.168:258000:
 Innsbruck:::de:eu:11.197 47.227 11.62 47.306:120000:
 Wroclaw:de!Breslau,en!Wroclaw,pl!Wrocław::pl:eu:16.803 50.998 17.278 51.216:680000:
-Zagreb:de!Agram,en!Zagreb::hr:eu:15.8046 45.7234 16.1603 45.9016:1106000:
+Zagreb:de!Agram,en!Zagreb::hr:eu:15.748 45.683 16.291 45.94:1106000:
 Zuerich:de!Zürich,en!Zurich::de:eu:8.292 47.173 8.803 47.578:486697:
 :::::::
 #:::::::

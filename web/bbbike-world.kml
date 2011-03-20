@@ -615,7 +615,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Gliwice/">BBBike @ Gliwice</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>18.74955,50.29295,0.000000</coordinates>
+      <coordinates>18.71645,50.29,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -767,7 +767,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Katowice/">BBBike @ Katowice</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>19.0177,50.28865,0.000000</coordinates>
+      <coordinates>19.09145,50.29,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -871,7 +871,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Ljubljana/">BBBike @ Ljubljana</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>14.535,46.07,0.000000</coordinates>
+      <coordinates>14.519,46.077,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1191,7 +1191,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Poznan/">BBBike @ Poznan</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>16.923,52.4069,0.000000</coordinates>
+      <coordinates>16.937,52.3865,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1535,7 +1535,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Warsaw/">BBBike @ Warsaw</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>21.0545,52.2345,0.000000</coordinates>
+      <coordinates>21.0305,52.246,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1567,7 +1567,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Zagreb/">BBBike @ Zagreb</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>15.98245,45.8125,0.000000</coordinates>
+      <coordinates>16.0195,45.8115,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
