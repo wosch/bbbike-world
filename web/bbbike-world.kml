@@ -1095,7 +1095,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Paris/">BBBike @ Paris</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>2.34245,48.86075,0.000000</coordinates>
+      <coordinates>2.3585,48.8505,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1335,7 +1335,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Stockholm/">BBBike @ Stockholm</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>18.059,59.331,0.000000</coordinates>
+      <coordinates>18.046,59.337,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1343,7 +1343,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Strassburg/">BBBike @ Strasbourg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>7.76325,48.5857,0.000000</coordinates>
+      <coordinates>7.794,48.579,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
