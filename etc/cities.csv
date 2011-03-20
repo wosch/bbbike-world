@@ -83,7 +83,7 @@ Halifax::en::other:-63.716 44.609 -63.458 44.754:412000:
 Hamburg:::de::9.61 53.366 10.449 53.805:1800000:
 Hannover:de!Hannover,en!Hanover::de::9.49 52.247 10.037 52.497:784784:
 Helsinki:::fi:eu:24.588 60.113 25.242 60.353:570000:
-Istanbul:::tr:other:28.8669 40.978 29.0904 41.0774:13000000:
+Istanbul:::tr:other:28.655 40.896 29.27 41.266:13000000:
 Jena:::de::11.458 50.795 11.778 51.04:105571:
 Jerusalem:he!ירושלים::he:other:35.1424 31.7261 35.2936 31.8675:1000000:
 Johannesburg::en::other:27.865 -26.353 28.302 -26.07:3800000:
@@ -92,7 +92,7 @@ Kassel:::de::9.369 51.233 9.594 51.376:322935:
 Katowice:de!Kattowitz,en!Katowice,pl!Katowice,de!Kattowitz::pl:eu:18.8829 50.17 19.3 50.41:990000:
 Kaunas:::lt:eu:23.738 54.79 24.273 55.01:355550:
 Kiel:::de::9.772 54.156 10.468 54.516:260000:
-Kiew:de!Kiew,en!Kiev,uk!Київ::uk:eu:30.4236 50.3854 30.6385 50.4963:2819566:
+Kiew:de!Kiew,en!Kiev,uk!Київ::uk:eu:30.278 50.298 30.859 50.622:2819566:
 Koeln:de!Köln,en!Cologne::de::6.752 50.802 7.232 51.063:995397:
 Leeds::en::eu:-1.847 53.65 -1.276 53.879:1500000:
 Leipzig:::de::12.19 51.213 12.58 51.439:536773:
@@ -165,7 +165,7 @@ Saigon:vi!Thành phố Hồ Chí Minh::vi:other:106.5444 10.6564 106.8545 10.893
 SanFrancisco:en!San Francisco,de!San Franzisko:en::other:-122.527 37.594 -122.351 37.811:800000:
 Berkeley::en::other:-122.395 37.698 -121.999 38.063:110000:
 SanJose:San José:en::other:-122.081 37.21 -121.707 37.46:1477640:
-SanktPetersburg:de!Sankt Petersburg,en!Saint Petersburg,ru!Санкт-Петербург::ru:eu:30.151 59.865 30.502 60.016:4600000:
+SanktPetersburg:de!Sankt Petersburg,en!Saint Petersburg,ru!Санкт-Петербург::ru:eu:30.042 59.796 30.63 60.071:4600000:
 SantaBarbara:Santa Barbara:en::other:-119.9402 34.39 -119.5399 34.4735:200000:
 SantaCruz:Santa Cruz:en::other:-122.14 36.9346 -121.8396 37.0701:54000:
 Santiago:Santiago de Chile::es:other:-70.813 -33.619 -70.495 -33.357:5400000:
@@ -174,7 +174,7 @@ Seattle::en::other:-122.4612 47.5219 -122.1851 47.6823:2700000:
 Seoul:ko!서울::ko:other:126.755 37.442 127.252 37.635:24000000:
 Sheffield::en::eu:-1.579 53.312 -1.308 53.45:640000:
 Singapore:en!Singapore,de!Singapur,zh!新加坡共和国::zh:other:103.6033 1.2385 104.028 1.4804:5000000:
-Sofia:bg!София::bg:eu:23.2146 42.6445 23.4244 42.7505:1397000:
+Sofia:bg!София::bg:eu:23.129 42.557 23.525 42.825:1397000:
 Strassburg:de!Straßburg,en!Strasbourg::de:eu:7.55 48.434 8.038 48.724:461328:
 Sydney::en::other:150.827 -34.058 151.328 -33.681:4300000:
 Szczecin:de!Stettin,pl!Szczecin::pl:eu:14.4419 53.3575 14.7299 53.4764:410623:
