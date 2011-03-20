@@ -172,3 +172,16 @@ PhnomPenh
 CraterLake
 Baku
 UlanBator
+Augsburg
+Halle
+Konstanz
+Osnabrueck
+Paderborn
+Regensburg
+Ulm
+Hertogenbosch
+Arnhem
+Eindhoven
+Maastricht
+Tilburg
+Utrecht
