@@ -87,6 +87,8 @@ Disallow: /Albuquerque/index
 Disallow: /Albuquerque/?
 Disallow: /Amsterdam/index
 Disallow: /Amsterdam/?
+Disallow: /Antwerpen/index
+Disallow: /Antwerpen/?
 Disallow: /Arnhem/index
 Disallow: /Arnhem/?
 Disallow: /Auckland/index
@@ -129,6 +131,8 @@ Disallow: /Bombay/index
 Disallow: /Bombay/?
 Disallow: /Bonn/index
 Disallow: /Bonn/?
+Disallow: /Bordeaux/index
+Disallow: /Bordeaux/?
 Disallow: /Boulder/index
 Disallow: /Boulder/?
 Disallow: /BrandenburgHavel/index
@@ -139,6 +143,8 @@ Disallow: /Brisbane/index
 Disallow: /Brisbane/?
 Disallow: /Bristol/index
 Disallow: /Bristol/?
+Disallow: /Bruegge/index
+Disallow: /Bruegge/?
 Disallow: /Bruessel/index
 Disallow: /Bruessel/?
 Disallow: /Budapest/index
@@ -159,10 +165,14 @@ Disallow: /Chemnitz/index
 Disallow: /Chemnitz/?
 Disallow: /Chicago/index
 Disallow: /Chicago/?
+Disallow: /ClermontFerrand/index
+Disallow: /ClermontFerrand/?
 Disallow: /Colmar/index
 Disallow: /Colmar/?
 Disallow: /Copenhagen/index
 Disallow: /Copenhagen/?
+Disallow: /Corsica/index
+Disallow: /Corsica/?
 Disallow: /Corvallis/index
 Disallow: /Corvallis/?
 Disallow: /Cottbus/index
@@ -213,6 +223,8 @@ Disallow: /Gdansk/index
 Disallow: /Gdansk/?
 Disallow: /Genf/index
 Disallow: /Genf/?
+Disallow: /Gent/index
+Disallow: /Gent/?
 Disallow: /Glasgow/index
 Disallow: /Glasgow/?
 Disallow: /Gliwice/index
@@ -285,6 +297,8 @@ Disallow: /London/index
 Disallow: /London/?
 Disallow: /Luebeck/index
 Disallow: /Luebeck/?
+Disallow: /Lyon/index
+Disallow: /Lyon/?
 Disallow: /Maastricht/index
 Disallow: /Maastricht/?
 Disallow: /Madison/index
@@ -309,6 +323,8 @@ Disallow: /Miami/index
 Disallow: /Miami/?
 Disallow: /Montevideo/index
 Disallow: /Montevideo/?
+Disallow: /Montpellier/index
+Disallow: /Montpellier/?
 Disallow: /Montreal/index
 Disallow: /Montreal/?
 Disallow: /Moscow/index
@@ -421,6 +437,8 @@ Disallow: /Tokyo/index
 Disallow: /Tokyo/?
 Disallow: /Toronto/index
 Disallow: /Toronto/?
+Disallow: /Toulouse/index
+Disallow: /Toulouse/?
 Disallow: /Trondheim/index
 Disallow: /Trondheim/?
 Disallow: /Turin/index
