@@ -13,4 +13,9 @@ libxml-atom-simplefeed-perl libjson-perl liburi-perl
 libxml-libxml-perl
 
 
+Development
+------------------------------------
+
+# extract data for a city and build a bbbike database
+$ time make CITIES="Augsburg Halle" cities convert
 
