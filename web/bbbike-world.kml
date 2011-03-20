@@ -127,7 +127,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Barcelona/">BBBike @ Barcelona</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>2.16125,41.38355,0.000000</coordinates>
+      <coordinates>2.1405,41.424,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -175,7 +175,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Bern/">BBBike @ Bern</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>7.4678,46.95215,0.000000</coordinates>
+      <coordinates>7.47,46.949,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -855,7 +855,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Lissabon/">BBBike @ Lisbon</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-9.16065,38.7378,0.000000</coordinates>
+      <coordinates>-9.0925,38.694,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
