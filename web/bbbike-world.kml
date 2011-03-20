@@ -271,7 +271,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Bristol/">BBBike @ Bristol</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-2.584,51.467,0.000000</coordinates>
+      <coordinates>-2.5975,51.464,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -511,7 +511,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Edinburgh/">BBBike @ Edinburgh</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-3.172,55.9335,0.000000</coordinates>
+      <coordinates>-3.174,55.9365,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -823,7 +823,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Leeds/">BBBike @ Leeds</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-1.5615,53.7645,0.000000</coordinates>
+      <coordinates>-1.583,53.7645,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -879,7 +879,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/London/">BBBike @ London</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-0.10935,51.5012,0.000000</coordinates>
+      <coordinates>-0.087,51.4905,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -943,7 +943,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Manchester/">BBBike @ Manchester</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-2.2285,53.48,0.000000</coordinates>
+      <coordinates>-2.1565,53.48,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1351,7 +1351,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Sheffield/">BBBike @ Sheffield</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-1.4435,53.381,0.000000</coordinates>
+      <coordinates>-1.425,53.39,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
