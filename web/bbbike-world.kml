@@ -227,6 +227,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Bordeaux</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Bordeaux/">BBBike @ Bordeaux</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-0.5745,44.8455,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Boulder</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Boulder/">BBBike @ Boulder</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -352,6 +360,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-87.6404,41.85575,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Clermont-Ferrand</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/ClermontFerrand/">BBBike @ Clermont-Ferrand</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>3.1195,45.7815,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -867,6 +883,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Lyon</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Lyon/">BBBike @ Lyon</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>4.8675,45.768,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Maastricht</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Maastricht/">BBBike @ Maastricht</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -960,6 +984,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-56.131,-34.8695,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Montpellier</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Montpellier/">BBBike @ Montpellier</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>3.9015,43.57,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1408,6 +1440,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-79.3755,43.7255,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Toulouse</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Toulouse/">BBBike @ Toulouse</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>1.436,43.603,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
