@@ -1,0 +1,22 @@
+#!/bin/sh
+# Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
+#
+# osm2bpf - convert a *.osm.bz2 file to bpf format
+#
+
+set -e
+
+: ${MD5=`which md5 md5sum | head -1`}
+nice="nice -n 9"
+
+file=$1
+file_bpf=`basename $file .bz2`.pbf
+
+file_bpf_new=$file_bpf.new.$$
+
+time $nice pbzip2 -dc $file | buffer |
+  $nice time osmosis  --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --write-pbf $file_bpf_new omitmetadata=true
+
+mv -f $file_bpf_new $file_bpf
+$MD5 $file_bpf | tee $file_bpf.md5
+
