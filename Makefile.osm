@@ -136,8 +136,7 @@ city-reorder:
 	@cd ${OSM_DIR}; du -ks * | sort -nr
 
 city-file:
-	${MAKE} -s city-reorder | awk '{print $$2 }'  > ${CITIES_FILE}
-	#  ./world/bin/bbbike-db --list | sort 
+	( echo Bogota; ${MAKE} -s city-reorder | awk '{print $$2 }' | egrep -v Bogota ) > ${CITIES_FILE}
 
 update-robots.txt:
 	( cat world/web/robots.txt.in; \
