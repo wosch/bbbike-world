@@ -147,7 +147,10 @@ Portland::en::other:-122.965 45.334 -122.362 45.675:2100000:
 PortoAlegre:Porto Alegre::pt:other:-51.28 -30.141 -51.054 -29.94:1436000:
 Potsdam:::de::12.75 52.2 13.316 52.485:155000:
 Poznan:de!Posen,en!Poznan,pl!Poznań::pl:eu:16.617 52.236 17.257 52.537:680000:
+Lodz:de!Lodz,en!Lodz,pl!Łód::pl:eu:19.182 51.598 19.757 51.908:740000:
 Prag:de!Prag,en!Prague,cs!Praha::cs:eu:14.195 49.906 14.75 50.181:1223368:
+Brno:de!Brünn,en!Brno,cs!Brno::cs:eu:16.358 49.06 16.837 49.363:404443:
+Ostrava:de!Ostrau,en!Ostrava,cs!Ostrava,pl!Ostrawa::cs:eu:18.066 49.692 18.634 49.956:303000:
 Providence::en::other:-71.5273 41.7378 -71.3141 41.9006:461056:
 Riga:::lv:eu:23.787 56.813 24.446 57.091:717371:
 RiodeJaneiro:Rio de Janeiro::pt:other:-43.3592 -23.0103 -43.0369 -22.7833:14000000:
@@ -182,6 +185,7 @@ Tallin:de!Reval,en!Tallin,et!Tallin::et:eu:24.444 59.287 25.088 59.577:403505:
 Tehran:de!Teheran,fa!‏تهران‎::fa:other:51.2734 35.6007 51.5549 35.807:13000000:
 Tokyo:de!Tokio,ja!東京::ja:other:139.6165 35.5591 139.9478 35.7836:28000000:
 Toronto::en::other:-79.674 43.602 -79.077 43.849:2500000:
+Calgary::en::other:-114.314 50.857 -113.764 51.217:1079310:
 Trondheim:::no:eu:10.139 63.304 10.689 63.466:260000:
 Turin:en!Turin,it!Torino::it:eu:7.43 44.941 7.929 45.21:891314:
 LakeGarda:en!Lake Garda,de!Gardasee,it!Lago di Garda::it:eu:10.36 45.318 11.196 46.138:270000:

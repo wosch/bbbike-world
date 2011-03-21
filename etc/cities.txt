@@ -1,3 +1,7 @@
+Lodz
+Brno
+Ostrava
+Calgary
 Bogota
 Paris
 Toulouse

@@ -275,6 +275,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Brno</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Brno/">BBBike @ Brno</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>16.5975,49.2115,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Bruges</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Bruegge/">BBBike @ Bruges</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -312,6 +320,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>31.27195,30.0382,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Calgary</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Calgary/">BBBike @ Calgary</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-114.039,51.037,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -875,6 +891,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Lodz</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Lodz/">BBBike @ Lodz</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>19.4695,51.753,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>London</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/London/">BBBike @ London</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -1096,6 +1120,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>8.041,52.2585,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Ostrava</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Ostrava/">BBBike @ Ostrava</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>18.35,49.824,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>

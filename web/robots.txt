@@ -143,6 +143,8 @@ Disallow: /Brisbane/index
 Disallow: /Brisbane/?
 Disallow: /Bristol/index
 Disallow: /Bristol/?
+Disallow: /Brno/index
+Disallow: /Brno/?
 Disallow: /Bruegge/index
 Disallow: /Bruegge/?
 Disallow: /Bruessel/index
@@ -153,6 +155,8 @@ Disallow: /BuenosAires/index
 Disallow: /BuenosAires/?
 Disallow: /Cairo/index
 Disallow: /Cairo/?
+Disallow: /Calgary/index
+Disallow: /Calgary/?
 Disallow: /Cambridge/index
 Disallow: /Cambridge/?
 Disallow: /CambridgeMa/index
@@ -293,6 +297,8 @@ Disallow: /Liverpool/index
 Disallow: /Liverpool/?
 Disallow: /Ljubljana/index
 Disallow: /Ljubljana/?
+Disallow: /Lodz/index
+Disallow: /Lodz/?
 Disallow: /London/index
 Disallow: /London/?
 Disallow: /Luebeck/index
@@ -349,6 +355,8 @@ Disallow: /Oslo/index
 Disallow: /Oslo/?
 Disallow: /Osnabrueck/index
 Disallow: /Osnabrueck/?
+Disallow: /Ostrava/index
+Disallow: /Ostrava/?
 Disallow: /Ottawa/index
 Disallow: /Ottawa/?
 Disallow: /Paderborn/index
