@@ -451,6 +451,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Dallas</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Dallas/">BBBike @ Dallas</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-96.7855,32.785,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Darmstadt</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Darmstadt/">BBBike @ Darmstadt</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -720,6 +728,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>5.32,51.7105,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>AL</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Huntsville/">BBBike @ AL</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-86.5765,34.7185,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1067,6 +1083,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>New Orleans</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/NewOrleans/">BBBike @ New Orleans</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-90.0925,29.928,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>New York</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/NewYork/">BBBike @ New York</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -1200,6 +1224,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-122.6635,45.5045,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Maine</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/PortlandME/">BBBike @ Maine</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-70.3505,43.6435,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1408,6 +1440,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>18.046,59.337,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Stockton</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Stockton/">BBBike @ Stockton</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-121.2755,37.9415,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
