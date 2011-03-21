@@ -16,6 +16,14 @@
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>New: cycle routing for Lodz, Brno, Ostrava,
+    Calgary</title>
+    <id>cd703c8c5c464d05509931f62f578a0c</id>
+    <content>New: cycle routing for Lodz, Brno, Ostrava,
+    Calgary</content>
+    <updated>2010-03-03T18:30:02Z</updated>
+  </entry>
+  <entry>
     <title>New: cycle routing for Lyon, Toulouse, Bordeaux,
     Montpellier, Clermont-Ferrand, Corsica</title>
     <id>604c4a5ac89c1af7e7d7b6f0f7ecf4d5</id>
