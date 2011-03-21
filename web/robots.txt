@@ -187,6 +187,8 @@ Disallow: /CraterLake/index
 Disallow: /CraterLake/?
 Disallow: /Curitiba/index
 Disallow: /Curitiba/?
+Disallow: /Dallas/index
+Disallow: /Dallas/?
 Disallow: /Darmstadt/index
 Disallow: /Darmstadt/?
 Disallow: /Davis/index
@@ -255,6 +257,8 @@ Disallow: /Helsinki/index
 Disallow: /Helsinki/?
 Disallow: /Hertogenbosch/index
 Disallow: /Hertogenbosch/?
+Disallow: /Huntsville/index
+Disallow: /Huntsville/?
 Disallow: /Innsbruck/index
 Disallow: /Innsbruck/?
 Disallow: /Istanbul/index
@@ -341,6 +345,8 @@ Disallow: /Muenster/index
 Disallow: /Muenster/?
 Disallow: /NewDelhi/index
 Disallow: /NewDelhi/?
+Disallow: /NewOrleans/index
+Disallow: /NewOrleans/?
 Disallow: /NewYork/index
 Disallow: /NewYork/?
 Disallow: /Nuernberg/index
@@ -375,6 +381,8 @@ Disallow: /PhnomPenh/index
 Disallow: /PhnomPenh/?
 Disallow: /Portland/index
 Disallow: /Portland/?
+Disallow: /PortlandME/index
+Disallow: /PortlandME/?
 Disallow: /PortoAlegre/index
 Disallow: /PortoAlegre/?
 Disallow: /Potsdam/index
@@ -427,6 +435,8 @@ Disallow: /Sofia/index
 Disallow: /Sofia/?
 Disallow: /Stockholm/index
 Disallow: /Stockholm/?
+Disallow: /Stockton/index
+Disallow: /Stockton/?
 Disallow: /Strassburg/index
 Disallow: /Strassburg/?
 Disallow: /Stuttgart/index
