@@ -11,11 +11,13 @@ mkdir -p $tmp
 
 : ${bbbike_cleanup="planet-download"}
 
+begin="`date`"
 for i in $bbbike_cleanup cities-parallel convert-wgs84 convert-bbbike update-files
 do
 	\time make -s $i > tmp/log.$i 2>&1
 done
 
 # set an notice
-date | mail -s "$0/done" `whoami`
+(  echo "begin: $begin"
+   echo "end:   `date`" ) | mail -s "$0/done" `whoami`
 
