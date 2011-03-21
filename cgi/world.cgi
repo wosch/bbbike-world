@@ -36,11 +36,11 @@ mkdir -p $cache_dir
 #trap 'rm -rf "$cache_dir"; exit 1' 1 2 3 13 15
 #trap 'rm -rf "$cache_dir"' 0
 
-# set CPU and memory limits
-# max. 120 seconds
+# set CPU time and memory limits
+# max. 3min 
 ulimit -t 180
 
-# max. 512MB RAM
+# max. 1.2GB RAM
 ulimit -v 1212000 
 
 time env TMPDIR=$cache_dir DATA_DIR="data-osm/$name" BBBIKE_DATADIR="data-osm/$name" perl $dirname/bbbike.cgi
