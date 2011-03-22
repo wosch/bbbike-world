@@ -51,5 +51,7 @@ EOF
 	fi
 done
 
-rm -f _* *.bak
+#rm -f _* *.bak
+rm -f *.bak
+gzip -f _*
 
