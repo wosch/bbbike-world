@@ -132,7 +132,7 @@ NewDelhi:en!New Delhi,de!Neu-Delhi,hi!नई दिल्ली::hi:other:76.978
 NewYork:New York:en::other:-74.359 40.479 -73.671 40.96:19000000:
 Nuernberg:de!Nürnberg,en!Nuremberg::de::10.844 49.296 11.321 49.535:2500000:
 Oldenburg:::de::7.951 53.012 8.512 53.26:160000:
-Oranienburg:::de::12.949 52.577 13.656 52.904:45000:
+Oranienburg:::de::12.92 52.577 14.50 53.30:45000:
 Orlando::en::other:-81.644 28.283 -81.072 28.822:2000000:
 Oslo:::no:eu:10.397 59.751 11.104 60.038:1400000:
 Ottawa:::fr:other:-75.95 45.21 -75.40 45.532:1200000:
@@ -185,7 +185,7 @@ Singapore:en!Singapore,de!Singapur,zh!新加坡共和国::zh:other:103.6033 1.23
 Sofia:bg!София::bg:eu:23.129 42.557 23.525 42.825:1397000:
 Strassburg:de!Straßburg,en!Strasbourg::de:eu:7.55 48.434 8.038 48.724:461328:
 Sydney::en::other:150.827 -34.058 151.328 -33.681:4300000:
-Szczecin:de!Stettin,pl!Szczecin::pl:eu:14.4419 53.3575 14.7299 53.4764:410623:
+Szczecin:de!Stettin,pl!Szczecin::pl:eu:14.35 53.30 14.82 53.57:410623:
 Tallin:de!Reval,en!Tallin,et!Tallin::et:eu:24.444 59.287 25.088 59.577:403505:
 Tehran:de!Teheran,fa!‏تهران‎::fa:other:51.2734 35.6007 51.5549 35.807:13000000:
 Tokyo:de!Tokio,ja!東京::ja:other:139.6165 35.5591 139.9478 35.7836:28000000:
@@ -198,7 +198,7 @@ Tuscon::en::other:-111.108 32.114 -110.704 32.335:524527:
 UlanBator:Ulan Bator,mn!Улаанбаатар::mn:other:106.8392 47.8995 107.0167 47.9337:1100000:
 Vancouver::en::other:-123.307 48.999 -122.668 49.416:2182000:
 Victoria::en::other:-123.578 48.392 -123.25 48.702:300000:
-WarenMueritz:Waren (Müritz)::de::12.371 53.313 13.002 53.622:23386:
+WarenMueritz:Waren (Müritz)::de::12.10 53.25 13.40 53.84:23386:
 Warsaw:de!Warschau,en!Warsaw,pl!Warszawa::pl:eu:20.653 52.041 21.408 52.451:3500000:
 WashingtonDC:Washington D.C.:en::other:-77.1703 38.8096 -76.8778 38.9825:5300000:0.01
 Wien:en!Vienna,de!Wien::de:eu:16.159 47.988 16.673 48.363:3114739:
