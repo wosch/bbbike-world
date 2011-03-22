@@ -311,7 +311,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/BuenosAires/">BBBike @ Buenos Aires</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-58.4315,-34.6305,0.000000</coordinates>
+      <coordinates>-58.4235,-34.6465,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -731,8 +731,8 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name>AL</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Huntsville/">BBBike @ AL</a></span>]]></description>
+    <name>Huntsville (Alabama)</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Huntsville/">BBBike @ Huntsville (Alabama)</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-86.5765,34.7185,0.000000</coordinates>
@@ -1227,8 +1227,8 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name>Maine</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/PortlandME/">BBBike @ Maine</a></span>]]></description>
+    <name>Portland (Maine)</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/PortlandME/">BBBike @ Portland (Maine)</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-70.3505,43.6435,0.000000</coordinates>
