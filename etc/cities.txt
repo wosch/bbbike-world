@@ -1,12 +1,3 @@
-Dallas
-Stockton
-PortlandME
-Huntsville
-NewOrleans
-Lodz
-Brno
-Ostrava
-Calgary
 Bogota
 Paris
 Toulouse
@@ -40,6 +31,7 @@ Marseille
 Toronto
 Muenchen
 Karlsruhe
+Ostrava
 Corsica
 Birmingham
 ClermontFerrand
@@ -52,6 +44,7 @@ Nuernberg
 Duisburg
 Dresden
 NewYork
+Brno
 Antwerpen
 Bern
 Sydney
@@ -75,6 +68,7 @@ Montreal
 Linz
 Oslo
 Chicago
+NewOrleans
 Bremen
 Rostock
 Dublin
@@ -109,6 +103,7 @@ Mainz
 Melbourne
 Bristol
 Berkeley
+Dallas
 Palma
 Philadelphia
 Colmar
@@ -116,6 +111,7 @@ Ulm
 Brisbane
 Glasgow
 PaloAlto
+Stockton
 Sheffield
 Tokyo
 Magdeburg
@@ -134,15 +130,18 @@ Lissabon
 SanFrancisco
 Kassel
 Auckland
+Huntsville
 Graz
 Kiew
 Canberra
+BuenosAires
 Paderborn
 Halle
 Osnabrueck
 Istanbul
 Trondheim
 Ruegen
+Calgary
 Cottbus
 Zagreb
 Innsbruck
@@ -156,6 +155,7 @@ Muenster
 Madison
 Erfurt
 Saigon
+PortlandME
 Johannesburg
 Victoria
 Austin
@@ -175,9 +175,9 @@ Tuscon
 Halifax
 Providence
 Seoul
+Lodz
 Cairo
 WarenMueritz
-BuenosAires
 Baghdad
 FrankfurtOder
 SantaBarbara
