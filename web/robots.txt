@@ -467,6 +467,8 @@ Disallow: /UlanBator/index
 Disallow: /UlanBator/?
 Disallow: /Ulm/index
 Disallow: /Ulm/?
+Disallow: /Usedom/index
+Disallow: /Usedom/?
 Disallow: /Utrecht/index
 Disallow: /Utrecht/?
 Disallow: /Vancouver/index
