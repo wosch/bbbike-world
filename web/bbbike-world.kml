@@ -399,7 +399,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Copenhagen/">BBBike @ Copenhagen</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>12.4885,55.6895,0.000000</coordinates>
+      <coordinates>12.475,55.7,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1119,7 +1119,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Oranienburg/">BBBike @ Oranienburg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>13.3025,52.7405,0.000000</coordinates>
+      <coordinates>13.71,52.9385,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1247,7 +1247,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Potsdam/">BBBike @ Potsdam</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>13.033,52.3425,0.000000</coordinates>
+      <coordinates>12.99,52.2175,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1479,7 +1479,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Szczecin/">BBBike @ Szczecin</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>14.5859,53.41695,0.000000</coordinates>
+      <coordinates>14.585,53.435,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1599,7 +1599,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/WarenMueritz/">BBBike @ Waren (Müritz)</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>12.6865,53.4675,0.000000</coordinates>
+      <coordinates>12.75,53.545,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1615,7 +1615,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/WashingtonDC/">BBBike @ Washington D.C.</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-77.02405,38.89605,0.000000</coordinates>
+      <coordinates>-77.035,38.915,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
