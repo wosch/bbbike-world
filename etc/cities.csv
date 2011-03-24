@@ -20,7 +20,7 @@ Beijing:de!Peking,zh!北京市 ::zh:other:116.181 39.819 116.606 40.03:12000000:
 Beirut:ar!‏بيروت::ar:other:35.4354 33.7935 35.6187 33.9238:2700000:
 Berlin:::de::13.0109 52.27 13.93 52.71:4500000:
 Bern:de!Bern,en!Bern,fr!Berne::de:eu:7.172 46.729 7.768 47.169:349000:
-Bielefeld:::de::8.331 51.867 8.828 52.145:388832:
+Bielefeld:::de::8.331 51.867 8.97 52.145:388832:
 Birmingham::en::eu:-2.2 52.376 -1.696 52.63:2300000:
 Bochum:::de::7.05 51.39 7.35 51.63:380000:
 Bogota:es!Bogotá,en!Bogota:en:es:other:-74.2155 4.5199 -74.0078 4.7711:8200000:
@@ -78,7 +78,7 @@ FrankfurtOder:Frankfurt (Oder)::de::14.396 52.201 14.667 52.44:143466:
 Freiburg:::de::7.68 47.897 8.006 48.133:230881:
 Stuttgart:::de::8.945 48.613 9.434 48.921:2674445:
 Gdansk:de!Danzig,en!Gdansk,pl!Gdańsk::pl:eu:18.34 54.23 18.87 54.62:889146:
-Genf:de!Genf,en!Geneva,fr!Genève::fr:eu:5.94 46.095 6.377 46.388:470000:
+Genf:de!Genf,en!Geneva,fr!Genève::fr:eu:5.92 46.02 6.52 46.43:470000:
 Glasgow::en::eu:-4.53 55.745 -3.857 55.957:1200000:
 Gliwice:de!Gleiwitz,en!Gliwice,pl!Gliwice,de!Gleiwitz::pl:eu:18.55 50.17 18.8829 50.41:990000:
 Goerlitz:Görlitz::de::14.858 51.05 15.072 51.209:92711:
@@ -124,7 +124,7 @@ Muenchen:de!München,en!Munich::de::11.31 47.96 11.83 48.31:2600000:
 Augsburg:::de::10.7 48.249 11.08 48.468:263646:
 Ulm:::de::9.691 48.221 10.306 48.52:122087:
 Regensburg:::de::11.891 48.895 12.344 49.143:134218:
-Paderborn:::de::8.525 51.607 9.039 51.84:145320:
+Paderborn:::de::8.525 51.607 9.10 51.89:145320:
 Osnabrueck:de!Osnabrück,en!Osnabrück::de::7.819 52.148 8.263 52.369:163514:
 Konstanz:::de::8.759 47.37 9.828 47.872:83644:
 Muenster:Münster::de::7.462 51.873 7.792 52.042:272951:
