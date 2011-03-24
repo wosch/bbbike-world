@@ -287,6 +287,8 @@ Disallow: /Konstanz/index
 Disallow: /Konstanz/?
 Disallow: /LakeGarda/index
 Disallow: /LakeGarda/?
+Disallow: /Lausanne/index
+Disallow: /Lausanne/?
 Disallow: /Leeds/index
 Disallow: /Leeds/?
 Disallow: /Leipzig/index
