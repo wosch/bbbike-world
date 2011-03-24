@@ -100,6 +100,7 @@ Kassel:::de::9.225 51.158 9.742 51.47:322935:
 Katowice:de!Kattowitz,en!Katowice,pl!Katowice,de!Kattowitz::pl:eu:18.8829 50.17 19.3 50.41:990000:
 Kaunas:::lt:eu:23.738 54.79 24.273 55.01:355550:
 Kiel:::de::9.772 54.156 10.468 54.516:260000:
+Flensburg:::de::9.131 54.621 10.089 54.958:88000:
 Kiew:de!Kiew,en!Kiev,uk!Київ,ru!Киев::uk:eu:30.278 50.298 30.859 50.622:2819566:
 Koeln:de!Köln,en!Cologne::de::6.752 50.802 7.232 51.06:995397:
 Leeds::en::eu:-1.89 53.65 -1.276 53.879:1500000:
@@ -110,7 +111,7 @@ Lissabon:de!Lissabon,pt!Lisboa,en!Lisbon::pt:eu:-9.535 38.384 -8.65 39.004:28000
 Liverpool::en::eu:-3.208 53.263 -2.442 53.575:816000:
 Ljubljana:de!Laibach,en!Ljubljana::sl:eu:14.267 45.904 14.771 46.25:278638:
 London::en::eu:-0.597 51.278 0.423 51.703:7556900:
-Luebeck:Lübeck::de::10.422 53.67 10.994 54.042:255222:
+Luebeck:Lübeck::de::10.422 53.67 11.00 54.16:255222:
 Madison::en::other:-89.578 42.971 -89.215 43.18:53512:
 Magdeburg:::de::11.385 51.991 11.902 52.299:230000:
 Mainz:Mainz/Wiesbaden::de::8.1 49.918 8.51 50.15:616490:
@@ -162,7 +163,8 @@ Ostrava:de!Ostrau,en!Ostrava,cs!Ostrava,pl!Ostrawa::cs:eu:18.066 49.692 18.634 4
 Providence::en::other:-71.5273 41.7378 -71.3141 41.9006:461056:
 Riga:::lv:eu:23.787 56.813 24.446 57.091:717371:
 RiodeJaneiro:Rio de Janeiro::pt:other:-43.3592 -23.0103 -43.0369 -22.7833:14000000:
-Rostock:::de::11.865 53.916 12.434 54.197:409007:
+Rostock:::de::11.86 53.916 12.434 54.197:409007:
+Schwerin:Schwerin/Wismar::de::11.00 53.505 11.86 54.046:150000:
 Rotterdam:::nl:eu:4.183 51.753 4.823 51.984:561000:
 Maastricht:::nl:eu:5.434 50.724 5.877 51.034:118523:
 Eindhoven:::nl:eu:5.258 51.329 5.745 51.584:775345:

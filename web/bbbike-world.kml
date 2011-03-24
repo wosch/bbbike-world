@@ -579,6 +579,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Flensburg</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Flensburg/">BBBike @ Flensburg</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>9.61,54.7895,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Fort Collins</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/FortCollins/">BBBike @ Fort Collins</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -719,7 +727,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Hannover/">BBBike @ Hanover</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>9.7635,52.372,0.000000</coordinates>
+      <coordinates>9.745,52.37,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -943,7 +951,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Luebeck/">BBBike @ Lübeck</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>10.708,53.856,0.000000</coordinates>
+      <coordinates>10.711,53.915,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1319,7 +1327,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Rostock/">BBBike @ Rostock</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>12.1495,54.0565,0.000000</coordinates>
+      <coordinates>12.147,54.0565,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1408,6 +1416,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>18.3785,43.8515,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Schwerin/Wismar</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Schwerin/">BBBike @ Schwerin/Wismar</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>11.43,53.7755,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>

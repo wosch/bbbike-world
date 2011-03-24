@@ -219,6 +219,8 @@ Disallow: /Erlangen/index
 Disallow: /Erlangen/?
 Disallow: /Eugene/index
 Disallow: /Eugene/?
+Disallow: /Flensburg/index
+Disallow: /Flensburg/?
 Disallow: /FortCollins/index
 Disallow: /FortCollins/?
 Disallow: /Frankfurt/index
@@ -427,6 +429,8 @@ Disallow: /Santiago/index
 Disallow: /Santiago/?
 Disallow: /Sarajewo/index
 Disallow: /Sarajewo/?
+Disallow: /Schwerin/index
+Disallow: /Schwerin/?
 Disallow: /Seattle/index
 Disallow: /Seattle/?
 Disallow: /Seoul/index
