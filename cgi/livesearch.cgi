@@ -73,7 +73,7 @@ sub extract_route {
     my @data;
     my %hash;
     my @files;
-    push @files, &logfiles( $file, 11, 10, 9, 8 ) if $max > 500;
+    push @files, &logfiles( $file, reverse 8..20 ) if $max > 500;
     push @files, &logfiles( $file, 7, 6, 5 ) if $max > 100;
     push @files, &logfiles( $file, 4, 3 ) if $max > 50;
     push @files, &logfiles( $file, 2, 1 );
@@ -115,21 +115,29 @@ sub extract_route {
             my @list = split;
             my $url  = pop(@list);
 
-            next if exists $hash{$url};
+            next if scalar(@data) > 20_000;    # keep memory usage low
             push( @data, $url );
-            $hash{$url} = 1;
 
-            # limit number of URLs
-            # note: there may be duplicated in the route
-            if ( scalar(@data) > $max * 1.5 ) {
-                $url = shift @data;
-                undef $hash{$url};
-            }
         }
         close $fh;
     }
 
-    return @data;
+    my @urls;
+    for ( my $i = $#data ; $i >= 0 ; $i-- ) {
+        my $url = $data[$i];
+
+        # use a factor of 1.5 for max. URLs. The URLs may differs, but the route
+        # could be equal
+        last if scalar(@urls) > $max * 1.5;
+
+        next if exists $hash{$url};
+
+        push @urls, $url;
+        $hash{$url} = 1;
+    }
+
+    warn "data: $#data, url: $#urls\n";
+    return @urls;
 }
 
 sub footer {
@@ -242,8 +250,10 @@ sub route_stat2 {
           ( $data[ int( $count / 2 ) ] + $data[ int( $count / 2 ) - 1 ] ) / 2;
     }
 
+    # round all values to 100 meters
     $median  = int( $median * 10 + 0.5 ) / 10;
     $average = int( $average * 10 + 0.5 ) / 10;
+    $max     = int( $max * 10 + 0.5 ) / 10;
 
     return ( $average, $median, $max );
 }
@@ -320,7 +330,7 @@ EOF
 
 if ( $q->param('max') ) {
     my $m = $q->param('max');
-    $max = $m if $m > 0 && $m < 1024;
+    $max = $m if $m > 0 && $m <= 2_000;
 }
 
 my $date = $q->param('date') || "";
@@ -334,7 +344,7 @@ my $cities;
 my %hash;
 my $counter;
 my @route_display;
-foreach my $url ( reverse @d ) {
+foreach my $url (@d) {
     my $qq = CGI->new($url);
     print $url, "\n" if $debug >= 2;
 
