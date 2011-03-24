@@ -1379,8 +1379,8 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name>SaarbrÃ¼cken</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Saarbruecken/">BBBike @ SaarbrÃ¼cken</a></span>]]></description>
+    <name>Saarbrücken</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Saarbruecken/">BBBike @ Saarbrücken</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>7.0185,49.25,0.000000</coordinates>
