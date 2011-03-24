@@ -1175,7 +1175,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Oranienburg/">BBBike @ Oranienburg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>13.71,52.9385,0.000000</coordinates>
+      <coordinates>13.71,53.0285,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1359,7 +1359,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Rostock/">BBBike @ Rostock</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>12.147,54.0565,0.000000</coordinates>
+      <coordinates>12.147,54.0535,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1647,7 +1647,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Usedom/">BBBike @ Usedom/Greifswald</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>14.0565,53.87,0.000000</coordinates>
+      <coordinates>14.0565,53.84,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1679,7 +1679,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/WarenMueritz/">BBBike @ Waren (Müritz)</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>12.75,53.545,0.000000</coordinates>
+      <coordinates>12.63,53.58,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
