@@ -13,6 +13,7 @@ use JSON;
 use XML::Simple;
 use XML::LibXML::Reader;
 use Tie::IxHash;
+use YAML::Syck;
 
 # not used yet
 #use GPS::Point;
