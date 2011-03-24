@@ -22,7 +22,7 @@ Berlin:::de::13.0109 52.27 13.93 52.71:4500000:
 Bern:de!Bern,en!Bern,fr!Berne::de:eu:7.172 46.729 7.768 47.169:349000:
 Bielefeld:::de::8.331 51.867 8.828 52.145:388832:
 Birmingham::en::eu:-2.2 52.376 -1.696 52.63:2300000:
-Bochum:::de::7.05 51.39 7.35 51.631:380000:
+Bochum:::de::7.05 51.39 7.35 51.63:380000:
 Bogota:es!Bogotá,en!Bogota:en:es:other:-74.2155 4.5199 -74.0078 4.7711:8200000:
 Bombay:en!Bombay,mr!मुंबई::mr:other:72.746 18.837 73.155 19.355:12000000:
 Bonn:::de::6.93 50.58 7.33 50.813:802194:
@@ -54,7 +54,7 @@ Cottbus:::de::14.17 51.653 14.492 51.865:102811:
 Cracow:de!Krakau,en!Cracow,pl!Kraków::pl:eu:19.756 49.963 20.156 50.136:801100:
 CraterLake:Crater Lake:en::other:-122.2593 42.8404 -121.9531 43.0219:0:
 Curitiba:::pt:other:-49.3549 -25.5195 -49.1647 -25.381:1700000:
-Darmstadt:::de::8.44 49.77 8.842 50.00:573289:
+Darmstadt:::de::8.44 49.72 8.842 50.00:573289:
 Davis::en::other:-121.8085 38.5045 -121.6698 38.5942:60964:
 DenHaag:de!Den Haag,nl!Den Haag,en!The Hague::nl:eu:4.08 51.963 4.568 52.209:1022000:
 Denver::en::other:-105.195 39.6 -104.765 39.89:2500000:
@@ -63,11 +63,11 @@ Stockton::en::other:-121.459 37.718 -121.092 38.165:290000:
 PortlandME:Portland (Maine):en::other:-70.581 43.434 -70.12 43.853:190000:
 Huntsville:Huntsville (Alabama):en::other:-86.814 34.528 -86.339 34.909:417000:
 NewOrleans:en!New Orleans,fr!La Nouvelle-Orléans:en::other:-90.337 29.775 -89.848 30.081:1235650:
-Dortmund:::de::7.35 51.39 7.65 51.631:580000:
-Dresden:::de::13.441 50.878 14.182 51.184:1115674:
+Dortmund:::de::7.35 51.39 7.65 51.63:580000:
+Dresden:::de::13.43 50.878 14.182 51.23:1115674:
 Dublin::en::eu:-6.549 53.147 -6.032 53.51:477700:
-Duesseldorf:de!Düsseldorf,en!Dusseldorf::de::6.517 51.064 7.108 51.364:1658557:
-Duisburg:Duisburg/Essen::de::6.663 51.361 7.111 51.604:490000:
+Duesseldorf:de!Düsseldorf,en!Dusseldorf::de::6.51 51.064 7.11 51.39:1658557:
+Duisburg:Duisburg/Essen::de::6.51 51.361 7.11 51.63:490000:
 Edinburgh::en::eu:-3.487 55.831 -2.861 56.042:500000:
 Erfurt:::de::10.9049 50.8958 11.1961 51.0815:202450:
 Erlangen:::de::10.809 49.492 11.255 49.745:128512:
@@ -92,7 +92,7 @@ Istanbul:::tr:other:28.655 40.896 29.27 41.266:13000000:
 Jena:::de::11.458 50.795 11.778 51.04:105571:
 Jerusalem:he!ירושלים::he:other:35.1424 31.7261 35.2936 31.8675:1000000:
 Johannesburg::en::other:27.865 -26.353 28.302 -26.07:3800000:
-Karlsruhe:::de::8.055 48.805 8.781 49.232:338149:
+Karlsruhe:::de::8.055 48.805 8.781 49.23:338149:
 Kassel:::de::9.225 51.158 9.742 51.446:322935:
 Katowice:de!Kattowitz,en!Katowice,pl!Katowice,de!Kattowitz::pl:eu:18.8829 50.17 19.3 50.41:990000:
 Kaunas:::lt:eu:23.738 54.79 24.273 55.01:355550:
@@ -112,7 +112,7 @@ Madison::en::other:-89.578 42.971 -89.215 43.18:53512:
 Magdeburg:::de::11.385 51.991 11.902 52.299:230000:
 Mainz:Mainz/Wiesbaden::de::8.1 49.918 8.51 50.15:616490:
 Manchester::en::eu:-2.523 53.31 -1.79 53.65:2500000:
-Mannheim:Mannheim/Heidelberg::de::8.306 49.23 8.773 49.59:1149438:
+Mannheim:Mannheim/Heidelberg::de::8.10 49.23 8.79 49.72:1149438:
 Marseille:::fr:eu:5.277 43.142 5.72 43.438:1400000:0.01
 Melbourne::en::other:144.792 -37.921 145.122 -37.686:3600000:
 MexicoCity:en!Mexico City,de!Mexiko-Stadt,es!Ciudad de Méxicoeses::es:other:-99.2708 19.3095 -98.9714 19.5329:21000000:
