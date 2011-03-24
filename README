@@ -1,16 +1,14 @@
 Required perl modules:
 ------------------------------------
 
-see ../bin/bbbike-build-runtime-perl.p
+see ../bin/bbbike-build-runtime-perl.pl
 
 Required debian modules
 ------------------------------------
 
 pbzip2 git-core openjdk-6-jdk screen lynx curl wget 
 pigz make libhtml-tagcloud-perl buffer pktstat libtext-unidecode-perl perltidy
-libxml-atom-simplefeed-perl libjson-perl liburi-perl
-
-libxml-libxml-perl
+libxml-atom-simplefeed-perl libjson-perl liburi-perl libxml-libxml-perl libyaml-perl libyaml-syck-perl
 
 
 Development
