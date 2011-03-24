@@ -285,6 +285,8 @@ Disallow: /Kiel/index
 Disallow: /Kiel/?
 Disallow: /Kiew/index
 Disallow: /Kiew/?
+Disallow: /Koblenz/index
+Disallow: /Koblenz/?
 Disallow: /Koeln/index
 Disallow: /Koeln/?
 Disallow: /Konstanz/index
@@ -411,6 +413,8 @@ Disallow: /Rotterdam/index
 Disallow: /Rotterdam/?
 Disallow: /Ruegen/index
 Disallow: /Ruegen/?
+Disallow: /Saarbruecken/index
+Disallow: /Saarbruecken/?
 Disallow: /Sacramento/index
 Disallow: /Sacramento/?
 Disallow: /Saigon/index
