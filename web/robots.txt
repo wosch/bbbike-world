@@ -487,6 +487,8 @@ Disallow: /Wien/index
 Disallow: /Wien/?
 Disallow: /Wroclaw/index
 Disallow: /Wroclaw/?
+Disallow: /Wuppertal/index
+Disallow: /Wuppertal/?
 Disallow: /Zagreb/index
 Disallow: /Zagreb/?
 Disallow: /Zuerich/index

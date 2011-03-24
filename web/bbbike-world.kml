@@ -519,7 +519,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Duesseldorf/">BBBike @ Dusseldorf</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>6.81,51.227,0.000000</coordinates>
+      <coordinates>6.81,51.225,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -831,7 +831,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Koeln/">BBBike @ Cologne</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>6.992,50.9325,0.000000</coordinates>
+      <coordinates>6.992,50.931,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1648,6 +1648,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>17.0405,51.107,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Wuppertal</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Wuppertal/">BBBike @ Wuppertal</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>7.3,51.225,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>

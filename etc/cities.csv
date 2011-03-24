@@ -64,9 +64,10 @@ PortlandME:Portland (Maine):en::other:-70.581 43.434 -70.12 43.853:190000:
 Huntsville:Huntsville (Alabama):en::other:-86.814 34.528 -86.339 34.909:417000:
 NewOrleans:en!New Orleans,fr!La Nouvelle-Orléans:en::other:-90.337 29.775 -89.848 30.081:1235650:
 Dortmund:::de::7.35 51.39 7.65 51.63:580000:
+Wuppertal:::de::6.95 51.06 7.65 51.39:580000:
 Dresden:::de::13.43 50.878 14.182 51.23:1115674:
 Dublin::en::eu:-6.549 53.147 -6.032 53.51:477700:
-Duesseldorf:de!Düsseldorf,en!Dusseldorf::de::6.51 51.064 7.11 51.39:1658557:
+Duesseldorf:de!Düsseldorf,en!Dusseldorf::de::6.51 51.06 7.11 51.39:1658557:
 Duisburg:Duisburg/Essen::de::6.51 51.361 7.11 51.63:490000:
 Edinburgh::en::eu:-3.487 55.831 -2.861 56.042:500000:
 Erfurt:::de::10.9049 50.8958 11.1961 51.0815:202450:
@@ -99,7 +100,7 @@ Katowice:de!Kattowitz,en!Katowice,pl!Katowice,de!Kattowitz::pl:eu:18.8829 50.17 
 Kaunas:::lt:eu:23.738 54.79 24.273 55.01:355550:
 Kiel:::de::9.772 54.156 10.468 54.516:260000:
 Kiew:de!Kiew,en!Kiev,uk!Київ,ru!Киев::uk:eu:30.278 50.298 30.859 50.622:2819566:
-Koeln:de!Köln,en!Cologne::de::6.752 50.802 7.232 51.063:995397:
+Koeln:de!Köln,en!Cologne::de::6.752 50.802 7.232 51.06:995397:
 Leeds::en::eu:-1.89 53.65 -1.276 53.879:1500000:
 Leipzig:::de::12.19 51.213 12.58 51.439:536773:
 Halle:Halle (Saale)::de::11.756 51.332 12.2 51.582:232323:
