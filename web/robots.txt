@@ -101,6 +101,8 @@ Disallow: /Baghdad/index
 Disallow: /Baghdad/?
 Disallow: /Baku/index
 Disallow: /Baku/?
+Disallow: /Balaton/index
+Disallow: /Balaton/?
 Disallow: /Bamberg/index
 Disallow: /Bamberg/?
 Disallow: /Bangkok/index
@@ -177,6 +179,8 @@ Disallow: /Colmar/index
 Disallow: /Colmar/?
 Disallow: /Copenhagen/index
 Disallow: /Copenhagen/?
+Disallow: /Cork/index
+Disallow: /Cork/?
 Disallow: /Corsica/index
 Disallow: /Corsica/?
 Disallow: /Corvallis/index
@@ -315,6 +319,8 @@ Disallow: /London/index
 Disallow: /London/?
 Disallow: /Luebeck/index
 Disallow: /Luebeck/?
+Disallow: /Luxemburg/index
+Disallow: /Luxemburg/?
 Disallow: /Lyon/index
 Disallow: /Lyon/?
 Disallow: /Maastricht/index

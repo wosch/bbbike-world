@@ -107,6 +107,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Lake Balaton</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Balaton/">BBBike @ Lake Balaton</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>17.7005,46.8975,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Bamberg</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Bamberg/">BBBike @ Bamberg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -408,6 +416,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>12.475,55.7,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Cork</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Cork/">BBBike @ Cork</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-8.3965,51.828,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>

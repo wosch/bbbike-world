@@ -56,6 +56,7 @@ Corvallis::en::other:-123.412 44.475 -123.033 44.676:49807:
 Cottbus:::de::14.17 51.653 14.492 51.865:102811:
 Cracow:de!Krakau,en!Cracow,pl!Kraków::pl:eu:19.756 49.963 20.156 50.136:801100:
 CraterLake:Crater Lake:en::other:-122.2593 42.8404 -121.9531 43.0219:0:
+Balaton:en!Lake Balaton,de!Plattensee:hu::eu:17.081 46.588 18.32 47.207:100000
 Curitiba:::pt:other:-49.3549 -25.5195 -49.1647 -25.381:1700000:
 Darmstadt:::de::8.44 49.72 8.842 50.00:573289:
 Davis::en::other:-121.8085 38.5045 -121.6698 38.5942:60964:
@@ -70,6 +71,7 @@ Dortmund:::de::7.35 51.39 7.65 51.63:580000:
 Wuppertal:::de::6.95 51.06 7.65 51.39:580000:
 Dresden:::de::13.43 50.878 14.182 51.23:1115674:
 Dublin::en::eu:-6.549 53.147 -6.032 53.51:477700:
+Cork::en::eu:-8.67 51.672 -8.123 51.984:274000:
 Duesseldorf:de!Düsseldorf,en!Dusseldorf::de::6.51 51.06 7.11 51.39:1658557:
 Duisburg:Duisburg/Essen::de::6.51 51.361 7.11 51.63:490000:
 Edinburgh::en::eu:-3.487 55.831 -2.861 56.042:500000:
