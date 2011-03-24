@@ -101,6 +101,8 @@ Disallow: /Baghdad/index
 Disallow: /Baghdad/?
 Disallow: /Baku/index
 Disallow: /Baku/?
+Disallow: /Balaton/index
+Disallow: /Balaton/?
 Disallow: /Bamberg/index
 Disallow: /Bamberg/?
 Disallow: /Bangkok/index
@@ -137,6 +139,8 @@ Disallow: /Boulder/index
 Disallow: /Boulder/?
 Disallow: /BrandenburgHavel/index
 Disallow: /BrandenburgHavel/?
+Disallow: /Braunschweig/index
+Disallow: /Braunschweig/?
 Disallow: /Bremen/index
 Disallow: /Bremen/?
 Disallow: /Brisbane/index
@@ -175,6 +179,8 @@ Disallow: /Colmar/index
 Disallow: /Colmar/?
 Disallow: /Copenhagen/index
 Disallow: /Copenhagen/?
+Disallow: /Cork/index
+Disallow: /Cork/?
 Disallow: /Corsica/index
 Disallow: /Corsica/?
 Disallow: /Corvallis/index
@@ -217,6 +223,8 @@ Disallow: /Erlangen/index
 Disallow: /Erlangen/?
 Disallow: /Eugene/index
 Disallow: /Eugene/?
+Disallow: /Flensburg/index
+Disallow: /Flensburg/?
 Disallow: /FortCollins/index
 Disallow: /FortCollins/?
 Disallow: /Frankfurt/index
@@ -281,12 +289,16 @@ Disallow: /Kiel/index
 Disallow: /Kiel/?
 Disallow: /Kiew/index
 Disallow: /Kiew/?
+Disallow: /Koblenz/index
+Disallow: /Koblenz/?
 Disallow: /Koeln/index
 Disallow: /Koeln/?
 Disallow: /Konstanz/index
 Disallow: /Konstanz/?
 Disallow: /LakeGarda/index
 Disallow: /LakeGarda/?
+Disallow: /Lausanne/index
+Disallow: /Lausanne/?
 Disallow: /Leeds/index
 Disallow: /Leeds/?
 Disallow: /Leipzig/index
@@ -307,6 +319,8 @@ Disallow: /London/index
 Disallow: /London/?
 Disallow: /Luebeck/index
 Disallow: /Luebeck/?
+Disallow: /Luxemburg/index
+Disallow: /Luxemburg/?
 Disallow: /Lyon/index
 Disallow: /Lyon/?
 Disallow: /Maastricht/index
@@ -405,6 +419,8 @@ Disallow: /Rotterdam/index
 Disallow: /Rotterdam/?
 Disallow: /Ruegen/index
 Disallow: /Ruegen/?
+Disallow: /Saarbruecken/index
+Disallow: /Saarbruecken/?
 Disallow: /Sacramento/index
 Disallow: /Sacramento/?
 Disallow: /Saigon/index
@@ -423,6 +439,8 @@ Disallow: /Santiago/index
 Disallow: /Santiago/?
 Disallow: /Sarajewo/index
 Disallow: /Sarajewo/?
+Disallow: /Schwerin/index
+Disallow: /Schwerin/?
 Disallow: /Seattle/index
 Disallow: /Seattle/?
 Disallow: /Seoul/index
@@ -467,6 +485,8 @@ Disallow: /UlanBator/index
 Disallow: /UlanBator/?
 Disallow: /Ulm/index
 Disallow: /Ulm/?
+Disallow: /Usedom/index
+Disallow: /Usedom/?
 Disallow: /Utrecht/index
 Disallow: /Utrecht/?
 Disallow: /Vancouver/index
@@ -483,6 +503,8 @@ Disallow: /Wien/index
 Disallow: /Wien/?
 Disallow: /Wroclaw/index
 Disallow: /Wroclaw/?
+Disallow: /Wuppertal/index
+Disallow: /Wuppertal/?
 Disallow: /Zagreb/index
 Disallow: /Zagreb/?
 Disallow: /Zuerich/index
