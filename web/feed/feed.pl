@@ -18,6 +18,31 @@ my $feed = XML::Atom::SimpleFeed->new(
 
 ######################################################################
 $feed->add_entry(
+    title => qq{New: cycle routing for Luxemburg, Lake Balaton, Cork, Lausanne},
+    id    => '9be2454e1d61e6abadea574f1779c74d',
+    content => {
+        type => 'text',
+        content =>
+          qq{New: cycle routing for Luxemburg, Lake Balaton, Cork, Lausanne},
+        updated  => '2011-03-24T12:30:02Z',
+        category => 'News',
+    }
+);
+
+$feed->add_entry(
+    title =>
+qq{New: cycle routing for Braunschweig/Wolfsburg, Wuppertal, Usedom/Greifswald,, Schwerin/Wismar, Flensburg, Koblenz, Saarbruecken},
+    id      => 'bd199616e9f56b41d8566895b21d8f9f',
+    content => {
+        type => 'text',
+        content =>
+qq{New: cycle routing for Braunschweig/Wolfsburg, Wuppertal, Usedom/Greifswald,, Schwerin/Wismar, Flensburg, Koblenz, Saarbruecken},
+        updated  => '2011-03-24T12:30:02Z',
+        category => 'News',
+    }
+);
+
+$feed->add_entry(
     title =>
 qq{New: cycle routing for Dallas, Stockton, Portland ME, Huntsville, New Orleans},
     id      => 'a7a750d08f9009fa0695d78167894381',

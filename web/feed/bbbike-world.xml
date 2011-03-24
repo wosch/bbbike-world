@@ -16,6 +16,24 @@
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>New: cycle routing for Luxemburg, Lake Balaton, Cork,
+    Lausanne</title>
+    <id>9be2454e1d61e6abadea574f1779c74d</id>
+    <content>New: cycle routing for Luxemburg, Lake Balaton, Cork,
+    Lausanne</content>
+    <updated>2010-03-03T18:30:02Z</updated>
+  </entry>
+  <entry>
+    <title>New: cycle routing for Braunschweig/Wolfsburg,
+    Wuppertal, Usedom/Greifswald,, Schwerin/Wismar, Flensburg,
+    Koblenz, Saarbruecken</title>
+    <id>bd199616e9f56b41d8566895b21d8f9f</id>
+    <content>New: cycle routing for Braunschweig/Wolfsburg,
+    Wuppertal, Usedom/Greifswald,, Schwerin/Wismar, Flensburg,
+    Koblenz, Saarbruecken</content>
+    <updated>2010-03-03T18:30:02Z</updated>
+  </entry>
+  <entry>
     <title>New: cycle routing for Dallas, Stockton, Portland ME,
     Huntsville, New Orleans</title>
     <id>a7a750d08f9009fa0695d78167894381</id>
