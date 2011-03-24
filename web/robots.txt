@@ -137,6 +137,8 @@ Disallow: /Boulder/index
 Disallow: /Boulder/?
 Disallow: /BrandenburgHavel/index
 Disallow: /BrandenburgHavel/?
+Disallow: /Braunschweig/index
+Disallow: /Braunschweig/?
 Disallow: /Bremen/index
 Disallow: /Bremen/?
 Disallow: /Brisbane/index
