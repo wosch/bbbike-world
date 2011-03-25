@@ -15,6 +15,7 @@ use XML::LibXML::Reader;
 use Tie::IxHash;
 use YAML::Syck;
 use YAML;
+use Perl::Tidy;
 
 # not used yet
 #use GPS::Point;
