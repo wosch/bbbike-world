@@ -93,17 +93,23 @@ sub bbbike2opensearch {
     my $db     = $args{'db'};
     my @cities = @{ $args{'cities'} };
 
+    # create a link to
+    #     /osp/<city>.xml for local language
+    #     /osp/<city>.en.xml for english language
+    #     /osp/<city>.de.xml for german language
+    #
+    # omit english or german link if equal with local language
+    #
     for my $city (@cities) {
         my $c = $db->city->{$city};
+        my $local_lang = $c->{"local_lang"} || "en";
 
         my @lang = qw(en de);
-        push( @lang, $c->{"local_lang"} ) if $c->{"local_lang"};
+        push( @lang, $local_lang ) if !grep { $local_lang eq $_ } @lang;
 
         for my $lang (@lang) {
-            my $local_lang = $c->{"local_lang"} ne $lang ? "" : $lang;
-
             my $xml_file =
-              "$dir/$city." . ( $local_lang ? "" : "$lang." ) . "xml";
+              "$dir/$city." . ( $lang eq $local_lang ? "" : "$lang." ) . "xml";
 
             my $city_name =
               $db->select_city_name( $c->{"city"},
@@ -130,8 +136,6 @@ sub bbbike2opensearch_streets {
 
     for my $city (@cities) {
         my $c = $db->city->{$city};
-
-        #my $city_lang = $lang eq '' ? $c->{"local_lang"} : $city_lang;
 
         my $xml_file = "$dir/$city" . ( $lang ? ".$lang" : "" ) . ".xml";
         my $name =
