@@ -122,22 +122,7 @@ sub extract_route {
         close $fh;
     }
 
-    my @urls;
-    for ( my $i = $#data ; $i >= 0 ; $i-- ) {
-        my $url = $data[$i];
-
-        # use a factor of 1.5 for max. URLs. The URLs may differs, but the route
-        # could be equal
-        last if scalar(@urls) > $max * 1.5;
-
-        next if exists $hash{$url};
-
-        push @urls, $url;
-        $hash{$url} = 1;
-    }
-
-    warn "data: $#data, url: $#urls\n";
-    return @urls;
+    return @data;
 }
 
 sub footer {
