@@ -99,3 +99,6 @@ zcat -f $logfiles | egrep 'POST /cgi/slippymap.*?\?' | egrep -v '" 40[34] ' | pe
 zcat -f $logfiles | egrep 'POST /cgi/slippymap.*?\?' | egrep -v '" 40[34] ' |
 	perl -ne 'print "$1\n" if m,city=(.*?)[&;\s],' | sort | uniq -c | sort -nr
 
+echo ""
+echo "streets.html"
+egrep 'GET /[A-Z][^ ]*/streets.html' $logfiles | awk '{ print $11 }'| sort | uniq -c | sort -nr
