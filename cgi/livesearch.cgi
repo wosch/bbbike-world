@@ -73,7 +73,7 @@ sub extract_route {
     my @data;
     my %hash;
     my @files;
-    push @files, &logfiles( $file, reverse 8..20 ) if $max > 500;
+    push @files, &logfiles( $file, reverse 8 .. 20 ) if $max > 500;
     push @files, &logfiles( $file, 7, 6, 5 ) if $max > 100;
     push @files, &logfiles( $file, 4, 3 ) if $max > 50;
     push @files, &logfiles( $file, 2, 1 );
