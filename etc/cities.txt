@@ -46,13 +46,13 @@ Maastricht
 CambridgeMa
 Oranienburg
 Nuernberg
+Antwerpen
 Dresden
 Rostock
 NewYork
 Brno
 Braunschweig
 Copenhagen
-Antwerpen
 Bern
 Koblenz
 Sydney
@@ -64,6 +64,7 @@ Koeln
 Genf
 Wien
 Montevideo
+Bruessel
 Szczecin
 SanktPetersburg
 Lausanne
@@ -98,7 +99,6 @@ Augsburg
 Bordeaux
 Basel
 Leipzig
-Bruessel
 WarenMueritz
 Barcelona
 Darmstadt
