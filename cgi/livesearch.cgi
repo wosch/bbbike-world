@@ -385,8 +385,8 @@ if (@route_display) {
     my $unique_routes = scalar(@route_display);
     $d .= qq{<div id="livestatistic">};
     $d .= "<hr />";
-    $d .= "Number of unique routes: $unique_routes<br />";
-    $d .= "<!-- total routes: $counter2/$unique_routes -->";
+    $d .=
+qq{Number of unique routes: <span title="total routes: $counter2">$unique_routes<br />};
     $d .= "<p>Cycle Route Statistic<br/>" . &route_stat($cities) . "</p>";
     $d .= "</div>";
 }
