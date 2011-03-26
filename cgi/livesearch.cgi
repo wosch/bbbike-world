@@ -319,6 +319,7 @@ if ( $q->param('max') ) {
 }
 
 my $date = $q->param('date') || "";
+my $stat = $q->param('stat') || "";
 my @d = &extract_route( $logfile, $max, 0, $date );
 
 print qq{<script type="text/javascript">\n};
@@ -368,6 +369,15 @@ foreach my $url (@d) {
 print "/* ", Dumper($cities),      " */\n" if $debug >= 2;
 print "/* ", Dumper($city_center), " */\n" if $debug >= 2;
 
+my @cities = sort keys %$cities;
+
+# sort cities by hit counter, not by name
+if ( $stat eq 'hits' ) {
+    @cities =
+      reverse sort { $#{ $cities->{$a} } <=> $#{ $cities->{$b} } }
+      keys %$cities;
+}
+
 my $d = join(
     "<br/>",
     map {
@@ -377,7 +387,7 @@ my $d = join(
           . $city_center->{$_}
           . qq/\\')">$_ (/
           . scalar( @{ $cities->{$_} } ) . ")</a>"
-      } sort keys %$cities
+      } @cities
 );
 
 #$d.= qq{<p><a href="javascript:flipMarkers(infoMarkers)">flip markers</a></p>};
