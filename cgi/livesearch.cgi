@@ -397,6 +397,14 @@ if (@route_display) {
     $d .= "<hr />";
     $d .=
 qq{Number of unique routes: <span title="total routes: $counter2">$unique_routes<br />};
+
+    my $qq = CGI->new($q);
+    $qq->param( "stat", $stat eq 'hits' ? "name" : "hits" );
+    $d .=
+        qq{Sort cities by <a href="}
+      . $qq->url( -relative => 1, -query => 1 ) . qq{">}
+      . ( $stat ne 'hits' ? " hits " : " name " )
+      . qq{</a><br />};
     $d .= "<p>Cycle Route Statistic<br/>" . &route_stat($cities) . "</p>";
     $d .= "</div>";
 }
