@@ -343,9 +343,11 @@ my $json = new JSON;
 my $cities;
 my %hash;
 my $counter;
+my $counter2 = 0;
 my @route_display;
 foreach my $url (@d) {
     my $qq = CGI->new($url);
+    $counter2++;
     print $url, "\n" if $debug >= 2;
 
     next if !$qq->param('driving_time');
@@ -395,9 +397,11 @@ my $d = join(
 
 #$d.= qq{<p><a href="javascript:flipMarkers(infoMarkers)">flip markers</a></p>};
 if (@route_display) {
+    my $unique_routes = scalar(@route_display);
     $d .= qq{<div id="livestatistic">};
     $d .= "<hr />";
-    $d .= "Number of unique routes: " . scalar(@route_display) . "<br />";
+    $d .= "Number of unique routes: $unique_routes<br />";
+    $d .= "<!-- total routes: $counter2/$unique_routes -->";
     $d .= "<p>Cycle Route Statistic<br/>" . &route_stat($cities) . "</p>";
     $d .= "</div>";
 }
