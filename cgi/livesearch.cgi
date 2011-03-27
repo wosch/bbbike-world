@@ -56,7 +56,7 @@ sub logfiles {
 
     my @files;
     for my $num (@numbers) {
-        unshift @files, "$file.$num.gz";
+        push @files, "$file.$num.gz";
     }
     return @files;
 }
@@ -73,11 +73,11 @@ sub extract_route {
     my @data;
     my %hash;
     my @files;
-    push @files, &logfiles( $file, reverse 8 .. 20 ) if $max > 500;
-    push @files, &logfiles( $file, 7, 6, 5 ) if $max > 100;
-    push @files, &logfiles( $file, 4, 3 ) if $max > 50;
-    push @files, &logfiles( $file, 2, 1 );
     push @files, $file;
+    push @files, &logfiles( $file, 1, 2 );
+    push @files, &logfiles( $file, 3, 4 ) if $max > 50;
+    push @files, &logfiles( $file, 5, 6, 7 ) if $max > 100;
+    push @files, &logfiles( $file, 8 .. 20 ) if $max > 500;
 
     if ($date) {
         $date = &date_alias($date);
@@ -89,11 +89,11 @@ sub extract_route {
         }
     }
 
-    foreach my $file (@files) {
+    foreach my $file (reverse @files) {
         next if !-f $file;
 
         my $fh;
-        warn "Open $file...\n" if $debug >= 2;
+        warn "Open $file ...\n" if $debug >= 2;
         if ( $file =~ /\.gz$/ ) {
             open( $fh, "gzip -dc $file |" ) or die "open $file: $!\n";
         }
@@ -334,7 +334,7 @@ my @route_display;
 foreach my $url (@d) {
     my $qq = CGI->new($url);
     $counter2++;
-    print $url, "\n" if $debug >= 2;
+    warn $url, "\n" if $debug >= 2;
 
     next if !$qq->param('driving_time');
 
