@@ -31,6 +31,19 @@ usage: $0 [ options ] < population.csv
 EOF
 }
 
+sub sort_cities () {
+    my @cities = @_;
+
+    my %hash;
+    foreach my $city (@cities) {
+        my $val = $city;
+        $val =~ s,'s-,,;    # 's-Hertogenbosch
+        $hash{$city} = $val;
+    }
+
+    return sort { $hash{$a} cmp $hash{$b} } keys %hash;
+}
+
 GetOptions(
     "debug=i"            => \$debug,
     "lang=s"             => \$city_lang,
@@ -63,7 +76,7 @@ foreach my $city ( $db->list_cities ) {
     }
 }
 
-foreach my $city ( sort keys %hash ) {
+foreach my $city ( &sort_cities( keys %hash ) ) {
 
     #print qq[<option value="], $hash{$city}, qq[">$city</option>\n];
     print qq[<a class="C_], $class{$city}, qq[" href="], $hash{$city},
