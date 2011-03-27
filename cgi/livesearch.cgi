@@ -122,7 +122,7 @@ sub extract_route {
         close $fh;
     }
 
-    return @data;
+    return reverse @data;
 }
 
 sub footer {
