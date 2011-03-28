@@ -119,6 +119,7 @@ cities-pbf cities: poly
 
 cities-parallel:
 	@echo ${CITIES} | perl -npe 's/\s+/\n/g' | ./world/bin/cities-parallel ${MAX_OSMOSIS} cities-pbf | sh
+	${MAKE} -f Makefile.osm check-osm-gzip
 
 _cities:
 	@echo ${CITIES} | \
