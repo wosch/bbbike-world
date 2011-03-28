@@ -89,7 +89,7 @@ sub extract_route {
         }
     }
 
-    foreach my $file (reverse @files) {
+    foreach my $file ( reverse @files ) {
         next if !-f $file;
 
         my $fh;
@@ -319,7 +319,7 @@ if ( $q->param('max') ) {
 }
 
 my $date = $q->param('date') || "";
-my $stat = $q->param('stat') || "";
+my $stat = $q->param('stat') || "hits";
 my @d = &extract_route( $logfile, $max, 0, $date );
 
 print qq{<script type="text/javascript">\n};
