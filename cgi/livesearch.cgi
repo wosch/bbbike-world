@@ -391,9 +391,9 @@ my $d = join(
 );
 
 #$d.= qq{<p><a href="javascript:flipMarkers(infoMarkers)">flip markers</a></p>};
+$d .= qq{<div id="livestatistic">};
 if (@route_display) {
     my $unique_routes = scalar(@route_display);
-    $d .= qq{<div id="livestatistic">};
     $d .= "<hr />";
     $d .=
 qq{Number of unique routes: <span title="total routes: $counter2">$unique_routes<br />};
@@ -406,8 +406,11 @@ qq{Number of unique routes: <span title="total routes: $counter2">$unique_routes
       . ( $stat ne 'hits' ? " hits " : " name " )
       . qq{</a><br />};
     $d .= "<p>Cycle Route Statistic<br/>" . &route_stat($cities) . "</p>";
-    $d .= "</div>";
 }
+else {
+    $d .= "No routes found";
+}
+$d .= "</div>";
 
 print qq{\n\$("div#routing").html('$d');\n\n};
 
