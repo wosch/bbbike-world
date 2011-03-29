@@ -102,3 +102,9 @@ zcat -f $logfiles | egrep 'POST /cgi/slippymap.*?\?' | egrep -v '" 40[34] ' |
 echo ""
 echo "streets.html"
 egrep 'GET /[A-Z][^ ]*/streets.html' $logfiles | awk '{ print $11 }'| sort | uniq -c | sort -nr
+
+echo ""
+echo "blocked IP addresses"
+egrep '" 403 ' $logfiles | awk '{ print $1 }'| sort | uniq -c | sort -nr | dns
+
+
