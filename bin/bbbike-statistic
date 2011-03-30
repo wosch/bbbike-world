@@ -99,10 +99,13 @@ zcat -f $logfiles | egrep 'POST /cgi/slippymap.*?\?' | egrep -v '" 40[34] ' | pe
 zcat -f $logfiles | egrep 'POST /cgi/slippymap.*?\?' | egrep -v '" 40[34] ' |
 	perl -ne 'print "$1\n" if m,city=(.*?)[&;\s],' | sort | uniq -c | sort -nr
 
-echo ""
+echo "Street click"
 echo -n "streets.html: "
 egrep 'GET /[A-Z][^ ]*/streets.html' $logfiles | awk '{ if ($11 != "\"-\"") { print $7, $11 } else { print $11 } }'| sort  -u | wc -l
 egrep 'GET /[A-Z][^ ]*/streets.html' $logfiles | awk '{ if ($11 != "\"-\"") { print $7, $11 } else { print $11 } }'| sort | uniq -c | sort -nr
+
+echo ""
+awk '{if ($11 ~ /streets.html/ && $7 ~ /^\/[A-Z]/ && $7 ~ /start/ ) { print $7, $11}}' $logfiles
 
 echo ""
 echo "blocked IP addresses"
