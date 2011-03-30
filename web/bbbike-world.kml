@@ -383,7 +383,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Chemnitz/">BBBike @ Chemnitz</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>12.941,50.816,0.000000</coordinates>
+      <coordinates>12.995,50.68,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -743,7 +743,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Hannover/">BBBike @ Hanover</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>9.745,52.37,0.000000</coordinates>
+      <coordinates>9.71,52.305,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1351,7 +1351,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/RiodeJaneiro/">BBBike @ Rio de Janeiro</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-43.19805,-22.8968,0.000000</coordinates>
+      <coordinates>-43.25,-22.83165,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
