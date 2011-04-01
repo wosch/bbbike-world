@@ -38,9 +38,11 @@ echo ""
 echo ""
 echo -n "bbbike references: "
 zcat -f $logfiles | egrep "GET / |GET $url_match.* HTTP" | egrep '" (200|301) ' |
+	egrep -v 'GET /[^ ]+/streets.html' |
 	egrep -v 'Purebot|Java/1|SnapPreviewBot|Tcl http client package|http://www.bbbike.org' |
 	awk '{print $11}' | perl -npe "s,.?http://www.bbbike.org$url_match\?.*\n,$1,g" | sort -u | wc -l
 zcat -f $logfiles | egrep "GET / |GET $url_match.* HTTP" | egrep '" (200|301) ' |
+	egrep -v 'GET /[^ ]+/streets.html' |
 	egrep -v 'Purebot|Java/1|SnapPreviewBot|Tcl http client package|http://www.bbbike.org' |
 	awk '{print $11}' | perl -npe "s,.?http://www.bbbike.org$url_match\?.*\n,$1,g" | sort | uniq -c | sort -nr
 
