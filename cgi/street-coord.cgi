@@ -32,6 +32,7 @@ my $use_look = 1;
 sub get_coords {
     my $string = shift;
 
+    return $string;
     my (@data) = split( /\t/, $string );
 
     return $data[1];
@@ -189,6 +190,15 @@ sub escapeQuote {
     return $string;
 }
 
+sub street_coord {
+    my $string = shift;
+
+    my ( $street, $coord ) = split "\t", $string;
+
+    $coord =~ s/^\S+\s+//;
+    return $street . "\t" . $coord;
+}
+
 ######################################################################
 # GET /w/api.php?namespace=1&q=berlin HTTP/1.1
 #
@@ -231,9 +241,10 @@ print $q->header(
 
 binmode( \*STDOUT, ":utf8" ) if $force_utf8;
 
-my @suggestion =
-  map { s/^\S+\s+//; $_ }
+my @list =
   sort &streetnames_suggestions_unique( 'city' => $city, 'street' => $street );
+my @suggestion = @list;
+@suggestion = map { s/^[^\t]*\t\S+\s+//; $_ } @suggestion;
 
 if ( $debug >= 0 && scalar(@suggestion) <= 0 ) {
     warn "City $city: $street no coords found!\n";
@@ -246,11 +257,20 @@ if ( $namespace eq 'plain' || $namespace == 1 ) {
 }
 
 # devbridge autocomplete
-elsif ( $namespace eq 'dbac' ) {
+elsif ( $namespace eq 'dbac' || $namespace == 2 ) {
     print qq/{ query:"/, escapeQuote($street), qq/", suggestions:[/;
     print '"', join( '","', map { escapeQuote($_) } @suggestion ), '"'
       if scalar(@suggestion) > 0;
     print "] }";
+}
+
+# googe like, with street name
+elsif ( $namespace eq 'google-streetnames' || $namespace == 3 ) {
+    print qq/["$street",[/;
+    print qq{"}, join( '","', map { escapeQuote( street_coord($_) ) } @list ),
+      qq{"}
+      if scalar(@list) > 0;
+    print qq,]],;
 }
 
 # googe like
