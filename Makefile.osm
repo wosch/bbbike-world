@@ -345,6 +345,7 @@ clean: rotate-data-osm
 	rm -f *.bak *.tdy
 	cd world/web && rm -rf ${LANGUAGES}
 	cd world/web && rm -rf ${CITIES} bbbike
+	rm -f ${OSMBIKE_DATA}
 
 clean-cache cache-clean:
 	rm -rf ${BBBIKE_CACHE_DIR}/*bbbike.org ${BBBIKE_CACHE_DIR}/localhost	
