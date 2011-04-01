@@ -282,7 +282,7 @@ print $q->start_html(
     ]
 );
 
-print qq{<div id="routing"></div>\n};
+print qq{<div id="routes"></div>\n};
 print qq{<div id="BBBikeGooglemap" style="height:94%">\n};
 print qq{<div id="map"></div>\n};
 
@@ -412,7 +412,7 @@ else {
 }
 $d .= "</div>";
 
-print qq{\n\$("div#routing").html('$d');\n\n};
+print qq{\n\$("div#routes").html('$d');\n\n};
 
 my $city = $q->param('city') || "";
 if ( $city && exists $city_center->{$city} ) {
