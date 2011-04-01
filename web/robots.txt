@@ -499,6 +499,8 @@ Disallow: /Warsaw/index
 Disallow: /Warsaw/?
 Disallow: /WashingtonDC/index
 Disallow: /WashingtonDC/?
+Disallow: /Waterloo/index
+Disallow: /Waterloo/?
 Disallow: /Wien/index
 Disallow: /Wien/?
 Disallow: /Wroclaw/index
