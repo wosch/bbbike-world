@@ -53,5 +53,5 @@ done
 
 #rm -f _* *.bak
 rm -f *.bak
-gzip -f _*
+ls | egrep -v '\.gz' | egrep "^_" | xargs gzip -f
 
