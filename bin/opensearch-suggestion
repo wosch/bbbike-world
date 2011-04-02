@@ -563,7 +563,7 @@ while (<STDIN>) {
     $s{$street} = $coord if $street && !exists $s{$street};
     if ( $oldname && $streetname_old ) {
         foreach my $street_old ( split /\s*;\s*/, $streetname_old ) {
-            my $street_alias = "$street_old [=> $street]";
+            my $street_alias = "$street_old [new $street]";
 
             $s{$street_alias} = $coord
               if $street_alias && !exists $s{$street_alias};
