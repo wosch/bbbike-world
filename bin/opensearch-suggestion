@@ -22,6 +22,7 @@ my $lang_supported =
 my $lang      = $lang_supported;
 my $substring = 1;
 my $gps       = 1;
+my $oldname   = 1;
 
 #
 # ignore these words as single items in the database
@@ -497,6 +498,7 @@ usage:
 --debug=0..2		default: $debug
 --substring=0..1	build database with prefix-substrings, default: $substring
 --gps=0|1		with gps output, default $gps
+--oldname=0|1		with old street names, default $oldname
 --help
 
 --lang=lang,lang2,lang3:lang1,lang4
@@ -515,6 +517,7 @@ my $rc = GetOptions(
     "lang=s"          => \$lang,
     "substring=i"     => \$substring,
     "gps=i"           => \$gps,
+    "oldname=i"       => \$oldname,
     "help"            => \$help,
 );
 
@@ -527,8 +530,17 @@ binmode( \*STDOUT, ":encoding(utf8)" )      or die "binmode: $!\n";
 map { $stopwords{$_} = 1 } @stopwords;
 
 my %s;
+
+my $streetname_old = "";
 while (<STDIN>) {
     if ( /^\s*#/ || /^[\(" ]/ ) {
+
+        # historic street name
+        # #: oldname: Marzahner Str.; Bahnhofstr.
+        if (/^#: oldname:\s+(.+)/) {
+            $streetname_old = $1;
+        }
+
         next;
     }
 
@@ -549,6 +561,16 @@ while (<STDIN>) {
     }
 
     $s{$street} = $coord if $street && !exists $s{$street};
+    if ( $oldname && $streetname_old ) {
+        foreach my $street_old ( split /\s*;\s*/, $streetname_old ) {
+            my $street_alias = "$street_old => $street";
+
+            $s{$street_alias} = $coord
+              if $street_alias && !exists $s{$street_alias};
+        }
+    }
+
+    $streetname_old = "";
 }
 
 open my $fd_sort, "|-", "sort", "-uf"
