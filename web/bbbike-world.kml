@@ -1699,8 +1699,8 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name>Waterloo (Ontario)</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Waterloo/">BBBike @ Waterloo (Ontario)</a></span>]]></description>
+    <name>Waterloo/Kitchener</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Waterloo/">BBBike @ Waterloo/Kitchener</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-80.395,43.455,0.000000</coordinates>
