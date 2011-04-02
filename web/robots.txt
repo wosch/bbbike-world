@@ -6,6 +6,7 @@ Disallow: /html
 Disallow: /berlin
 Disallow: /bbbike
 Disallow: /osp
+Disallow: /honey
 
 User-agent: Ezooms
 Disallow: /
