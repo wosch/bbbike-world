@@ -223,6 +223,18 @@ if ($force_utf8) {
     $street = Encode::decode( "utf-8" => $street );
 }
 
+# mapping: old street => new street
+my ( $street_old, $street_new );
+my $street_original = $street;
+if ( $street =~ /^(.*?)\s+[\-=]>\s+(.*)/ ) {
+    $street_old = $1;
+    $street_new = $2;
+    $street     = $street_new;
+
+    warn "old street: $street_old, new street: $street_new, street: $street\n"
+      if $debug >= 1;
+}
+
 my $city = $q->param('city') || 'Basel';
 my $namespace = $q->param('namespace') || $q->param('ns') || '0';
 
@@ -266,7 +278,7 @@ elsif ( $namespace eq 'dbac' || $namespace == 2 ) {
 
 # googe like, with street name
 elsif ( $namespace eq 'google-streetnames' || $namespace == 3 ) {
-    print qq/["$street",[/;
+    print qq/["$street_original",[/;
     print qq{"}, join( '","', map { escapeQuote( street_coord($_) ) } @list ),
       qq{"}
       if scalar(@list) > 0;

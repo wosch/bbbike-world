@@ -28,7 +28,8 @@ my $oldname   = 1;
 # ignore these words as single items in the database
 #
 my @stopwords = qw(
-  Rd Dr Ln St Road Ct Ave N E S W Way [ZIP de Cir Pl Rue Street Avenue Via NE NW SW SE Straße County Drive Calle Lane Trl Hill Place Creek Blvd Close Court Am Old Park Lake du Ridge Ter la Forest des Loop Crescent Weg Route West Point Highway - State Cv East North South View Chemin Grove Farm del Hollow Valley der Oak Im Hwy De ул. Run Mill River Pky Aly Terrace Green Circle Trail Rua Mountain Strada Bay San Ranch Gardens La Natl Develop Boulevard Glen Pine C Van Impasse Church utca Avenida Hills van Cove An Branch Bridge Vista Springs Woods Oaks Walk Wood Canyon Meadow Camino Township Cemetery Spring Allée Little R Rock J Heights A Pond New Brook School Mc Village John Path Mount Private Saint Zum Carrer Tree Tr B Farm-to-Market White Landing Camp rue Acres Beach Red El Service Square St. calle The Spur Manor Auf 2 Bend 1 Gate Island Fork Crest Upper Los Blue Estates In D Lee Fire Cedar Pass Indian Lower Hall den Town Club House di High Meadows Country Line Sq L Smith Big Santa Plaza Cross Bluff Stone F M Pointe Trce Weg Str. Damm Ring Platz Allee);
+  Rd Dr Ln St Road Ct Ave N E S W Way [ZIP de Cir Pl Rue Street Avenue Via NE NW SW SE Straße County Drive Calle Lane Trl Hill Place Creek Blvd Close Court Am Old Park Lake du Ridge Ter la Forest des Loop Crescent Weg Route West Point Highway - State Cv East North South View Chemin Grove Farm del Hollow Valley der Oak Im Hwy De ул. Run Mill River Pky Aly Terrace Green Circle Trail Rua Mountain Strada Bay San Ranch Gardens La Natl Develop Boulevard Glen Pine C Van Impasse Church utca Avenida Hills van Cove An Branch Bridge Vista Springs Woods Oaks Walk Wood Canyon Meadow Camino Township Cemetery Spring Allée Little R Rock J Heights A Pond New Brook School Mc Village John Path Mount Private Saint Zum Carrer Tree Tr B Farm-to-Market White Landing Camp rue Acres Beach Red El Service Square St. calle The Spur Manor Auf 2 Bend 1 Gate Island Fork Crest Upper Los Blue Estates In D Lee Fire Cedar Pass Indian Lower Hall den Town Club House di High Meadows Country Line Sq L Smith Big Santa Plaza Cross Bluff Stone F M Pointe Trce Weg Str. Damm Ring Platz Allee => ->
+);
 
 my %stopwords;
 
@@ -465,6 +466,9 @@ sub wordlist {
     $s =~ s/^[\[\s"'()]+//g;
     $s =~ s/[\[\s"'()]+$//g;
 
+    # old => new
+    $s =~ s/\s+[=\-]>\s+.*//g;
+
     if (1) {
         while ( $s && length($s) >= 3 ) {
             if ( $s =~ s/^([\S]+?)[\s\-]// ) {
@@ -563,7 +567,7 @@ while (<STDIN>) {
     $s{$street} = $coord if $street && !exists $s{$street};
     if ( $oldname && $streetname_old ) {
         foreach my $street_old ( split /\s*;\s*/, $streetname_old ) {
-            my $street_alias = "$street_old [new $street]";
+            my $street_alias = "$street_old -> $street";
 
             $s{$street_alias} = $coord
               if $street_alias && !exists $s{$street_alias};
