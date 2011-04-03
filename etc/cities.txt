@@ -3,6 +3,7 @@ Paris
 Amsterdam
 Toulouse
 Arnhem
+Muenchen
 London
 Berlin
 Eindhoven
@@ -31,14 +32,15 @@ Stuttgart
 Marseille
 Wuppertal
 Bielefeld
-Muenchen
 Toronto
 Mannheim
+Oranienburg
 Karlsruhe
 Chemnitz
 Duisburg
 Luxemburg
 Ostrava
+Wien
 Genf
 Birmingham
 Corsica
@@ -47,7 +49,6 @@ Dresden
 Bochum
 Stockholm
 Tilburg
-Oranienburg
 Maastricht
 CambridgeMa
 Nuernberg
@@ -57,6 +58,7 @@ NewYork
 Brno
 Braunschweig
 Copenhagen
+Potsdam
 Bern
 Sydney
 Koblenz
@@ -66,7 +68,6 @@ Orlando
 Basel
 Vancouver
 Koeln
-Wien
 Montevideo
 Bruessel
 SanktPetersburg
@@ -78,7 +79,6 @@ Bonn
 Erlangen
 Linz
 Manchester
-Potsdam
 Tallin
 Goeteborg
 Montreal
