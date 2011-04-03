@@ -110,7 +110,7 @@ egrep 'GET /[A-Z][^ ]*/streets.html' $logfiles | awk '{ if ($11 != "\"-\"") { pr
 echo ""
 echo -n "Street route search: "
 awk '{if ($11 ~ /streets.html/ && $7 ~ /^\/[A-Z]/ && $7 ~ /start/ ) { print $7, $11}}' $logfiles | wc -l
-awk '{if ($11 ~ /streets.html/ && $7 ~ /^\/[A-Z]/ && $7 ~ /start/ ) { print $7, $11}}' $logfiles
+awk '{if ($11 ~ /streets.html/ && $7 ~ /^\/[A-Z]/ && $7 ~ /start/ ) { print $7, $11}}' $logfiles | sort
 
 echo ""
 echo "blocked IP addresses"
