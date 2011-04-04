@@ -6,6 +6,7 @@
 use CGI qw/-utf-8/;
 use IO::File;
 use CGI::Carp;
+use JSON;
 
 use lib '../world/bin';
 use lib '../../world/bin';
@@ -30,12 +31,14 @@ sub get_city {
     my ( $hash, $lat, $lng ) = @_;
     return if !$lat || !$lng;
 
+    my @cities;
     foreach my $city ( keys %{$hash} ) {
         my @coord = split( /\s+/, $hash->{$city}{"coord"} );
         if ( point_in_grid( $lng, $lat, @coord ) ) {
-            return $city;
+            push @cities, $city;
         }
     }
+    return @cities;
 }
 
 ##############################################################################################
@@ -50,17 +53,19 @@ print $q->header(
     -expires => '+5m'
 );
 
-my $lat = $q->param('lat');
-my $lng = $q->param('lng');
+my $lat = $q->param('lat') || "";
+my $lng = $q->param('lng') || "";
+
+# $lat = 52.5924955; $lng= 13.4619832; # Berlin-Blankenburg, inside area "Berlin" and "Oranienburg"
 
 # "13.3888548", "52.5170397" );
-my $city = get_city( $db->city, $lat, $lng );
+my @city = get_city( $db->city, $lat, $lng );
+push @city, "NO_CITY" if scalar(@city) <= 0;
 
-$city = "NO_CITY" if !$city;
-print <<EOF;
-{ "city": "$city", "street":"", "corner":"" }
-EOF
+my $json = new JSON;
+print $json->encode( \@city );
 
 my $remote_host = $q->remote_host;
-warn "lat: $lat, lng: $lng, city: $city, ip: $remote_host\n" if $debug;
+warn "lat: $lat, lng: $lng, city: ", join( ",", @city ), " ip: $remote_host\n"
+  if $debug;
 
