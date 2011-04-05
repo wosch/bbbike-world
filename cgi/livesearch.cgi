@@ -319,7 +319,7 @@ if ( $q->param('max') ) {
 }
 
 my $date = $q->param('date') || "";
-my $stat = $q->param('stat') || "hits";
+my $stat = $q->param('stat') || "name";
 my @d = &extract_route( $logfile, $max, 0, $date );
 
 print qq{<script type="text/javascript">\n};
