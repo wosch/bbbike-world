@@ -276,10 +276,10 @@ if (   $remove_housenumber
 
 if (   $remove_city
     && scalar(@suggestion) == 0
-    && $street =~ /^.*?,\s+/ )
+    && $street =~ /^.*?,\s*/ )
 {
     my $street2 = $street;
-    $street2 =~ s/^.*?,\s+//;
+    $street2 =~ s/^.*?,\s*//;
 
     if ( $street2 ne "" ) {
         warn "strip city: $street <=> $street2\n" if $debug;
