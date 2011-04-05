@@ -149,7 +149,7 @@ update-robots.txt:
 	  echo ""; \
 	  echo 'User-agent: *'; \
 	  echo ${CITIES} | perl -npe 's,\s+,\n,g' | sort | \
-	   perl -ne 'chomp; s,^,Disallow: /,; print "$$_/index\n$$_/?\n" '; \
+	   perl -ne 'chomp; s,^,Disallow: /,; print "$$_/?\n" '; \
 	) > world/web/robots.txt
 
 # using GNU xargs -P parallel
