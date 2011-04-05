@@ -26,6 +26,7 @@ my $debug              = 1;
 my $match_anyware      = 0;
 my $match_words        = 1;
 my $remove_housenumber = 1;
+my $remove_city        = 1;
 
 # word matching for utf8 data
 my $force_utf8 = 0;
@@ -266,6 +267,22 @@ if (   $remove_housenumber
 
     if ( $street2 ne "" ) {
         warn "housenumber: $street <=> $street2\n" if $debug;
+        @suggestion = sort &streetnames_suggestions_unique(
+            'city'   => $city,
+            'street' => $street2
+        );
+    }
+}
+
+if (   $remove_city
+    && scalar(@suggestion) == 0
+    && $street =~ /^.*?,\s+/ )
+{
+    my $street2 = $street;
+    $street2 =~ s/^.*?,\s+//;
+
+    if ( $street2 ne "" ) {
+        warn "strip city: $street <=> $street2\n" if $debug;
         @suggestion = sort &streetnames_suggestions_unique(
             'city'   => $city,
             'street' => $street2
