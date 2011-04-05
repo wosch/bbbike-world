@@ -739,6 +739,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Hamm</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Hamm/">BBBike @ Hamm</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>7.875,51.645,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Hanover</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Hannover/">BBBike @ Hanover</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -1135,7 +1143,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Muenster/">BBBike @ Münster</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>7.627,51.9575,0.000000</coordinates>
+      <coordinates>7.635,51.975,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
