@@ -15,7 +15,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Aachen/">BBBike @ Aachen</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>6.114,50.778,0.000000</coordinates>
+      <coordinates>6.2,50.795,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -999,7 +999,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Maastricht/">BBBike @ Maastricht</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>5.6555,50.879,0.000000</coordinates>
+      <coordinates>5.657,50.877,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
