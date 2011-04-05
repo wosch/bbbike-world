@@ -350,6 +350,8 @@ Disallow: /MexicoCity/index
 Disallow: /MexicoCity/?
 Disallow: /Miami/index
 Disallow: /Miami/?
+Disallow: /Moenchengladbach/index
+Disallow: /Moenchengladbach/?
 Disallow: /Montevideo/index
 Disallow: /Montevideo/?
 Disallow: /Montpellier/index
