@@ -3,7 +3,7 @@
 #
 # DON'T FORGET to enable a city in etc/cities.txt !!!
 #
-Aachen:::de::5.968 50.693 6.26 50.863:294951:
+Aachen:::de::5.88 50.60 6.52 50.99:294951:
 Aarhus:da!Århus,de!Århus,en!Aarhus::da:eu:9.816 55.993 10.373 56.287:239865:
 Adelaide::en::other:138.458 -35.033 138.74 -34.753:1200000:
 Albuquerque::en::other:-106.7967 34.9993 -106.4726 35.2173:830000:
@@ -171,7 +171,7 @@ RiodeJaneiro:Rio de Janeiro::pt:other:-43.58 -23.08 -42.92 -22.5833:14000000:
 Rostock:::de::11.55 53.91 12.90 54.49:409007:
 Schwerin:Schwerin/Wismar::de::11.00 53.505 11.86 54.046:150000:
 Rotterdam:::nl:eu:4.183 51.753 4.823 51.984:561000:
-Maastricht:::nl:eu:5.434 50.724 5.877 51.034:118523:
+Maastricht:::nl:eu:5.434 50.724 5.88 51.03:118523:
 Eindhoven:::nl:eu:5.258 51.329 5.745 51.584:775345:
 Utrecht:::nl:eu:4.94 51.95 5.324 52.21:307081:
 Arnhem:en!Arnhem,de!Arnheim::nl:eu:5.58 51.789 6.152 52.067:146000:
