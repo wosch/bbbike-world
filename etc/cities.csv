@@ -15,7 +15,7 @@ Baku:::az:other:49.471 40.185 50.396 40.684:2200000:
 Bamberg:::de::10.708 49.745 11.095 50.007:200000:
 Bangkok:th!กรุงเทพมหานคร::th:other:100.35 13.48 100.80 14.05:12000000:
 Barcelona:::es:eu:1.802 41.23 2.479 41.618:2248911:
-Basel:::de:eu:7.41 47.40 7.99 47.73:348791:
+Basel:::de:eu:7.25 47.40 7.99 47.83:348791:
 Beijing:de!Peking,zh!北京市 ::zh:other:116.08 39.68 116.77 40.18:12000000:
 Beirut:ar!‏بيروت::ar:other:35.4354 33.7935 35.6187 33.9238:2700000:
 Berlin:::de::13.0109 52.27 13.93 52.71:4500000:
@@ -47,7 +47,7 @@ Canberra::en::other:148.977 -35.419 149.27 -35.156:340000:
 CapeTown:Cape Town,de!Kapstadt:en::other:18.278 -34.116 18.754 -33.785:72000000:
 Chemnitz:::de::12.56 50.36 13.43 51.00:241344:
 Chicago:de!Chikago:en::other:-88.006 41.643 -87.398 42.093:9700000:
-Colmar:de!Kolmar,en!Colmar::de:eu:7.2362 47.9964 7.482 48.1579:83470:
+Colmar:de!Kolmar,en!Colmar::de:eu:7.2362 47.9964 7.54 48.1579:83470:
 Copenhagen:de!Kopenhagen,da!København::da:eu:12.25 55.55 12.70 55.85:11261691:
 Stockholm:::sv:eu:17.535 59.103 18.557 59.571:1250000:
 Malmoe:Malmö::sv:eu:12.817 55.457 13.346 55.776:260000:
@@ -82,7 +82,7 @@ Eugene::en::other:-123.2152 43.987 -122.8694 44.1476:343000:
 FortCollins:Fort Collins:en::other:-105.196 40.463 -104.933 40.621:118652:
 Frankfurt:Frankfurt am Main::de::8.44 49.968 9.086 50.263:2005405:
 FrankfurtOder:Frankfurt (Oder)::de::14.396 52.201 14.667 52.44:143466:
-Freiburg:::de::7.68 47.897 8.006 48.133:230881:
+Freiburg:::de::7.54 47.79 8.08 48.23:230881:
 Stuttgart:::de::8.945 48.613 9.434 48.921:2674445:
 Gdansk:de!Danzig,en!Gdansk,pl!Gdańsk::pl:eu:18.34 54.23 18.87 54.62:889146:
 Genf:de!Genf,en!Geneva,fr!Genève::fr:eu:5.92 46.02 6.52 46.48:470000:

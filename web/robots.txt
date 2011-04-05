@@ -264,6 +264,8 @@ Disallow: /Halle/index
 Disallow: /Halle/?
 Disallow: /Hamburg/index
 Disallow: /Hamburg/?
+Disallow: /Hamm/index
+Disallow: /Hamm/?
 Disallow: /Hannover/index
 Disallow: /Hannover/?
 Disallow: /Helsinki/index
