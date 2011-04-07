@@ -81,10 +81,10 @@ zcat -f $logfiles | egrep 'POST (/[a-z][a-z])?/[A-Z][a-z]+/.*?\?' | egrep -v '" 
 echo ""
 echo -n "output formats total: "
 zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -v '" 40[34] ' | 
-	perl -ne 'print "$1 $2\n" if m,GET /([^/]+)/.*?\?\S*output_as=([^;&\s]+),' | wc -l
+	perl -ne 'print "$1 $2\n" if m,GET /(.*?[A-Z][^/]+)/.*?\?\S*output_as=([^;&\s]+),' | wc -l
 echo "output formats: "
 zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -v '" 40[34] ' |
-	perl -ne 'print "$1 $2\n" if m,GET /([^/]+)/.*?\?\S*output_as=([^;&\s]+),' | sort | uniq -c | sort -nr
+	perl -ne 'print "$1 $2\n" if m,GET /(.*?[A-Z][^/]+)/.*?\?\S*output_as=([^;&\s]+),' | sort | uniq -c | sort -nr
 
 echo ""
 echo -n "slippymap cities: "
