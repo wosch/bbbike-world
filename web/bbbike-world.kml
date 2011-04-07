@@ -879,7 +879,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Koeln/">BBBike @ Cologne</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>6.992,50.931,0.000000</coordinates>
+      <coordinates>6.99,50.92,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1095,7 +1095,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Moenchengladbach/">BBBike @ Mönchengladbach</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>6.13,51.235,0.000000</coordinates>
+      <coordinates>6.2,51.235,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
