@@ -116,4 +116,8 @@ echo ""
 echo "blocked IP addresses"
 egrep '" 403 ' $logfiles | awk '{ print $1 }'| sort | uniq -c | sort -nr | dns
 
+echo ""
+echo "Honey"
+egrep '/honey' $logfiles | awk '{ print $1 }'| sort | uniq -c | sort -nr | dns
+
 
