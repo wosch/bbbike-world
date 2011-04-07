@@ -16,6 +16,13 @@
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>New: cycle routing for Hamm and Moenchengladbach</title>
+    <id>ec119bc2cf68e262a6c0deb36a30f5c3</id>
+    <content>New: cycle routing for Hamm and
+    Moenchengladbach</content>
+    <updated>2010-03-03T18:30:02Z</updated>
+  </entry>
+  <entry>
     <title>New: cycle routing for Waterloo and Kitchener,
     Ontario</title>
     <id>1f1405ff29bce1549e0a7c0269d15466</id>
