@@ -15,13 +15,13 @@ Development
 ------------------------------------
 
 # download planet.osm, extract and convert city data
-$ time make update-database
+$ make update-database
 
 # extract data for a city and build a bbbike database
-$ time make CITIES="Augsburg Halle" cities convert
+$ make CITIES="Augsburg Halle" cities convert
 
 # extract and convert only
-$ time make bbbike_cleanup="" update-database
+$ make bbbike_cleanup="" update-database
 
 # check a city area
 $ ./world/bin/bbbike-db --city-stat | grep Bielefeld
