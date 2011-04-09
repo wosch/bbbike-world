@@ -396,7 +396,9 @@ if (@route_display) {
     my $unique_routes = scalar(@route_display);
     $d .= "<hr />";
     $d .=
-qq{Number of unique routes: <span title="total routes: $counter2">$unique_routes<br />};
+qq{Number of unique routes: <span title="total routes: $counter2, cities: }
+      . scalar(@cities)
+      . qq{">$unique_routes<br />};
 
     my $qq = CGI->new($q);
     $qq->param( "stat", $stat eq 'hits' ? "name" : "hits" );
