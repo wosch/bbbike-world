@@ -118,7 +118,7 @@ egrep '" 403 ' $logfiles | awk '{ print $1 }'| sort | uniq -c | sort -nr | dns
 
 echo ""
 echo "bots?"
-egrep 'GET /[a-z][a-z]/' $logfiles | egrep '" 200 ' | awk '{ print $1 }' | sort | uniq -c
+egrep 'GET /[a-z][a-z]/' $logfiles | egrep '" 200 ' | awk '{ print $1 }' | sort | uniq -c | sort -nr
 
 echo ""
 echo "Honey"
