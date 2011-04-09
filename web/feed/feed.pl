@@ -48,7 +48,7 @@ $feed->add_entry(
         content =>
           qq{New: cycle routing for Luxemburg, Lake Balaton, Cork, Lausanne},
     },
-    updated  => '2011-03-24T12:30:02Z',
+    updated  => '2011-03-24T12:30:03Z',
     category => 'News',
 );
 
@@ -85,7 +85,7 @@ $feed->add_entry(
         type    => 'text',
         content => qq{New: cycle routing for Lodz, Brno, Ostrava, Calgary},
     },
-    updated  => '2011-03-21T12:30:02Z',
+    updated  => '2011-03-21T12:30:03Z',
     category => 'News',
 );
 
@@ -122,20 +122,20 @@ qq{New: cycle routing for 's-Hertogenbosch, Arnhem, Eindhoven, Maastricht, Tilbu
         content =>
 qq{New: cycle routing for 's-Hertogenbosch, Arnhem, Eindhoven, Maastricht, Tilburg, Utrecht},
     },
-    updated  => '2011-03-19T12:30:02Z',
+    updated  => '2011-03-19T12:30:03Z',
     category => 'News',
 );
 
 $feed->add_entry(
     title =>
 'New: cycle routing for Augsburg, Halle (Saale), Konstanz, Osnabrueck, Paderborn, Regensburg, Ulm',
-    id      => '579e68d390c03319d8445fc43966a6cb',
+    id      => '579e68d390c03319d8445fc43966a6cc',
     content => {
         type => 'text',
         content =>
 qq{New: cycle routing for Augsburg, Halle (Saale), Konstanz, Osnabrüc, Paderbor, Regensbur, Ulm},
     },
-    updated  => '2011-03-19T12:30:02Z',
+    updated  => '2011-03-19T12:30:04Z',
     category => 'News',
 );
 
@@ -202,13 +202,13 @@ qq{New: cycle routing for New Dehli and Bombay: http://www.bbbike.org/Bombay and
 $feed->add_entry(
     title =>
       'New: cycle routing for Brazilian cities Curitiba and Porto Alegre',
-    id      => 'e14f7b9315ebcbfeaf184a589400181b',
+    id      => 'e14f7b9315ebcbfeaf184a589400181c',
     content => {
         type => 'text',
         content =>
 qq{New: cycle routing for Brazilian cities Curitiba and Porto Alegre: http://www.bbbike.org/Curitiba and http://www.bbbike.org/PortoAlegre},
     },
-    updated  => '2011-02-05T12:30:02Z',
+    updated  => '2011-02-05T12:30:09Z',
     category => 'News',
 );
 
@@ -232,7 +232,7 @@ $feed->add_entry(
         content =>
 qq{New: cycle routing for South America: http://www.bbbike.org/Montevideo and http://www.bbbike.org/Lima},
     },
-    updated  => '2011-01-31T12:30:02Z',
+    updated  => '2011-01-31T12:30:12Z',
     category => 'News',
 );
 
@@ -266,7 +266,7 @@ qq{BBBike.org is now available in Danish, German, English, Spanish, French, Croa
 
 $feed->add_entry(
     title => 'New directory layout with shorter URLs',
-    id    => '5569e78510bee2720280ed5cd3afee09',
+    id    => '5569e78510bee2720280ed5cd3afee08',
 
     content => {
         type => 'text',
@@ -355,7 +355,7 @@ $feed->add_entry(
 qq{New cities: Birmingham, Bristol, Leeds, Liverpool, Manchester, Sheffield},
     },
 
-    updated  => '2010-08-21T12:30:02Z',
+    updated  => '2010-08-21T12:30:05Z',
     category => 'News',
 );
 
@@ -368,7 +368,7 @@ $feed->add_entry(
         content => qq{New cities: Edinburgh, Glasgow},
     },
 
-    updated  => '2010-08-21T12:30:02Z',
+    updated  => '2010-08-21T12:30:06Z',
     category => 'News',
 );
 
@@ -388,7 +388,7 @@ $feed->add_entry(
 
 $feed->add_entry(
     title => 'Twitter',
-    id    => 'e86b828855a4103bfe73aa02fef7fa3a',
+    id    => 'e86b828855a4103bfe73aa02fef7fa3b',
 
     content => {
         type    => 'text',
@@ -409,7 +409,7 @@ $feed->add_entry(
 qq{BBBike supports now google maps version 3 which enable new features like localization and elevation charts.},
     },
 
-    updated  => '2010-08-02T18:30:02Z',
+    updated  => '2010-08-02T18:30:42Z',
     category => 'News',
 );
 
@@ -524,7 +524,7 @@ $feed->add_entry(
 $feed->add_entry(
     title => 'New cities for BBBike@world',
     link  => $homepage,
-    id    => '81ebeaf0506f9d6a518be2ab38ec243f',
+    id    => '81ebeaf0506f9d6a518be2ab38ec243d',
 
     content => {
         type    => 'text',
@@ -551,7 +551,7 @@ $feed->add_entry(
 
 $feed->add_entry(
     title => 'OpenSearch search plugins',
-    id    => '81ebeaf0506f9d6a518be2ab38ec243d',
+    id    => '81ebeaf0506f9d6a518be2ab38ec244d',
 
     content => {
         type => 'text',
