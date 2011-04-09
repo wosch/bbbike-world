@@ -9,7 +9,7 @@ my $feed = XML::Atom::SimpleFeed->new(
     link    => $homepage,
     link    => { rel => 'self', href => $homepage . '/feed/bbbike-world.xml' },
     icon    => $homepage . '/images/srtbike.ico',
-    updated => '2011-04-09T18:30:02Z',
+    updated => '2011-04-09T18:30:03Z',
     author  => 'Wolfram Schneider',
     subtitle =>
 'BBBike is a route planner for cyclists in Berlin. It is now ported to other cities around the world - thanks to the OpenStreetMap project!',
@@ -21,11 +21,11 @@ $feed->add_entry(
     title   => qq{New: cycle routing for Hamm and Moenchengladbach},
     id      => 'ec119bc2cf68e262a6c0deb36a30f5c3',
     content => {
-        type     => 'text',
-        content  => qq{New: cycle routing for Hamm and Moenchengladbach},
-        updated  => '2011-04-07T12:30:02Z',
-        category => 'News',
-    }
+        type    => 'text',
+        content => qq{New: cycle routing for Hamm and Moenchengladbach},
+    },
+    updated  => '2011-04-07T12:30:02Z',
+    category => 'News',
 );
 
 $feed->add_entry(
@@ -35,9 +35,9 @@ $feed->add_entry(
         type => 'text',
         content =>
 qq{New: cycle routing for Waterloo and Kitchener, Ontario: http://www.bbbike.org/Waterloo},
-        updated  => '2011-04-02T12:30:02Z',
-        category => 'News',
-    }
+    },
+    updated  => '2011-04-02T12:30:02Z',
+    category => 'News',
 );
 
 $feed->add_entry(
@@ -47,9 +47,9 @@ $feed->add_entry(
         type => 'text',
         content =>
           qq{New: cycle routing for Luxemburg, Lake Balaton, Cork, Lausanne},
-        updated  => '2011-03-24T12:30:02Z',
-        category => 'News',
-    }
+    },
+    updated  => '2011-03-24T12:30:02Z',
+    category => 'News',
 );
 
 $feed->add_entry(
@@ -60,9 +60,9 @@ qq{New: cycle routing for Braunschweig/Wolfsburg, Wuppertal, Usedom/Greifswald,,
         type => 'text',
         content =>
 qq{New: cycle routing for Braunschweig/Wolfsburg, Wuppertal, Usedom/Greifswald,, Schwerin/Wismar, Flensburg, Koblenz, Saarbruecken},
-        updated  => '2011-03-24T12:30:02Z',
-        category => 'News',
-    }
+    },
+    updated  => '2011-03-24T12:30:02Z',
+    category => 'News',
 );
 
 $feed->add_entry(
@@ -73,20 +73,20 @@ qq{New: cycle routing for Dallas, Stockton, Portland ME, Huntsville, New Orleans
         type => 'text',
         content =>
 qq{New: cycle routing for Dallas, Stockton, Portland ME, Huntsville AL, New Orleans},
-        updated  => '2011-03-21T12:30:02Z',
-        category => 'News',
-    }
+    },
+    updated  => '2011-03-21T12:30:02Z',
+    category => 'News',
 );
 
 $feed->add_entry(
     title   => qq{New: cycle routing for Lodz, Brno, Ostrava, Calgary},
     id      => 'cd703c8c5c464d05509931f62f578a0c',
     content => {
-        type     => 'text',
-        content  => qq{New: cycle routing for Lodz, Brno, Ostrava, Calgary},
-        updated  => '2011-03-21T12:30:02Z',
-        category => 'News',
-    }
+        type    => 'text',
+        content => qq{New: cycle routing for Lodz, Brno, Ostrava, Calgary},
+    },
+    updated  => '2011-03-21T12:30:02Z',
+    category => 'News',
 );
 
 $feed->add_entry(
@@ -97,20 +97,20 @@ qq{New: cycle routing for Lyon, Toulouse, Bordeaux, Montpellier, Clermont-Ferran
         type => 'text',
         content =>
 qq{New: cycle routing for Lyon, Toulouse, Bordeaux, Montpellier, Clermont-Ferrand, Corsica},
-        updated  => '2011-03-20T12:30:02Z',
-        category => 'News',
-    }
+    },
+    updated  => '2011-03-20T12:30:02Z',
+    category => 'News',
 );
 
 $feed->add_entry(
     title   => qq{New: cycle routing for Antwerpen, Bruegge, Gent},
     id      => 'e53b734df1d017e695a60d9f9a91c915',
     content => {
-        type     => 'text',
-        content  => qq{New: cycle routing for Antwerpen, Bruegge, Gent},
-        updated  => '2011-03-19T12:30:02Z',
-        category => 'News',
-    }
+        type    => 'text',
+        content => qq{New: cycle routing for Antwerpen, Bruegge, Gent},
+    },
+    updated  => '2011-03-19T12:30:02Z',
+    category => 'News',
 );
 
 $feed->add_entry(
@@ -121,9 +121,9 @@ qq{New: cycle routing for 's-Hertogenbosch, Arnhem, Eindhoven, Maastricht, Tilbu
         type => 'text',
         content =>
 qq{New: cycle routing for 's-Hertogenbosch, Arnhem, Eindhoven, Maastricht, Tilburg, Utrecht},
-        updated  => '2011-03-19T12:30:02Z',
-        category => 'News',
-    }
+    },
+    updated  => '2011-03-19T12:30:02Z',
+    category => 'News',
 );
 
 $feed->add_entry(

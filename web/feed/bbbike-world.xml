@@ -5,7 +5,7 @@
   <link href="http://www.bbbike.org/feed/bbbike-world.xml"
   rel="self" />
   <icon>http://www.bbbike.org/images/srtbike.ico</icon>
-  <updated>2011-04-09T18:30:02Z</updated>
+  <updated>2011-04-09T18:30:03Z</updated>
   <author>
     <name>Wolfram Schneider</name>
   </author>
@@ -20,7 +20,8 @@
     <id>ec119bc2cf68e262a6c0deb36a30f5c3</id>
     <content>New: cycle routing for Hamm and
     Moenchengladbach</content>
-    <updated>2011-04-09T18:30:02Z</updated>
+    <updated>2011-04-07T12:30:02Z</updated>
+    <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Waterloo and Kitchener,
@@ -28,7 +29,8 @@
     <id>1f1405ff29bce1549e0a7c0269d15466</id>
     <content>New: cycle routing for Waterloo and Kitchener,
     Ontario: http://www.bbbike.org/Waterloo</content>
-    <updated>2011-04-09T18:30:02Z</updated>
+    <updated>2011-04-02T12:30:02Z</updated>
+    <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Luxemburg, Lake Balaton, Cork,
@@ -36,7 +38,8 @@
     <id>9be2454e1d61e6abadea574f1779c74d</id>
     <content>New: cycle routing for Luxemburg, Lake Balaton, Cork,
     Lausanne</content>
-    <updated>2011-04-09T18:30:02Z</updated>
+    <updated>2011-03-24T12:30:02Z</updated>
+    <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Braunschweig/Wolfsburg,
@@ -46,7 +49,8 @@
     <content>New: cycle routing for Braunschweig/Wolfsburg,
     Wuppertal, Usedom/Greifswald,, Schwerin/Wismar, Flensburg,
     Koblenz, Saarbruecken</content>
-    <updated>2011-04-09T18:30:02Z</updated>
+    <updated>2011-03-24T12:30:02Z</updated>
+    <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Dallas, Stockton, Portland ME,
@@ -54,7 +58,8 @@
     <id>a7a750d08f9009fa0695d78167894381</id>
     <content>New: cycle routing for Dallas, Stockton, Portland ME,
     Huntsville AL, New Orleans</content>
-    <updated>2011-04-09T18:30:02Z</updated>
+    <updated>2011-03-21T12:30:02Z</updated>
+    <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Lodz, Brno, Ostrava,
@@ -62,7 +67,8 @@
     <id>cd703c8c5c464d05509931f62f578a0c</id>
     <content>New: cycle routing for Lodz, Brno, Ostrava,
     Calgary</content>
-    <updated>2011-04-09T18:30:02Z</updated>
+    <updated>2011-03-21T12:30:02Z</updated>
+    <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Lyon, Toulouse, Bordeaux,
@@ -70,14 +76,16 @@
     <id>604c4a5ac89c1af7e7d7b6f0f7ecf4d5</id>
     <content>New: cycle routing for Lyon, Toulouse, Bordeaux,
     Montpellier, Clermont-Ferrand, Corsica</content>
-    <updated>2011-04-09T18:30:02Z</updated>
+    <updated>2011-03-20T12:30:02Z</updated>
+    <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Antwerpen, Bruegge, Gent</title>
     <id>e53b734df1d017e695a60d9f9a91c915</id>
     <content>New: cycle routing for Antwerpen, Bruegge,
     Gent</content>
-    <updated>2011-04-09T18:30:02Z</updated>
+    <updated>2011-03-19T12:30:02Z</updated>
+    <category term="News" />
   </entry>
   <entry>
     <title type="html">New: cycle routing for 's-Hertogenbosch,
@@ -85,7 +93,8 @@
     <id>579e68d390c03319d8445fc43966a6cb</id>
     <content>New: cycle routing for 's-Hertogenbosch, Arnhem,
     Eindhoven, Maastricht, Tilburg, Utrecht</content>
-    <updated>2011-04-09T18:30:02Z</updated>
+    <updated>2011-03-19T12:30:02Z</updated>
+    <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Augsburg, Halle (Saale),
