@@ -9,11 +9,11 @@ my $feed = XML::Atom::SimpleFeed->new(
     link    => $homepage,
     link    => { rel => 'self', href => $homepage . '/feed/bbbike-world.xml' },
     icon    => $homepage . '/images/srtbike.ico',
-    updated => '2010-03-03T18:30:02Z',
+    updated => '2011-04-09T18:30:02Z',
     author  => 'Wolfram Schneider',
     subtitle =>
 'BBBike is a route planner for cyclists in Berlin. It is now ported to other cities around the world - thanks to the OpenStreetMap project!',
-    id => 'urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af6',
+    id => 'urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af7',
 );
 
 ######################################################################
