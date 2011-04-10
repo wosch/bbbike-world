@@ -519,14 +519,19 @@ sub cache {
         $hash{$coords} = 1;
 
         $qq->delete('coords');
+        $qq->delete('area');
+        $qq->delete('driving_time');
+
         $qq->param( 'cache', 1 );
 
         my $city = $qq->param("city");
 
         my $u = $qq->url( -relative => 1, -query => 1 );
         $u =~ s/.*?\?//;
-        push @route_display, unescape($u)
-          if !exists $hash2{$city};
+        $u = unescape($u);
+        $u =~ s/ /+/g;
+
+        push @route_display, $u if !exists $hash2{$city};
         $hash2{$city} = 1;
 
         last if scalar(@route_display) >= $limit;
