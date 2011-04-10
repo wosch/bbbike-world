@@ -3,7 +3,7 @@
 #
 # livesearch.cgi - bbbike.org live routing search
 
-use CGI qw/-utf-8/;
+use CGI qw/-utf-8 unescape/;
 
 use IO::File;
 use JSON;
@@ -496,19 +496,18 @@ sub statistic {
 sub cache {
     my $q = shift;
 
-    my $max = 2_000;
+    my $max = 1_000;
     my @d = &extract_route( $logfile, $max, 0, "" );
 
     my $cities;
     my %hash;
     my %hash2;
-    my $counter;
-    my $counter2 = 0;
+    my $counter = 0;
     my @route_display;
 
+    my $limit = 1;
     foreach my $url (@d) {
         my $qq = CGI->new($url);
-        $counter2++;
 
         next if !$qq->param('driving_time');
 
@@ -519,16 +518,22 @@ sub cache {
 
         $qq->delete('coords');
 
-        last if $counter++ >= $max;
         my $city = $qq->param("city");
-        push @route_display, $qq->url( -full => 1, -query => 1 )
+
+        my $u = $qq->url( -relative => 1, -query => 1 );
+        $u =~ s/.*?\?//;
+        push @route_display, unescape($u)
           if !exists $hash2{$city};
         $hash2{$city} = 1;
+
+        last if scalar(@route_display) >= $limit;
     }
 
     print $q->header( -charset => 'utf-8', -type => 'text/plain' );
 
     print join "\n", @route_display;
+    print "\n";
+
 }
 
 ##############################################################################################
@@ -536,7 +541,7 @@ sub cache {
 # main
 #
 
-my $ns = $q->param("ns") || "";
+my $ns = $q->param("namespace") || $q->param("ns") || "";
 if ( $ns =~ /^stat/ ) {
     &statistic($q);
 }
