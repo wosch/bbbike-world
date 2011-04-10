@@ -10,11 +10,15 @@ tmp=tmp
 mkdir -p $tmp
 
 : ${bbbike_cleanup="planet-download"}
+ionice=`which ionice`
+if [ "$ionice" -ne "" ]; then
+   ionice_opt="-c 3"
+fi
 
 begin="`date`"
 for i in $bbbike_cleanup cities-parallel convert-wgs84 convert-bbbike update-files
 do
-	\time make -s $i > tmp/log.$i 2>&1
+	\time $ionice $ionice_opt make -s $i > tmp/log.$i 2>&1
 done
 
 # set an notice
