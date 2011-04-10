@@ -45,7 +45,7 @@ Cambridge::en::eu:-0.036 52.119 0.324 52.284:118500:
 CambridgeMa:Cambridge (Massachusetts):en::other:-71.1986 42.3265 -71.0036 42.4285:1264990:
 Canberra::en::other:148.977 -35.419 149.27 -35.156:340000:
 CapeTown:Cape Town,de!Kapstadt:en::other:18.278 -34.116 18.754 -33.785:72000000:
-Chemnitz:::de::12.56 50.36 13.43 51.00:241344:
+Chemnitz:::de::12.56 50.36 13.43 51.07:241344:
 Chicago:de!Chikago:en::other:-88.006 41.643 -87.398 42.093:9700000:
 Colmar:de!Kolmar,en!Colmar::de:eu:7.2362 47.9964 7.54 48.1579:83470:
 Copenhagen:de!Kopenhagen,da!København::da:eu:12.25 55.55 12.70 55.85:11261691:
@@ -113,6 +113,7 @@ Moenchengladbach:de!Mönchengladbach,en!Mönchengladbach::de::5.75 50.99 6.65 51
 Leeds::en::eu:-1.89 53.65 -1.276 53.879:1500000:
 Leipzig:::de::12.08 51.07 12.85 51.55:536773:
 Dessau:::de::11.86 51.55 12.85 51.99:120000:
+Gera:::de::11.78 50.38 12.56 51.12:120000:
 Halle:Halle (Saale)::de::11.60 51.12 12.23 51.62:232323:
 Lima:::es:other:-77.1807 -12.2212 -76.8816 -11.9285:6500000:
 Lissabon:de!Lissabon,pt!Lisboa,en!Lisbon::pt:eu:-9.535 38.384 -8.65 39.004:2800000:
