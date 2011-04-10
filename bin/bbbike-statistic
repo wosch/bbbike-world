@@ -124,3 +124,7 @@ echo ""
 echo "Honey"
 egrep '/honey' $logfiles | awk '{ print $1 }'| sort | uniq -c | sort -nr | dns
 
+echo ""
+echo "error 500"
+egrep '" 500 ' $logfiles | awk '{ print $1 }'| sort | uniq -c | sort -nr | dns
+
