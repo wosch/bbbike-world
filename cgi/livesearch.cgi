@@ -432,10 +432,77 @@ qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\
     print $q->end_html;
 }
 
+sub statistic {
+    my $q = shift;
+
+    my $max = 700;
+    if ( $q->param('max') ) {
+        my $m = $q->param('max');
+        $max = $m if $m > 0 && $m <= 2_000;
+    }
+
+    my $date = $q->param('date') || "today";
+    my @d = &extract_route( $logfile, $max, 0, $date );
+
+    my $city_center;
+    my $json = new JSON;
+    my $cities;
+    my %hash;
+    my $counter;
+    my $counter2 = 0;
+    my @route_display;
+
+    foreach my $url (@d) {
+        my $qq = CGI->new($url);
+        $counter2++;
+
+        next if !$qq->param('driving_time');
+
+        my $coords = $qq->param('coords');
+        next if !$coords;
+        next if exists $hash{$coords};
+        $hash{$coords} = 1;
+
+        last if $counter++ >= $max;
+
+        my @params = qw/city route_length driving_time startname zielname area/;
+        push @params,
+          qw/pref_cat pref_quality pref_specialvehicle pref_speed pref_ferry pref_unlit/;
+
+        my $opt = { map { $_ => ( $qq->param($_) || "" ) } @params };
+
+        $city_center->{ $opt->{'city'} } = $opt->{'area'};
+
+        push( @{ $cities->{ $opt->{'city'} } }, $opt ) if $opt->{'city'};
+        push @route_display, $url;
+    }
+
+    print $q->header( -charset => 'utf-8', -expires => '+30m' );
+    print $q->start_html( -title => 'BBBike @ World livesearch' );
+
+    my @cities        = sort keys %{$cities};
+    my $unique_routes = scalar(@route_display);
+
+    print "City count: ", scalar(@cities),
+      " unique routes: $unique_routes, total routes: $counter2<br /><br/>\n";
+    print "Cycle Route Statistic<br/>"
+      . &route_stat($cities)
+      . "<br/><br/>\n\n";
+
+    print join( "<br/>\n",
+        map { $_ . " (" . scalar( @{ $cities->{$_} } ) . ")" } @cities );
+}
+
 ##############################################################################################
 #
 # main
 #
 
-&html($q);
+my $ns = $q->param("ns") || "";
+if ( $ns eq 'statistics' ) {
+    &statistic($q);
+}
+else {
+    &html($q);
+}
 
