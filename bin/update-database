@@ -11,7 +11,7 @@ mkdir -p $tmp
 
 : ${bbbike_cleanup="planet-download"}
 ionice=`which ionice`
-if [ "$ionice" -ne "" ]; then
+if [ "$ionice" != "" ]; then
    ionice_opt="-c 3"
 fi
 
