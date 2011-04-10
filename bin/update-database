@@ -10,8 +10,8 @@ tmp=tmp
 mkdir -p $tmp
 
 : ${bbbike_cleanup="planet-download"}
-ionice=`which ionice`
-if [ "$ionice" != "" ]; then
+if which ionice >/dev/null; then
+   ionice=ionice
    ionice_opt="-c 3"
 fi
 
