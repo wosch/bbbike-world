@@ -145,6 +145,7 @@ Disallow: /Darmstadt/?
 Disallow: /Davis/?
 Disallow: /DenHaag/?
 Disallow: /Denver/?
+Disallow: /Dessau/?
 Disallow: /Dortmund/?
 Disallow: /Dresden/?
 Disallow: /Dublin/?
@@ -163,6 +164,7 @@ Disallow: /Freiburg/?
 Disallow: /Gdansk/?
 Disallow: /Genf/?
 Disallow: /Gent/?
+Disallow: /Gera/?
 Disallow: /Glasgow/?
 Disallow: /Gliwice/?
 Disallow: /Goerlitz/?

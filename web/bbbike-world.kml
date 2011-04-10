@@ -383,7 +383,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Chemnitz/">BBBike @ Chemnitz</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>12.995,50.68,0.000000</coordinates>
+      <coordinates>12.995,50.715,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -515,6 +515,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Dessau</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Dessau/">BBBike @ Dessau</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>12.355,51.77,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Dortmund</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Dortmund/">BBBike @ Dortmund</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -575,7 +583,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Erfurt/">BBBike @ Erfurt</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>11.0505,50.98865,0.000000</coordinates>
+      <coordinates>11.06,50.975,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -659,6 +667,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Gera</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Gera/">BBBike @ Gera</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>12.17,50.75,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Glasgow</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Glasgow/">BBBike @ Glasgow</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -727,7 +743,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Halle/">BBBike @ Halle (Saale)</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>11.978,51.457,0.000000</coordinates>
+      <coordinates>11.915,51.37,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -799,7 +815,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Jena/">BBBike @ Jena</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>11.618,50.9175,0.000000</coordinates>
+      <coordinates>11.525,50.85,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -919,7 +935,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Leipzig/">BBBike @ Leipzig</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>12.385,51.326,0.000000</coordinates>
+      <coordinates>12.465,51.31,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1023,7 +1039,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Magdeburg/">BBBike @ Magdeburg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>11.6435,52.145,0.000000</coordinates>
+      <coordinates>11.635,52.12,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
