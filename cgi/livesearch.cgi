@@ -505,7 +505,9 @@ sub cache {
     my $counter = 0;
     my @route_display;
 
-    my $limit = 1;
+    my $limit = $q->param("max") || 50;
+    $limit = 20 if $limit < 0 || $limit > 500;
+
     foreach my $url (@d) {
         my $qq = CGI->new($url);
 
@@ -517,6 +519,7 @@ sub cache {
         $hash{$coords} = 1;
 
         $qq->delete('coords');
+        $qq->param( 'cache', 1 );
 
         my $city = $qq->param("city");
 
