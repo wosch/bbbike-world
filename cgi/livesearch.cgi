@@ -493,14 +493,55 @@ sub statistic {
         map { $_ . " (" . scalar( @{ $cities->{$_} } ) . ")" } @cities );
 }
 
+sub cache {
+    my $q = shift;
+
+    my $max = 2_000;
+    my @d = &extract_route( $logfile, $max, 0, "" );
+
+    my $cities;
+    my %hash;
+    my %hash2;
+    my $counter;
+    my $counter2 = 0;
+    my @route_display;
+
+    foreach my $url (@d) {
+        my $qq = CGI->new($url);
+        $counter2++;
+
+        next if !$qq->param('driving_time');
+
+        my $coords = $qq->param('coords');
+        next if !$coords;
+        next if exists $hash{$coords};
+        $hash{$coords} = 1;
+
+        $qq->delete('coords');
+
+        last if $counter++ >= $max;
+        my $city = $qq->param("city");
+        push @route_display, $qq->url( -full => 1, -query => 1 )
+          if !exists $hash2{$city};
+        $hash2{$city} = 1;
+    }
+
+    print $q->header( -charset => 'utf-8', -type => 'text/plain' );
+
+    print join "\n", @route_display;
+}
+
 ##############################################################################################
 #
 # main
 #
 
 my $ns = $q->param("ns") || "";
-if ( $ns eq 'statistics' ) {
+if ( $ns =~ /^stat/ ) {
     &statistic($q);
+}
+elsif ( $ns =~ /^cache/ ) {
+    &cache($q);
 }
 else {
     &html($q);
