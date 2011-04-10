@@ -76,7 +76,7 @@ Cork::en::eu:-8.67 51.672 -8.123 51.984:274000:
 Duesseldorf:de!Düsseldorf,en!Dusseldorf::de::6.51 51.06 7.11 51.39:1658557:
 Duisburg:Duisburg/Essen::de::6.51 51.361 7.11 51.63:490000:
 Edinburgh::en::eu:-3.487 55.831 -2.861 56.042:500000:
-Erfurt:::de::10.9049 50.8958 11.1961 51.0815:202450:
+Erfurt:::de::10.85 50.76 11.27 51.19:202450:
 Erlangen:::de::10.809 49.492 11.255 49.745:128512:
 Eugene::en::other:-123.2152 43.987 -122.8694 44.1476:343000:
 FortCollins:Fort Collins:en::other:-105.196 40.463 -104.933 40.621:118652:
@@ -98,7 +98,7 @@ Hannover:de!Hannover,en!Hanover::de::9.27 52.07 10.15 52.54:784784:
 Braunschweig:de!Braunschweig/Wolfsburg,en!Brunswick/Wolfgsburg::de::10.15 52.07 10.939 52.54:400000:
 Helsinki:::fi:eu:24.588 60.113 25.242 60.353:570000:
 Istanbul:::tr:other:28.655 40.896 29.27 41.266:13000000:
-Jena:::de::11.458 50.795 11.778 51.04:105571:
+Jena:::de::11.27 50.58 11.78 51.12:105571:
 Jerusalem:he!ירושלים::he:other:35.1424 31.7261 35.2936 31.8675:1000000:
 Johannesburg::en::other:27.72 -26.40 28.47 -25.90:3800000:
 Karlsruhe:::de::8.055 48.805 8.781 49.23:338149:
@@ -111,8 +111,9 @@ Kiew:de!Kiew,en!Kiev,uk!Київ,ru!Киев::uk:eu:30.278 50.298 30.859 50.622:
 Koeln:de!Köln,en!Cologne::de::6.58 50.78 7.33 51.06:995397:
 Moenchengladbach:de!Mönchengladbach,en!Mönchengladbach::de::5.75 50.99 6.65 51.48:380000:
 Leeds::en::eu:-1.89 53.65 -1.276 53.879:1500000:
-Leipzig:::de::12.08 51.07 12.78 51.55:536773:
-Halle:Halle (Saale)::de::11.756 51.28 12.23 51.62:232323:
+Leipzig:::de::12.08 51.07 12.85 51.55:536773:
+Dessau:::de::11.86 51.55 12.85 51.99:120000:
+Halle:Halle (Saale)::de::11.60 51.12 12.23 51.62:232323:
 Lima:::es:other:-77.1807 -12.2212 -76.8816 -11.9285:6500000:
 Lissabon:de!Lissabon,pt!Lisboa,en!Lisbon::pt:eu:-9.535 38.384 -8.65 39.004:2800000:
 Liverpool::en::eu:-3.208 53.263 -2.442 53.575:816000:
@@ -120,7 +121,7 @@ Ljubljana:de!Laibach,en!Ljubljana::sl:eu:14.267 45.904 14.771 46.25:278638:
 London::en::eu:-0.597 51.278 0.423 51.703:7556900:
 Luebeck:Lübeck::de::10.422 53.67 11.00 54.16:255222:
 Madison::en::other:-89.578 42.971 -89.215 43.18:53512:
-Magdeburg:::de::11.385 51.991 11.902 52.299:230000:
+Magdeburg:::de::11.33 51.89 11.94 52.35:230000:
 Mainz:Mainz/Wiesbaden::de::8.1 49.918 8.51 50.15:616490:
 Manchester::en::eu:-2.523 53.31 -1.79 53.65:2500000:
 Mannheim:Mannheim/Heidelberg::de::8.10 49.23 8.79 49.72:1149438:
