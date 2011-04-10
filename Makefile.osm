@@ -399,11 +399,14 @@ elevation-fetch:
 elevation-update:
 	echo ${CITIES} | ${NICE5} xargs -E " " -n16 -P2 ${ELEVATION_SCRIPT} --readonly-database --database=../osm-streetnames/srtm/elevation.db --debug=0
 
+cache-heater:
+	curl -sSf 'http://dev.bbbike.org/cgi/livesearch.cgi?ns=cache;max=100' | perl -npe 's,www,dev,' | time xargs -n1 -P2 curl -sSf >/dev/null
+
 help:
 	@echo "usage: make [ targets ... ]"
 	@echo "  [ help | cities | cities-parallel | rsync-tgz | rsync-osm | rsync-osm-dev ]"
 	@echo "  [ clean | dist-clean | clean-cache | clean-planet ]"
-	@echo "  [ create-osp | bbbike2wgs84 | update-robots.txt ]"
+	@echo "  [ create-osp | bbbike2wgs84 | update-robots.txt | cache-heater ]"
 	@echo "  [ create-bbbike-web-symlinks | kml | create-osp | index ]"
 	@echo "  [ convert-wgs84 | convert-bbbike | convert-bbbike-full ]"
 	@echo "  [ city-count | city-reorder | city-file | check-osm | cleanup-osm-error ]"
