@@ -40,8 +40,8 @@ mkdir -p $cache_dir
 # max. 3min 
 ulimit -t 180
 
-# max. 1.2GB RAM
-ulimit -v 1212000 
+# max. 1.5GB RAM
+ulimit -v 1512000 
 
 time env TMPDIR=$cache_dir DATA_DIR="data-osm/$name" BBBIKE_DATADIR="data-osm/$name" perl $dirname/bbbike.cgi
 
