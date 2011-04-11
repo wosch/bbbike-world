@@ -4,6 +4,8 @@
 # livesearch.cgi - bbbike.org live routing search
 
 use CGI qw/-utf-8 unescape/;
+use URI;
+use URI::QueryParam;
 
 use IO::File;
 use JSON;
@@ -496,7 +498,7 @@ sub statistic {
 sub cache {
     my $q = shift;
 
-    my $max = 3_000;
+    my $max = 30;
     my @d = &extract_route( $logfile, $max, 0, "" );
 
     my $cities;
@@ -505,42 +507,50 @@ sub cache {
     my $counter = 0;
     my @route_display;
 
-    my $limit = $q->param("max") || 50;
+    my $limit = $q->param("max") || 5;
     $limit = 20 if $limit < 0 || $limit > 500;
 
+    print $q->header( -charset => 'utf-8', -type => 'text/plain' );
+
     foreach my $url (@d) {
-        my $qq = CGI->new($url);
+        $url =~ s/;/&/g;    # bug in URI
+        my $u = URI->new($url);
 
-        next if !$qq->param('driving_time');
+        # print $u->as_string, "\nxxx", $u->query_param("pref_speed"), "\n";
 
-        my $coords = $qq->param('coords');
+        next if !$u->query_param('driving_time');
+
+        my $coords = $u->query_param('coords');
         next if !$coords;
         next if exists $hash{$coords};
         $hash{$coords} = 1;
 
-        $qq->delete('coords');
-        $qq->delete('area');
-        $qq->delete('driving_time');
+        $u->query_param_delete('coords');
+        $u->query_param_delete('area');
+        $u->query_param_delete('driving_time');
 
-        $qq->param( 'cache', 1 );
+        $u->query_param( 'cache', 1 );
 
-        my $city = $qq->param("city");
+        my $city = $u->query_param("city");
 
-        my $u = $qq->url( -relative => 1, -query => 1 );
-        $u =~ s/.*?\?//;
-        $u = unescape($u);
-        $u =~ s/ /+/g;
+        if ( !exists $hash2{$city} ) {
+            $hash2{$city} = 1;
 
-        push @route_display, $u if !exists $hash2{$city};
-        $hash2{$city} = 1;
+            # pref_cat=N1;pref_quality=Q2;
+            $u->query_param( 'pref_cat',     "" );
+            $u->query_param( 'pref_quality', "" );
+            push @route_display, $u->as_string;
 
-        last if scalar(@route_display) >= $limit;
+            $u->query_param( 'pref_cat',     "N1" );
+            $u->query_param( 'pref_quality', "Q2" );
+            push @route_display, $u->as_string;
+        }
+
+        last if scalar(@route_display) >= $limit * 2;
     }
 
-    print $q->header( -charset => 'utf-8', -type => 'text/plain' );
-
     print join "\n", @route_display;
-    print "\n";
+    print "xxx\n";
 
 }
 
