@@ -498,7 +498,7 @@ sub statistic {
 sub cache {
     my $q = shift;
 
-    my $max = 3_000;
+    my $max = 1000;
     my @d = &extract_route( $logfile, $max, 0, "" );
 
     my $cities;
@@ -548,6 +548,7 @@ sub cache {
     }
 
     print join "\n", @route_display;
+    print "\n";
 }
 
 ##############################################################################################
