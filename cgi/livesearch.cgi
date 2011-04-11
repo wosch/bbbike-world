@@ -498,7 +498,7 @@ sub statistic {
 sub cache {
     my $q = shift;
 
-    my $max = 30;
+    my $max = 3_000;
     my @d = &extract_route( $logfile, $max, 0, "" );
 
     my $cities;
@@ -507,7 +507,7 @@ sub cache {
     my $counter = 0;
     my @route_display;
 
-    my $limit = $q->param("max") || 5;
+    my $limit = $q->param("max") || 50;
     $limit = 20 if $limit < 0 || $limit > 500;
 
     print $q->header( -charset => 'utf-8', -type => 'text/plain' );
@@ -515,8 +515,6 @@ sub cache {
     foreach my $url (@d) {
         $url =~ s/;/&/g;    # bug in URI
         my $u = URI->new($url);
-
-        # print $u->as_string, "\nxxx", $u->query_param("pref_speed"), "\n";
 
         next if !$u->query_param('driving_time');
 
@@ -550,8 +548,6 @@ sub cache {
     }
 
     print join "\n", @route_display;
-    print "xxx\n";
-
 }
 
 ##############################################################################################
