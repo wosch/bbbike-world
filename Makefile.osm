@@ -401,8 +401,8 @@ elevation-update:
 
 # re-build cache
 cache-heater:
-	curl -sSf 'http://dev.bbbike.org/cgi/livesearch.cgi?ns=cache;max=50' | \
-		${GXARGS} -n1 -P${MAX_CPU2} curl -sSf >/dev/null
+	curl -sSf 'http://www.bbbike.org/cgi/livesearch.cgi?ns=cache;max=50' | \
+		${GXARGS} -n1 -P${MAX_CPU} curl -sSf >/dev/null
 
 help:
 	@echo "usage: make [ targets ... ]"
