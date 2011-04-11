@@ -399,8 +399,10 @@ elevation-fetch:
 elevation-update:
 	echo ${CITIES} | ${NICE5} xargs -E " " -n16 -P2 ${ELEVATION_SCRIPT} --readonly-database --database=../osm-streetnames/srtm/elevation.db --debug=0
 
+# re-build cache
 cache-heater:
-	curl -sSf 'http://dev.bbbike.org/cgi/livesearch.cgi?ns=cache;max=100' | perl -npe 's,www,dev,' | time xargs -n1 -P2 curl -sSf >/dev/null
+	curl -sSf 'http://www.bbbike.org/cgi/livesearch.cgi?ns=cache;max=100' | \
+		time xargs -n1 -P${MAX_CPU2} curl -sSf >/dev/null
 
 help:
 	@echo "usage: make [ targets ... ]"
