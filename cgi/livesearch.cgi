@@ -113,6 +113,7 @@ sub extract_route {
 
             next if !/coords/;
             next if $date && !/$date/;
+	    next if /[;&]cache=1/;
 
             my @list = split;
             my $url  = pop(@list);
