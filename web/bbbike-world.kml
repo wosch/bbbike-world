@@ -279,7 +279,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Brisbane/">BBBike @ Brisbane</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>153.049,-27.4665,0.000000</coordinates>
+      <coordinates>153.025,-27.45,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -463,7 +463,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/CraterLake/">BBBike @ Crater Lake</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-122.1062,42.93115,0.000000</coordinates>
+      <coordinates>-122.3,42.71,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -591,7 +591,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Erlangen/">BBBike @ Erlangen</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>11.032,49.6185,0.000000</coordinates>
+      <coordinates>11.0325,49.6185,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1191,7 +1191,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Nuernberg/">BBBike @ Nuremberg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>11.0825,49.4155,0.000000</coordinates>
+      <coordinates>11.1,49.405,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
