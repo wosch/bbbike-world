@@ -32,7 +32,7 @@ Luxemburg:en!Luxenbourg,de!Luxemburg,fr!Luxembourg::de:eu:5.594 49.406 6.727 50.
 Boulder::en::other:-105.383 39.89 -105.04 40.145:91481:
 BrandenburgHavel:Brandenburg (Havel)::de::12.329 52.335 12.785 52.525:74875:
 Bremen:::de::8.434 52.968 9.16 53.25:611739:
-Brisbane::en::other:152.914 -27.565 153.184 -27.368:1900000:
+Brisbane::en::other:152.72 -27.73 153.33 -27.17:1900000:
 Bristol::en::eu:-2.926 51.336 -2.269 51.592:590000:
 Bruessel:de!Brüssel,en!Brussel,fr!Bruxelle,nl!Brussel::nl:eu:4.15 50.65 4.62 51.00:981000:
 Antwerpen:de!Antwerpen,en!Antwerp,fr!Anvers,nl!Antwerpen::nl:eu:4.171 51.00 4.668 51.388:461000:
@@ -77,7 +77,7 @@ Duesseldorf:de!Düsseldorf,en!Dusseldorf::de::6.51 51.06 7.11 51.39:1658557:
 Duisburg:Duisburg/Essen::de::6.51 51.361 7.11 51.63:490000:
 Edinburgh::en::eu:-3.487 55.831 -2.861 56.042:500000:
 Erfurt:::de::10.85 50.76 11.27 51.19:202450:
-Erlangen:::de::10.809 49.492 11.255 49.745:128512:
+Erlangen:::de::10.81 49.492 11.255 49.745:128512:
 Eugene::en::other:-123.2152 43.987 -122.8694 44.1476:343000:
 FortCollins:Fort Collins:en::other:-105.196 40.463 -104.933 40.621:118652:
 Frankfurt:Frankfurt am Main::de::8.44 49.968 9.086 50.263:2005405:
@@ -143,7 +143,7 @@ Konstanz:::de::8.759 47.37 9.828 47.872:83644:
 Muenster:Münster::de::7.42 51.83 7.85 52.12:272951:
 NewDelhi:en!New Delhi,de!Neu-Delhi,hi!नई दिल्ली::hi:other:76.978 28.44 77.497 28.738:12000000:
 NewYork:New York:en::other:-74.359 40.479 -73.671 40.96:19000000:
-Nuernberg:de!Nürnberg,en!Nuremberg::de::10.844 49.296 11.321 49.535:2500000:
+Nuernberg:de!Nürnberg,en!Nuremberg::de::10.81 49.23 11.39 49.58:2500000:
 Oldenburg:::de::7.951 53.012 8.512 53.26:160000:
 Oranienburg:::de::12.92 52.545 14.50 53.48:45000:
 Orlando::en::other:-81.644 28.283 -81.072 28.822:2000000:
