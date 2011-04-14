@@ -41,8 +41,13 @@ zcat -f $logfiles | egrep "GET / |GET $url_match.* HTTP" | egrep '" (200|301) ' 
 	egrep -v 'GET /[^ ]+/streets.html' |
 	egrep -v 'Purebot|Java/1|SnapPreviewBot|Tcl http client package|http://www.bbbike.org' |
 	awk '{print $11}' | perl -npe "s,.?http://www.bbbike.org$url_match\?.*\n,$1,g" | sort -u | wc -l
+
+echo -n "google references: "
 zcat -f $logfiles | egrep "GET / |GET $url_match.* HTTP" | egrep '" (200|301) ' |
-	egrep -v 'GET /[^ ]+/streets.html' |
+	egrep -v 'GET /[^ ]+/streets.html' | egrep -i 'google.*fahrrad' | wc -l
+
+zcat -f $logfiles | egrep "GET / |GET $url_match.* HTTP" | egrep '" (200|301) ' |
+	egrep -v 'GET /[^ ]+/streets.html' | egrep -iv 'google.*fahrrad' |
 	egrep -v 'Purebot|Java/1|SnapPreviewBot|Tcl http client package|http://www.bbbike.org' |
 	awk '{print $11}' | perl -npe "s,.?http://www.bbbike.org$url_match\?.*\n,$1,g" | sort | uniq -c | sort -nr
 
@@ -105,7 +110,7 @@ echo ""
 echo "Street click"
 echo -n "streets.html: "
 egrep 'GET /[A-Z][^ ]*/streets.html' $logfiles | awk '{ if ($11 != "\"-\"") { print $7, $11 } else { print $11 } }'| sort  -u | wc -l
-egrep 'GET /[A-Z][^ ]*/streets.html' $logfiles | awk '{ if ($11 != "\"-\"") { print $7, $11 } else { print $11 } }'| sort | uniq -c | sort -nr
+egrep 'GET /[A-Z][^ ]*/streets.html' $logfiles | awk '{ if ($11 != "\"-\"") { print $7 } }'| sort | uniq -c | sort -nr | head -20 
 
 echo ""
 echo -n "Street route search: "
