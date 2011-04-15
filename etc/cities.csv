@@ -83,7 +83,7 @@ FortCollins:Fort Collins:en::other:-105.196 40.463 -104.933 40.621:118652:
 Frankfurt:Frankfurt am Main::de::8.44 49.968 9.086 50.263:2005405:
 FrankfurtOder:Frankfurt (Oder)::de::14.396 52.201 14.667 52.44:143466:
 Freiburg:::de::7.54 47.83 8.08 48.23:230881:
-Stuttgart:::de::8.945 48.613 9.434 48.921:2674445:
+Stuttgart:::de::8.79 48.45 9.69 49.00:2674445:
 Gdansk:de!Danzig,en!Gdansk,pl!Gdańsk::pl:eu:18.34 54.23 18.87 54.62:889146:
 Genf:de!Genf,en!Geneva,fr!Genève::fr:eu:5.92 46.02 6.52 46.48:470000:
 Lausanne:::fr:eu:6.31 46.35 7.074 46.63:125000:
@@ -101,7 +101,7 @@ Istanbul:::tr:other:28.655 40.896 29.27 41.266:13000000:
 Jena:::de::11.27 50.58 11.78 51.12:105571:
 Jerusalem:he!ירושלים::he:other:35.1424 31.7261 35.2936 31.8675:1000000:
 Johannesburg::en::other:27.72 -26.40 28.47 -25.90:3800000:
-Karlsruhe:::de::8.055 48.805 8.781 49.23:338149:
+Karlsruhe:::de::8.055 48.805 8.79 49.23:338149:
 Kassel:::de::9.225 51.158 9.742 51.47:322935:
 Katowice:de!Kattowitz,en!Katowice,pl!Katowice,de!Kattowitz::pl:eu:18.8829 50.17 19.3 50.41:990000:
 Kaunas:::lt:eu:23.738 54.79 24.273 55.01:355550:
@@ -135,7 +135,7 @@ Montreal:en!Montreal,fr!Montréal::fr:other:-74.086 45.301 -73.268 45.75:2465219
 Moscow:de!Moskau,ru!Москва::ru:eu:37.322 55.566 37.881 55.916:15000000:
 Muenchen:de!München,en!Munich::de::11.06 47.80 12.00 48.42:2600000:
 Augsburg:::de::10.7 48.22 11.08 48.468:263646:
-Ulm:::de::9.691 48.221 10.306 48.52:122087:
+Ulm:::de::9.69 48.221 10.306 48.52:122087:
 Regensburg:::de::11.891 48.895 12.344 49.143:134218:
 Paderborn:::de::8.525 51.607 9.10 51.89:145320:
 Osnabrueck:de!Osnabrück,en!Osnabrück::de::7.82 52.07 8.32 52.43:163514:
