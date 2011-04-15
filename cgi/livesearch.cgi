@@ -113,7 +113,7 @@ sub extract_route {
 
             next if !/coords/;
             next if $date && !/$date/;
-	    next if /[;&]cache=1/;
+            next if /[;&]cache=1/;
 
             my @list = split;
             my $url  = pop(@list);
@@ -319,7 +319,7 @@ EOF
 
     if ( $q->param('max') ) {
         my $m = $q->param('max');
-        $max = $m if $m > 0 && $m <= 2_000;
+        $max = $m if $m > 0 && $m <= 5_000;
     }
 
     my $date = $q->param('date') || "";
