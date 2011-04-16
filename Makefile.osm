@@ -401,7 +401,7 @@ elevation-update:
 
 # re-build cache
 cache-heater:
-	du -hs ${BBBIKE_CACHE_DIR}/*
+	du -hs ${BBBIKE_CACHE_DIR}/* || du -hs ${BBBIKE_CACHE_DIR}
 	curl -sSf 'http://www.bbbike.org/cgi/livesearch.cgi?ns=cache;max=50' | \
 		${GXARGS} -n1 -P${MAX_CPU} curl -sSf >/dev/null
 	du -hs ${BBBIKE_CACHE_DIR}/*
