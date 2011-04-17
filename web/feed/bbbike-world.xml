@@ -16,6 +16,15 @@
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>New: cycle routing for Kaiserslautern and
+    Salzburg</title>
+    <id>a2390777c2e2c60c01c94121836458aa</id>
+    <content>New: cycle routing for Kaiserslautern and
+    Salzburg</content>
+    <updated>2011-04-17T12:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title>New: cycle routing for Gera and Dessau</title>
     <id>c9fca418ccf44c117367127fd236a669</id>
     <content>New: cycle routing for Gera and Dessau</content>

@@ -18,6 +18,16 @@ my $feed = XML::Atom::SimpleFeed->new(
 
 ######################################################################
 $feed->add_entry(
+    title   => qq{New: cycle routing for Kaiserslautern and Salzburg},
+    id      => 'a2390777c2e2c60c01c94121836458aa',
+    content => {
+        type    => 'text',
+        content => qq{New: cycle routing for Kaiserslautern and Salzburg},
+    },
+    updated  => '2011-04-17T12:30:02Z',
+    category => 'News',
+);
+$feed->add_entry(
     title   => qq{New: cycle routing for Gera and Dessau},
     id      => 'c9fca418ccf44c117367127fd236a669',
     content => {
