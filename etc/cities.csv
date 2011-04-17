@@ -27,7 +27,7 @@ Bogota:es!Bogotá,en!Bogota:en:es:other:-74.2155 4.5199 -74.0078 4.7711:8200000:
 Bombay:en!Bombay,mr!मुंबई::mr:other:72.746 18.837 73.155 19.355:12000000:
 Bonn:::de::6.90 50.47 7.36 50.813:802194:
 Koblenz:en!Koblenz,de!Koblenz,fr!Coblence::de::7.168 50.119 8.10 50.58:106000:
-Saarbruecken:de!Saarbrücken,en!Saarbrücken,fr!Sarrebruck::de::6.593 49.046 7.444 49.454 :176000:
+Saarbruecken:de!Saarbrücken,en!Saarbrücken,fr!Sarrebruck::de::6.593 49.046 7.44 49.54 :176000:
 Luxemburg:en!Luxenbourg,de!Luxemburg,fr!Luxembourg::de:eu:5.594 49.406 6.727 50.21:502000:
 Boulder::en::other:-105.383 39.89 -105.04 40.145:91481:
 BrandenburgHavel:Brandenburg (Havel)::de::12.329 52.335 12.785 52.525:74875:
@@ -126,6 +126,7 @@ Magdeburg:::de::11.33 51.89 11.94 52.35:230000:
 Mainz:Mainz/Wiesbaden::de::7.7 49.72 8.51 50.15:616490:
 Manchester::en::eu:-2.523 53.31 -1.79 53.65:2500000:
 Mannheim:Mannheim/Heidelberg::de::8.10 49.23 8.79 49.72:1149438:
+Kaiserslautern:::de::7.44 49.15 8.19 49.72:150000:
 Marseille:::fr:eu:5.277 43.142 5.72 43.438:1400000:0.01
 Melbourne::en::other:144.68 -38.02 145.30 -37.53:3600000:
 MexicoCity:en!Mexico City,de!Mexiko-Stadt,es!Ciudad de Méxicoeses::es:other:-99.2708 19.3095 -98.9714 19.5329:21000000:
