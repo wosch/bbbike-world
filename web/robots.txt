@@ -185,6 +185,7 @@ Disallow: /Istanbul/?
 Disallow: /Jena/?
 Disallow: /Jerusalem/?
 Disallow: /Johannesburg/?
+Disallow: /Kaiserslautern/?
 Disallow: /Karlsruhe/?
 Disallow: /Kassel/?
 Disallow: /Katowice/?
@@ -260,6 +261,7 @@ Disallow: /Ruegen/?
 Disallow: /Saarbruecken/?
 Disallow: /Sacramento/?
 Disallow: /Saigon/?
+Disallow: /Salzburg/?
 Disallow: /SanFrancisco/?
 Disallow: /SanJose/?
 Disallow: /SanktPetersburg/?

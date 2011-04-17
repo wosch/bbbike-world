@@ -231,7 +231,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Bonn/">BBBike @ Bonn</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>7.13,50.6965,0.000000</coordinates>
+      <coordinates>7.13,50.6415,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -835,6 +835,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Kaiserslautern</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Kaiserslautern/">BBBike @ Kaiserslautern</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>7.815,49.435,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Karlsruhe</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Karlsruhe/">BBBike @ Karlsruhe</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -1047,7 +1055,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Mainz/">BBBike @ Mainz/Wiesbaden</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>8.305,50.034,0.000000</coordinates>
+      <coordinates>8.105,49.935,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1415,7 +1423,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Saarbruecken/">BBBike @ Saarbrücken</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>7.0185,49.25,0.000000</coordinates>
+      <coordinates>7.0165,49.293,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1432,6 +1440,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>106.69945,10.77475,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Salzburg</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Salzburg/">BBBike @ Salzburg</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>13.1085,47.7865,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
