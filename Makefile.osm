@@ -36,6 +36,7 @@ DB=world/bin/bbbike-db
 ELEVATION_SCRIPT=world/bin/elevation-database
 BBBIKE_WEBSERVER_DIR=/usr/local/www/bbbike.org
 BBBIKE_WEB_DIR= ./
+CACHE_HEATER_MAX=30
 
 TMP=world/tmp
 
@@ -403,7 +404,7 @@ elevation-update:
 # re-build cache
 cache-heater:
 	du -hs ${BBBIKE_CACHE_DIR}/* || du -hs ${BBBIKE_CACHE_DIR}
-	curl -sSf 'http://www.bbbike.org/cgi/livesearch.cgi?ns=cache;max=50' | \
+	curl -sSf 'http://www.bbbike.org/cgi/livesearch.cgi?ns=cache;max='${CACHE_HEATER_MAX} | \
 		perl -npe 's/\n/\0/g' | \
 		${GXARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 	du -hs ${BBBIKE_CACHE_DIR}/*
