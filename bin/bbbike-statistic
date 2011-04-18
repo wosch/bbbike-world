@@ -93,10 +93,10 @@ zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -v '" 40[34] ' |
 
 echo ""
 echo -n "slippymap cities: "
-zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -v '" 40[34] ' | egrep 'startname=\w+.*zielname=\w+' | 
+zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -v '" 40[34] ' | egrep 'startc=\w+.*zielc=\w+' | egrep -v 'cache=1' |
 	perl -ne 'print "$1\n" if m,GET /([A-Z][a-z]+)/\?, || m,GET /([a-z][a-z]/[A-Z][a-z]+)/\?,' | wc -l
 zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -v '" 40[34] ' |
-	egrep 'startname=\w+.*zielname=\w+' |
+	egrep 'startc=\w+.*zielc=\w+' | egrep -v 'cache=1' |
 	perl -ne 'print "$1\n" if m,GET /([A-Z][a-z]+)/\?, || m,GET /([a-z][a-z]/[A-Z][a-z]+)/\?,' |
 	sort | uniq -c | sort -nr
 
