@@ -405,7 +405,7 @@ cache-heater:
 	du -hs ${BBBIKE_CACHE_DIR}/* || du -hs ${BBBIKE_CACHE_DIR}
 	curl -sSf 'http://www.bbbike.org/cgi/livesearch.cgi?ns=cache;max=50' | \
 		perl -npe 's/\n/\0/g' | \
-		${GXARGS} -0 -n1 -P${MAX_CPU} curl -sSf >/dev/null
+		${GXARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 	du -hs ${BBBIKE_CACHE_DIR}/*
 
 help:
