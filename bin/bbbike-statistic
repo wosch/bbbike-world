@@ -14,21 +14,21 @@ cd /var/log/lighttpd || exit 2
 url_match='(/cgi/[A-Zb]|/[A-Z][a-z][A-Za-z]+/|/berlin/|/[a-z][a-z]/[A-Z][a-z][A-Za-z]+/)'
 
 echo -n "bbbike.org page views: "
-zcat -f $logfiles | egrep "GET $url_match" | egrep -v '" 40[34] ' | awk '{print $1}' | wc -l
+zcat -f $logfiles | egrep -v 85.214.61.222 | egrep "GET $url_match" | egrep -v '" 40[34] ' | awk '{print $1}' | wc -l
 
 echo -n "mobile bbbike.org page views: "
-zcat -f $logfiles_mobile | egrep "GET $url_match" | egrep -v '" 40[34] ' | awk '{print $1}' | wc -l
+zcat -f $logfiles_mobile | egrep -v 85.214.61.222| egrep "GET $url_match" | egrep -v '" 40[34] ' | awk '{print $1}' | wc -l
 
 echo -n "weather page views: "
-zcat -f $logfiles | egrep 'GET /cgi/weather.cgi' | egrep -v '" 40[34] ' | awk '{print $1}' | wc -l
+zcat -f $logfiles | egrep -v 85.214.61.222 | egrep 'GET /cgi/weather.cgi' | egrep -v '" 40[34] ' | awk '{print $1}' | wc -l
 
 echo -n "location page views: "
-zcat -f $logfiles $logfiles_mobile | egrep 'GET /cgi/location.cgi' | egrep '" (200|301) ' | awk '{print $1}' | wc -l
+zcat -f $logfiles $logfiles_mobile | egrep -v 85.214.61.222 | egrep 'GET /cgi/location.cgi' | egrep '" (200|301) ' | awk '{print $1}' | wc -l
 
 echo ""
 echo -n "bbbike.org hosts: "
-zcat -f $logfiles | egrep "GET $url_match" | egrep -v '" 40[34] ' | awk '{print $1}' | sort -u | wc -l
-zcat -f $logfiles | egrep "GET $url_match" | egrep -v '" 40[34] ' |  
+zcat -f $logfiles | egrep -v 85.214.61.222 | egrep "GET $url_match" | egrep -v '" 40[34] ' | awk '{print $1}' | sort -u | wc -l
+zcat -f $logfiles | egrep -v 85.214.61.222 | egrep "GET $url_match" | egrep -v '" 40[34] ' |  
 	egrep -v 'Purebot|Java/1|SnapPreviewBot|Tcl http client package|Yahoo\! Slurp|www.bing.com/bingbot.htm|crawler.html|Googlebot|ezooms.bot|covario|Ronbot/Nutch|cmsworldmap.com' |
 	awk '{print $1, $7 }' | perl -npe 's/\?.*//; s,/cgi/,,; s,(\.en)?\.cgi,,;' | 
 	sort | uniq -c | sort -nr | head -40 | dns
@@ -37,7 +37,7 @@ echo ""
 
 echo ""
 echo -n "bbbike references: "
-zcat -f $logfiles | egrep "GET / |GET $url_match.* HTTP" | egrep '" (200|301) ' |
+zcat -f $logfiles | egrep -v 85.214.61.222 | egrep "GET / |GET $url_match.* HTTP" | egrep '" (200|301) ' |
 	egrep -v 'GET /[^ ]+/streets.html' |
 	egrep -v 'Purebot|Java/1|SnapPreviewBot|Tcl http client package|http://www.bbbike.org' |
 	awk '{print $11}' | perl -npe "s,.?http://www.bbbike.org$url_match\?.*\n,$1,g" | sort -u | wc -l
@@ -53,11 +53,11 @@ zcat -f $logfiles | egrep "GET / |GET $url_match.* HTTP" | egrep '" (200|301) ' 
 
 echo ""
 echo -n "bbbike cities: "
-zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -v '" 40[34] ' |
+zcat -f $logfiles | egrep -v 85.214.61.222 | egrep "GET $url_match.*?\?" | egrep -v '" 40[34] ' |
 	egrep -v 'imagetype=png.*geometry=240x180' |  
 	perl -ne 'print "$1\n" if m,GET /cgi/(.*?).cgi, || m,GET /([A-Z][a-z]+)/\?, || m,GET /([a-z][a-z]/[A-Z][a-z]+)/\?, ' | wc -l
 
-zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -v '" 40[34] ' |
+zcat -f $logfiles | egrep -v 85.214.61.222 | egrep "GET $url_match.*?\?" | egrep -v '" 40[34] ' |
 	egrep -v 'imagetype=png.*geometry=240x180' |
 	perl -ne 'print "$1\n" if m,GET /cgi/(.*?).cgi, || m,GET /([A-Z][a-z]+)/\?, || m,GET /([a-z][a-z]/[A-Z][a-z]+)/\?,' |
 	sort | uniq -c | sort -nr
@@ -77,33 +77,33 @@ zcat -f $logfiles | egrep 'GET /cgi/street-coord.cgi\?' | egrep -v '" 40[34] ' |
 
 echo ""
 echo -n "bbbike cities pdf: "
-zcat -f $logfiles | egrep 'POST (/[a-z][a-z])?/[A-Z][a-z]+.*?\?' | egrep -v '" 40[34] ' | perl -ne 'print "$1\n" if m,POST /[A-Z][a-z]+/(.*?), || m,POST /[a-z][a-z]/[A-Z][a-z]+/(.*?),' | wc -l
+zcat -f $logfiles | egrep -v 85.214.61.222 | egrep 'POST (/[a-z][a-z])?/[A-Z][a-z]+.*?\?' | egrep -v '" 40[34] ' | perl -ne 'print "$1\n" if m,POST /[A-Z][a-z]+/(.*?), || m,POST /[a-z][a-z]/[A-Z][a-z]+/(.*?),' | wc -l
 
-zcat -f $logfiles | egrep 'POST (/[a-z][a-z])?/[A-Z][a-z]+/.*?\?' | egrep -v '" 40[34] ' | 
+zcat -f $logfiles | egrep -v 85.214.61.222 | egrep 'POST (/[a-z][a-z])?/[A-Z][a-z]+/.*?\?' | egrep -v '" 40[34] ' | 
 	perl -ne 'print "$1\n" if m,POST /([A-Z][a-z]+)/, || m,POST /([a-z][a-z]/[A-Z][a-z]+)/,'|
 	sort | uniq -c | sort -nr
 
 echo ""
 echo -n "output formats total: "
-zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -v '" 40[34] ' | 
+zcat -f $logfiles | egrep -v 85.214.61.222 | egrep "GET $url_match.*?\?" | egrep -v '" 40[34] ' | 
 	perl -ne 'print "$1 $2\n" if m,GET /(.*?[A-Z][^/]+)/.*?\?\S*output_as=([^;&\s]+),' | wc -l
 echo "output formats: "
-zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -v '" 40[34] ' |
+zcat -f $logfiles | egrep -v 85.214.61.222 | egrep "GET $url_match.*?\?" | egrep -v '" 40[34] ' |
 	perl -ne 'print "$1 $2\n" if m,GET /(.*?[A-Z][^/]+)/.*?\?\S*output_as=([^;&\s]+),' | sort | uniq -c | sort -nr
 
 echo ""
 echo -n "slippymap cities: "
-zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -v '" 40[34] ' | egrep 'startc=\w+.*zielc=\w+' | egrep -v 'cache=1' |
+zcat -f $logfiles | egrep -v 85.214.61.222 | egrep "GET $url_match.*?\?" | egrep -v '" 40[34] ' | egrep 'startc=\w+.*zielc=\w+' | egrep -v 'cache=1' |
 	perl -ne 'print "$1\n" if m,GET /([A-Z][a-z]+)/\?, || m,GET /([a-z][a-z]/[A-Z][a-z]+)/\?,' | wc -l
-zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -v '" 40[34] ' |
+zcat -f $logfiles | egrep -v 85.214.61.222 | egrep "GET $url_match.*?\?" | egrep -v '" 40[34] ' |
 	egrep 'startc=\w+.*zielc=\w+' | egrep -v 'cache=1' |
 	perl -ne 'print "$1\n" if m,GET /([A-Z][a-z]+)/\?, || m,GET /([a-z][a-z]/[A-Z][a-z]+)/\?,' |
 	sort | uniq -c | sort -nr
 
 echo ""
 echo -n "slippymap cities IE6/7: "
-zcat -f $logfiles | egrep 'POST /cgi/slippymap.*?\?' | egrep -v '" 40[34] ' | perl -ne 'print "$1\n" if m,city=(.*?)[&;],' | wc -l
-zcat -f $logfiles | egrep 'POST /cgi/slippymap.*?\?' | egrep -v '" 40[34] ' |
+zcat -f $logfiles | egrep -v 85.214.61.222 | egrep 'POST /cgi/slippymap.*?\?' | egrep -v '" 40[34] ' | perl -ne 'print "$1\n" if m,city=(.*?)[&;],' | wc -l
+zcat -f $logfiles | egrep -v 85.214.61.222 | egrep 'POST /cgi/slippymap.*?\?' | egrep -v '" 40[34] ' |
 	perl -ne 'print "$1\n" if m,city=(.*?)[&;\s],' | sort | uniq -c | sort -nr
 
 echo ""
