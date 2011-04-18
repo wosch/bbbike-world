@@ -409,11 +409,15 @@ cache-heater:
 		${GXARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 	du -hs ${BBBIKE_CACHE_DIR}/*
 
+cache-heater-full:
+	${MAKE} -f Makefile.osm CACHE_HEATER_MAX=100 cache-heater
+
 help:
 	@echo "usage: make [ targets ... ]"
 	@echo "  [ help | cities | cities-parallel | rsync-tgz | rsync-osm | rsync-osm-dev ]"
 	@echo "  [ clean | dist-clean | clean-cache | clean-planet ]"
-	@echo "  [ create-osp | bbbike2wgs84 | update-robots.txt | cache-heater ]"
+	@echo "  [ create-osp | bbbike2wgs84 | update-robots.txt ]"
+	@echo "  [ cache-heater | cache-heater-full ]"
 	@echo "  [ create-bbbike-web-symlinks | kml | create-osp | index ]"
 	@echo "  [ convert-wgs84 | convert-bbbike | convert-bbbike-full ]"
 	@echo "  [ city-count | city-reorder | city-file | check-osm | cleanup-osm-error ]"
