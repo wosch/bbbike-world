@@ -402,7 +402,9 @@ elevation-update:
 	echo ${CITIES} | ${NICE5} ${GXARGS} -E " " -n16 -P2 ${ELEVATION_SCRIPT} --readonly-database --database=../osm-streetnames/srtm/elevation.db --debug=0
 
 # re-build cache
-cache-heater:
+cache-heater: cache-heater-streets cache-heater-common
+
+cache-heater-common: 
 	du -hs ${BBBIKE_CACHE_DIR}/* || du -hs ${BBBIKE_CACHE_DIR}
 	curl -sSf 'http://www.bbbike.org/cgi/livesearch.cgi?ns=cache;max='${CACHE_HEATER_MAX} | \
 		perl -npe 's/\n/\0/g' | \
@@ -411,6 +413,11 @@ cache-heater:
 
 cache-heater-full:
 	${MAKE} -f Makefile.osm CACHE_HEATER_MAX=100 cache-heater
+
+cache-heater-streets:
+	echo ${CITIES} | perl -npe 's/ /\n/g' | \
+		perl -npe 'chomp; $$_ = "http://www.bbbike.org/$$_/streets.html\0"' | \
+		${GXARGS} -0 -n1 -P${MAX_CPU} curl -sSf >/dev/null
 
 help:
 	@echo "usage: make [ targets ... ]"
