@@ -416,7 +416,7 @@ cache-heater-full:
 
 cache-heater-streets:
 	echo ${CITIES} | perl -npe 's/ /\n/g' | \
-		perl -npe 'chomp; $$_ = "http://www.bbbike.org/$$_/streets.html\0"' | \
+		perl -npe 'chomp; $$_ = "http://www.bbbike.org/$$_/?all=3\0"' | \
 		${GXARGS} -0 -n1 -P${MAX_CPU} curl -sSf >/dev/null
 
 help:
