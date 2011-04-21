@@ -47,7 +47,7 @@ elif  [ -f $cpuinfo ]; then
   elif [ $rcpu = 1 ]; then
      ncpu=`perl -e 'print (($ARGV[0] + $ARGV[1])/2)' $ncpu $cores`
   else
-     ncpu=$cores
+     : # ncpu=$cores
   fi
 fi
 
