@@ -421,6 +421,9 @@ cache-heater-streets:
 
 help:
 	@echo "usage: make [ targets ... ]"
+	@echo ""
+	@echo "  [ "`perl -e 'print join " ", sort @ARGV' ${CITIES}` "]"
+	@echo ""
 	@echo "  [ help | cities | cities-parallel | rsync-tgz | rsync-osm | rsync-osm-dev ]"
 	@echo "  [ clean | dist-clean | clean-cache | clean-planet ]"
 	@echo "  [ create-osp | bbbike2wgs84 | update-robots.txt ]"
@@ -432,6 +435,4 @@ help:
 	@echo "  [ planet-download | planet-geofabrik-download ]"
 	@echo "  [ planet-streets | planet-places ]"
 	@echo "  [ update-database | update-files ]"
-	@echo ""
-	@echo "  [ "`perl -e 'print join " ", sort @ARGV' ${CITIES}` "]"
 
