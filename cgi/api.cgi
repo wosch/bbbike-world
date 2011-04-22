@@ -22,11 +22,16 @@ my $opensearch_file = 'opensearch.streetnames';
 my $opensearch_dir  = '../data-osm';
 my $opensearch_dir2 = '../data-opensearch-places';
 
-my $debug              = 1;
-my $match_anyware      = 0;
-my $match_words        = 1;
-my $remove_housenumber = 1;
-my $remove_city        = 1;
+my $debug         = 1;
+my $match_anyware = 0;
+my $match_words   = 1;
+my $remove_city   = 1;
+
+# 232 College Street -> College Street
+my $remove_housenumber_suffix = 1;
+
+# Hauptstr. 27 -> Hauptstr
+my $remove_housenumber_prefix = 1;
 
 # word matching for utf8 data
 my $force_utf8 = 0;
@@ -258,12 +263,31 @@ my @suggestion =
 # strip english style addresses with
 #    <house number> <street name>
 # and run the query again if nothing was found
-if (   $remove_housenumber
+if (   $remove_housenumber_prefix
     && scalar(@suggestion) == 0
     && $street =~ /^\d+\s+/ )
 {
     my $street2 = $street;
     $street2 =~ s/^\d+\s+//;
+
+    if ( $street2 ne "" ) {
+        warn "housenumber: $street <=> $street2\n" if $debug;
+        @suggestion = sort &streetnames_suggestions_unique(
+            'city'   => $city,
+            'street' => $street2
+        );
+    }
+}
+
+# strip european style addresses with
+#    <street name> < housenumber
+# and run the query again if nothing was found
+elsif ($remove_housenumber_suffix
+    && scalar(@suggestion) == 0
+    && $street =~ /\s+\d+$/ )
+{
+    my $street2 = $street;
+    $street2 =~ s/\s+\d+$//;
 
     if ( $street2 ne "" ) {
         warn "housenumber: $street <=> $street2\n" if $debug;
