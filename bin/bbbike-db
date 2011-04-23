@@ -181,6 +181,7 @@ my $city_names;
 my $city_database;
 my $neighbours;
 my $city_stat;
+my $region;
 
 GetOptions(
     "debug=i"         => \$debug,
@@ -190,6 +191,7 @@ GetOptions(
     "city-names"      => \$city_names,
     "population"      => \$population,
     "neighbours"      => \$neighbours,
+    "region"      => \$region,
     "coord"           => \$coord,
     "poly"            => \$poly,
     "centerdelta"     => \$centerdelta,
@@ -287,6 +289,9 @@ if ( exists $hash{$city} ) {
     }
     elsif ($population) {
         print $hash{$city}->{population}, "\n";
+    }
+    elsif ($region) {
+        print $hash{$city}->{"area"}, "\n";
     }
     elsif ($neighbours) {
         print &neighbours( 'city' => $city, 'db' => $db );

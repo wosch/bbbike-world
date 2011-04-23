@@ -19,6 +19,7 @@ perl ./miscsrc/osm2bbd-postprocess --debug=0 --force \
 	-skip-inaccessible-streets \
 	--city-names="`world/bin/bbbike-db --city-names $city`" \
 	--neighbours="`world/bin/bbbike-db --neighbours $city`" \
+	--region="`world/bin/bbbike-db --region $city`" \
 	--local-lang=`world/bin/bbbike-db --local-lang $city` $prefix/$city
 
 if [ $? != 0 ]; then
