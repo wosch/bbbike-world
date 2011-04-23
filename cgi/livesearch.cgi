@@ -282,7 +282,8 @@ sub html {
                 'src' =>
 "http://maps.google.com/maps/api/js?sensor=$sensor&amp;language=de"
             },
-            { -type => 'text/javascript', 'src' => "../html/maps3.js" }
+            { -type => 'text/javascript', 'src' => "../html/maps3.js" },
+            { -type => 'text/javascript', 'src' => 'http://maps.google.com/maps/api/js?libraries=panoramio&sensor=false' }
         ]
     );
 
