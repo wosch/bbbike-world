@@ -191,7 +191,7 @@ GetOptions(
     "city-names"      => \$city_names,
     "population"      => \$population,
     "neighbours"      => \$neighbours,
-    "region"      => \$region,
+    "region"          => \$region,
     "coord"           => \$coord,
     "poly"            => \$poly,
     "centerdelta"     => \$centerdelta,
