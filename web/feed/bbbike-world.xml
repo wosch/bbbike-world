@@ -16,6 +16,15 @@
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>Added google maps v3 layers bicycling, traffic and
+    panoramio for http://bbbike.org</title>
+    <id>f66f22b31bb6aa46ee0b71f25c31a694</id>
+    <content>New: suport google maps v3 layers bicycling, traffic
+    and panoramio</content>
+    <updated>2011-04-23T12:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title>New: cycle routing for Kaiserslautern and
     Salzburg</title>
     <id>a2390777c2e2c60c01c94121836458aa</id>

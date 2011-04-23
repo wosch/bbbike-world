@@ -18,6 +18,19 @@ my $feed = XML::Atom::SimpleFeed->new(
 
 ######################################################################
 $feed->add_entry(
+    title =>
+qq{Added google maps v3 layers bicycling, traffic and panoramio for http://bbbike.org},
+    id      => 'f66f22b31bb6aa46ee0b71f25c31a694',
+    content => {
+        type => 'text',
+        content =>
+qq{New: suport google maps v3 layers bicycling, traffic and panoramio},
+    },
+    updated  => '2011-04-23T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title   => qq{New: cycle routing for Kaiserslautern and Salzburg},
     id      => 'a2390777c2e2c60c01c94121836458aa',
     content => {
@@ -27,6 +40,7 @@ $feed->add_entry(
     updated  => '2011-04-17T12:30:02Z',
     category => 'News',
 );
+
 $feed->add_entry(
     title   => qq{New: cycle routing for Gera and Dessau},
     id      => 'c9fca418ccf44c117367127fd236a669',
