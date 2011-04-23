@@ -18,6 +18,31 @@ my $feed = XML::Atom::SimpleFeed->new(
 
 ######################################################################
 $feed->add_entry(
+    title   => qq{Added OpenStreetMaps map Hike&Bike for http://bbbike.org},
+    id      => 'f66f22b31bb6aa46ee0b71f25c31a694',
+    content => {
+        type => 'text',
+        content =>
+qq{New: suport google maps v3 layers bicycling, traffic and panoramio},
+    },
+    updated  => '2011-04-23T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title =>
+qq{Added OpenStreetMaps maps public transport and German Mapnik for European cities},
+    id      => 'f66f22b31bb6aa46ee0b71f25c31a694',
+    content => {
+        type => 'text',
+        content =>
+qq{New: suport google maps v3 layers bicycling, traffic and panoramio},
+    },
+    updated  => '2011-04-23T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title =>
 qq{Added google maps v3 layers bicycling, traffic and panoramio for http://bbbike.org},
     id      => 'f66f22b31bb6aa46ee0b71f25c31a694',

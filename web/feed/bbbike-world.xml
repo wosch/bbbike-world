@@ -16,6 +16,24 @@
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title type="html">Added OpenStreetMaps map Hike&amp;Bike for
+    http://bbbike.org</title>
+    <id>f66f22b31bb6aa46ee0b71f25c31a694</id>
+    <content>New: suport google maps v3 layers bicycling, traffic
+    and panoramio</content>
+    <updated>2011-04-23T12:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
+    <title>Added OpenStreetMaps maps public transport and German
+    Mapnik for European cities</title>
+    <id>f66f22b31bb6aa46ee0b71f25c31a694</id>
+    <content>New: suport google maps v3 layers bicycling, traffic
+    and panoramio</content>
+    <updated>2011-04-23T12:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title>Added google maps v3 layers bicycling, traffic and
     panoramio for http://bbbike.org</title>
     <id>f66f22b31bb6aa46ee0b71f25c31a694</id>
