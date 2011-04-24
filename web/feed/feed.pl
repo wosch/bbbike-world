@@ -18,6 +18,19 @@ my $feed = XML::Atom::SimpleFeed->new(
 
 ######################################################################
 $feed->add_entry(
+    title =>
+qq{Added Yahoo and Bing maps (satellite, hybrid, map) for http://bbbike.org},
+    id      => '9de8ff38b08a07a69968512b8def69ec',
+    content => {
+        type => 'text',
+        content =>
+qq{Added Yahoo and Bing maps (satellite, hybrid, map) for http://bbbike.org}
+    },
+    updated  => '2011-04-24T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title   => qq{Added OpenStreetMaps map Hike&Bike for http://bbbike.org},
     id      => '112d59fb9de68297123558b6c7d278e5',
     content => {

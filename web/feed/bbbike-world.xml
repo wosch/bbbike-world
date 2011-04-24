@@ -16,6 +16,15 @@
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>Added Yahoo and Bing maps (satellite, hybrid, map) for
+    http://bbbike.org</title>
+    <id>9de8ff38b08a07a69968512b8def69ec</id>
+    <content>Added Yahoo and Bing maps (satellite, hybrid, map) for
+    http://bbbike.org</content>
+    <updated>2011-04-24T12:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title type="html">Added OpenStreetMaps map Hike&amp;Bike for
     http://bbbike.org</title>
     <id>112d59fb9de68297123558b6c7d278e5</id>
