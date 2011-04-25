@@ -271,7 +271,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Bremen/">BBBike @ Bremen</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>8.797,53.109,0.000000</coordinates>
+      <coordinates>8.86,53.115,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -623,7 +623,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Frankfurt/">BBBike @ Frankfurt am Main</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>8.763,50.1155,0.000000</coordinates>
+      <coordinates>8.763,50.159,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
