@@ -259,8 +259,8 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name>Brunswick/Wolfgsburg</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Braunschweig/">BBBike @ Brunswick/Wolfgsburg</a></span>]]></description>
+    <name>Brunswick/Wolfsburg</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Braunschweig/">BBBike @ Brunswick/Wolfsburg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>10.5445,52.305,0.000000</coordinates>
