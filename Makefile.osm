@@ -380,6 +380,9 @@ perltidy:
 	${MAKE} -C world/cgi $@	
 	${MAKE} -C world/web/feed $@	
 
+jsbeautifier js:
+	${MAKE} -C html $@
+
 update-files: kml create-osp index update-robots.txt create-bbbike-web-symlinks
 
 dist-clean devel-clean distclean: clean rotate-osm
@@ -425,6 +428,7 @@ help:
 	@echo "  [ "`perl -e 'print join " ", sort @ARGV' ${CITIES}` "]"
 	@echo ""
 	@echo "  [ help | cities | cities-parallel | rsync-tgz | rsync-osm | rsync-osm-dev ]"
+	@echo "  [ jsbeautifier | perltidy ]"
 	@echo "  [ clean | dist-clean | clean-cache | clean-planet ]"
 	@echo "  [ create-osp | bbbike2wgs84 | update-robots.txt ]"
 	@echo "  [ cache-heater | cache-heater-full | cache-heater-streets ]"
