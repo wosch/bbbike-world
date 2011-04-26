@@ -63,6 +63,65 @@ sub logfiles {
     return @files;
 }
 
+#
+# estimate the usage for a 24 hour period. Based on the google analytics 
+# usage statistics for April 2011
+#
+sub estimated_daily_usage {
+    my $counter = shift;
+
+    $counter = 1 if $counter <= 0;
+
+    # hour -> percentage
+    my $hourly_usage = {
+        0  => 2.11,
+        1  => 0.96,
+        2  => 0.54,
+        3  => 0.31,
+        4  => 0.31,
+        5  => 0.27,
+        6  => 0.88,
+        7  => 1.88,
+        8  => 4.25,
+        9  => 5.63,
+        10 => 7.20,
+        11 => 7.51,
+        12 => 7.74,
+        13 => 7.28,
+        14 => 6.28,
+        15 => 4.48,
+        16 => 3.75,
+        17 => 4.48,
+        18 => 4.67,
+        19 => 6.05,
+        20 => 6.66,
+        21 => 6.93,
+        22 => 5.67,
+        23 => 4.17,
+    };
+
+    my ( $hour, $min ) = ( localtime(time) )[ 2, 3 ];
+    my $now = 0;
+
+    foreach my $key ( keys %$hourly_usage ) {
+        if ( $key < $hour ) {
+            $now += $hourly_usage->{$key};
+        }
+        elsif ( $key == $hour ) {
+            $now += $hourly_usage->{$key} * $min / 60;
+        }
+    }
+
+    return int( $counter * 100 / $now );
+}
+
+sub is_production {
+    my $q = shift;
+
+    return 1 if -e "/tmp/is_production";
+    return $q->virtual_host() =~ /^www\.bbbike\.org$/i ? 1 : 0;
+}
+
 # extract URLs from web server error log
 sub extract_route {
     my $file  = shift;
@@ -409,6 +468,12 @@ qq{Number of unique routes: <span title="total routes: $counter2, cities: }
           . scalar(@cities)
           . qq{">$unique_routes<br />};
 
+        if ( !is_production($q) && $date eq 'today' ) {
+            $d .=
+                "<p>Estimated usage today: "
+              . &estimated_daily_usage($unique_routes) . "/"
+              . &estimated_daily_usage($counter2) . "</p>";
+        }
         my $qq = CGI->new($q);
         $qq->param( "stat", $stat eq 'hits' ? "name" : "hits" );
         $d .=
@@ -572,4 +637,7 @@ elsif ( $ns =~ /^cache/ ) {
 else {
     &html($q);
 }
+
+#
+__DATA__
 
