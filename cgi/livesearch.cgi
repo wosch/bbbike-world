@@ -338,8 +338,11 @@ sub html {
             },
             {
                 -type => 'text/javascript',
-                'src' =>
-"http://maps.google.com/maps/api/js?sensor=$sensor&amp;language=de"
+                'src' => "http://www.google.com/jsapi"
+            },
+            {
+                -type => 'text/javascript',
+                'src' => "http://maps.google.com/maps/api/js?v=3.3&sensor=false"
             },
             { -type => 'text/javascript', 'src' => "../html/maps3.js" },
             {
