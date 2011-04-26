@@ -64,7 +64,7 @@ sub logfiles {
 }
 
 #
-# estimate the usage for a 24 hour period. Based on the google analytics 
+# estimate the usage for a 24 hour period. Based on the google analytics
 # usage statistics for April 2011
 #
 sub estimated_daily_usage {
@@ -556,11 +556,14 @@ sub statistic {
     my @cities        = sort keys %{$cities};
     my $unique_routes = scalar(@route_display);
 
-    print "City count: ", scalar(@cities),
-      " unique routes: $unique_routes, total routes: $counter2<br /><br/>\n";
-    print "Cycle Route Statistic<br/>"
-      . &route_stat($cities)
-      . "<br/><br/>\n\n";
+    print "<p>City count: ", scalar(@cities),
+      " unique routes: $unique_routes, total routes: $counter2</p>\n";
+
+    print "<p>Estimated usage today: "
+      . &estimated_daily_usage($unique_routes) . "/"
+      . &estimated_daily_usage($counter2) . "</p>";
+
+    print "<p>Cycle Route Statistic<br/>" . &route_stat($cities) . "</p>\n";
 
     print join( "<br/>\n",
         map { $_ . " (" . scalar( @{ $cities->{$_} } ) . ")" } @cities );
