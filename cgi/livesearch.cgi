@@ -560,7 +560,7 @@ sub statistic {
     my $unique_routes = scalar(@route_display);
 
     print "<p>City count: ", scalar(@cities),
-      " unique routes: $unique_routes, total routes: $counter2</p>\n";
+      ", unique routes: $unique_routes, ", "total routes: $counter2</p>\n";
 
     print "<p>Estimated usage today: "
       . &estimated_daily_usage($unique_routes) . "/"
