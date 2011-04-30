@@ -423,7 +423,7 @@ cache-heater-streets:
 		${GXARGS} -0 -n1 -P${MAX_CPU} curl -sSf >/dev/null
 
 symlink-download:
-	cd ${BBBIKE_WEBSERVER_DIR}../download.bbbike.org; \
+	cd ${BBBIKE_WEBSERVER_DIR}/../download.bbbike.org; \
 	  ln -fs ../bbbike.org/world/download/favicon.ico . ; \
 	  ln -fs ../bbbike.org/world/download/index.html  . ; \
 	  cd osm; ln -fs ../bbbike.org/world/download/osm/index.html  .
