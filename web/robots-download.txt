@@ -1,0 +1,4 @@
+# http://download.bbbike.org/osm/planet/
+User-agent: *
+Disallow: /osm/planet/planet
+
