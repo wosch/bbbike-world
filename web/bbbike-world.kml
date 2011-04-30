@@ -751,7 +751,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Hamburg/">BBBike @ Hamburg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>10.0295,53.5855,0.000000</coordinates>
+      <coordinates>9.97,53.585,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1007,7 +1007,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Luebeck/">BBBike @ Lübeck</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>10.711,53.915,0.000000</coordinates>
+      <coordinates>10.615,53.94,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1079,7 +1079,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Mannheim/">BBBike @ Mannheim/Heidelberg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>8.445,49.475,0.000000</coordinates>
+      <coordinates>8.5,49.475,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
