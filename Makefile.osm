@@ -422,12 +422,19 @@ cache-heater-streets:
 		perl -npe 'chomp; $$_ = "http://www.bbbike.org/$$_/?all=3\0"' | \
 		${GXARGS} -0 -n1 -P${MAX_CPU} curl -sSf >/dev/null
 
+symlink-download:
+	cd ${BBBIKE_WEBSERVER_DIR}../download.bbbike.org; \
+	  ln -fs ../bbbike.org/world/download/favicon.ico . ; \
+	  ln -fs ../bbbike.org/world/download/index.html  . ; \
+	  cd osm; ln -fs ../bbbike.org/world/download/osm/index.html  .
+
 help:
 	@echo "usage: make [ targets ... ]"
 	@echo ""
 	@echo "  [ "`perl -e 'print join " ", sort @ARGV' ${CITIES}` "]"
 	@echo ""
-	@echo "  [ help | cities | cities-parallel | rsync-tgz | rsync-osm | rsync-osm-dev ]"
+	@echo "  [ help | cities | cities-parallel ]"
+	@echo "  [ rsync-tgz | rsync-osm | rsync-osm-dev | symlink-download ]"
 	@echo "  [ jsbeautifier | perltidy ]"
 	@echo "  [ clean | dist-clean | clean-cache | clean-planet ]"
 	@echo "  [ create-osp | bbbike2wgs84 | update-robots.txt ]"
