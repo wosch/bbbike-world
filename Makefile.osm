@@ -426,7 +426,7 @@ symlink-download:
 	cd ${BBBIKE_WEBSERVER_DIR}/../download.bbbike.org; \
 	  ln -fs ../bbbike.org/world/download/favicon.ico . ; \
 	  ln -fs ../bbbike.org/world/download/index.html  . ; \
-	  cd osm; ln -fs ../bbbike.org/world/download/osm/index.html  .
+	  cd osm; ln -fs ../../bbbike.org/world/download/osm/index.html  .
 
 help:
 	@echo "usage: make [ targets ... ]"
