@@ -18,6 +18,28 @@ my $feed = XML::Atom::SimpleFeed->new(
 
 ######################################################################
 $feed->add_entry(
+    title   => qq{Added Full Screen View for http://bbbike.org},
+    id      => '15c559e7c35a7dac75a141c92877dabd',
+    content => {
+        type    => 'text',
+        content => qq{Added Added Full Screen View for http://bbbike.org},
+    },
+    updated  => '2011-05-01T12:30:03Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title   => qq{Added black/white Mapnik map for http://bbbike.org},
+    id      => '8180c31f8c34e75058495ff6a1bf7f8d',
+    content => {
+        type    => 'text',
+        content => qq{Added black/white Mapnik map for http://bbbike.org},
+    },
+    updated  => '2011-05-01T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title =>
 qq{Added Yahoo and Bing maps (satellite, hybrid, map) for http://bbbike.org},
     id      => '9de8ff38b08a07a69968512b8def69ec',
