@@ -1,17 +1,23 @@
-#!/usr/bin/perl -0
+#!/usr/local/bin/perl -0
+#
+# create google sitemap helper script, with current day as last-modified
+
+use strict;
+use warnings;
 
 my $url_prefix = shift or die "usage $0 URL\n";
+
+my $time = time;
+my (@b, $year, $month, $day);
 
 while (<>) {
     chomp;
 
-    next if m,/index\.html$,;
-
-    @a     = stat($_) or die "stat: $_\n";
-    @b     = localtime( $a[9] );
+    @b     = localtime( $time );
     $year  = $b[5] + 1900;
     $month = $b[4] + 1;
     $month = "0" . $month if $month < 10;
     $day   = $b[3] < 10 ? "0" . $b[3] : $b[3];
     print qq{$url_prefix/$_ lastmod=$year-$month-$day\n};
 }
+
