@@ -588,7 +588,7 @@ sub statistic {
 
     # footer
     print "<hr />\n";
-    print "Copyright (c) 2011 BBBike.org\n";
+    print qq{Copyright (c) 2011 <a href="http://bbbike.org">BBBike.org</a>\n};
 }
 
 sub cache {
