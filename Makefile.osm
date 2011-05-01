@@ -386,10 +386,10 @@ jsbeautifier js:
 create-sitemap:
 	${MAKE} -C world/sitemap bbbike-org
 
-sync-sitemap:
+sync-sitemap: create-sitemap
 	rsync -a world/web/sitemap.xml.gz ${BBBIKE_WEBSERVER_DIR}/world/web
 
-update-files: kml create-osp index update-robots.txt create-bbbike-web-symlinks create-sitemap
+update-files: kml create-osp index update-robots.txt create-bbbike-web-symlinks #create-sitemap
 
 dist-clean devel-clean distclean: clean rotate-osm
 	rm -rf ${OSM_DIR}
