@@ -1,0 +1,17 @@
+#!/usr/bin/perl -0
+
+my $url_prefix = shift or die "usage $0 URL\n";
+
+while (<>) {
+    chomp;
+
+    next if m,/index\.html$,;
+
+    @a     = stat($_) or die "stat: $_\n";
+    @b     = localtime( $a[9] );
+    $year  = $b[5] + 1900;
+    $month = $b[4] + 1;
+    $month = "0" . $month if $month < 10;
+    $day   = $b[3] < 10 ? "0" . $b[3] : $b[3];
+    print qq{$url_prefix/$_ lastmod=$year-$month-$day\n};
+}
