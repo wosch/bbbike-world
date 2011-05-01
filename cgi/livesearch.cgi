@@ -510,7 +510,7 @@ qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\
 
 sub statistic {
     my $q                = shift;
-    my $most_used_cities = 1;
+    my $most_used_cities = 10;
 
     my $max = 700;
     if ( $q->param('max') ) {
@@ -569,22 +569,24 @@ sub statistic {
 
     print "<p>Cycle Route Statistic<br/>" . &route_stat($cities) . "</p>\n";
 
+    if ($most_used_cities) {
+        print "<hr />\n";
+        my @cities2 =
+          reverse sort { $#{ $cities->{$a} } <=> $#{ $cities->{$b} } }
+          keys %$cities;
+
+        if ( scalar(@cities2) >= $most_used_cities ) {
+            @cities2 = @cities2[ 0 .. ( $most_used_cities - 1 ) ];
+        }
+        print join( "<br/>\n",
+            map { $_ . " (" . scalar( @{ $cities->{$_} } ) . ")" } @cities2 );
+    }
+
     print "<hr />\n";
     print join( "<br/>\n",
         map { $_ . " (" . scalar( @{ $cities->{$_} } ) . ")" } @cities );
 
-    if ($most_used_cities) {
-        print "<hr />\n";
-        @cities =
-          reverse sort { $#{ $cities->{$a} } <=> $#{ $cities->{$b} } }
-          keys %$cities;
-
-        if ( scalar(@cities) >= 5 ) {
-            @cities = @cities[ 0 .. 4 ];
-        }
-        print join( "<br/>\n",
-            map { $_ . " (" . scalar( @{ $cities->{$_} } ) . ")" } @cities );
-    }
+    # footer
     print "<hr />\n";
     print "Copyright (c) 2011 BBBike.org\n";
 }
