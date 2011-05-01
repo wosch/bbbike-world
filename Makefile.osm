@@ -242,7 +242,7 @@ ${CITIES}:
 	
 ######################################################################
 
-rsync-osm rsync:
+rsync-osm rsync: sync-sitemap
 	rsync -a --exclude='*.bak' --delete --max-delete=512 ${DATA_OSM_DIR} ${OSM_AREAS_OPENSEARCH} ${OSM_DIR} ${OSP_DIR} ${BBBIKE_WEBSERVER_DIR}
 	rsync -av --exclude='*.bak' data/opensearch.streetnames ${BBBIKE_WEBSERVER_DIR}/data
 	@echo ""
@@ -383,7 +383,13 @@ perltidy:
 jsbeautifier js:
 	${MAKE} -C html $@
 
-update-files: kml create-osp index update-robots.txt create-bbbike-web-symlinks
+create-sitemap:
+	${MAKE} -C world/sitemap bbbike-org
+
+sync-sitemap:
+	rsync -a world/web/sitemap.xml.gz ${BBBIKE_WEBSERVER_DIR}/world/web
+
+update-files: kml create-osp index update-robots.txt create-bbbike-web-symlinks create-sitemap
 
 dist-clean devel-clean distclean: clean rotate-osm
 	rm -rf ${OSM_DIR}
@@ -438,7 +444,7 @@ help:
 	@echo "  [ rsync-tgz | rsync-osm | rsync-osm-dev | symlink-download ]"
 	@echo "  [ jsbeautifier | perltidy ]"
 	@echo "  [ clean | dist-clean | clean-cache | clean-planet ]"
-	@echo "  [ create-osp | bbbike2wgs84 | update-robots.txt ]"
+	@echo "  [ create-osp | bbbike2wgs84 | update-robots.txt | create-sitemap ]"
 	@echo "  [ cache-heater | cache-heater-full | cache-heater-streets ]"
 	@echo "  [ create-bbbike-web-symlinks | kml | create-osp | index ]"
 	@echo "  [ convert-wgs84 | convert-bbbike | convert-bbbike-full ]"
