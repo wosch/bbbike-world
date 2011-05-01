@@ -509,7 +509,7 @@ qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\
 }
 
 sub statistic {
-    my $q = shift;
+    my $q                = shift;
     my $most_used_cities = 1;
 
     my $max = 700;
@@ -573,7 +573,7 @@ sub statistic {
     print join( "<br/>\n",
         map { $_ . " (" . scalar( @{ $cities->{$_} } ) . ")" } @cities );
 
-    if ( $most_used_cities ) {
+    if ($most_used_cities) {
         print "<hr />\n";
         @cities =
           reverse sort { $#{ $cities->{$a} } <=> $#{ $cities->{$b} } }
