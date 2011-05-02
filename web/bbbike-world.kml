@@ -591,7 +591,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Erlangen/">BBBike @ Erlangen</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>11.0325,49.6185,0.000000</coordinates>
+      <coordinates>11.015,49.64,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1199,7 +1199,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Nuernberg/">BBBike @ Nuremberg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>11.1,49.405,0.000000</coordinates>
+      <coordinates>11.1,49.425,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
