@@ -18,6 +18,18 @@ my $feed = XML::Atom::SimpleFeed->new(
 
 ######################################################################
 $feed->add_entry(
+    title =>
+qq{Added a Map Slide Show for all 7 #osm maps and 11 non-osm maps on http://bbbike.org},
+    id      => '17fe6ae451ab0eb00b25f59a0cb7b75c',
+    content => {
+        type    => 'text',
+        content => qq{Added map slide show for http://bbbike.org},
+    },
+    updated  => '2011-05-02T12:30:03Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title   => qq{Added Full Screen View for http://bbbike.org},
     id      => '15c559e7c35a7dac75a141c92877dabd',
     content => {

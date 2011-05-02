@@ -16,6 +16,14 @@
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>Added a Map Slide Show for all 7 #osm maps and 11
+    non-osm maps on http://bbbike.org</title>
+    <id>17fe6ae451ab0eb00b25f59a0cb7b75c</id>
+    <content>Added map slide show for http://bbbike.org</content>
+    <updated>2011-05-02T12:30:03Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title>Added Full Screen View for http://bbbike.org</title>
     <id>15c559e7c35a7dac75a141c92877dabd</id>
     <content>Added Added Full Screen View for
