@@ -563,13 +563,15 @@ sub statistic {
     print "<p>City count: ", scalar(@cities),
       ", unique routes: $unique_routes, ", "total routes: $counter2</p>\n";
 
-    print "<p>Estimated usage today: "
-      . &estimated_daily_usage($unique_routes) . "/"
-      . &estimated_daily_usage($counter2) . "</p>";
+    if ( $unique_routes > 20 ) {
+        print "<p>Estimated usage today: "
+          . &estimated_daily_usage($unique_routes) . "/"
+          . &estimated_daily_usage($counter2) . "</p>";
+    }
 
     print "<p>Cycle Route Statistic<br/>" . &route_stat($cities) . "</p>\n";
 
-    if ($most_used_cities) {
+    if ( $most_used_cities && scalar(@cities) > 20 ) {
         print "<hr />\n";
         my @cities2 =
           reverse sort { $#{ $cities->{$a} } <=> $#{ $cities->{$b} } }
