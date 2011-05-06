@@ -290,8 +290,8 @@ Disallow: /Tokyo/?
 Disallow: /Toronto/?
 Disallow: /Toulouse/?
 Disallow: /Trondheim/?
+Disallow: /Tucson/?
 Disallow: /Turin/?
-Disallow: /Tuscon/?
 Disallow: /UlanBator/?
 Disallow: /Ulm/?
 Disallow: /Usedom/?

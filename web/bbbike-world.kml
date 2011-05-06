@@ -1659,19 +1659,19 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Tucson</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Tucson/">BBBike @ Tucson</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-110.906,32.2245,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Turin</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Turin/">BBBike @ Turin</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>7.6795,45.0755,0.000000</coordinates>
-    </Point>
-  </Placemark>
-  <Placemark>
-    <name>Tuscon</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Tuscon/">BBBike @ Tuscon</a></span>]]></description>
-    <styleUrl>#style1</styleUrl>
-    <Point>
-      <coordinates>-110.906,32.2245,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
