@@ -6,6 +6,7 @@
 
 name="`basename $0 .cgi`"
 dirname=`dirname "$0"`
+dirname_original=$dirname
 
 # new directory layout
 case "$name" in
@@ -43,5 +44,6 @@ ulimit -t 180
 # max. 1.5GB RAM
 ulimit -v 1512000 
 
-time env TMPDIR=$cache_dir DATA_DIR="data-osm/$name" BBBIKE_DATADIR="data-osm/$name" perl $dirname/bbbike.cgi
+time env TMPDIR=$cache_dir DATA_DIR="data-osm/$name" BBBIKE_DATADIR="data-osm/$name" \
+	$dirname_original/$name.cgi #$dirname/bbbike.cgi
 
