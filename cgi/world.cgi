@@ -44,6 +44,9 @@ ulimit -t 180
 # max. 1.5GB RAM
 ulimit -v 1512000 
 
+export NYTPROF=trace=2:start=init:file=/tmp/nytprof.out
+
 time env TMPDIR=$cache_dir DATA_DIR="data-osm/$name" BBBIKE_DATADIR="data-osm/$name" \
 	$dirname_original/$name.cgi #$dirname/bbbike.cgi
+	#perl -d:NYTProf $dirname_original/$name.cgi #$dirname/bbbike.cgi
 
