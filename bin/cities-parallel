@@ -20,6 +20,9 @@ while (<>) {
 }
 
 foreach my $key ( sort { $a <=> $b } keys %$hash ) {
+    # preserve old log files
+    print qq{test -e tmp/log.$split.cities.$key && gzip -f tmp/log.$split.cities.$key\n};
+
     print qq{time make -s CITIES="}, join " ", @{ $hash->{$key} },
       qq{" $make_args > tmp/log.$split.cities.$key 2>&1 &\n};
 }
