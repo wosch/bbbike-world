@@ -27,7 +27,7 @@ if [ $? != 0 ]; then
 	exit $?
 fi
 
-env CITY=$prefix/$city ./miscsrc/osm2bbd-poi2 > $prefix/$city/poi
+env CITY=$prefix/$city ./miscsrc/osm2bbd-poi > $prefix/$city/poi
 cp -f $prefix/$city/strassen $prefix/$city/strassen-orig
 cat $prefix/$city/poi >> $prefix/$city/strassen
 gzip -f $prefix/$city/strassen-orig $prefix/$city/poi
