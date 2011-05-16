@@ -117,10 +117,13 @@ cities-poly: poly
 
 cities-pbf cities: poly
 	${NICE5} osmosis --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=12000 --tee `${MAKE} -s CITIES="${CITIES}" -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" -f Makefile.osm _osmosis_opt`
+	for i in ${CITIES}; do \
+		${NICE} world/bin/osm2pbf ${OSM_DIR}/$$i/$$i.osm.gz; \
+	done
 
 cities-parallel:
 	@echo ${CITIES} | perl -npe 's/\s+/\n/g' | ./world/bin/cities-parallel ${MAX_OSMOSIS} cities-pbf | sh
-	${MAKE} -f Makefile.osm check-osm-gzip
+	#${MAKE} -f Makefile.osm check-osm-gzip
 
 _cities:
 	@echo ${CITIES} | \
@@ -201,7 +204,7 @@ convert3:
 	#if test -e ${DATA_OSM_DIR}; then cp -rp ${DATA_OSM_DIR} ${DATA_OSM_DIR}.old;  fi
 	mkdir -p ${DATA_OSM_DIR}
 	echo ${CITIES} " " | perl -npe 's/\s+/-convert /g' | \
-	   ${GXARGS} -n 1 -P ${MAX_VCPU} ${MAKE} -f Makefile.osm
+	   ${GXARGS} -n 1 -P ${MAX_VCPU} time ${MAKE} -f Makefile.osm
 
 check:
 	for i in ${CITIES}; do echo ${DATA_OSM_DIR}/$$i; done | \
@@ -212,6 +215,9 @@ convert-workarounds: opensearch-bbbike
 osm2bbd-workarounds opensearch:
 	for i in ${CITIES}; do echo $$i; done | \
 	  ${GXARGS} -n 1 -P ${MAX_VCPU} world/bin/osm2bbd-workarounds ${DATA_OSM_DIR}
+
+bbbike-osm2pbf:
+	find ${OSM_DIR} -print0 | ${GXARGS} -0 -n 1 -P ${MAX_RCPU} world/bin/osm2pbf
 
 opensearch-bbbike:
 	world/bin/opensearch-suggestion --gps=0 --input-charset=iso-8859-1 < data/strassen > data/opensearch.streetnames
@@ -444,6 +450,7 @@ help:
 	@echo "  [ help | cities | cities-parallel ]"
 	@echo "  [ rsync-tgz | rsync-osm | rsync-osm-dev | symlink-download ]"
 	@echo "  [ jsbeautifier | perltidy ]"
+	@echo "  [ bbbike-osm2pbf ]"
 	@echo "  [ clean | dist-clean | clean-cache | clean-planet ]"
 	@echo "  [ create-osp | bbbike2wgs84 | update-robots.txt | create-sitemap ]"
 	@echo "  [ cache-heater | cache-heater-full | cache-heater-streets ]"
