@@ -27,6 +27,8 @@ if [ $? != 0 ]; then
 	exit $?
 fi
 
+env CITY=$prefix/$city ./miscsrc/osm2bbd-poi >> $prefix/$city/strassen
+
 cd $prefix/$city || exit 2
 $p/strasse-str strassen
 
