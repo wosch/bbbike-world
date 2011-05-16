@@ -1,0 +1,28 @@
+#!/bin/sh
+#
+# osm2pbf - convert OSM XML to PBF format
+
+file=$1
+: ${md5sum="md5sum"}
+
+if ! [ -f "$file" ]; then
+	echo "usage file"
+	exit 1
+fi
+
+gzip=`which pigz gzip | head -n 1`
+bzip2=`which pbzip2 bzip2 | head -n 1`
+case $file in 
+	*.gz )  uncompress="$gzip -dc" ;;
+	*.bz2 ) uncompress="$bzip2 -dc" ;;
+	*) exit 2 ;;
+esac
+
+file_pbf=`echo "$file" | perl -npe 's/\.[^\.]+$/.pbf/'`
+
+$uncompress "$file" | osmosis --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=12000 \
+	--write-pbf $file_pbf omitmetadata=true granularity=10000 || exit 2
+
+$md5sum $file_pbf > $file_pbf.md5
+$md5sum $file     > $file.md5
+
