@@ -14,7 +14,7 @@ fi
 
 p=`pwd`/world/bin
 
-perl ./miscsrc/osm2bbd-postprocess --debug=0 --force \
+./miscsrc/osm2bbd-postprocess --debug=0 --force \
 	-only-largest-city-is-center \
 	-skip-inaccessible-streets \
 	--city-names="`world/bin/bbbike-db --city-names $city`" \
