@@ -19,6 +19,19 @@ my $feed = XML::Atom::SimpleFeed->new(
 ######################################################################
 $feed->add_entry(
     title =>
+qq{Support route search for Point of Interest (POI), for train stations, schools, buildings, restaurants, sights etc.},
+    id      => '9511e253bd8ac0da0fb7ab4c7a5f1ac2',
+    content => {
+        type => 'text',
+        content =>
+qq{Support route search for Point of Interest (POI), for train stations, schools, buildings, restaurants, sights etc.}
+    },
+    updated  => '2011-05-17T12:30:03Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title =>
 qq{Added a Map Slide Show for all 7 #osm maps and 11 non-osm maps on http://bbbike.org},
     id      => '17fe6ae451ab0eb00b25f59a0cb7b75c',
     content => {

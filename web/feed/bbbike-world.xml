@@ -16,6 +16,17 @@
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>Support route search for Point of Interest (POI), for
+    train stations, schools, buildings, restaurants, sights
+    etc.</title>
+    <id>9511e253bd8ac0da0fb7ab4c7a5f1ac2</id>
+    <content>Support route search for Point of Interest (POI), for
+    train stations, schools, buildings, restaurants, sights
+    etc.</content>
+    <updated>2011-05-17T12:30:03Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title>Added a Map Slide Show for all 7 #osm maps and 11
     non-osm maps on http://bbbike.org</title>
     <id>17fe6ae451ab0eb00b25f59a0cb7b75c</id>
