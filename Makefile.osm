@@ -380,8 +380,13 @@ rotate-osm:
 update-database: 
 	time ./world/bin/update-database
 
+PERL_SCRIPTS=	BBBikeGooglemap.pm miscsrc/osm2bbd-poi
+_perltidy:
+	echo ${PERL_SCRIPTS} | xargs -n1 -P${MAX_VCPU} -E " " perl -cw 
+	echo ${PERL_SCRIPTS} | xargs -n2 -P${MAX_VCPU} -E " " perltidy -b
+
 perltidy:
-	perltidy -b BBBikeGooglemap.pm
+	${MAKE} _perltidy
 	${MAKE} -C cgi/msg $@	
 	${MAKE} -C world/bin $@	
 	${MAKE} -C world/cgi $@	
