@@ -238,7 +238,6 @@ $(_cc):
 		rm -rf ${DATA_OSM_DIR}/tmp/$$c; \
 		${OSM2BBD} -lang `${DB} --lang $$c` -o ${DATA_OSM_DIR}/tmp/$$c ${OSM_DIR}/$$c; \
 		world/bin/osm2bbd-workarounds ${DATA_OSM_DIR}/tmp $$c; \
-		world/bin/osm2bbd-workarounds-streets ${DATA_OSM_DIR}/tmp $$c; \
 		rm -rf ${DATA_OSM_DIR}/$$c; mv ${DATA_OSM_DIR}/tmp/$$c ${DATA_OSM_DIR}
 
 $(_cp):
