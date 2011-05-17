@@ -427,7 +427,7 @@ cache-heater: cache-heater-streets cache-heater-common
 
 cache-heater-common: 
 	du -hs ${BBBIKE_CACHE_DIR}/* || du -hs ${BBBIKE_CACHE_DIR}
-	curl -sSf 'http://www.bbbike.org/cgi/livesearch.cgi?ns=cache;max='${CACHE_HEATER_MAX} | \
+	curl -sS 'http://www.bbbike.org/cgi/livesearch.cgi?ns=cache;max='${CACHE_HEATER_MAX} | \
 		perl -npe 's/\n/\0/g' | \
 		${GXARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 	du -hs ${BBBIKE_CACHE_DIR}/*
@@ -438,7 +438,7 @@ cache-heater-full:
 cache-heater-streets:
 	echo ${CITIES} | perl -npe 's/ /\n/g' | \
 		perl -npe 'chomp; $$_ = "http://www.bbbike.org/$$_/?all=3\0"' | \
-		${GXARGS} -0 -n1 -P${MAX_CPU} curl -sSf >/dev/null
+		${GXARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 
 symlink-download:
 	cd ${BBBIKE_WEBSERVER_DIR}/../download.bbbike.org; \
