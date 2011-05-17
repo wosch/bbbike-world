@@ -26,6 +26,7 @@ my $debug         = 1;
 my $match_anyware = 0;
 my $match_words   = 1;
 my $remove_city   = 1;
+my $remove_train  = 1;
 
 # 232 College Street -> College Street
 my $remove_housenumber_suffix = 1;
@@ -296,6 +297,20 @@ elsif ($remove_housenumber_suffix
             'street' => $street2
         );
     }
+}
+
+# strip S-Bahn => S, U-Bahn => U
+elsif ($remove_train
+    && scalar(@suggestion) == 0
+    && $street =~ /^([sur])[\s\-]+(train|bahn|bahnof)\s*(.*)/ )
+{
+    my $street2 = "$1 $3";
+
+    warn "housenumber: $street <=> $street2\n" if $debug;
+    @suggestion = sort &streetnames_suggestions_unique(
+        'city'   => $city,
+        'street' => $street2
+    );
 }
 
 if (   $remove_city
