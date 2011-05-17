@@ -17,7 +17,7 @@ OSM_TIMEOUT=	--timeout=45
 DOWNLOADOSM_URL=	--osm-api-url=http://www.informationfreeway.org/api/0.6
 DOWNLOADOSM=	${PERL} ./miscsrc/downloadosm --debug=1 ${OSM_SOCKS_PROXY} ${OSM_TIMEOUT} ${DOWNLOADOSM_URL}
 #OSM2BBD=	${PERL} ./miscsrc/osm2bbd --nodate -f --debug=0 ${OSM2BBD_MAPTYPE} -ignore-unhandled -ignore-underline -experiment add_postal_code #-experiment polar_coord_hack
-OSM2BBD=	./miscsrc/osm2bbd --nodate -f --debug=0 ${OSM2BBD_MAPTYPE} -experiment add_postal_code 
+OSM2BBD=	./miscsrc/osm2bbd --nodate -f --debug=0 ${OSM2BBD_MAPTYPE} -experiment add_postal_code #-experiment handle_relations
 MAX_CPU=	`world/bin/ncpu`
 MAX_CPU2=	`world/bin/ncpu -1`
 MAX_VCPU=	`world/bin/ncpu vcpu`
@@ -30,7 +30,7 @@ DATA_OSM_BBBIKE_DIR=	data-osm.bbbike
 OSMBIKE_DATA=	${DATA_OSM_BBBIKE_DIR}.tgz
 DATA_DIR=	data
 BBBIKE_CACHE_DIR=	/var/cache/bbbike
-MAX_OSMOSIS=	${MAX_RCPU}
+MAX_OSMOSIS=	${MAX_CPU}
 LANGUAGES=	m da de en es fr hr nl pl pt ru zh
 DB=world/bin/bbbike-db
 ELEVATION_SCRIPT=world/bin/elevation-database
@@ -235,9 +235,9 @@ $(_cd):
 $(_cc):
 	c=`basename $@ -convert`; \
 		mkdir -p ${DATA_OSM_DIR}/tmp; \
+		rm -rf ${DATA_OSM_DIR}/tmp/$$c; \
 		${OSM2BBD} -lang `${DB} --lang $$c` -o ${DATA_OSM_DIR}/tmp/$$c ${OSM_DIR}/$$c; \
 		world/bin/osm2bbd-workarounds ${DATA_OSM_DIR}/tmp $$c; \
-		world/bin/osm2bbd-workarounds-streets ${DATA_OSM_DIR}/tmp $$c; \
 		rm -rf ${DATA_OSM_DIR}/$$c; mv ${DATA_OSM_DIR}/tmp/$$c ${DATA_OSM_DIR}
 
 $(_cp):
@@ -380,8 +380,13 @@ rotate-osm:
 update-database: 
 	time ./world/bin/update-database
 
+PERL_SCRIPTS=	BBBikeGooglemap.pm miscsrc/osm2bbd-poi
+_perltidy:
+	echo ${PERL_SCRIPTS} | xargs -n1 -P${MAX_VCPU} -E " " perl -cw 
+	echo ${PERL_SCRIPTS} | xargs -n2 -P${MAX_VCPU} -E " " perltidy -b
+
 perltidy:
-	perltidy -b BBBikeGooglemap.pm
+	${MAKE} _perltidy
 	${MAKE} -C cgi/msg $@	
 	${MAKE} -C world/bin $@	
 	${MAKE} -C world/cgi $@	

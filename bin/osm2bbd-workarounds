@@ -38,6 +38,8 @@ $p/strasse-str strassen
 cat /dev/null > Berlin.coords.data
 
 $p/opensearch-suggestion --gps=0 < strassen > opensearch.streetnames
+perl -ne 'print if !/^\s+|^\s*#|^$/' strassen | sort -uf > opensearch.street-coordinates
+
 
 # green ways
 # perl -npe 's/^\s/XYZ\t/; s/RW1/green2/g' radwege_exact > green 

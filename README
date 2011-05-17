@@ -13,6 +13,9 @@ libxml-atom-simplefeed-perl libjson-perl liburi-perl libxml-libxml-perl libyaml-
 
 Development
 ------------------------------------
+# fetch & merge from main branch
+git fetch eserte
+git merge eserte/master
 
 # download planet.osm, extract and convert city data
 $ make update-database
