@@ -165,10 +165,8 @@ sub extract_route {
 
         while (<$fh>) {
             next
-              if !(
-                         / slippymap\.cgi: /
-                      || m, (bbbike|[A-Z][a-zA-Z]+)\.cgi: http://,
-              );
+              if !(/ slippymap\.cgi: /
+                || m, (bbbike|[A-Z][a-zA-Z]+)\.cgi: http://, );
 
             next
               if $only_production_statistic
