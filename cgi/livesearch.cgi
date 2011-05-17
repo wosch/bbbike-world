@@ -164,15 +164,12 @@ sub extract_route {
         binmode $fh, ":raw";
 
         while (<$fh>) {
-            next
-              if !(/ slippymap\.cgi: /
-                || m, (bbbike|[A-Z][a-zA-Z]+)\.cgi: http://, );
-
+            next if !/ slippymap\.cgi: /;
+            next if !m, (bbbike|[A-Z][a-zA-Z]+)\.cgi: http://,;
             next
               if $only_production_statistic
                   && !
 m, (slippymap|bbbike|[A-Z][a-zA-Z]+)\.cgi: http://$host.bbbike.org/,i;
-
             next if !/coords/;
             next if $date && !/$date/;
             next if /[;&]cache=1/;
