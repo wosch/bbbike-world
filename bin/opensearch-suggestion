@@ -17,8 +17,11 @@ $ENV{'LANG'} = 'C';
 my $debug    = 0;
 my $icharset = 'utf8';
 my $help;
+
+# mapping functions, in right order
 my $lang_supported =
 'de_7bit,de_en,de_en_2,da,es,slavic_7bit,cyrillic_iso9,cyrillic_iso9:slavic_7bit,cyrillic_de,cyrillic_en,text_unidecode';
+
 my $lang      = $lang_supported;
 my $substring = 1;
 my $gps       = 1;
@@ -422,6 +425,14 @@ sub cyrillic_en {
     return $s;
 }
 
+sub dashes {
+    my $s = shift;
+
+    $s =~ s/\s*\-+\s*/ /g;
+
+    return $s;
+}
+
 sub unicode2ascii {
     my $string    = shift;
     my $languages = shift;
@@ -589,6 +600,15 @@ while ( my ( $street, $val ) = each %s ) {
 
     my @list = $street;
     push( @list, @wordlist ) if $substring && @wordlist;
+
+    # Herrmann-Hesse-Str => "Herrmann Hesse Str"
+    if ( $substring && @wordlist && $street =~ /-/ ) {
+        my $dashes = &dashes($street);
+        push( @list, $dashes );
+
+        my @wordlist2 = &wordlist($dashes);
+        push( @list, @wordlist2 ) if @wordlist2;
+    }
 
     foreach my $street2 (@list) {
         if ( my @strings = unicode2ascii( $street2, $lang ) ) {
