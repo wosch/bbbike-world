@@ -10,6 +10,9 @@ Disallow: /honey
 
 Sitemap: http://www.bookmaps.org/sitemap.xml.gz
 
+User-agent: Googlebot
+Disallow: *?
+
 User-agent: Ezooms
 Disallow: /
 
