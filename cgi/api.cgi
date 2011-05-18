@@ -272,7 +272,7 @@ if (   $remove_housenumber_prefix
     $street2 =~ s/^\d+\s+//;
 
     if ( $street2 ne "" ) {
-        warn "housenumber: $street <=> $street2\n" if $debug;
+        warn "API: housenumber: $street <=> $street2\n" if $debug;
         @suggestion = sort &streetnames_suggestions_unique(
             'city'   => $city,
             'street' => $street2
@@ -291,7 +291,7 @@ elsif ($remove_housenumber_suffix
     $street2 =~ s/\s+\d+$//;
 
     if ( $street2 ne "" ) {
-        warn "housenumber: $street <=> $street2\n" if $debug;
+        warn "API: housenumber: $street <=> $street2\n" if $debug;
         @suggestion = sort &streetnames_suggestions_unique(
             'city'   => $city,
             'street' => $street2
@@ -302,11 +302,11 @@ elsif ($remove_housenumber_suffix
 # strip S-Bahn => S, U-Bahn => U
 elsif ($remove_train
     && scalar(@suggestion) == 0
-    && $street =~ /^([sur])[\s\-]+(train|bahn|bahnof)\s*(.*)/ )
+    && $street =~ /^([sur])[\s\-]+(train\s+|bahn\s+|bahnof\s+)?(.*)/oi )
 {
     my $street2 = "$1 $3";
 
-    warn "housenumber: $street <=> $street2\n" if $debug;
+    warn "API: train station: $street <=> $street2\n" if $debug;
     @suggestion = sort &streetnames_suggestions_unique(
         'city'   => $city,
         'street' => $street2
@@ -321,7 +321,7 @@ if (   $remove_city
     $street2 =~ s/^.*?,\s*//;
 
     if ( $street2 ne "" ) {
-        warn "strip city: $street <=> $street2\n" if $debug;
+        warn "API: strip city: $street <=> $street2\n" if $debug;
         @suggestion = sort &streetnames_suggestions_unique(
             'city'   => $city,
             'street' => $street2
