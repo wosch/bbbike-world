@@ -420,7 +420,7 @@ elevation-fetch:
 	${NICE} ${ELEVATION_SCRIPT} --database=../osm-streetnames/srtm/elevation.db --debug=1 ${CITIES}
 
 elevation-update:
-	echo ${CITIES} | ${NICE5} ${GXARGS} -E " " -n16 -P2 ${ELEVATION_SCRIPT} --readonly-database --database=../osm-streetnames/srtm/elevation.db --debug=0
+	echo ${CITIES} | ${GXARGS} -E " " -n16 -P2 ${ELEVATION_SCRIPT} --readonly-database --database=../osm-streetnames/srtm/elevation.db --debug=0
 
 # re-build cache
 cache-heater: cache-heater-streets cache-heater-common
