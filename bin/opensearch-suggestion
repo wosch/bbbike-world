@@ -552,8 +552,8 @@ while (<STDIN>) {
 
         # historic street name
         # #: oldname: Marzahner Str.; Bahnhofstr.
-        if (/^#: oldname:\s+(.+)/) {
-            $streetname_old = $1;
+        if (/^#:\s+(\w+)_name:\s+(.+)/) {
+            $streetname_old = $2;
         }
 
         next;
