@@ -36,7 +36,7 @@ DB=world/bin/bbbike-db
 ELEVATION_SCRIPT=world/bin/elevation-database
 BBBIKE_WEBSERVER_DIR=/usr/local/www/bbbike.org
 BBBIKE_WEB_DIR= ./
-CACHE_HEATER_MAX=30
+CACHE_HEATER_MAX=50
 
 TMP=world/tmp
 
@@ -343,7 +343,7 @@ create-osp:
 rsync-tgz:
 	rsync -av ${OSMBIKE_DATA} wolfram.schneider.org:www/src/bbbike
 	rsync -av ${DATA_DIR}.tbz wolfram.schneider.org:www/src/bbbike/${DATA_OSM_DIR}
-	ssh wolfram.schneider.org 'cd projects/bbbike-macos && make -s distclean create-data-osm-tbz' &
+	ssh wolfram.schneider.org 'cd projects/bbbike-macos && nice -n 10 make -s distclean create-data-osm-tbz' &
 
 clean: rotate-data-osm
 	${MAKE} -C cgi/msg $@	
@@ -433,7 +433,7 @@ cache-heater-common:
 	du -hs ${BBBIKE_CACHE_DIR}/*
 
 cache-heater-full:
-	${MAKE} -f Makefile.osm CACHE_HEATER_MAX=100 cache-heater
+	${MAKE} -f Makefile.osm CACHE_HEATER_MAX=300 cache-heater
 
 cache-heater-streets:
 	echo ${CITIES} | perl -npe 's/ /\n/g' | \
