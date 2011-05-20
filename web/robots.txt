@@ -46,6 +46,8 @@ Disallow: /
 User-agent: Linguee
 Disallow: /
 
+User-agent: discobot
+Disallow: /
 
 User-agent: *
 Disallow: /da/
