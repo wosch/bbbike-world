@@ -57,7 +57,7 @@ sub street_match {
         # linux only
         $look_opt .= 'b' if $binary && -e '/proc';
 
-        my @command = ( 'look', $look_opt, $street, $file );
+        my @command = ( 'look', $look_opt, "--", $street, $file );
 
         warn join( " ", @command ), "\n" if $debug >= 2;
         open( IN, '-|' ) || exec @command;
