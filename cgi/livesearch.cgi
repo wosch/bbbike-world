@@ -10,6 +10,7 @@ use URI::QueryParam;
 use IO::File;
 use JSON;
 use Data::Dumper;
+use Encode;
 
 use strict;
 use warnings;
@@ -19,7 +20,9 @@ my $max                       = 50;
 my $only_production_statistic = 1;
 my $debug                     = 1;
 
-binmode \*STDOUT, ":raw";
+binmode \*STDOUT, ":utf8";
+binmode \*STDERR, ":utf8";
+
 my $q = new CGI;
 
 sub is_mobile {
@@ -165,8 +168,10 @@ sub extract_route {
 
         while (<$fh>) {
             next
-              if !(/ slippymap\.cgi: /
-                || m, (bbbike|[A-Z][a-zA-Z]+)\.cgi: (URL:)?http://, );
+              if !(
+                         / slippymap\.cgi: /
+                      || m, (bbbike|[A-Z][a-zA-Z]+)\.cgi: (URL:)?http://,
+              );
 
             next
               if $only_production_statistic
@@ -175,6 +180,9 @@ m, (slippymap|bbbike|[A-Z][a-zA-Z]+)\.cgi: (URL:)?http://$host.bbbike.org/,i;
             next if !/coords/;
             next if $date && !/$date/;
             next if /[;&]cache=1/;
+
+            # binmode dies, use Encode module instead
+            # $_ = Encode::decode("utf8", $_, Encode::FB_QUIET);
 
             my @list = split;
             my $url  = pop(@list);
@@ -393,7 +401,7 @@ EOF
 
     my $date = $q->param('date') || "";
     my $stat = $q->param('stat') || "name";
-    my @d = &extract_route( $logfile, $max, 0, $date );
+    my @d = &extract_route( $logfile, $max, &is_production($q), $date );
 
     print qq{<script type="text/javascript">\n};
 
@@ -404,6 +412,20 @@ EOF
     my $counter;
     my $counter2 = 0;
     my @route_display;
+
+    sub Param {
+        my $q   = shift;
+        my $key = shift;
+        my @val = $q->param($_) || "";
+
+        # XXX: WTF? run decode 3 times!!!
+        @val = map { Encode::decode( "utf8", $_, Encode::FB_QUIET ) } @val;
+        @val = map { Encode::decode( "utf8", $_, Encode::FB_QUIET ) } @val;
+        @val = map { Encode::decode( "utf8", $_, Encode::FB_QUIET ) } @val;
+
+        return @val;
+    }
+
     foreach my $url (@d) {
         my $qq = CGI->new($url);
         $counter2++;
@@ -423,7 +445,7 @@ EOF
         push @params,
           qw/pref_cat pref_quality pref_specialvehicle pref_speed pref_ferry pref_unlit viac/;
 
-        my $opt = { map { $_ => ( $qq->param($_) || "" ) } @params };
+        my $opt = { map { $_ => ( Param( $qq, $_ ) ) } @params };
 
         $city_center->{ $opt->{'city'} } = $opt->{'area'};
 
@@ -522,7 +544,7 @@ sub statistic {
     }
 
     my $date = $q->param('date') || "today";
-    my @d = &extract_route( $logfile, $max, 0, $date );
+    my @d = &extract_route( $logfile, $max, &is_production($q), $date );
 
     my $city_center;
     my $json = new JSON;
