@@ -420,7 +420,7 @@ EOF
 
         my @params = qw/city route_length driving_time startname zielname vianame area/;
         push @params,
-          qw/pref_cat pref_quality pref_specialvehicle pref_speed pref_ferry pref_unlit/;
+          qw/pref_cat pref_quality pref_specialvehicle pref_speed pref_ferry pref_unlit viac/;
 
         my $opt = { map { $_ => ( $qq->param($_) || "" ) } @params };
 
