@@ -1,12 +1,5 @@
 # general
-User-agent: *
-Disallow: /bbbike/cgi
-Disallow: /cgi
-Disallow: /html
-Disallow: /berlin
-Disallow: /bbbike
-Disallow: /osp
-Disallow: /honey
+Sitemap: http://www.bookmaps.org/sitemap.xml.gz
 
 User-agent: Ezooms
 Disallow: /
@@ -26,14 +19,11 @@ Disallow: /
 User-agent: ScoutJet
 Disallow: /
 
-User-agent: Purebot
-Disallow: /
-
 User-agent: MLBot
 Disallow: /
 
 User-agent: sitebot
-disallow: /
+Disallow: /
 
 User-agent: MJ12bot
 Disallow: /
@@ -44,7 +34,14 @@ Disallow: /
 User-agent: discobot
 Disallow: /
 
-Sitemap: http://www.bookmaps.org/sitemap.xml.gz
+User-agent: *
+Disallow: /bbbike/cgi
+Disallow: /cgi
+Disallow: /html
+Disallow: /berlin
+Disallow: /bbbike
+Disallow: /osp
+Disallow: /honey
 
 User-agent: *
 Disallow: /da/
