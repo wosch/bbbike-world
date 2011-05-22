@@ -18,6 +18,28 @@ my $feed = XML::Atom::SimpleFeed->new(
 
 ######################################################################
 $feed->add_entry(
+    title   => qq{Enable to move the map left or right.},
+    id      => 'af55477bc54143ea90ee66ab34b850a8',
+    content => {
+        type    => 'text',
+        content => qq{Enable to move the map left or right.}
+    },
+    updated  => '2011-05-22T12:30:03Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title   => qq{Support cycle route search with a via point.},
+    id      => 'af55477bc54143ea90ee66ab34b850a9',
+    content => {
+        type    => 'text',
+        content => qq{Support cycle route search with a via point.}
+    },
+    updated  => '2011-05-22T12:30:03Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title =>
 qq{Support route search for Point of Interest (POI), for train stations, schools, buildings, restaurants, sights etc.},
     id      => '9511e253bd8ac0da0fb7ab4c7a5f1ac2',
