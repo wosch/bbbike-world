@@ -167,11 +167,11 @@ sub extract_route {
         binmode $fh, ":raw";
 
         while (<$fh>) {
-            next
-              if !(
-                         / slippymap\.cgi: /
-                      || m, (bbbike|[A-Z][a-zA-Z]+)\.cgi: (URL:)?http://,
-              );
+            if (   !m, (bbbike|[A-Z][a-zA-Z]+)\.cgi: (URL:)?http://,
+                && !/ slippymap\.cgi: / )
+            {
+                next;
+            }
 
             next
               if $only_production_statistic
