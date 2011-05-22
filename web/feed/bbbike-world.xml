@@ -16,9 +16,9 @@
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
-    <title>Enable to move the map left or right.</title>
+    <title>Allow to move the map left or right.</title>
     <id>af55477bc54143ea90ee66ab34b850a8</id>
-    <content>Enable to move the map left or right.</content>
+    <content>Allow to move the map left or right.</content>
     <updated>2011-05-22T12:30:03Z</updated>
     <category term="News" />
   </entry>

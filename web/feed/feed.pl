@@ -18,11 +18,11 @@ my $feed = XML::Atom::SimpleFeed->new(
 
 ######################################################################
 $feed->add_entry(
-    title   => qq{Enable to move the map left or right.},
+    title   => qq{Allow to move the map left or right.},
     id      => 'af55477bc54143ea90ee66ab34b850a8',
     content => {
         type    => 'text',
-        content => qq{Enable to move the map left or right.}
+        content => qq{Allow to move the map left or right.}
     },
     updated  => '2011-05-22T12:30:03Z',
     category => 'News',
