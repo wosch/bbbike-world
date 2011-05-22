@@ -43,7 +43,6 @@ Disallow: /bbbike
 Disallow: /osp
 Disallow: /honey
 
-User-agent: *
 Disallow: /da/
 Disallow: /de/
 Disallow: /en/
@@ -81,8 +80,6 @@ Disallow: /m/W
 Disallow: /m/X
 Disallow: /m/Y
 Disallow: /m/Z
-
-User-agent: *
 Disallow: /Aachen/?
 Disallow: /Aarhus/?
 Disallow: /Adelaide/?
