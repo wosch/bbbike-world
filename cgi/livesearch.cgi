@@ -418,7 +418,7 @@ EOF
 
         last if $counter++ >= $max;
 
-        my @params = qw/city route_length driving_time startname zielname area/;
+        my @params = qw/city route_length driving_time startname zielname vianame area/;
         push @params,
           qw/pref_cat pref_quality pref_specialvehicle pref_speed pref_ferry pref_unlit/;
 
