@@ -17,6 +17,11 @@ my $feed = XML::Atom::SimpleFeed->new(
 );
 
 ######################################################################
+#
+# TODO
+# - larger area for most cities, up top 30 km radius the centr of the city
+#
+
 $feed->add_entry(
     title   => qq{Allow to move the map left or right.},
     id      => 'af55477bc54143ea90ee66ab34b850a8',
