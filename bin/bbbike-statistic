@@ -149,3 +149,5 @@ echo ""
 echo "error 500"
 egrep '" 500 ' $logfiles | awk '{ print $1 }'| sort | uniq -c | sort -nr | dns
 
+echo ""
+lastcomm | awk '{ s+=$4 } END { print int(s/60), "CPU minutes" }'
