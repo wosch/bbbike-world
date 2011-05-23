@@ -187,6 +187,8 @@ m, (slippymap|bbbike|[A-Z][a-zA-Z]+)\.cgi: (URL:)?http://$host.bbbike.org/,i;
             my @list = split;
             my $url  = pop(@list);
 
+            $url =~ s/^URL://;
+
             next if scalar(@data) > 20_000;    # keep memory usage low
             push( @data, $url );
 
