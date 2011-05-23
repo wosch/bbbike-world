@@ -37,6 +37,8 @@ my $repair_database;
 my $exit_on_error = 1;
 my $test_mode     = 0;
 
+my $ignore_poi = 1;    # use the next cross instead
+
 my $NO_DATA = -32768;
 
 sub usage () {
@@ -255,12 +257,21 @@ sub parse_streets {
 
     my $hash;
     my $counter = 0;
+
+    # Lenbachstr. (10245)     N 13.4656371,52.5047021 13.466668,52.5054634
     while (<$fd>) {
         chomp;
         next if /^\s*#/;
         s/^[^\t]*\t\S+\s+//;
 
         my @points = split;
+
+        if ( $ignore_poi && $#points == 0 ) {
+
+            # warn
+            next;
+        }
+
         foreach my $point (@points) {
             if ( exists $hash->{$point} ) {
                 $hash->{$point}++;
