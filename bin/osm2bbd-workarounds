@@ -27,10 +27,16 @@ if [ $? != 0 ]; then
 	exit $?
 fi
 
+# Point of Interests
 env CITY=$prefix/$city ./miscsrc/osm2bbd-poi > $prefix/$city/poi
 cp -f $prefix/$city/strassen $prefix/$city/strassen-orig
 cat $prefix/$city/poi >> $prefix/$city/strassen
-gzip -f $prefix/$city/strassen-orig $prefix/$city/poi
+
+# towns, villages
+if [ -e $prefix/$city/orte ]; then 
+   perl -ne 'print if !/^\s+/' $prefix/$city/orte >> $prefix/$city/strassen
+fi
+
 
 cd $prefix/$city || exit 2
 $p/strasse-str strassen
@@ -59,6 +65,8 @@ EOF
 	fi
 done
 
+# cleanup
+gzip -f $prefix/$city/strassen-orig $prefix/$city/poi
 #rm -f _* *.bak
 rm -f *.bak
 ls | egrep -v '\.gz' | egrep "^_" | xargs gzip -f
