@@ -616,6 +616,7 @@ sub statistic {
         map { $_ . " (" . scalar( @{ $cities->{$_} } ) . ")" } @cities );
 
     # footer
+    print qq{<br/><br/>\n<a href="../">home</a>\n};
     print "<hr />\n";
     print qq{Copyright (c) 2011 <a href="http://bbbike.org">BBBike.org</a>\n};
 }
