@@ -421,9 +421,11 @@ EOF
         my @val = $q->param($_) || "";
 
         # XXX: WTF? run decode 3 times!!!
-        @val = map { Encode::decode( "utf8", $_, Encode::FB_QUIET ) } @val;
-        @val = map { Encode::decode( "utf8", $_, Encode::FB_QUIET ) } @val;
-        @val = map { Encode::decode( "utf8", $_, Encode::FB_QUIET ) } @val;
+        eval {
+            @val = map { Encode::decode( "utf8", $_, Encode::FB_QUIET ) } @val;
+            @val = map { Encode::decode( "utf8", $_, Encode::FB_QUIET ) } @val;
+            @val = map { Encode::decode( "utf8", $_, Encode::FB_QUIET ) } @val;
+        };
 
         return @val;
     }
