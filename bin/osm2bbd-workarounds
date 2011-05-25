@@ -14,6 +14,13 @@ fi
 
 p=`pwd`/world/bin
 
+# use original "strassen" data
+if [ -e $prefix/$city/strassen-orig.gz ]; then
+    zcat $prefix/$city/strassen-orig.gz > $prefix/$city/strassen
+else 
+    cp -f $prefix/$city/strassen $prefix/$city/strassen-orig
+fi
+
 ./miscsrc/osm2bbd-postprocess --debug=0 --force \
 	-only-largest-city-is-center \
 	-skip-inaccessible-streets \
@@ -29,7 +36,6 @@ fi
 
 # Point of Interests
 env CITY=$prefix/$city ./miscsrc/osm2bbd-poi > $prefix/$city/poi
-cp -f $prefix/$city/strassen $prefix/$city/strassen-orig
 cat $prefix/$city/poi >> $prefix/$city/strassen
 
 # towns, villages
@@ -66,8 +72,8 @@ EOF
 done
 
 # cleanup
-gzip -f $prefix/$city/strassen-orig $prefix/$city/poi
-#rm -f _* *.bak
 rm -f *.bak
-ls | egrep -v '\.gz' | egrep "^_" | xargs gzip -f
+
+# compress unused files
+ls | egrep -v '\.gz' | egrep "^_|^poi$|^strassen-orig$" | xargs gzip -f
 
