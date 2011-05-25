@@ -11,13 +11,14 @@ MAX_PARALLELS_OSM_DOWNLOADS=	2
 NICE=		nice -n 10
 NICE5=		nice -n 8
 PERL=		perl
+GIT_ID=		$(shell git show | head -n1 | awk '{ print $$2 }')
 OSM2BBD_MAPTYPE=	#-map bbbike	
 OSM_SOCKS_PROXY=	--socksproxy=socks://localhost:1080
 OSM_TIMEOUT=	--timeout=45
 DOWNLOADOSM_URL=	--osm-api-url=http://www.informationfreeway.org/api/0.6
 DOWNLOADOSM=	${PERL} ./miscsrc/downloadosm --debug=1 ${OSM_SOCKS_PROXY} ${OSM_TIMEOUT} ${DOWNLOADOSM_URL}
 #OSM2BBD=	${PERL} ./miscsrc/osm2bbd --nodate -f --debug=0 ${OSM2BBD_MAPTYPE} -ignore-unhandled -ignore-underline -experiment add_postal_code #-experiment polar_coord_hack
-OSM2BBD=	./miscsrc/osm2bbd --nodate --no-create -f --debug=0 ${OSM2BBD_MAPTYPE} -experiment add_postal_code -experiment handle_relations
+OSM2BBD=	./miscsrc/osm2bbd --nodate --no-create --git-id="${GIT_ID}" -f --debug=0 ${OSM2BBD_MAPTYPE} -experiment add_postal_code -experiment handle_relations
 MAX_CPU=	`world/bin/ncpu`
 MAX_CPU2=	`world/bin/ncpu -1`
 MAX_VCPU=	`world/bin/ncpu vcpu`
@@ -445,6 +446,8 @@ symlink-download:
 	  cd osm; ln -fs ../../bbbike.org/world/download/osm/index.html  .
 
 help:
+	@echo "bbbike version: ${GIT_ID}"
+	@echo ""
 	@echo "usage: make [ targets ... ]"
 	@echo ""
 	@echo "  [ "`perl -e 'print join " ", sort @ARGV' ${CITIES}` "]"
