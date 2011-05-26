@@ -255,7 +255,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/BrandenburgHavel/">BBBike @ Brandenburg (Havel)</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>12.557,52.43,0.000000</coordinates>
+      <coordinates>12.2425,52.68,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -447,7 +447,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Cottbus/">BBBike @ Cottbus</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>14.331,51.759,0.000000</coordinates>
+      <coordinates>14.375,51.675,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -631,7 +631,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/FrankfurtOder/">BBBike @ Frankfurt (Oder)</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>14.5315,52.3205,0.000000</coordinates>
+      <coordinates>14.305,52.32,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -695,7 +695,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Goerlitz/">BBBike @ Görlitz</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>14.965,51.1295,0.000000</coordinates>
+      <coordinates>14.645,51.025,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1215,7 +1215,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Oranienburg/">BBBike @ Oranienburg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>13.71,53.0125,0.000000</coordinates>
+      <coordinates>13.6,53.01,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1727,7 +1727,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/WarenMueritz/">BBBike @ Waren (Müritz)</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>12.63,53.58,0.000000</coordinates>
+      <coordinates>12.55,53.43,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
