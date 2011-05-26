@@ -147,11 +147,18 @@ city-file:
 
 update-robots.txt:
 	( cat world/web/robots.txt.in; \
-	  echo ${LANGUAGES} | perl -npe 's,\s+,\n,g' | sort | \
+	  echo ${LANGUAGES} | perl -npe 's,\s+,\n,g' | sort | egrep -v "^en$$" | \
 	   perl -ne 'chomp; next if $$_ eq "m"; s,^,Disallow: /,; print "$$_/\n" '; \
 	  perl -e 'for ("A".."Z") { print qq{Disallow: /m/$$_\n} }'; \
 	  echo ${CITIES} | perl -npe 's,\s+,\n,g' | sort | \
 	   perl -ne 'chomp; s,^,Disallow: /,; print "$$_/?\n" '; \
+	  for i in ${CITIES}; do \
+            en=`${DB} --local-lang $$i | perl -npe 's/\s+//g'`; \
+	    case $$en in \
+		en ) echo "Disallow: /en/$$i/" ;; \
+		*  ) echo "Disallow: /en/$$i/?" ;; \
+	    esac; \
+	  done; \
 	) > world/web/robots.txt
 
 # using GNU xargs -P parallel
