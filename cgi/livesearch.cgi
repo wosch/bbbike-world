@@ -420,10 +420,8 @@ EOF
         my $key = shift;
         my @val = $q->param($_) || "";
 
-        # XXX: WTF? run decode 3 times!!!
+        # XXX: WTF? run decode N times!!!
         eval {
-            @val = map { Encode::decode( "utf8", $_, Encode::FB_QUIET ) } @val;
-            @val = map { Encode::decode( "utf8", $_, Encode::FB_QUIET ) } @val;
             @val = map { Encode::decode( "utf8", $_, Encode::FB_QUIET ) } @val;
         };
 
