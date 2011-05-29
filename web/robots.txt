@@ -301,7 +301,6 @@ Disallow: /Wroclaw/?
 Disallow: /Wuppertal/?
 Disallow: /Zagreb/?
 Disallow: /Zuerich/?
-Disallow: /en/Bogota/?
 Disallow: /en/Berlin/?
 Disallow: /en/Paris/?
 Disallow: /en/Amsterdam/?
@@ -472,6 +471,7 @@ Disallow: /en/BuenosAires/?
 Disallow: /en/Lima/?
 Disallow: /en/Huntsville/
 Disallow: /en/Gdansk/?
+Disallow: /en/Bogota/?
 Disallow: /en/Seoul/?
 Disallow: /en/Canberra/
 Disallow: /en/Trondheim/?
