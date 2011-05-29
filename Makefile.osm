@@ -241,11 +241,13 @@ $(_cd):
 
 $(_cc):
 	c=`basename $@ -convert`; \
-		mkdir -p ${DATA_OSM_DIR}/tmp; \
-		rm -rf ${DATA_OSM_DIR}/tmp/$$c; \
-		${OSM2BBD} -lang `${DB} --lang $$c` -o ${DATA_OSM_DIR}/tmp/$$c ${OSM_DIR}/$$c; \
-		world/bin/osm2bbd-workarounds ${DATA_OSM_DIR}/tmp $$c; \
-		rm -rf ${DATA_OSM_DIR}/$$c; mv ${DATA_OSM_DIR}/tmp/$$c ${DATA_OSM_DIR}
+	  mkdir -p ${DATA_OSM_DIR}/tmp; \
+	  rm -rf ${DATA_OSM_DIR}/tmp/$$c; \
+	  ( \
+	    ${TIME} ${OSM2BBD} -lang `${DB} --lang $$c` -o ${DATA_OSM_DIR}/tmp/$$c ${OSM_DIR}/$$c; \
+	    ${TIME} world/bin/osm2bbd-workarounds ${DATA_OSM_DIR}/tmp $$c; \
+	  ) > tmp/city.$$c.log 2>&1 ; \
+	  rm -rf ${DATA_OSM_DIR}/$$c; mv ${DATA_OSM_DIR}/tmp/$$c ${DATA_OSM_DIR}
 
 $(_cp):
 	@c=`basename $@ -poly`; mkdir -p ${OSM_DIR}/$$c; ${DB} --poly $$c > ${OSM_DIR}/$$c/$$c.poly.tmp; mv -f ${OSM_DIR}/$$c/$$c.poly.tmp ${OSM_DIR}/$$c/$$c.poly
