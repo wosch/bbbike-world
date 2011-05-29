@@ -32,7 +32,7 @@ DATA_OSM_BBBIKE_DIR=	data-osm.bbbike
 OSMBIKE_DATA=	${DATA_OSM_BBBIKE_DIR}.tgz
 DATA_DIR=	data
 BBBIKE_CACHE_DIR=	/var/cache/bbbike
-MAX_OSMOSIS=	${MAX_CPU}
+MAX_OSMOSIS=	5 #${MAX_CPU}
 LANGUAGES=	m da de en es fr hr nl pl pt ru zh
 DB=world/bin/bbbike-db
 ELEVATION_SCRIPT=world/bin/elevation-database
@@ -124,7 +124,7 @@ cities-pbf cities: poly
 	done
 
 cities-parallel:
-	@echo ${CITIES} | perl -npe 's/\s+/\n/g' | ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} cities-pbf | xargs -0 -n1
+	@echo ${CITIES} | perl -npe 's/\s+/\n/g' | ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} cities-pbf | xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
 	${MAKE} -f Makefile.osm check-osm-gzip
 
 _cities:
