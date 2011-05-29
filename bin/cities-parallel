@@ -3,8 +3,27 @@
 #
 # cities-parallel - make wrapper to extract N cities at the same time on a multi-core machine
 
+use Getopt::Long;
+
 use strict;
 use warnings;
+
+my $debug = 1;
+my $xargs = 0;
+
+sub usage () {
+    <<EOF;
+usage: $0 [ options ] parallel city
+
+--debug=0..2
+--xargs=0 | 1		use `xargs -0' instead sub-shells
+EOF
+}
+
+GetOptions(
+    "debug=i" => \$debug,
+    "xargs"   => \$xargs,
+) or die usage;
 
 my $split     = shift || 1;
 my $make_args = shift || 'cities';
@@ -23,10 +42,11 @@ foreach my $key ( sort { $a <=> $b } keys %$hash ) {
 
     # preserve old log files
     print
-qq{test -e tmp/log.$split.cities.$key && gzip -f tmp/log.$split.cities.$key\n};
-
+qq{test -e tmp/log.$split.cities.$key && gzip -f tmp/log.$split.cities.$key; };
     print qq{time make -s CITIES="}, join " ", @{ $hash->{$key} },
-      qq{" $make_args > tmp/log.$split.cities.$key 2>&1 &\n};
+      qq{" $make_args > tmp/log.$split.cities.$key 2>&1 };
+
+    print $xargs ? "\0" : "& \n";
 }
-print "wait\n";
+print "wait\n" if !$xargs;
 
