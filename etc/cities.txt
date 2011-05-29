@@ -1,4 +1,3 @@
-Bogota
 Berlin
 Paris
 Amsterdam
@@ -169,6 +168,7 @@ BuenosAires
 Lima
 Huntsville
 Gdansk
+Bogota
 Seoul
 Canberra
 Trondheim
