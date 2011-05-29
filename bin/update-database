@@ -16,7 +16,7 @@ if which ionice >/dev/null; then
 fi
 
 begin="`date`"
-for i in $bbbike_cleanup cities-parallel convert-wgs84 convert-bbbike update-files
+for i in $bbbike_cleanup clean cities-parallel convert-wgs84 convert-bbbike update-files
 do
 	\time $ionice $ionice_opt make -s $i > tmp/log.$i 2>&1
 done
