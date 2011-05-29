@@ -149,5 +149,14 @@ echo ""
 echo "error 500"
 egrep '" 500 ' $logfiles | awk '{ print $1 }'| sort | uniq -c | sort -nr | dns
 
+
+echo ""
+echo -n "download stat: "
+awk '{ s+=$10 } END { print int(s/1024/1024), "MB" }' /var/log/lighttpd/download.bbbike.log
+
+echo -n "bbbike stat: "
+awk '{ s+=$10 } END { print int(s/1024/1024), "MB" }' /var/log/lighttpd/bbbike.log
+
 echo ""
 lastcomm | awk '{ s+=$4 } END { print int(s/60), "CPU minutes" }'
+

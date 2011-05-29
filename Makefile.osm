@@ -352,7 +352,7 @@ create-osp:
 rsync-tgz:
 	rsync -av ${OSMBIKE_DATA} wolfram.schneider.org:www/src/bbbike
 	rsync -av ${DATA_DIR}.tbz wolfram.schneider.org:www/src/bbbike/${DATA_OSM_DIR}
-	ssh wolfram.schneider.org 'cd projects/bbbike-macos && nice -n 10 make -s distclean create-data-osm-tbz' &
+	ssh wolfram.schneider.org 'cd projects/bbbike-macos && nice -n 10 make -s distclean create-data-osm-tbz && nice -n 10 make -s distclean' &
 
 clean: rotate-data-osm
 	${MAKE} -C cgi/msg $@	
