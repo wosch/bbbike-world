@@ -50,6 +50,11 @@ elif  [ -f $cpuinfo ]; then
   elif [ $ncpu -gt $cores ]; then # a virtual server with 4 cores and 3 virtuals cpu's available
      ncpu=$cores
   fi
+
+  # local host config
+  if [ -e $HOME/.ncpu ]; then
+    ncpu=`cat $HOME/.ncpu`
+  fi
 fi
 
 ncpu=`perl -e "print $ncpu + $minus"`
