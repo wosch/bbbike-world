@@ -244,7 +244,7 @@ $(_cc):
 	c=`basename $@ -convert`; \
 	  mkdir -p ${DATA_OSM_DIR}/tmp; \
 	  rm -rf ${DATA_OSM_DIR}/tmp/$$c; \
-	  if [ -e tmp/city.$$c.log ]; then gzip -f tmp/city.$$c.log; fi
+	  if [ -e tmp/city.$$c.log ]; then gzip -f tmp/city.$$c.log; fi; \
 	  ( \
 	    ${TIME} ${OSM2BBD} -lang `${DB} --lang $$c` -o ${DATA_OSM_DIR}/tmp/$$c ${OSM_DIR}/$$c; \
 	    ${TIME} world/bin/osm2bbd-workarounds ${DATA_OSM_DIR}/tmp $$c; \
