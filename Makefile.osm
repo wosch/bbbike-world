@@ -242,6 +242,7 @@ $(_cd):
 
 $(_cc):
 	c=`basename $@ -convert`; \
+	  test -n "$$c"; \
 	  mkdir -p ${DATA_OSM_DIR}/tmp; \
 	  rm -rf ${DATA_OSM_DIR}/tmp/$$c; \
 	  if [ -e tmp/city.$$c.log ]; then gzip -f tmp/city.$$c.log; fi; \
