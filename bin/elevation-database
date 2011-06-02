@@ -153,7 +153,10 @@ sub check_database {
 sub round {
     my $number = shift;
 
-    $number = int( $number * $granularity + ($number > 0 ? 0.01 : -0.01) ) / $granularity;
+    # avoid rounding errors, add +/- 0.01
+    $number =
+      int( $number * $granularity + ( $number > 0 ? 0.01 : -0.01 ) ) /
+      $granularity;
 
     return $number;
 }
@@ -271,6 +274,8 @@ sub parse_hoehe {
         chomp;
         next if /^\s*#/;
         my ( $elevation, $x, $lnglat ) = split();
+        $lnglat = &round_latlng($lnglat);
+
         if ( !$lnglat ) {
             warn "Unknown height in 'hoehe' file: $_\n" if $debug >= 2;
             next;
@@ -334,6 +339,8 @@ sub get_elevation_data {
 
     my ( @lng, @lat );
     foreach my $key (@data) {
+
+        #$key = &round_latlng($key);
         my ( $lng, $lat ) = split ",", $key;
         push @lng, $lng;
         push @lat, $lat;
@@ -440,6 +447,7 @@ sub update_city {
 
     my $c       = 0;
     my $counter = 0;
+    my $newkey;
 
     # points to update
     my @data;
@@ -454,6 +462,15 @@ sub update_city {
         if ( exists $hash->{$key} ) {
             warn "found: $key\n" if $debug >= 3;
         }
+
+        # a rounded point exists?
+        elsif ( $newkey =
+            &round_latlng($key) && $newkey ne $key && exists $hash->{$newkey} )
+        {
+            warn "found rounded: $key\n" if $debug >= 3;
+            $hash->{$key} = $hash->{$newkey};
+        }
+
         else {
             push @data, $key;
             $counter++;
