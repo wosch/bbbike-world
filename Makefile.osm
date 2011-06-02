@@ -46,7 +46,7 @@ GZIP:=             $(shell which pigz gzip | head -1)
 BZIP2:=            $(shell which pbzip2 bzip2 | head -1)
 
 CITIES_FILE=world/etc/cities.txt
-CITIES=$(shell sort ${CITIES_FILE})
+CITIES=$(shell perl -npe 's/\#.*//' ${CITIES_FILE} | sort -u )
 
 
 #
