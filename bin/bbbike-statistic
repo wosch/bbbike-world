@@ -129,7 +129,7 @@ echo ""
 echo "Street click"
 echo -n "streets.html: "
 egrep 'GET /[A-Z][^ ]*/streets.html' $logfiles | awk '{ if ($11 != "\"-\"") { print $7, $11 } else { print $11 } }'| sort  -u | wc -l
-egrep 'GET /[A-Z][^ ]*/streets.html' $logfiles | awk '{ if ($11 != "\"-\"") { print $7 } }'| sort | uniq -c | sort -nr | head -20 
+egrep 'GET /[A-Z][^ ]*/streets.html' $logfiles | awk '{ if ($11 != "\"-\"") { print $7 } }'| sort | uniq -c | sort -nr | head -50 
 
 echo ""
 echo -n "Street route search: "
