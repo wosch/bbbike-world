@@ -143,10 +143,10 @@ sub check_database {
     while ( my ( $key, $val ) = each %$hash ) {
 
         # unknown value
-        next if $val eq "" && $key =~ /^[\d\-\,\.]+$/;
+        next if $val eq "" && is_latlng($key);
 
         print "$key => $val\n"
-          if $val !~ /^[\d-]+$/ || $key !~ /^[\d\-\,\.]+$/ || $val == -32768;
+          if !is_hight($val) || !is_latlng($key) || $val == -32768;
     }
 }
 
@@ -170,6 +170,18 @@ sub round_latlng {
     return $newkey;
 }
 
+sub is_latlng {
+    my $latlng = shift;
+
+    return ( defined $latlng && $latlng =~ /^[\d\-\,\.]+$/ ) ? 1 : 0;
+}
+
+sub is_hight {
+    my $height = shift;
+
+    return ( defined $height && $height =~ /^[\d\-\+]+$/ ) ? 1 : 0;
+}
+
 sub repair_database {
     my $hash     = shift;
     my $database = shift;
@@ -178,7 +190,7 @@ sub repair_database {
     while ( my ( $key, $val ) = each %$hash ) {
         if ( defined $val && $val eq "" ) {
         }
-        elsif ( !defined $val || $val eq "-32768" || $val !~ /^[\d-]+$/ ) {
+        elsif ( !defined $val || $val eq "-32768" || !is_hight($val) ) {
             warn "key: $key, val: '$val'\n";
             $val = "";
             $hash->{$key} = $val;
@@ -186,14 +198,14 @@ sub repair_database {
             $counter++;
         }
 
-        if ( $key !~ /^[\d\-\,\.]+$/ ) {
+        if ( !is_latlng($key) ) {
             warn "Delete '$key' => '$val'\n" if $debug >= 2;
             delete $hash->{$key};
             $counter++;
         }
 
         # round values to 1 meter granularity
-        if ($granularity) {
+        elsif ($granularity) {
             my $newkey = &round_latlng($key);
 
             if ( $key ne $newkey ) {
@@ -203,7 +215,6 @@ sub repair_database {
                 $counter++;
             }
         }
-
     }
 
     &write_database( $database, $hash, $counter );
@@ -274,6 +285,9 @@ sub parse_hoehe {
         chomp;
         next if /^\s*#/;
         my ( $elevation, $x, $lnglat ) = split();
+
+        next if !defined $lnglat || $lnglat eq '';
+
         $lnglat = &round_latlng($lnglat);
 
         if ( !$lnglat ) {
@@ -362,7 +376,7 @@ sub get_elevation_data {
         else {
             for ( my $i = 0 ; $i < scalar(@heights) ; $i++ ) {
                 my $height = $heights[$i];
-                if ( defined $height && $height =~ /^[\d\-]+$/ ) {
+                if ( defined $height && is_hight($height) ) {
                     if ( $height == $NO_DATA ) {
                         warn "unknown height for: ", $data[$i], "\n";
 
