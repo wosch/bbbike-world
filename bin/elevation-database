@@ -179,7 +179,7 @@ sub is_latlng {
 sub is_hight {
     my $height = shift;
 
-    return ( defined $height && $height =~ /^[\d\-\+]+$/ ) ? 1 : 0;
+    return ( defined $height && $height =~ /^[\-\+]?\d+$/ ) ? 1 : 0;
 }
 
 sub repair_database {
@@ -353,8 +353,6 @@ sub get_elevation_data {
 
     my ( @lng, @lat );
     foreach my $key (@data) {
-
-        #$key = &round_latlng($key);
         my ( $lng, $lat ) = split ",", $key;
         push @lng, $lng;
         push @lat, $lat;
@@ -475,12 +473,13 @@ sub update_city {
 
         if ( exists $hash->{$key} ) {
             warn "found: $key\n" if $debug >= 3;
+            next;
         }
 
+        $newkey = &round_latlng($key);
+
         # a rounded point exists?
-        elsif ( $newkey =
-            &round_latlng($key) && $newkey ne $key && exists $hash->{$newkey} )
-        {
+        if ( $newkey ne $key && exists $hash->{$newkey} ) {
             warn "found rounded: $key\n" if $debug >= 3;
             $hash->{$key} = $hash->{$newkey};
         }
@@ -489,6 +488,7 @@ sub update_city {
             push @data, $key;
             $counter++;
         }
+
         &get_elevation_data( $hash, \@data, $ua, $city )
           if scalar(@data) >= $max_points;
 
