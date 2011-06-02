@@ -37,6 +37,9 @@ my $repair_database;
 my $exit_on_error = 1;
 my $test_mode     = 0;
 
+# 5 digits after comma, 1 meter granularity: 9.22951,54.9326
+my $granularity = 100_000;
+
 my $ignore_poi = 1;    # use the next cross instead
 
 my $NO_DATA = -32768;
@@ -147,6 +150,23 @@ sub check_database {
     }
 }
 
+sub round {
+    my $number = shift;
+
+    $number = int( $number * $granularity + ($number > 0 ? 0.01 : -0.01) ) / $granularity;
+
+    return $number;
+}
+
+sub round_latlng {
+    my $latlng = shift;
+
+    my ( $lat, $lng ) = split( /,/, $latlng );
+    my $newkey = &round($lat) . "," . &round($lng);
+
+    return $newkey;
+}
+
 sub repair_database {
     my $hash     = shift;
     my $database = shift;
@@ -168,6 +188,19 @@ sub repair_database {
             delete $hash->{$key};
             $counter++;
         }
+
+        # round values to 1 meter granularity
+        if ($granularity) {
+            my $newkey = &round_latlng($key);
+
+            if ( $key ne $newkey ) {
+                warn "Rename key: '$key' -> '$newkey'\n" if $debug >= 2;
+                $hash->{$newkey} = $hash->{$key};
+                delete $hash->{$key};
+                $counter++;
+            }
+        }
+
     }
 
     &write_database( $database, $hash, $counter );
