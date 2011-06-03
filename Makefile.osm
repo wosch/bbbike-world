@@ -429,7 +429,7 @@ elevation-repair:
 	${NICE} ${ELEVATION_SCRIPT} --database=../osm-streetnames/srtm/elevation.db --repair-database
 
 elevation-fetch:
-	${NICE} ${ELEVATION_SCRIPT} --database=../osm-streetnames/srtm/elevation.db --debug=1 ${CITIES}
+	${NICE} ${ELEVATION_SCRIPT} --database=../osm-streetnames/srtm/elevation.db --debug=1 --geonames-user=bbbikeworld ${CITIES}
 
 elevation-update:
 	echo ${CITIES} | ${GXARGS} -E " " -n16 -P2 ${ELEVATION_SCRIPT} --readonly-database --database=../osm-streetnames/srtm/elevation.db --debug=0
