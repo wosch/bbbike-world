@@ -27,7 +27,7 @@ my $debug    = 1;
 my $database = "";
 my $socksproxy;
 my $readonly_database = 0;
-my $api_url           = 'http://api.geonames.org/srtm3?username=bbbike';
+my $api_url           = 'http://api.geonames.org/srtm3?username=';
 my $data_osm_dir      = "data-osm";
 my $max_points = 20;                                     # limit of geonames.org
 my $user_agent = "BBBike @ World - http://bbbike.org";
@@ -36,6 +36,7 @@ my $check_database;
 my $repair_database;
 my $exit_on_error = 1;
 my $test_mode     = 0;
+my $geonames_user = 'bbbike';
 
 # 5 digits after comma, 1 meter granularity: 9.22951,54.9326
 my $granularity = 100_000;
@@ -53,9 +54,10 @@ usage: $0 [options] cities ...
 
 --database=elevation.database
 --socksproxy=socks://host:port   set socks proxy
+--geonames-user=user		 set geonames api user
 --readonly-database
 --data-osm-dir=/path/to/bbbike/data-osm
---user-anget="user agent version xyz"
+--user-agent="user agent version xyz"
 --sleep=$sleep
 --check-database
 --repair-database
@@ -358,7 +360,12 @@ sub get_elevation_data {
     }
 
     my $url =
-      $api_url . '&lngs=' . join( ",", @lng ) . '&lats=' . join( ",", @lat );
+        $api_url
+      . $geonames_user
+      . '&lngs='
+      . join( ",", @lng )
+      . '&lats='
+      . join( ",", @lat );
 
     my $content = download_uri( $ua, $url, $city );
     if ($content) {
@@ -516,6 +523,7 @@ GetOptions(
     "debug=i"           => \$debug,
     "database=s"        => \$database,
     "socksproxy=s"      => \$socksproxy,
+    "geonames-user=s"   => \$geonames_user,
     "readonly-database" => \$readonly_database,
     "data-osm-dir=s"    => \$data_osm_dir,
     "user-agent=s"      => \$user_agent,
