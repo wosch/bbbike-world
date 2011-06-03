@@ -286,8 +286,7 @@ sub parse_hoehe {
         next if /^\s*#/;
         my ( $elevation, $x, $lnglat ) = split();
 
-        next if !defined $lnglat || $lnglat eq '';
-
+        next if !is_latlng($lnglat);
         $lnglat = &round_latlng($lnglat);
 
         if ( !$lnglat ) {
