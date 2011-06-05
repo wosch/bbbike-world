@@ -148,7 +148,7 @@ sub check_database {
         next if $val eq "" && is_latlng($key);
 
         print "$key => $val\n"
-          if !is_hight($val) || !is_latlng($key) || $val == -32768;
+          if !is_height($val) || !is_latlng($key) || $val == -32768;
     }
 }
 
@@ -178,7 +178,7 @@ sub is_latlng {
     return ( defined $latlng && $latlng =~ /^[\d\-\,\.]+$/ ) ? 1 : 0;
 }
 
-sub is_hight {
+sub is_height {
     my $height = shift;
 
     return ( defined $height && $height =~ /^[\-\+]?\d+$/ ) ? 1 : 0;
@@ -192,7 +192,7 @@ sub repair_database {
     while ( my ( $key, $val ) = each %$hash ) {
         if ( defined $val && $val eq "" ) {
         }
-        elsif ( !defined $val || $val eq "-32768" || !is_hight($val) ) {
+        elsif ( !defined $val || $val eq "-32768" || !is_height($val) ) {
             warn "key: $key, val: '$val'\n";
             $val = "";
             $hash->{$key} = $val;
@@ -380,7 +380,7 @@ sub get_elevation_data {
         else {
             for ( my $i = 0 ; $i < scalar(@heights) ; $i++ ) {
                 my $height = $heights[$i];
-                if ( defined $height && is_hight($height) ) {
+                if ( defined $height && is_height($height) ) {
                     if ( $height == $NO_DATA ) {
                         warn "unknown height for: ", $data[$i], "\n";
 
