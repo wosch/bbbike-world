@@ -24,7 +24,10 @@ $ make update-database
 $ make CITIES="Augsburg Halle" cities convert
 
 # extract and convert only
-$ make bbbike_cleanup="" update-database
+$ make bbbike_download="" update-database
+
+# convert only
+$ make bbbike_download="" bbbike_extract="" update-database
 
 # check a city area
 $ ./world/bin/bbbike-db --city-stat | grep Bielefeld
