@@ -16,7 +16,7 @@ if which ionice >/dev/null; then
 fi
 
 begin="`date`"
-for i in $bbbike_cleanup clean cities-parallel convert-wgs84 convert-bbbike update-files
+for i in $bbbike_cleanup distclean cities-parallel convert-wgs84 convert-bbbike update-files
 do
 	# compress old log files
 	if [ -e tmp/log.$i ]; then
