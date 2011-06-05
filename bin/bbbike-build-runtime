@@ -1,0 +1,35 @@
+#!/bin/sh
+# Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
+#
+# test if all programs are installed
+#
+
+set -e
+
+which pigz gzip
+which pbzip2 bzip2
+
+commands="
+buffer
+curl
+git
+iconv
+java
+jsbeautifier
+jsmin
+lynx
+make
+osmosis
+perltidy
+python
+rsync
+time
+wget
+xargs
+"
+
+for c in $commands
+do
+	which $c
+done
+

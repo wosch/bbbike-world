@@ -84,6 +84,8 @@ all: help
 
 build-runtime-perl:
 	world/bin/bbbike-build-runtime-perl.pl
+build-runtime:
+	world/bin/bbbike-build-runtime
 
 convert-wgs84 convert: build-runtime-perl convert2 create-osp bbbike2wgs84 elevation-update
 

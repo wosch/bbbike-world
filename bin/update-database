@@ -9,14 +9,19 @@ set -e
 tmp=tmp
 mkdir -p $tmp
 
-: ${bbbike_cleanup="planet-download"}
+: ${bbbike_build="build-runtime"}
+: ${bbbike_download="planet-download"}
+: ${bbbike_extract="distclean cities-parallel"}
+: ${bbbike_convert="convert-wgs84 convert-bbbike update-files"}
+
+commands="$bbbike_build $bbbike_download $bbbike_extract $bbbike_convert"
 if which ionice >/dev/null; then
    ionice=ionice
    ionice_opt="-c 3"
 fi
 
 begin="`date`"
-for i in $bbbike_cleanup clean cities-parallel convert-wgs84 convert-bbbike update-files
+for i in $commands
 do
 	# compress old log files
 	if [ -e tmp/log.$i ]; then
