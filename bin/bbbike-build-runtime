@@ -21,8 +21,8 @@ lynx
 make
 osmosis
 perltidy
+python
 rsync
-sysctl
 time
 wget
 xargs
