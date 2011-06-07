@@ -338,7 +338,7 @@ sub parse_streets {
     }
 
     warn "Corner count: $counter\n" if $debug;
-    return $hash;
+    return ( $hash, $counter );
 }
 
 sub get_elevation_data {
@@ -449,8 +449,8 @@ sub update_city {
 
     my $dir = "$data_osm_dir/$city";
 
-    my $height  = &parse_hoehe("$dir/hoehe");
-    my $streets = &parse_streets("$dir/strassen");
+    my $height = &parse_hoehe("$dir/hoehe");
+    my ( $streets, $corners ) = &parse_streets("$dir/strassen");
 
     # point to write to "hoehe"
     my @corners = ();
@@ -510,7 +510,7 @@ sub update_city {
         'database' => $hash
     ) if !$test_mode;
 
-    return ( $hash, $counter );
+    return ( $hash, $counter, $corners );
 }
 
 ######################################################################
@@ -564,18 +564,22 @@ activate_socksproxy($ua) if $socksproxy;
 
 my $counter;
 my $total_counter = 0;
+my $total_corners = 0;
 
 # walk throught the list of cities
 foreach my $city (@cities) {
     warn "City: $city\n" if $debug;
-    ( $hash, $counter ) =
+    my $corners;
+    ( $hash, $counter, $corners ) =
       &update_city( 'city' => $city, 'ua' => $ua, 'database' => $hash );
     $total_counter += $counter;
+    $total_corners += $corners;
 
     # write database
     &write_database( $database, $hash, $counter )
       if !$readonly_database;
 }
 
-warn "Total updates: $total_counter\n" if $debug;
+warn "\nCorners checked: $total_corners\n" if $debug;
+warn "Total updates: $total_counter\n"     if $debug;
 
