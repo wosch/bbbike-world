@@ -1099,6 +1099,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Memphis</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Memphis/">BBBike @ Memphis</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-90.007,35.117,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Mexico City</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/MexicoCity/">BBBike @ Mexico City</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -1183,7 +1191,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/NewOrleans/">BBBike @ New Orleans</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-90.0925,29.928,0.000000</coordinates>
+      <coordinates>-90.0195,30.038,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>

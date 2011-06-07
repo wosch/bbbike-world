@@ -214,6 +214,7 @@ Disallow: /Manchester/?
 Disallow: /Mannheim/?
 Disallow: /Marseille/?
 Disallow: /Melbourne/?
+Disallow: /Memphis/?
 Disallow: /MexicoCity/?
 Disallow: /Miami/?
 Disallow: /Moenchengladbach/?
@@ -437,6 +438,7 @@ Disallow: /en/Manchester/
 Disallow: /en/Mannheim/?
 Disallow: /en/Marseille/?
 Disallow: /en/Melbourne/
+Disallow: /en/Memphis/
 Disallow: /en/MexicoCity/?
 Disallow: /en/Miami/?
 Disallow: /en/Moenchengladbach/?
