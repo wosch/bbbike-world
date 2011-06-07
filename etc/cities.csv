@@ -66,7 +66,7 @@ Dallas::en::other:-97.046 32.626 -96.525 32.944:1200000:
 Stockton::en::other:-121.459 37.718 -121.092 38.165:290000:
 PortlandME:Portland (Maine):en::other:-70.581 43.434 -70.12 43.853:190000:
 Huntsville:Huntsville (Alabama):en::other:-86.814 34.528 -86.339 34.909:417000:
-NewOrleans:en!New Orleans,fr!La Nouvelle-Orléans:en::other:-90.337 29.775 -89.848 30.081:1235650:
+NewOrleans:en!New Orleans,fr!La Nouvelle-Orléans:en::other:-90.538 29.675 -89.501 30.401:1235650:
 Dortmund:::de::7.35 51.39 7.65 51.63:580000:
 Hamm:::de::7.60 51.46 8.15 51.83:180000:
 Wuppertal:::de::6.95 51.06 7.65 51.39:580000:
@@ -163,6 +163,7 @@ Perth::en::other:115.668 -32.225 116.125 -31.634:1800000:
 Philadelphia::en::other:-75.335 39.83 -74.937 40.047:5800000:
 PhnomPenh:Phnom Penh,km!Phnum Pénh::km:other:104.8238 11.4895 105.0164 11.6295:12000000:
 Portland::en::other:-122.965 45.334 -122.362 45.675:2100000:
+Memphis::en::other:-90.361 34.91 -89.653 35.324:1300000:
 PortoAlegre:Porto Alegre::pt:other:-51.28 -30.141 -51.054 -29.94:1436000:
 Potsdam:::de::12.66 51.95 13.49 52.54:155000:
 Poznan:de!Posen,en!Poznan,pl!Poznań::pl:eu:16.617 52.236 17.257 52.537:680000:
