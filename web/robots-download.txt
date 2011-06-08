@@ -9,3 +9,6 @@ Disallow: *.bz2
 Disallow: *.tgz
 Disallow: *.tbz
 
+User-agent: Baiduspider
+Disallow: /osm/bbbike/
+
