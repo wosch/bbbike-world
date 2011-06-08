@@ -16,6 +16,14 @@
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>New: cycle routing for Memphis</title>
+    <id>1f1405ff29bce1549e0a7c0269d15467</id>
+    <content>New: cycle routing for Memphis:
+    http://www.bbbike.org/Memphis</content>
+    <updated>2011-06-07T12:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title>Allow to move the map left or right.</title>
     <id>af55477bc54143ea90ee66ab34b850a8</id>
     <content>Allow to move the map left or right.</content>
