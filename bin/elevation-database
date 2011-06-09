@@ -441,6 +441,21 @@ sub update_hoehe {
     rename( $tmp, $file ) or die "rename $tmp -> $file: $!\n";
 }
 
+# keep a copy of the original "hoehe" file for
+# further use if the script runs again
+sub get_original_hoehe_file {
+    my $hoehe      = shift;
+    my $hoehe_orig = $hoehe . "-orig";
+
+    # return original file
+    if ( !-e $hoehe_orig ) {
+        my @args = ( "cp", "-f", $hoehe, $hoehe_orig );
+        system(@args) and die "system @args: $?\n";
+    }
+
+    return $hoehe_orig;
+}
+
 sub update_city {
     my %args = @_;
     my $city = $args{'city'};
@@ -449,7 +464,7 @@ sub update_city {
 
     my $dir = "$data_osm_dir/$city";
 
-    my $height = &parse_hoehe("$dir/hoehe");
+    my $height = &parse_hoehe( &get_original_hoehe_file("$dir/hoehe") );
     my ( $streets, $corners ) = &parse_streets("$dir/strassen");
 
     # point to write to "hoehe"
