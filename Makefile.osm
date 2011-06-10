@@ -9,7 +9,7 @@
 
 MAX_PARALLELS_OSM_DOWNLOADS=	2
 NICE=		nice -n 10
-NICE5=		nice -n 8
+NICE5=		nice -n 7
 PERL=		perl
 GIT_ID=		$(shell git show | head -n1 | awk '{ print $$2 }')
 OSM2BBD_MAPTYPE=	#-map bbbike	
@@ -25,6 +25,11 @@ MAX_VCPU=	`world/bin/ncpu vcpu`
 MAX_RCPU=	`world/bin/ncpu rcpu -1`
 GXARGS=		${NICE} `which gxargs xargs | head -1`
 TIME=		time
+OSM2PBF=	world/bin/osm2pbf
+DB=world/bin/bbbike-db
+GZIP:=             $(shell which pigz gzip | head -1)
+BZIP2:=            $(shell which pbzip2 bzip2 | head -1)
+
 OSM_DIR=	osm
 OSP_DIR=	osp
 DATA_OSM_DIR=	data-osm
@@ -34,16 +39,11 @@ DATA_DIR=	data
 BBBIKE_CACHE_DIR=	/var/cache/bbbike
 MAX_OSMOSIS=	${MAX_CPU}
 LANGUAGES=	m da de en es fr hr nl pl pt ru zh
-DB=world/bin/bbbike-db
 ELEVATION_SCRIPT=world/bin/elevation-database
 BBBIKE_WEBSERVER_DIR=/usr/local/www/bbbike.org
 BBBIKE_WEB_DIR= ./
 CACHE_HEATER_MAX=50
-
 TMP=world/tmp
-
-GZIP:=             $(shell which pigz gzip | head -1)
-BZIP2:=            $(shell which pbzip2 bzip2 | head -1)
 
 CITIES_FILE=world/etc/cities.txt
 CITIES=$(shell perl -npe 's/\#.*//' ${CITIES_FILE} | sort -u )
@@ -121,9 +121,10 @@ cities-poly: poly
 
 cities-pbf cities: poly
 	${NICE5} osmosis --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=12000 --tee `${MAKE} -s CITIES="${CITIES}" -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" -f Makefile.osm _osmosis_opt`
-	for i in ${CITIES}; do \
-		${NICE} world/bin/osm2pbf ${OSM_DIR}/$$i/$$i.osm.gz; \
-	done
+	${MAKE} -f Makefile.osm osm2pbf
+
+osm2pbf:
+	echo ${CITIES} | perl -npe 's/\s+/\n/g' | perl -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${GXARGS} -n 1 -0 -P ${MAX_CPU} ${OSM2PBF}
 
 cities-parallel:
 	@echo ${CITIES} | perl -npe 's/\s+/\n/g' | ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} cities-pbf | xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
@@ -227,7 +228,7 @@ osm2bbd-workarounds opensearch:
 	  ${GXARGS} -n 1 -P ${MAX_VCPU} world/bin/osm2bbd-workarounds ${DATA_OSM_DIR}
 
 bbbike-osm2pbf:
-	find ${OSM_DIR} -print0 | ${GXARGS} -0 -n 1 -P ${MAX_RCPU} world/bin/osm2pbf
+	find ${OSM_DIR} -print0 -name '*.osm.gz' | ${GXARGS} -0 -n 1 -P ${MAX_RCPU} ${OSM2PBF}
 
 opensearch-bbbike:
 	world/bin/opensearch-suggestion --gps=0 --input-charset=iso-8859-1 < data/strassen > data/opensearch.streetnames
@@ -472,7 +473,7 @@ help:
 	@echo "  [ help | cities | cities-parallel ]"
 	@echo "  [ rsync-tgz | rsync-osm | rsync-osm-dev | symlink-download ]"
 	@echo "  [ jsbeautifier | perltidy ]"
-	@echo "  [ bbbike-osm2pbf ]"
+	@echo "  [ bbbike-osm2pbf | osm2pbf ]"
 	@echo "  [ clean | dist-clean | clean-cache | clean-planet ]"
 	@echo "  [ create-osp | bbbike2wgs84 | update-robots.txt | create-sitemap ]"
 	@echo "  [ cache-heater | cache-heater-full | cache-heater-streets ]"
