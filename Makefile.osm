@@ -124,7 +124,7 @@ cities-pbf cities: poly
 	${MAKE} -f Makefile.osm osm2pbf
 
 osm2pbf:
-	echo ${CITIES} | perl -npe 's/\s+/\n/g' | perl -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${GXARGS} -n 1 -0 -P 2 ${OSM2PBF}
+	echo ${CITIES} | perl -npe 's/\s+/\n/g' | perl -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${GXARGS} -n 1 -0 -P 4 ${OSM2PBF}
 
 cities-parallel:
 	@echo ${CITIES} | perl -npe 's/\s+/\n/g' | ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} cities-pbf | xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
