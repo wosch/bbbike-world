@@ -23,7 +23,7 @@ MAX_CPU=	`world/bin/ncpu`
 MAX_CPU2=	`world/bin/ncpu -1`
 MAX_VCPU=	`world/bin/ncpu vcpu`
 MAX_RCPU=	`world/bin/ncpu rcpu -1`
-GXARGS=		${NICE} `which gxargs xargs | head -1`
+XARGS=		${NICE} `which gxargs xargs | head -1`
 TIME=		time
 OSM2PBF=	world/bin/osm2pbf
 DB=world/bin/bbbike-db
@@ -95,7 +95,7 @@ convert-bbbike-full: build-runtime-perl
 	${MAKE} -f Makefile.osm DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} _tarball
 
 convert-bbbike: build-runtime-perl
-	echo ${CITIES} | ${NICE} ${TIME} ${GXARGS} -E " " -n4 -P${MAX_VCPU} ./world/bin/wgs84-to-bbbike
+	echo ${CITIES} | ${NICE} ${TIME} ${XARGS} -E " " -n4 -P${MAX_VCPU} ./world/bin/wgs84-to-bbbike
 	${MAKE} -f Makefile.osm DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} _tarball
 
 _tarball:
@@ -124,7 +124,7 @@ cities-pbf cities: poly
 	${MAKE} -f Makefile.osm osm2pbf
 
 osm2pbf:
-	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${GXARGS} -n 1 -0 -P 4 ${OSM2PBF}
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${XARGS} -n 1 -0 -P 4 ${OSM2PBF}
 
 cities-parallel:
 	@echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} cities-pbf | xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
@@ -133,7 +133,7 @@ cities-parallel:
 _cities:
 	@echo ${CITIES} | \
 		${PERL} -npe 's/\s+/-download /g' | \
-		${GXARGS} -n 1 -P ${MAX_PARALLELS_OSM_DOWNLOADS} ${MAKE} -f Makefile.osm
+		${XARGS} -n 1 -P ${MAX_PARALLELS_OSM_DOWNLOADS} ${MAKE} -f Makefile.osm
 
 _cities_complete:
 	${MAKE} -f Makefile.osm OSM_TIMEOUT="--timeout=300" `echo ${CITIES} | ${PERL} -npe 's/\s+/-download /g'`
@@ -174,7 +174,7 @@ osm-areas2:
 	cd ${OSM_AREAS_OPENSEARCH} && mkdir -p `echo ${OSM_AREAS} | ${PERL} -npe 's/\.osm\.bz2//g'`
 	echo ${OSM_AREAS} " " | \
 	  ${PERL} -ne 'chomp; foreach (split) { print qq{PATH=\$$PATH:`pwd`/world/bin world/bin/osm2suggestions ../osm/download/$$_ '${OSM_AREAS_OPENSEARCH}'/$$_\0} }' | \
-	  ${GXARGS} -0 -n1 -P${MAX_CPU2} sh -c
+	  ${XARGS} -0 -n1 -P${MAX_CPU2} sh -c
 
 # faster than planet-streets
 planet-places:
@@ -182,14 +182,14 @@ planet-places:
 	@PATH=$$PATH:`pwd`/world/bin; \
 	for i in ${OSM_AREAS}; do \
 		printf "./world/bin/planet-places-suggestions ${OSM_AREAS_OPENSEARCH}/`basename $$i .osm.bz2`-places $$i\0"; \
-	done | ${GXARGS} -0 -n1 -P${MAX_CPU2} sh -c
+	done | ${XARGS} -0 -n1 -P${MAX_CPU2} sh -c
 
 planet-streets:
 	@mkdir -p ${OSM_AREAS_OPENSEARCH}
 	@PATH=$$PATH:`pwd`/world/bin; \
 	for i in ${OSM_AREAS}; do \
 		printf "./world/bin/planet-streets-suggestions ${OSM_AREAS_OPENSEARCH}/`basename $$i .osm.bz2` $$i\0"; \
-	done | ${GXARGS} -0 -n1 -P${MAX_CPU2} sh -c
+	done | ${XARGS} -0 -n1 -P${MAX_CPU2} sh -c
 
 ##########################################################################################
 # check if the downloaded OSM files are valid
@@ -197,14 +197,14 @@ planet-streets:
 check-osm: check-osm-gzip check-osm-error
 
 check-osm-gzip:
-	@find ${OSM_DIR} -name '*.gz' -print0 | ${GXARGS} -0 -n32 -P${MAX_VCPU} gzip -t
+	@find ${OSM_DIR} -name '*.gz' -print0 | ${XARGS} -0 -n32 -P${MAX_VCPU} gzip -t
 
 check-osm-error:
-	@find ${OSM_DIR} -name '*.gz' -print0 | ${GXARGS} -0 -n32 -P${MAX_VCPU} zegrep -l '<error>' || true
+	@find ${OSM_DIR} -name '*.gz' -print0 | ${XARGS} -0 -n32 -P${MAX_VCPU} zegrep -l '<error>' || true
 
 cleanup-osm-error:
-	${MAKE} -f Makefile.osm check-osm 2>&1 | grep ^gzip | awk '{ print $$2 }' | ${PERL} -npe 's,:,,' | sort -u | ${GXARGS} rm -f
-	@find ${OSM_DIR} -name '*.gz' -print0 | ${GXARGS} -0 -n32 -P${MAX_CPU} zegrep -l '<error>' | ${GXARGS} rm -f
+	${MAKE} -f Makefile.osm check-osm 2>&1 | grep ^gzip | awk '{ print $$2 }' | ${PERL} -npe 's,:,,' | sort -u | ${XARGS} rm -f
+	@find ${OSM_DIR} -name '*.gz' -print0 | ${XARGS} -0 -n32 -P${MAX_CPU} zegrep -l '<error>' | ${XARGS} rm -f
 
 
 convert2: convert3 convert-workarounds
@@ -215,20 +215,20 @@ convert3:
 	mkdir -p ${DATA_OSM_DIR}
 	cd ${OSM_DIR} # test
 	echo ${CITIES} " " | ${PERL} -npe 's/\s+/-convert /g' | \
-	   ${GXARGS} -n 1 -P ${MAX_VCPU} ${TIME} ${MAKE} -f Makefile.osm
+	   ${XARGS} -n 1 -P ${MAX_VCPU} ${TIME} ${MAKE} -f Makefile.osm
 
 check:
 	for i in ${CITIES}; do echo ${DATA_OSM_DIR}/$$i; done | \
-	  ${GXARGS} -n 1 -P ${MAX_CPU} ./miscsrc/check_bbd --debug=0 -dir
+	  ${XARGS} -n 1 -P ${MAX_CPU} ./miscsrc/check_bbd --debug=0 -dir
 
 convert-workarounds: opensearch-bbbike
 
 osm2bbd-workarounds opensearch:
 	for i in ${CITIES}; do echo $$i; done | \
-	  ${GXARGS} -n 1 -P ${MAX_VCPU} world/bin/osm2bbd-workarounds ${DATA_OSM_DIR}
+	  ${XARGS} -n 1 -P ${MAX_VCPU} world/bin/osm2bbd-workarounds ${DATA_OSM_DIR}
 
 bbbike-osm2pbf:
-	find ${OSM_DIR} -print0 -name '*.osm.gz' | ${GXARGS} -0 -n 1 -P ${MAX_RCPU} ${OSM2PBF}
+	find ${OSM_DIR} -print0 -name '*.osm.gz' | ${XARGS} -0 -n 1 -P ${MAX_RCPU} ${OSM2PBF}
 
 opensearch-bbbike:
 	world/bin/opensearch-suggestion --gps=0 --input-charset=iso-8859-1 < data/strassen > data/opensearch.streetnames
@@ -398,8 +398,8 @@ update-database:
 
 PERL_SCRIPTS=	BBBikeGooglemap.pm BBBikeElevation.pm miscsrc/osm2bbd-poi t/elevation.t
 _perltidy:
-	echo ${PERL_SCRIPTS} | ${GXARGS} -n1 -P${MAX_VCPU} -E " " ${PERL} -cw 
-	echo ${PERL_SCRIPTS} | ${GXARGS} -n2 -P${MAX_VCPU} -E " " perltidy -b
+	echo ${PERL_SCRIPTS} | ${XARGS} -n1 -P${MAX_VCPU} -E " " ${PERL} -cw 
+	echo ${PERL_SCRIPTS} | ${XARGS} -n2 -P${MAX_VCPU} -E " " perltidy -b
 
 perltidy:
 	${MAKE} _perltidy
@@ -439,7 +439,7 @@ elevation-fetch:
 	${NICE} ${ELEVATION_SCRIPT} --database=../osm-streetnames/srtm/elevation.db --debug=1 --geonames-user=bbbikeworld ${CITIES}
 
 elevation-update:
-	echo ${CITIES} | ${GXARGS} -E " " -n16 -P2 ${ELEVATION_SCRIPT} --readonly-database --database=../osm-streetnames/srtm/elevation.db --debug=0
+	echo ${CITIES} | ${XARGS} -E " " -n16 -P2 ${ELEVATION_SCRIPT} --readonly-database --database=../osm-streetnames/srtm/elevation.db --debug=0
 
 # re-build cache
 cache-heater: cache-heater-streets cache-heater-common
@@ -448,7 +448,7 @@ cache-heater-common:
 	du -hs ${BBBIKE_CACHE_DIR}/* || du -hs ${BBBIKE_CACHE_DIR}
 	curl -sS 'http://www.bbbike.org/cgi/livesearch.cgi?ns=cache;max='${CACHE_HEATER_MAX} | \
 		${PERL} -npe 's/\n/\0/g' | \
-		${GXARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
+		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 	du -hs ${BBBIKE_CACHE_DIR}/*
 
 cache-heater-full:
@@ -457,7 +457,7 @@ cache-heater-full:
 cache-heater-streets:
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
 		${PERL} -npe 'chomp; $$_ = "http://www.bbbike.org/$$_/?all=3\0"' | \
-		${GXARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
+		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 
 symlink-download:
 	cd ${BBBIKE_WEBSERVER_DIR}/../download.bbbike.org; \
