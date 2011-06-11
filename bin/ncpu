@@ -7,6 +7,7 @@
 PATH=/bin:/usr/bin:/sbin:/usr/sbin; export PATH
 
 cpuinfo=/proc/cpuinfo
+
 minus=0
 vcpu=0
 rcpu=0
@@ -14,6 +15,8 @@ rcpu=0
 case $1 in
 	vcpu ) vcpu=1; shift ;;
 	rcpu ) rcpu=1; shift ;;
+	""   ) ;;
+	*    ) echo "usage $0 [ vcpu | rcpu ] [ -/+ number ]"; exit 1;;
 esac
 
 case $1 in
@@ -57,7 +60,10 @@ elif  [ -f $cpuinfo ]; then
   fi
 fi
 
+# +/-
 ncpu=`perl -e "print $ncpu + $minus"`
+
+# print valid output
 if [ "$ncpu" -ge 1 -a "$ncpu" -le 64 ]; then
 	echo "$ncpu"
 else
