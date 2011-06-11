@@ -39,7 +39,7 @@ if sysctl -n hw.physicalcpu > /dev/null 2>&1; then
 # linux
 elif  [ -f $cpuinfo ]; then
   ncpu=`egrep -c '^physical id.: 0$' $cpuinfo`
-  cores=`awk '{ if (/^cpu cores/) { print $4; exit }}' $cpuinfo`
+  cores=`egrep -c '^processor' $cpuinfo`
 
   if [ $vcpu = 1 ]; then
 	:
