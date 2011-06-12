@@ -1,0 +1,19 @@
+#!/bin/sh
+#
+# pbf2osm - convert PBF format to OSM XML
+
+file=$1
+
+if ! [ -f "$file" ]; then
+	echo "usage file"
+	exit 1
+fi
+
+gzip=`which pigz gzip | head -n 1`
+bzip2=`which pbzip2 bzip2 | head -n 1`
+
+file_pbf=`echo "$file" | perl -npe 's/.pbf$//'`
+
+osmosis --read-pbf $file --write-xml /dev/stdout 
+
+
