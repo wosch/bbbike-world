@@ -32,6 +32,17 @@ wget -nv $server1/$file.md5
 time curl -L -sS $server1/$file | tee $file | $nice pbzip2 -dc | buffer | \
   $nice time osmosis  --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=12000 --write-pbf $file_bpf omitmetadata=true granularity=10000
 
+# file size check of planet.osm.bz2
+new=`lynx -source -head $server1/$file | perl -ne 'print "$1\n" if /^Content-Length:\s+(\d+)/'`
+cache_file=$file
+if [ -e  $cache_file ]; then
+   old=`ls -l $cache_file | awk '{ print $5 }'`
+fi
+if [ $new -ne $old ]; then
+   echo "file size mismatch: $old <-> $new"
+   exit 2
+fi
+
 cat $file.md5
 $MD5 $file | tee $file.md5
 $MD5 $file_bpf | tee $file_bpf.md5
