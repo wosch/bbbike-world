@@ -1,0 +1,45 @@
+#!/bin/sh
+# Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
+#
+# planet-download-alert - alert if new planet.osm if available
+#
+
+file=planet-latest.osm.bz2
+server=http://planet.openstreetmap.org
+automatic_update="yes"
+
+old=1
+new=2
+
+
+dir=../osm-streetnames/download
+update=$dir/.update
+
+if [ -e $update ]; then
+   if [ `find $update -mmin -900 | wc -l` -gt 0 ]; then
+	exit 0
+   fi
+fi
+
+new=`lynx -source -head $server/$file | perl -ne 'print "$1\n" if /^Content-Length:\s+(\d+)/'`
+
+cache_file=$dir/$file
+if [ -e  $cache_file ]; then
+   old=`ls -l $cache_file | awk '{ print $5 }'`
+fi
+
+#test
+old="2${old}"
+
+if [ $new -ne $old ]; then
+   echo "please update me: $old $new"
+   echo ""
+   lynx -source -head $server/$file | egrep "^(Content-Length|Last-)"
+   touch $update
+
+   if [ -n "$automatic_update" ]; then
+     echo "start updated, may run 8-12 hours"
+     ( cd /home/wosch/projects/bbbike/ && make -s update-database > tmp/log.update-database 2>&1 ) &
+   fi
+fi
+
