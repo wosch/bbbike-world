@@ -263,7 +263,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Braunschweig/">BBBike @ Brunswick/Wolfsburg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>10.5445,52.305,0.000000</coordinates>
+      <coordinates>10.675,52.185,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -711,7 +711,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Goettingen/">BBBike @ Göttingen</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>9.925,51.575,0.000000</coordinates>
+      <coordinates>9.995,51.575,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
