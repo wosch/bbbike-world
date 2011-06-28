@@ -3,6 +3,14 @@
 #
 # world.cgi - cgi/shell wrapper for bbbike @ world city
 
+# load average check
+loadavg="`awk '{ print $1 }' /proc/loadavg`"
+max_loadavg=20
+
+if perl -e 'exit $ARGV[1] > $ARGV[2] ? 0 : 1 ' "$loadavg" $max_loadavg; then
+	echo "load average to high: `cat /proc/loadavg`" 1>&2
+	exit 2
+fi
 
 name="`basename $0 .cgi`"
 dirname=`dirname "$0"`
@@ -44,7 +52,7 @@ ulimit -t 180
 # max. 1.5GB RAM
 ulimit -v 1512000 
 
-export NYTPROF=trace=2:start=init:file=/tmp/nytprof.out
+# export NYTPROF=trace=2:start=init:file=/tmp/nytprof.out
 
 time env TMPDIR=$cache_dir DATA_DIR="data-osm/$name" BBBIKE_DATADIR="data-osm/$name" \
 	$dirname_original/$name.cgi #$dirname/bbbike.cgi
