@@ -5,7 +5,7 @@
 
 # load average check
 loadavg="`awk '{ print $1 }' /proc/loadavg`"
-max_loadavg=20
+max_loadavg=24
 
 if perl -e 'exit $ARGV[1] > $ARGV[2] ? 0 : 1 ' "$loadavg" $max_loadavg; then
 	( echo "load average to high, above $max_loadavg: `cat /proc/loadavg`"
