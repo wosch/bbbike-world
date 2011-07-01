@@ -24,7 +24,7 @@ if [ -e $update ]; then
    fi
 fi
 
-new=`lynx -source -head $server/$file | perl -ne 'print "$1\n" if /^Content-Length:\s+(\d+)/'`
+new=`curl -sS --head --location $server/$file | perl -ne 'print "$1\n" if /^Content-Length:\s+(\d+)/'`
 
 cache_file=$dir/$file
 if [ -e  $cache_file ]; then
@@ -34,7 +34,7 @@ fi
 #test
 #old="2${old}"
 
-if [ $new -ne $old ]; then
+if test -n "$new" && test "$new" -ne "$old"; then
    echo "please update me: $old $new"
    echo ""
    lynx -source -head $server/$file | egrep "^(Content-Length|Last-)"
