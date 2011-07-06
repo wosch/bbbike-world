@@ -48,11 +48,11 @@ mkdir -p $cache_dir
 #trap 'rm -rf "$cache_dir"' 0
 
 # set CPU time and memory limits
-# max. 3min 
-ulimit -t 180
+# max. 2min 
+ulimit -t 120
 
 # max. 1.5GB RAM
-ulimit -v 1512000 
+ulimit -v 1200000 
 
 # export NYTPROF=trace=2:start=init:file=/tmp/nytprof.out
 
