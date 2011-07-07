@@ -10,5 +10,5 @@ for server1 in http://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.o
 do
   echo ""
   echo $server1/$file
-  lynx -source -head $server1/$file | egrep '^(Last-Modified|Content-Length):'
+  curl -sS --head --location $server1/$file | egrep '^(Last-Modified|Content-Length):'
 done
