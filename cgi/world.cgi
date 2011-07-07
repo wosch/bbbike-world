@@ -51,8 +51,8 @@ mkdir -p $cache_dir
 # max. 2min 
 ulimit -t 120
 
-# max. 1.5GB RAM
-ulimit -v 1200000 
+# max. RAM
+ulimit -v 1700000 
 
 # export NYTPROF=trace=2:start=init:file=/tmp/nytprof.out
 
