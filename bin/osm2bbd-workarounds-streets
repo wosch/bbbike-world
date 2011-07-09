@@ -16,6 +16,6 @@ p=`pwd`/world/bin
 
 exit 0
 
-./miscsrc/combine_streets.pl --encoding utf-8 $prefix/$city/strassen > $prefix/$city/opensearch.street-coordinates.tmp
+./miscsrc/combine_streets.pl --encoding=utf-8 --map=polar $prefix/$city/strassen > $prefix/$city/opensearch.street-coordinates.tmp
 mv -f $prefix/$city/opensearch.street-coordinates.tmp $prefix/$city/opensearch.street-coordinates
 
