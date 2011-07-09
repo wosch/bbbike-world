@@ -35,13 +35,21 @@ if [ $? != 0 ]; then
 	exit $?
 fi
 
+# combine streets
+for file in qualitaet_s strassen
+do
+  ./miscsrc/combine_streets.pl --encoding=utf-8 --map=polar $prefix/$city/$file > $prefix/$city/$file.tmp
+   mv -f $prefix/$city/$file.tmp $prefix/$city/$file
+done
+
+
 # Point of Interests
 env CITY=$prefix/$city ./miscsrc/osm2bbd-poi > $prefix/$city/poi
-cat $prefix/$city/poi >> $prefix/$city/strassen
+perl -ne 'print if !/^\s*#/ && !/^\s+/' $prefix/$city/poi >> $prefix/$city/strassen
 
 # towns, villages
 if [ -e $prefix/$city/orte ]; then 
-   perl -ne 'print if !/^\s+/' $prefix/$city/orte >> $prefix/$city/strassen
+   perl -ne 'print if !/^\s*#/ && !/^\s+/' $prefix/$city/orte >> $prefix/$city/strassen
 fi
 
 
