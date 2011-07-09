@@ -89,11 +89,13 @@ build-runtime:
 
 convert-wgs84 convert: build-runtime-perl convert2 create-osp bbbike2wgs84 elevation-update
 
+# convert bbbike files from OSM files
 convert-bbbike-full: build-runtime-perl
 	${MAKE} -f Makefile.osm DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} OSM2BBD_MAPTYPE="-map bbbike" convert2
 	rm -f ${DATA_OSM_BBBIKE_DIR}/*/opensearch.*
 	${MAKE} -f Makefile.osm DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} _tarball
 
+# convert bbbike files from wgs84, much faster
 convert-bbbike: build-runtime-perl
 	echo ${CITIES} | ${NICE} ${TIME} ${XARGS} -E " " -n4 -P${MAX_VCPU} ./world/bin/wgs84-to-bbbike
 	${MAKE} -f Makefile.osm DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} _tarball
