@@ -17,7 +17,7 @@ do
    mkdir -p $data_osm_bbbike/$city
    files=""
 
-   perl miscsrc/convert_coordsys --input-dir=$data_osm/$city --output-dir=$data_osm_bbbike/$city polar 
+   miscsrc/convert_coordsys --input-dir=$data_osm/$city --output-dir=$data_osm_bbbike/$city polar 
    #( cd $data_osm_bbbike/$city; perl -i -npe 's,:map: polar,:map: standard,g; s,: map: standard,:map: standard,' $files ) 
 
    # convert meta.dd files
