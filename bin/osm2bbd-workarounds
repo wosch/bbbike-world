@@ -42,7 +42,7 @@ do
    # XXX: remove duplicated lines from "strassen"
    perl -i.bak -ne 'if (/^\s*#/ || !$a{$_}) { print; $a{$_}=1 }' $prefix/$city/$file
 
-  ./miscsrc/combine_streets.pl --encoding=utf-8 --map=polar $prefix/$city/$file > $prefix/$city/$file.tmp
+  ./miscsrc/combine_streets.pl $prefix/$city/$file > $prefix/$city/$file.tmp
    mv -f $prefix/$city/$file.tmp $prefix/$city/$file
 done
 
