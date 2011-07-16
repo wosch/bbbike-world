@@ -121,6 +121,10 @@ zcat -f $logfiles | egrep -v 85.214.61.222 | egrep 'POST /cgi/slippymap.*?\?' | 
 	perl $perl_utf8 -ne 'print "$1\n" if m,city=(.*?)[&;\s],' | sort | uniq -c | sort -nr
 
 echo ""
+echo "maptype"
+egrep maptype.cgi $logfiles | awk '{print $7}' | sort | uniq -c | sort -nr
+
+echo ""
 echo -n "Gpsies.com: "
 egrep '188.40.84.75' $logfiles | wc -l
 egrep '188.40.84.75' $logfiles | awk '{ print $7 }' | sort -u
