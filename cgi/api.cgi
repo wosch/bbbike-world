@@ -23,7 +23,7 @@ my $opensearch_dir  = '../data-osm';
 my $opensearch_dir2 = '../data-opensearch-places';
 
 my $debug         = 1;
-my $match_anyware = 0;
+my $match_anywhere = 0;
 my $match_words   = 1;
 my $remove_city   = 1;
 my $remove_train  = 1;
@@ -113,7 +113,7 @@ sub street_match {
         }
 
         # or for long words anyware, second class matches
-        elsif ( $match_anyware && $len >= 2 && /$s/ ) {
+        elsif ( $match_anywhere && $len >= 2 && /$s/ ) {
             warn "Anywhere streetname match: $street\n" if $debug >= 2;
             push( @data2, &ascii2unicode($_) ) if scalar(@data2) <= $limit * 90;
         }
