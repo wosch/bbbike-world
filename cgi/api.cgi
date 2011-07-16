@@ -22,11 +22,11 @@ my $opensearch_file = 'opensearch.streetnames';
 my $opensearch_dir  = '../data-osm';
 my $opensearch_dir2 = '../data-opensearch-places';
 
-my $debug         = 1;
+my $debug          = 1;
 my $match_anywhere = 0;
-my $match_words   = 1;
-my $remove_city   = 1;
-my $remove_train  = 1;
+my $match_words    = 1;
+my $remove_city    = 1;
+my $remove_train   = 1;
 my $sort_by_prefix = 1;
 
 # 232 College Street -> College Street
@@ -54,27 +54,28 @@ sub ascii2unicode {
 }
 
 sub street_sort {
-	my %args = @_;
-	my @suggestions = sort @{ $args{'list'} };
+    my %args        = @_;
+    my @suggestions = sort @{ $args{'list'} };
 
-	my $prefix = $args{'prefix'};
-	my $street = $args{'street'};
+    my $prefix = $args{'prefix'};
+    my $street = $args{'street'};
 
-	return @suggestions if !$prefix;
+    return @suggestions if !$prefix;
 
-	# display street name where the prefix match first	
-	my @data1;
-	my @data2;
+    # display street name where the prefix match first
+    my @data1;
+    my @data2;
 
-	foreach my $s (@suggestions) {
-	   if (index(lc($s), lc($street)) == 0) {
-		push @data1, $s;
-	   } else {
-		push @data2, $s;
-	   }
-	}
+    foreach my $s (@suggestions) {
+        if ( index( lc($s), lc($street) ) == 0 ) {
+            push @data1, $s;
+        }
+        else {
+            push @data2, $s;
+        }
+    }
 
-	return ( @data1, @data2);
+    return ( @data1, @data2 );
 }
 
 sub street_match {
@@ -162,7 +163,11 @@ sub streetnames_suggestions_unique {
     my %hash = map { $_ => 1 } @list;
     @list = keys %hash;
 
-    return street_sort('list' => \@list, 'prefix' => $sort_by_prefix, 'street' => $args{'street'});
+    return street_sort(
+        'list'   => \@list,
+        'prefix' => $sort_by_prefix,
+        'street' => $args{'street'}
+    );
 }
 
 sub streetnames_suggestions {
@@ -261,8 +266,8 @@ sub escapeQuote {
 
 my $q = new MyCgiSimple;
 
-my $test_street = "kurz"; #'Zähringe';
-my $action = 'opensearch';
+my $test_street = "kurz";         #'Zähringe';
+my $action      = 'opensearch';
 my $street =
      $q->param('search')
   || $q->param('query')
