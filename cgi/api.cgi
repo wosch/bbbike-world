@@ -27,6 +27,7 @@ my $match_anywhere = 0;
 my $match_words   = 1;
 my $remove_city   = 1;
 my $remove_train  = 1;
+my $sort_by_prefix = 1;
 
 # 232 College Street -> College Street
 my $remove_housenumber_suffix = 1;
@@ -50,6 +51,30 @@ sub ascii2unicode {
 
     warn "ascii2unicode: $unicode\n" if $debug >= 2;
     return $unicode ? $unicode : $ascii;
+}
+
+sub street_sort {
+	my %args = @_;
+	my @suggestions = sort @{ $args{'list'} };
+
+	my $prefix = $args{'prefix'};
+	my $street = $args{'street'};
+
+	return @suggestions if !$prefix;
+
+	# display street name where the prefix match first	
+	my @data1;
+	my @data2;
+
+	foreach my $s (@suggestions) {
+	   if (index(lc($s), lc($street)) == 0) {
+		push @data1, $s;
+	   } else {
+		push @data2, $s;
+	   }
+	}
+
+	return ( @data1, @data2);
 }
 
 sub street_match {
@@ -129,13 +154,15 @@ sub street_match {
 }
 
 sub streetnames_suggestions_unique {
+    my %args = @_;
+
     my @list = &streetnames_suggestions(@_);
 
     # return unique list
     my %hash = map { $_ => 1 } @list;
     @list = keys %hash;
 
-    return @list;
+    return street_sort('list' => \@list, 'prefix' => $sort_by_prefix, 'street' => $args{'street'});
 }
 
 sub streetnames_suggestions {
@@ -234,12 +261,14 @@ sub escapeQuote {
 
 my $q = new MyCgiSimple;
 
+my $test_street = "kurz"; #'Zähringe';
 my $action = 'opensearch';
 my $street =
      $q->param('search')
   || $q->param('query')
   || $q->param('q')
-  || 'Zähringe';
+  || $test_street;
+
 my $city = $q->param('city') || 'Berlin';
 my $namespace = $q->param('namespace') || $q->param('ns') || '0';
 
@@ -259,7 +288,7 @@ print $q->header(
 binmode( \*STDOUT, ":utf8" ) if $force_utf8;
 
 my @suggestion =
-  sort &streetnames_suggestions_unique( 'city' => $city, 'street' => $street );
+  &streetnames_suggestions_unique( 'city' => $city, 'street' => $street );
 
 # strip english style addresses with
 #    <house number> <street name>
@@ -274,7 +303,7 @@ if (   $remove_housenumber_prefix
     if ( $street2 ne "" ) {
         warn "API: city: $city, housenumber prefix: $street <=> $street2\n"
           if $debug;
-        @suggestion = sort &streetnames_suggestions_unique(
+        @suggestion = &streetnames_suggestions_unique(
             'city'   => $city,
             'street' => $street2
         );
@@ -294,7 +323,7 @@ elsif ($remove_housenumber_suffix
     if ( $street2 ne "" ) {
         warn "API: city: $city, housenumber suffix: $street <=> $street2\n"
           if $debug;
-        @suggestion = sort &streetnames_suggestions_unique(
+        @suggestion = &streetnames_suggestions_unique(
             'city'   => $city,
             'street' => $street2
         );
@@ -309,7 +338,7 @@ elsif ($remove_train
     my $street2 = "$1 $3";
 
     warn "API: city: $city, train station: $street <=> $street2\n" if $debug;
-    @suggestion = sort &streetnames_suggestions_unique(
+    @suggestion = &streetnames_suggestions_unique(
         'city'   => $city,
         'street' => $street2
     );
@@ -324,7 +353,7 @@ if (   $remove_city
 
     if ( $street2 ne "" ) {
         warn "API: city: $city, strip city: $street <=> $street2\n" if $debug;
-        @suggestion = sort &streetnames_suggestions_unique(
+        @suggestion = &streetnames_suggestions_unique(
             'city'   => $city,
             'street' => $street2
         );
