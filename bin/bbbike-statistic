@@ -122,10 +122,11 @@ zcat -f $logfiles | egrep -v 85.214.61.222 | egrep 'POST /cgi/slippymap.*?\?' | 
 
 echo ""
 echo -n "maptype: "
+total=`egrep maptype.cgi $logfiles | awk '{print $7}' | 
+	perl -ne 'print "$2\n" if /city=([^&]*)&maptype=(.*)/' | wc -l`
+echo $total
 egrep maptype.cgi $logfiles | awk '{print $7}' | 
-	perl -ne 'print "$2\n" if /city=([^&]*)&maptype=(.*)/' | wc -l
-egrep maptype.cgi $logfiles | awk '{print $7}' | 
-	perl -ne 'print "$2\n" if /city=([^&]*)&maptype=(.*)/' | sort | uniq -c | sort -nr
+	perl -ne 'print "$2\n" if /city=([^&]*)&maptype=(.*)/' | sort | uniq -c | sort -nr | awk "{ printf (\"%4d %-2.1f%% %s\n\", \$1, \$1*100/$total, \$2) }"
 echo ""
 echo "maptype + city"
 egrep maptype.cgi $logfiles | awk '{print $7}' | 
