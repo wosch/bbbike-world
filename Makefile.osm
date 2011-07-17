@@ -363,9 +363,9 @@ create-osp:
 	./world/bin/bbbike-world-opensearch-plugin ${OSP_DIR} ${CITIES}
 	
 rsync-tgz:
-	rsync -av ${OSMBIKE_DATA} wolfram.schneider.org:www/src/bbbike
-	rsync -av ${DATA_DIR}.tbz wolfram.schneider.org:www/src/bbbike/${DATA_OSM_DIR}
-	ssh wolfram.schneider.org 'cd projects/bbbike-macos && nice -n 10 make -s distclean create-data-osm-tbz && nice -n 10 make -s distclean' &
+	rsync -av ${OSMBIKE_DATA} download.bbbike.org:/usr/local/www/download.bbbike.org/bbbike
+	rsync -av ${DATA_DIR}.tbz download.bbbike.org:/usr/local/www/download.bbbike.org/bbbike/${DATA_OSM_DIR}
+	ssh download.bbbike.org 'cd projects/bbbike-macos && nice -n 10 make -s distclean create-data-osm-tbz && nice -n 10 make -s distclean' &
 
 clean: rotate-data-osm
 	${MAKE} -C cgi/msg $@	
