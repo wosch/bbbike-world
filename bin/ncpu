@@ -15,6 +15,7 @@ rcpu=0
 case $1 in
 	vcpu ) vcpu=1; shift ;;
 	rcpu ) rcpu=1; shift ;;
+	ncpu ) shift ;;
 	"" | -* | +* ) ;;
 	*    ) echo "usage $0 [ vcpu | rcpu ] [ -/+ number ]"; exit 1;;
 esac
