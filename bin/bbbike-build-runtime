@@ -6,8 +6,8 @@
 
 set -e
 
-which pigz gzip
-which pbzip2 bzip2
+which pigz || which gzip 
+which pbzip2 || which bzip2
 
 commands="
 buffer
@@ -17,7 +17,6 @@ iconv
 java
 jsbeautifier
 jsmin
-lynx
 make
 osmosis
 perltidy
@@ -30,6 +29,12 @@ xargs
 
 for c in $commands
 do
-	which $c
+	if which $c >/dev/null; then :
+	else
+	   echo "missing: $c"
+	   error=1
+	fi
 done
+
+exit $error
 
