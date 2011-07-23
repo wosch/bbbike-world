@@ -24,7 +24,6 @@ fi
 
 ./miscsrc/osm2bbd-postprocess --debug=0 --force \
 	-only-largest-city-is-center \
-	-skip-inaccessible-streets \
 	--city-names="`world/bin/bbbike-db --city-names $city`" \
 	--neighbours="`world/bin/bbbike-db --neighbours $city`" \
 	--region="`world/bin/bbbike-db --region $city`" \
