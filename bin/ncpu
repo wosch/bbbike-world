@@ -45,6 +45,12 @@ elif  [ -f $cpuinfo ]; then
   ncpu=`egrep -c '^physical id.: 0$' $cpuinfo`
   cores=`egrep -c '^processor' $cpuinfo`
 
+  # Xen machine?
+  if [ $ncpu = 0 -a -e $HOME/.ncpu.ncpu ]; then
+    ncpu=`cat $HOME/.ncpu.ncpu`
+  fi
+
+
   if [ $vcpu = 1 ]; then
     ncpu=$cores
 
@@ -58,7 +64,7 @@ elif  [ -f $cpuinfo ]; then
   fi
 
   # local host config
-  if [ -e $HOME/.ncpu ]; then
+  if [ -e $HOME/.ncpu -a ! -e $HOME/.ncpu.ncpu ]; then
     ncpu=`cat $HOME/.ncpu`
   fi
 fi
