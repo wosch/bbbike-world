@@ -8,12 +8,14 @@ Required debian modules
 
 sudo apt-get install \
   pbzip2 bzip2 git-core openjdk-6-jdk screen lynx curl wget time \
-  pigz make python \
+  pigz make python lighttpd \
   libhtml-tagcloud-perl buffer pktstat libtext-unidecode-perl \
   perltidy libxml-atom-simplefeed-perl libjson-perl liburi-perl \
   libxml-libxml-perl libyaml-perl libyaml-syck-perl tidy libxml-simple-perl \
   libdevel-size-perl libtie-ixhash-perl
 
+# reverse proxy
+sudo apt-get install varnish
 
 Development
 ------------------------------------
