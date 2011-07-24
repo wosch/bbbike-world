@@ -12,7 +12,7 @@ sudo apt-get install \
   libhtml-tagcloud-perl buffer pktstat libtext-unidecode-perl \
   perltidy libxml-atom-simplefeed-perl libjson-perl liburi-perl \
   libxml-libxml-perl libyaml-perl libyaml-syck-perl tidy libxml-simple-perl \
-  libdevel-size-perl libtie-ixhash-perl libdevel-size-perl
+  libdevel-size-perl libtie-ixhash-perl libdevel-size-perl libbsd-resource-perl
 
 # reverse proxy
 sudo apt-get install varnish

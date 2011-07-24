@@ -16,6 +16,7 @@ use Tie::IxHash;
 use YAML::Syck;
 use YAML;
 use Perl::Tidy;
+use BSD::Resource;
 
 # not used yet
 #use GPS::Point;
