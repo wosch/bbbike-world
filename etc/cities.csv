@@ -83,7 +83,8 @@ FortCollins:Fort Collins:en::other:-105.196 40.463 -104.933 40.621:118652:
 Frankfurt:Frankfurt am Main::de::8.44 49.968 9.086 50.35:2005405:
 FrankfurtOder:Frankfurt (Oder)::de::13.49 52.00 14.76 52.71:143466:
 Freiburg:::de::7.54 47.83 8.08 48.23:230881:
-Stuttgart:::de::8.79 48.45 9.69 49.00:2674445:
+#Stuttgart:::de::8.79 48.45 9.69 49.00:2674445:
+Stuttgart:::de::8.79 48.46 9.50 48.93:2674445:
 Gdansk:de!Danzig,en!Gdansk,pl!Gdańsk::pl:eu:18.34 54.23 18.87 54.62:889146:
 Genf:de!Genf,en!Geneva,fr!Genève::fr:eu:5.92 46.02 6.52 46.48:470000:
 Lausanne:::fr:eu:6.31 46.35 7.074 46.63:125000:
