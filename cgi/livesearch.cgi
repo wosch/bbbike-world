@@ -363,8 +363,8 @@ sub html {
             },
             {
                 -type => 'text/javascript',
-                'src' => "../html/bbbike.js" 
-	    }
+                'src' => "../html/bbbike.js"
+            }
         ]
     );
 
