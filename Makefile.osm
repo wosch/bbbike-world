@@ -152,6 +152,9 @@ city-file:
 	#( echo Bogota; ${MAKE} -s city-reorder | awk '{print $$2 }' | egrep -v Bogota ) > ${CITIES_FILE}
 	${MAKE} -s city-reorder | awk '{print $$2 }'  > ${CITIES_FILE}
 
+city-memory:
+	echo ${CITIES} | ${NICE} ${TIME} ${XARGS} -E " " -n1 -P${MAX_RCPU} ./world/bin/bbbike-memory
+
 update-robots.txt:
 	( cat world/web/robots.txt.in; \
 	  echo ${LANGUAGES} | ${PERL} -npe 's,\s+,\n,g' | sort | egrep -v "^en$$" | \
@@ -491,6 +494,7 @@ help:
 	@echo "  [ create-bbbike-web-symlinks | kml | create-osp | index ]"
 	@echo "  [ convert-wgs84 | convert-bbbike | convert-bbbike-full ]"
 	@echo "  [ city-count | city-reorder | city-file | check-osm | cleanup-osm-error ]"
+	@echo "  [ city-memory ]"
 	@echo "  [ elevation-check | elevation-update | elevation-fetch | elevation-repair ]"
 	@echo "  [ planet-download | planet-geofabrik-download ]"
 	@echo "  [ planet-streets | planet-places ]"
