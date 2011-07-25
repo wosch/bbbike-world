@@ -360,7 +360,11 @@ sub html {
                 -type => 'text/javascript',
                 'src' =>
 'http://maps.google.com/maps/api/js?libraries=panoramio&sensor=false'
-            }
+            },
+            {
+                -type => 'text/javascript',
+                'src' => "../html/bbbike.js" 
+	    }
         ]
     );
 
