@@ -1,0 +1,19 @@
+#!/bin/sh
+# Copyright (c) 2011 Wolfram Schneider, http://bbbike.org
+#
+# bbbike-memory - check perl memory usage of a city
+
+: ${data_osm=data-osm}
+: ${debug=""}
+
+# die on exit
+set -e
+
+
+for city 
+do
+   env DATA_DIR="data-osm/$city" BBBIKE_DATADIR="data-osm/$city" \
+     time perl -MDevel::Size=total_size -MStrassen -MStrassen::StrassenNetz -e \
+	'$net=StrassenNetz->new(Strassen->new("strassen"));$net->make_net; print "$ENV{DATA_DIR}: ", int(total_size($net)/1024/1024*10)/10, " MB\n"'
+done
+
