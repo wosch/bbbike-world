@@ -24,7 +24,7 @@ my $q = new MyCgiSimple;
 my $city    = $q->param('city')    || 'Berlin';
 my $maptype = $q->param('maptype') || 'foo';
 
-my $expire = '0s';
+my $expire = '10s';
 print $q->header(
     -type    => 'text/javascript',
     -charset => 'utf-8',
