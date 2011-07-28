@@ -37,6 +37,9 @@ my $repair_database;
 my $exit_on_error = 1;
 my $test_mode     = 0;
 my $geonames_user = 'bbbike';
+my $dump_csv      = 0;
+
+my $csv_delimiter = "\t";
 
 # 5 digits after comma, 1 meter granularity: 9.22951,54.9326
 my $granularity = 100_000;
@@ -52,7 +55,7 @@ sub usage () {
     die <<EOF;
 usage: $0 [options] cities ...
 
---database=elevation.database
+--database=elevation.db | elevation.csv
 --socksproxy=socks://host:port   set socks proxy
 --geonames-user=user		 set geonames api user
 --readonly-database
@@ -63,6 +66,7 @@ usage: $0 [options] cities ...
 --repair-database
 --exit-on-error=[0,1]
 --test-mode
+--dump-csv
 EOF
 }
 
@@ -97,14 +101,44 @@ sub Die {
     exit(1);
 }
 
+sub retrieve_csv {
+    my $database = shift;
+
+    my $program = 'gzip';
+    my @program_opt = ( '-dc', '-f' );
+
+    if ( !open( CSV, '-|' ) ) {
+        if ( !exec( $program, @program_opt, $database ) ) {
+            die "$program, @program_opt, $database: $!\n";
+        }
+    }
+
+    my ( $key, $val );
+    my $hash;
+
+    while (<CSV>) {
+        chomp;
+        ( $key, $val ) = split $csv_delimiter;
+        $hash->{$key} = $val;
+    }
+
+    return $hash;
+
+}
+
 sub read_database {
     my $database = shift;
 
     my $hash = {};
 
     if ( $database && -f $database ) {
-        $hash = retrieve($database)
-          or die "Storable.pm retrieve error for database '$database'\n";
+        if ( $database =~ /\.csv(\.gz)?$/ ) {
+            $hash = retrieve_csv($database);
+        }
+        else {
+            $hash = retrieve($database)
+              or die "Storable.pm retrieve error for database '$database'\n";
+        }
     }
     else {
         warn "database '$database' does not exists (yet) or not readable!\n";
@@ -130,6 +164,11 @@ sub write_database {
         return;
     }
 
+    my $database_in = $database;
+
+    # always store in a storable file .db
+    $database =~ s/\.csv(\.gz)$/.db/;
+
     warn "Store hash in file '$database', updates: $counter\n" if $debug;
 
     # atomic store of data
@@ -149,6 +188,14 @@ sub check_database {
 
         print "$key => $val\n"
           if !is_height($val) || !is_latlng($key) || $val == -32768;
+    }
+}
+
+sub dump_csv {
+    my $hash = shift;
+
+    while ( my ( $key, $val ) = each %$hash ) {
+        print $key, $csv_delimiter, $val, "\n";
     }
 }
 
@@ -546,6 +593,7 @@ GetOptions(
     "repair-database"   => \$repair_database,
     "test-mode"         => \$test_mode,
     "exit-on-error=i"   => \$exit_on_error,
+    "dump-csv"          => \$dump_csv,
 ) or usage;
 
 &usage if $help;
@@ -554,6 +602,10 @@ my $hash = read_database($database);
 
 if ($check_database) {
     &check_database($hash);
+    exit;
+}
+elsif ($dump_csv) {
+    &dump_csv($hash);
     exit;
 }
 
