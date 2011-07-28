@@ -233,7 +233,7 @@ osm2bbd-workarounds opensearch:
 	  ${XARGS} -n 1 -P ${MAX_VCPU} world/bin/osm2bbd-workarounds ${DATA_OSM_DIR}
 
 bbbike-osm2pbf:
-	find ${OSM_DIR} -print0 -name '*.osm.gz' | ${XARGS} -0 -n 1 -P ${MAX_RCPU} ${OSM2PBF}
+	find ${OSM_DIR} -name '*.osm.gz' -print0 | ${XARGS} -0 -n 1 -P ${MAX_RCPU} ${OSM2PBF}
 
 opensearch-bbbike:
 	world/bin/opensearch-suggestion --gps=0 --input-charset=iso-8859-1 < data/strassen > data/opensearch.streetnames
