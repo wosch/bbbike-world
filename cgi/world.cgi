@@ -58,6 +58,6 @@ ulimit -v 2700000
 # export NYTPROF=trace=2:start=init:file=/tmp/nytprof.out
 # perl -d:NYTProf $dirname_original/$name.cgi #$dirname/bbbike.cgi
 
-env TMPDIR=$cache_dir DATA_DIR="data-osm/$name" BBBIKE_DATADIR="data-osm/$name" \
+time env TMPDIR=$cache_dir DATA_DIR="data-osm/$name" BBBIKE_DATADIR="data-osm/$name" \
 	$dirname_original/$name.cgi 
 
