@@ -24,8 +24,7 @@ backend bbbike {
 
 
 sub vcl_recv {
-
-    if (req.http.host ~ "^(test|www|dev|download)\.bbbike\.org$") {
+    if (req.http.host ~ "^(www\.|dev\.|devel\.|download\.|)bbbike\.org$") {
         set req.backend = bbbike64;
     } else{
         set req.backend = bbbike;
@@ -40,7 +39,7 @@ sub vcl_recv {
 
     # do not cache OSM files
     if (req.http.host ~ "^(download)\.bbbike\.org$") {
-         return (pass);
+         return (pipe);
     }
 
     if (req.url ~ "^/(html|images|.*\.html|.*/)$") {
@@ -49,6 +48,21 @@ sub vcl_recv {
        remove req.http.User-Agent;
     }
 
+    # override page reload requests from impatient users
+    if (  req.http.Cache-Control ~ "no-cache" 
+       || req.http.Cache-Control ~ "private"
+       || req.http.Cache-Control ~ "max-age=0") {
+
+      set req.http.Cache-Control = "max-age=240";
+      #unset req.http.Expires;
+    }
+
+    # pipeline post requests trac #4124 
+    if (req.request == "POST") {
+	return (pass);
+    }
+
+    return (lookup);
 }
 
 sub vcl_hash {
@@ -58,21 +72,26 @@ sub vcl_hash {
 sub vcl_fetch {
     #return (pass);
 
-    if (!beresp.cacheable) {
-         return (pass);
-    }
-
     if (req.url ~ "^/(html|images|.*\.html)$") {
        unset beresp.http.cookie;
     }
 
-     return (deliver);
-
-     unset beresp.http.set-cookie;
-     if (beresp.http.Set-Cookie) {
+    if (!beresp.cacheable) {
          return (pass);
-     }
-     return (deliver);
+    }
+
+    return (deliver);
+
+    #unset beresp.http.set-cookie;
+    #if (beresp.http.Set-Cookie) {
+    #    return (pass);
+    #}
+    #return (deliver);
+}
+
+sub vcl_pipe {
+    /* Force the connection to be closed afterwards so subsequent reqs don't use pipe */
+    set bereq.http.connection = "close";
 }
 
 # 
