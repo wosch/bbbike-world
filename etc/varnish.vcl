@@ -1,10 +1,6 @@
 # This is a basic VCL configuration file for varnish.  See the vcl(7)
 # man page for details on VCL syntax and semantics.
 # 
-
-# sudo varnishd -f /etc/varnish/default.vcl -s malloc,0.5G -T 127.0.0.1:2000 -a 213.239.193.213:80
-
-#
 # Default backend definition.  Set this to point to your content
 # server.
 # 
@@ -16,6 +12,9 @@ backend default {
 backend bbbike64 {
     .host = "bbbike64";
     .port = "80";
+
+    #.between_bytes_timeout = 15s;
+    .first_byte_timeout = 180s;
 }
 
 backend bbbike {
@@ -25,6 +24,7 @@ backend bbbike {
 
 
 sub vcl_recv {
+
     if (req.http.host ~ "^(test|www|dev|download)\.bbbike\.org$") {
         set req.backend = bbbike64;
     } else{
@@ -56,6 +56,8 @@ sub vcl_hash {
 }
 
 sub vcl_fetch {
+    #return (pass);
+
     if (!beresp.cacheable) {
          return (pass);
     }
