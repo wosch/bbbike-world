@@ -296,7 +296,7 @@ create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi index updat
 	  for i in images html cgi osm data-osm doc osp; do \
 	    ln -fs ../../$$i .; \
 	  done; \
-	  ln -fs images/srtbike.ico favicon.ico # buggy browsers
+	  ln -fs images/srtbike1.ico favicon.ico # buggy browsers
 	cd world/web && \
 	rm -rf ${LANGUAGES}; \
 	mkdir -p ${LANGUAGES}; \
@@ -453,7 +453,7 @@ elevation-update:
 	echo ${CITIES} | ${XARGS} -E " " -n16 -P2 ${ELEVATION_SCRIPT} --readonly-database --database=../osm-streetnames/srtm/elevation.db --debug=0
 
 # re-build cache
-cache-heater: cache-heater-streets cache-heater-common
+cache-heater: cache-heater-streets cache-heater-common 
 
 cache-heater-common: 
 	du -hs ${BBBIKE_CACHE_DIR}/* || du -hs ${BBBIKE_CACHE_DIR}
@@ -465,10 +465,16 @@ cache-heater-common:
 cache-heater-full:
 	${MAKE} -f Makefile.osm CACHE_HEATER_MAX=300 cache-heater
 
-cache-heater-streets:
+cache-heater-streets: cache-heater-homepage
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
 		${PERL} -npe 'chomp; $$_ = "http://www.bbbike.org/$$_/streets.html\0"' | \
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
+
+cache-heater-homepage:
+	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
+		${PERL} -npe 'chomp; $$_ = "http://www.bbbike.org/$$_/\0"' | \
+		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
+
 
 symlink-download:
 	cd ${BBBIKE_WEBSERVER_DIR}/../download.bbbike.org; \
