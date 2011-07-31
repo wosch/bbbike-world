@@ -9,7 +9,7 @@
 
 MAX_PARALLELS_OSM_DOWNLOADS=	2
 NICE=		nice -n 10
-NICE5=		nice -n 7
+NICE5=		nice -n 9
 PERL=		perl
 GIT_ID=		$(shell git show | head -n1 | awk '{ print $$2 }')
 OSM2BBD_MAPTYPE=	#-map bbbike	
