@@ -467,7 +467,7 @@ cache-heater-full:
 
 cache-heater-streets:
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
-		${PERL} -npe 'chomp; $$_ = "http://www.bbbike.org/$$_/?all=3\0"' | \
+		${PERL} -npe 'chomp; $$_ = "http://www.bbbike.org/$$_/streets.html\0"' | \
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 
 symlink-download:
