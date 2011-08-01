@@ -465,16 +465,18 @@ cache-heater-common:
 cache-heater-full:
 	${MAKE} -f Makefile.osm CACHE_HEATER_MAX=300 cache-heater
 
-cache-heater-streets: cache-heater-homepage
+cache-heater-streets: cache-heater-homepage cache-heater-opensearch
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
-		${PERL} -npe 'chomp; $$_ = "http://www.bbbike.org/$$_/streets.html\0"' | \
+		${PERL} -npe 'chomp; $$_ = "http://www.bbbike.org/$$_/streets.html\0http://www.bbbike.org/en/$$_/streets.html\0"' | \
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 
 cache-heater-homepage:
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
-		${PERL} -npe 'chomp; $$_ = "http://www.bbbike.org/$$_/\0"' | \
+		${PERL} -npe 'chomp; $$_ = "http://www.bbbike.org/$$_/\0http://www.bbbike.org/en/$$_/\0"' | \
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 
+cache-heater-opensearch:
+	cat ${BBBIKE_WEBSERVER_DIR}/data-osm/*/opensearch.streetnames | wc -lc
 
 symlink-download:
 	cd ${BBBIKE_WEBSERVER_DIR}/../download.bbbike.org; \
