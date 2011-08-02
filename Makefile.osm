@@ -470,9 +470,13 @@ cache-heater-streets: cache-heater-homepage cache-heater-opensearch
 		${PERL} -npe 'chomp; $$_ = "http://www.bbbike.org/$$_/streets.html\0http://www.bbbike.org/en/$$_/streets.html\0"' | \
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 
-cache-heater-homepage:
+cache-heater-homepage: cache-heater-osp
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
 		${PERL} -npe 'chomp; $$_ = "http://www.bbbike.org/$$_/\0http://www.bbbike.org/en/$$_/\0http://www.bbbike.org/m/$$_/\0"' | \
+		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
+
+cache-heater-osp:
+	find osp -name '*.xml' -print0 | perl -n0e 'print qq{http://www.bbbike.org/$$_}' | \
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 
 cache-heater-opensearch:
