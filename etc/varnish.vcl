@@ -42,10 +42,12 @@ sub vcl_recv {
          return (pipe);
     }
 
-    if (req.url ~ "^/(html|images|.*\.html|.*/)$") {
+    # force caching of images and CSS/JS files
+    if (req.url ~ "^/html|^/images|^/feed/|^/osp/|^/cgi/[ac-z]|.*\.html$|.*/$") {
        unset req.http.cookie;
-       remove req.http.Accept-Encoding;
-       remove req.http.User-Agent;
+       unset req.http.Accept-Encoding;
+       unset req.http.User-Agent;
+       unset req.http.referer;
     }
 
     # override page reload requests from impatient users
@@ -62,19 +64,24 @@ sub vcl_recv {
 	return (pass);
     }
 
+    # test & development
+    if (req.http.host ~ "^(dev|devel)\.bbbike\.org$") {
+	return (pass);
+    }
     return (lookup);
 }
 
 sub vcl_hash {
+    # cache requests with cookies in mind
     set req.hash += req.http.cookie;
 }
 
 sub vcl_fetch {
     #return (pass);
 
-    if (req.url ~ "^/(html|images|.*\.html)$") {
-       unset beresp.http.cookie;
-    }
+    #if (req.url ~ "^/html|^/images|^/feed/|.*\.html$|.*/$") {
+    #   unset beresp.http.cookie;
+    #}
 
     if (!beresp.cacheable) {
          return (pass);
