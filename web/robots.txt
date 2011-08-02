@@ -1,5 +1,5 @@
 # general
-Sitemap: http://www.bookmaps.org/sitemap.xml.gz
+Sitemap: http://www.bbbike.org/sitemap.xml.gz
 
 User-agent: Ezooms
 Disallow: /

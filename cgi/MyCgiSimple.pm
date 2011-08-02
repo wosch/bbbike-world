@@ -343,7 +343,8 @@ sub _parse_params {
   my ( $self, $data ) = @_;
   return () unless defined $data;
   unless ( $data =~ /[&=;]/ ) {
-    $self->{'keywords'} = [ $self->_parse_keywordlist( $data ) ];
+    #$self->{'keywords'} = [ $self->_parse_keywordlist( $data ) ];
+    $self->{'keywords'} = [];
     return;
   }
   my @pairs = split /[&;]/, $data;

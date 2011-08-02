@@ -12,3 +12,6 @@ Disallow: *.tbz
 User-agent: Baiduspider
 Disallow: /osm/bbbike/
 
+User-agent: ichiro
+Disallow: /osm/bbbike/
+
