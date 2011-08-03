@@ -296,7 +296,7 @@ sub route_stat2 {
         push @data, $route_length;
         $max = $route_length if $route_length > $max;
     }
-    $average = $average / scalar(@routes);
+    $average = $average / scalar(@routes) if scalar(@routes);
 
     @data = sort { $a <=> $b } @data;
     my $count = scalar(@data);
