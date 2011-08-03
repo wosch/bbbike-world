@@ -26,6 +26,8 @@ my $debug = 0;
 # word matching for utf8 data
 my $force_utf8 = 0;
 
+my $look_command = '/usr/local/bin/look';
+
 # look(1) is faster than egrep, override use_egrep option
 my $use_look = 1;
 
@@ -57,7 +59,7 @@ sub street_match {
         # linux only
         $look_opt .= 'b' if $binary && -e '/proc';
 
-        my @command = ( 'look', $look_opt, "--", $street, $file );
+        my @command = ( $look_command, $look_opt, "--", $street, $file );
 
         warn join( " ", @command ), "\n" if $debug >= 2;
         open( IN, '-|' ) || exec @command;
