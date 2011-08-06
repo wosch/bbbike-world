@@ -4,6 +4,8 @@
 # planet-download - download the latest planet osm file
 #
 
+set -e
+
 if [ -n "$IGNORE_PLANET_OSM" ]; then
 	exit 0
 fi
@@ -15,30 +17,27 @@ file=planet-latest.osm.bz2
 file_bpf=`basename $file .bz2`.pbf
 dir="tmp.$$.new"
 
-
-#server1=http://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org
-#server2=http://ftp.ecki-netz.de/osm
-#server2=$server1
-#server1=http://ftp.heanet.ie/mirrors/openstreetmap.org
-server1=http://planet.openstreetmap.org
+#server=http://ftp.heanet.ie/mirrors/openstreetmap.org
+server=http://planet.openstreetmap.org
 
 mkdir -p $dir
 pwd=`pwd`
-cd $dir || exit
+cd $dir
 
-wget -nv $server1/$file.md5
-#wget -nv $server1/$file
+curl -sS -o $file.md5 $server/$file.md5
 
-time curl -L -sS $server1/$file | tee $file | $nice pbzip2 -dc | buffer | \
+time curl -L -sS $server/$file | tee $file | $nice pbzip2 -dc | buffer | \
   $nice time osmosis  --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=12000 --write-pbf $file_bpf omitmetadata=true granularity=10000
 
 # file size check of planet.osm.bz2
-new=`lynx -source -head $server1/$file | perl -ne 'print "$1\n" if /^Content-Length:\s+(\d+)/'`
-cache_file=$file
+new=`curl -sS --head --location $server/$file | perl -ne 'print "$1\n" if /^Content-Length:\s+(\d+)/'`
+cache_file="../$file"
+old=0
 if [ -e  $cache_file ]; then
    old=`ls -l $cache_file | awk '{ print $5 }'`
 fi
-if [ $new -ne $old ]; then
+
+if [ "$new" -ne "$old" ]; then
    echo "file size mismatch: $old <-> $new"
    exit 2
 fi
