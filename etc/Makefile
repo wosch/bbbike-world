@@ -6,6 +6,8 @@ sync-frontend:
 
 sync-backend:
 	crontab -l > crontab
+	cp -f /etc/lighttpd/conf-enabled/bbbike.org.conf .
+	cp -f /etc/lighttpd/lighttpd.conf .
 	
 help:
 	@echo "make [ sync-backend | sync-frontend ]"
