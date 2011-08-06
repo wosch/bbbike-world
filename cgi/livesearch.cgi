@@ -15,10 +15,11 @@ use Encode;
 use strict;
 use warnings;
 
-my $logfile                   = '/var/log/lighttpd/bbbike.error.log';
-my $max                       = 50;
-my $only_production_statistic = 1;
-my $debug                     = 1;
+my $logfile                      = '/var/log/lighttpd/bbbike.error.log';
+my $max                          = 50;
+my $only_production_statistic    = 1;
+my $debug                        = 1;
+my $logrotate_first_uncompressed = 1;
 
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
@@ -138,6 +139,7 @@ sub extract_route {
     my %hash;
     my @files;
     push @files, $file;
+    push @files, "$file.1" if $logrotate_first_uncompressed;
     push @files, &logfiles( $file, 1, 2 );
     push @files, &logfiles( $file, 3, 4 ) if $max > 50;
     push @files, &logfiles( $file, 5, 6, 7 ) if $max > 100;
