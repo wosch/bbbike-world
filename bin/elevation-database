@@ -222,7 +222,7 @@ sub round_latlng {
 sub is_latlng {
     my $latlng = shift;
 
-    return ( defined $latlng && $latlng =~ /^[\d\-\,\.]+$/ ) ? 1 : 0;
+    return ( defined $latlng && $latlng =~ /^[\d\-\,\.e]+$/ ) ? 1 : 0;
 }
 
 sub is_height {
