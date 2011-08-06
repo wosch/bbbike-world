@@ -10,11 +10,13 @@ backend default {
 }
 
 backend bbbike64 {
-    .host = "bbbike64";
+    #.host = "bbbike64";
+    .host = "10.0.0.4";
     .port = "80";
 
-    #.between_bytes_timeout = 15s;
-    .first_byte_timeout = 180s;
+    .first_byte_timeout = 600s;
+    .connect_timeout = 600s;
+    .between_bytes_timeout = 600s;
 }
 
 backend bbbike {
@@ -23,10 +25,20 @@ backend bbbike {
 }
 
 
+backend eserte {
+    .host = "eserte";
+    .port = "80";
+    .first_byte_timeout = 300s;
+    .connect_timeout = 300s;
+    .between_bytes_timeout = 300s;
+}
+
 sub vcl_recv {
-    if (req.http.host ~ "^(www\.|dev\.|devel\.|download\.|)bbbike\.org$") {
+    if (req.http.host ~ "^(www\.|dev\.|download\.|)bbbike\.org$") {
         set req.backend = bbbike64;
-    } else{
+    } else if (req.http.host ~ "^eserte\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$" ) {
+        set req.backend = eserte;
+    } else {
         set req.backend = bbbike;
     }
 
@@ -40,6 +52,11 @@ sub vcl_recv {
     # do not cache OSM files
     if (req.http.host ~ "^(download)\.bbbike\.org$") {
          return (pipe);
+    }
+
+    # development machine of S.R.T
+    if (req.http.host ~ "^eserte\.bbbike\.org$") {
+	return (pass);
     }
 
     # force caching of images and CSS/JS files
