@@ -381,7 +381,7 @@ clean: rotate-data-osm
 	rm -f ${OSMBIKE_DATA}
 
 clean-cache cache-clean:
-	du -hs ${BBBIKE_CACHE_DIR}
+	du -hs ${BBBIKE_CACHE_DIR}/
 	mkdir -p ${BBBIKE_CACHE_DIR}/tmp
 	mv -f ${BBBIKE_CACHE_DIR}/*bbbike.org ${BBBIKE_CACHE_DIR}/localhost ${BBBIKE_CACHE_DIR}/tmp || true
 	rm -rf ${BBBIKE_CACHE_DIR}/tmp
@@ -456,7 +456,7 @@ elevation-update:
 cache-heater: cache-heater-streets cache-heater-common 
 
 cache-heater-common: 
-	du -hs ${BBBIKE_CACHE_DIR}/* || du -hs ${BBBIKE_CACHE_DIR}
+	du -hs ${BBBIKE_CACHE_DIR}/* || du -hs ${BBBIKE_CACHE_DIR}/
 	curl -sS 'http://www.bbbike.org/cgi/livesearch.cgi?ns=cache;max='${CACHE_HEATER_MAX} | \
 		${PERL} -npe 's/\n/\0/g' | \
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
