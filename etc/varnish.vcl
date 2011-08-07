@@ -17,13 +17,31 @@ backend bbbike64 {
     .first_byte_timeout = 600s;
     .connect_timeout = 600s;
     .between_bytes_timeout = 600s;
+
+    .probe = {
+        .url = "/test.txt";
+        .timeout = 2s;
+        .interval = 10s;
+        .window = 1;
+        .threshold = 1;
+    }
 }
 
 backend bbbike {
     .host = "bbbike";
     .port = "80";
-}
+    .first_byte_timeout = 300s;
+    .connect_timeout = 300s;
+    .between_bytes_timeout = 300s;
 
+    .probe = {
+        .url = "/test.txt";
+        .timeout =  1s;
+        .interval = 30s;
+        .window = 1;
+        .threshold = 1;
+    }
+}
 
 backend eserte {
     .host = "eserte";
@@ -33,15 +51,56 @@ backend eserte {
     .between_bytes_timeout = 300s;
 }
 
+# munin
+backend localhost {
+    .host = "localhost";
+    .port = "8080";
+}
+
+backend bbbike_strato {
+    .host = "test.bbbike.org";
+    .port = "80";
+    .first_byte_timeout = 300s;
+    .connect_timeout = 300s;
+    .between_bytes_timeout = 300s;
+
+    .probe = {
+        .url = "/test.txt";
+        .timeout = 2s;
+        .interval = 30s;
+        .window = 1;
+        .threshold = 1;
+    }
+}
+
 sub vcl_recv {
-    if (req.http.host ~ "^(www\.|dev\.|download\.|)bbbike\.org$") {
+    ######################################################################
+    # backend config
+    #
+    if (req.http.host ~ "^dev\.bbbike\.org$" && req.url ~ "^/munin") {
+        set req.backend = localhost;
+    } else if (req.http.host ~ "^download\.bbbike\.org$") {
         set req.backend = bbbike64;
+    } else if (req.http.host ~ "^(www\.|dev\.|devel2\.|)bbbike\.org$") {
+        set req.backend = bbbike64;
+
+        # failover production @ strato 
+        if (req.restarts == 1 || !req.backend.healthy) {
+                set req.backend = bbbike_strato;
+        }
+
     } else if (req.http.host ~ "^eserte\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$" ) {
         set req.backend = eserte;
     } else {
         set req.backend = bbbike;
+      
+        # failover test 
+        if (req.restarts == 1 || !req.backend.healthy) {
+                set req.backend = bbbike_strato;
+        }
     }
 
+    # log real IP address in backend
     if (req.http.x-forwarded-for) {
        set req.http.X-Forwarded-For =
            req.http.X-Forwarded-For ", " client.ip;
@@ -49,16 +108,20 @@ sub vcl_recv {
        set req.http.X-Forwarded-For = client.ip;
     }
 
+    ######################################################################
+    # backends without caching
+
     # do not cache OSM files
     if (req.http.host ~ "^(download)\.bbbike\.org$") {
          return (pipe);
     }
 
     # development machine of S.R.T
-    if (req.http.host ~ "^eserte\.bbbike\.org$") {
+    if (req.http.host ~ "^eserte\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$") {
 	return (pass);
     }
 
+    ######################################################################
     # force caching of images and CSS/JS files
     if (req.url ~ "^/html|^/images|^/feed/|^/osp/|^/cgi/[ac-z]|.*\.html$|.*/$") {
        unset req.http.cookie;
@@ -81,10 +144,11 @@ sub vcl_recv {
 	return (pass);
     }
 
-    # test & development
+    # test & development, no caching
     if (req.http.host ~ "^(dev|devel)\.bbbike\.org$") {
 	return (pass);
     }
+
     return (lookup);
 }
 
