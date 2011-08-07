@@ -33,8 +33,19 @@ backend eserte {
     .between_bytes_timeout = 300s;
 }
 
+backend localhost {
+    .host = "localhost";
+    .port = "8080";
+}
+
+
 sub vcl_recv {
-    if (req.http.host ~ "^(www\.|dev\.|download\.|)bbbike\.org$") {
+    ######################################################################
+    # backend config
+    #
+    if (req.http.host ~ "^dev\.bbbike\.org$" && req.url ~ "^/munin") {
+        set req.backend = localhost;
+    } else if (req.http.host ~ "^(www\.|dev\.|devel\.|download\.|)bbbike\.org$") {
         set req.backend = bbbike64;
     } else if (req.http.host ~ "^eserte\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$" ) {
         set req.backend = eserte;
@@ -42,6 +53,7 @@ sub vcl_recv {
         set req.backend = bbbike;
     }
 
+    # log real IP address in backend
     if (req.http.x-forwarded-for) {
        set req.http.X-Forwarded-For =
            req.http.X-Forwarded-For ", " client.ip;
@@ -49,16 +61,20 @@ sub vcl_recv {
        set req.http.X-Forwarded-For = client.ip;
     }
 
+    ######################################################################
+    # backends without caching
+
     # do not cache OSM files
     if (req.http.host ~ "^(download)\.bbbike\.org$") {
          return (pipe);
     }
 
     # development machine of S.R.T
-    if (req.http.host ~ "^eserte\.bbbike\.org$") {
+    if (req.http.host ~ "^eserte\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$") {
 	return (pass);
     }
 
+    ######################################################################
     # force caching of images and CSS/JS files
     if (req.url ~ "^/html|^/images|^/feed/|^/osp/|^/cgi/[ac-z]|.*\.html$|.*/$") {
        unset req.http.cookie;
@@ -81,10 +97,11 @@ sub vcl_recv {
 	return (pass);
     }
 
-    # test & development
+    # test & development, no caching
     if (req.http.host ~ "^(dev|devel)\.bbbike\.org$") {
 	return (pass);
     }
+
     return (lookup);
 }
 
