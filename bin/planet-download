@@ -18,8 +18,8 @@ file_bpf=`basename $file .bz2`.pbf
 dir="tmp.$$.new"
 
 #server=http://ftp.heanet.ie/mirrors/openstreetmap.org
+#server=http://download.bbbike.org/osm/planet
 server=http://planet.openstreetmap.org
-server=http://download.bbbike.org/osm/planet
 
 mkdir -p $dir
 pwd=`pwd`
