@@ -10,8 +10,8 @@ file=planet-latest.osm.bz2
 server=http://planet.openstreetmap.org
 automatic_update="yes"
 
-old=1
-new=2
+old="0"
+new="1"
 
 
 dir=../osm-streetnames/download
@@ -31,11 +31,9 @@ if [ -e  $cache_file ]; then
    old=`ls -l $cache_file | awk '{ print $5 }'`
 fi
 
-#test
-#old="2${old}"
-
 if test -n "$new" && test "$new" -ne "$old"; then
    echo "please update me: $old $new"
+   echo "$server/$file"
    echo ""
    curl -sS --head --location $server/$file | egrep "^(Content-Length|Last-)"
    touch $update
