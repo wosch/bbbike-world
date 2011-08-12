@@ -19,28 +19,17 @@ dir="tmp.$$.new"
 
 #server=http://ftp.heanet.ie/mirrors/openstreetmap.org
 server=http://planet.openstreetmap.org
+server=http://download.bbbike.org/osm/planet
 
 mkdir -p $dir
 pwd=`pwd`
 cd $dir
 
+# get md5 checksum first
 curl -sS -o $file.md5 $server/$file.md5
 
 time curl -L -sS $server/$file | tee $file | $nice pbzip2 -dc | buffer | \
   $nice time osmosis  --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=12000 --write-pbf $file_bpf omitmetadata=true granularity=10000
-
-# file size check of planet.osm.bz2
-new=`curl -sS --head --location $server/$file | perl -ne 'print "$1\n" if /^Content-Length:\s+(\d+)/'`
-cache_file="../$file"
-old=0
-if [ -e  $cache_file ]; then
-   old=`ls -l $cache_file | awk '{ print $5 }'`
-fi
-
-if [ "$new" -ne "$old" ]; then
-   echo "file size mismatch: $old <-> $new"
-   exit 2
-fi
 
 cat $file.md5
 $MD5 $file | tee $file.md5
