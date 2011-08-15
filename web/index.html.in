@@ -28,8 +28,14 @@
       <div id="header_links">
 	<span id="social">
 	<a href="http://www.facebook.com/BBBikeWorld" target="_new"><img class="logo" width="16" height="16" src="/images/facebook-t.png" alt="" title="BBBike on Facebook" /></a>
-<a href="http://twitter.com/BBBikeWorld/" target="_new"><img class="logo" width="16" height="16" src="/images/twitter-t.png" alt="" title="Follow us on twitter.com/BBBikeWorld" /></a>
+	<a href="http://twitter.com/BBBikeWorld/" target="_new"><img class="logo" width="16" height="16" src="/images/twitter-t.png" alt="" title="Follow us on twitter.com/BBBikeWorld" /></a>
+        <a class="gplus" onmouseover="javascript:google_plusone();" ><img src="/images/google-plusone-t.png"></a><g:plusone href="http://bbbike.org" size="small" count="false"></g:plusone>
 	</span>
+
+	&nbsp;
+	&nbsp;
+	&nbsp;
+	&nbsp;
 
 	<span id="language_switch">
         <a href="da/" title="Danish">da</a> |
