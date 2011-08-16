@@ -14,7 +14,7 @@ all2: ${ALL}
 
 bbbike-org:
 	( cd ../.. ; world/bin/bbbike-db --list) | \
-	  perl -ne 'chomp; print qq{$$_/\0}, qq{$$_/streets.html\0}; ' | \
+	  perl -ne 'chomp; print qq{$$_/ priority=1.0\0}, qq{en/$$_/ priority=0.75\0}, qq{$$_/streets.html\0}; ' | \
 		${lastmod_today} http://www.bbbike.org > ${files}/$@.txt
 	${SITEMAP_GEN} --config=$@.xml
 
@@ -22,6 +22,5 @@ clean:
 	rm -f ${files}/*.txt
 
 help:
-	@echo "make [ help | clean ]"
-	@echo "make ${ALL}"
+	@echo "  make [ ${ALL} | help | clean ]"
 

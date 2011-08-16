@@ -102,20 +102,20 @@ sub street_match {
         my @command = ( $look_command, $look_opt, "--", $street, $file );
         warn join( " ", @command ), "\n" if $debug >= 2;
 
-        if (!open( IN, '-|' )) {
-	    exec @command; 
-	    die "@command: $! :: $?\n";
-         }
+        if ( !open( IN, '-|' ) ) {
+            exec @command;
+            die "@command: $! :: $?\n";
+        }
     }
 
     elsif ($use_egrep) {
         my @command = ( 'egrep', '-s', '-m', '2000', '-i', $street, $file );
 
         warn join( " ", @command ), "\n" if $debug >= 2;
-        if (!open( IN, '-|' )) { 
-	    exec @command;
-	    die "@command: $! :: $?\n";
-  	}
+        if ( !open( IN, '-|' ) ) {
+            exec @command;
+            die "@command: $! :: $?\n";
+        }
     }
     else {
         if ( !open( IN, $file ) ) { warn "$!: $file\n"; return; }
