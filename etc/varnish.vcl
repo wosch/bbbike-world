@@ -80,7 +80,7 @@ sub vcl_recv {
     if (req.http.host ~ "^dev\.bbbike\.org$" && req.url ~ "^/munin") {
         set req.backend = localhost;
     } else if (req.http.host ~ "^download\.bbbike\.org$") {
-        set req.backend = bbbike64;
+        set req.backend = bbbike;
     } else if (req.http.host ~ "^(www\.|dev\.|devel2\.|)bbbike\.org$") {
         set req.backend = bbbike64;
 
