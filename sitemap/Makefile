@@ -22,6 +22,5 @@ clean:
 	rm -f ${files}/*.txt
 
 help:
-	@echo "make [ help | clean ]"
-	@echo "make ${ALL}"
+	@echo "  make [ ${ALL} | help | clean ]"
 
