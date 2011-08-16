@@ -486,6 +486,9 @@ cache-heater-osp:
 cache-heater-opensearch:
 	cat ${BBBIKE_WEBSERVER_DIR}/data-osm/*/opensearch.streetnames | wc -lc
 
+varnish-purge-all:
+	./world/bin/varnish-purge-all
+
 symlink-download:
 	cd ${BBBIKE_WEBSERVER_DIR}/../download.bbbike.org; \
 	  ln -fs ../bbbike.org/world/download/favicon.ico . ; \
@@ -510,7 +513,7 @@ help:
 	@echo "  [ create-bbbike-web-symlinks | kml | create-osp | index ]"
 	@echo "  [ convert-wgs84 | convert-bbbike | convert-bbbike-full ]"
 	@echo "  [ city-count | city-reorder | city-file | check-osm | cleanup-osm-error ]"
-	@echo "  [ city-memory ]"
+	@echo "  [ city-memory | varnish-purge-all ]"
 	@echo "  [ elevation-check | elevation-update | elevation-fetch | elevation-repair ]"
 	@echo "  [ planet-download | planet-geofabrik-download ]"
 	@echo "  [ planet-streets | planet-places ]"
