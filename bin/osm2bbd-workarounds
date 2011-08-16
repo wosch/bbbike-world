@@ -8,6 +8,8 @@ set -e
 prefix=$1
 city=$2
 
+time=time
+
 if test -z "$prefix" -o -z "$city"; then
 	echo "usage $0 prefix city"
 	exit 2
@@ -22,7 +24,7 @@ else
     cp -f $prefix/$city/strassen $prefix/$city/strassen-orig
 fi
 
-./miscsrc/osm2bbd-postprocess --debug=0 --force \
+$time ./miscsrc/osm2bbd-postprocess --debug=0 --force \
 	-only-largest-city-is-center \
 	--city-names="`world/bin/bbbike-db --city-names $city`" \
 	--neighbours="`world/bin/bbbike-db --neighbours $city`" \
@@ -41,13 +43,13 @@ do
    # XXX: remove duplicated lines from "strassen"
    perl -i.bak -ne 'if (/^\s*#/ || !$a{$_}) { print; $a{$_}=1 }' $prefix/$city/$file
 
-  ./miscsrc/combine_streets.pl $prefix/$city/$file > $prefix/$city/$file.tmp
+  $time ./miscsrc/combine_streets.pl $prefix/$city/$file > $prefix/$city/$file.tmp
    mv -f $prefix/$city/$file.tmp $prefix/$city/$file
 done
 
 
 # Point of Interests
-env CITY=$prefix/$city ./miscsrc/osm2bbd-poi > $prefix/$city/poi
+$time env CITY=$prefix/$city ./miscsrc/osm2bbd-poi > $prefix/$city/poi
 perl -ne 'print if !/^\s*#/ && !/^\s+/' $prefix/$city/poi >> $prefix/$city/strassen
 
 # towns, villages
@@ -61,7 +63,7 @@ $p/strasse-str strassen
 
 cat /dev/null > Berlin.coords.data
 
-$p/opensearch-suggestion --gps=0 < strassen > opensearch.streetnames
+$time $p/opensearch-suggestion --gps=0 < strassen > opensearch.streetnames
 perl -ne 'print if !/^\s+|^\s*#|^$/' strassen | sort -uf > opensearch.street-coordinates
 
 
