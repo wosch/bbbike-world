@@ -15,6 +15,9 @@ if test -z "$prefix" -o -z "$city"; then
 	exit 2
 fi
 
+tmpdir=`mktemp -d -p ${TMPDIR-"/tmp"} -t bbbike.XXXXXXXXXXX`
+TMPDIR=$tmpdir; export TMPDIR
+
 p=`pwd`/world/bin
 
 # use original "strassen" data
@@ -94,4 +97,6 @@ rm -f *.bak
 
 # compress unused files
 ls | egrep -v '\.gz' | egrep "^_|^poi$|^strassen-orig$" | xargs gzip -f
+
+rm -rf $tmpdir
 
