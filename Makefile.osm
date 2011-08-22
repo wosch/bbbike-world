@@ -88,7 +88,9 @@ build-runtime-perl:
 build-runtime:
 	world/bin/bbbike-build-runtime
 
-convert-wgs84 convert: build-runtime-perl convert2 create-osp bbbike2wgs84 elevation-update
+convert-wgs84 convert: build-runtime-perl convert2 convert-post
+
+convert-post: create-osp bbbike2wgs84 elevation-update
 
 # convert bbbike files from OSM files
 convert-bbbike-full: build-runtime-perl
