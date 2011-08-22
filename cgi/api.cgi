@@ -350,10 +350,10 @@ elsif ($remove_housenumber_suffix
 # German only
 elsif ($remove_street_abbrevation
     && scalar(@suggestion) == 0
-    && $street =~ /[sS]tras?s?e?$/ )
+    && $street =~ /[sS]tra[sß]*?e?$/ )
 {
     my $street2 = $street;
-    $street2 =~ s/([sS]tr)as?s?e?$/$1/;
+    $street2 =~ s/([sS]tr)a[sß]*?e?$/$1/;
 
     if ( $street2 ne "" ) {
         warn "API: city: $city, streetname abbrevation: $street <=> $street2\n"
