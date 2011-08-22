@@ -29,10 +29,10 @@ my $remove_city    = 1;
 my $remove_train   = 1;
 my $sort_by_prefix = 1;
 
-# 232 College Street -> College Street
+# Hauptstr. 27 -> Hauptstr
 my $remove_housenumber_suffix = 1;
 
-# Hauptstr. 27 -> Hauptstr
+# 232 College Street -> College Street
 my $remove_housenumber_prefix = 1;
 
 # word matching for utf8 data
