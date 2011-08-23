@@ -15,6 +15,8 @@ mkdir -p $tmp
 : ${bbbike_convert="convert-wgs84 convert-bbbike update-files"}
 
 commands="$bbbike_build $bbbike_download $bbbike_extract $bbbike_convert"
+
+# lower I/O nice level on linux
 if which ionice >/dev/null; then
    ionice=ionice
    ionice_opt="-c 3"
@@ -32,6 +34,9 @@ do
 done
 
 # set an notice
-(  echo "begin: $begin"
-   echo "end:   `date`" ) | mail -s "$0/done" `whoami`
+(  
+   echo "hostname: `hostname`"
+   echo "begin: $begin"
+   echo "end:   `date`" 
+) | mail -s "$0/done" `whoami`
 
