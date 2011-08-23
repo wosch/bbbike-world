@@ -59,6 +59,7 @@ sub parse_database {
 
         next if $city eq 'dummy';
         next if $city eq 'bbbike';
+        next if defined $step && $step eq 'dummy';
         next if $city eq '';
 
         $hash{$city} = {
