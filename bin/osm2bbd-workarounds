@@ -30,7 +30,7 @@ fi
 ( cd $prefix/$city; touch Berlin.coords.data Potsdam.coords.data comments_mount flaechen green nolighting plaetze qualitaet_s rbahn rbahnhof sbahn sbahnhof strassen ubahn ubahnhof wasserstrassen faehren )
 echo "Run osm2bbd-postprocess"
 $time ./miscsrc/osm2bbd-postprocess --debug=1 --force \
-	-only-largest-city-is-center \
+	--only-largest-city-is-center \
 	--city-names="`world/bin/bbbike-db --city-names $city`" \
 	--neighbours="`world/bin/bbbike-db --neighbours $city`" \
 	--region="`world/bin/bbbike-db --region $city`" \
