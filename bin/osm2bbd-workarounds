@@ -28,15 +28,14 @@ else
 fi
 
 ( cd $prefix/$city; touch Berlin.coords.data Potsdam.coords.data comments_mount flaechen green nolighting plaetze qualitaet_s rbahn rbahnhof sbahn sbahnhof strassen ubahn ubahnhof wasserstrassen faehren )
+echo "Run osm2bbd-postprocess"
 $time ./miscsrc/osm2bbd-postprocess --debug=1 --force \
 	-only-largest-city-is-center \
 	--city-names="`world/bin/bbbike-db --city-names $city`" \
 	--neighbours="`world/bin/bbbike-db --neighbours $city`" \
 	--region="`world/bin/bbbike-db --region $city`" \
 	--local-lang=`world/bin/bbbike-db --local-lang $city` \
-	--only-inaccessible-streets \
 		$prefix/$city
-
 
 if [ $? != 0 ]; then
 	echo "failed $city"
@@ -45,6 +44,7 @@ fi
 
 
 # combine streets
+echo "Run combine_streets"
 for file in qualitaet_s strassen
 do
    # XXX: remove duplicated lines from "strassen"
@@ -56,6 +56,7 @@ done
 
 
 # Point of Interests
+echo "Run osm2bbd-poi"
 $time env CITY=$prefix/$city ./miscsrc/osm2bbd-poi > $prefix/$city/poi
 perl -ne 'print if !/^\s*#/ && !/^\s+/' $prefix/$city/poi >> $prefix/$city/strassen
 
@@ -70,6 +71,12 @@ $p/strasse-str strassen
 
 cat /dev/null > Berlin.coords.data
 
+echo "Run search_inaccessible_points"
+$time miscsrc/search_inaccessible_points -encoding utf-8 -q -cache -shorter -street $prefix/$city/strassen -street $prefix/$city/faehren \
+  -blocked $prefix/$city/gesperrt -blockedtype einbahn -blockedtype sperre  $prefix/$city/inaccessible_strassen.tmp
+mv -f $prefix/$city/inaccessible_strassen.tmp $prefix/$city/inaccessible_strassen.t
+
+echo "Run opensearch-suggestion"
 $time $p/opensearch-suggestion --gps=0 < strassen > opensearch.streetnames
 perl -ne 'print if !/^\s+|^\s*#|^$/' strassen | sort -uf > opensearch.street-coordinates
 
