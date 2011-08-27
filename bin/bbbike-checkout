@@ -31,6 +31,9 @@ echo ""
 echo "show branch: "
 git branch 
 
+echo ""
+echo "create symlinks ..."
 ln -s world/Makefile.osm
-make $make_verbose -f Makefile.osm update-files
+make $make_verbose -f Makefile.osm create-bbbike-web-symlinks java-config
+echo "you may run as well$ make update-files"
 
