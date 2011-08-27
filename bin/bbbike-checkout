@@ -11,8 +11,8 @@ git_config () {
 	git config  user.email wosch@freebsd.org
 }
 
+git clone git@github.com:wolframschneider/bbbike-macos.git &
 git clone git@github.com:wolframschneider/bbbike.git
-git clone git@github.com:wolframschneider/bbbike-macos.git
 
 ( cd bbbike && git_config )
 ( cd bbbike-macos && git_config )
