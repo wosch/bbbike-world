@@ -29,10 +29,13 @@ my $remove_city    = 1;
 my $remove_train   = 1;
 my $sort_by_prefix = 1;
 
-# 232 College Street -> College Street
+# Hauptstr. 27 -> Hauptstr
 my $remove_housenumber_suffix = 1;
 
-# Hauptstr. 27 -> Hauptstr
+# Hauptstrassse -> Hauptstr
+my $remove_street_abbrevation = 1;
+
+# 232 College Street -> College Street
 my $remove_housenumber_prefix = 1;
 
 # word matching for utf8 data
@@ -335,6 +338,25 @@ elsif ($remove_housenumber_suffix
 
     if ( $street2 ne "" ) {
         warn "API: city: $city, housenumber suffix: $street <=> $street2\n"
+          if $debug;
+        @suggestion = &streetnames_suggestions_unique(
+            'city'   => $city,
+            'street' => $street2
+        );
+    }
+}
+
+# Hauptstrassse -> Hauptstr
+# German only
+elsif ($remove_street_abbrevation
+    && scalar(@suggestion) == 0
+    && $street =~ /[sS]tra[sß]*?e?$/ )
+{
+    my $street2 = $street;
+    $street2 =~ s/([sS]tr)a[sß]*?e?$/$1/;
+
+    if ( $street2 ne "" ) {
+        warn "API: city: $city, streetname abbrevation: $street <=> $street2\n"
           if $debug;
         @suggestion = &streetnames_suggestions_unique(
             'city'   => $city,
