@@ -81,7 +81,7 @@ sub vcl_recv {
         set req.backend = localhost;
     } else if (req.http.host ~ "^download\.bbbike\.org$") {
         set req.backend = bbbike;
-    } else if (req.http.host ~ "^(www\.|dev\.|devel2\.|)bbbike\.org$") {
+    } else if (req.http.host ~ "^(www\.|dev\.|devel\.|)bbbike\.org$") {
         set req.backend = bbbike64;
 
         # failover production @ strato 
