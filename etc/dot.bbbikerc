@@ -1,2 +1,6 @@
 # Planet.osm download server
+#planet_osm_server=http://ftp.heanet.ie/mirrors/openstreetmap.org
+#planet_osm_server=http://download.bbbike.org/osm/planet
+
 planet_osm_server=http://planet.openstreetmap.org
+
