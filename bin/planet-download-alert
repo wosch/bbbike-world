@@ -12,7 +12,7 @@ planet_osm_server=http://planet.openstreetmap.org
 bbbikerc=$HOME/.bbbikerc
 
 if [ -e "$bbbikerc" ]; then 
-    source "$bbbikerc"
+    . "$bbbikerc"
 fi
 
 
