@@ -9,9 +9,10 @@ PATH=$HOME/bin:/usr/local/bin:/bin:/usr/bin; export PATH
 file=planet-latest.osm.bz2
 automatic_update="yes"
 planet_osm_server=http://planet.openstreetmap.org
+bbbikerc=$HOME/.bbbikerc
 
-if [ -e $HOME/.bbbikerc]; then 
-    source $HOME/.bbbikerc
+if [ -e $bbbikerc ]; then 
+    source $bbbikerc
 fi
 
 
