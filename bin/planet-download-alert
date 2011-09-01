@@ -11,8 +11,8 @@ automatic_update="yes"
 planet_osm_server=http://planet.openstreetmap.org
 bbbikerc=$HOME/.bbbikerc
 
-if [ -e $bbbikerc ]; then 
-    source $bbbikerc
+if [ -e "$bbbikerc" ]; then 
+    source "$bbbikerc"
 fi
 
 
