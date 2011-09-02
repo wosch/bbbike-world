@@ -19,6 +19,10 @@ sudo apt-get install \
 # reverse proxy
 sudo apt-get install varnish
 
+Required MacPorts modules
+------------------------------------
+sudo port install p5-bsd-resource
+
 Development
 ------------------------------------
 # fetch & merge from main branch
