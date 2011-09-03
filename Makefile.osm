@@ -445,7 +445,7 @@ sync-sitemap: create-sitemap
 update-files: kml create-osp index update-robots.txt create-bbbike-web-symlinks java-config #create-sitemap
 
 java-config:
-	test -e $$HOME/.osmosis || ln -s $$HOME/projects/bbbike/world/etc/.osmosis $$HOME/.osmosis
+	test -r $$HOME/.osmosis || ln -fs $$HOME/projects/bbbike/world/etc/.osmosis $$HOME/.osmosis
 
 dist-clean devel-clean distclean: clean rotate-osm
 	rm -rf ${OSM_DIR}
