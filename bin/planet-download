@@ -16,7 +16,7 @@ nice="nice -n 9"
 file=planet-latest.osm.bz2
 planet_osm_server=http://planet.openstreetmap.org
 
-if [ -e $HOME/.bbbikerc]; then 
+if [ -e $HOME/.bbbikerc ]; then 
     source $HOME/.bbbikerc
 fi
 

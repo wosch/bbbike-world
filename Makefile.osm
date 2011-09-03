@@ -84,11 +84,12 @@ OSM_AREAS3= \
 all: help
 
 build-runtime-perl:
-	world/bin/bbbike-build-runtime-perl.pl
-build-runtime:
-	world/bin/bbbike-build-runtime
+	@world/bin/bbbike-build-runtime-perl.pl
 
-convert-wgs84 convert: build-runtime-perl convert2 convert-post
+build-runtime: build-runtime-perl
+	@world/bin/bbbike-build-runtime
+
+convert-wgs84 convert: build-runtime convert2 convert-post
 
 convert-post: create-osp bbbike2wgs84 elevation-update
 
@@ -414,7 +415,7 @@ rotate-osm:
 	-test -e ${OSM_DIR}.old  && mv ${OSM_DIR}.old  ${OSM_DIR}.old2
 	-test -e ${OSM_DIR}      && mv ${OSM_DIR}      ${OSM_DIR}.old 
 
-update-database: 
+update-database: build-runtime
 	${TIME} ./world/bin/update-database
 
 PERL_SCRIPTS=	BBBikeGooglemap.pm BBBikeElevation.pm miscsrc/osm2bbd-poi t/elevation.t
@@ -444,7 +445,7 @@ sync-sitemap: create-sitemap
 update-files: kml create-osp index update-robots.txt create-bbbike-web-symlinks java-config #create-sitemap
 
 java-config:
-	test -e $$HOME/.osmosis || ln -s $$HOME/projects/bbbike/world/etc/.osmosis $$HOME/.osmosis
+	test -r $$HOME/.osmosis || ln -fs $$HOME/projects/bbbike/world/etc/.osmosis $$HOME/.osmosis
 
 dist-clean devel-clean distclean: clean rotate-osm
 	rm -rf ${OSM_DIR}
