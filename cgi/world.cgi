@@ -4,7 +4,12 @@
 # world.cgi - cgi/shell wrapper for bbbike @ world city
 
 # load average check
-loadavg="`awk '{ print $1 }' /proc/loadavg`"
+if [ -e /proc/loadavg ]; then
+  loadavg="`awk '{ print $1 }' /proc/loadavg`"
+else
+  loadavg="`uptime | awk '{ print $NF }'`"
+fi
+
 max_loadavg=24
 
 if perl -e 'exit $ARGV[1] > $ARGV[2] ? 0 : 1 ' "$loadavg" $max_loadavg; then
