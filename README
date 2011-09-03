@@ -23,7 +23,8 @@ Required MacPorts modules
 ------------------------------------
 sudo port install pbzip2 bzip2 git-core screen lynx curl wget whois pigz bc buffer \
 	lighttpd munin tidy varnish openjdk6 \
-	p5-bsd-resource p5-uri p5-json p5-xml-simple p5-tie-ixhash p5-yaml-syck p5-yaml p5-perl-tidy
+	p5-bsd-resource p5-uri p5-json p5-xml-simple p5-tie-ixhash \
+	p5-yaml-syck p5-yaml p5-perl-tidy p5-lwp-useragent-determined
 
 sudo perl -MCPAN -e 'install BSD::Resource'
 sudo perl -MCPAN -e 'install Text::Unidecode'
