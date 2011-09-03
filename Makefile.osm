@@ -86,8 +86,12 @@ all: help
 build-runtime-perl:
 	@world/bin/bbbike-build-runtime-perl.pl
 
-build-runtime: build-runtime-perl
+build-runtime-symlinks:
+	@world/bin/bbbike-build-symlinks
+
+build-runtime: build-runtime-perl build-runtime-symlinks
 	@world/bin/bbbike-build-runtime
+
 
 convert-wgs84 convert: build-runtime convert2 convert-post
 
