@@ -85,10 +85,11 @@ all: help
 
 build-runtime-perl:
 	world/bin/bbbike-build-runtime-perl.pl
-build-runtime:
+
+build-runtime: build-runtime-perl
 	world/bin/bbbike-build-runtime
 
-convert-wgs84 convert: build-runtime-perl convert2 convert-post
+convert-wgs84 convert: build-runtime convert2 convert-post
 
 convert-post: create-osp bbbike2wgs84 elevation-update
 
@@ -414,7 +415,7 @@ rotate-osm:
 	-test -e ${OSM_DIR}.old  && mv ${OSM_DIR}.old  ${OSM_DIR}.old2
 	-test -e ${OSM_DIR}      && mv ${OSM_DIR}      ${OSM_DIR}.old 
 
-update-database: 
+update-database: build-runtime
 	${TIME} ./world/bin/update-database
 
 PERL_SCRIPTS=	BBBikeGooglemap.pm BBBikeElevation.pm miscsrc/osm2bbd-poi t/elevation.t
