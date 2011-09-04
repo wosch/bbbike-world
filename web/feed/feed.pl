@@ -30,7 +30,18 @@ $feed->add_entry(
         content =>
 qq{New: cycle routing for Alexandria: http://www.bbbike.org/Alexandria},
     },
-    updated  => '2011-00-04T12:30:02Z',
+    updated  => '2011-09-04T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title   => qq{http://BBBike.org moved to a faster machine. Have fun!},
+    id      => '1ac05653bda68ca1346b5cbf083f3c87',
+    content => {
+        type    => 'text',
+        content => qq{http://BBBike.org moved to a faster machine. Have fun!},
+    },
+    updated  => '2011-08-03T12:30:02Z',
     category => 'News',
 );
 
