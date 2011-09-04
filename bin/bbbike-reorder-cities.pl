@@ -1,4 +1,10 @@
 #!/usr/local/bin/perl
+# Copyright (c) 2011 Wolfram Schneider, http://bbbike.org
+#
+# bbbike-reorder-cities.pl - re-order cities by size
+#
+# but not all large files first, mix the first 1/4 with smaller
+# cities to avoid memory shortage
 
 use strict;
 use warnings;

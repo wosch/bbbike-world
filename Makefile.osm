@@ -149,7 +149,7 @@ city-count:
 	@echo ${CITIES}  | wc -w
 
 city-reorder:
-	@cd ${OSM_DIR}; du -ks * | sort -nr
+	@cd ${OSM_DIR}; du -ks * | sort -nr | ../world/bin/bbbike-reorder-cities.pl
 
 city-file:
 	#( echo Bogota; ${MAKE} -s city-reorder | awk '{print $$2 }' | egrep -v Bogota ) > ${CITIES_FILE}
