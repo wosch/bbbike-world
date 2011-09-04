@@ -47,5 +47,12 @@ do
     fi
 done
 
+# md5
+if which md5 || which md5sum ; then :
+else
+   echo "missing: md5"
+   error=1
+fi
+
 exit $error
 
