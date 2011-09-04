@@ -23,6 +23,18 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
+    title   => qq{New: cycle routing for Alexandria},
+    id      => '1ac05653bda68ca1346b5cbf083f3c88',
+    content => {
+        type => 'text',
+        content =>
+qq{New: cycle routing for Alexandria: http://www.bbbike.org/Alexandria},
+    },
+    updated  => '2011-00-04T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title   => qq{New: cycle routing for Memphis},
     id      => '1f1405ff29bce1549e0a7c0269d15467',
     content => {
