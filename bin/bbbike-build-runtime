@@ -6,10 +6,9 @@
 
 set -e
 
-which pigz || which gzip 
-which pbzip2 || which bzip2
-
 commands="
+gzip
+bzip2
 buffer
 curl
 git
@@ -29,12 +28,31 @@ xargs
 
 for c in $commands
 do
-	if which $c >/dev/null; then :
-	else
-	   echo "missing: $c"
+    if which $c >/dev/null; then :
+    else
+	echo "missing: $c"
 	   error=1
-	fi
+    fi
 done
+
+commands_optional="
+pigz
+pbzip2
+"
+for c in $commands_optional
+do
+    if which $c >/dev/null; then :
+    else
+	echo "missing optional: $c"
+    fi
+done
+
+# md5
+if ( which md5 || which md5sum ) >/dev/null; then :
+else
+   echo "missing: md5"
+   error=1
+fi
 
 exit $error
 

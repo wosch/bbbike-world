@@ -9,7 +9,7 @@ Required debian modules
 sudo apt-get install \
   pbzip2 bzip2 git-core screen lynx curl wget time \
   lsof whois pigz make acct telnet dnsutils bc bsd-mailx \
-  buffer pktstat \
+  buffer pktstat emacs \
   python lighttpd sendmail openjdk-6-jdk \
   libhtml-tagcloud-perl libtext-unidecode-perl munin \
   perltidy libxml-atom-simplefeed-perl libjson-perl liburi-perl \
@@ -21,7 +21,17 @@ sudo apt-get install varnish
 
 Required MacPorts modules
 ------------------------------------
-sudo port install p5-bsd-resource
+sudo port install pbzip2 bzip2 git-core screen lynx curl wget whois pigz bc buffer \
+	lighttpd munin tidy varnish openjdk6 \
+	p5-bsd-resource p5-uri p5-json p5-xml-simple p5-tie-ixhash \
+	p5-yaml-syck p5-yaml p5-perl-tidy p5-lwp-useragent-determined
+
+sudo perl -MCPAN -e 'install BSD::Resource'
+sudo perl -MCPAN -e 'install Text::Unidecode'
+sudo perl -MCPAN -e 'install HTML::TagCloud'
+sudo perl -MCPAN -e 'install XML::Atom::SimpleFeed'
+sudo perl -MCPAN -e 'install XML::LibXML::Reader'
+
 
 Development
 ------------------------------------

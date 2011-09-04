@@ -43,6 +43,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Alexandria</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Alexandria/">BBBike @ Alexandria</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>29.955,31.18,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Amsterdam</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Amsterdam/">BBBike @ Amsterdam</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
