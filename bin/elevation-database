@@ -333,7 +333,12 @@ sub parse_hoehe {
     while (<$fd>) {
         chomp;
         next if /^\s*#/;
-        my ( $elevation, $x, $lnglat ) = split();
+        next if /^\s*$/;
+        next if !/^[\+\-]?[0-9]+\s+/;
+
+        my ( $elevation, $x, $lnglat ) = split /\s+/, $_;
+
+        warn "latlng: '$_' :: $lnglat\n" if $debug >= 3;
 
         next if !is_latlng($lnglat);
         $lnglat = &round_latlng($lnglat);
