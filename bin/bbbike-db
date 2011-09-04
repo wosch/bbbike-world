@@ -302,6 +302,5 @@ if ( exists $hash{$city} ) {
     else { warn "unknown directive\n"; die &usage; }
 }
 else {
-    warn "Unknown city: $city\n";
-    &usage;
+    die "Unknown city: $city\n" . &usage;
 }
