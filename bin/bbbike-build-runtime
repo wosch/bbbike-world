@@ -48,7 +48,7 @@ do
 done
 
 # md5
-if which md5 || which md5sum ; then :
+if ( which md5 || which md5sum ) >/dev/null; then :
 else
    echo "missing: md5"
    error=1
