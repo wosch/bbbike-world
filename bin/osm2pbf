@@ -3,7 +3,7 @@
 # osm2pbf - convert OSM XML to PBF format
 
 file=$1
-md5sum=`which md5 md5sum | head -n 1`
+md5sum=`which md5 md5sum false | head -n 1`
 
 if ! [ -f "$file" ]; then
 	echo "usage file"
