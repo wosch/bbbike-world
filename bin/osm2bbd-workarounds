@@ -15,7 +15,7 @@ if test -z "$prefix" -o -z "$city"; then
 	exit 2
 fi
 
-tmpdir=`mktemp -d -p ${TMPDIR-"/tmp"} -t bbbike.XXXXXXXXXXX`
+tmpdir=`mktemp -d ${TMPDIR-"/tmp"}/bbbike.XXXXXXXXXXX`
 TMPDIR=$tmpdir; export TMPDIR
 
 p=`pwd`/world/bin

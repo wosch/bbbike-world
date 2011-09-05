@@ -82,6 +82,7 @@ Disallow: /Aachen/?
 Disallow: /Aarhus/?
 Disallow: /Adelaide/?
 Disallow: /Albuquerque/?
+Disallow: /Alexandria/?
 Disallow: /Amsterdam/?
 Disallow: /Antwerpen/?
 Disallow: /Arnhem/?
@@ -306,6 +307,7 @@ Disallow: /en/Aachen/?
 Disallow: /en/Aarhus/?
 Disallow: /en/Adelaide/
 Disallow: /en/Albuquerque/
+Disallow: /en/Alexandria/?
 Disallow: /en/Amsterdam/?
 Disallow: /en/Antwerpen/?
 Disallow: /en/Arnhem/?

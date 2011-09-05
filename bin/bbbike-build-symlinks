@@ -1,0 +1,24 @@
+#!/bin/sh
+# Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
+#
+# test if all programs are installed
+#
+
+set -e
+
+commands="
+/usr/local/bin/perl
+/usr/local/bin/look
+"
+
+for c in $commands
+do
+    if which $c >/dev/null; then :
+    else
+	echo "missing: $c"
+	   error=1
+    fi
+done
+
+exit $error
+
