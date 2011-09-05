@@ -101,12 +101,18 @@ convert-post: create-osp bbbike2wgs84 elevation-update
 convert-bbbike-full: build-runtime-perl
 	${MAKE} -f Makefile.osm DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} OSM2BBD_MAPTYPE="-map bbbike" convert2
 	rm -f ${DATA_OSM_BBBIKE_DIR}/*/opensearch.*
-	${MAKE} -f Makefile.osm DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} _tarball
+	rm -f ${DATA_OSM_BBBIKE_DIR}/*/_*
+	rm -f ${DATA_OSM_BBBIKE_DIR}/*/*.gz
+	for i in ${CITIES}; do \
+	   ( cd ${DATA_OSM_BBBIKE_DIR}; tar cf - $$i | ${BZIP2} > $$i.tbz.tmp; mv -f $$i.tbz.tmp $$i.tbz; \
+	     rm -rf $$i ); \
+	done
 
 # convert bbbike files from wgs84, much faster
 convert-bbbike: build-runtime-perl
-	echo ${CITIES} | ${NICE} ${TIME} ${XARGS} -E " " -n4 -P${MAX_VCPU} ./world/bin/wgs84-to-bbbike
-	${MAKE} -f Makefile.osm DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} _tarball
+	echo ${CITIES} | ${TIME} ${XARGS} -E " " -n4 -P${MAX_VCPU} ./world/bin/wgs84-to-bbbike
+	tar --exclude='_*' -cf - ${DATA_DIR} | ${NICE} ${BZIP2} > ${DATA_OSM_BBBIKE_DIR}/data.tbz.tmp
+	mv -f ${DATA_OSM_BBBIKE_DIR}/data.tbz.tmp ${DATA_OSM_BBBIKE_DIR}/data.tbz
 
 _tarball:
 	tar --exclude='_*' -cf - ${DATA_OSM_BBBIKE_DIR} | ${NICE} ${GZIP} > ${OSMBIKE_DATA}.tmp
