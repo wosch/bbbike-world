@@ -208,6 +208,7 @@ Disallow: /Luxemburg/?
 Disallow: /Lyon/?
 Disallow: /Maastricht/?
 Disallow: /Madison/?
+Disallow: /Madrid/?
 Disallow: /Magdeburg/?
 Disallow: /Mainz/?
 Disallow: /Malmoe/?
@@ -433,6 +434,7 @@ Disallow: /en/Luxemburg/?
 Disallow: /en/Lyon/?
 Disallow: /en/Maastricht/?
 Disallow: /en/Madison/
+Disallow: /en/Madrid/?
 Disallow: /en/Magdeburg/?
 Disallow: /en/Mainz/?
 Disallow: /en/Malmoe/?
