@@ -47,8 +47,7 @@ CACHE_HEATER_MAX=50
 TMP=world/tmp
 
 CITIES_FILE=world/etc/cities.txt
-CITIES=$(shell ${PERL} -npe 's/\#.*//' ${CITIES_FILE} | sort -u )
-
+CITIES=$(shell ${PERL} -npe 's/\#.*//' ${CITIES_FILE})
 
 #
 # opensearch suggestion service for
