@@ -1051,6 +1051,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Madrid</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Madrid/">BBBike @ Madrid</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-3.65,40.41,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Magdeburg</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Magdeburg/">BBBike @ Magdeburg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
