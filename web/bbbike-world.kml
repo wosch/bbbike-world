@@ -283,6 +283,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Bremerhaven</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Bremerhaven/">BBBike @ Bremerhaven</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>8.675,53.575,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Brisbane</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Brisbane/">BBBike @ Brisbane</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -451,8 +459,8 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name>Cottbus</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Cottbus/">BBBike @ Cottbus</a></span>]]></description>
+    <name>Cottbus/Spreewald</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Cottbus/">BBBike @ Cottbus/Spreewald</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>14.375,51.675,0.000000</coordinates>
@@ -587,6 +595,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Emden/Ostfriesland</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Emden/">BBBike @ Emden/Ostfriesland</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>7.435,53.425,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Erfurt</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Erfurt/">BBBike @ Erfurt</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -675,8 +691,8 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name>Gera</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Gera/">BBBike @ Gera</a></span>]]></description>
+    <name>Gera/Zwickau</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Gera/">BBBike @ Gera/Zwickau</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>12.17,50.75,0.000000</coordinates>
@@ -776,6 +792,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>9.665,52.37,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Heilbronn</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Heilbronn/">BBBike @ Heilbronn</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>9.195,49.155,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>

@@ -112,6 +112,7 @@ Disallow: /Boulder/?
 Disallow: /BrandenburgHavel/?
 Disallow: /Braunschweig/?
 Disallow: /Bremen/?
+Disallow: /Bremerhaven/?
 Disallow: /Brisbane/?
 Disallow: /Bristol/?
 Disallow: /Brno/?
@@ -150,6 +151,7 @@ Disallow: /Duesseldorf/?
 Disallow: /Duisburg/?
 Disallow: /Edinburgh/?
 Disallow: /Eindhoven/?
+Disallow: /Emden/?
 Disallow: /Erfurt/?
 Disallow: /Erlangen/?
 Disallow: /Eugene/?
@@ -174,6 +176,7 @@ Disallow: /Halle/?
 Disallow: /Hamburg/?
 Disallow: /Hamm/?
 Disallow: /Hannover/?
+Disallow: /Heilbronn/?
 Disallow: /Helsinki/?
 Disallow: /Hertogenbosch/?
 Disallow: /Huntsville/?
@@ -304,6 +307,9 @@ Disallow: /Wroclaw/?
 Disallow: /Wuppertal/?
 Disallow: /Zagreb/?
 Disallow: /Zuerich/?
+Disallow: /en/Heilbronn/?
+Disallow: /en/Emden/?
+Disallow: /en/Bremerhaven/?
 Disallow: /en/Paris/?
 Disallow: /en/Ostrava/?
 Disallow: /en/Toulouse/?
