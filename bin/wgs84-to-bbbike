@@ -19,7 +19,6 @@ do
    files=""
 
    miscsrc/convert_coordsys --input-dir=$data_osm/$city --output-dir=$data_osm_bbbike/$city polar 
-   #( cd $data_osm_bbbike/$city; perl -i -npe 's,:map: polar,:map: standard,g; s,: map: standard,:map: standard,' $files ) 
 
    # convert meta.dd files
    $0-meta $data_osm/$city/meta.dd $data_osm_bbbike/$city/meta.dd
