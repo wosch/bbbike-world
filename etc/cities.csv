@@ -55,7 +55,7 @@ Stockholm:::sv:eu:17.535 59.103 18.557 59.571:1250000:
 Malmoe:Malmö::sv:eu:12.817 55.457 13.346 55.776:260000:
 Goeteborg:en!Gothenburg,de!Göteborg,da!Gøteborg,sv!Göteborg::sv:eu:11.70 57.55 12.22 57.82:510000:
 Corvallis::en::other:-123.412 44.475 -123.033 44.676:49807:
-Cottbus:::de::13.65 51.35 15.10 52.00:102811:
+Cottbus:Cottbus/Spreewald::de::13.65 51.35 15.10 52.00:102811:
 Cracow:de!Krakau,en!Cracow,pl!Kraków::pl:eu:19.756 49.963 20.156 50.136:801100:
 CraterLake:Crater Lake:en::other:-123.05 42.04 -121.55 43.38:0:
 Balaton:en!Lake Balaton,de!Plattensee::hu:eu:17.081 46.588 18.32 47.207:100000
@@ -116,7 +116,7 @@ Moenchengladbach:de!Mönchengladbach,en!Mönchengladbach::de::5.75 50.99 6.65 51
 Leeds::en::eu:-1.89 53.65 -1.276 53.879:1500000:
 Leipzig:::de::12.08 51.07 12.85 51.55:536773:
 Dessau:::de::11.86 51.55 12.85 51.99:120000:
-Gera:::de::11.78 50.38 12.56 51.12:120000:
+Gera:Gera/Zwickau::de::11.78 50.38 12.56 51.12:120000:
 Halle:Halle (Saale)::de::11.60 51.12 12.23 51.62:232323:
 Lima:::es:other:-77.1807 -12.2212 -76.8816 -11.9285:6500000:
 Lissabon:de!Lissabon,pt!Lisboa,en!Lisbon::pt:eu:-9.535 38.384 -8.65 39.004:2800000:
@@ -129,6 +129,7 @@ Magdeburg:::de::11.33 51.89 11.94 52.35:230000:
 Mainz:Mainz/Wiesbaden::de::7.7 49.72 8.51 50.24:616490:
 Manchester::en::eu:-2.523 53.31 -1.79 53.65:2500000:
 Mannheim:Mannheim/Heidelberg::de::8.10 49.23 8.90 49.72:1149438:
+Heilbronn:::de::8.79 48.93 9.60 49.38:120000:
 Kaiserslautern:::de::7.44 49.15 8.19 49.72:150000:
 Marseille:::fr:eu:5.277 43.142 5.72 43.438:1400000:0.01
 Melbourne::en::other:144.68 -38.02 145.30 -37.53:3600000:
