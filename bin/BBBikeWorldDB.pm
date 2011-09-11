@@ -53,9 +53,11 @@ sub parse_database {
         s/^\s+//;
         next if /^#/ || $_ eq "";
 
-        my ( $city, $name, $lang, $local_lang, $area, $coord, $population,
-            $step )
-          = split(/:/);
+        my (
+            $city,       $name, $lang,
+            $local_lang, $area, $coord,
+            $population, $step, $other_names
+        ) = split(/:/);
 
         next if $city eq 'dummy';
         next if $city eq 'bbbike';
@@ -63,19 +65,21 @@ sub parse_database {
         next if $city eq '';
 
         $hash{$city} = {
-            city       => $city,
-            name       => $name,
-            lang       => $lang || "en",
-            local_lang => $local_lang || "",
-            step       => $step || "0.02",
-            area       => $area || "de",
-            coord      => $coord,
-            population => $population || 1,
+            city        => $city,
+            name        => $name,
+            lang        => $lang || "en",
+            local_lang  => $local_lang || "",
+            step        => $step || "0.02",
+            area        => $area || "de",
+            coord       => $coord,
+            population  => $population || 1,
+            other_names => $other_names || "",
         };
 
         $raw{$city} = [
-            $city, $name,  $lang,       $local_lang,
-            $area, $coord, $population, $step
+            $city,       $name, $lang,
+            $local_lang, $area, $coord,
+            $population, $step, $other_names
         ];
     }
     close $fh;
