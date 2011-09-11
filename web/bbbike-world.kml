@@ -459,8 +459,8 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name>Cottbus/Spreewald</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Cottbus/">BBBike @ Cottbus/Spreewald</a></span>]]></description>
+    <name>Cottbus</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Cottbus/">BBBike @ Cottbus</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>14.375,51.675,0.000000</coordinates>
@@ -595,8 +595,8 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name>Emden/Ostfriesland</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Emden/">BBBike @ Emden/Ostfriesland</a></span>]]></description>
+    <name>Emden</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Emden/">BBBike @ Emden</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>7.435,53.425,0.000000</coordinates>
