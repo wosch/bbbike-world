@@ -35,6 +35,7 @@ $time ./miscsrc/osm2bbd-postprocess --debug=1 --force \
 	--neighbours="`world/bin/bbbike-db --neighbours $city`" \
 	--region="`world/bin/bbbike-db --region $city`" \
 	--local-lang=`world/bin/bbbike-db --local-lang $city` \
+	--other-names=`world/bin/bbbike-db --other-names $city` \
 		$prefix/$city
 
 if [ $? != 0 ]; then
