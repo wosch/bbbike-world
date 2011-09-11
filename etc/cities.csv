@@ -149,9 +149,9 @@ NewDelhi:en!New Delhi,de!Neu-Delhi,hi!नई दिल्ली::hi:other:76.978
 NewYork:New York:en::other:-74.359 40.479 -73.671 40.96:19000000::
 Nuernberg:de!Nürnberg,en!Nuremberg::de::10.52 49.07 11.55 49.62:2500000::
 Oldenburg:::de::7.951 53.012 8.512 53.26:160000::
-Emden:Emden/Ostfriesland::de::7.97 53.05 6.90 53.80:465000::
+Emden:Emden::de::7.97 53.05 6.90 53.80:465000::Ostfriesland
 Bremerhaven:::de::9.38 53.25 7.97 53.90:160000::
-Oranienburg:::de::12.70 52.50 14.50 53.48:45000::
+Oranienburg:::de::12.70 52.50 14.50 53.48:45000::Barnim;Uckermark;Schorfheide;Oderbruch
 Orlando::en::other:-81.644 28.283 -81.072 28.822:2000000::
 Oslo:::no:eu:10.397 59.751 11.104 60.038:1400000::
 Ottawa:::fr:other:-75.95 45.21 -75.40 45.532:1200000::
