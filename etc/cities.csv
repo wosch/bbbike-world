@@ -3,7 +3,7 @@
 #
 # DON'T FORGET to enable a city in etc/cities.txt !!!
 #
-Aachen:::de::5.88 50.60 6.58 50.99:294951::
+Aachen:::de::5.88 50.60 6.58 50.99:294951::Heerlen
 Aarhus:da!Århus,de!Århus,en!Aarhus::da:eu:9.816 55.993 10.373 56.287:239865::
 Adelaide::en::other:138.458 -35.033 138.74 -34.753:1200000::
 Albuquerque::en::other:-106.7967 34.9993 -106.4726 35.2173:830000::
@@ -21,9 +21,9 @@ Beijing:de!Peking,zh!北京市 ::zh:other:116.08 39.68 116.77 40.18:12000000::
 Beirut:ar!‏بيروت::ar:other:35.4354 33.7935 35.6187 33.9238:2700000::
 Berlin:::de::13.0109 52.27 13.93 52.71:4500000::
 Bern:de!Bern,en!Bern,fr!Berne::de:eu:7.172 46.729 7.768 47.169:349000::
-Bielefeld:::de::8.31 51.867 8.99 52.33:388832::
+Bielefeld:::de::8.31 51.867 8.99 52.33:388832::Herford;Detmold;Teutoburger Wald
 Birmingham::en::eu:-2.2 52.376 -1.696 52.63:2300000::
-Bochum:::de::7.05 51.39 7.35 51.63:380000::
+Bochum:::de::7.05 51.39 7.35 51.63:380000::Gelsenkirchen;Herne;Recklinghausen
 Bogota:es!Bogotá,en!Bogota:en:es:other:-74.2155 4.5199 -74.0078 4.7711:8200000::
 Bombay:en!Bombay,mr!मुंबई::mr:other:72.746 18.837 73.155 19.355:12000000::
 Bonn:::de::6.90 50.47 7.36 50.813:802194::
@@ -31,8 +31,8 @@ Koblenz:en!Koblenz,de!Koblenz,fr!Coblence::de::7.168 50.119 8.10 50.58:106000::
 Saarbruecken:de!Saarbrücken,en!Saarbrücken,fr!Sarrebruck::de::6.593 49.046 7.44 49.54 :176000::
 Luxemburg:en!Luxenbourg,de!Luxemburg,fr!Luxembourg::de:eu:5.594 49.406 6.727 50.21:502000::
 Boulder::en::other:-105.383 39.89 -105.04 40.145:91481::
-BrandenburgHavel:Brandenburg (Havel)::de::11.70 52.26 12.785 53.10:74875::
-Bremen:::de::8.43 52.88 9.29 53.35:611739::
+BrandenburgHavel:Brandenburg (Havel)::de::11.70 52.26 12.785 53.10:74875::Stendal;Wittenberge;Perleberg
+Bremen:::de::8.43 52.88 9.29 53.35:611739::Delmenhorst
 Brisbane::en::other:152.72 -27.73 153.33 -27.17:1900000::
 Bristol::en::eu:-2.926 51.336 -2.269 51.592:590000::
 Bruessel:de!Brüssel,en!Brussel,fr!Bruxelle,nl!Brussel::nl:eu:4.15 50.65 4.62 51.00:981000::
@@ -71,7 +71,7 @@ Huntsville:Huntsville (Alabama):en::other:-86.814 34.528 -86.339 34.909:417000::
 NewOrleans:en!New Orleans,fr!La Nouvelle-Orléans:en::other:-90.538 29.675 -89.501 30.401:1235650::
 Dortmund:::de::7.35 51.39 7.65 51.63:580000::
 Hamm:::de::7.60 51.46 8.15 51.83:180000::
-Wuppertal:::de::6.95 51.06 7.65 51.39:580000::
+Wuppertal:::de::6.95 51.06 7.65 51.39:580000::Remscheid;Hagen
 Dresden:::de::13.43 50.878 14.182 51.23:1115674::
 Dublin::en::eu:-6.549 53.147 -6.032 53.51:477700::
 Cork::en::eu:-8.67 51.672 -8.123 51.984:274000::
@@ -97,7 +97,7 @@ Groningen:::nl:eu:6.317 53.069 6.903 53.345:106000::
 Halifax::en::other:-63.716 44.609 -63.458 44.754:412000::
 Hamburg:::de::9.37 53.32 10.57 53.85:1800000::
 Hannover:de!Hannover,en!Hanover::de::9.18 52.07 10.15 52.67:784784::
-Braunschweig:de!Braunschweig/Wolfsburg,en!Brunswick/Wolfsburg::de::10.15 51.75 11.20 52.62:400000::
+Braunschweig:de!Braunschweig,en!Brunswick::de::10.15 51.75 11.20 52.62:400000::Wolfsburg;Salzgitter;Peine;Gifhorn
 Helsinki:::fi:eu:24.588 60.113 25.242 60.353:570000::
 Istanbul:::tr:other:28.655 40.896 29.27 41.266:13000000::
 Jena:::de::11.27 50.58 11.78 51.12:105571::
@@ -150,7 +150,7 @@ NewYork:New York:en::other:-74.359 40.479 -73.671 40.96:19000000::
 Nuernberg:de!Nürnberg,en!Nuremberg::de::10.52 49.07 11.55 49.62:2500000::
 Oldenburg:::de::7.951 53.012 8.512 53.26:160000::
 Emden:Emden::de::7.97 53.05 6.90 53.80:465000::Ostfriesland
-Bremerhaven:::de::9.38 53.25 7.97 53.90:160000::
+Bremerhaven:::de::9.38 53.25 7.97 53.90:160000::Wilhelmshaven;Cuxhaven;Bremervörde
 Oranienburg:::de::12.70 52.50 14.50 53.48:45000::Barnim;Uckermark;Schorfheide;Oderbruch
 Orlando::en::other:-81.644 28.283 -81.072 28.822:2000000::
 Oslo:::no:eu:10.397 59.751 11.104 60.038:1400000::
@@ -189,7 +189,7 @@ Arnhem:en!Arnhem,de!Arnheim::nl:eu:5.58 51.789 6.152 52.067:146000::
 Tilburg:::nl:eu:4.89 51.456 5.267 51.645:205000::
 Hertogenbosch:en!'s-Hertogenbosch,de!Herzogenbusch,fr!Bois-le-Du,es!Bolduque::nl:eu:5.11 51.58 5.60 51.84:136000::
 Ruegen:Stralsund/Rügen::de::12.90 54.20 13.81 54.70:221436::
-Usedom:Usedom/Greifswald::de::13.23 53.48 14.883 54.20:121436::
+Usedom:::de::13.23 53.48 14.883 54.20:121436::Greifswald;Anklam;Swinemünde;Vorpommern
 Sacramento::en::other:-121.625 38.374 -121.154 38.738:2100000::
 Saigon:vi!Thành phố Hồ Chí Minh::vi:other:106.5444 10.6564 106.8545 10.8931:71000000::
 SanFrancisco:en!San Francisco,de!San Franzisko:en::other:-122.54 37.54 -122.32 37.93:800000::
@@ -221,7 +221,7 @@ Tucson::en::other:-111.108 32.114 -110.704 32.335:524527::
 UlanBator:Ulan Bator,mn!Улаанбаатар::mn:other:106.8392 47.8995 107.0167 47.9337:1100000::
 Vancouver::en::other:-123.307 48.999 -122.668 49.416:2182000::
 Victoria::en::other:-123.578 48.392 -123.25 48.702:300000::
-WarenMueritz:Waren (Müritz)::de::11.70 52.95 13.40 53.91:23386::
+WarenMueritz:Waren (Müritz)::de::11.70 52.95 13.40 53.91:23386::Wittstock;Neubrandenburg;Fürstenberg/Havel;Mecklenburgischen Seenplatte
 Warsaw:de!Warschau,en!Warsaw,pl!Warszawa::pl:eu:20.653 52.041 21.408 52.451:3500000::
 WashingtonDC:Washington D.C.:en::other:-77.23 38.78 -76.84 39.05:5300000:0.01:
 Wien:en!Vienna,de!Wien::de:eu:15.92 47.91 16.88 48.47:3114739::
