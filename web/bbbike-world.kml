@@ -267,8 +267,8 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name>Brunswick/Wolfsburg</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Braunschweig/">BBBike @ Brunswick/Wolfsburg</a></span>]]></description>
+    <name>Brunswick</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Braunschweig/">BBBike @ Brunswick</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>10.675,52.185,0.000000</coordinates>
@@ -691,8 +691,8 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name>Gera/Zwickau</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Gera/">BBBike @ Gera/Zwickau</a></span>]]></description>
+    <name>Gera</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Gera/">BBBike @ Gera</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>12.17,50.75,0.000000</coordinates>
@@ -1115,8 +1115,8 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name>Mannheim/Heidelberg</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Mannheim/">BBBike @ Mannheim/Heidelberg</a></span>]]></description>
+    <name>Mannheim</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Mannheim/">BBBike @ Mannheim</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>8.5,49.475,0.000000</coordinates>
@@ -1459,8 +1459,8 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name>Stralsund/Rügen</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Ruegen/">BBBike @ Stralsund/Rügen</a></span>]]></description>
+    <name>Rügen</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Ruegen/">BBBike @ Rügen</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>13.355,54.45,0.000000</coordinates>
@@ -1555,8 +1555,8 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name>Schwerin/Wismar</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Schwerin/">BBBike @ Schwerin/Wismar</a></span>]]></description>
+    <name>Schwerin</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Schwerin/">BBBike @ Schwerin</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>11.43,53.7755,0.000000</coordinates>
@@ -1739,8 +1739,8 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name>Usedom/Greifswald</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Usedom/">BBBike @ Usedom/Greifswald</a></span>]]></description>
+    <name>Usedom</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Usedom/">BBBike @ Usedom</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>14.0565,53.84,0.000000</coordinates>
