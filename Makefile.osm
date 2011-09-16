@@ -416,9 +416,7 @@ rotate-data-osm:
 	touch ${DATA_OSM_DIR}/.touch ${DATA_OSM_BBBIKE_DIR}/.touch
 
 rotate-osm:
-	rm -rf ${OSM_DIR}.old4
-	-test -e ${OSM_DIR}.old3 && mv ${OSM_DIR}.old3 ${OSM_DIR}.old4
-	-test -e ${OSM_DIR}.old2 && mv ${OSM_DIR}.old2 ${OSM_DIR}.old3
+	rm -rf ${OSM_DIR}.old2
 	-test -e ${OSM_DIR}.old  && mv ${OSM_DIR}.old  ${OSM_DIR}.old2
 	-test -e ${OSM_DIR}      && mv ${OSM_DIR}      ${OSM_DIR}.old 
 
