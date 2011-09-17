@@ -58,24 +58,24 @@ OSM_AREAS_OPENSEARCH=data-opensearch-places
 OSM_PLANET=	../osm-streetnames/download/planet-latest.osm.bz2 
 OSM_PLANET_PBF=	../osm-streetnames/download/planet-latest.osm.pbf
 
-OSM_AREAS_LARGE=	${OSM_PLANET}
+OSM_AREAS_LARGE=	${OSM_PLANET_PBF}
 
 OSM_AREAS= \
-	../osm-streetnames/download/geofabrik/europe/germany.osm.bz2 \
+	../osm-streetnames/download/geofabrik/europe/germany.osm.pbf \
 	${OSM_AREAS_LARGE} \
-	../osm-streetnames/download/geofabrik/australia-oceania.osm.bz2 \
-	../osm-streetnames/download/geofabrik/south-america.osm.bz2 \
-	../osm-streetnames/download/geofabrik/africa.osm.bz2 \
-	../osm-streetnames/download/geofabrik/central-america.osm.bz2 \
-	../osm-streetnames/download/geofabrik/europe.osm.bz2 \
+	../osm-streetnames/download/geofabrik/australia-oceania.osm.pbf \
+	../osm-streetnames/download/geofabrik/south-america.osm.pbf \
+	../osm-streetnames/download/geofabrik/africa.osm.pbf \
+	../osm-streetnames/download/geofabrik/central-america.osm.pbf \
+	../osm-streetnames/download/geofabrik/europe.osm.pbf \
 
 # for tests only
 OSM_AREAS2= \
-	../osm-streetnames/download/geofabrik/europe/germany/baden-wuerttemberg.osm.bz2 \
-	../osm-streetnames/download/geofabrik/europe/germany/bayern.osm.bz2 \
-	../osm-streetnames/download/geofabrik/europe/germany/berlin.osm.bz2 \
-	../osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.bz2 \
-	../osm-streetnames/download/geofabrik/europe/germany/bremen.osm.bz2 
+	../osm-streetnames/download/geofabrik/europe/germany/baden-wuerttemberg.osm.pbf \
+	../osm-streetnames/download/geofabrik/europe/germany/bayern.osm.pbf \
+	../osm-streetnames/download/geofabrik/europe/germany/berlin.osm.pbf \
+	../osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.pbf \
+	../osm-streetnames/download/geofabrik/europe/germany/bremen.osm.pbf 
 
 OSM_AREAS3= \
 	${OSM_AREAS_LARGE} \
@@ -200,14 +200,14 @@ planet-places:
 	@mkdir -p ${OSM_AREAS_OPENSEARCH}
 	@PATH=$$PATH:`pwd`/world/bin; \
 	for i in ${OSM_AREAS}; do \
-		printf "./world/bin/planet-places-suggestions ${OSM_AREAS_OPENSEARCH}/`basename $$i .osm.bz2`-places $$i\0"; \
+		printf "./world/bin/planet-places-suggestions ${OSM_AREAS_OPENSEARCH}/`basename $$i .osm.pbf`-places $$i\0"; \
 	done | ${XARGS} -0 -n1 -P${MAX_CPU2} sh -c
 
 planet-streets:
 	@mkdir -p ${OSM_AREAS_OPENSEARCH}
 	@PATH=$$PATH:`pwd`/world/bin; \
 	for i in ${OSM_AREAS}; do \
-		printf "./world/bin/planet-streets-suggestions ${OSM_AREAS_OPENSEARCH}/`basename $$i .osm.bz2` $$i\0"; \
+		printf "./world/bin/planet-streets-suggestions ${OSM_AREAS_OPENSEARCH}/`basename $$i .osm.pbf` $$i\0"; \
 	done | ${XARGS} -0 -n1 -P${MAX_CPU2} sh -c
 
 ##########################################################################################
