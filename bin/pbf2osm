@@ -13,5 +13,5 @@ fi
 # run in quiet mode
 global_opt=-q
 
-osmosis $global_opt--read-pbf "$file" --write-xml /dev/stdout 
+osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout 
 
