@@ -9,11 +9,8 @@ if ! [ -f "$file" ]; then
 	exit 1
 fi
 
-gzip=`which pigz gzip | head -n 1`
-bzip2=`which pbzip2 bzip2 | head -n 1`
+# run in quiet mode
+global_opt=-q
 
-file_pbf=`echo "$file" | perl -npe 's/.pbf$//'`
-
-osmosis --read-pbf $file --write-xml /dev/stdout 
-
+osmosis $global_opt--read-pbf "$file" --write-xml /dev/stdout 
 
