@@ -269,6 +269,10 @@ sub open_osm_file {
         open $fh, "-|", "osm_zcat", $osm_file
           or die "Can't run gzip on $osm_file: $!";
     }
+    elsif ( $osm_file =~ m{\.osm\.pbf$} ) {
+        open $fh, "-|", "pbf2osm", $osm_file
+          or die "Can't run pbf2osm on $osm_file: $!";
+    }
     elsif ( $osm_file =~ m{\.osm$} ) {
         open $fh, $osm_file
           or die "Can't open $osm_file: $!";
@@ -278,7 +282,7 @@ sub open_osm_file {
     }
     else {
         warn "Unknown file extenstion: $osm_file\n";
-        warn "Expect *.osm.gz, *.osm.bz2, *.osm or '-'\n";
+        warn "Expect *.osm.gz, *.osm.bz2, *.osm, *.pbf or '-'\n";
         exit(1);
     }
 
