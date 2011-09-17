@@ -105,7 +105,7 @@ sub other_names {
     my $db   = $args{'db'};
     my $city = $args{'city'};
 
-    return $db->{_city}->{$city}->{"other_names"}; 
+    return $db->{_city}->{$city}->{"other_names"};
 }
 
 sub neighbours {
