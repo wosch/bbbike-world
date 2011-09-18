@@ -31,7 +31,7 @@ sub new {
     bless $self, $class;
     $self->parse_database;
 
-    warn Dumper($self) if $self->{'debug'} >= 2;
+    print Dumper($self) if $self->{'debug'} >= 2;
     return $self;
 }
 
@@ -100,8 +100,15 @@ sub list_cities {
     my $self = shift;
 
     if ( $self->city ) {
-        return grep { $self->city->{$_}->{"dummy"} || $_ }
-          sort keys %{ $self->city };
+        my @list;
+        foreach my $c ( keys %{ $self->city } ) {
+            push( @list, $c ) if !$self->city->{$c}->{"dummy"};
+        }
+
+        @list = sort @list;
+        warn join ", ", @list if $debug >= 2;
+
+        return @list;
     }
     else {
         return;

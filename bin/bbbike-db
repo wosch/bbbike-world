@@ -6,13 +6,13 @@
 use File::Basename;
 use Data::Dumper;
 
-#use GPS::Point;
-
 use lib '.';
 use lib './world/bin';
-use lib '../bbbike/world/bin';
+
+#use lib '../bbbike/world/bin';
 use lib '../..';
-use lib '../bbbike';
+
+#use lib '../bbbike';
 use BBBikeWorldDB;
 use Strassen::Util;
 
@@ -117,7 +117,7 @@ sub neighbours {
     my @list;
 
     my $coord = $db->{"_city"}->{$city}->{'coord'};
-    foreach my $c ( keys %{ $db->{"_city"} } ) {
+    foreach my $c ( $db->list_cities ) {
         push(
             @list,
             [
@@ -251,7 +251,7 @@ if ( defined $city_stat ) {
                 $hash{$name} = $l;
             }
         }
-        foreach my $name ( sort keys %hash ) {
+        foreach my $name ( $db->list_cities ) {
             print "$name:" . $hash{$name} . " ";
         }
         print "\n";
@@ -261,7 +261,7 @@ if ( defined $city_stat ) {
 }
 
 if ( $list || $city_en ) {
-    foreach my $key ( sort keys %hash ) {
+    foreach my $key ( $db->list_cities ) {
         my $val = $hash{$key};
         my $local_lang = $hash{$key}->{local_lang} eq 'de' ? 'de' : "en";
         print $key, "\n"
