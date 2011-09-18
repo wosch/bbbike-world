@@ -6,6 +6,7 @@
 package BBBikeWorldDB;
 
 use IO::File;
+use Data::Dumper;
 use strict;
 use warnings;
 
@@ -28,8 +29,9 @@ sub new {
     };
 
     bless $self, $class;
-
     $self->parse_database;
+
+    warn Dumper($self) if $self->{'debug'} >= 2;
     return $self;
 }
 
@@ -61,7 +63,6 @@ sub parse_database {
 
         next if $city eq 'dummy';
         next if $city eq 'bbbike';
-        next if defined $step && $step eq 'dummy';
         next if $city eq '';
 
         $hash{$city} = {
@@ -74,6 +75,7 @@ sub parse_database {
             coord       => $coord,
             population  => $population || 1,
             other_names => $other_names || "",
+            dummy       => $step eq 'dummy' ? 1 : 0,
         };
 
         $raw{$city} = [
@@ -98,7 +100,8 @@ sub list_cities {
     my $self = shift;
 
     if ( $self->city ) {
-        return sort keys %{ $self->city };
+        return grep { $self->city->{$_}->{"dummy"} || $_ }
+          sort keys %{ $self->city };
     }
     else {
         return;
