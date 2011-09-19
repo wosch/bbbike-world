@@ -18,9 +18,10 @@ my $max_suggestions = 64;
 # for the input less than 4 characters
 my $max_suggestions_short = 10;
 
-my $opensearch_file = 'opensearch.streetnames';
-my $opensearch_dir  = '../data-osm';
-my $opensearch_dir2 = '../data-opensearch-places';
+my $opensearch_file     = 'opensearch.streetnames';
+my $opensearch_dir      = '../data-osm';
+my $opensearch_dir2     = '../data-opensearch-places';
+my $opensearch_crossing = 'opensearch.crossing';
 
 my $debug          = 1;
 my $match_anywhere = 0;
@@ -182,9 +183,11 @@ sub streetnames_suggestions_unique {
 }
 
 sub streetnames_suggestions {
-    my %args   = @_;
-    my $city   = $args{'city'};
-    my $street = $args{'street'};
+    my %args     = @_;
+    my $city     = $args{'city'};
+    my $street   = $args{'street'};
+    my $crossing = $args{'crossing'};
+
     my $limit =
       ( length($street) <= 3 ? $max_suggestions_short : $max_suggestions );
 
@@ -196,6 +199,10 @@ sub streetnames_suggestions {
       $city eq 'bbbike'
       ? "../data/$opensearch_file"
       : "$opensearch_dir/$city/$opensearch_file";
+
+    if ($crossing) {
+        $file = "$opensearch_dir/$city/$opensearch_crossing";
+    }
 
     if ( !-f $file && -f "$opensearch_dir2/$city/$opensearch_file" ) {
         $file = "$opensearch_dir2/$city/$opensearch_file";
@@ -277,7 +284,7 @@ sub escapeQuote {
 
 my $q = new MyCgiSimple;
 
-my $test_street = "kurz";         #'Zähringe';
+my $test_street = "kurz";      #'Zähringe'; $test_street = "13.36688,52.58554";
 my $action      = 'opensearch';
 my $street =
      $q->param('search')
@@ -285,8 +292,9 @@ my $street =
   || $q->param('q')
   || $test_street;
 
-my $city = $q->param('city') || 'Berlin';
+my $city      = $q->param('city')      || 'Berlin';
 my $namespace = $q->param('namespace') || $q->param('ns') || '0';
+my $crossing  = $q->param('crossing')  || $q->param('c') || '0';
 
 if ( my $d = $q->param('debug') || $q->param('d') ) {
     $debug = $d if defined $d && $d >= 0 && $d <= 3;
@@ -303,8 +311,11 @@ print $q->header(
 
 binmode( \*STDOUT, ":utf8" ) if $force_utf8;
 
-my @suggestion =
-  &streetnames_suggestions_unique( 'city' => $city, 'street' => $street );
+my @suggestion = &streetnames_suggestions_unique(
+    'city'     => $city,
+    'street'   => $street,
+    'crossing' => $crossing
+);
 
 # strip english style addresses with
 #    <house number> <street name>
