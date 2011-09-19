@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl 
 # Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
 #
-# kreuzungen.pl - extract list of crossings
+# crossing.pl - extract list of crossings
 
 use Data::Dumper;
 use IO::File;
@@ -18,7 +18,7 @@ $VERSION = 0.1;
 
 use Getopt::Long;
 
-my $debug       = 1;            # 0: quiet, 1: normal, 2: verbose
+my $debug       = 0;            # 0: quiet, 1: normal, 2: verbose
 my $data_dir    = "data-osm";
 my $granularity = 10000;
 
@@ -58,7 +58,6 @@ sub crossing {
     my $s             = Strassen->new("$data_dir/$city/strassen");
     my $all_crossings = $s->all_crossings();
 
-    print "City: $city, crosses: $#$all_crossings\n" if $debug >= 2;
     my @data;
     foreach my $c (@$all_crossings) {
         push @data,
@@ -68,8 +67,9 @@ sub crossing {
     my $file     = "$data_dir/$city/opensearch.crossing";
     my $file_tmp = $file . ".tmp";
     my $fh = IO::File->new( $file_tmp, "w" ) or die "open $file_tmp: $!\n";
+    print "City: $city, crossings: $#$all_crossings, $file\n" if $debug >= 1;
 
-binmode $fh, ":utf8";
+    binmode $fh, ":utf8";
     print $fh join "", sort @data;
 
     rename( $file_tmp, $file ) or die "rename $file: $!\n";
