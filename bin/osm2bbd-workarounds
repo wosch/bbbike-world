@@ -71,6 +71,7 @@ $p/strasse-str $prefix/$city/strassen
 
 # list of crossings
 $p/crossing.pl --data-dir=$prefix $city
+perl -i.all -ne 'print if !/\t$/' $prefix/$city/opensearch.crossing
 
 cd $prefix/$city || exit 2
 cat /dev/null > Berlin.coords.data
