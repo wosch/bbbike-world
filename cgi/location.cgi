@@ -88,6 +88,7 @@ my $lng = $q->param('lng') || "";
 # "13.3888548", "52.5170397" );
 my @city = get_city( $db->city, $lat, $lng );
 if ( scalar(@city) <= 0 ) {
+
     #push @city, "NO_CITY";
 }
 else {

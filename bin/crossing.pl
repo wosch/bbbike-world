@@ -7,7 +7,10 @@ use Data::Dumper;
 use IO::File;
 
 use lib '.';
+use lib '..';
+use lib '../..';
 use lib './lib';
+use lib '../../lib';
 use Strassen;
 
 use strict;
@@ -38,7 +41,7 @@ EOF
 # fill wgs84 coordinate with trailing "0" if to short
 # or cut if to long
 sub padding {
-    my $x           = shift;
+    my $x = shift;
     my $gran = shift || $granularity;
 
     my $len = length($granularity);
@@ -59,7 +62,6 @@ sub padding {
 
 # foreach my $i (qw/8.12345 8.1234 8.123456 8.1 8 -8 +8 -8.1/) { print "$i: ", padding($i), "\n"; }
 }
-
 
 sub crossing {
     my %args     = @_;
@@ -87,8 +89,8 @@ sub crossing {
 }
 
 GetOptions(
-    "debug=i"    => \$debug,
-    "data-dir=s" => \$data_dir,
+    "debug=i"       => \$debug,
+    "data-dir=s"    => \$data_dir,
     "granularity=i" => \$granularity,
 ) or die usage;
 
