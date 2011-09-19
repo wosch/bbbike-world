@@ -30,6 +30,10 @@ my $remove_city    = 1;
 my $remove_train   = 1;
 my $sort_by_prefix = 1;
 
+# wgs84 granularity
+my $granularity = 10000;
+
+
 # Hauptstr. 27 -> Hauptstr
 my $remove_housenumber_suffix = 1;
 
@@ -58,6 +62,30 @@ sub ascii2unicode {
     warn "ascii2unicode: $unicode\n" if $debug >= 2;
     return $unicode ? $unicode : $ascii;
 }
+
+# fill wgs84 coordinate with trailing "0" if to short
+# or cut if to long
+sub padding {
+    my $x   = shift;
+    my $len = length($granularity);
+
+    if ( $x =~ /^([\-\+]?\d+)\.?(\d*)$/ ) {
+        my ( $int, $rest ) = ( $1, $2 );
+
+        $rest = substr( $rest, 0, $len );
+        for ( my $i = length($rest) ; $i < $len ; $i++ ) {
+            $rest .= "0";
+        }
+
+        return "$int.$rest";
+    }
+    else {
+        return $x;
+    }
+
+	# foreach my $i (qw/8.12345 8.1234 8.123456 8.1 8 -8 +8 -8.1/) { print "$i: ", padding($i), "\n"; }
+}
+
 
 sub street_sort {
     my %args        = @_;
