@@ -91,9 +91,9 @@ sub crossing_padding {
     my $crossing = shift;
     my ( $lng, $lat ) = split /,/, $crossing;
 
-    my $granularity = 10000;
+    my $gran = 1000 || $granularity;
 
-    my $c = padding( $lng, $granularity ) . "," . padding( $lat, $granularity );
+    my $c = padding( $lng, $gran ) . "," . padding( $lat, $gran );
 
     warn "crossing: $crossing -> $c\n";
 
@@ -360,6 +360,10 @@ my @suggestion = &streetnames_suggestions_unique(
     'crossing' => $crossing
 );
 
+$remove_housenumber_prefix = $remove_housenumber_suffix =
+  $remove_street_abbrevation = $remove_city = 0
+  if $crossing;
+
 # strip english style addresses with
 #    <house number> <street name>
 # and run the query again if nothing was found
@@ -470,3 +474,6 @@ else {
     print qq,]],;
 }
 
+if ($debug) {
+    warn "street: '$street', suggestions: ", join ", ", @suggestion, "\n";
+}
