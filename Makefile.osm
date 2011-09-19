@@ -93,7 +93,7 @@ build-runtime: build-runtime-perl build-runtime-symlinks
 	@world/bin/bbbike-build-runtime
 
 
-convert-wgs84 convert: build-runtime convert2 convert-post
+convert-wgs84 convert: build-runtime convert2 #convert-post
 
 convert-post: create-osp bbbike2wgs84 elevation-update
 
