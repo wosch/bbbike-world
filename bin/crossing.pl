@@ -31,24 +31,35 @@ usage: $0 [--debug={0..2}] [options] cities
 
 --debug=0..2	  debug option
 --data-dir=/path/to/data-osm  default: $data_dir
+--granularity=int	default: $granularity
 EOF
 }
 
 # fill wgs84 coordinate with trailing "0" if to short
+# or cut if to long
 sub padding {
-    my $x   = shift;
+    my $x           = shift;
+    my $gran = shift || $granularity;
+
     my $len = length($granularity);
 
-    my $x2 = $x;
+    if ( $x =~ /^([\-\+]?\d+)\.?(\d*)$/ ) {
+        my ( $int, $rest ) = ( $1, $2 );
 
-    $x2 =~ s/^[\-\+]?\d+\.?//;
+        $rest = substr( $rest, 0, $len );
+        for ( my $i = length($rest) ; $i < $len ; $i++ ) {
+            $rest .= "0";
+        }
 
-    for ( my $i = length($x2) ; $i < $len ; $i++ ) {
-        $x .= "0";
+        return "$int.$rest";
+    }
+    else {
+        return $x;
     }
 
-    return $x;
+# foreach my $i (qw/8.12345 8.1234 8.123456 8.1 8 -8 +8 -8.1/) { print "$i: ", padding($i), "\n"; }
 }
+
 
 sub crossing {
     my %args     = @_;
@@ -78,6 +89,7 @@ sub crossing {
 GetOptions(
     "debug=i"    => \$debug,
     "data-dir=s" => \$data_dir,
+    "granularity=i" => \$granularity,
 ) or die usage;
 
 my @cities = @ARGV;
