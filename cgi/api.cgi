@@ -33,7 +33,6 @@ my $sort_by_prefix = 1;
 # wgs84 granularity
 my $granularity = 10000;
 
-
 # Hauptstr. 27 -> Hauptstr
 my $remove_housenumber_suffix = 1;
 
@@ -66,7 +65,9 @@ sub ascii2unicode {
 # fill wgs84 coordinate with trailing "0" if to short
 # or cut if to long
 sub padding {
-    my $x   = shift;
+    my $x           = shift;
+    my $granularity = shift;
+
     my $len = length($granularity);
 
     if ( $x =~ /^([\-\+]?\d+)\.?(\d*)$/ ) {
@@ -83,9 +84,21 @@ sub padding {
         return $x;
     }
 
-	# foreach my $i (qw/8.12345 8.1234 8.123456 8.1 8 -8 +8 -8.1/) { print "$i: ", padding($i), "\n"; }
+# foreach my $i (qw/8.12345 8.1234 8.123456 8.1 8 -8 +8 -8.1/) { print "$i: ", padding($i), "\n"; }
 }
 
+sub crossing_padding {
+    my $crossing = shift;
+    my ( $lng, $lat ) = split /,/, $crossing;
+
+    my $granularity = 10000;
+
+    my $c = padding( $lng, $granularity ) . "," . padding( $lat, $granularity );
+
+    warn "crossing: $crossing -> $c\n";
+
+    return $c;
+}
 
 sub street_sort {
     my %args        = @_;
@@ -219,6 +232,7 @@ sub streetnames_suggestions {
     my $limit =
       ( length($street) <= 3 ? $max_suggestions_short : $max_suggestions );
 
+    $street = &crossing_padding($street) if $crossing;
     my $street_plain = $street;
     my $street_re    = $street;
     $street_re =~ s/([()|{}\]\[])/\\$1/;
@@ -230,6 +244,7 @@ sub streetnames_suggestions {
 
     if ($crossing) {
         $file = "$opensearch_dir/$city/$opensearch_crossing";
+
     }
 
     if ( !-f $file && -f "$opensearch_dir2/$city/$opensearch_file" ) {
