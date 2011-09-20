@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/local/bin/perl
 # Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
 #
 # location.cgi - find a bbbike city close to the user
