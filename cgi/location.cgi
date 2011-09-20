@@ -76,7 +76,8 @@ my $db = BBBikeWorldDB->new( 'database' => $database );
 
 print $q->header(
     -type    => 'application/json;charset=UTF-8',
-    -expires => '+5m'
+    -expires => '+5m',
+    -access_control_allow_origin => '*',
 );
 
 my $lat = $q->param('lat') || "";
