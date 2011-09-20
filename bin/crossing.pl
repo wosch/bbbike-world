@@ -64,9 +64,10 @@ sub padding {
 }
 
 sub crossing {
-    my %args     = @_;
-    my $city     = $args{'city'};
-    my $data_dir = $args{'data_dir'};
+    my %args        = @_;
+    my $city        = $args{'city'};
+    my $data_dir    = $args{'data_dir'};
+    my $granularity = $args{'granularity'};
 
     my $s             = Strassen->new("$data_dir/$city/strassen");
     my $all_crossings = $s->all_crossings();
@@ -77,7 +78,7 @@ sub crossing {
           padding( $c->[0] ) . "," . padding( $c->[1] ) . "\t" . $c->[2] . "\n";
     }
 
-    my $file     = "$data_dir/$city/opensearch.crossing";
+    my $file     = "$data_dir/$city/opensearch.crossing." . $granularity;
     my $file_tmp = $file . ".tmp";
     my $fh = IO::File->new( $file_tmp, "w" ) or die "open $file_tmp: $!\n";
     print "City: $city, crossings: $#$all_crossings, $file\n" if $debug >= 1;
@@ -99,6 +100,10 @@ my @cities = @ARGV;
 die "No cities given\n" . usage if scalar(@cities) <= 0;
 
 foreach my $city (@cities) {
-    &crossing( 'city' => $city, 'data_dir' => $data_dir );
+    &crossing(
+        'city'        => $city,
+        'data_dir'    => $data_dir,
+        'granularity' => $granularity
+    );
 }
 
