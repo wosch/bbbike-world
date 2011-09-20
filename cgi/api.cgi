@@ -18,10 +18,11 @@ my $max_suggestions = 64;
 # for the input less than 4 characters
 my $max_suggestions_short = 10;
 
-my $opensearch_file     = 'opensearch.streetnames';
-my $opensearch_dir      = '../data-osm';
-my $opensearch_dir2     = '../data-opensearch-places';
-my $opensearch_crossing = 'opensearch.crossing';
+my $opensearch_file      = 'opensearch.streetnames';
+my $opensearch_dir       = '../data-osm';
+my $opensearch_dir2      = '../data-opensearch-places';
+my $opensearch_crossing  = 'opensearch.crossing.10';
+my $opensearch_crossing2 = 'opensearch.crossing.100';
 
 my $debug          = 1;
 my $match_anywhere = 0;
@@ -31,7 +32,7 @@ my $remove_train   = 1;
 my $sort_by_prefix = 1;
 
 # wgs84 granularity
-my $granularity = 10000;
+my $granularity = 100;
 
 # Hauptstr. 27 -> Hauptstr
 my $remove_housenumber_suffix = 1;
@@ -68,7 +69,7 @@ sub padding {
     my $x           = shift;
     my $granularity = shift;
 
-    my $len = length($granularity);
+    my $len = length($granularity) - 1;
 
     if ( $x =~ /^([\-\+]?\d+)\.?(\d*)$/ ) {
         my ( $int, $rest ) = ( $1, $2 );
@@ -88,14 +89,12 @@ sub padding {
 }
 
 sub crossing_padding {
-    my $crossing = shift;
+    my $crossing    = shift;
+    my $granularity = shift;
     my ( $lng, $lat ) = split /,/, $crossing;
 
-    my $gran = 100 || $granularity;
-
-    my $c = padding( $lng, $gran ) . "," . padding( $lat, $gran );
-
-    warn "crossing: $crossing -> $c\n";
+    my $c = padding( $lng, $granularity ) . "," . padding( $lat, $granularity );
+    warn "crossing: padding: $granularity, $crossing -> $c\n";
 
     return $c;
 }
@@ -232,7 +231,6 @@ sub streetnames_suggestions {
     my $limit =
       ( length($street) <= 3 ? $max_suggestions_short : $max_suggestions );
 
-    $street = &crossing_padding($street) if $crossing;
     my $street_plain = $street;
     my $street_re    = $street;
     $street_re =~ s/([()|{}\]\[])/\\$1/;
@@ -354,15 +352,30 @@ print $q->header(
 
 binmode( \*STDOUT, ":utf8" ) if $force_utf8;
 
+$street = &crossing_padding( $street, $granularity ) if $crossing;
+
 my @suggestion = &streetnames_suggestions_unique(
     'city'     => $city,
     'street'   => $street,
     'crossing' => $crossing
 );
 
-$remove_housenumber_prefix = $remove_housenumber_suffix =
-  $remove_street_abbrevation = $remove_city = 0
-  if $crossing;
+if ($crossing) {
+    $remove_housenumber_prefix = $remove_housenumber_suffix =
+      $remove_street_abbrevation = $remove_city = 0;
+
+    # try with a larger area
+    if ( scalar(@suggestion) == 0 ) {
+        $opensearch_crossing = $opensearch_crossing2;
+
+        warn "API: city: $city, crossing larger area: $street\n" if $debug;
+        @suggestion = &streetnames_suggestions_unique(
+            'city'     => $city,
+            'street'   => $street,
+            'crossing' => $crossing,
+        );
+    }
+}
 
 # strip english style addresses with
 #    <house number> <street name>
