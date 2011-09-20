@@ -367,6 +367,7 @@ if ($crossing) {
     # try with a larger area
     if ( scalar(@suggestion) == 0 ) {
         $opensearch_crossing = $opensearch_crossing2;
+        $granularity         = 10;
 
         warn "API: city: $city, crossing larger area: $street\n" if $debug;
         @suggestion = &streetnames_suggestions_unique(
