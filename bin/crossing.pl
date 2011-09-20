@@ -33,9 +33,10 @@ sub usage () {
     <<EOF;
 usage: $0 [--debug={0..2}] [options] cities
 
---debug=0..2	  debug option
---data-dir=/path/to/data-osm  default: $data_dir
---granularity=int	default: $granularity
+--debug=0..2	  		debug option
+--data-dir=/path/to/data-osm  	default: $data_dir
+--granularity=int		default: $granularity
+--out-file=/path/to/output_file
 EOF
 }
 
