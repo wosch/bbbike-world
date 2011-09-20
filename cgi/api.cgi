@@ -91,7 +91,7 @@ sub crossing_padding {
     my $crossing = shift;
     my ( $lng, $lat ) = split /,/, $crossing;
 
-    my $gran = 1000 || $granularity;
+    my $gran = 100 || $granularity;
 
     my $c = padding( $lng, $gran ) . "," . padding( $lat, $gran );
 

@@ -24,6 +24,7 @@ use Getopt::Long;
 my $debug       = 0;            # 0: quiet, 1: normal, 2: verbose
 my $data_dir    = "data-osm";
 my $granularity = 10000;
+my $out_file;
 
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
@@ -68,6 +69,7 @@ sub crossing {
     my $city        = $args{'city'};
     my $data_dir    = $args{'data_dir'};
     my $granularity = $args{'granularity'};
+    my $out_file    = $args{'out_file'};
 
     my $s             = Strassen->new("$data_dir/$city/strassen");
     my $all_crossings = $s->all_crossings();
@@ -78,7 +80,10 @@ sub crossing {
           padding( $c->[0] ) . "," . padding( $c->[1] ) . "\t" . $c->[2] . "\n";
     }
 
-    my $file     = "$data_dir/$city/opensearch.crossing." . $granularity;
+    my $file =
+      defined $out_file
+      ? $out_file
+      : "$data_dir/$city/opensearch.crossing." . $granularity;
     my $file_tmp = $file . ".tmp";
     my $fh = IO::File->new( $file_tmp, "w" ) or die "open $file_tmp: $!\n";
     print "City: $city, crossings: $#$all_crossings, $file\n" if $debug >= 1;
@@ -93,6 +98,7 @@ GetOptions(
     "debug=i"       => \$debug,
     "data-dir=s"    => \$data_dir,
     "granularity=i" => \$granularity,
+    "out-file=s"    => \$out_file,
 ) or die usage;
 
 my @cities = @ARGV;
@@ -103,7 +109,8 @@ foreach my $city (@cities) {
     &crossing(
         'city'        => $city,
         'data_dir'    => $data_dir,
-        'granularity' => $granularity
+        'granularity' => $granularity,
+        'out_file'    => $out_file,
     );
 }
 
