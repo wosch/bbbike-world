@@ -24,7 +24,7 @@ my $opensearch_dir2      = '../data-opensearch-places';
 my $opensearch_crossing  = 'opensearch.crossing.10';
 my $opensearch_crossing2 = 'opensearch.crossing.100';
 
-my $debug          = 1;
+my $debug          = 2;
 my $match_anywhere = 0;
 my $match_words    = 1;
 my $remove_city    = 1;
@@ -54,12 +54,23 @@ my $use_look = 1;
 # performance tuning, egrep may be faster than perl regex
 my $use_egrep = 1;
 
+# compute the distance betweent 2 points
+# Argument: [x1,y1], [x2, y2]
+sub distance {
+    CORE::sqrt(
+        sqr( $_[0]->[0] - $_[1]->[0] ) + sqr( $_[0]->[1] - $_[1]->[1] ) );
+}
+
+sub sqr {
+    $_[0] * $_[0];
+}
+
 sub ascii2unicode {
     my $string = shift;
 
     my ( $ascii, $unicode, @rest ) = split( /\t/, $string );
 
-    warn "ascii2unicode: $unicode\n" if $debug >= 2;
+    warn "ascii2unicode: $string :: $unicode\n" if $debug >= 2;
     return $unicode ? $unicode : $ascii;
 }
 
@@ -218,7 +229,8 @@ sub streetnames_suggestions_unique {
     return street_sort(
         'list'   => \@list,
         'prefix' => $sort_by_prefix,
-        'street' => $args{'street'}
+        'street' => $args{'street'},
+        'crossing' => $args{'crossing'},
     );
 }
 
@@ -363,6 +375,8 @@ my @suggestion = &streetnames_suggestions_unique(
 if ($crossing) {
     $remove_housenumber_prefix = $remove_housenumber_suffix =
       $remove_street_abbrevation = $remove_city = 0;
+
+    #use Data::Dumper; warn Dumper(\@suggestion);
 
     # try with a larger area
     if ( scalar(@suggestion) == 0 ) {

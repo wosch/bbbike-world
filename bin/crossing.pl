@@ -77,8 +77,12 @@ sub crossing {
 
     my @data;
     foreach my $c (@$all_crossings) {
+	my $x = $c->[0];
+	my $y = $c->[1];
+        my $street = $c->[2];
+
         push @data,
-          padding( $c->[0] ) . "," . padding( $c->[1] ) . "\t" . $c->[2] . "\n";
+          padding($x) . "," . padding( $y ) . "\t$x,$y\t$street\n";
     }
 
     my $file =
