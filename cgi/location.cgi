@@ -75,8 +75,8 @@ sub get_city {
 my $db = BBBikeWorldDB->new( 'database' => $database );
 
 print $q->header(
-    -type    => 'application/json;charset=UTF-8',
-    -expires => '+5m',
+    -type                        => 'application/json;charset=UTF-8',
+    -expires                     => '+5m',
     -access_control_allow_origin => '*',
 );
 
@@ -89,6 +89,7 @@ my $lng = $q->param('lng') || "";
 # "13.3888548", "52.5170397" );
 my @city = get_city( $db->city, $lat, $lng );
 if ( scalar(@city) <= 0 ) {
+
     #push @city, "NO_CITY";
 }
 else {
