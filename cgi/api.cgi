@@ -227,9 +227,9 @@ sub streetnames_suggestions_unique {
     @list = keys %hash;
 
     return street_sort(
-        'list'   => \@list,
-        'prefix' => $sort_by_prefix,
-        'street' => $args{'street'},
+        'list'     => \@list,
+        'prefix'   => $sort_by_prefix,
+        'street'   => $args{'street'},
         'crossing' => $args{'crossing'},
     );
 }
