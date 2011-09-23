@@ -20,12 +20,12 @@ my $max_suggestions_short = 10;
 
 my $opensearch_file = 'opensearch.street-coordinates';
 my $opensearch_dir  = '../data-osm';
+
 my $opensearch_crossing  = 'opensearch.crossing.10';
 my $opensearch_crossing2 = 'opensearch.crossing.100';
 
 # wgs84 granularity
 my $granularity = 100;
-
 
 my $debug = 0;
 
@@ -102,17 +102,14 @@ sub get_crossings {
     return $data[1] . "\t" . $data[2];
 }
 
-
 sub street_match {
     my $file   = shift;
     my $street = shift;
     my $limit  = shift;
     my $binary = shift;
-    my $crossing = shift;
 
     $binary = 1 if !defined $binary;
 
-	warn "crossing: $crossing\n";
     if ( !-e $file ) {
         warn "$!: $file\n";
         return;
@@ -151,7 +148,7 @@ sub street_match {
         # match from beginning
         if ( $s eq substr( $line, 0, $s_length ) ) {
             warn "Prefix streetname match: $street\n" if $debug >= 2;
-            push( @data, $crossing ? get_crossing($_) : &get_coords($_) );
+            push( @data, get_crossing($_) );
         }
 
         last if scalar(@data) >= $limit * 50;
@@ -178,7 +175,6 @@ sub streetnames_suggestions {
     my %args   = @_;
     my $city   = $args{'city'};
     my $street = $args{'street'};
-    my $crossing = $args{'crossing'};
 
     my $limit =
       ( length($street) <= 3 ? $max_suggestions_short : $max_suggestions );
@@ -192,7 +188,7 @@ sub streetnames_suggestions {
       ? "../data/$opensearch_file"
       : "$opensearch_dir/$city/$opensearch_file";
 
-    my ( $d, $d2 ) = &street_match( $file, $street_plain, $limit, 0, $crossing );
+    my ( $d, $d2 ) = &street_match( $file, $street_plain, $limit, 0 );
 
     # no prefix match, try again with prefix match only
     if ( defined $d && scalar(@$d) == 0 && scalar(@$d2) == 0 ) {
@@ -283,26 +279,10 @@ my $street =
   || $q->param('query')
   || $q->param('q')
   || 'Allschwilerstr';
-my $crossing  = $q->param('crossing')  || $q->param('c') || '0';
-
-#|| 'Landsberger Allee (12681)';
-# || 'Garibaldistr. (13158)';
 
 if ($force_utf8) {
     require Encode;
     $street = Encode::decode( "utf-8" => $street );
-}
-
-# mapping: old street => new street
-my ( $street_old, $street_new );
-my $street_original = $street;
-if ( $street =~ /^(.*?)\s+[\-=]>\s+(.*)/ ) {
-    $street_old = $1;
-    $street_new = $2;
-    $street     = $street_new;
-
-    warn "old street: $street_old, new street: $street_new, street: $street\n"
-      if $debug >= 1;
 }
 
 my $city = $q->param('city') || 'Basel';
@@ -323,18 +303,20 @@ print $q->header(
 
 binmode( \*STDOUT, ":utf8" ) if $force_utf8;
 
-$street = crossing_padding($street) if $crossing;
+my $street_original = $street;
+
+$street = crossing_padding($street);
 my @list =
-$street = crossing_padding($street) if $crossing;
-  &streetnames_suggestions_unique( 'city' => $city, 'street' => $street, 'crossing' => $crossing );
+  &streetnames_suggestions_unique( 'city' => $city, 'street' => $street );
 
-if ($crossing && scalar(@list)==0) {
-      $street = crossing_padding($street, 10);
-      $opensearch_crossing = $opensearch_crossing2;
-      $granularity         = 10;
-      @list = &streetnames_suggestions_unique( 'city' => $city, 'street' => $street, 'crossing' => $crossing );
+# try again, with greater tilde
+if ( scalar(@list) == 0 ) {
+    $street              = crossing_padding( $street, 10 );
+    $opensearch_crossing = $opensearch_crossing2;
+    $granularity         = 10;
+    @list =
+      &streetnames_suggestions_unique( 'city' => $city, 'street' => $street );
 }
-
 
 my @suggestion = @list;
 @suggestion = map { s/^[^\t]*\t\S+\s+//; $_ } @suggestion;
@@ -344,6 +326,7 @@ if ( $debug >= 0 && scalar(@suggestion) <= 0 ) {
 }
 warn "City $city: $street", join( " ", @suggestion ), "\n" if $debug >= 2;
 
+######################################################################
 # plain text
 if ( $namespace eq 'plain' || $namespace == 1 ) {
     print join( "\n", @suggestion ), "\n";
