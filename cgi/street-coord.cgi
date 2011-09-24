@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/local/bin/perl
 # Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
 #
 # street-coord.cgi - plot street names on a map as a suggestion service

@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/local/bin/perl
 # -*- perl -*-
 
 # Author: Slaven Rezic
@@ -13,7 +13,7 @@
 
 package BBBikeGooglemap;
 
-use strict;
+
 use FindBin;
 use lib (
     grep { -d } (
@@ -35,6 +35,9 @@ use BBBikeVar;
 use Karte;
 use Karte::Polar;
 use Encode;
+
+use strict;
+use warnings;
 
 ############################################################
 my $lang             = "en";
