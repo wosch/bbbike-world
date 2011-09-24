@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl
 # Copyright (c) 2011 Wolfram Schneider, http://bbbike.org
 #
-# street-coord.cgi - plot street names on a map as a suggestion service
+# latlng-coord.cgi - plot latlng names on a map as a suggestion service
 
 use MyCgiSimple;
 
@@ -13,7 +13,7 @@ $ENV{LANG} = 'C';
 
 my $debug = 2;
 
-# how many streets to suggestest
+# how many latlngs to suggestest
 my $max_suggestions = 64;
 
 # for the input less than 4 characters
@@ -87,13 +87,13 @@ sub get_crossing {
 
     my (@data) = split( /\t/, $string );
 
-    # real lat,lng + streetname
+    # real lat,lng + latlngname
     return $data[1] . "\t" . $data[2];
 }
 
-sub street_match {
+sub latlng_match {
     my $file   = shift;
-    my $street = shift;
+    my $latlng = shift;
     my $limit  = shift;
     my $binary = shift;
 
@@ -110,7 +110,7 @@ sub street_match {
         # linux only
         $look_opt .= 'b' if $binary && -e '/proc';
 
-        my @command = ( $look_command, $look_opt, "--", $street, $file );
+        my @command = ( $look_command, $look_opt, "--", $latlng, $file );
 
         warn join( " ", @command ), "\n" if $debug >= 2;
         open( IN, '-|' ) || exec @command;
@@ -124,9 +124,9 @@ sub street_match {
     binmode( \*IN, ":utf8" ) if $force_utf8;
 
     my @data;
-    my $len = length($street);
+    my $len = length($latlng);
 
-    my $s        = lc($street);
+    my $s        = lc($latlng);
     my $s_length = length($s);
 
     while (<IN>) {
@@ -135,7 +135,7 @@ sub street_match {
 
         # match from beginning
         if ( $s eq substr( $line, 0, $s_length ) ) {
-            warn "streetname match: $street\n" if $debug >= 2;
+            warn "latlngname match: $latlng\n" if $debug >= 2;
             push( @data, get_crossing($_) );
         }
 
@@ -149,33 +149,36 @@ sub street_match {
     return (@data);
 }
 
-sub streetnames_suggestions_unique {
+sub latlngnames_suggestions_unique {
     my %args   = @_;
-    my $street = $args{'street'};
+    my $latlng = $args{'latlng'};
 
-    my @list = &streetnames_suggestions(@_);
+    my @list = &latlngnames_suggestions(@_);
 
-    return &next_crossing( 'street' => $street, 'list' => \@list,
-        'limit' => 10 );
+    return &next_crossing(
+        'latlng' => $latlng,
+        'list'   => \@list,
+        'limit'  => 10
+    );
 }
 
-sub streetnames_suggestions {
+sub latlngnames_suggestions {
     my %args        = @_;
     my $city        = $args{'city'};
-    my $street      = $args{'street'};
+    my $latlng      = $args{'latlng'};
     my $granularity = $args{'granularity'};
 
     my $limit =
-      ( length($street) <= 3 ? $max_suggestions_short : $max_suggestions );
+      ( length($latlng) <= 3 ? $max_suggestions_short : $max_suggestions );
 
-    my $street_g = crossing_padding( $street, $granularity );
+    my $latlng_g = crossing_padding( $latlng, $granularity );
 
     my $file =
       $city eq 'bbbike'
       ? "../data/$opensearch_file.$granularity"
       : "$opensearch_dir/$city/$opensearch_file.$granularity";
 
-    my (@data) = &street_match( $file, $street_g, $limit, 0 );
+    my (@data) = &latlng_match( $file, $latlng_g, $limit, 0 );
     warn "Len1: ", scalar(@data), " ", join( " ", @data ), "\n" if $debug >= 2;
 
     return @data;
@@ -189,24 +192,24 @@ sub escapeQuote {
     return $string;
 }
 
-sub street_coord {
+sub latlng_coord {
     my $string = shift;
 
-    my ( $coord, $real_coord, $street ) = split "\t", $string;
+    my ( $coord, $real_coord, $latlng ) = split "\t", $string;
 
     $coord =~ s/^\S+\s+//;
-    return $street . "\t" . $coord;
+    return $latlng . "\t" . $coord;
 }
 
 sub next_crossing {
     my %args   = @_;
-    my $street = $args{'street'};
+    my $latlng = $args{'latlng'};
     my $list   = $args{'list'};
     my $limit  = $args{'limit'};
 
     my @list = ref $list eq 'ARRAY' ? @$list : $list;
 
-    my ( $x1, $y1 ) = split /,/, $street;
+    my ( $x1, $y1 ) = split /,/, $latlng;
     my @data;
     my %hash;
     foreach my $s (@list) {
@@ -232,7 +235,7 @@ sub next_crossing {
 my $q = new MyCgiSimple;
 
 my $action = 'opensearch';
-my $street =
+my $latlng =
      $q->param('search')
   || $q->param('query')
   || $q->param('q')
@@ -240,7 +243,7 @@ my $street =
 
 if ($force_utf8) {
     require Encode;
-    $street = Encode::decode( "utf-8" => $street );
+    $latlng = Encode::decode( "utf-8" => $latlng );
 }
 
 my $city = $q->param('city') || 'Oranienburg';
@@ -261,32 +264,32 @@ print $q->header(
 
 binmode( \*STDOUT, ":utf8" ) if $force_utf8;
 
-my $street_original = $street;
+my $latlng_original = $latlng;
 
-my @list = &streetnames_suggestions_unique(
+my @list = &latlngnames_suggestions_unique(
     'city'        => $city,
-    'street'      => $street,
+    'latlng'      => $latlng,
     'granularity' => $granularity,
 );
 
 # try again, with greater tile
 if ( scalar(@list) == 0 ) {
-    @list = &streetnames_suggestions_unique(
+    @list = &latlngnames_suggestions_unique(
         'city'        => $city,
-        'street'      => $street,
+        'latlng'      => $latlng,
         'granularity' => $granularity2
     );
 }
 
 my @suggestion =
-  &next_crossing( 'street' => $street, 'list' => \@list, 'limit' => 10 );
+  &next_crossing( 'latlng' => $latlng, 'list' => \@list, 'limit' => 10 );
 
 #@suggestion = map { s/^[^\t]*\t\S+\s+//; $_ } @suggestion;
 
 if ( $debug >= 0 && scalar(@suggestion) <= 0 ) {
-    warn "City $city: $street, granularity: $granularity2, no coords found!\n";
+    warn "City $city: $latlng, granularity: $granularity2, no coords found!\n";
 }
-warn "City $city: $street", join( " ", @suggestion ), "\n" if $debug >= 2;
+warn "City $city: $latlng", join( " ", @suggestion ), "\n" if $debug >= 2;
 
 ######################################################################
 # plain text
@@ -296,16 +299,16 @@ if ( $namespace eq 'plain' || $namespace == 1 ) {
 
 # devbridge autocomplete
 elsif ( $namespace eq 'dbac' || $namespace == 2 ) {
-    print qq/{ query:"/, escapeQuote($street), qq/", suggestions:[/;
+    print qq/{ query:"/, escapeQuote($latlng), qq/", suggestions:[/;
     print '"', join( '","', map { escapeQuote($_) } @suggestion ), '"'
       if scalar(@suggestion) > 0;
     print "] }";
 }
 
-# googe like, with street name
-elsif ( $namespace eq 'google-streetnames' || $namespace == 3 ) {
-    print qq/["$street_original",[/;
-    print qq{"}, join( '","', map { escapeQuote( street_coord($_) ) } @list ),
+# googe like, with latlng name
+elsif ( $namespace eq 'google-latlngnames' || $namespace == 3 ) {
+    print qq/["$latlng_original",[/;
+    print qq{"}, join( '","', map { escapeQuote( latlng_coord($_) ) } @list ),
       qq{"}
       if scalar(@list) > 0;
     print qq,]],;
@@ -313,7 +316,7 @@ elsif ( $namespace eq 'google-streetnames' || $namespace == 3 ) {
 
 # googe like
 else {
-    print qq/["$street",[/;
+    print qq/["$latlng",[/;
     print qq{"}, join( '","', map { escapeQuote($_) } @suggestion ), qq{"}
       if scalar(@suggestion) > 0;
     print qq,]],;
