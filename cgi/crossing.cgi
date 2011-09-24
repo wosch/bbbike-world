@@ -11,7 +11,7 @@ use MyCgiSimple;
 use strict;
 $ENV{LANG} = 'C';
 
-my $debug = 2;
+my $debug = 1;
 
 # how many streets to suggestest
 my $max_suggestions = 64;
@@ -242,14 +242,14 @@ my $street =
      $q->param('search')
   || $q->param('query')
   || $q->param('q')
-  || 'Allschwilerstr';
+  || '13.41029,52.5321';
 
 if ($force_utf8) {
     require Encode;
     $street = Encode::decode( "utf-8" => $street );
 }
 
-my $city = $q->param('city') || 'Basel';
+my $city = $q->param('city') || 'Oranienburg';
 my $namespace = $q->param('namespace') || $q->param('ns') || '0';
 
 if ( my $d = $q->param('debug') || $q->param('d') ) {
