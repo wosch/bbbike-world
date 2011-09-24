@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/local/bin/perl
 # Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
 #
 # street-coord.cgi - plot street names on a map as a suggestion service
@@ -9,8 +9,9 @@ use MyCgiSimple;
 #use warnings;
 
 use strict;
-
 $ENV{LANG} = 'C';
+
+my $debug = 2;
 
 # how many streets to suggestest
 my $max_suggestions = 64;
@@ -18,16 +19,12 @@ my $max_suggestions = 64;
 # for the input less than 4 characters
 my $max_suggestions_short = 10;
 
-my $opensearch_file = 'opensearch.street-coordinates';
+my $opensearch_file = 'opensearch.crossing';
 my $opensearch_dir  = '../data-osm';
 
-my $opensearch_crossing  = 'opensearch.crossing.10';
-my $opensearch_crossing2 = 'opensearch.crossing.100';
-
 # wgs84 granularity
-my $granularity = 100;
-
-my $debug = 0;
+my $granularity  = 100;
+my $granularity2 = 10;
 
 # word matching for utf8 data
 my $force_utf8 = 0;
@@ -54,7 +51,7 @@ sub padding {
     my $x           = shift;
     my $granularity = shift;
 
-    my $len = length($granularity) - 1;
+    my $len = length($granularity);
 
     if ( $x =~ /^([\-\+]?\d+)\.?(\d*)$/ ) {
         my ( $int, $rest ) = ( $1, $2 );
@@ -73,27 +70,19 @@ sub padding {
 # foreach my $i (qw/8.12345 8.1234 8.123456 8.1 8 -8 +8 -8.1/) { print "$i: ", padding($i), "\n"; }
 }
 
+# "13.41029,52.5321" => "13.4152.53"
 sub crossing_padding {
     my $crossing    = shift;
     my $granularity = shift;
     my ( $lng, $lat ) = split /,/, $crossing;
 
     my $c = padding( $lng, $granularity ) . "," . padding( $lat, $granularity );
-    warn "crossing: padding: $granularity, $crossing -> $c\n";
+    warn "crossing: padding: $granularity, $crossing -> $c\n" if $debug >= 1;
 
     return $c;
 }
 
-sub get_coords {
-    my $string = shift;
-
-    return $string;
-    my (@data) = split( /\t/, $string );
-
-    return $data[1];
-}
-
-sub get_crossings {
+sub get_crossing {
     my $string = shift;
 
     return $string;
@@ -135,7 +124,6 @@ sub street_match {
     binmode( \*IN, ":utf8" ) if $force_utf8;
 
     my @data;
-    my @data2;
     my $len = length($street);
 
     my $s        = lc($street);
@@ -156,95 +144,50 @@ sub street_match {
 
     close IN;
 
-    warn "data: ", join( " ", @data ), " data2: ", join( " ", @data2 ), "\n"
+    warn "data: ", join( " ", @data ), "\n"
       if $debug >= 2;
-    return ( \@data, \@data2 );
+    return ( \@data );
 }
 
 sub streetnames_suggestions_unique {
     my @list = &streetnames_suggestions(@_);
 
     # return unique list
-    my %hash = map { $_ => 1 } @list;
-    @list = keys %hash;
+    my %hash;
+    my @data;
 
-    return @list;
+    foreach my $street (@list) {
+        next if $hash{$street};
+
+        push @data, $street;
+        $hash{$street} = 1;
+    }
+
+    return @data;
 }
 
 sub streetnames_suggestions {
-    my %args   = @_;
-    my $city   = $args{'city'};
-    my $street = $args{'street'};
+    my %args        = @_;
+    my $city        = $args{'city'};
+    my $street      = $args{'street'};
+    my $granularity = $args{'granularity'};
 
     my $limit =
       ( length($street) <= 3 ? $max_suggestions_short : $max_suggestions );
 
-    my $street_plain = $street;
-    my $street_re    = $street;
-    $street_re =~ s/([()|{}\]\[])/\\$1/;
+    my $street_g = crossing_padding( $street, $granularity );
 
     my $file =
       $city eq 'bbbike'
-      ? "../data/$opensearch_file"
-      : "$opensearch_dir/$city/$opensearch_file";
+      ? "../data/$opensearch_file.$granularity"
+      : "$opensearch_dir/$city/$opensearch_file.$granularity";
 
-    my ( $d, $d2 ) = &street_match( $file, $street_plain, $limit, 0 );
+    my ($d) = &street_match( $file, $street_g, $limit, 0 );
 
-    # no prefix match, try again with prefix match only
-    if ( defined $d && scalar(@$d) == 0 && scalar(@$d2) == 0 ) {
-        ( $d, $d2 ) = &street_match( $file, $street_plain, $limit, 0 );
-    }
-    if ( defined $d && scalar(@$d) == 0 && scalar(@$d2) == 0 ) {
-        ( $d, $d2 ) = &street_match( $file, "^$street_re", $limit );
-    }
-
-    my @data  = defined $d  ? @$d  : ();
-    my @data2 = defined $d2 ? @$d2 : ();
-
+    my @data = defined $d ? @$d : ();
     warn "Len1: ", scalar(@data), " ", join( " ", @data ), "\n" if $debug >= 2;
-    warn "Len2: ", scalar(@data2), " ", join( " ", @data2 ), "\n"
-      if $debug >= 2;
 
-    # less results
-    if ( scalar(@data) + scalar(@data2) < $limit ) {
-        return ( @data, @data2 );
-    }
-
-    # trim results, exact matches first
-    else {
-
-        # match words
-        my @d;
-        @d = grep { /$street_re\b/i || /\b$street_re/ } @data2;  # if $len >= 3;
-
-        my @result = &strip_list( $limit, @data );
-        push @result,
-          &strip_list(
-            $limit / ( scalar(@data) ? 2 : 1 ),
-            ( scalar(@d) ? @d : @data2 )
-          );
-        return @result;
-    }
-}
-
-sub strip_list {
-    my $limit = shift;
-    my @list  = @_;
-
-    $limit = int($limit);
-
-    my @d;
-    my $step = int( scalar(@list) / $limit + 0.5 );
-    $step = 1 if $step < 1;
-
-    warn "step: $step, list: ", scalar(@list), "\n" if $debug >= 2;
-    for ( my $i = 0 ; $i <= $#list ; $i++ ) {
-        if ( ( $i % $step ) == 0 ) {
-            warn "i: $i, step: $step\n" if $debug >= 2;
-            push( @d, $list[$i] );
-        }
-    }
-    return @d;
+    return @data;
 }
 
 sub escapeQuote {
@@ -258,7 +201,7 @@ sub escapeQuote {
 sub street_coord {
     my $string = shift;
 
-    my ( $street, $coord ) = split "\t", $string;
+    my ( $coord, $real_coord, $street ) = split "\t", $string;
 
     $coord =~ s/^\S+\s+//;
     return $street . "\t" . $coord;
@@ -305,17 +248,19 @@ binmode( \*STDOUT, ":utf8" ) if $force_utf8;
 
 my $street_original = $street;
 
-$street = crossing_padding($street);
-my @list =
-  &streetnames_suggestions_unique( 'city' => $city, 'street' => $street );
+my @list = &streetnames_suggestions_unique(
+    'city'        => $city,
+    'street'      => $street,
+    'granularity' => $granularity,
+);
 
-# try again, with greater tilde
+# try again, with greater tile
 if ( scalar(@list) == 0 ) {
-    $street              = crossing_padding( $street, 10 );
-    $opensearch_crossing = $opensearch_crossing2;
-    $granularity         = 10;
-    @list =
-      &streetnames_suggestions_unique( 'city' => $city, 'street' => $street );
+    @list = &streetnames_suggestions_unique(
+        'city'        => $city,
+        'street'      => $street,
+        'granularity' => $granularity2
+    );
 }
 
 my @suggestion = @list;
