@@ -85,9 +85,9 @@ sub crossing_padding {
 sub get_crossing {
     my $string = shift;
 
-    return $string;
     my (@data) = split( /\t/, $string );
 
+    # real lat,lng + streetname
     return $data[1] . "\t" . $data[2];
 }
 
@@ -146,7 +146,7 @@ sub street_match {
 
     warn "data: ", join( " ", @data ), "\n"
       if $debug >= 2;
-    return ( \@data );
+    return (@data);
 }
 
 sub streetnames_suggestions_unique {
@@ -182,9 +182,7 @@ sub streetnames_suggestions {
       ? "../data/$opensearch_file.$granularity"
       : "$opensearch_dir/$city/$opensearch_file.$granularity";
 
-    my ($d) = &street_match( $file, $street_g, $limit, 0 );
-
-    my @data = defined $d ? @$d : ();
+    my (@data) = &street_match( $file, $street_g, $limit, 0 );
     warn "Len1: ", scalar(@data), " ", join( " ", @data ), "\n" if $debug >= 2;
 
     return @data;
@@ -205,6 +203,29 @@ sub street_coord {
 
     $coord =~ s/^\S+\s+//;
     return $street . "\t" . $coord;
+}
+
+sub next_crossing {
+    my %args   = @_;
+    my $street = $args{'street'};
+    my $list   = $args{'list'};
+    my $limit  = $args{'limit'};
+
+    my @list = ref $list eq 'ARRAY' ? @$list : $list;
+
+    my ( $x1, $y1 ) = split /,/, $street;
+    my @data;
+    my %hash;
+    foreach my $s (@list) {
+        my ( $coord, $name ) = split /\t/, $s;
+        my ( $x2,    $y2 )   = split /,/,  $coord;
+
+        my $distance = distance( [ $x1, $y1 ], [ $x2, $y2 ] );
+        $hash{$s} = $distance;
+    }
+
+    @data = sort { $hash{$a} <=> $hash{$b} } keys %hash;
+    return scalar(@data) < $limit ? @data : @data[ 0 .. $limit - 1 ];
 }
 
 ######################################################################
@@ -263,8 +284,10 @@ if ( scalar(@list) == 0 ) {
     );
 }
 
-my @suggestion = @list;
-@suggestion = map { s/^[^\t]*\t\S+\s+//; $_ } @suggestion;
+my @suggestion =
+  &next_crossing( 'street' => $street, 'list' => \@list, 'limit' => 10 );
+
+#@suggestion = map { s/^[^\t]*\t\S+\s+//; $_ } @suggestion;
 
 if ( $debug >= 0 && scalar(@suggestion) <= 0 ) {
     warn "City $city: $street no coords found!\n";
