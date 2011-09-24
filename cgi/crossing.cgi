@@ -11,7 +11,7 @@ use MyCgiSimple;
 use strict;
 $ENV{LANG} = 'C';
 
-my $debug = 1;
+my $debug = 2;
 
 # how many streets to suggestest
 my $max_suggestions = 64;
@@ -135,7 +135,7 @@ sub street_match {
 
         # match from beginning
         if ( $s eq substr( $line, 0, $s_length ) ) {
-            warn "Prefix streetname match: $street\n" if $debug >= 2;
+            warn "streetname match: $street\n" if $debug >= 2;
             push( @data, get_crossing($_) );
         }
 
@@ -150,20 +150,13 @@ sub street_match {
 }
 
 sub streetnames_suggestions_unique {
+    my %args   = @_;
+    my $street = $args{'street'};
+
     my @list = &streetnames_suggestions(@_);
 
-    # return unique list
-    my %hash;
-    my @data;
-
-    foreach my $street (@list) {
-        next if $hash{$street};
-
-        push @data, $street;
-        $hash{$street} = 1;
-    }
-
-    return @data;
+    return &next_crossing( 'street' => $street, 'list' => \@list,
+        'limit' => 10 );
 }
 
 sub streetnames_suggestions {
@@ -219,6 +212,7 @@ sub next_crossing {
     foreach my $s (@list) {
         my ( $coord, $name ) = split /\t/, $s;
         my ( $x2,    $y2 )   = split /,/,  $coord;
+        next if !$name;
 
         my $distance = distance( [ $x1, $y1 ], [ $x2, $y2 ] );
         $hash{$s} = $distance;
@@ -290,7 +284,7 @@ my @suggestion =
 #@suggestion = map { s/^[^\t]*\t\S+\s+//; $_ } @suggestion;
 
 if ( $debug >= 0 && scalar(@suggestion) <= 0 ) {
-    warn "City $city: $street no coords found!\n";
+    warn "City $city: $street, granularity: $granularity2, no coords found!\n";
 }
 warn "City $city: $street", join( " ", @suggestion ), "\n" if $debug >= 2;
 
