@@ -24,7 +24,7 @@ my $opensearch_dir2      = '../data-opensearch-places';
 my $opensearch_crossing  = 'opensearch.crossing.10';
 my $opensearch_crossing2 = 'opensearch.crossing.100';
 
-my $debug          = 2;
+my $debug          = 0;
 my $match_anywhere = 0;
 my $match_words    = 1;
 my $remove_city    = 1;

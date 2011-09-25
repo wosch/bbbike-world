@@ -11,7 +11,7 @@ use MyCgiSimple;
 use strict;
 $ENV{LANG} = 'C';
 
-my $debug = 2;
+my $debug = 0;
 
 # how many latlngs to suggestest
 my $max_suggestions = 64;
