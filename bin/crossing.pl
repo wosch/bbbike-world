@@ -25,6 +25,7 @@ my $debug       = 0;            # 0: quiet, 1: normal, 2: verbose
 my $data_dir    = "data-osm";
 my $granularity = 10000;
 my $out_file;
+my $street_file = "strassen";
 
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
@@ -37,6 +38,7 @@ usage: $0 [--debug={0..2}] [options] cities
 --data-dir=/path/to/data-osm  	default: $data_dir
 --granularity=int		default: $granularity
 --out-file=/path/to/output_file
+--street_file=strassen		default: $street_file
 EOF
 }
 
@@ -71,8 +73,19 @@ sub crossing {
     my $data_dir    = $args{'data_dir'};
     my $granularity = $args{'granularity'};
     my $out_file    = $args{'out_file'};
+    my $street_file = $args{'street_file'};
 
-    my $s             = Strassen->new("$data_dir/$city/strassen");
+    my $file =
+      defined $out_file
+      ? $out_file
+      : "$data_dir/$city/opensearch.crossing." . $granularity;
+    my $file_tmp = $file . ".tmp";
+
+    my $strassen = "$data_dir/$city/$street_file";
+    warn "granularity: $granularity, strassen: $strassen, out: $file_tmp\n"
+      if $debug >= 2;
+
+    my $s             = Strassen->new($strassen);
     my $all_crossings = $s->all_crossings();
 
     my @data;
@@ -84,11 +97,6 @@ sub crossing {
         push @data, padding($x) . "," . padding($y) . "\t$x,$y\t$street\n";
     }
 
-    my $file =
-      defined $out_file
-      ? $out_file
-      : "$data_dir/$city/opensearch.crossing." . $granularity;
-    my $file_tmp = $file . ".tmp";
     my $fh = IO::File->new( $file_tmp, "w" ) or die "open $file_tmp: $!\n";
     print "City: $city, crossings: $#$all_crossings, $file\n" if $debug >= 1;
 
@@ -103,6 +111,7 @@ GetOptions(
     "data-dir=s"    => \$data_dir,
     "granularity=i" => \$granularity,
     "out-file=s"    => \$out_file,
+    "street-file=s" => \$street_file,
 ) or die usage;
 
 my @cities = @ARGV;
@@ -115,6 +124,7 @@ foreach my $city (@cities) {
         'data_dir'    => $data_dir,
         'granularity' => $granularity,
         'out_file'    => $out_file,
+        'street_file' => $street_file,
     );
 }
 
