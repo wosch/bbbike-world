@@ -287,7 +287,7 @@ ${CITIES}:
 ######################################################################
 
 rsync-osm rsync: sync-sitemap
-	rsync -a --exclude='*.bak' --exclude='*.gz' --delete-excluded --delete --max-delete=512 ${OSM_DIR}/ download.bbbike.org:/usr/local/www/download.bbbike.org/osm/bbbike
+	rsync -a --exclude='*.bak' --delete-excluded --delete --max-delete=512 ${OSM_DIR}/ download.bbbike.org:/usr/local/www/download.bbbike.org/osm/bbbike
 	rsync -a --exclude='*.bak' --exclude='*.gz' --delete-excluded --delete --max-delete=512 ${DATA_OSM_DIR} ${OSM_DIR} ${OSP_DIR} ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}
 	#-rsync -a --exclude='*.bak' --exclude='_*.gz' --delete-excluded --delete --max-delete=512 ${OSM_AREAS_OPENSEARCH} ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}
 	-rsync -av --exclude='*.bak' data/opensearch.streetnames ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}/data
@@ -300,7 +300,7 @@ rsync-osm-devel rsync-osm-dev:
 
 rsync-planet:
 	cd ../osm-streetnames/download; \
-	   rsync -av planet-latest.osm.bz2 planet-latest.osm.bz2.md5 \
+	   ${NICE5} rsync -av planet-latest.osm.bz2 planet-latest.osm.bz2.md5 \
 		planet-latest.osm.pbf planet-latest.osm.pbf.md5 bbbike:projects/osm-streetnames/download
 
 create-bbbike-web-symlinks-bbbike.en.cgi:
