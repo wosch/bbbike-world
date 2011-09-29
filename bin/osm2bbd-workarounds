@@ -62,7 +62,7 @@ mv -f $prefix/$city/inaccessible_strassen.tmp $prefix/$city/inaccessible_strasse
 
 # Point of Interests
 echo "Run osm2bbd-poi"
-$time env CITY=$prefix/$city ./miscsrc/osm2bbd-poi > $prefix/$city/poi
+$time env CITY=$prefix/$city ./miscsrc/osm2bbd-poi --storable=../osm-streetnames/poi/$city.db > $prefix/$city/poi
 echo "#: POI" >> $prefix/$city/strassen
 perl -ne 'print if !/^\s*#/ && !/^\s+/' $prefix/$city/poi >> $prefix/$city/strassen
 
