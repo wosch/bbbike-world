@@ -82,7 +82,14 @@ echo -n "OpenSearch requests: "
 zcat -f $logfiles | egrep 'GET /cgi/api.*?\?' | egrep -v '" 40[34] ' | wc -l
 
 echo "OpenSearch requests per city: "
-zcat -f $logfiles | egrep 'GET /cgi/api.*?\?' | egrep -v '" 40[34] ' | perl $perl_utf8 -ne 'print "$1\n" if /city=([^&\s]+)/' | sort | uniq -c | sort -nr
+zcat -f $logfiles | egrep 'GET /cgi/api.*?\?' | egrep -v '" 40[34] ' | perl $perl_utf8 -ne 'print "$1\n" if /city=([^&;\s]+)/' | sort | uniq -c | sort -nr
+
+echo ""
+echo -n "Crossing requests: "
+zcat -f $logfiles | egrep 'GET /cgi/crossing.*?\?' | egrep -v '" 40[34] ' | wc -l
+
+echo "Crossing requests per city: "
+zcat -f $logfiles | egrep 'GET /cgi/crossing.*?\?' | egrep -v '" 40[34] ' | perl $perl_utf8 -ne 'print "$1\n" if /city=([^&;\s]+)/' | sort | uniq -c | sort -nr
 
 echo ""
 echo -n "street requests: "

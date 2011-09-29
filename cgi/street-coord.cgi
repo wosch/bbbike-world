@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/local/bin/perl
 # Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
 #
 # street-coord.cgi - plot street names on a map as a suggestion service
@@ -261,9 +261,9 @@ my @suggestion = @list;
 @suggestion = map { s/^[^\t]*\t\S+\s+//; $_ } @suggestion;
 
 if ( $debug >= 0 && scalar(@suggestion) <= 0 ) {
-    warn "City $city: $street no coords found!\n";
+    warn "$0: City $city: $street no coords found!\n";
 }
-warn "City $city: $street", join( " ", @suggestion ), "\n" if $debug >= 2;
+warn "$0: City $city: $street", join( " ", @suggestion ), "\n" if $debug >= 2;
 
 # plain text
 if ( $namespace eq 'plain' || $namespace == 1 ) {

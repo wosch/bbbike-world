@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/local/bin/perl
 # Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
 #
 # location.cgi - find a bbbike city close to the user
@@ -75,8 +75,9 @@ sub get_city {
 my $db = BBBikeWorldDB->new( 'database' => $database );
 
 print $q->header(
-    -type    => 'application/json;charset=UTF-8',
-    -expires => '+5m'
+    -type                        => 'application/json;charset=UTF-8',
+    -expires                     => '+5m',
+    -access_control_allow_origin => '*',
 );
 
 my $lat = $q->param('lat') || "";
@@ -88,7 +89,8 @@ my $lng = $q->param('lng') || "";
 # "13.3888548", "52.5170397" );
 my @city = get_city( $db->city, $lat, $lng );
 if ( scalar(@city) <= 0 ) {
-    push @city, "NO_CITY";
+
+    #push @city, "NO_CITY";
 }
 else {
 
