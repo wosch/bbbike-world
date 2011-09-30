@@ -16,12 +16,21 @@
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
-    <title>New: support search for addresses with house numbers and
-    zip code</title>
+    <title>New feature: support search for addresses with house
+    numbers and zip code</title>
     <id>171f3263a6e73b3bf6e3256c6cb094f4</id>
     <content>New: support search for addresses with house numbers
     and zip code</content>
     <updated>2011-09-30T12:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
+    <title>New feature: allow to set start and destination of a
+    cycle route with markers on the map</title>
+    <id>171f3263a6e73b3bf6e3256c6cb094f3</id>
+    <content>New feature: allow to set start and destination of a
+    cycle route with markers on the map</content>
+    <updated>2011-09-29T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
