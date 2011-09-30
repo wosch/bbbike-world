@@ -448,7 +448,10 @@ create-sitemap:
 sync-sitemap: create-sitemap
 	rsync -a world/web/sitemap.xml.gz ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}/world/web
 
-update-files: kml create-osp index update-robots.txt create-bbbike-web-symlinks java-config #create-sitemap
+update-files: kml create-osp index update-robots.txt create-bbbike-web-symlinks java-config update-javascript #create-sitemap
+
+update-javascript:
+	make -C html bbbike-js
 
 java-config:
 	test -r $$HOME/.osmosis || ln -fs $$HOME/projects/bbbike/world/etc/.osmosis $$HOME/.osmosis
