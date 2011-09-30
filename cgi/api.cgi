@@ -27,7 +27,7 @@ my $opensearch_crossing2 = 'opensearch.crossing.100';
 my $debug          = 0;
 my $match_anywhere = 0;
 my $match_words    = 1;
-my $remove_city    = 1;
+my $remove_city    = 0;
 my $remove_train   = 1;
 my $sort_by_prefix = 1;
 
@@ -35,13 +35,13 @@ my $sort_by_prefix = 1;
 my $granularity = 100;
 
 # Hauptstr. 27 -> Hauptstr
-my $remove_housenumber_suffix = 1;
+my $remove_housenumber_suffix = 0;
+
+# 232 College Street -> College Street
+my $remove_housenumber_prefix = 0;
 
 # Hauptstrassse -> Hauptstr
 my $remove_street_abbrevation = 1;
-
-# 232 College Street -> College Street
-my $remove_housenumber_prefix = 1;
 
 # word matching for utf8 data
 my $force_utf8 = 0;
