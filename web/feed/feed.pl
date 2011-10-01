@@ -23,6 +23,32 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
+    title =>
+qq{New feature: support search for addresses with house numbers and zip code},
+    id      => '171f3263a6e73b3bf6e3256c6cb094f4',
+    content => {
+        type => 'text',
+        content =>
+          qq{New: support search for addresses with house numbers and zip code},
+    },
+    updated  => '2011-09-30T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title =>
+qq{New feature: allow to set start and destination of a cycle route with markers on the map},
+    id      => '171f3263a6e73b3bf6e3256c6cb094f3',
+    content => {
+        type => 'text',
+        content =>
+qq{New feature: allow to set start and destination of a cycle route with markers on the map},
+    },
+    updated  => '2011-09-29T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title   => qq{New: cycle routing for Emden/Ostfriesland},
     id      => '171f3263a6e73b3bf6e3256c6cb094f6',
     content => {
