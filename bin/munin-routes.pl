@@ -30,7 +30,7 @@ EOF
 
 sub config () {
     print <<EOF;
-graph_title Load average
+graph_title BBBike route searches
 graph_vlabel load
 load.label load
 EOF
