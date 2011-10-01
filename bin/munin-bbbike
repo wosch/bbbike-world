@@ -15,8 +15,11 @@ use warnings;
 #binmode \*STDOUT, ":utf8";
 
 my $debug    = 0;                              # 0: quiet, 1: normal, 2: verbose
-my $database = '/var/tmp/munin-routes.txt';
+my $database = '/var/tmp/munin-bbbike';
 my $logfile  = '/var/log/lighttpd/bbbike.log';
+my $type     = 'route';
+my @ajax =
+  qw/api street_coord crossing maptype weather slippymap location livesearch/;
 
 sub usage {
     <<EOF;
@@ -25,26 +28,51 @@ usage: $0 [--debug={0..2}] config
 --debug=0..2    		default: $debug
 --logfile=/path/to/logfile	default: $logfile
 --database=/path/to/logfile	default: $database
+--type=<stat type		route | ajax, default: $type
 EOF
 }
 
-sub config () {
-    print <<EOF;
+sub config_routes () {
+    <<EOF;
 graph_title Route Searches
 graph_vlabel Searches
 graph_category BBBike
 graph_info Number of Route Searches
 data.label Route Searches
 EOF
+}
 
-    return 0;
+sub config_ajax () {
+    my $data = <<EOF;
+graph_title Ajax
+graph_vlabel Ajax Requests
+graph_category BBBike
+graph_info Number of Ajax Requests
+EOF
+
+    foreach my $s ( sort @ajax ) {
+        $data .= "$s.label $s\n";
+    }
+
+    return $data;
+}
+
+sub config {
+    my $type = shift;
+
+    return
+        $type eq 'ajax'  ? &config_ajax
+      : $type eq 'route' ? &config_routes
+      :                    die "Unknown stat type: $type\n";
 }
 
 sub parse_log {
     my %args = @_;
 
     my $logfile  = $args{'logfile'};
+    my $type     = $args{'type'};
     my $database = $args{'database'};
+    $database .= "-$type.txt";
 
     my $st = stat($logfile) or die "stat $logfile: $!";
     my $offset = $st->size;
@@ -52,18 +80,42 @@ sub parse_log {
     # first run, save file offset of logfile, do nothing
     if ( !-e $database ) {
         write_offset( $database, $offset );
-        return 0;
+        return;
     }
+
     my $last_offset = get_offset($database);
 
-    my $route_count =
-      count_routes( 'logfile' => $logfile, 'offset' => $last_offset );
+    my $data = "";
+    if ( $type eq 'route' ) {
+        my $route_count = count_routes(
+            'logfile' => $logfile,
+            'offset'  => $last_offset,
+            'type'    => $type
+        );
+
+        $data = qq{data.value $route_count\n};
+    }
+    elsif ( $type eq 'ajax' ) {
+        my $count = count_ajax(
+            'logfile' => $logfile,
+            'offset'  => $last_offset,
+            'type'    => $type,
+            'scripts' => \@ajax
+        );
+        foreach my $script ( sort @ajax ) {
+            $data .= "$script.value "
+              . ( exists $count->{$script} ? $count->{$script} : 0 ) . "\n";
+        }
+    }
+    else {
+        die "Unknown type: $type\n";
+    }
 
     # store current log file size in database for next run
     $st = stat($logfile) or die "stat $logfile: $!";
     write_offset( $database, $st->size );
 
-    return $route_count;
+    return $data;
 }
 
 sub get_offset {
@@ -114,6 +166,31 @@ sub count_routes {
     return $counter;
 }
 
+#
+# parse the bbbike access log file and count ajax request
+#
+sub count_ajax {
+    my %args   = @_;
+    my $file   = $args{'logfile'};
+    my $offset = $args{'offset'};
+
+    my $counter = {};
+    my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
+
+    if ( defined $offset ) {
+        warn "Starting at offset: $offset\n" if $debug;
+        seek( $fh, $offset, 0 );
+    }
+
+    while (<$fh>) {
+        if (m,"GET /cgi/(.*?)(\.cgi)?\?,) {
+            $counter->{$1}++;
+        }
+    }
+
+    return $counter;
+}
+
 ######################################################################
 # main
 #
@@ -123,16 +200,21 @@ GetOptions(
     "debug=i"    => \$debug,
     "database=s" => \$database,
     "logfile=s"  => \$logfile,
+    "type=s"     => \$type,
     "help"       => \$help
 ) or die usage;
 
 die usage if $help;
 
 if ( defined $ARGV[0] && $ARGV[0] eq 'config' ) {
-    &config;
+    print &config($type);
 }
 else {
-    my $count = &parse_log( 'logfile' => $logfile, 'database' => $database );
-    print qq{data.value $count\n};
+    my $text = &parse_log(
+        'logfile'  => $logfile,
+        'database' => $database,
+        'type'     => $type
+    );
+    print $text;
 }
 
