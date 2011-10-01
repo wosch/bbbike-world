@@ -105,7 +105,7 @@ sub parse_log {
 
         foreach my $script ( sort @ajax ) {
             my $s = $script;
-            $s =~ s/_/-/g;
+            $s =~ s/_/-/g; # street_coord -> street-coord
 
             $data .= "$script.value "
               . ( exists $count->{$s} ? $count->{$s} : 0 ) . "\n";
