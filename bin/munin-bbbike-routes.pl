@@ -30,9 +30,11 @@ EOF
 
 sub config () {
     print <<EOF;
-graph_title BBBike route searches
-graph_vlabel load
-load.label load
+graph_title Route Searches
+graph_vlabel Searches
+graph_category BBBike
+graph_info Number of Route Searches
+data.label Route Searches
 EOF
 
     return 0;
@@ -131,6 +133,6 @@ if ( defined $ARGV[0] && $ARGV[0] eq 'config' ) {
 }
 else {
     my $count = &parse_log( 'logfile' => $logfile, 'database' => $database );
-    print qq{load.value $count\n};
+    print qq{data.value $count\n};
 }
 
