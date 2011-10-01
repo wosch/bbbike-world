@@ -116,10 +116,15 @@ sub count_routes {
 # main
 #
 
+my $help;
 GetOptions(
     "debug=i"    => \$debug,
     "database=s" => \$database,
+    "logfile=s"  => \$logfile,
+    "help"       => \$help
 ) or die usage;
+
+die usage if $help;
 
 if ( defined $ARGV[0] && $ARGV[0] eq 'config' ) {
     &config;
