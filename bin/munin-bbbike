@@ -102,9 +102,13 @@ sub parse_log {
             'type'    => $type,
             'scripts' => \@ajax
         );
+
         foreach my $script ( sort @ajax ) {
+            my $s = $script;
+            $s =~ s/_/-/g;
+
             $data .= "$script.value "
-              . ( exists $count->{$script} ? $count->{$script} : 0 ) . "\n";
+              . ( exists $count->{$s} ? $count->{$s} : 0 ) . "\n";
         }
     }
     else {
@@ -215,6 +219,6 @@ else {
         'database' => $database,
         'type'     => $type
     );
-    print $text;
+    print $text if $text;
 }
 
