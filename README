@@ -14,7 +14,8 @@ sudo apt-get install \
   libhtml-tagcloud-perl libtext-unidecode-perl munin \
   perltidy libxml-atom-simplefeed-perl libjson-perl liburi-perl \
   libxml-libxml-perl libyaml-perl libyaml-syck-perl tidy libxml-simple-perl \
-  libdevel-size-perl libtie-ixhash-perl libdevel-size-perl libbsd-resource-perl
+  libdevel-size-perl libtie-ixhash-perl libdevel-size-perl libbsd-resource-perl \
+  libobject-realize-later-perl
 
 # reverse proxy
 sudo apt-get install varnish
@@ -31,6 +32,7 @@ sudo perl -MCPAN -e 'install Text::Unidecode'
 sudo perl -MCPAN -e 'install HTML::TagCloud'
 sudo perl -MCPAN -e 'install XML::Atom::SimpleFeed'
 sudo perl -MCPAN -e 'install XML::LibXML::Reader'
+sudo perl -MCPAN -e 'install Object::Realize::Later'
 
 
 Development
