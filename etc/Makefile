@@ -20,10 +20,17 @@ sync-backend:
 	cp -f /etc/logrotate.d/lighttpd lighttpd.logrotate
 
 
+munin: munin-lighttpd munin-xen
+
 munin-lighttpd:
 	for i in ${MUNIN_LIGHTTPD}; do \
-	   sudo ln -fs `pwd`/../bin/munin-lighttpd ${MUNIN_PLUGINS_DIR}/$$i; \
+	   sudo ln -fs `pwd`/../src/munin/munin-lighttpd ${MUNIN_PLUGINS_DIR}/$$i; \
 	done
+
+munin-xen:
+	sudo ln -fs `pwd`/../src/munin/xen_multi ${MUNIN_PLUGINS_DIR}
+	@echo  "don't forget to update /etc/munin/plugin-conf.d/munin-node, see ./README"
 	
 help:
-	@echo "make [ sync-backend | sync-frontend | munin-lighttpd ]"
+	@echo "make [ sync-backend | sync-frontend ]"
+	@echo "make [ munin | munin-lighttpd | munin-xen ]"
