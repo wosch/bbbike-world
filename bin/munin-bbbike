@@ -52,6 +52,7 @@ graph_vlabel Searches
 graph_category BBBike
 graph_info Number of Route Searches
 data.label Route Searches
+data.min 0
 EOF
 }
 
@@ -91,9 +92,10 @@ sub config {
     my $type = shift;
 
     return
-        $type eq 'ajax'  ? &config_ajax
-      : $type eq 'route' ? &config_routes
-      :                    die "Unknown stat type: $type\n";
+        $type eq 'ajax'   ? &config_ajax
+      : $type eq 'route'  ? &config_routes
+      : $type eq 'output' ? &config_output
+      :                     die "Unknown stat type: $type\n";
 }
 
 sub parse_log {
