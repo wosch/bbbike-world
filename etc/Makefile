@@ -31,6 +31,11 @@ munin-xen:
 	sudo ln -fs `pwd`/../src/munin/xen_multi ${MUNIN_PLUGINS_DIR}
 	@echo  "don't forget to update /etc/munin/plugin-conf.d/munin-node, see ./README"
 	
+munin-bbbike:
+	sudo cp -f ../bin/munin-bbbike ${MUNIN_PLUGINS_DIR}
+	cd ${MUNIN_PLUGINS_DIR}; sudo ln -fs munin-bbbike-ajax
+	cd ${MUNIN_PLUGINS_DIR}; sudo ln -fs munin-bbbike-output
+
 help:
 	@echo "make [ sync-backend | sync-frontend ]"
-	@echo "make [ munin | munin-lighttpd | munin-xen ]"
+	@echo "make [ munin | munin-lighttpd | munin-xen | munin-bbbike ]"
