@@ -33,8 +33,8 @@ munin-xen:
 	
 munin-bbbike:
 	sudo cp -f ../bin/munin-bbbike ${MUNIN_PLUGINS_DIR}
-	cd ${MUNIN_PLUGINS_DIR}; sudo ln -fs munin-bbbike-ajax
-	cd ${MUNIN_PLUGINS_DIR}; sudo ln -fs munin-bbbike-output
+	cd ${MUNIN_PLUGINS_DIR}; sudo ln -fs munin-bbbike munin-bbbike-ajax
+	cd ${MUNIN_PLUGINS_DIR}; sudo ln -fs munin-bbbike munin-bbbike-output
 
 help:
 	@echo "make [ sync-backend | sync-frontend ]"
