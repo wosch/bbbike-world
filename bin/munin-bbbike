@@ -20,6 +20,9 @@ my $database = '/var/tmp/munin-bbbike';
 my $logfile  = '/var/log/lighttpd/bbbike.log';
 my $type     = 'route';
 
+# standard munin interval of 5 minutes
+my $interval = 5;
+
 my $config = {
     'ajax' => [
         qw/api street-coord crossing maptype weather slippymap location livesearch/
@@ -36,8 +39,18 @@ usage: $0 [--debug={0..2}] config
 --debug=0..2    		default: $debug
 --logfile=/path/to/logfile	default: $logfile
 --database=/path/to/logfile	default: $database
---type=<stat type		$types, default: $type
+--type=<stat type>		$types, default: $type
+--interval=interval		interval in munutes, default: $interval;
 EOF
+}
+
+sub interval {
+    my $value = shift;
+    my $period = shift || $interval;
+
+    $period = 1 if $period <= 0;
+
+    return ( $value / $period );
 }
 
 sub get_types {
@@ -104,6 +117,7 @@ sub parse_log {
     my $logfile  = $args{'logfile'};
     my $type     = $args{'type'};
     my $database = $args{'database'};
+    my $interval = $args{'interval'};
     $database .= "-$<-$type.txt";
 
     my $st = stat($logfile) or die "stat $logfile: $!";
@@ -125,7 +139,7 @@ sub parse_log {
             'type'    => $type
         );
 
-        $data = qq{data.value $route_count\n};
+        $data = "data.value " . &interval($route_count) . "\n";
     }
     elsif ( $type eq 'ajax' ) {
         my $count = count_ajax(
@@ -136,8 +150,10 @@ sub parse_log {
         );
 
         foreach my $script ( sort @{ $config->{'ajax'} } ) {
-            $data .= "$script.value "
-              . ( exists $count->{$script} ? $count->{$script} : 0 ) . "\n";
+            $data .=
+                "$script.value "
+              . ( exists $count->{$script} ? interval( $count->{$script} ) : 0 )
+              . "\n";
         }
     }
     elsif ( $type eq 'output' ) {
@@ -149,8 +165,10 @@ sub parse_log {
         );
 
         foreach my $output ( sort @{ $config->{'output'} } ) {
-            $data .= "$output.value "
-              . ( exists $count->{$output} ? $count->{$output} : 0 ) . "\n";
+            $data .=
+                "$output.value "
+              . ( exists $count->{$output} ? interval( $count->{$output} ) : 0 )
+              . "\n";
         }
     }
     else {
@@ -297,6 +315,7 @@ GetOptions(
     "database=s" => \$database,
     "logfile=s"  => \$logfile,
     "type=s"     => \$type,
+    "interval=i" => \$interval,
     "help"       => \$help
 ) or die usage;
 
@@ -310,6 +329,7 @@ else {
     my $text = &parse_log(
         'logfile'  => $logfile,
         'database' => $database,
+        'interval' => $interval,
         'type'     => $type
     );
     print $text if $text;
