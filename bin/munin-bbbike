@@ -72,7 +72,7 @@ sub parse_log {
     my $logfile  = $args{'logfile'};
     my $type     = $args{'type'};
     my $database = $args{'database'};
-    $database .= "-$type.txt";
+    $database .= "-$<-$type.txt";
 
     my $st = stat($logfile) or die "stat $logfile: $!";
     my $offset = $st->size;
