@@ -257,14 +257,6 @@ sub count_ajax {
         if (m,"GET /cgi/(.*?)(\.cgi)?\?,) {
             $counter->{$1}++;
         }
-        elsif (m,"POST /,) {
-            if (   m,"POST /[A-Z][a-z]+\S+/ ,
-                || m,"POST /[A-Z][a-z]+\S+/\?[a-z]+, )
-            {
-                $counter->{"pdf"}++;
-            }
-
-        }
     }
 
     return $counter;
@@ -291,6 +283,14 @@ sub count_output {
     while (<$fh>) {
         if (m,"GET /\S+output_as=(.*?)[;&\s],) {
             $counter->{$1}++;
+        }
+
+        elsif (m,"POST /,) {
+            if (   m,"POST /[A-Z][a-z]+\S+/ ,
+                || m,"POST /[A-Z][a-z]+\S+/\?[a-z]+, )
+            {
+                $counter->{"pdf"}++;
+            }
         }
     }
 
