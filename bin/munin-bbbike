@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2011 Wolfram Schneider, http://bbbike.org
 #
 # munin-routes - munin statistics for BBBike, searches per interval
 
@@ -11,9 +11,6 @@ use File::Basename;
 
 use strict;
 use warnings;
-
-#binmode \*STDIN,  ":utf8";
-#binmode \*STDOUT, ":utf8";
 
 # 0: quiet, 1: normal, 2: verbose
 my $debug = defined $ENV{MUNIN_BBBIKE_DEBUG} ? $ENV{MUNIN_BBBIKE_DEBUG} : 0;
