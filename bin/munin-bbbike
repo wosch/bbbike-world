@@ -23,7 +23,7 @@ my $config = {
     'ajax' => [
         qw/api street_coord crossing maptype weather slippymap location livesearch/
     ],
-    'output' => [qw/print gpx-track gpx-route kml-track/],
+    'output' => [qw/print gpx-track gpx-route kml-track pdf/],
 };
 
 sub usage {
@@ -140,6 +140,19 @@ sub parse_log {
               . ( exists $count->{$s} ? $count->{$s} : 0 ) . "\n";
         }
     }
+    elsif ( $type eq 'output' ) {
+        my $count = count_output(
+            'logfile' => $logfile,
+            'offset'  => $last_offset,
+            'type'    => $type,
+            'output'  => $config->{'output'}
+        );
+
+        foreach my $output ( sort @{ $config->{'output'} } ) {
+            $data .= "$output.value "
+              . ( exists $count->{$output} ? $count->{$output} : 0 ) . "\n";
+        }
+    }
     else {
         die "Unknown type: $type\n";
     }
@@ -217,6 +230,41 @@ sub count_ajax {
 
     while (<$fh>) {
         if (m,"GET /cgi/(.*?)(\.cgi)?\?,) {
+            $counter->{$1}++;
+        }
+        elsif (m,"POST /,) {
+            if (   m,"POST /[A-Z][a-z]+\S+/ ,
+                || m,"POST /[A-Z][a-z]+\S+/\?[a-z]+, )
+            {
+                $counter->{"pdf"}++;
+            }
+
+        }
+    }
+
+    return $counter;
+}
+
+#
+# parse the bbbike access log file and count output
+# requests (GPX, KML, print)
+#
+sub count_output {
+    my %args   = @_;
+    my $file   = $args{'logfile'};
+    my $offset = $args{'offset'};
+
+    my $counter = {};
+    my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
+
+    if ( defined $offset ) {
+        warn "Starting at offset: $offset\n" if $debug;
+        seek( $fh, $offset, 0 );
+    }
+
+# "GET /Erlangen/?startc=10.95985%2C49.58876;zielc=11.02811%2C49.57724;pref_seen=1;pref_speed=20;pref_cat=;pref_quality=;pref_specialvehicle=;scope=;output_as=print
+    while (<$fh>) {
+        if (m,"GET /\S+output_as=(.*?)[;&\s],) {
             $counter->{$1}++;
         }
     }
