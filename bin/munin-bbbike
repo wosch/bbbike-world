@@ -22,7 +22,7 @@ my $type     = 'route';
 
 my $config = {
     'ajax' => [
-        qw/api street_coord crossing maptype weather slippymap location livesearch/
+        qw/api street-coord crossing maptype weather slippymap location livesearch/
     ],
     'output' => [qw/print gpx-track gpx-route kml-track pdf/],
 };
@@ -136,11 +136,8 @@ sub parse_log {
         );
 
         foreach my $script ( sort @{ $config->{'ajax'} } ) {
-            my $s = $script;
-            $s =~ s/_/-/g;    # street_coord -> street-coord
-
             $data .= "$script.value "
-              . ( exists $count->{$s} ? $count->{$s} : 0 ) . "\n";
+              . ( exists $count->{$script} ? $count->{$script} : 0 ) . "\n";
         }
     }
     elsif ( $type eq 'output' ) {
