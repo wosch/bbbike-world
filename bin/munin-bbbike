@@ -15,7 +15,9 @@ use warnings;
 #binmode \*STDIN,  ":utf8";
 #binmode \*STDOUT, ":utf8";
 
-my $debug    = 0;                              # 0: quiet, 1: normal, 2: verbose
+# 0: quiet, 1: normal, 2: verbose
+my $debug = defined $ENV{MUNIN_BBBIKE_DEBUG} ? $ENV{MUNIN_BBBIKE_DEBUG} : 0;
+
 my $database = '/var/tmp/munin-bbbike';
 my $logfile  = '/var/log/lighttpd/bbbike.log';
 my $type     = 'route';
@@ -312,19 +314,21 @@ sub detect_type {
 sub parse_config {
     my $file = shift;
 
-    return if !-f $file;
+    warn "Open config file $file\n" if $debug;
 
+    return if !-f $file;
     my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
 
     my @param;
     while (<$fh>) {
         chomp;
-        s/^\s*#//;
+        s/^\s*#.*//;
         if ($_) {
             push @param, split /\s+/, $_;
         }
     }
 
+    warn "Read config: ", join( " ", @param ), "\n" if $debug;
     return @param;
 }
 
