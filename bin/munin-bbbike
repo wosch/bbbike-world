@@ -46,6 +46,8 @@ usage: $0 [--debug={0..2}] config
 --database=/path/to/logfile	default: $database
 --type=<stat type>		$types, default: $type
 --interval=interval		interval in munutes, default: $interval;
+
+Munin bbbike config file: $munin_config_file
 EOF
 }
 
