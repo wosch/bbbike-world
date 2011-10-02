@@ -18,18 +18,30 @@ my $debug    = 0;                              # 0: quiet, 1: normal, 2: verbose
 my $database = '/var/tmp/munin-bbbike';
 my $logfile  = '/var/log/lighttpd/bbbike.log';
 my $type     = 'route';
-my @ajax =
-  qw/api street_coord crossing maptype weather slippymap location livesearch/;
+
+my $config = {
+    'ajax' => [
+        qw/api street_coord crossing maptype weather slippymap location livesearch/
+    ],
+    'output' => [qw/print gpx-track gpx-route kml-track/],
+};
 
 sub usage {
+    my $types = join " | ", &get_types;
+
     <<EOF;
 usage: $0 [--debug={0..2}] config
 
 --debug=0..2    		default: $debug
 --logfile=/path/to/logfile	default: $logfile
 --database=/path/to/logfile	default: $database
---type=<stat type		route | ajax, default: $type
+--type=<stat type		$types, default: $type
 EOF
+}
+
+sub get_types {
+    my @types = qw/ajax route output/;
+    return sort @types;
 }
 
 sub config_routes () {
@@ -50,7 +62,23 @@ graph_category BBBike
 graph_info Number of Ajax Requests
 EOF
 
-    foreach my $s ( sort @ajax ) {
+    foreach my $s ( sort @{ $config->{'ajax'} } ) {
+        $data .= "$s.label $s\n";
+        $data .= "$s.min 0\n";
+    }
+
+    return $data;
+}
+
+sub config_output () {
+    my $data = <<EOF;
+graph_title Oputput Formats
+graph_vlabel Oputput Formats
+graph_category BBBike
+graph_info Number of Oputput Formats
+EOF
+
+    foreach my $s ( sort @{ $config->{'output'} } ) {
         $data .= "$s.label $s\n";
         $data .= "$s.min 0\n";
     }
@@ -101,10 +129,10 @@ sub parse_log {
             'logfile' => $logfile,
             'offset'  => $last_offset,
             'type'    => $type,
-            'scripts' => \@ajax
+            'scripts' => $config->{'ajax'}
         );
 
-        foreach my $script ( sort @ajax ) {
+        foreach my $script ( sort @{ $config->{'ajax'} } ) {
             my $s = $script;
             $s =~ s/_/-/g;    # street_coord -> street-coord
 
@@ -210,6 +238,7 @@ GetOptions(
 ) or die usage;
 
 die usage if $help;
+die "Unknown type '$type'\n\n" . &usage if !grep { $type eq $_ } &get_types;
 
 if ( defined $ARGV[0] && $ARGV[0] eq 'config' ) {
     print &config($type);
