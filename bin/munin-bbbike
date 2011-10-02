@@ -64,6 +64,7 @@ graph_title Route Searches
 graph_vlabel Searches
 graph_category BBBike
 graph_info Number of Route Searches
+graph_period minute
 data.label Route Searches
 data.min 0
 EOF
@@ -75,6 +76,7 @@ graph_title Ajax
 graph_vlabel Ajax Requests
 graph_category BBBike
 graph_info Number of Ajax Requests
+graph_period minute
 EOF
 
     foreach my $s ( sort @{ $config->{'ajax'} } ) {
@@ -91,6 +93,7 @@ graph_title Oputput Formats
 graph_vlabel Oputput Formats
 graph_category BBBike
 graph_info Number of Oputput Formats
+graph_period minute
 EOF
 
     foreach my $s ( sort @{ $config->{'output'} } ) {
