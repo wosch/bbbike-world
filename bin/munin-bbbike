@@ -23,6 +23,9 @@ my $type     = 'route';
 # standard munin interval of 5 minutes
 my $interval = 5;
 
+# munin-bbbike config file
+my $munin_config_file = "/etc/munin/munin-bbbike.conf";
+
 my $config = {
     'ajax' => [
         qw/api street-coord crossing maptype weather slippymap location livesearch/
@@ -306,13 +309,38 @@ sub detect_type {
     }
 }
 
+sub parse_config {
+    my $file = shift;
+
+    return if !-f $file;
+
+    my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
+
+    my @param;
+    while (<$fh>) {
+        chomp;
+        s/^\s*#//;
+        if ($_) {
+            push @param, split /\s+/, $_;
+        }
+    }
+
+    return @param;
+}
+
 ######################################################################
 # main
 #
 
 my $help;
 
+# read parameters from script path name
 $type = &detect_type if &detect_type;
+
+# read parameters from munin-bbbike config file
+my @config = parse_config($munin_config_file);
+push( @ARGV, @config ) if @config;
+
 GetOptions(
     "debug=i"    => \$debug,
     "database=s" => \$database,
