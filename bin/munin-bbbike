@@ -101,10 +101,10 @@ EOF
 
 sub config_output () {
     my $data = <<EOF;
-graph_title Oputput Formats
-graph_vlabel Oputput Formats
+graph_title Output Formats
+graph_vlabel Output Formats
 graph_category BBBike
-graph_info Number of Oputput Formats
+graph_info Number of Output Formats
 graph_period minute
 EOF
 
