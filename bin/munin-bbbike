@@ -26,7 +26,7 @@ my $interval = 5;
 my $munin_config_file = "/etc/munin/munin-bbbike.conf";
 
 my $config = {
-    'ajax'   => [ qw/api street-coord crossing maptype weather location/ ],
+    'ajax'   => [qw/api street-coord crossing maptype weather location/],
     'output' => [qw/print gpx-track gpx-route kml-track pdf/],
 };
 
@@ -60,6 +60,15 @@ sub get_types {
     return sort @types;
 }
 
+# escape label names for older munin releases
+sub escape_label {
+    my $label = shift;
+
+    $label =~ s/-/_/g;
+
+    return $label;
+}
+
 sub config_routes () {
     <<EOF;
 graph_title Route Searches
@@ -81,9 +90,10 @@ graph_info Number of Ajax Requests
 graph_period minute
 EOF
 
-    foreach my $s ( sort @{ $config->{'ajax'} } ) {
-        $data .= "$s.label $s\n";
-        $data .= "$s.min 0\n";
+    foreach my $label ( sort @{ $config->{'ajax'} } ) {
+        my $label_e = escape_label($label);
+        $data .= "$label_e.label $label\n";
+        $data .= "$label_e.min 0\n";
     }
 
     return $data;
@@ -98,9 +108,10 @@ graph_info Number of Oputput Formats
 graph_period minute
 EOF
 
-    foreach my $s ( sort @{ $config->{'output'} } ) {
-        $data .= "$s.label $s\n";
-        $data .= "$s.min 0\n";
+    foreach my $label ( sort @{ $config->{'output'} } ) {
+        my $label_e = escape_label($label);
+        $data .= "$label_e.label $label\n";
+        $data .= "$label_e.min 0\n";
     }
 
     return $data;
@@ -154,10 +165,10 @@ sub parse_log {
             'scripts' => $config->{'ajax'}
         );
 
-        foreach my $script ( sort @{ $config->{'ajax'} } ) {
+        foreach my $label ( sort @{ $config->{'ajax'} } ) {
             $data .=
-                "$script.value "
-              . ( exists $count->{$script} ? interval( $count->{$script} ) : 0 )
+                "$label.value "
+              . ( exists $count->{$label} ? interval( $count->{$label} ) : 0 )
               . "\n";
         }
     }
@@ -169,10 +180,10 @@ sub parse_log {
             'output'  => $config->{'output'}
         );
 
-        foreach my $output ( sort @{ $config->{'output'} } ) {
+        foreach my $label ( sort @{ $config->{'output'} } ) {
             $data .=
-                "$output.value "
-              . ( exists $count->{$output} ? interval( $count->{$output} ) : 0 )
+                "$label.value "
+              . ( exists $count->{$label} ? interval( $count->{$label} ) : 0 )
               . "\n";
         }
     }
