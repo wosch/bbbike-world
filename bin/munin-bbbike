@@ -229,7 +229,7 @@ sub count_routes {
     }
 
     while (<$fh>) {
-        if ( /pref_seen=1/ && /startc=[0-9\-\+]/ && /zielc=[0-9\-\+]/ ) {
+        if ( m,"GET /\S+pref_seen=1, && /startc=[0-9\-\+]/ && /zielc=[0-9\-\+]/ ) {
             $counter++;
         }
     }
