@@ -26,9 +26,7 @@ my $interval = 5;
 my $munin_config_file = "/etc/munin/munin-bbbike.conf";
 
 my $config = {
-    'ajax' => [
-        qw/api street-coord crossing maptype weather location/
-    ],
+    'ajax'   => [ qw/api street-coord crossing maptype weather location/ ],
     'output' => [qw/print gpx-track gpx-route kml-track pdf/],
 };
 
@@ -229,7 +227,10 @@ sub count_routes {
     }
 
     while (<$fh>) {
-        if ( m,"GET /\S+pref_seen=1, && /startc=[0-9\-\+]/ && /zielc=[0-9\-\+]/ ) {
+        if (   m,"GET /\S+pref_seen=1,
+            && /startc=[0-9\-\+]/
+            && /zielc=[0-9\-\+]/ )
+        {
             $counter++;
         }
     }
