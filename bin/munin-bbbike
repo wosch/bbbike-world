@@ -300,11 +300,11 @@ sub count_output {
         }
 
         elsif (m,"GET /\S+imagetype=(.*?)[;&\s],) {
-            my $imagetype = $1;
+            my $imagetype = $1 || "";
 
             # count all PDF as pdf (landscape + auto + portrait)
             $imagetype =~ s/^pdf.*/pdf/;
-            $counter->{$1}++;
+            $counter->{$imagetype}++ if $imagetype ne "";
         }
 
         # bbbike.de
