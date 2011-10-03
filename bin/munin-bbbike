@@ -26,8 +26,9 @@ my $interval = 5;
 my $munin_config_file = "/etc/munin/munin-bbbike.conf";
 
 my $config = {
-    'ajax'   => [qw/api street-coord crossing maptype weather location/],
-    'output' => [qw/print gpx-track gpx-route kml-track pdf/],
+    'ajax' => [qw/api street-coord crossing maptype weather location/],
+    'output' =>
+      [qw/print gpx-track gpx-route kml-track pdf png palmdoc googlemaps/],
 };
 
 sub usage {
@@ -295,6 +296,19 @@ sub count_output {
     while (<$fh>) {
         if (m,"GET /\S+output_as=(.*?)[;&\s],) {
             $counter->{$1}++;
+        }
+
+        elsif (m,"GET /\S+imagetype=(.*?)[;&\s],) {
+            my $imagetype = $1;
+
+            # count all PDF as pdf (landscape + auto + portrait)
+            $imagetype =~ s/^pdf.*/pdf/;
+            $counter->{$1}++;
+        }
+
+        # bbbike.de
+        elsif (m,"POST /cgi-bin/bbbikegooglemap.cgi,) {
+            $counter->{"googlemaps"}++;
         }
 
         elsif (m,"POST /,) {
