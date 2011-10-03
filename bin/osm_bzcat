@@ -11,7 +11,7 @@ else
 	bzcat='bzip2 -dc'
 fi
 
-if which buffer >/dev/null && -e /proc ; then
+if which buffer >/dev/null && test -e /proc ; then
 	$bzcat "$@" | buffer -m 6400k
 else
 	$bzcat "$@"

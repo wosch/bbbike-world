@@ -20,7 +20,10 @@ esac
 
 file_pbf=`echo "$file" | perl -npe 's/\.[^\.]+$/.pbf/'`
 
-$uncompress "$file" | osmosis --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=12000 \
+# run in quiet mode
+global_opt=-q
+
+$uncompress "$file" | osmosis $global_opt --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=12000 \
 	--write-pbf $file_pbf omitmetadata=true granularity=10000 || exit 2
 
 $md5sum $file_pbf > $file_pbf.md5

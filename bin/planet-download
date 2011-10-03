@@ -17,7 +17,7 @@ file=planet-latest.osm.bz2
 planet_osm_server=http://planet.openstreetmap.org
 
 if [ -e $HOME/.bbbikerc ]; then 
-    source $HOME/.bbbikerc
+    . $HOME/.bbbikerc
 fi
 
 

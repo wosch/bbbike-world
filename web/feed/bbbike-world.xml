@@ -16,6 +16,56 @@
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>New feature: support search for addresses with house
+    numbers and zip code</title>
+    <id>171f3263a6e73b3bf6e3256c6cb094f4</id>
+    <content>New: support search for addresses with house numbers
+    and zip code</content>
+    <updated>2011-09-30T12:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
+    <title>New feature: allow to set start and destination of a
+    cycle route with markers on the map</title>
+    <id>171f3263a6e73b3bf6e3256c6cb094f3</id>
+    <content>New feature: allow to set start and destination of a
+    cycle route with markers on the map</content>
+    <updated>2011-09-29T12:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
+    <title>New: cycle routing for Emden/Ostfriesland</title>
+    <id>171f3263a6e73b3bf6e3256c6cb094f6</id>
+    <content>New: cycle routing for Emden/Ostfriesland:
+    http://www.bbbike.org/Emden</content>
+    <updated>2011-09-11T12:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
+    <title>New: cycle routing for Bremerhaven</title>
+    <id>171f3263a6e73b3bf6e3256c6cb094f7</id>
+    <content>New: cycle routing for Bremerhaven:
+    http://www.bbbike.org/Bremerhaven</content>
+    <updated>2011-09-11T12:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
+    <title>New: cycle routing for Heilbronn</title>
+    <id>7b2006882ab330199ea21240ce787723</id>
+    <content>New: cycle routing for Heilbronn:
+    http://www.bbbike.org/Heilbronn</content>
+    <updated>2011-09-11T12:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
+    <title>New: cycle routing for Madrid</title>
+    <id>a440093ff2ecb6ffe9e5646b49a1d501</id>
+    <content>New: cycle routing for Madrid:
+    http://www.bbbike.org/Madrid</content>
+    <updated>2011-09-08T12:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title>New: cycle routing for Alexandria</title>
     <id>1ac05653bda68ca1346b5cbf083f3c88</id>
     <content>New: cycle routing for Alexandria:

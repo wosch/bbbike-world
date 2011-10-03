@@ -10,7 +10,7 @@ set -e
 nice="nice -n 9"
 
 file=$1
-file_bpf=`basename $file .bz2`.pbf
+file_bpf=`echo "$file" | perl -npe 's/\.bz2$/.pbf/'`
 
 file_bpf_new=$file_bpf.new.$$
 

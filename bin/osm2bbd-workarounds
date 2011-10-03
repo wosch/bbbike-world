@@ -35,6 +35,7 @@ $time ./miscsrc/osm2bbd-postprocess --debug=1 --force \
 	--neighbours="`world/bin/bbbike-db --neighbours $city`" \
 	--region="`world/bin/bbbike-db --region $city`" \
 	--local-lang=`world/bin/bbbike-db --local-lang $city` \
+	--other-names="`world/bin/bbbike-db --other-names $city`" \
 		$prefix/$city
 
 if [ $? != 0 ]; then
@@ -54,24 +55,28 @@ do
    mv -f $prefix/$city/$file.tmp $prefix/$city/$file
 done
 
-
-# Point of Interests
-echo "Run osm2bbd-poi"
-$time env CITY=$prefix/$city ./miscsrc/osm2bbd-poi > $prefix/$city/poi
-perl -ne 'print if !/^\s*#/ && !/^\s+/' $prefix/$city/poi >> $prefix/$city/strassen
-
-# towns, villages
-if [ -e $prefix/$city/orte ]; then 
-   perl -ne 'print if !/^\s*#/ && !/^\s+/' $prefix/$city/orte >> $prefix/$city/strassen
-fi
-
-
-$p/strasse-str $prefix/$city/strassen
-
 echo "Run search_inaccessible_points"
 $time miscsrc/search_inaccessible_points -encoding utf-8 -q -cache -shorter -street $prefix/$city/strassen -street $prefix/$city/faehren \
   -blocked $prefix/$city/gesperrt -blockedtype einbahn -blockedtype sperre  > $prefix/$city/inaccessible_strassen.tmp
 mv -f $prefix/$city/inaccessible_strassen.tmp $prefix/$city/inaccessible_strassen
+
+# strasse -> str
+$p/strasse-str $prefix/$city/strassen
+
+# list of crossings
+$p/crossing.pl --granularity=100 --data-dir=$prefix $city
+perl -i.all -ne 'print if !/\t$/' $prefix/$city/opensearch.crossing.100
+$p/crossing.pl --granularity=10 --data-dir=$prefix $city
+perl -i.all -ne 'print if !/\t$/' $prefix/$city/opensearch.crossing.10
+
+# Point of Interests
+echo "Run osm2bbd-poi"
+$time env CITY=$prefix/$city ./miscsrc/osm2bbd-poi --storable=../osm-streetnames/poi/$city.db > $prefix/$city/poi
+
+$p/strasse-str $prefix/$city/poi
+
+echo "#: POI" >> $prefix/$city/strassen
+perl -ne 'print if !/^\s*#/ && !/^\s+/' $prefix/$city/poi >> $prefix/$city/strassen
 
 cd $prefix/$city || exit 2
 cat /dev/null > Berlin.coords.data
@@ -86,9 +91,7 @@ perl -ne 'print if !/^\s+|^\s*#|^$/' strassen | sort -uf > opensearch.street-coo
 
 for i in Berlin.coords.data Potsdam.coords.data comments_mount flaechen green nolighting plaetze qualitaet_s rbahn rbahnhof sbahn sbahnhof strassen ubahn ubahnhof wasserstrassen faehren `find . -type f -size 0`
 do
-
 	if ! [ -s $i ]; then
-
 cat << EOF > $i
 #: #: -*- coding: utf-8 -*-
 #:encoding: utf-8
@@ -103,7 +106,7 @@ done
 rm -f *.bak
 
 # compress unused files
-ls | egrep -v '\.gz' | egrep "^_|^poi$|^strassen-orig$" | xargs gzip -f
+ls | egrep -v '\.gz' | egrep "^_|^poi$|^strassen-orig|opensearch.crossing.*all$" | xargs gzip -f
 
 rm -rf $tmpdir
 

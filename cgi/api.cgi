@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/local/bin/perl
 # Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
 #
 # api.cgi - suggestion service for street names
@@ -18,25 +18,30 @@ my $max_suggestions = 64;
 # for the input less than 4 characters
 my $max_suggestions_short = 10;
 
-my $opensearch_file = 'opensearch.streetnames';
-my $opensearch_dir  = '../data-osm';
-my $opensearch_dir2 = '../data-opensearch-places';
+my $opensearch_file      = 'opensearch.streetnames';
+my $opensearch_dir       = '../data-osm';
+my $opensearch_dir2      = '../data-opensearch-places';
+my $opensearch_crossing  = 'opensearch.crossing.10';
+my $opensearch_crossing2 = 'opensearch.crossing.100';
 
-my $debug          = 1;
+my $debug          = 0;
 my $match_anywhere = 0;
 my $match_words    = 1;
-my $remove_city    = 1;
+my $remove_city    = 0;
 my $remove_train   = 1;
 my $sort_by_prefix = 1;
 
+# wgs84 granularity
+my $granularity = 100;
+
 # Hauptstr. 27 -> Hauptstr
-my $remove_housenumber_suffix = 1;
+my $remove_housenumber_suffix = 0;
+
+# 232 College Street -> College Street
+my $remove_housenumber_prefix = 0;
 
 # Hauptstrassse -> Hauptstr
 my $remove_street_abbrevation = 1;
-
-# 232 College Street -> College Street
-my $remove_housenumber_prefix = 1;
 
 # word matching for utf8 data
 my $force_utf8 = 0;
@@ -49,13 +54,60 @@ my $use_look = 1;
 # performance tuning, egrep may be faster than perl regex
 my $use_egrep = 1;
 
+# compute the distance betweent 2 points
+# Argument: [x1,y1], [x2, y2]
+sub distance {
+    CORE::sqrt(
+        sqr( $_[0]->[0] - $_[1]->[0] ) + sqr( $_[0]->[1] - $_[1]->[1] ) );
+}
+
+sub sqr {
+    $_[0] * $_[0];
+}
+
 sub ascii2unicode {
     my $string = shift;
 
     my ( $ascii, $unicode, @rest ) = split( /\t/, $string );
 
-    warn "ascii2unicode: $unicode\n" if $debug >= 2;
+    warn "ascii2unicode: $string :: $unicode\n" if $debug >= 2;
     return $unicode ? $unicode : $ascii;
+}
+
+# fill wgs84 coordinate with trailing "0" if to short
+# or cut if to long
+sub padding {
+    my $x           = shift;
+    my $granularity = shift;
+
+    my $len = length($granularity) - 1;
+
+    if ( $x =~ /^([\-\+]?\d+)\.?(\d*)$/ ) {
+        my ( $int, $rest ) = ( $1, $2 );
+
+        $rest = substr( $rest, 0, $len );
+        for ( my $i = length($rest) ; $i < $len ; $i++ ) {
+            $rest .= "0";
+        }
+
+        return "$int.$rest";
+    }
+    else {
+        return $x;
+    }
+
+# foreach my $i (qw/8.12345 8.1234 8.123456 8.1 8 -8 +8 -8.1/) { print "$i: ", padding($i), "\n"; }
+}
+
+sub crossing_padding {
+    my $crossing    = shift;
+    my $granularity = shift;
+    my ( $lng, $lat ) = split /,/, $crossing;
+
+    my $c = padding( $lng, $granularity ) . "," . padding( $lat, $granularity );
+    warn "crossing: padding: $granularity, $crossing -> $c\n";
+
+    return $c;
 }
 
 sub street_sort {
@@ -175,16 +227,19 @@ sub streetnames_suggestions_unique {
     @list = keys %hash;
 
     return street_sort(
-        'list'   => \@list,
-        'prefix' => $sort_by_prefix,
-        'street' => $args{'street'}
+        'list'     => \@list,
+        'prefix'   => $sort_by_prefix,
+        'street'   => $args{'street'},
+        'crossing' => $args{'crossing'},
     );
 }
 
 sub streetnames_suggestions {
-    my %args   = @_;
-    my $city   = $args{'city'};
-    my $street = $args{'street'};
+    my %args     = @_;
+    my $city     = $args{'city'};
+    my $street   = $args{'street'};
+    my $crossing = $args{'crossing'};
+
     my $limit =
       ( length($street) <= 3 ? $max_suggestions_short : $max_suggestions );
 
@@ -196,6 +251,11 @@ sub streetnames_suggestions {
       $city eq 'bbbike'
       ? "../data/$opensearch_file"
       : "$opensearch_dir/$city/$opensearch_file";
+
+    if ($crossing) {
+        $file = "$opensearch_dir/$city/$opensearch_crossing";
+
+    }
 
     if ( !-f $file && -f "$opensearch_dir2/$city/$opensearch_file" ) {
         $file = "$opensearch_dir2/$city/$opensearch_file";
@@ -277,7 +337,7 @@ sub escapeQuote {
 
 my $q = new MyCgiSimple;
 
-my $test_street = "kurz";         #'Zähringe';
+my $test_street = "kurz";      #'Zähringe'; $test_street = "13.36688,52.58554";
 my $action      = 'opensearch';
 my $street =
      $q->param('search')
@@ -285,8 +345,9 @@ my $street =
   || $q->param('q')
   || $test_street;
 
-my $city = $q->param('city') || 'Berlin';
+my $city      = $q->param('city')      || 'Berlin';
 my $namespace = $q->param('namespace') || $q->param('ns') || '0';
+my $crossing  = $q->param('crossing')  || $q->param('c') || '0';
 
 if ( my $d = $q->param('debug') || $q->param('d') ) {
     $debug = $d if defined $d && $d >= 0 && $d <= 3;
@@ -303,8 +364,33 @@ print $q->header(
 
 binmode( \*STDOUT, ":utf8" ) if $force_utf8;
 
-my @suggestion =
-  &streetnames_suggestions_unique( 'city' => $city, 'street' => $street );
+$street = &crossing_padding( $street, $granularity ) if $crossing;
+
+my @suggestion = &streetnames_suggestions_unique(
+    'city'     => $city,
+    'street'   => $street,
+    'crossing' => $crossing
+);
+
+if ($crossing) {
+    $remove_housenumber_prefix = $remove_housenumber_suffix =
+      $remove_street_abbrevation = $remove_city = 0;
+
+    #use Data::Dumper; warn Dumper(\@suggestion);
+
+    # try with a larger area
+    if ( scalar(@suggestion) == 0 ) {
+        $opensearch_crossing = $opensearch_crossing2;
+        $granularity         = 10;
+
+        warn "API: city: $city, crossing larger area: $street\n" if $debug;
+        @suggestion = &streetnames_suggestions_unique(
+            'city'     => $city,
+            'street'   => $street,
+            'crossing' => $crossing,
+        );
+    }
+}
 
 # strip english style addresses with
 #    <house number> <street name>
@@ -416,3 +502,6 @@ else {
     print qq,]],;
 }
 
+if ($debug) {
+    warn "street: '$street', suggestions: ", join ", ", @suggestion, "\n";
+}

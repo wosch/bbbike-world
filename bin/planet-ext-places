@@ -144,6 +144,10 @@ for my $osm_file (@osm_files) {
         open $fh, $osm_file
           or die "Can't open $osm_file: $!";
     }
+    elsif ( $osm_file =~ m{\.osm\.pbf$} ) {
+        open $fh, "-|", "pbf2osm", $osm_file
+          or die "Can't run pbf2osm on $osm_file: $!";
+    }
     elsif ( $osm_file eq '-' ) {
         $fh = \*STDIN;
     }

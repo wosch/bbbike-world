@@ -14,23 +14,25 @@ sudo apt-get install \
   libhtml-tagcloud-perl libtext-unidecode-perl munin \
   perltidy libxml-atom-simplefeed-perl libjson-perl liburi-perl \
   libxml-libxml-perl libyaml-perl libyaml-syck-perl tidy libxml-simple-perl \
-  libdevel-size-perl libtie-ixhash-perl libdevel-size-perl libbsd-resource-perl
+  libdevel-size-perl libtie-ixhash-perl libdevel-size-perl libbsd-resource-perl \
+  libobject-realize-later-perl
 
 # reverse proxy
 sudo apt-get install varnish
 
 Required MacPorts modules
 ------------------------------------
-sudo port install pbzip2 bzip2 git-core screen lynx curl wget whois pigz bc buffer \
+sudo port install pbzip2 bzip2 git-core lynx curl wget whois pigz bc buffer \
 	lighttpd munin tidy varnish openjdk6 \
 	p5-bsd-resource p5-uri p5-json p5-xml-simple p5-tie-ixhash \
-	p5-yaml-syck p5-yaml p5-perl-tidy p5-lwp-useragent-determined
+	p5-yaml-syck p5-yaml p5-perl-tidy p5-libwww-perl
 
 sudo perl -MCPAN -e 'install BSD::Resource'
 sudo perl -MCPAN -e 'install Text::Unidecode'
 sudo perl -MCPAN -e 'install HTML::TagCloud'
 sudo perl -MCPAN -e 'install XML::Atom::SimpleFeed'
 sudo perl -MCPAN -e 'install XML::LibXML::Reader'
+sudo perl -MCPAN -e 'install Object::Realize::Later'
 
 
 Development

@@ -23,6 +23,80 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
+    title =>
+qq{New feature: support search for addresses with house numbers and zip code},
+    id      => '171f3263a6e73b3bf6e3256c6cb094f4',
+    content => {
+        type => 'text',
+        content =>
+          qq{New: support search for addresses with house numbers and zip code},
+    },
+    updated  => '2011-09-30T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title =>
+qq{New feature: allow to set start and destination of a cycle route with markers on the map},
+    id      => '171f3263a6e73b3bf6e3256c6cb094f3',
+    content => {
+        type => 'text',
+        content =>
+qq{New feature: allow to set start and destination of a cycle route with markers on the map},
+    },
+    updated  => '2011-09-29T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title   => qq{New: cycle routing for Emden/Ostfriesland},
+    id      => '171f3263a6e73b3bf6e3256c6cb094f6',
+    content => {
+        type => 'text',
+        content =>
+qq{New: cycle routing for Emden/Ostfriesland: http://www.bbbike.org/Emden},
+    },
+    updated  => '2011-09-11T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title   => qq{New: cycle routing for Bremerhaven},
+    id      => '171f3263a6e73b3bf6e3256c6cb094f7',
+    content => {
+        type => 'text',
+        content =>
+qq{New: cycle routing for Bremerhaven: http://www.bbbike.org/Bremerhaven},
+    },
+    updated  => '2011-09-11T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title   => qq{New: cycle routing for Heilbronn},
+    id      => '7b2006882ab330199ea21240ce787723',
+    content => {
+        type => 'text',
+        content =>
+          qq{New: cycle routing for Heilbronn: http://www.bbbike.org/Heilbronn},
+    },
+    updated  => '2011-09-11T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title   => qq{New: cycle routing for Madrid},
+    id      => 'a440093ff2ecb6ffe9e5646b49a1d501',
+    content => {
+        type => 'text',
+        content =>
+          qq{New: cycle routing for Madrid: http://www.bbbike.org/Madrid},
+    },
+    updated  => '2011-09-08T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title   => qq{New: cycle routing for Alexandria},
     id      => '1ac05653bda68ca1346b5cbf083f3c88',
     content => {

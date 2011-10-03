@@ -17,7 +17,7 @@ download ()
 	echo "( mkdir -p $subdir; cd $subdir; "
 	lynx -dump http://download.geofabrik.de/osm/$path | \
 		egrep http://download.geofabrik.de/osm/ | \
-		egrep bz2$ | \
+		egrep pbf$ | \
 		egrep -v 'alps.osm' | \
 		perl -npe 's/^\s*\d+\.\s+/wget -nv /' 
 	echo ")"

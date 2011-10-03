@@ -6,13 +6,13 @@
 use File::Basename;
 use Data::Dumper;
 
-#use GPS::Point;
-
 use lib '.';
 use lib './world/bin';
-use lib '../bbbike/world/bin';
+
+#use lib '../bbbike/world/bin';
 use lib '../..';
-use lib '../bbbike';
+
+#use lib '../bbbike';
 use BBBikeWorldDB;
 use Strassen::Util;
 
@@ -99,6 +99,15 @@ sub city_length {
     return int( $distance / 1_00 ) / 10;
 }
 
+sub other_names {
+    my %args = @_;
+
+    my $db   = $args{'db'};
+    my $city = $args{'city'};
+
+    return $db->{_city}->{$city}->{"other_names"};
+}
+
 sub neighbours {
     my %args = @_;
 
@@ -108,7 +117,7 @@ sub neighbours {
     my @list;
 
     my $coord = $db->{"_city"}->{$city}->{'coord'};
-    foreach my $c ( keys %{ $db->{"_city"} } ) {
+    foreach my $c ( $db->list_cities ) {
         push(
             @list,
             [
@@ -163,6 +172,7 @@ usage: $0 [--debug={0..2}] [options] city
 --step
 --list
 --city-database=/path/to/etc/cities.csv
+--other_names
 EOF
 }
 
@@ -179,6 +189,7 @@ my $list;
 my $city_names;
 my $city_database;
 my $neighbours;
+my $other_names;
 my $city_stat;
 my $region;
 
@@ -190,6 +201,7 @@ GetOptions(
     "city-names"      => \$city_names,
     "population"      => \$population,
     "neighbours"      => \$neighbours,
+    "other-names"     => \$other_names,
     "region"          => \$region,
     "coord"           => \$coord,
     "poly"            => \$poly,
@@ -239,7 +251,7 @@ if ( defined $city_stat ) {
                 $hash{$name} = $l;
             }
         }
-        foreach my $name ( sort keys %hash ) {
+        foreach my $name ( $db->list_cities ) {
             print "$name:" . $hash{$name} . " ";
         }
         print "\n";
@@ -249,7 +261,7 @@ if ( defined $city_stat ) {
 }
 
 if ( $list || $city_en ) {
-    foreach my $key ( sort keys %hash ) {
+    foreach my $key ( $db->list_cities ) {
         my $val = $hash{$key};
         my $local_lang = $hash{$key}->{local_lang} eq 'de' ? 'de' : "en";
         print $key, "\n"
@@ -294,6 +306,9 @@ if ( exists $hash{$city} ) {
     }
     elsif ($neighbours) {
         print &neighbours( 'city' => $city, 'db' => $db );
+    }
+    elsif ($other_names) {
+        print &other_names( 'city' => $city, 'db' => $db );
     }
     elsif ($step) {
         print $hash{$city}->{step}, "\n";

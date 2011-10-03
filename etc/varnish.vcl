@@ -51,6 +51,15 @@ backend eserte {
     .between_bytes_timeout = 300s;
 }
 
+backend eserte_devel {
+    .host = "eserte";
+    .port = "88";
+    .first_byte_timeout = 300s;
+    .connect_timeout = 300s;
+    .between_bytes_timeout = 300s;
+}
+
+
 # munin
 backend localhost {
     .host = "localhost";
@@ -89,8 +98,10 @@ sub vcl_recv {
                 set req.backend = bbbike_strato;
         }
 
-    } else if (req.http.host ~ "^eserte\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$" ) {
+    } else if (req.http.host ~ "^eserte\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$") {
         set req.backend = eserte;
+    } else if (req.http.host ~ "^eserte-devel\.bbbike\.org$") {
+        set req.backend = eserte_devel;
     } else {
         set req.backend = bbbike;
       
@@ -117,7 +128,7 @@ sub vcl_recv {
     }
 
     # development machine of S.R.T
-    if (req.http.host ~ "^eserte\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$") {
+    if (req.http.host ~ "^eserte.*\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$") {
 	return (pass);
     }
 
@@ -145,7 +156,7 @@ sub vcl_recv {
     }
 
     # test & development, no caching
-    if (req.http.host ~ "^(dev|devel)\.bbbike\.org$") {
+    if (req.http.host ~ "^(dev|devel|dev2|devel2)\.bbbike\.org$") {
 	return (pass);
     }
 

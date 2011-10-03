@@ -6,6 +6,7 @@
 package BBBikeWorldDB;
 
 use IO::File;
+use Data::Dumper;
 use strict;
 use warnings;
 
@@ -28,8 +29,9 @@ sub new {
     };
 
     bless $self, $class;
-
     $self->parse_database;
+
+    print Dumper($self) if $self->{'debug'} >= 2;
     return $self;
 }
 
@@ -53,29 +55,33 @@ sub parse_database {
         s/^\s+//;
         next if /^#/ || $_ eq "";
 
-        my ( $city, $name, $lang, $local_lang, $area, $coord, $population,
-            $step )
-          = split(/:/);
+        my (
+            $city,       $name, $lang,
+            $local_lang, $area, $coord,
+            $population, $step, $other_names
+        ) = split(/:/);
 
         next if $city eq 'dummy';
         next if $city eq 'bbbike';
-        next if defined $step && $step eq 'dummy';
         next if $city eq '';
 
         $hash{$city} = {
-            city       => $city,
-            name       => $name,
-            lang       => $lang || "en",
-            local_lang => $local_lang || "",
-            step       => $step || "0.02",
-            area       => $area || "de",
-            coord      => $coord,
-            population => $population || 1,
+            city        => $city,
+            name        => $name,
+            lang        => $lang || "en",
+            local_lang  => $local_lang || "",
+            step        => $step || "0.02",
+            area        => $area || "de",
+            coord       => $coord,
+            population  => $population || 1,
+            other_names => $other_names || "",
+            dummy       => $step eq 'dummy' ? 1 : 0,
         };
 
         $raw{$city} = [
-            $city, $name,  $lang,       $local_lang,
-            $area, $coord, $population, $step
+            $city,       $name, $lang,
+            $local_lang, $area, $coord,
+            $population, $step, $other_names
         ];
     }
     close $fh;
@@ -94,7 +100,15 @@ sub list_cities {
     my $self = shift;
 
     if ( $self->city ) {
-        return sort keys %{ $self->city };
+        my @list;
+        foreach my $c ( keys %{ $self->city } ) {
+            push( @list, $c ) if !$self->city->{$c}->{"dummy"};
+        }
+
+        @list = sort @list;
+        warn join ", ", @list if $debug >= 2;
+
+        return @list;
     }
     else {
         return;
