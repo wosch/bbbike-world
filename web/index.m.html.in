@@ -18,8 +18,7 @@
 	div#content { text-align: left; font-size: 200%; }
 	p#cities    { text-align: center; font-size: 150%; }
   </style>
-  <script src="/html/bbbike.js" type="text/javascript"></script>
-  <script type="text/javascript" src="/html/bbbike-jquery.min.js"></script>
+  <script type="text/javascript" src="/html/bbbike-js.js"></script>
 </head>
 
 <body>
