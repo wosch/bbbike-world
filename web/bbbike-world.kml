@@ -1687,7 +1687,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Toronto/">BBBike @ Toronto</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-79.3755,43.7255,0.000000</coordinates>
+      <coordinates>-79.395,43.7,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
