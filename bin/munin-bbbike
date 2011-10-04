@@ -28,7 +28,7 @@ my $munin_config_file = "/etc/munin/munin-bbbike.conf";
 my $config = {
     'ajax'   => [qw/api street-coord crossing maptype weather location/],
     'output' => [
-        qw/print gpx-track gpx-route kml-track pdf png palmdoc googlemaps mapserv xml/
+        qw/print gpx-track gpx-route kml-track pdf png palmdoc googlemaps mapserv xml gpsies/
     ],
 };
 
@@ -295,7 +295,13 @@ sub count_output {
 
 # "GET /Erlangen/?startc=10.95985%2C49.58876;zielc=11.02811%2C49.57724;pref_seen=1;pref_speed=20;pref_cat=;pref_quality=;pref_specialvehicle=;scope=;output_as=print
     while (<$fh>) {
-        if (m,"GET /\S+output_as=(.*?)[;&\s],) {
+
+        # gspies.com
+        if ( /^188\.40\.84\.75 / && /Jakarta Commons-HttpClient/ ) {
+            $counter->{"gpsies"}++;
+        }
+
+        elsif (m,"GET /\S+output_as=(.*?)[;&\s],) {
             $counter->{$1}++;
         }
 
