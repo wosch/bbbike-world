@@ -28,7 +28,7 @@ my $munin_config_file = "/etc/munin/munin-bbbike.conf";
 my $config = {
     'ajax'   => [qw/api street-coord crossing maptype weather location/],
     'output' => [
-        qw/print gpx-track gpx-route kml-track pdf png palmdoc googlemaps mapserv/
+        qw/print gpx-track gpx-route kml-track pdf png palmdoc googlemaps mapserv xml/
     ],
 };
 
