@@ -20,7 +20,7 @@ my $logfile  = '/var/log/lighttpd/bbbike.log';
 my $type     = 'route';
 
 # standard munin interval of 5 minutes
-my $interval = 5;
+my $interval = 1; # 5
 
 # munin-bbbike config file
 my $munin_config_file = "/etc/munin/munin-bbbike.conf";
