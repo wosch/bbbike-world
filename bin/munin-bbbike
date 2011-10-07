@@ -46,6 +46,7 @@ usage: $0 [--debug={0..2}] config
 --database=/path/to/logfile	default: $database
 --type=<stat type>		$types, default: $type
 --interval=interval		interval in minutes, default: $interval;
+--ignore-localrequests=[0..1]	ignore localhost or 10.x.x.x requests, default: $ignore_localrequests
 
 Munin bbbike config file: $munin_config_file
 EOF
@@ -395,12 +396,13 @@ my @config = parse_config($munin_config_file);
 push( @ARGV, @config ) if @config;
 
 GetOptions(
-    "debug=i"    => \$debug,
-    "database=s" => \$database,
-    "logfile=s"  => \$logfile,
-    "type=s"     => \$type,
-    "interval=i" => \$interval,
-    "help"       => \$help
+    "debug=i"                => \$debug,
+    "database=s"             => \$database,
+    "logfile=s"              => \$logfile,
+    "type=s"                 => \$type,
+    "interval=i"             => \$interval,
+    "ignore-localrequests=i" => \$ignore_localrequests,
+    "help"                   => \$help
 ) or die usage;
 
 die usage if $help;
