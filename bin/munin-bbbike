@@ -42,14 +42,14 @@ sub usage {
     my $types = join " | ", &get_types;
 
     <<EOF;
-usage: $0 [--debug={0..2}] config
+usage: $0 [ options ] config
 
 --debug=0..2    		default: $debug
 --logfile=/path/to/logfile	default: $logfile
 --database=/path/to/logfile	default: $database
 --type=<stat type>		$types, default: $type
 --interval=interval		interval in minutes, default: $interval;
---frontend-proxy=[0,1]		run as frontend proxy, default: $munin_config_file
+--frontend-proxy=[0,1]		run as frontend proxy, default: $frontend_proxy
 --ignore-localrequests=[0..1]	ignore localhost or 10.x.x.x requests, default: $ignore_localrequests
 
 Munin bbbike config file: $munin_config_file
