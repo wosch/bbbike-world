@@ -19,8 +19,11 @@ my $database = '/var/tmp/munin-bbbike';
 my $logfile  = '/var/log/lighttpd/bbbike.log';
 my $type     = 'route';
 
+# ignore requests from localhost or 10.x.x.x
+my $ignore_localrequests = 1;
+
 # standard munin interval of 5 minutes
-my $interval = 5;
+my $interval = 1;    # 5
 
 # run as frontend proxy, with full hostname requests: GET http://www.bbbike.org/Foo
 my $frontend_proxy = 0;
@@ -47,6 +50,7 @@ usage: $0 [--debug={0..2}] config
 --type=<stat type>		$types, default: $type
 --interval=interval		interval in minutes, default: $interval;
 --frontend-proxy=[0,1]		run as frontend proxy, default: $munin_config_file
+--ignore-localrequests=[0..1]	ignore localhost or 10.x.x.x requests, default: $ignore_localrequests
 
 Munin bbbike config file: $munin_config_file
 EOF
@@ -226,6 +230,12 @@ sub write_offset {
     $fh->close;
 }
 
+sub localrequest {
+    my $host = shift;
+
+    $host =~ /^10\.|^127\.0\.0\.1/ ? 1 : 0;
+}
+
 #
 # parse the bbbike access log file and count route
 # searches (parameters startc, zielc, pref_seen)
@@ -247,6 +257,8 @@ sub count_routes {
 	# proxy request with hostname
 	s,"GET http://.*?/,"GET /, if $frontend_proxy; 
  
+        next if $ignore_localrequests && localrequest($_);
+
         if (   m,"GET /\S+pref_seen=1,
             && /startc=[0-9\-\+]/
             && /zielc=[0-9\-\+]/ )
@@ -278,6 +290,8 @@ sub count_ajax {
 	# proxy request with hostname
 	s,"GET http://.*?/,"GET /, if $frontend_proxy; 
 
+        next if $ignore_localrequests && localrequest($_);
+
         if (m,"GET /cgi/(.*?)(\.cgi)?\?,) {
             $counter->{$1}++;
         }
@@ -307,6 +321,8 @@ sub count_output {
     while (<$fh>) {
 	# proxy request with hostname
 	s,"GET http://.*?/,"GET /, if $frontend_proxy; 
+
+        next if $ignore_localrequests && localrequest($_);
 
         # gspies.com
         if ( /^188\.40\.84\.75 / && /Jakarta Commons-HttpClient/ ) {
@@ -402,7 +418,8 @@ GetOptions(
     "type=s"     => \$type,
     "interval=i" => \$interval,
     "frontend-proxy" => \$frontend_proxy,
-    "help"       => \$help
+    "ignore-localrequests=i" => \$ignore_localrequests,
+    "help"       => \$help,
 ) or die usage;
 
 die usage if $help;
