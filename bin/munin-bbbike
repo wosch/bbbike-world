@@ -22,6 +22,9 @@ my $type     = 'route';
 # standard munin interval of 5 minutes
 my $interval = 5;
 
+# run as frontend proxy, with full hostname requests: GET http://www.bbbike.org/Foo
+my $frontend_proxy = 0;
+
 # munin-bbbike config file
 my $munin_config_file = "/etc/munin/munin-bbbike.conf";
 
@@ -43,6 +46,7 @@ usage: $0 [--debug={0..2}] config
 --database=/path/to/logfile	default: $database
 --type=<stat type>		$types, default: $type
 --interval=interval		interval in minutes, default: $interval;
+--frontend-proxy=[0,1]		run as frontend proxy, default: $munin_config_file
 
 Munin bbbike config file: $munin_config_file
 EOF
@@ -240,6 +244,9 @@ sub count_routes {
     }
 
     while (<$fh>) {
+	# proxy request with hostname
+	s,"GET http://.*?/,"GET /, if $frontend_proxy; 
+ 
         if (   m,"GET /\S+pref_seen=1,
             && /startc=[0-9\-\+]/
             && /zielc=[0-9\-\+]/ )
@@ -268,6 +275,9 @@ sub count_ajax {
     }
 
     while (<$fh>) {
+	# proxy request with hostname
+	s,"GET http://.*?/,"GET /, if $frontend_proxy; 
+
         if (m,"GET /cgi/(.*?)(\.cgi)?\?,) {
             $counter->{$1}++;
         }
@@ -295,6 +305,8 @@ sub count_output {
 
 # "GET /Erlangen/?startc=10.95985%2C49.58876;zielc=11.02811%2C49.57724;pref_seen=1;pref_speed=20;pref_cat=;pref_quality=;pref_specialvehicle=;scope=;output_as=print
     while (<$fh>) {
+	# proxy request with hostname
+	s,"GET http://.*?/,"GET /, if $frontend_proxy; 
 
         # gspies.com
         if ( /^188\.40\.84\.75 / && /Jakarta Commons-HttpClient/ ) {
@@ -321,7 +333,10 @@ sub count_output {
             $counter->{"mapserv"}++;
         }
 
-        elsif (m,"POST /,) {
+        elsif (m,"POST ,) {
+	    # proxy request with hostname
+	    s,"POST http://.*?/,"POST /, if $frontend_proxy; 
+
             if (   m,"POST /[A-Z][a-z]+\S+/ ,
                 || m,"POST /[A-Z][a-z]+\S+/\?[a-z]+, )
             {
@@ -386,6 +401,7 @@ GetOptions(
     "logfile=s"  => \$logfile,
     "type=s"     => \$type,
     "interval=i" => \$interval,
+    "frontend-proxy" => \$frontend_proxy,
     "help"       => \$help
 ) or die usage;
 
