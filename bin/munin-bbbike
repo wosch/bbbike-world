@@ -19,8 +19,11 @@ my $database = '/var/tmp/munin-bbbike';
 my $logfile  = '/var/log/lighttpd/bbbike.log';
 my $type     = 'route';
 
+# ignore requests from localhost or 10.x.x.x
+my $ignore_localrequests = 1;
+
 # standard munin interval of 5 minutes
-my $interval = 1; # 5
+my $interval = 1;    # 5
 
 # munin-bbbike config file
 my $munin_config_file = "/etc/munin/munin-bbbike.conf";
@@ -222,6 +225,12 @@ sub write_offset {
     $fh->close;
 }
 
+sub localrequest {
+    my $host = shift;
+
+    $host =~ /^10\.|^127\.0\.0\.1/ ? 1 : 0;
+}
+
 #
 # parse the bbbike access log file and count route
 # searches (parameters startc, zielc, pref_seen)
@@ -240,6 +249,8 @@ sub count_routes {
     }
 
     while (<$fh>) {
+        next if $ignore_localrequests && localrequest($_);
+
         if (   m,"GET /\S+pref_seen=1,
             && /startc=[0-9\-\+]/
             && /zielc=[0-9\-\+]/ )
@@ -268,6 +279,8 @@ sub count_ajax {
     }
 
     while (<$fh>) {
+        next if $ignore_localrequests && localrequest($_);
+
         if (m,"GET /cgi/(.*?)(\.cgi)?\?,) {
             $counter->{$1}++;
         }
@@ -295,6 +308,7 @@ sub count_output {
 
 # "GET /Erlangen/?startc=10.95985%2C49.58876;zielc=11.02811%2C49.57724;pref_seen=1;pref_speed=20;pref_cat=;pref_quality=;pref_specialvehicle=;scope=;output_as=print
     while (<$fh>) {
+        next if $ignore_localrequests && localrequest($_);
 
         # gspies.com
         if ( /^188\.40\.84\.75 / && /Jakarta Commons-HttpClient/ ) {
