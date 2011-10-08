@@ -162,6 +162,22 @@ sub config {
       :                     die "Unknown stat type: $type\n";
 }
 
+sub display_results {
+    my $config = shift;
+    my $count  = shift;
+
+    my $data = "";
+
+    foreach my $label ( sort @$config ) {
+        $data .=
+            "$label.value "
+          . ( exists $count->{$label} ? interval( $count->{$label} ) : 0 )
+          . "\n";
+    }
+
+    return $data;
+}
+
 sub parse_log {
     my %args = @_;
 
@@ -198,14 +214,7 @@ sub parse_log {
             'offset'  => $last_offset,
             'type'    => $type
         );
-
-        #$data = "speed.value " . &interval( $count->{"speed"} ) . "\n";
-        foreach my $label ( sort @{ $config->{'pref'} } ) {
-            $data .=
-                "$label.value "
-              . ( exists $count->{$label} ? interval( $count->{$label} ) : 0 )
-              . "\n";
-        }
+        $data = display_results( $config->{'pref'}, $count );
     }
 
     elsif ( $type eq 'ajax' ) {
@@ -215,13 +224,7 @@ sub parse_log {
             'type'    => $type,
             'scripts' => $config->{'ajax'}
         );
-
-        foreach my $label ( sort @{ $config->{'ajax'} } ) {
-            $data .=
-                "$label.value "
-              . ( exists $count->{$label} ? interval( $count->{$label} ) : 0 )
-              . "\n";
-        }
+        $data = display_results( $config->{'ajax'}, $count );
     }
     elsif ( $type eq 'output' ) {
         my $count = count_output(
@@ -230,13 +233,7 @@ sub parse_log {
             'type'    => $type,
             'output'  => $config->{'output'}
         );
-
-        foreach my $label ( sort @{ $config->{'output'} } ) {
-            $data .=
-                "$label.value "
-              . ( exists $count->{$label} ? interval( $count->{$label} ) : 0 )
-              . "\n";
-        }
+        $data = display_results( $config->{'output'}, $count );
     }
     else {
         die "Unknown type: $type\n";
