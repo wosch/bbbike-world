@@ -104,6 +104,7 @@ graph_vlabel Preferences
 graph_category BBBike
 graph_info Prefernces
 graph_period minute
+speed.cdef speed,10,/
 EOF
 
     foreach my $label ( sort @{ $config->{'pref'} } ) {
