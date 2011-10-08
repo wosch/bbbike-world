@@ -35,6 +35,7 @@ munin-bbbike:
 	sudo cp -f ../bin/munin-bbbike ${MUNIN_PLUGINS_DIR}
 	cd ${MUNIN_PLUGINS_DIR}; sudo ln -fs munin-bbbike munin-bbbike-ajax
 	cd ${MUNIN_PLUGINS_DIR}; sudo ln -fs munin-bbbike munin-bbbike-output
+	cd ${MUNIN_PLUGINS_DIR}; sudo ln -fs munin-bbbike munin-bbbike-pref
 	sudo /etc/init.d/munin-node restart
 
 help:
