@@ -360,7 +360,8 @@ sub count_pref {
         }
     }
 
-    #$res->{"speed"} = int( $res->{"speed"} / $counter * 10 ) / 10 if $counter;
+    return $res if !$counter;
+
     foreach my $key ( keys %$res ) {
         $res->{$key} = $res->{$key} / $counter;
     }
