@@ -37,7 +37,11 @@ my $config = {
     'output' => [
         qw/print gpx-track gpx-route kml-track pdf png palmdoc googlemaps mapserv xml gpsies/
     ],
-    'pref' => [qw/speed cat quality specialvehicle unlit ferry/],
+    'pref' => [
+        qw/speed cat_np cat_N1 cat_N2 cat_H1 cat_H2 cat_N_RW cat_N_RW1
+          quality_np quality_Q0 quality_Q1 specialvehicle_np specialvehicle_trailer specialvehicle_childseat
+          unlit ferry/
+    ],
 };
 
 sub usage {
@@ -94,15 +98,21 @@ EOF
 }
 
 sub config_pref () {
-    <<EOF;
+    my $data = <<EOF;
 graph_title Route Preferences
 graph_vlabel Preferences
 graph_category BBBike
 graph_info Prefernces
 graph_period minute
-speed.label Route Preferences
-speed.min 0
 EOF
+
+    foreach my $label ( sort @{ $config->{'pref'} } ) {
+        my $label_e = escape_label($label);
+        $data .= "$label_e.label $label\n";
+        $data .= "$label_e.min 0\n";
+    }
+
+    return $data;
 }
 
 sub config_ajax () {
@@ -189,7 +199,13 @@ sub parse_log {
             'type'    => $type
         );
 
-        $data = "speed.value " . &interval( $count->{"speed"} ) . "\n";
+        #$data = "speed.value " . &interval( $count->{"speed"} ) . "\n";
+        foreach my $label ( sort @{ $config->{'pref'} } ) {
+            $data .=
+                "$label.value "
+              . ( exists $count->{$label} ? interval( $count->{$label} ) : 0 )
+              . "\n";
+        }
     }
 
     elsif ( $type eq 'ajax' ) {
@@ -304,7 +320,6 @@ sub count_pref {
     my $file   = $args{'logfile'};
     my $offset = $args{'offset'};
 
-    my $counter = 0;
     my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
 
     if ( defined $offset ) {
@@ -312,7 +327,8 @@ sub count_pref {
         seek( $fh, $offset, 0 );
     }
 
-    my $speed = 0;
+    my $counter = 0;
+    my $res = { "speed" => 0 };
     while (<$fh>) {
 
         # proxy request with hostname
@@ -324,20 +340,34 @@ sub count_pref {
             && /startc=[0-9\-\+]/
             && /zielc=[0-9\-\+]/ )
         {
+
             if (m,"GET (/\S+),) {
                 my $q = CGI->new($1);
+                $counter++;
                 if ( my $s = $q->param("pref_speed") || 20 ) {
-                    $counter++;
-                    $speed += $s;
+                    $res->{"speed"} += $s;
                 }
+                if ( my $s = $q->param("pref_cat") || "np" ) {
+                    $res->{"cat_$s"}++;
+                }
+                if ( my $s = $q->param("pref_quality") || "np" ) {
+                    $res->{"quality_$s"}++;
+                }
+                if ( my $s = $q->param("pref_specialvehicle") || "np" ) {
+                    $res->{"specialvehicle_$s"}++;
+                }
+                $res->{"ferry"}++ if $q->param("pref_ferry");
+                $res->{"unlit"}++ if $q->param("pref_unlit");
             }
         }
     }
 
-    my $result;
-    $result->{"speed"} = int( $speed / $counter * 10 ) / 10;
+    #$res->{"speed"} = int( $res->{"speed"} / $counter * 10 ) / 10 if $counter;
+    foreach my $key ( keys %$res ) {
+        $res->{$key} = $res->{$key} / $counter;
+    }
 
-    return $result;
+    return $res;
 }
 
 #
