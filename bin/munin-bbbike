@@ -32,6 +32,10 @@ my $frontend_proxy = 0;
 # munin-bbbike config file
 my $munin_config_file = "/etc/munin/munin-bbbike.conf";
 
+# {fieldname}.min?
+# should be 0 or 1
+my $min_value = 1;
+
 my $config = {
     'ajax'   => [qw/api street-coord crossing maptype weather location/],
     'output' => [
@@ -93,7 +97,7 @@ graph_category BBBike
 graph_info Number of Route Searches
 graph_period minute
 data.label Route Searches
-data.min 0
+data.min $min_value
 EOF
 }
 
@@ -110,7 +114,7 @@ EOF
     foreach my $label ( sort @{ $config->{'pref'} } ) {
         my $label_e = escape_label($label);
         $data .= "$label_e.label $label\n";
-        $data .= "$label_e.min 0\n";
+        $data .= "$label_e.min $min_value\n";
     }
 
     return $data;
@@ -128,7 +132,7 @@ EOF
     foreach my $label ( sort @{ $config->{'ajax'} } ) {
         my $label_e = escape_label($label);
         $data .= "$label_e.label $label\n";
-        $data .= "$label_e.min 0\n";
+        $data .= "$label_e.min $min_value\n";
     }
 
     return $data;
@@ -146,7 +150,7 @@ EOF
     foreach my $label ( sort @{ $config->{'output'} } ) {
         my $label_e = escape_label($label);
         $data .= "$label_e.label $label\n";
-        $data .= "$label_e.min 0\n";
+        $data .= "$label_e.min $min_value\n";
     }
 
     return $data;
