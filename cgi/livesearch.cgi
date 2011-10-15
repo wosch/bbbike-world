@@ -130,10 +130,11 @@ sub is_production {
 
 # extract URLs from web server error log
 sub extract_route {
-    my $file  = shift;
-    my $max   = shift;
-    my $devel = shift;
-    my $date  = shift;
+    my $file   = shift;
+    my $max    = shift;
+    my $devel  = shift;
+    my $date   = shift;
+    my $unique = shift;
 
     my $host = $devel ? '(dev|devel|www)' : 'www';
 
@@ -202,21 +203,25 @@ m, (slippymap|bbbike|[A-Z][a-zA-Z]+)\.cgi: (URL:)?http://$host.bbbike.org/,i;
             $url =~ s/^URL://;
 
             # keep memory usage low
-            # pop @data if scalar(@data) > 5_000;
+            pop @data if scalar(@data) > 5_000;
 
             # more aggresive duplication check, for better performance
-            next if $hash{$url}++;
+            next if $unique && $hash{$url}++;
 
             # newest entries first
             unshift @data, $url;
-
-            last if scalar(@data) > $max * $duplication_factor;
-
         }
         close $fh;
         push @data_all, @data;
 
+        # enough data
         last if scalar(@data_all) > $max * $duplication_factor;
+
+        # no new data, stop
+        if ( $date && scalar(@data_all) && scalar(@data) == 0 ) {
+            warn "Got no new data for date '$date', stop here\n" if $debug;
+            last;
+        }
     }
 
     warn "URLs: $#data_all, factor: $duplication_factor\n" if $debug;
