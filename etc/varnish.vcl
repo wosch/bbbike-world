@@ -206,7 +206,7 @@ sub normalize_user_agent {
     } else if (req.http.user-agent ~ "iPhone|Android|iPod|Nokia|Symbian|BlackBerry|SonyEricsson") {
         set req.http.X-UA = "mobile";
     } else {
-        set req.http.X-UA = "nomatch";
+        set req.http.X-UA = "";
     }
 }
 
