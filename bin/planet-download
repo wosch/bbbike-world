@@ -39,7 +39,7 @@ $MD5 $file | tee $file.md5
 $MD5 $file_bpf | tee $file_bpf.md5
 
 cd $pwd
-for i in 0 ""
+for i in ""
 do
     case $i in 
 	[01234]) next=`expr $i + 1`; prev=".$i";;

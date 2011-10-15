@@ -16,8 +16,8 @@
   <meta name="KEYWORDS" content="cycle route planner, bicycle" />
    <meta name="description" content="BBBike - ein Fahrradroutenplaner fuer mehr als 200 Staedte weltweit, basiert auf OpenStreetMap data." />
   <link rel="alternate" type="application/atom+xml" title="BBBike@World RSS feed" href="/feed/bbbike-world.xml" />
-  <script src="/html/bbbike.js" type="text/javascript"></script>
-  <script type="text/javascript" src="/html/bbbike-jquery.min.js"></script>
+  <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true&amp;language=de"></script>
+  <script type="text/javascript" src="/html/bbbike-js.js"></script>
 </head>
 
 <body>

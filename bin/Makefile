@@ -1,6 +1,6 @@
 # Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
 
-all: perltidy
+all: help
 NCPU=`../bin/ncpu`
 
 ALL:=	$(shell file * | egrep perl | awk '{print $$1}' | perl -ne 's/://; print if !/.bak$$/' | sort)
@@ -11,4 +11,7 @@ perltidy:
 
 clean distclean:
 	rm -f *.bak *.tdy
+
+help:
+	@echo "usage: make [ perltidy | clean | help ]"
 

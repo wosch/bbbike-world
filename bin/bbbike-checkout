@@ -5,14 +5,15 @@
 
 set -e
 make_verbose=-s
+git="nice -5 git"
 
 git_config () {
-	git config  user.name "Wolfram Schneider"
-	git config  user.email wosch@freebsd.org
+	$git config  user.name "Wolfram Schneider"
+	$git config  user.email wosch@freebsd.org
 }
 
-git clone git@github.com:wolframschneider/bbbike-macos.git &
-git clone git@github.com:wolframschneider/bbbike.git
+$git clone git@github.com:wolframschneider/bbbike-macos.git &
+$git clone git@github.com:wolframschneider/bbbike.git
 
 ( cd bbbike && git_config )
 ( cd bbbike-macos && git_config )
@@ -24,12 +25,12 @@ git_config
 #git checkout -b world origin/world
 
 # add remote master from eserte
-git remote add eserte git://github.com/eserte/bbbike.git
-git fetch eserte
+$git remote add eserte git://github.com/eserte/bbbike.git
+$git fetch eserte
 
 echo ""
 echo "show branch: "
-git branch 
+$git branch 
 
 echo ""
 echo "create symlinks ..."

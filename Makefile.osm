@@ -533,7 +533,7 @@ help:
 	@echo "  [ convert-wgs84 | convert-bbbike | convert-bbbike-full ]"
 	@echo "  [ city-count | city-reorder | city-file | check-osm | cleanup-osm-error ]"
 	@echo "  [ city-memory | varnish-purge-all ]"
-	@echo "  [ elevation-check | elevation-update | elevation-fetch | elevation-repair ]"
+	@echo "  [ elevation-fetch | elevation-update | elevation-check | elevation-repair ]"
 	@echo "  [ planet-download | planet-geofabrik-download ]"
 	@echo "  [ planet-streets | planet-places ]"
 	@echo "  [ update-database | update-files ]"
