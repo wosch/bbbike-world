@@ -16,8 +16,8 @@ use strict;
 use warnings;
 
 #my $logfile                      = '/var/log/lighttpd/bbbike.error.log';
-my $logfile                      = '/Users/wosch/projects/bbbike/tmp/lighttpd/bbbike.error.log';
-my $max                          = 600;
+my $logfile = '/Users/wosch/projects/bbbike/tmp/lighttpd/bbbike.error.log';
+my $max     = 600;
 my $only_production_statistic    = 1;
 my $debug                        = 1;
 my $logrotate_first_uncompressed = 1;
@@ -137,7 +137,7 @@ sub extract_route {
     my $host = $devel ? '(dev|devel|www)' : 'www';
 
     # read more data then requested, expect some duplicated URLs
-    my $duplication_factor = log($max/4 < 25 ? 25 : $max/4)/2;
+    my $duplication_factor = log( $max / 4 < 25 ? 25 : $max / 4 ) / 2;
 
     my @data;
     my @data_all;
@@ -161,7 +161,7 @@ sub extract_route {
     }
 
     # read newest log files first
-    foreach my $file ( @files ) {
+    foreach my $file (@files) {
         next if !-f $file;
 
         my $fh;
@@ -200,19 +200,19 @@ m, (slippymap|bbbike|[A-Z][a-zA-Z]+)\.cgi: (URL:)?http://$host.bbbike.org/,i;
 
             $url =~ s/^URL://;
 
-	    # keep memory usage low
-            # pop @data if scalar(@data) > 5_000;    
+            # keep memory usage low
+            # pop @data if scalar(@data) > 5_000;
 
-	    # newest entries first
+            # newest entries first
             unshift @data, $url;
 
-	    last if scalar(@data) > $max * $duplication_factor;
+            last if scalar(@data) > $max * $duplication_factor;
 
         }
         close $fh;
-	push @data_all, @data;
+        push @data_all, @data;
 
-    	last if scalar(@data_all) > $max * $duplication_factor;
+        last if scalar(@data_all) > $max * $duplication_factor;
     }
 
     warn "URLs: $#data_all, factor: $duplication_factor\n";
@@ -453,11 +453,12 @@ EOF
 
     my %hash;
     foreach my $url (@d) {
-	# more aggresive duplication check, for better performance
+
+        # more aggresive duplication check, for better performance
         next if exists $hash{$url};
         $hash{$url} = 1;
 
-	# CGI->new() is sooo slow
+        # CGI->new() is sooo slow
         my $qq = CGI->new($url);
         $counter2++;
         warn $url, "\n" if $debug >= 2;
