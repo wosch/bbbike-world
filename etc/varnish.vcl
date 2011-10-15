@@ -160,6 +160,10 @@ sub vcl_recv {
 	return (pass);
     }
 
+    # cache just by major browser type
+    call normalize_user_agent;
+    set req.http.User-Agent = req.http.X-UA;
+
     return (lookup);
 }
 
@@ -191,6 +195,19 @@ sub vcl_fetch {
 sub vcl_pipe {
     /* Force the connection to be closed afterwards so subsequent reqs don't use pipe */
     set bereq.http.connection = "close";
+}
+
+# We're only interested in major categories, not versions, etc...
+sub normalize_user_agent {
+    if (req.http.user-agent ~ "MSIE 6") {
+        set req.http.X-UA = "msie6";
+    } else if (req.http.user-agent ~ "MSIE 7") {
+        set req.http.X-UA = "msie7";
+    } else if (req.http.user-agent ~ "iPhone|Android|iPod|Nokia|Symbian|BlackBerry|SonyEricsson") {
+        set req.http.X-UA = "mobile";
+    } else {
+        set req.http.X-UA = "nomatch";
+    }
 }
 
 # 
