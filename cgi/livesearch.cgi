@@ -142,13 +142,10 @@ sub extract_route {
     my @data;
     my @data_all;
     my %hash;
-    my @files;
-    push @files, $file;
-    push @files, "$file.1" if $logrotate_first_uncompressed;
-    push @files, &logfiles( $file, 1, 2 );
-    push @files, &logfiles( $file, 3, 4 ) if $max > 50;
-    push @files, &logfiles( $file, 5, 6, 7 ) if $max > 100;
-    push @files, &logfiles( $file, 8 .. 20 ) if $max > 500;
+    my @files = $file;
+    push @files, "$file.1" $logrotate_first_uncompressed ? "$file.1" : &logfiles( $file, 1);
+    push @files, &logfiles( $file, 2 .. 20 );
+    push @files, &logfiles( $file, 21 .. 100 ) if $max > 2_000;
 
     if ($date) {
         $date = &date_alias($date);
