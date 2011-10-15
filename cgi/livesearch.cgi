@@ -15,8 +15,8 @@ use Encode;
 use strict;
 use warnings;
 
-#my $logfile                      = '/var/log/lighttpd/bbbike.error.log';
-my $logfile = '/Users/wosch/projects/bbbike/tmp/lighttpd/bbbike.error.log';
+my $logfile                      = '/var/log/lighttpd/bbbike.error.log';
+#my $logfile = '../tmp/lighttpd/bbbike.error.log';
 my $max     = 600;
 my $only_production_statistic    = 1;
 my $debug                        = 1;
@@ -336,7 +336,8 @@ sub route_stat2 {
     return ( $average, $median, $max );
 }
 
-sub html {
+# statistic with google maps
+sub statistic_maps {
     my $q = shift;
 
     print $q->header( -charset => 'utf-8', -expires => '+30m' );
@@ -565,7 +566,8 @@ qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\
     print $q->end_html;
 }
 
-sub statistic {
+# basic statistic, no maps
+sub statistic_basic {
     my $q                = shift;
     my $most_used_cities = 10;
 
@@ -651,7 +653,7 @@ sub statistic {
     print qq{Copyright (c) 2011 <a href="http://bbbike.org">BBBike.org</a>\n};
 }
 
-sub cache {
+sub dump_url_list {
     my $q = shift;
 
     my $max = 1000;
@@ -713,16 +715,19 @@ sub cache {
 #
 
 my $ns = $q->param("namespace") || $q->param("ns") || "";
+
+# plain statistic
 if ( $ns =~ /^stat/ ) {
-    &statistic($q);
-}
-elsif ( $ns =~ /^cache/ ) {
-    &cache($q);
-}
-else {
-    &html($q);
+    &statistic_basic($q);
 }
 
-#
-__DATA__
+# URL list
+elsif ( $ns =~ /^cache/ ) {
+    &dump_url_list($q);
+}
+
+# html statistic with google maps
+else {
+    &statistic_maps($q);
+}
 
