@@ -17,7 +17,7 @@ use warnings;
 
 #my $logfile                      = '/var/log/lighttpd/bbbike.error.log';
 my $logfile                      = '/Users/wosch/projects/bbbike/tmp/lighttpd/bbbike.error.log';
-my $max                          = 800;
+my $max                          = 600;
 my $only_production_statistic    = 1;
 my $debug                        = 1;
 my $logrotate_first_uncompressed = 1;
@@ -451,7 +451,13 @@ EOF
         return @val;
     }
 
+    my %hash;
     foreach my $url (@d) {
+	# more aggresive duplication check, for better performance
+        next if exists $hash{$url};
+        $hash{$url} = 1;
+
+	# CGI->new() is sooo slow
         my $qq = CGI->new($url);
         $counter2++;
         warn $url, "\n" if $debug >= 2;
