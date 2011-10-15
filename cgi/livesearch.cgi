@@ -204,7 +204,7 @@ m, (slippymap|bbbike|[A-Z][a-zA-Z]+)\.cgi: (URL:)?http://$host.bbbike.org/,i;
             # pop @data if scalar(@data) > 5_000;
 
             # more aggresive duplication check, for better performance
-	    next if $hash{$url}++;
+            next if $hash{$url}++;
 
             # newest entries first
             unshift @data, $url;
@@ -458,6 +458,7 @@ EOF
 
     my %hash;
     foreach my $url (@d) {
+
         # CGI->new() is sooo slow
         my $qq = CGI->new($url);
 
@@ -494,7 +495,7 @@ EOF
         push( @{ $cities->{ $opt->{'city'} } }, $opt ) if $opt->{'city'};
         push @route_display, $url;
     }
-    warn "duplicates: ", scalar( keys %hash), "\n";
+    warn "duplicates: ", scalar( keys %hash ), "\n";
 
     print "/* ", Dumper($cities),      " */\n" if $debug >= 2;
     print "/* ", Dumper($city_center), " */\n" if $debug >= 2;
