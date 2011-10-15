@@ -15,9 +15,9 @@ use Encode;
 use strict;
 use warnings;
 
-my $logfile                      = '/var/log/lighttpd/bbbike.error.log';
-#my $logfile = '../tmp/lighttpd/bbbike.error.log';
-my $max     = 600;
+#my $logfile = '/var/log/lighttpd/bbbike.error.log';
+my $logfile                      = '../../tmp/lighttpd/bbbike.error.log';
+my $max                          = 600;
 my $only_production_statistic    = 1;
 my $debug                        = 1;
 my $logrotate_first_uncompressed = 1;
@@ -143,7 +143,8 @@ sub extract_route {
     my @data_all;
     my %hash;
     my @files = $file;
-    push @files, "$file.1" $logrotate_first_uncompressed ? "$file.1" : &logfiles( $file, 1);
+    push @files,
+      $logrotate_first_uncompressed ? "$file.1" : &logfiles( $file, 1 );
     push @files, &logfiles( $file, 2 .. 20 );
     push @files, &logfiles( $file, 21 .. 100 ) if $max > 2_000;
 
@@ -449,7 +450,6 @@ EOF
         return @val;
     }
 
-    my %hash;
     foreach my $url (@d) {
 
         # more aggresive duplication check, for better performance
