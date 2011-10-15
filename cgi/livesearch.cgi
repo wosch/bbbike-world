@@ -137,11 +137,9 @@ sub extract_route {
     my $host = $devel ? '(dev|devel|www)' : 'www';
 
     # read more data then requested, expect some duplicated URLs
-    my $duplication_factor = log( $max / 4 < 25 ? 25 : $max / 4 ) / 2;
+    my $duplication_factor = 1.5;
 
-    my @data;
     my @data_all;
-    my %hash;
     my @files = $file;
     push @files,
       $logrotate_first_uncompressed ? "$file.1" : &logfiles( $file, 1 );
@@ -158,8 +156,12 @@ sub extract_route {
         }
     }
 
+    my %hash;
+
     # read newest log files first
     foreach my $file (@files) {
+        my @data;
+
         next if !-f $file;
 
         my $fh;
@@ -201,6 +203,9 @@ m, (slippymap|bbbike|[A-Z][a-zA-Z]+)\.cgi: (URL:)?http://$host.bbbike.org/,i;
             # keep memory usage low
             # pop @data if scalar(@data) > 5_000;
 
+            # more aggresive duplication check, for better performance
+	    next if $hash{$url}++;
+
             # newest entries first
             unshift @data, $url;
 
@@ -213,7 +218,7 @@ m, (slippymap|bbbike|[A-Z][a-zA-Z]+)\.cgi: (URL:)?http://$host.bbbike.org/,i;
         last if scalar(@data_all) > $max * $duplication_factor;
     }
 
-    warn "URLs: $#data_all, factor: $duplication_factor\n";
+    warn "URLs: $#data_all, factor: $duplication_factor\n" if $debug;
     return @data_all;
 }
 
@@ -427,12 +432,13 @@ EOF
     my $stat = $q->param('stat') || "name";
     my @d = &extract_route( $logfile, $max, &is_production($q), $date );
 
+    #print join ("\n", @d); exit;
+
     print qq{<script type="text/javascript">\n};
 
     my $city_center;
     my $json = new JSON;
     my $cities;
-    my %hash;
     my $counter;
     my $counter2 = 0;
     my @route_display;
@@ -450,14 +456,11 @@ EOF
         return @val;
     }
 
+    my %hash;
     foreach my $url (@d) {
-
-        # more aggresive duplication check, for better performance
-        next if exists $hash{$url};
-        $hash{$url} = 1;
-
         # CGI->new() is sooo slow
         my $qq = CGI->new($url);
+
         $counter2++;
         warn $url, "\n" if $debug >= 2;
 
@@ -491,6 +494,7 @@ EOF
         push( @{ $cities->{ $opt->{'city'} } }, $opt ) if $opt->{'city'};
         push @route_display, $url;
     }
+    warn "duplicates: ", scalar( keys %hash), "\n";
 
     print "/* ", Dumper($cities),      " */\n" if $debug >= 2;
     print "/* ", Dumper($city_center), " */\n" if $debug >= 2;
