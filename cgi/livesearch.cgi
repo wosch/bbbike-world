@@ -136,6 +136,8 @@ sub extract_route {
     my $date   = shift;
     my $unique = shift;
 
+    warn "extract route: file: $file, max: $max, date: $date\n" if $debug;
+
     my $host = $devel ? '(dev|devel|www)' : 'www';
 
     # read more data then requested, expect some duplicated URLs
@@ -203,7 +205,7 @@ m, (slippymap|bbbike|[A-Z][a-zA-Z]+)\.cgi: (URL:)?http://$host.bbbike.org/,i;
             $url =~ s/^URL://;
 
             # keep memory usage low
-            pop @data if scalar(@data) > 5_000;
+            pop @data if scalar(@data) > 15_000;
 
             # more aggresive duplication check, for better performance
             next if $unique && $hash{$url}++;
@@ -582,7 +584,7 @@ sub statistic_basic {
     my $max = 700;
     if ( $q->param('max') ) {
         my $m = $q->param('max');
-        $max = $m if $m > 0 && $m <= 2_000;
+        $max = $m if $m > 0 && $m <= 15_000;
     }
 
     my $date = $q->param('date') || "today";
