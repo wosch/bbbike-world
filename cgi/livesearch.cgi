@@ -18,7 +18,7 @@ use warnings;
 my $logfile = '/var/log/lighttpd/bbbike.error.log';
 
 #my $logfile                      = '../../tmp/lighttpd/bbbike.error.log';
-my $max                          = 600;
+my $max                          = 50;
 my $only_production_statistic    = 1;
 my $debug                        = 1;
 my $logrotate_first_uncompressed = 1;
