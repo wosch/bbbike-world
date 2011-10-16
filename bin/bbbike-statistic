@@ -72,7 +72,7 @@ echo -n "google maps addresses gps, start: "
 zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -c 'start=[^&]+%2C1%5D&'
 echo -n "google maps addresses gps, ziel: "
 zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -c 'ziel=[^&]+%2C1%5D&'
-echo -n "google maps addresses gps, star+ziel: "
+echo -n "google maps addresses gps, start+ziel: "
 zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -c 'start=[^&]+%2C1%5D&.*ziel=[^&]+%2C1%5D&'
 
 echo ""
