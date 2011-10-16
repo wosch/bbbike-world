@@ -12,3 +12,5 @@ perltidy:
 clean distclean:
 	rm -f *.bak *.tdy
 
+help:
+	@echo "make [ perltidy | clean ]"
