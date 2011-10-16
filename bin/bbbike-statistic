@@ -57,6 +57,25 @@ zcat -f $logfiles | egrep "GET / |GET $url_match.* HTTP" | egrep '" (200|301) ' 
 	perl $perl_utf8 -MCGI -npe '$_ = CGI::unescape($_)'
 
 echo ""
+echo "Preferences seen: "
+echo -n "view second page: "
+zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -c 'pref_seen=1[;&]'
+
+echo -n "OSM gps crossing, start: "
+zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -c 'start=[^&]+%2C0%5D&'
+echo -n "OSM gps crossing, ziel: "
+zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -c 'ziel=[^&]+%2C0%5D&'
+echo -n "OSM gps crossing, start+ziel: "
+zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -c 'start=[^&]+%2C0%5D&.*ziel=[^&]+%2C0%5D&'
+
+echo -n "google maps addresses gps, start: "
+zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -c 'start=[^&]+%2C1%5D&'
+echo -n "google maps addresses gps, ziel: "
+zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -c 'ziel=[^&]+%2C1%5D&'
+echo -n "google maps addresses gps, star+ziel: "
+zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -c 'start=[^&]+%2C1%5D&.*ziel=[^&]+%2C1%5D&'
+
+echo ""
 echo -n "bbbike cities: "
 zcat -f $logfiles | egrep -v 85.214.61.222 | egrep "GET $url_match.*?\?" | egrep -v '" 40[34] ' |
 	egrep -v 'imagetype=png.*geometry=240x180' |  
