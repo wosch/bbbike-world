@@ -363,41 +363,10 @@ sub statistic_maps {
             }
         ),
 
-        -style => {
-            'src' => [
-                "../html/devbridge-jquery-autocomplete-1.1.2/styles.css",
-                "../html/bbbike.css"
-            ]
-        },
-        -script => [
-            {
-                -type => 'text/javascript',
-                'src' => "../html/jquery-1.4.2.min.js"
-            },
-            {
-                -type => 'text/javascript',
-                'src' =>
-"../html/devbridge-jquery-autocomplete-1.1.2/jquery.autocomplete-min.js"
-            },
-            {
-                -type => 'text/javascript',
-                'src' => "http://www.google.com/jsapi"
-            },
-            {
-                -type => 'text/javascript',
-                'src' => "http://maps.google.com/maps/api/js?v=3.3&sensor=false"
-            },
-            { -type => 'text/javascript', 'src' => "../html/maps3.js" },
-            {
-                -type => 'text/javascript',
-                'src' =>
-'http://maps.google.com/maps/api/js?libraries=panoramio&sensor=false'
-            },
-            {
-                -type => 'text/javascript',
-                'src' => "../html/bbbike.js"
-            }
-        ]
+        -style => { 'src' => [ "../html/bbbike.css" ] },
+        -script => [ { 'src' => "http://www.google.com/jsapi?hl=en" },
+		{ 'src' => "http://maps.googleapis.com/maps/api/js?sensor=false&amp;language=en" },
+		{ 'src' => "/html/bbbike-js.js" } ],
     );
 
     print qq{<div id="routes"></div>\n};
