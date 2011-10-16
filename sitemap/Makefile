@@ -18,9 +18,9 @@ bbbike-org:
 		${lastmod_today} http://www.bbbike.org > ${files}/$@.txt
 	${SITEMAP_GEN} --config=$@.xml
 
-clean:
+clean distclean:
 	rm -f ${files}/*.txt
 
 help:
-	@echo "  make [ ${ALL} | help | clean ]"
+	@echo "make [ ${ALL} | help | clean ]"
 
