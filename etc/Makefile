@@ -20,8 +20,6 @@ sync-backend:
 	cp -f /etc/logrotate.d/lighttpd lighttpd.logrotate
 
 
-munin: munin-lighttpd munin-xen
-
 munin-lighttpd:
 	for i in ${MUNIN_LIGHTTPD}; do \
 	   sudo ln -fs `pwd`/../src/munin/munin-lighttpd ${MUNIN_PLUGINS_DIR}/$$i; \
@@ -40,4 +38,4 @@ munin-bbbike:
 
 help:
 	@echo "make [ sync-backend | sync-frontend ]"
-	@echo "make [ munin | munin-lighttpd | munin-xen | munin-bbbike ]"
+	@echo "make [ munin-lighttpd | munin-xen | munin-bbbike ]"
