@@ -34,7 +34,7 @@ my $munin_config_file = "/etc/munin/munin-bbbike.conf";
 
 # {fieldname}.min?
 # should be 0 or 1
-my $min_value = 1;
+my $min_value = 0;
 
 my $config = {
     'ajax'   => [qw/api street-coord crossing maptype weather location/],
