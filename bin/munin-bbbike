@@ -46,6 +46,10 @@ my $config = {
           quality_np quality_Q0 quality_Q1 specialvehicle_np specialvehicle_trailer specialvehicle_childseat
           unlit ferry/
     ],
+    'maptype' => [
+        qw/bing_birdview bing_hybrid bing_map cycle hike_bike hybrid mapnik mapnik_bw mapnik_de
+          public_transport roadmap satellite tah terrain yahoo_hybrid yahoo_map yahoo_satellite/
+    ],
 };
 
 sub usage {
@@ -76,7 +80,7 @@ sub interval {
 }
 
 sub get_types {
-    my @types = qw/ajax route output pref/;
+    my @types = qw/ajax route output pref maptype/;
     return sort @types;
 }
 
@@ -156,15 +160,34 @@ EOF
     return $data;
 }
 
+sub config_maptype () {
+    my $data = <<EOF;
+graph_title Maptype
+graph_vlabel Maptype Requests
+graph_category BBBike
+graph_info Number of Maptype Requests
+graph_period minute
+EOF
+
+    foreach my $label ( sort @{ $config->{'maptype'} } ) {
+        my $label_e = escape_label($label);
+        $data .= "$label_e.label $label\n";
+        $data .= "$label_e.min $min_value\n";
+    }
+
+    return $data;
+}
+
 sub config {
     my $type = shift;
 
     return
-        $type eq 'ajax'   ? &config_ajax
-      : $type eq 'route'  ? &config_routes
-      : $type eq 'output' ? &config_output
-      : $type eq 'pref'   ? &config_pref
-      :                     die "Unknown stat type: $type\n";
+        $type eq 'ajax'    ? &config_ajax
+      : $type eq 'route'   ? &config_routes
+      : $type eq 'output'  ? &config_output
+      : $type eq 'pref'    ? &config_pref
+      : $type eq 'maptype' ? &config_maptype
+      :                      die "Unknown stat type: $type\n";
 }
 
 sub display_results {
@@ -230,6 +253,15 @@ sub parse_log {
             'scripts' => $config->{'ajax'}
         );
         $data = display_results( $config->{'ajax'}, $count );
+    }
+    elsif ( $type eq 'maptype' ) {
+        my $count = count_maptype(
+            'logfile' => $logfile,
+            'offset'  => $last_offset,
+            'type'    => $type,
+            'scripts' => $config->{'maptype'}
+        );
+        $data = display_results( $config->{'maptype'}, $count );
     }
     elsif ( $type eq 'output' ) {
         my $count = count_output(
@@ -397,6 +429,37 @@ sub count_ajax {
         next if $ignore_localrequests && localrequest($_);
 
         if (m,"GET /cgi/(.*?)(\.cgi)?\?,) {
+            $counter->{$1}++;
+        }
+    }
+
+    return $counter;
+}
+
+#
+# parse the bbbike access log file and count map type request
+#
+sub count_maptype {
+    my %args   = @_;
+    my $file   = $args{'logfile'};
+    my $offset = $args{'offset'};
+
+    my $counter = {};
+    my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
+
+    if ( defined $offset ) {
+        warn "Starting at offset: $offset\n" if $debug;
+        seek( $fh, $offset, 0 );
+    }
+
+    while (<$fh>) {
+
+        # proxy request with hostname
+        s,"GET http://.*?/,"GET /, if $frontend_proxy;
+
+        next if $ignore_localrequests && localrequest($_);
+
+        if (m,"GET /cgi/maptype.cgi.*?maptype=(\S+),) {
             $counter->{$1}++;
         }
     }

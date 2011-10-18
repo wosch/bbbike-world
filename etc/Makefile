@@ -34,6 +34,7 @@ munin-bbbike:
 	cd ${MUNIN_PLUGINS_DIR}; sudo ln -fs munin-bbbike munin-bbbike-ajax
 	cd ${MUNIN_PLUGINS_DIR}; sudo ln -fs munin-bbbike munin-bbbike-output
 	cd ${MUNIN_PLUGINS_DIR}; sudo ln -fs munin-bbbike munin-bbbike-pref
+	cd ${MUNIN_PLUGINS_DIR}; sudo ln -fs munin-bbbike munin-bbbike-maptype
 	sudo /etc/init.d/munin-node restart
 
 help:
