@@ -24,9 +24,11 @@ munin-lighttpd:
 	for i in ${MUNIN_LIGHTTPD}; do \
 	   sudo ln -fs `pwd`/../src/munin/munin-lighttpd ${MUNIN_PLUGINS_DIR}/$$i; \
 	done
+	${MAKE} munin-restart
 
 munin-xen:
 	sudo ln -fs `pwd`/../src/munin/xen_multi ${MUNIN_PLUGINS_DIR}
+	${MAKE} munin-restart
 	@echo  "don't forget to update /etc/munin/plugin-conf.d/munin-node, see ./README"
 	
 munin-bbbike:
@@ -35,6 +37,9 @@ munin-bbbike:
 	cd ${MUNIN_PLUGINS_DIR}; sudo ln -fs munin-bbbike munin-bbbike-output
 	cd ${MUNIN_PLUGINS_DIR}; sudo ln -fs munin-bbbike munin-bbbike-pref
 	cd ${MUNIN_PLUGINS_DIR}; sudo ln -fs munin-bbbike munin-bbbike-maptype
+	${MAKE} munin-restart
+
+munin-restart:
 	sudo /etc/init.d/munin-node restart
 
 help:
