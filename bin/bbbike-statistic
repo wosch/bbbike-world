@@ -7,9 +7,17 @@
 PATH=$HOME/bin:$PATH; export PATH
 
 cd /var/log/lighttpd || exit 2
+varnish_log=/var/log/varnish/varnishncsa.log
 
-: ${logfiles="bbbike.log"}
+logfile="bbbike.log"
+if [ -f $varnish_log ]; then
+    cd `dirname $varnish_log`
+    logfile=`basename $varnish_log`
+fi
+
+: ${logfiles=$logfile}
 : ${logfiles_mobile="m.bbbike.log"}
+
 
 # man perlrun
 perl_utf8="-CIO"
@@ -20,13 +28,15 @@ echo -n "bbbike.org page views: "
 zcat -f $logfiles | egrep -v 85.214.61.222 | egrep "GET $url_match" | egrep -v '" 40[34] ' | awk '{print $1}' | wc -l
 
 echo -n "mobile bbbike.org page views: "
-zcat -f $logfiles_mobile | egrep -v 85.214.61.222| egrep "GET $url_match" | egrep -v '" 40[34] ' | awk '{print $1}' | wc -l
+if [ -f $logfiles_mobile ]; then
+    zcat -f $logfiles_mobile | egrep -v 85.214.61.222| egrep "GET $url_match" | egrep -v '" 40[34] ' | awk '{print $1}' | wc -l
+fi
 
 echo -n "weather page views: "
 zcat -f $logfiles | egrep -v 85.214.61.222 | egrep 'GET /cgi/weather.cgi' | egrep -v '" 40[34] ' | awk '{print $1}' | wc -l
 
 echo -n "location page views: "
-zcat -f $logfiles $logfiles_mobile | egrep -v 85.214.61.222 | egrep 'GET /cgi/location.cgi' | egrep '" (200|301) ' | awk '{print $1}' | wc -l
+zcat -f $logfiles | egrep -v 85.214.61.222 | egrep 'GET /cgi/location.cgi' | egrep '" (200|301) ' | awk '{print $1}' | wc -l
 
 echo ""
 echo "Preferences seen: "
@@ -194,12 +204,14 @@ echo "error 500"
 egrep '" 500 ' $logfiles | awk '{ print $1 }'| sort | uniq -c | sort -nr | dns
 
 
-echo ""
-echo -n "download stat: "
-awk '{ s+=$10 } END { print int(s/1024/1024), "MB" }' /var/log/lighttpd/download.bbbike.log
+if [ -f /var/log/lighttpd/download.bbbike.log ]; then
+    echo ""
+    echo -n "download stat: "
+    awk '{ s+=$10 } END { print int(s/1024/1024), "MB" }' /var/log/lighttpd/download.bbbike.log
+fi
 
 echo -n "bbbike stat: "
-awk '{ s+=$10 } END { print int(s/1024/1024), "MB" }' /var/log/lighttpd/bbbike.log
+zcat -f $logfiles | awk '{ s+=$10 } END { print int(s/1024/1024), "MB" }' 
 
 echo ""
 lastcomm | awk '{ s+=$4 } END { print int(s/60), "CPU minutes" }'
