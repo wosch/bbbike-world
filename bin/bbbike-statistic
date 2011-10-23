@@ -23,7 +23,8 @@ fi
 # man perlrun
 perl_utf8="-CIO"
 
-url_match='(http://www.bbbike.org)?(/cgi/[A-Zb]|/[A-Z][a-z][A-Za-z]+/|/berlin/|/[a-z][a-z]/[A-Z][a-z][A-Za-z]+/)'
+front_end='(http://www.bbbike.org)?'
+url_match="$front_end(/cgi/[A-Zb]|/[A-Z][a-z][A-Za-z]+/|/berlin/|/[a-z][a-z]/[A-Z][a-z][A-Za-z]+/)"
 
 echo -n "bbbike.org page views: "
 zcat -f $logfiles | egrep -v 85.214.61.222 | egrep "GET $url_match" | egrep -v '" 40[34] ' | awk '{print $1}' | wc -l
@@ -34,10 +35,10 @@ if [ -f $logfiles_mobile ]; then
 fi
 
 echo -n "weather page views: "
-zcat -f $logfiles | egrep -v 85.214.61.222 | egrep 'GET /cgi/weather.cgi' | egrep -v '" 40[34] ' | awk '{print $1}' | wc -l
+zcat -f $logfiles | egrep -v 85.214.61.222 | egrep "GET $front_end/cgi/weather.cgi" | egrep -v '" 40[34] ' | awk '{print $1}' | wc -l
 
 echo -n "location page views: "
-zcat -f $logfiles | egrep -v 85.214.61.222 | egrep 'GET /cgi/location.cgi' | egrep '" (200|301) ' | awk '{print $1}' | wc -l
+zcat -f $logfiles | egrep -v 85.214.61.222 | egrep "GET $front_end/cgi/location.cgi" | egrep '" (200|301) ' | awk '{print $1}' | wc -l
 
 echo ""
 echo "Preferences seen: "
@@ -71,16 +72,16 @@ echo ""
 echo ""
 echo -n "bbbike references: "
 zcat -f $logfiles | egrep -v 85.214.61.222 | egrep "GET / |GET $url_match.* HTTP" | egrep '" (200|301) ' |
-	egrep -v 'GET /[^ ]+/streets.html' |
+	egrep -v 'GET \S*/[^ ]+/streets.html' |
 	egrep -v 'Purebot|Java/1|SnapPreviewBot|Tcl http client package|http://www.bbbike.org' |
 	awk '{print $11}' | perl $perl_utf8 -npe "s,.?http://www.bbbike.org$url_match\?.*\n,$1,g" | sort -u | wc -l
 
 echo -n "google references: "
 zcat -f $logfiles | egrep "GET / |GET $url_match.* HTTP" | egrep '" (200|301) ' |
-	egrep -v 'GET /[^ ]+/streets.html' | egrep -i 'google.*fahrrad' | wc -l
+	egrep -v 'GET \S*/[^ ]+/streets.html' | egrep -i 'google.*fahrrad' | wc -l
 
 zcat -f $logfiles | egrep "GET / |GET $url_match.* HTTP" | egrep '" (200|301) ' |
-	egrep -v 'GET /[^ ]+/streets.html' | egrep -iv 'google.*fahrrad' |
+	egrep -v 'GET \S*/[^ ]+/streets.html' | egrep -iv 'google.*fahrrad' |
 	egrep -v 'Purebot|Java/1|SnapPreviewBot|Tcl http client package|http://www.bbbike.org' |
 	awk '{print $11}' | perl $perl_utf8 -npe "s,.?http://www.bbbike.org$url_match\?.*\n,$1,g" | 
 	sort | uniq -c | sort -nr |
@@ -91,18 +92,18 @@ echo ""
 echo -n "bbbike cities: "
 zcat -f $logfiles | egrep -v 85.214.61.222 | egrep "GET $url_match.*?\?" | egrep -v '" 40[34] ' |
 	egrep -v 'imagetype=png.*geometry=240x180' |  
-	perl $perl_utf8 -ne 'print "$1\n" if m,GET /cgi/(.*?).cgi, || m,GET /([A-Z][a-z]+)/\?, || m,GET /([a-z][a-z]/[A-Z][a-z]+)/\?, ' | wc -l
+	perl $perl_utf8 -ne 'print "$1\n" if m,GET \S*/cgi/(.*?).cgi, || m,GET \S*/([A-Z][a-z]+)/\?, || m,GET \S*/([a-z][a-z]/[A-Z][a-z]+)/\?, ' | wc -l
 
 zcat -f $logfiles | egrep -v 85.214.61.222 | egrep "GET $url_match.*?\?" | egrep -v '" 40[34] ' |
 	egrep -v 'imagetype=png.*geometry=240x180' |
-	perl $perl_utf8 -ne 'print "$1\n" if m,GET /cgi/(.*?).cgi, || m,GET /([A-Z][a-z]+)/\?, || m,GET /([a-z][a-z]/[A-Z][a-z]+)/\?,' |
+	perl $perl_utf8 -ne 'print "$1\n" if m,GET \S*/cgi/(.*?).cgi, || m,GET \S*/([A-Z][a-z]+)/\?, || m,GET \S*/([a-z][a-z]/[A-Z][a-z]+)/\?,' |
 	sort | uniq -c | sort -nr
 
 echo ""
 echo -n "via count cities: "
 zcat -f $logfiles | egrep -v 85.214.61.222 | egrep "GET $url_match.*?\?" | egrep -v '" 40[34] ' |
 	egrep 'via=' | egrep -v 'via=(|NO)[;&]' |
-	perl $perl_utf8 -ne 'print "$1\n" if m,GET /cgi/(.*?).cgi, || m,GET /([A-Z][a-z]+)/\?, || m,GET /([a-z][a-z]/[A-Z][a-z]+)/\?,' | wc -l
+	perl $perl_utf8 -ne 'print "$1\n" if m,GET \S*/cgi/(.*?).cgi, || m,GET \S*/([A-Z][a-z]+)/\?, || m,GET /([a-z][a-z]/[A-Z][a-z]+)/\?,' | wc -l
 zcat -f $logfiles | egrep -v 85.214.61.222 | egrep "GET $url_match.*?\?" | egrep -v '" 40[34] ' |
 	egrep 'via=' | egrep -v 'via=(|NO)[;&]' |
 	perl $perl_utf8 -ne 'print "$1\n" if m,GET /cgi/(.*?).cgi, || m,GET /([A-Z][a-z]+)/\?, || m,GET /([a-z][a-z]/[A-Z][a-z]+)/\?,' |
