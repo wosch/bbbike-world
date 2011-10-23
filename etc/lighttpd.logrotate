@@ -8,10 +8,11 @@
         sharedscripts
         postrotate
              if [ -x /usr/sbin/invoke-rc.d ]; then \
-                invoke-rc.d lighttpd reopen-logs > /dev/null 2>&1; \
+                invoke-rc.d lighttpd restart > /dev/null 2>&1; \
              else \
                 /etc/init.d/lighttpd reopen-logs > /dev/null 2>&1; \
              fi; \
         endscript
 }
 
+# invoke-rc.d lighttpd reopen-logs > /dev/null 2>&1; \

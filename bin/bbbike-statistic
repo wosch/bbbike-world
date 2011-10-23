@@ -29,6 +29,25 @@ echo -n "location page views: "
 zcat -f $logfiles $logfiles_mobile | egrep -v 85.214.61.222 | egrep 'GET /cgi/location.cgi' | egrep '" (200|301) ' | awk '{print $1}' | wc -l
 
 echo ""
+echo "Preferences seen: "
+echo -n "view second page: "
+zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -c 'pref_seen=1[;&]'
+
+echo -n "OSM gps crossing, start: "
+zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -c 'start=[^&]+%2C0%5D&'
+echo -n "OSM gps crossing, ziel: "
+zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -c 'ziel=[^&]+%2C0%5D&'
+echo -n "OSM gps crossing, start+ziel: "
+zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -c 'start=[^&]+%2C0%5D&.*ziel=[^&]+%2C0%5D&'
+
+echo -n "google maps addresses gps, start: "
+zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -c 'start=[^&]+%2C1%5D&'
+echo -n "google maps addresses gps, ziel: "
+zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -c 'ziel=[^&]+%2C1%5D&'
+echo -n "google maps addresses gps, start+ziel: "
+zcat -f $logfiles | egrep "GET $url_match.*?\?" | egrep -c 'start=[^&]+%2C1%5D&.*ziel=[^&]+%2C1%5D&'
+
+echo ""
 echo -n "bbbike.org hosts: "
 zcat -f $logfiles | egrep -v 85.214.61.222 | egrep "GET $url_match" | egrep -v '" 40[34] ' | awk '{print $1}' | sort -u | wc -l
 zcat -f $logfiles | egrep -v 85.214.61.222 | egrep "GET $url_match" | egrep -v '" 40[34] ' |  
@@ -55,6 +74,7 @@ zcat -f $logfiles | egrep "GET / |GET $url_match.* HTTP" | egrep '" (200|301) ' 
 	awk '{print $11}' | perl $perl_utf8 -npe "s,.?http://www.bbbike.org$url_match\?.*\n,$1,g" | 
 	sort | uniq -c | sort -nr |
 	perl $perl_utf8 -MCGI -npe '$_ = CGI::unescape($_)'
+
 
 echo ""
 echo -n "bbbike cities: "

@@ -20,8 +20,6 @@ sync-backend:
 	cp -f /etc/logrotate.d/lighttpd lighttpd.logrotate
 
 
-munin: munin-lighttpd munin-xen
-
 munin-lighttpd:
 	for i in ${MUNIN_LIGHTTPD}; do \
 	   sudo ln -fs `pwd`/../src/munin/munin-lighttpd ${MUNIN_PLUGINS_DIR}/$$i; \
@@ -36,8 +34,9 @@ munin-bbbike:
 	cd ${MUNIN_PLUGINS_DIR}; sudo ln -fs munin-bbbike munin-bbbike-ajax
 	cd ${MUNIN_PLUGINS_DIR}; sudo ln -fs munin-bbbike munin-bbbike-output
 	cd ${MUNIN_PLUGINS_DIR}; sudo ln -fs munin-bbbike munin-bbbike-pref
+	cd ${MUNIN_PLUGINS_DIR}; sudo ln -fs munin-bbbike munin-bbbike-maptype
 	sudo /etc/init.d/munin-node restart
 
 help:
 	@echo "make [ sync-backend | sync-frontend ]"
-	@echo "make [ munin | munin-lighttpd | munin-xen | munin-bbbike ]"
+	@echo "make [ munin-lighttpd | munin-xen | munin-bbbike ]"
