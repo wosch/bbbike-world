@@ -100,6 +100,7 @@ graph_vlabel Searches
 graph_category BBBike
 graph_info Number of Route Searches
 graph_period minute
+graph_scale no
 data.label Route Searches
 data.min $min_value
 EOF
@@ -112,6 +113,7 @@ graph_vlabel Preferences
 graph_category BBBike
 graph_info Prefernces
 graph_period minute
+graph_scale no
 speed.cdef speed,10,/
 EOF
 
@@ -131,6 +133,7 @@ graph_vlabel Ajax Requests
 graph_category BBBike
 graph_info Number of Ajax Requests
 graph_period minute
+graph_scale no
 EOF
 
     foreach my $label ( sort @{ $config->{'ajax'} } ) {
@@ -149,6 +152,7 @@ graph_vlabel Output Formats
 graph_category BBBike
 graph_info Number of Output Formats
 graph_period minute
+graph_scale no
 EOF
 
     foreach my $label ( sort @{ $config->{'output'} } ) {
@@ -167,6 +171,7 @@ graph_vlabel Maptype Requests
 graph_category BBBike
 graph_info Number of Maptype Requests
 graph_period minute
+graph_scale no
 EOF
 
     foreach my $label ( sort @{ $config->{'maptype'} } ) {
