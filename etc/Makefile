@@ -12,6 +12,7 @@ all: help
 sync-frontend:
 	cp -f /etc/varnish/default.vcl varnish.vcl
 	cp -f /etc/default/varnish varnish.default
+	cp -f /etc/logrotate.d/munin logrotate.munin
 
 sync-backend:
 	crontab -l > crontab
