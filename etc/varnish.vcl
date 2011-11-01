@@ -102,6 +102,8 @@ sub vcl_recv {
         set req.backend = eserte;
     } else if (req.http.host ~ "^eserte-devel\.bbbike\.org$") {
         set req.backend = eserte_devel;
+    } else if (req.http.host ~ "^([abc]\.)?tile\.bbbike\.org$") {
+        set req.backend = eserte;
     } else {
         set req.backend = bbbike;
       
@@ -131,6 +133,7 @@ sub vcl_recv {
     if (req.http.host ~ "^eserte.*\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$") {
 	return (pass);
     }
+    # if (req.http.host ~ "^([abc]\.)?tile\.bbbike\.org") { return (pass); } # no cache
 
     ######################################################################
     # force caching of images and CSS/JS files
