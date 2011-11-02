@@ -61,9 +61,8 @@ sub parse_database {
             $population, $step, $other_names
         ) = split(/:/);
 
-        next if $city eq 'dummy';
-        next if $city eq 'bbbike';
         next if $city eq '';
+	my $dummy = $city eq 'dummy' || $step eq 'dummy' ? 1 : 0;
 
         $hash{$city} = {
             city        => $city,
@@ -75,7 +74,7 @@ sub parse_database {
             coord       => $coord,
             population  => $population || 1,
             other_names => $other_names || "",
-            dummy       => $step eq 'dummy' ? 1 : 0,
+            dummy       => $dummy,
         };
 
         $raw{$city} = [
