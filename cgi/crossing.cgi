@@ -174,7 +174,7 @@ sub latlngnames_suggestions {
     my $latlng_g = crossing_padding( $latlng, $granularity );
 
     my $file =
-      $city eq 'bbbike'
+      $city eq 'bbbikeXXX'
       ? "../data/$opensearch_file.$granularity"
       : "$opensearch_dir/$city/$opensearch_file.$granularity";
 
