@@ -1,0 +1,39 @@
+######################################################################
+# setup a tile server for debian
+# based on http://wiki.openstreetmap.org/wiki/Ubuntu_tile_server
+#
+
+# add the openstreemap repo
+echo "deb http://ppa.launchpad.net/kakrueger/openstreetmap/ubuntu natty main" > /etc/apt/sources.list.d/openstreetmap.list
+
+# get key repo pgp ID
+sudo apt-get update > /dev/null  
+W: GPG error: http://ppa.launchpad.net natty Release: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY AE74800FB745A04C
+
+# add the key, the last value in the error message
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys AE74800FB745A04C
+
+sudo apt-get update
+sudo apt-get install libapache2-mod-tile
+
+# Trouble shooting:
+
+sudo dpkg-reconfigure openstreetmap-postgis-db-setup
+Create user gis
+createuser: creation of new role failed: ERROR:  role "gis" already exists
+Creating Database
+createdb: database creation failed: ERROR:  new encoding (UTF8) is incompatible with the encoding of the template database (SQL_ASCII)
+HINT:  Use the same encoding as in the template database, or use template0 as template.
+
+# setup a utf8 database
+sudo pg_dropcluster --stop 8.4 main
+sudo pg_createcluster --start -e UTF-8 8.4 main
+
+sudo dpkg-reconfigure openstreetmap-postgis-db-setup
+
+# if the installation of the mapnik style sheets failed, remove and install
+# the package again
+sudo apt-get purge openstreetmap-mapnik-stylesheet-data
+sudo apt-get install openstreetmap-mapnik-stylesheet-data
+
+
