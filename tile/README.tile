@@ -37,3 +37,25 @@ sudo apt-get purge openstreetmap-mapnik-stylesheet-data
 sudo apt-get install openstreetmap-mapnik-stylesheet-data
 
 
+# setup your own style sheet
+svn checkout http://svn.openstreetmap.org/applications/rendering/mapnik
+
+ln -s ../mapnik-osm-data/world_boundaries .
+cp datasource-settings.xml.inc.template datasource-settings.xml.inc 
+# do not set host & port!
+# <Parameter name="estimate_extent">true</Parameter> 
+# <Parameter name="extent"></Parameter>
+# <Parameter name="user">www-data</Parameter>
+# <Parameter name="dbname">gis</Parameter>
+# <Parameter name="type">postgis</Parameter>
+# <Parameter name="password">gis</Parameter>
+
+
+
+cp fontset-settings.xml.inc.template fontset-settings.xml.inc       
+cp settings.xml.inc.template settings.xml.inc          
+# <!ENTITY dwithin_node_way "&dwithin_900913;">
+# <!ENTITY world_boundaries "world_boundaries">
+# <!ENTITY prefix "planet_osm">
+# <!ENTITY symbols "symbols">
+
