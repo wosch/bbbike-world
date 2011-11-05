@@ -20,6 +20,10 @@ sudo apt-get install \
 # reverse proxy
 sudo apt-get install varnish
 
+# osmosis from repo
+sudo apt-get install osmosis
+
+
 Required MacPorts modules
 ------------------------------------
 sudo port install pbzip2 bzip2 git-core lynx curl wget whois pigz bc buffer \
