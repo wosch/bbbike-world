@@ -47,6 +47,9 @@ $ make update-database
 # extract data for a city and build a bbbike database
 $ make CITIES="Augsburg Halle" cities convert
 
+# fetch data for a city and build a bbbike database
+$ make CITIES="Augsburg Halle" fetch convert
+
 # extract and convert only
 $ make bbbike_download="" update-database
 
