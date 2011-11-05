@@ -59,3 +59,14 @@ cp settings.xml.inc.template settings.xml.inc
 # <!ENTITY prefix "planet_osm">
 # <!ENTITY symbols "symbols">
 
+
+# add bbbike quality attributes to osm2pgsql
+vi /usr/share/osm2pgsql/osm2pgsql/default.style
+
+#bbbike
+node,way   bbbike:quality      text  linear
+
+# create osm dump
+make bbbike2wgs84-mapnik
+osm2pgsql --slim -S /usr/share/osm2pgsql/osm2pgsql/default.style -c tmp/bbbike-mapnik.osm.gz
+
