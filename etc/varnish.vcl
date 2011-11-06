@@ -89,8 +89,8 @@ sub vcl_recv {
     if (req.http.host ~ "^dev\.bbbike\.org$" && req.url ~ "^/munin") {
         set req.backend = localhost;
     } else if (req.http.host ~ "^download\.bbbike\.org$") {
-        set req.backend = bbbike;
-    } else if (req.http.host ~ "^(www\.|dev\.|devel\.|)bbbike\.org$") {
+        set req.backend = bbbike64;
+    } else if (req.http.host ~ "^(m\.|www\.|dev\.|devel\.|)bbbike\.org$") {
         set req.backend = bbbike64;
 
         # failover production @ strato 
@@ -133,11 +133,10 @@ sub vcl_recv {
     if (req.http.host ~ "^eserte.*\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$") {
 	return (pass);
     }
-    # if (req.http.host ~ "^([abc]\.)?tile\.bbbike\.org") { return (pass); } # no cache
 
     ######################################################################
     # force caching of images and CSS/JS files
-    if (req.url ~ "^/html|^/images|^/feed/|^/osp/|^/cgi/[ac-z]|.*\.html$|.*/$") {
+    if (req.url ~ "^/html|^/images|^/feed/|^/osp/|^/cgi/[ac-z]|.*\.html$|.*/$|^/osm/") {
        unset req.http.cookie;
        unset req.http.Accept-Encoding;
        unset req.http.User-Agent;
@@ -166,6 +165,8 @@ sub vcl_recv {
     # cache just by major browser type
     call normalize_user_agent;
     set req.http.User-Agent = req.http.X-UA;
+
+    if (req.http.host ~ "^([abc]\.)?tile\.bbbike\.org") { return (pass); } # no cache
 
     return (lookup);
 }
