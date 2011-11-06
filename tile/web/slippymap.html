@@ -78,10 +78,10 @@
 
 	    // var newLayer = OpenLayers.Layer.Google("Google Physical", {type: google.maps.MapTypeId.TERRAIN} );
 	    // var newLayer = new OpenLayers.Layer.Google( "Google Physical", { type: google.maps.MapTypeId.TERRAIN, 'sphericalMercator': true, attribution: ', Uses GeoLite data by <a href="http://maxmind.com/">MaxMind</a>', numZoomLevels:16 } );
-	    map.addLayer( new OpenLayers.Layer.Google( "Google Physical", { type: google.maps.MapTypeId.TERRAIN, attribution: ', <a href="http://maps.google.com/">Google</a>', numZoomLevels:16 } ));
-	    map.addLayer( new OpenLayers.Layer.Google( "Google Roadmap", { type: google.maps.MapTypeId.ROADMAP, attribution: ', <a href="http://maps.google.com/">Google</a>', numZoomLevels:19 } ));
-	    map.addLayer( new OpenLayers.Layer.Google( "Google Satellite", { type: google.maps.MapTypeId.SATELLITE, attribution: ', <a href="http://maps.google.com/">Google</a>', numZoomLevels:19 } ));
-	    map.addLayer( new OpenLayers.Layer.Google( "Google Hybrid", { type: google.maps.MapTypeId.HYBRID, attribution: ', <a href="http://maps.google.com/">Google</a>', numZoomLevels:19 } ));
+	    map.addLayer( new OpenLayers.Layer.Google( "Google Physical", { type: google.maps.MapTypeId.TERRAIN, 'sphericalMercator': true, attribution: ', <a href="http://maps.google.com/">Google</a>', numZoomLevels:16 } ));
+	    map.addLayer( new OpenLayers.Layer.Google( "Google Roadmap", { type: google.maps.MapTypeId.ROADMAP, 'sphericalMercator': true, attribution: ', <a href="http://maps.google.com/">Google</a>', numZoomLevels:19 } ));
+	    map.addLayer( new OpenLayers.Layer.Google( "Google Satellite", { type: google.maps.MapTypeId.SATELLITE, 'sphericalMercator': true, attribution: ', <a href="http://maps.google.com/">Google</a>', numZoomLevels:19 } ));
+	    map.addLayer( new OpenLayers.Layer.Google( "Google Hybrid", { type: google.maps.MapTypeId.HYBRID, 'sphericalMercator': true, attribution: ', <a href="http://maps.google.com/">Google</a>', numZoomLevels:19 } ));
 
 	    map.addLayer( new OpenLayers.Layer.Yahoo( "Yahoo Street", { 'sphericalMercator': true, attribution: '<a href="http://yahoo.com/">Yahoo Local Maps</a>', numZoomLevels:18 } ));
 	    map.addLayer( new OpenLayers.Layer.Yahoo( "Yahoo Aerial", { 'type': YAHOO_MAP_SAT, 'sphericalMercator': true, attribution: '<a href="http://yahoo.com/">Yahoo Local Maps</a>', numZoomLevels:18 } ));
