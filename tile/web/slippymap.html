@@ -6,6 +6,9 @@
          (here we bring it from the remote site, but you could
          easily serve up this javascript yourself) -->
 
+<script type="text/javascript" src="http://www.google.com/jsapi?hl=de"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;language=de"></script>
+
     <!-- <script src="http://openlayers.org/api/OpenLayers.js"></script> -->
     <script src="http://www.bbbike.org/html/OpenLayers-2.11/OpenLayers.js"></script>
  
@@ -14,6 +17,7 @@
          to date with any necessary changes -->
     <!-- <script src="http://www.openstreetmap.org/openlayers/OpenStreetMap.js"></script> -->
     <script src="http://www.bbbike.org/html/OpenLayers-2.11/OpenStreetMap.js"></script>
+
 
  
     <script type="text/javascript">
@@ -70,6 +74,13 @@
             var layerCycleMap = new OpenLayers.Layer.OSM.CycleMap("CycleMap");
             map.addLayer(layerCycleMap);
 
+	    // var newLayer = OpenLayers.Layer.Google("Google Physical", {type: google.maps.MapTypeId.TERRAIN} );
+	    // var newLayer = new OpenLayers.Layer.Google( "Google Physical", { type: google.maps.MapTypeId.TERRAIN, 'sphericalMercator': true, attribution: ', Uses GeoLite data by <a href="http://maxmind.com/">MaxMind</a>', numZoomLevels:16 } );
+	    map.addLayer( new OpenLayers.Layer.Google( "Google Physical", { type: google.maps.MapTypeId.TERRAIN, attribution: ', <a href="http://maps.google.com/">Google</a>', numZoomLevels:16 } ));
+	    map.addLayer( new OpenLayers.Layer.Google( "Google Roadmap", { type: google.maps.MapTypeId.ROADMAP, attribution: ', <a href="http://maps.google.com/">Google</a>', numZoomLevels:19 } ));
+	    map.addLayer( new OpenLayers.Layer.Google( "Google Satellite", { type: google.maps.MapTypeId.SATELLITE, attribution: ', <a href="http://maps.google.com/">Google</a>', numZoomLevels:19 } ));
+	    map.addLayer( new OpenLayers.Layer.Google( "Google Hybrid", { type: google.maps.MapTypeId.HYBRID, attribution: ', <a href="http://maps.google.com/">Google</a>', numZoomLevels:19 } ));
+
 // This is the end of the layer
 	// ADFC : http://sautter.com/map/
             var newLayer = new OpenLayers.Layer.TMS( "ADFC Radwegenetz", "",
@@ -117,7 +128,7 @@
             var newLayer = new OpenLayers.Layer.TMS( "BBBike Strassenqualit&auml;t", "/osm/bbbike-quality/",
             { type: 'png', getURL: osm_getTileURL,
 		displayOutsideMaxExtent: true, attribution: '<a href="http://bbbike.de/">BBBike</a>',
-              opacity: 1, isBaseLayer: false, visibility: false, numZoomLevels: 17, noOpaq: true } );
+              opacity: 1, isBaseLayer: false, visibility: false, numZoomLevels: 19, noOpaq: true } );
             map.addLayer(newLayer);
 
 
