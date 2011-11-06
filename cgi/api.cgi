@@ -248,7 +248,7 @@ sub streetnames_suggestions {
     $street_re =~ s/([()|{}\]\[])/\\$1/;
 
     my $file =
-      $city eq 'bbbike'
+      $city eq 'bbbikeXXX'
       ? "../data/$opensearch_file"
       : "$opensearch_dir/$city/$opensearch_file";
 

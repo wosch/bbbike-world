@@ -9,7 +9,7 @@ Required debian modules
 sudo apt-get install \
   pbzip2 bzip2 git-core screen lynx curl wget time \
   lsof whois pigz make acct telnet dnsutils bc bsd-mailx \
-  buffer pktstat emacs \
+  buffer pktstat emacs unzip vim \
   python lighttpd sendmail openjdk-6-jdk \
   libhtml-tagcloud-perl libtext-unidecode-perl munin \
   perltidy libxml-atom-simplefeed-perl libjson-perl liburi-perl \
@@ -19,6 +19,10 @@ sudo apt-get install \
 
 # reverse proxy
 sudo apt-get install varnish
+
+# osmosis from repo
+sudo apt-get install osmosis
+
 
 Required MacPorts modules
 ------------------------------------
@@ -46,6 +50,9 @@ $ make update-database
 
 # extract data for a city and build a bbbike database
 $ make CITIES="Augsburg Halle" cities convert
+
+# fetch data for a city and build a bbbike database
+$ make CITIES="Augsburg Halle" fetch convert
 
 # extract and convert only
 $ make bbbike_download="" update-database
