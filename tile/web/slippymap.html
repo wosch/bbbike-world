@@ -73,6 +73,8 @@
             var layerMapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik");
             map.addLayer(layerMapnik);
 
+            map.addLayer( new OpenLayers.Layer.OSM("Mapnik B/W", "http://a.www.toolserver.org/tiles/bw-mapnik/${z}/${x}/${y}.png", {numZoomLevels: 18}));
+
             var layerCycleMap = new OpenLayers.Layer.OSM.CycleMap("CycleMap");
             map.addLayer(layerCycleMap);
 
