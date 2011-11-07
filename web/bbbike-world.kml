@@ -215,7 +215,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Bochum/">BBBike @ Bochum</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>7.2,51.51,0.000000</coordinates>
+      <coordinates>7.205,51.505,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
