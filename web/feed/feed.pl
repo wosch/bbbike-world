@@ -24,12 +24,12 @@ my $feed = XML::Atom::SimpleFeed->new(
 
 $feed->add_entry(
     title =>
-qq{New feature: a smoothness layer for streets in Berlin (excellent, good, cobbblestones, horrible) },
+qq{New feature: a smoothness layer for streets in Berlin (excellent, good, cobblestones, horrible) },
     id      => '75c151c463e1f249498a6571c8d05ccc',
     content => {
         type => 'text',
         content =>
-qq{New feature: a smoothness layer for streets in Berlin (excellent, good, cobbblestones, horrible) },
+qq{New feature: a smoothness layer for streets in Berlin (excellent, good, cobblestones, horrible) },
     },
     updated  => '2011-11-08T12:30:02Z',
     category => 'News',
