@@ -529,6 +529,10 @@ symlink-download:
 	  ln -fs ../bbbike.org/world/web/robots-download.txt robots.txt ; \
 	  cd osm; ln -fs ../../bbbike.org/world/download/osm/index.html  .
 
+staging:
+	git push
+	cd /usr/local/www/bbbike.org/; git diff; git pull; ${MAKE} -s update-files; git diff
+	
 help:
 	@echo "bbbike version: ${GIT_ID}"
 	@echo ""
@@ -552,6 +556,7 @@ help:
 	@echo "  [ planet-download | planet-geofabrik-download ]"
 	@echo "  [ planet-streets | planet-places ]"
 	@echo "  [ update-database | update-files ]"
+	@echo "  [ staging ]"
 	@echo ""
 	@echo "see also ./world/README"
 
