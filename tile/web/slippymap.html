@@ -73,6 +73,8 @@
             var layerMapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik");
             map.addLayer(layerMapnik);
 
+            map.addLayer( new OpenLayers.Layer.OSM("Mapnik B/W", "http://a.www.toolserver.org/tiles/bw-mapnik/${z}/${x}/${y}.png", {numZoomLevels: 18}));
+
             var layerCycleMap = new OpenLayers.Layer.OSM.CycleMap("CycleMap");
             map.addLayer(layerCycleMap);
 
@@ -131,7 +133,7 @@
 
 	// ADFC 
 
-            var newLayer = new OpenLayers.Layer.TMS( "BBBike Strassenqualit&auml;t", "/osm/bbbike-quality/",
+            var newLayer = new OpenLayers.Layer.TMS( "BBBike Fahrbahnqualit&auml;t (smoothness)", "/osm/bbbike-smoothness/",
             { type: 'png', getURL: osm_getTileURL,
 		displayOutsideMaxExtent: true, attribution: '<a href="http://bbbike.de/">BBBike</a>',
               opacity: 1, isBaseLayer: false, visibility: false, numZoomLevels: 19, noOpaq: true } );
