@@ -43,7 +43,7 @@
       &maxscale_zoom15;
       &minscale_zoom19;
       <LineSymbolizer>
-        <CssParameter name="stroke">#ff0</CssParameter>
+        <CssParameter name="stroke">#698B69</CssParameter>
         <CssParameter name="stroke-width">6.5</CssParameter>
         <CssParameter name="stroke-linejoin">round</CssParameter>
         <CssParameter name="stroke-linecap">round</CssParameter>
@@ -56,7 +56,7 @@
       &maxscale_zoom15;
       &minscale_zoom19;
       <LineSymbolizer>
-        <CssParameter name="stroke">#fd0</CssParameter>
+        <CssParameter name="stroke">#9ACD32</CssParameter>
         <CssParameter name="stroke-width">6.5</CssParameter>
         <CssParameter name="stroke-linejoin">round</CssParameter>
         <CssParameter name="stroke-linecap">round</CssParameter>
@@ -69,7 +69,7 @@
       &maxscale_zoom15;
       &minscale_zoom19;
       <LineSymbolizer>
-        <CssParameter name="stroke">#f60</CssParameter>
+        <CssParameter name="stroke">#FFD700</CssParameter>
         <CssParameter name="stroke-width">6.5</CssParameter>
         <CssParameter name="stroke-linejoin">round</CssParameter>
         <CssParameter name="stroke-linecap">round</CssParameter>
@@ -88,97 +88,113 @@
         <CssParameter name="stroke-linecap">round</CssParameter>
       </LineSymbolizer>
     </Rule>
-   
-   
-    <Rule>
-      <Filter>[surface] = 'Q0'</Filter>
+
+
+
+<!-- Q0 -->
+   <Rule> 
+      <Filter>([surface] = 'paved' or [surface] = 'asphalt' or [surface] = 'concrete' or [smoothness] = 'excellent')</Filter>
       &maxscale_zoom12;
       &minscale_zoom14;
       <LineSymbolizer>
-        <CssParameter name="stroke">#ff0</CssParameter>
-        <CssParameter name="stroke-width">3.0</CssParameter>
+        <CssParameter name="stroke">#698B69</CssParameter>
+        <CssParameter name="stroke-width">6.5</CssParameter>
         <CssParameter name="stroke-linejoin">round</CssParameter>
         <CssParameter name="stroke-linecap">round</CssParameter>
       </LineSymbolizer>
     </Rule>
+
+<!-- Q1 -->
     <Rule>
-      <Filter>[surface] = 'Q1'</Filter>
+      <Filter>([surface] = 'gravel' or [surface] = 'paving_stones' or [surface] = 'compacted' or [surface] = 'wood' or [smoothness] = 'good')</Filter>
       &maxscale_zoom12;
       &minscale_zoom14;
       <LineSymbolizer>
-        <CssParameter name="stroke">#fd0</CssParameter>
-        <CssParameter name="stroke-width">3.0</CssParameter>
+        <CssParameter name="stroke">#9ACD32</CssParameter>
+        <CssParameter name="stroke-width">6.5</CssParameter>
         <CssParameter name="stroke-linejoin">round</CssParameter>
         <CssParameter name="stroke-linecap">round</CssParameter>
       </LineSymbolizer>
     </Rule>
+
+<!-- Q2 -->
     <Rule>
-      <Filter>[surface] = 'Q2'</Filter>
+      <Filter>([surface] = 'concrete_plates' or [surface] = 'cobblestone' or [surface] = 'unpaved' or [smoothness] = 'intermediate')</Filter>
       &maxscale_zoom12;
       &minscale_zoom14;
       <LineSymbolizer>
-        <CssParameter name="stroke">#f60</CssParameter>
-        <CssParameter name="stroke-width">3.0</CssParameter>
+        <CssParameter name="stroke">#FFD700</CssParameter>
+        <CssParameter name="stroke-width">6.5</CssParameter>
         <CssParameter name="stroke-linejoin">round</CssParameter>
         <CssParameter name="stroke-linecap">round</CssParameter>
       </LineSymbolizer>
     </Rule>
+
+<!-- Q3 -->
     <Rule>
-      <Filter>[surface] = 'Q3'</Filter>
+      <Filter>([surface] = 'sand' or [surface] = 'grass' or [smoothness] = 'bad' or [smoothness] = 'very_bad' or [smoothness] = 'horrible' or [smoothness] = 'very_horrible')</Filter>
       &maxscale_zoom12;
       &minscale_zoom14;
       <LineSymbolizer>
         <CssParameter name="stroke">#f00</CssParameter>
-        <CssParameter name="stroke-width">3.0</CssParameter>
+        <CssParameter name="stroke-width">6.5</CssParameter>
         <CssParameter name="stroke-linejoin">round</CssParameter>
         <CssParameter name="stroke-linecap">round</CssParameter>
       </LineSymbolizer>
     </Rule>
     
-    <Rule>
-      <Filter>[surface] = 'Q0'</Filter>
+    
+<!-- Q0 -->
+   <Rule> 
+      <Filter>([surface] = 'paved' or [surface] = 'asphalt' or [surface] = 'concrete' or [smoothness] = 'excellent')</Filter>
       &maxscale_zoom1;
       &minscale_zoom11;
       <LineSymbolizer>
-        <CssParameter name="stroke">#ff0</CssParameter>
-        <CssParameter name="stroke-width">1.5</CssParameter>
+        <CssParameter name="stroke">#698B69</CssParameter>
+        <CssParameter name="stroke-width">6.5</CssParameter>
         <CssParameter name="stroke-linejoin">round</CssParameter>
         <CssParameter name="stroke-linecap">round</CssParameter>
       </LineSymbolizer>
     </Rule>
+
+<!-- Q1 -->
     <Rule>
-      <Filter>[surface] = 'Q1'</Filter>
+      <Filter>([surface] = 'gravel' or [surface] = 'paving_stones' or [surface] = 'compacted' or [surface] = 'wood' or [smoothness] = 'good')</Filter>
       &maxscale_zoom1;
       &minscale_zoom11;
       <LineSymbolizer>
-        <CssParameter name="stroke">#fd0</CssParameter>
-        <CssParameter name="stroke-width">1.5</CssParameter>
+        <CssParameter name="stroke">#9ACD32</CssParameter>
+        <CssParameter name="stroke-width">6.5</CssParameter>
         <CssParameter name="stroke-linejoin">round</CssParameter>
         <CssParameter name="stroke-linecap">round</CssParameter>
       </LineSymbolizer>
     </Rule>
+
+<!-- Q2 -->
     <Rule>
-      <Filter>[surface] = 'Q2'</Filter>
+      <Filter>([surface] = 'concrete_plates' or [surface] = 'cobblestone' or [surface] = 'unpaved' or [smoothness] = 'intermediate')</Filter>
       &maxscale_zoom1;
       &minscale_zoom11;
       <LineSymbolizer>
-        <CssParameter name="stroke">#f60</CssParameter>
-        <CssParameter name="stroke-width">1.5</CssParameter>
+        <CssParameter name="stroke">#FFD700</CssParameter>
+        <CssParameter name="stroke-width">6.5</CssParameter>
         <CssParameter name="stroke-linejoin">round</CssParameter>
         <CssParameter name="stroke-linecap">round</CssParameter>
       </LineSymbolizer>
     </Rule>
+
+<!-- Q3 -->
     <Rule>
-      <Filter>[surface] = 'Q3'</Filter>
+      <Filter>([surface] = 'sand' or [surface] = 'grass' or [smoothness] = 'bad' or [smoothness] = 'very_bad' or [smoothness] = 'horrible' or [smoothness] = 'very_horrible')</Filter>
       &maxscale_zoom1;
       &minscale_zoom11;
       <LineSymbolizer>
         <CssParameter name="stroke">#f00</CssParameter>
-        <CssParameter name="stroke-width">1.5</CssParameter>
+        <CssParameter name="stroke-width">6.5</CssParameter>
         <CssParameter name="stroke-linejoin">round</CssParameter>
         <CssParameter name="stroke-linecap">round</CssParameter>
       </LineSymbolizer>
-    </Rule> 
+    </Rule>
     
 </Style>
 
