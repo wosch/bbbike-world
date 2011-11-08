@@ -85,7 +85,7 @@ zcat -f $logfiles | egrep "GET / |GET $url_match.* HTTP" | egrep '" (200|301) ' 
 
 zcat -f $logfiles | egrep "GET / |GET $url_match.* HTTP" | egrep '" (200|301) ' |
 	egrep -v 'GET \S*/[^ ]+/streets.html' | egrep -iv 'google.*fahrrad' |
-	egrep -v 'Purebot|Java/1|SnapPreviewBot|Tcl http client package|http://www.bbbike.org' |
+	egrep -v 'Purebot|Java/1|SnapPreviewBot|Tcl http client package|"http://www.bbbike.org|"http://www\.google' |
 	awk '{print $11}' | perl $perl_utf8 -npe "s,.?http://www.bbbike.org$url_match\?.*\n,$1,g" | 
 	sort | uniq -c | sort -nr |
 	perl $perl_utf8 -MCGI -npe '$_ = CGI::unescape($_)'
