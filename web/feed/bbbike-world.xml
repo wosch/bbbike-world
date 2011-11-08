@@ -16,6 +16,15 @@
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>New feature: a smoothness layer for streets in Berlin
+    (excellent, good, cobbblestones, horrible)</title>
+    <id>75c151c463e1f249498a6571c8d05ccc</id>
+    <content>New feature: a smoothness layer for streets in Berlin
+    (excellent, good, cobbblestones, horrible)</content>
+    <updated>2011-11-08T12:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title>New feature: support search for addresses with house
     numbers and zip code</title>
     <id>171f3263a6e73b3bf6e3256c6cb094f4</id>

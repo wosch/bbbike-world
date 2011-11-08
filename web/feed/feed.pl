@@ -24,6 +24,19 @@ my $feed = XML::Atom::SimpleFeed->new(
 
 $feed->add_entry(
     title =>
+qq{New feature: a smoothness layer for streets in Berlin (excellent, good, cobbblestones, horrible) },
+    id      => '75c151c463e1f249498a6571c8d05ccc',
+    content => {
+        type => 'text',
+        content =>
+qq{New feature: a smoothness layer for streets in Berlin (excellent, good, cobbblestones, horrible) },
+    },
+    updated  => '2011-11-08T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title =>
 qq{New feature: support search for addresses with house numbers and zip code},
     id      => '171f3263a6e73b3bf6e3256c6cb094f4',
     content => {
