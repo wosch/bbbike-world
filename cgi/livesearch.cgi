@@ -630,6 +630,7 @@ sub statistic_basic {
     print qq{<br/><br/>\n<a href="../">home</a>\n};
     print "<hr />\n";
     print qq{Copyright (c) 2011 <a href="http://bbbike.org">BBBike.org</a>\n};
+    print "<br/>\n" . localtime() . "\n";
 }
 
 sub dump_url_list {
