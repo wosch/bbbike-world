@@ -46,6 +46,7 @@ BBBIKE_WEBSERVER_DIR=/usr/local/www/bbbike.org
 BBBIKE_WEB_DIR= ./
 CACHE_HEATER_MAX=50
 TMP=world/tmp
+RM_BG=	world/bin/rm-bg
 
 CITIES_FILE=world/etc/cities.txt
 CITIES=$(shell ${PERL} -npe 's/\#.*//' ${CITIES_FILE})
@@ -421,17 +422,17 @@ clean-cache cache-clean:
 	find /var/cache/lighttpd -type f -print0 | ${PERL} -n0e unlink
 
 rotate-data-osm:
-	-rm -rf ${DATA_OSM_DIR}.old2
-	-rm -rf ${DATA_OSM_BBBIKE_DIR}.old2
+	${RM_BG} ${DATA_OSM_DIR}.old2
+	${RM_BG} ${DATA_OSM_BBBIKE_DIR}.old2
 	-test -e ${DATA_OSM_DIR}.old && mv ${DATA_OSM_DIR}.old ${DATA_OSM_DIR}.old2
 	-test -e ${DATA_OSM_DIR}     && mv ${DATA_OSM_DIR}     ${DATA_OSM_DIR}.old
 	-test -e ${DATA_OSM_BBBIKE_DIR}.old && mv ${DATA_OSM_BBBIKE_DIR}.old ${DATA_OSM_BBBIKE_DIR}.old2
 	-test -e ${DATA_OSM_BBBIKE_DIR}     && mv ${DATA_OSM_BBBIKE_DIR}     ${DATA_OSM_BBBIKE_DIR}.old
-	mkdir ${DATA_OSM_DIR} ${DATA_OSM_BBBIKE_DIR}
+	mkdir -p ${DATA_OSM_DIR} ${DATA_OSM_BBBIKE_DIR}
 	touch ${DATA_OSM_DIR}/.touch ${DATA_OSM_BBBIKE_DIR}/.touch
 
 rotate-osm:
-	rm -rf ${OSM_DIR}.old2
+	${RM_BG} ${OSM_DIR}.old2
 	-test -e ${OSM_DIR}.old  && mv ${OSM_DIR}.old  ${OSM_DIR}.old2
 	-test -e ${OSM_DIR}      && mv ${OSM_DIR}      ${OSM_DIR}.old 
 
@@ -471,11 +472,11 @@ java-config:
 	test -r $$HOME/.osmosis || ln -fs $$HOME/projects/bbbike/world/etc/.osmosis $$HOME/.osmosis
 
 dist-clean devel-clean distclean: clean rotate-osm
-	rm -rf ${OSM_DIR}
+	${RM_BG} ${OSM_DIR}
 	mkdir -p ${OSM_DIR}
 
 clean-planet:
-	rm -f ../osm-streetnames/download/*.old.*
+	${RM_BG} ../osm-streetnames/download/*.old.*
 
 elevation-check:
 	${NICE} ${ELEVATION_SCRIPT} --database=../osm-streetnames/srtm/elevation.db --check
