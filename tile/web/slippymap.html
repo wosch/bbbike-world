@@ -70,12 +70,12 @@
             map.addLayer(newLayer);
 
 
-            var layerMapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik");
-            map.addLayer(layerMapnik);
+            var layerMapnik = new OpenLayers.Layer.OSM.Mapnik("OSM Mapnik"); map.addLayer(layerMapnik);
 
-            map.addLayer( new OpenLayers.Layer.OSM("Mapnik B/W", "http://a.www.toolserver.org/tiles/bw-mapnik/${z}/${x}/${y}.png", {numZoomLevels: 18}));
+            map.addLayer( new OpenLayers.Layer.OSM("OSM Mapnik (DE)", "http://a.tile.bbbike.org/osm/mapnik-german/${z}/${x}/${y}.png", {numZoomLevels: 18}));
+            map.addLayer( new OpenLayers.Layer.OSM("OSM Mapnik B/W", "http://a.www.toolserver.org/tiles/bw-mapnik/${z}/${x}/${y}.png", {numZoomLevels: 18}));
 
-            var layerCycleMap = new OpenLayers.Layer.OSM.CycleMap("CycleMap");
+            var layerCycleMap = new OpenLayers.Layer.OSM.CycleMap("OSM CycleMap");
             map.addLayer(layerCycleMap);
 
 	    // var newLayer = OpenLayers.Layer.Google("Google Physical", {type: google.maps.MapTypeId.TERRAIN} );

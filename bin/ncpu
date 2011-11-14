@@ -40,6 +40,11 @@ if sysctl -n hw.physicalcpu > /dev/null 2>&1; then
      ncpu=`sysctl -n hw.physicalcpu`
   fi
 
+  # Xen machine?
+  if [ -e $HOME/.ncpu.ncpu ]; then
+    ncpu=`cat $HOME/.ncpu.ncpu`
+  fi
+
 # linux
 elif  [ -f $cpuinfo ]; then
   ncpu=`egrep -c '^physical id.: 0$' $cpuinfo`
