@@ -400,7 +400,7 @@ create-osp:
 	./world/bin/bbbike-world-opensearch-plugin ${OSP_DIR} ${CITIES}
 	
 rsync-tgz:
-	rsync -a ${DATA_OSM_BBBIKE_DIR}/ download.bbbike.org:/usr/local/www/download.bbbike.org/bbbike/${DATA_OSM_DIR}
+	rsync -a ${DATA_OSM_BBBIKE_DIR}/ ${BBBIKE_SERVER}/usr/local/www/download.bbbike.org/bbbike/${DATA_OSM_DIR}
 
 clean: rotate-data-osm
 	${MAKE} -C cgi/msg $@	
