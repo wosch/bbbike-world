@@ -102,15 +102,12 @@ sub vcl_recv {
         set req.backend = eserte;
     } else if (req.http.host ~ "^eserte-devel\.bbbike\.org$") {
         set req.backend = eserte_devel;
-    } else if (req.http.host ~ "^([abc]\.)?tile\.bbbike\.org$") {
+    } else if (req.http.host ~ "^([a-f]\.)?tile\.bbbike\.org$") {
+        set req.backend = eserte;
+    } else if (req.http.host ~ "^([u-z])\.tile\.bbbike\.org$") {
         set req.backend = eserte;
     } else {
         set req.backend = bbbike;
-      
-        # failover test 
-        if (req.restarts == 1 || !req.backend.healthy) {
-                set req.backend = bbbike_strato;
-        }
     }
 
     # log real IP address in backend
