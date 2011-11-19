@@ -86,6 +86,7 @@ sub vcl_recv {
     ######################################################################
     # backend config
     #
+
     if (req.http.host ~ "^dev\.bbbike\.org$" && req.url ~ "^/munin") {
         set req.backend = localhost;
     } else if (req.http.host ~ "^download\.bbbike\.org$") {
@@ -107,6 +108,11 @@ sub vcl_recv {
     } else if (req.http.host ~ "^([u-z])\.tile\.bbbike\.org$") {
         set req.backend = eserte;
     } else {
+        set req.backend = bbbike64;
+    }
+
+    # dummy
+    if (req.http.host ~ "foobar") {
         set req.backend = bbbike;
     }
 
