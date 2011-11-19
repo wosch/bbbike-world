@@ -122,9 +122,9 @@ sub vcl_recv {
     } else if (req.http.host ~ "^eserte-devel\.bbbike\.org$") {
         set req.backend = eserte_devel;
     } else if (req.http.host ~ "^([a-f]\.)?tile\.bbbike\.org$") {
-        set req.backend = eserte;
-    } else if (req.http.host ~ "^([u-z])\.tile\.bbbike\.org$") {
         set req.backend = tile;
+    } else if (req.http.host ~ "^([u-z])\.tile\.bbbike\.org$") {
+        set req.backend = eserte;
     } else {
         set req.backend = bbbike64;
     }
