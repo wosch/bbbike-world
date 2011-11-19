@@ -7,8 +7,11 @@ set -e
 make_verbose=-s
 git="nice -5 git"
 
-if [ ! -e /usr/local/bin/perl ]; then
-    echo >&2 "Warning: symlink /usr/local/bin/perl is missing!"
+if [ ! -x /usr/local/bin/perl ]; then
+    echo >&2 "/usr/local/bin/perl does not exists"
+    echo >&2 "Please run: ln -s /usr/bin/perl /usr/local/bin/perl"
+    echo >&2 "        or: ln -s /opt/local/bin/perl /usr/local/bin/perl"
+    exit 1
 fi
 
 git_config () {
@@ -45,6 +48,7 @@ echo "show branch: "
 $git branch 
 
 echo ""
+
 echo "create symlinks ..."
 ln -s world/Makefile.osm
 make $make_verbose -f Makefile.osm create-bbbike-web-symlinks java-config

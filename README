@@ -10,15 +10,18 @@ sudo apt-get install \
   pbzip2 bzip2 git-core screen lynx curl wget time \
   lsof whois pigz make acct telnet dnsutils bc bsd-mailx \
   buffer pktstat emacs unzip vim \
-  python lighttpd sendmail openjdk-6-jdk \
+  python openjdk-6-jdk \
   libhtml-tagcloud-perl libtext-unidecode-perl munin \
   perltidy libxml-atom-simplefeed-perl libjson-perl liburi-perl \
   libxml-libxml-perl libyaml-perl libyaml-syck-perl tidy libxml-simple-perl \
   libdevel-size-perl libtie-ixhash-perl libdevel-size-perl libbsd-resource-perl \
   libobject-realize-later-perl
 
+# daemons
+sudo apt-get install lighttpd
+
 # reverse proxy
-sudo apt-get install varnish
+sudo apt-get install varnish 
 
 # osmosis from repo
 sudo apt-get install osmosis
