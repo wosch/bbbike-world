@@ -51,31 +51,20 @@
                 displayProjection: new OpenLayers.Projection("EPSG:4326")
             } );
  
-            // var newLayer = new OpenLayers.Layer.OSM("BBBike Mapnik", "/osm/mapnik/${z}/${x}/${y}.png", {numZoomLevels: 19});
-            // map.addLayer(newLayer);
-
-	    /*
-            var newLayer = new OpenLayers.Layer.OSM("BBBike Mapnik Local", "/osm/mapnik/${z}/${x}/${y}.png", {numZoomLevels: 19});
-            map.addLayer(newLayer);
-
-            var newLayer = new OpenLayers.Layer.OSM("BBBike Mapnik Local German", "/osm/mapnik-german/${z}/${x}/${y}.png", {numZoomLevels: 19});
-            map.addLayer(newLayer);
-	    */
-
             // This is the layer that uses the locally stored tiles
-            var newLayer = new OpenLayers.Layer.OSM("BBBike.org Mapnik", "http://tile.bbbike.org/osm/mapnik/${z}/${x}/${y}.png", {numZoomLevels: 19});
+            var newLayer = new OpenLayers.Layer.OSM("BBBike.org Mapnik", "http://a.tile.bbbike.org/osm/mapnik/${z}/${x}/${y}.png", {numZoomLevels: 19});
             map.addLayer(newLayer);
 
-            var newLayer = new OpenLayers.Layer.OSM("BBBike.org Mapnik DE", "http://tile.bbbike.org/osm/mapnik-german/${z}/${x}/${y}.png", {numZoomLevels: 19});
+            var newLayer = new OpenLayers.Layer.OSM("BBBike.org Mapnik DE", "http://a.tile.bbbike.org/osm/mapnik-german/${z}/${x}/${y}.png", {numZoomLevels: 19});
             map.addLayer(newLayer);
 
 
-            var layerMapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik");
-            map.addLayer(layerMapnik);
+            var layerMapnik = new OpenLayers.Layer.OSM.Mapnik("OSM Mapnik"); map.addLayer(layerMapnik);
 
-            map.addLayer( new OpenLayers.Layer.OSM("Mapnik B/W", "http://a.www.toolserver.org/tiles/bw-mapnik/${z}/${x}/${y}.png", {numZoomLevels: 18}));
+            map.addLayer( new OpenLayers.Layer.OSM("OSM Mapnik (DE)", "http://a.tile.openstreetmap.de/tiles/osmde/${z}/${x}/${y}.png", {numZoomLevels: 18}));
+            map.addLayer( new OpenLayers.Layer.OSM("OSM Mapnik B/W", "http://a.www.toolserver.org/tiles/bw-mapnik/${z}/${x}/${y}.png", {numZoomLevels: 18}));
 
-            var layerCycleMap = new OpenLayers.Layer.OSM.CycleMap("CycleMap");
+            var layerCycleMap = new OpenLayers.Layer.OSM.CycleMap("OSM CycleMap");
             map.addLayer(layerCycleMap);
 
 	    // var newLayer = OpenLayers.Layer.Google("Google Physical", {type: google.maps.MapTypeId.TERRAIN} );
@@ -133,7 +122,7 @@
 
 	// ADFC 
 
-            var newLayer = new OpenLayers.Layer.TMS( "BBBike Fahrbahnqualit&auml;t (smoothness)", "/osm/bbbike-smoothness/",
+            var newLayer = new OpenLayers.Layer.TMS( "BBBike Fahrbahnqualit&auml;t (smoothness)", "http://c.tile.bbbike.org/osm/bbbike-smoothness/",
             { type: 'png', getURL: osm_getTileURL,
 		displayOutsideMaxExtent: true, attribution: '<a href="http://bbbike.de/">BBBike</a>',
               opacity: 1, isBaseLayer: false, visibility: false, numZoomLevels: 19, noOpaq: true } );
