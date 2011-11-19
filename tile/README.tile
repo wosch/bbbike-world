@@ -33,6 +33,7 @@ sudo dpkg-reconfigure openstreetmap-postgis-db-setup
 
 # if the installation of the mapnik style sheets failed, remove and install
 # the package again
+# Note: this may download the costline data (500MB) again!
 sudo apt-get purge openstreetmap-mapnik-stylesheet-data
 sudo apt-get install openstreetmap-mapnik-stylesheet-data
 
@@ -41,6 +42,7 @@ sudo apt-get install openstreetmap-mapnik-stylesheet-data
 svn checkout http://svn.openstreetmap.org/applications/rendering/mapnik
 
 ln -s ../mapnik-osm-data/world_boundaries .
+cd inc-de
 cp datasource-settings.xml.inc.template datasource-settings.xml.inc 
 # do not set host & port!
 # <Parameter name="estimate_extent">true</Parameter> 
@@ -54,11 +56,7 @@ cp datasource-settings.xml.inc.template datasource-settings.xml.inc
 
 cp fontset-settings.xml.inc.template fontset-settings.xml.inc       
 cp settings.xml.inc.template settings.xml.inc          
-# <!ENTITY dwithin_node_way "&dwithin_900913;">
-# <!ENTITY world_boundaries "world_boundaries">
-# <!ENTITY prefix "planet_osm">
-# <!ENTITY symbols "symbols">
-
+# follow the instructions!
 
 # add bbbike quality attributes to osm2pgsql
 vi /usr/share/osm2pgsql/osm2pgsql/default.style
