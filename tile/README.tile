@@ -33,6 +33,7 @@ sudo dpkg-reconfigure openstreetmap-postgis-db-setup
 
 # if the installation of the mapnik style sheets failed, remove and install
 # the package again
+# Note: this may download the costline data (500MB) again!
 sudo apt-get purge openstreetmap-mapnik-stylesheet-data
 sudo apt-get install openstreetmap-mapnik-stylesheet-data
 
