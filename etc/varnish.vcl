@@ -27,6 +27,24 @@ backend bbbike64 {
     }
 }
 
+backend tile {
+    #.host = "tile";
+    .host = "10.0.0.5";
+    .port = "80";
+
+    .first_byte_timeout = 600s;
+    .connect_timeout = 600s;
+    .between_bytes_timeout = 600s;
+
+    #.probe = {
+    #    .url = "/test.txt";
+    #    .timeout = 2s;
+    #    .interval = 10s;
+    #    .window = 1;
+    #    .threshold = 1;
+    #}
+}
+
 backend bbbike {
     .host = "bbbike";
     .port = "80";
@@ -106,7 +124,7 @@ sub vcl_recv {
     } else if (req.http.host ~ "^([a-f]\.)?tile\.bbbike\.org$") {
         set req.backend = eserte;
     } else if (req.http.host ~ "^([u-z])\.tile\.bbbike\.org$") {
-        set req.backend = eserte;
+        set req.backend = tile;
     } else {
         set req.backend = bbbike64;
     }
@@ -169,7 +187,7 @@ sub vcl_recv {
     call normalize_user_agent;
     set req.http.User-Agent = req.http.X-UA;
 
-    if (req.http.host ~ "^([abc]\.)?tile\.bbbike\.org") { return (pass); } # no cache
+    if (req.http.host ~ "^([a-z]\.)?tile\.bbbike\.org") { return (pass); } # no cache
 
     return (lookup);
 }
