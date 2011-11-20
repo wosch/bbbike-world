@@ -40,6 +40,12 @@ my $formats = {
     'osm.bz2' => "OSM XML bzip'd",
 };
 
+my $spool = {
+	'incoming' => "$spool_dir/incoming",
+	'confirmed' => "$spool_dir/confirmed",
+	'running' => "$spool_dir/running",
+}
+
 ######################################################################
 #
 #
