@@ -22,7 +22,7 @@ my $debug = 1;
 my $spool_dir = '/var/tmp/bbbike/spool';
 
 # max. area in square km
-my $max_qkm = 10_000;
+my $max_skm = 10_000;
 
 # sent out emails as
 my $email_from = 'bbbike@bbbike.org';
@@ -113,10 +113,13 @@ EOF
 sub message {
     return <<EOF;
 <p>
-This site allow you to extracts areas from the <a href="http://wiki.openstreetmap.org/wiki/Planet.osm">planet.osm</a>.<br/>
+This site allow you to extracts areas from the <a href="http://wiki.openstreetmap.org/wiki/Planet.osm">planet.osm</a>.
+The maximum area size is $max_skm square km.
+<br/>
 
-It takes between 30-120 minutes to extract an area. You will be notified by e-mail if your extract is ready.
+It takes between 30-120 minutes to extract an area. You will be notified by e-mail if your extract is ready for download.
 </p>
+<hr/>
 EOF
 }
 
@@ -163,14 +166,20 @@ sub homepage {
                 ),
                 $q->td(
                     [
-                        "Left lower corner (lat,lng)",
-                        $q->textfield( -name => 'sw_latlng', -size => 20 )
+                        "Left lower corner (SW)",
+                        "lat: "
+                          . $q->textfield( -name => 'sw_lat', -size => 14 )
+                          . " lng: "
+                          . $q->textfield( -name => 'sw_lng', -size => 14 )
                     ]
                 ),
                 $q->td(
                     [
-                        "Right top corner (lat,lng)",
-                        $q->textfield( -name => 'no_latlng', -size => 20 )
+                        "Right top corner (NE)",
+                        "lat: "
+                          . $q->textfield( -name => 'ne_lat', -size => 14 )
+                          . " lng: "
+                          . $q->textfield( -name => 'ne_lng', -size => 14 )
                     ]
                 )
             ]
