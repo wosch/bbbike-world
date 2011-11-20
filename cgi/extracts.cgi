@@ -56,7 +56,7 @@ sub header {
             }
         ),
 
-        -style => { 'src' => ["../html/bbbike.css"] },
+        -style => { 'src' => [ "../html/bbbike.css", "../html/luft.css" ] },
         -script => [ { 'src' => "/html/bbbike-js.js" } ],
       );
 }
@@ -67,21 +67,28 @@ sub footer {
     my $analytics = &google_analytics;
 
     return <<EOF;
+
+
 <div id="footer">
 <div id="footer_top">
 <a href="../">home</a> 
 </div>
-</div>
-
 <div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em;" >
-<hr>
-(&copy;) 2008-2011 <a href="http://bbbike.org">BBBike.org</a> 
+<hr/>
+(&copy;) 2011 <a href="http://bbbike.org">BBBike.org</a> 
 by <a href="http://wolfram.schneider.org">Wolfram Schneider</a> //
 Map data by the <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap</a> Project
 <div id="footer_community">
 </div>
 </div>
+</div>
+
+</div></div></div> <!-- layout -->
+
 $analytics
+
+</body>
+</html>
 EOF
 }
 
@@ -113,13 +120,26 @@ It takes between 30-120 minutes to extract an area. You will be notified by e-ma
 EOF
 }
 
+sub layout {
+    my $q = shift;
+
+    return <<EOF;
+  <div id="all">
+
+    <div id="border">
+      <div id="main">
+
+      <center>@{[ $q->h3("BBBike @ World extracts") ]}</center>
+EOF
+}
+
 sub homepage {
     my %args = @_;
 
     my $q = $args{'q'};
 
     print &header($q);
-    print $q->h3("BBBike @ World extracts");
+    print &layout($q);
 
     print &message;
 
@@ -144,13 +164,13 @@ sub homepage {
                 $q->td(
                     [
                         "Left lower corner (lat,lng)",
-                        $q->textfield( -name => 'sw_latlng', -size => 10 )
+                        $q->textfield( -name => 'sw_latlng', -size => 20 )
                     ]
                 ),
                 $q->td(
                     [
                         "Right top corner (lat,lng)",
-                        $q->textfield( -name => 'no_latlng', -size => 10 )
+                        $q->textfield( -name => 'no_latlng', -size => 20 )
                     ]
                 )
             ]
@@ -161,8 +181,6 @@ sub homepage {
     print $q->submit( -name => 'submit', -value => 'extract' );
     print $q->end_form;
 
-    print "<br/>";
-    print "<p/>";
     print &footer($q);
 
 }
