@@ -4,7 +4,6 @@
 # extracts.cgi - extracts areas in a batch job
 
 use CGI qw/-utf-8 unescape escapeHTML/;
-
 use IO::File;
 use JSON;
 use Data::Dumper;
@@ -53,7 +52,7 @@ my $spool = {
 umask(002);
 
 ######################################################################
-#
+# helper functions
 #
 
 sub header {
