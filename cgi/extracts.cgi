@@ -10,6 +10,7 @@ use JSON;
 use Data::Dumper;
 use Encode;
 use Email::Valid;
+use Digest::MD5 qw(md5_hex);
 
 use strict;
 use warnings;
@@ -20,7 +21,7 @@ binmode \*STDERR, ":utf8";
 my $debug = 1;
 
 # spool directory. Should be at least 100GB large
-my $spool_dir = '/var/tmp/bbbike/spool';
+my $spool_dir = '/var/tmp/bbbike/extracts';
 
 # max. area in square km
 my $max_skm = 10_000;
@@ -41,10 +42,13 @@ my $formats = {
 };
 
 my $spool = {
-	'incoming' => "$spool_dir/incoming",
-	'confirmed' => "$spool_dir/confirmed",
-	'running' => "$spool_dir/running",
-}
+    'incoming'  => "$spool_dir/incoming",
+    'confirmed' => "$spool_dir/confirmed",
+    'running'   => "$spool_dir/running",
+};
+
+# group writable file
+umask(002);
 
 ######################################################################
 #
@@ -237,14 +241,82 @@ sub check_input {
         'ne_lng' => $ne_lng,
     };
 
-    my $json = new JSON;
-
+    my $json      = new JSON;
     my $json_text = $json->pretty->encode($obj);
 
-    print $json_text;
+    my $key = &save_request($obj);
+    if (
+        !(
+            $key
+            && send_email_confirm( 'q' => $q, 'obj' => $obj, 'key' => $key )
+        )
+      )
+    {
+        print
+          qq{<p class="error">I'm so sorry, I could not save your request.\n},
+          qq{Please contact the BBBike.org maintainer!</p>};
+    }
+    else {
+        print "<p>E-Mail was sent out.</p>\n";
+    }
 
     print &footer($q);
+}
 
+# save request in incoming spool
+sub send_email_confirm {
+    my %args = @_;
+
+    my $obj = $args{'obj'};
+    my $key = $args{'key'};
+    my $q   = $args{'q'};
+
+    my $url = $q->url( -full => 1, -absolute => 1 ) . "&key=$key";
+
+    my $message = <<EOF;
+Hi,
+
+somone - possible you - requested to extract an area from planet.osm
+
+ City: $obj->{"city"}
+ Area: $obj->{"sw_lat"},$obj->{"sw_lng"} x $obj->{"ne_lat"},$obj->{"ne_lng"}
+ Format: $obj->{"format"}
+ 
+
+To proceeed, please click on the following link:
+
+  $url
+
+othewise just ignore this e-mail.
+
+Sincerely, your BBBike admin
+
+--
+http://BBBike.org - Your Cycle Route Planner
+EOF
+
+    print "<pre>", $message, "</pre>";
+}
+
+# save request in incoming spool
+sub save_request {
+    my $obj = shift;
+
+    my $json      = new JSON;
+    my $json_text = $json->pretty->encode($obj);
+
+    my $key      = md5_hex( $json_text . rand() );
+    my $incoming = $spool->{"incoming"} . "/$key.json";
+
+    my $fh = new IO::File $incoming, "w";
+    if ( !defined $fh ) {
+        warn "Cannot open $incoming: $!\n";
+        return 0;
+    }
+    print $fh $json_text, "\n";
+    $fh->close;
+
+    return $key;
 }
 
 sub homepage {
