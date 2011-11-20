@@ -80,7 +80,8 @@ sub footer {
     my $analytics = &google_analytics;
     my $url = $q->url( -relative => 1 );
 
-    my $extracts = $q->param('submit') ? qq,| <a href="$url">extracts</a>, : "";
+    my $extracts = $q->param('submit')
+      || $q->param("key") ? qq,| <a href="$url">extracts</a>, : "";
     return <<EOF;
 
 
@@ -345,6 +346,37 @@ sub save_request {
     return $key;
 }
 
+sub confirm_key {
+    my %args = @_;
+    my $q    = $args{'q'};
+
+    my $key = $q->param("key") || "";
+
+    my $incoming  = $spool->{"incoming"} . "/$key.json";
+    my $confirmed = $spool->{"confirmed"} . "/$key.json";
+
+    print &header($q);
+    print &layout($q);
+
+    # move file to next spool directory
+    # Don't complain if the file was already moved (users clicked twice?)
+    my $success = ( -f $incoming && rename( $incoming, $confirmed ) )
+      || -f $confirmed;
+
+    if ( !$success ) {
+        print
+qq{<p class="error">I'm so sorry, I could find a key for your request.\n},
+          qq{Please contact the BBBike.org maintainer!</p>};
+    }
+    else {
+        print
+          qq{<p class="success">Thanks - your request has been confirmed.\n},
+qq{The extract will be ready in 30-120 minutes. You will be notified by e-mail\n};
+    }
+
+    print &footer($q);
+}
+
 sub homepage {
     my %args = @_;
 
@@ -420,9 +452,12 @@ sub homepage {
 # main
 my $q = new CGI;
 
-my $action = $q->param("submit") || "";
+my $action = $q->param("submit") || ( $q->param("key") ? "key" : "" );
 if ( $action eq "extract" ) {
     &check_input( 'q' => $q );
+}
+elsif ( $action eq 'key' ) {
+    &confirm_key( 'q' => $q );
 }
 else {
     &homepage( 'q' => $q );
