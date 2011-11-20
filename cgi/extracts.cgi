@@ -12,6 +12,7 @@ use Encode;
 use Email::Valid;
 use Digest::MD5 qw(md5_hex);
 use Net::SMTP;
+use GIS::Distance::Lite;
 
 use strict;
 use warnings;
@@ -25,7 +26,7 @@ my $debug = 1;
 my $spool_dir = '/var/tmp/bbbike/extracts';
 
 # max. area in square km
-my $max_skm = 10_000;
+my $max_skm = 50_000;
 
 # sent out emails as
 my $email_from = 'bbbike@bbbike.org';
@@ -220,17 +221,24 @@ sub check_input {
     error("ne lat '$ne_lat' must be larger than sw lat '$sw_lat'")
       if $ne_lat <= $sw_lat;
 
+    my $skm = square_km( $sw_lat, $sw_lng, $ne_lat, $ne_lng );
+    error("Area is to large: $skm, must be smaller than $max_skm")
+      if $skm > $max_skm;
+
     if ($error) {
         print qq{<p class="error">The input data is not valid. };
         print "Please click on the back button of your browser ";
         print "and correct the values!</p>\n";
+
+        print &footer($q);
+        return;
     }
     else {
-        print
-"<p>Thanks - the input data looks good. You will be notificed by e-mail soon. ";
-        print
-"Please follow the instruction in the email to proceed your request.</p>\n";
-        print "<p>Sincerely, your BBBike\@World admin</p>\n";
+        print "<p>Thanks - the input data looks good. ",
+          "You will be notificed by e-mail soon.",
+          "Please follow the instruction in the email ",
+          "to proceed your request.</p>\n",
+          "<p>Sincerely, your BBBike\@World admin</p>\n";
     }
 
     my $obj = {
@@ -241,6 +249,7 @@ sub check_input {
         'sw_lng' => $sw_lng,
         'ne_lat' => $ne_lat,
         'ne_lng' => $ne_lng,
+        'skm'    => $skm,
     };
 
     my $json      = new JSON;
@@ -323,6 +332,15 @@ sub send_email {
     $smtp->to(@to)     or die "can't use SMTP recipient '$to'";
     $smtp->data($data) or die "can't email data to '$to'";
     $smtp->quit()      or die "can't send email to '$to'";
+}
+
+sub square_km {
+    my ( $x1, $y1, $x2, $y2 ) = @_;
+
+    my $height = GIS::Distance::Lite::distance( $x1, $y1 => $x1, $y2 );
+    my $width  = GIS::Distance::Lite::distance( $x2, $y1 => $x2, $y2 );
+
+    return int( $height / 1_000 * $width / 1_000 );
 }
 
 # save request in incoming spool
