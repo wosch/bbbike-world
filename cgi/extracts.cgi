@@ -3,12 +3,13 @@
 #
 # extracts.cgi - extracts areas in a batch job
 
-use CGI qw/-utf-8 unescape/;
+use CGI qw/-utf-8 unescape escapeHTML/;
 
 use IO::File;
 use JSON;
 use Data::Dumper;
 use Encode;
+use Email::Valid;
 
 use strict;
 use warnings;
@@ -33,7 +34,7 @@ my $option = {
     'default_format' => 'pbf',
 };
 
-my $format = {
+my $formats = {
     'pbf'     => 'Protocolbuffer Binary Format (PBF)',
     'osm.gz'  => "OSM XML gzip'd",
     'osm.bz2' => "OSM XML bzip'd",
@@ -143,11 +144,99 @@ sub check_input {
     my %args = @_;
 
     my $q = $args{'q'};
+    our $qq = $q;
 
     print &header($q);
     print &layout($q);
 
-    print &message;
+    our $error = 0;
+
+    sub error {
+        my $message = shift;
+        $error++;
+
+        print "<p>", escapeHTML($message), "</p>\n";
+    }
+
+    sub is_coord {
+        my $number = shift;
+
+        return 0 if $number eq "";
+        return $number <= 180 && $number >= -180 ? 1 : 0;
+    }
+
+    sub Param {
+        my $param = shift;
+        my $data = $qq->param($param) || "";
+
+        $data =~ s/^\s+//;
+        $data =~ s/\s+$//;
+        return $data;
+    }
+
+    my $format = Param("format");
+    my $city   = Param("city");
+    my $email  = Param("email");
+    my $sw_lat = Param("sw_lat");
+    my $sw_lng = Param("sw_lng");
+    my $ne_lat = Param("ne_lat");
+    my $ne_lng = Param("ne_lng");
+
+    if ( !exists $formats->{$format} ) {
+        error("Unknown error format '$format'");
+    }
+    if ( $city eq '' ) {
+        error("Please give the area a name.");
+    }
+    if ( $email eq '' ) {
+        error("Please enter a e-mail address.");
+    }
+    elsif ( !Email::Valid->address($email) ) {
+        error("E-mail address '$email' is not valid.");
+    }
+    error("sw lat '$sw_lat' is out of range -180 ... 180")
+      if !is_coord($sw_lat);
+    error("sw lng '$sw_lng' is out of range -180 ... 180")
+      if !is_coord($sw_lng);
+    error("ne lat '$ne_lat' is out of range -180 ... 180")
+      if !is_coord($ne_lat);
+    error("ne lng '$ne_lng' is out of range -180 ... 180")
+      if !is_coord($ne_lng);
+
+    error("ne lng '$ne_lng' must be larger than sw lng '$sw_lng'")
+      if $ne_lng < $sw_lng;
+    error("ne lat '$ne_lat' must be larger than sw lat '$sw_lat'")
+      if $ne_lat < $sw_lat;
+
+    if ($error) {
+        print qq{<p class="error">The input data is not valid. };
+        print "Please click on the back button of your browser ";
+        print "and correct the values!</p>\n";
+    }
+    else {
+        print
+"<p>Thanks - the input data looks good. You will be notificed by e-mail soon. ";
+        print
+"Please follow the instruction in the email to proceed your request.</p>\n";
+        print "<p>Sincerely, your BBBike\@World admin</p>\n";
+    }
+
+    my $obj = {
+        'email'  => $email,
+        'format' => $format,
+        'city'   => $city,
+        'sw_lat' => $sw_lat,
+        'sw_lng' => $sw_lng,
+        'ne_lat' => $ne_lat,
+        'ne_lng' => $ne_lng,
+    };
+
+    my $json = new JSON;
+
+    my $json_text = $json->pretty->encode($obj);
+
+    print $json_text;
+
     print &footer($q);
 
 }
@@ -204,8 +293,8 @@ sub homepage {
                         "Output Format",
                         $q->popup_menu(
                             -name    => 'format',
-                            -values  => [ sort keys %$format ],
-                            -labels  => $format,
+                            -values  => [ sort keys %$formats ],
+                            -labels  => $formats,
                             -default => $option->{'default_format'}
                         )
                     ]
