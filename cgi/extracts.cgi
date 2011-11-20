@@ -28,14 +28,15 @@ my $max_skm = 10_000;
 my $email_from = 'bbbike@bbbike.org';
 
 my $option = {
-    'max_extracts'  => 50,
-    'min_wait_time' => 5 * 60,    # in seconds
+    'max_extracts'   => 50,
+    'min_wait_time'  => 5 * 60,    # in seconds
+    'default_format' => 'pbf',
 };
 
-my $formats = {
-    'pbf'     => 'BPF',
-    'osm.gz'  => "OSM XML, gzip'd",
-    'osm.bz2' => "OSM XML, bzip'd",
+my $format = {
+    'pbf'     => 'Protocolbuffer Binary Format (PBF)',
+    'osm.gz'  => "OSM XML gzip'd",
+    'osm.bz2' => "OSM XML bzip'd",
 };
 
 ######################################################################
@@ -65,13 +66,15 @@ sub footer {
     my $q = shift;
 
     my $analytics = &google_analytics;
+    my $url = $q->url( -relative => 1 );
 
+    my $extracts = $q->param('submit') ? qq,| <a href="$url">extracts</a>, : "";
     return <<EOF;
 
 
 <div id="footer">
 <div id="footer_top">
-<a href="../">home</a> 
+<a href="../">home</a> $extracts 
 </div>
 <div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em;" >
 <hr/>
@@ -136,6 +139,19 @@ sub layout {
 EOF
 }
 
+sub check_input {
+    my %args = @_;
+
+    my $q = $args{'q'};
+
+    print &header($q);
+    print &layout($q);
+
+    print &message;
+    print &footer($q);
+
+}
+
 sub homepage {
     my %args = @_;
 
@@ -181,7 +197,20 @@ sub homepage {
                           . " lng: "
                           . $q->textfield( -name => 'ne_lng', -size => 14 )
                     ]
-                )
+                ),
+
+                $q->td(
+                    [
+                        "Output Format",
+                        $q->popup_menu(
+                            -name    => 'format',
+                            -values  => [ sort keys %$format ],
+                            -labels  => $format,
+                            -default => $option->{'default_format'}
+                        )
+                    ]
+                ),
+
             ]
         )
     );
@@ -198,7 +227,11 @@ sub homepage {
 # main
 my $q = new CGI;
 
-if (1) {
+my $action = $q->param("submit") || "";
+if ( $action eq "extract" ) {
+    &check_input( 'q' => $q );
+}
+else {
     &homepage( 'q' => $q );
 }
 
