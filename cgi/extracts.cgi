@@ -216,9 +216,9 @@ sub check_input {
       if !is_coord($ne_lng);
 
     error("ne lng '$ne_lng' must be larger than sw lng '$sw_lng'")
-      if $ne_lng < $sw_lng;
+      if $ne_lng <= $sw_lng;
     error("ne lat '$ne_lat' must be larger than sw lat '$sw_lat'")
-      if $ne_lat < $sw_lat;
+      if $ne_lat <= $sw_lat;
 
     if ($error) {
         print qq{<p class="error">The input data is not valid. };
