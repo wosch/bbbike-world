@@ -11,6 +11,7 @@ use Data::Dumper;
 use Encode;
 use Email::Valid;
 use Digest::MD5 qw(md5_hex);
+use Net::SMTP;
 
 use strict;
 use warnings;
@@ -257,7 +258,7 @@ sub check_input {
           qq{Please contact the BBBike.org maintainer!</p>};
     }
     else {
-        print "<p>E-Mail was sent out.</p>\n";
+        print qq{<p class="success">E-Mail was sent out successfully.</p>\n};
     }
 
     print &footer($q);
@@ -271,7 +272,7 @@ sub send_email_confirm {
     my $key = $args{'key'};
     my $q   = $args{'q'};
 
-    my $url = $q->url( -full => 1, -absolute => 1 ) . "&key=$key";
+    my $url = $q->url( -full => 1, -absolute => 1 ) . "?key=$key";
 
     my $message = <<EOF;
 Hi,
@@ -295,7 +296,32 @@ Sincerely, your BBBike admin
 http://BBBike.org - Your Cycle Route Planner
 EOF
 
-    print "<pre>", $message, "</pre>";
+    eval {
+        &send_email( $obj->{"email"},
+            "Please confirm planet.osm extract request", $message );
+    };
+    if ($@) {
+        warn "$@";
+        return 0;
+    }
+
+    return 1;
+}
+
+sub send_email {
+    my ( $to, $subject, $text ) = @_;
+    my $mail_server = "localhost";
+    my @to = split /,/, $to;
+
+    my $from = $email_from;
+    my $data = "From: $from\nTo: $to\nSubject: $subject\n\n$text";
+    my $smtp = new Net::SMTP( $mail_server, Hello => "localhost" )
+      or die "can't make SMTP object";
+
+    $smtp->mail($from) or die "can't send email from $from";
+    $smtp->to(@to)     or die "can't use SMTP recipient '$to'";
+    $smtp->data($data) or die "can't email data to '$to'";
+    $smtp->quit()      or die "can't send email to '$to'";
 }
 
 # save request in incoming spool
