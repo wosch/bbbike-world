@@ -250,6 +250,7 @@ sub check_input {
         'ne_lat' => $ne_lat,
         'ne_lng' => $ne_lng,
         'skm'    => $skm,
+        'time'   => time(),
     };
 
     my $json      = new JSON;
