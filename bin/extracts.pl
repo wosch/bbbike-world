@@ -158,8 +158,8 @@ sub create_poly_files {
     my $job_dir = $args{'job_dir'};
     my $list    = $args{'list'};
 
-    my $spool = $args{'spool'};
-    my $osm_dir = $spool->{'osm'};
+    my $spool         = $args{'spool'};
+    my $osm_dir       = $spool->{'osm'};
     my $confirmed_dir = $spool->{'confirmed'};
 
     my @list = @$list;
@@ -196,31 +196,30 @@ sub create_poly_files {
         }
 
         &create_poly_file( 'file' => $poly_file, 'job' => $job );
-	$job->{poly_file} = $poly_file;
-	$job->{pbf_file} = $pbf_file;
+        $job->{poly_file} = $poly_file;
+        $job->{pbf_file}  = $pbf_file;
 
     }
     foreach my $job (@list) {
-	my $from = "$confirmed_dir/$job->{'file'}";
-	my $to = "$job_dir/$job->{'file'}";
+        my $from = "$confirmed_dir/$job->{'file'}";
+        my $to   = "$job_dir/$job->{'file'}";
 
-	warn "rename $from -> $to\n" if $debug >= 2;
-	my $json = new JSON;
-	my $data = $json->pretty->encode($job);
+        warn "rename $from -> $to\n" if $debug >= 2;
+        my $json = new JSON;
+        my $data = $json->pretty->encode($job);
 
-	store_data($to, $data);
-	unlink($from) or die "unlink $from: $!\n";
+        store_data( $to, $data );
+        unlink($from) or die "unlink $from: $!\n";
     }
 }
 
 sub store_data {
-  my ($file, $data) = @_;
+    my ( $file, $data ) = @_;
 
-  my $fh = new IO::File $file, "w" or die "open $file: $!\n";
-  print $fh $data;
-  $fh->close;
+    my $fh = new IO::File $file, "w" or die "open $file: $!\n";
+    print $fh $data;
+    $fh->close;
 }
-
 
 sub create_poly_file {
     my %args = @_;
@@ -247,7 +246,7 @@ sub create_poly_file {
     }
 
     warn "Create poly file $file\n" if $debug >= 2;
-    store_data($file, $data);
+    store_data( $file, $data );
 }
 
 sub usage () {
@@ -277,9 +276,9 @@ else {
 
     my $key = get_job_id(@list);
     create_poly_files(
-        'job_dir'       => $spool->{'running'} . "/$key",
-        'list'          => \@list,
-        'spool' => $spool,
+        'job_dir' => $spool->{'running'} . "/$key",
+        'list'    => \@list,
+        'spool'   => $spool,
     );
 }
 
