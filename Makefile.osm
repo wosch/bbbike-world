@@ -47,6 +47,8 @@ BBBIKE_WEB_DIR= ./
 CACHE_HEATER_MAX=50
 TMP=world/tmp
 RM_BG=	world/bin/rm-bg
+WEB_GROUP=	www-data
+EXTRACTS_SPOOL_DIR=/var/tmp/bbbike/extracts
 
 CITIES_FILE=world/etc/cities.txt
 CITIES=$(shell ${PERL} -npe 's/\#.*//' ${CITIES_FILE})
@@ -341,7 +343,7 @@ create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi index updat
 		  ( cd $$lang && ln -fs ../$$city ); \
 		done; \
 	done
-	for script in MyCgiSimple.pm  api.cgi area.cgi livesearch.cgi  location.cgi maptype.cgi slippymap.cgi  street-coord.cgi crossing.cgi streets.cgi  weather.cgi languages.cgi; do \
+	for script in MyCgiSimple.pm  api.cgi area.cgi livesearch.cgi  location.cgi maptype.cgi slippymap.cgi  street-coord.cgi crossing.cgi streets.cgi  weather.cgi languages.cgi extracts.cgi; do \
 	   ( cd ${BBBIKE_WEB_DIR}/cgi && ln -fs ../world/cgi/$$script ); \
 	done
 	cp -f world/web/index.de.html world/web/de/index.html
@@ -530,6 +532,14 @@ symlink-download:
 	  ln -fs ../bbbike.org/world/web/robots-download.txt robots.txt ; \
 	  cd osm; ln -fs ../../bbbike.org/world/download/osm/index.html  .
 
+extracts-install:
+	mkdir -p ${EXTRACTS_SPOOL_DIR}
+	mkdir -p ${EXTRACTS_SPOOL_DIR}/incoming
+	mkdir -p ${EXTRACTS_SPOOL_DIR}/confirmed
+	mkdir -p ${EXTRACTS_SPOOL_DIR}/running
+	chmod -R 775 ${EXTRACTS_SPOOL_DIR}
+	chgrp -R ${WEB_GROUP} ${EXTRACTS_SPOOL_DIR}
+	
 staging:
 	git push
 	cd /usr/local/www/bbbike.org/; git diff; git pull; ${MAKE} -s update-files; git diff
@@ -557,7 +567,7 @@ help:
 	@echo "  [ planet-download | planet-geofabrik-download ]"
 	@echo "  [ planet-streets | planet-places ]"
 	@echo "  [ update-database | update-files ]"
-	@echo "  [ staging ]"
+	@echo "  [ staging | extracts-install ]"
 	@echo ""
 	@echo "see also ./world/README"
 
