@@ -173,6 +173,7 @@ sub create_poly_files {
     mkdir($job_dir) or die "mkdir $job_dir $!\n";
 
     my %hash;
+    my @poly;
     foreach my $job (@list) {
         my $file = &file_latlng($job);
 
@@ -196,10 +197,14 @@ sub create_poly_files {
         }
 
         &create_poly_file( 'file' => $poly_file, 'job' => $job );
+        push @poly, $poly_file;
+
         $job->{poly_file} = $poly_file;
         $job->{pbf_file}  = $pbf_file;
 
     }
+
+    my @json;
     foreach my $job (@list) {
         my $from = "$confirmed_dir/$job->{'file'}";
         my $to   = "$job_dir/$job->{'file'}";
@@ -210,7 +215,14 @@ sub create_poly_files {
 
         store_data( $to, $data );
         unlink($from) or die "unlink $from: $!\n";
+        push @json, $to;
     }
+
+    if ($debug) {
+        warn "Number of poly files: ", scalar(@poly),
+          ", number of json files: ", scalar(@json), "\n";
+    }
+    return ( \@poly, \@json );
 }
 
 sub store_data {
