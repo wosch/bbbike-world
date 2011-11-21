@@ -185,6 +185,7 @@ sub check_input {
 
         $data =~ s/^\s+//;
         $data =~ s/\s+$//;
+        $data =~ s/[\t\n]+/ /g;
         return $data;
     }
 
