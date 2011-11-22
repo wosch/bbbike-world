@@ -52,6 +52,8 @@ my $spool = {
     'job1'      => "$spool_dir/job1.pid",
 };
 
+my $planet_osm = "../osm-streetnames/download/planet-latest.osm.pbf";
+
 # group writable file
 umask(002);
 
@@ -261,6 +263,29 @@ sub create_poly_file {
     store_data( $file, $data );
 }
 
+sub run_extracts {
+    my %args  = @_;
+    my $spool = $args{'spool'};
+    my $poly  = $args{'poly'};
+
+    warn Dumper($poly) if $debug >= 3;
+    return () if !defined $poly || scalar(@$poly) <= 0;
+
+    my @data = qw{nice -n 20 osmosis -q};
+    push @data, qq{--read-pbf $planet_osm --buffer bufferCapacity=12000 --tee};
+    push @data, scalar(@$poly);
+
+    foreach my $p (@$poly) {
+        push @data, "--bp", "file=$p";
+        my $out = $p;
+        $out =~ s/\.poly$/.pbf/;
+        push @data, "--wx", "file=$out";
+    }
+
+    warn join( " ", @data ), "\n" if $debug >= 2;
+    return @data;
+}
+
 sub usage () {
     <<EOF;
 usage: $0 [--debug={0..2}]
@@ -287,10 +312,19 @@ else {
     print Dumper( \@list ) if $debug >= 3;
 
     my $key = get_job_id(@list);
-    create_poly_files(
+    my ( $poly, $json ) = create_poly_files(
         'job_dir' => $spool->{'running'} . "/$key",
         'list'    => \@list,
         'spool'   => $spool,
     );
+
+    my @system = run_extracts( 'spool' => $spool, 'poly' => $poly );
+
+    # lock pid
+    system(@system) == 0
+      or die "system @system failed: $?";
+
+    # unlock pid
+    # send out mail
 }
 
