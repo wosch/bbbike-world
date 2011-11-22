@@ -174,6 +174,8 @@ sub check_input {
         my $number = shift;
 
         return 0 if $number eq "";
+        return 0 if $number !~ /^[\-\+]?[0-9]+(\.[0-9]+)?$/;
+
         return $number <= 180 && $number >= -180 ? 1 : 0;
     }
 
@@ -183,6 +185,7 @@ sub check_input {
 
         $data =~ s/^\s+//;
         $data =~ s/\s+$//;
+        $data =~ s/[\t\n]+/ /g;
         return $data;
     }
 
