@@ -155,6 +155,11 @@ sub vcl_recv {
 	return (pass);
     }
 
+    # not invented here
+    if (req.http.host !~ "\.bbbike\.org$") {
+	return (pass);
+    }
+
     ######################################################################
     # force caching of images and CSS/JS files
     if (req.url ~ "^/html|^/images|^/feed/|^/osp/|^/cgi/[ac-z]|.*\.html$|.*/$|^/osm/") {
