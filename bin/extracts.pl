@@ -276,14 +276,57 @@ sub run_extracts {
     push @data, scalar(@$poly);
 
     foreach my $p (@$poly) {
-        push @data, "--bp", "file=$p";
+        push @data, "--read--pbf", "file=$p";
         my $out = $p;
         $out =~ s/\.poly$/.pbf/;
-        push @data, "--wx", "file=$out";
+        push @data, "--write-pbf", "file=$out";
     }
 
     warn join( " ", @data ), "\n" if $debug >= 2;
     return @data;
+}
+
+sub read_data {
+    my ($file) = @_;
+
+    my $fh = new IO::File $file, "r" or die "open $file: $!\n";
+    my $data;
+
+    while (<$fh>) {
+        $data .= $_;
+    }
+    $fh->close;
+
+    return $data;
+}
+
+sub get_lock {
+    my %args = @_;
+
+    my $lockfile = $args{'lockfile'};
+
+    if ( -x $lockfile ) {
+        my $pid = read_data($lockfile);
+        if ( kill( 0, $pid ) ) {
+            warn "$pid is still running\n";
+            return 0;
+        }
+        else {
+            warn "$pid is no longer running\n";
+            remove_lock( 'lockfile' => $lockfile );
+        }
+    }
+
+    store_data( $lockfile, $$ );
+    return 1;
+}
+
+sub remove_lock {
+    my %args = @_;
+
+    my $lockfile = $args{'lockfile'};
+
+    unlink($lockfile) or die "unlink $lockfile: $!\n";
 }
 
 sub usage () {
@@ -321,10 +364,15 @@ else {
     my @system = run_extracts( 'spool' => $spool, 'poly' => $poly );
 
     # lock pid
+    &get_lock( 'lockfile' => $spool->{'job1'} ) or die "Cannot get lock\n";
+
     system(@system) == 0
       or die "system @system failed: $?";
 
     # unlock pid
+    &remove_lock( 'lockfile' => $spool->{'job1'} );
+
     # send out mail
+    &sent_email( 'json' => $json );
 }
 
