@@ -3,6 +3,17 @@
 #
 # pbf2osm - convert PBF format to OSM XML
 
+set -e
+
+compress=""
+gzip=`which pigz gzip | head -n 1`
+bzip2=`which pbzip2 bzip2 | head -n 1`
+
+case $1 in
+  -gzip | --gzip)    shift; compress=gzip;;
+  -bzip2 | --bzip2 ) shift; compress=bzip2 ;;
+esac
+
 file=$1
 
 if ! [ -f "$file" ]; then
@@ -13,5 +24,18 @@ fi
 # run in quiet mode
 global_opt=-q
 
-osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout 
+if [ "$compress" == "" ]; then
+    osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout 
+else
+    f=`basename $file .pbf`
+    case $compress in
+	gzip ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $gzip > $f.tmp 
+		mv -f $f.tmp $f.gz		
+		;;
+	bzip2 ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $bzip2 > $f.tmp 
+		mv -f $f.tmp $f.bz2		
+		;;
+	* ) echo >& 2 "Oops, unknown '$compress'" ;;
+    esac
+fi
 
