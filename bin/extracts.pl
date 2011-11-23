@@ -13,6 +13,7 @@ use Digest::MD5 qw(md5_hex);
 use Net::SMTP;
 use CGI qw(escapeHTML);
 use Getopt::Long;
+use File::Basename;
 
 use strict;
 use warnings;
@@ -53,6 +54,8 @@ my $spool = {
 };
 
 my $planet_osm = "../osm-streetnames/download/planet-latest.osm.pbf";
+$planet_osm =
+"/home/wosch/projects/osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.pbf";
 
 # group writable file
 umask(002);
@@ -276,7 +279,7 @@ sub run_extracts {
     push @data, scalar(@$poly);
 
     foreach my $p (@$poly) {
-        push @data, "--read--pbf", "file=$p";
+        push @data, "--bp", "file=$p";
         my $out = $p;
         $out =~ s/\.poly$/.pbf/;
         push @data, "--write-pbf", "file=$out";
@@ -284,6 +287,44 @@ sub run_extracts {
 
     warn join( " ", @data ), "\n" if $debug >= 2;
     return @data;
+}
+
+sub send_email {
+    my %args = @_;
+    my $json = $args{'json'};
+
+    foreach my $json_file (@$json) {
+        my @system;
+
+        my $json_text = read_data($json_file);
+        my $json      = new JSON;
+        my $obj       = $json->decode($json_text);
+
+        my $pbf_file = $obj->{'pbf_file'};
+        my $file     = $pbf_file;
+        if ( $obj->{'format'} eq 'osm.bz2' ) {
+            @system = ( "world/bin/pbf2osm", "--bzip2", $pbf_file );
+            system(@system) == 0 or die "system @system failed: $?";
+            $file =~ s/\.pbf$/.osm.bz2/;
+        }
+        elsif ( $obj->{'format'} eq 'osm.gz' ) {
+            @system = ( "world/bin/pbf2osm", "--gzip", $pbf_file );
+            system(@system) == 0 or die "system @system failed: $?";
+            $file =~ s/\.pbf$/.osm.gz/;
+        }
+
+        my $to = $spool->{'download'} . "/" . basename($pbf_file);
+        unlink($to);
+        link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
+
+        if ( $file ne $pbf_file ) {
+            $to = $spool->{'download'} . "/" . basename($file);
+            unlink($to);
+            link( $file, $to ) or die "link $pbf_file => $to: $!\n";
+        }
+
+        warn "Sent email to: ", $obj->{'email'}, "\n";
+    }
 }
 
 sub read_data {
@@ -373,6 +414,6 @@ else {
     &remove_lock( 'lockfile' => $spool->{'job1'} );
 
     # send out mail
-    &sent_email( 'json' => $json );
+    &send_email( 'json' => $json );
 }
 
