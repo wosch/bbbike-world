@@ -363,10 +363,15 @@ sub statistic_maps {
             }
         ),
 
-        -style => { 'src' => [ "../html/bbbike.css" ] },
-        -script => [ { 'src' => "http://www.google.com/jsapi?hl=en" },
-		{ 'src' => "http://maps.googleapis.com/maps/api/js?sensor=false&amp;language=en" },
-		{ 'src' => "/html/bbbike-js.js" } ],
+        -style  => { 'src' => ["../html/bbbike.css"] },
+        -script => [
+            { 'src' => "http://www.google.com/jsapi?hl=en" },
+            {
+                'src' =>
+"http://maps.googleapis.com/maps/api/js?sensor=false&amp;language=en"
+            },
+            { 'src' => "/html/bbbike-js.js" }
+        ],
     );
 
     print qq{<div id="routes"></div>\n};
