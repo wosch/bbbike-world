@@ -338,7 +338,7 @@ sub send_email {
 
         warn "Sent email to: ", $obj->{'email'}, "\n";
         warn "file: $to\n";
-        warn "size: ", file_size($to), "\n";
+        warn "size: ", file_size($to), " MB\n";
 
         unlink($json_file) or die "unlink $json_file: $!\n";
     }
