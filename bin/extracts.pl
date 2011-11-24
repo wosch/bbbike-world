@@ -60,6 +60,8 @@ $planet_osm =
 # group writable file
 umask(002);
 
+my $nice_level = 20;
+
 ######################################################################
 #
 #
@@ -194,7 +196,7 @@ sub create_poly_files {
         }
 
         my $poly_file = "$job_dir/$file.poly";
-        my $pbf_file  = "$osm_dir/$file.pbf";
+        my $pbf_file  = "$job_dir/$file.pbf";
 
         if ( -e $pbf_file && -s $pbf_file ) {
             warn "File $pbf_file already exists, skiped\n";
@@ -274,7 +276,7 @@ sub run_extracts {
     warn Dumper($poly) if $debug >= 3;
     return () if !defined $poly || scalar(@$poly) <= 0;
 
-    my @data = qw{nice -n 20 osmosis -q};
+    my @data = ( "nice", "-n", $nice_level, "osmosis", "-q" );
     push @data, qq{--read-pbf $planet_osm --buffer bufferCapacity=12000 --tee};
     push @data, scalar(@$poly);
 
@@ -372,7 +374,10 @@ sub remove_lock {
 
 sub usage () {
     <<EOF;
-usage: $0 [--debug={0..2}]
+usage: $0 [ options ]
+
+--debug={0..2}		debug level
+--nice-level={0..20}	nice level for osmosis
 EOF
 }
 
@@ -380,7 +385,7 @@ EOF
 # main
 #
 
-GetOptions( "debug=i" => \$debug, ) or die usage;
+GetOptions( "debug=i" => \$debug, "nice-level=i" => \$nice_level ) or die usage;
 
 my @files = get_jobs( $spool->{'confirmed'} );
 
