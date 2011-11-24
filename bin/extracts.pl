@@ -306,26 +306,36 @@ sub send_email {
         my $file     = $pbf_file;
         if ( $obj->{'format'} eq 'osm.bz2' ) {
             @system = ( "world/bin/pbf2osm", "--bzip2", $pbf_file );
+	    warn "@system\n" if $debug >= 2;
             system(@system) == 0 or die "system @system failed: $?";
             $file =~ s/\.pbf$/.osm.bz2/;
         }
         elsif ( $obj->{'format'} eq 'osm.gz' ) {
             @system = ( "world/bin/pbf2osm", "--gzip", $pbf_file );
+	    warn "@system\n" if $debug >= 2;
             system(@system) == 0 or die "system @system failed: $?";
             $file =~ s/\.pbf$/.osm.gz/;
         }
 
         my $to = $spool->{'download'} . "/" . basename($pbf_file);
         unlink($to);
-        link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
 
+	warn "link $pbf_file => $to\n" if $debug >= 2;
+        link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
+	unlink($pbf_file) or die "unlink $pbf_file: $!\n";
+
+	# gzip or bzip2 files?
         if ( $file ne $pbf_file ) {
+		warn "$file $pbf_file\n";
             $to = $spool->{'download'} . "/" . basename($file);
             unlink($to);
             link( $file, $to ) or die "link $pbf_file => $to: $!\n";
         }
 
         warn "Sent email to: ", $obj->{'email'}, "\n";
+        warn "file: $to\n";
+
+	unlink($json_file) or die "unlink $json_file: $!\n";
     }
 }
 
@@ -390,7 +400,7 @@ GetOptions( "debug=i" => \$debug, "nice-level=i" => \$nice_level ) or die usage;
 my @files = get_jobs( $spool->{'confirmed'} );
 
 if ( !scalar(@files) ) {
-    print "Nothing to do\n" if $debug;
+    print "Nothing to do\n" if $debug >= 2;
 }
 else {
     my @list = parse_jobs(
