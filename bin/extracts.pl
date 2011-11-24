@@ -183,8 +183,11 @@ sub create_poly_files {
     my %hash;
     my @poly;
     foreach my $job (@list) {
-        my $file = &file_latlng($job);
+        my $file      = &file_latlng($job);
+        my $poly_file = "$job_dir/$file.poly";
+        my $pbf_file  = "$job_dir/$file.pbf";
 
+        $job->{pbf_file} = $pbf_file;
         if ( exists $hash{$file} ) {
             warn "ignore duplicate: $file\n" if $debug;
             next;
@@ -196,9 +199,6 @@ sub create_poly_files {
             next;
         }
 
-        my $poly_file = "$job_dir/$file.poly";
-        my $pbf_file  = "$job_dir/$file.pbf";
-
         if ( -e $pbf_file && -s $pbf_file ) {
             warn "File $pbf_file already exists, skiped\n";
             next;
@@ -208,8 +208,6 @@ sub create_poly_files {
         push @poly, $poly_file;
 
         $job->{poly_file} = $poly_file;
-        $job->{pbf_file}  = $pbf_file;
-
     }
 
     my @json;
@@ -296,12 +294,16 @@ sub send_email {
     my %args = @_;
     my $json = $args{'json'};
 
+    my @unlink;
     foreach my $json_file (@$json) {
         my @system;
 
         my $json_text = read_data($json_file);
         my $json      = new JSON;
         my $obj       = $json->decode($json_text);
+
+        warn "json: $json_file\n" if $debug >= 3;
+        warn "json: $json_text\n" if $debug >= 3;
 
         my $pbf_file = $obj->{'pbf_file'};
         my $file     = $pbf_file;
@@ -325,7 +327,7 @@ sub send_email {
 
         warn "link $pbf_file => $to\n" if $debug >= 2;
         link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
-        unlink($pbf_file) or die "unlink $pbf_file: $!\n";
+        push @unlink, $pbf_file;
 
         # gzip or bzip2 files?
         if ( $file ne $pbf_file ) {
@@ -340,6 +342,8 @@ sub send_email {
 
         unlink($json_file) or die "unlink $json_file: $!\n";
     }
+
+    unlink(@unlink) or die "unlink: @unlink: $!\n";
 }
 
 sub file_size {
