@@ -14,6 +14,7 @@ use Net::SMTP;
 use CGI qw(escapeHTML);
 use Getopt::Long;
 use File::Basename;
+use File::stat;
 
 use strict;
 use warnings;
@@ -305,28 +306,29 @@ sub send_email {
         my $pbf_file = $obj->{'pbf_file'};
         my $file     = $pbf_file;
         if ( $obj->{'format'} eq 'osm.bz2' ) {
-            @system = ( "world/bin/pbf2osm", "--bzip2", $pbf_file );
-	    warn "@system\n" if $debug >= 2;
-            system(@system) == 0 or die "system @system failed: $?";
             $file =~ s/\.pbf$/.osm.bz2/;
+            @system = ( "world/bin/pbf2osm", "--bzip2", $pbf_file );
+
+            warn "@system\n" if $debug >= 2;
+            system(@system) == 0 or die "system @system failed: $?";
         }
         elsif ( $obj->{'format'} eq 'osm.gz' ) {
-            @system = ( "world/bin/pbf2osm", "--gzip", $pbf_file );
-	    warn "@system\n" if $debug >= 2;
-            system(@system) == 0 or die "system @system failed: $?";
             $file =~ s/\.pbf$/.osm.gz/;
+            @system = ( "world/bin/pbf2osm", "--gzip", $pbf_file );
+
+            warn "@system\n" if $debug >= 2;
+            system(@system) == 0 or die "system @system failed: $?";
         }
 
         my $to = $spool->{'download'} . "/" . basename($pbf_file);
         unlink($to);
 
-	warn "link $pbf_file => $to\n" if $debug >= 2;
+        warn "link $pbf_file => $to\n" if $debug >= 2;
         link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
-	unlink($pbf_file) or die "unlink $pbf_file: $!\n";
+        unlink($pbf_file) or die "unlink $pbf_file: $!\n";
 
-	# gzip or bzip2 files?
+        # gzip or bzip2 files?
         if ( $file ne $pbf_file ) {
-		warn "$file $pbf_file\n";
             $to = $spool->{'download'} . "/" . basename($file);
             unlink($to);
             link( $file, $to ) or die "link $pbf_file => $to: $!\n";
@@ -334,9 +336,18 @@ sub send_email {
 
         warn "Sent email to: ", $obj->{'email'}, "\n";
         warn "file: $to\n";
+        warn "size: ", file_size($to), "\n";
 
-	unlink($json_file) or die "unlink $json_file: $!\n";
+        unlink($json_file) or die "unlink $json_file: $!\n";
     }
+}
+
+sub file_size {
+    my $file = shift;
+
+    my $st = stat($file) or die "stat $file: $!\n";
+
+    return int( 10 * $st->size / 1024 / 1024 ) / 10;
 }
 
 sub read_data {
