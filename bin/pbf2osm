@@ -28,12 +28,13 @@ if [ "$compress" == "" ]; then
     osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout 
 else
     f=`basename $file .pbf`
+    dir=`dirname $file`
     case $compress in
-	gzip ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $gzip > $f.tmp 
-		mv -f $f.tmp $f.gz		
+	gzip ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $gzip > $dir/$f.tmp 
+		mv -f $dir/$f.tmp $dir/$f.osm.gz		
 		;;
-	bzip2 ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $bzip2 > $f.tmp 
-		mv -f $f.tmp $f.bz2		
+	bzip2 ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $bzip2 > $dir/$f.tmp 
+		mv -f $dir/$f.tmp $dir/$f.osm.bz2		
 		;;
 	* ) echo >& 2 "Oops, unknown '$compress'" ;;
     esac
