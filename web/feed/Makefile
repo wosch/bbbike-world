@@ -7,7 +7,7 @@ RSS=		bbbike-world.xml
 
 all: ${RSS}
 
-bbbike-world.xml: ${FEED_SCRIPT} perltidy
+bbbike-world.xml: ${FEED_SCRIPT}
 	${FEED_SCRIPT} | tidy -xml -i > $@ 2> $@.log
 	rm -f $@.log
 
