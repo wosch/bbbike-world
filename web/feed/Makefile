@@ -1,4 +1,5 @@
-# Copyright (c) Mar 2010, bbbike.org
+# Copyright (c) Mar 2010-2011, http://BBBike.org
+#
 # create an atom based RSS feed for BBBike @ World
 
 FEED_SCRIPT=	./feed.pl
@@ -8,6 +9,7 @@ all: ${RSS}
 
 bbbike-world.xml: ${FEED_SCRIPT} perltidy
 	${FEED_SCRIPT} | tidy -xml -i > $@ 2> $@.log
+	rm -f $@.log
 
 perltidy:
 	perl -cw ${FEED_SCRIPT} 2>/dev/null || perl -cw ${FEED_SCRIPT}
