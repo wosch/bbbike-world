@@ -30,12 +30,10 @@ use File::stat;
 use strict;
 use warnings;
 
-$ENV{'PATH'} = "/usr/local/bin:/bin:/usr/bin";
-
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
-my $debug = 0;
+my $debug = 1;
 my $test  = 1;
 
 # spool directory. Should be at least 100GB large
@@ -305,7 +303,7 @@ sub run_extracts {
         push @data, "--bp", "file=$p";
         my $out = $p;
         $out =~ s/\.poly$/.pbf/;
-        push @data, "--write-pbf", "file=$out";
+        push @data, "--write-pbf", "file=$out", "omitmetadata=true";
     }
 
     warn join( " ", @data ), "\n" if $debug >= 2;
@@ -319,6 +317,8 @@ sub _send_email {
 
     my $from = $email_from;
     my $data = "From: $from\nTo: $to\nSubject: $subject\n\n$text";
+    warn "send email to $from" if $debug && $debug <3;
+
     my $smtp = new Net::SMTP( $mail_server, Hello => "localhost" )
       or die "can't make SMTP object";
 
@@ -378,7 +378,7 @@ sub send_email {
         # copy for downloading
         $to = $spool->{'download'} . "/" . basename($pbf_file);
         unlink($to);
-        warn "link $pbf_file => $to\n" if $debug >= 2;
+        warn "link $pbf_file => $to\n" if $debug >= 1;
         link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
 
         push @unlink, $pbf_file;
@@ -410,7 +410,7 @@ To download the file, please click on the following link:
 
 The file will be available for the next 24 hours.
 
-If you don't request the data, just ignore this e-mail.
+Sincerely, your BBBike admin
 
 Sincerely, your BBBike admin
 
@@ -540,6 +540,7 @@ else {
     # lock pid
     &create_lock( 'lockfile' => $spool->{'job1'} ) or die "Cannot get lock\n";
 
+    warn "Run ", join " ", @system, "\n" if $debug;
     system(@system) == 0
       or die "system @system failed: $?";
 
