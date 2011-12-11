@@ -47,10 +47,11 @@ my $email_from = 'bbbike@bbbike.org';
 
 my $option = {
     'max_extracts'   => 50,
-    'min_wait_time'  => 5 * 60,    # in seconds
+    'min_wait_time'  => 5 * 60,                                     # in seconds
     'default_format' => 'pbf',
     'max_jobs'       => 3,
     'max_areas'      => 12,
+    'homepage'       => 'http://download2.bbbike.org/osm/extract',
 };
 
 my $formats = {
@@ -309,6 +310,22 @@ sub run_extracts {
     return @data;
 }
 
+sub _send_email {
+    my ( $to, $subject, $text ) = @_;
+    my $mail_server = "localhost";
+    my @to = split /,/, $to;
+
+    my $from = $email_from;
+    my $data = "From: $from\nTo: $to\nSubject: $subject\n\n$text";
+    my $smtp = new Net::SMTP( $mail_server, Hello => "localhost" )
+      or die "can't make SMTP object";
+
+    $smtp->mail($from) or die "can't send email from $from";
+    $smtp->to(@to)     or die "can't use SMTP recipient '$to'";
+    $smtp->data($data) or die "can't email data to '$to'";
+    $smtp->quit()      or die "can't send email to '$to'";
+}
+
 sub send_email {
     my %args = @_;
     my $json = $args{'json'};
@@ -366,14 +383,44 @@ sub send_email {
             link( $file, $to ) or die "link $pbf_file => $to: $!\n";
         }
 
-        warn "Sent email to: ", $obj->{'email'}, "\n";
-        warn "file: $to\n";
-        warn "size: ", file_size($to), " MB\n";
+        my $file_size = file_size($to) . " MB\n";
+        my $url       = $option->{'homepage'} . "download/$to";
 
-        unlink($json_file) or die "unlink $json_file: $!\n";
+        my $message = <<EOF;
+Hi,
+
+your requested OpenStreetMap area $obj->{'city'} was extracted 
+from planet.osm
+
+ City: $obj->{"city"}
+ Area: $obj->{"sw_lat"},$obj->{"sw_lng"} x $obj->{"ne_lat"},$obj->{"ne_lng"}
+ Format: $obj->{"format"}
+ File size: $file_size
+
+To download the file, please click on the following link:
+
+  $url
+
+othewise just ignore this e-mail.
+
+Sincerely, your BBBike admin
+
+--
+http://BBBike.org - Your Cycle Route Planner
+EOF
+
+        eval {
+            _send_email( $obj->{'email'}, "Extracted area: " . $obj->{'city'},
+                $message );
+        };
+
+        if ($@) {
+            warn "$@";
+            return 0;
+        }
+
+        unlink(@unlink) or die "unlink: @unlink: $!\n";
     }
-
-    unlink(@unlink) or die "unlink: @unlink: $!\n";
 }
 
 sub file_size {
