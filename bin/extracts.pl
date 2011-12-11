@@ -50,6 +50,7 @@ my $option = {
     'min_wait_time'  => 5 * 60,    # in seconds
     'default_format' => 'pbf',
     'max_jobs'       => 3,
+    'max_areas'      => 12,
 };
 
 my $formats = {
@@ -440,7 +441,7 @@ else {
     my @list = parse_jobs(
         'files' => \@files,
         'dir'   => $spool->{'confirmed'},
-        'max'   => 8
+        'max'   => $option->{'max_areas'},
     );
     print Dumper( \@list ) if $debug >= 3;
 
