@@ -361,11 +361,16 @@ sub send_email {
             system(@system) == 0 or die "system @system failed: $?";
         }
 
+
         # keep a copy in ./osm for further usage
         my $to = $spool->{'osm'} . "/" . basename($pbf_file);
+
         unlink($to);
         warn "link $pbf_file => $to\n" if $debug >= 2;
         link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
+
+        my $file_size = file_size($to) . " MB\n";
+        warn "file size $to: $file_size" if $debug >= 2;
 
         # copy for downloading
         $to = $spool->{'download'} . "/" . basename($pbf_file);
@@ -383,7 +388,6 @@ sub send_email {
             link( $file, $to ) or die "link $pbf_file => $to: $!\n";
         }
 
-        my $file_size = file_size($to) . " MB\n";
         my $url       = $option->{'homepage'} . "/" . basename($to);
 
         my $message = <<EOF;
