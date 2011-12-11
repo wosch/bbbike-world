@@ -410,7 +410,8 @@ To download the file, please click on the following link:
 
   $url
 
-The file will be available for the next 24 hours.
+The file will be available for the next 24 hours. Please 
+download the file as soon as possible.
 
 Sincerely, your BBBike admin
 
