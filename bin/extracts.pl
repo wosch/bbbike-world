@@ -313,6 +313,9 @@ sub send_email {
     my %args = @_;
     my $json = $args{'json'};
 
+    # all scripts are in these directory
+    my $dirname = dirname($0);
+
     my @unlink;
     foreach my $json_file (@$json) {
         my @system;
@@ -328,14 +331,14 @@ sub send_email {
         my $file     = $pbf_file;
         if ( $obj->{'format'} eq 'osm.bz2' ) {
             $file =~ s/\.pbf$/.osm.bz2/;
-            @system = ( "world/bin/pbf2osm", "--bzip2", $pbf_file );
+            @system = ( "$dirname/pbf2osm", "--bzip2", $pbf_file );
 
             warn "@system\n" if $debug >= 2;
             system(@system) == 0 or die "system @system failed: $?";
         }
         elsif ( $obj->{'format'} eq 'osm.gz' ) {
             $file =~ s/\.pbf$/.osm.gz/;
-            @system = ( "world/bin/pbf2osm", "--gzip", $pbf_file );
+            @system = ( "$dirname/pbf2osm", "--gzip", $pbf_file );
 
             warn "@system\n" if $debug >= 2;
             system(@system) == 0 or die "system @system failed: $?";
