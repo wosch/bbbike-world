@@ -34,7 +34,7 @@ binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
 my $debug = 1;
-my $test = 1;
+my $test  = 1;
 
 # spool directory. Should be at least 100GB large
 my $spool_dir = '/var/tmp/bbbike/extracts';
@@ -49,6 +49,7 @@ my $option = {
     'max_extracts'   => 50,
     'min_wait_time'  => 5 * 60,    # in seconds
     'default_format' => 'pbf',
+    'max_jobs'       => 3,
 };
 
 my $formats = {
@@ -66,9 +67,15 @@ my $spool = {
     'job1'      => "$spool_dir/job1.pid",
 };
 
+# up to N parallel jobs
+foreach my $number ( 1 .. $option->{'max_jobs'} ) {
+    $spool->{"job$number"} = "$spool_dir/job" . $number . ".pid";
+}
+
 my $planet_osm = "../osm-streetnames/download/planet-latest.osm.pbf";
 $planet_osm =
-"/home/wosch/projects/osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.pbf" if $test;
+"/home/wosch/projects/osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.pbf"
+  if $test;
 
 # group writable file
 umask(002);
