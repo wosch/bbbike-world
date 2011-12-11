@@ -372,7 +372,11 @@ sub send_email {
         warn "json: $json_text\n" if $debug >= 3;
 
         my $pbf_file = $obj->{'pbf_file'};
-        my $file     = $pbf_file;
+
+        ###################################################################
+        # converted file name
+        my $file = $pbf_file;
+
         if ( $obj->{'format'} eq 'osm.bz2' ) {
             $file =~ s/\.pbf$/.osm.bz2/;
             @system = ( "$dirname/pbf2osm", "--bzip2", $pbf_file );
@@ -388,7 +392,8 @@ sub send_email {
             system(@system) == 0 or die "system @system failed: $?";
         }
 
-        # keep a copy in ./osm for further usage
+        ###################################################################
+        # keep a copy of .pbf in ./osm for further usage
         my $to = $spool->{'osm'} . "/" . basename($pbf_file);
 
         unlink($to);
@@ -398,7 +403,8 @@ sub send_email {
         my $file_size = file_size($to) . " MB\n";
         warn "file size $to: $file_size" if $debug >= 2;
 
-        # copy for downloading
+        ###################################################################
+        # copy for downloading in /download
         $to = $spool->{'download'} . "/" . basename($pbf_file);
         unlink($to);
         warn "link $pbf_file => $to\n" if $debug >= 1;
@@ -406,7 +412,8 @@ sub send_email {
 
         push @unlink, $pbf_file;
 
-        # gzip or bzip2 files?
+        ###################################################################
+        # .osm.gz or .osm.bzip2 files?
         if ( $file ne $pbf_file ) {
             $to = $spool->{'download'} . "/" . basename($file);
             unlink($to);
@@ -416,6 +423,8 @@ sub send_email {
 
         my $url = $option->{'homepage'} . "/" . basename($to);
 
+        ###################################################################
+        #
         my $message = <<EOF;
 Hi,
 
