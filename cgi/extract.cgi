@@ -22,7 +22,7 @@ binmode \*STDERR, ":utf8";
 my $debug = 1;
 
 # spool directory. Should be at least 100GB large
-my $spool_dir = '/var/tmp/bbbike/extracts';
+my $spool_dir = '/var/tmp/bbbike/extract';
 
 # max. area in square km
 my $max_skm = 50_000;
