@@ -30,10 +30,12 @@ use File::stat;
 use strict;
 use warnings;
 
+$ENV{'PATH'} = "/usr/local/bin:/bin:/usr/bin";
+
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
-my $debug = 1;
+my $debug = 0;
 my $test  = 1;
 
 # spool directory. Should be at least 100GB large
@@ -197,7 +199,7 @@ sub create_poly_files {
         return;
     }
 
-    warn "create job dir $job_dir\n" if $debug;
+    warn "create job dir $job_dir\n" if $debug >= 1;
     mkdir($job_dir) or die "mkdir $job_dir $!\n";
 
     my %hash;
@@ -542,10 +544,11 @@ else {
       or die "system @system failed: $?";
 
     # unlock pid
-    &remove_lock( 'lockfile' => $spool->{'job1'} );
 
     # send out mail
     &send_email( 'json' => $json );
+
+    &remove_lock( 'lockfile' => $spool->{'job1'} );
     &cleanp_jobdir( 'job_dir' => $job_dir );
 }
 
