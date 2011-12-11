@@ -290,7 +290,8 @@ sub send_email_confirm {
     my $message = <<EOF;
 Hi,
 
-somone - possible you - requested to extract an area from planet.osm
+somone - possible you - requested to extract an OpenStreetMaps area 
+from planet.osm
 
  City: $obj->{"city"}
  Area: $obj->{"sw_lat"},$obj->{"sw_lng"} x $obj->{"ne_lat"},$obj->{"ne_lng"}
