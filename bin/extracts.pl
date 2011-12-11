@@ -384,7 +384,7 @@ sub send_email {
         }
 
         my $file_size = file_size($to) . " MB\n";
-        my $url       = $option->{'homepage'} . "download/$to";
+        my $url       = $option->{'homepage'} . "download/" . basename($to);
 
         my $message = <<EOF;
 Hi,
