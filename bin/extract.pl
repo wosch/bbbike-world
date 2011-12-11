@@ -453,7 +453,7 @@ sub read_data {
     return $data;
 }
 
-sub get_lock {
+sub create_lock {
     my %args = @_;
 
     my $lockfile = $args{'lockfile'};
@@ -470,6 +470,7 @@ sub get_lock {
         }
     }
 
+    warn "Create lockfile: $lockfile\n" if $debug >= 2;
     store_data( $lockfile, $$ );
     return 1;
 }
@@ -479,6 +480,7 @@ sub remove_lock {
 
     my $lockfile = $args{'lockfile'};
 
+    warn "Remove lockfile: $lockfile\n" if $debug >= 2;
     unlink($lockfile) or die "unlink $lockfile: $!\n";
 }
 
@@ -534,7 +536,7 @@ else {
     my @system = run_extracts( 'spool' => $spool, 'poly' => $poly );
 
     # lock pid
-    &get_lock( 'lockfile' => $spool->{'job1'} ) or die "Cannot get lock\n";
+    &create_lock( 'lockfile' => $spool->{'job1'} ) or die "Cannot get lock\n";
 
     system(@system) == 0
       or die "system @system failed: $?";
