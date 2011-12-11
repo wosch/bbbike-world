@@ -410,7 +410,8 @@ http://BBBike.org - Your Cycle Route Planner
 EOF
 
         eval {
-            _send_email( $obj->{'email'}, "Extracted area: " . $obj->{'city'},
+            _send_email( $obj->{'email'},
+                "Extracted area is ready for download: " . $obj->{'city'},
                 $message );
         };
 
