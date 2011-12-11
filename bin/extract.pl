@@ -35,7 +35,7 @@ $ENV{'PATH'} = "/usr/local/bin:/bin:/usr/bin";
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
-my $debug = 1;
+my $debug = 0;
 my $test  = 1;
 
 # spool directory. Should be at least 100GB large
