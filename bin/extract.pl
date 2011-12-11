@@ -447,6 +447,9 @@ sub send_email {
             unlink($to);
 
             link( $file, $to ) or die "link $pbf_file => $to: $!\n";
+
+            $file_size = file_size($to) . " MB";
+            warn "file size $to: $file_size\n" if $debug >= 2;
         }
 
         my $url = $option->{'homepage'} . "/" . basename($to);
