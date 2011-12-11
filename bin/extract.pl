@@ -412,8 +412,6 @@ The file will be available for the next 24 hours.
 
 Sincerely, your BBBike admin
 
-Sincerely, your BBBike admin
-
 --
 http://BBBike.org - Your Cycle Route Planner
 EOF
