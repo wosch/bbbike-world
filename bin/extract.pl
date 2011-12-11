@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl
 # Copyright (c) 2011 Wolfram Schneider, http://bbbike.org
 #
-# extracts.pl - extracts areas in a batch job
+# extract.pl - extracts areas in a batch job
 #
 # spool area
 #   /incoming	- request to extract an area, email sent out to user
@@ -37,7 +37,7 @@ my $debug = 1;
 my $test  = 1;
 
 # spool directory. Should be at least 100GB large
-my $spool_dir = '/var/tmp/bbbike/extracts';
+my $spool_dir = '/var/tmp/bbbike/extract';
 
 # max. area in square km
 my $max_skm = 50_000;
