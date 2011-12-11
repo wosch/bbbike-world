@@ -401,7 +401,7 @@ To download the file, please click on the following link:
 
   $url
 
-othewise just ignore this e-mail.
+The file will be available for the next 24 hours.
 
 Sincerely, your BBBike admin
 
