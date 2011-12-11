@@ -30,6 +30,8 @@ use File::stat;
 use strict;
 use warnings;
 
+$ENV{'PATH'} = "/usr/local/bin:/bin:/usr/bin";
+
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
