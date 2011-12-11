@@ -526,18 +526,20 @@ sub cleanp_jobdir {
     my %args    = @_;
     my $job_dir = $args{'job_dir'};
 
-    my $spool     = $args{'spool'};
-    my $poly      = $args{'poly'};
+    my $spool = $args{'spool'};
+    my $json  = $args{'json'};
 
     # keep a copy of the config file for a request in trash can
     my $keep = $args{'keep'} || 0;
 
     my $trash_dir = $spool->{'trash'};
     if ($keep) {
-        foreach my $file (@$poly) {
+        warn "Keep copy of json config files\n" if $debug >= 2;
+
+        foreach my $file (@$json) {
             my $to = "$trash_dir/" . basename($file);
             unlink($to);
-            warn "Keep copy of poly file: $to\n" if $debug >= 3;
+            warn "keep copy of json file: $to\n" if $debug >= 3;
             link( $file, $to ) or die "link $file => $to: $!\n";
         }
     }
@@ -603,10 +605,10 @@ else {
 
     &remove_lock( 'lockfile' => $spool->{'job1'} );
     &cleanp_jobdir(
-        'job_dir'   => $job_dir,
-        'spool'     => $spool,
-        'json'      => $json,
-        'keep' => 1
+        'job_dir' => $job_dir,
+        'spool'   => $spool,
+        'json'    => $json,
+        'keep'    => 1
     );
 }
 
