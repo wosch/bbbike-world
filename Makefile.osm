@@ -539,6 +539,7 @@ extract-install:
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/running
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/osm
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/download
+	mkdir -p ${EXTRACTS_SPOOL_DIR}/trash
 	chmod -R 775 ${EXTRACTS_SPOOL_DIR}
 	chgrp -R ${WEB_GROUP} ${EXTRACTS_SPOOL_DIR}
 

@@ -68,6 +68,7 @@ my $spool = {
     'running'   => "$spool_dir/running",
     'osm'       => "$spool_dir/osm",
     'download'  => "$spool_dir/download",
+    'trash'     => "$spool_dir/trash",
     'job1'      => "$spool_dir/job1.pid",
 };
 
@@ -525,6 +526,22 @@ sub cleanp_jobdir {
     my %args    = @_;
     my $job_dir = $args{'job_dir'};
 
+    my $spool     = $args{'spool'};
+    my $poly      = $args{'poly'};
+
+    # keep a copy of the config file for a request in trash can
+    my $keep = $args{'keep'} || 0;
+
+    my $trash_dir = $spool->{'trash'};
+    if ($keep) {
+        foreach my $file (@$poly) {
+            my $to = "$trash_dir/" . basename($file);
+            unlink($to);
+            warn "Keep copy of poly file: $to\n" if $debug >= 3;
+            link( $file, $to ) or die "link $file => $to: $!\n";
+        }
+    }
+
     warn "remove job dir: $job_dir\n" if $debug >= 2;
 
     if ( -d $job_dir ) {
@@ -585,6 +602,11 @@ else {
     &send_email( 'json' => $json );
 
     &remove_lock( 'lockfile' => $spool->{'job1'} );
-    &cleanp_jobdir( 'job_dir' => $job_dir );
+    &cleanp_jobdir(
+        'job_dir'   => $job_dir,
+        'spool'     => $spool,
+        'json'      => $json,
+        'keep' => 1
+    );
 }
 
