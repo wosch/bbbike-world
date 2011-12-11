@@ -602,7 +602,7 @@ my $job = 1;
 GetOptions(
     "debug=i"      => \$debug,
     "nice-level=i" => \$nice_level,
-    \$job, "job=i"
+    "job=i"        => \$job,
 ) or die usage;
 
 my @files = get_jobs( $spool->{'confirmed'} );
