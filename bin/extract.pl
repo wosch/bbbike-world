@@ -486,7 +486,7 @@ sub cleanp_jobdir {
     my %args    = @_;
     my $job_dir = $args{'job_dir'};
 
-    warn "job dir: $job_dir\n";
+    warn "remove job dir: $job_dir\n" if $debug >= 2;
 
     if ( -d $job_dir ) {
         my @system = ( 'rm', '-rf', $job_dir );
