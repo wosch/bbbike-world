@@ -91,7 +91,7 @@ sub get_jobs {
 
     my $d = IO::Dir->new($dir);
     if ( !defined $d ) {
-        warn "Error directory $dir: $!\n";
+        warn "error directory $dir: $!\n";
         return ();
     }
 
@@ -215,12 +215,12 @@ sub create_poly_files {
         $hash{$file} = 1;
 
         if ( !$file ) {
-            warn "Ignore job: ", Dumper($job), "\n";
+            warn "ignore job: ", Dumper($job), "\n";
             next;
         }
 
         if ( -e $pbf_file && -s $pbf_file ) {
-            warn "File $pbf_file already exists, skiped\n";
+            warn "file $pbf_file already exists, skiped\n";
             next;
         }
 
@@ -245,7 +245,7 @@ sub create_poly_files {
     }
 
     if ($debug) {
-        warn "Number of poly files: ", scalar(@poly),
+        warn "number of poly files: ", scalar(@poly),
           ", number of json files: ", scalar(@json), "\n";
     }
     return ( \@poly, \@json );
@@ -283,7 +283,7 @@ sub create_poly_file {
         return;
     }
 
-    warn "Create poly file $file\n" if $debug >= 2;
+    warn "create poly file $file\n" if $debug >= 2;
     store_data( $file, $data );
 }
 
@@ -470,7 +470,7 @@ sub create_lock {
         }
     }
 
-    warn "Create lockfile: $lockfile\n" if $debug >= 2;
+    warn "create lockfile: $lockfile\n" if $debug >= 2;
     store_data( $lockfile, $$ );
     return 1;
 }
@@ -480,7 +480,7 @@ sub remove_lock {
 
     my $lockfile = $args{'lockfile'};
 
-    warn "Remove lockfile: $lockfile\n" if $debug >= 2;
+    warn "remove lockfile: $lockfile\n" if $debug >= 2;
     unlink($lockfile) or die "unlink $lockfile: $!\n";
 }
 
