@@ -294,6 +294,8 @@ sub run_extracts {
     my $spool = $args{'spool'};
     my $poly  = $args{'poly'};
 
+    my $osm = $spool->{'osm'};
+
     warn Dumper($poly) if $debug >= 3;
     return () if !defined $poly || scalar(@$poly) <= 0;
 
@@ -301,11 +303,30 @@ sub run_extracts {
     push @data, qq{--read-pbf $planet_osm --buffer bufferCapacity=12000 --tee};
     push @data, scalar(@$poly);
 
+    my @pbf;
     foreach my $p (@$poly) {
-        push @data, "--bp", "file=$p";
         my $out = $p;
         $out =~ s/\.poly$/.pbf/;
-        push @data, "--write-pbf", "file=$out", "omitmetadata=true";
+
+        my $osm = $spool->{'osm'} . "/" . basename($out);
+        if ( -e $osm ) {
+            warn "File $osm already exists, skip\n" if $debug;
+
+            link( $osm, $out ) or die "link $osm => $out: $!\n";
+            next;
+        }
+
+        push @pbf, "--bp", "file=$p";
+        push @pbf, "--write-pbf", "file=$out", "omitmetadata=true";
+    }
+
+    if (@pbf) {
+        push @data, @pbf;
+    }
+    else {
+
+        # nothing to do
+        @data = "true";
     }
 
     warn join( " ", @data ), "\n" if $debug >= 2;
