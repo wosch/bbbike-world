@@ -344,17 +344,25 @@ sub send_email {
             system(@system) == 0 or die "system @system failed: $?";
         }
 
-        my $to = $spool->{'download'} . "/" . basename($pbf_file);
+        # keep a copy in ./osm for further usage
+        my $to = $spool->{'osm'} . "/" . basename($pbf_file);
         unlink($to);
-
         warn "link $pbf_file => $to\n" if $debug >= 2;
         link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
+
+        # copy for downloading
+        $to = $spool->{'download'} . "/" . basename($pbf_file);
+        unlink($to);
+        warn "link $pbf_file => $to\n" if $debug >= 2;
+        link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
+
         push @unlink, $pbf_file;
 
         # gzip or bzip2 files?
         if ( $file ne $pbf_file ) {
             $to = $spool->{'download'} . "/" . basename($file);
             unlink($to);
+
             link( $file, $to ) or die "link $pbf_file => $to: $!\n";
         }
 
