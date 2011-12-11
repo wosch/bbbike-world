@@ -302,7 +302,6 @@ sub run_extracts {
 
     my @data = ( "nice", "-n", $nice_level, "osmosis", "-q" );
     push @data, qq{--read-pbf $planet_osm --buffer bufferCapacity=12000 --tee};
-    push @data, scalar(@$poly);
 
     my @pbf;
     foreach my $p (@$poly) {
@@ -322,6 +321,7 @@ sub run_extracts {
     }
 
     if (@pbf) {
+        push @data, scalar(@pbf);
         push @data, @pbf;
     }
     else {
