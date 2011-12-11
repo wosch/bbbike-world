@@ -73,7 +73,6 @@ foreach my $number ( 1 .. $option->{'max_jobs'} ) {
     $spool->{"job$number"} = "$spool_dir/job" . $number . ".pid";
 }
 
-my $planet_osm = "../osm-streetnames/download/planet-latest.osm.pbf";
 $planet_osm =
 "/home/wosch/projects/osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.pbf"
   if $test;
