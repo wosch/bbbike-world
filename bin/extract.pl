@@ -622,6 +622,9 @@ else {
     my $job_dir  = $spool->{'running'} . "/$key";
     my $lockfile = $spool->{"job$job"};
 
+    # lock pid
+    &create_lock( 'lockfile' => $lockfile ) or die "Cannot get lock\n";
+
     my ( $poly, $json ) = create_poly_files(
         'job_dir' => $job_dir,
         'list'    => \@list,
@@ -629,9 +632,6 @@ else {
     );
 
     my @system = run_extracts( 'spool' => $spool, 'poly' => $poly );
-
-    # lock pid
-    &create_lock( 'lockfile' => $lockfile ) or die "Cannot get lock\n";
 
     warn "Run ", join " ", @system, "\n" if $debug > 2;
     system(@system) == 0
