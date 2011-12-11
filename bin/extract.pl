@@ -324,6 +324,8 @@ sub _send_email {
     $smtp->to(@to)     or die "can't use SMTP recipient '$to'";
     $smtp->data($data) or die "can't email data to '$to'";
     $smtp->quit()      or die "can't send email to '$to'";
+
+    warn "\n$data\n" if $debug >= 3;
 }
 
 sub send_email {
@@ -361,7 +363,6 @@ sub send_email {
             system(@system) == 0 or die "system @system failed: $?";
         }
 
-
         # keep a copy in ./osm for further usage
         my $to = $spool->{'osm'} . "/" . basename($pbf_file);
 
@@ -388,7 +389,7 @@ sub send_email {
             link( $file, $to ) or die "link $pbf_file => $to: $!\n";
         }
 
-        my $url       = $option->{'homepage'} . "/" . basename($to);
+        my $url = $option->{'homepage'} . "/" . basename($to);
 
         my $message = <<EOF;
 Hi,
@@ -481,6 +482,19 @@ sub remove_lock {
     unlink($lockfile) or die "unlink $lockfile: $!\n";
 }
 
+sub cleanp_jobdir {
+    my %args    = @_;
+    my $job_dir = $args{'job_dir'};
+
+    warn "job dir: $job_dir\n";
+
+    if ( -d $job_dir ) {
+        my @system = ( 'rm', '-rf', $job_dir );
+        system(@system) == 0
+          or die "system @system failed: $?";
+    }
+}
+
 sub usage () {
     <<EOF;
 usage: $0 [ options ]
@@ -509,9 +523,10 @@ else {
     );
     print Dumper( \@list ) if $debug >= 3;
 
-    my $key = get_job_id(@list);
+    my $key     = get_job_id(@list);
+    my $job_dir = $spool->{'running'} . "/$key";
     my ( $poly, $json ) = create_poly_files(
-        'job_dir' => $spool->{'running'} . "/$key",
+        'job_dir' => $job_dir,
         'list'    => \@list,
         'spool'   => $spool,
     );
@@ -529,5 +544,6 @@ else {
 
     # send out mail
     &send_email( 'json' => $json );
+    &cleanp_jobdir( 'job_dir' => $job_dir );
 }
 
