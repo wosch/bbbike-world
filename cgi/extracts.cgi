@@ -28,7 +28,7 @@ my $spool_dir = '/var/tmp/bbbike/extracts';
 my $max_skm = 50_000;
 
 # sent out emails as
-my $email_from = 'bbbike@bbbike.org';
+my $email_from = 'BBBike Admin <bbbike@bbbike.org>';
 
 my $option = {
     'max_extracts'   => 50,
