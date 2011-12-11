@@ -460,8 +460,10 @@ EOF
             return 0;
         }
 
-        unlink(@unlink) or die "unlink: @unlink: $!\n";
     }
+
+    # unlink .pbf files after all files are proceeds
+    unlink(@unlink) or die "unlink: @unlink: $!\n";
 
     warn "number of email sent: ", scalar(@$json), "\n" if $debug >= 1;
 }
