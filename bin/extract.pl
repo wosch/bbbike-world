@@ -11,8 +11,9 @@
 #   /download  	- where the user can download the files, email sent out
 #  /jobN.pid	- running jobs
 #
-
-my $planet_osm = "../osm-streetnames/download/planet-latest.osm.pbf";
+# todo:
+# - cpu run time
+#
 
 use IO::File;
 use IO::Dir;
@@ -35,8 +36,9 @@ $ENV{'PATH'} = "/usr/local/bin:/bin:/usr/bin";
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
-my $debug = 0;
-my $test  = 1;
+my $planet_osm = "../osm-streetnames/download/planet-latest.osm.pbf";
+my $debug      = 0;
+my $test       = 0;
 
 # spool directory. Should be at least 100GB large
 my $spool_dir = '/var/tmp/bbbike/extract';
