@@ -301,9 +301,10 @@ sub run_extracts {
     return () if !defined $poly || scalar(@$poly) <= 0;
 
     my @data = ( "nice", "-n", $nice_level, "osmosis", "-q" );
-    push @data, qq{--read-pbf $planet_osm --buffer bufferCapacity=12000 --tee};
+    push @data, qq{--read-pbf $planet_osm --buffer bufferCapacity=12000};
 
     my @pbf;
+    my $tee = 0;
     foreach my $p (@$poly) {
         my $out = $p;
         $out =~ s/\.poly$/.pbf/;
@@ -318,10 +319,11 @@ sub run_extracts {
 
         push @pbf, "--bp", "file=$p";
         push @pbf, "--write-pbf", "file=$out", "omitmetadata=true";
+        $tee++;
     }
 
     if (@pbf) {
-        push @data, scalar(@pbf);
+        push @data, "--tee", $tee;
         push @data, @pbf;
     }
     else {
@@ -586,6 +588,7 @@ usage: $0 [ options ]
 
 --debug={0..2}		debug level
 --nice-level={0..20}	nice level for osmosis
+--job={1..4}		job number for parallels runs
 EOF
 }
 
@@ -593,7 +596,14 @@ EOF
 # main
 #
 
-GetOptions( "debug=i" => \$debug, "nice-level=i" => \$nice_level ) or die usage;
+# current running parallel job number (1..4)
+my $job = 1;
+
+GetOptions(
+    "debug=i"      => \$debug,
+    "nice-level=i" => \$nice_level,
+    \$job, "job=i"
+) or die usage;
 
 my @files = get_jobs( $spool->{'confirmed'} );
 
@@ -608,8 +618,10 @@ else {
     );
     print Dumper( \@list ) if $debug >= 3;
 
-    my $key     = get_job_id(@list);
-    my $job_dir = $spool->{'running'} . "/$key";
+    my $key      = get_job_id(@list);
+    my $job_dir  = $spool->{'running'} . "/$key";
+    my $lockfile = $spool->{"job$job"};
+
     my ( $poly, $json ) = create_poly_files(
         'job_dir' => $job_dir,
         'list'    => \@list,
@@ -619,7 +631,7 @@ else {
     my @system = run_extracts( 'spool' => $spool, 'poly' => $poly );
 
     # lock pid
-    &create_lock( 'lockfile' => $spool->{'job1'} ) or die "Cannot get lock\n";
+    &create_lock( 'lockfile' => $lockfile ) or die "Cannot get lock\n";
 
     warn "Run ", join " ", @system, "\n" if $debug > 2;
     system(@system) == 0
@@ -630,7 +642,8 @@ else {
     # send out mail
     &send_email( 'json' => $json );
 
-    &remove_lock( 'lockfile' => $spool->{'job1'} );
+    &remove_lock( 'lockfile' => $lockfile );
+
     &cleanp_jobdir(
         'job_dir' => $job_dir,
         'spool'   => $spool,
