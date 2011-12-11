@@ -334,6 +334,31 @@ sub run_extracts {
     return @data;
 }
 
+sub checksum {
+    my $file = shift;
+    die "file $file does not exists\n" if !-f $file;
+
+    my $md5_command = 'md5sum';
+
+    if ( my $pid = open( C, "-|" ) ) {
+    }
+
+    # child
+    else {
+        exec( $md5_command, $file ) or die "Alert! Cannot fork: $!\n";
+    }
+
+    my $data;
+    while (<C>) {
+        my @a = split;
+        $data = shift @a;
+        last;
+    }
+    close C;
+
+    return $data;
+}
+
 sub _send_email {
     my ( $to, $subject, $text ) = @_;
     my $mail_server = "localhost";
@@ -401,8 +426,8 @@ sub send_email {
         warn "link $pbf_file => $to\n" if $debug >= 2;
         link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
 
-        my $file_size = file_size($to) . " MB\n";
-        warn "file size $to: $file_size" if $debug >= 2;
+        my $file_size = file_size($to) . " MB";
+        warn "file size $to: $file_size\n" if $debug >= 2;
 
         ###################################################################
         # copy for downloading in /download
@@ -424,6 +449,7 @@ sub send_email {
 
         my $url = $option->{'homepage'} . "/" . basename($to);
 
+        my $checksum = checksum($to);
         ###################################################################
         #
         my $message = <<EOF;
@@ -436,6 +462,7 @@ from planet.osm
  Area: $obj->{"sw_lat"},$obj->{"sw_lng"} x $obj->{"ne_lat"},$obj->{"ne_lng"}
  Format: $obj->{"format"}
  File size: $file_size
+ MD5 checksum: $checksum
 
 To download the file, please click on the following link:
 
