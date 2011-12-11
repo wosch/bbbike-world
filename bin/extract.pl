@@ -525,7 +525,7 @@ sub create_lock {
 
     my $lockfile = $args{'lockfile'};
 
-    if ( -x $lockfile ) {
+    if ( -e $lockfile ) {
         my $pid = read_data($lockfile);
         if ( kill( 0, $pid ) ) {
             warn "$pid is still running\n";
