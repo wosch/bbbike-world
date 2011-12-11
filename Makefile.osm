@@ -532,7 +532,7 @@ symlink-download:
 	  ln -fs ../bbbike.org/world/web/robots-download.txt robots.txt ; \
 	  cd osm; ln -fs ../../bbbike.org/world/download/osm/index.html  .
 
-extracts-install:
+extract-install:
 	mkdir -p ${EXTRACTS_SPOOL_DIR}
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/incoming
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/confirmed
@@ -541,6 +541,9 @@ extracts-install:
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/download
 	chmod -R 775 ${EXTRACTS_SPOOL_DIR}
 	chgrp -R ${WEB_GROUP} ${EXTRACTS_SPOOL_DIR}
+
+extract-distclean:
+	find ${EXTRACTS_SPOOL_DIR} -type f -print0 | xargs -0 rm -f
 	
 staging:
 	git push
@@ -569,7 +572,7 @@ help:
 	@echo "  [ planet-download | planet-geofabrik-download ]"
 	@echo "  [ planet-streets | planet-places ]"
 	@echo "  [ update-database | update-files ]"
-	@echo "  [ staging | extracts-install ]"
+	@echo "  [ staging | extract-install | extract-distclean ]"
 	@echo ""
 	@echo "see also ./world/README"
 
