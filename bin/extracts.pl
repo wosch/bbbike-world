@@ -2,6 +2,17 @@
 # Copyright (c) 2011 Wolfram Schneider, http://bbbike.org
 #
 # extracts.pl - extracts areas in a batch job
+#
+# spool area
+#   /incoming	- request to extract an area, email sent out to user
+#   /confirmed	- user confirmed request by clicking on a link in the email
+#   /running    - the request is running
+#   /osm	- the request is done, files are saved for further usage
+#   /download  	- where the user can download the files, email sent out
+#  /jobN.pid	- running jobs
+#
+
+my $planet_osm = "../osm-streetnames/download/planet-latest.osm.pbf";
 
 use IO::File;
 use IO::Dir;
@@ -23,6 +34,7 @@ binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
 my $debug = 1;
+my $test = 1;
 
 # spool directory. Should be at least 100GB large
 my $spool_dir = '/var/tmp/bbbike/extracts';
@@ -56,7 +68,7 @@ my $spool = {
 
 my $planet_osm = "../osm-streetnames/download/planet-latest.osm.pbf";
 $planet_osm =
-"/home/wosch/projects/osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.pbf";
+"/home/wosch/projects/osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.pbf" if $test;
 
 # group writable file
 umask(002);
