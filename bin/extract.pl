@@ -403,6 +403,8 @@ To download the file, please click on the following link:
 
 The file will be available for the next 24 hours.
 
+If you don't request the data, just ignore this e-mail.
+
 Sincerely, your BBBike admin
 
 --
