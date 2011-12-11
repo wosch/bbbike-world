@@ -84,7 +84,7 @@ $planet_osm =
 # group writable file
 umask(002);
 
-my $nice_level = 20;
+my $nice_level = 10;
 
 ######################################################################
 #
