@@ -317,7 +317,7 @@ sub _send_email {
 
     my $from = $email_from;
     my $data = "From: $from\nTo: $to\nSubject: $subject\n\n$text";
-    warn "send email to $from" if $debug && $debug <3;
+    warn "send email to $from\n" if $debug && $debug < 3;
 
     my $smtp = new Net::SMTP( $mail_server, Hello => "localhost" )
       or die "can't make SMTP object";
@@ -431,6 +431,8 @@ EOF
 
         unlink(@unlink) or die "unlink: @unlink: $!\n";
     }
+
+    warn "number of email sent: ", scalar(@$json), "\n" if $debug >= 1;
 }
 
 sub file_size {
@@ -540,7 +542,7 @@ else {
     # lock pid
     &create_lock( 'lockfile' => $spool->{'job1'} ) or die "Cannot get lock\n";
 
-    warn "Run ", join " ", @system, "\n" if $debug;
+    warn "Run ", join " ", @system, "\n" if $debug > 2;
     system(@system) == 0
       or die "system @system failed: $?";
 
