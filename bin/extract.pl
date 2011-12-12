@@ -647,8 +647,8 @@ else {
     warn "Running extract time: ", time() - $time, " seconds\n" if $debug;
 
     # send out mail
-    &send_email( 'json' => $json );
     $time = time();
+    &send_email( 'json' => $json );
     warn "Running convert time: ", time() - $time, " seconds\n" if $debug;
 
     # unlock pid
