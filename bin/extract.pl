@@ -1,7 +1,19 @@
 #!/usr/local/bin/perl
 # Copyright (c) 2011 Wolfram Schneider, http://bbbike.org
 #
-# extracts.pl - extracts areas in a batch job
+# extract.pl - extracts areas in a batch job
+#
+# spool area
+#   /incoming	- request to extract an area, email sent out to user
+#   /confirmed	- user confirmed request by clicking on a link in the email
+#   /running    - the request is running
+#   /osm	- the request is done, files are saved for further usage
+#   /download  	- where the user can download the files, email sent out
+#  /jobN.pid	- running jobs
+#
+# todo:
+# - cpu run time
+#
 
 use IO::File;
 use IO::Dir;
@@ -19,13 +31,17 @@ use File::stat;
 use strict;
 use warnings;
 
+$ENV{'PATH'} = "/usr/local/bin:/bin:/usr/bin";
+
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
-my $debug = 1;
+my $planet_osm = "../osm-streetnames/download/planet-latest.osm.pbf";
+my $debug      = 0;
+my $test       = 0;
 
 # spool directory. Should be at least 100GB large
-my $spool_dir = '/var/tmp/bbbike/extracts';
+my $spool_dir = '/var/tmp/bbbike/extract';
 
 # max. area in square km
 my $max_skm = 50_000;
@@ -35,8 +51,11 @@ my $email_from = 'bbbike@bbbike.org';
 
 my $option = {
     'max_extracts'   => 50,
-    'min_wait_time'  => 5 * 60,    # in seconds
+    'min_wait_time'  => 5 * 60,                                     # in seconds
     'default_format' => 'pbf',
+    'max_jobs'       => 3,
+    'max_areas'      => 12,
+    'homepage'       => 'http://download2.bbbike.org/osm/extract',
 };
 
 my $formats = {
@@ -51,17 +70,23 @@ my $spool = {
     'running'   => "$spool_dir/running",
     'osm'       => "$spool_dir/osm",
     'download'  => "$spool_dir/download",
+    'trash'     => "$spool_dir/trash",
     'job1'      => "$spool_dir/job1.pid",
 };
 
-my $planet_osm = "../osm-streetnames/download/planet-latest.osm.pbf";
+# up to N parallel jobs
+foreach my $number ( 1 .. $option->{'max_jobs'} ) {
+    $spool->{"job$number"} = "$spool_dir/job" . $number . ".pid";
+}
+
 $planet_osm =
-"/home/wosch/projects/osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.pbf";
+"/home/wosch/projects/osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.pbf"
+  if $test;
 
 # group writable file
 umask(002);
 
-my $nice_level = 20;
+my $nice_level = 10;
 
 ######################################################################
 #
@@ -71,7 +96,7 @@ sub get_jobs {
 
     my $d = IO::Dir->new($dir);
     if ( !defined $d ) {
-        warn "Error directory $dir: $!\n";
+        warn "error directory $dir: $!\n";
         return ();
     }
 
@@ -177,7 +202,7 @@ sub create_poly_files {
         return;
     }
 
-    warn "create job dir $job_dir\n" if $debug;
+    warn "create job dir $job_dir\n" if $debug >= 1;
     mkdir($job_dir) or die "mkdir $job_dir $!\n";
 
     my %hash;
@@ -195,12 +220,12 @@ sub create_poly_files {
         $hash{$file} = 1;
 
         if ( !$file ) {
-            warn "Ignore job: ", Dumper($job), "\n";
+            warn "ignore job: ", Dumper($job), "\n";
             next;
         }
 
         if ( -e $pbf_file && -s $pbf_file ) {
-            warn "File $pbf_file already exists, skiped\n";
+            warn "file $pbf_file already exists, skiped\n";
             next;
         }
 
@@ -225,7 +250,7 @@ sub create_poly_files {
     }
 
     if ($debug) {
-        warn "Number of poly files: ", scalar(@poly),
+        warn "number of poly files: ", scalar(@poly),
           ", number of json files: ", scalar(@json), "\n";
     }
     return ( \@poly, \@json );
@@ -263,7 +288,7 @@ sub create_poly_file {
         return;
     }
 
-    warn "Create poly file $file\n" if $debug >= 2;
+    warn "create poly file $file\n" if $debug >= 2;
     store_data( $file, $data );
 }
 
@@ -272,27 +297,98 @@ sub run_extracts {
     my $spool = $args{'spool'};
     my $poly  = $args{'poly'};
 
+    my $osm = $spool->{'osm'};
+
     warn Dumper($poly) if $debug >= 3;
     return () if !defined $poly || scalar(@$poly) <= 0;
 
     my @data = ( "nice", "-n", $nice_level, "osmosis", "-q" );
-    push @data, qq{--read-pbf $planet_osm --buffer bufferCapacity=12000 --tee};
-    push @data, scalar(@$poly);
+    push @data, qq{--read-pbf $planet_osm --buffer bufferCapacity=12000};
 
+    my @pbf;
+    my $tee = 0;
     foreach my $p (@$poly) {
-        push @data, "--bp", "file=$p";
         my $out = $p;
         $out =~ s/\.poly$/.pbf/;
-        push @data, "--write-pbf", "file=$out";
+
+        my $osm = $spool->{'osm'} . "/" . basename($out);
+        if ( -e $osm ) {
+            warn "File $osm already exists, skip\n" if $debug;
+
+            link( $osm, $out ) or die "link $osm => $out: $!\n";
+            next;
+        }
+
+        push @pbf, "--bp", "file=$p";
+        push @pbf, "--write-pbf", "file=$out", "omitmetadata=true";
+        $tee++;
+    }
+
+    if (@pbf) {
+        push @data, "--tee", $tee;
+        push @data, @pbf;
+    }
+    else {
+
+        # nothing to do
+        @data = "true";
     }
 
     warn join( " ", @data ), "\n" if $debug >= 2;
     return @data;
 }
 
+sub checksum {
+    my $file = shift;
+    die "file $file does not exists\n" if !-f $file;
+
+    my $md5_command = 'md5sum';
+
+    if ( my $pid = open( C, "-|" ) ) {
+    }
+
+    # child
+    else {
+        exec( $md5_command, $file ) or die "Alert! Cannot fork: $!\n";
+    }
+
+    my $data;
+    while (<C>) {
+        my @a = split;
+        $data = shift @a;
+        last;
+    }
+    close C;
+
+    return $data;
+}
+
+sub _send_email {
+    my ( $to, $subject, $text ) = @_;
+    my $mail_server = "localhost";
+    my @to = split /,/, $to;
+
+    my $from = $email_from;
+    my $data = "From: $from\nTo: $to\nSubject: $subject\n\n$text";
+    warn "send email to $from\n" if $debug && $debug < 3;
+
+    my $smtp = new Net::SMTP( $mail_server, Hello => "localhost" )
+      or die "can't make SMTP object";
+
+    $smtp->mail($from) or die "can't send email from $from";
+    $smtp->to(@to)     or die "can't use SMTP recipient '$to'";
+    $smtp->data($data) or die "can't email data to '$to'";
+    $smtp->quit()      or die "can't send email to '$to'";
+
+    warn "\n$data\n" if $debug >= 3;
+}
+
 sub send_email {
     my %args = @_;
     my $json = $args{'json'};
+
+    # all scripts are in these directory
+    my $dirname = dirname($0);
 
     my @unlink;
     foreach my $json_file (@$json) {
@@ -306,44 +402,106 @@ sub send_email {
         warn "json: $json_text\n" if $debug >= 3;
 
         my $pbf_file = $obj->{'pbf_file'};
-        my $file     = $pbf_file;
+
+        ###################################################################
+        # converted file name
+        my $file = $pbf_file;
+
+        my @nice = ( "nice", "-n", $nice_level );
         if ( $obj->{'format'} eq 'osm.bz2' ) {
             $file =~ s/\.pbf$/.osm.bz2/;
-            @system = ( "world/bin/pbf2osm", "--bzip2", $pbf_file );
+            @system = ( @nice, "$dirname/pbf2osm", "--bzip2", $pbf_file );
 
             warn "@system\n" if $debug >= 2;
             system(@system) == 0 or die "system @system failed: $?";
         }
         elsif ( $obj->{'format'} eq 'osm.gz' ) {
             $file =~ s/\.pbf$/.osm.gz/;
-            @system = ( "world/bin/pbf2osm", "--gzip", $pbf_file );
+            @system = ( @nice, "$dirname/pbf2osm", "--gzip", $pbf_file );
 
             warn "@system\n" if $debug >= 2;
             system(@system) == 0 or die "system @system failed: $?";
         }
 
-        my $to = $spool->{'download'} . "/" . basename($pbf_file);
-        unlink($to);
+        ###################################################################
+        # keep a copy of .pbf in ./osm for further usage
+        my $to = $spool->{'osm'} . "/" . basename($pbf_file);
 
+        unlink($to);
         warn "link $pbf_file => $to\n" if $debug >= 2;
         link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
+
+        my $file_size = file_size($to) . " MB";
+        warn "file size $to: $file_size\n" if $debug >= 2;
+
+        ###################################################################
+        # copy for downloading in /download
+        $to = $spool->{'download'} . "/" . basename($pbf_file);
+        unlink($to);
+        warn "link $pbf_file => $to\n" if $debug >= 1;
+        link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
+
         push @unlink, $pbf_file;
 
-        # gzip or bzip2 files?
+        ###################################################################
+        # .osm.gz or .osm.bzip2 files?
         if ( $file ne $pbf_file ) {
             $to = $spool->{'download'} . "/" . basename($file);
             unlink($to);
+
             link( $file, $to ) or die "link $pbf_file => $to: $!\n";
+
+            $file_size = file_size($to) . " MB";
+            warn "file size $to: $file_size\n" if $debug >= 2;
         }
 
-        warn "Sent email to: ", $obj->{'email'}, "\n";
-        warn "file: $to\n";
-        warn "size: ", file_size($to), " MB\n";
+        my $url = $option->{'homepage'} . "/" . basename($to);
 
-        unlink($json_file) or die "unlink $json_file: $!\n";
+        my $checksum = checksum($to);
+        ###################################################################
+        #
+        my $message = <<EOF;
+Hi,
+
+your requested OpenStreetMap area $obj->{'city'} was extracted 
+from planet.osm
+
+ City: $obj->{"city"}
+ Area: $obj->{"sw_lat"},$obj->{"sw_lng"} x $obj->{"ne_lat"},$obj->{"ne_lng"}
+ Format: $obj->{"format"}
+ File size: $file_size
+ MD5 checksum: $checksum
+
+To download the file, please click on the following link:
+
+  $url
+
+The file will be available for the next 24 hours. Please 
+download the file as soon as possible.
+
+Sincerely, your BBBike admin
+
+--
+http://BBBike.org - Your Cycle Route Planner
+EOF
+
+        eval {
+            _send_email( $obj->{'email'},
+                "Extracted area is ready for download: " . $obj->{'city'},
+                $message );
+        };
+
+        if ($@) {
+            warn "$@";
+            return 0;
+        }
+
     }
 
+    # unlink .pbf files after all files are proceeds
     unlink(@unlink) or die "unlink: @unlink: $!\n";
+
+    warn "number of email sent: ", scalar(@$json), "\n" if $debug >= 1;
 }
 
 sub file_size {
@@ -368,12 +526,12 @@ sub read_data {
     return $data;
 }
 
-sub get_lock {
+sub create_lock {
     my %args = @_;
 
     my $lockfile = $args{'lockfile'};
 
-    if ( -x $lockfile ) {
+    if ( -e $lockfile ) {
         my $pid = read_data($lockfile);
         if ( kill( 0, $pid ) ) {
             warn "$pid is still running\n";
@@ -385,6 +543,7 @@ sub get_lock {
         }
     }
 
+    warn "create lockfile: $lockfile\n" if $debug >= 2;
     store_data( $lockfile, $$ );
     return 1;
 }
@@ -394,7 +553,39 @@ sub remove_lock {
 
     my $lockfile = $args{'lockfile'};
 
+    warn "remove lockfile: $lockfile\n" if $debug >= 2;
     unlink($lockfile) or die "unlink $lockfile: $!\n";
+}
+
+sub cleanp_jobdir {
+    my %args    = @_;
+    my $job_dir = $args{'job_dir'};
+
+    my $spool = $args{'spool'};
+    my $json  = $args{'json'};
+
+    # keep a copy of the config file for a request in trash can
+    my $keep = $args{'keep'} || 0;
+
+    my $trash_dir = $spool->{'trash'};
+    if ($keep) {
+        warn "Keep copy of json config files\n" if $debug >= 2;
+
+        foreach my $file (@$json) {
+            my $to = "$trash_dir/" . basename($file);
+            unlink($to);
+            warn "keep copy of json file: $to\n" if $debug >= 3;
+            link( $file, $to ) or die "link $file => $to: $!\n";
+        }
+    }
+
+    warn "remove job dir: $job_dir\n" if $debug >= 2;
+
+    if ( -d $job_dir ) {
+        my @system = ( 'rm', '-rf', $job_dir );
+        system(@system) == 0
+          or die "system @system failed: $?";
+    }
 }
 
 sub usage () {
@@ -403,6 +594,7 @@ usage: $0 [ options ]
 
 --debug={0..2}		debug level
 --nice-level={0..20}	nice level for osmosis
+--job={1..4}		job number for parallels runs
 EOF
 }
 
@@ -410,7 +602,14 @@ EOF
 # main
 #
 
-GetOptions( "debug=i" => \$debug, "nice-level=i" => \$nice_level ) or die usage;
+# current running parallel job number (1..4)
+my $job = 1;
+
+GetOptions(
+    "debug=i"      => \$debug,
+    "nice-level=i" => \$nice_level,
+    "job=i"        => \$job,
+) or die usage;
 
 my @files = get_jobs( $spool->{'confirmed'} );
 
@@ -421,29 +620,45 @@ else {
     my @list = parse_jobs(
         'files' => \@files,
         'dir'   => $spool->{'confirmed'},
-        'max'   => 8
+        'max'   => $option->{'max_areas'},
     );
     print Dumper( \@list ) if $debug >= 3;
 
-    my $key = get_job_id(@list);
+    my $key      = get_job_id(@list);
+    my $job_dir  = $spool->{'running'} . "/$key";
+    my $lockfile = $spool->{"job$job"};
+
+    # lock pid
+    &create_lock( 'lockfile' => $lockfile ) or die "Cannot get lock\n";
+
     my ( $poly, $json ) = create_poly_files(
-        'job_dir' => $spool->{'running'} . "/$key",
+        'job_dir' => $job_dir,
         'list'    => \@list,
         'spool'   => $spool,
     );
 
     my @system = run_extracts( 'spool' => $spool, 'poly' => $poly );
 
-    # lock pid
-    &get_lock( 'lockfile' => $spool->{'job1'} ) or die "Cannot get lock\n";
-
+    my $time = time();
+    warn "Run ", join " ", @system, "\n" if $debug > 2;
     system(@system) == 0
       or die "system @system failed: $?";
 
-    # unlock pid
-    &remove_lock( 'lockfile' => $spool->{'job1'} );
+    warn "Running extract time: ", time() - $time, " seconds\n" if $debug;
 
     # send out mail
+    $time = time();
     &send_email( 'json' => $json );
+    warn "Running convert time: ", time() - $time, " seconds\n" if $debug;
+
+    # unlock pid
+    &remove_lock( 'lockfile' => $lockfile );
+
+    &cleanp_jobdir(
+        'job_dir' => $job_dir,
+        'spool'   => $spool,
+        'json'    => $json,
+        'keep'    => 1
+    );
 }
 

@@ -22,13 +22,13 @@ binmode \*STDERR, ":utf8";
 my $debug = 1;
 
 # spool directory. Should be at least 100GB large
-my $spool_dir = '/var/tmp/bbbike/extracts';
+my $spool_dir = '/var/tmp/bbbike/extract';
 
 # max. area in square km
 my $max_skm = 50_000;
 
 # sent out emails as
-my $email_from = 'bbbike@bbbike.org';
+my $email_from = 'BBBike Admin <bbbike@bbbike.org>';
 
 my $option = {
     'max_extracts'   => 50,
@@ -290,7 +290,8 @@ sub send_email_confirm {
     my $message = <<EOF;
 Hi,
 
-somone - possible you - requested to extract an area from planet.osm
+somone - possible you - requested to extract an OpenStreetMaps area 
+from planet.osm
 
  City: $obj->{"city"}
  Area: $obj->{"sw_lat"},$obj->{"sw_lng"} x $obj->{"ne_lat"},$obj->{"ne_lng"}
@@ -361,6 +362,8 @@ sub save_request {
         warn "Cannot open $incoming: $!\n";
         return 0;
     }
+
+    warn "Store request: $json_text\n" if $debug;
     print $fh $json_text, "\n";
     $fh->close;
 
