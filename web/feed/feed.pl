@@ -23,6 +23,19 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
+    title => 'Added new cities',
+    id    => '8b4c4c5b6f1175986ef6cc55bcd0bd41',
+
+    content => {
+        type    => 'text',
+        content => qq{New city: Wuerzburg},
+    },
+
+    updated  => '2011-12-12T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title =>
 qq{New feature: a smoothness layer for streets in Berlin (excellent, good, cobblestones, horrible) },
     id      => '75c151c463e1f249498a6571c8d05ccc',
