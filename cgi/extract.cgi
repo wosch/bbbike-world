@@ -362,6 +362,8 @@ sub save_request {
         warn "Cannot open $incoming: $!\n";
         return 0;
     }
+
+    warn "Store request: $json_text\n" if $debug;
     print $fh $json_text, "\n";
     $fh->close;
 
