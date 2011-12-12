@@ -639,15 +639,19 @@ else {
 
     my @system = run_extracts( 'spool' => $spool, 'poly' => $poly );
 
+    my $time = time();
     warn "Run ", join " ", @system, "\n" if $debug > 2;
     system(@system) == 0
       or die "system @system failed: $?";
 
-    # unlock pid
+    warn "Running extract time: ", time() - $time, " seconds\n" if $debug;
 
     # send out mail
     &send_email( 'json' => $json );
+    $time = time();
+    warn "Running convert time: ", time() - $time, " seconds\n" if $debug;
 
+    # unlock pid
     &remove_lock( 'lockfile' => $lockfile );
 
     &cleanp_jobdir(
