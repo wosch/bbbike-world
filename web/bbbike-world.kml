@@ -799,7 +799,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Heilbronn/">BBBike @ Heilbronn</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>9.195,49.155,0.000000</coordinates>
+      <coordinates>9.195,49.175,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1823,7 +1823,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Wuerzburg/">BBBike @ Wuerzburg</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>9.95,49.77,0.000000</coordinates>
+      <coordinates>9.995,49.755,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
