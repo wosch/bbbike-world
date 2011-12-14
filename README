@@ -45,6 +45,7 @@ sudo perl -MCPAN -e 'install HTML::TagCloud'
 sudo perl -MCPAN -e 'install XML::Atom::SimpleFeed'
 sudo perl -MCPAN -e 'install XML::LibXML::Reader'
 sudo perl -MCPAN -e 'install Object::Realize::Later'
+sudo perl -MCPAN -e 'install Email::Valid'
 
 
 Development
