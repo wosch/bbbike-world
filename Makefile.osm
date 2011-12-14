@@ -545,6 +545,17 @@ extract-install:
 
 extract-distclean:
 	find ${EXTRACTS_SPOOL_DIR} -type f -print0 | xargs -0 rm -f
+
+# garbage collection, 2 days
+extract-gc:
+	cd ${EXTRACTS_SPOOL_DIR}; find incoming confirmed running download -type f -mtime +2 -print0 | xargs -0 rm -f
+
+extract-gc-osm:
+	find ${EXTRACTS_SPOOL_DIR}/osm -type f -mmin +360  -print0 | xargs -0 rm -f
+
+# garbage collection, 7 days, all files
+extract-gc7:
+	find ${EXTRACTS_SPOOL_DIR} -type f -mtime +7  -print0 | xargs -0 rm -f
 	
 staging:
 	git push
@@ -574,6 +585,7 @@ help:
 	@echo "  [ planet-streets | planet-places ]"
 	@echo "  [ update-database | update-files ]"
 	@echo "  [ staging | extract-install | extract-distclean ]"
+	@echo "  [ extract-gc | extract-gc7 | extract-gc-osm ]"
 	@echo ""
 	@echo "see also ./world/README"
 
