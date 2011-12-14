@@ -15,7 +15,6 @@
 # - xxx
 #
 
-
 use CGI qw/-utf-8 unescape escapeHTML/;
 use IO::File;
 use JSON;
@@ -63,7 +62,6 @@ my $spool = {
     'confirmed' => "$spool_dir/confirmed",
     'running'   => "$spool_dir/running",
 };
-
 
 ######################################################################
 # helper functions
