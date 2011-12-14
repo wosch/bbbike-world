@@ -50,12 +50,14 @@ my $max_skm = 50_000;
 my $email_from = 'bbbike@bbbike.org';
 
 my $option = {
+    'max_areas'      => 12,
+    'homepage'       => 'http://download2.bbbike.org/osm/extract',
+    'max_jobs'       => 3,
+    
+    # not used yet
     'max_extracts'   => 50,
     'min_wait_time'  => 5 * 60,                                     # in seconds
     'default_format' => 'pbf',
-    'max_jobs'       => 3,
-    'max_areas'      => 12,
-    'homepage'       => 'http://download2.bbbike.org/osm/extract',
 };
 
 my $formats = {
@@ -65,13 +67,13 @@ my $formats = {
 };
 
 my $spool = {
-    'incoming'  => "$spool_dir/incoming",
-    'confirmed' => "$spool_dir/confirmed",
-    'running'   => "$spool_dir/running",
-    'osm'       => "$spool_dir/osm",
-    'download'  => "$spool_dir/download",
-    'trash'     => "$spool_dir/trash",
-    'job1'      => "$spool_dir/job1.pid",
+    'incoming'  => "$spool_dir/incoming",   # incoming request, need to be confirmed
+    'confirmed' => "$spool_dir/confirmed",  # ready to run
+    'running'   => "$spool_dir/running",    # currently running job
+    'osm'       => "$spool_dir/osm",        # cache older runs
+    'download'  => "$spool_dir/download",   # final directory for download
+    'trash'     => "$spool_dir/trash",      # keep a copy of the config for debugging
+    'job1'      => "$spool_dir/job1.pid",   # lock file for current job
 };
 
 # up to N parallel jobs
@@ -79,14 +81,15 @@ foreach my $number ( 1 .. $option->{'max_jobs'} ) {
     $spool->{"job$number"} = "$spool_dir/job" . $number . ".pid";
 }
 
-$planet_osm =
-"/home/wosch/projects/osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.pbf"
-  if $test;
-
 # group writable file
 umask(002);
 
 my $nice_level = 10;
+
+# test & debug
+$planet_osm =
+"/home/wosch/projects/osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.pbf"
+  if $test;
 
 ######################################################################
 #
@@ -174,9 +177,9 @@ sub get_job_id {
 
     my $key = md5_hex($data);
     return $key;
-
 }
 
+# store lat,lng in filename
 sub file_latlng {
     my $obj  = shift;
     my $file = "";
@@ -256,6 +259,7 @@ sub create_poly_files {
     return ( \@poly, \@json );
 }
 
+# store a blob of data in a file
 sub store_data {
     my ( $file, $data ) = @_;
 
@@ -292,6 +296,9 @@ sub create_poly_file {
     store_data( $file, $data );
 }
 
+#
+# extract area(s) from planet.osm with osmosis tool
+#
 sub run_extracts {
     my %args  = @_;
     my $spool = $args{'spool'};
@@ -338,6 +345,7 @@ sub run_extracts {
     return @data;
 }
 
+# compuate MD5 checksum for extract file
 sub checksum {
     my $file = shift;
     die "file $file does not exists\n" if !-f $file;
@@ -363,6 +371,7 @@ sub checksum {
     return $data;
 }
 
+# SMTP wrapper
 sub _send_email {
     my ( $to, $subject, $text ) = @_;
     my $mail_server = "localhost";
@@ -383,6 +392,7 @@ sub _send_email {
     warn "\n$data\n" if $debug >= 3;
 }
 
+# prepare to sent mail about extracted area
 sub send_email {
     my %args = @_;
     my $json = $args{'json'};
@@ -407,6 +417,7 @@ sub send_email {
         # converted file name
         my $file = $pbf_file;
 
+        # convert .pbf to .osm if requested
         my @nice = ( "nice", "-n", $nice_level );
         if ( $obj->{'format'} eq 'osm.bz2' ) {
             $file =~ s/\.pbf$/.osm.bz2/;
@@ -458,8 +469,11 @@ sub send_email {
         my $url = $option->{'homepage'} . "/" . basename($to);
 
         my $checksum = checksum($to);
+        
+        
         ###################################################################
-        #
+        # mail
+        
         my $message = <<EOF;
 Hi,
 
@@ -498,12 +512,13 @@ EOF
 
     }
 
-    # unlink .pbf files after all files are proceeds
+    # unlink temporary .pbf files after all files are proceeds
     unlink(@unlink) or die "unlink: @unlink: $!\n";
 
     warn "number of email sent: ", scalar(@$json), "\n" if $debug >= 1;
 }
 
+# file size in x.y MB
 sub file_size {
     my $file = shift;
 
@@ -512,6 +527,7 @@ sub file_size {
     return int( 10 * $st->size / 1024 / 1024 ) / 10;
 }
 
+# cat file
 sub read_data {
     my ($file) = @_;
 
@@ -557,7 +573,7 @@ sub remove_lock {
     unlink($lockfile) or die "unlink $lockfile: $!\n";
 }
 
-sub cleanp_jobdir {
+sub cleanup_jobdir {
     my %args    = @_;
     my $job_dir = $args{'job_dir'};
 
@@ -654,7 +670,7 @@ else {
     # unlock pid
     &remove_lock( 'lockfile' => $lockfile );
 
-    &cleanp_jobdir(
+    &cleanup_jobdir(
         'job_dir' => $job_dir,
         'spool'   => $spool,
         'json'    => $json,
@@ -662,3 +678,4 @@ else {
     );
 }
 
+1;
