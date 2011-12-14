@@ -2,6 +2,16 @@
 # Copyright (c) 2011 Wolfram Schneider, http://bbbike.org
 #
 # extracts.cgi - extracts areas in a batch job
+#
+# spool area
+#   /incoming   - request to extract an area, email sent out to user
+#   /confirmed  - user confirmed request by clicking on a link in the email
+#   /running    - the request is running
+#   /osm        - the request is done, files are saved for further usage
+#   /download   - where the user can download the files, email sent out
+#  /jobN.pid    - running jobs
+#
+
 
 use CGI qw/-utf-8 unescape escapeHTML/;
 use IO::File;
@@ -15,6 +25,9 @@ use GIS::Distance::Lite;
 
 use strict;
 use warnings;
+
+# group writable file
+umask(002);
 
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
@@ -48,8 +61,6 @@ my $spool = {
     'running'   => "$spool_dir/running",
 };
 
-# group writable file
-umask(002);
 
 ######################################################################
 # helper functions
@@ -152,6 +163,10 @@ sub layout {
 EOF
 }
 
+#
+# validate user input
+# reject wrong values
+#
 sub check_input {
     my %args = @_;
 
@@ -322,6 +337,7 @@ EOF
     return 1;
 }
 
+# SMTP wrapper
 sub send_email {
     my ( $to, $subject, $text ) = @_;
     my $mail_server = "localhost";
@@ -370,6 +386,8 @@ sub save_request {
     return $key;
 }
 
+# the user confirm a request
+# move the config file from incoming to confirmed directory
 sub confirm_key {
     my %args = @_;
     my $q    = $args{'q'};
@@ -401,6 +419,7 @@ qq{The extract will be ready in 30-120 minutes. You will be notified by e-mail\n
     print &footer($q);
 }
 
+# startpage
 sub homepage {
     my %args = @_;
 
