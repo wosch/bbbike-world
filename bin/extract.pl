@@ -12,7 +12,7 @@
 #  /jobN.pid	- running jobs
 #
 # todo:
-# - cpu run time
+# - xxx
 #
 
 use IO::File;
