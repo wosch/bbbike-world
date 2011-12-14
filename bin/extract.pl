@@ -50,13 +50,13 @@ my $max_skm = 50_000;
 my $email_from = 'bbbike@bbbike.org';
 
 my $option = {
-    'max_areas'      => 12,
-    'homepage'       => 'http://download2.bbbike.org/osm/extract',
-    'max_jobs'       => 3,
-    
+    'max_areas' => 12,
+    'homepage'  => 'http://download2.bbbike.org/osm/extract',
+    'max_jobs'  => 3,
+
     # not used yet
     'max_extracts'   => 50,
-    'min_wait_time'  => 5 * 60,                                     # in seconds
+    'min_wait_time'  => 5 * 60,    # in seconds
     'default_format' => 'pbf',
 };
 
@@ -67,13 +67,14 @@ my $formats = {
 };
 
 my $spool = {
-    'incoming'  => "$spool_dir/incoming",   # incoming request, need to be confirmed
-    'confirmed' => "$spool_dir/confirmed",  # ready to run
-    'running'   => "$spool_dir/running",    # currently running job
-    'osm'       => "$spool_dir/osm",        # cache older runs
-    'download'  => "$spool_dir/download",   # final directory for download
-    'trash'     => "$spool_dir/trash",      # keep a copy of the config for debugging
-    'job1'      => "$spool_dir/job1.pid",   # lock file for current job
+    'incoming' =>
+      "$spool_dir/incoming",       # incoming request, need to be confirmed
+    'confirmed' => "$spool_dir/confirmed",    # ready to run
+    'running'   => "$spool_dir/running",      # currently running job
+    'osm'       => "$spool_dir/osm",          # cache older runs
+    'download'  => "$spool_dir/download",     # final directory for download
+    'trash' => "$spool_dir/trash",     # keep a copy of the config for debugging
+    'job1'  => "$spool_dir/job1.pid",  # lock file for current job
 };
 
 # up to N parallel jobs
@@ -469,11 +470,10 @@ sub send_email {
         my $url = $option->{'homepage'} . "/" . basename($to);
 
         my $checksum = checksum($to);
-        
-        
+
         ###################################################################
         # mail
-        
+
         my $message = <<EOF;
 Hi,
 
