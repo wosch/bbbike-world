@@ -1,687 +1,690 @@
-http://www.bbbike.org/Aachen/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Aachen/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Aachen/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Aarhus/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Aarhus/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Aarhus/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Adelaide/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Adelaide/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Adelaide/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Albuquerque/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Albuquerque/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Albuquerque/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Alexandria/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Alexandria/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Alexandria/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Amsterdam/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Amsterdam/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Amsterdam/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Antwerpen/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Antwerpen/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Antwerpen/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Arnhem/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Arnhem/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Arnhem/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Auckland/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Auckland/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Auckland/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Augsburg/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Augsburg/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Augsburg/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Austin/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Austin/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Austin/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Baghdad/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Baghdad/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Baghdad/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Baku/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Baku/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Baku/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Balaton/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Balaton/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Balaton/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Bamberg/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Bamberg/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Bamberg/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Bangkok/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Bangkok/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Bangkok/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Barcelona/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Barcelona/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Barcelona/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Basel/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Basel/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Basel/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Beijing/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Beijing/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Beijing/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Beirut/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Beirut/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Beirut/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Berkeley/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Berkeley/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Berkeley/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Berlin/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Berlin/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Berlin/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Bern/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Bern/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Bern/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Bielefeld/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Bielefeld/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Bielefeld/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Birmingham/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Birmingham/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Birmingham/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Bochum/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Bochum/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Bochum/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Bogota/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Bogota/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Bogota/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Bombay/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Bombay/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Bombay/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Bonn/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Bonn/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Bonn/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Bordeaux/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Bordeaux/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Bordeaux/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Boulder/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Boulder/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Boulder/streets.html lastmod=2011-12-11
-http://www.bbbike.org/BrandenburgHavel/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/BrandenburgHavel/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/BrandenburgHavel/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Braunschweig/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Braunschweig/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Braunschweig/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Bremen/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Bremen/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Bremen/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Bremerhaven/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Bremerhaven/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Bremerhaven/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Brisbane/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Brisbane/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Brisbane/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Bristol/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Bristol/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Bristol/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Brno/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Brno/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Brno/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Bruegge/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Bruegge/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Bruegge/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Bruessel/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Bruessel/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Bruessel/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Budapest/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Budapest/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Budapest/streets.html lastmod=2011-12-11
-http://www.bbbike.org/BuenosAires/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/BuenosAires/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/BuenosAires/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Cairo/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Cairo/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Cairo/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Calgary/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Calgary/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Calgary/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Cambridge/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Cambridge/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Cambridge/streets.html lastmod=2011-12-11
-http://www.bbbike.org/CambridgeMa/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/CambridgeMa/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/CambridgeMa/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Canberra/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Canberra/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Canberra/streets.html lastmod=2011-12-11
-http://www.bbbike.org/CapeTown/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/CapeTown/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/CapeTown/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Chemnitz/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Chemnitz/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Chemnitz/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Chicago/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Chicago/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Chicago/streets.html lastmod=2011-12-11
-http://www.bbbike.org/ClermontFerrand/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/ClermontFerrand/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/ClermontFerrand/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Colmar/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Colmar/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Colmar/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Copenhagen/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Copenhagen/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Copenhagen/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Cork/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Cork/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Cork/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Corsica/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Corsica/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Corsica/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Corvallis/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Corvallis/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Corvallis/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Cottbus/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Cottbus/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Cottbus/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Cracow/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Cracow/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Cracow/streets.html lastmod=2011-12-11
-http://www.bbbike.org/CraterLake/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/CraterLake/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/CraterLake/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Curitiba/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Curitiba/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Curitiba/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Dallas/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Dallas/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Dallas/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Darmstadt/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Darmstadt/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Darmstadt/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Davis/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Davis/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Davis/streets.html lastmod=2011-12-11
-http://www.bbbike.org/DenHaag/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/DenHaag/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/DenHaag/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Denver/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Denver/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Denver/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Dessau/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Dessau/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Dessau/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Dortmund/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Dortmund/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Dortmund/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Dresden/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Dresden/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Dresden/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Dublin/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Dublin/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Dublin/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Duesseldorf/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Duesseldorf/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Duesseldorf/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Duisburg/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Duisburg/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Duisburg/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Edinburgh/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Edinburgh/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Edinburgh/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Eindhoven/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Eindhoven/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Eindhoven/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Emden/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Emden/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Emden/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Erfurt/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Erfurt/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Erfurt/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Erlangen/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Erlangen/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Erlangen/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Eugene/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Eugene/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Eugene/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Flensburg/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Flensburg/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Flensburg/streets.html lastmod=2011-12-11
-http://www.bbbike.org/FortCollins/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/FortCollins/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/FortCollins/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Frankfurt/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Frankfurt/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Frankfurt/streets.html lastmod=2011-12-11
-http://www.bbbike.org/FrankfurtOder/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/FrankfurtOder/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/FrankfurtOder/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Freiburg/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Freiburg/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Freiburg/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Gdansk/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Gdansk/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Gdansk/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Genf/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Genf/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Genf/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Gent/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Gent/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Gent/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Gera/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Gera/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Gera/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Glasgow/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Glasgow/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Glasgow/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Gliwice/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Gliwice/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Gliwice/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Goerlitz/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Goerlitz/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Goerlitz/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Goeteborg/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Goeteborg/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Goeteborg/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Goettingen/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Goettingen/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Goettingen/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Graz/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Graz/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Graz/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Groningen/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Groningen/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Groningen/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Halifax/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Halifax/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Halifax/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Halle/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Halle/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Halle/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Hamburg/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Hamburg/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Hamburg/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Hamm/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Hamm/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Hamm/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Hannover/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Hannover/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Hannover/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Heilbronn/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Heilbronn/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Heilbronn/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Helsinki/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Helsinki/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Helsinki/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Hertogenbosch/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Hertogenbosch/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Hertogenbosch/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Huntsville/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Huntsville/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Huntsville/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Innsbruck/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Innsbruck/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Innsbruck/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Istanbul/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Istanbul/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Istanbul/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Jena/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Jena/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Jena/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Jerusalem/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Jerusalem/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Jerusalem/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Johannesburg/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Johannesburg/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Johannesburg/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Kaiserslautern/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Kaiserslautern/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Kaiserslautern/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Karlsruhe/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Karlsruhe/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Karlsruhe/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Kassel/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Kassel/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Kassel/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Katowice/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Katowice/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Katowice/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Kaunas/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Kaunas/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Kaunas/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Kiel/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Kiel/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Kiel/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Kiew/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Kiew/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Kiew/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Koblenz/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Koblenz/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Koblenz/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Koeln/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Koeln/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Koeln/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Konstanz/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Konstanz/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Konstanz/streets.html lastmod=2011-12-11
-http://www.bbbike.org/LakeGarda/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/LakeGarda/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/LakeGarda/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Lausanne/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Lausanne/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Lausanne/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Leeds/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Leeds/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Leeds/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Leipzig/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Leipzig/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Leipzig/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Lima/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Lima/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Lima/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Linz/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Linz/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Linz/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Lissabon/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Lissabon/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Lissabon/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Liverpool/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Liverpool/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Liverpool/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Ljubljana/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Ljubljana/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Ljubljana/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Lodz/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Lodz/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Lodz/streets.html lastmod=2011-12-11
-http://www.bbbike.org/London/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/London/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/London/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Luebeck/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Luebeck/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Luebeck/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Luxemburg/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Luxemburg/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Luxemburg/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Lyon/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Lyon/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Lyon/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Maastricht/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Maastricht/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Maastricht/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Madison/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Madison/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Madison/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Madrid/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Madrid/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Madrid/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Magdeburg/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Magdeburg/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Magdeburg/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Mainz/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Mainz/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Mainz/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Malmoe/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Malmoe/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Malmoe/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Manchester/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Manchester/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Manchester/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Mannheim/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Mannheim/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Mannheim/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Marseille/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Marseille/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Marseille/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Melbourne/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Melbourne/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Melbourne/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Memphis/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Memphis/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Memphis/streets.html lastmod=2011-12-11
-http://www.bbbike.org/MexicoCity/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/MexicoCity/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/MexicoCity/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Miami/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Miami/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Miami/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Moenchengladbach/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Moenchengladbach/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Moenchengladbach/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Montevideo/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Montevideo/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Montevideo/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Montpellier/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Montpellier/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Montpellier/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Montreal/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Montreal/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Montreal/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Moscow/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Moscow/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Moscow/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Muenchen/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Muenchen/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Muenchen/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Muenster/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Muenster/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Muenster/streets.html lastmod=2011-12-11
-http://www.bbbike.org/NewDelhi/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/NewDelhi/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/NewDelhi/streets.html lastmod=2011-12-11
-http://www.bbbike.org/NewOrleans/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/NewOrleans/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/NewOrleans/streets.html lastmod=2011-12-11
-http://www.bbbike.org/NewYork/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/NewYork/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/NewYork/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Nuernberg/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Nuernberg/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Nuernberg/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Oldenburg/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Oldenburg/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Oldenburg/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Oranienburg/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Oranienburg/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Oranienburg/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Orlando/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Orlando/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Orlando/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Oslo/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Oslo/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Oslo/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Osnabrueck/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Osnabrueck/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Osnabrueck/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Ostrava/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Ostrava/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Ostrava/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Ottawa/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Ottawa/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Ottawa/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Paderborn/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Paderborn/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Paderborn/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Palma/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Palma/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Palma/streets.html lastmod=2011-12-11
-http://www.bbbike.org/PaloAlto/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/PaloAlto/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/PaloAlto/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Paris/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Paris/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Paris/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Perth/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Perth/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Perth/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Philadelphia/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Philadelphia/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Philadelphia/streets.html lastmod=2011-12-11
-http://www.bbbike.org/PhnomPenh/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/PhnomPenh/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/PhnomPenh/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Portland/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Portland/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Portland/streets.html lastmod=2011-12-11
-http://www.bbbike.org/PortlandME/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/PortlandME/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/PortlandME/streets.html lastmod=2011-12-11
-http://www.bbbike.org/PortoAlegre/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/PortoAlegre/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/PortoAlegre/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Potsdam/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Potsdam/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Potsdam/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Poznan/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Poznan/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Poznan/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Prag/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Prag/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Prag/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Providence/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Providence/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Providence/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Regensburg/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Regensburg/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Regensburg/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Riga/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Riga/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Riga/streets.html lastmod=2011-12-11
-http://www.bbbike.org/RiodeJaneiro/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/RiodeJaneiro/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/RiodeJaneiro/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Rostock/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Rostock/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Rostock/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Rotterdam/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Rotterdam/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Rotterdam/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Ruegen/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Ruegen/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Ruegen/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Saarbruecken/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Saarbruecken/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Saarbruecken/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Sacramento/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Sacramento/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Sacramento/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Saigon/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Saigon/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Saigon/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Salzburg/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Salzburg/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Salzburg/streets.html lastmod=2011-12-11
-http://www.bbbike.org/SanFrancisco/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/SanFrancisco/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/SanFrancisco/streets.html lastmod=2011-12-11
-http://www.bbbike.org/SanJose/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/SanJose/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/SanJose/streets.html lastmod=2011-12-11
-http://www.bbbike.org/SanktPetersburg/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/SanktPetersburg/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/SanktPetersburg/streets.html lastmod=2011-12-11
-http://www.bbbike.org/SantaBarbara/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/SantaBarbara/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/SantaBarbara/streets.html lastmod=2011-12-11
-http://www.bbbike.org/SantaCruz/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/SantaCruz/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/SantaCruz/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Santiago/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Santiago/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Santiago/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Sarajewo/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Sarajewo/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Sarajewo/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Schwerin/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Schwerin/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Schwerin/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Seattle/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Seattle/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Seattle/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Seoul/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Seoul/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Seoul/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Sheffield/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Sheffield/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Sheffield/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Singapore/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Singapore/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Singapore/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Sofia/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Sofia/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Sofia/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Stockholm/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Stockholm/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Stockholm/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Stockton/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Stockton/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Stockton/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Strassburg/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Strassburg/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Strassburg/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Stuttgart/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Stuttgart/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Stuttgart/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Sydney/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Sydney/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Sydney/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Szczecin/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Szczecin/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Szczecin/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Tallin/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Tallin/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Tallin/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Tehran/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Tehran/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Tehran/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Tilburg/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Tilburg/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Tilburg/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Tokyo/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Tokyo/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Tokyo/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Toronto/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Toronto/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Toronto/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Toulouse/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Toulouse/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Toulouse/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Trondheim/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Trondheim/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Trondheim/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Tucson/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Tucson/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Tucson/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Turin/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Turin/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Turin/streets.html lastmod=2011-12-11
-http://www.bbbike.org/UlanBator/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/UlanBator/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/UlanBator/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Ulm/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Ulm/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Ulm/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Usedom/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Usedom/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Usedom/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Utrecht/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Utrecht/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Utrecht/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Vancouver/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Vancouver/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Vancouver/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Victoria/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Victoria/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Victoria/streets.html lastmod=2011-12-11
-http://www.bbbike.org/WarenMueritz/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/WarenMueritz/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/WarenMueritz/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Warsaw/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Warsaw/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Warsaw/streets.html lastmod=2011-12-11
-http://www.bbbike.org/WashingtonDC/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/WashingtonDC/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/WashingtonDC/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Waterloo/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Waterloo/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Waterloo/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Wien/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Wien/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Wien/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Wroclaw/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Wroclaw/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Wroclaw/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Wuppertal/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Wuppertal/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Wuppertal/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Zagreb/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Zagreb/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Zagreb/streets.html lastmod=2011-12-11
-http://www.bbbike.org/Zuerich/ priority=1.0 lastmod=2011-12-11
-http://www.bbbike.org/en/Zuerich/ priority=0.75 lastmod=2011-12-11
-http://www.bbbike.org/Zuerich/streets.html lastmod=2011-12-11
+http://www.bbbike.org/Aachen/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Aachen/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Aachen/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Aarhus/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Aarhus/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Aarhus/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Adelaide/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Adelaide/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Adelaide/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Albuquerque/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Albuquerque/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Albuquerque/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Alexandria/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Alexandria/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Alexandria/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Amsterdam/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Amsterdam/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Amsterdam/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Antwerpen/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Antwerpen/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Antwerpen/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Arnhem/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Arnhem/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Arnhem/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Auckland/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Auckland/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Auckland/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Augsburg/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Augsburg/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Augsburg/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Austin/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Austin/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Austin/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Baghdad/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Baghdad/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Baghdad/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Baku/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Baku/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Baku/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Balaton/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Balaton/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Balaton/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Bamberg/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Bamberg/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Bamberg/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Bangkok/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Bangkok/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Bangkok/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Barcelona/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Barcelona/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Barcelona/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Basel/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Basel/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Basel/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Beijing/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Beijing/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Beijing/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Beirut/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Beirut/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Beirut/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Berkeley/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Berkeley/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Berkeley/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Berlin/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Berlin/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Berlin/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Bern/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Bern/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Bern/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Bielefeld/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Bielefeld/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Bielefeld/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Birmingham/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Birmingham/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Birmingham/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Bochum/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Bochum/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Bochum/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Bogota/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Bogota/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Bogota/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Bombay/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Bombay/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Bombay/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Bonn/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Bonn/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Bonn/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Bordeaux/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Bordeaux/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Bordeaux/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Boulder/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Boulder/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Boulder/streets.html lastmod=2011-12-15
+http://www.bbbike.org/BrandenburgHavel/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/BrandenburgHavel/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/BrandenburgHavel/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Braunschweig/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Braunschweig/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Braunschweig/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Bremen/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Bremen/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Bremen/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Bremerhaven/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Bremerhaven/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Bremerhaven/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Brisbane/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Brisbane/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Brisbane/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Bristol/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Bristol/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Bristol/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Brno/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Brno/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Brno/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Bruegge/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Bruegge/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Bruegge/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Bruessel/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Bruessel/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Bruessel/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Budapest/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Budapest/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Budapest/streets.html lastmod=2011-12-15
+http://www.bbbike.org/BuenosAires/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/BuenosAires/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/BuenosAires/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Cairo/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Cairo/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Cairo/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Calgary/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Calgary/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Calgary/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Cambridge/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Cambridge/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Cambridge/streets.html lastmod=2011-12-15
+http://www.bbbike.org/CambridgeMa/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/CambridgeMa/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/CambridgeMa/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Canberra/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Canberra/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Canberra/streets.html lastmod=2011-12-15
+http://www.bbbike.org/CapeTown/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/CapeTown/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/CapeTown/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Chemnitz/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Chemnitz/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Chemnitz/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Chicago/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Chicago/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Chicago/streets.html lastmod=2011-12-15
+http://www.bbbike.org/ClermontFerrand/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/ClermontFerrand/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/ClermontFerrand/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Colmar/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Colmar/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Colmar/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Copenhagen/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Copenhagen/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Copenhagen/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Cork/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Cork/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Cork/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Corsica/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Corsica/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Corsica/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Corvallis/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Corvallis/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Corvallis/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Cottbus/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Cottbus/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Cottbus/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Cracow/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Cracow/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Cracow/streets.html lastmod=2011-12-15
+http://www.bbbike.org/CraterLake/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/CraterLake/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/CraterLake/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Curitiba/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Curitiba/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Curitiba/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Dallas/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Dallas/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Dallas/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Darmstadt/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Darmstadt/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Darmstadt/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Davis/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Davis/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Davis/streets.html lastmod=2011-12-15
+http://www.bbbike.org/DenHaag/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/DenHaag/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/DenHaag/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Denver/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Denver/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Denver/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Dessau/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Dessau/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Dessau/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Dortmund/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Dortmund/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Dortmund/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Dresden/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Dresden/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Dresden/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Dublin/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Dublin/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Dublin/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Duesseldorf/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Duesseldorf/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Duesseldorf/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Duisburg/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Duisburg/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Duisburg/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Edinburgh/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Edinburgh/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Edinburgh/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Eindhoven/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Eindhoven/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Eindhoven/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Emden/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Emden/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Emden/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Erfurt/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Erfurt/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Erfurt/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Erlangen/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Erlangen/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Erlangen/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Eugene/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Eugene/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Eugene/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Flensburg/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Flensburg/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Flensburg/streets.html lastmod=2011-12-15
+http://www.bbbike.org/FortCollins/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/FortCollins/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/FortCollins/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Frankfurt/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Frankfurt/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Frankfurt/streets.html lastmod=2011-12-15
+http://www.bbbike.org/FrankfurtOder/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/FrankfurtOder/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/FrankfurtOder/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Freiburg/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Freiburg/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Freiburg/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Gdansk/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Gdansk/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Gdansk/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Genf/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Genf/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Genf/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Gent/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Gent/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Gent/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Gera/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Gera/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Gera/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Glasgow/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Glasgow/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Glasgow/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Gliwice/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Gliwice/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Gliwice/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Goerlitz/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Goerlitz/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Goerlitz/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Goeteborg/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Goeteborg/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Goeteborg/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Goettingen/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Goettingen/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Goettingen/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Graz/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Graz/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Graz/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Groningen/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Groningen/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Groningen/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Halifax/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Halifax/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Halifax/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Halle/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Halle/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Halle/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Hamburg/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Hamburg/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Hamburg/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Hamm/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Hamm/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Hamm/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Hannover/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Hannover/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Hannover/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Heilbronn/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Heilbronn/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Heilbronn/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Helsinki/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Helsinki/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Helsinki/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Hertogenbosch/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Hertogenbosch/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Hertogenbosch/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Huntsville/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Huntsville/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Huntsville/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Innsbruck/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Innsbruck/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Innsbruck/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Istanbul/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Istanbul/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Istanbul/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Jena/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Jena/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Jena/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Jerusalem/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Jerusalem/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Jerusalem/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Johannesburg/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Johannesburg/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Johannesburg/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Kaiserslautern/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Kaiserslautern/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Kaiserslautern/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Karlsruhe/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Karlsruhe/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Karlsruhe/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Kassel/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Kassel/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Kassel/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Katowice/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Katowice/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Katowice/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Kaunas/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Kaunas/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Kaunas/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Kiel/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Kiel/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Kiel/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Kiew/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Kiew/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Kiew/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Koblenz/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Koblenz/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Koblenz/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Koeln/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Koeln/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Koeln/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Konstanz/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Konstanz/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Konstanz/streets.html lastmod=2011-12-15
+http://www.bbbike.org/LakeGarda/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/LakeGarda/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/LakeGarda/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Lausanne/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Lausanne/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Lausanne/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Leeds/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Leeds/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Leeds/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Leipzig/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Leipzig/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Leipzig/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Lima/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Lima/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Lima/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Linz/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Linz/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Linz/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Lissabon/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Lissabon/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Lissabon/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Liverpool/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Liverpool/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Liverpool/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Ljubljana/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Ljubljana/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Ljubljana/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Lodz/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Lodz/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Lodz/streets.html lastmod=2011-12-15
+http://www.bbbike.org/London/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/London/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/London/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Luebeck/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Luebeck/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Luebeck/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Luxemburg/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Luxemburg/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Luxemburg/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Lyon/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Lyon/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Lyon/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Maastricht/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Maastricht/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Maastricht/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Madison/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Madison/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Madison/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Madrid/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Madrid/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Madrid/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Magdeburg/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Magdeburg/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Magdeburg/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Mainz/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Mainz/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Mainz/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Malmoe/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Malmoe/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Malmoe/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Manchester/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Manchester/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Manchester/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Mannheim/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Mannheim/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Mannheim/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Marseille/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Marseille/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Marseille/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Melbourne/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Melbourne/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Melbourne/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Memphis/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Memphis/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Memphis/streets.html lastmod=2011-12-15
+http://www.bbbike.org/MexicoCity/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/MexicoCity/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/MexicoCity/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Miami/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Miami/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Miami/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Moenchengladbach/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Moenchengladbach/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Moenchengladbach/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Montevideo/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Montevideo/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Montevideo/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Montpellier/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Montpellier/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Montpellier/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Montreal/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Montreal/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Montreal/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Moscow/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Moscow/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Moscow/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Muenchen/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Muenchen/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Muenchen/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Muenster/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Muenster/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Muenster/streets.html lastmod=2011-12-15
+http://www.bbbike.org/NewDelhi/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/NewDelhi/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/NewDelhi/streets.html lastmod=2011-12-15
+http://www.bbbike.org/NewOrleans/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/NewOrleans/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/NewOrleans/streets.html lastmod=2011-12-15
+http://www.bbbike.org/NewYork/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/NewYork/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/NewYork/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Nuernberg/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Nuernberg/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Nuernberg/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Oldenburg/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Oldenburg/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Oldenburg/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Oranienburg/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Oranienburg/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Oranienburg/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Orlando/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Orlando/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Orlando/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Oslo/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Oslo/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Oslo/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Osnabrueck/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Osnabrueck/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Osnabrueck/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Ostrava/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Ostrava/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Ostrava/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Ottawa/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Ottawa/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Ottawa/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Paderborn/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Paderborn/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Paderborn/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Palma/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Palma/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Palma/streets.html lastmod=2011-12-15
+http://www.bbbike.org/PaloAlto/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/PaloAlto/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/PaloAlto/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Paris/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Paris/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Paris/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Perth/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Perth/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Perth/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Philadelphia/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Philadelphia/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Philadelphia/streets.html lastmod=2011-12-15
+http://www.bbbike.org/PhnomPenh/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/PhnomPenh/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/PhnomPenh/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Portland/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Portland/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Portland/streets.html lastmod=2011-12-15
+http://www.bbbike.org/PortlandME/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/PortlandME/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/PortlandME/streets.html lastmod=2011-12-15
+http://www.bbbike.org/PortoAlegre/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/PortoAlegre/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/PortoAlegre/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Potsdam/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Potsdam/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Potsdam/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Poznan/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Poznan/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Poznan/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Prag/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Prag/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Prag/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Providence/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Providence/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Providence/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Regensburg/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Regensburg/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Regensburg/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Riga/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Riga/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Riga/streets.html lastmod=2011-12-15
+http://www.bbbike.org/RiodeJaneiro/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/RiodeJaneiro/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/RiodeJaneiro/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Rostock/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Rostock/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Rostock/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Rotterdam/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Rotterdam/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Rotterdam/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Ruegen/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Ruegen/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Ruegen/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Saarbruecken/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Saarbruecken/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Saarbruecken/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Sacramento/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Sacramento/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Sacramento/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Saigon/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Saigon/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Saigon/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Salzburg/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Salzburg/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Salzburg/streets.html lastmod=2011-12-15
+http://www.bbbike.org/SanFrancisco/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/SanFrancisco/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/SanFrancisco/streets.html lastmod=2011-12-15
+http://www.bbbike.org/SanJose/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/SanJose/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/SanJose/streets.html lastmod=2011-12-15
+http://www.bbbike.org/SanktPetersburg/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/SanktPetersburg/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/SanktPetersburg/streets.html lastmod=2011-12-15
+http://www.bbbike.org/SantaBarbara/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/SantaBarbara/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/SantaBarbara/streets.html lastmod=2011-12-15
+http://www.bbbike.org/SantaCruz/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/SantaCruz/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/SantaCruz/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Santiago/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Santiago/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Santiago/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Sarajewo/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Sarajewo/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Sarajewo/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Schwerin/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Schwerin/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Schwerin/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Seattle/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Seattle/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Seattle/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Seoul/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Seoul/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Seoul/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Sheffield/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Sheffield/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Sheffield/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Singapore/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Singapore/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Singapore/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Sofia/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Sofia/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Sofia/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Stockholm/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Stockholm/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Stockholm/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Stockton/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Stockton/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Stockton/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Strassburg/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Strassburg/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Strassburg/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Stuttgart/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Stuttgart/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Stuttgart/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Sydney/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Sydney/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Sydney/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Szczecin/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Szczecin/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Szczecin/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Tallin/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Tallin/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Tallin/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Tehran/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Tehran/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Tehran/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Tilburg/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Tilburg/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Tilburg/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Tokyo/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Tokyo/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Tokyo/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Toronto/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Toronto/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Toronto/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Toulouse/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Toulouse/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Toulouse/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Trondheim/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Trondheim/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Trondheim/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Tucson/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Tucson/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Tucson/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Turin/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Turin/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Turin/streets.html lastmod=2011-12-15
+http://www.bbbike.org/UlanBator/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/UlanBator/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/UlanBator/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Ulm/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Ulm/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Ulm/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Usedom/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Usedom/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Usedom/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Utrecht/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Utrecht/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Utrecht/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Vancouver/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Vancouver/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Vancouver/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Victoria/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Victoria/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Victoria/streets.html lastmod=2011-12-15
+http://www.bbbike.org/WarenMueritz/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/WarenMueritz/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/WarenMueritz/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Warsaw/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Warsaw/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Warsaw/streets.html lastmod=2011-12-15
+http://www.bbbike.org/WashingtonDC/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/WashingtonDC/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/WashingtonDC/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Waterloo/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Waterloo/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Waterloo/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Wien/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Wien/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Wien/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Wroclaw/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Wroclaw/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Wroclaw/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Wuerzburg/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Wuerzburg/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Wuerzburg/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Wuppertal/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Wuppertal/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Wuppertal/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Zagreb/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Zagreb/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Zagreb/streets.html lastmod=2011-12-15
+http://www.bbbike.org/Zuerich/ priority=1.0 lastmod=2011-12-15
+http://www.bbbike.org/en/Zuerich/ priority=0.75 lastmod=2011-12-15
+http://www.bbbike.org/Zuerich/streets.html lastmod=2011-12-15
