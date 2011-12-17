@@ -41,6 +41,7 @@ BBBIKE_CACHE_DIR=	/var/cache/bbbike
 MAX_OSMOSIS=	${MAX_CPU}
 LANGUAGES=	m da de en es fr hr nl pl pt ru zh
 ELEVATION_SCRIPT=world/bin/elevation-database
+MAX_ELEVATION_SCRIPTS=	1
 BBBIKE_SERVER=""
 BBBIKE_WEBSERVER_DIR=/usr/local/www/bbbike.org
 BBBIKE_WEB_DIR= ./
@@ -490,7 +491,7 @@ elevation-fetch:
 	${NICE} ${ELEVATION_SCRIPT} --database=../osm-streetnames/srtm/elevation.db --debug=1 --geonames-user=bbbikeworld ${CITIES}
 
 elevation-update:
-	echo ${CITIES} | ${XARGS} -E " " -n16 -P2 ${ELEVATION_SCRIPT} --readonly-database --database=../osm-streetnames/srtm/elevation.db --debug=0
+	echo ${CITIES} | ${XARGS} -E " " -n16 -P${MAX_ELEVATION_SCRIPTS} ${ELEVATION_SCRIPT} --readonly-database --database=../osm-streetnames/srtm/elevation.db --debug=0
 
 # re-build cache
 cache-heater: cache-heater-streets cache-heater-common 
