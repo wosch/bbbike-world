@@ -62,7 +62,7 @@ sub parse_database {
         ) = split(/:/);
 
         next if $city eq '';
-	my $dummy = $city eq 'dummy' || $step eq 'dummy' ? 1 : 0;
+        my $dummy = $city eq 'dummy' || $step eq 'dummy' ? 1 : 0;
 
         $hash{$city} = {
             city        => $city,

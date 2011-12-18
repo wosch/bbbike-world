@@ -2,6 +2,18 @@
 # Copyright (c) 2011 Wolfram Schneider, http://bbbike.org
 #
 # extracts.cgi - extracts areas in a batch job
+#
+# spool area
+#   /incoming   - request to extract an area, email sent out to user
+#   /confirmed  - user confirmed request by clicking on a link in the email
+#   /running    - the request is running
+#   /osm        - the request is done, files are saved for further usage
+#   /download   - where the user can download the files, email sent out
+#  /jobN.pid    - running jobs
+#
+# todo:
+# - xxx
+#
 
 use CGI qw/-utf-8 unescape escapeHTML/;
 use IO::File;
@@ -16,19 +28,22 @@ use GIS::Distance::Lite;
 use strict;
 use warnings;
 
+# group writable file
+umask(002);
+
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
 my $debug = 1;
 
 # spool directory. Should be at least 100GB large
-my $spool_dir = '/var/tmp/bbbike/extracts';
+my $spool_dir = '/var/tmp/bbbike/extract';
 
 # max. area in square km
 my $max_skm = 50_000;
 
 # sent out emails as
-my $email_from = 'bbbike@bbbike.org';
+my $email_from = 'BBBike Admin <bbbike@bbbike.org>';
 
 my $option = {
     'max_extracts'   => 50,
@@ -47,9 +62,6 @@ my $spool = {
     'confirmed' => "$spool_dir/confirmed",
     'running'   => "$spool_dir/running",
 };
-
-# group writable file
-umask(002);
 
 ######################################################################
 # helper functions
@@ -152,6 +164,10 @@ sub layout {
 EOF
 }
 
+#
+# validate user input
+# reject wrong values
+#
 sub check_input {
     my %args = @_;
 
@@ -290,7 +306,8 @@ sub send_email_confirm {
     my $message = <<EOF;
 Hi,
 
-somone - possible you - requested to extract an area from planet.osm
+somone - possible you - requested to extract an OpenStreetMaps area 
+from planet.osm
 
  City: $obj->{"city"}
  Area: $obj->{"sw_lat"},$obj->{"sw_lng"} x $obj->{"ne_lat"},$obj->{"ne_lng"}
@@ -321,6 +338,7 @@ EOF
     return 1;
 }
 
+# SMTP wrapper
 sub send_email {
     my ( $to, $subject, $text ) = @_;
     my $mail_server = "localhost";
@@ -361,12 +379,16 @@ sub save_request {
         warn "Cannot open $incoming: $!\n";
         return 0;
     }
+
+    warn "Store request: $json_text\n" if $debug;
     print $fh $json_text, "\n";
     $fh->close;
 
     return $key;
 }
 
+# the user confirm a request
+# move the config file from incoming to confirmed directory
 sub confirm_key {
     my %args = @_;
     my $q    = $args{'q'};
@@ -398,6 +420,7 @@ qq{The extract will be ready in 30-120 minutes. You will be notified by e-mail\n
     print &footer($q);
 }
 
+# startpage
 sub homepage {
     my %args = @_;
 
