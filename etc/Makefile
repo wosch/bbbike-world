@@ -12,6 +12,7 @@ all: help
 sync-frontend:
 	cp -f /etc/varnish/default.vcl varnish.vcl
 	cp -f /etc/default/varnish varnish.default
+	cp -f /etc/default/varnishncsa varnishncsa.default
 	cp -f /etc/logrotate.d/munin logrotate.munin
 	cp -f /etc/lighttpd/lighttpd.conf lighttpd-frontend.conf
 	cp -f /etc/lighttpd/conf-available/lighttpd-munin.conf lighttpd-munin.conf
