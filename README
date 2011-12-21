@@ -27,11 +27,8 @@ sudo apt-get install varnish
 # tile server
 apt-get install subversion
 
-
 # osmosis from repo
 sudo apt-get install osmosis
-
-sudo cpan GIS::Distance::Lite
 
 Required MacPorts modules
 ------------------------------------
