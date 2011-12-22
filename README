@@ -9,7 +9,7 @@ Required debian modules
 sudo apt-get install \
   pbzip2 bzip2 git-core screen lynx curl wget time \
   lsof whois pigz make acct telnet dnsutils bc bsd-mailx \
-  buffer pktstat emacs unzip vim gcc \
+  buffer pktstat emacs unzip vim gcc zlib1g-dev \
   python openjdk-6-jdk \
   libhtml-tagcloud-perl libtext-unidecode-perl munin \
   perltidy libxml-atom-simplefeed-perl libjson-perl liburi-perl \
