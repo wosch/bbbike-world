@@ -32,6 +32,7 @@ use strict;
 use warnings;
 
 $ENV{'PATH'} = "/usr/local/bin:/bin:/usr/bin";
+my $config_file = "$ENV{HOME}/.bbbike-extract";
 
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
@@ -44,12 +45,12 @@ my $test       = 0;
 my $spool_dir = '/var/tmp/bbbike/extract';
 
 # max. area in square km
-my $max_skm = 50_000;
+our $max_skm = 50_000;
 
 # sent out emails as
-my $email_from = 'bbbike@bbbike.org';
+our $email_from = 'bbbike@bbbike.org';
 
-my $option = {
+our $option = {
     'max_areas' => 12,
     'homepage'  => 'http://download2.bbbike.org/osm/extract',
     'max_jobs'  => 3,
@@ -76,6 +77,11 @@ my $spool = {
     'trash' => "$spool_dir/trash",     # keep a copy of the config for debugging
     'job1'  => "$spool_dir/job1.pid",  # lock file for current job
 };
+
+# parse config file
+if ( -e $config_file) {
+    require $config_file;
+}
 
 # up to N parallel jobs
 foreach my $number ( 1 .. $option->{'max_jobs'} ) {
