@@ -45,6 +45,7 @@ sudo apt-get install openstreetmap-mapnik-stylesheet-data
 
 # setup your own style sheet
 svn checkout http://svn.openstreetmap.org/applications/rendering/mapnik
+sudo mv mapnik /etc/mapnik-german   
 
 ln -s ../mapnik-osm-data/world_boundaries .
 cd inc-de
