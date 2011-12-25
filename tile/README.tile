@@ -108,3 +108,6 @@ tail -f /var/log/syslog
 /etc/apache2/apache2.conf:
 LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" combined
 
+# postgis trouble shooting
+sudo /usr/bin/install-postgis-osm-user.sh gis www-data
+
