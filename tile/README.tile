@@ -74,3 +74,14 @@ node,way   bbbike:quality      text  linear
 make bbbike2wgs84-mapnik
 osm2pgsql --slim -S /usr/share/osm2pgsql/osm2pgsql/default.style -c tmp/bbbike-mapnik.osm.gz
 
+# slow start of render/postgis
+cd /etc/init.d/
+sudo ln -s ~/projects/bbbike/world/tile/etc/renderd-slowstart 
+sudo update-rc.d renderd-slowstart  defaults 30
+sudo update-rc.d renderd disable
+
+# bbbike layers
+cd /etc/mapnik-osm-data
+sudo ln -s ~/projects/bbbike/world/tile/etc/bbbike-smoothness.xml 
+sudo ln -s ~/projects/bbbike/world/tile/etc/osm-smoothness.xml    
+
