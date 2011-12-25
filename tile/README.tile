@@ -85,3 +85,26 @@ cd /etc/mapnik-osm-data
 sudo ln -s ~/projects/bbbike/world/tile/etc/bbbike-smoothness.xml 
 sudo ln -s ~/projects/bbbike/world/tile/etc/osm-smoothness.xml    
 
+# web server config
+cd /var/www
+sudo ln -s ~/projects/bbbike/images/favicon.ico 
+sudo ln -s ~/projects/bbbike/world/tile/web/index.html 
+
+cd /var/www/osm
+sudo ln -s ~/projects/bbbike/world/tile/web/style.css .
+sudo ln -s ~/projects/bbbike/world/tile/web/slippymap.html index.html
+sudo ln -s ~/projects/bbbike/world/tile/web/slippymap-dev.html 
+sudo ln -s ~/projects/mc 
+
+cd /etc/
+sudo ln -s /home/wosch/projects/bbbike/world/tile/etc/renderd.conf
+
+sudo /etc/init.d/renderd restart
+sudo /etc/init.d/apache2 restart
+
+# error check
+tail -f /var/log/syslog
+
+/etc/apache2/apache2.conf:
+LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" combined
+
