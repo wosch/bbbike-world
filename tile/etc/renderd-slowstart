@@ -9,6 +9,7 @@
 # Description:       Mapnik rendering daemon.
 ### END INIT INFO
 
+# symlink or copy to /etc/init.d
 # sudo update-rc.d renderd-slowstart  defaults 30
 
 ( sleep 30; sh /etc/init.d/renderd "$@" ) &
