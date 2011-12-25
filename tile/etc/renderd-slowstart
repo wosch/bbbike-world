@@ -11,5 +11,5 @@
 
 # sudo update-rc.d renderd-slowstart  defaults 30
 
-( sleep 30; sh /etc/init.d/renderd "$@" ) &
+( sleep 15; sh /etc/init.d/renderd "$@" ) &
 
