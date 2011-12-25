@@ -4,6 +4,10 @@
 #
 sudo apt-get install unzip bzip2
 
+# optinal, for german mapnik style
+sudo apt-get install subversion
+
+
 # add the openstreemap repo
 echo "deb http://ppa.launchpad.net/kakrueger/openstreetmap/ubuntu natty main" > /etc/apt/sources.list.d/openstreetmap.list
 
