@@ -304,6 +304,7 @@ Disallow: /WashingtonDC/?
 Disallow: /Waterloo/?
 Disallow: /Wien/?
 Disallow: /Wroclaw/?
+Disallow: /Wuerzburg/?
 Disallow: /Wuppertal/?
 Disallow: /Zagreb/?
 Disallow: /Zuerich/?
@@ -536,3 +537,4 @@ Disallow: /en/Auckland/
 Disallow: /en/Baku/?
 Disallow: /en/PhnomPenh/?
 Disallow: /en/UlanBator/?
+Disallow: /en/Wuerzburg/?

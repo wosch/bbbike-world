@@ -27,6 +27,24 @@ backend bbbike64 {
     }
 }
 
+backend tile {
+    #.host = "tile";
+    .host = "10.0.0.5";
+    .port = "80";
+
+    .first_byte_timeout = 600s;
+    .connect_timeout = 600s;
+    .between_bytes_timeout = 600s;
+
+    #.probe = {
+    #    .url = "/test.txt";
+    #    .timeout = 2s;
+    #    .interval = 10s;
+    #    .window = 1;
+    #    .threshold = 1;
+    #}
+}
+
 backend bbbike {
     .host = "bbbike";
     .port = "80";
@@ -86,6 +104,7 @@ sub vcl_recv {
     ######################################################################
     # backend config
     #
+
     if (req.http.host ~ "^dev\.bbbike\.org$" && req.url ~ "^/munin") {
         set req.backend = localhost;
     } else if (req.http.host ~ "^download\.bbbike\.org$") {
@@ -102,15 +121,17 @@ sub vcl_recv {
         set req.backend = eserte;
     } else if (req.http.host ~ "^eserte-devel\.bbbike\.org$") {
         set req.backend = eserte_devel;
-    } else if (req.http.host ~ "^([abc]\.)?tile\.bbbike\.org$") {
+    } else if (req.http.host ~ "^([a-f]\.)?tile\.bbbike\.org$") {
+        set req.backend = tile;
+    } else if (req.http.host ~ "^([u-z])\.tile\.bbbike\.org$") {
         set req.backend = eserte;
     } else {
+        set req.backend = bbbike64;
+    }
+
+    # dummy
+    if (req.http.host ~ "foobar") {
         set req.backend = bbbike;
-      
-        # failover test 
-        if (req.restarts == 1 || !req.backend.healthy) {
-                set req.backend = bbbike_strato;
-        }
     }
 
     # log real IP address in backend
@@ -131,6 +152,11 @@ sub vcl_recv {
 
     # development machine of S.R.T
     if (req.http.host ~ "^eserte.*\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$") {
+	return (pass);
+    }
+
+    # not invented here
+    if (req.http.host !~ "\.bbbike\.org$") {
 	return (pass);
     }
 
@@ -166,7 +192,7 @@ sub vcl_recv {
     call normalize_user_agent;
     set req.http.User-Agent = req.http.X-UA;
 
-    if (req.http.host ~ "^([abc]\.)?tile\.bbbike\.org") { return (pass); } # no cache
+    if (req.http.host ~ "^([a-z]\.)?tile\.bbbike\.org") { return (pass); } # no cache
 
     return (lookup);
 }

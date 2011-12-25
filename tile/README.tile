@@ -2,6 +2,11 @@
 # setup a tile server for debian
 # based on http://wiki.openstreetmap.org/wiki/Ubuntu_tile_server
 #
+sudo apt-get install unzip bzip2
+
+# optinal, for german mapnik style
+sudo apt-get install subversion
+
 
 # add the openstreemap repo
 echo "deb http://ppa.launchpad.net/kakrueger/openstreetmap/ubuntu natty main" > /etc/apt/sources.list.d/openstreetmap.list
@@ -33,14 +38,17 @@ sudo dpkg-reconfigure openstreetmap-postgis-db-setup
 
 # if the installation of the mapnik style sheets failed, remove and install
 # the package again
+# Note: this may download the costline data (500MB) again!
 sudo apt-get purge openstreetmap-mapnik-stylesheet-data
 sudo apt-get install openstreetmap-mapnik-stylesheet-data
 
 
 # setup your own style sheet
 svn checkout http://svn.openstreetmap.org/applications/rendering/mapnik
+sudo mv mapnik /etc/mapnik-german   
 
 ln -s ../mapnik-osm-data/world_boundaries .
+cd inc-de
 cp datasource-settings.xml.inc.template datasource-settings.xml.inc 
 # do not set host & port!
 # <Parameter name="estimate_extent">true</Parameter> 
@@ -54,11 +62,7 @@ cp datasource-settings.xml.inc.template datasource-settings.xml.inc
 
 cp fontset-settings.xml.inc.template fontset-settings.xml.inc       
 cp settings.xml.inc.template settings.xml.inc          
-# <!ENTITY dwithin_node_way "&dwithin_900913;">
-# <!ENTITY world_boundaries "world_boundaries">
-# <!ENTITY prefix "planet_osm">
-# <!ENTITY symbols "symbols">
-
+# follow the instructions!
 
 # add bbbike quality attributes to osm2pgsql
 vi /usr/share/osm2pgsql/osm2pgsql/default.style
@@ -69,4 +73,15 @@ node,way   bbbike:quality      text  linear
 # create osm dump
 make bbbike2wgs84-mapnik
 osm2pgsql --slim -S /usr/share/osm2pgsql/osm2pgsql/default.style -c tmp/bbbike-mapnik.osm.gz
+
+# slow start of render/postgis
+cd /etc/init.d/
+sudo ln -s ~/projects/bbbike/world/tile/etc/renderd-slowstart 
+sudo update-rc.d renderd-slowstart  defaults 30
+sudo update-rc.d renderd disable
+
+# bbbike layers
+cd /etc/mapnik-osm-data
+sudo ln -s ~/projects/bbbike/world/tile/etc/bbbike-smoothness.xml 
+sudo ln -s ~/projects/bbbike/world/tile/etc/osm-smoothness.xml    
 

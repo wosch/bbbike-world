@@ -210,7 +210,7 @@ echo "error 500"
 egrep '" 500 ' $logfiles | awk '{ print $1 }'| sort | uniq -c | sort -nr | dns
 
 
-if [ -f /var/log/lighttpd/download.bbbike.log ]; then
+if [ -s /var/log/lighttpd/download.bbbike.log ]; then
     echo ""
     echo -n "download stat: "
     awk '{ s+=$10 } END { print int(s/1024/1024), "MB" }' /var/log/lighttpd/download.bbbike.log

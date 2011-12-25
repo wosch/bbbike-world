@@ -22,5 +22,9 @@ use BSD::Resource;
 #use GPS::Point;
 #use Geo::Inverse;
 
+# extract.cgi
+#use GIS::Distance::Lite;
+#use use Email::Valid;
+
 1;
 
