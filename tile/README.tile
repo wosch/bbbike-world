@@ -2,6 +2,7 @@
 # setup a tile server for debian
 # based on http://wiki.openstreetmap.org/wiki/Ubuntu_tile_server
 #
+sudo apt-get install unzip bzip2
 
 # add the openstreemap repo
 echo "deb http://ppa.launchpad.net/kakrueger/openstreetmap/ubuntu natty main" > /etc/apt/sources.list.d/openstreetmap.list
