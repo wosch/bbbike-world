@@ -503,6 +503,7 @@ Sincerely, your BBBike admin
 
 --
 http://BBBike.org - Your Cycle Route Planner
+http://BBBike.org/community.html - We appreciate any feedback, suggestions and a donation! 
 EOF
 
         eval {
