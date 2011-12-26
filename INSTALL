@@ -10,7 +10,7 @@ sudo apt-get install \
   pbzip2 bzip2 git-core screen lynx curl wget time \
   lsof whois pigz make acct telnet dnsutils bc sysstat \
   buffer pktstat emacs unzip vim gcc zlib1g-dev perltidy tidy \
-  python openjdk-6-jdk bsd-mailx \
+  python openjdk-6-jdk bsd-mailx mutt \
   libhtml-tagcloud-perl libtext-unidecode-perl munin \
   libxml-atom-simplefeed-perl libjson-perl liburi-perl \
   libxml-libxml-perl libyaml-perl libyaml-syck-perl libxml-simple-perl \
