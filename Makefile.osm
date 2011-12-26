@@ -562,7 +562,7 @@ staging:
 	git push
 	cd /usr/local/www/bbbike.org/; git diff; git pull; ${MAKE} -s update-files; git diff
 
-DOWNLOAD_PREFIX=/usr/local/www/download2.bbbike.org
+DOWNLOAD_PREFIX=/usr/local/www/download.bbbike.org
 download-bbbike-org-install:
 	mkdir -p ${DOWNLOAD_PREFIX}
 	mkdir -p ${DOWNLOAD_PREFIX}/osm/planet
