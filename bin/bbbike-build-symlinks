@@ -9,6 +9,7 @@ set -e
 commands="
 /usr/local/bin/perl
 /usr/local/bin/look
+/usr/local/bin/osmosis
 "
 
 for c in $commands
