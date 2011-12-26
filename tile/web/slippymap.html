@@ -52,10 +52,10 @@
             } );
  
             // This is the layer that uses the locally stored tiles
-            var newLayer = new OpenLayers.Layer.OSM("BBBike.org Mapnik", "http://a.tile.bbbike.org/osm/mapnik/${z}/${x}/${y}.png", {numZoomLevels: 19});
+            var newLayer = new OpenLayers.Layer.OSM("BBBike.org Mapnik", "mapnik/${z}/${x}/${y}.png", {numZoomLevels: 19});
             map.addLayer(newLayer);
 
-            var newLayer = new OpenLayers.Layer.OSM("BBBike.org Mapnik DE", "http://a.tile.bbbike.org/osm/mapnik-german/${z}/${x}/${y}.png", {numZoomLevels: 19});
+            var newLayer = new OpenLayers.Layer.OSM("BBBike.org Mapnik DE", "mapnik-german/${z}/${x}/${y}.png", {numZoomLevels: 19});
             map.addLayer(newLayer);
 
 
@@ -122,7 +122,7 @@
 
 	// ADFC 
 
-            var newLayer = new OpenLayers.Layer.TMS( "BBBike Fahrbahnqualit&auml;t (smoothness)", "http://c.tile.bbbike.org/osm/bbbike-smoothness/",
+            var newLayer = new OpenLayers.Layer.TMS( "BBBike Fahrbahnqualit&auml;t (smoothness)", "bbbike-smoothness/",
             { type: 'png', getURL: osm_getTileURL,
 		displayOutsideMaxExtent: true, attribution: '<a href="http://bbbike.de/">BBBike</a>',
               opacity: 1, isBaseLayer: false, visibility: false, numZoomLevels: 19, noOpaq: true } );
