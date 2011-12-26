@@ -575,7 +575,7 @@ download-bbbike-org-install:
 	  ln -fs ../../bbbike.org/osm bbbike; \
 	  ln -fs ../../bbbike.org/world/download/osm/index.html; 
 	cd ${DOWNLOAD_PREFIX}/osm/bbbike; \
-	  ln -fs ../../../bbbike.org/world/download/osm/bbbike/HEADER.txt .
+	  ln -fs ../world/download/osm/bbbike/HEADER.txt .
 	cd ${DOWNLOAD_PREFIX}/osm/planet; \
 	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.bz2 . ;\
 	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.pbf . ;\
