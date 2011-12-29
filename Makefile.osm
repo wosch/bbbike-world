@@ -279,6 +279,7 @@ $(_cd):
 		${DOWNLOADOSM} --step=`${DB} --step $$c` -o ${OSM_DIR}/$$c -- `${DB} --coord $$c`
 
 $(_cc):
+	${DB} --lang `basename $@ -convert` >/dev/null
 	c=`basename $@ -convert`; \
 	  test -n "$$c"; \
 	  mkdir -p ${DATA_OSM_DIR}/tmp; \
@@ -561,7 +562,28 @@ extract-gc7:
 staging:
 	git push
 	cd /usr/local/www/bbbike.org/; git diff; git pull; ${MAKE} -s update-files; git diff
-	
+
+DOWNLOAD_PREFIX=/usr/local/www/download.bbbike.org
+download-bbbike-org-install:
+	mkdir -p ${DOWNLOAD_PREFIX}
+	mkdir -p ${DOWNLOAD_PREFIX}/osm/planet
+	mkdir -p ${DOWNLOAD_PREFIX}/bbbike
+	cd ${DOWNLOAD_PREFIX}; \
+	  ln -fs ../bbbike.org/world/download/favicon.ico; \
+	  ln -fs ../bbbike.org/world/download/index.html; \
+	  ln -fs ../bbbike.org/world/web/robots-download.txt robots.txt
+	cd ${DOWNLOAD_PREFIX}/osm; \
+	  ln -fs ../../bbbike.org/osm bbbike; \
+	  ln -fs ../../bbbike.org/world/download/osm/index.html; 
+	cd ${DOWNLOAD_PREFIX}/osm/bbbike; \
+	  ln -fs ../world/download/osm/bbbike/HEADER.txt .
+	cd ${DOWNLOAD_PREFIX}/osm/planet; \
+	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.bz2 . ;\
+	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.pbf . ;\
+	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.pbf.md5 . ;\
+	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.bz2.md5 . ;\
+	  ln -fs ../../../bbbike.org/world/download/osm/planet/HEADER.txt .
+		
 help:
 	@echo "bbbike version: ${GIT_ID}"
 	@echo ""
@@ -585,6 +607,7 @@ help:
 	@echo "  [ planet-download | planet-geofabrik-download ]"
 	@echo "  [ planet-streets | planet-places ]"
 	@echo "  [ update-database | update-files ]"
+	@echo "  [ download-bbbike-org-install ]"
 	@echo "  [ staging | extract-install | extract-distclean ]"
 	@echo "  [ extract-gc | extract-gc7 | extract-gc-osm ]"
 	@echo ""
