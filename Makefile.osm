@@ -279,6 +279,7 @@ $(_cd):
 		${DOWNLOADOSM} --step=`${DB} --step $$c` -o ${OSM_DIR}/$$c -- `${DB} --coord $$c`
 
 $(_cc):
+	${DB} --lang `basename $@ -convert` >/dev/null
 	c=`basename $@ -convert`; \
 	  test -n "$$c"; \
 	  mkdir -p ${DATA_OSM_DIR}/tmp; \
