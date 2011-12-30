@@ -24,7 +24,7 @@ fi
 # run in quiet mode
 global_opt=-q
 
-if [ "$compress" == "" ]; then
+if [ "$compress" = "" ]; then
     osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout 
 else
     f=`basename $file .pbf`

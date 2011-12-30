@@ -86,6 +86,7 @@ Kaiserslautern
 Chemnitz
 Montreal
 Koeln
+Wuerzburg
 Kiel
 LakeGarda
 CraterLake
@@ -227,4 +228,3 @@ Auckland
 Baku
 PhnomPenh
 UlanBator
-Wuerzburg

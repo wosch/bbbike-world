@@ -483,7 +483,7 @@ sub send_email {
         my $message = <<EOF;
 Hi,
 
-your requested OpenStreetMap area $obj->{'city'} was extracted 
+your requested OpenStreetMap area "$obj->{'city'}" was extracted 
 from planet.osm
 
  City: $obj->{"city"}
@@ -496,13 +496,14 @@ To download the file, please click on the following link:
 
   $url
 
-The file will be available for the next 24 hours. Please 
+The file will be available for the next 36 hours. Please 
 download the file as soon as possible.
 
 Sincerely, your BBBike admin
 
 --
 http://BBBike.org - Your Cycle Route Planner
+http://BBBike.org/community.html - We appreciate any feedback, suggestions and a donation! 
 EOF
 
         eval {
