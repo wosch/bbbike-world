@@ -29,6 +29,8 @@ $git clone git@github.com:wolframschneider/bbbike.git
 ( cd bbbike && git_config )
 ( cd bbbike-macos && git_config )
 
+mkdir -p osm-streetnames/download
+
 cd bbbike
 git_config
 
