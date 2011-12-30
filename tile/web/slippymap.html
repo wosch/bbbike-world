@@ -55,14 +55,14 @@
             var newLayer = new OpenLayers.Layer.OSM("BBBike.org Mapnik", "mapnik/${z}/${x}/${y}.png", {numZoomLevels: 19});
             map.addLayer(newLayer);
 
-            var newLayer = new OpenLayers.Layer.OSM("BBBike.org Mapnik DE", "mapnik-german/${z}/${x}/${y}.png", {numZoomLevels: 19});
+            var newLayer = new OpenLayers.Layer.OSM("BBBike.org Mapnik (de)", "mapnik-german/${z}/${x}/${y}.png", {numZoomLevels: 19});
             map.addLayer(newLayer);
 
 
             var layerMapnik = new OpenLayers.Layer.OSM.Mapnik("OSM Mapnik"); map.addLayer(layerMapnik);
 
-            map.addLayer( new OpenLayers.Layer.OSM("OSM Mapnik (DE)", "http://a.tile.openstreetmap.de/tiles/osmde/${z}/${x}/${y}.png", {numZoomLevels: 18}));
-            map.addLayer( new OpenLayers.Layer.OSM("OSM Mapnik B/W", "http://a.www.toolserver.org/tiles/bw-mapnik/${z}/${x}/${y}.png", {numZoomLevels: 18}));
+            map.addLayer( new OpenLayers.Layer.OSM("OSM Mapnik (de)", "http://a.tile.openstreetmap.de/tiles/osmde/${z}/${x}/${y}.png", {numZoomLevels: 18}));
+            map.addLayer( new OpenLayers.Layer.OSM("OSM Mapnik b/w", "http://a.www.toolserver.org/tiles/bw-mapnik/${z}/${x}/${y}.png", {numZoomLevels: 18}));
 
             var layerCycleMap = new OpenLayers.Layer.OSM.CycleMap("OSM CycleMap");
             map.addLayer(layerCycleMap);
