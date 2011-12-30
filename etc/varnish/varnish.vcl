@@ -9,27 +9,9 @@ backend default {
     .port = "80";
 }
 
-backend bbbike64 {
-    #.host = "bbbike64";
-    .host = "10.0.0.4";
-    .port = "80";
-
-    .first_byte_timeout = 600s;
-    .connect_timeout = 600s;
-    .between_bytes_timeout = 600s;
-
-    .probe = {
-        .url = "/test.txt";
-        .timeout = 2s;
-        .interval = 10s;
-        .window = 1;
-        .threshold = 1;
-    }
-}
-
 backend tile {
-    #.host = "tile";
-    .host = "10.0.0.5";
+    #.host = "10.0.0.5";
+    .host = "tile";
     .port = "80";
 
     .first_byte_timeout = 600s;
@@ -116,19 +98,17 @@ sub vcl_recv {
     #
 
     # munin statistics
-    if (req.http.host ~ "^dev2?\.bbbike\.org$" && req.url ~ "^/munin") {
+    if (req.http.host ~ "^dev[23]?\.bbbike\.org$" && req.url ~ "^/munin") {
         set req.backend = localhost;
     } else if (req.http.host ~ "^download[23]?\.bbbike\.org$") {
         set req.backend = bbbike;
-    } else if (req.http.host ~ "^(m\.|www\.|www2\.|dev\.|devel3\.|)bbbike\.org$") {
+    } else if (req.http.host ~ "^(m\.|www[23]?\.|dev[23]?\.|devel[23]?\.|)bbbike\.org$") {
         set req.backend = bbbike;
 
         # failover production @ strato 
         if (req.restarts == 1 || !req.backend.healthy) {
                 set req.backend = bbbike_strato;
         }
-    } else if (req.http.host ~ "^(dev2\.|devel\.|)bbbike\.org$") {
-        set req.backend = bbbike;
     } else if (req.http.host ~ "^eserte\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$") {
         set req.backend = eserte;
     } else if (req.http.host ~ "^eserte-devel\.bbbike\.org$" || req.http.host ~ "^.*dev.*bbbike\.de$" ) {
@@ -138,7 +118,7 @@ sub vcl_recv {
     } else if (req.http.host ~ "^([u-z])\.tile\.bbbike\.org$") {
         set req.backend = tile;
     } else {
-        set req.backend = bbbike64;
+        set req.backend = bbbike;
     }
 
     # dummy
@@ -155,14 +135,7 @@ sub vcl_recv {
     }
 
     ######################################################################
-    # backends without caching
-
-    if (req.http.host ~ "^dev2\.bbbike\.org$" && req.url ~ "^/download") {
-	return (pipe);
-    }
-    if (req.http.host ~ "^dev2\.bbbike\.org$" ) {
-	return (pipe);
-    }
+    # backends without caching, pipe/pass
 
     # do not cache OSM files
     if (req.http.host ~ "^(download[23]?)\.bbbike\.org$") {
@@ -204,7 +177,7 @@ sub vcl_recv {
     }
 
     # test & development, no caching
-    if (req.http.host ~ "^(dev|devel3|dev|devel2)\.bbbike\.org$") {
+    if (req.http.host ~ "^(dev|devel)[23]?\.bbbike\.org$") {
 	return (pass);
     }
 
