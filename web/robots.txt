@@ -396,6 +396,7 @@ Disallow: /en/Kaiserslautern/?
 Disallow: /en/Chemnitz/?
 Disallow: /en/Montreal/?
 Disallow: /en/Koeln/?
+Disallow: /en/Wuerzburg/?
 Disallow: /en/Kiel/?
 Disallow: /en/LakeGarda/?
 Disallow: /en/CraterLake/
@@ -537,4 +538,3 @@ Disallow: /en/Auckland/
 Disallow: /en/Baku/?
 Disallow: /en/PhnomPenh/?
 Disallow: /en/UlanBator/?
-Disallow: /en/Wuerzburg/?
