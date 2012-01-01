@@ -28,7 +28,11 @@ git_config () {
 if $bbbike_macos; then
     $git clone git@github.com:wolframschneider/bbbike-macos.git 
 fi
-$git clone git@github.com:wolframschneider/bbbike.git
+
+# original github repo
+#$git clone git@github.com:wolframschneider/bbbike.git
+# local cache repo
+git clone ssh://wolfram.schneider.org/home/git/bbbike
 
 ( cd bbbike && git_config )
 if $bbbike_macos; then
