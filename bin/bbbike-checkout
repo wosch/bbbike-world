@@ -6,6 +6,8 @@
 set -e
 make_verbose=-s
 git="nice -5 git"
+: ${bbbike_macos=false}
+
 
 if [ ! -x /usr/local/bin/perl ]; then
     echo >&2 "/usr/local/bin/perl does not exists"
@@ -23,11 +25,15 @@ git_config () {
 # main git checkout
 #
 
-$git clone git@github.com:wolframschneider/bbbike-macos.git &
+if $bbbike_macos; then
+    $git clone git@github.com:wolframschneider/bbbike-macos.git 
+fi
 $git clone git@github.com:wolframschneider/bbbike.git
 
 ( cd bbbike && git_config )
-( cd bbbike-macos && git_config )
+if $bbbike_macos; then
+    ( cd bbbike-macos && git_config )
+fi
 
 mkdir -p osm-streetnames/download
 
