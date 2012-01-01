@@ -22,7 +22,7 @@ sudo apt-get install \
 sudo apt-get install lighttpd
 
 # reverse proxy
-sudo apt-get install varnish 
+sudo apt-get install varnish
 
 # tile server
 apt-get install subversion
