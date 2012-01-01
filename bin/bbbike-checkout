@@ -32,7 +32,7 @@ fi
 # original github repo
 #$git clone git@github.com:wolframschneider/bbbike.git
 # local cache repo
-git clone ssh://git.bbbike.org/home/git/bbbike
+$git clone ssh://git.bbbike.org/home/git/bbbike
 
 ( cd bbbike && git_config )
 if $bbbike_macos; then
