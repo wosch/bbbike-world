@@ -319,7 +319,6 @@ Disallow: /en/Amsterdam/?
 Disallow: /en/Mainz/?
 Disallow: /en/Moenchengladbach/?
 Disallow: /en/ClermontFerrand/?
-Disallow: /en/Lyon/?
 Disallow: /en/Dresden/?
 Disallow: /en/Muenchen/?
 Disallow: /en/Hannover/?
@@ -366,6 +365,7 @@ Disallow: /en/Bern/?
 Disallow: /en/Wroclaw/?
 Disallow: /en/SanktPetersburg/?
 Disallow: /en/Frankfurt/?
+Disallow: /en/Lyon/?
 Disallow: /en/WarenMueritz/?
 Disallow: /en/Goerlitz/?
 Disallow: /en/Vancouver/
