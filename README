@@ -21,5 +21,4 @@ $ make bbbike_download="" bbbike_extract="" update-database
 
 # check a city area
 $ ./world/bin/bbbike-db --city-stat | grep Bielefeld
-Bielefeld =>    69.3    Bielefeld:de,en,da,es,fr,hr,nl,pl,pt,ru,zh 
-
+Bielefeld =>    69.3    Bielefeld:de,en,da,es,fr,hr,nl,pl,pt,ru,zh
