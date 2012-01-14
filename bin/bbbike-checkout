@@ -51,6 +51,10 @@ git_config
 $git remote add eserte git://github.com/eserte/bbbike.git
 $git fetch eserte
 
+# add remote world from github
+git remote add github git@github.com:wolframschneider/bbbike.git
+$git fetch github
+
 
 ######################################################################
 # post configuration
