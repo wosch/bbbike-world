@@ -253,7 +253,7 @@ sub check_input {
     }
     else {
         print "<p>Thanks - the input data looks good. ",
-          "You will be notificed by e-mail soon.",
+          "You will be notificed by e-mail soon. ",
           "Please follow the instruction in the email ",
           "to proceed your request.</p>\n",
           "<p>Sincerely, your BBBike\@World admin</p>\n";
