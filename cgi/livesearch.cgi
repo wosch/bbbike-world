@@ -634,7 +634,8 @@ sub statistic_basic {
     # footer
     print qq{<br/><br/>\n<a href="../">home</a>\n};
     print "<hr />\n";
-    print qq{Copyright (c) 2011-2012 <a href="http://bbbike.org">BBBike.org</a>\n};
+    print
+      qq{Copyright (c) 2011-2012 <a href="http://bbbike.org">BBBike.org</a>\n};
     print "<br/>\n" . localtime() . "\n";
 }
 

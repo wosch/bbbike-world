@@ -413,9 +413,9 @@ qq{<p class="error">I'm so sorry, I could find a key for your request.\n},
     }
     else {
         print
-          qq{<p class="success">Thanks - your request has been confirmed.</p>\n},
-	  qq{<p class="success">The extract will be ready in 30-120 minutes.\n},
-	  qq{You will be notified by e-mail.</p>\n};
+qq{<p class="success">Thanks - your request has been confirmed.</p>\n},
+          qq{<p class="success">The extract will be ready in 30-120 minutes.\n},
+          qq{You will be notified by e-mail.</p>\n};
     }
 
     print &footer($q);
