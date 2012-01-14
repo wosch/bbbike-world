@@ -103,7 +103,7 @@ sub footer {
 </div>
 <div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em;" >
 <hr/>
-(&copy;) 2011 <a href="http://bbbike.org">BBBike.org</a> 
+(&copy;) 2011-2012 <a href="http://bbbike.org">BBBike.org</a> 
 by <a href="http://wolfram.schneider.org">Wolfram Schneider</a> //
 Map data by the <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap</a> Project
 <div id="footer_community">

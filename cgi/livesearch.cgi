@@ -281,7 +281,7 @@ $data
 
 <div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em;" >
 <hr>
-(&copy;) 2008-2011 <a href="http://bbbike.org">BBBike.org</a> // Map data by the <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap</a> Project
+(&copy;) 2008-2012 <a href="http://bbbike.org">BBBike.org</a> // Map data by the <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap</a> Project
 <div id="footer_community">
 </div>
 </div>
@@ -634,7 +634,7 @@ sub statistic_basic {
     # footer
     print qq{<br/><br/>\n<a href="../">home</a>\n};
     print "<hr />\n";
-    print qq{Copyright (c) 2011 <a href="http://bbbike.org">BBBike.org</a>\n};
+    print qq{Copyright (c) 2011-2012 <a href="http://bbbike.org">BBBike.org</a>\n};
     print "<br/>\n" . localtime() . "\n";
 }
 
