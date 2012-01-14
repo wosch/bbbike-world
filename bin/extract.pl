@@ -491,6 +491,7 @@ from planet.osm
  Format: $obj->{"format"}
  File size: $file_size
  MD5 checksum: $checksum
+ License: http://wiki.openstreetmap.org/wiki/OpenStreetMap_License
 
 To download the file, please click on the following link:
 
