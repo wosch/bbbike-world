@@ -40,7 +40,7 @@ my $debug = 1;
 my $spool_dir = '/var/tmp/bbbike/extract';
 
 # max. area in square km
-my $max_skm = 50_000;
+my $max_skm = 70_000;
 
 # sent out emails as
 my $email_from = 'BBBike Admin <bbbike@bbbike.org>';
