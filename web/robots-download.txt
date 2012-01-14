@@ -1,6 +1,8 @@
-# http://download.bbbike.org/osm/planet/
+# http://download.bbbike.org/
+
 User-agent: *
 Disallow: /osm/planet/planet
+Disallow: /osm/extract
 Disallow: /bbbike
 
 User-agent: Googlebot
