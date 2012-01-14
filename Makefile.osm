@@ -574,7 +574,7 @@ download-bbbike-org-install:
 	  ln -fs ../bbbike.org/world/download/index.html; \
 	  ln -fs ../bbbike.org/world/web/robots-download.txt robots.txt
 	cd ${DOWNLOAD_PREFIX}/osm; \
-	  ln -fs ../../bbbike.org/osm bbbike; \
+	  if ! test -e bbbike; then ln -fs ../../bbbike.org/osm bbbike; fi; \
 	  ln -fs ../../bbbike.org/world/download/osm/index.html; 
 	cd ${DOWNLOAD_PREFIX}/osm/bbbike; \
 	  ln -fs ../world/download/osm/bbbike/HEADER.txt .
