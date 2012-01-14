@@ -15,27 +15,27 @@ my %hash;
 
 sub readIP {
     my $file = shift;
-    my $ip = {};
+    my $ip   = {};
 
-    if (! -f $file) {
-	warn "Warning: $file does not exists\n" if $debug;
-	return $ip;
+    if ( !-f $file ) {
+        warn "Warning: $file does not exists\n" if $debug;
+        return $ip;
     }
 
     my $fh = new IO::File;
-    $fh->open($file, "r") or die "open $file: $!\n";
+    $fh->open( $file, "r" ) or die "open $file: $!\n";
 
-    while(<$fh>) {
-	# ignore comments
-	next if /^\s*#/;
+    while (<$fh>) {
 
-	my ($address, $domain) = split;
-	$ip->{$address} = $domain;
+        # ignore comments
+        next if /^\s*#/;
+
+        my ( $address, $domain ) = split;
+        $ip->{$address} = $domain;
     }
 
     return $ip;
 }
-
 
 sub reverselookup {
     my $address = shift;
@@ -43,25 +43,25 @@ sub reverselookup {
 
     # not a numeric IP Adress
     return $address if $address !~ /^[\d.]+$/;
-   
-    return $hash{$address} 
-	if defined $hash{$address};
- 
+
+    return $hash{$address}
+      if defined $hash{$address};
+
     my $iaddr = inet_aton($address);
 
     return $address if !defined $iaddr;
 
-    my $host = gethostbyaddr($iaddr, AF_INET);
+    my $host = gethostbyaddr( $iaddr, AF_INET );
     my $classC = $1 if $address =~ /^(\d+\.\d+\.\d+)/;
     my $classD = $1 if $address =~ /^(\d+\.\d+)/;
 
     # dns lookup failed, try from our own database
-    if (!$host) {
+    if ( !$host ) {
         $host = $ip->{$address} || $ip->{$classC} || $ip->{$classD};
     }
 
     # return hostname if found, otherwise the IP address
-    my $res = !$host ? $address :  $address . ':' . $host;
+    my $res = !$host ? $address : $address . ':' . $host;
 
     $hash{$address} = $res;
 
@@ -71,7 +71,7 @@ sub reverselookup {
 my $dnsrc = $ENV{'HOME'} . '/.dnsrc';
 $ip = &readIP($dnsrc);
 
-while(<>) {
+while (<>) {
     s/(\d+\.\d+\.\d+\.\d+)/reverselookup($1)/ge;
 
     print;

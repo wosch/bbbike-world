@@ -79,7 +79,7 @@ my $spool = {
 };
 
 # parse config file
-if ( -e $config_file) {
+if ( -e $config_file ) {
     require $config_file;
 }
 
