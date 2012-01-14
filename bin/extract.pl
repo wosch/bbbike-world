@@ -45,14 +45,14 @@ my $test       = 0;
 my $spool_dir = '/var/tmp/bbbike/extract';
 
 # max. area in square km
-our $max_skm = 50_000;
+our $max_skm = 70_000;
 
 # sent out emails as
 our $email_from = 'bbbike@bbbike.org';
 
 our $option = {
     'max_areas' => 12,
-    'homepage'  => 'http://download2.bbbike.org/osm/extract',
+    'homepage'  => 'http://download.bbbike.org/osm/extract',
     'max_jobs'  => 3,
 
     # not used yet
