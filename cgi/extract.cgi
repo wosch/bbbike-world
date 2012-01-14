@@ -287,7 +287,11 @@ sub check_input {
           qq{Please contact the BBBike.org maintainer!</p>};
     }
     else {
-        print qq{<p class="success">E-Mail was sent out successfully.</p>\n};
+
+        #print qq{<p class="success">E-Mail was sent out successfully.</p>\n};
+        print qq{<hr/>\n};
+        print
+qq{<p>We appreciate any feedback, suggestions and a <a href="../community.html#donate">donation</a>!</p>\n};
     }
 
     print &footer($q);
