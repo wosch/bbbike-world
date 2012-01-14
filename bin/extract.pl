@@ -59,6 +59,8 @@ our $option = {
     'max_extracts'   => 50,
     'min_wait_time'  => 5 * 60,    # in seconds
     'default_format' => 'pbf',
+
+    'bcc' => $email_from,
 };
 
 my $formats = {
@@ -69,7 +71,7 @@ my $formats = {
 
 my $spool = {
     'incoming' =>
-      "$spool_dir/incoming",       # incoming request, need to be confirmed
+      "$spool_dir/incoming",    # incoming request, need to be confirmed
     'confirmed' => "$spool_dir/confirmed",    # ready to run
     'running'   => "$spool_dir/running",      # currently running job
     'osm'       => "$spool_dir/osm",          # cache older runs
@@ -380,21 +382,26 @@ sub checksum {
 
 # SMTP wrapper
 sub _send_email {
-    my ( $to, $subject, $text ) = @_;
+    my ( $to, $subject, $text, $bcc ) = @_;
     my $mail_server = "localhost";
     my @to = split /,/, $to;
 
     my $from = $email_from;
+    my @bcc = split /,/, $bcc;
+
     my $data = "From: $from\nTo: $to\nSubject: $subject\n\n$text";
-    warn "send email to $from\n" if $debug && $debug < 3;
+    warn "send email to $to\nbcc: $bcc\n" if $debug && $debug < 3;
 
     my $smtp = new Net::SMTP( $mail_server, Hello => "localhost" )
       or die "can't make SMTP object";
 
     $smtp->mail($from) or die "can't send email from $from";
     $smtp->to(@to)     or die "can't use SMTP recipient '$to'";
+    if ($bcc) {
+        $smtp->bcc(@bcc) or die "can't use SMTP recipient '$bcc'";
+    }
     $smtp->data($data) or die "can't email data to '$to'";
-    $smtp->quit()      or die "can't send email to '$to'";
+    $smtp->quit() or die "can't send email to '$to'";
 
     warn "\n$data\n" if $debug >= 3;
 }
@@ -510,7 +517,7 @@ EOF
         eval {
             _send_email( $obj->{'email'},
                 "Extracted area is ready for download: " . $obj->{'city'},
-                $message );
+                $message, $option->{'bcc'} );
         };
 
         if ($@) {
