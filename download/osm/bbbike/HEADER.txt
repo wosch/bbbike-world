@@ -3,7 +3,8 @@ OSM extracts of more than 200 cities and regions world wide.
 
 2-50MB in size for each city.
 
-All Data from OpenStreetMap is licensed under the OpenStreetMap License: http://wiki.openstreetmap.org/wiki/OpenStreetMap_License
+All Data from OpenStreetMap is licensed under the 
+OpenStreetMap License: http://wiki.openstreetmap.org/wiki/OpenStreetMap_License
 
 --
 Copyright (c) 2011-2012 http://BBBike.org
