@@ -226,6 +226,11 @@ sub parse_log {
     # first run, save file offset of logfile, do nothing
     if ( !-e $database ) {
         write_offset( $database, $offset );
+
+	# run again to produce first results
+	if (!$args{'first_run'}) {
+	   return parse_log(@_, 'first_run' => 1);
+	}
         return;
     }
 
