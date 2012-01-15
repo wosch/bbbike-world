@@ -4,7 +4,8 @@
 # configurations files
 #
 
-MUNIN_LIGHTTPD=		lighttpd_accesses lighttpd_busyservers lighttpd_idleservers lighttpd_kbytes lighttpd_uptime	
+MUNIN_LIGHTTPD=	lighttpd_accesses lighttpd_busyservers lighttpd_idleservers lighttpd_kbytes lighttpd_uptime	
+MUNIN_BBBIKE= 	bbbike-ajax bbbike-output bbbike-pref bbbike-maptype
 MUNIN_PLUGINS_DIR=	/etc/munin/plugins
 
 all: help
@@ -36,11 +37,9 @@ install-munin-xen:
 	@echo  "don't forget to update /etc/munin/plugin-conf.d/munin-node, see ./README"
 	
 install-munin-bbbike:
-	sudo cp -f ../bin/munin-bbbike ${MUNIN_PLUGINS_DIR}
-	cd ${MUNIN_PLUGINS_DIR}; sudo ln -fs munin-bbbike munin-bbbike-ajax
-	cd ${MUNIN_PLUGINS_DIR}; sudo ln -fs munin-bbbike munin-bbbike-output
-	cd ${MUNIN_PLUGINS_DIR}; sudo ln -fs munin-bbbike munin-bbbike-pref
-	cd ${MUNIN_PLUGINS_DIR}; sudo ln -fs munin-bbbike munin-bbbike-maptype
+	for i in ${MUNIN_BBBIKE}; do \
+	   sudo ln -fs `pwd`/../bin/munin-bbbike ${MUNIN_PLUGINS_DIR}/$$i; \
+	done
 	${MAKE} munin-restart
 
 munin-restart:
