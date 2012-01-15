@@ -47,5 +47,6 @@ munin-restart:
 
 help:
 	@echo "make [ sync-backend | sync-frontend ]"
-	@echo "make [ install-munin-lighttpd | install-munin-xen | install-munin-bbbike ]"
+	@echo "make [ install-munin-lighttpd install-munin-bbbike ]"
+	@echo "make [ install-munin-xen ]"
 
