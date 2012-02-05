@@ -3,6 +3,8 @@
 #
 # world.cgi - cgi/shell wrapper for bbbike @ world city
 
+umask 002
+
 # load average check
 if [ -e /proc/loadavg ]; then
   loadavg="`awk '{ print $1 }' /proc/loadavg`"
