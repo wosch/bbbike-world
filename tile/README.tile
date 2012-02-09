@@ -45,11 +45,12 @@ sudo apt-get install openstreetmap-mapnik-stylesheet-data
 
 
 # setup your own style sheet
-svn checkout http://svn.openstreetmap.org/applications/rendering/mapnik
-sudo mv mapnik /etc/mapnik-german   
+#svn checkout http://svn.openstreetmap.org/applications/rendering/mapnik
+svn checkout http://svn.openstreetmap.org/applications/rendering/mapnik-german
+sudo mv mapnik-german /etc/mapnik-german
 
-cd /etc
-ln -s ../mapnik-osm-data/world_boundaries .
+cd /etc/mapnik-german
+ln -s /usr/share/mapnik-osm-data/world_boundaries .
 cd inc-de
 cp datasource-settings.xml.inc.template datasource-settings.xml.inc 
 # do not set host & port!
