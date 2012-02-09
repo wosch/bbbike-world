@@ -21,7 +21,6 @@ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys AE74800FB745A04C
 sudo apt-get update
 sudo apt-get install libapache2-mod-tile
 
-# Trouble shooting:
 
 sudo dpkg-reconfigure openstreetmap-postgis-db-setup
 Create user gis
@@ -30,11 +29,13 @@ Creating Database
 createdb: database creation failed: ERROR:  new encoding (UTF8) is incompatible with the encoding of the template database (SQL_ASCII)
 HINT:  Use the same encoding as in the template database, or use template0 as template.
 
+# Trouble shooting:
 # setup a utf8 database
 sudo pg_dropcluster --stop 8.4 main
 sudo pg_createcluster --start -e UTF-8 8.4 main
 
 sudo dpkg-reconfigure openstreetmap-postgis-db-setup
+# EOF Trouble shooting
 
 # if the installation of the mapnik style sheets failed, remove and install
 # the package again
@@ -47,6 +48,7 @@ sudo apt-get install openstreetmap-mapnik-stylesheet-data
 svn checkout http://svn.openstreetmap.org/applications/rendering/mapnik
 sudo mv mapnik /etc/mapnik-german   
 
+cd /etc
 ln -s ../mapnik-osm-data/world_boundaries .
 cd inc-de
 cp datasource-settings.xml.inc.template datasource-settings.xml.inc 
@@ -71,6 +73,7 @@ vi /usr/share/osm2pgsql/osm2pgsql/default.style
 node,way   bbbike:quality      text  linear
 
 # create osm dump
+cd bbbike
 make bbbike2wgs84-mapnik
 osm2pgsql --slim -S /usr/share/osm2pgsql/osm2pgsql/default.style -c tmp/bbbike-mapnik.osm.gz
 
@@ -110,4 +113,7 @@ LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-A
 
 # postgis trouble shooting
 sudo /usr/bin/install-postgis-osm-user.sh gis www-data
+
+cd ~/projects
+git clone ssh://git.bbbike.org/home/wosch/git/mc
 
