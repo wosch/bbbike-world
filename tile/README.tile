@@ -111,6 +111,11 @@ tail -f /var/log/syslog
 /etc/apache2/apache2.conf:
 LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" combined
 
+cd /etc/apache2/sites-available
+ln -s ~/projects/bbbike/world/tile/etc/apache2-tile.conf .
+a2ensite apache2-tile.conf
+rm -f /etc/apache2/sites-enabled/tileserver_site 
+
 # postgis trouble shooting
 sudo /usr/bin/install-postgis-osm-user.sh gis www-data
 
