@@ -98,8 +98,9 @@ sub header {
       );
 }
 
+# see ../html/extract.js 
 sub map {
-
+    
     return <<EOF;
 <div id="content" class="site_index">
 
@@ -114,11 +115,8 @@ sub map {
   <div id="export_osm">
     <p class="export_heading"/>
     <div id="export_osm_too_large" style="display: block;">
-      <p class="export_heading">Area Too Large</p>
-
+      <p class="export_heading error">Area Too Large. Please zoom in!</p>
       <div class="export_details">
-        <p>This area is too large to be exported as OpenStreetMap XML Data. Please zoom in or select a smaller area.</p>
-
       </div>
     </div>
   </div> <!-- export_bounds -->
