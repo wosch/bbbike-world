@@ -513,18 +513,34 @@ sub homepage {
                     [
 "Left lower corner (<span title='South West'>SW</span>)",
                         "$lat: "
-                          . $q->textfield( -name => 'sw_lat', -id => 'sw_lat', -size => 14 )
+                          . $q->textfield(
+                            -name => 'sw_lat',
+                            -id   => 'sw_lat',
+                            -size => 14
+                          )
                           . " $lng: "
-                          . $q->textfield( -name => 'sw_lng', -id => 'sw_lng', -size => 14 )
+                          . $q->textfield(
+                            -name => 'sw_lng',
+                            -id   => 'sw_lng',
+                            -size => 14
+                          )
                     ]
                 ),
                 $q->td(
                     [
                         "Right top corner (<span title='North East'>NE</span>)",
                         "$lat: "
-                          . $q->textfield( -name => 'ne_lat', -id => 'ne_lat', -size => 14 )
+                          . $q->textfield(
+                            -name => 'ne_lat',
+                            -id   => 'ne_lat',
+                            -size => 14
+                          )
                           . " $lng: "
-                          . $q->textfield( -name => 'ne_lng', -id => 'ne_lng', -size => 14 )
+                          . $q->textfield(
+                            -name => 'ne_lng',
+                            -id   => 'ne_lng',
+                            -size => 14
+                          )
                     ]
                 ),
 
@@ -548,7 +564,7 @@ sub homepage {
     print $q->submit( -name => 'submit', -value => 'extract' );
     print $q->end_form;
 
-    #print qq{<iframe src="../extract-map.html" width="100%" height="520" scrolling="no" frameborder="0"/>\n};
+#print qq{<iframe src="../extract-map.html" width="100%" height="520" scrolling="no" frameborder="0"/>\n};
     print qq{<hr/\n};
     print &map;
 
