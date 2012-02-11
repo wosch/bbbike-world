@@ -441,6 +441,8 @@ sub homepage {
 
     print $q->start_form( -method => 'GET' );
 
+    my $lat = qq{<span title='Latitude'>lat</span>};
+    my $lng = qq{<span title='Longitude'>lng</span>};
     print $q->table(
         $q->Tr(
             {},
@@ -459,19 +461,19 @@ sub homepage {
                 ),
                 $q->td(
                     [
-                        "Left lower corner (SW)",
-                        "lat: "
+"Left lower corner (<span title='South West'>SW</span>)",
+                        "$lat: "
                           . $q->textfield( -name => 'sw_lat', -size => 14 )
-                          . " lng: "
+                          . " $lng: "
                           . $q->textfield( -name => 'sw_lng', -size => 14 )
                     ]
                 ),
                 $q->td(
                     [
-                        "Right top corner (NE)",
-                        "lat: "
+                        "Right top corner (<span title='North East'>NE</span>)",
+                        "$lat: "
                           . $q->textfield( -name => 'ne_lat', -size => 14 )
-                          . " lng: "
+                          . " $lng: "
                           . $q->textfield( -name => 'ne_lng', -size => 14 )
                     ]
                 ),
