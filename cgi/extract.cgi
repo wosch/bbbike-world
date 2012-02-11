@@ -69,6 +69,15 @@ my $spool = {
 
 sub header {
     my $q = shift;
+    my %args= @_;
+    my $type = $args{-type} || "";
+
+    my @javascript = "/html/bbbike-js.js";
+    my @onload;
+    if ($type eq 'homepage') {
+	push @javascript, "../html/OpenLayers-2.11/OpenLayers.js", "../html/OpenLayers-2.11/OpenStreetMap.js", "../html/jquery-1.7.1.min.js", "../html/extract.js";
+        @onload = (-onLoad, 'init();');
+    }
 
     return $q->header( -charset => 'utf-8' ) .
 
@@ -82,8 +91,56 @@ sub header {
         ),
 
         -style => { 'src' => [ "../html/bbbike.css", "../html/luft.css" ] },
-        -script => [ { 'src' => "/html/bbbike-js.js" } ],
+        -script => [ map { { 'src' => $_}  } @javascript ],
+	@onload,
       );
+}
+
+sub map {
+
+return <<EOF;
+<div id="content" class="site_index">
+
+ <div style="width: 30%; display: block;" id="sidebar">
+  
+  <div id="sidebar_content">
+
+ <div class="export_bounds">
+    <input type="text" size="10" name="maxlat" id="maxlat" class="export_bound"/>
+    <input type="text" size="10" name="minlon" id="minlon" class="export_bound"/>
+    <br/>
+    <input type="text" size="10" name="maxlon" id="maxlon" class="export_bound"/>
+    <input type="text" size="10" name="minlat" id="minlat" class="export_bound"/>
+    <p class="export_hint">
+      <a href="#" id="drag_box">Manually select a different area</a>  
+    </p>
+
+  </div>
+
+  <div id="export_osm">
+    <p class="export_heading"/>
+    <div id="export_osm_too_large" style="display: block;">
+      <p class="export_heading">Area Too Large</p>
+
+      <div class="export_details">
+        <p>This area is too large to be exported as OpenStreetMap XML Data. Please zoom in or select a smaller area.</p>
+
+      </div>
+    </div>
+  </div> <!-- export_bounds -->
+  
+  <class id="debug"></class>
+
+  </div>
+</div><!-- sidebar -->
+   
+<!-- define a DIV into which the map will appear. Make it take up the whole window -->
+<div style="width:100%; height:100%" id="map"></div>
+
+</div><!-- content -->
+
+EOF
+
 }
 
 sub footer {
@@ -434,7 +491,7 @@ sub homepage {
 
     my $q = $args{'q'};
 
-    print &header($q);
+    print &header($q, -type => 'homepage');
     print &layout($q);
 
     print &message;
@@ -493,10 +550,14 @@ sub homepage {
             ]
         )
     );
+    print qq{<span id="debug"></span>\n};
 
     print $q->p;
     print $q->submit( -name => 'submit', -value => 'extract' );
     print $q->end_form;
+
+    #print qq{<iframe src="../extract-map.html" width="100%" height="520" scrolling="no" frameborder="0"/>\n};
+    print &map;
 
     print &footer($q);
 
