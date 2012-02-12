@@ -421,11 +421,14 @@ EOF
 # SMTP wrapper
 sub send_email {
     my ( $to, $subject, $text ) = @_;
-    my $mail_server = "localhost";
-    my @to = split /,/, $to;
+    my $mail_server  = "localhost";
+    my @to           = split /,/, $to;
+    my $content_type = "Content-Type: text/plain; charset=UTF-8\n"
+      . "Content-Transfer-Encoding: binary";
 
     my $from = $email_from;
-    my $data = "From: $from\nTo: $to\nSubject: $subject\n\n$text";
+    my $data =
+      "From: $from\nTo: $to\nSubject: $subject\n" . "$content_type\n$text";
     my $smtp = new Net::SMTP( $mail_server, Hello => "localhost" )
       or die "can't make SMTP object";
 
@@ -455,6 +458,7 @@ sub save_request {
     my $incoming = $spool->{"incoming"} . "/$key.json";
 
     my $fh = new IO::File $incoming, "w";
+    binmode $fh, ":utf8";
     if ( !defined $fh ) {
         warn "Cannot open $incoming: $!\n";
         return 0;
