@@ -42,7 +42,7 @@ my $debug      = 0;
 my $test       = 0;
 
 # spool directory. Should be at least 100GB large
-my $spool_dir = '/var/tmp/bbbike/extract';
+my $spool_dir = '/usr/local/www/tmp/extract';
 
 # max. area in square km
 our $max_skm = 200_000;
