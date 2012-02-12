@@ -306,7 +306,7 @@ sub check_input {
           "to proceed your request.</p>\n",
           "<p align='center'>Area: ", escapeHTML($city),
           "covers $skm square km, coords: ",
-          "$sw_lng,$sw_lat x $ne_lng,$ne_lat\n</p>\n",
+          escapeHTML("$sw_lng,$sw_lat x $ne_lng,$ne_lat"), "\n</p>\n",
           "<p>Sincerely, your BBBike\@World admin</p>\n";
     }
 
