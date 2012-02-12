@@ -50,7 +50,7 @@ CACHE_HEATER_MAX=50
 TMP=world/tmp
 RM_BG=	world/bin/rm-bg
 WEB_GROUP=	www-data
-EXTRACTS_SPOOL_DIR=/var/tmp/bbbike/extract
+EXTRACTS_SPOOL_DIR=/usr/local/www/tmp/extract
 
 CITIES_FILE=world/etc/cities.txt
 CITIES=$(shell ${PERL} -npe 's/\#.*//' ${CITIES_FILE})
