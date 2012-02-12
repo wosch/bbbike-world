@@ -390,7 +390,8 @@ sub _send_email {
     my @bcc = split /,/, $bcc;
 
     my $data = "From: $from\nTo: $to\nSubject: $subject\n\n$text";
-    warn "send email to $to\nbcc: $bcc\n" if $debug && $debug < 3;
+    warn "send email to $to\nbcc: $bcc\n$subject\n" if $debug >= 1;
+    warn "$text\n"                                  if $debug >= 2;
 
     my $smtp = new Net::SMTP( $mail_server, Hello => "localhost" )
       or die "can't make SMTP object";
