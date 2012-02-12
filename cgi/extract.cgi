@@ -359,7 +359,7 @@ sub check_input {
       )
     {
         print
-          qq{<p class="error">I'm so sorry, I could not save your request.\n},
+          qq{<p class="error">I'm so sorry, I couldn't save your request.\n},
           qq{Please contact the BBBike.org maintainer!</p>};
     }
     else {
@@ -492,7 +492,7 @@ sub confirm_key {
 
     if ( !$success ) {
         print
-qq{<p class="error">I'm so sorry, I could find a key for your request.\n},
+qq{<p class="error">I'm so sorry, I couldn't find a key for your request.\n},
           qq{Please contact the BBBike.org maintainer!</p>};
     }
     else {
