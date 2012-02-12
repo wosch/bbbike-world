@@ -512,16 +512,16 @@ sub homepage {
                 $q->td(
                     [
 "Left lower corner (<span title='South West'>SW</span>)",
-                        "$lat: "
-                          . $q->textfield(
-                            -name => 'sw_lat',
-                            -id   => 'sw_lat',
-                            -size => 14
-                          )
-                          . " $lng: "
+                        "$lng: "
                           . $q->textfield(
                             -name => 'sw_lng',
                             -id   => 'sw_lng',
+                            -size => 14
+                          )
+                          . " $lat: "
+                          . $q->textfield(
+                            -name => 'sw_lat',
+                            -id   => 'sw_lat',
                             -size => 14
                           )
                     ]
@@ -529,16 +529,16 @@ sub homepage {
                 $q->td(
                     [
                         "Right top corner (<span title='North East'>NE</span>)",
-                        "$lat: "
-                          . $q->textfield(
-                            -name => 'ne_lat',
-                            -id   => 'ne_lat',
-                            -size => 14
-                          )
-                          . " $lng: "
+                        "$lng: "
                           . $q->textfield(
                             -name => 'ne_lng',
                             -id   => 'ne_lng',
+                            -size => 14
+                          )
+                          . " $lat: "
+                          . $q->textfield(
+                            -name => 'ne_lat',
+                            -id   => 'ne_lat',
                             -size => 14
                           )
                     ]
