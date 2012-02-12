@@ -15,7 +15,7 @@
 # - xxx
 #
 
-use CGI qw/-utf-8 unescape escapeHTML/;
+use CGI qw/-utf8 unescape escapeHTML/;
 use IO::File;
 use JSON;
 use Data::Dumper;
