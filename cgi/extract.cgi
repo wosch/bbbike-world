@@ -490,7 +490,7 @@ sub homepage {
 
     print &message;
 
-    print $q->start_form( -method => 'POST' );
+    print $q->start_form( -method => 'POST', -id => 'extract' );
 
     my $lat = qq{<span title='Latitude'>lat</span>};
     my $lng = qq{<span title='Longitude'>lng</span>};
@@ -561,11 +561,10 @@ sub homepage {
         )
     );
 
-    print $q->p;
-    print $q->submit( -name => 'submit', -value => 'extract' );
+    #print $q->p;
+    print $q->submit( -name => 'submit', -value => 'extract',
+        -id => 'extract' );
     print $q->end_form;
-
-#print qq{<iframe src="../extract-map.html" width="100%" height="520" scrolling="no" frameborder="0"/>\n};
     print qq{<hr/\n};
     print &map;
 
