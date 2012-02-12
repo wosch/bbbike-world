@@ -126,7 +126,7 @@ sub map {
    
 <!-- define a DIV into which the map will appear. Make it take up the whole window -->
 <!-- <div style="width:100%; height:100%" id="map"></div> -->
-<div style="width:100%; height:400px" id="map"></div>
+<div style="width:100%; height:450px" id="map"></div>
 
 </div><!-- content -->
 
