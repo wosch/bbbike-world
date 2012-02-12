@@ -490,7 +490,7 @@ sub homepage {
 
     print &message;
 
-    print $q->start_form( -method => 'GET' );
+    print $q->start_form( -method => 'POST' );
 
     my $lat = qq{<span title='Latitude'>lat</span>};
     my $lng = qq{<span title='Longitude'>lng</span>};
