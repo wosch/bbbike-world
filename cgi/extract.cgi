@@ -87,8 +87,9 @@ sub header {
         my @cookies;
         my @cookie_opt = (
             -path    => $q->url( -absolute => 1, -query => 0 ),
-            -expires => '+60d'
+            -expires => '+30d'
         );
+
         push @cookies,
           $q->cookie(
             -name  => 'format',
@@ -519,8 +520,9 @@ sub homepage {
     my $lat = qq{<span title='Latitude'>lat</span>};
     my $lng = qq{<span title='Longitude'>lng</span>};
 
-    my $default_email  = $q->cookie("email")  || "";
-    my $default_format = $q->cookie("format") || $option->{'default_format'};
+    my $default_email = $q->cookie( -name => "email" ) || "";
+    my $default_format = $q->cookie( -name => "format" )
+      || $option->{'default_format'};
 
     print $q->table(
         $q->Tr(
