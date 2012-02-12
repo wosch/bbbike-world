@@ -304,6 +304,8 @@ sub check_input {
           "You will be notificed by e-mail soon. ",
           "Please follow the instruction in the email ",
           "to proceed your request.</p>\n",
+          "<p align='center'>Area: $city, covers $skm square km, coords: ",
+          "$sw_lng,$sw_lat x $ne_lng,$ne_lat\n</p>\n",
           "<p>Sincerely, your BBBike\@World admin</p>\n";
     }
 
@@ -410,10 +412,10 @@ sub send_email {
 sub square_km {
     my ( $x1, $y1, $x2, $y2 ) = @_;
 
-    my $height = GIS::Distance::Lite::distance( $x1, $y1 => $x1, $y2 );
-    my $width  = GIS::Distance::Lite::distance( $x2, $y1 => $x2, $y2 );
+    my $height = GIS::Distance::Lite::distance( $x1, $y1 => $x1, $y2 ) / 1000;
+    my $width  = GIS::Distance::Lite::distance( $x1, $y1 => $x2, $y1 ) / 1000;
 
-    return int( $height / 1_000 * $width / 1_000 );
+    return int( $height * $width );
 }
 
 # save request in incoming spool
