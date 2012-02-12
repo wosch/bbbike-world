@@ -72,7 +72,7 @@ sub header {
     my %args = @_;
     my $type = $args{-type} || "";
 
-    my @javascript = "/html/bbbike-js.js";
+    my @javascript = "../html/bbbike-js.js";
     my @onload;
     if ( $type eq 'homepage' ) {
         push @javascript, "../html/OpenLayers-2.11/OpenLayers.js",
@@ -562,8 +562,11 @@ sub homepage {
     );
 
     #print $q->p;
-    print $q->submit( -name => 'submit', -value => 'extract',
-        -id => 'extract' );
+    print $q->submit(
+        -name  => 'submit',
+        -value => 'extract',
+        -id    => 'extract'
+    );
     print $q->end_form;
     print qq{<hr/\n};
     print &map;
