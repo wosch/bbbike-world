@@ -74,6 +74,7 @@ sub header {
 
     my @javascript = "../html/bbbike-js.js";
     my @onload;
+    my @cookie;
     if ( $type eq 'homepage' ) {
         push @javascript, "../html/OpenLayers-2.11/OpenLayers.js",
           "../html/OpenLayers-2.11/OpenStreetMap.js",
@@ -81,7 +82,31 @@ sub header {
         @onload = ( -onLoad, 'init();' );
     }
 
-    return $q->header( -charset => 'utf-8' ) .
+    # store last used selected in cookies for further usage
+    if ( $type eq 'check_input' ) {
+        my @cookies;
+        my @cookie_opt = (
+            -path    => $q->url( -absolute => 1, -query => 0 ),
+            -expires => "+60d",
+            -secure  => 1
+        );
+        push @cookies,
+          $q->cookie(
+            -name  => 'format',
+            -value => $q->param("format"),
+            @cookie_opt
+          );
+        push @cookies,
+          $q->cookie(
+            -name  => 'email',
+            -value => $q->param("email"),
+            @cookie_opt
+          );
+
+        push @cookie, -cookie => \@cookies;
+    }
+
+    return $q->header( -charset => 'utf-8', @cookie ) .
 
       $q->start_html(
         -title => 'BBBike @ World extracts',
@@ -222,7 +247,7 @@ sub check_input {
     my $q = $args{'q'};
     our $qq = $q;
 
-    print &header($q);
+    print &header( $q, -type => 'check_input' );
     print &layout($q);
 
     our $error = 0;
