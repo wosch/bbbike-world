@@ -19,7 +19,7 @@ use CGI qw/-utf8 unescape escapeHTML/;
 use IO::File;
 use JSON;
 use Data::Dumper;
-use Encode;
+use Encode qw/encode_utf8/;
 use Email::Valid;
 use Digest::MD5 qw(md5_hex);
 use Net::SMTP;
@@ -454,7 +454,7 @@ sub save_request {
     my $json      = new JSON;
     my $json_text = $json->pretty->encode($obj);
 
-    my $key      = md5_hex( $json_text . rand() );
+    my $key      = md5_hex( encode_utf8($json_text) . rand() );
     my $incoming = $spool->{"incoming"} . "/$key.json";
 
     my $fh = new IO::File $incoming, "w";
