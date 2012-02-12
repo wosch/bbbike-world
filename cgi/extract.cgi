@@ -98,9 +98,9 @@ sub header {
       );
 }
 
-# see ../html/extract.js 
+# see ../html/extract.js
 sub map {
-    
+
     return <<EOF;
 <div id="content" class="site_index">
 
