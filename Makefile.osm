@@ -414,6 +414,9 @@ create-osp:
 rsync-tgz:
 	rsync -a ${DATA_OSM_BBBIKE_DIR}/ ${BBBIKE_SERVER}/usr/local/www/download.bbbike.org/bbbike/${DATA_OSM_DIR}
 
+clean-tile:
+	world/bin/tile-cache-cleanup
+
 clean: rotate-data-osm
 	${MAKE} -C cgi/msg $@	
 	${MAKE} -C world/bin $@	
@@ -603,7 +606,7 @@ help:
 	@echo "  [ jsbeautifier | perltidy | tidy ]"
 	@echo "  [ bbbike-osm2pbf | osm2pbf ]"
 	@echo "  [ bbbike2wgs84-mapnik ]"
-	@echo "  [ clean | dist-clean | clean-cache | clean-planet ]"
+	@echo "  [ clean | dist-clean | clean-cache | clean-planet | clean-tile ]"
 	@echo "  [ create-osp | bbbike2wgs84 | update-robots.txt | create-sitemap ]"
 	@echo "  [ cache-heater | cache-heater-full | cache-heater-streets ]"
 	@echo "  [ create-bbbike-web-symlinks | kml | create-osp | index ]"
