@@ -497,9 +497,9 @@ qq{<p class="error">I'm so sorry, I couldn't find a key for your request.\n},
     }
     else {
         print
-qq{<p class="success">Thanks - your request has been confirmed.</p>\n},
-          qq{<p class="success">The extract will be ready in 15-30 minutes.\n},
-          qq{You will be notified by e-mail.</p>\n};
+          qq{<p class="">Thanks - your request has been confirmed.\n},
+          qq{It takes usually 15-30 minutes to extract the data.\n},
+qq{You will be notified by e-mail if your extract is ready for download. Stay tuned!</p>};
 
         print qq{<hr/>\n<p>We appreciate any feedback, suggestions },
           qq{and a <a href="../community.html#donate">donation</a>!</p>};
