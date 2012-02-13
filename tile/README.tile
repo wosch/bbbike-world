@@ -68,15 +68,12 @@ cp settings.xml.inc.template settings.xml.inc
 # follow the instructions!
 
 # add bbbike quality attributes to osm2pgsql
-vi /usr/share/osm2pgsql/osm2pgsql/default.style
+sudo make bbbike-mapnik-config
 
-#bbbike
-node,way   bbbike:quality      text  linear
-
-# create osm dump
+# create osm dump, and import it
 cd bbbike
 make bbbike2wgs84-mapnik
-osm2pgsql --slim -S /usr/share/osm2pgsql/osm2pgsql/default.style -c tmp/bbbike-mapnik.osm.gz
+make bbbike-mapnik-postgis 
 
 # slow start of render/postgis
 cd /etc/init.d/
