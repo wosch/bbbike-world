@@ -218,7 +218,7 @@ This site allow you to extracts areas from the <a href="http://wiki.openstreetma
 The maximum area size is $max_skm square km.
 <br/>
 
-It takes between 15-30 minutes to extract an area. You will be notified by e-mail if your extract is ready for download.
+It takes between 10-30 minutes to extract an area. You will be notified by e-mail if your extract is ready for download.
 </p>
 <hr/>
 EOF
@@ -498,7 +498,7 @@ qq{<p class="error">I'm so sorry, I couldn't find a key for your request.\n},
     else {
         print
           qq{<p class="">Thanks - your request has been confirmed.\n},
-          qq{It takes usually 15-30 minutes to extract the data.\n},
+          qq{It takes usually 10-30 minutes to extract the data.\n},
 qq{You will be notified by e-mail if your extract is ready for download. Stay tuned!</p>};
 
         print qq{<hr/>\n<p>We appreciate any feedback, suggestions },
