@@ -50,7 +50,8 @@ CACHE_HEATER_MAX=50
 TMP=world/tmp
 RM_BG=	world/bin/rm-bg
 WEB_GROUP=	www-data
-EXTRACTS_SPOOL_DIR=/var/tmp/bbbike/extract
+EXTRACTS_SPOOL_DIR=/usr/local/www/tmp/extract
+POSTGIS_STYLE=/usr/share/osm2pgsql/osm2pgsql/bbbike.style
 
 CITIES_FILE=world/etc/cities.txt
 CITIES=$(shell ${PERL} -npe 's/\#.*//' ${CITIES_FILE})
@@ -399,6 +400,15 @@ bbbike2wgs84-mapnik:
 	${NICE} ./miscsrc/bbd2osm --optimize-for=mapnik | ${GZIP} > tmp/bbbike-mapnik.osm.gz.tmp
 	mv -f tmp/bbbike-mapnik.osm.gz.tmp tmp/bbbike-mapnik.osm.gz
 
+bbbike-mapnik-config:
+	if test -e ${POSTGIS_STYLE}; then \
+	    mv -f ${POSTGIS_STYLE} ${POSTGIS_STYLE}.bak; \
+	fi
+	cat /usr/share/osm2pgsql/osm2pgsql/default.style world/tile/etc/bbbike.style.inc > ${POSTGIS_STYLE}
+
+bbbike-mapnik-postgis:
+	osm2pgsql --slim -S ${POSTGIS_STYLE} -c tmp/bbbike-mapnik.osm.gz
+
 planet-download:
 	download_script=`pwd`/world/bin/planet-download; cd ../osm-streetnames/download && $$download_script
 
@@ -413,6 +423,9 @@ create-osp:
 	
 rsync-tgz:
 	rsync -a ${DATA_OSM_BBBIKE_DIR}/ ${BBBIKE_SERVER}/usr/local/www/download.bbbike.org/bbbike/${DATA_OSM_DIR}
+
+clean-tile:
+	world/bin/tile-cache-cleanup
 
 clean: rotate-data-osm
 	${MAKE} -C cgi/msg $@	
@@ -602,8 +615,8 @@ help:
 	@echo "  [ rsync-tgz | rsync-osm | rsync-osm-dev | rsync-planet | symlink-download ]"
 	@echo "  [ jsbeautifier | perltidy | tidy ]"
 	@echo "  [ bbbike-osm2pbf | osm2pbf ]"
-	@echo "  [ bbbike2wgs84-mapnik ]"
-	@echo "  [ clean | dist-clean | clean-cache | clean-planet ]"
+	@echo "  [ bbbike2wgs84-mapnik | bbbike-mapnik-config | bbbike-mapnik-postgis ]"
+	@echo "  [ clean | dist-clean | clean-cache | clean-planet | clean-tile ]"
 	@echo "  [ create-osp | bbbike2wgs84 | update-robots.txt | create-sitemap ]"
 	@echo "  [ cache-heater | cache-heater-full | cache-heater-streets ]"
 	@echo "  [ create-bbbike-web-symlinks | kml | create-osp | index ]"

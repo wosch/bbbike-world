@@ -15,11 +15,11 @@
 # - xxx
 #
 
-use CGI qw/-utf-8 unescape escapeHTML/;
+use CGI qw/-utf8 unescape escapeHTML/;
 use IO::File;
 use JSON;
 use Data::Dumper;
-use Encode;
+use Encode qw/encode_utf8/;
 use Email::Valid;
 use Digest::MD5 qw(md5_hex);
 use Net::SMTP;
@@ -37,10 +37,10 @@ binmode \*STDERR, ":utf8";
 my $debug = 1;
 
 # spool directory. Should be at least 100GB large
-my $spool_dir = '/var/tmp/bbbike/extract';
+my $spool_dir = '/usr/local/www/tmp/extract';
 
 # max. area in square km
-my $max_skm = 70_000;
+my $max_skm = 200_000;
 
 # sent out emails as
 my $email_from = 'BBBike Admin <bbbike@bbbike.org>';
@@ -68,9 +68,45 @@ my $spool = {
 #
 
 sub header {
-    my $q = shift;
+    my $q    = shift;
+    my %args = @_;
+    my $type = $args{-type} || "";
 
-    return $q->header( -charset => 'utf-8' ) .
+    my @javascript = "../html/bbbike-js.js";
+    my @onload;
+    my @cookie;
+    if ( $type eq 'homepage' ) {
+        push @javascript, "../html/OpenLayers-2.11/OpenLayers.js",
+          "../html/OpenLayers-2.11/OpenStreetMap.js",
+          "../html/jquery-1.7.1.min.js", "../html/extract.js";
+        @onload = ( -onLoad, 'init();' );
+    }
+
+    # store last used selected in cookies for further usage
+    if ( $type eq 'check_input' ) {
+        my @cookies;
+        my @cookie_opt = (
+            -path    => $q->url( -absolute => 1, -query => 0 ),
+            -expires => '+30d'
+        );
+
+        push @cookies,
+          $q->cookie(
+            -name  => 'format',
+            -value => $q->param("format"),
+            @cookie_opt
+          );
+        push @cookies,
+          $q->cookie(
+            -name  => 'email',
+            -value => $q->param("email"),
+            @cookie_opt
+          );
+
+        push @cookie, -cookie => \@cookies;
+    }
+
+    return $q->header( -charset => 'utf-8', @cookie ) .
 
       $q->start_html(
         -title => 'BBBike @ World extracts',
@@ -82,8 +118,45 @@ sub header {
         ),
 
         -style => { 'src' => [ "../html/bbbike.css", "../html/luft.css" ] },
-        -script => [ { 'src' => "/html/bbbike-js.js" } ],
+        -script => [ map { { 'src' => $_ } } @javascript ],
+        @onload,
       );
+}
+
+# see ../html/extract.js
+sub map {
+
+    return <<EOF;
+<div id="content" class="site_index">
+
+ <div style="width: 100%; display: block;" id="sidebar">
+  
+  <div id="sidebar_content">
+
+    <span class="export_hint">
+      <a href="#" id="drag_box">Manually select a different area</a>  
+    </span> | <span id="square_km"></span>
+
+  <div id="export_osm">
+    <p class="export_heading"/>
+    <div id="export_osm_too_large" style="display:none">
+      <p class="export_heading error">Area Too Large. Please zoom in!</p>
+      <div class="export_details">
+      </div>
+    </div>
+  </div> <!-- export_bounds -->
+  
+  </div>
+</div><!-- sidebar -->
+   
+<!-- define a DIV into which the map will appear. Make it take up the whole window -->
+<!-- <div style="width:100%; height:100%" id="map"></div> -->
+<div style="width:100%; height:450px" id="map"></div>
+
+</div><!-- content -->
+
+EOF
+
 }
 
 sub footer {
@@ -145,7 +218,7 @@ This site allow you to extracts areas from the <a href="http://wiki.openstreetma
 The maximum area size is $max_skm square km.
 <br/>
 
-It takes between 30-120 minutes to extract an area. You will be notified by e-mail if your extract is ready for download.
+It takes between 10-30 minutes to extract an area. You will be notified by e-mail if your extract is ready for download.
 </p>
 <hr/>
 EOF
@@ -174,7 +247,7 @@ sub check_input {
     my $q = $args{'q'};
     our $qq = $q;
 
-    print &header($q);
+    print &header( $q, -type => 'check_input' );
     print &layout($q);
 
     our $error = 0;
@@ -256,6 +329,9 @@ sub check_input {
           "You will be notificed by e-mail soon. ",
           "Please follow the instruction in the email ",
           "to proceed your request.</p>\n",
+          qq{<p align='center'>Area: "}, escapeHTML($city),
+          "\" covers $skm square km, coords: ",
+          escapeHTML("$sw_lng,$sw_lat x $ne_lng,$ne_lat"), "\n</p>\n",
           "<p>Sincerely, your BBBike\@World admin</p>\n";
     }
 
@@ -283,7 +359,7 @@ sub check_input {
       )
     {
         print
-          qq{<p class="error">I'm so sorry, I could not save your request.\n},
+          qq{<p class="error">I'm so sorry, I couldn't save your request.\n},
           qq{Please contact the BBBike.org maintainer!</p>};
     }
     else {
@@ -345,11 +421,14 @@ EOF
 # SMTP wrapper
 sub send_email {
     my ( $to, $subject, $text ) = @_;
-    my $mail_server = "localhost";
-    my @to = split /,/, $to;
+    my $mail_server  = "localhost";
+    my @to           = split /,/, $to;
+    my $content_type = "Content-Type: text/plain; charset=UTF-8\n"
+      . "Content-Transfer-Encoding: binary";
 
     my $from = $email_from;
-    my $data = "From: $from\nTo: $to\nSubject: $subject\n\n$text";
+    my $data =
+      "From: $from\nTo: $to\nSubject: $subject\n" . "$content_type\n$text";
     my $smtp = new Net::SMTP( $mail_server, Hello => "localhost" )
       or die "can't make SMTP object";
 
@@ -362,10 +441,10 @@ sub send_email {
 sub square_km {
     my ( $x1, $y1, $x2, $y2 ) = @_;
 
-    my $height = GIS::Distance::Lite::distance( $x1, $y1 => $x1, $y2 );
-    my $width  = GIS::Distance::Lite::distance( $x2, $y1 => $x2, $y2 );
+    my $height = GIS::Distance::Lite::distance( $x1, $y1 => $x1, $y2 ) / 1000;
+    my $width  = GIS::Distance::Lite::distance( $x1, $y1 => $x2, $y1 ) / 1000;
 
-    return int( $height / 1_000 * $width / 1_000 );
+    return int( $height * $width );
 }
 
 # save request in incoming spool
@@ -375,10 +454,11 @@ sub save_request {
     my $json      = new JSON;
     my $json_text = $json->pretty->encode($obj);
 
-    my $key      = md5_hex( $json_text . rand() );
+    my $key      = md5_hex( encode_utf8($json_text) . rand() );
     my $incoming = $spool->{"incoming"} . "/$key.json";
 
     my $fh = new IO::File $incoming, "w";
+    binmode $fh, ":utf8";
     if ( !defined $fh ) {
         warn "Cannot open $incoming: $!\n";
         return 0;
@@ -412,14 +492,14 @@ sub confirm_key {
 
     if ( !$success ) {
         print
-qq{<p class="error">I'm so sorry, I could find a key for your request.\n},
+qq{<p class="error">I'm so sorry, I couldn't find a key for your request.\n},
           qq{Please contact the BBBike.org maintainer!</p>};
     }
     else {
         print
-qq{<p class="success">Thanks - your request has been confirmed.</p>\n},
-          qq{<p class="success">The extract will be ready in 30-120 minutes.\n},
-          qq{You will be notified by e-mail.</p>\n};
+          qq{<p class="">Thanks - your request has been confirmed.\n},
+          qq{It takes usually 10-30 minutes to extract the data.\n},
+qq{You will be notified by e-mail if your extract is ready for download. Stay tuned!</p>};
 
         print qq{<hr/>\n<p>We appreciate any feedback, suggestions },
           qq{and a <a href="../community.html#donate">donation</a>!</p>};
@@ -434,15 +514,20 @@ sub homepage {
 
     my $q = $args{'q'};
 
-    print &header($q);
+    print &header( $q, -type => 'homepage' );
     print &layout($q);
 
     print &message;
 
-    print $q->start_form( -method => 'GET' );
+    print $q->start_form( -method => 'POST', -id => 'extract' );
 
     my $lat = qq{<span title='Latitude'>lat</span>};
     my $lng = qq{<span title='Longitude'>lng</span>};
+
+    my $default_email = $q->cookie( -name => "email" ) || "";
+    my $default_format = $q->cookie( -name => "format" )
+      || $option->{'default_format'};
+
     print $q->table(
         $q->Tr(
             {},
@@ -456,25 +541,45 @@ sub homepage {
                 $q->td(
                     [
                         "Your email address",
-                        $q->textfield( -name => 'email', -size => 40 )
+                        $q->textfield(
+                            -name  => 'email',
+                            -size  => 40,
+                            -value => $default_email
+                        )
                     ]
                 ),
                 $q->td(
                     [
 "Left lower corner (<span title='South West'>SW</span>)",
-                        "$lat: "
-                          . $q->textfield( -name => 'sw_lat', -size => 14 )
-                          . " $lng: "
-                          . $q->textfield( -name => 'sw_lng', -size => 14 )
+                        "$lng: "
+                          . $q->textfield(
+                            -name => 'sw_lng',
+                            -id   => 'sw_lng',
+                            -size => 14
+                          )
+                          . " $lat: "
+                          . $q->textfield(
+                            -name => 'sw_lat',
+                            -id   => 'sw_lat',
+                            -size => 14
+                          )
                     ]
                 ),
                 $q->td(
                     [
                         "Right top corner (<span title='North East'>NE</span>)",
-                        "$lat: "
-                          . $q->textfield( -name => 'ne_lat', -size => 14 )
-                          . " $lng: "
-                          . $q->textfield( -name => 'ne_lng', -size => 14 )
+                        "$lng: "
+                          . $q->textfield(
+                            -name => 'ne_lng',
+                            -id   => 'ne_lng',
+                            -size => 14
+                          )
+                          . " $lat: "
+                          . $q->textfield(
+                            -name => 'ne_lat',
+                            -id   => 'ne_lat',
+                            -size => 14
+                          )
                     ]
                 ),
 
@@ -485,7 +590,7 @@ sub homepage {
                             -name    => 'format',
                             -values  => [ sort keys %$formats ],
                             -labels  => $formats,
-                            -default => $option->{'default_format'}
+                            -default => $default_format
                         )
                     ]
                 ),
@@ -494,9 +599,15 @@ sub homepage {
         )
     );
 
-    print $q->p;
-    print $q->submit( -name => 'submit', -value => 'extract' );
+    #print $q->p;
+    print $q->submit(
+        -name  => 'submit',
+        -value => 'extract',
+        -id    => 'extract'
+    );
     print $q->end_form;
+    print qq{<hr/\n};
+    print &map;
 
     print &footer($q);
 
