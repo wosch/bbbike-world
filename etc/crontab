@@ -1,7 +1,7 @@
 # For more information see the manual pages of crontab(5) and cron(8)
 # 
 # m h  dom mon dow   command
-*/3 * * * * cd $HOME/projects/bbbike/ && world/bin/extract.pl
+*/3 * * * * cd $HOME/projects/bbbike/ && world/bin/extract.pl --debug=1
 5 * * * * cd $HOME/projects/bbbike && make -s extract-gc7 extract-gc
 MAILTO=wosch
 # m h  dom mon dow   command

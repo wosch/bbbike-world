@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2011 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2011-2012 Wolfram Schneider, http://bbbike.org
 #
 # extract.pl - extracts areas in a batch job
 #
@@ -19,7 +19,7 @@ use IO::File;
 use IO::Dir;
 use JSON;
 use Data::Dumper;
-use Encode;
+use Encode qw/encode_utf8/;
 use Email::Valid;
 use Digest::MD5 qw(md5_hex);
 use Net::SMTP;
@@ -42,23 +42,25 @@ my $debug      = 0;
 my $test       = 0;
 
 # spool directory. Should be at least 100GB large
-my $spool_dir = '/var/tmp/bbbike/extract';
+my $spool_dir = '/usr/local/www/tmp/extract';
 
 # max. area in square km
-our $max_skm = 50_000;
+our $max_skm = 200_000;
 
 # sent out emails as
 our $email_from = 'bbbike@bbbike.org';
 
 our $option = {
     'max_areas' => 12,
-    'homepage'  => 'http://download2.bbbike.org/osm/extract',
+    'homepage'  => 'http://download.bbbike.org/osm/extract',
     'max_jobs'  => 3,
 
     # not used yet
     'max_extracts'   => 50,
     'min_wait_time'  => 5 * 60,    # in seconds
     'default_format' => 'pbf',
+
+    'bcc' => $email_from,
 };
 
 my $formats = {
@@ -69,7 +71,7 @@ my $formats = {
 
 my $spool = {
     'incoming' =>
-      "$spool_dir/incoming",       # incoming request, need to be confirmed
+      "$spool_dir/incoming",    # incoming request, need to be confirmed
     'confirmed' => "$spool_dir/confirmed",    # ready to run
     'running'   => "$spool_dir/running",      # currently running job
     'osm'       => "$spool_dir/osm",          # cache older runs
@@ -79,7 +81,7 @@ my $spool = {
 };
 
 # parse config file
-if ( -e $config_file) {
+if ( -e $config_file ) {
     require $config_file;
 }
 
@@ -134,6 +136,8 @@ sub parse_jobs {
         my $file = "$dir/$f";
 
         my $fh = new IO::File $file, "r" or die "open $file: $!\n";
+        binmode $fh, ":utf8";
+
         my $json_text;
         while (<$fh>) {
             $json_text .= $_;
@@ -182,7 +186,7 @@ sub get_job_id {
         $data .= $json->encode($key);
     }
 
-    my $key = md5_hex($data);
+    my $key = md5_hex( encode_utf8($data) );
     return $key;
 }
 
@@ -271,6 +275,8 @@ sub store_data {
     my ( $file, $data ) = @_;
 
     my $fh = new IO::File $file, "w" or die "open $file: $!\n";
+    binmode $fh, ":utf8";
+
     print $fh $data;
     $fh->close;
 }
@@ -380,21 +386,30 @@ sub checksum {
 
 # SMTP wrapper
 sub _send_email {
-    my ( $to, $subject, $text ) = @_;
+    my ( $to, $subject, $text, $bcc ) = @_;
     my $mail_server = "localhost";
     my @to = split /,/, $to;
 
-    my $from = $email_from;
-    my $data = "From: $from\nTo: $to\nSubject: $subject\n\n$text";
-    warn "send email to $from\n" if $debug && $debug < 3;
+    my $from         = $email_from;
+    my @bcc          = split /,/, $bcc;
+    my $content_type = "Content-Type: text/plain; charset=UTF-8\n"
+      . "Content-Transfer-Encoding: binary";
+
+    my $data =
+      "From: $from\nTo: $to\nSubject: $subject\n" . "$content_type\n\n$text";
+    warn "send email to $to\nbcc: $bcc\n$subject\n" if $debug >= 1;
+    warn "$text\n"                                  if $debug >= 2;
 
     my $smtp = new Net::SMTP( $mail_server, Hello => "localhost" )
       or die "can't make SMTP object";
 
     $smtp->mail($from) or die "can't send email from $from";
     $smtp->to(@to)     or die "can't use SMTP recipient '$to'";
+    if ($bcc) {
+        $smtp->bcc(@bcc) or die "can't use SMTP recipient '$bcc'";
+    }
     $smtp->data($data) or die "can't email data to '$to'";
-    $smtp->quit()      or die "can't send email to '$to'";
+    $smtp->quit() or die "can't send email to '$to'";
 
     warn "\n$data\n" if $debug >= 3;
 }
@@ -491,12 +506,13 @@ from planet.osm
  Format: $obj->{"format"}
  File size: $file_size
  MD5 checksum: $checksum
+ License: http://wiki.openstreetmap.org/wiki/OpenStreetMap_License
 
 To download the file, please click on the following link:
 
   $url
 
-The file will be available for the next 36 hours. Please 
+The file will be available for the next 48 hours. Please 
 download the file as soon as possible.
 
 Sincerely, your BBBike admin
@@ -509,7 +525,7 @@ EOF
         eval {
             _send_email( $obj->{'email'},
                 "Extracted area is ready for download: " . $obj->{'city'},
-                $message );
+                $message, $option->{'bcc'} );
         };
 
         if ($@) {
@@ -539,6 +555,7 @@ sub read_data {
     my ($file) = @_;
 
     my $fh = new IO::File $file, "r" or die "open $file: $!\n";
+    binmode $fh, ":utf8";
     my $data;
 
     while (<$fh>) {

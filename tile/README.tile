@@ -21,7 +21,6 @@ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys AE74800FB745A04C
 sudo apt-get update
 sudo apt-get install libapache2-mod-tile
 
-# Trouble shooting:
 
 sudo dpkg-reconfigure openstreetmap-postgis-db-setup
 Create user gis
@@ -30,11 +29,13 @@ Creating Database
 createdb: database creation failed: ERROR:  new encoding (UTF8) is incompatible with the encoding of the template database (SQL_ASCII)
 HINT:  Use the same encoding as in the template database, or use template0 as template.
 
+# Trouble shooting:
 # setup a utf8 database
 sudo pg_dropcluster --stop 8.4 main
 sudo pg_createcluster --start -e UTF-8 8.4 main
 
 sudo dpkg-reconfigure openstreetmap-postgis-db-setup
+# EOF Trouble shooting
 
 # if the installation of the mapnik style sheets failed, remove and install
 # the package again
@@ -44,10 +45,12 @@ sudo apt-get install openstreetmap-mapnik-stylesheet-data
 
 
 # setup your own style sheet
-svn checkout http://svn.openstreetmap.org/applications/rendering/mapnik
-sudo mv mapnik /etc/mapnik-german   
+#svn checkout http://svn.openstreetmap.org/applications/rendering/mapnik
+svn checkout http://svn.openstreetmap.org/applications/rendering/mapnik-german
+sudo mv mapnik-german /etc/mapnik-german
 
-ln -s ../mapnik-osm-data/world_boundaries .
+cd /etc/mapnik-german
+ln -s /usr/share/mapnik-osm-data/world_boundaries .
 cd inc-de
 cp datasource-settings.xml.inc.template datasource-settings.xml.inc 
 # do not set host & port!
@@ -65,14 +68,12 @@ cp settings.xml.inc.template settings.xml.inc
 # follow the instructions!
 
 # add bbbike quality attributes to osm2pgsql
-vi /usr/share/osm2pgsql/osm2pgsql/default.style
+sudo make bbbike-mapnik-config
 
-#bbbike
-node,way   bbbike:quality      text  linear
-
-# create osm dump
+# create osm dump, and import it
+cd bbbike
 make bbbike2wgs84-mapnik
-osm2pgsql --slim -S /usr/share/osm2pgsql/osm2pgsql/default.style -c tmp/bbbike-mapnik.osm.gz
+make bbbike-mapnik-postgis 
 
 # slow start of render/postgis
 cd /etc/init.d/
@@ -108,6 +109,14 @@ tail -f /var/log/syslog
 /etc/apache2/apache2.conf:
 LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" combined
 
+cd /etc/apache2/sites-available
+ln -s ~/projects/bbbike/world/tile/etc/apache2-tile.conf .
+a2ensite apache2-tile.conf
+rm -f /etc/apache2/sites-enabled/tileserver_site 
+
 # postgis trouble shooting
 sudo /usr/bin/install-postgis-osm-user.sh gis www-data
+
+cd ~/projects
+git clone ssh://git.bbbike.org/home/wosch/git/mc
 
