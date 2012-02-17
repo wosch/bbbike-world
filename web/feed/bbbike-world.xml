@@ -16,6 +16,15 @@
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>Added OpenCycleMaps Landscape and Transport for
+    http://bbbike.org</title>
+    <id>4953cbf8a82f394f88ec2e49898c5e0e</id>
+    <content>Added OpenCycleMaps Landscape and Transport for
+    http://bbbike.org</content>
+    <updated>2012-02-17T12:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title>Added new cities</title>
     <id>8b4c4c5b6f1175986ef6cc55bcd0bd41</id>
     <content>New city: Wuerzburg</content>
