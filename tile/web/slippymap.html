@@ -52,20 +52,14 @@
             } );
  
             // This is the layer that uses the locally stored tiles
-            var newLayer = new OpenLayers.Layer.OSM("BBBike.org Mapnik", "mapnik/${z}/${x}/${y}.png", {numZoomLevels: 19});
-            map.addLayer(newLayer);
-
-            var newLayer = new OpenLayers.Layer.OSM("BBBike.org Mapnik (de)", "mapnik-german/${z}/${x}/${y}.png", {numZoomLevels: 19});
-            map.addLayer(newLayer);
-
-
-            var layerMapnik = new OpenLayers.Layer.OSM.Mapnik("OSM Mapnik"); map.addLayer(layerMapnik);
-
+            map.addLayer( new OpenLayers.Layer.OSM("BBBike.org Mapnik", "mapnik/${z}/${x}/${y}.png", {numZoomLevels: 19}));
+            map.addLayer( new OpenLayers.Layer.OSM("BBBike.org Mapnik (de)", "mapnik-german/${z}/${x}/${y}.png", {numZoomLevels: 19}));
+            map.addLayer( new OpenLayers.Layer.OSM.Mapnik("OSM Mapnik"));
             map.addLayer( new OpenLayers.Layer.OSM("OSM Mapnik (de)", "http://a.tile.openstreetmap.de/tiles/osmde/${z}/${x}/${y}.png", {numZoomLevels: 18}));
             map.addLayer( new OpenLayers.Layer.OSM("OSM Mapnik b/w", "http://a.www.toolserver.org/tiles/bw-mapnik/${z}/${x}/${y}.png", {numZoomLevels: 18}));
-
-            var layerCycleMap = new OpenLayers.Layer.OSM.CycleMap("OSM CycleMap");
-            map.addLayer(layerCycleMap);
+            map.addLayer( new OpenLayers.Layer.OSM("OSM Transport", ["http://a.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png", "http://b.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png"], {numZoomLevels: 18}));
+            map.addLayer( new OpenLayers.Layer.OSM("OSM Landscape", ["http://a.tile3.opencyclemap.org/landscape/${z}/${x}/${y}.png", "http://b.tile3.opencyclemap.org/landscape/${z}/${x}/${y}.png"], {numZoomLevels: 18}));
+            map.addLayer( new OpenLayers.Layer.OSM.CycleMap("OSM CycleMap"));
 
 	    // var newLayer = OpenLayers.Layer.Google("Google Physical", {type: google.maps.MapTypeId.TERRAIN} );
 	    // var newLayer = new OpenLayers.Layer.Google( "Google Physical", { type: google.maps.MapTypeId.TERRAIN, 'sphericalMercator': true, attribution: ', Uses GeoLite data by <a href="http://maxmind.com/">MaxMind</a>', numZoomLevels:16 } );
