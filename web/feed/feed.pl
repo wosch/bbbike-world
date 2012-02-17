@@ -23,6 +23,17 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
+    title   => qq{Added OpenCycleMaps Landscape and Transport for http://bbbike.org},
+    id      => '4953cbf8a82f394f88ec2e49898c5e0e',
+    content => {
+        type    => 'text',
+        content => qq{Added OpenCycleMaps Landscape and Transport for http://bbbike.org},
+    },
+    updated  => '2012-02-17T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title => 'Added new cities',
     id    => '8b4c4c5b6f1175986ef6cc55bcd0bd41',
 
