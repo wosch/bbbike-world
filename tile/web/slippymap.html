@@ -59,6 +59,8 @@
             map.addLayer( new OpenLayers.Layer.OSM("OSM Mapnik b/w", "http://a.www.toolserver.org/tiles/bw-mapnik/${z}/${x}/${y}.png", {numZoomLevels: 18}));
             map.addLayer( new OpenLayers.Layer.OSM("OSM Transport", ["http://a.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png", "http://b.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png"], {numZoomLevels: 19}));
             map.addLayer( new OpenLayers.Layer.OSM("OSM Landscape", ["http://a.tile3.opencyclemap.org/landscape/${z}/${x}/${y}.png", "http://b.tile3.opencyclemap.org/landscape/${z}/${x}/${y}.png"], {numZoomLevels: 19}));
+            map.addLayer( new OpenLayers.Layer.OSM("OSM OEPNV", ["http://a.tile.xn--pnvkarte-m4a.de/tilegen//${z}/${x}/${y}.png", "http://b.tile.xn--pnvkarte-m4a.de/tilegen/${z}/${x}/${y}.png"], {numZoomLevels: 18}));
+            map.addLayer( new OpenLayers.Layer.OSM("OSM Hike&Bike", ["http://a.www.toolserver.org/tiles/hikebike//${z}/${x}/${y}.png", "http://b..www.toolserver.org/tiles/hikebike/${z}/${x}/${y}.png"], {numZoomLevels: 18}));
             map.addLayer( new OpenLayers.Layer.OSM.CycleMap("OSM CycleMap"));
 
 	    // var newLayer = OpenLayers.Layer.Google("Google Physical", {type: google.maps.MapTypeId.TERRAIN} );
@@ -70,6 +72,35 @@
 
 	    map.addLayer( new OpenLayers.Layer.Yahoo( "Yahoo Street", { 'sphericalMercator': true, attribution: '<a href="http://yahoo.com/">Yahoo Local Maps</a>', numZoomLevels:18 } ));
 	    map.addLayer( new OpenLayers.Layer.Yahoo( "Yahoo Aerial", { 'type': YAHOO_MAP_SAT, 'sphericalMercator': true, attribution: '<a href="http://yahoo.com/">Yahoo Local Maps</a>', numZoomLevels:18 } ));
+	    map.addLayer( new OpenLayers.Layer.Yahoo( "Yahoo Hybrid", { 'type': YAHOO_MAP_HYB, 'sphericalMercator': true, attribution: '<a href="http://yahoo.com/">Yahoo Local Maps</a>', numZoomLevels:18 } ));
+
+            function bing () {
+var apiKey = "AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf";
+
+// var map = new OpenLayers.Map( 'map');
+
+var road = new OpenLayers.Layer.Bing({
+    key: apiKey,
+    type: "Road",
+    // custom metadata parameter to request the new map style - only useful
+    // before May 1st, 2011
+    metadataParams: {mapVersion: "v1"}
+});
+var aerial = new OpenLayers.Layer.Bing({
+    key: apiKey,
+    type: "Aerial"
+});
+var hybrid = new OpenLayers.Layer.Bing({
+    key: apiKey,
+    type: "AerialWithLabels",
+    name: "Bing Aerial With Labels"
+});
+
+map.addLayers([road, aerial, hybrid]);
+};
+ 
+          bing();
+
 
 
 // This is the end of the layer
