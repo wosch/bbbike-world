@@ -153,7 +153,17 @@ map.addLayers([road, aerial, hybrid]);
               opacity: 1, isBaseLayer: false, visibility: false, numZoomLevels: 19, noOpaq: true } );
             map.addLayer(newLayer);
 
+            var newLayer = new OpenLayers.Layer.TMS( "Hillshading SRTM3 V2", "http://toolserver.org/~cmarqu/hill/",
+            { type: 'png', getURL: osm_getTileURL,
+		displayOutsideMaxExtent: true, attribution: '<a href="http://toolserver.org/~cmarqu/hill/">Hillshading SRTM3 V2</a>',
+              opacity: 1, isBaseLayer: false, visibility: false, numZoomLevels: 19, noOpaq: true } );
+            map.addLayer(newLayer);
 
+            var newLayer = new OpenLayers.Layer.TMS( "Land Shading", "http://tiles2.openpistemap.org/landshaded/",
+            { type: 'png', getURL: osm_getTileURL,
+               displayOutsideMaxExtent: true, attribution: '<a href="http://tiles2.openpistemap.org/landshaded/">Land Shading</a>',
+              opacity: 1, isBaseLayer: false, visibility: false, numZoomLevels: 19, noOpaq: true } );
+            map.addLayer(newLayer);
  
             if( ! map.getCenter() ){
                 var lonLat = new OpenLayers.LonLat(lon, lat).transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject());
