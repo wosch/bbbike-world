@@ -19,7 +19,7 @@ use IO::File;
 use IO::Dir;
 use JSON;
 use Data::Dumper;
-use Encode;
+use Encode qw/encode_utf8/;
 use Email::Valid;
 use Digest::MD5 qw(md5_hex);
 use Net::SMTP;
@@ -42,7 +42,7 @@ my $debug      = 0;
 my $test       = 0;
 
 # spool directory. Should be at least 100GB large
-my $spool_dir = '/var/tmp/bbbike/extract';
+my $spool_dir = '/usr/local/www/tmp/extract';
 
 # max. area in square km
 our $max_skm = 200_000;
@@ -136,6 +136,8 @@ sub parse_jobs {
         my $file = "$dir/$f";
 
         my $fh = new IO::File $file, "r" or die "open $file: $!\n";
+        binmode $fh, ":utf8";
+
         my $json_text;
         while (<$fh>) {
             $json_text .= $_;
@@ -184,7 +186,7 @@ sub get_job_id {
         $data .= $json->encode($key);
     }
 
-    my $key = md5_hex($data);
+    my $key = md5_hex( encode_utf8($data) );
     return $key;
 }
 
@@ -273,6 +275,8 @@ sub store_data {
     my ( $file, $data ) = @_;
 
     my $fh = new IO::File $file, "w" or die "open $file: $!\n";
+    binmode $fh, ":utf8";
+
     print $fh $data;
     $fh->close;
 }
@@ -386,11 +390,15 @@ sub _send_email {
     my $mail_server = "localhost";
     my @to = split /,/, $to;
 
-    my $from = $email_from;
-    my @bcc = split /,/, $bcc;
+    my $from         = $email_from;
+    my @bcc          = split /,/, $bcc;
+    my $content_type = "Content-Type: text/plain; charset=UTF-8\n"
+      . "Content-Transfer-Encoding: binary";
 
-    my $data = "From: $from\nTo: $to\nSubject: $subject\n\n$text";
-    warn "send email to $to\nbcc: $bcc\n" if $debug && $debug < 3;
+    my $data =
+      "From: $from\nTo: $to\nSubject: $subject\n" . "$content_type\n\n$text";
+    warn "send email to $to\nbcc: $bcc\n$subject\n" if $debug >= 1;
+    warn "$text\n"                                  if $debug >= 2;
 
     my $smtp = new Net::SMTP( $mail_server, Hello => "localhost" )
       or die "can't make SMTP object";
@@ -547,6 +555,7 @@ sub read_data {
     my ($file) = @_;
 
     my $fh = new IO::File $file, "r" or die "open $file: $!\n";
+    binmode $fh, ":utf8";
     my $data;
 
     while (<$fh>) {

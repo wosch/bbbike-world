@@ -43,7 +43,7 @@ zcat -f $logfiles | egrep -v 85.214.61.222 | egrep "GET $front_end/cgi/location.
 echo "tile log"
 egrep tile $varnish_log | awk '{ print $1 }' | sort | uniq -c | sort -nr | dns
 echo "tile log 404"
-egrep tile $varnish_log | egrep -v ' 200 ' | awk '{ print $1 }' | sort | uniq -c | sort -nr | dns
+egrep tile $varnish_log | egrep -v ' (200|30[124]) ' | awk '{ print $1 }' | sort | uniq -c | sort -nr | dns
 
 echo ""
 echo "Preferences seen: "

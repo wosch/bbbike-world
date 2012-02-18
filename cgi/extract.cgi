@@ -15,11 +15,11 @@
 # - xxx
 #
 
-use CGI qw/-utf-8 unescape escapeHTML/;
+use CGI qw/-utf8 unescape escapeHTML/;
 use IO::File;
 use JSON;
 use Data::Dumper;
-use Encode;
+use Encode qw/encode_utf8/;
 use Email::Valid;
 use Digest::MD5 qw(md5_hex);
 use Net::SMTP;
@@ -37,7 +37,7 @@ binmode \*STDERR, ":utf8";
 my $debug = 1;
 
 # spool directory. Should be at least 100GB large
-my $spool_dir = '/var/tmp/bbbike/extract';
+my $spool_dir = '/usr/local/www/tmp/extract';
 
 # max. area in square km
 my $max_skm = 200_000;
@@ -218,7 +218,7 @@ This site allow you to extracts areas from the <a href="http://wiki.openstreetma
 The maximum area size is $max_skm square km.
 <br/>
 
-It takes between 15-30 minutes to extract an area. You will be notified by e-mail if your extract is ready for download.
+It takes between 10-30 minutes to extract an area. You will be notified by e-mail if your extract is ready for download.
 </p>
 <hr/>
 EOF
@@ -359,7 +359,7 @@ sub check_input {
       )
     {
         print
-          qq{<p class="error">I'm so sorry, I could not save your request.\n},
+          qq{<p class="error">I'm so sorry, I couldn't save your request.\n},
           qq{Please contact the BBBike.org maintainer!</p>};
     }
     else {
@@ -421,11 +421,14 @@ EOF
 # SMTP wrapper
 sub send_email {
     my ( $to, $subject, $text ) = @_;
-    my $mail_server = "localhost";
-    my @to = split /,/, $to;
+    my $mail_server  = "localhost";
+    my @to           = split /,/, $to;
+    my $content_type = "Content-Type: text/plain; charset=UTF-8\n"
+      . "Content-Transfer-Encoding: binary";
 
     my $from = $email_from;
-    my $data = "From: $from\nTo: $to\nSubject: $subject\n\n$text";
+    my $data =
+      "From: $from\nTo: $to\nSubject: $subject\n" . "$content_type\n$text";
     my $smtp = new Net::SMTP( $mail_server, Hello => "localhost" )
       or die "can't make SMTP object";
 
@@ -451,10 +454,11 @@ sub save_request {
     my $json      = new JSON;
     my $json_text = $json->pretty->encode($obj);
 
-    my $key      = md5_hex( $json_text . rand() );
+    my $key      = md5_hex( encode_utf8($json_text) . rand() );
     my $incoming = $spool->{"incoming"} . "/$key.json";
 
     my $fh = new IO::File $incoming, "w";
+    binmode $fh, ":utf8";
     if ( !defined $fh ) {
         warn "Cannot open $incoming: $!\n";
         return 0;
@@ -488,14 +492,14 @@ sub confirm_key {
 
     if ( !$success ) {
         print
-qq{<p class="error">I'm so sorry, I could find a key for your request.\n},
+qq{<p class="error">I'm so sorry, I couldn't find a key for your request.\n},
           qq{Please contact the BBBike.org maintainer!</p>};
     }
     else {
         print
-qq{<p class="success">Thanks - your request has been confirmed.</p>\n},
-          qq{<p class="success">The extract will be ready in 15-30 minutes.\n},
-          qq{You will be notified by e-mail.</p>\n};
+          qq{<p class="">Thanks - your request has been confirmed.\n},
+          qq{It takes usually 10-30 minutes to extract the data.\n},
+qq{You will be notified by e-mail if your extract is ready for download. Stay tuned!</p>};
 
         print qq{<hr/>\n<p>We appreciate any feedback, suggestions },
           qq{and a <a href="../community.html#donate">donation</a>!</p>};
