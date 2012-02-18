@@ -23,13 +23,11 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
-    title =>
-qq{New feature: a Land Shading overlay layer (Hills)},
+    title   => qq{New feature: a Land Shading overlay layer (Hills)},
     id      => '27ee6bd90e6f17590f0c1c045cda3722',
     content => {
-        type => 'text',
-        content =>
-qq{New feature: a Land Shading overlay layer (Hills)},
+        type    => 'text',
+        content => qq{New feature: a Land Shading overlay layer (Hills)},
     },
     updated  => '2012-02-18T12:30:02Z',
     category => 'News',
