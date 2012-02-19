@@ -23,6 +23,17 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
+    title   => qq{New feature: new maps Esri and Esri Topo},
+    id      => 'd002aa4014948d154e57eacf0c662a0f',
+    content => {
+        type    => 'text',
+        content => qq{New feature: new maps Esri and Esri Topo},
+    },
+    updated  => '2012-02-19T13:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title   => qq{New feature: new maps MapQuest and MapQuest Sat},
     id      => 'd002aa4014948d154e57eacf0c662a0e',
     content => {

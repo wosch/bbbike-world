@@ -16,6 +16,13 @@
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>New feature: new maps Esri and Esri Topo</title>
+    <id>d002aa4014948d154e57eacf0c662a0f</id>
+    <content>New feature: new maps Esri and Esri Topo</content>
+    <updated>2012-02-19T13:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title>New feature: new maps MapQuest and MapQuest Sat</title>
     <id>d002aa4014948d154e57eacf0c662a0e</id>
     <content>New feature: new maps MapQuest and MapQuest
