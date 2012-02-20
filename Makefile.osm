@@ -52,7 +52,7 @@ RM_BG=	world/bin/rm-bg
 WEB_GROUP=	www-data
 EXTRACTS_SPOOL_DIR=/usr/local/www/tmp/extract
 POSTGIS_STYLE=/usr/share/osm2pgsql/osm2pgsql/bbbike.style
-WEB_SERVER=	http://www.bbbike.org
+WEB_SERVER=	www.bbbike.org
 
 CITIES_FILE=world/etc/cities.txt
 CITIES=$(shell ${PERL} -npe 's/\#.*//' ${CITIES_FILE})
@@ -510,7 +510,7 @@ cache-heater: cache-heater-streets cache-heater-common
 cache-heater-common: 
 	du -hs ${BBBIKE_CACHE_DIR}/* || du -hs ${BBBIKE_CACHE_DIR}/
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
-	   ${PERL} -ne 'chomp; print "'${WEB_SERVER}'/$$_/?generate_cache=1\0"' | \
+	   ${PERL} -ne 'chomp; print "http://'${WEB_SERVER}'/$$_/?generate_cache=1\0"' | \
 	   ${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 	du -hs ${BBBIKE_CACHE_DIR}/*
 
