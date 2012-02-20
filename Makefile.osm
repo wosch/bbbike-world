@@ -204,15 +204,6 @@ update-robots.txt:
 	  done; \
 	) > world/web/robots.txt
 
-# using GNU xargs -P parallel
-osm-areas2:
-	#rm -rf ${OSM_AREAS_OPENSEARCH}.old
-	#if test -e ${OSM_AREAS_OPENSEARCH}; then mv ${OSM_AREAS_OPENSEARCH} ${OSM_AREAS_OPENSEARCH}.old; fi
-	mkdir -p ${OSM_AREAS_OPENSEARCH}
-	cd ${OSM_AREAS_OPENSEARCH} && mkdir -p `echo ${OSM_AREAS} | ${PERL} -npe 's/\.osm\.bz2//g'`
-	echo ${OSM_AREAS} " " | \
-	  ${PERL} -ne 'chomp; foreach (split) { print qq{PATH=\$$PATH:`pwd`/world/bin world/bin/osm2suggestions ../osm/download/$$_ '${OSM_AREAS_OPENSEARCH}'/$$_\0} }' | \
-	  ${XARGS} -0 -n1 -P${MAX_CPU2} sh -c
 
 # faster than planet-streets
 planet-places:
@@ -248,8 +239,6 @@ cleanup-osm-error:
 convert2: convert3 convert-workarounds
 # using GNU xargs -P parallel
 convert3:
-	#rm -rf ${DATA_OSM_DIR}.old
-	#if test -e ${DATA_OSM_DIR}; then cp -rp ${DATA_OSM_DIR} ${DATA_OSM_DIR}.old;  fi
 	mkdir -p ${DATA_OSM_DIR}
 	cd ${OSM_DIR} # test
 	echo ${CITIES} " " | ${PERL} -npe 's/\s+/-convert /g' | \
@@ -525,16 +514,6 @@ cache-heater-common:
 	   ${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 	du -hs ${BBBIKE_CACHE_DIR}/*
 
-cache-heater-common.old: 
-	du -hs ${BBBIKE_CACHE_DIR}/* || du -hs ${BBBIKE_CACHE_DIR}/
-	curl -sS 'http://www.bbbike.org/cgi/livesearch.cgi?ns=cache;max='${CACHE_HEATER_MAX} | \
-		${PERL} -npe 's/\n/\0/g' | \
-		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
-	du -hs ${BBBIKE_CACHE_DIR}/*
-
-cache-heater-full:
-	${MAKE} -f Makefile.osm CACHE_HEATER_MAX=300 cache-heater
-
 cache-heater-streets: cache-heater-homepage cache-heater-opensearch
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
 		${PERL} -npe 'chomp; $$_ = "http://www.bbbike.org/$$_/streets.html\0http://www.bbbike.org/en/$$_/streets.html\0"' | \
@@ -626,7 +605,7 @@ help:
 	@echo "  [ bbbike2wgs84-mapnik | bbbike-mapnik-config | bbbike-mapnik-postgis ]"
 	@echo "  [ clean | dist-clean | clean-cache | clean-planet | clean-tile ]"
 	@echo "  [ create-osp | bbbike2wgs84 | update-robots.txt | create-sitemap ]"
-	@echo "  [ cache-heater | cache-heater-full | cache-heater-streets ]"
+	@echo "  [ cache-heater | cache-heater-streets ]"
 	@echo "  [ create-bbbike-web-symlinks | kml | create-osp | index ]"
 	@echo "  [ convert-wgs84 | convert-bbbike | convert-bbbike-full ]"
 	@echo "  [ city-count | city-reorder | city-file | check-osm | cleanup-osm-error ]"
