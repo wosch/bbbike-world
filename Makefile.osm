@@ -3,7 +3,7 @@
 #
 # Get and convert OpenStreetMap.org data to BBBike
 #
-# For more information about BBBike, visit http://www.bbbike.de
+# For more information about BBBike, visit http://www.bbbike.org
 #
 
 
@@ -429,7 +429,7 @@ clean: rotate-data-osm
 
 clean-cache cache-clean:
 	du -hs ${BBBIKE_CACHE_DIR}/
-	mkdir -p ${BBBIKE_CACHE_DIR}/www.bbbike.org ${BBBIKE_CACHE_DIR}/localhost
+	mkdir -p ${BBBIKE_CACHE_DIR}/${WEB_SERVER} ${BBBIKE_CACHE_DIR}/localhost
 	mkdir -p ${BBBIKE_CACHE_DIR}/tmp.$$$$; \
 	    mv -f ${BBBIKE_CACHE_DIR}/*bbbike.org ${BBBIKE_CACHE_DIR}/localhost ${BBBIKE_CACHE_DIR}/tmp.$$$$ || true; \
 	    rm -rf ${BBBIKE_CACHE_DIR}/tmp.$$$$ &
@@ -516,16 +516,16 @@ cache-heater-common:
 
 cache-heater-streets: cache-heater-homepage cache-heater-opensearch
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
-		${PERL} -npe 'chomp; $$_ = "http://www.bbbike.org/$$_/streets.html\0http://www.bbbike.org/en/$$_/streets.html\0"' | \
+		${PERL} -npe 'chomp; $$_ = "http://'${WEB_SERVER}'/$$_/streets.html\0http://'${WEB_SERVER}'/en/$$_/streets.html\0"' | \
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 
 cache-heater-homepage: cache-heater-osp
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
-		${PERL} -npe 'chomp; $$_ = "http://www.bbbike.org/$$_/\0http://www.bbbike.org/en/$$_/\0http://www.bbbike.org/m/$$_/\0"' | \
+		${PERL} -npe 'chomp; $$_ = "http://'${WEB_SERVER}'/$$_/\0http://'${WEB_SERVER}'/en/$$_/\0http://'${WEB_SERVER}'/m/$$_/\0"' | \
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 
 cache-heater-osp:
-	find osp -name '*.xml' -print0 | perl -n0e 'print qq{http://www.bbbike.org/$$_}' | \
+	find osp -name '*.xml' -print0 | perl -n0e 'print qq{http://'${WEB_SERVER}'/$$_}' | \
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 
 cache-heater-opensearch:
