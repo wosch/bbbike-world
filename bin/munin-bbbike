@@ -299,7 +299,12 @@ sub get_offset {
     my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
     my $number = <$fh>;
 
-    chomp($number);
+    if ( defined $number ) {
+        chomp($number);
+    }
+    else {
+        $number = 0;
+    }
 
     warn "Got offset $number from $file\n" if $debug;
     return $number;

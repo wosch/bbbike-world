@@ -46,9 +46,10 @@ my $max_skm = 200_000;
 my $email_from = 'BBBike Admin <bbbike@bbbike.org>';
 
 my $option = {
-    'max_extracts'   => 50,
-    'min_wait_time'  => 5 * 60,    # in seconds
-    'default_format' => 'pbf',
+    'max_extracts'       => 50,
+    'min_wait_time'      => 5 * 60,    # in seconds
+    'default_format'     => 'pbf',
+    'city_name_optional' => 1,
 };
 
 my $formats = {
@@ -290,7 +291,12 @@ sub check_input {
         error("Unknown error format '$format'");
     }
     if ( $city eq '' ) {
-        error("Please give the area a name.");
+        if ( $option->{'city_name_optional'} ) {
+            $city = "none";
+        }
+        else {
+            error("Please give the area a name.");
+        }
     }
     if ( $email eq '' ) {
         error("Please enter a e-mail address.");

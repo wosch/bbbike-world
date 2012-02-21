@@ -3,7 +3,7 @@
 #
 # Get and convert OpenStreetMap.org data to BBBike
 #
-# For more information about BBBike, visit http://www.bbbike.de
+# For more information about BBBike, visit http://www.bbbike.org
 #
 
 
@@ -52,6 +52,7 @@ RM_BG=	world/bin/rm-bg
 WEB_GROUP=	www-data
 EXTRACTS_SPOOL_DIR=/usr/local/www/tmp/extract
 POSTGIS_STYLE=/usr/share/osm2pgsql/osm2pgsql/bbbike.style
+WEB_SERVER=	www.bbbike.org
 
 CITIES_FILE=world/etc/cities.txt
 CITIES=$(shell ${PERL} -npe 's/\#.*//' ${CITIES_FILE})
@@ -203,15 +204,6 @@ update-robots.txt:
 	  done; \
 	) > world/web/robots.txt
 
-# using GNU xargs -P parallel
-osm-areas2:
-	#rm -rf ${OSM_AREAS_OPENSEARCH}.old
-	#if test -e ${OSM_AREAS_OPENSEARCH}; then mv ${OSM_AREAS_OPENSEARCH} ${OSM_AREAS_OPENSEARCH}.old; fi
-	mkdir -p ${OSM_AREAS_OPENSEARCH}
-	cd ${OSM_AREAS_OPENSEARCH} && mkdir -p `echo ${OSM_AREAS} | ${PERL} -npe 's/\.osm\.bz2//g'`
-	echo ${OSM_AREAS} " " | \
-	  ${PERL} -ne 'chomp; foreach (split) { print qq{PATH=\$$PATH:`pwd`/world/bin world/bin/osm2suggestions ../osm/download/$$_ '${OSM_AREAS_OPENSEARCH}'/$$_\0} }' | \
-	  ${XARGS} -0 -n1 -P${MAX_CPU2} sh -c
 
 # faster than planet-streets
 planet-places:
@@ -247,8 +239,6 @@ cleanup-osm-error:
 convert2: convert3 convert-workarounds
 # using GNU xargs -P parallel
 convert3:
-	#rm -rf ${DATA_OSM_DIR}.old
-	#if test -e ${DATA_OSM_DIR}; then cp -rp ${DATA_OSM_DIR} ${DATA_OSM_DIR}.old;  fi
 	mkdir -p ${DATA_OSM_DIR}
 	cd ${OSM_DIR} # test
 	echo ${CITIES} " " | ${PERL} -npe 's/\s+/-convert /g' | \
@@ -439,7 +429,7 @@ clean: rotate-data-osm
 
 clean-cache cache-clean:
 	du -hs ${BBBIKE_CACHE_DIR}/
-	mkdir -p ${BBBIKE_CACHE_DIR}/www.bbbike.org ${BBBIKE_CACHE_DIR}/localhost
+	mkdir -p ${BBBIKE_CACHE_DIR}/${WEB_SERVER} ${BBBIKE_CACHE_DIR}/localhost
 	mkdir -p ${BBBIKE_CACHE_DIR}/tmp.$$$$; \
 	    mv -f ${BBBIKE_CACHE_DIR}/*bbbike.org ${BBBIKE_CACHE_DIR}/localhost ${BBBIKE_CACHE_DIR}/tmp.$$$$ || true; \
 	    rm -rf ${BBBIKE_CACHE_DIR}/tmp.$$$$ &
@@ -519,26 +509,23 @@ cache-heater: cache-heater-streets cache-heater-common
 
 cache-heater-common: 
 	du -hs ${BBBIKE_CACHE_DIR}/* || du -hs ${BBBIKE_CACHE_DIR}/
-	curl -sS 'http://www.bbbike.org/cgi/livesearch.cgi?ns=cache;max='${CACHE_HEATER_MAX} | \
-		${PERL} -npe 's/\n/\0/g' | \
-		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
+	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
+	   ${PERL} -ne 'chomp; print "http://'${WEB_SERVER}'/$$_/?generate_cache=1\0"' | \
+	   ${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 	du -hs ${BBBIKE_CACHE_DIR}/*
-
-cache-heater-full:
-	${MAKE} -f Makefile.osm CACHE_HEATER_MAX=300 cache-heater
 
 cache-heater-streets: cache-heater-homepage cache-heater-opensearch
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
-		${PERL} -npe 'chomp; $$_ = "http://www.bbbike.org/$$_/streets.html\0http://www.bbbike.org/en/$$_/streets.html\0"' | \
+		${PERL} -npe 'chomp; $$_ = "http://'${WEB_SERVER}'/$$_/streets.html\0http://'${WEB_SERVER}'/en/$$_/streets.html\0"' | \
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 
 cache-heater-homepage: cache-heater-osp
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
-		${PERL} -npe 'chomp; $$_ = "http://www.bbbike.org/$$_/\0http://www.bbbike.org/en/$$_/\0http://www.bbbike.org/m/$$_/\0"' | \
+		${PERL} -npe 'chomp; $$_ = "http://'${WEB_SERVER}'/$$_/\0http://'${WEB_SERVER}'/en/$$_/\0http://'${WEB_SERVER}'/m/$$_/\0"' | \
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 
 cache-heater-osp:
-	find osp -name '*.xml' -print0 | perl -n0e 'print qq{http://www.bbbike.org/$$_}' | \
+	find osp -name '*.xml' -print0 | perl -n0e 'print qq{http://'${WEB_SERVER}'/$$_}' | \
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 
 cache-heater-opensearch:
@@ -614,20 +601,26 @@ help:
 	@echo "  [ help | cities | cities-parallel | fetch-extracts ]"
 	@echo "  [ rsync-tgz | rsync-osm | rsync-osm-dev | rsync-planet | symlink-download ]"
 	@echo "  [ jsbeautifier | perltidy | tidy ]"
+	@echo ""
 	@echo "  [ bbbike-osm2pbf | osm2pbf ]"
 	@echo "  [ bbbike2wgs84-mapnik | bbbike-mapnik-config | bbbike-mapnik-postgis ]"
+	@echo ""
 	@echo "  [ clean | dist-clean | clean-cache | clean-planet | clean-tile ]"
+	@echo ""
 	@echo "  [ create-osp | bbbike2wgs84 | update-robots.txt | create-sitemap ]"
-	@echo "  [ cache-heater | cache-heater-full | cache-heater-streets ]"
+	@echo "  [ cache-heater | cache-heater-streets ]"
 	@echo "  [ create-bbbike-web-symlinks | kml | create-osp | index ]"
 	@echo "  [ convert-wgs84 | convert-bbbike | convert-bbbike-full ]"
 	@echo "  [ city-count | city-reorder | city-file | check-osm | cleanup-osm-error ]"
 	@echo "  [ city-memory | varnish-purge-all ]"
+	@echo ""
 	@echo "  [ elevation-fetch | elevation-update | elevation-check | elevation-repair ]"
+	@echo ""
 	@echo "  [ planet-download | planet-geofabrik-download ]"
 	@echo "  [ planet-streets | planet-places ]"
 	@echo "  [ update-database | update-files ]"
 	@echo "  [ download-bbbike-org-install ]"
+	@echo ""
 	@echo "  [ staging | extract-install | extract-distclean ]"
 	@echo "  [ extract-gc | extract-gc7 | extract-gc-osm ]"
 	@echo ""
