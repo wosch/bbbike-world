@@ -98,7 +98,7 @@ sudo ln -s ~/projects/bbbike/world/tile/web/slippymap-dev.html
 sudo ln -s ~/projects/mc 
 
 cd /var/www/
-sudo ln -s ~/projects/bbbike/world/tile/web/robotst.txt .
+sudo ln -s ~/projects/bbbike/world/tile/web/robots.txt .
 
 cd /etc/
 sudo ln -s /home/wosch/projects/bbbike/world/tile/etc/renderd.conf
