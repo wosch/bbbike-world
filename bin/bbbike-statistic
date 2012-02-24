@@ -34,7 +34,7 @@ log_all () {
 log () {
     match="$1"
     #zcat -f $logfiles | egrep -v '^10\.' | egrep "GET $match" | egrep -v '" 40[34] '
-    log_all "$match" | egrep -v '" 40[34] ' 
+    log_all "$match" | egrep -v '" 40[34] '
 }
 log_post () {
     match="$1"
@@ -86,7 +86,7 @@ echo -n "bbbike.org hosts: "
 log "$url_match" | awk '{print $1}' | sort -u | wc -l
 log "$url_match" |
 	egrep -v 'Purebot|Java/1|SnapPreviewBot|Tcl http client package|Yahoo\! Slurp|www.bing.com/bingbot.htm|crawler.html|Googlebot|ezooms.bot|covario|Ronbot/Nutch|cmsworldmap.com' |
-	awk '{print $1, $7 }' | perl $perl_utf8 -npe 's/\?.*//; s,/cgi/,,; s,(\.en)?\.cgi,,;' | 
+	awk '{print $1, $7 }' | perl $perl_utf8 -npe 's/\?.*//; s,/cgi/,,; s,(\.en)?\.cgi,,;' |
 	sort | uniq -c | sort -nr | head -40 | $dns
 
 echo ""
@@ -101,17 +101,17 @@ log "(/ |$url_match.*) HTTP" |
 echo -n "google references: "
 log "$url_match.*" | egrep -v 'GET \S*/[^ ]+/streets.html' | egrep -i 'google.*fahrrad' | wc -l
 
-log "(/ |$url_match.*)" | 
+log "(/ |$url_match.*)" |
 	egrep -v 'GET \S*/[^ ]+/streets.html' | egrep -iv 'google.*fahrrad' |
 	egrep -v 'Purebot|Java/1|SnapPreviewBot|Tcl http client package|"http://www.bbbike.org|"http://www\.google' |
-	awk '{print $11}' | perl $perl_utf8 -npe "s,.?http://www.bbbike.org$url_match\?.*\n,$1,g" | 
+	awk '{print $11}' | perl $perl_utf8 -npe "s,.?http://www.bbbike.org$url_match\?.*\n,$1,g" |
 	sort | uniq -c | sort -nr |
 	perl $perl_utf8 -MCGI -npe '$_ = CGI::unescape($_)'
 
 
 echo ""
 echo -n "bbbike cities: "
-log "$url_match.*?\?" | egrep -v 'imagetype=png.*geometry=240x180' |  
+log "$url_match.*?\?" | egrep -v 'imagetype=png.*geometry=240x180' |
 	perl $perl_utf8 -ne 'print "$1\n" if m,GET \S*/cgi/(.*?).cgi, || m,GET \S*/([A-Z][a-z]+)/\?, || m,GET \S*/([a-z][a-z]/[A-Z][a-z]+)/\?, ' | wc -l
 
 log "$url_match.*?\?" | egrep -v 'imagetype=png.*geometry=240x180' |
@@ -149,7 +149,7 @@ log '[^ ]*/cgi/street-coord.cgi\?' | wc -l
 
 echo ""
 echo -n "bbbike cities pdf: "
-log_post $url_match | 
+log_post $url_match |
 	egrep 'POST (/[a-z][a-z])?/[A-Z][a-z]+.*?\?' | perl $perl_utf8 -ne 'print "$1\n" if m,POST /[A-Z][a-z]+/(.*?), || m,POST /[a-z][a-z]/[A-Z][a-z]+/(.*?),' | wc -l
 
 log_post $url_match | egrep 'POST (/[a-z][a-z])?/[A-Z][a-z]+/.*?\?' |
@@ -158,10 +158,10 @@ log_post $url_match | egrep 'POST (/[a-z][a-z])?/[A-Z][a-z]+/.*?\?' |
 
 echo ""
 echo -n "output formats total: "
-log_post $url_match | egrep "GET $url_match.*?\?" | 
+log_post $url_match | egrep "GET $url_match.*?\?" |
 	perl $perl_utf8 -ne 'print "$1 $2\n" if m,GET /(.*?[A-Z][^/]+)/.*?\?\S*output_as=([^;&\s]+),' | wc -l
 echo "output formats: "
-log_post $url_match  | egrep "GET $url_match.*?\?" | 
+log_post $url_match  | egrep "GET $url_match.*?\?" |
 	perl $perl_utf8 -ne 'print "$1 $2\n" if m,GET /(.*?[A-Z][^/]+)/.*?\?\S*output_as=([^;&\s]+),' | sort | uniq -c | sort -nr
 
 echo ""
@@ -176,19 +176,19 @@ log_post $url_match | egrep "GET $url_match.*?\?" |
 echo ""
 echo -n "slippymap cities IE6/7: "
 log_post $url_match  | egrep 'POST /cgi/slippymap.*?\?' |  perl $perl_utf8 -ne 'print "$1\n" if m,city=(.*?)[&;],' | wc -l
-log_post $url_match | egrep 'POST /cgi/slippymap.*?\?' | 
+log_post $url_match | egrep 'POST /cgi/slippymap.*?\?' |
 	perl $perl_utf8 -ne 'print "$1\n" if m,city=(.*?)[&;\s],' | sort | uniq -c | sort -nr
 
 echo ""
 echo -n "maptype: "
-total=`log  maptype.cgi | awk '{print $7}' | 
+total=`log  maptype.cgi | awk '{print $7}' |
 	perl -ne 'print "$2\n" if /city=([^&]*)&maptype=(.*)/' | wc -l`
 echo $total
-log maptype.cgi | awk '{print $7}' | 
+log maptype.cgi | awk '{print $7}' |
 	perl -ne 'print "$2\n" if /city=([^&]*)&maptype=(.*)/' | sort | uniq -c | sort -nr | awk "{ printf (\"%4d %-2.1f%% %s\n\", \$1, \$1*100/$total, \$2) }"
 echo ""
 echo "maptype + city"
-log  maptype.cgi | awk '{print $7}' | 
+log  maptype.cgi | awk '{print $7}' |
 	perl -ne 'print "$1 $2\n" if /city=([^&]*)&maptype=(.*)/' | sort | uniq -c | sort -nr
 
 echo ""
@@ -200,7 +200,7 @@ echo ""
 echo "Street click"
 echo -n "streets.html: "
 log_post '/[A-Z][^ ]*/streets.html' | awk '{ if ($11 != "\"-\"") { print $7, $11 } else { print $11 } }'| sort  -u | wc -l
-log_post '/[A-Z][^ ]*/streets.html' | awk '{ if ($12 != "\"-\"") { print $7 } }'| sort | uniq -c | sort -nr | head -50 
+log_post '/[A-Z][^ ]*/streets.html' | awk '{ if ($12 != "\"-\"") { print $7 } }'| sort | uniq -c | sort -nr | head -50
 
 echo ""
 echo -n "Street route search: "
@@ -234,7 +234,7 @@ if [ -s /var/log/lighttpd/download.bbbike.log ]; then
 fi
 
 echo -n "bbbike stat: "
-log /  | awk '{ s+=$10 } END { print int(s/1024/1024), "MB" }' 
+log /  | awk '{ s+=$10 } END { print int(s/1024/1024), "MB" }'
 
 echo ""
 lastcomm | awk '{ s+=$4 } END { print int(s/60), "CPU minutes" }'
