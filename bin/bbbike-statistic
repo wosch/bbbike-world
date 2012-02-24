@@ -29,15 +29,19 @@ front_end='(http://www.bbbike.org)?'
 url_match="$front_end(/cgi/[A-Zb]|/[A-Z][a-z][A-Za-z]+/|/berlin/|/[a-z][a-z]/[A-Z][a-z][A-Za-z]+/)"
 
 log_all () {
+    match=${1-"."}
     zcat -f $logfiles | egrep -v '^10\.' | egrep "GET $match"
 }
+log_full () {
+    match=${1-"."}
+    zcat -f $logfiles | egrep -v '^10\.' | egrep "$match"
+}
 log () {
-    match="$1"
-    #zcat -f $logfiles | egrep -v '^10\.' | egrep "GET $match" | egrep -v '" 40[34] '
+    match=${1-"."}
     log_all "$match" | egrep -v '" 40[34] '
 }
 log_post () {
-    match="$1"
+    match=${1-"."}
     log "$match" | perl -npe 's,"(POST|GET) http://www.bbbike.org,"$1 ,'
 }
 
@@ -209,7 +213,7 @@ log_post / | awk '{if ($12 ~ /streets.html/ && $7 ~ /^\/[A-Z]/ && $7 ~ /start/ )
 
 echo ""
 echo "blocked IP addresses"
-log_all '" 403 ' | awk '{ print $1 }'| sort | uniq -c | sort -nr | $dns
+log_full '" 403 ' | awk '{ print $1 }'| sort | uniq -c | sort -nr | $dns
 
 echo ""
 echo "bots?"
@@ -217,11 +221,11 @@ log_post / | egrep 'GET /[a-z][a-z]/' | egrep -v 'GET /(de|en)/' | egrep '" 200 
 
 echo ""
 echo "Honey"
-log_all '/honey' | awk '{ print $1 }'| sort | uniq -c | sort -nr | $dns
+log_full '/honey' | awk '{ print $1 }'| sort | uniq -c | sort -nr | $dns
 
 echo ""
 echo "error 500"
-log_all '" 500 ' | awk '{ print $1 }'| sort | uniq -c | sort -nr | $dns
+log_full '" 500 ' | awk '{ print $1 }'| sort | uniq -c | sort -nr | $dns
 
 
 if [ -s /var/log/lighttpd/download.bbbike.log ]; then
