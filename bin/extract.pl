@@ -504,6 +504,7 @@ from planet.osm
  City: $obj->{"city"}
  Area: $obj->{"sw_lat"},$obj->{"sw_lng"} x $obj->{"ne_lat"},$obj->{"ne_lng"}
  Format: $obj->{"format"}
+ Granularity: 10000 (1.1 meters)
  File size: $file_size
  MD5 checksum: $checksum
  License: OpenStreetMap License
