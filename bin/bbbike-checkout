@@ -17,8 +17,8 @@ if [ ! -x /usr/local/bin/perl ]; then
 fi
 
 git_config () {
-	git config  user.name "Wolfram Schneider"
-	git config  user.email wosch@freebsd.org
+	git config user.name "Wolfram Schneider"
+	git config user.email wosch@freebsd.org
 }
 
 ######################################################################
@@ -26,7 +26,7 @@ git_config () {
 #
 
 if $bbbike_macos; then
-    git clone git@github.com:wolframschneider/bbbike-macos.git 
+    git clone git@github.com:wolframschneider/bbbike-macos.git
 fi
 
 # original github repo
@@ -44,7 +44,7 @@ mkdir -p osm-streetnames/download
 cd bbbike
 git_config
 
-# *world  is the default branch at github for bbbike@world
+# *world is the default branch at github for bbbike@world
 #git checkout -b world origin/world
 
 # add remote master from eserte
@@ -61,7 +61,7 @@ git fetch github
 #
 echo ""
 echo "show branch: "
-git branch 
+git branch
 
 echo ""
 
