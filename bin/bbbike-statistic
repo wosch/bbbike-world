@@ -204,8 +204,8 @@ log_full / | egrep '188.40.84.75' | awk '{ print $7 }' | sort -u
 echo ""
 echo "Street click"
 echo -n "streets.html: "
-log_post '/[A-Z][^ ]*/streets.html' | awk '{ if ($11 != "\"-\"") { print $7, $11 } else { print $11 } }'| sort -u | wc -l
-log_post '/[A-Z][^ ]*/streets.html' | awk '{ if ($12 != "\"-\"") { print $7 } }'| sort | uniq -c | sort -nr | head -50
+log_post ' (http://www.bbbike.org)?/[A-Z][^ ]*/streets.html' | awk '{ if ($11 != "\"-\"") { print $7, $11 } else { print $11 } }'| sort -u | wc -l
+log_post ' (http://www.bbbike.org)?/[A-Z][^ ]*/streets.html' | awk '{ if ($12 != "\"-\"") { print $7 } }'| sort | uniq -c | sort -nr | head -50
 
 echo ""
 echo -n "Street route search: "
@@ -240,7 +240,7 @@ fi
 
 echo ""
 echo -n "bbbike stat: "
-log / | awk '{ s+=$10 } END { print int(s/1024/1024), "MB" }'
+log_full / | awk '{ s+=$10 } END { print int(s/1024/1024), "MB" }'
 
 echo ""
 lastcomm | awk '{ s+=$4 } END { print int(s/60), "CPU minutes" }'
