@@ -356,17 +356,21 @@ sub check_input {
     my $json      = new JSON;
     my $json_text = $json->pretty->encode($obj);
 
-    my $key = &save_request($obj);
+    my $key        = &save_request($obj);
+    my $mail_error = "";
     if (
-        !(
-            $key
-            && send_email_confirm( 'q' => $q, 'obj' => $obj, 'key' => $key )
-        )
+        !$key
+        || ( $mail_error =
+            send_email_confirm( 'q' => $q, 'obj' => $obj, 'key' => $key ) )
       )
     {
         print
           qq{<p class="error">I'm so sorry, I couldn't save your request.\n},
           qq{Please contact the BBBike.org maintainer!</p>};
+        print "<p>Error message: ", escapeHTML($mail_error), "<br/>\n";
+        print "Please check if the E-Mail address is correct."
+          if $mail_error =~ /verify SMTP recipient/;
+        print "</p>\n";
     }
     else {
 
@@ -417,11 +421,11 @@ EOF
             "Please confirm planet.osm extract request", $message );
     };
     if ($@) {
-        warn "$@";
-        return 0;
+        warn "send_email_confirm: $@\n";
+        return $@;
     }
 
-    return 1;
+    return 0;
 }
 
 # SMTP wrapper
@@ -435,13 +439,14 @@ sub send_email {
     my $from = $email_from;
     my $data =
       "From: $from\nTo: $to\nSubject: $subject\n" . "$content_type\n$text";
-    my $smtp = new Net::SMTP( $mail_server, Hello => "localhost" )
+    my $smtp = new Net::SMTP( $mail_server, Hello => "localhost", Debug => 1 )
       or die "can't make SMTP object";
 
-    $smtp->mail($from) or die "can't send email from $from";
-    $smtp->to(@to)     or die "can't use SMTP recipient '$to'";
-    $smtp->data($data) or die "can't email data to '$to'";
-    $smtp->quit()      or die "can't send email to '$to'";
+    $smtp->mail($from) or die "can't send email from $from\n";
+    $smtp->to(@to)     or die "can't use SMTP recipient '$to'\n";
+    $smtp->verify(@to) or die "can't verify SMTP recipient '$to'\n";
+    $smtp->data($data) or die "can't email data to '$to'\n";
+    $smtp->quit()      or die "can't send email to '$to'\n";
 }
 
 sub square_km {
