@@ -93,7 +93,7 @@ foreach my $number ( 1 .. $option->{'max_jobs'} ) {
 # group writable file
 umask(002);
 
-my $nice_level = 10;
+my $nice_level = 5;
 
 # test & debug
 $planet_osm =
