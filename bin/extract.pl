@@ -277,9 +277,9 @@ sub touch_file {
 
     my @system = ( "touch", $file );
 
+    warn "touch $file\n" if $debug;
     system(@system) == 0
       or die "system @system failed: $?";
-
 }
 
 # store a blob of data in a file
