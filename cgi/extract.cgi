@@ -173,7 +173,7 @@ sub footer {
 
 <div id="footer">
 <div id="footer_top">
-<a href="../">home</a> | <a href="../community.html#donate">donate</a> $extracts 
+<a href="../">home</a> $extracts | <a href="../community.html#donate">donate</a>
 </div>
 <div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em;" >
 <hr/>
