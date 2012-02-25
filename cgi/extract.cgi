@@ -331,14 +331,18 @@ sub check_input {
         return;
     }
     else {
-        print "<p>Thanks - the input data looks good. ",
-          "You will be notificed by e-mail soon. ",
-          "Please follow the instruction in the email ",
-          "to proceed your request.</p>\n",
-          qq{<p align='center'>Area: "}, escapeHTML($city),
-          "\" covers $skm square km, coords: ",
-          escapeHTML("$sw_lng,$sw_lat x $ne_lng,$ne_lat"), "\n</p>\n",
-          "<p>Sincerely, your BBBike\@World admin</p>\n";
+        print <<EOF;
+<p>Thanks - the input data looks good. You will be notificed by e-mail soon. 
+Please follow the instruction in the email to proceed your request.</p>
+
+<p align='left'>Area: "@{[ escapeHTML($city) ]} " covers $skm square km <br/>
+Coordinates: @{[ escapeHTML("$sw_lng,$sw_lat x $ne_lng,$ne_lat") ]} <br/>
+Format: $format
+</p>
+
+<p>Sincerely, your BBBike\@World admin</p>
+EOF
+
     }
 
     my $obj = {
