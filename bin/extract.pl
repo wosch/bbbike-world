@@ -348,6 +348,7 @@ sub run_extracts {
             warn "File $osm already exists, skip\n" if $debug;
 
             link( $osm, $out ) or die "link $osm => $out: $!\n";
+            &touch_file($osm);
             next;
         }
 
