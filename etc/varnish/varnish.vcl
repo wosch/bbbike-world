@@ -76,8 +76,8 @@ backend localhost {
     .port = "8080";
 }
 
-backend bbbike_strato {
-    .host = "test.bbbike.org";
+backend bbbike_failover {
+    .host = "www3.bbbike.org";
     .port = "80";
     .first_byte_timeout = 300s;
     .connect_timeout = 300s;
@@ -85,7 +85,7 @@ backend bbbike_strato {
 
     .probe = {
         .url = "/test.txt";
-        .timeout = 2s;
+        .timeout = 5s;
         .interval = 30s;
         .window = 1;
         .threshold = 1;
@@ -105,9 +105,9 @@ sub vcl_recv {
     } else if (req.http.host ~ "^(m\.|www[23]?\.|dev[23]?\.|devel[23]?\.|)bbbike\.org$") {
         set req.backend = bbbike;
 
-        # failover production @ strato 
+        # failover production @ www3 
         if (req.restarts == 1 || !req.backend.healthy) {
-                set req.backend = bbbike_strato;
+                set req.backend = bbbike_failover;
         }
     } else if (req.http.host ~ "^eserte\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$") {
         set req.backend = eserte;
@@ -155,7 +155,7 @@ sub vcl_recv {
 
     ######################################################################
     # force caching of images and CSS/JS files
-    if (req.url ~ "^/html|^/images|^/feed/|^/osp/|^/cgi/[ac-z]|.*\.html$|.*/$|^/osm/") {
+    if (req.url ~ "^/html|^/images|^/feed/|^/osp/|^/cgi/[acdf-z]|.*\.html$|.*/$|^/osm/") {
        unset req.http.cookie;
        unset req.http.Accept-Encoding;
        unset req.http.User-Agent;
