@@ -237,6 +237,7 @@ if [ -s /var/log/lighttpd/download.bbbike.log ]; then
     egrep '\.osm\.(gz|pbf|bz2) ' /var/log/lighttpd/download.bbbike.log | awk '{print $7, $10}' | sort
 fi
 
+echo ""
 echo -n "bbbike stat: "
 log / | awk '{ s+=$10 } END { print int(s/1024/1024), "MB" }'
 
