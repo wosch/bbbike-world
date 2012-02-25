@@ -85,7 +85,7 @@ backend bbbike_failover {
 
     .probe = {
         .url = "/test.txt";
-        .timeout = 5s;
+        .timeout = 2s;
         .interval = 30s;
         .window = 1;
         .threshold = 1;
