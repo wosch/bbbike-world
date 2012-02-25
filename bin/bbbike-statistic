@@ -46,7 +46,7 @@ log_post () {
 }
 
 echo -n "bbbike.org page views: "
-log | awk '{print $1}' | wc -l
+log $url_match | awk '{print $1}' | wc -l
 
 echo -n "mobile bbbike.org page views: "
 if [ -f $logfiles_mobile ]; then

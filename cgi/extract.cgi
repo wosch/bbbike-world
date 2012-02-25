@@ -443,8 +443,8 @@ sub send_email {
     my $from = $email_from;
     my $data =
       "From: $from\nTo: $to\nSubject: $subject\n" . "$content_type\n$text";
-    my $smtp = new Net::SMTP( $mail_server, Hello => "localhost", Debug => 1 )
-      or die "can't make SMTP object";
+    my $smtp = new Net::SMTP( $mail_server, Hello => "localhost", Debug => 0 )
+      or die "can't make SMTP object\n";
 
     $smtp->mail($from) or die "can't send email from $from\n";
     $smtp->to(@to)     or die "can't use SMTP recipient '$to'\n";

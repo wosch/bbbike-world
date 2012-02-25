@@ -48,7 +48,7 @@ fi
 for file in qualitaet_s strassen
 do
    # XXX: remove duplicated lines from "strassen"
-   perl -i.bak -ne 'if (/^\s*#/ || !$a{$_}) { print; $a{$_}=1 }' $prefix/$city/$file
+   #perl -i.bak -ne 'if (/^\s*#/ || !$a{$_}) { print; $a{$_}=1 }' $prefix/$city/$file
 
   echo "Run combine_streets: $file"
   $time ./miscsrc/combine_streets.pl $prefix/$city/$file > $prefix/$city/$file.tmp
