@@ -404,7 +404,7 @@ somone - possible you - requested to extract an OpenStreetMaps area
 from planet.osm
 
  City: $obj->{"city"}
- Area: $obj->{"sw_lat"},$obj->{"sw_lng"} x $obj->{"ne_lat"},$obj->{"ne_lng"}
+ Area: $obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}
  Format: $obj->{"format"}
  
 

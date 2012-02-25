@@ -200,6 +200,16 @@ sub file_latlng {
     return $file;
 }
 
+# store lng,lat in filename
+sub file_lnglat {
+    my $obj  = shift;
+    my $file = "";
+
+    $file = "$obj->{sw_lng},$obj->{sw_lat}-$obj->{ne_lng},$obj->{ne_lat}";
+
+    return $file;
+}
+
 sub create_poly_files {
     my %args    = @_;
     my $job_dir = $args{'job_dir'};
@@ -222,7 +232,7 @@ sub create_poly_files {
     my %hash;
     my @poly;
     foreach my $job (@list) {
-        my $file      = &file_latlng($job);
+        my $file      = &file_lnglat($job);
         my $poly_file = "$job_dir/$file.poly";
         my $pbf_file  = "$job_dir/$file.pbf";
 
@@ -515,7 +525,7 @@ your requested OpenStreetMap area "$obj->{'city'}" was extracted
 from planet.osm
 
  City: $obj->{"city"}
- Area: $obj->{"sw_lat"},$obj->{"sw_lng"} x $obj->{"ne_lat"},$obj->{"ne_lng"}
+ Area: $obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}
  Format: $obj->{"format"}
  Granularity: 10000 (1.1 meters)
  File size: $file_size
