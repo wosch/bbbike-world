@@ -240,6 +240,7 @@ sub create_poly_files {
 
         if ( -e $pbf_file && -s $pbf_file ) {
             warn "file $pbf_file already exists, skiped\n";
+            &touch_file($pbf_file);
             next;
         }
 
@@ -268,6 +269,17 @@ sub create_poly_files {
           ", number of json files: ", scalar(@json), "\n";
     }
     return ( \@poly, \@json );
+}
+
+# refresh mod time of file, to keep in cache
+sub touch_file {
+    my $file = shift;
+
+    my @system = ( "touch", $file );
+
+    system(@system) == 0
+      or die "system @system failed: $?";
+
 }
 
 # store a blob of data in a file
