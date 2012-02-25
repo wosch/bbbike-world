@@ -42,7 +42,7 @@ log () {
 }
 log_post () {
     match=${1-"."}
-    log "$match" | perl -npe 's,"(POST|GET) http://www.bbbike.org,"$1 ,'
+    log_full "$match" | perl -npe 's,"(POST|GET) http://www.bbbike.org,"$1 ,'
 }
 
 echo -n "bbbike.org page views: "
@@ -62,6 +62,8 @@ log $front_end/cgi/location.cgi | awk '{print $1}' | wc -l
 if [ -f $varnish_log ]; then
     echo "tile log"
     egrep tile $varnish_log | awk '{ print $1 }' | sort | uniq -c | sort -nr | $dns
+
+    echo ""
     echo "tile log 404"
     egrep tile $varnish_log | egrep -v ' (200|30[124]) ' | awk '{ print $1 }' | sort | uniq -c | sort -nr | $dns
 fi
@@ -153,10 +155,9 @@ log '[^ ]*/cgi/street-coord.cgi\?' | wc -l
 
 echo ""
 echo -n "bbbike cities pdf: "
-log_post |
-	egrep 'POST (/[a-z][a-z])?/[A-Z][a-z]+.*?\?' | perl $perl_utf8 -ne 'print "$1\n" if m,POST /[A-Z][a-z]+/(.*?), || m,POST /[a-z][a-z]/[A-Z][a-z]+/(.*?),' | wc -l
+log_post POST | egrep 'POST (/[a-z][a-z])?/[A-Z][a-z]+.*?\?' | perl $perl_utf8 -ne 'print "$1\n" if m,POST /[A-Z][a-z]+/(.*?), || m,POST /[a-z][a-z]/[A-Z][a-z]+/(.*?),' | wc -l
 
-log_post $url_match | egrep 'POST (/[a-z][a-z])?/[A-Z][a-z]+/.*?\?' |
+log_full $url_match | egrep 'POST (/[a-z][a-z])?/[A-Z][a-z]+/.*?\?' |
 	perl $perl_utf8 -ne 'print "$1\n" if m,POST /([A-Z][a-z]+)/, || m,POST /([a-z][a-z]/[A-Z][a-z]+)/,'|
 	sort | uniq -c | sort -nr
 
