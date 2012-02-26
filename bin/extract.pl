@@ -81,6 +81,12 @@ my $spool = {
     'job1'  => "$spool_dir/job1.pid",  # lock file for current job
 };
 
+# timeout handling
+our $alarm = 3600;
+
+# run with lower priority
+our $nice_level = 5;
+
 # parse config file
 if ( -e $config_file ) {
     require $config_file;
@@ -94,8 +100,6 @@ foreach my $number ( 1 .. $option->{'max_jobs'} ) {
 # group writable file
 umask(002);
 
-my $nice_level = 5;
-
 # test & debug
 $planet_osm =
 "/home/wosch/projects/osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.pbf"
@@ -104,6 +108,18 @@ $planet_osm =
 ######################################################################
 #
 #
+
+sub set_alarm {
+    my $time = shift;
+
+    $time = $alarm if !defined $time;
+
+    $SIG{ALRM} = sub { die "Time out alarm $time\n" };
+
+    warn "set alarm time to: $time seconds\n" if $debug >= 1;
+    alarm($time);
+}
+
 sub get_jobs {
     my $dir = shift;
 
@@ -708,6 +724,8 @@ else {
         'list'    => \@list,
         'spool'   => $spool,
     );
+
+    &set_alarm($alarm);
 
     my @system = run_extracts( 'spool' => $spool, 'poly' => $poly );
 
