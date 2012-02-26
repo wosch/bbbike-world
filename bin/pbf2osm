@@ -31,10 +31,10 @@ else
     dir=`dirname $file`
     case $compress in
 	gzip ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $gzip > $dir/$f.tmp 
-		mv -f $dir/$f.tmp $dir/$f.osm.gz		
+		mv -f $dir/$f.tmp $dir/$f.gz		
 		;;
 	bzip2 ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $bzip2 > $dir/$f.tmp 
-		mv -f $dir/$f.tmp $dir/$f.osm.bz2		
+		mv -f $dir/$f.tmp $dir/$f.bz2		
 		;;
 	* ) echo >& 2 "Oops, unknown '$compress'" ;;
     esac

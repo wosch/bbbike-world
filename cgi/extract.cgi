@@ -47,13 +47,13 @@ my $email_from = 'BBBike Admin <bbbike@bbbike.org>';
 
 my $option = {
     'max_extracts'       => 50,
-    'min_wait_time'      => 5 * 60,    # in seconds
-    'default_format'     => 'pbf',
+    'min_wait_time'      => 5 * 60,      # in seconds
+    'default_format'     => 'osm.pbf',
     'city_name_optional' => 1,
 };
 
 my $formats = {
-    'pbf'     => 'Protocolbuffer Binary Format (PBF)',
+    'osm.pbf' => 'Protocolbuffer Binary Format (PBF)',
     'osm.gz'  => "OSM XML gzip'd",
     'osm.bz2' => "OSM XML bzip'd",
 };

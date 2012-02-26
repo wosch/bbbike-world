@@ -57,14 +57,14 @@ our $option = {
 
     # not used yet
     'max_extracts'   => 50,
-    'min_wait_time'  => 5 * 60,    # in seconds
-    'default_format' => 'pbf',
+    'min_wait_time'  => 5 * 60,      # in seconds
+    'default_format' => 'osm.pbf',
 
     'bcc' => $email_from,
 };
 
 my $formats = {
-    'pbf'     => 'Protocolbuffer Binary Format (PBF)',
+    'osm.pbf' => 'Protocolbuffer Binary Format (PBF)',
     'osm.gz'  => "OSM XML gzip'd",
     'osm.bz2' => "OSM XML bzip'd",
 };
@@ -234,7 +234,7 @@ sub create_poly_files {
     foreach my $job (@list) {
         my $file      = &file_lnglat($job);
         my $poly_file = "$job_dir/$file.poly";
-        my $pbf_file  = "$job_dir/$file.pbf";
+        my $pbf_file  = "$job_dir/$file.osm.pbf";
 
         $job->{pbf_file} = $pbf_file;
         if ( exists $hash{$file} ) {
@@ -351,7 +351,7 @@ sub run_extracts {
     my $tee = 0;
     foreach my $p (@$poly) {
         my $out = $p;
-        $out =~ s/\.poly$/.pbf/;
+        $out =~ s/\.poly$/.osm.pbf/;
 
         my $osm = $spool->{'osm'} . "/" . basename($out);
         if ( -e $osm ) {
@@ -465,14 +465,14 @@ sub send_email {
         # convert .pbf to .osm if requested
         my @nice = ( "nice", "-n", $nice_level );
         if ( $obj->{'format'} eq 'osm.bz2' ) {
-            $file =~ s/\.pbf$/.osm.bz2/;
+            $file =~ s/\.pbf$/.bz2/;
             @system = ( @nice, "$dirname/pbf2osm", "--bzip2", $pbf_file );
 
             warn "@system\n" if $debug >= 2;
             system(@system) == 0 or die "system @system failed: $?";
         }
         elsif ( $obj->{'format'} eq 'osm.gz' ) {
-            $file =~ s/\.pbf$/.osm.gz/;
+            $file =~ s/\.pbf$/.gz/;
             @system = ( @nice, "$dirname/pbf2osm", "--gzip", $pbf_file );
 
             warn "@system\n" if $debug >= 2;
