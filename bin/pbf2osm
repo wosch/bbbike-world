@@ -9,6 +9,7 @@ compress=""
 gzip=`which pigz gzip | head -n 1`
 bzip2=`which pbzip2 bzip2 | head -n 1`
 xz=`which xz | head -n 1`
+xz_opt=-2
 
 case $1 in
   -gzip | --gzip)    shift; compress=gzip;;
@@ -38,7 +39,7 @@ else
 	bzip2 ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $bzip2 > $dir/$f.tmp 
 		mv -f $dir/$f.tmp $dir/$f.bz2		
 		;;
-	xz ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $xz > $dir/$f.tmp 
+	xz ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $xz $xz_opt > $dir/$f.tmp 
 		mv -f $dir/$f.tmp $dir/$f.xz		
 		;;
 	* ) echo >& 2 "Oops, unknown '$compress'" ;;
