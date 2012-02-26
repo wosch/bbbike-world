@@ -67,6 +67,7 @@ my $formats = {
     'osm.pbf' => 'Protocolbuffer Binary Format (PBF)',
     'osm.gz'  => "OSM XML gzip'd",
     'osm.bz2' => "OSM XML bzip'd",
+    'osm.xz'  => "OSM XML 7z/xz",
 };
 
 my $spool = {
@@ -474,6 +475,13 @@ sub send_email {
         elsif ( $obj->{'format'} eq 'osm.gz' ) {
             $file =~ s/\.pbf$/.gz/;
             @system = ( @nice, "$dirname/pbf2osm", "--gzip", $pbf_file );
+
+            warn "@system\n" if $debug >= 2;
+            system(@system) == 0 or die "system @system failed: $?";
+        }
+        elsif ( $obj->{'format'} eq 'osm.xz' ) {
+            $file =~ s/\.pbf$/.xz/;
+            @system = ( @nice, "$dirname/pbf2osm", "--xz", $pbf_file );
 
             warn "@system\n" if $debug >= 2;
             system(@system) == 0 or die "system @system failed: $?";
