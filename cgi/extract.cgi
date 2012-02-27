@@ -618,8 +618,11 @@ sub homepage {
                     [
                         "Output Format",
                         $q->popup_menu(
-                            -name    => 'format',
-                            -values  => [ sort keys %$formats ],
+                            -name   => 'format',
+                            -values => [
+                                sort { $formats->{$a} cmp $formats->{$b} }
+                                  keys %$formats
+                            ],
                             -labels  => $formats,
                             -default => $default_format
                         )
