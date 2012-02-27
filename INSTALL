@@ -34,6 +34,9 @@ sudo apt-get install osmosis
 
 sudo perl -MCPAN -e 'install PerlIO::gzip'
 
+sudo perl -MCPAN -e 'install accessors'
+sudo perl -MCPAN -e 'install Geo::Google::PolylineEncoder'
+
 Required MacPorts modules
 ------------------------------------
 sudo port install pbzip2 bzip2 git-core lynx curl wget whois pigz bc buffer \
