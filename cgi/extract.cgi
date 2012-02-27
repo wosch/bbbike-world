@@ -366,9 +366,12 @@ EOF
     if (
         !$key
         || (
-            $option->{'confirm'}
-            && ( $mail_error =
-                send_email_confirm( 'q' => $q, 'obj' => $obj, 'key' => $key ) )
+            $mail_error = send_email_confirm(
+                'q'       => $q,
+                'obj'     => $obj,
+                'key'     => $key,
+                'confirm' => $option->{'confirm'}
+            )
         )
       )
     {
@@ -395,9 +398,10 @@ qq{<p>We appreciate any feedback, suggestions and a <a href="../community.html#d
 sub send_email_confirm {
     my %args = @_;
 
-    my $obj = $args{'obj'};
-    my $key = $args{'key'};
-    my $q   = $args{'q'};
+    my $obj     = $args{'obj'};
+    my $key     = $args{'key'};
+    my $q       = $args{'q'};
+    my $confirm = $args{'confirm'};
 
     my $url = $q->url( -full => 1, -absolute => 1 ) . "?key=$key";
 
@@ -426,7 +430,8 @@ EOF
 
     eval {
         &send_email( $obj->{"email"},
-            "Please confirm planet.osm extract request", $message );
+            "Please confirm planet.osm extract request",
+            $message, $confirm );
     };
     if ($@) {
         warn "send_email_confirm: $@\n";
@@ -438,7 +443,7 @@ EOF
 
 # SMTP wrapper
 sub send_email {
-    my ( $to, $subject, $text ) = @_;
+    my ( $to, $subject, $text, $confirm ) = @_;
     my $mail_server  = "localhost";
     my @to           = split /,/, $to;
     my $content_type = "Content-Type: text/plain; charset=UTF-8\n"
@@ -453,8 +458,10 @@ sub send_email {
     $smtp->mail($from) or die "can't send email from $from\n";
     $smtp->to(@to)     or die "can't use SMTP recipient '$to'\n";
     $smtp->verify(@to) or die "can't verify SMTP recipient '$to'\n";
-    $smtp->data($data) or die "can't email data to '$to'\n";
-    $smtp->quit()      or die "can't send email to '$to'\n";
+    if ($confirm) {
+        $smtp->data($data) or die "can't email data to '$to'\n";
+    }
+    $smtp->quit() or die "can't send email to '$to'\n";
 }
 
 sub square_km {
