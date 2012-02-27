@@ -45,7 +45,7 @@ my $test       = 0;
 my $spool_dir = '/usr/local/www/tmp/extract';
 
 # max. area in square km
-our $max_skm = 200_000;
+our $max_skm = 240_000;
 
 # sent out emails as
 our $email_from = 'bbbike@bbbike.org';

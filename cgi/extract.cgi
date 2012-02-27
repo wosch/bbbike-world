@@ -39,17 +39,15 @@ my $debug = 1;
 # spool directory. Should be at least 100GB large
 my $spool_dir = '/usr/local/www/tmp/extract';
 
-# max. area in square km
-my $max_skm = 200_000;
-
 # sent out emails as
 my $email_from = 'BBBike Admin <bbbike@bbbike.org>';
 
 my $option = {
     'max_extracts'       => 50,
-    'min_wait_time'      => 5 * 60,      # in seconds
     'default_format'     => 'osm.pbf',
     'city_name_optional' => 1,
+    'max_skm'            => 240_000,     # max. area in square km
+    'confirm' => 0,    # request to confirm request with a click on an URL
 };
 
 my $formats = {
@@ -64,6 +62,8 @@ my $spool = {
     'confirmed' => "$spool_dir/confirmed",
     'running'   => "$spool_dir/running",
 };
+
+my $max_skm = $option->{'max_skm'};
 
 ######################################################################
 # helper functions
@@ -365,8 +365,11 @@ EOF
     my $mail_error = "";
     if (
         !$key
-        || ( $mail_error =
-            send_email_confirm( 'q' => $q, 'obj' => $obj, 'key' => $key ) )
+        || (
+            $option->{'confirm'}
+            && ( $mail_error =
+                send_email_confirm( 'q' => $q, 'obj' => $obj, 'key' => $key ) )
+        )
       )
     {
         print
@@ -470,8 +473,10 @@ sub save_request {
     my $json      = new JSON;
     my $json_text = $json->pretty->encode($obj);
 
-    my $key      = md5_hex( encode_utf8($json_text) . rand() );
-    my $incoming = $spool->{"incoming"} . "/$key.json";
+    my $key = md5_hex( encode_utf8($json_text) . rand() );
+    my $spool_dir =
+      $option->{'confirm'} ? $spool->{"incoming"} : $spool->{"confirmed"};
+    my $incoming = "$spool_dir/$key.json";
 
     my $fh = new IO::File $incoming, "w";
     binmode $fh, ":utf8";
