@@ -217,7 +217,7 @@ sub message {
     return <<EOF;
 <p>
 This site allow you to extracts areas from the <a href="http://wiki.openstreetmap.org/wiki/Planet.osm">planet.osm</a>.
-The maximum area size is $max_skm square km.
+The maximum area size is @{[ large_int($max_skm) ]} square km.
 <br/>
 
 It takes between 10-30 minutes to extract an area. You will be notified by e-mail if your extract is ready for download.
@@ -336,7 +336,7 @@ sub check_input {
 <p>Thanks - the input data looks good. You will be notificed by e-mail soon. 
 Please follow the instruction in the email to proceed your request.</p>
 
-<p align='left'>Area: "@{[ escapeHTML($city) ]} " covers $skm square km <br/>
+<p align='left'>Area: "@{[ escapeHTML($city) ]} " covers @{[ large_int($skm) ]} square km <br/>
 Coordinates: @{[ escapeHTML("$sw_lng,$sw_lat x $ne_lng,$ne_lat") ]} <br/>
 Format: $format
 </p>
@@ -464,6 +464,16 @@ sub square_km {
     my $width  = GIS::Distance::Lite::distance( $x1, $y1 => $x2, $y1 ) / 1000;
 
     return int( $height * $width );
+}
+
+# 240000 -> 240,000
+sub large_int {
+    my $int = shift;
+
+    return $int if $int < 1_000;
+
+    my $number = substr( $int, 0, -3 ) . "," . substr( $int, -3, 3 );
+    return $number;
 }
 
 # save request in incoming spool
