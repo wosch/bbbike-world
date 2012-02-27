@@ -137,7 +137,7 @@ sub map {
 
     <span class="export_hint">
       <a href="#" id="drag_box">Manually select a different area</a>  
-    </span> | <span id="square_km"></span>
+    </span> - <span id="square_km"></span>
 
   <div id="export_osm">
     <p class="export_heading"/>
