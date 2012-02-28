@@ -74,7 +74,7 @@ sub header {
     my %args = @_;
     my $type = $args{-type} || "";
 
-    my @javascript = "../html/bbbike-js.js";
+    my @javascript = (); #"../html/bbbike-js.js";
     my @onload;
     my @cookie;
     if ( $type eq 'homepage' ) {
