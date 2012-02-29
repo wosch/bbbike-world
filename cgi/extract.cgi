@@ -65,6 +65,9 @@ my $spool = {
 
 my $max_skm = $option->{'max_skm'};
 
+# use "GET" or "POST" for forms
+my $request_method = "GET";
+
 ######################################################################
 # helper functions
 #
@@ -74,7 +77,7 @@ sub header {
     my %args = @_;
     my $type = $args{-type} || "";
 
-    my @javascript = (); #"../html/bbbike-js.js";
+    my @javascript = ();    #"../html/bbbike-js.js";
     my @onload;
     my @cookie;
     if ( $type eq 'homepage' ) {
@@ -361,7 +364,7 @@ EOF
     my $json      = new JSON;
     my $json_text = $json->pretty->encode($obj);
 
-    my $key        = &save_request($obj);
+    my ( $key, $json_file ) = &save_request($obj);
     my $mail_error = "";
     if (
         !$key
@@ -382,13 +385,24 @@ EOF
         print "Please check if the E-Mail address is correct."
           if $mail_error =~ /verify SMTP recipient/;
         print "</p>\n";
+
+        # cleanup temp json file
+        unlink($json_file) or die "unlink $json_file: $!\n";
     }
+
     else {
 
-        #print qq{<p class="success">E-Mail was sent out successfully.</p>\n};
-        print qq{<hr/>\n};
-        print
+        if ( !&complete_save_request($json_file) ) {
+            print qq{<p class="error">I'm so sorry,},
+              qq{ I couldn't save your request.\n},
+              qq{Please contact the BBBike.org maintainer!</p>};
+        }
+
+        else {
+            print qq{<hr/>\n};
+            print
 qq{<p>We appreciate any feedback, suggestions and a <a href="../community.html#donate">donation</a>!</p>\n};
+        }
     }
 
     print &footer($q);
@@ -493,20 +507,45 @@ sub save_request {
     my $key = md5_hex( encode_utf8($json_text) . rand() );
     my $spool_dir =
       $option->{'confirm'} ? $spool->{"incoming"} : $spool->{"confirmed"};
-    my $incoming = "$spool_dir/$key.json";
+    my $incoming = "$spool_dir/$key.json.tmp";
 
     my $fh = new IO::File $incoming, "w";
     binmode $fh, ":utf8";
     if ( !defined $fh ) {
         warn "Cannot open $incoming: $!\n";
-        return 0;
+        return;
     }
 
     warn "Store request: $json_text\n" if $debug;
     print $fh $json_text, "\n";
     $fh->close;
 
-    return $key;
+    return ( $key, $incoming );
+}
+
+# foo.json.tmp -> foo.json
+sub complete_save_request {
+    my $file = shift;
+    if ( !$file || !-e $file ) {
+        warn "file '$file' does not exists\n";
+        return;
+    }
+
+    my $temp_file = $file;
+    $temp_file =~ s/\.tmp$//;
+
+    if ( $file eq $temp_file ) {
+        warn "$file has no .tmp extension\n";
+        return;
+    }
+
+    if ( rename( $file, $temp_file ) ) {
+        return $temp_file;
+    }
+    else {
+        warn "rename $file -> $temp_file: $!\n";
+        return;
+    }
 }
 
 # the user confirm a request
@@ -557,7 +596,7 @@ sub homepage {
 
     print &message;
 
-    print $q->start_form( -method => 'POST', -id => 'extract' );
+    print $q->start_form( -method => $request_method, -id => 'extract' );
 
     my $lat = qq{<span title='Latitude'>lat</span>};
     my $lng = qq{<span title='Longitude'>lng</span>};
