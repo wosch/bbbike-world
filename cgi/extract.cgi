@@ -39,23 +39,22 @@ my $debug = 1;
 # spool directory. Should be at least 100GB large
 my $spool_dir = '/usr/local/www/tmp/extract';
 
-# max. area in square km
-my $max_skm = 200_000;
-
 # sent out emails as
 my $email_from = 'BBBike Admin <bbbike@bbbike.org>';
 
 my $option = {
     'max_extracts'       => 50,
-    'min_wait_time'      => 5 * 60,    # in seconds
-    'default_format'     => 'pbf',
+    'default_format'     => 'osm.pbf',
     'city_name_optional' => 1,
+    'max_skm'            => 240_000,     # max. area in square km
+    'confirm' => 0,    # request to confirm request with a click on an URL
 };
 
 my $formats = {
-    'pbf'     => 'Protocolbuffer Binary Format (PBF)',
+    'osm.pbf' => 'Protocolbuffer Binary Format (PBF)',
     'osm.gz'  => "OSM XML gzip'd",
     'osm.bz2' => "OSM XML bzip'd",
+    'osm.xz'  => "OSM XML 7z/xz",
 };
 
 my $spool = {
@@ -63,6 +62,8 @@ my $spool = {
     'confirmed' => "$spool_dir/confirmed",
     'running'   => "$spool_dir/running",
 };
+
+my $max_skm = $option->{'max_skm'};
 
 ######################################################################
 # helper functions
@@ -73,7 +74,7 @@ sub header {
     my %args = @_;
     my $type = $args{-type} || "";
 
-    my @javascript = "../html/bbbike-js.js";
+    my @javascript = (); #"../html/bbbike-js.js";
     my @onload;
     my @cookie;
     if ( $type eq 'homepage' ) {
@@ -136,7 +137,7 @@ sub map {
 
     <span class="export_hint">
       <a href="#" id="drag_box">Manually select a different area</a>  
-    </span> | <span id="square_km"></span>
+    </span> - <span id="square_km"></span>
 
   <div id="export_osm">
     <p class="export_heading"/>
@@ -216,7 +217,7 @@ sub message {
     return <<EOF;
 <p>
 This site allow you to extracts areas from the <a href="http://wiki.openstreetmap.org/wiki/Planet.osm">planet.osm</a>.
-The maximum area size is $max_skm square km.
+The maximum area size is @{[ large_int($max_skm) ]} square km.
 <br/>
 
 It takes between 10-30 minutes to extract an area. You will be notified by e-mail if your extract is ready for download.
@@ -335,7 +336,7 @@ sub check_input {
 <p>Thanks - the input data looks good. You will be notificed by e-mail soon. 
 Please follow the instruction in the email to proceed your request.</p>
 
-<p align='left'>Area: "@{[ escapeHTML($city) ]} " covers $skm square km <br/>
+<p align='left'>Area: "@{[ escapeHTML($city) ]} " covers @{[ large_int($skm) ]} square km <br/>
 Coordinates: @{[ escapeHTML("$sw_lng,$sw_lat x $ne_lng,$ne_lat") ]} <br/>
 Format: $format
 </p>
@@ -364,8 +365,14 @@ EOF
     my $mail_error = "";
     if (
         !$key
-        || ( $mail_error =
-            send_email_confirm( 'q' => $q, 'obj' => $obj, 'key' => $key ) )
+        || (
+            $mail_error = send_email_confirm(
+                'q'       => $q,
+                'obj'     => $obj,
+                'key'     => $key,
+                'confirm' => $option->{'confirm'}
+            )
+        )
       )
     {
         print
@@ -391,9 +398,10 @@ qq{<p>We appreciate any feedback, suggestions and a <a href="../community.html#d
 sub send_email_confirm {
     my %args = @_;
 
-    my $obj = $args{'obj'};
-    my $key = $args{'key'};
-    my $q   = $args{'q'};
+    my $obj     = $args{'obj'};
+    my $key     = $args{'key'};
+    my $q       = $args{'q'};
+    my $confirm = $args{'confirm'};
 
     my $url = $q->url( -full => 1, -absolute => 1 ) . "?key=$key";
 
@@ -422,7 +430,8 @@ EOF
 
     eval {
         &send_email( $obj->{"email"},
-            "Please confirm planet.osm extract request", $message );
+            "Please confirm planet.osm extract request",
+            $message, $confirm );
     };
     if ($@) {
         warn "send_email_confirm: $@\n";
@@ -434,7 +443,7 @@ EOF
 
 # SMTP wrapper
 sub send_email {
-    my ( $to, $subject, $text ) = @_;
+    my ( $to, $subject, $text, $confirm ) = @_;
     my $mail_server  = "localhost";
     my @to           = split /,/, $to;
     my $content_type = "Content-Type: text/plain; charset=UTF-8\n"
@@ -449,8 +458,10 @@ sub send_email {
     $smtp->mail($from) or die "can't send email from $from\n";
     $smtp->to(@to)     or die "can't use SMTP recipient '$to'\n";
     $smtp->verify(@to) or die "can't verify SMTP recipient '$to'\n";
-    $smtp->data($data) or die "can't email data to '$to'\n";
-    $smtp->quit()      or die "can't send email to '$to'\n";
+    if ($confirm) {
+        $smtp->data($data) or die "can't email data to '$to'\n";
+    }
+    $smtp->quit() or die "can't send email to '$to'\n";
 }
 
 sub square_km {
@@ -462,6 +473,16 @@ sub square_km {
     return int( $height * $width );
 }
 
+# 240000 -> 240,000
+sub large_int {
+    my $int = shift;
+
+    return $int if $int < 1_000;
+
+    my $number = substr( $int, 0, -3 ) . "," . substr( $int, -3, 3 );
+    return $number;
+}
+
 # save request in incoming spool
 sub save_request {
     my $obj = shift;
@@ -469,8 +490,10 @@ sub save_request {
     my $json      = new JSON;
     my $json_text = $json->pretty->encode($obj);
 
-    my $key      = md5_hex( encode_utf8($json_text) . rand() );
-    my $incoming = $spool->{"incoming"} . "/$key.json";
+    my $key = md5_hex( encode_utf8($json_text) . rand() );
+    my $spool_dir =
+      $option->{'confirm'} ? $spool->{"incoming"} : $spool->{"confirmed"};
+    my $incoming = "$spool_dir/$key.json";
 
     my $fh = new IO::File $incoming, "w";
     binmode $fh, ":utf8";
@@ -602,8 +625,11 @@ sub homepage {
                     [
                         "Output Format",
                         $q->popup_menu(
-                            -name    => 'format',
-                            -values  => [ sort keys %$formats ],
+                            -name   => 'format',
+                            -values => [
+                                sort { $formats->{$a} cmp $formats->{$b} }
+                                  keys %$formats
+                            ],
                             -labels  => $formats,
                             -default => $default_format
                         )

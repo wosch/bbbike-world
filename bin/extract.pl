@@ -45,7 +45,7 @@ my $test       = 0;
 my $spool_dir = '/usr/local/www/tmp/extract';
 
 # max. area in square km
-our $max_skm = 200_000;
+our $max_skm = 240_000;
 
 # sent out emails as
 our $email_from = 'bbbike@bbbike.org';
@@ -57,16 +57,17 @@ our $option = {
 
     # not used yet
     'max_extracts'   => 50,
-    'min_wait_time'  => 5 * 60,    # in seconds
-    'default_format' => 'pbf',
+    'min_wait_time'  => 5 * 60,      # in seconds
+    'default_format' => 'osm.pbf',
 
     'bcc' => $email_from,
 };
 
 my $formats = {
-    'pbf'     => 'Protocolbuffer Binary Format (PBF)',
+    'osm.pbf' => 'Protocolbuffer Binary Format (PBF)',
     'osm.gz'  => "OSM XML gzip'd",
     'osm.bz2' => "OSM XML bzip'd",
+    'osm.xz'  => "OSM XML 7z/xz",
 };
 
 my $spool = {
@@ -79,6 +80,12 @@ my $spool = {
     'trash' => "$spool_dir/trash",     # keep a copy of the config for debugging
     'job1'  => "$spool_dir/job1.pid",  # lock file for current job
 };
+
+# timeout handling
+our $alarm = 3600;
+
+# run with lower priority
+our $nice_level = 5;
 
 # parse config file
 if ( -e $config_file ) {
@@ -93,8 +100,6 @@ foreach my $number ( 1 .. $option->{'max_jobs'} ) {
 # group writable file
 umask(002);
 
-my $nice_level = 10;
-
 # test & debug
 $planet_osm =
 "/home/wosch/projects/osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.pbf"
@@ -103,6 +108,18 @@ $planet_osm =
 ######################################################################
 #
 #
+
+sub set_alarm {
+    my $time = shift;
+
+    $time = $alarm if !defined $time;
+
+    $SIG{ALRM} = sub { die "Time out alarm $time\n" };
+
+    warn "set alarm time to: $time seconds\n" if $debug >= 1;
+    alarm($time);
+}
+
 sub get_jobs {
     my $dir = shift;
 
@@ -234,7 +251,7 @@ sub create_poly_files {
     foreach my $job (@list) {
         my $file      = &file_lnglat($job);
         my $poly_file = "$job_dir/$file.poly";
-        my $pbf_file  = "$job_dir/$file.pbf";
+        my $pbf_file  = "$job_dir/$file.osm.pbf";
 
         $job->{pbf_file} = $pbf_file;
         if ( exists $hash{$file} ) {
@@ -351,7 +368,7 @@ sub run_extracts {
     my $tee = 0;
     foreach my $p (@$poly) {
         my $out = $p;
-        $out =~ s/\.poly$/.pbf/;
+        $out =~ s/\.poly$/.osm.pbf/;
 
         my $osm = $spool->{'osm'} . "/" . basename($out);
         if ( -e $osm ) {
@@ -465,15 +482,22 @@ sub send_email {
         # convert .pbf to .osm if requested
         my @nice = ( "nice", "-n", $nice_level );
         if ( $obj->{'format'} eq 'osm.bz2' ) {
-            $file =~ s/\.pbf$/.osm.bz2/;
+            $file =~ s/\.pbf$/.bz2/;
             @system = ( @nice, "$dirname/pbf2osm", "--bzip2", $pbf_file );
 
             warn "@system\n" if $debug >= 2;
             system(@system) == 0 or die "system @system failed: $?";
         }
         elsif ( $obj->{'format'} eq 'osm.gz' ) {
-            $file =~ s/\.pbf$/.osm.gz/;
+            $file =~ s/\.pbf$/.gz/;
             @system = ( @nice, "$dirname/pbf2osm", "--gzip", $pbf_file );
+
+            warn "@system\n" if $debug >= 2;
+            system(@system) == 0 or die "system @system failed: $?";
+        }
+        elsif ( $obj->{'format'} eq 'osm.xz' ) {
+            $file =~ s/\.pbf$/.xz/;
+            @system = ( @nice, "$dirname/pbf2osm", "--xz", $pbf_file );
 
             warn "@system\n" if $debug >= 2;
             system(@system) == 0 or die "system @system failed: $?";
@@ -508,7 +532,7 @@ sub send_email {
             link( $file, $to ) or die "link $pbf_file => $to: $!\n";
 
             $file_size = file_size($to) . " MB";
-            warn "file size $to: $file_size\n" if $debug >= 2;
+            warn "file size $to: $file_size\n" if $debug >= 1;
         }
 
         my $url = $option->{'homepage'} . "/" . basename($to);
@@ -700,6 +724,8 @@ else {
         'list'    => \@list,
         'spool'   => $spool,
     );
+
+    &set_alarm($alarm);
 
     my @system = run_extracts( 'spool' => $spool, 'poly' => $poly );
 
