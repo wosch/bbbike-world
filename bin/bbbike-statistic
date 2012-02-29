@@ -156,10 +156,7 @@ log '[^ ]*/cgi/street-coord.cgi\?' | wc -l
 echo ""
 echo -n "bbbike cities pdf: "
 log_post POST | egrep 'POST (/[a-z][a-z])?/[A-Z][a-z]+.*?\?' | perl $perl_utf8 -ne 'print "$1\n" if m,POST /[A-Z][a-z]+/(.*?), || m,POST /[a-z][a-z]/[A-Z][a-z]+/(.*?),' | wc -l
-
-log_full $url_match | egrep 'POST (/[a-z][a-z])?/[A-Z][a-z]+/.*?\?' |
-	perl $perl_utf8 -ne 'print "$1\n" if m,POST /([A-Z][a-z]+)/, || m,POST /([a-z][a-z]/[A-Z][a-z]+)/,'|
-	sort | uniq -c | sort -nr
+log_post POST | egrep 'POST (/[a-z][a-z])?/[A-Z][a-z]+/( |\?)' | perl $perl_utf8 -ne 'print "$2\n" if m,POST /([a-z][a-z]/)?([A-Z][a-z]+)/,' | sort | uniq -c | sort -nr
 
 echo ""
 echo -n "output formats total: "
