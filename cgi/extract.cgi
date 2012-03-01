@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl
 # Copyright (c) 2011-2012 Wolfram Schneider, http://bbbike.org
 #
-# extracts.cgi - extracts areas in a batch job
+# extract.cgi - extracts areas in a batch job
 #
 # spool area
 #   /incoming   - request to extract an area, email sent out to user
@@ -170,8 +170,9 @@ sub footer {
     my $analytics = &google_analytics;
     my $url = $q->url( -relative => 1 );
 
-    my $extracts = $q->param('submit')
-      || $q->param("key") ? qq,| <a href="$url">extracts</a>, : "";
+    my $extracts =
+      ( $q->param('submit') || $q->param("key") )
+      && $url ? qq,| <a href="$url">extract</a>, : "";
     return <<EOF;
 
 
