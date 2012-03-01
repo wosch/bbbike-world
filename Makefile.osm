@@ -301,7 +301,7 @@ rsync-osm rsync: sync-sitemap osm-header
 	-rsync -av --exclude='*.bak' data/opensearch.streetnames ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}/data
 	@echo ""
 	@echo "don't forget to cleanup the data cache in ${BBBIKE_CACHE_DIR}, run:"
-	@echo "$$ sudo make clean-cache"
+	@echo "$$ sudo make clean-cache; make cache-heater"
 
 osm-header:
 	if ! test -e ${OSM_DIR}/HEADER.txt; then \
