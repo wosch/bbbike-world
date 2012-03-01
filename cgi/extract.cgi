@@ -340,7 +340,7 @@ sub check_input {
 <p>Thanks - the input data looks good. You will be notificed by e-mail soon. 
 Please follow the instruction in the email to proceed your request.</p>
 
-<p align='left'>Area: "@{[ escapeHTML($city) ]} " covers @{[ large_int($skm) ]} square km <br/>
+<p align='left'>Area: "@{[ escapeHTML($city) ]}" covers @{[ large_int($skm) ]} square km <br/>
 Coordinates: @{[ escapeHTML("$sw_lng,$sw_lat x $ne_lng,$ne_lat") ]} <br/>
 Format: $format
 </p>
