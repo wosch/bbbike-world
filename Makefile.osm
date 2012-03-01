@@ -117,7 +117,7 @@ convert-bbbike-full: build-runtime-perl
 
 # convert bbbike files from wgs84, much faster
 convert-bbbike: build-runtime-perl
-	echo ${CITIES} | ${NICE} ${XARGS} -E " " -n4 -P${MAX_VCPU} ./world/bin/wgs84-to-bbbike
+	echo ${CITIES} | ${XARGS} -E " " -n4 -P${MAX_VCPU} ./world/bin/wgs84-to-bbbike
 	tar --exclude='_*' -cf - ${DATA_DIR} | ${NICE} ${BZIP2} > ${DATA_OSM_BBBIKE_DIR}/data.tbz.tmp
 	mv -f ${DATA_OSM_BBBIKE_DIR}/data.tbz.tmp ${DATA_OSM_BBBIKE_DIR}/data.tbz
 
@@ -186,7 +186,7 @@ city-file:
 	${MAKE} -s city-reorder | awk '{print $$2 }'  > ${CITIES_FILE}
 
 city-memory:
-	echo ${CITIES} | ${NICE} ${TIME} ${XARGS} -E " " -n1 -P${MAX_RCPU} ./world/bin/bbbike-memory
+	echo ${CITIES} | ${TIME} ${XARGS} -E " " -n1 -P${MAX_RCPU} ./world/bin/bbbike-memory
 
 update-robots.txt:
 	( cat world/web/robots.txt.in; \
