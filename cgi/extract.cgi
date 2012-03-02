@@ -611,13 +611,13 @@ sub homepage {
             [
                 $q->td(
                     [
-                        "Name of city or area",
+"<span title='the name is optional, but better fill it out'>Name of city or area</span>",
                         $q->textfield( -name => 'city', -size => 40 )
                     ]
                 ),
                 $q->td(
                     [
-                        "Your email address",
+"<span title='required, you will be notified by e-mail if your extract is ready for download.'>Your email address (*)</span>",
                         $q->textfield(
                             -name  => 'email',
                             -size  => 40,
@@ -662,7 +662,7 @@ sub homepage {
 
                 $q->td(
                     [
-                        "<span title='PBF: fast and compact data, OSM XML gzip: standard OSM format, twice as large'>Output Format</span>",
+"<span title='PBF: fast and compact data, OSM XML gzip: standard OSM format, twice as large'>Output Format</span>",
                         $q->popup_menu(
                             -name   => 'format',
                             -values => [
@@ -681,6 +681,7 @@ sub homepage {
 
     #print $q->p;
     print $q->submit(
+        -title => 'start extract',
         -name  => 'submit',
         -value => 'extract',
         -id    => 'extract'
