@@ -1,0 +1,5 @@
+# general
+User-agent: *
+Disallow: /?
+Disallow: /cgi
+
