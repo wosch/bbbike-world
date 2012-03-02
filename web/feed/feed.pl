@@ -27,7 +27,7 @@ $feed->add_entry(
     id      => 'ceb834ea55261da7259fd57c8760d80e',
     content => {
         type    => 'text',
-        content => qq{New service: extract service for OSM data, select your own region up to 400km x 600km large, http://extract.bbbike.org/},
+        content => qq{New extract service for OSM data, select your individual area up to 400km x 600km large, http://extract.bbbike.org},
     },
     updated  => '2012-03-01T13:30:02Z',
     category => 'News',
