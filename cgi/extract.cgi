@@ -170,8 +170,7 @@ sub footer {
     my $analytics = &google_analytics;
     my $url = $q->url( -relative => 1 );
 
-    my $extracts =
-      ( $q->param('submit') || $q->param("key") )
+    my $extracts = ( $q->param('submit') || $q->param("key") )
       && $url ? qq,| <a href="$url">extract</a>, : "";
     return <<EOF;
 
