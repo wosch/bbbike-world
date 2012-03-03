@@ -619,13 +619,13 @@ sub homepage {
             [
                 $q->td(
                     [
-"<span title='the name is optional, but better fill it out'>Name of city or area</span>",
+"<span title='Give the city or area to extract a name. The name is optional, but better fill it out to find it later again.'>Name of area to extract</span>",
                         $q->textfield( -name => 'city', -size => 40 )
                     ]
                 ),
                 $q->td(
                     [
-"<span title='required, you will be notified by e-mail if your extract is ready for download.'>Your email address (*)</span>",
+"<span title='Required, you will be notified by e-mail if your extract is ready for download.'>Your email address (*)</span>",
                         $q->textfield(
                             -name  => 'email',
                             -size  => 40,
