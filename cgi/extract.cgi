@@ -604,7 +604,7 @@ sub homepage {
 
     print &message;
 
-    print $q->start_form( -method => $request_method, -id => 'extract' );
+    print $q->start_form( -method => $request_method, -id => 'extract',  -onsubmit => 'return checkform();');
 
     my $lat = qq{<span title='Latitude'>lat</span>};
     my $lng = qq{<span title='Longitude'>lng</span>};
