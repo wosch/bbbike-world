@@ -173,7 +173,7 @@ sub footer {
     my $extracts = ( $q->param('submit') || $q->param("key") )
       && $url ? qq,| <a href="$url">extract</a>, : "";
     return <<EOF;
-
+<span id="debug"></span>
 
 <div id="footer">
 <div id="footer_top">
