@@ -258,10 +258,12 @@ sub check_input {
     our $error = 0;
 
     sub error {
-        my $message = shift;
+        my $message   = shift;
+        my $no_escape = shift;
+
         $error++;
 
-        print "<p>", escapeHTML($message), "</p>\n";
+        print "<p>", $no_escape ? $message : escapeHTML($message), "</p>\n";
     }
 
     sub is_coord {
@@ -303,7 +305,13 @@ sub check_input {
         }
     }
     if ( $email eq '' ) {
-        error("Please enter a e-mail address.");
+        error(
+            "Please enter a e-mail address. "
+              . "We need an e-mail address to notify you if your extract is ready for download. "
+              . "If you don't have an e-mail address, you can get a temporary from "
+              . "<a href='http://mailinator.com/'>mailinator.com</a>",
+            1
+        );
     }
     elsif ( !Email::Valid->address($email) ) {
         error("E-mail address '$email' is not valid.");
