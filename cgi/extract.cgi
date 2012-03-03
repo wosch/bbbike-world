@@ -331,8 +331,9 @@ sub check_input {
       if $ne_lat <= $sw_lat;
 
     my $skm = square_km( $sw_lat, $sw_lng, $ne_lat, $ne_lng );
-    error("Area is to large: $skm, must be smaller than $max_skm")
-      if $skm > $max_skm;
+    error(
+"Area is to large: @{[ large_int($skm) ]} square km, must be smaller than @{[ large_int($max_skm) ]} square km."
+    ) if $skm > $max_skm;
 
     if ($error) {
         print qq{<p class="error">The input data is not valid. };
