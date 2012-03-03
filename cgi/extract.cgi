@@ -635,7 +635,7 @@ sub homepage {
                 ),
                 $q->td(
                     [
-"<span title='South West'>Left lower corner (SW)</span>",
+"<span title='South West, valid values: -180 .. 180'>Left lower corner (SW)</span>",
                         "$lng: "
                           . $q->textfield(
                             -name => 'sw_lng',
@@ -652,7 +652,7 @@ sub homepage {
                 ),
                 $q->td(
                     [
-                        "<span title='North East'>Right top corner (NE)</span>",
+                        "<span title='North East, valid values: -180 .. 180'>Right top corner (NE)</span>",
                         "$lng: "
                           . $q->textfield(
                             -name => 'ne_lng',
