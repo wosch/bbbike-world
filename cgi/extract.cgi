@@ -695,7 +695,7 @@ sub homepage {
         -id    => 'extract'
     );
     print $q->end_form;
-    print qq{<hr/\n};
+    print qq{<hr/>\n};
     print &map;
 
     print &footer($q);
