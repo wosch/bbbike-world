@@ -217,7 +217,7 @@ sub file_latlng {
     return $file;
 }
 
-# store lng,lat in filename
+# store lng,lat in file name
 sub file_lnglat {
     my $obj  = shift;
     my $file = "";
@@ -227,6 +227,12 @@ sub file_lnglat {
     return $file;
 }
 
+#
+# Create poly files based on a given list of json config files.
+#
+# On success, the json config files will be moved
+# from the spool "confirmed" to "running"
+#
 sub create_poly_files {
     my %args    = @_;
     my $job_dir = $args{'job_dir'};
@@ -725,9 +731,13 @@ else {
         'spool'   => $spool,
     );
 
+    # be paranoid, give up after N hours (java bugs?)
     &set_alarm($alarm);
 
+    ###########################################################   
+    # main
     my @system = run_extracts( 'spool' => $spool, 'poly' => $poly );
+    ###########################################################   
 
     my $time = time();
     warn "Run ", join " ", @system, "\n" if $debug > 2;
