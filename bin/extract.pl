@@ -32,20 +32,15 @@ use strict;
 use warnings;
 
 $ENV{'PATH'} = "/usr/local/bin:/bin:/usr/bin";
-my $config_file = "$ENV{HOME}/.bbbike-extract";
+
+# group writable file
+umask(002);
 
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
-my $planet_osm = "../osm-streetnames/download/planet-latest.osm.pbf";
-my $debug      = 0;
-my $test       = 0;
-
 # spool directory. Should be at least 100GB large
 my $spool_dir = '/usr/local/www/tmp/extract';
-
-# max. area in square km
-our $max_skm = 240_000;
 
 # sent out emails as
 our $email_from = 'bbbike@bbbike.org';
@@ -67,6 +62,14 @@ our $option = {
 
     # run with lower priority
     'nice_level' => 5,
+
+    # max. area in square km
+    'max_skm' => 240_000,
+
+    'planet_osm' => "../osm-streetnames/download/planet-latest.osm.pbf",
+    'debug'      => 0,
+    'test'       => 0,
+
 };
 
 my $formats = {
@@ -77,31 +80,31 @@ my $formats = {
 };
 
 my $spool = {
-    'incoming' =>
-      "$spool_dir/incoming",    # incoming request, need to be confirmed
-    'confirmed' => "$spool_dir/confirmed",    # ready to run
-    'running'   => "$spool_dir/running",      # currently running job
-    'osm'       => "$spool_dir/osm",          # cache older runs
-    'download'  => "$spool_dir/download",     # final directory for download
-    'trash' => "$spool_dir/trash",     # keep a copy of the config for debugging
-    'job1'  => "$spool_dir/job1.pid",  # lock file for current job
+    'incoming'  => "$spool_dir/incoming",  # incoming request, not confirmed yet
+    'confirmed' => "$spool_dir/confirmed", # ready to run
+    'running'   => "$spool_dir/running",   # currently running job
+    'osm'       => "$spool_dir/osm",       # cache older runs
+    'download'  => "$spool_dir/download",  # final directory for download
+    'trash' => "$spool_dir/trash",    # keep a copy of the config for debugging
+         # 'job1'  => "$spool_dir/job1.pid",     # lock file for current job
 };
 
-# parse config file
+#
+# Parse user config file.
+# This allows to override standard config values
+#
+my $config_file = "$ENV{HOME}/.bbbike-extract";
 if ( -e $config_file ) {
     require $config_file;
 }
 
 my $alarm      = $option->{"alarm"};
 my $nice_level = $option->{"nice_level"};
-
-# up to N parallel jobs
-foreach my $number ( 1 .. $option->{'max_jobs'} ) {
-    $spool->{"job$number"} = "$spool_dir/job" . $number . ".pid";
-}
-
-# group writable file
-umask(002);
+my $max_skm    = $option->{"max_skm"};
+my $email_from = $option->{"email_from"};
+my $planet_osm = $option->{"planet_osm"};
+my $debug      = $option->{"debug"};
+my $test       = $option->{"test"};
 
 # test & debug
 $planet_osm =
@@ -112,6 +115,7 @@ $planet_osm =
 #
 #
 
+# timeout handler
 sub set_alarm {
     my $time = shift;
 
@@ -123,6 +127,7 @@ sub set_alarm {
     alarm($time);
 }
 
+# get a list of json config files from a directory
 sub get_jobs {
     my $dir = shift;
 
@@ -197,6 +202,7 @@ sub parse_jobs {
     return @list;
 }
 
+# create a unique job id for each extract request
 sub get_job_id {
     my @list = @_;
 
@@ -210,7 +216,7 @@ sub get_job_id {
     return $key;
 }
 
-# store lat,lng in filename
+# store lat,lng in a file name
 sub file_latlng {
     my $obj  = shift;
     my $file = "";
@@ -307,7 +313,7 @@ sub create_poly_files {
     return ( \@poly, \@json );
 }
 
-# refresh mod time of file, to keep in cache
+# refresh mod time of file, to keep files in cache
 sub touch_file {
     my $file = shift;
 
@@ -329,6 +335,8 @@ sub store_data {
     $fh->close;
 }
 
+# create a poly file which will be read by osmosis(1) to extract
+# an area from planet.osm
 sub create_poly_file {
     my %args = @_;
     my $file = $args{'file'};
@@ -407,7 +415,7 @@ sub run_extracts {
     return @data;
 }
 
-# compuate MD5 checksum for extract file
+# compute MD5 checksum for extract file
 sub checksum {
     my $file = shift;
     die "file $file does not exists\n" if !-f $file;
@@ -714,6 +722,23 @@ if ( !scalar(@files) ) {
     print "Nothing to do\n" if $debug >= 2;
 }
 else {
+    my $lockfile;
+
+    # find a free job
+    foreach my $number ( 1 .. $option->{'max_jobs'} ) {
+        my $file = $spool->{"job$number"};
+
+        # lock pid
+        if ( &create_lock( 'lockfile' => $file ) ) {
+            $lockfile = $file;
+            last;
+        }
+    }
+
+    # lock pid
+    die "Cannot get lock for jobs 1..", $option->{'max_jobs'}, "\n"
+      if !$lockfile;
+
     my @list = parse_jobs(
         'files' => \@files,
         'dir'   => $spool->{'confirmed'},
@@ -721,12 +746,8 @@ else {
     );
     print Dumper( \@list ) if $debug >= 3;
 
-    my $key      = get_job_id(@list);
-    my $job_dir  = $spool->{'running'} . "/$key";
-    my $lockfile = $spool->{"job$job"};
-
-    # lock pid
-    &create_lock( 'lockfile' => $lockfile ) or die "Cannot get lock\n";
+    my $key     = get_job_id(@list);
+    my $job_dir = $spool->{'running'} . "/$key";
 
     my ( $poly, $json ) = create_poly_files(
         'job_dir' => $job_dir,
