@@ -42,14 +42,11 @@ binmode \*STDERR, ":utf8";
 # spool directory. Should be at least 100GB large
 my $spool_dir = '/usr/local/www/tmp/extract';
 
-# sent out emails as
-our $email_from = 'bbbike@bbbike.org';
-
 our $option = {
     'max_areas' => 12,
     'homepage'  => 'http://download.bbbike.org/osm/extract',
     'max_jobs'  => 3,
-    'bcc'       => $email_from,
+    'bcc'       => 'bbbike@bbbike.org',
 
     # timeout handling
     'alarm' => 3600,
