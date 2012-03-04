@@ -744,7 +744,7 @@ else {
 
     # find a free job
     foreach my $number ( 1 .. $max_jobs ) {
-        my $file = "$spool_dir/job$number";
+        my $file = "$spool_dir/job${number}.pid";
 
         # lock pid
         if ( &create_lock( 'lockfile' => $file ) ) {
