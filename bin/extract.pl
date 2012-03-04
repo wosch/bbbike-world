@@ -39,9 +39,6 @@ umask(002);
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
-# spool directory. Should be at least 100GB large
-my $spool_dir = '/usr/local/www/tmp/extract';
-
 our $option = {
     'max_areas' => 12,
     'homepage'  => 'http://download.bbbike.org/osm/extract',
@@ -57,6 +54,9 @@ our $option = {
     'planet_osm' => "../osm-streetnames/download/planet-latest.osm.pbf",
     'debug'      => 0,
     'test'       => 0,
+
+    # spool directory. Should be at least 100GB large
+    'spool_dir' => '/usr/local/www/tmp/extract',
 };
 
 my $formats = {
@@ -64,16 +64,6 @@ my $formats = {
     'osm.gz'  => "OSM XML gzip'd",
     'osm.bz2' => "OSM XML bzip'd",
     'osm.xz'  => "OSM XML 7z/xz",
-};
-
-my $spool = {
-    'incoming'  => "$spool_dir/incoming",  # incoming request, not confirmed yet
-    'confirmed' => "$spool_dir/confirmed", # ready to run
-    'running'   => "$spool_dir/running",   # currently running job
-    'osm'       => "$spool_dir/osm",       # cache older runs
-    'download'  => "$spool_dir/download",  # final directory for download
-    'trash' => "$spool_dir/trash",    # keep a copy of the config for debugging
-         # 'job1'  => "$spool_dir/job1.pid",     # lock file for current job
 };
 
 #
@@ -84,6 +74,17 @@ my $config_file = "$ENV{HOME}/.bbbike-extract";
 if ( -e $config_file ) {
     require $config_file;
 }
+
+my $spool_dir = $option->{"spool_dir"};
+my $spool     = {
+    'incoming'  => "$spool_dir/incoming",  # incoming request, not confirmed yet
+    'confirmed' => "$spool_dir/confirmed", # ready to run
+    'running'   => "$spool_dir/running",   # currently running job
+    'osm'       => "$spool_dir/osm",       # cache older runs
+    'download'  => "$spool_dir/download",  # final directory for download
+    'trash' => "$spool_dir/trash",    # keep a copy of the config for debugging
+         # 'job1'  => "$spool_dir/job1.pid",     # lock file for current job
+};
 
 my $alarm      = $option->{"alarm"};
 my $nice_level = $option->{"nice_level"};
@@ -712,7 +713,7 @@ else {
 
     # find a free job
     foreach my $number ( 1 .. $option->{'max_jobs'} ) {
-        my $file = $spool->{"job$number"};
+        my $file = "$spool_dir/job$number";
 
         # lock pid
         if ( &create_lock( 'lockfile' => $file ) ) {
