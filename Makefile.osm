@@ -464,6 +464,7 @@ perltidy:
 	${MAKE} -C world/bin $@	
 	${MAKE} -C world/cgi $@	
 	${MAKE} -C world/web/feed $@	
+	git diff
 
 jsbeautifier js:
 	${MAKE} -C html $@
