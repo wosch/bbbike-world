@@ -407,7 +407,7 @@ sub checksum {
     my $file = shift;
     die "file $file does not exists\n" if !-f $file;
 
-    my @checksum_command = qw/shasum -a -1/;
+    my @checksum_command = qw/shasum -a 256/;
 
     if ( my $pid = open( C, "-|" ) ) {
     }
