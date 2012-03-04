@@ -415,19 +415,19 @@ sub run_extracts {
     return @data;
 }
 
-# compute MD5 checksum for extract file
+# compute SHA2 checksum for extract file
 sub checksum {
     my $file = shift;
     die "file $file does not exists\n" if !-f $file;
 
-    my $md5_command = 'md5sum';
+    my @checksum_command = qw/shasum -a -1/;
 
     if ( my $pid = open( C, "-|" ) ) {
     }
 
     # child
     else {
-        exec( $md5_command, $file ) or die "Alert! Cannot fork: $!\n";
+        exec( @checksum_command, $file ) or die "Alert! Cannot fork: $!\n";
     }
 
     my $data;
@@ -565,12 +565,12 @@ Hi,
 your requested OpenStreetMap area "$obj->{'city'}" was extracted 
 from planet.osm
 
- City: $obj->{"city"}
- Area: $obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}
+ Name: $obj->{"city"}
+ Coordinates: $obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}
  Format: $obj->{"format"}
- Granularity: 10000 (1.1 meters)
+ Granularity: 10,000 (1.1 meters)
  File size: $file_size
- MD5 checksum: $checksum
+ SHA256 checksum: $checksum
  License: OpenStreetMap License
 
 To download the file, please click on the following link:
