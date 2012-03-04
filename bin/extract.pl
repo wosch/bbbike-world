@@ -735,7 +735,7 @@ else {
         }
     }
 
-    # lock pid
+    # Oops, are jobs are in use, give up
     die "Cannot get lock for jobs 1..", $option->{'max_jobs'}, "\n"
       if !$lockfile;
 
