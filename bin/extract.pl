@@ -61,6 +61,12 @@ our $option = {
     'default_format' => 'osm.pbf',
 
     'bcc' => $email_from,
+
+    # timeout handling
+    'alarm' => 3600,
+
+    # run with lower priority
+    'nice_level' => 5,
 };
 
 my $formats = {
@@ -81,16 +87,13 @@ my $spool = {
     'job1'  => "$spool_dir/job1.pid",  # lock file for current job
 };
 
-# timeout handling
-our $alarm = 3600;
-
-# run with lower priority
-our $nice_level = 5;
-
 # parse config file
 if ( -e $config_file ) {
     require $config_file;
 }
+
+my $alarm      = $option->{"alarm"};
+my $nice_level = $option->{"nice_level"};
 
 # up to N parallel jobs
 foreach my $number ( 1 .. $option->{'max_jobs'} ) {
@@ -734,10 +737,10 @@ else {
     # be paranoid, give up after N hours (java bugs?)
     &set_alarm($alarm);
 
-    ###########################################################   
+    ###########################################################
     # main
     my @system = run_extracts( 'spool' => $spool, 'poly' => $poly );
-    ###########################################################   
+    ###########################################################
 
     my $time = time();
     warn "Run ", join " ", @system, "\n" if $debug > 2;
