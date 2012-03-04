@@ -121,11 +121,9 @@ map.addLayers([road, aerial, hybrid]);
  
             var switcherControl = new OpenLayers.Control.LayerSwitcher();
             map.addControl(switcherControl);
-
-            switcherControl.maximizeControl();
-
             map.addControl(new OpenLayers.Control.LayerSwitcher());
             map.addControl(new OpenLayers.Control.Permalink());
+            // switcherControl.maximizeControl();
 
       function get_mm_bikeTracks(bounds) {
 
