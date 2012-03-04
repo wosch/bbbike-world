@@ -71,7 +71,7 @@ my $formats = {
 # Parse user config file.
 # This allows to override standard config values
 #
-my $config_file = "$ENV{HOME}/.bbbike-extract";
+my $config_file = "$ENV{HOME}/.bbbike-extract.rc";
 if ( -e $config_file ) {
     require $config_file;
 }
@@ -488,24 +488,39 @@ sub send_email {
         my @nice = ( "nice", "-n", $nice_level );
         if ( $obj->{'format'} eq 'osm.bz2' ) {
             $file =~ s/\.pbf$/.bz2/;
-            @system = ( @nice, "$dirname/pbf2osm", "--bzip2", $pbf_file );
+            if ( -e $file ) {
+                warn "File $file already exists, skip...\n" if $debug >= 1;
+            }
+            else {
+                @system = ( @nice, "$dirname/pbf2osm", "--bzip2", $pbf_file );
 
-            warn "@system\n" if $debug >= 2;
-            system(@system) == 0 or die "system @system failed: $?";
+                warn "@system\n" if $debug >= 2;
+                system(@system) == 0 or die "system @system failed: $?";
+            }
         }
         elsif ( $obj->{'format'} eq 'osm.gz' ) {
             $file =~ s/\.pbf$/.gz/;
-            @system = ( @nice, "$dirname/pbf2osm", "--gzip", $pbf_file );
+            if ( -e $file ) {
+                warn "File $file already exists, skip...\n" if $debug >= 1;
+            }
+            else {
+                @system = ( @nice, "$dirname/pbf2osm", "--gzip", $pbf_file );
 
-            warn "@system\n" if $debug >= 2;
-            system(@system) == 0 or die "system @system failed: $?";
+                warn "@system\n" if $debug >= 2;
+                system(@system) == 0 or die "system @system failed: $?";
+            }
         }
         elsif ( $obj->{'format'} eq 'osm.xz' ) {
             $file =~ s/\.pbf$/.xz/;
-            @system = ( @nice, "$dirname/pbf2osm", "--xz", $pbf_file );
+            if ( -e $file ) {
+                warn "File $file already exists, skip...\n" if $debug >= 1;
+            }
+            else {
+                @system = ( @nice, "$dirname/pbf2osm", "--xz", $pbf_file );
 
-            warn "@system\n" if $debug >= 2;
-            system(@system) == 0 or die "system @system failed: $?";
+                warn "@system\n" if $debug >= 2;
+                system(@system) == 0 or die "system @system failed: $?";
+            }
         }
 
         ###################################################################
