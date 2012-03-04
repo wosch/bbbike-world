@@ -40,10 +40,11 @@ binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
 our $option = {
-    'max_areas' => 12,
-    'homepage'  => 'http://download.bbbike.org/osm/extract',
-    'max_jobs'  => 3,
-    'bcc'       => 'bbbike@bbbike.org',
+    'max_areas'  => 12,
+    'homepage'   => 'http://download.bbbike.org/osm/extract',
+    'max_jobs'   => 3,
+    'bcc'        => 'bbbike@bbbike.org',
+    'email_from' => 'bbbike@bbbike.org',
 
     # timeout handling
     'alarm' => 3600,
