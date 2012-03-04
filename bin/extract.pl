@@ -459,6 +459,27 @@ sub _send_email {
     warn "\n$data\n" if $debug >= 3;
 }
 
+# check if we need to run a pbf2osm converter
+sub cached_format {
+    my $file = shift;
+
+    my $to = $spool->{'download'} . "/" . basename($file);
+    if ( -e $file && -s $file ) {
+        warn "File $file already exists, skip...\n" if $debug >= 1;
+        return 1;
+    }
+    elsif ( -e $to && -s $to ) {
+        warn "Converted file $to already exists, skip...\n" if $debug >= 1;
+
+        warn "link $file => $to\n" if $debug >= 2;
+        link( $to, $file ) or die "link $to -> $file: $!\n";
+
+        return 1;
+    }
+
+    return 0;
+}
+
 # prepare to sent mail about extracted area
 sub send_email {
     my %args = @_;
@@ -488,10 +509,7 @@ sub send_email {
         my @nice = ( "nice", "-n", $nice_level );
         if ( $obj->{'format'} eq 'osm.bz2' ) {
             $file =~ s/\.pbf$/.bz2/;
-            if ( -e $file ) {
-                warn "File $file already exists, skip...\n" if $debug >= 1;
-            }
-            else {
+            if ( !cached_format($file) ) {
                 @system = ( @nice, "$dirname/pbf2osm", "--bzip2", $pbf_file );
 
                 warn "@system\n" if $debug >= 2;
@@ -500,10 +518,7 @@ sub send_email {
         }
         elsif ( $obj->{'format'} eq 'osm.gz' ) {
             $file =~ s/\.pbf$/.gz/;
-            if ( -e $file ) {
-                warn "File $file already exists, skip...\n" if $debug >= 1;
-            }
-            else {
+            if ( !cached_format($file) ) {
                 @system = ( @nice, "$dirname/pbf2osm", "--gzip", $pbf_file );
 
                 warn "@system\n" if $debug >= 2;
@@ -512,10 +527,7 @@ sub send_email {
         }
         elsif ( $obj->{'format'} eq 'osm.xz' ) {
             $file =~ s/\.pbf$/.xz/;
-            if ( -e $file ) {
-                warn "File $file already exists, skip...\n" if $debug >= 1;
-            }
-            else {
+            if ( !cached_format($file) ) {
                 @system = ( @nice, "$dirname/pbf2osm", "--xz", $pbf_file );
 
                 warn "@system\n" if $debug >= 2;
