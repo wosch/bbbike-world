@@ -18,9 +18,9 @@
   <entry>
     <title>New service: extract service for OSM data</title>
     <id>ceb834ea55261da7259fd57c8760d80e</id>
-    <content>New service: extract service for OSM data, select your
-    own region up to 400km x 600km large,
-    http://extract.bbbike.org/</content>
+    <content>New extract service for OSM data, select your
+    individual area up to 400km x 600km large,
+    http://extract.bbbike.org</content>
     <updated>2012-03-01T13:30:02Z</updated>
     <category term="News" />
   </entry>
