@@ -723,13 +723,16 @@ EOF
 #
 
 # current running parallel job number (1..4)
-my $job = 1;
+my $max_jobs = $option->{'max_jobs'};
 
 GetOptions(
     "debug=i"      => \$debug,
     "nice-level=i" => \$nice_level,
-    "job=i"        => \$job,
+    "job=i"        => \$max_jobs,
 ) or die usage;
+
+die "Max jobs: $max_jobs out of range!\n" . &usage
+  if $max_jobs < 1 || $max_jobs > 8;
 
 my @files = get_jobs( $spool->{'confirmed'} );
 
@@ -740,7 +743,7 @@ else {
     my $lockfile;
 
     # find a free job
-    foreach my $number ( 1 .. $option->{'max_jobs'} ) {
+    foreach my $number ( 1 .. $max_jobs ) {
         my $file = "$spool_dir/job$number";
 
         # lock pid
