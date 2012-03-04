@@ -49,13 +49,7 @@ our $option = {
     'max_areas' => 12,
     'homepage'  => 'http://download.bbbike.org/osm/extract',
     'max_jobs'  => 3,
-
-    # not used yet
-    'max_extracts'   => 50,
-    'min_wait_time'  => 5 * 60,      # in seconds
-    'default_format' => 'osm.pbf',
-
-    'bcc' => $email_from,
+    'bcc'       => $email_from,
 
     # timeout handling
     'alarm' => 3600,
@@ -63,13 +57,9 @@ our $option = {
     # run with lower priority
     'nice_level' => 5,
 
-    # max. area in square km
-    'max_skm' => 240_000,
-
     'planet_osm' => "../osm-streetnames/download/planet-latest.osm.pbf",
     'debug'      => 0,
     'test'       => 0,
-
 };
 
 my $formats = {
@@ -100,7 +90,6 @@ if ( -e $config_file ) {
 
 my $alarm      = $option->{"alarm"};
 my $nice_level = $option->{"nice_level"};
-my $max_skm    = $option->{"max_skm"};
 my $email_from = $option->{"email_from"};
 my $planet_osm = $option->{"planet_osm"};
 my $debug      = $option->{"debug"};
