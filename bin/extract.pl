@@ -549,7 +549,7 @@ sub send_email {
             $to = $spool->{'download'} . "/" . basename($file);
             unlink($to);
 
-            link( $file, $to ) or die "link $pbf_file => $to: $!\n";
+            link( $file, $to ) or die "link $file => $to: $!\n";
 
             $file_size = file_size($to) . " MB";
             warn "file size $to: $file_size\n" if $debug >= 1;
