@@ -367,7 +367,8 @@ sub run_extracts {
     return () if !defined $poly || scalar(@$poly) <= 0;
 
     my @data = ( "nice", "-n", $nice_level, "osmosis", "-q" );
-    push @data, qq{--read-pbf $planet_osm --buffer bufferCapacity=12000};
+    push @data,
+      ( "--read-pbf", $planet_osm, "--buffer", "bufferCapacity=12000" );
 
     my @pbf;
     my $tee = 0;
