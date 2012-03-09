@@ -40,7 +40,7 @@ binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
 our $option = {
-    'max_areas'  => 12,
+    'max_areas'  => 4,
     'homepage'   => 'http://download.bbbike.org/osm/extract',
     'max_jobs'   => 3,
     'bcc'        => 'bbbike@bbbike.org',
@@ -367,7 +367,8 @@ sub run_extracts {
     return () if !defined $poly || scalar(@$poly) <= 0;
 
     my @data = ( "nice", "-n", $nice_level, "osmosis", "-q" );
-    push @data, qq{--read-pbf $planet_osm --buffer bufferCapacity=12000};
+    push @data,
+      ( "--read-pbf", $planet_osm, "--buffer", "bufferCapacity=2000" );
 
     my @pbf;
     my $tee = 0;

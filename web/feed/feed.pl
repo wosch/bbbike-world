@@ -23,6 +23,17 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
+    title   => qq{Added new map MapBox},
+    id      => '89ed7e9fc6f6107c641d8fecf15f50c9',
+    content => {
+        type    => 'text',
+        content => qq{Added new map MapBox},
+    },
+    updated  => '2012-03-04T13:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title   => qq{New service: extract service for OSM data},
     id      => 'ceb834ea55261da7259fd57c8760d80e',
     content => {

@@ -315,7 +315,7 @@ rsync-osm-devel rsync-osm-dev:
 rsync-planet:
 	cd ../osm-streetnames/download; \
 	   ${NICE5} rsync -av planet-latest.osm.bz2 planet-latest.osm.bz2.md5 \
-		planet-latest.osm.pbf planet-latest.osm.pbf.md5 bbbike:projects/osm-streetnames/download
+		planet-latest.osm.pbf planet-latest.osm.pbf.md5 planet-latest.osm.pbf.sha256 bbbike:projects/osm-streetnames/download
 
 create-bbbike-web-symlinks-bbbike.en.cgi:
 	cd ${BBBIKE_WEB_DIR}/cgi && ln -fs bbbike.cgi bbbike.en.cgi
@@ -586,6 +586,7 @@ download-bbbike-org-install:
 	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.bz2 . ;\
 	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.pbf . ;\
 	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.pbf.md5 . ;\
+	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.pbf.sha1 . ;\
 	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.bz2.md5 . ;\
 	  ln -fs ../../../bbbike.org/world/download/osm/planet/HEADER.txt .
 		
