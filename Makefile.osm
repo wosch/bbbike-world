@@ -140,10 +140,10 @@ _osmosis_opt:
 	for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i/$$i.poly --wx file=${OSM_DIR}/$$i/$$i.osm.gz"; done
 
 cities-poly: poly
-	${NICE5} ${BZIP2} -dc ${OSM_PLANET} | ${NICE5} ${OSMOSIS} --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=12000 --tee `${MAKE} -s -f Makefile.osm city-count` `${MAKE} -s -f Makefile.osm _osmosis_opt`
+	${NICE5} ${BZIP2} -dc ${OSM_PLANET} | ${NICE5} ${OSMOSIS} --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --tee `${MAKE} -s -f Makefile.osm city-count` `${MAKE} -s -f Makefile.osm _osmosis_opt`
 
 cities-pbf cities: poly
-	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=12000 --tee `${MAKE} -s CITIES="${CITIES}" -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" -f Makefile.osm _osmosis_opt`
+	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s CITIES="${CITIES}" -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" -f Makefile.osm _osmosis_opt`
 	${MAKE} -f Makefile.osm osm2pbf
 
 # if an extract does not exists localy, try to fetch it from the web
