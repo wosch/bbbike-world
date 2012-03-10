@@ -16,6 +16,13 @@
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>Added new map Apple</title>
+    <id>59f077289e137c87be26a4b5f22427d0</id>
+    <content>Added new map Apple</content>
+    <updated>2012-03-10T13:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title>Added new map MapBox</title>
     <id>89ed7e9fc6f6107c641d8fecf15f50c9</id>
     <content>Added new map MapBox</content>
