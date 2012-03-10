@@ -387,6 +387,7 @@ bbbike2wgs84:
 	./world/bin/bbbike2wgs84
 
 bbbike2wgs84-mapnik:
+	if test -e tmp/bbbike-mapnik.osm.gz; then mv -f tmp/bbbike-mapnik.osm.gz tmp/bbbike-mapnik.osm.gz.old; fi
 	${NICE} ./miscsrc/bbd2osm --optimize-for=mapnik | ${GZIP} > tmp/bbbike-mapnik.osm.gz.tmp
 	mv -f tmp/bbbike-mapnik.osm.gz.tmp tmp/bbbike-mapnik.osm.gz
 
