@@ -628,7 +628,12 @@ sub file_size {
 
     my $st = stat($file) or die "stat $file: $!\n";
 
-    return int( 10 * $st->size / 1024 / 1024 ) / 10;
+    foreach my $scale ( 10, 100, 1000, 10_000 ) {
+        my $result = int( $scale * $st->size / 1024 / 1024 ) / $scale;
+        return $result if $result > 0;
+    }
+
+    return "0.0";
 }
 
 # cat file
