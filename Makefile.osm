@@ -604,7 +604,7 @@ help:
 	@echo ""
 	@echo "  [ bbbike-osm2pbf | osm2pbf ]"
 	@echo "  [ bbbike2wgs84-mapnik | bbbike-mapnik-config ]"
-	@echo "  [ bbbike-mapnik-postgis | tile-cache-cleanup ]"
+	@echo "  [ bbbike-mapnik-postgis ]"
 	@echo ""
 	@echo "  [ clean | dist-clean | clean-cache | clean-planet | clean-tile ]"
 	@echo ""
