@@ -9,7 +9,6 @@ Amsterdam
 Mainz
 Moenchengladbach
 ClermontFerrand
-Lyon
 Dresden
 Muenchen
 Hannover
@@ -56,6 +55,7 @@ Bern
 Wroclaw
 SanktPetersburg
 Frankfurt
+Lyon
 WarenMueritz
 Goerlitz
 Vancouver
@@ -86,6 +86,7 @@ Kaiserslautern
 Chemnitz
 Montreal
 Koeln
+Wuerzburg
 Kiel
 LakeGarda
 CraterLake

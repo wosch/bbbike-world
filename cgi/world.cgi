@@ -1,7 +1,9 @@
 #!/bin/sh
-# Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2012 Wolfram Schneider, http://bbbike.org
 #
 # world.cgi - cgi/shell wrapper for bbbike @ world city
+
+umask 002
 
 # load average check
 if [ -e /proc/loadavg ]; then

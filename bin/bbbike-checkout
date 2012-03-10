@@ -1,40 +1,59 @@
 #!/bin/sh
-# Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2012 Wolfram Schneider, http://bbbike.org
 #
 # bbbike-checkout - checkout bbbike @ world sources and setup configuration
 
 set -e
 make_verbose=-s
 git="nice -5 git"
+: ${bbbike_macos=false}
 
-if [ ! -e /usr/local/bin/perl ]; then
-    echo >&2 "Warning: symlink /usr/local/bin/perl is missing!"
+
+if [ ! -x /usr/local/bin/perl ]; then
+    echo >&2 "/usr/local/bin/perl does not exists"
+    echo >&2 "Please run: ln -s /usr/bin/perl /usr/local/bin/perl"
+    echo >&2 "        or: ln -s /opt/local/bin/perl /usr/local/bin/perl"
+    exit 1
 fi
 
 git_config () {
-	$git config  user.name "Wolfram Schneider"
-	$git config  user.email wosch@freebsd.org
+	git config user.name "Wolfram Schneider"
+	git config user.email wosch@freebsd.org
 }
 
 ######################################################################
 # main git checkout
 #
 
-$git clone git@github.com:wolframschneider/bbbike-macos.git &
-$git clone git@github.com:wolframschneider/bbbike.git
+if $bbbike_macos; then
+    git clone git@github.com:wolframschneider/bbbike-macos.git
+fi
+
+# original github repo
+#git clone git@github.com:wolframschneider/bbbike.git
+# local cache repo
+git clone ssh://git.bbbike.org/home/git/bbbike
 
 ( cd bbbike && git_config )
-( cd bbbike-macos && git_config )
+if $bbbike_macos; then
+    ( cd bbbike-macos && git_config )
+fi
+
+mkdir -p osm-streetnames/download
 
 cd bbbike
 git_config
 
-# *world  is the default branch at github for bbbike@world
+# *world is the default branch at github for bbbike@world
 #git checkout -b world origin/world
 
 # add remote master from eserte
-$git remote add eserte git://github.com/eserte/bbbike.git
-$git fetch eserte
+git remote add eserte git://github.com/eserte/bbbike.git
+git fetch eserte
+
+# add remote world from github
+git remote add github git@github.com:wolframschneider/bbbike.git
+git fetch github
 
 
 ######################################################################
@@ -42,11 +61,14 @@ $git fetch eserte
 #
 echo ""
 echo "show branch: "
-$git branch 
+git branch
 
 echo ""
+
 echo "create symlinks ..."
 ln -s world/Makefile.osm
 make $make_verbose -f Makefile.osm create-bbbike-web-symlinks java-config
-echo "you may run as well: make update-files"
+echo "you may run as well: make js perltidy"
+echo "                     make update-files"
+echo "                     git merge eserte/master"
 

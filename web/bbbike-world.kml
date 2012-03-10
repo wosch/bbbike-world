@@ -375,7 +375,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/CambridgeMa/">BBBike @ Cambridge (Massachusetts)</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-71.1011,42.3775,0.000000</coordinates>
+      <coordinates>-71.06,42.385,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -799,7 +799,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Heilbronn/">BBBike @ Heilbronn</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>9.195,49.155,0.000000</coordinates>
+      <coordinates>9.195,49.175,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1816,6 +1816,14 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>17.0405,51.107,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Wuerzburg</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Wuerzburg/">BBBike @ Wuerzburg</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>9.995,49.755,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>

@@ -1,0 +1,79 @@
+#!/usr/local/bin/perl
+#
+# A statistic tool for the  WWW-Z39.50-Gateway ZACK
+#
+
+use IO::File;
+use Socket;
+
+use strict;
+use warnings;
+
+my $debug = 0;
+my $ip;
+my %hash;
+
+sub readIP {
+    my $file = shift;
+    my $ip   = {};
+
+    if ( !-f $file ) {
+        warn "Warning: $file does not exists\n" if $debug;
+        return $ip;
+    }
+
+    my $fh = new IO::File;
+    $fh->open( $file, "r" ) or die "open $file: $!\n";
+
+    while (<$fh>) {
+
+        # ignore comments
+        next if /^\s*#/;
+
+        my ( $address, $domain ) = split;
+        $ip->{$address} = $domain;
+    }
+
+    return $ip;
+}
+
+sub reverselookup {
+    my $address = shift;
+    chomp($address);
+
+    # not a numeric IP Adress
+    return $address if $address !~ /^[\d.]+$/;
+
+    return $hash{$address}
+      if defined $hash{$address};
+
+    my $iaddr = inet_aton($address);
+
+    return $address if !defined $iaddr;
+
+    my $host = gethostbyaddr( $iaddr, AF_INET );
+    my $classC = $1 if $address =~ /^(\d+\.\d+\.\d+)/;
+    my $classD = $1 if $address =~ /^(\d+\.\d+)/;
+
+    # dns lookup failed, try from our own database
+    if ( !$host ) {
+        $host = $ip->{$address} || $ip->{$classC} || $ip->{$classD};
+    }
+
+    # return hostname if found, otherwise the IP address
+    my $res = !$host ? $address : $address . ':' . $host;
+
+    $hash{$address} = $res;
+
+    return $hash{$address};
+}
+
+my $dnsrc = $ENV{'HOME'} . '/.dnsrc';
+$ip = &readIP($dnsrc);
+
+while (<>) {
+    s/(\d+\.\d+\.\d+\.\d+)/reverselookup($1)/ge;
+
+    print;
+}
+

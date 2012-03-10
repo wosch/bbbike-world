@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2012 Wolfram Schneider, http://bbbike.org
 #
 # livesearch.cgi - bbbike.org live routing search
 
@@ -281,7 +281,7 @@ $data
 
 <div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em;" >
 <hr>
-(&copy;) 2008-2011 <a href="http://bbbike.org">BBBike.org</a> // Map data by the <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap</a> Project
+(&copy;) 2008-2012 <a href="http://bbbike.org">BBBike.org</a> // Map data by the <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap</a> Project
 <div id="footer_community">
 </div>
 </div>
@@ -363,10 +363,15 @@ sub statistic_maps {
             }
         ),
 
-        -style => { 'src' => [ "../html/bbbike.css" ] },
-        -script => [ { 'src' => "http://www.google.com/jsapi?hl=en" },
-		{ 'src' => "http://maps.googleapis.com/maps/api/js?sensor=false&amp;language=en" },
-		{ 'src' => "/html/bbbike-js.js" } ],
+        -style  => { 'src' => ["../html/bbbike.css"] },
+        -script => [
+            { 'src' => "http://www.google.com/jsapi?hl=en" },
+            {
+                'src' =>
+"http://maps.googleapis.com/maps/api/js?sensor=false&amp;language=en"
+            },
+            { 'src' => "/html/bbbike-js.js" }
+        ],
     );
 
     print qq{<div id="routes"></div>\n};
@@ -629,7 +634,8 @@ sub statistic_basic {
     # footer
     print qq{<br/><br/>\n<a href="../">home</a>\n};
     print "<hr />\n";
-    print qq{Copyright (c) 2011 <a href="http://bbbike.org">BBBike.org</a>\n};
+    print
+      qq{Copyright (c) 2011-2012 <a href="http://bbbike.org">BBBike.org</a>\n};
     print "<br/>\n" . localtime() . "\n";
 }
 

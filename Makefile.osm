@@ -1,9 +1,9 @@
 ###############################################################
-# Copyright (c) 2008-2011 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2008-2012 Wolfram Schneider, http://bbbike.org
 #
 # Get and convert OpenStreetMap.org data to BBBike
 #
-# For more information about BBBike, visit http://www.bbbike.de
+# For more information about BBBike, visit http://www.bbbike.org
 #
 
 
@@ -18,7 +18,8 @@ OSM_TIMEOUT=	--timeout=45
 DOWNLOADOSM_URL=	--osm-api-url=http://www.informationfreeway.org/api/0.6
 DOWNLOADOSM=	${PERL} ./miscsrc/downloadosm --debug=1 ${OSM_SOCKS_PROXY} ${OSM_TIMEOUT} ${DOWNLOADOSM_URL}
 #OSM2BBD=	${PERL} ./miscsrc/osm2bbd --nodate -f --debug=0 ${OSM2BBD_MAPTYPE} -ignore-unhandled -ignore-underline -experiment add_postal_code #-experiment polar_coord_hack
-OSM2BBD=	./miscsrc/osm2bbd --ignore-underline-noname --nodate --no-create --git-id="${GIT_ID}" -f --debug=0 ${OSM2BBD_MAPTYPE} -experiment add_postal_code -experiment handle_relations
+OSM2BBD_OPT=	--ignore-unhandled --ignore-underline-noname
+OSM2BBD=	./miscsrc/osm2bbd ${OSM2BBD_OPT} --nodate --no-create --git-id="${GIT_ID}" -f --debug=0 ${OSM2BBD_MAPTYPE} -experiment add_postal_code -experiment handle_relations
 MAX_CPU=	`world/bin/ncpu`
 MAX_CPU2=	`world/bin/ncpu -1`
 MAX_VCPU=	`world/bin/ncpu vcpu`
@@ -41,11 +42,17 @@ BBBIKE_CACHE_DIR=	/var/cache/bbbike
 MAX_OSMOSIS=	${MAX_CPU}
 LANGUAGES=	m da de en es fr hr nl pl pt ru zh
 ELEVATION_SCRIPT=world/bin/elevation-database
+MAX_ELEVATION_SCRIPTS=	1
 BBBIKE_SERVER=""
 BBBIKE_WEBSERVER_DIR=/usr/local/www/bbbike.org
 BBBIKE_WEB_DIR= ./
 CACHE_HEATER_MAX=50
 TMP=world/tmp
+RM_BG=	world/bin/rm-bg
+WEB_GROUP=	www-data
+EXTRACTS_SPOOL_DIR=/usr/local/www/tmp/extract
+POSTGIS_STYLE=/usr/share/osm2pgsql/osm2pgsql/bbbike.style
+WEB_SERVER=	www.bbbike.org
 
 CITIES_FILE=world/etc/cities.txt
 CITIES=$(shell ${PERL} -npe 's/\#.*//' ${CITIES_FILE})
@@ -110,7 +117,7 @@ convert-bbbike-full: build-runtime-perl
 
 # convert bbbike files from wgs84, much faster
 convert-bbbike: build-runtime-perl
-	echo ${CITIES} | ${NICE} ${XARGS} -E " " -n4 -P${MAX_VCPU} ./world/bin/wgs84-to-bbbike
+	echo ${CITIES} | ${XARGS} -E " " -n4 -P${MAX_VCPU} ./world/bin/wgs84-to-bbbike
 	tar --exclude='_*' -cf - ${DATA_DIR} | ${NICE} ${BZIP2} > ${DATA_OSM_BBBIKE_DIR}/data.tbz.tmp
 	mv -f ${DATA_OSM_BBBIKE_DIR}/data.tbz.tmp ${DATA_OSM_BBBIKE_DIR}/data.tbz
 
@@ -133,10 +140,10 @@ _osmosis_opt:
 	for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i/$$i.poly --wx file=${OSM_DIR}/$$i/$$i.osm.gz"; done
 
 cities-poly: poly
-	${NICE5} ${BZIP2} -dc ${OSM_PLANET} | ${NICE5} ${OSMOSIS} --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=12000 --tee `${MAKE} -s -f Makefile.osm city-count` `${MAKE} -s -f Makefile.osm _osmosis_opt`
+	${NICE5} ${BZIP2} -dc ${OSM_PLANET} | ${NICE5} ${OSMOSIS} --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --tee `${MAKE} -s -f Makefile.osm city-count` `${MAKE} -s -f Makefile.osm _osmosis_opt`
 
 cities-pbf cities: poly
-	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=12000 --tee `${MAKE} -s CITIES="${CITIES}" -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" -f Makefile.osm _osmosis_opt`
+	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s CITIES="${CITIES}" -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" -f Makefile.osm _osmosis_opt`
 	${MAKE} -f Makefile.osm osm2pbf
 
 # if an extract does not exists localy, try to fetch it from the web
@@ -179,7 +186,7 @@ city-file:
 	${MAKE} -s city-reorder | awk '{print $$2 }'  > ${CITIES_FILE}
 
 city-memory:
-	echo ${CITIES} | ${NICE} ${TIME} ${XARGS} -E " " -n1 -P${MAX_RCPU} ./world/bin/bbbike-memory
+	echo ${CITIES} | ${TIME} ${XARGS} -E " " -n1 -P${MAX_RCPU} ./world/bin/bbbike-memory
 
 update-robots.txt:
 	( cat world/web/robots.txt.in; \
@@ -197,15 +204,6 @@ update-robots.txt:
 	  done; \
 	) > world/web/robots.txt
 
-# using GNU xargs -P parallel
-osm-areas2:
-	#rm -rf ${OSM_AREAS_OPENSEARCH}.old
-	#if test -e ${OSM_AREAS_OPENSEARCH}; then mv ${OSM_AREAS_OPENSEARCH} ${OSM_AREAS_OPENSEARCH}.old; fi
-	mkdir -p ${OSM_AREAS_OPENSEARCH}
-	cd ${OSM_AREAS_OPENSEARCH} && mkdir -p `echo ${OSM_AREAS} | ${PERL} -npe 's/\.osm\.bz2//g'`
-	echo ${OSM_AREAS} " " | \
-	  ${PERL} -ne 'chomp; foreach (split) { print qq{PATH=\$$PATH:`pwd`/world/bin world/bin/osm2suggestions ../osm/download/$$_ '${OSM_AREAS_OPENSEARCH}'/$$_\0} }' | \
-	  ${XARGS} -0 -n1 -P${MAX_CPU2} sh -c
 
 # faster than planet-streets
 planet-places:
@@ -241,8 +239,6 @@ cleanup-osm-error:
 convert2: convert3 convert-workarounds
 # using GNU xargs -P parallel
 convert3:
-	#rm -rf ${DATA_OSM_DIR}.old
-	#if test -e ${DATA_OSM_DIR}; then cp -rp ${DATA_OSM_DIR} ${DATA_OSM_DIR}.old;  fi
 	mkdir -p ${DATA_OSM_DIR}
 	cd ${OSM_DIR} # test
 	echo ${CITIES} " " | ${PERL} -npe 's/\s+/-convert /g' | \
@@ -252,7 +248,7 @@ check:
 	for i in ${CITIES}; do echo ${DATA_OSM_DIR}/$$i; done | \
 	  ${XARGS} -n 1 -P ${MAX_CPU} ./miscsrc/check_bbd --debug=0 -dir
 
-convert-workarounds: opensearch-bbbike
+convert-workarounds:
 
 osm2bbd-workarounds opensearch:
 	for i in ${CITIES}; do echo $$i; done | \
@@ -275,6 +271,7 @@ $(_cd):
 		${DOWNLOADOSM} --step=`${DB} --step $$c` -o ${OSM_DIR}/$$c -- `${DB} --coord $$c`
 
 $(_cc):
+	${DB} --lang `basename $@ -convert` >/dev/null
 	c=`basename $@ -convert`; \
 	  test -n "$$c"; \
 	  mkdir -p ${DATA_OSM_DIR}/tmp; \
@@ -298,13 +295,19 @@ ${CITIES}:
 	
 ######################################################################
 
-rsync-osm rsync: sync-sitemap
+rsync-osm rsync: sync-sitemap osm-header
 	rsync -a --exclude='*.bak' --exclude='*.gz' --exclude=tmp --delete-excluded --delete --max-delete=512 ${DATA_OSM_DIR} ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}
 	rsync -a --exclude='*.bak' --delete-excluded --delete --max-delete=512 ${OSM_DIR} ${OSP_DIR} ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}
 	-rsync -av --exclude='*.bak' data/opensearch.streetnames ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}/data
 	@echo ""
 	@echo "don't forget to cleanup the data cache in ${BBBIKE_CACHE_DIR}, run:"
-	@echo "$$ sudo make clean-cache"
+	@echo "$$ sudo make clean-cache; make cache-heater"
+
+osm-header:
+	if ! test -e ${OSM_DIR}/HEADER.txt; then \
+	   cd ${OSM_DIR}; \
+	   ln -fs ../world/download/osm/bbbike/HEADER.txt .; \
+	fi
 
 rsync-osm-devel rsync-osm-dev:
 	rsync -azv --delete --max-delete=512 bbbike.org:projects/bbbike/osm .
@@ -312,7 +315,7 @@ rsync-osm-devel rsync-osm-dev:
 rsync-planet:
 	cd ../osm-streetnames/download; \
 	   ${NICE5} rsync -av planet-latest.osm.bz2 planet-latest.osm.bz2.md5 \
-		planet-latest.osm.pbf planet-latest.osm.pbf.md5 bbbike:projects/osm-streetnames/download
+		planet-latest.osm.pbf planet-latest.osm.pbf.md5 planet-latest.osm.pbf.sha256 bbbike:projects/osm-streetnames/download
 
 create-bbbike-web-symlinks-bbbike.en.cgi:
 	cd ${BBBIKE_WEB_DIR}/cgi && ln -fs bbbike.cgi bbbike.en.cgi
@@ -340,7 +343,7 @@ create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi index updat
 		  ( cd $$lang && ln -fs ../$$city ); \
 		done; \
 	done
-	for script in MyCgiSimple.pm  api.cgi area.cgi livesearch.cgi  location.cgi maptype.cgi slippymap.cgi  street-coord.cgi crossing.cgi streets.cgi  weather.cgi languages.cgi; do \
+	for script in MyCgiSimple.pm  api.cgi area.cgi livesearch.cgi  location.cgi maptype.cgi slippymap.cgi  street-coord.cgi crossing.cgi streets.cgi  weather.cgi languages.cgi extract.cgi; do \
 	   ( cd ${BBBIKE_WEB_DIR}/cgi && ln -fs ../world/cgi/$$script ); \
 	done
 	cp -f world/web/index.de.html world/web/de/index.html
@@ -384,8 +387,18 @@ bbbike2wgs84:
 	./world/bin/bbbike2wgs84
 
 bbbike2wgs84-mapnik:
+	if test -e tmp/bbbike-mapnik.osm.gz; then mv -f tmp/bbbike-mapnik.osm.gz tmp/bbbike-mapnik.osm.gz.old; fi
 	${NICE} ./miscsrc/bbd2osm --optimize-for=mapnik | ${GZIP} > tmp/bbbike-mapnik.osm.gz.tmp
 	mv -f tmp/bbbike-mapnik.osm.gz.tmp tmp/bbbike-mapnik.osm.gz
+
+bbbike-mapnik-config:
+	if test -e ${POSTGIS_STYLE}; then \
+	    mv -f ${POSTGIS_STYLE} ${POSTGIS_STYLE}.bak; \
+	fi
+	cat /usr/share/osm2pgsql/osm2pgsql/default.style world/tile/etc/bbbike.style.inc > ${POSTGIS_STYLE}
+
+bbbike-mapnik-postgis:
+	osm2pgsql --slim -S ${POSTGIS_STYLE} -c tmp/bbbike-mapnik.osm.gz
 
 planet-download:
 	download_script=`pwd`/world/bin/planet-download; cd ../osm-streetnames/download && $$download_script
@@ -400,7 +413,10 @@ create-osp:
 	./world/bin/bbbike-world-opensearch-plugin ${OSP_DIR} ${CITIES}
 	
 rsync-tgz:
-	rsync -a ${DATA_OSM_BBBIKE_DIR}/ download.bbbike.org:/usr/local/www/download.bbbike.org/bbbike/${DATA_OSM_DIR}
+	rsync -a ${DATA_OSM_BBBIKE_DIR}/ ${BBBIKE_SERVER}/usr/local/www/download.bbbike.org/bbbike/${DATA_OSM_DIR}
+
+clean-tile:
+	world/bin/tile-cache-cleanup
 
 clean: rotate-data-osm
 	${MAKE} -C cgi/msg $@	
@@ -414,28 +430,28 @@ clean: rotate-data-osm
 
 clean-cache cache-clean:
 	du -hs ${BBBIKE_CACHE_DIR}/
-	mkdir -p ${BBBIKE_CACHE_DIR}/www.bbbike.org ${BBBIKE_CACHE_DIR}/localhost
+	mkdir -p ${BBBIKE_CACHE_DIR}/${WEB_SERVER} ${BBBIKE_CACHE_DIR}/localhost
 	mkdir -p ${BBBIKE_CACHE_DIR}/tmp.$$$$; \
 	    mv -f ${BBBIKE_CACHE_DIR}/*bbbike.org ${BBBIKE_CACHE_DIR}/localhost ${BBBIKE_CACHE_DIR}/tmp.$$$$ || true; \
 	    rm -rf ${BBBIKE_CACHE_DIR}/tmp.$$$$ &
 	find /var/cache/lighttpd -type f -print0 | ${PERL} -n0e unlink
 
 rotate-data-osm:
-	-rm -rf ${DATA_OSM_DIR}.old2
-	-rm -rf ${DATA_OSM_BBBIKE_DIR}.old2
+	${RM_BG} ${DATA_OSM_DIR}.old2
+	${RM_BG} ${DATA_OSM_BBBIKE_DIR}.old2
 	-test -e ${DATA_OSM_DIR}.old && mv ${DATA_OSM_DIR}.old ${DATA_OSM_DIR}.old2
 	-test -e ${DATA_OSM_DIR}     && mv ${DATA_OSM_DIR}     ${DATA_OSM_DIR}.old
 	-test -e ${DATA_OSM_BBBIKE_DIR}.old && mv ${DATA_OSM_BBBIKE_DIR}.old ${DATA_OSM_BBBIKE_DIR}.old2
 	-test -e ${DATA_OSM_BBBIKE_DIR}     && mv ${DATA_OSM_BBBIKE_DIR}     ${DATA_OSM_BBBIKE_DIR}.old
-	mkdir ${DATA_OSM_DIR} ${DATA_OSM_BBBIKE_DIR}
+	mkdir -p ${DATA_OSM_DIR} ${DATA_OSM_BBBIKE_DIR}
 	touch ${DATA_OSM_DIR}/.touch ${DATA_OSM_BBBIKE_DIR}/.touch
 
 rotate-osm:
-	rm -rf ${OSM_DIR}.old2
+	${RM_BG} ${OSM_DIR}.old2
 	-test -e ${OSM_DIR}.old  && mv ${OSM_DIR}.old  ${OSM_DIR}.old2
 	-test -e ${OSM_DIR}      && mv ${OSM_DIR}      ${OSM_DIR}.old 
 
-update-database: build-runtime
+update-database: build-runtime opensearch-bbbike
 	${TIME} ./world/bin/update-database
 
 PERL_SCRIPTS=	BBBikeGooglemap.pm BBBikeElevation.pm miscsrc/osm2bbd-poi t/elevation.t
@@ -449,6 +465,7 @@ perltidy:
 	${MAKE} -C world/bin $@	
 	${MAKE} -C world/cgi $@	
 	${MAKE} -C world/web/feed $@	
+	git diff
 
 jsbeautifier js:
 	${MAKE} -C html $@
@@ -468,14 +485,14 @@ update-javascript:
 	make -C html bbbike-js
 
 java-config:
-	test -r $$HOME/.osmosis || ln -fs $$HOME/projects/bbbike/world/etc/.osmosis $$HOME/.osmosis
+	test -r $$HOME/.osmosis || ln -fs $$HOME/projects/bbbike/world/etc/dot.osmosis $$HOME/.osmosis
 
 dist-clean devel-clean distclean: clean rotate-osm
-	rm -rf ${OSM_DIR}
+	${RM_BG} ${OSM_DIR}
 	mkdir -p ${OSM_DIR}
 
 clean-planet:
-	rm -f ../osm-streetnames/download/*.old.*
+	${RM_BG} ../osm-streetnames/download/*.old.*
 
 elevation-check:
 	${NICE} ${ELEVATION_SCRIPT} --database=../osm-streetnames/srtm/elevation.db --check
@@ -487,33 +504,30 @@ elevation-fetch:
 	${NICE} ${ELEVATION_SCRIPT} --database=../osm-streetnames/srtm/elevation.db --debug=1 --geonames-user=bbbikeworld ${CITIES}
 
 elevation-update:
-	echo ${CITIES} | ${XARGS} -E " " -n16 -P2 ${ELEVATION_SCRIPT} --readonly-database --database=../osm-streetnames/srtm/elevation.db --debug=0
+	echo ${CITIES} | ${XARGS} -E " " -n500 -P${MAX_ELEVATION_SCRIPTS} ${ELEVATION_SCRIPT} --readonly-database --database=../osm-streetnames/srtm/elevation.db --debug=0
 
 # re-build cache
 cache-heater: cache-heater-streets cache-heater-common 
 
 cache-heater-common: 
 	du -hs ${BBBIKE_CACHE_DIR}/* || du -hs ${BBBIKE_CACHE_DIR}/
-	curl -sS 'http://www.bbbike.org/cgi/livesearch.cgi?ns=cache;max='${CACHE_HEATER_MAX} | \
-		${PERL} -npe 's/\n/\0/g' | \
-		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
+	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
+	   ${PERL} -ne 'chomp; print "http://'${WEB_SERVER}'/$$_/?generate_cache=1\0"' | \
+	   ${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 	du -hs ${BBBIKE_CACHE_DIR}/*
-
-cache-heater-full:
-	${MAKE} -f Makefile.osm CACHE_HEATER_MAX=300 cache-heater
 
 cache-heater-streets: cache-heater-homepage cache-heater-opensearch
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
-		${PERL} -npe 'chomp; $$_ = "http://www.bbbike.org/$$_/streets.html\0http://www.bbbike.org/en/$$_/streets.html\0"' | \
+		${PERL} -npe 'chomp; $$_ = "http://'${WEB_SERVER}'/$$_/streets.html\0http://'${WEB_SERVER}'/en/$$_/streets.html\0"' | \
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 
 cache-heater-homepage: cache-heater-osp
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
-		${PERL} -npe 'chomp; $$_ = "http://www.bbbike.org/$$_/\0http://www.bbbike.org/en/$$_/\0http://www.bbbike.org/m/$$_/\0"' | \
+		${PERL} -npe 'chomp; $$_ = "http://'${WEB_SERVER}'/$$_/\0http://'${WEB_SERVER}'/en/$$_/\0http://'${WEB_SERVER}'/m/$$_/\0"' | \
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 
 cache-heater-osp:
-	find osp -name '*.xml' -print0 | perl -n0e 'print qq{http://www.bbbike.org/$$_}' | \
+	find osp -name '*.xml' -print0 | perl -n0e 'print qq{http://'${WEB_SERVER}'/$$_}' | \
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 
 cache-heater-opensearch:
@@ -529,10 +543,54 @@ symlink-download:
 	  ln -fs ../bbbike.org/world/web/robots-download.txt robots.txt ; \
 	  cd osm; ln -fs ../../bbbike.org/world/download/osm/index.html  .
 
+extract-install:
+	mkdir -p ${EXTRACTS_SPOOL_DIR}
+	mkdir -p ${EXTRACTS_SPOOL_DIR}/incoming
+	mkdir -p ${EXTRACTS_SPOOL_DIR}/confirmed
+	mkdir -p ${EXTRACTS_SPOOL_DIR}/running
+	mkdir -p ${EXTRACTS_SPOOL_DIR}/osm
+	mkdir -p ${EXTRACTS_SPOOL_DIR}/download
+	mkdir -p ${EXTRACTS_SPOOL_DIR}/trash
+	chmod -R 775 ${EXTRACTS_SPOOL_DIR}
+	chgrp -R ${WEB_GROUP} ${EXTRACTS_SPOOL_DIR}
+
+extract-distclean:
+	find ${EXTRACTS_SPOOL_DIR} -type f -print0 | xargs -0 rm -f
+
+# garbage collection, 2 days
+extract-gc:
+	cd ${EXTRACTS_SPOOL_DIR}; find incoming confirmed running download osm -type f -mtime +2 -print0 | xargs -0 rm -f
+
+# garbage collection, 7 days, all files
+extract-gc7:
+	find ${EXTRACTS_SPOOL_DIR} -type f -mtime +7  -print0 | xargs -0 rm -f
+	
 staging:
 	git push
 	cd /usr/local/www/bbbike.org/; git diff; git pull; ${MAKE} -s update-files; git diff
-	
+
+DOWNLOAD_PREFIX=/usr/local/www/download.bbbike.org
+download-bbbike-org-install:
+	mkdir -p ${DOWNLOAD_PREFIX}
+	mkdir -p ${DOWNLOAD_PREFIX}/osm/planet
+	mkdir -p ${DOWNLOAD_PREFIX}/bbbike
+	cd ${DOWNLOAD_PREFIX}; \
+	  ln -fs ../bbbike.org/world/download/favicon.ico; \
+	  ln -fs ../bbbike.org/world/download/index.html; \
+	  ln -fs ../bbbike.org/world/web/robots-download.txt robots.txt
+	cd ${DOWNLOAD_PREFIX}/osm; \
+	  if ! test -e bbbike; then ln -fs ../../bbbike.org/osm bbbike; fi; \
+	  ln -fs ../../bbbike.org/world/download/osm/index.html; 
+	cd ${DOWNLOAD_PREFIX}/osm/bbbike; \
+	  ln -fs ../world/download/osm/bbbike/HEADER.txt .
+	cd ${DOWNLOAD_PREFIX}/osm/planet; \
+	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.bz2 . ;\
+	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.pbf . ;\
+	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.pbf.md5 . ;\
+	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.pbf.sha1 . ;\
+	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.bz2.md5 . ;\
+	  ln -fs ../../../bbbike.org/world/download/osm/planet/HEADER.txt .
+		
 help:
 	@echo "bbbike version: ${GIT_ID}"
 	@echo ""
@@ -543,20 +601,28 @@ help:
 	@echo "  [ help | cities | cities-parallel | fetch-extracts ]"
 	@echo "  [ rsync-tgz | rsync-osm | rsync-osm-dev | rsync-planet | symlink-download ]"
 	@echo "  [ jsbeautifier | perltidy | tidy ]"
+	@echo ""
 	@echo "  [ bbbike-osm2pbf | osm2pbf ]"
-	@echo "  [ bbbike2wgs84-mapnik ]"
-	@echo "  [ clean | dist-clean | clean-cache | clean-planet ]"
+	@echo "  [ bbbike2wgs84-mapnik | bbbike-mapnik-config | bbbike-mapnik-postgis ]"
+	@echo ""
+	@echo "  [ clean | dist-clean | clean-cache | clean-planet | clean-tile ]"
+	@echo ""
 	@echo "  [ create-osp | bbbike2wgs84 | update-robots.txt | create-sitemap ]"
-	@echo "  [ cache-heater | cache-heater-full | cache-heater-streets ]"
+	@echo "  [ cache-heater | cache-heater-streets ]"
 	@echo "  [ create-bbbike-web-symlinks | kml | create-osp | index ]"
 	@echo "  [ convert-wgs84 | convert-bbbike | convert-bbbike-full ]"
 	@echo "  [ city-count | city-reorder | city-file | check-osm | cleanup-osm-error ]"
 	@echo "  [ city-memory | varnish-purge-all ]"
+	@echo ""
 	@echo "  [ elevation-fetch | elevation-update | elevation-check | elevation-repair ]"
+	@echo ""
 	@echo "  [ planet-download | planet-geofabrik-download ]"
 	@echo "  [ planet-streets | planet-places ]"
 	@echo "  [ update-database | update-files ]"
-	@echo "  [ staging ]"
+	@echo "  [ download-bbbike-org-install ]"
+	@echo ""
+	@echo "  [ staging | extract-install | extract-distclean ]"
+	@echo "  [ extract-gc | extract-gc7 | extract-gc-osm ]"
 	@echo ""
 	@echo "see also ./world/README"
 

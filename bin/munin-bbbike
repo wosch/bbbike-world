@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2011 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2011-2012 Wolfram Schneider, http://bbbike.org
 #
-# munin-routes - munin statistics for BBBike, searches per interval
+# munin-bbbike - munin statistics for BBBike, searches per interval
 
 use Getopt::Long;
 use Data::Dumper;
@@ -226,6 +226,11 @@ sub parse_log {
     # first run, save file offset of logfile, do nothing
     if ( !-e $database ) {
         write_offset( $database, $offset );
+
+        # run again to produce first results
+        if ( !$args{'first_run'} ) {
+            return parse_log( @_, 'first_run' => 1 );
+        }
         return;
     }
 
@@ -294,7 +299,12 @@ sub get_offset {
     my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
     my $number = <$fh>;
 
-    chomp($number);
+    if ( defined $number ) {
+        chomp($number);
+    }
+    else {
+        $number = 0;
+    }
 
     warn "Got offset $number from $file\n" if $debug;
     return $number;

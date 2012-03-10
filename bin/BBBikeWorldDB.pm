@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2012 Wolfram Schneider, http://bbbike.org
 #
 # BBBikeWorldDB.pm - module to parse bbbike @ world city database
 
@@ -62,7 +62,7 @@ sub parse_database {
         ) = split(/:/);
 
         next if $city eq '';
-	my $dummy = $city eq 'dummy' || $step eq 'dummy' ? 1 : 0;
+        my $dummy = $city eq 'dummy' || $step eq 'dummy' ? 1 : 0;
 
         $hash{$city} = {
             city        => $city,

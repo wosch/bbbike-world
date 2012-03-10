@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2012 Wolfram Schneider, http://bbbike.org
 #
 # area.cgi - which areas are covered by bbbike.org
 
@@ -33,7 +33,7 @@ sub footer {
 <hr>
 
 <div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em;" >
-(&copy;) 2008-2011 <a href="http://bbbike.org">BBBike.org</a> // Map data by the <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap</a> Project
+(&copy;) 2008-2012 <a href="http://bbbike.org">BBBike.org</a> // Map data by the <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap</a> Project
 <div id="footer_community">
 </div>
 </div>

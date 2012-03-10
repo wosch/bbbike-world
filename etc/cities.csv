@@ -44,7 +44,7 @@ BuenosAires:Buenos Aires::es:other:-58.721 -34.851 -58.126 -34.442:1200000::
 Cairo:de!Kairo,ar!‏القاهرة::ar:other:31.1298 29.9285 31.4141 30.1479:18000000::
 Alexandria:de!Alexandria,ar!الإسكندرية‎::ar:other:29.7 31.02 30.21 31.34:43000000::
 Cambridge::en::eu:-0.036 52.119 0.324 52.284:118500::
-CambridgeMa:Cambridge (Massachusetts):en::other:-71.1986 42.3265 -71.0036 42.4285:1264990::
+CambridgeMa:Cambridge (Massachusetts):en::other:-71.30 42.180 -70.82 42.59:1264990::Boston
 Canberra::en::other:148.977 -35.419 149.27 -35.156:340000::
 CapeTown:Cape Town,de!Kapstadt:en::other:18.278 -34.116 18.754 -33.785:72000000::
 Chemnitz:::de::12.56 50.36 13.43 51.07:241344::Erzgebirge;Annaberg-Buchholz;Marienberg;Freiberg
@@ -128,7 +128,7 @@ Magdeburg:::de::11.33 51.89 11.94 52.35:230000::
 Mainz:Mainz/Wiesbaden::de::7.7 49.72 8.51 50.24:616490::
 Manchester::en::eu:-2.523 53.31 -1.79 53.65:2500000::
 Mannheim:Mannheim::de::8.10 49.23 8.90 49.72:1149438::Heidelberg;Neustadt an der Weinstraße;Ludwigshafen am Rhein;Worms
-Heilbronn:::de::8.79 48.93 9.60 49.38:120000::
+Heilbronn:::de::8.79 48.93 9.60 49.42:120000::
 Kaiserslautern:::de::7.44 49.15 8.19 49.72:150000::
 Marseille:::fr:eu:5.277 43.142 5.72 43.438:1400000:0.01:
 Melbourne::en::other:144.68 -38.02 145.30 -37.53:3600000::
@@ -224,6 +224,7 @@ Victoria::en::other:-123.578 48.392 -123.25 48.702:300000::
 WarenMueritz:Waren (Müritz)::de::11.70 52.95 13.40 53.91:23386::Wittstock;Neubrandenburg;Fürstenberg/Havel;Mecklenburgischen Seenplatte
 Warsaw:de!Warschau,en!Warsaw,pl!Warszawa::pl:eu:20.653 52.041 21.408 52.451:3500000::
 WashingtonDC:Washington D.C.:en::other:-77.23 38.78 -76.84 39.05:5300000:0.01:
+Wuerzburg:pl!Wurtzburgo,zh!维尔茨堡,ru!Вюрцбург,fr!Wurtzbourg,es!Wurzburgo,de!Würzburg::de::9.45 49.40 10.54 50.11:130000::
 Wien:en!Vienna,de!Wien::de:eu:15.92 47.91 16.88 48.47:3114739::
 Linz:::de:eu:13.98 48.14 14.57 48.47:189000::
 Graz:de!Graz,hr!Gradac,en!Graz::de:eu:15.25 46.959 15.606 47.168:258000::

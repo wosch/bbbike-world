@@ -304,6 +304,7 @@ Disallow: /WashingtonDC/?
 Disallow: /Waterloo/?
 Disallow: /Wien/?
 Disallow: /Wroclaw/?
+Disallow: /Wuerzburg/?
 Disallow: /Wuppertal/?
 Disallow: /Zagreb/?
 Disallow: /Zuerich/?
@@ -318,7 +319,6 @@ Disallow: /en/Amsterdam/?
 Disallow: /en/Mainz/?
 Disallow: /en/Moenchengladbach/?
 Disallow: /en/ClermontFerrand/?
-Disallow: /en/Lyon/?
 Disallow: /en/Dresden/?
 Disallow: /en/Muenchen/?
 Disallow: /en/Hannover/?
@@ -365,6 +365,7 @@ Disallow: /en/Bern/?
 Disallow: /en/Wroclaw/?
 Disallow: /en/SanktPetersburg/?
 Disallow: /en/Frankfurt/?
+Disallow: /en/Lyon/?
 Disallow: /en/WarenMueritz/?
 Disallow: /en/Goerlitz/?
 Disallow: /en/Vancouver/
@@ -395,6 +396,7 @@ Disallow: /en/Kaiserslautern/?
 Disallow: /en/Chemnitz/?
 Disallow: /en/Montreal/?
 Disallow: /en/Koeln/?
+Disallow: /en/Wuerzburg/?
 Disallow: /en/Kiel/?
 Disallow: /en/LakeGarda/?
 Disallow: /en/CraterLake/

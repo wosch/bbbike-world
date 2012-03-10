@@ -9,22 +9,22 @@ backend default {
     .port = "80";
 }
 
-backend bbbike64 {
-    #.host = "bbbike64";
-    .host = "10.0.0.4";
+backend tile {
+    #.host = "10.0.0.5";
+    .host = "tile";
     .port = "80";
 
     .first_byte_timeout = 600s;
     .connect_timeout = 600s;
     .between_bytes_timeout = 600s;
 
-    .probe = {
-        .url = "/test.txt";
-        .timeout = 2s;
-        .interval = 10s;
-        .window = 1;
-        .threshold = 1;
-    }
+    #.probe = {
+    #    .url = "/test.txt";
+    #    .timeout = 2s;
+    #    .interval = 10s;
+    #    .window = 1;
+    #    .threshold = 1;
+    #}
 }
 
 backend bbbike {
@@ -51,6 +51,15 @@ backend eserte {
     .between_bytes_timeout = 300s;
 }
 
+backend slaven {
+    .host = "slaven";
+    .port = "80";
+    .first_byte_timeout = 300s;
+    .connect_timeout = 300s;
+    .between_bytes_timeout = 300s;
+}
+
+/*
 backend eserte_devel {
     .host = "eserte";
     .port = "88";
@@ -58,6 +67,7 @@ backend eserte_devel {
     .connect_timeout = 300s;
     .between_bytes_timeout = 300s;
 }
+*/
 
 
 # munin
@@ -66,8 +76,8 @@ backend localhost {
     .port = "8080";
 }
 
-backend bbbike_strato {
-    .host = "test.bbbike.org";
+backend bbbike_failover {
+    .host = "www3.bbbike.org";
     .port = "80";
     .first_byte_timeout = 300s;
     .connect_timeout = 300s;
@@ -86,31 +96,34 @@ sub vcl_recv {
     ######################################################################
     # backend config
     #
-    if (req.http.host ~ "^dev\.bbbike\.org$" && req.url ~ "^/munin") {
+
+    # munin statistics
+    if (req.http.host ~ "^dev[23]?\.bbbike\.org$" && req.url ~ "^/munin") {
         set req.backend = localhost;
-    } else if (req.http.host ~ "^download\.bbbike\.org$") {
-        set req.backend = bbbike64;
-    } else if (req.http.host ~ "^(m\.|www\.|dev\.|devel\.|)bbbike\.org$") {
-        set req.backend = bbbike64;
+    } else if (req.http.host ~ "^download[23]?\.bbbike\.org$") {
+        set req.backend = bbbike;
+    } else if (req.http.host ~ "^(m\.|www[23]?\.|dev[23]?\.|devel[23]?\.|)bbbike\.org$") {
+        set req.backend = bbbike;
 
-        # failover production @ strato 
+        # failover production @ www3 
         if (req.restarts == 1 || !req.backend.healthy) {
-                set req.backend = bbbike_strato;
+                set req.backend = bbbike_failover;
         }
-
     } else if (req.http.host ~ "^eserte\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$") {
         set req.backend = eserte;
-    } else if (req.http.host ~ "^eserte-devel\.bbbike\.org$") {
-        set req.backend = eserte_devel;
-    } else if (req.http.host ~ "^([abc]\.)?tile\.bbbike\.org$") {
-        set req.backend = eserte;
+    } else if (req.http.host ~ "^eserte-devel\.bbbike\.org$" || req.http.host ~ "^.*dev.*bbbike\.de$" ) {
+        set req.backend = slaven;
+    } else if (req.http.host ~ "^([a-f]\.)?tile\.bbbike\.org$") {
+        set req.backend = tile;
+    } else if (req.http.host ~ "^([u-z])\.tile\.bbbike\.org$") {
+        set req.backend = tile;
     } else {
         set req.backend = bbbike;
-      
-        # failover test 
-        if (req.restarts == 1 || !req.backend.healthy) {
-                set req.backend = bbbike_strato;
-        }
+    }
+
+    # dummy
+    if (req.http.host ~ "foobar") {
+        set req.backend = bbbike;
     }
 
     # log real IP address in backend
@@ -122,10 +135,10 @@ sub vcl_recv {
     }
 
     ######################################################################
-    # backends without caching
+    # backends without caching, pipe/pass
 
     # do not cache OSM files
-    if (req.http.host ~ "^(download)\.bbbike\.org$") {
+    if (req.http.host ~ "^(download[23]?)\.bbbike\.org$") {
          return (pipe);
     }
 
@@ -134,9 +147,15 @@ sub vcl_recv {
 	return (pass);
     }
 
+
+    # not invented here
+    if (req.http.host !~ "\.bbbike\.org$") {
+	return (pass);
+    }
+
     ######################################################################
     # force caching of images and CSS/JS files
-    if (req.url ~ "^/html|^/images|^/feed/|^/osp/|^/cgi/[ac-z]|.*\.html$|.*/$|^/osm/") {
+    if (req.url ~ "^/html|^/images|^/feed/|^/osp/|^/cgi/[acdf-z]|.*\.html$|.*/$|^/osm/") {
        unset req.http.cookie;
        unset req.http.Accept-Encoding;
        unset req.http.User-Agent;
@@ -158,7 +177,7 @@ sub vcl_recv {
     }
 
     # test & development, no caching
-    if (req.http.host ~ "^(dev|devel|dev2|devel2)\.bbbike\.org$") {
+    if (req.http.host ~ "^(dev|devel)[23]?\.bbbike\.org$") {
 	return (pass);
     }
 
@@ -166,7 +185,7 @@ sub vcl_recv {
     call normalize_user_agent;
     set req.http.User-Agent = req.http.X-UA;
 
-    if (req.http.host ~ "^([abc]\.)?tile\.bbbike\.org") { return (pass); } # no cache
+    if (req.http.host ~ "^([a-z]\.)?tile\.bbbike\.org") { return (pass); } # no cache
 
     return (lookup);
 }

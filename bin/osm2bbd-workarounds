@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2012 Wolfram Schneider, http://bbbike.org
 #
 # osm2bbd-workarounds - wrapper script for osm-to-bbbike data conversion
 
@@ -48,7 +48,7 @@ fi
 for file in qualitaet_s strassen
 do
    # XXX: remove duplicated lines from "strassen"
-   perl -i.bak -ne 'if (/^\s*#/ || !$a{$_}) { print; $a{$_}=1 }' $prefix/$city/$file
+   #perl -i.bak -ne 'if (/^\s*#/ || !$a{$_}) { print; $a{$_}=1 }' $prefix/$city/$file
 
   echo "Run combine_streets: $file"
   $time ./miscsrc/combine_streets.pl $prefix/$city/$file > $prefix/$city/$file.tmp
@@ -56,7 +56,7 @@ do
 done
 
 echo "Run search_inaccessible_points"
-$time miscsrc/search_inaccessible_points -encoding utf-8 -q -cache -shorter -street $prefix/$city/strassen -street $prefix/$city/faehren \
+$time miscsrc/search_inaccessible_points -encoding utf-8 -map polar -q -cache -shorter -street $prefix/$city/strassen -street $prefix/$city/faehren \
   -blocked $prefix/$city/gesperrt -blockedtype einbahn -blockedtype sperre  > $prefix/$city/inaccessible_strassen.tmp
 mv -f $prefix/$city/inaccessible_strassen.tmp $prefix/$city/inaccessible_strassen
 

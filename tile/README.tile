@@ -2,6 +2,11 @@
 # setup a tile server for debian
 # based on http://wiki.openstreetmap.org/wiki/Ubuntu_tile_server
 #
+sudo apt-get install unzip bzip2
+
+# optinal, for german mapnik style
+sudo apt-get install subversion
+
 
 # add the openstreemap repo
 echo "deb http://ppa.launchpad.net/kakrueger/openstreetmap/ubuntu natty main" > /etc/apt/sources.list.d/openstreetmap.list
@@ -16,7 +21,6 @@ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys AE74800FB745A04C
 sudo apt-get update
 sudo apt-get install libapache2-mod-tile
 
-# Trouble shooting:
 
 sudo dpkg-reconfigure openstreetmap-postgis-db-setup
 Create user gis
@@ -25,22 +29,29 @@ Creating Database
 createdb: database creation failed: ERROR:  new encoding (UTF8) is incompatible with the encoding of the template database (SQL_ASCII)
 HINT:  Use the same encoding as in the template database, or use template0 as template.
 
+# Trouble shooting:
 # setup a utf8 database
 sudo pg_dropcluster --stop 8.4 main
 sudo pg_createcluster --start -e UTF-8 8.4 main
 
 sudo dpkg-reconfigure openstreetmap-postgis-db-setup
+# EOF Trouble shooting
 
 # if the installation of the mapnik style sheets failed, remove and install
 # the package again
+# Note: this may download the costline data (500MB) again!
 sudo apt-get purge openstreetmap-mapnik-stylesheet-data
 sudo apt-get install openstreetmap-mapnik-stylesheet-data
 
 
 # setup your own style sheet
-svn checkout http://svn.openstreetmap.org/applications/rendering/mapnik
+#svn checkout http://svn.openstreetmap.org/applications/rendering/mapnik
+svn checkout http://svn.openstreetmap.org/applications/rendering/mapnik-german
+sudo mv mapnik-german /etc/mapnik-german
 
-ln -s ../mapnik-osm-data/world_boundaries .
+cd /etc/mapnik-german
+ln -s /usr/share/mapnik-osm-data/world_boundaries .
+cd inc-de
 cp datasource-settings.xml.inc.template datasource-settings.xml.inc 
 # do not set host & port!
 # <Parameter name="estimate_extent">true</Parameter> 
@@ -54,19 +65,61 @@ cp datasource-settings.xml.inc.template datasource-settings.xml.inc
 
 cp fontset-settings.xml.inc.template fontset-settings.xml.inc       
 cp settings.xml.inc.template settings.xml.inc          
-# <!ENTITY dwithin_node_way "&dwithin_900913;">
-# <!ENTITY world_boundaries "world_boundaries">
-# <!ENTITY prefix "planet_osm">
-# <!ENTITY symbols "symbols">
-
+# follow the instructions!
 
 # add bbbike quality attributes to osm2pgsql
-vi /usr/share/osm2pgsql/osm2pgsql/default.style
+sudo make bbbike-mapnik-config
 
-#bbbike
-node,way   bbbike:quality      text  linear
-
-# create osm dump
+# create osm dump, and import it
+cd bbbike
 make bbbike2wgs84-mapnik
-osm2pgsql --slim -S /usr/share/osm2pgsql/osm2pgsql/default.style -c tmp/bbbike-mapnik.osm.gz
+make bbbike-mapnik-postgis 
+
+# slow start of render/postgis
+cd /etc/init.d/
+sudo ln -s ~/projects/bbbike/world/tile/etc/renderd-slowstart 
+sudo update-rc.d renderd-slowstart  defaults 30
+sudo update-rc.d renderd disable
+
+# bbbike layers
+cd /etc/mapnik-osm-data
+sudo ln -s ~/projects/bbbike/world/tile/etc/bbbike-smoothness.xml 
+sudo ln -s ~/projects/bbbike/world/tile/etc/osm-smoothness.xml    
+
+# web server config
+cd /var/www
+sudo ln -s ~/projects/bbbike/images/favicon.ico 
+sudo ln -s ~/projects/bbbike/world/tile/web/index.html 
+
+cd /var/www/osm
+sudo ln -s ~/projects/bbbike/world/tile/web/style.css .
+sudo ln -s ~/projects/bbbike/world/tile/web/slippymap.html index.html
+sudo ln -s ~/projects/bbbike/world/tile/web/slippymap-dev.html 
+sudo ln -s ~/projects/mc 
+
+cd /var/www/
+sudo ln -s ~/projects/bbbike/world/tile/web/robots.txt .
+
+cd /etc/
+sudo ln -s /home/wosch/projects/bbbike/world/tile/etc/renderd.conf
+
+sudo /etc/init.d/renderd restart
+sudo /etc/init.d/apache2 restart
+
+# error check
+tail -f /var/log/syslog
+
+/etc/apache2/apache2.conf:
+LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" combined
+
+cd /etc/apache2/sites-available
+ln -s ~/projects/bbbike/world/tile/etc/apache2-tile.conf .
+a2ensite apache2-tile.conf
+rm -f /etc/apache2/sites-enabled/tileserver_site 
+
+# postgis trouble shooting
+sudo /usr/bin/install-postgis-osm-user.sh gis www-data
+
+cd ~/projects
+git clone ssh://git.bbbike.org/home/wosch/git/mc
 

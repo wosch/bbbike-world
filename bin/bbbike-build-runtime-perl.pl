@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl 
-# Copyright (c) 2009-2011 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2012 Wolfram Schneider, http://bbbike.org
 #
 # test if all perl modules are installed
 #
@@ -13,14 +13,19 @@ use JSON;
 use XML::Simple;
 use XML::LibXML::Reader;
 use Tie::IxHash;
-use YAML::Syck;
 use YAML;
 use Perl::Tidy;
 use BSD::Resource;
 
+#use YAML::Syck;
+
 # not used yet
 #use GPS::Point;
 #use Geo::Inverse;
+
+# extract.cgi
+#use GIS::Distance::Lite;
+#use use Email::Valid;
 
 1;
 
