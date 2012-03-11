@@ -27,30 +27,39 @@ function init() {
         numZoomLevels: 19,
         attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
     }));
+
     map.addLayer(new OpenLayers.Layer.OSM("BBBike.org Mapnik", "mapnik/${z}/${x}/${y}.png", {
         numZoomLevels: 19,
         attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
     }));
+
     map.addLayer(new OpenLayers.Layer.OSM.Mapnik("OSM Mapnik"));
     map.addLayer(new OpenLayers.Layer.OSM("OSM Mapnik (de)", "http://a.tile.openstreetmap.de/tiles/osmde/${z}/${x}/${y}.png", {
         numZoomLevels: 18
     }));
+
     map.addLayer(new OpenLayers.Layer.OSM("OSM Mapnik b/w", "http://a.www.toolserver.org/tiles/bw-mapnik/${z}/${x}/${y}.png", {
         numZoomLevels: 18
     }));
+
     map.addLayer(new OpenLayers.Layer.OSM("OSM Transport", ["http://a.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png", "http://b.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png"], {
         numZoomLevels: 19
     }));
+
     map.addLayer(new OpenLayers.Layer.OSM("OSM Landscape", ["http://a.tile3.opencyclemap.org/landscape/${z}/${x}/${y}.png", "http://b.tile3.opencyclemap.org/landscape/${z}/${x}/${y}.png"], {
         numZoomLevels: 19
     }));
+
     map.addLayer(new OpenLayers.Layer.OSM("OSM OEPNV", ["http://a.tile.xn--pnvkarte-m4a.de/tilegen/${z}/${x}/${y}.png", "http://b.tile.xn--pnvkarte-m4a.de/tilegen/${z}/${x}/${y}.png"], {
         numZoomLevels: 18
     }));
+
     map.addLayer(new OpenLayers.Layer.OSM("OSM Hike&Bike", ["http://a.www.toolserver.org/tiles/hikebike/${z}/${x}/${y}.png", "http://b.www.toolserver.org/tiles/hikebike/${z}/${x}/${y}.png"], {
         numZoomLevels: 18
     }));
+
     map.addLayer(new OpenLayers.Layer.OSM.CycleMap("OSM CycleMap"));
+
     map.addLayer(new OpenLayers.Layer.OSM("OSM MapBox", ["http://a.tiles.mapbox.com/v3/mapbox.mapbox-streets/${z}/${x}/${y}.png", "http://b.tiles.mapbox.com/v3/mapbox.mapbox-streets/${z}/${x}/${y}.png"], {
         numZoomLevels: 17
     }));
@@ -58,10 +67,10 @@ function init() {
     map.addLayer(new OpenLayers.Layer.OSM("Esri", "http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/${z}/${y}/${x}.png", {
         numZoomLevels: 18
     }));
+
     map.addLayer(new OpenLayers.Layer.OSM("Esri Topographic", "http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/${z}/${y}/${x}.png", {
         numZoomLevels: 18
     }));
-
     map.addLayer(new OpenLayers.Layer.OSM("Mapquest (OSM)", ["http://otile1.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png", "http://otile2.mqcdn.com/tiles/1.0.0/${z}/${x}/${y}.png"], {
         numZoomLevels: 19
     }));
@@ -71,9 +80,6 @@ function init() {
     map.addLayer(new OpenLayers.Layer.OSM("Apple iPhoto (OSM)", ["http://gsp2.apple.com/tile?api=1&style=slideshow&layers=default&lang=de_DE&z=${z}&x=${x}&y=${y}&v=9"], {
         numZoomLevels: 15
     }));
-
-    // var newLayer = OpenLayers.Layer.Google("Google Physical", {type: google.maps.MapTypeId.TERRAIN} );
-    // var newLayer = new OpenLayers.Layer.Google( "Google Physical", { type: google.maps.MapTypeId.TERRAIN, 'sphericalMercator': true, attribution: ', Uses GeoLite data by <a href="http://maxmind.com/">MaxMind</a>', numZoomLevels:16 } );
     map.addLayer(new OpenLayers.Layer.Google("Google Physical", {
         type: google.maps.MapTypeId.TERRAIN,
         'sphericalMercator': true,
@@ -98,7 +104,6 @@ function init() {
         attribution: ', <a href="http://maps.google.com/">Google</a>',
         numZoomLevels: 19
     }));
-
     map.addLayer(new OpenLayers.Layer.Yahoo("Yahoo Street", {
         'sphericalMercator': true,
         attribution: '<a href="http://yahoo.com/">Yahoo Local Maps</a>',
@@ -142,10 +147,10 @@ function init() {
 
         map.addLayers([road, aerial, hybrid]);
     };
-
     bing();
-
     // This is the end of the layer
+
+    // Begin of overlay
     map.addLayer(new OpenLayers.Layer.TMS("BBBike Fahrbahnqualit&auml;t", "bbbike-smoothness/", {
         type: 'png',
         getURL: osm_getTileURL,
@@ -188,14 +193,38 @@ function init() {
         noOpaq: true
     }));
 
+    map.addLayer (new OpenLayers.Layer.TMS("Hillshading SRTM3 V2", "http://toolserver.org/~cmarqu/hill/", {
+        type: 'png',
+        getURL: osm_getTileURL,
+        displayOutsideMaxExtent: true,
+        attribution: '<a href="http://toolserver.org/~cmarqu/hill/">Hillshading SRTM3 V2</a>',
+        opacity: 1,
+        isBaseLayer: false,
+        visibility: false,
+        numZoomLevels: 19,
+        noOpaq: true
+    }));
+
+    map.addLayer( new OpenLayers.Layer.TMS("Land Shading", "http://tiles2.openpistemap.org/landshaded/", {
+        type: 'png',
+        getURL: osm_getTileURL,
+        displayOutsideMaxExtent: true,
+        attribution: '<a href="http://tiles2.openpistemap.org/landshaded/">Land Shading</a>',
+        opacity: 1,
+        isBaseLayer: false,
+        visibility: false,
+        numZoomLevels: 19,
+        noOpaq: true
+    }));
+
     var switcherControl = new OpenLayers.Control.LayerSwitcher();
     map.addControl(switcherControl);
     map.addControl(new OpenLayers.Control.LayerSwitcher());
     map.addControl(new OpenLayers.Control.Permalink());
     // switcherControl.maximizeControl();
 
+    // ADFC
     function get_mm_bikeTracks(bounds) {
-
         llbounds = new OpenLayers.Bounds();
         llbounds.extend(OpenLayers.Layer.SphericalMercator.inverseMercator(bounds.left, bounds.bottom));
         llbounds.extend(OpenLayers.Layer.SphericalMercator.inverseMercator(bounds.right, bounds.top));
@@ -204,6 +233,7 @@ function init() {
         return url
     }
 
+    // bbbike?
     function osm_getTileURL(bounds) {
         var res = this.map.getResolution();
         var x = Math.round((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
@@ -219,35 +249,9 @@ function init() {
         }
     }
 
-
-    var newLayer = new OpenLayers.Layer.TMS("Hillshading SRTM3 V2", "http://toolserver.org/~cmarqu/hill/", {
-        type: 'png',
-        getURL: osm_getTileURL,
-        displayOutsideMaxExtent: true,
-        attribution: '<a href="http://toolserver.org/~cmarqu/hill/">Hillshading SRTM3 V2</a>',
-        opacity: 1,
-        isBaseLayer: false,
-        visibility: false,
-        numZoomLevels: 19,
-        noOpaq: true
-    });
-    map.addLayer(newLayer);
-
-    var newLayer = new OpenLayers.Layer.TMS("Land Shading", "http://tiles2.openpistemap.org/landshaded/", {
-        type: 'png',
-        getURL: osm_getTileURL,
-        displayOutsideMaxExtent: true,
-        attribution: '<a href="http://tiles2.openpistemap.org/landshaded/">Land Shading</a>',
-        opacity: 1,
-        isBaseLayer: false,
-        visibility: false,
-        numZoomLevels: 19,
-        noOpaq: true
-    });
-    map.addLayer(newLayer);
-
     if (!map.getCenter()) {
         var lonLat = new OpenLayers.LonLat(lon, lat).transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject());
         map.setCenter(lonLat, zoom);
     }
 }
+
