@@ -6,7 +6,6 @@ var zoom = 15;
 var map; //complex object of type OpenLayers.Map
 //Initialise the 'map' object
 
-
 function init() {
 
     map = new OpenLayers.Map("map", {
@@ -149,7 +148,6 @@ function init() {
     };
     bing();
     // This is the end of the layer
-
     // Begin of overlay
     map.addLayer(new OpenLayers.Layer.TMS("BBBike Fahrbahnqualit&auml;t", "bbbike-smoothness/", {
         type: 'png',
@@ -193,7 +191,7 @@ function init() {
         noOpaq: true
     }));
 
-    map.addLayer (new OpenLayers.Layer.TMS("Hillshading SRTM3 V2", "http://toolserver.org/~cmarqu/hill/", {
+    map.addLayer(new OpenLayers.Layer.TMS("Hillshading SRTM3 V2", "http://toolserver.org/~cmarqu/hill/", {
         type: 'png',
         getURL: osm_getTileURL,
         displayOutsideMaxExtent: true,
@@ -205,7 +203,7 @@ function init() {
         noOpaq: true
     }));
 
-    map.addLayer( new OpenLayers.Layer.TMS("Land Shading", "http://tiles2.openpistemap.org/landshaded/", {
+    map.addLayer(new OpenLayers.Layer.TMS("Land Shading", "http://tiles2.openpistemap.org/landshaded/", {
         type: 'png',
         getURL: osm_getTileURL,
         displayOutsideMaxExtent: true,
@@ -222,8 +220,9 @@ function init() {
     map.addControl(new OpenLayers.Control.LayerSwitcher());
     map.addControl(new OpenLayers.Control.Permalink());
     // switcherControl.maximizeControl();
-
     // ADFC
+
+
     function get_mm_bikeTracks(bounds) {
         llbounds = new OpenLayers.Bounds();
         llbounds.extend(OpenLayers.Layer.SphericalMercator.inverseMercator(bounds.left, bounds.bottom));
@@ -234,6 +233,8 @@ function init() {
     }
 
     // bbbike?
+
+
     function osm_getTileURL(bounds) {
         var res = this.map.getResolution();
         var x = Math.round((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
@@ -254,4 +255,3 @@ function init() {
         map.setCenter(lonLat, zoom);
     }
 }
-
