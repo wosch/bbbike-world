@@ -176,17 +176,16 @@ sub footer {
 <span id="debug"></span>
 
 <div id="footer">
-<div id="footer_top">
-<a href="../">home</a> $extracts | <a href="../community.html#donate">donate</a>
-</div>
-<div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em;" >
-<hr/>
-(&copy;) 2011-2012 <a href="http://bbbike.org">BBBike.org</a> 
-by <a href="http://wolfram.schneider.org">Wolfram Schneider</a> //
-Map data by the <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap</a> Project
-<div id="footer_community">
-</div>
-</div>
+  <div id="footer_top">
+    <a href="../">home</a> $extracts | <a href="../community.html#donate">donate</a>
+  </div>
+  <hr/>
+  <div id="copyright" style="font-size:x-small">
+    (&copy;) 2011-2012 <a href="http://bbbike.org">BBBike.org</a> 
+    by <a href="http://wolfram.schneider.org">Wolfram Schneider</a> //
+    Map data by the <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap</a> Project
+  <div id="footer_community"></div>
+  </div>
 </div>
 
 </div></div></div> <!-- layout -->
