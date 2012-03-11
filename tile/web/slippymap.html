@@ -112,6 +112,12 @@ map.addLayers([road, aerial, hybrid]);
 
 
 // This is the end of the layer
+            var newLayer = new OpenLayers.Layer.TMS( "BBBike Fahrbahnqualit&auml;t", "bbbike-smoothness/",
+            { type: 'png', getURL: osm_getTileURL,
+		displayOutsideMaxExtent: true, attribution: '<a href="http://bbbike.de/">BBBike</a>',
+              opacity: 1, isBaseLayer: false, visibility: false, numZoomLevels: 19, noOpaq: true } );
+            map.addLayer(newLayer);
+
 	// ADFC : http://sautter.com/map/
             var newLayer = new OpenLayers.Layer.TMS( "ADFC Radwegenetz", "",
             { type: 'png', getURL: get_mm_bikeTracks, // "/osm/mapnik/${z}/${x}/${y}.png", 
@@ -151,13 +157,6 @@ map.addLayers([road, aerial, hybrid]);
         }
       }
 
-	// ADFC 
-
-            var newLayer = new OpenLayers.Layer.TMS( "BBBike Fahrbahnqualit&auml;t (smoothness)", "bbbike-smoothness/",
-            { type: 'png', getURL: osm_getTileURL,
-		displayOutsideMaxExtent: true, attribution: '<a href="http://bbbike.de/">BBBike</a>',
-              opacity: 1, isBaseLayer: false, visibility: false, numZoomLevels: 19, noOpaq: true } );
-            map.addLayer(newLayer);
 
             var newLayer = new OpenLayers.Layer.TMS( "Hillshading SRTM3 V2", "http://toolserver.org/~cmarqu/hill/",
             { type: 'png', getURL: osm_getTileURL,
