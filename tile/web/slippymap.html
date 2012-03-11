@@ -127,6 +127,9 @@ map.addLayers([road, aerial, hybrid]);
 
             map.addLayer( newLayer = new OpenLayers.Layer.XYZ( "Velo-Layer", "http://toolserver.org/tiles/bicycle/${z}/${x}/${y}.png",
             { attribution: '<a href="http://osm.t-i.ch/bicycle/map/">Velo-Layer</a>', opacity: 1, isBaseLayer: false, visibility: false, numZoomLevels: 19, noOpaq: true } ));
+
+            map.addLayer( newLayer = new OpenLayers.Layer.XYZ( "Max Speed", "http://wince.dentro.info/koord/osm/tiles/${z}/${x}/${y}.png",
+            { attribution: '<a href="http://wince.dentro.info/koord/osm/KosmosMap.htm">MaxSpeedMap</a>', opacity: 1, isBaseLayer: false, visibility: false, numZoomLevels: 15, noOpaq: true } ));
  
             var switcherControl = new OpenLayers.Control.LayerSwitcher();
             map.addControl(switcherControl);
