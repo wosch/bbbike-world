@@ -109,21 +109,12 @@ map.addLayers([road, aerial, hybrid]);
  
           bing();
 
+     // This is the end of the layer
+            map.addLayer( new OpenLayers.Layer.TMS( "BBBike Fahrbahnqualit&auml;t", "bbbike-smoothness/", { type: 'png', getURL: osm_getTileURL, displayOutsideMaxExtent: true, attribution: '<a href="http://bbbike.de/">BBBike</a>',
+              opacity: 1, isBaseLayer: false, visibility: false, numZoomLevels: 19, noOpaq: true } ));
 
-
-// This is the end of the layer
-            var newLayer = new OpenLayers.Layer.TMS( "BBBike Fahrbahnqualit&auml;t", "bbbike-smoothness/",
-            { type: 'png', getURL: osm_getTileURL,
-		displayOutsideMaxExtent: true, attribution: '<a href="http://bbbike.de/">BBBike</a>',
-              opacity: 1, isBaseLayer: false, visibility: false, numZoomLevels: 19, noOpaq: true } );
-            map.addLayer(newLayer);
-
-	// ADFC : http://sautter.com/map/
-            var newLayer = new OpenLayers.Layer.TMS( "ADFC Radwegenetz", "",
-            { type: 'png', getURL: get_mm_bikeTracks, // "/osm/mapnik/${z}/${x}/${y}.png", 
-		displayOutsideMaxExtent: true, attribution: '<a href="http://www.adfc.de/">ADFC</a>',
-              opacity: 1, isBaseLayer: false, visibility: false, numZoomLevels: 17, noOpaq: true } );
-            map.addLayer(newLayer);
+            map.addLayer (new OpenLayers.Layer.TMS( "ADFC Radwegenetz", "", { type: 'png', getURL: get_mm_bikeTracks, displayOutsideMaxExtent: true, attribution: '<a href="http://www.adfc.de/">ADFC</a>',
+              opacity: 1, isBaseLayer: false, visibility: false, numZoomLevels: 17, noOpaq: true } ));
 
             map.addLayer( newLayer = new OpenLayers.Layer.XYZ( "Velo-Layer", "http://toolserver.org/tiles/bicycle/${z}/${x}/${y}.png",
             { attribution: '<a href="http://osm.t-i.ch/bicycle/map/">Velo-Layer</a>', opacity: 1, isBaseLayer: false, visibility: false, numZoomLevels: 19, noOpaq: true } ));
