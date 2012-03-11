@@ -33,6 +33,7 @@ function init() {
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM.Mapnik("OSM Mapnik"));
+
     map.addLayer(new OpenLayers.Layer.OSM("OSM Mapnik (de)", "http://a.tile.openstreetmap.de/tiles/osmde/${z}/${x}/${y}.png", {
         numZoomLevels: 18
     }));
@@ -70,50 +71,60 @@ function init() {
     map.addLayer(new OpenLayers.Layer.OSM("Esri Topographic", "http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/${z}/${y}/${x}.png", {
         numZoomLevels: 18
     }));
+
     map.addLayer(new OpenLayers.Layer.OSM("Mapquest (OSM)", ["http://otile1.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png", "http://otile2.mqcdn.com/tiles/1.0.0/${z}/${x}/${y}.png"], {
         numZoomLevels: 19
     }));
+
     map.addLayer(new OpenLayers.Layer.OSM("Mapquest Satellite", ["http://mtile01.mqcdn.com/tiles/1.0.0/vy/sat/${z}/${x}/${y}.png", "http://mtile02.mqcdn.com/tiles/1.0.0/vy/sat/${z}/${x}/${y}.png"], {
         numZoomLevels: 19
     }));
+
     map.addLayer(new OpenLayers.Layer.OSM("Apple iPhoto (OSM)", ["http://gsp2.apple.com/tile?api=1&style=slideshow&layers=default&lang=de_DE&z=${z}&x=${x}&y=${y}&v=9"], {
         numZoomLevels: 15
     }));
+
     map.addLayer(new OpenLayers.Layer.Google("Google Physical", {
         type: google.maps.MapTypeId.TERRAIN,
         'sphericalMercator': true,
         attribution: ', <a href="http://maps.google.com/">Google</a>',
         numZoomLevels: 16
     }));
+
     map.addLayer(new OpenLayers.Layer.Google("Google Roadmap", {
         type: google.maps.MapTypeId.ROADMAP,
         'sphericalMercator': true,
         attribution: ', <a href="http://maps.google.com/">Google</a>',
         numZoomLevels: 19
     }));
+
     map.addLayer(new OpenLayers.Layer.Google("Google Satellite", {
         type: google.maps.MapTypeId.SATELLITE,
         'sphericalMercator': true,
         attribution: ', <a href="http://maps.google.com/">Google</a>',
         numZoomLevels: 19
     }));
+
     map.addLayer(new OpenLayers.Layer.Google("Google Hybrid", {
         type: google.maps.MapTypeId.HYBRID,
         'sphericalMercator': true,
         attribution: ', <a href="http://maps.google.com/">Google</a>',
         numZoomLevels: 19
     }));
+
     map.addLayer(new OpenLayers.Layer.Yahoo("Yahoo Street", {
         'sphericalMercator': true,
         attribution: '<a href="http://yahoo.com/">Yahoo Local Maps</a>',
         numZoomLevels: 18
     }));
+
     map.addLayer(new OpenLayers.Layer.Yahoo("Yahoo Aerial", {
         'type': YAHOO_MAP_SAT,
         'sphericalMercator': true,
         attribution: '<a href="http://yahoo.com/">Yahoo Local Maps</a>',
         numZoomLevels: 18
     }));
+
     map.addLayer(new OpenLayers.Layer.Yahoo("Yahoo Hybrid", {
         'type': YAHOO_MAP_HYB,
         'sphericalMercator': true,
@@ -222,7 +233,6 @@ function init() {
     // switcherControl.maximizeControl();
     // ADFC
 
-
     function get_mm_bikeTracks(bounds) {
         llbounds = new OpenLayers.Bounds();
         llbounds.extend(OpenLayers.Layer.SphericalMercator.inverseMercator(bounds.left, bounds.bottom));
@@ -233,7 +243,6 @@ function init() {
     }
 
     // bbbike?
-
 
     function osm_getTileURL(bounds) {
         var res = this.map.getResolution();
@@ -255,3 +264,5 @@ function init() {
         map.setCenter(lonLat, zoom);
     }
 }
+
+// 1;
