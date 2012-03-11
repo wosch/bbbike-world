@@ -125,6 +125,8 @@ map.addLayers([road, aerial, hybrid]);
               opacity: 1, isBaseLayer: false, visibility: false, numZoomLevels: 17, noOpaq: true } );
             map.addLayer(newLayer);
 
+            map.addLayer( newLayer = new OpenLayers.Layer.XYZ( "Velo-Layer", "http://toolserver.org/tiles/bicycle/${z}/${x}/${y}.png",
+            { attribution: '<a href="http://osm.t-i.ch/bicycle/map/">Velo-Layer</a>', opacity: 1, isBaseLayer: false, visibility: false, numZoomLevels: 19, noOpaq: true } ));
  
             var switcherControl = new OpenLayers.Control.LayerSwitcher();
             map.addControl(switcherControl);
