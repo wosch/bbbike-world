@@ -16,6 +16,13 @@
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>Added new overlay maps: Velo and Max Speed</title>
+    <id>59f077289e137c87be26a4b5f22427d1</id>
+    <content>Added new overlay maps: Velo and Max Speed</content>
+    <updated>2012-03-12T13:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title>Added new map Apple</title>
     <id>59f077289e137c87be26a4b5f22427d0</id>
     <content>Added new map Apple</content>
