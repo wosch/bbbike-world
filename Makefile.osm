@@ -414,6 +414,7 @@ create-osp:
 	
 rsync-tgz:
 	rsync -a ${DATA_OSM_BBBIKE_DIR}/ ${BBBIKE_SERVER}/usr/local/www/download.bbbike.org/bbbike/${DATA_OSM_DIR}
+	rsync -a world/etc/cities.csv ${BBBIKE_SERVER}/usr/local/www/download.bbbike.org/bbbike/${DATA_OSM_DIR}
 
 clean-tile:
 	world/bin/tile-cache-cleanup
