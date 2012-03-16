@@ -11,7 +11,9 @@
 # die on exit
 set -e
 
-bzip2=`which pbzip2 bzip2 | head -n 1`
+# bug in perl module Archive::Tar
+#bzip2=`which pbzip2 bzip2 | head -n 1`
+bzip2=bzip2
 
 for city 
 do
