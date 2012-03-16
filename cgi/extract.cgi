@@ -181,7 +181,7 @@ sub footer {
   </div>
   <hr/>
   <div id="copyright" style="font-size:x-small">
-    (&copy;) 2011-2012 <a href="http://bbbike.org">BBBike.org</a> 
+    (&copy;) 2011-2012 <a href="http://www.bbbike.org">BBBike.org</a> 
     by <a href="http://wolfram.schneider.org">Wolfram Schneider</a> //
     Map data by the <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap</a> Project
   <div id="footer_community"></div>
