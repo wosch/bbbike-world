@@ -94,6 +94,7 @@ sudo ln -s ~/projects/bbbike/world/tile/web/index.html
 cd /var/www/osm
 sudo ln -s ~/projects/bbbike/world/tile/web/style.css .
 sudo ln -s ~/projects/bbbike/world/tile/web/slippymap.html index.html
+sudo ln -s ~/projects/bbbike/world/tile/web/slippymap.js .
 sudo ln -s ~/projects/bbbike/world/tile/web/slippymap-dev.html 
 sudo ln -s ~/projects/mc 
 

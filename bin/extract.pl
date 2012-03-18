@@ -32,35 +32,32 @@ use strict;
 use warnings;
 
 $ENV{'PATH'} = "/usr/local/bin:/bin:/usr/bin";
-my $config_file = "$ENV{HOME}/.bbbike-extract";
+
+# group writable file
+umask(002);
 
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
-my $planet_osm = "../osm-streetnames/download/planet-latest.osm.pbf";
-my $debug      = 0;
-my $test       = 0;
-
-# spool directory. Should be at least 100GB large
-my $spool_dir = '/usr/local/www/tmp/extract';
-
-# max. area in square km
-our $max_skm = 240_000;
-
-# sent out emails as
-our $email_from = 'bbbike@bbbike.org';
-
 our $option = {
-    'max_areas' => 12,
-    'homepage'  => 'http://download.bbbike.org/osm/extract',
-    'max_jobs'  => 3,
+    'max_areas'  => 4,
+    'homepage'   => 'http://download.bbbike.org/osm/extract',
+    'max_jobs'   => 3,
+    'bcc'        => 'bbbike@bbbike.org',
+    'email_from' => 'bbbike@bbbike.org',
 
-    # not used yet
-    'max_extracts'   => 50,
-    'min_wait_time'  => 5 * 60,      # in seconds
-    'default_format' => 'osm.pbf',
+    # timeout handling
+    'alarm' => 3600,
 
-    'bcc' => $email_from,
+    # run with lower priority
+    'nice_level' => 5,
+
+    'planet_osm' => "../osm-streetnames/download/planet-latest.osm.pbf",
+    'debug'      => 0,
+    'test'       => 0,
+
+    # spool directory. Should be at least 100GB large
+    'spool_dir' => '/usr/local/www/tmp/extract',
 };
 
 my $formats = {
@@ -70,35 +67,32 @@ my $formats = {
     'osm.xz'  => "OSM XML 7z/xz",
 };
 
-my $spool = {
-    'incoming' =>
-      "$spool_dir/incoming",    # incoming request, need to be confirmed
-    'confirmed' => "$spool_dir/confirmed",    # ready to run
-    'running'   => "$spool_dir/running",      # currently running job
-    'osm'       => "$spool_dir/osm",          # cache older runs
-    'download'  => "$spool_dir/download",     # final directory for download
-    'trash' => "$spool_dir/trash",     # keep a copy of the config for debugging
-    'job1'  => "$spool_dir/job1.pid",  # lock file for current job
-};
-
-# timeout handling
-our $alarm = 3600;
-
-# run with lower priority
-our $nice_level = 5;
-
-# parse config file
+#
+# Parse user config file.
+# This allows to override standard config values
+#
+my $config_file = "$ENV{HOME}/.bbbike-extract.rc";
 if ( -e $config_file ) {
     require $config_file;
 }
 
-# up to N parallel jobs
-foreach my $number ( 1 .. $option->{'max_jobs'} ) {
-    $spool->{"job$number"} = "$spool_dir/job" . $number . ".pid";
-}
+my $spool_dir = $option->{"spool_dir"};
+my $spool     = {
+    'incoming'  => "$spool_dir/incoming",  # incoming request, not confirmed yet
+    'confirmed' => "$spool_dir/confirmed", # ready to run
+    'running'   => "$spool_dir/running",   # currently running job
+    'osm'       => "$spool_dir/osm",       # cache older runs
+    'download'  => "$spool_dir/download",  # final directory for download
+    'trash' => "$spool_dir/trash",    # keep a copy of the config for debugging
+         # 'job1'  => "$spool_dir/job1.pid",     # lock file for current job
+};
 
-# group writable file
-umask(002);
+my $alarm      = $option->{"alarm"};
+my $nice_level = $option->{"nice_level"};
+my $email_from = $option->{"email_from"};
+my $planet_osm = $option->{"planet_osm"};
+my $debug      = $option->{"debug"};
+my $test       = $option->{"test"};
 
 # test & debug
 $planet_osm =
@@ -109,6 +103,7 @@ $planet_osm =
 #
 #
 
+# timeout handler
 sub set_alarm {
     my $time = shift;
 
@@ -120,6 +115,7 @@ sub set_alarm {
     alarm($time);
 }
 
+# get a list of json config files from a directory
 sub get_jobs {
     my $dir = shift;
 
@@ -194,6 +190,7 @@ sub parse_jobs {
     return @list;
 }
 
+# create a unique job id for each extract request
 sub get_job_id {
     my @list = @_;
 
@@ -207,7 +204,7 @@ sub get_job_id {
     return $key;
 }
 
-# store lat,lng in filename
+# store lat,lng in a file name
 sub file_latlng {
     my $obj  = shift;
     my $file = "";
@@ -217,7 +214,7 @@ sub file_latlng {
     return $file;
 }
 
-# store lng,lat in filename
+# store lng,lat in file name
 sub file_lnglat {
     my $obj  = shift;
     my $file = "";
@@ -227,6 +224,12 @@ sub file_lnglat {
     return $file;
 }
 
+#
+# Create poly files based on a given list of json config files.
+#
+# On success, the json config files will be moved
+# from the spool "confirmed" to "running"
+#
 sub create_poly_files {
     my %args    = @_;
     my $job_dir = $args{'job_dir'};
@@ -298,7 +301,7 @@ sub create_poly_files {
     return ( \@poly, \@json );
 }
 
-# refresh mod time of file, to keep in cache
+# refresh mod time of file, to keep files in cache
 sub touch_file {
     my $file = shift;
 
@@ -320,6 +323,8 @@ sub store_data {
     $fh->close;
 }
 
+# create a poly file which will be read by osmosis(1) to extract
+# an area from planet.osm
 sub create_poly_file {
     my %args = @_;
     my $file = $args{'file'};
@@ -362,7 +367,8 @@ sub run_extracts {
     return () if !defined $poly || scalar(@$poly) <= 0;
 
     my @data = ( "nice", "-n", $nice_level, "osmosis", "-q" );
-    push @data, qq{--read-pbf $planet_osm --buffer bufferCapacity=12000};
+    push @data,
+      ( "--read-pbf", $planet_osm, "--buffer", "bufferCapacity=2000" );
 
     my @pbf;
     my $tee = 0;
@@ -398,19 +404,19 @@ sub run_extracts {
     return @data;
 }
 
-# compuate MD5 checksum for extract file
+# compute SHA2 checksum for extract file
 sub checksum {
     my $file = shift;
     die "file $file does not exists\n" if !-f $file;
 
-    my $md5_command = 'md5sum';
+    my @checksum_command = qw/shasum -a 256/;
 
     if ( my $pid = open( C, "-|" ) ) {
     }
 
     # child
     else {
-        exec( $md5_command, $file ) or die "Alert! Cannot fork: $!\n";
+        exec( @checksum_command, $file ) or die "Alert! Cannot fork: $!\n";
     }
 
     my $data;
@@ -454,6 +460,27 @@ sub _send_email {
     warn "\n$data\n" if $debug >= 3;
 }
 
+# check if we need to run a pbf2osm converter
+sub cached_format {
+    my $file = shift;
+
+    my $to = $spool->{'download'} . "/" . basename($file);
+    if ( -e $file && -s $file ) {
+        warn "File $file already exists, skip...\n" if $debug >= 1;
+        return 1;
+    }
+    elsif ( -e $to && -s $to ) {
+        warn "Converted file $to already exists, skip...\n" if $debug >= 1;
+
+        warn "link $file => $to\n" if $debug >= 2;
+        link( $to, $file ) or die "link $to -> $file: $!\n";
+
+        return 1;
+    }
+
+    return 0;
+}
+
 # prepare to sent mail about extracted area
 sub send_email {
     my %args = @_;
@@ -483,24 +510,30 @@ sub send_email {
         my @nice = ( "nice", "-n", $nice_level );
         if ( $obj->{'format'} eq 'osm.bz2' ) {
             $file =~ s/\.pbf$/.bz2/;
-            @system = ( @nice, "$dirname/pbf2osm", "--bzip2", $pbf_file );
+            if ( !cached_format($file) ) {
+                @system = ( @nice, "$dirname/pbf2osm", "--bzip2", $pbf_file );
 
-            warn "@system\n" if $debug >= 2;
-            system(@system) == 0 or die "system @system failed: $?";
+                warn "@system\n" if $debug >= 2;
+                system(@system) == 0 or die "system @system failed: $?";
+            }
         }
         elsif ( $obj->{'format'} eq 'osm.gz' ) {
             $file =~ s/\.pbf$/.gz/;
-            @system = ( @nice, "$dirname/pbf2osm", "--gzip", $pbf_file );
+            if ( !cached_format($file) ) {
+                @system = ( @nice, "$dirname/pbf2osm", "--gzip", $pbf_file );
 
-            warn "@system\n" if $debug >= 2;
-            system(@system) == 0 or die "system @system failed: $?";
+                warn "@system\n" if $debug >= 2;
+                system(@system) == 0 or die "system @system failed: $?";
+            }
         }
         elsif ( $obj->{'format'} eq 'osm.xz' ) {
             $file =~ s/\.pbf$/.xz/;
-            @system = ( @nice, "$dirname/pbf2osm", "--xz", $pbf_file );
+            if ( !cached_format($file) ) {
+                @system = ( @nice, "$dirname/pbf2osm", "--xz", $pbf_file );
 
-            warn "@system\n" if $debug >= 2;
-            system(@system) == 0 or die "system @system failed: $?";
+                warn "@system\n" if $debug >= 2;
+                system(@system) == 0 or die "system @system failed: $?";
+            }
         }
 
         ###################################################################
@@ -529,7 +562,7 @@ sub send_email {
             $to = $spool->{'download'} . "/" . basename($file);
             unlink($to);
 
-            link( $file, $to ) or die "link $pbf_file => $to: $!\n";
+            link( $file, $to ) or die "link $file => $to: $!\n";
 
             $file_size = file_size($to) . " MB";
             warn "file size $to: $file_size\n" if $debug >= 1;
@@ -548,12 +581,12 @@ Hi,
 your requested OpenStreetMap area "$obj->{'city'}" was extracted 
 from planet.osm
 
- City: $obj->{"city"}
- Area: $obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}
+ Name: $obj->{"city"}
+ Coordinates: $obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}
  Format: $obj->{"format"}
- Granularity: 10000 (1.1 meters)
+ Granularity: 10,000 (1.1 meters)
  File size: $file_size
- MD5 checksum: $checksum
+ SHA256 checksum: $checksum
  License: OpenStreetMap License
 
 To download the file, please click on the following link:
@@ -566,8 +599,8 @@ download the file as soon as possible.
 Sincerely, your BBBike admin
 
 --
-http://BBBike.org - Your Cycle Route Planner
-http://BBBike.org/community.html - We appreciate any feedback, suggestions and a donation! 
+http://www.BBBike.org - Your Cycle Route Planner
+http://www.BBBike.org/community.html - We appreciate any feedback, suggestions and a donation! 
 EOF
 
         eval {
@@ -595,7 +628,12 @@ sub file_size {
 
     my $st = stat($file) or die "stat $file: $!\n";
 
-    return int( 10 * $st->size / 1024 / 1024 ) / 10;
+    foreach my $scale ( 10, 100, 1000, 10_000 ) {
+        my $result = int( $scale * $st->size / 1024 / 1024 ) / $scale;
+        return $result if $result > 0;
+    }
+
+    return "0.0";
 }
 
 # cat file
@@ -691,13 +729,16 @@ EOF
 #
 
 # current running parallel job number (1..4)
-my $job = 1;
+my $max_jobs = $option->{'max_jobs'};
 
 GetOptions(
     "debug=i"      => \$debug,
     "nice-level=i" => \$nice_level,
-    "job=i"        => \$job,
+    "job=i"        => \$max_jobs,
 ) or die usage;
+
+die "Max jobs: $max_jobs out of range!\n" . &usage
+  if $max_jobs < 1 || $max_jobs > 8;
 
 my @files = get_jobs( $spool->{'confirmed'} );
 
@@ -705,6 +746,24 @@ if ( !scalar(@files) ) {
     print "Nothing to do\n" if $debug >= 2;
 }
 else {
+    my $lockfile;
+
+    # find a free job
+    foreach my $number ( 1 .. $max_jobs ) {
+        my $file = "$spool_dir/job${number}.pid";
+
+        # lock pid
+        if ( &create_lock( 'lockfile' => $file ) ) {
+            $lockfile = $file;
+            last;
+        }
+    }
+
+    # Oops, are jobs are in use, give up
+    die "Cannot get lock for jobs 1..", $option->{'max_jobs'}, "\n"
+      if !$lockfile;
+    warn "Use lockfile $lockfile\n" if $debug;
+
     my @list = parse_jobs(
         'files' => \@files,
         'dir'   => $spool->{'confirmed'},
@@ -712,12 +771,8 @@ else {
     );
     print Dumper( \@list ) if $debug >= 3;
 
-    my $key      = get_job_id(@list);
-    my $job_dir  = $spool->{'running'} . "/$key";
-    my $lockfile = $spool->{"job$job"};
-
-    # lock pid
-    &create_lock( 'lockfile' => $lockfile ) or die "Cannot get lock\n";
+    my $key     = get_job_id(@list);
+    my $job_dir = $spool->{'running'} . "/$key";
 
     my ( $poly, $json ) = create_poly_files(
         'job_dir' => $job_dir,
@@ -725,9 +780,13 @@ else {
         'spool'   => $spool,
     );
 
+    # be paranoid, give up after N hours (java bugs?)
     &set_alarm($alarm);
 
+    ###########################################################
+    # main
     my @system = run_extracts( 'spool' => $spool, 'poly' => $poly );
+    ###########################################################
 
     my $time = time();
     warn "Run ", join " ", @system, "\n" if $debug > 2;

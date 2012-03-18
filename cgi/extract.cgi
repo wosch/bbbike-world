@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl
 # Copyright (c) 2011-2012 Wolfram Schneider, http://bbbike.org
 #
-# extracts.cgi - extracts areas in a batch job
+# extract.cgi - extracts areas in a batch job
 #
 # spool area
 #   /incoming   - request to extract an area, email sent out to user
@@ -54,7 +54,7 @@ my $formats = {
     'osm.pbf' => 'Protocolbuffer Binary Format (PBF)',
     'osm.gz'  => "OSM XML gzip'd",
     'osm.bz2' => "OSM XML bzip'd",
-    'osm.xz'  => "OSM XML 7z/xz",
+    'osm.xz'  => "OSM XML 7z (xz)",
 };
 
 my $spool = {
@@ -170,23 +170,22 @@ sub footer {
     my $analytics = &google_analytics;
     my $url = $q->url( -relative => 1 );
 
-    my $extracts = $q->param('submit')
-      || $q->param("key") ? qq,| <a href="$url">extracts</a>, : "";
+    my $extracts = ( $q->param('submit') || $q->param("key") )
+      && $url ? qq,| <a href="$url">extract</a>, : "";
     return <<EOF;
-
+<span id="debug"></span>
 
 <div id="footer">
-<div id="footer_top">
-<a href="../">home</a> $extracts | <a href="../community.html#donate">donate</a>
-</div>
-<div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em;" >
-<hr/>
-(&copy;) 2011-2012 <a href="http://bbbike.org">BBBike.org</a> 
-by <a href="http://wolfram.schneider.org">Wolfram Schneider</a> //
-Map data by the <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap</a> Project
-<div id="footer_community">
-</div>
-</div>
+  <div id="footer_top">
+    <a href="../">home</a> $extracts | <a href="../community.html#donate">donate</a>
+  </div>
+  <hr/>
+  <div id="copyright" style="font-size:x-small">
+    (&copy;) 2011-2012 <a href="http://www.bbbike.org">BBBike.org</a> 
+    by <a href="http://wolfram.schneider.org">Wolfram Schneider</a> //
+    Map data by the <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap</a> Project
+  <div id="footer_community"></div>
+  </div>
 </div>
 
 </div></div></div> <!-- layout -->
@@ -258,10 +257,12 @@ sub check_input {
     our $error = 0;
 
     sub error {
-        my $message = shift;
+        my $message   = shift;
+        my $no_escape = shift;
+
         $error++;
 
-        print "<p>", escapeHTML($message), "</p>\n";
+        print "<p>", $no_escape ? $message : escapeHTML($message), "</p>\n";
     }
 
     sub is_coord {
@@ -303,7 +304,13 @@ sub check_input {
         }
     }
     if ( $email eq '' ) {
-        error("Please enter a e-mail address.");
+        error(
+            "Please enter a e-mail address. "
+              . "We need an e-mail address to notify you if your extract is ready for download. "
+              . "If you don't have an e-mail address, you can get a temporary from "
+              . "<a href='http://mailinator.com/'>mailinator.com</a>",
+            1
+        );
     }
     elsif ( !Email::Valid->address($email) ) {
         error("E-mail address '$email' is not valid.");
@@ -323,8 +330,9 @@ sub check_input {
       if $ne_lat <= $sw_lat;
 
     my $skm = square_km( $sw_lat, $sw_lng, $ne_lat, $ne_lng );
-    error("Area is to large: $skm, must be smaller than $max_skm")
-      if $skm > $max_skm;
+    error(
+"Area is to large: @{[ large_int($skm) ]} square km, must be smaller than @{[ large_int($max_skm) ]} square km."
+    ) if $skm > $max_skm;
 
     if ($error) {
         print qq{<p class="error">The input data is not valid. };
@@ -339,7 +347,7 @@ sub check_input {
 <p>Thanks - the input data looks good. You will be notificed by e-mail soon. 
 Please follow the instruction in the email to proceed your request.</p>
 
-<p align='left'>Area: "@{[ escapeHTML($city) ]} " covers @{[ large_int($skm) ]} square km <br/>
+<p align='left'>Area: "@{[ escapeHTML($city) ]}" covers @{[ large_int($skm) ]} square km <br/>
 Coordinates: @{[ escapeHTML("$sw_lng,$sw_lat x $ne_lng,$ne_lat") ]} <br/>
 Format: $format
 </p>
@@ -596,7 +604,11 @@ sub homepage {
 
     print &message;
 
-    print $q->start_form( -method => $request_method, -id => 'extract' );
+    print $q->start_form(
+        -method   => $request_method,
+        -id       => 'extract',
+        -onsubmit => 'return checkform();'
+    );
 
     my $lat = qq{<span title='Latitude'>lat</span>};
     my $lng = qq{<span title='Longitude'>lng</span>};
@@ -611,13 +623,13 @@ sub homepage {
             [
                 $q->td(
                     [
-                        "Name of city or area",
+"<span title='Give the city or area to extract a name. The name is optional, but better fill it out to find it later again.'>Name of area to extract</span>",
                         $q->textfield( -name => 'city', -size => 40 )
                     ]
                 ),
                 $q->td(
                     [
-                        "Your email address",
+"<span title='Required, you will be notified by e-mail if your extract is ready for download.'>Your email address (*)</span>",
                         $q->textfield(
                             -name  => 'email',
                             -size  => 40,
@@ -627,7 +639,7 @@ sub homepage {
                 ),
                 $q->td(
                     [
-"Left lower corner (<span title='South West'>SW</span>)",
+"<span title='South West, valid values: -180 .. 180'>Left lower corner (SW)</span>",
                         "$lng: "
                           . $q->textfield(
                             -name => 'sw_lng',
@@ -644,7 +656,7 @@ sub homepage {
                 ),
                 $q->td(
                     [
-                        "Right top corner (<span title='North East'>NE</span>)",
+"<span title='North East, valid values: -180 .. 180'>Right top corner (NE)</span>",
                         "$lng: "
                           . $q->textfield(
                             -name => 'ne_lng',
@@ -662,7 +674,7 @@ sub homepage {
 
                 $q->td(
                     [
-                        "Output Format",
+"<span title='PBF: fast and compact data, OSM XML gzip: standard OSM format, twice as large'>Output Format</span>",
                         $q->popup_menu(
                             -name   => 'format',
                             -values => [
@@ -681,12 +693,14 @@ sub homepage {
 
     #print $q->p;
     print $q->submit(
+        -title => 'start extract',
         -name  => 'submit',
         -value => 'extract',
-        -id    => 'extract'
+
+        #-id    => 'extract'
     );
     print $q->end_form;
-    print qq{<hr/\n};
+    print qq{<hr/>\n};
     print &map;
 
     print &footer($q);

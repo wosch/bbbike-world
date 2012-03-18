@@ -4,6 +4,7 @@
 
 file=$1
 md5sum=`which md5 md5sum false | head -n 1`
+: ${SHA="shasum -a 256"}
 
 if ! [ -f "$file" ]; then
 	echo "usage file"
@@ -23,9 +24,12 @@ file_pbf=`echo "$file" | perl -npe 's/\.[^\.]+$/.pbf/'`
 # run in quiet mode
 global_opt=-q
 
-$uncompress "$file" | osmosis $global_opt --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=12000 \
+$uncompress "$file" | osmosis $global_opt --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 \
 	--write-pbf $file_pbf omitmetadata=true granularity=10000 || exit 2
 
 $md5sum $file_pbf > $file_pbf.md5
 $md5sum $file     > $file.md5
+
+$SHA $file_pbf > $file_pbf.sha256
+$SHA $file     > $file.sha256
 

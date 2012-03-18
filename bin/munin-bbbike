@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl
 # Copyright (c) Sep 2011-2012 Wolfram Schneider, http://bbbike.org
 #
-# munin-routes - munin statistics for BBBike, searches per interval
+# munin-bbbike - munin statistics for BBBike, searches per interval
 
 use Getopt::Long;
 use Data::Dumper;

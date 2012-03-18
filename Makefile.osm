@@ -117,7 +117,7 @@ convert-bbbike-full: build-runtime-perl
 
 # convert bbbike files from wgs84, much faster
 convert-bbbike: build-runtime-perl
-	echo ${CITIES} | ${NICE} ${XARGS} -E " " -n4 -P${MAX_VCPU} ./world/bin/wgs84-to-bbbike
+	echo ${CITIES} | ${XARGS} -E " " -n4 -P${MAX_VCPU} ./world/bin/wgs84-to-bbbike
 	tar --exclude='_*' -cf - ${DATA_DIR} | ${NICE} ${BZIP2} > ${DATA_OSM_BBBIKE_DIR}/data.tbz.tmp
 	mv -f ${DATA_OSM_BBBIKE_DIR}/data.tbz.tmp ${DATA_OSM_BBBIKE_DIR}/data.tbz
 
@@ -140,10 +140,10 @@ _osmosis_opt:
 	for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i/$$i.poly --wx file=${OSM_DIR}/$$i/$$i.osm.gz"; done
 
 cities-poly: poly
-	${NICE5} ${BZIP2} -dc ${OSM_PLANET} | ${NICE5} ${OSMOSIS} --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=12000 --tee `${MAKE} -s -f Makefile.osm city-count` `${MAKE} -s -f Makefile.osm _osmosis_opt`
+	${NICE5} ${BZIP2} -dc ${OSM_PLANET} | ${NICE5} ${OSMOSIS} --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --tee `${MAKE} -s -f Makefile.osm city-count` `${MAKE} -s -f Makefile.osm _osmosis_opt`
 
 cities-pbf cities: poly
-	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=12000 --tee `${MAKE} -s CITIES="${CITIES}" -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" -f Makefile.osm _osmosis_opt`
+	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s CITIES="${CITIES}" -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" -f Makefile.osm _osmosis_opt`
 	${MAKE} -f Makefile.osm osm2pbf
 
 # if an extract does not exists localy, try to fetch it from the web
@@ -186,7 +186,7 @@ city-file:
 	${MAKE} -s city-reorder | awk '{print $$2 }'  > ${CITIES_FILE}
 
 city-memory:
-	echo ${CITIES} | ${NICE} ${TIME} ${XARGS} -E " " -n1 -P${MAX_RCPU} ./world/bin/bbbike-memory
+	echo ${CITIES} | ${TIME} ${XARGS} -E " " -n1 -P${MAX_RCPU} ./world/bin/bbbike-memory
 
 update-robots.txt:
 	( cat world/web/robots.txt.in; \
@@ -301,7 +301,7 @@ rsync-osm rsync: sync-sitemap osm-header
 	-rsync -av --exclude='*.bak' data/opensearch.streetnames ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}/data
 	@echo ""
 	@echo "don't forget to cleanup the data cache in ${BBBIKE_CACHE_DIR}, run:"
-	@echo "$$ sudo make clean-cache"
+	@echo "$$ sudo make clean-cache; make cache-heater"
 
 osm-header:
 	if ! test -e ${OSM_DIR}/HEADER.txt; then \
@@ -315,7 +315,7 @@ rsync-osm-devel rsync-osm-dev:
 rsync-planet:
 	cd ../osm-streetnames/download; \
 	   ${NICE5} rsync -av planet-latest.osm.bz2 planet-latest.osm.bz2.md5 \
-		planet-latest.osm.pbf planet-latest.osm.pbf.md5 bbbike:projects/osm-streetnames/download
+		planet-latest.osm.pbf planet-latest.osm.pbf.md5 planet-latest.osm.pbf.sha256 bbbike:projects/osm-streetnames/download
 
 create-bbbike-web-symlinks-bbbike.en.cgi:
 	cd ${BBBIKE_WEB_DIR}/cgi && ln -fs bbbike.cgi bbbike.en.cgi
@@ -387,6 +387,7 @@ bbbike2wgs84:
 	./world/bin/bbbike2wgs84
 
 bbbike2wgs84-mapnik:
+	if test -e tmp/bbbike-mapnik.osm.gz; then mv -f tmp/bbbike-mapnik.osm.gz tmp/bbbike-mapnik.osm.gz.old; fi
 	${NICE} ./miscsrc/bbd2osm --optimize-for=mapnik | ${GZIP} > tmp/bbbike-mapnik.osm.gz.tmp
 	mv -f tmp/bbbike-mapnik.osm.gz.tmp tmp/bbbike-mapnik.osm.gz
 
@@ -413,6 +414,7 @@ create-osp:
 	
 rsync-tgz:
 	rsync -a ${DATA_OSM_BBBIKE_DIR}/ ${BBBIKE_SERVER}/usr/local/www/download.bbbike.org/bbbike/${DATA_OSM_DIR}
+	rsync -a world/etc/cities.csv ${BBBIKE_SERVER}/usr/local/www/download.bbbike.org/bbbike/${DATA_OSM_DIR}
 
 clean-tile:
 	world/bin/tile-cache-cleanup
@@ -464,6 +466,7 @@ perltidy:
 	${MAKE} -C world/bin $@	
 	${MAKE} -C world/cgi $@	
 	${MAKE} -C world/web/feed $@	
+	git diff
 
 jsbeautifier js:
 	${MAKE} -C html $@
@@ -557,10 +560,7 @@ extract-distclean:
 
 # garbage collection, 2 days
 extract-gc:
-	cd ${EXTRACTS_SPOOL_DIR}; find incoming confirmed running download -type f -mtime +2 -print0 | xargs -0 rm -f
-
-extract-gc-osm:
-	find ${EXTRACTS_SPOOL_DIR}/osm -type f -mmin +360  -print0 | xargs -0 rm -f
+	cd ${EXTRACTS_SPOOL_DIR}; find incoming confirmed running download osm -type f -mtime +2 -print0 | xargs -0 rm -f
 
 # garbage collection, 7 days, all files
 extract-gc7:
@@ -588,6 +588,7 @@ download-bbbike-org-install:
 	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.bz2 . ;\
 	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.pbf . ;\
 	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.pbf.md5 . ;\
+	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.pbf.sha1 . ;\
 	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.bz2.md5 . ;\
 	  ln -fs ../../../bbbike.org/world/download/osm/planet/HEADER.txt .
 		
@@ -603,7 +604,8 @@ help:
 	@echo "  [ jsbeautifier | perltidy | tidy ]"
 	@echo ""
 	@echo "  [ bbbike-osm2pbf | osm2pbf ]"
-	@echo "  [ bbbike2wgs84-mapnik | bbbike-mapnik-config | bbbike-mapnik-postgis ]"
+	@echo "  [ bbbike2wgs84-mapnik | bbbike-mapnik-config ]"
+	@echo "  [ bbbike-mapnik-postgis ]"
 	@echo ""
 	@echo "  [ clean | dist-clean | clean-cache | clean-planet | clean-tile ]"
 	@echo ""
