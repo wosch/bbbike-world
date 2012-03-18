@@ -27,6 +27,7 @@ use CGI qw(escapeHTML);
 use Getopt::Long;
 use File::Basename;
 use File::stat;
+use GIS::Distance::Lite;
 
 use strict;
 use warnings;
@@ -133,6 +134,25 @@ sub get_jobs {
     undef $d;
 
     return @data;
+}
+
+sub square_km {
+    my ( $x1, $y1, $x2, $y2 ) = @_;
+
+    my $height = GIS::Distance::Lite::distance( $x1, $y1 => $x1, $y2 ) / 1000;
+    my $width  = GIS::Distance::Lite::distance( $x1, $y1 => $x2, $y1 ) / 1000;
+
+    return int( $height * $width );
+}
+
+# 240000 -> 240,000
+sub large_int {
+    my $int = shift;
+
+    return $int if $int < 1_000;
+
+    my $number = substr( $int, 0, -3 ) . "," . substr( $int, -3, 3 );
+    return $number;
 }
 
 # fair scheduler, take one from each customer first until
@@ -575,6 +595,13 @@ sub send_email {
         ###################################################################
         # mail
 
+        my $square_km = large_int(
+            square_km(
+                $obj->{"sw_lng"}, $obj->{"sw_lat"},
+                $obj->{"ne_lng"}, $obj->{"ne_lat"}
+            )
+        );
+
         my $message = <<EOF;
 Hi,
 
@@ -583,8 +610,9 @@ from planet.osm
 
  Name: $obj->{"city"}
  Coordinates: $obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}
- Format: $obj->{"format"}
+ Square kilometre: $square_km
  Granularity: 10,000 (1.1 meters)
+ Format: $obj->{"format"}
  File size: $file_size
  SHA256 checksum: $checksum
  License: OpenStreetMap License
