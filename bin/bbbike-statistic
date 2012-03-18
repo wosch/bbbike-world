@@ -48,14 +48,17 @@ log_post () {
 echo -n "bbbike.org page views: "
 log $url_match | awk '{print $1}' | wc -l
 
+echo ""
 echo -n "mobile bbbike.org page views: "
 if [ -f $logfiles_mobile ]; then
     zcat -f $logfiles_mobile | egrep -v '^10\.' | egrep "GET $url_match" | egrep -v '" 40[34] ' | awk '{print $1}' | wc -l
 fi
 
+echo ""
 echo -n "weather page views: "
 log $front_end/cgi/weather.cgi | awk '{print $1}' | wc -l
 
+echo ""
 echo -n "location page views: "
 log $front_end/cgi/location.cgi | awk '{print $1}' | wc -l
 
