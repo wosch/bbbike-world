@@ -206,8 +206,8 @@ log_post ' (http://www.bbbike.org)?/[A-Z][^ ]*/streets.html' | awk '{ if ($12 !=
 
 echo ""
 echo -n "Street route search: "
-log_post / | awk '{if ($11 ~ /streets.html/ && $7 ~ /^\/[A-Z]/ && $7 ~ /start/ ) { print $7, $11}}' | wc -l
-log_post / | awk '{if ($12 ~ /streets.html/ && $7 ~ /^\/[A-Z]/ && $7 ~ /start/ ) { print $7, $11}}' | sort | perl $perl_utf8 -MCGI -npe '$_ = CGI::unescape($_)'
+log_post / | awk '{if ($11 ~ /streets.html/ && $7 ~ /^\/[A-Z]/ && $7 ~ /startstreet/ ) { print $7, $11}}' | wc -l
+log_post / | awk '{if ($12 ~ /streets.html/ && $7 ~ /^\/[A-Z]/ && $7 ~ /startstreet/ ) { print $7, $11}}' | sort | perl $perl_utf8 -MCGI -npe '$_ = CGI::unescape($_)'
 
 echo ""
 echo "blocked IP addresses"
