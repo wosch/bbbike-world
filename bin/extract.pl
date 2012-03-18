@@ -136,6 +136,7 @@ sub get_jobs {
     return @data;
 }
 
+# ($lat1, $lon1 => $lat2, $lon2);
 sub square_km {
     my ( $x1, $y1, $x2, $y2 ) = @_;
 
@@ -597,8 +598,8 @@ sub send_email {
 
         my $square_km = large_int(
             square_km(
-                $obj->{"sw_lng"}, $obj->{"sw_lat"},
-                $obj->{"ne_lng"}, $obj->{"ne_lat"}
+                $obj->{"sw_lat"}, $obj->{"sw_lng"},
+                $obj->{"ne_lat"}, $obj->{"ne_lng"}
             )
         );
 
