@@ -48,14 +48,17 @@ log_post () {
 echo -n "bbbike.org page views: "
 log $url_match | awk '{print $1}' | wc -l
 
+echo ""
 echo -n "mobile bbbike.org page views: "
 if [ -f $logfiles_mobile ]; then
     zcat -f $logfiles_mobile | egrep -v '^10\.' | egrep "GET $url_match" | egrep -v '" 40[34] ' | awk '{print $1}' | wc -l
 fi
 
+echo ""
 echo -n "weather page views: "
 log $front_end/cgi/weather.cgi | awk '{print $1}' | wc -l
 
+echo ""
 echo -n "location page views: "
 log $front_end/cgi/location.cgi | awk '{print $1}' | wc -l
 
@@ -66,6 +69,10 @@ if [ -f $varnish_log ]; then
     echo ""
     echo "tile log 404"
     egrep tile $varnish_log | egrep -v ' (200|30[124]) ' | awk '{ print $1 }' | sort | uniq -c | sort -nr | $dns
+
+    echo ""
+    echo -n "tile log traffic: "
+    egrep tile $varnish_log | egrep ' (200|30[124]) ' | awk '{ s += $10 } END { print int(s/1024/1024*10 + 0.5) / 10, "MB" }' 
 fi
 
 echo ""
