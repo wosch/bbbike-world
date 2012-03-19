@@ -242,6 +242,15 @@ if [ -s /var/log/lighttpd/download.bbbike.log ]; then
     egrep '\.osm\.[^ ]+ ' /var/log/lighttpd/download.bbbike.log | awk '{print $7, int($10/1024/1024), "MB"}' | sort
 fi
 
+if [ -s /var/log/lighttpd/extract.bbbike.log ]; then
+    echo ""
+    echo -n "extract stat: "
+    egrep ' /\?city=' extract.bbbike.log | wc -l
+
+    echo ""
+    egrep ' /\?city=' extract.bbbike.log | perl -ne 'print "$1\n" if /city=(.*?)&/' | sort -u
+fi
+
 echo ""
 echo -n "bbbike stat: "
 log_full / | awk '{ s+=$10 } END { print int(s/1024/1024), "MB" }'
