@@ -817,7 +817,8 @@ else {
     my @system = run_extracts( 'spool' => $spool, 'poly' => $poly );
     ###########################################################
 
-    my $time = time();
+    my $time      = time();
+    my $starttime = $time;
     warn "Run ", join " ", @system, "\n" if $debug > 2;
     system(@system) == 0
       or die "system @system failed: $?";
@@ -827,7 +828,11 @@ else {
     # send out mail
     $time = time();
     &send_email( 'json' => $json );
-    warn "Running convert time: ", time() - $time, " seconds\n" if $debug;
+    warn "Running convert and email time: ", time() - $time, " seconds\n"
+      if $debug;
+    warn "Total time: ", time() - $starttime,
+      " seconds, for @{[ scalar(@list) ]} jobs\n"
+      if $debug;
 
     # unlock pid
     &remove_lock( 'lockfile' => $lockfile );
