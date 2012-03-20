@@ -27,6 +27,7 @@ use CGI qw(escapeHTML);
 use Getopt::Long;
 use File::Basename;
 use File::stat;
+use GIS::Distance::Lite;
 
 use strict;
 use warnings;
@@ -133,6 +134,26 @@ sub get_jobs {
     undef $d;
 
     return @data;
+}
+
+# ($lat1, $lon1 => $lat2, $lon2);
+sub square_km {
+    my ( $x1, $y1, $x2, $y2 ) = @_;
+
+    my $height = GIS::Distance::Lite::distance( $x1, $y1 => $x1, $y2 ) / 1000;
+    my $width  = GIS::Distance::Lite::distance( $x1, $y1 => $x2, $y1 ) / 1000;
+
+    return int( $height * $width );
+}
+
+# 240000 -> 240,000
+sub large_int {
+    my $int = shift;
+
+    return $int if $int < 1_000;
+
+    my $number = substr( $int, 0, -3 ) . "," . substr( $int, -3, 3 );
+    return $number;
 }
 
 # fair scheduler, take one from each customer first until
@@ -575,6 +596,13 @@ sub send_email {
         ###################################################################
         # mail
 
+        my $square_km = large_int(
+            square_km(
+                $obj->{"sw_lat"}, $obj->{"sw_lng"},
+                $obj->{"ne_lat"}, $obj->{"ne_lng"}
+            )
+        );
+
         my $message = <<EOF;
 Hi,
 
@@ -583,8 +611,9 @@ from planet.osm
 
  Name: $obj->{"city"}
  Coordinates: $obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}
- Format: $obj->{"format"}
+ Square kilometre: $square_km
  Granularity: 10,000 (1.1 meters)
+ Format: $obj->{"format"}
  File size: $file_size
  SHA256 checksum: $checksum
  License: OpenStreetMap License
@@ -788,7 +817,8 @@ else {
     my @system = run_extracts( 'spool' => $spool, 'poly' => $poly );
     ###########################################################
 
-    my $time = time();
+    my $time      = time();
+    my $starttime = $time;
     warn "Run ", join " ", @system, "\n" if $debug > 2;
     system(@system) == 0
       or die "system @system failed: $?";
@@ -798,7 +828,11 @@ else {
     # send out mail
     $time = time();
     &send_email( 'json' => $json );
-    warn "Running convert time: ", time() - $time, " seconds\n" if $debug;
+    warn "Running convert and email time: ", time() - $time, " seconds\n"
+      if $debug;
+    warn "Total time: ", time() - $starttime,
+      " seconds, for @{[ scalar(@list) ]} jobs\n"
+      if $debug;
 
     # unlock pid
     &remove_lock( 'lockfile' => $lockfile );

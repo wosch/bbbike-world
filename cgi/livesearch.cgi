@@ -106,7 +106,7 @@ sub estimated_daily_usage {
         23 => 3.74,
     };
 
-    my ( $hour, $min ) = ( localtime(time) )[ 2, 3 ];
+    my ( $hour, $min ) = ( localtime(time) )[ 2, 1 ];
     my $now = 0;
 
     foreach my $key ( keys %$hourly_usage ) {

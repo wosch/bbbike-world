@@ -486,6 +486,7 @@ sub send_email {
     $smtp->quit() or die "can't send email to '$to'\n";
 }
 
+# ($lat1, $lon1 => $lat2, $lon2);
 sub square_km {
     my ( $x1, $y1, $x2, $y2 ) = @_;
 

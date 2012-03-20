@@ -36,6 +36,9 @@ my $munin_config_file = "/etc/munin/munin-bbbike.conf";
 # should be 0 or 1
 my $min_value = 0;
 
+# ignore old offset files (> 60 minutes)
+my $ignore_old_offset = 1;
+
 my $config = {
     'ajax'   => [qw/api street-coord crossing maptype weather location/],
     'output' => [
@@ -223,8 +226,20 @@ sub parse_log {
     my $st = stat($logfile) or die "stat $logfile: $!";
     my $offset = $st->size;
 
+    # check for stale databases which are too old
+    my $regnerate_database = 1;
+    if ( -e $database ) {
+        my $database_st = stat($database) or die "stat $database: $!";
+
+        # ok, fresh data
+        if ( $database_st->mtime >= time() - 60 * 60 ) {
+            $regnerate_database = 0;
+        }
+        $regnerate_database = 0 if $ignore_old_offset == 0;
+    }
+
     # first run, save file offset of logfile, do nothing
-    if ( !-e $database ) {
+    if ($regnerate_database) {
         write_offset( $database, $offset );
 
         # run again to produce first results
