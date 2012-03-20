@@ -53,6 +53,9 @@ do
   echo "Run combine_streets: $file"
   $time ./miscsrc/combine_streets.pl $prefix/$city/$file > $prefix/$city/$file.tmp
    mv -f $prefix/$city/$file.tmp $prefix/$city/$file
+
+   # XXX: filter lines without geo coordinates (WTF?)
+   perl -i -ne 'if (/^\s*#/ || /\d+$/ ) { print  }' $prefix/$city/$file 
 done
 
 echo "Run search_inaccessible_points"
