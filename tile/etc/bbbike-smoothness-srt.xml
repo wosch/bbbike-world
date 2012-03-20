@@ -13,7 +13,8 @@
 <!ENTITY color_Q1 "#9ACD32">
 <!ENTITY color_Q2 "#FFD700">
 <!ENTITY color_Q3 "#f00">
-<!ENTITY dasharray "1,3">
+<!-- <!ENTITY dasharray "1,3"> -->
+<!ENTITY dasharray "">
 
 ]>
 
