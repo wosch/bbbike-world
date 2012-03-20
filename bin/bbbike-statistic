@@ -248,7 +248,7 @@ if [ -s /var/log/lighttpd/extract.bbbike.log ]; then
     egrep ' /\?city=' extract.bbbike.log | wc -l
 
     echo ""
-    echo "extract cities"
+    echo "extract cities:"
     egrep ' /\?city=' extract.bbbike.log | perl -ne 'print "$1\n" if /city=(.*?)&/' | sort -u
 fi
 
