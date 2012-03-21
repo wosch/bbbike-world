@@ -235,6 +235,14 @@ cleanup-osm-error:
 	${MAKE} -f Makefile.osm check-osm 2>&1 | grep ^gzip | awk '{ print $$2 }' | ${PERL} -npe 's,:,,' | sort -u | ${XARGS} rm -f
 	@find ${OSM_DIR} -name '*.gz' -print0 | ${XARGS} -0 -n8 -P${MAX_CPU} zegrep -l '<error>' | ${XARGS} rm -f
 
+check-data-osm:
+	for i in ${CITIES}; do \
+	    if ! find ${DATA_OSM_DIR}/$$i -type f -print | egrep -v '\.(gz|bak|dd|yml|pl|data)$$' | egrep -v 'opensearch\.' | sort -r | \
+		xargs -n1 -P${MAX_VCPU}  ./miscsrc/grepstrassen -name Kreuzbergstr. >/dev/null; then \
+		echo "Failed city: $$i"; \
+		exit=1; \
+	    fi; \
+	done; exit $$exit
 
 convert2: convert3 convert-workarounds
 # using GNU xargs -P parallel
