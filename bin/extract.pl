@@ -566,7 +566,7 @@ sub send_email {
         link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
 
         my $file_size = file_size($to) . " MB";
-        warn "file size $to: $file_size\n" if $debug >= 2;
+        warn "file size $to: $file_size\n" if $debug >= 1;
 
         ###################################################################
         # copy for downloading in /download
