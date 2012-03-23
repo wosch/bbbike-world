@@ -24,8 +24,15 @@ file_pbf=`echo "$file" | perl -npe 's/\.[^\.]+$/.pbf/'`
 # run in quiet mode
 global_opt=-q
 
-$uncompress "$file" | osmosis $global_opt --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 \
-	--write-pbf $file_pbf omitmetadata=true granularity=10000 || exit 2
+if $uncompress "$file" | osmosis $global_opt --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 \
+	--write-pbf $file_pbf omitmetadata=true granularity=10000
+then
+    :
+else
+    echo "File $file failed"
+    $uncompress -t $file
+    exit 2
+fi 
 
 $md5sum $file_pbf > $file_pbf.md5
 $md5sum $file     > $file.md5
