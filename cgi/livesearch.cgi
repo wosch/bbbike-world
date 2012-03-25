@@ -153,6 +153,8 @@ sub extract_route {
     if ($date) {
         $date = &date_alias($date);
 
+        warn "Use date: '$date'\n" if $debug;
+
         eval { "foo" =~ /$date/ };
         if ($@) {
             warn "date failed: '$date'\n";
