@@ -226,7 +226,8 @@ m, (slippymap|bbbike|[A-Z][a-zA-Z]+)\.cgi: (URL:)?http://$host.bbbike.org/,i;
         }
     }
 
-    warn "URLs: $#data_all, factor: $duplication_factor\n" if $debug;
+    warn "URLs: ", scalar(@data_all), ", factor: $duplication_factor\n"
+      if $debug;
     return @data_all;
 }
 
