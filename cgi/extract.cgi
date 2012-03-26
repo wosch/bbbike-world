@@ -344,7 +344,10 @@ sub check_input {
     }
     else {
         print <<EOF;
-<p>Thanks - the input data looks good. You will be notificed by e-mail soon. 
+<p>Thanks - the input data looks good.</p><p>
+It takes between 10-30 minutes to extract an area from planet.osm, 
+depending on the size of the area and the system load.
+You will be notified by e-mail if your extract is ready for download.
 Please follow the instruction in the email to proceed your request.</p>
 
 <p align='left'>Area: "@{[ escapeHTML($city) ]}" covers @{[ large_int($skm) ]} square km <br/>
