@@ -153,6 +153,8 @@ sub extract_route {
     if ($date) {
         $date = &date_alias($date);
 
+        warn "Use date: '$date'\n" if $debug;
+
         eval { "foo" =~ /$date/ };
         if ($@) {
             warn "date failed: '$date'\n";
@@ -226,7 +228,8 @@ m, (slippymap|bbbike|[A-Z][a-zA-Z]+)\.cgi: (URL:)?http://$host.bbbike.org/,i;
         }
     }
 
-    warn "URLs: $#data_all, factor: $duplication_factor\n" if $debug;
+    warn "URLs: ", scalar(@data_all), ", factor: $duplication_factor\n"
+      if $debug;
     return @data_all;
 }
 
