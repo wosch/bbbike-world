@@ -24,6 +24,7 @@ MAX_CPU=	`world/bin/ncpu`
 MAX_CPU2=	`world/bin/ncpu -1`
 MAX_VCPU=	`world/bin/ncpu vcpu`
 MAX_RCPU=	`world/bin/ncpu rcpu -1`
+MAX_OSM2PBF=	1
 XARGS=		${NICE} `which gxargs xargs | head -1`
 TIME=		time
 OSM2PBF=	world/bin/osm2pbf
@@ -159,7 +160,7 @@ fetch-extracts fetch:
 	done; wait
 
 osm2pbf: osm-readme
-	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${XARGS} -n 1 -0 -P1 ${OSM2PBF}
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2PBF} ${OSM2PBF}
 
 osm-readme:
 	for i in ${CITIES}; do \
