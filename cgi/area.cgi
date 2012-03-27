@@ -149,6 +149,7 @@ if ( $city && exists $city_center->{$city} ) {
     print "\n", qq[jumpToCity('$city_center->{$city}');\n];
 }
 
+print qq{resizeFullScreen(false);\n};
 print qq{\n</script>\n};
 
 print
