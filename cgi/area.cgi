@@ -22,12 +22,23 @@ binmode \*STDOUT, ":raw";
 my $q = new CGI;
 
 sub footer {
-    my $q = new CGI;
+    my %args   = @_;
+    my $q      = new CGI;
+    my $cities = $args{'cities'};
+
+    my $city = $q->param("city") || "";
+    $city = "Berlin" if $city !~ /^[A-Z][a-z]+$/;
+    $city = "Berlin" if !grep { $city eq $_ } @$cities;
+
+    $city = CGI::escapeHTML($city);
 
     return <<EOF;
 <div id="footer">
 <div id="footer_top">
-<a href="../">home</a>
+<a href="../">home</a> |
+<a href="/$city/">$city</a> |
+<a href="javascript:resizeOtherCities(more_cities);">more cities</a>
+
 </div>
 </div>
 <hr>
@@ -127,6 +138,7 @@ my @route_display;
 
 my %hash = %{ $db->city };
 my $city_center;
+my @city_list;
 foreach my $city ( sort keys %hash ) {
 
     my $coord = $hash{$city}->{'coord'};
@@ -142,6 +154,8 @@ foreach my $city ( sort keys %hash ) {
 
     my $opt_json = $json->encode($opt);
     print qq{plotRoute(map, $opt_json, "[]");\n};
+
+    push @city_list, $city;
 }
 
 my $city = $q->param('city') || "Berlin";
@@ -149,12 +163,47 @@ if ( $city && exists $city_center->{$city} ) {
     print "\n", qq[jumpToCity('$city_center->{$city}');\n];
 }
 
-print qq{\n</script>\n};
+print <<EOF;
+var more_cities = false;
+function resizeOtherCities(toogle) {
+    var tag = document.getElementById("BBBikeGooglemap");
+    var tag_more_cities = document.getElementById("more_cities");
 
-print
-qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\n</noscript>\n};
-print "</div>\n";
-print &footer;
+    if (!tag) return;
+    if (!tag_more_cities) return;
+
+    if (!toogle) {
+        tag.style.height = "75%";
+	tag_more_cities.style.display = "block";
+	tag_more_cities.style.fontSize = "85%";
+
+    } else {
+	tag_more_cities.style.display = "none";
+        tag.style.height = "90%";
+    }
+
+    more_cities = toogle ? false : true;
+    google.maps.event.trigger(map, 'resize');
+}
+
+resizeFullScreen(false);
+
+</script>
+<noscript>
+<p>You must enable JavaScript and CSS to run this application!</p>
+</noscript>
+</div> <!-- map -->
+
+EOF
+
+print qq{<div id="more_cities" style="display:none;">\n};
+foreach my $c (@city_list) {
+    next if $c eq 'dummy' || $c eq 'bbbike';
+    print qq{<a href="?city=$c">$c</a>\n};
+}
+print qq{<p/></div><!-- more cities -->\n};
+
+print &footer( "cities" => \@city_list );
 
 print $q->end_html;
 
