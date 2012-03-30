@@ -51,7 +51,7 @@ our $option = {
     'alarm' => 3600,
 
     # run with lower priority
-    'nice_level' => 5,
+    'nice_level' => 2,
 
     'planet_osm' => "../osm-streetnames/download/planet-latest.osm.pbf",
     'debug'      => 0,
