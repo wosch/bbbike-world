@@ -36,6 +36,7 @@ sub footer {
 <div id="footer">
 <div id="footer_top">
 <a href="../">home</a> |
+<a href="../community.html">donate</a> |
 <a href="/$city/">$city</a> |
 <a href="javascript:resizeOtherCities(more_cities);">more cities</a>
 
