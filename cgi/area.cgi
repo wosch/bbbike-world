@@ -220,11 +220,13 @@ EOF
 #
 my $help;
 my $offline = 0;
+my $offline_city;
 
 GetOptions(
     "debug=i" => \$debug,
     "help"    => \$help,
     "offline" => \$offline,
+    "city=s" => \$offline_city,
 ) or die usage;
 
 die usage if $help;
@@ -237,7 +239,7 @@ my $db = BBBikeWorldDB->new( 'database' => $database, 'debug' => 0 );
 print $q->header( -charset => 'utf-8', -expires => '+30m' ) if !$offline;
 
 my $city_area = $q->param('city') || "";
-my $city      = $q->param('city') || $city_default;
+my $city      = $q->param('city') || $offline_city || $city_default;
 
 print &header( $q, $offline );
 print qq{<div id="routing">}, &download_area($city), qq{</div>\n};
