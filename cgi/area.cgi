@@ -130,6 +130,7 @@ EOF
 sub header {
     my $q       = shift;
     my $offline = shift;
+    my $city    = shift;
 
     my $sensor = 'true';
     my $base   = "";
@@ -146,7 +147,7 @@ sub header {
     );
 
     return $q->start_html(
-        -title => 'BBBike @ World covered areas',
+        -title => "BBBike @ World covered areas - osm extracts for $city",
         -head  => [
             $q->meta(
                 {
@@ -235,7 +236,7 @@ print $q->header( -charset => 'utf-8', -expires => '+30m' ) if !$offline;
 my $city_area = $q->param('city') || "";
 my $city = $q->param('city') || $offline_city || $city_default;
 
-print &header( $q, $offline );
+print &header( $q, $offline, $city );
 print qq{<div id="routing">}, &download_area($city), qq{</div>\n};
 print qq{<div id="BBBikeGooglemap" style="height:94%">\n};
 print qq{<div id="map"></div>\n};
