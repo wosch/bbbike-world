@@ -5,6 +5,8 @@
 
 use CGI qw/-utf-8/;
 use IO::File;
+use IO::Dir;
+use File::stat;
 use JSON;
 use Data::Dumper;
 
@@ -16,7 +18,9 @@ use BBBikeWorldDB;
 use strict;
 use warnings;
 
-my $debug = 1;
+my $debug               = 1;
+my $city_default        = "Berlin";
+my $download_bbbike_org = "http://download.bbbike.org";
 
 binmode \*STDOUT, ":raw";
 my $q = new CGI;
@@ -27,8 +31,8 @@ sub footer {
     my $cities = $args{'cities'};
 
     my $city = $q->param("city") || "";
-    $city = "Berlin" if $city !~ /^[A-Z][a-z]+$/;
-    $city = "Berlin" if !grep { $city eq $_ } @$cities;
+    $city = $city_default if $city !~ /^[A-Z][a-z]+$/;
+    $city = $city_default if !grep { $city eq $_ } @$cities;
 
     $city = CGI::escapeHTML($city);
 
@@ -50,6 +54,69 @@ sub footer {
 </div>
 </div>
 EOF
+}
+
+# file size in x.y MB
+sub file_size {
+    my $file = shift;
+
+    my $st = stat($file) or die "stat $file: $!\n";
+
+    foreach my $scale ( 10, 100, 1000, 10_000 ) {
+        my $result = int( $scale * $st->size / 1024 / 1024 ) / $scale;
+        return "$result M" if $result > 0;
+    }
+
+    return "0.1K";
+}
+
+sub mtime {
+    my $file = shift;
+
+    my $st = stat($file) or die "stat $file: $!\n";
+    return $st->mtime;
+}
+
+sub download_area {
+    my $city = shift || $city_default;
+    my $osm_dir = "../osm";
+
+    #die system("pwd > /tmp/a.pwd");
+    my $dir = "$osm_dir/$city/";
+
+    my $data = <<EOF;
+<h3>OSM extracts for $city</h3>
+<table>
+
+EOF
+
+    my $dh = IO::Dir->new($dir);
+    die "open dir '$dir': $!\n" if !defined $dh;
+
+    my @list;
+    while ( defined( my $filename = $dh->read ) ) {
+        next if $filename eq '.';
+        next if $filename eq '..';
+        next if $filename eq 'HEADER.txt';
+        push @list, $filename;
+    }
+    $dh->close;
+
+    foreach my $file ( sort @list ) {
+        my $date = localtime(&mtime("$dir/$file"));
+        $data .=
+qq{<tr><td><a href="$download_bbbike_org/osm/bbbike/$city/$file" title="$date">$file</a></td>}
+          . qq{<td align="right">}
+          . file_size("$dir/$file")
+          . qq{</td></tr>\n};
+    }
+
+    $data .= <<EOF;
+</table>
+<hr/>
+EOF
+
+    return $data;
 }
 
 ##############################################################################################
@@ -99,11 +166,14 @@ print $q->start_html(
     ]
 );
 
-print qq{<div id="routing"></div>\n};
+my $city = $q->param('city') || $city_default;
+
+print qq{<div id="routing">}, &download_area($city), qq{</div>\n};
 print qq{<div id="BBBikeGooglemap" style="height:94%">\n};
 print qq{<div id="map"></div>\n};
 
 my $map_type = $city_area ? "mapnik" : "terrain";
+
 print <<EOF;
     <script type="text/javascript">
     //<![CDATA[
@@ -159,7 +229,6 @@ foreach my $city ( sort keys %hash ) {
     push @city_list, $city;
 }
 
-my $city = $q->param('city') || "Berlin";
 if ( $city && exists $city_center->{$city} ) {
     print "\n", qq[jumpToCity('$city_center->{$city}');\n];
 }
@@ -187,7 +256,7 @@ function resizeOtherCities(toogle) {
     google.maps.event.trigger(map, 'resize');
 }
 
-resizeFullScreen(false);
+// resizeFullScreen(false);
 
 </script>
 <noscript>
