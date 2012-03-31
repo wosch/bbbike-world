@@ -304,6 +304,7 @@ sub create_poly_files {
             next;
         }
 
+        # multiple equal extract request in the same batch job
         if ( -e $pbf_file && -s $pbf_file ) {
             warn "file $pbf_file already exists, skiped\n";
             &touch_file($pbf_file);
@@ -414,11 +415,18 @@ sub run_extracts {
 
         my $osm = $spool->{'osm'} . "/" . basename($out);
         if ( -e $osm ) {
-            warn "File $osm already exists, skip\n" if $debug;
-
-            link( $osm, $out ) or die "link $osm => $out: $!\n";
-            &touch_file($osm);
-            next;
+            my $newer = file_mtime_diff( $osm, $option->{planet_osm} );
+            if ( $newer > 0 ) {
+                warn "File $osm already exists, skip\n" if $debug;
+                link( $osm, $out ) or die "link $osm => $out: $!\n";
+                &touch_file($osm);
+                next;
+            }
+            else {
+                warn "file $osm already exists, ",
+                  "but a new planet.osm is here since ", abs($newer),
+                  " seconds. Rebuild.\n";
+            }
         }
 
         push @pbf, "--bp", "file=$p";
@@ -664,6 +672,17 @@ EOF
     unlink(@unlink) or die "unlink: @unlink: $!\n";
 
     warn "number of email sent: ", scalar(@$json), "\n" if $debug >= 1;
+}
+
+# compare 2 files and return the modification diff time in seconds
+sub file_mtime_diff {
+    my $file1 = shift;
+    my $file2 = shift;
+
+    my $st1 = stat($file1) or die "stat $file1: $!\n";
+    my $st2 = stat($file2) or die "stat $file2: $!\n";
+
+    return $st1->mtime - $st2->mtime;
 }
 
 # file size in x.y MB
