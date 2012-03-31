@@ -9,6 +9,7 @@ use IO::Dir;
 use File::stat;
 use JSON;
 use Data::Dumper;
+use Getopt::Long;
 
 use lib './world/bin';
 use lib '../world/bin';
@@ -21,6 +22,7 @@ use warnings;
 my $debug               = 1;
 my $city_default        = "Berlin";
 my $download_bbbike_org = "http://download.bbbike.org";
+my $www_bbbike_org      = "http://www.bbbike.org";
 
 binmode \*STDOUT, ":raw";
 my $q = new CGI;
@@ -91,24 +93,28 @@ sub download_area {
 EOF
 
     my $dh = IO::Dir->new($dir);
-    die "open dir '$dir': $!\n" if !defined $dh;
-
-    my @list;
-    while ( defined( my $filename = $dh->read ) ) {
-        next if $filename eq '.';
-        next if $filename eq '..';
-        next if $filename eq 'HEADER.txt';
-        push @list, $filename;
+    if ( !defined $dh ) {
+        warn "open dir '$dir': $!\n";
     }
-    $dh->close;
+    else {
 
-    foreach my $file ( sort @list ) {
-        my $date = localtime(&mtime("$dir/$file"));
-        $data .=
+        my @list;
+        while ( defined( my $filename = $dh->read ) ) {
+            next if $filename eq '.';
+            next if $filename eq '..';
+            next if $filename eq 'HEADER.txt';
+            push @list, $filename;
+        }
+        $dh->close;
+
+        foreach my $file ( sort @list ) {
+            my $date = localtime( &mtime("$dir/$file") );
+            $data .=
 qq{<tr><td><a href="$download_bbbike_org/osm/bbbike/$city/$file" title="$date">$file</a></td>}
-          . qq{<td align="right">}
-          . file_size("$dir/$file")
-          . qq{</td></tr>\n};
+              . qq{<td align="right">}
+              . file_size("$dir/$file")
+              . qq{</td></tr>\n};
+        }
     }
 
     $data .= <<EOF;
@@ -119,62 +125,57 @@ EOF
     return $data;
 }
 
-##############################################################################################
-#
-# main
-#
+sub header {
+    my $q       = shift;
+    my $offline = shift;
 
-my $database = "world/etc/cities.csv";
-$database = "../$database" if -e "../$database";
+    my $sensor = 'true';
+    my @list;
+    if ($offline) {
+        push @list, -base => $www_bbbike_org;
+    }
 
-my $db = BBBikeWorldDB->new( 'database' => $database, 'debug' => 0 );
+    return $q->start_html(
+        -title => 'BBBike @ World covered areas',
+        -head  => $q->meta(
+            {
+                -http_equiv => 'Content-Type',
+                -content    => 'text/html; charset=utf-8'
+            }
+        ),
 
-print $q->header( -charset => 'utf-8', -expires => '+30m' );
-
-my $sensor = 'true';
-my $city_area = $q->param('city') || "";
-
-print $q->start_html(
-    -title => 'BBBike @ World covered areas',
-    -head  => $q->meta(
-        {
-            -http_equiv => 'Content-Type',
-            -content    => 'text/html; charset=utf-8'
-        }
-    ),
-
-    -style => {
-        'src' => [
-            "../html/devbridge-jquery-autocomplete-1.1.2/styles.css",
-            "../html/bbbike.css"
-        ]
-    },
-    -script => [
-        { -type => 'text/javascript', 'src' => "../html/jquery-1.4.2.min.js" },
-        {
-            -type => 'text/javascript',
-            'src' =>
+        -style => {
+            'src' => [
+                "../html/devbridge-jquery-autocomplete-1.1.2/styles.css",
+                "../html/bbbike.css"
+            ]
+        },
+        -script => [
+            {
+                -type => 'text/javascript',
+                'src' => "../html/jquery-1.4.2.min.js"
+            },
+            {
+                -type => 'text/javascript',
+                'src' =>
 "../html/devbridge-jquery-autocomplete-1.1.2/jquery.autocomplete-min.js"
-        },
-        {
-            -type => 'text/javascript',
-            'src' =>
+            },
+            {
+                -type => 'text/javascript',
+                'src' =>
 "http://maps.google.com/maps/api/js?sensor=$sensor&amp;language=de"
-        },
-        { -type => 'text/javascript', 'src' => "../html/bbbike.js" },
-        { -type => 'text/javascript', 'src' => "../html/maps3.js" }
-    ]
-);
+            },
+            { -type => 'text/javascript', 'src' => "../html/bbbike.js" },
+            { -type => 'text/javascript', 'src' => "../html/maps3.js" }
+        ],
+        @list
+    );
+}
 
-my $city = $q->param('city') || $city_default;
+sub js_jump {
+    my $map_type = shift;
 
-print qq{<div id="routing">}, &download_area($city), qq{</div>\n};
-print qq{<div id="BBBikeGooglemap" style="height:94%">\n};
-print qq{<div id="map"></div>\n};
-
-my $map_type = $city_area ? "mapnik" : "terrain";
-
-print <<EOF;
+    return <<EOF;
     <script type="text/javascript">
     //<![CDATA[
 
@@ -200,6 +201,49 @@ print <<EOF;
     //]]>
     </script>
 EOF
+}
+
+sub usage () {
+    <<EOF;
+usage: $0 [ options ]
+
+--debug={0..2}          debug level, default: $debug
+--offline               run offline
+EOF
+}
+
+##############################################################################################
+#
+# main
+#
+my $help;
+my $offline = 0;
+
+GetOptions(
+    "debug=i" => \$debug,
+    "help"    => \$help,
+    "offline" => \$offline,
+) or die usage;
+
+die usage if $help;
+
+my $database = "world/etc/cities.csv";
+$database = "../$database" if -e "../$database";
+
+my $db = BBBikeWorldDB->new( 'database' => $database, 'debug' => 0 );
+
+print $q->header( -charset => 'utf-8', -expires => '+30m' ) if !$offline;
+
+my $city_area = $q->param('city') || "";
+my $city      = $q->param('city') || $city_default;
+
+print &header( $q, $offline );
+print qq{<div id="routing">}, &download_area($city), qq{</div>\n};
+print qq{<div id="BBBikeGooglemap" style="height:94%">\n};
+print qq{<div id="map"></div>\n};
+
+my $map_type = $city_area ? "mapnik" : "terrain";
+print &js_jump($map_type);
 
 print qq{<script type="text/javascript">\n};
 
@@ -269,7 +313,9 @@ EOF
 print qq{<div id="more_cities" style="display:none;">\n};
 foreach my $c (@city_list) {
     next if $c eq 'dummy' || $c eq 'bbbike';
-    print qq{<a href="?city=$c">$c</a>\n};
+    print qq{<a href="}
+      . ( $offline ? "../$c/" : qq{?city=$c"} )
+      . qq{>$c</a>\n};
 }
 print qq{<p/></div><!-- more cities -->\n};
 
