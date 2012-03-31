@@ -796,18 +796,23 @@ EOF
 my $max_jobs = $option->{'max_jobs'};
 my $help;
 my $timeout;
+my $max_areas = $option->{'max_areas'};
 
 GetOptions(
     "debug=i"      => \$debug,
     "nice-level=i" => \$nice_level,
     "job=i"        => \$max_jobs,
     "timeout=i"    => \$timeout,
+    "max-areas=i"  => \$max_areas,
     "help"         => \$help,
 ) or die usage;
 
 die usage if $help;
 die "Max jobs: $max_jobs out of range!\n" . &usage
   if $max_jobs < 1 || $max_jobs > 8;
+die "Max areas: $max_areas out of range!\n" . &usage
+  if $max_areas < 1 || $max_areas > 30;
+
 if ( defined $timeout ) {
     die "Timeout: $timeout out of range!\n" . &usage
       if ( $timeout < 1 || $timeout > 86_400 );
@@ -841,7 +846,7 @@ else {
     my @list = parse_jobs(
         'files' => \@files,
         'dir'   => $spool->{'confirmed'},
-        'max'   => $option->{'max_areas'},
+        'max'   => $max_areas,
     );
     print Dumper( \@list ) if $debug >= 3;
 
