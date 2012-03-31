@@ -122,7 +122,12 @@ sub header {
             }
         ),
 
-        -style => { 'src' => [ "../html/bbbike.css", "../html/luft.css" ] },
+        -style => {
+            'src' => [
+                "../html/bbbike.css", "../html/luft.css",
+                "../html/extract.css"
+            ]
+        },
         -script => [ map { { 'src' => $_ } } @javascript ],
         @onload,
       );
