@@ -130,19 +130,22 @@ sub header {
     my $offline = shift;
 
     my $sensor = 'true';
-    my @list;
+    my $base;
     if ($offline) {
-        push @list, -base => $www_bbbike_org;
+        $base = qq{<base href="$www_bbbike_org/cgi/" />};
     }
 
     return $q->start_html(
         -title => 'BBBike @ World covered areas',
-        -head  => $q->meta(
-            {
-                -http_equiv => 'Content-Type',
-                -content    => 'text/html; charset=utf-8'
-            }
-        ),
+        -head  => [
+            $q->meta(
+                {
+                    -http_equiv => 'Content-Type',
+                    -content    => 'text/html; charset=utf-8'
+                }
+            ),
+            $base
+        ],
 
         -style => {
             'src' => [
@@ -168,7 +171,6 @@ sub header {
             { -type => 'text/javascript', 'src' => "../html/bbbike.js" },
             { -type => 'text/javascript', 'src' => "../html/maps3.js" }
         ],
-        @list
     );
 }
 
