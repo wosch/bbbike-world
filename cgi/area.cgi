@@ -49,7 +49,7 @@ sub footer {
 
 </div>
 </div>
-<hr>
+<hr/>
 
 <div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em;" >
 (&copy;) 2008-2012 <a href="http://bbbike.org">BBBike.org</a> // Map data by the <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap</a> Project
