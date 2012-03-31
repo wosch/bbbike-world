@@ -41,7 +41,7 @@ binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
 our $option = {
-    'max_areas'  => 4,
+    'max_areas'  => 6,
     'homepage'   => 'http://download.bbbike.org/osm/extract',
     'max_jobs'   => 3,
     'bcc'        => 'bbbike@bbbike.org',
