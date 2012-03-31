@@ -790,8 +790,8 @@ die usage if $help;
 die "Max jobs: $max_jobs out of range!\n" . &usage
   if $max_jobs < 1 || $max_jobs > 8;
 if ( defined $timeout ) {
-    die "Timeout: $timeout out of range!\n"
-      . &usage( $timeout < 1 || $timeout > 24 * 60 * 60 );
+    die "Timeout: $timeout out of range!\n" . &usage
+      if ( $timeout < 1 || $timeout > 86_400 );
     $alarm = $timeout;
 }
 
