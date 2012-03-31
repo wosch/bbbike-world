@@ -574,11 +574,11 @@ extract-distclean:
 
 # garbage collection, 2 days
 extract-gc:
-	cd ${EXTRACTS_SPOOL_DIR}; find incoming confirmed running download osm -type f -mtime +2 -print0 | xargs -0 rm -f
+	cd ${EXTRACTS_SPOOL_DIR}; find incoming confirmed running download osm -type f -mtime +4 -print0 | xargs -0 rm -f
 
 # garbage collection, 7 days, all files
 extract-gc7:
-	find ${EXTRACTS_SPOOL_DIR} -type f -mtime +7  -print0 | xargs -0 rm -f
+	find ${EXTRACTS_SPOOL_DIR} -type f -mtime +14  -print0 | xargs -0 rm -f
 	
 staging:
 	git push

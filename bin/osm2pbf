@@ -40,3 +40,6 @@ $md5sum $file     > $file.md5
 $SHA $file_pbf > $file_pbf.sha256
 $SHA $file     > $file.sha256
 
+# relative path names in *.md5 files
+perl -i -npe 's,(\s+).+/,$1,g' $file_pbf.md5 $file.md5 $file_pbf.sha256 $file.sha256
+
