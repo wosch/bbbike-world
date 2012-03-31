@@ -110,7 +110,22 @@ sub set_alarm {
 
     $time = $alarm if !defined $time;
 
-    $SIG{ALRM} = sub { die "Time out alarm $time\n" };
+    $SIG{ALRM} = sub {
+
+        warn "Time out alarm $time\n";
+
+        # sends a hang-up signal to all processes in the current process group
+        # and kill running java processes
+        local $SIG{HUP} = "IGNORE";
+        kill 1, -$$;
+
+        sleep 1;
+        local $SIG{TERM} = "IGNORE";
+        kill 15, -$$;
+
+        warn "Send a hang-up to all childs. Exit\n";
+        exit 1;
+    };
 
     warn "set alarm time to: $time seconds\n" if $debug >= 1;
     alarm($time);
