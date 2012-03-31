@@ -137,8 +137,9 @@ sub header {
 sub map {
 
     return <<EOF;
-<div id="content" class="site_index">
+</div> <!-- top -->
 
+<div id="content" class="site_index">
  <div style="width: 100%; display: block;" id="sidebar">
   
   <div id="sidebar_content">
@@ -155,13 +156,13 @@ sub map {
       </div>
     </div>
   </div> <!-- export_bounds -->
-  
   </div>
-</div><!-- sidebar -->
-   
-<!-- define a DIV into which the map will appear. Make it take up the whole window -->
-<!-- <div style="width:100%; height:100%" id="map"></div> -->
-<div style="width:100%; height:450px" id="map"></div>
+ </div><!-- sidebar -->
+  
+ 
+ <!-- define a DIV into which the map will appear. Make it take up the whole window -->
+ <!-- <div style="width:100%; height:400px" id="map"></div>  -->
+ <div id="map"></div> 
 
 </div><!-- content -->
 
@@ -178,7 +179,6 @@ sub footer {
     my $extracts = ( $q->param('submit') || $q->param("key") )
       && $url ? qq,| <a href="$url">extract</a>, : "";
     return <<EOF;
-<span id="debug"></span>
 
 <div id="footer">
   <div id="footer_top">
@@ -228,6 +228,7 @@ The maximum area size is @{[ large_int($max_skm) ]} square km.
 <br/>
 
 It takes between 10-30 minutes to extract an area. You will be notified by e-mail if your extract is ready for download.
+<br/><span id="debug"></span>
 </p>
 <hr/>
 EOF
@@ -241,6 +242,7 @@ sub layout {
 
     <div id="border">
       <div id="main">
+        <div id="top">
 
       <center>@{[ $q->h3("BBBike @ World extracts") ]}</center>
 EOF
