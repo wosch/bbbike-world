@@ -319,8 +319,8 @@ print qq{<div id="more_cities" style="display:none;">\n};
 foreach my $c (@city_list) {
     next if $c eq 'dummy' || $c eq 'bbbike';
     print qq{<a href="}
-      . ( $offline ? "../$c/" : qq{?city=$c"} )
-      . qq{>$c</a>\n};
+      . ( $offline ? "../$c/" : qq{?city=$c} )
+      . qq{">$c</a>\n};
 }
 print qq{<p/></div><!-- more cities -->\n};
 
