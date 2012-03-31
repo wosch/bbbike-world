@@ -100,9 +100,10 @@ EOF
 
         my @list;
         while ( defined( my $filename = $dh->read ) ) {
-            next if $filename eq '.';
-            next if $filename eq '..';
+            next if $filename eq '.' || $filename eq '..';
             next if $filename eq 'HEADER.txt';
+            next if $filename eq 'index.html';
+
             push @list, $filename;
         }
         $dh->close;
@@ -226,7 +227,7 @@ GetOptions(
     "debug=i" => \$debug,
     "help"    => \$help,
     "offline" => \$offline,
-    "city=s" => \$offline_city,
+    "city=s"  => \$offline_city,
 ) or die usage;
 
 die usage if $help;
@@ -239,7 +240,7 @@ my $db = BBBikeWorldDB->new( 'database' => $database, 'debug' => 0 );
 print $q->header( -charset => 'utf-8', -expires => '+30m' ) if !$offline;
 
 my $city_area = $q->param('city') || "";
-my $city      = $q->param('city') || $offline_city || $city_default;
+my $city = $q->param('city') || $offline_city || $city_default;
 
 print &header( $q, $offline );
 print qq{<div id="routing">}, &download_area($city), qq{</div>\n};
