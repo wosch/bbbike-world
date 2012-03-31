@@ -48,7 +48,7 @@ our $option = {
     'email_from' => 'bbbike@bbbike.org',
 
     # timeout handling
-    'alarm' => 3600,
+    'alarm' => 90 * 60,
 
     # run with lower priority
     'nice_level' => 2,
