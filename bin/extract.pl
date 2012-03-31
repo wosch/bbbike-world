@@ -765,6 +765,7 @@ usage: $0 [ options ]
 --debug={0..2}		debug level, default: $debug
 --nice-level={0..20}	nice level for osmosis, default: $option->{nice_level}
 --job={1..4}		job number for parallels runs, default: $option->{max_jobs}
+--timeout=1..86400	time out, default $option->{"alarm"}
 EOF
 }
 
@@ -775,17 +776,24 @@ EOF
 # current running parallel job number (1..4)
 my $max_jobs = $option->{'max_jobs'};
 my $help;
+my $timeout;
 
 GetOptions(
     "debug=i"      => \$debug,
     "nice-level=i" => \$nice_level,
     "job=i"        => \$max_jobs,
+    "timeout=i"    => \$timeout,
     "help"         => \$help,
 ) or die usage;
 
 die usage if $help;
 die "Max jobs: $max_jobs out of range!\n" . &usage
   if $max_jobs < 1 || $max_jobs > 8;
+if ( defined $timeout ) {
+    die "Timeout: $timeout out of range!\n"
+      . &usage( $timeout < 1 || $timeout > 24 * 60 * 60 );
+    $alarm = $timeout;
+}
 
 my @files = get_jobs( $spool->{'confirmed'} );
 
