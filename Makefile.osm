@@ -162,10 +162,16 @@ fetch-extracts fetch:
 osm2pbf: osm-readme
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2PBF} ${OSM2PBF}
 
+osm-index:
+	for i in ${CITIES}; do \
+	    (cd cgi; ./area.cgi --offline --city=$$i ) > ${OSM_DIR}/$$i/index.html; \
+	done
+
 osm-readme:
 	for i in ${CITIES}; do \
 	    perl -npe "s/%{city}/$$i/g" world/download/etc/CITY.txt > ${OSM_DIR}/$$i/HEADER.txt; \
-	done
+        done
+
 
 cities-parallel:
 	@echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} cities-pbf | ${TIME} xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
