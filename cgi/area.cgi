@@ -32,7 +32,8 @@ sub footer {
     my $q      = new CGI;
     my $cities = $args{'cities'};
 
-    my $city = $q->param("city") || "";
+    my $city = $args{'city'};
+
     $city = $city_default if $city !~ /^[A-Z][a-z]+$/;
     $city = $city_default if !grep { $city eq $_ } @$cities;
 
@@ -43,7 +44,7 @@ sub footer {
 <div id="footer_top">
 <a href="../">home</a> |
 <a href="../community.html">donate</a> |
-<a href="/$city/">$city</a> |
+<a href="$www_bbbike_org/$city/">$city</a> |
 <a href="javascript:resizeOtherCities(more_cities);">more cities</a>
 
 </div>
@@ -138,7 +139,7 @@ sub header {
 
     my @javascript = (
         "../html/jquery-1.4.2.min.js",
-	"../html/devbridge-jquery-autocomplete-1.1.2/jquery.autocomplete-min.js",
+"../html/devbridge-jquery-autocomplete-1.1.2/jquery.autocomplete-min.js",
         "http://maps.google.com/maps/api/js?sensor=$sensor&amp;language=de",
         "../html/bbbike.js",
         "../html/maps3.js"
@@ -162,7 +163,8 @@ sub header {
                 $base . "../html/bbbike.css"
             ]
         },
-        -script => [ map { { 'src' => (/^http:/ ? $_ : $base . $_) } } @javascript ],
+        -script =>
+          [ map { { 'src' => ( /^http:/ ? $_ : $base . $_ ) } } @javascript ],
     );
 }
 
@@ -315,7 +317,7 @@ foreach my $c (@city_list) {
 }
 print qq{<p/></div><!-- more cities -->\n};
 
-print &footer( "cities" => \@city_list );
+print &footer( "cities" => \@city_list, 'city' => $city );
 
 print $q->end_html;
 
