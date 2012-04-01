@@ -44,7 +44,7 @@ sub footer {
 <div id="footer_top">
 <a href="/">home</a> |
 <a href="$www_bbbike_org/community.html">donate</a> |
-<a href="$www_bbbike_org/$city/">$city</a> |
+<a href="$www_bbbike_org/$city/" title="start bicycle route from $city area">$city</a> |
 <a href="javascript:resizeOtherCities(more_cities);">more cities</a>
 
 </div>
