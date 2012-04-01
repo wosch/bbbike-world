@@ -244,7 +244,11 @@ print qq{<div id="map"></div>\n};
 my $map_type = $city_area ? "mapnik" : "terrain";
 print &js_jump($map_type);
 
-print qq{<script type="text/javascript">\n};
+print <<EOF;
+<script type="text/javascript">
+city = "$city";
+
+EOF
 
 my $json = new JSON;
 my $counter;
