@@ -23,6 +23,28 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
+    title   => qq{New feature: replay a route on the map},
+    id      => '59f077289e137c87be26a4b5f22427d2',
+    content => {
+        type    => 'text',
+        content => qq{New feature: replay a route on the map},
+    },
+    updated  => '2012-03-26T13:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title   => qq{Added new overlay maps: Velo and Max Speed},
+    id      => '59f077289e137c87be26a4b5f22427d1',
+    content => {
+        type    => 'text',
+        content => qq{Added new overlay maps: Velo and Max Speed},
+    },
+    updated  => '2012-03-12T13:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title   => qq{Added new map Apple},
     id      => '59f077289e137c87be26a4b5f22427d0',
     content => {

@@ -27,6 +27,7 @@ use CGI qw(escapeHTML);
 use Getopt::Long;
 use File::Basename;
 use File::stat;
+use GIS::Distance::Lite;
 
 use strict;
 use warnings;
@@ -40,17 +41,17 @@ binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
 our $option = {
-    'max_areas'  => 4,
+    'max_areas'  => 6,
     'homepage'   => 'http://download.bbbike.org/osm/extract',
     'max_jobs'   => 3,
     'bcc'        => 'bbbike@bbbike.org',
     'email_from' => 'bbbike@bbbike.org',
 
     # timeout handling
-    'alarm' => 3600,
+    'alarm' => 90 * 60,
 
     # run with lower priority
-    'nice_level' => 5,
+    'nice_level' => 2,
 
     'planet_osm' => "../osm-streetnames/download/planet-latest.osm.pbf",
     'debug'      => 0,
@@ -109,7 +110,22 @@ sub set_alarm {
 
     $time = $alarm if !defined $time;
 
-    $SIG{ALRM} = sub { die "Time out alarm $time\n" };
+    $SIG{ALRM} = sub {
+
+        warn "Time out alarm $time\n";
+
+        # sends a hang-up signal to all processes in the current process group
+        # and kill running java processes
+        local $SIG{HUP} = "IGNORE";
+        kill 1, -$$;
+
+        sleep 1;
+        local $SIG{TERM} = "IGNORE";
+        kill 15, -$$;
+
+        warn "Send a hang-up to all childs. Exit\n";
+        exit 1;
+    };
 
     warn "set alarm time to: $time seconds\n" if $debug >= 1;
     alarm($time);
@@ -133,6 +149,26 @@ sub get_jobs {
     undef $d;
 
     return @data;
+}
+
+# ($lat1, $lon1 => $lat2, $lon2);
+sub square_km {
+    my ( $x1, $y1, $x2, $y2 ) = @_;
+
+    my $height = GIS::Distance::Lite::distance( $x1, $y1 => $x1, $y2 ) / 1000;
+    my $width  = GIS::Distance::Lite::distance( $x1, $y1 => $x2, $y1 ) / 1000;
+
+    return int( $height * $width );
+}
+
+# 240000 -> 240,000
+sub large_int {
+    my $int = shift;
+
+    return $int if $int < 1_000;
+
+    my $number = substr( $int, 0, -3 ) . "," . substr( $int, -3, 3 );
+    return $number;
 }
 
 # fair scheduler, take one from each customer first until
@@ -268,6 +304,7 @@ sub create_poly_files {
             next;
         }
 
+        # multiple equal extract request in the same batch job
         if ( -e $pbf_file && -s $pbf_file ) {
             warn "file $pbf_file already exists, skiped\n";
             &touch_file($pbf_file);
@@ -378,11 +415,18 @@ sub run_extracts {
 
         my $osm = $spool->{'osm'} . "/" . basename($out);
         if ( -e $osm ) {
-            warn "File $osm already exists, skip\n" if $debug;
-
-            link( $osm, $out ) or die "link $osm => $out: $!\n";
-            &touch_file($osm);
-            next;
+            my $newer = file_mtime_diff( $osm, $option->{planet_osm} );
+            if ( $newer > 0 ) {
+                warn "File $osm already exists, skip\n" if $debug;
+                link( $osm, $out ) or die "link $osm => $out: $!\n";
+                &touch_file($osm);
+                next;
+            }
+            else {
+                warn "file $osm already exists, ",
+                  "but a new planet.osm is here since ", abs($newer),
+                  " seconds. Rebuild.\n";
+            }
         }
 
         push @pbf, "--bp", "file=$p";
@@ -545,7 +589,7 @@ sub send_email {
         link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
 
         my $file_size = file_size($to) . " MB";
-        warn "file size $to: $file_size\n" if $debug >= 2;
+        warn "file size $to: $file_size\n" if $debug >= 1;
 
         ###################################################################
         # copy for downloading in /download
@@ -575,6 +619,13 @@ sub send_email {
         ###################################################################
         # mail
 
+        my $square_km = large_int(
+            square_km(
+                $obj->{"sw_lat"}, $obj->{"sw_lng"},
+                $obj->{"ne_lat"}, $obj->{"ne_lng"}
+            )
+        );
+
         my $message = <<EOF;
 Hi,
 
@@ -583,8 +634,9 @@ from planet.osm
 
  Name: $obj->{"city"}
  Coordinates: $obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}
- Format: $obj->{"format"}
+ Square kilometre: $square_km
  Granularity: 10,000 (1.1 meters)
+ Format: $obj->{"format"}
  File size: $file_size
  SHA256 checksum: $checksum
  License: OpenStreetMap License
@@ -599,8 +651,8 @@ download the file as soon as possible.
 Sincerely, your BBBike admin
 
 --
-http://BBBike.org - Your Cycle Route Planner
-http://BBBike.org/community.html - We appreciate any feedback, suggestions and a donation! 
+http://www.BBBike.org - Your Cycle Route Planner
+http://www.BBBike.org/community.html - We appreciate any feedback, suggestions and a donation! 
 EOF
 
         eval {
@@ -620,6 +672,17 @@ EOF
     unlink(@unlink) or die "unlink: @unlink: $!\n";
 
     warn "number of email sent: ", scalar(@$json), "\n" if $debug >= 1;
+}
+
+# compare 2 files and return the modification diff time in seconds
+sub file_mtime_diff {
+    my $file1 = shift;
+    my $file2 = shift;
+
+    my $st1 = stat($file1) or die "stat $file1: $!\n";
+    my $st2 = stat($file2) or die "stat $file2: $!\n";
+
+    return $st1->mtime - $st2->mtime;
 }
 
 # file size in x.y MB
@@ -718,9 +781,10 @@ sub usage () {
     <<EOF;
 usage: $0 [ options ]
 
---debug={0..2}		debug level
---nice-level={0..20}	nice level for osmosis
---job={1..4}		job number for parallels runs
+--debug={0..2}		debug level, default: $debug
+--nice-level={0..20}	nice level for osmosis, default: $option->{nice_level}
+--job={1..4}		job number for parallels runs, default: $option->{max_jobs}
+--timeout=1..86400	time out, default $option->{"alarm"}
 EOF
 }
 
@@ -730,15 +794,30 @@ EOF
 
 # current running parallel job number (1..4)
 my $max_jobs = $option->{'max_jobs'};
+my $help;
+my $timeout;
+my $max_areas = $option->{'max_areas'};
 
 GetOptions(
     "debug=i"      => \$debug,
     "nice-level=i" => \$nice_level,
     "job=i"        => \$max_jobs,
+    "timeout=i"    => \$timeout,
+    "max-areas=i"  => \$max_areas,
+    "help"         => \$help,
 ) or die usage;
 
+die usage if $help;
 die "Max jobs: $max_jobs out of range!\n" . &usage
   if $max_jobs < 1 || $max_jobs > 8;
+die "Max areas: $max_areas out of range!\n" . &usage
+  if $max_areas < 1 || $max_areas > 30;
+
+if ( defined $timeout ) {
+    die "Timeout: $timeout out of range!\n" . &usage
+      if ( $timeout < 1 || $timeout > 86_400 );
+    $alarm = $timeout;
+}
 
 my @files = get_jobs( $spool->{'confirmed'} );
 
@@ -760,14 +839,14 @@ else {
     }
 
     # Oops, are jobs are in use, give up
-    die "Cannot get lock for jobs 1..", $option->{'max_jobs'}, "\n"
+    die "Cannot get lock for jobs 1..$max_jobs\n"
       if !$lockfile;
     warn "Use lockfile $lockfile\n" if $debug;
 
     my @list = parse_jobs(
         'files' => \@files,
         'dir'   => $spool->{'confirmed'},
-        'max'   => $option->{'max_areas'},
+        'max'   => $max_areas,
     );
     print Dumper( \@list ) if $debug >= 3;
 
@@ -788,7 +867,8 @@ else {
     my @system = run_extracts( 'spool' => $spool, 'poly' => $poly );
     ###########################################################
 
-    my $time = time();
+    my $time      = time();
+    my $starttime = $time;
     warn "Run ", join " ", @system, "\n" if $debug > 2;
     system(@system) == 0
       or die "system @system failed: $?";
@@ -798,7 +878,11 @@ else {
     # send out mail
     $time = time();
     &send_email( 'json' => $json );
-    warn "Running convert time: ", time() - $time, " seconds\n" if $debug;
+    warn "Running convert and email time: ", time() - $time, " seconds\n"
+      if $debug;
+    warn "Total time: ", time() - $starttime,
+      " seconds, for @{[ scalar(@list) ]} jobs\n"
+      if $debug;
 
     # unlock pid
     &remove_lock( 'lockfile' => $lockfile );

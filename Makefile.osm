@@ -24,6 +24,7 @@ MAX_CPU=	`world/bin/ncpu`
 MAX_CPU2=	`world/bin/ncpu -1`
 MAX_VCPU=	`world/bin/ncpu vcpu`
 MAX_RCPU=	`world/bin/ncpu rcpu -1`
+MAX_OSM2PBF=	1
 XARGS=		${NICE} `which gxargs xargs | head -1`
 TIME=		time
 OSM2PBF=	world/bin/osm2pbf
@@ -158,8 +159,19 @@ fetch-extracts fetch:
 	   fi; \
 	done; wait
 
-osm2pbf:
-	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${XARGS} -n 1 -0 -P1 ${OSM2PBF}
+osm2pbf: osm-readme
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2PBF} ${OSM2PBF}
+
+osm-index:
+	for i in ${CITIES}; do \
+	    (cd cgi; ./area.cgi --offline --city=$$i ) > ${OSM_DIR}/$$i/index.html; \
+	done
+
+osm-readme:
+	for i in ${CITIES}; do \
+	    perl -npe "s/%{city}/$$i/g" world/download/etc/CITY.txt > ${OSM_DIR}/$$i/HEADER.txt; \
+        done
+
 
 cities-parallel:
 	@echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} cities-pbf | ${TIME} xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
@@ -235,6 +247,14 @@ cleanup-osm-error:
 	${MAKE} -f Makefile.osm check-osm 2>&1 | grep ^gzip | awk '{ print $$2 }' | ${PERL} -npe 's,:,,' | sort -u | ${XARGS} rm -f
 	@find ${OSM_DIR} -name '*.gz' -print0 | ${XARGS} -0 -n8 -P${MAX_CPU} zegrep -l '<error>' | ${XARGS} rm -f
 
+check-data-osm:
+	for i in ${CITIES}; do \
+	    if ! find ${DATA_OSM_DIR}/$$i -type f -print | egrep -v '\.(gz|bak|dd|yml|pl|data)$$' | egrep -v 'opensearch\.' | sort -r | \
+		xargs -n1 -P${MAX_VCPU}  ./miscsrc/grepstrassen -name Kreuzbergstr. >/dev/null; then \
+		echo "Failed city: $$i"; \
+		exit=1; \
+	    fi; \
+	done; exit $$exit
 
 convert2: convert3 convert-workarounds
 # using GNU xargs -P parallel
@@ -414,6 +434,7 @@ create-osp:
 	
 rsync-tgz:
 	rsync -a ${DATA_OSM_BBBIKE_DIR}/ ${BBBIKE_SERVER}/usr/local/www/download.bbbike.org/bbbike/${DATA_OSM_DIR}
+	rsync -a world/etc/cities.csv ${BBBIKE_SERVER}/usr/local/www/download.bbbike.org/bbbike/${DATA_OSM_DIR}
 
 clean-tile:
 	world/bin/tile-cache-cleanup
@@ -559,11 +580,11 @@ extract-distclean:
 
 # garbage collection, 2 days
 extract-gc:
-	cd ${EXTRACTS_SPOOL_DIR}; find incoming confirmed running download osm -type f -mtime +2 -print0 | xargs -0 rm -f
+	cd ${EXTRACTS_SPOOL_DIR}; find incoming confirmed running download osm -type f -mtime +4 -print0 | xargs -0 rm -f
 
 # garbage collection, 7 days, all files
 extract-gc7:
-	find ${EXTRACTS_SPOOL_DIR} -type f -mtime +7  -print0 | xargs -0 rm -f
+	find ${EXTRACTS_SPOOL_DIR} -type f -mtime +14  -print0 | xargs -0 rm -f
 	
 staging:
 	git push

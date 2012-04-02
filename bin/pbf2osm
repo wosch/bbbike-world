@@ -8,8 +8,12 @@ set -e
 compress=""
 gzip=`which pigz gzip | head -n 1`
 bzip2=`which pbzip2 bzip2 | head -n 1`
+
 xz=`which xz | head -n 1`
 xz_opt=-2
+if which pixz >/dev/null; then
+    xz="pixz -t"
+fi
 
 case $1 in
   -gzip | --gzip)    shift; compress=gzip;;

@@ -48,24 +48,33 @@ log_post () {
 echo -n "bbbike.org page views: "
 log $url_match | awk '{print $1}' | wc -l
 
+echo ""
 echo -n "mobile bbbike.org page views: "
 if [ -f $logfiles_mobile ]; then
     zcat -f $logfiles_mobile | egrep -v '^10\.' | egrep "GET $url_match" | egrep -v '" 40[34] ' | awk '{print $1}' | wc -l
 fi
 
+echo ""
 echo -n "weather page views: "
 log $front_end/cgi/weather.cgi | awk '{print $1}' | wc -l
 
+echo ""
 echo -n "location page views: "
 log $front_end/cgi/location.cgi | awk '{print $1}' | wc -l
 
 if [ -f $varnish_log ]; then
-    echo "tile log"
+    echo ""
+    echo -n "tile log hosts: "
+    egrep tile $varnish_log | awk '{ print $1 }' | sort -u | wc -l
     egrep tile $varnish_log | awk '{ print $1 }' | sort | uniq -c | sort -nr | $dns
 
     echo ""
     echo "tile log 404"
     egrep tile $varnish_log | egrep -v ' (200|30[124]) ' | awk '{ print $1 }' | sort | uniq -c | sort -nr | $dns
+
+    echo ""
+    echo -n "tile log traffic: "
+    egrep tile $varnish_log | egrep ' (200|30[124]) ' | awk '{ s += $10 } END { print int(s/1024/1024*10 + 0.5) / 10, "MB" }' 
 fi
 
 echo ""
@@ -206,8 +215,8 @@ log_post ' (http://www.bbbike.org)?/[A-Z][^ ]*/streets.html' | awk '{ if ($12 !=
 
 echo ""
 echo -n "Street route search: "
-log_post / | awk '{if ($11 ~ /streets.html/ && $7 ~ /^\/[A-Z]/ && $7 ~ /start/ ) { print $7, $11}}' | wc -l
-log_post / | awk '{if ($12 ~ /streets.html/ && $7 ~ /^\/[A-Z]/ && $7 ~ /start/ ) { print $7, $11}}' | sort | perl $perl_utf8 -MCGI -npe '$_ = CGI::unescape($_)'
+log_post / | awk '{if ($11 ~ /streets.html/ && $7 ~ /^\/[A-Z]/ && $7 ~ /startstreet/ ) { print $7, $11}}' | wc -l
+log_post / | awk '{if ($12 ~ /streets.html/ && $7 ~ /^\/[A-Z]/ && $7 ~ /startstreet/ ) { print $7, $11}}' | sort | perl $perl_utf8 -MCGI -npe '$_ = CGI::unescape($_)'
 
 echo ""
 echo "blocked IP addresses"
@@ -232,7 +241,18 @@ if [ -s /var/log/lighttpd/download.bbbike.log ]; then
     awk '{ s+=$10 } END { print int(s/1024/1024), "MB" }' /var/log/lighttpd/download.bbbike.log
 
     echo ""
-    egrep '\.osm\.(gz|pbf|bz2) ' /var/log/lighttpd/download.bbbike.log | awk '{print $7, int($10/1024/1024), "MB"}' | sort
+    egrep '\.osm\.[^ ]+ ' /var/log/lighttpd/download.bbbike.log | egrep 'GET ' | 
+	awk '{print $7, int($10/1024/1024), "MB"}' | sort
+fi
+
+if [ -s /var/log/lighttpd/extract.bbbike.log ]; then
+    echo ""
+    echo -n "extract stat: "
+    egrep ' /\?city=' extract.bbbike.log | wc -l
+
+    echo ""
+    echo "extract cities:"
+    egrep ' /\?city=' extract.bbbike.log | perl -ne 'print "$1\n" if /city=(.*?)&/' | sort -u
 fi
 
 echo ""
@@ -240,5 +260,10 @@ echo -n "bbbike stat: "
 log_full / | awk '{ s+=$10 } END { print int(s/1024/1024), "MB" }'
 
 echo ""
-lastcomm | awk '{ s+=$4 } END { print int(s/60), "CPU minutes" }'
+echo -n "CPU total: "
+lastcomm | awk '{ s+=$4 + $5 } END { print int(s/60), " minutes" }'
+
+echo ""
+echo "CPU by process:"
+lastcomm | perl -e 'while(<>) { @a= split; $time= $a[3]+$a[4]; $program{$a[0]}+=$time; }; foreach (keys %program) { print "$_\t", int($program{$_}/6+0.5)/10, " minutes\n"}' | sort -k2 -nr | head -20
 

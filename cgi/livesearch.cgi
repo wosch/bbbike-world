@@ -106,7 +106,7 @@ sub estimated_daily_usage {
         23 => 3.74,
     };
 
-    my ( $hour, $min ) = ( localtime(time) )[ 2, 3 ];
+    my ( $hour, $min ) = ( localtime(time) )[ 2, 1 ];
     my $now = 0;
 
     foreach my $key ( keys %$hourly_usage ) {
@@ -152,6 +152,8 @@ sub extract_route {
 
     if ($date) {
         $date = &date_alias($date);
+
+        warn "Use date: '$date'\n" if $debug;
 
         eval { "foo" =~ /$date/ };
         if ($@) {
@@ -226,7 +228,8 @@ m, (slippymap|bbbike|[A-Z][a-zA-Z]+)\.cgi: (URL:)?http://$host.bbbike.org/,i;
         }
     }
 
-    warn "URLs: $#data_all, factor: $duplication_factor\n" if $debug;
+    warn "URLs: ", scalar(@data_all), ", factor: $duplication_factor\n"
+      if $debug;
     return @data_all;
 }
 

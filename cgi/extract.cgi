@@ -122,7 +122,12 @@ sub header {
             }
         ),
 
-        -style => { 'src' => [ "../html/bbbike.css", "../html/luft.css" ] },
+        -style => {
+            'src' => [
+                "../html/bbbike.css", "../html/luft.css",
+                "../html/extract.css"
+            ]
+        },
         -script => [ map { { 'src' => $_ } } @javascript ],
         @onload,
       );
@@ -132,8 +137,9 @@ sub header {
 sub map {
 
     return <<EOF;
-<div id="content" class="site_index">
+</div> <!-- top -->
 
+<div id="content" class="site_index">
  <div style="width: 100%; display: block;" id="sidebar">
   
   <div id="sidebar_content">
@@ -150,13 +156,13 @@ sub map {
       </div>
     </div>
   </div> <!-- export_bounds -->
-  
   </div>
-</div><!-- sidebar -->
-   
-<!-- define a DIV into which the map will appear. Make it take up the whole window -->
-<!-- <div style="width:100%; height:100%" id="map"></div> -->
-<div style="width:100%; height:450px" id="map"></div>
+ </div><!-- sidebar -->
+  
+ 
+ <!-- define a DIV into which the map will appear. Make it take up the whole window -->
+ <!-- <div style="width:100%; height:400px" id="map"></div>  -->
+ <div id="map"></div> 
 
 </div><!-- content -->
 
@@ -173,7 +179,6 @@ sub footer {
     my $extracts = ( $q->param('submit') || $q->param("key") )
       && $url ? qq,| <a href="$url">extract</a>, : "";
     return <<EOF;
-<span id="debug"></span>
 
 <div id="footer">
   <div id="footer_top">
@@ -181,7 +186,7 @@ sub footer {
   </div>
   <hr/>
   <div id="copyright" style="font-size:x-small">
-    (&copy;) 2011-2012 <a href="http://bbbike.org">BBBike.org</a> 
+    (&copy;) 2011-2012 <a href="http://www.bbbike.org">BBBike.org</a> 
     by <a href="http://wolfram.schneider.org">Wolfram Schneider</a> //
     Map data by the <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap</a> Project
   <div id="footer_community"></div>
@@ -223,6 +228,7 @@ The maximum area size is @{[ large_int($max_skm) ]} square km.
 <br/>
 
 It takes between 10-30 minutes to extract an area. You will be notified by e-mail if your extract is ready for download.
+<br/><span id="debug"></span>
 </p>
 <hr/>
 EOF
@@ -236,6 +242,7 @@ sub layout {
 
     <div id="border">
       <div id="main">
+        <div id="top">
 
       <center>@{[ $q->h3("BBBike @ World extracts") ]}</center>
 EOF
@@ -344,7 +351,10 @@ sub check_input {
     }
     else {
         print <<EOF;
-<p>Thanks - the input data looks good. You will be notificed by e-mail soon. 
+<p>Thanks - the input data looks good.</p><p>
+It takes between 10-30 minutes to extract an area from planet.osm, 
+depending on the size of the area and the system load.
+You will be notified by e-mail if your extract is ready for download.
 Please follow the instruction in the email to proceed your request.</p>
 
 <p align='left'>Area: "@{[ escapeHTML($city) ]}" covers @{[ large_int($skm) ]} square km <br/>
@@ -486,6 +496,7 @@ sub send_email {
     $smtp->quit() or die "can't send email to '$to'\n";
 }
 
+# ($lat1, $lon1 => $lat2, $lon2);
 sub square_km {
     my ( $x1, $y1, $x2, $y2 ) = @_;
 
