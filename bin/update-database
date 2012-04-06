@@ -12,7 +12,7 @@ mkdir -p $tmp
 : ${bbbike_build="build-runtime"}
 : ${bbbike_download="planet-download"}
 : ${bbbike_extract="distclean cities-parallel"}
-: ${bbbike_convert="convert-wgs84 convert-post check-data-osm convert-bbbike update-files"}
+: ${bbbike_convert="convert-wgs84 convert-post check-data-osm convert-bbbike update-files rsync-tgz rsync cache-heater"}
 
 commands="$bbbike_build $bbbike_download $bbbike_extract $bbbike_convert"
 
