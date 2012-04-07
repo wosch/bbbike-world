@@ -27,25 +27,27 @@
 	<p>
 	BBBike has a simple XML API. You can get the routing results in the formats GPS routes, GPS tracks and Google Earth (KML). 	
         To get XML result output instead HTML, just replace the URL parameter <tt>output_as</tt> with one of the values:
+	</p>
 
-	<table style="border:1">
+	<table border="2" cellspacing="5" cellpadding="10">
 	<tr><td>Name</td><td>parameters</td><td>description</td></tr>
-	<tr><td>GPS Route</td><td><tt>&amp;output_as=gpx-route</tt></td><td>GPX route with waypoints for GPS navigation, up to 256 points</td></tr>
-	<tr><td>GPS Track</td><td><tt>&amp;output_as=gpx-track</tt></td><td>GPX with up to 1024 points, no navigation</td></tr>
-	<tr><td>Google Earth (KML)</td><td><tt>&amp;output_as=kml-track</tt></td><td>view route with Google Earth</td></tr>
+	<tr><td>GPS Route</td><td><tt>output_as=gpx-route</tt></td><td>GPX route with waypoints for GPS navigation, up to 256 points</td></tr>
+	<tr><td>GPS Track</td><td><tt>output_as=gpx-track</tt></td><td>GPX with up to 1024 points, no navigation</td></tr>
+	<tr><td>Google Earth (KML)</td><td><tt>output_as=kml-track</tt></td><td>view route with Google Earth</td></tr>
 	</table>
+
 	<h5>Examples</h5>
 	<tt>/bbbike/?startc=13.377846%2C52.516265;startname=Brandenburger%20Tor;zielc=13.404294%2C52.535019;zielname=Zionskirche;pref_seen=1;pref_speed=20;pref_cat=;pref_quality=;pref_specialvehicle=;scope=;output_as=kml-track</tt>
 
-	</p>
         <h4>JSON API in a Nutshell</h4>
 	<p>
 	The JSON APIs for street names or Point of Interests (POI) suggestions works as on the web site.
 	</p>
-	<p>
+
 	<h5>Examples</h5>
-        Searching for street names: <tt>/cgi/api.cgi?namespace=dbac;city=Berlin&amp;query=wash</tt><br/>
-	Plotting street names or POI: <tt>/cgi/street-coord.cgi?namespace=3;city=Berlin&query=washing</tt><br/>
+	<p>
+        Searching for street names: <tt>/cgi/api.cgi?namespace=dbac;city=Berlin;query=wash</tt><br/>
+	Plotting street names or POI: <tt>/cgi/street-coord.cgi?namespace=3;city=Berlin;query=washing</tt><br/>
 	</p>
 
         <div id="footer">
