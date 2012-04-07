@@ -23,6 +23,17 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
+    title   => qq{New feature: move start or destination pointers from a street marker},
+    id      => '59f077289e137c87be26a4b5f22427d6',
+    content => {
+        type    => 'text',
+        content => qq{New feature: move start or destination pointers from a street marker},
+    },
+    updated  => '2012-04-08T13:31:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title   => qq{Improve HTML layout, use all available space for map},
     id      => '59f077289e137c87be26a4b5f22427d5',
     content => {
