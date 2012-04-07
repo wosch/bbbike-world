@@ -3,7 +3,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <title>BBBike @ World - A Route Planner for Cyclists</title>
+  <base href="http://www.bbbike.org/" />
+  <title>BBBike @ World - API Documentation</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link type="image/ico" rel="shortcut icon" href="images/srtbike1.ico" />
   <link rel="stylesheet" type="text/css" href="html/luft.css" />
@@ -13,253 +14,19 @@
   <div id="all">
     <div id="border">
       <div id="main">
-        <h2>BBBike @ World - Documentation</h2>
+        <h2>BBBike @ World - API Documentation</h2>
 
         <p>BBBike is a route planner for cyclists in Berlin. It is now ported to other cities around the world - thanks to the
         <a href="http://www.openstreetmap.org">OpenStreetMap</a> project!</p>
 
-        <h4>Special features</h4>
-
-        <ul>
-          <li>find a nice, safe and short bicycle route in your city and around</li>
-
-          <li>more than 200 cities supported world wide</li>
-
-          <li>PDF hand out (print or store on a mobile phone)</li>
-
-          <li>support more than 17 maps from OpenStreetMap, Google, Yahoo and Bing with different layers</li>
-
-          <li>suggestion service for street names and Point of Interests (POI)</li>
-
-          <li>search for renamed street names. In Berlin, the government change 30 street names every year</li>
-
-          <li>search for Point of Interests (POI), for train stations, schools, buildings, restaurants, sights etc.</li>
-
-          <li>export of GPS routes as GPX or KML</li>
-
-          <li>current weather and 5 day weather forecast</li>
-
-          <li>elevation profile of route</li>
-
-          <li>mobile phone version for any smart phone</li>
-
-          <li>multi-language support: Danish, German, English, Spanish, French, Croatian, Dutch, Polish, Portuguese, Russian, and Chinese</li>
-	  <li>up-to-date routing data from the OpenStreetMap projects, updated every week</li>
-        </ul>
-
-        <p>There are 2 versions of BBBike, a <a href="http://www.bbbike.org/">web-based</a> and a standalone.</p>
-
-        <h3>Standalone Application</h3>
-
-        <p>Get the full power of BBBike and download the standalone <a href="tools.html">perl/tk version!</a></p>
-
-        <h3>Documentation</h3>
-
-        <ul>
-          <li>BBBike @ CPH A Route Planner for Cyclists for Copenhagen, YAPC::Europe::2008 : <a href=
-          "http://wolfram.schneider.org/papers/bbbike-lt.pdf">slices</a>, <a href=
-          "http://yapc.tv/2008/ye/lt/lt2-03-hetey-bbbike-cph/">video</a></li>
-
-          <li>Screen shots of the <a href="http://bbbike.sourceforge.net/screenshots.en.html">offline version</a></li>
-
-          <li>Screen shots of San Francisco with <a href="doc/SanFrancisco.html">elevation optimization</a></li>
-        </ul>
-
-        <ul>
-          <li>Using BBBike tracks on the <a href="http://bbbike.de/BBBike/html/bbbike_tracks_iphone.html">iPhone</a>
-          (German)</li>
-
-          <li>BBBike maps for a <a href="http://juergenhuettner.posterous.com/bbbike-auch-als-garmin-karte">Garmin</a> GPS
-          device (German)</li>
-        </ul>
-
-        <h3>In the Press</h3>
-
-        <ul>
- 	  <li><a href="http://www.thehindu.com/sci-tech/technology/article2464696.ece">Smartphone apps help cyclists explore the world</a>, The Hindu, 18-Sep-2011</li>
-	  <li><a href="http://www.sueddeutsche.de/digital/neue-smartphone-apps-die-besten-navis-fuer-radler-1.1140520">Neue Smartphone-Apps: die besten Navis für Radler</a>, Süddeutschen Zeitung, 8-Sep-2011 (German)</li>
-
-   	  <li><a href="http://www.faz.net/-01Z5JX">Unterwegs mit dem Smartphone: Outdoor-Routenführer für Android</a>, Frankfurter Allgemeine Zeitung, 06. Juli 2011 (German)</li>
-
-   	  <li><a href="http://www.heise.de/artikel-archiv/ct/2011/14/96_kiosk">App ins Gr&uuml;ne</a>, c't magazin, 14/2011, p96-101 (German)</li>
-
-          <li><a href="http://www.wdr5.de/sendungen/platz-der-republik/s/d/27.08.2011-19.05.html">Sicherer mit dem
-          Fahrrad-Routenplaner</a>, WDR5 - Platz der Republik, Audio Podcast, 27-Aug-2011 (German)</li>
-
-          <li><a href="http://www.heise.de/newsticker/meldung/Google-Maps-lenkt-Radfahrer-952146.html">Google Maps lenkt
-          Radfahrer</a>, heise online, 11-Mar-2011 (German)</li>
-
-          <li><a href=
-          "http://tech.wp.pl/kat,1009785,title,Google-Maps-takze-dla-rowerzystow,wid,12066364,wiadomosc.html?ticaid=19cfb&amp;_ticrsn=3">
-          Google Maps także dla rowerzystów</a>, TECH - WP.PL, 11-Mar-2011 (Polish)</li>
-
-          <li><a href="http://googlemapsbikethere.org/2008/09/17/bbbike-can-be-ported-to-other-cities/">BBBike Can Be Ported to
-          Other Cities</a>, Google Maps Bike There, 17-Sep-2008</li>
-        </ul>
-
-        <p><a href="http://www.bbbike.de/BBBike/html/presse.html">older press</a> articles: <a href=
-        "http://articles.sfgate.com/2008-11-16/travel/17126554_1_east-berliners-berlin-wall-east-side-gallery">SFGate.com</a>,
-        <a href="http://intransit.blogs.nytimes.com/2009/10/11/enjoying-berlin-self-propelled/">New York Times</a>, <a href=
-        "http://news.cnet.com/8301-17939_109-9980549-2.html">cnet</a>, <a href=
-        "http://www.test.de/themen/freizeit-reise/special/Fahrrad-Ran-an-die-Pedalen-1106507-1106694/">Stiftung Warentest</a>,
-        Berliner Morgenpost, Berliner Zeitung, Deutschen Welle, Die Welt, Fietserbond, Freitag, K&ouml;lner
-        Stadtanzeiger, Radio Eins, Radio MultiKulti, San Jose Mercury News, Stuttgarter Zeitung, Tagesspiegel, WDR5, c't,
-        heise.de, iX, zitty, etc.</p>
-
-        <h3>Books &amp; Scholar</h3>The original data of BBBike is used for educations and <a href="scholar.html">scientific
-        research</a>.
-
-        <h3>Map Data</h3>
-
-        <p>BBBike @ World use map data by the <a href="http://www.openstreetmap.org/">OpenStreetMap</a> Project. The database
-        for BBBike @ World will be updated weekly on Thursday afternoon. Please visit the <a href=
-        "http://wiki.openstreetmap.org/wiki/Main_Page">OpenStreetMap Wiki</a> how to participate in the project and update the
-        map yourself!</p>
-
-        <p>You can download the OSM extracts from the <a href="http://download.bbbike.org/osm/">BBBike download server</a>.</p>
-
-        <h4>License</h4>
-
-        <ul>
-          <li>BBBike Source code: <a href="http://www.gnu.org/licenses/gpl-2.0.html">GPLv2</a></li>
-
-          <li>OpenStreetMap routing data &amp; maps: <a href=
-          "http://wiki.openstreetmap.org/wiki/OpenStreetMap_License">OpenStreetMap License</a>, CC-by-SA</li>
-
-          <li>Google Maps/Earth <a href="Google%20Maps/Earth%20Terms%20of%20Service">Terms of Service</a></li>
-
-          <li>Yahoo! <a href="http://info.yahoo.com/legal/us/yahoo/maps/mapstou/mapstou-278.html">Maps Terms Of Use</a></li>
-
-          <li>Bing maps <a href="http://www.microsoft.com/maps/product/terms.html">Platform API's Terms Of Use</a></li>
-
-          <li>elevation data: <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0
-          License</a>, GeoNames.org</li>
-        </ul>
-
-        <h3>Supported Browsers</h3>Any modern browser which conforms to the W3C standards:
-
-        <ul>
-          <li>Firefox 3.x, 4.x</li>
-
-          <li>WebKit based browsers: Safari 4.x, 5.x, Google Chrome, mobile Safari</li>
-
-          <li>Opera 9, 10</li>
-
-          <li>IE8</li>
-        </ul>
-
-        <p>JavaScript is required for Google/OpenStreetMap map features or the street name suggestion service. Cookies are
-        optional to save your preferences.</p>Not supported browsers: <strike>IE6</strike>, <strike>IE7</strike>
-
-        <h3>Source Code</h3>The BBBike source code is available at <a href=
-        "http://github.com/eserte/bbbike">http://github.com/eserte/bbbike</a>
-
-        <h3>Legend</h3>
-
-        <ul>
-          <li>U: U-Bahn, metro, subway, <a href="http://en.wikipedia.org/wiki/Underground_rapid_transit">underground rapid
-          transit</a></li>
-
-          <li>S: <a href="http://en.wikipedia.org/wiki/S-Bahn">S-Bahn</a>, S-train, S-rails, S-tog, RER</li>
-
-          <li>R: <a href="http://en.wikipedia.org/wiki/Commuter_rail">commuter trains</a> or regional trains, suburban
-          rail</li>
-
-          <li>PDF: <a href="http://de.wikipedia.org/wiki/Portable_Document_Format">Portable Document Format</a>, for print hand
-          out</li>
-
-          <li>POI: <a href="http://en.wikipedia.org/wiki/Point_of_interest">point of interest</a></li>
-
-          <li>GPX (Route): <a href="http://en.wikipedia.org/wiki/GPS_eXchange_Format">GPS Exchange Format</a></li>
-
-          <li>GPX (Track): <a href="http://en.wikipedia.org/wiki/GPS_eXchange_Format">GPS Exchange Format</a></li>
-
-          <li>KML: <a href="http://de.wikipedia.org/wiki/Keyhole_Markup_Language">Keyhole Markup Language</a></li>
-
-          <li>GPSies.com: online sports comunity</li>
-
-          <li><a href="http://en.wikipedia.org/wiki/Mapnik">Mapnik</a>: OpenStreetMap map layer, standard</li>
-
-          <li>Tile&amp;Home: OpenStreetMap map layer</li>
-        </ul>
-
-        <h3>Known Problems</h3>
-
-        <ul>
-          <li>Routing: some streets are not connected at bridges</li>
-
-          <li>Berlin: many cool features are only available for Berlin</li>
-
-          <li>Internet Explorer 6 is not supported by Google Maps Version 3. Please use a modern browser. See section supported
-          browsers.</li>
-
-          <li>There is no App for mobile devices as the iPhone or Androids. A <a href=
-          "http://michimustermann.de/index.php?/grafik/heartbike/">design study</a> is available.</li>
-        </ul>
-
-        <h3>What BBBike is not</h3>
-
-        <ul>
-          <li>BBBike was developed for short distance (5-15km) cycling in a town. Due the huge amount of data it is not
-          possible to offer long distance routing between cities.</li>
-
-          <li>We do not offer routing for hiking or pedestrians. Sorry!</li>
-
-          <li>BBBike is not a community or social web site. If you want store your route persistently, please use our partner
-          site <a href="http://GPSies.com">GPSies.com</a></li>
-        </ul>
-
-        <h3>Releated Routing Cycle Sites</h3>
-
-        <ul>
-          <li><a rel="nofollow" href="http://www.cyclestreets.net/">CycleStreets: UK-wide Cycle Journey Planner and
-          Photomap</a></li>
-
-          <li><a rel="nofollow" href="http://www.ridethecity.com/">Ride the City - New York City</a></li>
-
-          <li><a rel="nofollow" href="http://OpenRouteService.org">OpenRouteService.org</a></li>
-
-          <li><a rel="nofollow" href="http://www.naviki.org/">Naviki</a></li>
-
-          <li><a rel="nofollow" href="http://www.cyclecopenhagen.dk">Cycle Copenhagen</a></li>
-
-          <li><a rel="nofollow" href="http://www.komoot.de/">komoot</a>: Tourenplanung für Wanderungen, Fahrrad-, Mountainbike und Bergtouren</li>
-
-          <li><a rel="nofollow" href="http://radl-routing.mdeport.de/cgi-bin/Radlrouting">Fahrrad Routenplaner f&uuml;r
-          M&uuml;nchen</a></li>
-
-          <li><a rel="nofollow" href="http://www.radroutenplaner.nrw.de/">Radroutenplaner NRW</a></li>
-
-          <li><a rel="nofollow" href="http://www.radroutenplaner.bremen.de/">Radroutenplaner Bremen</a></li>
-
-          <li><a rel="nofollow" href="http://www.radroutenplaner.hessen.de/">Radroutenplaner Hessen</a></li>
-
-          <li><a rel="nofollow" href="http://www.stuttgart.de/radroutenplaner">Landeshauptstadt Stuttgart -
-          Radroutenplaner</a></li>
-
-          <li><a rel="nofollow" href="http://www.anachb.at/">Routenplaner der L&auml;nder Wien,
-          Nieder&ouml;sterreich und Burgenland</a></li>
-        </ul>
-
-        <h3>Bicycle tour reports</h3>
-
-        <ul>
-          <li><a href="http://www.trentobike.org/">Trento Bike Pages</a>: collect bicycle tour reports</li>
-
-          <li><a href="http://www.bikemap.net/">bikemap.net</a>: Your bike routes online</li>
-
-          <li><a href="http://www.gpsies.com/">gpsies.com</a>: GPSies.com - GPS, Tracks, Trails, Tours</li>
-        </ul>
-
-        <h3>Releated Cycle Documentation</h3>
-
-        <ul>
-          <li><a href="http://www.cyclelicio.us/2011/osm-bike-path-tutorial/">OSM bike path tutorial</a></li>
-        </ul>
+        <h4>API Documentation</h4>
+	<p>
+	Coming soon. Please visit <a href="http://www.bbbike.org/">bbbike.org</a> and read the documentation. thanks!
+	</p>
 
         <div id="footer">
           <div id="footer_top">
-            <a href="/">home</a> | <a href="/community.html">donate</a> | <a href="./cgi/livesearch.cgi">livesearch</a>
+            <a href="/">home</a> | <a href="help.html">help</a> | <a href="community.html">donate</a>
           </div>
           <hr />
           (&copy;) 2008-2012 <a href="http://bbbike.org">BBBike.org</a> //
