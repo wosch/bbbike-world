@@ -23,6 +23,10 @@
 	<p>
 	Coming soon. Please visit <a href="http://www.bbbike.org/">bbbike.org</a> and read the documentation. thanks!
 	</p>
+	<p>
+	The service for API requests run on <tt>http://api.bbbike.org/api/0.2/</tt>
+	</p>
+
         <h4>XML API in a Nutshell</h4>
 	<p>
 	BBBike has a simple XML API. You can get the routing results in the formats GPS routes, GPS tracks and Google Earth (KML). 	
@@ -36,8 +40,9 @@
 	<tr><td>Google Earth (KML)</td><td><tt>output_as=kml-track</tt></td><td>view route with Google Earth</td></tr>
 	</table>
 
+
 	<h5>Examples</h5>
-	<tt>/bbbike/?startc=13.377846%2C52.516265;startname=Brandenburger%20Tor;zielc=13.404294%2C52.535019;zielname=Zionskirche;pref_seen=1;pref_speed=20;pref_cat=;pref_quality=;pref_specialvehicle=;scope=;output_as=kml-track</tt>
+	<tt>/api/0.2/bbbike/?startc=13.377846%2C52.516265;startname=Brandenburger%20Tor;zielc=13.404294%2C52.535019;zielname=Zionskirche;pref_seen=1;pref_speed=20;pref_cat=;pref_quality=;pref_specialvehicle=;scope=;output_as=kml-track</tt>
 
         <h4>JSON API in a Nutshell</h4>
 	<p>
@@ -46,8 +51,9 @@
 
 	<h5>Examples</h5>
 	<p>
-        Searching for street names: <tt>/cgi/api.cgi?namespace=dbac;city=Berlin;query=wash</tt><br/>
-	Plotting street names or POI: <tt>/cgi/street-coord.cgi?namespace=3;city=Berlin;query=washing</tt><br/>
+        Searching for street names: <tt>/api/0.2/cgi/api.cgi?namespace=dbac;city=Berlin;query=wash</tt><br/>
+	Plotting street names or POI: <tt>/api/0.2/cgi/street-coord.cgi?namespace=3;city=Berlin;query=washing</tt><br/>
+	Reverse geocode: <tt>/api/0.2/bbbike/?api=revgeocode;lon=13.341005;lat=52.527819</tt><br/>
 	</p>
 
         <div id="footer">
