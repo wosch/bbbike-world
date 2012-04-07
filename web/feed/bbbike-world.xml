@@ -16,6 +16,14 @@
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>Added new overlay maps: Google Panoramio photos</title>
+    <id>59f077289e137c87be26a4b5f22427d4</id>
+    <content>Added new overlay maps: Google Panoramio
+    photos</content>
+    <updated>2012-04-08T13:31:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title>Added new overlay maps: Google Weather</title>
     <id>59f077289e137c87be26a4b5f22427d3</id>
     <content>Added new overlay maps: Google Weather</content>
