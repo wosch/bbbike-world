@@ -21,11 +21,7 @@
 
         <h4>API Documentation</h4>
 	<p>
-	Coming soon. Please visit <a href="http://www.bbbike.org/">bbbike.org</a> and read the documentation. thanks!
-	</p>
-	<p>
-	The service for API requests run on <tt>http://api.bbbike.org/api/0.2/</tt>
-	</p>
+	The service for API requests run on <tt>http://api.bbbike.org/api/0.2/</tt></p>
 
         <h4>XML API in a Nutshell</h4>
 	<p>
@@ -39,6 +35,13 @@
 	<tr><td>GPS Track</td><td><tt>output_as=gpx-track</tt></td><td>GPX with up to 1024 points, no navigation</td></tr>
 	<tr><td>Google Earth (KML)</td><td><tt>output_as=kml-track</tt></td><td>view route with Google Earth</td></tr>
 	</table>
+	<p>
+	After the prefix follows the city name, e.g. for the original bbbike data: <tt>http://api.bbbike.org/api/0.2/bbbike/</tt>
+	and for Hamburg <tt>http://api.bbbike.org/api/0.2/Hamburg/</tt>
+	</p>
+	<p>
+	After the city, the normal URL parameters follows.
+	</p>
 
 
 	<h5>Examples</h5>
@@ -54,6 +57,11 @@
         Searching for street names: <tt>/api/0.2/cgi/api.cgi?namespace=dbac;city=bbbike;query=wash</tt><br/>
 	Plotting street names or POI: <tt>/api/0.2/cgi/street-coord.cgi?namespace=3;city=bbbike;query=washing</tt><br/>
 	Reverse geocode: <tt>/api/0.2/bbbike/?api=revgeocode;lon=13.352005;lat=52.538919</tt><br/>
+	</p>
+
+	<h4>Misc</h4>
+	<p>
+	Last but not least please visit <a href="http://www.bbbike.org/">bbbike.org</a> and read the <a href="help.html">documentation</a>. thanks!
 	</p>
 
         <div id="footer">
