@@ -45,22 +45,22 @@ $feed->add_entry(
 );
 
 $feed->add_entry(
-    title   => qq{Added new overlay maps: Google Panoramio photos},
+    title   => qq{Added new overlay map: Google Panoramio photos},
     id      => '59f077289e137c87be26a4b5f22427d4',
     content => {
         type    => 'text',
-        content => qq{Added new overlay maps: Google Panoramio photos},
+        content => qq{Added new overlay map: Google Panoramio photos},
     },
     updated  => '2012-04-08T13:31:02Z',
     category => 'News',
 );
 
 $feed->add_entry(
-    title   => qq{Added new overlay maps: Google Weather},
+    title   => qq{Added new overlay map: Google Weather},
     id      => '59f077289e137c87be26a4b5f22427d3',
     content => {
         type    => 'text',
-        content => qq{Added new overlay maps: Google Weather},
+        content => qq{Added new overlay map: Google Weather},
     },
     updated  => '2012-04-08T13:30:02Z',
     category => 'News',
