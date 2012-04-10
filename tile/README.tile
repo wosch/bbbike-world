@@ -160,4 +160,10 @@ postgres can connect to the database. No other user has privileges to
 do so.
 
 
+# munin
+sudo apt-get install libdbd-pg-perl
+cd /etc/munin/plugins/
+sudo ln -s /usr/share/munin/plugins/postgres_* .
+for i in postgres_*_;do echo $i;sudo mv $i ${i}ALL;done
+
 
