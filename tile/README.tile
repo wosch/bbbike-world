@@ -159,5 +159,8 @@ socket) and on the local TCP/IP address (127.0.0.1), only joe and
 postgres can connect to the database. No other user has privileges to
 do so.
 
+http://www.hyperionreactor.net/blog/how-build-your-own-osm-server-part-1-postgis-and-mapnik
+# sudo sh -c "echo 'kernel.shmmax=268435456' > /etc/sysctl.d/60-shmmax.conf
+# sudo service procps start
 
 
