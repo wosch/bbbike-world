@@ -34,6 +34,9 @@
 	<tr><td>GPS Route</td><td><tt>output_as=gpx-route</tt></td><td>GPX route with waypoints for GPS navigation, up to 256 points</td></tr>
 	<tr><td>GPS Track</td><td><tt>output_as=gpx-track</tt></td><td>GPX with up to 1024 points, no navigation</td></tr>
 	<tr><td>Google Earth (KML)</td><td><tt>output_as=kml-track</tt></td><td>view route with Google Earth</td></tr>
+	<tr><td>XML</td><td><tt>output_as=xml</tt></td><td>route with waypoints and decriptions in XML format</td></tr>
+	<tr><td>JSON</td><td><tt>output_as=json</tt></td><td>route with waypoints and decriptions in JavaScript JSON format</td></tr>
+	<tr><td>YAML</td><td><tt>output_as=yaml</tt></td><td>route with waypoints and decriptions in YAML format</td></tr>
 	</table>
 	<p>
 	After the prefix follows the city name, e.g. for the original bbbike data: <tt>http://api.bbbike.org/api/0.2/bbbike/</tt>
@@ -57,11 +60,15 @@
         Searching for street names: <tt>/api/0.2/cgi/api.cgi?namespace=dbac;city=bbbike;query=wash</tt><br/>
 	Plotting street names or POI: <tt>/api/0.2/cgi/street-coord.cgi?namespace=3;city=bbbike;query=washing</tt><br/>
 	Reverse geocode: <tt>/api/0.2/bbbike/?api=revgeocode;lon=13.352005;lat=52.538919</tt><br/>
+        Which city is supported by BBBike given your current location: <tt>/api/0.2/cgi/location.cgi?lng=13.411399&lat=52.523405</tt><br/>
 	</p>
 
 	<h4>Misc</h4>
 	<p>
 	Last but not least please visit <a href="http://www.bbbike.org/">bbbike.org</a> and read the <a href="help.html">documentation</a>. thanks!
+	</p>
+	<p>
+	If you want write a mobile App for BBBike - please contact us in advance. We can give you an introduction how to use the APIs.
 	</p>
 
         <div id="footer">
