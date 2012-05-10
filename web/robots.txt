@@ -1,36 +1,17 @@
 # general
 Sitemap: http://www.bbbike.org/sitemap.xml.gz
 
+# rough bots
 User-agent: Ezooms
-Disallow: /
-
 User-agent: Purebot
-Disallow: /
-
 User-agent: Java
-Disallow: /
-
 User-agent: Nutch
-Disallow: /
-
 User-agent: SnapPreviewBot
-Disallow: /
-
 User-agent: ScoutJet
-Disallow: /
-
 User-agent: MLBot
-Disallow: /
-
 User-agent: sitebot
-Disallow: /
-
 User-agent: MJ12bot
-Disallow: /
-
 User-agent: Linguee
-Disallow: /
-
 User-agent: discobot
 Disallow: /
 
