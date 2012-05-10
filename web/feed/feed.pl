@@ -23,13 +23,11 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
-    title =>
-      qq{Added Toner and Watercolor maps for http://bbbike.org},
+    title   => qq{Added Toner and Watercolor maps for http://bbbike.org},
     id      => 'd94a133044bb2da6cc7177e80e24c750',
     content => {
-        type => 'text',
-        content =>
-          qq{Added Toner and Watercolor maps for http://bbbike.org},
+        type    => 'text',
+        content => qq{Added Toner and Watercolor maps for http://bbbike.org},
     },
     updated  => '2012-04-10T12:30:02Z',
     category => 'News',
