@@ -46,7 +46,7 @@ my $option = {
     'max_extracts'       => 50,
     'default_format'     => 'osm.pbf',
     'city_name_optional' => 1,
-    'max_skm'            => 240_000,     # max. area in square km
+    'max_skm'            => 480_000,     # max. area in square km
     'confirm' => 0,    # request to confirm request with a click on an URL
 };
 
