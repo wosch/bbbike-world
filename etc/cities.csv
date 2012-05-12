@@ -117,7 +117,7 @@ Leipzig:::de::12.08 51.07 12.85 51.55:536773::
 Dessau:::de::11.86 51.55 12.85 51.99:120000::Bitterfeld;Lutherstadt Wittenberg
 Gera:Gera::de::11.78 50.38 12.56 51.12:120000::Zwickau;Plauen;Vogtland
 Halle:Halle (Saale)::de::11.60 51.12 12.23 51.62:232323::
-Lima:::es:other:-77.1807 -12.2212 -76.8816 -11.9285:6500000::
+Lima:::es:other:-77.263 -12.417 -76.556 -11.7:6500000::
 Lissabon:de!Lissabon,pt!Lisboa,en!Lisbon::pt:eu:-9.535 38.384 -8.65 39.004:2800000::
 Liverpool::en::eu:-3.208 53.263 -2.442 53.575:816000::
 Ljubljana:de!Laibach,en!Ljubljana::sl:eu:14.267 45.904 14.771 46.25:278638::
@@ -184,7 +184,7 @@ Schwerin:Schwerin::de::11.00 53.505 11.86 54.046:150000::Wismar
 Rotterdam:::nl:eu:4.183 51.753 4.823 51.984:561000::
 Maastricht:::nl:eu:5.434 50.724 5.88 51.03:118523::
 Eindhoven:::nl:eu:5.258 51.329 5.75 51.584:775345::
-Utrecht:::nl:eu:4.94 51.95 5.324 52.21:307081::
+Utrecht:::nl:eu:4.741 51.926 5.49 52.323:307081::
 Arnhem:en!Arnhem,de!Arnheim::nl:eu:5.58 51.789 6.152 52.067:146000::
 Tilburg:::nl:eu:4.89 51.456 5.267 51.645:205000::
 Hertogenbosch:en!'s-Hertogenbosch,de!Herzogenbusch,fr!Bois-le-Du,es!Bolduque::nl:eu:5.11 51.58 5.60 51.84:136000::
@@ -227,7 +227,7 @@ WashingtonDC:Washington D.C.:en::other:-77.23 38.78 -76.84 39.05:5300000:0.01:
 Wuerzburg:pl!Wurtzburgo,zh!维尔茨堡,ru!Вюрцбург,fr!Wurtzbourg,es!Wurzburgo,de!Würzburg::de::9.45 49.40 10.54 50.11:130000::
 Wien:en!Vienna,de!Wien::de:eu:15.92 47.91 16.88 48.47:3114739::
 Linz:::de:eu:13.98 48.14 14.57 48.47:189000::
-Graz:de!Graz,hr!Gradac,en!Graz::de:eu:15.25 46.959 15.606 47.168:258000::
+Graz:de!Graz,hr!Gradac,en!Graz::de:eu:14.809 46.599 16.166 47.447:258000::
 Innsbruck:::de:eu:11.197 47.227 11.62 47.306:120000::
 Salzburg:::de:eu:12.521 47.536 13.696 48.037:159000::
 Wroclaw:de!Breslau,en!Wroclaw,pl!Wrocław::pl:eu:16.803 50.998 17.278 51.216:680000::
