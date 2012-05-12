@@ -185,7 +185,7 @@ sub footer {
     <a href="../">home</a> $extracts | <a href="../community.html#donate">donate</a>
   </div>
   <hr/>
-  <div id="copyright" style="font-size:x-small">
+  <div id="copyright">
     (&copy;) 2011-2012 <a href="http://www.bbbike.org">BBBike.org</a> 
     by <a href="http://wolfram.schneider.org">Wolfram Schneider</a> //
     Map data by the <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap</a> Project
