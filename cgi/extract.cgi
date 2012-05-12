@@ -222,16 +222,12 @@ EOF
 
 sub message {
     return <<EOF;
-
-<p>
 <b>BBBike @ World extracts</b>:
 This site allow you to extracts areas from the <a href="http://wiki.openstreetmap.org/wiki/Planet.osm">planet.osm</a>.
 The maximum area size is @{[ large_int($max_skm) ]} square km.
-<br/>
 
 It takes between 10-30 minutes to extract an area. You will be notified by e-mail if your extract is ready for download.
-<br/><span id="debug"></span>
-</p>
+<span id="debug"></span>
 EOF
 }
 
@@ -614,14 +610,12 @@ sub homepage {
     print &header( $q, -type => 'homepage' );
     print &layout($q);
 
+    print qq{<div id="intro">\n};
     print $q->start_form(
         -method   => $request_method,
         -id       => 'extract',
         -onsubmit => 'return checkform();'
     );
-
-    print $q->start_table;
-    print qq{\n<tr valign="top" align="left"><td>\n\n};
 
     my $lat = qq{<span title='Latitude'>lat</span>};
     my $lng = qq{<span title='Longitude'>lng</span>};
@@ -630,6 +624,7 @@ sub homepage {
     my $default_format = $q->cookie( -name => "format" )
       || $option->{'default_format'};
 
+    print qq{<div id="table">\n};
     print $q->table(
         $q->Tr(
             {},
@@ -704,11 +699,11 @@ sub homepage {
         )
     );
 
-    print "\n</td>\n";
-
-    print qq{\n<td width="300"> <!-- second column -->\n};
+    print "\n</div>\n";
+    print qq{<div id="message">\n};
     print &message;
 
+    print "<br/>\n";
     print $q->submit(
         -title => 'start extract',
         -name  => 'submit',
@@ -716,10 +711,10 @@ sub homepage {
 
         #-id    => 'extract'
     );
-    print "</td></tr>\n";
+    print "\n</div>\n";
 
-    print $q->end_table;
     print $q->end_form;
+    print "</div>\n";
 
     print qq{<hr/>\n};
     print &map;
