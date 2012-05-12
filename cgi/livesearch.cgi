@@ -609,7 +609,7 @@ sub statistic_basic {
     print "<p>City count: ", scalar(@cities),
       ", unique routes: $unique_routes, ", "total routes: $counter2</p>\n";
 
-    if ( $unique_routes > 20 ) {
+    if ( $unique_routes > 20  && !is_production($q) && $date eq 'today' ) {
         print "<p>Estimated usage today: "
           . &estimated_daily_usage($unique_routes) . "/"
           . &estimated_daily_usage($counter2) . "</p>";
