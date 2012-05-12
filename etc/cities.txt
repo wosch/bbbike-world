@@ -228,3 +228,6 @@ Auckland
 Baku
 PhnomPenh
 UlanBator
+LaPaz
+Sucre
+Cusco
