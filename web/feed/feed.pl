@@ -23,6 +23,17 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
+    title   => qq{Added new cities: LaPaz, Cusco, and Sucre},
+    id      => 'd94a133044bb2da6cc7177e80e24c751',
+    content => {
+        type    => 'text',
+        content => qq{Added new cities: LaPaz, Cusco, and Sucre},
+    },
+    updated  => '2012-05-13T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title   => qq{Added Toner and Watercolor maps for http://bbbike.org},
     id      => 'd94a133044bb2da6cc7177e80e24c750',
     content => {

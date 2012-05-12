@@ -491,6 +491,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Cusco</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Cusco/">BBBike @ Cusco</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-71.931,-13.4645,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Dallas</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Dallas/">BBBike @ Dallas</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -743,7 +751,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Graz/">BBBike @ Graz</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>15.428,47.0635,0.000000</coordinates>
+      <coordinates>15.4875,47.023,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -947,6 +955,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>La Paz</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/LaPaz/">BBBike @ La Paz</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-68.1465,-16.4975,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Lake Garda</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/LakeGarda/">BBBike @ Lake Garda</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -983,7 +999,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Lima/">BBBike @ Lima</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-77.03115,-12.07485,0.000000</coordinates>
+      <coordinates>-76.9095,-12.0585,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1635,6 +1651,14 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Sucre</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Sucre/">BBBike @ Sucre</a></span>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-65.2465,-19.044,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Sydney</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Sydney/">BBBike @ Sydney</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
@@ -1751,7 +1775,7 @@
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Utrecht/">BBBike @ Utrecht</a></span>]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>5.132,52.08,0.000000</coordinates>
+      <coordinates>5.1155,52.1245,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
