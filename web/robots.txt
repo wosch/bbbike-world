@@ -137,6 +137,7 @@ Disallow: /Cottbus/?
 Disallow: /Cracow/?
 Disallow: /CraterLake/?
 Disallow: /Curitiba/?
+Disallow: /Cusco/?
 Disallow: /Dallas/?
 Disallow: /Darmstadt/?
 Disallow: /Davis/?
@@ -194,6 +195,7 @@ Disallow: /Kiew/?
 Disallow: /Koblenz/?
 Disallow: /Koeln/?
 Disallow: /Konstanz/?
+Disallow: /LaPaz/?
 Disallow: /LakeGarda/?
 Disallow: /Lausanne/?
 Disallow: /Leeds/?
@@ -280,6 +282,7 @@ Disallow: /Stockholm/?
 Disallow: /Stockton/?
 Disallow: /Strassburg/?
 Disallow: /Stuttgart/?
+Disallow: /Sucre/?
 Disallow: /Sydney/?
 Disallow: /Szczecin/?
 Disallow: /Tallin/?
@@ -537,3 +540,6 @@ Disallow: /en/Auckland/
 Disallow: /en/Baku/?
 Disallow: /en/PhnomPenh/?
 Disallow: /en/UlanBator/?
+Disallow: /en/LaPaz/?
+Disallow: /en/Sucre/?
+Disallow: /en/Cusco/?
