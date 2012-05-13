@@ -20,6 +20,10 @@ sudo apt-get install \
   libgd-gd2-perl pdftk \
   perl-doc
 
+# perl devel libs?
+# libxml2-dev libcompress-zlib-perl
+
+
 # daemons
 sudo apt-get install lighttpd
 
