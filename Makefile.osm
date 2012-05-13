@@ -531,10 +531,12 @@ elevation-update:
 cache-heater: cache-heater-streets cache-heater-common 
 
 cache-heater-common: 
+	@echo "cache usage before"
 	du -hs ${BBBIKE_CACHE_DIR}/* || du -hs ${BBBIKE_CACHE_DIR}/
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
 	   ${PERL} -ne 'chomp; print "http://'${WEB_SERVER}'/$$_/?generate_cache=1\0"' | \
 	   ${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
+	@echo "cache usage after"
 	du -hs ${BBBIKE_CACHE_DIR}/*
 
 cache-heater-streets: cache-heater-homepage cache-heater-opensearch
