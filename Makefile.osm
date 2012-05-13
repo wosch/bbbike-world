@@ -457,6 +457,9 @@ clean-cache cache-clean:
 	    rm -rf ${BBBIKE_CACHE_DIR}/tmp.$$$$ &
 	find /var/cache/lighttpd -type f -print0 | ${PERL} -n0e unlink
 
+cache-gc:
+	find ${BBBIKE_CACHE_DIR}/ -type f -mtime +21 -print0 | ${PERL} -n0e unlink
+
 rotate-data-osm:
 	${RM_BG} ${DATA_OSM_DIR}.old2
 	${RM_BG} ${DATA_OSM_BBBIKE_DIR}.old2
@@ -528,13 +531,17 @@ elevation-update:
 	echo ${CITIES} | ${XARGS} -E " " -n500 -P${MAX_ELEVATION_SCRIPTS} ${ELEVATION_SCRIPT} --readonly-database --database=../osm-streetnames/srtm/elevation.db --debug=0
 
 # re-build cache
-cache-heater: cache-heater-streets cache-heater-common 
+cache-heater: cache-gc cache-heater-streets cache-heater-common 
 
 cache-heater-common: 
-	du -hs ${BBBIKE_CACHE_DIR}/* || du -hs ${BBBIKE_CACHE_DIR}/
+	@echo "cache usage before"
+	du -hs ${BBBIKE_CACHE_DIR}/
+	du -hs ${BBBIKE_CACHE_DIR}/*
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
 	   ${PERL} -ne 'chomp; print "http://'${WEB_SERVER}'/$$_/?generate_cache=1\0"' | \
 	   ${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
+	@echo "cache usage after"
+	du -hs ${BBBIKE_CACHE_DIR}/
 	du -hs ${BBBIKE_CACHE_DIR}/*
 
 cache-heater-streets: cache-heater-homepage cache-heater-opensearch
