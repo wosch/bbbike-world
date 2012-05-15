@@ -88,12 +88,13 @@ my $spool     = {
          # 'job1'  => "$spool_dir/job1.pid",     # lock file for current job
 };
 
-my $alarm      = $option->{"alarm"};
-my $nice_level = $option->{"nice_level"};
-my $email_from = $option->{"email_from"};
-my $planet_osm = $option->{"planet_osm"};
-my $debug      = $option->{"debug"};
-my $test       = $option->{"test"};
+my $alarm           = $option->{"alarm"};
+my $nice_level      = $option->{"nice_level"};
+my $email_from      = $option->{"email_from"};
+my $planet_osm      = $option->{"planet_osm"};
+my $debug           = $option->{"debug"};
+my $test            = $option->{"test"};
+my $osmosis_options = "omitmetadata=true granularity=10000";    # message
 
 # test & debug
 $planet_osm =
@@ -636,6 +637,7 @@ from planet.osm
  Coordinates: $obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}
  Square kilometre: $square_km
  Granularity: 10,000 (1.1 meters)
+ Osmosis options: $osmosis_options
  Format: $obj->{"format"}
  File size: $file_size
  SHA256 checksum: $checksum
