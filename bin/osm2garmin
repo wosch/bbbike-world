@@ -28,18 +28,23 @@ mkdir -p $garmin_dir
 
 exec > $garmin_dir/logfile.txt 2>&1
 
-java -Xmx2000m -jar $HOME/opt/splitter/splitter.jar --output-dir=$split_dir $file
+java -Xmx1G -jar $HOME/opt/splitter/splitter.jar --output-dir=$split_dir $file
 
 cd $garmin_dir
-mkgmap $split_dir/*.pbf
-cd ..
 
+mkgmap $split_dir/*.pbf
 cat << EOF > README.txt
 Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
 
-Extracts are created and updated by http://www.bbbike.org
+Extracts are created by http://www.bbbike.org
+
+Please read http://wiki.openstreetmap.org/wiki/OSM_Map_On_Garmin
+how to install the maps on your GPS device.
+
+thanks, Wolfram Schneider (BBBike.org)
 EOF
 
+cd ..
 garmin_zip=`dirname $file`/$garmin.garmin.zip
 zip -r - $garmin | (cd $pwd;  cat > $garmin_zip.tmp && mv $garmin_zip.tmp $garmin_zip )
 
