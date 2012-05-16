@@ -25,9 +25,11 @@ MAX_CPU2=	`world/bin/ncpu -1`
 MAX_VCPU=	`world/bin/ncpu vcpu`
 MAX_RCPU=	`world/bin/ncpu rcpu -1`
 MAX_OSM2PBF=	1
+MAX_OSM2GARMIN=	${MAX_CPU}
 XARGS=		${NICE} `which gxargs xargs | head -1`
 TIME=		time
 OSM2PBF=	world/bin/osm2pbf
+OSM2GARMIN=	world/bin/osm2garmin
 DB=world/bin/bbbike-db
 GZIP:=             $(shell which pigz gzip | head -1)
 BZIP2:=            $(shell which pbzip2 bzip2 | head -1)
@@ -161,6 +163,9 @@ fetch-extracts fetch:
 
 osm2pbf: osm-readme
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2PBF} ${OSM2PBF}
+
+osm2garmin:
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
 
 osm-index:
 	for i in ${CITIES}; do \
@@ -630,7 +635,7 @@ help:
 	@echo "  [ rsync-tgz | rsync-osm | rsync-osm-dev | rsync-planet | symlink-download ]"
 	@echo "  [ jsbeautifier | perltidy | tidy ]"
 	@echo ""
-	@echo "  [ bbbike-osm2pbf | osm2pbf ]"
+	@echo "  [ bbbike-osm2pbf | osm2pbf  | osm2garmin ]"
 	@echo "  [ bbbike2wgs84-mapnik | bbbike-mapnik-config ]"
 	@echo "  [ bbbike-mapnik-postgis ]"
 	@echo ""
