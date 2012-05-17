@@ -314,7 +314,7 @@ function resizeOtherCities(toogle) {
 EOF
 
 print qq{<div id="bottom">\n};
-print qq{<div id="more_cities" style="display:none;">\n};
+print qq{<div id="more_cities" style="display:none;">\n<p/>\n};
 foreach my $c (@city_list) {
     next if $c eq 'dummy' || $c eq 'bbbike';
     print qq{<a href="}
