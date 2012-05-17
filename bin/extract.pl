@@ -62,11 +62,12 @@ our $option = {
 };
 
 my $formats = {
-    'osm.pbf'        => 'Protocolbuffer Binary Format (PBF)',
-    'osm.gz'         => "OSM XML gzip'd",
-    'osm.bz2'        => "OSM XML bzip'd",
-    'osm.xz'         => "OSM XML 7z/xz",
-    'garmin-osm.zip' => "Garmin OSM gmapsupp",
+    'osm.pbf'          => 'Protocolbuffer Binary Format (PBF)',
+    'osm.gz'           => "OSM XML gzip'd",
+    'osm.bz2'          => "OSM XML bzip'd",
+    'osm.xz'           => "OSM XML 7z/xz",
+    'garmin-osm.zip'   => "Garmin OSM gmapsupp",
+    'garmin-cycle.zip' => "Garmin Cycle gmapsupp",
 };
 
 #
@@ -542,6 +543,7 @@ sub send_email {
         my $json_text = read_data($json_file);
         my $json      = new JSON;
         my $obj       = $json->decode($json_text);
+        my $format    = $obj->{'format'};
 
         warn "json: $json_file\n" if $debug >= 3;
         warn "json: $json_text\n" if $debug >= 3;
@@ -554,7 +556,7 @@ sub send_email {
 
         # convert .pbf to .osm if requested
         my @nice = ( "nice", "-n", $nice_level );
-        if ( $obj->{'format'} eq 'osm.bz2' ) {
+        if ( $format eq 'osm.bz2' ) {
             $file =~ s/\.pbf$/.bz2/;
             if ( !cached_format($file) ) {
                 @system = ( @nice, "$dirname/pbf2osm", "--bzip2", $pbf_file );
@@ -563,7 +565,7 @@ sub send_email {
                 system(@system) == 0 or die "system @system failed: $?";
             }
         }
-        elsif ( $obj->{'format'} eq 'osm.gz' ) {
+        elsif ( $format eq 'osm.gz' ) {
             $file =~ s/\.pbf$/.gz/;
             if ( !cached_format($file) ) {
                 @system = ( @nice, "$dirname/pbf2osm", "--gzip", $pbf_file );
@@ -572,7 +574,7 @@ sub send_email {
                 system(@system) == 0 or die "system @system failed: $?";
             }
         }
-        elsif ( $obj->{'format'} eq 'osm.xz' ) {
+        elsif ( $format eq 'osm.xz' ) {
             $file =~ s/\.pbf$/.xz/;
             if ( !cached_format($file) ) {
                 @system = ( @nice, "$dirname/pbf2osm", "--xz", $pbf_file );
@@ -581,10 +583,11 @@ sub send_email {
                 system(@system) == 0 or die "system @system failed: $?";
             }
         }
-        elsif ( $obj->{'format'} eq 'garmin-osm.zip' ) {
-            $file =~ s/\.pbf$/.garmin-osm.zip/;
+        elsif ( $format =~ /^garmin-(osm|cycle).zip$/ ) {
+            $file =~ s/\.pbf$/.$format/;
             if ( !cached_format($file) ) {
                 @system = ( @nice, "$dirname/pbf2osm", "--garmin", $pbf_file );
+                push( @system, $format ) if $format eq 'garmin-cycle.zip';
 
                 warn "@system\n" if $debug >= 2;
                 system(@system) == 0 or die "system @system failed: $?";
