@@ -51,11 +51,11 @@ my $option = {
 };
 
 my $formats = {
-    'osm.pbf' => 'Protocolbuffer Binary Format (PBF)',
-    'osm.gz'  => "OSM XML gzip'd",
-    'osm.bz2' => "OSM XML bzip'd",
-    'osm.xz'  => "OSM XML 7z (xz)",
-    'garmin.zip'  => "Garmin OSM gmapsupp",
+    'osm.pbf'        => 'Protocolbuffer Binary Format (PBF)',
+    'osm.gz'         => "OSM XML gzip'd",
+    'osm.bz2'        => "OSM XML bzip'd",
+    'osm.xz'         => "OSM XML 7z (xz)",
+    'garmin-osm.zip' => "Garmin OSM gmapsupp",
 };
 
 my $spool = {
