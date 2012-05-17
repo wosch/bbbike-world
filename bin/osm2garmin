@@ -14,9 +14,13 @@ ext=${2-"garmin-osm.zip"}
 pwd=$(pwd)
 java_opt=-Xmx1G 
 mkgmap_opt='--gmapsupp --family-id=23 --remove-short-arcs --route --net'
+mkgmap_map_style="osm"
 
 case $ext in 
-   garmin-cycle.zip ) mkgmap_map=--style-file=$pwd/world/src/cyclemap;;
+   garmin-cycle.zip ) 
+	mkgmap_map=--style-file=$pwd/world/src/cyclemap
+	mkgmap_map_style=cyclemap
+	;;
 esac
 
 usage () {
@@ -50,7 +54,7 @@ esac
 
 cat << EOF > README.txt
 Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
-Extracts created by BBBike.org
+Extracts created by BBBike.org, Map style: $mkgmap_map_style
 
 Please read the OSM wiki how to install the maps on your GPS device:
 
@@ -62,7 +66,7 @@ thanks, Wolfram Schneider
 
 --
 http://www.BBBike.org - Your Cycle Route Planner
-http://www.BBBike.org/community.html - We appreciate any feedback, suggestions and a donation!
+We appreciate any feedback, suggestions and a donation!
 EOF
 
 cd ..
