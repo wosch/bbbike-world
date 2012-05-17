@@ -18,8 +18,9 @@ mkgmap_map_style="osm"
 
 case $ext in 
    garmin-cycle.zip ) 
-	mkgmap_map=--style-file=$pwd/world/src/cyclemap
+	mkgmap_map=--style-file=$pwd/world/etc/mkgmap/cyclemap
 	mkgmap_map_style=cyclemap
+	mkgmap_map_type=$pwd/world/etc/mkgmap/cyclemap.TYP
 	;;
 esac
 
@@ -45,7 +46,7 @@ java $java_opt -jar $HOME/opt/splitter/splitter.jar --output-dir=$split_dir $fil
 cd $garmin_dir
 
 #mkgmap $split_dir/*.pbf
-java $java_opt -jar $HOME/opt/mkgmap/mkgmap.jar $mkgmap_opt $mkgmap_map --family-name="OpenStreetmap - BBBike.org" $split_dir/*.pbf
+java $java_opt -jar $HOME/opt/mkgmap/mkgmap.jar $mkgmap_opt $mkgmap_map --family-name="OpenStreetmap - BBBike.org" $split_dir/*.pbf $mkgmap_map_type
 
 case $mkgmap_opt in
   *--gmapsupp* ) rm -f osmmap.tdb osmmap.img [0-9][0-9]*.img ;;
