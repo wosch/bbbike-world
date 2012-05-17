@@ -141,9 +141,9 @@ sub header {
     my @javascript = (
         "../html/jquery-1.4.2.min.js",
 "../html/devbridge-jquery-autocomplete-1.1.2/jquery.autocomplete-min.js",
-        "http://maps.google.com/maps/api/js?sensor=$sensor&amp;language=de",
+"http://maps.google.com/maps/api/js?sensor=$sensor&amp;libraries=weather,panoramio",
         "../html/bbbike.js",
-        "../html/maps3.js"
+        "../html/maps3.js",
     );
 
     return $q->start_html(
