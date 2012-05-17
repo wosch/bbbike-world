@@ -124,6 +124,7 @@ qq{<tr><td><a href="$download_bbbike_org/osm/bbbike/$city/$file" title="$date">$
 <hr/>
 EOF
 
+    $data .= qq{<div id="debug"></div>\n} if $debug >= 2;
     return $data;
 }
 
@@ -360,6 +361,5 @@ print qq{<p/></div><!-- more cities -->\n};
 
 print &footer( "cities" => \@city_list, 'city' => $city );
 print "</div> <!-- bottom -->\n";
-
 print $q->end_html;
 
