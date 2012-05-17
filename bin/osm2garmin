@@ -24,7 +24,7 @@ tmpdir=`mktemp -d ${TMPDIR-"/bbbike/tmp"}/garmin.XXXXXXXXXXX`
 split_dir=$tmpdir/split
 mkdir -p $split_dir
 
-garmin=`basename $file | perl -npe 's/(\.pbf|\.gz|\.bz2)?$//'`
+garmin=`basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
 garmin_dir=$tmpdir/$garmin
 mkdir -p $garmin_dir
 
@@ -61,7 +61,7 @@ http://www.BBBike.org/community.html - We appreciate any feedback, suggestions a
 EOF
 
 cd ..
-garmin_zip=`dirname $file`/$garmin.garmin.zip
+garmin_zip=`dirname $file`/$garmin.osm.garmin.zip
 zip -r - -- $garmin | (cd $pwd;  cat > $garmin_zip.tmp && mv $garmin_zip.tmp $garmin_zip )
 
 rm -rf $tmpdir
