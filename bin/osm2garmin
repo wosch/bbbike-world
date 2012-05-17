@@ -8,6 +8,7 @@
 PATH=$HOME/bin:/bin:/usr/bin; export PATH
 file=$1
 java_opt=-Xmx1G 
+mkgmap_opt=--gmapsupp 
 
 set -e
 
@@ -34,17 +35,29 @@ java $java_opt -jar $HOME/opt/splitter/splitter.jar --output-dir=$split_dir $fil
 cd $garmin_dir
 
 #mkgmap $split_dir/*.pbf
-java $java_opt -jar $HOME/opt/mkgmap/mkgmap.jar $split_dir/*.pbf
+java $java_opt -jar $HOME/opt/mkgmap/mkgmap.jar $mkgmap_opt --family-name="OpenStreetmap - BBBike.org" --family-id=23 $split_dir/*.pbf
+
+case $mkgmap_opt in
+  *--gmapsupp* ) rm -f osmmap.tdb osmmap.img [0-9][0-9]*.img ;;
+esac
+	
 
 cat << EOF > README.txt
 Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
 
 Extracts are created by http://www.bbbike.org
 
-Please read http://wiki.openstreetmap.org/wiki/OSM_Map_On_Garmin
-how to install the maps on your GPS device.
+Please read the OSM wiki how to install the maps on your GPS device:
 
-thanks, Wolfram Schneider (BBBike.org)
+  http://wiki.openstreetmap.org/wiki/OSM_Map_On_Garmin
+  http://wiki.openstreetmap.org/wiki/OSM_Map_On_Garmin/Download
+
+
+thanks, Wolfram Schneider
+
+--
+http://www.BBBike.org - Your Cycle Route Planner
+http://www.BBBike.org/community.html - We appreciate any feedback, suggestions and a donation!
 EOF
 
 cd ..
