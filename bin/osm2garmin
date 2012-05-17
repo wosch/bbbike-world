@@ -7,13 +7,15 @@
 
 PATH=$HOME/bin:/bin:/usr/bin; export PATH
 file=$1
+ext=${2-"garmin-osm.zip"}
+
 java_opt=-Xmx1G 
 mkgmap_opt=--gmapsupp 
 
 set -e
 
 usage () {
-   echo "usage file"
+   echo "usage file [ extention ]"
    exit 1
 }
 
@@ -60,7 +62,7 @@ http://www.BBBike.org/community.html - We appreciate any feedback, suggestions a
 EOF
 
 cd ..
-garmin_zip=`dirname $file`/$garmin.osm.garmin.zip
+garmin_zip=`dirname $file`/$garmin.osm.$ext
 zip -r - -- $garmin | (cd $pwd;  cat > $garmin_zip.tmp && mv $garmin_zip.tmp $garmin_zip )
 
 rm -rf $tmpdir
