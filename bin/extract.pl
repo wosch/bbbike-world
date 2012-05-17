@@ -59,6 +59,8 @@ our $option = {
 
     # spool directory. Should be at least 100GB large
     'spool_dir' => '/usr/local/www/tmp/extract',
+
+    'file_prefix' => 'planet_',
 };
 
 my $formats = {
@@ -248,7 +250,7 @@ sub file_latlng {
     my $obj  = shift;
     my $file = "";
 
-    $file = "$obj->{sw_lat},$obj->{sw_lng}_$obj->{ne_lat},$obj->{ne_lng}";
+    $file = $option->{'file_prefix'} . "$obj->{sw_lat},$obj->{sw_lng}_$obj->{ne_lat},$obj->{ne_lng}";
 
     return $file;
 }
@@ -258,7 +260,7 @@ sub file_lnglat {
     my $obj  = shift;
     my $file = "";
 
-    $file = "$obj->{sw_lng},$obj->{sw_lat}_$obj->{ne_lng},$obj->{ne_lat}";
+    $file = $option->{'file_prefix'} . "$obj->{sw_lng},$obj->{sw_lat}_$obj->{ne_lng},$obj->{ne_lat}";
 
     return $file;
 }
