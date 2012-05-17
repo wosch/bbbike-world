@@ -582,7 +582,7 @@ sub send_email {
             }
         }
         elsif ( $obj->{'format'} eq 'garmin.zip' ) {
-            $file =~ s/\.pbf$/.zip/;
+            $file =~ s/\.pbf$/.garmin.zip/;
             if ( !cached_format($file) ) {
                 @system = ( @nice, "$dirname/pbf2osm", "--garmin", $pbf_file );
 
