@@ -1,0 +1,19 @@
+#!/bin/sh
+# Copyright 2012 Wolfram Schneider, http://bbbike.org
+#
+# check-data-osm - check if the data-osm data is valid
+
+: ${DATA_OSM_DIR=data-osm}
+: ${MAX_CPU=1}
+
+# die on exit
+set -e
+
+city=$1
+if ! find $DATA_OSM_DIR/$city -type f -print | egrep -v '\.(gz|bak|dd|yml|pl|data)$$' | 
+	 egrep -v 'opensearch\.' | sort -r | xargs -n1 -P$MAX_CPU  ./miscsrc/grepstrassen -name Kreuzbergstr. >/dev/null; 
+then 
+     echo "Failed city: $city"
+     exit 1
+fi
+
