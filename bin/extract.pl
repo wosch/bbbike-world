@@ -664,7 +664,7 @@ Sincerely, your BBBike admin
 
 --
 http://www.BBBike.org - Your Cycle Route Planner
-http://www.BBBike.org/community.html - We appreciate any feedback, suggestions and a donation! 
+We appreciate any feedback, suggestions and a donation! 
 EOF
 
         eval {
