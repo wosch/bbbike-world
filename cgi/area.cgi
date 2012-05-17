@@ -200,6 +200,15 @@ sub js_jump {
 EOF
 }
 
+sub css_map {
+    return <<EOF;
+<style type="text/css">
+div#BBBikeGooglemap { left: 23em; }
+</style>
+
+EOF
+}
+
 sub js_map {
     my $map_type = shift;
 
@@ -208,7 +217,7 @@ sub js_map {
     //<![CDATA[
 
     var resize;
-    setMapWidth();
+    setTimeout(function () { setMapWidth(); }, 200);
 
     // reset map size, 3x a second
     jQuery(window).resize(function () {
@@ -260,7 +269,9 @@ my $city_area = $q->param('city') || "";
 my $city = $q->param('city') || $offline_city || $city_default;
 
 print &header( $q, $offline, $city );
-print qq{<div id="routing">}, &download_area($city), qq{</div>\n};
+print &css_map;
+
+print qq{<div id="sidebar">}, &download_area($city), qq{</div>\n};
 print qq{<div id="BBBikeGooglemap" style="height:94%">\n};
 print qq{<div id="map"></div>\n};
 
