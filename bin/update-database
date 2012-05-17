@@ -11,7 +11,7 @@ mkdir -p $tmp
 
 : ${bbbike_build="build-runtime"}
 : ${bbbike_download="planet-download"}
-: ${bbbike_extract="distclean cities-parallel"}
+: ${bbbike_extract="distclean cities-parallel rsync-osm"}
 : ${bbbike_convert="convert-wgs84 convert-post check-data-osm convert-bbbike update-files"}
 : ${bbbike_install="rsync-tgz rsync cache-heater"}
 
@@ -31,8 +31,15 @@ do
 		 gzip -f tmp/log.$i
 	fi
 
-	\time $ionice $ionice_opt make -s $i > tmp/log.$i 2>&1
+	case $i in
+	    # in background
+	    rsync-osm ) time $ionice $ionice_opt make -s $i > tmp/log.$i 2>&1 & ;;
+
+	    # foreground
+	    * )         time $ionice $ionice_opt make -s $i > tmp/log.$i 2>&1 ;;
+	esac
 done
+wait
 
 # set an notice
 (  
