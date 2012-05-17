@@ -62,7 +62,7 @@ EOF
 
 cd ..
 garmin_zip=`dirname $file`/$garmin.garmin.zip
-zip -r - $garmin | (cd $pwd;  cat > $garmin_zip.tmp && mv $garmin_zip.tmp $garmin_zip )
+zip -r - -- $garmin | (cd $pwd;  cat > $garmin_zip.tmp && mv $garmin_zip.tmp $garmin_zip )
 
 rm -rf $tmpdir
 
