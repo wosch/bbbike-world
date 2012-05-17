@@ -66,8 +66,8 @@ my $formats = {
     'osm.gz'           => "OSM XML gzip'd",
     'osm.bz2'          => "OSM XML bzip'd",
     'osm.xz'           => "OSM XML 7z/xz",
-    'garmin-osm.zip'   => "Garmin OSM gmapsupp",
-    'garmin-cycle.zip' => "Garmin Cycle gmapsupp",
+    'garmin-osm.zip'   => "Garmin OSM",
+    'garmin-cycle.zip' => "Garmin Cycle",
 };
 
 #
