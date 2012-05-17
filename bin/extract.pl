@@ -66,6 +66,7 @@ my $formats = {
     'osm.gz'  => "OSM XML gzip'd",
     'osm.bz2' => "OSM XML bzip'd",
     'osm.xz'  => "OSM XML 7z/xz",
+    'garmin.zip'  => "Garmin OSM gmapsupp",
 };
 
 #
@@ -575,6 +576,15 @@ sub send_email {
             $file =~ s/\.pbf$/.xz/;
             if ( !cached_format($file) ) {
                 @system = ( @nice, "$dirname/pbf2osm", "--xz", $pbf_file );
+
+                warn "@system\n" if $debug >= 2;
+                system(@system) == 0 or die "system @system failed: $?";
+            }
+        }
+        elsif ( $obj->{'format'} eq 'garmin.zip' ) {
+            $file =~ s/\.pbf$/.zip/;
+            if ( !cached_format($file) ) {
+                @system = ( @nice, "$dirname/pbf2osm", "--garmin", $pbf_file );
 
                 warn "@system\n" if $debug >= 2;
                 system(@system) == 0 or die "system @system failed: $?";

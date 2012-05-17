@@ -24,7 +24,7 @@ tmpdir=`mktemp -d ${TMPDIR-"/bbbike/tmp"}/garmin.XXXXXXXXXXX`
 split_dir=$tmpdir/split
 mkdir -p $split_dir
 
-garmin=`basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
+garmin=`basename $file | perl -npe 's/(\.pbf|\.gz|\.bz2)?$//'`
 garmin_dir=$tmpdir/$garmin
 mkdir -p $garmin_dir
 
