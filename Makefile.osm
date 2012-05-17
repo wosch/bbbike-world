@@ -257,13 +257,7 @@ cleanup-osm-error:
 	@find ${OSM_DIR} -name '*.gz' -print0 | ${XARGS} -0 -n8 -P${MAX_CPU} zegrep -l '<error>' | ${XARGS} rm -f
 
 check-data-osm:
-	for i in ${CITIES}; do \
-	    if ! find ${DATA_OSM_DIR}/$$i -type f -print | egrep -v '\.(gz|bak|dd|yml|pl|data)$$' | egrep -v 'opensearch\.' | sort -r | \
-		xargs -n1 -P${MAX_VCPU}  ./miscsrc/grepstrassen -name Kreuzbergstr. >/dev/null; then \
-		echo "Failed city: $$i"; \
-		exit=1; \
-	    fi; \
-	done; exit $$exit
+	echo ${CITIES} | ${XARGS} -E " " -n1 -P${MAX_VCPU} ./world/bin/check-data-osm
 
 convert2: convert3 convert-workarounds
 # using GNU xargs -P parallel
