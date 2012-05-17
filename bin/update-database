@@ -12,7 +12,7 @@ mkdir -p $tmp
 : ${bbbike_build="build-runtime"}
 : ${bbbike_download="planet-download"}
 : ${bbbike_extract="distclean cities-parallel rsync-osm"}
-: ${bbbike_convert="convert-wgs84 convert-post check-data-osm convert-bbbike update-files"}
+: ${bbbike_convert="convert-wgs84 convert-post check-data-osm rsync-bg convert-bbbike update-files"}
 : ${bbbike_install="rsync-tgz rsync cache-heater"}
 
 commands="$bbbike_build $bbbike_download $bbbike_extract $bbbike_convert $bbbike_install"
@@ -33,7 +33,7 @@ do
 
 	case $i in
 	    # in background
-	    rsync-osm ) time $ionice $ionice_opt make -s $i > tmp/log.$i 2>&1 & ;;
+	    rsync-osm | rsync-bg ) time $ionice $ionice_opt make -s $i > tmp/log.$i 2>&1 & ;;
 
 	    # foreground
 	    * )         time $ionice $ionice_opt make -s $i > tmp/log.$i 2>&1 ;;
