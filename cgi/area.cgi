@@ -200,6 +200,29 @@ sub js_jump {
 EOF
 }
 
+sub js_map {
+    my $map_type = shift;
+
+    return <<EOF;
+    <script type="text/javascript">
+    //<![CDATA[
+
+    var resize;
+    setMapWidth();
+
+    // reset map size, 3x a second
+    jQuery(window).resize(function () {
+        if (resize) clearTimeout(resize);
+        resize = setTimeout(function () {
+            setMapWidth();
+        }, 300);
+    });
+
+    //]]>
+    </script>
+EOF
+}
+
 sub usage () {
     <<EOF;
 usage: $0 [ options ]
@@ -243,6 +266,7 @@ print qq{<div id="map"></div>\n};
 
 my $map_type = $city_area ? "mapnik" : "terrain";
 print &js_jump($map_type);
+print &js_map;
 
 print <<EOF;
 <script type="text/javascript">
