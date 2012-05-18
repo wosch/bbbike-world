@@ -11,8 +11,16 @@ file=$1
 test -z "$ext" && ext=${2-"garmin-osm.zip"}
 : ${debug=false}
 
+size=$(du -ks -L "$file" | awk '{ print $1}')
+java_heap=801
+if [ $size -gt 500000 ]; then
+   java_heap=2400
+elif [ $size -gt 100000 ]; then
+   java_heap=1600
+fi
+
 pwd=$(pwd)
-java_opt=-Xmx1G 
+java_opt=-Xmx${java_heap}M 
 mkgmap_opt='--gmapsupp --family-id=23 --remove-short-arcs --route --net'
 mkgmap_map_style="osm"
 
