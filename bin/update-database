@@ -14,8 +14,9 @@ mkdir -p $tmp
 : ${bbbike_extract="distclean cities-parallel rsync-osm"}
 : ${bbbike_convert="convert-wgs84 convert-post check-data-osm rsync-bg convert-bbbike update-files"}
 : ${bbbike_install="rsync-tgz rsync cache-heater"}
+: ${bbbike_post="osm2garmin rsync"}
 
-commands="$bbbike_build $bbbike_download $bbbike_extract $bbbike_convert $bbbike_install"
+commands="$bbbike_build $bbbike_download $bbbike_extract $bbbike_convert $bbbike_install $bbbike_post"
 
 # lower I/O nice level on linux
 if which ionice >/dev/null; then
