@@ -23,7 +23,8 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
-    title   => qq{New feature: BBBike extract service with Garmin OSM and Garmin cycle map format},
+    title =>
+qq{New feature: BBBike extract service with Garmin OSM and Garmin cycle map format},
     id      => 'ceb834ea55261da7259fd57c8760d80f',
     content => {
         type => 'text',
