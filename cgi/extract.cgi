@@ -186,7 +186,9 @@ sub footer {
 
 <div id="footer">
   <div id="footer_top">
-    <a href="../">home</a> $extracts | <a href="../community.html#donate">donate</a>
+    <a href="../">home</a> $extracts | 
+    <a href="http://download.bbbike.org/osm/">download</a> | 
+    <a href="../community.html#donate">donate</a>
   </div>
   <hr/>
   <div id="copyright">
