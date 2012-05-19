@@ -116,7 +116,7 @@ sub header {
     return $q->header( -charset => 'utf-8', @cookie ) .
 
       $q->start_html(
-        -title => 'BBBike @ World extracts',
+        -title => 'BBBike @ World: OpenStreetMap extracts',
         -head  => $q->meta(
             {
                 -http_equiv => 'Content-Type',
@@ -228,8 +228,8 @@ EOF
 
 sub message {
     return <<EOF;
-<b>BBBike @ World extracts</b>:
-This site allow you to extracts areas from the <a href="http://wiki.openstreetmap.org/wiki/Planet.osm">planet.osm</a>.
+<b>BBBike @ World OpenStreetMap extracts</b>:
+this site allow you to extracts areas from the <a href="http://wiki.openstreetmap.org/wiki/Planet.osm">planet.osm</a>.
 The maximum area size is @{[ large_int($max_skm) ]} square km.
 
 It takes between 10-30 minutes to extract an area. You will be notified by e-mail if your extract is ready for download.
