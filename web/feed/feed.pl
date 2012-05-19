@@ -23,6 +23,18 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
+    title   => qq{New feature: BBBike extract service with Garmin OSM and Garmin cycle map format},
+    id      => 'ceb834ea55261da7259fd57c8760d80f',
+    content => {
+        type => 'text',
+        content =>
+qq{New feature: BBBike extract service with Garmin OSM and Garmin cycle map format},
+    },
+    updated  => '2012-05-20T13:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title   => qq{Added new cities: LaPaz, Cusco, and Sucre},
     id      => 'd94a133044bb2da6cc7177e80e24c751',
     content => {

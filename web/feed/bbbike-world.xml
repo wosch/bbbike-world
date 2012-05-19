@@ -16,6 +16,15 @@
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>New feature: BBBike extract service with Garmin OSM and
+    Garmin cycle map format</title>
+    <id>ceb834ea55261da7259fd57c8760d80f</id>
+    <content>New feature: BBBike extract service with Garmin OSM
+    and Garmin cycle map format</content>
+    <updated>2012-05-20T13:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title>Added new cities: LaPaz, Cusco, and Sucre</title>
     <id>d94a133044bb2da6cc7177e80e24c751</id>
     <content>Added new cities: LaPaz, Cusco, and Sucre</content>
