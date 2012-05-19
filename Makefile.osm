@@ -318,7 +318,7 @@ ${CITIES}:
 	
 ######################################################################
 
-rsync: sync-sitemap osm-header _rsync
+rsync: sync-sitemap osm-header _rsync rsync-osm
 rsync-bg: _rsync
 
 _rsync:
