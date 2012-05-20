@@ -52,7 +52,7 @@ sub footer {
 <hr/>
 
 <div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em;" >
-(&copy;) 2008-2012 <a href="http://bbbike.org">BBBike.org</a> // Map data by <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
+(&copy;) 2008-2012 <a href="http://bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
 <div id="footer_community">
 </div>
 </div>
@@ -357,6 +357,8 @@ foreach my $c (@city_list) {
       . ( $offline ? "../$c/" : qq{?city=$c} )
       . qq{">$c</a>\n};
 }
+print
+qq{ | <span id="maplink"><a href="http://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=http:%2F%2Fwww.bbbike.org%2Fbbbike-world.kml&amp;ie=UTF8&amp;t=p&amp;ll=52.961875,12.128906&amp;spn=22.334434,47.460938&amp;z=4" >View on a Map</a></span>\n};
 print qq{<p/></div><!-- more cities -->\n};
 
 print &footer( "cities" => \@city_list, 'city' => $city );
