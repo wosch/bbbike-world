@@ -75,11 +75,14 @@ sub bbbike2kml_placemarks {
         my ( $city, $name, $lang, $x, $y ) = @$c;
 
         my $bbbike_url = "http://www.bbbike.org/$city/";
+        my $bbbike_url_extract = "http://www.bbbike.org/cgi/area.cgi?city=$city";
 
         print <<EOF;
   <Placemark>
     <name>$name</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="$bbbike_url">BBBike @ $name</a></span>]]></description>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="$bbbike_url">BBBike @ $name</a></span><p/>
+	OpenStreetMap data <a href="$bbbike_url_extract">extract</a></span>
+	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>$x,$y,0.000000</coordinates>
