@@ -75,7 +75,8 @@ sub bbbike2kml_placemarks {
         my ( $city, $name, $lang, $x, $y ) = @$c;
 
         my $bbbike_url = "http://www.bbbike.org/$city/";
-        my $bbbike_url_extract = "http://www.bbbike.org/cgi/area.cgi?city=$city";
+        my $bbbike_url_extract =
+          "http://www.bbbike.org/cgi/area.cgi?city=$city";
 
         print <<EOF;
   <Placemark>
