@@ -286,7 +286,8 @@ sub check_input {
 
     sub Param {
         my $param = shift;
-        my $data = $qq->param($param) || "";
+        my $data = $qq->param($param);
+        $data = "" if !defined $data;
 
         $data =~ s/^\s+//;
         $data =~ s/\s+$//;
