@@ -171,16 +171,16 @@ osm2garmin-osm:
 osm2garmin-cycle:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env ext=garmin-cycle.zip ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
 
-osm-index:
-	for i in ${CITIES}; do \
-	    (cd cgi; ./area.cgi --offline --city=$$i ) > ${OSM_DIR}/$$i/index.html; \
-	done
-
 osm-readme:
 	for i in ${CITIES}; do \
 	    perl -npe "s/%{city}/$$i/g" world/download/etc/CITY.txt > ${OSM_DIR}/$$i/HEADER.txt; \
         done
 
+osm-html:
+	cd cgi; \
+	for i in ${CITIES}; do \
+	  ./area.cgi --offline --city=$$i > ../${OSM_DIR}/$$i/index.html & \
+        done; wait
 
 cities-parallel:
 	@echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} cities-pbf | ${TIME} xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
