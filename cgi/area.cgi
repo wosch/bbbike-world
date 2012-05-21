@@ -240,6 +240,7 @@ usage: $0 [ options ]
 --debug={0..2}          debug level, default: $debug
 --offline               run offline
 --city=name             given city name
+--download=url          download site
 EOF
 }
 
@@ -259,6 +260,8 @@ GetOptions(
 ) or die usage;
 
 die usage if $help;
+
+$download_bbbike_org = "" if $offline;
 
 my $database = "world/etc/cities.csv";
 $database = "../$database" if -e "../$database";
