@@ -185,6 +185,7 @@ osm-html:
 cities-parallel:
 	@echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} cities-pbf | ${TIME} xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
 	${MAKE} -f Makefile.osm check-osm-gzip
+	${MAKE} -f Makefile.osm osm-html
 
 _cities:
 	@echo ${CITIES} | \
