@@ -24,6 +24,7 @@ use Email::Valid;
 use Digest::MD5 qw(md5_hex);
 use Net::SMTP;
 use GIS::Distance::Lite;
+use HTTP::Date;
 
 use strict;
 use warnings;
@@ -380,7 +381,7 @@ EOF
         'ne_lat' => $ne_lat,
         'ne_lng' => $ne_lng,
         'skm'    => $skm,
-        'time'   => time(),
+        'date'   => time2str(time),
     };
 
     my $json      = new JSON;
