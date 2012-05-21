@@ -24,6 +24,7 @@ use Email::Valid;
 use Digest::MD5 qw(md5_hex);
 use Net::SMTP;
 use GIS::Distance::Lite;
+use HTTP::Date;
 
 use strict;
 use warnings;
@@ -286,7 +287,8 @@ sub check_input {
 
     sub Param {
         my $param = shift;
-        my $data = $qq->param($param) || "";
+        my $data  = $qq->param($param);
+        $data = "" if !defined $data;
 
         $data =~ s/^\s+//;
         $data =~ s/\s+$//;
@@ -379,7 +381,7 @@ EOF
         'ne_lat' => $ne_lat,
         'ne_lng' => $ne_lng,
         'skm'    => $skm,
-        'time'   => time(),
+        'date'   => time2str(time),
     };
 
     my $json      = new JSON;
