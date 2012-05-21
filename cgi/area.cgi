@@ -239,6 +239,7 @@ usage: $0 [ options ]
 
 --debug={0..2}          debug level, default: $debug
 --offline               run offline
+--city=name             given city name
 EOF
 }
 
