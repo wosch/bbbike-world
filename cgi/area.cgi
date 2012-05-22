@@ -139,12 +139,13 @@ sub header {
         $base = "$www_bbbike_org/cgi/";
     }
 
+#my @javascript = ( "http://www.google.com/jsapi?hl=de", "http://maps.googleapis.com/maps/api/js?sensor=false&amp;language=de&amp;libraries=panoramio,weather", "/html/bbbike-js.js");
     my @javascript = (
         "../html/jquery-1.4.2.min.js",
 "../html/devbridge-jquery-autocomplete-1.1.2/jquery.autocomplete-min.js",
 "http://maps.google.com/maps/api/js?sensor=$sensor&amp;libraries=weather,panoramio",
         "../html/bbbike.js",
-        "../html/maps3.js",
+        "../html/maps3.js"
     );
 
     return $q->start_html(
