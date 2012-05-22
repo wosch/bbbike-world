@@ -24,6 +24,19 @@ my $feed = XML::Atom::SimpleFeed->new(
 
 $feed->add_entry(
     title =>
+qq{A new BBBike Android app (Berlin only, original data) is available in the android market: https://play.google.com/store/search?q=bbbike},
+    id      => 'ceb834ea55261da7259fd57c8760d81f',
+    content => {
+        type => 'text',
+        content =>
+qq{A new BBBike Android app (Berlin only, original data) is available in the android market: https://play.google.com/store/search?q=bbbike},
+    },
+    updated  => '2012-22-20T13:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title =>
 qq{New feature: BBBike extract service with Garmin OSM and Garmin cycle map format},
     id      => 'ceb834ea55261da7259fd57c8760d80f',
     content => {
