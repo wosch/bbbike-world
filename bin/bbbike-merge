@@ -1,0 +1,20 @@
+#!/bin/sh
+
+set -e
+
+dir=$(mktemp -d -t bbbike-bootstrap.XXXXXXXX)
+cd $dir
+
+exec 2> log.bbbike
+
+bbbike-checkout
+cd bbbike
+
+git merge eserte/master
+make -s js perltidy 
+make -s update-files 
+git diff
+
+pwd
+echo "please run: $ rm -rf $dir"
+
