@@ -19,6 +19,9 @@ elif [ $size -gt 100000 ]; then
    java_heap=1600
 fi
 
+md5sum=`which md5 md5sum false | head -n 1`
+: ${SHA="shasum -a 256"}
+
 pwd=$(pwd)
 java_opt=-Xmx${java_heap}M 
 mkgmap_opt='--gmapsupp --family-id=23 --remove-short-arcs --route --net'
@@ -79,7 +82,12 @@ EOF
 
 cd ..
 garmin_zip=`dirname $file`/$garmin.osm.$ext
-zip -r - -- $garmin | (cd $pwd;  cat > $garmin_zip.tmp && mv $garmin_zip.tmp $garmin_zip )
+zip -r - -- $garmin | \
+  ( cd $pwd;
+    cat > $garmin_zip.tmp && mv $garmin_zip.tmp $garmin_zip 
+    $md5sum $garmin_zip > $garmin_zip.md5
+    $SHA $garmin_zip > $garmin_zip.sha256
+  )
 
 $debug || rm -rf $tmpdir
 
