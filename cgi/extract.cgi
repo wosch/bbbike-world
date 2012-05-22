@@ -382,6 +382,7 @@ EOF
         'ne_lng' => $ne_lng,
         'skm'    => $skm,
         'date'   => time2str(time),
+        'time'   => time(),
     };
 
     my $json      = new JSON;
