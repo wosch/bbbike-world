@@ -280,7 +280,7 @@ print qq{<div id="sidebar">}, &download_area($city), qq{</div>\n};
 print qq{<div id="BBBikeGooglemap" style="height:94%">\n};
 print qq{<div id="map"></div>\n};
 
-my $map_type = $city_area ? "mapnik" : "terrain";
+my $map_type = $city_area ? "mapnik" : "hike_bike";
 print &js_jump($map_type);
 print &js_map;
 
