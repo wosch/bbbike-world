@@ -1,33 +1,34 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2009-2012 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012 Wolfram Schneider, http://bbbike.org
 #
-# livesearch.cgi - bbbike.org live routing search
+# livesearch-extract.cgi - extractbbbike.org live extracts
 
-use CGI qw/-utf-8 unescape/;
+use CGI qw/-utf-8 unescape escapeHTML/;
 use URI;
 use URI::QueryParam;
 
 use IO::File;
+use IO::Dir;
 use JSON;
 use Data::Dumper;
 use Encode;
+use File::stat;
 
 use strict;
 use warnings;
 
-my $logfile = '/var/log/lighttpd/bbbike.error.log';
+my $log_dir = '/usr/local/www/tmp/trash';
 
-#my $logfile                      = '../../tmp/lighttpd/bbbike.error.log';
-my $max                          = 50;
-my $only_production_statistic    = 1;
-my $debug                        = 1;
-my $logrotate_first_uncompressed = 1;
+my $max                       = 50;
+my $only_production_statistic = 1;
+my $debug                     = 1;
 
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
 my $q = new CGI;
 
+# google mobile maps
 sub is_mobile {
     my $q = shift;
 
@@ -58,74 +59,52 @@ sub date_alias {
     }
 }
 
-sub logfiles {
-    my $file    = shift;
-    my @numbers = @_;
-
-    my @files;
-    for my $num (@numbers) {
-        push @files, "$file.$num.gz";
-    }
-    return @files;
-}
-
-#
-# estimate the usage for a 24 hour period. Based on the google analytics
-# usage statistics for April 2011
-#
-sub estimated_daily_usage {
-    my $counter = shift;
-
-    $counter = 1 if $counter <= 0;
-
-    # hour -> percentage
-    my $hourly_usage = {
-        0  => 2.44,
-        1  => 1.21,
-        2  => 0.65,
-        3  => 0.36,
-        4  => 0.36,
-        5  => 0.35,
-        6  => 0.94,
-        7  => 2.03,
-        8  => 4.13,
-        9  => 5.76,
-        10 => 6.74,
-        11 => 7.75,
-        12 => 7.12,
-        13 => 7.06,
-        14 => 6.47,
-        15 => 5.09,
-        16 => 4.95,
-        17 => 4.72,
-        18 => 4.93,
-        19 => 5.70,
-        20 => 5.80,
-        21 => 6.43,
-        22 => 5.28,
-        23 => 3.74,
-    };
-
-    my ( $hour, $min ) = ( localtime(time) )[ 2, 1 ];
-    my $now = 0;
-
-    foreach my $key ( keys %$hourly_usage ) {
-        if ( $key < $hour ) {
-            $now += $hourly_usage->{$key};
-        }
-        elsif ( $key == $hour ) {
-            $now += $hourly_usage->{$key} * $min / 60;
-        }
-    }
-
-    return int( $counter * 100 / $now );
-}
-
 sub is_production {
     my $q = shift;
 
     return 1 if -e "/tmp/is_production";
     return $q->virtual_host() =~ /^www\.bbbike\.org$/i ? 1 : 0;
+}
+
+# extract areas from trash can
+sub extract_areas {
+    my $log_dir = shift;
+    my $max     = shift;
+    my $devel   = shift;
+    my $date    = shift;
+    my $unique  = shift;
+
+    warn "extract route: log dir: $log_dir, max: $max, date: $date\n" if $debug;
+
+    my %hash;
+    my $dh = IO::Dir->new($log_dir) or die "open $log_dir: $!\n";
+
+    while ( defined( my $file = $dh->read ) ) {
+        next if $file !~ /\.json$/;
+
+        my $f = "$log_dir/$file";
+        my $st = stat($f) or die "stat $f: $!\n";
+        $hash{$f} = $st->mtime;
+    }
+    $dh->close;
+
+    my @list = sort { $hash{$a} <=> $hash{$b} } keys %hash;
+
+    my @area;
+    my $json = new JSON;
+    for ( my $i = 0 ; $i < scalar(@list) && $i < $max ; $i++ ) {
+        my $file = $list[$i];
+        my $fh   = new IO::File $file, "r" or die "open $file: $!\n";
+        my $data = "";
+        while (<$fh>) {
+            $data .= $_;
+        }
+
+        my $obj = $json->decode($data);
+        push @area, $obj;
+    }
+
+    return @area;
 }
 
 # extract URLs from web server error log
@@ -145,8 +124,7 @@ sub extract_route {
 
     my @data_all;
     my @files = $file;
-    push @files,
-      $logrotate_first_uncompressed ? "$file.1" : &logfiles( $file, 1 );
+    push @files, 0 ? "$file.1" : &logfiles( $file, 1 );
     push @files, &logfiles( $file, 2 .. 20 );
     push @files, &logfiles( $file, 21 .. 100 ) if $max > 2_000;
 
@@ -239,7 +217,7 @@ sub footer {
     my $data = "";
     $q->delete('date');
 
-    foreach my $number ( 10, 25, 50, 100, 250, 500, 1000 ) {
+    foreach my $number ( 10, 25, 50, 100, 250 ) {
         if ( $number == $max ) {
             $data .= " | $number";
         }
@@ -276,8 +254,7 @@ sub footer {
     return <<EOF;
 <div id="footer">
 <div id="footer_top">
-<a href="../">home</a> |
-<a href="../cgi/area.cgi">covered area</a>
+<a href="../">home</a>
 $data
 </div>
 </div>
@@ -373,12 +350,12 @@ sub statistic_maps {
                 'src' =>
 "http://maps.googleapis.com/maps/api/js?sensor=false&amp;language=en"
             },
-            { 'src' => "/html/bbbike-js.js" }
+            { 'src' => "../html/bbbike-js.js" }
         ],
     );
 
     print qq{<div id="routes"></div>\n};
-    print qq{<div id="BBBikeGooglemap" style="height:94%">\n};
+    print qq{<div id="BBBikeGooglemap" style="height:92%">\n};
     print qq{<div id="map"></div>\n};
 
     print <<EOF;
@@ -415,126 +392,33 @@ EOF
 
     my $date = $q->param('date') || "";
     my $stat = $q->param('stat') || "name";
-    my @d = &extract_route( $logfile, $max, &is_production($q), $date );
+    my @d = &extract_areas( $log_dir, $max, &is_production($q), $date );
 
-    #print join ("\n", @d); exit;
+    #print Dumper(\@d); exit;
 
     print qq{<script type="text/javascript">\n};
 
     my $city_center;
-    my $json = new JSON;
     my $cities;
     my $counter;
     my $counter2 = 0;
     my @route_display;
 
-    sub Param {
-        my $q   = shift;
-        my $key = shift;
-        my @val = $q->param($_) || "";
-
-        # XXX: WTF? run decode N times!!!
-        eval {
-            @val = map { Encode::decode( "utf8", $_, Encode::FB_QUIET ) } @val;
-        };
-
-        return @val;
-    }
-
+    my $json = new JSON;
     my %hash;
-    foreach my $url (@d) {
+    foreach my $o (@d) {
+        my $data =
+          qq|$o->{"sw_lat"} $o->{"sw_lng"} $o->{"ne_lat"} $o->{"ne_lat"}|;
+        next if $hash{$data}++;
 
-        # CGI->new() is sooo slow
-        my $qq = CGI->new($url);
-
-        $counter2++;
-        warn $url, "\n" if $debug >= 2;
-
-        next if !$qq->param('driving_time');
-
-        my $coords = $qq->param('coords');
-        next if !$coords;
-        next if exists $hash{$coords};
-        $hash{$coords} = 1;
-
-        last if $counter++ >= $max;
-
-        my @params =
-          qw/city route_length driving_time startname zielname vianame area/;
-        push @params,
-          qw/pref_cat pref_quality pref_specialvehicle pref_speed pref_ferry pref_unlit viac/;
-
-        my $opt = { map { $_ => ( Param( $qq, $_ ) ) } @params };
-
-        $city_center->{ $opt->{'city'} } = $opt->{'area'};
-
-        my $data = "[";
-        foreach my $c ( split /!/, $coords ) {
-            $data .= qq{'$c', };
-        }
-        $data =~ s/, $/]/;
+        my $opt = { "city" => escapeHTML( $o->{"city"} ), "area" => $data };
 
         my $opt_json = $json->encode($opt);
-        print qq{plotRoute(map, $opt_json, $data);\n};
-
-        push( @{ $cities->{ $opt->{'city'} } }, $opt ) if $opt->{'city'};
-        push @route_display, $url;
+        print qq{plotRoute(map, $opt_json, "$data");\n};
     }
     warn "duplicates: ", scalar( keys %hash ), "\n";
 
-    print "/* ", Dumper($cities),      " */\n" if $debug >= 2;
-    print "/* ", Dumper($city_center), " */\n" if $debug >= 2;
-
-    my @cities = sort keys %$cities;
-
-    # sort cities by hit counter, not by name
-    if ( $stat eq 'hits' ) {
-        @cities =
-          reverse sort { $#{ $cities->{$a} } <=> $#{ $cities->{$b} } }
-          keys %$cities;
-    }
-
-    my $d = join(
-        "<br/>",
-        map {
-                qq/<a title="area $_:/
-              . &route_stat( $cities, $_ )
-              . qq/" href="#" onclick="jumpToCity(\\'/
-              . $city_center->{$_}
-              . qq/\\')">$_ (/
-              . scalar( @{ $cities->{$_} } ) . ")</a>"
-          } @cities
-    );
-
-#$d.= qq{<p><a href="javascript:flipMarkers(infoMarkers)">flip markers</a></p>};
-    $d .= qq{<div id="livestatistic">};
-    if (@route_display) {
-        my $unique_routes = scalar(@route_display);
-        $d .= "<hr />";
-        $d .=
-qq{Number of unique routes: <span title="total routes: $counter2, cities: }
-          . scalar(@cities)
-          . qq{">$unique_routes<br />};
-
-        if ( !is_production($q) && $date eq 'today' ) {
-            $d .=
-                "<p>Estimated usage today: "
-              . &estimated_daily_usage($unique_routes) . "/"
-              . &estimated_daily_usage($counter2) . "</p>";
-        }
-        my $qq = CGI->new($q);
-        $qq->param( "stat", $stat eq 'hits' ? "name" : "hits" );
-        $d .=
-            qq{Sort cities by <a href="}
-          . $qq->url( -relative => 1, -query => 1 ) . qq{">}
-          . ( $stat ne 'hits' ? " hits " : " name " )
-          . qq{</a><br />};
-        $d .= "<p>Cycle Route Statistic<br/>" . &route_stat($cities) . "</p>";
-    }
-    else {
-        $d .= "No routes found";
-    }
-    $d .= "</div>";
+    my $d .= "</div>";
 
     print qq{\n\$("div#routes").html('$d');\n\n};
 
@@ -565,7 +449,7 @@ sub statistic_basic {
     }
 
     my $date = $q->param('date') || "today";
-    my @d = &extract_route( $logfile, $max, &is_production($q), $date );
+    my @d = &extract_route( $log_dir, $max, &is_production($q), $date );
 
     my $city_center;
     my $json = new JSON;
@@ -646,7 +530,7 @@ sub dump_url_list {
     my $q = shift;
 
     my $max = 1000;
-    my @d = &extract_route( $logfile, $max, 0, "" );
+    my @d = &extract_route( $log_dir, $max, 0, "" );
 
     my $cities;
     my %hash;
@@ -706,7 +590,7 @@ sub dump_url_list {
 my $ns = $q->param("namespace") || $q->param("ns") || "";
 
 # plain statistic
-if ( $ns =~ /^stat/ || $ns =~ /^(ascii|text|plain)$/) {
+if ( $ns =~ /^stat/ ) {
     &statistic_basic($q);
 }
 
