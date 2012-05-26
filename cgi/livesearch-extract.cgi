@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2009-2012 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012 Wolfram Schneider, http://bbbike.org
 #
-# livesearch.cgi - bbbike.org live routing search
+# livesearch-extract.cgi - extractbbbike.org live extracts
 
 use CGI qw/-utf-8 unescape/;
 use URI;
@@ -15,19 +15,18 @@ use Encode;
 use strict;
 use warnings;
 
-my $logfile = '/var/log/lighttpd/bbbike.error.log';
+my $log_dir = '/usr/local/www/tmp/trash';
 
-#my $logfile                      = '../../tmp/lighttpd/bbbike.error.log';
-my $max                          = 50;
-my $only_production_statistic    = 1;
-my $debug                        = 1;
-my $logrotate_first_uncompressed = 1;
+my $max                       = 50;
+my $only_production_statistic = 1;
+my $debug                     = 1;
 
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
 my $q = new CGI;
 
+# google mobile maps
 sub is_mobile {
     my $q = shift;
 
@@ -58,69 +57,6 @@ sub date_alias {
     }
 }
 
-sub logfiles {
-    my $file    = shift;
-    my @numbers = @_;
-
-    my @files;
-    for my $num (@numbers) {
-        push @files, "$file.$num.gz";
-    }
-    return @files;
-}
-
-#
-# estimate the usage for a 24 hour period. Based on the google analytics
-# usage statistics for April 2011
-#
-sub estimated_daily_usage {
-    my $counter = shift;
-
-    $counter = 1 if $counter <= 0;
-
-    # hour -> percentage
-    my $hourly_usage = {
-        0  => 2.44,
-        1  => 1.21,
-        2  => 0.65,
-        3  => 0.36,
-        4  => 0.36,
-        5  => 0.35,
-        6  => 0.94,
-        7  => 2.03,
-        8  => 4.13,
-        9  => 5.76,
-        10 => 6.74,
-        11 => 7.75,
-        12 => 7.12,
-        13 => 7.06,
-        14 => 6.47,
-        15 => 5.09,
-        16 => 4.95,
-        17 => 4.72,
-        18 => 4.93,
-        19 => 5.70,
-        20 => 5.80,
-        21 => 6.43,
-        22 => 5.28,
-        23 => 3.74,
-    };
-
-    my ( $hour, $min ) = ( localtime(time) )[ 2, 1 ];
-    my $now = 0;
-
-    foreach my $key ( keys %$hourly_usage ) {
-        if ( $key < $hour ) {
-            $now += $hourly_usage->{$key};
-        }
-        elsif ( $key == $hour ) {
-            $now += $hourly_usage->{$key} * $min / 60;
-        }
-    }
-
-    return int( $counter * 100 / $now );
-}
-
 sub is_production {
     my $q = shift;
 
@@ -145,8 +81,7 @@ sub extract_route {
 
     my @data_all;
     my @files = $file;
-    push @files,
-      $logrotate_first_uncompressed ? "$file.1" : &logfiles( $file, 1 );
+    push @files, 0 ? "$file.1" : &logfiles( $file, 1 );
     push @files, &logfiles( $file, 2 .. 20 );
     push @files, &logfiles( $file, 21 .. 100 ) if $max > 2_000;
 
@@ -239,7 +174,7 @@ sub footer {
     my $data = "";
     $q->delete('date');
 
-    foreach my $number ( 10, 25, 50, 100, 250, 500, 1000 ) {
+    foreach my $number ( 10, 25, 50, 100, 250 ) {
         if ( $number == $max ) {
             $data .= " | $number";
         }
@@ -277,7 +212,6 @@ sub footer {
 <div id="footer">
 <div id="footer_top">
 <a href="../">home</a> |
-<a href="../cgi/area.cgi">covered area</a>
 $data
 </div>
 </div>
@@ -373,12 +307,12 @@ sub statistic_maps {
                 'src' =>
 "http://maps.googleapis.com/maps/api/js?sensor=false&amp;language=en"
             },
-            { 'src' => "/html/bbbike-js.js" }
+            { 'src' => "../html/bbbike-js.js" }
         ],
     );
 
     print qq{<div id="routes"></div>\n};
-    print qq{<div id="BBBikeGooglemap" style="height:94%">\n};
+    print qq{<div id="BBBikeGooglemap" style="height:92%">\n};
     print qq{<div id="map"></div>\n};
 
     print <<EOF;
@@ -415,7 +349,7 @@ EOF
 
     my $date = $q->param('date') || "";
     my $stat = $q->param('stat') || "name";
-    my @d = &extract_route( $logfile, $max, &is_production($q), $date );
+    my @d = &extract_route( $log_dir, $max, &is_production($q), $date );
 
     #print join ("\n", @d); exit;
 
@@ -565,7 +499,7 @@ sub statistic_basic {
     }
 
     my $date = $q->param('date') || "today";
-    my @d = &extract_route( $logfile, $max, &is_production($q), $date );
+    my @d = &extract_route( $log_dir, $max, &is_production($q), $date );
 
     my $city_center;
     my $json = new JSON;
@@ -646,7 +580,7 @@ sub dump_url_list {
     my $q = shift;
 
     my $max = 1000;
-    my @d = &extract_route( $logfile, $max, 0, "" );
+    my @d = &extract_route( $log_dir, $max, 0, "" );
 
     my $cities;
     my %hash;
