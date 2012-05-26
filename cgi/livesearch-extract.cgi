@@ -392,7 +392,7 @@ EOF
 
     my $date = $q->param('date') || "";
     my $stat = $q->param('stat') || "name";
-    my @d = &extract_areas( $log_dir, $max, &is_production($q), $date );
+    my @d = &extract_areas( $log_dir, $max * 1.5, &is_production($q), $date );
 
     #print Dumper(\@d); exit;
 
@@ -406,19 +406,22 @@ EOF
 
     my $json = new JSON;
     my %hash;
+    my $counter = 0;
     foreach my $o (@d) {
         my $data =
           qq|$o->{"sw_lat"} $o->{"sw_lng"} $o->{"ne_lat"} $o->{"ne_lat"}|;
         next if $hash{$data}++;
+        last if $counter++ >= $max;
 
         my $opt = { "city" => escapeHTML( $o->{"city"} ), "area" => $data };
 
         my $opt_json = $json->encode($opt);
         print qq{plotRoute(map, $opt_json, "$data");\n};
+
     }
     warn "duplicates: ", scalar( keys %hash ), "\n";
 
-    my $d .= "</div>";
+    my $d .= "count: $counter</div>";
 
     print qq{\n\$("div#routes").html('$d');\n\n};
 
