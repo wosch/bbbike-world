@@ -252,7 +252,7 @@ if [ -s /var/log/lighttpd/extract.bbbike.log ]; then
 
     echo ""
     echo "extract cities:"
-    egrep ' /\?city=' extract.bbbike.log | perl -ne 'print "$1\n" if /city=(.*?)&/' | sort -u
+    egrep ' /\?city=' extract.bbbike.log | perl -ne 'print "$1\n" if /city=(.*?)&/' | sort -u | perl -npe 'use CGI;; s,&,\t,g; $_=CGI::Util::unescape($_)'
 
     echo ""
     echo -n "extract statistics: "
