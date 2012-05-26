@@ -3,7 +3,7 @@
 #
 # livesearch-extract.cgi - extractbbbike.org live extracts
 
-use CGI qw/-utf-8 unescape/;
+use CGI qw/-utf-8 unescape escapeHTML/;
 use URI;
 use URI::QueryParam;
 
@@ -399,30 +399,19 @@ EOF
     print qq{<script type="text/javascript">\n};
 
     my $city_center;
-    my $json = new JSON;
     my $cities;
     my $counter;
     my $counter2 = 0;
     my @route_display;
 
-    sub Param {
-        my $q   = shift;
-        my $key = shift;
-        my @val = $q->param($_) || "";
-
-        # XXX: WTF? run decode N times!!!
-        eval {
-            @val = map { Encode::decode( "utf8", $_, Encode::FB_QUIET ) } @val;
-        };
-
-        return @val;
-    }
-
+    my $json = new JSON;
     my %hash;
     foreach my $o (@d) {
         my $data =
           qq|$o->{"sw_lat"} $o->{"sw_lng"} $o->{"ne_lat"} $o->{"ne_lat"}|;
-        my $opt = { "city" => $o->{"city"}, "area" => $data };
+        next if $hash{$data}++;
+
+        my $opt = { "city" => escapeHTML( $o->{"city"} ), "area" => $data };
 
         my $opt_json = $json->encode($opt);
         print qq{plotRoute(map, $opt_json, "$data");\n};
