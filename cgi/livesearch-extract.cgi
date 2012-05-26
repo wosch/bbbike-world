@@ -8,9 +8,11 @@ use URI;
 use URI::QueryParam;
 
 use IO::File;
+use IO::Dir;
 use JSON;
 use Data::Dumper;
 use Encode;
+use File::stat;
 
 use strict;
 use warnings;
@@ -62,6 +64,47 @@ sub is_production {
 
     return 1 if -e "/tmp/is_production";
     return $q->virtual_host() =~ /^www\.bbbike\.org$/i ? 1 : 0;
+}
+
+# extract areas from trash can
+sub extract_areas {
+    my $log_dir = shift;
+    my $max     = shift;
+    my $devel   = shift;
+    my $date    = shift;
+    my $unique  = shift;
+
+    warn "extract route: log dir: $log_dir, max: $max, date: $date\n" if $debug;
+
+    my %hash;
+    my $dh = IO::Dir->new($log_dir) or die "open $log_dir: $!\n";
+
+    while ( defined( my $file = $dh->read ) ) {
+        next if $file !~ /\.json$/;
+
+        my $f = "$log_dir/$file";
+        my $st = stat($f) or die "stat $f: $!\n";
+        $hash{$f} = $st->mtime;
+    }
+    $dh->close;
+
+    my @list = sort { $hash{$a} <=> $hash{$b} } keys %hash;
+
+    my @area;
+    my $json = new JSON;
+    for ( my $i = 0 ; $i < scalar(@list) && $i < $max ; $i++ ) {
+        my $file = $list[$i];
+        my $fh   = new IO::File $file, "r" or die "open $file: $!\n";
+        my $data = "";
+        while (<$fh>) {
+            $data .= $_;
+        }
+
+        my $obj = $json->decode($data);
+        push @area, $obj;
+    }
+
+    return @area;
 }
 
 # extract URLs from web server error log
@@ -211,7 +254,7 @@ sub footer {
     return <<EOF;
 <div id="footer">
 <div id="footer_top">
-<a href="../">home</a> |
+<a href="../">home</a>
 $data
 </div>
 </div>
@@ -349,9 +392,9 @@ EOF
 
     my $date = $q->param('date') || "";
     my $stat = $q->param('stat') || "name";
-    my @d = &extract_route( $log_dir, $max, &is_production($q), $date );
+    my @d = &extract_areas( $log_dir, $max, &is_production($q), $date );
 
-    #print join ("\n", @d); exit;
+    #print Dumper(\@d); exit;
 
     print qq{<script type="text/javascript">\n};
 
@@ -376,99 +419,17 @@ EOF
     }
 
     my %hash;
-    foreach my $url (@d) {
-
-        # CGI->new() is sooo slow
-        my $qq = CGI->new($url);
-
-        $counter2++;
-        warn $url, "\n" if $debug >= 2;
-
-        next if !$qq->param('driving_time');
-
-        my $coords = $qq->param('coords');
-        next if !$coords;
-        next if exists $hash{$coords};
-        $hash{$coords} = 1;
-
-        last if $counter++ >= $max;
-
-        my @params =
-          qw/city route_length driving_time startname zielname vianame area/;
-        push @params,
-          qw/pref_cat pref_quality pref_specialvehicle pref_speed pref_ferry pref_unlit viac/;
-
-        my $opt = { map { $_ => ( Param( $qq, $_ ) ) } @params };
-
-        $city_center->{ $opt->{'city'} } = $opt->{'area'};
-
-        my $data = "[";
-        foreach my $c ( split /!/, $coords ) {
-            $data .= qq{'$c', };
-        }
-        $data =~ s/, $/]/;
+    foreach my $o (@d) {
+        my $data =
+          qq|$o->{"sw_lat"} $o->{"sw_lng"} $o->{"ne_lat"} $o->{"ne_lat"}|;
+        my $opt = { "city" => $o->{"city"}, "area" => $data };
 
         my $opt_json = $json->encode($opt);
-        print qq{plotRoute(map, $opt_json, $data);\n};
-
-        push( @{ $cities->{ $opt->{'city'} } }, $opt ) if $opt->{'city'};
-        push @route_display, $url;
+        print qq{plotRoute(map, $opt_json, "$data");\n};
     }
     warn "duplicates: ", scalar( keys %hash ), "\n";
 
-    print "/* ", Dumper($cities),      " */\n" if $debug >= 2;
-    print "/* ", Dumper($city_center), " */\n" if $debug >= 2;
-
-    my @cities = sort keys %$cities;
-
-    # sort cities by hit counter, not by name
-    if ( $stat eq 'hits' ) {
-        @cities =
-          reverse sort { $#{ $cities->{$a} } <=> $#{ $cities->{$b} } }
-          keys %$cities;
-    }
-
-    my $d = join(
-        "<br/>",
-        map {
-                qq/<a title="area $_:/
-              . &route_stat( $cities, $_ )
-              . qq/" href="#" onclick="jumpToCity(\\'/
-              . $city_center->{$_}
-              . qq/\\')">$_ (/
-              . scalar( @{ $cities->{$_} } ) . ")</a>"
-          } @cities
-    );
-
-#$d.= qq{<p><a href="javascript:flipMarkers(infoMarkers)">flip markers</a></p>};
-    $d .= qq{<div id="livestatistic">};
-    if (@route_display) {
-        my $unique_routes = scalar(@route_display);
-        $d .= "<hr />";
-        $d .=
-qq{Number of unique routes: <span title="total routes: $counter2, cities: }
-          . scalar(@cities)
-          . qq{">$unique_routes<br />};
-
-        if ( !is_production($q) && $date eq 'today' ) {
-            $d .=
-                "<p>Estimated usage today: "
-              . &estimated_daily_usage($unique_routes) . "/"
-              . &estimated_daily_usage($counter2) . "</p>";
-        }
-        my $qq = CGI->new($q);
-        $qq->param( "stat", $stat eq 'hits' ? "name" : "hits" );
-        $d .=
-            qq{Sort cities by <a href="}
-          . $qq->url( -relative => 1, -query => 1 ) . qq{">}
-          . ( $stat ne 'hits' ? " hits " : " name " )
-          . qq{</a><br />};
-        $d .= "<p>Cycle Route Statistic<br/>" . &route_stat($cities) . "</p>";
-    }
-    else {
-        $d .= "No routes found";
-    }
-    $d .= "</div>";
+    my $d .= "</div>";
 
     print qq{\n\$("div#routes").html('$d');\n\n};
 
