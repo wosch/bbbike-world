@@ -4,10 +4,18 @@
 # osm2garmin - convert a osm/pbf file to garmin
 #
 
-
 set -e
 PATH=$HOME/bin:/bin:/usr/bin; export PATH
+
+usage () {
+   echo "$@"
+   echo "usage file [ garmin-cycle.zip | garmin-leisure.zip ]"
+   exit 1
+}
+
 file=$1
+test -e "$file" || usage "file $file does not exists"
+
 test -z "$ext" && ext=${2-"garmin-osm.zip"}
 : ${debug=false}
 
@@ -34,20 +42,24 @@ case $ext in
 	mkgmap_map_style=cyclemap
 	mkgmap_map_type=$pwd/world/etc/mkgmap/cyclemap.TYP
 	;;
+
    garmin-freizeit.zip | garmin-freetime.zip | garmin-leisure.zip ) 
 	ext=garmin-leisure.zip
 	mkgmap_map=--style-file=$pwd/world/etc/mkgmap/freizeit
 	mkgmap_map_style=freizeit
 	mkgmap_map_type=$pwd/world/etc/mkgmap/freizeit.TYP
 	;;
+
+   garmin-osm.zip ) ;;
+
+   *) usage ;;
 esac
 
-usage () {
-   echo "usage file [ garmin-cycle.zip | garmin-leisure.zip ]"
-   exit 1
-}
 
 test -z "$file" && usage
+if [ -n "$mkgmap_map_type" ]; then
+   test -e "$mkgmap_map_type" || usage "cannot find $mkgmap_map_type file"
+fi
 
 tmpdir=`mktemp -d ${TMPDIR-"/bbbike/tmp"}/garmin.XXXXXXXXXXX`
 split_dir=$tmpdir/split
