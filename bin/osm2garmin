@@ -26,6 +26,7 @@ pwd=$(pwd)
 java_opt=-Xmx${java_heap}M 
 mkgmap_opt='--gmapsupp --family-id=23 --remove-short-arcs --route --net'
 mkgmap_map_style="osm"
+: ${max_jobs=""}
 
 case $ext in 
    garmin-cycle.zip ) 
@@ -33,10 +34,16 @@ case $ext in
 	mkgmap_map_style=cyclemap
 	mkgmap_map_type=$pwd/world/etc/mkgmap/cyclemap.TYP
 	;;
+   garmin-freizeit.zip | garmin-freetime.zip | garmin-leisure.zip ) 
+	ext=garmin-leisure.zip
+	mkgmap_map=--style-file=$pwd/world/etc/mkgmap/freizeit
+	mkgmap_map_style=freizeit
+	mkgmap_map_type=$pwd/world/etc/mkgmap/freizeit.TYP
+	;;
 esac
 
 usage () {
-   echo "usage file [ extention ]"
+   echo "usage file [ garmin-cycle.zip | garmin-leisure.zip ]"
    exit 1
 }
 
@@ -55,7 +62,7 @@ $debug || exec > $garmin_dir/logfile.txt 2>&1
 java $java_opt -jar $HOME/opt/splitter/splitter.jar --output-dir=$split_dir $file
 
 cd $garmin_dir
-java $java_opt -jar $HOME/opt/mkgmap/mkgmap.jar $mkgmap_opt $mkgmap_map \
+java $java_opt -jar $HOME/opt/mkgmap/mkgmap.jar $max_jobs $mkgmap_opt $mkgmap_map \
 	--description="$garmin" --family-name="OpenStreetmap - BBBike.org" $split_dir/*.pbf $mkgmap_map_type
 
 case $mkgmap_opt in
