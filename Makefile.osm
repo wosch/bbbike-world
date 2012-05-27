@@ -619,6 +619,10 @@ extract-lng:
 	./world/bin/extract-lng.pl > tmp/cities2.csv
 	awk -F: '{ print $$1 }' tmp/cities2.csv > tmp/cities2.txt
 
+extract-lnglat:
+	./world/bin/extract-lnglat0.sh
+	./world/bin/extract-lnglat.pl > tmp/lnglat.sh
+
 extract-lng-run:
 	${NICE} ${MAKE} -f Makefile.osm CITIES_FILE=tmp/cities2.txt CITIES_DB=tmp/cities2.csv MAX_CPU=${MAX_VCPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=tmp/osm-lng cities-parallel
 
