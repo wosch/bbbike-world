@@ -42,7 +42,15 @@ sub is_mobile {
     }
 }
 
+# swap day and month: mon day -> day mon
 sub date_alias {
+    my $date = shift;
+    my $d    = _date_alias($date);
+    my @a    = split( " ", $d );
+    return "$a[1] $a[0]";
+}
+
+sub _date_alias {
     my $date = shift;
 
     if ( $date eq 'today' ) {
@@ -89,6 +97,17 @@ sub extract_areas {
     $dh->close;
 
     my @list = sort { $hash{$a} <=> $hash{$b} } keys %hash;
+    if ($date) {
+        $date = &date_alias($date);
+
+        warn "Use date: '$date'\n" if $debug;
+
+        eval { "foo" =~ /$date/ };
+        if ($@) {
+            warn "date failed: '$date'\n";
+            $date = "";
+        }
+    }
 
     my @area;
     my $json = new JSON;
@@ -101,6 +120,11 @@ sub extract_areas {
         }
 
         my $obj = $json->decode($data);
+        next if !exists $obj->{'date'};
+
+        #warn "xxx: ", Dumper($obj);
+        next if $date && $obj->{'date'} !~ /$date/;
+
         push @area, $obj;
     }
 
@@ -238,7 +262,7 @@ EOF
         $max = $m if $m > 0 && $m <= 5_000;
     }
 
-    my $date = $q->param('date') || "";
+    my $date = $q->param('date') || "yesterday";
     my $stat = $q->param('stat') || "name";
     my @d = &extract_areas( $log_dir, $max * 1.5, &is_production($q), $date );
 
