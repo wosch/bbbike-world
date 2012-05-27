@@ -38,12 +38,14 @@ while (<>) {
     push( @{ $hash->{$i} }, $_ );
 }
 
+my $cities_db = $ENV{CITIES_DB} ? "CITIES_DB=$ENV{CITIES_DB}" : "";
+
 foreach my $key ( sort { $a <=> $b } keys %$hash ) {
 
     # preserve old log files
     print
 qq{test -e tmp/log.$split.cities.$key && gzip -f tmp/log.$split.cities.$key; };
-    print qq{time make -s CITIES="}, join " ", @{ $hash->{$key} },
+    print qq{time make -s $cities_db CITIES="}, join " ", @{ $hash->{$key} },
       qq{" $make_args > tmp/log.$split.cities.$key 2>&1 };
 
     print $xargs ? "\0" : "& \n";

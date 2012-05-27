@@ -39,7 +39,7 @@ DB=world/bin/bbbike-db --city-database=${CITIES_DB}
 
 GZIP:=             $(shell which pigz gzip | head -1)
 BZIP2:=            $(shell which pbzip2 bzip2 | head -1)
-OSMOSIS=	osmosis -q
+OSMOSIS=	echo osmosis -q
 
 OSM_DIR=	osm
 OSP_DIR=	osp
@@ -147,11 +147,17 @@ cities-api:
 _osmosis_opt:
 	for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i/$$i.poly --wx file=${OSM_DIR}/$$i/$$i.osm.gz"; done
 
+_osmosis_opt2:
+	for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i/$$i.poly --write-pbf file=${OSM_DIR}/$$i/$$i.osm.pbf"; done
+
 cities-poly: poly
 	${NICE5} ${BZIP2} -dc ${OSM_PLANET} | ${NICE5} ${OSMOSIS} --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --tee `${MAKE} CITIES_DB=${CITIES_DB} CITIES="${CITIES}" -s -f Makefile.osm city-count` `${MAKE} CITIES_DB=${CITIES_DB} CITIES="${CITIES}" -s -f Makefile.osm _osmosis_opt`
 
 _cities-pbf: poly
 	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm _osmosis_opt`
+
+_cities-pbf2: poly
+	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm _osmosis_opt2`
 
 cities-pbf cities: _cities-pbf
 	${MAKE} -f Makefile.osm osm2pbf
