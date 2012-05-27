@@ -19,7 +19,7 @@ use warnings;
 
 my $log_dir = '/usr/local/www/tmp/extract/trash';
 
-my $max                       = 50;
+my $max                       = 25;
 my $only_production_statistic = 1;
 my $debug                     = 1;
 
