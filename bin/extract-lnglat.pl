@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl
 # Copyright (c) 2012 Wolfram Schneider, http://bbbike.org
 #
-# extract-lng-lat.pl - split the planet.osm into 360x180 lng,lat data tiles
+# extract-lnglat.pl - split the planet.osm into 360x180 lng,lat data tiles
 #
 # usage: extract-lng-lat.pl > shell.sh
 
