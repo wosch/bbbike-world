@@ -22,6 +22,7 @@ my $log_dir = '/usr/local/www/tmp/extract/trash';
 my $max                       = 25;
 my $only_production_statistic = 1;
 my $debug                     = 1;
+my $default_date              = "";
 
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
@@ -96,7 +97,7 @@ sub extract_areas {
     }
     $dh->close;
 
-    my @list = sort { $hash{$a} <=> $hash{$b} } keys %hash;
+    my @list = reverse sort { $hash{$a} <=> $hash{$b} } keys %hash;
     if ($date) {
         $date = &date_alias($date);
 
@@ -262,7 +263,7 @@ EOF
         $max = $m if $m > 0 && $m <= 5_000;
     }
 
-    my $date = $q->param('date') || "yesterday";
+    my $date = $q->param('date') || $default_date;
     my $stat = $q->param('stat') || "name";
     my @d = &extract_areas( $log_dir, $max * 1.5, &is_production($q), $date );
 
