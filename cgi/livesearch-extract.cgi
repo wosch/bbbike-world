@@ -416,13 +416,18 @@ EOF
     my $json = new JSON;
     my %hash;
     my $counter = 0;
+    my @cities;
+
     foreach my $o (@d) {
         my $data =
           qq|$o->{"sw_lng"},$o->{"sw_lat"}!$o->{"ne_lng"},$o->{"ne_lat"}|;
         next if $hash{$data}++;
         last if $counter++ >= $max;
 
-        my $opt = { "city" => escapeHTML( $o->{"city"} ), "area" => $data };
+        my $city = escapeHTML( $o->{"city"} );
+        my $opt = { "city" => $city, "area" => $data };
+        $city_center->{$city} = $data;
+        push @cities, $city;
 
         my $opt_json = $json->encode($opt);
 
@@ -432,7 +437,17 @@ EOF
     }
     warn "duplicates: ", scalar( keys %hash ), "\n";
 
-    my $d .= "count: @{[ $counter - 1 ]}</div>";
+    #my $d .= "count: @{[ $counter - 1 ]}</div>";
+
+    my $d = join(
+        "<br/>",
+        map {
+                qq/<a title="area $_:/
+              . qq/" href="#" onclick="jumpToCity(\\'/
+              . $city_center->{$_}
+              . qq,\\')">$_</a>,
+          } @cities
+    );
 
     print qq{\n\$("div#sidebar").html('$d');\n\n};
 
