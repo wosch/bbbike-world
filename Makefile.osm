@@ -39,7 +39,7 @@ DB=world/bin/bbbike-db --city-database=${CITIES_DB}
 
 GZIP:=             $(shell which pigz gzip | head -1)
 BZIP2:=            $(shell which pbzip2 bzip2 | head -1)
-OSMOSIS=	echo osmosis -q
+OSMOSIS=	osmosis -q
 
 OSM_DIR=	osm
 OSP_DIR=	osp
