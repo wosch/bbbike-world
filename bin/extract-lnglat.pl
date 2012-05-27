@@ -7,7 +7,7 @@
 
 # Aachen:::de::5.88 50.60 6.58 50.99:294951::
 
-for ( -180 .. 180 ) {
+for ( -180 .. 179 ) {
     $a = $_ + 1;
 
     print
@@ -15,7 +15,7 @@ for ( -180 .. 180 ) {
       qq[ CITIES_DB=tmp/cities_${_}.csv],
       qq[ OSM_DIR=tmp/osm-latlng ],
 qq[ OSM_PLANET_PBF=tmp/osm-lng/p_${_}_-89_${a}_89/p_${_}_-89_${a}_89.osm.pbf ],
-      qq[cities-pbf > tmp/log.extract-latlng.$_\n];
+      qq[cities-pbf > tmp/log.extract-latlng.$_\0];
 }
 
 # ( cd tmp/osm-latlng; find . -name '*.pbf' | xargs du -k |sort -n | perl -npe 's,\./[\d\-]+/p_,,; s,/.*,,; s,_, ,g' ) > tmp/heatmap.csv
