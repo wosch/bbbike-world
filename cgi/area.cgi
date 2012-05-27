@@ -217,7 +217,7 @@ EOF
 sub css_map {
     return <<EOF;
 <style type="text/css">
-div#BBBikeGooglemap { left: 23em; }
+div#BBBikeGooglemap { left: 27em; }
 </style>
 
 EOF
