@@ -15,7 +15,7 @@ for ( -180 .. 179 ) {
       qq[ CITIES_DB=tmp/cities_${_}.csv],
       qq[ OSM_DIR=tmp/osm-latlng ],
 qq[ OSM_PLANET_PBF=tmp/osm-lng/p_${_}_-89_${a}_89/p_${_}_-89_${a}_89.osm.pbf ],
-      qq[cities-pbf > tmp/log.extract-latlng.$_\0];
+      qq[_cities-pbf > tmp/log.extract-latlng.$_\0];
 }
 
 # ( cd tmp/osm-latlng; find . -name '*.pbf' | xargs du -k |sort -n | perl -npe 's,\./[\d\-]+/p_,,; s,/.*,,; s,_, ,g' ) > tmp/heatmap.csv
