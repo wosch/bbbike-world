@@ -627,7 +627,7 @@ extract-lnglat-run:
 	$XARGS -n1 -P${MAX_VCPU} < tmp/lnglat.sh
 
 extract-lng-run:
-	${NICE} ${MAKE} -f Makefile.osm CITIES_FILE=tmp/cities2.txt CITIES_DB=tmp/cities2.csv MAX_CPU=${MAX_VCPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=tmp/osm-lng cities-parallel
+	${NICE} ${MAKE} -f Makefile.osm CITIES_FILE=tmp/cities2.txt CITIES_DB=tmp/cities2.csv MAX_CPU=${MAX_VCPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=tmp/osm-lng poly cities-parallel
 
 extract-du: extract-lng extract-lnglat extract-lng-run extract-lnglat-run
 	cd tmp/osm-latlng; find . -name '*.pbf' | xargs du -k |sort -n | perl -npe 's,\./[\d\-]+/p_,,; s,/.*,,; s,_, ,g' ) > tmp/heatmap.csv	
