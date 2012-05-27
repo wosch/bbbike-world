@@ -20,17 +20,23 @@ DOWNLOADOSM=	${PERL} ./miscsrc/downloadosm --debug=1 ${OSM_SOCKS_PROXY} ${OSM_TI
 #OSM2BBD=	${PERL} ./miscsrc/osm2bbd --nodate -f --debug=0 ${OSM2BBD_MAPTYPE} -ignore-unhandled -ignore-underline -experiment add_postal_code #-experiment polar_coord_hack
 OSM2BBD_OPT=	--ignore-unhandled --ignore-underline-noname
 OSM2BBD=	./miscsrc/osm2bbd ${OSM2BBD_OPT} --nodate --no-create --git-id="${GIT_ID}" -f --debug=0 ${OSM2BBD_MAPTYPE} -experiment add_postal_code -experiment handle_relations
+
 MAX_CPU=	`world/bin/ncpu`
 MAX_CPU2=	`world/bin/ncpu -1`
 MAX_VCPU=	`world/bin/ncpu vcpu`
 MAX_RCPU=	`world/bin/ncpu rcpu -1`
 MAX_OSM2PBF=	1
 MAX_OSM2GARMIN=	${MAX_CPU}
+
 XARGS=		${NICE} `which gxargs xargs | head -1`
 TIME=		time
 OSM2PBF=	world/bin/osm2pbf
 OSM2GARMIN=	world/bin/osm2garmin
-DB=world/bin/bbbike-db
+
+CITIES_DB=	world/etc/cities.csv
+CITIES_FILE=world/etc/cities.txt
+DB=world/bin/bbbike-db --city-database=${CITIES_DB}
+
 GZIP:=             $(shell which pigz gzip | head -1)
 BZIP2:=            $(shell which pbzip2 bzip2 | head -1)
 OSMOSIS=	osmosis -q
@@ -57,7 +63,6 @@ EXTRACTS_SPOOL_DIR=/usr/local/www/tmp/extract
 POSTGIS_STYLE=/usr/share/osm2pgsql/osm2pgsql/bbbike.style
 WEB_SERVER=	www.bbbike.org
 
-CITIES_FILE=world/etc/cities.txt
 CITIES=$(shell ${PERL} -npe 's/\#.*//' ${CITIES_FILE})
 
 #
@@ -143,10 +148,10 @@ _osmosis_opt:
 	for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i/$$i.poly --wx file=${OSM_DIR}/$$i/$$i.osm.gz"; done
 
 cities-poly: poly
-	${NICE5} ${BZIP2} -dc ${OSM_PLANET} | ${NICE5} ${OSMOSIS} --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --tee `${MAKE} -s -f Makefile.osm city-count` `${MAKE} -s -f Makefile.osm _osmosis_opt`
+	${NICE5} ${BZIP2} -dc ${OSM_PLANET} | ${NICE5} ${OSMOSIS} --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --tee `${MAKE} CITIES_DB=${CITIES_DB} CITIES="${CITIES}" -s -f Makefile.osm city-count` `${MAKE} CITIES_DB=${CITIES_DB} CITIES="${CITIES}" -s -f Makefile.osm _osmosis_opt`
 
 cities-pbf cities: poly
-	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s CITIES="${CITIES}" -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" -f Makefile.osm _osmosis_opt`
+	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB -f Makefile.osm _osmosis_opt`
 	${MAKE} -f Makefile.osm osm2pbf
 
 # if an extract does not exists localy, try to fetch it from the web
@@ -390,7 +395,6 @@ create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi index updat
 TAGCLOUD=	world/bin/tagcloud 
 MOBILE_LINKS=	world/bin/mobile-links 
 INDEX_UPDATE=	world/bin/index-update ${TMP}
-CITIES_DB=	world/etc/cities.csv
 
 tagcloud index:
 	( cd world/web && mkdir -p ${LANGUAGES} )
@@ -608,6 +612,16 @@ extract-gc7:
 staging:
 	git push
 	cd /usr/local/www/bbbike.org/; git diff; git pull; ${MAKE} -s update-files; git diff
+
+
+# extract 180x360 data tiles from planet.osm
+extract-lng:
+	./world/bin/extract-lng.pl > tmp/cities2.csv
+	awk -F: '{ print $$1 }' tmp/cities2.csv > tmp/cities2.txt
+
+extract-lng-run:
+	${NICE} ${MAKE} -f Makefile.osm CITIES_FILE=tmp/cities2.txt CITIES_DB=tmp/cities2.csv MAX_CPU=${MAX_VCPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=tmp/osm-lng cities-parallel
+
 
 DOWNLOAD_PREFIX=/usr/local/www/download.bbbike.org
 download-bbbike-org-install:
