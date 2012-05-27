@@ -400,7 +400,6 @@ EOF
 
     my $city_center;
     my $cities;
-    my $counter;
     my $counter2 = 0;
     my @route_display;
 
@@ -409,14 +408,16 @@ EOF
     my $counter = 0;
     foreach my $o (@d) {
         my $data =
-          qq|$o->{"sw_lat"} $o->{"sw_lng"} $o->{"ne_lat"} $o->{"ne_lat"}|;
+          qq|$o->{"sw_lng"},$o->{"sw_lat"}!$o->{"ne_lng"},$o->{"ne_lat"}|;
         next if $hash{$data}++;
         last if $counter++ >= $max;
 
         my $opt = { "city" => escapeHTML( $o->{"city"} ), "area" => $data };
 
         my $opt_json = $json->encode($opt);
-        print qq{plotRoute(map, $opt_json, "$data");\n};
+
+       # plotRoute(map, {"city":"Aachen","area":"5.88,50.60!6.58,50.99"}, "[]");
+        print qq{plotRoute(map, $opt_json, "[]");\n};
 
     }
     warn "duplicates: ", scalar( keys %hash ), "\n";
