@@ -19,7 +19,7 @@ cd $dir
 #cat $file.md5
 
 tmp=$(mktemp -t md5.XXXXXXXXXXX)
-$MD5 $file > $tmp
+$nice $MD5 $file > $tmp
 
 diff $file.md5 $tmp
 
