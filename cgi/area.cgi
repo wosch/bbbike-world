@@ -109,10 +109,22 @@ EOF
         }
         $dh->close;
 
+        my %hash = map { $_ => 1 } @list;
         foreach my $file ( sort @list ) {
             my $date = localtime( &mtime("$dir/$file") );
+            next if $file =~ /\.(md5|sha256)$/;
+
+            $data .= qq{<tr><td>}
+              . qq{<a href="$download_bbbike_org/osm/bbbike/$city/$file" title="$date">$file</a>};
+            for my $ext ("md5") {
+                my $file_ext = "$file.$ext";
+                if ( exists $hash{$file_ext} ) {
+                    $data .=
+qq{ | <a href="$download_bbbike_org/osm/bbbike/$city/$file_ext" title="checksum $ext">$ext</a>};
+                }
+            }
             $data .=
-qq{<tr><td><a href="$download_bbbike_org/osm/bbbike/$city/$file" title="$date">$file</a></td>}
+                qq{</td>}
               . qq{<td align="right">}
               . file_size("$dir/$file")
               . qq{</td></tr>\n};
