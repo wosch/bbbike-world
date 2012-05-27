@@ -150,8 +150,10 @@ _osmosis_opt:
 cities-poly: poly
 	${NICE5} ${BZIP2} -dc ${OSM_PLANET} | ${NICE5} ${OSMOSIS} --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --tee `${MAKE} CITIES_DB=${CITIES_DB} CITIES="${CITIES}" -s -f Makefile.osm city-count` `${MAKE} CITIES_DB=${CITIES_DB} CITIES="${CITIES}" -s -f Makefile.osm _osmosis_opt`
 
-cities-pbf cities: poly
-	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm _osmosis_opt`
+_cities-pbf: poly
+	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB -f Makefile.osm _osmosis_opt`
+
+cities-pbf cities: _cities-pbf
 	${MAKE} -f Makefile.osm osm2pbf
 
 # if an extract does not exists localy, try to fetch it from the web
@@ -190,8 +192,10 @@ osm-html:
 	  ./area.cgi --offline --city=$$i > ../${OSM_DIR}/$$i/index.html & \
         done; wait
 
-cities-parallel:
+_cities-parallel:
 	@echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} cities-pbf | ${TIME} xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
+
+cities-parallel: _cities-parallel
 	${MAKE} -f Makefile.osm check-osm-gzip
 	${MAKE} -f Makefile.osm osm-html
 
@@ -624,10 +628,10 @@ extract-lnglat:
 	./world/bin/extract-lnglat.pl > tmp/lnglat.sh
 
 extract-lnglat-run:
-	$XARGS -n1 -P${MAX_VCPU} < tmp/lnglat.sh
+	$XARGS -0 -n1 -P${MAX_VCPU} < tmp/lnglat.sh
 
 extract-lng-run:
-	${NICE} ${MAKE} -f Makefile.osm CITIES_FILE=tmp/cities2.txt CITIES_DB=tmp/cities2.csv MAX_CPU=${MAX_VCPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=tmp/osm-lng cities-parallel
+	${NICE} ${MAKE} -f Makefile.osm CITIES_FILE=tmp/cities2.txt CITIES_DB=tmp/cities2.csv MAX_CPU=${MAX_VCPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=tmp/osm-lng _cities-parallel
 
 extract-du: extract-lng extract-lnglat extract-lng-run extract-lnglat-run
 	cd tmp/osm-latlng; find . -name '*.pbf' | xargs du -k |sort -n | perl -npe 's,\./[\d\-]+/p_,,; s,/.*,,; s,_, ,g' ) > tmp/heatmap.csv	
