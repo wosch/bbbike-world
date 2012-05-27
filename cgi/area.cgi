@@ -44,7 +44,7 @@ sub footer {
 <div id="footer_top">
 <a href="/">home</a> |
 <a href="$www_bbbike_org/community.html">donate</a> |
-<a href="$www_bbbike_org/$city/" title="start bicycle route from $city area">$city</a> |
+<a href="$www_bbbike_org/$city/" title="start bicycle routing for $city area">$city</a> |
 <a href="javascript:resizeOtherCities(more_cities);">more cities</a>
 
 </div>
@@ -142,6 +142,10 @@ qq{<a href="$download_bbbike_org/osm/bbbike/$city/$file_ext" title="checksum $ex
     $data .= <<EOF;
 </table>
 <hr/>
+
+<span class="city">
+Start bicycle routing for <a style="font-size:x-large" href="$www_bbbike_org/$city/">$city</a>
+</span>
 EOF
 
     $data .= qq{<div id="debug"></div>\n} if $debug >= 2;
