@@ -301,7 +301,7 @@ my $city = $q->param('city') || $offline_city || $city_default;
 print &header( $q, $offline, $city );
 print &css_map;
 
-print qq{<div id="sidebar">}, &download_area($city), qq{</div>\n};
+print qq{<div id="sidebar">\n}, &download_area($city), qq{</div>\n};
 print qq{<div id="BBBikeGooglemap" style="height:94%">\n};
 print qq{<div id="map"></div>\n};
 
