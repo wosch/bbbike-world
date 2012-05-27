@@ -447,7 +447,7 @@ EOF
               . qq/" href="#" onclick="jumpToCity(\\'/
               . $city_center->{$_}
               . qq,\\')">$_</a>,
-          } @cities
+          } sort @cities
     );
 
     print qq{\n\$("div#sidebar").html('$d');\n\n};
