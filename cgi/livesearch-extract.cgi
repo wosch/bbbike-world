@@ -330,7 +330,8 @@ sub route_stat2 {
 sub css_map {
     return <<EOF;
 <style type="text/css">
-div#BBBikeGooglemap { left: 27em; }
+div#BBBikeGooglemap { left: 18em; }
+div#sidebar { width: 17em; }
 </style>
 
 EOF
