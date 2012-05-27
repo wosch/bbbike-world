@@ -706,7 +706,7 @@ sub dump_url_list {
 my $ns = $q->param("namespace") || $q->param("ns") || "";
 
 # plain statistic
-if ( $ns =~ /^stat/ || $ns =~ /^(ascii|text|plain)$/) {
+if ( $ns =~ /^stat/ || $ns =~ /^(ascii|text|plain)$/ ) {
     &statistic_basic($q);
 }
 
