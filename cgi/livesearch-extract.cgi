@@ -327,6 +327,15 @@ sub route_stat2 {
     return ( $average, $median, $max );
 }
 
+sub css_map {
+    return <<EOF;
+<style type="text/css">
+div#BBBikeGooglemap { left: 27em; }
+</style>
+
+EOF
+}
+
 # statistic with google maps
 sub statistic_maps {
     my $q = shift;
@@ -354,7 +363,8 @@ sub statistic_maps {
         ],
     );
 
-    print qq{<div id="routes"></div>\n};
+    print &css_map;
+    print qq{<div id="sidebar"></div>\n};
     print qq{<div id="BBBikeGooglemap" style="height:92%">\n};
     print qq{<div id="map"></div>\n};
 
@@ -422,9 +432,9 @@ EOF
     }
     warn "duplicates: ", scalar( keys %hash ), "\n";
 
-    my $d .= "count: $counter</div>";
+    my $d .= "count: @{[ $counter - 1 ]}</div>";
 
-    print qq{\n\$("div#routes").html('$d');\n\n};
+    print qq{\n\$("div#sidebar").html('$d');\n\n};
 
     my $city = $q->param('city') || "";
     if ( $city && exists $city_center->{$city} ) {
