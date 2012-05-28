@@ -348,7 +348,12 @@ _rsync:
 	@echo "$$ sudo make clean-cache; make cache-heater"
 
 rsync-osm:
+	rsync -a --exclude='*.bak' ${OSM_DIR} ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}
+
+# delete old files
+rsync-osm-full:
 	rsync -a --exclude='*.bak' --delete-excluded --delete --max-delete=512 ${OSM_DIR} ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}
+
 
 osm-header:
 	if ! test -e ${OSM_DIR}/HEADER.txt; then \
