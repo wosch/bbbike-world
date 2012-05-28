@@ -639,7 +639,7 @@ extract-lnglat:
 	./world/bin/extract-lnglat.pl > tmp/lnglat.sh
 
 extract-lnglat-run:
-	$XARGS -0 -n1 -P${MAX_VCPU} < tmp/lnglat.sh
+	${XARGS} -0 -n1 -P${MAX_VCPU} /bin/sh -c < tmp/lnglat.sh
 
 extract-lng-run:
 	${NICE} ${MAKE} -s -f Makefile.osm CITIES_FILE=tmp/cities2.txt CITIES_DB=tmp/cities2.csv MAX_CPU=${MAX_VCPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=tmp/osm-lng _cities-parallel
