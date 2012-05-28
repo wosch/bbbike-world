@@ -11,7 +11,7 @@ for ( -180 .. 179 ) {
     $a = $_ + 1;
 
     print
-      qq[make -f Makefile.osm CITIES_FILE=tmp/cities_${_}.txt],
+      qq[make -s -f Makefile.osm CITIES_FILE=tmp/cities_${_}.txt],
       qq[ CITIES_DB=tmp/cities_${_}.csv],
       qq[ OSM_DIR=tmp/osm-latlng ],
 qq[ OSM_PLANET_PBF=tmp/osm-lng/p_${_}_-89_${a}_89/p_${_}_-89_${a}_89.osm.pbf ],
