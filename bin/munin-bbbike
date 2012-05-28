@@ -366,14 +366,11 @@ sub count_routes {
         next if $ignore_localrequests && localrequest($_);
 
         if (   m,"GET /\S+pref_seen=[12],
-            && /startc=[0-9\-\+]|_start=\w+/
-            && /zielc=[0-9\-\+]|_ziel=\w+/ )
         {
             $counter++;
         }
     }
 
-	warn "counter: $counter\n";
     return $counter;
 }
 
