@@ -313,7 +313,7 @@ EOF
               . qq,\\')">$_</a>,
           } sort @cities
     );
-    $d.= "<hr/>total: " . scalar(@cities);
+    $d .= "<hr/>total: " . scalar(@cities);
 
     print qq{\n\$("div#sidebar").html('$d');\n\n};
 
