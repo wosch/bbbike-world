@@ -13,10 +13,10 @@ for ( -180 .. 179 ) {
     print
       qq[make -s -f Makefile.osm CITIES_FILE=tmp/cities_${_}.txt],
       qq[ CITIES_DB=tmp/cities_${_}.csv],
-      qq[ OSM_DIR=tmp/osm-latlng ],
+      qq[ OSM_DIR=tmp/osm-lnglat/$_ ],
 qq[ OSM_PLANET_PBF=tmp/osm-lng/p_${_}_-89_${a}_89/p_${_}_-89_${a}_89.osm.pbf ],
-      qq[_cities-pbf2 > tmp/log.extract-latlng.$_\0];
+      qq[_cities-pbf2 > tmp/log.extract-lnglat.$_\0];
 }
 
-# ( cd tmp/osm-latlng; find . -name '*.pbf' | xargs du -k |sort -n | perl -npe 's,\./[\d\-]+/p_,,; s,/.*,,; s,_, ,g' ) > tmp/heatmap.csv
+# ( cd tmp/osm-lnglat; find . -name '*.pbf' | xargs du -k |sort -n | perl -npe 's,\S+/p_(.*?).osm.pbf,\1,; s,_, ,g' ) > tmp/heatmap.csv
 
