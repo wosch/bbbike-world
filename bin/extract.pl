@@ -64,12 +64,13 @@ our $option = {
 };
 
 my $formats = {
-    'osm.pbf'          => 'Protocolbuffer Binary Format (PBF)',
-    'osm.gz'           => "OSM XML gzip'd",
-    'osm.bz2'          => "OSM XML bzip'd",
-    'osm.xz'           => "OSM XML 7z/xz",
-    'garmin-osm.zip'   => "Garmin OSM",
-    'garmin-cycle.zip' => "Garmin Cycle",
+    'osm.pbf'            => 'Protocolbuffer Binary Format (PBF)',
+    'osm.gz'             => "OSM XML gzip'd",
+    'osm.bz2'            => "OSM XML bzip'd",
+    'osm.xz'             => "OSM XML 7z/xz",
+    'garmin-osm.zip'     => "Garmin OSM",
+    'garmin-cycle.zip'   => "Garmin Cycle",
+    'garmin-leisure.zip' => "Garmin Leisure",
 };
 
 #
@@ -587,7 +588,7 @@ sub send_email {
                 system(@system) == 0 or die "system @system failed: $?";
             }
         }
-        elsif ( $format =~ /^garmin-(osm|cycle).zip$/ ) {
+        elsif ( $format =~ /^garmin-(osm|cycle|leisure).zip$/ ) {
             $file =~ s/\.pbf$/.$format/;
             if ( !cached_format($file) ) {
                 @system = ( @nice, "$dirname/pbf2osm", "--garmin", $pbf_file );
