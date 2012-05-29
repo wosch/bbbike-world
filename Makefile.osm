@@ -200,6 +200,8 @@ osm-html:
 
 _cities-parallel:
 	@echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | env CITIES_DB=${CITIES_DB} ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} cities-pbf | ${TIME} xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
+_cities-parallel2:
+	@echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | env CITIES_DB=${CITIES_DB} ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} _cities-pbf2 | ${TIME} xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
 
 cities-parallel: _cities-parallel
 	${MAKE} -f Makefile.osm check-osm-gzip
@@ -631,6 +633,7 @@ staging:
 
 # extract 180x360 data tiles from planet.osm
 extract-lng:
+	mkdir -p tmp
 	./world/bin/extract-lng.pl > tmp/cities2.csv
 	awk -F: '{ print $$1 }' tmp/cities2.csv > tmp/cities2.txt
 
@@ -639,13 +642,13 @@ extract-lnglat:
 	./world/bin/extract-lnglat.pl > tmp/lnglat.sh
 
 extract-lnglat-run:
-	$XARGS -0 -n1 -P${MAX_VCPU} < tmp/lnglat.sh
+	${TIME} ${XARGS} -0 -n1 -P${MAX_VCPU} /bin/sh -c < tmp/lnglat.sh
 
 extract-lng-run:
-	${NICE} ${MAKE} -f Makefile.osm CITIES_FILE=tmp/cities2.txt CITIES_DB=tmp/cities2.csv MAX_CPU=${MAX_VCPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=tmp/osm-lng _cities-parallel
+	${TIME} ${NICE} ${MAKE} -s -f Makefile.osm CITIES_FILE=tmp/cities2.txt CITIES_DB=tmp/cities2.csv MAX_CPU=${MAX_VCPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=tmp/osm-lng _cities-parallel2
 
 extract-du: extract-lng extract-lnglat extract-lng-run extract-lnglat-run
-	cd tmp/osm-latlng; find . -name '*.pbf' | xargs du -k |sort -n | perl -npe 's,\./[\d\-]+/p_,,; s,/.*,,; s,_, ,g' ) > tmp/heatmap.csv	
+	( cd tmp/osm-lnglat; find . -name '*.pbf' | xargs du -k |sort -n | perl -npe 's,\S+/p_(.*?).osm.pbf,\1,; s,_, ,g' ) > tmp/heatmap.csv	
 
 
 DOWNLOAD_PREFIX=/usr/local/www/download.bbbike.org
