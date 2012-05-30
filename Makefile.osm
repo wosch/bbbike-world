@@ -174,7 +174,7 @@ fetch-extracts fetch:
 	   fi; \
 	done; wait
 
-osm2pbf: osm-readme
+osm2pbf: 
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2PBF} ${OSM2PBF}
 
 osm2garmin: osm2garmin-osm osm2garmin-cycle osm2garmin-leisure
