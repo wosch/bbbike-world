@@ -636,6 +636,11 @@ sub statistic_basic {
 
     # footer
     print qq{<br/><br/>\n<a href="../">home</a>\n};
+
+    $q->param( "date", "yesterday" );
+    print qq{ | <a href="} . $q->url( -query => 1 ) . qq{">yesterday</a>\n};
+    $q->param( "date", "today" );
+    print qq{ | <a href="} . $q->url( -query => 1 ) . qq{">today</a>\n};
     print "<hr />\n";
     print
       qq{Copyright (c) 2011-2012 <a href="http://bbbike.org">BBBike.org</a>\n};
