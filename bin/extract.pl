@@ -592,7 +592,7 @@ sub send_email {
             $file =~ s/\.pbf$/.$format/;
             if ( !cached_format($file) ) {
                 @system = ( @nice, "$dirname/pbf2osm", "--garmin", $pbf_file );
-                push( @system, $format ) if $format eq 'garmin-cycle.zip';
+                push( @system, $format ) if $format =~ /^garmin-(cycle|leisure).zip$/;
 
                 warn "@system\n" if $debug >= 2;
                 system(@system) == 0 or die "system @system failed: $?";
