@@ -177,7 +177,8 @@ fetch-extracts fetch:
 osm2pbf: 
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2PBF} ${OSM2PBF}
 
-osm2garmin: osm2garmin-osm osm2garmin-cycle osm2garmin-leisure
+osm2garmin: osm2garmin-osm osm2garmin-cycle osm2garmin-leisure check-garmin-zip 
+
 osm2garmin-osm:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
 
@@ -203,9 +204,7 @@ _cities-parallel:
 _cities-parallel2:
 	@echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | env CITIES_DB=${CITIES_DB} ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} _cities-pbf2 | ${TIME} xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
 
-cities-parallel: _cities-parallel
-	${MAKE} -f Makefile.osm check-osm-gzip
-	${MAKE} -f Makefile.osm osm-html
+cities-parallel: _cities-parallel check-osm-gzip
 
 _cities:
 	@echo ${CITIES} | \
@@ -269,6 +268,10 @@ check-osm: check-osm-gzip check-osm-error
 
 check-osm-gzip:
 	@find ${OSM_DIR} -name '*.gz' -print0 | ${XARGS} -0 -n8 -P${MAX_VCPU} gzip -t
+
+check-garmin-zip:
+	@find ${OSM_DIR} -name '*.zip' -print0 | ${XARGS} -0 -n1 -P${MAX_VCPU} unzip -qq -t
+	find ${OSM_DIR} -name '*.zip' -size -10k
 
 check-osm-error:
 	@find ${OSM_DIR} -name '*.gz' -print0 | ${XARGS} -0 -n8 -P${MAX_VCPU} zegrep -l '<error>' || true
@@ -564,7 +567,10 @@ elevation-update:
 	echo ${CITIES} | ${XARGS} -E " " -n500 -P${MAX_ELEVATION_SCRIPTS} ${ELEVATION_SCRIPT} --readonly-database --database=../osm-streetnames/srtm/elevation.db --debug=0
 
 # re-build cache
-cache-heater: cache-gc cache-heater-streets cache-heater-common 
+_cache-heater: cache-gc cache-heater-streets cache-heater-common 
+cache-heater: _cache-heater
+#cache-heater:
+#	date
 
 cache-heater-common: 
 	@echo "cache usage before"
