@@ -242,7 +242,7 @@ if [ -s /var/log/lighttpd/download.bbbike.log ]; then
 
     echo ""
     echo "download stat by IP address: "
-    awk '{ print $1 }' /var/log/lighttpd/download.bbbike.log | sort | uniq -c | sort -nr | head -20
+    awk '{ print $1 }' /var/log/lighttpd/download.bbbike.log | egrep -v '\.(sha256|md5) ' | sort | uniq -c | sort -nr | head -20
 
     echo ""
     egrep '\.osm\.[^ ]+ ' /var/log/lighttpd/download.bbbike.log | egrep 'GET ' | egrep -v '\.(sha256|md5) ' |
