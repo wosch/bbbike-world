@@ -154,14 +154,14 @@ sub footer {
     }
 
     # date links: before yesterday | yesterday | today
-    $q->param( "max",  "250" );
+    $q->param( "max",  "350" );
     $q->param( "date", "yesterday2" );
     $data .=
         qq{ | <a href="}
       . $q->url( -relative => 1, -query => 1 )
       . qq{">before yesterday</a>\n};
 
-    $q->param( "max",  "250" );
+    $q->param( "max",  "350" );
     $q->param( "date", "yesterday" );
     $data .=
         qq{ | <a href="}
