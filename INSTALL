@@ -18,7 +18,11 @@ sudo apt-get install \
   libbsd-resource-perl libobject-realize-later-perl libemail-valid-perl \
   libcairo-perl libpango-perl libinline-perl libpdf-create-perl \
   libgd-gd2-perl pdftk \
-  perl-doc
+  perl-doc zip
+
+# perl devel libs?
+# libxml2-dev libcompress-zlib-perl
+
 
 # daemons
 sudo apt-get install lighttpd

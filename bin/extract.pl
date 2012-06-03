@@ -59,13 +59,18 @@ our $option = {
 
     # spool directory. Should be at least 100GB large
     'spool_dir' => '/usr/local/www/tmp/extract',
+
+    'file_prefix' => 'planet_',
 };
 
 my $formats = {
-    'osm.pbf' => 'Protocolbuffer Binary Format (PBF)',
-    'osm.gz'  => "OSM XML gzip'd",
-    'osm.bz2' => "OSM XML bzip'd",
-    'osm.xz'  => "OSM XML 7z/xz",
+    'osm.pbf'            => 'Protocolbuffer Binary Format (PBF)',
+    'osm.gz'             => "OSM XML gzip'd",
+    'osm.bz2'            => "OSM XML bzip'd",
+    'osm.xz'             => "OSM XML 7z/xz",
+    'garmin-osm.zip'     => "Garmin OSM",
+    'garmin-cycle.zip'   => "Garmin Cycle",
+    'garmin-leisure.zip' => "Garmin Leisure",
 };
 
 #
@@ -88,12 +93,13 @@ my $spool     = {
          # 'job1'  => "$spool_dir/job1.pid",     # lock file for current job
 };
 
-my $alarm      = $option->{"alarm"};
-my $nice_level = $option->{"nice_level"};
-my $email_from = $option->{"email_from"};
-my $planet_osm = $option->{"planet_osm"};
-my $debug      = $option->{"debug"};
-my $test       = $option->{"test"};
+my $alarm           = $option->{"alarm"};
+my $nice_level      = $option->{"nice_level"};
+my $email_from      = $option->{"email_from"};
+my $planet_osm      = $option->{"planet_osm"};
+my $debug           = $option->{"debug"};
+my $test            = $option->{"test"};
+my $osmosis_options = "omitmetadata=true granularity=10000";    # message
 
 # test & debug
 $planet_osm =
@@ -245,7 +251,8 @@ sub file_latlng {
     my $obj  = shift;
     my $file = "";
 
-    $file = "$obj->{sw_lat},$obj->{sw_lng}-$obj->{ne_lat},$obj->{ne_lng}";
+    $file = $option->{'file_prefix'}
+      . "$obj->{sw_lat},$obj->{sw_lng}_$obj->{ne_lat},$obj->{ne_lng}";
 
     return $file;
 }
@@ -255,7 +262,8 @@ sub file_lnglat {
     my $obj  = shift;
     my $file = "";
 
-    $file = "$obj->{sw_lng},$obj->{sw_lat}-$obj->{ne_lng},$obj->{ne_lat}";
+    $file = $option->{'file_prefix'}
+      . "$obj->{sw_lng},$obj->{sw_lat}_$obj->{ne_lng},$obj->{ne_lat}";
 
     return $file;
 }
@@ -540,6 +548,7 @@ sub send_email {
         my $json_text = read_data($json_file);
         my $json      = new JSON;
         my $obj       = $json->decode($json_text);
+        my $format    = $obj->{'format'};
 
         warn "json: $json_file\n" if $debug >= 3;
         warn "json: $json_text\n" if $debug >= 3;
@@ -552,7 +561,7 @@ sub send_email {
 
         # convert .pbf to .osm if requested
         my @nice = ( "nice", "-n", $nice_level );
-        if ( $obj->{'format'} eq 'osm.bz2' ) {
+        if ( $format eq 'osm.bz2' ) {
             $file =~ s/\.pbf$/.bz2/;
             if ( !cached_format($file) ) {
                 @system = ( @nice, "$dirname/pbf2osm", "--bzip2", $pbf_file );
@@ -561,7 +570,7 @@ sub send_email {
                 system(@system) == 0 or die "system @system failed: $?";
             }
         }
-        elsif ( $obj->{'format'} eq 'osm.gz' ) {
+        elsif ( $format eq 'osm.gz' ) {
             $file =~ s/\.pbf$/.gz/;
             if ( !cached_format($file) ) {
                 @system = ( @nice, "$dirname/pbf2osm", "--gzip", $pbf_file );
@@ -570,10 +579,21 @@ sub send_email {
                 system(@system) == 0 or die "system @system failed: $?";
             }
         }
-        elsif ( $obj->{'format'} eq 'osm.xz' ) {
+        elsif ( $format eq 'osm.xz' ) {
             $file =~ s/\.pbf$/.xz/;
             if ( !cached_format($file) ) {
                 @system = ( @nice, "$dirname/pbf2osm", "--xz", $pbf_file );
+
+                warn "@system\n" if $debug >= 2;
+                system(@system) == 0 or die "system @system failed: $?";
+            }
+        }
+        elsif ( $format =~ /^garmin-(osm|cycle|leisure).zip$/ ) {
+            $file =~ s/\.pbf$/.$format/;
+            if ( !cached_format($file) ) {
+                @system = ( @nice, "$dirname/pbf2osm", "--garmin", $pbf_file );
+                push( @system, $format )
+                  if $format =~ /^garmin-(cycle|leisure).zip$/;
 
                 warn "@system\n" if $debug >= 2;
                 system(@system) == 0 or die "system @system failed: $?";
@@ -636,6 +656,7 @@ from planet.osm
  Coordinates: $obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}
  Square kilometre: $square_km
  Granularity: 10,000 (1.1 meters)
+ Osmosis options: $osmosis_options
  Format: $obj->{"format"}
  File size: $file_size
  SHA256 checksum: $checksum
@@ -652,7 +673,7 @@ Sincerely, your BBBike admin
 
 --
 http://www.BBBike.org - Your Cycle Route Planner
-http://www.BBBike.org/community.html - We appreciate any feedback, suggestions and a donation! 
+We appreciate any feedback, suggestions and a donation! 
 EOF
 
         eval {

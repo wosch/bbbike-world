@@ -72,6 +72,9 @@ elif  [ -f $cpuinfo ]; then
   if [ -e $HOME/.ncpu -a ! -e $HOME/.ncpu.ncpu ]; then
     ncpu=`cat $HOME/.ncpu`
   fi
+  if [ -e $HOME/.ncpu.vcpu -a $vcpu = 1 ]; then
+    ncpu=`cat $HOME/.ncpu.vcpu`
+  fi
 fi
 
 # +/-

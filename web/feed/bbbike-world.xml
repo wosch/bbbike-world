@@ -16,6 +16,42 @@
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>A new BBBike Android app (Berlin only, original data) is
+    available in the android market:
+    https://play.google.com/store/search?q=bbbike</title>
+    <id>ceb834ea55261da7259fd57c8760d81f</id>
+    <content>A new BBBike Android app (Berlin only, original data)
+    is available in the android market:
+    https://play.google.com/store/search?q=bbbike</content>
+    <updated>2012-22-20T13:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
+    <title>New feature: BBBike extract service with Garmin OSM and
+    Garmin cycle map format</title>
+    <id>ceb834ea55261da7259fd57c8760d80f</id>
+    <content>New feature: BBBike extract service with Garmin OSM
+    and Garmin cycle map format</content>
+    <updated>2012-05-20T13:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
+    <title>Added new cities: LaPaz, Cusco, and Sucre</title>
+    <id>d94a133044bb2da6cc7177e80e24c751</id>
+    <content>Added new cities: LaPaz, Cusco, and Sucre</content>
+    <updated>2012-05-13T12:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
+    <title>Added Toner and Watercolor maps for
+    http://bbbike.org</title>
+    <id>d94a133044bb2da6cc7177e80e24c750</id>
+    <content>Added Toner and Watercolor maps for
+    http://bbbike.org</content>
+    <updated>2012-04-10T12:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title>New feature: start a route search with right click on
     the map</title>
     <id>59f077289e137c87be26a4b5f22427d7</id>

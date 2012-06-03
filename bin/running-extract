@@ -1,0 +1,11 @@
+#!/bin/sh
+# Copyright (c) 2012 Wolfram Schneider, http://bbbike.org
+#
+# running-extract - xyz
+
+set -e
+
+extract_dir=/usr/local/www/tmp/extract/running
+
+cat $extract_dir/*/*json
+

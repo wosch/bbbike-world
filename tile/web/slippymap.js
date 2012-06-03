@@ -41,6 +41,12 @@ function init() {
     map.addLayer(new OpenLayers.Layer.OSM("OSM Mapnik b/w", "http://a.www.toolserver.org/tiles/bw-mapnik/${z}/${x}/${y}.png", {
         numZoomLevels: 18
     }));
+    map.addLayer(new OpenLayers.Layer.OSM("OSM Toner", ["http://a.tile.stamen.com/toner/${z}/${x}/${y}.png","http://b.tile.stamen.com/toner/${z}/${x}/${y}.png"], {
+        numZoomLevels: 18
+    }));
+    map.addLayer(new OpenLayers.Layer.OSM("OSM Watercolor", ["http://a.tile.stamen.com/watercolor/${z}/${x}/${y}.png","http://b.tile.stamen.com/watercolor/${z}/${x}/${y}.png"], {
+        numZoomLevels: 18
+    }));
 
     map.addLayer(new OpenLayers.Layer.OSM("OSM Transport", ["http://a.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png", "http://b.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png"], {
         numZoomLevels: 19

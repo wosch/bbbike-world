@@ -8,6 +8,7 @@ set -e
 compress=""
 gzip=`which pigz gzip | head -n 1`
 bzip2=`which pbzip2 bzip2 | head -n 1`
+osm2garmin=`dirname $0`/osm2garmin
 
 xz=`which xz | head -n 1`
 xz_opt=-2
@@ -19,6 +20,7 @@ case $1 in
   -gzip | --gzip)    shift; compress=gzip;;
   -bzip2 | --bzip2 ) shift; compress=bzip2 ;;
   -xz | --xz )       shift; compress=xz ;;
+  -garmin | --garmin ) shift; compress=garmin; garmin_style=$2 ;;
 esac
 
 file=$1
@@ -46,6 +48,10 @@ else
 	xz ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $xz $xz_opt > $dir/$f.tmp 
 		mv -f $dir/$f.tmp $dir/$f.xz		
 		;;
+
+	garmin ) $osm2garmin "$file" $garmin_style 
+		;;
+
 	* ) echo >& 2 "Oops, unknown '$compress'" ;;
     esac
 fi

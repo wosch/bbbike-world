@@ -23,6 +23,54 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
+    title =>
+qq{A new BBBike Android app (Berlin only, original data) is available in the android market: https://play.google.com/store/search?q=bbbike},
+    id      => 'ceb834ea55261da7259fd57c8760d81f',
+    content => {
+        type => 'text',
+        content =>
+qq{A new BBBike Android app (Berlin only, original data) is available in the android market: https://play.google.com/store/search?q=bbbike},
+    },
+    updated  => '2012-22-20T13:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title =>
+qq{New feature: BBBike extract service with Garmin OSM and Garmin cycle map format},
+    id      => 'ceb834ea55261da7259fd57c8760d80f',
+    content => {
+        type => 'text',
+        content =>
+qq{New feature: BBBike extract service with Garmin OSM and Garmin cycle map format},
+    },
+    updated  => '2012-05-20T13:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title   => qq{Added new cities: LaPaz, Cusco, and Sucre},
+    id      => 'd94a133044bb2da6cc7177e80e24c751',
+    content => {
+        type    => 'text',
+        content => qq{Added new cities: LaPaz, Cusco, and Sucre},
+    },
+    updated  => '2012-05-13T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title   => qq{Added Toner and Watercolor maps for http://bbbike.org},
+    id      => 'd94a133044bb2da6cc7177e80e24c750',
+    content => {
+        type    => 'text',
+        content => qq{Added Toner and Watercolor maps for http://bbbike.org},
+    },
+    updated  => '2012-04-10T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title => qq{New feature: start a route search with right click on the map},
     id    => '59f077289e137c87be26a4b5f22427d7',
     content => {

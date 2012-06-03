@@ -20,15 +20,23 @@ DOWNLOADOSM=	${PERL} ./miscsrc/downloadosm --debug=1 ${OSM_SOCKS_PROXY} ${OSM_TI
 #OSM2BBD=	${PERL} ./miscsrc/osm2bbd --nodate -f --debug=0 ${OSM2BBD_MAPTYPE} -ignore-unhandled -ignore-underline -experiment add_postal_code #-experiment polar_coord_hack
 OSM2BBD_OPT=	--ignore-unhandled --ignore-underline-noname
 OSM2BBD=	./miscsrc/osm2bbd ${OSM2BBD_OPT} --nodate --no-create --git-id="${GIT_ID}" -f --debug=0 ${OSM2BBD_MAPTYPE} -experiment add_postal_code -experiment handle_relations
+
 MAX_CPU=	`world/bin/ncpu`
 MAX_CPU2=	`world/bin/ncpu -1`
 MAX_VCPU=	`world/bin/ncpu vcpu`
 MAX_RCPU=	`world/bin/ncpu rcpu -1`
 MAX_OSM2PBF=	1
+MAX_OSM2GARMIN=	${MAX_CPU}
+
 XARGS=		${NICE} `which gxargs xargs | head -1`
 TIME=		time
 OSM2PBF=	world/bin/osm2pbf
-DB=world/bin/bbbike-db
+OSM2GARMIN=	world/bin/osm2garmin
+
+CITIES_DB=	world/etc/cities.csv
+CITIES_FILE=world/etc/cities.txt
+DB=world/bin/bbbike-db --city-database=${CITIES_DB}
+
 GZIP:=             $(shell which pigz gzip | head -1)
 BZIP2:=            $(shell which pbzip2 bzip2 | head -1)
 OSMOSIS=	osmosis -q
@@ -55,7 +63,6 @@ EXTRACTS_SPOOL_DIR=/usr/local/www/tmp/extract
 POSTGIS_STYLE=/usr/share/osm2pgsql/osm2pgsql/bbbike.style
 WEB_SERVER=	www.bbbike.org
 
-CITIES_FILE=world/etc/cities.txt
 CITIES=$(shell ${PERL} -npe 's/\#.*//' ${CITIES_FILE})
 
 #
@@ -140,11 +147,19 @@ cities-api:
 _osmosis_opt:
 	for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i/$$i.poly --wx file=${OSM_DIR}/$$i/$$i.osm.gz"; done
 
-cities-poly: poly
-	${NICE5} ${BZIP2} -dc ${OSM_PLANET} | ${NICE5} ${OSMOSIS} --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --tee `${MAKE} -s -f Makefile.osm city-count` `${MAKE} -s -f Makefile.osm _osmosis_opt`
+_osmosis_opt2:
+	for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i/$$i.poly --write-pbf file=${OSM_DIR}/$$i/$$i.osm.pbf"; done
 
-cities-pbf cities: poly
-	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s CITIES="${CITIES}" -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" -f Makefile.osm _osmosis_opt`
+cities-poly: poly
+	${NICE5} ${BZIP2} -dc ${OSM_PLANET} | ${NICE5} ${OSMOSIS} --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --tee `${MAKE} CITIES_DB=${CITIES_DB} CITIES="${CITIES}" -s -f Makefile.osm city-count` `${MAKE} CITIES_DB=${CITIES_DB} CITIES="${CITIES}" -s -f Makefile.osm _osmosis_opt`
+
+_cities-pbf: poly
+	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm _osmosis_opt`
+
+_cities-pbf2: poly
+	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm _osmosis_opt2`
+
+cities-pbf cities: _cities-pbf
 	${MAKE} -f Makefile.osm osm2pbf
 
 # if an extract does not exists localy, try to fetch it from the web
@@ -159,23 +174,37 @@ fetch-extracts fetch:
 	   fi; \
 	done; wait
 
-osm2pbf: osm-readme
+osm2pbf: 
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2PBF} ${OSM2PBF}
 
-osm-index:
-	for i in ${CITIES}; do \
-	    (cd cgi; ./area.cgi --offline --city=$$i ) > ${OSM_DIR}/$$i/index.html; \
-	done
+osm2garmin: osm2garmin-osm osm2garmin-cycle osm2garmin-leisure check-garmin-zip 
+
+osm2garmin-osm:
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
+
+osm2garmin-cycle:
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env ext=garmin-cycle.zip ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
+
+osm2garmin-leisure:
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env ext=garmin-leisure.zip ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
 
 osm-readme:
 	for i in ${CITIES}; do \
 	    perl -npe "s/%{city}/$$i/g" world/download/etc/CITY.txt > ${OSM_DIR}/$$i/HEADER.txt; \
         done
 
+osm-html:
+	cd cgi; \
+	for i in ${CITIES}; do \
+	  ./area.cgi --offline --city=$$i > ../${OSM_DIR}/$$i/index.html & \
+        done; wait
 
-cities-parallel:
-	@echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} cities-pbf | ${TIME} xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
-	${MAKE} -f Makefile.osm check-osm-gzip
+_cities-parallel:
+	@echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | env CITIES_DB=${CITIES_DB} ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} cities-pbf | ${TIME} xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
+_cities-parallel2:
+	@echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | env CITIES_DB=${CITIES_DB} ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} _cities-pbf2 | ${TIME} xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
+
+cities-parallel: _cities-parallel check-osm-gzip
 
 _cities:
 	@echo ${CITIES} | \
@@ -240,6 +269,10 @@ check-osm: check-osm-gzip check-osm-error
 check-osm-gzip:
 	@find ${OSM_DIR} -name '*.gz' -print0 | ${XARGS} -0 -n8 -P${MAX_VCPU} gzip -t
 
+check-garmin-zip:
+	@find ${OSM_DIR} -name '*.zip' -print0 | ${XARGS} -0 -n1 -P${MAX_VCPU} unzip -qq -t
+	find ${OSM_DIR} -name '*.zip' -size -10k
+
 check-osm-error:
 	@find ${OSM_DIR} -name '*.gz' -print0 | ${XARGS} -0 -n8 -P${MAX_VCPU} zegrep -l '<error>' || true
 
@@ -248,13 +281,7 @@ cleanup-osm-error:
 	@find ${OSM_DIR} -name '*.gz' -print0 | ${XARGS} -0 -n8 -P${MAX_CPU} zegrep -l '<error>' | ${XARGS} rm -f
 
 check-data-osm:
-	for i in ${CITIES}; do \
-	    if ! find ${DATA_OSM_DIR}/$$i -type f -print | egrep -v '\.(gz|bak|dd|yml|pl|data)$$' | egrep -v 'opensearch\.' | sort -r | \
-		xargs -n1 -P${MAX_VCPU}  ./miscsrc/grepstrassen -name Kreuzbergstr. >/dev/null; then \
-		echo "Failed city: $$i"; \
-		exit=1; \
-	    fi; \
-	done; exit $$exit
+	echo ${CITIES} | ${XARGS} -E " " -n1 -P${MAX_VCPU} ./world/bin/check-data-osm
 
 convert2: convert3 convert-workarounds
 # using GNU xargs -P parallel
@@ -315,13 +342,23 @@ ${CITIES}:
 	
 ######################################################################
 
-rsync-osm rsync: sync-sitemap osm-header
+rsync: sync-sitemap osm-header _rsync rsync-osm
+rsync-bg: _rsync
+
+_rsync:
 	rsync -a --exclude='*.bak' --exclude='*.gz' --exclude=tmp --delete-excluded --delete --max-delete=512 ${DATA_OSM_DIR} ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}
-	rsync -a --exclude='*.bak' --delete-excluded --delete --max-delete=512 ${OSM_DIR} ${OSP_DIR} ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}
 	-rsync -av --exclude='*.bak' data/opensearch.streetnames ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}/data
 	@echo ""
 	@echo "don't forget to cleanup the data cache in ${BBBIKE_CACHE_DIR}, run:"
 	@echo "$$ sudo make clean-cache; make cache-heater"
+
+rsync-osm:
+	rsync -a --exclude='*.bak' ${OSM_DIR} ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}
+
+# delete old files
+rsync-osm-full:
+	rsync -a --exclude='*.bak' --delete-excluded --delete --max-delete=512 ${OSM_DIR} ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}
+
 
 osm-header:
 	if ! test -e ${OSM_DIR}/HEADER.txt; then \
@@ -363,7 +400,7 @@ create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi index updat
 		  ( cd $$lang && ln -fs ../$$city ); \
 		done; \
 	done
-	for script in MyCgiSimple.pm  api.cgi area.cgi livesearch.cgi  location.cgi maptype.cgi slippymap.cgi  street-coord.cgi crossing.cgi streets.cgi  weather.cgi languages.cgi extract.cgi; do \
+	for script in MyCgiSimple.pm  api.cgi area.cgi livesearch.cgi  location.cgi maptype.cgi slippymap.cgi  street-coord.cgi crossing.cgi streets.cgi  weather.cgi languages.cgi extract.cgi livesearch-extract.cgi; do \
 	   ( cd ${BBBIKE_WEB_DIR}/cgi && ln -fs ../world/cgi/$$script ); \
 	done
 	cp -f world/web/index.de.html world/web/de/index.html
@@ -378,7 +415,6 @@ create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi index updat
 TAGCLOUD=	world/bin/tagcloud 
 MOBILE_LINKS=	world/bin/mobile-links 
 INDEX_UPDATE=	world/bin/index-update ${TMP}
-CITIES_DB=	world/etc/cities.csv
 
 tagcloud index:
 	( cd world/web && mkdir -p ${LANGUAGES} )
@@ -457,6 +493,9 @@ clean-cache cache-clean:
 	    rm -rf ${BBBIKE_CACHE_DIR}/tmp.$$$$ &
 	find /var/cache/lighttpd -type f -print0 | ${PERL} -n0e unlink
 
+cache-gc:
+	find ${BBBIKE_CACHE_DIR}/ -type f -mtime +21 -print0 | ${PERL} -n0e unlink
+
 rotate-data-osm:
 	${RM_BG} ${DATA_OSM_DIR}.old2
 	${RM_BG} ${DATA_OSM_BBBIKE_DIR}.old2
@@ -528,13 +567,20 @@ elevation-update:
 	echo ${CITIES} | ${XARGS} -E " " -n500 -P${MAX_ELEVATION_SCRIPTS} ${ELEVATION_SCRIPT} --readonly-database --database=../osm-streetnames/srtm/elevation.db --debug=0
 
 # re-build cache
-cache-heater: cache-heater-streets cache-heater-common 
+_cache-heater: cache-gc cache-heater-streets cache-heater-common 
+cache-heater: _cache-heater
+#cache-heater:
+#	date
 
 cache-heater-common: 
-	du -hs ${BBBIKE_CACHE_DIR}/* || du -hs ${BBBIKE_CACHE_DIR}/
+	@echo "cache usage before"
+	du -hs ${BBBIKE_CACHE_DIR}/
+	du -hs ${BBBIKE_CACHE_DIR}/*
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
 	   ${PERL} -ne 'chomp; print "http://'${WEB_SERVER}'/$$_/?generate_cache=1\0"' | \
 	   ${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
+	@echo "cache usage after"
+	du -hs ${BBBIKE_CACHE_DIR}/
 	du -hs ${BBBIKE_CACHE_DIR}/*
 
 cache-heater-streets: cache-heater-homepage cache-heater-opensearch
@@ -590,6 +636,27 @@ staging:
 	git push
 	cd /usr/local/www/bbbike.org/; git diff; git pull; ${MAKE} -s update-files; git diff
 
+
+# extract 180x360 data tiles from planet.osm
+extract-lng:
+	mkdir -p tmp
+	./world/bin/extract-lng.pl > tmp/cities2.csv
+	awk -F: '{ print $$1 }' tmp/cities2.csv > tmp/cities2.txt
+
+extract-lnglat:
+	./world/bin/extract-lnglat0.sh
+	./world/bin/extract-lnglat.pl > tmp/lnglat.sh
+
+extract-lnglat-run:
+	${TIME} ${XARGS} -0 -n1 -P${MAX_VCPU} /bin/sh -c < tmp/lnglat.sh
+
+extract-lng-run:
+	${TIME} ${NICE} ${MAKE} -s -f Makefile.osm CITIES_FILE=tmp/cities2.txt CITIES_DB=tmp/cities2.csv MAX_CPU=${MAX_VCPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=tmp/osm-lng _cities-parallel2
+
+extract-du: extract-lng extract-lnglat extract-lng-run extract-lnglat-run
+	( cd tmp/osm-lnglat; find . -name '*.pbf' | xargs du -k |sort -n | perl -npe 's,\S+/p_(.*?).osm.pbf,\1,; s,_, ,g' ) > tmp/heatmap.csv	
+
+
 DOWNLOAD_PREFIX=/usr/local/www/download.bbbike.org
 download-bbbike-org-install:
 	mkdir -p ${DOWNLOAD_PREFIX}
@@ -620,10 +687,11 @@ help:
 	@echo "  [ "`${PERL} -e 'print join " ", sort @ARGV' ${CITIES}` "]"
 	@echo ""
 	@echo "  [ help | cities | cities-parallel | fetch-extracts ]"
-	@echo "  [ rsync-tgz | rsync-osm | rsync-osm-dev | rsync-planet | symlink-download ]"
+	@echo "  [ rsync | rsync-tgz | rsync-osm | rsync-osm-dev ]"
+	@echo "  [ rsync-planet | symlink-download ]"
 	@echo "  [ jsbeautifier | perltidy | tidy ]"
 	@echo ""
-	@echo "  [ bbbike-osm2pbf | osm2pbf ]"
+	@echo "  [ bbbike-osm2pbf | osm2pbf  | osm2garmin ]"
 	@echo "  [ bbbike2wgs84-mapnik | bbbike-mapnik-config ]"
 	@echo "  [ bbbike-mapnik-postgis ]"
 	@echo ""
