@@ -56,6 +56,7 @@ my $formats = {
     'osm.gz'             => "OSM XML gzip'd",
     'osm.bz2'            => "OSM XML bzip'd",
     'osm.xz'             => "OSM XML 7z (xz)",
+    'osm.shp.zip'        => "OSM Shape",
     'garmin-osm.zip'     => "Garmin OSM",
     'garmin-cycle.zip'   => "Garmin Cycle",
     'garmin-leisure.zip' => "Garmin Leisure",
@@ -189,6 +190,7 @@ sub footer {
 <div id="footer">
   <div id="footer_top">
     <a href="../">home</a> $extracts | 
+    <a href="../extract.html">help</a> $extracts | 
     <a href="http://download.bbbike.org/osm/">download</a> | 
     <a href="/cgi/livesearch-extract.cgi">livesearch</a> | 
     <a href="../community.html#donate">donate</a>
