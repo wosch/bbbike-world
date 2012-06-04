@@ -54,7 +54,7 @@ We appreciate any feedback, suggestions and a donation!
 EOF
 
 cd ..
-garmin_zip=`dirname $file`/$garmin.osm.shape.zip
+garmin_zip=`dirname $file`/$garmin.osm.shp.zip
 zip -q -r - -- $garmin | \
   ( cd $pwd;
     cat > $garmin_zip.tmp && mv $garmin_zip.tmp $garmin_zip 
