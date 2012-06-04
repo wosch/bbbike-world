@@ -32,6 +32,7 @@ XARGS=		${NICE} `which gxargs xargs | head -1`
 TIME=		time
 OSM2PBF=	world/bin/osm2pbf
 OSM2GARMIN=	world/bin/osm2garmin
+OSM2SHAPE=	world/bin/osm2shape
 
 CITIES_DB=	world/etc/cities.csv
 CITIES_FILE=world/etc/cities.txt
@@ -187,6 +188,9 @@ osm2garmin-cycle:
 
 osm2garmin-leisure:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env ext=garmin-leisure.zip ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
+
+osm2shape:
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2SHAPE}
 
 osm-readme:
 	for i in ${CITIES}; do \
@@ -691,7 +695,7 @@ help:
 	@echo "  [ rsync-planet | symlink-download ]"
 	@echo "  [ jsbeautifier | perltidy | tidy ]"
 	@echo ""
-	@echo "  [ bbbike-osm2pbf | osm2pbf  | osm2garmin ]"
+	@echo "  [ bbbike-osm2pbf | osm2pbf  | osm2garmin | osm2shape ]"
 	@echo "  [ bbbike2wgs84-mapnik | bbbike-mapnik-config ]"
 	@echo "  [ bbbike-mapnik-postgis ]"
 	@echo ""
