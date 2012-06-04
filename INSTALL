@@ -18,7 +18,7 @@ sudo apt-get install \
   libbsd-resource-perl libobject-realize-later-perl libemail-valid-perl \
   libcairo-perl libpango-perl libinline-perl libpdf-create-perl \
   libgd-gd2-perl pdftk \
-  perl-doc zip
+  perl-doc zip libprotobuf-lite6 libshp1 libgeos-dev g++ \
 
 # perl devel libs?
 # libxml2-dev libcompress-zlib-perl
