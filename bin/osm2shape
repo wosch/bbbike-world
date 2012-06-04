@@ -32,9 +32,9 @@ mkdir -p $garmin_dir
 
 logfile=$garmin_dir/logfile.txt 
 
-cd $garmin_dir
 osmium2shape -d $garmin_dir $file > $logfile 2>&1
-	
+
+cd $garmin_dir
 
 cat << EOF > README.txt
 Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
