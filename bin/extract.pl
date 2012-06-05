@@ -603,7 +603,7 @@ sub send_email {
         elsif ( $format eq 'osm.shp.zip' ) {
             $file =~ s/\.osm\.pbf$/.$format/;
             if ( !cached_format($file) ) {
-                @system = ( @nice, "$dirname/osm2shape", $pbf_file );
+                @system = ( @nice, "$dirname/pbf2osm "--shape", $pbf_file );
 
                 warn "@system\n" if $debug >= 2;
                 system(@system) == 0 or die "system @system failed: $?";
