@@ -601,7 +601,7 @@ sub send_email {
             }
         }
         elsif ( $format eq 'osm.shp.zip' ) {
-            $file =~ s/\.pbf$/.$format/;
+            $file =~ s/\.osm\.pbf$/.$format/;
             if ( !cached_format($file) ) {
                 @system = ( @nice, "$dirname/osm2shape", $pbf_file );
 
