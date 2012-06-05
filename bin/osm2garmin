@@ -27,6 +27,10 @@ elif [ $size -gt 100000 ]; then
    java_heap=2548M
 fi
 
+case $ext in 
+  *leisure* ) java_heap=3500M ;;
+esac
+
 md5sum=`which md5 md5sum false | head -n 1`
 : ${SHA="shasum -a 256"}
 
