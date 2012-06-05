@@ -32,7 +32,12 @@ mkdir -p $garmin_dir
 
 logfile=$garmin_dir/logfile.txt 
 
-osmium2shape -d $garmin_dir $file > $logfile 2>&1
+if ! osmium2shape -d $garmin_dir $file > $logfile 2>&1; then
+   exit=$?
+   echo "Failded to convert $file"
+   cat $logfile
+   exit $exit
+fi
 
 cd $garmin_dir
 
