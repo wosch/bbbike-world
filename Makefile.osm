@@ -523,7 +523,8 @@ rotate-osm:
 	-test -e ${OSM_DIR}.old  && mv ${OSM_DIR}.old  ${OSM_DIR}.old2
 	-test -e ${OSM_DIR}      && mv ${OSM_DIR}      ${OSM_DIR}.old 
 
-update-database: build-runtime opensearch-bbbike
+update-database: build-runtime 
+	@${MAKE} -s -f Makefile.osm opensearch-bbbike
 	${TIME} ./world/bin/update-database
 
 PERL_SCRIPTS=	BBBikeGooglemap.pm BBBikeElevation.pm miscsrc/osm2bbd-poi t/elevation.t
