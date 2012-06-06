@@ -34,7 +34,7 @@ logfile=$garmin_dir/logfile.txt
 
 if ! osmium2shape -d $garmin_dir $file > $logfile 2>&1; then
    exit=$?
-   echo "Failded to convert $file"
+   echo "Failed to convert $file"
    cat $logfile
    exit $exit
 fi
