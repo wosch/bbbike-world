@@ -9,6 +9,7 @@ compress=""
 gzip=`which pigz gzip | head -n 1`
 bzip2=`which pbzip2 bzip2 | head -n 1`
 osm2garmin=`dirname $0`/osm2garmin
+osm2shape=`dirname $0`/osm2shape
 
 xz=`which xz | head -n 1`
 xz_opt=-2
@@ -21,6 +22,7 @@ case $1 in
   -bzip2 | --bzip2 ) shift; compress=bzip2 ;;
   -xz | --xz )       shift; compress=xz ;;
   -garmin | --garmin ) shift; compress=garmin; garmin_style=$2 ;;
+  -shape | --shape | -shp | --shp ) shift; compress=shape ;;
 esac
 
 file=$1
@@ -50,6 +52,8 @@ else
 		;;
 
 	garmin ) $osm2garmin "$file" $garmin_style 
+		;;
+	shape ) $osm2shape "$file"
 		;;
 
 	* ) echo >& 2 "Oops, unknown '$compress'" ;;

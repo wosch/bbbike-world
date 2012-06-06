@@ -1,0 +1,71 @@
+#!/bin/sh
+# Copyright (c) 2012 Wolfram Schneider, http://bbbike.org
+#
+# osm2shape  - convert a osm/pbf file to shape
+#
+
+set -e
+PATH=$HOME/bin:/bin:/usr/bin; export PATH
+
+usage () {
+   echo "$@"
+   echo "usage file.pbf"
+   exit 1
+}
+
+file=$1
+test -e "$file" || usage "file $file does not exists"
+
+: ${debug=false}
+
+md5sum=`which md5 md5sum false | head -n 1`
+: ${SHA="shasum -a 256"}
+
+pwd=$(pwd)
+
+test -z "$file" && usage
+
+tmpdir=`mktemp -d ${TMPDIR-"/bbbike/tmp"}/osmium2shape.XXXXXXXXXXX`
+garmin=`basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
+garmin_dir=$tmpdir/$garmin
+mkdir -p $garmin_dir
+
+logfile=$garmin_dir/logfile.txt 
+
+if ! osmium2shape -d $garmin_dir $file > $logfile 2>&1; then
+   exit=$?
+   echo "Failded to convert $file"
+   cat $logfile
+   exit $exit
+fi
+
+cd $garmin_dir
+
+cat << EOF > README.txt
+Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
+Extracts created by BBBike.org, Map style: $mkgmap_map_style
+osmium2shape by Geofabrik, http://geofabrik.de
+
+Please read the OSM wiki how to use shape files.
+
+  http://wiki.openstreetmap.org/wiki/Shapefiles
+
+
+thanks, Wolfram Schneider
+
+--
+http://www.BBBike.org - Your Cycle Route Planner
+We appreciate any feedback, suggestions and a donation!
+EOF
+
+cd ..
+garmin_zip=`dirname $file`/$garmin.osm.shp.zip
+zip -q -r - -- $garmin | \
+  ( cd $pwd;
+    cat > $garmin_zip.tmp && mv $garmin_zip.tmp $garmin_zip 
+    $md5sum $garmin_zip > $garmin_zip.md5
+    $SHA $garmin_zip > $garmin_zip.sha256
+  )
+
+$debug || rm -rf $tmpdir
+
