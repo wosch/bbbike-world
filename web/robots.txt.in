@@ -1,37 +1,35 @@
 # general
 Sitemap: http://www.bbbike.org/sitemap.xml.gz
 
+# rough bots
 User-agent: Ezooms
-Disallow: /
-
 User-agent: Purebot
-Disallow: /
-
 User-agent: Java
-Disallow: /
-
 User-agent: Nutch
-Disallow: /
-
 User-agent: SnapPreviewBot
-Disallow: /
-
 User-agent: ScoutJet
-Disallow: /
-
 User-agent: MLBot
-Disallow: /
-
 User-agent: sitebot
-Disallow: /
-
 User-agent: MJ12bot
-Disallow: /
-
 User-agent: Linguee
+User-agent: discobot
 Disallow: /
 
-User-agent: discobot
+# people search engines
+User-agent: 123People
+User-agent: findestars
+User-agent: MyOnID
+User-agent: peekyou
+User-agent: Pipl
+User-agent: rapleaf
+User-agent: snitch
+User-agent: spock
+User-agent: tweepz
+User-agent: wink
+User-agent: Yasni
+User-agent: yoname
+User-agent: yourtraces
+User-agent: zoominfo
 Disallow: /
 
 User-agent: *
@@ -42,3 +40,4 @@ Disallow: /berlin
 Disallow: /bbbike
 Disallow: /osp
 Disallow: /honey
+

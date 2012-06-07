@@ -55,6 +55,7 @@ Bern
 Wroclaw
 SanktPetersburg
 Frankfurt
+Graz
 Lyon
 WarenMueritz
 Goerlitz
@@ -208,7 +209,6 @@ Waterloo
 PortoAlegre
 Innsbruck
 Jerusalem
-Graz
 Corvallis
 Paderborn
 Tehran
@@ -228,3 +228,6 @@ Auckland
 Baku
 PhnomPenh
 UlanBator
+LaPaz
+Sucre
+Cusco

@@ -23,6 +23,123 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
+    title =>
+qq{A new BBBike Android app (Berlin only, original data) is available in the android market: https://play.google.com/store/search?q=bbbike},
+    id      => 'ceb834ea55261da7259fd57c8760d81f',
+    content => {
+        type => 'text',
+        content =>
+qq{A new BBBike Android app (Berlin only, original data) is available in the android market: https://play.google.com/store/search?q=bbbike},
+    },
+    updated  => '2012-22-20T13:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title =>
+qq{New feature: BBBike extract service with Garmin OSM and Garmin cycle map format},
+    id      => 'ceb834ea55261da7259fd57c8760d80f',
+    content => {
+        type => 'text',
+        content =>
+qq{New feature: BBBike extract service with Garmin OSM and Garmin cycle map format},
+    },
+    updated  => '2012-05-20T13:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title   => qq{Added new cities: LaPaz, Cusco, and Sucre},
+    id      => 'd94a133044bb2da6cc7177e80e24c751',
+    content => {
+        type    => 'text',
+        content => qq{Added new cities: LaPaz, Cusco, and Sucre},
+    },
+    updated  => '2012-05-13T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title   => qq{Added Toner and Watercolor maps for http://bbbike.org},
+    id      => 'd94a133044bb2da6cc7177e80e24c750',
+    content => {
+        type    => 'text',
+        content => qq{Added Toner and Watercolor maps for http://bbbike.org},
+    },
+    updated  => '2012-04-10T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title => qq{New feature: start a route search with right click on the map},
+    id    => '59f077289e137c87be26a4b5f22427d7',
+    content => {
+        type => 'text',
+        content =>
+          qq{New feature: start search a route with right click on the map},
+    },
+    updated  => '2012-04-09T13:31:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title =>
+      qq{New feature: move start or destination pointers from a street marker},
+    id      => '59f077289e137c87be26a4b5f22427d6',
+    content => {
+        type => 'text',
+        content =>
+qq{New feature: move start or destination pointers from a street marker},
+    },
+    updated  => '2012-04-08T13:31:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title   => qq{Improve HTML layout, use all available space for map},
+    id      => '59f077289e137c87be26a4b5f22427d5',
+    content => {
+        type    => 'text',
+        content => qq{Improve HTML layout, use all available space for map},
+    },
+    updated  => '2012-04-08T13:31:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title   => qq{Added new overlay map: Google Panoramio photos},
+    id      => '59f077289e137c87be26a4b5f22427d4',
+    content => {
+        type    => 'text',
+        content => qq{Added new overlay map: Google Panoramio photos},
+    },
+    updated  => '2012-04-08T13:31:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title   => qq{Added new overlay map: Google Weather},
+    id      => '59f077289e137c87be26a4b5f22427d3',
+    content => {
+        type    => 'text',
+        content => qq{Added new overlay map: Google Weather},
+    },
+    updated  => '2012-04-08T13:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title   => qq{New feature: replay a route on the map},
+    id      => '59f077289e137c87be26a4b5f22427d2',
+    content => {
+        type    => 'text',
+        content => qq{New feature: replay a route on the map},
+    },
+    updated  => '2012-03-26T13:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title   => qq{Added new overlay maps: Velo and Max Speed},
     id      => '59f077289e137c87be26a4b5f22427d1',
     content => {

@@ -1,0 +1,26 @@
+#!/bin/sh
+# Copyright (c) 2012 Wolfram Schneider, http://bbbike.org
+#
+# planet-checksum - checksum test of latest planet osm file
+#
+
+set -e
+
+: ${MD5=`which md5 md5sum false | head -1`}
+: ${SHA="shasum -a 256"}
+
+
+nice="nice -n 9"
+
+: ${file=planet-latest.osm.pbf}
+dir=/usr/local/www/download.bbbike.org/osm/planet
+
+cd $dir
+#cat $file.md5
+
+tmp=$(mktemp -t md5.XXXXXXXXXXX)
+$nice $MD5 $file > $tmp
+
+diff $file.md5 $tmp
+
+rm -f $tmp

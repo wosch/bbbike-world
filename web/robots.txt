@@ -1,37 +1,35 @@
 # general
 Sitemap: http://www.bbbike.org/sitemap.xml.gz
 
+# rough bots
 User-agent: Ezooms
-Disallow: /
-
 User-agent: Purebot
-Disallow: /
-
 User-agent: Java
-Disallow: /
-
 User-agent: Nutch
-Disallow: /
-
 User-agent: SnapPreviewBot
-Disallow: /
-
 User-agent: ScoutJet
-Disallow: /
-
 User-agent: MLBot
-Disallow: /
-
 User-agent: sitebot
-Disallow: /
-
 User-agent: MJ12bot
-Disallow: /
-
 User-agent: Linguee
+User-agent: discobot
 Disallow: /
 
-User-agent: discobot
+# people search engines
+User-agent: 123People
+User-agent: findestars
+User-agent: MyOnID
+User-agent: peekyou
+User-agent: Pipl
+User-agent: rapleaf
+User-agent: snitch
+User-agent: spock
+User-agent: tweepz
+User-agent: wink
+User-agent: Yasni
+User-agent: yoname
+User-agent: yourtraces
+User-agent: zoominfo
 Disallow: /
 
 User-agent: *
@@ -42,6 +40,7 @@ Disallow: /berlin
 Disallow: /bbbike
 Disallow: /osp
 Disallow: /honey
+
 Disallow: /da/
 Disallow: /de/
 Disallow: /es/
@@ -138,6 +137,7 @@ Disallow: /Cottbus/?
 Disallow: /Cracow/?
 Disallow: /CraterLake/?
 Disallow: /Curitiba/?
+Disallow: /Cusco/?
 Disallow: /Dallas/?
 Disallow: /Darmstadt/?
 Disallow: /Davis/?
@@ -195,6 +195,7 @@ Disallow: /Kiew/?
 Disallow: /Koblenz/?
 Disallow: /Koeln/?
 Disallow: /Konstanz/?
+Disallow: /LaPaz/?
 Disallow: /LakeGarda/?
 Disallow: /Lausanne/?
 Disallow: /Leeds/?
@@ -281,6 +282,7 @@ Disallow: /Stockholm/?
 Disallow: /Stockton/?
 Disallow: /Strassburg/?
 Disallow: /Stuttgart/?
+Disallow: /Sucre/?
 Disallow: /Sydney/?
 Disallow: /Szczecin/?
 Disallow: /Tallin/?
@@ -365,6 +367,7 @@ Disallow: /en/Bern/?
 Disallow: /en/Wroclaw/?
 Disallow: /en/SanktPetersburg/?
 Disallow: /en/Frankfurt/?
+Disallow: /en/Graz/?
 Disallow: /en/Lyon/?
 Disallow: /en/WarenMueritz/?
 Disallow: /en/Goerlitz/?
@@ -518,7 +521,6 @@ Disallow: /en/Waterloo/
 Disallow: /en/PortoAlegre/?
 Disallow: /en/Innsbruck/?
 Disallow: /en/Jerusalem/?
-Disallow: /en/Graz/?
 Disallow: /en/Corvallis/
 Disallow: /en/Paderborn/?
 Disallow: /en/Tehran/?
@@ -538,3 +540,6 @@ Disallow: /en/Auckland/
 Disallow: /en/Baku/?
 Disallow: /en/PhnomPenh/?
 Disallow: /en/UlanBator/?
+Disallow: /en/LaPaz/?
+Disallow: /en/Sucre/?
+Disallow: /en/Cusco/?

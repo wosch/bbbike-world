@@ -24,6 +24,7 @@ use Email::Valid;
 use Digest::MD5 qw(md5_hex);
 use Net::SMTP;
 use GIS::Distance::Lite;
+use HTTP::Date;
 
 use strict;
 use warnings;
@@ -46,15 +47,19 @@ my $option = {
     'max_extracts'       => 50,
     'default_format'     => 'osm.pbf',
     'city_name_optional' => 1,
-    'max_skm'            => 240_000,     # max. area in square km
+    'max_skm'            => 960_000,     # max. area in square km
     'confirm' => 0,    # request to confirm request with a click on an URL
 };
 
 my $formats = {
-    'osm.pbf' => 'Protocolbuffer Binary Format (PBF)',
-    'osm.gz'  => "OSM XML gzip'd",
-    'osm.bz2' => "OSM XML bzip'd",
-    'osm.xz'  => "OSM XML 7z (xz)",
+    'osm.pbf'            => 'Protocolbuffer Binary Format (PBF)',
+    'osm.gz'             => "OSM XML gzip'd",
+    'osm.bz2'            => "OSM XML bzip'd",
+    'osm.xz'             => "OSM XML 7z (xz)",
+    #'osm.shp.zip'        => "OSM Shape",
+    'garmin-osm.zip'     => "Garmin OSM",
+    'garmin-cycle.zip'   => "Garmin Cycle",
+    'garmin-leisure.zip' => "Garmin Leisure",
 };
 
 my $spool = {
@@ -114,7 +119,7 @@ sub header {
     return $q->header( -charset => 'utf-8', @cookie ) .
 
       $q->start_html(
-        -title => 'BBBike @ World extracts',
+        -title => 'BBBike @ World: OpenStreetMap extracts',
         -head  => $q->meta(
             {
                 -http_equiv => 'Content-Type',
@@ -122,7 +127,14 @@ sub header {
             }
         ),
 
-        -style => { 'src' => [ "../html/bbbike.css", "../html/luft.css" ] },
+        -style => {
+            'src' => [
+
+                #"../html/bbbike.css",
+                "../html/luft.css",
+                "../html/extract.css"
+            ]
+        },
         -script => [ map { { 'src' => $_ } } @javascript ],
         @onload,
       );
@@ -132,8 +144,9 @@ sub header {
 sub map {
 
     return <<EOF;
-<div id="content" class="site_index">
+</div> <!-- top -->
 
+<div id="content" class="site_index">
  <div style="width: 100%; display: block;" id="sidebar">
   
   <div id="sidebar_content">
@@ -150,13 +163,13 @@ sub map {
       </div>
     </div>
   </div> <!-- export_bounds -->
-  
   </div>
-</div><!-- sidebar -->
-   
-<!-- define a DIV into which the map will appear. Make it take up the whole window -->
-<!-- <div style="width:100%; height:100%" id="map"></div> -->
-<div style="width:100%; height:450px" id="map"></div>
+ </div><!-- sidebar -->
+  
+ 
+ <!-- define a DIV into which the map will appear. Make it take up the whole window -->
+ <!-- <div style="width:100%; height:400px" id="map"></div>  -->
+ <div id="map"></div> 
 
 </div><!-- content -->
 
@@ -173,17 +186,20 @@ sub footer {
     my $extracts = ( $q->param('submit') || $q->param("key") )
       && $url ? qq,| <a href="$url">extract</a>, : "";
     return <<EOF;
-<span id="debug"></span>
 
 <div id="footer">
   <div id="footer_top">
-    <a href="../">home</a> $extracts | <a href="../community.html#donate">donate</a>
+    <a href="../">home</a> $extracts | 
+    <a href="../extract.html">help</a> $extracts | 
+    <a href="http://download.bbbike.org/osm/">download</a> | 
+    <a href="/cgi/livesearch-extract.cgi">livesearch</a> | 
+    <a href="../community.html#donate">donate</a>
   </div>
   <hr/>
-  <div id="copyright" style="font-size:x-small">
+  <div id="copyright">
     (&copy;) 2011-2012 <a href="http://www.bbbike.org">BBBike.org</a> 
     by <a href="http://wolfram.schneider.org">Wolfram Schneider</a> //
-    Map data by the <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap</a> Project
+    Map data (&copy;) <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
   <div id="footer_community"></div>
   </div>
 </div>
@@ -217,14 +233,12 @@ EOF
 
 sub message {
     return <<EOF;
-<p>
-This site allow you to extracts areas from the <a href="http://wiki.openstreetmap.org/wiki/Planet.osm">planet.osm</a>.
+<b>BBBike @ World OpenStreetMap extracts</b>:
+this site allow you to extracts areas from the <a href="http://wiki.openstreetmap.org/wiki/Planet.osm">planet.osm</a>.
 The maximum area size is @{[ large_int($max_skm) ]} square km.
-<br/>
 
 It takes between 10-30 minutes to extract an area. You will be notified by e-mail if your extract is ready for download.
-</p>
-<hr/>
+<span id="debug"></span>
 EOF
 }
 
@@ -236,8 +250,9 @@ sub layout {
 
     <div id="border">
       <div id="main">
+        <div id="top">
 
-      <center>@{[ $q->h3("BBBike @ World extracts") ]}</center>
+      <!-- <center>@{[ $q->h3("BBBike @ World extracts") ]}</center> -->
 EOF
 }
 
@@ -276,7 +291,8 @@ sub check_input {
 
     sub Param {
         my $param = shift;
-        my $data = $qq->param($param) || "";
+        my $data  = $qq->param($param);
+        $data = "" if !defined $data;
 
         $data =~ s/^\s+//;
         $data =~ s/\s+$//;
@@ -344,7 +360,10 @@ sub check_input {
     }
     else {
         print <<EOF;
-<p>Thanks - the input data looks good. You will be notificed by e-mail soon. 
+<p>Thanks - the input data looks good.</p><p>
+It takes between 10-30 minutes to extract an area from planet.osm, 
+depending on the size of the area and the system load.
+You will be notified by e-mail if your extract is ready for download.
 Please follow the instruction in the email to proceed your request.</p>
 
 <p align='left'>Area: "@{[ escapeHTML($city) ]}" covers @{[ large_int($skm) ]} square km <br/>
@@ -366,6 +385,7 @@ EOF
         'ne_lat' => $ne_lat,
         'ne_lng' => $ne_lng,
         'skm'    => $skm,
+        'date'   => time2str(time),
         'time'   => time(),
     };
 
@@ -603,8 +623,7 @@ sub homepage {
     print &header( $q, -type => 'homepage' );
     print &layout($q);
 
-    print &message;
-
+    print qq{<div id="intro">\n};
     print $q->start_form(
         -method   => $request_method,
         -id       => 'extract',
@@ -618,6 +637,7 @@ sub homepage {
     my $default_format = $q->cookie( -name => "format" )
       || $option->{'default_format'};
 
+    print qq{<div id="table">\n};
     print $q->table(
         $q->Tr(
             {},
@@ -692,7 +712,11 @@ sub homepage {
         )
     );
 
-    #print $q->p;
+    print "\n</div>\n";
+    print qq{<div id="message">\n};
+    print &message;
+
+    print "<br/>\n";
     print $q->submit(
         -title => 'start extract',
         -name  => 'submit',
@@ -700,7 +724,11 @@ sub homepage {
 
         #-id    => 'extract'
     );
+    print "\n</div>\n";
+
     print $q->end_form;
+    print "</div>\n";
+
     print qq{<hr/>\n};
     print &map;
 

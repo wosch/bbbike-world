@@ -365,10 +365,7 @@ sub count_routes {
 
         next if $ignore_localrequests && localrequest($_);
 
-        if (   m,"GET /\S+pref_seen=1,
-            && /startc=[0-9\-\+]/
-            && /zielc=[0-9\-\+]/ )
-        {
+        if (m,"GET /\S+pref_seen=[12],) {
             $counter++;
         }
     }

@@ -153,6 +153,8 @@ sub extract_route {
     if ($date) {
         $date = &date_alias($date);
 
+        warn "Use date: '$date'\n" if $debug;
+
         eval { "foo" =~ /$date/ };
         if ($@) {
             warn "date failed: '$date'\n";
@@ -226,7 +228,8 @@ m, (slippymap|bbbike|[A-Z][a-zA-Z]+)\.cgi: (URL:)?http://$host.bbbike.org/,i;
         }
     }
 
-    warn "URLs: $#data_all, factor: $duplication_factor\n" if $debug;
+    warn "URLs: ", scalar(@data_all), ", factor: $duplication_factor\n"
+      if $debug;
     return @data_all;
 }
 
@@ -281,7 +284,7 @@ $data
 
 <div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em;" >
 <hr>
-(&copy;) 2008-2012 <a href="http://bbbike.org">BBBike.org</a> // Map data by the <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap</a> Project
+(&copy;) 2008-2012 <a href="http://bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
 <div id="footer_community">
 </div>
 </div>
@@ -606,7 +609,7 @@ sub statistic_basic {
     print "<p>City count: ", scalar(@cities),
       ", unique routes: $unique_routes, ", "total routes: $counter2</p>\n";
 
-    if ( $unique_routes > 20 ) {
+    if ( $unique_routes > 20 && !is_production($q) && $date eq 'today' ) {
         print "<p>Estimated usage today: "
           . &estimated_daily_usage($unique_routes) . "/"
           . &estimated_daily_usage($counter2) . "</p>";
@@ -633,6 +636,11 @@ sub statistic_basic {
 
     # footer
     print qq{<br/><br/>\n<a href="../">home</a>\n};
+
+    $q->param( "date", "yesterday" );
+    print qq{ | <a href="} . $q->url( -query => 1 ) . qq{">yesterday</a>\n};
+    $q->param( "date", "today" );
+    print qq{ | <a href="} . $q->url( -query => 1 ) . qq{">today</a>\n};
     print "<hr />\n";
     print
       qq{Copyright (c) 2011-2012 <a href="http://bbbike.org">BBBike.org</a>\n};
@@ -703,7 +711,7 @@ sub dump_url_list {
 my $ns = $q->param("namespace") || $q->param("ns") || "";
 
 # plain statistic
-if ( $ns =~ /^stat/ ) {
+if ( $ns =~ /^stat/ || $ns =~ /^(ascii|text|plain)$/ ) {
     &statistic_basic($q);
 }
 

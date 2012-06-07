@@ -13,7 +13,8 @@ $ make CITIES="Augsburg Halle" cities convert
 # fetch data for a city and build a bbbike database
 $ make CITIES="Augsburg Halle" fetch convert
 
-# extract and convert only
+# extract and convert only, do not install
+$ make bbbike_download="" bbbike_install="" update-database
 $ make bbbike_download="" update-database
 
 # convert only

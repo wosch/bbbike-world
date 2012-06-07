@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <base href="http://www.bbbike.org/" />
+  <title>BBBike @ World - API Documentation</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link type="image/ico" rel="shortcut icon" href="images/srtbike1.ico" />
+  <link rel="stylesheet" type="text/css" href="html/luft.css" />
+</head>
+
+<body>
+  <div id="all">
+    <div id="border">
+      <div id="main">
+        <h2>BBBike @ World - API Documentation</h2>
+
+        <p>BBBike is a route planner for cyclists in Berlin. It is now ported to other cities around the world - thanks to the
+        <a href="http://www.openstreetmap.org">OpenStreetMap</a> project!</p>
+
+        <h4>API Documentation</h4>
+	<p>
+	The service for API requests run on <tt>http://api.bbbike.org/api/0.2/</tt></p>
+
+        <h4>XML API in a Nutshell</h4>
+	<p>
+	BBBike has a simple XML API. You can get the routing results in the formats GPS routes, GPS tracks and Google Earth (KML). 	
+        To get XML result output instead HTML, just replace the URL parameter <tt>output_as</tt> with one of the values:
+	</p>
+
+	<table border="2" cellspacing="5" cellpadding="10">
+	<tr><td>Name</td><td>parameters</td><td>description</td></tr>
+	<tr><td>GPS Route</td><td><tt>output_as=gpx-route</tt></td><td>GPX route with waypoints for GPS navigation, up to 256 points</td></tr>
+	<tr><td>GPS Track</td><td><tt>output_as=gpx-track</tt></td><td>GPX with up to 1024 points, no navigation</td></tr>
+	<tr><td>Google Earth (KML)</td><td><tt>output_as=kml-track</tt></td><td>view route with Google Earth</td></tr>
+	<tr><td>XML</td><td><tt>output_as=xml</tt></td><td>route with waypoints and decriptions in XML format</td></tr>
+	<tr><td>JSON</td><td><tt>output_as=json</tt></td><td>route with waypoints and decriptions in JavaScript JSON format</td></tr>
+	<tr><td>YAML</td><td><tt>output_as=yaml</tt></td><td>route with waypoints and decriptions in YAML format</td></tr>
+	</table>
+	<p>
+	After the prefix follows the city name, e.g. for the original bbbike data: <tt>http://api.bbbike.org/api/0.2/bbbike/</tt>
+	and for Hamburg <tt>http://api.bbbike.org/api/0.2/Hamburg/</tt>
+	</p>
+	<p>
+	After the city, the normal URL parameters follows.
+	</p>
+
+
+	<h5>Examples</h5>
+	<tt>/api/0.2/bbbike/?startc=13.377846%2C52.516265;startname=Brandenburger%20Tor;zielc=13.404294%2C52.535019;zielname=Zionskirche;pref_seen=1;pref_speed=20;pref_cat=;pref_quality=;pref_specialvehicle=;scope=;output_as=kml-track</tt>
+
+        <h4>JSON API in a Nutshell</h4>
+	<p>
+	The JSON APIs for street names or Point of Interests (POI) suggestions works as on the web site.
+	</p>
+
+	<h5>Examples</h5>
+	<p>
+        Searching for street names: <tt>/api/0.2/cgi/api.cgi?namespace=dbac;city=bbbike;query=wash</tt><br/>
+	Plotting street names or POI: <tt>/api/0.2/cgi/street-coord.cgi?namespace=3;city=bbbike;query=washing</tt><br/>
+	Reverse geocode: <tt>/api/0.2/bbbike/?api=revgeocode;lon=13.352005;lat=52.538919</tt><br/>
+        Which city is supported by BBBike given your current location: <tt>/api/0.2/cgi/location.cgi?lng=13.411399&lat=52.523405</tt><br/>
+	</p>
+
+	<h4>Misc</h4>
+	<p>
+	Last but not least please visit <a href="http://www.bbbike.org/">bbbike.org</a> and read the <a href="help.html">documentation</a>. thanks!
+	</p>
+	<p>
+	If you want write a mobile App for BBBike - please contact us in advance. We can give you an introduction how to use the APIs.
+	</p>
+
+        <div id="footer">
+          <div id="footer_top">
+            <a href="/">home</a> | <a href="help.html">help</a> | <a href="community.html">donate</a>
+          </div>
+          <hr />
+          (&copy;) 2008-2012 <a href="http://bbbike.org">BBBike.org</a> //
+	  Map data (&copy;) <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
+        </div>
+      </div>
+    </div>
+  </div><script type="text/javascript">
+//<![CDATA[
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+  //]]>
+  </script><script type="text/javascript">
+//<![CDATA[
+  try {
+  var pageTracker = _gat._getTracker("UA-286675-19");
+  pageTracker._trackPageview();
+  } catch(err) {}
+  //]]>
+  </script>
+</body>
+</html>
