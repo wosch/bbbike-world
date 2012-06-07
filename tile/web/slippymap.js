@@ -60,6 +60,10 @@ function init() {
 
     map.addLayer(new OpenLayers.Layer.OSM.CycleMap("OSM CycleMap"));
 
+    map.addLayer(new OpenLayers.Layer.OSM("OSM Wanderreitkarte", ["http://base.wanderreitkarte.de/base/${z}/${x}/${y}.png", "http://base2.wanderreitkarte.de/base/${z}/${x}/${y}.png"], {
+        numZoomLevels: 18
+    }));
+
     map.addLayer(new OpenLayers.Layer.OSM("OSM MapBox", ["http://a.tiles.mapbox.com/v3/mapbox.mapbox-streets/${z}/${x}/${y}.png", "http://b.tiles.mapbox.com/v3/mapbox.mapbox-streets/${z}/${x}/${y}.png"], {
         numZoomLevels: 17
     }));
