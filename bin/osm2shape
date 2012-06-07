@@ -32,7 +32,18 @@ mkdir -p $garmin_dir
 
 logfile=$garmin_dir/logfile.txt 
 
-if osmium2shape -d $garmin_dir $file > $logfile 2>&1; then
+file_basename=`basename $file`
+file_fixme=$garmin_dir/$file_basename
+if osmosis --read-pbf $file --bb left=-180 right=180 top=90 bottom=-90 clipIncompleteEntities=true --write-pbf omitmetadata=true $file_fixme > $logfile 2>&1; then
+   :
+else
+   exit=$?
+   echo "Failed to fix $file"
+   cat $logfile
+   exit $exit
+fi
+
+if osmium2shape -d $garmin_dir $file_fixme > $logfile 2>&1; then
    :
 else
    exit=$?
@@ -40,6 +51,7 @@ else
    cat $logfile
    exit $exit
 fi
+rm -f $file_fixme
 
 cd $garmin_dir
 
