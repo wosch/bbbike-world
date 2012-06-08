@@ -24,6 +24,19 @@ my $feed = XML::Atom::SimpleFeed->new(
 
 $feed->add_entry(
     title =>
+qq{New feature: BBBike extract service with shapefile map format #osm #esri #gis},
+    id      => '51d474fb21860b0629bfe8467ee42c0a',
+    content => {
+        type => 'text',
+        content =>
+          qq{New feature: BBBike extract service with OSM Shape map format},
+    },
+    updated  => '2012-06-08T13:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title =>
 qq{A new BBBike Android app (Berlin only, original data) is available in the android market: https://play.google.com/store/search?q=bbbike},
     id      => 'ceb834ea55261da7259fd57c8760d81f',
     content => {
