@@ -22,16 +22,16 @@ sub extract_size {
     warn "area: $x1,$y1,$x2,$y2\n" if $debug;
 
     my $size = 0;
-    for my $x ( int($x1) .. int( $x2 + 0.99 )-1 ) {
-        for my $y ( int($y1) .. int( $y2 + 0.99 )-1 ) {
+    for my $x ( int($x1) .. int( $x2 + 0.99 ) - 1 ) {
+        for my $y ( int($y1) .. int( $y2 + 0.99 ) - 1 ) {
             my $x3     = $x + 1;
             my $y3     = $y + 1;
             my $factor = 1;
 
             if (   int($x1) < $x1 && int($x1) == $x
-                || int($x2) < $x2 && int($x2) == $x 
+                || int($x2) < $x2 && int($x2) == $x
                 || int($y1) < $y1 && int($y1) == $y
-                || int($y2) < $y2 && int($y2) == $y)
+                || int($y2) < $y2 && int($y2) == $y )
             {
                 $factor = 0.5;
             }
@@ -81,7 +81,7 @@ binmode( \*STDOUT, ":raw" );
 
 my $q = new CGI;
 
-my $area = $q->param('area') || "14.02,52,15,53.2";
+my $area = $q->param('area') || "14,52,15,53";
 my $namespace = $q->param('namespace') || $q->param('ns') || '0';
 
 if ( my $d = $q->param('debug') || $q->param('d') ) {
