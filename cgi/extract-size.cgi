@@ -67,7 +67,6 @@ if ( my $d = $q->param('debug') || $q->param('d') ) {
     $debug = $d if defined $d && $d >= 0 && $d <= 3;
 }
 
-
 my $expire = $debug >= 2 ? '+1s' : '+1h';
 print $q->header(
     -type    => 'text/javascript',
@@ -76,9 +75,9 @@ print $q->header(
 );
 
 my $database_file = "../etc/heatmap/heatmap.txt";
-my $db = &parse_db($database_file );
+my $db            = &parse_db($database_file);
 
-warn Dumper($db) if $debug >=2;
+warn Dumper($db) if $debug >= 2;
 my $size = &extract_size( 'db' => $db, 'area' => $area );
 print $size;
 
