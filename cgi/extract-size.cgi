@@ -18,7 +18,17 @@ sub extract_size {
     my $area = $args{'area'};
     my $db   = $args{'db'};
 
-    return $db->{$area};
+    my ( $x1, $y1, $x2, $y2 ) = split( /,/, $area );
+
+    my $size = 0;
+    for my $x ( int($x1) .. int( $x2 + 0.9999 ) ) {
+        for my $y ( int($y1) .. int( $y2 + 0.9999 ) ) {
+            my $x3 = $x + 1;
+            my $y3 = $y + 1;
+            $size += $db->{"$x,$y,$x3,$y3"};
+        }
+    }
+    return $size;
 }
 
 # ($lat1, $lon1 => $lat2, $lon2);
@@ -60,7 +70,7 @@ binmode( \*STDOUT, ":raw" );
 
 my $q = new CGI;
 
-my $area = $q->param('area') || "14,14,15,15";
+my $area = $q->param('area') || "10,14,15,15";
 my $namespace = $q->param('namespace') || $q->param('ns') || '0';
 
 if ( my $d = $q->param('debug') || $q->param('d') ) {
