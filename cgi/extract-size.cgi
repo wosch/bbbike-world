@@ -6,6 +6,7 @@
 use GIS::Distance::Lite;
 use CGi;
 use IO::File;
+use Data::Dumper;
 
 use strict;
 use warnings;
@@ -13,9 +14,11 @@ use warnings;
 my $debug = 0;
 
 sub extract_size {
-    my $area = shift;
+    my %args = @_;
+    my $area = $args{'area'};
+    my $db   = $args{'db'};
 
-    return 20;
+    return $db->{$area};
 }
 
 # ($lat1, $lon1 => $lat2, $lon2);
@@ -34,7 +37,7 @@ sub parse_db {
     my %hash;
 
     my $fh = new IO::File $file, "r" or die "open $file: $!\n";
-    binmode $fh, ":utf8";
+    binmode $fh, ":raw";
 
     while (<$fh>) {
         my ( $size, $x1, $y1, $x2, $y2 ) = split;
@@ -52,16 +55,18 @@ sub parse_db {
 #              ns: namespace
 #
 
+binmode( \*STDERR, ":raw" );
+binmode( \*STDOUT, ":raw" );
+
 my $q = new CGI;
 
-my $area = $q->param('area') || "14,14,14,14";
+my $area = $q->param('area') || "14,14,15,15";
 my $namespace = $q->param('namespace') || $q->param('ns') || '0';
 
 if ( my $d = $q->param('debug') || $q->param('d') ) {
     $debug = $d if defined $d && $d >= 0 && $d <= 3;
 }
 
-binmode( \*STDERR, ":utf8" ) if $debug >= 1;
 
 my $expire = $debug >= 2 ? '+1s' : '+1h';
 print $q->header(
@@ -70,8 +75,10 @@ print $q->header(
     -expires => $expire,
 );
 
-binmode( \*STDOUT, ":utf8" );
+my $database_file = "../etc/heatmap/heatmap.txt";
+my $db = &parse_db($database_file );
 
-my $size = &extract_size($area);
+warn Dumper($db) if $debug >=2;
+my $size = &extract_size( 'db' => $db, 'area' => $area );
 print $size;
 
