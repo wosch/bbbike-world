@@ -234,7 +234,7 @@ EOF
 sub message {
     return <<EOF;
 <b>BBBike @ World OpenStreetMap extracts</b>:
-this site allow you to extracts areas from the <a href="http://wiki.openstreetmap.org/wiki/Planet.osm">planet.osm</a>.
+this site allow you to extracts areas from the <a href="http://wiki.openstreetmap.org/wiki/Planet.osm">planet.osm</a> in OSM, PBF, Garmin or shapefile format.
 The maximum area size is @{[ large_int($max_skm) ]} square km.
 
 It takes between 10-30 minutes to extract an area. You will be notified by e-mail if your extract is ready for download.
