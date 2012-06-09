@@ -11,7 +11,7 @@ use Data::Dumper;
 use strict;
 use warnings;
 
-my $debug = 0;
+my $debug = 1;
 
 sub extract_size {
     my %args = @_;
@@ -19,13 +19,24 @@ sub extract_size {
     my $db   = $args{'db'};
 
     my ( $x1, $y1, $x2, $y2 ) = split( /,/, $area );
+    warn "area: $x1,$y1,$x2,$y2\n" if $debug;
 
     my $size = 0;
-    for my $x ( int($x1) .. int( $x2 + 0.9999 ) ) {
-        for my $y ( int($y1) .. int( $y2 + 0.9999 ) ) {
-            my $x3 = $x + 1;
-            my $y3 = $y + 1;
-            $size += $db->{"$x,$y,$x3,$y3"};
+    for my $x ( int($x1) .. int( $x2 + 0.99 )-1 ) {
+        for my $y ( int($y1) .. int( $y2 + 0.99 )-1 ) {
+            my $x3     = $x + 1;
+            my $y3     = $y + 1;
+            my $factor = 1;
+
+            if (   int($x1) < $x1 && int($x1) == $x
+                || int($x2) < $x2 && int($x2) == $x 
+                || int($y1) < $y1 && int($y1) == $y
+                || int($y2) < $y2 && int($y2) == $y)
+            {
+                $factor = 0.5;
+            }
+            warn "size of area: $x,$y,$x3,$y3 factor: $factor\n" if $debug;
+            $size += $factor * $db->{"$x,$y,$x3,$y3"};
         }
     }
     return $size;
@@ -70,7 +81,7 @@ binmode( \*STDOUT, ":raw" );
 
 my $q = new CGI;
 
-my $area = $q->param('area') || "13,52,15,55";
+my $area = $q->param('area') || "14.02,52,15,53.2";
 my $namespace = $q->param('namespace') || $q->param('ns') || '0';
 
 if ( my $d = $q->param('debug') || $q->param('d') ) {
@@ -89,5 +100,5 @@ my $db            = &parse_db($database_file);
 
 warn Dumper($db) if $debug >= 2;
 my $size = &extract_size( 'db' => $db, 'area' => $area );
-print $size;
+print "$size\n";
 
