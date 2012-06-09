@@ -70,7 +70,7 @@ binmode( \*STDOUT, ":raw" );
 
 my $q = new CGI;
 
-my $area = $q->param('area') || "10,14,15,15";
+my $area = $q->param('area') || "13,52,15,55";
 my $namespace = $q->param('namespace') || $q->param('ns') || '0';
 
 if ( my $d = $q->param('debug') || $q->param('d') ) {
