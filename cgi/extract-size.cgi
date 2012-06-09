@@ -5,16 +5,44 @@
 
 use GIS::Distance::Lite;
 use CGi;
+use IO::File;
 
 use strict;
-use warning;
+use warnings;
 
 my $debug = 0;
 
 sub extract_size {
-	my $area = $shift;
+    my $area = shift;
 
-	return 20;
+    return 20;
+}
+
+# ($lat1, $lon1 => $lat2, $lon2);
+sub square_km {
+    my ( $x1, $y1, $x2, $y2 ) = @_;
+
+    my $height = GIS::Distance::Lite::distance( $x1, $y1 => $x1, $y2 ) / 1000;
+    my $width  = GIS::Distance::Lite::distance( $x1, $y1 => $x2, $y1 ) / 1000;
+
+    return int( $height * $width );
+}
+
+sub parse_db {
+    my $file = shift;
+
+    my %hash;
+
+    my $fh = new IO::File $file, "r" or die "open $file: $!\n";
+    binmode $fh, ":utf8";
+
+    while (<$fh>) {
+        my ( $size, $x1, $y1, $x2, $y2 ) = split;
+        $hash{"$x1,$y1,$x2,$y2"} = $size;
+    }
+    $fh->close;
+
+    return \%hash;
 }
 
 ######################################################################
@@ -44,11 +72,6 @@ print $q->header(
 
 binmode( \*STDOUT, ":utf8" );
 
-my @list = &latlngnames_suggestions_unique(
-    'city'        => $city,
-    'latlng'      => $latlng,
-    'granularity' => $granularity,
-);
-
-print &size($area);
+my $size = &extract_size($area);
+print $size;
 
