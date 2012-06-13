@@ -56,7 +56,7 @@ else
 	shape ) $osm2shape "$file"
 		;;
 
-	* ) echo >& 2 "Oops, unknown '$compress'" ;;
+	* ) echo >& 2 "Oops, unknown '$compress'"; exit 2 ;;
     esac
 fi
 
