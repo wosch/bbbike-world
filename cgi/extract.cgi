@@ -348,7 +348,7 @@ sub check_input {
         if ( $option->{'city_name_optional'} ) {
             $city =
               $option->{'city_name_optional_coords'}
-              ? "none ($sw_lat,$sw_lng x $ne_lat,$ne_lng)"
+              ? "none ($sw_lng,$sw_lat x $ne_lng,$ne_lat)"
               : "none";
         }
         else {
