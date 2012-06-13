@@ -44,10 +44,11 @@ my $spool_dir = '/usr/local/www/tmp/extract';
 my $email_from = 'BBBike Admin <bbbike@bbbike.org>';
 
 my $option = {
-    'max_extracts'       => 50,
-    'default_format'     => 'osm.pbf',
-    'city_name_optional' => 1,
-    'max_skm'            => 960_000,     # max. area in square km
+    'max_extracts'              => 50,
+    'default_format'            => 'osm.pbf',
+    'city_name_optional'        => 1,
+    'city_name_optional_coords' => 1,
+    'max_skm'                   => 960_000,     # max. area in square km
     'confirm' => 0,    # request to confirm request with a click on an URL
 };
 
@@ -312,14 +313,6 @@ sub check_input {
     if ( !exists $formats->{$format} ) {
         error("Unknown error format '$format'");
     }
-    if ( $city eq '' ) {
-        if ( $option->{'city_name_optional'} ) {
-            $city = "none";
-        }
-        else {
-            error("Please give the area a name.");
-        }
-    }
     if ( $email eq '' ) {
         error(
             "Please enter a e-mail address. "
@@ -350,6 +343,18 @@ sub check_input {
     error(
 "Area is to large: @{[ large_int($skm) ]} square km, must be smaller than @{[ large_int($max_skm) ]} square km."
     ) if $skm > $max_skm;
+
+    if ( $city eq '' ) {
+        if ( $option->{'city_name_optional'} ) {
+            $city =
+              $option->{'city_name_optional_coords'}
+              ? "none ($sw_lat,$sw_lng x $ne_lat,$ne_lng)"
+              : "none";
+        }
+        else {
+            error("Please give the area a name.");
+        }
+    }
 
     if ($error) {
         print qq{<p class="error">The input data is not valid. };
