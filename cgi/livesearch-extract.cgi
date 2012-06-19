@@ -202,8 +202,10 @@ EOF
 }
 
 # statistic with google maps
-sub statistic_maps {
+sub statistic {
     my $q = shift;
+
+    my $ns = $q->param("namespace") || $q->param("ns") || "";
 
     print $q->header( -charset => 'utf-8', -expires => '+30m' );
 
@@ -230,8 +232,10 @@ sub statistic_maps {
 
     print &css_map;
     print qq{<div id="sidebar"></div>\n};
-    print qq{<div id="BBBikeGooglemap" style="height:92%">\n};
-    print qq{<div id="map"></div>\n};
+    if ( $ns !~ /^(text|ascii|plain)$/ ) {
+        print qq{<div id="BBBikeGooglemap" style="height:92%">\n};
+        print qq{<div id="map"></div>\n};
+    }
 
     print <<EOF;
     <script type="text/javascript">
@@ -337,7 +341,5 @@ qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\
 # main
 #
 
-my $ns = $q->param("namespace") || $q->param("ns") || "";
-
-&statistic_maps($q);
+&statistic($q);
 
