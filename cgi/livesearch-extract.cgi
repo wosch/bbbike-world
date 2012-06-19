@@ -206,6 +206,7 @@ sub statistic {
     my $q = shift;
 
     my $ns = $q->param("namespace") || $q->param("ns") || "";
+    $ns = "text" if $ns =~ /^(text|ascii|plain)$/;
 
     print $q->header( -charset => 'utf-8', -expires => '+30m' );
 
@@ -232,7 +233,7 @@ sub statistic {
 
     print &css_map;
     print qq{<div id="sidebar"></div>\n};
-    if ( $ns !~ /^(text|ascii|plain)$/ ) {
+    if ( $ns eq 'text' ) {
         print qq{<div id="BBBikeGooglemap" style="height:92%">\n};
         print qq{<div id="map"></div>\n};
     }
