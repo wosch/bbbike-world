@@ -5,14 +5,17 @@ set -e
 dir=$(mktemp -d -t bbbike-bootstrap.XXXXXXXX)
 cd $dir
 
-exec 2> log.bbbike
+logfile=$(pwd)/log.bbbike
+exec 2> $logfile
 
-if ! bbbike-checkout; then
-    echo "checkout failed: $dir"
-    cat log.bbbike
-    exit 2
-fi
+error () {
+   message="$@"
+   echo $message
+   cat $logfile
+   exit 2
+}
 
+bbbike-checkout || error "checkout failed: $dir"
 cd bbbike
 
 git merge eserte/master
