@@ -4,7 +4,7 @@
 # planet-size.cgi - compute size of an extract from planet.osm
 
 use GIS::Distance::Lite;
-use CGi;
+use CGI;
 use IO::File;
 use Data::Dumper;
 
