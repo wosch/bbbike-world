@@ -7,7 +7,12 @@ cd $dir
 
 exec 2> log.bbbike
 
-bbbike-checkout
+if ! bbbike-checkout; then
+    echo "checkout failed: $dir"
+    cat log.bbbike
+    exit 2
+fi
+
 cd bbbike
 
 git merge eserte/master
