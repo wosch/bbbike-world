@@ -285,19 +285,23 @@ EOF
 
     my $json = new JSON;
     my %hash;
-    my $counter = 0;
+    my $counter       = 0;
+    my $counter_total = 0;
     my @cities;
 
     foreach my $o (@d) {
+        $counter_total++;
+
         my $data =
-          qq|$o->{"sw_lng"},$o->{"sw_lat"}!$o->{"ne_lng"},$o->{"ne_lat"}|;
+qq|$o->{"sw_lng"},$o->{"sw_lat"}!$o->{"ne_lng"},$o->{"ne_lat"},$o->{"format"}|;
         next if $hash{$data}++;
         last if $counter++ >= $max;
 
         my $city = escapeHTML( $o->{"city"} );
-        my $opt = { "city" => $city, "area" => $data };
+        my $opt =
+          { "city" => $city, "area" => $data, "format" => $o->{"format"} };
         $city_center->{$city} = $data;
-        push @cities, $city;
+        push @cities, $opt;
 
         my $opt_json = $json->encode($opt);
 
@@ -312,13 +316,16 @@ EOF
     my $d = join(
         "<br/>",
         map {
-                qq/<a title="area $_:/
+                qq/<a title="format $_->{'format'}/
               . qq/" href="#" onclick="jumpToCity(\\'/
-              . $city_center->{$_}
-              . qq,\\')">$_</a>,
-          } sort @cities
+              . $city_center->{ $_->{'city'} }
+              . qq,\\')">$_->{'city'}</a>,
+          } sort { $a->{'city'} cmp $b->{'city'} } @cities
     );
-    $d .= "<hr/>total: " . scalar(@cities);
+    $d .= "<hr/>unique total: " . scalar(@cities);
+    if ( scalar(@cities) < $counter_total && $counter_total < $max ) {
+        $d .= "<br/>total: $counter_total";
+    }
 
     print qq{\n\$("div#sidebar").html('$d');\n\n};
 
