@@ -90,6 +90,10 @@ function init() {
         numZoomLevels: 19
     }));
 
+    map.addLayer(new OpenLayers.Layer.OSM("Skobbler (OSM)", ["http://tiles1.skobbler.net/osm_tiles2/${z}/${x}/${y}.png", "http://tiles2.skobbler.net/osm_tiles2/${z}/${x}/${y}.png"], {
+        numZoomLevels: 19
+    }));
+
     map.addLayer(new OpenLayers.Layer.OSM("Apple iPhoto (OSM)", ["http://gsp2.apple.com/tile?api=1&style=slideshow&layers=default&lang=de_DE&z=${z}&x=${x}&y=${y}&v=9"], {
         numZoomLevels: 15
     }));
