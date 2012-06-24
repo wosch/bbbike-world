@@ -327,6 +327,10 @@ qq|$o->{"sw_lng"},$o->{"sw_lat"}!$o->{"ne_lng"},$o->{"ne_lat"},$o->{"format"}|;
         $d .= "<br/>total: $counter_total";
     }
 
+    if ( $date ne "" ) {
+        $d .= "<br/>the localtime is in UTC";
+    }
+
     print qq{\n\$("div#sidebar").html('$d');\n\n};
 
     my $city = $q->param('city') || "";
