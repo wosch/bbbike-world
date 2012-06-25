@@ -6,6 +6,7 @@
 set -e
 make_verbose=-s
 git="nice -5 git"
+git_clone_opt="-q"
 : ${bbbike_macos=false}
 
 
@@ -26,13 +27,13 @@ git_config () {
 #
 
 if $bbbike_macos; then
-    git clone git@github.com:wolframschneider/bbbike-macos.git
+    git clone $git_clone_opt git@github.com:wolframschneider/bbbike-macos.git
 fi
 
 # original github repo
-#git clone git@github.com:wolframschneider/bbbike.git
+#git clone $git_clone_opt git@github.com:wolframschneider/bbbike.git
 # local cache repo
-git clone ssh://git.bbbike.org/home/git/bbbike
+git clone $git_clone_opt ssh://git.bbbike.org/home/git/bbbike
 
 ( cd bbbike && git_config )
 if $bbbike_macos; then
