@@ -23,6 +23,7 @@ my $max                       = 25;
 my $only_production_statistic = 1;
 my $debug                     = 1;
 my $default_date              = "";
+my $timezone                  = 'UTC';    # json log runs in UTC
 
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
@@ -54,14 +55,19 @@ sub date_alias {
 sub _date_alias {
     my $date = shift;
 
+    sub _localtime {
+        my $time = shift;
+        return $timezone eq 'UTC' ? gmtime($time) : localtime($time);
+    }
+
     if ( $date eq 'today' ) {
-        return substr( localtime(time), 4, 6 );
+        return substr( _localtime(time), 4, 6 );
     }
     elsif ( $date eq 'yesterday' ) {
-        return substr( localtime( time - 24 * 60 * 60 ), 4, 6 );
+        return substr( _localtime( time - 24 * 60 * 60 ), 4, 6 );
     }
     elsif ( $date =~ /^yesterday(\d)$/ ) {
-        return substr( localtime( time - ( 24 * $1 ) * 60 * 60 ), 4, 6 );
+        return substr( _localtime( time - ( 24 * $1 ) * 60 * 60 ), 4, 6 );
     }
     else {
         return $date;
