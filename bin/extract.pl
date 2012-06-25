@@ -91,8 +91,10 @@ my $spool     = {
     'running'   => "$spool_dir/running",   # currently running job
     'osm'       => "$spool_dir/osm",       # cache older runs
     'download'  => "$spool_dir/download",  # final directory for download
-    'trash' => "$spool_dir/trash",    # keep a copy of the config for debugging
-         # 'job1'  => "$spool_dir/job1.pid",     # lock file for current job
+    'trash'  => "$spool_dir/trash",    # keep a copy of the config for debugging
+    'failed' => "$spool_dir/failed",   # keep record of failed runs
+
+    # 'jobN'  => "$spool_dir/job1.pid",     # lock file for current job
 };
 
 my $alarm           = $option->{"alarm"};
