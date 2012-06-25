@@ -64,6 +64,10 @@ log $front_end/cgi/location.cgi | awk '{print $1}' | wc -l
 
 if [ -f $varnish_log ]; then
     echo ""
+    echo -n "map compare log hosts: "
+    egrep bbbike.org/mc/ $varnish_log | awk '{ print $1 }' | sort -u | wc -l
+
+    echo ""
     echo -n "tile log hosts: "
     egrep tile $varnish_log | awk '{ print $1 }' | sort -u | wc -l
     egrep tile $varnish_log | awk '{ print $1 }' | sort | uniq -c | sort -nr | $dns
@@ -75,6 +79,10 @@ if [ -f $varnish_log ]; then
     echo ""
     echo -n "tile log traffic: "
     egrep tile $varnish_log | egrep ' (200|30[124]) ' | awk '{ s += $10 } END { print int(s/1024/1024*10 + 0.5) / 10, "MB" }' 
+
+    echo ""
+    echo "map compare referer"
+    egrep http://tile.bbbike.org/mc/ $varnish_log | awk '{ print $11 }' | egrep -v http://tile.bbbike.org/ | sort | uniq -c | sort -nr
 fi
 
 echo ""
