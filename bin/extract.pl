@@ -46,6 +46,7 @@ our $option = {
     'max_jobs'   => 3,
     'bcc'        => 'bbbike@bbbike.org',
     'email_from' => 'bbbike@bbbike.org',
+    'send_email' => 1,
 
     # timeout handling
     'alarm' => 90 * 60,
@@ -90,8 +91,10 @@ my $spool     = {
     'running'   => "$spool_dir/running",   # currently running job
     'osm'       => "$spool_dir/osm",       # cache older runs
     'download'  => "$spool_dir/download",  # final directory for download
-    'trash' => "$spool_dir/trash",    # keep a copy of the config for debugging
-         # 'job1'  => "$spool_dir/job1.pid",     # lock file for current job
+    'trash'  => "$spool_dir/trash",    # keep a copy of the config for debugging
+    'failed' => "$spool_dir/failed",   # keep record of failed runs
+
+    # 'jobN'  => "$spool_dir/job1.pid",     # lock file for current job
 };
 
 my $alarm           = $option->{"alarm"};
@@ -536,8 +539,9 @@ sub cached_format {
 
 # prepare to sent mail about extracted area
 sub send_email {
-    my %args = @_;
-    my $json = $args{'json'};
+    my %args       = @_;
+    my $json       = $args{'json'};
+    my $send_email = $args{'send_email'};
 
     # all scripts are in these directory
     my $dirname = dirname($0);
@@ -656,6 +660,8 @@ sub send_email {
             )
         );
 
+        next if !$send_email;
+
         my $message = <<EOF;
 Hi,
 
@@ -702,7 +708,8 @@ EOF
     # unlink temporary .pbf files after all files are proceeds
     unlink(@unlink) or die "unlink: @unlink: $!\n";
 
-    warn "number of email sent: ", scalar(@$json), "\n" if $debug >= 1;
+    warn "number of email sent: ", scalar(@$json), "\n"
+      if $send_email && $debug >= 1;
 }
 
 # compare 2 files and return the modification diff time in seconds
@@ -816,6 +823,7 @@ usage: $0 [ options ]
 --nice-level={0..20}	nice level for osmosis, default: $option->{nice_level}
 --job={1..4}		job number for parallels runs, default: $option->{max_jobs}
 --timeout=1..86400	time out, default $option->{"alarm"}
+--send-email={0,1}	send out email, default: $option->{"send_email"}
 EOF
 }
 
@@ -827,7 +835,8 @@ EOF
 my $max_jobs = $option->{'max_jobs'};
 my $help;
 my $timeout;
-my $max_areas = $option->{'max_areas'};
+my $max_areas  = $option->{'max_areas'};
+my $send_email = $option->{'send_email'};
 
 GetOptions(
     "debug=i"      => \$debug,
@@ -835,12 +844,13 @@ GetOptions(
     "job=i"        => \$max_jobs,
     "timeout=i"    => \$timeout,
     "max-areas=i"  => \$max_areas,
+    "send-email=i" => \$send_email,
     "help"         => \$help,
 ) or die usage;
 
 die usage if $help;
 die "Max jobs: $max_jobs out of range!\n" . &usage
-  if $max_jobs < 1 || $max_jobs > 8;
+  if $max_jobs < 1 || $max_jobs > 12;
 die "Max areas: $max_areas out of range!\n" . &usage
   if $max_areas < 1 || $max_areas > 30;
 
@@ -908,7 +918,8 @@ else {
 
     # send out mail
     $time = time();
-    &send_email( 'json' => $json );
+    &send_email( 'json' => $json, 'send_email' => $send_email );
+
     warn "Running convert and email time: ", time() - $time, " seconds\n"
       if $debug;
     warn "Total time: ", time() - $starttime,
