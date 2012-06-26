@@ -82,7 +82,11 @@ function init() {
         numZoomLevels: 18
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("Mapquest (OSM)", ["http://otile1.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png", "http://otile2.mqcdn.com/tiles/1.0.0/${z}/${x}/${y}.png"], {
+    map.addLayer(new OpenLayers.Layer.OSM("Mapquest EU (OSM)", ["http://otile1.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png", "http://otile2.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png"], {
+        numZoomLevels: 19
+    }));
+
+    map.addLayer(new OpenLayers.Layer.OSM("Mapquest US (OSM)", ["http://mtile01.mqcdn.com/tiles/1.0.0/vy/map/${z}/${x}/${y}.png", "http://mtile02.mqcdn.com/tiles/1.0.0/vy/map/${z}/${x}/${y}.png"], {
         numZoomLevels: 19
     }));
 
