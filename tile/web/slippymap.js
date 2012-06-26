@@ -244,6 +244,8 @@ function init() {
         noOpaq: true
     }));
 
+    map.addLayer(new OpenLayers.Layer.OSM("OSM Public Transport Lines", "http://www.openptmap.org/tiles/${z}/${x}/${y}.png", { maxZoomLevel: 17, numZoomLevels: 18, alpha: true, isBaseLayer: false, visibility: false}) );
+
     var switcherControl = new OpenLayers.Control.LayerSwitcher();
     map.addControl(switcherControl);
     map.addControl(new OpenLayers.Control.LayerSwitcher());
