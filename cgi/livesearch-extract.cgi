@@ -249,7 +249,7 @@ sub statistic {
     //<![CDATA[
 
     city = "dummy";
-    bbbike_maps_init("mapnik_bw", [[43, 8],[57, 15]], "en", true, "eu" );
+    bbbike_maps_init("mapnik_bw", [[30, 30],[59, -10]], "en", true, "eu" );
   
     function jumpToCity (coord) {
 	var b = coord.split("!");

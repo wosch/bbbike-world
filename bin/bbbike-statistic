@@ -83,6 +83,10 @@ if [ -f $varnish_log ]; then
     echo ""
     echo "map compare referer"
     egrep http://tile.bbbike.org/mc/ $varnish_log | awk '{ print $11 }' | egrep -v http://tile.bbbike.org/ | sort | uniq -c | sort -nr
+
+    echo ""
+    echo -n "OSM map log hosts: "
+    egrep "tile.bbbike.org/osm/ " $varnish_log | awk '{ print $1 }' | sort -u | wc -l
 fi
 
 echo ""
