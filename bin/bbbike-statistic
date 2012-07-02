@@ -10,7 +10,7 @@ dns=dns
 dns=cat
 
 cd /var/log/lighttpd || exit 2
-varnish_log=/var/log/varnish/varnishncsa.log
+: ${varnish_log=/var/log/varnish/varnishncsa.log}
 
 logfile="bbbike.log"
 if [ -f $varnish_log ]; then
