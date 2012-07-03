@@ -176,6 +176,46 @@ function init() {
         map.addLayers([road, aerial, hybrid]);
     };
     bing();
+
+    // http://xbb.uz/openlayers/i-Yandex.Maps
+    function yandex () {
+
+	function yandex_getTileURL(bounds) {
+	    var r = this.map.getResolution();
+	    var maxExt = (this.maxExtent) ? this.maxExtent : YaBounds;
+	    var w = (this.tileSize) ? this.tileSize.w : 256;
+	    var h = (this.tileSize) ? this.tileSize.h : 256;
+	    var x = Math.round((bounds.left - maxExt.left)/(r * w));
+	    var y = Math.round((maxExt.top - bounds.top)/(r * h));
+	    var z = this.map.getZoom();
+	    var lim = Math.pow(2, z);
+	    if (y <0>= lim) {
+		return OpenLayers.Util.getImagesLocation() + "404.png";
+	    } else {
+		x = ((x % lim) + lim) % lim;
+		var url = (this.url) ? this.url : "http://vec02.maps.yandex.net/";
+		return url + "tiles?l=map&v=2.2.3&x=" + x + "&y=" + y + "&z=" + z;
+	    }
+	};
+
+	// Границы Яндекс.Карты в пикселях
+	var YaBounds = new OpenLayers.Bounds(-20037508, -20002151, 20037508, 20072865);
+
+	// Объект карты
+	map.addLayer(new OpenLayers.Layer.TMS("Yandex Maps", "", {
+	    maxExtent: YaBounds,
+	    url: "http://vec02.maps.yandex.net/",
+	    type: "png",
+	    getURL: yandex_getTileURL,
+	    numZoomLevels: 14,
+	    attribution: '<a href="http://beta-maps.yandex.ru/">Яндекс.Карты</a>',
+	    transitionEffect: 'resize'
+	}));
+    }
+    yandex();
+
+
+
     // This is the end of the layer
     // Begin of overlay
     map.addLayer(new OpenLayers.Layer.TMS("BBBike Fahrbahnqualit&auml;t", "bbbike-smoothness/", {
