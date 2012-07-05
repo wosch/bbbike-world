@@ -239,7 +239,7 @@ sub statistic {
 
     print &css_map;
     print qq{<div id="sidebar"></div>\n};
-    if ( $ns eq 'text' ) {
+    if ( $ns ne 'text' ) {
         print qq{<div id="BBBikeGooglemap" style="height:92%">\n};
         print qq{<div id="map"></div>\n};
     }
