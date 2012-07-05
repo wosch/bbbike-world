@@ -11,6 +11,7 @@ dns=cat
 
 cd /var/log/lighttpd || exit 2
 : ${varnish_log=/var/log/varnish/varnishncsa.log}
+: ${extract_log=/var/log/lighttpd/extract.bbbike.log}
 
 logfile="bbbike.log"
 if [ -f $varnish_log ]; then
@@ -264,21 +265,21 @@ fi
 if [ -s /var/log/lighttpd/extract.bbbike.log ]; then
     echo ""
     echo -n "extract stat: "
-    egrep ' /\?city=' extract.bbbike.log | wc -l
+    zcat -f $extract_log | egrep ' /\?city=' | wc -l
 
     echo ""
     echo "extract cities:"
-    egrep ' /\?city=' extract.bbbike.log | perl -ne 'print "$1\n" if /city=(.*?)&/' | sort -u | perl -npe 'use CGI;; s,&,\t,g; $_=CGI::Util::unescape($_)'
+    zcat -f $extract_log | egrep ' /\?city=' | perl -ne 'print "$1\n" if /city=(.*?)&/' | sort -u | perl -npe 'use CGI;; s,&,\t,g; $_=CGI::Util::unescape($_)'
 
     echo ""
     echo "extract statistics by format: "
-    egrep  'GET /.city=' /var/log/lighttpd/extract.bbbike.log | awk '{print $7}' | perl -npe 'use CGI;; s,&,\t,g; $_=CGI::Util::unescape($_)' |
+    zcat -f $extract_log | egrep  'GET /.city=' | awk '{print $7}' | perl -npe 'use CGI;; s,&,\t,g; $_=CGI::Util::unescape($_)' |
 	perl -ne 'print "$1\n" if /\s+format=(\S+)/' | sort | uniq -c | sort -nr
 
     echo ""
     echo -n "extract statistics: "
-    egrep  'GET /.city=' /var/log/lighttpd/extract.bbbike.log | awk '{print $7}' | sort -u | wc -l
-    egrep  'GET /.city=' /var/log/lighttpd/extract.bbbike.log | awk '{print $7}' | sort -u | perl -npe 'use CGI;; s,&,\t,g; $_=CGI::Util::unescape($_)'
+    zcat -f $extract_log | egrep  'GET /.city=' | awk '{print $7}' | sort -u | wc -l
+    zcat -f $extract_log | egrep  'GET /.city=' | awk '{print $7}' | sort -u | perl -npe 'use CGI;; s,&,\t,g; $_=CGI::Util::unescape($_)'
 fi
 
 echo ""
