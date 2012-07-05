@@ -13,6 +13,7 @@ set -e
 nice="nice -n 9"
 
 : ${file=planet-latest.osm.pbf}
+: ${file_osm=planet-latest.osm.bz2}
 dir=/usr/local/www/download.bbbike.org/osm/planet
 
 cd $dir
@@ -21,6 +22,13 @@ cd $dir
 tmp=$(mktemp -t md5.XXXXXXXXXXX)
 $nice $MD5 $file > $tmp
 
-diff $file.md5 $tmp
+if diff $file.md5 $tmp; then
+   :
+else
+   $nice $MD5 $file_osm $file
+   $nice $MD5 $file_osm $file
+   cat $file.md5 
+fi
 
 rm -f $tmp
+
