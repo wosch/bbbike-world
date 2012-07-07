@@ -272,6 +272,8 @@ function init() {
         noOpaq: true
     }));
 
+    map.addLayer(new OpenLayers.Layer.OSM("OSM Public Transport Lines", "http://www.openptmap.org/tiles/${z}/${x}/${y}.png", { maxZoomLevel: 17, numZoomLevels: 18, alpha: true, isBaseLayer: false, visibility: false}) );
+    
     map.addLayer(new OpenLayers.Layer.TMS("Hillshading SRTM3 V2", "http://toolserver.org/~cmarqu/hill/", {
         type: 'png',
         getURL: osm_getTileURL,
@@ -296,7 +298,6 @@ function init() {
         noOpaq: true
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("OSM Public Transport Lines", "http://www.openptmap.org/tiles/${z}/${x}/${y}.png", { maxZoomLevel: 17, numZoomLevels: 18, alpha: true, isBaseLayer: false, visibility: false}) );
 
     var switcherControl = new OpenLayers.Control.LayerSwitcher();
     map.addControl(switcherControl);
