@@ -56,7 +56,7 @@ function init() {
         numZoomLevels: 19
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("OSM OEPNV", ["http://a.tile.xn--pnvkarte-m4a.de/tilegen/${z}/${x}/${y}.png", "http://b.tile.xn--pnvkarte-m4a.de/tilegen/${z}/${x}/${y}.png"], {
+    map.addLayer(new OpenLayers.Layer.OSM("OSM OEPNV", [" http://tile.memomaps.de/tilegen/${z}/${x}/${y}.png"], {
         numZoomLevels: 18
     }));
 
