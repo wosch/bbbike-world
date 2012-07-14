@@ -88,8 +88,8 @@ sub header {
     my @onload;
     my @cookie;
     if ( $type eq 'homepage' ) {
-        push @javascript, "../html/OpenLayers/2.11/OpenLayers.js",
-          "../html/OpenLayers/2.11/OpenStreetMap.js",
+        push @javascript, "../html/OpenLayers/2.12/OpenLayers-min.js",
+          "../html/OpenLayers/2.12/OpenStreetMap.js",
           "../html/jquery-1.7.1.min.js", "../html/extract.js";
         @onload = ( -onLoad, 'init();' );
     }
