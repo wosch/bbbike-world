@@ -4,6 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link type="image/ico" rel="shortcut icon" href="favicon.ico" />
     <link rel="stylesheet" href="style.css" type="text/css" />
+    
     <!-- bring in the OpenLayers javascript library
          (here we bring it from the remote site, but you could
          easily serve up this javascript yourself) -->
@@ -13,14 +14,15 @@
     <script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=3.0&appid=euzuro-openlayers"></script>
 
     <!-- <script src="http://openlayers.org/api/OpenLayers.js"></script> -->
-    <script src="http://www.bbbike.org/html/OpenLayers-2.11/OpenLayers.js"></script>
+    <script src="OpenLayers/2.12/OpenLayers-min.js"></script>
  
     <!-- bring in the OpenStreetMap OpenLayers layers.
          Using this hosted file will make sure we are kept up
          to date with any necessary changes -->
     <!-- <script src="http://www.openstreetmap.org/openlayers/OpenStreetMap.js"></script> -->
-    <script src="http://www.bbbike.org/html/OpenLayers-2.11/OpenStreetMap.js"></script>
-    
+    <script src="OpenLayers/2.12/OpenStreetMap.js"></script>
+   
+   <!-- /osm javascript lib --> 
     <script src="slippymap.js"></script>
     
     <style type="text/css">
@@ -45,4 +47,3 @@
     <div style="width:100%; height:100%" id="map"></div>
 </body>
 </html>
-
