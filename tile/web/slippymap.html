@@ -22,15 +22,27 @@
     <script src="http://www.bbbike.org/html/OpenLayers-2.11/OpenStreetMap.js"></script>
     
     <script src="slippymap.js"></script>
+    
+    <style type="text/css">
+    /* list of maps gets to large */    
+    .baseLayersDiv {
+        max-height: 30em;
+        margin-right: 1em;
+        overflow-y: auto;
+    }
+    .dataLayersDiv {
+        max-height: 20em;
+        margin-right: 1em;
+        overflow-y: auto;
+        background-color: blue;
+    }
+</style>
 </head>
  
 <!-- body.onload is called once the page is loaded (call the 'init' function) -->
 <body onload="init();">
- 
     <!-- define a DIV into which the map will appear. Make it take up the whole window -->
     <div style="width:100%; height:100%" id="map"></div>
- 
 </body>
- 
 </html>
 
