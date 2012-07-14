@@ -237,16 +237,6 @@ function init() {
 	attribution: '<a href="http://beta-maps.yandex.ru/">Яндекс.Карты</a>'
     }));
     
-    map.addLayer(new OpenLayers.Layer.TMS("Yandex Hybrid", "", {
-	maxExtent: YaBounds,
-	href: "http://vec01.maps.yandex.net/tiles?l=skl",
-	getURL: yandex_getTileURL,
-	numZoomLevels: 14,
-        isBaseLayer: false,
-        visibility: false,
-	attribution: '<a href="http://beta-maps.yandex.ru/">Яндекс.Карты</a>'
-    }));
-
 
     // This is the end of the layer
     // Begin of overlay
@@ -261,6 +251,17 @@ function init() {
         numZoomLevels: 19,
         noOpaq: true
     }));
+    
+    map.addLayer(new OpenLayers.Layer.TMS("Yandex Hybrid", "", {
+	maxExtent: YaBounds,
+	href: "http://vec01.maps.yandex.net/tiles?l=skl",
+	getURL: yandex_getTileURL,
+	numZoomLevels: 14,
+        isBaseLayer: false,
+        visibility: false,
+	attribution: '<a href="http://beta-maps.yandex.ru/">Яндекс.Карты</a>'
+    }));
+
 
     map.addLayer(new OpenLayers.Layer.TMS("ADFC Radwegenetz", "", {
         type: 'png',
@@ -370,6 +371,46 @@ function init() {
         var lonLat = new OpenLayers.LonLat(lon, lat).transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject());
         map.setCenter(lonLat, zoom);
     }
+
+    resizeBaseLayer();
+    initBaseLayerHeight();
+}
+
+function initBaseLayerHeight () { 
+    var timer = null;
+
+    // wait for  the last resize event, and 0.5 seconds later resize base layer height    
+    window.onresize = function(event) {
+	if (timer) clearTimeout(timer);
+	timer = setTimeout( function () { resizeBaseLayer() }, 100);
+    }
+}
+
+/*
+ resize base/data layer menu based on
+ the actual window size. The base layer
+ get 60% and the overlay layer 30% of the screen
+*/
+function resizeBaseLayer () {
+    var style;
+    
+    var height = document.body.clientHeight;
+    if (height <= 0)
+	return;
+   
+    height -= 120; // top, copyright
+    var base = parseInt(height * 0.65); 
+    var data = parseInt(height * 0.35);
+    
+    var style = document.createElement("style");
+    var rules = document.createTextNode('.baseLayersDiv { max-height: ' + base + 'px; } .dataLayersDiv { max-height: ' + data + 'px; }');
+    style.type = "text/css";
+    
+    var head = document.getElementsByTagName("head")[0];
+    style.appendChild(rules);
+    
+    head.appendChild(style);
+    // alert("base: " + base + " data: " + data);
 }
 
 // 1;
