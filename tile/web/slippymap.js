@@ -278,7 +278,7 @@ function init() {
         opacity: 1,
         isBaseLayer: false,
         visibility: false,
-        numZoomLevels: 19,
+        numZoomLevels: 18,
         noOpaq: true
     }));
 
