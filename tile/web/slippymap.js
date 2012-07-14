@@ -92,7 +92,7 @@ function init() {
 
     map.addLayer(new OpenLayers.Layer.OSM.CycleMap("OSM CycleMap"));
 
-    map.addLayer(new OpenLayers.Layer.OSM("OSM Wanderreitkarte", ["http://base.wanderreitkarte.de/base/${z}/${x}/${y}.png", "http://base2.wanderreitkarte.de/base/${z}/${x}/${y}.png"], {
+    map.addLayer(new OpenLayers.Layer.OSM("OSM Wanderreitkarte", ["http://www.wanderreitkarte.de/topo/${z}/${x}/${y}.png"], {
         numZoomLevels: 18
     }));
 
