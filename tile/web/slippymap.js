@@ -259,16 +259,6 @@ function init() {
         noOpaq: true
     }));
     
-    map.addLayer(new OpenLayers.Layer.TMS("Yandex Hybrid", "", {
-	maxExtent: YaBounds,
-	href: "http://vec01.maps.yandex.net/tiles?l=skl",
-	getURL: yandex_getTileURL,
-	numZoomLevels: 14,
-        isBaseLayer: false,
-        visibility: false,
-	attribution: '<a href="http://beta-maps.yandex.ru/">Яндекс.Карты</a>'
-    }));
-
 
     map.addLayer(new OpenLayers.Layer.TMS("ADFC Radwegenetz", "", {
         type: 'png',
@@ -304,6 +294,16 @@ function init() {
 
     map.addLayer(new OpenLayers.Layer.OSM("OSM Public Transport Lines", "http://www.openptmap.org/tiles/${z}/${x}/${y}.png", { maxZoomLevel: 17, numZoomLevels: 18, alpha: true, isBaseLayer: false, visibility: false}) );
     
+    map.addLayer(new OpenLayers.Layer.TMS("Yandex Hybrid", "", {
+	maxExtent: YaBounds,
+	href: "http://vec01.maps.yandex.net/tiles?l=skl",
+	getURL: yandex_getTileURL,
+	numZoomLevels: 14,
+        isBaseLayer: false,
+        visibility: false,
+	attribution: '<a href="http://beta-maps.yandex.ru/">Яндекс.Карты</a>'
+    }));
+
     map.addLayer(new OpenLayers.Layer.TMS("Hillshading SRTM3 V2", "http://toolserver.org/~cmarqu/hill/", {
         type: 'png',
         getURL: osm_getTileURL,
