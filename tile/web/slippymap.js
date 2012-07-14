@@ -389,7 +389,7 @@ function initBaseLayerHeight () {
 /*
  resize base/data layer menu based on
  the actual window size. The base layer
- get 60% and the overlay layer 30% of the screen
+ get 65% and the overlay layer 35% of the screen
 */
 function resizeBaseLayer () {
     var style;
