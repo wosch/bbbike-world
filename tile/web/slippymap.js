@@ -321,16 +321,16 @@ function init() {
     map.addLayer(new OpenLayers.Layer.OSM.Toolserver('Parking', 'parktrans', {isBaseLayer: false, visibility: false, opacity: 0.8, numZoomLevels: 16}));
     map.addLayer(new OpenLayers.Layer.OSM.Toolserver('Power Map', 'powermap', {isBaseLayer: false, visibility: false, numZoomLevels: 13}));
     
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Arabic (ar)", 'osm-labels-ar', {isBaseLayer: false, visibility: false}));
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Chinese (zh)", 'osm-labels-zh', {isBaseLayer: false, visibility: false}));
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels English (en)", 'osm-labels-en', {isBaseLayer: false, visibility: false}));
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels French (fr)", 'osm-labels-fr', {isBaseLayer: false, visibility: false}));
+    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Arabic (ar)", 'osm-labels-ar', {isBaseLayer: false, visibility: false, numZoomLevels: 13}));
+    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Chinese (zh)", 'osm-labels-zh', {isBaseLayer: false, visibility: false, numZoomLevels: 13}));
+    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels English (en)", 'osm-labels-en', {isBaseLayer: false, visibility: false, numZoomLevels: 18}));
+    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels French (fr)", 'osm-labels-fr', {isBaseLayer: false, visibility: false, numZoomLevels: 16}));
     map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels German (de)", 'osm-labels-de', {isBaseLayer: false, visibility: false}));
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Japanese (ja)", 'osm-labels-ja', {isBaseLayer: false, visibility: false}));
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Korean (kr)", 'osm-labels-kr', {isBaseLayer: false, visibility: false}));
+    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Japanese (ja)", 'osm-labels-ja', {isBaseLayer: false, visibility: false, numZoomLevels: 13}));
+    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Korean (kr)", 'osm-labels-kr', {isBaseLayer: false, visibility: false, numZoomLevels: 13}));
     map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Polish (pl)", 'osm-labels-pl', {isBaseLayer: false, visibility: false}));
     map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Russian (ru)", 'osm-labels-ru', {isBaseLayer: false, visibility: false}));
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Spanish (es)", 'osm-labels-es', {isBaseLayer: false, visibility: false}));
+    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Spanish (es)", 'osm-labels-es', {isBaseLayer: false, visibility: false, numZoomLevels: 16}));
     
     var switcherControl = new OpenLayers.Control.LayerSwitcher();
     map.addControl(switcherControl);
