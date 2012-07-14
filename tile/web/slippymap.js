@@ -7,7 +7,22 @@ var map; //complex object of type OpenLayers.Map
 //Initialise the 'map' object
 
 function init() {
-
+    // create the custom layer for toolserver.org
+    OpenLayers.Layer.OSM.Toolserver = OpenLayers.Class(OpenLayers.Layer.OSM, {
+	    initialize: function(name, path, options) {
+		    var url = [
+			    "http://a.www.toolserver.org/tiles/" + path + "/${z}/${x}/${y}.png", 
+			    "http://b.www.toolserver.org/tiles/" + path + "/${z}/${x}/${y}.png", 
+			    "http://c.www.toolserver.org/tiles/" + path + "/${z}/${x}/${y}.png"
+		    ];
+		    
+		    options = OpenLayers.Util.extend({numZoomLevels: 19}, options);
+		    OpenLayers.Layer.OSM.prototype.initialize.apply(this, [name, url, options]);
+	    },
+	    
+	    CLASS_NAME: "OpenLayers.Layer.OSM.Toolserver"
+    });
+    
     map = new OpenLayers.Map("map", {
         controls: [
         new OpenLayers.Control.Navigation(), new OpenLayers.Control.PanZoomBar(), new OpenLayers.Control.Permalink(), new OpenLayers.Control.ScaleLine({
@@ -41,6 +56,9 @@ function init() {
     map.addLayer(new OpenLayers.Layer.OSM("OSM Mapnik b/w", "http://a.www.toolserver.org/tiles/bw-mapnik/${z}/${x}/${y}.png", {
         numZoomLevels: 18
     }));
+    
+    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM no labels", 'osm-no-labels'));
+    
     map.addLayer(new OpenLayers.Layer.OSM("OSM Toner", ["http://a.tile.stamen.com/toner/${z}/${x}/${y}.png","http://b.tile.stamen.com/toner/${z}/${x}/${y}.png"], {
         numZoomLevels: 18
     }));
@@ -197,6 +215,7 @@ function init() {
 	}
     };
 
+    
     var YaBounds = new OpenLayers.Bounds(-20037508, -20002151, 20037508, 20072865);
 
     // Объект карты
