@@ -1,3 +1,10 @@
+/* Copyright (c) 2011 OpenLayers
+ * Copyright (c) 2012 Wolfram Schneider, http://bbbike.org
+ * /
+
+/* run JavaScript code in strict mode, HTML5 */
+"use strict";
+
 // Start position for the map (hardcoded here for simplicity)
 var lat = 52.51703;
 var lon = 13.38885;
@@ -275,7 +282,7 @@ function init() {
         noOpaq: true
     }));
 
-    map.addLayer(newLayer = new OpenLayers.Layer.XYZ("Velo-Layer", "http://toolserver.org/tiles/bicycle/${z}/${x}/${y}.png", {
+    map.addLayer(new OpenLayers.Layer.XYZ("Velo-Layer", "http://toolserver.org/tiles/bicycle/${z}/${x}/${y}.png", {
         attribution: '<a href="http://osm.t-i.ch/bicycle/map/">Velo-Layer</a>',
         opacity: 1,
         isBaseLayer: false,
@@ -284,7 +291,7 @@ function init() {
         noOpaq: true
     }));
 
-    map.addLayer(newLayer = new OpenLayers.Layer.XYZ("Max Speed", "http://wince.dentro.info/koord/osm/tiles/${z}/${x}/${y}.png", {
+    map.addLayer(new OpenLayers.Layer.XYZ("Max Speed", "http://wince.dentro.info/koord/osm/tiles/${z}/${x}/${y}.png", {
         attribution: '<a href="http://wince.dentro.info/koord/osm/KosmosMap.htm">MaxSpeedMap</a>',
         opacity: 1,
         isBaseLayer: false,
