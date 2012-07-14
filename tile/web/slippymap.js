@@ -290,6 +290,8 @@ function init() {
         numZoomLevels: 18,
         noOpaq: true
     }));
+    
+    map.addLayer(new OpenLayers.Layer.OSM.Toolserver('Bicycle Network', 'bicycle_network', {isBaseLayer: false, visibility: false, opacity: 0.8, numZoomLevels: 16}));
 
     map.addLayer(new OpenLayers.Layer.XYZ("Max Speed", "http://wince.dentro.info/koord/osm/tiles/${z}/${x}/${y}.png", {
         attribution: '<a href="http://wince.dentro.info/koord/osm/KosmosMap.htm">MaxSpeedMap</a>',
@@ -326,7 +328,6 @@ function init() {
         noOpaq: true
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver('Bicycle Network', 'bicycle_network', {isBaseLayer: false, visibility: false, opacity: 0.8, numZoomLevels: 16}));
     map.addLayer(new OpenLayers.Layer.OSM.Toolserver('Parking', 'parktrans', {isBaseLayer: false, visibility: false, opacity: 0.8, numZoomLevels: 16}));
     map.addLayer(new OpenLayers.Layer.OSM.Toolserver('Power Map', 'powermap', {isBaseLayer: false, visibility: false, numZoomLevels: 13}));
     
@@ -349,7 +350,8 @@ function init() {
     // ADFC
 
     function get_mm_bikeTracks(bounds) {
-        llbounds = new OpenLayers.Bounds();
+        var llbounds;
+	llbounds = new OpenLayers.Bounds();
         llbounds.extend(OpenLayers.Layer.SphericalMercator.inverseMercator(bounds.left, bounds.bottom));
         llbounds.extend(OpenLayers.Layer.SphericalMercator.inverseMercator(bounds.right, bounds.top));
         url = "http://mm-lbserver.dnsalias.com/mm-mapserver_v2/wms/wms.php?REQUEST=GetMap&SERVICE=WMS&VERSION=1.1.1&LAYERS=MM_BIKETRACKS&STYLES=&FORMAT=image/png&BGCOLOR=0xFFFFFF&TRANSPARENT=TRUE&SRS=EPSG:4326&BBOX="
