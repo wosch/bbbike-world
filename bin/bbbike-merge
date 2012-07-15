@@ -36,5 +36,7 @@ git diff
 if $verbose; then
     pwd
     echo "please run: $ rm -rf $dir"
+else
+    rm -rf $dir
 fi
 
