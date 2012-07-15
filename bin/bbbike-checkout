@@ -18,8 +18,9 @@ if [ ! -x /usr/local/bin/perl ]; then
 fi
 
 git_config () {
-	git config user.name "Wolfram Schneider"
-	git config user.email wosch@freebsd.org
+    git config user.name "Wolfram Schneider"
+    git config user.email wosch@freebsd.org
+    git config push.default current
 }
 
 ######################################################################
