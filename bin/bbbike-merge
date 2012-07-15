@@ -2,6 +2,11 @@
 
 set -e
 
+tmpdir=/bbbike/tmp
+if [ -d $tmpdir ]; then
+   TMPDIR=$tmpdir; export TMPDIR
+fi
+
 dir=$(mktemp -d -t bbbike-bootstrap.XXXXXXXX)
 cd $dir
 
@@ -15,12 +20,16 @@ error () {
    exit 2
 }
 
-bbbike-checkout || error "checkout failed: $dir"
+bbbike-checkout >&2 || error "checkout failed: $dir"
 cd bbbike
 
-git merge eserte/master
-make -s js perltidy 
-make -s update-files 
+if ! git merge eserte/master; then
+   echo "merged failed: $dir"
+   exit 1
+fi
+
+make -s js perltidy || error "js perltidy"
+make -s update-files  || error "update-files"
 git diff
 
 pwd
