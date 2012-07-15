@@ -16,20 +16,18 @@ var map; //complex object of type OpenLayers.Map
 function init() {
     // create the custom layer for toolserver.org
     OpenLayers.Layer.OSM.Toolserver = OpenLayers.Class(OpenLayers.Layer.OSM, {
-	    initialize: function(name, path, options) {
-		    var url = [
-			    "http://a.www.toolserver.org/tiles/" + path + "/${z}/${x}/${y}.png", 
-			    "http://b.www.toolserver.org/tiles/" + path + "/${z}/${x}/${y}.png", 
-			    "http://c.www.toolserver.org/tiles/" + path + "/${z}/${x}/${y}.png"
-		    ];
-		    
-		    options = OpenLayers.Util.extend({numZoomLevels: 19}, options);
-		    OpenLayers.Layer.OSM.prototype.initialize.apply(this, [name, url, options]);
-	    },
-	    
-	    CLASS_NAME: "OpenLayers.Layer.OSM.Toolserver"
+        initialize: function (name, path, options) {
+            var url = ["http://a.www.toolserver.org/tiles/" + path + "/${z}/${x}/${y}.png", "http://b.www.toolserver.org/tiles/" + path + "/${z}/${x}/${y}.png", "http://c.www.toolserver.org/tiles/" + path + "/${z}/${x}/${y}.png"];
+
+            options = OpenLayers.Util.extend({
+                numZoomLevels: 19
+            }, options);
+            OpenLayers.Layer.OSM.prototype.initialize.apply(this, [name, url, options]);
+        },
+
+        CLASS_NAME: "OpenLayers.Layer.OSM.Toolserver"
     });
-    
+
     map = new OpenLayers.Map("map", {
         controls: [
         new OpenLayers.Control.Navigation(), new OpenLayers.Control.PanZoomBar(), new OpenLayers.Control.Permalink(), new OpenLayers.Control.ScaleLine({
@@ -64,13 +62,13 @@ function init() {
     map.addLayer(new OpenLayers.Layer.OSM("OSM Mapnik b/w", "http://a.www.toolserver.org/tiles/bw-mapnik/${z}/${x}/${y}.png", {
         numZoomLevels: 18
     }));
-    
+
     map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM no labels", 'osm-no-labels'));
-    
-    map.addLayer(new OpenLayers.Layer.OSM("OSM Toner", ["http://a.tile.stamen.com/toner/${z}/${x}/${y}.png","http://b.tile.stamen.com/toner/${z}/${x}/${y}.png"], {
+
+    map.addLayer(new OpenLayers.Layer.OSM("OSM Toner", ["http://a.tile.stamen.com/toner/${z}/${x}/${y}.png", "http://b.tile.stamen.com/toner/${z}/${x}/${y}.png"], {
         numZoomLevels: 18
     }));
-    map.addLayer(new OpenLayers.Layer.OSM("OSM Watercolor", ["http://a.tile.stamen.com/watercolor/${z}/${x}/${y}.png","http://b.tile.stamen.com/watercolor/${z}/${x}/${y}.png"], {
+    map.addLayer(new OpenLayers.Layer.OSM("OSM Watercolor", ["http://a.tile.stamen.com/watercolor/${z}/${x}/${y}.png", "http://b.tile.stamen.com/watercolor/${z}/${x}/${y}.png"], {
         numZoomLevels: 18
     }));
 
@@ -204,46 +202,47 @@ function init() {
     bing();
 
     // http://xbb.uz/openlayers/i-Yandex.Maps
+
     function yandex_getTileURL(bounds) {
-	var r = this.map.getResolution();
-	var maxExt = (this.maxExtent) ? this.maxExtent : YaBounds;
-	var w = (this.tileSize) ? this.tileSize.w : 256;
-	var h = (this.tileSize) ? this.tileSize.h : 256;
-	var x = Math.round((bounds.left - maxExt.left)/(r * w));
-	var y = Math.round((maxExt.top - bounds.top)/(r * h));
-	var z = this.map.getZoom();
-	var lim = Math.pow(2, z);
-	if (y <0>= lim) {
-	    return OpenLayers.Util.getImagesLocation() + "404.png";
-	} else {
-	    x = ((x % lim) + lim) % lim;
-	    // var url = (this.url) ? this.url : "http://vec02.maps.yandex.net/tiles?l=map&v=2.2.3";
-	    var url = (this.href) ? this.href : "http://sat01.maps.yandex.net/tiles?l=sat&v=1.35.0";
-	    return url + "&x=" + x + "&y=" + y + "&z=" + z;
-	}
+        var r = this.map.getResolution();
+        var maxExt = (this.maxExtent) ? this.maxExtent : YaBounds;
+        var w = (this.tileSize) ? this.tileSize.w : 256;
+        var h = (this.tileSize) ? this.tileSize.h : 256;
+        var x = Math.round((bounds.left - maxExt.left) / (r * w));
+        var y = Math.round((maxExt.top - bounds.top) / (r * h));
+        var z = this.map.getZoom();
+        var lim = Math.pow(2, z);
+        if (y < 0 >= lim) {
+            return OpenLayers.Util.getImagesLocation() + "404.png";
+        } else {
+            x = ((x % lim) + lim) % lim;
+            // var url = (this.url) ? this.url : "http://vec02.maps.yandex.net/tiles?l=map&v=2.2.3";
+            var url = (this.href) ? this.href : "http://sat01.maps.yandex.net/tiles?l=sat&v=1.35.0";
+            return url + "&x=" + x + "&y=" + y + "&z=" + z;
+        }
     };
 
-    
+
     var YaBounds = new OpenLayers.Bounds(-20037508, -20002151, 20037508, 20072865);
 
     // Объект карты
     // maxExtent: YaBounds,
     map.addLayer(new OpenLayers.Layer.TMS("Yandex Maps", "", {
-	maxExtent: YaBounds,
-	href: "http://vec02.maps.yandex.net/tiles?l=map&v=2.2.3",
-	getURL: yandex_getTileURL,
-	numZoomLevels: 14,
-	attribution: '<a href="http://beta-maps.yandex.ru/">Яндекс.Карты</a>'
+        maxExtent: YaBounds,
+        href: "http://vec02.maps.yandex.net/tiles?l=map&v=2.2.3",
+        getURL: yandex_getTileURL,
+        numZoomLevels: 14,
+        attribution: '<a href="http://beta-maps.yandex.ru/">Яндекс.Карты</a>'
     }));
-    
+
     map.addLayer(new OpenLayers.Layer.TMS("Yandex Sat", "", {
-	maxExtent: YaBounds,
-	href: "http://sat01.maps.yandex.net/tiles?l=sat&v=1.35.0",
-	getURL: yandex_getTileURL,
-	numZoomLevels: 14,
-	attribution: '<a href="http://beta-maps.yandex.ru/">Яндекс.Карты</a>'
+        maxExtent: YaBounds,
+        href: "http://sat01.maps.yandex.net/tiles?l=sat&v=1.35.0",
+        getURL: yandex_getTileURL,
+        numZoomLevels: 14,
+        attribution: '<a href="http://beta-maps.yandex.ru/">Яндекс.Карты</a>'
     }));
-    
+
 
     // This is the end of the layer
     // Begin of overlay
@@ -258,7 +257,7 @@ function init() {
         numZoomLevels: 19,
         noOpaq: true
     }));
-    
+
 
     map.addLayer(new OpenLayers.Layer.TMS("ADFC Radwegenetz", "", {
         type: 'png',
@@ -280,8 +279,13 @@ function init() {
         numZoomLevels: 18,
         noOpaq: true
     }));
-    
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver('Bicycle Network', 'bicycle_network', {isBaseLayer: false, visibility: false, opacity: 0.8, numZoomLevels: 16}));
+
+    map.addLayer(new OpenLayers.Layer.OSM.Toolserver('Bicycle Network', 'bicycle_network', {
+        isBaseLayer: false,
+        visibility: false,
+        opacity: 0.8,
+        numZoomLevels: 16
+    }));
 
     map.addLayer(new OpenLayers.Layer.XYZ("Max Speed", "http://wince.dentro.info/koord/osm/tiles/${z}/${x}/${y}.png", {
         attribution: '<a href="http://wince.dentro.info/koord/osm/KosmosMap.htm">MaxSpeedMap</a>',
@@ -292,16 +296,22 @@ function init() {
         noOpaq: true
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("OSM Public Transport Lines", "http://www.openptmap.org/tiles/${z}/${x}/${y}.png", { maxZoomLevel: 17, numZoomLevels: 18, alpha: true, isBaseLayer: false, visibility: false}) );
-    
+    map.addLayer(new OpenLayers.Layer.OSM("OSM Public Transport Lines", "http://www.openptmap.org/tiles/${z}/${x}/${y}.png", {
+        maxZoomLevel: 17,
+        numZoomLevels: 18,
+        alpha: true,
+        isBaseLayer: false,
+        visibility: false
+    }));
+
     map.addLayer(new OpenLayers.Layer.TMS("Yandex Hybrid", "", {
-	maxExtent: YaBounds,
-	href: "http://vec01.maps.yandex.net/tiles?l=skl",
-	getURL: yandex_getTileURL,
-	numZoomLevels: 14,
+        maxExtent: YaBounds,
+        href: "http://vec01.maps.yandex.net/tiles?l=skl",
+        getURL: yandex_getTileURL,
+        numZoomLevels: 14,
         isBaseLayer: false,
         visibility: false,
-	attribution: '<a href="http://beta-maps.yandex.ru/">Яндекс.Карты</a>'
+        attribution: '<a href="http://beta-maps.yandex.ru/">Яндекс.Карты</a>'
     }));
 
     map.addLayer(new OpenLayers.Layer.TMS("Hillshading SRTM3 V2", "http://toolserver.org/~cmarqu/hill/", {
@@ -328,20 +338,66 @@ function init() {
         noOpaq: true
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver('Parking', 'parktrans', {isBaseLayer: false, visibility: false, opacity: 0.8, numZoomLevels: 16}));
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver('Power Map', 'powermap', {isBaseLayer: false, visibility: false, numZoomLevels: 13}));
-    
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Arabic (ar)", 'osm-labels-ar', {isBaseLayer: false, visibility: false, numZoomLevels: 13}));
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Chinese (zh)", 'osm-labels-zh', {isBaseLayer: false, visibility: false, numZoomLevels: 13}));
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels English (en)", 'osm-labels-en', {isBaseLayer: false, visibility: false, numZoomLevels: 18}));
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels French (fr)", 'osm-labels-fr', {isBaseLayer: false, visibility: false, numZoomLevels: 16}));
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels German (de)", 'osm-labels-de', {isBaseLayer: false, visibility: false}));
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Japanese (ja)", 'osm-labels-ja', {isBaseLayer: false, visibility: false, numZoomLevels: 13}));
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Korean (ko)", 'osm-labels-ko', {isBaseLayer: false, visibility: false, numZoomLevels: 13}));
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Polish (pl)", 'osm-labels-pl', {isBaseLayer: false, visibility: false}));
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Russian (ru)", 'osm-labels-ru', {isBaseLayer: false, visibility: false}));
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Spanish (es)", 'osm-labels-es', {isBaseLayer: false, visibility: false, numZoomLevels: 16}));
-    
+    map.addLayer(new OpenLayers.Layer.OSM.Toolserver('Parking', 'parktrans', {
+        isBaseLayer: false,
+        visibility: false,
+        opacity: 0.8,
+        numZoomLevels: 16
+    }));
+    map.addLayer(new OpenLayers.Layer.OSM.Toolserver('Power Map', 'powermap', {
+        isBaseLayer: false,
+        visibility: false,
+        numZoomLevels: 13
+    }));
+
+    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Arabic (ar)", 'osm-labels-ar', {
+        isBaseLayer: false,
+        visibility: false,
+        numZoomLevels: 13
+    }));
+    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Chinese (zh)", 'osm-labels-zh', {
+        isBaseLayer: false,
+        visibility: false,
+        numZoomLevels: 13
+    }));
+    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels English (en)", 'osm-labels-en', {
+        isBaseLayer: false,
+        visibility: false,
+        numZoomLevels: 18
+    }));
+    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels French (fr)", 'osm-labels-fr', {
+        isBaseLayer: false,
+        visibility: false,
+        numZoomLevels: 16
+    }));
+    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels German (de)", 'osm-labels-de', {
+        isBaseLayer: false,
+        visibility: false
+    }));
+    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Japanese (ja)", 'osm-labels-ja', {
+        isBaseLayer: false,
+        visibility: false,
+        numZoomLevels: 13
+    }));
+    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Korean (ko)", 'osm-labels-ko', {
+        isBaseLayer: false,
+        visibility: false,
+        numZoomLevels: 13
+    }));
+    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Polish (pl)", 'osm-labels-pl', {
+        isBaseLayer: false,
+        visibility: false
+    }));
+    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Russian (ru)", 'osm-labels-ru', {
+        isBaseLayer: false,
+        visibility: false
+    }));
+    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Spanish (es)", 'osm-labels-es', {
+        isBaseLayer: false,
+        visibility: false,
+        numZoomLevels: 16
+    }));
+
     var switcherControl = new OpenLayers.Control.LayerSwitcher();
     map.addControl(switcherControl);
     map.addControl(new OpenLayers.Control.LayerSwitcher());
@@ -350,7 +406,7 @@ function init() {
     // ADFC
 
     function get_mm_bikeTracks(bounds) {
-	var llbounds = new OpenLayers.Bounds();
+        var llbounds = new OpenLayers.Bounds();
         llbounds.extend(OpenLayers.Layer.SphericalMercator.inverseMercator(bounds.left, bounds.bottom));
         llbounds.extend(OpenLayers.Layer.SphericalMercator.inverseMercator(bounds.right, bounds.top));
         var url = "http://mm-lbserver.dnsalias.com/mm-mapserver_v2/wms/wms.php?REQUEST=GetMap&SERVICE=WMS&VERSION=1.1.1&LAYERS=MM_BIKETRACKS&STYLES=&FORMAT=image/png&BGCOLOR=0xFFFFFF&TRANSPARENT=TRUE&SRS=EPSG:4326&BBOX="
@@ -384,13 +440,15 @@ function init() {
     initBaseLayerHeight();
 }
 
-function initBaseLayerHeight () { 
+function initBaseLayerHeight() {
     var timer = null;
 
     // wait for  the last resize event, and 0.5 seconds later resize base layer height    
-    window.onresize = function(event) {
-	if (timer) clearTimeout(timer);
-	timer = setTimeout( function () { resizeBaseLayer() }, 1000);
+    window.onresize = function (event) {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(function () {
+            resizeBaseLayer()
+        }, 1000);
     }
 }
 
@@ -399,24 +457,23 @@ function initBaseLayerHeight () {
  the actual window size. The base layer
  get 65% and the overlay layer 35% of the screen
 */
-function resizeBaseLayer () {
+function resizeBaseLayer() {
     var style;
-    
+
     var height = document.body.clientHeight;
-    if (height <= 0)
-	return;
-   
+    if (height <= 0) return;
+
     height -= 120; // top, copyright
-    var base = parseInt(height * 0.65); 
+    var base = parseInt(height * 0.65);
     var data = parseInt(height * 0.35);
-    
+
     var style = document.createElement("style");
     var rules = document.createTextNode('.baseLayersDiv { max-height: ' + base + 'px; } .dataLayersDiv { max-height: ' + data + 'px; }');
     style.type = "text/css";
-    
+
     var head = document.getElementsByTagName("head")[0];
     style.appendChild(rules);
-    
+
     head.appendChild(style);
     // alert("base: " + base + " data: " + data);
 }
