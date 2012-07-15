@@ -10,7 +10,8 @@ sudo apt-get install \
   pbzip2 bzip2 xz-utils git-core screen lynx curl wget time \
   lsof whois pigz make acct telnet dnsutils bc sysstat \
   buffer pktstat emacs unzip vim gcc zlib1g-dev perltidy tidy \
-  python openjdk-6-jdk bsd-mailx mutt perl-doc \
+  bsd-mailx mutt perl-doc zip \
+  python openjdk-6-jdk 
   libhtml-tagcloud-perl libtext-unidecode-perl munin \
   libxml-atom-simplefeed-perl libjson-perl liburi-perl \
   libxml-libxml-perl libyaml-perl libyaml-syck-perl libxml-simple-perl \
@@ -18,7 +19,7 @@ sudo apt-get install \
   libbsd-resource-perl libobject-realize-later-perl libemail-valid-perl \
   libcairo-perl libpango-perl libinline-perl libpdf-create-perl \
   libgd-gd2-perl pdftk \
-  perl-doc zip libprotobuf-lite6 libshp1 libgeos-dev g++ \
+  libprotobuf-lite6 libshp1 libgeos-dev g++ \
 
 # perl devel libs?
 # libxml2-dev libcompress-zlib-perl
