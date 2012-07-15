@@ -3,6 +3,9 @@
 set -e
 : ${verbose=true}
 
+dir=`dirname $0`
+PATH=$PATH:$dir; export PATH 
+
 tmpdir=/bbbike/tmp
 if [ -d $tmpdir ]; then
    TMPDIR=$tmpdir; export TMPDIR
@@ -24,7 +27,9 @@ error () {
 bbbike-checkout >&2 || error "checkout failed: $dir"
 cd bbbike
 
-if ! git merge -q eserte/master; then
+git_opt=
+$verbose || git_opt-q
+if ! git merge $git_opt eserte/master; then
    echo "merged failed: $dir"
    exit 1
 fi
