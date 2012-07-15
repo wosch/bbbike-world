@@ -1,6 +1,15 @@
 #!/bin/sh
 
 set -e
+: ${verbose=true}
+
+dir=`dirname $0`
+PATH=$PATH:$dir; export PATH 
+
+tmpdir=/bbbike/tmp
+if [ -d $tmpdir ]; then
+   TMPDIR=$tmpdir; export TMPDIR
+fi
 
 dir=$(mktemp -d -t bbbike-bootstrap.XXXXXXXX)
 cd $dir
@@ -15,14 +24,24 @@ error () {
    exit 2
 }
 
-bbbike-checkout || error "checkout failed: $dir"
+bbbike-checkout >&2 || error "checkout failed: $dir"
 cd bbbike
 
-git merge eserte/master
-make -s js perltidy 
-make -s update-files 
+git_opt=""
+$verbose || git_opt="-q"
+if ! git merge $git_opt eserte/master; then
+   echo "merged failed: $dir"
+   exit 1
+fi
+
+make -s js perltidy || error "js perltidy"
+make -s update-files  || error "update-files"
 git diff
 
-pwd
-echo "please run: $ rm -rf $dir"
+if $verbose; then
+    pwd
+    echo "please run: $ rm -rf $dir"
+else
+    rm -rf $dir
+fi
 
