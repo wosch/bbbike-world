@@ -1,6 +1,7 @@
 #!/bin/sh
 
 set -e
+: ${verbose=true}
 
 tmpdir=/bbbike/tmp
 if [ -d $tmpdir ]; then
@@ -23,7 +24,7 @@ error () {
 bbbike-checkout >&2 || error "checkout failed: $dir"
 cd bbbike
 
-if ! git merge eserte/master; then
+if ! git merge -q eserte/master; then
    echo "merged failed: $dir"
    exit 1
 fi
@@ -32,6 +33,8 @@ make -s js perltidy || error "js perltidy"
 make -s update-files  || error "update-files"
 git diff
 
-pwd
-echo "please run: $ rm -rf $dir"
+if $verbose; then
+    pwd
+    echo "please run: $ rm -rf $dir"
+fi
 
