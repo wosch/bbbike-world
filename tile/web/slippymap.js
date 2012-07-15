@@ -390,7 +390,7 @@ function initBaseLayerHeight () {
     // wait for  the last resize event, and 0.5 seconds later resize base layer height    
     window.onresize = function(event) {
 	if (timer) clearTimeout(timer);
-	timer = setTimeout( function () { resizeBaseLayer() }, 100);
+	timer = setTimeout( function () { resizeBaseLayer() }, 1000);
     }
 }
 
