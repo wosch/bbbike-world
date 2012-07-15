@@ -1,0 +1,24 @@
+diff --git a/world/tile/etc/apache2-tile.conf b/world/tile/etc/apache2-tile.conf
+index cc9ca3e..983529c 100644
+--- a/world/tile/etc/apache2-tile.conf
++++ b/world/tile/etc/apache2-tile.conf
+@@ -8,6 +8,19 @@
+     ServerAlias a.tile.bbbike.org b.tile.bbbike.org c.tile.bbbike.org d.tile.bbbike.org e.tile.bbbike.org f.tile.bbbike.org  u.tile.bbbike.org v.tile.bbbike.org w.tile.bbbike.org x.tile.bbbike.org y.tile.bbbike.org z.tile.bbbike.org osm
+     DocumentRoot /var/www
+ 
++    <Directory /var/www>
++         Options Indexes FollowSymLinks MultiViews
++         AllowOverride None
++         Order allow,deny
++         allow from all
++         AuthType Basic
++         AuthName "Munin"
++         AuthUserFile /etc/apache2/mc_htpasswd
++         require valid-user
++    </Directory>
++
++
++
+ 	###
+ 	###    
+ 	# increase the log level for more detailed information
