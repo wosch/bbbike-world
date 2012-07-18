@@ -66,7 +66,8 @@ log $front_end/cgi/location.cgi | awk '{print $1}' | wc -l
 if [ -f $varnish_log ]; then
     echo ""
     echo -n "map compare log hosts: "
-    egrep bbbike.org/mc/ $varnish_log | awk '{ print $1 }' | sort -u | wc -l
+    egrep 'bbbike.org/mc/js/mc.js' $varnish_log | awk '{ print $1 }' | sort -u | wc -l
+    egrep 'bbbike.org/mc/js/mc.js' $varnish_log | awk '{ print $1 }' | sort | uniq -c | sort -nr
 
     echo ""
     echo -n "tile log hosts: "
