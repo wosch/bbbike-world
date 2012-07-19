@@ -731,15 +731,16 @@ sub homepage {
         #-id    => 'extract'
     );
 
-    print
-qq{<a id="locate" title="where am I?" href="javascript:locateMe()"><img src="/images/location_icon.png" width="25" height="23" alt="loading" /></a>\n};
-    print "\n</div>\n";
+    print <<EOF;
+<span id="locate">
+<span style="display:none" id="tools-pageload">Please wait... <img src="/images/indicator.gif" alt="loading" /></span>
+<a title="where am I?" href="javascript:locateMe()"><img src="/images/location_icon.png" width="25" height="23" alt="loading" /></a>
+</span>
+EOF
 
+    print "</div>\n";
     print $q->end_form;
     print "</div>\n";
-
-    print
-qq{<span style="display:none" id="tools-pageload">Please wait... <img src="/images/indicator.gif" alt="loading" /></span>\n};
 
     print qq{<hr/>\n};
     print &map;
