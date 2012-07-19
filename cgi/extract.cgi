@@ -38,7 +38,7 @@ binmode \*STDERR, ":utf8";
 my $debug = 1;
 
 # spool directory. Should be at least 100GB large
-my $spool_dir = '/usr/local/www/tmp/extract';
+my $spool_dir = '/var/cache/extract';
 
 # sent out emails as
 my $email_from = 'BBBike Admin <bbbike@bbbike.org>';
