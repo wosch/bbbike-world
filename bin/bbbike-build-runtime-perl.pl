@@ -24,8 +24,11 @@ use BSD::Resource;
 #use Geo::Inverse;
 
 # extract.cgi
-#use GIS::Distance::Lite;
-#use use Email::Valid;
+use GIS::Distance::Lite;
+use Email::Valid;
+use XML::LibXML::Reader;
+use XML::Atom::SimpleFeed;
+
 
 1;
 
