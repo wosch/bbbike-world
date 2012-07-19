@@ -59,7 +59,7 @@ our $option = {
     'test'       => 0,
 
     # spool directory. Should be at least 100GB large
-    'spool_dir' => '/usr/local/www/tmp/extract',
+    'spool_dir' => '/var/cache/extract',
 
     'file_prefix' => 'planet_',
 };
