@@ -41,12 +41,13 @@ binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
 our $option = {
-    'max_areas'  => 6,
-    'homepage'   => 'http://download.bbbike.org/osm/extract',
-    'max_jobs'   => 3,
-    'bcc'        => 'bbbike@bbbike.org',
-    'email_from' => 'bbbike@bbbike.org',
-    'send_email' => 1,
+    'max_areas'       => 6,
+    'homepage'        => 'http://download.bbbike.org/osm/extract',
+    'script_homepage' => 'http://extract.bbbike.org',
+    'max_jobs'        => 3,
+    'bcc'             => 'bbbike@bbbike.org',
+    'email_from'      => 'bbbike@bbbike.org',
+    'send_email'      => 1,
 
     # timeout handling
     'alarm' => 90 * 60,
@@ -662,6 +663,11 @@ sub send_email {
 
         next if !$send_email;
 
+        my $script_url =
+            $option->{script_homepage}
+          . "/?sw_lng=$obj->{sw_lng}&sw_lat=$obj->{sw_lat}&ne_lng=$obj->{ne_lng}&ne_lat=$obj->{ne_lat}"
+          . "&format=$obj->{'format'}";
+
         my $message = <<EOF;
 Hi,
 
@@ -670,6 +676,7 @@ from planet.osm
 
  Name: $obj->{"city"}
  Coordinates: $obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}
+ Script URL: $script_url
  Square kilometre: $square_km
  Granularity: 10,000 (1.1 meters)
  Osmosis options: $osmosis_options
