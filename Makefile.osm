@@ -63,7 +63,7 @@ CACHE_HEATER_MAX=50
 TMP=world/tmp
 RM_BG=	world/bin/rm-bg
 WEB_GROUP=	www-data
-EXTRACTS_SPOOL_DIR=/usr/local/www/tmp/extract
+EXTRACTS_SPOOL_DIR=/var/cache/extract
 POSTGIS_STYLE=/usr/share/osm2pgsql/osm2pgsql/bbbike.style
 WEB_SERVER=	www.bbbike.org
 
@@ -633,8 +633,8 @@ extract-install:
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/download
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/trash
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/failed
-	chmod -R 775 ${EXTRACTS_SPOOL_DIR}
-	chgrp -R ${WEB_GROUP} ${EXTRACTS_SPOOL_DIR}
+	chmod -R 775 ${EXTRACTS_SPOOL_DIR}/
+	chgrp -R ${WEB_GROUP} ${EXTRACTS_SPOOL_DIR}/
 
 extract-distclean:
 	find ${EXTRACTS_SPOOL_DIR} -type f -print0 | xargs -0 rm -f
@@ -683,9 +683,10 @@ download-bbbike-org-install:
 	  ln -fs ../bbbike.org/world/web/robots-download.txt robots.txt
 	cd ${DOWNLOAD_PREFIX}/osm; \
 	  if ! test -e bbbike; then ln -fs ../../bbbike.org/osm bbbike; fi; \
-	  ln -fs ../../bbbike.org/world/download/osm/index.html; 
+	  ln -fs ../../bbbike.org/world/download/osm/index.html; \
+	  ln -fs ${EXTRACTS_SPOOL_DIR}/download extract
 	cd ${DOWNLOAD_PREFIX}/osm/bbbike; \
-	  ln -fs ../world/download/osm/bbbike/HEADER.txt .
+	  ln -fs ../world/download/osm/bbbike/HEADER.txt .; \
 	cd ${DOWNLOAD_PREFIX}/osm/planet; \
 	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.bz2 . ;\
 	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.pbf . ;\
