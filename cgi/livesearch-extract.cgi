@@ -17,7 +17,7 @@ use File::stat;
 use strict;
 use warnings;
 
-my $log_dir = '/var/crash/extract/trash';
+my $log_dir = '/var/cache/extract/trash';
 
 my $max                       = 25;
 my $only_production_statistic = 1;
