@@ -199,7 +199,7 @@ sub footer {
     <a href="../extract.html">help</a> $extracts | 
     <a href="http://download.bbbike.org/osm/">download</a> | 
     <a href="/cgi/livesearch-extract.cgi">livesearch</a> | 
-    <a href="../community.html#donate">donate</a>
+    <a href="../community.html#donate">donate</a> $locate
   </div>
   <hr/>
   <div id="copyright">
