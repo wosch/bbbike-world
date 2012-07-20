@@ -180,13 +180,17 @@ EOF
 }
 
 sub footer {
-    my $q = shift;
+    my $q    = shift;
+    my %args = @_;
 
     my $analytics = &google_analytics;
     my $url = $q->url( -relative => 1 );
 
     my $extracts = ( $q->param('submit') || $q->param("key") )
       && $url ? qq,| <a href="$url">extract</a>, : "";
+    my $locate =
+      $args{'map'} ? ' | <a href="javascript:locateMe()">where am I?</a>' : "";
+
     return <<EOF;
 
 <div id="footer">
@@ -195,8 +199,7 @@ sub footer {
     <a href="../extract.html">help</a> $extracts | 
     <a href="http://download.bbbike.org/osm/">download</a> | 
     <a href="/cgi/livesearch-extract.cgi">livesearch</a> | 
-    <a href="../community.html#donate">donate</a> |
-    <a href="javascript:locateMe()">where am I?</a>
+    <a href="../community.html#donate">donate</a>
   </div>
   <hr/>
   <div id="copyright">
@@ -746,7 +749,7 @@ EOF
     print qq{<hr/>\n};
     print &map;
 
-    print &footer($q);
+    print &footer( $q, 'map' => 1 );
 
 }
 
