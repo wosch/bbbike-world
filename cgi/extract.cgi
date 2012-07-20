@@ -188,6 +188,8 @@ sub footer {
 
     my $extracts = ( $q->param('submit') || $q->param("key") )
       && $url ? qq,| <a href="$url">extract</a>, : "";
+    $extracts = "";    # XXXX
+
     my $locate =
       $args{'map'} ? ' | <a href="javascript:locateMe()">where am I?</a>' : "";
 
