@@ -13,7 +13,7 @@ usage () {
    exit 1
 }
 
-file=$1
+file="$1"
 test -e "$file" || usage "file $file does not exists"
 
 : ${debug=false}
@@ -26,24 +26,24 @@ pwd=$(pwd)
 test -z "$file" && usage
 
 tmpdir=`mktemp -d ${TMPDIR-"/bbbike/tmp"}/osmium2shape.XXXXXXXXXXX`
-garmin=`basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
-garmin_dir=$tmpdir/$garmin
-mkdir -p $garmin_dir
+shape=`basename "$file" | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
+shape_dir=$tmpdir/$shape
+mkdir -p $shape_dir
 
-logfile=$garmin_dir/logfile.txt 
+logfile=$shape_dir/logfile.txt 
 
-file_basename=`basename $file`
-file_fixme=$garmin_dir/$file_basename
-if osmosis --read-pbf $file --bb left=-180 right=180 top=90 bottom=-90 clipIncompleteEntities=true --write-pbf omitmetadata=true $file_fixme > $logfile 2>&1; then
-   :
-else
-   exit=$?
-   echo "Failed to fix $file"
-   cat $logfile
-   exit $exit
-fi
+#file_basename=`basename $file`
+#file_fixme=$shape_dir/$file_basename
+#if osmosis --read-pbf $file --bb left=-180 right=180 top=90 bottom=-90 clipIncompleteEntities=true --write-pbf omitmetadata=true $file_fixme > $logfile 2>&1; then
+#   :
+#else
+#   exit=$?
+#   echo "Failed to fix $file"
+#   cat $logfile
+#   exit $exit
+#fi
 
-if osmium2shape -d $garmin_dir $file_fixme > $logfile 2>&1; then
+if osmium2shape -d $shape_dir $file > $logfile 2>&1; then
    :
 else
    exit=$?
@@ -51,9 +51,9 @@ else
    cat $logfile
    exit $exit
 fi
-rm -f $file_fixme
+#rm -f $file_fixme
 
-cd $garmin_dir
+cd $shape_dir
 
 cat << EOF > README.txt
 Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
@@ -73,12 +73,12 @@ We appreciate any feedback, suggestions and a donation!
 EOF
 
 cd ..
-garmin_zip=`dirname $file`/$garmin.osm.shp.zip
-zip -q -r - -- $garmin | \
+shape_zip=`dirname $file`/$shape.osm.shp.zip
+zip -q -r - -- $shape | \
   ( cd $pwd;
-    cat > $garmin_zip.tmp && mv $garmin_zip.tmp $garmin_zip 
-    $md5sum $garmin_zip > $garmin_zip.md5
-    $SHA $garmin_zip > $garmin_zip.sha256
+    cat > $shape_zip.tmp && mv $shape_zip.tmp $shape_zip 
+    $md5sum $shape_zip > $shape_zip.md5
+    $SHA $shape_zip > $shape_zip.sha256
   )
 
 $debug || rm -rf $tmpdir
