@@ -31,6 +31,10 @@ obf_dir=$tmpdir/$obf
 mkdir -p $obf_dir
 
 etc_dir=`dirname $0`/../etc/OsmAndMapCreator
+
+# absolute path
+case $etc_dir in /* ) ;; *) etc_dir=$pwd/$etc_dir ;; esac
+
 logfile=$obf_dir/logfile.txt 
 
 file_basename=`basename $file`
@@ -57,7 +61,9 @@ else
    exit $exit
 fi
 
-#rm -f $file_fixme
+ln data/indexes/*.obf .
+rm -rf data
+cp $etc_dir/osm2obf.xml batch.xml
 
 
 cat << EOF > README.txt
