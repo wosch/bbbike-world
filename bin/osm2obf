@@ -38,19 +38,19 @@ case $etc_dir in /* ) ;; *) etc_dir=$pwd/$etc_dir ;; esac
 logfile=$obf_dir/logfile.txt 
 
 mkdir $obf_dir/data $obf_dir/data/osm $obf_dir/data/indexes
-file_basename=`basename $file`
-file_fixme=$obf_dir/data/osm/$file_basename
-if osmosis --read-pbf $file --bb left=-180 right=180 top=90 bottom=-90 clipIncompleteEntities=true --write-pbf omitmetadata=true $file_fixme > $logfile 2>&1; then
-   :
-else
-   exit=$?
-   echo "Failed to fix $file"
-   cat $logfile
-   exit $exit
-fi
+#file_basename=`basename $file`
+#file_fixme=$obf_dir/data/osm/$file_basename
+#if osmosis --read-pbf $file --bb left=-180 right=180 top=90 bottom=-90 clipIncompleteEntities=true --write-pbf omitmetadata=true $file_fixme > $logfile 2>&1; then
+#   :
+#else
+#   exit=$?
+#   echo "Failed to fix $file"
+#   cat $logfile
+#   exit $exit
+#fi
 
 cd $obf_dir
-#( cd data/osm; ln -s $file . )
+( cd data/osm; ln -s $file . )
 
 if time java -XX:+UseParallelGC -Xmx2048M -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp $HOME/opt/OsmAndMapCreator-0.6.8.2-beta/OsmAndMapCreator.jar:$HOME/opt/OsmAndMapCreator-0.6.8.2-beta/lib/*.jar net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml > $logfile 2>&1; then
    :
