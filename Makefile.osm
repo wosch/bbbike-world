@@ -37,6 +37,7 @@ PBF2OSM=	world/bin/pbf2osm
 PBF2PBF=	world/bin/pbf2pbf
 OSM2GARMIN=	world/bin/osm2garmin
 OSM2SHAPE=	world/bin/osm2shape
+OSM2OBF=	world/bin/osm2obf
 
 CITIES_DB=	world/etc/cities.csv
 CITIES_FILE=world/etc/cities.txt
@@ -203,6 +204,9 @@ osm2garmin-leisure:
 
 osm2shape osm2shp:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2SHAPE} ${OSM2SHAPE}
+
+osm2obf osm2osmand:
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2SHAPE} ${OSM2OBF}
 
 osm-readme:
 	for i in ${CITIES}; do \
@@ -711,7 +715,8 @@ help:
 	@echo "  [ rsync-planet | symlink-download ]"
 	@echo "  [ jsbeautifier | perltidy | tidy ]"
 	@echo ""
-	@echo "  [ bbbike-osm2pbf | osm2pbf | pbf2osm | osm2garmin | osm2shape ]"
+	@echo "  [ bbbike-osm2pbf | osm2pbf | pbf2osm ]"
+	@echo "  [ osm2garmin | osm2shape | osm2osmand ]"
 	@echo "  [ bbbike2wgs84-mapnik | bbbike-mapnik-config ]"
 	@echo "  [ bbbike-mapnik-postgis ]"
 	@echo ""
