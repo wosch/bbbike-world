@@ -34,6 +34,7 @@ XARGS=		${NICE} `which gxargs xargs | head -1`
 TIME=		time
 OSM2PBF=	world/bin/osm2pbf
 PBF2OSM=	world/bin/pbf2osm
+PBF2PBF=	world/bin/pbf2pbf
 OSM2GARMIN=	world/bin/osm2garmin
 OSM2SHAPE=	world/bin/osm2shape
 
@@ -164,6 +165,7 @@ _cities-pbf: poly
 	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm _osmosis_opt_pbf`
 
 cities-pbf cities: _cities-pbf
+	${MAKE} -f Makefile.osm _pbf2pbf
 	${MAKE} -f Makefile.osm pbf2osm
 
 cities-osm: _cities-osm
@@ -185,6 +187,8 @@ osm2pbf:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2PBF} ${OSM2PBF}
 pbf2osm: 
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${PBF2OSM} --gzip
+_pbf2pbf: 
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${PBF2PBF}
 
 osm2garmin: osm2garmin-osm osm2garmin-cycle osm2garmin-leisure check-garmin-zip 
 
