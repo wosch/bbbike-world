@@ -151,7 +151,7 @@ cities-api:
 _osmosis_opt:
 	for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i/$$i.poly --wx file=${OSM_DIR}/$$i/$$i.osm.gz"; done
 
-_osmosis_opt_pdf:
+_osmosis_opt_pbf:
 	for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i/$$i.poly --write-pbf file=${OSM_DIR}/$$i/$$i.osm.pbf omitmetadata=true"; done
 
 cities-poly: poly
@@ -161,7 +161,7 @@ _cities-osm: poly
 	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm _osmosis_opt`
 
 _cities-pbf: poly
-	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm _osmosis_opt_pdf`
+	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm _osmosis_opt_pbf`
 
 cities-pbf cities: _cities-pbf
 	${MAKE} -f Makefile.osm pbf2osm
