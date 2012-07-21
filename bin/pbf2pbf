@@ -1,45 +1,25 @@
 #!/bin/sh
 #
-# osm2pbf - convert OSM XML to PBF format
+# pbf2pbf - fix PBF format
 
-file=$1
-md5sum=`which md5 md5sum false | head -n 1`
-: ${SHA="shasum -a 256"}
+set -e
+
+file="$1"
 
 if ! [ -f "$file" ]; then
 	echo "usage file"
 	exit 1
 fi
 
-gzip=`which pigz gzip | head -n 1`
-bzip2=`which pbzip2 bzip2 | head -n 1`
-case $file in 
-	*.gz )  uncompress="$gzip -dc" ;;
-	*.bz2 ) uncompress="$bzip2 -dc" ;;
-	*) exit 2 ;;
-esac
+file_tmp=$(mktemp $file.XXXXXXXX)
+logfile=$file_tmp.log
 
-file_pbf=`echo "$file" | perl -npe 's/\.[^\.]+$/.pbf/'`
-
-# run in quiet mode
-global_opt=-q
-
-if $uncompress "$file" | osmosis $global_opt --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 \
-	--write-pbf $file_pbf omitmetadata=true granularity=10000
+if osmosis --read-pbf $file --bb left=-180 right=180 top=90 bottom=-90 clipIncompleteEntities=true --write-pbf omitmetadata=true $file_tmp > $logfile 2>&1
 then
-    :
+    mv -f $file_tmp $file
+    rm -f $logfile
 else
     echo "File $file failed"
-    $uncompress -t $file
     exit 2
 fi 
-
-$md5sum $file_pbf > $file_pbf.md5
-$md5sum $file     > $file.md5
-
-$SHA $file_pbf > $file_pbf.sha256
-$SHA $file     > $file.sha256
-
-# relative path names in *.md5 files
-perl -i -npe 's,(\s+).+/,$1,g' $file_pbf.md5 $file.md5 $file_pbf.sha256 $file.sha256
 
