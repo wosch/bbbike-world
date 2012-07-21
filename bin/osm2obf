@@ -52,7 +52,7 @@ fi
 cd $obf_dir
 #( cd data/osm; ln -s $file . )
 
-if time java -Xmx2048M -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp $HOME/opt/OsmAndMapCreator-0.6.8.2-beta/OsmAndMapCreator.jar:$HOME/opt/OsmAndMapCreator-0.6.8.2-beta/lib/*.jar net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml > $logfile 2>&1; then
+if time java -XX:+UseParallelGC -Xmx2048M -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp $HOME/opt/OsmAndMapCreator-0.6.8.2-beta/OsmAndMapCreator.jar:$HOME/opt/OsmAndMapCreator-0.6.8.2-beta/lib/*.jar net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml > $logfile 2>&1; then
    :
 else
    exit=$?
