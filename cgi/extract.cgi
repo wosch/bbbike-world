@@ -38,7 +38,7 @@ binmode \*STDERR, ":utf8";
 my $debug = 1;
 
 # spool directory. Should be at least 100GB large
-my $spool_dir = '/usr/local/www/tmp/extract';
+my $spool_dir = '/var/cache/extract';
 
 # sent out emails as
 my $email_from = 'BBBike Admin <bbbike@bbbike.org>';
@@ -180,13 +180,19 @@ EOF
 }
 
 sub footer {
-    my $q = shift;
+    my $q    = shift;
+    my %args = @_;
 
     my $analytics = &google_analytics;
     my $url = $q->url( -relative => 1 );
 
     my $extracts = ( $q->param('submit') || $q->param("key") )
       && $url ? qq,| <a href="$url">extract</a>, : "";
+    $extracts = "";    # XXXX
+
+    my $locate =
+      $args{'map'} ? ' | <a href="javascript:locateMe()">where am I?</a>' : "";
+
     return <<EOF;
 
 <div id="footer">
@@ -195,7 +201,7 @@ sub footer {
     <a href="../extract.html">help</a> $extracts | 
     <a href="http://download.bbbike.org/osm/">download</a> | 
     <a href="/cgi/livesearch-extract.cgi">livesearch</a> | 
-    <a href="../community.html#donate">donate</a>
+    <a href="../community.html#donate">donate</a> $locate
   </div>
   <hr/>
   <div id="copyright">
@@ -730,15 +736,22 @@ sub homepage {
 
         #-id    => 'extract'
     );
-    print "\n</div>\n";
 
+    print <<EOF;
+<span id="locate">
+<span style="display:none" id="tools-pageload">Please wait... <img src="/images/indicator.gif" alt="loading" /></span>
+<a title="where am I?" href="javascript:locateMe()"><img src="/images/location_icon.png" width="25" height="23" alt="loading" /></a>
+</span>
+EOF
+
+    print "</div>\n";
     print $q->end_form;
     print "</div>\n";
 
     print qq{<hr/>\n};
     print &map;
 
-    print &footer($q);
+    print &footer( $q, 'map' => 1 );
 
 }
 

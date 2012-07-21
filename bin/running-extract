@@ -5,7 +5,7 @@
 
 set -e
 
-extract_dir=/usr/local/www/tmp/extract/running
+extract_dir=/var/cache/extract/running
 
 if [ $(ls $extract_dir/*/*json 2>/dev/null | wc -l ) -gt 0 ]; then
     cat $extract_dir/*/*json

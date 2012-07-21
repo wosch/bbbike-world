@@ -1,0 +1,96 @@
+#!/bin/sh
+# Copyright (c) 2012 Wolfram Schneider, http://bbbike.org
+#
+# osm2osmand  - convert a pbf file to osmand
+#
+
+PATH=$HOME/bin:/bin:/usr/bin; export PATH
+set -e
+
+usage () {
+   echo "$@"
+   echo "usage file.pbf"
+   exit 1
+}
+
+file=$1
+test -e "$file" || usage "file $file does not exists"
+
+: ${debug=false}
+
+md5sum=`which md5 md5sum false | head -n 1`
+: ${SHA="shasum -a 256"}
+
+pwd=$(pwd)
+
+test -z "$file" && usage
+
+tmpdir=`mktemp -d ${TMPDIR-"/bbbike/tmp"}/osm2obp.XXXXXXXXXXX`
+obf=`basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
+obf_dir=$tmpdir/$obf
+mkdir -p $obf_dir
+
+etc_dir=`dirname $0`/../etc/OsmAndMapCreator
+
+# absolute path
+case $etc_dir in /* ) ;; *) etc_dir=$pwd/$etc_dir ;; esac
+case $file in /* ) ;; *) file=$pwd/$file ;; esac
+
+logfile=$obf_dir/logfile.txt 
+
+mkdir $obf_dir/data $obf_dir/data/osm $obf_dir/data/indexes
+#file_basename=`basename $file`
+#file_fixme=$obf_dir/data/osm/$file_basename
+#if osmosis --read-pbf $file --bb left=-180 right=180 top=90 bottom=-90 clipIncompleteEntities=true --write-pbf omitmetadata=true $file_fixme > $logfile 2>&1; then
+#   :
+#else
+#   exit=$?
+#   echo "Failed to fix $file"
+#   cat $logfile
+#   exit $exit
+#fi
+
+cd $obf_dir
+( cd data/osm; ln -s $file . )
+
+if time java -XX:+UseParallelGC -Xmx2048M -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp $HOME/opt/OsmAndMapCreator-0.6.8.2-beta/OsmAndMapCreator.jar:$HOME/opt/OsmAndMapCreator-0.6.8.2-beta/lib/*.jar net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml > $logfile 2>&1; then
+   :
+else
+   exit=$?
+   echo "Failed to convert $file"
+   cat $logfile
+   exit $exit
+fi
+
+ln data/indexes/*.obf .
+rm -rf data
+cp $etc_dir/osm2obf.xml batch.xml
+
+
+cat << EOF > README.txt
+Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
+Extracts created by BBBike.org
+OsmAnd by osmand.net, http://code.google.com/p/osmand
+
+Please read the OsmAnd homepage how to use obf files:
+
+  http://osmand.net
+
+thanks, Wolfram Schneider
+
+--
+http://www.BBBike.org - Your Cycle Route Planner
+We appreciate any feedback, suggestions and a donation!
+EOF
+
+cd ..
+zip_file=`dirname $file`/$obf.osm.obf.zip
+zip -q -r - -- $obf | \
+  ( cd $pwd;
+    cat > $zip_file.tmp && mv $zip_file.tmp $zip_file 
+    $md5sum $zip_file > $zip_file.md5
+    $SHA $zip_file > $zip_file.sha256
+  )
+
+$debug || rm -rf $tmpdir
+

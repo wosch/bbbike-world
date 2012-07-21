@@ -1,0 +1,25 @@
+#!/bin/sh
+#
+# pbf2pbf - fix PBF format
+
+set -e
+
+file="$1"
+
+if ! [ -f "$file" ]; then
+	echo "usage file"
+	exit 1
+fi
+
+file_tmp=$(mktemp $file.XXXXXXXX)
+logfile=$file_tmp.log
+
+if osmosis --read-pbf $file --bb left=-180 right=180 top=90 bottom=-90 clipIncompleteEntities=true --write-pbf omitmetadata=true $file_tmp > $logfile 2>&1
+then
+    mv -f $file_tmp $file
+    rm -f $logfile
+else
+    echo "File $file failed"
+    exit 2
+fi 
+

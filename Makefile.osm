@@ -29,13 +29,16 @@ MAX_OSM2PBF=	1
 MAX_OSM2GARMIN=	${MAX_CPU}
 MAX_OSM2SHAPE=	${MAX_CPU}
 MAX_PBF2OSM=	${MAX_CPU}
+MAX_OSM2OSMAND=	${MAX_CPU}
 
 XARGS=		${NICE} `which gxargs xargs | head -1`
 TIME=		time
 OSM2PBF=	world/bin/osm2pbf
 PBF2OSM=	world/bin/pbf2osm
+PBF2PBF=	world/bin/pbf2pbf
 OSM2GARMIN=	world/bin/osm2garmin
 OSM2SHAPE=	world/bin/osm2shape
+OSM2OSMAND=	world/bin/osm2osmand
 
 CITIES_DB=	world/etc/cities.csv
 CITIES_FILE=world/etc/cities.txt
@@ -63,7 +66,7 @@ CACHE_HEATER_MAX=50
 TMP=world/tmp
 RM_BG=	world/bin/rm-bg
 WEB_GROUP=	www-data
-EXTRACTS_SPOOL_DIR=/usr/local/www/tmp/extract
+EXTRACTS_SPOOL_DIR=/var/cache/extract
 POSTGIS_STYLE=/usr/share/osm2pgsql/osm2pgsql/bbbike.style
 WEB_SERVER=	www.bbbike.org
 
@@ -151,7 +154,7 @@ cities-api:
 _osmosis_opt:
 	for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i/$$i.poly --wx file=${OSM_DIR}/$$i/$$i.osm.gz"; done
 
-_osmosis_opt_pdf:
+_osmosis_opt_pbf:
 	for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i/$$i.poly --write-pbf file=${OSM_DIR}/$$i/$$i.osm.pbf omitmetadata=true"; done
 
 cities-poly: poly
@@ -161,9 +164,10 @@ _cities-osm: poly
 	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm _osmosis_opt`
 
 _cities-pbf: poly
-	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm _osmosis_opt_pdf`
+	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm _osmosis_opt_pbf`
 
 cities-pbf cities: _cities-pbf
+	${MAKE} -f Makefile.osm _pbf2pbf
 	${MAKE} -f Makefile.osm pbf2osm
 
 cities-osm: _cities-osm
@@ -185,6 +189,8 @@ osm2pbf:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2PBF} ${OSM2PBF}
 pbf2osm: 
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${PBF2OSM} --gzip
+_pbf2pbf: 
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${PBF2PBF}
 
 osm2garmin: osm2garmin-osm osm2garmin-cycle osm2garmin-leisure check-garmin-zip 
 
@@ -199,6 +205,9 @@ osm2garmin-leisure:
 
 osm2shape osm2shp:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2SHAPE} ${OSM2SHAPE}
+
+osm2obf osm2osmand:
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2OSMAND} ${OSM2OSMAND}
 
 osm-readme:
 	for i in ${CITIES}; do \
@@ -633,8 +642,8 @@ extract-install:
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/download
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/trash
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/failed
-	chmod -R 775 ${EXTRACTS_SPOOL_DIR}
-	chgrp -R ${WEB_GROUP} ${EXTRACTS_SPOOL_DIR}
+	chmod -R 775 ${EXTRACTS_SPOOL_DIR}/
+	chgrp -R ${WEB_GROUP} ${EXTRACTS_SPOOL_DIR}/
 
 extract-distclean:
 	find ${EXTRACTS_SPOOL_DIR} -type f -print0 | xargs -0 rm -f
@@ -683,9 +692,10 @@ download-bbbike-org-install:
 	  ln -fs ../bbbike.org/world/web/robots-download.txt robots.txt
 	cd ${DOWNLOAD_PREFIX}/osm; \
 	  if ! test -e bbbike; then ln -fs ../../bbbike.org/osm bbbike; fi; \
-	  ln -fs ../../bbbike.org/world/download/osm/index.html; 
+	  ln -fs ../../bbbike.org/world/download/osm/index.html; \
+	  ln -fs ${EXTRACTS_SPOOL_DIR}/download extract
 	cd ${DOWNLOAD_PREFIX}/osm/bbbike; \
-	  ln -fs ../world/download/osm/bbbike/HEADER.txt .
+	  ln -fs ../world/download/osm/bbbike/HEADER.txt .; \
 	cd ${DOWNLOAD_PREFIX}/osm/planet; \
 	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.bz2 . ;\
 	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.pbf . ;\
@@ -706,7 +716,8 @@ help:
 	@echo "  [ rsync-planet | symlink-download ]"
 	@echo "  [ jsbeautifier | perltidy | tidy ]"
 	@echo ""
-	@echo "  [ bbbike-osm2pbf | osm2pbf | pbf2osm | osm2garmin | osm2shape ]"
+	@echo "  [ bbbike-osm2pbf | osm2pbf | pbf2osm ]"
+	@echo "  [ osm2garmin | osm2shape | osm2osmand ]"
 	@echo "  [ bbbike2wgs84-mapnik | bbbike-mapnik-config ]"
 	@echo "  [ bbbike-mapnik-postgis ]"
 	@echo ""
