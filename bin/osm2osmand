@@ -5,6 +5,9 @@
 #
 
 PATH=$HOME/bin:/bin:/usr/bin; export PATH
+
+osmand_home=$HOME/opt/OsmAndMapCreator-0.6.8.2-beta
+
 set -e
 
 usage () {
@@ -53,7 +56,7 @@ mkdir $obf_dir/data $obf_dir/data/osm $obf_dir/data/indexes
 cd $obf_dir
 ( cd data/osm; ln -s $file . )
 
-if time java -XX:+UseParallelGC -Xmx2048M -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp $HOME/opt/OsmAndMapCreator-0.6.8.2-beta/OsmAndMapCreator.jar:$HOME/opt/OsmAndMapCreator-0.6.8.2-beta/lib/*.jar net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml > $logfile 2>&1; then
+if time java -XX:+UseParallelGC -Xmx2048M -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp $osmand_home/OsmAndMapCreator.jar:$osmand_home/lib/*.jar net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml > $logfile 2>&1; then
    :
 else
    exit=$?
