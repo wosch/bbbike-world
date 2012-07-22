@@ -703,7 +703,25 @@ download-bbbike-org-install:
 	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.pbf.sha1 . ;\
 	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.bz2.md5 . ;\
 	  ln -fs ../../../bbbike.org/world/download/osm/planet/HEADER.txt .
-		
+
+#
+# build Osmand.net devel java libs
+# start this command in the top-level directory of
+# Osmand git checkout, e.g.:
+#
+# git clone https://github.com/osmandapp/Osmand.git
+# cd Osmand
+# make -f this.makefile osmand-devel
+#
+osmand-devel:
+	cd DataExtractionOSM; \
+	   ant clean compile build -logfile build.log
+	dir=OsmAndMapCreator-development-`date +%Y-%m-%d`; \
+	   rm -rf $$dir; mkdir $$dir; \
+	   (cd $$dir; unzip -q ../DataExtractionOSM/build.zip ); \
+	   zip -rq $$dir.zip $$dir; \
+	   ls -l `pwd`/$$dir.zip
+
 help:
 	@echo "bbbike version: ${GIT_ID}"
 	@echo ""
