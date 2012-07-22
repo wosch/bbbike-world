@@ -703,6 +703,8 @@ download-bbbike-org-install:
 	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.pbf.sha1 . ;\
 	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.bz2.md5 . ;\
 	  ln -fs ../../../bbbike.org/world/download/osm/planet/HEADER.txt .
+	cd ${DOWNLOAD_PREFIX}/..; mkdir -p osm-streetnames; cd osm-streetnames; \
+	  ln -fs ../download.bbbike.org/osm/planet download
 
 #
 # build Osmand.net devel java libs
