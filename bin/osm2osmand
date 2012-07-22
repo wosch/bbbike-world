@@ -6,7 +6,8 @@
 
 PATH=$HOME/bin:/bin:/usr/bin; export PATH
 
-osmand_home=$HOME/opt/OsmAndMapCreator-0.6.8.2-beta
+#: ${osmand_home=$HOME/opt/OsmAndMapCreator-0.6.8.2-beta}
+: ${osmand_home="$HOME/opt/OsmAndMapCreator-development-2012-07-22"}
 
 set -e
 
