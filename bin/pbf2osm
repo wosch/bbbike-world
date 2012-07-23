@@ -10,6 +10,7 @@ gzip=`which pigz gzip | head -n 1`
 bzip2=`which pbzip2 bzip2 | head -n 1`
 osm2garmin=`dirname $0`/osm2garmin
 osm2shape=`dirname $0`/osm2shape
+osm2osmand=`dirname $0`/osm2osmand
 
 xz=`which xz | head -n 1`
 xz_opt=-2
