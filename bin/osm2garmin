@@ -21,6 +21,7 @@ error () {
 
 file=$1
 test -e "$file" || usage "file $file does not exists"
+osm_checksum=`dirname $0`/osm-checksum
 
 test -z "$ext" && ext=${2-"garmin-osm.zip"}
 : ${debug=false}
@@ -36,9 +37,6 @@ fi
 case $ext in 
   *leisure* ) java_heap=3500M ;;
 esac
-
-md5sum=`which md5 md5sum false | head -n 1`
-: ${SHA="shasum -a 256"}
 
 pwd=$(pwd)
 java_opt=-Xmx${java_heap} 
@@ -120,8 +118,7 @@ garmin_zip=`dirname $file`/$garmin.osm.$ext
 zip -q -r - -- $garmin | \
   ( cd $pwd;
     cat > $garmin_zip.tmp && mv $garmin_zip.tmp $garmin_zip 
-    $md5sum $garmin_zip > $garmin_zip.md5
-    $SHA $garmin_zip > $garmin_zip.sha256
+    $osm_checksum $garmin_zip
   )
 
 $debug || rm -rf $tmpdir

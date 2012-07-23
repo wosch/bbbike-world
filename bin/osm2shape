@@ -17,18 +17,15 @@ file="$1"
 test -e "$file" || usage "file $file does not exists"
 
 : ${debug=false}
-
-md5sum=`which md5 md5sum false | head -n 1`
-: ${SHA="shasum -a 256"}
-
 pwd=$(pwd)
 
 test -z "$file" && usage
-
+osm_checksum=`dirname $0`/osm-checksum
 tmpdir=`mktemp -d ${TMPDIR-"/bbbike/tmp"}/osmium2shape.XXXXXXXXXXX`
 shape=`basename "$file" | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
 shape_dir=$tmpdir/$shape
 mkdir -p $shape_dir
+
 
 logfile=$shape_dir/logfile.txt 
 
@@ -77,8 +74,7 @@ shape_zip=`dirname $file`/$shape.osm.shp.zip
 zip -q -r - -- $shape | \
   ( cd $pwd;
     cat > $shape_zip.tmp && mv $shape_zip.tmp $shape_zip 
-    $md5sum $shape_zip > $shape_zip.md5
-    $SHA $shape_zip > $shape_zip.sha256
+    $osm_checksum $shape_zip
   )
 
 $debug || rm -rf $tmpdir

@@ -3,8 +3,7 @@
 # osm2pbf - convert OSM XML to PBF format
 
 file=$1
-md5sum=`which md5 md5sum false | head -n 1`
-: ${SHA="shasum -a 256"}
+osm_checksum=`dirname $0`/osm-checksum
 
 if ! [ -f "$file" ]; then
 	echo "usage file"
@@ -34,11 +33,8 @@ else
     exit 2
 fi 
 
-$md5sum $file_pbf > $file_pbf.md5
-$md5sum $file     > $file.md5
-
-$SHA $file_pbf > $file_pbf.sha256
-$SHA $file     > $file.sha256
+$osm_checksum $file_pbf
+$osm_checksum $file
 
 # relative path names in *.md5 files
 perl -i -npe 's,(\s+).+/,$1,g' $file_pbf.md5 $file.md5 $file_pbf.sha256 $file.sha256

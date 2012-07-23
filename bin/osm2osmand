@@ -19,12 +19,9 @@ usage () {
 
 file=$1
 test -e "$file" || usage "file $file does not exists"
+osm_checksum=`dirname $0`/osm-checksum
 
 : ${debug=false}
-
-md5sum=`which md5 md5sum false | head -n 1`
-: ${SHA="shasum -a 256"}
-
 pwd=$(pwd)
 
 test -z "$file" && usage
@@ -97,8 +94,7 @@ zip_file=`dirname $file`/$obf.osm.obf.zip
 zip -q -r - -- $obf | \
   ( cd $pwd;
     cat > $zip_file.tmp && mv $zip_file.tmp $zip_file 
-    $md5sum $zip_file > $zip_file.md5
-    $SHA $zip_file > $zip_file.sha256
+    $osm_checksum $zip_file
   )
 
 $debug || rm -rf $tmpdir
