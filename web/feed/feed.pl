@@ -24,6 +24,19 @@ my $feed = XML::Atom::SimpleFeed->new(
 
 $feed->add_entry(
     title =>
+qq{New feature: BBBike extract service with Osmand map format #osm #android},
+    id      => '51d474fb21860b0629bfe8467ee42c0b',
+    content => {
+        type => 'text',
+        content =>
+qq{New feature: BBBike extract service with Osmand map format #osm #android},
+    },
+    updated  => '2012-07-23T13:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title =>
 qq{New feature: Map Compare supports up to 32 maps on the screen and a fullscreen mode: http://tile.bbbike.org/mc/},
     id      => '51d474fb21860b0629bfe8467ee42c0b',
     content => {
