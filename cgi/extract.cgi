@@ -162,7 +162,7 @@ sub map {
   <div id="export_osm">
     <p class="export_heading"/>
     <div id="export_osm_too_large" style="display:none">
-      <p class="export_heading error">Area Too Large. Please zoom in!</p>
+      <p class="export_heading error">Area Too Large. <span id="size"></span> Please zoom in!</p>
       <div class="export_details">
       </div>
     </div>
