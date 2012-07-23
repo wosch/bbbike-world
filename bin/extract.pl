@@ -71,6 +71,7 @@ my $formats = {
     'osm.bz2'            => "OSM XML bzip'd",
     'osm.xz'             => "OSM XML 7z/xz",
     'osm.shp.zip'        => "OSM Shape",
+    'osm.obf.zip'        => "Osmand (Android)",
     'garmin-osm.zip'     => "Garmin OSM",
     'garmin-cycle.zip'   => "Garmin Cycle",
     'garmin-leisure.zip' => "Garmin Leisure",
@@ -609,6 +610,15 @@ sub send_email {
             $file =~ s/\.osm\.pbf$/.$format/;
             if ( !cached_format($file) ) {
                 @system = ( @nice, "$dirname/pbf2osm", "--shape", $pbf_file );
+
+                warn "@system\n" if $debug >= 2;
+                system(@system) == 0 or die "system @system failed: $?";
+            }
+        }
+        elsif ( $format eq 'osm.obf.zip' ) {
+            $file =~ s/\.osm\.pbf$/.$format/;
+            if ( !cached_format($file) ) {
+                @system = ( @nice, "$dirname/pbf2osm", "--osmand", $pbf_file );
 
                 warn "@system\n" if $debug >= 2;
                 system(@system) == 0 or die "system @system failed: $?";
