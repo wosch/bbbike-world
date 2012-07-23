@@ -62,6 +62,8 @@ my $formats = {
     'garmin-osm.zip'     => "Garmin OSM",
     'garmin-cycle.zip'   => "Garmin Cycle",
     'garmin-leisure.zip' => "Garmin Leisure",
+    
+    'osm.obf.zip' => "Osmand (Android)",
 };
 
 my $spool = {
