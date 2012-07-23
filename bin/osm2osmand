@@ -29,7 +29,12 @@ pwd=$(pwd)
 
 test -z "$file" && usage
 
-tmpdir=`mktemp -d ${TMPDIR-"/bbbike/tmp"}/osm2obf.XXXXXXXXXXX`
+if [ -e /bbbike/tmpfs ]; then
+    _tmp=/bbbike/tmpfs
+else
+    _tmp=/bbbike/tmp
+fi
+tmpdir=`mktemp -d ${TMPDIR-"$_tmp"}/osm2obf.XXXXXXXXXXX`
 obf=`basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
 obf_dir=$tmpdir/$obf
 mkdir -p $obf_dir
