@@ -1,10 +1,14 @@
 #!/bin/sh
 # Copyright (c) 2012 Wolfram Schneider, http://bbbike.org
 #
-# osm2osmand  - convert a pbf file to osmand
+# osm2osmand  - convert a .pbf file to osmand .obf
 #
 
 PATH=$HOME/bin:/bin:/usr/bin; export PATH
+
+#: ${osmand_home=$HOME/opt/OsmAndMapCreator-0.6.8.2-beta}
+: ${osmand_home="$HOME/opt/OsmAndMapCreator-development-2012-07-22"}
+
 set -e
 
 usage () {
@@ -25,7 +29,7 @@ pwd=$(pwd)
 
 test -z "$file" && usage
 
-tmpdir=`mktemp -d ${TMPDIR-"/bbbike/tmp"}/osm2obp.XXXXXXXXXXX`
+tmpdir=`mktemp -d ${TMPDIR-"/bbbike/tmp"}/osm2obf.XXXXXXXXXXX`
 obf=`basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
 obf_dir=$tmpdir/$obf
 mkdir -p $obf_dir
@@ -53,7 +57,7 @@ mkdir $obf_dir/data $obf_dir/data/osm $obf_dir/data/indexes
 cd $obf_dir
 ( cd data/osm; ln -s $file . )
 
-if time java -XX:+UseParallelGC -Xmx2048M -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp $HOME/opt/OsmAndMapCreator-0.6.8.2-beta/OsmAndMapCreator.jar:$HOME/opt/OsmAndMapCreator-0.6.8.2-beta/lib/*.jar net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml > $logfile 2>&1; then
+if time java -XX:+UseParallelGC -Xmx2048M -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp $osmand_home/OsmAndMapCreator.jar:$osmand_home/lib/*.jar net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml > $logfile 2>&1; then
    :
 else
    exit=$?
