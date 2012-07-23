@@ -35,6 +35,7 @@ XARGS=		${NICE} `which gxargs xargs | head -1`
 TIME=		time
 OSM2PBF=	world/bin/osm2pbf
 PBF2OSM=	world/bin/pbf2osm
+OSM_CHECKSUM=	world/bin/osm-checksum
 PBF2PBF=	world/bin/pbf2pbf
 OSM2GARMIN=	world/bin/osm2garmin
 OSM2SHAPE=	world/bin/osm2shape
@@ -189,8 +190,11 @@ osm2pbf:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2PBF} ${OSM2PBF}
 pbf2osm: 
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${PBF2OSM} --gzip
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${OSM_CHECKSUM}
+
 _pbf2pbf: 
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${PBF2PBF}
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${OSM_CHECKSUM}
 
 osm2garmin: osm2garmin-osm osm2garmin-cycle osm2garmin-leisure check-garmin-zip 
 
