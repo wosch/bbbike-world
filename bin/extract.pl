@@ -63,6 +63,10 @@ our $option = {
     'spool_dir' => '/var/cache/extract',
 
     'file_prefix' => 'planet_',
+
+    # reset max_jobs if load is to high
+    'max_loadavg'      => 8,
+    'max_loadavg_jobs' => 2,    # 0: stop running at all
 };
 
 my $formats = {
@@ -141,6 +145,12 @@ sub set_alarm {
 
     warn "set alarm time to: $time seconds\n" if $debug >= 1;
     alarm($time);
+}
+
+sub get_loadavg {
+    my @loadavg = ( qx(uptime) =~ /([\.\d]+),?\s+([\.\d]+),?\s+([\.\d]+)/ );
+
+    return $loadavg[0];
 }
 
 # get a list of json config files from a directory
@@ -871,6 +881,19 @@ die "Max jobs: $max_jobs out of range!\n" . &usage
 die "Max areas: $max_areas out of range!\n" . &usage
   if $max_areas < 1 || $max_areas > 30;
 
+my $loadavg = &get_loadavg;
+if ( $loadavg > $option->{max_loadavg} ) {
+    my $max_loadavg_jobs = $option->{max_loadavg_jobs};
+    if ( $max_loadavg_jobs >= 1 ) {
+        warn
+"Load avarage $loadavg is to high, reset max jobs to: $max_loadavg_jobs\n";
+        $max_jobs = $max_loadavg_jobs;
+    }
+    else {
+        die "Load avarage $loadavg is to high, give up!\n";
+    }
+}
+
 if ( defined $timeout ) {
     die "Timeout: $timeout out of range!\n" . &usage
       if ( $timeout < 1 || $timeout > 86_400 );
@@ -881,8 +904,10 @@ my @files = get_jobs( $spool->{'confirmed'} );
 
 if ( !scalar(@files) ) {
     print "Nothing to do\n" if $debug >= 2;
+    exit;
 }
-else {
+
+{
     my $lockfile;
 
     # find a free job
