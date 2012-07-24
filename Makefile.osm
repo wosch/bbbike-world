@@ -684,7 +684,7 @@ extract-lnglat-run:
 extract-lng-run:
 	${TIME} ${NICE} ${MAKE} -s -f Makefile.osm CITIES_FILE=tmp/cities2.txt CITIES_DB=tmp/cities2.csv MAX_CPU=${MAX_VCPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=tmp/osm-lng _cities-parallel2
 
-extract-du: extract-lng extract-lnglat extract-lng-run extract-lnglat-run
+extract-du heatmap: extract-lng extract-lnglat extract-lng-run extract-lnglat-run
 	( cd tmp/osm-lnglat; find . -name '*.pbf' | xargs du -k |sort -n | perl -npe 's,\S+/p_(.*?).osm.pbf,\1,; s,_, ,g' ) > tmp/heatmap.csv	
 
 
@@ -765,7 +765,7 @@ help:
 	@echo "  [ download-bbbike-org-install ]"
 	@echo ""
 	@echo "  [ staging | extract-install | extract-distclean ]"
-	@echo "  [ extract-gc | extract-gc7 | extract-gc-osm ]"
+	@echo "  [ extract-gc | extract-gc7 | extract-gc-osm | heatmap ]"
 	@echo ""
 	@echo "see also ./world/README"
 
