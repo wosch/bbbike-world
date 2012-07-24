@@ -95,7 +95,7 @@ print $q->header(
     -expires => $expire,
 );
 
-my $database_file = "../etc/heatmap/heatmap.txt";
+my $database_file = "../etc/heatmap.csv";
 my $db            = &parse_db($database_file);
 
 warn Dumper($db) if $debug >= 2;
