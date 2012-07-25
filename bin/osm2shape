@@ -21,6 +21,7 @@ pwd=$(pwd)
 
 test -z "$file" && usage
 osm_checksum=`dirname $0`/osm-checksum
+osm_fixme=`dirname $0`/pbf2pbf
 tmpdir=`mktemp -d ${TMPDIR-"/bbbike/tmp"}/osmium2shape.XXXXXXXXXXX`
 shape=`basename "$file" | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
 shape_dir=$tmpdir/$shape
@@ -40,7 +41,7 @@ logfile=$shape_dir/logfile.txt
 #   exit $exit
 #fi
 
-if osmium2shape -d $shape_dir $file > $logfile 2>&1; then
+if $osm_fixme $file && osmium2shape -d $shape_dir $file > $logfile 2>&1; then
    :
 else
    exit=$?
