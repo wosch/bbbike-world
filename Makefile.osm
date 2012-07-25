@@ -73,6 +73,8 @@ WEB_SERVER=	www.bbbike.org
 
 CITIES=$(shell ${PERL} -npe 's/\#.*//' ${CITIES_FILE})
 
+HEATMAP_DIR=	heatmap
+
 #
 # opensearch suggestion service for
 # the world:
@@ -671,22 +673,24 @@ staging:
 
 # extract 180x360 data tiles from planet.osm
 extract-lng:
-	mkdir -p tmp
-	./world/bin/extract-lng.pl > tmp/cities2.csv
-	awk -F: '{ print $$1 }' tmp/cities2.csv > tmp/cities2.txt
+	mkdir -p ${HEATMAP_DIR}
+	./world/bin/extract-lng.pl > ${HEATMAP_DIR}/cities2.csv
+	awk -F: '{ print $$1 }' ${HEATMAP_DIR}/cities2.csv > ${HEATMAP_DIR}/cities2.txt
 
 extract-lnglat:
 	./world/bin/extract-lnglat0.sh
-	./world/bin/extract-lnglat.pl > tmp/lnglat.sh
+	./world/bin/extract-lnglat.pl > ${HEATMAP_DIR}/lnglat.sh
 
 extract-lnglat-run:
-	${XARGS} -0 -n1 -P1 /bin/sh -c < tmp/lnglat.sh
+	${XARGS} -0 -n1 -P3 /bin/sh -c < ${HEATMAP_DIR}/lnglat.sh
 
 extract-lng-run:
-	${TIME} ${MAKE} -s -f Makefile.osm CITIES_FILE=tmp/cities2.txt CITIES_DB=tmp/cities2.csv MAX_CPU=${MAX_VCPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=tmp/osm-lng _cities-parallel-pbf
+	${TIME} ${MAKE} -s -f Makefile.osm CITIES_FILE=${HEATMAP_DIR}/cities2.txt CITIES_DB=${HEATMAP_DIR}/cities2.csv MAX_CPU=${MAX_CPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=${HEATMAP_DIR}/osm-lng _cities-parallel-pbf
 
-extract-du heatmap: extract-lng extract-lnglat extract-lng-run extract-lnglat-run
-	( cd tmp/osm-lnglat; find . -name '*.pbf' | xargs du -k |sort -n | perl -npe 's,\S+/p_(.*?).osm.pbf,\1,; s,_, ,g' ) > tmp/heatmap.csv	
+extract-du heatmap: extract-lng extract-lnglat extract-lng-run extract-lnglat-run heatmap
+
+heatmap:
+	( cd ${HEATMAP_DIR}/osm-lnglat; find . -name '*.pbf' | xargs du -k |sort -n | perl -npe 's,\S+/p_(.*?).osm.pbf,\1,; s,_, ,g' ) > ${HEATMAP_DIR}/heatmap.csv	
 
 
 DOWNLOAD_PREFIX=/usr/local/www/download.bbbike.org
