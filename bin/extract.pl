@@ -50,7 +50,7 @@ our $option = {
     'send_email'      => 1,
 
     # timeout handling
-    'alarm' => 90 * 60,
+    'alarm' => 3 * 60 * 60,
 
     # run with lower priority
     'nice_level' => 2,
