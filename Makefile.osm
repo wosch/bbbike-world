@@ -83,7 +83,6 @@ HEATMAP_DIR=	heatmap
 OSM_AREAS_OPENSEARCH=data-opensearch-places
 OSM_PLANET=	../osm-streetnames/download/planet-latest.osm.bz2 
 OSM_PLANET_PBF=	../osm-streetnames/download/planet-latest.osm.pbf
-OSM_PLANET_PBF=	../osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.pbf \
 
 OSM_AREAS_LARGE=	${OSM_PLANET_PBF}
 
