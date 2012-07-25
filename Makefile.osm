@@ -70,6 +70,7 @@ WEB_GROUP=	www-data
 EXTRACTS_SPOOL_DIR=/var/cache/extract
 POSTGIS_STYLE=/usr/share/osm2pgsql/osm2pgsql/bbbike.style
 WEB_SERVER=	www.bbbike.org
+LOG_DIR=tmp
 
 CITIES=$(shell ${PERL} -npe 's/\#.*//' ${CITIES_FILE})
 
@@ -82,6 +83,7 @@ HEATMAP_DIR=	heatmap
 OSM_AREAS_OPENSEARCH=data-opensearch-places
 OSM_PLANET=	../osm-streetnames/download/planet-latest.osm.bz2 
 OSM_PLANET_PBF=	../osm-streetnames/download/planet-latest.osm.pbf
+OSM_PLANET_PBF=	../osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.pbf \
 
 OSM_AREAS_LARGE=	${OSM_PLANET_PBF}
 
@@ -351,13 +353,13 @@ $(_cc):
 	  test -n "$$c"; \
 	  mkdir -p ${DATA_OSM_DIR}/tmp; \
 	  rm -rf ${DATA_OSM_DIR}/tmp/$$c; \
-	  if [ -e tmp/city.$$c.log ]; then gzip -f tmp/city.$$c.log; fi; \
+	  if [ -e ${LOG_DIR}/city.$$c.log ]; then gzip -f ${LOG_DIR}/city.$$c.log; fi; \
 	  ( \
 	    ${TIME} ${OSM2BBD} -lang `${DB} --lang $$c` -o ${DATA_OSM_DIR}/tmp/$$c ${OSM_DIR}/$$c; \
 	    ${TIME} world/bin/osm2bbd-workarounds ${DATA_OSM_DIR}/tmp $$c; \
-	  ) > tmp/city.$$c.log 2>&1 ; \
+	  ) > ${LOG_DIR}/city.$$c.log 2>&1 ; \
 	  if [ $$? != 0 ]; then \
-	    tail tmp/city.$$c.log; \
+	    tail ${LOG_DIR}/city.$$c.log; \
 	    exit 1; \
 	  fi; \
 	  rm -rf ${DATA_OSM_DIR}/$$c; mv ${DATA_OSM_DIR}/tmp/$$c ${DATA_OSM_DIR}
@@ -374,7 +376,7 @@ rsync: sync-sitemap osm-header _rsync rsync-osm
 rsync-bg: _rsync
 
 _rsync:
-	rsync -a --exclude='*.bak' --exclude='*.gz' --exclude=tmp --delete-excluded --delete --max-delete=512 ${DATA_OSM_DIR} ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}
+	rsync -a --exclude='*.bak' --exclude='*.gz' --exclude=${LOG_DIR} --delete-excluded --delete --max-delete=512 ${DATA_OSM_DIR} ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}
 	-rsync -av --exclude='*.bak' data/opensearch.streetnames ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}/data
 	@echo ""
 	@echo "don't forget to cleanup the data cache in ${BBBIKE_CACHE_DIR}, run:"
@@ -471,9 +473,9 @@ bbbike2wgs84:
 	./world/bin/bbbike2wgs84
 
 bbbike2wgs84-mapnik:
-	if test -e tmp/bbbike-mapnik.osm.gz; then mv -f tmp/bbbike-mapnik.osm.gz tmp/bbbike-mapnik.osm.gz.old; fi
-	${NICE} ./miscsrc/bbd2osm --optimize-for=mapnik | ${GZIP} > tmp/bbbike-mapnik.osm.gz.tmp
-	mv -f tmp/bbbike-mapnik.osm.gz.tmp tmp/bbbike-mapnik.osm.gz
+	if test -e ${LOG_DIR}/bbbike-mapnik.osm.gz; then mv -f ${LOG_DIR}/bbbike-mapnik.osm.gz ${LOG_DIR}/bbbike-mapnik.osm.gz.old; fi
+	${NICE} ./miscsrc/bbd2osm --optimize-for=mapnik | ${GZIP} > ${LOG_DIR}/bbbike-mapnik.osm.gz.tmp
+	mv -f ${LOG_DIR}/bbbike-mapnik.osm.gz.tmp ${LOG_DIR}/bbbike-mapnik.osm.gz
 
 bbbike-mapnik-config:
 	if test -e ${POSTGIS_STYLE}; then \
@@ -482,7 +484,7 @@ bbbike-mapnik-config:
 	cat /usr/share/osm2pgsql/osm2pgsql/default.style world/tile/etc/bbbike.style.inc > ${POSTGIS_STYLE}
 
 bbbike-mapnik-postgis:
-	osm2pgsql --slim -S ${POSTGIS_STYLE} -c tmp/bbbike-mapnik.osm.gz
+	osm2pgsql --slim -S ${POSTGIS_STYLE} -c ${LOG_DIR}/bbbike-mapnik.osm.gz
 
 planet-download:
 	download_script=`pwd`/world/bin/planet-download; cd ../osm-streetnames/download && $$download_script
@@ -673,19 +675,19 @@ staging:
 
 # extract 180x360 data tiles from planet.osm
 extract-lng:
-	mkdir -p ${HEATMAP_DIR}
+	mkdir -p ${HEATMAP_DIR}/tmp
 	./world/bin/extract-lng.pl > ${HEATMAP_DIR}/cities2.csv
 	awk -F: '{ print $$1 }' ${HEATMAP_DIR}/cities2.csv > ${HEATMAP_DIR}/cities2.txt
 
 extract-lnglat:
-	./world/bin/extract-lnglat0.sh
+	env HEATMAP_DIR=${HEATMAP_DIR} ./world/bin/extract-lnglat0.sh
 	./world/bin/extract-lnglat.pl > ${HEATMAP_DIR}/lnglat.sh
 
 extract-lnglat-run:
 	${XARGS} -0 -n1 -P3 /bin/sh -c < ${HEATMAP_DIR}/lnglat.sh
 
 extract-lng-run:
-	${TIME} ${MAKE} -s -f Makefile.osm CITIES_FILE=${HEATMAP_DIR}/cities2.txt CITIES_DB=${HEATMAP_DIR}/cities2.csv MAX_CPU=${MAX_CPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=${HEATMAP_DIR}/osm-lng _cities-parallel-pbf
+	${TIME} ${MAKE} -s -f Makefile.osm LOG_DIR=${HEATMAP_DIR}/tmp CITIES_FILE=${HEATMAP_DIR}/cities2.txt CITIES_DB=${HEATMAP_DIR}/cities2.csv MAX_CPU=${MAX_CPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=${HEATMAP_DIR}/osm-lng _cities-parallel-pbf
 
 extract-du heatmap: extract-lng extract-lnglat extract-lng-run extract-lnglat-run heatmap
 
