@@ -168,7 +168,7 @@ _cities-pbf: poly
 	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm _osmosis_opt_pbf`
 
 cities-pbf cities: _cities-pbf
-	${MAKE} -f Makefile.osm _pbf2pbf
+	${MAKE} -f Makefile.osm _pbf2pbf _pbf2pbf-checksum 
 	${MAKE} -f Makefile.osm pbf2osm
 
 cities-osm: _cities-osm
@@ -194,6 +194,7 @@ pbf2osm:
 
 _pbf2pbf: 
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${PBF2PBF}
+_pbf2pbf-checksum: 
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${OSM_CHECKSUM}
 
 osm2garmin: osm2garmin-osm osm2garmin-cycle osm2garmin-leisure check-garmin-zip 
@@ -226,7 +227,7 @@ osm-html:
 
 _cities-parallel:
 	@echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | env CITIES_DB=${CITIES_DB} ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} cities-pbf | ${TIME} xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
-_cities-parallel2:
+_cities-parallel-pbf:
 	@echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | env CITIES_DB=${CITIES_DB} ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} _cities-pbf | ${TIME} xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
 
 cities-parallel: _cities-parallel check-osm-gzip
@@ -679,10 +680,10 @@ extract-lnglat:
 	./world/bin/extract-lnglat.pl > tmp/lnglat.sh
 
 extract-lnglat-run:
-	${TIME} ${XARGS} -0 -n1 -P${MAX_VCPU} /bin/sh -c < tmp/lnglat.sh
+	${XARGS} -0 -n1 -P1 /bin/sh -c < tmp/lnglat.sh
 
 extract-lng-run:
-	${TIME} ${NICE} ${MAKE} -s -f Makefile.osm CITIES_FILE=tmp/cities2.txt CITIES_DB=tmp/cities2.csv MAX_CPU=${MAX_VCPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=tmp/osm-lng _cities-parallel2
+	${TIME} ${MAKE} -s -f Makefile.osm CITIES_FILE=tmp/cities2.txt CITIES_DB=tmp/cities2.csv MAX_CPU=${MAX_VCPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=tmp/osm-lng _cities-parallel-pbf
 
 extract-du heatmap: extract-lng extract-lnglat extract-lng-run extract-lnglat-run
 	( cd tmp/osm-lnglat; find . -name '*.pbf' | xargs du -k |sort -n | perl -npe 's,\S+/p_(.*?).osm.pbf,\1,; s,_, ,g' ) > tmp/heatmap.csv	
