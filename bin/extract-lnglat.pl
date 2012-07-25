@@ -13,7 +13,8 @@ for ( -180 .. 179 ) {
     $a = $_ + 1;
 
     print
-      qq[make -s -f Makefile.osm CITIES_FILE=tmp/cities_${_}.txt],
+      qq[make -s -f Makefile.osm CITIES_FILE=$heatmap/cities_${_}.txt],
+      qq[ LOG_DIR=$heatmap/tmp],
       qq[ CITIES_DB=$heatmap/cities_${_}.csv],
       qq[ OSM_DIR=$heatmap/osm-lnglat/$_ ],
 qq[ OSM_PLANET_PBF=$heatmap/osm-lng/p_${_}_-89_${a}_89/p_${_}_-89_${a}_89.osm.pbf ],
