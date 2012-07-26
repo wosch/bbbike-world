@@ -606,12 +606,10 @@ sub send_email {
             }
         }
         elsif ( $format =~ /^garmin-(osm|cycle|leisure).zip$/ ) {
+	    my $style = $1;
             $file =~ s/\.pbf$/.$format/;
             if ( !cached_format($file) ) {
-                @system = ( @nice, "$dirname/pbf2osm", "--garmin", $pbf_file );
-                push( @system, $format )
-                  if $format =~ /^garmin-(cycle|leisure).zip$/;
-
+                @system = ( @nice, "$dirname/pbf2osm", "--garmin-$style", $pbf_file );
                 warn "@system\n" if $debug >= 2;
                 system(@system) == 0 or die "system @system failed: $?";
             }
