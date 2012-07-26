@@ -39,15 +39,16 @@ while (<>) {
 }
 
 my $cities_db = $ENV{CITIES_DB} ? "CITIES_DB=$ENV{CITIES_DB}" : "";
-my $tmp_dir = $ENV{LOG_DIR} ? $ENV{LOG_DIR} : "tmp";
-my $log_dir = $ENV{LOG_DIR} ? "LOG_DIR=$ENV{LOG_DIR}" : "";
+my $tmp_dir   = $ENV{LOG_DIR}   ? $ENV{LOG_DIR}               : "tmp";
+my $log_dir   = $ENV{LOG_DIR}   ? "LOG_DIR=$ENV{LOG_DIR}"     : "";
 
 foreach my $key ( sort { $a <=> $b } keys %$hash ) {
 
     # preserve old log files
     print
 qq{test -e $tmp_dir/log.$split.cities.$key && gzip -f $tmp_dir/log.$split.cities.$key; };
-    print qq{time make -s $cities_db $log_dir CITIES="}, join " ", @{ $hash->{$key} },
+    print qq{time make -s $cities_db $log_dir CITIES="}, join " ",
+      @{ $hash->{$key} },
       qq{" $make_args > $tmp_dir/log.$split.cities.$key 2>&1 };
 
     print $xargs ? "\0" : "& \n";
