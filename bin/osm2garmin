@@ -9,7 +9,7 @@ PATH=$HOME/bin:/bin:/usr/bin; export PATH
 
 usage () {
    echo "$@"
-   echo "usage file [ garmin-cycle.zip | garmin-leisure.zip ]"
+   echo "usage file [ garmin-cycle.zip | garmin-leisure.zip | garmin-osm.zip ]"
    exit 1
 }
 
