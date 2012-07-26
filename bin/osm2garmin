@@ -20,6 +20,10 @@ error () {
 }
 
 file=$1
+
+# absolute file path
+case $file in /*) ;; *) file=$(pwd)/$file ;; esac
+
 test -e "$file" || usage "file $file does not exists"
 osm_checksum=`dirname $0`/osm-checksum
 
@@ -79,7 +83,7 @@ mkdir -p $garmin_dir
 
 logfile=$garmin_dir/logfile.txt 
 if [ $size -lt 10000 ]; then
-   echo "PBF file size $size KB, run without splitter"
+   echo "PBF file size $size KB, run without splitter" > $logfile
    ln -s $file $split_dir/63240001.osm.pbf
 else 
    echo ">>> Run splitter" > $logfile
