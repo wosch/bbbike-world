@@ -682,14 +682,14 @@ extract-lnglat:
 	./world/bin/extract-lnglat.pl > ${HEATMAP_DIR}/lnglat.sh
 
 extract-lnglat-run:
-	${XARGS} -0 -n1 -P3 /bin/sh -c < ${HEATMAP_DIR}/lnglat.sh
+	${TIME} ${XARGS} -0 -n1 -P3 /bin/sh -c < ${HEATMAP_DIR}/lnglat.sh
 
 extract-lng-run:
-	${TIME} env LOG_DIR=${HEATMAP_DIR}/tmp ${MAKE} -s LOG_DIR=${HEATMAP_DIR}/tmp -f Makefile.osm CITIES_FILE=${HEATMAP_DIR}/cities2.txt CITIES_DB=${HEATMAP_DIR}/cities2.csv MAX_CPU=${MAX_CPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=${HEATMAP_DIR}/osm-lng _cities-parallel-pbf
+	env LOG_DIR=${HEATMAP_DIR}/tmp ${MAKE} -s LOG_DIR=${HEATMAP_DIR}/tmp -f Makefile.osm CITIES_FILE=${HEATMAP_DIR}/cities2.txt CITIES_DB=${HEATMAP_DIR}/cities2.csv MAX_CPU=${MAX_CPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=${HEATMAP_DIR}/osm-lng _cities-parallel-pbf
 
-extract-du heatmap: extract-lng extract-lnglat extract-lng-run extract-lnglat-run heatmap
+extract-du heatmap: extract-lng extract-lnglat extract-lng-run extract-lnglat-run heatmap-csv
 
-heatmap:
+heatmap-csv:
 	( cd ${HEATMAP_DIR}/osm-lnglat; find . -name '*.pbf' | xargs du -k |sort -n | perl -npe 's,\S+/p_(.*?).osm.pbf,\1,; s,_, ,g' ) > ${HEATMAP_DIR}/heatmap.csv	
 
 
