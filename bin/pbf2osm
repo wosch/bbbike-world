@@ -22,9 +22,13 @@ case $1 in
   -gzip | --gzip)    shift; compress=gzip;;
   -bzip2 | --bzip2 ) shift; compress=bzip2 ;;
   -xz | --xz )       shift; compress=xz ;;
-  -garmin | --garmin ) shift; compress=garmin; garmin_style=$2 ;;
   -shape | --shape | -shp | --shp ) shift; compress=shape ;;
   -osmand | --osmand | -obf | --obf ) shift; compress=osmand ;;
+
+  -garmin | --garmin ) shift; compress=garmin; garmin_style=$2 ;;
+  -garmin-osm | --garmin-osm ) shift; compress=garmin; garmin_style=osm ;;
+  -garmin-cycle | --garmin-cycle ) shift; compress=garmin; garmin_style=cycle ;;
+  -garmin-leisure | --garmin-leisure ) shift; compress=garmin; garmin_style=leisure ;;
 esac
 
 file=$1

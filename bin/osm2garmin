@@ -49,20 +49,22 @@ mkgmap_map_style="osm"
 : ${max_jobs=""}
 
 case $ext in 
-   garmin-cycle.zip ) 
+   garmin-cycle.zip | cycle ) 
 	mkgmap_map=--style-file=$pwd/world/etc/mkgmap/cyclemap
 	mkgmap_map_style=cyclemap
 	mkgmap_map_type=$pwd/world/etc/mkgmap/cyclemap.TYP
 	;;
 
-   garmin-freizeit.zip | garmin-freetime.zip | garmin-leisure.zip ) 
+   garmin-freizeit.zip | garmin-freetime.zip | garmin-leisure.zip | leisure ) 
 	ext=garmin-leisure.zip
 	mkgmap_map=--style-file=$pwd/world/etc/mkgmap/freizeit
 	mkgmap_map_style=freizeit
 	mkgmap_map_type=$pwd/world/etc/mkgmap/freizeit.TYP
 	;;
 
-   garmin-osm.zip ) ;;
+   garmin-osm.zip | osm ) 
+	ext=garmin-osm.zip
+	;;
 
    *) usage ;;
 esac
