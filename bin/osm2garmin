@@ -9,7 +9,7 @@ PATH=$HOME/bin:/bin:/usr/bin; export PATH
 
 usage () {
    echo "$@"
-   echo "usage file [ garmin-cycle.zip | garmin-leisure.zip | garmin-osm.zip ]"
+   echo "usage file [ osm | cycle | leisure ]"
    exit 1
 }
 
@@ -27,7 +27,7 @@ case $file in /*) ;; *) file=$(pwd)/$file ;; esac
 test -e "$file" || usage "file $file does not exists"
 osm_checksum=`dirname $0`/osm-checksum
 
-test -z "$ext" && ext=${2-"garmin-osm.zip"}
+test -z "$ext" && ext=${2-"osm"}
 : ${debug=false}
 
 size=$(du -ks -L "$file" | awk '{ print $1}')
@@ -49,20 +49,21 @@ mkgmap_map_style="osm"
 : ${max_jobs=""}
 
 case $ext in 
-   garmin-cycle.zip | cycle ) 
+   cycle | garmin-cycle.zip ) 
+	ext=garmin-cycle.zip
 	mkgmap_map=--style-file=$pwd/world/etc/mkgmap/cyclemap
 	mkgmap_map_style=cyclemap
 	mkgmap_map_type=$pwd/world/etc/mkgmap/cyclemap.TYP
 	;;
 
-   garmin-freizeit.zip | garmin-freetime.zip | garmin-leisure.zip | leisure ) 
+   leisure | freizeit | garmin-freizeit.zip | garmin-leisure.zip ) 
 	ext=garmin-leisure.zip
 	mkgmap_map=--style-file=$pwd/world/etc/mkgmap/freizeit
 	mkgmap_map_style=freizeit
 	mkgmap_map_type=$pwd/world/etc/mkgmap/freizeit.TYP
 	;;
 
-   garmin-osm.zip | osm ) 
+   osm | garmin-osm.zip ) 
 	ext=garmin-osm.zip
 	;;
 
