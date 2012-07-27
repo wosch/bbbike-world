@@ -551,6 +551,7 @@ sub cached_format {
     return 0;
 }
 
+# reorder PBFs by size, smalles first
 sub reorder_pbf {
     my $json = shift;
 
@@ -564,7 +565,7 @@ sub reorder_pbf {
         'osm.obf.zip'        => 10,
         'garmin-osm.zip'     => 3,
         'garmin-cycle.zip'   => 3,
-        'garmin-leisure.zip' => 3,
+        'garmin-leisure.zip' => 3.5,
     );
 
     foreach my $json_file (@$json) {
@@ -582,6 +583,10 @@ sub reorder_pbf {
     }
 
     my @json = sort { $hash{$a} <=> $hash{$b} } keys %hash;
+    if ( $debug >= 2 ) {
+        warn join "\n", map { "$_ $hash{$_}" } @json;
+    }
+
     return @json;
 }
 
