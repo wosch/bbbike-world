@@ -591,7 +591,7 @@ sub reorder_pbf {
 }
 
 # prepare to sent mail about extracted area
-sub send_email {
+sub convert_send_email {
     my %args       = @_;
     my $json       = $args{'json'};
     my $send_email = $args{'send_email'};
@@ -977,7 +977,7 @@ sub run_jobs {
 
     # send out mail
     $time = time();
-    &send_email( 'json' => $json, 'send_email' => $send_email );
+    &convert_send_email( 'json' => $json, 'send_email' => $send_email );
 
     warn "Running convert and email time: ", time() - $time, " seconds\n"
       if $debug;
