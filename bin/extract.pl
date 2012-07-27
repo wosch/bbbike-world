@@ -584,7 +584,7 @@ sub reorder_pbf {
 
     my @json = sort { $hash{$a} <=> $hash{$b} } keys %hash;
     if ( $debug >= 2 ) {
-        warn join "\n", map { "$_ $hash{$_}" } @json;
+        warn join "\n", map { "$_ $hash{$_}" } @json, "\n";
     }
 
     return @json;
@@ -925,7 +925,7 @@ sub run_jobs {
 
     # find a free job
     foreach my $number ( 1 .. $max_jobs ) {
-        my $file = "$spool_dir/" . $spool->{'running'} . "/job${number}.pid";
+        my $file = $spool->{'running'} . "/job${number}.pid";
 
         # lock pid
         if ( &create_lock( 'lockfile' => $file ) ) {
