@@ -871,60 +871,15 @@ usage: $0 [ options ]
 EOF
 }
 
-######################################################################
-# main
-#
+sub run_jobs {
+    my %args       = @_;
+    my $max_jobs   = $args{'max_jobs'};
+    my $send_email = $args{'send_email'};
+    my $max_areas  = $args{'max_areas'};
+    my $files      = $args{'files'};
 
-# current running parallel job number (1..4)
-my $max_jobs = $option->{'max_jobs'};
-my $help;
-my $timeout;
-my $max_areas  = $option->{'max_areas'};
-my $send_email = $option->{'send_email'};
+    my @files = @$files;
 
-GetOptions(
-    "debug=i"      => \$debug,
-    "nice-level=i" => \$nice_level,
-    "job=i"        => \$max_jobs,
-    "timeout=i"    => \$timeout,
-    "max-areas=i"  => \$max_areas,
-    "send-email=i" => \$send_email,
-    "help"         => \$help,
-) or die usage;
-
-die usage if $help;
-die "Max jobs: $max_jobs out of range!\n" . &usage
-  if $max_jobs < 1 || $max_jobs > 12;
-die "Max areas: $max_areas out of range!\n" . &usage
-  if $max_areas < 1 || $max_areas > 30;
-
-my @files = get_jobs( $spool->{'confirmed'} );
-if ( !scalar(@files) ) {
-    print "Nothing to do\n" if $debug >= 2;
-    exit;
-}
-
-my $loadavg = &get_loadavg;
-if ( $loadavg > $option->{max_loadavg} ) {
-    my $max_loadavg_jobs = $option->{max_loadavg_jobs};
-    if ( $max_loadavg_jobs >= 1 ) {
-        warn
-"Load avarage $loadavg is to high, reset max jobs to: $max_loadavg_jobs\n"
-          if $debug >= 2;
-        $max_jobs = $max_loadavg_jobs;
-    }
-    else {
-        die "Load avarage $loadavg is to high, give up!\n";
-    }
-}
-
-if ( defined $timeout ) {
-    die "Timeout: $timeout out of range!\n" . &usage
-      if ( $timeout < 1 || $timeout > 86_400 );
-    $alarm = $timeout;
-}
-
-{
     my $lockfile;
 
     # find a free job
@@ -999,5 +954,65 @@ if ( defined $timeout ) {
         'keep'    => 1
     );
 }
+
+######################################################################
+# main
+#
+
+# current running parallel job number (1..4)
+my $max_jobs = $option->{'max_jobs'};
+my $help;
+my $timeout;
+my $max_areas  = $option->{'max_areas'};
+my $send_email = $option->{'send_email'};
+
+GetOptions(
+    "debug=i"      => \$debug,
+    "nice-level=i" => \$nice_level,
+    "job=i"        => \$max_jobs,
+    "timeout=i"    => \$timeout,
+    "max-areas=i"  => \$max_areas,
+    "send-email=i" => \$send_email,
+    "help"         => \$help,
+) or die usage;
+
+die usage if $help;
+die "Max jobs: $max_jobs out of range!\n" . &usage
+  if $max_jobs < 1 || $max_jobs > 12;
+die "Max areas: $max_areas out of range!\n" . &usage
+  if $max_areas < 1 || $max_areas > 30;
+
+my @files = get_jobs( $spool->{'confirmed'} );
+if ( !scalar(@files) ) {
+    print "Nothing to do\n" if $debug >= 2;
+    exit;
+}
+
+my $loadavg = &get_loadavg;
+if ( $loadavg > $option->{max_loadavg} ) {
+    my $max_loadavg_jobs = $option->{max_loadavg_jobs};
+    if ( $max_loadavg_jobs >= 1 ) {
+        warn
+"Load avarage $loadavg is to high, reset max jobs to: $max_loadavg_jobs\n"
+          if $debug >= 2;
+        $max_jobs = $max_loadavg_jobs;
+    }
+    else {
+        die "Load avarage $loadavg is to high, give up!\n";
+    }
+}
+
+if ( defined $timeout ) {
+    die "Timeout: $timeout out of range!\n" . &usage
+      if ( $timeout < 1 || $timeout > 86_400 );
+    $alarm = $timeout;
+}
+
+&run_jobs(
+    'max_jobs'   => $max_jobs,
+    'send_email' => $send_email,
+    'max_areas'  => $max_areas,
+    'files'      => \@files
+);
 
 1;
