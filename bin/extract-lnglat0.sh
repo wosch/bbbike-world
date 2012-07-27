@@ -1,10 +1,10 @@
 #!/bin/sh
 
-: ${HEATMAP_DIR="heatmap"}
+: ${TILES_DIR="tiles"}
 
 for i in `perl -e 'for (-180 .. 179) { print "$_ " }'`
 do
-  ./world/bin/extract-lnglat0.pl $i > $HEATMAP_DIR/cities_$i.csv
-  awk -F: '{ print $1 } ' $HEATMAP_DIR/cities_$i.csv > $HEATMAP_DIR/cities_$i.txt
+  ./world/bin/extract-lnglat0.pl $i > $TILES_DIR/cities_$i.csv
+  awk -F: '{ print $1 } ' $TILES_DIR/cities_$i.csv > $TILES_DIR/cities_$i.txt
 done
 

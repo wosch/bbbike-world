@@ -7,7 +7,7 @@
 
 # Aachen:::de::5.88 50.60 6.58 50.99:294951::
 
-my $heatmap = $ENV{HEATMAP} || "heatmap";
+my $heatmap = $ENV{TILES_DIR} || "tiles";
 
 for ( -180 .. 179 ) {
     $a = $_ + 1;
