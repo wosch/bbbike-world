@@ -457,6 +457,7 @@ sub run_extracts {
         push @pbf, "--bp", "file=$p";
         push @pbf, "--write-pbf", "file=$out", "omitmetadata=true";
         $tee++;
+        push @fixme, $out;
     }
 
     if (@pbf) {
@@ -470,7 +471,7 @@ sub run_extracts {
     }
 
     warn join( " ", @data ), "\n" if $debug >= 2;
-    return @data;
+    return (\@data, \@fixme);
 }
 
 # compute SHA2 checksum for extract file
@@ -607,11 +608,10 @@ sub send_email {
             }
         }
         elsif ( $format =~ /^garmin-(osm|cycle|leisure).zip$/ ) {
-            my $style = $1;
+	    my $style = $1;
             $file =~ s/\.pbf$/.$format/;
             if ( !cached_format($file) ) {
-                @system =
-                  ( @nice, "$dirname/pbf2osm", "--garmin-$style", $pbf_file );
+                @system = ( @nice, "$dirname/pbf2osm", "--garmin-$style", $pbf_file );
                 warn "@system\n" if $debug >= 2;
                 system(@system) == 0 or die "system @system failed: $?";
             }
@@ -741,16 +741,16 @@ EOF
 
 # prepare to sent mail about extracted area
 sub fix_pbf {
-    my $files = shift;
+    my $files       = shift;
 
     # all scripts are in these directory
     my $dirname = dirname($0);
     my $pbf2pbf = "$dirname/pbf2pbf";
 
-    my @system;
+    my @system;    
     foreach my $pbf (@$files) {
-        @system = ( $pbf2pbf, $pbf );
-        system(@system) == 0
+        @system = ($pbf2pbf, $pbf);
+            system(@system) == 0
           or die "system @system failed: $?";
     }
 }
@@ -963,10 +963,9 @@ if ( !scalar(@files) ) {
 
     ###########################################################
     # main
-    my ( $system, $new_pbf_files ) =
-      run_extracts( 'spool' => $spool, 'poly' => $poly );
+    my ($system, $new_pbf_files) = run_extracts( 'spool' => $spool, 'poly' => $poly );
     my @system = @$system;
-
+    
     ###########################################################
 
     my $time      = time();
