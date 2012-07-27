@@ -433,6 +433,7 @@ sub run_extracts {
 
     my @pbf;
     my $tee = 0;
+    my @fixme;
     foreach my $p (@$poly) {
         my $out = $p;
         $out =~ s/\.poly$/.osm.pbf/;
@@ -606,10 +607,11 @@ sub send_email {
             }
         }
         elsif ( $format =~ /^garmin-(osm|cycle|leisure).zip$/ ) {
-	    my $style = $1;
+            my $style = $1;
             $file =~ s/\.pbf$/.$format/;
             if ( !cached_format($file) ) {
-                @system = ( @nice, "$dirname/pbf2osm", "--garmin-$style", $pbf_file );
+                @system =
+                  ( @nice, "$dirname/pbf2osm", "--garmin-$style", $pbf_file );
                 warn "@system\n" if $debug >= 2;
                 system(@system) == 0 or die "system @system failed: $?";
             }
@@ -735,6 +737,22 @@ EOF
 
     warn "number of email sent: ", scalar(@$json), "\n"
       if $send_email && $debug >= 1;
+}
+
+# prepare to sent mail about extracted area
+sub fix_pbf {
+    my $files = shift;
+
+    # all scripts are in these directory
+    my $dirname = dirname($0);
+    my $pbf2pbf = "$dirname/pbf2pbf";
+
+    my @system;
+    foreach my $pbf (@$files) {
+        @system = ( $pbf2pbf, $pbf );
+        system(@system) == 0
+          or die "system @system failed: $?";
+    }
 }
 
 # compare 2 files and return the modification diff time in seconds
@@ -945,7 +963,10 @@ if ( !scalar(@files) ) {
 
     ###########################################################
     # main
-    my @system = run_extracts( 'spool' => $spool, 'poly' => $poly );
+    my ( $system, $new_pbf_files ) =
+      run_extracts( 'spool' => $spool, 'poly' => $poly );
+    my @system = @$system;
+
     ###########################################################
 
     my $time      = time();
@@ -954,6 +975,7 @@ if ( !scalar(@files) ) {
     system(@system) == 0
       or die "system @system failed: $?";
 
+    &fix_pbf($new_pbf_files);
     warn "Running extract time: ", time() - $time, " seconds\n" if $debug;
 
     # send out mail
