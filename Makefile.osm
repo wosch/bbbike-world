@@ -75,7 +75,7 @@ LOG_DIR=tmp
 
 CITIES=$(shell ${PERL} -npe 's/\#.*//' ${CITIES_FILE})
 
-HEATMAP_DIR=	heatmap
+TILES_DIR=	tiles
 
 #
 # opensearch suggestion service for
@@ -674,23 +674,23 @@ staging:
 
 # extract 180x360 data tiles from planet.osm
 extract-lng:
-	mkdir -p ${HEATMAP_DIR}/tmp
-	./world/bin/extract-lng.pl > ${HEATMAP_DIR}/cities2.csv
-	awk -F: '{ print $$1 }' ${HEATMAP_DIR}/cities2.csv > ${HEATMAP_DIR}/cities2.txt
+	mkdir -p ${TILES_DIR}/tmp
+	./world/bin/extract-lng.pl > ${TILES_DIR}/cities2.csv
+	awk -F: '{ print $$1 }' ${TILES_DIR}/cities2.csv > ${TILES_DIR}/cities2.txt
 
 extract-lnglat:
-	env HEATMAP_DIR=${HEATMAP_DIR} ./world/bin/extract-lnglat0.sh
-	./world/bin/extract-lnglat.pl > ${HEATMAP_DIR}/lnglat.sh
+	env TILES_DIR=${TILES_DIR} ./world/bin/extract-lnglat0.sh
+	./world/bin/extract-lnglat.pl > ${TILES_DIR}/lnglat.sh
 
 extract-lnglat-run:
-	${TIME} ${XARGS} -0 -n1 -P3 /bin/sh -c < ${HEATMAP_DIR}/lnglat.sh
+	${TIME} ${XARGS} -0 -n1 -P3 /bin/sh -c < ${TILES_DIR}/lnglat.sh
 
 extract-lng-run:
-	env LOG_DIR=${HEATMAP_DIR}/tmp ${MAKE} -s LOG_DIR=${HEATMAP_DIR}/tmp -f Makefile.osm CITIES_FILE=${HEATMAP_DIR}/cities2.txt CITIES_DB=${HEATMAP_DIR}/cities2.csv MAX_CPU=${MAX_CPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=${HEATMAP_DIR}/osm-lng _cities-parallel-pbf
+	env LOG_DIR=${TILES_DIR}/tmp ${MAKE} -s LOG_DIR=${TILES_DIR}/tmp -f Makefile.osm CITIES_FILE=${TILES_DIR}/cities2.txt CITIES_DB=${TILES_DIR}/cities2.csv MAX_CPU=${MAX_CPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=${TILES_DIR}/osm-lng _cities-parallel-pbf
 
-extract-du heatmap: extract-lng extract-lnglat extract-lng-run extract-lnglat-run heatmap-csv
+extract-du tiles: extract-lng extract-lnglat extract-lng-run extract-lnglat-run tiles-csv
 
-_pbf_dir=${HEATMAP_DIR}/osm-lnglat/
+_pbf_dir=${TILES_DIR}/osm-lnglat/
 extract-convert:
 	find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${PBF2OSM} --gzip
 	find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM_CHECKSUM}
@@ -699,8 +699,8 @@ extract-convert:
 	find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2SHAPE}
 	find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2OSMAND}
 
-heatmap-csv:
-	( cd ${HEATMAP_DIR}/osm-lnglat; find . -name '*.pbf' | xargs du -k |sort -n | perl -npe 's,\S+/p_(.*?).osm.pbf,\1,; s,_, ,g' ) > ${HEATMAP_DIR}/heatmap.csv	
+tiles-csv:
+	( cd ${TILES_DIR}/osm-lnglat; find . -name '*.pbf' | xargs du -k |sort -n | perl -npe 's,\S+/p_(.*?).osm.pbf,\1,; s,_, ,g' ) > ${TILES_DIR}/tiles.csv	
 
 
 DOWNLOAD_PREFIX=/usr/local/www/download.bbbike.org
@@ -780,7 +780,7 @@ help:
 	@echo "  [ download-bbbike-org-install ]"
 	@echo ""
 	@echo "  [ staging | extract-install | extract-distclean ]"
-	@echo "  [ extract-gc | extract-gc7 | extract-gc-osm | heatmap ]"
+	@echo "  [ extract-gc | extract-gc7 | extract-gc-osm | tiles ]"
 	@echo ""
 	@echo "see also ./world/README"
 
