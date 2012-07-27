@@ -38,6 +38,7 @@ PBF2OSM=	world/bin/pbf2osm
 OSM_CHECKSUM=	world/bin/osm-checksum
 PBF2PBF=	world/bin/pbf2pbf
 OSM2GARMIN=	world/bin/osm2garmin
+OSM2GARMIN_CYCLE=	world/bin/pbf2osm --garmin-cycle
 OSM2SHAPE=	world/bin/osm2shape
 OSM2OSMAND=	world/bin/osm2osmand
 
@@ -688,6 +689,15 @@ extract-lng-run:
 	env LOG_DIR=${HEATMAP_DIR}/tmp ${MAKE} -s LOG_DIR=${HEATMAP_DIR}/tmp -f Makefile.osm CITIES_FILE=${HEATMAP_DIR}/cities2.txt CITIES_DB=${HEATMAP_DIR}/cities2.csv MAX_CPU=${MAX_CPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=${HEATMAP_DIR}/osm-lng _cities-parallel-pbf
 
 extract-du heatmap: extract-lng extract-lnglat extract-lng-run extract-lnglat-run heatmap-csv
+
+_pbf_dir=${HEATMAP_DIR}/osm-lnglat/
+extract-convert:
+	find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${PBF2OSM} --gzip
+	find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM_CHECKSUM}
+	find ${_pbf_dir} -name '*.osm.gz' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM_CHECKSUM}
+	find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2GARMIN_CYCLE}
+	find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2SHAPE}
+	find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2OSMAND}
 
 heatmap-csv:
 	( cd ${HEATMAP_DIR}/osm-lnglat; find . -name '*.pbf' | xargs du -k |sort -n | perl -npe 's,\S+/p_(.*?).osm.pbf,\1,; s,_, ,g' ) > ${HEATMAP_DIR}/heatmap.csv	
