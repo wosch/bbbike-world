@@ -551,6 +551,40 @@ sub cached_format {
     return 0;
 }
 
+sub reorder_pbf {
+    my $json = shift;
+
+    my %hash;
+    my %format = (
+        'osm.pbf'            => 0,
+        'osm.gz'             => 1,
+        'osm.bz2'            => 1.2,
+        'osm.xz'             => 2.5,
+        'osm.shp.zip'        => 1.3,
+        'osm.obf.zip'        => 10,
+        'garmin-osm.zip'     => 3,
+        'garmin-cycle.zip'   => 3,
+        'garmin-leisure.zip' => 3,
+    );
+
+    foreach my $json_file (@$json) {
+
+        my $json_text = read_data($json_file);
+        my $json      = new JSON;
+        my $obj       = $json->decode($json_text);
+        my $pbf_file  = $obj->{'pbf_file'};
+        my $format    = $obj->{'format'};
+
+        my $st   = stat($pbf_file);
+        my $size = $st->size * $format{$format};
+
+        $hash{$json_file} = $size;
+    }
+
+    my @json = sort { $hash{$a} <=> $hash{$b} } keys %hash;
+    return @json;
+}
+
 # prepare to sent mail about extracted area
 sub send_email {
     my %args       = @_;
@@ -561,7 +595,9 @@ sub send_email {
     my $dirname = dirname($0);
 
     my @unlink;
-    foreach my $json_file (@$json) {
+    my @json = reorder_pbf($json);
+
+    foreach my $json_file (@json) {
         my @system;
 
         my $json_text = read_data($json_file);
