@@ -131,18 +131,35 @@ sub area_size {
                   )
                 {
                     warn
-"Parts detected: $i,$j $lng_sw,$lat_sw,$lng_ne,$lat_ne :: $lng_sw2,$lat_sw2,$lng_ne2,$lat_ne2\n"
+                      "Parts detected: $i,$j $lng_sw,$lat_sw,$lng_ne,$lat_ne",
+                      " :: $lng_sw2,$lat_sw2,$lng_ne2,$lat_ne2\n"
                       if $debug >= 2;
-
                     $tile_parts += 1;
+
+                    # simple version: just use half size
                     if ( $parts == 1 ) {
                         $factor = 0.5;
                     }
+
+                    # compute the real size of a tile part
                     elsif ( $parts == 2 ) {
                         my $square_km =
                           $self->square_km( $j, $i, $j + 1, $i + 1 );
-                        warn "square km: $i,$j $square_km\n" if $debug >= 2;
-                        $factor = 0.5;
+                        my ( $x1, $y1, $x2, $y2 ) = ( $i, $j, $i + 1, $j + 1 );
+                        $x1 = $lng_sw if $i == $lng_sw2 && $lng_sw2 < $lng_sw;
+                        $y1 = $lat_sw if $j == $lat_sw2 && $lat_sw2 < $lat_sw;
+                        $x2 = $lng_ne
+                          if $i + 1 == $lng_ne2 && $lng_ne2 > $lng_ne;
+                        $y2 = $lat_ne
+                          if $j + 1 == $lat_ne2 && $lat_ne2 > $lat_ne;
+
+                        my $square_km_part =
+                          $self->square_km( $y1, $x1, $y2, $x2 );
+
+                        $factor = $square_km_part / $square_km;
+                        warn
+"square km: $i,$j $square_km, $square_km_part, factor: $factor\n"
+                          if $debug >= 2;
                     }
                 }
                 $size += $db->{$key} * $factor;
