@@ -25,7 +25,7 @@ binmode( \*STDOUT, ":raw" );
 
 my $q = new CGI;
 
-my $area = $q->param('area') || "10,52,15,59";
+my $area = $q->param('area');
 my $namespace = $q->param('namespace') || $q->param('ns') || '0';
 
 if ( my $d = $q->param('debug') || $q->param('d') ) {
@@ -47,6 +47,11 @@ my $lng_ne        = $q->param("lng_ne");
 my $lat_ne        = $q->param("lat_ne");
 my $factor        = $q->param("factor") || 1;
 
+# short cut "area=lat,lng,lat,lng"
+if ( defined $area ) {
+    ( $lng_sw, $lat_sw, $lng_ne, $lat_ne ) = split /,/, $area;
+}
+
 if (   !defined $lng_sw
     || !defined $lat_sw
     || !defined $lng_ne
@@ -61,3 +66,4 @@ $factor = 1 if $factor < 0 || $factor > 100;
 my $size = $tile->area_size( $lng_sw, $lat_sw, $lng_ne, $lat_ne, 2 );
 print qq|{"size": $size }\n|;
 
+1;
