@@ -1029,6 +1029,12 @@ if ( !scalar(@files) ) {
     exit;
 }
 
+if ( defined $timeout ) {
+    die "Timeout: $timeout out of range!\n" . &usage
+      if ( $timeout < 1 || $timeout > 86_400 );
+    $alarm = $timeout;
+}
+
 my $loadavg = &get_loadavg;
 if ( $loadavg > $option->{max_loadavg} ) {
     my $max_loadavg_jobs = $option->{max_loadavg_jobs};
@@ -1041,12 +1047,6 @@ if ( $loadavg > $option->{max_loadavg} ) {
     else {
         die "Load avarage $loadavg is to high, give up!\n";
     }
-}
-
-if ( defined $timeout ) {
-    die "Timeout: $timeout out of range!\n" . &usage
-      if ( $timeout < 1 || $timeout > 86_400 );
-    $alarm = $timeout;
 }
 
 &run_jobs(
