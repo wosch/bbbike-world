@@ -13,9 +13,9 @@ use GIS::Distance::Lite;
 use strict;
 use warnings;
 
-our $VERSION = 0.1;
+our $VERSION = 1.0;
 
-our $debug = 1;
+our $debug = 0;
 
 sub new {
     my ( $class, %args ) = @_;
@@ -32,7 +32,7 @@ sub new {
     $self->parse_database;
     $debug = $self->{'debug'};
 
-    print Dumper($self) if $self->{'debug'} >= 3;
+    warn Dumper($self) if $self->{'debug'} >= 3;
     return $self;
 }
 
