@@ -70,7 +70,7 @@ if ( $format && $format{$format} ) {
     # guess factor
     $factor *= 1.3 if $format eq 'garmin-leisure.zip';
     $factor *= 0.7 if $format eq 'osm.bz2';
-    $factor *= 0.7 if $format eq 'osm.xz';
+    $factor *= 0.75 if $format eq 'osm.xz';
 }
 else {
     $ext = $format{"pbf"};
