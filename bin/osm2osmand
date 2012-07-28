@@ -8,6 +8,9 @@ PATH=$HOME/bin:/bin:/usr/bin; export PATH
 
 #: ${osmand_home=$HOME/opt/OsmAndMapCreator-0.6.8.2-beta}
 : ${osmand_home="$HOME/opt/OsmAndMapCreator-development-2012-07-22"}
+: ${java_heap=2G}
+
+java_opt=-Xmx${java_heap} 
 
 set -e
 
@@ -15,6 +18,13 @@ usage () {
    echo "$@"
    echo "usage file.pbf"
    exit 1
+}
+
+error () {
+    echo "Failed to convert file: $file"
+    cat $logfile
+    rm -rf $tmpdir
+    exit 1
 }
 
 file=$1
@@ -25,7 +35,9 @@ osm_checksum=`dirname $0`/osm-checksum
 pwd=$(pwd)
 
 test -z "$file" && usage
+size=$(du -ks -L "$file" | awk '{ print $1}')
 
+# use RAM disk if available
 if [ -e /bbbike/tmpfs ]; then
     _tmp=/bbbike/tmpfs
 else
@@ -45,19 +57,18 @@ case $file in /* ) ;; *) file=$pwd/$file ;; esac
 logfile=$obf_dir/logfile.txt 
 
 mkdir $obf_dir/data $obf_dir/data/osm $obf_dir/data/indexes
-#file_basename=`basename $file`
-#file_fixme=$obf_dir/data/osm/$file_basename
-#if osmosis --read-pbf $file --bb left=-180 right=180 top=90 bottom=-90 clipIncompleteEntities=true --write-pbf omitmetadata=true $file_fixme > $logfile 2>&1; then
-#   :
-#else
-#   exit=$?
-#   echo "Failed to fix $file"
-#   cat $logfile
-#   exit $exit
-#fi
 
 cd $obf_dir
-( cd data/osm; ln -s $file . )
+if [ $size -le 50000 ]; then
+    ( cd data/osm; ln -s $file . )
+else
+   # file to large
+   split_dir=data/osm
+   mapid="`basename $file | perl -npe 's/\.osm\..*//'`"0001
+   echo ">>> Run splitter" >> $logfile
+   java $java_opt -jar $HOME/opt/splitter/splitter.jar --output-dir=$split_dir  --max-nodes=4000000 --mapid $mapid $file >> $logfile 2>&1 || error
+   ls -l data/osm
+fi
 
 if time java -XX:+UseParallelGC -Xmx2048M -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp $osmand_home/OsmAndMapCreator.jar:$osmand_home/lib/*.jar net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml > $logfile 2>&1 && ln data/indexes/*.obf .; then
    :
@@ -65,7 +76,6 @@ else
    exit=$?
    echo "Failed to convert $file"
    cat $logfile
-   rm -rf $tmpdir
    exit $exit
 fi
 
