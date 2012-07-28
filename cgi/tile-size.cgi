@@ -12,7 +12,15 @@ use TileSize;
 use strict;
 use warnings;
 
-my $debug = 1;
+my $debug  = 1;
+my %format = (
+    "pbf"          => "pbf",
+    "gz"           => "osm.gz",
+    "osm"          => "osm.gz",
+    "shp"          => "shp.zip",
+    "obf"          => "obf.zip",
+    "garmin-cycle" => "garmin-cycle.zip"
+);
 
 ######################################################################
 # GET /w/api.php?namespace=1&q=berlin HTTP/1.1
@@ -40,13 +48,23 @@ print $q->header(
     -expires => $expire,
 );
 
-my $database_file = "../world/etc/tile/tile-pbf.csv";
-my $tile          = TileSize->new( 'database' => $database_file );
-my $lng_sw        = $q->param("lng_sw");
-my $lat_sw        = $q->param("lat_sw");
-my $lng_ne        = $q->param("lng_ne");
-my $lat_ne        = $q->param("lat_ne");
-my $factor        = $q->param("factor") || 1;
+my $lng_sw = $q->param("lng_sw");
+my $lat_sw = $q->param("lat_sw");
+my $lng_ne = $q->param("lng_ne");
+my $lat_ne = $q->param("lat_ne");
+my $factor = $q->param("factor") || 1;
+my $format = $q->param("format") || "";
+
+my $ext;
+if ( $format && $format{$format} ) {
+    $ext = $format{$format};
+}
+else {
+    $ext = $format{"pbf"};
+}
+
+my $database_file = "../world/etc/tile/tile-$ext.csv";
+my $tile = TileSize->new( 'database' => $database_file );
 
 # short cut "area=lat,lng,lat,lng"
 if ( defined $area ) {
