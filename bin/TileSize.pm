@@ -7,12 +7,13 @@ package TileSize;
 
 use IO::File;
 use Data::Dumper;
+use POSIX;
 use strict;
 use warnings;
 
 our $VERSION = 0.1;
 
-our $debug = 1;
+our $debug = 2;
 
 sub new {
     my ( $class, %args ) = @_;
@@ -20,7 +21,7 @@ sub new {
     my $self = {
         'debug'    => $debug,
         'format'   => 'pbf',
-        'database' => 'world/etc/tiles-pbf.csv',
+        'database' => 'world/etc/tile/tile.csv',
         '_size'    => {},
         %args,
     };
@@ -71,6 +72,37 @@ sub total {
     }
 
     return $total;
+}
+
+# compute the size of an area lng_sw,lat_sw x lng_ne,lat_ne
+sub area_size {
+    my $self = shift;
+    my ( $lng_sw, $lat_sw, $lng_ne, $lat_ne ) = @_;
+    my ( $lng_sw2, $lat_sw2, $lng_ne2, $lat_ne2 );
+
+    my $db   = $self->{_size};
+    my $size = 0;
+
+    $lng_sw2 = POSIX::floor($lng_sw);
+    $lat_sw2 = POSIX::floor($lat_sw);
+
+    $lng_ne2 = POSIX::ceil($lng_ne);
+    $lat_ne2 = POSIX::ceil($lat_ne);
+
+    warn
+      "$lng_sw,$lat_sw,$lng_ne,$lat_ne :: $lng_sw2,$lat_sw2,$lng_ne2,$lat_ne2\n"
+      if $debug;
+    for ( my $i = $lng_sw2 ; $i <= $lng_ne2 ; $i++ ) {
+        for ( my $j = $lat_sw2 ; $i <= $lat_ne2 ; $i++ ) {
+            my $key = "$i,$j";
+            if ( exists $db->{$key} ) {
+                warn "Add key: $key: $db->{$key}\n" if $debug >= 2;
+                $size += $db->{$key};
+            }
+        }
+    }
+
+    return $size;
 }
 
 1;
