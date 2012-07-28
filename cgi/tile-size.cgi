@@ -66,6 +66,11 @@ my $format = $q->param("format") || "";
 my $ext;
 if ( $format && $format{$format} ) {
     $ext = $format{$format};
+
+    # guess factor
+    $factor *= 1.3 if $format eq 'garmin-leisure.zip';
+    $factor *= 0.7 if $format eq 'osm.bz2';
+    $factor *= 0.7 if $format eq 'osm.xz';
 }
 else {
     $ext = $format{"pbf"};
