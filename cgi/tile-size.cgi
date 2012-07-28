@@ -5,6 +5,7 @@
 
 use CGI;
 use IO::File;
+use lib '../world/bin';
 use lib '../bin';
 use TileSize;
 
@@ -39,7 +40,7 @@ print $q->header(
     -expires => $expire,
 );
 
-my $database_file = "../etc/tile.csv";
+my $database_file = "../world/etc/tile/tile-pbf.csv";
 my $tile          = TileSize->new( 'database' => $database_file );
 my $lng_sw        = $q->param("lng_sw");
 my $lat_sw        = $q->param("lat_sw");
@@ -57,13 +58,14 @@ if (   !defined $lng_sw
     || !defined $lng_ne
     || !defined $lat_ne )
 {
-    print "{}";
-    warn "Missing lat,lng parameter: $lng_sw,$lat_sw => $lng_ne,$lat_ne\n";
+    print "{}\n";
+    warn "Missing lat,lng parameter\n";
     exit 0;
 }
 $factor = 1 if $factor < 0 || $factor > 100;
 
 my $size = $tile->area_size( $lng_sw, $lat_sw, $lng_ne, $lat_ne, 2 );
+$size = int( $size * 10 + 0.5 ) / 10;
 print qq|{"size": $size }\n|;
 
 1;
