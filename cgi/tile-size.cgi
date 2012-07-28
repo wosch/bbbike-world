@@ -14,13 +14,20 @@ use warnings;
 
 my $debug  = 1;
 my %format = (
-    "osm.pbf"      => "pbf",
-    "pbf"          => "pbf",
-    "gz"           => "osm.gz",
-    "osm"          => "osm.gz",
-    "shp"          => "shp.zip",
-    "obf"          => "obf.zip",
-    "garmin-cycle" => "garmin-cycle.zip"
+    "osm.pbf"            => "pbf",
+    "pbf"                => "pbf",
+    "osm.gz"             => "osm.gz",
+    "osm"                => "osm.gz",
+    "gz"                 => "osm.gz",
+    "osm.xz"             => "osm.gz",
+    "osm.bz2"            => "osm.gz",
+    "osm.shp.zip"        => "shp.zip",
+    "shp"                => "shp.zip",
+    "osm.obf.zip"        => "obf.zip",
+    "obf"                => "obf.zip",
+    "garmin-cycle.zip"   => "garmin-cycle.zip",
+    "garmin-osm.zip"     => "garmin-cycle.zip",
+    "garmin-leisure.zip" => "garmin-cycle.zip"
 );
 
 ######################################################################
