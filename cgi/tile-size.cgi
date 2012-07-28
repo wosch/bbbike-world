@@ -14,6 +14,7 @@ use warnings;
 
 my $debug  = 1;
 my %format = (
+    "osm.pbf"      => "pbf",
     "pbf"          => "pbf",
     "gz"           => "osm.gz",
     "osm"          => "osm.gz",
