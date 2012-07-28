@@ -1,12 +1,14 @@
 #!/usr/local/bin/perl
 # Copyright (c) June 2012 Wolfram Schneider, http://bbbike.org
 #
-# planet-size.cgi - compute size of an extract from planet.osm
+# tile-size.cgi - compute size of an tile from planet.osm
 
 use GIS::Distance::Lite;
 use CGI;
 use IO::File;
 use Data::Dumper;
+use lib '../bin';
+use TileSize;
 
 use strict;
 use warnings;
