@@ -704,7 +704,7 @@ tiles-extract tiles: tiles-lng tiles-lnglat tiles-lng-run tiles-lnglat-run
 tiles-csv:
 	for format in pbf gz garmin-cycle.zip shp.zip obf.zip; do \
 	   ( cd ${TILES_DIR}/osm-lnglat; find . -name '*.'$$format | xargs du -k |sort -n | \
-	     perl -npe 's,\S+/p_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > ${TILES_DIR}/tiles-$$format.csv; \
+	     perl -npe 's,\S+/p_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > ${TILES_DIR}/tile-$$format.csv; \
 	done
 
 
