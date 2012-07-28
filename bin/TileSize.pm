@@ -40,7 +40,7 @@ sub parse_database {
     my $self = shift;
 
     my $db = $self->{'database'};
-    my $fh = new IO::File $db, "r" or die "open: $db $!\n";
+    my $fh = new IO::File $db, "r" or die "open: '$db' $!\n";
     binmode $fh, ":utf8";
 
     my %size;
