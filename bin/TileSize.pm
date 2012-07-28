@@ -83,6 +83,7 @@ sub area_size {
 
     my $db   = $self->{_size};
     my $size = 0;
+    $parts = 0 if !defined $parts;
 
     $lng_sw2 = POSIX::floor($lng_sw);
     $lat_sw2 = POSIX::floor($lat_sw);
@@ -94,7 +95,7 @@ sub area_size {
       "$lng_sw2,$lat_sw2,$lng_ne2,$lat_ne2\n"
       if $debug;
 
-    sub W { warn $_[0] . "\n" if $debug >= 2 }
+    sub W { $debug >= 2 ? warn $_[0] . "\n" : 1 }
 
     my $tile_parts = 0;
     for ( my $i = $lng_sw2 ; $i < $lng_ne2 ; $i++ ) {    # x-axis
@@ -118,8 +119,9 @@ sub area_size {
                     warn
 "Parts detected: $i,$j $lng_sw,$lat_sw,$lng_ne,$lat_ne :: $lng_sw2,$lat_sw2,$lng_ne2,$lat_ne2\n"
                       if $debug >= 2;
+
                     $tile_parts += 1;
-                    $factor = 0.5 if $parts;
+                    $factor = 0.5 if $parts == 1;
                 }
                 $size += $db->{$key} * $factor;
             }
