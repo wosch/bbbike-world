@@ -68,8 +68,8 @@ if ( $format && $format{$format} ) {
     $ext = $format{$format};
 
     # guess factor
-    $factor *= 1.3 if $format eq 'garmin-leisure.zip';
-    $factor *= 0.7 if $format eq 'osm.bz2';
+    $factor *= 1.3  if $format eq 'garmin-leisure.zip';
+    $factor *= 0.7  if $format eq 'osm.bz2';
     $factor *= 0.75 if $format eq 'osm.xz';
 }
 else {
@@ -95,8 +95,12 @@ if (   !defined $lng_sw
 }
 $factor = 1 if $factor < 0 || $factor > 100;
 
-my $size = $tile->area_size( $lng_sw, $lat_sw, $lng_ne, $lat_ne, 2 );
+my $size = $factor * $tile->area_size( $lng_sw, $lat_sw, $lng_ne, $lat_ne, 2 );
 $size = int( $size * 10 + 0.5 ) / 10;
+warn "size: $size, factor $factor, area: $lng_sw,$lat_sw,$lng_ne,$lat_ne\n"
+  if $debug >= 2;
+
+# display JSON result
 print qq|{"size": $size }\n|;
 
 1;
