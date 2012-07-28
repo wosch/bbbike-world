@@ -135,13 +135,15 @@ sub area_size {
                       if $debug >= 2;
 
                     $tile_parts += 1;
-                    if ($parts == 1) {
-                    $factor = 0.5;
-		    } elsif ($parts == 2) {
-			my $square_km = $self->square_km($j, $i, $j + 1, $i + 1);
-			warn "square km: $i,$j $square_km\n" if $debug >= 2;
-                    	$factor = 0.5;
-		    }
+                    if ( $parts == 1 ) {
+                        $factor = 0.5;
+                    }
+                    elsif ( $parts == 2 ) {
+                        my $square_km =
+                          $self->square_km( $j, $i, $j + 1, $i + 1 );
+                        warn "square km: $i,$j $square_km\n" if $debug >= 2;
+                        $factor = 0.5;
+                    }
                 }
                 $size += $db->{$key} * $factor;
             }
