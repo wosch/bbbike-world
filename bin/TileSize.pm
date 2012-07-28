@@ -13,7 +13,7 @@ use warnings;
 
 our $VERSION = 0.1;
 
-our $debug = 2;
+our $debug = 1;
 
 sub new {
     my ( $class, %args ) = @_;
@@ -28,6 +28,7 @@ sub new {
 
     bless $self, $class;
     $self->parse_database;
+    $debug = $self->{'debug'};
 
     print Dumper($self) if $self->{'debug'} >= 2;
     return $self;
@@ -92,11 +93,11 @@ sub area_size {
     warn
       "$lng_sw,$lat_sw,$lng_ne,$lat_ne :: $lng_sw2,$lat_sw2,$lng_ne2,$lat_ne2\n"
       if $debug;
-    for ( my $i = $lng_sw2 ; $i <= $lng_ne2 ; $i++ ) {
-        for ( my $j = $lat_sw2 ; $i <= $lat_ne2 ; $i++ ) {
+    for ( my $i = $lng_sw2 ; $i < $lng_ne2 ; $i++ ) {
+        for ( my $j = $lat_sw2 ; $j < $lat_ne2 ; $j++ ) {
             my $key = "$i,$j";
             if ( exists $db->{$key} ) {
-                warn "Add key: $key: $db->{$key}\n" if $debug >= 2;
+                warn "Add key: $key: $db->{$key}\n" if $debug >= 1;
                 $size += $db->{$key};
             }
         }
