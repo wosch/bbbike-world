@@ -16,6 +16,7 @@ logfile=$file_tmp.log
 
 if osmosis --read-pbf $file --bb left=-180 right=180 top=90 bottom=-90 clipIncompleteEntities=true --write-pbf omitmetadata=true $file_tmp > $logfile 2>&1
 then
+    chmod 664 $file_tmp
     mv -f $file_tmp $file
     rm -f $logfile
 else
