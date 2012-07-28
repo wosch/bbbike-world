@@ -8,6 +8,8 @@ package TileSize;
 use IO::File;
 use Data::Dumper;
 use POSIX;
+use GIS::Distance::Lite;
+
 use strict;
 use warnings;
 
@@ -55,6 +57,18 @@ sub parse_database {
     close $fh;
 
     return $self->{_size} = \%size;
+}
+
+# ($lat1, $lon1 => $lat2, $lon2);
+sub square_km {
+    my $self = shift;
+    my ( $x1, $y1, $x2, $y2 ) = @_;
+
+    my $height = GIS::Distance::Lite::distance( $x1, $y1 => $x1, $y2 ) / 1000;
+    my $width  = GIS::Distance::Lite::distance( $x1, $y1 => $x2, $y1 ) / 1000;
+
+    warn "height: $height, width: $width, $x1,$y1 => $x2,$y2\n" if $debug >= 3;
+    return int( $height * $width );
 }
 
 sub total {
@@ -121,7 +135,13 @@ sub area_size {
                       if $debug >= 2;
 
                     $tile_parts += 1;
-                    $factor = 0.5 if $parts == 1;
+                    if ($parts == 1) {
+                    $factor = 0.5;
+		    } elsif ($parts == 2) {
+			my $square_km = $self->square_km($j, $i, $j + 1, $i + 1);
+			warn "square km: $i,$j $square_km\n" if $debug >= 2;
+                    	$factor = 0.5;
+		    }
                 }
                 $size += $db->{$key} * $factor;
             }
