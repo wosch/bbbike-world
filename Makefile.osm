@@ -84,6 +84,7 @@ TILES_DIR=	tiles
 OSM_AREAS_OPENSEARCH=data-opensearch-places
 OSM_PLANET=	../osm-streetnames/download/planet-latest.osm.bz2 
 OSM_PLANET_PBF=	../osm-streetnames/download/planet-latest.osm.pbf
+OSM_PLANET_PBF=	../osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.pbf
 
 OSM_AREAS_LARGE=	${OSM_PLANET_PBF}
 
@@ -673,25 +674,24 @@ staging:
 
 
 # extract 180x360 data tiles from planet.osm
-extract-lng:
+tiles-lng:
 	mkdir -p ${TILES_DIR}/tmp
 	./world/bin/extract-lng.pl > ${TILES_DIR}/cities2.csv
 	awk -F: '{ print $$1 }' ${TILES_DIR}/cities2.csv > ${TILES_DIR}/cities2.txt
 
-extract-lnglat:
+tiles-lnglat:
 	env TILES_DIR=${TILES_DIR} ./world/bin/extract-lnglat0.sh
 	./world/bin/extract-lnglat.pl > ${TILES_DIR}/lnglat.sh
 
-extract-lnglat-run:
+tiles-lnglat-run:
 	${TIME} ${XARGS} -0 -n1 -P3 /bin/sh -c < ${TILES_DIR}/lnglat.sh
 
-extract-lng-run:
+tiles-lng-run:
 	env LOG_DIR=${TILES_DIR}/tmp ${MAKE} -s LOG_DIR=${TILES_DIR}/tmp -f Makefile.osm CITIES_FILE=${TILES_DIR}/cities2.txt CITIES_DB=${TILES_DIR}/cities2.csv MAX_CPU=${MAX_CPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=${TILES_DIR}/osm-lng _cities-parallel-pbf
 
-extract-du tiles: extract-lng extract-lnglat extract-lng-run extract-lnglat-run tiles-csv
 
 _pbf_dir=${TILES_DIR}/osm-lnglat/
-extract-convert:
+tiles-convert:
 	find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${PBF2OSM} --gzip
 	find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM_CHECKSUM}
 	find ${_pbf_dir} -name '*.osm.gz' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM_CHECKSUM}
@@ -699,8 +699,13 @@ extract-convert:
 	find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2SHAPE}
 	find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2OSMAND}
 
+tiles-extract tiles: tiles-lng tiles-lnglat tiles-lng-run tiles-lnglat-run
+
 tiles-csv:
-	( cd ${TILES_DIR}/osm-lnglat; find . -name '*.pbf' | xargs du -k |sort -n | perl -npe 's,\S+/p_(.*?).osm.pbf,\1,; s,_, ,g' ) > ${TILES_DIR}/tiles.csv	
+	for format in pbf gz garmin-cycle.zip shp.zip obf.zip; do \
+	   ( cd ${TILES_DIR}/osm-lnglat; find . -name '*.'$$format | xargs du -k |sort -n | \
+	     perl -npe 's,\S+/p_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > ${TILES_DIR}/tiles-$$format.csv; \
+	done
 
 
 DOWNLOAD_PREFIX=/usr/local/www/download.bbbike.org
