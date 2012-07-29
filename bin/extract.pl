@@ -33,6 +33,7 @@ use strict;
 use warnings;
 
 $ENV{'PATH'} = "/usr/local/bin:/bin:/usr/bin";
+$ENV{'OSM_CHECKSUM'} = 'false'; # disable md5 checksum files
 
 # group writable file
 umask(002);
@@ -632,6 +633,10 @@ sub convert_send_email {
             $error_counter++;
         }
         else {
+            my $obj      = get_json($json_file);
+            my $pbf_file = $obj->{'pbf_file'};
+            push @unlink, $pbf_file;
+
             $job_counter++;
             copy_to_trash($json_file) if $keep;
             push @unlink, $json_file;
@@ -755,8 +760,6 @@ sub _convert_send_email {
         unlink($to);
         warn "link $pbf_file => $to\n" if $debug >= 1;
         link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
-
-        push @unlink, $pbf_file;
 
         ###################################################################
         # .osm.gz or .osm.bzip2 files?
