@@ -49,7 +49,7 @@ my $option = {
     'city_name_optional'        => 0,
     'city_name_optional_coords' => 1,
     'max_skm'                   => 8_000_000,    # max. area in square km
-    'max_size'                  => 960_000,      # max area in KB size
+    'max_size'                  => 512_000,      # max area in KB size
     'confirm' => 0,    # request to confirm request with a click on an URL
 };
 
@@ -246,7 +246,7 @@ sub message {
     return <<EOF;
 <b>BBBike @ World OpenStreetMap extracts</b>:
 this site allow you to extracts areas from the <a href="http://wiki.openstreetmap.org/wiki/Planet.osm">planet.osm</a> in OSM, PBF, Garmin, Osmand or ESRI shapefile format.
-The maximum area size is @{[ large_int($max_skm) ]} square km, or 1024MB.
+The maximum area size is @{[ large_int($max_skm) ]} square km, or @{[ large_int($option->{max_size}/1000) ]}MB file size.
 
 It takes between 10-30 minutes to extract an area. You will be notified by e-mail if your extract is ready for download.
 <span id="debug"></span>
