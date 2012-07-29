@@ -32,8 +32,8 @@
                  file paths.  (Example: "UTF-8")
 -->
 <site
-  base_url="http://www.bbbike.org/"
-  store_into="../web/sitemap.xml.gz"
+  base_url="http://download.bbbike.org/"
+  store_into="../download/sitemap.xml.gz"
   verbose="1"
   >
 
@@ -68,7 +68,7 @@
     Optional attributes:
       encoding   - encoding of the file if not US-ASCII
   -->
-  <urllist  path="files/bbbike-org.txt"  encoding="UTF-8"  />
+  <urllist  path="files/download-bbbike-org.txt"  encoding="UTF-8"  />
 
 
   <!-- ** MODIFY or DELETE **
