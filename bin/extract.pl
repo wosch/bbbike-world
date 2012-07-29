@@ -591,7 +591,7 @@ sub reorder_pbf {
     return @json;
 }
 
-sub move_to_trash {
+sub copy_to_trash {
     my $file = shift;
 
     my $trash_dir = $spool->{'trash'};
@@ -632,12 +632,8 @@ sub convert_send_email {
             $error_counter++;
         }
         else {
-            my $obj      = get_json($json_file);
-            my $pbf_file = $obj->{'pbf_file'};
-            push @unlink, $pbf_file;
             $job_counter++;
-
-            move_to_trash($json_file) if $keep;
+            copy_to_trash($json_file) if $keep;
             push @unlink, $json_file;
         }
     }
@@ -780,6 +776,11 @@ sub _convert_send_email {
 
         my $checksum = checksum($to);
 
+        # unlink temporary .pbf files after all files are proceeds
+        if (@unlink) {
+            unlink(@unlink) or die "unlink: @unlink: $!\n";
+        }
+        
         ###################################################################
         # mail
 
@@ -943,7 +944,7 @@ sub cleanup_jobdir {
     my $keep = $args{'keep'} || 0;
 
     my $failed_dir = $spool->{'failed'};
-    warn "remove job dir: $job_dir\n" if $debug >= 2;
+    warn "Cleanup job dir: $job_dir\n" if $debug >= 2;
 
     my @system;
     if ( !-d $job_dir ) {
