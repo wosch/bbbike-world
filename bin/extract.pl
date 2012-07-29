@@ -590,11 +590,24 @@ sub reorder_pbf {
     return @json;
 }
 
+sub move_to_trash {
+    my $file = shift;
+
+    my $trash_dir = $spool->{'trash'};
+
+    my $to = "$trash_dir/" . basename($file);
+
+    unlink($to);
+    warn "keep copy of json file: $to\n" if $debug >= 3;
+    link( $file, $to ) or die "link $file => $to: $!\n";
+}
+
 # prepare to sent mail about extracted area
 sub convert_send_email {
     my %args       = @_;
     my $json       = $args{'json'};
     my $send_email = $args{'send_email'};
+    my $keep       = $args{'keep'};
 
     # all scripts are in these directory
     my $dirname = dirname($0);
@@ -602,18 +615,62 @@ sub convert_send_email {
     my @unlink;
     my @json = reorder_pbf($json);
 
+    my $job_counter = 0;
     foreach my $json_file (@json) {
-        my @system;
 
-        my $json_text = read_data($json_file);
-        my $json      = new JSON;
-        my $obj       = $json->decode($json_text);
-        my $format    = $obj->{'format'};
+        eval {
+            _convert_send_email(
+                'json_file'  => $json_file,
+                'send_email' => $send_email
+            );
+        };
 
-        warn "json: $json_file\n" if $debug >= 3;
-        warn "json: $json_text\n" if $debug >= 3;
+        if ($@) {
+            warn "$@\n";
+        }
+        else {
+            my $obj      = get_json($json_file);
+            my $pbf_file = $obj->{'pbf_file'};
+            push @unlink, $pbf_file;
+            $job_counter++;
 
+            move_to_trash($json_file) if $keep;
+        }
+    }
+
+    # unlink temporary .pbf files after all files are proceeds
+    unlink(@unlink) or die "unlink: @unlink: $!\n";
+
+    warn "number of email sent: $job_counter\n"
+      if $send_email && $debug >= 1;
+}
+
+sub get_json {
+    my $json_file = shift;
+    my $json_text = read_data($json_file);
+    my $json      = new JSON;
+    my $obj       = $json->decode($json_text);
+
+    warn "json: $json_file\n" if $debug >= 3;
+    warn "json: $json_text\n" if $debug >= 3;
+
+    return $obj;
+}
+
+sub _convert_send_email {
+    my %args       = @_;
+    my $json_file  = $args{'json_file'};
+    my $send_email = $args{'send_email'};
+
+    # all scripts are in these directory
+    my $dirname = dirname($0);
+
+    my @unlink;
+    {
+        my $obj      = get_json($json_file);
+        my $format   = $obj->{'format'};
         my $pbf_file = $obj->{'pbf_file'};
+        my @system;
 
         ###################################################################
         # converted file name
@@ -774,11 +831,6 @@ EOF
 
     }
 
-    # unlink temporary .pbf files after all files are proceeds
-    unlink(@unlink) or die "unlink: @unlink: $!\n";
-
-    warn "number of email sent: ", scalar(@$json), "\n"
-      if $send_email && $debug >= 1;
 }
 
 # prepare to sent mail about extracted area
@@ -977,7 +1029,11 @@ sub run_jobs {
 
     # send out mail
     $time = time();
-    &convert_send_email( 'json' => $json, 'send_email' => $send_email );
+    &convert_send_email(
+        'json'       => $json,
+        'send_email' => $send_email,
+        'keep'       => 1
+    );
 
     warn "Running convert and email time: ", time() - $time, " seconds\n"
       if $debug;
