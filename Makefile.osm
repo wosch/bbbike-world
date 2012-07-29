@@ -566,7 +566,7 @@ tidy:
 	tidy -i -m -w 128 world/web/help.html
 
 create-sitemap:
-	${MAKE} -C world/sitemap bbbike-org
+	${MAKE} -C world/sitemap sitemaps
 
 sync-sitemap: create-sitemap
 	rsync -a world/web/sitemap.xml.gz ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}/world/web
