@@ -54,6 +54,7 @@ print $q->header(
     -type    => 'text/javascript',
     -charset => 'utf-8',
     -expires => $expire,
+    -access_control_allow_origin => '*',
 );
 
 my $lng_sw = $q->param("lng_sw");
