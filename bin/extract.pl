@@ -772,6 +772,8 @@ sub _convert_send_email {
 
             $file_size = file_size($to) . " MB";
             warn "file size $to: $file_size\n" if $debug >= 1;
+            
+            push @unlink, $file;
         }
 
         my $url = $option->{'homepage'} . "/" . basename($to);
