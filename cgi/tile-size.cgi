@@ -12,7 +12,7 @@ use TileSize;
 use strict;
 use warnings;
 
-my $debug  = 1;
+my $debug  = 2;
 my %format = (
     "osm.pbf"            => "pbf",
     "pbf"                => "pbf",
