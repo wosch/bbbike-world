@@ -584,7 +584,8 @@ sub reorder_pbf {
 
     my @json = sort { $hash{$a} <=> $hash{$b} } keys %hash;
     if ( $debug >= 2 ) {
-        warn join "\n", map { "$_ $hash{$_}" } @json, "\n";
+        warn "Number of json files: " . scalar(@$json) . "\n";
+        warn join "\n", map { "$_ $hash{$_}" } @$json, "\n";
     }
 
     return @json;
@@ -615,7 +616,8 @@ sub convert_send_email {
     my @unlink;
     my @json = reorder_pbf($json);
 
-    my $job_counter = 0;
+    my $job_counter   = 0;
+    my $error_counter = 0;
     foreach my $json_file (@json) {
 
         eval {
@@ -627,6 +629,7 @@ sub convert_send_email {
 
         if ($@) {
             warn "$@\n";
+            $error_counter++;
         }
         else {
             my $obj      = get_json($json_file);
@@ -643,6 +646,8 @@ sub convert_send_email {
 
     warn "number of email sent: $job_counter\n"
       if $send_email && $debug >= 1;
+
+    return $error_counter;
 }
 
 sub get_json {
@@ -925,28 +930,34 @@ sub cleanup_jobdir {
     my %args    = @_;
     my $job_dir = $args{'job_dir'};
 
-    my $spool = $args{'spool'};
-    my $json  = $args{'json'};
+    my $spool  = $args{'spool'};
+    my $json   = $args{'json'};
+    my $errors = $args{'errors'};
 
-    # keep a copy of the config file for a request in trash can
+    # keep a copy of failed request in trash can
     my $keep = $args{'keep'} || 0;
 
-    my $trash_dir = $spool->{'trash'};
-    if ($keep) {
-        warn "Keep copy of json config files\n" if $debug >= 2;
-
-        foreach my $file (@$json) {
-            my $to = "$trash_dir/" . basename($file);
-            unlink($to);
-            warn "keep copy of json file: $to\n" if $debug >= 3;
-            link( $file, $to ) or die "link $file => $to: $!\n";
-        }
-    }
-
+    my $failed_dir = $spool->{'failed'};
     warn "remove job dir: $job_dir\n" if $debug >= 2;
 
+    my @system;
     if ( -d $job_dir ) {
-        my @system = ( 'rm', '-rf', $job_dir );
+        warn "Oops, $job_dir not found\n";
+        return;
+    }
+
+    if ( $errors && $keep ) {
+        my $to_dir = "$failed_dir/" . basename($job_dir);
+        @system = ( 'rm', '-rf', $to_dir );
+        system(@system) == 0
+          or die "system @system failed: $?";
+        @system = ( 'mv', '-f', $job_dir, $failed_dir );
+        system(@system) == 0
+          or die "system @system failed: $?";
+
+    }
+    else {
+        @system = ( 'rm', '-rf', $job_dir );
         system(@system) == 0
           or die "system @system failed: $?";
     }
@@ -1029,7 +1040,7 @@ sub run_jobs {
 
     # send out mail
     $time = time();
-    &convert_send_email(
+    my $errors = &convert_send_email(
         'json'       => $json,
         'send_email' => $send_email,
         'keep'       => 1
@@ -1040,6 +1051,7 @@ sub run_jobs {
     warn "Total time: ", time() - $starttime,
       " seconds, for @{[ scalar(@list) ]} jobs\n"
       if $debug;
+    warn "Number of errors: $errors" if $errors;
 
     # unlock pid
     &remove_lock( 'lockfile' => $lockfile );
@@ -1048,7 +1060,8 @@ sub run_jobs {
         'job_dir' => $job_dir,
         'spool'   => $spool,
         'json'    => $json,
-        'keep'    => 1
+        'keep'    => 1,
+        'errors'  => $errors
     );
 }
 
