@@ -51,9 +51,9 @@ if ( my $d = $q->param('debug') || $q->param('d') ) {
 
 my $expire = $debug >= 2 ? '+1s' : '+1h';
 print $q->header(
-    -type    => 'text/javascript',
-    -charset => 'utf-8',
-    -expires => $expire,
+    -type                        => 'text/javascript',
+    -charset                     => 'utf-8',
+    -expires                     => $expire,
     -access_control_allow_origin => '*',
 );
 
