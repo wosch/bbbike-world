@@ -628,7 +628,7 @@ sub convert_send_email {
         };
 
         if ($@) {
-            warn "$@\n";
+            warn "$@";
             $error_counter++;
         }
         else {
@@ -642,7 +642,9 @@ sub convert_send_email {
     }
 
     # unlink temporary .pbf files after all files are proceeds
-    unlink(@unlink) or die "unlink: @unlink: $!\n";
+    if (@unlink) {
+        unlink(@unlink) or die "unlink: @unlink: $!\n";
+    }
 
     warn "number of email sent: $job_counter\n"
       if $send_email && $debug >= 1;
@@ -941,13 +943,15 @@ sub cleanup_jobdir {
     warn "remove job dir: $job_dir\n" if $debug >= 2;
 
     my @system;
-    if ( -d $job_dir ) {
+    if ( !-d $job_dir ) {
         warn "Oops, $job_dir not found\n";
         return;
     }
 
     if ( $errors && $keep ) {
         my $to_dir = "$failed_dir/" . basename($job_dir);
+        warn "Keep job dir: $to_dir\n" if $debug;
+
         @system = ( 'rm', '-rf', $to_dir );
         system(@system) == 0
           or die "system @system failed: $?";
@@ -1051,7 +1055,7 @@ sub run_jobs {
     warn "Total time: ", time() - $starttime,
       " seconds, for @{[ scalar(@list) ]} jobs\n"
       if $debug;
-    warn "Number of errors: $errors" if $errors;
+    warn "Number of errors: $errors\n" if $errors;
 
     # unlock pid
     &remove_lock( 'lockfile' => $lockfile );
