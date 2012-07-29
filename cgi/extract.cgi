@@ -48,8 +48,8 @@ my $option = {
     'default_format'            => 'osm.pbf',
     'city_name_optional'        => 0,
     'city_name_optional_coords' => 1,
-    'max_skm'                   => 960_000,     # max. area in square km
-    'max_size'                  => 960_000,     # max area in KB size
+    'max_skm'                   => 8_000_000,    # max. area in square km
+    'max_size'                  => 960_000,      # max area in KB size
     'confirm' => 0,    # request to confirm request with a click on an URL
 };
 
