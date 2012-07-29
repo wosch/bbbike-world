@@ -601,8 +601,6 @@ sub move_to_trash {
     unlink($to);
     warn "keep copy of json file: $to\n" if $debug >= 3;
     link( $file, $to ) or die "link $file => $to: $!\n";
-
-    unlink($file) or die "unlink $file\n";
 }
 
 # prepare to sent mail about extracted area
@@ -640,6 +638,7 @@ sub convert_send_email {
             $job_counter++;
 
             move_to_trash($json_file) if $keep;
+            push @unlink, $json_file;
         }
     }
 
