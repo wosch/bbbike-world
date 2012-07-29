@@ -33,7 +33,7 @@ use strict;
 use warnings;
 
 $ENV{'PATH'} = "/usr/local/bin:/bin:/usr/bin";
-$ENV{'OSM_CHECKSUM'} = 'false'; # disable md5 checksum files
+$ENV{'OSM_CHECKSUM'} = 'false';    # disable md5 checksum files
 
 # group writable file
 umask(002);
@@ -771,7 +771,7 @@ sub _convert_send_email {
 
             $file_size = file_size($to) . " MB";
             warn "file size $to: $file_size\n" if $debug >= 1;
-            
+
             push @unlink, $file;
         }
 
@@ -783,7 +783,7 @@ sub _convert_send_email {
         if (@unlink) {
             unlink(@unlink) or die "unlink: @unlink: $!\n";
         }
-        
+
         ###################################################################
         # mail
 
