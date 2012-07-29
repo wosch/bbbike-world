@@ -660,7 +660,11 @@ sub homepage {
                 $q->td(
                     [
 "<span title='Give the city or area to extract a name. The name is optional, but better fill it out to find it later again.'>Name of area to extract</span>",
-                        $q->textfield( -name => 'city', -id => 'city', -size => 40 )
+                        $q->textfield(
+                            -name => 'city',
+                            -id   => 'city',
+                            -size => 40
+                        )
                     ]
                 ),
                 $q->td(
