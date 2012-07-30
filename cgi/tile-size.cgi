@@ -103,7 +103,8 @@ my $size =
   $tile->area_size( $lng_sw, $lat_sw, $lng_ne, $lat_ne, 2 );
 $size = int( $size * 10 + 0.5 ) / 10;
 
-warn "size: $size, factor $factor, area: $lng_sw,$lat_sw,$lng_ne,$lat_ne\n"
+warn "size: $size, factor $factor, format: $format,",
+  "area: $lng_sw,$lat_sw,$lng_ne,$lat_ne\n"
   if $debug >= 2;
 
 # display JSON result
