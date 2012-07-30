@@ -57,21 +57,22 @@ print $q->header(
     -access_control_allow_origin => '*',
 );
 
-my $lng_sw = $q->param("lng_sw");
-my $lat_sw = $q->param("lat_sw");
-my $lng_ne = $q->param("lng_ne");
-my $lat_ne = $q->param("lat_ne");
-my $factor = $q->param("factor") || 1;
-my $format = $q->param("format") || "";
+my $lng_sw        = $q->param("lng_sw");
+my $lat_sw        = $q->param("lat_sw");
+my $lng_ne        = $q->param("lng_ne");
+my $lat_ne        = $q->param("lat_ne");
+my $factor        = $q->param("factor") || 1;
+my $factor_format = 1;
+my $format        = $q->param("format") || "";
 
 my $ext;
 if ( $format && $format{$format} ) {
     $ext = $format{$format};
 
     # guess factor
-    $factor *= 1.3  if $format eq 'garmin-leisure.zip';
-    $factor *= 0.7  if $format eq 'osm.bz2';
-    $factor *= 0.75 if $format eq 'osm.xz';
+    $factor_format *= 1.3  if $format eq 'garmin-leisure.zip';
+    $factor_format *= 0.7  if $format eq 'osm.bz2';
+    $factor_format *= 0.75 if $format eq 'osm.xz';
 }
 else {
     $ext = $format{"pbf"};
@@ -96,9 +97,14 @@ if (   !defined $lng_sw
 }
 $factor = 1 if $factor < 0 || $factor > 100;
 
-my $size = $factor * $tile->area_size( $lng_sw, $lat_sw, $lng_ne, $lat_ne, 2 );
+my $size =
+  $factor *
+  $factor_format *
+  $tile->area_size( $lng_sw, $lat_sw, $lng_ne, $lat_ne, 2 );
 $size = int( $size * 10 + 0.5 ) / 10;
-warn "size: $size, factor $factor, area: $lng_sw,$lat_sw,$lng_ne,$lat_ne\n"
+
+warn "size: $size, factor $factor, format: $format,",
+  "area: $lng_sw,$lat_sw,$lng_ne,$lat_ne\n"
   if $debug >= 2;
 
 # display JSON result
