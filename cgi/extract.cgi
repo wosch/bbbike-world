@@ -533,12 +533,9 @@ sub square_km {
 
 # 240000 -> 240,000
 sub large_int {
-    my $int = shift;
-
-    return $int if $int < 1_000;
-
-    my $number = substr( $int, 0, -3 ) . "," . substr( $int, -3, 3 );
-    return $number;
+    my $text = reverse shift;
+    $text =~ s/(\d\d\d)(?=\d)(?!\d*\.)/$1,/g;
+    return scalar reverse $text
 }
 
 # save request in incoming spool
