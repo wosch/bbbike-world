@@ -171,9 +171,10 @@ _cities-osm: poly
 
 _cities-pbf: poly
 	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm _osmosis_opt_pbf`
+	${MAKE} -f Makefile.osm _pbf2pbf
 
 cities-pbf cities: _cities-pbf
-	${MAKE} -f Makefile.osm _pbf2pbf _pbf2pbf-checksum 
+	${MAKE} -f Makefile.osm _pbf2pbf-checksum 
 	${MAKE} -f Makefile.osm pbf2osm
 
 cities-osm: _cities-osm
