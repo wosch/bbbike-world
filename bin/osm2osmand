@@ -9,6 +9,7 @@ PATH=$HOME/bin:/bin:/usr/bin; export PATH
 #: ${osmand_home=$HOME/opt/OsmAndMapCreator-0.6.8.2-beta}
 : ${osmand_home="$HOME/opt/OsmAndMapCreator-development-2012-07-22"}
 : ${java_heap=1G}
+: ${max_jobs=4}
 
 java_opt=-Xmx${java_heap} 
 
@@ -69,26 +70,32 @@ else
    echo ">>> Run splitter" >> $logfile
    java $java_opt -jar $HOME/opt/splitter/splitter.jar --output-dir=$split_dir  --max-nodes=400000 --mapid=$mapid $file >> $logfile 2>&1 || error
 
-   cwd=$(pwd)
-   cd $split_dir
    prefix=`basename $file .osm.pbf`
-   for i in *.osm.pbf
+   for i in $split_dir/*.osm.pbf
    do
-      mkdir -p $counter/data/osm $counter/data/indexes
-      ln $i $counter/data/osm
-      mv -f $i $prefix$(echo $i | perl -npe 's/.{5}/-/') 
+      mkdir -p data/$counter/data/osm data/$counter/data/indexes
+      ln $i data/$counter/data/osm
+      mv -f $i $split_dir/$prefix$(echo $i | perl -npe 's,.*/,,; s/.{5}/-/') 
       
       counter=`expr $counter + 1`
    done
-   cd $cwd;
    
    $debug && ls -l $split_dir
 fi
-counter=0
+#counter=0
 
 if [ $counter -eq 0 ]; then
     time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp $osmand_home/OsmAndMapCreator.jar:$osmand_home/lib/*.jar net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml > $logfile 2>&1 && ln data/indexes/*.obf .
     exit=$?
+else
+    exit=0
+    for i in data/?
+    do
+	printf "(cd $i; time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp $osmand_home/OsmAndMapCreator.jar:$osmand_home/lib/*.jar net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml && ln data/indexes/*.obf ../.. ) > $i.log 2>&1 \0"
+    done > data/jobs.sh
+    xargs -0 -n1 -P${max_jobs} sh -c < data/jobs.sh >> $logfile 2>&1
+    exit=$?
+    cat data/?.log >> $logfile
 fi
 
 if [ $exit -ne 0 ];then
