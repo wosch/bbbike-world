@@ -535,7 +535,7 @@ sub square_km {
 sub large_int {
     my $text = reverse shift;
     $text =~ s/(\d\d\d)(?=\d)(?!\d*\.)/$1,/g;
-    return scalar reverse $text
+    return scalar reverse $text;
 }
 
 # save request in incoming spool
