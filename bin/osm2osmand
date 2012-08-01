@@ -68,14 +68,15 @@ else
    split_dir=data/osm
    mapid=93240001
    echo ">>> Run splitter" >> $logfile
-   java $java_opt -jar $HOME/opt/splitter/splitter.jar --output-dir=$split_dir  --max-nodes=400000 --mapid=$mapid $file >> $logfile 2>&1 || error
+   java $java_opt -jar $HOME/opt/splitter/splitter.jar --output-dir=$split_dir  --max-nodes=200000 --mapid=$mapid $file >> $logfile 2>&1 || error
 
    prefix=`basename $file .osm.pbf`
    for i in $split_dir/*.osm.pbf
    do
-      mkdir -p data/$counter/data/osm data/$counter/data/indexes
-      ln $i data/$counter/data/osm
-      mv -f $i $split_dir/$prefix$(echo $i | perl -npe 's,.*/,,; s/.{5}/-/') 
+      mkdir -p data/_$counter/data/osm data/_$counter/data/indexes
+      new=$split_dir/$prefix$(echo $i | perl -npe 's,.*/,,; s/.{5}/-/') 
+      mv -f $i $new
+      ln $new data/_$counter/data/osm
       
       counter=`expr $counter + 1`
    done
@@ -89,13 +90,13 @@ if [ $counter -eq 0 ]; then
     exit=$?
 else
     exit=0
-    for i in data/?
+    for i in data/_*
     do
 	printf "(cd $i; time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp $osmand_home/OsmAndMapCreator.jar:$osmand_home/lib/*.jar net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml && ln data/indexes/*.obf ../.. ) > $i.log 2>&1 \0"
     done > data/jobs.sh
     xargs -0 -n1 -P${max_jobs} sh -c < data/jobs.sh >> $logfile 2>&1
     exit=$?
-    cat data/?.log >> $logfile
+    cat data/_*.log >> $logfile
 fi
 
 if [ $exit -ne 0 ];then
