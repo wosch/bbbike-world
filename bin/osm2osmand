@@ -8,7 +8,7 @@ PATH=$HOME/bin:/bin:/usr/bin; export PATH
 
 #: ${osmand_home=$HOME/opt/OsmAndMapCreator-0.6.8.2-beta}
 : ${osmand_home="$HOME/opt/OsmAndMapCreator-development-2012-07-22"}
-: ${java_heap=2G}
+: ${java_heap=1G}
 
 java_opt=-Xmx${java_heap} 
 
@@ -77,7 +77,7 @@ else
    $debug && ls -l $split_dir
 fi
 
-if time java -XX:+UseParallelGC -Xmx2048M -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp $osmand_home/OsmAndMapCreator.jar:$osmand_home/lib/*.jar net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml > $logfile 2>&1 && ln data/indexes/*.obf .; then
+if time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp $osmand_home/OsmAndMapCreator.jar:$osmand_home/lib/*.jar net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml > $logfile 2>&1 && ln data/indexes/*.obf .; then
    :
 else
    exit=$?
