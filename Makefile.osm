@@ -695,7 +695,7 @@ _pbf_dir=${TILES_DIR}/osm-lnglat/
 tiles-convert:
 	find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n90 -P${MAX_CPU} ${PBF2OSM} --gzip
 	find ${_pbf_dir} -name '*.pbf' -print0 | osm_checksum=true ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2SHAPE}
-	find ${_pbf_dir} -name '*.pbf' -print0 | osm_checksum ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2GARMIN_CYCLE}
+	find ${_pbf_dir} -name '*.pbf' -print0 | osm_checksum=true ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2GARMIN_CYCLE}
 	#find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2OSMAND}
 	#find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM_CHECKSUM}
 	#find ${_pbf_dir} -name '*.osm.gz' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM_CHECKSUM}
