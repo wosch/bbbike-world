@@ -161,10 +161,10 @@ _osmosis_opt:
 	for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i/$$i.poly --wx file=${OSM_DIR}/$$i/$$i.osm.gz"; done
 
 _osmosis_opt_pbf:
-	@if [ "$$OSM_DIR_SUBDIR" = "false" ]; then \
-	  for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i.poly --write-pbf file=${OSM_DIR}/$$i.osm.pbf omitmetadata=true"; done \
+	if [ "$$OSM_DIR_NOSUBDIR" = "true" ]; then \
+	  for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i/$$i.poly --write-pbf file=${OSM_DIR}/$$i/$$i.osm.pbf omitmetadata=true"; done; \
 	else \
-	  for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i/$$i.poly --write-pbf file=${OSM_DIR}/$$i/$$i.osm.pbf omitmetadata=true"; done \
+	  for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i.poly --write-pbf file=${OSM_DIR}/$$i.osm.pbf omitmetadata=true"; done; \
 	fi
 
 cities-poly: poly
@@ -370,10 +370,10 @@ $(_cc):
 	  rm -rf ${DATA_OSM_DIR}/$$c; mv ${DATA_OSM_DIR}/tmp/$$c ${DATA_OSM_DIR}
 
 $(_cp):
-	@if [ "$$OSM_DIR_SUBDIR" = "false" ]; then \
-	   c=`basename $@ -poly`; ${DB} --poly $$c > ${OSM_DIR}/$$c.poly; \
-        else \
-	   c=`basename $@ -poly`; mkdir -p ${OSM_DIR}/$$c; ${DB} --poly $$c > ${OSM_DIR}/$$c/$$c.poly.tmp; mv -f ${OSM_DIR}/$$c/$$c.poly.tmp ${OSM_DIR}/$$c/$$c.poly \
+	if [ "$$OSM_DIR_NOSUBDIR" = "true" ]; then \
+	    c=`basename $@ -poly`; mkdir -p ${OSM_DIR}/$$c; ${DB} --poly $$c > ${OSM_DIR}/$$c/$$c.poly.tmp; mv -f ${OSM_DIR}/$$c/$$c.poly.tmp ${OSM_DIR}/$$c/$$c.poly \
+	else \
+	    c=`basename $@ -poly`; ${DB} --poly $$c > ${OSM_DIR}/$$c.poly; \
 	fi
 
 ${CITIES}:
@@ -684,7 +684,7 @@ staging:
 
 # extract 180x360 data tiles from planet.osm
 tiles-lng:
-	mkdir -p ${TILES_DIR}/tmp ${TILES_DIR}/cities
+	mkdir -p ${TILES_DIR}/tmp ${TILES_DIR}/cities tmp
 	./world/bin/extract-lng.pl > ${TILES_DIR}/cities/cities2.csv
 	awk -F: '{ print $$1 }' ${TILES_DIR}/cities/cities2.csv > ${TILES_DIR}/cities/cities2.txt
 
@@ -693,10 +693,10 @@ tiles-lnglat:
 	./world/bin/extract-lnglat.pl > ${TILES_DIR}/lnglat.sh
 
 tiles-lnglat-run:
-	${TIME} ${XARGS} -0 -n1 -P3 /bin/sh -c < ${TILES_DIR}/lnglat.sh
+	${TIME} env OSM_DIR_NOSUBDIR=true ${XARGS} -0 -n1 -P3 /bin/sh -c < ${TILES_DIR}/lnglat.sh
 
 tiles-lng-run:
-	env OSM_DIR_SUBDIR=false LOG_DIR=${TILES_DIR}/tmp ${MAKE} -s LOG_DIR=${TILES_DIR}/tmp -f Makefile.osm \
+	env LOG_DIR=${TILES_DIR}/tmp ${MAKE} -s LOG_DIR=${TILES_DIR}/tmp -f Makefile.osm \
 	   CITIES_FILE=${TILES_DIR}/cities/cities2.txt CITIES_DB=${TILES_DIR}/cities/cities2.csv \
 	   MAX_CPU=${MAX_CPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=${TILES_DIR}/osm-lng _cities-parallel-pbf
 
