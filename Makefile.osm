@@ -84,7 +84,7 @@ TILES_DIR=	tiles
 OSM_AREAS_OPENSEARCH=data-opensearch-places
 OSM_PLANET=	../osm-streetnames/download/planet-latest.osm.bz2 
 OSM_PLANET_PBF=	../osm-streetnames/download/planet-latest.osm.pbf
-#OSM_PLANET_PBF=	../osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.pbf
+OSM_PLANET_PBF=	../osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.pbf
 
 OSM_AREAS_LARGE=	${OSM_PLANET_PBF}
 
@@ -199,7 +199,7 @@ pbf2osm:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${OSM_CHECKSUM}
 
 _pbf2pbf: 
-	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${PBF2PBF}
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n32 -0 -P${MAX_PBF2OSM} ${PBF2PBF}
 _pbf2pbf-checksum: 
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${OSM_CHECKSUM}
 
@@ -688,7 +688,7 @@ tiles-lnglat-run:
 	${TIME} ${XARGS} -0 -n1 -P3 /bin/sh -c < ${TILES_DIR}/lnglat.sh
 
 tiles-lng-run:
-	env LOG_DIR=${TILES_DIR}/tmp ${MAKE} -s LOG_DIR=${TILES_DIR}/tmp -f Makefile.osm CITIES_FILE=${TILES_DIR}/cities2.txt CITIES_DB=${TILES_DIR}/cities2.csv MAX_CPU=${MAX_CPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=${TILES_DIR}/osm-lng _cities-parallel-pbf
+	env LOG_DIR=${TILES_DIR}/tmp ${MAKE} -s LOG_DIR=${TILES_DIR}/tmp -f Makefile.osm CITIES_FILE=${TILES_DIR}/cities/cities2.txt CITIES_DB=${TILES_DIR}/cities/cities2.csv MAX_CPU=${MAX_CPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=${TILES_DIR}/osm-lng _cities-parallel-pbf
 
 
 _pbf_dir=${TILES_DIR}/osm-lnglat/
