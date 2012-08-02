@@ -162,9 +162,9 @@ _osmosis_opt:
 
 _osmosis_opt_pbf:
 	if [ "$$OSM_DIR_NOSUBDIR" = "true" ]; then \
-	  for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i/$$i.poly --write-pbf file=${OSM_DIR}/$$i/$$i.osm.pbf omitmetadata=true"; done; \
-	else \
 	  for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i.poly --write-pbf file=${OSM_DIR}/$$i.osm.pbf omitmetadata=true"; done; \
+	else \
+	  for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i/$$i.poly --write-pbf file=${OSM_DIR}/$$i/$$i.osm.pbf omitmetadata=true"; done; \
 	fi
 
 cities-poly: poly
@@ -371,9 +371,9 @@ $(_cc):
 
 $(_cp):
 	if [ "$$OSM_DIR_NOSUBDIR" = "true" ]; then \
-	    c=`basename $@ -poly`; mkdir -p ${OSM_DIR}/$$c; ${DB} --poly $$c > ${OSM_DIR}/$$c/$$c.poly.tmp; mv -f ${OSM_DIR}/$$c/$$c.poly.tmp ${OSM_DIR}/$$c/$$c.poly \
-	else \
 	    c=`basename $@ -poly`; ${DB} --poly $$c > ${OSM_DIR}/$$c.poly; \
+	else \
+	    c=`basename $@ -poly`; mkdir -p ${OSM_DIR}/$$c; ${DB} --poly $$c > ${OSM_DIR}/$$c/$$c.poly.tmp; mv -f ${OSM_DIR}/$$c/$$c.poly.tmp ${OSM_DIR}/$$c/$$c.poly; \
 	fi
 
 ${CITIES}:
@@ -696,7 +696,7 @@ tiles-lnglat-run:
 	${TIME} env OSM_DIR_NOSUBDIR=true ${XARGS} -0 -n1 -P3 /bin/sh -c < ${TILES_DIR}/lnglat.sh
 
 tiles-lng-run:
-	env LOG_DIR=${TILES_DIR}/tmp ${MAKE} -s LOG_DIR=${TILES_DIR}/tmp -f Makefile.osm \
+	env OSM_DIR_NOSUBDIR=true LOG_DIR=${TILES_DIR}/tmp ${MAKE} -s LOG_DIR=${TILES_DIR}/tmp -f Makefile.osm \
 	   CITIES_FILE=${TILES_DIR}/cities/cities2.txt CITIES_DB=${TILES_DIR}/cities/cities2.csv \
 	   MAX_CPU=${MAX_CPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=${TILES_DIR}/osm-lng _cities-parallel-pbf
 
