@@ -30,7 +30,7 @@ error () {
 
 file=$1
 test -e "$file" || usage "file $file does not exists"
-osm_checksum=`dirname $0`/osm-checksum
+: ${osm_checksum=`dirname $0`/osm-checksum}
 
 : ${debug=false}
 pwd=$(pwd)
