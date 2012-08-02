@@ -20,7 +20,7 @@ test -e "$file" || usage "file $file does not exists"
 pwd=$(pwd)
 
 test -z "$file" && usage
-osm_checksum=`dirname $0`/osm-checksum
+: ${osm_checksum=`dirname $0`/osm-checksum}
 osm_fixme=`dirname $0`/pbf2pbf
 tmpdir=`mktemp -d ${TMPDIR-"/bbbike/tmp"}/osmium2shape.XXXXXXXXXXX`
 shape=`basename "$file" | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
