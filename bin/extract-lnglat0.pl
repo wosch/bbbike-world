@@ -1,4 +1,5 @@
 #!/usr/local/bin/perl
+# Copyright (c) 2012 Wolfram Schneider, http://bbbike.org
 
 # Aachen:::de::5.88 50.60 6.58 50.99:294951::
 
