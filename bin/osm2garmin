@@ -25,7 +25,7 @@ file=$1
 case $file in /*) ;; *) file=$(pwd)/$file ;; esac
 
 test -e "$file" || usage "file $file does not exists"
-osm_checksum=`dirname $0`/osm-checksum
+: ${osm_checksum=`dirname $0`/osm-checksum}
 
 test -z "$ext" && ext=${2-"osm"}
 : ${debug=false}
