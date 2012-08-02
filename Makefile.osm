@@ -676,9 +676,9 @@ staging:
 
 # extract 180x360 data tiles from planet.osm
 tiles-lng:
-	mkdir -p ${TILES_DIR}/tmp
-	./world/bin/extract-lng.pl > ${TILES_DIR}/cities2.csv
-	awk -F: '{ print $$1 }' ${TILES_DIR}/cities2.csv > ${TILES_DIR}/cities2.txt
+	mkdir -p ${TILES_DIR}/tmp ${TILES_DIR}/cities
+	./world/bin/extract-lng.pl > ${TILES_DIR}/cities/cities2.csv
+	awk -F: '{ print $$1 }' ${TILES_DIR}/cities/cities2.csv > ${TILES_DIR}/cities/cities2.txt
 
 tiles-lnglat:
 	env TILES_DIR=${TILES_DIR} ./world/bin/extract-lnglat0.sh
