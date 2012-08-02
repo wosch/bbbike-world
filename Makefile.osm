@@ -175,7 +175,7 @@ _cities-osm: poly
 
 _cities-pbf: poly
 	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm _osmosis_opt_pbf`
-	${MAKE} -f Makefile.osm _pbf2pbf
+	${MAKE} -f Makefile.osm CITIES="${CITIES}" _pbf2pbf
 
 cities-pbf cities: _cities-pbf
 	${MAKE} -f Makefile.osm _pbf2pbf-checksum 
@@ -203,7 +203,12 @@ pbf2osm:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${OSM_CHECKSUM}
 
 _pbf2pbf: 
-	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n32 -0 -P${MAX_PBF2OSM} ${PBF2PBF}
+	if [ "$$OSM_DIR_NOSUBDIR" = "true" ]; then \
+	  echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_.osm.pbf\0, ' | ${XARGS} -n32 -0 -P${MAX_PBF2OSM} ${PBF2PBF}; \
+	else \
+	  echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n32 -0 -P${MAX_PBF2OSM} ${PBF2PBF}; \
+	fi
+
 _pbf2pbf-checksum: 
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${OSM_CHECKSUM}
 
