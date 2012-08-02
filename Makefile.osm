@@ -161,7 +161,11 @@ _osmosis_opt:
 	for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i/$$i.poly --wx file=${OSM_DIR}/$$i/$$i.osm.gz"; done
 
 _osmosis_opt_pbf:
-	for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i/$$i.poly --write-pbf file=${OSM_DIR}/$$i/$$i.osm.pbf omitmetadata=true"; done
+	@if [ "$$OSM_DIR_SUBDIR" = "false" ]; then \
+	  for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i.poly --write-pbf file=${OSM_DIR}/$$i.osm.pbf omitmetadata=true"; done \
+	else \
+	  for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i/$$i.poly --write-pbf file=${OSM_DIR}/$$i/$$i.osm.pbf omitmetadata=true"; done \
+	fi
 
 cities-poly: poly
 	${NICE5} ${BZIP2} -dc ${OSM_PLANET} | ${NICE5} ${OSMOSIS} --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --tee `${MAKE} CITIES_DB=${CITIES_DB} CITIES="${CITIES}" -s -f Makefile.osm city-count` `${MAKE} CITIES_DB=${CITIES_DB} CITIES="${CITIES}" -s -f Makefile.osm _osmosis_opt`
@@ -366,7 +370,11 @@ $(_cc):
 	  rm -rf ${DATA_OSM_DIR}/$$c; mv ${DATA_OSM_DIR}/tmp/$$c ${DATA_OSM_DIR}
 
 $(_cp):
-	@c=`basename $@ -poly`; mkdir -p ${OSM_DIR}/$$c; ${DB} --poly $$c > ${OSM_DIR}/$$c/$$c.poly.tmp; mv -f ${OSM_DIR}/$$c/$$c.poly.tmp ${OSM_DIR}/$$c/$$c.poly
+	@if [ "$$OSM_DIR_SUBDIR" = "false" ]; then \
+	   c=`basename $@ -poly`; ${DB} --poly $$c > ${OSM_DIR}/$$c.poly; \
+        else \
+	   c=`basename $@ -poly`; mkdir -p ${OSM_DIR}/$$c; ${DB} --poly $$c > ${OSM_DIR}/$$c/$$c.poly.tmp; mv -f ${OSM_DIR}/$$c/$$c.poly.tmp ${OSM_DIR}/$$c/$$c.poly \
+	fi
 
 ${CITIES}:
 	${MAKE} -f Makefile.osm $@-download $@-convert
@@ -688,14 +696,16 @@ tiles-lnglat-run:
 	${TIME} ${XARGS} -0 -n1 -P3 /bin/sh -c < ${TILES_DIR}/lnglat.sh
 
 tiles-lng-run:
-	env LOG_DIR=${TILES_DIR}/tmp ${MAKE} -s LOG_DIR=${TILES_DIR}/tmp -f Makefile.osm CITIES_FILE=${TILES_DIR}/cities/cities2.txt CITIES_DB=${TILES_DIR}/cities/cities2.csv MAX_CPU=${MAX_CPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=${TILES_DIR}/osm-lng _cities-parallel-pbf
+	env OSM_DIR_SUBDIR=false LOG_DIR=${TILES_DIR}/tmp ${MAKE} -s LOG_DIR=${TILES_DIR}/tmp -f Makefile.osm \
+	   CITIES_FILE=${TILES_DIR}/cities/cities2.txt CITIES_DB=${TILES_DIR}/cities/cities2.csv \
+	   MAX_CPU=${MAX_CPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=${TILES_DIR}/osm-lng _cities-parallel-pbf
 
 
 _pbf_dir=${TILES_DIR}/osm-lnglat/
 tiles-convert:
 	find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n90 -P${MAX_CPU} ${PBF2OSM} --gzip
-	find ${_pbf_dir} -name '*.pbf' -print0 | osm_checksum=true ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2SHAPE}
-	find ${_pbf_dir} -name '*.pbf' -print0 | osm_checksum=true ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2GARMIN_CYCLE}
+	find ${_pbf_dir} -name '*.pbf' -size +50k -print0 | osm_checksum=true ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2SHAPE}
+	find ${_pbf_dir} -name '*.pbf' -size +50k -print0 | osm_checksum=true ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2GARMIN_CYCLE}
 	#find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2OSMAND}
 	#find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM_CHECKSUM}
 	#find ${_pbf_dir} -name '*.osm.gz' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM_CHECKSUM}
