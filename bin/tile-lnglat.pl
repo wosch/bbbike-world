@@ -10,19 +10,19 @@
 my $heatmap = $ENV{TILES_DIR} || "tile";
 my $step = 4;
 
-my $fs; # file step
+my $fs;    # file step
 for ( -180 .. 179 ) {
     $fs = $_ if $_ % $step == 0;
     $a = $fs + $step;
 
     print
-qq[time make -s -f Makefile.osm],
+      qq[time make -s -f Makefile.osm],
       qq[ MAX_CPU=1],
       qq[ CITIES_FILE=$heatmap/cities/cities_${_}.txt],
       qq[ LOG_DIR=$heatmap/tmp],
       qq[ CITIES_DB=$heatmap/cities/cities_${_}.csv],
       qq[ OSM_DIR=$heatmap/osm-lnglat/$_ ],
-qq[ OSM_PLANET_PBF=$heatmap/osm-lng/p_${fs}_-89_${a}_89.osm.pbf ],
+      qq[ OSM_PLANET_PBF=$heatmap/osm-lng/p_${fs}_-89_${a}_89.osm.pbf ],
       qq[_cities-pbf > $heatmap/tmp/log.tile-lnglat.$_\0];
 }
 
