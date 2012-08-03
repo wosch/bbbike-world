@@ -161,7 +161,11 @@ _osmosis_opt:
 	for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i/$$i.poly --wx file=${OSM_DIR}/$$i/$$i.osm.gz"; done
 
 _osmosis_opt_pbf:
-	for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i/$$i.poly --write-pbf file=${OSM_DIR}/$$i/$$i.osm.pbf omitmetadata=true"; done
+	if [ "$$OSM_DIR_NOSUBDIR" = "true" ]; then \
+	  for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i.poly --write-pbf file=${OSM_DIR}/$$i.osm.pbf omitmetadata=true"; done; \
+	else \
+	  for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i/$$i.poly --write-pbf file=${OSM_DIR}/$$i/$$i.osm.pbf omitmetadata=true"; done; \
+	fi
 
 cities-poly: poly
 	${NICE5} ${BZIP2} -dc ${OSM_PLANET} | ${NICE5} ${OSMOSIS} --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --tee `${MAKE} CITIES_DB=${CITIES_DB} CITIES="${CITIES}" -s -f Makefile.osm city-count` `${MAKE} CITIES_DB=${CITIES_DB} CITIES="${CITIES}" -s -f Makefile.osm _osmosis_opt`
@@ -171,9 +175,10 @@ _cities-osm: poly
 
 _cities-pbf: poly
 	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm _osmosis_opt_pbf`
+	${MAKE} -f Makefile.osm CITIES="${CITIES}" _pbf2pbf
 
 cities-pbf cities: _cities-pbf
-	${MAKE} -f Makefile.osm _pbf2pbf _pbf2pbf-checksum 
+	${MAKE} -f Makefile.osm _pbf2pbf-checksum 
 	${MAKE} -f Makefile.osm pbf2osm
 
 cities-osm: _cities-osm
@@ -198,7 +203,12 @@ pbf2osm:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${OSM_CHECKSUM}
 
 _pbf2pbf: 
-	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${PBF2PBF}
+	if [ "$$OSM_DIR_NOSUBDIR" = "true" ]; then \
+	  echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_.osm.pbf\0, ' | ${XARGS} -n32 -0 -P${MAX_PBF2OSM} ${PBF2PBF}; \
+	else \
+	  echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n32 -0 -P${MAX_PBF2OSM} ${PBF2PBF}; \
+	fi
+
 _pbf2pbf-checksum: 
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${OSM_CHECKSUM}
 
@@ -365,7 +375,11 @@ $(_cc):
 	  rm -rf ${DATA_OSM_DIR}/$$c; mv ${DATA_OSM_DIR}/tmp/$$c ${DATA_OSM_DIR}
 
 $(_cp):
-	@c=`basename $@ -poly`; mkdir -p ${OSM_DIR}/$$c; ${DB} --poly $$c > ${OSM_DIR}/$$c/$$c.poly.tmp; mv -f ${OSM_DIR}/$$c/$$c.poly.tmp ${OSM_DIR}/$$c/$$c.poly
+	if [ "$$OSM_DIR_NOSUBDIR" = "true" ]; then \
+	    c=`basename $@ -poly`; ${DB} --poly $$c > ${OSM_DIR}/$$c.poly; \
+	else \
+	    c=`basename $@ -poly`; mkdir -p ${OSM_DIR}/$$c; ${DB} --poly $$c > ${OSM_DIR}/$$c/$$c.poly.tmp; mv -f ${OSM_DIR}/$$c/$$c.poly.tmp ${OSM_DIR}/$$c/$$c.poly; \
+	fi
 
 ${CITIES}:
 	${MAKE} -f Makefile.osm $@-download $@-convert
@@ -607,7 +621,7 @@ cache-heater: _cache-heater
 cache-heater-common: 
 	@echo "cache usage before"
 	du -hs ${BBBIKE_CACHE_DIR}/
-	du -hs ${BBBIKE_CACHE_DIR}/*
+	if `ls ${BBBIKE_CACHE_DIR}/* 2>/dev/null`; then du -hs ${BBBIKE_CACHE_DIR}/*; fi
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
 	   ${PERL} -ne 'chomp; print "http://'${WEB_SERVER}'/$$_/?generate_cache=1\0"' | \
 	   ${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
@@ -617,12 +631,12 @@ cache-heater-common:
 
 cache-heater-streets: cache-heater-homepage cache-heater-opensearch
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
-		${PERL} -npe 'chomp; $$_ = "http://'${WEB_SERVER}'/$$_/streets.html\0http://'${WEB_SERVER}'/en/$$_/streets.html\0"' | \
+		${PERL} -e 'while(<>) { chomp; push @a, "http://'${WEB_SERVER}'/$$_/streets.html"; push @b, "http://'${WEB_SERVER}'/en/$$_/streets.html" } print join "\0", @a, @b, ""' | \
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 
 cache-heater-homepage: cache-heater-osp
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
-		${PERL} -npe 'chomp; $$_ = "http://'${WEB_SERVER}'/$$_/\0http://'${WEB_SERVER}'/en/$$_/\0http://'${WEB_SERVER}'/m/$$_/\0"' | \
+		${PERL} -e 'while(<>) { chomp; push @a, "http://'${WEB_SERVER}'/$$_/"; push @b, "http://'${WEB_SERVER}'/en/$$_/"; push @c, "http://'${WEB_SERVER}'/m/$$_/" } print join "\0", @a, @b, @c, ""' | \
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 
 cache-heater-osp:
@@ -675,29 +689,31 @@ staging:
 
 # extract 180x360 data tiles from planet.osm
 tiles-lng:
-	mkdir -p ${TILES_DIR}/tmp
-	./world/bin/extract-lng.pl > ${TILES_DIR}/cities2.csv
-	awk -F: '{ print $$1 }' ${TILES_DIR}/cities2.csv > ${TILES_DIR}/cities2.txt
+	mkdir -p ${TILES_DIR}/tmp ${TILES_DIR}/cities tmp
+	./world/bin/extract-lng.pl > ${TILES_DIR}/cities/cities2.csv
+	awk -F: '{ print $$1 }' ${TILES_DIR}/cities/cities2.csv > ${TILES_DIR}/cities/cities2.txt
 
 tiles-lnglat:
 	env TILES_DIR=${TILES_DIR} ./world/bin/extract-lnglat0.sh
 	./world/bin/extract-lnglat.pl > ${TILES_DIR}/lnglat.sh
 
 tiles-lnglat-run:
-	${TIME} ${XARGS} -0 -n1 -P3 /bin/sh -c < ${TILES_DIR}/lnglat.sh
+	${TIME} env OSM_DIR_NOSUBDIR=true ${XARGS} -0 -n1 -P${MAX_CPU} /bin/sh -c < ${TILES_DIR}/lnglat.sh
 
 tiles-lng-run:
-	env LOG_DIR=${TILES_DIR}/tmp ${MAKE} -s LOG_DIR=${TILES_DIR}/tmp -f Makefile.osm CITIES_FILE=${TILES_DIR}/cities2.txt CITIES_DB=${TILES_DIR}/cities2.csv MAX_CPU=${MAX_CPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=${TILES_DIR}/osm-lng _cities-parallel-pbf
+	env OSM_DIR_NOSUBDIR=true LOG_DIR=${TILES_DIR}/tmp ${MAKE} -s LOG_DIR=${TILES_DIR}/tmp -f Makefile.osm \
+	   CITIES_FILE=${TILES_DIR}/cities/cities2.txt CITIES_DB=${TILES_DIR}/cities/cities2.csv \
+	   MAX_CPU=${MAX_CPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=${TILES_DIR}/osm-lng _cities-parallel-pbf
 
 
 _pbf_dir=${TILES_DIR}/osm-lnglat/
 tiles-convert:
-	find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${PBF2OSM} --gzip
-	find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM_CHECKSUM}
-	find ${_pbf_dir} -name '*.osm.gz' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM_CHECKSUM}
-	find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2GARMIN_CYCLE}
-	find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2SHAPE}
-	find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2OSMAND}
+	find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n90 -P${MAX_CPU} ${PBF2OSM} --gzip
+	find ${_pbf_dir} -name '*.pbf' -size +50k -print0 | osm_checksum=true ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2SHAPE}
+	find ${_pbf_dir} -name '*.pbf' -size +50k -print0 | osm_checksum=true ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2GARMIN_CYCLE}
+	find ${_pbf_dir} -name '*.pbf' -size +50k -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2OSMAND}
+	#find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM_CHECKSUM}
+	#find ${_pbf_dir} -name '*.osm.gz' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM_CHECKSUM}
 
 tiles-extract tiles: tiles-lng tiles-lnglat tiles-lng-run tiles-lnglat-run
 
