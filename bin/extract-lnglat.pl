@@ -8,9 +8,12 @@
 # Aachen:::de::5.88 50.60 6.58 50.99:294951::
 
 my $heatmap = $ENV{TILES_DIR} || "tiles";
+my $step = 4;
 
+my $fs; # file step
 for ( -180 .. 179 ) {
-    $a = $_ + 1;
+    $fs = $_ if $_ % $step == 0;
+    $a = $fs + $step;
 
     print
 qq[time make -s -f Makefile.osm],
@@ -19,7 +22,7 @@ qq[time make -s -f Makefile.osm],
       qq[ LOG_DIR=$heatmap/tmp],
       qq[ CITIES_DB=$heatmap/cities/cities_${_}.csv],
       qq[ OSM_DIR=$heatmap/osm-lnglat/$_ ],
-qq[ OSM_PLANET_PBF=$heatmap/osm-lng/p_${_}_-89_${a}_89.osm.pbf ],
+qq[ OSM_PLANET_PBF=$heatmap/osm-lng/p_${fs}_-89_${a}_89.osm.pbf ],
       qq[_cities-pbf > $heatmap/tmp/log.extract-lnglat.$_\0];
 }
 
