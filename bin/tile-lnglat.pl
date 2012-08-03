@@ -1,9 +1,9 @@
 #!/usr/local/bin/perl
 # Copyright (c) 2012 Wolfram Schneider, http://bbbike.org
 #
-# extract-lnglat.pl - split the planet.osm into 360x180 lng,lat data tiles
+# tile-lnglat.pl - split the planet.osm into 360x180 lng,lat data tiles
 #
-# usage: extract-lng-lat.pl > shell.sh
+# usage: tile-lng-lat.pl > shell.sh
 
 # Aachen:::de::5.88 50.60 6.58 50.99:294951::
 
@@ -23,6 +23,6 @@ qq[time make -s -f Makefile.osm],
       qq[ CITIES_DB=$heatmap/cities/cities_${_}.csv],
       qq[ OSM_DIR=$heatmap/osm-lnglat/$_ ],
 qq[ OSM_PLANET_PBF=$heatmap/osm-lng/p_${fs}_-89_${a}_89.osm.pbf ],
-      qq[_cities-pbf > $heatmap/tmp/log.extract-lnglat.$_\0];
+      qq[_cities-pbf > $heatmap/tmp/log.tile-lnglat.$_\0];
 }
 
