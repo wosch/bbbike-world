@@ -84,7 +84,7 @@ TILES_DIR=	tiles
 OSM_AREAS_OPENSEARCH=data-opensearch-places
 OSM_PLANET=	../osm-streetnames/download/planet-latest.osm.bz2 
 OSM_PLANET_PBF=	../osm-streetnames/download/planet-latest.osm.pbf
-OSM_PLANET_PBF=	../osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.pbf
+#OSM_PLANET_PBF=	../osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.pbf
 
 OSM_AREAS_LARGE=	${OSM_PLANET_PBF}
 
@@ -698,7 +698,7 @@ tiles-lnglat:
 	./world/bin/extract-lnglat.pl > ${TILES_DIR}/lnglat.sh
 
 tiles-lnglat-run:
-	${TIME} env OSM_DIR_NOSUBDIR=true ${XARGS} -0 -n1 -P3 /bin/sh -c < ${TILES_DIR}/lnglat.sh
+	${TIME} env OSM_DIR_NOSUBDIR=true ${XARGS} -0 -n1 -P${MAX_CPU} /bin/sh -c < ${TILES_DIR}/lnglat.sh
 
 tiles-lng-run:
 	env OSM_DIR_NOSUBDIR=true LOG_DIR=${TILES_DIR}/tmp ${MAKE} -s LOG_DIR=${TILES_DIR}/tmp -f Makefile.osm \

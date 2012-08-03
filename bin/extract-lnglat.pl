@@ -13,7 +13,9 @@ for ( -180 .. 179 ) {
     $a = $_ + 1;
 
     print
-qq[time make -s -f Makefile.osm CITIES_FILE=$heatmap/cities/cities_${_}.txt],
+qq[time make -s -f Makefile.osm],
+      qq[ MAX_CPU=1],
+      qq[ CITIES_FILE=$heatmap/cities/cities_${_}.txt],
       qq[ LOG_DIR=$heatmap/tmp],
       qq[ CITIES_DB=$heatmap/cities/cities_${_}.csv],
       qq[ OSM_DIR=$heatmap/osm-lnglat/$_ ],
