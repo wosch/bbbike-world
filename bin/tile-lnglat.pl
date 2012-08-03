@@ -7,7 +7,7 @@
 
 # Aachen:::de::5.88 50.60 6.58 50.99:294951::
 
-my $heatmap = $ENV{TILES_DIR} || "tiles";
+my $heatmap = $ENV{TILES_DIR} || "tile";
 my $step = 4;
 
 my $fs; # file step
