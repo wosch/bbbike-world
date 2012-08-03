@@ -690,12 +690,12 @@ staging:
 # extract 180x360 data tiles from planet.osm
 tile-lng:
 	mkdir -p ${TILES_DIR}/tmp ${TILES_DIR}/cities tmp
-	./world/bin/extract-lng.pl > ${TILES_DIR}/cities/cities2.csv
+	./world/bin/tile-lng.pl > ${TILES_DIR}/cities/cities2.csv
 	awk -F: '{ print $$1 }' ${TILES_DIR}/cities/cities2.csv > ${TILES_DIR}/cities/cities2.txt
 
 tile-lnglat:
-	env TILES_DIR=${TILES_DIR} ./world/bin/extract-lnglat0.sh
-	./world/bin/extract-lnglat.pl > ${TILES_DIR}/lnglat.sh
+	env TILES_DIR=${TILES_DIR} ./world/bin/tile-lnglat0.sh
+	./world/bin/tile-lnglat.pl > ${TILES_DIR}/lnglat.sh
 
 tile-lnglat-run:
 	${TIME} env OSM_DIR_NOSUBDIR=true ${XARGS} -0 -n1 -P${MAX_CPU} /bin/sh -c < ${TILES_DIR}/lnglat.sh
@@ -801,7 +801,8 @@ help:
 	@echo "  [ download-bbbike-org-install ]"
 	@echo ""
 	@echo "  [ staging | extract-install | extract-distclean ]"
-	@echo "  [ extract-gc | extract-gc7 | extract-gc-osm | tile ]"
+	@echo "  [ extract-gc | extract-gc7 | extract-gc-osm ]"
+	@echo "  [ tile | tile-convert | tile-csv ]"
 	@echo ""
 	@echo "see also ./world/README"
 
