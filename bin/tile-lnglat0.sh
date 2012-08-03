@@ -2,7 +2,7 @@
 # Copyright (c) 2012 Wolfram Schneider, http://bbbike.org
 
 set -e
-: ${TILES_DIR="tiles"}
+: ${TILES_DIR="tile"}
 mkdir -p $TILES_DIR/osm-lng
 
 for i in `perl -e 'for (-180 .. 179) { print "$_ " }'`
