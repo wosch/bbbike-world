@@ -75,7 +75,7 @@ LOG_DIR=tmp
 
 CITIES=$(shell ${PERL} -npe 's/\#.*//' ${CITIES_FILE})
 
-TILES_DIR=	tiles
+TILES_DIR=	tile
 
 #
 # opensearch suggestion service for
@@ -688,36 +688,37 @@ staging:
 
 
 # extract 180x360 data tiles from planet.osm
-tiles-lng:
+tile-lng:
 	mkdir -p ${TILES_DIR}/tmp ${TILES_DIR}/cities tmp
-	./world/bin/extract-lng.pl > ${TILES_DIR}/cities/cities2.csv
+	./world/bin/tile-lng.pl > ${TILES_DIR}/cities/cities2.csv
 	awk -F: '{ print $$1 }' ${TILES_DIR}/cities/cities2.csv > ${TILES_DIR}/cities/cities2.txt
 
-tiles-lnglat:
-	env TILES_DIR=${TILES_DIR} ./world/bin/extract-lnglat0.sh
-	./world/bin/extract-lnglat.pl > ${TILES_DIR}/lnglat.sh
+tile-lnglat:
+	env TILES_DIR=${TILES_DIR} ./world/bin/tile-lnglat0.sh
+	./world/bin/tile-lnglat.pl > ${TILES_DIR}/lnglat.sh
 
-tiles-lnglat-run:
+tile-lnglat-run:
 	${TIME} env OSM_DIR_NOSUBDIR=true ${XARGS} -0 -n1 -P${MAX_CPU} /bin/sh -c < ${TILES_DIR}/lnglat.sh
 
-tiles-lng-run:
+tile-lng-run:
 	env OSM_DIR_NOSUBDIR=true LOG_DIR=${TILES_DIR}/tmp ${MAKE} -s LOG_DIR=${TILES_DIR}/tmp -f Makefile.osm \
 	   CITIES_FILE=${TILES_DIR}/cities/cities2.txt CITIES_DB=${TILES_DIR}/cities/cities2.csv \
 	   MAX_CPU=${MAX_CPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=${TILES_DIR}/osm-lng _cities-parallel-pbf
 
 
 _pbf_dir=${TILES_DIR}/osm-lnglat/
-tiles-convert:
+_max_size="-size +100k"
+tile-convert:
 	find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n90 -P${MAX_CPU} ${PBF2OSM} --gzip
 	find ${_pbf_dir} -name '*.pbf' -size +50k -print0 | osm_checksum=true ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2SHAPE}
 	find ${_pbf_dir} -name '*.pbf' -size +50k -print0 | osm_checksum=true ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2GARMIN_CYCLE}
-	find ${_pbf_dir} -name '*.pbf' -size +50k -print0 | max_jobs=1 ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2OSMAND}
+	find ${_pbf_dir} -name '*.pbf' -size +50k -print0 | osm_checksum=true max_jobs=1 ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2OSMAND}
 	#find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM_CHECKSUM}
 	#find ${_pbf_dir} -name '*.osm.gz' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM_CHECKSUM}
 
-tiles-extract tiles: tiles-lng tiles-lnglat tiles-lng-run tiles-lnglat-run
+tile-extract tile: tile-lng tile-lnglat tile-lng-run tile-lnglat-run
 
-tiles-csv:
+tile-csv:
 	for format in pbf gz garmin-cycle.zip shp.zip obf.zip; do \
 	   ( cd ${TILES_DIR}/osm-lnglat; find . -name '*.'$$format | xargs du -k |sort -n | \
 	     perl -npe 's,\S+/p_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > ${TILES_DIR}/tile-$$format.csv; \
@@ -801,7 +802,8 @@ help:
 	@echo "  [ download-bbbike-org-install ]"
 	@echo ""
 	@echo "  [ staging | extract-install | extract-distclean ]"
-	@echo "  [ extract-gc | extract-gc7 | extract-gc-osm | tiles ]"
+	@echo "  [ extract-gc | extract-gc7 | extract-gc-osm ]"
+	@echo "  [ tile | tile-convert | tile-csv ]"
 	@echo ""
 	@echo "see also ./world/README"
 
