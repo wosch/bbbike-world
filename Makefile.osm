@@ -656,7 +656,7 @@ symlink-download:
 	  ln -fs ../bbbike.org/world/web/robots-download.txt robots.txt ; \
 	  cd osm; ln -fs ../../bbbike.org/world/download/osm/index.html  .
 
-extract-install:
+extract-install extract-bbbike-org-install:
 	mkdir -p ${EXTRACTS_SPOOL_DIR}
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/incoming
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/confirmed
@@ -801,7 +801,7 @@ help:
 	@echo "  [ update-database | update-files ]"
 	@echo "  [ download-bbbike-org-install ]"
 	@echo ""
-	@echo "  [ staging | extract-install | extract-distclean ]"
+	@echo "  [ staging | extract-bbbike-org-install | extract-distclean ]"
 	@echo "  [ extract-gc | extract-gc7 | extract-gc-osm ]"
 	@echo "  [ tile | tile-convert | tile-csv ]"
 	@echo ""
