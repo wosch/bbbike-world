@@ -1,9 +1,9 @@
 #!/usr/local/bin/perl
 # Copyright (c) 2012 Wolfram Schneider, http://bbbike.org
 #
-# extract-lng.pl - split the planet.osm into 360 lng data tiles
+# tile-lng.pl - split the planet.osm into 360 lng data tiles
 #
-# usage: extract-lng.pl > cities.csv
+# usage: tile-lng.pl > cities.csv
 
 # Aachen:::de::5.88 50.60 6.58 50.99:294951::
 

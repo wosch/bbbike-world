@@ -56,7 +56,7 @@ our $option = {
     # run with lower priority
     'nice_level' => 2,
 
-    'planet_osm' => "../osm-streetnames/download/planet-latest.osm.pbf",
+    'planet_osm' => "../osm/download/planet-latest.osm.pbf",
     'debug'      => 0,
     'test'       => 0,
 
@@ -114,7 +114,7 @@ my $osmosis_options = "omitmetadata=true granularity=10000";    # message
 
 # test & debug
 $planet_osm =
-"/home/wosch/projects/osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.pbf"
+"/home/wosch/projects/osm/download/geofabrik/europe/germany/brandenburg.osm.pbf"
   if $test;
 
 ######################################################################

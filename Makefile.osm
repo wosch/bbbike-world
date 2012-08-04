@@ -82,28 +82,28 @@ TILES_DIR=	tile
 # the world:
 # 
 OSM_AREAS_OPENSEARCH=data-opensearch-places
-OSM_PLANET=	../osm-streetnames/download/planet-latest.osm.bz2 
-OSM_PLANET_PBF=	../osm-streetnames/download/planet-latest.osm.pbf
-OSM_PLANET_PBF=	../osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.pbf
+OSM_PLANET=	../osm/download/planet-latest.osm.bz2 
+OSM_PLANET_PBF=	../osm/download/planet-latest.osm.pbf
+#OSM_PLANET_PBF=	../osm/download/geofabrik/europe/germany/brandenburg.osm.pbf
 
 OSM_AREAS_LARGE=	${OSM_PLANET_PBF}
 
 OSM_AREAS= \
-	../osm-streetnames/download/geofabrik/europe/germany.osm.pbf \
+	../osm/download/geofabrik/europe/germany.osm.pbf \
 	${OSM_AREAS_LARGE} \
-	../osm-streetnames/download/geofabrik/australia-oceania.osm.pbf \
-	../osm-streetnames/download/geofabrik/south-america.osm.pbf \
-	../osm-streetnames/download/geofabrik/africa.osm.pbf \
-	../osm-streetnames/download/geofabrik/central-america.osm.pbf \
-	../osm-streetnames/download/geofabrik/europe.osm.pbf \
+	../osm/download/geofabrik/australia-oceania.osm.pbf \
+	../osm/download/geofabrik/south-america.osm.pbf \
+	../osm/download/geofabrik/africa.osm.pbf \
+	../osm/download/geofabrik/central-america.osm.pbf \
+	../osm/download/geofabrik/europe.osm.pbf \
 
 # for tests only
 OSM_AREAS2= \
-	../osm-streetnames/download/geofabrik/europe/germany/baden-wuerttemberg.osm.pbf \
-	../osm-streetnames/download/geofabrik/europe/germany/bayern.osm.pbf \
-	../osm-streetnames/download/geofabrik/europe/germany/berlin.osm.pbf \
-	../osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.pbf \
-	../osm-streetnames/download/geofabrik/europe/germany/bremen.osm.pbf 
+	../osm/download/geofabrik/europe/germany/baden-wuerttemberg.osm.pbf \
+	../osm/download/geofabrik/europe/germany/bayern.osm.pbf \
+	../osm/download/geofabrik/europe/germany/berlin.osm.pbf \
+	../osm/download/geofabrik/europe/germany/brandenburg.osm.pbf \
+	../osm/download/geofabrik/europe/germany/bremen.osm.pbf 
 
 OSM_AREAS3= \
 	${OSM_AREAS_LARGE} \
@@ -414,9 +414,9 @@ rsync-osm-devel rsync-osm-dev:
 	rsync -azv --delete --max-delete=512 bbbike.org:projects/bbbike/osm .
 
 rsync-planet:
-	cd ../osm-streetnames/download; \
+	cd ../osm/download; \
 	   ${NICE5} rsync -av planet-latest.osm.bz2 planet-latest.osm.bz2.md5 \
-		planet-latest.osm.pbf planet-latest.osm.pbf.md5 planet-latest.osm.pbf.sha256 bbbike:projects/osm-streetnames/download
+		planet-latest.osm.pbf planet-latest.osm.pbf.md5 planet-latest.osm.pbf.sha256 bbbike:projects/osm/download
 
 create-bbbike-web-symlinks-bbbike.en.cgi:
 	cd ${BBBIKE_WEB_DIR}/cgi && ln -fs bbbike.cgi bbbike.en.cgi
@@ -501,11 +501,11 @@ bbbike-mapnik-postgis:
 	osm2pgsql --slim -S ${POSTGIS_STYLE} -c ${LOG_DIR}/bbbike-mapnik.osm.gz
 
 planet-download:
-	download_script=`pwd`/world/bin/planet-download; cd ../osm-streetnames/download && $$download_script
+	download_script=`pwd`/world/bin/planet-download; cd ../osm/download && $$download_script
 
 planet-geofabrik-download:
 	download_script=`pwd`/world/bin/planet-geofabrik-download; \
-		cd ../osm-streetnames/download && $$download_script
+		cd ../osm/download && $$download_script
 
 create-osp:
 	rm -rf ${OSP_DIR}
@@ -598,19 +598,19 @@ dist-clean devel-clean distclean: clean rotate-osm
 	mkdir -p ${OSM_DIR}
 
 clean-planet:
-	${RM_BG} ../osm-streetnames/download/*.old.*
+	${RM_BG} ../osm/download/*.old.*
 
 elevation-check:
-	${NICE} ${ELEVATION_SCRIPT} --database=../osm-streetnames/srtm/elevation.db --check
+	${NICE} ${ELEVATION_SCRIPT} --database=../osm/srtm/elevation.db --check
 
 elevation-repair:
-	${NICE} ${ELEVATION_SCRIPT} --database=../osm-streetnames/srtm/elevation.db --repair-database
+	${NICE} ${ELEVATION_SCRIPT} --database=../osm/srtm/elevation.db --repair-database
 
 elevation-fetch:
-	${NICE} ${ELEVATION_SCRIPT} --database=../osm-streetnames/srtm/elevation.db --debug=1 --geonames-user=bbbikeworld ${CITIES}
+	${NICE} ${ELEVATION_SCRIPT} --database=../osm/srtm/elevation.db --debug=1 --geonames-user=bbbikeworld ${CITIES}
 
 elevation-update:
-	echo ${CITIES} | ${XARGS} -E " " -n500 -P${MAX_ELEVATION_SCRIPTS} ${ELEVATION_SCRIPT} --readonly-database --database=../osm-streetnames/srtm/elevation.db --debug=0
+	echo ${CITIES} | ${XARGS} -E " " -n500 -P${MAX_ELEVATION_SCRIPTS} ${ELEVATION_SCRIPT} --readonly-database --database=../osm/srtm/elevation.db --debug=0
 
 # re-build cache
 _cache-heater: cache-gc cache-heater-streets cache-heater-common 
@@ -707,12 +707,12 @@ tile-lng-run:
 
 
 _pbf_dir=${TILES_DIR}/osm-lnglat/
-_max_size="-size +100k"
+_max_size= #-size +100k"
 tile-convert:
 	find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n90 -P${MAX_CPU} ${PBF2OSM} --gzip
-	find ${_pbf_dir} -name '*.pbf' -size +50k -print0 | osm_checksum=true ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2SHAPE}
-	find ${_pbf_dir} -name '*.pbf' -size +50k -print0 | osm_checksum=true ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2GARMIN_CYCLE}
-	find ${_pbf_dir} -name '*.pbf' -size +50k -print0 | osm_checksum=true max_jobs=1 ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2OSMAND}
+	find ${_pbf_dir} -name '*.pbf' ${_max_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2SHAPE}
+	find ${_pbf_dir} -name '*.pbf' ${_max_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2GARMIN_CYCLE}
+	find ${_pbf_dir} -name '*.pbf' ${_max_size} -print0 | osm_checksum=true max_jobs=1 ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2OSMAND}
 	#find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM_CHECKSUM}
 	#find ${_pbf_dir} -name '*.osm.gz' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM_CHECKSUM}
 
@@ -741,13 +741,13 @@ download-bbbike-org-install:
 	cd ${DOWNLOAD_PREFIX}/osm/bbbike; \
 	  ln -fs ../world/download/osm/bbbike/HEADER.txt .; \
 	cd ${DOWNLOAD_PREFIX}/osm/planet; \
-	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.bz2 . ;\
-	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.pbf . ;\
-	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.pbf.md5 . ;\
-	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.pbf.sha1 . ;\
-	  ln -fs $$HOME/projects/osm-streetnames/download/planet-latest.osm.bz2.md5 . ;\
+	  ln -fs $$HOME/projects/osm/download/planet-latest.osm.bz2 . ;\
+	  ln -fs $$HOME/projects/osm/download/planet-latest.osm.pbf . ;\
+	  ln -fs $$HOME/projects/osm/download/planet-latest.osm.pbf.md5 . ;\
+	  ln -fs $$HOME/projects/osm/download/planet-latest.osm.pbf.sha1 . ;\
+	  ln -fs $$HOME/projects/osm/download/planet-latest.osm.bz2.md5 . ;\
 	  ln -fs ../../../bbbike.org/world/download/osm/planet/HEADER.txt .
-	cd ${DOWNLOAD_PREFIX}/..; mkdir -p osm-streetnames; cd osm-streetnames; \
+	cd ${DOWNLOAD_PREFIX}/..; mkdir -p osm; cd osm; \
 	  ln -fs ../download.bbbike.org/osm/planet download
 
 #
