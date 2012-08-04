@@ -72,6 +72,7 @@ EXTRACTS_SPOOL_DIR=/var/cache/extract
 POSTGIS_STYLE=/usr/share/osm2pgsql/osm2pgsql/bbbike.style
 WEB_SERVER=	www.bbbike.org
 LOG_DIR=tmp
+BBBIKE_PARTITION=	/bbbike
 
 CITIES=$(shell ${PERL} -npe 's/\#.*//' ${CITIES_FILE})
 
@@ -657,7 +658,8 @@ symlink-download:
 	  cd osm; ln -fs ../../bbbike.org/world/download/osm/index.html  .
 
 extract-install extract-bbbike-org-install:
-	mkdir -p ${EXTRACTS_SPOOL_DIR}
+	cd ${BBBIKE_PARTITION}; mkdir -p `basename ${EXTRACTS_SPOOL_DIR}`
+	ln -fs ${BBBIKE_PARTITION}/`basename ${EXTRACTS_SPOOL_DIR}` ${EXTRACTS_SPOOL_DIR}
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/incoming
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/confirmed
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/running
@@ -674,8 +676,8 @@ extract-distclean:
 # garbage collection, 2 days
 extract-gc:
 	cd ${EXTRACTS_SPOOL_DIR}; find incoming confirmed running download osm -type f -mtime +4 -print0 | xargs -0 rm -f
-	if test -e /bbbike/tmpfs; then \
-	    find /bbbike/tmpfs -type f -mtime +1 -print0 | xargs -0 rm -f; \
+	if test -e ${BBBIKE_PARTITION}/tmpfs; then \
+	    find ${BBBIKE_PARTITION}/tmpfs -type f -mtime +1 -print0 | xargs -0 rm -f; \
 	fi
 
 # garbage collection, 7 days, all files
