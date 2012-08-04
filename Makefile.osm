@@ -709,7 +709,7 @@ tile-lnglat-run:
 tile-lng-run:
 	env OSM_DIR_NOSUBDIR=true LOG_DIR=${TILES_DIR}/tmp ${MAKE} -s LOG_DIR=${TILES_DIR}/tmp -f Makefile.osm \
 	   CITIES_FILE=${TILES_DIR}/cities/cities2.txt CITIES_DB=${TILES_DIR}/cities/cities2.csv \
-	   MAX_CPU=${MAX_CPU} JAVACMD_OPTIONS2=-Xmx1500M  OSM_DIR=${TILES_DIR}/osm-lng _cities-parallel-pbf
+	   MAX_CPU=${MAX_CPU} JAVACMD_OPTIONS2= OSM_DIR=${TILES_DIR}/osm-lng _cities-parallel-pbf
 
 
 _pbf_dir=${TILES_DIR}/osm-lnglat/
@@ -730,6 +730,8 @@ tile-csv:
 	     perl -npe 's,\S+/p_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > ${TILES_DIR}/tile-$$format.csv; \
 	done
 
+tile-distclean:
+	rm -rf ${TILES_DIR}
 
 DOWNLOAD_PREFIX=/usr/local/www/download.bbbike.org
 download-bbbike-org-install:
@@ -809,7 +811,7 @@ help:
 	@echo ""
 	@echo "  [ staging | extract-bbbike-org-install | extract-distclean ]"
 	@echo "  [ extract-gc | extract-gc7 | extract-gc-osm ]"
-	@echo "  [ tile | tile-convert | tile-csv ]"
+	@echo "  [ tile | tile-convert | tile-csv | tile-distclean ]"
 	@echo ""
 	@echo "see also ./world/README"
 
