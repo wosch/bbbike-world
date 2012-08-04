@@ -19,6 +19,6 @@ foreach my $x ( -180 .. 179 ) {
     next if $x % $step != 0;
 
     #print "$x,$y 1,$y1\n";
-    print "p_${x}_${y}_${x1}_${y1}:::en:other:$x $y $x1 $y1:294951::\n";
+    print "planet_${x}_${y}_${x1}_${y1}:::en:other:$x $y $x1 $y1:294951::\n";
 }
 

@@ -11,6 +11,6 @@ foreach my $y ( -90 .. 89 ) {
     my $x1 = $x + 1;
 
     #print "$x,$y 1,$y1\n";
-    print "p_${x}_${y}_${x1}_${y1}:::de:other:$x $y $x1 $y1:294951::\n";
+    print "planet_${x}_${y}_${x1}_${y1}:::de:other:$x $y $x1 $y1:294951::\n";
 }
 
