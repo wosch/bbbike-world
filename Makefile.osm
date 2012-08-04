@@ -84,7 +84,7 @@ TILES_DIR=	tile
 OSM_AREAS_OPENSEARCH=data-opensearch-places
 OSM_PLANET=	../osm-streetnames/download/planet-latest.osm.bz2 
 OSM_PLANET_PBF=	../osm-streetnames/download/planet-latest.osm.pbf
-OSM_PLANET_PBF=	../osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.pbf
+#OSM_PLANET_PBF=	../osm-streetnames/download/geofabrik/europe/germany/brandenburg.osm.pbf
 
 OSM_AREAS_LARGE=	${OSM_PLANET_PBF}
 
@@ -707,12 +707,12 @@ tile-lng-run:
 
 
 _pbf_dir=${TILES_DIR}/osm-lnglat/
-_max_size="-size +100k"
+_max_size= #-size +100k"
 tile-convert:
 	find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n90 -P${MAX_CPU} ${PBF2OSM} --gzip
 	find ${_pbf_dir} -name '*.pbf' ${_max_size} -print0 | osm_checksum=true ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2SHAPE}
 	find ${_pbf_dir} -name '*.pbf' ${_max_size} -print0 | osm_checksum=true ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2GARMIN_CYCLE}
-	find ${_pbf_dir} -name '*.pbf' ${_max_size} -print0 | osm_checksum=true max_jobs=1 ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2OSMAND}
+	find ${_pbf_dir} -name '*.pbf' ${_max_size} -print0 | osm_checksum=true max_jobs=1 ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2OSMAND}
 	#find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM_CHECKSUM}
 	#find ${_pbf_dir} -name '*.osm.gz' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM_CHECKSUM}
 
