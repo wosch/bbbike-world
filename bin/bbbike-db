@@ -4,6 +4,7 @@
 # bbbike-db - command line tool to parse bbbike @ world city database
 
 use File::Basename;
+
 #use Data::Dumper;
 
 use lib '.';
@@ -15,6 +16,7 @@ use lib '../bbbike';
 use lib '../bbbike/world/bin';
 
 use BBBikeWorldDB;
+
 #use Strassen::Util;
 
 use strict;
@@ -136,7 +138,8 @@ sub neighbours {
     while ( scalar(@list) > 32 ) {
         pop @list;
     }
-    local ($Data::Dumper::Indent) = 0;
+    local ($Data::Dumper::Indent);
+    $Data::Dumper::Indent = 0;
     my $data = Data::Dumper::Dumper( \@list );
 
     $data =~ s/^\S+\s*=\s*//;

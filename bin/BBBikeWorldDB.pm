@@ -52,6 +52,8 @@ sub parse_database {
     my $fh = new IO::File $db, "r" or die "open: $db $!\n";
     binmode $fh, ":utf8";
 
+    #binmode $fh, ":bytes";
+
     my %hash;
     my %raw;
     while (<$fh>) {
