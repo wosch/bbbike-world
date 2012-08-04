@@ -6,16 +6,15 @@
 
 PATH=/bin:/usr/bin:/sbin:/usr/sbin; export PATH
 
-cpuinfo=/proc/cpuinfo
 
 minus=0
-vcpu=0
-rcpu=0
+vcpu_param=0
+rcpu_param=0
 
 case $1 in
-	vcpu ) vcpu=1; shift ;;
-	rcpu ) rcpu=1; shift ;;
-	ncpu ) shift ;;
+	vcpu ) vcpu_param=1; shift ;;
+	rcpu ) rcpu_param=1; shift ;;
+	ncpu | cpu ) shift ;;
 	"" | -* | +* ) ;;
 	*    ) echo "usage $0 [ vcpu | rcpu ] [ -/+ number ]"; exit 1;;
 esac
@@ -24,65 +23,76 @@ case $1 in
 	-1 | -2 | +1|+2|+3|+4|+6|+8 ) minus=$1 ;;
 esac
 
+config () {
+    if [ -e $HOME/.ncpu.ncpu ]; then
+        ncpu=$(cat $HOME/.ncpu.ncpu)
+    elif [ -e $HOME/.ncpu ]; then
+        ncpu=$(cat $HOME/.ncpu)
+    fi
+    if [ -e $HOME/.ncpu.rcpu ]; then
+        rcpu=$(cat $HOME/.ncpu.rcpu)
+    fi
+    if [ -e $HOME/.ncpu.vcpu ]; then
+        vcpu=$(cat $HOME/.ncpu.vcpu)
+    fi
+}
 
-# macos
-if sysctl -n hw.physicalcpu > /dev/null 2>&1; then
-  # with virtual CPUs
-  if [ $vcpu = 1 ]; then
-     ncpu=`sysctl -n hw.ncpu`
-
-  # real CPUs + 1/2 virtual CPUs
-  elif [ $rcpu = 1 ]; then
-     ncpu=`perl -e 'print (($ARGV[0] + $ARGV[1])/2)' $(sysctl -n hw.ncpu) $(sysctl -n hw.physicalcpu)`
-
-  # physical CPUs only
-  else
-     ncpu=`sysctl -n hw.physicalcpu`
-  fi
-
-  # Xen machine?
-  if [ -e $HOME/.ncpu.ncpu ]; then
-    ncpu=`cat $HOME/.ncpu.ncpu`
-  fi
+## macos
+#if sysctl -n hw.physicalcpu > /dev/null 2>&1; then
+#  # with virtual CPUs
+#  if [ $vcpu = 1 ]; then
+#     ncpu=`sysctl -n hw.ncpu`
+#
+#  # real CPUs + 1/2 virtual CPUs
+#  elif [ $rcpu = 1 ]; then
+#     ncpu=`perl -e 'print (($ARGV[0] + $ARGV[1])/2)' $(sysctl -n hw.ncpu) $(sysctl -n hw.physicalcpu)`
+#
+#  # physical CPUs only
+#  else
+#     ncpu=`sysctl -n hw.physicalcpu`
+#  fi
+#
+#  # Xen machine?
+#  if [ -e $HOME/.ncpu.ncpu ]; then
+#    ncpu=`cat $HOME/.ncpu.ncpu`
+#  fi
 
 # linux
-elif  [ -f $cpuinfo ]; then
-  ncpu=`egrep -c '^physical id.: 0$' $cpuinfo`
-  cores=`egrep -c '^processor' $cpuinfo`
 
-  # Xen machine?
-  if [ $ncpu = 0 -a -e $HOME/.ncpu.ncpu ]; then
-    ncpu=`cat $HOME/.ncpu.ncpu`
-  fi
+system_linux () {
+  cpuinfo=/proc/cpuinfo
+  
+  ncpu=`egrep -c '^processor' $cpuinfo`
+  vcpu=$ncpu
+}
+
+case $(uname) in
+    Linux ) system_linux ;;
+    * ) echo "Unsuppored OS $(uname)"; exit 1 ;;
+esac
+
+config
 
 
-  if [ $vcpu = 1 ]; then
-    ncpu=$cores
-
-  # real CPUs + 1/2 virtual CPUs
-  elif [ $rcpu = 1 ]; then
-     ncpu=`perl -e 'print int(($ARGV[0] + $ARGV[1])/2)' $ncpu $cores`
-
-  # a virtual server with 4 cores and 3 virtuals cpu's available
-  elif [ $ncpu -gt $cores ]; then 
-     ncpu=$cores
-  fi
-
-  # local host config
-  if [ -e $HOME/.ncpu -a ! -e $HOME/.ncpu.ncpu ]; then
-    ncpu=`cat $HOME/.ncpu`
-  fi
-  if [ -e $HOME/.ncpu.vcpu -a $vcpu = 1 ]; then
-    ncpu=`cat $HOME/.ncpu.vcpu`
-  fi
+if [ "$vcpu_param" = 1 ]; then
+    n=$vcpu
+elif [ "$rcpu_param" = 1 ]; then
+    if test -z "$rcpu"; then
+        n=`perl -e 'print int(($ARGV[0] + $ARGV[1])/2)' $ncpu $vcpu`
+    else
+        n=$rcpu
+    fi
+else
+    n=$ncpu
 fi
 
+
 # +/-
-ncpu=`perl -e "print $ncpu + $minus"`
+n=`perl -e "print $n + $minus"`
 
 # print valid output
-if [ "$ncpu" -ge 1 -a "$ncpu" -le 64 ]; then
-	echo "$ncpu"
+if [ "$n" -ge 1 -a "$n" -le 128 ]; then
+	echo "$n"
 else
 	echo "1"
 fi
