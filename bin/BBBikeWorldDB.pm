@@ -6,7 +6,8 @@
 package BBBikeWorldDB;
 
 use IO::File;
-use Data::Dumper;
+
+#use Data::Dumper;
 use strict;
 use warnings;
 
@@ -31,7 +32,10 @@ sub new {
     bless $self, $class;
     $self->parse_database;
 
-    print Dumper($self) if $self->{'debug'} >= 2;
+    if ( $self->{'debug'} >= 2 ) {
+        require Data::Dumper;
+        print Data::Dumper::Dumper($self);
+    }
     return $self;
 }
 
