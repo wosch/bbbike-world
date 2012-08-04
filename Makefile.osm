@@ -657,9 +657,13 @@ symlink-download:
 	  ln -fs ../bbbike.org/world/web/robots-download.txt robots.txt ; \
 	  cd osm; ln -fs ../../bbbike.org/world/download/osm/index.html  .
 
+cache-install:
+	cd ${BBBIKE_PARTITION}; mkdir -p cache
+	ln -fs ${BBBIKE_PARTITION}/cache ${BBBIKE_CACHE_DIR}
+
 extract-install extract-bbbike-org-install:
-	cd ${BBBIKE_PARTITION}; mkdir -p `basename ${EXTRACTS_SPOOL_DIR}`
-	ln -fs ${BBBIKE_PARTITION}/`basename ${EXTRACTS_SPOOL_DIR}` ${EXTRACTS_SPOOL_DIR}
+	cd ${BBBIKE_PARTITION}; mkdir -p extract
+	ln -fs ${BBBIKE_PARTITION}/extract ${EXTRACTS_SPOOL_DIR}
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/incoming
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/confirmed
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/running
@@ -790,7 +794,7 @@ help:
 	@echo "  [ clean | dist-clean | clean-cache | clean-planet | clean-tile ]"
 	@echo ""
 	@echo "  [ create-osp | bbbike2wgs84 | update-robots.txt | create-sitemap ]"
-	@echo "  [ cache-heater | cache-heater-streets ]"
+	@echo "  [ cache-install | cache-heater | cache-heater-streets ]"
 	@echo "  [ create-bbbike-web-symlinks | kml | create-osp | index ]"
 	@echo "  [ convert-wgs84 | convert-bbbike | convert-bbbike-full ]"
 	@echo "  [ city-count | city-reorder | city-file | check-osm | cleanup-osm-error ]"
