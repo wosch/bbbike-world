@@ -74,8 +74,8 @@ perl -i.all -ne 'print if !/\t$/' $prefix/$city/opensearch.crossing.10
 
 # Point of Interests
 echo "Run osm2bbd-poi"
-mkdir -p ../osm-streetnames/poi
-$time env CITY=$prefix/$city ./miscsrc/osm2bbd-poi --storable=../osm-streetnames/poi/$city.db > $prefix/$city/poi
+mkdir -p ../osm/poi
+$time env CITY=$prefix/$city ./miscsrc/osm2bbd-poi --storable=../osm/poi/$city.db > $prefix/$city/poi
 
 $p/strasse-str $prefix/$city/poi
 

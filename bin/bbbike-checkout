@@ -41,7 +41,7 @@ if $bbbike_macos; then
     ( cd bbbike-macos && git_config )
 fi
 
-mkdir -p osm-streetnames/download
+mkdir -p osm/download
 
 cd bbbike
 git_config
