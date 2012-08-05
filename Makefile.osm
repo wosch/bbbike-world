@@ -709,10 +709,10 @@ tile-lnglat-run:
 tile-lng-run:
 	env OSM_DIR_NOSUBDIR=true LOG_DIR=${TILES_DIR}/tmp ${MAKE} -s LOG_DIR=${TILES_DIR}/tmp -f Makefile.osm \
 	   CITIES_FILE=${TILES_DIR}/cities/cities2.txt CITIES_DB=${TILES_DIR}/cities/cities2.csv \
-	   MAX_CPU=${MAX_CPU} JAVACMD_OPTIONS2= OSM_DIR=${TILES_DIR}/osm-lng _cities-parallel-pbf
+	   MAX_CPU=${MAX_CPU} JAVACMD_OPTIONS2= OSM_DIR=${TILES_DIR}/lng _cities-parallel-pbf
 
 
-_pbf_dir=${TILES_DIR}/osm-lnglat/
+_pbf_dir=${TILES_DIR}/lnglat/
 _max_size= #-size +100k"
 tile-convert:
 	find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n90 -P${MAX_CPU} ${PBF2OSM} --gzip
@@ -726,7 +726,7 @@ tile-extract tile: tile-lng tile-lnglat tile-lng-run tile-lnglat-run
 
 tile-csv:
 	for format in pbf gz garmin-cycle.zip shp.zip obf.zip; do \
-	   ( cd ${TILES_DIR}/osm-lnglat; find . -name '*.'$$format | xargs du -k |sort -n | \
+	   ( cd ${TILES_DIR}/lnglat; find . -name '*.'$$format | xargs du -k |sort -n | \
 	     perl -npe 's,\S+/p_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > ${TILES_DIR}/tile-$$format.csv; \
 	done
 
