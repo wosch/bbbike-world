@@ -21,8 +21,7 @@ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys AE74800FB745A04C
 sudo apt-get update
 sudo apt-get install libapache2-mod-tile
 
-# sudo apt-get remove openstreetmap-mapnik-stylesheet-data
-# sudo apt-get install openstreetmap-mapnik-stylesheet-data
+# Note: if the coastline download failed, see below
 
 
 sudo dpkg-reconfigure openstreetmap-postgis-db-setup
@@ -70,11 +69,11 @@ cp fontset-settings.xml.inc.template fontset-settings.xml.inc
 cp settings.xml.inc.template settings.xml.inc          
 # follow the instructions!
 
-# add bbbike quality attributes to osm2pgsql
-sudo make bbbike-mapnik-config
 
 # create osm dump, and import it
 cd bbbike
+# add bbbike quality attributes to osm2pgsql
+sudo make bbbike-mapnik-config
 make bbbike2wgs84-mapnik
 make bbbike-mapnik-postgis 
 
@@ -107,9 +106,6 @@ sudo ln -s ~/projects/bbbike/world/tile/web/robots.txt .
 cd /etc/
 sudo ln -s /home/wosch/projects/bbbike/world/tile/etc/renderd.conf
 
-sudo /etc/init.d/renderd restart
-sudo /etc/init.d/apache2 restart
-
 # error check
 tail -f /var/log/syslog
 
@@ -117,9 +113,13 @@ tail -f /var/log/syslog
 LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" combined
 
 cd /etc/apache2/sites-available
-ln -s ~/projects/bbbike/world/tile/etc/apache2-tile.conf .
-a2ensite apache2-tile.conf
-rm -f /etc/apache2/sites-enabled/tileserver_site 
+sudo ln -s ~/projects/bbbike/world/tile/etc/apache2-tile.conf .
+sudo a2ensite apache2-tile.conf
+sudo a2enmod tile
+sudo rm -f /etc/apache2/sites-enabled/tileserver_site 
+
+sudo /etc/init.d/renderd restart
+sudo /etc/init.d/apache2 restart
 
 # postgis trouble shooting
 sudo /usr/bin/install-postgis-osm-user.sh gis www-data
