@@ -121,6 +121,25 @@ function init() {
     map.addLayer(new OpenLayers.Layer.OSM("Skobbler (OSM)", ["http://tiles1.skobbler.net/osm_tiles2/${z}/${x}/${y}.png", "http://tiles2.skobbler.net/osm_tiles2/${z}/${x}/${y}.png"], {
         numZoomLevels: 19
     }));
+    
+    // 1.. 4.maptile.lbs.ovi.com/maptiler/v2/maptile/a2e328a0c5/<terrain.day>/3/2/2/256/png8?app_id=<id>&token=<id>
+    map.addLayer(new OpenLayers.Layer.OSM("Nokia Map", ["http://4.maptile.lbs.ovi.com/maptiler/v2/maptile/a2e328a0c5/normal.day/${z}/${x}/${y}/256/png8?app_id=SqE1xcSngCd3m4a1zEGb&token=r0sR1DzqDkS6sDnh902FWQ&lg=ENG"], {
+        numZoomLevels: 19
+    }));
+    map.addLayer(new OpenLayers.Layer.OSM("Nokia Terrain", ["http://4.maptile.lbs.ovi.com/maptiler/v2/maptile/a2e328a0c5/terrain.day/${z}/${x}/${y}/256/png8?app_id=SqE1xcSngCd3m4a1zEGb&token=r0sR1DzqDkS6sDnh902FWQ&lg=ENG"], {
+        numZoomLevels: 19
+    }));
+    map.addLayer(new OpenLayers.Layer.OSM("Nokia Satellite", ["http://4.maptile.lbs.ovi.com/maptiler/v2/maptile/a2e328a0c5/hybrid.day/${z}/${x}/${y}/256/png8?app_id=SqE1xcSngCd3m4a1zEGb&token=r0sR1DzqDkS6sDnh902FWQ&lg=ENG"], {
+        numZoomLevels: 19
+    }));
+    map.addLayer(new OpenLayers.Layer.OSM("Nokia Public Transit", ["http://4.maptile.lbs.ovi.com/maptiler/v2/maptile/a2e328a0c5/normal.day.transit/${z}/${x}/${y}/256/png8?app_id=SqE1xcSngCd3m4a1zEGb&token=r0sR1DzqDkS6sDnh902FWQ&lg=ENG"], {
+        numZoomLevels: 19
+    }));
+    
+    // http://d.mrsmon.lbs.ovi.com/maptiler/v2/traffictile/b8abea5c78/normal.day.grey/12/2197/1341/256/png8?app_id=SqE1xcSngCd3m4a1zEGb&token=r0sR1DzqDkS6sDnh902FWQ&lg=ENG
+    map.addLayer(new OpenLayers.Layer.OSM("Nokia Traffic", ["http://d.mrsmon.lbs.ovi.com/maptiler/v2/traffictile/b8abea5c78/normal.day.grey/${z}/${x}/${y}/256/png8?app_id=SqE1xcSngCd3m4a1zEGb&token=r0sR1DzqDkS6sDnh902FWQ&lg=ENG"], {
+        numZoomLevels: 19
+    }));
 
     map.addLayer(new OpenLayers.Layer.OSM("Apple iPhoto (OSM)", ["http://gsp2.apple.com/tile?api=1&style=slideshow&layers=default&lang=de_DE&z=${z}&x=${x}&y=${y}&v=9"], {
         numZoomLevels: 15
