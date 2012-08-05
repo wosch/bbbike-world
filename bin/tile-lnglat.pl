@@ -21,8 +21,8 @@ for ( -180 .. 179 ) {
       qq[ CITIES_FILE=$heatmap/cities/cities_${_}.txt],
       qq[ LOG_DIR=$heatmap/tmp],
       qq[ CITIES_DB=$heatmap/cities/cities_${_}.csv],
-      qq[ OSM_DIR=$heatmap/osm-lnglat/$_ ],
-      qq[ OSM_PLANET_PBF=$heatmap/osm-lng/planet_${fs}_-89_${a}_89.osm.pbf ],
+      qq[ OSM_DIR=$heatmap/lnglat/$_ ],
+      qq[ OSM_PLANET_PBF=$heatmap/lng/planet_${fs}_-89_${a}_89.osm.pbf ],
       qq[_cities-pbf > $heatmap/tmp/log.tile-lnglat.$_\0];
 }
 
