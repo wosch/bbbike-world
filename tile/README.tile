@@ -21,6 +21,9 @@ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys AE74800FB745A04C
 sudo apt-get update
 sudo apt-get install libapache2-mod-tile
 
+# sudo apt-get remove openstreetmap-mapnik-stylesheet-data
+# sudo apt-get install openstreetmap-mapnik-stylesheet-data
+
 
 sudo dpkg-reconfigure openstreetmap-postgis-db-setup
 Create user gis
