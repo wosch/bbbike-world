@@ -11,7 +11,7 @@ sudo apt-get install \
   lsof whois pigz make acct telnet dnsutils bc sysstat \
   buffer pktstat emacs unzip vim gcc zlib1g-dev perltidy tidy \
   bsd-mailx mutt perl-doc zip sudo munin-node htop strace \
-  python openjdk-6-jdk g++ \
+  python openjdk-6-jdk g++ sockstat \
   libhtml-tagcloud-perl libtext-unidecode-perl munin \
   libxml-atom-simplefeed-perl libjson-perl liburi-perl \
   libxml-libxml-perl libyaml-perl libyaml-syck-perl libxml-simple-perl \
