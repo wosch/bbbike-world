@@ -20,6 +20,9 @@ function init() {
             var url = ["http://a.www.toolserver.org/tiles/" + path + "/${z}/${x}/${y}.png", "http://b.www.toolserver.org/tiles/" + path + "/${z}/${x}/${y}.png", "http://c.www.toolserver.org/tiles/" + path + "/${z}/${x}/${y}.png"];
 
             options = OpenLayers.Util.extend({
+                tileOptions: {
+                    crossOriginKeyword: null
+                },
                 numZoomLevels: 19
             }, options);
             OpenLayers.Layer.OSM.prototype.initialize.apply(this, [name, url, options]);
@@ -44,6 +47,9 @@ function init() {
 
     // This is the layer that uses the locally stored tiles
     map.addLayer(new OpenLayers.Layer.OSM("BBBike.org Mapnik (de)", "mapnik-german/${z}/${x}/${y}.png", {
+        tileOptions: {
+            crossOriginKeyword: null
+        },
         numZoomLevels: 19,
         attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
     }));
@@ -56,10 +62,16 @@ function init() {
     map.addLayer(new OpenLayers.Layer.OSM.Mapnik("OSM Mapnik"));
 
     map.addLayer(new OpenLayers.Layer.OSM("OSM Mapnik (de)", "http://a.tile.openstreetmap.de/tiles/osmde/${z}/${x}/${y}.png", {
+        tileOptions: {
+            crossOriginKeyword: null
+        },
         numZoomLevels: 18
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM("OSM Mapnik b/w", "http://a.www.toolserver.org/tiles/bw-mapnik/${z}/${x}/${y}.png", {
+        tileOptions: {
+            crossOriginKeyword: null
+        },
         numZoomLevels: 18
     }));
 
@@ -69,6 +81,9 @@ function init() {
         numZoomLevels: 18
     }));
     map.addLayer(new OpenLayers.Layer.OSM("OSM Watercolor", ["http://a.tile.stamen.com/watercolor/${z}/${x}/${y}.png", "http://b.tile.stamen.com/watercolor/${z}/${x}/${y}.png"], {
+        tileOptions: {
+            crossOriginKeyword: null
+        },
         numZoomLevels: 18
     }));
 
@@ -81,16 +96,25 @@ function init() {
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM("OSM OEPNV", [" http://tile.memomaps.de/tilegen/${z}/${x}/${y}.png"], {
+        tileOptions: {
+            crossOriginKeyword: null
+        },
         numZoomLevels: 18
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM("OSM Hike&Bike", ["http://a.www.toolserver.org/tiles/hikebike/${z}/${x}/${y}.png", "http://b.www.toolserver.org/tiles/hikebike/${z}/${x}/${y}.png"], {
+        tileOptions: {
+            crossOriginKeyword: null
+        },
         numZoomLevels: 18
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM.CycleMap("OSM CycleMap"));
 
     map.addLayer(new OpenLayers.Layer.OSM("OSM Wanderreitkarte", ["http://www.wanderreitkarte.de/topo/${z}/${x}/${y}.png"], {
+        tileOptions: {
+            crossOriginKeyword: null
+        },
         numZoomLevels: 18
     }));
 
@@ -99,10 +123,16 @@ function init() {
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM("Esri", "http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/${z}/${y}/${x}.png", {
+        tileOptions: {
+            crossOriginKeyword: null
+        },
         numZoomLevels: 18
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM("Esri Topographic", "http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/${z}/${y}/${x}.png", {
+        tileOptions: {
+            crossOriginKeyword: null
+        },
         numZoomLevels: 18
     }));
 
@@ -115,10 +145,16 @@ function init() {
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM("Mapquest Satellite", ["http://mtile01.mqcdn.com/tiles/1.0.0/vy/sat/${z}/${x}/${y}.png", "http://mtile02.mqcdn.com/tiles/1.0.0/vy/sat/${z}/${x}/${y}.png"], {
+        tileOptions: {
+            crossOriginKeyword: null
+        },
         numZoomLevels: 19
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM("Skobbler (OSM)", ["http://tiles1.skobbler.net/osm_tiles2/${z}/${x}/${y}.png", "http://tiles2.skobbler.net/osm_tiles2/${z}/${x}/${y}.png"], {
+        tileOptions: {
+            crossOriginKeyword: null
+        },
         numZoomLevels: 19
     }));
 
@@ -145,6 +181,9 @@ function init() {
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM("Apple iPhoto (OSM)", ["http://gsp2.apple.com/tile?api=1&style=slideshow&layers=default&lang=de_DE&z=${z}&x=${x}&y=${y}&v=9"], {
+        tileOptions: {
+            crossOriginKeyword: null
+        },
         numZoomLevels: 15
     }));
 
@@ -224,7 +263,6 @@ function init() {
     bing();
 
     // http://xbb.uz/openlayers/i-Yandex.Maps
-
 
     function nokia(name, servers) {
         // [http://4.maptile.lbs.ovi.com/maptiler/v2/maptile/a2e328a0c5/normal.day/${z}/${x}/${y}/256/png8?app_id=SqE1xcSngCd3m4a1zEGb&token=r0sR1DzqDkS6sDnh902FWQ&lg=ENG"]
@@ -341,6 +379,9 @@ function init() {
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM("OSM Public Transport Lines", "http://www.openptmap.org/tiles/${z}/${x}/${y}.png", {
+        tileOptions: {
+            crossOriginKeyword: null
+        },
         maxZoomLevel: 17,
         numZoomLevels: 18,
         alpha: true,
