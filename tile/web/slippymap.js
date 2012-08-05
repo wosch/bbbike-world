@@ -129,7 +129,10 @@ function init() {
     map.addLayer(new OpenLayers.Layer.OSM("Nokia Terrain", nokia("terrain.day"), {
         numZoomLevels: 19
     }));
-    map.addLayer(new OpenLayers.Layer.OSM("Nokia Satellite", nokia("hybrid.day"), {
+    map.addLayer(new OpenLayers.Layer.OSM("Nokia Satellite", nokia("satellite.day"), {
+        numZoomLevels: 19
+    }));
+    map.addLayer(new OpenLayers.Layer.OSM("Nokia Hybrid", nokia("hybrid.day"), {
         numZoomLevels: 19
     }));
     map.addLayer(new OpenLayers.Layer.OSM("Nokia Public Transit", nokia("normal.day.transit"), {
