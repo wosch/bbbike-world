@@ -5,7 +5,7 @@
 
 set -e
 
-logfile=$(mktemp)
+logfile=$(mktemp -t _pbf2pbf.XXXXXXXX)
 
 args=""
 for f 
