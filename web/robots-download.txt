@@ -13,6 +13,7 @@ Disallow: *.tgz
 Disallow: *.tbz
 Disallow: *.zip
 Disallow: *.md5
+Disallow: *.poly
 Disallow: *.sha256
 
 User-agent: Baiduspider
