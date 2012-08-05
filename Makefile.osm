@@ -730,6 +730,12 @@ tile-csv:
 	     perl -npe 's,\S+/p_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > ${TILES_DIR}/tile-$$format.csv; \
 	done
 
+tile-checksum:
+	cd ${_pbf_dir}; pwd=`pwd`; \
+	for i in *; do \
+	   cd $$pwd/$$i && ( md5sum `ls -v planet*` > CHECKSUM.md5; shasum -a 256 `ls -v planet*` > CHECKSUM.sha256 & );  \
+	done; wait
+
 tile-distclean:
 	rm -rf ${TILES_DIR}
 
