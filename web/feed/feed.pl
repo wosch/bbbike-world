@@ -24,6 +24,19 @@ my $feed = XML::Atom::SimpleFeed->new(
 
 $feed->add_entry(
     title =>
+qq{Map Compare with new maps: Nokia Map, Terrain, Satellite, Hybrid, Public Transit, Traffic. Map Compare now supports up to 52 maps: http://tile.bbbike.org/mc/},
+    id      => '51d474fb21860b0629bfe8467ee42c0c',
+    content => {
+        type => 'text',
+        content =>
+qq{Map Compare with new maps: Nokia Map, Terrain, Satellite, Hybrid, Public Transit, Traffic. Map Compare now supports up to 52 maps: http://tile.bbbike.org/mc/},
+    },
+    updated  => '2012-08-06T13:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title =>
 qq{New feature: BBBike extract service with Osmand map format #osm #android},
     id      => '51d474fb21860b0629bfe8467ee42c0b',
     content => {
