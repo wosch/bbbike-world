@@ -22,7 +22,9 @@ sudo apt-get install \
   libprotobuf-lite6 libshp1 libgeos-dev libxml2-dev 
 
 # perl devel libs?
-# libcompress-zlib-perl
+# sudo apt-get install libcompress-zlib-perl libarchive1 \
+#   libarchive-dev liblzma-dev 
+
 
 
 # daemons
