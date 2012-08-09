@@ -679,7 +679,10 @@ sub _convert_send_email {
         my $obj      = get_json($json_file);
         my $format   = $obj->{'format'};
         my $pbf_file = $obj->{'pbf_file'};
+        my $city     = $obj->{'city'};
         my @system;
+
+        $city = "" if !defined $city;
 
         ###################################################################
         # converted file name
@@ -718,8 +721,10 @@ sub _convert_send_email {
             my $style = $1;
             $file =~ s/\.pbf$/.$format/;
             if ( !cached_format($file) ) {
-                @system =
-                  ( @nice, "$dirname/pbf2osm", "--garmin-$style", $pbf_file );
+                @system = (
+                    @nice, "$dirname/pbf2osm", "--garmin-$style", $pbf_file,
+                    $city
+                );
                 warn "@system\n" if $debug >= 2;
                 system(@system) == 0 or die "system @system failed: $?";
             }
@@ -727,7 +732,8 @@ sub _convert_send_email {
         elsif ( $format eq 'osm.shp.zip' ) {
             $file =~ s/\.osm\.pbf$/.$format/;
             if ( !cached_format($file) ) {
-                @system = ( @nice, "$dirname/pbf2osm", "--shape", $pbf_file );
+                @system =
+                  ( @nice, "$dirname/pbf2osm", "--shape", $pbf_file, $city );
 
                 warn "@system\n" if $debug >= 2;
                 system(@system) == 0 or die "system @system failed: $?";
@@ -736,7 +742,8 @@ sub _convert_send_email {
         elsif ( $format eq 'osm.obf.zip' ) {
             $file =~ s/\.osm\.pbf$/.$format/;
             if ( !cached_format($file) ) {
-                @system = ( @nice, "$dirname/pbf2osm", "--osmand", $pbf_file );
+                @system =
+                  ( @nice, "$dirname/pbf2osm", "--osmand", $pbf_file, $city );
 
                 warn "@system\n" if $debug >= 2;
                 system(@system) == 0 or die "system @system failed: $?";
