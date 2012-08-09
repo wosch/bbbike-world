@@ -386,6 +386,8 @@ Coordinates: @{[ escapeHTML("$sw_lng,$sw_lat x $ne_lng,$ne_lat") ]} <br/>
 Format: $format
 </p>
 
+<p>Press the back button to get the same area in a different format, or to request a new area.</p>
+
 <p>Sincerely, your BBBike\@World admin</p>
 EOF
 
