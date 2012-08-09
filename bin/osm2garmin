@@ -81,7 +81,7 @@ split_dir=$tmpdir/split
 mkdir -p $split_dir
 
 garmin=`basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
-garmin_dir=$tmpdir/$garmin
+garmin_dir=$tmpdir/$garmin-`basename $ext .zip`
 mkdir -p $garmin_dir
 
 logfile=$garmin_dir/logfile.txt 
@@ -127,7 +127,7 @@ EOF
 
 cd ..
 garmin_zip=`dirname $file`/$garmin.osm.$ext
-zip -q -r - -- $garmin | \
+zip -q -r - -- `basename $garmin_dir` | \
   ( cd $pwd;
     cat > $garmin_zip.tmp && mv $garmin_zip.tmp $garmin_zip 
     $osm_checksum $garmin_zip
