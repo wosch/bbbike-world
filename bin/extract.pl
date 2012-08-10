@@ -683,6 +683,7 @@ sub _convert_send_email {
         my @system;
 
         $city = "" if !defined $city;
+        $city = substr( $city, 0, 50 );    # mkgmap.jar description limit
 
         ###################################################################
         # converted file name
