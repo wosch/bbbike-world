@@ -14,6 +14,8 @@ usage () {
 }
 
 file="$1"
+city="$2"
+
 test -e "$file" || usage "file $file does not exists"
 
 : ${debug=false}
@@ -53,16 +55,18 @@ fi
 #rm -f $file_fixme
 
 cd $shape_dir
+date=$(date -u)
 
 cat << EOF > README.txt
 Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
 Extracts created by BBBike.org
 osmium2shape by Geofabrik, http://geofabrik.de
+This shape file was created on: $date
+Area: $city
 
 Please read the OSM wiki how to use shape files.
 
   http://wiki.openstreetmap.org/wiki/Shapefiles
-
 
 thanks, Wolfram Schneider
 
