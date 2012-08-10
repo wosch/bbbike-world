@@ -47,7 +47,7 @@ else
 fi
 tmpdir=`mktemp -d ${TMPDIR-"$_tmp"}/osm2obf.XXXXXXXXXXX`
 obf=`basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
-obf_dir=$tmpdir/$obf
+obf_dir=$tmpdir/${obf}-obf
 mkdir -p $obf_dir
 
 etc_dir=`dirname $0`/../etc/OsmAndMapCreator
@@ -130,7 +130,7 @@ EOF
 
 cd ..
 zip_file=`dirname $file`/$obf.osm.obf.zip
-zip -q -r - -- $obf | \
+zip -q -r - -- $(basename $obf_dir) | \
   ( cd $pwd;
     cat > $zip_file.tmp && mv $zip_file.tmp $zip_file 
     $osm_checksum $zip_file
