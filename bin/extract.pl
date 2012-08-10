@@ -19,7 +19,7 @@ use IO::File;
 use IO::Dir;
 use JSON;
 use Data::Dumper;
-use Encode qw/encode_utf8/;
+use Encode qw/encode_utf8 decode_utf8/;
 use Email::Valid;
 use Digest::MD5 qw(md5_hex);
 use Net::SMTP;
