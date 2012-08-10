@@ -706,7 +706,7 @@ sub _convert_send_email {
         if ( $format eq 'osm.bz2' ) {
             $file =~ s/\.pbf$/.bz2/;
             if ( !cached_format($file) ) {
-                @system = ( @nice, "$dirname/pbf2osm", "--bzip2", $pbf_file );
+                @system = ( @nice, "$dirname/pbf2osm", "--pbzip2", $pbf_file );
 
                 warn "@system\n" if $debug >= 2;
                 system(@system) == 0 or die "system @system failed: $?";
@@ -715,7 +715,7 @@ sub _convert_send_email {
         elsif ( $format eq 'osm.gz' ) {
             $file =~ s/\.pbf$/.gz/;
             if ( !cached_format($file) ) {
-                @system = ( @nice, "$dirname/pbf2osm", "--gzip", $pbf_file );
+                @system = ( @nice, "$dirname/pbf2osm", "--pgzip", $pbf_file );
 
                 warn "@system\n" if $debug >= 2;
                 system(@system) == 0 or die "system @system failed: $?";
