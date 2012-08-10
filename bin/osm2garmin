@@ -103,7 +103,7 @@ fi
 cd $garmin_dir
 echo ">>> Run mkgmap, map type: $mkgmap_map_style" >> $logfile
 java $java_opt -jar $HOME/opt/mkgmap/mkgmap.jar $max_jobs $mkgmap_opt $mkgmap_map \
-	--description="$description" --family-name="OpenStreetmap - BBBike.org" $split_dir/*.pbf $mkgmap_map_type >> $logfile 2>&1 || error
+	--description="$city" --family-name="OpenStreetmap - BBBike.org - $garmin" $split_dir/*.pbf $mkgmap_map_type >> $logfile 2>&1 || error
 
 if egrep -ql 'java.lang.OutOfMemoryError' $logfile; then
     error
