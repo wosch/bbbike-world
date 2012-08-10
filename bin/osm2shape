@@ -26,7 +26,7 @@ test -z "$file" && usage
 osm_fixme=`dirname $0`/pbf2pbf
 tmpdir=`mktemp -d ${TMPDIR-"/bbbike/tmp"}/osmium2shape.XXXXXXXXXXX`
 shape=`basename "$file" | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
-shape_dir=$tmpdir/$shape
+shape_dir=$tmpdir/${shape}-shp
 mkdir -p $shape_dir
 
 
@@ -65,7 +65,7 @@ EOF
 
 cd ..
 shape_zip=`dirname $file`/$shape.osm.shp.zip
-zip -q -r - -- $shape | \
+zip -q -r - -- `basename $shape_dir` | \
   ( cd $pwd;
     cat > $shape_zip.tmp && mv $shape_zip.tmp $shape_zip 
     $osm_checksum $shape_zip
