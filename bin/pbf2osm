@@ -19,8 +19,14 @@ if which pixz >/dev/null; then
 fi
 
 case $1 in
+  # single core, more than one *.pbf files at once
   -gzip | --gzip)    shift; compress=gzip;;
   -bzip2 | --bzip2 ) shift; compress=bzip2 ;;
+
+  # multi-core
+  --pbzip2 ) shift; compress=pbzip2 ;;
+  --pgzip ) shift; compress=pgzip ;;
+
   -xz | --xz )       shift; compress=xz ;;
   -shape | --shape | -shp | --shp ) shift; compress=shape ;;
   -osmand | --osmand | -obf | --obf ) shift; compress=osmand ;;
@@ -83,9 +89,11 @@ else
     case $compress in
 	gzip )  osm2osm $compress "$@";;
 	bzip2 ) osm2osm $compress "$@";;
-	xz ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $xz $xz_opt > $dir/$f.tmp 
-		mv -f $dir/$f.tmp $dir/$f.xz		
-		;;
+
+	pgzip ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $gzip > $dir/$f.tmp; mv -f $dir/$f.tmp $dir/$f.gz ;;
+	pbzip2 ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $bzip2 > $dir/$f.tmp; mv -f $dir/$f.tmp $dir/$f.bz2 ;;
+
+	xz ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $xz $xz_opt > $dir/$f.tmp; mv -f $dir/$f.tmp $dir/$f.xz ;;
 	garmin ) $osm2garmin "$file" "$garmin_style" "$city" ;;
 	shape )  $osm2shape  "$file" "$city" ;;
        	osmand ) $osm2osmand "$file" "$city" ;;
