@@ -666,6 +666,21 @@ sub get_json {
     return $obj;
 }
 
+# mkgmap.jar description limit of 50 bytes
+sub mkgmap_description {
+    my $city = shift;
+    $city = "" if !defined $city;
+    my $octets = encode_utf8($city);
+
+    # count bytes, not characters
+    if ( length($octets) > 50 ) {
+        my $data = substr( $octets, 0, 50 );
+        $city = decode_utf8( $data, Encode::FB_QUIET );
+    }
+
+    return $city;
+}
+
 sub _convert_send_email {
     my %args       = @_;
     my $json_file  = $args{'json_file'};
@@ -679,11 +694,8 @@ sub _convert_send_email {
         my $obj      = get_json($json_file);
         my $format   = $obj->{'format'};
         my $pbf_file = $obj->{'pbf_file'};
-        my $city     = $obj->{'city'};
+        my $city     = mkgmap_description( $obj->{'city'} );
         my @system;
-
-        $city = "" if !defined $city;
-        $city = substr( $city, 0, 50 );    # mkgmap.jar description limit
 
         ###################################################################
         # converted file name
