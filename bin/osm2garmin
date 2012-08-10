@@ -14,6 +14,9 @@ usage () {
 }
 
 error () {
+    message="$@"
+    
+    echo "$message"
     echo "file: $file"
     cat $logfile
     exit 1
@@ -85,7 +88,13 @@ garmin=`basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
 garmin_dir=$tmpdir/$garmin-`basename $ext .zip`
 mkdir -p $garmin_dir
 
-logfile=$garmin_dir/logfile.txt 
+logfile=$garmin_dir/logfile.txt
+touch $logfile
+
+if [ ! -s $file ]; then
+    error "file size is zero, give up!"
+fi
+
 if [ $size -lt 10000 ]; then
    echo "PBF file size $size KB, run without splitter" > $logfile
    ln -s $file $split_dir/63240001.osm.pbf
@@ -117,7 +126,9 @@ date=$(date -u)
 cat << EOF > README.txt
 Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
 Extracts created by BBBike.org, Map style: $mkgmap_map_style
-This garmin map was created on: $date $city
+
+This garmin map was created on: $date
+Area: $city
 
 Please read the OSM wiki how to install the maps on your GPS device:
 
