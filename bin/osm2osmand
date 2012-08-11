@@ -116,7 +116,7 @@ date=$(date -u)
 # rename files to longer names
 for i in *.obf
 do
-    new=$(echo $obf | perl -npe 's/\./,/g;')$(echo $i | perl -npe 's,.*/,,; s/.{4}/-/')
+    new=$(echo $obf | perl -npe 's/\./,/g; s/_2\.obf/.obf/; ')$(echo $i | perl -npe 's,.*/,,; s/.{4}/-/')
     mv -f $i "$new"
 done
 
