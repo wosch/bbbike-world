@@ -113,6 +113,13 @@ rm -rf data
 cp $etc_dir/osm2obf.xml batch.xml
 date=$(date -u)
 
+# rename files to longer names
+for i in *.obf
+do
+    new=$(echo $obf | perl -npe 's/\./,/g;')$(echo $i | perl -npe 's,.*/,,; s/.{4}/-/')
+    mv -f $i "$new"
+done
+
 cat << EOF > README.txt
 Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
 Extracts created by BBBike.org
