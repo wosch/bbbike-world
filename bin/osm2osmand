@@ -75,8 +75,8 @@ else
    for i in $split_dir/*.osm.pbf
    do
       mkdir -p data/_$counter/data/osm data/_$counter/data/indexes
-      new=$split_dir/$prefix$(echo $i | perl -npe 's,.*/,,; s/.{5}/-/') 
-      mv -f $i $new
+      #new=$split_dir/$prefix$(echo $i | perl -npe 's,.*/,,; s/.{5}/-/'); mv -f $i $new
+      new=$i
       ln $new data/_$counter/data/osm
       
       counter=`expr $counter + 1`
