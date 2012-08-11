@@ -52,19 +52,23 @@ mkgmap_opt='--gmapsupp --family-id=23 --remove-short-arcs --route --net --index 
 mkgmap_map_style="osm"
 : ${max_jobs=""}
 
+etc_dir=`dirname $0`/../etc/mkgmap
+# absolute path
+case $etc_dir in /* ) ;; *) etc_dir=$pwd/$etc_dir ;; esac
+
 case $ext in 
    cycle | garmin-cycle.zip ) 
 	ext=garmin-cycle.zip
-	mkgmap_map=--style-file=$pwd/world/etc/mkgmap/cyclemap
+	mkgmap_map=--style-file=$etc_dir/cyclemap
 	mkgmap_map_style=cyclemap
-	mkgmap_map_type=$pwd/world/etc/mkgmap/cyclemap.TYP
+	mkgmap_map_type=$etc_dir/cyclemap.TYP
 	;;
 
    leisure | freizeit | garmin-freizeit.zip | garmin-leisure.zip ) 
 	ext=garmin-leisure.zip
-	mkgmap_map=--style-file=$pwd/world/etc/mkgmap/freizeit
+	mkgmap_map=--style-file=$etc_dir/freizeit
 	mkgmap_map_style=freizeit
-	mkgmap_map_type=$pwd/world/etc/mkgmap/freizeit.TYP
+	mkgmap_map_type=$etc_dir/freizeit.TYP
 	;;
 
    osm | garmin-osm.zip ) 
