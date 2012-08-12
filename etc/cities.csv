@@ -19,14 +19,14 @@ Madrid:::es:eu:-4.07 40.17 -3.23 40.65:6400000::
 Basel:::de:eu:7.25 47.34 8.09 47.83:348791::
 Beijing:de!Peking,zh!北京市 ::zh:other:116.08 39.68 116.77 40.18:12000000::
 Beirut:ar!‏بيروت::ar:other:35.4354 33.7935 35.6187 33.9238:2700000::
-Berlin:::de::13.0109 52.27 13.93 52.71:4500000::
+Berlin:::de::12.76 52.23 13.98 52.82:4500000::
 Bern:de!Bern,en!Bern,fr!Berne::de:eu:7.172 46.729 7.768 47.169:349000::
 Bielefeld:::de::8.31 51.867 8.99 52.33:388832::Herford;Detmold;Teutoburger Wald
 Birmingham::en::eu:-2.2 52.376 -1.696 52.63:2300000::
 Bochum:::de::7.00 51.34 7.41 51.67:380000::Gelsenkirchen;Herne;Recklinghausen
 Bogota:es!Bogotá,en!Bogota:en:es:other:-74.2155 4.5199 -74.0078 4.7711:8200000::
 Bombay:en!Bombay,mr!मुंबई::mr:other:72.746 18.837 73.155 19.355:12000000::
-Bonn:::de::6.90 50.47 7.36 50.813:802194::
+Bonn:::de::6.80 50.47 7.36 50.90:802194::
 Koblenz:en!Koblenz,de!Koblenz,fr!Coblence::de::7.168 50.119 8.10 50.58:106000::
 Saarbruecken:de!Saarbrücken,en!Saarbrücken,fr!Sarrebruck::de::6.593 49.046 7.44 49.54 :176000::Saarland
 Luxemburg:en!Luxenbourg,de!Luxemburg,fr!Luxembourg::de:eu:5.594 49.406 6.727 50.21:502000::
@@ -82,7 +82,7 @@ Erfurt:::de::10.85 50.76 11.27 51.19:202450::
 Erlangen:::de::10.76 49.49 11.27 49.79:128512::
 Eugene::en::other:-123.2152 43.987 -122.8694 44.1476:343000::
 FortCollins:Fort Collins:en::other:-105.196 40.463 -104.933 40.621:118652::
-Frankfurt:Frankfurt am Main::de::8.44 49.968 9.086 50.35:2005405::Hanau;Offenbach am Main;Taunus
+Frankfurt:Frankfurt am Main::de::8.44 49.93 9.086 50.35:2005405::Hanau;Offenbach am Main;Taunus
 FrankfurtOder:Frankfurt (Oder)::de::13.49 52.00 14.76 52.71:143466::Königs Wusterhausen;Fürstenwalde/Spree;Beeskow;Eisenhüttenstadt
 Freiburg:::de::7.54 47.83 8.08 48.23:230881::
 Stuttgart:::de::8.79 48.46 9.50 48.93:2674445::Böblingen;Ludwigsburg;Rottenburg am Neckar
@@ -97,23 +97,23 @@ Groningen:::nl:eu:6.317 53.069 6.903 53.345:106000::
 Halifax::en::other:-63.716 44.609 -63.458 44.754:412000::
 Hamburg:::de::9.37 53.32 10.57 53.85:1800000::
 Hannover:de!Hannover,en!Hanover::de::9.18 52.07 10.15 52.67:784784::Hameln;Hildesheim;Celle;Bad Münder am Deister;Weserbergland
-Braunschweig:de!Braunschweig,en!Brunswick::de::10.15 51.75 11.20 52.62:400000::Wolfsburg;Salzgitter;Peine;Gifhorn
+Braunschweig:de!Braunschweig,en!Brunswick::de::10.07 51.75 11.20 52.69:400000::Wolfsburg;Salzgitter;Peine;Gifhorn
 Helsinki:::fi:eu:24.588 60.113 25.242 60.353:570000::
 Istanbul:::tr:other:28.655 40.896 29.27 41.266:13000000::
 Jena:::de::11.27 50.58 11.78 51.12:105571::Weimar
 Jerusalem:he!ירושלים::he:other:35.1424 31.7261 35.2936 31.8675:1000000::
 Johannesburg::en::other:27.72 -26.40 28.47 -25.90:3800000::
-Karlsruhe:::de::8.055 48.805 8.79 49.23:338149::Pforzheim;Landau in der Pfalz
+Karlsruhe:::de::8.03 48.73 8.81 49.27:338149::Pforzheim;Landau in der Pfalz
 Kassel:::de::9.225 51.158 9.742 51.47:322935::
 Katowice:de!Kattowitz,en!Katowice,pl!Katowice,de!Kattowitz::pl:eu:18.8829 50.17 19.3 50.41:990000::
 Kaunas:::lt:eu:23.738 54.79 24.273 55.01:355550::
 Kiel:::de::9.772 54.02 10.64 54.516:260000::
 Flensburg:::de::9.131 54.621 10.089 54.958:88000::
 Kiew:de!Kiew,en!Kiev,uk!Київ,ru!Киев::uk:eu:30.278 50.298 30.859 50.622:2819566::
-Koeln:de!Köln,en!Cologne::de::6.55 50.78 7.33 51.14:995397::Leverkusen;Bergisch Gladbach;Dormagen;Hürth;Brühl (Rheinland)
+Koeln:de!Köln,en!Cologne::de::6.55 50.72 7.33 51.14:995397::Leverkusen;Bergisch Gladbach;Dormagen;Hürth;Brühl (Rheinland)
 Moenchengladbach:de!Mönchengladbach,en!Mönchengladbach::de::5.75 50.99 6.65 51.48:380000::Venlo
 Leeds::en::eu:-1.89 53.65 -1.276 53.879:1500000::
-Leipzig:::de::12.08 51.07 12.85 51.55:536773::
+Leipzig:::de::12.02 50.98 12.92 51.59:536773::
 Dessau:::de::11.86 51.55 12.85 51.99:120000::Bitterfeld;Lutherstadt Wittenberg
 Gera:Gera::de::11.78 50.38 12.56 51.12:120000::Zwickau;Plauen;Vogtland
 Halle:Halle (Saale)::de::11.60 51.12 12.23 51.62:232323::
@@ -130,7 +130,7 @@ Madison::en::other:-89.578 42.971 -89.215 43.18:53512::
 Magdeburg:::de::11.33 51.89 11.94 52.35:230000::
 Mainz:Mainz/Wiesbaden::de::7.7 49.72 8.51 50.24:616490::
 Manchester::en::eu:-2.523 53.31 -1.79 53.65:2500000::
-Mannheim:Mannheim::de::8.10 49.23 8.90 49.72:1149438::Heidelberg;Neustadt an der Weinstraße;Ludwigshafen am Rhein;Worms
+Mannheim:Mannheim::de::8.10 49.23 8.90 49.75:1149438::Heidelberg;Neustadt an der Weinstraße;Ludwigshafen am Rhein;Worms
 Heilbronn:::de::8.79 48.93 9.60 49.42:120000::
 Kaiserslautern:::de::7.44 49.15 8.19 49.72:150000::
 Marseille:::fr:eu:5.277 43.142 5.72 43.438:1400000:0.01:
