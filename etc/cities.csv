@@ -16,7 +16,7 @@ Bamberg:::de::10.708 49.745 11.095 50.007:200000::
 Bangkok:th!กรุงเทพมหานคร::th:other:100.35 13.48 100.80 14.05:12000000::
 Barcelona:::es:eu:1.802 41.23 2.479 41.618:2248911::
 Madrid:::es:eu:-4.07 40.17 -3.23 40.65:6400000::
-Basel:::de:eu:7.25 47.34 8.09 47.83:348791::
+Basel:::de:eu:7.25 47.24 8.09 47.83:348791::
 Beijing:de!Peking,zh!北京市 ::zh:other:116.08 39.68 116.77 40.18:12000000::
 Beirut:ar!‏بيروت::ar:other:35.4354 33.7935 35.6187 33.9238:2700000::
 Berlin:::de::12.76 52.23 13.98 52.82:4500000::
@@ -40,7 +40,7 @@ Antwerpen:de!Antwerpen,en!Antwerp,fr!Anvers,nl!Antwerpen::nl:eu:4.171 51.00 4.66
 Bruegge:de!Brügge,en!Bruges,fr!Bruges,nl!Brugge::nl:eu:3.029 51.102 3.434 51.368:117000::
 Gent:de!Gent,en!Ghent,fr!Gand,nl!Gent::nl:eu:3.504 50.938 3.903 51.208:223000::
 Budapest:::hu:eu:18.757 47.325 19.414 47.655:1729962::
-BuenosAires:Buenos Aires::es:other:-58.721 -34.851 -58.126 -34.442:1200000::
+BuenosAires:Buenos Aires::es:other:-58.85 -34.85 -58.12 -34.40:1200000::
 Cairo:de!Kairo,ar!‏القاهرة::ar:other:31.1298 29.9285 31.4141 30.1479:18000000::
 Alexandria:de!Alexandria,ar!الإسكندرية‎::ar:other:29.7 31.02 30.21 31.34:43000000::
 Cambridge::en::eu:-0.036 52.119 0.324 52.284:118500::
@@ -84,7 +84,7 @@ Eugene::en::other:-123.2152 43.987 -122.8694 44.1476:343000::
 FortCollins:Fort Collins:en::other:-105.196 40.463 -104.933 40.621:118652::
 Frankfurt:Frankfurt am Main::de::8.44 49.93 9.086 50.35:2005405::Hanau;Offenbach am Main;Taunus
 FrankfurtOder:Frankfurt (Oder)::de::13.49 52.00 14.76 52.71:143466::Königs Wusterhausen;Fürstenwalde/Spree;Beeskow;Eisenhüttenstadt
-Freiburg:::de::7.54 47.83 8.08 48.23:230881::
+Freiburg:::de::7.50 47.78 8.24 48.31:230881::
 Stuttgart:::de::8.79 48.46 9.50 48.93:2674445::Böblingen;Ludwigsburg;Rottenburg am Neckar
 Gdansk:de!Danzig,en!Gdansk,pl!Gdańsk::pl:eu:18.34 54.23 18.87 54.62:889146::
 Genf:de!Genf,en!Geneva,fr!Genève::fr:eu:5.92 46.02 6.52 46.48:470000::
@@ -116,7 +116,7 @@ Leeds::en::eu:-1.89 53.65 -1.276 53.879:1500000::
 Leipzig:::de::12.02 50.98 12.92 51.59:536773::
 Dessau:::de::11.86 51.55 12.85 51.99:120000::Bitterfeld;Lutherstadt Wittenberg
 Gera:Gera::de::11.78 50.38 12.56 51.12:120000::Zwickau;Plauen;Vogtland
-Halle:Halle (Saale)::de::11.60 51.12 12.23 51.62:232323::
+Halle:Halle (Saale)::de::11.42 51.07 12.35 51.71:232323::
 Lima:::es:other:-77.263 -12.417 -76.556 -11.7:6500000::
 LaPaz:La Paz::es:other:-68.436 -16.698 -67.857 -16.297:2500000::
 Cusco:::es:other:-72.33 -13.712 -71.532 -13.217:450000::
@@ -125,7 +125,7 @@ Lissabon:de!Lissabon,pt!Lisboa,en!Lisbon::pt:eu:-9.535 38.384 -8.65 39.004:28000
 Liverpool::en::eu:-3.208 53.263 -2.442 53.575:816000::
 Ljubljana:de!Laibach,en!Ljubljana::sl:eu:14.267 45.904 14.771 46.25:278638::
 London::en::eu:-0.597 51.278 0.423 51.703:7556900::
-Luebeck:Lübeck::de::10.23 53.67 11.00 54.21:255222::
+Luebeck:Lübeck::de::10.20 53.67 11.09 54.21:255222::
 Madison::en::other:-89.578 42.971 -89.215 43.18:53512::
 Magdeburg:::de::11.33 51.89 11.94 52.35:230000::
 Mainz:Mainz/Wiesbaden::de::7.7 49.72 8.51 50.24:616490::
@@ -141,17 +141,17 @@ Montevideo:::es:other:-56.318 -34.950 -55.944 -34.789:1700000::
 Montreal:en!Montreal,fr!Montréal::fr:other:-74.086 45.301 -73.268 45.75:2465219::
 Moscow:de!Moskau,ru!Москва::ru:eu:37.322 55.566 37.881 55.916:15000000::
 Muenchen:de!München,en!Munich::de::11.06 47.80 12.00 48.42:2600000::Starnberg;Oberbayern
-Augsburg:::de::10.7 48.22 11.08 48.468:263646::
+Augsburg:::de::10.62 48.12 11.16 48.60:263646::
 Ulm:::de::9.69 48.221 10.306 48.52:122087::
 Regensburg:::de::11.891 48.895 12.344 49.143:134218::
 Paderborn:::de::8.525 51.607 9.10 51.89:145320::
 Osnabrueck:de!Osnabrück,en!Osnabrück::de::7.82 52.07 8.32 52.43:163514::
 Konstanz:::de::8.759 47.37 9.828 47.872:83644::Bodensee;Lindau (Bodensee);Bregenz
-Muenster:Münster::de::7.42 51.83 7.85 52.12:272951::Münsterland
+Muenster:Münster::de::7.35 51.78 7.87 52.18:272951::Münsterland
 NewDelhi:en!New Delhi,de!Neu-Delhi,hi!नई दिल्ली::hi:other:76.978 28.44 77.497 28.738:12000000::
 NewYork:New York:en::other:-74.359 40.479 -73.671 40.96:19000000::
 Nuernberg:de!Nürnberg,en!Nuremberg::de::10.52 49.07 11.55 49.62:2500000::Fürth;Neumarkt in der Oberpfalz;Mittelfranken
-Oldenburg:::de::7.951 53.012 8.512 53.26:160000::
+Oldenburg:::de::7.81 52.75 8.62 53.53:160000::
 Emden:Emden::de::7.97 53.05 6.90 53.80:465000::Ostfriesland
 Bremerhaven:::de::9.38 53.25 7.97 53.90:160000::Wilhelmshaven;Cuxhaven;Bremervörde
 Oranienburg:::de::12.70 52.50 14.50 53.48:45000::Barnim;Uckermark;Schorfheide;Oderbruch;Prenzlau;Bad Freienwalde (Oder);Rheinsberg;Neustrelitz;Eberswalde;Schwedt/Oder;Strausberg;Märkische Schweiz;Neuruppin
@@ -191,7 +191,7 @@ Utrecht:::nl:eu:4.741 51.926 5.49 52.323:307081::
 Arnhem:en!Arnhem,de!Arnheim::nl:eu:5.58 51.789 6.152 52.067:146000::
 Tilburg:::nl:eu:4.89 51.456 5.267 51.645:205000::
 Hertogenbosch:en!'s-Hertogenbosch,de!Herzogenbusch,fr!Bois-le-Du,es!Bolduque::nl:eu:5.11 51.58 5.60 51.84:136000::
-Ruegen:Rügen::de::12.90 54.20 13.81 54.70:221436::Stralsund;Hiddensee
+Ruegen:Rügen::de::12.85 54.03 13.81 54.70:221436::Stralsund;Hiddensee
 Usedom:::de::13.23 53.48 14.883 54.20:121436::Greifswald;Anklam;Swinemünde;Vorpommern
 Sacramento::en::other:-121.625 38.374 -121.154 38.738:2100000::
 Saigon:vi!Thành phố Hồ Chí Minh::vi:other:106.5444 10.6564 106.8545 10.8931:71000000::
@@ -229,7 +229,7 @@ Warsaw:de!Warschau,en!Warsaw,pl!Warszawa::pl:eu:20.653 52.041 21.408 52.451:3500
 WashingtonDC:Washington D.C.:en::other:-77.23 38.78 -76.84 39.05:5300000:0.01:
 Wuerzburg:pl!Wurtzburgo,zh!维尔茨堡,ru!Вюрцбург,fr!Wurtzbourg,es!Wurzburgo,de!Würzburg::de::9.45 49.40 10.54 50.11:130000::
 Wien:en!Vienna,de!Wien::de:eu:15.92 47.91 16.88 48.47:3114739::
-Linz:::de:eu:13.98 48.14 14.57 48.47:189000::
+Linz:::de:eu:13.89 48.10 14.59 48.53:189000::
 Graz:de!Graz,hr!Gradac,en!Graz::de:eu:14.809 46.599 16.166 47.447:258000::
 Innsbruck:::de:eu:11.197 47.227 11.62 47.306:120000::
 Salzburg:::de:eu:12.521 47.536 13.696 48.037:159000::
