@@ -9,10 +9,10 @@ Adelaide::en::other:138.458 -35.033 138.74 -34.753:1200000::
 Albuquerque::en::other:-106.7967 34.9993 -106.4726 35.2173:830000::
 Amsterdam:::nl:eu:4.535 52.205 5.211 52.525:2100000::
 Auckland::en::other:174.587 -37.001 174.988 -36.778:1200000::
-Austin::en::other:-97.98 30.15 -97.54 30.71:1557829::
+Austin::en::other:-97.99 30.10 -97.54 30.71:1557829::
 Baghdad:de!Bagdad,ar!‏بغداد‎::ar:other:44.2231 33.2043 44.5259 33.4238:6500000::
 Baku:::az:other:49.471 40.185 50.396 40.684:2200000::
-Bamberg:::de::10.708 49.745 11.095 50.007:200000::
+Bamberg:::de::10.53 49.745 11.20 50.19:200000::
 Bangkok:th!กรุงเทพมหานคร::th:other:100.35 13.48 100.80 14.05:12000000::
 Barcelona:::es:eu:1.802 41.23 2.479 41.618:2248911::
 Madrid:::es:eu:-4.07 40.17 -3.23 40.65:6400000::
@@ -77,7 +77,7 @@ Dublin::en::eu:-6.549 53.147 -6.032 53.51:477700::
 Cork::en::eu:-8.67 51.672 -8.123 51.984:274000::
 Duesseldorf:de!Düsseldorf,en!Dusseldorf::de::6.51 51.06 7.11 51.39:1658557::Krefeld;Neuss;
 Duisburg:Duisburg/Essen::de::6.51 51.361 7.11 51.63:490000::Moers;Oberhausen;Bottrop;Mülheim an der Ruhr
-Edinburgh::en::eu:-3.487 55.831 -2.861 56.042:500000::
+Edinburgh::en::eu:-3.58 55.70 -2.77 56.10:500000::
 Erfurt:::de::10.85 50.76 11.27 51.19:202450::
 Erlangen:::de::10.76 49.49 11.27 49.79:128512::
 Eugene::en::other:-123.2152 43.987 -122.8694 44.1476:343000::
@@ -137,14 +137,14 @@ Marseille:::fr:eu:5.277 43.142 5.72 43.438:1400000:0.01:
 Melbourne::en::other:144.68 -38.02 145.30 -37.53:3600000::
 MexicoCity:en!Mexico City,de!Mexiko-Stadt,es!Ciudad de Méxicoeses::es:other:-99.2708 19.3095 -98.9714 19.5329:21000000::
 Miami::en:es:other:-80.3244 25.6548 -80.0473 25.8567:832273::
-Montevideo:::es:other:-56.318 -34.950 -55.944 -34.789:1700000::
+Montevideo:::es:other:-56.49 -34.950 -55.60 -34.50:1700000::
 Montreal:en!Montreal,fr!Montréal::fr:other:-74.086 45.301 -73.268 45.75:2465219::
 Moscow:de!Moskau,ru!Москва::ru:eu:37.322 55.566 37.881 55.916:15000000::
 Muenchen:de!München,en!Munich::de::11.06 47.80 12.00 48.42:2600000::Starnberg;Oberbayern
 Augsburg:::de::10.62 48.12 11.16 48.60:263646::
-Ulm:::de::9.69 48.221 10.306 48.52:122087::
-Regensburg:::de::11.891 48.895 12.344 49.143:134218::
-Paderborn:::de::8.525 51.607 9.10 51.89:145320::
+Ulm:::de::9.60 48.15 10.41 48.67:122087::
+Regensburg:::de::11.80 48.80 12.44 49.25:134218::
+Paderborn:::de::8.40 51.50 9.18 51.89:145320::
 Osnabrueck:de!Osnabrück,en!Osnabrück::de::7.82 52.07 8.32 52.43:163514::
 Konstanz:::de::8.759 47.37 9.828 47.872:83644::Bodensee;Lindau (Bodensee);Bregenz
 Muenster:Münster::de::7.35 51.78 7.87 52.18:272951::Münsterland
@@ -231,7 +231,7 @@ Wuerzburg:pl!Wurtzburgo,zh!维尔茨堡,ru!Вюрцбург,fr!Wurtzbourg,es!Wur
 Wien:en!Vienna,de!Wien::de:eu:15.92 47.91 16.88 48.47:3114739::
 Linz:::de:eu:13.89 48.10 14.59 48.53:189000::
 Graz:de!Graz,hr!Gradac,en!Graz::de:eu:14.809 46.599 16.166 47.447:258000::
-Innsbruck:::de:eu:11.197 47.227 11.62 47.306:120000::
+Innsbruck:::de:eu:11.16 47.07 11.72 47.39:120000::
 Salzburg:::de:eu:12.521 47.536 13.696 48.037:159000::
 Wroclaw:de!Breslau,en!Wroclaw,pl!Wrocław::pl:eu:16.803 50.998 17.278 51.216:680000::
 Zagreb:de!Agram,en!Zagreb::hr:eu:15.748 45.683 16.291 45.94:1106000::
