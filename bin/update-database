@@ -6,6 +6,10 @@
 
 set -e
 
+if [ -e $HOME/.bbbikerc ]; then 
+    . $HOME/.bbbikerc
+fi
+
 tmp=tmp
 mkdir -p $tmp
 
