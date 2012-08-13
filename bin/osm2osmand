@@ -28,6 +28,11 @@ error () {
     exit 1
 }
 
+warn () {
+    echo "Failed to convert file: $file"
+    cat $logfile
+}
+
 file=$1
 city="$2"
 test -e "$file" || usage "file $file does not exists"
@@ -89,17 +94,23 @@ else
 fi
 #counter=0
 
+exit=0
 if [ $counter -eq 0 ]; then
-    time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp $osmand_home/OsmAndMapCreator.jar:$osmand_home/lib/*.jar net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml > $logfile 2>&1 && ln data/indexes/*.obf .
-    exit=$?
+    if time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp $osmand_home/OsmAndMapCreator.jar:$osmand_home/lib/*.jar net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml > $logfile 2>&1 && ln data/indexes/*.obf .; then
+	:
+    else
+        exit=$?
+    fi
 else
-    exit=0
     for i in data/_*
     do
 	printf "(cd $i; time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp $osmand_home/OsmAndMapCreator.jar:$osmand_home/lib/*.jar net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml && ln data/indexes/*.obf ../.. ) > $i.log 2>&1 \0"
     done > data/jobs.sh
-    xargs -0 -n1 -P${max_jobs} sh -c < data/jobs.sh >> $logfile 2>&1
-    exit=$?
+    if xargs -0 -n1 -P${max_jobs} sh -c < data/jobs.sh >> $logfile 2>&1; then
+	:
+    else
+    	exit=$?
+    fi
     cat data/_*.log >> $logfile
 fi
 
