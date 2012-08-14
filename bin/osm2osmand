@@ -41,6 +41,9 @@ test -e "$file" || usage "file $file does not exists"
 : ${debug=false}
 pwd=$(pwd)
 
+# city in portable ASCII, to store in a file name
+city_ascii=$(perl -e 'use Text::Unidecode; $a = shift; $a = substr(unidecode($a),0, 30); $a =~ s,\W+,_,g; print "$a"' "$city")
+
 test -z "$file" && usage
 size=$(du -ks -L "$file" | awk '{ print $1}')
 
@@ -127,8 +130,12 @@ date=$(date -u)
 # rename files to longer names
 for i in *.obf
 do
-    new=$(echo $obf | perl -npe 's/\./,/g;')$(echo $i | perl -npe 's,.*/,,; s/.{4}/-/; s/_2\.obf/.obf/;')
-    mv -f $i "$new"
+    new=$(echo $obf | perl -npe 's/\./,/g;')$(echo $i | perl -npe 's,.*/,,; s/.{4}/-/; s/_2\.obf/.obf/; s/\.obf$//')
+    if [ -z "$city_ascii" ]; then
+    	mv -f $i "$new.obf"
+    else
+    	mv -f $i "${new}_${city_ascii}.obf"
+    fi
 done
 
 cat << EOF > README.txt
