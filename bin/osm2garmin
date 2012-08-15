@@ -47,10 +47,11 @@ case $ext in
 esac
 
 pwd=$(pwd)
+license="README.txt"
 java_opt=-Xmx${java_heap} 
-mkgmap_opt='--gmapsupp --family-id=23 --remove-short-arcs --route --net --add-pois-to-areas' # --index
+mkgmap_opt="--gmapsupp --family-id=23 --remove-short-arcs --route --add-pois-to-areas --copyright-message=$license --index --make-all-cycleways"
 mkgmap_map_style="osm"
-: ${max_jobs=""}
+: ${max_jobs="--max-jobs=2"}
 
 etc_dir=`dirname $0`/../etc/mkgmap
 # absolute path
@@ -108,29 +109,27 @@ else
 fi
 
 if [ -z "$city" ]; then
-   description="$garmin"
+   description="$garmin style=$mkgmap_map_style"
 else
-   description="$garmin $city"
+   description="$city style=$mkgmap_map_style"
 fi
+
+coords=$(echo $garmin | perl -npe 's,planet_,,; s/_/ /g')
+description=$(echo $description | perl -npe '$_=substr($_,0,50)')
+
+coords_message=""
+case $garmin in
+   planet* ) coords_message="GPS Coordinates: $coords";;
+   * ) coords_message="Filename: $garmin";;
+esac
 
 cd $garmin_dir
-echo ">>> Run mkgmap, map type: $mkgmap_map_style" >> $logfile
-java $java_opt -jar $HOME/opt/mkgmap/mkgmap.jar $max_jobs $mkgmap_opt $mkgmap_map \
-	--description="$city" --family-name="OpenStreetmap - BBBike.org - $garmin" $split_dir/*.pbf $mkgmap_map_type >> $logfile 2>&1 || error
 
-if egrep -ql 'java.lang.OutOfMemoryError' $logfile; then
-    error
-fi
-
-case $mkgmap_opt in
-  *--gmapsupp* ) rm -f osmmap.tdb osmmap.img [0-9][0-9]*.img ;;
-esac
-	
 date=$(date -u)
 cat << EOF > README.txt
 Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
 Extracts created by BBBike.org, Map style: $mkgmap_map_style
-
+$coords_message
 This garmin map was created on: $date
 Area: $city
 
@@ -146,6 +145,18 @@ thanks, Wolfram Schneider
 http://www.BBBike.org - Your Cycle Route Planner
 We appreciate any feedback, suggestions and a donation!
 EOF
+
+echo ">>> Run mkgmap, map type: $mkgmap_map_style" >> $logfile
+java $java_opt -jar $HOME/opt/mkgmap/mkgmap.jar $max_jobs $mkgmap_opt $mkgmap_map \
+	--description="$description" --family-name="download.BBBike.org/osm/ $coords" $split_dir/*.pbf $mkgmap_map_type >> $logfile 2>&1 || error
+
+if egrep -ql '^java\.lang\.' $logfile; then
+    error
+fi
+
+case $mkgmap_opt in
+  *--gmapsupp* ) rm -f osmmap.tdb osmmap.img [0-9][0-9]*.img ;;
+esac
 
 cd ..
 garmin_zip=`dirname $file`/$garmin.osm.$ext
