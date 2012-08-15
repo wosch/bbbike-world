@@ -111,9 +111,9 @@ fi
 date=$(date -u)
 date_short=$(date '+%b %Y')
 if [ -z "$city" ]; then
-   description="$garmin, $date_short, $mkgmap_map_style"
+   description="$garmin, $date_short"
 else
-   description="$city, $date_short, $mkgmap_map_style"
+   description="$city, $date_short"
 fi
 
 coords=$(echo $garmin | perl -npe 's,planet_,,; s/_/ /g')
@@ -150,7 +150,7 @@ EOF
 
 echo ">>> Run mkgmap, map type: $mkgmap_map_style" >> $logfile
 java $java_opt -jar $HOME/opt/mkgmap/mkgmap.jar $max_jobs $mkgmap_opt $mkgmap_map \
-	--description="$description" --family-name="BBBike.org $coords" $split_dir/*.pbf $mkgmap_map_type >> $logfile 2>&1 || error
+	--description="$description" --family-name="BBBike.org style=$mkgmap_map_style $coords" $split_dir/*.pbf $mkgmap_map_type >> $logfile 2>&1 || error
 
 if egrep -ql '^java\.lang\.' $logfile; then
     error
