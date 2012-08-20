@@ -1,7 +1,7 @@
 #!/bin/sh
 # Copyright (c) 2009-2012 Wolfram Schneider, http://bbbike.org
 #
-# wrapper for Makefile bug
+# wrapper for Makefile
 #
 
 set -e
@@ -9,10 +9,12 @@ set -e
 tmp=tmp
 mkdir -p $tmp
 
+test -e $HOME/.bbbikerc && . $HOME/.bbbikerc
+
 : ${bbbike_build="build-runtime"}
 : ${bbbike_download="planet-download"}
 : ${bbbike_extract="distclean cities-parallel"}
-: ${bbbike_convert="convert-wgs84 convert-post check-data-osm rsync-bg convert-bbbike update-files"}
+: ${bbbike_convert="convert-wgs84 convert-post check-data-osm convert-bbbike update-files"}
 : ${bbbike_install="rsync-tgz _rsync cache-heater"}
 : ${bbbike_post="osm2garmin osm2shape osm2osmand osm-html rsync rsync-osm-full"}
 
