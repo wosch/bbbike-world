@@ -675,7 +675,7 @@ $feed->add_entry(
     content => {
         type => 'text',
         content =>
-qq{New: cycle routing for Augsburg, Halle (Saale), Konstanz, Osnabrüc, Paderbor, Regensbur, Ulm},
+qq{New: cycle routing for Augsburg, Halle (Saale), Konstanz, Osnabrück, Paderbor, Regensburg, Ulm},
     },
     updated  => '2011-03-19T12:30:04Z',
     category => 'News',
