@@ -28,12 +28,21 @@ error () {
     exit 1
 }
 
+warn () {
+    echo "Failed to convert file: $file"
+    cat $logfile
+}
+
 file=$1
+city="$2"
 test -e "$file" || usage "file $file does not exists"
 : ${osm_checksum=`dirname $0`/osm-checksum}
 
 : ${debug=false}
 pwd=$(pwd)
+
+# city in portable ASCII, to store in a file name
+city_ascii=$(perl -e 'use Text::Unidecode; $a = shift; $a = substr(unidecode($a),0, 30); $a =~ s,\W+,_,g; print "$a"' "$city")
 
 test -z "$file" && usage
 size=$(du -ks -L "$file" | awk '{ print $1}')
@@ -46,7 +55,7 @@ else
 fi
 tmpdir=`mktemp -d ${TMPDIR-"$_tmp"}/osm2obf.XXXXXXXXXXX`
 obf=`basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
-obf_dir=$tmpdir/$obf
+obf_dir=$tmpdir/${obf}-obf
 mkdir -p $obf_dir
 
 etc_dir=`dirname $0`/../etc/OsmAndMapCreator
@@ -61,12 +70,15 @@ mkdir $obf_dir/data $obf_dir/data/osm $obf_dir/data/indexes
 
 cd $obf_dir
 counter=0
+
+# magic 8-byte filename long
+mapid=93240001
+
 if [ $size -le 50000 ]; then
-    ( cd data/osm; ln -s $file . )
+    ( cd data/osm; ln -s $file $mapid.osm.pbf )
 else
    # file to large
    split_dir=data/osm
-   mapid=93240001
    echo ">>> Run splitter" >> $logfile
    java $java_opt -jar $HOME/opt/splitter/splitter.jar --output-dir=$split_dir  --max-nodes=4000000 --mapid=$mapid $file >> $logfile 2>&1 || error
 
@@ -74,8 +86,8 @@ else
    for i in $split_dir/*.osm.pbf
    do
       mkdir -p data/_$counter/data/osm data/_$counter/data/indexes
-      new=$split_dir/$prefix$(echo $i | perl -npe 's,.*/,,; s/.{5}/-/') 
-      mv -f $i $new
+      #new=$split_dir/$prefix$(echo $i | perl -npe 's,.*/,,; s/.{5}/-/'); mv -f $i $new
+      new=$i
       ln $new data/_$counter/data/osm
       
       counter=`expr $counter + 1`
@@ -85,17 +97,23 @@ else
 fi
 #counter=0
 
+exit=0
 if [ $counter -eq 0 ]; then
-    time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp $osmand_home/OsmAndMapCreator.jar:$osmand_home/lib/*.jar net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml > $logfile 2>&1 && ln data/indexes/*.obf .
-    exit=$?
+    if time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp $osmand_home/OsmAndMapCreator.jar:$osmand_home/lib/*.jar net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml > $logfile 2>&1 && ln data/indexes/*.obf .; then
+	:
+    else
+        exit=$?
+    fi
 else
-    exit=0
     for i in data/_*
     do
 	printf "(cd $i; time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp $osmand_home/OsmAndMapCreator.jar:$osmand_home/lib/*.jar net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml && ln data/indexes/*.obf ../.. ) > $i.log 2>&1 \0"
     done > data/jobs.sh
-    xargs -0 -n1 -P${max_jobs} sh -c < data/jobs.sh >> $logfile 2>&1
-    exit=$?
+    if xargs -0 -n1 -P${max_jobs} sh -c < data/jobs.sh >> $logfile 2>&1; then
+	:
+    else
+    	exit=$?
+    fi
     cat data/_*.log >> $logfile
 fi
 
@@ -107,12 +125,25 @@ fi
 
 rm -rf data
 cp $etc_dir/osm2obf.xml batch.xml
+date=$(date -u)
 
+# rename files to longer names
+for i in *.obf
+do
+    new=$(echo $obf | perl -npe 's/\./,/g;')$(echo $i | perl -npe 's,.*/,,; s/.{4}/-/; s/_2\.obf/.obf/; s/\.obf$//')
+    if [ -z "$city_ascii" ]; then
+    	mv -f $i "$new.obf"
+    else
+    	mv -f $i "${new}_${city_ascii}.obf"
+    fi
+done
 
 cat << EOF > README.txt
 Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
 Extracts created by BBBike.org
 OsmAnd by osmand.net, http://code.google.com/p/osmand
+This osmand file was created on: $date
+Area: $city
 
 Please read the OsmAnd homepage how to use obf files:
 
@@ -127,7 +158,7 @@ EOF
 
 cd ..
 zip_file=`dirname $file`/$obf.osm.obf.zip
-zip -q -r - -- $obf | \
+zip -q -r - -- $(basename $obf_dir) | \
   ( cd $pwd;
     cat > $zip_file.tmp && mv $zip_file.tmp $zip_file 
     $osm_checksum $zip_file

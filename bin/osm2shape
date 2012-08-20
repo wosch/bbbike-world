@@ -14,6 +14,8 @@ usage () {
 }
 
 file="$1"
+city="$2"
+
 test -e "$file" || usage "file $file does not exists"
 
 : ${debug=false}
@@ -24,25 +26,13 @@ test -z "$file" && usage
 osm_fixme=`dirname $0`/pbf2pbf
 tmpdir=`mktemp -d ${TMPDIR-"/bbbike/tmp"}/osmium2shape.XXXXXXXXXXX`
 shape=`basename "$file" | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
-shape_dir=$tmpdir/$shape
+shape_dir=$tmpdir/${shape}-shp
 mkdir -p $shape_dir
 
 
 logfile=$shape_dir/logfile.txt 
 
-#file_basename=`basename $file`
-#file_fixme=$shape_dir/$file_basename
-#if osmosis --read-pbf $file --bb left=-180 right=180 top=90 bottom=-90 clipIncompleteEntities=true --write-pbf omitmetadata=true $file_fixme > $logfile 2>&1; then
-#   :
-#else
-#   exit=$?
-#   echo "Failed to fix $file"
-#   cat $logfile
-#   exit $exit
-#fi
-osm_fixme=true
-
-if $osm_fixme $file && osmium2shape -d $shape_dir $file > $logfile 2>&1; then
+if osmium2shape -d $shape_dir $file > $logfile 2>&1; then
    :
 else
    exit=$?
@@ -53,16 +43,18 @@ fi
 #rm -f $file_fixme
 
 cd $shape_dir
+date=$(date -u)
 
 cat << EOF > README.txt
 Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
 Extracts created by BBBike.org
 osmium2shape by Geofabrik, http://geofabrik.de
+This shape file was created on: $date
+Area: $city
 
 Please read the OSM wiki how to use shape files.
 
   http://wiki.openstreetmap.org/wiki/Shapefiles
-
 
 thanks, Wolfram Schneider
 
@@ -73,7 +65,7 @@ EOF
 
 cd ..
 shape_zip=`dirname $file`/$shape.osm.shp.zip
-zip -q -r - -- $shape | \
+zip -q -r - -- `basename $shape_dir` | \
   ( cd $pwd;
     cat > $shape_zip.tmp && mv $shape_zip.tmp $shape_zip 
     $osm_checksum $shape_zip

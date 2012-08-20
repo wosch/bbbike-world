@@ -97,7 +97,7 @@
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>174.7875,-36.8895,0.000000</coordinates>
+      <coordinates>174.75,-36.905,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -107,7 +107,7 @@
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>10.89,48.344,0.000000</coordinates>
+      <coordinates>10.89,48.36,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -117,7 +117,7 @@
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-97.76,30.43,0.000000</coordinates>
+      <coordinates>-97.765,30.405,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -157,7 +157,7 @@
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>10.9015,49.876,0.000000</coordinates>
+      <coordinates>10.865,49.9675,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -187,7 +187,7 @@
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>7.67,47.585,0.000000</coordinates>
+      <coordinates>7.67,47.535,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -227,7 +227,7 @@
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>13.47045,52.49,0.000000</coordinates>
+      <coordinates>13.37,52.525,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -297,7 +297,7 @@
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>7.13,50.6415,0.000000</coordinates>
+      <coordinates>7.08,50.685,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -337,7 +337,7 @@
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>10.675,52.185,0.000000</coordinates>
+      <coordinates>10.635,52.22,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -427,7 +427,7 @@
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-58.4235,-34.6465,0.000000</coordinates>
+      <coordinates>-58.485,-34.625,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -737,7 +737,7 @@
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-3.174,55.9365,0.000000</coordinates>
+      <coordinates>-3.175,55.9,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -817,7 +817,7 @@
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>8.763,50.159,0.000000</coordinates>
+      <coordinates>8.763,50.14,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -837,7 +837,7 @@
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>7.81,48.03,0.000000</coordinates>
+      <coordinates>7.87,48.045,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -967,7 +967,7 @@
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>11.915,51.37,0.000000</coordinates>
+      <coordinates>11.885,51.39,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1047,7 +1047,7 @@
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>11.4085,47.2665,0.000000</coordinates>
+      <coordinates>11.44,47.23,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1107,7 +1107,7 @@
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>8.4225,49.0175,0.000000</coordinates>
+      <coordinates>8.42,49,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1177,7 +1177,7 @@
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>6.94,50.96,0.000000</coordinates>
+      <coordinates>6.94,50.93,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1237,7 +1237,7 @@
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>12.465,51.31,0.000000</coordinates>
+      <coordinates>12.47,51.285,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1257,7 +1257,7 @@
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>14.275,48.305,0.000000</coordinates>
+      <coordinates>14.24,48.315,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1317,7 +1317,7 @@
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>10.615,53.94,0.000000</coordinates>
+      <coordinates>10.645,53.94,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1397,7 +1397,7 @@
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>13.0815,55.6165,0.000000</coordinates>
+      <coordinates>13.25,55.64,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1417,7 +1417,7 @@
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>8.5,49.475,0.000000</coordinates>
+      <coordinates>8.5,49.49,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1487,7 +1487,7 @@
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>-56.131,-34.8695,0.000000</coordinates>
+      <coordinates>-56.045,-34.725,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1537,7 +1537,7 @@
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>7.635,51.975,0.000000</coordinates>
+      <coordinates>7.61,51.98,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1587,7 +1587,7 @@
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>8.2315,53.136,0.000000</coordinates>
+      <coordinates>8.215,53.14,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1657,7 +1657,7 @@
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>8.8125,51.7485,0.000000</coordinates>
+      <coordinates>8.79,51.695,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1797,7 +1797,7 @@
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>12.1175,49.019,0.000000</coordinates>
+      <coordinates>12.12,49.025,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -1847,7 +1847,7 @@
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>13.355,54.45,0.000000</coordinates>
+      <coordinates>13.33,54.365,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>
@@ -2197,7 +2197,7 @@
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
-      <coordinates>9.998,48.3705,0.000000</coordinates>
+      <coordinates>10.005,48.41,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>

@@ -19,7 +19,7 @@ use IO::File;
 use IO::Dir;
 use JSON;
 use Data::Dumper;
-use Encode qw/encode_utf8/;
+use Encode qw/encode_utf8 decode_utf8/;
 use Email::Valid;
 use Digest::MD5 qw(md5_hex);
 use Net::SMTP;
@@ -666,6 +666,21 @@ sub get_json {
     return $obj;
 }
 
+# mkgmap.jar description limit of 50 bytes
+sub mkgmap_description {
+    my $city = shift;
+    $city = "" if !defined $city;
+    my $octets = encode_utf8($city);
+
+    # count bytes, not characters
+    if ( length($octets) > 50 ) {
+        my $data = substr( $octets, 0, 50 );
+        $city = decode_utf8( $data, Encode::FB_QUIET );
+    }
+
+    return $city;
+}
+
 sub _convert_send_email {
     my %args       = @_;
     my $json_file  = $args{'json_file'};
@@ -679,6 +694,7 @@ sub _convert_send_email {
         my $obj      = get_json($json_file);
         my $format   = $obj->{'format'};
         my $pbf_file = $obj->{'pbf_file'};
+        my $city     = mkgmap_description( $obj->{'city'} );
         my @system;
 
         ###################################################################
@@ -690,7 +706,7 @@ sub _convert_send_email {
         if ( $format eq 'osm.bz2' ) {
             $file =~ s/\.pbf$/.bz2/;
             if ( !cached_format($file) ) {
-                @system = ( @nice, "$dirname/pbf2osm", "--bzip2", $pbf_file );
+                @system = ( @nice, "$dirname/pbf2osm", "--pbzip2", $pbf_file );
 
                 warn "@system\n" if $debug >= 2;
                 system(@system) == 0 or die "system @system failed: $?";
@@ -699,7 +715,7 @@ sub _convert_send_email {
         elsif ( $format eq 'osm.gz' ) {
             $file =~ s/\.pbf$/.gz/;
             if ( !cached_format($file) ) {
-                @system = ( @nice, "$dirname/pbf2osm", "--gzip", $pbf_file );
+                @system = ( @nice, "$dirname/pbf2osm", "--pgzip", $pbf_file );
 
                 warn "@system\n" if $debug >= 2;
                 system(@system) == 0 or die "system @system failed: $?";
@@ -718,8 +734,10 @@ sub _convert_send_email {
             my $style = $1;
             $file =~ s/\.pbf$/.$format/;
             if ( !cached_format($file) ) {
-                @system =
-                  ( @nice, "$dirname/pbf2osm", "--garmin-$style", $pbf_file );
+                @system = (
+                    @nice, "$dirname/pbf2osm", "--garmin-$style", $pbf_file,
+                    $city
+                );
                 warn "@system\n" if $debug >= 2;
                 system(@system) == 0 or die "system @system failed: $?";
             }
@@ -727,7 +745,8 @@ sub _convert_send_email {
         elsif ( $format eq 'osm.shp.zip' ) {
             $file =~ s/\.osm\.pbf$/.$format/;
             if ( !cached_format($file) ) {
-                @system = ( @nice, "$dirname/pbf2osm", "--shape", $pbf_file );
+                @system =
+                  ( @nice, "$dirname/pbf2osm", "--shape", $pbf_file, $city );
 
                 warn "@system\n" if $debug >= 2;
                 system(@system) == 0 or die "system @system failed: $?";
@@ -736,7 +755,8 @@ sub _convert_send_email {
         elsif ( $format eq 'osm.obf.zip' ) {
             $file =~ s/\.osm\.pbf$/.$format/;
             if ( !cached_format($file) ) {
-                @system = ( @nice, "$dirname/pbf2osm", "--osmand", $pbf_file );
+                @system =
+                  ( @nice, "$dirname/pbf2osm", "--osmand", $pbf_file, $city );
 
                 warn "@system\n" if $debug >= 2;
                 system(@system) == 0 or die "system @system failed: $?";
