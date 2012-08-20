@@ -124,7 +124,7 @@ sub header {
     return $q->header( -charset => 'utf-8', @cookie ) .
 
       $q->start_html(
-        -title => 'BBBike @ World: OpenStreetMap extracts',
+        -title => 'BBBike OpenStreetMap extracts',
         -head  => $q->meta(
             {
                 -http_equiv => 'Content-Type',
@@ -149,7 +149,7 @@ sub header {
 sub map {
 
     return <<EOF;
-</div> <!-- top -->
+</div> <!-- sidebar_left -->
 
 <div id="content" class="site_index">
  <div style="width: 100%; display: block;" id="sidebar">
@@ -202,8 +202,8 @@ sub footer {
   <div id="footer_top">
     <a href="../">home</a> $extracts | 
     <a href="../extract.html">help</a> $extracts | 
-    <a href="http://download.bbbike.org/osm/">download</a> | 
-    <a href="/cgi/livesearch-extract.cgi">livesearch</a> | 
+    <a href="http://download.bbbike.org/osm/">download</a> |
+    <a href="/cgi/livesearch-extract.cgi">livesearch</a> <br/>
     <a href="../community.html#donate">donate</a> $locate
   </div>
   <hr/>
@@ -244,7 +244,7 @@ EOF
 
 sub message {
     return <<EOF;
-<b>BBBike @ World OpenStreetMap extracts</b>:
+<b>BBBike OpenStreetMap extracts</b>:
 this site allow you to extracts areas from the <a href="http://wiki.openstreetmap.org/wiki/Planet.osm">planet.osm</a> in OSM, PBF, Garmin, Osmand or ESRI shapefile format.
 The maximum area size is @{[ large_int($max_skm) ]} square km, or @{[ large_int($option->{max_size}/1000) ]}MB file size.
 
@@ -261,7 +261,8 @@ sub layout {
 
     <div id="border">
       <div id="main">
-        <div id="top">
+        <div id="top"></top>
+        <div id="sidebar_left">
 
       <!-- <center>@{[ $q->h3("BBBike @ World extracts") ]}</center> -->
 EOF
@@ -638,6 +639,9 @@ sub homepage {
     print &layout($q);
 
     print qq{<div id="intro">\n};
+    
+    print qq{<div id="message">\n}, &message, "</div>\n<hr/>\n\n";
+    
     print $q->start_form(
         -method   => $request_method,
         -id       => 'extract',
@@ -658,62 +662,62 @@ sub homepage {
             [
                 $q->td(
                     [
-"<span title='Give the city or area to extract a name. The name is optional, but better fill it out to find it later again.'>Name of area to extract</span>",
+"<span title='Give the city or area to extract a name. The name is optional, but better fill it out to find it later again.'>Name of area to extract</span><br/>" .
                         $q->textfield(
                             -name => 'city',
                             -id   => 'city',
-                            -size => 40
+                            -size => 34
                         )
                     ]
                 ),
                 $q->td(
                     [
-"<span title='Required, you will be notified by e-mail if your extract is ready for download.'>Your email address (*)</span>",
+"<span title='Required, you will be notified by e-mail if your extract is ready for download.'>Your email address (*)</span><br/>" .
                         $q->textfield(
                             -name  => 'email',
-                            -size  => 40,
+                            -size  => 34,
                             -value => $default_email
                         )
                     ]
                 ),
                 $q->td(
                     [
-"<span title='South West, valid values: -180 .. 180'>Left lower corner (SW)</span>",
+"<span title='South West, valid values: -180 .. 180'>Left lower corner (SW)</span><br/>" .
                         "$lng: "
                           . $q->textfield(
                             -name => 'sw_lng',
                             -id   => 'sw_lng',
-                            -size => 14
+                            -size => 10
                           )
                           . " $lat: "
                           . $q->textfield(
                             -name => 'sw_lat',
                             -id   => 'sw_lat',
-                            -size => 14
+                            -size => 10
                           )
                     ]
                 ),
                 $q->td(
                     [
-"<span title='North East, valid values: -180 .. 180'>Right top corner (NE)</span>",
+"<span title='North East, valid values: -180 .. 180'>Right top corner (NE)</span><br/>" .
                         "$lng: "
                           . $q->textfield(
                             -name => 'ne_lng',
                             -id   => 'ne_lng',
-                            -size => 14
+                            -size => 10
                           )
                           . " $lat: "
                           . $q->textfield(
                             -name => 'ne_lat',
                             -id   => 'ne_lat',
-                            -size => 14
+                            -size => 10
                           )
                     ]
                 ),
 
                 $q->td(
                     [
-"<span title='PBF: fast and compact data, OSM XML gzip: standard OSM format, twice as large'>Output Format</span>",
+"<span title='PBF: fast and compact data, OSM XML gzip: standard OSM format, twice as large'>Output Format</span><br/>" .
                         $q->popup_menu(
                             -name   => 'format',
                             -values => [
@@ -731,8 +735,7 @@ sub homepage {
     );
 
     print "\n</div>\n";
-    print qq{<div id="message">\n};
-    print &message;
+    
 
     print "<br/>\n";
     print $q->submit(
@@ -750,7 +753,6 @@ sub homepage {
 </span>
 EOF
 
-    print "</div>\n";
     print $q->end_form;
     print "</div>\n";
 
