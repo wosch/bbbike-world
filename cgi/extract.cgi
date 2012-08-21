@@ -152,28 +152,17 @@ sub map {
 </div> <!-- sidebar_left -->
 
 <div id="content" class="site_index">
- <div style="width: 100%; display: block;" id="sidebar">
 
+ <div id="sidebar">
   <div id="sidebar_content">
-
     <span class="export_hint">
       <a href="#" id="drag_box">Manually select a different area</a>
-    </span> - <span id="square_km"></span>
-
-  <div id="export_osm">
-    <p class="export_heading"/>
-    <div id="export_osm_too_large" style="display:none">
-      <p class="export_heading error">Area Too Large. <span id="size"></span> Please zoom in!</p>
-      <div class="export_details">
-      </div>
-    </div>
-  </div> <!-- export_bounds -->
-  </div>
+    </span> -
+    <span id="square_km"></span>
+  </div> <!-- sidebar_content -->
  </div><!-- sidebar -->
 
-
  <!-- define a DIV into which the map will appear. Make it take up the whole window -->
- <!-- <div style="width:100%; height:400px" id="map"></div>  -->
  <div id="map"></div>
 
 </div><!-- content -->
@@ -206,8 +195,8 @@ sub footer {
     <a href="/cgi/livesearch-extract.cgi">livesearch</a> <br/>
     <a href="../community.html#donate">donate</a> $locate
   </div>
-  <hr/>
   <div id="copyright">
+  <hr/>
     (&copy;) 2011-2012 <a href="http://www.bbbike.org">BBBike.org</a>
     by <a href="http://wolfram.schneider.org">Wolfram Schneider</a> //
     Map data (&copy;) <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
@@ -750,14 +739,13 @@ sub homepage {
 
 
     print $q->end_form;
+    print &export_osm;
+    print qq{<hr/>\n};
     print "</div>\n";
 
-
-    print qq{<hr/>\n};
     print &map;
-
+    
     print &footer( $q, 'map' => 1 );
-
 }
 
 sub locate_message {
@@ -769,6 +757,17 @@ sub locate_message {
 EOF
 }
 
+sub export_osm {
+    return <<EOF;
+  <div id="export_osm">
+    <div id="export_osm_too_large" style="display:none">
+      <span class="export_heading error">Area Too Large. <span id="size"></span> Please zoom in!</span>
+      <div class="export_details"></div>
+    </div>
+  </div> <!-- export_osm -->
+EOF
+}
+  
 ######################################################################
 # main
 my $q = new CGI;
