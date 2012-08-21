@@ -124,7 +124,7 @@ sub header {
     return $q->header( -charset => 'utf-8', @cookie ) .
 
       $q->start_html(
-        -title => 'BBBike OpenStreetMap extracts',
+        -title => 'BBBike planet.osm extracts',
         -head  => $q->meta(
             {
                 -http_equiv => 'Content-Type',
@@ -261,7 +261,7 @@ sub layout {
 
     <div id="border">
       <div id="main">
-        <div id="top"></top>
+        <!-- <div id="top"></top> -->
         <div id="sidebar_left">
 
       <!-- <center>@{[ $q->h3("BBBike @ World extracts") ]}</center> -->
