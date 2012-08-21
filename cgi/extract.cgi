@@ -645,7 +645,6 @@ sub homepage {
     my $default_format = $q->cookie( -name => "format" )
       || $option->{'default_format'};
 
-
     print qq{<div id="table">\n};
     print $q->table(
         $q->Tr(
@@ -653,28 +652,28 @@ sub homepage {
             [
                 $q->td(
                     [
-"<span title='Give the city or area to extract a name. The name is optional, but better fill it out to find it later again.'>Name of area to extract</span><br/>" .
-                        $q->textfield(
+"<span title='Give the city or area to extract a name. The name is optional, but better fill it out to find it later again.'>Name of area to extract</span><br/>"
+                          . $q->textfield(
                             -name => 'city',
                             -id   => 'city',
                             -size => 34
-                        )
+                          )
                     ]
                 ),
                 $q->td(
                     [
-"<span title='Required, you will be notified by e-mail if your extract is ready for download.'>Your email address (*)</span><br/>" .
-                        $q->textfield(
+"<span title='Required, you will be notified by e-mail if your extract is ready for download.'>Your email address (*)</span><br/>"
+                          . $q->textfield(
                             -name  => 'email',
                             -size  => 34,
                             -value => $default_email
-                        )
+                          )
                     ]
                 ),
                 $q->td(
                     [
-"<span title='South West, valid values: -180 .. 180'>Left lower corner (South-West)</span><br/>" .
-                        "$lng: "
+"<span title='South West, valid values: -180 .. 180'>Left lower corner (South-West)</span><br/>"
+                          . "$lng: "
                           . $q->textfield(
                             -name => 'sw_lng',
                             -id   => 'sw_lng',
@@ -690,8 +689,8 @@ sub homepage {
                 ),
                 $q->td(
                     [
-"<span title='North East, valid values: -180 .. 180'>Right top corner (North-East)</span><br/>" .
-                        "$lng: "
+"<span title='North East, valid values: -180 .. 180'>Right top corner (North-East)</span><br/>"
+                          . "$lng: "
                           . $q->textfield(
                             -name => 'ne_lng',
                             -id   => 'ne_lng',
@@ -708,8 +707,8 @@ sub homepage {
 
                 $q->td(
                     [
-"<span title='PBF: fast and compact data, OSM XML gzip: standard OSM format, twice as large'>Output Format</span><br/>" .
-                        $q->popup_menu(
+"<span title='PBF: fast and compact data, OSM XML gzip: standard OSM format, twice as large'>Output Format</span><br/>"
+                          . $q->popup_menu(
                             -name   => 'format',
                             -values => [
                                 sort { $formats->{$a} cmp $formats->{$b} }
@@ -717,7 +716,7 @@ sub homepage {
                             ],
                             -labels  => $formats,
                             -default => $default_format
-                        )
+                          )
                     ]
                 ),
 
@@ -736,15 +735,13 @@ sub homepage {
         #-id    => 'extract'
     );
 
-
-
     print $q->end_form;
     print &export_osm;
     print qq{<hr/>\n};
     print "</div>\n";
 
     print &map;
-    
+
     print &footer( $q, 'map' => 1 );
 }
 
@@ -767,7 +764,7 @@ sub export_osm {
   </div> <!-- export_osm -->
 EOF
 }
-  
+
 ######################################################################
 # main
 my $q = new CGI;
