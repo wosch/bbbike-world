@@ -153,11 +153,11 @@ sub map {
 
 <div id="content" class="site_index">
  <div style="width: 100%; display: block;" id="sidebar">
-  
+
   <div id="sidebar_content">
 
     <span class="export_hint">
-      <a href="#" id="drag_box">Manually select a different area</a>  
+      <a href="#" id="drag_box">Manually select a different area</a>
     </span> - <span id="square_km"></span>
 
   <div id="export_osm">
@@ -170,11 +170,11 @@ sub map {
   </div> <!-- export_bounds -->
   </div>
  </div><!-- sidebar -->
-  
- 
+
+
  <!-- define a DIV into which the map will appear. Make it take up the whole window -->
  <!-- <div style="width:100%; height:400px" id="map"></div>  -->
- <div id="map"></div> 
+ <div id="map"></div>
 
 </div><!-- content -->
 
@@ -200,15 +200,15 @@ sub footer {
 
 <div id="footer">
   <div id="footer_top">
-    <a href="../">home</a> $extracts | 
-    <a href="../extract.html">help</a> $extracts | 
+    <a href="../">home</a> $extracts |
+    <a href="../extract.html">help</a> $extracts |
     <a href="http://download.bbbike.org/osm/">download</a> |
     <a href="/cgi/livesearch-extract.cgi">livesearch</a> <br/>
     <a href="../community.html#donate">donate</a> $locate
   </div>
   <hr/>
   <div id="copyright">
-    (&copy;) 2011-2012 <a href="http://www.bbbike.org">BBBike.org</a> 
+    (&copy;) 2011-2012 <a href="http://www.bbbike.org">BBBike.org</a>
     by <a href="http://wolfram.schneider.org">Wolfram Schneider</a> //
     Map data (&copy;) <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
   <div id="footer_community"></div>
@@ -377,7 +377,7 @@ sub check_input {
     else {
         print <<EOF;
 <p>Thanks - the input data looks good.</p><p>
-It takes between 10-30 minutes to extract an area from planet.osm, 
+It takes between 10-30 minutes to extract an area from planet.osm,
 depending on the size of the area and the system load.
 You will be notified by e-mail if your extract is ready for download.
 Please follow the instruction in the email to proceed your request.</p>
@@ -468,13 +468,13 @@ sub send_email_confirm {
     my $message = <<EOF;
 Hi,
 
-somone - possible you - requested to extract an OpenStreetMaps area 
+somone - possible you - requested to extract an OpenStreetMaps area
 from planet.osm
 
  City: $obj->{"city"}
  Area: $obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}
  Format: $obj->{"format"}
- 
+
 
 To proceeed, please click on the following link:
 
@@ -639,9 +639,10 @@ sub homepage {
     print &layout($q);
 
     print qq{<div id="intro">\n};
-    
-    print qq{<div id="message">\n}, &message, "</div>\n<hr/>\n\n";
-    
+
+    print qq{<div id="message">\n}, &message, &locate_message, "</div>\n";
+    print "<hr/>\n\n";
+
     print $q->start_form(
         -method   => $request_method,
         -id       => 'extract',
@@ -654,6 +655,7 @@ sub homepage {
     my $default_email = $q->cookie( -name => "email" ) || "";
     my $default_format = $q->cookie( -name => "format" )
       || $option->{'default_format'};
+
 
     print qq{<div id="table">\n};
     print $q->table(
@@ -682,7 +684,7 @@ sub homepage {
                 ),
                 $q->td(
                     [
-"<span title='South West, valid values: -180 .. 180'>Left lower corner (SW)</span><br/>" .
+"<span title='South West, valid values: -180 .. 180'>Left lower corner (South-West)</span><br/>" .
                         "$lng: "
                           . $q->textfield(
                             -name => 'sw_lng',
@@ -699,7 +701,7 @@ sub homepage {
                 ),
                 $q->td(
                     [
-"<span title='North East, valid values: -180 .. 180'>Right top corner (NE)</span><br/>" .
+"<span title='North East, valid values: -180 .. 180'>Right top corner (North-East)</span><br/>" .
                         "$lng: "
                           . $q->textfield(
                             -name => 'ne_lng',
@@ -735,9 +737,8 @@ sub homepage {
     );
 
     print "\n</div>\n";
-    
 
-    print "<br/>\n";
+    #print "<br/>\n";
     print $q->submit(
         -title => 'start extract',
         -name  => 'submit',
@@ -746,21 +747,26 @@ sub homepage {
         #-id    => 'extract'
     );
 
-    print <<EOF;
-<span id="locate">
-<span style="display:none" id="tools-pageload">Please wait... <img src="/images/indicator.gif" alt="loading" /></span>
-<a title="where am I?" href="javascript:locateMe()"><img src="/images/location_icon.png" width="25" height="23" alt="loading" /></a>
-</span>
-EOF
+
 
     print $q->end_form;
     print "</div>\n";
+
 
     print qq{<hr/>\n};
     print &map;
 
     print &footer( $q, 'map' => 1 );
 
+}
+
+sub locate_message {
+    return <<EOF;
+<span id="locate">
+<span style="display:none" id="tools-pageload">Please wait... <img src="/images/indicator.gif" alt="loading" /></span>
+<a title="where am I?" href="javascript:locateMe()"><img src="/images/location_icon.png" width="25" height="23" alt="loading" /></a>
+</span>
+EOF
 }
 
 ######################################################################
