@@ -152,23 +152,25 @@ sub map {
 </div> <!-- sidebar_left -->
 
 <div id="content" class="site_index">
+    <!-- define a DIV into which the map will appear. Make it take up the whole window -->
+     <div id="map"></div>
+</div><!-- content -->
 
- <div id="sidebar">
+EOF
+
+}
+
+sub manual_area {
+    return <<EOF;    
+ <div id="manual_area">
   <div id="sidebar_content">
     <span class="export_hint">
       <a href="#" id="drag_box">Manually select a different area</a>
     </span> -
     <span id="square_km"></span>
   </div> <!-- sidebar_content -->
- </div><!-- sidebar -->
-
- <!-- define a DIV into which the map will appear. Make it take up the whole window -->
- <div id="map"></div>
-
-</div><!-- content -->
-
+ </div><!-- manual_area -->
 EOF
-
 }
 
 sub footer {
@@ -738,6 +740,8 @@ sub homepage {
     print $q->end_form;
     print &export_osm;
     print qq{<hr/>\n};
+    print &manual_area;
+    
     print "</div>\n";
 
     print &map;
