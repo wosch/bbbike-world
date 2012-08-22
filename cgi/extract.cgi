@@ -732,7 +732,7 @@ sub homepage {
 
                 $q->td(
                     [
-"<span title='PBF: fast and compact data, OSM XML gzip: standard OSM format, twice as large'>Output Format</span><br/>"
+"<span title='PBF: fast and compact data, OSM XML gzip: standard OSM format, twice as large'>Format: </span>"
                           . $q->popup_menu(
                             -name   => 'format',
                             -values => [
