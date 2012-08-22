@@ -125,15 +125,21 @@ sub header {
 
       $q->start_html(
         -title => 'BBBike planet.osm extracts - OpenStreetMap data',
-        -head  => $q->meta(
-            {
-                -http_equiv => 'Content-Type',
-                -content    => 'text/html; charset=utf-8',
-                -description =>
-'Extracts OpenStreetMap areas in OSM, PBF, Garmin, Osmand or ESRI shapefile format.'
-            }
-        ),
-
+        -head  => [
+            $q->meta(
+                {
+                    -http_equiv => 'Content-Type',
+                    -content    => 'text/html; charset=utf-8'
+                }
+            ),
+            $q->meta(
+                {
+                    -name => 'description',
+                    -content =>
+'Extracts OpenStreetMap areas in OSM, PBF, Garmin, Osmand or ESRI shapefile format'
+                }
+            )
+        ],
         -style => {
             'src' => [
 
