@@ -124,11 +124,13 @@ sub header {
     return $q->header( -charset => 'utf-8', @cookie ) .
 
       $q->start_html(
-        -title => 'BBBike planet.osm extracts',
+        -title => 'BBBike planet.osm extracts - OpenStreetMap data',
         -head  => $q->meta(
             {
                 -http_equiv => 'Content-Type',
-                -content    => 'text/html; charset=utf-8'
+                -content    => 'text/html; charset=utf-8',
+                -description =>
+'Extracts OpenStreetMap areas in OSM, PBF, Garmin, Osmand or ESRI shapefile format.'
             }
         ),
 
@@ -696,34 +698,34 @@ sub homepage {
                 $q->td(
                     [
 "<span title='South West, valid values: -180 .. 180'>Left lower corner (South-West)</span><br/>"
-                          . "$lng: "
+                          . "&nbsp;&nbsp; $lng: "
                           . $q->textfield(
                             -name => 'sw_lng',
                             -id   => 'sw_lng',
-                            -size => 10
+                            -size => 7
                           )
                           . " $lat: "
                           . $q->textfield(
                             -name => 'sw_lat',
                             -id   => 'sw_lat',
-                            -size => 10
+                            -size => 7
                           )
                     ]
                 ),
                 $q->td(
                     [
 "<span title='North East, valid values: -180 .. 180'>Right top corner (North-East)</span><br/>"
-                          . "$lng: "
+                          . "&nbsp;&nbsp; $lng: "
                           . $q->textfield(
                             -name => 'ne_lng',
                             -id   => 'ne_lng',
-                            -size => 10
+                            -size => 7
                           )
                           . " $lat: "
                           . $q->textfield(
                             -name => 'ne_lat',
                             -id   => 'ne_lat',
-                            -size => 10
+                            -size => 7
                           )
                     ]
                 ),
@@ -740,8 +742,8 @@ sub homepage {
                             -labels  => $formats,
                             -default => $default_format
                           )
-                          . "<br/>" . 
-                          $q->submit(
+                          . "<br/>"
+                          . $q->submit(
                             -title => 'start extract',
                             -name  => 'submit',
                             -value => 'extract',
