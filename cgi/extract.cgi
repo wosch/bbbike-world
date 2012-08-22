@@ -206,6 +206,8 @@ sub footer {
   @{[ &footer_top($q, $args{'map'}) ]}
   <div id="copyright">
   <hr/>
+    @{[ &social_links ]}
+  
     (&copy;) 2011-2012 <a href="http://www.bbbike.org">BBBike.org</a>
     by <a href="http://wolfram.schneider.org">Wolfram Schneider</a> //
     Map data (&copy;) <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
@@ -219,6 +221,18 @@ $analytics
 
 </body>
 </html>
+EOF
+}
+
+sub social_links {
+    <<EOF;
+    <span id="social">
+    <a href="http://www.facebook.com/BBBikeWorld" target="_new"><img class="logo" width="16" height="16" src="/images/facebook-t.png" alt="" title="BBBike on Facebook" /></a>
+    <a href="http://twitter.com/BBBikeWorld" target="_new"><img class="logo" width="16" height="16" src="/images/twitter-t.png" alt="" title="Follow us on twitter.com/BBBikeWorld" /></a>
+    <a class="gplus" onmouseover="javascript:google_plusone();" ><img alt="" src="/images/google-plusone-t.png"></a><g:plusone href="http://extract.bbbike.org" size="small" count="false"></g:plusone>
+    <a href="http://www.bbbike.org/feed/bbbike-world.xml"><img class="logo" width="14" height="14" title="What's new on BBBike.org" src="/images/rss-icon.png" alt="" /></a>
+    &nbsp;
+    </span>
 EOF
 }
 
