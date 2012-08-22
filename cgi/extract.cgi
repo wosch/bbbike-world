@@ -740,8 +740,7 @@ sub homepage {
                             -labels  => $formats,
                             -default => $default_format
                           )
-                          .
-
+                          . "<br/>" . 
                           $q->submit(
                             -title => 'start extract',
                             -name  => 'submit',
