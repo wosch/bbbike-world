@@ -206,8 +206,6 @@ sub footer {
   @{[ &footer_top($q, $args{'map'}) ]}
   <div id="copyright">
   <hr/>
-    @{[ &social_links ]}
-  
     (&copy;) 2011-2012 <a href="http://www.bbbike.org">BBBike.org</a>
     by <a href="http://wolfram.schneider.org">Wolfram Schneider</a> //
     Map data (&copy;) <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
@@ -256,8 +254,8 @@ EOF
 
 sub message {
     return <<EOF;
-<b>BBBike OpenStreetMap extracts</b><br/>
-This site allow you to extracts areas from the <a href="http://wiki.openstreetmap.org/wiki/Planet.osm">planet.osm</a> in OSM, PBF, Garmin, Osmand or ESRI shapefile format.
+<b>BBBike extracts</b> @{[ &social_links ]}<br/>
+allows you to extracts areas from the <a href="http://wiki.openstreetmap.org/wiki/Planet.osm">planet.osm</a> in OSM, PBF, Garmin, Osmand or ESRI shapefile format.
 The maximum area size is @{[ large_int($max_skm) ]} square km, or @{[ large_int($option->{max_size}/1000) ]}MB file size.
 
 It takes between 10-30 minutes to extract an area. You will be notified by e-mail if your extract is ready for download.
@@ -739,7 +737,15 @@ sub homepage {
                             ],
                             -labels  => $formats,
                             -default => $default_format
-                          )
+                          ) .
+                          
+                          $q->submit(
+                                -title => 'start extract',
+                                -name  => 'submit',
+                                -value => 'extract',
+                        
+                                #-id    => 'extract'
+                            )
                     ]
                 ),
 
@@ -750,13 +756,13 @@ sub homepage {
     print "\n</div>\n";
 
     #print "<br/>\n";
-    print $q->submit(
-        -title => 'start extract',
-        -name  => 'submit',
-        -value => 'extract',
-
-        #-id    => 'extract'
-    );
+    #print $q->submit(
+    #    -title => 'start extract',
+    #    -name  => 'submit',
+    #    -value => 'extract',
+    #
+    #    #-id    => 'extract'
+    #);
 
     print $q->end_form;
     print &export_osm;
