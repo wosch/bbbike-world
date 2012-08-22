@@ -208,7 +208,7 @@ sub footer {
   <div id="copyright">
   <hr/>
     (&copy;) 2011-2012 <a href="http://www.bbbike.org">BBBike.org</a>
-    by <a href="http://wolfram.schneider.org">Wolfram Schneider</a> //
+    by <a href="http://wolfram.schneider.org">Wolfram Schneider</a>
     Map data (&copy;) <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
   <div id="footer_community"></div>
   </div>
@@ -255,7 +255,8 @@ EOF
 
 sub message {
     return <<EOF;
-<b>BBBike extracts</b> @{[ &social_links ]}<br/>
+@{[ &social_links ]}
+<b align="right">BBBike extracts</b>
 allows you to extracts areas from the <a href="http://wiki.openstreetmap.org/wiki/Planet.osm">planet.osm</a> in OSM, PBF, Garmin, Osmand or ESRI shapefile format.
 The maximum area size is @{[ large_int($max_skm) ]} square km, or @{[ large_int($option->{max_size}/1000) ]}MB file size.
 
