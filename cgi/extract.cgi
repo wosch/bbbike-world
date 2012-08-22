@@ -161,7 +161,7 @@ EOF
 }
 
 sub manual_area {
-    return <<EOF;    
+    return <<EOF;
  <div id="manual_area">
   <div id="sidebar_content">
     <span class="export_hint">
@@ -174,11 +174,12 @@ EOF
 }
 
 sub footer_top {
-    my $q = shift;
+    my $q    = shift;
     my %args = @_;
-    
-    my $locate = $args{'map'} ? ' | <a href="javascript:locateMe()">where am I?</a>' : "";
-    
+
+    my $locate =
+      $args{'map'} ? ' | <a href="javascript:locateMe()">where am I?</a>' : "";
+
     return <<EOF;
   <div id="footer_top">
     <a href="../">home</a> |
@@ -737,15 +738,16 @@ sub homepage {
                             ],
                             -labels  => $formats,
                             -default => $default_format
-                          ) .
-                          
+                          )
+                          .
+
                           $q->submit(
-                                -title => 'start extract',
-                                -name  => 'submit',
-                                -value => 'extract',
-                        
-                                #-id    => 'extract'
-                            )
+                            -title => 'start extract',
+                            -name  => 'submit',
+                            -value => 'extract',
+
+                            #-id    => 'extract'
+                          )
                     ]
                 ),
 
