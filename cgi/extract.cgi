@@ -173,6 +173,23 @@ sub manual_area {
 EOF
 }
 
+sub footer_top {
+    my $q = shift;
+    my %args = @_;
+    
+    my $locate = $args{'map'} ? ' | <a href="javascript:locateMe()">where am I?</a>' : "";
+    
+    return <<EOF;
+  <div id="footer_top">
+    <a href="../">home</a> |
+    <a href="../extract.html">help</a> |
+    <a href="http://download.bbbike.org/osm/">download</a> |
+    <a href="/cgi/livesearch-extract.cgi">livesearch</a> |
+    <a href="../community.html#donate">donate</a> $locate
+  </div>
+EOF
+}
+
 sub footer {
     my $q    = shift;
     my %args = @_;
@@ -180,23 +197,13 @@ sub footer {
     my $analytics = &google_analytics;
     my $url = $q->url( -relative => 1 );
 
-    my $extracts = ( $q->param('submit') || $q->param("key") )
-      && $url ? qq,| <a href="$url">extract</a>, : "";
-    $extracts = "";    # XXXX
-
     my $locate =
       $args{'map'} ? ' | <a href="javascript:locateMe()">where am I?</a>' : "";
 
     return <<EOF;
 
 <div id="footer">
-  <div id="footer_top">
-    <a href="../">home</a> $extracts |
-    <a href="../extract.html">help</a> $extracts |
-    <a href="http://download.bbbike.org/osm/">download</a> |
-    <a href="/cgi/livesearch-extract.cgi">livesearch</a> <br/>
-    <a href="../community.html#donate">donate</a> $locate
-  </div>
+  @{[ &footer_top($q, $args{'map'}) ]}
   <div id="copyright">
   <hr/>
     (&copy;) 2011-2012 <a href="http://www.bbbike.org">BBBike.org</a>
@@ -741,7 +748,6 @@ sub homepage {
     print &export_osm;
     print qq{<hr/>\n};
     print &manual_area;
-    
     print "</div>\n";
 
     print &map;
