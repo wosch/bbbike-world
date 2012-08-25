@@ -26,9 +26,9 @@ sudo apt-get install \
   libgd2-xpm libgd2-xpm-dev libgd-gd2-perl ttf-bitstream-vera ttf-dejavu \
   libpdf-create-perl libcairo-perl libpango-perl libfont-afm-perl \
   libtest-number-delta-perl libimager-perl netpbm libgd-gd2-perl \
-  ttf-bitstream-vera ttf-dejavu libyaml-tiny-perl libcompress-zlib-perl libarchive1 libarchive-dev 
-  liblzma-dev libclass-accessor-children-perl subversion
-
+  ttf-bitstream-vera ttf-dejavu libyaml-tiny-perl libcompress-zlib-perl libarchive1 libarchive-dev \
+  liblzma-dev libclass-accessor-children-perl subversion libimage-size-perl libmime-tools-perl \
+  libdate-calc-perl libimage-exiftool-perl libstatistics-descriptive-perl \
 
 
 # daemons
