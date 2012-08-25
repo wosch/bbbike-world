@@ -274,9 +274,8 @@ EOF
 }
 
 sub layout {
-    my $q = shift;
+    my $q    = shift;
     my %args = @_;
-    
 
     my $data = <<EOF;
   <div id="all">
@@ -288,7 +287,7 @@ EOF
 
     my $id = $args{'check_input'} ? 'result' : "sidebar_left";
     $data .= qq{    <div id="$id">\n};
-    
+
     return $data;
 }
 
@@ -303,7 +302,7 @@ sub check_input {
     our $qq = $q;
 
     print &header( $q, -type => 'check_input' );
-    print &layout($q, 'check_input' => 1);
+    print &layout( $q, 'check_input' => 1 );
 
     our $error = 0;
 
