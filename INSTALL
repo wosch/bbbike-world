@@ -19,7 +19,14 @@ sudo apt-get install \
   libbsd-resource-perl libobject-realize-later-perl libemail-valid-perl \
   libcairo-perl libpango-perl libinline-perl libpdf-create-perl \
   libgd-gd2-perl pdftk \
-  libprotobuf-lite6 libshp1 libgeos-dev libxml2-dev 
+  libprotobuf-lite6 libshp1 libgeos-dev libxml2-dev libxml-twig-perl \
+  libipc-run-perl libimage-info-perl libwww-mechanize-perl libemail-mime-perl \
+  libdbi-perl libobject-realize-later-perl libmldbm-perl \
+  libclass-accessor-perl libarchive-zip-perl libtemplate-perl libdata-compare-perl \
+  libgd2-xpm libgd2-xpm-dev libgd-gd2-perl ttf-bitstream-vera ttf-dejavu \
+  libpdf-create-perl libcairo-perl libpango-perl libfont-afm-perl \
+  libtest-number-delta-perl
+
 
 # perl devel libs?
 # sudo apt-get install libcompress-zlib-perl libarchive1 \
