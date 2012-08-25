@@ -52,7 +52,10 @@ sudo port install pbzip2 bzip2 git-core lynx wget \
 	p5-yaml-syck p5-yaml p5-perl-tidy p5-libwww-perl p5-perlio-gzip \
 	p5-perl-tidy p5-extutils-makemaker p5-module-build p5-inline \
 	p5-archive-zip p5-date-calc p5-template-toolkit p5-image-info \
-	p5-www-mechanize p5-xml-twig p5-perl-tidy 	
+	p5-www-mechanize p5-xml-twig p5-perl-tidy p5-algorithm-diff \
+	p5-image-exiftool p5-mime-tools p5-ipc-run p5-statistics-descriptive \
+	p5-dbi p5-class-accessor
+
 
 sudo port install lighttpd munin varnish openjdk6 
 
@@ -69,6 +72,12 @@ $sudo_cpan JSON::XS
 $sudo_cpan File::ReadBackwards
 $sudo_cpan Object::Iterate
 $sudo_cpan HTML::TreeBuilder::XPath
+$sudo_cpan HTML::FormatText
+$sudo_cpan PDF::Create
+$sudo_cpan Text::Table
+$sudo_cpan Geo::METAR
+$sudo_cpan String::Approx
+$sudo_cpan DB_File::Lock
 
 # MacOS + debian
 $sudo_cpan GIS::Distance::Lite
