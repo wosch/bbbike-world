@@ -50,21 +50,45 @@ sudo perl -MCPAN -e 'install Geo::Google::PolylineEncoder'
 Required MacPorts modules
 ------------------------------------
 sudo port install pbzip2 bzip2 git-core lynx wget \
-	pigz buffer tidy \
+	pigz buffer tidy pdftk \
 	p5-yaml p5-bsd-resource p5-uri p5-json p5-xml-simple p5-tie-ixhash \
 	p5-yaml-syck p5-yaml p5-perl-tidy p5-libwww-perl p5-perlio-gzip \
-	p5-perl-tidy
+	p5-perl-tidy p5-extutils-makemaker p5-module-build p5-inline \
+	p5-archive-zip p5-date-calc p5-template-toolkit p5-image-info \
+	p5-www-mechanize p5-xml-twig p5-perl-tidy p5-algorithm-diff \
+	p5-image-exiftool p5-mime-tools p5-ipc-run p5-statistics-descriptive \
+	p5-dbi p5-class-accessor p5-data-compare p5-math-matrix p5-cairo \
+	p5-svg 
+
 
 sudo port install lighttpd munin varnish openjdk6 
 
-sudo perl -MCPAN -e 'install BSD::Resource'
-sudo perl -MCPAN -e 'install Text::Unidecode'
-sudo perl -MCPAN -e 'install HTML::TagCloud'
-sudo perl -MCPAN -e 'install Object::Realize::Later'
-sudo perl -MCPAN -e 'install Email::Valid'
+sudo_cpan="sudo cpan-5.12"
+$sudo_cpan BSD::Resource
+$sudo_cpan Text::Unidecode
+$sudo_cpan HTML::TagCloud
+$sudo_cpan Object::Realize::Later
+$sudo_cpan Email::Valid
+
+# optional/devel
+$sudo_cpan Devel::Leak
+$sudo_cpan JSON::XS
+$sudo_cpan File::ReadBackwards
+$sudo_cpan Object::Iterate
+$sudo_cpan HTML::TreeBuilder::XPath
+$sudo_cpan HTML::FormatText
+$sudo_cpan PDF::Create
+$sudo_cpan Text::Table
+$sudo_cpan Geo::METAR
+$sudo_cpan String::Approx
+$sudo_cpan DB_File::Lock
+$sudo_cpan Imager
+$sudo_cpan XBase
+$sudo_cpan Math::MatrixReal
+$sudo_cpan WWW::Mechanize::FormFiller
 
 # MacOS + debian
-sudo perl -MCPAN -e 'install GIS::Distance::Lite'
-sudo perl -MCPAN -e 'install XML::LibXML::Reader'
-sudo perl -MCPAN -e 'install XML::Atom::SimpleFeed'
+$sudo_cpan GIS::Distance::Lite
+$sudo_cpan XML::LibXML::Reader
+$sudo_cpan XML::Atom::SimpleFeed
 
