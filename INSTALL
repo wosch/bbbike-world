@@ -26,15 +26,8 @@ sudo apt-get install \
   libgd2-xpm libgd2-xpm-dev libgd-gd2-perl ttf-bitstream-vera ttf-dejavu \
   libpdf-create-perl libcairo-perl libpango-perl libfont-afm-perl \
   libtest-number-delta-perl libimager-perl netpbm libgd-gd2-perl \
-  ttf-bitstream-vera ttf-dejavu
-
-
-# perl devel libs?
-# sudo apt-get install libcompress-zlib-perl libarchive1 \
-#   libarchive-dev liblzma-dev 
-
-# test cases
-sudo apt-get install libclass-accessor-children-perl
+  ttf-bitstream-vera ttf-dejavu libyaml-tiny-perl libcompress-zlib-perl libarchive1 libarchive-dev 
+  liblzma-dev libclass-accessor-children-perl subversion
 
 
 
@@ -44,16 +37,13 @@ sudo apt-get install lighttpd munin
 # reverse proxy
 sudo apt-get install varnish
 
-# tile server
-apt-get install subversion
-
 # osmosis from repo
-sudo apt-get install osmosis
+#sudo apt-get install osmosis
 
-sudo perl -MCPAN -e 'install PerlIO::gzip'
-
-sudo perl -MCPAN -e 'install accessors'
-sudo perl -MCPAN -e 'install Geo::Google::PolylineEncoder'
+sudo_cpan="sudo cpan-5.12"
+$sudo_cpan PerlIO::gzip
+$sudo_cpan accessors
+$sudo_cpan Geo::Google::PolylineEncoder
 
 Required MacPorts modules
 ------------------------------------
