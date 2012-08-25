@@ -4,7 +4,7 @@
 # osm2pbf - convert OSM XML to PBF format
 
 file=$1
-osm_checksum=`dirname $0`/osm-checksum
+: ${osm_checksum=`dirname $0`/osm-checksum}
 
 if ! [ -f "$file" ]; then
 	echo "usage file"
@@ -38,5 +38,10 @@ $osm_checksum $file_pbf
 $osm_checksum $file
 
 # relative path names in *.md5 files
-perl -i -npe 's,(\s+).+/,$1,g' $file_pbf.md5 $file.md5 $file_pbf.sha256 $file.sha256
+for i in $file_pbf.md5 $file.md5 $file_pbf.sha256 $file.sha256
+do
+   if [ -e $i ]; then
+	perl -i -npe 's,(\s+).+/,$1,g' $i
+   fi
+done
 
