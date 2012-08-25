@@ -81,6 +81,7 @@ $sudo_cpan String::Approx
 $sudo_cpan DB_File::Lock
 $sudo_cpan Imager
 $sudo_cpan XBase
+$sudo_cpan Math::MatrixReal
 
 # MacOS + debian
 $sudo_cpan GIS::Distance::Lite
