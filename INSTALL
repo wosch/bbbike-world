@@ -51,7 +51,8 @@ sudo port install pbzip2 bzip2 git-core lynx wget \
 	p5-yaml p5-bsd-resource p5-uri p5-json p5-xml-simple p5-tie-ixhash \
 	p5-yaml-syck p5-yaml p5-perl-tidy p5-libwww-perl p5-perlio-gzip \
 	p5-perl-tidy p5-extutils-makemaker p5-module-build p5-inline \
-	p5-archive-zip p5-date-calc p5-template-toolkit
+	p5-archive-zip p5-date-calc p5-template-toolkit p5-image-info \
+	p5-www-mechanize p5-xml-twig p5-perl-tidy 	
 
 sudo port install lighttpd munin varnish openjdk6 
 
