@@ -28,7 +28,7 @@ case $1 in
   --pgzip ) shift; compress=pgzip ;;
 
   -xz | --xz )       shift; compress=xz ;;
-  -shape | --shape | -shp | --shp ) shift; compress=shape ;;
+  -shape | --shape | -shp | --shp | --shapefile ) shift; compress=shape ;;
   -osmand | --osmand | -obf | --obf ) shift; compress=osmand ;;
 
   -garmin | --garmin ) shift; compress=garmin; garmin_style=$2 ;;
