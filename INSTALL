@@ -31,7 +31,8 @@ sudo apt-get install \
   libimage-size-perl libmime-tools-perl libcdb-file-perl \
   libdate-calc-perl libimage-exiftool-perl libstatistics-descriptive-perl \
   libsvg-perl libgd-svg-perl perlmagick libimager-perl imagemagick libsvg-perl \
-  libdb-file-lock-perl libgeo-metar-perl
+  libdb-file-lock-perl libgeo-metar-perl libstring-approx-perl libtext-table-perl \
+  libdbd-xbase-perl 
 
 # daemons
 sudo apt-get install lighttpd munin
