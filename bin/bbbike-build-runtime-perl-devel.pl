@@ -17,7 +17,7 @@ use Geo::METAR;
 use HTML::FormatText;
 use HTML::TagCloud;
 use HTML::TreeBuilder::XPath;
-use Image::Info;
+use Image::Info 1.31_50;
 use Imager;
 use JSON::XS;
 use Math::MatrixReal;
