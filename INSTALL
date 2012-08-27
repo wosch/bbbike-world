@@ -38,7 +38,8 @@ sudo apt-get install \
   libdate-calc-perl libimage-exiftool-perl libstatistics-descriptive-perl \
   libsvg-perl libgd-svg-perl perlmagick libimager-perl imagemagick libsvg-perl \
   libdb-file-lock-perl libgeo-metar-perl libstring-approx-perl libtext-table-perl \
-  libdbd-xbase-perl 
+  libdbd-xbase-perl libdevel-leak-perl libfile-readbackwards-perl \
+  libhtml-treebuilder-xpath-perl 
 
 # daemons
 sudo apt-get install lighttpd munin
@@ -52,7 +53,6 @@ sudo apt-get install varnish
 sudo_cpan="sudo cpan-5.12"
 $sudo_cpan PerlIO::gzip
 $sudo_cpan accessors
-$sudo_cpan Geo::Google::PolylineEncoder
 $sudo_cpan Image::Info
 
 Required MacPorts modules
@@ -99,4 +99,5 @@ $sudo_cpan GIS::Distance::Lite
 $sudo_cpan XML::LibXML::Reader
 $sudo_cpan XML::Atom::SimpleFeed
 $sudo_cpan Math::MatrixReal
+$sudo_cpan Geo::Google::PolylineEncoder
 
