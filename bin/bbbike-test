@@ -1,0 +1,24 @@
+#!/bin/sh
+# Copyright (c) 2012 Wolfram Schneider, http://bbbike.org
+#
+# bbbike-test - test bbbike toolset
+
+PATH=$HOME/bin:/usr/local/bin:/bin:/usr/bin; export PATH
+
+set -e
+tmp_dir=$(mktemp -d)
+
+test -z $tmp_dir && exit 2 
+
+cd $tmp_dir
+bbbike-checkout > log.checkout 2>&1
+cd bbbike
+
+if prove -j6 > log 2>&1; then
+   rm -rf $tmp_dir
+   exit 0
+else
+   echo "Failure: $?, see $tmp_dir/bbbike/log"
+   tail -30 log
+fi
+
