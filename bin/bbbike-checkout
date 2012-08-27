@@ -48,6 +48,7 @@ git_config
 
 # *world is the default branch at github for bbbike@world
 #git checkout -b world origin/world
+( cd ext; time make all; time make install; echo $: ) > log.ext 2>&1 &
 
 # add remote master from eserte
 git remote add eserte git://github.com/eserte/bbbike.git
@@ -71,7 +72,10 @@ echo "create symlinks ..."
 ln -s world/Makefile.osm
 make $make_verbose -f Makefile.osm create-bbbike-web-symlinks java-config
 
+# make ext
+wait
+
 echo "you may run as well: make -s update-files"
-echo "                     ( cd ext; make -s all install)"
+#echo "                     ( cd ext; make -s all install)"
 echo "                     git merge eserte/master"
 
