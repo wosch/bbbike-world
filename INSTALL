@@ -6,6 +6,12 @@ see ../bin/bbbike-build-runtime-perl.pl
 Required debian modules
 ------------------------------------
 
+
+/etc/apt/sources.list:
+## backports
+deb     http://mirror.hetzner.de/debian/backports squeeze-backports main contrib non-free
+deb     http://backports.debian.org/debian-backports squeeze-backports main contrib non-free
+
 sudo apt-get install \
   pbzip2 bzip2 xz-utils git-core screen lynx curl wget time \
   lsof whois pigz make acct telnet dnsutils bc sysstat \
