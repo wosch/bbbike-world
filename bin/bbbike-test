@@ -5,6 +5,8 @@
 
 PATH=$HOME/bin:/usr/local/bin:/bin:/usr/bin; export PATH
 
+export BBBIKE_TEST_NO_CGI_TESTS=1 BBBIKE_TEST_NO_MAPSERVER=1
+
 set -e
 tmp_dir=$(mktemp -d -t bbbike-test.XXXXXXXX)
 
