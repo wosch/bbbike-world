@@ -5,6 +5,7 @@
 
 set -e
 : ${verbose=true}
+: ${debug=false}
 
 dir=`dirname $0`
 PATH=$PATH:$dir; export PATH 
@@ -18,7 +19,7 @@ dir=$(mktemp -d -t bbbike-bootstrap.XXXXXXXX)
 cd $dir
 
 logfile=$(pwd)/log.bbbike
-exec 2> $logfile
+$debug || exec 2> $logfile
 
 error () {
    message="$@"
