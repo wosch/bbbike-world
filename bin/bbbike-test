@@ -6,7 +6,7 @@
 PATH=$HOME/bin:/usr/local/bin:/bin:/usr/bin; export PATH
 
 set -e
-tmp_dir=$(mktemp -d)
+tmp_dir=$(mktemp -d -t bbbike-test.XXXXXXXX)
 
 test -z $tmp_dir && exit 2 
 
