@@ -100,4 +100,5 @@ $sudo_cpan XML::LibXML::Reader
 $sudo_cpan XML::Atom::SimpleFeed
 $sudo_cpan Math::MatrixReal
 $sudo_cpan Geo::Google::PolylineEncoder
+$sudo_cpan Image::Info # newer version
 
