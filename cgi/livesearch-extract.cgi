@@ -242,7 +242,8 @@ sub statistic {
     if ( $ns ne 'text' ) {
         print qq{<div id="BBBikeGooglemap" style="height:92%">\n};
         print qq{<div id="map"></div>\n};
-    } else {
+    }
+    else {
         print qq{<div id="nomap" style="height:92%">\n};
     }
 
