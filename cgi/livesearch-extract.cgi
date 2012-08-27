@@ -200,7 +200,7 @@ EOF
 sub css_map {
     return <<EOF;
 <style type="text/css">
-div#BBBikeGooglemap { left: 18em; }
+div#BBBikeGooglemap, div#nomap { left: 18em; }
 div#sidebar { width: 17em; }
 </style>
 
@@ -242,6 +242,8 @@ sub statistic {
     if ( $ns ne 'text' ) {
         print qq{<div id="BBBikeGooglemap" style="height:92%">\n};
         print qq{<div id="map"></div>\n};
+    } else {
+        print qq{<div id="nomap" style="height:92%">\n};
     }
 
     print <<EOF;
