@@ -86,6 +86,7 @@ $sudo_cpan Imager
 $sudo_cpan XBase
 $sudo_cpan Math::MatrixReal
 $sudo_cpan WWW::Mechanize::FormFiller
+$sudo_cpan CDB_File
 
 # MacOS + debian
 $sudo_cpan GIS::Distance::Lite
