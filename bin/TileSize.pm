@@ -13,7 +13,13 @@ use GIS::Distance::Lite;
 use strict;
 use warnings;
 
-our $VERSION = 1.0;
+our $VERSION = 1.1;
+
+use constant {
+    FRACTAL_100  => 0,
+    FRACTAL_50   => 1,
+    FRACTAL_REAL => 2
+};
 
 our $debug = 0;
 
@@ -23,7 +29,7 @@ sub new {
     my $self = {
         'debug'    => $debug,
         'format'   => 'pbf',
-        'database' => 'world/etc/tile/tile.csv',
+        'database' => 'world/etc/tile/tile-test.csv',
         '_size'    => {},
         %args,
     };

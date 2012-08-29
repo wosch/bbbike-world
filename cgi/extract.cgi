@@ -212,7 +212,7 @@ sub footer {
     return <<EOF;
 
 <div id="footer">
-  @{[ &footer_top($q, $args{'map'}) ]}
+  @{[ &footer_top($q, 'map' => $args{'map'}) ]}
   <div id="copyright">
   <hr/>
     (&copy;) 2011-2012 <a href="http://www.bbbike.org">BBBike.org</a>
