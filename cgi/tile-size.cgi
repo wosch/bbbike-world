@@ -12,7 +12,8 @@ use TileSize;
 use strict;
 use warnings;
 
-my $debug  = 2;
+my $debug = 2;
+
 # $TileSize::debug = 2;
 
 my %format = (
@@ -102,7 +103,8 @@ $factor = 1 if $factor < 0 || $factor > 100;
 my $size =
   $factor *
   $factor_format *
-  $tile->area_size( $lng_sw, $lat_sw, $lng_ne, $lat_ne, TileSize::FRACTAL_REAL );
+  $tile->area_size( $lng_sw, $lat_sw, $lng_ne, $lat_ne,
+    TileSize::FRACTAL_REAL );
 $size = int( $size * 10 + 0.5 ) / 10;
 
 warn "size: $size, factor $factor, format: $format,",
