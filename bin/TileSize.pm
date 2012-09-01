@@ -101,7 +101,7 @@ sub total {
 sub area_size {
     my $self = shift;
     my ( $lng_sw, $lat_sw, $lng_ne, $lat_ne, $parts ) = @_;
-    
+
     my ( $lng_sw2, $lat_sw2, $lng_ne2, $lat_ne2 );
 
     my $db   = $self->{_size};
@@ -143,15 +143,16 @@ sub area_size {
                       "Parts detected: $i,$j $lng_sw,$lat_sw,$lng_ne,$lat_ne",
                       " :: $lng_sw2,$lat_sw2,$lng_ne2,$lat_ne2\n"
                       if $debug >= 2;
+
                     $tile_parts += 1;
 
                     # simple version: just use half size
-                    if ( $parts == 1 ) {
+                    if ( $parts == FRACTAL_50 ) {
                         $factor = 0.5;
                     }
 
                     # compute the real size of a tile part, in percent
-                    elsif ( $parts == 2 ) {
+                    elsif ( $parts == FRACTAL_REAL ) {
                         my $square_km =
                           $self->square_km( $j, $i, $j + 1, $i + 1 );
                         my ( $x1, $y1, $x2, $y2 ) = ( $i, $j, $i + 1, $j + 1 );
