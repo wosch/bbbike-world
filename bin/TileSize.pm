@@ -101,6 +101,7 @@ sub total {
 sub area_size {
     my $self = shift;
     my ( $lng_sw, $lat_sw, $lng_ne, $lat_ne, $parts ) = @_;
+    
     my ( $lng_sw2, $lat_sw2, $lng_ne2, $lat_ne2 );
 
     my $db   = $self->{_size};
@@ -149,7 +150,7 @@ sub area_size {
                         $factor = 0.5;
                     }
 
-                    # compute the real size of a tile part
+                    # compute the real size of a tile part, in percent
                     elsif ( $parts == 2 ) {
                         my $square_km =
                           $self->square_km( $j, $i, $j + 1, $i + 1 );
