@@ -95,7 +95,9 @@ sub total {
     return $total;
 }
 
-# compute the size of an area lng_sw,lat_sw x lng_ne,lat_ne
+#
+# compute the size of an area: lng_sw,lat_sw x lng_ne,lat_ne FLAG
+#
 sub area_size {
     my $self = shift;
     my ( $lng_sw, $lat_sw, $lng_ne, $lat_ne, $parts ) = @_;
