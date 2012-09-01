@@ -106,7 +106,7 @@ sub area_size {
 
     my $db   = $self->{_size};
     my $size = 0;
-    $parts = 0 if !defined $parts;
+    $parts = FRACTAL_100 if !defined $parts;
 
     $lng_sw2 = POSIX::floor($lng_sw);
     $lat_sw2 = POSIX::floor($lat_sw);
