@@ -95,10 +95,29 @@ sub total {
     return $total;
 }
 
+# wrapper to catch date border special case
+sub area_size {
+    my $self = shift;
+    my ( $lng_sw, $lat_sw, $lng_ne, $lat_ne, $parts ) = @_;
+
+    # date border? Split the rectangle in to parts at the date border
+    if ( $lng_sw > 0 && $lng_ne < 0 ) {
+        my $left_area =
+          $self->_area_size( $lng_sw, $lat_sw, 180, $lat_ne, $parts );
+        my $right_area =
+          $self->_area_size( -180, $lat_sw, $lng_ne, $lat_ne, $parts );
+
+        return $left_area + $right_area;
+    }
+    else {
+        return $self->_area_size(@_);
+    }
+}
+
 #
 # compute the size of an area: lng_sw,lat_sw x lng_ne,lat_ne FLAG
 #
-sub area_size {
+sub _area_size {
     my $self = shift;
     my ( $lng_sw, $lat_sw, $lng_ne, $lat_ne, $parts ) = @_;
 
@@ -106,11 +125,14 @@ sub area_size {
 
     my $db   = $self->{_size};
     my $size = 0;
+
     $parts = FRACTAL_100 if !defined $parts;
 
+    # padding south-west, lower left corner
     $lng_sw2 = POSIX::floor($lng_sw);
     $lat_sw2 = POSIX::floor($lat_sw);
 
+    # padding north-east, upper-right corner
     $lng_ne2 = POSIX::ceil($lng_ne);
     $lat_ne2 = POSIX::ceil($lat_ne);
 
@@ -119,15 +141,15 @@ sub area_size {
       if $debug;
 
     sub W { $debug >= 2 ? warn $_[0] . "\n" : 1 }
-
     my $tile_parts = 0;
+
     for ( my $i = $lng_sw2 ; $i < $lng_ne2 ; $i++ ) {    # x-axis
         for ( my $j = $lat_sw2 ; $j < $lat_ne2 ; $j++ ) {    # y-axis
             my $key = "$i,$j";
             if ( exists $db->{$key} ) {
                 my $factor = 1;
-
                 warn "Add key: $key: $db->{$key}\n" if $debug >= 2;
+
                 if (
                        ( $i == $lng_sw2 && $lng_sw2 < $lng_sw && W("x left") )
                     || ( $j == $lat_sw2 && $lat_sw2 < $lat_sw && W("y down") )
