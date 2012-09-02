@@ -49,6 +49,9 @@ if [ -z "$server" ]; then
 fi
 
 cache_dir=/var/cache/bbbike/${server}/$name
+if [ "$server" = "localhost" ]; then
+    cache_dir=/tmp/bbbike-${server}/$name
+fi
 mkdir -p $cache_dir
 
 #trap 'rm -rf "$cache_dir"; exit 1' 1 2 3 13 15
