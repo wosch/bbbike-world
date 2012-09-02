@@ -17,7 +17,7 @@ sudo apt-get install \
   lsof whois pigz make acct telnet dnsutils bc sysstat \
   buffer pktstat emacs unzip vim gcc zlib1g-dev perltidy tidy \
   bsd-mailx mutt perl-doc zip sudo munin-node htop strace \
-  python openjdk-6-jdk g++ sockstat \
+  python openjdk-6-jdk g++ sockstat kwalify \
   libhtml-tagcloud-perl libtext-unidecode-perl munin \
   libxml-atom-simplefeed-perl libjson-perl liburi-perl \
   libxml-libxml-perl libyaml-perl libyaml-syck-perl libxml-simple-perl \
@@ -101,4 +101,6 @@ $sudo_cpan XML::Atom::SimpleFeed
 $sudo_cpan Math::MatrixReal
 $sudo_cpan Geo::Google::PolylineEncoder
 $sudo_cpan Image::Info # newer version
+$sudo_cpan Kwalify
+
 
