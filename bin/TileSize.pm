@@ -100,8 +100,14 @@ sub area_size {
     my $self = shift;
     my ( $lng_sw, $lat_sw, $lng_ne, $lat_ne, $parts ) = @_;
 
+    # broken lat values? SW is below NE
+    if ( $lat_sw > $lat_ne) {
+	warn "lat sw: $lat_sw is larger than lat ne: $lat_ne, give up!\n";
+	return 0;
+    }
+
     # date border? Split the rectangle in to parts at the date border
-    if ( $lng_sw > 0 && $lng_ne < 0 ) {
+    elsif ( $lng_sw > 0 && $lng_ne < 0 ) {
         my $left_area =
           $self->_area_size( $lng_sw, $lat_sw, 180, $lat_ne, $parts );
         my $right_area =
