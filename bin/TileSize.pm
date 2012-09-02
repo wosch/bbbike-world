@@ -100,6 +100,9 @@ sub area_size {
     my $self = shift;
     my ( $lng_sw, $lat_sw, $lng_ne, $lat_ne, $parts ) = @_;
 
+    warn "@_ lat sw: $lat_sw, ne: $lat_ne, ", $lat_sw - $lat_ne, "\n"
+      if $debug >= 2;
+
     # broken lat values? SW is below NE
     if ( $lat_sw > $lat_ne ) {
         warn "lat sw: $lat_sw is larger than lat ne: $lat_ne, give up!\n";
@@ -117,7 +120,7 @@ sub area_size {
     }
 
     # broken lng value? SW is below NE
-    elsif ( $lng_sw > $lng_ne ) {
+    elsif ( $lng_sw > $lng_ne || abs( $lng_sw - $lng_ne ) > 180 ) {
         warn "lon sw: $lng_sw is smaller than lon ne: $lng_ne, give up!\n";
         return 0;
     }
