@@ -783,6 +783,9 @@ osmand-devel:
 	   zip -rq $$dir.zip $$dir; \
 	   ls -l `pwd`/$$dir.zip
 
+test-org:
+	./world/bin/update-lighttpd-template
+
 help:
 	@echo "bbbike version: ${GIT_ID}"
 	@echo ""
@@ -819,6 +822,7 @@ help:
 	@echo "  [ staging | extract-bbbike-org-install | extract-distclean ]"
 	@echo "  [ extract-gc | extract-gc7 | extract-gc-osm ]"
 	@echo "  [ tile | tile-convert | tile-csv | tile-distclean ]"
+	@echo "  [ test-org ]"
 	@echo ""
 	@echo "see also ./world/README"
 

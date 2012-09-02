@@ -1,0 +1,22 @@
+#!/bin/sh
+# Copyright (c) 2009-2012 Wolfram Schneider, http://bbbike.org
+#
+# generate temp config file for testing
+#
+
+set -e
+
+if [ -e $HOME/.bbbikerc ]; then 
+    . $HOME/.bbbikerc
+fi
+
+PWD=$(pwd)
+USER=$(logname)
+export PWD USER
+
+: ${BBBIKE_LIGHTTPD_TEMPLATE=world/etc/lighttpd/test-more.conf.template}
+: ${BBBIKE_LIGHTTPD_FILE=world/etc/lighttpd/test-more.conf}
+
+perl -npe 's,%(.*?)%,$ENV{$1},g; ' $BBBIKE_LIGHTTPD_TEMPLATE > $BBBIKE_LIGHTTPD_FILE.tmp
+mv -f $BBBIKE_LIGHTTPD_FILE.tmp $BBBIKE_LIGHTTPD_FILE
+
