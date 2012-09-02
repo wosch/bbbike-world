@@ -101,26 +101,30 @@ sub area_size {
     my ( $lng_sw, $lat_sw, $lng_ne, $lat_ne, $parts ) = @_;
 
     # broken lat values? SW is below NE
-    if ( $lat_sw > $lat_ne) {
-	warn "lat sw: $lat_sw is larger than lat ne: $lat_ne, give up!\n";
-	return 0;
+    if ( $lat_sw > $lat_ne ) {
+        warn "lat sw: $lat_sw is larger than lat ne: $lat_ne, give up!\n";
+        return 0;
     }
 
     # date border? Split the rectangle in to parts at the date border
     elsif ( $lng_sw > 0 && $lng_ne < 0 ) {
         my $left_area =
-          $self->_area_size( $lng_sw, $lat_sw, 180, $lat_ne, $parts );
+          $self->area_size( $lng_sw, $lat_sw, 180, $lat_ne, $parts );
         my $right_area =
-          $self->_area_size( -180, $lat_sw, $lng_ne, $lat_ne, $parts );
+          $self->area_size( -180, $lat_sw, $lng_ne, $lat_ne, $parts );
 
         return $left_area + $right_area;
-    } 
+    }
 
-    elsif ( $lng_sw <= $lng_ne) {
+    # broken lng value? SW is below NE
+    elsif ( $lng_sw > $lng_ne ) {
+        warn "lon sw: $lng_sw is smaller than lon ne: $lng_ne, give up!\n";
+        return 0;
+    }
+
+    # call real function
+    else {
         return $self->_area_size(@_);
-    } else {
-	warn "lon sw: $lng_sw is smaller than lon ne: $lng_ne, give up!\n";
-	return 0;
     }
 }
 
