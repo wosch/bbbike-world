@@ -108,9 +108,13 @@ sub area_size {
           $self->_area_size( -180, $lat_sw, $lng_ne, $lat_ne, $parts );
 
         return $left_area + $right_area;
-    }
-    else {
+    } 
+
+    elsif ( $lng_sw <= $lng_ne) {
         return $self->_area_size(@_);
+    } else {
+	warn "lon sw: $lng_sw is smaller than lon ne: $lng_ne, give up!\n";
+	return 0;
     }
 }
 
