@@ -46,5 +46,7 @@ $HTTP["host"] =~ "^localhost:8080$" {
             url.rewrite-once = ( "^/([a-z][a-z]/|m/)?([A-Z][A-Za-z]+)/streets.html$" => "/$1$2/index.cgi?all=2" )
 	}
 }
-# EOF
 
+include_shell "/usr/share/lighttpd/create-mime.assign.pl"
+
+# EOF
