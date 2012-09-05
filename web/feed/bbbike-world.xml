@@ -16,6 +16,19 @@
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title type="html">A new &lt;a
+    href="http://bbbike.jochen-pfeiffer.com/en/"&gt;BBBike iPhone
+    app&lt;/a&gt; is availble in the iTune store.</title>
+    <id>51d474fb21860b0629bfe8467ee42c0d</id>
+    <content type="html">A new &lt;a
+    href="http://bbbike.jochen-pfeiffer.com/en/"&gt;BBBike iPhone
+    app&lt;/a&gt; is availble in the iTune store. The city Berlin
+    use the original BBBike data, the other cities are OSM
+    based.</content>
+    <updated>2012-09-04T13:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title>Map Compare with new maps: Nokia Map, Terrain,
     Satellite, Hybrid, Public Transit, Traffic. Map Compare now
     supports up to 52 maps: http://tile.bbbike.org/mc/</title>

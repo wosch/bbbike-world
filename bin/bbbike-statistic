@@ -222,6 +222,11 @@ log_full / | egrep '188.40.84.75' | wc -l
 log_full / | egrep '188.40.84.75' | awk '{ print $7 }' | sort -u
 
 echo ""
+echo -n "BBBike iPhone: "
+log_full BBBike/1.0 | egrep 'HTTP/1.1" 200 ' | wc -l
+log_full BBBike/1.0 | egrep 'HTTP/1.1" 200 ' | awk '{ print $7 }' | perl -npe 's,/\?.*,,; s,.*/,,' | sort | uniq -c | sort -nr
+
+echo ""
 echo "Street click"
 echo -n "streets.html: "
 log_post ' (http://www.bbbike.org)?/[A-Z][^ ]*/streets.html' | awk '{ if ($11 != "\"-\"") { print $7, $11 } else { print $11 } }'| sort -u | wc -l

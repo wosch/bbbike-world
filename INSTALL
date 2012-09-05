@@ -17,7 +17,7 @@ sudo apt-get install \
   lsof whois pigz make acct telnet dnsutils bc sysstat \
   buffer pktstat emacs unzip vim gcc zlib1g-dev perltidy tidy \
   bsd-mailx mutt perl-doc zip sudo munin-node htop strace \
-  python openjdk-6-jdk g++ sockstat \
+  python openjdk-6-jdk g++ sockstat kwalify \
   libhtml-tagcloud-perl libtext-unidecode-perl munin \
   libxml-atom-simplefeed-perl libjson-perl liburi-perl \
   libxml-libxml-perl libyaml-perl libyaml-syck-perl libxml-simple-perl \
@@ -66,8 +66,7 @@ sudo port install pbzip2 bzip2 git-core lynx wget \
 	p5-www-mechanize p5-xml-twig p5-perl-tidy p5-algorithm-diff \
 	p5-image-exiftool p5-mime-tools p5-ipc-run p5-statistics-descriptive \
 	p5-dbi p5-class-accessor p5-data-compare p5-math-matrix p5-cairo \
-	p5-svg p5-yaml-tiny 
-
+	p5-svg p5-yaml-tiny p5-perlmagick
 
 sudo port install lighttpd munin varnish openjdk6 
 
@@ -101,4 +100,6 @@ $sudo_cpan XML::Atom::SimpleFeed
 $sudo_cpan Math::MatrixReal
 $sudo_cpan Geo::Google::PolylineEncoder
 $sudo_cpan Image::Info # newer version
+$sudo_cpan Kwalify
+
 

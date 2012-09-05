@@ -24,6 +24,19 @@ my $feed = XML::Atom::SimpleFeed->new(
 
 $feed->add_entry(
     title =>
+qq{A new <a href="http://bbbike.jochen-pfeiffer.com/en/">BBBike iPhone app</a> is availble in the iTune store.},
+    id      => '51d474fb21860b0629bfe8467ee42c0d',
+    content => {
+        type => 'html',
+        content =>
+qq{A new <a href="http://bbbike.jochen-pfeiffer.com/en/">BBBike iPhone app</a> is availble in the iTune store. The city Berlin use the original BBBike data, the other cities are OSM based.},
+    },
+    updated  => '2012-09-04T13:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title =>
 qq{Map Compare with new maps: Nokia Map, Terrain, Satellite, Hybrid, Public Transit, Traffic. Map Compare now supports up to 52 maps: http://tile.bbbike.org/mc/},
     id      => '51d474fb21860b0629bfe8467ee42c0c',
     content => {
