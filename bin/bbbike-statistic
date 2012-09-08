@@ -111,6 +111,11 @@ echo -n "google maps addresses gps, start+ziel: "
 log "$url_match.*?\?" | egrep -c 'start=[^&]+%2C1%5D&.*ziel=[^&]+%2C1%5D&'
 
 echo ""
+echo -n "BBBike iPhone: "
+log_full BBBike/1.0 | egrep 'HTTP/1.1" 200 ' | wc -l
+log_full BBBike/1.0 | egrep 'HTTP/1.1" 200 ' | awk '{ print $7 }' | perl -npe 's,/\?.*,,; s,.*/,,' | sort | uniq -c | sort -nr
+
+echo ""
 echo -n "bbbike.org hosts: "
 log "$url_match" | awk '{print $1}' | sort -u | wc -l
 log "$url_match" |
@@ -220,11 +225,6 @@ echo ""
 echo -n "Gpsies.com: "
 log_full / | egrep '188.40.84.75' | wc -l
 log_full / | egrep '188.40.84.75' | awk '{ print $7 }' | sort -u
-
-echo ""
-echo -n "BBBike iPhone: "
-log_full BBBike/1.0 | egrep 'HTTP/1.1" 200 ' | wc -l
-log_full BBBike/1.0 | egrep 'HTTP/1.1" 200 ' | awk '{ print $7 }' | perl -npe 's,/\?.*,,; s,.*/,,' | sort | uniq -c | sort -nr
 
 echo ""
 echo "Street click"
