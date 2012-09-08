@@ -791,6 +791,9 @@ osmand-devel:
 test-org:
 	./world/bin/update-lighttpd-template
 
+test:
+	time prove -j${MAX_CPU}
+
 help:
 	@echo "bbbike version: ${GIT_ID}"
 	@echo ""
@@ -827,7 +830,7 @@ help:
 	@echo "  [ staging | extract-bbbike-org-install | extract-distclean ]"
 	@echo "  [ extract-gc | extract-gc7 | extract-gc-osm ]"
 	@echo "  [ tile | tile-convert | tile-csv | tile-distclean ]"
-	@echo "  [ test-org ]"
+	@echo "  [ test-org | test ]"
 	@echo ""
 	@echo "see also ./world/README"
 
