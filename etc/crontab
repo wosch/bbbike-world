@@ -1,12 +1,12 @@
 # For more information see the manual pages of crontab(5) and cron(8)
 # 
 # m h  dom mon dow   command
-*/4 * * * * cd $HOME/projects/bbbike/ && world/bin/extract.pl --debug=1 --job=10 --send-email=1
-#*/5 * * * * cd /usr/local/www/bbbike.org/ && world/bin/extract.pl --debug=1 --job=3
+#*/4 * * * * cd $HOME/projects/bbbike/ && world/bin/extract.pl --debug=1 --job=5 --send-email=1
+*/4 * * * * cd /usr/local/www/bbbike.org/ && world/bin/extract.pl --debug=1 --job=6
 #5 * * * * cd /usr/local/www/bbbike.org/ && make -s extract-gc7 extract-gc
-5 * * * * cd $HOME/projects/bbbike && make -s extract-gc7 extract-gc
+5 * * * * cd /usr/local/www/bbbike.org/ && make -s extract-gc7 extract-gc
 MAILTO=wosch
 # m h  dom mon dow   command
 15,45 15-23 * * 4     cd $HOME/projects/bbbike/ && world/bin/planet-download-alert
-45 15-23 * * 5 cd $HOME/projects/bbbike/ && world/bin/planet-download-alert
+38 15-23 * * * cd $HOME/projects/bbbike/ && world/bin/planet-download-alert
 
