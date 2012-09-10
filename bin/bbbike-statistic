@@ -72,6 +72,8 @@ if [ -f $varnish_log ]; then
     echo ""
     echo -n "tile log hosts: "
     egrep tile $varnish_log | awk '{ print $1 }' | sort -u | wc -l
+    echo -n "tile log hits: "
+    egrep tile $varnish_log | wc -l
     egrep tile $varnish_log | awk '{ print $1 }' | sort | uniq -c | sort -nr | $dns
 
     echo ""
