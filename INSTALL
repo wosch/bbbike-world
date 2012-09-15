@@ -66,8 +66,7 @@ sudo port install pbzip2 bzip2 git-core lynx wget \
 	p5-www-mechanize p5-xml-twig p5-perl-tidy p5-algorithm-diff \
 	p5-image-exiftool p5-mime-tools p5-ipc-run p5-statistics-descriptive \
 	p5-dbi p5-class-accessor p5-data-compare p5-math-matrix p5-cairo \
-	p5-svg p5-yaml-tiny 
-
+	p5-svg p5-yaml-tiny p5-gd-svg 
 
 sudo port install lighttpd munin varnish openjdk6 
 
@@ -77,6 +76,8 @@ $sudo_cpan Text::Unidecode
 $sudo_cpan HTML::TagCloud
 $sudo_cpan Object::Realize::Later
 $sudo_cpan Email::Valid
+$sudo_cpan Geo::METAR
+$sudo_cpan Imager
 
 # optional/devel
 $sudo_cpan Devel::Leak
