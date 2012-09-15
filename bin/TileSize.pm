@@ -105,7 +105,8 @@ sub area_size {
 
     # broken lat values? SW is below NE
     if ( $lat_sw > $lat_ne ) {
-        warn "lat sw: $lat_sw is larger than lat ne: $lat_ne, give up!\n";
+        warn "lat sw: $lat_sw is larger than lat ne: $lat_ne, give up!\n"
+          if $debug >= 0;
         return 0;
     }
 
@@ -121,7 +122,8 @@ sub area_size {
 
     # broken lng value? SW is below NE
     elsif ( $lng_sw > $lng_ne || abs( $lng_sw - $lng_ne ) > 180 ) {
-        warn "lon sw: $lng_sw is smaller than lon ne: $lng_ne, give up!\n";
+        warn "lon sw: $lng_sw is smaller than lon ne: $lng_ne, give up!\n"
+          if $debug >= 0;
         return 0;
     }
 
@@ -155,7 +157,7 @@ sub _area_size {
 
     warn "$lng_sw,$lat_sw,$lng_ne,$lat_ne", " :: ",
       "$lng_sw2,$lat_sw2,$lng_ne2,$lat_ne2\n"
-      if $debug;
+      if $debug > 0;
 
     sub W { $debug >= 2 ? warn $_[0] . "\n" : 1 }
     my $tile_parts = 0;
@@ -216,7 +218,7 @@ sub _area_size {
         }
     }
 
-    warn "Got $tile_parts parts\n" if $debug;
+    warn "Got $tile_parts parts\n" if $debug > 0;
     return $size;
 }
 

@@ -141,7 +141,7 @@ convert-bbbike-full: build-runtime-perl
 # convert bbbike files from wgs84, much faster
 convert-bbbike: build-runtime-perl
 	echo ${CITIES} | ${XARGS} -E " " -n4 -P${MAX_VCPU} ./world/bin/wgs84-to-bbbike
-	tar --exclude='_*' -cf - ${DATA_DIR} | ${NICE} ${BZIP2} > ${DATA_OSM_BBBIKE_DIR}/data.tbz.tmp
+	tar --exclude='_*' -cf - ${DATA_DIR} | ${NICE} bzip2 > ${DATA_OSM_BBBIKE_DIR}/data.tbz.tmp
 	mv -f ${DATA_OSM_BBBIKE_DIR}/data.tbz.tmp ${DATA_OSM_BBBIKE_DIR}/data.tbz
 
 _tarball:
@@ -791,6 +791,9 @@ osmand-devel:
 test-org:
 	./world/bin/update-lighttpd-template
 
+test:
+	time prove -j${MAX_CPU}
+
 help:
 	@echo "bbbike version: ${GIT_ID}"
 	@echo ""
@@ -827,7 +830,7 @@ help:
 	@echo "  [ staging | extract-bbbike-org-install | extract-distclean ]"
 	@echo "  [ extract-gc | extract-gc7 | extract-gc-osm ]"
 	@echo "  [ tile | tile-convert | tile-csv | tile-distclean ]"
-	@echo "  [ test-org ]"
+	@echo "  [ test-org | test ]"
 	@echo ""
 	@echo "see also ./world/README"
 

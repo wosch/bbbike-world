@@ -44,6 +44,9 @@ my $spool_dir = '/var/cache/extract';
 my $email_from = 'BBBike Admin <bbbike@bbbike.org>';
 
 my $option = {
+    'homepage'        => 'http://download.bbbike.org/osm/extract',
+    'script_homepage' => 'http://extract.bbbike.org',
+
     'max_extracts'              => 50,
     'default_format'            => 'osm.pbf',
     'city_name_optional'        => 0,
@@ -291,6 +294,18 @@ EOF
     return $data;
 }
 
+# call back URL
+sub script_url {
+    my $option = shift;
+    my $obj    = shift;
+
+    my $script_url =
+        $option->{script_homepage}
+      . "/?sw_lng=$obj->{sw_lng}&sw_lat=$obj->{sw_lat}&ne_lng=$obj->{ne_lng}&ne_lat=$obj->{ne_lat}"
+      . "&format=$obj->{'format'}";
+    return $script_url;
+}
+
 #
 # validate user input
 # reject wrong values
@@ -418,17 +433,29 @@ EOF
 
     }
 
+    my $script_url = &script_url(
+        $option,
+        {
+            'sw_lat' => $sw_lat,
+            'sw_lng' => $sw_lng,
+            'ne_lat' => $ne_lat,
+            'ne_lng' => $ne_lng,
+            'format' => $format,
+        }
+    );
+
     my $obj = {
-        'email'  => $email,
-        'format' => $format,
-        'city'   => $city,
-        'sw_lat' => $sw_lat,
-        'sw_lng' => $sw_lng,
-        'ne_lat' => $ne_lat,
-        'ne_lng' => $ne_lng,
-        'skm'    => $skm,
-        'date'   => time2str(time),
-        'time'   => time(),
+        'email'      => $email,
+        'format'     => $format,
+        'city'       => $city,
+        'sw_lat'     => $sw_lat,
+        'sw_lng'     => $sw_lng,
+        'ne_lat'     => $ne_lat,
+        'ne_lng'     => $ne_lng,
+        'skm'        => $skm,
+        'date'       => time2str(time),
+        'time'       => time(),
+        'script_url' => $script_url,
     };
 
     my $json      = new JSON;

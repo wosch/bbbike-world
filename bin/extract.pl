@@ -681,6 +681,17 @@ sub mkgmap_description {
     return $city;
 }
 
+sub script_url {
+    my $option = shift;
+    my $obj    = shift;
+
+    my $script_url =
+        $option->{script_homepage}
+      . "/?sw_lng=$obj->{sw_lng}&sw_lat=$obj->{sw_lat}&ne_lng=$obj->{ne_lng}&ne_lat=$obj->{ne_lat}"
+      . "&format=$obj->{'format'}";
+    return $script_url;
+}
+
 sub _convert_send_email {
     my %args       = @_;
     my $json_file  = $args{'json_file'};
@@ -816,10 +827,7 @@ sub _convert_send_email {
 
         next if !$send_email;
 
-        my $script_url =
-            $option->{script_homepage}
-          . "/?sw_lng=$obj->{sw_lng}&sw_lat=$obj->{sw_lat}&ne_lng=$obj->{ne_lng}&ne_lat=$obj->{ne_lat}"
-          . "&format=$obj->{'format'}";
+        my $script_url = &script_url( $option, $obj );
 
         my $message = <<EOF;
 Hi,

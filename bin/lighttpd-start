@@ -1,0 +1,30 @@
+#!/bin/sh
+# Copyright (c) 2009-2012 Wolfram Schneider, http://bbbike.org
+#
+# start web server for testing
+#
+
+PATH=$HOME/bin:/usr/local/bin:/opt/local/sbin:/usr/sbin:/bin:/usr/bin; export PATH
+
+set -e
+
+if [ -e $HOME/.bbbikerc ]; then 
+    . $HOME/.bbbikerc
+fi
+
+PWD=$(pwd)
+USER=$(logname)
+export PWD USER
+
+: ${BBBIKE_LIGHTTPD_FILE=`pwd`/world/etc/lighttpd/test-more.conf}
+lighttpd=$(which lighttpd)
+
+if [ -z "$lighttpd" ]; then
+    echo "lighttpd not found"; exit 2
+fi
+if [ ! -e $BBBIKE_LIGHTTPD_FILE ]; then
+   echo "$BBBIKE_LIGHTTPD_FILE not found"; exit 2
+fi
+
+$lighttpd -D -f $BBBIKE_LIGHTTPD_FILE
+

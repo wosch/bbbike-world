@@ -9,6 +9,7 @@ prefix=$1
 city=$2
 
 time=time
+: ${POI_DB=poi}
 
 if test -z "$prefix" -o -z "$city"; then
 	echo "usage $0 prefix city"
@@ -74,8 +75,8 @@ perl -i.all -ne 'print if !/\t$/' $prefix/$city/opensearch.crossing.10
 
 # Point of Interests
 echo "Run osm2bbd-poi"
-mkdir -p ../osm/poi
-$time env CITY=$prefix/$city ./miscsrc/osm2bbd-poi --storable=../osm/poi/$city.db > $prefix/$city/poi
+mkdir -p ../osm/$POI_DB
+$time env CITY=$prefix/$city ./miscsrc/osm2bbd-poi --storable=../osm/$POI_DB/$city.db > $prefix/$city/poi
 
 $p/strasse-str $prefix/$city/poi
 
