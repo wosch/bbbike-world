@@ -4,6 +4,7 @@
 # osm2bbd-workarounds - wrapper script for osm-to-bbbike data conversion
 
 set -e
+export LANG=C
 
 prefix=$1
 city=$2
