@@ -4,3 +4,16 @@
 
 planet_osm_server=http://planet.openstreetmap.org
 
+export BBBIKE_TEST_CGIDIR="http://localhost:8080/cgi"
+export BBBIKE_TEST_CGIURL="http://localhost:8080/cgi/bbbike.cgi"
+export BBBIKE_TEST_HTMLDIR="http://localhost:8080"
+export BBBIKE_TEST_MAPSERVERURL="http://localhost:8080/cgi-bin/mapserv"
+export BBBIKE_TEST_WAPURL="http://localhost:8080/cgi/wapbbbike.cgi"
+
+# export BBBIKE_TEST_NO_CGI_TESTS=1
+# export BBBIKE_TEST_SLOW_NETWORK=1
+# export BBBIKE_TEST_NO_NETWORK=1
+export BBBIKE_TEST_ORG=1
+export BBBIKE_TEST_NO_APACHE=1
+export BBBIKE_TEST_NO_MAPSERVER=1
+
