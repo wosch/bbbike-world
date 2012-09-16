@@ -58,7 +58,7 @@ $sudo_cpan Image::Info
 Required MacPorts modules
 ------------------------------------
 sudo port install pbzip2 bzip2 git-core lynx wget \
-	pigz buffer tidy pdftk \
+	pigz buffer tidy pdftk htop \
 	p5-yaml p5-bsd-resource p5-uri p5-json p5-xml-simple p5-tie-ixhash \
 	p5-yaml-syck p5-yaml p5-perl-tidy p5-libwww-perl p5-perlio-gzip \
 	p5-perl-tidy p5-extutils-makemaker p5-module-build p5-inline \
