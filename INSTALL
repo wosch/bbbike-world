@@ -28,16 +28,17 @@ sudo apt-get install \
   libprotobuf-lite6 libshp1 libgeos-dev libxml2-dev libxml-twig-perl \
   libipc-run-perl libimage-info-perl libwww-mechanize-perl libemail-mime-perl \
   libdbi-perl libobject-realize-later-perl libmldbm-perl \
-  libclass-accessor-perl libarchive-zip-perl libtemplate-perl libdata-compare-perl \
-  libgd2-xpm libgd2-xpm-dev libgd-gd2-perl ttf-bitstream-vera ttf-dejavu \
+  libclass-accessor-perl libarchive-zip-perl libtemplate-perl \
+  libdata-compare-perl libgd2-xpm libgd2-xpm-dev libgd-gd2-perl \
+  ttf-bitstream-vera ttf-dejavu libarchive1 libtext-table-perl \
   libpdf-create-perl libcairo-perl libpango-perl libfont-afm-perl \
   libtest-number-delta-perl libimager-perl netpbm libgd-gd2-perl \
-  ttf-bitstream-vera ttf-dejavu libyaml-tiny-perl libcompress-zlib-perl libarchive1 \
+  ttf-bitstream-vera ttf-dejavu libyaml-tiny-perl libcompress-zlib-perl \
   libarchive-dev liblzma-dev libclass-accessor-children-perl subversion \
   libimage-size-perl libmime-tools-perl libcdb-file-perl \
   libdate-calc-perl libimage-exiftool-perl libstatistics-descriptive-perl \
   libsvg-perl libgd-svg-perl perlmagick libimager-perl imagemagick libsvg-perl \
-  libdb-file-lock-perl libgeo-metar-perl libstring-approx-perl libtext-table-perl \
+  libdb-file-lock-perl libgeo-metar-perl libstring-approx-perl \ 
   libdbd-xbase-perl libdevel-leak-perl libfile-readbackwards-perl \
   libhtml-treebuilder-xpath-perl libxml2-utils 
 
@@ -103,5 +104,4 @@ $sudo_cpan Math::MatrixReal
 $sudo_cpan Geo::Google::PolylineEncoder
 $sudo_cpan Image::Info # newer version
 $sudo_cpan Kwalify
-
 
