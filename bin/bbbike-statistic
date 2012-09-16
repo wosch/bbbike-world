@@ -39,7 +39,7 @@ log_full () {
 }
 log () {
     match=${1-"."}
-    log_all "$match" | egrep -v '" 40[34] '
+    log_all "$match" | egrep -v '" 40[34] ' | egrep -v "BBBike.org-Test/1.0"
 }
 log_post () {
     match=${1-"."}
