@@ -59,6 +59,14 @@ backend slaven {
     .between_bytes_timeout = 300s;
 }
 
+backend wosch {
+    .host = "wosch";
+    .port = "80";
+    .first_byte_timeout = 300s;
+    .connect_timeout = 300s;
+    .between_bytes_timeout = 300s;
+}
+
 /*
 backend eserte_devel {
     .host = "eserte";
@@ -117,6 +125,12 @@ sub vcl_recv {
         set req.backend = tile;
     } else if (req.http.host ~ "^([u-z])\.tile\.bbbike\.org$") {
         set req.backend = tile;
+    } else if (req.http.host ~ "^(mc|mapcompare)\.bbbike\.org$") {
+        set req.backend = tile;
+    } else if (req.http.host ~ "^(www2?\.)?manualpages\.de$") {
+        set req.backend = wosch;
+    } else if (req.http.host ~ "^(dvh|tkb)\.bookmaps\.org$") {
+        set req.backend = wosch;
     } else {
         set req.backend = bbbike;
     }
@@ -152,6 +166,8 @@ sub vcl_recv {
     if (req.http.host !~ "\.bbbike\.org$") {
 	return (pass);
     }
+
+    if (req.http.host ~ "^(www2?\.)manualpages\.de$$")  { return (pass); } # no cache
 
     ######################################################################
     # force caching of images and CSS/JS files
