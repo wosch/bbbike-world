@@ -54,8 +54,12 @@ sub _create_links {
     my $fh = new IO::File $file, "r" or die "open $file: $!\n";
 
     my @data;
+    my $length;
     while (<$fh>) {
-        push @data, length($_) . " " . $_;
+	$length = length($_);
+ 	next if $length < 140;
+	
+        push @data, "$length $_";
     }
 
     @data = reverse sort my_sort @data;
