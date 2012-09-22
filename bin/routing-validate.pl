@@ -78,7 +78,8 @@ sub _create_links {
 
         my %hash;
         foreach my $i ( 1 .. $number ) {
-	    # uniqe rand
+
+            # uniqe rand
             my $rand;
             foreach my $j ( 1 .. $number ) {
                 $rand = int( rand($max) );
@@ -87,10 +88,10 @@ sub _create_links {
                     last;
                 }
             }
-	    if (!defined $rand) {
-		warn "something went wrong with rand check\n";
-		next;
-	    }
+            if ( !defined $rand ) {
+                warn "something went wrong with rand check\n";
+                next;
+            }
 
             push @d, $data[$rand];
         }
