@@ -88,7 +88,7 @@ sub create_links {
 
     foreach my $d (@data) {
         $d =~ s/^\d+\d//;
-        $d =~ s/.*?\t\w+\s+//;
+        $d =~ s/.*?\t\S+\s+//;
 
         my @pos = split " ", $d;
         push @list, [ $pos[0], $pos[-1] ];
@@ -131,7 +131,7 @@ foreach my $query (@data) {
     my @query = @$query;
     my $city  = shift @query;
     foreach my $c (@query) {
-        my $url = qq{$homepage/$city/?start=} . $c->[0] . "&ziel=" . $c->[1];
+        my $url = qq{$homepage/$city/?renice=10&start=} . $c->[0] . "&ziel=" . $c->[1];
         print
 qq{curl -sSf "$url" | egrep -q '"route_length"' || echo "fail $url"\0};
     }
