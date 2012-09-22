@@ -127,7 +127,7 @@ sub header {
     return $q->header( -charset => 'utf-8', @cookie ) .
 
       $q->start_html(
-        -title => 'BBBike planet.osm extracts - OpenStreetMap data',
+        -title => 'Planet.osm extracts | BBBike.org',
         -head  => [
             $q->meta(
                 {
