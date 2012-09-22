@@ -75,8 +75,24 @@ sub _create_links {
         my @d;
         my $max = 20 * $number;
         $max = scalar(@data) < $max ? scalar(@data) : $max;
+
+        my %hash;
         foreach my $i ( 1 .. $number ) {
-            push @d, $data[ int( rand($max) ) ];
+	    # uniqe rand
+            my $rand;
+            foreach my $j ( 1 .. $number ) {
+                $rand = int( rand($max) );
+                if ( !exists $hash{$rand} ) {
+                    $hash{$rand} = 1;
+                    last;
+                }
+            }
+	    if (!defined $rand) {
+		warn "something went wrong with rand check\n";
+		next;
+	    }
+
+            push @d, $data[$rand];
         }
         return @d;
     }
@@ -127,11 +143,15 @@ foreach my $city (@cities) {
       ];
 }
 
+# trailing slash
+$homepage =~ s,/+$,,;
+
 foreach my $query (@data) {
     my @query = @$query;
     my $city  = shift @query;
     foreach my $c (@query) {
-        my $url = qq{$homepage/$city/?renice=10&start=} . $c->[0] . "&ziel=" . $c->[1];
+        my $url =
+          qq{$homepage/$city/?renice=10&start=} . $c->[0] . "&ziel=" . $c->[1];
         print
 qq{curl -sSf "$url" | egrep -q '"route_length"' || echo "fail $url"\0};
     }
