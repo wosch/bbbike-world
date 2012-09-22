@@ -66,31 +66,31 @@ log $front_end/cgi/location.cgi | awk '{print $1}' | wc -l
 if [ -f $varnish_log ]; then
     echo ""
     echo -n "map compare log hosts: "
-    egrep 'bbbike.org/mc/js/mc.js' $varnish_log | awk '{ print $1 }' | sort -u | wc -l
-    egrep 'bbbike.org/mc/js/mc.js' $varnish_log | awk '{ print $1 }' | sort | uniq -c | sort -nr
+    log_full 'bbbike.org/mc/js/mc.js' | awk '{ print $1 }' | sort -u | wc -l
+    log_full 'bbbike.org/mc/js/mc.js' | awk '{ print $1 }' | sort | uniq -c | sort -nr
 
     echo ""
     echo -n "tile log hosts: "
-    egrep tile $varnish_log | awk '{ print $1 }' | sort -u | wc -l
+    log_full tile | awk '{ print $1 }' | sort -u | wc -l
     echo -n "tile log hits: "
-    egrep tile $varnish_log | wc -l
-    egrep tile $varnish_log | awk '{ print $1 }' | sort | uniq -c | sort -nr | $dns
+    log_full tile | wc -l
+    log_full tile | awk '{ print $1 }' | sort | uniq -c | sort -nr | $dns
 
     echo ""
     echo "tile log 404"
-    egrep tile $varnish_log | egrep -v ' (200|30[124]) ' | awk '{ print $1 }' | sort | uniq -c | sort -nr | $dns
+    log_full tile | egrep -v ' (200|30[124]) ' | awk '{ print $1 }' | sort | uniq -c | sort -nr | $dns
 
     echo ""
     echo -n "tile log traffic: "
-    egrep tile $varnish_log | egrep ' (200|30[124]) ' | awk '{ s += $10 } END { print int(s/1024/1024*10 + 0.5) / 10, "MB" }' 
+    log_full egrep tile | egrep ' (200|30[124]) ' | awk '{ s += $10 } END { print int(s/1024/1024*10 + 0.5) / 10, "MB" }' 
 
     echo ""
     echo "map compare referer"
-    egrep http://tile.bbbike.org/mc/ $varnish_log | awk '{ print $11 }' | egrep -v http://tile.bbbike.org/ | sort | uniq -c | sort -nr
+    log_full http://tile.bbbike.org/mc/ | awk '{ print $11 }' | egrep -v http://tile.bbbike.org/ | sort | uniq -c | sort -nr
 
     echo ""
     echo -n "OSM map log hosts: "
-    egrep "tile.bbbike.org/osm/ " $varnish_log | awk '{ print $1 }' | sort -u | wc -l
+    log_full "tile.bbbike.org/osm/ " | awk '{ print $1 }' | sort -u | wc -l
 fi
 
 echo ""
