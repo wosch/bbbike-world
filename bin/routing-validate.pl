@@ -81,7 +81,7 @@ sub _create_links {
     my $length;
     while (<$fh>) {
         $length = length($_);
-        next if $length < 140;    # optimize
+        next if $length < 130;    # optimize
 
         push @data, "$length $_";
     }
@@ -97,7 +97,7 @@ sub _create_links {
     # find long streets, and extract 3 with a random generator
     else {
         my @d;
-        my $max     = 30 * $number;
+        my $max     = 50 * $number;
         my $padding = 3;              # get more data, for inaccessable points
 
         $max = scalar(@data) < $max ? scalar(@data) : $max;
@@ -139,6 +139,7 @@ sub create_links {
     my $file = "$data_osm/$city/inaccessible_strassen";
     my $hash = inaccessible_strassen($file);
 
+    my $counter = 0;
     foreach my $d (@data) {
         $d =~ s/^\d+\d//;
         $d =~ s/.*?\t\S+\s+//;
@@ -148,10 +149,14 @@ sub create_links {
             push @list, [ $pos[0], $pos[-1] ];
         }
         else {
-            warn "Ignore inaccessible street $city\n" if $debug >= 1;
+            warn "Ignore inaccessible street $city\n" if $debug >= 2;
         }
 
         last if scalar(@list) >= $number;
+    }
+
+    if ( scalar(@list) < $number ) {
+        warn "Number @{[ scalar(@list) ]} < $number for $city\n" if $debug >= 1;
     }
 
     return @list;
