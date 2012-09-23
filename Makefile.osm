@@ -327,8 +327,7 @@ check-data-osm:
 	echo ${CITIES} | ${XARGS} -E " " -n1 -P${MAX_VCPU} ./world/bin/check-data-osm
 
 check-routing:
-	echo ${CITIES} | ${XARGS} -E " " -n8 -P${MAX_CPU} ./world/bin/routing-validate.pl >/dev/null 
-	
+	echo ${CITIES} | ${XARGS} -E " " -n8 -P${MAX_CPU} ./world/bin/routing-validate.pl --number=50 >/dev/null 
 
 convert2: convert3 convert-workarounds
 # using GNU xargs -P parallel
