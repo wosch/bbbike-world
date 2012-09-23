@@ -27,7 +27,7 @@ import os
 import sys
 import urllib2
 
-STATUS_URL = os.environ.get('statusurl', 'http://127.0.0.1:80/server-status?auto')
+STATUS_URL = os.environ.get('statusurl', 'http://127.0.0.1:8080/server-status?auto')
 AUTH_TYPE = os.environ.get('auth_type', '')
 AUTH_REALM = os.environ.get('auth_realm', '')
 AUTH_USER = os.environ.get('auth_user', '')
