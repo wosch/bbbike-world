@@ -144,8 +144,12 @@ sub create_links {
         $d =~ s/.*?\t\S+\s+//;
 
         my @pos = split " ", $d;
-        push @list, [ $pos[0], $pos[-1] ]
-          if !grep { $hash->{$_} } @pos;
+        if ( !grep { $hash->{$_} } @pos ) {
+            push @list, [ $pos[0], $pos[-1] ];
+        }
+        else {
+            warn "Ignore inaccessible street $city\n" if $debug >= 1;
+        }
 
         last if scalar(@list) >= $number;
     }
