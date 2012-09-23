@@ -71,26 +71,26 @@ if [ -f $varnish_log ]; then
 
     echo ""
     echo -n "tile log hosts: "
-    log_full tile | awk '{ print $1 }' | sort -u | wc -l
+    log_full /mc/ | awk '{ print $1 }' | sort -u | wc -l
     echo -n "tile log hits: "
-    log_full tile | wc -l
-    log_full tile | awk '{ print $1 }' | sort | uniq -c | sort -nr | $dns
+    log_full /mc/ | wc -l
+    log_full /mc/ | awk '{ print $1 }' | sort | uniq -c | sort -nr | $dns
 
     echo ""
     echo "tile log 404"
-    log_full tile | egrep -v ' (200|30[124]) ' | awk '{ print $1 }' | sort | uniq -c | sort -nr | $dns
+    log_full /mc/ | egrep -v ' (200|30[124]) ' | awk '{ print $1 }' | sort | uniq -c | sort -nr | $dns
 
     echo ""
     echo -n "tile log traffic: "
-    log_full egrep tile | egrep ' (200|30[124]) ' | awk '{ s += $10 } END { print int(s/1024/1024*10 + 0.5) / 10, "MB" }' 
+    log_full /mc/ | egrep ' (200|30[124]) ' | awk '{ s += $10 } END { print int(s/1024/1024*10 + 0.5) / 10, "MB" }' 
 
     echo ""
     echo "map compare referer"
-    log_full http://tile.bbbike.org/mc/ | awk '{ print $11 }' | egrep -v http://tile.bbbike.org/ | sort | uniq -c | sort -nr
+    log_full http://mc.bbbike.org/mc/ | awk '{ print $11 }' | egrep -v http://mc.bbbike.org/ | sort | uniq -c | sort -nr
 
     echo ""
     echo -n "OSM map log hosts: "
-    log_full "tile.bbbike.org/osm/ " | awk '{ print $1 }' | sort -u | wc -l
+    log_full "mc.bbbike.org/osm/ " | awk '{ print $1 }' | sort -u | wc -l
 fi
 
 echo ""
