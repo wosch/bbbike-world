@@ -20,6 +20,10 @@ $ make bbbike_download="" update-database
 # convert only
 $ make bbbike_download="" bbbike_extract="" update-database
 
+# build garmin, osmand and shape files only
+$ make bbbike_download="" bbbike_extract="" bbbike_convert="" bbbike_install="" update-database
+
+
 # check a city area
 $ ./world/bin/bbbike-db --city-stat | grep Bielefeld
 Bielefeld =>    69.3    Bielefeld:de,en,da,es,fr,hr,nl,pl,pt,ru,zh
