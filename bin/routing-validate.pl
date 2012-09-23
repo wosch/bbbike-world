@@ -46,6 +46,26 @@ sub my_sort {
     $aa <=> $bb;
 }
 
+# find inaccessible points
+sub inaccessible_strassen {
+    my $file = shift;
+
+    warn "open $file\n" if $debug >= 2;
+    my $fh = new IO::File $file, "r" or die "open $file: $!\n";
+    binmode $fh, ":bytes";
+
+    my %hash;
+
+    while (<$fh>) {
+        next if /^\s*#/;
+        s/^\S*\s\S+\s+//;
+        my @data = split " ", $_;
+        map { $hash{$_} = 1 } @data;
+    }
+
+    return \%hash;
+}
+
 sub _create_links {
     my %args     = @_;
     my $city     = $args{'city'};
@@ -61,23 +81,29 @@ sub _create_links {
     my $length;
     while (<$fh>) {
         $length = length($_);
-        next if $length < 160;    # optimize
+        next if $length < 140;    # optimize
 
         push @data, "$length $_";
     }
 
     @data = reverse sort my_sort @data;
+
+    # very few data
     if ( scalar(@data) <= $number ) {
         warn "less than $number streets\n" if $debug >= 1;
         return @data;
     }
+
+    # find long streets, and extract 3 with a random generator
     else {
         my @d;
-        my $max = 20 * $number;
+        my $max     = 30 * $number;
+        my $padding = 3;              # get more data, for inaccessable points
+
         $max = scalar(@data) < $max ? scalar(@data) : $max;
 
         my %hash;
-        foreach my $i ( 1 .. $number ) {
+        foreach my $i ( 1 .. $number * $padding ) {
 
             # uniqe rand
             my $rand;
@@ -88,6 +114,7 @@ sub _create_links {
                     last;
                 }
             }
+
             if ( !defined $rand ) {
                 warn "something went wrong with rand check\n";
                 next;
@@ -95,20 +122,32 @@ sub _create_links {
 
             push @d, $data[$rand];
         }
+
         return @d;
     }
 }
 
 sub create_links {
+    my %args     = @_;
+    my $city     = $args{'city'};
+    my $data_osm = $args{'data_osm'};
+    my $number   = $args{'number'} || 3;
+
     my @data = _create_links(@_);
     my @list;
+
+    my $file = "$data_osm/$city/inaccessible_strassen";
+    my $hash = inaccessible_strassen($file);
 
     foreach my $d (@data) {
         $d =~ s/^\d+\d//;
         $d =~ s/.*?\t\S+\s+//;
 
         my @pos = split " ", $d;
-        push @list, [ $pos[0], $pos[-1] ];
+        push @list, [ $pos[0], $pos[-1] ]
+          if !grep { $hash->{$_} } @pos;
+
+        last if scalar(@list) >= $number;
     }
 
     return @list;
