@@ -728,7 +728,7 @@ tile-convert:
 	#find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM_CHECKSUM}
 	#find ${_pbf_dir} -name '*.osm.gz' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM_CHECKSUM}
 
-tile-extract tile: tile-lng tile-lnglat tile-lng-run tile-lnglat-run
+tile-extract: tile-lng tile-lnglat tile-lng-run tile-lnglat-run
 
 tile-csv:
 	for format in pbf gz garmin-cycle.zip shp.zip obf.zip; do \
@@ -744,6 +744,9 @@ tile-checksum:
 
 tile-distclean:
 	rm -rf ${TILES_DIR}
+
+tile: tile-extract tile-convert tile-checksum tile-csv 
+
 
 DOWNLOAD_PREFIX=/usr/local/www/download.bbbike.org
 download-bbbike-org-install:
@@ -829,7 +832,7 @@ help:
 	@echo ""
 	@echo "  [ staging | extract-bbbike-org-install | extract-distclean ]"
 	@echo "  [ extract-gc | extract-gc7 | extract-gc-osm ]"
-	@echo "  [ tile | tile-convert | tile-csv | tile-distclean ]"
+	@echo "  [ tile | tile-extract | tile-convert | tile-csv | tile-checksum | tile-distclean ]"
 	@echo "  [ test-org | test ]"
 	@echo ""
 	@echo "see also ./world/README"
