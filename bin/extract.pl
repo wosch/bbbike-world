@@ -56,6 +56,8 @@ our $option = {
     # run with lower priority
     'nice_level' => 2,
 
+    #'nice_level_converter' => 3,
+
     'planet_osm' => "../osm/download/planet-latest.osm.pbf",
     'debug'      => 0,
     'test'       => 0,
@@ -111,6 +113,10 @@ my $planet_osm      = $option->{"planet_osm"};
 my $debug           = $option->{"debug"};
 my $test            = $option->{"test"};
 my $osmosis_options = "omitmetadata=true granularity=10000";    # message
+my $nice_level_converter =
+  exists $option->{"nice_level_converter"}
+  ? $option->{"nice_level_converter"}
+  : $nice_level + 1;
 
 # test & debug
 $planet_osm =
@@ -713,7 +719,7 @@ sub _convert_send_email {
         my $file = $pbf_file;
 
         # convert .pbf to .osm if requested
-        my @nice = ( "nice", "-n", $nice_level );
+        my @nice = ( "nice", "-n", $nice_level_converter );
         if ( $format eq 'osm.bz2' ) {
             $file =~ s/\.pbf$/.bz2/;
             if ( !cached_format($file) ) {
