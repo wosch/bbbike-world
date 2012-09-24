@@ -61,8 +61,14 @@ do
 done
 
 echo "Run search_inaccessible_points"
-$time miscsrc/search_inaccessible_points -encoding utf-8 -map polar -q -cache -shorter -street $prefix/$city/strassen -street $prefix/$city/faehren \
-  -blocked $prefix/$city/gesperrt -blockedtype einbahn -blockedtype sperre  > $prefix/$city/inaccessible_strassen.tmp
+$time miscsrc/search_inaccessible_points -encoding utf-8 -map polar -q \
+  -cache -shorter \
+  -street $prefix/$city/strassen \
+  -street $prefix/$city/faehren \
+  -blocked $prefix/$city/gesperrt \
+  -blockedtype einbahn \
+  -blockedtype sperre  > $prefix/$city/inaccessible_strassen.tmp
+
 mv -f $prefix/$city/inaccessible_strassen.tmp $prefix/$city/inaccessible_strassen
 
 # strasse -> str
