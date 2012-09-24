@@ -36,15 +36,15 @@ test -z "$ext" && ext=${2-"osm"}
 
 size=$(du -ks -L "$file" | awk '{ print $1}')
 : ${java_heap=2048M}
-if [ $size -gt 500000 ]; then
+if [ $size -gt 250000 ]; then
+   java_heap=4548M
+elif [ $size -gt 150000 ]; then
    java_heap=3548M
 elif [ $size -gt 100000 ]; then
    java_heap=2548M
 fi
 
-case $ext in 
-  *leisure* ) java_heap=3500M ;;
-esac
+#case $ext in *leisure* ) java_heap=3500M ;; esac
 
 pwd=$(pwd)
 license="license.txt"
@@ -106,7 +106,7 @@ if [ $size -lt 10000 ]; then
    ln -s $file $split_dir/63240001.osm.pbf
 else 
    echo ">>> Run splitter" > $logfile
-   java $java_opt -jar $HOME/opt/splitter/splitter.jar --output-dir=$split_dir $file >> $logfile 2>&1 || error
+   java $java_opt -jar $HOME/opt/splitter/splitter.jar --max-nodes=1000000 --output-dir=$split_dir $file >> $logfile 2>&1 || error
 fi
 
 date=$(date -u)
