@@ -745,6 +745,7 @@ tile-checksum:
 tile-distclean:
 	rm -rf ${TILES_DIR}
 
+# for errors look in ./tile/tmp
 tile: tile-extract tile-convert tile-checksum tile-csv 
 
 
