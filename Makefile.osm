@@ -326,6 +326,9 @@ cleanup-osm-error:
 check-data-osm:
 	echo ${CITIES} | ${XARGS} -E " " -n1 -P${MAX_VCPU} ./world/bin/check-data-osm
 
+check-routing:
+	echo ${CITIES} | ${XARGS} -E " " -n8 -P${MAX_CPU} ./world/bin/routing-validate.pl --number=50 >/dev/null 
+
 convert2: convert3 convert-workarounds
 # using GNU xargs -P parallel
 convert3:
@@ -822,6 +825,7 @@ help:
 	@echo "  [ create-bbbike-web-symlinks | kml | create-osp | index ]"
 	@echo "  [ convert-wgs84 | convert-bbbike | convert-bbbike-full ]"
 	@echo "  [ city-count | city-reorder | city-file | check-osm | cleanup-osm-error ]"
+	@echo "  [ check-routing ]"
 	@echo "  [ city-memory | varnish-purge-all ]"
 	@echo ""
 	@echo "  [ elevation-fetch | elevation-update | elevation-check | elevation-repair ]"

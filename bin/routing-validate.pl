@@ -20,6 +20,8 @@ my $data_osm = 'data-osm';
 my $number   = 3;
 my $homepage = 'http://dev4.bbbike.org/en';
 
+my $exit = 0;
+
 sub usage {
     my $message = shift || "";
 
@@ -157,6 +159,7 @@ sub create_links {
 
     if ( scalar(@list) < $number ) {
         warn "Number @{[ scalar(@list) ]} < $number for $city\n" if $debug >= 1;
+        $exit++;
     }
 
     return @list;
@@ -205,5 +208,7 @@ foreach my $query (@data) {
 qq{curl -sSf "$url" | egrep -q '"route_length"' || echo "fail $url"\0};
     }
 }
+
+exit( $exit == 0 ? 0 : 1 );
 
 1;
