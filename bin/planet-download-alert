@@ -33,7 +33,7 @@ if [ -e $update ]; then
    fi
 fi
 
-new=`curl -sSf --head --location $planet_osm_server/$file | perl -ne 'print "$1\n" if /^Content-Length:\s+(\d+)/'`
+new=`curl -sS --head --location $planet_osm_server/$file | perl -ne 'print "$1\n" if /^Content-Length:\s+(\d+)/'`
 
 cache_file=$dir/$file
 if [ -e  $cache_file ]; then
