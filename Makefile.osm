@@ -326,6 +326,9 @@ cleanup-osm-error:
 check-data-osm:
 	echo ${CITIES} | ${XARGS} -E " " -n1 -P${MAX_VCPU} ./world/bin/check-data-osm
 
+check-routing:
+	echo ${CITIES} | ${XARGS} -E " " -n8 -P${MAX_CPU} ./world/bin/routing-validate.pl --number=50 >/dev/null 
+
 convert2: convert3 convert-workarounds
 # using GNU xargs -P parallel
 convert3:
@@ -728,7 +731,7 @@ tile-convert:
 	#find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM_CHECKSUM}
 	#find ${_pbf_dir} -name '*.osm.gz' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM_CHECKSUM}
 
-tile-extract tile: tile-lng tile-lnglat tile-lng-run tile-lnglat-run
+tile-extract: tile-lng tile-lnglat tile-lng-run tile-lnglat-run
 
 tile-csv:
 	for format in pbf gz garmin-cycle.zip shp.zip obf.zip; do \
@@ -744,6 +747,10 @@ tile-checksum:
 
 tile-distclean:
 	rm -rf ${TILES_DIR}
+
+# for errors look in ./tile/tmp
+tile: tile-extract tile-convert tile-checksum tile-csv 
+
 
 DOWNLOAD_PREFIX=/usr/local/www/download.bbbike.org
 download-bbbike-org-install:
@@ -818,6 +825,7 @@ help:
 	@echo "  [ create-bbbike-web-symlinks | kml | create-osp | index ]"
 	@echo "  [ convert-wgs84 | convert-bbbike | convert-bbbike-full ]"
 	@echo "  [ city-count | city-reorder | city-file | check-osm | cleanup-osm-error ]"
+	@echo "  [ check-routing ]"
 	@echo "  [ city-memory | varnish-purge-all ]"
 	@echo ""
 	@echo "  [ elevation-fetch | elevation-update | elevation-check | elevation-repair ]"
@@ -829,7 +837,7 @@ help:
 	@echo ""
 	@echo "  [ staging | extract-bbbike-org-install | extract-distclean ]"
 	@echo "  [ extract-gc | extract-gc7 | extract-gc-osm ]"
-	@echo "  [ tile | tile-convert | tile-csv | tile-distclean ]"
+	@echo "  [ tile | tile-extract | tile-convert | tile-csv | tile-checksum | tile-distclean ]"
 	@echo "  [ test-org | test ]"
 	@echo ""
 	@echo "see also ./world/README"

@@ -22,6 +22,11 @@ if [ -e $HOME/.bbbikerc ]; then
     . $HOME/.bbbikerc
 fi
 
+# http://planet.openstreetmap.org/planet/2012/planet-120912.osm.bz2
+date=$(date '+%g%m%d')
+file=planet-$date.osm.bz2
+planet_osm_server=http://planet.openstreetmap.org/planet/2012
+
 
 file_bpf=`basename $file .bz2`.pbf
 dir="tmp.$$.new"
