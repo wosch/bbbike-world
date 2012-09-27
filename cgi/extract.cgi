@@ -781,17 +781,20 @@ sub homepage {
                             -labels  => $formats,
                             -default => $default_format
                           )
-                          . "<br/>"
-                          . $q->submit(
+                          . " <span><a href='/extract.html' title='need help?'>?</a></span>"
+                    ]
+                ),
+                $q->td(
+                    [
+                        $q->submit(
                             -title => 'start extract',
                             -name  => 'submit',
                             -value => 'extract',
 
                             #-id    => 'extract'
-                          )
+                        )
                     ]
                 ),
-
             ]
         )
     );
