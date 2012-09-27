@@ -7,7 +7,6 @@
 PATH=$HOME/bin:/usr/local/bin:/bin:/usr/bin; export PATH 
 
 file=planet-latest.osm.bz2
-
 automatic_update="yes"
 planet_osm_server=http://planet.openstreetmap.org
 bbbikerc=$HOME/.bbbikerc
@@ -16,8 +15,6 @@ if [ -e "$bbbikerc" ]; then
     . "$bbbikerc"
 fi
 
-date=$(date '+%g%m%d')
-file=planet-$date.osm.bz2
 
 old="0"
 new="1"
@@ -44,7 +41,7 @@ if test -n "$new" && test "$new" -ne "$old"; then
    echo "please update me: $old $new"
    echo "$planet_osm_server/$file"
    echo ""
-   curl -sSf --head --location $planet_osm_server/$file | egrep "^(Content-Length|Last-)"
+   curl -sS --head --location $planet_osm_server/$file | egrep "^(Content-Length|Last-)"
    touch $update
 
    if [ -n "$automatic_update" ]; then
