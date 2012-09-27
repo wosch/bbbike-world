@@ -189,7 +189,7 @@ sub footer_top {
     my %args = @_;
 
     my $locate =
-      $args{'map'} ? ' | <a href="javascript:locateMe()">where am I?</a>' : "";
+      $args{'map'} ? '<br/><a href="javascript:locateMe()">where am I?</a>' : "";
 
     return <<EOF;
   <div id="footer_top">
