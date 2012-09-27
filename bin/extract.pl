@@ -889,9 +889,10 @@ sub fix_pbf {
     my $dirname = dirname($0);
     my $pbf2pbf = "$dirname/pbf2pbf";
 
+    my @nice = ( "nice", "-n", $nice_level_converter );
     my @system;
     foreach my $pbf (@$files) {
-        @system = ( $pbf2pbf, $pbf );
+        @system = ( @nice, $pbf2pbf, $pbf );
         system(@system) == 0
           or die "system @system failed: $?";
     }
