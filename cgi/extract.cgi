@@ -781,7 +781,7 @@ sub homepage {
                             -labels  => $formats,
                             -default => $default_format
                           )
-                          . " <span><a href='/extract.html' title='need help?'>?</a></span>"
+                          . " <span><a href='/extract.html' target='_new' title='need help?'>?</a></span>"
                     ]
                 ),
                 $q->td(
