@@ -5,10 +5,8 @@
 #
 
 file=planet-latest.osm.bz2
-date=$(date '+%g%m%d')
-file=planet-$date.osm.bz2
 
-for server1 in http://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org http://ftp.ecki-netz.de/osm http://ftp.heanet.ie/mirrors/openstreetmap.org http://download.bbbike.org/osm/planet http://planet.openstreetmap.org
+for server1 in http://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org http://ftp.ecki-netz.de/osm http://ftp.heanet.ie/mirrors/openstreetmap.org http://download.bbbike.org/osm/planet http://planet.openstreetmap.org/planet
 do
   echo ""
   echo $server1/$file

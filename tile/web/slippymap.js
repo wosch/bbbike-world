@@ -235,6 +235,20 @@ function init() {
         numZoomLevels: 18
     }));
 
+    map.addLayer(new OpenLayers.Layer.WMS("Soviet Military Topo", "http://78.46.61.141/cgi-bin/tilecache-2.11/tilecache.py", {
+        layers: "topomapper_gmerc",
+        format: 'image/jpeg'
+    }, {
+        'buffer': 1,
+        srs: 'EPSG:900913',
+        'numZoomLevels': 14,
+        wrapDateLine: true,
+        transparent: false,
+        'attribution': 'Map data hosted by <a href="http://www.atlogis.com/">Atlogis</a>'
+    }));
+    // topomapper.setTileSize(new OpenLayers.Size(256, 256));
+    // map.addLayer(topomapper);
+
     function bing() {
         var apiKey = "AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf";
 

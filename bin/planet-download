@@ -16,16 +16,11 @@ fi
 nice="nice -n 9"
 
 file=planet-latest.osm.bz2
-planet_osm_server=http://planet.openstreetmap.org
+planet_osm_server=http://planet.openstreetmap.org/planet
 
 if [ -e $HOME/.bbbikerc ]; then 
     . $HOME/.bbbikerc
 fi
-
-# http://planet.openstreetmap.org/planet/2012/planet-120912.osm.bz2
-date=$(date '+%g%m%d')
-file=planet-$date.osm.bz2
-planet_osm_server=http://planet.openstreetmap.org/planet/2012
 
 
 file_bpf=`basename $file .bz2`.pbf
@@ -36,9 +31,9 @@ pwd=`pwd`
 cd $dir
 
 # get md5 checksum first
-curl -sS -o $file.md5 $planet_osm_server/$file.md5
+curl -sSf -o $file.md5 $planet_osm_server/$file.md5
 
-time curl -L -sS $planet_osm_server/$file | tee $file | $nice bzip2 -dc | buffer | \
+time curl -L -sSf $planet_osm_server/$file | tee $file | $nice bzip2 -dc | buffer | \
   $nice time osmosis  --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --write-pbf $file_bpf omitmetadata=true granularity=10000
 
 cat $file.md5

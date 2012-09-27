@@ -189,7 +189,7 @@ sub footer_top {
     my %args = @_;
 
     my $locate =
-      $args{'map'} ? ' | <a href="javascript:locateMe()">where am I?</a>' : "";
+      $args{'map'} ? '<br/><a href="javascript:locateMe()">where am I?</a>' : "";
 
     return <<EOF;
   <div id="footer_top">
@@ -769,7 +769,9 @@ sub homepage {
 
                 $q->td(
                     [
-"<span title='PBF: fast and compact data, OSM XML gzip: standard OSM format, twice as large'>Format: </span>"
+"<span title='PBF: fast and compact data, OSM XML gzip: standard OSM format, "
+                          . "twice as large, Garmin format in different styles, Esri shapefile format, "
+                          . "Osmand for Androids'>Format: </span>"
                           . $q->popup_menu(
                             -name   => 'format',
                             -values => [
@@ -779,17 +781,20 @@ sub homepage {
                             -labels  => $formats,
                             -default => $default_format
                           )
-                          . "<br/>"
-                          . $q->submit(
+                          . " <span><a href='/extract.html' target='_new' title='need help?'>?</a></span>"
+                    ]
+                ),
+                $q->td(
+                    [
+                        $q->submit(
                             -title => 'start extract',
                             -name  => 'submit',
                             -value => 'extract',
 
                             #-id    => 'extract'
-                          )
+                        )
                     ]
                 ),
-
             ]
         )
     );
