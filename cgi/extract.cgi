@@ -369,6 +369,7 @@ sub check_input {
     my $sw_lng = Param("sw_lng");
     my $ne_lat = Param("ne_lat");
     my $ne_lng = Param("ne_lng");
+    my $coords = Param("coords");
 
     if ( !exists $formats->{$format} ) {
         error("Unknown error format '$format'");
@@ -385,25 +386,45 @@ sub check_input {
     elsif ( !Email::Valid->address($email) ) {
         error("E-mail address '$email' is not valid.");
     }
-    error("sw lat '$sw_lat' is out of range -180 ... 180")
-      if !is_coord($sw_lat);
-    error("sw lng '$sw_lng' is out of range -180 ... 180")
-      if !is_coord($sw_lng);
-    error("ne lat '$ne_lat' is out of range -180 ... 180")
-      if !is_coord($ne_lat);
-    error("ne lng '$ne_lng' is out of range -180 ... 180")
-      if !is_coord($ne_lng);
 
-    error("ne lng '$ne_lng' must be larger than sw lng '$sw_lng'")
-      if $ne_lng <= $sw_lng && !( $sw_lng > 0 && $ne_lng < 0 );    # date border
+    my $skm = 0;
 
-    error("ne lat '$ne_lat' must be larger than sw lat '$sw_lat'")
-      if $ne_lat <= $sw_lat;
+    # polygon, N points
+    if ($coords) {
+        my @coords = split '|', $coords;
+        error("need more than 2 points") if scalar(@coords) <= 2;
+        foreach my $point (@coords) {
+            my ( $lat, $lng ) = split ",", $point;
+            error("lat '$lat' is out of range -180 ... 180") if !is_coord($lat);
+            error("lng '$lng' is out of range -180 ... 180") if !is_coord($lng);
+        }
+        $sw_lat = $sw_lng = $ne_lat = $ne_lng = 0;
+    }
 
-    my $skm = square_km( $sw_lat, $sw_lng, $ne_lat, $ne_lng );
-    error(
+    # rectangle, 2 points
+    else {
+
+        error("sw lat '$sw_lat' is out of range -180 ... 180")
+          if !is_coord($sw_lat);
+        error("sw lng '$sw_lng' is out of range -180 ... 180")
+          if !is_coord($sw_lng);
+        error("ne lat '$ne_lat' is out of range -180 ... 180")
+          if !is_coord($ne_lat);
+        error("ne lng '$ne_lng' is out of range -180 ... 180")
+          if !is_coord($ne_lng);
+
+        error("ne lng '$ne_lng' must be larger than sw lng '$sw_lng'")
+          if $ne_lng <= $sw_lng
+              && !( $sw_lng > 0 && $ne_lng < 0 );    # date border
+
+        error("ne lat '$ne_lat' must be larger than sw lat '$sw_lat'")
+          if $ne_lat <= $sw_lat;
+
+        $skm = square_km( $sw_lat, $sw_lng, $ne_lat, $ne_lng );
+        error(
 "Area is to large: @{[ large_int($skm) ]} square km, must be smaller than @{[ large_int($max_skm) ]} square km."
-    ) if $skm > $max_skm;
+        ) if $skm > $max_skm;
+    }
 
     if ( $city eq '' ) {
         if ( $option->{'city_name_optional'} ) {
@@ -453,6 +474,7 @@ EOF
             'ne_lat' => $ne_lat,
             'ne_lng' => $ne_lng,
             'format' => $format,
+            'coords' => $coords,
         }
     );
 
@@ -464,6 +486,7 @@ EOF
         'sw_lng'     => $sw_lng,
         'ne_lat'     => $ne_lat,
         'ne_lng'     => $ne_lng,
+        'coords'     => $coords,
         'skm'        => $skm,
         'date'       => time2str(time),
         'time'       => time(),
