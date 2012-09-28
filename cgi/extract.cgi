@@ -391,8 +391,8 @@ sub check_input {
 
     # polygon, N points
     if ($coords) {
-        my @coords = split '|', $coords;
-        error("need more than 2 points") if scalar(@coords) <= 2;
+        my @coords = split /\|/, $coords;
+        error("Need more than 2 points.") if scalar(@coords) <= 2;
         foreach my $point (@coords) {
             my ( $lat, $lng ) = split ",", $point;
             error("lat '$lat' is out of range -180 ... 180") if !is_coord($lat);
