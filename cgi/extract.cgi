@@ -43,7 +43,7 @@ my $spool_dir = '/var/cache/extract';
 # sent out emails as
 my $email_from = 'BBBike Admin <bbbike@bbbike.org>';
 
-my $option = {
+our $option = {
     'homepage'        => 'http://download.bbbike.org/osm/extract',
     'script_homepage' => 'http://extract.bbbike.org',
 
@@ -69,6 +69,15 @@ my $formats = {
 
     'osm.obf.zip' => "Osmand (OBF)",
 };
+
+#
+# Parse user config file.
+# This allows to override standard config values
+#
+my $config_file = "../.bbbike-extract.rc";
+if ( -e $config_file ) {
+    require $config_file;
+}
 
 my $spool = {
     'incoming'  => "$spool_dir/incoming",
