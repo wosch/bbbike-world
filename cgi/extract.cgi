@@ -270,10 +270,13 @@ sub message {
     return <<EOF;
 @{[ &social_links ]}
 <b align="right">BBBike extracts</b>
-allows you to extracts areas from the <a href="http://wiki.openstreetmap.org/wiki/Planet.osm">planet.osm</a> in OSM, PBF, Garmin, Osmand or ESRI shapefile format.
-The maximum area size is @{[ large_int($max_skm) ]} square km, or @{[ large_int($option->{max_size}/1000) ]}MB file size.
+allows you to extracts areas from <a href="http://wiki.openstreetmap.org/wiki/Planet.osm">planet.osm</a>
+in OSM, PBF, Garmin, Osmand or ESRI shapefile format.
+The maximum area size is @{[ large_int($max_skm) ]} square km,
+or @{[ large_int($option->{max_size}/1000) ]}MB file size.
 
-It takes between 10-30 minutes to extract an area. You will be notified by e-mail if your extract is ready for download.
+It takes between 10-30 minutes to extract an area.
+You will be notified by e-mail if your extract is ready for download.
 <span id="debug"></span>
 EOF
 }
