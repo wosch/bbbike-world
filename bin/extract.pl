@@ -338,7 +338,8 @@ sub create_poly_files {
         # multiple equal extract request in the same batch job
         if ( -e $pbf_file && -s $pbf_file ) {
             warn "file $pbf_file already exists, skiped\n";
-            &touch_file($pbf_file);
+
+            #&touch_file($pbf_file);
             next;
         }
 
@@ -451,7 +452,8 @@ sub run_extracts {
             if ( $newer > 0 ) {
                 warn "File $osm already exists, skip\n" if $debug;
                 link( $osm, $out ) or die "link $osm => $out: $!\n";
-                &touch_file($osm);
+
+                #&touch_file($osm);
                 next;
             }
             else {
