@@ -271,7 +271,13 @@ sub message {
 @{[ &social_links ]}
 <b align="right">BBBike extracts</b>
 allows you to extracts areas from <a href="http://wiki.openstreetmap.org/wiki/Planet.osm">planet.osm</a>
-in OSM, PBF, Garmin, Osmand or ESRI shapefile format.
+in <span title="OpenStreetMap XML">OSM</span>,
+<span title="Protocolbuffer Binary Format">PBF</span>,
+<span title="Garmin GPS devices">Garmin</span>,
+<span title="Osmand Android devices">Osmand</span> or
+<span title="ESRI shapefile">ESRI shapefile</span>
+format.
+
 The maximum area size is @{[ large_int($max_skm) ]} square km,
 or @{[ large_int($option->{max_size}/1000) ]}MB file size.
 
