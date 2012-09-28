@@ -539,7 +539,8 @@ sub _send_email {
 
 # check if we need to run a pbf2osm converter
 sub cached_format {
-    my $file = shift;
+    my $file     = shift;
+    my $pbf_file = shift;
 
     my $to = $spool->{'download'} . "/" . basename($file);
     if ( -e $file && -s $file ) {
@@ -547,6 +548,18 @@ sub cached_format {
         return 1;
     }
     elsif ( -e $to && -s $to ) {
+
+        # re-generate garmin if there is a newer PBF file
+        if ( $pbf_file && -e $pbf_file ) {
+            my $newer = file_mtime_diff( $to, $pbf_file );
+            if ( $newer < 0 ) {
+                warn "file $to already exists, ",
+                  "but a new $pbf_file is here since ", abs($newer),
+                  " seconds. Rebuild.\n"
+                  if $debug >= 1;
+                return 0;
+            }
+        }
         warn "Converted file $to already exists, skip...\n" if $debug >= 1;
 
         warn "link $file => $to\n" if $debug >= 2;
@@ -722,7 +735,7 @@ sub _convert_send_email {
         my @nice = ( "nice", "-n", $nice_level_converter );
         if ( $format eq 'osm.bz2' ) {
             $file =~ s/\.pbf$/.bz2/;
-            if ( !cached_format($file) ) {
+            if ( !cached_format( $file, $pbf_file ) ) {
                 @system = ( @nice, "$dirname/pbf2osm", "--pbzip2", $pbf_file );
 
                 warn "@system\n" if $debug >= 2;
@@ -731,7 +744,7 @@ sub _convert_send_email {
         }
         elsif ( $format eq 'osm.gz' ) {
             $file =~ s/\.pbf$/.gz/;
-            if ( !cached_format($file) ) {
+            if ( !cached_format( $file, $pbf_file ) ) {
                 @system = ( @nice, "$dirname/pbf2osm", "--pgzip", $pbf_file );
 
                 warn "@system\n" if $debug >= 2;
@@ -740,7 +753,7 @@ sub _convert_send_email {
         }
         elsif ( $format eq 'osm.xz' ) {
             $file =~ s/\.pbf$/.xz/;
-            if ( !cached_format($file) ) {
+            if ( !cached_format( $file, $pbf_file ) ) {
                 @system = ( @nice, "$dirname/pbf2osm", "--xz", $pbf_file );
 
                 warn "@system\n" if $debug >= 2;
@@ -750,7 +763,7 @@ sub _convert_send_email {
         elsif ( $format =~ /^garmin-(osm|cycle|leisure).zip$/ ) {
             my $style = $1;
             $file =~ s/\.pbf$/.$format/;
-            if ( !cached_format($file) ) {
+            if ( !cached_format( $file, $pbf_file ) ) {
                 @system = (
                     @nice, "$dirname/pbf2osm", "--garmin-$style", $pbf_file,
                     $city
@@ -761,7 +774,7 @@ sub _convert_send_email {
         }
         elsif ( $format eq 'osm.shp.zip' ) {
             $file =~ s/\.osm\.pbf$/.$format/;
-            if ( !cached_format($file) ) {
+            if ( !cached_format( $file, $pbf_file ) ) {
                 @system =
                   ( @nice, "$dirname/pbf2osm", "--shape", $pbf_file, $city );
 
@@ -771,7 +784,7 @@ sub _convert_send_email {
         }
         elsif ( $format eq 'osm.obf.zip' ) {
             $file =~ s/\.osm\.pbf$/.$format/;
-            if ( !cached_format($file) ) {
+            if ( !cached_format( $file, $pbf_file ) ) {
                 @system =
                   ( @nice, "$dirname/pbf2osm", "--osmand", $pbf_file, $city );
 
