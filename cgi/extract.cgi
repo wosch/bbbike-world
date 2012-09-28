@@ -455,7 +455,7 @@ You will be notified by e-mail if your extract is ready for download.
 Please follow the instruction in the email to proceed your request.</p>
 
 <p align='left'>Area: "@{[ escapeHTML($city) ]}" covers @{[ large_int($skm) ]} square km <br/>
-Coordinates: @{[ escapeHTML("$sw_lng,$sw_lat x $ne_lng,$ne_lat") ]} <br/>
+Coordinates: @{[ $coords ? escapeHTML($coords) : escapeHTML("$sw_lng,$sw_lat x $ne_lng,$ne_lat") ]} <br/>
 Format: $format
 </p>
 
