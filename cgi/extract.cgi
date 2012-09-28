@@ -270,7 +270,7 @@ sub message {
     return <<EOF;
 @{[ &social_links ]}
 <b align="right">BBBike extracts</b>
-allows you to extracts areas from <a href="http://wiki.openstreetmap.org/wiki/Planet.osm">planet.osm</a>
+allows you to extracts areas from <a href="http://wiki.openstreetmap.org/wiki/Planet.osm">Planet.osm</a>
 in <span title="OpenStreetMap XML">OSM</span>,
 <span title="Protocolbuffer Binary Format">PBF</span>,
 <span title="Garmin GPS devices">Garmin</span>,
