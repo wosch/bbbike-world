@@ -282,7 +282,8 @@ The maximum area size is @{[ large_int($max_skm) ]} square km,
 or @{[ large_int($option->{max_size}/1000) ]}MB file size.
 
 It takes between 10-30 minutes to extract an area.
-You will be notified by e-mail if your extract is ready for download.
+You will be notified by e-mail if your extract is ready for download
+<a target="_new" href="/extract.html" title="more help">[...]</a>
 <span id="debug"></span>
 EOF
 }
