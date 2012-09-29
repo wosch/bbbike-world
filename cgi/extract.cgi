@@ -59,7 +59,7 @@ our $option = {
     'confirm' => 0,
 
     # max count of gps points for a polygon
-    'max_coords' => 2_000,
+    'max_coords' => 20_000,
 };
 
 my $formats = {
@@ -410,7 +410,7 @@ sub check_input {
 
     # polygon, N points
     if ($coords) {
-        my $max_size = 100_000;
+        my $max_size = 20 * $option->{max_coords};
         error("coordinates for polygone to large: > $max_size")
           if length($coords) > $max_size;
 
