@@ -463,6 +463,11 @@ sub check_input {
         return;
     }
     else {
+        my $coordinates =
+          $coords
+          ? join( " ", split /\|/, $coords )
+          : "$sw_lng,$sw_lat x $ne_lng,$ne_lat";
+
         print <<EOF;
 <p>Thanks - the input data looks good.</p><p>
 It takes between 10-30 minutes to extract an area from planet.osm,
@@ -471,7 +476,7 @@ You will be notified by e-mail if your extract is ready for download.
 Please follow the instruction in the email to proceed your request.</p>
 
 <p align='left'>Area: "@{[ escapeHTML($city) ]}" covers @{[ large_int($skm) ]} square km <br/>
-Coordinates: @{[ $coords ? escapeHTML($coords) : escapeHTML("$sw_lng,$sw_lat x $ne_lng,$ne_lat") ]} <br/>
+Coordinates: @{[ escapeHTML($coordinates) ]} <br/>
 Format: $format
 </p>
 
