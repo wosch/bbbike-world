@@ -51,7 +51,8 @@ our $option = {
     'send_email'      => 1,
 
     # timeout handling
-    'alarm' => 3 * 60 * 60,
+    'alarm'         => 90 * 60,    # extract
+    'alarm_convert' => 90 * 60,    # convert
 
     # run with lower priority
     'nice_level' => 2,
@@ -650,6 +651,7 @@ sub convert_send_email {
     my $json       = $args{'json'};
     my $send_email = $args{'send_email'};
     my $keep       = $args{'keep'};
+    my $alarm      = $args{'alarm'};
 
     # all scripts are in these directory
     my $dirname = dirname($0);
@@ -664,7 +666,8 @@ sub convert_send_email {
         eval {
             _convert_send_email(
                 'json_file'  => $json_file,
-                'send_email' => $send_email
+                'send_email' => $send_email,
+                'alarm'      => $alarm
             );
         };
 
@@ -736,6 +739,9 @@ sub _convert_send_email {
     my %args       = @_;
     my $json_file  = $args{'json_file'};
     my $send_email = $args{'send_email'};
+    my $alarm      = $args{'alarm'};
+
+    &set_alarm($alarm);
 
     # all scripts are in these directory
     my $dirname = dirname($0);
@@ -1125,6 +1131,7 @@ sub run_jobs {
     my $errors = &convert_send_email(
         'json'       => $json,
         'send_email' => $send_email,
+        'alarm'      => $option->{alarm_convert},
         'keep'       => 1
     );
 
