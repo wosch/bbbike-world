@@ -270,11 +270,24 @@ sub get_job_id {
 
 # store lat,lng in a file name
 sub file_latlng {
-    my $obj  = shift;
-    my $file = "";
+    my $obj = shift;
 
-    $file = $option->{'file_prefix'}
-      . "$obj->{sw_lat},$obj->{sw_lng}_$obj->{ne_lat},$obj->{ne_lng}";
+    my $file   = $option->{'file_prefix'};
+    my $coords = $obj->{coords};
+
+    # rectangle
+    if ( !$coords ) {
+        $file .= "$obj->{sw_lat},$obj->{sw_lng}_$obj->{ne_lat},$obj->{ne_lng}";
+    }
+
+    # polygon
+    else {
+        my @c = split /\|/, $coords;
+        my $md5 =
+          substr( md5_hex($coords), 0, 8 )
+          ;    # first 8 characters of a md5 sum is enough
+        $file .= join "_", ( $c[0], $c[1], $md5 );
+    }
 
     return $file;
 }
@@ -404,10 +417,28 @@ sub create_poly_file {
     $data .= "$city\n";
     $data .= "1\n";
 
-    $data .= "   $obj->{sw_lng}  $obj->{sw_lat}\n";
-    $data .= "   $obj->{ne_lng}  $obj->{sw_lat}\n";
-    $data .= "   $obj->{ne_lng}  $obj->{ne_lat}\n";
-    $data .= "   $obj->{sw_lng}  $obj->{ne_lat}\n";
+    my $counter = 0;
+
+    # rectangle
+    if ( !$obj->{coords} ) {
+        $data .= "   $obj->{sw_lng}  $obj->{sw_lat}\n";
+        $data .= "   $obj->{ne_lng}  $obj->{sw_lat}\n";
+        $data .= "   $obj->{ne_lng}  $obj->{ne_lat}\n";
+        $data .= "   $obj->{sw_lng}  $obj->{ne_lat}\n";
+        $counter += 4;
+    }
+
+    # polygone
+    else {
+        my @c = split /\|/, $obj->{coords};
+        push @c, $c[0];    # last=first, close polygone
+
+        for ( my $i = 0 ; $i < $#c ; $i++ ) {
+            $data .= "   $c[$i]  $c[$i]\n";
+        }
+
+        $counter += $#c;
+    }
 
     $data .= "END\n";
     $data .= "END\n";
@@ -417,7 +448,7 @@ sub create_poly_file {
         return;
     }
 
-    warn "create poly file $file\n" if $debug >= 2;
+    warn "create poly file $file with $counter elements\n" if $debug >= 2;
     store_data( $file, $data );
 }
 
