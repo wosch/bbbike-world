@@ -1035,6 +1035,7 @@ usage: $0 [ options ]
 --job={1..4}		job number for parallels runs, default: $option->{max_jobs}
 --timeout=1..86400	time out, default $option->{"alarm"}
 --send-email={0,1}	send out email, default: $option->{"send_email"}
+--planet-osm=/path/to/planet.osm.pbf, default: $option->{planet_osm}
 EOF
 }
 
@@ -1146,6 +1147,7 @@ GetOptions(
     "timeout=i"    => \$timeout,
     "max-areas=i"  => \$max_areas,
     "send-email=i" => \$send_email,
+    "planet-osm=s" => \$planet_osm,
     "help"         => \$help,
 ) or die usage;
 
