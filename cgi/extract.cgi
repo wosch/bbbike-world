@@ -53,7 +53,10 @@ our $option = {
     'city_name_optional_coords' => 1,
     'max_skm'                   => 8_000_000,    # max. area in square km
     'max_size'                  => 512_000,      # max area in KB size
-    'confirm' => 0,    # request to confirm request with a click on an URL
+
+    # request to confirm request with a click on an URL
+    # -1: do not check email, 0: check email address, 1: sent out email
+    'confirm' => 0,
 };
 
 my $formats = {
@@ -514,11 +517,14 @@ EOF
     if (
         !$key
         || (
-            $mail_error = send_email_confirm(
-                'q'       => $q,
-                'obj'     => $obj,
-                'key'     => $key,
-                'confirm' => $option->{'confirm'}
+            $option->{'confirm'} >= 0
+            && (
+                $mail_error = send_email_confirm(
+                    'q'       => $q,
+                    'obj'     => $obj,
+                    'key'     => $key,
+                    'confirm' => $option->{'confirm'}
+                )
             )
         )
       )
