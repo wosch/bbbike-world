@@ -43,7 +43,7 @@ my $spool_dir = '/var/cache/extract';
 # sent out emails as
 my $email_from = 'BBBike Admin <bbbike@bbbike.org>';
 
-my $option = {
+our $option = {
     'homepage'        => 'http://download.bbbike.org/osm/extract',
     'script_homepage' => 'http://extract.bbbike.org',
 
@@ -69,6 +69,15 @@ my $formats = {
 
     'osm.obf.zip' => "Osmand (OBF)",
 };
+
+#
+# Parse user config file.
+# This allows to override standard config values
+#
+my $config_file = "../.bbbike-extract.rc";
+if ( -e $config_file ) {
+    require $config_file;
+}
 
 my $spool = {
     'incoming'  => "$spool_dir/incoming",
@@ -311,10 +320,14 @@ sub script_url {
     my $option = shift;
     my $obj    = shift;
 
-    my $script_url =
-        $option->{script_homepage}
-      . "/?sw_lng=$obj->{sw_lng}&sw_lat=$obj->{sw_lat}&ne_lng=$obj->{ne_lng}&ne_lat=$obj->{ne_lat}"
-      . "&format=$obj->{'format'}";
+    my $script_url = $option->{script_homepage} . "/?";
+
+    $script_url .=
+      $obj->{'coords'}
+      ? "coords=" . CGI::escape( $obj->{'coords'} )
+      : "sw_lng=$obj->{sw_lng}&sw_lat=$obj->{sw_lat}&ne_lng=$obj->{ne_lng}&ne_lat=$obj->{ne_lat}";
+    $script_url .= "&format=$obj->{'format'}";
+
     return $script_url;
 }
 
@@ -369,6 +382,7 @@ sub check_input {
     my $sw_lng = Param("sw_lng");
     my $ne_lat = Param("ne_lat");
     my $ne_lng = Param("ne_lng");
+    my $coords = Param("coords");
 
     if ( !exists $formats->{$format} ) {
         error("Unknown error format '$format'");
@@ -385,25 +399,45 @@ sub check_input {
     elsif ( !Email::Valid->address($email) ) {
         error("E-mail address '$email' is not valid.");
     }
-    error("sw lat '$sw_lat' is out of range -180 ... 180")
-      if !is_coord($sw_lat);
-    error("sw lng '$sw_lng' is out of range -180 ... 180")
-      if !is_coord($sw_lng);
-    error("ne lat '$ne_lat' is out of range -180 ... 180")
-      if !is_coord($ne_lat);
-    error("ne lng '$ne_lng' is out of range -180 ... 180")
-      if !is_coord($ne_lng);
 
-    error("ne lng '$ne_lng' must be larger than sw lng '$sw_lng'")
-      if $ne_lng <= $sw_lng && !( $sw_lng > 0 && $ne_lng < 0 );    # date border
+    my $skm = 0;
 
-    error("ne lat '$ne_lat' must be larger than sw lat '$sw_lat'")
-      if $ne_lat <= $sw_lat;
+    # polygon, N points
+    if ($coords) {
+        my @coords = split /\|/, $coords;
+        error("Need more than 2 points.") if scalar(@coords) <= 2;
+        foreach my $point (@coords) {
+            my ( $lat, $lng ) = split ",", $point;
+            error("lat '$lat' is out of range -180 ... 180") if !is_coord($lat);
+            error("lng '$lng' is out of range -180 ... 180") if !is_coord($lng);
+        }
+        $sw_lat = $sw_lng = $ne_lat = $ne_lng = 0;
+    }
 
-    my $skm = square_km( $sw_lat, $sw_lng, $ne_lat, $ne_lng );
-    error(
+    # rectangle, 2 points
+    else {
+
+        error("sw lat '$sw_lat' is out of range -180 ... 180")
+          if !is_coord($sw_lat);
+        error("sw lng '$sw_lng' is out of range -180 ... 180")
+          if !is_coord($sw_lng);
+        error("ne lat '$ne_lat' is out of range -180 ... 180")
+          if !is_coord($ne_lat);
+        error("ne lng '$ne_lng' is out of range -180 ... 180")
+          if !is_coord($ne_lng);
+
+        error("ne lng '$ne_lng' must be larger than sw lng '$sw_lng'")
+          if $ne_lng <= $sw_lng
+              && !( $sw_lng > 0 && $ne_lng < 0 );    # date border
+
+        error("ne lat '$ne_lat' must be larger than sw lat '$sw_lat'")
+          if $ne_lat <= $sw_lat;
+
+        $skm = square_km( $sw_lat, $sw_lng, $ne_lat, $ne_lng );
+        error(
 "Area is to large: @{[ large_int($skm) ]} square km, must be smaller than @{[ large_int($max_skm) ]} square km."
-    ) if $skm > $max_skm;
+        ) if $skm > $max_skm;
+    }
 
     if ( $city eq '' ) {
         if ( $option->{'city_name_optional'} ) {
@@ -434,13 +468,13 @@ You will be notified by e-mail if your extract is ready for download.
 Please follow the instruction in the email to proceed your request.</p>
 
 <p align='left'>Area: "@{[ escapeHTML($city) ]}" covers @{[ large_int($skm) ]} square km <br/>
-Coordinates: @{[ escapeHTML("$sw_lng,$sw_lat x $ne_lng,$ne_lat") ]} <br/>
+Coordinates: @{[ $coords ? escapeHTML($coords) : escapeHTML("$sw_lng,$sw_lat x $ne_lng,$ne_lat") ]} <br/>
 Format: $format
 </p>
 
 <p>Press the back button to get the same area in a different format, or to request a new area.</p>
 
-<p>Sincerely, your BBBike\@World admin</p>
+<p>Sincerely, your BBBike admin</p>
 EOF
 
     }
@@ -453,6 +487,7 @@ EOF
             'ne_lat' => $ne_lat,
             'ne_lng' => $ne_lng,
             'format' => $format,
+            'coords' => $coords,
         }
     );
 
@@ -464,6 +499,7 @@ EOF
         'sw_lng'     => $sw_lng,
         'ne_lat'     => $ne_lat,
         'ne_lng'     => $ne_lng,
+        'coords'     => $coords,
         'skm'        => $skm,
         'date'       => time2str(time),
         'time'       => time(),
