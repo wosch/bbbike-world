@@ -652,6 +652,8 @@ sub save_request {
       $option->{'confirm'} ? $spool->{"incoming"} : $spool->{"confirmed"};
     my $job = "$spool_dir/$key.json.tmp";
 
+    warn "Store request $job: $json_text\n" if $debug;
+
     my $fh = new IO::File $job, "w";
     if ( !defined $fh ) {
         warn "Cannot open $job: $!\n";
@@ -659,7 +661,6 @@ sub save_request {
     }
     binmode $fh, ":utf8";
 
-    warn "Store request: $json_text\n" if $debug;
     print $fh $json_text, "\n";
     $fh->close;
 
