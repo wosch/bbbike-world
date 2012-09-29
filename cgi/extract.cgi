@@ -627,7 +627,7 @@ sub send_email {
 
     # sent out an email and ask to confirm
     # configured by: $option->{'conform'}
-    if ($confirm) {
+    if ( $confirm > 0 ) {
         $smtp->data($data) or die "can't email data to '$to'\n";
     }
 
@@ -660,7 +660,7 @@ sub save_request {
 
     my $key = md5_hex( encode_utf8($json_text) . rand() );
     my $spool_dir =
-      $option->{'confirm'} ? $spool->{"incoming"} : $spool->{"confirmed"};
+      $option->{'confirm'} > 0 ? $spool->{"incoming"} : $spool->{"confirmed"};
     my $job = "$spool_dir/$key.json.tmp";
 
     warn "Store request $job: $json_text\n" if $debug;
