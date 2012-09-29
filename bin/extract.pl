@@ -72,6 +72,8 @@ our $option = {
     'max_loadavg_jobs' => 2,    # 0: stop running at all
 };
 
+######################################################################
+
 my $formats = {
     'osm.pbf'            => 'Protocolbuffer Binary Format (PBF)',
     'osm.gz'             => "OSM XML gzip'd",
@@ -120,7 +122,7 @@ my $nice_level_converter =
 
 # test & debug
 $planet_osm =
-"/home/wosch/projects/osm/download/geofabrik/europe/germany/brandenburg.osm.pbf"
+"$ENV{HOME}/projects/osm/download/geofabrik/europe/germany/brandenburg.osm.pbf"
   if $test;
 
 ######################################################################
