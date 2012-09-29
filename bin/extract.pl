@@ -95,17 +95,14 @@ if ( -e $config_file ) {
     require $config_file;
 }
 
-my $spool_dir = $option->{"spool_dir"};
-my $spool     = {
-    'incoming'  => "$spool_dir/incoming",  # incoming request, not confirmed yet
-    'confirmed' => "$spool_dir/confirmed", # ready to run
-    'running'   => "$spool_dir/running",   # currently running job
-    'osm'       => "$spool_dir/osm",       # cache older runs
-    'download'  => "$spool_dir/download",  # final directory for download
-    'trash'  => "$spool_dir/trash",    # keep a copy of the config for debugging
-    'failed' => "$spool_dir/failed",   # keep record of failed runs
-
-    # 'jobN'  => "$spool_dir/job1.pid",     # lock file for current job
+my $spool = {
+    'incoming'  => "incoming",     # incoming request, not confirmed yet
+    'confirmed' => "confirmed",    # ready to run
+    'running'   => "running",      # currently running job
+    'osm'       => "osm",          # cache older runs
+    'download'  => "download",     # final directory for download
+    'trash'     => "trash",        # keep a copy of the config for debugging
+    'failed'    => "failed",       # keep record of failed runs
 };
 
 my $alarm           = $option->{"alarm"};
@@ -1035,7 +1032,8 @@ usage: $0 [ options ]
 --job={1..4}		job number for parallels runs, default: $option->{max_jobs}
 --timeout=1..86400	time out, default $option->{"alarm"}
 --send-email={0,1}	send out email, default: $option->{"send_email"}
---planet-osm=/path/to/planet.osm.pbf, default: $option->{planet_osm}
+--planet-osm=/path/to/planet.osm.pbf  default: $option->{planet_osm}
+--spool-dir=/path/to/spool 	      default: $option->{spool_dir}
 EOF
 }
 
@@ -1139,6 +1137,7 @@ my $help;
 my $timeout;
 my $max_areas  = $option->{'max_areas'};
 my $send_email = $option->{'send_email'};
+my $spool_dir  = $option->{'spool_dir'};
 
 GetOptions(
     "debug=i"      => \$debug,
@@ -1148,6 +1147,7 @@ GetOptions(
     "max-areas=i"  => \$max_areas,
     "send-email=i" => \$send_email,
     "planet-osm=s" => \$planet_osm,
+    "spool-dir=s"  => \$spool_dir,
     "help"         => \$help,
 ) or die usage;
 
@@ -1156,6 +1156,11 @@ die "Max jobs: $max_jobs out of range!\n" . &usage
   if $max_jobs < 1 || $max_jobs > 12;
 die "Max areas: $max_areas out of range!\n" . &usage
   if $max_areas < 1 || $max_areas > 30;
+
+# full path for spool directories
+while ( my ( $key, $val ) = each %$spool ) {
+    $spool->{$key} = "$spool_dir/$val";
+}
 
 my @files = get_jobs( $spool->{'confirmed'} );
 if ( !scalar(@files) ) {
