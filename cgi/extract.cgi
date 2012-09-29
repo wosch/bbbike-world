@@ -477,7 +477,7 @@ Format: $format
 
 <p>Press the back button to get the same area in a different format, or to request a new area.</p>
 
-<p>Sincerely, your BBBike admin</p>
+<p>Sincerely, your BBBike extract admin</p>
 EOF
 
     }
@@ -587,7 +587,7 @@ To proceeed, please click on the following link:
 
 othewise just ignore this e-mail.
 
-Sincerely, your BBBike admin
+Sincerely, your BBBike extract admin
 
 --
 http://BBBike.org - Your Cycle Route Planner
