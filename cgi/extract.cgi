@@ -614,12 +614,17 @@ sub send_email {
     my $smtp = new Net::SMTP( $mail_server, Hello => "localhost", Debug => 0 )
       or die "can't make SMTP object\n";
 
+    # validate e-mail addresses - even if we don't sent out an email yet
     $smtp->mail($from) or die "can't send email from $from\n";
     $smtp->to(@to)     or die "can't use SMTP recipient '$to'\n";
     $smtp->verify(@to) or die "can't verify SMTP recipient '$to'\n";
+
+    # sent out an email and ask to confirm
+    # configured by: $option->{'conform'}
     if ($confirm) {
         $smtp->data($data) or die "can't email data to '$to'\n";
     }
+
     $smtp->quit() or die "can't send email to '$to'\n";
 }
 
