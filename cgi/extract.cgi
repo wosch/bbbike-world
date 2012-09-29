@@ -659,7 +659,7 @@ sub save_request {
     }
     binmode $fh, ":utf8";
 
-    warn "Store request: $json_text\n" if $debug;
+    warn "Store request $job: $json_text\n" if $debug;
     print $fh $json_text, "\n";
     $fh->close;
 
