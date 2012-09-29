@@ -419,10 +419,11 @@ sub create_poly_file {
     # polygone
     else {
         my @c = split /\|/, $obj->{coords};
-        push @c, $c[0];    # last=first, close polygone
+        push @c, $c[0];    # last==first, close polygone
 
-        for ( my $i = 0 ; $i < $#c ; $i++ ) {
-            $data .= "   $c[$i]  $c[$i]\n";
+        for ( my $i = 0 ; $i <= $#c ; $i++ ) {
+            my ( $lng, $lat ) = split ",", $c[$i];
+            $data .= "   $lng  $lat\n";
         }
 
         $counter += $#c;
