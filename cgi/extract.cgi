@@ -57,6 +57,9 @@ our $option = {
     # request to confirm request with a click on an URL
     # -1: do not check email, 0: check email address, 1: sent out email
     'confirm' => 0,
+
+    # max count of gps points for a polygon
+    'max_coords' => 2_000,
 };
 
 my $formats = {
@@ -407,7 +410,15 @@ sub check_input {
 
     # polygon, N points
     if ($coords) {
+        my $max_size = 100_000;
+        error("coordinates for polygone to large: > $max_size")
+          if length($coords) > $max_size;
+
         my @coords = split /\|/, $coords;
+        error(  "to many coordinates for polygone: "
+              . "@{[scalar(@coords) > $option->{max_coords} ]}" )
+          if $#coords > $option->{max_coords};
+
         error("Need more than 2 points.") if scalar(@coords) <= 2;
         foreach my $point (@coords) {
             my ( $lat, $lng ) = split ",", $point;
