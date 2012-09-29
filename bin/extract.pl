@@ -268,16 +268,15 @@ sub get_job_id {
     return $key;
 }
 
-# store lat,lng in a file name
-sub file_latlng {
-    my $obj = shift;
-
+# store lng,lat in file name
+sub file_lnglat {
+    my $obj    = shift;
     my $file   = $option->{'file_prefix'};
     my $coords = $obj->{coords};
 
     # rectangle
     if ( !$coords ) {
-        $file .= "$obj->{sw_lat},$obj->{sw_lng}_$obj->{ne_lat},$obj->{ne_lng}";
+        $file .= "$obj->{sw_lng},$obj->{sw_lat}_$obj->{ne_lng},$obj->{ne_lat}";
     }
 
     # polygon
@@ -288,17 +287,6 @@ sub file_latlng {
           ;    # first 8 characters of a md5 sum is enough
         $file .= join "_", ( $c[0], $c[1], $md5 );
     }
-
-    return $file;
-}
-
-# store lng,lat in file name
-sub file_lnglat {
-    my $obj  = shift;
-    my $file = "";
-
-    $file = $option->{'file_prefix'}
-      . "$obj->{sw_lng},$obj->{sw_lat}_$obj->{ne_lng},$obj->{ne_lat}";
 
     return $file;
 }
