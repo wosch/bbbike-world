@@ -650,20 +650,20 @@ sub save_request {
     my $key = md5_hex( encode_utf8($json_text) . rand() );
     my $spool_dir =
       $option->{'confirm'} ? $spool->{"incoming"} : $spool->{"confirmed"};
-    my $incoming = "$spool_dir/$key.json.tmp";
+    my $job = "$spool_dir/$key.json.tmp";
 
-    my $fh = new IO::File $incoming, "w";
-    binmode $fh, ":utf8";
+    my $fh = new IO::File $job, "w";
     if ( !defined $fh ) {
-        warn "Cannot open $incoming: $!\n";
+        warn "Cannot open $job: $!\n";
         return;
     }
+    binmode $fh, ":utf8";
 
     warn "Store request: $json_text\n" if $debug;
     print $fh $json_text, "\n";
     $fh->close;
 
-    return ( $key, $incoming );
+    return ( $key, $job );
 }
 
 # foo.json.tmp -> foo.json
