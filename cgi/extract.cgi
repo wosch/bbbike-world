@@ -59,7 +59,7 @@ our $option = {
     'confirm' => 0,
 
     # max count of gps points for a polygon
-    'max_coords' => 20_000,
+    'max_coords' => 50_000,
 };
 
 my $formats = {
