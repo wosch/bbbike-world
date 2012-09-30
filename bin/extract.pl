@@ -51,8 +51,8 @@ our $option = {
     'send_email'      => 1,
 
     # timeout handling
-    'alarm'         => 90 * 60,    # extract
-    'alarm_convert' => 90 * 60,    # convert
+    'alarm'         => 150 * 60,    # extract
+    'alarm_convert' => 90 * 60,     # convert
 
     # run with lower priority
     'nice_level' => 2,
