@@ -420,7 +420,11 @@ sub create_poly_file {
     # polygone
     else {
         my @c = split /\|/, $obj->{coords};
-        push @c, $c[0];    # last==first, close polygone
+
+        # close polygone if not already closed
+        if ( $c[0] != $c[-1] ) {
+            push @c, $c[0];
+        }
 
         for ( my $i = 0 ; $i <= $#c ; $i++ ) {
             my ( $lng, $lat ) = split ",", $c[$i];
