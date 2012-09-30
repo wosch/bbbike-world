@@ -326,11 +326,17 @@ sub script_url {
     my $option = shift;
     my $obj    = shift;
 
+    my $coords = exists $obj->{'coords'} ? $obj->{'coords'} : "";
+    if ( length($coords) > 1800 ) {
+        $coords = "0,0,0";
+        warn "Coordinates to long for URL, skipped\n" if $debug >= 2;
+    }
+
     my $script_url = $option->{script_homepage} . "/?";
 
     $script_url .=
-      $obj->{'coords'}
-      ? "coords=" . CGI::escape( $obj->{'coords'} )
+      $coords
+      ? "coords=" . CGI::escape($coords)
       : "sw_lng=$obj->{sw_lng}&sw_lat=$obj->{sw_lat}&ne_lng=$obj->{ne_lng}&ne_lat=$obj->{ne_lat}";
     $script_url .= "&format=$obj->{'format'}";
 
