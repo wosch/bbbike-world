@@ -10,6 +10,7 @@ use CGI qw(escapeHTML);
 use JSON;
 use Getopt::Long;
 use LWP::UserAgent;
+use File::Temp;
 
 use strict;
 use warnings;
@@ -123,7 +124,9 @@ my $response = $ua->request(
 
 if ( $response->is_success ) {
     if ( $response->decoded_content =~ / class="error">(.*?)</ ) {
-        die "Got an error: $1\n";
+        my ($fh) = File::Temp->new( UNLINK => 0, SUFFIX => '.html' );
+        print $fh $response->decoded_content;
+        die "Got an error: $1\nSee @{[ $fh->filename ]}\n";
     }
 }
 else {
