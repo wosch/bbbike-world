@@ -422,7 +422,7 @@ sub create_poly_file {
         my @c = split /\|/, $obj->{coords};
 
         # close polygone if not already closed
-        if ( $c[0] != $c[-1] ) {
+        if ( $c[0] ne $c[-1] ) {
             push @c, $c[0];
         }
 
