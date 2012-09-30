@@ -43,7 +43,7 @@ my $spool_dir = '/var/cache/extract';
 # sent out emails as
 my $email_from = 'BBBike Admin <bbbike@bbbike.org>';
 
-my $option = {
+our $option = {
     'homepage'        => 'http://download.bbbike.org/osm/extract',
     'script_homepage' => 'http://extract.bbbike.org',
 
@@ -53,7 +53,13 @@ my $option = {
     'city_name_optional_coords' => 1,
     'max_skm'                   => 8_000_000,    # max. area in square km
     'max_size'                  => 512_000,      # max area in KB size
-    'confirm' => 0,    # request to confirm request with a click on an URL
+
+    # request to confirm request with a click on an URL
+    # -1: do not check email, 0: check email address, 1: sent out email
+    'confirm' => 0,
+
+    # max count of gps points for a polygon
+    'max_coords' => 256 * 256,                   # 50_000
 };
 
 my $formats = {
@@ -69,6 +75,15 @@ my $formats = {
 
     'osm.obf.zip' => "Osmand (OBF)",
 };
+
+#
+# Parse user config file.
+# This allows to override standard config values
+#
+my $config_file = "../.bbbike-extract.rc";
+if ( -e $config_file ) {
+    require $config_file;
+}
 
 my $spool = {
     'incoming'  => "$spool_dir/incoming",
@@ -189,7 +204,9 @@ sub footer_top {
     my %args = @_;
 
     my $locate =
-      $args{'map'} ? '<br/><a href="javascript:locateMe()">where am I?</a>' : "";
+      $args{'map'}
+      ? '<br/><a href="javascript:locateMe()">where am I?</a>'
+      : "";
 
     return <<EOF;
   <div id="footer_top">
@@ -268,10 +285,20 @@ sub message {
     return <<EOF;
 @{[ &social_links ]}
 <b align="right">BBBike extracts</b>
-allows you to extracts areas from the <a href="http://wiki.openstreetmap.org/wiki/Planet.osm">planet.osm</a> in OSM, PBF, Garmin, Osmand or ESRI shapefile format.
-The maximum area size is @{[ large_int($max_skm) ]} square km, or @{[ large_int($option->{max_size}/1000) ]}MB file size.
+allows you to extracts areas from <a href="http://wiki.openstreetmap.org/wiki/Planet.osm">Planet.osm</a>
+in <span title="OpenStreetMap XML">OSM</span>,
+<span title="Protocolbuffer Binary Format">PBF</span>,
+<span title="Garmin GPS devices">Garmin</span>,
+<span title="Osmand Android devices">Osmand</span> or
+<span title="ESRI shapefile">ESRI shapefile</span>
+format.
 
-It takes between 10-30 minutes to extract an area. You will be notified by e-mail if your extract is ready for download.
+The maximum area size is @{[ large_int($max_skm) ]} square km,
+or @{[ large_int($option->{max_size}/1000) ]}MB file size.
+
+It takes between 10-30 minutes to extract an area.
+You will be notified by e-mail if your extract is ready for download
+<a target="_new" href="/extract.html" title="more help">[...]</a>
 <span id="debug"></span>
 EOF
 }
@@ -299,10 +326,20 @@ sub script_url {
     my $option = shift;
     my $obj    = shift;
 
-    my $script_url =
-        $option->{script_homepage}
-      . "/?sw_lng=$obj->{sw_lng}&sw_lat=$obj->{sw_lat}&ne_lng=$obj->{ne_lng}&ne_lat=$obj->{ne_lat}"
-      . "&format=$obj->{'format'}";
+    my $coords = exists $obj->{'coords'} ? $obj->{'coords'} : "";
+    if ( length($coords) > 1800 ) {
+        $coords = "0,0,0";
+        warn "Coordinates to long for URL, skipped\n" if $debug >= 2;
+    }
+
+    my $script_url = $option->{script_homepage} . "/?";
+
+    $script_url .=
+      $coords
+      ? "coords=" . CGI::escape($coords)
+      : "sw_lng=$obj->{sw_lng}&sw_lat=$obj->{sw_lat}&ne_lng=$obj->{ne_lng}&ne_lat=$obj->{ne_lat}";
+    $script_url .= "&format=$obj->{'format'}";
+
     return $script_url;
 }
 
@@ -357,6 +394,7 @@ sub check_input {
     my $sw_lng = Param("sw_lng");
     my $ne_lat = Param("ne_lat");
     my $ne_lng = Param("ne_lng");
+    my $coords = Param("coords");
 
     if ( !exists $formats->{$format} ) {
         error("Unknown error format '$format'");
@@ -373,25 +411,54 @@ sub check_input {
     elsif ( !Email::Valid->address($email) ) {
         error("E-mail address '$email' is not valid.");
     }
-    error("sw lat '$sw_lat' is out of range -180 ... 180")
-      if !is_coord($sw_lat);
-    error("sw lng '$sw_lng' is out of range -180 ... 180")
-      if !is_coord($sw_lng);
-    error("ne lat '$ne_lat' is out of range -180 ... 180")
-      if !is_coord($ne_lat);
-    error("ne lng '$ne_lng' is out of range -180 ... 180")
-      if !is_coord($ne_lng);
 
-    error("ne lng '$ne_lng' must be larger than sw lng '$sw_lng'")
-      if $ne_lng <= $sw_lng && !( $sw_lng > 0 && $ne_lng < 0 );    # date border
+    my $skm = 0;
 
-    error("ne lat '$ne_lat' must be larger than sw lat '$sw_lat'")
-      if $ne_lat <= $sw_lat;
+    # polygon, N points
+    if ($coords) {
+        my $max_size = 20 * $option->{max_coords};
+        error("coordinates for polygone to large: > $max_size")
+          if length($coords) > $max_size;
 
-    my $skm = square_km( $sw_lat, $sw_lng, $ne_lat, $ne_lng );
-    error(
+        my @coords = split /\|/, $coords;
+        error(  "to many coordinates for polygone: "
+              . scalar(@coords) . ' > '
+              . $option->{max_coords} )
+          if $#coords > $option->{max_coords};
+
+        error("Need more than 2 points.") if scalar(@coords) <= 2;
+        foreach my $point (@coords) {
+            my ( $lat, $lng ) = split ",", $point;
+            error("lat '$lat' is out of range -180 ... 180") if !is_coord($lat);
+            error("lng '$lng' is out of range -180 ... 180") if !is_coord($lng);
+        }
+        $sw_lat = $sw_lng = $ne_lat = $ne_lng = 0;
+    }
+
+    # rectangle, 2 points
+    else {
+
+        error("sw lat '$sw_lat' is out of range -180 ... 180")
+          if !is_coord($sw_lat);
+        error("sw lng '$sw_lng' is out of range -180 ... 180")
+          if !is_coord($sw_lng);
+        error("ne lat '$ne_lat' is out of range -180 ... 180")
+          if !is_coord($ne_lat);
+        error("ne lng '$ne_lng' is out of range -180 ... 180")
+          if !is_coord($ne_lng);
+
+        error("ne lng '$ne_lng' must be larger than sw lng '$sw_lng'")
+          if $ne_lng <= $sw_lng
+              && !( $sw_lng > 0 && $ne_lng < 0 );    # date border
+
+        error("ne lat '$ne_lat' must be larger than sw lat '$sw_lat'")
+          if $ne_lat <= $sw_lat;
+
+        $skm = square_km( $sw_lat, $sw_lng, $ne_lat, $ne_lng );
+        error(
 "Area is to large: @{[ large_int($skm) ]} square km, must be smaller than @{[ large_int($max_skm) ]} square km."
-    ) if $skm > $max_skm;
+        ) if $skm > $max_skm;
+    }
 
     if ( $city eq '' ) {
         if ( $option->{'city_name_optional'} ) {
@@ -414,6 +481,11 @@ sub check_input {
         return;
     }
     else {
+        my $coordinates =
+          $coords
+          ? join( " ", split /\|/, $coords )
+          : "$sw_lng,$sw_lat x $ne_lng,$ne_lat";
+
         print <<EOF;
 <p>Thanks - the input data looks good.</p><p>
 It takes between 10-30 minutes to extract an area from planet.osm,
@@ -422,13 +494,13 @@ You will be notified by e-mail if your extract is ready for download.
 Please follow the instruction in the email to proceed your request.</p>
 
 <p align='left'>Area: "@{[ escapeHTML($city) ]}" covers @{[ large_int($skm) ]} square km <br/>
-Coordinates: @{[ escapeHTML("$sw_lng,$sw_lat x $ne_lng,$ne_lat") ]} <br/>
+Coordinates: @{[ escapeHTML($coordinates) ]} <br/>
 Format: $format
 </p>
 
 <p>Press the back button to get the same area in a different format, or to request a new area.</p>
 
-<p>Sincerely, your BBBike\@World admin</p>
+<p>Sincerely, your BBBike extract admin</p>
 EOF
 
     }
@@ -441,6 +513,7 @@ EOF
             'ne_lat' => $ne_lat,
             'ne_lng' => $ne_lng,
             'format' => $format,
+            'coords' => $coords,
         }
     );
 
@@ -452,6 +525,7 @@ EOF
         'sw_lng'     => $sw_lng,
         'ne_lat'     => $ne_lat,
         'ne_lng'     => $ne_lng,
+        'coords'     => $coords,
         'skm'        => $skm,
         'date'       => time2str(time),
         'time'       => time(),
@@ -466,11 +540,14 @@ EOF
     if (
         !$key
         || (
-            $mail_error = send_email_confirm(
-                'q'       => $q,
-                'obj'     => $obj,
-                'key'     => $key,
-                'confirm' => $option->{'confirm'}
+            $option->{'confirm'} >= 0
+            && (
+                $mail_error = send_email_confirm(
+                    'q'       => $q,
+                    'obj'     => $obj,
+                    'key'     => $key,
+                    'confirm' => $option->{'confirm'}
+                )
             )
         )
       )
@@ -533,7 +610,7 @@ To proceeed, please click on the following link:
 
 othewise just ignore this e-mail.
 
-Sincerely, your BBBike admin
+Sincerely, your BBBike extract admin
 
 --
 http://BBBike.org - Your Cycle Route Planner
@@ -566,12 +643,17 @@ sub send_email {
     my $smtp = new Net::SMTP( $mail_server, Hello => "localhost", Debug => 0 )
       or die "can't make SMTP object\n";
 
+    # validate e-mail addresses - even if we don't sent out an email yet
     $smtp->mail($from) or die "can't send email from $from\n";
     $smtp->to(@to)     or die "can't use SMTP recipient '$to'\n";
     $smtp->verify(@to) or die "can't verify SMTP recipient '$to'\n";
-    if ($confirm) {
+
+    # sent out an email and ask to confirm
+    # configured by: $option->{'conform'}
+    if ( $confirm > 0 ) {
         $smtp->data($data) or die "can't email data to '$to'\n";
     }
+
     $smtp->quit() or die "can't send email to '$to'\n";
 }
 
@@ -601,21 +683,22 @@ sub save_request {
 
     my $key = md5_hex( encode_utf8($json_text) . rand() );
     my $spool_dir =
-      $option->{'confirm'} ? $spool->{"incoming"} : $spool->{"confirmed"};
-    my $incoming = "$spool_dir/$key.json.tmp";
+      $option->{'confirm'} > 0 ? $spool->{"incoming"} : $spool->{"confirmed"};
+    my $job = "$spool_dir/$key.json.tmp";
 
-    my $fh = new IO::File $incoming, "w";
-    binmode $fh, ":utf8";
+    warn "Store request $job: $json_text\n" if $debug;
+
+    my $fh = new IO::File $job, "w";
     if ( !defined $fh ) {
-        warn "Cannot open $incoming: $!\n";
+        warn "Cannot open $job: $!\n";
         return;
     }
+    binmode $fh, ":utf8";
 
-    warn "Store request: $json_text\n" if $debug;
     print $fh $json_text, "\n";
     $fh->close;
 
-    return ( $key, $incoming );
+    return ( $key, $job );
 }
 
 # foo.json.tmp -> foo.json

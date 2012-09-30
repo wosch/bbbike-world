@@ -51,7 +51,8 @@ our $option = {
     'send_email'      => 1,
 
     # timeout handling
-    'alarm' => 3 * 60 * 60,
+    'alarm'         => 90 * 60,    # extract
+    'alarm_convert' => 90 * 60,    # convert
 
     # run with lower priority
     'nice_level' => 2,
@@ -71,6 +72,8 @@ our $option = {
     'max_loadavg'      => 8,
     'max_loadavg_jobs' => 2,    # 0: stop running at all
 };
+
+######################################################################
 
 my $formats = {
     'osm.pbf'            => 'Protocolbuffer Binary Format (PBF)',
@@ -93,17 +96,14 @@ if ( -e $config_file ) {
     require $config_file;
 }
 
-my $spool_dir = $option->{"spool_dir"};
-my $spool     = {
-    'incoming'  => "$spool_dir/incoming",  # incoming request, not confirmed yet
-    'confirmed' => "$spool_dir/confirmed", # ready to run
-    'running'   => "$spool_dir/running",   # currently running job
-    'osm'       => "$spool_dir/osm",       # cache older runs
-    'download'  => "$spool_dir/download",  # final directory for download
-    'trash'  => "$spool_dir/trash",    # keep a copy of the config for debugging
-    'failed' => "$spool_dir/failed",   # keep record of failed runs
-
-    # 'jobN'  => "$spool_dir/job1.pid",     # lock file for current job
+my $spool = {
+    'incoming'  => "incoming",     # incoming request, not confirmed yet
+    'confirmed' => "confirmed",    # ready to run
+    'running'   => "running",      # currently running job
+    'osm'       => "osm",          # cache older runs
+    'download'  => "download",     # final directory for download
+    'trash'     => "trash",        # keep a copy of the config for debugging
+    'failed'    => "failed",       # keep record of failed runs
 };
 
 my $alarm           = $option->{"alarm"};
@@ -120,7 +120,7 @@ my $nice_level_converter =
 
 # test & debug
 $planet_osm =
-"/home/wosch/projects/osm/download/geofabrik/europe/germany/brandenburg.osm.pbf"
+"$ENV{HOME}/projects/osm/download/geofabrik/europe/germany/brandenburg.osm.pbf"
   if $test;
 
 ######################################################################
@@ -269,24 +269,25 @@ sub get_job_id {
     return $key;
 }
 
-# store lat,lng in a file name
-sub file_latlng {
-    my $obj  = shift;
-    my $file = "";
-
-    $file = $option->{'file_prefix'}
-      . "$obj->{sw_lat},$obj->{sw_lng}_$obj->{ne_lat},$obj->{ne_lng}";
-
-    return $file;
-}
-
 # store lng,lat in file name
 sub file_lnglat {
-    my $obj  = shift;
-    my $file = "";
+    my $obj    = shift;
+    my $file   = $option->{'file_prefix'};
+    my $coords = $obj->{coords};
 
-    $file = $option->{'file_prefix'}
-      . "$obj->{sw_lng},$obj->{sw_lat}_$obj->{ne_lng},$obj->{ne_lat}";
+    # rectangle
+    if ( !$coords ) {
+        $file .= "$obj->{sw_lng},$obj->{sw_lat}_$obj->{ne_lng},$obj->{ne_lat}";
+    }
+
+    # polygon
+    else {
+        my @c = split /\|/, $coords;
+        my $md5 =
+          substr( md5_hex($coords), 0, 8 )
+          ;    # first 8 characters of a md5 sum is enough
+        $file .= join "_", ( $c[0], $c[1], $md5 );
+    }
 
     return $file;
 }
@@ -338,7 +339,8 @@ sub create_poly_files {
         # multiple equal extract request in the same batch job
         if ( -e $pbf_file && -s $pbf_file ) {
             warn "file $pbf_file already exists, skiped\n";
-            &touch_file($pbf_file);
+
+            #&touch_file($pbf_file);
             next;
         }
 
@@ -404,10 +406,33 @@ sub create_poly_file {
     $data .= "$city\n";
     $data .= "1\n";
 
-    $data .= "   $obj->{sw_lng}  $obj->{sw_lat}\n";
-    $data .= "   $obj->{ne_lng}  $obj->{sw_lat}\n";
-    $data .= "   $obj->{ne_lng}  $obj->{ne_lat}\n";
-    $data .= "   $obj->{sw_lng}  $obj->{ne_lat}\n";
+    my $counter = 0;
+
+    # rectangle
+    if ( !$obj->{coords} ) {
+        $data .= "   $obj->{sw_lng}  $obj->{sw_lat}\n";
+        $data .= "   $obj->{ne_lng}  $obj->{sw_lat}\n";
+        $data .= "   $obj->{ne_lng}  $obj->{ne_lat}\n";
+        $data .= "   $obj->{sw_lng}  $obj->{ne_lat}\n";
+        $counter += 4;
+    }
+
+    # polygone
+    else {
+        my @c = split /\|/, $obj->{coords};
+
+        # close polygone if not already closed
+        if ( $c[0] != $c[-1] ) {
+            push @c, $c[0];
+        }
+
+        for ( my $i = 0 ; $i <= $#c ; $i++ ) {
+            my ( $lng, $lat ) = split ",", $c[$i];
+            $data .= "   $lng  $lat\n";
+        }
+
+        $counter += $#c;
+    }
 
     $data .= "END\n";
     $data .= "END\n";
@@ -417,7 +442,7 @@ sub create_poly_file {
         return;
     }
 
-    warn "create poly file $file\n" if $debug >= 2;
+    warn "create poly file $file with $counter elements\n" if $debug >= 2;
     store_data( $file, $data );
 }
 
@@ -451,7 +476,8 @@ sub run_extracts {
             if ( $newer > 0 ) {
                 warn "File $osm already exists, skip\n" if $debug;
                 link( $osm, $out ) or die "link $osm => $out: $!\n";
-                &touch_file($osm);
+
+                #&touch_file($osm);
                 next;
             }
             else {
@@ -539,7 +565,8 @@ sub _send_email {
 
 # check if we need to run a pbf2osm converter
 sub cached_format {
-    my $file = shift;
+    my $file     = shift;
+    my $pbf_file = shift;
 
     my $to = $spool->{'download'} . "/" . basename($file);
     if ( -e $file && -s $file ) {
@@ -547,6 +574,18 @@ sub cached_format {
         return 1;
     }
     elsif ( -e $to && -s $to ) {
+
+        # re-generate garmin if there is a newer PBF file
+        if ( $pbf_file && -e $pbf_file ) {
+            my $newer = file_mtime_diff( $to, $pbf_file );
+            if ( $newer < 0 ) {
+                warn "file $to already exists, ",
+                  "but a new $pbf_file is here since ", abs($newer),
+                  " seconds. Rebuild.\n"
+                  if $debug >= 1;
+                return 0;
+            }
+        }
         warn "Converted file $to already exists, skip...\n" if $debug >= 1;
 
         warn "link $file => $to\n" if $debug >= 2;
@@ -592,7 +631,7 @@ sub reorder_pbf {
     my @json = sort { $hash{$a} <=> $hash{$b} } keys %hash;
     if ( $debug >= 2 ) {
         warn "Number of json files: " . scalar(@$json) . "\n";
-        warn join "\n", map { "$_ $hash{$_}" } @$json, "\n";
+        warn join "\n", ( map { "$_ $hash{$_}" } @$json ), "\n";
     }
 
     return @json;
@@ -616,6 +655,7 @@ sub convert_send_email {
     my $json       = $args{'json'};
     my $send_email = $args{'send_email'};
     my $keep       = $args{'keep'};
+    my $alarm      = $args{'alarm'};
 
     # all scripts are in these directory
     my $dirname = dirname($0);
@@ -630,7 +670,8 @@ sub convert_send_email {
         eval {
             _convert_send_email(
                 'json_file'  => $json_file,
-                'send_email' => $send_email
+                'send_email' => $send_email,
+                'alarm'      => $alarm
             );
         };
 
@@ -702,6 +743,9 @@ sub _convert_send_email {
     my %args       = @_;
     my $json_file  = $args{'json_file'};
     my $send_email = $args{'send_email'};
+    my $alarm      = $args{'alarm'};
+
+    &set_alarm($alarm);
 
     # all scripts are in these directory
     my $dirname = dirname($0);
@@ -722,7 +766,7 @@ sub _convert_send_email {
         my @nice = ( "nice", "-n", $nice_level_converter );
         if ( $format eq 'osm.bz2' ) {
             $file =~ s/\.pbf$/.bz2/;
-            if ( !cached_format($file) ) {
+            if ( !cached_format( $file, $pbf_file ) ) {
                 @system = ( @nice, "$dirname/pbf2osm", "--pbzip2", $pbf_file );
 
                 warn "@system\n" if $debug >= 2;
@@ -731,7 +775,7 @@ sub _convert_send_email {
         }
         elsif ( $format eq 'osm.gz' ) {
             $file =~ s/\.pbf$/.gz/;
-            if ( !cached_format($file) ) {
+            if ( !cached_format( $file, $pbf_file ) ) {
                 @system = ( @nice, "$dirname/pbf2osm", "--pgzip", $pbf_file );
 
                 warn "@system\n" if $debug >= 2;
@@ -740,7 +784,7 @@ sub _convert_send_email {
         }
         elsif ( $format eq 'osm.xz' ) {
             $file =~ s/\.pbf$/.xz/;
-            if ( !cached_format($file) ) {
+            if ( !cached_format( $file, $pbf_file ) ) {
                 @system = ( @nice, "$dirname/pbf2osm", "--xz", $pbf_file );
 
                 warn "@system\n" if $debug >= 2;
@@ -750,7 +794,7 @@ sub _convert_send_email {
         elsif ( $format =~ /^garmin-(osm|cycle|leisure).zip$/ ) {
             my $style = $1;
             $file =~ s/\.pbf$/.$format/;
-            if ( !cached_format($file) ) {
+            if ( !cached_format( $file, $pbf_file ) ) {
                 @system = (
                     @nice, "$dirname/pbf2osm", "--garmin-$style", $pbf_file,
                     $city
@@ -761,7 +805,7 @@ sub _convert_send_email {
         }
         elsif ( $format eq 'osm.shp.zip' ) {
             $file =~ s/\.osm\.pbf$/.$format/;
-            if ( !cached_format($file) ) {
+            if ( !cached_format( $file, $pbf_file ) ) {
                 @system =
                   ( @nice, "$dirname/pbf2osm", "--shape", $pbf_file, $city );
 
@@ -771,7 +815,7 @@ sub _convert_send_email {
         }
         elsif ( $format eq 'osm.obf.zip' ) {
             $file =~ s/\.osm\.pbf$/.$format/;
-            if ( !cached_format($file) ) {
+            if ( !cached_format( $file, $pbf_file ) ) {
                 @system =
                   ( @nice, "$dirname/pbf2osm", "--osmand", $pbf_file, $city );
 
@@ -889,9 +933,10 @@ sub fix_pbf {
     my $dirname = dirname($0);
     my $pbf2pbf = "$dirname/pbf2pbf";
 
+    my @nice = ( "nice", "-n", $nice_level_converter );
     my @system;
     foreach my $pbf (@$files) {
-        @system = ( $pbf2pbf, $pbf );
+        @system = ( @nice, $pbf2pbf, $pbf );
         system(@system) == 0
           or die "system @system failed: $?";
     }
@@ -1017,6 +1062,8 @@ usage: $0 [ options ]
 --job={1..4}		job number for parallels runs, default: $option->{max_jobs}
 --timeout=1..86400	time out, default $option->{"alarm"}
 --send-email={0,1}	send out email, default: $option->{"send_email"}
+--planet-osm=/path/to/planet.osm.pbf  default: $option->{planet_osm}
+--spool-dir=/path/to/spool 	      default: $option->{spool_dir}
 EOF
 }
 
@@ -1088,6 +1135,7 @@ sub run_jobs {
     my $errors = &convert_send_email(
         'json'       => $json,
         'send_email' => $send_email,
+        'alarm'      => $option->{alarm_convert},
         'keep'       => 1
     );
 
@@ -1120,6 +1168,7 @@ my $help;
 my $timeout;
 my $max_areas  = $option->{'max_areas'};
 my $send_email = $option->{'send_email'};
+my $spool_dir  = $option->{'spool_dir'};
 
 GetOptions(
     "debug=i"      => \$debug,
@@ -1128,6 +1177,8 @@ GetOptions(
     "timeout=i"    => \$timeout,
     "max-areas=i"  => \$max_areas,
     "send-email=i" => \$send_email,
+    "planet-osm=s" => \$planet_osm,
+    "spool-dir=s"  => \$spool_dir,
     "help"         => \$help,
 ) or die usage;
 
@@ -1136,6 +1187,11 @@ die "Max jobs: $max_jobs out of range!\n" . &usage
   if $max_jobs < 1 || $max_jobs > 12;
 die "Max areas: $max_areas out of range!\n" . &usage
   if $max_areas < 1 || $max_areas > 30;
+
+# full path for spool directories
+while ( my ( $key, $val ) = each %$spool ) {
+    $spool->{$key} = "$spool_dir/$val";
+}
 
 my @files = get_jobs( $spool->{'confirmed'} );
 if ( !scalar(@files) ) {
