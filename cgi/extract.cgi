@@ -422,7 +422,8 @@ sub check_input {
 
         my @coords = split /\|/, $coords;
         error(  "to many coordinates for polygone: "
-              . "@{[scalar(@coords) > $option->{max_coords} ]}" )
+              . scalar(@coords) . ' > '
+              . $option->{max_coords} )
           if $#coords > $option->{max_coords};
 
         error("Need more than 2 points.") if scalar(@coords) <= 2;
