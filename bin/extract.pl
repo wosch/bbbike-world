@@ -240,12 +240,25 @@ sub parse_jobs {
 
     # fair scheduler, take one from each customer first
     my @list;
-    my $counter = $max;
+    my $counter        = $max;
+    my $counter_coords = 0;
+    my $max_coords     = 5_000 * 10;   # 5,000 polygones is enough for the queue
     while ( $counter-- > 0 ) {
         foreach my $email ( sort keys %$hash ) {
             if ( scalar( @{ $hash->{$email} } ) ) {
                 my $obj = shift @{ $hash->{$email} };
+                my $length_coords =
+                  length(
+                    exists $obj->{'coords'} ? $obj->{'coords'} : "x" x 50 );
+
+                # do not add a large polygone to an existing list
+                next if $length_coords > $max_coords && $counter_coords > 0;
+
                 push @list, $obj;
+                $counter_coords += $length_coords;
+
+                # stop here, list is to long
+                last if $counter_coords > $max_coords;
             }
             last if scalar(@list) >= $max;
         }
