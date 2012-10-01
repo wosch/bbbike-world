@@ -5,6 +5,8 @@
 */4 * * * * cd /usr/local/www/bbbike.org/ && world/bin/extract.pl --debug=1 --job=6
 #5 * * * * cd /usr/local/www/bbbike.org/ && make -s extract-gc7 extract-gc
 5 * * * * cd /usr/local/www/bbbike.org/ && make -s extract-gc7 extract-gc
+9 * * * * $HOME/projects/bbbike/world/bin/planet-checksum
+
 MAILTO=wosch
 # m h  dom mon dow   command
 15,45 15-23 * * 4     cd $HOME/projects/bbbike/ && world/bin/planet-download-alert
