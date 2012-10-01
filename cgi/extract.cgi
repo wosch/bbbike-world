@@ -416,7 +416,7 @@ sub check_input {
 
     # polygon, N points
     if ($coords) {
-        my $max_size = 20 * $option->{max_coords};
+        my $max_size = 32 * $option->{max_coords};
         error("coordinates for polygone to large: > $max_size")
           if length($coords) > $max_size;
 
