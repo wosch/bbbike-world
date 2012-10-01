@@ -1,23 +1,18 @@
 #!/bin/sh
 # Copyright (c) 2012 Wolfram Schneider, http://bbbike.org
 #
-# planet-checksum - checksum test of latest planet osm file
+# planet-checksum - bitrot checksum test of latest planet osm file
 #
 
 set -e
 
 : ${MD5=`which md5 md5sum false | head -1`}
-: ${SHA="shasum -a 256"}
-
-
 nice="nice -n 9"
 
 : ${file=planet-latest.osm.pbf}
-: ${file_osm=planet-latest.osm.bz2}
-dir=/usr/local/www/download.bbbike.org/osm/planet
+dir=$HOME/projects/osm/download
 
 cd $dir
-#cat $file.md5
 
 tmp=$(mktemp -t md5.XXXXXXXXXXX)
 $nice $MD5 $file > $tmp
@@ -25,10 +20,9 @@ $nice $MD5 $file > $tmp
 if diff $file.md5 $tmp; then
    :
 else
-   $nice $MD5 $file_osm $file
-   $nice $MD5 $file_osm $file
+   $nice $MD5 *.bz2 *.pbf
+   $nice $MD5 $file
    cat $file.md5 
 fi
 
 rm -f $tmp
-
