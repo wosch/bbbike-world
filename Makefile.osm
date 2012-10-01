@@ -706,7 +706,8 @@ extract-gc:
 extract-gc7:
 	find ${EXTRACTS_SPOOL_DIR} -type f -mtime +14  -print0 | xargs -0 rm -f
 	
-staging:
+staging: 
+	${MAKE} -f Makefile.osm -s perlcheck 2>/dev/null
 	git push
 	cd /usr/local/www/bbbike.org/; git diff; git pull; ${MAKE} -s update-files; git diff
 
