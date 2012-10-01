@@ -242,23 +242,37 @@ sub parse_jobs {
     my @list;
     my $counter        = $max;
     my $counter_coords = 0;
-    my $max_coords     = 5_000 * 10;   # 5,000 polygones is enough for the queue
+    my $max_coords     = 5_000 * 32;   # 5,000 polygones is enough for the queue
     while ( $counter-- > 0 ) {
         foreach my $email ( sort keys %$hash ) {
             if ( scalar( @{ $hash->{$email} } ) ) {
-                my $obj = shift @{ $hash->{$email} };
+                my $obj  = shift @{ $hash->{$email} };
+                my $city = $obj->{'city'};
+
                 my $length_coords =
-                  length(
-                    exists $obj->{'coords'} ? $obj->{'coords'} : "x" x 50 );
+                  length( exists $obj->{'coords'} ? $obj->{'coords'} : 0 );
 
                 # do not add a large polygone to an existing list
-                next if $length_coords > $max_coords && $counter_coords > 0;
+                if ( $length_coords > $max_coords && $counter_coords > 0 ) {
+                    warn
+                      "do not add a large polygone $city to an existing list\n"
+                      if $debug;
+                    next;
+                }
 
                 push @list, $obj;
                 $counter_coords += $length_coords;
 
+                warn "coords total length: $counter_coords, city=$city\n"
+                  if $debug;
+
                 # stop here, list is to long
-                last if $counter_coords > $max_coords;
+                if ( $counter_coords > $max_coords ) {
+                    warn "coords counter length for $city: ",
+                      "$counter_coords > $max_coords, stop after\n"
+                      if $debug;
+                    return @list;
+                }
             }
             last if scalar(@list) >= $max;
         }
