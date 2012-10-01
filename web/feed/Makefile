@@ -12,8 +12,9 @@ bbbike-world.xml: ${FEED_SCRIPT} perltidy
 	mv -f $@.tmp $@
 	rm -f $@.log
 
-perltidy:
+perlcheck:
 	perl -cw ${FEED_SCRIPT} 2>/dev/null || perl -cw ${FEED_SCRIPT}
+perltidy: perlcheck
 	perltidy -b ${FEED_SCRIPT}
 
 clean:
