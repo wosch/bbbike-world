@@ -104,4 +104,6 @@ $sudo_cpan Math::MatrixReal
 $sudo_cpan Geo::Google::PolylineEncoder
 $sudo_cpan Image::Info # newer version
 $sudo_cpan Kwalify
+$sudo_cpan Math::Polygon
+
 
