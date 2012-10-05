@@ -30,6 +30,7 @@ my $city        = "";
 my $email       = "";
 my $coords_json = "";
 my $coords_perl = "";
+my $coords_poly = "";
 my $debug       = 0;
 my $url         = 'http://localhost/cgi/extract.cgi';
 
@@ -42,6 +43,7 @@ usage: $0 [ options ]
 --email=email\@address
 --coords-json=/path/to/data.json
 --coords-perl=/path/to/data.pl
+--coords-poly=/path/to/data.poly
 --format=format		default: $format
 --timeout=timeout	default: $timeout
 --url=url		default: $url
@@ -58,6 +60,24 @@ sub get_json_from_file {
     my $perl = decode_json(<$fh>);
 
     return $perl;
+}
+
+# read a poly file into perl scalar
+sub get_poly_from_file {
+    my $file = shift;
+
+    open( my $fh, '<', $file ) or die "open $file: $!\n";
+    my @data;
+
+    while (<$fh>) {
+        next if !/^\s+/;
+        chomp;
+
+        my ( $lng, $lat ) = split;
+        push @data, [ $lng, $lat ];
+    }
+
+    return \@data;
 }
 
 sub get_perl_from_file {
@@ -89,6 +109,7 @@ GetOptions(
     "email=s"       => \$email,
     "coords-json=s" => \$coords_json,
     "coords-perl=s" => \$coords_perl,
+    "coords-poly=s" => \$coords_poly,
     "format=s"      => \$format,
     "city=s"        => \$city,
     "url=s"         => \$url,
@@ -102,13 +123,14 @@ die "No city name is given!\n" . &usage  if $city   eq "";
 die "No email address given!\n" . &usage if $email  eq "";
 die "No format is given!\n" . &usage     if $format eq "";
 die "No coords file is given!\n" . &usage
-  if $coords_json eq "" && $coords_perl eq "";
+  if $coords_json eq "" && $coords_perl eq "" && $coords_poly eq "";
 
 my $coords = perl2coords(
-    $coords_json
-    ? get_json_from_file($coords_json)
-    : get_perl_from_file($coords_perl)
+      $coords_json ? get_json_from_file($coords_json)
+    : $coords_perl ? get_perl_from_file($coords_perl)
+    : get_poly_from_file($coords_poly)
 );
+
 my $ua = LWP::UserAgent->new;
 
 my $response = $ua->request(
