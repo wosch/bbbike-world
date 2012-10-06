@@ -303,17 +303,19 @@ sub file_lnglat {
     my $coords = $obj->{coords};
 
     # rectangle
-    if ( !$coords ) {
+    if ( !scalar(@$coords) ) {
         $file .= "$obj->{sw_lng},$obj->{sw_lat}_$obj->{ne_lng},$obj->{ne_lat}";
     }
 
     # polygon
     else {
-        my @c = split /\|/, $coords;
+        my $c = join '|', ( map { "$_->[0],$_->[1]" } @$coords );
+        my $first = $coords->[0];
+
         my $md5 =
-          substr( md5_hex($coords), 0, 8 )
+          substr( md5_hex($c), 0, 8 )
           ;    # first 8 characters of a md5 sum is enough
-        $file .= join "_", ( $c[0], $c[1], $md5 );
+        $file .= join "_", ( $first->[0], $first->[1], $md5 );
     }
 
     return $file;
@@ -446,15 +448,15 @@ sub create_poly_file {
 
     # polygone
     else {
-        my @c = split /\|/, $obj->{coords};
+        my @c = @{ $obj->{coords} };
 
         # close polygone if not already closed
-        if ( $c[0] ne $c[-1] ) {
+        if ( $c[0]->[0] ne $c[-1]->[0] || $c[0]->[1] ne $c[-1]->[1] ) {
             push @c, $c[0];
         }
 
         for ( my $i = 0 ; $i <= $#c ; $i++ ) {
-            my ( $lng, $lat ) = split ",", $c[$i];
+            my ( $lng, $lat ) = ( $c[$i]->[0], $c[$i]->[1] );
             $data .= "   $lng  $lat\n";
         }
 
