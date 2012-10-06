@@ -25,6 +25,8 @@ use Digest::MD5 qw(md5_hex);
 use Net::SMTP;
 use GIS::Distance::Lite;
 use HTTP::Date;
+use Math::Polygon::Calc;
+use Math::Polygon::Transform;
 
 use strict;
 use warnings;
@@ -341,6 +343,43 @@ sub script_url {
     $script_url .= "&format=$obj->{'format'}";
 
     return $script_url;
+}
+
+# fewer points, max. 1024 points in a polygon
+sub normalize_polygon {
+    my $poly = shift;
+    my $max = shift || 1024;
+
+    my $same = '0.001';
+    print Dumper($poly) if $debug >= 3;
+
+    # max. 10 meters accuracy
+    my @poly = polygon_simplify( 'same' => $same, @$poly );
+
+    # but not more than N points
+    if ( scalar(@poly) > $max ) {
+        warn "Resize 0.01 $#poly\n" if $debug >= 1;
+        @poly = polygon_simplify( 'same' => 0.01, @$poly );
+        if ( scalar(@poly) > $max ) {
+            warn "Resize $max points $#poly\n" if $debug >= 1;
+            @poly = polygon_simplify( max_points => $max, @poly );
+        }
+    }
+
+    return @poly;
+}
+
+sub parse_coords {
+    my $coords = shift;
+    my @data;
+    my @coords = split /\|/, $coords;
+
+    foreach my $point (@coords) {
+        my ( $lng, $lat ) = split ",", $point;
+        push @data, [ $lng, $lat ];
+    }
+
+    return @data;
 }
 
 #
