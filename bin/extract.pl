@@ -249,7 +249,7 @@ sub parse_jobs {
                 my $obj  = shift @{ $hash->{$email} };
                 my $city = $obj->{'city'};
 
-                my $length_coords = scalar( @${ obj->{'coords'} } );
+                my $length_coords = scalar( @{ $obj->{'coords'} } );
 
                 # do not add a large polygone to an existing list
                 if ( $length_coords > $max_coords && $counter_coords > 0 ) {
@@ -401,11 +401,14 @@ sub create_poly_files {
 
 # refresh mod time of file, to keep files in cache
 sub touch_file {
-    my $file = shift;
+    my $file      = shift;
+    my $test_mode = shift;
 
     my @system = ( "touch", $file );
 
     warn "touch $file\n" if $debug;
+    @system = 'true' if $test_mode;
+
     system(@system) == 0
       or die "system @system failed: $?";
 }
@@ -627,7 +630,10 @@ sub cached_format {
 
 # reorder PBFs by size, smalles first
 sub reorder_pbf {
-    my $json = shift;
+    my $json      = shift;
+    my $test_mode = shift;
+
+    return @$json if $test_mode;
 
     my %hash;
     my %format = (
@@ -684,12 +690,13 @@ sub convert_send_email {
     my $send_email = $args{'send_email'};
     my $keep       = $args{'keep'};
     my $alarm      = $args{'alarm'};
+    my $test_mode  = $args{'test_mode'};
 
     # all scripts are in these directory
     my $dirname = dirname($0);
 
     my @unlink;
-    my @json = reorder_pbf($json);
+    my @json = reorder_pbf( $json, $test_mode );
 
     my $job_counter   = 0;
     my $error_counter = 0;
@@ -699,6 +706,7 @@ sub convert_send_email {
             _convert_send_email(
                 'json_file'  => $json_file,
                 'send_email' => $send_email,
+                'test_mode'  => $test_mode,
                 'alarm'      => $alarm
             );
         };
@@ -772,6 +780,7 @@ sub _convert_send_email {
     my $json_file  = $args{'json_file'};
     my $send_email = $args{'send_email'};
     my $alarm      = $args{'alarm'};
+    my $test_mode  = $args{'test_mode'};
 
     &set_alarm($alarm);
 
@@ -796,8 +805,9 @@ sub _convert_send_email {
             $file =~ s/\.pbf$/.bz2/;
             if ( !cached_format( $file, $pbf_file ) ) {
                 @system = ( @nice, "$dirname/pbf2osm", "--pbzip2", $pbf_file );
-
                 warn "@system\n" if $debug >= 2;
+                @system = 'true' if $test_mode;
+
                 system(@system) == 0 or die "system @system failed: $?";
             }
         }
@@ -807,6 +817,8 @@ sub _convert_send_email {
                 @system = ( @nice, "$dirname/pbf2osm", "--pgzip", $pbf_file );
 
                 warn "@system\n" if $debug >= 2;
+                @system = 'true' if $test_mode;
+
                 system(@system) == 0 or die "system @system failed: $?";
             }
         }
@@ -816,6 +828,8 @@ sub _convert_send_email {
                 @system = ( @nice, "$dirname/pbf2osm", "--xz", $pbf_file );
 
                 warn "@system\n" if $debug >= 2;
+                @system = 'true' if $test_mode;
+
                 system(@system) == 0 or die "system @system failed: $?";
             }
         }
@@ -828,6 +842,8 @@ sub _convert_send_email {
                     $city
                 );
                 warn "@system\n" if $debug >= 2;
+                @system = 'true' if $test_mode;
+
                 system(@system) == 0 or die "system @system failed: $?";
             }
         }
@@ -838,6 +854,8 @@ sub _convert_send_email {
                   ( @nice, "$dirname/pbf2osm", "--shape", $pbf_file, $city );
 
                 warn "@system\n" if $debug >= 2;
+                @system = 'true' if $test_mode;
+
                 system(@system) == 0 or die "system @system failed: $?";
             }
         }
@@ -848,9 +866,13 @@ sub _convert_send_email {
                   ( @nice, "$dirname/pbf2osm", "--osmand", $pbf_file, $city );
 
                 warn "@system\n" if $debug >= 2;
+                @system = 'true' if $test_mode;
+
                 system(@system) == 0 or die "system @system failed: $?";
             }
         }
+
+        next if $test_mode;
 
         ###################################################################
         # keep a copy of .pbf in ./osm for further usage
@@ -955,7 +977,8 @@ EOF
 
 # prepare to sent mail about extracted area
 sub fix_pbf {
-    my $files = shift;
+    my $files     = shift;
+    my $test_mode = shift;
 
     # all scripts are in these directory
     my $dirname = dirname($0);
@@ -965,6 +988,9 @@ sub fix_pbf {
     my @system;
     foreach my $pbf (@$files) {
         @system = ( @nice, $pbf2pbf, $pbf );
+        warn "Fix pbf $pbf\n" if $debug >= 2;
+        @system = 'true' if $test_mode;
+
         system(@system) == 0
           or die "system @system failed: $?";
     }
@@ -1092,6 +1118,7 @@ usage: $0 [ options ]
 --send-email={0,1}	send out email, default: $option->{"send_email"}
 --planet-osm=/path/to/planet.osm.pbf  default: $option->{planet_osm}
 --spool-dir=/path/to/spool 	      default: $option->{spool_dir}
+--test-mode		do not execude commands
 EOF
 }
 
@@ -1101,6 +1128,7 @@ sub run_jobs {
     my $send_email = $args{'send_email'};
     my $max_areas  = $args{'max_areas'};
     my $files      = $args{'files'};
+    my $test_mode  = $args{'test_mode'};
 
     my @files = @$files;
 
@@ -1152,10 +1180,12 @@ sub run_jobs {
     my $time      = time();
     my $starttime = $time;
     warn "Run ", join " ", @system, "\n" if $debug > 2;
+    @system = 'true' if $test_mode;
+
     system(@system) == 0
       or die "system @system failed: $?";
 
-    &fix_pbf($new_pbf_files);
+    &fix_pbf( $new_pbf_files, $test_mode );
     warn "Running extract time: ", time() - $time, " seconds\n" if $debug;
 
     # send out mail
@@ -1164,6 +1194,7 @@ sub run_jobs {
         'json'       => $json,
         'send_email' => $send_email,
         'alarm'      => $option->{alarm_convert},
+        'test_mode'  => $test_mode,
         'keep'       => 1
     );
 
@@ -1197,6 +1228,7 @@ my $timeout;
 my $max_areas  = $option->{'max_areas'};
 my $send_email = $option->{'send_email'};
 my $spool_dir  = $option->{'spool_dir'};
+my $test_mode  = 0;
 
 GetOptions(
     "debug=i"      => \$debug,
@@ -1208,6 +1240,7 @@ GetOptions(
     "planet-osm=s" => \$planet_osm,
     "spool-dir=s"  => \$spool_dir,
     "help"         => \$help,
+    "test-mode!"   => \$test_mode,
 ) or die usage;
 
 die usage if $help;
@@ -1248,6 +1281,7 @@ if ( $loadavg > $option->{max_loadavg} ) {
 }
 
 &run_jobs(
+    'test_mode'  => $test_mode,
     'max_jobs'   => $max_jobs,
     'send_email' => $send_email,
     'max_areas'  => $max_areas,
