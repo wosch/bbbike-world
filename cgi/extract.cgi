@@ -334,7 +334,7 @@ sub script_url {
         warn "Coordinates to long for URL, skipped\n" if $debug >= 2;
     }
     else {
-        $coords = join "!", ( map { "$_->[0],$_->[1]" } @{ $obj->{'coords'} } );
+        $coords = join '|', ( map { "$_->[0],$_->[1]" } @{ $obj->{'coords'} } );
     }
 
     my $script_url = $option->{script_homepage} . "/?";
