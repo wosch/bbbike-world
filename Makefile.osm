@@ -808,7 +808,7 @@ osmand-devel:
 test-org:
 	./world/bin/update-lighttpd-template
 
-test:
+test prove:
 	time prove -j${MAX_CPU}
 
 help:
