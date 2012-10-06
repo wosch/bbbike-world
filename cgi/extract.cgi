@@ -459,7 +459,7 @@ sub check_input {
         error("coordinates for polygone to large: > $max_size")
           if length($coords) > $max_size;
 
-        my @coords = split /\|/, $coords;
+        my @coords = parse_coords($coords);
         error(  "to many coordinates for polygone: "
               . scalar(@coords) . ' > '
               . $option->{max_coords} )
@@ -467,15 +467,19 @@ sub check_input {
 
         error("Need more than 2 points.") if scalar(@coords) <= 2;
         foreach my $point (@coords) {
-            my ( $lat, $lng ) = split ",", $point;
-            error("lat '$lat' is out of range -180 ... 180") if !is_coord($lat);
-            error("lng '$lng' is out of range -180 ... 180") if !is_coord($lng);
+            error("lat '$point->[0]' is out of range -180 ... 180")
+              if !is_coord( $point->[0] );
+            error("lng '$point->[1]' is out of range -180 ... 180")
+              if !is_coord( $point->[1] );
         }
-        $sw_lat = $sw_lng = $ne_lat = $ne_lng = 0;
+        ( $sw_lng, $sw_lat, $ne_lng, $ne_lat ) = polygon_bbox(@coords);
+        warn "Calculate poygone bbox: ",
+          "sw_lng: $sw_lng, sw_lat: $sw_lat, ne_lng: $ne_lng, ne_lat: $ne_lat\n"
+          if $debug >= 1;
     }
 
     # rectangle, 2 points
-    else {
+    {
 
         error("sw lat '$sw_lat' is out of range -180 ... 180")
           if !is_coord($sw_lat);
