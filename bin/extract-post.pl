@@ -97,7 +97,7 @@ sub perl2coords {
         $data .= "$p->[0],$p->[1]";
     }
 
-    warn Dumper($list) if $debug >= 2;
+    warn "perl2coords: " . Dumper($list) if $debug >= 2;
     warn "$data\n" if $debug >= 2;
 
     return $data;
@@ -130,6 +130,7 @@ my $coords = perl2coords(
     : $coords_perl ? get_perl_from_file($coords_perl)
     : get_poly_from_file($coords_poly)
 );
+die "No coordinates found in input file!\n" if $coords eq "";
 
 my $ua = LWP::UserAgent->new;
 
@@ -149,8 +150,8 @@ if ( $response->is_success ) {
         my ($fh) = File::Temp->new( UNLINK => 0, SUFFIX => '.html' );
         print $fh $response->decoded_content;
         warn "Got an error: $1\nSee @{[ $fh->filename ]}\n";
-	system("lynx", "-nolist", "-dump", $fh->filename);
-	exit 1;
+        system( "lynx", "-nolist", "-dump", $fh->filename );
+        exit 1;
     }
 }
 else {
