@@ -15,7 +15,7 @@ use File::Temp;
 use strict;
 use warnings;
 
-$ENV{'PATH'} = "/usr/local/bin:/bin:/usr/bin";
+$ENV{'PATH'} = "/usr/local/bin:/bin:/usr/bin:/opt/local/bin";
 
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
@@ -148,7 +148,9 @@ if ( $response->is_success ) {
     if ( $response->decoded_content =~ / class="error">(.*?)</ ) {
         my ($fh) = File::Temp->new( UNLINK => 0, SUFFIX => '.html' );
         print $fh $response->decoded_content;
-        die "Got an error: $1\nSee @{[ $fh->filename ]}\n";
+        warn "Got an error: $1\nSee @{[ $fh->filename ]}\n";
+	system("lynx", "-nolist", "-dump", $fh->filename);
+	exit 1;
     }
 }
 else {
