@@ -338,8 +338,7 @@ qq|$o->{"sw_lng"},$o->{"sw_lat"}!$o->{"ne_lng"},$o->{"ne_lat"},$o->{"format"}|;
         $d .= "<br/>total: $counter_total";
     }
 
-    $d .= join "<br/>", "", "",
-      map          { "$_ ($format{$_})" }
+    $d .= join "<br/>", "", "", map { "$_ ($format{$_})" }
       reverse sort { $format{$a} <=> $format{$b} } keys %format;
 
     if ( $date ne "" ) {
