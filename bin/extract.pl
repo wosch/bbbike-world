@@ -440,7 +440,7 @@ sub create_poly_file {
     my $counter = 0;
 
     # rectangle
-    if ( !$obj->{coords} ) {
+    if ( !scalar( @{ $obj->{coords} } ) ) {
         $data .= "   $obj->{sw_lng}  $obj->{sw_lat}\n";
         $data .= "   $obj->{ne_lng}  $obj->{sw_lat}\n";
         $data .= "   $obj->{ne_lng}  $obj->{ne_lat}\n";
