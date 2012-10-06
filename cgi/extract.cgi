@@ -52,14 +52,14 @@ our $option = {
     'city_name_optional'        => 0,
     'city_name_optional_coords' => 1,
     'max_skm'                   => 16_000_000,    # max. area in square km
-    'max_size'                  => 768_000,      # max area in KB size
+    'max_size'                  => 768_000,       # max area in KB size
 
     # request to confirm request with a click on an URL
     # -1: do not check email, 0: check email address, 1: sent out email
     'confirm' => 0,
 
     # max count of gps points for a polygon
-    'max_coords' => 20_000,                      # 256 * 256
+    'max_coords' => 20_000,                       # 256 * 256
 };
 
 my $formats = {
