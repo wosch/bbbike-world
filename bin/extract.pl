@@ -483,7 +483,7 @@ sub run_extracts {
 
     my $osm = $spool->{'osm'};
 
-    warn Dumper($poly) if $debug >= 3;
+    warn "Poly: " . Dumper($poly) if $debug >= 3;
     return () if !defined $poly || scalar(@$poly) <= 0;
 
     my @data = ( "nice", "-n", $nice_level, "osmosis", "-q" );
@@ -530,7 +530,7 @@ sub run_extracts {
         @data = "true";
     }
 
-    warn join( " ", @data ), "\n" if $debug >= 2;
+    warn "Run extracts: " . join( " ", @data ), "\n" if $debug >= 2;
     return ( \@data, \@fixme );
 }
 
@@ -1126,7 +1126,7 @@ sub run_jobs {
         'dir'   => $spool->{'confirmed'},
         'max'   => $max_areas,
     );
-    print Dumper( \@list ) if $debug >= 3;
+    print "run jobs: " . Dumper( \@list ) if $debug >= 3;
 
     my $key     = get_job_id(@list);
     my $job_dir = $spool->{'running'} . "/$key";
