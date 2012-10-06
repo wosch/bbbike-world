@@ -33,6 +33,9 @@ use XML::Atom::SimpleFeed;
 use XML::LibXML::Reader;
 use accessors;
 
+# extract service
+use Math::Polygon;
+
 #use Object::Realize::Later qw(becomes);
 
 1;
