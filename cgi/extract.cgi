@@ -351,7 +351,7 @@ sub normalize_polygon {
     my $max = shift || 1024;
 
     my $same = '0.001';
-    print Dumper($poly) if $debug >= 3;
+    warn "Polygon input: " . Dumper($poly) if $debug >= 3;
 
     # max. 10 meters accuracy
     my @poly = polygon_simplify( 'same' => $same, @$poly );
