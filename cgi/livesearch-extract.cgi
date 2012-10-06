@@ -297,9 +297,11 @@ EOF
     my $counter       = 0;
     my $counter_total = 0;
     my @cities;
+    my %format;
 
     foreach my $o (@d) {
         $counter_total++;
+        $format{ $o->{"format"} }++;
 
         my $data =
 qq|$o->{"sw_lng"},$o->{"sw_lat"}!$o->{"ne_lng"},$o->{"ne_lat"},$o->{"format"}|;
@@ -335,6 +337,10 @@ qq|$o->{"sw_lng"},$o->{"sw_lat"}!$o->{"ne_lng"},$o->{"ne_lat"},$o->{"format"}|;
     if ( scalar(@cities) < $counter_total && $counter_total < $max ) {
         $d .= "<br/>total: $counter_total";
     }
+
+    $d .= join "<br/>", "", "",
+      map          { "$_ ($format{$_})" }
+      reverse sort { $format{$a} <=> $format{$b} } keys %format;
 
     if ( $date ne "" ) {
         $d .= "<br/>the localtime is in UTC";
