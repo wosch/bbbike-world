@@ -537,8 +537,6 @@ Format: $format
 </p>
 
 <p>Press the back button to get the same area in a different format, or to request a new area.</p>
-
-<p>Sincerely, your BBBike extract admin</p>
 EOF
 
     }
