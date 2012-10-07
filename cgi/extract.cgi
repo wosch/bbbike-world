@@ -287,7 +287,10 @@ EOF
 sub message {
     return <<EOF;
 @{[ &social_links ]}
-<span align="right"><a href="../extract.html">About</a> BBBike extract</span>
+<span align="right">
+BBBike extract -
+<a href="../extract.html">about</a>
+</span> 
 <span id="debug"></span>
 EOF
 }
