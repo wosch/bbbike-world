@@ -1,7 +1,9 @@
 #!/bin/sh
 # Copyright (c) 2012 Wolfram Schneider, http://bbbike.org
 #
-# pbf2pbf - fix PBF format
+# pbf2pbf - wrapper to fix PBF format
+#
+# make sure all GPS points inside a rectangle of -180..-90 .. 180..90
 
 set -e
 
