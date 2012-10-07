@@ -582,7 +582,7 @@ EOF
     };
 
     my $json      = new JSON;
-    my $json_text = $json->pretty->encode($obj);
+    my $json_text = $json->utf8->pretty->encode($obj);
 
     my ( $key, $json_file ) = &save_request($obj);
     my $mail_error = "";
@@ -728,7 +728,7 @@ sub save_request {
     my $obj = shift;
 
     my $json      = new JSON;
-    my $json_text = $json->pretty->encode($obj);
+    my $json_text = $json->utf8->pretty->encode($obj);
 
     my $key = md5_hex( encode_utf8($json_text) . rand() );
     my $spool_dir =
