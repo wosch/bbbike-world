@@ -837,6 +837,7 @@ help:
 	@echo "  [ city-count | city-reorder | city-file | check-osm | cleanup-osm-error ]"
 	@echo "  [ check-routing | perlcheck ]"
 	@echo "  [ city-memory | varnish-purge-all ]"
+	@echo "  [ osm-html ]"
 	@echo ""
 	@echo "  [ elevation-fetch | elevation-update | elevation-check | elevation-repair ]"
 	@echo ""
