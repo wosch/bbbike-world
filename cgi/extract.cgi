@@ -329,7 +329,7 @@ sub script_url {
     my $obj    = shift;
 
     my $coords = "";
-    if ( scalar( @{ $obj->{'coords'} } ) > 1800 ) {
+    if ( scalar( @{ $obj->{'coords'} } ) > 100 ) {
         $coords = "0,0,0";
         warn "Coordinates to long for URL, skipped\n" if $debug >= 2;
     }
@@ -457,15 +457,18 @@ sub check_input {
     # polygon, N points
     my @coords = ();
     if ($coords) {
-        my $max_size = 32 * $option->{max_coords};
-        error("coordinates for polygone to large: > $max_size")
-          if length($coords) > $max_size;
+
+        #my $max_size = 32 * $option->{max_coords};
+        #error("coordinates for polygone to large: > $max_size")
+        #  if length($coords) > $max_size;
 
         @coords = parse_coords($coords);
         error(  "to many coordinates for polygone: "
               . scalar(@coords) . ' > '
               . $option->{max_coords} )
           if $#coords > $option->{max_coords};
+
+        @coords = &normalize_polygon( \@coords );
 
         error("Need more than 2 points.") if scalar(@coords) <= 2;
         foreach my $point (@coords) {
@@ -563,18 +566,19 @@ EOF
     );
 
     my $obj = {
-        'email'      => $email,
-        'format'     => $format,
-        'city'       => $city,
-        'sw_lat'     => $sw_lat,
-        'sw_lng'     => $sw_lng,
-        'ne_lat'     => $ne_lat,
-        'ne_lng'     => $ne_lng,
-        'coords'     => \@coords,
-        'skm'        => $skm,
-        'date'       => time2str(time),
-        'time'       => time(),
-        'script_url' => $script_url,
+        'email'           => $email,
+        'format'          => $format,
+        'city'            => $city,
+        'sw_lat'          => $sw_lat,
+        'sw_lng'          => $sw_lng,
+        'ne_lat'          => $ne_lat,
+        'ne_lng'          => $ne_lng,
+        'coords'          => \@coords,
+        'skm'             => $skm,
+        'date'            => time2str(time),
+        'time'            => time(),
+        'script_url'      => $script_url,
+        'coords_original' => $debug >= 2 ? $coords : "",
     };
 
     my $json      = new JSON;
