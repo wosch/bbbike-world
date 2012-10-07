@@ -958,7 +958,7 @@ To download the file, please click on the following link:
 The file will be available for the next 48 hours. Please 
 download the file as soon as possible.
 
-Sincerely, your BBBike admin
+Sincerely, your BBBike extract admin
 
 --
 http://www.BBBike.org - Your Cycle Route Planner
