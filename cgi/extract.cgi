@@ -611,7 +611,9 @@ EOF
         else {
             print qq{<hr/>\n};
             print
-qq{<p>We appreciate any feedback, suggestions and a <a href="../community.html#donate">donation</a>!</p>\n};
+              qq{<p>We appreciate any feedback, suggestions },
+              qq{and a <a href="../community.html#donate">donation</a>! },
+qq{You can support us via PayPal, Flattr or bank wire transfer.</p>\n};
         }
     }
 
