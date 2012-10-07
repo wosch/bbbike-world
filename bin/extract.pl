@@ -223,7 +223,7 @@ sub parse_jobs {
         $fh->close;
 
         my $json = new JSON;
-        my $json_perl = eval { $json->decode($json_text) };
+        my $json_perl = eval { $json->utf8->decode($json_text) };
         die "json $file $@" if $@;
 
         $json_perl->{"file"} = $f;
@@ -288,7 +288,7 @@ sub get_job_id {
     my $json = new JSON;
     my $data = "";
     foreach my $key (@list) {
-        $data .= $json->encode($key);
+        $data .= $json->utf8->encode($key);
     }
 
     my $key = md5_hex( encode_utf8($data) );
@@ -385,7 +385,7 @@ sub create_poly_files {
 
         warn "rename $from -> $to\n" if $debug >= 2;
         my $json = new JSON;
-        my $data = $json->pretty->encode($job);
+        my $data = $json->utf8->pretty->encode($job);
 
         store_data( $to, $data );
         unlink($from) or die "unlink $from: $!\n";
@@ -652,7 +652,7 @@ sub reorder_pbf {
 
         my $json_text = read_data($json_file);
         my $json      = new JSON;
-        my $obj       = $json->decode($json_text);
+        my $obj       = $json->utf8->decode($json_text);
         my $pbf_file  = $obj->{'pbf_file'};
         my $format    = $obj->{'format'};
 
@@ -741,7 +741,7 @@ sub get_json {
     my $json_file = shift;
     my $json_text = read_data($json_file);
     my $json      = new JSON;
-    my $obj       = $json->decode($json_text);
+    my $obj       = $json->utf8->decode($json_text);
 
     warn "json: $json_file\n" if $debug >= 3;
     warn "json: $json_text\n" if $debug >= 3;
