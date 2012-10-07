@@ -958,11 +958,15 @@ To download the file, please click on the following link:
 The file will be available for the next 48 hours. Please 
 download the file as soon as possible.
 
-Sincerely, the BBBike extract fairy
+We appreciate any feedback, suggestions and a donation! 
+You can support us via PayPal, Flattr or bank wire transfer.
+http://www.BBBike.org/community.html
+
+
+Sincerely, the BBBike extract Fairy
 
 --
 http://www.BBBike.org - Your Cycle Route Planner
-We appreciate any feedback, suggestions and a donation! 
 EOF
 
         eval {
