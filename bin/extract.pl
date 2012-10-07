@@ -266,7 +266,8 @@ sub parse_jobs {
                 push @list, $obj;
                 $counter_coords += $length_coords;
 
-                warn "coords total length: $counter_coords, city=$city\n"
+                warn
+"coords total length: $counter_coords, city=$city, length=$length_coords\n"
                   if $debug;
 
                 # stop here, list is to long
