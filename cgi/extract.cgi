@@ -209,6 +209,7 @@ sub footer_top {
       $args{'map'}
       ? '<br/><a href="javascript:locateMe()">where am I?</a>'
       : "";
+    $locate = ""; # disable
 
     return <<EOF;
   <div id="footer_top">
