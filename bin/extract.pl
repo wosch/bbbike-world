@@ -71,6 +71,9 @@ our $option = {
     # reset max_jobs if load is to high
     'max_loadavg'      => 8,
     'max_loadavg_jobs' => 2,    # 0: stop running at all
+
+    # 4196 polygones is enough for the queue
+    'max_coords' => 4 * 1024,
 };
 
 ######################################################################
@@ -242,7 +245,8 @@ sub parse_jobs {
     my @list;
     my $counter        = $max;
     my $counter_coords = 0;
-    my $max_coords     = 5_000 * 32;   # 5,000 polygones is enough for the queue
+    my $max_coords =
+      $option->{max_coords};    # 4196 polygones is enough for the queue
     while ( $counter-- > 0 ) {
         foreach my $email ( sort keys %$hash ) {
             if ( scalar( @{ $hash->{$email} } ) ) {
