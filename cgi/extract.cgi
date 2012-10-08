@@ -364,14 +364,14 @@ sub normalize_polygon {
 sub extract_coords {
     my $coords = shift;
 
-    if (ref $coords ne 'SCALAR') {
-	my $fh_file = $coords;
+    if ( ref $coords ne 'SCALAR' ) {
+        my $fh_file = $coords;
 
-	binmode $fh_file, ":raw";
+        binmode $fh_file, ":raw";
         local $/ = "";
         my $data = <$fh_file>;
-        undef $fh_file;	
-	$coords = $data;
+        undef $fh_file;
+        $coords = $data;
     }
 
     return $coords;
