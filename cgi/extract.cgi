@@ -583,9 +583,13 @@ sub check_input {
         return;
     }
     else {
+
+        # display coordinates, but not more than 16
         my $coordinates =
-          $coords
-          ? join( " ", split /\|/, $coords )
+          @coords
+          ? encode_json( $#coords < 16
+            ? \@coords
+            : [ @coords[ 0 .. 15 ], "to long to read..." ] )
           : "$sw_lng,$sw_lat x $ne_lng,$ne_lat";
 
         print <<EOF;
