@@ -342,7 +342,7 @@ qq|$o->{"sw_lng"},$o->{"sw_lat"}!$o->{"ne_lng"},$o->{"ne_lat"},$o->{"format"}|;
       reverse sort { $format{$a} <=> $format{$b} } keys %format;
 
     if ( $date ne "" ) {
-        $d .= "<br/>the localtime is in UTC";
+        $d .= "<br/><br/>the localtime is in UTC";
     }
 
     print qq{\n\$("div#sidebar").html('$d');\n\n};
