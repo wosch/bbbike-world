@@ -466,11 +466,12 @@ sub check_input {
 
         error("Need more than 2 points.") if scalar(@coords) <= 2;
         foreach my $point (@coords) {
-            error("lat '$point->[0]' is out of range -90 ... 90")
-              if !is_lat( $point->[0] );
-            error("lng '$point->[1]' is out of range -180 ... 180")
-              if !is_lng( $point->[1] );
+            error("lng '$point->[0]' is out of range -180 ... 180")
+              if !is_lng( $point->[0] );
+            error("lat '$point->[1]' is out of range -90 ... 90")
+              if !is_lat( $point->[1] );
         }
+
         ( $sw_lng, $sw_lat, $ne_lng, $ne_lat ) = polygon_bbox(@coords);
         warn "Calculate poygone bbox: ",
           "sw_lng: $sw_lng, sw_lat: $sw_lat, ne_lng: $ne_lng, ne_lat: $ne_lat\n"
