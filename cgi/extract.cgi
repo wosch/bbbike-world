@@ -397,13 +397,17 @@ sub check_input {
         print "<p>", $no_escape ? $message : escapeHTML($message), "</p>\n";
     }
 
+    sub is_lng { return is_coord( shift, 180 ); }
+    sub is_lat { return is_coord( shift, 90 ); }
+
     sub is_coord {
         my $number = shift;
+        my $max    = shift;
 
         return 0 if $number eq "";
         return 0 if $number !~ /^[\-\+]?[0-9]+(\.[0-9]+)?$/;
 
-        return $number <= 180 && $number >= -180 ? 1 : 0;
+        return $number <= $max && $number >= -$max ? 1 : 0;
     }
 
     sub Param {
@@ -462,10 +466,10 @@ sub check_input {
 
         error("Need more than 2 points.") if scalar(@coords) <= 2;
         foreach my $point (@coords) {
-            error("lat '$point->[0]' is out of range -180 ... 180")
-              if !is_coord( $point->[0] );
+            error("lat '$point->[0]' is out of range -90 ... 90")
+              if !is_lat( $point->[0] );
             error("lng '$point->[1]' is out of range -180 ... 180")
-              if !is_coord( $point->[1] );
+              if !is_lng( $point->[1] );
         }
         ( $sw_lng, $sw_lat, $ne_lng, $ne_lat ) = polygon_bbox(@coords);
         warn "Calculate poygone bbox: ",
@@ -476,14 +480,14 @@ sub check_input {
     # rectangle, 2 points
     {
 
-        error("sw lat '$sw_lat' is out of range -180 ... 180")
-          if !is_coord($sw_lat);
+        error("sw lat '$sw_lat' is out of range -90 ... 90")
+          if !is_lat($sw_lat);
         error("sw lng '$sw_lng' is out of range -180 ... 180")
-          if !is_coord($sw_lng);
-        error("ne lat '$ne_lat' is out of range -180 ... 180")
-          if !is_coord($ne_lat);
+          if !is_lng($sw_lng);
+        error("ne lat '$ne_lat' is out of range -90 ... 90")
+          if !is_lat($ne_lat);
         error("ne lng '$ne_lng' is out of range -180 ... 180")
-          if !is_coord($ne_lng);
+          if !is_lng($ne_lng);
 
         error("ne lng '$ne_lng' must be larger than sw lng '$sw_lng'")
           if $ne_lng <= $sw_lng
