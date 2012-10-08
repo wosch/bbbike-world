@@ -377,6 +377,12 @@ sub extract_coords {
     return $coords;
 }
 
+#
+# upload poly file to extract an area:
+#
+# curl -sSf -F "submit=extract" -F "email=nobody@gmail.com" -F "city=Karlsruhe" -F "format=osm.pbf" \
+#   -F "coords=@karlsruhe.poly" http://extract.bbbike.org | lynx -nolist -dump -stdin
+#
 sub parse_coords {
     my $coords = shift;
 
