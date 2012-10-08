@@ -360,9 +360,74 @@ sub normalize_polygon {
     return @poly;
 }
 
+# get coordinates from a string or a file handle
+sub extract_coords {
+    my $coords = shift;
+
+    if (ref $coords ne 'SCALAR') {
+	my $fh_file = $coords;
+
+	binmode $fh_file, ":raw";
+        local $/ = "";
+        my $data = <$fh_file>;
+        undef $fh_file;	
+	$coords = $data;
+    }
+
+    return $coords;
+}
+
 sub parse_coords {
     my $coords = shift;
+
+    if ( $coords =~ /\|/ ) {
+        return parse_coords_string($coords);
+    }
+    elsif ( $coords =~ /\[/ ) {
+        return parse_coords_json($coords);
+    }
+    elsif ( $coords =~ /END/ ) {
+        return parse_coords_poly($coords);
+    }
+    else {
+        warn "No known coords system found: '$coords'\n";
+        return ();
+    }
+}
+
+sub parse_coords_json {
+    my $coords = shift;
+
+    my $perl;
+    eval { $perl = decode_json($coords) };
+    if ($@) {
+        warn "decode_json: $@ for $coords\n";
+        return ();
+    }
+
+    return @$perl;
+}
+
+sub parse_coords_poly {
+    my $coords = shift;
+
+    my @list = split "\n", $coords;
     my @data;
+    foreach (@list) {
+        next if !/^\s+/;
+        chomp;
+
+        my ( $lng, $lat ) = split;
+        push @data, [ $lng, $lat ];
+    }
+
+    return @data;
+}
+
+sub parse_coords_string {
+    my $coords = shift;
+    my @data;
+
     my @coords = split /\|/, $coords;
 
     foreach my $point (@coords) {
@@ -450,6 +515,8 @@ sub check_input {
 
     # polygon, N points
     my @coords = ();
+    $coords = extract_coords($coords);
+
     if ($coords) {
         @coords = parse_coords($coords);
         error(  "to many coordinates for polygone: "
