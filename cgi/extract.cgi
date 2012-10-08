@@ -451,11 +451,6 @@ sub check_input {
     # polygon, N points
     my @coords = ();
     if ($coords) {
-
-        #my $max_size = 32 * $option->{max_coords};
-        #error("coordinates for polygone to large: > $max_size")
-        #  if length($coords) > $max_size;
-
         @coords = parse_coords($coords);
         error(  "to many coordinates for polygone: "
               . scalar(@coords) . ' > '
@@ -479,29 +474,26 @@ sub check_input {
     }
 
     # rectangle, 2 points
-    {
+    error("sw lat '$sw_lat' is out of range -90 ... 90")
+      if !is_lat($sw_lat);
+    error("sw lng '$sw_lng' is out of range -180 ... 180")
+      if !is_lng($sw_lng);
+    error("ne lat '$ne_lat' is out of range -90 ... 90")
+      if !is_lat($ne_lat);
+    error("ne lng '$ne_lng' is out of range -180 ... 180")
+      if !is_lng($ne_lng);
 
-        error("sw lat '$sw_lat' is out of range -90 ... 90")
-          if !is_lat($sw_lat);
-        error("sw lng '$sw_lng' is out of range -180 ... 180")
-          if !is_lng($sw_lng);
-        error("ne lat '$ne_lat' is out of range -90 ... 90")
-          if !is_lat($ne_lat);
-        error("ne lng '$ne_lng' is out of range -180 ... 180")
-          if !is_lng($ne_lng);
+    error("ne lng '$ne_lng' must be larger than sw lng '$sw_lng'")
+      if $ne_lng <= $sw_lng
+          && !( $sw_lng > 0 && $ne_lng < 0 );    # date border
 
-        error("ne lng '$ne_lng' must be larger than sw lng '$sw_lng'")
-          if $ne_lng <= $sw_lng
-              && !( $sw_lng > 0 && $ne_lng < 0 );    # date border
+    error("ne lat '$ne_lat' must be larger than sw lat '$sw_lat'")
+      if $ne_lat <= $sw_lat;
 
-        error("ne lat '$ne_lat' must be larger than sw lat '$sw_lat'")
-          if $ne_lat <= $sw_lat;
-
-        $skm = square_km( $sw_lat, $sw_lng, $ne_lat, $ne_lng );
-        error(
+    $skm = square_km( $sw_lat, $sw_lng, $ne_lat, $ne_lng );
+    error(
 "Area is to large: @{[ large_int($skm) ]} square km, must be smaller than @{[ large_int($max_skm) ]} square km."
-        ) if $skm > $max_skm;
-    }
+    ) if $skm > $max_skm;
 
     if ( $city eq '' ) {
         if ( $option->{'city_name_optional'} ) {
