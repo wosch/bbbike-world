@@ -4,6 +4,7 @@
 # livesearch-extract.cgi - extractbbbike.org live extracts
 
 use CGI qw/-utf-8 unescape escapeHTML/;
+use CGI::Carp;
 use URI;
 use URI::QueryParam;
 

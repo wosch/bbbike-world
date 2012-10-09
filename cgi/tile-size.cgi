@@ -4,6 +4,7 @@
 # tile-size.cgi - compute size of an tile from planet.osm
 
 use CGI;
+use CGI::Carp;
 use IO::File;
 use lib '../world/bin';
 use lib '../bin';

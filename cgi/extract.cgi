@@ -16,6 +16,7 @@
 #
 
 use CGI qw/-utf8 unescape escapeHTML/;
+use CGI::Carp;
 use IO::File;
 use JSON;
 use Data::Dumper;
