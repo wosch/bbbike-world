@@ -9,11 +9,14 @@ use IO::File;
 use Data::Dumper;
 use POSIX;
 use GIS::Distance::Lite;
+use Storable;
+use Digest::MD5 qw(md5_hex);
+use File::stat;
 
 use strict;
 use warnings;
 
-our $VERSION = 1.1;
+our $VERSION = 1.2;
 
 use constant {
     FRACTAL_100  => 0,
@@ -21,7 +24,8 @@ use constant {
     FRACTAL_REAL => 2
 };
 
-our $debug = 0;
+our $debug     = 0;
+our $use_cache = 1;
 
 sub new {
     my ( $class, %args ) = @_;
@@ -30,6 +34,7 @@ sub new {
         'debug'    => $debug,
         'format'   => 'pbf',
         'database' => 'world/etc/tile/tile-test.csv',
+        'tmpdir'   => '/var/tmp',
         '_size'    => {},
         %args,
     };
@@ -42,14 +47,31 @@ sub new {
     return $self;
 }
 
+sub get_cache_file {
+    my $self = shift;
+
+    my $hostname = $ENV{HTTP_HOST} || "localhost";
+    my $file =
+        $self->{'tmpdir'}
+      . "/_tilesize-$<-$hostname-"
+      . md5_hex( $self->{'database'} . ".db" );
+    return $file;
+}
+
 sub parse_database {
     my $self = shift;
+    my %size;
+
+    %size = $self->get_cache() if $use_cache;
+    if (%size) {
+        warn "Get size from cache\n" if $debug >= 1;
+        return $self->{_size} = \%size;
+    }
 
     my $db = $self->{'database'};
     my $fh = new IO::File $db, "r" or die "open: '$db' $!\n";
     binmode $fh, ":utf8";
 
-    my %size;
     my %raw;
     while (<$fh>) {
         chomp;
@@ -62,7 +84,45 @@ sub parse_database {
     }
     close $fh;
 
+    $self->set_cache( \%size ) if $use_cache;
     return $self->{_size} = \%size;
+}
+
+sub get_cache {
+    my $self = shift;
+
+    my $file = $self->get_cache_file;
+    my $st   = stat($file);
+    if ( !defined $st ) {
+        warn "No cache file $file found\n" if $debug >= 2;
+        return;
+    }
+    if ( $st->mtime + 24 * 3600 < time() ) {
+        warn "Cache file $file expired\n";
+        return;
+    }
+
+    warn "Get cache $file\n" if $debug >= 1;
+    my $size = Storable::retrieve $file;
+    if ( !defined $size ) {
+        warn "Could not fetch storable $file\n";
+        return;
+    }
+
+    return %$size;
+}
+
+sub set_cache {
+    my $self  = shift;
+    my $cache = shift;
+
+    my $file = $self->get_cache_file;
+    warn "Set cache $file\n" if $debug >= 1;
+    if ( !Storable::nstore( $cache, $file ) ) {
+        warn "Could not store cache $file: $!\n";
+    }
+
+    return;
 }
 
 # ($lat1, $lon1 => $lat2, $lon2);
