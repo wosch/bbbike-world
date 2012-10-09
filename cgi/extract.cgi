@@ -361,9 +361,80 @@ sub normalize_polygon {
     return @poly;
 }
 
+# get coordinates from a string or a file handle
+sub extract_coords {
+    my $coords = shift;
+
+    if ( ref $coords ne 'SCALAR' ) {
+        my $fh_file = $coords;
+
+        binmode $fh_file, ":raw";
+        local $/ = "";
+        my $data = <$fh_file>;
+        undef $fh_file;
+        $coords = $data;
+    }
+
+    return $coords;
+}
+
+#
+# upload poly file to extract an area:
+#
+# curl -sSf -F "submit=extract" -F "email=nobody@gmail.com" -F "city=Karlsruhe" -F "format=osm.pbf" \
+#   -F "coords=@karlsruhe.poly" http://extract.bbbike.org | lynx -nolist -dump -stdin
+#
 sub parse_coords {
     my $coords = shift;
+
+    if ( $coords =~ /\|/ ) {
+        return parse_coords_string($coords);
+    }
+    elsif ( $coords =~ /\[/ ) {
+        return parse_coords_json($coords);
+    }
+    elsif ( $coords =~ /END/ ) {
+        return parse_coords_poly($coords);
+    }
+    else {
+        warn "No known coords system found: '$coords'\n";
+        return ();
+    }
+}
+
+sub parse_coords_json {
+    my $coords = shift;
+
+    my $perl;
+    eval { $perl = decode_json($coords) };
+    if ($@) {
+        warn "decode_json: $@ for $coords\n";
+        return ();
+    }
+
+    return @$perl;
+}
+
+sub parse_coords_poly {
+    my $coords = shift;
+
+    my @list = split "\n", $coords;
     my @data;
+    foreach (@list) {
+        next if !/^\s+/;
+        chomp;
+
+        my ( $lng, $lat ) = split;
+        push @data, [ $lng, $lat ];
+    }
+
+    return @data;
+}
+
+sub parse_coords_string {
+    my $coords = shift;
+    my @data;
+
     my @coords = split /\|/, $coords;
 
     foreach my $point (@coords) {
@@ -451,16 +522,22 @@ sub check_input {
 
     # polygon, N points
     my @coords = ();
+    $coords = extract_coords($coords);
+
     if ($coords) {
         @coords = parse_coords($coords);
         error(  "to many coordinates for polygone: "
               . scalar(@coords) . ' > '
               . $option->{max_coords} )
           if $#coords > $option->{max_coords};
-
         @coords = &normalize_polygon( \@coords );
 
-        error("Need more than 2 points.") if scalar(@coords) <= 2;
+        if ( scalar(@coords) <= 2 ) {
+            error("Need more than 2 points.");
+            error("Maybe the input file is corrupt?") if scalar(@coords) == 0;
+            goto NEXT;
+        }
+
         foreach my $point (@coords) {
             error("lng '$point->[0]' is out of range -180 ... 180")
               if !is_lng( $point->[0] );
@@ -484,17 +561,21 @@ sub check_input {
     error("ne lng '$ne_lng' is out of range -180 ... 180")
       if !is_lng($ne_lng);
 
-    error("ne lng '$ne_lng' must be larger than sw lng '$sw_lng'")
-      if $ne_lng <= $sw_lng
-          && !( $sw_lng > 0 && $ne_lng < 0 );    # date border
+    if ( !$error ) {
+        error("ne lng '$ne_lng' must be larger than sw lng '$sw_lng'")
+          if $ne_lng <= $sw_lng
+              && !( $sw_lng > 0 && $ne_lng < 0 );    # date border
 
-    error("ne lat '$ne_lat' must be larger than sw lat '$sw_lat'")
-      if $ne_lat <= $sw_lat;
+        error("ne lat '$ne_lat' must be larger than sw lat '$sw_lat'")
+          if $ne_lat <= $sw_lat;
 
-    $skm = square_km( $sw_lat, $sw_lng, $ne_lat, $ne_lng );
-    error(
+        $skm = square_km( $sw_lat, $sw_lng, $ne_lat, $ne_lng );
+        error(
 "Area is to large: @{[ large_int($skm) ]} square km, must be smaller than @{[ large_int($max_skm) ]} square km."
-    ) if $skm > $max_skm;
+        ) if $skm > $max_skm;
+    }
+
+  NEXT:
 
     if ( $city eq '' ) {
         if ( $option->{'city_name_optional'} ) {
@@ -517,9 +598,15 @@ sub check_input {
         return;
     }
     else {
+
+        # display coordinates, but not more than 16
         my $coordinates =
-          $coords
-          ? join( " ", split /\|/, $coords )
+          @coords
+          ? encode_json(
+            $#coords < 16
+            ? \@coords
+            : [ @coords[ 0 .. 15 ], "to long to read..." ]
+          )
           : "$sw_lng,$sw_lat x $ne_lng,$ne_lat";
 
         print <<EOF;
