@@ -937,6 +937,7 @@ sub homepage {
                             -size  => 34,
                             -value => $default_email
                           )
+                          . $q->hidden( -name => 'size', -value => "0" )
                     ]
                 ),
                 $q->td(
@@ -1016,7 +1017,6 @@ sub homepage {
     #
     #    #-id    => 'extract'
     #);
-
     print $q->end_form;
     print &export_osm;
     print qq{<hr/>\n};
