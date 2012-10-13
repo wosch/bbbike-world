@@ -194,8 +194,8 @@ sub manual_area {
  <div id="manual_area">
   <div id="sidebar_content">
     <span class="export_hint">
-      <a href="#" id="drag_box">Manually select a different area</a>
-    </span> -
+      <a href="#" id="drag_box">Manually select a different area</a><br/>
+    </span> 
     <span id="square_km"></span>
   </div> <!-- sidebar_content -->
  </div><!-- manual_area -->
