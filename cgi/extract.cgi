@@ -287,6 +287,7 @@ EOF
 
 sub message {
     return <<EOF;
+<span id="noscript"><noscript>Please enable JavaScript in your browser. Thanks!</noscript></span>
 @{[ &social_links ]}
 <span align="right">
 BBBike extract -
