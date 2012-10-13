@@ -13,7 +13,8 @@ bbbike-world.xml: ${FEED_SCRIPT} perltidy
 	rm -f $@.log
 
 perlcheck:
-	perl -cw ${FEED_SCRIPT} 2>/dev/null || perl -cw ${FEED_SCRIPT}
+	@perl -cw ${FEED_SCRIPT} 2>/dev/null || perl -cw ${FEED_SCRIPT} 2>/dev/null
+
 perltidy: perlcheck
 	perltidy -b ${FEED_SCRIPT}
 

@@ -571,7 +571,8 @@ update-database: build-runtime
 
 PERL_SCRIPTS=	BBBikeGooglemap.pm BBBikeElevation.pm miscsrc/osm2bbd-poi t/bbbike-org-*.t
 _perlcheck:
-	echo ${PERL_SCRIPTS} | ${XARGS} -n1 -P${MAX_VCPU} -E " " ${PERL} -cw >/dev/null
+	@echo ${PERL_SCRIPTS} | ${XARGS} -n1 -P${MAX_VCPU} -E " " ${PERL} -cw 2>/dev/null
+
 _perltidy: _perlcheck
 	echo ${PERL_SCRIPTS} | ${XARGS} -n2 -P${MAX_VCPU} -E " " perltidy -b
 
