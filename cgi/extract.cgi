@@ -937,7 +937,11 @@ sub homepage {
                             -size  => 34,
                             -value => $default_email
                           )
-                          . $q->hidden( -name => 'size', -value => "0" )
+                          . $q->hidden(
+                            -name  => 'as',
+                            -value => "0",
+                            -id    => 'as'
+                          )
                     ]
                 ),
                 $q->td(
