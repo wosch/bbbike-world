@@ -604,6 +604,7 @@ create-sitemap:
 
 sync-sitemap: create-sitemap
 	rsync -a world/web/sitemap.xml.gz ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}/world/web
+	rsync -a world/download/sitemap.xml.gz ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}/../download.bbbike.org
 
 update-files: kml create-osp index update-robots.txt create-bbbike-web-symlinks java-config update-javascript #create-sitemap
 
