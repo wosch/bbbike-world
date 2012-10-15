@@ -197,6 +197,35 @@ sub manual_area {
       <a href="#" id="drag_box">Manually select a different area</a><br/>
     </span> 
     <span id="square_km"></span>
+
+    <div id="controls" style="display:none">
+        <ul id="controlToggle">
+            <li>
+                <input type="radio" name="type" value="polygon" id="polygonToggle" onclick="toggleControl(this);" />
+                <label for="polygonToggle">draw polygon</label>
+            </li>
+
+            <li>
+                <input type="radio" name="type" value="modify" id="modifyToggle"
+                       onclick="toggleControl(this);" />
+                <label for="modifyToggle">modify feature</label>
+                <ul>
+                    <li>
+                        <input id="createVertices" type="radio" checked
+                               name="type2" onchange="update()" />
+                        <label for="createVertices">allow vertices creation</label>
+                    </li>
+
+                    <li>
+                        <input id="rotate" type="radio"
+                               name="type2" onchange="update()" />
+                        <label for="rotate">rotation/resizing/draggin</label>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
   </div> <!-- sidebar_content -->
  </div><!-- manual_area -->
 EOF
