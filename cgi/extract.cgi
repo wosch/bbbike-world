@@ -201,24 +201,24 @@ sub manual_area {
     <div id="controls" style="display:none">
         <ul id="controlToggle">
             <li>
-                <input type="radio" name="type" value="polygon" id="polygonToggle" onclick="toggleControl(this);" />
+                <input type="radio" name="type" value="polygon" id="polygonToggle" onclick="polygon_toggleControl(this);" />
                 <label for="polygonToggle">draw polygon</label>
             </li>
 
             <li>
                 <input type="radio" name="type" value="modify" id="modifyToggle"
-                       onclick="toggleControl(this);" />
+                       onclick="polygon_toggleControl(this);" />
                 <label for="modifyToggle">modify feature</label>
                 <ul>
                     <li>
                         <input id="createVertices" type="radio" checked
-                               name="type2" onchange="update()" />
+                               name="type2" onchange="polygon_update()" />
                         <label for="createVertices">allow vertices creation</label>
                     </li>
 
                     <li>
                         <input id="rotate" type="radio"
-                               name="type2" onchange="update()" />
+                               name="type2" onchange="polygon_update()" />
                         <label for="rotate">rotation/resizing/draggin</label>
                     </li>
                 </ul>
@@ -556,7 +556,7 @@ sub check_input {
 
     if ($coords) {
         @coords = parse_coords($coords);
-        error(  "to many coordinates for polygone: "
+        error(  "to many coordinates for polygon: "
               . scalar(@coords) . ' > '
               . $option->{max_coords} )
           if $#coords > $option->{max_coords};
