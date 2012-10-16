@@ -395,7 +395,7 @@ sub normalize_polygon {
 sub extract_coords {
     my $coords = shift;
 
-    if ( ref $coords ne 'SCALAR' ) {
+    if ( ref $coords ne "" ) {
         my $fh_file = $coords;
 
         binmode $fh_file, ":raw";
