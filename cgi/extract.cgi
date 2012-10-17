@@ -201,38 +201,13 @@ sub manual_area {
     <span id="square_km"></span>
 
     <div id="controls" style="display:none">
-        <ul id="controlToggle">
-	        <!--
-            <li style="display:none" >
-                <input type="radio" name="type" value="polygon" id="polygonToggle" onclick="polygon_toggleControl(this);" />
-                <label for="polygonToggle">draw polygon</label>
-		<img src="$img_prefix/draw_polygon_on.png" />
-            </li>
-		-->
+	<input id="createVertices" type="radio" name="type" onchange="polygon_update()" checked />
+	<label for="createVertices">allow vertices creation</label>
+	<img src="$img_prefix/add_point_on.png" /> <br/>
 
-            <li>
-	        <!--
-                <input type="radio" name="type" value="modify" id="modifyToggle"
-                       onclick="polygon_toggleControl(this);"  checked />
-                <label for="modifyToggle">modify feature</label>
-		-->
-                <ul>
-                    <li>
-                        <input id="createVertices" type="radio" 
-                               name="type2" onchange="polygon_update()" checked />
-                        <label for="createVertices">allow vertices creation</label>
-			<img src="$img_prefix/add_point_on.png" />
-                    </li>
-
-                    <li>
-                        <input id="rotate" type="radio"
-                               name="type2" onchange="polygon_update()" />
-                        <label for="rotate">rotation/resizing/draggin</label>
-			<img src="$img_prefix/move_feature_on.png" />
-                    </li>
-                </ul>
-            </li>
-        </ul>
+	<input id="rotate" type="radio" name="type" onchange="polygon_update()" />
+	<label for="rotate">rotation/resizing/draggin</label>
+	<img src="$img_prefix/move_feature_on.png" />
     </div>
 
   </div> <!-- sidebar_content -->
