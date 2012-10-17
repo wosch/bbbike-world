@@ -200,7 +200,7 @@ sub manual_area {
     </span> 
     <span id="square_km"></span>
 
-    <div id="controls" style="display:none">
+    <div id="polygon_controls" style="display:none">
 	<input id="createVertices" type="radio" name="type" onchange="polygon_update()" checked />
 	<label for="createVertices">allow vertices creation</label>
 	<img src="$img_prefix/add_point_on.png" /> <br/>
