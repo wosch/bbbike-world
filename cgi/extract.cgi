@@ -190,6 +190,8 @@ EOF
 }
 
 sub manual_area {
+    my $img_prefix = '/html/OpenLayers/2.12/theme/default/img';
+
     return <<EOF;
  <div id="manual_area">
   <div id="sidebar_content">
@@ -203,6 +205,7 @@ sub manual_area {
             <li>
                 <input type="radio" name="type" value="polygon" id="polygonToggle" onclick="polygon_toggleControl(this);" />
                 <label for="polygonToggle">draw polygon</label>
+		<img src="$img_prefix/draw_polygon_on.png" />
             </li>
 
             <li>
@@ -214,12 +217,14 @@ sub manual_area {
                         <input id="createVertices" type="radio" checked
                                name="type2" onchange="polygon_update()" />
                         <label for="createVertices">allow vertices creation</label>
+			<img src="$img_prefix/add_point_on.png" />
                     </li>
 
                     <li>
                         <input id="rotate" type="radio"
                                name="type2" onchange="polygon_update()" />
                         <label for="rotate">rotation/resizing/draggin</label>
+			<img src="$img_prefix/move_feature_on.png" />
                     </li>
                 </ul>
             </li>
