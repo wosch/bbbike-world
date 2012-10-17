@@ -202,12 +202,14 @@ sub manual_area {
 
     <div id="polygon_controls" style="display:none">
 	<input id="createVertices" type="radio" name="type" onchange="polygon_update()" checked />
-	<label for="createVertices">allow vertices creation</label>
+	<label for="createVertices">allow vertices creation
 	<img src="$img_prefix/add_point_on.png" /> <br/>
+	</label>
 
 	<input id="rotate" type="radio" name="type" onchange="polygon_update()" />
-	<label for="rotate">rotation/resizing/draggin</label>
+	<label for="rotate">rotation/resizing/draggin
 	<img src="$img_prefix/move_feature_on.png" />
+	</label>
     </div>
 
   </div> <!-- sidebar_content -->
