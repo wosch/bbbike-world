@@ -202,20 +202,24 @@ sub manual_area {
 
     <div id="controls" style="display:none">
         <ul id="controlToggle">
-            <li>
+	        <!--
+            <li style="display:none" >
                 <input type="radio" name="type" value="polygon" id="polygonToggle" onclick="polygon_toggleControl(this);" />
                 <label for="polygonToggle">draw polygon</label>
 		<img src="$img_prefix/draw_polygon_on.png" />
             </li>
+		-->
 
             <li>
+	        <!--
                 <input type="radio" name="type" value="modify" id="modifyToggle"
-                       onclick="polygon_toggleControl(this);" />
+                       onclick="polygon_toggleControl(this);"  checked />
                 <label for="modifyToggle">modify feature</label>
+		-->
                 <ul>
                     <li>
-                        <input id="createVertices" type="radio" checked
-                               name="type2" onchange="polygon_update()" />
+                        <input id="createVertices" type="radio" 
+                               name="type2" onchange="polygon_update()" checked />
                         <label for="createVertices">allow vertices creation</label>
 			<img src="$img_prefix/add_point_on.png" />
                     </li>
