@@ -16,6 +16,17 @@
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title type="html">The &lt;a
+    href="http://extract.bbbike.org/"&gt;BBBike extract
+    service&lt;/a&gt; supports now the Navit format</title>
+    <id>51d474fb21860b0629bfe8467ee42c0f</id>
+    <content type="html">The &lt;a
+    href="http://extract.bbbike.org/"&gt;BBBike extract
+    service&lt;/a&gt; supports now the Navit format</content>
+    <updated>2012-10-18T13:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title type="html">A new &lt;a
     href="http://bbbike.jochen-pfeiffer.com/en/"&gt;BBBike iPhone
     app&lt;/a&gt; is availble in the iTune store.</title>
