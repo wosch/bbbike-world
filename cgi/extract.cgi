@@ -963,7 +963,8 @@ sub homepage {
                             -name  => 'coords',
                             -value => "",
                             -id    => 'coords'
-                          )
+                          ),
+'<span id="time_small" title="approx. extract time in minutes"></span>'
                     ]
                 ),
                 $q->td(
