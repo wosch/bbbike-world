@@ -24,7 +24,7 @@ sudo apt-get install \
   libdevel-size-perl libtie-ixhash-perl libdevel-size-perl \
   libbsd-resource-perl libobject-realize-later-perl libemail-valid-perl \
   libcairo-perl libpango-perl libinline-perl libpdf-create-perl \
-  libgd-gd2-perl pdftk \
+  libgd-gd2-perl pdftk osm2navit \
   libprotobuf-lite6 libshp1 libgeos-dev libxml2-dev libxml-twig-perl \
   libipc-run-perl libimage-info-perl libwww-mechanize-perl libemail-mime-perl \
   libdbi-perl libobject-realize-later-perl libmldbm-perl \
