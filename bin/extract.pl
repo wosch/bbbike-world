@@ -876,6 +876,18 @@ sub _convert_send_email {
                 system(@system) == 0 or die "system @system failed: $?";
             }
         }
+        elsif ( $format eq 'osm.navit.zip' ) {
+            $file =~ s/\.osm\.pbf$/.$format/;
+            if ( !cached_format( $file, $pbf_file ) ) {
+                @system =
+                  ( @nice, "$dirname/pbf2osm", "--navit", $pbf_file, $city );
+
+                warn "@system\n" if $debug >= 2;
+                @system = 'true' if $test_mode;
+
+                system(@system) == 0 or die "system @system failed: $?";
+            }
+        }
 
         next if $test_mode;
 

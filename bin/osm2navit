@@ -1,0 +1,106 @@
+#!/bin/sh
+# Copyright (c) 2012 Wolfram Schneider, http://bbbike.org
+#
+# osm2navit  - convert a .pbf file to navit .bin
+#
+
+PATH=$HOME/bin:/usr/local/bin:/bin:/usr/bin; export PATH
+
+set -e
+
+usage () {
+   echo "$@"
+   echo "usage file.pbf"
+   exit 1
+}
+
+error () {
+    echo "Failed to convert file: $file"
+    cat $logfile
+    rm -rf $tmpdir
+    exit 1
+}
+
+warn () {
+    echo "Failed to convert file: $file"
+    cat $logfile
+}
+
+file=$1
+city="$2"
+test -e "$file" || usage "file $file does not exists"
+: ${osm_checksum=`dirname $0`/osm-checksum}
+
+: ${debug=false}
+pwd=$(pwd)
+
+# city in portable ASCII, to store in a file name
+city_ascii=$(perl -e 'use Text::Unidecode; $a = shift; $a = substr(unidecode($a),0, 30); $a =~ s,\W+,_,g; print "$a"' "$city")
+
+test -z "$file" && usage
+
+# use RAM disk if available
+if [ -e /bbbike/tmpfs ]; then
+    _tmp=/bbbike/tmpfs
+else
+    _tmp=/bbbike/tmp
+fi
+tmpdir=`mktemp -d ${TMPDIR-"$_tmp"}/osm2navit.XXXXXXXXXXX`
+navit=`basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
+navit_dir=$tmpdir/${navit}-navit
+mkdir -p $navit_dir
+
+# absolute path
+case $file in /* ) ;; *) file=$pwd/$file ;; esac
+case $0 in 
+	/* ) pbf2osm=$(dirname $0)/pbf2osm ;; 
+	*)   pbf2osm=$(dirname $pwd/$0)/pbf2osm ;;
+esac
+
+logfile=$navit_dir/logfile.txt 
+
+
+cd $navit_dir
+counter=0
+
+$pbf2osm $file | time maptool ${navit}.bin > $logfile 2>&1
+exit=$?
+
+if [ $exit -ne 0 ];then
+   echo "Failed to convert $file"
+   cat $logfile
+   exit $exit
+fi
+
+date=$(date -u)
+
+cat << EOF > README.txt
+Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
+Extracts created by BBBike.org
+Navit by http://navit-project.org
+This navit file was created on: $date
+Area: $city
+
+Please read the Navit homepage and the wiki how to use Navit files:
+
+  http://wiki.navit-project.org/
+
+We appreciate any feedback, suggestions and a donation! You can support us via
+PayPal, Flattr or bank wire transfer: http://www.BBBike.org/community.html
+
+thanks, Wolfram Schneider
+
+--
+http://www.BBBike.org - Your Cycle Route Planner
+EOF
+
+cd ..
+zip_file=`dirname $file`/$navit.osm.navit.zip
+zip -q -r - -- $(basename $navit_dir) | \
+  ( cd $pwd;
+    cat > $zip_file.tmp && mv $zip_file.tmp $zip_file 
+    $osm_checksum $zip_file
+  )
+
+$debug || rm -rf $tmpdir
+

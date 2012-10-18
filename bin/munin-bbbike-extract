@@ -1,0 +1,297 @@
+#!/usr/local/bin/perl
+# Copyright (c) Sep 2011-2012 Wolfram Schneider, http://bbbike.org
+#
+# munin-bbbike-extract - munin statistics for BBBike extract service
+
+use Getopt::Long;
+use Data::Dumper;
+use File::stat;
+use IO::File;
+use File::Basename;
+use CGI;
+
+use strict;
+use warnings;
+
+# 0: quiet, 1: normal, 2: verbose
+my $debug = defined $ENV{MUNIN_BBBIKE_DEBUG} ? $ENV{MUNIN_BBBIKE_DEBUG} : 0;
+
+my $database = '/var/tmp/munin-bbbike-extract';
+my $logfile  = '/var/log/lighttpd/extract.bbbike.log';
+
+# standard munin interval of 5 minutes
+my $interval = 1;    # 5
+
+# munin-bbbike config file
+my $munin_config_file = "/etc/munin/munin-bbbike-extract.conf";
+
+# {fieldname}.min?
+# should be 0 or 1
+my $min_value = 0;
+
+# ignore old offset files (> 60 minutes)
+my $ignore_old_offset = 1;
+
+my $type = 'route';
+
+my $config = {};
+
+sub usage {
+    my $types = join " | ", &get_types;
+
+    <<EOF;
+usage: $0 [ options ] config
+
+--debug=0..2    		default: $debug
+--logfile=/path/to/logfile	default: $logfile
+--database=/path/to/logfile	default: $database
+--interval=interval		interval in minutes, default: $interval;
+
+Munin bbbike config file: $munin_config_file
+EOF
+}
+
+sub interval {
+    my $value = shift;
+    my $period = shift || $interval;
+
+    $period = 1 if $period <= 0;
+
+    return ( $value / $period );
+}
+
+sub get_types {
+    my @types = qw/ajax route output pref maptype/;
+    return sort @types;
+}
+
+# escape label names for older munin releases
+sub escape_label {
+    my $label = shift;
+
+    $label =~ s/-/_/g;
+
+    return $label;
+}
+
+sub config_extract () {
+    <<EOF;
+graph_title Extracts
+graph_vlabel Extracts
+graph_category BBBike
+graph_info Number of extracts
+graph_period minute
+graph_scale no
+data.label Extracts
+data.min $min_value
+EOF
+}
+
+sub config {
+    my $type = shift;
+
+    return &config_extract;
+}
+
+sub display_results {
+    my $config = shift;
+    my $count  = shift;
+
+    my $data = "";
+
+    foreach my $label ( sort @$config ) {
+        $data .=
+            "$label.value "
+          . ( exists $count->{$label} ? interval( $count->{$label} ) : 0 )
+          . "\n";
+    }
+
+    return $data;
+}
+
+sub parse_log {
+    my %args = @_;
+
+    my $logfile  = $args{'logfile'};
+    my $type     = $args{'type'};
+    my $database = $args{'database'};
+    my $interval = $args{'interval'};
+    $database .= "-$<-$type.txt";
+
+    my $st = stat($logfile) or die "stat $logfile: $!";
+    my $offset = $st->size;
+
+    # check for stale databases which are too old
+    my $regnerate_database = 1;
+    if ( -e $database ) {
+        my $database_st = stat($database) or die "stat $database: $!";
+
+        # ok, fresh data
+        if ( $database_st->mtime >= time() - 60 * 60 ) {
+            $regnerate_database = 0;
+        }
+        $regnerate_database = 0 if $ignore_old_offset == 0;
+    }
+
+    # first run, save file offset of logfile, do nothing
+    if ($regnerate_database) {
+        write_offset( $database, $offset );
+
+        # run again to produce first results
+        if ( !$args{'first_run'} ) {
+            return parse_log( @_, 'first_run' => 1 );
+        }
+        return;
+    }
+
+    my $last_offset = get_offset($database);
+
+    my $data = "";
+    if ( $type eq 'route' ) {
+        my $route_count = count_extract(
+            'logfile' => $logfile,
+            'offset'  => $last_offset,
+            'type'    => $type
+        );
+
+        $data = "data.value " . &interval($route_count) . "\n";
+    }
+    else {
+        die "Unknown type: $type\n";
+    }
+
+    # store current log file size in database for next run
+    $st = stat($logfile) or die "stat $logfile: $!";
+    write_offset( $database, $st->size );
+
+    return $data;
+}
+
+sub get_offset {
+    my $file = shift;
+
+    my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
+    my $number = <$fh>;
+
+    if ( defined $number ) {
+        chomp($number);
+    }
+    else {
+        $number = 0;
+    }
+
+    warn "Got offset $number from $file\n" if $debug;
+    return $number;
+}
+
+sub write_offset {
+    my $file   = shift;
+    my $offset = shift;
+
+    warn "Store offset $offset in $file\n" if $debug;
+    my $fh = IO::File->new( $file, "w" ) or die "open $file: $!\n";
+    print $fh $offset;
+    $fh->close;
+}
+
+sub localrequest {
+    my $host = shift;
+
+    $host =~ /^10\.|^127\.0\.0\.1/ ? 1 : 0;
+}
+
+#
+# parse the bbbike access log file and count route
+# searches (parameters startc, zielc, pref_seen)
+#
+sub count_extract {
+    my %args   = @_;
+    my $file   = $args{'logfile'};
+    my $offset = $args{'offset'};
+
+    my $counter = 0;
+    my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
+
+    if ( defined $offset ) {
+        warn "Starting at offset: $offset\n" if $debug;
+        seek( $fh, $offset, 0 );
+    }
+
+    while (<$fh>) {
+        if (m,"GET /\?city=\S+&email=\S+&,) {
+            $counter++;
+        }
+    }
+
+    return $counter;
+}
+
+#
+# detect type by program path
+# ./munin-bbbike-ajax => ./munin-bbbike --type=ajax
+#
+sub detect_type {
+    my $program = basename($0);
+
+    if ( $program =~ /-(\w+)$/ ) {
+        my $t = $1;
+        return $t if grep { $t eq $_ } &get_types;
+    }
+}
+
+sub parse_config {
+    my $file = shift;
+
+    warn "Open config file $file\n" if $debug;
+
+    return if !-f $file;
+    my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
+
+    my @param;
+    while (<$fh>) {
+        chomp;
+        s/^\s*#.*//;
+        if ($_) {
+            push @param, split /\s+/, $_;
+        }
+    }
+
+    warn "Read config: ", join( " ", @param ), "\n" if $debug;
+    return @param;
+}
+
+######################################################################
+# main
+#
+
+my $help;
+
+# read parameters from munin-bbbike config file
+my @config = parse_config($munin_config_file);
+push( @ARGV, @config ) if @config;
+
+GetOptions(
+    "debug=i"    => \$debug,
+    "database=s" => \$database,
+    "logfile=s"  => \$logfile,
+    "type=s"     => \$type,
+    "interval=i" => \$interval,
+    "help"       => \$help,
+) or die usage;
+
+die usage if $help;
+die "Unknown type '$type'\n\n" . &usage if !grep { $type eq $_ } &get_types;
+
+if ( defined $ARGV[0] && $ARGV[0] eq 'config' ) {
+    print &config($type);
+}
+else {
+    my $text = &parse_log(
+        'logfile'  => $logfile,
+        'database' => $database,
+        'interval' => $interval,
+        'type'     => $type
+    );
+    print $text if $text;
+}
+

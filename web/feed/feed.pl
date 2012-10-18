@@ -24,6 +24,19 @@ my $feed = XML::Atom::SimpleFeed->new(
 
 $feed->add_entry(
     title =>
+qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now the Navit format},
+    id      => '51d474fb21860b0629bfe8467ee42c0f',
+    content => {
+        type => 'html',
+        content =>
+qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now the Navit format},
+    },
+    updated  => '2012-10-18T13:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title =>
 qq{A new <a href="http://bbbike.jochen-pfeiffer.com/en/">BBBike iPhone app</a> is availble in the iTune store.},
     id      => '51d474fb21860b0629bfe8467ee42c0d',
     content => {
