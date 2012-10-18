@@ -77,7 +77,7 @@ date=$(date -u)
 cat << EOF > README.txt
 Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
 Extracts created by BBBike.org
-Navit by http://navit-project.org
+Navit by http://www.navit-project.org
 This navit file was created on: $date
 Area: $city
 
