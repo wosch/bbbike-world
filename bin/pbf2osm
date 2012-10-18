@@ -11,6 +11,7 @@ bzip2=`which pbzip2 bzip2 | head -n 1`
 osm2garmin=`dirname $0`/osm2garmin
 osm2shape=`dirname $0`/osm2shape
 osm2osmand=`dirname $0`/osm2osmand
+osm2navit=`dirname $0`/osm2navit
 
 xz=`which xz | head -n 1`
 xz_opt=-2
@@ -30,6 +31,7 @@ case $1 in
   -xz | --xz )       shift; compress=xz ;;
   -shape | --shape | -shp | --shp | --shapefile ) shift; compress=shape ;;
   -osmand | --osmand | -obf | --obf ) shift; compress=osmand ;;
+  -navit | --navit ) shift; compress=navit ;;
 
   -garmin | --garmin ) shift; compress=garmin; garmin_style=$2 ;;
   -garmin-osm | --garmin-osm ) shift; compress=garmin; garmin_style=osm ;;
@@ -97,6 +99,7 @@ else
 	garmin ) $osm2garmin "$file" "$garmin_style" "$city" ;;
 	shape )  $osm2shape  "$file" "$city" ;;
        	osmand ) $osm2osmand "$file" "$city" ;;
+       	navit )  $osm2navit  "$file" "$city" ;;
 
 	* ) echo >& 2 "Oops, unknown '$compress'"; exit 2 ;;
     esac

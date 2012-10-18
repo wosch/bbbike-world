@@ -1,17 +1,10 @@
 #!/bin/sh
 # Copyright (c) 2012 Wolfram Schneider, http://bbbike.org
 #
-# osm2osmand  - convert a .pbf file to osmand .obf
+# osm2navit  - convert a .pbf file to navit .bin
 #
 
 PATH=$HOME/bin:/usr/local/bin:/bin:/usr/bin; export PATH
-
-#: ${osmand_home=$HOME/opt/OsmAndMapCreator-0.6.8.2-beta}
-: ${osmand_home="$HOME/opt/OsmAndMapCreator-development-2012-07-22"}
-: ${java_heap=1G}
-: ${max_jobs=4}
-
-java_opt=-Xmx${java_heap} 
 
 set -e
 
@@ -45,7 +38,6 @@ pwd=$(pwd)
 city_ascii=$(perl -e 'use Text::Unidecode; $a = shift; $a = substr(unidecode($a),0, 30); $a =~ s,\W+,_,g; print "$a"' "$city")
 
 test -z "$file" && usage
-size=$(du -ks -L "$file" | awk '{ print $1}')
 
 # use RAM disk if available
 if [ -e /bbbike/tmpfs ]; then
@@ -53,69 +45,26 @@ if [ -e /bbbike/tmpfs ]; then
 else
     _tmp=/bbbike/tmp
 fi
-tmpdir=`mktemp -d ${TMPDIR-"$_tmp"}/osm2obf.XXXXXXXXXXX`
-obf=`basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
-obf_dir=$tmpdir/${obf}-obf
-mkdir -p $obf_dir
-
-etc_dir=`dirname $0`/../etc/OsmAndMapCreator
+tmpdir=`mktemp -d ${TMPDIR-"$_tmp"}/osm2navit.XXXXXXXXXXX`
+navit=`basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
+navit_dir=$tmpdir/${navit}-navit
+mkdir -p $navit_dir
 
 # absolute path
-case $etc_dir in /* ) ;; *) etc_dir=$pwd/$etc_dir ;; esac
 case $file in /* ) ;; *) file=$pwd/$file ;; esac
+case $0 in 
+	/* ) pbf2osm=$(dirname $0)/pbf2osm ;; 
+	*)   pbf2osm=$(dirname $pwd/$0)/pbf2osm ;;
+esac
 
-logfile=$obf_dir/logfile.txt 
+logfile=$navit_dir/logfile.txt 
 
-mkdir $obf_dir/data $obf_dir/data/osm $obf_dir/data/indexes
 
-cd $obf_dir
+cd $navit_dir
 counter=0
 
-# magic 8-byte filename long
-mapid=93240001
-
-if [ $size -le 50000 ]; then
-    ( cd data/osm; ln -s $file $mapid.osm.pbf )
-else
-   # file to large
-   split_dir=data/osm
-   echo ">>> Run splitter" >> $logfile
-   java $java_opt -jar $HOME/opt/splitter/splitter.jar --output-dir=$split_dir  --max-nodes=4000000 --mapid=$mapid $file >> $logfile 2>&1 || error
-
-   prefix=`basename $file .osm.pbf`
-   for i in $split_dir/*.osm.pbf
-   do
-      mkdir -p data/_$counter/data/osm data/_$counter/data/indexes
-      #new=$split_dir/$prefix$(echo $i | perl -npe 's,.*/,,; s/.{5}/-/'); mv -f $i $new
-      new=$i
-      ln $new data/_$counter/data/osm
-      
-      counter=`expr $counter + 1`
-   done
-   
-   $debug && ls -l $split_dir
-fi
-#counter=0
-
-exit=0
-if [ $counter -eq 0 ]; then
-    if time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp $osmand_home/OsmAndMapCreator.jar:$osmand_home/lib/*.jar net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml > $logfile 2>&1 && ln data/indexes/*.obf .; then
-	:
-    else
-        exit=$?
-    fi
-else
-    for i in data/_*
-    do
-	printf "(cd $i; time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp $osmand_home/OsmAndMapCreator.jar:$osmand_home/lib/*.jar net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml && ln data/indexes/*.obf ../.. ) > $i.log 2>&1 \0"
-    done > data/jobs.sh
-    if xargs -0 -n1 -P${max_jobs} sh -c < data/jobs.sh >> $logfile 2>&1; then
-	:
-    else
-    	exit=$?
-    fi
-    cat data/_*.log >> $logfile
-fi
+$pbf2osm $file | time maptool ${navit}.bin > $logfile 2>&1
+exit=$?
 
 if [ $exit -ne 0 ];then
    echo "Failed to convert $file"
@@ -123,31 +72,18 @@ if [ $exit -ne 0 ];then
    exit $exit
 fi
 
-rm -rf data
-cp $etc_dir/osm2obf.xml batch.xml
 date=$(date -u)
-
-# rename files to longer names
-for i in *.obf
-do
-    new=$(echo $obf | perl -npe 's/\./,/g;')$(echo $i | perl -npe 's,.*/,,; s/.{4}/-/; s/_2\.obf/.obf/; s/\.obf$//')
-    if [ -z "$city_ascii" ]; then
-    	mv -f $i "$new.obf"
-    else
-    	mv -f $i "${new}_${city_ascii}.obf"
-    fi
-done
 
 cat << EOF > README.txt
 Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
 Extracts created by BBBike.org
-OsmAnd by osmand.net, http://code.google.com/p/osmand
-This osmand file was created on: $date
+Navit by http://navit-project.org
+This navit file was created on: $date
 Area: $city
 
-Please read the OsmAnd homepage how to use obf files:
+Please read the Navit homepage and the wiki how to use Navit files:
 
-  http://osmand.net
+  http://wiki.navit-project.org/
 
 thanks, Wolfram Schneider
 
@@ -157,8 +93,8 @@ We appreciate any feedback, suggestions and a donation!
 EOF
 
 cd ..
-zip_file=`dirname $file`/$obf.osm.obf.zip
-zip -q -r - -- $(basename $obf_dir) | \
+zip_file=`dirname $file`/$navit.osm.navit.zip
+zip -q -r - -- $(basename $navit_dir) | \
   ( cd $pwd;
     cat > $zip_file.tmp && mv $zip_file.tmp $zip_file 
     $osm_checksum $zip_file
