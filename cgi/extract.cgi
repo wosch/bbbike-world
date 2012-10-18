@@ -980,7 +980,8 @@ sub homepage {
                             -name => 'sw_lat',
                             -id   => 'sw_lat',
                             -size => 7
-                          )
+                          ),
+'<span id="square_km_small" title="area covers N square kilometers"></span>'
                     ]
                 ),
                 $q->td(
@@ -997,7 +998,8 @@ sub homepage {
                             -name => 'ne_lat',
                             -id   => 'ne_lat',
                             -size => 7
-                          )
+                          ),
+'<span title="file data size approx." id="size_small"></span>'
                     ]
                 ),
 
