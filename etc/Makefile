@@ -40,6 +40,7 @@ install-munin-bbbike:
 	for i in ${MUNIN_BBBIKE}; do \
 	   sudo ln -fs `pwd`/../bin/munin-bbbike ${MUNIN_PLUGINS_DIR}/$$i; \
 	done
+	sudo ln -fs `pwd`/../bin/munin-bbbike-extract ${MUNIN_PLUGINS_DIR}; \
 	${MAKE} munin-restart
 
 munin-restart:
