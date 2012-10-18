@@ -83,11 +83,12 @@ my $formats = {
     'osm.gz'             => "OSM XML gzip'd",
     'osm.bz2'            => "OSM XML bzip'd",
     'osm.xz'             => "OSM XML 7z/xz",
-    'osm.shp.zip'        => "OSM Shape",
-    'osm.obf.zip'        => "Osmand (OBF)",
+    'shp.zip'        => "OSM Shape",
+    'obf.zip'        => "Osmand (OBF)",
     'garmin-osm.zip'     => "Garmin OSM",
     'garmin-cycle.zip'   => "Garmin Cycle",
     'garmin-leisure.zip' => "Garmin Leisure",
+    'navit.zip' => "Navit",
 };
 
 #
@@ -646,8 +647,9 @@ sub reorder_pbf {
         'osm.gz'             => 1,
         'osm.bz2'            => 1.2,
         'osm.xz'             => 2.5,
-        'osm.shp.zip'        => 1.3,
-        'osm.obf.zip'        => 10,
+        'shp.zip'        => 1.3,
+        'obf.zip'        => 10,
+        'navit.zip'            => 1.1,
         'garmin-osm.zip'     => 3,
         'garmin-cycle.zip'   => 3,
         'garmin-leisure.zip' => 3.5,
@@ -864,7 +866,7 @@ sub _convert_send_email {
                 system(@system) == 0 or die "system @system failed: $?";
             }
         }
-        elsif ( $format eq 'osm.shp.zip' ) {
+        elsif ( $format eq 'shp.zip' ) {
             $file =~ s/\.osm\.pbf$/.$format/;
             if ( !cached_format( $file, $pbf_file ) ) {
                 @system =
@@ -876,7 +878,7 @@ sub _convert_send_email {
                 system(@system) == 0 or die "system @system failed: $?";
             }
         }
-        elsif ( $format eq 'osm.obf.zip' ) {
+        elsif ( $format eq 'obf.zip' ) {
             $file =~ s/\.osm\.pbf$/.$format/;
             if ( !cached_format( $file, $pbf_file ) ) {
                 @system =
