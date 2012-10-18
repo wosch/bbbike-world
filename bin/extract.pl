@@ -769,14 +769,26 @@ sub mkgmap_description {
     return $city;
 }
 
+# call back URL
 sub script_url {
     my $option = shift;
     my $obj    = shift;
 
-    my $script_url =
-        $option->{script_homepage}
-      . "/?sw_lng=$obj->{sw_lng}&sw_lat=$obj->{sw_lat}&ne_lng=$obj->{ne_lng}&ne_lat=$obj->{ne_lat}"
-      . "&format=$obj->{'format'}";
+    my $coords = "";
+    if ( scalar( @{ $obj->{'coords'} } ) > 100 ) {
+        $coords = "0,0,0";
+        warn "Coordinates to long for URL, skipped\n" if $debug >= 2;
+    }
+    else {
+        $coords = join '|', ( map { "$_->[0],$_->[1]" } @{ $obj->{'coords'} } );
+    }
+
+    my $script_url = $option->{script_homepage} . "/?";
+    $script_url .=
+"sw_lng=$obj->{sw_lng}&sw_lat=$obj->{sw_lat}&ne_lng=$obj->{ne_lng}&ne_lat=$obj->{ne_lat}";
+    $script_url .= "&format=$obj->{'format'}";
+    $script_url .= "&coords=" . CGI::escape($coords) if $coords ne "";
+
     return $script_url;
 }
 
