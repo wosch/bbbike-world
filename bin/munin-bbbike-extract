@@ -74,7 +74,7 @@ sub escape_label {
     return $label;
 }
 
-sub config_extracts () {
+sub config_extract () {
     <<EOF;
 graph_title Extracts
 graph_vlabel Extracts
@@ -90,7 +90,7 @@ EOF
 sub config {
     my $type = shift;
 
-    return &config_extracts;
+    return &config_extract;
 }
 
 sub display_results {
@@ -148,7 +148,7 @@ sub parse_log {
 
     my $data = "";
     if ( $type eq 'route' ) {
-        my $route_count = count_extracts(
+        my $route_count = count_extract(
             'logfile' => $logfile,
             'offset'  => $last_offset,
             'type'    => $type
@@ -204,7 +204,7 @@ sub localrequest {
 # parse the bbbike access log file and count route
 # searches (parameters startc, zielc, pref_seen)
 #
-sub count_routes {
+sub count_extract {
     my %args   = @_;
     my $file   = $args{'logfile'};
     my $offset = $args{'offset'};
