@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl
 # Copyright (c) Sep 2011-2012 Wolfram Schneider, http://bbbike.org
 #
-# munin-bbbike - munin statistics for BBBike, searches per interval
+# munin-bbbike-extract - munin statistics for BBBike extract service
 
 use Getopt::Long;
 use Data::Dumper;
@@ -16,21 +16,14 @@ use warnings;
 # 0: quiet, 1: normal, 2: verbose
 my $debug = defined $ENV{MUNIN_BBBIKE_DEBUG} ? $ENV{MUNIN_BBBIKE_DEBUG} : 0;
 
-my $database = '/var/tmp/munin-bbbike';
-my $logfile  = '/var/log/lighttpd/bbbike.log';
-my $type     = 'route';
-
-# ignore requests from localhost or 10.x.x.x
-my $ignore_localrequests = 1;
+my $database = '/var/tmp/munin-bbbike-extract';
+my $logfile  = '/var/log/lighttpd/extract.bbbike.log';
 
 # standard munin interval of 5 minutes
 my $interval = 1;    # 5
 
-# run as frontend proxy, with full hostname requests: GET http://www.bbbike.org/Foo
-my $frontend_proxy = 0;
-
 # munin-bbbike config file
-my $munin_config_file = "/etc/munin/munin-bbbike.conf";
+my $munin_config_file = "/etc/munin/munin-bbbike-extract.conf";
 
 # {fieldname}.min?
 # should be 0 or 1
@@ -39,21 +32,9 @@ my $min_value = 0;
 # ignore old offset files (> 60 minutes)
 my $ignore_old_offset = 1;
 
-my $config = {
-    'ajax'   => [qw/api street-coord crossing maptype weather location/],
-    'output' => [
-        qw/print gpx-track gpx-route kml-track pdf png palmdoc googlemaps mapserv xml gpsies/
-    ],
-    'pref' => [
-        qw/speed cat_np cat_N1 cat_N2 cat_H1 cat_H2 cat_N_RW cat_N_RW1
-          quality_np quality_Q0 quality_Q1 specialvehicle_np specialvehicle_trailer specialvehicle_childseat
-          unlit ferry/
-    ],
-    'maptype' => [
-        qw/bing_birdview bing_hybrid bing_map cycle hike_bike hybrid mapnik mapnik_bw mapnik_de
-          public_transport roadmap satellite tah terrain yahoo_hybrid yahoo_map yahoo_satellite/
-    ],
-};
+my $type = 'route';
+
+my $config = {};
 
 sub usage {
     my $types = join " | ", &get_types;
@@ -64,10 +45,7 @@ usage: $0 [ options ] config
 --debug=0..2    		default: $debug
 --logfile=/path/to/logfile	default: $logfile
 --database=/path/to/logfile	default: $database
---type=<stat type>		$types, default: $type
 --interval=interval		interval in minutes, default: $interval;
---frontend-proxy=[0,1]		run as frontend proxy, default: $frontend_proxy
---ignore-localrequests=[0..1]	ignore localhost or 10.x.x.x requests, default: $ignore_localrequests
 
 Munin bbbike config file: $munin_config_file
 EOF
@@ -96,106 +74,23 @@ sub escape_label {
     return $label;
 }
 
-sub config_routes () {
+sub config_extracts () {
     <<EOF;
-graph_title Route Searches
-graph_vlabel Searches
+graph_title Extracts
+graph_vlabel Extracts
 graph_category BBBike
-graph_info Number of Route Searches
+graph_info Number of extracts
 graph_period minute
 graph_scale no
-data.label Route Searches
+data.label Extracts
 data.min $min_value
 EOF
-}
-
-sub config_pref () {
-    my $data = <<EOF;
-graph_title Route Preferences
-graph_vlabel Preferences
-graph_category BBBike
-graph_info Prefernces
-graph_period minute
-graph_scale no
-speed.cdef speed,10,/
-EOF
-
-    foreach my $label ( sort @{ $config->{'pref'} } ) {
-        my $label_e = escape_label($label);
-        $data .= "$label_e.label $label\n";
-        $data .= "$label_e.min $min_value\n";
-    }
-
-    return $data;
-}
-
-sub config_ajax () {
-    my $data = <<EOF;
-graph_title Ajax
-graph_vlabel Ajax Requests
-graph_category BBBike
-graph_info Number of Ajax Requests
-graph_period minute
-graph_scale no
-EOF
-
-    foreach my $label ( sort @{ $config->{'ajax'} } ) {
-        my $label_e = escape_label($label);
-        $data .= "$label_e.label $label\n";
-        $data .= "$label_e.min $min_value\n";
-    }
-
-    return $data;
-}
-
-sub config_output () {
-    my $data = <<EOF;
-graph_title Output Formats
-graph_vlabel Output Formats
-graph_category BBBike
-graph_info Number of Output Formats
-graph_period minute
-graph_scale no
-EOF
-
-    foreach my $label ( sort @{ $config->{'output'} } ) {
-        my $label_e = escape_label($label);
-        $data .= "$label_e.label $label\n";
-        $data .= "$label_e.min $min_value\n";
-    }
-
-    return $data;
-}
-
-sub config_maptype () {
-    my $data = <<EOF;
-graph_title Maptype
-graph_vlabel Maptype Requests
-graph_category BBBike
-graph_info Number of Maptype Requests
-graph_period minute
-graph_scale no
-EOF
-
-    foreach my $label ( sort @{ $config->{'maptype'} } ) {
-        my $label_e = escape_label($label);
-        $data .= "$label_e.label $label\n";
-        $data .= "$label_e.min $min_value\n";
-    }
-
-    return $data;
 }
 
 sub config {
     my $type = shift;
 
-    return
-        $type eq 'ajax'    ? &config_ajax
-      : $type eq 'route'   ? &config_routes
-      : $type eq 'output'  ? &config_output
-      : $type eq 'pref'    ? &config_pref
-      : $type eq 'maptype' ? &config_maptype
-      :                      die "Unknown stat type: $type\n";
+    return &config_extracts;
 }
 
 sub display_results {
@@ -253,49 +148,13 @@ sub parse_log {
 
     my $data = "";
     if ( $type eq 'route' ) {
-        my $route_count = count_routes(
+        my $route_count = count_extracts(
             'logfile' => $logfile,
             'offset'  => $last_offset,
             'type'    => $type
         );
 
         $data = "data.value " . &interval($route_count) . "\n";
-    }
-    elsif ( $type eq 'pref' ) {
-        my $count = count_pref(
-            'logfile' => $logfile,
-            'offset'  => $last_offset,
-            'type'    => $type
-        );
-        $data = display_results( $config->{'pref'}, $count );
-    }
-
-    elsif ( $type eq 'ajax' ) {
-        my $count = count_ajax(
-            'logfile' => $logfile,
-            'offset'  => $last_offset,
-            'type'    => $type,
-            'scripts' => $config->{'ajax'}
-        );
-        $data = display_results( $config->{'ajax'}, $count );
-    }
-    elsif ( $type eq 'maptype' ) {
-        my $count = count_maptype(
-            'logfile' => $logfile,
-            'offset'  => $last_offset,
-            'type'    => $type,
-            'scripts' => $config->{'maptype'}
-        );
-        $data = display_results( $config->{'maptype'}, $count );
-    }
-    elsif ( $type eq 'output' ) {
-        my $count = count_output(
-            'logfile' => $logfile,
-            'offset'  => $last_offset,
-            'type'    => $type,
-            'output'  => $config->{'output'}
-        );
-        $data = display_results( $config->{'output'}, $count );
     }
     else {
         die "Unknown type: $type\n";
@@ -359,201 +218,8 @@ sub count_routes {
     }
 
     while (<$fh>) {
-
-        # proxy request with hostname
-        s,"GET http://.*?/,"GET /, if $frontend_proxy;
-
-        next if $ignore_localrequests && localrequest($_);
-
-        if (m,"GET /\S+pref_seen=[12],) {
+        if (m,"GET /\?city=\S+&email=\S+&,) {
             $counter++;
-        }
-    }
-
-    return $counter;
-}
-
-#
-# parse the bbbike access log file and count preferences
-#
-sub count_pref {
-    my %args   = @_;
-    my $file   = $args{'logfile'};
-    my $offset = $args{'offset'};
-
-    my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
-
-    if ( defined $offset ) {
-        warn "Starting at offset: $offset\n" if $debug;
-        seek( $fh, $offset, 0 );
-    }
-
-    my $counter = 0;
-    my $res = { "speed" => 0 };
-    while (<$fh>) {
-
-        # proxy request with hostname
-        s,"GET http://.*?/,"GET /, if $frontend_proxy;
-
-        next if $ignore_localrequests && localrequest($_);
-
-        if (   m,"GET /\S+pref_seen=1,
-            && /startc=[0-9\-\+]/
-            && /zielc=[0-9\-\+]/ )
-        {
-
-            if (m,"GET (/\S+),) {
-                my $q = CGI->new($1);
-                $counter++;
-                if ( my $s = $q->param("pref_speed") || 20 ) {
-                    $res->{"speed"} += $s;
-                }
-                if ( my $s = $q->param("pref_cat") || "np" ) {
-                    $res->{"cat_$s"}++;
-                }
-                if ( my $s = $q->param("pref_quality") || "np" ) {
-                    $res->{"quality_$s"}++;
-                }
-                if ( my $s = $q->param("pref_specialvehicle") || "np" ) {
-                    $res->{"specialvehicle_$s"}++;
-                }
-                $res->{"ferry"}++ if $q->param("pref_ferry");
-                $res->{"unlit"}++ if $q->param("pref_unlit");
-            }
-        }
-    }
-
-    return $res if !$counter;
-
-    foreach my $key ( keys %$res ) {
-        $res->{$key} = $res->{$key} / $counter;
-    }
-
-    return $res;
-}
-
-#
-# parse the bbbike access log file and count ajax request
-#
-sub count_ajax {
-    my %args   = @_;
-    my $file   = $args{'logfile'};
-    my $offset = $args{'offset'};
-
-    my $counter = {};
-    my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
-
-    if ( defined $offset ) {
-        warn "Starting at offset: $offset\n" if $debug;
-        seek( $fh, $offset, 0 );
-    }
-
-    while (<$fh>) {
-
-        # proxy request with hostname
-        s,"GET http://.*?/,"GET /, if $frontend_proxy;
-
-        next if $ignore_localrequests && localrequest($_);
-
-        if (m,"GET /cgi/(.*?)(\.cgi)?\?,) {
-            $counter->{$1}++;
-        }
-    }
-
-    return $counter;
-}
-
-#
-# parse the bbbike access log file and count map type request
-#
-sub count_maptype {
-    my %args   = @_;
-    my $file   = $args{'logfile'};
-    my $offset = $args{'offset'};
-
-    my $counter = {};
-    my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
-
-    if ( defined $offset ) {
-        warn "Starting at offset: $offset\n" if $debug;
-        seek( $fh, $offset, 0 );
-    }
-
-    while (<$fh>) {
-
-        # proxy request with hostname
-        s,"GET http://.*?/,"GET /, if $frontend_proxy;
-
-        next if $ignore_localrequests && localrequest($_);
-
-        if (m,"GET /cgi/maptype.cgi.*?maptype=(\S+),) {
-            $counter->{$1}++;
-        }
-    }
-
-    return $counter;
-}
-
-#
-# parse the bbbike access log file and count output
-# requests (GPX, KML, print)
-#
-sub count_output {
-    my %args   = @_;
-    my $file   = $args{'logfile'};
-    my $offset = $args{'offset'};
-
-    my $counter = {};
-    my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
-
-    if ( defined $offset ) {
-        warn "Starting at offset: $offset\n" if $debug;
-        seek( $fh, $offset, 0 );
-    }
-
-# "GET /Erlangen/?startc=10.95985%2C49.58876;zielc=11.02811%2C49.57724;pref_seen=1;pref_speed=20;pref_cat=;pref_quality=;pref_specialvehicle=;scope=;output_as=print
-    while (<$fh>) {
-
-        # proxy request with hostname
-        s,"GET http://.*?/,"GET /, if $frontend_proxy;
-
-        next if $ignore_localrequests && localrequest($_);
-
-        # gspies.com
-        if ( /^188\.40\.84\.75 / && /Jakarta Commons-HttpClient/ ) {
-            $counter->{"gpsies"}++;
-        }
-
-        elsif (m,"GET /\S+output_as=(.*?)[;&\s],) {
-            $counter->{$1}++;
-        }
-
-        elsif (m,"GET /\S+imagetype=(.*?)[;&\s],) {
-            my $imagetype = $1 || "";
-
-            # count all PDF as pdf (landscape + auto + portrait)
-            $imagetype =~ s/^pdf.*/pdf/;
-            $counter->{$imagetype}++ if $imagetype ne "";
-        }
-
-        # bbbike.de
-        elsif (m,"POST /cgi-bin/bbbikegooglemap.cgi,) {
-            $counter->{"googlemaps"}++;
-        }
-        elsif (m,"GET /cgi-bin/mapserv\?,) {
-            $counter->{"mapserv"}++;
-        }
-
-        elsif (m,"POST ,) {
-
-            # proxy request with hostname
-            s,"POST http://.*?/,"POST /, if $frontend_proxy;
-
-            if (   m,"POST /[A-Z][a-z]+\S+/ ,
-                || m,"POST /[A-Z][a-z]+\S+/\?[a-z]+, )
-            {
-                $counter->{"pdf"}++;
-            }
         }
     }
 
@@ -600,22 +266,17 @@ sub parse_config {
 
 my $help;
 
-# read parameters from script path name
-$type = &detect_type if &detect_type;
-
 # read parameters from munin-bbbike config file
 my @config = parse_config($munin_config_file);
 push( @ARGV, @config ) if @config;
 
 GetOptions(
-    "debug=i"                => \$debug,
-    "database=s"             => \$database,
-    "logfile=s"              => \$logfile,
-    "type=s"                 => \$type,
-    "interval=i"             => \$interval,
-    "frontend-proxy"         => \$frontend_proxy,
-    "ignore-localrequests=i" => \$ignore_localrequests,
-    "help"                   => \$help,
+    "debug=i"    => \$debug,
+    "database=s" => \$database,
+    "logfile=s"  => \$logfile,
+    "type=s"     => \$type,
+    "interval=i" => \$interval,
+    "help"       => \$help,
 ) or die usage;
 
 die usage if $help;
