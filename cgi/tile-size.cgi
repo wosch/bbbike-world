@@ -25,13 +25,15 @@ my %format = (
     "gz"                 => "osm.gz",
     "osm.xz"             => "osm.gz",
     "osm.bz2"            => "osm.gz",
-    "osm.shp.zip"        => "shp.zip",
+    "shp.zip"            => "shp.zip",
     "shp"                => "shp.zip",
-    "osm.obf.zip"        => "obf.zip",
+    "obf.zip"            => "obf.zip",
     "obf"                => "obf.zip",
     "garmin-cycle.zip"   => "garmin-cycle.zip",
     "garmin-osm.zip"     => "garmin-cycle.zip",
-    "garmin-leisure.zip" => "garmin-cycle.zip"
+    "garmin-leisure.zip" => "garmin-cycle.zip",
+    "navit.zip"          => "obf.zip",
+    "navit"              => "obf.zip",
 );
 
 ######################################################################
@@ -75,6 +77,8 @@ if ( $format && $format{$format} ) {
 
     # guess factor
     $factor_format *= 1.3  if $format eq 'garmin-leisure.zip';
+    $factor_format *= 0.65 if $format eq 'navit.zip';
+
     $factor_format *= 0.7  if $format eq 'osm.bz2';
     $factor_format *= 0.75 if $format eq 'osm.xz';
 }

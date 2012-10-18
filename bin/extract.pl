@@ -83,12 +83,12 @@ my $formats = {
     'osm.gz'             => "OSM XML gzip'd",
     'osm.bz2'            => "OSM XML bzip'd",
     'osm.xz'             => "OSM XML 7z/xz",
-    'shp.zip'        => "OSM Shape",
-    'obf.zip'        => "Osmand (OBF)",
+    'shp.zip'            => "OSM Shape",
+    'obf.zip'            => "Osmand (OBF)",
     'garmin-osm.zip'     => "Garmin OSM",
     'garmin-cycle.zip'   => "Garmin Cycle",
     'garmin-leisure.zip' => "Garmin Leisure",
-    'navit.zip' => "Navit",
+    'navit.zip'          => "Navit",
 };
 
 #
@@ -647,9 +647,9 @@ sub reorder_pbf {
         'osm.gz'             => 1,
         'osm.bz2'            => 1.2,
         'osm.xz'             => 2.5,
-        'shp.zip'        => 1.3,
-        'obf.zip'        => 10,
-        'navit.zip'            => 1.1,
+        'shp.zip'            => 1.3,
+        'obf.zip'            => 10,
+        'navit.zip'          => 1.1,
         'garmin-osm.zip'     => 3,
         'garmin-cycle.zip'   => 3,
         'garmin-leisure.zip' => 3.5,

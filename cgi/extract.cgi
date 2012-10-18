@@ -71,12 +71,12 @@ my $formats = {
     'osm.bz2' => "OSM XML bzip'd",
     'osm.xz'  => "OSM XML 7z (xz)",
 
-    'shp.zip'        => "OSM Shapefile (ESRI)",
+    'shp.zip'            => "OSM Shapefile (ESRI)",
     'garmin-osm.zip'     => "Garmin OSM",
     'garmin-cycle.zip'   => "Garmin Cycle",
     'garmin-leisure.zip' => "Garmin Leisure",
-    'navit.zip' => "Navit",
-    'obf.zip'   => "Osmand (OBF)",
+    'navit.zip'          => "Navit",
+    'obf.zip'            => "Osmand (OBF)",
 };
 
 #
