@@ -66,7 +66,7 @@ our $option = {
 };
 
 my $formats = {
-    'osm.pbf' => 'Protocolbuffer Binary Format (PBF)',
+    'osm.pbf' => 'Protocolbuffer Binary (PBF)',
     'osm.gz'  => "OSM XML gzip'd",
     'osm.bz2' => "OSM XML bzip'd",
     'osm.xz'  => "OSM XML 7z (xz)",
@@ -968,7 +968,7 @@ sub homepage {
                 ),
                 $q->td(
                     [
-"<span title='South West, valid values: -180 .. 180'>Left lower corner (South-West)</span><br/>"
+"<span class='normalscreen' title='South West, valid values: -180 .. 180'>Left lower corner (South-West)<br/></span>"
                           . "&nbsp;&nbsp; $lng: "
                           . $q->textfield(
                             -name => 'sw_lng',
@@ -985,7 +985,7 @@ sub homepage {
                 ),
                 $q->td(
                     [
-"<span title='North East, valid values: -180 .. 180'>Right top corner (North-East)</span><br/>"
+"<span class='normalscreen' title='North East, valid values: -180 .. 180'>Right top corner (North-East)<br/></span>"
                           . "&nbsp;&nbsp; $lng: "
                           . $q->textfield(
                             -name => 'ne_lng',
@@ -1003,7 +1003,7 @@ sub homepage {
 
                 $q->td(
                     [
-"<span title='PBF: fast and compact data, OSM XML gzip: standard OSM format, "
+"<span class='normalscreen' title='PBF: fast and compact data, OSM XML gzip: standard OSM format, "
                           . "twice as large, Garmin format in different styles, Esri shapefile format, "
                           . "Osmand for Androids'>Format: </span>"
                           . $q->popup_menu(
