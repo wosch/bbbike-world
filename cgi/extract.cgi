@@ -938,7 +938,7 @@ sub homepage {
             [
                 $q->td(
                     [
-"<span title='Give the city or area to extract a name. The name is optional, but better fill it out to find it later again.'>Name of area to extract</span><br/>"
+"<span class='normalscreen' title='Give the city or area to extract a name. The name is optional, but better fill it out to find it later again.'>Name of area to extract<br/></span>"
                           . $q->textfield(
                             -name => 'city',
                             -id   => 'city',
@@ -1015,18 +1015,13 @@ sub homepage {
                             -labels  => $formats,
                             -default => $default_format
                           )
-                          . " <span><a href='/extract.html' target='_new' title='need help?'>?</a></span>"
-                    ]
-                ),
-                $q->td(
-                    [
-                        $q->submit(
+                          . " <span class='normalscreen'><a href='/extract.html' target='_new' title='need help?'>?</a><br/></span> "
+                          . $q->submit(
                             -title => 'start extract',
                             -name  => 'submit',
                             -value => 'extract',
-
-                            #-id    => 'extract'
-                        )
+                            -id    => 'extract'
+                          )
                     ]
                 ),
             ]
