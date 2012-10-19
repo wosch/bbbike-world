@@ -220,6 +220,7 @@ EOF
 sub footer_top {
     my $q    = shift;
     my %args = @_;
+    my $css  = $args{'css'} || "";
 
     my $locate =
       $args{'map'}
@@ -227,8 +228,12 @@ sub footer_top {
       : "";
     $locate = "";    # disable
 
+    if ($css) {
+        $css = "\n<style>$css</style\n";
+    }
+
     return <<EOF;
-  <div id="footer_top">
+  <div id="footer_top">$css
     <a href="../">home</a> |
     <a href="../extract.html">help</a> |
     <a href="http://download.bbbike.org/osm/">download</a> |
@@ -251,7 +256,7 @@ sub footer {
     return <<EOF;
 
 <div id="footer">
-  @{[ &footer_top($q, 'map' => $args{'map'}) ]}
+  @{[ &footer_top($q, 'map' => $args{'map'}, 'css' => $args{'css'} ) ]}
   <div id="copyright">
   <hr/>
     (&copy;) 2012 <a href="http://www.bbbike.org">BBBike.org</a>
@@ -720,7 +725,7 @@ qq{<p align="center"><a href="/community.html"><img class="logo" height="47" wid
         }
     }
 
-    print &footer($q);
+    print &footer( $q, 'css' => '#footer { width: 95%; }' );
 }
 
 # save request in incoming spool
