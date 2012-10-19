@@ -941,7 +941,7 @@ sub homepage {
                           . $q->textfield(
                             -name => 'city',
                             -id   => 'city',
-                            -size => 34
+                            -size => 28
                           )
                     ]
                 ),
@@ -950,7 +950,7 @@ sub homepage {
 "<span title='Required, you will be notified by e-mail if your extract is ready for download.'>Your email address (*)</span><br/>"
                           . $q->textfield(
                             -name  => 'email',
-                            -size  => 34,
+                            -size  => 28,
                             -value => $default_email
                           )
                           . $q->hidden(
@@ -1007,7 +1007,7 @@ sub homepage {
                     [
 "<span class='normalscreen' title='PBF: fast and compact data, OSM XML gzip: standard OSM format, "
                           . "twice as large, Garmin format in different styles, Esri shapefile format, "
-                          . "Osmand for Androids'>Format: </span>"
+                          . "Osmand for Androids'>Format (<a href='/extract.html' target='_new' title='need help?'>?</a>)<br/></span>"
                           . $q->popup_menu(
                             -name   => 'format',
                             -values => [
@@ -1017,7 +1017,7 @@ sub homepage {
                             -labels  => $formats,
                             -default => $default_format
                           )
-                          . " <span class='normalscreen'><a href='/extract.html' target='_new' title='need help?'>?</a><br/></span> "
+                          . " <span class='normalscreen'><br/></span> "
                           . $q->submit(
                             -title => 'start extract',
                             -name  => 'submit',
