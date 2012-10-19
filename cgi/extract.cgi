@@ -937,7 +937,8 @@ sub homepage {
       || $option->{'default_format'};
 
     print qq{<div id="table">\n};
-    print $q->table({-width=>'100%'},
+    print $q->table(
+        { -width => '100%' },
         $q->Tr(
             {},
             [
