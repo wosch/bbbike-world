@@ -711,11 +711,12 @@ EOF
         }
 
         else {
-            print qq{<hr/>\n};
             print
               qq{<p>We appreciate any feedback, suggestions },
               qq{and a <a href="../community.html#donate">donation</a>! },
-qq{You can support us via PayPal, Flattr or bank wire transfer.</p>\n};
+qq{You can support us via PayPal, Flattr or bank wire transfer.\n},
+qq{<a href="/community.html"><img class="logo" height="19" width="64" src="/images/donate.png" alt="Flattr this" title="Donate to bbbike.org" /></a>},
+              "</p>\n";
         }
     }
 
