@@ -715,7 +715,7 @@ EOF
               qq{<p>We appreciate any feedback, suggestions },
               qq{and a <a href="../community.html#donate">donation</a>! },
 qq{You can support us via PayPal, Flattr or bank wire transfer.\n},
-qq{<a href="/community.html"><img class="logo" height="19" width="64" src="/images/donate.png" alt="Flattr this" title="Donate to bbbike.org" /></a>},
+qq{<p align="center"><a href="/community.html"><img class="logo" height="47" width="126" src="/images/btn_donateCC_LG.gif" alt="Flattr this" title="Donate to bbbike.org" /></a></p>},
               "</p>\n";
         }
     }
