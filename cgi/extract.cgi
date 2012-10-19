@@ -54,7 +54,7 @@ our $option = {
     'default_format'            => 'osm.pbf',
     'city_name_optional'        => 0,
     'city_name_optional_coords' => 1,
-    'max_skm'                   => 16_000_000,    # max. area in square km
+    'max_skm'                   => 24_000_000,    # max. area in square km
     'max_size'                  => 768_000,       # max area in KB size
 
     # request to confirm request with a click on an URL
@@ -615,11 +615,11 @@ sub check_input {
     }
     else {
 
-        # display coordinates, but not more than 16
+        # display coordinates, but not more than 32
         my $coordinates =
           @coords
           ? encode_json(
-            $#coords < 16
+            $#coords < 32
             ? \@coords
             : [ @coords[ 0 .. 15 ], "to long to read..." ]
           )
