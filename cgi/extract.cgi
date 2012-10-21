@@ -611,6 +611,10 @@ sub check_input {
         }
     }
 
+    if ( $layers ne "" && $layers !~ /^[BTF0]+$/ ) {
+        error("layers '$layers' is out of range");
+    }
+
     if ($error) {
         print qq{<p class="error">The input data is not valid. };
         print "Please click on the back button of your browser ";
