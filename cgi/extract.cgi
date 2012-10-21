@@ -522,6 +522,7 @@ sub check_input {
     my $ne_lat = Param("ne_lat");
     my $ne_lng = Param("ne_lng");
     my $coords = Param("coords");
+    my $layers = Param("layers");
 
     if ( !exists $formats->{$format} ) {
         error("Unknown error format '$format'");
@@ -655,6 +656,7 @@ EOF
             'ne_lat' => $ne_lat,
             'ne_lng' => $ne_lng,
             'format' => $format,
+            'layers' => $layers,
             'coords' => \@coords,
         }
     );
@@ -668,6 +670,7 @@ EOF
         'ne_lat'          => $ne_lat,
         'ne_lng'          => $ne_lng,
         'coords'          => \@coords,
+        'layers'          => $layers,
         'skm'             => $skm,
         'date'            => time2str(time),
         'time'            => time(),
@@ -969,6 +972,11 @@ sub homepage {
                             -name  => 'coords',
                             -value => "",
                             -id    => 'coords'
+                          )
+                          . $q->hidden(
+                            -name  => 'layers',
+                            -value => "",
+                            -id    => 'layers'
                           ),
 '<span id="time_small" title="approx. extract time in minutes"></span>'
                     ]
