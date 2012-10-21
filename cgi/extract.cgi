@@ -229,11 +229,12 @@ sub footer_top {
     $locate = "";    # disable
 
     if ($css) {
-        $css = "\n<style>$css</style\n";
+        $css = "\n<style>$css</style>\n";
     }
 
     return <<EOF;
-  <div id="footer_top">$css
+  $css
+  <div id="footer_top">
     <a href="../">home</a> |
     <a href="../extract.html">help</a> |
     <a href="http://download.bbbike.org/osm/">download</a> |
