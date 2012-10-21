@@ -784,12 +784,15 @@ sub script_url {
     else {
         $coords = join '|', ( map { "$_->[0],$_->[1]" } @{ $obj->{'coords'} } );
     }
+    my $layers = $obj->{'layers'} || "";
 
     my $script_url = $option->{script_homepage} . "/?";
     $script_url .=
 "sw_lng=$obj->{sw_lng}&sw_lat=$obj->{sw_lat}&ne_lng=$obj->{ne_lng}&ne_lat=$obj->{ne_lat}";
     $script_url .= "&format=$obj->{'format'}";
     $script_url .= "&coords=" . CGI::escape($coords) if $coords ne "";
+    $script_url .= "&layers=" . CGI::escape($layers)
+      if $layers && $layers !~ /^B/;
 
     return $script_url;
 }
