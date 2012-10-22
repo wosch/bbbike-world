@@ -870,7 +870,7 @@ sub _convert_send_email {
             }
         }
         elsif ( $format eq 'shp.zip' ) {
-            $file =~ s/\.osm\.pbf$/.$format/;
+            $file =~ s/\.pbf$/.$format/;
             if ( !cached_format( $file, $pbf_file ) ) {
                 @system =
                   ( @nice, "$dirname/pbf2osm", "--shape", $pbf_file, $city );
@@ -882,7 +882,7 @@ sub _convert_send_email {
             }
         }
         elsif ( $format eq 'obf.zip' ) {
-            $file =~ s/\.osm\.pbf$/.$format/;
+            $file =~ s/\.pbf$/.$format/;
             if ( !cached_format( $file, $pbf_file ) ) {
                 @system =
                   ( @nice, "$dirname/pbf2osm", "--osmand", $pbf_file, $city );
@@ -893,8 +893,8 @@ sub _convert_send_email {
                 system(@system) == 0 or die "system @system failed: $?";
             }
         }
-        elsif ( $format eq 'osm.navit.zip' ) {
-            $file =~ s/\.osm\.pbf$/.$format/;
+        elsif ( $format eq 'navit.zip' ) {
+            $file =~ s/\.pbf$/.$format/;
             if ( !cached_format( $file, $pbf_file ) ) {
                 @system =
                   ( @nice, "$dirname/pbf2osm", "--navit", $pbf_file, $city );
