@@ -32,9 +32,14 @@ my $min_value = 0;
 # ignore old offset files (> 60 minutes)
 my $ignore_old_offset = 1;
 
-my $type = 'route';
+my $type = 'extract';
 
-my $config = {};
+my $config = {
+    'tilesize' => [
+        qw/osm.pbf shp.zip garmin-osm.zip osm.xz osm.gz obf.zip
+          garmin-cycle.zip osm.bz2 garmin-leisure.zip navit.zip/
+    ]
+};
 
 sub usage {
     my $types = join " | ", &get_types;
@@ -61,7 +66,7 @@ sub interval {
 }
 
 sub get_types {
-    my @types = qw/ajax route output pref maptype/;
+    my @types = qw/tilesize extract/;
     return sort @types;
 }
 
@@ -70,6 +75,7 @@ sub escape_label {
     my $label = shift;
 
     $label =~ s/-/_/g;
+    $label =~ s/\./_/g;
 
     return $label;
 }
@@ -87,10 +93,33 @@ data.min $min_value
 EOF
 }
 
+sub config_tilesize () {
+    my $data = <<EOF;
+graph_title Tile Size
+graph_vlabel Format
+graph_category BBBike
+graph_info Number of Tile Size Requests by Format
+graph_period minute
+graph_scale no
+EOF
+
+    foreach my $label ( sort @{ $config->{'tilesize'} } ) {
+        my $label_e = escape_label($label);
+        $data .= "$label_e.label $label\n";
+        $data .= "$label_e.min $min_value\n";
+    }
+
+    return $data;
+}
+
 sub config {
     my $type = shift;
 
-    return &config_extract;
+    return
+        $type eq 'tilesize' ? &config_tilesize
+      : $type eq 'extract'  ? &config_extract
+      : $type eq 'maptype'  ? &config_maptype
+      :                       die "Unknown stat type: $type\n";
 }
 
 sub display_results {
@@ -100,8 +129,9 @@ sub display_results {
     my $data = "";
 
     foreach my $label ( sort @$config ) {
+        my $label_e = escape_label($label);
         $data .=
-            "$label.value "
+            "$label_e.value "
           . ( exists $count->{$label} ? interval( $count->{$label} ) : 0 )
           . "\n";
     }
@@ -147,15 +177,26 @@ sub parse_log {
     my $last_offset = get_offset($database);
 
     my $data = "";
-    if ( $type eq 'route' ) {
-        my $route_count = count_extract(
+    if ( $type eq 'extract' ) {
+        my $extract_count = count_extract(
             'logfile' => $logfile,
             'offset'  => $last_offset,
             'type'    => $type
         );
 
-        $data = "data.value " . &interval($route_count) . "\n";
+        $data = "data.value " . &interval($extract_count) . "\n";
     }
+
+    elsif ( $type eq 'tilesize' ) {
+        my $count = count_tilesize(
+            'logfile' => $logfile,
+            'offset'  => $last_offset,
+            'type'    => $type,
+            'scripts' => $config->{'tilesize'}
+        );
+        $data = display_results( $config->{'tilesize'}, $count );
+    }
+
     else {
         die "Unknown type: $type\n";
     }
@@ -165,6 +206,37 @@ sub parse_log {
     write_offset( $database, $st->size );
 
     return $data;
+}
+
+#
+# parse the bbbike access log file and count tile-size.cgi request
+# and format
+#
+sub count_tilesize {
+    my %args   = @_;
+    my $file   = $args{'logfile'};
+    my $offset = $args{'offset'};
+
+    my $counter = {};
+    my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
+
+    if ( defined $offset ) {
+        warn "Starting at offset: $offset\n" if $debug;
+        seek( $fh, $offset, 0 );
+    }
+
+    while (<$fh>) {
+
+        # proxy request with hostname
+        #s,"GET http://.*?/,"GET /, if $frontend_proxy;
+        #next if $ignore_localrequests && localrequest($_);
+
+        if (m,"GET /cgi/tile-size\.cgi\?.*format=([^&" ]+),) {
+            $counter->{$1}++;
+        }
+    }
+
+    return $counter;
 }
 
 sub get_offset {
@@ -228,7 +300,7 @@ sub count_extract {
 
 #
 # detect type by program path
-# ./munin-bbbike-ajax => ./munin-bbbike --type=ajax
+# ./munin-bbbike-tilesize => ./munin-bbbike --type=tilesize
 #
 sub detect_type {
     my $program = basename($0);
@@ -265,6 +337,9 @@ sub parse_config {
 #
 
 my $help;
+
+# read parameters from script path name
+$type = &detect_type if &detect_type;
 
 # read parameters from munin-bbbike config file
 my @config = parse_config($munin_config_file);
