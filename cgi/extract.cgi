@@ -63,6 +63,8 @@ our $option = {
 
     # max count of gps points for a polygon
     'max_coords' => 256 * 256,
+
+    'enable_polygon' => 1,
 };
 
 my $formats = {
@@ -548,6 +550,11 @@ sub check_input {
     $coords = extract_coords($coords);
 
     if ($coords) {
+        if ( !$option->{enable_polygon} ) {
+            error("A polygon is not supported, use a rectangle instead");
+            goto NEXT;
+        }
+
         @coords = parse_coords($coords);
         error(  "to many coordinates for polygon: "
               . scalar(@coords) . ' > '
