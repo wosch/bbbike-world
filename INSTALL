@@ -43,7 +43,7 @@ sudo apt-get install \
   libhtml-treebuilder-xpath-perl libxml2-utils 
 
 # daemons
-sudo apt-get install lighttpd munin
+sudo apt-get install lighttpd munin ntp
 
 # reverse proxy
 sudo apt-get install varnish
