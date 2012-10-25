@@ -49,7 +49,9 @@ if $verbose; then
     if [ -n "$command" ]; then
 	$command
     fi
-    echo "please run: $ rm -rf $dir"
+    echo "please run:"
+    echo "( cd $dir/bbbike; git push )"
+    echo "rm -rf $dir"
 else
     rm -rf $dir
 fi
