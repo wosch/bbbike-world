@@ -203,12 +203,12 @@ sub manual_area {
     <span id="square_km"></span>
 
     <div id="polygon_controls" style="display:none">
-	<input id="createVertices" type="radio" name="type" onchange="polygon_update()" checked />
+	<input id="createVertices" type="radio" name="type" onclick="polygon_update()" />
 	<label for="createVertices">add points to polygon
 	<img src="$img_prefix/add_point_on.png" /> <br/>
 	</label>
 
-	<input id="rotate" type="radio" name="type" onchange="polygon_update()" />
+	<input id="rotate" type="radio" name="type" onclick="polygon_update()" />
 	<label for="rotate">rotate, resize or drag polygon
 	<img src="$img_prefix/move_feature_on.png" />
 	</label>
