@@ -47,6 +47,7 @@ $HTTP["host"] =~ "^localhost:8080$" {
 	}
 }
 
-include_shell "/usr/share/lighttpd/create-mime.assign.pl"
+#include_shell "/usr/share/lighttpd/create-mime.assign.pl"
+include "mime.inc"
 
 # EOF
