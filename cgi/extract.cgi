@@ -981,6 +981,11 @@ sub homepage {
                             -id    => 'as'
                           )
                           . $q->hidden(
+                            -name  => 'pg',
+                            -value => "0",
+                            -id    => 'pg'
+                          )
+                          . $q->hidden(
                             -name  => 'coords',
                             -value => "",
                             -id    => 'coords'
