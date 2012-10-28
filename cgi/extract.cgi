@@ -1005,13 +1005,13 @@ sub homepage {
                           . $q->textfield(
                             -name => 'sw_lng',
                             -id   => 'sw_lng',
-                            -size => 7
+                            -size => 8
                           )
                           . " $lat: "
                           . $q->textfield(
                             -name => 'sw_lat',
                             -id   => 'sw_lat',
-                            -size => 7
+                            -size => 8
                           ),
 '<span id="square_km_small" title="area covers N square kilometers"></span>'
                     ]
@@ -1023,13 +1023,13 @@ sub homepage {
                           . $q->textfield(
                             -name => 'ne_lng',
                             -id   => 'ne_lng',
-                            -size => 7
+                            -size => 8
                           )
                           . " $lat: "
                           . $q->textfield(
                             -name => 'ne_lat',
                             -id   => 'ne_lat',
-                            -size => 7
+                            -size => 8
                           ),
 '<span title="file data size approx." id="size_small"></span>'
                     ]
