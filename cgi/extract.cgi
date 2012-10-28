@@ -526,6 +526,7 @@ sub check_input {
     my $ne_lng = Param("ne_lng");
     my $coords = Param("coords");
     my $layers = Param("layers");
+    my $pg     = Param("pg");
 
     if ( !exists $formats->{$format} ) {
         error("Unknown error format '$format'");
@@ -591,6 +592,8 @@ sub check_input {
     error("ne lng '$ne_lng' is out of range -180 ... 180")
       if !is_lng($ne_lng);
 
+    $pg = 1 if !$pg || $pg > 1 || $pg <= 0;
+
     if ( !$error ) {
         error("ne lng '$ne_lng' must be larger than sw lng '$sw_lng'")
           if $ne_lng <= $sw_lng
@@ -599,7 +602,7 @@ sub check_input {
         error("ne lat '$ne_lat' must be larger than sw lat '$sw_lat'")
           if $ne_lat <= $sw_lat;
 
-        $skm = square_km( $sw_lat, $sw_lng, $ne_lat, $ne_lng );
+        $skm = square_km( $sw_lat, $sw_lng, $ne_lat, $ne_lng, $pg );
         error(
 "Area is to large: @{[ large_int($skm) ]} square km, must be smaller than @{[ large_int($max_skm) ]} square km."
         ) if $skm > $max_skm;
@@ -820,12 +823,13 @@ sub send_email {
 
 # ($lat1, $lon1 => $lat2, $lon2);
 sub square_km {
-    my ( $x1, $y1, $x2, $y2 ) = @_;
+    my ( $x1, $y1, $x2, $y2, $factor ) = @_;
+    $factor = 1 if !defined $factor;
 
     my $height = GIS::Distance::Lite::distance( $x1, $y1 => $x1, $y2 ) / 1000;
     my $width  = GIS::Distance::Lite::distance( $x1, $y1 => $x2, $y1 ) / 1000;
 
-    return int( $height * $width );
+    return int( $height * $width * $factor );
 }
 
 # 240000 -> 240,000
