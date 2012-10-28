@@ -61,7 +61,7 @@ do
 done
 
 echo "Run search_inaccessible_points"
-$time miscsrc/search_inaccessible_points -encoding utf-8 -map polar -q \
+$time miscsrc/search_inaccessible_points -q \
   -cache -shorter \
   -street $prefix/$city/strassen \
   -street $prefix/$city/faehren \
