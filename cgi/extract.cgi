@@ -973,7 +973,8 @@ sub homepage {
                 ),
                 $q->td(
                     [
-"<span title='Required, you will be notified by e-mail if your extract is ready for download.'>Your email address (*)</span><br/>"
+"<span title='Required, you will be notified by e-mail if your extract is ready for download.'>"
+                          . "Your email address (<a href='/extract.html' target='_new'>*</a>)</span><br/>"
                           . $q->textfield(
                             -name  => 'email',
                             -size  => 28,
