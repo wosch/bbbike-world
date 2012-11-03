@@ -963,7 +963,8 @@ sub homepage {
             [
                 $q->td(
                     [
-"<span class='normalscreen' title='Give the city or area to extract a name. The name is optional, but better fill it out to find it later again.'>Name of area to extract<br/></span>"
+"<span class='normalscreen' title='Give the city or area to extract a name. "
+                          . "The name is optional, but better fill it out to find it later again.'>Name of area to extract<br/></span>"
                           . $q->textfield(
                             -name => 'city',
                             -id   => 'city',
