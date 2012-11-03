@@ -234,7 +234,11 @@ sub footer_top {
         $css = "\n<style>$css</style>\n";
     }
 
+    my $donate = qq{<p class="normalscreen" id="big_donate_image">}
+      . qq{<a href="/community.html"><img class="logo" height="47" width="126" src="/images/btn_donateCC_LG.gif"/></a>};
+
     return <<EOF;
+  $donate
   $css
   <div id="footer_top">
     <a href="../">home</a> |
@@ -738,7 +742,7 @@ EOF
               qq{<p>We appreciate any feedback, suggestions },
               qq{and a <a href="../community.html#donate">donation</a>! },
 qq{You can support us via PayPal, Flattr or bank wire transfer.\n},
-qq{<p align="center"><a href="/community.html"><img class="logo" height="47" width="126" src="/images/btn_donateCC_LG.gif" alt="Flattr this" title="Donate to bbbike.org" /></a></p>},
+              qq{<br/>} x 5,
               "</p>\n";
         }
     }
