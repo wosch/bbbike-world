@@ -785,6 +785,7 @@ sub script_url {
         $coords = join '|', ( map { "$_->[0],$_->[1]" } @{ $obj->{'coords'} } );
     }
     my $layers = $obj->{'layers'} || "";
+    my $city   = $obj->{'city'}   || "";
 
     my $script_url = $option->{script_homepage} . "/?";
     $script_url .=
@@ -793,6 +794,7 @@ sub script_url {
     $script_url .= "&coords=" . CGI::escape($coords) if $coords ne "";
     $script_url .= "&layers=" . CGI::escape($layers)
       if $layers && $layers !~ /^B/;
+    $script_url .= "&city=" . CGI::escape($city) if $city ne "";
 
     return $script_url;
 }
