@@ -216,7 +216,7 @@ _pbf2pbf:
 _pbf2pbf-checksum: 
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${OSM_CHECKSUM}
 
-osm2garmin: osm2garmin-osm osm2garmin-cycle osm2garmin-leisure check-garmin-zip 
+osm2garmin: osm2garmin-osm osm2garmin-cycle osm2garmin-leisure check-zip 
 
 osm2garmin-osm:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
@@ -316,7 +316,7 @@ check-osm: check-osm-gzip check-osm-error
 check-osm-gzip:
 	@find ${OSM_DIR} -name '*.gz' -print0 | ${XARGS} -0 -n8 -P${MAX_VCPU} gzip -t
 
-check-garmin-zip:
+check-zip:
 	@find ${OSM_DIR} -name '*.zip' -print0 | ${XARGS} -0 -n1 -P${MAX_VCPU} unzip -qq -t
 	find ${OSM_DIR} -name '*.zip' -size -10k
 
