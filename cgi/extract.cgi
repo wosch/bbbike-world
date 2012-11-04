@@ -116,7 +116,7 @@ sub header {
     if ( $type eq 'homepage' ) {
         push @javascript, "../html/OpenLayers/2.12/OpenLayers-min.js",
           "../html/OpenLayers/2.12/OpenStreetMap.js",
-          "../html/jquery-1.7.1.min.js", "../html/jquery/jqModal-2009.03.01-r14.js", 
+          "../html/jquery/jquery-1.7.1.min.js", "../html/jquery/jqModal-2009.03.01-r14.js", 
 	  "../html/extract.js";
         @onload = ( -onLoad, 'init();' );
     }
