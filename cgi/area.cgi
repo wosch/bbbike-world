@@ -148,6 +148,10 @@ Start bicycle routing for <a style="font-size:x-large" href="$www_bbbike_org/$ci
 </span>
 EOF
 
+    my $donate = qq{<p class="normalscreen" id="big_donate_image"><br/>}
+      . qq{<a href="/community.html"><img class="logo" height="47" width="126" src="/images/btn_donateCC_LG.gif"/></a>};
+    $data .= $donate;
+
     $data .= qq{<div id="debug"></div>\n} if $debug >= 2;
     return $data;
 }
