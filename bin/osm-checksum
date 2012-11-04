@@ -21,11 +21,15 @@ file="$1"
 test -e "$file" || usage "file $file does not exists"
 : ${enable_sha=true}
 
+dirname=$(dirname $file)
+basename=$(basename $file)
+cd $dirname
+
 md5sum=`which md5 md5sum false | head -n 1`
 : ${SHA="shasum -a 256"}
 
-$md5sum $file > $file.md5
+$md5sum $basename > $file.md5
 if $enable_sha; then
-   $SHA $file > $file.sha256
+   $SHA $basename > $file.sha256
 fi
 
