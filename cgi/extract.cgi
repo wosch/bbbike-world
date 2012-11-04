@@ -635,6 +635,7 @@ sub check_input {
         print "Please click on the back button of your browser ";
         print "and correct the values!</p>\n";
 
+        print "<br/>" x 4;
         print &footer($q);
         return;
     }
