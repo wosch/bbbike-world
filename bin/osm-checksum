@@ -23,13 +23,12 @@ test -e "$file" || usage "file $file does not exists"
 
 dirname=$(dirname $file)
 basename=$(basename $file)
-cd $dirname
 
 md5sum=`which md5 md5sum false | head -n 1`
 : ${SHA="shasum -a 256"}
 
-$md5sum $basename > $file.md5
+( cd $dirname; $md5sum $basename ) > $file.md5
 if $enable_sha; then
-   $SHA $basename > $file.sha256
+   ( cd $dirname; $SHA $basename ) > $file.sha256
 fi
 
