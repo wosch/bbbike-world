@@ -116,8 +116,9 @@ sub header {
     if ( $type eq 'homepage' ) {
         push @javascript, "../html/OpenLayers/2.12/OpenLayers-min.js",
           "../html/OpenLayers/2.12/OpenStreetMap.js",
-          "../html/jquery/jquery-1.7.1.min.js", "../html/jquery/jqModal-2009.03.01-r14.js", 
-	  "../html/extract.js";
+          "../html/jquery/jquery-1.7.1.min.js",
+          "../html/jquery/jqModal-2009.03.01-r14.js",
+          "../html/extract.js";
         @onload = ( -onLoad, 'init();' );
     }
 
@@ -321,7 +322,7 @@ sub message {
 BBBike extract -
 </span> 
 <span id="tools-titlebar">
- <span id="tools-help"><a id="tools-helptrigger" href="#"><span>about</span></a></span>
+ <span id="tools-help"><a class='tools-helptrigger' href='#'><span>about</span></a></span>
  <span class="jqmWindow" id="tools-helpwin"></span>
 </span>
 
@@ -985,7 +986,7 @@ sub homepage {
                 $q->td(
                     [
 "<span title='Required, you will be notified by e-mail if your extract is ready for download.'>"
-                          . "Your email address (<a href='/extract.html' target='_new'>*</a>)</span><br/>"
+                          . "Your email address (<a class='tools-helptrigger' href='#'>?</a></span>)</span><br/>"
                           . $q->textfield(
                             -name  => 'email',
                             -size  => 28,
@@ -1055,7 +1056,7 @@ sub homepage {
                     [
 "<span class='normalscreen' title='PBF: fast and compact data, OSM XML gzip: standard OSM format, "
                           . "twice as large, Garmin format in different styles, Esri shapefile format, "
-                          . "Osmand for Androids'>Format (<a href='/extract.html' target='_new' title='need help?'>?</a>)<br/></span>"
+                          . "Osmand for Androids'>Format (<a class='tools-helptrigger' href='#'>?</a></span>)<br/></span>"
                           . $q->popup_menu(
                             -name   => 'format',
                             -values => [
