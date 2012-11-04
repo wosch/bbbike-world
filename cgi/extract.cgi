@@ -116,7 +116,8 @@ sub header {
     if ( $type eq 'homepage' ) {
         push @javascript, "../html/OpenLayers/2.12/OpenLayers-min.js",
           "../html/OpenLayers/2.12/OpenStreetMap.js",
-          "../html/jquery-1.7.1.min.js", "../html/extract.js";
+          "../html/jquery-1.7.1.min.js", "../html/jquery/jqModal-2009.03.01-r14.js", 
+	  "../html/extract.js";
         @onload = ( -onLoad, 'init();' );
     }
 
@@ -318,8 +319,12 @@ sub message {
 @{[ &social_links ]}
 <span align="right">
 BBBike extract -
-<a href="../extract.html">about</a>
 </span> 
+<span id="tools-titlebar">
+ <span id="tools-help"><a id="tools-helptrigger" href="#"><span>about</span></a></span>
+ <span class="jqmWindow" id="tools-helpwin"></span>
+</span>
+
 <span id="debug"></span>
 EOF
 }
