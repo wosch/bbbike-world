@@ -253,7 +253,16 @@ function init() {
         var apiKey = "AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf";
 
         // var map = new OpenLayers.Map( 'map');
-        var road = new OpenLayers.Layer.Bing({
+        var road = new OpenLayers.Layer.Bing(
+
+        // XXX: bing.com returns a wrong zoom level in JSON API call
+        OpenLayers.Util.extend({
+            initLayer: function () {
+                // pretend we have a zoomMin of 0
+                this.metadata.resourceSets[0].resources[0].zoomMin = 0;
+                OpenLayers.Layer.Bing.prototype.initLayer.apply(this, arguments);
+            }
+        }, {
             key: apiKey,
             type: "Road",
             // custom metadata parameter to request the new map style - only useful
@@ -261,16 +270,30 @@ function init() {
             metadataParams: {
                 mapVersion: "v1"
             }
-        });
-        var aerial = new OpenLayers.Layer.Bing({
+        }));
+
+        var aerial = new OpenLayers.Layer.Bing(OpenLayers.Util.extend({
+            initLayer: function () {
+                // pretend we have a zoomMin of 0
+                this.metadata.resourceSets[0].resources[0].zoomMin = 0;
+                OpenLayers.Layer.Bing.prototype.initLayer.apply(this, arguments);
+            }
+        }, {
             key: apiKey,
             type: "Aerial"
-        });
-        var hybrid = new OpenLayers.Layer.Bing({
+        }));
+
+        var hybrid = new OpenLayers.Layer.Bing(OpenLayers.Util.extend({
+            initLayer: function () {
+                // pretend we have a zoomMin of 0
+                this.metadata.resourceSets[0].resources[0].zoomMin = 0;
+                OpenLayers.Layer.Bing.prototype.initLayer.apply(this, arguments);
+            }
+        }, {
             key: apiKey,
             type: "AerialWithLabels",
             name: "Bing Aerial With Labels"
-        });
+        }));
 
         map.addLayers([road, aerial, hybrid]);
     };
