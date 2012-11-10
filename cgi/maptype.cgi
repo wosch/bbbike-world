@@ -3,6 +3,7 @@
 #
 # api.cgi - suggestion service for street names
 
+use lib '.';
 use MyCgiSimple;
 
 # use warnings make the script 20% slower!
