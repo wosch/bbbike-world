@@ -5,7 +5,6 @@
   <link href="http://www.bbbike.org/feed/bbbike-world.xml"
   rel="self" />
   <icon>http://www.bbbike.org/images/srtbike.ico</icon>
-  <updated>2011-04-09T18:30:03Z</updated>
   <author>
     <name>Wolfram Schneider</name>
   </author>
@@ -13,6 +12,7 @@
   now ported to other cities around the world - thanks to the
   OpenStreetMap project!</subtitle>
   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af7</id>
+  <updated>2012-11-10T10:42:14Z</updated>
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
   version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
@@ -705,7 +705,7 @@
   <entry>
     <title>Redesign of BBBike</title>
     <id>9bcb8fcbc414515b4ad98ca3d1dac9f4</id>
-    <content>Redesign of BBBike search page.</content>
+    <content>Redesign of BBBike@world search page.</content>
     <updated>2010-07-31T18:30:02Z</updated>
     <category term="News" />
   </entry>
@@ -735,7 +735,7 @@
     <title>Elevation chart</title>
     <link href="http://www.bbbike.org" />
     <id>81ebeaf0506f9d6a518be2ab38ec243f</id>
-    <content>BBBike displays the elevation chart for the
+    <content>BBBike@World displays the elevation chart for the
     route.</content>
     <updated>2010-04-11T18:30:03Z</updated>
     <category term="News" />
@@ -750,26 +750,28 @@
     <category term="News" />
   </entry>
   <entry>
-    <title>New design for BBBike@world search</title>
+    <title>New design for BBBike\@world search</title>
     <link href="http://www.bbbike.org" />
     <id>3954a6fca12368526e8c790e38bcb743</id>
-    <content>New design for BBBike search</content>
+    <content>New design for BBBike@world search</content>
     <updated>2010-03-06T18:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>New cities for BBBike@world</title>
+    <title>New cities for BBBike\@world</title>
     <link href="http://www.bbbike.org" />
     <id>81ebeaf0506f9d6a518be2ab38ec243d</id>
-    <content>BBBike supports now 125 cities world wide.</content>
+    <content>BBBike@World supports now 125 cities world
+    wide.</content>
     <updated>2010-03-06T18:30:03Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>Updated BBBike@Berlin packages for MacOS</title>
+    <title>Updated BBBike\@Berlin packages for MacOS</title>
     <link href="http://bbbike.sourceforge.net/downloads.en.html" />
     <id>81ebeaf0506f9d6a518be2ab38ec243e</id>
-    <content>The BBBike package for MacOS are updated.</content>
+    <content>The BBBike@Berlin package for MacOS are
+    updated.</content>
     <updated>2010-03-06T18:30:04Z</updated>
     <category term="News" />
   </entry>
