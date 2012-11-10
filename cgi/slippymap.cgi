@@ -13,18 +13,11 @@
 
 package BBBikeGooglemap;
 
-use FindBin;
-use lib (
-    grep { -d } (
-        "$FindBin::RealBin/..",
-        "$FindBin::RealBin/../..",
-        "$FindBin::RealBin/../lib",
+use lib "../";
+use lib "../..";
+use lib "../lib";
+use lib "../../lib";
 
-        # für Radzeit:
-        "$FindBin::RealBin/../BBBike",
-        "$FindBin::RealBin/../BBBike/lib",
-    )
-);
 use CGI qw(:standard);
 use CGI::Carp;
 use File::Basename qw(dirname);
@@ -115,8 +108,8 @@ sub run {
     my $filename = param("gpxfile");
     if ( defined $filename ) {
         ( my $ext = $filename ) =~ s{^.*\.}{.};
-        require Strassen::Core;
-        require File::Temp;
+        use Strassen::Core;
+        use File::Temp;
         my $fh = upload("gpxfile");
         if ( !$fh ) {
             $self->{errormessageupload} = "Upload-Datei fehlt!";
@@ -272,7 +265,7 @@ sub get_html {
           $wpts->[0][1];
     }
     else {
-        require Geography::Berlin_DE;
+        use Geography::Berlin_DE;
         ( $centerx, $centery ) =
           $converter->( split /,/, Geography::Berlin_DE->center() );
     }
@@ -1468,7 +1461,7 @@ EOF
 sub hrefify {
     my ($text) = @_;
 
-    require HTML::Entities;
+    use HTML::Entities;
     my $enc = sub {
         HTML::Entities::encode_entities_numeric( $_[0],
             q{<>&"'\\\\\177-\x{fffd}} );
