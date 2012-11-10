@@ -3,6 +3,7 @@
 #
 # latlng-coord.cgi - plot latlng names on a map as a suggestion service
 
+use lib '.';
 use MyCgiSimple;
 
 # use warnings make the script 20% slower!

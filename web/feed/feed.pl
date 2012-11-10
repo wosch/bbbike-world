@@ -1,16 +1,22 @@
 #!/usr/local/bin/perl
+# Copyright (c) 2010-2012 Wolfram Schneider, http://bbbike.org
+#
+# feed.pl - generate RSS/Atom feed
 
 use XML::Atom::SimpleFeed;
+use strict;
+use warnings;
 
 my $homepage = $ENV{'BBBIKE_HOMEPAGE'} || 'http://www.bbbike.org';
 
 my $feed = XML::Atom::SimpleFeed->new(
-    title   => 'BBBike@World - a Cycle Route Planner',
-    link    => $homepage,
-    link    => { rel => 'self', href => $homepage . '/feed/bbbike-world.xml' },
-    icon    => $homepage . '/images/srtbike.ico',
-    updated => '2011-04-09T18:30:03Z',
-    author  => 'Wolfram Schneider',
+    title => 'BBBike@World - a Cycle Route Planner',
+    link  => $homepage,
+    link  => { rel => 'self', href => $homepage . '/feed/bbbike-world.xml' },
+    icon  => $homepage . '/images/srtbike.ico',
+
+    #updated => '2011-04-09T18:30:03Z',
+    author => 'Wolfram Schneider',
     subtitle =>
 'BBBike is a route planner for cyclists in Berlin. It is now ported to other cities around the world - thanks to the OpenStreetMap project!',
     id => 'urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af7',
@@ -1013,7 +1019,7 @@ $feed->add_entry(
 
     content => {
         type    => 'text',
-        content => qq{Redesign of BBBike@world search page.},
+        content => qq{Redesign of BBBike\@world search page.},
     },
 
     updated  => '2010-07-31T18:30:02Z',
@@ -1067,7 +1073,7 @@ $feed->add_entry(
 
     content => {
         type    => 'text',
-        content => qq{BBBike@World displays the elevation chart for the route.}
+        content => qq{BBBike\@World displays the elevation chart for the route.}
     },
 
     updated  => '2010-04-11T18:30:03Z',
@@ -1089,13 +1095,13 @@ qq{Added new cities: Nuernberg, Muenchen, Kiel, Oldenburg, Genf, Warschau, Magde
 );
 
 $feed->add_entry(
-    title => 'New design for BBBike@world search',
+    title => 'New design for BBBike\@world search',
     link  => $homepage,
     id    => '3954a6fca12368526e8c790e38bcb743',
 
     content => {
         type    => 'text',
-        content => qq{New design for BBBike@world search}
+        content => qq{New design for BBBike\@world search}
     },
 
     updated  => '2010-03-06T18:30:02Z',
@@ -1103,13 +1109,13 @@ $feed->add_entry(
 );
 
 $feed->add_entry(
-    title => 'New cities for BBBike@world',
+    title => 'New cities for BBBike\@world',
     link  => $homepage,
     id    => '81ebeaf0506f9d6a518be2ab38ec243d',
 
     content => {
         type    => 'text',
-        content => qq{BBBike@World supports now 125 cities world wide.}
+        content => qq{BBBike\@World supports now 125 cities world wide.}
     },
 
     updated  => '2010-03-06T18:30:03Z',
@@ -1117,13 +1123,13 @@ $feed->add_entry(
 );
 
 $feed->add_entry(
-    title => 'Updated BBBike@Berlin packages for MacOS',
+    title => 'Updated BBBike\@Berlin packages for MacOS',
     link  => 'http://bbbike.sourceforge.net/downloads.en.html',
     id    => '81ebeaf0506f9d6a518be2ab38ec243e',
 
     content => {
         type    => 'text',
-        content => qq{The BBBike@Berlin package for MacOS are updated.}
+        content => qq{The BBBike\@Berlin package for MacOS are updated.}
     },
 
     updated  => '2010-03-06T18:30:04Z',
