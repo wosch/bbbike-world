@@ -280,7 +280,8 @@ function init() {
             }
         }, {
             key: apiKey,
-            type: "Aerial"
+            type: "Aerial",
+            'numZoomLevels': 18
         }));
 
         var hybrid = new OpenLayers.Layer.Bing(OpenLayers.Util.extend({
@@ -292,7 +293,8 @@ function init() {
         }, {
             key: apiKey,
             type: "AerialWithLabels",
-            name: "Bing Aerial With Labels"
+            name: "Bing Aerial With Labels",
+            'numZoomLevels': 18
         }));
 
         map.addLayers([road, aerial, hybrid]);
