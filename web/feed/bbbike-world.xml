@@ -2,110 +2,84 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>BBBike@World - a Cycle Route Planner</title>
   <link href="http://www.bbbike.org" />
-  <link href="http://www.bbbike.org/feed/bbbike-world.xml"
-  rel="self" />
+  <link href="http://www.bbbike.org/feed/bbbike-world.xml" rel="self" />
   <icon>http://www.bbbike.org/images/srtbike.ico</icon>
   <author>
     <name>Wolfram Schneider</name>
   </author>
-  <subtitle>BBBike is a route planner for cyclists in Berlin. It is
-  now ported to other cities around the world - thanks to the
+  <subtitle>BBBike is a route planner for cyclists in Berlin. It is now ported to other cities around the world - thanks to the
   OpenStreetMap project!</subtitle>
   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af7</id>
-  <updated>2012-11-10T10:42:14Z</updated>
-  <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/"
-  version="0.86">XML::Atom::SimpleFeed</generator>
+  <updated>2012-11-10T10:43:38Z</updated>
+  <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/" version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
-    <title type="html">The &lt;a
-    href="http://extract.bbbike.org/"&gt;BBBike extract
-    service&lt;/a&gt; supports now polygons</title>
+    <title type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now polygons</title>
     <id>51d474fb21861b0629bfe8467ee42c0f</id>
-    <content type="html">The &lt;a
-    href="http://extract.bbbike.org/"&gt;BBBike extract
-    service&lt;/a&gt; supports now polygons</content>
+    <content type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now polygons</content>
     <updated>2012-10-28T13:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title type="html">The &lt;a
-    href="http://extract.bbbike.org/"&gt;BBBike extract
-    service&lt;/a&gt; supports now the Navit format</title>
+    <title type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now the Navit
+    format</title>
     <id>51d474fb21860b0629bfe8467ee42c0f</id>
-    <content type="html">The &lt;a
-    href="http://extract.bbbike.org/"&gt;BBBike extract
-    service&lt;/a&gt; supports now the Navit format</content>
+    <content type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now the Navit
+    format</content>
     <updated>2012-10-18T13:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title type="html">A new &lt;a
-    href="http://bbbike.jochen-pfeiffer.com/en/"&gt;BBBike iPhone
-    app&lt;/a&gt; is availble in the iTune store.</title>
+    <title type="html">A new &lt;a href="http://bbbike.jochen-pfeiffer.com/en/"&gt;BBBike iPhone app&lt;/a&gt; is availble in the iTune
+    store.</title>
     <id>51d474fb21860b0629bfe8467ee42c0d</id>
-    <content type="html">A new &lt;a
-    href="http://bbbike.jochen-pfeiffer.com/en/"&gt;BBBike iPhone
-    app&lt;/a&gt; is availble in the iTune store. The city Berlin
-    use the original BBBike data, the other cities are OSM
-    based.</content>
+    <content type="html">A new &lt;a href="http://bbbike.jochen-pfeiffer.com/en/"&gt;BBBike iPhone app&lt;/a&gt; is availble in the iTune
+    store. The city Berlin use the original BBBike data, the other cities are OSM based.</content>
     <updated>2012-09-04T13:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>Map Compare with new maps: Nokia Map, Terrain,
-    Satellite, Hybrid, Public Transit, Traffic. Map Compare now
-    supports up to 52 maps: http://tile.bbbike.org/mc/</title>
+    <title>Map Compare with new maps: Nokia Map, Terrain, Satellite, Hybrid, Public Transit, Traffic. Map Compare now supports up to 52
+    maps: http://tile.bbbike.org/mc/</title>
     <id>51d474fb21860b0629bfe8467ee42c0c</id>
-    <content>Map Compare with new maps: Nokia Map, Terrain,
-    Satellite, Hybrid, Public Transit, Traffic. Map Compare now
-    supports up to 52 maps: http://tile.bbbike.org/mc/</content>
+    <content>Map Compare with new maps: Nokia Map, Terrain, Satellite, Hybrid, Public Transit, Traffic. Map Compare now supports up to 52
+    maps: http://tile.bbbike.org/mc/</content>
     <updated>2012-08-06T13:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>New feature: BBBike extract service with Osmand map
-    format #osm #android</title>
+    <title>New feature: BBBike extract service with Osmand map format #osm #android</title>
     <id>51d474fb21860b0629bfe8467ee42c0b</id>
-    <content>New feature: BBBike extract service with Osmand map
-    format #osm #android</content>
+    <content>New feature: BBBike extract service with Osmand map format #osm #android</content>
     <updated>2012-07-23T13:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>New feature: Map Compare supports up to 32 maps on the
-    screen and a fullscreen mode:
-    http://tile.bbbike.org/mc/</title>
+    <title>New feature: Map Compare supports up to 32 maps on the screen and a fullscreen mode: http://tile.bbbike.org/mc/</title>
     <id>51d474fb21860b0629bfe8467ee42c0b</id>
-    <content>Map Compare supports up to 32 maps on the screen and a
-    fullscreen mode: http://tile.bbbike.org/mc/</content>
+    <content>Map Compare supports up to 32 maps on the screen and a fullscreen mode: http://tile.bbbike.org/mc/</content>
     <updated>2012-06-08T13:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>New feature: BBBike extract service with shapefile map
-    format #osm #esri #gis</title>
+    <title>New feature: BBBike extract service with shapefile map format #osm #esri #gis</title>
     <id>51d474fb21860b0629bfe8467ee42c0a</id>
-    <content>New feature: BBBike extract service with OSM Shape map
-    format</content>
+    <content>New feature: BBBike extract service with OSM Shape map format</content>
     <updated>2012-06-08T13:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>A new BBBike Android app (Berlin only, original data) is
-    available in the android market:
+    <title>A new BBBike Android app (Berlin only, original data) is available in the android market:
     https://play.google.com/store/search?q=bbbike</title>
     <id>ceb834ea55261da7259fd57c8760d81f</id>
-    <content>A new BBBike Android app (Berlin only, original data)
-    is available in the android market:
+    <content>A new BBBike Android app (Berlin only, original data) is available in the android market:
     https://play.google.com/store/search?q=bbbike</content>
     <updated>2012-22-20T13:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>New feature: BBBike extract service with Garmin OSM and
-    Garmin cycle map format</title>
+    <title>New feature: BBBike extract service with Garmin OSM and Garmin cycle map format</title>
     <id>ceb834ea55261da7259fd57c8760d80f</id>
-    <content>New feature: BBBike extract service with Garmin OSM
-    and Garmin cycle map format</content>
+    <content>New feature: BBBike extract service with Garmin OSM and Garmin cycle map format</content>
     <updated>2012-05-20T13:30:02Z</updated>
     <category term="News" />
   </entry>
@@ -117,46 +91,37 @@
     <category term="News" />
   </entry>
   <entry>
-    <title>Added Toner and Watercolor maps for
-    http://bbbike.org</title>
+    <title>Added Toner and Watercolor maps for http://bbbike.org</title>
     <id>d94a133044bb2da6cc7177e80e24c750</id>
-    <content>Added Toner and Watercolor maps for
-    http://bbbike.org</content>
+    <content>Added Toner and Watercolor maps for http://bbbike.org</content>
     <updated>2012-04-10T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>New feature: start a route search with right click on
-    the map</title>
+    <title>New feature: start a route search with right click on the map</title>
     <id>59f077289e137c87be26a4b5f22427d7</id>
-    <content>New feature: start search a route with right click on
-    the map</content>
+    <content>New feature: start search a route with right click on the map</content>
     <updated>2012-04-09T13:31:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>New feature: move start or destination pointers from a
-    street marker</title>
+    <title>New feature: move start or destination pointers from a street marker</title>
     <id>59f077289e137c87be26a4b5f22427d6</id>
-    <content>New feature: move start or destination pointers from a
-    street marker</content>
+    <content>New feature: move start or destination pointers from a street marker</content>
     <updated>2012-04-08T13:31:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>Improve HTML layout, use all available space for
-    map</title>
+    <title>Improve HTML layout, use all available space for map</title>
     <id>59f077289e137c87be26a4b5f22427d5</id>
-    <content>Improve HTML layout, use all available space for
-    map</content>
+    <content>Improve HTML layout, use all available space for map</content>
     <updated>2012-04-08T13:31:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>Added new overlay map: Google Panoramio photos</title>
     <id>59f077289e137c87be26a4b5f22427d4</id>
-    <content>Added new overlay map: Google Panoramio
-    photos</content>
+    <content>Added new overlay map: Google Panoramio photos</content>
     <updated>2012-04-08T13:31:02Z</updated>
     <category term="News" />
   </entry>
@@ -198,9 +163,7 @@
   <entry>
     <title>New service: extract service for OSM data</title>
     <id>ceb834ea55261da7259fd57c8760d80e</id>
-    <content>New extract service for OSM data, select your
-    individual area up to 400km x 600km large,
-    http://extract.bbbike.org</content>
+    <content>New extract service for OSM data, select your individual area up to 400km x 600km large, http://extract.bbbike.org</content>
     <updated>2012-03-01T13:30:02Z</updated>
     <category term="News" />
   </entry>
@@ -214,26 +177,21 @@
   <entry>
     <title>New feature: new maps MapQuest and MapQuest Sat</title>
     <id>d002aa4014948d154e57eacf0c662a0e</id>
-    <content>New feature: new maps MapQuest and MapQuest
-    Sat</content>
+    <content>New feature: new maps MapQuest and MapQuest Sat</content>
     <updated>2012-02-19T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>New feature: a Land Shading overlay layer
-    (Hills)</title>
+    <title>New feature: a Land Shading overlay layer (Hills)</title>
     <id>27ee6bd90e6f17590f0c1c045cda3722</id>
-    <content>New feature: a Land Shading overlay layer
-    (Hills)</content>
+    <content>New feature: a Land Shading overlay layer (Hills)</content>
     <updated>2012-02-18T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>Added OpenCycleMaps Landscape and Transport for
-    http://bbbike.org</title>
+    <title>Added OpenCycleMaps Landscape and Transport for http://bbbike.org</title>
     <id>4953cbf8a82f394f88ec2e49898c5e0e</id>
-    <content>Added OpenCycleMaps Landscape and Transport for
-    http://bbbike.org</content>
+    <content>Added OpenCycleMaps Landscape and Transport for http://bbbike.org</content>
     <updated>2012-02-17T12:30:02Z</updated>
     <category term="News" />
   </entry>
@@ -245,86 +203,72 @@
     <category term="News" />
   </entry>
   <entry>
-    <title>New feature: a smoothness layer for streets in Berlin
-    (excellent, good, cobblestones, horrible)</title>
+    <title>New feature: a smoothness layer for streets in Berlin (excellent, good, cobblestones, horrible)</title>
     <id>75c151c463e1f249498a6571c8d05ccc</id>
-    <content>New feature: a smoothness layer for streets in Berlin
-    (excellent, good, cobblestones, horrible)</content>
+    <content>New feature: a smoothness layer for streets in Berlin (excellent, good, cobblestones, horrible)</content>
     <updated>2011-11-08T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>New feature: support search for addresses with house
-    numbers and zip code</title>
+    <title>New feature: support search for addresses with house numbers and zip code</title>
     <id>171f3263a6e73b3bf6e3256c6cb094f4</id>
-    <content>New: support search for addresses with house numbers
-    and zip code</content>
+    <content>New: support search for addresses with house numbers and zip code</content>
     <updated>2011-09-30T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>New feature: allow to set start and destination of a
-    cycle route with markers on the map</title>
+    <title>New feature: allow to set start and destination of a cycle route with markers on the map</title>
     <id>171f3263a6e73b3bf6e3256c6cb094f3</id>
-    <content>New feature: allow to set start and destination of a
-    cycle route with markers on the map</content>
+    <content>New feature: allow to set start and destination of a cycle route with markers on the map</content>
     <updated>2011-09-29T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Emden/Ostfriesland</title>
     <id>171f3263a6e73b3bf6e3256c6cb094f6</id>
-    <content>New: cycle routing for Emden/Ostfriesland:
-    http://www.bbbike.org/Emden</content>
+    <content>New: cycle routing for Emden/Ostfriesland: http://www.bbbike.org/Emden</content>
     <updated>2011-09-11T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Bremerhaven</title>
     <id>171f3263a6e73b3bf6e3256c6cb094f7</id>
-    <content>New: cycle routing for Bremerhaven:
-    http://www.bbbike.org/Bremerhaven</content>
+    <content>New: cycle routing for Bremerhaven: http://www.bbbike.org/Bremerhaven</content>
     <updated>2011-09-11T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Heilbronn</title>
     <id>7b2006882ab330199ea21240ce787723</id>
-    <content>New: cycle routing for Heilbronn:
-    http://www.bbbike.org/Heilbronn</content>
+    <content>New: cycle routing for Heilbronn: http://www.bbbike.org/Heilbronn</content>
     <updated>2011-09-11T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Madrid</title>
     <id>a440093ff2ecb6ffe9e5646b49a1d501</id>
-    <content>New: cycle routing for Madrid:
-    http://www.bbbike.org/Madrid</content>
+    <content>New: cycle routing for Madrid: http://www.bbbike.org/Madrid</content>
     <updated>2011-09-08T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Alexandria</title>
     <id>1ac05653bda68ca1346b5cbf083f3c88</id>
-    <content>New: cycle routing for Alexandria:
-    http://www.bbbike.org/Alexandria</content>
+    <content>New: cycle routing for Alexandria: http://www.bbbike.org/Alexandria</content>
     <updated>2011-09-04T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>http://BBBike.org moved to a faster machine. Have
-    fun!</title>
+    <title>http://BBBike.org moved to a faster machine. Have fun!</title>
     <id>1ac05653bda68ca1346b5cbf083f3c87</id>
-    <content>http://BBBike.org moved to a faster machine. Have
-    fun!</content>
+    <content>http://BBBike.org moved to a faster machine. Have fun!</content>
     <updated>2011-08-03T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Memphis</title>
     <id>1f1405ff29bce1549e0a7c0269d15467</id>
-    <content>New: cycle routing for Memphis:
-    http://www.bbbike.org/Memphis</content>
+    <content>New: cycle routing for Memphis: http://www.bbbike.org/Memphis</content>
     <updated>2011-06-07T12:30:02Z</updated>
     <category term="News" />
   </entry>
@@ -343,19 +287,14 @@
     <category term="News" />
   </entry>
   <entry>
-    <title>Support route search for Point of Interest (POI), for
-    train stations, schools, buildings, restaurants, sights
-    etc.</title>
+    <title>Support route search for Point of Interest (POI), for train stations, schools, buildings, restaurants, sights etc.</title>
     <id>9511e253bd8ac0da0fb7ab4c7a5f1ac2</id>
-    <content>Support route search for Point of Interest (POI), for
-    train stations, schools, buildings, restaurants, sights
-    etc.</content>
+    <content>Support route search for Point of Interest (POI), for train stations, schools, buildings, restaurants, sights etc.</content>
     <updated>2011-05-17T12:30:03Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>Added a Map Slide Show for all 7 #osm maps and 11
-    non-osm maps on http://bbbike.org</title>
+    <title>Added a Map Slide Show for all 7 #osm maps and 11 non-osm maps on http://bbbike.org</title>
     <id>17fe6ae451ab0eb00b25f59a0cb7b75c</id>
     <content>Added map slide show for http://bbbike.org</content>
     <updated>2011-05-02T12:30:03Z</updated>
@@ -364,62 +303,49 @@
   <entry>
     <title>Added Full Screen View for http://bbbike.org</title>
     <id>15c559e7c35a7dac75a141c92877dabd</id>
-    <content>Added Added Full Screen View for
-    http://bbbike.org</content>
+    <content>Added Added Full Screen View for http://bbbike.org</content>
     <updated>2011-05-01T12:30:03Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>Added black/white Mapnik map for
-    http://bbbike.org</title>
+    <title>Added black/white Mapnik map for http://bbbike.org</title>
     <id>8180c31f8c34e75058495ff6a1bf7f8d</id>
-    <content>Added black/white Mapnik map for
-    http://bbbike.org</content>
+    <content>Added black/white Mapnik map for http://bbbike.org</content>
     <updated>2011-05-01T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>Added Yahoo and Bing maps (satellite, hybrid, map) for
-    http://bbbike.org</title>
+    <title>Added Yahoo and Bing maps (satellite, hybrid, map) for http://bbbike.org</title>
     <id>9de8ff38b08a07a69968512b8def69ec</id>
-    <content>Added Yahoo and Bing maps (satellite, hybrid, map) for
-    http://bbbike.org</content>
+    <content>Added Yahoo and Bing maps (satellite, hybrid, map) for http://bbbike.org</content>
     <updated>2011-04-24T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title type="html">Added OpenStreetMaps map Hike&amp;Bike for
-    http://bbbike.org</title>
+    <title type="html">Added OpenStreetMaps map Hike&amp;Bike for http://bbbike.org</title>
     <id>112d59fb9de68297123558b6c7d278e5</id>
-    <content>New: suport google maps v3 layers bicycling, traffic
-    and panoramio</content>
+    <content>New: suport google maps v3 layers bicycling, traffic and panoramio</content>
     <updated>2011-04-23T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>Added OpenStreetMaps maps public transport and German
-    Mapnik for European cities</title>
+    <title>Added OpenStreetMaps maps public transport and German Mapnik for European cities</title>
     <id>2eb7271b2f3fbc1056ebe01e06e69676</id>
-    <content>New: suport google maps v3 layers bicycling, traffic
-    and panoramio</content>
+    <content>New: suport google maps v3 layers bicycling, traffic and panoramio</content>
     <updated>2011-04-23T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>Added google maps v3 layers bicycling, traffic and
-    panoramio for http://bbbike.org</title>
+    <title>Added google maps v3 layers bicycling, traffic and panoramio for http://bbbike.org</title>
     <id>f66f22b31bb6aa46ee0b71f25c31a694</id>
-    <content>New: suport google maps v3 layers bicycling, traffic
-    and panoramio</content>
+    <content>New: suport google maps v3 layers bicycling, traffic and panoramio</content>
     <updated>2011-04-23T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>New: cycle routing for Kaiserslautern and
-    Salzburg</title>
+    <title>New: cycle routing for Kaiserslautern and Salzburg</title>
     <id>a2390777c2e2c60c01c94121836458aa</id>
-    <content>New: cycle routing for Kaiserslautern and
-    Salzburg</content>
+    <content>New: cycle routing for Kaiserslautern and Salzburg</content>
     <updated>2011-04-17T12:30:02Z</updated>
     <category term="News" />
   </entry>
@@ -433,143 +359,115 @@
   <entry>
     <title>New: cycle routing for Hamm and Moenchengladbach</title>
     <id>ec119bc2cf68e262a6c0deb36a30f5c3</id>
-    <content>New: cycle routing for Hamm and
-    Moenchengladbach</content>
+    <content>New: cycle routing for Hamm and Moenchengladbach</content>
     <updated>2011-04-07T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>New: cycle routing for Waterloo and Kitchener,
-    Ontario</title>
+    <title>New: cycle routing for Waterloo and Kitchener, Ontario</title>
     <id>1f1405ff29bce1549e0a7c0269d15466</id>
-    <content>New: cycle routing for Waterloo and Kitchener,
-    Ontario: http://www.bbbike.org/Waterloo</content>
+    <content>New: cycle routing for Waterloo and Kitchener, Ontario: http://www.bbbike.org/Waterloo</content>
     <updated>2011-04-02T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>New: cycle routing for Luxemburg, Lake Balaton, Cork,
-    Lausanne</title>
+    <title>New: cycle routing for Luxemburg, Lake Balaton, Cork, Lausanne</title>
     <id>9be2454e1d61e6abadea574f1779c74d</id>
-    <content>New: cycle routing for Luxemburg, Lake Balaton, Cork,
-    Lausanne</content>
+    <content>New: cycle routing for Luxemburg, Lake Balaton, Cork, Lausanne</content>
     <updated>2011-03-24T12:30:03Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>New: cycle routing for Braunschweig/Wolfsburg,
-    Wuppertal, Usedom/Greifswald,, Schwerin/Wismar, Flensburg,
-    Koblenz, Saarbruecken</title>
+    <title>New: cycle routing for Braunschweig/Wolfsburg, Wuppertal, Usedom/Greifswald,, Schwerin/Wismar, Flensburg, Koblenz,
+    Saarbruecken</title>
     <id>bd199616e9f56b41d8566895b21d8f9f</id>
-    <content>New: cycle routing for Braunschweig/Wolfsburg,
-    Wuppertal, Usedom/Greifswald,, Schwerin/Wismar, Flensburg,
-    Koblenz, Saarbruecken</content>
+    <content>New: cycle routing for Braunschweig/Wolfsburg, Wuppertal, Usedom/Greifswald,, Schwerin/Wismar, Flensburg, Koblenz,
+    Saarbruecken</content>
     <updated>2011-03-24T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>New: cycle routing for Dallas, Stockton, Portland ME,
-    Huntsville, New Orleans</title>
+    <title>New: cycle routing for Dallas, Stockton, Portland ME, Huntsville, New Orleans</title>
     <id>a7a750d08f9009fa0695d78167894381</id>
-    <content>New: cycle routing for Dallas, Stockton, Portland ME,
-    Huntsville AL, New Orleans</content>
+    <content>New: cycle routing for Dallas, Stockton, Portland ME, Huntsville AL, New Orleans</content>
     <updated>2011-03-21T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>New: cycle routing for Lodz, Brno, Ostrava,
-    Calgary</title>
+    <title>New: cycle routing for Lodz, Brno, Ostrava, Calgary</title>
     <id>cd703c8c5c464d05509931f62f578a0c</id>
-    <content>New: cycle routing for Lodz, Brno, Ostrava,
-    Calgary</content>
+    <content>New: cycle routing for Lodz, Brno, Ostrava, Calgary</content>
     <updated>2011-03-21T12:30:03Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>New: cycle routing for Lyon, Toulouse, Bordeaux,
-    Montpellier, Clermont-Ferrand, Corsica</title>
+    <title>New: cycle routing for Lyon, Toulouse, Bordeaux, Montpellier, Clermont-Ferrand, Corsica</title>
     <id>604c4a5ac89c1af7e7d7b6f0f7ecf4d5</id>
-    <content>New: cycle routing for Lyon, Toulouse, Bordeaux,
-    Montpellier, Clermont-Ferrand, Corsica</content>
+    <content>New: cycle routing for Lyon, Toulouse, Bordeaux, Montpellier, Clermont-Ferrand, Corsica</content>
     <updated>2011-03-20T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Antwerpen, Bruegge, Gent</title>
     <id>e53b734df1d017e695a60d9f9a91c915</id>
-    <content>New: cycle routing for Antwerpen, Bruegge,
-    Gent</content>
+    <content>New: cycle routing for Antwerpen, Bruegge, Gent</content>
     <updated>2011-03-19T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title type="html">New: cycle routing for 's-Hertogenbosch,
-    Arnhem, Eindhoven, Maastricht, Tilburg, Utrecht</title>
+    <title type="html">New: cycle routing for 's-Hertogenbosch, Arnhem, Eindhoven, Maastricht, Tilburg, Utrecht</title>
     <id>579e68d390c03319d8445fc43966a6cb</id>
-    <content>New: cycle routing for 's-Hertogenbosch, Arnhem,
-    Eindhoven, Maastricht, Tilburg, Utrecht</content>
+    <content>New: cycle routing for 's-Hertogenbosch, Arnhem, Eindhoven, Maastricht, Tilburg, Utrecht</content>
     <updated>2011-03-19T12:30:03Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>New: cycle routing for Augsburg, Halle (Saale),
-    Konstanz, Osnabrueck, Paderborn, Regensburg, Ulm</title>
+    <title>New: cycle routing for Augsburg, Halle (Saale), Konstanz, Osnabrueck, Paderborn, Regensburg, Ulm</title>
     <id>579e68d390c03319d8445fc43966a6cc</id>
-    <content>New: cycle routing for Augsburg, Halle (Saale),
-    Konstanz, Osnabr&#195;&#188;ck, Paderbor, Regensburg,
-    Ulm</content>
+    <content>New: cycle routing for Augsburg, Halle (Saale), Konstanz, Osnabr&#195;&#188;ck, Paderbor, Regensburg, Ulm</content>
     <updated>2011-03-19T12:30:04Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Malmoe and Gothenburg</title>
     <id>c8149d780c2dff3451db938c7b282264</id>
-    <content>New: cycle routing for Malmoe and Gothenburg:
-    http://www.bbbike.org/Malmoe
-    http://www.bbbike.org/Goetheburg</content>
+    <content>New: cycle routing for Malmoe and Gothenburg: http://www.bbbike.org/Malmoe http://www.bbbike.org/Goetheburg</content>
     <updated>2011-03-08T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Stuttgart</title>
     <id>86ae45c86b9d90f50feed5c321dd61a5</id>
-    <content>New: cycle routing for Stuttgart:
-    http://www.bbbike.org/Stuttgart</content>
+    <content>New: cycle routing for Stuttgart: http://www.bbbike.org/Stuttgart</content>
     <updated>2011-03-07T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Berkeley</title>
     <id>df1301be6fe83a6731d7840ee3408efa</id>
-    <content>New: cycle routing for Berkeley, East Bay (San
-    Francisco Bay Area): http://www.bbbike.org/Berkeley</content>
+    <content>New: cycle routing for Berkeley, East Bay (San Francisco Bay Area): http://www.bbbike.org/Berkeley</content>
     <updated>2011-02-22T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>google maps version 3</title>
     <id>6ce8624af05b0596f0c39e53b7b0987c</id>
-    <content>Fully use google maps version 3 for all maps on
-    http://bbbike.org which enable new features like elevation
-    charts and better support for mobile devices.</content>
+    <content>Fully use google maps version 3 for all maps on http://bbbike.org which enable new features like elevation charts and better
+    support for mobile devices.</content>
     <updated>2011-02-07T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for New Dehli and Bombay</title>
     <id>e14f7b9315ebcbfeaf184a589400181b</id>
-    <content>New: cycle routing for New Dehli and Bombay:
-    http://www.bbbike.org/Bombay and
-    http://www.bbbike.org/NewDehli</content>
+    <content>New: cycle routing for New Dehli and Bombay: http://www.bbbike.org/Bombay and http://www.bbbike.org/NewDehli</content>
     <updated>2011-02-05T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>New: cycle routing for Brazilian cities Curitiba and
-    Porto Alegre</title>
+    <title>New: cycle routing for Brazilian cities Curitiba and Porto Alegre</title>
     <id>e14f7b9315ebcbfeaf184a589400181c</id>
-    <content>New: cycle routing for Brazilian cities Curitiba and
-    Porto Alegre: http://www.bbbike.org/Curitiba and
+    <content>New: cycle routing for Brazilian cities Curitiba and Porto Alegre: http://www.bbbike.org/Curitiba and
     http://www.bbbike.org/PortoAlegre</content>
     <updated>2011-02-05T12:30:09Z</updated>
     <category term="News" />
@@ -577,44 +475,37 @@
   <entry>
     <title>New: cycle routing for Potsdam and Oranienburg</title>
     <id>3f1d0cba91c29c0e684bab966472936e</id>
-    <content>New: cycle routing for Potsdam and Oranienburg:
-    http://www.bbbike.org/Potsdam and
-    http://www.bbbike.org/Oranienburg</content>
+    <content>New: cycle routing for Potsdam and Oranienburg: http://www.bbbike.org/Potsdam and http://www.bbbike.org/Oranienburg</content>
     <updated>2011-02-01T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Lima and Montevideo</title>
     <id>113b60839c9aafd096b0cfa8ac1e4235</id>
-    <content>New: cycle routing for South America:
-    http://www.bbbike.org/Montevideo and
-    http://www.bbbike.org/Lima</content>
+    <content>New: cycle routing for South America: http://www.bbbike.org/Montevideo and http://www.bbbike.org/Lima</content>
     <updated>2011-01-31T12:30:12Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Palma de Majorca</title>
     <id>0b29f549319e283e04bb67e2808a3d96</id>
-    <content>Now available - cycle routing for Palma and the island
-    Majorca: http://www.bbbike.org/Palma/</content>
+    <content>Now available - cycle routing for Palma and the island Majorca: http://www.bbbike.org/Palma/</content>
     <updated>2011-01-31T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>More translations to other languages</title>
     <id>5569e78510bee2720280ed5cd3afee09</id>
-    <content>BBBike.org is now available in Danish, German,
-    English, Spanish, French, Croatian, Dutch, Polish, Portuguese
-    and Russian</content>
+    <content>BBBike.org is now available in Danish, German, English, Spanish, French, Croatian, Dutch, Polish, Portuguese and
+    Russian</content>
     <updated>2011-01-30T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>New directory layout with shorter URLs</title>
     <id>5569e78510bee2720280ed5cd3afee08</id>
-    <content>BBBike.org has now a new directory layout with a
-    sub-directory for each city, e.g. the new home page for London
-    is http://www.bbbike.org/London</content>
+    <content>BBBike.org has now a new directory layout with a sub-directory for each city, e.g. the new home page for London is
+    http://www.bbbike.org/London</content>
     <updated>2011-01-29T12:30:02Z</updated>
     <category term="News" />
   </entry>
@@ -635,33 +526,28 @@
   <entry>
     <title>Added new cities</title>
     <id>3b3feac5b7b9f2d4edca9fbeade6ddeb</id>
-    <content>New cities: Adelaide, Auckland, Brisbane, Buenos
-    Aires, Canberra, Halifax, Johannesburg, Melbourne,
-    Philadelphia</content>
+    <content>New cities: Adelaide, Auckland, Brisbane, Buenos Aires, Canberra, Halifax, Johannesburg, Melbourne, Philadelphia</content>
     <updated>2010-11-27T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>Weather forecast</title>
     <id>61637f729905b8c61ac32a9fc4822077</id>
-    <content>Display weather forecast for the next 4 days in local
-    language.</content>
+    <content>Display weather forecast for the next 4 days in local language.</content>
     <updated>2010-11-21T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>Weather</title>
     <id>d156aa8e64721bff611a2d794fcbcf8e</id>
-    <content>Display current weather conditions in local
-    language.</content>
+    <content>Display current weather conditions in local language.</content>
     <updated>2010-08-21T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>New cities for England</title>
     <id>cfb1ddfbc43b4e93f9d20e729a2dea2e</id>
-    <content>New cities: Birmingham, Bristol, Leeds, Liverpool,
-    Manchester, Sheffield</content>
+    <content>New cities: Birmingham, Bristol, Leeds, Liverpool, Manchester, Sheffield</content>
     <updated>2010-08-21T12:30:05Z</updated>
     <category term="News" />
   </entry>
@@ -675,8 +561,7 @@
   <entry>
     <title>Donatations</title>
     <id>e86b828855a4103bfe73aa02fef7fa3a</id>
-    <content>We accecpt donations! ;-)
-    http://bbbike.org/community.html</content>
+    <content>We accecpt donations! ;-) http://bbbike.org/community.html</content>
     <updated>2010-08-15T18:30:02Z</updated>
     <category term="News" />
   </entry>
@@ -690,8 +575,7 @@
   <entry>
     <title>Google Maps v3</title>
     <id>384a4805c8a4b03c2b034a1b8a3fe83f</id>
-    <content>BBBike supports now google maps version 3 which enable
-    new features like localization and elevation charts.</content>
+    <content>BBBike supports now google maps version 3 which enable new features like localization and elevation charts.</content>
     <updated>2010-08-02T18:30:42Z</updated>
     <category term="News" />
   </entry>
@@ -712,8 +596,7 @@
   <entry>
     <title>Plotting Street Names</title>
     <id>7c0e10e5b40c4423c8a3f0b37772028f</id>
-    <content>The street names will be plotted as you type in Google
-    Maps.</content>
+    <content>The street names will be plotted as you type in Google Maps.</content>
     <updated>2010-07-30T18:30:02Z</updated>
     <category term="News" />
   </entry>
@@ -735,17 +618,15 @@
     <title>Elevation chart</title>
     <link href="http://www.bbbike.org" />
     <id>81ebeaf0506f9d6a518be2ab38ec243f</id>
-    <content>BBBike@World displays the elevation chart for the
-    route.</content>
+    <content>BBBike@World displays the elevation chart for the route.</content>
     <updated>2010-04-11T18:30:03Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>More cities supported</title>
     <id>82ebeaf0506f9d6a518be2ab38ec242d</id>
-    <content>Added new cities: Nuernberg, Muenchen, Kiel,
-    Oldenburg, Genf, Warschau, Magdeburg, Posen, Breslau,
-    Kattowitz, and Gleiwitz.</content>
+    <content>Added new cities: Nuernberg, Muenchen, Kiel, Oldenburg, Genf, Warschau, Magdeburg, Posen, Breslau, Kattowitz, and
+    Gleiwitz.</content>
     <updated>2010-03-12T18:30:02Z</updated>
     <category term="News" />
   </entry>
@@ -761,8 +642,7 @@
     <title>New cities for BBBike\@world</title>
     <link href="http://www.bbbike.org" />
     <id>81ebeaf0506f9d6a518be2ab38ec243d</id>
-    <content>BBBike@World supports now 125 cities world
-    wide.</content>
+    <content>BBBike@World supports now 125 cities world wide.</content>
     <updated>2010-03-06T18:30:03Z</updated>
     <category term="News" />
   </entry>
@@ -770,16 +650,14 @@
     <title>Updated BBBike\@Berlin packages for MacOS</title>
     <link href="http://bbbike.sourceforge.net/downloads.en.html" />
     <id>81ebeaf0506f9d6a518be2ab38ec243e</id>
-    <content>The BBBike@Berlin package for MacOS are
-    updated.</content>
+    <content>The BBBike@Berlin package for MacOS are updated.</content>
     <updated>2010-03-06T18:30:04Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>OpenSearch search plugins</title>
     <id>81ebeaf0506f9d6a518be2ab38ec244d</id>
-    <content>Added support for OpenSearch search plugins for all
-    cities.</content>
+    <content>Added support for OpenSearch search plugins for all cities.</content>
     <updated>2010-03-05T18:30:02Z</updated>
     <category term="News" />
   </entry>
