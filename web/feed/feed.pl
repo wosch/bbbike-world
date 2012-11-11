@@ -4,10 +4,20 @@
 # feed.pl - generate RSS/Atom feed
 
 use XML::Atom::SimpleFeed;
+use File::stat;
+
 use strict;
 use warnings;
 
 my $homepage = $ENV{'BBBIKE_HOMEPAGE'} || 'http://www.bbbike.org';
+
+sub self_mod_time {
+    my $file = $0;
+    my $st = stat($file) or die "stat $file: $!\n";
+
+    return POSIX::strftime( XML::Atom::SimpleFeed::W3C_DATETIME,
+        gmtime( $st->mtime ) );
+}
 
 my $feed = XML::Atom::SimpleFeed->new(
     title => 'BBBike@World - a Cycle Route Planner',
@@ -15,8 +25,8 @@ my $feed = XML::Atom::SimpleFeed->new(
     link  => { rel => 'self', href => $homepage . '/feed/bbbike-world.xml' },
     icon  => $homepage . '/images/srtbike.ico',
 
-    #updated => '2011-04-09T18:30:03Z',
-    author => 'Wolfram Schneider',
+    updated => &self_mod_time(),      #'2011-04-09T18:30:03Z',
+    author  => 'Wolfram Schneider',
     subtitle =>
 'BBBike is a route planner for cyclists in Berlin. It is now ported to other cities around the world - thanks to the OpenStreetMap project!',
     id => 'urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af7',
