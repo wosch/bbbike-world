@@ -5,17 +5,3 @@ Disallow: /osm/planet/planet
 Disallow: /osm/extract
 Disallow: /bbbike
 
-User-agent: *
-Disallow: *.gz
-Disallow: *.pbf
-Disallow: *.bz2
-Disallow: *.tgz
-Disallow: *.tbz
-Disallow: *.zip
-
-User-agent: Baiduspider
-Disallow: /osm/bbbike/
-
-User-agent: ichiro
-Disallow: /osm/bbbike/
-
