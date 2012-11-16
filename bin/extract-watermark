@@ -1,0 +1,19 @@
+#!/bin/sh
+# Copyright (c) 2012 Wolfram Schneider, http://bbbike.org
+#
+# extract-watermark - check if extract service is healthy
+#
+
+set -e
+
+PATH=/usr/local/bin:/bin:/usr/bin; export PATH
+
+disk=/bbbike
+failed=/var/cache/extract/failed
+
+df -h $disk |tail -1 | perl -npe 's/%//' | awk '{if ($5 > 85) { print }}'
+
+if [ $(ls $failed | wc -l) -gt 0 ]; then
+    du -k $failed
+fi
+
