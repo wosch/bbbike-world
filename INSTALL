@@ -40,7 +40,7 @@ sudo apt-get install \
   libsvg-perl libgd-svg-perl perlmagick libimager-perl imagemagick libsvg-perl \
   libdb-file-lock-perl libgeo-metar-perl libstring-approx-perl \ 
   libdbd-xbase-perl libdevel-leak-perl libfile-readbackwards-perl \
-  libhtml-treebuilder-xpath-perl libxml2-utils libgdal-perl 
+  libhtml-treebuilder-xpath-perl libxml2-utils libgdal-perl libgdal-perl
 
 # daemons
 sudo apt-get install lighttpd munin ntp
