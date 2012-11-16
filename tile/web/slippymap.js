@@ -118,7 +118,7 @@ function init() {
         numZoomLevels: 18
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("OSM MapBox", ["http://a.tiles.mapbox.com/v3/mapbox.mapbox-streets/${z}/${x}/${y}.png", "http://b.tiles.mapbox.com/v3/mapbox.mapbox-streets/${z}/${x}/${y}.png"], {
+    map.addLayer(new OpenLayers.Layer.OSM("MapBox (OSM)", ["http://a.tiles.mapbox.com/v3/mapbox.mapbox-streets/${z}/${x}/${y}.png", "http://b.tiles.mapbox.com/v3/mapbox.mapbox-streets/${z}/${x}/${y}.png"], {
         numZoomLevels: 17
     }));
 
