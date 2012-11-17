@@ -196,6 +196,7 @@ Disallow: /Koblenz/?
 Disallow: /Koeln/?
 Disallow: /Konstanz/?
 Disallow: /LaPaz/?
+Disallow: /LaPlata/?
 Disallow: /LakeGarda/?
 Disallow: /Lausanne/?
 Disallow: /Leeds/?
@@ -543,3 +544,4 @@ Disallow: /en/UlanBator/?
 Disallow: /en/LaPaz/?
 Disallow: /en/Sucre/?
 Disallow: /en/Cusco/?
+Disallow: /en/LaPlata/?
