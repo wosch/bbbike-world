@@ -101,8 +101,8 @@ else
 	pbzip2 ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $bzip2 > $dir/$f.tmp; mv -f $dir/$f.tmp $dir/$f.bz2 ;;
 
         o5m ) $osm2o5m "$file" --out-o5m ;;
-        o5m-gzip ) $osm2o5m "$file" --out-o5m | $gzip > $dir/$f.tmp; mv -f $dir/$f.tmp $dir/$f.gz ;;
-        o5m-bzip2 ) $osm2o5m "$file" --out-o5m | $bzip2 > $dir/$f.tmp; mv -f $dir/$f.tmp $dir/$f.bz2 ;; 
+        o5m-gzip ) $osm2o5m "$file" --out-o5m | $gzip > $dir/$f.tmp; mv -f $dir/$f.o5m.tmp $dir/$f.o5m.gz ;;
+        o5m-bzip2 ) $osm2o5m "$file" --out-o5m | $bzip2 > $dir/$f.tmp; mv -f $dir/$f.o5m.tmp $dir/$f.o5m.bz2 ;; 
 
 	xz ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $xz $xz_opt > $dir/$f.tmp; mv -f $dir/$f.tmp $dir/$f.xz ;;
 	garmin ) $osm2garmin "$file" "$garmin_style" "$city" ;;
