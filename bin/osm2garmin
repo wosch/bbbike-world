@@ -86,7 +86,7 @@ if [ -n "$mkgmap_map_type" ]; then
    test -e "$mkgmap_map_type" || usage "cannot find $mkgmap_map_type file"
 fi
 
-tmpdir=`mktemp -d ${TMPDIR-"/bbbike/tmp"}/garmin.XXXXXXXXXXX`
+tmpdir=`mktemp -d ${TMPDIR-"/bbbike/tmp"}/garmin.$(basename $ext .zip).XXXXXXXXXXX`
 split_dir=$tmpdir/split
 mkdir -p $split_dir
 
