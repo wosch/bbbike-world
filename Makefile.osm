@@ -244,6 +244,7 @@ osm-html:
 	cd cgi; \
 	for i in ${CITIES}; do \
 	  ./area.cgi --offline --city=$$i > ../${OSM_DIR}/$$i/index.html & \
+	  ( cd ../${OSM_DIR}/$$i; sort -k2 $$i.osm.*.md5 ; sort -k2 $$i.osm*.sha256 ) > ../${OSM_DIR}/$$i/CHECKSUM.txt; \
         done; wait
 
 _cities-parallel:
