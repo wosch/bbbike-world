@@ -47,7 +47,7 @@
 	  <li>planet.osm data updated every week</li>
         </ul>
 
-        <h3>Select an Area</h4>
+        <h4>Select an Area</h4>
 	<p>
 	Move and zoom to an area you want to extract. If the whole map covers the
 	area you want, you are done. Fill out the name of the area and your email address,
@@ -88,14 +88,34 @@
 	
         <h4>Osmand documentation</h4>
 	<ul>
-	<li><a href="http://osmand.net">osmand.net</a>
-	<li><a href="http://code.google.com/p/osmand">code.google.com/p/osmand</a>
+	<li><a href="http://osmand.net">osmand.net</a></li>
+	<li><a href="http://code.google.com/p/osmand">code.google.com/p/osmand</a></li>
 	</ul>
 
         <h4>Shapefile (Esri) documentation</h4>
 	<ul>
-	<li><a href="http://wiki.openstreetmap.org/wiki/Shapefiles">wiki.openstreetmap.org/wiki/Shapefiles</a>
+	<li><a href="http://wiki.openstreetmap.org/wiki/Shapefiles">wiki.openstreetmap.org/wiki/Shapefiles</a></li>
 	</ul>
+	
+	<h4>File Size</h4>
+	
+	<p>The file size depends on the format. The reference format is Protocolbuffer Binary Format (PBF). The estimated size factor is:</p>
+	
+	<table border="1">
+	  <tr><td>Format</td><td>Factor</td></tr>
+	  <tr><td>PBF</td><td>1</td></tr>
+	  <tr><td>OSM XML gzip'd</td><td>2</td></tr>
+	  <tr><td>OSM XML bzip'd</td><td>1.5</td></tr>
+	  <tr><td>OSM XML 7-zip</td><td>1.6</td></tr>
+	  <tr><td>o5m gzip'd</td><td>1.04</td></tr>
+	  <tr><td>o5m bzip'd</td><td>0.88</td></tr>
+	  <tr><td>Navit zip'd</td><td>0.8</td></tr>
+	  <tr><td>Shapefile (Esri)</td><td>1.5</td></tr>
+	  <tr><td>Osmand (OBF)</td><td>1.4</td></tr>
+	  <tr><td>Garmin Cycle</td><td>0.8</td></tr>
+	  <tr><td>Garmin Leisure</td><td>0.9</td></tr>
+	  <tr><td>Garmin OSM</td><td>0.8</td></tr>
+	</table>
 	
         <h4>Supported Browsers</h4>
 	Any modern browser which conforms to the W3C standards:
@@ -111,7 +131,8 @@
         </ul>
 
         <p>JavaScript is required for Google/OpenStreetMap map features or the street name suggestion service. Cookies are
-        optional to save your preferences.</p>Not supported browsers: <strike>IE6</strike>, <strike>IE7</strike>
+        optional to save your preferences.</p>
+	<p>Not supported browsers: <strike>IE6</strike>, <strike>IE7</strike>
 	</p>
 
         <h4>Terms of Service</h4>
