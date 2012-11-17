@@ -846,7 +846,7 @@ help:
 	@echo "  [ create-bbbike-web-symlinks | kml | create-osp | index ]"
 	@echo "  [ convert-wgs84 | convert-bbbike | convert-bbbike-full ]"
 	@echo "  [ city-count | city-reorder | city-file | check-osm | cleanup-osm-error ]"
-	@echo "  [ check-routing | perlcheck ]"
+	@echo "  [ check-routing | check-routing-fast | perlcheck ]"
 	@echo "  [ city-memory | varnish-purge-all ]"
 	@echo "  [ osm-html ]"
 	@echo ""
