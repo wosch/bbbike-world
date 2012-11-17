@@ -27,7 +27,7 @@ case $1 in
 
   # multi-core
   --pbzip2 ) shift; compress=pbzip2 ;;
-  --pgzip ) shift; compress=pgzip ;;
+  --pgzip | --pigz ) shift; compress=pgzip ;;
 
   -o5m | --o5m ) shift; compress=o5m ;;
   -o5m-gzip | --o5m-gzip ) shift; compress=o5m-gzip ;;
