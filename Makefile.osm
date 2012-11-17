@@ -315,14 +315,14 @@ planet-streets:
 check-osm: check-osm-gzip check-osm-error
 
 check-osm-gzip:
-	@find ${OSM_DIR} -name '*.gz' -print0 | ${XARGS} -0 -n8 -P${MAX_VCPU} gzip -t
+	@find ${OSM_DIR} -name '*.gz' -print0 | ${XARGS} -0 -n8 -P${MAX_CPU} ${GZIP} -t
 
 check-zip:
-	@find ${OSM_DIR} -name '*.zip' -print0 | ${XARGS} -0 -n1 -P${MAX_VCPU} unzip -qq -t
+	@find ${OSM_DIR} -name '*.zip' -print0 | ${XARGS} -0 -n1 -P${MAX_CPU} unzip -qq -t
 	find ${OSM_DIR} -name '*.zip' -size -10k
 
 check-osm-error:
-	@find ${OSM_DIR} -name '*.gz' -print0 | ${XARGS} -0 -n8 -P${MAX_VCPU} zegrep -l '<error>' || true
+	@find ${OSM_DIR} -name '*.gz' -print0 | ${XARGS} -0 -n8 -P${MAX_CPU} zegrep -l '<error>' || true
 
 cleanup-osm-error:
 	${MAKE} -f Makefile.osm check-osm 2>&1 | grep ^gzip | awk '{ print $$2 }' | ${PERL} -npe 's,:,,' | sort -u | ${XARGS} rm -f
@@ -333,6 +333,8 @@ check-data-osm:
 
 check-routing:
 	echo ${CITIES} | ${XARGS} -E " " -n1 -P${MAX_CPU} ./world/bin/routing-validate.pl --number=50 >/dev/null 
+check-routing-fast:
+	echo ${CITIES} | ${XARGS} -E " " -n1 -P${MAX_CPU} ./world/bin/routing-validate.pl --number=5 >/dev/null 
 
 convert2: convert3 convert-workarounds
 # using GNU xargs -P parallel
