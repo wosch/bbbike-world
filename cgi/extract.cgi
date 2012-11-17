@@ -79,7 +79,7 @@ my $formats = {
     'garmin-leisure.zip' => "Garmin Leisure",
     'navit.zip'          => "Navit",
     'obf.zip'            => "Osmand (OBF)",
-    'o5m.gz2'            => "o5m gzip'd",
+    'o5m.gz'             => "o5m gzip'd",
     'o5m.bz2'            => "o5m bzip'd",
 };
 
