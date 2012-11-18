@@ -195,9 +195,9 @@ Disallow: /Kiew/?
 Disallow: /Koblenz/?
 Disallow: /Koeln/?
 Disallow: /Konstanz/?
+Disallow: /LakeGarda/?
 Disallow: /LaPaz/?
 Disallow: /LaPlata/?
-Disallow: /LakeGarda/?
 Disallow: /Lausanne/?
 Disallow: /Leeds/?
 Disallow: /Leipzig/?
