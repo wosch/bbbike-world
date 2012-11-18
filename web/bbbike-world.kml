@@ -1201,6 +1201,16 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>La Plata</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/LaPlata/">BBBike @ La Plata</a></span><p/>
+	OpenStreetMap data <a href="http://www.bbbike.org/cgi/area.cgi?city=LaPlata">extract</a></span>
+	]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-57.91,-34.91,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Lake Garda</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/LakeGarda/">BBBike @ Lake Garda</a></span><p/>
 	OpenStreetMap data <a href="http://www.bbbike.org/cgi/area.cgi?city=LakeGarda">extract</a></span>

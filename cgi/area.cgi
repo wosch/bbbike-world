@@ -23,6 +23,7 @@ my $debug               = 1;
 my $city_default        = "Berlin";
 my $download_bbbike_org = "http://download.bbbike.org";
 my $www_bbbike_org      = "http://www.bbbike.org";
+my $checksum_file       = 'CHECKSUM.txt';
 
 binmode \*STDOUT, ":raw";
 my $q = new CGI;
@@ -67,7 +68,7 @@ sub file_size {
 
     foreach my $scale ( 10, 100, 1000, 10_000 ) {
         my $result = int( $scale * $st->size / 1024 / 1024 ) / $scale;
-        return "$result M" if $result > 0;
+        return $result . "M" if $result > 0;
     }
 
     return "0.1K";
@@ -100,10 +101,15 @@ EOF
     else {
 
         my @list;
+        my $has_checksum_file = 0;
         while ( defined( my $filename = $dh->read ) ) {
             next if $filename eq '.' || $filename eq '..';
             next if $filename eq 'HEADER.txt';
             next if $filename eq 'index.html';
+            if ( $filename eq $checksum_file ) {
+                $has_checksum_file = 1;
+                next;
+            }
 
             push @list, $filename;
         }
@@ -111,31 +117,42 @@ EOF
 
         my %hash = map { $_ => 1 } @list;
         my %ext_name = ( "md5" => "MD5", "sha256" => "SHA" );
+
         foreach my $file ( sort @list ) {
             my $date = localtime( &mtime("$dir/$file") );
-            next if $file =~ /\.(md5|sha256)$/;
+            next if $file =~ /\.(md5|sha256|txt)$/;
 
             $data .= qq{<tr><td>}
               . qq{<a href="$download_bbbike_org/osm/bbbike/$city/$file" title="$date">$file</a>};
 
             my $data_checksum;
-            for my $ext ( "md5", "sha256" ) {
-                my $file_ext = "$file.$ext";
-                if ( exists $hash{$file_ext} ) {
-                    $data_checksum .= ", " if $data_checksum;
-                    $data_checksum .=
+            if ( !$has_checksum_file ) {
+                for my $ext ( "md5", "sha256" ) {
+                    my $file_ext = "$file.$ext";
+                    if ( exists $hash{$file_ext} ) {
+                        $data_checksum .= ", " if $data_checksum;
+                        $data_checksum .=
 qq{<a href="$download_bbbike_org/osm/bbbike/$city/$file_ext" title="checksum $ext">}
-                      . $ext_name{$ext}
-                      . qq{</a>};
+                          . $ext_name{$ext}
+                          . qq{</a>};
+                    }
                 }
-            }
-            $data .= " (" . $data_checksum . ") " if $data_checksum;
+                $data .= " (" . $data_checksum . ") " if $data_checksum;
 
-            $data .=
-                qq{</td>}
-              . qq{<td align="right">}
-              . file_size("$dir/$file")
-              . qq{</td></tr>\n};
+            }
+
+            if ( $file !~ /\.poly$/ ) {
+                $data .=
+                    qq{</td>}
+                  . qq{<td align="right">}
+                  . file_size("$dir/$file")
+                  . qq{</td></tr>\n};
+            }
+        }
+        if ($has_checksum_file) {
+            my $date = localtime( &mtime("$dir/$checksum_file") );
+            $data .= qq{<tr><td>}
+              . qq{<a href="$download_bbbike_org/osm/bbbike/$city/$checksum_file" title="$date">$checksum_file</a></td></tr>\n};
         }
     }
 
@@ -237,7 +254,7 @@ EOF
 sub css_map {
     return <<EOF;
 <style type="text/css">
-div#BBBikeGooglemap { left: 27em; }
+div#BBBikeGooglemap { left: 21em; }
 </style>
 
 EOF

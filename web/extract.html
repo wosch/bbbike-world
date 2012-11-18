@@ -20,6 +20,7 @@
 	<a href="http://wiki.openstreetmap.org/wiki/Planet.osm">Planet.osm</a>
 	in <span title="OpenStreetMap XML">OSM</span>,
 	<span title="Protocolbuffer Binary Format">PBF</span>,
+	<span title="o5m">o5m</span>,
 	<span title="Garmin GPS devices">Garmin</span>,
 	<span title="mobile devices">Navit</span>,
 	<span title="Osmand Android devices">Osmand</span> or
@@ -38,6 +39,7 @@
 	<ul>
           <li>supports <a href="http://wiki.openstreetmap.org/wiki/PBF_Format">Protocolbuffer Binary Format (PBF)</a> format</li>
           <li>supports <a href="http://wiki.openstreetmap.org/wiki/OSM_XML">OSM XML</a>, compressed with gzip, bzip2 or 7-zip (xz)</li>
+          <li>supports <a href="http://wiki.openstreetmap.org/wiki/O5m">.o5m</a> data format, compressed with gzip or bzip2</li>
           <li>supports Garmin format, with styles for <a href="http://www.openstreetmap.org/">OSM</a>, <a href="http://www.opencyclemap.org/">cycle map</a> and leisure (<a href="http://freizeitkarte-osm.de">freizeitkarte</a>). Routing is enabled</li>
           <li>supports <a href="http://en.wikipedia.org/wiki/Shapefile">Esri shapefile</a> format</li>
           <li>supports <a href="http://osmand.net">Osmand (OBF)</a> format for Android devices</li>
@@ -45,7 +47,7 @@
 	  <li>planet.osm data updated every week</li>
         </ul>
 
-        <h3>Select an Area</h4>
+        <h4>Select an Area</h4>
 	<p>
 	Move and zoom to an area you want to extract. If the whole map covers the
 	area you want, you are done. Fill out the name of the area and your email address,
@@ -65,6 +67,10 @@
 	Want a polygon instead a box? Drag a box on the map, and then select a polygon on the map. 
 	You can add as much points as you want, resize or move the polygon: <br/>
 	<p><a href="html/sicilia-polygon.png"><img src="html/sicilia-polygon.png" width="600"/></a></p>
+
+	Here is an other example for a trip on the East Coast, from New York City to Boston. The data size
+  	of the polygone area is usually 1/2 or 1/3 of a rectangle:
+	<p><a href="html/boston-polygon.png"><img src="html/boston-polygon.png" width="600"/></a></p>
 	</p>
 
         <h4>Garmin OSM documentation</h4>
@@ -82,14 +88,34 @@
 	
         <h4>Osmand documentation</h4>
 	<ul>
-	<li><a href="http://osmand.net">osmand.net</a>
-	<li><a href="http://code.google.com/p/osmand">code.google.com/p/osmand</a>
+	<li><a href="http://osmand.net">osmand.net</a></li>
+	<li><a href="http://code.google.com/p/osmand">code.google.com/p/osmand</a></li>
 	</ul>
 
         <h4>Shapefile (Esri) documentation</h4>
 	<ul>
-	<li><a href="http://wiki.openstreetmap.org/wiki/Shapefiles">wiki.openstreetmap.org/wiki/Shapefiles</a>
+	<li><a href="http://wiki.openstreetmap.org/wiki/Shapefiles">wiki.openstreetmap.org/wiki/Shapefiles</a></li>
 	</ul>
+	
+	<h4>File Size</h4>
+	
+	<p>The file size depends on the format. The reference format is Protocolbuffer Binary Format (PBF). The estimated size factor is:</p>
+	
+	<table border="1">
+	  <tr><td>Format</td><td>Factor</td></tr>
+	  <tr><td>PBF</td><td>1</td></tr>
+	  <tr><td>OSM XML gzip'd</td><td>2</td></tr>
+	  <tr><td>OSM XML bzip'd</td><td>1.5</td></tr>
+	  <tr><td>OSM XML 7-zip</td><td>1.6</td></tr>
+	  <tr><td>o5m gzip'd</td><td>1.04</td></tr>
+	  <tr><td>o5m bzip'd</td><td>0.88</td></tr>
+	  <tr><td>Navit zip'd</td><td>0.8</td></tr>
+	  <tr><td>Shapefile (Esri)</td><td>1.5</td></tr>
+	  <tr><td>Osmand (OBF)</td><td>1.4</td></tr>
+	  <tr><td>Garmin Cycle</td><td>0.8</td></tr>
+	  <tr><td>Garmin Leisure</td><td>0.9</td></tr>
+	  <tr><td>Garmin OSM</td><td>0.8</td></tr>
+	</table>
 	
         <h4>Supported Browsers</h4>
 	Any modern browser which conforms to the W3C standards:
@@ -105,7 +131,8 @@
         </ul>
 
         <p>JavaScript is required for Google/OpenStreetMap map features or the street name suggestion service. Cookies are
-        optional to save your preferences.</p>Not supported browsers: <strike>IE6</strike>, <strike>IE7</strike>
+        optional to save your preferences.</p>
+	<p>Not supported browsers: <strike>IE6</strike>, <strike>IE7</strike>
 	</p>
 
         <h4>Terms of Service</h4>

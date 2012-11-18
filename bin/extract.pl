@@ -85,6 +85,8 @@ my $formats = {
     'osm.xz'             => "OSM XML 7z/xz",
     'shp.zip'            => "Shapefile (Esri)",
     'obf.zip'            => "Osmand (OBF)",
+    'o5m.gz'             => "o5m gzip'd",
+    'o5m.bz2'            => "o5m bzip'd",
     'garmin-osm.zip'     => "Garmin OSM",
     'garmin-cycle.zip'   => "Garmin Cycle",
     'garmin-leisure.zip' => "Garmin Leisure",
@@ -653,6 +655,8 @@ sub reorder_pbf {
         'garmin-osm.zip'     => 3,
         'garmin-cycle.zip'   => 3,
         'garmin-leisure.zip' => 3.5,
+        'o5m.gz'             => 1.1,
+        'o5m.bz2'            => 1.2,
     );
 
     foreach my $json_file (@$json) {
@@ -850,6 +854,30 @@ sub _convert_send_email {
             $file =~ s/\.pbf$/.xz/;
             if ( !cached_format( $file, $pbf_file ) ) {
                 @system = ( @nice, "$dirname/pbf2osm", "--xz", $pbf_file );
+
+                warn "@system\n" if $debug >= 2;
+                @system = 'true' if $test_mode;
+
+                system(@system) == 0 or die "system @system failed: $?";
+            }
+        }
+        elsif ( $format eq 'o5m.gz' ) {
+            $file =~ s/\.pbf$/.o5m.gz/;
+            if ( !cached_format( $file, $pbf_file ) ) {
+                @system =
+                  ( @nice, "$dirname/pbf2osm", "--o5m-gzip", $pbf_file );
+
+                warn "@system\n" if $debug >= 2;
+                @system = 'true' if $test_mode;
+
+                system(@system) == 0 or die "system @system failed: $?";
+            }
+        }
+        elsif ( $format eq 'o5m.bz2' ) {
+            $file =~ s/\.pbf$/.o5m.bz2/;
+            if ( !cached_format( $file, $pbf_file ) ) {
+                @system =
+                  ( @nice, "$dirname/pbf2osm", "--o5m-bzip2", $pbf_file );
 
                 warn "@system\n" if $debug >= 2;
                 @system = 'true' if $test_mode;

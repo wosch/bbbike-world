@@ -39,6 +39,32 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
+    title => 'Added new cities',
+    id    => '9db3b2d0cfc74b943a07cb11e553efc5',
+
+    content => {
+        type    => 'text',
+        content => qq{New city: La Plata},
+    },
+
+    updated  => '2012-11-17T12:31:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title =>
+qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now .o5m format},
+    id      => 'd6f59d1bb8315958eb25b187de28d25a',
+    content => {
+        type => 'html',
+        content =>
+qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now .o5m format},
+    },
+    updated  => '2012-11-17T13:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title =>
 qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now polygons},
     id      => '51d474fb21861b0629bfe8467ee42c0f',

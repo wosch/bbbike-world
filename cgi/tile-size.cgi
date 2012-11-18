@@ -17,6 +17,7 @@ my $debug = 2;
 
 # $TileSize::debug = 2;
 
+# map format to database
 my %format = (
     "osm.pbf"            => "pbf",
     "pbf"                => "pbf",
@@ -34,6 +35,8 @@ my %format = (
     "garmin-leisure.zip" => "garmin-cycle.zip",
     "navit.zip"          => "obf.zip",
     "navit"              => "obf.zip",
+    "o5m.gz"             => "pbf",
+    "o5m.bz2"            => "pbf",
 );
 
 ######################################################################
@@ -75,12 +78,15 @@ my $ext;
 if ( $format && $format{$format} ) {
     $ext = $format{$format};
 
-    # guess factor
+    # guess factor based on similar data
     $factor_format *= 1.3  if $format eq 'garmin-leisure.zip';
     $factor_format *= 0.65 if $format eq 'navit.zip';
 
     $factor_format *= 0.7  if $format eq 'osm.bz2';
     $factor_format *= 0.75 if $format eq 'osm.xz';
+
+    $factor_format *= 0.88 if $format eq 'o5m.bz2';
+    $factor_format *= 1.04 if $format eq 'o5m.gz';
 }
 else {
     $ext = $format{"pbf"};
@@ -112,7 +118,7 @@ my $size =
     TileSize::FRACTAL_REAL );
 $size = int( $size * 10 + 0.5 ) / 10;
 
-warn "size: $size, factor $factor, format: $format,",
+warn "size: $size, factor $factor, format: $format, ",
   "area: $lng_sw,$lat_sw,$lng_ne,$lat_ne\n"
   if $debug >= 2;
 

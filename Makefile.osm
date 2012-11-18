@@ -244,6 +244,7 @@ osm-html:
 	cd cgi; \
 	for i in ${CITIES}; do \
 	  ./area.cgi --offline --city=$$i > ../${OSM_DIR}/$$i/index.html & \
+	  ( cd ../${OSM_DIR}/$$i; sort -k2 $$i.osm.*.md5 ; sort -k2 $$i.osm*.sha256 ) > ../${OSM_DIR}/$$i/CHECKSUM.txt; \
         done; wait
 
 _cities-parallel:
@@ -314,14 +315,14 @@ planet-streets:
 check-osm: check-osm-gzip check-osm-error
 
 check-osm-gzip:
-	@find ${OSM_DIR} -name '*.gz' -print0 | ${XARGS} -0 -n8 -P${MAX_VCPU} gzip -t
+	@find ${OSM_DIR} -name '*.gz' -print0 | ${XARGS} -0 -n8 -P${MAX_CPU} ${GZIP} -t
 
 check-zip:
-	@find ${OSM_DIR} -name '*.zip' -print0 | ${XARGS} -0 -n1 -P${MAX_VCPU} unzip -qq -t
+	@find ${OSM_DIR} -name '*.zip' -print0 | ${XARGS} -0 -n1 -P${MAX_CPU} unzip -qq -t
 	find ${OSM_DIR} -name '*.zip' -size -10k
 
 check-osm-error:
-	@find ${OSM_DIR} -name '*.gz' -print0 | ${XARGS} -0 -n8 -P${MAX_VCPU} zegrep -l '<error>' || true
+	@find ${OSM_DIR} -name '*.gz' -print0 | ${XARGS} -0 -n8 -P${MAX_CPU} zegrep -l '<error>' || true
 
 cleanup-osm-error:
 	${MAKE} -f Makefile.osm check-osm 2>&1 | grep ^gzip | awk '{ print $$2 }' | ${PERL} -npe 's,:,,' | sort -u | ${XARGS} rm -f
@@ -331,7 +332,16 @@ check-data-osm:
 	echo ${CITIES} | ${XARGS} -E " " -n1 -P${MAX_VCPU} ./world/bin/check-data-osm
 
 check-routing:
-	echo ${CITIES} | ${XARGS} -E " " -n8 -P${MAX_CPU} ./world/bin/routing-validate.pl --number=50 >/dev/null 
+	echo ${CITIES} | ${XARGS} -E " " -n8 -P1 ./world/bin/routing-validate.pl --number=1 | \
+	  ${XARGS} -0 -n1 -P${MAX_CPU} sh -c 
+	echo ${CITIES} | ${XARGS} -E " " -n8 -P1 ./world/bin/routing-validate.pl --number=50 | \
+	  ${XARGS} -0 -n1 -P${MAX_CPU} sh -c 
+
+check-routing-fast:
+	@echo ${CITIES} | ${XARGS} -E " " -n1 -P${MAX_CPU} ./world/bin/routing-validate.pl --number=1 | \
+	  ${XARGS} -0 -n1 -P${MAX_CPU} /bin/sh -c
+	@echo ${CITIES} | ${XARGS} -E " " -n1 -P${MAX_CPU} ./world/bin/routing-validate.pl --number=4 | \
+	  ${XARGS} -0 -n1 -P${MAX_CPU} /bin/sh -c
 
 convert2: convert3 convert-workarounds
 # using GNU xargs -P parallel
@@ -341,7 +351,9 @@ convert3:
 	echo ${CITIES} " " | ${PERL} -npe 's/\s+/-convert /g' | \
 	   ${XARGS} -n 1 -P ${MAX_VCPU} ${TIME} ${MAKE} -f Makefile.osm
 
-check:
+check: test
+
+check-bbd:
 	for i in ${CITIES}; do echo ${DATA_OSM_DIR}/$$i; done | \
 	  ${XARGS} -n 1 -P ${MAX_CPU} ./miscsrc/check_bbd --debug=0 -dir
 
@@ -841,7 +853,7 @@ help:
 	@echo "  [ create-bbbike-web-symlinks | kml | create-osp | index ]"
 	@echo "  [ convert-wgs84 | convert-bbbike | convert-bbbike-full ]"
 	@echo "  [ city-count | city-reorder | city-file | check-osm | cleanup-osm-error ]"
-	@echo "  [ check-routing | perlcheck ]"
+	@echo "  [ check-routing | check-routing-fast | perlcheck ]"
 	@echo "  [ city-memory | varnish-purge-all ]"
 	@echo "  [ osm-html ]"
 	@echo ""

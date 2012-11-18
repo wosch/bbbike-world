@@ -19,6 +19,7 @@ my $debug    = 1;                             # 0: quiet, 1: normal, 2: verbose
 my $data_osm = 'data-osm';
 my $number   = 3;
 my $homepage = 'http://dev4.bbbike.org/en';
+my $ignore_errors = 0;
 
 my $exit = 0;
 
@@ -35,6 +36,7 @@ usage: $0 [--debug={0..2}] [--dir dir ] [ --number=number] cities ...
 --dir  dir      default: $data_osm
 --number=number default: $number
 --homepage=homepage default: $homepage
+--ignore-errors	default: $ignore_errors
 EOF
 }
 
@@ -171,11 +173,12 @@ sub create_links {
 
 my $help;
 GetOptions(
-    "debug=i"    => \$debug,
-    "dir=s"      => \$data_osm,
-    "number=i"   => \$number,
-    "homepage=s" => \$homepage,
-    "help"       => \$help,
+    "debug=i"         => \$debug,
+    "dir=s"           => \$data_osm,
+    "number=i"        => \$number,
+    "homepage=s"      => \$homepage,
+    "ignore-errors=i" => \$ignore_errors,
+    "help"            => \$help,
 ) or die usage;
 die usage if $help;
 
@@ -209,6 +212,6 @@ qq{curl -sSf "$url" | egrep -q '"route_length"' || echo "fail $url"\0};
     }
 }
 
-exit( $exit == 0 ? 0 : 1 );
+exit( ( $exit == 0 || $ignore_errors ) ? 0 : 1 );
 
 1;

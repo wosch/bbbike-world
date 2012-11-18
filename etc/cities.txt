@@ -231,3 +231,4 @@ UlanBator
 LaPaz
 Sucre
 Cusco
+LaPlata

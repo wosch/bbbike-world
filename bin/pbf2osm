@@ -12,6 +12,7 @@ osm2garmin=`dirname $0`/osm2garmin
 osm2shape=`dirname $0`/osm2shape
 osm2osmand=`dirname $0`/osm2osmand
 osm2navit=`dirname $0`/osm2navit
+osm2o5m=osmconvert
 
 xz=`which xz | head -n 1`
 xz_opt=-2
@@ -26,7 +27,11 @@ case $1 in
 
   # multi-core
   --pbzip2 ) shift; compress=pbzip2 ;;
-  --pgzip ) shift; compress=pgzip ;;
+  --pgzip | --pigz ) shift; compress=pgzip ;;
+
+  -o5m | --o5m ) shift; compress=o5m ;;
+  -o5m-gzip | --o5m-gzip ) shift; compress=o5m-gzip ;;
+  -o5m-bzip2 | --o5m-bzip2 ) shift; compress=o5m-bzip2 ;;
 
   -xz | --xz )       shift; compress=xz ;;
   -shape | --shape | -shp | --shp | --shapefile ) shift; compress=shape ;;
@@ -92,8 +97,12 @@ else
 	gzip )  osm2osm $compress "$@";;
 	bzip2 ) osm2osm $compress "$@";;
 
-	pgzip ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $gzip > $dir/$f.tmp; mv -f $dir/$f.tmp $dir/$f.gz ;;
-	pbzip2 ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $bzip2 > $dir/$f.tmp; mv -f $dir/$f.tmp $dir/$f.bz2 ;;
+	pgzip ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $gzip > $dir/$f.gz.tmp; mv -f $dir/$f.gz.tmp $dir/$f.gz ;;
+	pbzip2 ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $bzip2 > $dir/$f.bz2.tmp; mv -f $dir/$f.bz2.tmp $dir/$f.bz2 ;;
+
+        o5m ) $osm2o5m "$file" --out-o5m ;;
+        o5m-gzip ) $osm2o5m "$file" --out-o5m | $gzip > $dir/$f.o5m.gz.tmp; mv -f $dir/$f.o5m.gz.tmp $dir/$f.o5m.gz ;;
+        o5m-bzip2 ) $osm2o5m "$file" --out-o5m | $bzip2 > $dir/$f.o5m.bz2.tmp; mv -f $dir/$f.o5m.bz2.tmp $dir/$f.o5m.bz2 ;; 
 
 	xz ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $xz $xz_opt > $dir/$f.tmp; mv -f $dir/$f.tmp $dir/$f.xz ;;
 	garmin ) $osm2garmin "$file" "$garmin_style" "$city" ;;
