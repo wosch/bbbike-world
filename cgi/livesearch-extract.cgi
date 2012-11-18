@@ -232,7 +232,7 @@ sub statistic {
             { 'src' => "http://www.google.com/jsapi?hl=en" },
             {
                 'src' =>
-"http://maps.googleapis.com/maps/api/js?sensor=false&amp;language=en"
+"http://maps.googleapis.com/maps/api/js?v=3.9&sensor=false&language=en&libraries=weather,panoramio"
             },
             { 'src' => "../html/bbbike-js.js" }
         ],
