@@ -86,7 +86,7 @@ if [ -n "$mkgmap_map_type" ]; then
    test -e "$mkgmap_map_type" || usage "cannot find $mkgmap_map_type file"
 fi
 
-tmpdir=`mktemp -d ${TMPDIR-"/bbbike/tmp"}/garmin.$(basename $ext .zip).XXXXXXXXXXX`
+tmpdir=`mktemp -d ${TMPDIR-"/bbbike/tmpfs"}/garmin.$(basename $ext .zip).XXXXXXXXXXX`
 split_dir=$tmpdir/split
 mkdir -p $split_dir
 
@@ -97,8 +97,9 @@ mkdir -p $garmin_dir
 logfile=$garmin_dir/logfile.txt
 touch $logfile
 
+# mkgmap bug
 if [ ! -s $file ]; then
-    error "file size is zero, give up!"
+    : #error "file size is zero, give up!"
 fi
 
 if [ $size -lt 10000 ]; then
