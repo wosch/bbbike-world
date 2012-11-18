@@ -207,7 +207,7 @@ Sarajewo:en!Sarajevo,de!Sarajewo::hr:eu:18.242 43.768 18.515 43.935:305000::
 Seattle::en::other:-122.462 47.394 -122.005 47.831:2700000::
 Seoul:ko!서울::ko:other:126.58 37.35 127.31 37.72:24000000::
 Sheffield::en::eu:-1.59 53.30 -1.26 53.48:640000::
-Singapore:en!Singapore,de!Singapur,zh!新加坡共和国::zh:other:103.6033 1.2385 104.028 1.4804:5000000::
+Singapore:en!Singapore,de!Singapur,zh!新加坡共和国::en:other:103.6033 1.2385 104.028 1.4804:5000000::
 Sofia:bg!София::bg:eu:23.129 42.557 23.525 42.825:1397000::
 Strassburg:de!Straßburg,en!Strasbourg::de:eu:7.55 48.434 8.038 48.724:461328::
 Sydney::en::other:150.827 -34.058 151.328 -33.681:4300000::

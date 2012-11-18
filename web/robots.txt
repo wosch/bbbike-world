@@ -463,7 +463,7 @@ Disallow: /en/Istanbul/?
 Disallow: /en/Perth/
 Disallow: /en/Boulder/
 Disallow: /en/Berkeley/
-Disallow: /en/Singapore/?
+Disallow: /en/Singapore/
 Disallow: /en/Philadelphia/
 Disallow: /en/Ljubljana/?
 Disallow: /en/Usedom/?
