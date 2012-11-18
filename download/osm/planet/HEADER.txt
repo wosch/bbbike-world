@@ -2,11 +2,12 @@ planet.osm mirror @ BBBike.org
 --------------------------------
 
 planet-latest.osm.bz2	- orignal planet.osm file
-planet-latest.osm.pbf	- converted with osmosis, options omitmetadata=true granularity=10000 (1.1 meters), without meta data!
+planet-latest.osm.pbf	- converted with osmosis, options omitmetadata=true granularity=10000 (1.1 meters),
+		          without meta data (author, timestamp, version etc.)!
 
 All data from OpenStreetMap is licensed under the 
 OpenStreetMap License: http://www.OpenStreetMap.org/copyright 
 
 --
-Copyright (c) 2011-2012 http://www.BBBike.org
+Copyright (c) 2012 http://www.BBBike.org
 http://www.BBBike.org/community.html - We appreciate any feedback, suggestions and a donation! 
