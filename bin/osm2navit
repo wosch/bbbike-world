@@ -30,6 +30,7 @@ file=$1
 city="$2"
 test -e "$file" || usage "file $file does not exists"
 : ${osm_checksum=`dirname $0`/osm-checksum}
+gzip=`which pigz gzip | head -n 1`
 
 : ${debug=false}
 pwd=$(pwd)
@@ -63,7 +64,12 @@ logfile=$navit_dir/logfile.txt
 cd $navit_dir
 counter=0
 
-$pbf2osm $file | time maptool ${navit}.bin > $logfile 2>&1
+case $file in
+  *.pbf) $pbf2osm $file | time maptool ${navit}.bin > $logfile 2>&1 ;;
+  *.gz) $gzip -dc $file | time maptool ${navit}.bin > $logfile 2>&1 ;;
+  * ) false ;;
+esac
+
 exit=$?
 
 if [ $exit -ne 0 ];then
