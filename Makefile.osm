@@ -755,14 +755,13 @@ tile-convert:
 	find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n90 -P${MAX_CPU} ${PBF2OSM} --gzip
 	find ${_pbf_dir} -name '*.pbf' ${_max_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2SHAPE}
 	find ${_pbf_dir} -name '*.pbf' ${_max_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2GARMIN_CYCLE}
-	find ${_pbf_dir} -name '*.pbf' ${_max_size} -print0 | osm_checksum=true max_jobs=1 ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2OSMAND}
-	#find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM_CHECKSUM}
-	#find ${_pbf_dir} -name '*.osm.gz' -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM_CHECKSUM}
+	find ${_pbf_dir} -name '*.osm.gz' ${_max_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2NAVIT}
+	find ${_pbf_dir} -name '*.pbf' ${_max_size} -print0 | osm_checksum=true max_jobs=1 java_heap=1500M ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2OSMAND}
 
 tile-extract: tile-lng tile-lnglat tile-lng-run tile-lnglat-run
 
 tile-csv:
-	for format in pbf gz garmin-cycle.zip shp.zip obf.zip; do \
+	for format in pbf gz garmin-cycle.zip shp.zip navit.zip obf.zip; do \
 	   ( cd ${TILES_DIR}/lnglat; find . -name '*.'$$format | xargs du -k |sort -n | \
 	     perl -npe 's,\S+/p_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > ${TILES_DIR}/tile-$$format.csv; \
 	done
