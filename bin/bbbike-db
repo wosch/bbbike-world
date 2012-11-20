@@ -42,13 +42,13 @@ sub osm_round {
         $counter++;
     }
 
-    my $round = int( $real * $number + 0.5 ) / $number;
+    my $round = int( $real * $number + ( $real > 0 ? 0.5 : -0.5 ) ) / $number;
 
     if ($padding) {
         my $digits = $round;
         $digits =~ s/^\d*\.?//;
 
-        warn "Digits: $digits\n" if $debug >= 2;
+        warn "Real: $real, number: $number, Digits: $digits\n" if $debug >= 2;
 
         # no digits at all
         $round .= '.' if !$digits;
