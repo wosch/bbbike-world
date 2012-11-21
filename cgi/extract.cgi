@@ -280,6 +280,9 @@ sub footer {
 
 $javascript
 $analytics
+<script>
+  jQuery('#pageload-indicator').hide();
+</script>
 
 </body>
 </html>
@@ -325,6 +328,7 @@ BBBike extract -
 </span> 
 <span id="tools-titlebar">
  <span id="tools-help"><a class='tools-helptrigger' href='#'><span>about</span></a></span>
+ <span id="pageload-indicator">&nbsp;<img src="/html/indicator.gif" alt="" title="Loading JavaScript libraries" /></span>
  <span class="jqmWindow" id="tools-helpwin"></span>
 </span>
 
