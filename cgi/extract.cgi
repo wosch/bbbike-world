@@ -112,16 +112,15 @@ sub header {
     my %args = @_;
     my $type = $args{-type} || "";
 
-    my @javascript = ();    #"../html/bbbike-js.js";
     my @onload;
     my @cookie;
+    my @css = "../html/extract.css";
+
     if ( $type eq 'homepage' ) {
-        push @javascript, "../html/OpenLayers/2.12/OpenLayers-min.js",
-          "../html/OpenLayers/2.12/OpenStreetMap.js",
-          "../html/jquery/jquery-1.7.1.min.js",
-          "../html/jquery/jqModal-2009.03.01-r14.js",
-          "../html/extract.js";
         @onload = ( -onLoad, 'init();' );
+    }
+    else {
+        push @css, "../html/extract-center.css";
     }
 
     # store last used selected in cookies for further usage
@@ -167,15 +166,9 @@ sub header {
                 }
             )
         ],
-        -style => {
-            'src' => [
+        -style => { 'src' => \@css, },
 
-                #"../html/bbbike.css",
-                "../html/luft.css",
-                "../html/extract.css"
-            ]
-        },
-        -script => [ map { { 'src' => $_ } } @javascript ],
+        # -script => [ map { { 'src' => $_ } } @javascript ],
         @onload,
       );
 }
@@ -264,6 +257,12 @@ sub footer {
     my $locate =
       $args{'map'} ? ' | <a href="javascript:locateMe()">where am I?</a>' : "";
 
+    my @js =
+      qw(OpenLayers/2.12/OpenLayers-min.js OpenLayers/2.12/OpenStreetMap.js jquery/jquery-1.7.1.min.js
+      jquery/jqModal-2009.03.01-r14.js jquery/jquery-ui-1.9.1.custom.min.js extract.js);
+    my $javascript = join "\n",
+      map { qq{<script src="../html/$_" type="text/javascript"></script>} } @js;
+
     return <<EOF;
 
 <div id="footer">
@@ -279,6 +278,7 @@ sub footer {
 
 </div></div></div> <!-- layout -->
 
+$javascript
 $analytics
 
 </body>
@@ -751,12 +751,13 @@ EOF
               qq{<p>We appreciate any feedback, suggestions },
               qq{and a <a href="../community.html#donate">donation</a>! },
 qq{You can support us via PayPal, Flattr or bank wire transfer.\n},
-              qq{<br/>} x 5,
+              qq{<br/>} x 4,
               "</p>\n";
         }
     }
 
-    print &footer( $q, 'css' => '#footer { width: 95%; }' );
+    print &footer( $q,
+        'css' => '#footer { width: 90%; padding-bottom: 20px; }' );
 }
 
 # save request in incoming spool
