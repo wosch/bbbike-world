@@ -982,7 +982,7 @@ sub homepage {
                 $q->td(
                     [
 "<span class='normalscreen' title='Give the city or area to extract a name. "
-                          . "The name is optional, but better fill it out to find it later again.'>Name of area to extract<br/></span>"
+                          . "The name is optional, but better fill it out to find it later again.'>Name of area to extract <a class='tools-helptrigger' href='#'><img src='/html/help-16px.png' /></a><br/></span>"
                           . $q->textfield(
                             -name => 'city',
                             -id   => 'city',
@@ -993,7 +993,7 @@ sub homepage {
                 $q->td(
                     [
 "<span title='Required, you will be notified by e-mail if your extract is ready for download.'>"
-                          . "Your email address (<a class='tools-helptrigger' href='#'>?</a></span>)</span><br/>"
+                          . "Your email address <a class='tools-helptrigger' href='#'><img src='/html/help-16px.png' /</a></span></span><br/>"
                           . $q->textfield(
                             -name  => 'email',
                             -size  => 28,
@@ -1063,7 +1063,7 @@ sub homepage {
                     [
 "<span class='normalscreen' title='PBF: fast and compact data, OSM XML gzip: standard OSM format, "
                           . "twice as large, Garmin format in different styles, Esri shapefile format, "
-                          . "Osmand for Androids'>Format (<a class='tools-helptrigger' href='#'>?</a></span>)<br/></span>"
+                          . "Osmand for Androids'>Format <a class='tools-helptrigger' href='#'><img src='/html/help-16px.png' /></a></span><br/></span>"
                           . $q->popup_menu(
                             -name   => 'format',
                             -values => [
