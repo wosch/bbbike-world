@@ -112,16 +112,15 @@ sub header {
     my %args = @_;
     my $type = $args{-type} || "";
 
-    my @javascript = ();    #"../html/bbbike-js.js";
     my @onload;
     my @cookie;
+    my @css = "../html/extract.css";
+
     if ( $type eq 'homepage' ) {
-        push @javascript, "../html/OpenLayers/2.12/OpenLayers-min.js",
-          "../html/OpenLayers/2.12/OpenStreetMap.js",
-          "../html/jquery/jquery-1.7.1.min.js",
-          "../html/jquery/jqModal-2009.03.01-r14.js",
-          "../html/extract.js";
         @onload = ( -onLoad, 'init();' );
+    }
+    else {
+        push @css, "../html/extract-center.css";
     }
 
     # store last used selected in cookies for further usage
@@ -167,15 +166,9 @@ sub header {
                 }
             )
         ],
-        -style => {
-            'src' => [
+        -style => { 'src' => \@css, },
 
-                #"../html/bbbike.css",
-                "../html/luft.css",
-                "../html/extract.css"
-            ]
-        },
-        -script => [ map { { 'src' => $_ } } @javascript ],
+        # -script => [ map { { 'src' => $_ } } @javascript ],
         @onload,
       );
 }
@@ -202,14 +195,15 @@ sub manual_area {
  <div id="manual_area">
   <div id="sidebar_content">
     <span class="export_hint">
-      <a href="#" id="drag_box">Manually select a different area</a><br/>
+      <a href="#" id="drag_box">Manually select a different area</a>
+      <a class='tools-helptrigger' href='/extract-dialog-select-area.html'><img src='/html/help-16px.png' /></a><br/>
     </span> 
     <span id="square_km"></span>
 
     <div id="polygon_controls" style="display:none">
 	<input id="createVertices" type="radio" name="type" onclick="polygon_update()" />
 	<label for="createVertices">add points to polygon
-	<img src="$img_prefix/add_point_on.png" /> <br/>
+	<img src="$img_prefix/add_point_on.png" />  <a class='tools-helptrigger' href='/extract-dialog-polygon.html'><img src='/html/help-16px.png' /></a><br/>
 	</label>
 
 	<input id="rotate" type="radio" name="type" onclick="polygon_update()" />
@@ -264,6 +258,12 @@ sub footer {
     my $locate =
       $args{'map'} ? ' | <a href="javascript:locateMe()">where am I?</a>' : "";
 
+    my @js =
+      qw(OpenLayers/2.12/OpenLayers-min.js OpenLayers/2.12/OpenStreetMap.js jquery/jquery-1.7.1.min.js
+      jquery/jqModal-2009.03.01-r14.js jquery/jquery-ui-1.9.1.custom.min.js extract.js);
+    my $javascript = join "\n",
+      map { qq{<script src="../html/$_" type="text/javascript"></script>} } @js;
+
     return <<EOF;
 
 <div id="footer">
@@ -279,7 +279,11 @@ sub footer {
 
 </div></div></div> <!-- layout -->
 
+$javascript
 $analytics
+<script>
+  jQuery('#pageload-indicator').hide();
+</script>
 
 </body>
 </html>
@@ -324,7 +328,8 @@ sub message {
 BBBike extract -
 </span> 
 <span id="tools-titlebar">
- <span id="tools-help"><a class='tools-helptrigger' href='#'><span>about</span></a></span>
+ <span id="tools-help"><a class='tools-helptrigger' href='/extract-mini.html'><span>about</span></a></span>
+ <span id="pageload-indicator">&nbsp;<img src="/html/indicator.gif" alt="" title="Loading JavaScript libraries" /></span>
  <span class="jqmWindow" id="tools-helpwin"></span>
 </span>
 
@@ -751,12 +756,13 @@ EOF
               qq{<p>We appreciate any feedback, suggestions },
               qq{and a <a href="../community.html#donate">donation</a>! },
 qq{You can support us via PayPal, Flattr or bank wire transfer.\n},
-              qq{<br/>} x 5,
+              qq{<br/>} x 4,
               "</p>\n";
         }
     }
 
-    print &footer( $q, 'css' => '#footer { width: 95%; }' );
+    print &footer( $q,
+        'css' => '#footer { width: 90%; padding-bottom: 20px; }' );
 }
 
 # save request in incoming spool
@@ -977,7 +983,7 @@ sub homepage {
                 $q->td(
                     [
 "<span class='normalscreen' title='Give the city or area to extract a name. "
-                          . "The name is optional, but better fill it out to find it later again.'>Name of area to extract<br/></span>"
+                          . "The name is optional, but better fill it out to find it later again.'>Name of area to extract <a class='tools-helptrigger' href='/extract-dialog-name.html'><img src='/html/help-16px.png' /></a><br/></span>"
                           . $q->textfield(
                             -name => 'city',
                             -id   => 'city',
@@ -988,7 +994,7 @@ sub homepage {
                 $q->td(
                     [
 "<span title='Required, you will be notified by e-mail if your extract is ready for download.'>"
-                          . "Your email address (<a class='tools-helptrigger' href='#'>?</a></span>)</span><br/>"
+                          . "Your email address <a class='tools-helptrigger' href='/extract-dialog-email.html'><img src='/html/help-16px.png' /</a></span></span><br/>"
                           . $q->textfield(
                             -name  => 'email',
                             -size  => 28,
@@ -1058,7 +1064,7 @@ sub homepage {
                     [
 "<span class='normalscreen' title='PBF: fast and compact data, OSM XML gzip: standard OSM format, "
                           . "twice as large, Garmin format in different styles, Esri shapefile format, "
-                          . "Osmand for Androids'>Format (<a class='tools-helptrigger' href='#'>?</a></span>)<br/></span>"
+                          . "Osmand for Androids'>Format <a class='tools-helptrigger' href='/extract-dialog-format.html'><img src='/html/help-16px.png' /></a></span><br/></span>"
                           . $q->popup_menu(
                             -name   => 'format',
                             -values => [
