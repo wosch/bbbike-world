@@ -50,7 +50,7 @@ pwd=$(pwd)
 license="license.txt"
 copyright="OpenStreetMap.org"
 java_opt=-Xmx${java_heap} 
-mkgmap_opt="--gmapsupp --family-id=23 --remove-short-arcs --route --add-pois-to-areas --copyright-message="$copyright" --license-file=$license --index --make-all-cycleways"
+mkgmap_opt="--keep-going --gmapsupp --family-id=23 --remove-short-arcs --route --add-pois-to-areas --copyright-message="$copyright" --license-file=$license --index --make-all-cycleways"
 mkgmap_map_style="osm"
 : ${max_jobs="--max-jobs=2"}
 
