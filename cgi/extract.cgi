@@ -324,7 +324,7 @@ sub message {
     return <<EOF;
 <span id="noscript"><noscript>Please enable JavaScript in your browser. Thanks!</noscript></span>
 @{[ &social_links ]}
-<span align="right">
+<span id="toolbar">
 BBBike extract -
 </span> 
 <span id="tools-titlebar">
@@ -1079,7 +1079,8 @@ sub homepage {
                             -title => 'start extract',
                             -name  => 'submit',
                             -value => 'extract',
-                            -id    => 'extract'
+
+                            #-id    => 'submit'
                           )
                     ]
                 ),
