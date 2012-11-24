@@ -203,12 +203,12 @@ sub manual_area {
     <div id="polygon_controls" style="display:none">
 	<input id="createVertices" type="radio" name="type" onclick="polygon_update()" />
 	<label for="createVertices">add points to polygon
-	<img src="$img_prefix/add_point_on.png" />  <a class='tools-helptrigger' href='/extract-dialog-polygon.html'><img src='/html/help-16px.png' alt="" /></a><br/>
+	<img src="$img_prefix/add_point_on.png" alt=""/>  <a class='tools-helptrigger' href='/extract-dialog-polygon.html'><img src='/html/help-16px.png' alt="" /></a><br/>
 	</label>
 
 	<input id="rotate" type="radio" name="type" onclick="polygon_update()" />
 	<label for="rotate">rotate, resize or drag polygon
-	<img src="$img_prefix/move_feature_on.png" />
+	<img src="$img_prefix/move_feature_on.png" alt="move feature"/>
 	</label>
     </div>
 
@@ -233,7 +233,7 @@ sub footer_top {
     }
 
     my $donate = qq{<p class="normalscreen" id="big_donate_image">}
-      . qq{<a href="/community.html"><img class="logo" height="47" width="126" src="/images/btn_donateCC_LG.gif"/></a>};
+      . qq{<a href="/community.html"><img class="logo" height="47" width="126" src="/images/btn_donateCC_LG.gif" alt="donate"/></a></p>};
 
     return <<EOF;
   $donate
@@ -281,7 +281,7 @@ sub footer {
 
 $javascript
 $analytics
-<script>
+<script type="text/javascript">
   jQuery('#pageload-indicator').hide();
 </script>
 
@@ -295,7 +295,7 @@ sub social_links {
     <span id="social">
     <a href="http://www.facebook.com/BBBikeWorld" target="_new"><img class="logo" width="16" height="16" src="/images/facebook-t.png" alt="" title="BBBike on Facebook" /></a>
     <a href="http://twitter.com/BBBikeWorld" target="_new"><img class="logo" width="16" height="16" src="/images/twitter-t.png" alt="" title="Follow us on twitter.com/BBBikeWorld" /></a>
-    <a class="gplus" onmouseover="javascript:google_plusone();" ><img alt="" src="/images/google-plusone-t.png"></a><g:plusone href="http://extract.bbbike.org" size="small" count="false"></g:plusone>
+    <a class="gplus" onmouseover="javascript:google_plusone();" ><img alt="" src="/images/google-plusone-t.png"/></a><g:plusone href="http://extract.bbbike.org" size="small" count="false"></g:plusone>
     <a href="http://www.bbbike.org/feed/bbbike-world.xml"><img class="logo" width="14" height="14" title="What's new on BBBike.org" src="/images/rss-icon.png" alt="" /></a>
     &nbsp;
     </span>
@@ -994,7 +994,7 @@ sub homepage {
                 $q->td(
                     [
 "<span title='Required, you will be notified by e-mail if your extract is ready for download.'>"
-                          . "Your email address <a class='tools-helptrigger' href='/extract-dialog-email.html'><img src='/html/help-16px.png' alt=''/></a></span></span><br/>"
+                          . "Your email address <a class='tools-helptrigger' href='/extract-dialog-email.html'><img src='/html/help-16px.png' alt=''/></a><br/></span>"
                           . $q->textfield(
                             -name  => 'email',
                             -size  => 28,
@@ -1064,7 +1064,7 @@ sub homepage {
                     [
 "<span class='normalscreen' title='PBF: fast and compact data, OSM XML gzip: standard OSM format, "
                           . "twice as large, Garmin format in different styles, Esri shapefile format, "
-                          . "Osmand for Androids'>Format <a class='tools-helptrigger' href='/extract-dialog-format.html'><img src='/html/help-16px.png' alt=''/></a></span><br/></span>"
+                          . "Osmand for Androids'>Format <a class='tools-helptrigger' href='/extract-dialog-format.html'><img src='/html/help-16px.png' alt=''/></a><br/></span>"
                           . $q->popup_menu(
                             -name   => 'format',
                             -values => [
