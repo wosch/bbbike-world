@@ -330,7 +330,7 @@ BBBike extract -
 <span id="tools-titlebar">
  <span id="tools-help"><a class='tools-helptrigger' href='/extract-mini.html'><span>about</span></a></span>
  <span id="pageload-indicator">&nbsp;<img src="/html/indicator.gif" alt="" title="Loading JavaScript libraries" /></span>
- <span class="jqmWindow" id="tools-helpwin"></span>
+ <span class="jqmWindow jqmWindowLarge" id="tools-helpwin"></span>
 </span>
 
 <span id="debug"></span>
@@ -983,7 +983,7 @@ sub homepage {
                 $q->td(
                     [
 "<span class='normalscreen' title='Give the city or area to extract a name. "
-                          . "The name is optional, but better fill it out to find it later again.'>Name of area to extract <a class='tools-helptrigger' href='/extract-dialog-name.html'><img src='/html/help-16px.png' alt='' /></a><br/></span>"
+                          . "The name is optional, but better fill it out to find it later again.'>Name of area to extract <a class='tools-helptrigger-small' href='/extract-dialog-name.html'><img src='/html/help-16px.png' alt='' /></a><br/></span>"
                           . $q->textfield(
                             -name => 'city',
                             -id   => 'city',
@@ -994,7 +994,7 @@ sub homepage {
                 $q->td(
                     [
 "<span title='Required, you will be notified by e-mail if your extract is ready for download.'>"
-                          . "Your email address <a class='tools-helptrigger' href='/extract-dialog-email.html'><img src='/html/help-16px.png' alt=''/></a><br/></span>"
+                          . "Your email address <a class='tools-helptrigger-small' href='/extract-dialog-email.html'><img src='/html/help-16px.png' alt=''/></a><br/></span>"
                           . $q->textfield(
                             -name  => 'email',
                             -size  => 28,
