@@ -195,7 +195,7 @@ sub manual_area {
  <div id="manual_area">
   <div id="sidebar_content">
     <span class="export_hint">
-      <a href="#" id="drag_box">Manually select a different area</a>
+      <a id="drag_box">Manually select a different area</a>
       <a class='tools-helptrigger' href='/extract-dialog-select-area.html'><img src='/html/help-16px.png' alt="" /></a><br/>
     </span> 
     <span id="square_km"></span>
