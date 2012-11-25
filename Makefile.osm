@@ -761,10 +761,13 @@ tile-convert:
 tile-extract: tile-lng tile-lnglat tile-lng-run tile-lnglat-run
 
 tile-csv:
+	rm -f ${TILES_DIR}/etc/tile-*.csv
+	mkdir -p ${TILES_DIR}/etc
 	for format in pbf osm.gz garmin-cycle.zip shp.zip navit.zip obf.zip; do \
 	   ( cd ${TILES_DIR}/lnglat; find . -name '*.'$$format | xargs du -k |sort -n | \
-	     perl -npe 's,\S+/planet_(.*?)\.osm\.\S+,\1,; s,\t+, ,g; s,_, ,g' ) > ${TILES_DIR}/tile-$$format.csv; \
+	     perl -npe 's,\S+/planet_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > ${TILES_DIR}/etc/tile-$$format.csv; \
 	done
+	ls -l ${TILES_DIR}/etc/tile-*.csv
 
 tile-checksum:
 	cd ${_pbf_dir}; pwd=`pwd`; \
