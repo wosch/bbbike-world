@@ -64,6 +64,7 @@ ELEVATION_SCRIPT=world/bin/elevation-database
 MAX_ELEVATION_SCRIPTS=	1
 BBBIKE_SERVER=""
 BBBIKE_WEBSERVER_DIR=/usr/local/www/bbbike.org
+BBBIKE_WEBSERVER_DOWNLOAD_DIR=/usr/local/www/download.bbbike.org
 BBBIKE_WEB_DIR= ./
 CACHE_HEATER_MAX=50
 TMP=world/tmp
@@ -778,6 +779,9 @@ tile-checksum:
 tile-distclean:
 	rm -rf ${TILES_DIR}
 
+tile-rsync:
+	rsync -av ${TILES_DIR}/lnglat/ ${BBBIKE_WEBSERVER_DOWNLOAD_DIR}/osm/planet/${TILES_DIR}/lnglat/
+
 # for errors look in ./tile/tmp
 tile: tile-extract tile-convert tile-checksum tile-csv 
 
@@ -868,7 +872,8 @@ help:
 	@echo ""
 	@echo "  [ staging | extract-bbbike-org-install | extract-distclean ]"
 	@echo "  [ extract-gc | extract-gc7 | extract-gc-osm ]"
-	@echo "  [ tile | tile-extract | tile-convert | tile-csv | tile-checksum | tile-distclean ]"
+	@echo "  [ tile | tile-extract | tile-convert | tile-csv | tile-checksum ]"
+	@echo "  [ tile-distclean | tile-rsync ]"
 	@echo "  [ test-org | test ]"
 	@echo ""
 	@echo "see also ./world/README"
