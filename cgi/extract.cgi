@@ -1113,7 +1113,7 @@ sub locate_message {
     return <<EOF;
 <span id="locate">
 <span style="display:none" id="tools-pageload">Please wait... <img src="/images/indicator.gif" alt="loading" /></span>
-<a title="where am I?" href="javascript:locateMe()"><img src="/images/location_icon.png" width="25" height="23" alt="loading" border="0"/></a>
+<a title="where am I?" href="javascript:locateMe()"><img src="/images/location-icon.png" width="25" height="23" alt="loading" border="0"/></a>
 </span>
 EOF
 }
