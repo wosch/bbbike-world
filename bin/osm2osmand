@@ -8,7 +8,7 @@ PATH=$HOME/bin:/usr/local/bin:/bin:/usr/bin; export PATH
 
 : ${osmand_home="$HOME/opt/OsmAndMapCreator-development"}
 : ${java_heap=1G}
-: ${max_jobs=4}
+: ${max_jobs=2}
 
 java_opt=-Xmx${java_heap} 
 
