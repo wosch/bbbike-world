@@ -310,7 +310,6 @@ function init() {
 
     // http://xbb.uz/openlayers/i-Yandex.Maps
 
-
     function yandex_getTileURL(bounds) {
         var r = this.map.getResolution();
         var maxExt = (this.maxExtent) ? this.maxExtent : YaBounds;
