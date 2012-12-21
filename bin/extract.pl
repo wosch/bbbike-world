@@ -712,6 +712,7 @@ sub convert_send_email {
     my $job_counter   = 0;
     my $error_counter = 0;
     foreach my $json_file (@json) {
+        my $time = time();
 
         eval {
             _convert_send_email(
@@ -735,6 +736,9 @@ sub convert_send_email {
             copy_to_trash($json_file) if $keep;
             push @unlink, $json_file;
         }
+
+        warn "Running convert and email time: ", time() - $time, " seconds\n"
+          if $#json > 0 && $debug;
     }
 
     # unlink temporary .pbf files after all files are proceeds
@@ -1266,10 +1270,10 @@ sub run_jobs {
         'keep'       => 1
     );
 
-    warn "Running convert and email time: ", time() - $time, " seconds\n"
+    warn "Total convert and email time: ", time() - $time, " seconds\n"
       if $debug;
     warn "Total time: ", time() - $starttime,
-      " seconds, for @{[ scalar(@list) ]} jobs\n"
+      " seconds, for @{[ scalar(@list) ]} job(s)\n"
       if $debug;
     warn "Number of errors: $errors\n" if $errors;
 
