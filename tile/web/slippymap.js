@@ -122,6 +122,13 @@ function init() {
         numZoomLevels: 17
     }));
 
+    map.addLayer(new OpenLayers.Layer.OSM("Maptookit Topo (OSM)", ['http://tile1.maptoolkit.net/terrain/${z}/${x}/${y}.png', 'http://tile2.maptoolkit.net/terrain/${z}/${x}/${y}.png'], {
+        numZoomLevels: 19,
+        tileOptions: {
+            crossOriginKeyword: null
+        },
+    }));
+
     map.addLayer(new OpenLayers.Layer.OSM("Esri", "http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/${z}/${y}/${x}.png", {
         tileOptions: {
             crossOriginKeyword: null
