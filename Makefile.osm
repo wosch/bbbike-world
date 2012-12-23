@@ -558,6 +558,7 @@ clean: rotate-data-osm
 
 clean-cache cache-clean:
 	du -hs ${BBBIKE_CACHE_DIR}/
+	du -hs ${BBBIKE_CACHE_DIR}/*
 	mkdir -p ${BBBIKE_CACHE_DIR}/${WEB_SERVER} ${BBBIKE_CACHE_DIR}/localhost
 	mkdir -p ${BBBIKE_CACHE_DIR}/tmp.$$$$; \
 	    mv -f ${BBBIKE_CACHE_DIR}/*bbbike.org ${BBBIKE_CACHE_DIR}/localhost ${BBBIKE_CACHE_DIR}/tmp.$$$$ || true; \
