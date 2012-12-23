@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2011-2012 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2011-2013 Wolfram Schneider, http://bbbike.org
 #
 # bbbike-reorder-cities.pl - re-order cities by size
 #

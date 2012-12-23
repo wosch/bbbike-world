@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2009-2012 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
 #
 # weather.cgi - get weather data for a city from google or other sources
 
