@@ -120,6 +120,7 @@ log_full '"BBBike/' | egrep 'HTTP/1.1" 200 ' | awk '{ print $7 }' | perl -npe 's
 echo ""
 echo -n "api.bbbike.org: "
 log_full 'api.bbbike.org/' | egrep 'HTTP/1.1" 200 ' | wc -l
+log_full 'api.bbbike.org/' | perl -npe 's,.*?"([^"]+)"$,$1,' | sort | uniq -c | sort -nr
 
 echo ""
 echo -n "bbbike.org hosts: "
