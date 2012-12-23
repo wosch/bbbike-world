@@ -1148,7 +1148,7 @@ EOF
         new GLatLngBounds(new GLatLng(-90,-180), new GLatLng(90,180)), 0,
         '(<a rel="license" target="_ccbysa" href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>)');
     var copyrightCollection =
-        new GCopyrightCollection('Map data &copy; 2011-2012 <a target="_osm" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> Contributors');
+        new GCopyrightCollection('Map data &copy; 2011-2013 <a target="_osm" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> Contributors');
     copyrightCollection.addCopyright(copyright);
 
     map.addMapType(G_PHYSICAL_MAP);

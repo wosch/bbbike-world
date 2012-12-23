@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Feb 2011-2012 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Feb 2011-2013 Wolfram Schneider, http://bbbike.org
 #
 # elevation-database - fetch SRTM3 elevation data for points in planet.osm without elevation infos
 #
