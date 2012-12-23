@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2012 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2013 Wolfram Schneider, http://bbbike.org
 #
 # tile-lng.pl - split the planet.osm into 360 lng data tiles
 #
