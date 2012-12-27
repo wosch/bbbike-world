@@ -20,9 +20,16 @@ $nice $MD5 $file > $tmp
 if diff $file.md5 $tmp; then
    :
 else
-   $nice $MD5 *.bz2 *.pbf
+   # ARGHHH! got bitrot
+   #
+   # flash file cache
+   mem=$(egrep MemTotal /proc/meminfo | head -1 | awk '{print int($2 / 1100) }')
+   bomb $mem
+
+   # check again
    $nice $MD5 $file
    cat $file.md5 
 fi
 
 rm -f $tmp
+
