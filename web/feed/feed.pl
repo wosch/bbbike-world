@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2010-2012 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2010-2013 Wolfram Schneider, http://bbbike.org
 #
 # feed.pl - generate RSS/Atom feed
 

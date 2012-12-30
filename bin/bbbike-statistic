@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2009-2012 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
 #
 # bbbike-statistic - command line bbbike @ world statistic
 
@@ -120,6 +120,7 @@ log_full '"BBBike/' | egrep 'HTTP/1.1" 200 ' | awk '{ print $7 }' | perl -npe 's
 echo ""
 echo -n "api.bbbike.org: "
 log_full 'api.bbbike.org/' | egrep 'HTTP/1.1" 200 ' | wc -l
+log_full 'api.bbbike.org/' | perl -npe 's,.*?"([^"]+)"$,$1,' | sort | uniq -c | sort -nr
 
 echo ""
 echo -n "bbbike.org hosts: "
