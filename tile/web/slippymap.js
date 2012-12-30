@@ -43,7 +43,9 @@ function init() {
         projection: new OpenLayers.Projection("EPSG:900913"),
         displayProjection: new OpenLayers.Projection("EPSG:4326")
     });
-    map.addControl(new OpenLayers.Control.KeyboardDefaults({ observeElement: document.getElementById("map") }));
+    map.addControl(new OpenLayers.Control.KeyboardDefaults({
+        observeElement: document.getElementById("map")
+    }));
 
     // This is the layer that uses the locally stored tiles
     map.addLayer(new OpenLayers.Layer.OSM("BBBike.org Mapnik (de)", "mapnik-german/${z}/${x}/${y}.png", {
