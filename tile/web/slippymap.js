@@ -43,7 +43,7 @@ function init() {
         projection: new OpenLayers.Projection("EPSG:900913"),
         displayProjection: new OpenLayers.Projection("EPSG:4326")
     });
-    map.addControl(new OpenLayers.Control.KeyboardDefaults());
+    map.addControl(new OpenLayers.Control.KeyboardDefaults({ observeElement: document.getElementById("map") }));
 
     // This is the layer that uses the locally stored tiles
     map.addLayer(new OpenLayers.Layer.OSM("BBBike.org Mapnik (de)", "mapnik-german/${z}/${x}/${y}.png", {
@@ -118,7 +118,7 @@ function init() {
         numZoomLevels: 18
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("MapBox (OSM)", ["http://a.tiles.mapbox.com/v3/mapbox.mapbox-streets/${z}/${x}/${y}.png", "http://b.tiles.mapbox.com/v3/mapbox.mapbox-streets/${z}/${x}/${y}.png"], {
+    map.addLayer(new OpenLayers.Layer.OSM("MapBox (OSM)", ["http://a.tiles.mapbox.com/v3/examples.map-vyofok3q/${z}/${x}/${y}.png", "http://b.tiles.mapbox.com/v3/mapbox.mapbox-streets/${z}/${x}/${y}.png"], {
         numZoomLevels: 17
     }));
 
