@@ -35,7 +35,7 @@ cd bbbike
 git_opt=""
 $verbose || git_opt="-q"
 if ! git merge $git_opt eserte/master; then
-   echo "merged failed: $dir"
+   echo "merged failed: $dir/bbbike"
    exit 1
 fi
 
