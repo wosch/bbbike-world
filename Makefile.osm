@@ -518,6 +518,10 @@ bbbike2wgs84-mapnik:
 	${NICE} ./miscsrc/bbd2osm --optimize-for=mapnik ${DATA_DIR} | ${GZIP} > ${LOG_DIR}/bbbike-mapnik.osm.gz.tmp
 	mv -f ${LOG_DIR}/bbbike-mapnik.osm.gz.tmp ${LOG_DIR}/bbbike-mapnik.osm.gz
 
+bbbike-tile-update:
+	cd ../bbbike-eserte; git pull
+	${MAKE} DATA_DIR=../bbbike-eserte/data bbbike2wgs84-mapnik  bbbike-mapnik-postgis tile-distclean
+
 bbbike-mapnik-config:
 	if test -e ${POSTGIS_STYLE}; then \
 	    mv -f ${POSTGIS_STYLE} ${POSTGIS_STYLE}.bak; \
@@ -851,7 +855,7 @@ help:
 	@echo "  [ bbbike-osm2pbf | osm2pbf | pbf2osm ]"
 	@echo "  [ osm2garmin | osm2shape | osm2osmand | osm2navit ]"
 	@echo "  [ bbbike2wgs84-mapnik | bbbike-mapnik-config ]"
-	@echo "  [ bbbike-mapnik-postgis ]"
+	@echo "  [ bbbike-mapnik-postgis | bbbike-tile-update ]"
 	@echo ""
 	@echo "  [ clean | dist-clean | clean-cache | clean-planet | clean-tile ]"
 	@echo ""
