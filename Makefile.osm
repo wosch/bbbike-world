@@ -519,7 +519,7 @@ bbbike2wgs84-mapnik:
 	mv -f ${LOG_DIR}/bbbike-mapnik.osm.gz.tmp ${LOG_DIR}/bbbike-mapnik.osm.gz
 
 bbbike-tile-update:
-	cd ../bbbike-eserte; git pull
+	cd ../bbbike-eserte && git pull
 	${MAKE} DATA_DIR=../bbbike-eserte/data bbbike2wgs84-mapnik  bbbike-mapnik-postgis tile-distclean
 
 bbbike-mapnik-config:
