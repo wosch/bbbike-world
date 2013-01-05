@@ -358,6 +358,13 @@ function init() {
         attribution: '<a href="http://beta-maps.yandex.ru/">Яндекс.Карты</a>'
     }));
 
+    map.addLayer(new OpenLayers.Layer.OSM("Waze", ["http://tiles1.waze.com/tiles/${z}/${x}/${y}.png", "http://tiles2.waze.com/tiles/${z}/${x}/${y}.png"], {
+        tileOptions: {
+            crossOriginKeyword: null
+        },
+        numZoomLevels: 19
+    }));
+
 
     // This is the end of the layer
     // Begin of overlay
