@@ -73,7 +73,8 @@ WEB_GROUP=	www-data
 EXTRACTS_SPOOL_DIR=/var/cache/extract
 POSTGIS_STYLE=/usr/share/osm2pgsql/osm2pgsql/bbbike.style
 WEB_SERVER=	www.bbbike.org
-API_SERVER=	api.bbbike.org/api/0.2
+API_SERVER=	api.bbbike.org
+API_DIR=	api/0.2
 LOG_DIR=tmp
 BBBIKE_PARTITION=	/bbbike
 
@@ -666,7 +667,7 @@ cache-heater-common:
 	du -hs ${BBBIKE_CACHE_DIR}/
 	if `ls ${BBBIKE_CACHE_DIR}/* 2>/dev/null`; then du -hs ${BBBIKE_CACHE_DIR}/*; fi
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
-	   ${PERL} -ne 'chomp; print "http://'${WEB_SERVER}'/$$_/?generate_cache=1\0"; print "http://'${API_SERVER}'/$$_/?generate_cache=1\0"' | \
+	   ${PERL} -ne 'chomp; print "http://'${WEB_SERVER}'/$$_/?generate_cache=1\0"; print "http://'${API_SERVER}/${API_DIR}'/$$_/?generate_cache=1\0"' | \
 	   ${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 	@echo "cache usage after"
 	du -hs ${BBBIKE_CACHE_DIR}/
