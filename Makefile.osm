@@ -72,8 +72,9 @@ RM_BG=	world/bin/rm-bg
 WEB_GROUP=	www-data
 EXTRACTS_SPOOL_DIR=/var/cache/extract
 POSTGIS_STYLE=/usr/share/osm2pgsql/osm2pgsql/bbbike.style
-WEB_SERVER=	www.bbbike.org
-API_SERVER=	api.bbbike.org/api/0.2
+BBBIKE_WEB_SERVER	?= www.bbbike.org
+BBBIKE_API_SERVER	?= api.bbbike.org
+API_DIR=	api/0.2
 LOG_DIR=tmp
 BBBIKE_PARTITION=	/bbbike
 
@@ -562,8 +563,8 @@ clean: rotate-data-osm
 
 clean-cache cache-clean:
 	du -hs ${BBBIKE_CACHE_DIR}/
-	du -hs ${BBBIKE_CACHE_DIR}/*
-	mkdir -p ${BBBIKE_CACHE_DIR}/${WEB_SERVER} ${BBBIKE_CACHE_DIR}/localhost
+	du -hs ${BBBIKE_CACHE_DIR}/* || true
+	mkdir -p ${BBBIKE_CACHE_DIR}/${BBBIKE_WEB_SERVER} ${BBBIKE_CACHE_DIR}/localhost
 	mkdir -p ${BBBIKE_CACHE_DIR}/tmp.$$$$; \
 	    mv -f ${BBBIKE_CACHE_DIR}/*bbbike.org ${BBBIKE_CACHE_DIR}/localhost ${BBBIKE_CACHE_DIR}/tmp.$$$$ || true; \
 	    rm -rf ${BBBIKE_CACHE_DIR}/tmp.$$$$ &
@@ -666,7 +667,7 @@ cache-heater-common:
 	du -hs ${BBBIKE_CACHE_DIR}/
 	if `ls ${BBBIKE_CACHE_DIR}/* 2>/dev/null`; then du -hs ${BBBIKE_CACHE_DIR}/*; fi
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
-	   ${PERL} -ne 'chomp; print "http://'${WEB_SERVER}'/$$_/?generate_cache=1\0"; print "http://'${API_SERVER}'/$$_/?generate_cache=1\0"' | \
+	   ${PERL} -ne 'chomp; print "http://'${BBBIKE_WEB_SERVER}'/$$_/?generate_cache=1\0"; print "http://'${BBBIKE_API_SERVER}/${API_DIR}'/$$_/?generate_cache=1\0"' | \
 	   ${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 	@echo "cache usage after"
 	du -hs ${BBBIKE_CACHE_DIR}/
@@ -674,16 +675,16 @@ cache-heater-common:
 
 cache-heater-streets: cache-heater-homepage cache-heater-opensearch
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
-		${PERL} -e 'while(<>) { chomp; push @a, "http://'${WEB_SERVER}'/$$_/streets.html"; push @b, "http://'${WEB_SERVER}'/en/$$_/streets.html" } print join "\0", @a, @b, ""' | \
+		${PERL} -e 'while(<>) { chomp; push @a, "http://'${BBBIKE_WEB_SERVER}'/$$_/streets.html"; push @b, "http://'${BBBIKE_WEB_SERVER}'/en/$$_/streets.html" } print join "\0", @a, @b, ""' | \
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 
 cache-heater-homepage: cache-heater-osp
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
-		${PERL} -e 'while(<>) { chomp; push @a, "http://'${WEB_SERVER}'/$$_/"; push @b, "http://'${WEB_SERVER}'/en/$$_/"; push @c, "http://'${WEB_SERVER}'/m/$$_/" } print join "\0", @a, @b, @c, ""' | \
+		${PERL} -e 'while(<>) { chomp; push @a, "http://'${BBBIKE_WEB_SERVER}'/$$_/"; push @b, "http://'${BBBIKE_WEB_SERVER}'/en/$$_/"; push @c, "http://'${BBBIKE_WEB_SERVER}'/m/$$_/" } print join "\0", @a, @b, @c, ""' | \
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 
 cache-heater-osp:
-	find osp -name '*.xml' -print0 | perl -n0e 'print qq{http://'${WEB_SERVER}'/$$_}' | \
+	find osp -name '*.xml' -print0 | perl -n0e 'print qq{http://'${BBBIKE_WEB_SERVER}'/$$_}' | \
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
 
 cache-heater-opensearch:

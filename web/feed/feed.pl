@@ -105,12 +105,12 @@ qq{A new <a href="http://bbbike.jochen-pfeiffer.com/en/">BBBike iPhone app</a> i
 
 $feed->add_entry(
     title =>
-qq{Map Compare with new maps: Nokia Map, Terrain, Satellite, Hybrid, Public Transit, Traffic. Map Compare now supports up to 52 maps: http://tile.bbbike.org/mc/},
+qq{Map Compare with new maps: Nokia Map, Terrain, Satellite, Hybrid, Public Transit, Traffic. Map Compare now supports up to 52 maps: http://mc.bbbike.org/mc/},
     id      => '51d474fb21860b0629bfe8467ee42c0c',
     content => {
         type => 'text',
         content =>
-qq{Map Compare with new maps: Nokia Map, Terrain, Satellite, Hybrid, Public Transit, Traffic. Map Compare now supports up to 52 maps: http://tile.bbbike.org/mc/},
+qq{Map Compare with new maps: Nokia Map, Terrain, Satellite, Hybrid, Public Transit, Traffic. Map Compare now supports up to 52 maps: http://mc.bbbike.org/mc/},
     },
     updated  => '2012-08-06T13:30:02Z',
     category => 'News',
@@ -131,12 +131,12 @@ qq{New feature: BBBike extract service with Osmand map format #osm #android},
 
 $feed->add_entry(
     title =>
-qq{New feature: Map Compare supports up to 32 maps on the screen and a fullscreen mode: http://tile.bbbike.org/mc/},
+qq{New feature: Map Compare supports up to 32 maps on the screen and a fullscreen mode: http://mc.bbbike.org/mc/},
     id      => '51d474fb21860b0629bfe8467ee42c0b',
     content => {
         type => 'text',
         content =>
-qq{Map Compare supports up to 32 maps on the screen and a fullscreen mode: http://tile.bbbike.org/mc/},
+qq{Map Compare supports up to 32 maps on the screen and a fullscreen mode: http://mc.bbbike.org/mc/},
     },
     updated  => '2012-06-08T13:30:02Z',
     category => 'News',

@@ -31,11 +31,11 @@ url_match="$front_end(/cgi/[A-Zb]|/[A-Z][a-z][A-Za-z]+/|/berlin/|/[a-z][a-z]/[A-
 
 log_all () {
     match=${1-"."}
-    zcat -f $logfiles | egrep -v '^10\.' | egrep "GET $match"
+    zcat -f $logfiles | egrep -v '^10\.|^5\.9\.4\.153' | egrep "GET $match"
 }
 log_full () {
     match=${1-"."}
-    zcat -f $logfiles | egrep -v '^10\.' | egrep "$match"
+    zcat -f $logfiles | egrep -v '^10\.|^5\.9\.4\.153' | egrep "$match"
 }
 log () {
     match=${1-"."}
@@ -114,8 +114,8 @@ log "$url_match.*?\?" | egrep -c 'start=[^&]+%2C1%5D&.*ziel=[^&]+%2C1%5D&'
 
 echo ""
 echo -n "BBBike iPhone: "
-log_full '"BBBike/' | egrep 'HTTP/1.1" 200 ' | wc -l
-log_full '"BBBike/' | egrep 'HTTP/1.1" 200 ' | awk '{ print $7 }' | perl -npe 's,/\?.*,,; s,.*/,,' | sort | uniq -c | sort -nr
+log_full 'api.bbbike.org/[^/]+/' | egrep 'HTTP/1.1" 200 ' | wc -l
+log_full 'api.bbbike.org/[^/]+/' | egrep 'HTTP/1.1" 200 ' | awk '{ print $7 }' | perl -npe 's,/\?.*,,; s,.*/,,' | sort | uniq -c | sort -nr
 
 echo ""
 echo -n "api.bbbike.org: "
