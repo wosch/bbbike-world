@@ -48,7 +48,7 @@ file=$1
 city="$2"
 
 if ! [ -f "$file" ]; then
-	echo "usage file"
+	echo "usage [ option ] file.osm.pbf"
 	exit 1
 fi
 
@@ -86,7 +86,9 @@ else
 fi 
 }
 
-
+size=$(du -ks -L "$file" | awk '{ print $1}')
+#echo $size
+#exit 0;
 
 if [ "$compress" = "" ]; then
     osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout 
