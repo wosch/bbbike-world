@@ -14,6 +14,10 @@ osm2osmand=`dirname $0`/osm2osmand
 osm2navit=`dirname $0`/osm2navit
 osm2o5m=osmconvert
 
+# max. file size in KB
+: ${max_file_size_garmin=800000}
+: ${max_file_size_osmand=400000}
+
 xz=`which xz | head -n 1`
 xz_opt=-2
 if which pixz >/dev/null; then
@@ -47,9 +51,14 @@ esac
 file=$1
 city="$2"
 
+usage () {
+   echo "$@"
+   echo "usage [ option ] file.osm.pbf"
+   exit 1
+}
+
 if ! [ -f "$file" ]; then
-	echo "usage [ option ] file.osm.pbf"
-	exit 1
+    usage "missing file"	
 fi
 
 # run in quiet mode
@@ -87,8 +96,11 @@ fi
 }
 
 size=$(du -ks -L "$file" | awk '{ print $1}')
-#echo $size
-#exit 0;
+case $compress in
+    garmin | navit | shape ) if [ $size -gt $max_file_size_garmin ]; then usage "file size to big: $size > $max_file_size_garmin"; fi ;;
+    osmand ) if [ $size -gt $max_file_size_osmand ]; then usage "file size to big: $size > $max_file_size_osmand"; fi ;;
+    * ) ;;
+esac
 
 if [ "$compress" = "" ]; then
     osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout 
