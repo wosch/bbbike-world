@@ -734,7 +734,9 @@ sub convert_send_email {
 
             $job_counter++;
             copy_to_trash($json_file) if $keep;
-            push @unlink, $json_file;
+
+            # unlink json file if done right now
+            unlink($json_file) or die "unlink: $json_file: $!\n";
         }
 
         warn "Running convert and email time: ", time() - $time, " seconds\n"
