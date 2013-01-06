@@ -1,0 +1,5 @@
+AuthType Basic
+AuthName "Developer"
+AuthUserFile /etc/apache2/bbbike_htpasswd
+require valid-user
+
