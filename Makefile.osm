@@ -50,6 +50,7 @@ DB=world/bin/bbbike-db --city-database=${CITIES_DB}
 GZIP:=             $(shell which pigz gzip | head -1)
 BZIP2:=            $(shell which pbzip2 bzip2 | head -1)
 OSMOSIS=	osmosis -q
+OSMOSIS_BUFFER_CAPACITY=6000
 
 OSM_DIR=	osm
 OSP_DIR=	osp
@@ -63,7 +64,7 @@ LANGUAGES=	m da de en es fr hr nl pl pt ru zh
 ELEVATION_SCRIPT=world/bin/elevation-database
 MAX_ELEVATION_SCRIPTS=	1
 BBBIKE_SERVER=""
-BBBIKE_WEBSERVER_DIR=/usr/local/www/bbbike.org
+
 BBBIKE_WEBSERVER_DOWNLOAD_DIR=/usr/local/www/download.bbbike.org
 BBBIKE_WEB_DIR= ./
 CACHE_HEATER_MAX=50
@@ -173,13 +174,13 @@ _osmosis_opt_pbf:
 	fi
 
 cities-poly: poly
-	${NICE5} ${BZIP2} -dc ${OSM_PLANET} | ${NICE5} ${OSMOSIS} --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --tee `${MAKE} CITIES_DB=${CITIES_DB} CITIES="${CITIES}" -s -f Makefile.osm city-count` `${MAKE} CITIES_DB=${CITIES_DB} CITIES="${CITIES}" -s -f Makefile.osm _osmosis_opt`
+	${NICE5} ${BZIP2} -dc ${OSM_PLANET} | ${NICE5} ${OSMOSIS} --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=${OSMOSIS_BUFFER_CAPACITY} --tee `${MAKE} CITIES_DB=${CITIES_DB} CITIES="${CITIES}" -s -f Makefile.osm city-count` `${MAKE} CITIES_DB=${CITIES_DB} CITIES="${CITIES}" -s -f Makefile.osm _osmosis_opt`
 
 _cities-osm: poly
-	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm _osmosis_opt`
+	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=${OSMOSIS_BUFFER_CAPACITY} --tee `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm _osmosis_opt`
 
 _cities-pbf: poly
-	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=2000 --tee `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm _osmosis_opt_pbf`
+	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=${OSMOSIS_BUFFER_CAPACITY} --tee `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm _osmosis_opt_pbf`
 	${MAKE} -f Makefile.osm CITIES="${CITIES}" _pbf2pbf
 
 cities-pbf cities: _cities-pbf
