@@ -15,8 +15,8 @@ osm2navit=`dirname $0`/osm2navit
 osm2o5m=osmconvert
 
 # max. file size in KB
-: ${max_file_size_garmin=800000}
-: ${max_file_size_osmand=400000}
+: ${max_file_size_garmin=1300000}
+: ${max_file_size_osmand=500000}
 
 xz=`which xz | head -n 1`
 xz_opt=-2
