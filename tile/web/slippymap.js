@@ -48,7 +48,7 @@ function init() {
     }));
 
     // This is the layer that uses the locally stored tiles
-    map.addLayer(new OpenLayers.Layer.OSM("BBBike.org Mapnik (de)", "mapnik-german/${z}/${x}/${y}.png", {
+    map.addLayer(new OpenLayers.Layer.OSM("BBBike.org Mapnik (de)", "http://d.tile.bbbike.org/osm/mapnik-german/${z}/${x}/${y}.png", {
         tileOptions: {
             crossOriginKeyword: null
         },
@@ -56,7 +56,7 @@ function init() {
         attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("BBBike.org Mapnik", "mapnik/${z}/${x}/${y}.png", {
+    map.addLayer(new OpenLayers.Layer.OSM("BBBike.org Mapnik", "http://d.tile.bbbike.org/osm/mapnik/${z}/${x}/${y}.png", {
         numZoomLevels: 19,
         attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
     }));
@@ -368,7 +368,7 @@ function init() {
 
     // This is the end of the layer
     // Begin of overlay
-    map.addLayer(new OpenLayers.Layer.TMS("BBBike Fahrbahnqualit&auml;t", "bbbike-smoothness/", {
+    map.addLayer(new OpenLayers.Layer.TMS("BBBike Fahrbahnqualit&auml;t", "http://d.tile.bbbike.org/osm/bbbike-smoothness/", {
         type: 'png',
         getURL: osm_getTileURL,
         displayOutsideMaxExtent: true,
