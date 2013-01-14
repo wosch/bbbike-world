@@ -7,6 +7,11 @@
 
 set -e
 
+if [ -z "$1" ]; then
+    echo >&2 "usage: $0 file...."
+    exit 0
+fi
+
 logfile=$(mktemp -t _pbf2pbf.XXXXXXXX)
 buffer="--buffer bufferCapacity=4000"
 
