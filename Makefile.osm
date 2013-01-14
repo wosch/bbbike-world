@@ -67,6 +67,7 @@ MAX_ELEVATION_SCRIPTS=	1
 BBBIKE_SERVER=""
 
 BBBIKE_WEBSERVER_DOWNLOAD_DIR=/usr/local/www/download.bbbike.org
+BBBIKE_WEBSERVER_DIR=/usr/local/www/bbbike.org
 BBBIKE_WEB_DIR= ./
 CACHE_HEATER_MAX=50
 TMP=world/tmp
