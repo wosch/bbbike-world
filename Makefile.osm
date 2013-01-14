@@ -751,7 +751,7 @@ tile-lnglat:
 	./world/bin/tile-lnglat.pl > ${TILES_DIR}/lnglat.sh
 
 tile-lnglat-run:
-	${TIME} env OSM_DIR_NOSUBDIR=true ${XARGS5} -0 -n1 -P${MAX_CPU} /bin/sh -c < ${TILES_DIR}/lnglat.sh
+	${TIME} env NO_PBF2PBF=true OSM_DIR_NOSUBDIR=true ${XARGS5} -0 -n1 -P${MAX_CPU} /bin/sh -c < ${TILES_DIR}/lnglat.sh
 
 tile-lng-run:
 	env OSM_DIR_NOSUBDIR=true NO_PBF2PBF=true LOG_DIR=${TILES_DIR}/tmp ${MAKE} -s LOG_DIR=${TILES_DIR}/tmp -f Makefile.osm \
