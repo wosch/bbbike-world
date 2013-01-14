@@ -220,12 +220,17 @@ sub statistic {
     my $sensor = is_mobile($q) ? 'true' : 'false';
     print $q->start_html(
         -title => 'BBBike @ World livesearch',
-        -head  => $q->meta(
-            {
-                -http_equiv => 'Content-Type',
-                -content    => 'text/html; charset=utf-8'
-            }
-        ),
+        -head  => [
+            $q->meta(
+                {
+                    -http_equiv => 'Content-Type',
+                    -content    => 'text/html; charset=utf-8'
+                }
+            ),
+            $q->meta(
+                { -name => "robots", -content => "nofollow,noindex,noarchive" }
+            )
+        ],
 
         -style  => { 'src' => ["../html/bbbike.css"] },
         -script => [
