@@ -182,7 +182,7 @@ _cities-osm: poly
 
 _cities-pbf: poly
 	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=${OSMOSIS_BUFFER_CAPACITY} --tee `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm _osmosis_opt_pbf`
-	${MAKE} -f Makefile.osm CITIES="${CITIES}" _pbf2pbf
+	test "$$NO_PBF2PBF" = "true" || ${MAKE} -f Makefile.osm CITIES="${CITIES}" _pbf2pbf
 
 cities-pbf cities: _cities-pbf
 	${MAKE} -f Makefile.osm _pbf2pbf-checksum 
@@ -753,10 +753,13 @@ tile-lnglat-run:
 	${TIME} env OSM_DIR_NOSUBDIR=true ${XARGS5} -0 -n1 -P${MAX_CPU} /bin/sh -c < ${TILES_DIR}/lnglat.sh
 
 tile-lng-run:
-	env OSM_DIR_NOSUBDIR=true LOG_DIR=${TILES_DIR}/tmp ${MAKE} -s LOG_DIR=${TILES_DIR}/tmp -f Makefile.osm \
+	env OSM_DIR_NOSUBDIR=true NO_PBF2PBF=true LOG_DIR=${TILES_DIR}/tmp ${MAKE} -s LOG_DIR=${TILES_DIR}/tmp -f Makefile.osm \
 	   CITIES_FILE=${TILES_DIR}/cities/cities2.txt CITIES_DB=${TILES_DIR}/cities/cities2.csv \
 	   MAX_CPU=${MAX_CPU} JAVACMD_OPTIONS2= OSM_DIR=${TILES_DIR}/lng _cities-parallel-pbf
 
+tile-pbf2pbf:
+	find ${_pbf_dir} -name '*.pbf' -size -500k -print0 | ${NICE} ${TIME} xargs -0 -n36 -P${MAX_CPU2} ${PBF2PBF}
+	find ${_pbf_dir} -name '*.pbf' ! -size -500k -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${PBF2PBF}
 
 _pbf_dir=${TILES_DIR}/lnglat/
 _max_size= #-size +100k"
@@ -767,7 +770,7 @@ tile-convert:
 	find ${_pbf_dir} -name '*.pbf' ${_max_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2GARMIN_CYCLE}
 	find ${_pbf_dir} -name '*.pbf' ${_max_size} -print0 | osm_checksum=true max_jobs=1 java_heap=1500M ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2OSMAND}
 
-tile-extract: tile-lng tile-lnglat tile-lng-run tile-lnglat-run
+tile-extract: tile-lng tile-lnglat tile-lng-run tile-lnglat-run tile-pbf2pbf
 
 tile-csv:
 	rm -f ${TILES_DIR}/etc/tile-*.csv
