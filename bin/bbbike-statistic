@@ -123,6 +123,14 @@ log_full 'api.bbbike.org/' | egrep 'HTTP/1.1" 200 ' | wc -l
 log_full 'api.bbbike.org/' | perl -npe 's,.*?"([^"]+)"$,$1,' | sort | uniq -c | sort -nr
 
 echo ""
+echo "api.bbbike.org hosts: "
+log_full 'api.bbbike.org/api/[^/]+/' |
+        awk '{print $1, $7 }' | perl $perl_utf8 -npe 's/\?.*//; s,/cgi/,,; s,(\.en)?\.cgi,,;' |
+	perl -npe 's,http://api.bbbike.org/api/0.2,,' |
+        sort | uniq -c | sort -nr | head -40 | $dns
+echo ""
+
+echo ""
 echo -n "bbbike.org hosts: "
 log "$url_match" | awk '{print $1}' | sort -u | wc -l
 log "$url_match" |
