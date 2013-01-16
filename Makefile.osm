@@ -785,7 +785,7 @@ tile-csv:
 tile-checksum:
 	cd ${_pbf_dir}; pwd=`pwd`; \
 	for i in *; do \
-	   cd $$pwd/$$i && ( md5sum `ls -v planet*` > CHECKSUM.md5; shasum -a 256 `ls -v planet*` > CHECKSUM.sha256 & );  \
+	   cd $$pwd/$$i && ( md5sum `ls -v planet*.*` > CHECKSUM.md5; shasum -a 256 `ls -v planet*.*` > CHECKSUM.sha256 & );  \
 	done; wait
 
 tile-distclean:
