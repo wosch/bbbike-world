@@ -3,6 +3,7 @@
 
 set -e
 cd /var/lib/mod_tile
+du -hs
 
-find /var/lib/mod_tile/ -type f -print0 | sudo xargs -0 rm -f
+sudo rm -rf /var/lib/mod_tile/[a-z]*
 
