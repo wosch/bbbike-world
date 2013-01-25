@@ -37,11 +37,11 @@ test -z "$ext" && ext=${2-"osm"}
 size=$(du -ks -L "$file" | awk '{ print $1}')
 : ${java_heap=2048M}
 if [ $size -gt 250000 ]; then
-   java_heap=4548M
+   java_heap=4948M
 elif [ $size -gt 150000 ]; then
-   java_heap=3548M
+   java_heap=3748M
 elif [ $size -gt 100000 ]; then
-   java_heap=2548M
+   java_heap=3248M
 fi
 
 #case $ext in *leisure* ) java_heap=3500M ;; esac
