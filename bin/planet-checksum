@@ -4,6 +4,8 @@
 # planet-checksum - bitrot checksum test of latest planet osm file
 #
 
+PATH=/bin:/usr/bin:/usr/local/bin; export PATH
+
 set -e
 
 : ${MD5=`which md5 md5sum false | head -1`}
