@@ -311,8 +311,12 @@ if [ -s /var/log/lighttpd/extract.bbbike.log ]; then
 fi
 
 echo ""
-echo -n "bbbike stat: "
+echo -n "http stat: "
 log_full / | awk '{ s+=$10 } END { print int(s/1024/1024), "MB" }'
+
+log_full 'GET http://.* 200 ' | awk '{ print $7, $10 }' | 
+  perl -e 'while(<>) {s,http://,,; s,/.*? , ,; @a=split; $b{$a[0]} += $a[1]}; while(($key,$val) = each %b) { print $key, " ", int($val/1024/102.4)/10, " MB\n"}'|
+  sort -k2 -nr
 
 echo ""
 echo -n "CPU total: "
