@@ -207,7 +207,7 @@ sub manual_area {
 	</label>
 
 	<input id="rotate" type="radio" name="type" onclick="polygon_update()" />
-	<label for="rotate">rotate, resize or drag polygon
+	<label for="rotate">resize or drag polygon
 	<img src="$img_prefix/move_feature_on.png" alt="move feature"/>
 	</label>
     </div>
