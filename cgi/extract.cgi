@@ -1074,14 +1074,17 @@ sub homepage {
                             -labels  => $formats,
                             -default => $default_format
                           )
-                          . " <span class='normalscreen'><br/></span> "
-                          . $q->submit(
+                    ]
+                ),
+                $q->td(
+                    [
+                        $q->submit(
                             -title => 'start extract',
                             -name  => 'submit',
                             -value => 'extract',
 
                             #-id    => 'submit'
-                          )
+                        )
                     ]
                 ),
             ]
