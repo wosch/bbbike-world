@@ -1002,8 +1002,13 @@ sub _convert_send_email {
         my $message = <<EOF;
 Hi,
 
-your requested OpenStreetMap area "$obj->{'city'}" was extracted 
-from planet.osm
+your requested OpenStreetMap area "$obj->{'city'}" was extracted from planet.osm 
+To download the file, please click on the following link:
+
+  $url
+
+The file will be available for the next 48 hours. Please download the
+file as soon as possible.
 
  Name: $obj->{"city"}
  Coordinates: $obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}
@@ -1016,17 +1021,9 @@ from planet.osm
  SHA256 checksum: $checksum
  License: OpenStreetMap License
 
-To download the file, please click on the following link:
-
-  $url
-
-The file will be available for the next 48 hours. Please 
-download the file as soon as possible.
-
 We appreciate any feedback, suggestions and a donation! 
 You can support us via PayPal, Flattr or bank wire transfer.
 http://www.BBBike.org/community.html
-
 
 Sincerely, the BBBike extract Fairy
 
