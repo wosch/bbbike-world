@@ -982,15 +982,59 @@ sub homepage {
             [
                 $q->td(
                     [
-"<span class='normalscreen' title='Give the city or area to extract a name. "
-                          . "The name is optional, but better fill it out to find it later again.'>Name of area to extract <a class='tools-helptrigger-small' href='/extract-dialog-name.html'><img src='/html/help-16px.png' alt='' /></a><br/></span>"
+"<span class='normalscreen lnglatbox' title='South West, valid values: -180 .. 180'>Left lower corner (South-West)<br/>"
+                          . "&nbsp;&nbsp; $lng: "
                           . $q->textfield(
-                            -name => 'city',
-                            -id   => 'city',
-                            -size => 28
+                            -name => 'sw_lng',
+                            -id   => 'sw_lng',
+                            -size => 8
+                          )
+                          . " $lat: "
+                          . $q->textfield(
+                            -name => 'sw_lat',
+                            -id   => 'sw_lat',
+                            -size => 8
+                          ),
+'</span><span id="square_km_small" title="area covers N square kilometers"></span>'
+                    ]
+                ),
+
+                $q->td(
+                    [
+"<span class='normalscreen lnglatbox' title='North East, valid values: -180 .. 180'>Right top corner (North-East)<br/>"
+                          . "&nbsp;&nbsp; $lng: "
+                          . $q->textfield(
+                            -name => 'ne_lng',
+                            -id   => 'ne_lng',
+                            -size => 8
+                          )
+                          . " $lat: "
+                          . $q->textfield(
+                            -name => 'ne_lat',
+                            -id   => 'ne_lat',
+                            -size => 8
+                          ),
+'</span><span title="file data size approx." id="size_small"></span>'
+                    ]
+                ),
+
+                $q->td(
+                    [
+"<span class='normalscreen' title='PBF: fast and compact data, OSM XML gzip: standard OSM format, "
+                          . "twice as large, Garmin format in different styles, Esri shapefile format, "
+                          . "Osmand for Androids'>Format <a class='tools-helptrigger' href='/extract-dialog-format.html'><img src='/html/help-16px.png' alt=''/></a><br/></span>"
+                          . $q->popup_menu(
+                            -name   => 'format',
+                            -values => [
+                                sort { $formats->{$a} cmp $formats->{$b} }
+                                  keys %$formats
+                            ],
+                            -labels  => $formats,
+                            -default => $default_format
                           )
                     ]
                 ),
+
                 $q->td(
                     [
 "<span title='Required, you will be notified by e-mail if your extract is ready for download.'>"
@@ -1023,59 +1067,19 @@ sub homepage {
 '<span id="time_small" title="approx. extract time in minutes"></span>'
                     ]
                 ),
-                $q->td(
-                    [
-"<span class='normalscreen' title='South West, valid values: -180 .. 180'>Left lower corner (South-West)<br/></span>"
-                          . "&nbsp;&nbsp; $lng: "
-                          . $q->textfield(
-                            -name => 'sw_lng',
-                            -id   => 'sw_lng',
-                            -size => 8
-                          )
-                          . " $lat: "
-                          . $q->textfield(
-                            -name => 'sw_lat',
-                            -id   => 'sw_lat',
-                            -size => 8
-                          ),
-'<span id="square_km_small" title="area covers N square kilometers"></span>'
-                    ]
-                ),
-                $q->td(
-                    [
-"<span class='normalscreen' title='North East, valid values: -180 .. 180'>Right top corner (North-East)<br/></span>"
-                          . "&nbsp;&nbsp; $lng: "
-                          . $q->textfield(
-                            -name => 'ne_lng',
-                            -id   => 'ne_lng',
-                            -size => 8
-                          )
-                          . " $lat: "
-                          . $q->textfield(
-                            -name => 'ne_lat',
-                            -id   => 'ne_lat',
-                            -size => 8
-                          ),
-'<span title="file data size approx." id="size_small"></span>'
-                    ]
-                ),
 
                 $q->td(
                     [
-"<span class='normalscreen' title='PBF: fast and compact data, OSM XML gzip: standard OSM format, "
-                          . "twice as large, Garmin format in different styles, Esri shapefile format, "
-                          . "Osmand for Androids'>Format <a class='tools-helptrigger' href='/extract-dialog-format.html'><img src='/html/help-16px.png' alt=''/></a><br/></span>"
-                          . $q->popup_menu(
-                            -name   => 'format',
-                            -values => [
-                                sort { $formats->{$a} cmp $formats->{$b} }
-                                  keys %$formats
-                            ],
-                            -labels  => $formats,
-                            -default => $default_format
+"<span class='normalscreen' title='Give the city or area to extract a name. "
+                          . "The name is optional, but better fill it out to find it later again.'>Name of area to extract <a class='tools-helptrigger-small' href='/extract-dialog-name.html'><img src='/html/help-16px.png' alt='' /></a><br/></span>"
+                          . $q->textfield(
+                            -name => 'city',
+                            -id   => 'city',
+                            -size => 28
                           )
                     ]
                 ),
+
                 $q->td(
                     [
                         $q->submit(
