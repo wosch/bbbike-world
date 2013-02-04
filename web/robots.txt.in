@@ -1,6 +1,9 @@
 # general
 Sitemap: http://www.bbbike.org/sitemap.xml.gz
 
+User-agent: Googlebot-Image
+Disallow: /images
+
 # rough bots
 User-agent: Ezooms
 User-agent: Purebot
