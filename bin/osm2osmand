@@ -157,6 +157,8 @@ thanks, Wolfram Schneider
 http://www.BBBike.org - Your Cycle Route Planner
 EOF
 
+$pwd/text2html.sh < README.txt > README.html
+
 cd ..
 zip_file=`dirname $file`/$obf.osm.obf.zip
 zip -q -r - -- $(basename $obf_dir) | \

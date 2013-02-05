@@ -151,6 +151,8 @@ thanks, Wolfram Schneider
 http://www.BBBike.org - Your Cycle Route Planner
 EOF
 
+$pwd/text2html.sh < README.txt > README.html
+
 echo ">>> Run mkgmap, map type: $mkgmap_map_style" >> $logfile
 java $java_opt -jar $HOME/opt/mkgmap/mkgmap.jar $max_jobs $mkgmap_opt $mkgmap_map \
 	--description="$description" --family-name="BBBike.org style=$mkgmap_map_style $coords" $split_dir/*.pbf $mkgmap_map_type >> $logfile 2>&1 || error

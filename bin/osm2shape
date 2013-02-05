@@ -65,6 +65,8 @@ thanks, Wolfram Schneider
 http://www.BBBike.org - Your Cycle Route Planner
 EOF
 
+$pwd/text2html.sh < README.txt > README.html
+
 cd ..
 shape_zip=`dirname $file`/$shape.osm.shp.zip
 zip -q -r - -- `basename $shape_dir` | \
