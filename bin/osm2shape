@@ -29,6 +29,8 @@ shape=`basename "$file" | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
 shape_dir=$tmpdir/${shape}-shp
 mkdir -p $shape_dir
 
+text2html=$(dirname $0)/text2html.sh
+case $text2html in /*) ;; *) text2html=$(pwd)/$text2html ;; esac
 
 logfile=$shape_dir/logfile.txt 
 
@@ -65,7 +67,7 @@ thanks, Wolfram Schneider
 http://www.BBBike.org - Your Cycle Route Planner
 EOF
 
-$pwd/text2html.sh < README.txt > README.html
+$text2html < README.txt > README.html
 
 cd ..
 shape_zip=`dirname $file`/$shape.osm.shp.zip
