@@ -28,6 +28,9 @@ city=$3
 # absolute file path
 case $file in /*) ;; *) file=$(pwd)/$file ;; esac
 
+text2html=$(dirname $0)/text2html.sh
+case $text2html in /*) ;; *) text2html=$(pwd)/$text2html ;; esac
+
 test -e "$file" || usage "file $file does not exists"
 : ${osm_checksum=`dirname $0`/osm-checksum}
 
@@ -150,6 +153,8 @@ thanks, Wolfram Schneider
 --
 http://www.BBBike.org - Your Cycle Route Planner
 EOF
+
+$text2html < README.txt > README.html
 
 echo ">>> Run mkgmap, map type: $mkgmap_map_style" >> $logfile
 java $java_opt -jar $HOME/opt/mkgmap/mkgmap.jar $max_jobs $mkgmap_opt $mkgmap_map \

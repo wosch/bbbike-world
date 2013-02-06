@@ -63,6 +63,9 @@ etc_dir=`dirname $0`/../etc/OsmAndMapCreator
 case $etc_dir in /* ) ;; *) etc_dir=$pwd/$etc_dir ;; esac
 case $file in /* ) ;; *) file=$pwd/$file ;; esac
 
+text2html=$(dirname $0)/text2html.sh
+case $text2html in /*) ;; *) text2html=$(pwd)/$text2html ;; esac
+
 logfile=$obf_dir/logfile.txt 
 
 mkdir $obf_dir/data $obf_dir/data/osm $obf_dir/data/indexes
@@ -156,6 +159,8 @@ thanks, Wolfram Schneider
 --
 http://www.BBBike.org - Your Cycle Route Planner
 EOF
+
+$text2html < README.txt > README.html
 
 cd ..
 zip_file=`dirname $file`/$obf.osm.obf.zip
