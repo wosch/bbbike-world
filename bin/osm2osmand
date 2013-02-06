@@ -10,7 +10,7 @@ PATH=$HOME/bin:/usr/local/bin:/bin:/usr/bin; export PATH
 : ${java_heap=1G}
 : ${max_jobs=2}
 
-java_opt=-Xmx${java_heap} 
+java_opt=-Xmx${java_heap}
 
 set -e
 
@@ -66,7 +66,7 @@ case $file in /* ) ;; *) file=$pwd/$file ;; esac
 text2html=$(dirname $0)/text2html.sh
 case $text2html in /*) ;; *) text2html=$(pwd)/$text2html ;; esac
 
-logfile=$obf_dir/logfile.txt 
+logfile=$obf_dir/logfile.txt
 
 mkdir $obf_dir/data $obf_dir/data/osm $obf_dir/data/indexes
 
@@ -91,10 +91,10 @@ else
       #new=$split_dir/$prefix$(echo $i | perl -npe 's,.*/,,; s/.{5}/-/'); mv -f $i $new
       new=$i
       ln $new data/_$counter/data/osm
-      
+
       counter=`expr $counter + 1`
    done
-   
+
    $debug && ls -l $split_dir
 fi
 #counter=0
@@ -142,14 +142,19 @@ done
 
 cat << EOF > README.txt
 Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
-Extracts created by BBBike.org
+Extracts created by BBBike, http://BBBike.org
 OsmAnd by osmand.net, http://code.google.com/p/osmand
-This osmand file was created on: $date
-Area: $city
+
 
 Please read the OsmAnd homepage how to use obf files:
 
   http://osmand.net
+
+
+This osmand file was created on: $date
+GPS rectangle coordinates (lng,lat): $BBBIKE_EXTRACT_COORDS
+Script URL: $BBBIKE_EXTRACT_URL
+Name of area: $city
 
 We appreciate any feedback, suggestions and a donation! You can support us via
 PayPal, Flattr or bank wire transfer: http://www.BBBike.org/community.html
@@ -166,9 +171,8 @@ cd ..
 zip_file=`dirname $file`/$obf.osm.obf.zip
 zip -q -r - -- $(basename $obf_dir) | \
   ( cd $pwd;
-    cat > $zip_file.tmp && mv $zip_file.tmp $zip_file 
+    cat > $zip_file.tmp && mv $zip_file.tmp $zip_file
     $osm_checksum $zip_file
   )
 
 $debug || rm -rf $tmpdir
-

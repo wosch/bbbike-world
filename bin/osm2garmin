@@ -15,7 +15,7 @@ usage () {
 
 error () {
     message="$@"
-    
+
     echo "$message"
     echo "file: $file"
     cat $logfile
@@ -52,7 +52,7 @@ fi
 pwd=$(pwd)
 license="license.txt"
 copyright="OpenStreetMap.org"
-java_opt=-Xmx${java_heap} 
+java_opt=-Xmx${java_heap}
 mkgmap_opt="--keep-going --gmapsupp --family-id=23 --remove-short-arcs --route --add-pois-to-areas --copyright-message="$copyright" --license-file=$license --index --make-all-cycleways"
 mkgmap_map_style="osm"
 : ${max_jobs="--max-jobs=2"}
@@ -61,22 +61,22 @@ etc_dir=`dirname $0`/../etc/mkgmap
 # absolute path
 case $etc_dir in /* ) ;; *) etc_dir=$pwd/$etc_dir ;; esac
 
-case $ext in 
-   cycle | garmin-cycle.zip ) 
+case $ext in
+   cycle | garmin-cycle.zip )
 	ext=garmin-cycle.zip
 	mkgmap_map=--style-file=$etc_dir/cyclemap
 	mkgmap_map_style=cyclemap
 	mkgmap_map_type=$etc_dir/cyclemap.TYP
 	;;
 
-   leisure | freizeit | garmin-freizeit.zip | garmin-leisure.zip ) 
+   leisure | freizeit | garmin-freizeit.zip | garmin-leisure.zip )
 	ext=garmin-leisure.zip
 	mkgmap_map=--style-file=$etc_dir/freizeit
 	mkgmap_map_style=freizeit
 	mkgmap_map_type=$etc_dir/freizeit.TYP
 	;;
 
-   osm | garmin-osm.zip ) 
+   osm | garmin-osm.zip )
 	ext=garmin-osm.zip
 	;;
 
@@ -108,7 +108,7 @@ fi
 if [ $size -lt 10000 ]; then
    echo "PBF file size $size KB, run without splitter" > $logfile
    ln -s $file $split_dir/63240001.osm.pbf
-else 
+else
    echo ">>> Run splitter" > $logfile
    java $java_opt -jar $HOME/opt/splitter/splitter.jar --max-nodes=1000000 --output-dir=$split_dir $file >> $logfile 2>&1 || error
 fi
@@ -124,26 +124,25 @@ fi
 coords=$(echo $garmin | perl -npe 's,planet_,,; s/_/ /g')
 description=$(echo $description | perl -npe '$_=substr($_,0,50)')
 
-coords_message=""
-case $garmin in
-   planet* ) coords_message="GPS Coordinates: $coords";;
-   * ) coords_message="Filename: $garmin";;
-esac
-
 cd $garmin_dir
 echo "Map data (c) OpenStreetMap.org contributors" > $license
 
 cat << EOF > README.txt
 Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
-Extracts created by BBBike.org, Map style: $mkgmap_map_style
-$coords_message
-This garmin map was created on: $date
-Area: $city
+Extracts created by BBBike, http://BBBike.org
+
 
 Please read the OSM wiki how to install the maps on your GPS device:
 
   http://wiki.openstreetmap.org/wiki/OSM_Map_On_Garmin#Installing_the_map_onto_your_GPS
   http://wiki.openstreetmap.org/wiki/OSM_Map_On_Garmin/Download
+
+
+This garmin map was created on: $date
+Garmin map style: $mkgmap_map_style
+GPS rectangle coordinates (lng,lat): $BBBIKE_EXTRACT_COORDS
+Script URL: $BBBIKE_EXTRACT_URL
+Name of area: $city
 
 We appreciate any feedback, suggestions and a donation! You can support us via
 PayPal, Flattr or bank wire transfer: http://www.BBBike.org/community.html
@@ -173,9 +172,8 @@ cd ..
 garmin_zip=`dirname $file`/$garmin.osm.$ext
 zip -q -r - -- `basename $garmin_dir` | \
   ( cd $pwd;
-    cat > $garmin_zip.tmp && mv $garmin_zip.tmp $garmin_zip 
+    cat > $garmin_zip.tmp && mv $garmin_zip.tmp $garmin_zip
     $osm_checksum $garmin_zip
   )
 
 $debug || rm -rf $tmpdir
-

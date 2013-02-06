@@ -829,6 +829,9 @@ sub _convert_send_email {
         my $city     = mkgmap_description( $obj->{'city'} );
         my @system;
 
+        $ENV{BBBIKE_EXTRACT_URL} = &script_url( $option, $obj );
+        $ENV{BBBIKE_EXTRACT_COORDS} = qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
+
         ###################################################################
         # converted file name
         my $file = $pbf_file;
@@ -1002,7 +1005,7 @@ sub _convert_send_email {
         my $message = <<EOF;
 Hi,
 
-your requested OpenStreetMap area "$obj->{'city'}" was extracted from planet.osm 
+your requested OpenStreetMap area "$obj->{'city'}" was extracted from planet.osm
 To download the file, please click on the following link:
 
   $url
@@ -1021,7 +1024,7 @@ file as soon as possible.
  SHA256 checksum: $checksum
  License: OpenStreetMap License
 
-We appreciate any feedback, suggestions and a donation! 
+We appreciate any feedback, suggestions and a donation!
 You can support us via PayPal, Flattr or bank wire transfer.
 http://www.BBBike.org/community.html
 
