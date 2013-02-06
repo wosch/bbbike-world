@@ -218,6 +218,7 @@ sub count_tilesize {
     my $offset = $args{'offset'};
 
     my $counter = {};
+    warn "open $file\n" if $debug;
     my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
 
     if ( defined $offset ) {
@@ -282,6 +283,8 @@ sub count_extract {
     my $offset = $args{'offset'};
 
     my $counter = 0;
+
+    warn "open $file\n" if $debug;
     my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
 
     if ( defined $offset ) {
@@ -290,7 +293,7 @@ sub count_extract {
     }
 
     while (<$fh>) {
-        if (m,"GET /\?city=\S+&email=\S+&,) {
+        if (m,"GET /\?\S*&email=\S+&,) {
             $counter++;
         }
     }
