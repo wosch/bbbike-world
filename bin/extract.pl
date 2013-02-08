@@ -830,7 +830,8 @@ sub _convert_send_email {
         my @system;
 
         $ENV{BBBIKE_EXTRACT_URL} = &script_url( $option, $obj );
-        $ENV{BBBIKE_EXTRACT_COORDS} = qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
+        $ENV{BBBIKE_EXTRACT_COORDS} =
+qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
 
         ###################################################################
         # converted file name
