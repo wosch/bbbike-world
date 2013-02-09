@@ -171,7 +171,7 @@ sub vcl_recv {
 
     ######################################################################
     # force caching of images and CSS/JS files
-    if (req.url ~ "^/html|^/images|^/feed/|^/osp/|^/cgi/[acdf-z]|.*\.html$|.*/$|^/osm/") {
+    if (req.url ~ "^/html|^/images|^/feed/|^/osp/|^/cgi/[acdf-z]|.*\.html$|.*/$|^/osm/" || req.http.host ~ "^api[234]?.bbbike\.org$" ) {
        unset req.http.cookie;
        unset req.http.Accept-Encoding;
        unset req.http.User-Agent;
