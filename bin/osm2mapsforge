@@ -94,7 +94,7 @@ cd $mapsforge_dir
 cat << EOF > README.txt
 Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
 Extracts created by BBBike, http://BBBike.org
-mapsforge map writer by mapsforge project, http://mapsforge.org
+mapsforge map writer by http://mapsforge.org
 
 
 Please read the OSM wiki how to install the maps on your Android device:
