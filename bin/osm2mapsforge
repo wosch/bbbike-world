@@ -120,7 +120,7 @@ EOF
 
 $text2html < README.txt > README.html
 
-echo ">>> Run osmosis, map type: $map_style" >> $logfile
+echo ">>> Run osmosis, mapsforge writer map style: $map_style" >> $logfile
 osmosis --read-pbf $file --mapfile-writer file=$mapsforge.map >> $logfile  2>&1 || error
 
 if egrep -ql '^java\.lang\.|OsmosisRuntimeException' $logfile; then
