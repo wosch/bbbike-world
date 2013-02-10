@@ -1,0 +1,179 @@
+#!/bin/sh
+# Copyright (c) 2012-2013 Wolfram Schneider, http://bbbike.org
+#
+# osm2garmin - convert a osm/pbf file to garmin
+#
+
+set -e
+PATH=$HOME/bin:/bin:/usr/bin; export PATH
+
+usage () {
+   echo "$@"
+   echo "usage file [ osm | cycle | leisure ] [ title ]"
+   exit 1
+}
+
+error () {
+    message="$@"
+
+    echo "$message"
+    echo "file: $file"
+    cat $logfile
+    exit 1
+}
+
+file=$1
+city=$3
+
+# absolute file path
+case $file in /*) ;; *) file=$(pwd)/$file ;; esac
+
+text2html=$(dirname $0)/text2html.sh
+case $text2html in /*) ;; *) text2html=$(pwd)/$text2html ;; esac
+
+test -e "$file" || usage "file $file does not exists"
+: ${osm_checksum=`dirname $0`/osm-checksum}
+
+test -z "$ext" && ext=${2-"osm"}
+: ${debug=false}
+
+size=$(du -ks -L "$file" | awk '{ print $1}')
+: ${java_heap=2048M}
+if [ $size -gt 250000 ]; then
+   java_heap=4948M
+elif [ $size -gt 150000 ]; then
+   java_heap=3748M
+elif [ $size -gt 100000 ]; then
+   java_heap=3248M
+fi
+
+#case $ext in *leisure* ) java_heap=3500M ;; esac
+
+pwd=$(pwd)
+license="license.txt"
+copyright="OpenStreetMap.org"
+java_opt=-Xmx${java_heap}
+mkgmap_opt="--keep-going --gmapsupp --family-id=23 --remove-short-arcs --route --add-pois-to-areas --copyright-message="$copyright" --license-file=$license --index --make-all-cycleways"
+mkgmap_map_style="osm"
+: ${max_jobs="--max-jobs=2"}
+
+etc_dir=`dirname $0`/../etc/mkgmap
+# absolute path
+case $etc_dir in /* ) ;; *) etc_dir=$pwd/$etc_dir ;; esac
+
+case $ext in
+   cycle | garmin-cycle.zip )
+	ext=garmin-cycle.zip
+	mkgmap_map=--style-file=$etc_dir/cyclemap
+	mkgmap_map_style=cyclemap
+	mkgmap_map_type=$etc_dir/cyclemap.TYP
+	;;
+
+   leisure | freizeit | garmin-freizeit.zip | garmin-leisure.zip )
+	ext=garmin-leisure.zip
+	mkgmap_map=--style-file=$etc_dir/freizeit
+	mkgmap_map_style=freizeit
+	mkgmap_map_type=$etc_dir/freizeit.TYP
+	;;
+
+   osm | garmin-osm.zip )
+	ext=garmin-osm.zip
+	;;
+
+   *) usage ;;
+esac
+
+
+test -z "$file" && usage
+if [ -n "$mkgmap_map_type" ]; then
+   test -e "$mkgmap_map_type" || usage "cannot find $mkgmap_map_type file"
+fi
+
+tmpdir=`mktemp -d ${TMPDIR-"/bbbike/tmpfs"}/garmin.$(basename $ext .zip).XXXXXXXXXXX`
+split_dir=$tmpdir/split
+mkdir -p $split_dir
+
+garmin=`basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
+garmin_dir=$tmpdir/$garmin-`basename $ext .zip`
+mkdir -p $garmin_dir
+
+logfile=$garmin_dir/logfile.txt
+touch $logfile
+
+# mkgmap bug
+if [ ! -s $file ]; then
+    : #error "file size is zero, give up!"
+fi
+
+if [ $size -lt 10000 ]; then
+   echo "PBF file size $size KB, run without splitter" > $logfile
+   ln -s $file $split_dir/63240001.osm.pbf
+else
+   echo ">>> Run splitter" > $logfile
+   java $java_opt -jar $HOME/opt/splitter/splitter.jar --max-nodes=1000000 --output-dir=$split_dir $file >> $logfile 2>&1 || error
+fi
+
+date=$(date -u)
+date_short=$(date '+%b %Y')
+if [ -z "$city" ]; then
+   description="$garmin, $date_short"
+else
+   description="$city, $date_short"
+fi
+
+coords=$(echo $garmin | perl -npe 's,planet_,,; s/_/ /g')
+description=$(echo $description | perl -npe '$_=substr($_,0,50)')
+
+cd $garmin_dir
+echo "Map data (c) OpenStreetMap.org contributors" > $license
+
+cat << EOF > README.txt
+Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
+Extracts created by BBBike, http://BBBike.org
+
+
+Please read the OSM wiki how to install the maps on your GPS device:
+
+  http://wiki.openstreetmap.org/wiki/OSM_Map_On_Garmin#Installing_the_map_onto_your_GPS
+  http://wiki.openstreetmap.org/wiki/OSM_Map_On_Garmin/Download
+
+
+This garmin map was created on: $date
+Garmin map style: $mkgmap_map_style
+GPS rectangle coordinates (lng,lat): $BBBIKE_EXTRACT_COORDS
+Script URL: $BBBIKE_EXTRACT_URL
+Name of area: $city
+
+We appreciate any feedback, suggestions and a donation! You can support us via
+PayPal, Flattr or bank wire transfer: http://www.BBBike.org/community.html
+
+thanks, Wolfram Schneider
+
+--
+http://www.BBBike.org - Your Cycle Route Planner
+EOF
+
+$text2html < README.txt > README.html
+
+echo ">>> Run mkgmap, map type: $mkgmap_map_style" >> $logfile
+java $java_opt -jar $HOME/opt/mkgmap/mkgmap.jar $max_jobs $mkgmap_opt $mkgmap_map \
+	--description="$description" --family-name="BBBike.org style=$mkgmap_map_style $coords" $split_dir/*.pbf $mkgmap_map_type >> $logfile 2>&1 || error
+
+if egrep -ql '^java\.lang\.' $logfile; then
+    error
+fi
+
+rm -f $license
+case $mkgmap_opt in
+  *--gmapsupp* ) rm -f osmmap.tdb osmmap.img [0-9][0-9]*.img ;;
+esac
+
+cd ..
+garmin_zip=`dirname $file`/$garmin.osm.$ext
+zip -q -r - -- `basename $garmin_dir` | \
+  ( cd $pwd;
+    cat > $garmin_zip.tmp && mv $garmin_zip.tmp $garmin_zip
+    $osm_checksum $garmin_zip
+  )
+
+$debug || rm -rf $tmpdir
