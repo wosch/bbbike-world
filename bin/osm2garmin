@@ -130,7 +130,7 @@ echo "Map data (c) OpenStreetMap.org contributors" > $license
 cat << EOF > README.txt
 Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
 Extracts created by BBBike, http://BBBike.org
-mkgmap by mkgmap project, http://www.mkgmap.org.uk
+mkgmap by http://www.mkgmap.org.uk
 
 Please read the OSM wiki how to install the maps on your GPS device:
 
