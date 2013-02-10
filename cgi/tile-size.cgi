@@ -37,6 +37,7 @@ my %format = (
     "navit"              => "obf.zip",
     "o5m.gz"             => "pbf",
     "o5m.bz2"            => "pbf",
+    "mapsforge-osm.zip"  => "obf.zip",
 );
 
 ######################################################################
@@ -80,6 +81,7 @@ if ( $format && $format{$format} ) {
 
     # guess factor based on similar data
     $factor_format *= 1.3  if $format eq 'garmin-leisure.zip';
+    $factor_format *= 1.1  if $format eq 'mapsforge-osm.zip';
     $factor_format *= 0.65 if $format eq 'navit.zip';
 
     $factor_format *= 0.7  if $format eq 'osm.bz2';

@@ -82,6 +82,7 @@ my $formats = {
     'obf.zip'            => "Osmand (OBF)",
     'o5m.gz'             => "o5m gzip'd",
     'o5m.bz2'            => "o5m bzip'd",
+    'mapsforge-osm.zip'  => "Mapsforge OSM",
 };
 
 #

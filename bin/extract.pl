@@ -91,6 +91,7 @@ my $formats = {
     'garmin-cycle.zip'   => "Garmin Cycle",
     'garmin-leisure.zip' => "Garmin Leisure",
     'navit.zip'          => "Navit",
+    'mapsforge-osm.zip'  => "mapsforge OSM",
 };
 
 #
@@ -651,6 +652,7 @@ sub reorder_pbf {
         'osm.xz'             => 2.5,
         'shp.zip'            => 1.3,
         'obf.zip'            => 10,
+        'mapsforge-osm.zip'  => 11,
         'navit.zip'          => 1.1,
         'garmin-osm.zip'     => 3,
         'garmin-cycle.zip'   => 3,
@@ -938,6 +940,21 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
             if ( !cached_format( $file, $pbf_file ) ) {
                 @system =
                   ( @nice, "$dirname/pbf2osm", "--navit", $pbf_file, $city );
+
+                warn "@system\n" if $debug >= 2;
+                @system = 'true' if $test_mode;
+
+                system(@system) == 0 or die "system @system failed: $?";
+            }
+        }
+        elsif ( $format =~ /^mapsforge-(osm).zip$/ ) {
+            my $style = $1;
+            $file =~ s/\.pbf$/.$format/;
+            if ( !cached_format( $file, $pbf_file ) ) {
+                @system = (
+                    @nice, "$dirname/pbf2osm", "--mapsforge-$style", $pbf_file,
+                    $city
+                );
 
                 warn "@system\n" if $debug >= 2;
                 @system = 'true' if $test_mode;
