@@ -1133,7 +1133,9 @@ sub export_osm {
     return <<EOF;
   <div id="export_osm">
     <div id="export_osm_too_large" style="display:none">
-      <span class="export_heading error">Area Too Large. <span id="size"></span> Please zoom in!</span>
+      <span class="export_heading error">Area too large. <span id="size"></span>
+      Please zoom in!
+      You may also download <a target="_help" href="/extract.html#other_extract_services">pre-extracted areas</a> from other services</span>
       <div class="export_details"></div>
     </div>
   </div> <!-- export_osm -->
