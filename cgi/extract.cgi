@@ -653,7 +653,7 @@ sub check_input {
         print "and correct the values!</p>\n";
 
         print "<br/>" x 4;
-        print &footer($q);
+        print &footer( $q, 'css' => '#footer { width: 90%; padding-bottom: 20px; }' );
         return;
     }
     else {
