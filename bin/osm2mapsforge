@@ -51,8 +51,6 @@ elif [ $size -gt 100000 ]; then
    java_heap=3248M
 fi
 
-#case $ext in *leisure* ) java_heap=3500M ;; esac
-
 pwd=$(pwd)
 java_opt=-Xmx${java_heap}
 
@@ -71,7 +69,15 @@ esac
 
 test -z "$file" && usage
 
-tmpdir=`mktemp -d ${TMPDIR-"/bbbike/tmpfs"}/mapsforge.$(basename $ext .zip).XXXXXXXXXXX`
+# use RAM disk if available
+if [ -e /bbbike/tmpfs ]; then
+    _tmp=/bbbike/tmpfs
+else
+    _tmp=/bbbike/tmp
+fi
+: ${TMPDIR=$_tmp}
+
+tmpdir=`mktemp -d ${TMPDIR}/mapsforge.$(basename $ext .zip).XXXXXXXXXXX`
 
 mapsforge=`basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
 mapsforge_dir=$tmpdir/$mapsforge-`basename $ext .zip`
@@ -121,7 +127,7 @@ EOF
 $text2html < README.txt > README.html
 
 echo ">>> Run osmosis, mapsforge writer map style: $map_style" >> $logfile
-osmosis --read-pbf $file --mapfile-writer file=$mapsforge.map >> $logfile  2>&1 || error
+osmosis --read-pbf $file --mapfile-writer type=hd file=$mapsforge.map >> $logfile  2>&1 || error
 
 if egrep -ql '^java\.lang\.|OsmosisRuntimeException' $logfile; then
     error
