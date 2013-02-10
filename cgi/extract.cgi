@@ -64,7 +64,8 @@ our $option = {
     # max count of gps points for a polygon
     'max_coords' => 256 * 256,
 
-    'enable_polygon' => 1,
+    'enable_polygon'      => 1,
+    'email_valid_mxcheck' => 1,
 };
 
 my $formats = {
@@ -560,7 +561,13 @@ sub check_input {
             1
         );
     }
-    elsif ( !Email::Valid->address($email) ) {
+    elsif (
+        !Email::Valid->address(
+            -address => $email,
+            -mxcheck => $option->{'email_valid_mxcheck'}
+        )
+      )
+    {
         error("E-mail address '$email' is not valid.");
     }
 
