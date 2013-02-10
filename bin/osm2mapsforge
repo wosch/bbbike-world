@@ -1,7 +1,7 @@
 #!/bin/sh
 # Copyright (c) 2012-2013 Wolfram Schneider, http://bbbike.org
 #
-# osm2garmin - convert a osm/pbf file to garmin
+# osm2mapsforge - convert a osm/pbf file to mapsforge
 #
 
 set -e
@@ -9,7 +9,9 @@ PATH=$HOME/bin:/bin:/usr/bin; export PATH
 
 usage () {
    echo "$@"
-   echo "usage file [ osm | cycle | leisure ] [ title ]"
+   echo "usage file [ style ] [ title ]"
+   echo ""
+   echo "style: osm"
    exit 1
 }
 
@@ -24,6 +26,8 @@ error () {
 
 file=$1
 city=$3
+
+map_style="osm"
 
 # absolute file path
 case $file in /*) ;; *) file=$(pwd)/$file ;; esac
@@ -50,34 +54,15 @@ fi
 #case $ext in *leisure* ) java_heap=3500M ;; esac
 
 pwd=$(pwd)
-license="license.txt"
-copyright="OpenStreetMap.org"
 java_opt=-Xmx${java_heap}
-mkgmap_opt="--keep-going --gmapsupp --family-id=23 --remove-short-arcs --route --add-pois-to-areas --copyright-message="$copyright" --license-file=$license --index --make-all-cycleways"
-mkgmap_map_style="osm"
-: ${max_jobs="--max-jobs=2"}
 
 etc_dir=`dirname $0`/../etc/mkgmap
 # absolute path
 case $etc_dir in /* ) ;; *) etc_dir=$pwd/$etc_dir ;; esac
 
 case $ext in
-   cycle | garmin-cycle.zip )
-	ext=garmin-cycle.zip
-	mkgmap_map=--style-file=$etc_dir/cyclemap
-	mkgmap_map_style=cyclemap
-	mkgmap_map_type=$etc_dir/cyclemap.TYP
-	;;
-
-   leisure | freizeit | garmin-freizeit.zip | garmin-leisure.zip )
-	ext=garmin-leisure.zip
-	mkgmap_map=--style-file=$etc_dir/freizeit
-	mkgmap_map_style=freizeit
-	mkgmap_map_type=$etc_dir/freizeit.TYP
-	;;
-
-   osm | garmin-osm.zip )
-	ext=garmin-osm.zip
+   osm | mapsforge-osm.zip )
+	ext=mapsforge-osm.zip
 	;;
 
    *) usage ;;
@@ -85,19 +70,14 @@ esac
 
 
 test -z "$file" && usage
-if [ -n "$mkgmap_map_type" ]; then
-   test -e "$mkgmap_map_type" || usage "cannot find $mkgmap_map_type file"
-fi
 
-tmpdir=`mktemp -d ${TMPDIR-"/bbbike/tmpfs"}/garmin.$(basename $ext .zip).XXXXXXXXXXX`
-split_dir=$tmpdir/split
-mkdir -p $split_dir
+tmpdir=`mktemp -d ${TMPDIR-"/bbbike/tmpfs"}/mapsforge.$(basename $ext .zip).XXXXXXXXXXX`
 
-garmin=`basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
-garmin_dir=$tmpdir/$garmin-`basename $ext .zip`
-mkdir -p $garmin_dir
+mapsforge=`basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
+mapsforge_dir=$tmpdir/$mapsforge-`basename $ext .zip`
+mkdir -p $mapsforge_dir
 
-logfile=$garmin_dir/logfile.txt
+logfile=$mapsforge_dir/logfile.txt
 touch $logfile
 
 # mkgmap bug
@@ -105,41 +85,26 @@ if [ ! -s $file ]; then
     : #error "file size is zero, give up!"
 fi
 
-if [ $size -lt 10000 ]; then
-   echo "PBF file size $size KB, run without splitter" > $logfile
-   ln -s $file $split_dir/63240001.osm.pbf
-else
-   echo ">>> Run splitter" > $logfile
-   java $java_opt -jar $HOME/opt/splitter/splitter.jar --max-nodes=1000000 --output-dir=$split_dir $file >> $logfile 2>&1 || error
-fi
-
 date=$(date -u)
-date_short=$(date '+%b %Y')
-if [ -z "$city" ]; then
-   description="$garmin, $date_short"
-else
-   description="$city, $date_short"
-fi
-
-coords=$(echo $garmin | perl -npe 's,planet_,,; s/_/ /g')
+coords=$(echo $mapsforge | perl -npe 's,planet_,,; s/_/ /g')
 description=$(echo $description | perl -npe '$_=substr($_,0,50)')
 
-cd $garmin_dir
-echo "Map data (c) OpenStreetMap.org contributors" > $license
+cd $mapsforge_dir
 
 cat << EOF > README.txt
 Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
 Extracts created by BBBike, http://BBBike.org
+mapsforge map writer by mapsforge project, http://mapsforge.org
 
 
-Please read the OSM wiki how to install the maps on your GPS device:
+Please read the OSM wiki how to install the maps on your Android device:
 
-  http://wiki.openstreetmap.org/wiki/OSM_Map_On_Garmin#Installing_the_map_onto_your_GPS
-  http://wiki.openstreetmap.org/wiki/OSM_Map_On_Garmin/Download
+  http://wiki.openstreetmap.org/wiki/Mapsforge
+  http://code.google.com/p/mapsforge/
 
 
-This garmin map was created on: $date
-Garmin map style: $mkgmap_map_style
+This mapsforge map was created on: $date
+Mapsforge map style: $map_style
 GPS rectangle coordinates (lng,lat): $BBBIKE_EXTRACT_COORDS
 Script URL: $BBBIKE_EXTRACT_URL
 Name of area: $city
@@ -155,25 +120,19 @@ EOF
 
 $text2html < README.txt > README.html
 
-echo ">>> Run mkgmap, map type: $mkgmap_map_style" >> $logfile
-java $java_opt -jar $HOME/opt/mkgmap/mkgmap.jar $max_jobs $mkgmap_opt $mkgmap_map \
-	--description="$description" --family-name="BBBike.org style=$mkgmap_map_style $coords" $split_dir/*.pbf $mkgmap_map_type >> $logfile 2>&1 || error
+echo ">>> Run osmosis, map type: $map_style" >> $logfile
+osmosis --read-pbf $file --mapfile-writer file=$mapsforge.map >> $logfile  2>&1 || error
 
-if egrep -ql '^java\.lang\.' $logfile; then
+if egrep -ql '^java\.lang\.|OsmosisRuntimeException' $logfile; then
     error
 fi
 
-rm -f $license
-case $mkgmap_opt in
-  *--gmapsupp* ) rm -f osmmap.tdb osmmap.img [0-9][0-9]*.img ;;
-esac
-
 cd ..
-garmin_zip=`dirname $file`/$garmin.osm.$ext
-zip -q -r - -- `basename $garmin_dir` | \
+mapsforge_zip=`dirname $file`/$mapsforge.osm.$ext
+zip -q -r - -- `basename $mapsforge_dir` | \
   ( cd $pwd;
-    cat > $garmin_zip.tmp && mv $garmin_zip.tmp $garmin_zip
-    $osm_checksum $garmin_zip
+    cat > $mapsforge_zip.tmp && mv $mapsforge_zip.tmp $mapsforge_zip
+    $osm_checksum $mapsforge_zip
   )
 
 $debug || rm -rf $tmpdir
