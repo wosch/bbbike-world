@@ -41,14 +41,12 @@ test -e "$file" || usage "file $file does not exists"
 test -z "$ext" && ext=${2-"osm"}
 : ${debug=false}
 
+hd_mode="type=ram"
 size=$(du -ks -L "$file" | awk '{ print $1}')
 : ${java_heap=2048M}
-if [ $size -gt 250000 ]; then
-   java_heap=4948M
-elif [ $size -gt 150000 ]; then
-   java_heap=3748M
-elif [ $size -gt 100000 ]; then
-   java_heap=3248M
+if [ $size -gt 50000 ]; then
+   java_heap=2948M
+   hd_mode="type=hd"
 fi
 
 pwd=$(pwd)
@@ -127,7 +125,7 @@ EOF
 $text2html < README.txt > README.html
 
 echo ">>> Run osmosis, mapsforge writer map style: $map_style" >> $logfile
-osmosis --read-pbf $file --mapfile-writer type=hd file=$mapsforge.map >> $logfile  2>&1 || error
+osmosis --read-pbf $file --mapfile-writer $hd_mode file=$mapsforge.map >> $logfile  2>&1 || error
 
 if egrep -ql '^java\.lang\.|OsmosisRuntimeException' $logfile; then
     error
