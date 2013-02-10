@@ -37,6 +37,18 @@ my $feed = XML::Atom::SimpleFeed->new(
 # TODO
 # - larger area for most cities, up top 30 km radius the centr of the city
 #
+$feed->add_entry(
+    title =>
+qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now mapsforge format},
+    id      => 'd6f59d1bb8315958eb25b187de28d25b',
+    content => {
+        type => 'html',
+        content =>
+qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now mapsforge format for Android devices},
+    },
+    updated  => '2013-02-10T13:30:02Z',
+    category => 'News',
+);
 
 $feed->add_entry(
     title => 'Added new cities',
