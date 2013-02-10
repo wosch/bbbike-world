@@ -64,8 +64,8 @@ our $option = {
     # max count of gps points for a polygon
     'max_coords' => 256 * 256,
 
-    'enable_polygon' => 1,
-    'email_valid_mxcheck' =>1,
+    'enable_polygon'      => 1,
+    'email_valid_mxcheck' => 1,
 };
 
 my $formats = {
@@ -561,7 +561,13 @@ sub check_input {
             1
         );
     }
-    elsif ( !Email::Valid->address(-address=>$email, -mxcheck => $option->{'email_valid_mxcheck'}) ) {
+    elsif (
+        !Email::Valid->address(
+            -address => $email,
+            -mxcheck => $option->{'email_valid_mxcheck'}
+        )
+      )
+    {
         error("E-mail address '$email' is not valid.");
     }
 
@@ -653,7 +659,8 @@ sub check_input {
         print "and correct the values!</p>\n";
 
         print "<br/>" x 4;
-        print &footer( $q, 'css' => '#footer { width: 90%; padding-bottom: 20px; }' );
+        print &footer( $q,
+            'css' => '#footer { width: 90%; padding-bottom: 20px; }' );
         return;
     }
     else {
@@ -840,7 +847,9 @@ sub send_email {
     # configured by: $option->{'conform'}
     if ( $confirm > 0 ) {
         $smtp->data($data) or die "can't email data to '$to'\n";
-    } else {
+    }
+    else {
+
         # do not sent mail body data
     }
 
