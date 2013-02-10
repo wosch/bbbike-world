@@ -27,6 +27,8 @@ error () {
 file=$1
 city=$3
 
+test -z "$file" && usage "missing file"
+
 map_style="osm"
 
 # absolute file path
