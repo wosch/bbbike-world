@@ -15,6 +15,9 @@ fi
 logfile=$(mktemp -t _pbf2pbf.XXXXXXXX)
 buffer="--buffer bufferCapacity=4000"
 
+: ${java_heap=1800M}
+JAVACMD_OPTIONS=-Xmx${java_heap}; export JAVACMD_OPTIONS
+
 args=""
 for f 
 do
