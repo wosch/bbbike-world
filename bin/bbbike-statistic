@@ -286,28 +286,28 @@ fi
 if [ -s /var/log/lighttpd/extract.bbbike.log ]; then
     echo ""
     echo -n "extract stat: "
-    zcat -f $extract_log | egrep ' /\?city=.*submit=extract' | wc -l
+    zcat -f $extract_log | egrep ' /\?.*?city=.*submit=extract' | wc -l
 
     echo ""
     echo "extract cities:"
-    zcat -f $extract_log | egrep ' /\?city=.*submit=extract' | perl -ne 'print "$1\n" if /city=(.*?)&/' | sort -u | perl -npe 'use CGI;; s,&,\t,g; $_=CGI::Util::unescape($_)'
+    zcat -f $extract_log | egrep ' /\?.*?city=.*submit=extract' | perl -ne 'print "$1\n" if /city=(.*?)&/' | sort -u | perl -npe 'use CGI;; s,&,\t,g; $_=CGI::Util::unescape($_)'
 
     echo ""
     echo "extract statistics by format: "
-    zcat -f $extract_log | egrep  'GET /.city=.*submit=extract' | awk '{print $7}' | perl -npe 'use CGI;; s,&,\t,g; $_=CGI::Util::unescape($_)' |
+    zcat -f $extract_log | egrep  'GET /\?.*?city=.*submit=extract' | awk '{print $7}' | perl -npe 'use CGI;; s,&,\t,g; $_=CGI::Util::unescape($_)' |
 	perl -ne 'print "$1\n" if /\s+format=(\S+)/' | sort | uniq -c | sort -nr
 
     echo ""
     echo -n "extract statistics by user: "
-    zcat -f $extract_log | egrep  'GET /.city=.*submit=extract' | awk '{print $7}' | perl -npe 'use CGI;; s,&,\t,g; $_=CGI::Util::unescape($_)' |
+    zcat -f $extract_log | egrep  'GET /\?.*?city=.*submit=extract' | awk '{print $7}' | perl -npe 'use CGI;; s,&,\t,g; $_=CGI::Util::unescape($_)' |
 	perl -ne 'print "$1\n" if /\s+email=(\S+)/' | sort -u | wc -l
-    zcat -f $extract_log | egrep  'GET /.city=.*submit=extract' | awk '{print $7}' | perl -npe 'use CGI;; s,&,\t,g; $_=CGI::Util::unescape($_)' |
+    zcat -f $extract_log | egrep  'GET /\?.*?city=.*submit=extract' | awk '{print $7}' | perl -npe 'use CGI;; s,&,\t,g; $_=CGI::Util::unescape($_)' |
 	perl -ne 'print "$1\n" if /\s+email=(\S+)/' | sort | uniq -c | sort -nr
 
     echo ""
     echo -n "extract statistics: "
-    zcat -f $extract_log | egrep  'GET /.city=.*submit=extract' | awk '{print $7}' | sort -u | wc -l
-    zcat -f $extract_log | egrep  'GET /.city=.*submit=extract' | awk '{print $7}' | sort -u | perl -npe 'use CGI;; s,&,\t,g; $_=CGI::Util::unescape($_)'
+    zcat -f $extract_log | egrep  'GET /\?.*?city=.*submit=extract' | awk '{print $7}' | sort -u | wc -l
+    zcat -f $extract_log | egrep  'GET /\?.*?city=.*submit=extract' | awk '{print $7}' | sort -u | perl -npe 'use CGI;; s,&,\t,g; $_=CGI::Util::unescape($_)'
 fi
 
 echo ""
