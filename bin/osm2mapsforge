@@ -45,14 +45,15 @@ test -z "$ext" && ext=${2-"osm"}
 
 hd_mode="type=ram"
 size=$(du -ks -L "$file" | awk '{ print $1}')
-: ${java_heap=2048M}
-if [ $size -gt 50000 ]; then
-   java_heap=2948M
+: ${java_heap=2G}
+if [ $size -gt 120000 ]; then
    hd_mode="type=hd"
+elif [ $size -gt 80000 ]; then
+  java_heap=4G
 fi
 
 pwd=$(pwd)
-java_opt=-Xmx${java_heap}
+JAVACMD_OPTIONS=-Xmx${java_heap}; export JAVACMD_OPTIONS
 
 etc_dir=`dirname $0`/../etc/mkgmap
 # absolute path
@@ -100,7 +101,7 @@ cd $mapsforge_dir
 cat << EOF > README.txt
 Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
 Extracts created by BBBike, http://BBBike.org
-mapsforge map writer by http://mapsforge.org
+mapsforge map writer v0.3.0 by http://mapsforge.org
 
 
 Please read the OSM wiki how to install the maps on your Android device:
