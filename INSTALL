@@ -84,7 +84,6 @@ $sudo_cpan Imager
 $sudo_cpan Devel::Leak
 $sudo_cpan JSON::XS
 $sudo_cpan File::ReadBackwards
-$sudo_cpan Object::Iterate
 $sudo_cpan HTML::TreeBuilder::XPath
 $sudo_cpan HTML::FormatText
 $sudo_cpan PDF::Create
@@ -93,7 +92,6 @@ $sudo_cpan String::Approx
 $sudo_cpan DB_File::Lock
 $sudo_cpan Imager
 $sudo_cpan XBase
-$sudo_cpan WWW::Mechanize::FormFiller
 $sudo_cpan CDB_File
 
 # MacOS + debian
@@ -105,5 +103,7 @@ $sudo_cpan Geo::Google::PolylineEncoder
 $sudo_cpan Image::Info # newer version
 $sudo_cpan Kwalify
 $sudo_cpan Math::Polygon
+$sudo_cpan Object::Iterate
+$sudo_cpan WWW::Mechanize::FormFiller
 
 
