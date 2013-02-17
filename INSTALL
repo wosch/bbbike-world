@@ -38,7 +38,7 @@ sudo apt-get install \
   libimage-size-perl libmime-tools-perl libcdb-file-perl \
   libdate-calc-perl libimage-exiftool-perl libstatistics-descriptive-perl \
   libsvg-perl libgd-svg-perl perlmagick libimager-perl imagemagick libsvg-perl \
-  libdb-file-lock-perl libgeo-metar-perl libstring-approx-perl \ 
+  libdb-file-lock-perl libgeo-metar-perl libstring-approx-perl \
   libdbd-xbase-perl libdevel-leak-perl libfile-readbackwards-perl \
   libhtml-treebuilder-xpath-perl libxml2-utils libgdal-perl libgdal-perl
 
