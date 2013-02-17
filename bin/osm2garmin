@@ -82,15 +82,15 @@ case $ext in
    *) usage ;;
 esac
 
-product_id=1
+garmin_product_id=1
 case $ext in
-   *cycle* )   product_id=3;;
-   *leisure* ) product_id=3 ;;
+   *cycle* )   garmin_product_id=2;;
+   *leisure* ) garmin_product_id=3 ;;
 esac
 : ${MD5=`which md5 md5sum false | head -1`}
-garmin_id=$(basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//')
-garmin_id=$(echo $garmin_id | $MD5 | perl -ne 's/[a-f]//g; print /^(\d{4})/ ? $1 : "4444"')
-mkgmap_opt="--keep-going --gmapsupp --family-id=$garmin_id --product-id=$product_id --remove-short-arcs --route --add-pois-to-areas --copyright-message="$copyright" --license-file=$license --index --make-all-cycleways"
+garmin_family_id=$(basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//')
+garmin_family_id=$(echo $garmin_family_id | $MD5 | perl -ne 's/[a-f]//g; print /^(\d{4})/ ? $1 : "4444"')
+mkgmap_opt="--keep-going --gmapsupp --family-id=$garmin_family_id --product-id=$garmin_product_id --remove-short-arcs --route --add-pois-to-areas --copyright-message="$copyright" --license-file=$license --index --make-all-cycleways"
 
 test -z "$file" && usage
 if [ -n "$mkgmap_map_type" ]; then
@@ -163,6 +163,12 @@ EOF
 
 $text2html < README.txt > README.html
 
+if [ -n "$mkgmap_map_type" ]; then
+   cp $mkgmap_map_type map.TYP
+   mkgmap_map_type=map.TYP
+   $(dirname $0)/freizeitkarte-set-typ.pl $garmin_family_id $garmin_product_id $mkgmap_map_type
+fi
+
 echo ">>> Run mkgmap, map style: $mkgmap_map_style" >> $logfile
 java $java_opt -jar $HOME/opt/mkgmap/mkgmap.jar $max_jobs $mkgmap_opt $mkgmap_map \
 	--description="$description" --family-name="BBBike.org style=$mkgmap_map_style $coords" $split_dir/*.pbf $mkgmap_map_type >> $logfile 2>&1 || error
@@ -172,6 +178,8 @@ if egrep -ql '^java\.lang\.' $logfile; then
 fi
 
 rm -f $license
+rm -f map.TYP
+
 case $mkgmap_opt in
   *--gmapsupp* ) rm -f osmmap.tdb osmmap.img [0-9][0-9]*.img ;;
 esac
