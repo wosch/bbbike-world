@@ -53,7 +53,6 @@ pwd=$(pwd)
 license="license.txt"
 copyright="OpenStreetMap.org"
 java_opt=-Xmx${java_heap}
-mkgmap_opt="--keep-going --gmapsupp --family-id=23 --remove-short-arcs --route --add-pois-to-areas --copyright-message="$copyright" --license-file=$license --index --make-all-cycleways"
 mkgmap_map_style="osm"
 : ${max_jobs="--max-jobs=2"}
 
@@ -83,6 +82,15 @@ case $ext in
    *) usage ;;
 esac
 
+product_id=1
+case $ext in
+   *cycle* )   product_id=3;;
+   *leisure* ) product_id=3 ;;
+esac
+: ${MD5=`which md5 md5sum false | head -1`}
+garmin_id=$(basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//')
+garmin_id=$(echo $garmin_id | $MD5 | perl -ne 's/[a-f]//g; print /^(\d{4})/ ? $1 : "4444"')
+mkgmap_opt="--keep-going --gmapsupp --family-id=$garmin_id --product-id=$product_id --remove-short-arcs --route --add-pois-to-areas --copyright-message="$copyright" --license-file=$license --index --make-all-cycleways"
 
 test -z "$file" && usage
 if [ -n "$mkgmap_map_type" ]; then
