@@ -132,6 +132,9 @@ fi
 coords=$(echo $garmin | perl -npe 's,planet_,,; s/_/ /g')
 description=$(echo $description | perl -npe '$_=substr($_,0,50)')
 
+set_typ=$(dirname $0)/freizeitkarte-set-typ.pl
+case $set_typ in /*) ;; *) set_typ=$(pwd)/$set_typ ;; esac
+
 cd $garmin_dir
 echo "Map data (c) OpenStreetMap.org contributors" > $license
 
@@ -166,7 +169,7 @@ $text2html < README.txt > README.html
 if [ -n "$mkgmap_map_type" ]; then
    cp $mkgmap_map_type map.TYP
    mkgmap_map_type=map.TYP
-   $(dirname $0)/freizeitkarte-set-typ.pl $garmin_family_id $garmin_product_id $mkgmap_map_type
+   $set_typ $garmin_family_id $garmin_product_id $mkgmap_map_type
 fi
 
 echo ">>> Run mkgmap, map style: $mkgmap_map_style" >> $logfile
