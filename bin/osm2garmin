@@ -53,7 +53,6 @@ pwd=$(pwd)
 license="license.txt"
 copyright="OpenStreetMap.org"
 java_opt=-Xmx${java_heap}
-mkgmap_opt="--keep-going --gmapsupp --family-id=23 --remove-short-arcs --route --add-pois-to-areas --copyright-message="$copyright" --license-file=$license --index --make-all-cycleways"
 mkgmap_map_style="osm"
 : ${max_jobs="--max-jobs=2"}
 
@@ -83,6 +82,15 @@ case $ext in
    *) usage ;;
 esac
 
+garmin_product_id=1
+case $ext in
+   *cycle* )   garmin_product_id=2;;
+   *leisure* ) garmin_product_id=3 ;;
+esac
+: ${MD5=`which md5 md5sum false | head -1`}
+garmin_family_id=$(basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//')
+garmin_family_id=$(echo $garmin_family_id $ext | $MD5 | perl -ne 's/[a-f]//g; print /^(\d{4})/ ? $1 : "4444"')
+mkgmap_opt="--keep-going --gmapsupp --family-id=$garmin_family_id --product-id=$garmin_product_id --remove-short-arcs --route --add-pois-to-areas --copyright-message="$copyright" --license-file=$license --index --make-all-cycleways"
 
 test -z "$file" && usage
 if [ -n "$mkgmap_map_type" ]; then
@@ -124,6 +132,9 @@ fi
 coords=$(echo $garmin | perl -npe 's,planet_,,; s/_/ /g')
 description=$(echo $description | perl -npe '$_=substr($_,0,50)')
 
+set_typ=$(dirname $0)/freizeitkarte-set-typ.pl
+case $set_typ in /*) ;; *) set_typ=$(pwd)/$set_typ ;; esac
+
 cd $garmin_dir
 echo "Map data (c) OpenStreetMap.org contributors" > $license
 
@@ -155,15 +166,24 @@ EOF
 
 $text2html < README.txt > README.html
 
+if [ -n "$mkgmap_map_type" ]; then
+   cp $mkgmap_map_type map.TYP
+   mkgmap_map_type=map.TYP
+   $set_typ $garmin_family_id $garmin_product_id $mkgmap_map_type >> $logfile 2>&1 
+fi
+
 echo ">>> Run mkgmap, map style: $mkgmap_map_style" >> $logfile
+( set -x 
 java $java_opt -jar $HOME/opt/mkgmap/mkgmap.jar $max_jobs $mkgmap_opt $mkgmap_map \
-	--description="$description" --family-name="BBBike.org style=$mkgmap_map_style $coords" $split_dir/*.pbf $mkgmap_map_type >> $logfile 2>&1 || error
+	--description="$description" --family-name="BBBike.org style=$mkgmap_map_style $coords" $split_dir/*.pbf $mkgmap_map_type ) >> $logfile 2>&1  || error
 
 if egrep -ql '^java\.lang\.' $logfile; then
     error
 fi
 
 rm -f $license
+rm -f map.TYP
+
 case $mkgmap_opt in
   *--gmapsupp* ) rm -f osmmap.tdb osmmap.img [0-9][0-9]*.img ;;
 esac
