@@ -149,7 +149,6 @@ sub set_alarm {
         local $SIG{HUP} = "IGNORE";
         kill 1, -$$;
 
-        sleep 1;
         local $SIG{TERM} = "IGNORE";
         kill 15, -$$;
 
