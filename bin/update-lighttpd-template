@@ -11,7 +11,7 @@ if [ -e $HOME/.bbbikerc ]; then
 fi
 
 PWD=$(pwd)
-USER=$(logname)
+USER=$(whoami)
 export PWD USER
 
 : ${BBBIKE_LIGHTTPD_TEMPLATE=world/etc/lighttpd/test-more.conf.template}
