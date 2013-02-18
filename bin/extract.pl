@@ -137,6 +137,7 @@ $planet_osm =
 # timeout handler
 sub set_alarm {
     my $time = shift;
+    my $message = shift || "";
 
     $time = $alarm if !defined $time;
 
@@ -151,12 +152,14 @@ sub set_alarm {
 
         local $SIG{TERM} = "IGNORE";
         kill 15, -$$;
+        kill 15, -$$;
 
-        warn "Send a hang-up to all childs. Exit\n";
-        exit 1;
+        warn "Send a hang-up to all childs.\n";
+
+        #exit 1;
     };
 
-    warn "set alarm time to: $time seconds\n" if $debug >= 1;
+    warn "set alarm time to: $time seconds $message\n" if $debug >= 1;
     alarm($time);
 }
 
@@ -817,7 +820,8 @@ sub _convert_send_email {
     my $alarm      = $args{'alarm'};
     my $test_mode  = $args{'test_mode'};
 
-    &set_alarm($alarm);
+    my $obj2 = get_json($json_file);
+    &set_alarm( $alarm, $obj2->{'pbf_file'} . " " . $obj2->{'format'} );
 
     # all scripts are in these directory
     my $dirname = dirname($0);
@@ -1258,7 +1262,7 @@ sub run_jobs {
     );
 
     # be paranoid, give up after N hours (java bugs?)
-    &set_alarm($alarm);
+    &set_alarm( $alarm, "osmosis" );
 
     ###########################################################
     # main
