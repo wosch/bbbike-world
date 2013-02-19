@@ -1,8 +1,9 @@
 #!/bin/sh
-# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2013 Wolfram Schneider, http://bbbike.org
 #
-# extract-cron.sh - wrapper for extract.pl script
+# extract-cron.sh - wrapper for extract.pl script 
 #
+# the subject line contains the exit status
 
 PATH=/bin:/usr/bin; export PATH
 set -e
