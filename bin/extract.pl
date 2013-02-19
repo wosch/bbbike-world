@@ -1045,7 +1045,7 @@ file as soon as possible.
  Format: $obj->{"format"}
  File size: $file_size
  SHA256 checksum: $checksum
- Last database update: $database_update
+ Last planet.osm database update: $database_update
  License: OpenStreetMap License
 
 We appreciate any feedback, suggestions and a donation!
