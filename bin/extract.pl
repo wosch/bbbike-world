@@ -1022,6 +1022,8 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         next if !$send_email;
 
         my $script_url = &script_url( $option, $obj );
+        my $database_update =
+          gmtime( stat( $option->{planet_osm} )->mtime ) . " UTC";
 
         my $message = <<EOF;
 Hi,
@@ -1043,6 +1045,7 @@ file as soon as possible.
  Format: $obj->{"format"}
  File size: $file_size
  SHA256 checksum: $checksum
+ Last database update: $database_update
  License: OpenStreetMap License
 
 We appreciate any feedback, suggestions and a donation!
