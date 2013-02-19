@@ -123,7 +123,7 @@ my $osmosis_options = "omitmetadata=true granularity=10000";    # message
 my $nice_level_converter =
   exists $option->{"nice_level_converter"}
   ? $option->{"nice_level_converter"}
-  : $nice_level + 1;
+  : $nice_level + 3;
 
 # test & debug
 $planet_osm =
