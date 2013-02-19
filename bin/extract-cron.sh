@@ -6,7 +6,7 @@
 # the subject line contains the exit status
 
 PATH=/bin:/usr/bin; export PATH
-set -e
+#set -e
 
 prog=$(echo $0 | perl -npe 's/-cron\.sh$/.pl/')
 subject="bbbike extract status:"
