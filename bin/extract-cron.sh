@@ -9,7 +9,7 @@ PATH=/bin:/usr/bin; export PATH
 set -e
 
 prog=$(echo $0 | perl -npe 's/-cron\.sh$/.pl/')
-subject="extract status:"
+subject="bbbike extract status:"
 
 tmp=$(mktemp -t extract.XXXXXXXXXXX)
 
