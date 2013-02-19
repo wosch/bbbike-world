@@ -1310,6 +1310,8 @@ sub run_jobs {
         'keep'    => 1,
         'errors'  => $errors
     );
+
+    return $errors;
 }
 
 ######################################################################
@@ -1352,7 +1354,7 @@ while ( my ( $key, $val ) = each %$spool ) {
 my @files = get_jobs( $spool->{'confirmed'} );
 if ( !scalar(@files) ) {
     print "Nothing to do\n" if $debug >= 2;
-    exit;
+    exit 0;
 }
 
 if ( defined $timeout ) {
@@ -1375,7 +1377,7 @@ if ( $loadavg > $option->{max_loadavg} ) {
     }
 }
 
-&run_jobs(
+my $errors = &run_jobs(
     'test_mode'  => $test_mode,
     'max_jobs'   => $max_jobs,
     'send_email' => $send_email,
@@ -1383,4 +1385,7 @@ if ( $loadavg > $option->{max_loadavg} ) {
     'files'      => \@files
 );
 
+exit($errors);
+
 1;
+
