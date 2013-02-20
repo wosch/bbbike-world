@@ -678,7 +678,7 @@ sub check_input {
 
         print <<EOF;
 <p>Thanks - the input data looks good.</p><p>
-It takes between 10-30 minutes to extract an area from planet.osm,
+It takes between 15-30 minutes to extract an area from planet.osm,
 depending on the size of the area and the system load.
 You will be notified by e-mail if your extract is ready for download.
 Please follow the instruction in the email to proceed your request.</p>
@@ -954,7 +954,7 @@ qq{<p class="error">I'm so sorry, I couldn't find a key for your request.\n},
     else {
         print
           qq{<p class="">Thanks - your request has been confirmed.\n},
-          qq{It takes usually 10-30 minutes to extract the data.\n},
+          qq{It takes usually 15-30 minutes to extract the data.\n},
 qq{You will be notified by e-mail if your extract is ready for download. Stay tuned!</p>};
 
         print qq{<hr/>\n<p>We appreciate any feedback, suggestions },
