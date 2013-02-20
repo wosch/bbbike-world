@@ -12,6 +12,7 @@ dns=cat
 cd /var/log/lighttpd || exit 2
 : ${varnish_log=/var/log/varnish/varnishncsa.log}
 : ${extract_log=/var/log/lighttpd/extract.bbbike.log}
+: ${download_log=/var/log/lighttpd/download.bbbike.log}
 
 logfile="bbbike.log"
 if [ -f $varnish_log ]; then
@@ -277,17 +278,21 @@ echo "error 500"
 log_full '" 500 ' | awk '{ print $1 }'| sort | uniq -c | sort -nr | $dns
 
 
-if [ -s /var/log/lighttpd/download.bbbike.log ]; then
+if [ -s $download_log ]; then
     echo ""
     echo -n "download stat: "
-    awk '{ s+=$10 } END { print int(s/1024/1024), "MB" }' /var/log/lighttpd/download.bbbike.log
+    awk '{ s+=$10 } END { print int(s/1024/1024), "MB" }' $download_log
+
+    echo ""
+    echo "download referer"
+    egrep '"GET /osm/' $download_log | awk '{ print $11 }' | sort | uniq -c | sort -nr
 
     echo ""
     echo "download stat by IP address: "
-    awk '{ print $1 }' /var/log/lighttpd/download.bbbike.log | egrep -v '\.(sha256|md5) ' | sort | uniq -c | sort -nr | head -20
+    awk '{ print $1 }' $download_log | egrep -v '\.(sha256|md5) ' | sort | uniq -c | sort -nr | head -20
 
     echo ""
-    egrep '\.osm\.[^ ]+ ' /var/log/lighttpd/download.bbbike.log | egrep 'GET ' | egrep -v '\.(sha256|md5) ' |
+    egrep '\.osm\.[^ ]+ ' $download_log | egrep 'GET ' | egrep -v '\.(sha256|md5) ' |
 	awk '{print $7, int($10/1024/1024), "MB"}' | sort
 fi
 
