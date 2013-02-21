@@ -167,7 +167,7 @@ sub area_size {
     if ( $lat_sw > $lat_ne ) {
         warn "lat sw: $lat_sw is larger than lat ne: $lat_ne, give up!\n"
           if $debug >= 0;
-        return 0;
+        return -1;
     }
 
     # date border? Split the rectangle in to parts at the date border
@@ -184,7 +184,7 @@ sub area_size {
     elsif ( $lng_sw > $lng_ne || abs( $lng_sw - $lng_ne ) > 180 ) {
         warn "lon sw: $lng_sw is smaller than lon ne: $lng_ne, give up!\n"
           if $debug >= 0;
-        return 0;
+        return -1;
     }
 
     # call real function
