@@ -40,6 +40,20 @@ my %format = (
     "mapsforge-osm.zip"  => "obf.zip",
 );
 
+sub Param {
+    my $q   = shift;
+    my $lat = shift;
+    my $sw  = shift;
+
+    # check sw_lat first, then lat_sw parameter
+    if ( defined $q->param("${sw}_${lat}") ) {
+        return $q->param("${sw}_${lat}");
+    }
+    else {
+        return $q->param("${lat}_${sw}");
+    }
+}
+
 ######################################################################
 # GET /w/api.php?namespace=1&q=berlin HTTP/1.1
 #
@@ -67,10 +81,11 @@ print $q->header(
     -access_control_allow_origin => '*',
 );
 
-my $lng_sw        = $q->param("lng_sw");
-my $lat_sw        = $q->param("lat_sw");
-my $lng_ne        = $q->param("lng_ne");
-my $lat_ne        = $q->param("lat_ne");
+my $lng_sw = Param( $q, "lng", "sw" );
+my $lat_sw = Param( $q, "lat", "sw" );
+my $lng_ne = Param( $q, "lng", "ne" );
+my $lat_ne = Param( $q, "lat", "ne" );
+
 my $factor        = $q->param("factor") || 1;
 my $factor_format = 1;
 my $format        = $q->param("format") || "";
