@@ -180,17 +180,15 @@ sub header {
 
     my $sensor = 'true';
     my $base   = "";
-    if ($offline) {
-        $base = "$www_bbbike_org/cgi/";
-    }
+    #if ($offline) { $base = "$www_bbbike_org/cgi/"; }
 
 #my @javascript = ( "http://www.google.com/jsapi?hl=de", "http://maps.googleapis.com/maps/api/js?sensor=false&amp;language=de&amp;libraries=panoramio,weather", "/html/bbbike-js.js");
     my @javascript = (
-        "../html/jquery/jquery-1.4.2.min.js",
-"../html/devbridge-jquery-autocomplete-1.1.2/jquery.autocomplete-min.js",
+        "/html/jquery/jquery-1.4.2.min.js",
+"/html/devbridge-jquery-autocomplete-1.1.2/jquery.autocomplete-min.js",
 "http://maps.googleapis.com/maps/api/js?v=3.9&sensor=false&language=en&libraries=weather,panoramio",
-        "../html/bbbike.js",
-        "../html/maps3.js"
+        "/html/bbbike.js",
+        "/html/maps3.js"
     );
 
     my $description =
@@ -211,8 +209,8 @@ sub header {
         -style => {
             'src' => [
                 $base
-                  . "../html/devbridge-jquery-autocomplete-1.1.2/styles.css",
-                $base . "../html/bbbike.css"
+                  . "/html/devbridge-jquery-autocomplete-1.1.2/styles.css",
+                $base . "/html/bbbike.css"
             ]
         },
         -script =>
