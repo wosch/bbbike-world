@@ -654,7 +654,7 @@ sub reorder_pbf {
         'osm.xz'             => 2.5,
         'shp.zip'            => 1.3,
         'obf.zip'            => 10,
-        'mapsforge-osm.zip'  => 11,
+        'mapsforge-osm.zip'  => 15,
         'navit.zip'          => 1.1,
         'garmin-osm.zip'     => 3,
         'garmin-cycle.zip'   => 3,
