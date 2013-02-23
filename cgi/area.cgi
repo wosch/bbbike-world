@@ -83,6 +83,8 @@ sub mtime {
 
 sub download_area {
     my $city = shift || $city_default;
+    my $offline = shift;
+
     my $osm_dir = "../osm";
 
     #die system("pwd > /tmp/a.pwd");
@@ -118,12 +120,13 @@ EOF
         my %hash = map { $_ => 1 } @list;
         my %ext_name = ( "md5" => "MD5", "sha256" => "SHA" );
 
+        my $prefix = $offline ? $city : "$download_bbbike_org/osm/bbbike/$city";
         foreach my $file ( sort @list ) {
             my $date = localtime( &mtime("$dir/$file") );
             next if $file =~ /\.(md5|sha256|txt)$/;
 
-            $data .= qq{<tr><td>}
-              . qq{<a href="$download_bbbike_org/osm/bbbike/$city/$file" title="$date">$file</a>};
+            $data .=
+              qq{<tr><td><a href="$prefix/$file" title="$date">$file</a>};
 
             my $data_checksum;
             if ( !$has_checksum_file ) {
@@ -132,7 +135,7 @@ EOF
                     if ( exists $hash{$file_ext} ) {
                         $data_checksum .= ", " if $data_checksum;
                         $data_checksum .=
-qq{<a href="$download_bbbike_org/osm/bbbike/$city/$file_ext" title="checksum $ext">}
+                          qq{<a href="$prefix/$file_ext" title="checksum $ext">}
                           . $ext_name{$ext}
                           . qq{</a>};
                     }
@@ -152,7 +155,7 @@ qq{<a href="$download_bbbike_org/osm/bbbike/$city/$file_ext" title="checksum $ex
         if ($has_checksum_file) {
             my $date = localtime( &mtime("$dir/$checksum_file") );
             $data .= qq{<tr><td>}
-              . qq{<a href="$download_bbbike_org/osm/bbbike/$city/$checksum_file" title="$date">$checksum_file</a></td></tr>\n};
+              . qq{<a href="$prefix/$checksum_file" title="$date">$checksum_file</a></td></tr>\n};
         }
     }
 
@@ -180,12 +183,13 @@ sub header {
 
     my $sensor = 'true';
     my $base   = "";
+
     #if ($offline) { $base = "$www_bbbike_org/cgi/"; }
 
 #my @javascript = ( "http://www.google.com/jsapi?hl=de", "http://maps.googleapis.com/maps/api/js?sensor=false&amp;language=de&amp;libraries=panoramio,weather", "/html/bbbike-js.js");
     my @javascript = (
         "/html/jquery/jquery-1.4.2.min.js",
-"/html/devbridge-jquery-autocomplete-1.1.2/jquery.autocomplete-min.js",
+        "/html/devbridge-jquery-autocomplete-1.1.2/jquery.autocomplete-min.js",
 "http://maps.googleapis.com/maps/api/js?v=3.9&sensor=false&language=en&libraries=weather,panoramio",
         "/html/bbbike.js",
         "/html/maps3.js"
@@ -208,8 +212,7 @@ sub header {
 
         -style => {
             'src' => [
-                $base
-                  . "/html/devbridge-jquery-autocomplete-1.1.2/styles.css",
+                $base . "/html/devbridge-jquery-autocomplete-1.1.2/styles.css",
                 $base . "/html/bbbike.css"
             ]
         },
@@ -324,7 +327,7 @@ my $city = $q->param('city') || $offline_city || $city_default;
 print &header( $q, $offline, $city );
 print &css_map;
 
-print qq{<div id="sidebar">\n}, &download_area($city), qq{</div>\n};
+print qq{<div id="sidebar">\n}, &download_area( $city, $offline ), qq{</div>\n};
 print qq{<div id="BBBikeGooglemap" style="height:94%">\n};
 print qq{<div id="map"></div>\n};
 
