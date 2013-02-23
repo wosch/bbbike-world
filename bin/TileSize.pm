@@ -182,10 +182,11 @@ sub area_size {
 
     # broken lng value? SW is below NE
     elsif ( $lng_sw > $lng_ne ) {
-        warn "lng sw: $lng_sw is smaller than lng ne: $lng_ne, give up!\n"
+        warn "lng sw: $lng_sw is larger than lng ne: $lng_ne, give up!\n"
           if $debug >= 0;
         return -1;
     }
+
     elsif ( abs( $lng_sw - $lng_ne ) > 180 ) {
         warn "lng distance: $lng_sw - $lng_ne > 180, give up!\n" if $debug >= 0;
         return -1;
