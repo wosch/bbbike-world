@@ -120,7 +120,7 @@ EOF
         my %hash = map { $_ => 1 } @list;
         my %ext_name = ( "md5" => "MD5", "sha256" => "SHA" );
 
-        my $prefix = $offline ? $city : "$download_bbbike_org/osm/bbbike/$city";
+        my $prefix = $offline ? "." : "$download_bbbike_org/osm/bbbike/$city";
         foreach my $file ( sort @list ) {
             my $date = localtime( &mtime("$dir/$file") );
             next if $file =~ /\.(md5|sha256|txt)$/;
