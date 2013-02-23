@@ -17,7 +17,7 @@ java
 jsbeautifier
 jsmin
 make
-osmosis
+/usr/local/bin/osmosis
 perltidy
 python
 rsync
@@ -25,6 +25,15 @@ time
 wget
 xargs
 "
+
+tmpdirs="/bbbike/tmp /bbbike/tmpfs"
+for c in $tmpdirs
+do
+   if [ ! -d $c ]; then
+	echo "missing temp directory: $c"
+	error=1
+   fi
+done
 
 for c in $commands
 do
