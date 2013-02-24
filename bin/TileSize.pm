@@ -163,6 +163,43 @@ sub area_size {
     warn "@_ lat sw: $lat_sw, ne: $lat_ne, ", $lat_sw - $lat_ne, "\n"
       if $debug >= 2;
 
+    # cannot handle > 360 degrees lng, or >90, <-90 lat
+    if ( $lng_sw > 360 || $lng_sw < -360 ) {
+        warn "lng sw: -360 < $lng_sw <= 360, give up!\n" if $debug >= 1;
+        return -1;
+    }
+    if ( $lng_ne > 360 || $lng_ne < -360 ) {
+        warn "lng ne: -360 < $lng_ne <= 360, give up!\n" if $debug >= 1;
+        return -1;
+    }
+
+    if ( $lat_sw < -90 || $lat_sw > 90 ) {
+        warn "lat sw: -90 < $lat_sw <= 90, give up!\n" if $debug >= 1;
+        return -1;
+    }
+    if ( $lat_ne < -90 || $lat_ne > 90 ) {
+        warn "lat ne: -90 < $lat_ne <= 90, give up!\n" if $debug >= 1;
+        return -1;
+    }
+
+    # handle ranges between 180 .. 360 degrees
+    if ( $lng_sw > 180 ) {
+        warn "lng sw: $lng_sw > 180, reset\n" if $debug >= 1;
+        $lng_sw -= 360;
+    }
+    if ( $lng_sw < -180 ) {
+        warn "lng sw: $lng_sw < -180, reset\n" if $debug >= 1;
+        $lng_sw += 360;
+    }
+    if ( $lng_ne > 180 ) {
+        warn "lng ne: $lng_ne > 180, reset\n" if $debug >= 1;
+        $lng_ne -= 360;
+    }
+    if ( $lng_ne < -180 ) {
+        warn "lng ne: $lng_ne < -180, reset\n" if $debug >= 1;
+        $lng_ne += 360;
+    }
+
     # broken lat values? SW is below NE
     if ( $lat_sw > $lat_ne ) {
         warn "lat sw: $lat_sw is larger than lat ne: $lat_ne, give up!\n"
