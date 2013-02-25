@@ -18,7 +18,7 @@ osm2o5m=osmconvert
 # max. file size in KB
 : ${max_file_size_garmin=2950000}
 : ${max_file_size_osmand=600000}
-: ${max_cpu_time=10800}
+: ${max_cpu_time=7200}
 
 ulimit -t $max_cpu_time
 
