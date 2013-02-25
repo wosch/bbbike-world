@@ -11,6 +11,6 @@
   echo "<html><head><title>README</title></head><body><pre>"
   perl -npe 's,(http://\S+),<a href="$1">$1</a>,g'
   echo "</pre></body></html>"
-) | tidy -i /dev/stdin 2>/dev/null
+) | tidy -raw -i /dev/stdin 2>/dev/null
 
 exit 0
