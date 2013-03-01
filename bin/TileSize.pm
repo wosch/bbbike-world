@@ -163,10 +163,51 @@ sub area_size {
     warn "@_ lat sw: $lat_sw, ne: $lat_ne, ", $lat_sw - $lat_ne, "\n"
       if $debug >= 2;
 
+    # cannot handle > 360 degrees lng, or >90, <-90 lat
+    if ( $lng_sw > 360 || $lng_sw < -360 ) {
+        warn "lng sw: -360 < $lng_sw <= 360, give up!\n" if $debug >= 1;
+        return -1;
+    }
+    if ( $lng_ne > 360 || $lng_ne < -360 ) {
+        warn "lng ne: -360 < $lng_ne <= 360, give up!\n" if $debug >= 1;
+        return -1;
+    }
+
+    if ( $lat_sw < -90 || $lat_sw > 90 ) {
+        warn "lat sw: -90 < $lat_sw <= 90, give up!\n" if $debug >= 1;
+        return -1;
+    }
+    if ( $lat_ne < -90 || $lat_ne > 90 ) {
+        warn "lat ne: -90 < $lat_ne <= 90, give up!\n" if $debug >= 1;
+        return -1;
+    }
+
+    # handle ranges between 180 .. 360 degrees
+    if ( $lng_sw > 180 ) {
+        my $reset = $lng_sw - 360;
+        warn "lng sw: $lng_sw > 180, reset to $reset\n" if $debug >= 1;
+        $lng_sw = $reset;
+    }
+    if ( $lng_sw < -180 ) {
+        my $reset = $lng_sw + 360;
+        warn "lng sw: $lng_sw < -180, reset to $reset\n" if $debug >= 1;
+        $lng_sw = $reset;
+    }
+    if ( $lng_ne > 180 ) {
+        my $reset = $lng_ne - 360;
+        warn "lng ne: $lng_ne > 180, reset to $reset\n" if $debug >= 1;
+        $lng_ne = $reset;
+    }
+    if ( $lng_ne < -180 ) {
+        my $reset = $lng_ne + 360;
+        warn "lng ne: $lng_ne < -180, reset to $reset\n" if $debug >= 1;
+        $lng_ne = $reset;
+    }
+
     # broken lat values? SW is below NE
     if ( $lat_sw > $lat_ne ) {
         warn "lat sw: $lat_sw is larger than lat ne: $lat_ne, give up!\n"
-          if $debug >= 0;
+          if $debug >= 1;
         return -1;
     }
 
@@ -183,18 +224,18 @@ sub area_size {
     # broken lng value? SW is below NE
     elsif ( $lng_sw > $lng_ne ) {
         warn "lng sw: $lng_sw is larger than lng ne: $lng_ne, give up!\n"
-          if $debug >= 0;
+          if $debug >= 1;
         return -1;
     }
 
     elsif ( abs( $lng_sw - $lng_ne ) > 180 ) {
-        warn "lng distance: $lng_sw - $lng_ne > 180, give up!\n" if $debug >= 0;
+        warn "lng distance: $lng_sw - $lng_ne > 180, give up!\n" if $debug >= 1;
         return -1;
     }
 
     # call real function
     else {
-        return $self->_area_size(@_);
+        return $self->_area_size( $lng_sw, $lat_sw, $lng_ne, $lat_ne, $parts );
     }
 }
 
@@ -220,9 +261,9 @@ sub _area_size {
     $lng_ne2 = POSIX::ceil($lng_ne);
     $lat_ne2 = POSIX::ceil($lat_ne);
 
-    warn "$lng_sw,$lat_sw,$lng_ne,$lat_ne", " :: ",
+    warn "area size: $lng_sw,$lat_sw,$lng_ne,$lat_ne", " :: ",
       "$lng_sw2,$lat_sw2,$lng_ne2,$lat_ne2\n"
-      if $debug > 0;
+      if $debug >= 1;
 
     sub W { $debug >= 2 ? warn $_[0] . "\n" : 1 }
     my $tile_parts = 0;
