@@ -164,7 +164,7 @@ sub header {
                 {
                     -name => 'description',
                     -content =>
-'Extracts OpenStreetMap areas in OSM, PBF, Garmin, Osmand or Esri shapefile format'
+'Extracts OpenStreetMap areas in OSM, PBF, Garmin, Osmand, mapsforge, navit, or Esri shapefile format'
                 }
             )
         ],
