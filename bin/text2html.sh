@@ -5,7 +5,7 @@
 #
 
 #set -e
-#PATH=$HOME/bin:/bin:/usr/bin; export PATH
+PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 
 (
   echo "<html><head><title>README</title></head><body><pre>"
