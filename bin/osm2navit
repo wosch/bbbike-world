@@ -4,8 +4,7 @@
 # osm2navit  - convert a .pbf file to navit .bin
 #
 
-PATH=$HOME/bin:/usr/local/bin:/bin:/usr/bin; export PATH
-
+PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 set -e
 
 usage () {

@@ -5,7 +5,7 @@
 #
 
 set -e
-PATH=$HOME/bin:/bin:/usr/bin; export PATH
+PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 
 usage () {
    echo "$@"

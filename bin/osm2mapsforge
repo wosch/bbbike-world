@@ -4,8 +4,8 @@
 # osm2mapsforge - convert a osm/pbf file to mapsforge
 #
 
+PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 set -e
-PATH=$HOME/bin:/bin:/usr/bin; export PATH
 
 usage () {
    echo "$@"
