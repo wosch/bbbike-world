@@ -196,7 +196,7 @@ sub header {
     );
 
     my $description =
-"OSM extracts for $city in OSM, PBF, Garmin cycle map, Osmand and ESRI shapefile format";
+"OSM extracts for $city in OSM, PBF, Garmin cycle map, Osmand, mapsforge, Navit and Esri shapefile format";
     return $q->start_html(
         -title => $description
         ,    #"BBBike @ World covered areas - osm extracts for $city",
