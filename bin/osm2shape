@@ -4,7 +4,8 @@
 # osm2shape  - convert a osm/pbf file to shape
 #
 
-PATH=$HOME/bin:/bin:/usr/bin; export PATH
+PATH=/bin:/usr/bin:/usr/local/bin; export PATH
+
 set -e
 
 usage () {
