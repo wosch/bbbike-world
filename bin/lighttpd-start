@@ -4,7 +4,7 @@
 # start web server for testing
 #
 
-PATH=$HOME/bin:/usr/local/bin:/opt/local/sbin:/usr/sbin:/bin:/usr/bin; export PATH
+PATH=/usr/local/bin:/opt/local/sbin:/usr/sbin:/bin:/usr/bin; export PATH
 
 set -e
 
