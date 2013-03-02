@@ -3,6 +3,7 @@
 #
 # pbf2osm - convert PBF format to OSM XML
 
+PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 set -e
 
 compress=""
