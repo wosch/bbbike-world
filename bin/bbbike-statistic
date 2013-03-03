@@ -292,7 +292,7 @@ if [ -s $download_log ]; then
     awk '{ print $1 }' $download_log | egrep -v '\.(sha256|md5) ' | sort | uniq -c | sort -nr | head -20
 
     echo ""
-    egrep '\.osm\.[^ ]+ ' $download_log | egrep 'GET ' | egrep -v '\.(sha256|md5) ' |
+    egrep '\.osm\.[^ ]+ ' $download_log | egrep 'GET ' | egrep -v '\.(sha256|md5) |/tile/' |
 	awk '{print $7, int($10/1024/1024), "MB"}' | sort
 fi
 
