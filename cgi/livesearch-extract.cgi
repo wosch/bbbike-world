@@ -219,7 +219,7 @@ sub statistic {
 
     my $sensor = is_mobile($q) ? 'true' : 'false';
     print $q->start_html(
-        -title => 'BBBike @ World livesearch',
+        -title => 'BBBike extract livesearch',
         -head  => [
             $q->meta(
                 {
