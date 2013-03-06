@@ -5,6 +5,7 @@
 #
 
 PATH=/bin:/usr/bin:/usr/local/bin; export PATH
+: ${BBBIKE_EXTRACT_LANG=en}
 
 set -e
 
@@ -21,6 +22,9 @@ test -e "$file" || usage "file $file does not exists"
 
 : ${debug=false}
 pwd=$(pwd)
+
+template=$(dirname $0)/../etc/extract/$(basename $0).$BBBIKE_EXTRACT_LANG.sh
+case $template in /*) ;; *) template=$(pwd)/$template ;; esac
 
 test -z "$file" && usage
 : ${osm_checksum=`dirname $0`/osm-checksum}
@@ -48,30 +52,8 @@ fi
 cd $shape_dir
 date=$(date -u)
 
-cat << EOF > README.txt
-Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
-Extracts created by BBBike, http://BBBike.org
-osmium2shape by Geofabrik, http://geofabrik.de
-
-
-Please read the OSM wiki how to use shape files.
-
-  http://wiki.openstreetmap.org/wiki/Shapefiles
-
-
-This shape file was created on: $date
-GPS rectangle coordinates (lng,lat): $BBBIKE_EXTRACT_COORDS
-Script URL: $BBBIKE_EXTRACT_URL
-Name of area: $city
-
-We appreciate any feedback, suggestions and a donation! You can support us via
-PayPal, Flattr or bank wire transfer: http://www.BBBike.org/community.html
-
-thanks, Wolfram Schneider
-
---
-http://www.BBBike.org - Your Cycle Route Planner
-EOF
+BBBIKE_EXTRACT_COORDS=$BBBIKE_EXTRACT_COORDS BBBIKE_EXTRACT_URL=$BBBIKE_EXTRACT_URL \
+  date=$date city=$city sh $template > README.txt
 
 $text2html < README.txt > README.html
 

@@ -34,6 +34,7 @@ use warnings;
 
 $ENV{'PATH'} = "/usr/local/bin:/bin:/usr/bin";
 $ENV{'OSM_CHECKSUM'} = 'false';    # disable md5 checksum files
+$ENV{'BBBIKE_EXTRACT_LANG'} = 'de';    # default language
 
 # group writable file
 umask(002);

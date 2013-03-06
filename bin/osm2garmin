@@ -4,8 +4,10 @@
 # osm2garmin - convert a osm/pbf file to garmin
 #
 
-set -e
 PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
+: ${BBBIKE_EXTRACT_LANG=en}
+
+set -e
 
 usage () {
    echo "$@"
@@ -33,6 +35,9 @@ case $text2html in /*) ;; *) text2html=$(pwd)/$text2html ;; esac
 
 test -e "$file" || usage "file $file does not exists"
 : ${osm_checksum=`dirname $0`/osm-checksum}
+
+template=$(dirname $0)/../etc/extract/$(basename $0).$BBBIKE_EXTRACT_LANG.sh
+case $template in /*) ;; *) template=$(pwd)/$template ;; esac
 
 test -z "$ext" && ext=${2-"osm"}
 : ${debug=false}
@@ -138,31 +143,9 @@ case $set_typ in /*) ;; *) set_typ=$(pwd)/$set_typ ;; esac
 cd $garmin_dir
 echo "Map data (c) OpenStreetMap.org contributors" > $license
 
-cat << EOF > README.txt
-Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
-Extracts created by BBBike, http://BBBike.org
-mkgmap by http://www.mkgmap.org.uk
 
-Please read the OSM wiki how to install the maps on your GPS device:
-
-  http://wiki.openstreetmap.org/wiki/OSM_Map_On_Garmin#Installing_the_map_onto_your_GPS
-  http://wiki.openstreetmap.org/wiki/OSM_Map_On_Garmin/Download
-
-
-This garmin map was created on: $date
-Garmin map style: $mkgmap_map_style
-GPS rectangle coordinates (lng,lat): $BBBIKE_EXTRACT_COORDS
-Script URL: $BBBIKE_EXTRACT_URL
-Name of area: $city
-
-We appreciate any feedback, suggestions and a donation! You can support us via
-PayPal, Flattr or bank wire transfer: http://www.BBBike.org/community.html
-
-thanks, Wolfram Schneider
-
---
-http://www.BBBike.org - Your Cycle Route Planner
-EOF
+BBBIKE_EXTRACT_COORDS=$BBBIKE_EXTRACT_COORDS BBBIKE_EXTRACT_URL=$BBBIKE_EXTRACT_URL \
+  date=$date city=$city mkgmap_map_style=$mkgmap_map_style sh $template > README.txt
 
 $text2html < README.txt > README.html
 
