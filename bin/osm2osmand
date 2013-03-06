@@ -149,8 +149,13 @@ BBBIKE_EXTRACT_COORDS=$BBBIKE_EXTRACT_COORDS BBBIKE_EXTRACT_URL=$BBBIKE_EXTRACT_
 
 $text2html < README.txt > README.html
 
+case $BBBIKE_EXTRACT_LANG in
+  en ) ext2=$ext ;;
+   * ) ext2=$ext.$BBBIKE_EXTRACT_LANG ;;
+esac
+
 cd ..
-zip_file=`dirname $file`/$obf.osm.obf.zip
+zip_file=`dirname $file`/$obf.osm.obf${ext2}.zip
 zip -q -r - -- $(basename $obf_dir) | \
   ( cd $pwd;
     cat > $zip_file.tmp && mv $zip_file.tmp $zip_file

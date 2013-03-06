@@ -115,8 +115,13 @@ if egrep -ql '^java\.lang\.|OsmosisRuntimeException' $logfile; then
     error
 fi
 
+case $BBBIKE_EXTRACT_LANG in
+  en ) ext2=$ext ;;
+   * ) ext2=$ext.$BBBIKE_EXTRACT_LANG ;;
+esac
+
 cd ..
-mapsforge_zip=`dirname $file`/$mapsforge.osm.$ext
+mapsforge_zip=`dirname $file`/$mapsforge.osm.$ext2
 zip -q -r - -- `basename $mapsforge_dir` | \
   ( cd $pwd;
     cat > $mapsforge_zip.tmp && mv $mapsforge_zip.tmp $mapsforge_zip

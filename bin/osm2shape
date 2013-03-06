@@ -57,8 +57,13 @@ BBBIKE_EXTRACT_COORDS=$BBBIKE_EXTRACT_COORDS BBBIKE_EXTRACT_URL=$BBBIKE_EXTRACT_
 
 $text2html < README.txt > README.html
 
+case $BBBIKE_EXTRACT_LANG in
+  en ) ext2=$ext ;;
+   * ) ext2=$ext.$BBBIKE_EXTRACT_LANG ;;
+esac
+
 cd ..
-shape_zip=`dirname $file`/$shape.osm.shp.zip
+shape_zip=`dirname $file`/$shape.osm.shp${ext2}.zip
 zip -q -r - -- `basename $shape_dir` | \
   ( cd $pwd;
     cat > $shape_zip.tmp && mv $shape_zip.tmp $shape_zip
@@ -66,3 +71,4 @@ zip -q -r - -- `basename $shape_dir` | \
   )
 
 $debug || rm -rf $tmpdir
+

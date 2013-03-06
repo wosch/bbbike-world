@@ -171,8 +171,13 @@ case $mkgmap_opt in
   *--gmapsupp* ) rm -f osmmap.tdb osmmap.img [0-9][0-9]*.img ;;
 esac
 
+case $BBBIKE_EXTRACT_LANG in
+  en ) ext2=$ext ;;
+   * ) ext2=$ext.$BBBIKE_EXTRACT_LANG ;;
+esac
+
 cd ..
-garmin_zip=`dirname $file`/$garmin.osm.$ext
+garmin_zip=`dirname $file`/$garmin.osm.$ext2
 zip -q -r - -- `basename $garmin_dir` | \
   ( cd $pwd;
     cat > $garmin_zip.tmp && mv $garmin_zip.tmp $garmin_zip
