@@ -9,16 +9,16 @@ Please read the Navit homepage and the wiki how to use Navit files:
   http://wiki.navit-project.org/
 
 
-This navit file was created on: $date
-GPS rectangle coordinates (lng,lat): $BBBIKE_EXTRACT_COORDS
+Diese Navit Karte wurde erzeugt am: $date
+GPS Rechteck Koordinaten (lng,lat): $BBBIKE_EXTRACT_COORDS
 Script URL: $BBBIKE_EXTRACT_URL
-Name of area: $city
+Name des Gebietes: $city
 
-We appreciate any feedback, suggestions and a donation! You can support us via
-PayPal, Flattr or bank wire transfer: http://www.BBBike.org/community.html
+Spenden sind willkommen! Du kannst uns via PayPal, Flattr oder Bank&uuml;berweisung
+unterst&uuml;tzen: http://www.bbbike.org/community.de.html
 
-thanks, Wolfram Schneider
+Danke, Wolfram Schneider
 
 --
-http://www.BBBike.org - Your Cycle Route Planner
+http://www.BBBike.org - Dein Fahrrad-Routenplaner
 EOF
