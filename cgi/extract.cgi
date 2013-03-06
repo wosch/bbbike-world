@@ -67,8 +67,7 @@ our $option = {
     'enable_polygon'      => 1,
     'email_valid_mxcheck' => 1,
 
-    # output language
-    'lang' => "en",
+    'language' => "en",
 };
 
 my $formats = {
@@ -496,6 +495,18 @@ sub parse_coords_string {
     return @data;
 }
 
+sub get_language {
+    my $q = shift;
+
+    my $lang = $option->{'language'} || "en";
+
+    if ( $q->param("lang") && $q->param("lang") =~ /^(de|en)$/ ) {
+        $lang = $1;
+    }
+
+    return $lang;
+}
+
 #
 # validate user input
 # reject wrong values
@@ -506,7 +517,7 @@ sub check_input {
     my $q = $args{'q'};
     our $qq = $q;
 
-    my $lang = $option->{'language'};
+    my $lang = get_language($q);
 
     print &header( $q, -type => 'check_input' );
     print &layout( $q, 'check_input' => 1 );
