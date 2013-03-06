@@ -66,6 +66,9 @@ our $option = {
 
     'enable_polygon'      => 1,
     'email_valid_mxcheck' => 1,
+
+    # output language
+    'lang' => "en",
 };
 
 my $formats = {
@@ -363,7 +366,8 @@ sub script_url {
     my $obj    = shift;
 
     my $coords = "";
-    my $city = $obj->{'city'} || "";
+    my $city   = $obj->{'city'} || "";
+    my $lang   = $obj->{'lang'} || "";
 
     if ( scalar( @{ $obj->{'coords'} } ) > 100 ) {
         $coords = "0,0,0";
@@ -379,6 +383,7 @@ sub script_url {
     $script_url .= "&format=$obj->{'format'}";
     $script_url .= "&coords=" . CGI::escape($coords) if $coords ne "";
     $script_url .= "&city=" . CGI::escape($city) if $city ne "";
+    $script_url .= "&lang=" . CGI::escape($lang) if $lang ne "";
 
     return $script_url;
 }
@@ -500,6 +505,8 @@ sub check_input {
 
     my $q = $args{'q'};
     our $qq = $q;
+
+    my $lang = $option->{'language'};
 
     print &header( $q, -type => 'check_input' );
     print &layout( $q, 'check_input' => 1 );
@@ -704,6 +711,7 @@ EOF
             'layers' => $layers,
             'coords' => \@coords,
             'city'   => $city,
+            'lang'   => $lang,
         }
     );
 
@@ -722,6 +730,7 @@ EOF
         'time'            => time(),
         'script_url'      => $script_url,
         'coords_original' => $debug >= 2 ? $coords : "",
+        'lang'            => $lang,
     };
 
     #my $json      = new JSON;
