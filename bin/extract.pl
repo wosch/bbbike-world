@@ -34,7 +34,8 @@ use warnings;
 
 $ENV{'PATH'} = "/usr/local/bin:/bin:/usr/bin";
 $ENV{'OSM_CHECKSUM'} = 'false';    # disable md5 checksum files
-$ENV{'BBBIKE_EXTRACT_LANG'} = 'de';    # default language
+
+#$ENV{'BBBIKE_EXTRACT_LANG'} = 'en';       # default language
 
 # group writable file
 umask(002);
@@ -833,11 +834,13 @@ sub _convert_send_email {
         my $format   = $obj->{'format'};
         my $pbf_file = $obj->{'pbf_file'};
         my $city     = mkgmap_description( $obj->{'city'} );
+        my $lang     = $obj->{'lang'} || "en";
         my @system;
 
         $ENV{BBBIKE_EXTRACT_URL} = &script_url( $option, $obj );
         $ENV{BBBIKE_EXTRACT_COORDS} =
 qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
+        $ENV{'BBBIKE_EXTRACT_LANG'} = $lang;
 
         ###################################################################
         # converted file name
