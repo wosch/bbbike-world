@@ -907,6 +907,8 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         elsif ( $format =~ /^garmin-(osm|cycle|leisure).zip$/ ) {
             my $style = $1;
             $file =~ s/\.pbf$/.$format/;
+            $file .= ".$lang" if $lang ne "en";
+
             if ( !cached_format( $file, $pbf_file ) ) {
                 @system = (
                     @nice, "$dirname/pbf2osm", "--garmin-$style", $pbf_file,
@@ -920,6 +922,8 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         }
         elsif ( $format eq 'shp.zip' ) {
             $file =~ s/\.pbf$/.$format/;
+            $file .= ".$lang" if $lang ne "en";
+
             if ( !cached_format( $file, $pbf_file ) ) {
                 @system =
                   ( @nice, "$dirname/pbf2osm", "--shape", $pbf_file, $city );
@@ -932,6 +936,8 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         }
         elsif ( $format eq 'obf.zip' ) {
             $file =~ s/\.pbf$/.$format/;
+            $file .= ".$lang" if $lang ne "en";
+
             if ( !cached_format( $file, $pbf_file ) ) {
                 @system =
                   ( @nice, "$dirname/pbf2osm", "--osmand", $pbf_file, $city );
@@ -944,6 +950,8 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         }
         elsif ( $format eq 'navit.zip' ) {
             $file =~ s/\.pbf$/.$format/;
+            $file .= ".$lang" if $lang ne "en";
+
             if ( !cached_format( $file, $pbf_file ) ) {
                 @system =
                   ( @nice, "$dirname/pbf2osm", "--navit", $pbf_file, $city );
@@ -957,6 +965,8 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         elsif ( $format =~ /^mapsforge-(osm).zip$/ ) {
             my $style = $1;
             $file =~ s/\.pbf$/.$format/;
+            $file .= ".$lang" if $lang ne "en";
+
             if ( !cached_format( $file, $pbf_file ) ) {
                 @system = (
                     @nice, "$dirname/pbf2osm", "--mapsforge-$style", $pbf_file,
