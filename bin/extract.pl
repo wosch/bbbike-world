@@ -965,7 +965,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         elsif ( $format =~ /^mapsforge-(osm).zip$/ ) {
             my $style = $1;
             $file =~ s/\.pbf$/.$format/;
-            $file .= ".$lang" if $lang ne "en";
+            $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
 
             if ( !cached_format( $file, $pbf_file ) ) {
                 @system = (
