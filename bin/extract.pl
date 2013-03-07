@@ -71,7 +71,7 @@ our $option = {
     'file_prefix' => 'planet_',
 
     # reset max_jobs if load is to high
-    'max_loadavg'      => 8,
+    'max_loadavg'      => 10,
     'max_loadavg_jobs' => 2,    # 0: stop running at all
 
     # 4196 polygones is enough for the queue
@@ -1386,9 +1386,10 @@ if ( $loadavg > $option->{max_loadavg} ) {
     if ( $max_loadavg_jobs >= 1 ) {
         warn
 "Load avarage $loadavg is to high, reset max jobs to: $max_loadavg_jobs\n"
-          if $debug >= 2;
+          if $debug >= 1;
         $max_jobs = $max_loadavg_jobs;
     }
+
     else {
         die "Load avarage $loadavg is to high, give up!\n";
     }
