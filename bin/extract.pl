@@ -1258,8 +1258,9 @@ sub run_jobs {
     }
 
     # Oops, are jobs are in use, give up
-    die "Cannot get lock for jobs 1..$max_jobs\n"
+    die "Cannot get lock for jobs 1..$max_jobs\n" . qx(uptime)
       if !$lockfile;
+
     warn "Use lockfile $lockfile\n" if $debug;
 
     my @list = parse_jobs(
