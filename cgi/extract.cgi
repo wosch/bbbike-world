@@ -336,7 +336,7 @@ sub message {
 BBBike extract -
 </span> 
 <span id="tools-titlebar">
- <span id="tools-help"><a class='tools-helptrigger' href='/extract_dialog/$language/about.html'><span>about</span></a></span>
+ <span id="tools-help"><a class='tools-helptrigger' href='$extract_dialog/$language/about.html'><span>about</span></a></span>
  <span id="pageload-indicator">&nbsp;<img src="/html/indicator.gif" alt="" title="Loading JavaScript libraries" /></span>
  <span class="jqmWindow jqmWindowLarge" id="tools-helpwin"></span>
 </span>
