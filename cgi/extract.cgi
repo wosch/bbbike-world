@@ -67,8 +67,9 @@ our $option = {
     'enable_polygon'      => 1,
     'email_valid_mxcheck' => 1,
 
-    'language'       => "en",
-    'request_method' => "GET",
+    'language'            => "en",
+    'request_method'      => "GET",
+    'supported_languages' => qw/en de/,
 };
 
 my $formats = {
@@ -88,7 +89,7 @@ my $formats = {
     'mapsforge-osm.zip'  => "Mapsforge OSM",
 };
 
-my $language = $option->{'language'};
+my $language       = $option->{'language'};
 my $extract_dialog = '/extract-dialog';
 
 #
@@ -1179,11 +1180,29 @@ sub export_osm {
 EOF
 }
 
+sub get_langauge {
+    my $q        = shift;
+    my $language = shift;
+
+    my $lang = $q->param("lang") || $q->param("language");
+    return $language if !defined $lang;
+
+    if ( grep { $_ eq $lang } @$option->{'supported_language'} ) {
+        warn "language: $lang\n" if $debug >= 1;
+        return $lang;
+    }
+    else {
+        return $language;
+    }
+}
+
 ######################################################################
 # main
 my $q = new CGI;
 
 my $action = $q->param("submit") || ( $q->param("key") ? "key" : "" );
+$language = get_language( $q, $language );
+
 if ( $action eq "extract" ) {
     &check_input( 'q' => $q );
 }
