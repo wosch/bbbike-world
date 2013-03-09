@@ -88,7 +88,8 @@ my $formats = {
     'mapsforge-osm.zip'  => "Mapsforge OSM",
 };
 
-my $extract_dialog = '/extract-dialog/en';
+my $language = $option->{'language'};
+my $extract_dialog = '/extract-dialog';
 
 #
 # Parse user config file.
@@ -203,14 +204,14 @@ sub manual_area {
   <div id="sidebar_content">
     <span class="export_hint">
       <a id="drag_box">Manually select a different area</a>
-      <a class='tools-helptrigger' href='$extract_dialog/select-area.html'><img src='/html/help-16px.png' alt="" /></a><br/>
+      <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a><br/>
     </span> 
     <span id="square_km"></span>
 
     <div id="polygon_controls" style="display:none">
 	<input id="createVertices" type="radio" name="type" onclick="polygon_update()" />
 	<label for="createVertices">add points to polygon
-	<img src="$img_prefix/add_point_on.png" alt=""/>  <a class='tools-helptrigger' href='$extract_dialog/polygon.html'><img src='/html/help-16px.png' alt="" /></a><br/>
+	<img src="$img_prefix/add_point_on.png" alt=""/>  <a class='tools-helptrigger' href='$extract_dialog/$language/polygon.html'><img src='/html/help-16px.png' alt="" /></a><br/>
 	</label>
 
 	<input id="rotate" type="radio" name="type" onclick="polygon_update()" />
@@ -335,7 +336,7 @@ sub message {
 BBBike extract -
 </span> 
 <span id="tools-titlebar">
- <span id="tools-help"><a class='tools-helptrigger' href='/extract-mini.html'><span>about</span></a></span>
+ <span id="tools-help"><a class='tools-helptrigger' href='/extract_dialog/$language/about.html'><span>about</span></a></span>
  <span id="pageload-indicator">&nbsp;<img src="/html/indicator.gif" alt="" title="Loading JavaScript libraries" /></span>
  <span class="jqmWindow jqmWindowLarge" id="tools-helpwin"></span>
 </span>
@@ -1062,7 +1063,7 @@ sub homepage {
                     [
 "<span class='normalscreen' title='PBF: fast and compact data, OSM XML gzip: standard OSM format, "
                           . "twice as large, Garmin format in different styles, Esri shapefile format, "
-                          . "Osmand for Androids'>Format <a class='tools-helptrigger' href='$extract_dialog/format.html'><img src='/html/help-16px.png' alt=''/></a><br/></span>"
+                          . "Osmand for Androids'>Format <a class='tools-helptrigger' href='$extract_dialog/$language/format.html'><img src='/html/help-16px.png' alt=''/></a><br/></span>"
                           . $q->popup_menu(
                             -name   => 'format',
                             -values => [
@@ -1078,7 +1079,7 @@ sub homepage {
                 $q->td(
                     [
 "<span title='Required, you will be notified by e-mail if your extract is ready for download.'>"
-                          . "Your email address <a class='tools-helptrigger-small' href='$extract_dialog/email.html'><img src='/html/help-16px.png' alt=''/></a><br/></span>"
+                          . "Your email address <a class='tools-helptrigger-small' href='$extract_dialog/$language/email.html'><img src='/html/help-16px.png' alt=''/></a><br/></span>"
                           . $q->textfield(
                             -name  => 'email',
                             -size  => 28,
@@ -1111,7 +1112,7 @@ sub homepage {
                 $q->td(
                     [
 "<span class='normalscreen' title='Give the city or area to extract a name. "
-                          . "The name is optional, but better fill it out to find it later again.'>Name of area to extract <a class='tools-helptrigger-small' href='$extract_dialog/name.html'><img src='/html/help-16px.png' alt='' /></a><br/></span>"
+                          . "The name is optional, but better fill it out to find it later again.'>Name of area to extract <a class='tools-helptrigger-small' href='$extract_dialog/$language/name.html'><img src='/html/help-16px.png' alt='' /></a><br/></span>"
                           . $q->textfield(
                             -name => 'city',
                             -id   => 'city',
