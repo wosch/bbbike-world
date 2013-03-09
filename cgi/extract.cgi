@@ -69,7 +69,7 @@ our $option = {
 
     'language'            => "en",
     'request_method'      => "GET",
-    'supported_languages' => qw/en de/,
+    'supported_languages' => [qw/en de/],
 };
 
 my $formats = {
@@ -308,9 +308,35 @@ sub social_links {
     <a href="http://twitter.com/BBBikeWorld" target="_new"><img class="logo" width="16" height="16" src="/images/twitter-t.png" alt="" title="Follow us on twitter.com/BBBikeWorld" /></a>
     <a class="gplus" onmouseover="javascript:google_plusone();" ><img alt="" src="/images/google-plusone-t.png"/></a><g:plusone href="http://extract.bbbike.org" size="small" count="false"></g:plusone>
     <a href="http://www.bbbike.org/feed/bbbike-world.xml"><img class="logo" width="14" height="14" title="What's new on BBBike.org" src="/images/rss-icon.png" alt="" /></a>
-    &nbsp;
     </span>
 EOF
+}
+
+sub language_links {
+    my $q        = shift;
+    my $language = shift;
+
+    my $lang = $q->param("lang") || $q->param("language") || "";
+
+    my $qq   = CGI->new($q);
+    my $data = qq{<span id="language">\n};
+
+    foreach my $l ( @{ $option->{'supported_languages'} } ) {
+        if ( $l ne $language ) {
+            $l eq $option->{'language'}
+              ? $qq->delete("lang")
+              : $qq->param( "lang", $l );
+
+            $data .= qq{<a href="} . $qq->url( -query => 1 ) . qq{">$l</a>\n};
+        }
+        else {
+            $data .= "$l\n";
+        }
+
+    }
+    $data .= qq{</span>\n};
+
+    return $data;
 }
 
 sub google_analytics {
@@ -332,8 +358,11 @@ EOF
 }
 
 sub message {
+    my $q = shift;
+
     return <<EOF;
 <span id="noscript"><noscript>Please enable JavaScript in your browser. Thanks!</noscript></span>
+@{[ &language_links($q, $language) ]}
 @{[ &social_links ]}
 <span id="toolbar">
 BBBike extract -
@@ -1005,7 +1034,7 @@ sub homepage {
 
     print qq{<div id="intro">\n};
 
-    print qq{<div id="message">\n}, &message, &locate_message, "</div>\n";
+    print qq{<div id="message">\n}, &message($q), &locate_message, "</div>\n";
     print "<hr/>\n\n";
 
     print $q->start_form(
