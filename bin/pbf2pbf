@@ -15,7 +15,7 @@ fi
 logfile=$(mktemp -t _pbf2pbf.XXXXXXXX)
 buffer="--buffer bufferCapacity=4000"
 
-: ${java_heap=1800M}
+: ${java_heap=2400M}
 JAVACMD_OPTIONS=-Xmx${java_heap}; export JAVACMD_OPTIONS
 
 args=""
