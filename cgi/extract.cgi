@@ -262,7 +262,8 @@ sub footer {
     my %args = @_;
 
     my $analytics = &google_analytics;
-    my $url = $q->url( -relative => 1 );
+    my $url       = $q->url( -relative => 1 );
+    my $error     = $args{'error'} || 0;
 
     my $locate =
       $args{'map'} ? ' | <a href="javascript:locateMe()">where am I?</a>' : "";
@@ -294,6 +295,7 @@ $analytics
   jQuery('#pageload-indicator').hide();
 </script>
 
+<!-- bbbike_extract_status: $error -->
 </body>
 </html>
 EOF
@@ -683,8 +685,11 @@ sub check_input {
         print "and correct the values!</p>\n";
 
         print "<br/>" x 4;
-        print &footer( $q,
-            'css' => '#footer { width: 90%; padding-bottom: 20px; }' );
+        print &footer(
+            $q,
+            'error' => $error,
+            'css'   => '#footer { width: 90%; padding-bottom: 20px; }'
+        );
         return;
     }
     else {
