@@ -67,7 +67,8 @@ our $option = {
     'enable_polygon'      => 1,
     'email_valid_mxcheck' => 1,
 
-    'language' => "en",
+    'language'       => "en",
+    'request_method' => "GET",
 };
 
 my $formats = {
@@ -107,7 +108,7 @@ my $spool = {
 my $max_skm = $option->{'max_skm'};
 
 # use "GET" or "POST" for forms
-my $request_method = "GET";
+my $request_method = $option->{request_method};
 
 ######################################################################
 # helper functions
