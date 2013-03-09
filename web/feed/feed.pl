@@ -13,10 +13,20 @@ my $homepage = $ENV{'BBBIKE_HOMEPAGE'} || 'http://www.bbbike.org';
 
 sub self_mod_time {
     my $file = $0;
-    my $st = stat($file) or die "stat $file: $!\n";
+    my $git  = 1;
 
-    return POSIX::strftime( XML::Atom::SimpleFeed::W3C_DATETIME,
-        gmtime( $st->mtime ) );
+    if ($git) {
+        my $mtime = qx(git log feed.pl | head -3 | tail -1);
+        $mtime =~ s/^Date:\s*//;
+        return $mtime;
+    }
+
+    else {
+
+        my $st = stat($file) or die "stat $file: $!\n";
+        return POSIX::strftime( XML::Atom::SimpleFeed::W3C_DATETIME,
+            gmtime( $st->mtime ) );
+    }
 }
 
 my $feed = XML::Atom::SimpleFeed->new(
