@@ -330,7 +330,7 @@ sub language_links {
             $data .= qq{<a href="} . $qq->url( -query => 1 ) . qq{">$l</a>\n};
         }
         else {
-            $data .= "$l\n";
+            $data .= qq{<span id="active_language">$l</span>\n};
         }
 
     }
