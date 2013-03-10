@@ -41,7 +41,7 @@ sudo apt-get install \
   libdb-file-lock-perl libgeo-metar-perl libstring-approx-perl \
   libdbd-xbase-perl libdevel-leak-perl libfile-readbackwards-perl \
   libhtml-treebuilder-xpath-perl libxml2-utils libgdal-perl libgdal-perl \
-  libtext-csv-xs-perl \
+  libtext-csv-xs-perl libcapture-tiny-perl \
   pmake
 
 # daemons
@@ -82,6 +82,7 @@ $sudo_cpan Email::Valid
 $sudo_cpan Geo::METAR
 $sudo_cpan Imager
 $sudo_cpan Text::CSV_XS
+$sudo_cpan Capture::Tiny
 
 # optional/devel
 $sudo_cpan Devel::Leak
