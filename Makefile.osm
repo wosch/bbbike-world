@@ -624,6 +624,7 @@ perlcheck:
 jsbeautifier js:
 	${MAKE} -C html $@
 	${MAKE} -C world/tile/web $@
+	${MAKE} -C world/etc/extract $@
 
 tidy:
 	tidy -i -m -w 128 world/web/help.html

@@ -240,19 +240,19 @@ sub manual_area {
  <div id="manual_area">
   <div id="sidebar_content">
     <span class="export_hint">
-      <a id="drag_box">Manually select a different area</a>
+      <a id="drag_box">@{[ M("Manually select a different area") ]}</a>
       <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a><br/>
     </span> 
     <span id="square_km"></span>
 
     <div id="polygon_controls" style="display:none">
 	<input id="createVertices" type="radio" name="type" onclick="polygon_update()" />
-	<label for="createVertices">add points to polygon
+	<label for="createVertices">@{[ M("add points to polygon") ]}
 	<img src="$img_prefix/add_point_on.png" alt=""/>  <a class='tools-helptrigger' href='$extract_dialog/$language/polygon.html'><img src='/html/help-16px.png' alt="" /></a><br/>
 	</label>
 
 	<input id="rotate" type="radio" name="type" onclick="polygon_update()" />
-	<label for="rotate">resize or drag polygon
+	<label for="rotate">@{[ M("resize or drag polygon") ]}
 	<img src="$img_prefix/move_feature_on.png" alt="move feature"/>
 	</label>
     </div>
@@ -285,10 +285,10 @@ sub footer_top {
   $css
   <div id="footer_top">
     <a href="../">home</a> |
-    <a href="../extract.html">help</a> |
+    <a href="../extract.html">@{[ M("help") ]}</a> |
     <a href="http://download.bbbike.org/osm/">download</a> |
-    <a href="/cgi/livesearch-extract.cgi">livesearch</a> |
-    <a href="../community.html#donate">donate</a> $locate
+    <a href="/cgi/livesearch-extract.cgi">@{[ M("livesearch") ]}</a> |
+    <a href="../community.html#donate">@{[ M("donate") ]}</a> $locate
   </div>
 EOF
 }
@@ -406,7 +406,7 @@ sub message {
 BBBike extract -
 </span> 
 <span id="tools-titlebar">
- <span id="tools-help"><a class='tools-helptrigger' href='$extract_dialog/$language/about.html'><span>about</span></a></span>
+ <span id="tools-help"><a class='tools-helptrigger' href='$extract_dialog/$language/about.html'><span>@{[ M("about") ]}</span></a></span>
  <span id="pageload-indicator">&nbsp;<img src="/html/indicator.gif" alt="" title="Loading JavaScript libraries" /></span>
  <span class="jqmWindow jqmWindowLarge" id="tools-helpwin"></span>
 </span>
@@ -1160,7 +1160,7 @@ sub homepage {
                     [
 "<span class='normalscreen' title='PBF: fast and compact data, OSM XML gzip: standard OSM format, "
                           . "twice as large, Garmin format in different styles, Esri shapefile format, "
-                          . "Osmand for Androids'>Format <a class='tools-helptrigger' href='$extract_dialog/$language/format.html'><img src='/html/help-16px.png' alt=''/></a><br/></span>"
+                          . "Osmand for Androids'>@{[ M('Format') ]} <a class='tools-helptrigger' href='$extract_dialog/$language/format.html'><img src='/html/help-16px.png' alt=''/></a><br/></span>"
                           . $q->popup_menu(
                             -name   => 'format',
                             -values => [
@@ -1210,7 +1210,7 @@ sub homepage {
                 $q->td(
                     [
 "<span class='normalscreen' title='Give the city or area to extract a name. "
-                          . "The name is optional, but better fill it out to find it later again.'>Name of area to extract <a class='tools-helptrigger-small' href='$extract_dialog/$language/name.html'><img src='/html/help-16px.png' alt='' /></a><br/></span>"
+                          . "The name is optional, but better fill it out to find it later again.'>@{[ M('Name of area to extract') ]} <a class='tools-helptrigger-small' href='$extract_dialog/$language/name.html'><img src='/html/help-16px.png' alt='' /></a><br/></span>"
                           . $q->textfield(
                             -name => 'city',
                             -id   => 'city',
