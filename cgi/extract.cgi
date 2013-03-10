@@ -28,7 +28,6 @@ use GIS::Distance::Lite;
 use HTTP::Date;
 use Math::Polygon::Calc;
 use Math::Polygon::Transform;
-use Capture::Tiny ":all";
 
 use strict;
 use warnings;
