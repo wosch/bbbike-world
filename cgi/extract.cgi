@@ -28,6 +28,7 @@ use GIS::Distance::Lite;
 use HTTP::Date;
 use Math::Polygon::Calc;
 use Math::Polygon::Transform;
+use Capture::Tiny ":all";
 
 use strict;
 use warnings;
@@ -172,7 +173,18 @@ sub header {
         push @cookie, -cookie => \@cookies;
     }
 
-    my $data = $q->header( -charset => 'utf-8', @cookie );
+    my $data = "";
+    if ( $ws eq 'json' ) {
+        $data .= $q->header(
+            -charset      => 'utf-8',
+            -content_type => 'application/json'
+        );
+        $data .= "/* JavaScript comments follow as HTML\n"
+          ;    # XXX: all outputs in comments
+    }
+    else {
+        $data .= $q->header( -charset => 'utf-8', @cookie );
+    }
 
     $data .= $q->start_html(
         -title => 'Planet.osm extracts | BBBike.org',
@@ -574,8 +586,25 @@ sub get_language {
 #
 sub check_input {
     my %args = @_;
+    my $q    = $args{'q'};
 
-    my $q = $args{'q'};
+    my $ws = webservice($q);
+    if ( !$ws || $ws ne 'json' ) {
+        return _check_input(@_);
+    }
+
+    # XXX: we put HTML output in JavaScript comments
+    my $error = _check_input(@_);
+    print "\nJavaScript comments in HTML ends here */\n\n";
+
+    my $json_text = encode_json( { "status" => $error } );
+    print "$json_text\n\n";
+}
+
+sub _check_input {
+    my %args = @_;
+    my $q    = $args{'q'};
+
     our $qq = $q;
 
     my $lang = get_language($q);
@@ -744,7 +773,7 @@ sub check_input {
             'error' => $error,
             'css'   => '#footer { width: 90%; padding-bottom: 20px; }'
         );
-        return;
+        return $error;
     }
     else {
 
@@ -846,6 +875,7 @@ EOF
             print qq{<p class="error">I'm so sorry,},
               qq{ I couldn't save your request.\n},
               qq{Please contact the BBBike.org maintainer!</p>};
+            $error++;
         }
 
         else {
@@ -860,6 +890,8 @@ qq{You can support us via PayPal, Flattr or bank wire transfer.\n},
 
     print &footer( $q,
         'css' => '#footer { width: 90%; padding-bottom: 20px; }' );
+
+    return $error;
 }
 
 # save request in incoming spool
