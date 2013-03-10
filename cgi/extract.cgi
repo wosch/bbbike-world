@@ -119,11 +119,11 @@ my $request_method = $option->{request_method};
 sub webservice {
     my $q = shift;
 
-    my @ws = qw/json/;
+    my @ns = qw/json/;
 
-    my $ws = $q->param("ws");
-    if ( defined $ws && grep { $_ eq $ws } @ws ) {
-        return $ws;
+    my $ns = $q->param("ns");
+    if ( defined $ns && grep { $_ eq $ns } @ns ) {
+        return $ns;
     }
     else {
         return "";
@@ -139,7 +139,7 @@ sub header {
     my @cookie;
     my @css = "../html/extract.css";
 
-    my $ws = webservice($q);
+    my $ns = webservice($q);
 
     if ( $type eq 'homepage' ) {
         @onload = ( -onLoad, 'init();' );
@@ -173,12 +173,12 @@ sub header {
     }
 
     my $data = "";
-    if ( $ws eq 'json' ) {
+    if ( $ns eq 'json' ) {
         $data .= $q->header(
             -charset      => 'utf-8',
             -content_type => 'application/json'
         );
-        $data .= "/* JavaScript comments follow as HTML\n"
+        $data .= "/* JavaScript comments follow as HTML\n\n"
           ;    # XXX: all outputs in comments
     }
     else {
@@ -206,7 +206,7 @@ sub header {
 
         # -script => [ map { { 'src' => $_ } } @javascript ],
         @onload,
-    ) if !$ws;
+    ) if !$ns;
 
     return $data;
 }
@@ -290,8 +290,8 @@ sub footer {
     my $q    = shift;
     my %args = @_;
 
-    my $ws = webservice($q);
-    return if $ws;
+    my $ns = webservice($q);
+    return if $ns;
 
     my $analytics = &google_analytics;
     my $url       = $q->url( -relative => 1 );
@@ -413,8 +413,8 @@ sub layout {
     my $q    = shift;
     my %args = @_;
 
-    my $ws = webservice($q);
-    return "" if $ws ne "";
+    my $ns = webservice($q);
+    return "" if $ns ne "";
 
     my $data = <<EOF;
   <div id="all">
@@ -587,14 +587,14 @@ sub check_input {
     my %args = @_;
     my $q    = $args{'q'};
 
-    my $ws = webservice($q);
-    if ( !$ws || $ws ne 'json' ) {
+    my $ns = webservice($q);
+    if ( !$ns || $ns ne 'json' ) {
         return _check_input(@_);
     }
 
     # XXX: we put HTML output in JavaScript comments
     my $error = _check_input(@_);
-    print "\nJavaScript comments in HTML ends here */\n\n";
+    print "\n\nJavaScript comments in HTML ends here */\n\n";
 
     my $json_text = encode_json( { "status" => $error } );
     print "$json_text\n\n";
