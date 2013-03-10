@@ -6,7 +6,7 @@ JAVASCRIPT_FILES= ${BBBIKE_WORLD_JAVASCRIPT_FILES}
 
 jsbeautifier js:
 	for i in ${BBBIKE_WORLD_JAVASCRIPT_FILES}; do \
-	   jsbeautifier -j $$i > $@.tmp && mv -f $@.tmp $$i; \
+	   jsbeautifier -k $$i > $@.tmp && mv -f $@.tmp $$i; \
 	done
 
 clean:
