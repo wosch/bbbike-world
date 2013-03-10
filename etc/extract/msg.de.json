@@ -11,7 +11,7 @@
     "donate": "spenden",
 
     "EXTRACT_CONFIRMED": [
-        "<p>Thanks - the input data looks good.</p><p>",
+        "<p>Danke - die Eingabedaten sehen gut aus.</p><p>",
         "It takes between 15-30 minutes to extract an area from planet.osm,",
         "depending on the size of the area and the system load.",
         "You will be notified by e-mail if your extract is ready for download.",
@@ -23,6 +23,11 @@
         "</p>",
         "",
         "<p>Press the back button to get the same area in a different format, or to request a new area.</p>"
+        ],
+
+    "EXTRACT_DONATION": [
+        "<p><a href='../community.de.html#donate'>Spenden</a> sind willkommen! ",
+        "Du kannst uns via PayPal, Flattr oder Bank&uuml;berweisung unterst&uuml;tzen."
         ],
 
     "dummy": "dummy"

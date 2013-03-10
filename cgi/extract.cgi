@@ -277,8 +277,10 @@ sub footer_top {
         $css = "\n<style>$css</style>\n";
     }
 
+    my $community_link =
+      $language eq 'en' ? "/community.html" : "/community.$language.html";
     my $donate = qq{<p class="normalscreen" id="big_donate_image">}
-      . qq{<a href="/community.html"><img class="logo" height="47" width="126" src="/images/btn_donateCC_LG.gif" alt="donate"/></a></p>};
+      . qq{<a href="$community_link#donate"><img class="logo" height="47" width="126" src="/images/btn_donateCC_LG.gif" alt="donate"/></a></p>};
 
     return <<EOF;
   $donate
@@ -288,7 +290,7 @@ sub footer_top {
     <a href="../extract.html">@{[ M("help") ]}</a> |
     <a href="http://download.bbbike.org/osm/">download</a> |
     <a href="/cgi/livesearch-extract.cgi">@{[ M("livesearch") ]}</a> |
-    <a href="../community.html#donate">@{[ M("donate") ]}</a> $locate
+    <a href="$community_link#donate">@{[ M("donate") ]}</a> $locate
   </div>
 EOF
 }
@@ -792,20 +794,9 @@ sub _check_input {
           )
           : "$sw_lng,$sw_lat x $ne_lng,$ne_lat";
 
-        print <<EOF;
-<p>Thanks - the input data looks good.</p><p>
-It takes between 15-30 minutes to extract an area from planet.osm,
-depending on the size of the area and the system load.
-You will be notified by e-mail if your extract is ready for download.
-Please follow the instruction in the email to proceed your request.</p>
-
-<p align='left'>Area: "@{[ escapeHTML($city) ]}" covers @{[ large_int($skm) ]} square km <br/>
-Coordinates: @{[ escapeHTML($coordinates) ]} <br/>
-Format: $format
-</p>
-
-<p>Press the back button to get the same area in a different format, or to request a new area.</p>
-EOF
+        my $text = join "\n", @{ $msg->{EXTRACT_CONFIRMED} };
+        printf( $text,
+            escapeHTML($city), large_int($skm), $coordinates, $format );
 
     }
 
@@ -884,12 +875,8 @@ EOF
         }
 
         else {
-            print
-              qq{<p>We appreciate any feedback, suggestions },
-              qq{and a <a href="../community.html#donate">donation</a>! },
-qq{You can support us via PayPal, Flattr or bank wire transfer.\n},
-              qq{<br/>} x 4,
-              "</p>\n";
+            print join "\n", @{ $msg->{EXTRACT_DONATION} };
+            print qq{<br/>} x 4, "</p>\n";
         }
     }
 
@@ -1111,6 +1098,8 @@ sub homepage {
     my $default_email = $q->cookie( -name => "email" ) || "";
     my $default_format = $q->cookie( -name => "format" )
       || $option->{'default_format'};
+
+    print $q->hidden( "lang", $language ), "\n\n";
 
     print qq{<div id="table">\n};
     print $q->table(

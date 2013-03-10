@@ -14,5 +14,11 @@
         "<p>Press the back button to get the same area in a different format, or to request a new area.</p>"
         ],
 
+    "EXTRACT_DONATION": [
+        "<p>We appreciate any feedback, suggestions ",
+        'and a <a href="../community.html#donate">donation</a>! ',
+        "You can support us via PayPal, Flattr or bank wire transfer."
+        ],
+
     "dummy": "dummy"
 }
