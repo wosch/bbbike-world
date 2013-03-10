@@ -93,8 +93,8 @@ BBBIKE_EXTRACT_COORDS=$BBBIKE_EXTRACT_COORDS BBBIKE_EXTRACT_URL=$BBBIKE_EXTRACT_
 $text2html < README.txt > README.html
 
 case $BBBIKE_EXTRACT_LANG in
-  en ) ext2= ;;
-   * ) ext2=$(echo $ext | perl -npe "s/\.zip\$/.${BBBIKE_EXTRACT_LANG}.zip/") ;;
+  en ) ext2="" ;;
+   * ) ext2=".$BBBIKE_EXTRACT_LANG" ;;
 esac
 
 cd ..
