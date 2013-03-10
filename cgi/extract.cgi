@@ -116,6 +116,20 @@ my $request_method = $option->{request_method};
 # helper functions
 #
 
+sub webservice {
+    my $q = shift;
+
+    my @ws = qw/json/;
+
+    my $ws = $q->param("ws");
+    if ( defined $ws && grep { $_ eq $ws } @ws ) {
+        return $ws;
+    }
+    else {
+        return "";
+    }
+}
+
 sub header {
     my $q    = shift;
     my %args = @_;
@@ -124,6 +138,8 @@ sub header {
     my @onload;
     my @cookie;
     my @css = "../html/extract.css";
+
+    my $ws = webservice($q);
 
     if ( $type eq 'homepage' ) {
         @onload = ( -onLoad, 'init();' );
@@ -156,9 +172,9 @@ sub header {
         push @cookie, -cookie => \@cookies;
     }
 
-    return $q->header( -charset => 'utf-8', @cookie ) .
+    my $data = $q->header( -charset => 'utf-8', @cookie );
 
-      $q->start_html(
+    $data .= $q->start_html(
         -title => 'Planet.osm extracts | BBBike.org',
         -head  => [
             $q->meta(
@@ -179,7 +195,9 @@ sub header {
 
         # -script => [ map { { 'src' => $_ } } @javascript ],
         @onload,
-      );
+    ) if !$ws;
+
+    return $data;
 }
 
 # see ../html/extract.js
@@ -260,6 +278,9 @@ EOF
 sub footer {
     my $q    = shift;
     my %args = @_;
+
+    my $ws = webservice($q);
+    return if $ws;
 
     my $analytics = &google_analytics;
     my $url       = $q->url( -relative => 1 );
@@ -380,6 +401,9 @@ EOF
 sub layout {
     my $q    = shift;
     my %args = @_;
+
+    my $ws = webservice($q);
+    return "" if $ws ne "";
 
     my $data = <<EOF;
   <div id="all">
