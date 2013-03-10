@@ -94,7 +94,6 @@ my $formats = {
 #
 my $language       = $option->{'language'};
 my $extract_dialog = '/extract-dialog';
-my $debug          = $option->{'debug'};
 
 #
 # Parse user config file.
@@ -118,6 +117,7 @@ my $request_method = $option->{request_method};
 
 # translations
 my $msg;
+my $debug = $option->{'debug'};
 
 ######################################################################
 # helper functions
@@ -1334,7 +1334,10 @@ sub M {
         #    $text = $msg_en->{$key};
     }
     else {
-        warn "Unknown translation: $key\n" if $debug >= 1 && $msg;
+        if ( $debug >= 1 && $msg ) {
+            warn "Unknown translation: $key\n"
+              if $debug >= 2 || $language ne "en";
+        }
         $text = $key;
     }
 
@@ -1348,8 +1351,6 @@ my $q = new CGI;
 my $action = $q->param("submit") || ( $q->param("key") ? "key" : "" );
 $language = get_language( $q, $language );
 $msg = get_msg($language);
-
-warn "xxx: $language\n";
 
 if ( $action eq "extract" ) {
     &check_input( 'q' => $q );
