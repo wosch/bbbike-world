@@ -559,8 +559,9 @@ sub get_language {
     my $q = shift;
 
     my $lang = $option->{'language'} || "en";
+    my $l = $q->param("lang");
 
-    if ( $q->param("lang") && $q->param("lang") =~ /^(de|en)$/ ) {
+    if ( $l && grep { $l eq $_ } @{ $option->{supported_languages} } ) {
         $lang = $1;
     }
 
