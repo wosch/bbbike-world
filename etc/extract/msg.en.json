@@ -16,7 +16,7 @@
 
     "EXTRACT_DONATION": [
         "<p>We appreciate any feedback, suggestions ",
-        'and a <a href="../community.html#donate">donation</a>! ',
+        "and a <a href='../community.html#donate'>donation</a>!",
         "You can support us via PayPal, Flattr or bank wire transfer."
         ],
 

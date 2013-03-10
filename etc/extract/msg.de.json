@@ -9,6 +9,8 @@
     "help": "hilfe",
     "livesearch": "livesuche",
     "donate": "spenden",
+    "Left lower corner (South-West)": "Ecke untern links (S&uuml;d-West)",
+    "Right top corner (North-East)": "Ecke oben rechts (Nord-Ost)",
 
     "EXTRACT_CONFIRMED": [
         "<p>Danke - die Eingabedaten sehen gut aus.</p><p>",

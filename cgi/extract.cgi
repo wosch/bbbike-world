@@ -1109,7 +1109,7 @@ sub homepage {
             [
                 $q->td(
                     [
-"<span class='normalscreen lnglatbox' title='South West, valid values: -180 .. 180'>Left lower corner (South-West)<br/>"
+"<span class='normalscreen lnglatbox' title='South West, valid values: -180 .. 180'>@{[ M('Left lower corner (South-West)') ]}<br/>"
                           . "&nbsp;&nbsp; $lng: "
                           . $q->textfield(
                             -name => 'sw_lng',
@@ -1128,7 +1128,7 @@ sub homepage {
 
                 $q->td(
                     [
-"<span class='normalscreen lnglatbox' title='North East, valid values: -180 .. 180'>Right top corner (North-East)<br/>"
+"<span class='normalscreen lnglatbox' title='North East, valid values: -180 .. 180'>@{[ M('Right top corner (North-East)') ]}<br/>"
                           . "&nbsp;&nbsp; $lng: "
                           . $q->textfield(
                             -name => 'ne_lng',
