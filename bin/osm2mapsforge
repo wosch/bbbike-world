@@ -116,12 +116,12 @@ if egrep -ql '^java\.lang\.|OsmosisRuntimeException' $logfile; then
 fi
 
 case $BBBIKE_EXTRACT_LANG in
-  en ) ext2="" ;;
-   * ) ext2=".$BBBIKE_EXTRACT_LANG" ;;
+  en ) ext2=$ext ;;
+   * ) ext2=$(echo $ext | perl -npe "s/\.zip\$/.${BBBIKE_EXTRACT_LANG}.zip/") ;;
 esac
 
 cd ..
-mapsforge_zip=`dirname $file`/$mapsforge.osm${ext2}.zip
+mapsforge_zip=`dirname $file`/$mapsforge.osm${ext2}
 zip -q -r - -- `basename $mapsforge_dir` | \
   ( cd $pwd;
     cat > $mapsforge_zip.tmp && mv $mapsforge_zip.tmp $mapsforge_zip
