@@ -38,8 +38,6 @@ umask(002);
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
-my $debug = 1;
-
 # spool directory. Should be at least 100GB large
 my $spool_dir = '/var/cache/extract';
 
@@ -67,9 +65,11 @@ our $option = {
     'enable_polygon'      => 1,
     'email_valid_mxcheck' => 1,
 
+    'debug'               => "1",
     'language'            => "en",
     'request_method'      => "GET",
     'supported_languages' => [qw/en de/],
+    'message_path'        => "../world/etc/extract",
 };
 
 my $formats = {
@@ -89,8 +89,12 @@ my $formats = {
     'mapsforge-osm.zip'  => "Mapsforge OSM",
 };
 
+###
+# global variables
+#
 my $language       = $option->{'language'};
 my $extract_dialog = '/extract-dialog';
+my $debug          = $option->{'debug'};
 
 #
 # Parse user config file.
@@ -111,6 +115,9 @@ my $max_skm = $option->{'max_skm'};
 
 # use "GET" or "POST" for forms
 my $request_method = $option->{request_method};
+
+# translations
+my $msg;
 
 ######################################################################
 # helper functions
@@ -348,8 +355,6 @@ sub language_links {
     my $q        = shift;
     my $language = shift;
 
-    my $lang = $q->param("lang") || $q->param("language") || "";
-
     my $qq   = CGI->new($q);
     my $data = qq{<span id="language">\n};
 
@@ -390,7 +395,8 @@ EOF
 }
 
 sub message {
-    my $q = shift;
+    my $q        = shift;
+    my $language = shift;
 
     return <<EOF;
 <span id="noscript"><noscript>Please enable JavaScript in your browser. Thanks!</noscript></span>
@@ -566,18 +572,18 @@ sub parse_coords_string {
     return @data;
 }
 
-sub get_language {
-    my $q = shift;
-
-    my $lang = $option->{'language'} || "en";
-    my $l = $q->param("lang");
-
-    if ( $l && grep { $l eq $_ } @{ $option->{supported_languages} } ) {
-        $lang = $1;
-    }
-
-    return $lang;
-}
+#sub get_languageXXX {
+#    my $q = shift;
+#
+#    my $lang = $option->{'language'} || "en";
+#    my $l = $q->param("lang");
+#
+#    if ( $l && grep { $l eq $_ } @{ $option->{supported_languages} } ) {
+#        $lang = $1;
+#    }
+#
+#    return $lang;
+#}
 
 #
 # validate user input
@@ -1082,15 +1088,15 @@ qq{You will be notified by e-mail if your extract is ready for download. Stay tu
 # startpage
 sub homepage {
     my %args = @_;
-
-    my $q = $args{'q'};
+    my $q    = $args{'q'};
 
     print &header( $q, -type => 'homepage' );
     print &layout($q);
 
     print qq{<div id="intro">\n};
 
-    print qq{<div id="message">\n}, &message($q), &locate_message, "</div>\n";
+    print qq{<div id="message">\n}, &message( $q, $language ), &locate_message,
+      "</div>\n";
     print "<hr/>\n\n";
 
     print $q->start_form(
@@ -1170,7 +1176,8 @@ sub homepage {
                 $q->td(
                     [
 "<span title='Required, you will be notified by e-mail if your extract is ready for download.'>"
-                          . "Your email address <a class='tools-helptrigger-small' href='$extract_dialog/$language/email.html'><img src='/html/help-16px.png' alt=''/></a><br/></span>"
+                          . M("Your email address")
+                          . " <a class='tools-helptrigger-small' href='$extract_dialog/$language/email.html'><img src='/html/help-16px.png' alt=''/></a><br/></span>"
                           . $q->textfield(
                             -name  => 'email',
                             -size  => 28,
@@ -1270,20 +1277,68 @@ sub export_osm {
 EOF
 }
 
-sub get_langauge {
-    my $q        = shift;
-    my $language = shift;
+sub get_language {
+    my $q = shift;
+    my $language = shift || $language;
 
     my $lang = $q->param("lang") || $q->param("language");
     return $language if !defined $lang;
 
-    if ( grep { $_ eq $lang } @$option->{'supported_language'} ) {
+    if ( grep { $_ eq $lang } @{ $option->{'supported_languages'} } ) {
         warn "language: $lang\n" if $debug >= 1;
         return $lang;
     }
+
+    # default language
     else {
         return $language;
     }
+}
+
+sub get_msg {
+    my $language = shift || $option->{'language'};
+
+    my $file = $option->{'message_path'} . "/msg.$language.json";
+    if ( !-e $file ) {
+        warn "Language file $file not found, ignored\n" . qx(pwd);
+        return {};
+    }
+
+    warn "Open message file $file for language $language\n" if $debug >= 1;
+    my $fh = new IO::File $file, "r" or die "open $file: $!\n";
+    binmode $fh, ":utf8";
+
+    my $json_text;
+    while (<$fh>) {
+        $json_text .= $_;
+    }
+    $fh->close;
+
+    my $json = new JSON;
+    my $json_perl = eval { $json->decode($json_text) };
+    die "json $file $@" if $@;
+
+    warn Dumper($json_perl) if $debug >= 3;
+    return $json_perl;
+}
+
+sub M {
+    my $key = shift;
+
+    my $text;
+    if ( $msg && exists $msg->{$key} ) {
+        $text = $msg->{$key};
+
+        #} elsif ($msg_en && exists $msg_en->{$key}) {
+        #    warn "Unknown translation local lang $lang: $key\n";
+        #    $text = $msg_en->{$key};
+    }
+    else {
+        warn "Unknown translation: $key\n" if $debug >= 1 && $msg;
+        $text = $key;
+    }
+
+    return $text;
 }
 
 ######################################################################
@@ -1292,6 +1347,9 @@ my $q = new CGI;
 
 my $action = $q->param("submit") || ( $q->param("key") ? "key" : "" );
 $language = get_language( $q, $language );
+$msg = get_msg($language);
+
+warn "xxx: $language\n";
 
 if ( $action eq "extract" ) {
     &check_input( 'q' => $q );
