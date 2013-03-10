@@ -151,7 +151,7 @@ $text2html < README.txt > README.html
 
 case $BBBIKE_EXTRACT_LANG in
   en ) ext2=$ext ;;
-   * ) ext2=$ext.$BBBIKE_EXTRACT_LANG ;;
+   * ) ext2=$(echo $ext | perl -npe "s/\.zip\$/.${BBBIKE_EXTRACT_LANG}.zip/") ;;
 esac
 
 cd ..
