@@ -4,6 +4,7 @@
     "Format": "Format",
     "Name of area to extract": "Name der zu extrahierenden Region",
     "Manually select a different area": "Manuell andere Region ausw&auml;hlen",
+    "Drag a box on the map to select an area": "Ziehe eine Box auf der Karte um eine Region ausw&auml;hlen",
     "add points to polygon": "Punkte zum Polygon hinzuf&uuml;gen",
     "resize or drag polygon": "Polygon vergr&ouml;ssern oder verschieben",
     "help": "hilfe",
