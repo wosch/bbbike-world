@@ -49,6 +49,19 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 $feed->add_entry(
     title =>
+qq{The <a href="http://extract.bbbike.org/?lang=de">BBBike extract service</a> jetzt auch in deutsch!},
+    id      => 'd6f59d1bb8315958eb25b187de28d25b',
+    content => {
+        type => 'html',
+        content =>
+qq{The <a href="http://extract.bbbike.org/?lang=de">BBBike extract service</a> jetzt auch in deutsch!},
+    },
+    updated  => '2013-03-17T13:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title =>
 qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now mapsforge format},
     id      => 'd6f59d1bb8315958eb25b187de28d25b',
     content => {
