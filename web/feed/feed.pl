@@ -49,12 +49,12 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 $feed->add_entry(
     title =>
-qq{The <a href="http://extract.bbbike.org/?lang=de">BBBike extract service</a> jetzt auch in deutsch!},
+qq{Den <a href="http://extract.bbbike.org/?lang=de">BBBike extract service</a> gibt es jetzt auch auf deutsch.},
     id      => 'd6f59d1bb8315958eb25b187de28d25b',
     content => {
         type => 'html',
         content =>
-qq{The <a href="http://extract.bbbike.org/?lang=de">BBBike extract service</a> jetzt auch in deutsch!},
+qq{Den <a href="http://extract.bbbike.org/?lang=de">BBBike extract service</a> gibt es jetzt auch auf deutsch.},
     },
     updated  => '2013-03-17T13:30:02Z',
     category => 'News',
