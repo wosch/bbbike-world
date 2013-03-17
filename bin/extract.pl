@@ -211,10 +211,13 @@ sub square_km {
 # 240000 -> 240,000
 sub large_int {
     my $int = shift;
+    my $lang = shift || "en";
 
     return $int if $int < 1_000;
+    
+    my $sep = $lang eq "de" ? "." : ",";
 
-    my $number = substr( $int, 0, -3 ) . "," . substr( $int, -3, 3 );
+    my $number = substr( $int, 0, -3 ) . $sep . substr( $int, -3, 3 );
     return $number;
 }
 
@@ -1039,7 +1042,8 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
             square_km(
                 $obj->{"sw_lat"}, $obj->{"sw_lng"},
                 $obj->{"ne_lat"}, $obj->{"ne_lng"}
-            )
+            ),
+            $obj->{'lang'}
         );
 
         next if !$send_email;
