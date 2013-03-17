@@ -19,8 +19,8 @@
         "and a <a href='../community.html#donate'>donation</a>!",
         "You can support us via PayPal, Flattr or bank wire transfer."
         ],
-    
-        "EXTRACT_EMAIL": [
+
+    "EXTRACT_EMAIL": [
         "Hi,",
         "",
         "your requested OpenStreetMap area '%s' was extracted from planet.osm",
@@ -50,7 +50,7 @@
         "Sincerely, the BBBike extract Fairy",
         "",
         "-- ",
-        "http://www.BBBike.org - Your Cycle Route Planner",
+        "http://www.BBBike.org - Your Cycle Route Planner"
         ],
 
     "dummy": "dummy"

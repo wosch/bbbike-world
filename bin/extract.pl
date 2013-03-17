@@ -76,6 +76,9 @@ our $option = {
 
     # 4196 polygones is enough for the queue
     'max_coords' => 4 * 1024,
+
+    'language'     => "en",
+    'message_path' => "world/etc/extract",
 };
 
 ######################################################################
@@ -95,6 +98,10 @@ my $formats = {
     'navit.zip'          => "Navit",
     'mapsforge-osm.zip'  => "mapsforge OSM",
 };
+
+# translations
+my $msg;
+my $language = $option->{'language'};
 
 #
 # Parse user config file.
@@ -1039,38 +1046,54 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         my $database_update =
           gmtime( stat( $option->{planet_osm} )->mtime ) . " UTC";
 
-        my $message = <<EOF;
-Hi,
+        $msg = get_msg( $obj->{"lang"} || "en" );
 
-your requested OpenStreetMap area "$obj->{'city'}" was extracted from planet.osm
-To download the file, please click on the following link:
+        my $text = join "\n", @{ $msg->{EXTRACT_EMAIL} };
+        my $message = sprintf( $text,
+            $obj->{'city'},
+            $url,
+            $obj->{'city'},
+qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
+            $script_url,
+            $square_km,
+            $osmosis_options,
+            $obj->{"format"},
+            $file_size,
+            $checksum,
+            $database_update );
 
-  $url
-
-The file will be available for the next 48 hours. Please download the
-file as soon as possible.
-
- Name: $obj->{"city"}
- Coordinates: $obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}
- Script URL: $script_url
- Square kilometre: $square_km
- Granularity: 10,000 (1.1 meters)
- Osmosis options: $osmosis_options
- Format: $obj->{"format"}
- File size: $file_size
- SHA256 checksum: $checksum
- Last planet.osm database update: $database_update
- License: OpenStreetMap License
-
-We appreciate any feedback, suggestions and a donation!
-You can support us via PayPal, Flattr or bank wire transfer.
-http://www.BBBike.org/community.html
-
-Sincerely, the BBBike extract Fairy
-
---
-http://www.BBBike.org - Your Cycle Route Planner
-EOF
+#        my $message = <<EOF;
+#Hi,
+#
+#your requested OpenStreetMap area "$obj->{'city'}" was extracted from planet.osm
+#To download the file, please click on the following link:
+#
+#  $url
+#
+#The file will be available for the next 48 hours. Please download the
+#file as soon as possible.
+#
+# Name: $obj->{"city"}
+# Coordinates: $obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}
+# Script URL: $script_url
+# Square kilometre: $square_km
+# Granularity: 10,000 (1.1 meters)
+# Osmosis options: $osmosis_options
+# Format: $obj->{"format"}
+# File size: $file_size
+# SHA256 checksum: $checksum
+# Last planet.osm database update: $database_update
+# License: OpenStreetMap License
+#
+#We appreciate any feedback, suggestions and a donation!
+#You can support us via PayPal, Flattr or bank wire transfer.
+#http://www.BBBike.org/community.html
+#
+#Sincerely, the BBBike extract Fairy
+#
+#--
+#http://www.BBBike.org - Your Cycle Route Planner
+#EOF
 
         eval {
             _send_email( $obj->{'email'},
@@ -1178,6 +1201,55 @@ sub remove_lock {
 
     warn "remove lockfile: $lockfile\n" if $debug >= 2;
     unlink($lockfile) or die "unlink $lockfile: $!\n";
+}
+
+sub get_msg {
+    my $language = shift || $option->{'language'};
+
+    my $file = $option->{'message_path'} . "/msg.$language.json";
+    if ( !-e $file ) {
+        warn "Language file $file not found, ignored\n" . qx(pwd);
+        return {};
+    }
+
+    warn "Open message file $file for language $language\n" if $debug >= 1;
+    my $fh = new IO::File $file, "r" or die "open $file: $!\n";
+    binmode $fh, ":utf8";
+
+    my $json_text;
+    while (<$fh>) {
+        $json_text .= $_;
+    }
+    $fh->close;
+
+    my $json = new JSON;
+    my $json_perl = eval { $json->decode($json_text) };
+    die "json $file $@" if $@;
+
+    warn Dumper($json_perl) if $debug >= 3;
+    return $json_perl;
+}
+
+sub M {
+    my $key = shift;
+
+    my $text;
+    if ( $msg && exists $msg->{$key} ) {
+        $text = $msg->{$key};
+
+        #} elsif ($msg_en && exists $msg_en->{$key}) {
+        #    warn "Unknown translation local lang $lang: $key\n";
+        #    $text = $msg_en->{$key};
+    }
+    else {
+        if ( $debug >= 1 && $msg ) {
+            warn "Unknown translation: $key\n"
+              if $debug >= 2 || $language ne "en";
+        }
+        $text = $key;
+    }
+
+    return $text;
 }
 
 sub cleanup_jobdir {
