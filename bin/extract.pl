@@ -809,6 +809,7 @@ sub script_url {
     }
     my $layers = $obj->{'layers'} || "";
     my $city   = $obj->{'city'}   || "";
+    my $lang   = $obj->{'lang'}   || "";
 
     my $script_url = $option->{script_homepage} . "/?";
     $script_url .=
@@ -818,6 +819,7 @@ sub script_url {
     $script_url .= "&layers=" . CGI::escape($layers)
       if $layers && $layers !~ /^B/;
     $script_url .= "&city=" . CGI::escape($city) if $city ne "";
+    $script_url .= "&lang=" . CGI::escape($lang) if $lang ne "en" && $lang;
 
     return $script_url;
 }
