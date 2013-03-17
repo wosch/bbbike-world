@@ -16,6 +16,7 @@ User-agent: sitebot
 User-agent: MJ12bot
 User-agent: Linguee
 User-agent: discobot
+User-agent: ip-web-crawler.com
 Disallow: /
 
 # people search engines
