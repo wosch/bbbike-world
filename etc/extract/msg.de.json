@@ -13,6 +13,7 @@
     "Left lower corner (South-West)": "Ecke untern links (S&uuml;d-West)",
     "Right top corner (North-East)": "Ecke oben rechts (Nord-Ost)",
 
+    
     "EXTRACT_CONFIRMED": [
         "<p>Danke - die Eingabedaten sind korrekt.</p><p>",
         "Es dauert ca. 15-30 Minuten um eine Region aus der Planet.osm Datei auszuschneiden - ",
@@ -31,6 +32,39 @@
     "EXTRACT_DONATION": [
         "<p><a href='../community.de.html#donate'>Spenden</a> sind willkommen! ",
         "Du kannst uns via PayPal, Flattr oder Bank&uuml;berweisung unterst&uuml;tzen."
+        ],
+    
+    "EXTRACT_EMAIL": [
+        "Hi,",
+        "",
+        "your requested OpenStreetMap area '%s' was extracted from planet.osm",
+        "To download the file, please click on the following link:",
+        "",
+        "%s",
+        "",
+        "The file will be available for the next 48 hours. Please download the",
+        "file as soon as possible.",
+        "",
+        " Name: %s",
+        " Coordinates: %s",
+        " Script URL: %s",
+        " Square kilometre: %s",
+        " Granularity: 10,000 (1.1 meters)",
+        " Osmosis options: %s",
+        " Format: %s",
+        " File size: %s",
+        " SHA256 checksum: %s",
+        " Last planet.osm database update: %s",
+        " License: OpenStreetMap License",
+        "",
+        "We appreciate any feedback, suggestions and a donation!",
+        "You can support us via PayPal, Flattr or bank wire transfer.",
+        "http://www.BBBike.org/community.html",
+        "",
+        "Sincerely, the BBBike extract Fairy",
+        "",
+        "-- ",
+        "http://www.BBBike.org - Your Cycle Route Planner",
         ],
 
     "dummy": "dummy"
