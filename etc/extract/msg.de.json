@@ -52,7 +52,7 @@
         " Granularity: 10,000 (1.1 meters)",
         " Osmosis options: %s",
         " Format: %s",
-        " Dateigrösse: %s",
+        " Dateigr√∂sse: %s",
         " SHA256 checksum: %s",
         " Letzte planet.osm Datenbank update: %s",
         " Lizenz: OpenStreetMap License",
