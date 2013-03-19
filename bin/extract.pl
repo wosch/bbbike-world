@@ -214,7 +214,7 @@ sub large_int {
     my $lang = shift || "en";
 
     return $int if $int < 1_000;
-    
+
     my $sep = $lang eq "de" ? "." : ",";
 
     my $number = substr( $int, 0, -3 ) . $sep . substr( $int, -3, 3 );

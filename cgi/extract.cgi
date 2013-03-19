@@ -740,7 +740,7 @@ sub _check_input {
       if !is_lng($ne_lng);
 
     $pg = 1 if !$pg || $pg > 1 || $pg <= 0;
-    
+
     error("as '$as' must be greather than zero") if $as <= 0;
 
     if ( !$error ) {
