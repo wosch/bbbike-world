@@ -667,6 +667,7 @@ sub _check_input {
     my $coords = Param("coords");
     my $layers = Param("layers");
     my $pg     = Param("pg");
+    my $as     = Param("as");
 
     if ( !exists $formats->{$format} ) {
         error("Unknown error format '$format'");
@@ -739,6 +740,8 @@ sub _check_input {
       if !is_lng($ne_lng);
 
     $pg = 1 if !$pg || $pg > 1 || $pg <= 0;
+    
+    error("as '$as' must be greather than zero") if $as <= 0;
 
     if ( !$error ) {
         error("ne lng '$ne_lng' must be larger than sw lng '$sw_lng'")
