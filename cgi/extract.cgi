@@ -1177,7 +1177,7 @@ sub homepage {
                           )
                           . $q->hidden(
                             -name  => 'as',
-                            -value => "0",
+                            -value => "-1",
                             -id    => 'as'
                           )
                           . $q->hidden(
