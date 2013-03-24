@@ -833,7 +833,7 @@ deb-repo:
 
 deb-bootstrap:
 	rsync -avz bbbike:opt $$HOME
-	cp -if $$HOME/opt/bin/* /usr/local/bin	
+	sudo cp -if $$HOME/opt/bin/* /usr/local/bin	
 
 
 DOWNLOAD_PREFIX=/usr/local/www/download.bbbike.org
