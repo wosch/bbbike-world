@@ -85,7 +85,7 @@ $sudo_cpan Text::CSV_XS
 $sudo_cpan Capture::Tiny
 $sudo_cpan XML::LibXML::Reader
 $sudo_cpan Image::Info
-$sudo_cpan PerlIO::gzip
+#$sudo_cpan PerlIO::gzip
 $sudo_cpan accessors
 
 # optional/devel
