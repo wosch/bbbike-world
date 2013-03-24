@@ -833,7 +833,7 @@ deb-repo:
 
 deb-bootstrap:
 	rsync -avz bbbike:opt $$HOME
-	sudo cp -if $$HOME/opt/bin/* /usr/local/bin	
+	sudo cp -f $$HOME/opt/bin/* /usr/local/bin	
 	test -e /usr/local/bin/perl || sudo ln -s /usr/bin/perl /usr/local/bin/perl
 
 
