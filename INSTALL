@@ -44,6 +44,12 @@ sudo apt-get install \
   libtext-csv-xs-perl libcapture-tiny-perl \
   pmake dh-make-perl
 
+# self build debian modules on debian.bbbike.org
+sudo apt-get install \
+  libwww-mechanize-formfiller-perl libkwalify-perl libgis-distance-lite-perl \
+  libgeo-google-polylineencoder-perl libobject-iterate-perl libmath-polygon-perl \
+  libmath-matrixreal-perl libimage-info-perl libxml-atom-simplefeed-perl
+
 # daemons
 sudo apt-get install lighttpd munin ntp
 
