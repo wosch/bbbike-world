@@ -83,6 +83,7 @@ $sudo_cpan Geo::METAR
 $sudo_cpan Imager
 $sudo_cpan Text::CSV_XS
 $sudo_cpan Capture::Tiny
+$sudo_cpan XML::LibXML::Reader
 
 # optional/devel
 $sudo_cpan Devel::Leak
@@ -100,7 +101,6 @@ $sudo_cpan CDB_File
 
 # MacOS + debian
 $sudo_cpan GIS::Distance::Lite
-$sudo_cpan XML::LibXML::Reader
 $sudo_cpan XML::Atom::SimpleFeed
 $sudo_cpan Math::MatrixReal
 $sudo_cpan Geo::Google::PolylineEncoder
@@ -109,5 +109,4 @@ $sudo_cpan Kwalify
 $sudo_cpan Math::Polygon
 $sudo_cpan Object::Iterate
 $sudo_cpan WWW::Mechanize::FormFiller
-
 
