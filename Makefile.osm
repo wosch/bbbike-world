@@ -831,6 +831,10 @@ deb-repo:
 	dpkg-sig -k 3D084B60 --sign builder ${DEB_DIR}/*.deb
 	pwd=`pwd`; cd ${DEB_REPO_DIR} && reprepro -Vb . includedeb squeeze $$pwd/${DEB_DIR}/*.deb
 
+deb-bootstrap:
+	rsync -avz bbbike:opt $$HOME
+	cp -if $$HOME/opt/bin /usr/local/bin	
+
 
 DOWNLOAD_PREFIX=/usr/local/www/download.bbbike.org
 download-bbbike-org-install:
@@ -856,6 +860,7 @@ download-bbbike-org-install:
 	  ln -fs ../../../bbbike.org/world/download/osm/planet/HEADER.txt .
 	cd ${DOWNLOAD_PREFIX}/..; mkdir -p osm; cd osm; \
 	  ln -fs ../download.bbbike.org/osm/planet download
+
 
 #
 # build Osmand.net devel java libs
@@ -921,6 +926,8 @@ help:
 	@echo "  [ tile | tile-extract | tile-convert | tile-csv | tile-checksum ]"
 	@echo "  [ tile-distclean | tile-rsync ]"
 	@echo "  [ test-org | test ]"
+	@echo "  [ deb-perl | deb-perl | deb-bootstrap ]"
+
 	@echo ""
 	@echo "see also ./world/README"
 
