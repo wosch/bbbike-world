@@ -644,7 +644,7 @@ update-javascript:
 java-config:
 	test -r $$HOME/.osmosis || ln -fs $$HOME/projects/bbbike/world/etc/dot.osmosis $$HOME/.osmosis
 
-dist-clean devel-clean distclean: clean rotate-osm
+dist-clean devel-clean distclean: clean rotate-osm deb-clean
 	${RM_BG} ${OSM_DIR}
 	mkdir -p ${OSM_DIR}
 
@@ -809,6 +809,22 @@ tile-rsync:
 # for errors look in ./tile/tmp
 tile: tile-extract tile-convert tile-checksum tile-csv 
 
+##############################################################################################
+# debian package rules
+#
+DEB_DIR=tmp/deb
+DEB_MODULE_LIST=world/etc/apt/perl-modules.txt
+DEB_PACKAGES=	$(shell ${PERL} -npe 's/\#.*//' ${DEB_MODULE_LIST})
+
+deb-perl:
+	mkdir -p ${DEB_DIR}
+	cd ${DEB_DIR}; \
+	for i in ${DEB_PACKAGES}; do \
+	    dh-make-perl --build --cpan $$i; \
+	done
+
+deb-clean:
+	rm -rf ${DEB_DIR}
 
 DOWNLOAD_PREFIX=/usr/local/www/download.bbbike.org
 download-bbbike-org-install:
