@@ -42,27 +42,21 @@ sudo apt-get install \
   libdbd-xbase-perl libdevel-leak-perl libfile-readbackwards-perl \
   libhtml-treebuilder-xpath-perl libxml2-utils libgdal-perl libgdal-perl \
   libtext-csv-xs-perl libcapture-tiny-perl \
-  pmake dh-make-perl
+  pmake dh-make-perl ntp munin
 
 # self build debian modules on debian.bbbike.org
 sudo apt-get install \
   libwww-mechanize-formfiller-perl libkwalify-perl libgis-distance-lite-perl \
   libgeo-google-polylineencoder-perl libobject-iterate-perl libmath-polygon-perl \
-  libmath-matrixreal-perl libimage-info-perl libxml-atom-simplefeed-perl
+  libmath-matrixreal-perl libimage-info-perl libxml-atom-simplefeed-perl \
+  libaccessors-perl libperlio-gzip-perl
 
 # daemons
-sudo apt-get install lighttpd munin ntp
+sudo apt-get install lighttpd
 
 # reverse proxy
 sudo apt-get install varnish
 
-# osmosis from repo
-#sudo apt-get install osmosis
-
-sudo_cpan="sudo cpan-5.12"
-$sudo_cpan PerlIO::gzip
-$sudo_cpan accessors
-$sudo_cpan Image::Info
 
 Required MacPorts modules
 ------------------------------------
@@ -90,6 +84,9 @@ $sudo_cpan Imager
 $sudo_cpan Text::CSV_XS
 $sudo_cpan Capture::Tiny
 $sudo_cpan XML::LibXML::Reader
+$sudo_cpan Image::Info
+$sudo_cpan PerlIO::gzip
+$sudo_cpan accessors
 
 # optional/devel
 $sudo_cpan Devel::Leak
@@ -105,7 +102,7 @@ $sudo_cpan Imager
 $sudo_cpan XBase
 $sudo_cpan CDB_File
 
-# MacOS + debian
+# MacOS 
 $sudo_cpan GIS::Distance::Lite
 $sudo_cpan XML::Atom::SimpleFeed
 $sudo_cpan Math::MatrixReal
