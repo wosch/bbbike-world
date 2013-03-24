@@ -85,7 +85,7 @@ backend localhost {
 }
 
 backend bbbike_failover {
-    .host = "www3.bbbike.org";
+    .host = "www4.bbbike.org";
     .port = "80";
     .first_byte_timeout = 300s;
     .connect_timeout = 300s;
@@ -106,11 +106,11 @@ sub vcl_recv {
     #
 
     # munin statistics
-    if (req.http.host ~ "^dev[23]?\.bbbike\.org$" && req.url ~ "^/munin") {
+    if (req.http.host ~ "^dev[234]?\.bbbike\.org$" && req.url ~ "^/munin") {
         set req.backend = localhost;
-    } else if (req.http.host ~ "^download[23]?\.bbbike\.org$") {
+    } else if (req.http.host ~ "^download[234]?\.bbbike\.org$") {
         set req.backend = bbbike;
-    } else if (req.http.host ~ "^(m\.|api[23]?|www[23]?\.|dev[23]?\.|devel[23]?\.|)bbbike\.org$") {
+    } else if (req.http.host ~ "^(m\.|api[234]?|www[234]?\.|dev[234]?\.|devel[234]?\.|)bbbike\.org$") {
         set req.backend = bbbike;
 
         # failover production @ www3 
@@ -152,7 +152,7 @@ sub vcl_recv {
     # backends without caching, pipe/pass
 
     # do not cache OSM files
-    if (req.http.host ~ "^(download[23]?)\.bbbike\.org$") {
+    if (req.http.host ~ "^(download[234]?)\.bbbike\.org$") {
          return (pipe);
     }
 
@@ -193,7 +193,7 @@ sub vcl_recv {
     }
 
     # test & development, no caching
-    if (req.http.host ~ "^(dev|devel)[23]?\.bbbike\.org$") {
+    if (req.http.host ~ "^(dev|devel)[234]?\.bbbike\.org$") {
 	return (pass);
     }
 
