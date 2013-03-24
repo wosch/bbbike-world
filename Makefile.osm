@@ -835,6 +835,8 @@ deb-bootstrap:
 	rsync -avz bbbike:opt $$HOME
 	sudo cp -f $$HOME/opt/bin/* /usr/local/bin	
 	test -e /usr/local/bin/perl || sudo ln -s /usr/bin/perl /usr/local/bin/perl
+	sudo mkdir -p /bbbike/tmp /bbbike/tmpfs
+	sudo chmod 7777 /bbbike/tmp /bbbike/tmpfs
 
 
 DOWNLOAD_PREFIX=/usr/local/www/download.bbbike.org
