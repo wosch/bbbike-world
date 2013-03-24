@@ -42,7 +42,7 @@ sudo apt-get install \
   libdbd-xbase-perl libdevel-leak-perl libfile-readbackwards-perl \
   libhtml-treebuilder-xpath-perl libxml2-utils libgdal-perl libgdal-perl \
   libtext-csv-xs-perl libcapture-tiny-perl \
-  pmake
+  pmake dh-make-perl
 
 # daemons
 sudo apt-get install lighttpd munin ntp
