@@ -837,6 +837,7 @@ deb-bootstrap:
 	test -e /usr/local/bin/perl || sudo ln -s /usr/bin/perl /usr/local/bin/perl
 	sudo mkdir -p /bbbike/tmp /bbbike/tmpfs
 	sudo chmod 7777 /bbbike/tmp /bbbike/tmpfs
+	cd ext && make all install
 
 
 DOWNLOAD_PREFIX=/usr/local/www/download.bbbike.org
