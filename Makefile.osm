@@ -882,7 +882,7 @@ osmand-devel:
 	   ls -l `pwd`/$$dir.zip
 
 test-org:
-	./world/bin/update-lighttpd-template
+	./world/bin/lighttpd-template-update
 
 test prove:
 	time prove -j${MAX_CPU}
