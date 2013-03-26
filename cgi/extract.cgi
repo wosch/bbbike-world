@@ -405,13 +405,12 @@ sub message {
 
     return <<EOF;
 <span id="noscript"><noscript>Please enable JavaScript in your browser. Thanks!</noscript></span>
-@{[ &language_links($q, $language) ]}
-@{[ &social_links ]}
-<span id="toolbar">
-BBBike extract -
-</span> 
+<span id="toolbar"></span>
+
 <span id="tools-titlebar">
- <span id="tools-help"><a class='tools-helptrigger' href='$extract_dialog/$language/about.html'><span>@{[ M("about") ]}</span></a></span>
+ @{[ &language_links($q, $language) ]}
+ @{[ &social_links ]} - 
+ <span id="tools-help"><a class='tools-helptrigger' href='$extract_dialog/$language/about.html' title='info'><span>@{[ M("about") ]} extracts</span></a> - </span>
  <span id="pageload-indicator">&nbsp;<img src="/html/indicator.gif" alt="" title="Loading JavaScript libraries" /></span>
  <span class="jqmWindow jqmWindowLarge" id="tools-helpwin"></span>
 </span>
