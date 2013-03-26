@@ -1,17 +1,17 @@
 {
     "EXTRACT_CONFIRMED": [
-        "Merci <p> ​​- les données d'entrée semble bon </ p>.",
+        "Merci <p> ​​- les données d'entrée semble bon</p>.",
         "Il faut entre 15-30 minutes pour extraire une zone de planet.osm,",
         "En fonction de la taille de la zone et la charge du système.",
         "Vous serez averti par e-mail si votre extrait est prêt pour le téléchargement.",
-        "S'il vous plaît suivez les instructions dans l'email de procéder à votre demande. </ P>",
+        "S'il vous plaît suivez les instructions dans l'email de procéder à votre demande.</p>",
         "",
-        "<p Align='left'> Superficie: '% s' couvre kilomètres carrés <br/>% s",
+        "<p align='left'> Superficie: '% s' couvre kilomètres carrés <br/>% s",
         "Coordonnées:% s <br/>",
         "Format:% s",
-        "</ P>",
+        "</p>",
         "",
-        "<p> Appuyez sur le bouton de retour pour obtenir la même zone dans un format différent, ou pour demander une nouvelle zone. </ P>"
+        "<p> Appuyez sur le bouton de retour pour obtenir la même zone dans un format différent, ou pour demander une nouvelle zone.</p>"
         ],
 
     "EXTRACT_DONATION": [
