@@ -68,7 +68,7 @@ our $option = {
     'debug'               => "1",
     'language'            => "en",
     'request_method'      => "GET",
-    'supported_languages' => [qw/en de/],
+    'supported_languages' => [qw/en de fr es/],
     'message_path'        => "../world/etc/extract",
 };
 
