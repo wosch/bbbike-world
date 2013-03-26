@@ -1,4 +1,18 @@
 {
+    "Your email address": "Su dirección de correo electrónico",
+    "about": "Acerca de",
+    "Format": "Formato",
+    "Name of area to extract": "Nombre de la zona para extraer",
+    "Manually select a different area": "Seleccionar manualmente una zona diferente",
+    "Drag a box on the map to select an area": "Arrastre un cuadro en el mapa para seleccionar en el área",
+    "add points to polygon": "Añadir puntos a polígono",
+    "resize or drag polygon": "Cambiar el tamaño o arrastrar polígono",
+    "help": "Ayuda",
+    "livesearch": "Live Search",
+    "donate": "Donar",
+    "Left lower corner (South-West)": "Esquina inferior izquierda (Sur-Oeste)",
+    "Right top corner (North-East)": "Esquina superior derecha (noreste)",
+
     "EXTRACT_CONFIRMED": [
         "Gracias <p> - los datos de entrada se ve bien</p>.",
         "Se tarda entre 15-30 minutos para extraer un área de planet.osm,",
