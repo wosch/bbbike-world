@@ -9,5 +9,5 @@ Math::Polygon
 Object::Iterate
 WWW::Mechanize::FormFiller
 accessors
-PerlIO::gzip
+#PerlIO::gzip
 

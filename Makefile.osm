@@ -829,7 +829,19 @@ deb-clean:
 
 deb-repo:
 	dpkg-sig -k 3D084B60 --sign builder ${DEB_DIR}/*.deb
-	cd ${DEB_REPO_DIR} && reprepro -Vb . includedeb squeeze ${DEB_DIR}/*.deb
+	pwd=`pwd`; cd ${DEB_REPO_DIR} && reprepro -Vb . includedeb squeeze $$pwd/${DEB_DIR}/*.deb
+
+deb-bootstrap:
+	rsync -az bbbike:opt $$HOME
+	rsync -az bbbike:.openstreetmap $$HOME
+	rsync -az bbbike:.osmosis $$HOME
+	rsync -az bbbike:.bbbike* $$HOME
+	sudo cp -f $$HOME/opt/bin/* /usr/local/bin	
+	test -e /usr/local/bin/perl || sudo ln -s /usr/bin/perl /usr/local/bin/perl
+	test -e /usr/lib/libgeos-3.2.2.so || sudo ln -s /usr/lib/libgeos-3.2.0.so /usr/lib/libgeos-3.2.2.so
+	sudo mkdir -p /bbbike/tmp /bbbike/tmpfs
+	sudo chmod 7777 /bbbike/tmp /bbbike/tmpfs
+	${MAKE} -s -C./ext all install >/dev/null 2>&1
 
 
 DOWNLOAD_PREFIX=/usr/local/www/download.bbbike.org
@@ -857,6 +869,7 @@ download-bbbike-org-install:
 	cd ${DOWNLOAD_PREFIX}/..; mkdir -p osm; cd osm; \
 	  ln -fs ../download.bbbike.org/osm/planet download
 
+
 #
 # build Osmand.net devel java libs
 # start this command in the top-level directory of
@@ -876,10 +889,10 @@ osmand-devel:
 	   ls -l `pwd`/$$dir.zip
 
 test-org:
-	./world/bin/update-lighttpd-template
+	./world/bin/lighttpd-template-update
 
 test prove:
-	time prove -j${MAX_CPU}
+	LANG=C time prove -j${MAX_CPU}
 
 help:
 	@echo "bbbike version: ${GIT_ID}"
@@ -921,6 +934,8 @@ help:
 	@echo "  [ tile | tile-extract | tile-convert | tile-csv | tile-checksum ]"
 	@echo "  [ tile-distclean | tile-rsync ]"
 	@echo "  [ test-org | test ]"
+	@echo "  [ deb-perl | deb-perl | deb-bootstrap ]"
+
 	@echo ""
 	@echo "see also ./world/README"
 

@@ -23,7 +23,6 @@ use JSON::XS;
 use Math::MatrixReal;
 use Object::Iterate;
 use PDF::Create;
-use PerlIO::gzip;
 use String::Approx;
 use Text::Table;
 use Text::Unidecode;
@@ -32,6 +31,7 @@ use XBase;
 use XML::Atom::SimpleFeed;
 use XML::LibXML::Reader;
 use accessors;
+#use PerlIO::gzip;
 
 # extract service
 use Math::Polygon;
