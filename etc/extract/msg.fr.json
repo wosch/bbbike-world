@@ -1,0 +1,57 @@
+{
+    "EXTRACT_CONFIRMED": [
+        "Merci <p> ​​- les données d'entrée semble bon </ p>.",
+        "Il faut entre 15-30 minutes pour extraire une zone de planet.osm,",
+        "En fonction de la taille de la zone et la charge du système.",
+        "Vous serez averti par e-mail si votre extrait est prêt pour le téléchargement.",
+        "S'il vous plaît suivez les instructions dans l'email de procéder à votre demande. </ P>",
+        "",
+        "<p Align='left'> Superficie: '% s' couvre kilomètres carrés <br/>% s",
+        "Coordonnées:% s <br/>",
+        "Format:% s",
+        "</ P>",
+        "",
+        "<p> Appuyez sur le bouton de retour pour obtenir la même zone dans un format différent, ou pour demander une nouvelle zone. </ P>"
+        ],
+
+    "EXTRACT_DONATION": [
+        "Nous <p> apprécions tous les commentaires, suggestions",
+        "Et un don <a href='../community.html#donate'> </ a>!",
+        "Vous pouvez nous soutenir par le biais de PayPal, Flattr ou virement bancaire."
+        ],
+
+    "EXTRACT_EMAIL": [
+        "Salut,",
+        "",
+        "Votre région OpenStreetMap demandé '% s' a été extrait de planet.osm",
+        "Pour télécharger le fichier, s'il vous plaît cliquer sur le lien suivant:",
+        "",
+        "% S",
+        "",
+        "Le fichier sera disponible pour les prochaines 48 heures. S'il vous plaît télécharger le",
+        "Le fichier le plus tôt possible.",
+        "",
+        "Nom:% s",
+        "Coordonnées:% s",
+        "URL du script:% s",
+        "Kilomètre carré:% s",
+        "Granularité: 10.000 (1,1 mètres)",
+        "Osmose options:% s",
+        "Format:% s",
+        "Taille du fichier:% s",
+        "SHA256:% s",
+        "Dernière mise à jour de base de données planet.osm:% s",
+        "Licence: Licence OpenStreetMap",
+        "",
+        "Nous apprécions tous les commentaires, suggestions et un don!",
+        "Vous pouvez nous soutenir par le biais de PayPal, Flattr ou virement bancaire.",
+        "http://www.BBBike.org/community.html",
+        "",
+        "Sincèrement, la fée extrait BBBike",
+        "",
+        "-",
+        "http://www.BBBike.org - Your Cycle Route Planner"
+        ],
+
+    "dummy": "dummy"
+}

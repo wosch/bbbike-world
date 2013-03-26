@@ -1,6 +1,6 @@
 ######################################################################
 #
-BBBIKE_WORLD_JAVASCRIPT_FILES=msg.de.json msg.en.json
+BBBIKE_WORLD_JAVASCRIPT_FILES=msg.??.json
 
 JAVASCRIPT_FILES= ${BBBIKE_WORLD_JAVASCRIPT_FILES}
 
