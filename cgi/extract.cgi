@@ -68,7 +68,7 @@ our $option = {
     'debug'               => "1",
     'language'            => "en",
     'request_method'      => "GET",
-    'supported_languages' => [qw/en de fr es/],
+    'supported_languages' => [qw/en de es fr ru/],
     'message_path'        => "../world/etc/extract",
 };
 
@@ -1218,7 +1218,7 @@ sub homepage {
                         $q->submit(
                             -title => 'start extract',
                             -name  => 'submit',
-                            -value => 'extract',
+                            -value => M('extract'),
 
                             #-id    => 'submit'
                         )
