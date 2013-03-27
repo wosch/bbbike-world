@@ -1,17 +1,17 @@
 {
     "Your email address": "Ваш адрес электронной почты",
-    "about":      "о",
-    "Format":      "Формат",
-    "Name of area to extract":      "Имя области, чтобы извлечь",
-    "Manually select a different area":      "Вручную выбрать другую область",
-    "Drag a box on the map to select an area":      "Перетащите поле на карту, чтобы выбрать район",
-    "add points to polygon":      "добавить указывает на полигоне",
-    "resize or drag polygon":      "изменить размер или перетащите многоугольник",
-    "help":      "помочь",
-    "livesearch":      "livesearch",
-    "donate":      "пожертвовать",
-    "Left lower corner (South-West)":      "Левый нижний угол (Юго-Запад)",
-    "Right top corner (North-East)":      "Правый верхний угол (Северо-Восток)",
+    "about": "о",
+    "Format": "Формат",
+    "Name of area to extract": "Имя области, чтобы извлечь",
+    "Manually select a different area": "Вручную выбрать другую область",
+    "Drag a box on the map to select an area": "Перетащите поле на карту, чтобы выбрать район",
+    "add points to polygon": "добавить указывает на полигоне",
+    "resize or drag polygon": "изменить размер или перетащите многоугольник",
+    "help": "помочь",
+    "livesearch": "livesearch",
+    "donate": "пожертвовать",
+    "Left lower corner (South-West)": "Левый нижний угол (Юго-Запад)",
+    "Right top corner (North-East)": "Правый верхний угол (Северо-Восток)",
     "extract": "экстракт",
 
     "EXTRACT_CONFIRMED": [
@@ -68,5 +68,5 @@
         "http://www.BBBike.org - Ваш цикл Route Planner"
         ],
 
-        "dummy": "dummy"
+    "dummy": "dummy"
 }
