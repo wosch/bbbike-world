@@ -892,7 +892,7 @@ test-org:
 	./world/bin/lighttpd-template-update
 
 test prove:
-	time prove -j${MAX_CPU}
+	LANG=C time prove -j${MAX_CPU}
 
 help:
 	@echo "bbbike version: ${GIT_ID}"

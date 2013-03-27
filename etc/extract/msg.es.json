@@ -1,0 +1,71 @@
+{
+    "Your email address": "Su dirección de correo electrónico",
+    "about": "info",
+    "Format": "Formato",
+    "Name of area to extract": "Nombre de la zona para extraer",
+    "Manually select a different area": "Seleccionar manualmente una zona diferente",
+    "Drag a box on the map to select an area": "Arrastre un cuadro en el mapa para seleccionar en el área",
+    "add points to polygon": "Añadir puntos a polígono",
+    "resize or drag polygon": "Cambiar el tamaño o arrastrar polígono",
+    "help": "Ayuda",
+    "livesearch": "Live Search",
+    "donate": "Donar",
+    "Left lower corner (South-West)": "Esquina inferior izquierda (Sur-Oeste)",
+    "Right top corner (North-East)": "Esquina superior derecha (noreste)",
+
+    "EXTRACT_CONFIRMED": [
+        "Gracias <p> - los datos de entrada se ve bien</p>.",
+        "Se tarda entre 15-30 minutos para extraer un área de planet.osm,",
+        "Dependiendo del tamaño del área y la carga del sistema.",
+        "Se le notificará por correo electrónico si el extracto está listo para su descarga.",
+        "Por favor, siga las instrucciones en el correo electrónico para proceder a su petición.</p>",
+        "",
+        "<p align='left'> Area: '% s' cubre kilómetros cuadrados <br/>% s",
+        "Coordenadas:% s <br/>",
+        "Formato:% s",
+        "</p>",
+        "",
+        "<p> Pulse el botón de nuevo para obtener la misma zona en un formato diferente, o para solicitar una nueva área.</p>"
+        ],
+
+    "EXTRACT_DONATION": [
+        "<p> Agradecemos cualquier comentario, sugerencia",
+        "Y una donación <a href='../community.html#donate'> </ a>!",
+        "Nos pueden apoyar a través de PayPal, Flattr o transferencia bancaria."
+        ],
+
+    "EXTRACT_EMAIL": [
+        "Hola",
+        "",
+        "OpenStreetMap su área solicitada '% s' fue extraído de planet.osm",
+        "Para descargar el archivo, haga clic en el siguiente enlace:",
+        "",
+        "% S",
+        "",
+        "El archivo estará disponible para las próximas 48 horas. Descargue el",
+        "Archivo tan pronto como sea posible.",
+        "",
+        "Nombre:% s",
+        "Coordenadas:% s",
+        "Script URL:% s",
+        "Kilómetro cuadrado:% s",
+        "Granularidad: 10.000 (1,1 metros)",
+        "Osmosis opciones:% s",
+        "Formato:% s",
+        "File size:% s",
+        "SHA256 checksum:% s",
+        "Ultima actualización de base de datos planet.osm:% s",
+        "Licencia: Licencia de OpenStreetMap",
+        "",
+        "Apreciamos cualquier comentario, sugerencia y una donación!",
+        "Nos pueden apoyar a través de PayPal, Flattr o transferencia bancaria.",
+        "http://www.BBBike.org/community.html",
+        "",
+        "Sinceramente, el Hada extracto BBBike",
+        "",
+        "-",
+        "http://www.BBBike.org - Your Cycle Route Planner"
+        ],
+
+    "dummy": "dummy"
+}
