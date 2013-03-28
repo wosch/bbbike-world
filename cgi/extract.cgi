@@ -68,7 +68,7 @@ our $option = {
     'debug'               => "1",
     'language'            => "en",
     'request_method'      => "GET",
-    'supported_languages' => [qw/en de fr es/],
+    'supported_languages' => [qw/en de es fr ru/],
     'message_path'        => "../world/etc/extract",
 };
 
@@ -281,7 +281,7 @@ sub footer_top {
     }
 
     my $community_link =
-      $language eq 'en' ? "/community.html" : "/community.$language.html";
+      $language eq 'de' ? "/community.de.html" : "/community.html";
     my $donate = qq{<p class="normalscreen" id="big_donate_image">}
       . qq{<a href="$community_link#donate"><img class="logo" height="47" width="126" src="/images/btn_donateCC_LG.gif" alt="donate"/></a></p>};
 
@@ -1218,7 +1218,7 @@ sub homepage {
                         $q->submit(
                             -title => 'start extract',
                             -name  => 'submit',
-                            -value => 'extract',
+                            -value => M('extract'),
 
                             #-id    => 'submit'
                         )
