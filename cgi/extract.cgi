@@ -1219,8 +1219,7 @@ sub homepage {
                             -title => 'start extract',
                             -name  => 'submit',
                             -value => M('extract'),
-
-                            #-id    => 'submit'
+                            -id    => 'submit'
                         )
                     ]
                 ),
@@ -1342,16 +1341,17 @@ sub M {
 # main
 my $q = new CGI;
 
-my $action = $q->param("submit") || ( $q->param("key") ? "key" : "" );
 $language = get_language( $q, $language );
 $msg = get_msg($language);
 
-if ( $action eq "extract" ) {
+if ( $q->param("submit") ) {
     &check_input( 'q' => $q );
 }
-elsif ( $action eq 'key' ) {
-    &confirm_key( 'q' => $q );
-}
+
+# legacy
+#elsif ( $q->param("key") ) {
+#    &confirm_key( 'q' => $q );
+#}
 else {
     &homepage( 'q' => $q );
 }
