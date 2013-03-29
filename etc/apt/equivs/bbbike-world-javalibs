@@ -5,7 +5,7 @@ Priority: optional
 # Homepage: <enter URL here; no default>
 Standards-Version: 3.6.2
 
-Package: bbbike-world-perlmodules
+Package: bbbike-world-javalibs
 Version: 1.0
 Maintainer: Wolfram Schneider <wosch@freebsd.org>
 # Pre-Depends: <comma-separated list of packages>

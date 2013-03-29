@@ -1,4 +1,8 @@
+###############################################################
+# Copyright (c) 2013 Wolfram Schneider, http://bbbike.org
+
 LIB=	bbbike-world-javalibs
+DEB_REPO_DIR=   /usr/local/www/debian.bbbike.org/debian
 
 all: help
 
@@ -18,8 +22,9 @@ build:
 
 deb-repo:
 	dpkg-sig -k 3D084B60 --sign builder 	${LIB}*.deb
-	reprepro -Vb . removematched squeeze 	${LIB}*.deb
-	reprepro -Vb . includedeb squeeze 	${LIB}*.deb
+	pwd=$$(pwd); cd ${DEB_REPO_DIR}; \
+	  reprepro -Vb . removematched squeeze 	${LIB}; \
+	  reprepro -Vb . includedeb squeeze 	$$pwd/${LIB}*.deb
 
 help:
 	@echo ""
