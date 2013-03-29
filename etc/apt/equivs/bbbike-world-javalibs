@@ -5,11 +5,11 @@ Priority: optional
 # Homepage: <enter URL here; no default>
 Standards-Version: 3.6.2
 
-Package: bbbike-world
+Package: bbbike-world-perlmodules
 Version: 1.0
 Maintainer: Wolfram Schneider <wosch@freebsd.org>
 # Pre-Depends: <comma-separated list of packages>
-Depends: bbbike-world-debian, bbbike-world-perlmodules, bbbike-world-javalibs
+Depends: bbbike-world-javalibs-meta
 # Recommends: <comma-separated list of packages>
 # Suggests: <comma-separated list of packages>
 # Provides: <comma-separated list of packages>
@@ -21,5 +21,5 @@ Depends: bbbike-world-debian, bbbike-world-perlmodules, bbbike-world-javalibs
 # Extra-Files: <comma-separated list of additional files for the doc directory>
 # Files: <pair of space-separated paths; First is file to include, second is destination>
 #  <more pairs, if there's more than one file to include. Notice the starting space>
-Description: BBBike @ World meta package
- BBBike @ World meta package for all modules
+Description: BBBike @ World java libs
+ java libs which are not part of debian squeeze
