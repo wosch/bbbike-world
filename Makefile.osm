@@ -815,14 +815,25 @@ tile: tile-extract tile-convert tile-checksum tile-csv
 DEB_DIR=tmp/deb
 DEB_MODULE_LIST=world/etc/apt/perl-modules.txt
 DEB_PACKAGES=	$(shell ${PERL} -npe 's/\#.*//' ${DEB_MODULE_LIST})
+DEB_CONTROLS=	$(shell ${MAKE} -s -Cworld/etc/apt/equivs)
 DEB_REPO_DIR=	/usr/local/www/debian.bbbike.org/debian
 
-deb-perl: deb-clean
+# don't forget to run deb-clean first
+deb-perl:
 	mkdir -p ${DEB_DIR}
 	cd ${DEB_DIR}; \
 	for i in ${DEB_PACKAGES}; do \
 	    dh-make-perl --build --cpan $$i; \
 	done
+	ls -l ${DEB_DIR}/*.deb
+
+deb-equivs:
+	mkdir -p ${DEB_DIR}
+	cd ${DEB_DIR}; \
+	for i in ${DEB_CONTROLS}; do \
+	    equivs-build $$i; \
+	done
+	ls -l ${DEB_DIR}/*.deb
 
 deb-clean:
 	rm -rf ${DEB_DIR}
@@ -832,13 +843,16 @@ deb-repo:
 	pwd=`pwd`; cd ${DEB_REPO_DIR} && reprepro -Vb . includedeb squeeze $$pwd/${DEB_DIR}/*.deb
 
 deb-bootstrap:
-	rsync -az bbbike:opt $$HOME
+	for i in bin mapsforge mkgmap mkgmap-r2373 OsmAndMapCreator-development OsmAndMapCreator-development-2012-11-17 osmosis-0.40.1 sitemap_gen-1.4 splitter splitter-r200; do \
+	   rsync -az bbbike:opt/$$i $$HOME/opt; \
+	done
 	rsync -az bbbike:.openstreetmap $$HOME
 	rsync -az bbbike:.osmosis $$HOME
 	rsync -az bbbike:.bbbike* $$HOME
 	sudo cp -f $$HOME/opt/bin/* /usr/local/bin	
 	test -e /usr/local/bin/perl || sudo ln -s /usr/bin/perl /usr/local/bin/perl
 	test -e /usr/lib/libgeos-3.2.2.so || sudo ln -s /usr/lib/libgeos-3.2.0.so /usr/lib/libgeos-3.2.2.so
+	test -e /usr/local/bin/osmosis || sudo ln -s $$HOME/opt/osmosis-0.40.1/bin/osmosis /usr/local/bin/osmosis
 	sudo mkdir -p /bbbike/tmp /bbbike/tmpfs
 	sudo chmod 7777 /bbbike/tmp /bbbike/tmpfs
 	${MAKE} -s -C./ext all install >/dev/null 2>&1
@@ -934,7 +948,7 @@ help:
 	@echo "  [ tile | tile-extract | tile-convert | tile-csv | tile-checksum ]"
 	@echo "  [ tile-distclean | tile-rsync ]"
 	@echo "  [ test-org | test ]"
-	@echo "  [ deb-perl | deb-perl | deb-bootstrap ]"
+	@echo "  [ deb-perl | deb-perl | deb-equivs | deb-bootstrap ]"
 
 	@echo ""
 	@echo "see also ./world/README"

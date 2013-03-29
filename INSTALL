@@ -12,44 +12,8 @@ Required debian modules
 deb     http://mirror.hetzner.de/debian/backports squeeze-backports main contrib non-free
 deb     http://backports.debian.org/debian-backports squeeze-backports main contrib non-free
 
-sudo apt-get install \
-  pbzip2 bzip2 xz-utils git-core screen lynx curl wget time \
-  lsof whois pigz make acct telnet dnsutils bc sysstat \
-  buffer pktstat emacs unzip vim gcc zlib1g-dev perltidy tidy \
-  bsd-mailx mutt perl-doc zip sudo munin-node htop strace \
-  python openjdk-6-jdk g++ sockstat kwalify \
-  libhtml-tagcloud-perl libtext-unidecode-perl munin \
-  libxml-atom-simplefeed-perl libjson-perl liburi-perl \
-  libxml-libxml-perl libyaml-perl libyaml-syck-perl libxml-simple-perl \
-  libdevel-size-perl libtie-ixhash-perl libdevel-size-perl \
-  libbsd-resource-perl libobject-realize-later-perl libemail-valid-perl \
-  libcairo-perl libpango-perl libinline-perl libpdf-create-perl \
-  libgd-gd2-perl pdftk osm2navit \
-  libprotobuf-lite6 libshp1 libgeos-dev libxml2-dev libxml-twig-perl \
-  libipc-run-perl libimage-info-perl libwww-mechanize-perl libemail-mime-perl \
-  libdbi-perl libobject-realize-later-perl libmldbm-perl \
-  libclass-accessor-perl libarchive-zip-perl libtemplate-perl \
-  libdata-compare-perl libgd2-xpm libgd2-xpm-dev libgd-gd2-perl \
-  ttf-bitstream-vera ttf-dejavu libarchive1 libtext-table-perl \
-  libpdf-create-perl libcairo-perl libpango-perl libfont-afm-perl \
-  libtest-number-delta-perl libimager-perl netpbm libgd-gd2-perl \
-  ttf-bitstream-vera ttf-dejavu libyaml-tiny-perl libcompress-zlib-perl \
-  libarchive-dev liblzma-dev libclass-accessor-children-perl subversion \
-  libimage-size-perl libmime-tools-perl libcdb-file-perl \
-  libdate-calc-perl libimage-exiftool-perl libstatistics-descriptive-perl \
-  libsvg-perl libgd-svg-perl perlmagick libimager-perl imagemagick libsvg-perl \
-  libdb-file-lock-perl libgeo-metar-perl libstring-approx-perl \
-  libdbd-xbase-perl libdevel-leak-perl libfile-readbackwards-perl \
-  libhtml-treebuilder-xpath-perl libxml2-utils libgdal-perl libgdal-perl \
-  libtext-csv-xs-perl libcapture-tiny-perl \
-  pmake dh-make-perl ntp munin dpkg-sig reprepro lighttpd
-
-# self build debian modules on debian.bbbike.org
-sudo apt-get install \
-  libwww-mechanize-formfiller-perl libkwalify-perl libgis-distance-lite-perl \
-  libgeo-google-polylineencoder-perl libobject-iterate-perl libmath-polygon-perl \
-  libmath-matrixreal-perl libimage-info-perl libxml-atom-simplefeed-perl \
-  libaccessors-perl 
+# see world/etc/apt/equivs
+sudo apt-get install bbbike-world 
 
 # reverse proxy
 sudo apt-get install varnish
