@@ -843,7 +843,9 @@ deb-repo:
 	pwd=`pwd`; cd ${DEB_REPO_DIR} && reprepro -Vb . includedeb squeeze $$pwd/${DEB_DIR}/*.deb
 
 deb-bootstrap:
-	rsync -az bbbike:opt $$HOME
+	for i in bin mapsforge mkgmap mkgmap-r2373 OsmAndMapCreator-development OsmAndMapCreator-development-2012-11-17 osmosis-0.40.1 sitemap_gen-1.4 splitter splitter-r200; do \
+	   rsync -az bbbike:opt/$$i $$HOME/opt; \
+	done
 	rsync -az bbbike:.openstreetmap $$HOME
 	rsync -az bbbike:.osmosis $$HOME
 	rsync -az bbbike:.bbbike* $$HOME
