@@ -5,11 +5,12 @@ all: help
 clean:
 	rm -f *.deb *.dsc 
 	rm -f ${LIB}*.tar.gz
-	rm -f ${LIB}-*amd64.changes
+	rm -f ${LIB}*.changes
+	rm -f ${LIB}/debian.log
 
 build:
 	cd ${LIB}; \
-	   dpkg-buildpackage -rfakeroot > debian.log 2>&1
+	   dpkg-buildpackage -rfakeroot -us -uc > debian.log 2>&1
 	@ls -l *.deb
 
 deb-repo:
