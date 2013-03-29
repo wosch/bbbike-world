@@ -9,5 +9,30 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
+JAVALIBS_TARBALL=	OsmAndMapCreator-development-2012-11-17.tar.gz mkgmap-r2373.tar.gz osmosis-0.40.1.tar.gz splitter-r200.tar.gz
+HOMEPAGE_TARBALL=	http://debian.bbbike.org/src
+JAVALIBS_DIR=	/var/lib/bbbike/opt
+
+install:
+	dh_testdir
+	dh_testroot
+	dh_prep
+	dh_installdirs
+
+	
+	mkdir -p $(CURDIR)/debian/src
+	cd $(CURDIR)/debian/src; \
+	  for i in ${JAVALIBS_TARBALL}; do \
+		test -e $$i || wget ${HOMEPAGE_TARBALL}/src/$$i; \
+	  done
+		
+	mkdir -p $(CURDIR)/debian/tmp/${JAVALIBS_DIR}
+	for i in ${JAVALIBS_TARBALL}; do \
+	  cat $(CURDIR)/debian/src/$$i | tar -C$(CURDIR)/debian/tmp/${JAVALIBS_DIR} -xvf -; \
+	done
+
+	dh_install
+
 %:
 	dh $@ 
+
