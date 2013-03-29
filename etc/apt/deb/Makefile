@@ -3,10 +3,13 @@ LIB=	bbbike-world-javalibs
 all: help
 
 clean:
-	rm -f *.deb *.dsc 
 	rm -f ${LIB}*.tar.gz
+	rm -f ${LIB}*.dsc
 	rm -f ${LIB}*.changes
+
+distclean:
 	rm -f ${LIB}/debian.log
+	rm -f ${LIB}*.deb
 
 build:
 	cd ${LIB}; \
@@ -20,5 +23,5 @@ deb-repo:
 
 help:
 	@echo ""
-	@echo "  make [ clean | build | deb-repo ]"
+	@echo "  make [ clean | distclean | build | deb-repo ]"
 
