@@ -815,14 +815,25 @@ tile: tile-extract tile-convert tile-checksum tile-csv
 DEB_DIR=tmp/deb
 DEB_MODULE_LIST=world/etc/apt/perl-modules.txt
 DEB_PACKAGES=	$(shell ${PERL} -npe 's/\#.*//' ${DEB_MODULE_LIST})
+DEB_CONTROLS=	$(shell ${MAKE} -s -Cworld/etc/apt/equivs)
 DEB_REPO_DIR=	/usr/local/www/debian.bbbike.org/debian
 
-deb-perl: deb-clean
+# don't forget to run deb-clean first
+deb-perl:
 	mkdir -p ${DEB_DIR}
 	cd ${DEB_DIR}; \
 	for i in ${DEB_PACKAGES}; do \
 	    dh-make-perl --build --cpan $$i; \
 	done
+	@pwd; ls -l *.deb
+
+deb-equivs:
+	mkdir -p ${DEB_DIR}
+	cd ${DEB_DIR}; \
+	for i in ${DEB_CONTROLS}; do \
+	    equivs-build $$i; \
+	done
+	@pwd; ls -l *.deb
 
 deb-clean:
 	rm -rf ${DEB_DIR}
