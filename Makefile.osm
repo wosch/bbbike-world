@@ -840,7 +840,11 @@ deb-clean:
 
 deb-repo:
 	dpkg-sig -k 3D084B60 --sign builder ${DEB_DIR}/*.deb
-	pwd=`pwd`; cd ${DEB_REPO_DIR} && reprepro -Vb . includedeb squeeze $$pwd/${DEB_DIR}/*.deb
+	pwd=`pwd`; cd ${DEB_REPO_DIR}; \
+	for i in $$pwd/${DEB_DIR}/*.deb; do \
+ 	   reprepro -Vb . removematched squeeze $$(echo $$i | perl -npe 's,.*/,,; s,_[\d+\.]+\_all\.deb$$,,'); \
+ 	   reprepro -Vb . includedeb squeeze $$i; \
+	done
 
 deb-bootstrap:
 	for i in bin mapsforge mkgmap mkgmap-r2373 OsmAndMapCreator-development OsmAndMapCreator-development-2012-11-17 osmosis-0.40.1 sitemap_gen-1.4 splitter splitter-r200; do \
