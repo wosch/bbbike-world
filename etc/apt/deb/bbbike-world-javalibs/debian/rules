@@ -18,7 +18,6 @@ JAVALIBS_DIR=	/var/lib/bbbike/opt
 clean: 
 	dh_testdir
 	dh_testroot
-	rm -f build-arch-stamp build-indep-stamp configure-stamp
 	dh_clean
 
 install:
@@ -32,7 +31,8 @@ install:
 	  for i in ${JAVALIBS_TARBALL}; do \
 		test -e $$i || wget ${HOMEPAGE_TARBALL}/src/$$i; \
 	  done
-		
+
+	rm -rf $(CURDIR)/debian/tmp/${JAVALIBS_DIR}
 	mkdir -p $(CURDIR)/debian/tmp/${JAVALIBS_DIR}
 	for i in ${JAVALIBS_TARBALL}; do \
 	  gzip -dc $(CURDIR)/debian/src/$$i | tar -C$(CURDIR)/debian/tmp/${JAVALIBS_DIR} -xvf -; \
@@ -45,50 +45,16 @@ install:
 	  ln -s splitter-r200 splitter
 	#dh_install
 
-# Must not depend on anything. This is to be called by
-# binary-arch/binary-indep
-# in another 'make' thread.
-binary-common:
-	dh_testdir
-	dh_testroot
-	dh_installchangelogs 
-	dh_installdocs
-	dh_installexamples
-#	dh_installmenu
-#	dh_installdebconf
-	dh_installlogrotate
-#	dh_installemacsen
-#	dh_installpam
-#	dh_installmime
-#	dh_python
-	dh_installinit
-	dh_installcron
-#	dh_installinfo
-	dh_installman
-	dh_link
-	dh_strip
-	dh_compress
-	dh_fixperms
-#	dh_perl
-	dh_makeshlibs
-	dh_installdeb
-	dh_shlibdeps 
-	dh_gencontrol
-	dh_md5sums
-	dh_builddeb
+#	dh_testdir
+#	dh_testroot
+#	dh_fixperms
+#	dh_md5sums
+#	dh_builddeb
 
-# Build architecture independant packages using the common target.
-binary-indep: build-indep install
-	$(MAKE) -f debian/rules DH_OPTIONS=-i binary-common
+build: binary
 
-# Build architecture dependant packages using the common target.
-binary-arch: install
-	$(MAKE) -f debian/rules DH_OPTIONS=-s binary-common
+binary: install
 
-binary: binary-arch
-.PHONY: build clean binary install install-indep install-arch configure
-
-%:
-	dh $@ 
-
+#%:
+#	dh $@ 
 
