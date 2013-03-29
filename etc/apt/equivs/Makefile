@@ -3,7 +3,10 @@
 # http://wiki.debian.org/CreateDummyPackage
 # equivs-build package-minimal 
 
-ALL= bbbike-world \
+#
+# all meta packages, "bbbike-world" is the top-level
+#
+ALL= 	bbbike-world \
 	bbbike-world-debian \
 	bbbike-world-perlmodules \
 	bbbike-world-javalibs \
