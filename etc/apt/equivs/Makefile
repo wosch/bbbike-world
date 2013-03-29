@@ -3,7 +3,11 @@
 # http://wiki.debian.org/CreateDummyPackage
 # equivs-build package-minimal 
 
-ALL= bbbike-world bbbike-world-debian bbbike-world-perlmodules bbbike-world-javalibs
+ALL= bbbike-world \
+	bbbike-world-debian \
+	bbbike-world-perlmodules \
+	bbbike-world-javalibs \
+	bbbike-world-bin
 
 all:
 	for i in ${ALL}; do \
