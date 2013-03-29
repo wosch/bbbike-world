@@ -825,7 +825,7 @@ deb-perl:
 	for i in ${DEB_PACKAGES}; do \
 	    dh-make-perl --build --cpan $$i; \
 	done
-	@pwd; ls -l *.deb
+	ls -l ${DEB_DIR}/*.deb
 
 deb-equivs:
 	mkdir -p ${DEB_DIR}
@@ -833,7 +833,7 @@ deb-equivs:
 	for i in ${DEB_CONTROLS}; do \
 	    equivs-build $$i; \
 	done
-	@pwd; ls -l *.deb
+	ls -l ${DEB_DIR}/*.deb
 
 deb-clean:
 	rm -rf ${DEB_DIR}
