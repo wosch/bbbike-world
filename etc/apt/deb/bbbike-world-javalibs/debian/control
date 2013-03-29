@@ -6,31 +6,10 @@ Build-Depends: debhelper (>= 7.0.50~)
 Standards-Version: 3.8.4
 Homepage: http://bbbike.org
 
-Package: bbbike-world-javalibs-osmosis
+Package: bbbike-world-javalibs-meta
 Architecture: all
 Section: web
 Depends: ${misc:Depends}
-Description: Java libs for bbbike.org - osmosis
- Java libs for bbbike.org - osmosis
+Description: Java libs for bbbike.org
+ Java libs for bbbike.org - osmosis, splitter, osmand, mkgmap
  
-Package: bbbike-world-javalibs-splitter
-Architecture: all
-Section: web
-Depends: ${misc:Depends}
-Description: Java libs for bbbike.org - splitter
- Java libs for bbbike.org - splitter
-
-Package: bbbike-world-javalibs-osmand
-Architecture: all
-Section: web
-Depends: ${misc:Depends}
-Description: Java libs for bbbike.org - osmand
- Java libs for bbbike.org - osmand
-
-Package: bbbike-world-javalibs-mkgmap
-Architecture: all
-Section: web
-Depends: ${misc:Depends}
-Description: Java libs for bbbike.org - mkgmap
- Java libs for bbbike.org - mkgmap
-
