@@ -1,5 +1,6 @@
 ###############################################################
 # Copyright (c) 2013 Wolfram Schneider, http://bbbike.org
+#
 
 LIB=	bbbike-world-javalibs
 DEB_REPO_DIR=   /usr/local/www/debian.bbbike.org/debian
@@ -7,13 +8,10 @@ DEB_REPO_DIR=   /usr/local/www/debian.bbbike.org/debian
 all: help
 
 clean:
-	rm -f ${LIB}*.tar.gz
-	rm -f ${LIB}*.dsc
-	rm -f ${LIB}*.changes
+	rm -f ${LIB}*.tar.gz ${LIB}*.dsc ${LIB}*.changes
 
 distclean:
-	rm -f ${LIB}/debian.log
-	rm -f ${LIB}*.deb
+	rm -f ${LIB}/debian.log ${LIB}*.deb
 
 build:
 	cd ${LIB}; \
@@ -29,4 +27,6 @@ deb-repo:
 help:
 	@echo ""
 	@echo "  make [ clean | distclean | build | deb-repo ]"
+	@echo ""
+	@echo "  make LIB=bbbike-world-bin targets..."
 
