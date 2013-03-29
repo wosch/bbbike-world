@@ -850,10 +850,10 @@ deb-bootstrap:
 	for i in bin mapsforge mkgmap mkgmap-r2373 OsmAndMapCreator-development OsmAndMapCreator-development-2012-11-17 osmosis-0.40.1 sitemap_gen-1.4 splitter splitter-r200; do \
 	   rsync -az bbbike:opt/$$i $$HOME/opt; \
 	done
-	rsync -az bbbike:.openstreetmap $$HOME
-	rsync -az bbbike:.osmosis $$HOME
-	rsync -az bbbike:.bbbike* $$HOME
-	rsync -az bbbike:.bashrc $$HOME
+	rsync -az ${BBBIKE_WEB_SERVER}:.openstreetmap $$HOME
+	rsync -az ${BBBIKE_WEB_SERVER}:.osmosis $$HOME
+	rsync -az ${BBBIKE_WEB_SERVER}:.bbbike* $$HOME
+	rsync -az ${BBBIKE_WEB_SERVER}:.bashrc $$HOME
 	sudo cp -f $$HOME/opt/bin/* /usr/local/bin	
 	test -e /usr/local/bin/perl || sudo ln -s /usr/bin/perl /usr/local/bin/perl
 	test -e /usr/lib/libgeos-3.2.2.so || sudo ln -s /usr/lib/libgeos-3.2.0.so /usr/lib/libgeos-3.2.2.so
