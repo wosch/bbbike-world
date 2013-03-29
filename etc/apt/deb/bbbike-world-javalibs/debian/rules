@@ -22,9 +22,9 @@ clean:
 
 install:
 	dh_testdir
-	dh_testroot
-	dh_prep
-	dh_installdirs
+	#dh_testroot
+	#dh_prep
+	#dh_installdirs
 
 	mkdir -p $(CURDIR)/debian/src
 	cd $(CURDIR)/debian/src; \
@@ -45,15 +45,27 @@ install:
 	  ln -s splitter-r200 splitter
 	#dh_install
 
-#	dh_testdir
-#	dh_testroot
-#	dh_fixperms
-#	dh_md5sums
-#	dh_builddeb
 
-build: binary
+build: install
 
-binary: install
+binary: 
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs 
+	dh_installdocs
+	dh_installexamples
+	dh_link
+	dh_strip
+	dh_compress
+	dh_fixperms
+	dh_makeshlibs
+	dh_installdeb
+	dh_shlibdeps 
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+.PHONY: build clean binary install 
 
 #%:
 #	dh $@ 
