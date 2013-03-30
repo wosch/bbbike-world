@@ -6,10 +6,10 @@ Priority: optional
 Standards-Version: 3.6.2
 
 Package: bbbike-world-javalibs
-Version: 1.0
+Version: 1.1
 Maintainer: Wolfram Schneider <wosch@freebsd.org>
 # Pre-Depends: <comma-separated list of packages>
-Depends: bbbike-world-javalibs-meta
+Depends: bbbike-world-javalibs-misc
 # Recommends: <comma-separated list of packages>
 # Suggests: <comma-separated list of packages>
 # Provides: <comma-separated list of packages>

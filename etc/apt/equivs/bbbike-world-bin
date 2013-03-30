@@ -6,10 +6,10 @@ Priority: optional
 Standards-Version: 3.6.2
 
 Package: bbbike-world-bin
-Version: 1.0
+Version: 1.1
 Maintainer: Wolfram Schneider <wosch@freebsd.org>
 # Pre-Depends: <comma-separated list of packages>
-Depends: bbbike-world-bin-meta
+Depends: bbbike-world-bin-misc
 # Recommends: <comma-separated list of packages>
 # Suggests: <comma-separated list of packages>
 # Provides: <comma-separated list of packages>
