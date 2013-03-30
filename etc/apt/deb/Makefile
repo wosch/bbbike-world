@@ -11,7 +11,7 @@ clean:
 	rm -f ${LIB}*.tar.gz ${LIB}*.dsc ${LIB}*.changes
 
 distclean:
-	rm -f ${LIB}/debian.log ${LIB}*.deb
+	rm -f */debian.log *.deb
 
 build:
 	cd ${LIB}; \
