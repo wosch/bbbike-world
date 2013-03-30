@@ -1284,6 +1284,8 @@ sub cleanup_jobdir {
         return;
     }
 
+    system( 'ls', '-la', $job_dir ) if $debug >= 3;
+
     if ( $errors && $keep ) {
         my $to_dir = "$failed_dir/" . basename($job_dir);
         warn "Keep job dir: $to_dir\n" if $debug;
