@@ -1,0 +1,5 @@
+bbbike-world-javalibs (1.0-1) unstable; urgency=low
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- Wolfram Schneider <wosch@freebsd.org>  Fri, 29 Mar 2013 14:48:00 +0000

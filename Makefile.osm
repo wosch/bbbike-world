@@ -842,7 +842,7 @@ deb-repo:
 	dpkg-sig -k 3D084B60 --sign builder ${DEB_DIR}/*.deb
 	pwd=`pwd`; cd ${DEB_REPO_DIR}; \
 	for i in $$pwd/${DEB_DIR}/*.deb; do \
- 	   reprepro -Vb . removematched squeeze $$(echo $$i | perl -npe 's,.*/,,; s,_[\d+\.]+\_all\.deb$$,,'); \
+ 	   reprepro -Vb . removematched squeeze $$(echo $$i | perl -npe 's,.*/,,; s,_[\d+\.\-]+\_all\.deb$$,,'); \
  	   reprepro -Vb . includedeb squeeze $$i; \
 	done
 
@@ -953,7 +953,7 @@ help:
 	@echo "  [ tile | tile-extract | tile-convert | tile-csv | tile-checksum ]"
 	@echo "  [ tile-distclean | tile-rsync ]"
 	@echo "  [ test-org | test ]"
-	@echo "  [ deb-perl | deb-perl | deb-equivs | deb-bootstrap ]"
+	@echo "  [ deb-clean | deb-perl | deb-perl | deb-equivs | deb-bootstrap ]"
 
 	@echo ""
 	@echo "see also ./world/README"
