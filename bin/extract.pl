@@ -1036,7 +1036,8 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
 
         # unlink temporary .pbf files after all files are proceeds
         if (@unlink) {
-            warn "Unlink temp files: " . join( "", @unlink ) if $debug >= 2;
+            warn "Unlink temp files: " . join( "", @unlink ) . "\n"
+              if $debug >= 2;
             unlink(@unlink) or die "unlink: @unlink: $!\n";
         }
 
