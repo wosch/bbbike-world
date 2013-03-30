@@ -11,7 +11,12 @@ export DH_VERBOSE=1
 export DH_OPTIONS
 
 
-JAVALIBS_TARBALL=	OsmAndMapCreator-development-2012-11-17.tar.gz mkgmap-r2373.tar.gz osmosis-0.40.1.tar.gz splitter-r200.tar.gz
+JAVALIBS_TARBALL=	OsmAndMapCreator-development-2012-11-17.tar.gz \
+			mkgmap-r2373.tar.gz \
+			osmosis-0.40.1.tar.gz \
+			splitter-r200.tar.gz \
+			mapsforge-0.3.0.tar.gz
+
 HOMEPAGE_TARBALL=	http://debian.bbbike.org
 JAVALIBS_DIR=	/var/lib/bbbike/opt
 
