@@ -817,6 +817,7 @@ DEB_MODULE_LIST=world/etc/apt/perl-modules.txt
 DEB_PACKAGES=	$(shell ${PERL} -npe 's/\#.*//' ${DEB_MODULE_LIST})
 DEB_CONTROLS=	$(shell ${MAKE} -s -Cworld/etc/apt/equivs)
 DEB_REPO_DIR=	/usr/local/www/debian.bbbike.org/debian
+DEB_OPT_DIR=	/var/lib/bbbike/opt
 
 # don't forget to run deb-clean first
 deb-perl:
@@ -847,17 +848,17 @@ deb-repo:
 	done
 
 deb-bootstrap:
-	for i in bin mapsforge mkgmap mkgmap-r2373 OsmAndMapCreator-development OsmAndMapCreator-development-2012-11-17 osmosis-0.40.1 sitemap_gen-1.4 splitter splitter-r200; do \
-	   rsync -az bbbike:opt/$$i $$HOME/opt; \
-	done
 	rsync -az ${BBBIKE_WEB_SERVER}:.openstreetmap $$HOME
 	rsync -az ${BBBIKE_WEB_SERVER}:.osmosis $$HOME
 	rsync -az ${BBBIKE_WEB_SERVER}:.bbbike* $$HOME
 	rsync -az ${BBBIKE_WEB_SERVER}:.bashrc $$HOME
-	sudo cp -f $$HOME/opt/bin/* /usr/local/bin	
+	cd ${DEB_OPT_DIR}/bin; \
+	   for i in *; do \
+	     test -e /usr/local/bin/$$i || sudo ln -s ${DEB_OPT_DIR}/$$i /usr/local/bin/$$i; \
+	   done	
 	test -e /usr/local/bin/perl || sudo ln -s /usr/bin/perl /usr/local/bin/perl
 	test -e /usr/lib/libgeos-3.2.2.so || sudo ln -s /usr/lib/libgeos-3.2.0.so /usr/lib/libgeos-3.2.2.so
-	test -e /usr/local/bin/osmosis || sudo ln -s $$HOME/opt/osmosis-0.40.1/bin/osmosis /usr/local/bin/osmosis
+	test -e /usr/local/bin/osmosis || sudo ln -s ${DEB_OPT_DIR}/osmosis-0.40.1/bin/osmosis /usr/local/bin/osmosis
 	sudo mkdir -p /bbbike/tmp /bbbike/tmpfs
 	sudo chmod 7777 /bbbike/tmp /bbbike/tmpfs
 	${MAKE} -s -C./ext all install >/dev/null 2>&1
