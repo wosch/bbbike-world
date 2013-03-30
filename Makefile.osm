@@ -861,9 +861,9 @@ deb-bootstrap-dir:
 	   for i in *; do \
 	     test -e /usr/local/bin/$$i || sudo ln -fs ${DEB_OPT_DIR}/bin/$$i /usr/local/bin/$$i; \
 	   done	
-	test -e /usr/local/bin/perl || sudo ln -s /usr/bin/perl /usr/local/bin/perl
-	test -e /usr/lib/libgeos-3.2.2.so || sudo ln -s /usr/lib/libgeos-3.2.0.so /usr/lib/libgeos-3.2.2.so
-	test -e /usr/local/bin/osmosis || sudo ln -s ${DEB_OPT_DIR}/osmosis-0.40.1/bin/osmosis /usr/local/bin/osmosis
+	test -e /usr/local/bin/perl || sudo ln -fs /usr/bin/perl /usr/local/bin/perl
+	test -e /usr/lib/libgeos-3.2.2.so || sudo ln -fs /usr/lib/libgeos-3.2.0.so /usr/lib/libgeos-3.2.2.so
+	test -e /usr/local/bin/osmosis || sudo ln -sf ${DEB_OPT_DIR}/osmosis-0.40.1/bin/osmosis /usr/local/bin/osmosis
 	sudo mkdir -p /bbbike/tmp /bbbike/tmpfs
 	sudo chmod 7777 /bbbike/tmp /bbbike/tmpfs
 	${MAKE} -s -C./ext all install >/dev/null 2>&1
