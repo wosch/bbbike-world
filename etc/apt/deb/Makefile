@@ -21,7 +21,7 @@ build:
 deb-repo:
 	dpkg-sig -k 3D084B60 --sign builder 	${LIB}*.deb
 	pwd=$$(pwd); cd ${DEB_REPO_DIR}; \
-	  reprepro -Vb . removematched squeeze 	${LIB}; \
+	  reprepro -Vb . removematched squeeze 	${LIB}-misc; \
 	  reprepro -Vb . includedeb squeeze 	$$pwd/${LIB}*.deb
 
 help:

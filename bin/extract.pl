@@ -842,11 +842,12 @@ sub _convert_send_email {
 
     my @unlink;
     {
-        my $obj      = get_json($json_file);
-        my $format   = $obj->{'format'};
-        my $pbf_file = $obj->{'pbf_file'};
-        my $city     = mkgmap_description( $obj->{'city'} );
-        my $lang     = $obj->{'lang'} || "en";
+        my $obj       = get_json($json_file);
+        my $format    = $obj->{'format'};
+        my $pbf_file  = $obj->{'pbf_file'};
+        my $poly_file = $obj->{'poly_file'};
+        my $city      = mkgmap_description( $obj->{'city'} );
+        my $lang      = $obj->{'lang'} || "en";
         my @system;
 
         $ENV{BBBIKE_EXTRACT_URL} = &script_url( $option, $obj );
@@ -992,6 +993,9 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
             }
         }
 
+        # cleanup poly file after successfull convert
+        push @unlink, $poly_file;
+
         next if $test_mode;
 
         ###################################################################
@@ -1032,6 +1036,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
 
         # unlink temporary .pbf files after all files are proceeds
         if (@unlink) {
+            warn "Unlink temp files: " . join( "", @unlink ) if $debug >= 2;
             unlink(@unlink) or die "unlink: @unlink: $!\n";
         }
 

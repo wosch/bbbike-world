@@ -859,7 +859,7 @@ deb-bootstrap-rsync:
 deb-bootstrap-dir:
 	cd ${DEB_OPT_DIR}/bin; \
 	   for i in *; do \
-	     test -e /usr/local/bin/$$i || sudo ln -s ${DEB_OPT_DIR}/$$i /usr/local/bin/$$i; \
+	     test -e /usr/local/bin/$$i || sudo ln -fs ${DEB_OPT_DIR}/bin/$$i /usr/local/bin/$$i; \
 	   done	
 	test -e /usr/local/bin/perl || sudo ln -s /usr/bin/perl /usr/local/bin/perl
 	test -e /usr/lib/libgeos-3.2.2.so || sudo ln -s /usr/lib/libgeos-3.2.0.so /usr/lib/libgeos-3.2.2.so
