@@ -647,6 +647,7 @@ java-config:
 dist-clean devel-clean distclean: clean rotate-osm deb-clean
 	${RM_BG} ${OSM_DIR}
 	mkdir -p ${OSM_DIR}
+	${MAKE} -C./t distclean
 
 clean-planet:
 	${RM_BG} ../osm/download/*.old.*
