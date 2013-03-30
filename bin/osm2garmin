@@ -6,6 +6,7 @@
 
 PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_EXTRACT_LANG=en}
+: ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
 
 set -e
 
@@ -123,7 +124,7 @@ if [ $size -lt 10000 ]; then
    ln -s $file $split_dir/63240001.osm.pbf
 else
    echo ">>> Run splitter" > $logfile
-   java $java_opt -jar $HOME/opt/splitter/splitter.jar --max-nodes=1000000 --output-dir=$split_dir $file >> $logfile 2>&1 || error
+   java $java_opt -jar $BBBIKE_OPT_DIR/splitter/splitter.jar --max-nodes=1000000 --output-dir=$split_dir $file >> $logfile 2>&1 || error
 fi
 
 date=$(date -u)
@@ -157,7 +158,7 @@ fi
 
 echo ">>> Run mkgmap, map style: $mkgmap_map_style" >> $logfile
 ( set -x 
-java $java_opt -jar $HOME/opt/mkgmap/mkgmap.jar $max_jobs $mkgmap_opt $mkgmap_map \
+java $java_opt -jar $BBBIKE_OPT_DIR/mkgmap/mkgmap.jar $max_jobs $mkgmap_opt $mkgmap_map \
 	--description="$description" --family-name="BBBike.org style=$mkgmap_map_style $coords" $split_dir/*.pbf $mkgmap_map_type ) >> $logfile 2>&1  || error
 
 if egrep -ql '^java\.lang\.' $logfile; then
