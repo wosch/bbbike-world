@@ -848,11 +848,15 @@ deb-repo:
  	   reprepro -Vb . includedeb squeeze $$i; \
 	done
 
-deb-bootstrap:
+deb-bootstrap: deb-bootstrap-rsync deb-bootstrap-dir 
+
+deb-bootstrap-rsync:
 	rsync -az ${BBBIKE_WEB_SERVER}:.openstreetmap $$HOME
 	rsync -az ${BBBIKE_WEB_SERVER}:.osmosis $$HOME
 	rsync -az ${BBBIKE_WEB_SERVER}:.bbbike* $$HOME
 	rsync -az ${BBBIKE_WEB_SERVER}:.bashrc $$HOME
+
+deb-bootstrap-dir:
 	cd ${DEB_OPT_DIR}/bin; \
 	   for i in *; do \
 	     test -e /usr/local/bin/$$i || sudo ln -s ${DEB_OPT_DIR}/$$i /usr/local/bin/$$i; \
