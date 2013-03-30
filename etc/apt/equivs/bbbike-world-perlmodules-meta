@@ -5,11 +5,11 @@ Priority: optional
 # Homepage: <enter URL here; no default>
 Standards-Version: 3.6.2
 
-Package: bbbike-world-bin
+Package: bbbike-world-perlmodules-meta
 Version: 1.1
 Maintainer: Wolfram Schneider <wosch@freebsd.org>
 # Pre-Depends: <comma-separated list of packages>
-Depends: bbbike-world-bin-misc
+Depends: libwww-mechanize-formfiller-perl, libkwalify-perl, libgis-distance-lite-perl, libgeo-google-polylineencoder-perl, libobject-iterate-perl, libmath-polygon-perl, libmath-matrixreal-perl, libimage-info-perl, libxml-atom-simplefeed-perl, libaccessors-perl
 # Recommends: <comma-separated list of packages>
 # Suggests: <comma-separated list of packages>
 # Provides: <comma-separated list of packages>
@@ -21,5 +21,5 @@ Depends: bbbike-world-bin-misc
 # Extra-Files: <comma-separated list of additional files for the doc directory>
 # Files: <pair of space-separated paths; First is file to include, second is destination>
 #  <more pairs, if there's more than one file to include. Notice the starting space>
-Description: BBBike @ World binaries
- BBBike @ World binaries
+Description: BBBike @ World perl modules
+ perl modules which are not part of debian squeeze
