@@ -5,8 +5,8 @@ Priority: optional
 # Homepage: <enter URL here; no default>
 Standards-Version: 3.6.2
 
-Package: bbbike-world-perlmodules
-Version: 1.0
+Package: bbbike-world-perlmodules-meta
+Version: 1.1
 Maintainer: Wolfram Schneider <wosch@freebsd.org>
 # Pre-Depends: <comma-separated list of packages>
 Depends: libwww-mechanize-formfiller-perl, libkwalify-perl, libgis-distance-lite-perl, libgeo-google-polylineencoder-perl, libobject-iterate-perl, libmath-polygon-perl, libmath-matrixreal-perl, libimage-info-perl, libxml-atom-simplefeed-perl, libaccessors-perl
