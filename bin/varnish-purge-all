@@ -1,11 +1,11 @@
 #!/bin/sh
-# Copyright (c) 2011-2013 Wolfram Schneider, http://bbbike.org
-#
-# varnish-purge-all - purge all URLs in varnish cache 
 
 . /etc/default/varnish
 
-sudo varnishadm -S /etc/varnish/secret \
-  -T $VARNISH_ADMIN_LISTEN_ADDRESS:$VARNISH_ADMIN_LISTEN_PORT 'purge.url /.*'
+# purge req.http.host == mc.bbbike.org && req.url ~ ^/.*
+# purge.url /
 
+: ${url="purge.url $@"}
+sudo varnishadm -S /etc/varnish/secret \
+	-T $VARNISH_ADMIN_LISTEN_ADDRESS:$VARNISH_ADMIN_LISTEN_PORT "$url"
 
