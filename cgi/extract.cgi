@@ -105,7 +105,7 @@ if ( -e $config_file ) {
     require $config_file;
 }
 else {
-    warn "config file: $config_file not found, ignored: `pwd`\n"
+    warn "config file: $config_file not found, ignored\n"
       if $option->{"debug"} >= 2;
 }
 
