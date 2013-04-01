@@ -100,15 +100,15 @@ my $extract_dialog = '/extract-dialog';
 # This allows to override standard config values
 #
 my $config_file = "../.bbbike-extract.rc";
-if ( CGI->new->url( -full => 1 ) =~ m,^http://extract[2-4]?-pro[2-4]?\., ) {
+if (CGI->new->url(-full=>1) =~ m,^http://extract[2-4]?-pro[2-4]?\., ) {
     $config_file = '../.bbbike-extract-pro.rc';
-    warn "Use extract pro config file $config_file\n"
-      if $option->{"debug"} >= 2;
+    warn "Use extract pro config file $config_file\n" if $option->{"debug"} >= 2;
 }
 
 if ( -e $config_file ) {
     require $config_file;
 }
+#warn "xxx: $config_file\n";
 
 my $spool = {
     'incoming'  => "$spool_dir/incoming",
