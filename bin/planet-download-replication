@@ -1,14 +1,10 @@
 #!/bin/sh
-# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Mar 2013 Wolfram Schneider, http://bbbike.org
 #
-# planet-download - download the latest planet osm file
+# planet-download-replication - replicate daily planet.os.pbf
 #
 
 set -e
-
-if [ -n "$IGNORE_PLANET_OSM" ]; then
-	exit 0
-fi
 
 : ${MD5=`which md5 md5sum false | head -1`}
 : ${SHA="shasum -a 256"}
@@ -16,46 +12,59 @@ fi
 nice="nice -n 9"
 
 file=planet-latest.osm.bz2
-planet_osm_server=http://planet.openstreetmap.org/planet
+planet_osm_replication_server=http://planet.openstreetmap.org
 
 if [ -e $HOME/.bbbikerc ]; then 
     . $HOME/.bbbikerc
 fi
 
+download_dir=$HOME/projects/osm/download/pbf
+status_file=.status
 
-file_bpf=`basename $file .bz2`.pbf
-dir="tmp.$$.new"
+cd $download_dir
+if [ -e $status_file -a -s $status_file ]; then
+    status_number=$(cat $status_file)
+else
+    echo "No $status_file found, give up"
+    exit 2
+fi
 
-mkdir -p $dir
-pwd=`pwd`
-cd $dir
+tmp=$(mktemp)
+curl -sSf $planet_osm_replication_server/replication/day/state.txt > $tmp
+sequence_number=$(perl -ne 'print "$1\n" if /sequenceNumber=(\d+)/' $tmp)
 
-# get md5 checksum first
-curl -sSf -o $file.md5 $planet_osm_server/$file.md5
+if [ -z $sequence_number ]; then
+    echo "No sequenceNumber found, give up"
+    exit 2
+fi
 
-time curl -L -sSf $planet_osm_server/$file | tee $file | $nice bzip2 -dc | buffer | \
-  $nice time osmosis  --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --write-pbf $file_bpf omitmetadata=true granularity=10000
+# 4323 -> 000/004/323
+replication_path ()
+{
+    n=$1
+    path=$(perl -e '$a=shift; while(length($a) < 9) { $a = "0" . $a}; $a =~ /^(\d{3})(\d{3})(\d{3})/; print "$1/$2/$3\n"' $n )
+    echo "$path"
+}
 
-cat $file.md5
-$MD5 $file | tee $file.md5
-$MD5 $file_bpf | tee $file_bpf.md5
-$SHA $file_bpf | tee $file_bpf.sha256
+if [ $status_number -lt $sequence_number ]; then
+    echo "need to update: $status_number ... $sequence_number"
+    number=$status_number
+    while [ $number -lt $sequence_number ]; do
+        number=$(expr $number + 1)
+        
+        file=$number.osc.gz
+        if [ -e $file ]; then
+            :
+        else
+            path=$(replication_path $number)
+            wget -q $planet_osm_replication_server/replication/day/$path.osc.gz
+        fi
+        
+    done
+    echo $sequence_number > $status_file
+   
+    time osmconvert planet-latest.osm.pbf *osc.gz -o=planet.new.pbf.$$
+    mv -f planet.new.pbf.$$ planet.new.pbf
+fi
 
-cd $pwd
-for i in ""
-do
-    case $i in 
-	[01234]) next=`expr $i + 1`; prev=".$i";;
-	"")      next=0; prev="";;
-    esac
-
-    if test -e $file.md5${prev}; 	then mv -f $file.md5${prev} 	$file.md5.$next; fi
-    if test -e $file${prev};     	then mv -f $file${prev}		$file.$next; fi
-    if test -e $file_bpf${prev}; 	then mv -f $file_bpf${prev} 	$file_bpf.$next; fi
-    if test -e $file_bpf.md5${prev}; 	then mv -f $file_bpf.md5${prev} $file_bpf.md5.$next; fi 
-    if test -e $file_bpf.sha256${prev};	then mv -f $file_bpf.sha256${prev} $file_bpf.sha256.$next; fi 
-done
-
-mv -f $dir/$file $dir/$file.md5 $dir/$file_bpf $dir/$file_bpf.md5 $dir/$file_bpf.sha256 .
-rm -rf $dir
-
+rm -f $tmp
