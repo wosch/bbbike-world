@@ -1,0 +1,61 @@
+#!/bin/sh
+# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+#
+# planet-download - download the latest planet osm file
+#
+
+set -e
+
+if [ -n "$IGNORE_PLANET_OSM" ]; then
+	exit 0
+fi
+
+: ${MD5=`which md5 md5sum false | head -1`}
+: ${SHA="shasum -a 256"}
+
+nice="nice -n 9"
+
+file=planet-latest.osm.bz2
+planet_osm_server=http://planet.openstreetmap.org/planet
+
+if [ -e $HOME/.bbbikerc ]; then 
+    . $HOME/.bbbikerc
+fi
+
+
+file_bpf=`basename $file .bz2`.pbf
+dir="tmp.$$.new"
+
+mkdir -p $dir
+pwd=`pwd`
+cd $dir
+
+# get md5 checksum first
+curl -sSf -o $file.md5 $planet_osm_server/$file.md5
+
+time curl -L -sSf $planet_osm_server/$file | tee $file | $nice bzip2 -dc | buffer | \
+  $nice time osmosis  --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --write-pbf $file_bpf omitmetadata=true granularity=10000
+
+cat $file.md5
+$MD5 $file | tee $file.md5
+$MD5 $file_bpf | tee $file_bpf.md5
+$SHA $file_bpf | tee $file_bpf.sha256
+
+cd $pwd
+for i in ""
+do
+    case $i in 
+	[01234]) next=`expr $i + 1`; prev=".$i";;
+	"")      next=0; prev="";;
+    esac
+
+    if test -e $file.md5${prev}; 	then mv -f $file.md5${prev} 	$file.md5.$next; fi
+    if test -e $file${prev};     	then mv -f $file${prev}		$file.$next; fi
+    if test -e $file_bpf${prev}; 	then mv -f $file_bpf${prev} 	$file_bpf.$next; fi
+    if test -e $file_bpf.md5${prev}; 	then mv -f $file_bpf.md5${prev} $file_bpf.md5.$next; fi 
+    if test -e $file_bpf.sha256${prev};	then mv -f $file_bpf.sha256${prev} $file_bpf.sha256.$next; fi 
+done
+
+mv -f $dir/$file $dir/$file.md5 $dir/$file_bpf $dir/$file_bpf.md5 $dir/$file_bpf.sha256 .
+rm -rf $dir
+
