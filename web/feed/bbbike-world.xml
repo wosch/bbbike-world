@@ -13,6 +13,13 @@
   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af7</id>
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/" version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title type="html">&lt;a href="http://extract.bbbike.org/?lang=ru"&gt;BBBike extract service&lt;/a&gt; now in Russian.</title>
+    <id>d6f59d1bb8315958eb25b197de28d25c</id>
+    <content type="html">&lt;a href="http://extract.bbbike.org/?lang=ru"&gt;BBBike extract service&lt;/a&gt; now in Russian.</content>
+    <updated>2013-03-31T13:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title type="html">&lt;a href="http://extract.bbbike.org/?lang=fr"&gt;BBBike extract service&lt;/a&gt; now in French.</title>
     <id>d6f59d1bb8315958eb25b187de28d25c</id>
     <content type="html">&lt;a href="http://extract.bbbike.org/?lang=fr"&gt;BBBike extract service&lt;/a&gt; now in French.</content>

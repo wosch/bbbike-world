@@ -49,6 +49,19 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 $feed->add_entry(
     title =>
+qq{<a href="http://extract.bbbike.org/?lang=ru">BBBike extract service</a> now in Russian.},
+    id      => 'd6f59d1bb8315958eb25b197de28d25c',
+    content => {
+        type => 'html',
+        content =>
+qq{<a href="http://extract.bbbike.org/?lang=ru">BBBike extract service</a> now in Russian.},
+    },
+    updated  => '2013-03-31T13:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title =>
 qq{<a href="http://extract.bbbike.org/?lang=fr">BBBike extract service</a> now in French.},
     id      => 'd6f59d1bb8315958eb25b187de28d25c',
     content => {
