@@ -108,8 +108,16 @@ my $language = $option->{'language'};
 # This allows to override standard config values
 #
 my $config_file = "$ENV{HOME}/.bbbike-extract.rc";
+if ( $ENV{BBBIKE_EXTRACT_PROFILE} ) {
+    $config_file = $ENV{BBBIKE_EXTRACT_PROFILE};
+}
 if ( -e $config_file ) {
+    warn "Load config file: $config_file\n" if $option->{"debug"} >= 2;
     require $config_file;
+}
+else {
+    warn "config file: $config_file not found, ignored\n"
+      if $option->{"debug"} >= 2;
 }
 
 my $spool = {
