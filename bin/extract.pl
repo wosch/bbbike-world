@@ -994,7 +994,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         }
 
         # cleanup poly file after successfull convert
-        push @unlink, $poly_file;
+        push @unlink, $poly_file if defined $poly_file;
 
         next if $test_mode;
 
