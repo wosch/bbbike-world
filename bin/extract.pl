@@ -565,6 +565,7 @@ sub run_extracts {
         @data = "true";
     }
 
+    warn "Use planet.osm file $planet_osm\n" if $debug == 1;
     warn "Run extracts: " . join( " ", @data ), "\n" if $debug >= 2;
     return ( \@data, \@fixme );
 }
