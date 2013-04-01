@@ -19,6 +19,8 @@ if [ -e $HOME/.bbbikerc ]; then
 fi
 
 download_dir=$HOME/projects/osm/download/pbf
+
+# current status
 status_file=.status
 
 cd $download_dir
@@ -63,8 +65,8 @@ if [ $status_number -lt $sequence_number ]; then
     done
     echo $sequence_number > $status_file
    
-    time osmconvert planet-latest.osm.pbf *osc.gz -o=planet.new.pbf.$$
-    mv -f planet.new.pbf.$$ planet.new.pbf
+    time osmconvert planet-latest.osm.pbf *osc.gz -o=planet.new.$$.pbf
+    mv -f planet.new.$$.pbf planet.new.pbf
 fi
 
 rm -f $tmp
