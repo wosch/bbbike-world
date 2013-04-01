@@ -144,7 +144,8 @@ sub header {
 
     my @onload;
     my @cookie;
-    my @css = "../html/extract.css";
+    my @css     = "../html/extract.css";
+    my @expires = ();
 
     my $ns = webservice($q);
 
@@ -177,6 +178,11 @@ sub header {
           );
 
         push @cookie, -cookie => \@cookies;
+    }
+
+    # do not cache requests
+    if ( $type eq 'check_input' ) {
+        @expires = ( -expires => "+0s" );
     }
 
     my $data = "";
