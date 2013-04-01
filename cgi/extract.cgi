@@ -38,12 +38,6 @@ umask(002);
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
-# spool directory. Should be at least 100GB large
-my $spool_dir = '/var/cache/extract';
-
-# sent out emails as
-my $email_from = 'BBBike Admin <bbbike@bbbike.org>';
-
 our $option = {
     'homepage'        => 'http://download.bbbike.org/osm/extract',
     'script_homepage' => 'http://extract.bbbike.org',
@@ -65,7 +59,7 @@ our $option = {
     'enable_polygon'      => 1,
     'email_valid_mxcheck' => 1,
 
-    'debug'               => "1",
+    'debug'               => "2",
     'language'            => "en",
     'request_method'      => "GET",
     'supported_languages' => [qw/en de es fr ru/],
@@ -106,9 +100,17 @@ if (CGI->new->url(-full=>1) =~ m,^http://extract[2-4]?-pro[2-4]?\., ) {
 }
 
 if ( -e $config_file ) {
+    warn "Load config file: $config_file\n" if $option->{"debug"} >= 2;
     require $config_file;
+} else {
+    warn "config file: $config_file not found, ignored: `pwd`\n" if $option->{"debug"} >= 2;
 }
-#warn "xxx: $config_file\n";
+
+# sent out emails as
+my $email_from = 'BBBike Admin <bbbike@bbbike.org>';
+
+# spool directory. Should be at least 100GB large
+my $spool_dir = $option->{'spool_dir'} || '/var/cache/extract';
 
 my $spool = {
     'incoming'  => "$spool_dir/incoming",
