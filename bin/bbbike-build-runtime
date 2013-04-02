@@ -17,7 +17,7 @@ java
 jsbeautifier
 jsmin
 make
-/usr/local/bin/osmosis
+osmosis
 perltidy
 python
 rsync
