@@ -64,6 +64,8 @@ if [ $status_number -lt $sequence_number ]; then
    
     time $nice osmconvert planet-latest.osm.pbf *osc.gz -o=planet.new.$$.pbf
     mv -f planet.new.$$.pbf planet.new.pbf
+
+    echo $sequence_number > $status_file
 fi
 
 rm -f $tmp
