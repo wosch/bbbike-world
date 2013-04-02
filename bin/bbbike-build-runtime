@@ -24,6 +24,7 @@ rsync
 time
 wget
 xargs
+osmconvert
 "
 
 tmpdirs="/bbbike/tmp /bbbike/tmpfs"
