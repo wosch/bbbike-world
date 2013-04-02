@@ -4,10 +4,8 @@
 # planet-download-replication - replicate daily planet.os.pbf
 #
 
+PATH=/usr/local/bin:/bin:/usr/bin; export PATH 
 set -e
-
-: ${MD5=`which md5 md5sum false | head -1`}
-: ${SHA="shasum -a 256"}
 
 nice="nice -n 9"
 
@@ -63,10 +61,10 @@ if [ $status_number -lt $sequence_number ]; then
         fi
         
     done
-    echo $sequence_number > $status_file
    
-    time osmconvert planet-latest.osm.pbf *osc.gz -o=planet.new.$$.pbf
+    time $nice osmconvert planet-latest.osm.pbf *osc.gz -o=planet.new.$$.pbf
     mv -f planet.new.$$.pbf planet.new.pbf
 fi
 
 rm -f $tmp
+
