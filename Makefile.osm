@@ -720,7 +720,7 @@ cache-install:
 extract-install extract-bbbike-org-install:
 	#cd ${BBBIKE_PARTITION}; mkdir -p extract
 	#ln -fs ${BBBIKE_PARTITION}/extract ${EXTRACTS_SPOOL_DIR}
-	ln -fs ${BBBIKE_PARTITION}/project/osm /var/cache/osm
+	ln -fs ${BBBIKE_PARTITION}/projects/osm /var/cache/osm
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/incoming
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/confirmed
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/running
