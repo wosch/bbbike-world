@@ -48,8 +48,8 @@ if [ "$1" = "config" ]; then
     : ${critical=16}
     : ${jobs_warning=$warning}
     : ${jobs_critical=$critical}
-    : ${proc_warning=$warning}
-    : ${proc_critical=$critical}
+    : ${proc_warning=4}
+    : ${proc_critical=6}
      
     cat <<EOF
 graph_title Extracts queue
@@ -66,7 +66,7 @@ EOF
 echo "jobs.warning $jobs_warning"
 echo "jobs.critical $jobs_critical"
 echo "proc.warning $proc_warning"
-echo "proc.critical $proc_warning"
+echo "proc.critical $proc_critical"
 
     exit 0
 fi
