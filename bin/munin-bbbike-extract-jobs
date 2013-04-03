@@ -30,6 +30,10 @@ if you need to override the defaults below:
  [metaproxy-memory]
    env.warning   - Generate a warning if number of memory goes below this level
    env.critical  - Generate a critical if number of memory goes below this level
+   env.jobs_warnings - [...]
+   env.jobs_critical - [...]
+   env.proc_warnings - [...]
+   env.proc_critical - [...]
 
 =cut
 
@@ -44,8 +48,8 @@ if [ "$1" = "config" ]; then
     : ${critical=10}
     : ${jobs_warning=$warning}
     : ${jobs_critical=$critical}
-    : ${processes_warning=$warning}
-    : ${processes_critical=$critical}
+    : ${proc_warning=$warning}
+    : ${proc_critical=$critical}
      
     cat <<EOF
 graph_title Extracts queue
@@ -55,14 +59,14 @@ graph_info Running extract jobs
 graph_period minute
 jobs.label Running jobs
 jobs.min 0
-processes.label Running processes
-processes.min 0
+proc.label Running proc
+proc.min 0
 EOF
 
 echo "jobs.warning $jobs_warning"
 echo "jobs.critical $jobs_critical"
-echo "processes.warning $processes_warning"
-echo "processes.critical $processes_warning"
+echo "proc.warning $proc_warning"
+echo "proc.critical $proc_warning"
 
     exit 0
 fi
@@ -78,5 +82,5 @@ for i in *.pid; do
     fi
   fi
 done
-echo "processes.value $count"
+echo "proc.value $count"
 
