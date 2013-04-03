@@ -17,13 +17,14 @@ java
 jsbeautifier
 jsmin
 make
-/usr/local/bin/osmosis
+osmosis
 perltidy
 python
 rsync
 time
 wget
 xargs
+osmconvert
 "
 
 tmpdirs="/bbbike/tmp /bbbike/tmpfs"
