@@ -44,10 +44,10 @@ extract_dir=/var/cache/extract/running
 config=$1
 
 if [ "$1" = "config" ]; then
-    : ${warning=6}
+    : ${warning=10}
     : ${critical=16}
-    : ${jobs_warning=$warning}
-    : ${jobs_critical=$critical}
+    : ${jobs_warning=10}
+    : ${jobs_critical=20}
     : ${proc_warning=4}
     : ${proc_critical=6}
      
