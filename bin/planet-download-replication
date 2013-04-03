@@ -8,6 +8,7 @@ PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 set -e
 
 nice="nice -n 9"
+: ${debug=true}
 
 file=planet-latest.osm.bz2
 planet_osm_replication_server=http://planet.openstreetmap.org
@@ -47,7 +48,7 @@ replication_path ()
 }
 
 if [ $status_number -lt $sequence_number ]; then
-    echo "need to update: $status_number ... $sequence_number"
+    $debug && echo "need to update: $status_number ... $sequence_number"
     number=$status_number
     while [ $number -lt $sequence_number ]; do
         number=$(expr $number + 1)
@@ -62,7 +63,7 @@ if [ $status_number -lt $sequence_number ]; then
         
     done
    
-    time $nice osmconvert planet-latest.osm.pbf *osc.gz -o=planet.new.$$.pbf
+    $nice osmconvert planet-latest.osm.pbf *osc.gz -o=planet.new.$$.pbf
     mv -f planet.new.$$.pbf planet.new.pbf
 
     echo $sequence_number > $status_file
