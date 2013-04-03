@@ -1,0 +1,82 @@
+#!/bin/sh
+# Copyright (c) Sep 2011-2013 Wolfram Schneider, http://bbbike.org
+#
+# munin-bbbike-extract-jobs - munin statistics for BBBike, searches per interval
+#
+# usage: /etc/munin/plugins/bbbike-extract-jobs [ config ]
+#
+# get documentation with: perldoc /path/to/script
+
+: << =cut
+
+=head1 NAME
+
+munin-bbbike-extract-jobs  - Plugin to monitor metaproxy memory usage
+
+=head1 ABOUT
+
+Munin plugin to monitor to bbbike extract queue
+[...]
+
+=head1 USAGE
+
+[...]
+
+=head1 CONFIGURATION
+
+Configuration parameters for /etc/munin/plugin-conf.d/munin-node
+if you need to override the defaults below:
+
+ [metaproxy-memory]
+   env.warning   - Generate a warning if number of memory goes below this level
+   env.critical  - Generate a critical if number of memory goes below this level
+
+=cut
+
+
+PATH=/bin:/usr/bin; export PATH
+extract_dir=/var/cache/extract/running
+
+config=$1
+
+if [ "$1" = "config" ]; then
+    : ${warning=6}
+    : ${critical=10}
+    : ${jobs_warning=$warning}
+    : ${jobs_critical=$critical}
+    : ${processes_warning=$warning}
+    : ${processes_critical=$critical}
+     
+    cat <<EOF
+graph_title Extracts
+graph_vlabel Extracts
+graph_category BBBike
+graph_info Running extract jobs
+graph_period minute
+jobs.label Running jobs
+jobs.min 0
+processes.label Running processes
+processes.min 0
+EOF
+
+echo "jobs.warning $jobs_warning"
+echo "jobs.critical $jobs_critical"
+echo "processes.warning $processes_warning"
+echo "processes.critical $processes_warning"
+
+    exit 0
+fi
+
+echo "jobs.value" $(ls $extract_dir/*/*json 2>/dev/null | wc -l) 
+
+count=0
+cd $extract_dir
+for i in *.pid; do
+  if [ -e "$i" ]; then 
+   if kill -0 $(cat $i); then
+      count=$(expr $count + 1)
+    fi
+  fi
+done
+echo "processes.value $count"
+
