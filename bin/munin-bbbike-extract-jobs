@@ -48,8 +48,8 @@ if [ "$1" = "config" ]; then
     : ${processes_critical=$critical}
      
     cat <<EOF
-graph_title Extracts
-graph_vlabel Extracts
+graph_title Extracts queue
+graph_vlabel Extracts queue
 graph_category BBBike
 graph_info Running extract jobs
 graph_period minute
