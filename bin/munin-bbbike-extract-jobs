@@ -45,7 +45,7 @@ config=$1
 
 if [ "$1" = "config" ]; then
     : ${warning=6}
-    : ${critical=10}
+    : ${critical=16}
     : ${jobs_warning=$warning}
     : ${jobs_critical=$critical}
     : ${proc_warning=$warning}
