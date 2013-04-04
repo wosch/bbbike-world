@@ -62,8 +62,9 @@ if [ $status_number -lt $sequence_number ]; then
         fi
         
     done
-   
-    $nice osmconvert planet-latest.osm.pbf *osc.gz -o=planet.new.$$.pbf
+
+    osc_files=$(perl -e 'for(shift .. shift) { print "$_.osc.gz " }' $status_number $sequence_number)   
+    $nice osmconvert -o=planet.new.$$.pbf planet-latest.osm.pbf $osc_files
     mv -f planet.new.$$.pbf planet.new.pbf
 
     echo $sequence_number > $status_file
