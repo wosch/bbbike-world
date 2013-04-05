@@ -8,7 +8,7 @@ PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 set -e
 
 nice="nice -n 9"
-: ${debug=true}
+: ${debug=false}
 
 file=planet-latest.osm.bz2
 planet_osm_replication_server=http://planet.openstreetmap.org
