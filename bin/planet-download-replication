@@ -68,13 +68,14 @@ if [ $status_number -lt $sequence_number ]; then
 
     osc_files=$(perl -e 'for(shift .. shift) { print "$_.osc.gz " }' $status_number $sequence_number)   
     $nice osmconvert -o=${file_daily}.$$.osm.pbf planet-latest.osm.pbf $osc_files
+
+    chmod 664 ${file_daily}.$$.osm.pbf
     mv -f ${file_daily}.$$.osm.pbf ${file_daily}.osm.pbf
 
     echo $sequence_number > $status_file
 
     $nice $MD5 ${file_daily}.osm.pbf > $tmp
     cp -f $tmp ${file_daily}.osm.pbf.md5
-
 fi
 
 rm -f $tmp
