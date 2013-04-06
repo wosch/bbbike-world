@@ -965,7 +965,8 @@ help:
 	@echo "  [ tile | tile-extract | tile-convert | tile-csv | tile-checksum ]"
 	@echo "  [ tile-distclean | tile-rsync ]"
 	@echo "  [ test-org | test ]"
-	@echo "  [ deb-clean | deb-perl | deb-perl | deb-equivs | deb-bootstrap ]"
+	@echo "  [ deb-clean | deb-perl | deb-perl | deb-equivs ]"
+	@echo "  [ deb-bootstrap | deb-repo ]"
 
 	@echo ""
 	@echo "see also ./world/README"
