@@ -5,7 +5,7 @@
 */4 * * * * cd /usr/local/www/bbbike.org/ && world/bin/extract-cron.sh --job=6
 */4 * * * * cd /usr/local/www/bbbike.org/ && BBBIKE_EXTRACT_PROFILE=$HOME/.bbbike-extract-pro.rc world/bin/extract-cron.sh --job=3
 8 */2 * * * $HOME/projects/bbbike/world/bin/extract-watermark
-5 * * * * cd /usr/local/www/bbbike.org/ && make -s extract-gc7 extract-gc
+5 * * * * cd /usr/local/www/bbbike.org/ && make -s extract-gc7 extract-gc && make -s EXTRACTS_SPOOL_DIR=/var/cache/extract-pro extract-gc7 extract-gc
 25 * * * * $HOME/projects/bbbike/world/bin/planet-checksum
 30 0 * * * $HOME/projects/bbbike/world/bin/planet-download-replication
 
