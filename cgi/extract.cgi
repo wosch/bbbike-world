@@ -309,7 +309,8 @@ sub footer_top {
     <a href="../">home</a> |
     <a href="../extract.html">@{[ M("help") ]}</a> |
     <a href="http://download.bbbike.org/osm/">download</a> |
-    <a href="/cgi/livesearch-extract.cgi">@{[ M("livesearch") ]}</a> |
+    <!-- <a href="/cgi/livesearch-extract.cgi">@{[ M("livesearch") ]}</a> | -->
+    <a href="http://mc.bbbike.org/mc/">map compare</a> |
     <a href="$community_link#donate">@{[ M("donate") ]}</a> $locate
   </div>
 EOF
