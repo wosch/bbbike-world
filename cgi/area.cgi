@@ -42,20 +42,21 @@ sub footer {
 
     return <<EOF;
 <div id="footer">
-<div id="footer_top">
-<a href="/">home</a> |
-<a href="$www_bbbike_org/community.html">donate</a> |
-<a href="$www_bbbike_org/$city/" title="start bicycle routing for $city area">$city</a> |
-<a href="javascript:resizeOtherCities(more_cities);">more cities</a>
-
-</div>
+  <div id="footer_top">
+    <a href="/">home</a> |
+    <a href="$www_bbbike_org/community.html">donate</a> |
+    <a href="$www_bbbike_org/$city/" title="start bicycle routing for $city area">$city</a> |
+    <a href="javascript:resizeOtherCities(more_cities);">more cities</a>
+  </div>
 </div>
 <hr/>
 
 <div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em;" >
-(&copy;) 2008-2013 <a href="http://bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="http://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
-<div id="footer_community">
-</div>
+  (&copy;) 2008-2013 <a href="http://bbbike.org">BBBike.org</a> // 
+  Map data (&copy;) <a href="http://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors <br/>
+  <a href="http://mc.bbbike.org/mc/">map compare</a> - <a href="http://extract.bbbike.org/">osm extract service</a>
+
+  <div id="footer_community"></div>
 </div>
 EOF
 }
