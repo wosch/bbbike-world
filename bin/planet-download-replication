@@ -9,9 +9,11 @@ set -e
 
 nice="nice -n 9"
 : ${debug=false}
+: ${MD5=`which md5 md5sum false | head -1`}
 
 file=planet-latest.osm.bz2
 planet_osm_replication_server=http://planet.openstreetmap.org
+file_daily=planet.daily
 
 if [ -e $HOME/.bbbikerc ]; then 
     . $HOME/.bbbikerc
@@ -64,10 +66,14 @@ if [ $status_number -lt $sequence_number ]; then
     done
 
     osc_files=$(perl -e 'for(shift .. shift) { print "$_.osc.gz " }' $status_number $sequence_number)   
-    $nice osmconvert -o=planet.new.$$.pbf planet-latest.osm.pbf $osc_files
-    mv -f planet.new.$$.pbf planet.new.pbf
+    $nice osmconvert -o=${file_daily}.$$.pbf planet-latest.osm.pbf $osc_files
+    mv -f ${file_daily}.$$.pbf ${file_daily}.pbf
 
     echo $sequence_number > $status_file
+
+    $nice $MD5 ${file_daily}.pbf > $tmp
+    cp -f $tmp ${file_daily}.pbf.md5
+
 fi
 
 rm -f $tmp
