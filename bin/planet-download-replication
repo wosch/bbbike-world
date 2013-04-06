@@ -1,7 +1,7 @@
 #!/bin/sh
 # Copyright (c) Mar 2013 Wolfram Schneider, http://bbbike.org
 #
-# planet-download-replication - replicate daily planet.os.pbf
+# planet-download-replication - replicate daily planet.osm.pbf
 #
 
 PATH=/usr/local/bin:/bin:/usr/bin; export PATH 
@@ -66,13 +66,13 @@ if [ $status_number -lt $sequence_number ]; then
     done
 
     osc_files=$(perl -e 'for(shift .. shift) { print "$_.osc.gz " }' $status_number $sequence_number)   
-    $nice osmconvert -o=${file_daily}.$$.pbf planet-latest.osm.pbf $osc_files
-    mv -f ${file_daily}.$$.pbf ${file_daily}.pbf
+    $nice osmconvert -o=${file_daily}.$$.osm.pbf planet-latest.osm.pbf $osc_files
+    mv -f ${file_daily}.$$.osm.pbf ${file_daily}.osm.pbf
 
     echo $sequence_number > $status_file
 
-    $nice $MD5 ${file_daily}.pbf > $tmp
-    cp -f $tmp ${file_daily}.pbf.md5
+    $nice $MD5 ${file_daily}.osm.pbf > $tmp
+    cp -f $tmp ${file_daily}.osm.pbf.md5
 
 fi
 
