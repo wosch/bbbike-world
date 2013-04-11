@@ -279,7 +279,14 @@ sub parse_jobs {
                 my $obj  = shift @{ $hash->{$email} };
                 my $city = $obj->{'city'};
 
-                my $length_coords = scalar( @{ $obj->{'coords'} } );
+                my $length_coords = 0;
+
+                # be backward compatible with old *.json files
+                if ( exists $obj->{'coords'}
+                    && ref $obj->{'coords'} eq 'ARRAY' )
+                {
+                    $length_coords = scalar( @{ $obj->{'coords'} } );
+                }
 
                 # do not add a large polygone to an existing list
                 if ( $length_coords > $max_coords && $counter_coords > 0 ) {
