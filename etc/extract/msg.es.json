@@ -40,7 +40,7 @@
         "OpenStreetMap su área solicitada '%s' fue extraído de planet.osm",
         "Para descargar el archivo, haga clic en el siguiente enlace:",
         "",
-        "%s",
+        "  %s",
         "",
         "El archivo estará disponible para las próximas 48 horas. Descargue el",
         "Archivo tan pronto como sea posible.",

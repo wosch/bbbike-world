@@ -41,7 +41,7 @@
         "die gewünschte Region '%s' wurde aus dem OpenStreetMap Planet.osm extrahiert.",
         "Um die Datei zu downloaden, klicke bitte auf den folgenden Link:",
         "",
-        "%s",
+        "  %s",
         "",
         "Die Datei ist für die nächsten 48h verfügbar.",
         "Bitte downloade die Datei umgehend.",

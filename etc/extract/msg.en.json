@@ -26,7 +26,7 @@
         "your requested OpenStreetMap area '%s' was extracted from planet.osm",
         "To download the file, please click on the following link:",
         "",
-        "%s",
+        "  %s",
         "",
         "The file will be available for the next 48 hours. Please download the",
         "file as soon as possible.",

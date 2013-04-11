@@ -14,7 +14,7 @@
     "Right top corner (North-East)": "Coin droit supérieur (Nord-Est)",
 
     "EXTRACT_CONFIRMED": [
-        "<p>Merci ​​- les données d'entrée semble bon.</p><p>",
+        "<p>Merci - les données d'entrée semble bon.</p><p>",
         "Il faut entre 15-30 minutes pour extraire une zone de planet.osm,",
         "En fonction de la taille de la zone et la charge du système.",
         "Vous serez averti par e-mail si votre extrait est prêt pour le téléchargement.",
@@ -40,7 +40,7 @@
         "Votre région OpenStreetMap demandé '%s' a été extrait de planet.osm",
         "Pour télécharger le fichier, s'il vous plaît cliquer sur le lien suivant:",
         "",
-        "%s",
+        "  %s",
         "",
         "Le fichier sera disponible pour les prochaines 48 heures. S'il vous plaît télécharger le",
         "Le fichier le plus tôt possible.",
