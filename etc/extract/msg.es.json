@@ -14,7 +14,7 @@
     "Right top corner (North-East)": "Esquina superior derecha (noreste)",
 
     "EXTRACT_CONFIRMED": [
-        "Gracias <p> - los datos de entrada se ve bien</p>.",
+        "<p>Gracias - los datos de entrada se ve bien.</p><p>",
         "Se tarda entre 15-30 minutos para extraer un área de planet.osm,",
         "Dependiendo del tamaño del área y la carga del sistema.",
         "Se le notificará por correo electrónico si el extracto está listo para su descarga.",
