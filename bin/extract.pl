@@ -242,14 +242,7 @@ sub parse_jobs {
     foreach my $f (@$files) {
         my $file = "$dir/$f";
 
-        my $fh = new IO::File $file, "r" or die "open $file: $!\n";
-        binmode $fh, ":utf8";
-
-        my $json_text;
-        while (<$fh>) {
-            $json_text .= $_;
-        }
-        $fh->close;
+        my $json_text = read_data($file);
 
         my $json = new JSON;
         my $json_perl = eval { $json->decode($json_text) };
@@ -1193,7 +1186,9 @@ sub file_size {
 
 # cat file
 sub read_data {
-    my ($file) = @_;
+    my $file = shift;
+
+    warn "open file '$file'\n" if $debug >= 3;
 
     my $fh = new IO::File $file, "r" or die "open $file: $!\n";
     binmode $fh, ":utf8";
@@ -1202,8 +1197,8 @@ sub read_data {
     while (<$fh>) {
         $data .= $_;
     }
-    $fh->close;
 
+    $fh->close;
     return $data;
 }
 
@@ -1248,14 +1243,7 @@ sub get_msg {
     }
 
     warn "Open message file $file for language $language\n" if $debug >= 1;
-    my $fh = new IO::File $file, "r" or die "open $file: $!\n";
-    binmode $fh, ":utf8";
-
-    my $json_text;
-    while (<$fh>) {
-        $json_text .= $_;
-    }
-    $fh->close;
+    my $json_text = read_data($file);
 
     my $json = new JSON;
     my $json_perl = eval { $json->decode($json_text) };
