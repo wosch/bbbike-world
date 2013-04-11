@@ -254,6 +254,7 @@ sub parse_jobs {
         my $json = new JSON;
         my $json_perl = eval { $json->decode($json_text) };
         die "json $file $@" if $@;
+        json_compat($json_perl);
 
         $json_perl->{"file"} = $f;
 
@@ -319,6 +320,16 @@ sub parse_jobs {
     return @list;
 }
 
+sub json_compat {
+    my $obj = shift;
+
+    # be backward compatible with old *.json files
+    if ( !( exists $obj->{'coords'} && ref $obj->{'coords'} eq 'ARRAY' ) ) {
+        $obj->{'coords'} = [];
+    }
+    return $obj;
+}
+
 # create a unique job id for each extract request
 sub get_job_id {
     my @list = @_;
@@ -337,7 +348,7 @@ sub get_job_id {
 sub file_lnglat {
     my $obj    = shift;
     my $file   = $option->{'file_prefix'};
-    my $coords = $obj->{coords};
+    my $coords = $obj->{coords} || [];
 
     # rectangle
     if ( !scalar(@$coords) ) {
@@ -696,8 +707,10 @@ sub reorder_pbf {
         my $json_text = read_data($json_file);
         my $json      = new JSON;
         my $obj       = $json->decode($json_text);
-        my $pbf_file  = $obj->{'pbf_file'};
-        my $format    = $obj->{'format'};
+        json_compat($obj);
+
+        my $pbf_file = $obj->{'pbf_file'};
+        my $format   = $obj->{'format'};
 
         my $st   = stat($pbf_file);
         my $size = $st->size * $format{$format};
@@ -791,6 +804,7 @@ sub get_json {
     my $json_text = read_data($json_file);
     my $json      = new JSON;
     my $obj       = $json->decode($json_text);
+    json_compat($obj);
 
     warn "json: $json_file\n" if $debug >= 3;
     warn "json: $json_text\n" if $debug >= 3;
