@@ -84,7 +84,8 @@ our $option = {
         'enabled'     => 1,
         'bucket'      => 'bbbike',
         'path'        => 'osm/extract',
-        'put_command' => 's3put'
+        'put_command' => 's3put',
+        'homepage'    => 'http://s3.amazonaws.com',
     },
 };
 
@@ -1057,6 +1058,9 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         }
 
         my $url = $option->{'homepage'} . "/" . basename($to);
+        if ( $option->{"aws_s3"}->{"enabled"} ) {
+            $url = $option->{"aws_s3"}->{"homepage"} . "/" . aws_s3_path($to);
+        }
 
         my $checksum = checksum($to);
 
@@ -1161,7 +1165,23 @@ sub aws_s3_put {
         return;
     }
 
+    my $file_size = file_size($file) . " MB";
+    warn "Upload $file with size $file_size to AWS S3\n" if $debug >= 1;
+
     my $sep = "/";
+    my @system =
+      ( $option->{"aws_s3"}->{"put_command"}, aws_s3_path($file), $file );
+    warn join( " ", @system, "\n" ) if $debug >= 2;
+
+    system(@system) == 0
+      or die "system @system failed: $?";
+}
+
+sub aws_s3_path {
+    my $file = shift;
+
+    my $sep = "/";
+
     my $aws_path =
         $option->{"aws_s3"}->{"bucket"} 
       . $sep
@@ -1169,11 +1189,7 @@ sub aws_s3_put {
       . $sep
       . basename($file);
 
-    my @system = ( $option->{"aws_s3"}->{"put_command"}, $aws_path, $file );
-    warn join( " ", @system, "\n" ) if $debug >= 1;
-
-    system(@system) == 0
-      or die "system @system failed: $?";
+    return $aws_path;
 }
 
 # prepare to sent mail about extracted area
