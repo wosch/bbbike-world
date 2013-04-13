@@ -79,6 +79,13 @@ our $option = {
 
     'language'     => "en",
     'message_path' => "world/etc/extract",
+
+    'aws_s3' => {
+        'enabled'     => 1,
+        'bucket'      => 'bbbike',
+        'path'        => 'osm/extract',
+        'put_command' => 's3put'
+    },
 };
 
 ######################################################################
@@ -866,6 +873,7 @@ sub _convert_send_email {
         my $lang      = $obj->{'lang'} || "en";
         my @system;
 
+        # parameters for osm2XXX shell scripts
         $ENV{BBBIKE_EXTRACT_URL} = &script_url( $option, $obj );
         $ENV{BBBIKE_EXTRACT_COORDS} =
 qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
@@ -1021,6 +1029,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         unlink($to);
         warn "link $pbf_file => $to\n" if $debug >= 2;
         link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
+        aws_s3_put( 'file' => $to );
 
         my $file_size = file_size($to) . " MB";
         warn "file size $to: $file_size\n" if $debug >= 1;
@@ -1039,6 +1048,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
             unlink($to);
 
             link( $file, $to ) or die "link $file => $to: $!\n";
+            aws_s3_put( 'file' => $file );
 
             $file_size = file_size($to) . " MB";
             warn "file size $to: $file_size\n" if $debug >= 1;
@@ -1135,7 +1145,35 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
         }
 
     }
+}
 
+sub aws_s3_put {
+    my %args = @_;
+    my $file = $args{'file'};
+
+    if ( !$option->{"aws_s3"}->{"enabled"} ) {
+        warn "AWS S3 upload disabled\n" if $debug >= 3;
+        return;
+    }
+
+    if ( !defined $file || !-e $file ) {
+        warn "No file '$file' given or exists for AWS S3 upload\n";
+        return;
+    }
+
+    my $sep = "/";
+    my $aws_path =
+        $option->{"aws_s3"}->{"bucket"} 
+      . $sep
+      . $option->{"aws_s3"}->{"path"}
+      . $sep
+      . basename($file);
+
+    my @system = ( $option->{"aws_s3"}->{"put_command"}, $aws_path, $file );
+    warn join( " ", @system, "\n" ) if $debug >= 1;
+
+    system(@system) == 0
+      or die "system @system failed: $?";
 }
 
 # prepare to sent mail about extracted area
