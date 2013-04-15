@@ -72,18 +72,38 @@ my $q;
 sub check_input {
     my %args = @_;
 
-    our $qq    = $q;
-    our $error = 0;
+    our $error   = 0;
+    our $message = "";
 
     sub error {
-        my $message   = shift;
+        my $text      = shift;
         my $no_escape = shift;
 
         $error++;
-        warn "Error: $message\n";
+        warn "Error: $text\n";
+        $message .= "$text;";
     }
 
-    return $error;
+    my $obj = {};
+
+    my $to      = $q->param("to")      || "";
+    my $subject = $q->param("subject") || "";
+    my $text    = $q->param("text")    || "";
+
+    error("no to: $to given")           if $to      eq "";
+    error("no subject: $subject given") if $subject eq "";
+    error("no text: $text given")       if $text    eq "";
+
+    $obj = {
+        "error"         => $error,
+        "to"            => $to,
+        "subject"       => $subject,
+        "text"          => $text,
+        "error_message" => $message,
+        "bcc"           => $option->{"bcc"},
+    };
+
+    return $obj;
 }
 
 sub sent_email_rest {
@@ -125,7 +145,8 @@ sub out_message {
         -content_type => 'application/json'
     );
 
-    my $json_text = encode_json( { "status" => $error, 'message'->$message } );
+    my $json_text =
+      encode_json( { "status" => $error, 'message' => $message } );
     print "$json_text\n\n";
 }
 
