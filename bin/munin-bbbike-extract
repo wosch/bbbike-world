@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl
+#!/usr/bin/perl
 # Copyright (c) Sep 2011-2013 Wolfram Schneider, http://bbbike.org
 #
 # munin-bbbike-extract - munin statistics for BBBike extract service
