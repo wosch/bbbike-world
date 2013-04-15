@@ -53,6 +53,7 @@ my $config = {
         qw/bing_birdview bing_hybrid bing_map cycle hike_bike hybrid mapnik mapnik_bw mapnik_de
           public_transport roadmap satellite tah terrain yahoo_hybrid yahoo_map yahoo_satellite/
     ],
+    'appid' => [qw/android-0 vmz ios1 android1 bbbikede other/],
 };
 
 sub usage {
@@ -83,7 +84,7 @@ sub interval {
 }
 
 sub get_types {
-    my @types = qw/ajax route output pref maptype/;
+    my @types = qw/ajax route output pref maptype appid/;
     return sort @types;
 }
 
@@ -107,6 +108,28 @@ graph_scale no
 data.label Route Searches
 data.min $min_value
 EOF
+}
+
+# routes by appid
+sub config_appid () {
+    my $data = <<EOF;
+graph_title Route Searches by Apps
+graph_vlabel Searches
+graph_category BBBike
+graph_info Number of Route Searches by Apps
+graph_period minute
+graph_scale no
+data.label Route Searches by Apps
+data.min $min_value
+EOF
+
+    foreach my $label ( sort @{ $config->{'appid'} } ) {
+        my $label_e = escape_label($label);
+        $data .= "$label_e.label $label\n";
+        $data .= "$label_e.min $min_value\n";
+    }
+
+    return $data;
 }
 
 sub config_pref () {
@@ -192,6 +215,7 @@ sub config {
     return
         $type eq 'ajax'    ? &config_ajax
       : $type eq 'route'   ? &config_routes
+      : $type eq 'appid'   ? &config_appid
       : $type eq 'output'  ? &config_output
       : $type eq 'pref'    ? &config_pref
       : $type eq 'maptype' ? &config_maptype
@@ -296,6 +320,15 @@ sub parse_log {
             'output'  => $config->{'output'}
         );
         $data = display_results( $config->{'output'}, $count );
+    }
+    elsif ( $type eq 'appid' ) {
+        my $count = count_appid(
+            'logfile' => $logfile,
+            'offset'  => $last_offset,
+            'type'    => $type,
+            'output'  => $config->{'appid'}
+        );
+        $data = display_results( $config->{'appid'}, $count );
     }
     else {
         die "Unknown type: $type\n";
@@ -488,6 +521,41 @@ sub count_maptype {
 
         if (m,"GET /cgi/maptype.cgi.*?maptype=(\S+),) {
             $counter->{$1}++;
+        }
+    }
+
+    return $counter;
+}
+
+#
+# parse the bbbike access log file and count map type request
+#
+sub count_appid {
+    my %args   = @_;
+    my $file   = $args{'logfile'};
+    my $offset = $args{'offset'};
+
+    my $counter = {};
+    my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
+
+    if ( defined $offset ) {
+        warn "Starting at offset: $offset\n" if $debug;
+        seek( $fh, $offset, 0 );
+    }
+
+    my %hash = map { $_ => 1 } @{ $config->{"appid"} };
+    my $id;
+
+    while (<$fh>) {
+
+        # proxy request with hostname
+        s,"GET http://.*?/,"GET /, if $frontend_proxy;
+
+        next if $ignore_localrequests && localrequest($_);
+
+        if ( m,"GET /\S+pref_seen=[12], && /appid=(.*?)["\s&;]/ ) {
+            $id = exists $hash{$1} ? $1 : "other";
+            $counter->{$id}++;
         }
     }
 
