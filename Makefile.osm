@@ -474,7 +474,7 @@ create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi index updat
 		  ( cd $$lang && ln -fs ../$$city ); \
 		done; \
 	done
-	for script in MyCgiSimple.pm  api.cgi area.cgi livesearch.cgi  location.cgi maptype.cgi slippymap.cgi  street-coord.cgi crossing.cgi streets.cgi  weather.cgi languages.cgi extract.cgi tile-size.cgi livesearch-extract.cgi; do \
+	for script in MyCgiSimple.pm  api.cgi area.cgi livesearch.cgi  location.cgi maptype.cgi slippymap.cgi  street-coord.cgi crossing.cgi streets.cgi  weather.cgi languages.cgi extract.cgi extract-email.cgi tile-size.cgi livesearch-extract.cgi; do \
 	   ( cd ${BBBIKE_WEB_DIR}/cgi && ln -fs ../world/cgi/$$script ); \
 	done
 	cp -f world/web/index.de.html world/web/de/index.html
