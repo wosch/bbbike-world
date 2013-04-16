@@ -64,7 +64,8 @@ sub usage {
 usage: $0 [ options ] config
 
 --debug=0..2    		default: $debug
---logfile=/path/to/logfile	default: $logfile, $logfile_api
+--logfile=/path/to/logfile	default: $logfile
+--logfile-api=/path/to/logfile	default: $logfile_api
 --database=/path/to/logfile	default: $database
 --type=<stat type>		$types, default: $type
 --interval=interval		interval in minutes, default: $interval;
@@ -685,6 +686,7 @@ GetOptions(
     "debug=i"                => \$debug,
     "database=s"             => \$database,
     "logfile=s"              => \$logfile,
+    "logfile-api=s"          => \$logfile_api,
     "type=s"                 => \$type,
     "interval=i"             => \$interval,
     "frontend-proxy"         => \$frontend_proxy,
