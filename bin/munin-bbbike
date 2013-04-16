@@ -40,6 +40,9 @@ my $min_value = 0;
 # ignore old offset files (> 60 minutes)
 my $ignore_old_offset = 1;
 
+# reset offset
+my $reset = 0;
+
 my $config = {
     'ajax'   => [qw/api street-coord crossing maptype weather location/],
     'output' => [
@@ -71,6 +74,7 @@ usage: $0 [ options ] config
 --interval=interval		interval in minutes, default: $interval;
 --frontend-proxy=[0,1]		run as frontend proxy, default: $frontend_proxy
 --ignore-localrequests=[0..1]	ignore localhost or 10.x.x.x requests, default: $ignore_localrequests
+--reset=[0,1]                   reset offset to zero
 
 Munin bbbike config file: $munin_config_file
 EOF
@@ -343,6 +347,11 @@ sub parse_log {
 
 sub get_offset {
     my $file = shift;
+
+    if ($reset) {
+        warn "Reset offset to zero in $file\n" if $debug;
+        return 0;
+    }
 
     my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
     my $number = <$fh>;
@@ -691,6 +700,7 @@ GetOptions(
     "interval=i"             => \$interval,
     "frontend-proxy"         => \$frontend_proxy,
     "ignore-localrequests=i" => \$ignore_localrequests,
+    "reset=i"                => \$reset,
     "help"                   => \$help,
 ) or die usage;
 
