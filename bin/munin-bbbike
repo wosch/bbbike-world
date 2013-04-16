@@ -119,8 +119,6 @@ graph_category BBBike
 graph_info Number of Route Searches by Apps
 graph_period minute
 graph_scale no
-data.label Route Searches by Apps
-data.min $min_value
 EOF
 
     foreach my $label ( sort @{ $config->{'appid'} } ) {
