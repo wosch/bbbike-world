@@ -26,7 +26,7 @@ binmode \*STDERR, ":utf8";
 
 our $option = {
     'script_homepage' => 'http://extract.bbbike.org',
-    'request_method'  => 'POST',
+    'request_method'  => 'GET',
     'debug'           => 1,
     'bcc'             => 'bbbike@bbbike.org',
     'email_from'      => 'bbbike@bbbike.org',
@@ -89,10 +89,16 @@ sub check_input {
     my $to      = $q->param("to")      || "";
     my $subject = $q->param("subject") || "";
     my $text    = $q->param("text")    || "";
+    my $token   = $q->param("token")   || "";
 
-    error("no to: $to given")           if $to      eq "";
-    error("no subject: $subject given") if $subject eq "";
-    error("no text: $text given")       if $text    eq "";
+    error("no to: to given")  if $to      eq "";
+    error("no subject given") if $subject eq "";
+    error("no text given")    if $text    eq "";
+    error("no token given")   if $token   eq "";
+
+    error("wrong $token given") if $token ne $option->{'email_token'};
+    error( "wrong request method given: " . $q->request_method() )
+      if $option->{'request_method'} ne $q->request_method();
 
     $obj = {
         "error"         => $error,
