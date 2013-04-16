@@ -40,6 +40,9 @@ install-munin-bbbike:
 	for i in ${MUNIN_BBBIKE}; do \
 	   sudo ln -fs `pwd`/../bin/munin-bbbike ${MUNIN_PLUGINS_DIR}/$$i; \
 	done
+	${MAKE} munin-restart
+
+install-munin-bbbike-extract:
 	sudo ln -fs `pwd`/../bin/munin-bbbike-extract ${MUNIN_PLUGINS_DIR}/bbbike-extract; \
 	sudo ln -fs `pwd`/../bin/munin-bbbike-extract ${MUNIN_PLUGINS_DIR}/bbbike-extract-tilesize; \
 	sudo ln -fs `pwd`/../bin/munin-bbbike-extract-jobs ${MUNIN_PLUGINS_DIR}/bbbike-extract-jobs; \
@@ -50,7 +53,8 @@ munin-restart:
 
 help:
 	@echo "make [ sync-backend | sync-frontend ]"
-	@echo "make [ install-munin-lighttpd install-munin-bbbike ]"
+	@echo "make [ install-munin-lighttpd ]"
+	@echo "make [ install-munin-bbbike | install-munin-bbbike-extract ]"
 	@echo "make [ install-munin-xen ]"
 	@echo ""
 	@echo "for bbbike.de: "
