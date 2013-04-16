@@ -16,9 +16,10 @@ use warnings;
 # 0: quiet, 1: normal, 2: verbose
 my $debug = defined $ENV{MUNIN_BBBIKE_DEBUG} ? $ENV{MUNIN_BBBIKE_DEBUG} : 0;
 
-my $database = '/var/tmp/munin-bbbike';
-my $logfile  = '/var/log/lighttpd/bbbike.log';
-my $type     = 'route';
+my $database    = '/var/tmp/munin-bbbike';
+my $logfile     = '/var/log/lighttpd/bbbike.log';
+my $logfile_api = '/var/log/lighttpd/api.bbbike.log';
+my $type        = 'route';
 
 # ignore requests from localhost or 10.x.x.x
 my $ignore_localrequests = 1;
@@ -63,7 +64,7 @@ sub usage {
 usage: $0 [ options ] config
 
 --debug=0..2    		default: $debug
---logfile=/path/to/logfile	default: $logfile
+--logfile=/path/to/logfile	default: $logfile, $logfile_api
 --database=/path/to/logfile	default: $database
 --type=<stat type>		$types, default: $type
 --interval=interval		interval in minutes, default: $interval;
@@ -321,7 +322,7 @@ sub parse_log {
     }
     elsif ( $type eq 'appid' ) {
         my $count = count_appid(
-            'logfile' => $logfile,
+            'logfile' => $logfile_api,
             'offset'  => $last_offset,
             'type'    => $type,
             'output'  => $config->{'appid'}
@@ -382,6 +383,7 @@ sub count_routes {
     my $offset = $args{'offset'};
 
     my $counter = 0;
+    warn "open $file\n" if $debug;
     my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
 
     if ( defined $offset ) {
@@ -412,6 +414,7 @@ sub count_pref {
     my $file   = $args{'logfile'};
     my $offset = $args{'offset'};
 
+    warn "open $file\n" if $debug;
     my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
 
     if ( defined $offset ) {
@@ -472,6 +475,7 @@ sub count_ajax {
     my $offset = $args{'offset'};
 
     my $counter = {};
+    warn "open $file\n" if $debug;
     my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
 
     if ( defined $offset ) {
@@ -503,6 +507,7 @@ sub count_maptype {
     my $offset = $args{'offset'};
 
     my $counter = {};
+    warn "open $file\n" if $debug;
     my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
 
     if ( defined $offset ) {
@@ -534,6 +539,7 @@ sub count_appid {
     my $offset = $args{'offset'};
 
     my $counter = {};
+    warn "open $file\n" if $debug;
     my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
 
     if ( defined $offset ) {
@@ -570,6 +576,7 @@ sub count_output {
     my $offset = $args{'offset'};
 
     my $counter = {};
+    warn "open $file\n" if $debug;
     my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
 
     if ( defined $offset ) {
@@ -645,6 +652,7 @@ sub parse_config {
     warn "Open config file $file\n" if $debug;
 
     return if !-f $file;
+    warn "open $file\n" if $debug;
     my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
 
     my @param;
