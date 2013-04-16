@@ -72,8 +72,8 @@ my $q;
 sub check_input {
     my %args = @_;
 
-    our $error   = 0;
-    our $message = "";
+    our $error         = 0;
+    our $error_message = "";
 
     sub error {
         my $text      = shift;
@@ -81,22 +81,22 @@ sub check_input {
 
         $error++;
         warn "Error: $text\n";
-        $message .= "$text;";
+        $error_message .= "$text;";
     }
 
     my $obj = {};
 
     my $to      = $q->param("to")      || "";
     my $subject = $q->param("subject") || "";
-    my $text    = $q->param("text")    || "";
+    my $message = $q->param("message") || "";
     my $token   = $q->param("token")   || "";
 
     error("no to: to given")  if $to      eq "";
     error("no subject given") if $subject eq "";
-    error("no text given")    if $text    eq "";
+    error("no message given") if $message eq "";
     error("no token given")   if $token   eq "";
 
-    error("wrong $token given") if $token ne $option->{'email_token'};
+    error("wrong token '$token' given") if $token ne $option->{'email_token'};
     error( "wrong request method given: " . $q->request_method() )
       if $option->{'request_method'} ne $q->request_method();
 
@@ -104,8 +104,8 @@ sub check_input {
         "error"         => $error,
         "to"            => $to,
         "subject"       => $subject,
-        "text"          => $text,
-        "error_message" => $message,
+        "message"       => $message,
+        "error_message" => $error_message,
         "bcc"           => $option->{"bcc"},
     };
 
@@ -121,15 +121,17 @@ sub sent_email_rest {
     }
 
     eval {
-        send_email( $obj->{'to'}, $obj->{'subject'}, $obj->{'text'},
-            $obj->{'bcc'} );
+        send_email(
+            $obj->{'to'},      $obj->{'subject'},
+            $obj->{'message'}, $obj->{'bcc'}
+        );
     };
 
     if ($@) {
         return fatal_error("sent email: $@");
     }
 
-    out_message( -error => 0, 'message' => 'ok' );
+    out_message( -error => 0, -message => 'ok' );
 }
 
 sub fatal_error {
@@ -158,7 +160,7 @@ sub out_message {
 
 # SMTP wrapper
 sub send_email {
-    my ( $to, $subject, $text, $bcc ) = @_;
+    my ( $to, $subject, $message, $bcc ) = @_;
     my $mail_server = "localhost";
     my @to = split /,/, $to;
 
@@ -168,9 +170,9 @@ sub send_email {
       . "Content-Transfer-Encoding: binary";
 
     my $data =
-      "From: $from\nTo: $to\nSubject: $subject\n" . "$content_type\n\n$text";
+      "From: $from\nTo: $to\nSubject: $subject\n" . "$content_type\n\n$message";
     warn "send email to $to\nbcc: $bcc\n$subject\n" if $debug >= 1;
-    warn "$text\n"                                  if $debug >= 2;
+    warn "$message\n"                               if $debug >= 2;
 
     my $smtp = new Net::SMTP( $mail_server, Hello => "localhost" )
       or die "can't make SMTP object";
