@@ -26,7 +26,7 @@ binmode \*STDERR, ":utf8";
 
 our $option = {
     'script_homepage' => 'http://extract.bbbike.org',
-    'request_method'  => 'GET',
+    'request_method'  => 'POST',
     'debug'           => 1,
     'bcc'             => 'bbbike@bbbike.org',
     'email_from'      => 'bbbike@bbbike.org',
