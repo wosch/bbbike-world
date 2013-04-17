@@ -923,6 +923,7 @@ test-org:
 	./world/bin/lighttpd-template-update
 
 test prove:
+	rm -rf /tmp/bbbike* 2>/dev/null || true
 	LANG=C time prove -j${MAX_CPU}
 
 help:
