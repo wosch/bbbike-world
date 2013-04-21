@@ -1171,24 +1171,17 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
 #http://www.BBBike.org - Your Cycle Route Planner
 #EOF
 
-        eval {
-            my @args = (
-                $obj->{'email'},
-                "Extracted area is ready for download: " . $obj->{'city'},
-                $message, $option->{'bcc'}
-            );
+        my @args = (
+            $obj->{'email'},
+            "Extracted area is ready for download: " . $obj->{'city'},
+            $message, $option->{'bcc'}
+        );
 
-            if ( $option->{email_rest_url} ) {
-                send_email_rest(@args);
-            }
-            else {
-                send_email_smtp(@args);
-            }
-        };
-
-        if ($@) {
-            warn "$@";
-            return 0;
+        if ( $option->{email_rest_url} ) {
+            send_email_rest(@args);
+        }
+        else {
+            send_email_smtp(@args);
         }
     }
 }
