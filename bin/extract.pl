@@ -613,7 +613,7 @@ sub checksum {
 }
 
 # SMTP wrapper
-sub _send_email {
+sub send_email_smtp {
     my ( $to, $subject, $text, $bcc ) = @_;
     my $mail_server = "localhost";
     my @to = split /,/, $to;
@@ -1142,7 +1142,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
 #EOF
 
         eval {
-            _send_email( $obj->{'email'},
+            send_email_smtp( $obj->{'email'},
                 "Extracted area is ready for download: " . $obj->{'city'},
                 $message, $option->{'bcc'} );
         };
