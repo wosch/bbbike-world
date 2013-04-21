@@ -53,9 +53,7 @@ replication_path ()
 if [ $status_number -lt $sequence_number ]; then
     $debug && echo "need to update: $status_number ... $sequence_number"
     number=$status_number
-    while [ $number -lt $sequence_number ]; do
-        number=$(expr $number + 1)
-        
+    while [ $number -le $sequence_number ]; do
         file=$number.osc.gz
         if [ -e $file ]; then
             :
@@ -63,7 +61,8 @@ if [ $status_number -lt $sequence_number ]; then
             path=$(replication_path $number)
             wget -q $planet_osm_replication_server/replication/day/$path.osc.gz
         fi
-        
+
+        number=$(expr $number + 1)
     done
 
     osc_files=$(perl -e 'for(shift .. shift) { print "$_.osc.gz " }' $status_number $sequence_number)   
