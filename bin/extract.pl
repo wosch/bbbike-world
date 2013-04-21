@@ -670,6 +670,15 @@ sub send_email_rest {
         $err .= $res->content . "\n" if $debug;
         die $err;
     }
+
+    my $content = $res->content;
+    my $json    = new JSON;
+    my $obj     = $json->decode($content);
+
+    warn "$content" if $debug >= 1;
+    if ( $obj->{'status'} ) {
+        die $obj->{'message'} . "\n";
+    }
 }
 
 # check if we need to run a pbf2osm converter
