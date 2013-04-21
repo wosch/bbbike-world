@@ -11,7 +11,7 @@ export DH_VERBOSE=1
 export DH_OPTIONS
 
 
-JAVALIBS_TARBALL=	bbbike-world-bin-1.0.tar.gz osmconvert-0.7G.tar.gz
+JAVALIBS_TARBALL=	bbbike-world-bin-1.1.tar.gz osmconvert-0.7G.tar.gz
 HOMEPAGE_TARBALL=	http://debian.bbbike.org
 JAVALIBS_DIR=	/var/lib/bbbike/opt
 
