@@ -653,7 +653,9 @@ sub send_email_rest {
     my $ua = LWP::UserAgent->new;
     $ua->agent("BBBike Extract/1.0; see http://extract.bbbike.org");
 
-    my $url  = $option->{"email_rest_url"};
+    my $url = $option->{"email_rest_url"};
+
+    warn "Use REST email service: $url\n" if $debug >= 1;
     my %form = (
         'token'   => $option->{"email_token"},
         'to'      => $to,
