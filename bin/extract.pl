@@ -80,8 +80,8 @@ our $option = {
     'language'     => "en",
     'message_path' => "world/etc/extract",
 
+    'aws_s3_enabled' => 0,
     'aws_s3' => {
-        'enabled'     => 0,
         'bucket'      => 'bbbike',
         'path'        => 'osm/extract',
         'put_command' => 's3put',
@@ -1058,7 +1058,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         }
 
         my $url = $option->{'homepage'} . "/" . basename($to);
-        if ( $option->{"aws_s3"}->{"enabled"} ) {
+        if ( $option->{"aws_s3_enabled"} ) {
             $url = $option->{"aws_s3"}->{"homepage"} . "/" . aws_s3_path($to);
         }
 
@@ -1155,7 +1155,7 @@ sub aws_s3_put {
     my %args = @_;
     my $file = $args{'file'};
 
-    if ( !$option->{"aws_s3"}->{"enabled"} ) {
+    if ( !$option->{"aws_s3_enabled"} ) {
         warn "AWS S3 upload disabled\n" if $debug >= 3;
         return;
     }
