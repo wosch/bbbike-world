@@ -28,6 +28,8 @@ use Getopt::Long;
 use File::Basename;
 use File::stat;
 use GIS::Distance::Lite;
+use LWP;
+use LWP::UserAgent;
 
 use strict;
 use warnings;
@@ -642,6 +644,34 @@ sub send_email_smtp {
     warn "\n$data\n" if $debug >= 3;
 }
 
+# email REST wrapper
+sub send_email_rest {
+    my ( $to, $subject, $message, $bcc ) = @_;
+    my $mail_server = "localhost";
+    my @to = split /,/, $to;
+
+    my $ua = LWP::UserAgent->new;
+    $ua->agent("BBBike Extract/1.0; see http://extract.bbbike.org");
+
+    my $url  = $option->{"email_rest_url"};
+    my %form = (
+        'token'   => $option->{"email_token"},
+        'to'      => $to,
+        'subject' => $subject,
+        'message' => $message,
+        'bcc'     => $bcc,
+    );
+
+    my $res = $ua->post( $url, \%form );
+
+    # Check the outcome of the response
+    if ( !$res->is_success ) {
+        my $err = "HTTP error: " . $res->status_line . "\n";
+        $err .= $res->content . "\n" if $debug;
+        die $err;
+    }
+}
+
 # check if we need to run a pbf2osm converter
 sub cached_format {
     my $file     = shift;
@@ -1142,16 +1172,24 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
 #EOF
 
         eval {
-            send_email_smtp( $obj->{'email'},
+            my @args = (
+                $obj->{'email'},
                 "Extracted area is ready for download: " . $obj->{'city'},
-                $message, $option->{'bcc'} );
+                $message, $option->{'bcc'}
+            );
+
+            if ( $option->{email_rest_url} ) {
+                send_email_rest(@args);
+            }
+            else {
+                send_email_smtp(@args);
+            }
         };
 
         if ($@) {
             warn "$@";
             return 0;
         }
-
     }
 }
 
