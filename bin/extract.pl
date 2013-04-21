@@ -91,7 +91,7 @@ our $option = {
     },
 
     # use web rest service for email sent out
-    'email_rest_url'    => 'http://www.bbbike.org/cgi/extract-email.cgi',
+    'email_rest_url'    => 'http://extract.bbbike.org/cgi/extract-email.cgi',
     'email_rest_enable' => 0,
 };
 
