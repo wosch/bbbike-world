@@ -81,7 +81,7 @@ our $option = {
     'message_path' => "world/etc/extract",
 
     'aws_s3_enabled' => 0,
-    'aws_s3' => {
+    'aws_s3'         => {
         'bucket'      => 'bbbike',
         'path'        => 'osm/extract',
         'put_command' => 's3put',
