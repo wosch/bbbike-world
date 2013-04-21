@@ -12,6 +12,7 @@ clean:
 
 distclean:
 	rm -f */debian.log *.deb
+	rm -f *.tar.gz *.changes *.dsc
 
 build:
 	cd ${LIB}; \
@@ -28,5 +29,6 @@ help:
 	@echo ""
 	@echo "  make [ clean | distclean | build | deb-repo ]"
 	@echo ""
-	@echo "  make LIB=bbbike-world-bin targets..."
+	@echo "  make LIB=bbbike-world-bin distclean build deb-repo"
+	@echo "  make LIB=bbbike-world-javalibs distclean build deb-repo"
 
