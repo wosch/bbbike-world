@@ -1,0 +1,18 @@
+############################################################################
+#
+#
+
+equivs/ 	files to build simple debian meta packages
+		cd project/bbbike; make deb-clean  deb-equivs deb-repo		
+
+deb
+		files to build *real* debian packages
+		
+gpg		public pgp key for bbbike packages
+
+perl-modules.txt 	list of self compiled perl modules for debian
+
+sources.list.d		list of files to store in /etc/apt/sources.list.d/
+
+
+
