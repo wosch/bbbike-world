@@ -647,21 +647,19 @@ sub send_email_smtp {
 # email REST wrapper
 sub send_email_rest {
     my ( $to, $subject, $message, $bcc ) = @_;
-    my $mail_server = "localhost";
-    my @to = split /,/, $to;
 
     my $ua = LWP::UserAgent->new;
     $ua->agent("BBBike Extract/1.0; see http://extract.bbbike.org");
 
     my $url = $option->{"email_rest_url"};
-
     warn "Use REST email service: $url\n" if $debug >= 1;
+
     my %form = (
-        'token'   => $option->{"email_token"},
-        'to'      => $to,
-        'subject' => $subject,
-        'message' => $message,
-        'bcc'     => $bcc,
+        'token'   => encode_utf8( $option->{"email_token"} ),
+        'to'      => encode_utf8($to),
+        'subject' => encode_utf8($subject),
+        'message' => encode_utf8($message),
+        'bcc'     => encode_utf8($bcc),
     );
 
     my $res = $ua->post( $url, \%form );
