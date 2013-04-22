@@ -27,15 +27,18 @@ Depends: pbzip2, bzip2, xz-utils, git-core, screen, lynx, curl, wget, time,
  ttf-bitstream-vera, ttf-dejavu, libtext-table-perl, libpdf-create-perl,
  libcairo-perl, libpango-perl, libfont-afm-perl, libtest-number-delta-perl,
  libimager-perl, netpbm, libgd-gd2-perl, ttf-bitstream-vera, ttf-dejavu,
- libyaml-tiny-perl, libcompress-zlib-perl, liblzma-dev, libclass-accessor-children-perl,
- subversion, libimage-size-perl, libmime-tools-perl, libcdb-file-perl, libdate-calc-perl,
- libimage-exiftool-perl, libstatistics-descriptive-perl, libsvg-perl, libgd-svg-perl,
- perlmagick, libimager-perl, imagemagick, libsvg-perl, libdb-file-lock-perl,
- libgeo-metar-perl, libstring-approx-perl, libdbd-xbase-perl, libdevel-leak-perl,
- libfile-readbackwards-perl, libhtml-treebuilder-xpath-perl, libxml2-utils, libgdal-perl,
- libgdal-perl, libtext-csv-xs-perl, libcapture-tiny-perl, pmake, dh-make-perl, ntp,
- munin, dpkg-sig, reprepro,lighttpd, equivs, build-essential, devscripts,
- debhelper, dh-make, libyaml-libyaml-perl
+ libyaml-tiny-perl, libcompress-zlib-perl, liblzma-dev, 
+ libclass-accessor-children-perl, subversion, libimage-size-perl,
+ libmime-tools-perl, libcdb-file-perl, libdate-calc-perl,
+ libimage-exiftool-perl, libstatistics-descriptive-perl, libsvg-perl,
+ libgd-svg-perl, perlmagick, libimager-perl, imagemagick, libsvg-perl,
+ libdb-file-lock-perl, libgeo-metar-perl, libstring-approx-perl,
+ libdbd-xbase-perl, libdevel-leak-perl, libfile-readbackwards-perl,
+ libhtml-treebuilder-xpath-perl, libxml2-utils, libgdal-perl,
+ libgdal-perl, libtext-csv-xs-perl, libcapture-tiny-perl, pmake, 
+ dh-make-perl, ntp, munin, dpkg-sig, reprepro,lighttpd, equivs,
+ build-essential, devscripts, debhelper, dh-make, libyaml-libyaml-perl,
+ google-sitemapgen
 # Recommends: <comma-separated list of packages>
 # Suggests: <comma-separated list of packages>
 # Provides: <comma-separated list of packages>
