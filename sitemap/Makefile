@@ -2,7 +2,8 @@
 #
 # create google sitemap for BBBike.org web sites
 
-SITEMAP_GEN=	$$HOME/opt/sitemap_gen-1.4/sitemap_gen.py
+#SITEMAP_GEN=	$$HOME/opt/sitemap_gen-1.4/sitemap_gen.py
+SITEMAP_GEN=	google-sitemapgen
 ALL=	bbbike-org download-bbbike-org
 
 files=	 	./files
