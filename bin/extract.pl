@@ -91,8 +91,8 @@ our $option = {
     },
 
     # use web rest service for email sent out
-    'email_rest_url'    => 'http://extract.bbbike.org/cgi/extract-email.cgi',
-    'email_rest_enable' => 0,
+    'email_rest_url'     => 'http://extract.bbbike.org/cgi/extract-email.cgi',
+    'email_rest_enabled' => 0,
 };
 
 ######################################################################
@@ -1186,7 +1186,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
             $message, $option->{'bcc'}
         );
 
-        if ( $option->{email_rest_url} ) {
+        if ( $option->{"email_rest_enabled"} ) {
             send_email_rest(@args);
         }
         else {
