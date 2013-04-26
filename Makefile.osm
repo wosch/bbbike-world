@@ -730,7 +730,11 @@ extract-install extract-bbbike-org-install:
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/failed
 	chmod -R 775 ${EXTRACTS_SPOOL_DIR}/
 	chgrp -R ${WEB_GROUP} ${EXTRACTS_SPOOL_DIR}/
-	chown -R $$(logname) ${EXTRACTS_SPOOL_DIR}/
+
+bbbike-cache-install:
+	mkdir -p ${BBBIKE_PARTITION}/cache
+	if [ ! -e ${BBBIKE_CACHE_DIR} ]; then ln -fs ${BBBIKE_PARTITION}/cache ${BBBIKE_CACHE_DIR}; fi
+	chown -R ${WEB_GROUP}:${WEB_GROUP} ${BBBIKE_PARTITION}/cache
 
 extract-distclean:
 	find ${EXTRACTS_SPOOL_DIR} -type f -print0 | xargs -0 rm -f
@@ -857,7 +861,7 @@ deb-repo:
 
 deb-bootstrap debian-bootstrap: deb-bootstrap-rsync deb-bootstrap-dir 
 bbbike-bootstrap:  update-files debian-bootstrap 
-	sudo ${MAKE} -f Makefile.osm extract-bbbike-org-install
+	sudo ${MAKE} -f Makefile.osm extract-bbbike-org-install bbbike-cache-install
 
 # sync config files
 deb-bootstrap-rsync:
