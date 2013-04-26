@@ -926,7 +926,7 @@ test-org:
 
 lighttpd-restart: test-org
 	-killall lighttpd
-	./world/bin/lighttpd-start &
+	$$(pwd)/world/bin/lighttpd-start &
 
 test prove:
 	rm -rf /tmp/bbbike* 2>/dev/null || true
