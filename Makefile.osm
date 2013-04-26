@@ -718,8 +718,8 @@ cache-install:
 
 # make EXTRACTS_SPOOL_DIR=/var/cache/extract-pro extract-install
 extract-install extract-bbbike-org-install:
-	#cd ${BBBIKE_PARTITION}; mkdir -p extract
-	#ln -fs ${BBBIKE_PARTITION}/extract ${EXTRACTS_SPOOL_DIR}
+	mkdir -p ${BBBIKE_PARTITION}/extract
+	if [ ! -e ${EXTRACTS_SPOOL_DIR} ]; then ln -fs ${BBBIKE_PARTITION}/extract ${EXTRACTS_SPOOL_DIR}; fi
 	ln -fs ${BBBIKE_PARTITION}/projects/osm /var/cache/osm
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/incoming
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/confirmed
@@ -730,6 +730,7 @@ extract-install extract-bbbike-org-install:
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/failed
 	chmod -R 775 ${EXTRACTS_SPOOL_DIR}/
 	chgrp -R ${WEB_GROUP} ${EXTRACTS_SPOOL_DIR}/
+	chown -R $$(logname) ${EXTRACTS_SPOOL_DIR}/
 
 extract-distclean:
 	find ${EXTRACTS_SPOOL_DIR} -type f -print0 | xargs -0 rm -f
