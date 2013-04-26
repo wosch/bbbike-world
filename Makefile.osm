@@ -856,6 +856,8 @@ deb-repo:
 	done
 
 deb-bootstrap debian-bootstrap: deb-bootstrap-rsync deb-bootstrap-dir 
+bbbike-bootstrap:  update-files debian-bootstrap 
+	sudo ${MAKE} -f Makefile.osm extract-bbbike-org-install
 
 # sync config files
 deb-bootstrap-rsync:
@@ -976,7 +978,7 @@ help:
 	@echo "  [ tile-distclean | tile-rsync ]"
 	@echo "  [ test-org | lighttpd-restart | test ]"
 	@echo "  [ deb-clean | deb-perl | deb-equivs | deb-repo ]"
-	@echo "  [ debian-bootstrap ]"
+	@echo "  [ debian-bootstrap | bbbike-bootstrap ]"
 
 	@echo ""
 	@echo "see also ./world/README"
