@@ -854,7 +854,7 @@ deb-repo:
  	   reprepro -Vb . includedeb squeeze $$i; \
 	done
 
-deb-bootstrap: deb-bootstrap-rsync deb-bootstrap-dir 
+deb-bootstrap debian-bootstrap: deb-bootstrap-rsync deb-bootstrap-dir 
 
 # sync config files
 deb-bootstrap-rsync:
@@ -974,8 +974,8 @@ help:
 	@echo "  [ tile | tile-extract | tile-convert | tile-csv | tile-checksum ]"
 	@echo "  [ tile-distclean | tile-rsync ]"
 	@echo "  [ test-org | lighttpd-restart | test ]"
-	@echo "  [ deb-clean | deb-perl | deb-equivs ]"
-	@echo "  [ deb-bootstrap | deb-repo ]"
+	@echo "  [ deb-clean | deb-perl | deb-equivs | deb-repo ]"
+	@echo "  [ debian-bootstrap ]"
 
 	@echo ""
 	@echo "see also ./world/README"
