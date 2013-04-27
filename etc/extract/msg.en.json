@@ -50,7 +50,8 @@
         "Sincerely, the BBBike extract Fairy",
         "",
         "-- ",
-        "http://www.BBBike.org - Your Cycle Route Planner"
+        "Planet.osm extracts: http://extract.bbbike.org",
+        "BBBike Map Compare: http://bbbike.org/mc"
         ],
 
     "dummy": "dummy"

@@ -65,7 +65,8 @@
         "Danke, die BBBike Extrakt Fee",
         "",
         "-- ",
-        "http://www.BBBike.org - Dein Fahrrad-Routenplanner"
+        "Planet.osm extracts: http://extract.bbbike.org",
+        "BBBike Map Compare: http://bbbike.org/mc"
         ],
 
     "dummy": "dummy"
