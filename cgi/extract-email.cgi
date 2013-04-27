@@ -29,6 +29,7 @@ our $option = {
     'request_method'  => 'POST',
     'debug'           => 1,
     'bcc'             => 'bbbike@bbbike.org',
+    'bcc_rest'        => 'bbbike@bbbike.org',
     'email_from'      => 'bbbike@bbbike.org',
 };
 
@@ -90,6 +91,7 @@ sub check_input {
     my $subject = $q->param("subject") || "";
     my $message = $q->param("message") || "";
     my $token   = $q->param("token")   || "";
+    my $bcc = $option->{"bcc_rest"} || $option->{"bcc"} || "";
 
     error("no to: to given")  if $to      eq "";
     error("no subject given") if $subject eq "";
@@ -106,7 +108,7 @@ sub check_input {
         "subject"       => $subject,
         "message"       => $message,
         "error_message" => $error_message,
-        "bcc"           => $option->{"bcc"},
+        "bcc"           => $bcc,
     };
 
     return $obj;

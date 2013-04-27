@@ -661,6 +661,7 @@ sub send_email_rest {
         'message' => encode_utf8($message),
         'bcc'     => encode_utf8($bcc),
     );
+    warn Dumper( \%form ) if $debug >= 3;
 
     my $res = $ua->post( $url, \%form );
 
