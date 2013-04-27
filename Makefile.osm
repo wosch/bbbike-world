@@ -936,7 +936,7 @@ lighttpd-restart: test-org
 	-killall lighttpd
 	$$(pwd)/world/bin/lighttpd-start &
 
-test prove:
+test prove: lighttpd-restart
 	rm -rf /tmp/bbbike* 2>/dev/null || true
 	perl -c cgi/bbbike.cgi
 	LANG=C time prove -j${MAX_CPU}
