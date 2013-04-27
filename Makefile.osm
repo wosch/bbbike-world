@@ -728,7 +728,7 @@ extract-install extract-bbbike-org-install:
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/download
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/trash
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/failed
-	chmod -R a+r,gu+w,X ${EXTRACTS_SPOOL_DIR}/
+	chmod -R a+rX,gu+w ${EXTRACTS_SPOOL_DIR}/
 	chown -R $$(logname):${WEB_GROUP} ${EXTRACTS_SPOOL_DIR}/
 
 bbbike-cache-install:
