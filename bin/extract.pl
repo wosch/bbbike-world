@@ -1186,7 +1186,9 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
             $message, $option->{'bcc'}
         );
 
-        if ( $option->{"email_rest_enabled"} ) {
+        my $email_rest_enabled = $option->{"email_rest_enabled"};
+        warn "email_rest_enabled: $email_rest_enabled\n" if $debug >= 2;
+        if ($email_rest_enabled) {
             send_email_rest(@args);
         }
         else {
