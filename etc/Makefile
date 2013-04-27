@@ -24,6 +24,12 @@ sync-backend:
 	cp -f /etc/lighttpd/lighttpd.conf lighttpd
 	cp -f /etc/logrotate.d/lighttpd logrotate/lighttpd.logrotate
 
+install-backend-lighttpd:
+	sudo cp -f logrotate/lighttpd.logrotate /etc/logrotate.d/lighttpd 
+	sudo cp -f lighttpd/bbbike.org.conf /etc/lighttpd/conf-available
+	sudo cp -f lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf 
+	cd /etc/lighttpd/conf-enabled; sudo ln -fs ../conf-available/bbbike.org.conf
+	sudo /etc/init.d/lighttpd restart
 
 install-munin-lighttpd:
 	for i in ${MUNIN_LIGHTTPD}; do \
@@ -53,6 +59,7 @@ munin-restart:
 
 help:
 	@echo "make [ sync-backend | sync-frontend ]"
+	@echo "make [ install-backend-lighttpd ]"
 	@echo "make [ install-munin-lighttpd ]"
 	@echo "make [ install-munin-bbbike | install-munin-bbbike-extract ]"
 	@echo "make [ install-munin-xen ]"
