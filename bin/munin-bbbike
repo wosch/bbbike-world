@@ -689,7 +689,7 @@ $type = &detect_type if &detect_type;
 
 # read parameters from munin-bbbike config file
 my @config = parse_config($munin_config_file);
-push( @ARGV, @config ) if @config;
+unshift( @ARGV, @config ) if @config;
 
 GetOptions(
     "debug=i"                => \$debug,
