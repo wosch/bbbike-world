@@ -402,6 +402,7 @@ sub count_routes {
     }
 
     while (<$fh>) {
+        next if !/" 200 /;    # successfull requests only
 
         # proxy request with hostname
         s,"GET http://.*?/,"GET /, if $frontend_proxy;
@@ -435,6 +436,7 @@ sub count_pref {
     my $counter = 0;
     my $res = { "speed" => 0 };
     while (<$fh>) {
+        next if !/" 200 /;    # successfull requests only
 
         # proxy request with hostname
         s,"GET http://.*?/,"GET /, if $frontend_proxy;
@@ -494,6 +496,7 @@ sub count_ajax {
     }
 
     while (<$fh>) {
+        next if !/" 200 /;    # successfull requests only
 
         # proxy request with hostname
         s,"GET http://.*?/,"GET /, if $frontend_proxy;
@@ -526,6 +529,7 @@ sub count_maptype {
     }
 
     while (<$fh>) {
+        next if !/" 200 /;    # successfull requests only
 
         # proxy request with hostname
         s,"GET http://.*?/,"GET /, if $frontend_proxy;
@@ -561,6 +565,7 @@ sub count_appid {
     my $id;
 
     while (<$fh>) {
+        next if !/" 200 /;    # successfull requests only
 
         # proxy request with hostname
         s,"GET http://.*?/,"GET /, if $frontend_proxy;
@@ -596,6 +601,7 @@ sub count_output {
 
 # "GET /Erlangen/?startc=10.95985%2C49.58876;zielc=11.02811%2C49.57724;pref_seen=1;pref_speed=20;pref_cat=;pref_quality=;pref_specialvehicle=;scope=;output_as=print
     while (<$fh>) {
+        next if !/" 200 /;    # successfull requests only
 
         # proxy request with hostname
         s,"GET http://.*?/,"GET /, if $frontend_proxy;
