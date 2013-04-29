@@ -258,11 +258,11 @@ sub manual_area {
   <div id="sidebar_content">
     <span class="export_hint">
       <a id="drag_box">
-        <span id="drag_box_manually">@{[ M("Manually select a different area") ]}</span>
+        <span id="drag_box_manually"><input id="manually_select" type="radio" />@{[ M("Manually select a different area") ]}</span>
         <span id="drag_box_drag" style="display:none">@{[ M("Drag a box on the map to select an area") ]}</span>
       </a>
-      <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a><br/>
-    </span> 
+      <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a><br/><p/>
+    </span>
     <span id="square_km"></span>
 
     <div id="polygon_controls" style="display:none">
