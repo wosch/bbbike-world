@@ -47,6 +47,20 @@ my $feed = XML::Atom::SimpleFeed->new(
 # TODO
 # - larger area for most cities, up top 30 km radius the centr of the city
 #
+
+$feed->add_entry(
+    title =>
+qq{The new iPhone app for BBBike is available. It's free, try it <a href="https://itunes.apple.com/de/app/bbybike-made-in-berlin-for/id639384862?l=en&mt=8">out</a>!},
+    id      => 'd6f59d1bb8315958eb25b197de28d25d',
+    content => {
+        type => 'html',
+        content =>
+qq{The new iPhone app for BBBike is available. It's free, try it <a href="https://itunes.apple.com/de/app/bbybike-made-in-berlin-for/id639384862?l=en&mt=8">out</a>!},
+    },
+    updated  => '2013-04-30T13:30:02Z',
+    category => 'News',
+);
+
 $feed->add_entry(
     title =>
 qq{<a href="http://extract.bbbike.org/?lang=ru">BBBike extract service</a> now in Russian.},
