@@ -125,7 +125,7 @@ log_full 'api.bbbike.org/[^/]+/' | egrep 'HTTP/1.1" 200 ' | awk '{ print $7 }' |
 echo ""
 echo -n "api.bbbike.org UserAgent: "
 log_full 'api.bbbike.org/' | egrep 'HTTP/1.1" 200 ' | wc -l
-log_full 'api.bbbike.org/' | perl -npe 's,.*?"([^"]+)"$,$1,' | sort | uniq -c | sort -nr
+log_full 'api.bbbike.org/' | egrep 'HTTP/1.1" 200 ' | perl -npe 's,.*?"([^"]+)"$,$1,' | sort | uniq -c | sort -nr
 
 echo ""
 echo "api.bbbike.org format: "
@@ -147,7 +147,7 @@ log_full 'BBBike/[0-9]+ CFNetwork' | egrep 'HTTP/1.1" 200 ' | awk '{ print $7 }'
 echo ""
 echo -n "Bots www.bbbike.org UserAgent: "
 log_full 'BBBike/[0-9]+ CFNetwork' | egrep 'HTTP/1.1" 200 ' | wc -l
-log_full 'BBBike/[0-9]+ CFNetwork' | perl -npe 's,.*?"([^"]+)"$,$1,' | sort | uniq -c | sort -nr
+log_full 'BBBike/[0-9]+ CFNetwork' | egrep 'HTTP/1.1" 200 ' | perl -npe 's,.*?"([^"]+)"$,$1,' | sort | uniq -c | sort -nr
 
 echo ""
 echo "Bots www.bbbike.org format: "
