@@ -133,9 +133,31 @@ log_full 'api.bbbike.org/[^/]+/' | egrep 'HTTP/1.1" 200 ' | awk '{ print $7 }' |
 
 echo ""
 echo "api.bbbike.org hosts: "
-log_full 'api.bbbike.org/api/[^/]+/' |
+log_full 'api.bbbike.org/api/[^/]+/' | egrep 'HTTP/1.1" 200 ' |
         awk '{print $1, $7 }' | perl $perl_utf8 -npe 's/\?.*//; s,/cgi/,,; s,(\.en)?\.cgi,,;' |
 	perl -npe 's,http://api.bbbike.org/api/0.2,,' |
+        sort | uniq -c | sort -nr | head -40 | $dns
+echo ""
+
+echo ""
+echo -n "Bots www.bbbike.org city: "
+log_full 'BBBike/[0-9]+ CFNetwork' | egrep 'HTTP/1.1" 200 ' | wc -l
+log_full 'BBBike/[0-9]+ CFNetwork' | egrep 'HTTP/1.1" 200 ' | awk '{ print $7 }' | perl -npe 's,/\?.*,,; s,.*/,,' | sort | uniq -c | sort -nr
+
+echo ""
+echo -n "Bots www.bbbike.org UserAgent: "
+log_full 'BBBike/[0-9]+ CFNetwork' | egrep 'HTTP/1.1" 200 ' | wc -l
+log_full 'BBBike/[0-9]+ CFNetwork' | perl -npe 's,.*?"([^"]+)"$,$1,' | sort | uniq -c | sort -nr
+
+echo ""
+echo "Bots www.bbbike.org format: "
+log_full 'BBBike/[0-9]+ CFNetwork' | egrep 'HTTP/1.1" 200 ' | awk '{ print $7 }' | perl -ne 'print "$1\n" if /output_as=(.*?)[&;]/' | sort | uniq -c | sort -nr
+
+echo ""
+echo "Bots www.bbbike.org hosts: "
+log_full 'BBBike/[0-9]+ CFNetwork' | egrep 'HTTP/1.1" 200 ' |
+        awk '{print $1, $7 }' | perl $perl_utf8 -npe 's/\?.*//; s,/cgi/,,; s,(\.en)?\.cgi,,;' |
+        perl -npe 's,http://www.bbbike.org/,,' |
         sort | uniq -c | sort -nr | head -40 | $dns
 echo ""
 
