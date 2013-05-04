@@ -22,14 +22,54 @@
         <h4>API Documentation</h4>
 	<p>
 	The service for API requests run on <tt>http://api.bbbike.org/api/0.2/</tt></p>
+	
+	<p>
+	  For all API calls the following query string parameters apply: <tt>appid=appid</tt></p>
+	
+	<p>
+	  The appid is identifying the application and mandatory. The appid is allotted by the BBBike developers. Please contact us to get an application appid!
+	</p>
 
         <h4>XML API in a Nutshell</h4>
 	<p>
-	BBBike has a simple XML API. You can get the routing results in the formats GPS routes, GPS tracks and Google Earth (KML). 	
+	BBBike has a simple XML API. You can get the routing results in the formats GPS routes, GPS tracks and Google Earth (KML).</p>
+	
+
+
+
+	<p>
+	After the prefix follows the city name, e.g. for the original bbbike data: <tt>http://api.bbbike.org/api/0.2/bbbike/</tt>
+	and for Hamburg <tt>http://api.bbbike.org/api/0.2/Hamburg/</tt>
+	</p>
+	
+	<p>
+	After the city, the normal URL parameters follows.
+	</p>
+		
+	<table border="2" cellspacing="0" cellpadding="10">
+	  <thead><tr><td>parameter</td><td>description</td></tr></thead>
+	  <tdbody>
+	    <tr><td>startc=lon,lat</td><td>start coordinate (e.g. 13.377846,52.516265;). Mandatory.</td></tr>
+	    <tr><td>zielc=lon,lat</td><td>destination coordinate. Mandatory.</td></tr>
+	    <tr><td>viac=lon,lat</td><td>via coordinate. optional.</td></tr>
+	    
+	    <tr><td>pref_seen=1</td><td>mandatory</td></tr>
+	    <tr><td>pref_speed=speed</td><td>preferred speed in km/h. optional, default is 20 km/h.</td></tr>
+	    <tr><td>pref_cat=cat</td><td>N1, N2, H1, H2, N_RW, N_RW1</td></tr>
+	    <tr><td>pref_quality=quality</td><td>Q2, Q0</td></tr>
+	    <tr><td>ref_ampel=yes</td><td></td></tr>
+	    <tr><td>pref_green=level</td><td>GR1, GR2</td></tr>
+	    <tr><td>pref_unlit=NL</td><td></td></tr>
+	    <tr><td>pref_ferry=use</td><td></td></tr>
+	    <tr><td>pref_fragezeichen=yes</td><td></td></tr>
+	  </tdbody>
+	</table>
+
+	<p>
         To get XML result output instead HTML, just replace the URL parameter <tt>output_as</tt> with one of the values:
 	</p>
-
-	<table border="2" cellspacing="5" cellpadding="10">
+		
+	<table border="2" cellspacing="0" cellpadding="10">
 	<tr><td>Name</td><td>parameters</td><td>description</td></tr>
 	<tr><td>GPS Route</td><td><tt>output_as=gpx-route</tt></td><td>GPX route with waypoints for GPS navigation, up to 256 points</td></tr>
 	<tr><td>GPS Track</td><td><tt>output_as=gpx-track</tt></td><td>GPX with up to 1024 points, no navigation</td></tr>
@@ -38,17 +78,9 @@
 	<tr><td>JSON</td><td><tt>output_as=json</tt></td><td>route with waypoints and decriptions in JavaScript JSON format</td></tr>
 	<tr><td>YAML</td><td><tt>output_as=yaml</tt></td><td>route with waypoints and decriptions in YAML format</td></tr>
 	</table>
-	<p>
-	After the prefix follows the city name, e.g. for the original bbbike data: <tt>http://api.bbbike.org/api/0.2/bbbike/</tt>
-	and for Hamburg <tt>http://api.bbbike.org/api/0.2/Hamburg/</tt>
-	</p>
-	<p>
-	After the city, the normal URL parameters follows.
-	</p>
-
 
 	<h5>Examples</h5>
-	<tt><a rel="nofollow" href="http://api.bbbike.org/api/0.2/bbbike/?startc=13.377846%2C52.516265;startname=Brandenburger%20Tor;zielc=13.404294%2C52.535019;zielname=Zionskirche;pref_seen=1;pref_speed=20;pref_cat=;pref_quality=;pref_specialvehicle=;scope=;output_as=kml-track">http://api.bbbike.org/api/0.2/bbbike/?startc=13.377846%2C52.516265;startname=Brandenburger%20Tor;zielc=13.404294%2C52.535019;zielname=Zionskirche;pref_seen=1;pref_speed=20;pref_cat=;pref_quality=;pref_specialvehicle=;scope=;output_as=kml-track</a></tt>
+	<tt><a rel="nofollow" href="http://api.bbbike.org/api/0.2/bbbike/?appid=guest&startc=13.377846%2C52.516265;startname=Brandenburger%20Tor;zielc=13.404294%2C52.535019;zielname=Zionskirche;pref_seen=1;pref_speed=20;pref_cat=;pref_quality=;pref_specialvehicle=;scope=;output_as=kml-track">http://api.bbbike.org/api/0.2/bbbike/?appid=guest&startc=13.377846%2C52.516265;startname=Brandenburger%20Tor;zielc=13.404294%2C52.535019;zielname=Zionskirche;pref_seen=1;pref_speed=20;pref_cat=;pref_quality=;pref_specialvehicle=;scope=;output_as=kml-track</a></tt>
 	
 	<p>For a list of all parameters and valid values, please look at the HTML search interface or contact us.</p>
 
@@ -58,10 +90,10 @@
 	</p>
 
 	<h5>Examples</h5>
-	<p>Searching for street names: <br/><tt><a rel="nofollow" href="http://api.bbbike.org/api/0.2/cgi/api.cgi?namespace=dbac;city=bbbike;query=wash">http://api.bbbike.org/api/0.2/cgi/api.cgi?namespace=dbac;city=bbbike;query=wash</a></tt></p>
-	<p>Plotting street names or POI: <br/><tt><a rel="nofollow" href="http://api.bbbike.org/api/0.2/cgi/street-coord.cgi?namespace=3;city=bbbike;query=washing">http://api.bbbike.org/api/0.2/cgi/street-coord.cgi?namespace=3;city=bbbike;query=washing</a></tt></p>
-	<p>Reverse geocode: <br/><tt><a rel="nofollow" href="http://api.bbbike.org/api/0.2/bbbike/?api=revgeocode;lon=13.352005;lat=52.538919">http://api.bbbike.org/api/0.2/bbbike/?api=revgeocode;lon=13.352005;lat=52.538919</a></tt></p>
-	<p>Which city is supported by BBBike given your current location: <br/><tt><a rel="nofollow" href="http://api.bbbike.org/api/0.2/cgi/location.cgi?lng=13.411399;lat=52.523405">http://api.bbbike.org/api/0.2/cgi/location.cgi?lng=13.411399;lat=52.523405</a></tt></p>
+	<p>Searching for street names: <br/><tt><a rel="nofollow" href="http://api.bbbike.org/api/0.2/cgi/api.cgi?appid=guest&namespace=dbac;city=bbbike;query=wash">http://api.bbbike.org/api/0.2/cgi/api.cgi?appid=guest&namespace=dbac;city=bbbike;query=wash</a></tt></p>
+	<p>Plotting street names or POI: <br/><tt><a rel="nofollow" href="http://api.bbbike.org/api/0.2/cgi/street-coord.cgi?appid=guest&namespace=3;city=bbbike;query=washing">http://api.bbbike.org/api/0.2/cgi/street-coord.cgi?appid=guest&namespace=3;city=bbbike;query=washing</a></tt></p>
+	<p>Reverse geocode: <br/><tt><a rel="nofollow" href="http://api.bbbike.org/api/0.2/bbbike/?appid=guest&api=revgeocode;lon=13.352005;lat=52.538919">http://api.bbbike.org/api/0.2/bbbike/?appid=guest&api=revgeocode;lon=13.352005;lat=52.538919</a></tt></p>
+	<p>Which city is supported by BBBike given your current location: <br/><tt><a rel="nofollow" href="http://api.bbbike.org/api/0.2/cgi/location.cgi?appid=guest&lng=13.411399;lat=52.523405">http://api.bbbike.org/api/0.2/cgi/location.cgi?appid=guest&lng=13.411399;lat=52.523405</a></tt></p>
 	
 	<p>Note: replace the value <tt>city</tt> with the city you are looking for!</p>
 
