@@ -1133,7 +1133,7 @@ sub homepage {
             [
                 $q->td(
                     [
-"<span class='normalscreen lnglatbox' title='South West, valid values: -180 .. 180'>@{[ M('Left lower corner (South-West)') ]}<br/>"
+"<span class='lnglatbox' title='South West, valid values: -180 .. 180'>@{[ M('Left lower corner (South-West)') ]}<br/>"
                           . "&nbsp;&nbsp; $lng: "
                           . $q->textfield(
                             -name => 'sw_lng',
@@ -1153,7 +1153,7 @@ sub homepage {
 
                 $q->td(
                     [
-"<span class='normalscreen lnglatbox' title='North East, valid values: -180 .. 180'>@{[ M('Right top corner (North-East)') ]}<br/>"
+"<span class='lnglatbox' title='North East, valid values: -180 .. 180'>@{[ M('Right top corner (North-East)') ]}<br/>"
                           . "&nbsp;&nbsp; $lng: "
                           . $q->textfield(
                             -name => 'ne_lng',
@@ -1172,7 +1172,7 @@ sub homepage {
 
                 $q->td(
                     [
-"<span class='normalscreen2' title='PBF: fast and compact data, OSM XML gzip: standard OSM format, "
+"<span class='' title='PBF: fast and compact data, OSM XML gzip: standard OSM format, "
                           . "twice as large, Garmin format in different styles, Esri shapefile format, "
                           . "Osmand for Androids'>@{[ M('Format') ]} "
                           . "<a class='tools-helptrigger' href='$extract_dialog/$language/format.html'><img src='/html/help-16px.png' alt=''/></a>"
@@ -1227,7 +1227,7 @@ qq{<span class="lnglatbox_toggle" onclick="javascript:toggle_lnglatbox ();"><inp
 
                 $q->td(
                     [
-"<span class='normalscreen2' title='Give the city or area to extract a name. "
+"<span class='' title='Give the city or area to extract a name. "
                           . "The name is optional, but better fill it out to find it later again.'>@{[ M('Name of area to extract') ]} <a class='tools-helptrigger-small' href='$extract_dialog/$language/name.html'><img src='/html/help-16px.png' alt='' /></a><br/></span>"
                           . $q->textfield(
                             -name => 'city',
