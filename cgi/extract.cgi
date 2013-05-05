@@ -1145,8 +1145,8 @@ sub homepage {
                             -name => 'sw_lat',
                             -id   => 'sw_lat',
                             -size => 8
-                          ),
-                        '</span>'
+                          )
+                          . '</span>'
                           . qq{<span title="hide longitude,latitude box" class="lnglatbox" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" />hide lnglat</span>}
                     ]
                 ),
@@ -1165,8 +1165,8 @@ sub homepage {
                             -name => 'ne_lat',
                             -id   => 'ne_lat',
                             -size => 8
-                          ),
-                        '</span>'
+                          )
+                          . '</span>'
                     ]
                 ),
 
