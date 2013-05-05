@@ -341,7 +341,7 @@ sub footer {
 
 <div id="footer">
   @{[ &footer_top($q, 'map' => $args{'map'}, 'css' => $args{'css'} ) ]}
-  <div id="copyright">
+  <div id="copyright" class="normalscreen">
   <hr/>
     (&copy;) 2013 <a href="http://www.bbbike.org">BBBike.org</a>
     by <a href="http://wolfram.schneider.org">Wolfram Schneider</a><br/>
@@ -1147,7 +1147,7 @@ sub homepage {
                             -size => 8
                           ),
                         '</span>'
-                          . qq{<span title="hide latitude,longitude box" class="lnglatbox" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" /> hide latlng</span>}
+                          . qq{<span title="hide latitude,longitude box" class="lnglatbox" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" />hide latlng</span>}
                     ]
                 ),
 
@@ -1186,7 +1186,7 @@ sub homepage {
                             -labels  => $formats,
                             -default => $default_format
                           ),
-qq{<span title="show latitude,longitude box" class="lnglatbox_toggle" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" /> show latlng</span><br/>\n}
+qq{<span title="show latitude,longitude box" class="lnglatbox_toggle" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" />show latlng</span><br/>\n}
                           . '<span id="square_km_small" title="area covers N square kilometers"></span>'
                     ]
                 ),
