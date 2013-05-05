@@ -1146,8 +1146,8 @@ sub homepage {
                             -id   => 'sw_lat',
                             -size => 8
                           ),
-'</span>' .
-qq{<span class="lnglatbox" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" /> hide latlng</span>}
+                        '</span>'
+                          . qq{<span class="lnglatbox" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" /> hide latlng</span>}
                     ]
                 ),
 
@@ -1166,13 +1166,13 @@ qq{<span class="lnglatbox" onclick="javascript:toggle_lnglatbox ();"><input clas
                             -id   => 'ne_lat',
                             -size => 8
                           ),
-'</span>'
+                        '</span>'
                     ]
                 ),
 
                 $q->td(
                     [
-                    "<span class='normalscreen2' title='PBF: fast and compact data, OSM XML gzip: standard OSM format, "
+"<span class='normalscreen2' title='PBF: fast and compact data, OSM XML gzip: standard OSM format, "
                           . "twice as large, Garmin format in different styles, Esri shapefile format, "
                           . "Osmand for Androids'>@{[ M('Format') ]} "
                           . "<a class='tools-helptrigger' href='$extract_dialog/$language/format.html'><img src='/html/help-16px.png' alt=''/></a>"
@@ -1186,8 +1186,8 @@ qq{<span class="lnglatbox" onclick="javascript:toggle_lnglatbox ();"><input clas
                             -labels  => $formats,
                             -default => $default_format
                           ),
-qq{<span class="lnglatbox_toggle" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" /> show latlng</span><p/>\n} .
-'<span id="square_km_small" title="area covers N square kilometers"></span>'
+qq{<span class="lnglatbox_toggle" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" /> show latlng</span><p/>\n}
+                          . '<span id="square_km_small" title="area covers N square kilometers"></span>'
                     ]
                 ),
 
