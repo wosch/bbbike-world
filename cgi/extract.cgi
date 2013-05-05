@@ -1147,7 +1147,7 @@ sub homepage {
                             -size => 8
                           ),
                         '</span>'
-                          . qq{<span title="hide latitude,longitude box" class="lnglatbox" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" />hide latlng</span>}
+                          . qq{<span title="hide longitude,latitude box" class="lnglatbox" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" />hide lnglat</span>}
                     ]
                 ),
 
@@ -1186,7 +1186,7 @@ sub homepage {
                             -labels  => $formats,
                             -default => $default_format
                           ),
-qq{<span title="show latitude,longitude box" class="lnglatbox_toggle" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" />show latlng</span><br/>\n}
+qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" />show lnglat</span><br/>\n}
                           . '<span id="square_km_small" title="area covers N square kilometers"></span>'
                     ]
                 ),
