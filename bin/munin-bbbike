@@ -565,7 +565,7 @@ sub count_appid {
     my $id;
 
     while (<$fh>) {
-        next if !/" 200 /;    # successfull requests only
+        #next if !/" 200 /;    # successfull requests only
 
         # proxy request with hostname
         s,"GET http://.*?/,"GET /, if $frontend_proxy;
@@ -573,6 +573,7 @@ sub count_appid {
         next if $ignore_localrequests && localrequest($_);
 
         if (m,"GET /\S+pref_seen=[12],) {
+	
             if (/appid=(.*?)["\s&;]/) {
                 $id = exists $hash{$1} ? $1 : "other";
                 $counter->{$id}++;

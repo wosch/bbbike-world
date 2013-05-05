@@ -258,7 +258,8 @@ sub manual_area {
   <div id="sidebar_content">
     <span class="export_hint">
       <a id="drag_box">
-        <span id="drag_box_manually"><input id="manually_select" type="radio" />@{[ M("Manually select a different area") ]}</span>
+        <span id="drag_box_manually"><input id="manually_select" type="radio" />@{[ M("Manually select a different area") ]}
+        </span>
         <span id="drag_box_drag" style="display:none">@{[ M("Drag a box on the map to select an area") ]}</span>
       </a>
       <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a><br/><p/>
@@ -1145,7 +1146,8 @@ sub homepage {
                             -id   => 'sw_lat',
                             -size => 8
                           ),
-'</span><span id="square_km_small" title="area covers N square kilometers"></span>'
+'</span>' .
+qq{<span class="lnglatbox" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" /> hide latlng</span>}
                     ]
                 ),
 
@@ -1164,15 +1166,17 @@ sub homepage {
                             -id   => 'ne_lat',
                             -size => 8
                           ),
-'</span><span title="file data size approx." id="size_small"></span>'
+'</span>'
                     ]
                 ),
 
                 $q->td(
                     [
-"<span class='normalscreen' title='PBF: fast and compact data, OSM XML gzip: standard OSM format, "
+                    "<span class='normalscreen2' title='PBF: fast and compact data, OSM XML gzip: standard OSM format, "
                           . "twice as large, Garmin format in different styles, Esri shapefile format, "
-                          . "Osmand for Androids'>@{[ M('Format') ]} <a class='tools-helptrigger' href='$extract_dialog/$language/format.html'><img src='/html/help-16px.png' alt=''/></a><br/></span>"
+                          . "Osmand for Androids'>@{[ M('Format') ]} "
+                          . "<a class='tools-helptrigger' href='$extract_dialog/$language/format.html'><img src='/html/help-16px.png' alt=''/></a>"
+                          . "<br/></span>"
                           . $q->popup_menu(
                             -name   => 'format',
                             -values => [
@@ -1181,7 +1185,9 @@ sub homepage {
                             ],
                             -labels  => $formats,
                             -default => $default_format
-                          )
+                          ),
+qq{<span class="lnglatbox_toggle" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" /> show latlng</span><p/>\n} .
+'<span id="square_km_small" title="area covers N square kilometers"></span>'
                     ]
                 ),
 
@@ -1215,19 +1221,20 @@ sub homepage {
                             -value => "",
                             -id    => 'layers'
                           ),
-'<span id="time_small" title="approx. extract time in minutes"></span>'
+'<span title="file data size approx." id="size_small"></span>'
                     ]
                 ),
 
                 $q->td(
                     [
-"<span class='normalscreen' title='Give the city or area to extract a name. "
+"<span class='normalscreen2' title='Give the city or area to extract a name. "
                           . "The name is optional, but better fill it out to find it later again.'>@{[ M('Name of area to extract') ]} <a class='tools-helptrigger-small' href='$extract_dialog/$language/name.html'><img src='/html/help-16px.png' alt='' /></a><br/></span>"
                           . $q->textfield(
                             -name => 'city',
                             -id   => 'city',
                             -size => 28
-                          )
+                          ),
+'<span id="time_small" title="approx. extract time in minutes"></span>'
                     ]
                 ),
 
