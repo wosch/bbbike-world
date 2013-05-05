@@ -1186,7 +1186,7 @@ sub homepage {
                             -labels  => $formats,
                             -default => $default_format
                           ),
-qq{<span title="show latitude,longitude box" class="lnglatbox_toggle" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" /> show latlng</span><p/>\n}
+qq{<span title="show latitude,longitude box" class="lnglatbox_toggle" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" /> show latlng</span><br/>\n}
                           . '<span id="square_km_small" title="area covers N square kilometers"></span>'
                     ]
                 ),
