@@ -44,7 +44,7 @@ my $ignore_old_offset = 1;
 my $reset = 0;
 
 my $config = {
-    'ajax'   => [qw/api street-coord crossing maptype weather location/],
+    'ajax'   => [qw/api log street-coord crossing maptype weather location/],
     'output' => [
         qw/print gpx-track gpx-route kml-track pdf png palmdoc googlemaps mapserv xml gpsies/
     ],
