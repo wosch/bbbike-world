@@ -51,6 +51,7 @@ case $1 in
   -garmin-osm | --garmin-osm ) shift; compress=garmin; garmin_style=osm ;;
   -garmin-cycle | --garmin-cycle ) shift; compress=garmin; garmin_style=cycle ;;
   -garmin-leisure | --garmin-leisure ) shift; compress=garmin; garmin_style=leisure ;;
+  -garmin-bbbike | --garmin-bbbike ) shift; compress=garmin; garmin_style=bbbike ;;
   
   -mapsforge-osm | --mapsforge-osm ) shift; compress=mapsforge; mapsforge_style=osm ;;
 esac

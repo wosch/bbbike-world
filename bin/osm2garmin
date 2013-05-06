@@ -12,7 +12,7 @@ set -e
 
 usage () {
    echo "$@"
-   echo "usage file [ osm | cycle | leisure ] [ title ]"
+   echo "usage file [ osm | cycle | leisure | bbbike ] [ title ]"
    exit 1
 }
 
@@ -80,6 +80,13 @@ case $ext in
 	mkgmap_map_style=freizeit
 	mkgmap_map_type=$etc_dir/freizeit.TYP
 	;;
+        
+   bbbike | garmin-bbbike.zip )
+	ext=garmin-bbbike.zip
+	mkgmap_map=--style-file=$etc_dir/../../../misc/mkgmap/srt-style
+	mkgmap_map_style=bbbike
+	mkgmap_map_type=$etc_dir/../../../misc/mkgmap/typ/M000002a.TYP
+        ;;
 
    osm | garmin-osm.zip )
 	ext=garmin-osm.zip
