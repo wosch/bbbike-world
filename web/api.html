@@ -48,7 +48,7 @@
 		
 	<table border="2" cellspacing="0" cellpadding="10">
 	  <thead><tr><td>parameter</td><td>description</td></tr></thead>
-	  <tdbody>
+	  <tbody>
 	    <tr><td>startc_wgs84=lon,lat</td><td>start coordinate (e.g. 13.377846,52.516265;), mandatory</td></tr>
 	    <tr><td>zielc_wgs84=lon,lat</td><td>destination coordinate, mandatory</td></tr>
 	    <tr><td>viac_wgs84=lon,lat</td><td>via coordinate. optional.</td></tr>
@@ -62,7 +62,7 @@
 	    <tr><td>pref_ferry=use</td><td></td></tr>
 	    <tr><td>pref_fragezeichen=yes</td><td></td></tr>
 	    <tr><td>lang=language</td><td>supported values are: da, de, en, es, fr, hr, nl, pl, pt, ru, zh</td></tr>
-	  </tdbody>
+	  </tbody>
 	</table>
 
 	<p>
@@ -80,7 +80,7 @@
 	</table>
 
 	<h5>Examples</h5>
-	<tt><a rel="nofollow" href="http://api.bbbike.org/api/0.2/bbbike/?appid=guest&startc=13.377846%2C52.516265;startname=Brandenburger%20Tor;zielc=13.404294%2C52.535019;zielname=Zionskirche;pref_seen=1;pref_speed=20;pref_cat=;pref_quality=;pref_specialvehicle=;scope=;output_as=kml-track">http://api.bbbike.org/api/0.2/bbbike/?appid=guest&startc=13.377846%2C52.516265;startname=Brandenburger%20Tor;zielc=13.404294%2C52.535019;zielname=Zionskirche;pref_seen=1;pref_speed=20;pref_cat=;pref_quality=;pref_specialvehicle=;scope=;output_as=kml-track</a></tt>
+	<tt><a rel="nofollow" href="http://api.bbbike.org/api/0.2/bbbike/?appid=guest;startc=13.377846%2C52.516265;startname=Brandenburger%20Tor;zielc=13.404294%2C52.535019;zielname=Zionskirche;pref_seen=1;pref_speed=20;pref_cat=;pref_quality=;pref_specialvehicle=;scope=;output_as=kml-track">http://api.bbbike.org/api/0.2/bbbike/?appid=guest;startc=13.377846%2C52.516265;startname=Brandenburger%20Tor;zielc=13.404294%2C52.535019;zielname=Zionskirche;pref_seen=1;pref_speed=20;pref_cat=;pref_quality=;pref_specialvehicle=;scope=;output_as=kml-track</a></tt>
 	
 	<p>For a list of all parameters and valid values, please look at the HTML search interface or contact us.</p>
 
@@ -90,10 +90,10 @@
 	</p>
 
 	<h5>Examples</h5>
-	<p>Searching for street names: <br/><tt><a rel="nofollow" href="http://api.bbbike.org/api/0.2/cgi/api.cgi?appid=guest&namespace=dbac;city=bbbike;query=wash">http://api.bbbike.org/api/0.2/cgi/api.cgi?appid=guest&namespace=dbac;city=bbbike;query=wash</a></tt></p>
-	<p>Plotting street names or POI: <br/><tt><a rel="nofollow" href="http://api.bbbike.org/api/0.2/cgi/street-coord.cgi?appid=guest&namespace=3;city=bbbike;query=washing">http://api.bbbike.org/api/0.2/cgi/street-coord.cgi?appid=guest&namespace=3;city=bbbike;query=washing</a></tt></p>
-	<p>Reverse geocode: <br/><tt><a rel="nofollow" href="http://api.bbbike.org/api/0.2/bbbike/?appid=guest&api=revgeocode;lon=13.352005;lat=52.538919">http://api.bbbike.org/api/0.2/bbbike/?appid=guest&api=revgeocode;lon=13.352005;lat=52.538919</a></tt></p>
-	<p>Which city is supported by BBBike given your current location: <br/><tt><a rel="nofollow" href="http://api.bbbike.org/api/0.2/cgi/location.cgi?appid=guest&lng=13.411399;lat=52.523405">http://api.bbbike.org/api/0.2/cgi/location.cgi?appid=guest&lng=13.411399;lat=52.523405</a></tt></p>
+	<p>Searching for street names: <br/><tt><a rel="nofollow" href="http://api.bbbike.org/api/0.2/cgi/api.cgi?appid=guest;namespace=dbac;city=bbbike;query=wash">http://api.bbbike.org/api/0.2/cgi/api.cgi?appid=guest;namespace=dbac;city=bbbike;query=wash</a></tt></p>
+	<p>Plotting street names or POI: <br/><tt><a rel="nofollow" href="http://api.bbbike.org/api/0.2/cgi/street-coord.cgi?appid=guest;namespace=3;city=bbbike;query=washing">http://api.bbbike.org/api/0.2/cgi/street-coord.cgi?appid=guest;namespace=3;city=bbbike;query=washing</a></tt></p>
+	<p>Reverse geocode: <br/><tt><a rel="nofollow" href="http://api.bbbike.org/api/0.2/bbbike/?appid=guest;api=revgeocode;lon=13.352005;lat=52.538919">http://api.bbbike.org/api/0.2/bbbike/?appid=guest;api=revgeocode;lon=13.352005;lat=52.538919</a></tt></p>
+	<p>Which city is supported by BBBike given your current location: <br/><tt><a rel="nofollow" href="http://api.bbbike.org/api/0.2/cgi/location.cgi?appid=guest;lng=13.411399;lat=52.523405">http://api.bbbike.org/api/0.2/cgi/location.cgi?appid=guest;lng=13.411399;lat=52.523405</a></tt></p>
 	
 	<p>Note: replace the value <tt>city</tt> with the city you are looking for!</p>
 
