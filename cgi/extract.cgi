@@ -66,7 +66,7 @@ our $option = {
     'message_path'        => "../world/etc/extract",
 };
 
-my $formats = {
+our $formats = {
     'osm.pbf' => 'Protocolbuffer Binary (PBF)',
     'osm.gz'  => "OSM XML gzip'd",
     'osm.bz2' => "OSM XML bzip'd",
@@ -76,12 +76,13 @@ my $formats = {
     'garmin-osm.zip'     => "Garmin OSM",
     'garmin-cycle.zip'   => "Garmin Cycle",
     'garmin-leisure.zip' => "Garmin Leisure",
-    'garmin-bbbike.zip'  => "Garmin BBBike",
-    'navit.zip'          => "Navit",
-    'obf.zip'            => "Osmand (OBF)",
-    'o5m.gz'             => "o5m gzip'd",
-    'o5m.bz2'            => "o5m bzip'd",
-    'mapsforge-osm.zip'  => "Mapsforge OSM",
+
+    #'garmin-bbbike.zip'  => "Garmin BBBike",
+    'navit.zip'         => "Navit",
+    'obf.zip'           => "Osmand (OBF)",
+    'o5m.gz'            => "o5m gzip'd",
+    'o5m.bz2'           => "o5m bzip'd",
+    'mapsforge-osm.zip' => "Mapsforge OSM",
 };
 
 ###
