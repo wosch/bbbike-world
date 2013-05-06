@@ -213,6 +213,24 @@ log '[^ ]*/cgi/api.*?\?' | wc -l
 echo -n "OpenSearch requests per city: "
 log '[^ ]*/cgi/api.*?\?' | perl $perl_utf8 -ne 'print "$1\n" if /city=([^&;\s]+)/' | sort -u | wc -l
 log '[^ ]*/cgi/api.*?\?' | perl $perl_utf8 -ne 'print "$1\n" if /city=([^&;\s]+)/' | sort | uniq -c | sort -nr
+echo ""
+
+echo -n "Google geocode requests: "
+log '[^ ]*/cgi/log.*?\?' | wc -l
+
+echo -n "status=0 "
+log '[^ ]*/cgi/log.cgi\?.*?status=0 ' | wc -l
+echo -n "status=ZERO_RESULTS "
+log '[^ ]*/cgi/log.cgi\?.*?status=ZERO_RESULTS ' | wc -l
+echo -n "status=OVER_QUERY_LIMIT "
+log '[^ ]*/cgi/log.cgi\?.*?status=OVER_QUERY_LIMIT ' | wc -l
+echo -n "status=<unknown> "
+log '[^ ]*/cgi/log.cgi\?.*?' | egrep -v 'status=(OVER_QUERY_LIMIT|0|ZERO_RESULTS) ' | wc -l
+
+echo ""
+echo -n "Google geocode requests per city: "
+log '[^ ]*/cgi/log.*?\?' | perl $perl_utf8 -ne 'print "$1\n" if /city=([^&;\s]+)/' | sort -u | wc -l
+log '[^ ]*/cgi/log.*?\?' | perl $perl_utf8 -ne 'print "$1\n" if /city=([^&;\s]+)/' | sort | uniq -c | sort -nr
 
 echo ""
 echo -n "Crossing requests: "
