@@ -109,6 +109,7 @@ my $formats = {
     'garmin-osm.zip'     => "Garmin OSM",
     'garmin-cycle.zip'   => "Garmin Cycle",
     'garmin-leisure.zip' => "Garmin Leisure",
+    'garmin-bbbike.zip'  => "Garmin BBBike",
     'navit.zip'          => "Navit",
     'mapsforge-osm.zip'  => "mapsforge OSM",
 };
@@ -986,7 +987,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
                 system(@system) == 0 or die "system @system failed: $?";
             }
         }
-        elsif ( $format =~ /^garmin-(osm|cycle|leisure).zip$/ ) {
+        elsif ( $format =~ /^garmin-(osm|cycle|leisure|bbbike).zip$/ ) {
             my $style = $1;
             $file =~ s/\.pbf$/.$format/;
             $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
@@ -1605,4 +1606,3 @@ my $errors = &run_jobs(
 exit($errors);
 
 1;
-
