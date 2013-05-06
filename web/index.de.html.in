@@ -12,6 +12,8 @@
   <link type="image/ico" rel="shortcut icon" href=
   "/images/srtbike1.ico" />
   <link type="image/png" rel="apple-touch-icon" href="/images/srtbike57.png" />
+  <link sizes="72x72" rel="apple-touch-icon" href="/images/srtbike72.png">
+  <link sizes="114x114" rel="apple-touch-icon" href="/images/srtbike114.png">
   <link rel="stylesheet" type="text/css" href="/html/luft.css" />
   <meta name="KEYWORDS" content="cycle route planner, bicycle" />
   <meta name="description" content="BBBike - ein Fahrradroutenplaner fuer mehr als 200 Staedte weltweit, basiert auf OpenStreetMap data." />
