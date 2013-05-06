@@ -33,6 +33,7 @@ my %format = (
     "garmin-cycle.zip"   => "garmin-cycle.zip",
     "garmin-osm.zip"     => "garmin-cycle.zip",
     "garmin-leisure.zip" => "garmin-cycle.zip",
+    "garmin-bbbike.zip"  => "garmin-cycle.zip",
     "navit.zip"          => "obf.zip",
     "navit"              => "obf.zip",
     "o5m.gz"             => "pbf",
@@ -97,6 +98,7 @@ if ( $format && $format{$format} ) {
 
     # guess factor based on similar data
     $factor_format *= 1.3 if $format eq 'garmin-leisure.zip';
+    $factor_format *= 1.0 if $format eq 'garmin-bbbike.zip';
 
     #$factor_format *= 0.6  if $format eq 'mapsforge-osm.zip';
     $factor_format *= 0.65 if $format eq 'navit.zip';
