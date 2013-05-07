@@ -339,7 +339,8 @@ sub parse_log {
     }
 
     # store current log file size in database for next run
-    $st = stat($type eq 'appid' ? $logfile_api : $logfile) or die "stat $logfile: $!";
+    $st = stat( $type eq 'appid' ? $logfile_api : $logfile )
+      or die "stat $logfile: $!";
     write_offset( $database, $st->size );
 
     return $data;

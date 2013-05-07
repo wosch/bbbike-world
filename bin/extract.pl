@@ -82,6 +82,8 @@ our $option = {
     'language'     => "en",
     'message_path' => "world/etc/extract",
 
+    'osmosis_options' => [ "omitmetadata=true", "granularity=10000" ],
+
     'aws_s3_enabled' => 0,
     'aws_s3'         => {
         'bucket'      => 'bbbike',
@@ -145,13 +147,18 @@ my $spool = {
     'failed'    => "failed",       # keep record of failed runs
 };
 
-my $alarm           = $option->{"alarm"};
-my $nice_level      = $option->{"nice_level"};
-my $email_from      = $option->{"email_from"};
-my $planet_osm      = $option->{"planet_osm"};
-my $debug           = $option->{"debug"};
-my $test            = $option->{"test"};
-my $osmosis_options = "omitmetadata=true granularity=10000";    # message
+my $alarm      = $option->{"alarm"};
+my $nice_level = $option->{"nice_level"};
+my $email_from = $option->{"email_from"};
+my $planet_osm = $option->{"planet_osm"};
+my $debug      = $option->{"debug"};
+my $test       = $option->{"test"};
+
+if ( $option->{"pro"} ) {
+    $option->{"osmosis_options"} = [];
+}
+my $osmosis_options = join( " ", @{ $option->{"osmosis_options"} } );
+
 my $nice_level_converter =
   exists $option->{"nice_level_converter"}
   ? $option->{"nice_level_converter"}
@@ -568,8 +575,9 @@ sub run_extracts {
             }
         }
 
-        push @pbf, "--bp", "file=$p";
-        push @pbf, "--write-pbf", "file=$out", "omitmetadata=true";
+        push @pbf, "--bp",        "file=$p";
+        push @pbf, "--write-pbf", "file=$out",
+          @{ $option->{"osmosis_options"} };
         $tee++;
         push @fixme, $out;
     }
