@@ -21,7 +21,7 @@ JAVACMD_OPTIONS=-Xmx${java_heap}; export JAVACMD_OPTIONS
 args=""
 for f 
 do
-   args="$args --read-pbf $f $buffer --bb left=-180 right=180 top=90 bottom=-90 clipIncompleteEntities=true --write-pbf omitmetadata=true $f.tmp"
+   args="$args --read-pbf $f $buffer --bb left=-180 right=180 top=90 bottom=-90 clipIncompleteEntities=true --write-pbf $f.tmp"
 done
 
 if osmosis $args > $logfile 2>&1
