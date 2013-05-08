@@ -224,8 +224,10 @@ echo -n "status=ZERO_RESULTS "
 log '[^ ]*/cgi/log.cgi\?.*?status=ZERO_RESULTS ' | wc -l
 echo -n "status=OVER_QUERY_LIMIT "
 log '[^ ]*/cgi/log.cgi\?.*?status=OVER_QUERY_LIMIT ' | wc -l
+echo -n "status=ERROR "
+log '[^ ]*/cgi/log.cgi\?.*?status=ERROR ' | wc -l
 echo -n "status=<unknown> "
-log '[^ ]*/cgi/log.cgi\?.*?' | egrep -v 'status=(OVER_QUERY_LIMIT|0|ZERO_RESULTS) ' | wc -l
+log '[^ ]*/cgi/log.cgi\?.*?' | egrep -v 'status=(OVER_QUERY_LIMIT|0|ZERO_RESULTS|ERROR) ' | wc -l
 
 echo ""
 echo -n "Google geocode requests per city: "
