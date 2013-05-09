@@ -64,6 +64,7 @@ our $option = {
     'request_method'      => "GET",
     'supported_languages' => [qw/en de es fr ru/],
     'message_path'        => "../world/etc/extract",
+    'pro'                 => 0,
 };
 
 our $formats = {
@@ -302,8 +303,16 @@ sub footer_top {
 
     my $community_link =
       $language eq 'de' ? "/community.de.html" : "/community.html";
-    my $donate = qq{<p class="normalscreen" id="big_donate_image">}
-      . qq{<a href="$community_link#donate"><img class="logo" height="47" width="126" src="/images/btn_donateCC_LG.gif" alt="donate"/></a></p>};
+    my $donate;
+
+    if ( $option->{'pro'} ) {
+        $donate =
+qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro service">extract pro</p>\n};
+    }
+    else {
+        $donate = qq{<p class="normalscreen" id="big_donate_image">}
+          . qq{<a href="$community_link#donate"><img class="logo" height="47" width="126" src="/images/btn_donateCC_LG.gif" alt="donate"/></a></p>};
+    }
 
     return <<EOF;
   $donate
