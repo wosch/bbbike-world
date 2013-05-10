@@ -120,7 +120,10 @@ sub get_extract_from_file {
     warn Dumper($obj)  if $debug >= 2;
     warn Dumper($args) if $debug >= 2;
 
-    return ( $coords, $args->{'city'}, $args->{'format'}, $args->{'email'} );
+    return (
+        perl2coords($coords), $args->{'city'},
+        $args->{'format'},    $args->{'email'}
+    );
 }
 
 # convert perl array to coords=<....> parameter
@@ -188,16 +191,17 @@ die "No coordinates found in input file!\n" if $coords eq "";
 
 my $ua = LWP::UserAgent->new;
 
-my $response = $ua->request(
-    POST $url,
-    [
-        'submit' => 'extract',
-        'city'   => $city,
-        'format' => $format,
-        'email'  => $email,
-        'coords' => $coords
-    ]
-);
+my $url_param = {
+    'submit' => 'extract',
+    'city'   => $city,
+    'format' => $format,
+    'email'  => $email,
+    'coords' => $coords,
+    'as'     => 1,
+};
+
+warn "$url @{[ Dumper($url_param) ]}\n" if $debug >= 1;
+my $response = $ua->post( $url, $url_param );
 
 if ( $response->is_success ) {
     if ( $response->decoded_content =~ / class="error">(.*?)</ ) {
