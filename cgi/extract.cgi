@@ -323,6 +323,7 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
     <a href="http://download.bbbike.org/osm/">download</a> |
     <!-- <a href="/cgi/livesearch-extract.cgi">@{[ M("livesearch") ]}</a> | -->
     <a href="http://mc.bbbike.org/mc/">map compare</a> |
+    <a href="/extract.html#extract-pro">pro</a> |
     <a href="$community_link#donate">@{[ M("donate") ]}</a> $locate
   </div>
 EOF
