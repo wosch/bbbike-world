@@ -462,7 +462,7 @@ EOF
         $counter2++;
         warn $url, "\n" if $debug >= 2;
 
-        next if !$qq->param('driving_time');
+        #next if !$qq->param('driving_time');
 
         my $coords = $qq->param('coords');
         next if !$coords;
@@ -591,7 +591,7 @@ sub statistic_basic {
         my $qq = CGI->new($url);
         $counter2++;
 
-        next if !$qq->param('driving_time');
+        #next if !$qq->param('driving_time');
 
         my $coords = $qq->param('coords');
         next if !$coords;
