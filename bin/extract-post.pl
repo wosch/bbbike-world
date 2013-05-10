@@ -102,7 +102,11 @@ sub get_extract_from_file {
     $args->{'format'} =~ s/^osm\.(navit.zip|shp.zip|obf.zip)/$1/;
 
     my $coords = $obj->{'coords'};
-    if ( !( defined $coords && scalar(@$coords) == 0 ) ) {
+
+    if (   !defined $coords
+        || $coords eq ""
+        || ( ref $coords eq 'ARRAY' && scalar(@$coords) == 0 ) )
+    {
         if (   $obj->{ne_lat} ne ""
             && $obj->{sw_lat} ne ""
             && $obj->{sw_lng} ne ""
@@ -117,8 +121,8 @@ sub get_extract_from_file {
         }
     }
 
-    warn Dumper($obj)  if $debug >= 2;
-    warn Dumper($args) if $debug >= 2;
+    warn Dumper($obj) if $debug >= 2;
+    warn Dumper( $args, $coords ) if $debug >= 2;
 
     return (
         perl2coords($coords), $args->{'city'},
@@ -169,6 +173,13 @@ if ( $extract_file ne "" ) {
       &get_extract_from_file( $extract_file,
         { 'city' => $city, 'email' => $email, 'format' => $format } );
 }
+else {
+    $coords = perl2coords(
+          $coords_json ? get_json_from_file($coords_json)
+        : $coords_perl ? get_perl_from_file($coords_perl)
+        : get_poly_from_file($coords_poly)
+    );
+}
 
 die "No city name is given!\n" . &usage  if $city   eq "";
 die "No email address given!\n" . &usage if $email  eq "";
@@ -179,18 +190,9 @@ die "No coords file is given!\n" . &usage
       && $coords_poly  eq ""
       && $extract_file eq "";
 
-if ( !$coords ) {
-    $coords = perl2coords(
-          $coords_json ? get_json_from_file($coords_json)
-        : $coords_perl ? get_perl_from_file($coords_perl)
-        : get_poly_from_file($coords_poly)
-    );
-}
-
 die "No coordinates found in input file!\n" if $coords eq "";
 
-my $ua = LWP::UserAgent->new;
-
+my $ua        = LWP::UserAgent->new;
 my $url_param = {
     'submit' => 'extract',
     'city'   => $city,
