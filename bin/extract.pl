@@ -1568,8 +1568,8 @@ GetOptions(
 die usage if $help;
 die "Max jobs: $max_jobs out of range!\n" . &usage
   if $max_jobs < 1 || $max_jobs > 12;
-die "Max areas: $max_areas out of range!\n" . &usage
-  if $max_areas < 1 || $max_areas > 30;
+die "Max areas: $max_areas out of range 1..64!\n" . &usage
+  if $max_areas < 1 || $max_areas > 64;
 
 # full path for spool directories
 while ( my ( $key, $val ) = each %$spool ) {
