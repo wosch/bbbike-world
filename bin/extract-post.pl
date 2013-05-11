@@ -34,6 +34,7 @@ my $coords_perl  = "";
 my $coords_poly  = "";
 my $debug        = 0;
 my $url          = 'http://localhost/cgi/extract.cgi';
+my $exit_zero    = 0;
 
 sub usage () {
     <<EOF;
@@ -49,6 +50,7 @@ usage: $0 [ options ]
 --format=format		default: $format
 --timeout=timeout	default: $timeout
 --url=url		default: $url
+--exit-zero             default: $exit_zero
 EOF
 }
 
@@ -102,7 +104,7 @@ sub get_extract_from_file {
     $args->{'format'} =~ s/^osm\.(navit.zip|shp.zip|obf.zip)/$1/;
 
     my $coords = $obj->{'coords'};
-    
+
     # backward compatible
     $coords = [] if ref $coords ne 'ARRAY';
 
@@ -149,6 +151,14 @@ sub perl2coords {
     return $data;
 }
 
+# wrapper around die with error status
+sub Die {
+    my $message = shift;
+    warn $message;
+
+    exit( !$exit_zero );
+}
+
 ################################################################################
 #
 # main
@@ -165,6 +175,7 @@ GetOptions(
     "city=s"         => \$city,
     "url=s"          => \$url,
     "timeout=i"      => \$timeout,
+    "exit-zero!"     => \$exit_zero,
     "help"           => \$help,
 ) or die usage;
 
@@ -193,7 +204,7 @@ die "No coords file is given!\n" . &usage
       && $coords_poly  eq ""
       && $extract_file eq "";
 
-die "No coordinates found in input file!\n" if $coords eq "";
+Die "No coordinates found in input file!\n" if $coords eq "";
 
 my $ua        = LWP::UserAgent->new;
 my $url_param = {
@@ -218,7 +229,7 @@ if ( $response->is_success ) {
     }
 }
 else {
-    die $response->status_line;
+    Die $response->status_line;
 }
 
 1;
