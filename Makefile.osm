@@ -745,7 +745,7 @@ bbbike-cache-install:
 	chown -R ${WEB_GROUP}:${WEB_GROUP} ${BBBIKE_PARTITION}/cache
 
 extract-distclean:
-	find ${EXTRACTS_SPOOL_DIR} -type f -print0 | xargs -0 rm -f
+	find ${EXTRACTS_SPOOL_DIR}/ -type f -print0 | xargs -0 rm -f
 
 # garbage collection, 2 days
 extract-gc:
