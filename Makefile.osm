@@ -750,8 +750,8 @@ extract-distclean:
 # garbage collection, 2 days
 extract-gc:
 	cd ${EXTRACTS_SPOOL_DIR}; find incoming confirmed running download osm -type f -mtime +4 -print0 | xargs -0 rm -f
-	if test -e ${BBBIKE_PARTITION}/tmpfs; then \
-	    find ${BBBIKE_PARTITION}/tmpfs -type f -mtime +1 -print0 | xargs -0 rm -f; \
+	if test -e /tmpfs; then \
+	    find /tmpfs/ -type f -mtime +1 -print0 | xargs -0 rm -f; \
 	fi
 
 # garbage collection, 7 days, all files
@@ -893,8 +893,8 @@ deb-bootstrap-dir:
 	test -e /usr/local/bin/perl || sudo ln -fs /usr/bin/perl /usr/local/bin/perl
 	test -e /usr/lib/libgeos-3.2.2.so || sudo ln -fs /usr/lib/libgeos-3.2.0.so /usr/lib/libgeos-3.2.2.so
 	test -e /usr/local/bin/osmosis || sudo ln -sf ${DEB_OPT_DIR}/osmosis-0.40.1/bin/osmosis /usr/local/bin/osmosis
-	sudo mkdir -p /bbbike/tmp /bbbike/tmpfs
-	sudo chmod 7777 /bbbike/tmp /bbbike/tmpfs
+	sudo mkdir -p /bbbike/tmp /tmpfs
+	sudo chmod 7777 /bbbike/tmp /tmpfs
 	${MAKE} -s -C./ext all install >/dev/null 2>&1
 
 
