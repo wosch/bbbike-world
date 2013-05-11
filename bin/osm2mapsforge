@@ -76,8 +76,8 @@ esac
 test -z "$file" && usage
 
 # use RAM disk if available
-if [ -e /bbbike/tmpfs ]; then
-    _tmp=/bbbike/tmpfs
+if [ -e /tmpfs ]; then
+    _tmp=/tmpfs
 else
     _tmp=/bbbike/tmp
 fi
