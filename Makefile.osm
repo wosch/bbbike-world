@@ -869,7 +869,7 @@ deb-repo:
 
 deb-bootstrap debian-bootstrap: deb-bootstrap-rsync deb-bootstrap-dir 
 bbbike-bootstrap:  update-files debian-bootstrap install-backend-lighttpd
-	sudo ${MAKE} -f Makefile.osm extract-bbbike-org-install bbbike-cache-install
+	sudo ${MAKE} -s -f Makefile.osm extract-bbbike-org-install bbbike-cache-install
 	@echo ""
 	@echo "You may also run: make staging"
 	
