@@ -102,6 +102,9 @@ sub get_extract_from_file {
     $args->{'format'} =~ s/^osm\.(navit.zip|shp.zip|obf.zip)/$1/;
 
     my $coords = $obj->{'coords'};
+    
+    # backward compatible
+    $coords = [] if ref $coords ne 'ARRAY';
 
     if (   !defined $coords
         || $coords eq ""
