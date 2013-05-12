@@ -105,8 +105,8 @@ fi
 
 size=$(du -ks -L "$file" | awk '{ print $1}')
 case $compress in
-    garmin | navit | shape ) if [ $size -gt $max_file_size_garmin ]; then usage "file size to big: $size > $max_file_size_garmin"; fi ;;
-    osmand ) if [ $size -gt $max_file_size_osmand ]; then usage "file size to big: $size > $max_file_size_osmand"; fi ;;
+    garmin | navit | shape ) if [ $size -gt $max_file_size_garmin ]; then usage "file '$file' size to big: $size > $max_file_size_garmin"; fi ;;
+    osmand ) if [ $size -gt $max_file_size_osmand ]; then usage "file '$file' size to big: $size > $max_file_size_osmand"; fi ;;
     * ) ;;
 esac
 
