@@ -83,6 +83,8 @@ else
 fi
 : ${TMPDIR=$_tmp}
 
+OSMOSIS_TMPDIR="-Djava.io.tmpdir=$_tmp"; export OSMOSIS_TMPDIR
+
 tmpdir=`mktemp -d ${TMPDIR}/mapsforge.$(basename $ext .zip).XXXXXXXXXXX`
 
 mapsforge=`basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
