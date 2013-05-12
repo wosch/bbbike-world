@@ -33,7 +33,7 @@ case $1 in
   -bzip2 | --bzip2 ) shift; compress=bzip2 ;;
 
   # multi-core
-  --pbzip2 ) shift; compress=pbzip2; _max_cpu_time=21600 ;;
+  --pbzip2 ) shift; compress=pbzip2; _max_cpu_time=36000 ;;
   --pgzip | --pigz ) shift; compress=pgzip; _max_cpu_time=10800 ;;
 
   -o5m | --o5m ) shift; compress=o5m ;;
