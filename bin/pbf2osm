@@ -19,9 +19,7 @@ osm2o5m=osmconvert
 # max. file size in KB
 : ${max_file_size_garmin=2950000}
 : ${max_file_size_osmand=600000}
-: ${max_cpu_time=7200}
-
-ulimit -t $max_cpu_time
+_max_cpu_time=7200
 
 xz=`which xz | head -n 1`
 xz_opt=-2
@@ -35,14 +33,14 @@ case $1 in
   -bzip2 | --bzip2 ) shift; compress=bzip2 ;;
 
   # multi-core
-  --pbzip2 ) shift; compress=pbzip2 ;;
-  --pgzip | --pigz ) shift; compress=pgzip ;;
+  --pbzip2 ) shift; compress=pbzip2; _max_cpu_time=21600 ;;
+  --pgzip | --pigz ) shift; compress=pgzip; _max_cpu_time=10800 ;;
 
   -o5m | --o5m ) shift; compress=o5m ;;
   -o5m-gzip | --o5m-gzip ) shift; compress=o5m-gzip ;;
   -o5m-bzip2 | --o5m-bzip2 ) shift; compress=o5m-bzip2 ;;
 
-  -xz | --xz )       shift; compress=xz ;;
+  -xz | --xz )       shift; compress=xz; _max_cpu_time=10800 ;;
   -shape | --shape | -shp | --shp | --shapefile ) shift; compress=shape ;;
   -osmand | --osmand | -obf | --obf ) shift; compress=osmand ;;
   -navit | --navit ) shift; compress=navit ;;
@@ -55,6 +53,9 @@ case $1 in
   
   -mapsforge-osm | --mapsforge-osm ) shift; compress=mapsforge; mapsforge_style=osm ;;
 esac
+
+: ${max_cpu_time="$_max_cpu_time"}
+ulimit -t $max_cpu_time
 
 file=$1
 city="$2"
