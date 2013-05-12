@@ -51,7 +51,7 @@ case $1 in
   -garmin-cycle | --garmin-cycle ) shift; compress=garmin; garmin_style=cycle ;;
   -garmin-leisure | --garmin-leisure ) shift; compress=garmin; garmin_style=leisure ;;
   -garmin-bbbike | --garmin-bbbike ) shift; compress=garmin; garmin_style=bbbike ;;
-  
+
   -mapsforge-osm | --mapsforge-osm ) shift; compress=mapsforge; mapsforge_style=osm ;;
 esac
 
@@ -84,16 +84,16 @@ case $compressionMethod in
 esac
 
 args=""
-for f 
+for f
 do
    ff=`echo $f | sed "s/\.pbf$/$ext.tmp/"`
    args="$args --read-pbf $f --write-xml $ff compressionMethod=$compressionMethod"
 done
 
 
-if osmosis $global_opt $args 
+if osmosis $global_opt $args
 then
-    for f 
+    for f
     do
         ff=`echo $f | sed "s/\.pbf$/$ext/"`
         mv -f $ff.tmp $ff
@@ -102,22 +102,22 @@ then
 else
     echo "File $@ failed"
     exit 2
-fi 
+fi
 }
 
 size=$(du -ks -L "$file" | awk '{ print $1}')
 case $compress in
-    garmin | navit | shape ) 
-	if [ $size -gt $max_file_size_garmin ]; then 
+    garmin | navit | shape )
+	if [ $size -gt $max_file_size_garmin ]; then
 	  usage "file '$file' size to big: $size > $max_file_size_garmin"
 	fi
 	;;
-    osmand ) 
+    osmand )
 	if [ $size -gt $max_file_size_osmand ]; then
 	  usage "file '$file' size to big: $size > $max_file_size_osmand"
 	fi
 	;;
-    mapsforge ) 
+    mapsforge )
 	if [ $size -gt $max_file_size_mapsforge ]; then
 	  usage "file '$file' size to big: $size > $max_file_size_mapsforge"
 	fi
@@ -126,7 +126,7 @@ case $compress in
 esac
 
 if [ "$compress" = "" ]; then
-    osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout 
+    osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout
 else
     f=`basename $file .pbf`
     dir=`dirname $file`
@@ -139,7 +139,7 @@ else
 
         o5m ) $osm2o5m "$file" --out-o5m ;;
         o5m-gzip ) $osm2o5m "$file" --out-o5m | $gzip > $dir/$f.o5m.gz.tmp; mv -f $dir/$f.o5m.gz.tmp $dir/$f.o5m.gz ;;
-        o5m-bzip2 ) $osm2o5m "$file" --out-o5m | $bzip2 > $dir/$f.o5m.bz2.tmp; mv -f $dir/$f.o5m.bz2.tmp $dir/$f.o5m.bz2 ;; 
+        o5m-bzip2 ) $osm2o5m "$file" --out-o5m | $bzip2 > $dir/$f.o5m.bz2.tmp; mv -f $dir/$f.o5m.bz2.tmp $dir/$f.o5m.bz2 ;;
 
 	xz ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $xz $xz_opt > $dir/$f.tmp; mv -f $dir/$f.tmp $dir/$f.xz ;;
 	garmin ) $osm2garmin "$file" "$garmin_style" "$city" ;;
