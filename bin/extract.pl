@@ -745,6 +745,7 @@ sub reorder_pbf {
         'garmin-osm.zip'     => 3,
         'garmin-cycle.zip'   => 3,
         'garmin-leisure.zip' => 3.5,
+        'garmin-bbbike.zip'  => 3,
         'o5m.gz'             => 1.1,
         'o5m.bz2'            => 1.2,
     );
