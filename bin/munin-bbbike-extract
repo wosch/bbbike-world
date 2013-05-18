@@ -37,7 +37,7 @@ my $type = 'extract';
 my $config = {
     'tilesize' => [
         qw/osm.pbf shp.zip garmin-osm.zip osm.xz osm.gz obf.zip
-          garmin-cycle.zip osm.bz2 garmin-leisure.zip navit.zip/
+          garmin-cycle.zip osm.bz2 garmin-leisure.zip garmin-bbbike.zip navit.zip/
     ]
 };
 
