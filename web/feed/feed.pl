@@ -50,12 +50,12 @@ my $feed = XML::Atom::SimpleFeed->new(
 
 $feed->add_entry(
     title =>
-qq{GPSies blog article (German): Easy way to generate maps für Garmin GPS and Android Locus app <a href="http://blog.gpsies.com/article/187/karten-aus-openstreetmap-fuer-garmin-outdoor-gps-erstellen">http://blog.gpsies.com/article/187/karten-aus-openstreetmap-fuer-garmin-outdoor-gps-erstellen</a>},
+qq{GPSies blog article (German): Easy way to generate maps for Garmin GPS and Android Locus app <a href="http://blog.gpsies.com/article/187/karten-aus-openstreetmap-fuer-garmin-outdoor-gps-erstellen">http://blog.gpsies.com/article/187/karten-aus-openstreetmap-fuer-garmin-outdoor-gps-erstellen</a>},
     id      => 'd6f59d1bb8315958eb25b197de28d24d',
     content => {
         type => 'html',
         content =>
-qq{GPSies blog article (German): Easy way to generate maps für Garmin GPS and Android Locus app <a href="http://blog.gpsies.com/article/187/karten-aus-openstreetmap-fuer-garmin-outdoor-gps-erstellen">http://blog.gpsies.com/article/187/karten-aus-openstreetmap-fuer-garmin-outdoor-gps-erstellen</a>},
+qq{GPSies blog article (German): Easy way to generate maps for Garmin GPS and Android Locus app <a href="http://blog.gpsies.com/article/187/karten-aus-openstreetmap-fuer-garmin-outdoor-gps-erstellen">http://blog.gpsies.com/article/187/karten-aus-openstreetmap-fuer-garmin-outdoor-gps-erstellen</a>},
     },
     updated  => '2013-05-15T13:30:02Z',
     category => 'News',
