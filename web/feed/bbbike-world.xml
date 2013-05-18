@@ -13,6 +13,15 @@
   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af7</id>
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/" version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title type="html">GPSies blog article (German): Easy way to generate maps f&#195;&#188;r Garmin GPS and Android Locus app &lt;a
+    href="http://blog.gpsies.com/article/187/karten-aus-openstreetmap-fuer-garmin-outdoor-gps-erstellen"&gt;http://blog.gpsies.com/article/187/karten-aus-openstreetmap-fuer-garmin-outdoor-gps-erstellen&lt;/a&gt;</title>
+    <id>d6f59d1bb8315958eb25b197de28d24d</id>
+    <content type="html">GPSies blog article (German): Easy way to generate maps f&#195;&#188;r Garmin GPS and Android Locus app &lt;a
+    href="http://blog.gpsies.com/article/187/karten-aus-openstreetmap-fuer-garmin-outdoor-gps-erstellen"&gt;http://blog.gpsies.com/article/187/karten-aus-openstreetmap-fuer-garmin-outdoor-gps-erstellen&lt;/a&gt;</content>
+    <updated>2013-05-15T13:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title type="html">The new iPhone app for BBBike is available. It's free, try it &lt;a
     href="https://itunes.apple.com/de/app/bbybike-made-in-berlin-for/id639384862?l=en&amp;mt=8"&gt;out&lt;/a&gt;!</title>
     <id>d6f59d1bb8315958eb25b197de28d25d</id>
