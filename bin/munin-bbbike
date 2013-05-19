@@ -712,7 +712,7 @@ GetOptions(
     "logfile-api=s"          => \$logfile_api,
     "type=s"                 => \$type,
     "interval=i"             => \$interval,
-    "frontend-proxy"         => \$frontend_proxy,
+    "frontend-proxy=i"         => \$frontend_proxy,
     "ignore-localrequests=i" => \$ignore_localrequests,
     "reset=i"                => \$reset,
     "help"                   => \$help,
