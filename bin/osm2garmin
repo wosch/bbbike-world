@@ -138,7 +138,7 @@ mapid=${garmin_family_id}0001
 #else
 #fi
 echo ">>> Run splitter" > $logfile
-java $java_opt -jar $BBBIKE_OPT_DIR/splitter/splitter.jar --max-nodes=1000000 --mapid="$mapid" --output-dir=$split_dir $file >> $logfile 2>&1 || error
+(set -x; java $java_opt -jar $BBBIKE_OPT_DIR/splitter/splitter.jar --max-nodes=1000000 --mapid="$mapid" --output-dir=$split_dir $file ) >> $logfile 2>&1 || error
 
 date=$(date -u)
 date_short=$(date '+%b %Y')
