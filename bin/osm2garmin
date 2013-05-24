@@ -128,13 +128,16 @@ if [ ! -s $file ]; then
     : #error "file size is zero, give up!"
 fi
 
-if [ $size -lt 10000 ]; then
-   echo "PBF file size $size KB, run without splitter" > $logfile
-   ln -s $file $split_dir/63240001.osm.pbf
-else
-   echo ">>> Run splitter" > $logfile
-   java $java_opt -jar $BBBIKE_OPT_DIR/splitter/splitter.jar --max-nodes=1000000 --output-dir=$split_dir $file >> $logfile 2>&1 || error
-fi
+#mapid=63240001
+mapid=${garmin_family_id}0001
+      
+#if [ $size -lt 10000 ]; then
+#   echo "PBF file size $size KB, run without splitter" > $logfile
+#   ln -s $file $split_dir/63240001.osm.pbf
+#else
+#fi
+echo ">>> Run splitter" > $logfile
+java $java_opt -jar $BBBIKE_OPT_DIR/splitter/splitter.jar --max-nodes=1000000 --mapid="$mapid" --output-dir=$split_dir $file >> $logfile 2>&1 || error
 
 date=$(date -u)
 date_short=$(date '+%b %Y')
