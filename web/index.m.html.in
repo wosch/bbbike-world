@@ -69,7 +69,11 @@
           <hr />
 	  (&copy;) 1998-2013 <a href="http://CycleRoutePlanner.org">BBBike.org</a> by <a href="http://wolfram.schneider.org">Wolfram Schneider</a> &amp; <a href="http://www.rezic.de/eserte">Slaven Rezi&#x107;</a>  //
 	  Map data (&copy;) <a href="http://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
-	 <br/><a href="http://mc.bbbike.org/mc/">map compare</a> - <a href="http://extract.bbbike.org/">osm extract service</a>
+	  <br/>
+	  <a href="/help.html#iphone">iphone</a> -
+	  <a href="/help.html#android">android</a> -
+	  <a href="http://mc.bbbike.org/mc/">map compare</a> -
+	  <a href="http://extract.bbbike.org/">osm extract service</a>
 
 	<div id="footer_community">
 	  <a href="/community.html"><img class="logo" height="19" width="64" src="/images/donate.png" alt="Flattr this" title="Donate to bbbike.org" /></a>
