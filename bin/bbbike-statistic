@@ -47,7 +47,7 @@ log_post () {
     log_full "$match" | perl -npe 's,"(POST|GET) http://www.bbbike.org,"$1 ,'
 }
 
-#log "(http://www.bbbike.org|/)" | egrep -v '/streets.html" ' | awk '{print $11 }' | egrep -vi '\.google\.[a-z]|http://(www\.)?bbbike.org' | sort | uniq -c | sort -nr
+#log "(http://www.bbbike.org|/)" | egrep -v '/streets.html ' | awk '{print $11 }' | egrep -vi '\.google\.[a-z]|http://(www\.)?bbbike.org' | sort | uniq -c | sort -nr
 
 echo -n "bbbike.org page views: "
 log $url_match | awk '{print $1}' | wc -l
@@ -175,14 +175,14 @@ log "$url_match" |
 
 echo ""
 echo -n "bbbike references: "
-log "(http://www.bbbike.org|/ )" | egrep -v '/streets.html" ' | awk '{ print $11 }' | egrep -vi '\.google\.[a-z]|http://(www\.)?bbbike.org' | sort | uniq -c | sort -nr | wc -l
-log "(http://www.bbbike.org|/ )" | egrep -v '/streets.html" ' | awk '{ print $11 }' | egrep -v '\.google\.[a-z]|http://(www\.)?bbbike.org' | sort | uniq -c | sort -nr 
+log "(http://www.bbbike.org|/ )" | egrep -v '/streets.html ' | awk '{ print $11 }' | egrep -vi '\.google\.[a-z]|http://(www\.)?bbbike.org' | sort | uniq -c | sort -nr | wc -l
+log "(http://www.bbbike.org|/ )" | egrep -v '/streets.html ' | awk '{ print $11 }' | egrep -v '\.google\.[a-z]|http://(www\.)?bbbike.org' | sort | uniq -c | sort -nr 
 
 echo ""
 echo -n "google references: "
-log "$url_match.*" | egrep -v '/streets.html" ' | egrep -i '\.google\.' | wc -l
+log "$url_match.*" | egrep -v '/streets.html ' | egrep -i '\.google\.' | wc -l
 
-log "(/ |$url_match.*)" | egrep -v '/streets.html" ' | egrep -i '\.google\.' |
+log "(/ |$url_match.*)" | egrep -v '/streets.html ' | egrep -i '\.google\.' |
 	egrep -v '/streets.html" ' | awk '{ print $11 }' | 
 	perl $perl_utf8 -npe "s,.?http://(www\.)?bbbike.org$url_match\?.*\n,$1,g" |
 	sort | uniq -c | sort -nr |
