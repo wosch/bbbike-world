@@ -107,7 +107,7 @@ esac
 : ${MD5=`which md5 md5sum false | head -1`}
 garmin_family_id=$(basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//')
 garmin_family_id=$(echo $garmin_family_id $ext | $MD5 | perl -ne 's/[a-f]//g; print /^(\d{4})/ ? $1 : "4444"')
-mkgmap_opt="--keep-going --gmapsupp --family-id=$garmin_family_id --product-id=$garmin_product_id --remove-short-arcs --route --add-pois-to-areas --copyright-message="$copyright" --license-file=$license --index --make-all-cycleways"
+mkgmap_opt="--keep-going --family-id=$garmin_family_id --product-id=$garmin_product_id --remove-short-arcs --route --add-pois-to-areas --copyright-message="$copyright" --license-file=$license --index --make-all-cycleways"
 
 if [ -n "$mkgmap_map_type" ]; then
    test -e "$mkgmap_map_type" || usage "cannot find $mkgmap_map_type file"
@@ -171,8 +171,12 @@ fi
 
 echo ">>> Run mkgmap, map style: $mkgmap_map_style" >> $logfile
 ( set -x 
-java $java_opt -jar $BBBIKE_OPT_DIR/mkgmap/mkgmap.jar $max_jobs $mkgmap_opt $mkgmap_map \
+  java $java_opt -jar $BBBIKE_OPT_DIR/mkgmap/mkgmap.jar $max_jobs $mkgmap_opt $mkgmap_map \
     --mapname="$mapid" --description="$description" --family-name="BBBike.org style=$mkgmap_map_style $coords" $split_dir/*.pbf $mkgmap_map_type ) >> $logfile 2>&1  || error
+
+echo ">>> Run mkgmap, create gmapsupp file" >> $logfile
+( set -x
+  java $java_opt -jar $BBBIKE_OPT_DIR/mkgmap/mkgmap.jar --gmapsupp [0-9][0-9]*.img ) >> $logfile 2>&1  || error
 
 if egrep -ql '^java\.lang\.' $logfile; then
     error
@@ -181,9 +185,8 @@ fi
 rm -f $license
 rm -f map.TYP
 
-case $mkgmap_opt in
-  *--gmapsupp* ) rm -f osmmap.tdb osmmap.img [0-9][0-9]*.img ;;
-esac
+# gmapsupp.img cleanup
+rm -rf osmmap.tdb osmmap.img osmmap.mdx osmmap_mdr.img [0-9][0-9]*.img
 
 case $BBBIKE_EXTRACT_LANG in
   en ) ext2=$ext ;;
