@@ -169,14 +169,15 @@ if [ -n "$mkgmap_map_type" ]; then
    $set_typ $garmin_family_id $garmin_product_id $mkgmap_map_type >> $logfile 2>&1 
 fi
 
+# --mapname="$mapid" 
 echo ">>> Run mkgmap, map style: $mkgmap_map_style" >> $logfile
 ( set -x 
   java $java_opt -jar $BBBIKE_OPT_DIR/mkgmap/mkgmap.jar $max_jobs $mkgmap_opt $mkgmap_map \
-    --mapname="$mapid" --description="$description" --family-name="BBBike.org style=$mkgmap_map_style $coords" $split_dir/*.pbf $mkgmap_map_type ) >> $logfile 2>&1  || error
+    --gmapsupp --description="$description" --family-name="BBBike.org style=$mkgmap_map_style $coords" $split_dir/*.pbf $mkgmap_map_type ) >> $logfile 2>&1  || error
 
-echo ">>> Run mkgmap, create gmapsupp file" >> $logfile
-( set -x
-  java $java_opt -jar $BBBIKE_OPT_DIR/mkgmap/mkgmap.jar --gmapsupp [0-9][0-9]*.img ) >> $logfile 2>&1  || error
+#echo ">>> Run mkgmap, create gmapsupp file" >> $logfile
+#( set -x
+#  java $java_opt -jar $BBBIKE_OPT_DIR/mkgmap/mkgmap.jar --gmapsupp [0-9][0-9]*.img ) >> $logfile 2>&1  || error
 
 if egrep -ql '^java\.lang\.' $logfile; then
     error
