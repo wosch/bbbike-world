@@ -47,6 +47,8 @@ log_post () {
     log_full "$match" | perl -npe 's,"(POST|GET) http://www.bbbike.org,"$1 ,'
 }
 
+#log "(http://www.bbbike.org|/)" | egrep -v '/streets.html" ' | awk '{print $11 }' | egrep -vi '\.google\.[a-z]|http://(www\.)?bbbike.org' | sort | uniq -c | sort -nr
+
 echo -n "bbbike.org page views: "
 log $url_match | awk '{print $1}' | wc -l
 
@@ -172,24 +174,19 @@ log "$url_match" |
 	sort | uniq -c | sort -nr | head -40 | $dns
 
 echo ""
+echo -n "bbbike references: "
+log "(http://www.bbbike.org|/ )" | egrep -v '/streets.html" ' | awk '{ print $11 }' | egrep -vi '\.google\.[a-z]|http://(www\.)?bbbike.org' | sort | uniq -c | sort -nr | wc -l
+log "(http://www.bbbike.org|/ )" | egrep -v '/streets.html" ' | awk '{ print $11 }' | egrep -v '\.google\.[a-z]|http://(www\.)?bbbike.org' | sort | uniq -c | sort -nr 
 
 echo ""
-echo -n "bbbike references: "
-log "(/ |$url_match.*) HTTP" |
-	egrep -v 'GET \S*/[^ ]+/streets.html' |
-	egrep -v 'Purebot|Java/1|SnapPreviewBot|Tcl http client package|http://www.bbbike.org' |
-	awk '{print $11}' | perl $perl_utf8 -npe "s,.?http://www.bbbike.org$url_match\?.*\n,$1,g" | sort -u | wc -l
-
 echo -n "google references: "
-log "$url_match.*" | egrep -v 'GET \S*/[^ ]+/streets.html' | egrep -i 'google.*fahrrad' | wc -l
+log "$url_match.*" | egrep -v '/streets.html" ' | egrep -i '\.google\.' | wc -l
 
-log "(/ |$url_match.*)" |
-	egrep -v 'GET \S*/[^ ]+/streets.html' | egrep -iv 'google.*fahrrad' |
-	egrep -v 'Purebot|Java/1|SnapPreviewBot|Tcl http client package|"http://www.bbbike.org|"http://www\.google' |
-	awk '{print $11}' | perl $perl_utf8 -npe "s,.?http://www.bbbike.org$url_match\?.*\n,$1,g" |
+log "(/ |$url_match.*)" | egrep -v '/streets.html" ' | egrep -i '\.google\.' |
+	egrep -v '/streets.html" ' | awk '{ print $11 }' | 
+	perl $perl_utf8 -npe "s,.?http://(www\.)?bbbike.org$url_match\?.*\n,$1,g" |
 	sort | uniq -c | sort -nr |
 	perl $perl_utf8 -MCGI -npe '$_ = CGI::unescape($_)'
-
 
 echo ""
 echo -n "bbbike cities: "
