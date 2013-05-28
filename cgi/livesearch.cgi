@@ -145,7 +145,7 @@ sub extract_route {
 
     warn "extract route: file: $file, max: $max, date: $date\n" if $debug;
 
-    my $host = $devel ? '(dev|devel|www)' : 'www';
+    my $host = $devel ? '(dev|devel|www)' : '(www|api)';
 
     # read more data then requested, expect some duplicated URLs
     my $duplication_factor = 1.5;
