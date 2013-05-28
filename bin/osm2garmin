@@ -55,9 +55,12 @@ elif [ $size -gt 100000 ]; then
    java_heap=4G
 fi
 
-splitter_resolution=13
-if [ $size -lt 2000 ]; then
+if [ $size -lt 100 ]; then
+  splitter_resolution=24
+elif [ $size -lt 2000 ]; then
   splitter_resolution=16
+else
+  splitter_resolution=13
 fi
 
 #case $ext in *leisure* ) java_heap=3500M ;; esac
