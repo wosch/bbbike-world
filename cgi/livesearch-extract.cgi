@@ -341,6 +341,7 @@ qq|$o->{"sw_lng"},$o->{"sw_lat"}!$o->{"ne_lng"},$o->{"ne_lat"},$o->{"format"}|;
     );
 
     my $summary = "unique total: " . scalar(@cities);
+
     #if ( scalar(@cities) < $counter_total && $counter_total < $max ) {}
     $summary .= "<br/>total: $counter_total";
 
