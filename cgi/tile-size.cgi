@@ -137,7 +137,7 @@ my $size =
   $factor_format *
   $tile->area_size( $lng_sw, $lat_sw, $lng_ne, $lat_ne,
     TileSize::FRACTAL_REAL );
-$size = int( $size * 10 + 0.5 ) / 10;
+$size = int( $size * 1000 + 0.5 ) / 1000;
 
 warn "size: $size, factor $factor, format: $format, ",
   "area: $lng_sw,$lat_sw,$lng_ne,$lat_ne\n"
