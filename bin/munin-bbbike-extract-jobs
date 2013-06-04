@@ -34,6 +34,8 @@ if you need to override the defaults below:
    env.jobs_critical - [...]
    env.proc_warnings - [...]
    env.proc_critical - [...]
+   env.waiting_warnings - [...]
+   env.waiting_critical - [...]
 
 =cut
 
@@ -50,6 +52,8 @@ if [ "$1" = "config" ]; then
     : ${jobs_critical=20}
     : ${proc_warning=4}
     : ${proc_critical=6}
+    : ${waiting_warning=16}
+    : ${waiting_critical=32}
      
     cat <<EOF
 graph_title Extracts queue
@@ -61,12 +65,16 @@ jobs.label Running jobs
 jobs.min 0
 proc.label Running proc
 proc.min 0
+waiting.label Waiting jobs
+waiting.min 0
 EOF
 
 echo "jobs.warning $jobs_warning"
 echo "jobs.critical $jobs_critical"
 echo "proc.warning $proc_warning"
 echo "proc.critical $proc_critical"
+echo "waiting.warning $waiting_warning"
+echo "waiting.critical $waiting_critical"
 
     exit 0
 fi
@@ -83,4 +91,6 @@ for i in *.pid; do
   fi
 done
 echo "proc.value $count"
+
+echo "waiting.value" $(ls $extract_dir/confirmed/*json 2>/dev/null | wc -l) 
 
