@@ -259,7 +259,7 @@ sub statistic {
 
     city = "dummy";
     bbbike_maps_init("mapnik_bw", [[30, 30],[59, -10]], "en", true, "eu" );
-  
+
     function jumpToCity (coord) {
 	var b = coord.split("!");
 
@@ -274,7 +274,7 @@ sub statistic {
 
         // no zoom level higher than 15
          map.setZoom( zoom < 16 ? zoom + 0 : 16);
-    } 
+    }
 
     //]]>
     </script>
@@ -341,9 +341,8 @@ qq|$o->{"sw_lng"},$o->{"sw_lat"}!$o->{"ne_lng"},$o->{"ne_lat"},$o->{"format"}|;
     );
 
     my $summary = "unique total: " . scalar(@cities);
-    if ( scalar(@cities) < $counter_total && $counter_total < $max ) {
-        $summary .= "<br/>total: $counter_total";
-    }
+    #if ( scalar(@cities) < $counter_total && $counter_total < $max ) {}
+    $summary .= "<br/>total: $counter_total";
 
     $summary .= join "<br/>", "", "", map { "$_ ($format{$_})" }
       reverse sort { $format{$a} <=> $format{$b} } keys %format;
@@ -376,4 +375,3 @@ qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\
 #
 
 &statistic($q);
-
