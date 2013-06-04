@@ -134,7 +134,7 @@ sub square_km {
     my $width  = GIS::Distance::Lite::distance( $x1, $y1 => $x2, $y1 ) / 1000;
 
     warn "height: $height, width: $width, $x1,$y1 => $x2,$y2\n" if $debug >= 3;
-    return int( $height * $width );
+    return ( $height * $width );
 }
 
 sub total {
