@@ -947,6 +947,7 @@ test-org:
 
 lighttpd-restart: test-org
 	-killall lighttpd
+	sleep 0.5
 	$$(pwd)/world/bin/lighttpd-start &
 
 test prove: lighttpd-restart
