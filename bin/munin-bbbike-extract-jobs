@@ -92,5 +92,5 @@ for i in *.pid; do
 done
 echo "proc.value $count"
 
-echo "waiting.value" $(ls $extract_dir/confirmed/*json 2>/dev/null | wc -l) 
+echo "waiting.value" $(ls $extract_dir/../confirmed/*json 2>/dev/null | wc -l) 
 
