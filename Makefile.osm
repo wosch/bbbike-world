@@ -12,6 +12,7 @@ NICE=		nice -n 10
 NICE5=		nice -n 9
 PERL=		perl
 GIT_ID=		$(shell git show | head -n1 | awk '{ print $$2 }')
+TMP_DIR=	/tmp/bbbike-$(shell logname)
 OSM2BBD_MAPTYPE=	#-map bbbike	
 OSM_SOCKS_PROXY=	--socksproxy=socks://localhost:1080
 OSM_TIMEOUT=	--timeout=45
@@ -948,12 +949,11 @@ test-org:
 lighttpd-restart: test-org
 	-killall lighttpd
 	sleep 0.9
-	$$(pwd)/world/bin/lighttpd-start &
+	TMPDIR=${TMP_DIR} $$(pwd)/world/bin/lighttpd-start &
 
 test prove: lighttpd-restart
-	rm -rf /tmp/bbbike* 2>/dev/null || true
 	perl -c cgi/bbbike.cgi
-	LANG=C time prove -j${MAX_CPU}
+	TMPDIR=${TMP_DIR} LANG=C time prove -j${MAX_CPU}
 
 help:
 	@echo "bbbike version: ${GIT_ID}"
