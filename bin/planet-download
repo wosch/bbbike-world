@@ -12,6 +12,7 @@ fi
 
 : ${MD5=`which md5 md5sum false | head -1`}
 : ${SHA="shasum -a 256"}
+: ${bzip2=`which pbzip2 bzip2 | head -n 1`}
 
 nice="nice -n 9"
 
@@ -33,7 +34,7 @@ cd $dir
 # get md5 checksum first
 curl -sSf -o $file.md5 $planet_osm_server/$file.md5
 
-time curl -L -sSf $planet_osm_server/$file | tee $file | $nice bzip2 -dc | buffer | \
+time curl -L -sSf $planet_osm_server/$file | tee $file | $nice $bzip2 -dc | buffer | \
   $nice time osmosis  --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --write-pbf $file_bpf omitmetadata=true granularity=10000
 
 cat $file.md5
