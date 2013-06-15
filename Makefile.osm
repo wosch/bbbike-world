@@ -950,10 +950,12 @@ test-org:
 lighttpd-restart: test-org
 	-killall lighttpd
 	sleep 0.9
+	mkdir -p ${TMP_DIR}
 	TMPDIR=${TMP_DIR} $$(pwd)/world/bin/lighttpd-start &
 
 test prove: lighttpd-restart
 	perl -c cgi/bbbike.cgi
+	mkdir -p ${TMP_DIR}
 	TMPDIR=${TMP_DIR} LANG=C time prove -j${MAX_CPU}
 
 help:
