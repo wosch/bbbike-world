@@ -1,0 +1,36 @@
+#!/bin/sh
+# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+#
+# openlayers-checkout - checkout openlayers from github
+
+set -e
+git="nice -5 git"
+git_clone_opt="-q"
+
+git_config () {
+    git config user.name "Wolfram Schneider"
+    git config user.email wosch@freebsd.org
+    git config push.default current
+}
+
+######################################################################
+# main git checkout
+#
+
+# original github repo
+git clone $git_clone_opt git@github.com:wolframschneider/openlayers
+
+cd openlayers
+git_config
+
+# add remote master from openalyers
+git remote add openlayers git://github.com/openlayers/openlayers
+git fetch openlayers
+
+######################################################################
+# post configuration
+#
+echo ""
+echo "show branch: "
+git branch
+
