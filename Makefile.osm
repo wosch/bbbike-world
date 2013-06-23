@@ -90,9 +90,9 @@ TILES_DIR=	tile
 #
 # opensearch suggestion service for
 # the world:
-# 
+#
 OSM_AREAS_OPENSEARCH=data-opensearch-places
-OSM_PLANET=	../osm/download/planet-latest.osm.bz2 
+OSM_PLANET=	../osm/download/planet-latest.osm.bz2
 OSM_PLANET_PBF=	../osm/download/planet-latest.osm.pbf
 #OSM_PLANET_PBF=	../osm/download/geofabrik/europe/germany/brandenburg.osm.pbf
 
@@ -113,7 +113,7 @@ OSM_AREAS2= \
 	../osm/download/geofabrik/europe/germany/bayern.osm.pbf \
 	../osm/download/geofabrik/europe/germany/berlin.osm.pbf \
 	../osm/download/geofabrik/europe/germany/brandenburg.osm.pbf \
-	../osm/download/geofabrik/europe/germany/bremen.osm.pbf 
+	../osm/download/geofabrik/europe/germany/bremen.osm.pbf
 
 OSM_AREAS3= \
 	${OSM_AREAS_LARGE} \
@@ -188,7 +188,7 @@ _cities-pbf: poly
 	test "$$NO_PBF2PBF" = "true" || ${MAKE} -f Makefile.osm CITIES="${CITIES}" _pbf2pbf
 
 cities-pbf cities: _cities-pbf
-	${MAKE} -f Makefile.osm _pbf2pbf-checksum 
+	${MAKE} -f Makefile.osm _pbf2pbf-checksum
 	${MAKE} -f Makefile.osm pbf2osm
 
 cities-osm: _cities-osm
@@ -206,30 +206,30 @@ fetch-extracts fetch:
 	   fi; \
 	done; wait
 
-osm2pbf: 
+osm2pbf:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2PBF} ${OSM2PBF}
 
-pbf2osm: 
+pbf2osm:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 8 -0 -P2 ${PBF2OSM} --gzip
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${OSM_CHECKSUM}
 
-_pbf2pbf: 
+_pbf2pbf:
 	if [ "$$OSM_DIR_NOSUBDIR" = "true" ]; then \
 	  echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_.osm.pbf\0, ' | ${XARGS} -n32 -0 -P${MAX_PBF2OSM} ${PBF2PBF}; \
 	else \
 	  echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n1 -0 -P${MAX_PBF2OSM} ${PBF2PBF}; \
 	fi
 
-_pbf2pbf-checksum: 
+_pbf2pbf-checksum:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${OSM_CHECKSUM}
 
-osm2garmin: osm2garmin-osm osm2garmin-cycle osm2garmin-leisure osm2garmin-bbbike check-zip 
+osm2garmin: osm2garmin-osm osm2garmin-cycle osm2garmin-leisure osm2garmin-bbbike check-zip
 
 osm2garmin-osm:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
 
 osm2garmin-cycle:
-	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env ext=garmin-cycle.zip ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN} 
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env ext=garmin-cycle.zip ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
 osm2garmin-leisure:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env ext=garmin-leisure.zip ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
 osm2garmin-bbbike:
@@ -344,9 +344,9 @@ check-data-osm:
 
 check-routing:
 	echo ${CITIES} | ${XARGS} -E " " -n8 -P1 ./world/bin/routing-validate.pl --number=1 | \
-	  ${XARGS} -0 -n1 -P${MAX_CPU} sh -c 
+	  ${XARGS} -0 -n1 -P${MAX_CPU} sh -c
 	echo ${CITIES} | ${XARGS} -E " " -n8 -P1 ./world/bin/routing-validate.pl --number=50 | \
-	  ${XARGS} -0 -n1 -P${MAX_CPU} sh -c 
+	  ${XARGS} -0 -n1 -P${MAX_CPU} sh -c
 
 check-routing-fast:
 	@echo ${CITIES} | ${XARGS} -E " " -n1 -P${MAX_CPU} ./world/bin/routing-validate.pl --number=1 | \
@@ -493,8 +493,8 @@ bbbike-org-t:
 	cd world/web; ln -fs ../../data
 	cd cgi; ln -fs bbbike.cgi bbbike-test.cgi
 
-TAGCLOUD=	world/bin/tagcloud 
-MOBILE_LINKS=	world/bin/mobile-links 
+TAGCLOUD=	world/bin/tagcloud
+MOBILE_LINKS=	world/bin/mobile-links
 INDEX_UPDATE=	world/bin/index-update ${TMP}
 
 tagcloud index:
@@ -595,9 +595,9 @@ rotate-data-osm:
 rotate-osm:
 	${RM_BG} ${OSM_DIR}.old2
 	-test -e ${OSM_DIR}.old  && mv ${OSM_DIR}.old  ${OSM_DIR}.old2
-	-test -e ${OSM_DIR}      && mv ${OSM_DIR}      ${OSM_DIR}.old 
+	-test -e ${OSM_DIR}      && mv ${OSM_DIR}      ${OSM_DIR}.old
 
-update-database: build-runtime 
+update-database: build-runtime
 	@${MAKE} -s -f Makefile.osm opensearch-bbbike
 	${TIME} ./world/bin/update-database
 
@@ -673,12 +673,12 @@ elevation-update:
 	echo ${CITIES} | ${XARGS} -E " " -n500 -P${MAX_ELEVATION_SCRIPTS} ${ELEVATION_SCRIPT} --readonly-database --database=../osm/srtm/elevation.db --debug=0
 
 # re-build cache
-_cache-heater: cache-gc cache-heater-streets cache-heater-common 
+_cache-heater: cache-gc cache-heater-streets cache-heater-common
 cache-heater: _cache-heater
 #cache-heater:
 #	date
 
-cache-heater-common: 
+cache-heater-common:
 	@echo "cache usage before"
 	du -hs ${BBBIKE_CACHE_DIR}/
 	if `ls ${BBBIKE_CACHE_DIR}/* 2>/dev/null`; then du -hs ${BBBIKE_CACHE_DIR}/*; fi
@@ -760,7 +760,7 @@ extract-gc:
 extract-gc7:
 	find ${EXTRACTS_SPOOL_DIR} -type f -mtime +14  -print0 | xargs -0 rm -f
 	
-staging: 
+staging:
 	${MAKE} -f Makefile.osm -s perlcheck 2>/dev/null
 	git push
 	cd /usr/local/www/bbbike.org/; git diff; git pull; ${MAKE} -s update-files; git diff
@@ -829,7 +829,7 @@ tile-rsync:
 	rsync -av ${TILES_DIR}/lnglat/ ${BBBIKE_WEBSERVER_DOWNLOAD_DIR}/osm/planet/${TILES_DIR}/lnglat/
 
 # for errors look in ./tile/tmp
-tile: tile-extract tile-convert tile-checksum tile-csv 
+tile: tile-extract tile-convert tile-checksum tile-csv
 
 ##############################################################################################
 # debian package rules
@@ -869,7 +869,7 @@ deb-repo:
  	   reprepro -Vb . includedeb squeeze $$i; \
 	done
 
-deb-bootstrap debian-bootstrap: deb-bootstrap-rsync deb-bootstrap-dir 
+deb-bootstrap debian-bootstrap: deb-bootstrap-rsync deb-bootstrap-dir
 bbbike-bootstrap:  update-files debian-bootstrap install-backend-lighttpd
 	sudo ${MAKE} -s -f Makefile.osm extract-bbbike-org-install bbbike-cache-install
 	@echo ""
@@ -877,7 +877,7 @@ bbbike-bootstrap:  update-files debian-bootstrap install-backend-lighttpd
 	
 install-backend-lighttpd:
 	${MAKE} -C./world/etc install-backend-lighttpd
- 
+
 # sync config files
 deb-bootstrap-rsync:
 	rsync -az ${BBBIKE_WEB_SERVER}:.openstreetmap $$HOME
