@@ -35,7 +35,7 @@ fi
 # original github repo
 #git clone $git_clone_opt git@github.com:wolframschneider/bbbike.git
 # local cache repo
-if $fast_checkout; then
+if $bbbike_fast_checkout; then
     git clone $git_clone_opt $HOME/projects/bbbike
     ( cd bbbike && git remote add bbbike ssh://git.bbbike.org/home/git/bbbike )
 else
