@@ -10,10 +10,19 @@ PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 
 disk=/bbbike
 failed=/var/cache/extract/failed
+failed2=/var/cache/extract/failed2
+: ${rename=true}
 
 df -h $disk |tail -1 | perl -npe 's/%//' | awk '{if ($5 > 85) { print }}'
 
 if [ $(ls $failed | wc -l) -gt 0 ]; then
     du -k $failed
+    if $rename; then
+	if [ -d $failed2 ]; then
+	    echo ""
+	    echo "cleanup to $failed2"
+	    mv -f $failed/* $failed2
+	fi
+    fi
 fi
 
