@@ -8,6 +8,7 @@ make_verbose=-s
 git="nice -5 git"
 git_clone_opt="-q"
 : ${bbbike_macos=false}
+: ${bbbike_fast_checkout=false}
 
 
 if [ ! -x /usr/local/bin/perl ]; then
@@ -34,7 +35,12 @@ fi
 # original github repo
 #git clone $git_clone_opt git@github.com:wolframschneider/bbbike.git
 # local cache repo
-git clone $git_clone_opt ssh://git.bbbike.org/home/git/bbbike
+if $fast_checkout; then
+    git clone $git_clone_opt $HOME/projects/bbbike
+    ( cd bbbike && git remote add bbbike ssh://git.bbbike.org/home/git/bbbike )
+else
+    git clone $git_clone_opt ssh://git.bbbike.org/home/git/bbbike
+fi
 
 ( cd bbbike && git_config )
 if $bbbike_macos; then

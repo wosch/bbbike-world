@@ -29,6 +29,11 @@ error () {
    exit 2
 }
 
+export bbbike_fast_checkout=true 
+if $bbbike_fast_checkout; then
+   git_repo=bbbike
+fi
+
 bbbike-checkout >&2 || error "checkout failed: $dir"
 cd bbbike
 
@@ -50,7 +55,7 @@ if $verbose; then
     fi
     echo "please run:"
     echo "( cd $dir/bbbike; make lighttpd-restart test )"
-    echo "( cd $dir/bbbike; git push )"
+    echo "( cd $dir/bbbike; git push $git_repo )"
     echo "rm -rf $dir"
 else
     rm -rf $dir
