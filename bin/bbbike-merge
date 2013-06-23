@@ -6,11 +6,13 @@
 set -e
 : ${verbose=true}
 : ${debug=false}
+: ${bbbike_fast_checkout=true}
 
 dir=`dirname $0`
 PATH=$PATH:$dir; export PATH 
 
 command="$@"
+export bbbike_fast_checkout
 
 if [ -d /tmpfs ]; then
    TMPDIR=/tmpfs; export TMPDIR
@@ -29,7 +31,6 @@ error () {
    exit 2
 }
 
-export bbbike_fast_checkout=true 
 if $bbbike_fast_checkout; then
    git_repo=bbbike
 fi
