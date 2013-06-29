@@ -25,6 +25,10 @@ deb-repo:
 	  reprepro -Vb . removematched squeeze 	${LIB}-misc; \
 	  reprepro -Vb . includedeb squeeze 	$$pwd/${LIB}*.deb
 
+deb-bin:
+	${MAKE} LIB=bbbike-world-bin distclean build deb-repo
+	${MAKE} LIB=bbbike-world-javalibs distclean build deb-repo
+
 help:
 	@echo ""
 	@echo "  make [ clean | distclean | build | deb-repo ]"
