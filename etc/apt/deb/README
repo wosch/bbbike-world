@@ -1,3 +1,7 @@
+Make debian package the traditional way. See `make help`' 
+for more informations.
+
+
 To change the version of a deb package, please edit the file
 
   bbbike-world-bin/debian/changelog
