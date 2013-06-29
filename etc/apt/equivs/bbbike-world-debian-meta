@@ -35,7 +35,7 @@ Depends: pbzip2, bzip2, xz-utils, git-core, screen, lynx, curl, wget, time,
  libdb-file-lock-perl, libgeo-metar-perl, libstring-approx-perl,
  libdbd-xbase-perl, libdevel-leak-perl, libfile-readbackwards-perl,
  libhtml-treebuilder-xpath-perl, libxml2-utils, libgdal-perl,
- libgdal-perl, libtext-csv-xs-perl, libcapture-tiny-perl, pmake, 
+ libgdal-perl, libtext-csv-xs-perl, libcapture-tiny-perl, freebsd-buildutils, 
  dh-make-perl, ntp, munin, dpkg-sig, reprepro,lighttpd, equivs,
  build-essential, devscripts, debhelper, dh-make, libyaml-libyaml-perl,
  google-sitemapgen
