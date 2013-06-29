@@ -818,6 +818,13 @@ tile-csv:
 	done
 	ls -l ${TILES_DIR}/etc/tile-*.csv
 
+tile-aws-s3:
+	cd ${TILES_DIR}/etc; \
+	  for i in tile-*.csv; do \
+	    s3put bbbike/tile/ $$i; \
+	    echo "wget http://s3.amazonaws.com/bbbike/tile/$$i"; \
+	  done
+
 tile-checksum:
 	cd ${_pbf_dir}; pwd=`pwd`; \
 	for i in *; do \
@@ -1001,7 +1008,7 @@ help:
 	@echo "  [ staging | extract-bbbike-org-install | extract-distclean ]"
 	@echo "  [ extract-gc | extract-gc7 | extract-gc-osm ]"
 	@echo "  [ tile | tile-extract | tile-convert | tile-csv | tile-checksum ]"
-	@echo "  [ tile-distclean | tile-rsync ]"
+	@echo "  [ tile-distclean | tile-rsync | tile-aws-s3 ]"
 	@echo "  [ test-org | lighttpd-restart | test ]"
 	@echo "  [ deb-clean | deb-perl | deb-equivs | deb-bin | deb-repo ]"
 	@echo "  [ debian-bootstrap | bbbike-bootstrap ]"
