@@ -18,8 +18,6 @@ sources.list.d		list of files to store in /etc/apt/sources.list.d/
 to build or update a debian package, see the targets in bbbike/Makefile.osm
 
 make deb-clean 
-make deb-perl 
-make deb-equivs 
+make deb-perl deb-equivs deb-bin
 make deb-repo 
-
 

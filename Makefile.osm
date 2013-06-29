@@ -860,6 +860,9 @@ deb-equivs:
 	done
 	ls -l ${DEB_DIR}/*.deb
 
+deb-bin:
+	${MAKE} -C./world/etc/apt/deb $@
+
 deb-clean:
 	rm -rf ${DEB_DIR}
 
@@ -1000,7 +1003,7 @@ help:
 	@echo "  [ tile | tile-extract | tile-convert | tile-csv | tile-checksum ]"
 	@echo "  [ tile-distclean | tile-rsync ]"
 	@echo "  [ test-org | lighttpd-restart | test ]"
-	@echo "  [ deb-clean | deb-perl | deb-equivs | deb-repo ]"
+	@echo "  [ deb-clean | deb-perl | deb-equivs | deb-bin | deb-repo ]"
 	@echo "  [ debian-bootstrap | bbbike-bootstrap ]"
 
 	@echo ""
