@@ -651,10 +651,12 @@ update-javascript:
 java-config:
 	test -r $$HOME/.osmosis || ln -fs $$HOME/projects/bbbike/world/etc/dot.osmosis $$HOME/.osmosis
 
-dist-clean devel-clean distclean: clean rotate-osm deb-clean
+dist-clean devel-clean distclean: clean rotate-osm deb-clean temp-clean
 	${RM_BG} ${OSM_DIR}
 	mkdir -p ${OSM_DIR}
 	${MAKE} -C./t distclean
+
+temp-clean:
 	rm -rf ${TMP_DIR}
 
 clean-planet:
@@ -947,13 +949,13 @@ osmand-devel:
 test-org:
 	./world/bin/lighttpd-template-update
 
-lighttpd-restart: test-org
+lighttpd-restart: temp-clean test-org
 	-killall lighttpd
 	sleep 0.9
 	mkdir -p ${TMP_DIR}
 	TMPDIR=${TMP_DIR} $$(pwd)/world/bin/lighttpd-start &
 
-test prove: lighttpd-restart
+test prove: lighttpd-restart 
 	perl -c cgi/bbbike.cgi
 	mkdir -p ${TMP_DIR}
 	TMPDIR=${TMP_DIR} LANG=C time prove -j${MAX_CPU}
