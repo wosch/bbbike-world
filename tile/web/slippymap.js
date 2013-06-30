@@ -253,7 +253,7 @@ function init() {
         numZoomLevels: 18
     }));
 
-    map.addLayer(new OpenLayers.Layer.WMS("Soviet Military Topo", "http://78.46.61.141/cgi-bin/tilecache-2.11/tilecache.py", {
+    map.addLayer(new OpenLayers.Layer.WMS("Soviet Military Topo", "http://www.topomapper.com/cgi-bin/tilecache-2.11b/tilecache.py", {
         layers: "topomapper_gmerc",
         format: 'image/jpeg'
     }, {
