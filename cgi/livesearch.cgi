@@ -385,7 +385,11 @@ sub statistic_maps {
                 'src' =>
 "http://maps.googleapis.com/maps/api/js?v=3.9&sensor=false&language=en&libraries=weather,panoramio"
             },
-            { 'src' => "/html/bbbike-js.js" }
+
+            #{ 'src' => "/html/bbbike-js.js" }
+            { 'src' => "/html/maps3.js" },
+            { 'src' => "/html/bbbike.js" },
+            { 'src' => "/html/jquery/jquery-1.4.2.min.js" }
         ],
     );
 
@@ -401,19 +405,27 @@ sub statistic_maps {
     bbbike_maps_init("terrain", [[43, 8],[57, 15]], "en", true, "eu" );
   
     function jumpToCity (coord) {
+	debug("jumpToCity: " + coord);
+	if (!coord) {
+	    debug("coord missing, give up!");
+	    return;
+	}
+
 	var b = coord.split("!");
 
 	var bounds = new google.maps.LatLngBounds;
         for (var i=0; i<b.length; i++) {
-	      var c = b[i].split(",");
-              bounds.extend(new google.maps.LatLng( c[1], c[0]));
+	    if (b[i] == "") continue;
+
+	    var c = b[i].split(",");
+            bounds.extend(new google.maps.LatLng( c[1], c[0]));
         }
         map.setCenter(bounds.getCenter());
         map.fitBounds(bounds);
 	var zoom = map.getZoom();
 
         // no zoom level higher than 15
-         map.setZoom( zoom < 16 ? zoom + 0 : 16);
+         map.setZoom( zoom < 13 ? zoom + 0 : 13);
     } 
 
     //]]>
@@ -475,10 +487,13 @@ EOF
           qw/city route_length driving_time startname zielname vianame area/;
         push @params,
           qw/pref_cat pref_quality pref_specialvehicle pref_speed pref_ferry pref_unlit viac/;
+        push @params, qw/startc zielc/;    # missing "area" in URL
 
         my $opt = { map { $_ => ( Param( $qq, $_ ) ) } @params };
 
-        $city_center->{ $opt->{'city'} } = $opt->{'area'};
+        $city_center->{ $opt->{'city'} } = $opt->{'area'} || join( "!",
+            $opt->{'startc'}, $opt->{'zielc'},
+            $city_center->{ $opt->{'city'} } );
 
         my $data = "[";
         foreach my $c ( split /!/, $coords ) {
@@ -494,8 +509,8 @@ EOF
     }
     warn "duplicates: ", scalar( keys %hash ), "\n";
 
-    print "/* ", Dumper($cities),      " */\n" if $debug >= 2;
-    print "/* ", Dumper($city_center), " */\n" if $debug >= 2;
+    print "/* cities: ",     Dumper($cities),      " */\n" if $debug >= 2;
+    print "/* city_center:", Dumper($city_center), " */\n" if $debug >= 2;
 
     my @cities = sort keys %$cities;
 
