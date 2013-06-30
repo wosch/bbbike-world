@@ -385,7 +385,11 @@ sub statistic_maps {
                 'src' =>
 "http://maps.googleapis.com/maps/api/js?v=3.9&sensor=false&language=en&libraries=weather,panoramio"
             },
-            { 'src' => "/html/bbbike-js.js" }
+
+            #{ 'src' => "/html/bbbike-js.js" }
+            { 'src' => "/html/maps3.js" },
+            { 'src' => "/html/bbbike.js" },
+            { 'src' => "/html/jquery/jquery-1.4.2.min.js" }
         ],
     );
 
@@ -401,6 +405,12 @@ sub statistic_maps {
     bbbike_maps_init("terrain", [[43, 8],[57, 15]], "en", true, "eu" );
   
     function jumpToCity (coord) {
+	debug("jumpToCity: " + coord);
+	if (!coord) {
+	    debug("coord missing, give up!");
+	    return;
+	}
+
 	var b = coord.split("!");
 
 	var bounds = new google.maps.LatLngBounds;
