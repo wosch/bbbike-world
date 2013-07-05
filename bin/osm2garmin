@@ -56,7 +56,7 @@ elif [ $size -gt 100000 ]; then
 fi
 
 if [ $size -lt 100 ]; then
-  splitter_resolution=20
+  splitter_resolution=19
 elif [ $size -lt 2000 ]; then
   splitter_resolution=16
 else
