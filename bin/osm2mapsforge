@@ -21,7 +21,8 @@ error () {
     message="$@"
 
     echo "$message"
-    echo "file: $file"
+    echo "Running $0 with input file: $file"
+    echo ""
     cat $logfile
     exit 1
 }
