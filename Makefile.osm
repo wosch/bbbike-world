@@ -529,8 +529,15 @@ bbbike2wgs84-mapnik:
 	mv -f ${LOG_DIR}/bbbike-mapnik.osm.gz.tmp ${LOG_DIR}/bbbike-mapnik.osm.gz
 
 bbbike-tile-update:
-	cd ../bbbike-eserte && git pull
-	${MAKE} DATA_DIR=../bbbike-eserte/data bbbike2wgs84-mapnik  bbbike-mapnik-postgis tile-cache-cleanup
+	cd ../bbbike-eserte; \
+	  git fetch origin; \
+	  git status -u no | wc -l > .bbbike_status_git; \
+	  git pull -q
+	if [ $$(cat ../bbbike-eserte/.bbbike_status_git) -eq 2 ]; then \
+	  true; \
+	else \
+	  ${MAKE} DATA_DIR=../bbbike-eserte/data bbbike2wgs84-mapnik  bbbike-mapnik-postgis tile-cache-cleanup; \
+	fi
 
 bbbike-mapnik-config:
 	if test -e ${POSTGIS_STYLE}; then \
