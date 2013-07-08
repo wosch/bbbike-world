@@ -11,6 +11,10 @@ PATH=/bin:/usr/bin; export PATH
 prog=$(echo $0 | perl -npe 's/-cron\.sh$/.pl/')
 subject="bbbike extract status:"
 
+case $BBBIKE_EXTRACT_PROFILE in
+    *extract-pro* ) subject="bbbike extract pro status:";;
+esac
+
 tmp=$(mktemp -t extract.XXXXXXXXXXX)
 
 $prog --debug=1 $@ > $tmp 2>&1
