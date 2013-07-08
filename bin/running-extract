@@ -5,7 +5,13 @@
 
 set -e
 
-extract_dir=/var/cache/extract/running
+dir=extract
+
+case $0 in 
+    *pro ) dir="extract-pro";;
+esac
+
+: ${extract_dir=/var/cache/$dir/running}
 
 if [ $(ls $extract_dir/*/*json 2>/dev/null | wc -l ) -gt 0 ]; then
     cat $extract_dir/*/*json
