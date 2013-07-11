@@ -151,7 +151,7 @@ echo ">>> Run splitter" > $logfile
 if [ $(ls $split_dir/*.pbf 2>/dev/null | wc -l) -eq 0 ]; then
     echo "Warning: splitter didn't created a file!"
     if [ $size -le 1000 ]; then
-	cp -f $file $split_dir
+	cp -f $file $split_dir/$mapid.osm.pbf
     else
 	echo "Argh, $file with size $size to big for single run"
     fi
