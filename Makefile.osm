@@ -798,21 +798,21 @@ tile-pbf2pbf:
 	find ${_pbf_dir} -name '*.pbf' ! -size -500k -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${PBF2PBF}
 
 _pbf_dir=${TILES_DIR}/lnglat/
-_max_size= #-size +100k"
+_min_size=-size +500k
 tile-convert: tile-convert-osm tile-convert-shp tile-convert-navit tile-convert-garmin tile-convert-osmand tile-convert-mapsforge
 
 tile-convert-osm:
-	find ${_pbf_dir} -name '*.pbf' -print0 | ${NICE} ${TIME} xargs -0 -n36 -P${MAX_CPU} ${PBF2OSM} --gzip
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | ${NICE} ${TIME} xargs -0 -n36 -P1 ${PBF2OSM} --gzip
 tile-convert-shp:
-	find ${_pbf_dir} -name '*.pbf' ${_max_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2SHAPE}
-tile-convert-navit:
-	find ${_pbf_dir} -name '*.osm.gz' ${_max_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2NAVIT}
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2SHAPE}
 tile-convert-garmin:
-	find ${_pbf_dir} -name '*.pbf' ${_max_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2GARMIN_CYCLE}
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2GARMIN_CYCLE}
 tile-convert-osmand:
-	find ${_pbf_dir} -name '*.pbf' ${_max_size} -print0 | osm_checksum=true max_jobs=1 java_heap=1500M ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2OSMAND}
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | osm_checksum=true max_jobs=1 java_heap=1500M ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2OSMAND}
 tile-convert-mapsforge:
-	find ${_pbf_dir} -name '*.pbf' ${_max_size} ! -size 0 -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_VCPU} ${OSM2MAPSFORGE}
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2MAPSFORGE}
+tile-convert-navit:
+	find ${_pbf_dir} -name '*.osm.gz' ${_min_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2NAVIT}
 
 tile-extract: tile-lng tile-lnglat tile-lng-run tile-lnglat-run tile-pbf2pbf
 
@@ -845,7 +845,8 @@ tile-rsync:
 	rsync -av ${TILES_DIR}/lnglat/ ${BBBIKE_WEBSERVER_DOWNLOAD_DIR}/osm/planet/${TILES_DIR}/lnglat/
 
 # for errors look in ./tile/tmp
-tile: tile-extract tile-convert tile-checksum tile-csv tile-aws-s3
+#tile: tile-extract tile-convert tile-checksum tile-csv tile-aws-s3
+tile: tile-convert tile-csv tile-aws-s3
 
 ##############################################################################################
 # debian package rules
