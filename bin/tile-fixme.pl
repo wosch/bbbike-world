@@ -76,8 +76,17 @@ my $tile_pbf   = TileSize->new( 'database' => $database_pbf );
 my $tile_fixme = TileSize->new( 'database' => $database_fixme );
 
 #warn Dumper($tile_fixme->{_size});
+
+# original data
 while ( my ( $key, $val ) = each %{ $tile_fixme->{_size} } ) {
     print to_csv( $key, $val ) if $val >= $min_size;
+}
+
+# guess misssing size based on PBF database
+while ( my ( $key, $val ) = each %{ $tile_pbf->{_size} } ) {
+    if ( !exists $tile_fixme->{_size}->{$key} ) {
+        print to_csv( $key, $val ) if $val >= $min_size;
+    }
 }
 
 1;
