@@ -50,7 +50,12 @@ if [ -e /tmpfs ]; then
 else
     _tmp=/bbbike/tmp
 fi
+
 tmpdir=`mktemp -d ${TMPDIR-"$_tmp"}/osm2navit.XXXXXXXXXXX`
+
+# cleanup after signal, but show errors first
+trap '( sleep 1; rm -rf $tmpdir ) &' 1 2 15
+
 navit=`basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
 navit_dir=$tmpdir/${navit}-navit
 mkdir -p $navit_dir

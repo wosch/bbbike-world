@@ -88,6 +88,9 @@ OSMOSIS_TMPDIR="-Djava.io.tmpdir=$_tmp"; export OSMOSIS_TMPDIR
 
 tmpdir=`mktemp -d ${TMPDIR}/mapsforge.$(basename $ext .zip).XXXXXXXXXXX`
 
+# cleanup after signal, but show errors first
+trap '( sleep 1; rm -rf $tmpdir ) &' 1 2 15
+
 mapsforge=`basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
 mapsforge_dir=$tmpdir/$mapsforge-`basename $ext .zip`
 mkdir -p $mapsforge_dir
