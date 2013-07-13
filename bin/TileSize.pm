@@ -27,6 +27,17 @@ use constant {
 our $debug     = 0;
 our $use_cache = 1;
 
+# guess size based on factor of known size of osm.pbf
+my $factor = {
+    'garmin-leisure.zip' => 1.3,
+    'garmin-bbbike.zip'  => 1.0,
+    'navit.zip'          => 0.65,
+    'osm.bz2'            => 0.7,
+    'osm.xz'             => 0.75,
+    'o5m.bz2'            => 0.88,
+    'o5m.gz'             => 1.04,
+};
+
 sub new {
     my ( $class, %args ) = @_;
 
