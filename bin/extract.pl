@@ -600,9 +600,11 @@ sub run_extracts {
 # compute SHA2 checksum for extract file
 sub checksum {
     my $file = shift;
+    my $type = shift || 'sha256';
+    
     die "file $file does not exists\n" if !-f $file;
 
-    my @checksum_command = qw/shasum -a 256/;
+    my @checksum_command = $type eq 'md5' ? qw/md5sum/ : qw/shasum -a 256/;
 
     if ( my $pid = open( C, "-|" ) ) {
     }
@@ -1116,7 +1118,8 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
             $url = $option->{"aws_s3"}->{"homepage"} . "/" . aws_s3_path($to);
         }
 
-        my $checksum = checksum($to);
+        my $checksum_sha256 = checksum($to, "sha256");
+        my $checksum_md5 = checksum($to, "md5");
 
         # unlink temporary .pbf files after all files are proceeds
         if (@unlink) {
@@ -1155,7 +1158,8 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
             $osmosis_options,
             $obj->{"format"},
             $file_size,
-            $checksum,
+            $checksum_sha256,
+            $checksum_md5,
             $database_update );
 
 #        my $message = <<EOF;

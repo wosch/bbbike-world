@@ -40,6 +40,7 @@
         " Format: %s",
         " File size: %s",
         " SHA256 checksum: %s",
+        " MD5 checksum: %s",
         " Last planet.osm database update: %s",
         " License: OpenStreetMap License",
         "",
