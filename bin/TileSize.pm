@@ -28,7 +28,7 @@ our $debug     = 0;
 our $use_cache = 1;
 
 # guess size based on factor of known size of osm.pbf
-my $factor = {
+our $factor = {
     'garmin-bbbike.zip'  => 0.582,
     'garmin-cycle.zip'   => 0.581,
     'garmin-leisure.zip' => 0.755,
