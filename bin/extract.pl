@@ -1193,8 +1193,12 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
 
         my @args = (
             $obj->{'email'},
-            "Extracted area is ready for download: " . $obj->{'city'},
-            $message, $option->{'bcc'}
+            "BBBike extract: area is ready for download: '"
+              . $obj->{'city'}
+              . "' in format "
+              . $obj->{'format'},
+            $message,
+            $option->{'bcc'}
         );
 
         my $email_rest_enabled = $option->{"email_rest_enabled"};
