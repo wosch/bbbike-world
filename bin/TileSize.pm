@@ -29,13 +29,24 @@ our $use_cache = 1;
 
 # guess size based on factor of known size of osm.pbf
 my $factor = {
-    'garmin-leisure.zip' => 1.3,
-    'garmin-bbbike.zip'  => 1.0,
-    'navit.zip'          => 0.65,
-    'osm.bz2'            => 0.7,
-    'osm.xz'             => 0.75,
-    'o5m.bz2'            => 0.88,
-    'o5m.gz'             => 1.04,
+    'garmin-leisure.zip' => 0.755,
+    'garmin-bbbike.zip'  => 0.581,
+    'garmin-cycle.zip'   => 0.581,
+    'garmin-osm.zip'     => 0.581,
+
+    'shp.zip'           => 1.5,
+    'obf.zip'           => 1.4,
+    'mapsforge-osm.zip' => 0.80,
+
+    'navit.zip' => 0.75,
+
+    'osm.gz' => 1.93,
+
+    'osm.bz2' => 1.5,
+    'osm.xz'  => 1.8,
+
+    'o5m.bz2' => 0.88,
+    'o5m.gz'  => 1.04,
 };
 
 sub new {
@@ -45,6 +56,7 @@ sub new {
         'debug'    => $debug,
         'format'   => 'pbf',
         'database' => 'world/etc/tile/tile-test.csv',
+        'factor'   => $factor,
         'tmpdir'   => '/var/tmp',
         '_size'    => {},
         %args,
