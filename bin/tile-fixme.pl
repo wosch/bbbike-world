@@ -40,6 +40,7 @@ binmode( \*STDOUT, ":raw" );
 
 my $help;
 my $format;
+my $min_size = 0;
 
 my @format =
   qw/garmin-cycle.zip mapsforge-osm.zip navit.zip obf.zip osm.gz shp.zip/;
@@ -51,14 +52,16 @@ usage: $0 [options] --format=format tile-pbf.csv tile-garmin-cycle.csv
 
 --debug=0..2      debug option
 --format=format   @{[ join " | ", @format ]}
+--min-size=0..1024 minimum size, default $min_size
 
 EOF
 }
 
 GetOptions(
-    "debug=i"  => \$debug,
-    "format=s" => \$format,
-    "help"     => \$help,
+    "debug=i"    => \$debug,
+    "format=s"   => \$format,
+    "min-size=s" => \$min_size,
+    "help"       => \$help,
 ) or die usage;
 
 my $database_pbf   = shift;
@@ -74,7 +77,7 @@ my $tile_fixme = TileSize->new( 'database' => $database_fixme );
 
 #warn Dumper($tile_fixme->{_size});
 while ( my ( $key, $val ) = each %{ $tile_fixme->{_size} } ) {
-    print to_csv( $key, $val ) if $val > -1;
+    print to_csv( $key, $val ) if $val >= $min_size;
 }
 
 1;
