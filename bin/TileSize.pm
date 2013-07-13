@@ -42,6 +42,7 @@ my $factor = {
     'osm.gz'             => 1.93,
     'osm.xz'             => 1.8,
     'shp.zip'            => 1.5,
+    'pbf'                => 1,
 };
 
 sub new {
