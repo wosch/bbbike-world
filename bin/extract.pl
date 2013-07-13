@@ -601,7 +601,7 @@ sub run_extracts {
 sub checksum {
     my $file = shift;
     my $type = shift || 'sha256';
-    
+
     die "file $file does not exists\n" if !-f $file;
 
     my @checksum_command = $type eq 'md5' ? qw/md5sum/ : qw/shasum -a 256/;
@@ -1118,8 +1118,8 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
             $url = $option->{"aws_s3"}->{"homepage"} . "/" . aws_s3_path($to);
         }
 
-        my $checksum_sha256 = checksum($to, "sha256");
-        my $checksum_md5 = checksum($to, "md5");
+        my $checksum_sha256 = checksum( $to, "sha256" );
+        my $checksum_md5    = checksum( $to, "md5" );
 
         # unlink temporary .pbf files after all files are proceeds
         if (@unlink) {
