@@ -11,7 +11,7 @@
         "Format: %s",
         "</p>",
         "",
-        "<p>Press the back button to get the same area in a different format, or to request a new area.</p>"
+        "<p>Press the <a href='javascript:history.back()'>back button</a> to get the same area in a different format, or to request a new area.</p>"
         ],
 
     "EXTRACT_DONATION": [
@@ -40,6 +40,7 @@
         " Format: %s",
         " File size: %s",
         " SHA256 checksum: %s",
+        " MD5 checksum: %s",
         " Last planet.osm database update: %s",
         " License: OpenStreetMap License",
         "",

@@ -54,6 +54,7 @@
         "Format: %s",
         "Taille du fichier: %s",
         "SHA256: %s",
+        "MD5: %s",
         "Dernière mise à jour de base de données planet.osm: %s",
         "Licence: Licence OpenStreetMap",
         "",

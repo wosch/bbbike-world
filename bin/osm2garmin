@@ -149,7 +149,7 @@ echo ">>> Run splitter" > $logfile
 (set -x; java $java_opt -jar $BBBIKE_OPT_DIR/splitter/splitter.jar --resolution=$splitter_resolution --max-nodes=1000000 --mapid="$mapid" --output-dir=$split_dir $file ) >> $logfile 2>&1 || error
 
 if [ $(ls $split_dir/*.pbf 2>/dev/null | wc -l) -eq 0 ]; then
-    echo "Warning: splitter didn't created a file!"
+    echo "Warning: splitter didn't created a file: $file"
     if [ $size -le 1000 ]; then
 	cp -f $file $split_dir/$mapid.osm.pbf
     else
