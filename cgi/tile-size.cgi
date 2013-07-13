@@ -38,8 +38,7 @@ my %format = (
     "navit"              => "obf.zip",
     "o5m.gz"             => "pbf",
     "o5m.bz2"            => "pbf",
-
-    #"mapsforge-osm.zip"  => "obf.zip",
+    "mapsforge-osm.zip"  => "mapsforge-osm.zip",
 );
 
 sub Param {
@@ -92,22 +91,10 @@ my $factor        = $q->param("factor") || 1;
 my $factor_format = 1;
 my $format        = $q->param("format") || "";
 
+# find the right database file for a given format
 my $ext;
 if ( $format && $format{$format} ) {
     $ext = $format{$format};
-
-    # guess factor based on similar data
-    $factor_format *= 1.3 if $format eq 'garmin-leisure.zip';
-    $factor_format *= 1.0 if $format eq 'garmin-bbbike.zip';
-
-    #$factor_format *= 0.6  if $format eq 'mapsforge-osm.zip';
-    $factor_format *= 0.65 if $format eq 'navit.zip';
-
-    $factor_format *= 0.7  if $format eq 'osm.bz2';
-    $factor_format *= 0.75 if $format eq 'osm.xz';
-
-    $factor_format *= 0.88 if $format eq 'o5m.bz2';
-    $factor_format *= 1.04 if $format eq 'o5m.gz';
 }
 else {
     $ext = $format{"pbf"};
@@ -115,6 +102,14 @@ else {
 
 my $database_file = "../world/etc/tile/tile-$ext.csv";
 my $tile = TileSize->new( 'database' => $database_file );
+
+# guess factor based on similar data
+if ( grep { $_ eq $format }
+    qw/garmin-leisure.zip garmin-bbbike.zip garmin-osm.zip osm.bz2 osm.xz o5m.bz2 o5m.gz/
+  )
+{
+    $factor_format = $tile->{'format'}->{$format};
+}
 
 # short cut "area=lat,lng,lat,lng"
 if ( defined $area ) {
