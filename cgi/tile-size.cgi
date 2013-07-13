@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl
+#!/usr/local/bin/perl -T
 # Copyright (c) June 2012-2013 Wolfram Schneider, http://bbbike.org
 #
 # tile-size.cgi - compute size of an tile from planet.osm
@@ -91,6 +91,13 @@ my $factor        = $q->param("factor") || 1;
 my $factor_format = 1;
 my $format        = $q->param("format") || "";
 
+if ( $format =~ /^([a-zA-Z0-9\-\.]+)$/ ) {
+    $format = $1;
+}
+else {
+    $format = "";
+}
+
 # find the right database file for a given format
 my $ext;
 if ( $format && $format{$format} ) {
@@ -104,12 +111,15 @@ my $database_file = "../world/etc/tile/tile-$ext.csv";
 my $tile = TileSize->new( 'database' => $database_file );
 
 # guess factor based on similar data
-if ( grep { $_ eq $ext }
+if ( grep { $_ eq $format }
     qw/garmin-leisure.zip garmin-bbbike.zip garmin-osm.zip osm.bz2 osm.xz o5m.bz2 o5m.gz/
   )
 {
-    if ( exists $tile->{'format'}->{$ext} ) {
-        $factor_format = $tile->{'format'}->{$ext};
+    if (   exists $tile->{'factor'}->{$format}
+        && exists $tile->{'factor'}->{$ext} )
+    {
+        $factor_format =
+          $tile->{'factor'}->{$format} / $tile->{'factor'}->{$ext};
     }
 }
 
