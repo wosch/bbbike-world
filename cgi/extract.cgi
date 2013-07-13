@@ -807,8 +807,9 @@ sub _check_input {
 
     if ($error) {
         print qq{<p class="error">The input data is not valid. };
-        print qq{Please click on the <a href="javascript:history.back()">back button</a> },
-	print qq{of your browser and correct the values!</p>\n"; 
+        print qq{Please click on the <a href="javascript:history.back()">back button</a> };
+	print qq{of your browser and correct the values!</p>\n};
+        
         print "<br/>" x 4;
         print &footer(
             $q,
