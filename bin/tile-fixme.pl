@@ -85,9 +85,10 @@ while ( my ( $key, $val ) = each %{ $tile_fixme->{_size} } ) {
 }
 
 # guess misssing size based on PBF database
+my $factor = $tile_fixme->{'factor'}->{$format};
 while ( my ( $key, $val ) = each %{ $tile_pbf->{_size} } ) {
     if ( !exists $tile_fixme->{_size}->{$key} ) {
-        print to_csv( $key, $val ) if $val >= $min_size;
+        print to_csv( $key, int( $val * $factor + 0.5 ) ) if $val >= $min_size;
     }
 }
 
