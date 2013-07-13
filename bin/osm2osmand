@@ -6,7 +6,7 @@
 
 PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 
-: ${java_heap=1G}
+: ${java_heap=2G}
 : ${max_jobs=2}
 : ${BBBIKE_EXTRACT_LANG=en}
 : ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
