@@ -70,10 +70,12 @@ my $database_fixme = shift;
 die &usage if $help;
 die "missinag database argument" . &usage
   if ( !$database_pbf || !$database_fixme );
-die "missinag format argument" . &usage if !$format;
+die "missing format argument" . &usage if !$format;
 
 my $tile_pbf   = TileSize->new( 'database' => $database_pbf );
 my $tile_fixme = TileSize->new( 'database' => $database_fixme );
+
+die "unknown format '$format'" . &usage if !exists $TileSize::factor->{$format};
 
 #warn Dumper($tile_fixme->{_size});
 
