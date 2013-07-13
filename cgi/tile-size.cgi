@@ -104,11 +104,13 @@ my $database_file = "../world/etc/tile/tile-$ext.csv";
 my $tile = TileSize->new( 'database' => $database_file );
 
 # guess factor based on similar data
-if ( grep { $_ eq $format }
+if ( grep { $_ eq $ext }
     qw/garmin-leisure.zip garmin-bbbike.zip garmin-osm.zip osm.bz2 osm.xz o5m.bz2 o5m.gz/
   )
 {
-    $factor_format = $tile->{'format'}->{$format};
+    if ( exists $tile->{'format'}->{$ext} ) {
+        $factor_format = $tile->{'format'}->{$ext};
+    }
 }
 
 # short cut "area=lat,lng,lat,lng"
@@ -134,7 +136,8 @@ my $size =
     TileSize::FRACTAL_REAL );
 $size = int( $size * 1000 + 0.5 ) / 1000;
 
-warn "size: $size, factor $factor, format: $format, ",
+warn
+"size: $size, factor $factor, format: $format, ext: $ext, factor_format: $factor_format, ",
   "area: $lng_sw,$lat_sw,$lng_ne,$lat_ne\n"
   if $debug >= 2;
 
