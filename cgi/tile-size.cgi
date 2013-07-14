@@ -104,11 +104,10 @@ my $database_file = "../world/etc/tile/tile-$ext.csv";
 my $tile = TileSize->new( 'database' => $database_file );
 
 # guess factor based on similar data
-if ( grep { $_ eq $format }
-    qw/garmin-leisure.zip garmin-bbbike.zip garmin-osm.zip osm.bz2 osm.xz o5m.bz2 o5m.gz/
-  )
-{
-    $factor_format = $tile->{'format'}->{$format};
+if (grep { $_ eq $ext} qw/garmin-leisure.zip garmin-bbbike.zip garmin-osm.zip osm.bz2 osm.xz o5m.bz2 o5m.gz/) {
+    if (exists $tile->{'format'}->{$ext}) {
+        $factor_format = $tile->{'format'}->{$ext}
+    }
 }
 
 # short cut "area=lat,lng,lat,lng"
