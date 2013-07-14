@@ -54,7 +54,7 @@ size=$(du -ks -L "$file" | awk '{ print $1}')
 : ${java_heap=4G}
 if [ $size -gt 120000 ]; then
    hd_mode="type=hd"
-elif [ $size -gt 80000 ]; then
+elif [ $size -gt 60000 ]; then
   java_heap=6G
 fi
 
