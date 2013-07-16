@@ -27,6 +27,9 @@ use constant {
 our $debug     = 0;
 our $use_cache = 1;
 
+# default size if the coordinates are not in the database
+our $default_size = 4;
+
 # guess size based on factor of known size of osm.pbf
 our $factor = {
     'garmin-bbbike.zip'  => 0.582,
