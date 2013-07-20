@@ -6,7 +6,7 @@ Priority: optional
 Standards-Version: 3.6.2
 
 Package: bbbike-world-debian-meta
-Version: 1.1.5
+Version: 1.1.6
 Maintainer: Wolfram Schneider <wosch@freebsd.org>
 # Pre-Depends: <comma-separated list of packages>
 Depends: pbzip2, bzip2, xz-utils, git-core, screen, lynx, curl, wget, time,
@@ -38,7 +38,7 @@ Depends: pbzip2, bzip2, xz-utils, git-core, screen, lynx, curl, wget, time,
  libgdal-perl, libtext-csv-xs-perl, libcapture-tiny-perl, freebsd-buildutils, 
  dh-make-perl, ntp, munin, dpkg-sig, reprepro,lighttpd, equivs,
  build-essential, devscripts, debhelper, dh-make, libyaml-libyaml-perl,
- google-sitemapgen
+ google-sitemapgen, ltrace
 # Recommends: <comma-separated list of packages>
 # Suggests: <comma-separated list of packages>
 # Provides: <comma-separated list of packages>
