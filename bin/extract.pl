@@ -1199,7 +1199,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
             $obj->{'email'},
             "BBBike extract: area is ready for download: '"
               . $obj->{'city'}
-              . "' in format "
+              . "', format="
               . $obj->{'format'},
             $message,
             $option->{'bcc'}
