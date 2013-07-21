@@ -7,6 +7,8 @@
 PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_EXTRACT_LANG=en}
 : ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
+: ${BBBIKE_MKGMAP_VERSION="mkgmap-r2373"}
+: ${BBBIKE_SPLITTER_VERSION="splitter-r200"}
 
 set -e
 
@@ -150,7 +152,7 @@ mapid=${garmin_family_id}0001
 #else
 #fi
 echo ">>> Run splitter" > $logfile
-(set -x; java $java_opt -jar $BBBIKE_OPT_DIR/splitter/splitter.jar --resolution=$splitter_resolution --max-nodes=1000000 --mapid="$mapid" --output-dir=$split_dir $file ) >> $logfile 2>&1 || error
+(set -x; java $java_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar --resolution=$splitter_resolution --max-nodes=1000000 --mapid="$mapid" --output-dir=$split_dir $file ) >> $logfile 2>&1 || error
 
 if [ $(ls $split_dir/*.pbf 2>/dev/null | wc -l) -eq 0 ]; then
     echo "Warning: splitter didn't created a file: $file"
@@ -193,7 +195,7 @@ fi
 # --mapname="$mapid" 
 echo ">>> Run mkgmap, map style: $mkgmap_map_style" >> $logfile
 ( set -x 
-  java $java_opt -jar $BBBIKE_OPT_DIR/mkgmap/mkgmap.jar $max_jobs $mkgmap_opt $mkgmap_map \
+  java $java_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_MKGMAP_VERSION/mkgmap.jar $max_jobs $mkgmap_opt $mkgmap_map \
     --gmapsupp --description="$description" --family-name="BBBike.org style=$mkgmap_map_style $coords" $split_dir/*.pbf $mkgmap_map_type ) >> $logfile 2>&1  || error
 
 #echo ">>> Run mkgmap, create gmapsupp file" >> $logfile
