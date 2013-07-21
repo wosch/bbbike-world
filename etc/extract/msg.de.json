@@ -50,7 +50,7 @@
         " Koordinaten: %s",
         " Script URL: %s",
         " Quadratkilometer: %s",
-        " Granularity: 10,000 (1.1 meters)",
+        " Granularity: %s",
         " Osmosis options: %s",
         " Format: %s",
         " Dateigrösse: %s",

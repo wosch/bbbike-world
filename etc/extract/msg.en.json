@@ -35,7 +35,7 @@
         " Coordinates: %s",
         " Script URL: %s",
         " Square kilometre: %s",
-        " Granularity: 10,000 (1.1 meters)",
+        " Granularity: %s",
         " Osmosis options: %s",
         " Format: %s",
         " File size: %s",

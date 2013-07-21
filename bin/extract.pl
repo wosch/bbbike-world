@@ -1148,6 +1148,16 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         $msg = get_msg( $obj->{"lang"} || "en" );
 
         my $text = join "\n", @{ $msg->{EXTRACT_EMAIL} };
+        my $granularity;
+        if ( ref $osmosis_options eq 'ARRAY' && grep { / "granularity=10000" / }
+            @$osmosis_options )
+        {
+            $granularity = "10,001 (1.1 meters)";
+        }
+        else {
+            $granularity = "full";
+        }
+
         my $message = sprintf( $text,
             $obj->{'city'},
             $url,
@@ -1155,6 +1165,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
 qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
             $script_url,
             $square_km,
+            $granularity,
             $osmosis_options,
             $obj->{"format"},
             $file_size,
