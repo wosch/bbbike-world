@@ -210,7 +210,7 @@ rm -f $license
 rm -f map.TYP
 
 # gmapsupp.img cleanup
-rm -rf osmmap.tdb osmmap.img osmmap.mdx osmmap_mdr.img [0-9][0-9]*.img
+rm -rf osmmap.tdb osmmap.img osmmap.mdx osmmap_mdr.img [0-9][0-9]*.img ovm_*.img
 
 case $BBBIKE_EXTRACT_LANG in
   en ) ext2=$ext ;;
