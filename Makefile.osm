@@ -845,8 +845,8 @@ tile-rsync:
 	rsync -av ${TILES_DIR}/lnglat/ ${BBBIKE_WEBSERVER_DOWNLOAD_DIR}/osm/planet/${TILES_DIR}/lnglat/
 
 # for errors look in ./tile/tmp
-#tile: tile-extract tile-convert tile-checksum tile-csv tile-aws-s3
-tile: tile-convert tile-csv tile-aws-s3
+tile: tile-extract tile-convert tile-checksum tile-csv tile-aws-s3
+#tile: tile-convert tile-csv tile-aws-s3
 
 ##############################################################################################
 # debian package rules
