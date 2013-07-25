@@ -6,20 +6,28 @@
 file=$1
 : ${osm_checksum=`dirname $0`/osm-checksum}
 
-if ! [ -f "$file" ]; then
+if ! [ -e "$file" ]; then
 	echo "usage file"
 	exit 1
 fi
 
+# /dev/stdin
+if ! [ -f "$file" ]; then
+    osm_checksum=true
+fi
+
 gzip=`which pigz gzip | head -n 1`
 bzip2=`which pbzip2 bzip2 | head -n 1`
+
+file_pbf=`echo "$file" | perl -npe 's/\.[^\.]+$/.pbf/'`
+
 case $file in 
 	*.gz )  uncompress="$gzip -dc" ;;
 	*.bz2 ) uncompress="$bzip2 -dc" ;;
+	/dev/stdin ) uncompress="cat"; file_pbf=/dev/stdout ;;
 	*) exit 2 ;;
 esac
 
-file_pbf=`echo "$file" | perl -npe 's/\.[^\.]+$/.pbf/'`
 
 # run in quiet mode
 global_opt=-q
