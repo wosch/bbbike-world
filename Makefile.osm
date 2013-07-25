@@ -596,6 +596,7 @@ rotate-data-osm:
 	-test -e ${DATA_OSM_DIR}     && mv ${DATA_OSM_DIR}     ${DATA_OSM_DIR}.old
 	-test -e ${DATA_OSM_BBBIKE_DIR}.old && mv ${DATA_OSM_BBBIKE_DIR}.old ${DATA_OSM_BBBIKE_DIR}.old2
 	-test -e ${DATA_OSM_BBBIKE_DIR}     && mv ${DATA_OSM_BBBIKE_DIR}     ${DATA_OSM_BBBIKE_DIR}.old
+	find ${DATA_OSM_BBBIKE_DIR}.old -type f ! -name '*.gz' -print0 | ${XARGS} -0 ${GZIP}
 	mkdir -p ${DATA_OSM_DIR} ${DATA_OSM_BBBIKE_DIR}
 	touch ${DATA_OSM_DIR}/.touch ${DATA_OSM_BBBIKE_DIR}/.touch
 
