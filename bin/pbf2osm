@@ -133,11 +133,13 @@ else
     f=`basename $file .pbf`
     dir=`dirname $file`
     case $compress in
-	gzip )  osm2osm $compress "$@";;
-	bzip2 ) osm2osm $compress "$@";;
-
+	osmosis-gzip )  osm2osm $compress "$@";;
+	osmosis-bzip2 ) osm2osm $compress "$@";;
 	osmosis-pgzip )  osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $gzip > $dir/$f.gz.tmp; mv -f $dir/$f.gz.tmp $dir/$f.gz ;;
 	osmosis-pbzip2 ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $bzip2 > $dir/$f.bz2.tmp; mv -f $dir/$f.bz2.tmp $dir/$f.bz2 ;;
+
+        gzip )   $osm2o5m "$file" --out-osm | gzip > $dir/$f.osm.gz.tmp; mv -f $dir/$f.osm.gz.tmp $dir/$f.osm.gz ;;
+        bzip2 )  $osm2o5m "$file" --out-osm | bzip2 > $dir/$f.osm.bz2.tmp; mv -f $dir/$f.osm.bz2.tmp $dir/$f.osm.bz2 ;;
         pgzip )  $osm2o5m "$file" --out-osm | $gzip > $dir/$f.osm.gz.tmp; mv -f $dir/$f.osm.gz.tmp $dir/$f.osm.gz ;;
         pbzip2 ) $osm2o5m "$file" --out-osm | $bzip2 > $dir/$f.osm.bz2.tmp; mv -f $dir/$f.osm.bz2.tmp $dir/$f.osm.bz2 ;;
 

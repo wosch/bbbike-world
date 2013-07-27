@@ -211,7 +211,7 @@ osm2pbf:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2PBF} ${OSM2PBF}
 
 pbf2osm:
-	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 8 -0 -P2 ${PBF2OSM} --gzip
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n1 -0 -P${MAX_PBF2OSM} ${PBF2OSM} --pgzip
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${OSM_CHECKSUM}
 
 _pbf2pbf:
@@ -804,7 +804,7 @@ _min_size=-size +500k
 tile-convert: tile-convert-osm tile-convert-shp tile-convert-navit tile-convert-garmin tile-convert-osmand tile-convert-mapsforge
 
 tile-convert-osm:
-	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | ${NICE} ${TIME} xargs -0 -n36 -P1 ${PBF2OSM} --gzip
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | ${NICE} ${TIME} xargs -0 -n1 -P$${MAX_PBF2OSM} ${PBF2OSM} --pgzip
 tile-convert-shp:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2SHAPE}
 tile-convert-garmin:
