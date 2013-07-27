@@ -127,7 +127,8 @@ case $compress in
 esac
 
 if [ "$compress" = "" ]; then
-    osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout
+    $osm2o5m --out-osm "$file"
+    #osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout
 else
     f=`basename $file .pbf`
     dir=`dirname $file`
