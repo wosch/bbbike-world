@@ -133,21 +133,26 @@ else
     f=`basename $file .pbf`
     dir=`dirname $file`
     case $compress in
-	osmosis-gzip )  osm2osm $compress "$@";;
-	osmosis-bzip2 ) osm2osm $compress "$@";;
+	# legacy osmosis
+	osmosis-gzip )   osm2osm $compress "$@";;
+	osmosis-bzip2 )  osm2osm $compress "$@";;
 	osmosis-pgzip )  osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $gzip > $dir/$f.gz.tmp; mv -f $dir/$f.gz.tmp $dir/$f.gz ;;
 	osmosis-pbzip2 ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $bzip2 > $dir/$f.bz2.tmp; mv -f $dir/$f.bz2.tmp $dir/$f.bz2 ;;
+	osmosis-xz )     osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $xz $xz_opt > $dir/$f.tmp; mv -f $dir/$f.tmp $dir/$f.xz ;;
 
-        gzip )   $osm2o5m "$file" --out-osm | gzip > $dir/$f.osm.gz.tmp; mv -f $dir/$f.osm.gz.tmp $dir/$f.osm.gz ;;
-        bzip2 )  $osm2o5m "$file" --out-osm | bzip2 > $dir/$f.osm.bz2.tmp; mv -f $dir/$f.osm.bz2.tmp $dir/$f.osm.bz2 ;;
-        pgzip )  $osm2o5m "$file" --out-osm | $gzip > $dir/$f.osm.gz.tmp; mv -f $dir/$f.osm.gz.tmp $dir/$f.osm.gz ;;
-        pbzip2 ) $osm2o5m "$file" --out-osm | $bzip2 > $dir/$f.osm.bz2.tmp; mv -f $dir/$f.osm.bz2.tmp $dir/$f.osm.bz2 ;;
+	# compression
+        gzip )   $osm2o5m "$file" --out-osm | gzip > $dir/$f.gz.tmp; mv -f $dir/$f.gz.tmp $dir/$f.gz ;;
+        bzip2 )  $osm2o5m "$file" --out-osm | bzip2 > $dir/$f.bz2.tmp; mv -f $dir/$f.bz2.tmp $dir/$f.bz2 ;;
+        pgzip )  $osm2o5m "$file" --out-osm | $gzip > $dir/$f.gz.tmp; mv -f $dir/$f.gz.tmp $dir/$f.gz ;;
+        pbzip2 ) $osm2o5m "$file" --out-osm | $bzip2 > $dir/$f.bz2.tmp; mv -f $dir/$f.bz2.tmp $dir/$f.bz2 ;;
+        xz )     $osm2o5m "$file" --out-osm | $xz $xz_opt > $dir/$f.tmp; mv -f $dir/$f.tmp $dir/$f.xz ;;
 
-        o5m ) $osm2o5m "$file" --out-o5m ;;
-        o5m-gzip ) $osm2o5m "$file" --out-o5m | $gzip > $dir/$f.o5m.gz.tmp; mv -f $dir/$f.o5m.gz.tmp $dir/$f.o5m.gz ;;
+	# o5m format
+        o5m )       $osm2o5m "$file" --out-o5m ;;
+        o5m-gzip )  $osm2o5m "$file" --out-o5m | $gzip > $dir/$f.o5m.gz.tmp; mv -f $dir/$f.o5m.gz.tmp $dir/$f.o5m.gz ;;
         o5m-bzip2 ) $osm2o5m "$file" --out-o5m | $bzip2 > $dir/$f.o5m.bz2.tmp; mv -f $dir/$f.o5m.bz2.tmp $dir/$f.o5m.bz2 ;;
 
-	xz ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $xz $xz_opt > $dir/$f.tmp; mv -f $dir/$f.tmp $dir/$f.xz ;;
+	# other formats
 	garmin ) $osm2garmin "$file" "$garmin_style" "$city" ;;
 	shape )  $osm2shape  "$file" "$city" ;;
        	osmand ) $osm2osmand "$file" "$city" ;;
