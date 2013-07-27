@@ -29,30 +29,30 @@ if which pixz >/dev/null; then
 fi
 
 case $1 in
-  # single core, more than one *.pbf files at once
-  -gzip | --gzip)    shift; compress=gzip;;
-  -bzip2 | --bzip2 ) shift; compress=bzip2 ;;
-
-  # multi-core
-  --pbzip2 ) shift; compress=pbzip2; _max_cpu_time=36000 ;;
-  --pgzip | --pigz ) shift; compress=pgzip; _max_cpu_time=10800 ;;
-
-  -o5m | --o5m ) shift; compress=o5m ;;
-  -o5m-gzip | --o5m-gzip ) shift; compress=o5m-gzip ;;
-  -o5m-bzip2 | --o5m-bzip2 ) shift; compress=o5m-bzip2 ;;
-
-  -xz | --xz )       shift; compress=xz; _max_cpu_time=10800 ;;
-  -shape | --shape | -shp | --shp | --shapefile ) shift; compress=shape ;;
-  -osmand | --osmand | -obf | --obf ) shift; compress=osmand ;;
-  -navit | --navit ) shift; compress=navit ;;
-
-  -garmin | --garmin ) shift; compress=garmin; garmin_style=$2 ;;
-  -garmin-osm | --garmin-osm ) shift; compress=garmin; garmin_style=osm ;;
-  -garmin-cycle | --garmin-cycle ) shift; compress=garmin; garmin_style=cycle ;;
-  -garmin-leisure | --garmin-leisure ) shift; compress=garmin; garmin_style=leisure ;;
-  -garmin-bbbike | --garmin-bbbike ) shift; compress=garmin; garmin_style=bbbike ;;
-
-  -mapsforge-osm | --mapsforge-osm ) shift; compress=mapsforge; mapsforge_style=osm ;;
+    # single core, more than one *.pbf files at once
+    -gzip | --gzip)    shift; compress=gzip;;
+    -bzip2 | --bzip2 ) shift; compress=bzip2 ;;
+  
+    # multi-core
+    --pbzip2 ) shift; compress=pbzip2; _max_cpu_time=36000 ;;
+    --pgzip | --pigz ) shift; compress=pgzip; _max_cpu_time=10800 ;;
+  
+    -o5m | --o5m ) shift; compress=o5m ;;
+    -o5m-gzip | --o5m-gzip ) shift; compress=o5m-gzip ;;
+    -o5m-bzip2 | --o5m-bzip2 ) shift; compress=o5m-bzip2 ;;
+  
+    -xz | --xz )       shift; compress=xz; _max_cpu_time=10800 ;;
+    -shape | --shape | -shp | --shp | --shapefile ) shift; compress=shape ;;
+    -osmand | --osmand | -obf | --obf ) shift; compress=osmand ;;
+    -navit | --navit ) shift; compress=navit ;;
+  
+    -garmin | --garmin ) shift; compress=garmin; garmin_style=$2 ;;
+    -garmin-osm | --garmin-osm ) shift; compress=garmin; garmin_style=osm ;;
+    -garmin-cycle | --garmin-cycle ) shift; compress=garmin; garmin_style=cycle ;;
+    -garmin-leisure | --garmin-leisure ) shift; compress=garmin; garmin_style=leisure ;;
+    -garmin-bbbike | --garmin-bbbike ) shift; compress=garmin; garmin_style=bbbike ;;
+  
+    -mapsforge-osm | --mapsforge-osm ) shift; compress=mapsforge; mapsforge_style=osm ;;
 esac
 
 : ${max_cpu_time="$_max_cpu_time"}
@@ -75,34 +75,34 @@ fi
 global_opt=-q
 
 osm2osm () {
-compressionMethod=$1
-shift
-case $compressionMethod in
-  gzip ) ext=.gz ;;
-  bzip2 ) ext=.bz2 ;;
-  * ) echo "unknown compress $compressionMethod"; exit 2;;
-esac
-
-args=""
-for f
-do
-   ff=`echo $f | sed "s/\.pbf$/$ext.tmp/"`
-   args="$args --read-pbf $f --write-xml $ff compressionMethod=$compressionMethod"
-done
-
-
-if osmosis $global_opt $args
-then
+    compressionMethod=$1
+    shift
+    case $compressionMethod in
+        gzip ) ext=.gz ;;
+        bzip2 ) ext=.bz2 ;;
+        * ) echo "unknown compress $compressionMethod"; exit 2;;
+    esac
+    
+    args=""
     for f
     do
-        ff=`echo $f | sed "s/\.pbf$/$ext/"`
-        mv -f $ff.tmp $ff
-        chmod 664 $ff
+        ff=`echo $f | sed "s/\.pbf$/$ext.tmp/"`
+        args="$args --read-pbf $f --write-xml $ff compressionMethod=$compressionMethod"
     done
-else
-    echo "File $@ failed"
-    exit 2
-fi
+    
+    
+    if osmosis $global_opt $args
+    then
+        for f
+        do
+            ff=`echo $f | sed "s/\.pbf$/$ext/"`
+            mv -f $ff.tmp $ff
+            chmod 664 $ff
+        done
+    else
+        echo "File $@ failed"
+        exit 2
+    fi
 }
 
 size=$(du -ks -L "$file" | awk '{ print $1}')
@@ -153,4 +153,3 @@ else
 	* ) echo >& 2 "Oops, unknown '$compress'"; exit 2 ;;
     esac
 fi
-
