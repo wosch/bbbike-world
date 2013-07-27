@@ -10,7 +10,7 @@ PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 : ${max_jobs=2}
 : ${BBBIKE_EXTRACT_LANG=en}
 : ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
-: ${BBBIKE_OSMAND_VERSION="OsmAndMapCreator-development"}
+: ${BBBIKE_OSMAND_VERSION="OsmAndMapCreator"}
 : ${osmand_home="$BBBIKE_OPT_DIR/$BBBIKE_OSMAND_VERSION"}
 dirname=$(dirname $0)
 
