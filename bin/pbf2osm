@@ -134,8 +134,10 @@ else
 	gzip )  osm2osm $compress "$@";;
 	bzip2 ) osm2osm $compress "$@";;
 
-	pgzip ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $gzip > $dir/$f.gz.tmp; mv -f $dir/$f.gz.tmp $dir/$f.gz ;;
-	pbzip2 ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $bzip2 > $dir/$f.bz2.tmp; mv -f $dir/$f.bz2.tmp $dir/$f.bz2 ;;
+	osmosis-pgzip )  osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $gzip > $dir/$f.gz.tmp; mv -f $dir/$f.gz.tmp $dir/$f.gz ;;
+	osmosis-pbzip2 ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $bzip2 > $dir/$f.bz2.tmp; mv -f $dir/$f.bz2.tmp $dir/$f.bz2 ;;
+        pgzip )  $osm2o5m "$file" --out-osm | $gzip > $dir/$f.osm.gz.tmp; mv -f $dir/$f.osm.gz.tmp $dir/$f.osm.gz ;;
+        pbzip2 ) $osm2o5m "$file" --out-osm | $bzip2 > $dir/$f.osm.bz2.tmp; mv -f $dir/$f.osm.bz2.tmp $dir/$f.osm.bz2 ;;
 
         o5m ) $osm2o5m "$file" --out-o5m ;;
         o5m-gzip ) $osm2o5m "$file" --out-o5m | $gzip > $dir/$f.o5m.gz.tmp; mv -f $dir/$f.o5m.gz.tmp $dir/$f.o5m.gz ;;
