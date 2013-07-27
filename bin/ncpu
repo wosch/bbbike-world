@@ -10,13 +10,15 @@ PATH=/bin:/usr/bin:/sbin:/usr/sbin; export PATH
 minus=0
 vcpu_param=0
 rcpu_param=0
+hcpu_param=0
 
 case $1 in
 	vcpu ) vcpu_param=1; shift ;;
 	rcpu ) rcpu_param=1; shift ;;
+	hcpu ) hcpu_param=1; shift ;;
 	ncpu | cpu ) shift ;;
 	"" | -* | +* ) ;;
-	*    ) echo "usage $0 [ vcpu | rcpu ] [ -/+ number ]"; exit 1;;
+	*    ) echo "usage $0 [ vcpu | rcpu | hcpu ] [ -/+ number ]"; exit 1;;
 esac
 
 case $1 in
@@ -35,6 +37,9 @@ config () {
     if [ -e $HOME/.ncpu.vcpu ]; then
         vcpu=$(cat $HOME/.ncpu.vcpu)
     fi
+    if [ -e $HOME/.ncpu.hcpu ]; then
+        ncpu=$(cat $HOME/.ncpu.hcpu)
+    fi
 }
 
 # macos
@@ -47,8 +52,9 @@ system_macos () {
 system_linux () {
   cpuinfo=/proc/cpuinfo
   
-  ncpu=`egrep -c '^processor' $cpuinfo`
+  ncpu=$(egrep -c '^processor' $cpuinfo)
   vcpu=$ncpu
+  hcpu=$(perl -e 'print int ( '$ncpu' / 2 + 0.5)')
 }
 
 case $(uname) in
@@ -68,6 +74,8 @@ elif [ "$rcpu_param" = 1 ]; then
     else
         n=$rcpu
     fi
+elif [ "$rcpu_param" = 1 ]; then
+    n=$hcpu
 else
     n=$ncpu
 fi
