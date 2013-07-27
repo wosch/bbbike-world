@@ -189,7 +189,7 @@ _cities-pbf: poly
 
 cities-pbf cities: _cities-pbf
 	${MAKE} -f Makefile.osm _pbf2pbf-checksum
-	${MAKE} -f Makefile.osm pbf2osm
+	#${MAKE} -f Makefile.osm pbf2osm
 
 cities-osm: _cities-osm
 	${MAKE} -f Makefile.osm osm2pbf
