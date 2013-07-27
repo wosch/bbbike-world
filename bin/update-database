@@ -18,7 +18,7 @@ mkdir -p $tmp
 : ${bbbike_extract="distclean cities-parallel"}
 : ${bbbike_convert="convert-wgs84 convert-post check-data-osm convert-bbbike update-files"}
 : ${bbbike_install="rsync-tgz _rsync cache-heater"}
-: ${bbbike_post="osm2garmin osm2shape osm2navit osm2osmand osm-html rsync rsync-osm-full"}
+: ${bbbike_post="pbf2osm osm2garmin osm2shape osm2navit osm2osmand osm-html rsync rsync-osm-full"}
 
 commands="$bbbike_build $bbbike_download $bbbike_extract $bbbike_convert $bbbike_install $bbbike_post"
 
