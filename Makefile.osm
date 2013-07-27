@@ -398,7 +398,7 @@ $(_cc):
 	  rm -rf ${DATA_OSM_DIR}/tmp/$$c; \
 	  if [ -e ${LOG_DIR}/city.$$c.log ]; then gzip -f ${LOG_DIR}/city.$$c.log; fi; \
 	  ( \
-	    ${TIME} ${OSM2BBD} -lang `${DB} --lang $$c` -o ${DATA_OSM_DIR}/tmp/$$c ${OSM_DIR}/$$c; \
+	    ${TIME} ${OSM2BBD} -lang `${DB} --lang $$c` -o ${DATA_OSM_DIR}/tmp/$$c ${OSM_DIR}/$$c/$$c.osm.gz; \
 	    ${TIME} world/bin/osm2bbd-workarounds ${DATA_OSM_DIR}/tmp $$c; \
 	  ) > ${LOG_DIR}/city.$$c.log 2>&1 ; \
 	  if [ $$? != 0 ]; then \
