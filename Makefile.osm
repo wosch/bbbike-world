@@ -26,8 +26,9 @@ MAX_CPU=	`world/bin/ncpu`
 MAX_CPU2=	`world/bin/ncpu -1`
 MAX_VCPU=	`world/bin/ncpu vcpu`
 MAX_RCPU=	`world/bin/ncpu rcpu -1`
+MAX_HCPU=	`world/bin/ncpu hcpu`
 MAX_OSM2PBF=	1
-MAX_OSM2GARMIN=	${MAX_CPU}
+MAX_OSM2GARMIN=	${MAX_HCPU}
 MAX_OSM2SHAPE=	${MAX_CPU}
 MAX_PBF2OSM=	${MAX_CPU}
 MAX_OSM2OSMAND=	${MAX_CPU}
@@ -807,7 +808,7 @@ tile-convert-osm:
 tile-convert-shp:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2SHAPE}
 tile-convert-garmin:
-	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2GARMIN}
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
 tile-convert-osmand:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | osm_checksum=true max_jobs=1 java_heap=2200M ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2OSMAND}
 tile-convert-mapsforge:
