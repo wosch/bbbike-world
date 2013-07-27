@@ -11,6 +11,7 @@ PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_EXTRACT_LANG=en}
 : ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
 : ${osmand_home="$BBBIKE_OPT_DIR/OsmAndMapCreator-development"}
+dirname=$(dirname $0)
 
 java_opt=-Xmx${java_heap}
 
@@ -37,9 +38,9 @@ warn () {
 file=$1
 city="$2"
 test -e "$file" || usage "file $file does not exists"
-: ${osm_checksum=`dirname $0`/osm-checksum}
+: ${osm_checksum=$dirname/osm-checksum}
 
-template=$(dirname $0)/../etc/extract/$(basename $0).$BBBIKE_EXTRACT_LANG.sh
+template=$dirname/../etc/extract/$(basename $0).$BBBIKE_EXTRACT_LANG.sh
 case $template in /*) ;; *) template=$(pwd)/$template ;; esac
 
 : ${debug=false}
@@ -67,13 +68,13 @@ obf=`basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
 obf_dir=$tmpdir/${obf}-obf
 mkdir -p $obf_dir
 
-etc_dir=`dirname $0`/../etc/OsmAndMapCreator
+etc_dir=$dirname/../etc/OsmAndMapCreator
 
 # absolute path
 case $etc_dir in /* ) ;; *) etc_dir=$pwd/$etc_dir ;; esac
 case $file in /* ) ;; *) file=$pwd/$file ;; esac
 
-text2html=$(dirname $0)/text2html.sh
+text2html=$dirname/text2html.sh
 case $text2html in /*) ;; *) text2html=$(pwd)/$text2html ;; esac
 
 logfile=$obf_dir/logfile.txt
