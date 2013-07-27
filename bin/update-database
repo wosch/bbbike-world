@@ -13,8 +13,6 @@ fi
 tmp=tmp
 mkdir -p $tmp
 
-test -e $HOME/.bbbikerc && . $HOME/.bbbikerc
-
 : ${bbbike_build="build-runtime"}
 : ${bbbike_download="planet-download"}
 : ${bbbike_extract="distclean cities-parallel"}
