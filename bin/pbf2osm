@@ -6,14 +6,15 @@
 PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 set -e
 
+dirname=$(dirname $0)
 compress=""
 gzip=`which pigz gzip | head -n 1`
 bzip2=`which pbzip2 bzip2 | head -n 1`
-osm2garmin=`dirname $0`/osm2garmin
-osm2shape=`dirname $0`/osm2shape
-osm2osmand=`dirname $0`/osm2osmand
-osm2navit=`dirname $0`/osm2navit
-osm2mapsforge=`dirname $0`/osm2mapsforge
+osm2garmin=$dirname/osm2garmin
+osm2shape=$dirname/osm2shape
+osm2osmand=$dirname/osm2osmand
+osm2navit=$dirname/osm2navit
+osm2mapsforge=$dirname/osm2mapsforge
 osm2o5m=osmconvert
 
 # max. file size in KB
