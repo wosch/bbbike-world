@@ -1,11 +1,11 @@
-// osmconvert 2012-10-14 18:10
-#define VERSION "0.7G"
+// osmconvert 2013-06-30 10:30
+#define VERSION "0.7T"
 //
 // compile this file:
 // gcc osmconvert.c -lz -O3 -o osmconvert
 //
-// (c) 2011, 2012 Markus Weber, Nuernberg
-// Richard Russo contributed the --all-to-nodes-bbox option
+// (c) 2011..2013 Markus Weber, Nuernberg
+// Richard Russo contributed the initiative to --add-bbox-tags option
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Affero General Public License
@@ -19,7 +19,6 @@
 //
 // Other licenses are available on request; please ask the author.
 
-// just a note (for tests): -b=8.748,53.052,8.749,53.053
 #define MAXLOGLEVEL 2
 const char* shorthelptext=
 "\nosmconvert " VERSION "  Parameter Overview\n"
@@ -32,7 +31,9 @@ const char* shorthelptext=
 "--complete-ways           do not clip ways at the borders\n"
 "--complex-ways            do not clip multipolygons at the borders\n"
 "--all-to-nodes            convert ways and relations to nodes\n"
-"--all-to-nodes-bbox       converts to nodes and adds bbox tags\n"
+"--add-bbox-tags           adds bbox tags to ways and relations\n"
+"--add-bboxarea-tags       adds tags for estimated bbox areas\n"
+"--add-bboxweight-tags     adds tags for log2 of bbox areas\n"
 "--object-type-offset=<id> offset for ways/relations if --all-to-nodes\n"
 "--max-objects=<n>         space for --all-to-nodes, 1 obj. = 16 bytes\n"
 "--drop-broken-refs        delete references to excluded nodes\n"
@@ -43,6 +44,7 @@ const char* shorthelptext=
 "--drop-relations          delete all relations\n"
 "--diff                    calculate differences between two files\n"
 "--diff-contents           same as before, but compare whole contents\n"
+"--subtract                subtract objects given by following files\n"
 "--emulate-osmosis         emulate Osmosis XML output format\n"
 "--emulate-pbf2osm         emulate pbf2osm output format\n"
 "--fake-author             set changeset to 1 and timestamp to 1970\n"
@@ -131,14 +133,21 @@ const char* helptext=
 "        and latitude are set to the way's geographical center. Same\n"
 "        applies to relations, however they get 2*10^15 as id offset.\n"
 "\n"
-"--all-to-nodes-bbox\n"
-"        If applying the --all-to-nodes option as explained above, you\n"
-"        may want to get the bounding box for the ways and relations\n"
-"        that are converted into nodes.\n"
-"        Apply this option if you want to add a tag \"bBox\" to the\n"
-"        converted objects, the value will be min Longitude, min\n"
-"        Latitude, max Longitude , max Latitude, for example: \n"
-"          <tag k=\"bBox\" v=\"-0.5000,51.0000,0.5000,52.0000\"/>\n"
+"--add-bbox-tags\n"
+"        This option adds a tag with a bounding box to each object.\n"
+"        The tag will contain the border coordinates in this order:\n"
+"        min Longitude, min Latitude, max Longitude , max Latitude.\n"
+"        e.g.:  <tag k=\"bBox\" v=\"-0.5000,51.0000,0.5000,52.0000\"/>\n"
+"\n"
+"--add-bboxarea-tags\n"
+"        A tag for an estimated area value for the bbox is added to\n"
+"        each way and each relation. The unit is square meters.\n"
+"        For example:  <tag k=\"bBoxArea\" v=\"33828002\"/>\n"
+"\n"
+"--add-bboxweight-tags\n"
+"        This option will add the binary logarithm of the bbox area\n"
+"        of each way and each relation.\n"
+"        For example:  <tag k=\"bBoxWeight\" v=\"20\"/>\n"
 "\n"
 "--object-type-offset=<id offset>\n"
 "        If applying the --all-to-nodes option as explained above, you\n"
@@ -184,6 +193,11 @@ const char* helptext=
 "        OSM objects are consulted, not only the version numbers.\n"
 "        Unfortunately, this option strictly requires both input files\n"
 "        to have .o5m format.\n"
+"\n"
+"--subtract\n"
+"        The output file will not contain any object which exists in\n"
+"        one of the input files following this directive. For example:\n"
+"        osmconvert input.o5m --subtract minus.o5m -o=output.o5m\n"
 "\n"
 "--emulate-osmosis\n"
 "--emulate-pbf2osm\n"
@@ -267,7 +281,7 @@ const char* helptext=
 "        --csv=\"@id name ref description\"\n"
 "        There are a few special column names for header data:\n"
 "        @otype (object type 0..2), @oname (object type name), @id\n"
-"        @lon, @lat, @uid, @user\n"
+"        @lon, @lat, @version, @timestamp, @changeset, @uid, @user\n"
 "\n"
 "--out-none\n"
 "        This will be no standard output. This option is for testing\n"
@@ -371,7 +385,7 @@ const char* helptext=
 "conversion of ways and relations to nodes (option --all-to-nodes).\n"
 "This space is sufficient for up to 25 Mio. OSM objects, 400 MB of\n"
 "main memory are needed for this purpose, 800 MB if extended option\n"
-"--all-to-nodes-bbox has been invoked. If this is not sufficient or\n"
+"--add-bbox-tags has been invoked. If this is not sufficient or\n"
 "if you want to save memory, you can configure the maximum number of\n"
 "OSM objects by yourself. For example:\n"
 "\n"
@@ -460,6 +474,12 @@ static bool global_diffcontents= false;
   // calculate physical diff between two files; 'physical' means
   // that not only the version number is consulted to determine
   // object differences, the whole object contents is;
+static bool global_subtract= false;  // any file which is opened
+  // via read_open() resp. oo_open() while global_subtract==true
+  // will be subtracted, i.e. the delete flags will be inverted:
+  // <delete> works as non-delete and no-<delete> works as "stay";
+  // be sure to have set this variable back to false before starting
+  // processing, to exclude unwanted effects on temporary files;
 static bool global_mergeversions= false;  // accept duplicate versions
 static bool global_dropversion= false;  // exclude version
 static bool global_dropauthor= false;  // exclude author information
@@ -499,13 +519,24 @@ static bool global_completeways= false;  // when applying borders,
 static bool global_complexways= false;  // same as global_completeways,
   // but multipolygons are included completely (with all ways and their
   // nodes), even when only a single nodes lies inside the borders;
+static int global_calccoords= 0;
+  // calculate coordinates for all objects;
+  // 0: no coordinates to calculate; 1: calculate coordinates;
+  // -1: calculate coordinates and bbox;
 static bool global_alltonodes= false;
   // convert all ways and all relations to nodes
-static bool global_alltonodes_bbox = false;
-  // add bBox tag to ways and relations when converting to nodes
+static bool global_add= false;
+  // add at least one tag shall be added;
+  // global_add==global_addbbox|global_addbboxarea|global_addbboxweight
+static bool global_addbbox= false;
+  // add bBox tags to ways and relations
+static bool global_addbboxarea= false;
+  // add bBoxArea tags to ways and relations
+static bool global_addbboxweight= false;
+  // add bBoxWeight tags to ways and relations
 static int64_t global_maxobjects= 25000000;
 static int64_t global_otypeoffset10= INT64_C(1000000000000000);
-  // if global_alltonodes:
+  // if global_calccoords!=0:
   // id offset for ways; *2: id offset for relations;
 static int64_t global_otypeoffset05,
   global_otypeoffset15,global_otypeoffset20;
@@ -698,6 +729,193 @@ static inline bool file_exists(const char* file_name) {
   return access(file_name,R_OK)==0;
   }  // file_exists()
 
+static inline int32_t msbit(int64_t v) {
+  // gets the most significant 1-bit of a 64 bit integer value;
+  int32_t msb;
+
+  msb= 0;
+  if(v>=0x100000000LL) {
+    v/= 0x100000000LL;
+    msb+= 32;
+    }
+  if(v>=0x10000L) {
+    v/= 0x10000L;
+    msb+= 16;
+    }
+  if(v>=0x100) {
+    v/= 0x100;
+    msb+= 8;
+    }
+  if(v>=0x10) {
+    v/= 0x10;
+    msb+= 4;
+    }
+  if(v>=0x4) {
+    v/= 0x4;
+    msb+= 2;
+    }
+  if(v>=0x2) {
+    v/= 0x2;
+    msb+= 1;
+    }
+  if(v!=0) {
+    msb+= 1;
+    }
+  return msb;
+  }  // msbit()
+
+static inline int64_t cosrk(int32_t lat) {
+  // this procedure calculates the Cosinus of the given latitude,
+  // multiplies it with 40000k/(360*10^7)==0.00012345679,
+  // and takes the reciprocal value of it;
+  // lat: latitude in 100 nano degrees;
+  // return: constant k needed to approximate the area of a
+  //         coordinte-defined bbox:
+  //         (lonmax-lonmin)*(latmax-latmin)/k
+  static const int32_t cosrktab[901]= {
+    8100,8100,8100,8100,8100,8100,8100,8100,
+    8100,8100,8101,8101,8101,8102,8102,8102,
+    8103,8103,8103,8104,8104,8105,8105,8106,
+    8107,8107,8108,8109,8109,8110,8111,8111,
+    8112,8113,8114,8115,8116,8116,8117,8118,
+    8119,8120,8121,8122,8123,8125,8126,8127,
+    8128,8129,8130,8132,8133,8134,8136,8137,
+    8138,8140,8141,8143,8144,8146,8147,8149,
+    8150,8152,8154,8155,8157,8159,8160,8162,
+    8164,8166,8168,8169,8171,8173,8175,8177,
+    8179,8181,8183,8185,8187,8189,8192,8194,
+    8196,8198,8200,8203,8205,8207,8210,8212,
+    8215,8217,8219,8222,8224,8227,8230,8232,
+    8235,8237,8240,8243,8246,8248,8251,8254,
+    8257,8260,8263,8265,8268,8271,8274,8277,
+    8280,8284,8287,8290,8293,8296,8299,8303,
+    8306,8309,8313,8316,8319,8323,8326,8330,
+    8333,8337,8340,8344,8347,8351,8355,8358,
+    8362,8366,8370,8374,8377,8381,8385,8389,
+    8393,8397,8401,8405,8409,8413,8418,8422,
+    8426,8430,8434,8439,8443,8447,8452,8456,
+    8461,8465,8470,8474,8479,8483,8488,8493,
+    8497,8502,8507,8512,8516,8521,8526,8531,
+    8536,8541,8546,8551,8556,8561,8566,8571,
+    8577,8582,8587,8592,8598,8603,8608,8614,
+    8619,8625,8630,8636,8642,8647,8653,8658,
+    8664,8670,8676,8682,8687,8693,8699,8705,
+    8711,8717,8723,8729,8736,8742,8748,8754,
+    8761,8767,8773,8780,8786,8793,8799,8806,
+    8812,8819,8825,8832,8839,8846,8852,8859,
+    8866,8873,8880,8887,8894,8901,8908,8915,
+    8922,8930,8937,8944,8951,8959,8966,8974,
+    8981,8989,8996,9004,9012,9019,9027,9035,
+    9043,9050,9058,9066,9074,9082,9090,9098,
+    9107,9115,9123,9131,9140,9148,9156,9165,
+    9173,9182,9190,9199,9208,9216,9225,9234,
+    9243,9252,9261,9270,9279,9288,9297,9306,
+    9315,9325,9334,9343,9353,9362,9372,9381,
+    9391,9400,9410,9420,9430,9439,9449,9459,
+    9469,9479,9489,9499,9510,9520,9530,9540,
+    9551,9561,9572,9582,9593,9604,9614,9625,
+    9636,9647,9658,9669,9680,9691,9702,9713,
+    9724,9736,9747,9758,9770,9781,9793,9805,
+    9816,9828,9840,9852,9864,9876,9888,9900,
+    9912,9924,9937,9949,9961,9974,9986,9999,
+    10012,10024,10037,10050,10063,10076,10089,10102,
+    10115,10128,10142,10155,10169,10182,10196,10209,
+    10223,10237,10251,10265,10279,10293,10307,10321,
+    10335,10350,10364,10378,10393,10408,10422,10437,
+    10452,10467,10482,10497,10512,10527,10542,10558,
+    10573,10589,10604,10620,10636,10652,10668,10684,
+    10700,10716,10732,10748,10765,10781,10798,10815,
+    10831,10848,10865,10882,10899,10916,10934,10951,
+    10968,10986,11003,11021,11039,11057,11075,11093,
+    11111,11129,11148,11166,11185,11203,11222,11241,
+    11260,11279,11298,11317,11337,11356,11375,11395,
+    11415,11435,11455,11475,11495,11515,11535,11556,
+    11576,11597,11618,11639,11660,11681,11702,11724,
+    11745,11767,11788,11810,11832,11854,11876,11899,
+    11921,11944,11966,11989,12012,12035,12058,12081,
+    12105,12128,12152,12176,12200,12224,12248,12272,
+    12297,12321,12346,12371,12396,12421,12446,12472,
+    12497,12523,12549,12575,12601,12627,12654,12680,
+    12707,12734,12761,12788,12815,12843,12871,12898,
+    12926,12954,12983,13011,13040,13069,13098,13127,
+    13156,13186,13215,13245,13275,13305,13336,13366,
+    13397,13428,13459,13490,13522,13553,13585,13617,
+    13649,13682,13714,13747,13780,13813,13847,13880,
+    13914,13948,13982,14017,14051,14086,14121,14157,
+    14192,14228,14264,14300,14337,14373,14410,14447,
+    14485,14522,14560,14598,14637,14675,14714,14753,
+    14792,14832,14872,14912,14952,14993,15034,15075,
+    15116,15158,15200,15242,15285,15328,15371,15414,
+    15458,15502,15546,15591,15636,15681,15726,15772,
+    15818,15865,15912,15959,16006,16054,16102,16151,
+    16200,16249,16298,16348,16398,16449,16500,16551,
+    16603,16655,16707,16760,16813,16867,16921,16975,
+    17030,17085,17141,17197,17253,17310,17367,17425,
+    17483,17542,17601,17660,17720,17780,17841,17903,
+    17964,18027,18090,18153,18217,18281,18346,18411,
+    18477,18543,18610,18678,18746,18814,18883,18953,
+    19023,19094,19166,19238,19310,19384,19458,19532,
+    19607,19683,19759,19836,19914,19993,20072,20151,
+    20232,20313,20395,20478,20561,20645,20730,20815,
+    20902,20989,21077,21166,21255,21346,21437,21529,
+    21622,21716,21811,21906,22003,22100,22199,22298,
+    22398,22500,22602,22705,22810,22915,23021,23129,
+    23237,23347,23457,23569,23682,23796,23912,24028,
+    24146,24265,24385,24507,24630,24754,24879,25006,
+    25134,25264,25395,25527,25661,25796,25933,26072,
+    26212,26353,26496,26641,26788,26936,27086,27238,
+    27391,27547,27704,27863,28024,28187,28352,28519,
+    28688,28859,29033,29208,29386,29566,29748,29933,
+    30120,30310,30502,30696,30893,31093,31295,31501,
+    31709,31920,32134,32350,32570,32793,33019,33249,
+    33481,33717,33957,34200,34447,34697,34951,35209,
+    35471,35737,36007,36282,36560,36843,37131,37423,
+    37720,38022,38329,38641,38958,39281,39609,39943,
+    40282,40628,40980,41337,41702,42073,42450,42835,
+    43227,43626,44033,44447,44870,45301,45740,46188,
+    46646,47112,47588,48074,48570,49076,49594,50122,
+    50662,51214,51778,52355,52946,53549,54167,54800,
+    55447,56111,56790,57487,58200,58932,59683,60453,
+    61244,62056,62890,63747,64627,65533,66464,67423,
+    68409,69426,70473,71552,72665,73814,75000,76225,
+    77490,78799,80153,81554,83006,84510,86071,87690,
+    89371,91119,92937,94828,96799,98854,100998,103238,
+    105580,108030,110598,113290,116118,119090,122220,125518,
+    129000,132681,136578,140712,145105,149781,154769,160101,
+    165814,171950,178559,185697,193429,201834,211004,221047,
+    232095,244305,257873,273037,290097,309432,331529,357027,
+    386774,421931,464119,515683,580138,663010,773507,928203,
+    1160248,1546993,2320483,4640960,
+    2147483647 };  // cosrk values for 10th degrees from 0 to 90
+
+  lat/= 1000000;
+    // transform unit 100 nano degree into unit 10th degree
+  if(lat<0) lat= -lat;  // make it positive
+  if(lat>900) lat= 900; // set maximum of 90 degree
+  return cosrktab[lat];
+  }  // cosrk()
+// the table in the previous procedure has been generated by this
+// program:
+#if 0  // file cosrk.c, run it with: gcc cosrk.c -lm -o cosrk && ./cosrk
+#include <stdio.h>
+#include <math.h>
+#include <inttypes.h>
+int main() {
+  int i;
+  printf("  static const int32_t cosrktab[901]= {");
+  i= 0;
+  for(i= 0;i<900;i++) {
+    if(i%8==0)
+      printf("\n    ");
+    printf("%"PRIi32",",(int32_t)(
+      1/( cos(i/1800.0*3.14159265359) *0.00012345679)
+      ));
+    }
+  printf("\n    2147483647");
+  printf(" };  // cosrk values for 10th degrees from 0 to 90\n");
+  return 0; }
+#endif
+
 
 
 //------------------------------------------------------------
@@ -843,20 +1061,20 @@ static inline bool pbf_jump(byte** pp) {
   type= *p & 0x07;
   switch(type) {  // protobuf type
   case 0:  // Varint
-    while(*p & 80) p++; p++;  // jump over id
-    while(*p & 80) p++; p++;  // jump over data
+    while(*p & 0x80) p++; p++;  // jump over id
+    while(*p & 0x80) p++; p++;  // jump over data
     break;
   case 1: // fixed 64 bit;
-    while(*p & 80) p++; p++;  // jump over id
+    while(*p & 0x80) p++; p++;  // jump over id
     p+= 4;  // jump over data
     break;
   case 2:  // String
-    while(*p & 80) p++; p++;  // jump over id
+    while(*p & 0x80) p++; p++;  // jump over id
     u= pbf_uint32(&p);
     p+= u;  // jump over string contents
     break;
   case 5: // fixed 32 bit;
-    while(*p & 80) p++; p++;  // jump over id
+    while(*p & 0x80) p++; p++;  // jump over id
     p+= 2;  // jump over data
     break;
   default:  // unknown id
@@ -2279,6 +2497,25 @@ static inline void write_uint64(uint64_t v) {
   write_str(s);
   }  // end write_uint64()
 
+static inline void write_createsint64(int64_t v,char* sp) {
+  // create a signed 64 bit integer number;
+  // return:
+  // sp[30]: value v as decimal integer string;
+  static char *s1,*s2,c;
+
+  s1= sp;
+  if(v<0)
+    { *s1++= '-'; v= -v; }
+  else if(v==0)
+    *s1++= '0';
+  s2= s1;
+  while(v>0)
+    { *s2++= (v%10)+'0'; v/= 10; }
+  *s2--= 0;
+  while(s2>s1)
+    { c= *s1; *s1= *s2; *s2= c; s1++; s2--; }
+  }  // end write_sint64()
+
 static inline void write_sint64(int64_t v) {
   // write a signed 64 bit integer number to standard output;
   static char s[30],*s1,*s2,c;
@@ -2297,12 +2534,13 @@ static inline void write_sint64(int64_t v) {
   write_str(s);
   }  // end write_sint64()
 
-static inline void write_createsfix7o(int32_t v,char* s) {
+static inline char* write_createsfix7o(int32_t v,char* s) {
   // convert a signed 7 decimals fixpoint value into a string;
   // keep trailing zeroes;
   // v: fixpoint value
-  // sp[12]: destination string;
-  char* s1,*s2,c;
+  // return: pointer do string terminator;
+  // s[12]: destination string;
+  char* s1,*s2,*sterm,c;
   int i;
 
   s1= s;
@@ -2316,26 +2554,12 @@ static inline void write_createsfix7o(int32_t v,char* s) {
   do
     { *s2++= (v%10)+'0'; v/= 10; }
     while(v>0);
+  sterm= s2;
   *s2--= 0;
   while(s2>s1)
     { c= *s1; *s1= *s2; *s2= c; s1++; s2--; }
+  return sterm;
   }  // end write_createsfix7o()
-
-static inline void write_createsbbox(int32_t x_min, int32_t y_min,
-    int32_t x_max, int32_t y_max, char* s) {
-  char y_minS[20], x_minS[20], y_maxS[20], x_maxS[20];
-  write_createsfix7o(x_min, x_minS);
-  write_createsfix7o(y_min, y_minS);
-  write_createsfix7o(x_max, x_maxS);
-  write_createsfix7o(y_max, y_maxS);
-  s = stpcpy0(s, x_minS);
-  s = stpcpy0(s, ",");
-  s = stpcpy0(s, y_minS);
-  s = stpcpy0(s, ",");
-  s = stpcpy0(s, x_maxS);
-  s = stpcpy0(s, ",");
-  s = stpcpy0(s, y_maxS);
-  } // end write_createsbbox()
 
 static inline void write_sfix7(int32_t v) {
   // write a signed 7 decimals fixpoint value to standard output;
@@ -2500,7 +2724,8 @@ static int csv__valn= 0;  // number of vals
 // this is for program acceleration
 static bool csv_key_otype= false, csv_key_oname= false,
   csv_key_id= false, csv_key_lon= false, csv_key_lat= false,
-  csv_key_uid= false, csv_key_user= false;
+  csv_key_version=false, csv_key_timestamp=false,
+  csv_key_changeset=false, csv_key_uid= false, csv_key_user= false;
 static char csv__sep0= '\t';  // first character of global_csvseparator;
 static char csv__rep0= ' ';  // replacement character for separator char
 
@@ -2571,6 +2796,9 @@ return 1;
       else if(strcmp(tp,"@id")==0) csv_key_id= true;
       else if(strcmp(tp,"@lon")==0) csv_key_lon= true;
       else if(strcmp(tp,"@lat")==0) csv_key_lat= true;
+      else if(strcmp(tp,"@version")==0) csv_key_version= true;
+      else if(strcmp(tp,"@timestamp")==0) csv_key_timestamp= true;
+      else if(strcmp(tp,"@changeset")==0) csv_key_changeset= true;
       else if(strcmp(tp,"@uid")==0) csv_key_uid= true;
       else if(strcmp(tp,"@user")==0) csv_key_user= true;
       columns+= len-1;
@@ -3488,6 +3716,22 @@ return 0;
             l= pbf_uint32(&bp);
             bp+= l;  // (ignore this element)
             break;
+          case 0x80:  // 0x02 V 32, osmosis_replication_timestamp ,,,
+            if(bp[1]!=0x02) goto h_unknown;
+            bp+= 2;
+            pb_filetimestamp= pbf_uint64(&bp);
+            break;
+          case 0x88:  // 0x02 V 33, osmosis_replication_sequence_number
+            if(bp[1]!=0x02) goto h_unknown;
+            bp+= 2;
+            pbf_uint64(&bp);  // (ignore this element)
+            break;
+          case 0x92:  // 0x02 S 34, osmosis_replication_base_url
+            if(bp[1]!=0x02) goto h_unknown;
+            bp+= 2;
+            l= pbf_uint32(&bp);
+            bp+= l;  // (ignore this element)
+            break;
           default:
           h_unknown:
             WARNv("header block element type unknown: "
@@ -4256,7 +4500,7 @@ return r;
 #define pw__compress_bufM (UINT64_C(35) Megabytes)
 static byte* pw__compress_buf= NULL;  // buffer for compressed objects
 
-#define pw__bufM (UINT64_C(160) Megabytes)
+#define pw__bufM (UINT64_C(186) Megabytes)
 static byte* pw__buf= NULL;  // buffer for objects in .pbf format
 static byte* pw__bufe= NULL;  // logical end of the buffer
 static byte* pw__bufee= NULL;  // physical end of the buffer
@@ -4756,7 +5000,7 @@ static void pw__data(int otype) {
         if(!global_dropversion) {  // version number is to be written
           pw__dn_his= pw__obj_open("\x2a");  // S 5 'his'
           pw__dn_hisver= pw__obj_open("\x0a");  // S 1 'his.ver'
-          pw__obj_limit(4 Megabytes);
+          pw__obj_limit(10 Megabytes);
           if(!global_dropauthor) {  // author information  is to be written
             pw__dn_histime= pw__obj_open("\x12");  // S 2 'his.time'
             pw__obj_limit(10 Megabytes);
@@ -4774,7 +5018,7 @@ static void pw__data(int otype) {
         pw__dn_lon= pw__obj_open("\x4a");  // S 9 'lon'
         pw__obj_limit(30 Megabytes);
         pw__dn_keysvals= pw__obj_open("\x52");  // S 10 'tags'
-        pw__obj_limit(20 Megabytes);
+        pw__obj_limit(40 Megabytes);
         // reset variables for delta coding
         pw__dc_id= 0;
         pw__dc_lat= pw__dc_lon= 0;
@@ -4881,6 +5125,10 @@ static void pw_header(bool bboxvalid,
   pw__obj_add_str("osmconvert "VERSION);
   pw__obj_add_id2(0x8a01);  // S 17 'source'
   pw__obj_add_str("http://www.openstreetmap.org/api/0.6");
+  if(timestamp!=0) {  // file timestamp given
+    pw__obj_add_id2(0x8002);  // V 32 osmosis_replication_timestamp ,,,
+    pw__obj_add_uint64(timestamp);
+    }  // file timestamp given
   /* write 'raw_size' into hierarchy object's header */ {
     uint32_t v,frac;
     byte* bp;
@@ -5192,8 +5440,8 @@ static inline void pw_relation_close() {
 
 // this module provides a geocoordinate table for to store
 // the coordinates of all OSM objects;
-// the procedures posi_set() and posi_get() allow access to
-// this tables;
+// the procedures posi_set() (resp. posi_setbbox()) and
+// posi_get() allow access to this tables;
 // as usual, all identifiers of a module have the same prefix,
 // in this case 'posi'; an underline will follow for a global
 // accessible identifier, two underlines if the identifier
@@ -5267,7 +5515,7 @@ static int posi_ini() {
 return 0;
   atexit(posi__end);  // chain-in the clean-up procedure
   // allocate memory for the positions array
-  if (global_alltonodes_bbox) {
+  if (global_calccoords<0) {
     posi__mem_size = 32;
     posi__mem_mask = ~0x1f;
     posi__mem_increment = 4;
@@ -5295,7 +5543,7 @@ static inline void posi_set(int64_t id,int32_t x,int32_t y) {
   posi__meme->id= id;
   posi__meme->data[0]= x;
   posi__meme->data[1]= y;
-  if (global_alltonodes_bbox) {
+  if (global_calccoords<0) {
     posi__meme->data[2]= x; // x_min
     posi__meme->data[3]= y; // y_min
     posi__meme->data[4]= x; // x_max
@@ -5303,6 +5551,23 @@ static inline void posi_set(int64_t id,int32_t x,int32_t y) {
     }
   posi__meme+= posi__mem_increment;
   }  // end   posi_set()
+
+static inline void posi_setbbox(int64_t id,int32_t x,int32_t y,
+    int32_t xmin,int32_t ymin,int32_t xmax,int32_t ymax) {
+  // same as posi_set(), however provide a bbox as well;
+  // important: the caller must ensure that this module has been
+  // initialized with global_calccoords= -1;
+  if(posi__meme>=posi__memee)  // not enough space in position array
+    exit(70001);
+  posi__meme->id= id;
+  posi__meme->data[0]= x;
+  posi__meme->data[1]= y;
+  posi__meme->data[2]= xmin;
+  posi__meme->data[3]= ymin;
+  posi__meme->data[4]= xmax;
+  posi__meme->data[5]= ymax;
+  posi__meme+= posi__mem_increment;
+  }  // end   posi_setbbox()
 
 static const int32_t posi_nil= 2000000000L;
 static int32_t* posi_xy= NULL;  // position of latest read coordinates;
@@ -5315,6 +5580,10 @@ static inline void posi_get(int64_t id) {
   // return: posi_xy[0]: x; posi_xy[1]: y;
   //         the caller may change the values for x and y;
   //         posi_xy==NULL: no geoposition available for this id;
+  //         if this module has been initialized with global_calccoords
+  //         set to -1, the bbox addresses will be returned too:
+  //         posi_xy[2]: xmin; posi_xy[3]: ymin;
+  //         posi_xy[4]: xmax; posi_xy[5]: ymax;
   char* min,*max,*middle;
   int64_t middle_id;
 
@@ -5483,7 +5752,7 @@ static void posr_processing(int* maxrewindp,int32_t** refxy) {
   int64_t relid;  // relation id;
   int64_t refid;  // interrelation reference id;
   bool jump_over;  // jump over the presently processed relation
-  int32_t* xy_rel;  // geocoordinate of the processed relation;
+  int32_t* xy_rel;  // geocoordinates of the processed relation;
   int32_t x_min,x_max,y_min,y_max;
   int32_t x_middle,y_middle,xy_distance,new_distance;
   int n;  // number of referenced objects with coordinates
@@ -5508,7 +5777,7 @@ static void posr_processing(int* maxrewindp,int32_t** refxy) {
           y_middle= (y_max+y_min)/2;
           // store the coordinates for this relation
 //DPv(is_area %i refxy %i,is_area,refxyp==refxy)
-          if(global_alltonodes_bbox) {
+          if(global_calccoords<0) {
             xy_rel[2]= x_min;
             xy_rel[3]= y_min;
             xy_rel[4]= x_max;
@@ -5573,7 +5842,7 @@ static void posr_processing(int* maxrewindp,int32_t** refxy) {
         }
       *refxyp++= posi_xy;  // store coordinate for reprocessing later
       if(n==0) {  // first coordinate
-        if(global_alltonodes_bbox) {
+        if(global_calccoords<0) {
           x_min = posi_xy[2];
           y_min = posi_xy[3];
           x_max = posi_xy[4];
@@ -5585,7 +5854,7 @@ static void posr_processing(int* maxrewindp,int32_t** refxy) {
           y_min= y_max= posi_xy[1];
           }
         }
-      else if(global_alltonodes_bbox) {
+      else if(global_calccoords<0) {
         // adjust extrema
         if(posi_xy[2]<x_min && x_min-posi_xy[2]<900000000)
           x_min= posi_xy[2];
@@ -6664,7 +6933,7 @@ static void str_read(byte** pp,char** s1p,char** s2p) {
   char* p;
   int len1,len2;
   int ref;
-  bool donotstore;  // string has 'do not store flag'  2012-10-01 ,,,,,
+  bool donotstore;  // string has 'do not store flag'  2012-10-01 ,,,
 
   p= (char*)*pp;
   if(*p==0) {  // string (pair) given directly
@@ -7078,7 +7347,7 @@ return;
 return;
     }
   if(wo__format==21) {  // csv
-    char s[20];
+    char s[25];
 
     if(csv_key_otype)
       csv_add("@otype","0");
@@ -7087,6 +7356,18 @@ return;
     if(csv_key_id) {
       int64toa(id,s);
       csv_add("@id",s);
+      }
+    if(csv_key_version) {
+      uint32toa(hisver,s);
+      csv_add("@version",s);
+      }
+    if(csv_key_timestamp) {
+      write_createtimestamp(histime,s);
+      csv_add("@timestamp",s);
+      }
+    if(csv_key_changeset) {
+      int64toa(hiscset,s);
+      csv_add("@changeset",s);
       }
     if(csv_key_uid) {
       uint32toa(hisuid,s);
@@ -7178,7 +7459,7 @@ return;
 return;
     }
   if(wo__format==21) {  // csv
-    char s[20];
+    char s[25];
 
     if(csv_key_otype)
       csv_add("@otype","1");
@@ -7187,6 +7468,18 @@ return;
     if(csv_key_id) {
       int64toa(id,s);
       csv_add("@id",s);
+      }
+    if(csv_key_version) {
+      uint32toa(hisver,s);
+      csv_add("@version",s);
+      }
+    if(csv_key_timestamp) {
+      write_createtimestamp(histime,s);
+      csv_add("@timestamp",s);
+      }
+    if(csv_key_changeset) {
+      int64toa(hiscset,s);
+      csv_add("@changeset",s);
       }
     if(csv_key_uid) {
       uint32toa(hisuid,s);
@@ -7254,7 +7547,7 @@ return;
 return;
     }
   if(wo__format==21) {  // csv
-    char s[20];
+    char s[25];
 
     if(csv_key_otype)
       csv_add("@otype","2");
@@ -7263,6 +7556,18 @@ return;
     if(csv_key_id) {
       int64toa(id,s);
       csv_add("@id",s);
+      }
+    if(csv_key_version) {
+      uint32toa(hisver,s);
+      csv_add("@version",s);
+      }
+    if(csv_key_timestamp) {
+      write_createtimestamp(histime,s);
+      csv_add("@timestamp",s);
+      }
+    if(csv_key_changeset) {
+      int64toa(hiscset,s);
+      csv_add("@changeset",s);
       }
     if(csv_key_uid) {
       uint32toa(hisuid,s);
@@ -7502,6 +7807,50 @@ write_xmlstr(val);
     break;
     }  // end   depending on output format
   }  // end   wo_wayrel_keyval()
+
+
+static inline void wo_addbboxtags(bool fornode,
+    int32_t x_min, int32_t y_min,int32_t x_max, int32_t y_max) {
+  // adds tags for bbox and box area if requested by
+  // global_addbbox, global_addbboxarea resp. global_addbboxweight;
+  // fornode: add the tag(s) to a node, not to way/rel;
+  char s[84],*sp;
+  int64_t area;
+
+  if(global_addbbox) {  // add bbox tags
+    sp= s;
+    sp= write_createsfix7o(x_min,sp);
+    *sp++= ',';
+    sp= write_createsfix7o(y_min,sp);
+    *sp++= ',';
+    sp= write_createsfix7o(x_max,sp);
+    *sp++= ',';
+    sp= write_createsfix7o(y_max,sp);
+    if(fornode)
+      wo_node_keyval("bBox",s);
+    else
+      wo_wayrel_keyval("bBox",s);
+    }  // add bbox tags
+  if(global_addbboxarea|global_addbboxweight) {
+      // add bbox area tags OR add bbox weight tags
+    area= (int64_t)(x_max-x_min)*(int64_t)(y_max-y_min)/
+      cosrk((y_min+y_max)/2);
+    if(global_addbboxarea) {  // add bbox area tags
+      write_createsint64(area,s);
+      if(fornode)
+        wo_node_keyval("bBoxArea",s);
+      else
+        wo_wayrel_keyval("bBoxArea",s);
+      }  // add bbox area tags
+    if(global_addbboxweight) {  // add bbox weight tags ,,,,,
+      write_createsint64(msbit(area),s);
+      if(fornode)
+        wo_node_keyval("bBoxWeight",s);
+      else
+        wo_wayrel_keyval("bBoxWeight",s);
+      }  // add bbox weight tags
+    }  // add bbox area tags OR add bbox weight tags
+  } // end wo_addbboxtags()
 
 //------------------------------------------------------------
 // end   Module wo_   write osm module
@@ -7965,6 +8314,8 @@ typedef struct {
     // 0: not to delete; 1: delete this object; 2: delete from now on;
   int deleteobjectjump;  // same as before but as save value for jumps
     // 0: not to delete; 1: delete this object; 2: delete from now on;
+  bool subtract;  // this file is to be subtracted, i.e., the
+    // meaning of 'deleteobject' will be treated inversely;
   int64_t o5id;  // for o5m delta coding
   int32_t o5lon,o5lat;  // for o5m delta coding
   int64_t o5histime;  // for o5m delta coding
@@ -7988,15 +8339,44 @@ static int64_t oo__timestamp= 0;
   // ==0: no file timestamp given;
 static bool oo__alreadyhavepbfobject= false;
 
+static void oo__mergebbox(int32_t bbx1,int32_t bby1,
+    int32_t bbx2,int32_t bby2) {
+  // merge new bbox coordinates to existing ones;
+  // if there are no bbox coordinates at present,
+  // just store the new coordinates;
+  // bbx1 .. bby2: border box coordinates to merge;
+  // return:
+  // oo__bbvalid: following border box information is valid;
+  // oo__bbx1 .. oo__bby2: border box coordinates;
+
+  if(!oo__bbvalid) {  // not yet any bbox stored
+    // just store the new coordinates as bbox
+    oo__bbx1= bbx1;
+    oo__bby1= bby1;
+    oo__bbx2= bbx2;
+    oo__bby2= bby2;
+    oo__bbvalid= true;
+    }  // not yet any bbox stored
+  else {  // there is already a bbox
+    // merge the new coordinates with the existing bbox
+    if(bbx1<oo__bbx1) oo__bbx1= bbx1;
+    if(bby1<oo__bby1) oo__bby1= bby1;
+    if(bbx2>oo__bbx2) oo__bbx2= bbx2;
+    if(bby2>oo__bby2) oo__bby2= bby2;
+    }  // there is already a bbox
+  }  // oo__mergebbox()
+
 static void oo__findbb() {
   // find timestamp and border box in input file;
   // return:
   // oo__bbvalid: following border box information is valid;
   // oo__bbx1 .. oo__bby2: border box coordinates;
-
   // read_bufp will not be changed;
   byte* bufp,*bufe;
+  int32_t bbx1= 0,bby1= 0,bbx2= 0,bby2= 0;
+    // bbox coordinates (base 10^-7)
 
+  bbx1= bby1= bbx2= bby2= 0;
   read_input();
   bufp= read_bufp; bufe= read_bufe;
   if(oo__ifp->format==0) {  // o5m
@@ -8012,8 +8392,7 @@ return;
     continue;
         }  // end   single byte dataset
       // here: non-object multibyte dataset
-      if(b==0xdc) {
-          // timestamp
+      if(b==0xdc) {  // timestamp
         bufp++;
         l= pbf_uint32(&bufp);
         bufe= bufp+l;
@@ -8021,17 +8400,16 @@ return;
         bufp= bufe;
     continue;
         }  // timestamp
-      if(b==0xdb && oo__ifp==oo__if) {
-          // border box AND first input file
+      if(b==0xdb) {  // border box
         bufp++;
         l= pbf_uint32(&bufp);
         bufe= bufp+l;
-        if(bufp<bufe) oo__bbx1= pbf_sint32(&bufp);
-        if(bufp<bufe) oo__bby1= pbf_sint32(&bufp);
-        if(bufp<bufe) oo__bbx2= pbf_sint32(&bufp);
+        if(bufp<bufe) bbx1= pbf_sint32(&bufp);
+        if(bufp<bufe) bby1= pbf_sint32(&bufp);
+        if(bufp<bufe) bbx2= pbf_sint32(&bufp);
         if(bufp<bufe) {
-          oo__bby2= pbf_sint32(&bufp);
-          oo__bbvalid= true;
+          bby2= pbf_sint32(&bufp);
+          oo__mergebbox(bbx1,bby1,bbx2,bby2);
           }
         bufp= bufe;
     continue;
@@ -8096,14 +8474,13 @@ return;
         bufp++;
     continue;
         }  // "<osm"
-      else if(c1=='b' && c2=='o' && c3=='u'  && oo__ifp==oo__if) {
-          // bounds AND first input file
+      else if(c1=='b' && c2=='o' && c3=='u') {  // bounds
         // bounds may be supplied in one of these formats:
         // <bounds minlat="53.01104" minlon="8.481593"
         //   maxlat="53.61092" maxlon="8.990601"/>
         // <bound box="49.10868,6.35017,49.64072,7.40979"
         //   origin="http://www.openstreetmap.org/api/0.6"/>
-        uint32_t bboxcomplete;  // flags for oo__bbx1 .. oo__bby2
+        uint32_t bboxcomplete;  // flags for bbx1 .. bby2
         int l;
         char c;
 
@@ -8132,29 +8509,29 @@ return;
               (l= strzlcmp(sp,"minlat=\'"))>0 ||
               ((isdig(c) || c=='-' || c=='.') && (bboxcomplete&2)==0)) {
             sp+= l;
-            oo__bby1= oo__strtodeg(sp);
-            if(oo__bby1!=oo__nildeg) bboxcomplete|= 2;
+            bby1= oo__strtodeg(sp);
+            if(bby1!=oo__nildeg) bboxcomplete|= 2;
             }
           else if((l= strzlcmp(sp,"minlon=\""))>0 ||
               (l= strzlcmp(sp,"minlon=\'"))>0 ||
               ((isdig(c) || c=='-' || c=='.') && (bboxcomplete&1)==0)) {
             sp+= l;
-            oo__bbx1= oo__strtodeg(sp);
-            if(oo__bbx1!=oo__nildeg) bboxcomplete|= 1;
+            bbx1= oo__strtodeg(sp);
+            if(bbx1!=oo__nildeg) bboxcomplete|= 1;
             }
           else if((l= strzlcmp(sp,"maxlat=\""))>0 ||
               (l= strzlcmp(sp,"maxlat=\'"))>0 ||
               ((isdig(c) || c=='-' || c=='.') && (bboxcomplete&8)==0)) {
             sp+= l;
-            oo__bby2= oo__strtodeg(sp);
-            if(oo__bby2!=oo__nildeg) bboxcomplete|= 8;
+            bby2= oo__strtodeg(sp);
+            if(bby2!=oo__nildeg) bboxcomplete|= 8;
             }
           else if((l= strzlcmp(sp,"maxlon=\""))>0 ||
               (l= strzlcmp(sp,"maxlon=\'"))>0 ||
               ((isdig(c) || c=='-' || c=='.') && (bboxcomplete&4)==0)) {
             sp+= l;
-            oo__bbx2= oo__strtodeg(sp);
-            if(oo__bbx2!=oo__nildeg) bboxcomplete|= 4;
+            bbx2= oo__strtodeg(sp);
+            if(bbx2!=oo__nildeg) bboxcomplete|= 4;
             }
           for(;;) {  // find next blank or comma
             c= *sp;
@@ -8163,7 +8540,8 @@ return;
             sp++;
             }
           }  // end   for every word in 'bounds'
-        oo__bbvalid= bboxcomplete==15;
+        if(bboxcomplete==15)
+          oo__mergebbox(bbx1,bby1,bbx2,bby2);
         bufp++;
     continue;
         }  // bounds
@@ -8175,11 +8553,9 @@ return;
     }  // end   osm xml
   else if(oo__ifp->format==-1) {  // pbf
     //pb_input();
-    if(pb_type==8 && oo__ifp==oo__if) {
-        // pbf header AND first input file
-      oo__bbx1= pb_bbx1; oo__bby1= pb_bby1;
-      oo__bbx2= pb_bbx2; oo__bby2= pb_bby2;
-      oo__bbvalid= pb_bbvalid;
+    if(pb_type==8) {  // pbf header
+      if(pb_bbvalid)
+        oo__mergebbox(pb_bbx1,pb_bby1,pb_bbx2,pb_bby2);
       if(pb_filetimestamp!=0)
         oo__timestamp= pb_filetimestamp;
       }  // end   pbf header
@@ -8282,12 +8658,10 @@ return 0;
 return 1;
     }
   else if(format==-1) {  // pbf
-#if 1  //,,,
     while(pb_type>2) {  // not an OSM object
       pb_input(false);
       oo__alreadyhavepbfobject= true;
       }
-#endif
     if((pb_type & 3)!=pb_type)  // still not an osm object
 return 1;
     oo__ifp->tyid= idoffset[pb_type]+pb_id;
@@ -8318,6 +8692,10 @@ static inline int oo__getformat() {
     if(oo__ifp->ri!=NULL && oo__ifp->format==-9) {
         // format not yet determined
       read_switch(oo__ifp->ri);
+      if(read_bufp[0]==0xef && read_bufp[1]==0xbb &&
+          read_bufp[2]==0xbf && read_bufp[3]=='<')
+          // UTF-8 BOM detected
+        read_bufp+= 3;  // jump over BOM
       if(read_bufp>=read_bufe) {  // file empty
         PERRv("file empty: %.80s",oo__ifp->filename)
 return 2;
@@ -8650,6 +9028,7 @@ return 1;
     oo__ife->filename= filename;
   oo__ife->endoffile= false;
   oo__ife->deleteobject= 0;
+  oo__ife->subtract= global_subtract;
   oo__ifp= oo__ife++;
   oo_ifn++;
   if(firstrun) {
@@ -8860,7 +9239,7 @@ static int oo_main() {
   if(oo__getformat())
 return 5;
   if((hashactive && !global_droprelations) ||
-      global_alltonodes) {
+      global_calccoords!=0) {
       // (borders to apply AND relations are required) OR
       // user wants ways and relations to be converted to nodes
     // initiate recursive processing;
@@ -9083,7 +9462,7 @@ return 21;
           }
         if(hashactive)
           oo__rrprocessing(&maxrewind);
-        if(global_alltonodes)
+        if(global_calccoords!=0)
           posr_processing(&maxrewind_posr,refxy);
         oo__dependencystage(33);  // enter next stage
         oo__tyidold= 0;  // allow the next object to be written
@@ -9638,7 +10017,8 @@ return 23;
         //           (use cww_);
       if(otype>=1)  // way or relation
         read_lockjump();
-      if(oo__ifp->deleteobject==0) {  // object is not to delete
+      if((oo__ifp->deleteobject==0) ^ oo__ifp->subtract) {
+          // object is not to delete
         if(otype==0) {  // node
           if(!border_active || border_queryinside(lon,lat))
               // no border to be applied OR node lies inside
@@ -9712,7 +10092,8 @@ continue;  // do not write this object
       //         for each way with a member with a flag in ht,
       //           set the way's flag in ht and write the ids
       //           of all the way's members (use cwn_);
-      if(oo__ifp->deleteobject==0) {  // object is not to delete
+      if((oo__ifp->deleteobject==0) ^ oo__ifp->subtract) {
+          // object is not to delete
         if(otype==1 && hash_geti(1,id)) {
             // way AND is marked in ht
           // store ids of all referenced nodes of this way
@@ -9732,7 +10113,8 @@ continue;  // do not write this object
         //         for each way with a member with a flag in ht,
         //           set the way's flag in ht and write the ids
         //           of all the way's members (use cwn_);
-      if(oo__ifp->deleteobject==0) {  // object is not to delete
+      if((oo__ifp->deleteobject==0) ^ oo__ifp->subtract) {
+          // object is not to delete
         if(otype==0) {  // node
           if(!border_active || border_queryinside(lon,lat))
               // no border to be applied OR node lies inside
@@ -9790,7 +10172,7 @@ return 24;
 return 25;
         if(dependencystage==22)
           cww_processing_clear();
-        if(global_alltonodes)
+        if(global_calccoords!=0)
           if(posr_ini(global_tempfilename))
 return 26;
         oo__dependencystage(32);
@@ -9809,7 +10191,8 @@ return 26;
     // end   care about dependency stages
 
     // process object deletion
-    if(oo__ifp->deleteobject!=0) {  // object is to delete
+    if((oo__ifp->deleteobject!=0) ^ oo__ifp->subtract) {
+        // object is to delete
       if((otype==0 && !global_dropnodes) ||
           (otype==1 && !global_dropways) ||
           (otype==2 && !global_droprelations))
@@ -9912,7 +10295,7 @@ return 26;
           hash_seti(0,id);  // mark this node id as 'inside'
         }
       if(inside) {  // node lies inside
-        if(global_alltonodes) {
+        if(global_calccoords!=0) {
           // check id range
           if(id>=global_otypeoffset05 || id<=-global_otypeoffset05)
             WARNv("node id %"PRIi64
@@ -9953,8 +10336,8 @@ return 26;
         if(hashactive)
           hash_seti(1,id);  // memorize that this way lies inside
         if(!global_dropways) {  // not ways to drop
-          if(global_alltonodes) {
-              // all ways are to be converted to nodes
+          if(global_calccoords!=0) {
+              // coordinates of ways shall be calculated
             int32_t x_min,x_max,y_min,y_max;
             int32_t x_middle,y_middle,xy_distance,new_distance;
             bool is_area;
@@ -10010,8 +10393,8 @@ return 26;
               lat= y_middle;
               }
             else {  // the way is not an area
-            // determine the node with has the smallest distance
-            // to the center of the bbox ,,,
+            // determine the node which has the smallest distance
+            // to the center of the bbox
               n= 0;
               refidp= refid; refxyp= refxy;
               while(refidp<refide) {  // for every referenced node
@@ -10036,32 +10419,51 @@ return 26;
                   n++;
                   }  // there is a coordinate for this reference
                 refidp++; refxyp++;
+              //break; //<- uncomment to use the first node of each way
                 }  // end   for every referenced node
               }  // the way is not an area
+            if(global_calccoords>0)
+              posi_set(id+global_otypeoffset10,lon,lat);
+            else
+              posi_setbbox(id+global_otypeoffset10,lon,lat,
+                x_min,y_min,x_max,y_max);
+            if(global_alltonodes) {  // convert all objects to nodes
+              // write a node as a replacement for the way
+              if(n>0) {  // there is at least one coordinate available
+                int64_t id_new;
 
-            // write a node as a replacement for the way
-            if(n>0) {  // there is at least one coordinate available
-              int64_t id_new;
-
-              if(global_otypeoffsetstep!=0)
-                id_new= global_otypeoffsetstep++;
-              else
-                id_new= id+global_otypeoffset10;
-              wo_node(id_new,
-                hisver,histime,hiscset,hisuid,hisuser,lon,lat);
-              if (global_alltonodes_bbox) {
-                char bboxbuf[84];
-                write_createsbbox(x_min, y_min, x_max, y_max, bboxbuf);
-                wo_node_keyval("bBox", bboxbuf);
-                }
+                if(global_otypeoffsetstep!=0)
+                  id_new= global_otypeoffsetstep++;
+                else
+                  id_new= id+global_otypeoffset10;
+                wo_node(id_new,
+                  hisver,histime,hiscset,hisuid,hisuser,lon,lat);
+                if(global_add)
+                  wo_addbboxtags(true,x_min,y_min,x_max,y_max);
+                keyp= key; valp= val;
+                while(keyp<keye)  // for all key/val pairs of this object
+                  wo_node_keyval(*keyp++,*valp++);
+                wo_node_close();
+                }  // there is at least one coordinate available
+              }  // convert all objects to nodes
+            else {  // objects are not to be converted to nodes
+              wo_way(id,hisver,histime,hiscset,hisuid,hisuser);
+              refidp= refid;
+              while(refidp<refide) {  // for every referenced node
+                if(!global_dropbrokenrefs || hash_geti(0,*refidp))
+                    // referenced node lies inside the borders
+                  wo_noderef(*refidp);
+                refidp++;
+                }  // end   for every referenced node
+              if(global_add)
+                wo_addbboxtags(false,x_min,y_min,x_max,y_max);  //,,,,,
               keyp= key; valp= val;
               while(keyp<keye)  // for all key/val pairs of this object
-                wo_node_keyval(*keyp++,*valp++);
-              wo_node_close();
-              posi_set(id+global_otypeoffset10,lon,lat);
-              }  // there is at least one coordinate available
-            }  // ways are to be converted to nodes
-          else  {  // not --all-to-nodes
+                wo_wayrel_keyval(*keyp++,*valp++);
+              wo_way_close();
+              }  // objects are not to be converted to nodes
+            }  // coordinates of ways shall be calculated
+          else  {  // coordinates of ways need not to be calculated
             wo_way(id,hisver,histime,hiscset,hisuid,hisuser);
             refidp= refid;
             while(refidp<refide) {  // for every referenced node
@@ -10074,7 +10476,7 @@ return 26;
             while(keyp<keye)  // for all key/val pairs of this object
               wo_wayrel_keyval(*keyp++,*valp++);
             wo_way_close();
-            }  // not --all-to-nodes
+            }  // coordinates of ways need not to be calculated
           }  // end   not ways to drop
         }  // end   no border OR at least one node inside
       }  // write way
@@ -10136,7 +10538,7 @@ return 26;
                 rr_ref(ri);
                 }
               }
-            if(global_alltonodes) {
+            if(global_calccoords!=0) {
               if(!posridwritten) {
                   // did not yet write our relation's id
                 // write it now
@@ -10170,7 +10572,7 @@ return 26;
             if(id>=global_otypeoffset05 || id<=-global_otypeoffset05)
               WARNv("relation id %"PRIi64
                 " out of range. Increase --object-type-offset",id)
-            posi_get(id+global_otypeoffset20);  // get coorinates
+            posi_get(id+global_otypeoffset20);  // get coordinates
             if(posi_xy!=NULL && posi_xy[0]!=posi_nil) {
                 // stored coordinates are valid
               int64_t id_new;
@@ -10183,12 +10585,9 @@ return 26;
               wo_node(id_new,
                 hisver,histime,hiscset,hisuid,hisuser,
                 posi_xy[0],posi_xy[1]);
-              if (global_alltonodes_bbox) {
-                char bboxbuf[84];
-                write_createsbbox(posi_xy[2], posi_xy[3],
-                  posi_xy[4], posi_xy[5], bboxbuf);
-                wo_node_keyval("bBox", bboxbuf);
-                }
+              if(global_add)
+                wo_addbboxtags(true,
+                  posi_xy[2],posi_xy[3],posi_xy[4],posi_xy[5]);
               keyp= key; valp= val;
               while(keyp<keye)  // for all key/val pairs of this object
                 wo_node_keyval(*keyp++,*valp++);
@@ -10233,6 +10632,13 @@ return 26;
                 }
               refidp++; reftypep++; refrolep++;
               }  // end   for every referenced object
+            if(global_add) {  //,,,,,
+              posi_get(id+global_otypeoffset20);  // get coordinates
+              if(posi_xy!=NULL && posi_xy[0]!=posi_nil)
+                  // stored coordinates are valid
+                wo_addbboxtags(false,
+                  posi_xy[2],posi_xy[3],posi_xy[4],posi_xy[5]);
+              }
             keyp= key; valp= val;
             while(keyp<keye)  // for all key/val pairs of this object
               wo_wayrel_keyval(*keyp++,*valp++);
@@ -10422,23 +10828,29 @@ static bool assistant(int* argcp,char*** argvp) {
   static const char* talk_function[langM]= {
     "What may I do with this file?\n"
     "\n"
-    "1  convert it to a different file format\n"
-    "2  use an OSM Changefile to update this file\n"
-    "3  use a border box to limit the geographical region\n"
-    "4  use a border polygon file to limit the geographical region\n"
-    "5  minimize file size by deleting author information\n"
-    "6  display statistics of the file\n"
+    "  1  convert it to a different file format\n"
+    "  2  use an OSM Changefile to update this file\n"
+    "  3  use a border box to limit the geographical region\n"
+    "  4  use a border polygon file to limit the geographical region\n"
+    "  5  minimize file size by deleting author information\n"
+    "  6  display statistics of the file\n"
+    "To options 3 or 4 you may also choose:\n"
+    "  a  keep ways complete, even if they cross the border\n"
+    "  b  keep ways and areas complete, even if they cross the border\n"
     "\n"
     "Please enter the number of one or more functions you choose:\n"
     ,
     "Was soll ich mit dieser Datei tun?\n"
     "\n"
-    "1  in ein anderes Format umwandeln\n"
-    "2  sie per OSM-Change-Datei aktualisieren\n"
-    "3  per Laengen- und Breitengrad einen Bereich ausschneiden\n"
-    "4  mit einer Polygon-Datei einen Bereich ausschneiden\n"
-    "5  Autorinformationen loeschen und damit Dateigroesse minimieren\n"
-    "6  statistische Daten zu dieser Datei anzeigen\n"
+    "  1  in ein anderes Format umwandeln\n"
+    "  2  sie per OSM-Change-Datei aktualisieren\n"
+    "  3  per Laengen- und Breitengrad einen Bereich ausschneiden\n"
+    "  4  mit einer Polygon-Datei einen Bereich ausschneiden\n"
+    "  5  Autorinformationen loeschen,damit Dateigroesse minimieren\n"
+    "  6  statistische Daten zu dieser Datei anzeigen\n"
+    "Zu den Optionen 3 oder 4 koennen zusaetzlich gewaehlt werden:\n"
+    "  a  grenzueberschreitende Wege als Ganzes behalten\n"
+    "  b  grenzueberschreitende Wege und Flaechen als Ganzes behalten\n"
     "\n"
     "Bitte waehlen Sie die Nummer(n) von einer oder mehreren Funktionen:\n"
     };
@@ -10581,6 +10993,8 @@ static bool assistant(int* argcp,char*** argvp) {
     function_border_polygon= false,
     function_drop_author= false,
     function_statistics= false;
+  int function_cut_mode= 0;
+    // 0: normal; 1: complete ways; 2: complex ways;
   static bool function_only_statistics= false;
   static time_t start_time;
   bool verbose;
@@ -10709,6 +11123,12 @@ return true;
         function_drop_author= true;
       else if(*sp=='6')
         function_statistics= true;
+      else if(*sp=='a' || *sp=='A') {
+        if(function_cut_mode==0)
+          function_cut_mode= 1;
+        }
+      else if(*sp=='b' || *sp=='B')
+        function_cut_mode= 2;
       else if(*sp==' ' || *sp==',' || *sp==';') {
         sp++;
     continue;
@@ -10727,6 +11147,9 @@ return true;
       DD(talk_cannot_understand)
   continue;
       }
+    if(function_cut_mode!=0 &&
+        !function_border_box && !function_border_polygon)
+      function_border_box= true;
     break;
     }
   function_only_statistics= function_statistics &&
@@ -10863,6 +11286,10 @@ return true;
       }
     if(function_drop_author)
       argv[argc++]= "--drop-author";
+    if(function_cut_mode==1)
+      argv[argc++]= "--complete-ways";
+    if(function_cut_mode==2)
+      argv[argc++]= "--complex-ways";
     if(function_only_statistics)
       argv[argc++]= "--out-statistics";
     else if(function_statistics)
@@ -10907,7 +11334,7 @@ static void assistant_end() {
 void sigcatcher(int sig) {
   fprintf(stderr,"osmconvert: Output has been terminated.\n");
   exit(1);
-  }  // end   sigchatcher()
+  }  // end   sigcatcher()
 #endif
 
 int main(int argc,char** argv) {
@@ -10977,7 +11404,7 @@ return 0;
       break;
           }
         ap= strchr(ap,0);  // find end of string
-        while(ap>aa && ap[-1]=='\n')
+        while(ap>aa && (ap[-1]=='\r' || ap[-1]=='\n'))
           *--ap= 0;  // cut newline chars
         *ap++= ' '; *ap= 0;  // add a space
         }
@@ -11036,6 +11463,11 @@ return 0;
     if(strcmp(a,"--diff")==0) {
         // user wants a diff file to be calculated
       global_diff= true;
+  continue;  // take next parameter
+      }
+    if(strcmp(a,"--subtract")==0) {
+        // user wants to subtract any following input file
+      global_subtract= true;
   continue;  // take next parameter
       }
     if(strzcmp(a,"--drop-his")==0) {
@@ -11215,14 +11647,40 @@ return 0;
       }
     if(strcmp(a,"--all-to-nodes")==0) {
         // convert ways and relations to nodes
+      if(global_calccoords==0) global_calccoords= 1;
       global_alltonodes= true;
   continue;  // take next parameter
       }
     if(strcmp(a,"--all-to-nodes-bbox")==0) {
         // convert ways and relations to nodes,
         // and compute a bounding box
+      PINFO("Option --all-to-nodes-bbox is deprecated. "
+        "Using --all-to-nodes and --add-bbox-tags.");
+      global_calccoords= -1;
       global_alltonodes= true;
-      global_alltonodes_bbox= true;
+      global_addbbox= true;
+      global_add= true;
+  continue;  // take next parameter
+      }
+    if(strcmp(a,"--add-bbox-tags")==0) {
+        // compute a bounding box and add it as tag
+      global_calccoords= -1;
+      global_addbbox= true;
+      global_add= true;
+  continue;  // take next parameter
+      }
+    if(strcmp(a,"--add-bboxarea-tags")==0) {
+        // compute a bounding box and add its area as tag
+      global_calccoords= -1;
+      global_addbboxarea= true;
+      global_add= true;
+  continue;  // take next parameter
+      }
+    if(strcmp(a,"--add-bboxweight-tags")==0) {
+        // compute a bounding box and add its weight as tag
+      global_calccoords= -1;
+      global_addbboxweight= true;
+      global_add= true;
   continue;  // take next parameter
       }
     if((l= strzlcmp(a,"--max-objects="))>0 && a[l]!=0) {
@@ -11328,6 +11786,7 @@ return 2;
     }  // end   for every parameter in command line
 
   // process parameters
+  global_subtract= false;
   if(usesstdin && global_completeways) {
     PERR("cannot apply --complete-ways when reading standard input.")
 return 2;
@@ -11389,7 +11848,7 @@ return 6;
       fprintf(stderr,"osmconvert: Not enough memory for hash.\n");
     }  // end   user wants borders
   if(global_outo5m || border_active || global_dropbrokenrefs ||
-      global_alltonodes) {
+      global_calccoords!=0) {
       // .o5m format is needed as output
     if(o5_ini()!=0) {
       fprintf(stderr,"osmconvert: Not enough memory for .o5m buffer.\n");
@@ -11407,7 +11866,7 @@ return 7;
   sprintf(strchr(global_tempfilename,0),".%"PRIi64,(int64_t)getpid());
   if(loglevel>=2)
     fprintf(stderr,"Tempfiles: %s.*\n",global_tempfilename);
-  if(global_alltonodes)
+  if(global_calccoords!=0)
     posi_ini();
   if(global_outcsv)
     csv_ini(NULL);
