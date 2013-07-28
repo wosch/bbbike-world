@@ -1,6 +1,7 @@
-bbbike-world-javalibs-misc (1.2-3) unstable; urgency=low
+bbbike-world-javalibs-misc (1.2-4) unstable; urgency=low
 
   * symlink bugfixes
+  * downgrade osmand
 
  -- Wolfram Schneider <wosch@freebsd.org>  Fri, 29 Mar 2013 14:48:00 +0000
 
