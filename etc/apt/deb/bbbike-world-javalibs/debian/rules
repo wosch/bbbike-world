@@ -49,10 +49,10 @@ install:
 	done
 
 	cd $(CURDIR)/debian/tmp/${JAVALIBS_DIR}; \
-	  ln -s ${JAVALIBS_SPLITTER} OsmAndMapCreator; \
-	  ln -s ${JAVALIBS_MKGMAP} mkgmap; \
-	  ln -s ${JAVALIBS_OSMOSIS} osmosis; \
-	  ln -s ${JAVALIBS_SPLITTER} splitter
+	  ln -s $$(basename ${JAVALIBS_SPLITTER} .tar.gz) OsmAndMapCreator; \
+	  ln -s $$(basename ${JAVALIBS_MKGMAP} .tar.gz) mkgmap; \
+	  ln -s $$(basename ${JAVALIBS_OSMOSIS} .tar.gz) osmosis; \
+	  ln -s $$(basename ${JAVALIBS_SPLITTER} .tar.gz) splitter
 	#dh_install
 
 
