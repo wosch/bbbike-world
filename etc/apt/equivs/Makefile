@@ -8,9 +8,7 @@
 #
 ALL= 	bbbike-world \
 	bbbike-world-debian-meta \
-	bbbike-world-perlmodules-meta \
-	bbbike-world-javalibs-meta \
-	bbbike-world-bin-meta
+	bbbike-world-perlmodules-meta 
 
 all:
 	for i in ${ALL}; do \
