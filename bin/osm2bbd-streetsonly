@@ -1,0 +1,1723 @@
+#!/usr/bin/perl -w
+# -*- perl -*-
+
+#
+# $Id: osm2bbd,v 2.12 2009/03/03 22:06:54 eserte Exp $
+# Author: Slaven Rezic
+#
+# Copyright (C) 2008,2009 Slaven Rezic. All rights reserved.
+# This program is free software; you can redistribute it and/or
+# modify it under the same terms as Perl itself.
+#
+# Mail: slaven@rezic.de
+# WWW:  http://www.rezic.de/eserte/
+#
+
+use strict;
+use FindBin;
+use lib "$FindBin::RealBin/..";
+
+use vars qw($VERSION);
+$VERSION = 0.11;
+
+use Cwd qw(cwd realpath);
+use Data::Dumper;
+use File::Basename qw(basename);
+use File::Spec qw();
+use Getopt::Long;
+use IO::File;
+use List::Util qw(max);
+
+sub epoch2isodate (;$);
+sub touch ($);
+
+use constant DO_ASSERTS => 1;
+use constant SORTED_TAGS => 1;
+if (SORTED_TAGS) {
+    require Tie::IxHash;
+}
+
+my $o;
+my $f;
+my $v;
+my $encoding = "utf-8";
+my $debug = 1; # 0: quiet, 1: normal, 2: verbose
+my $ignore_unhandled;
+my $ignore_underline;
+
+my $map;
+my $center;
+my $center_delta;
+
+my $parsefor;
+my $country = '';
+my $lang = '';
+use constant MAXLINELENGTH => 12288; # the limit of BBBikeXS
+my $splitlonglines = 1; # XXX this may change once BBBikeXS has no length restriction anymore
+my $xmlparser;
+
+my %experiments;
+my %known_experiments = map {($_,1)} qw(add_postal_code);
+
+sub usage () {
+    <<EOF;
+usage: $0 [-v] [-f] [-encoding enc] [-center lon,lat] [-map bbbike [-centerdelta lon,lat]] [-country country] -o directory osmfile ...
+
+-v                Show parser progress
+-f                Force overwriting existing output directory
+-enc ...          Specify different encoding, standard is utf-8
+-map bbbike       Use BBBike coordinates instead of WGS 84 coordinates in the
+                  output. Recommended until BBBike is able to fully handle
+                  WGS 84 coordinates.
+-center lon,lat   Set the center of the map. If not set, then the plotting
+		  software decides on a center itself, usually the center
+		  of the bounding box.
+-centerdelta lon,lat If -map bbbike is used, then specify the 0,0 point.
+		     Defaults to standard Berlin setting.
+-o directory      A non-existing directory to output the bbd files.
+-parsefor ...     Parse only for the given key=value pair,
+                  key as string and val as regexp
+-country ...      Optimize output for given country (see documentation for
+                  supported countries)
+-lang ...         Optimize output for given language (see documentation for
+                  supported languages)
+-ignore-unhandled do not create the _unhandled layer
+-ignore-underline do not create any of the "_*" layers
+osmfile ...       Files downloaded by downloadosm,
+                  or directory containing .osm files
+EOF
+}
+
+my $prog = realpath $0;
+my @commandline = ($^X, $0, @ARGV);
+my $cwd = cwd;
+
+GetOptions("o=s" => \$o,
+	   "f" => \$f,
+	   "v" => \$v,
+	   "debug=i" => \$debug,
+	   "map=s" => \$map,
+	   "center=s" => \$center,
+	   "centerdelta=s" => \$center_delta,
+	   "encoding=s" => \$encoding,
+	   "parsefor=s" => \$parsefor,
+	   "country=s" => \$country,
+	   "lang=s" => \$lang,
+	   "splitlonglines!" => \$splitlonglines,
+	   "xmlparser=s" => \$xmlparser,
+	   "ignore-unhandled!" => \$ignore_unhandled,
+	   "ignore-underline!" => \$ignore_underline,
+	   'experiment=s@' => sub {
+	       my $exp = $_[1];
+	       if (!$known_experiments{$exp}) {
+		   die <<EOF;
+Unknown experiment '$exp'. Known experiments are:
+@{[ sort keys %known_experiments ]}
+EOF
+	       }
+	       $experiments{$exp}++;
+	   },
+	  )
+    or die usage;
+
+my @osm_files = @ARGV;
+if (!@osm_files) {
+    die <<EOF . "\n" . usage;
+Please specify one or more osm files. To download an osm file, you can use
+the script downloadosm (usually to be found in the same directory as this
+script) or raw wget, for example
+
+  wget -O filename.osm http://www.openstreetmap.org/api/0.5/map?bbox=x0,y0,x1,y1
+
+Note that the bbox must not be too large, otherwise you get a 400 bad request
+error.
+EOF
+}
+
+if ($center && $center !~ m{^[-+]?[\d\.]+,[-+]?[\d\.]+$}) {
+    die "The value for the -center option has to be in the form lon,lat\n";
+}
+
+my($parsefor_key, $parsefor_val);
+if ($parsefor) {
+    if (!(($parsefor_key, $parsefor_val) = $parsefor =~ m{^(.*)=(.*)$})) {
+	die "-parsefor value <$parsefor> must be in the form key=val";
+    }
+    $parsefor_val = qr{$parsefor_val};
+}
+
+if (!$parsefor) {
+    if (!$o) {
+	die "Please specify (non-existent) output directory with -o option.\n" . usage;
+    }
+    if (!$f && -e $o) {
+	die "Output directory <$o> must not exist (or specify -f to force overwrite).\n";
+    }
+}
+
+# fallback
+sub M ($) { $_[0] }
+sub Mfmt  { sprintf(shift, @_) }
+
+if ($lang) {
+    $lang = '' if $lang eq 'de';
+}
+if ($lang) {
+    die "Language '$lang' is not supported, please specify either 'de' or 'en'" unless $lang eq 'en';
+}
+
+my %unhandled;
+my %out;
+my %resolve_node_later;
+my %resolved;
+my @bbox_wgs84;
+my %global_directives;
+my %place_to_population;
+
+#use DB_File;
+#my $db_flags;
+#my $out_tmp_db = '/tmp/out.db';
+#unlink $out_tmp_db;
+#tie( %out, 'DB_File', $out_tmp_db, $db_flags, 0777, $DB_HASH ) or die "tie: $!\n";
+
+
+%global_directives =
+    (
+     "_building"     => ["layer_stack: above:i"],
+     "_motortraffic" => ["category_image.Parking: ../misc/verkehrszeichen/Zeichen_314.svg:24x24=1:3000,xxx"],
+     "borders" => ["line_color: #000000", # per bbd.pod
+		   "str_color: #000000", # in reality
+		   # Z4: Landesgrenzen
+		   # Z5: gibt's in NRW
+		   (map { "line_dash.Z$_: 8,5,2,5" } (1 .. 10)),
+		  ],
+    );
+
+# see http://www.mail-archive.com/talk@openstreetmap.org/msg06041.html
+my %grade_to_Q = (1 => "Q0",
+		  2 => "Q1",
+		  3 => "Q2",
+		  4 => "Q3",
+		  5 => "Q3-",
+		 );
+
+sub add_underline {
+    return if $ignore_underline;
+    my($or_ref, $name, $cat) = @_;
+    push @$or_ref, [$name, $cat];
+}
+
+my $do_amenity = sub {
+    my($is_area, $amenity, $tagref) = @_;
+    my @or;
+    my $F = $is_area ? "F:" : "";
+    if ($amenity eq 'place_of_worship') {
+	my $religion = $tagref->{'religion'};
+	if (!$religion || $religion eq 'christian') {
+	    push @or, ["sehenswuerdigkeit", $F."SW|IMG:church"];
+	} elsif ($religion eq 'jewish') {
+	    push @or, ["sehenswuerdigkeit", $F."SW|IMG:synagogue"];
+	} elsif ($religion eq 'muslim') {
+	    push @or, ["sehenswuerdigkeit", $F."SW|IMG:mosque"];
+	} else {
+	    $unhandled{"amenity-religion-$religion"}++;
+	}
+    } elsif ($amenity eq 'museum') {
+	push @or, ["sehenswuerdigkeit", $F."SW|IMG:museum"];
+    } elsif ($amenity eq 'hospital') {
+	push @or, ["sehenswuerdigkeit", $F."SW|IMG:hospital"];
+    } elsif ($amenity =~ m{^theat(?:er|re)$}) {
+	push @or, ["sehenswuerdigkeit", $F."SW|IMG:theater"];
+    } elsif ($amenity =~ m{^(?:shopping|shopping_centre)$}) {
+	push @or, ["sehenswuerdigkeit", $F."Shop"];
+    } elsif ($amenity =~ m{^(?:arts_center|courthouse|library|police|post_office|public_building|townhall|university|embassy|prison)$}) {
+	push @or, ["sehenswuerdigkeit", $F."SW"];
+    } elsif ($amenity =~ m{^(?:biergarten|cafe|cafeteria|pub|bar)$}) {
+	push @or, ["kneipen", $F."X"];
+    } elsif ($amenity =~ m{^(?:fast_food|restaurant)$}) {
+	push @or, ["restaurants", $F."X"];
+    } elsif ($amenity eq 'cinema') {
+	push @or, ["kinos", $F."X"];
+    } elsif ($amenity =~ m{^(?:kindergarten|school)$}) {
+	add_underline(\@or, "_education", $F."X");
+    } elsif ($amenity =~ m{^(?:parking|car_rental)$}) {
+	add_underline(\@or, "_motortraffic", $F."#f0f0f0|IMG:Parking");
+    } else {
+	$unhandled{"amenity-$amenity"}++;
+    }
+    @or;
+};
+
+my $do_historic = sub {
+    my($is_area, $historic) = @_;
+    my @or;
+    my $F = $is_area ? "F:" : "";
+    if ($historic eq 'monument') {
+	push @or, ["sehenswuerdigkeit", $F."SW|IMG:monument"];
+    } elsif ($historic =~ m{^(?:castle|memorial|archaeological_site|ruins)$}) {
+	push @or, ["sehenswuerdigkeit", $F."SW"];
+    } else {
+	$unhandled{"historic-$historic"}++;
+    }
+    @or;
+};
+
+my $do_tourism = sub {
+    my($is_area, $tourism) = @_;
+    my @or;
+    my $F = $is_area ? "F:" : "";
+    if ($tourism eq 'attraction') {
+	push @or, ["sehenswuerdigkeit", $F."SW"];
+    } elsif ($tourism eq 'museum') {
+	push @or, ["sehenswuerdigkeit", $F."SW|IMG:museum"];
+    } else {
+	$unhandled{"tourism-$tourism"}++;
+    }
+    @or;
+};
+
+my $do_unhandled = sub {
+    my($name_ref, $tagref) = @_;
+
+    for my $key (keys %$tagref) {
+	next if $key =~ m{^(?:
+			    name
+			  | created_by
+			  | source
+			  | url
+			 )$}x;
+	my $val = $tagref->{$key};
+	if ($$name_ref) { $$name_ref .= "; " }
+	$$name_ref .= "$key:$val";
+    }
+};
+
+my $conv = sub {
+    my($lon,$lat) = @_;
+    "$lon,$lat";
+};
+if ($map) {
+    if ($map ne 'bbbike') {
+	die "Only -map bbbike is supported.\n";
+    }
+    require Karte::Polar;
+    require Karte::Standard;
+
+    my($dx,$dy) = (0,0);
+    if ($center_delta) {
+	my($c_lon,$c_lat) = split /,/, $center_delta;
+	($dx,$dy) = $Karte::Standard::obj->trim_accuracy($Karte::Polar::obj->map2standard($c_lon,$c_lat));
+    }
+
+    $conv = sub {
+	my($lon,$lat) = @_;
+	my($x,$y) = $Karte::Standard::obj->trim_accuracy($Karte::Polar::obj->map2standard($lon,$lat));
+	($x-$dx).",".($y-$dy);
+    };
+}
+
+if ($center) {
+    $center = $conv->(split /,/, $center);
+}
+
+{
+    # expand directories
+    # XXX Should be really a recursive function, probably
+    my @new_osm_files;
+    for my $osm_file (@osm_files) {
+	if (-d $osm_file) {
+	    push @new_osm_files, grep { -f $_ && -s $_ } glob(File::Spec->catfile($osm_file,"*.{osm,osm.gz}")); # XXX argh, grep duplicates functionality, see "recursive" suggestion above
+	} elsif (-z $osm_file) {
+	    # May happen while loading data, so ignore this
+	    warn "Ignore empty file <$osm_file>...\n";
+	} else {
+	    push @new_osm_files, $osm_file;
+	}
+    }
+    @osm_files = @new_osm_files;
+}
+
+my $tp;
+eval {
+    die "No terminal" if !is_interactive();
+    require Time::Progress;
+    $tp = Time::Progress->new;
+    $tp->attr(min => 0, max => 2 * $#osm_files + 1);
+    $tp->restart;
+    print STDERR "Two passes are following: nodes and ways\n";
+};
+
+######################################################################
+# NODES
+my %node2ll;
+my $osm_file_i = 0;
+for my $osm_file (@osm_files) {
+    if ($v) {
+	if ($tp) {
+	    print STDERR $tp->report("\r  nodes done %p elapsed: %L, ETA %E (" . substr(basename($osm_file),0,28) . ")", $osm_file_i++);
+	} else {
+	    warn "Parse $osm_file for nodes...\n";
+	}
+    }
+    my($dom, $reader) = open_osm($osm_file);
+    set_info_handler($osm_file, $dom, $reader);
+
+ PARSE: {
+
+	if ($reader) {
+	    $reader->nextElement;
+	    die "The file '$osm_file' is not starting with a <osm> tag, probably not an osm file?"
+		if $reader->name ne 'osm';
+	    $reader->nextElement == 1 or last PARSE;
+	    # $reader stays now on <bounds> or <bound> or the first <node>
+	    if (DO_ASSERTS) {
+		$reader->name =~ m{^(?:bounds|bound|node)}
+		    or parse_warning($reader, "after parsing <osm>");
+	    }
+	}
+
+	if ($reader && $reader->name eq 'bound') { # is this the new api? <bound> vs. <bounds>?
+	    # XXX missing implementation for XML::LibXML-non-reader and <bound> tag
+	    my($minlat,$minlon,$maxlat,$maxlon) = split /,/, $reader->getAttribute('box');
+	    if (!defined $bbox_wgs84[0] || $minlon < $bbox_wgs84[0]) { $bbox_wgs84[0] = $minlon }
+	    if (!defined $bbox_wgs84[1] || $minlat < $bbox_wgs84[1]) { $bbox_wgs84[1] = $minlat }
+	    if (!defined $bbox_wgs84[2] || $maxlon > $bbox_wgs84[2]) { $bbox_wgs84[2] = $maxlon }
+	    if (!defined $bbox_wgs84[3] || $maxlat > $bbox_wgs84[3]) { $bbox_wgs84[3] = $maxlat }
+
+	    $reader->nextElement == 1 or last PARSE;
+	} else {
+	    # XXX It seems that the osm specification allows multiple
+	    # bounds elements, but the real-existing osm files only
+	    # have one, so check only for one:
+	    my $bounds_node;
+	    if ($reader) {
+		if ($reader->name eq 'bounds') {
+		    $bounds_node = $reader;
+		}
+	    } else {
+		($bounds_node) = $dom->findnodes("/osm/bounds");
+	    }
+
+	    if ($bounds_node) {
+		my $minlat = $bounds_node->getAttribute("minlat");
+		my $maxlat = $bounds_node->getAttribute("maxlat");
+		my $minlon = $bounds_node->getAttribute("minlon");
+		my $maxlon = $bounds_node->getAttribute("maxlon");
+		if (!defined $bbox_wgs84[0] || $minlon < $bbox_wgs84[0]) { $bbox_wgs84[0] = $minlon }
+		if (!defined $bbox_wgs84[1] || $minlat < $bbox_wgs84[1]) { $bbox_wgs84[1] = $minlat }
+		if (!defined $bbox_wgs84[2] || $maxlon > $bbox_wgs84[2]) { $bbox_wgs84[2] = $maxlon }
+		if (!defined $bbox_wgs84[3] || $maxlat > $bbox_wgs84[3]) { $bbox_wgs84[3] = $maxlat }
+
+		if ($reader) {
+		    $reader->nextElement == 1 or last PARSE;
+		}
+	    }
+	}
+
+	if ($reader) {
+	    # $reader stays now on the first <node> (or on
+	    # another <bounds>, if there is really one)
+	    if (DO_ASSERTS) {
+		$reader->name eq 'node' or
+		    parse_warning($reader, "after parsing <bounds> or <bound>");
+	    }
+	}
+
+	my @nodes;
+	if ($dom) {
+	    @nodes = $dom->findnodes('/osm/node');
+	}
+
+	# Use $next1 until <tag>s are resolved
+	my $next1 = sub {
+	    if ($reader) {
+		$reader->skipSiblings if $reader->depth == 2;
+		my $res = $reader->nextSiblingElement;
+		if (DO_ASSERTS) {
+		    ($reader->name =~ m{^(?:node|way)} || $res == 0) or
+			parse_warning($reader, "after skipping a node");
+		}
+	    }
+	    no warnings 'exiting';
+	    next;
+	};
+
+	# Use $next2 after <tag>s are resolved
+	my $next2 = sub {
+	    no warnings 'exiting';
+	    next;
+	};
+
+	while(do {
+	    no warnings 'uninitialized';
+	    (($reader && $reader->name eq 'node') ||
+	     ($dom && @nodes))
+	}) {
+	    my $node = $reader ? $reader : shift @nodes;
+
+	    my $id = $node->getAttribute('id');
+	    $next1->() if exists $node2ll{$id};
+	    my $lat = $node->getAttribute('lat');
+	    my $lon = $node->getAttribute('lon');
+	    $node2ll{$id} = $conv->($lon,$lat);
+
+	    my %tag;
+	    tie %tag, 'Tie::IxHash' if SORTED_TAGS;
+	    if ($reader) {
+		$reader->nextElement == 1 or last;
+		while($reader->name eq 'tag') {
+		    $tag{$reader->getAttribute('k')} = $reader->getAttribute('v');
+		    if ($reader->nextElement != 1) {
+			# no assertion needed here, we're at the end of the file
+			last;
+		    }
+		}
+	    } else {
+		for my $tag ($node->findnodes('./tag')) {
+		    $tag{$tag->getAttribute('k')} = $tag->getAttribute('v');
+		}
+	    }
+
+	    my @or;
+
+	    my $name   = $tag{'name'} || '';
+	    my $height = exists $tag{'height'} ? $tag{'height'} : $tag{'ele'};
+	    warn "height: $height, $name\n" if $height && $debug >= 2;
+
+	    if (defined $parsefor_key) {
+		my $found_val = $tag{$parsefor_key};
+		if (defined $found_val && $found_val =~ $parsefor_val) {
+		    push @or, ["-", $found_val];
+		}
+	    } elsif (exists $tag{'railway'}) {
+		my $railway_cat = $tag{'railway'};
+		if ($railway_cat =~ m{^(?:station|halt)$}) {
+		    if ($name) {
+			# fix name, remove "Bahnhof" if at beginning (XXX do it language independent?):
+			$name =~ s{^(?:Bahnhof|Bhf\.?)\s+(.+)}{$1};
+		    }
+		    # We don't know which layer this station belongs to,
+		    # so resolve it later.
+		    resolve_node_later("railway", $name, $node2ll{$id});
+
+		    $next2->();
+		} elsif ($railway_cat =~ m{^(?:crossing|level_crossing)$}) {
+		    push @or, ["ampeln", "B"];
+		} else {
+		    $unhandled{"node-railway=$railway_cat"}++;
+		}
+	    } elsif (exists $tag{'highway'}) {
+		my $highway_cat = $tag{'highway'};
+		if ($highway_cat eq 'traffic_signals') {
+		    push @or, ["ampeln", "X"];
+		} elsif ($highway_cat eq 'bus_stop') {
+		    add_underline(\@or, "_oepnv", "Bus");
+		} else {
+		    $unhandled{"node-highway=$highway_cat"}++;
+		}
+	    } elsif (exists $tag{'place'}) {
+		my $place = $tag{'place'};
+		my $population = exists $tag{'population'} ? $tag{'population'} : $tag{'openGeoDB:population'};
+		if ($population && $place ne 'suburb') { # "Mahlsdorf" is a suburb, but with a population tag
+		    my $cat;
+		    if ($population >= 200000) {
+			$cat = 6;
+		    } elsif ($population >= 50000) {
+			$cat = 5;
+		    } elsif ($population >= 20000) {
+			$cat = 4;
+		    } elsif ($population >= 5000) {
+			$cat = 3;
+		    } elsif ($population >= 2000) {
+			$cat = 2;
+		    } elsif ($place eq 'hamlet') {
+			$cat = 0;
+		    } else {
+			$cat = 1;
+		    }
+		    push @or, ["orte", $cat];
+		    $place_to_population{$node2ll{$id}} = $population;
+		} else {
+		    if ($place eq 'hamlet' || $place eq 'suburb' || $place eq 'locality') {
+			push @or, ["orte", 0];
+		    } elsif ($place eq 'village') {
+			push @or, ["orte", 1];
+		    } elsif ($place eq 'town') {
+			push @or, ["orte", 3];
+		    } elsif ($place eq 'city') {
+			push @or, ["orte", 5];
+		    } elsif ($place eq 'island') {
+			# XXX an interim solution --- a better solution
+			# would check for the coastline of this island and
+			# create a proper F:I item
+			push @or, ["wasserstrassen", "I"],
+		    } else {
+			$unhandled{"node-place=$place"}++;
+		    }
+		}
+	    } elsif (exists $tag{'amenity'}) {
+		push @or, $do_amenity->(0, $tag{'amenity'}, \%tag);
+	    } elsif (exists $tag{'historic'}) {
+		push @or, $do_historic->(0, $tag{'historic'}, \%tag);
+	    } elsif (exists $tag{'tourism'}) {
+		push @or, $do_tourism->(0, $tag{'tourism'}, \%tag);
+	    } elsif (exists $tag{'power'}) {
+		add_underline(\@or, "_power", "X");
+	    }
+
+	    if (defined $height && $height =~ m{^[+-]?\d+}) {
+		push @or, ["hoehe", "X", name => $height];
+	    }
+
+	    if (exists $tag{'icao'}) {
+		push @or, ["icao", "X", name => $tag{icao} . (defined $name ? " ($name)" : '')];
+	    }
+
+	    if (!@or && !$ignore_unhandled && !$ignore_underline) {
+		$do_unhandled->(\$name, \%tag);
+		if ($name ne "" && !exists $tag{'obsolete_boundary'}) {
+		    push @or, ["_unhandled", "X"];
+		}
+	    }
+
+            no strict 'refs';
+	    for my $or (@or) {
+		my($out_file, $cat, %args) = @$or;
+
+		my $name = $name;
+		if ($args{name}) {
+		    $name = $args{name};
+		}
+
+		if (exists $tag{'url'}) {
+		    push @{$out{$out_file}}, ["#: url: $tag{url}"];
+		}
+		push @{$out{$out_file}}, [$name, [$node2ll{$id}], $cat];
+	    }
+	}
+    }
+}
+
+######################################################################
+# WAYS
+my %seenway;
+for my $osm_file (@osm_files) {
+    if ($v) {
+	if ($tp) {
+	    print STDERR $tp->report("\r  ways done %p elapsed: %L, ETA %E (" . substr(basename($osm_file),0,28) . ")", $osm_file_i++);
+	} else {
+	    warn "Parse $osm_file for ways...\n";
+	}
+    }
+    my($dom, $reader) = open_osm($osm_file);
+    set_info_handler($osm_file, $dom, $reader);
+
+ PARSE: {
+	my @ways;
+	if ($dom) {
+	    @ways = $dom->findnodes('/osm/way');
+	} else {
+	    $reader->nextElement('way') == 1 or last PARSE;
+	    if (DO_ASSERTS) {
+		$reader->name eq 'way'
+		    or parse_warning($reader, "searching for <way>");
+	    }
+	}
+
+	my $next1 = sub {
+	    if ($reader) {
+		$reader->skipSiblings if $reader->depth == 2;
+		my $res = $reader->nextSiblingElement;
+		if (DO_ASSERTS) {
+		    ($res == 0 || $reader->name =~ m{^(?:way|relation)}) or
+			parse_warning($reader, "after skipping a way");
+		}
+	    }
+	    no warnings 'exiting';
+	    next;
+	};
+
+	while (do {
+	    no warnings 'uninitialized';
+	    (($reader && $reader->name eq 'way') ||
+	     ($dom && @ways))
+	}) {
+	    my $way = $reader ? $reader : shift @ways;
+
+	    my $id = $way->getAttribute('id');
+	    $next1->() if exists $seenway{$id};
+	    $seenway{$id} = 1;
+	    my $visible = $way->getAttribute('visible');
+	    $next1->() if $visible && $visible eq 'false';
+
+	    my @or;
+
+	    my @nodes;
+	    my %tag;
+	    tie %tag, 'Tie::IxHash' if SORTED_TAGS;
+	    if ($dom) {
+		@nodes = map { $_->textContent } $way->findnodes('./nd/@ref');
+		for my $tag ($way->findnodes('./tag')) {
+		    $tag{$tag->getAttribute('k')} = $tag->getAttribute('v');
+		}
+	    } else {
+		$reader->nextElement == 1 or last;
+		while(1) {
+		    my $node_name = $reader->name;
+		    if ($node_name eq 'nd') {
+			push @nodes, $reader->getAttribute('ref');
+		    } elsif ($node_name eq 'tag') {
+			$tag{$reader->getAttribute('k')} = $reader->getAttribute('v');
+		    } else {
+			last;
+		    }
+		    $reader->nextElement == 1 or last;
+		}
+	    }
+
+	    my $is_area = sub {
+		$nodes[0] == $nodes[-1];
+	    };
+
+	    my $name   = $tag{'name'} || '';
+	    my $height = exists $tag{'height'} ? $tag{'height'} : $tag{'ele'};
+
+	    if (exists $tag{'ref'}) {
+		my $ref = $tag{'ref'};
+		if (!$name) {
+		    $name = $ref;
+		} elsif ($ref ne $name) {
+		    $name .= " ($ref)";
+		}
+	    }
+
+	    if ($debug >= 2) {
+		$name .= "; id=$id";
+	    }
+
+	    my $cycleway = $tag{'cycleway'};
+	    my $place    = $tag{'place'};
+
+	    my $do_cycleway = sub {
+		my @or;
+		if      ($cycleway eq 'lane') {
+		    push @or, ["radwege_exact", "RW4"];
+		} elsif ($cycleway eq 'track') {
+		    push @or, ["radwege_exact", "RW1"];
+		} elsif ($cycleway eq 'opposite') {
+		    push @or, ["radwege_exact", "RW9"];
+		} else {
+		    $unhandled{"cycleway-$cycleway"}++;
+		}
+		@or;
+	    };
+
+	    my $do_railway = sub {
+		my $railway_cat = $tag{'railway'};
+
+		my $addcat = "";
+		if (exists $tag{'tunnel'} && $tag{'tunnel'} eq 'yes') {
+		    $addcat .= "::Tu";
+		} elsif (exists $tag{'bridge'} && $tag{'bridge'} eq 'yes') {
+		    $addcat .= "::Br";
+		}
+
+		if      ($railway_cat eq 'subway') {
+		    my $addservice = is_rail_service("U", $name, \@nodes) ? 'Betrieb' : '';
+		    push @or, ["ubahn", "U".$addservice.$addcat]; # no zones
+		    resolve_node_now('railway', 'ubahnhof', "U", \@nodes);
+		} elsif ($railway_cat eq 'light_rail') {
+		    my $addservice = is_rail_service("S", $name, \@nodes) ? 'Betrieb' : '';
+		    push @or, ["sbahn", "S".$addservice.$addcat]; # no zones
+		    resolve_node_now('railway', 'sbahnhof', "S", \@nodes);
+		} elsif ($railway_cat eq 'rail') {
+		    if ($name =~ m{^S\d+(,\s+S\d+)*$}) {
+			# in Munich, S-Bahn is not marked as "light_rail"
+			push @or, ["sbahn", "S".$addcat];
+			resolve_node_now('railway', 'sbahnhof', "S", \@nodes);
+		    } else {
+			push @or, ["rbahn", "R".$addcat];
+			resolve_node_now('railway', 'rbahnhof', "R", \@nodes);
+		    }
+		} elsif ($railway_cat eq 'preserved') {
+		    # ignore
+		} elsif ($railway_cat eq 'service') {
+		    push @or, ["rbahn", "RG".$addcat];
+		    resolve_node_now('railway', 'rbahnhof', "RG", \@nodes);
+		} elsif ($railway_cat =~ m{^(?:abandoned|disused)$}) {
+		    push @or, ["rbahn", "R0".$addcat];
+		    resolve_node_now('railway', 'rbahnhof', "R0", \@nodes);
+		} elsif ($railway_cat =~ m{^(?:construction)$}) {
+		    push @or, ["rbahn", "RBau".$addcat];
+		    resolve_node_now('railway', 'rbahnhof', "RBau", \@nodes);
+		} elsif ($railway_cat =~ m{^(?:narrow_gauge)$}) { # z.B. Parkeisenbahnen
+		    push @or, ["rbahn", "RP".$addcat];
+		    resolve_node_now('railway', 'rbahnhof', "RP", \@nodes);
+		} elsif ($railway_cat =~ m{\btram\b}) {
+		    push @or, ["comments_tram", "CS".$addcat];
+		} else {
+		    return 0; # unhandled
+		}
+		return 1; # handled
+	    };
+
+	    if (defined $height ) {
+		#warn "hoehe\n";
+		#push @or, ["hoehe", "N"];
+		#push @or, ["kneipen", $F."X"];
+	    }
+
+	    my $quality_cat;
+	    my $quality_name;
+	    if (exists $tag{'surface'}) {
+		my $surface = $tag{'surface'};
+		if      ($surface eq 'paved') {
+		    $quality_cat = 'Q0';
+		    $quality_name = 'befestigt (betoniert, asphaltiert oder wassergebunden)';
+		} elsif ($surface eq 'cobblestone') {
+		    $quality_cat = 'Q2';
+		    $quality_name = 'Kopfsteinpflaster';
+		} elsif ($surface eq 'unpaved') {
+		    $quality_cat = 'Q2';
+		    $quality_name = 'unbefestigt';
+		} elsif ($surface eq 'sand') {
+		    $quality_cat = 'Q3';
+		    $quality_name = 'sandig';
+		} elsif ($surface eq 'grass') {
+		    $quality_cat = 'Q3';
+		    $quality_name = 'Gras';
+		} elsif ($surface eq 'wood') {
+		    $quality_cat = 'Q1';
+		    $quality_name = 'Holz';
+		}
+		if ($lang eq 'en') {
+		    $quality_name = $surface;
+		}
+	    }
+
+	    if (exists $tag{'highway'}) {
+		my $highway_cat = $tag{'highway'};
+		my $is_motorway = 0;
+		my $is_motorroad = exists $tag{'motorroad'} and $tag{'motorroad'} eq 'yes' ? 1 : 0; # Kraftfahrzeugstraße
+
+		if ($experiments{add_postal_code} && exists $tag{'postal_code'}) {
+		    $name .= " ($tag{'postal_code'})";
+		}
+
+		my $addcat = "";
+		if (exists $tag{'tunnel'} && $tag{'tunnel'} eq 'yes') {
+		    $addcat .= "::Tu";
+		} elsif (exists $tag{'bridge'} && $tag{'bridge'} eq 'yes') {
+		    $addcat .= "::Br";
+		}
+
+		if      ($highway_cat =~ m{^(?:motorway|motorway_link|trunk|trunk_link)$} || $is_motorroad) {
+		    if ($country eq 'de') {
+			$name =~ s{\bA\s*(\d+)}{BAB$1};
+		    }
+		    push @or, ["strassen_bab", "BAB".$addcat];
+		    $is_motorway = 1;
+		} elsif ($highway_cat =~ m{^(?:primary|primary_link)$}) {
+		    push @or, ["strassen", "HH".$addcat];
+		} elsif ($highway_cat =~ m{^(?:secondary|tertiary)$}) {
+		    push @or, ["strassen", "H".$addcat];
+		} elsif ($highway_cat =~ m{^(?:residential|unclassified|service|minor)$}) {
+		    push @or, ["strassen", "N".$addcat];
+		} elsif ($highway_cat eq 'cycleway') {
+		    push @or, ["strassen", "NN".$addcat];
+		CYCLEWAY_KEY: {
+			if ($cycleway) {
+			    my @sub_or = $do_cycleway->();
+			    if (@sub_or) {
+				push @or, @sub_or;
+				last CYCLEWAY_KEY;
+			    }
+			}
+			# fallback
+			push @or, ["radwege_exact", "RW1"];
+		    }
+		} elsif ($highway_cat eq 'unsurfaced') {
+		    push @or, ["strassen", "N".$addcat];
+		    if (!defined $quality_cat) {
+			$quality_cat = "Q2";
+			$quality_name = $lang eq 'en' ? $highway_cat : "unbefestigte Straße";
+		    }
+		} elsif ($highway_cat eq 'track') {
+		    push @or, ["strassen", "N".$addcat];
+		    my $add_quality_name;
+		    if ($tag{tracktype}) { # may override $quality_cat
+			my @all_grades = grep { m{^grade\d+$} } split /\s*;\s*/, $tag{tracktype};
+			my @num_grades = map { m{grade(\d+)}; $1 } @all_grades;
+			if (@num_grades) {
+			    my $grade = max @num_grades;
+			    if (defined(my $q = $grade_to_Q{$grade})) {
+				$quality_cat = $q;
+			    }
+			    if (defined $quality_name) {
+				$quality_name .= " (" . join(", ", @all_grades) . ")";
+			    } else {
+				$add_quality_name = " (" . join(", ", @all_grades) . ")";
+			    }
+			}
+		    }
+		    if (!defined $quality_cat) {
+			$quality_cat = "Q2";
+		    }
+		    if (!defined $quality_name) {
+			$quality_name = $lang eq 'en' ? $highway_cat : "Fahrweg";
+		    }
+		    if ($add_quality_name) {
+			$quality_name .= $add_quality_name;
+		    }
+		} elsif ($highway_cat eq 'path') {
+		    push @or, ["strassen", "NN".$addcat];
+		    if (!defined $quality_cat) {
+			$quality_cat = "Q3";
+			$quality_name = $lang eq 'en' ? $highway_cat : "Pfad";
+		    }
+		} elsif ($highway_cat eq 'footway') {
+		    push @or, ["strassen", "NN".$addcat];
+		    push @or, ["handicap_s", "q1", name => ($name ? "$name: " : "") . ($lang eq 'en' ? $highway_cat : 'Fußweg')];
+		} elsif ($highway_cat eq 'pedestrian') {
+		    push @or, ["strassen", "NN".$addcat];
+		    push @or, ["handicap_s", "q4", name => ($name ? "$name: " : "") . ($lang eq 'en' ? 'pedestrian area' : 'Fußgängerzone')];
+		} elsif ($highway_cat eq 'living_street') {
+		    push @or, ["strassen", "N".$addcat];
+		    push @or, ["radwege_exact", "RW6;RW6", name => ($name ? "$name: " : "") . ($lang eq 'en' ? 'living street' : 'verkehrsberuhigter Bereich')];
+		} elsif ($highway_cat =~ m{^(?:construction|planned)$}) {
+		    my $construction = $tag{'construction'} || "";
+		    if ($construction eq 'motorway') { # seen in Berlin, strange one
+			push @or, ["strassen_bab", "BAB::inwork"];
+		    } else {
+			$unhandled{"highway=$highway_cat+construction=$construction"}++;
+		    }
+		} elsif ($highway_cat eq 'steps') {
+		    push @or, ["strassen", "NN".$addcat];
+		    push @or, ["gesperrt", "0:30", name => ($lang eq 'en' ? $highway_cat : 'Treppe')]; # XXX really should be only one point, or maybe better, change bbbike to handle line features for "Treppe"; lost time is guessed, maybe determine from length of feature? Also missing: precalculated angle.
+		} elsif ($highway_cat eq 'cycleroad') { # It seems that this tag is not anymore in use
+		    push @or, ["strassen", "N".$addcat];
+		    push @or, ["radwege_exact", "RW7;RW7"];
+		} else {
+		    $unhandled{"highway=$highway_cat"}++;
+		}
+		my $oneway = $tag{'oneway'};
+		if ($oneway && !$is_motorway) {
+		    my $reversed = 1;
+		    # Special case -1, see
+		    # http://wiki.openstreetmap.org/index.php/Key:oneway
+		    if ($oneway eq '-1') {
+			$oneway = "true";
+			$reversed = 0;
+		    }
+		    if ($oneway =~ m{^(?:yes|true)$}) {
+			if (exists $tag{'bicycle'} && $tag{'bicycle'} eq 'opposite') { # seen in Würzburg, Äußere Pleich, but no documentation/discussion for it
+			    push @or, ['gesperrt_car', '1', reversed => $reversed];
+			} else {
+			    if ($highway_cat eq 'cycleway') {
+				# usually this generates to much clutter in
+				# the map ("straßenbegleitende Radwege"), so
+				# ignore map display
+				push @or, ["gesperrt", "1::igndisp", reversed => $reversed];
+			    } else {
+				push @or, ["gesperrt", "1", reversed => $reversed];
+			    }
+			}
+		    } else {
+			$unhandled{"oneway=$oneway"}++;
+		    }
+		}
+
+		if (defined $quality_cat) {
+		    push @or, ["qualitaet_s", $quality_cat, name => ($name ? "$name: " : "") . $quality_name];
+		}
+
+		my $rcn_ref = $tag{'rcn_ref'};
+		my $lcn_ref = $tag{'lcn_ref'};
+		if ($rcn_ref) {
+		    push @or, ["comments_route", "radroute", name => $rcn_ref];
+		}
+		if ($lcn_ref) {
+		    push @or, ["comments_route", "radroute", name => $lcn_ref];
+		}
+
+		if (exists $tag{'railway'}) {
+		    $do_railway->(); # typically tram on street
+		}
+
+	    } elsif (exists $tag{'waterway'}) {
+		my $waterway_cat = $tag{'waterway'};
+		if      ($waterway_cat eq 'riverbank') {
+		    # Plot as an area only if it's closed
+		    if ($nodes[0] eq $nodes[-1]) {
+			push @or, ["wasserstrassen", "F:W"];
+		    } else {
+			push @or, ["wasserstrassen", "W"]; # XXX This should be fixed!
+			warn_once("Found unclosed riverbank, sorry cannot use it, fallback to line plotting ...\n");
+		    }
+		} elsif ($waterway_cat eq 'canal') {
+		    push @or, ["wasserstrassen", "W"];
+		} elsif ($waterway_cat eq 'river') {
+		    push @or, ["wasserstrassen", "W1"];
+		} elsif ($waterway_cat eq 'stream') {
+		    push @or, ["wasserstrassen", "W2"];
+		} else {
+		    $unhandled{"waterway=$waterway_cat"}++;
+		}
+	    } elsif (exists $tag{'railway'}) {
+		if (!$do_railway->()) {
+		    my $railway_cat = $tag{'railway'};
+		    $unhandled{"railway=$railway_cat"}++;
+		}
+	    } elsif (exists $tag{'natural'}) {
+		my $natural = $tag{'natural'};
+		if      ($natural eq 'water') {
+		    push @or, ["wasserstrassen", "F:W"];
+		} elsif ($natural eq 'wood') {
+		    push @or, ["flaechen", "F:Forest"];
+		} elsif ($natural eq 'land') {
+		    my $island = $tag{'island'}; # seen in Zuerich
+		    my $layer  = $tag{'layer'}; # seen in Berlin
+		    if (($place && $place eq 'island') ||
+			($island && $island =~ m{^(?:yes|true)$}) ||
+			(defined $layer && $layer ne "" && $layer == 1)
+		       ) {
+			push @or, ["wasserstrassen", "F:I"];
+		    }
+		} elsif ($natural eq 'coastline') {
+		    push @or, ["wasserstrassen", "W"]; # XXX This should be fixed!
+		    warn_once("Found natural=coastline, sorry cannot use it, fallback to line plotting...\n");
+		} else {
+		    $unhandled{"natural=$natural"}++;
+		}
+	    } elsif (exists $tag{'boundary'}) { # Sometimes there's boundary=administrative and natural=coastline at the same time. Currently I prefer coastline over boundary (see the Usedom data). But maybe I should render both? Think of it! XXX
+		my $boundary = $tag{'boundary'};
+		my $admin_level = $tag{'admin_level'};
+		if      ($boundary eq 'administrative') {
+		    # The new-style berlin/germany-independent borders
+		    push @or, ["borders", "Z" . (defined $admin_level ? $admin_level : '?')];
+		    # For bbbike compat only:
+		    if (defined $admin_level) {
+			if (   $admin_level == 9  # (neue) Bezirke
+			       || $admin_level == 10 # Ortsteile
+			   ) {
+			    push @or, ["berlin_ortsteile", "Z"];
+			} elsif ($admin_level == 2) {
+			    push @or, ["deutschland", "Z"];
+			} else {
+			    $unhandled{"boundary=administrative,admin_level=$admin_level"}++;
+			}
+		    }
+		} else {
+		    $unhandled{"boundary=$boundary"}++;
+		}   
+	    } elsif ($place) {
+		if      ($place eq 'airport') {
+		    push @or, ["flaechen", "F:Ae"];
+		} else {
+		    $unhandled{"place=$place"}++;
+		}
+	    } elsif (exists $tag{'sport'}) {
+		my $sport = $tag{'sport'};
+		if      ($sport =~ m{^(?:soccer|athletics)$}) {
+		    push @or, ["flaechen", "F:Sport"];
+		} else {
+		    $unhandled{"sport=$sport"}++;
+		}
+	    } elsif (exists $tag{'leisure'}) {
+		my $leisure = $tag{'leisure'};
+		if      ($leisure =~ m{^(?:park|garden|recreation_ground)$}) {
+		    push @or, ["flaechen", "F:P"];
+		} elsif ($leisure eq 'stadium') {
+		    push @or, ["flaechen", "F:Sport"];
+		} elsif ($leisure eq 'cemetery') { # see below: landuse=cemetery
+		    push @or, ["flaechen", "F:Cemetery"];
+		} else {
+		    $unhandled{"leisure=$leisure"}++;
+		}
+	    } elsif ($cycleway) {
+		push @or, $do_cycleway->();
+	    } elsif (exists $tag{'landuse'}) {
+		my $landuse = $tag{'landuse'};
+		if      ($landuse eq 'cemetery') {
+		    push @or, ["flaechen", "F:Cemetery"];
+		} elsif ($landuse eq 'industrial') {
+		    push @or, ["flaechen", "F:Industrial"];
+		} elsif ($landuse eq 'railway') {
+		    push @or, ["flaechen", "F:Industrial"]; # XXX but maybe use Railway some day?
+		} elsif ($landuse eq 'commercial') {
+		    push @or, ["flaechen", "F:Industrial"]; # XXX but maybe use Commercial some day?
+		} elsif ($landuse eq 'retail') {
+		    push @or, ["flaechen", "F:Industrial"]; # XXX but maybe use Retail some day?
+		} elsif ($landuse eq 'allotments') {
+		    push @or, ["flaechen", "F:Orchard"];
+		} elsif ($landuse eq 'forest') { # see above: natural=wood
+		    push @or, ["flaechen", "F:Forest"];
+		} elsif ($landuse =~ m{^(?:grass|village_green)$}) {
+		    push @or, ["flaechen", "F:Green"]; # XXX not definitely clear
+		    #XXX ja? nein? } elsif ($landuse eq 'water') { push @or, ["wasserstrassen", "F:W"];
+		} elsif ($landuse eq 'residential') {
+		    add_underline(\@or, "_building", "F:#d0d0d0");
+		} else {
+		    $unhandled{"landuse=$landuse"}++;
+		}
+	    } elsif (exists $tag{'route'}) {
+		my $route = $tag{'route'};
+		if      ($route eq 'ferry') {
+		TRY_FERRY: {
+			my @comments;
+			my $day_on  = $tag{'day on'};
+			my $day_off = $tag{'day off'};
+			my $bicycle = $tag{'bicycle'};
+			if ($day_on && $day_off) {
+			    push @comments, "$day_on - $day_off";
+			}
+			if ($bicycle && $bicycle !~ m{^(?:yes|true)$}) {
+			    if ($bicycle =~ m{^(?:no|false)$}) {
+				last TRY_FERRY;
+			    }
+			    push @comments, "bicycle=$bicycle";
+			}
+			my $comments = join("; ", @comments);
+			push @or, ["faehren", "Q"];
+			if ($comments) {
+			    push @or, ["comments_ferry", "CS", name => $comments];
+			}
+		    }
+		} else {
+		    $unhandled{"route=$route"}++;
+		}
+	    } elsif (exists $tag{'amenity'}) {
+		push @or, $do_amenity->($is_area->(), $tag{'amenity'}, \%tag);
+	    } elsif (exists $tag{'historic'}) {
+		push @or, $do_historic->($is_area->(), $tag{'historic'}, \%tag);
+	    } elsif (exists $tag{'tourism'}) {
+		push @or, $do_tourism->($is_area->(), $tag{'tourism'}, \%tag);
+	    } elsif (exists $tag{'building'}) {
+		my $building = $tag{'building'};
+		if ($building =~ m{^(?:yes|true)$}) {
+		    add_underline(\@or, "_building", "F:#cccccc");
+		}
+	    } elsif (exists $tag{'power'}) {
+		if (exists $tag{'operator'}) {
+		    $name = ($name ? $name.": " : "") . $tag{'operator'};
+		}
+		add_underline(\@or, "_power", "X");
+	    }
+
+
+	    if (!@or && !$ignore_unhandled && !$ignore_underline) {
+		$do_unhandled->(\$name, \%tag);
+		if ($name ne "") {
+		    # push @or, ["_unhandled", "X"];
+		}
+	    }
+
+	    for my $or (@or) {
+		my($out_file, $cat, %args) = @$or;
+
+		my $name = $name;
+		my @nodes = @nodes;
+		if ($args{reversed}) {
+		    @nodes = reverse @nodes;
+		}
+		if ($args{name}) {
+		    $name = $args{name};
+		}
+
+		# XXX evtl. die folgenden Direktiven nur im
+		# "Hauptfile" ausgeben, siehe "width" unten?
+		if (exists $tag{'url'}) {
+		    push @{$out{$out_file}}, ["#: url: $tag{url}"];
+		}
+		if (exists $tag{'old_name'}) {
+		    push @{$out{$out_file}}, ["#: oldname: $tag{old_name}"];
+		}
+		if (exists $tag{'alt_name'}) {
+		    push @{$out{$out_file}}, ["#: alias: $tag{alt_name}"];
+		}
+
+		if ((exists $tag{'width'} || exists $tag{'est_width'}) && $out_file eq 'strassen') {
+		    my $w = $tag{'width'} || $tag{'est_width'};
+		    if ($w =~ m{^([\d\.]+)(?:$|\s*m)}) {
+			push @{$out{$out_file}}, ["#: carriageway_width: ${w}m"];
+		    } else {
+			if ($debug) {
+			    if ($w =~ m{^(?:narrow)}) {
+				# silently ignore
+			    } else {
+				warn "Found width/est_width tag, but cannot parse the value '$w' in way '$id'\n";
+			    }
+			}
+		    }
+		}
+
+                #no strict 'refs';
+		if ($out_file eq 'strassen') {
+		   push @{$out{$out_file}}, [$name, [map { $node2ll{$_} } @nodes], $cat];
+		}
+	    }
+	}
+    }
+}
+
+resolve_node_fallback();
+sort_by_population();
+
+######################################################################
+# OUTPUT
+if ($parsefor) {
+    output_data(\*STDOUT, $out{"-"});
+} else {
+    if (!mkdir $o) {
+	die "Cannot create output directory <$o>: $!" if !$f;
+    }
+    chdir $o
+	or die "Cannot chdir to $o: $!";
+    while(my($filename,$data) = each %out) {
+	print STDERR "$filename... " if $debug;
+	open my $ofh, ">:encoding($encoding)", "$filename~"
+	    or die "Can't write to file <$filename~> in directory <$o>: $!";
+	output_data($ofh, $data, $filename);
+	close $ofh
+	    or die "Error while closing: $!";
+	rename "$filename~", $filename
+	    or die "Can't rename $filename~ to $filename: $!";
+	print STDERR "\n" if $debug;
+    }
+
+    # required files (dummy files, bbbike or bbbike.cgi like to have these):
+    for my $file (qw(gesperrt gesperrt_car
+		     wasserumland wasserumland2 hoehe
+		     orte orte2 qualitaet_l handicap_l
+		     berlin deutschland orte_city
+		     landstrassen landstrassen2
+		     ubahn ubahnhof sbahn sbahnhof rbahn rbahnhof
+		     gesperrt_u gesperrt_s gesperrt_r
+		     radwege_exact fragezeichen
+		     Berlin.coords.data Potsdam.coords.data
+		     plaetze ampeln green nolighting
+		    )) {
+	touch $file;
+    }
+    for (qw(cyclepath misc path route tram kfzverkehr scenic ferry)) {
+	touch "comments_$_";
+    }
+    # radwege will be used for plotting, radwege_exact for routing.
+    # New bbbike can use the same file for both, but for hysterical
+    # reasons still uses different files.
+    if (!-e "radwege" && -e "radwege_exact") {
+	symlink "radwege_exact", "radwege"
+	    or warn "Cannot create symlink radwege -> radwege_exact: $!";
+    }
+    if (!-d "temp_blockings") {
+	mkdir "temp_blockings";
+    }
+    touch "temp_blockings/bbbike-temp-blockings.pl";
+    output_meta();
+}
+
+if (%unhandled && $debug >= 1) {
+    print "Unhandled categories:\n";
+    local $Data::Dumper::Sortkeys = 1;
+    print Dumper (\%unhandled);
+}
+
+untie %out;
+#unlink $out_tmp_db;
+
+#exit;
+
+######################################################################
+
+# Decide whether U/S-Bahn is a real "public" railway or just a service
+# one. Heuristics could work for Germany, but is currently restricted
+# to Berlin.
+sub is_rail_service {
+    my($type, $name, $nodes_ref) = @_;
+    return 0 if ($type eq 'U' && $name =~ /^U\s*\d/);
+    return 0 if ($type eq 'S' && $name =~ /^S\s*\d/);
+    my($lon,$lat) = split /,/, $node2ll{$nodes_ref->[0]};
+    my($east,$north) = split /,/, $conv->(14.525134, 52.826885);
+    my($west,$south) = split /,/, $conv->(12.545141, 52.112717);
+    return 0 if ($lat > $north || $lat < $south ||
+		 $lon > $east  || $lon < $west); # outside Berlin and region
+    return 1;
+}
+
+sub resolve_node_later {
+    my($osm_layer, $name, $coord) = @_;
+    $resolve_node_later{$osm_layer}->{$coord} = $name;
+}
+
+sub resolve_node_now {
+    my($osm_layer, $bbbike_layer, $bbbike_cat, $nodes_ref) = @_;
+    my $r = $resolve_node_later{$osm_layer};
+    my $resolved = $resolved{$osm_layer};
+    my $normalize_name = {ubahnhof => \&normalize_name_ubahnhof,
+			  sbahnhof => \&normalize_name_sbahnhof,
+			 }->{$bbbike_layer};
+    do{warn "no $osm_layer layer"; return} if !$r;
+    for my $coord (map { $node2ll{$_} } @$nodes_ref) {
+	if (exists $r->{$coord}) {
+	    my $name = $r->{$coord};
+	    $name = $normalize_name->($name) if $normalize_name;
+	    push @{$out{$bbbike_layer}}, [$name, [$coord], $bbbike_cat];
+	    delete $r->{$coord};
+	    $resolved->{$coord}++;
+	}
+    }
+}
+
+sub resolve_node_fallback {
+    my $have_unresolved = 0;
+    for (keys %resolve_node_later) {
+	if (keys %{$resolve_node_later{$_}}) {
+	    $have_unresolved++; # XXX maybe, may be some already in %resolved
+	    last;
+	}
+    }
+    return if !$have_unresolved;
+
+    print STDERR "unresolved:\n" if $debug;
+    for my $osm_layer (keys %resolve_node_later) {
+	print STDERR "  $osm_layer:\n" if $debug;
+	my $resolved = $resolved{$osm_layer};
+	while(my($coord, $name) = each %{ $resolve_node_later{$osm_layer} }) {
+	    next if $resolved->{$coord};
+	    if ($osm_layer eq 'railway') {
+		my($file, $cat);
+ 		if ($name =~ s{^U(|-Bhf)\s+}{}) {
+		    ($file, $cat) = ("ubahnhof", "UA"); # zone is faked
+ 		} elsif ($name =~ s{^S(|-Bhf)\s+}{}) {
+		    ($file, $cat) = ("sbahnhof", "SA");
+ 		} else {
+		    ($file, $cat) = ("rbahnhof", "RA");
+ 		}
+		push @{$out{$file}}, [$name, [$coord], $cat];
+		print STDERR "    fallback for $name -> $cat $file\n" if $debug;
+	    } else {
+		print STDERR "    NO FALLBACK for $name ($coord)\n" if $debug;
+	    }
+	}
+    }
+}
+
+sub normalize_name_ubahnhof {
+    my $name = shift;
+    $name =~ s{^U(\s+|-Bhf)}{};
+    $name;
+}
+
+sub normalize_name_sbahnhof {
+    my $name = shift;
+    $name =~ s{^S(\s+|-Bhf)}{};
+    $name;
+}
+
+sub sort_by_population {
+    @{$out{"orte"}} = map {
+	$_->[1]
+    } sort {
+	$b->[0] <=> $a->[0]
+    } map {
+	[$place_to_population{$_->[1][0]} || 0, $_]
+    } @{$out{"orte"}};
+}
+
+sub output_data {
+    my($ofh, $data, $filename) = @_;
+    print $ofh <<EOF;
+#: #: -*- coding: $encoding -*-
+EOF
+    if ($encoding ne 'iso-8859-1') {
+	print $ofh <<EOF;
+#:encoding: $encoding
+EOF
+    }
+    if (!$map) {
+	print $ofh <<EOF;
+#:map: polar
+EOF
+    } elsif ($map ne 'bbbike') {
+	print $ofh <<EOF;
+#:map: $map
+EOF
+    }
+my $isodate = epoch2isodate;
+print $ofh <<EOF;
+#:date: $isodate
+EOF
+    if ($global_directives{$filename}) {
+	for my $directive (@{ $global_directives{$filename} }) {
+	    print $ofh <<EOF;
+#:$directive
+EOF
+	}
+    }
+    print $ofh <<EOF;
+#:
+#
+# OpenStreetMap data can be used freely under the terms of the 
+# Creative Commons Attribution-ShareAlike 2.0 license.
+# http://wiki.openstreetmap.org/index.php/OpenStreetMap_License
+#
+# Converted from openstreetmap data using
+# $prog v$VERSION
+# DO NOT EDIT THIS FILE! Edit the original openstreetmap data!
+#
+EOF
+    for my $rec (@$data) {
+	my($name, $coords, $cat) = @$rec;
+	if (!defined $coords) {
+	    # a directive
+	    print $ofh $name, "\n";
+	    next;
+	}
+	my $namecat = "$name\t$cat";
+	my $coord_string = join(" ", @$coords);
+	if ($splitlonglines && length($namecat) + length($coord_string) + 2 >= MAXLINELENGTH) {
+	    warn_once("Long line detected, splitting...\n");
+	    my $currlen = length($namecat);
+	    print $ofh $namecat;
+	    for my $c (@$coords) {
+		if ($currlen + 1 + length($c) + 1 > MAXLINELENGTH) {
+		    print $ofh "\n$namecat";
+		    $currlen = length($namecat);
+		}
+		print $ofh " ", $c;
+		$currlen += 1 + length($c);
+	    }
+	    print $ofh "\n";
+	} else {
+	    print $ofh $namecat, " ", $coord_string, "\n";
+	}
+    }
+}
+
+sub output_meta {
+    my $meta_file_dd  = "meta.dd";
+    my $meta_file_yml = "meta.yml";
+
+    my %meta;
+
+    $meta{created} = epoch2isodate;
+    $meta{created_by} = $ENV{EMAIL} || $ENV{REPLYTO} || $ENV{REPLY_TO} || (getpwuid($<))[0];
+    $meta{commandline} = \@commandline;
+    $meta{creation_cwd} = $cwd;
+    if (@bbox_wgs84) {
+	my @bbox;
+	@bbox[0,1] = split /,/, $conv->(@bbox_wgs84[0,1]);
+	@bbox[2,3] = split /,/, $conv->(@bbox_wgs84[2,3]);
+	$meta{bbox} = \@bbox;
+	$meta{bbox_wgs84} = \@bbox_wgs84;
+    }
+    $meta{center} = [split /,/, $center] if defined $center;
+    $meta{source} = 'osm';
+    #$meta{source_files} = \@osm_files; # XXX hmmm, too many?
+    $meta{skip_features} = {green        => 1,
+			    landstrassen => 1,
+			    nolighting   => 1,
+			    obst         => 1,
+			    vbb          => 1, # even in Berlin, because we don't have the VBB zone info
+			    wasserumland => 1,
+			    wideregion   => 1,
+			   };
+
+    open my $ofh, ">", $meta_file_dd."~"
+	or die "Cannot write to $meta_file_dd~: $!";
+    print $ofh Data::Dumper->new([\%meta],['meta'])->Sortkeys(1)->Useqq(1)->Dump;
+    close $ofh
+	or die "While closing $meta_file_dd~: $!";
+    rename $meta_file_dd."~", $meta_file_dd
+	or die "While renaming $meta_file_dd~ to $meta_file_dd: $!";
+
+    if (eval { require YAML::Syck; 1 }) {
+	YAML::Syck::DumpFile($meta_file_yml, \%meta);
+    } elsif (eval { require YAML; 1 }) {
+	YAML::DumpFile($meta_file_yml, \%meta);
+    } else {
+	warn "No YAML::Syck or YAML.pm available, cannot dump $meta_file_yml.\n";
+	unlink $meta_file_yml; # may be an older file there
+    }
+}
+
+sub touch ($) {
+    my $file = shift;
+    sysopen my $fh, $file, O_WRONLY|O_CREAT|O_NONBLOCK|O_NOCTTY
+	or die "Can't create $file: $!";
+    close $fh
+	or die "Can't close $file: $!";
+}
+
+sub open_osm {
+    my $osm_file = shift;
+    my($dom, $reader);
+    my $fh;
+    if ($osm_file =~ m{\.gz$}) {
+	if (!eval { require PerlIO::gzip; 1 }) {
+	    die "No support for gzipped osm files, PerlIO::gzip is missing.\n";
+	}
+	open $fh, "<:gzip", $osm_file
+	    or die "Can't open file $osm_file: $!";
+    } elsif ($osm_file =~ m{\.bz2$}) {
+## See https://rt.cpan.org/Ticket/Display.html?id=42241
+# 	if (!eval { require PerlIO::via::Bzip2; 1 }) {
+# 	    die "No support for bzip2-compressed osm files, PerlIO::via::Bzip2 is missing.\n";
+# 	}
+# 	open $fh, "<:via(Bzip2)", $osm_file
+# 	    or die "Can't open file $osm_file: $!";
+	open $fh, "-|", "bunzip2", "--stdout", $osm_file
+	    or die "Can't run bunzip2 on $osm_file: $!";
+    }
+
+    my @xmlparser;
+    if ($xmlparser) {
+	@xmlparser = $xmlparser;
+    } else {
+	@xmlparser = ('XML::LibXML::Reader', 'XML::LibXML');
+    }
+
+    for my $_try (@xmlparser) {
+	if ($_try eq 'XML::LibXML::Reader') {
+	    if (eval { require XML::LibXML::Reader; 1 }) {
+		if ($fh) {
+		    $reader = XML::LibXML::Reader->new(IO => $fh);
+		} else {
+		    $reader = XML::LibXML::Reader->new(location => $osm_file);
+		}
+		last;
+	    }
+	} elsif ($_try eq 'XML::LibXML') {
+	    if (eval { require XML::LibXML; 1 }) {
+		my $p = XML::LibXML->new;
+		if ($fh) {
+		    $dom = $p->parse_fh($fh)->documentElement;
+		} else {
+		    $dom = $p->parse_file($osm_file)->documentElement;
+		}
+		last;
+	    }
+	} else {
+	    die "Unknown XML parser $_try";
+	}
+    }
+
+    if (!$dom && !$reader) {
+	if (!-e $osm_file) {
+	    die "The file '$osm_file' does not exist.\n";
+	} elsif (!-r $osm_file) {
+	    die "The file '$osm_file' is not readable.\n";
+	} else {
+	    die "XML::LibXML has to be installed. Please fetch it from CPAN.\n";
+	}
+    }
+    ($dom, $reader);
+}
+
+sub set_info_handler {
+    my($osm_file, $dom, $reader) = @_;
+    no warnings 'signal'; # INFO is usually only available on BSD systems
+    $SIG{INFO} = sub {
+	my $msg = "File $osm_file";
+	if ($reader) {
+	    no warnings 'uninitialized';
+	    $msg .= sprintf ", bytes consumed %d, line %d, current node name '%s', id=%s", $reader->byteConsumed, $reader->lineNumber, $reader->name, $reader->getAttribute('id');
+	}
+	print STDERR $msg, "\n";
+	require Carp; Carp::carp('Currently');
+    };
+}
+
+sub parse_warning {
+    my($reader, $where) = @_;
+    require Carp;
+    local $Carp::CarpLevel = $Carp::CarpLevel + 1;
+    Carp::carp("*** PARSE WARNING: unexpected node <" . $reader->name . "> at line " . $reader->lineNumber . " $where");
+}
+
+{
+    my %warn_once;
+    sub warn_once {
+	my $warning = join(" ", @_);
+	return if $warn_once{$warning};
+	warn $warning;
+	$warn_once{$warning}++;
+    }
+}
+
+# REPO BEGIN
+# REPO NAME epoch2isodate /home/e/eserte/work/srezic-repository 
+# REPO MD5 a728acec57691739e2273d6c4836ecc1
+
+sub epoch2isodate (;$) {
+    my $time = shift || time;
+    my @l = localtime $time;
+    sprintf("%04d%02d%02d%02d%02d%02d",
+	    $l[5]+1900, $l[4]+1, $l[3],
+	    $l[2],      $l[1],   $l[0]);
+}
+# REPO END
+
+# REPO BEGIN
+# REPO NAME is_interactive /home/e/eserte/work/srezic-repository 
+# REPO MD5 87e9e2500fbe4a3ffe5f977de8513d47
+sub is_interactive {
+    if ($^O eq 'MSWin32' || !eval { require POSIX; 1 }) {
+	# fallback
+	return -t STDIN && -t STDOUT;
+    }
+
+    # from perlfaq8
+    open(TTY, "/dev/tty") or die $!;
+    my $tpgrp = POSIX::tcgetpgrp(fileno(*TTY));
+    my $pgrp = getpgrp();
+    if ($tpgrp == $pgrp) {
+	1;
+    } else {
+	0;
+    }
+}
+# REPO END
+
+__END__
+
+=head1 NAME
+
+osm2bbd - convert OpenStreetMap data for BBBike
+
+=head1 SYNOPSIS
+
+    ./downloadosm [options] -o /path/to/output lonmin latmin lonmax latmax
+
+=head1 HOWTO
+
+Create a directory where to download OSM data. It's best to use an
+empty directory. Convention: I use
+C<misc/download/osm/I<region_name>> as a path name. For Berlin, this
+would be:
+
+    cd /path/to/bbbike
+    mkdir -p misc/download/osm/berlin
+
+Use L<downloadosm> to download the OSM data. Decide first on the
+bounding box to download (see also hints below). To load all of
+Berlin, use
+
+    ./miscsrc/downloadosm -o misc/download/osm/berlin 13.010982 52.337651 13.761388 52.675354
+
+With a standard DSL connection, this last about 1:30 hours, totalling
+220 MB of data (as of July 2008, in Januar 2009, it was nearly 400 MB).
+
+Now convert the OSM data into a BBBike-readable format. This should
+take 5 minutes or so (Athlon64, i386-freebsd) for the above dataset.
+Decide on the destination directory. Convention: I use
+C<data_I<region_name>_osm_bbbike>. Note: this directory should not
+exist. For Berlin, this would be:
+
+    ./miscsrc/osm2bbd -v -map bbbike -o data_berlin_osm_bbbike/ misc/download/osm/berlin
+
+Finally call bbbike with the C<-datadir> option:
+
+    ./bbbike -datadir data_berlin_osm_bbbike
+
+=head2 HINTS
+
+To get the bbox of a bbd file, use:
+
+    perl -l -MKarte::Standard -MKarte::Polar -MStrassen -e '$s=Strassen->new("data/strassen"); ($x1,$y1,$x2,$y2) = $s->bbox; print join(",", $Karte::Polar::obj->standard2map($x1,$y1),$Karte::Polar::obj->standard2map($x2,$y2))'
+
+Get the visible area in the BBBike application. Start ptksh within
+BBBike (in the Settings menu if bbbike was started with -advanced, orr
+hit just Shift-P) and the type in:
+
+    @corners = $c->get_corners;
+    join(",", $Karte::Polar::obj->standard2map(anti_transpose(@corners[0,1])), 
+              $Karte::Polar::obj->standard2map(anti_transpose(@corners[2,3])));
+
+=head1 EXAMPLES
+
+To convert data for the San Francisco area:
+
+=over
+
+=item 1. download geo data for San Francisco/SFO from opensteetmaps.org
+
+    ./miscsrc/downloadosm -o ../sfbike/sfo -- -122.527 37.594 -122.351 37.811
+
+=item 2. convert *.osm files to bbbike data
+
+    ./miscsrc/osm2bbd -f -map bbbike -center -122.598,37.6829 -country us -o data-sfo ../sfbike/sfo
+
+=item 3. (optional) do some additional postprocessing
+
+    ./miscsrc/osm2bbd-postprocess data-sfo
+
+=item 4. start sfbike, english version
+
+    env LANG=en_US.UTF-8 perl ./bbbike -datadir data-sfo
+
+=back
+
+=head1 SUPPORTED LANGUAGES
+
+If no language is specified, then output is optimized for German. The
+only other language currently supported is English (C<en>).
+
+=head1 SUPPORTED COUNTRIES
+
+Currently there's only special handling for C<de>: motorways get
+translated from "AI<number>" to "BABI<number>" to for handling with
+BBBike.
+
+=head1 IMPLEMENTATION NOTES
+
+There are two parsing modes, which can be switched by using the
+C<-xmlparser> switch: C<XML::LibXML::Reader> and C<XML::LibXML>. The
+C<XML::LibXML> parsing mode is more robust, but takes much more memory
+especially for large osm files. The C<XML::LibXML::Reader> parsing
+mode is work in progress but the only option to parse large osm files.
+
+Currently C<XML::LibXML::Reader> is the default parsing mode.
+
+=head1 BUGS/TODO
+
+There are a lot of bugs and unsolved issues.
+
+=over
+
+=item * It is not clear whether to put cycle data to F<radwege> or
+F<radwege_exact>. In the long run, F<radwege> should be completely
+replaced by F<radwege_exact>.
+
+=item * BBBike should be fixed to handle normal WGS84 coordinates for
+everything.
+
+=item * Tunnel mound optimization needed! Problem visible in
+Nord-Süd-Tunnel. Possible implementation: remember the end points with
+the neighbor point (that is, for A B C D E remember A B and E D). This
+structure points to the data record and is indexed by the end points.
+Before doing the bbd output do another processing step: for every
+remembered item check whether there is another item with the same end
+point but another neighbor point. If such an item exists, then add the
+"_" (no mound) attribute to the Tu category on the right side.
+
+=item * It seems that "holes" in buildings are specified by just a
+closed <way> without any name and other tag. Implementation
+suggestion: put all the closed ways without any other tags into a
+special bucket and output at the end of the corresponding layer.
+Question: how to get the corresponding layer? Check for inclusion?
+
+Update: there is usually also a relation with outer and inner roles.
+
+=item * Look at the Reichstag. Get rid of the multiple stars (is this
+a bbbike or osm2bbd task?)
+
+=item * Currently the url tag will be output as a url directive into
+the bbd file. Maybe use a info file instead, because currently the
+info support in bbbike is better than the directive support? Or make
+the directive support in bbbike better?
+
+=back
+
+=cut
+

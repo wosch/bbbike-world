@@ -1,0 +1,123 @@
+#!/usr/bin/perl -w
+# -*- perl -*-
+
+#
+# $Id: convert_coordsys,v 1.5 2005/02/25 01:50:55 eserte Exp $
+# Author: Slaven Rezic
+#
+# Copyright (C) 2001 Slaven Rezic. All rights reserved.
+# This program is free software; you can redistribute it and/or
+# modify it under the same terms as Perl itself.
+#
+# Mail: slaven.rezic@berlin.de
+# WWW:  http://www.rezic.de/eserte/
+#
+
+# Konvertiert zwischen Koordinatensystemen. Macht ungefähr das gleiche
+# wie convert2hafas, aber mit konsequentem Einsatz von
+# BBBike-Standard-Modulen
+
+use strict;
+
+use FindBin;
+use lib ("$FindBin::RealBin/..", "$FindBin::RealBin/../lib");
+use Karte;
+use Strassen;
+Karte::preload(':all');
+use Getopt::Long;
+
+my($addx,$addy) = (0,0);
+
+my $startc;
+
+if (!GetOptions("addx=i" => \$addx,
+		"addy=i" => \$addy,
+		"startc" => \$startc
+		)) {
+    usage();
+}
+
+my($from, $to);
+
+if (@ARGV == 1) {
+    $ARGV[1] = 'standard';
+}
+if (@ARGV == 2) {
+    $from = $Karte::map{$ARGV[0]} || usage_coordsys($ARGV[0]);
+    $to   = $Karte::map{$ARGV[1]} || usage_coordsys($ARGV[1]);
+} else {
+    usage();
+}
+
+print "#: map: $ARGV[1]\n" if !$startc;
+
+sub c {
+	my $coord = shift;
+	my ($x, $y) = split(/,/, $coord);
+
+        return join(",", $to->trim_accuracy($from->map2map($to, $x, $y)));
+}
+
+# wrapper
+sub startc { 
+    my ($param, $x, $y) = @_;
+    return "$param=" . &c("$x,$y");
+}
+
+while(<STDIN>) {
+    chomp;
+    if ($_ =~ m{^#}) { 
+	print $_, "\n";
+	next;
+    }
+
+    if ($startc) {
+       s/(startc|viac|zielc)=(\-?\d+)%2C(\-?\d+)/&startc($1,$2,$3)/eg;
+    } else {
+       s/(\-?\d+,\-?\d+)/&c($1)/eg;
+    }
+
+    print "$_\n";
+}
+
+sub usage_coordsys {
+    my $tried = shift;
+    die "Unknown coordsys token <$tried>. Use one of following:\n" .
+	join(", ", keys %Karte::map) . "\n";
+}
+
+sub usage {
+    die <<EOF;
+usage: $0 [-addx x] [-addy y] fromcoordsys [tocoordsys] < bbdin > bbdout
+-addx/y: add value to each coordinate
+if tocoordsys is not specified, then "standard" is assumed.
+EOF
+}
+
+__END__
+
+=head1 NAME
+
+convert_coordsys - convert bbd files between coordinate systems
+
+=head1 SYNOPSIS
+
+   convert_coordsys [-addx x] [-addy y] fromcoordsys [tocoordsys] < bbdin > bbdout
+
+=head1 DESCRIPTION
+
+Convert bbd files between coordinate systems. Popular values for
+from/tocoordsys are C<standard> (the old standard BBBike coordinates,
+just meters to north and east), and C<polar> (WGS84 coordinates in DDD
+format).
+
+=head1 AUTHOR
+
+Slaven Rezic
+
+=head1 SEE ALSO
+
+L<Karte>.
+
+=cut
+

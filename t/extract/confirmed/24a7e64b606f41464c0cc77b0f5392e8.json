@@ -1,0 +1,14 @@
+{
+   "poly_file" : "/var/tmp/bbbike/extract/running/41c7dc95432b8f4a9fbc564bd2cb292c/51.95,12.66-52.54,13.49.poly",
+   "time" : 1323632906,
+   "file" : "24a7e64b606f41464c0cc77b0f5392e8.json",
+   "ne_lat" : "52.54",
+   "skm" : 3193,
+   "email" : "wschnr@gmail.com",
+   "sw_lat" : "51.95",
+   "city" : "zagreb",
+   "format" : "osm.bz2",
+   "pbf_file" : "/var/tmp/bbbike/extract/running/41c7dc95432b8f4a9fbc564bd2cb292c/51.95,12.66-52.54,13.49.pbf",
+   "sw_lng" : "12.66",
+   "ne_lng" : "13.49"
+}
