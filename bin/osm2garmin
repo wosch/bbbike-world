@@ -7,8 +7,8 @@
 PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_EXTRACT_LANG=en}
 : ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
-: ${BBBIKE_MKGMAP_VERSION="mkgmap-r2373"}
-: ${BBBIKE_SPLITTER_VERSION="splitter-r200"}
+: ${BBBIKE_MKGMAP_VERSION="mkgmap"}
+: ${BBBIKE_SPLITTER_VERSION="splitter"}
 
 set -e
 
