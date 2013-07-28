@@ -23,7 +23,9 @@ my $PIDstart = 0x31;
 
 open( TYP, "+<$typFile" ) || die "Can't update $typFile: $!";
 
-warn "Set garmin type: Updating $typFile, familyID: $familyID, productID: $productID\n" if $debug;
+warn
+"Set garmin type: Updating $typFile, familyID: $familyID, productID: $productID\n"
+  if $debug;
 
 seek( TYP, $FIDstart, 0 );
 read( TYP, $FID, $IDsize ) == $IDsize || die "can't read FID: $!";
