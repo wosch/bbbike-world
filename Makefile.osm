@@ -861,21 +861,23 @@ DEB_REPO_DIR=	/usr/local/www/debian.bbbike.org/debian
 DEB_OPT_DIR=	/var/lib/bbbike/opt
 
 # don't forget to run deb-clean first
-deb-perl:
+deb-perl: deb-clean
 	mkdir -p ${DEB_DIR}
 	cd ${DEB_DIR}; \
 	for i in ${DEB_PACKAGES}; do \
 	    dh-make-perl --build --cpan $$i; \
 	done
 	ls -l ${DEB_DIR}/*.deb
+	@echo "Please run now: ${MAKE} deb-repo"
 
-deb-equivs:
+deb-equivs: deb-clean
 	mkdir -p ${DEB_DIR}
 	cd ${DEB_DIR}; \
 	for i in ${DEB_CONTROLS}; do \
 	    equivs-build $$i; \
 	done
 	ls -l ${DEB_DIR}/*.deb
+	${MAKE} deb-repo
 
 deb-bin:
 	${MAKE} -C./world/etc/apt/deb $@
@@ -1020,7 +1022,8 @@ help:
 	@echo "  [ tile | tile-extract | tile-convert | tile-csv | tile-checksum ]"
 	@echo "  [ tile-distclean | tile-rsync | tile-aws-s3 ]"
 	@echo "  [ test-org | lighttpd-restart | test ]"
-	@echo "  [ deb-clean | deb-perl | deb-equivs | deb-bin | deb-repo ]"
+	@echo "  [ deb-perl | deb-equivs | deb-bin ]"
+	@echo "  [ deb-clean | deb-repo ]"
 	@echo "  [ debian-bootstrap | bbbike-bootstrap ]"
 
 	@echo ""
