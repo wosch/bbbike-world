@@ -21,10 +21,10 @@ use warnings;
 my @garmin_styles = qw/cycle leisure osm bbbike/;
 plan tests => 4 + 3 * scalar(@garmin_styles);
 
-my $pbf_file = 't/data-osm/tmp/Cusco.osm.pbf';
+my $pbf_file = 'world/t/data-osm/tmp/Cusco.osm.pbf';
 
 if ( !-f $pbf_file ) {
-    system(qw(ln -sf ../Cusco.osm.pbf t/data-osm/tmp));
+    system(qw(ln -sf ../Cusco.osm.pbf world/t/data-osm/tmp));
     die "symlink failed: $!\n" if $?;
 }
 

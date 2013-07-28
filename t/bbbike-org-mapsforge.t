@@ -20,10 +20,10 @@ use warnings;
 
 plan tests => 4;
 
-my $pbf_file = 't/data-osm/tmp/Cusco.osm.pbf';
+my $pbf_file = 'world/t/data-osm/tmp/Cusco.osm.pbf';
 
 if ( !-f $pbf_file ) {
-    system(qw(ln -sf ../Cusco.osm.pbf t/data-osm/tmp));
+    system(qw(ln -sf ../Cusco.osm.pbf world/t/data-osm/tmp));
     die "symlink failed: $!\n" if $?;
 }
 

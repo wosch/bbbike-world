@@ -19,8 +19,8 @@ use warnings;
 
 my $debug = 1;
 
-my $json_dir       = "t/extract/json";
-my $json_dir_large = "t/extract/json-large";
+my $json_dir       = "world/t/extract/json";
+my $json_dir_large = "world/t/extract/json-large";
 my @json_files     = get_json_files( $json_dir, $json_dir_large );
 plan tests => scalar(@json_files) * 4;
 

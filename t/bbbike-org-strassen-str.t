@@ -14,8 +14,8 @@ use warnings;
 
 plan tests => 3;
 
-my $strassen = 't/data-osm/Berlin/strassen';
-my $str      = 't/data-osm/Berlin/str';
+my $strassen = 'world/t/data-osm/Berlin/strassen';
+my $str      = 'world/t/data-osm/Berlin/str';
 
 sub md5_file {
     my $file = shift;

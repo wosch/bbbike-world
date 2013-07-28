@@ -35,13 +35,13 @@ sub md5_file {
     return $md5;
 }
 
-my $pbf_file = 't/data-osm/tmp/Cusco.osm.pbf';
+my $pbf_file = 'world/t/data-osm/tmp/Cusco.osm.pbf';
 if ( !-f $pbf_file ) {
-    system(qw(ln -sf ../Cusco.osm.pbf t/data-osm/tmp));
+    system(qw(ln -sf ../Cusco.osm.pbf world/t/data-osm/tmp));
     die "symlink failed: $!\n" if $?;
 }
 
-my $pbf_file2 = 't/data-osm/tmp/Cusco2.osm.pbf';
+my $pbf_file2 = 'world/t/data-osm/tmp/Cusco2.osm.pbf';
 my $pbf_md5   = "6dc9df64ddc42347bbb70bc134b4feda";
 my $pbf2_md5  = "1c011b6910f5ef7a8cefd76005921680";
 my $osm_md5   = "d222cfe84480b8f0ac0081eaf6e2c2ce";

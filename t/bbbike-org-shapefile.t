@@ -26,11 +26,11 @@ use warnings;
 
 plan tests => 4;
 
-my $prefix   = 't/data-osm/tmp';
+my $prefix   = 'world/t/data-osm/tmp';
 my $pbf_file = "$prefix/Cusco.osm.pbf";
 
 if ( !-f $pbf_file ) {
-    system(qw(ln -sf ../Cusco.osm.pbf t/data-osm/tmp));
+    system(qw(ln -sf ../Cusco.osm.pbf world/t/data-osm/tmp));
     die "symlink failed: $!\n" if $?;
 }
 

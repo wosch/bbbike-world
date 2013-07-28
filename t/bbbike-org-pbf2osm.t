@@ -35,14 +35,14 @@ sub md5_file {
     return $md5;
 }
 
-my $prefix       = 't/data-osm/tmp';
+my $prefix       = 'world/t/data-osm/tmp';
 my $pbf_file     = "$prefix/Cusco.osm.pbf";
 my $osm_file_gz  = "$prefix/Cusco.osm.gz";
 my $osm_file_bz2 = "$prefix/Cusco.osm.bz2";
 my $osm_file_xz  = "$prefix/Cusco.osm.xz";
 
 if ( !-f $pbf_file ) {
-    system(qw(ln -sf ../Cusco.osm.pbf t/data-osm/tmp));
+    system(qw(ln -sf ../Cusco.osm.pbf world/t/data-osm/tmp));
     die "symlink failed: $!\n" if $?;
 }
 

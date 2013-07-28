@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 plan tests => 2;
-my $url_file = 't/mc/tile-url.txt';
+my $url_file = 'world/t/mc/tile-url.txt';
 
 ######################################################################
 my ( $fh, $tempfile ) = tempfile();
