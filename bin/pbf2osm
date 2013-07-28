@@ -30,6 +30,8 @@ if which pixz >/dev/null; then
 fi
 
 case $1 in
+    -osmosis | --osmosis)    shift; compress=cat;;
+
     # single core, more than one *.pbf files at once
     -gzip | --gzip)    shift; compress=gzip;;
     -bzip2 | --bzip2 ) shift; compress=bzip2 ;;
@@ -126,13 +128,12 @@ case $compress in
     * ) ;;
 esac
 
-if [ "$compress" = "" ]; then
-    $osm2o5m --out-osm "$file"
-    #osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout
-else
     f=`basename $file .pbf`
     dir=`dirname $file`
     case $compress in
+	  "") $osm2o5m --out-osm "$file" ;;
+    	cat ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout ;;
+
 	# legacy osmosis
 	osmosis-gzip )   osm2osm $compress "$@";;
 	osmosis-bzip2 )  osm2osm $compress "$@";;
@@ -161,4 +162,3 @@ else
 
 	* ) echo >& 2 "Oops, unknown '$compress'"; exit 2 ;;
     esac
-fi
