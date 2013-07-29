@@ -166,9 +166,9 @@ fi
 date=$(date -u)
 date_short=$(date -u '+%d-%b-%Y %H:%M:%S')
 if [ -z "$city" ]; then
-   description="$garmin, $date_short BBBike.org"
+   description="$garmin, BBBike.org $date_short"
 else
-   description="$city, $date_short BBBike.org"
+   description="$city, BBBike.org $date_short"
 fi
 
 # the limit for description field is 50 bytes
