@@ -164,13 +164,14 @@ if [ $(ls $split_dir/*.pbf 2>/dev/null | wc -l) -eq 0 ]; then
 fi
 
 date=$(date -u)
-date_short=$(date '+%b %Y')
+date_short=$(date -u '+%d-%b-%Y %H:%M:%S')
 if [ -z "$city" ]; then
-   description="$garmin, $date_short"
+   description="$garmin, BBBike.org $date_short"
 else
-   description="$city, $date_short"
+   description="$city, BBBike.org $date_short"
 fi
 
+# the limit for description field is 50 bytes
 coords=$(echo $garmin | perl -npe 's,planet_,,; s/_/ /g')
 description=$(echo $description | perl -npe '$_=substr($_,0,50)')
 
@@ -196,7 +197,7 @@ fi
 echo ">>> Run mkgmap, map style: $mkgmap_map_style" >> $logfile
 ( set -x 
   java $java_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_MKGMAP_VERSION/mkgmap.jar $max_jobs $mkgmap_opt $mkgmap_map \
-    --gmapsupp --description="$description" --family-name="BBBike.org style=$mkgmap_map_style $coords" $split_dir/*.pbf $mkgmap_map_type ) >> $logfile 2>&1  || error
+    --gmapsupp --description="$description" --family-name="$coords style=$mkgmap_map_style" $split_dir/*.pbf $mkgmap_map_type ) >> $logfile 2>&1  || error
 
 #echo ">>> Run mkgmap, create gmapsupp file" >> $logfile
 #( set -x
