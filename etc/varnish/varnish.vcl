@@ -172,7 +172,7 @@ sub vcl_recv {
 
     ######################################################################
     # force caching of images and CSS/JS files
-    if (req.url ~ "^/html|^/images|^/feed/|^/osp/|^/cgi/[acdf-z]|.*\.html$|.*/$|^/osm/" || req.http.host ~ "^api[234]?.bbbike\.org$" ) {
+    if (req.url ~ "^/html|^/images|^/feed/|^/osp/|^/cgi/[acdf-z]|.*\.html$|.+/$|^/osm/" || req.http.host ~ "^api[234]?.bbbike\.org$" ) {
        unset req.http.cookie;
        #unset req.http.Accept-Encoding;
        unset req.http.User-Agent;
@@ -208,12 +208,12 @@ sub vcl_recv {
 	return (pass);
     }
 
-    if (req.http.host ~ "^extract[234]?\.bbbike\.org") { return (pass); } # no cache
 
     # test & development, no caching
     if (req.http.host ~ "^(dev|devel)[234]?\.bbbike\.org$") {
 	return (pass);
     }
+    if (req.http.host ~ "^extract[234]?\.bbbike\.org") { return (pass); } # no cache
 
     # cache just by major browser type
     call normalize_user_agent;
