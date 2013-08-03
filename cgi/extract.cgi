@@ -1357,12 +1357,13 @@ sub get_language {
     return $language if !defined $lang;
 
     if ( grep { $_ eq $lang } @{ $option->{'supported_languages'} } ) {
-        warn "language: $lang\n" if $debug >= 1;
+        warn "get language: $lang\n" if $debug >= 1;
         return $lang;
     }
 
     # default language
     else {
+        warn "default language: $lang\n" if $debug >= 1;
         return $language;
     }
 }
