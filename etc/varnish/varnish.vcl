@@ -131,6 +131,8 @@ sub vcl_recv {
         set req.backend = wosch;
     } else if (req.http.host ~ "^(dvh|tkb)\.bookmaps\.org$") {
         set req.backend = wosch;
+    } else if (req.http.host ~ "^extract[2-4]?\.bbbike\.org$") {
+        set req.backend = bbbike;
     } else {
         set req.backend = bbbike;
     }
@@ -205,6 +207,8 @@ sub vcl_recv {
     if (req.request == "POST") {
 	return (pass);
     }
+
+    if (req.http.host ~ "^extract[234]?\.bbbike\.org") { return (pass); } # no cache
 
     # test & development, no caching
     if (req.http.host ~ "^(dev|devel)[234]?\.bbbike\.org$") {
