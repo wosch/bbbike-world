@@ -171,7 +171,7 @@ sub header {
     }
 
     # store last used selected in cookies for further usage
-    if ( $type eq 'check_input' ) {
+    if ( $type eq 'check_input' || $type eq 'homepage' ) {
         my @cookies;
         my @cookie_opt = (
             -path    => $q->url( -absolute => 1, -query => 0 ),
@@ -191,7 +191,7 @@ sub header {
             @cookie_opt
           );
 
-        my $l = $q->param("lang");
+        my $l = $q->param("lang") || "";
         if ( $l && grep { $l eq $_ } @{ $option->{supported_languages} } ) {
             push @cookies,
               $q->cookie(
@@ -404,9 +404,11 @@ sub language_links {
     my $qq   = CGI->new($q);
     my $data = qq{<span id="language">\n};
 
+    my $cookie_lang = $q->cookie( -name => "lang" ) || "";
+
     foreach my $l ( @{ $option->{'supported_languages'} } ) {
         if ( $l ne $language ) {
-            $l eq $option->{'language'}
+            $l eq $option->{'language'} && !$cookie_lang
               ? $qq->delete("lang")
               : $qq->param( "lang", $l );
 
@@ -1322,7 +1324,10 @@ sub get_language {
     my $q = shift;
     my $language = shift || $language;
 
-    my $lang = $q->param("lang") || $q->param("language");
+    my $lang =
+         $q->param("lang")
+      || $q->param("language")
+      || $q->cookie( -name => "lang" );
     return $language if !defined $lang;
 
     if ( grep { $_ eq $lang } @{ $option->{'supported_languages'} } ) {
