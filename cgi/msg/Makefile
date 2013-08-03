@@ -1,6 +1,6 @@
 all: perltidy
 
-NCPU=`../../world/bin/ncpu`
+NCPU=`../../../world/bin/ncpu`
 ALL=??
 
 perlcheck:
