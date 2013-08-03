@@ -578,6 +578,7 @@ clean: rotate-data-osm
 	${MAKE} -C cgi/msg $@	
 	${MAKE} -C world/bin $@	
 	${MAKE} -C world/cgi $@	
+	${MAKE} -C world/cgi/msg $@	
 	${MAKE} -C world/web/feed $@	
 	rm -f *.bak *.tdy
 	cd world/web && rm -rf ${LANGUAGES}
@@ -616,7 +617,7 @@ update-database: build-runtime
 	@${MAKE} -s -f Makefile.osm opensearch-bbbike
 	${TIME} ./world/bin/update-database
 
-PERL_SCRIPTS=	BBBikeGooglemap.pm BBBikeElevation.pm world/bin/osm2bbd-poi t/bbbike-org-*.t
+PERL_SCRIPTS=	BBBikeGooglemap.pm BBBikeElevation.pm world/bin/osm2bbd-poi world/t/bbbike-org-*.t
 _perlcheck:
 	@echo ${PERL_SCRIPTS} | ${XARGS} -n1 -P${MAX_VCPU} -E " " ${PERL} -cw >/dev/null 2>&1
 
@@ -625,7 +626,7 @@ _perltidy: _perlcheck
 
 perltidy:
 	${MAKE} _perltidy
-	${MAKE} -C cgi/msg $@	
+	${MAKE} -C world/cgi/msg $@	
 	${MAKE} -C world/bin $@	
 	${MAKE} -C world/cgi $@	
 	${MAKE} -C world/web/feed $@	
@@ -633,7 +634,7 @@ perltidy:
 
 perlcheck:
 	${MAKE} _perlcheck
-	${MAKE} -C cgi/msg $@	
+	${MAKE} -C world/cgi/msg $@	
 	${MAKE} -C world/bin $@	
 	${MAKE} -C world/cgi $@	
 	${MAKE} -C world/web/feed $@	
