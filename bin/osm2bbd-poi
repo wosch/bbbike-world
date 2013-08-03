@@ -2,7 +2,7 @@
 #
 # osm2bbd-poi - for a point of interest (POI), find the nearest cross
 #
-# env CITY=data-osm/Berlin ./miscsrc/osm2bbd-poi data-osm/Berlin 13.2840194,52.5585
+# env CITY=data-osm/Berlin ./world/bin/osm2bbd-poi data-osm/Berlin 13.2840194,52.5585
 
 use vars qw($VERSION);
 $VERSION = 0.1;
