@@ -191,6 +191,16 @@ sub header {
             @cookie_opt
           );
 
+        my $l = $q->param("lang");
+        if ( $l && grep { $l eq $_ } @{ $option->{supported_languages} } ) {
+            push @cookies,
+              $q->cookie(
+                -name  => 'lang',
+                -value => $l,
+                @cookie_opt
+              );
+        }
+
         push @cookie, -cookie => \@cookies;
     }
 
