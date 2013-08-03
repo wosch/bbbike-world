@@ -1146,7 +1146,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
                 $du = $_;
             }
 
-            $file_size .= file_size_mb( $du * 1024 ) . " MB " . M("images");
+            $file_size .= file_size_mb( $du * 1024 ) . " MB " . M("uncompressed");
             warn "image file size $to: $file_size\n" if $debug >= 1;
         }
 
