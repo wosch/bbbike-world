@@ -61,7 +61,7 @@ do
 done
 
 echo "Run search_inaccessible_points"
-$time miscsrc/search_inaccessible_points -q \
+$time ./miscsrc/search_inaccessible_points -q \
   -cache -shorter \
   -street $prefix/$city/strassen \
   -street $prefix/$city/faehren \
@@ -83,7 +83,7 @@ perl -i.all -ne 'print if !/\t$/' $prefix/$city/opensearch.crossing.10
 # Point of Interests
 echo "Run osm2bbd-poi"
 mkdir -p ../osm/$POI_DB
-$time env CITY=$prefix/$city ./miscsrc/osm2bbd-poi --storable=../osm/$POI_DB/$city.db > $prefix/$city/poi
+$time env CITY=$prefix/$city ./world/bin/osm2bbd-poi --storable=../osm/$POI_DB/$city.db > $prefix/$city/poi
 
 $p/strasse-str $prefix/$city/poi
 
