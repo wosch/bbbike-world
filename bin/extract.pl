@@ -95,6 +95,8 @@ our $option = {
     # use web rest service for email sent out
     'email_rest_url'     => 'http://extract.bbbike.org/cgi/extract-email.cgi',
     'email_rest_enabled' => 0,
+
+    'show_image_size' => 1,
 };
 
 ######################################################################
@@ -1129,6 +1131,24 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         }
 
         ###################################################################
+        # display uncompressed image file size
+        if ( $option->{show_image_size} && $to =~ /\.zip$/ ) {
+            $file_size .= " (.zip archive) / ";
+            my $prog = dirname($0) . "/extract-disk-usage.sh";
+            open my $fh, "$prog $to |" or die open "open $prog $to";
+
+            my $du = -1;
+            while (<$fh>) {
+                warn $_;
+                chomp;
+                $du = $_;
+            }
+
+            $file_size .= file_size_mb( $du * 1024 ) . " MB (total image size)";
+            warn "image file size $to: $file_size\n" if $debug >= 1;
+        }
+
+        ###################################################################
         # mail
 
         my $square_km = large_int(
@@ -1306,8 +1326,15 @@ sub file_size {
 
     my $st = stat($file) or die "stat $file: $!\n";
 
+    return file_size_mb( $st->size );
+}
+
+# sacle file size in x.y MB
+sub file_size_mb {
+    my $size = shift;
+
     foreach my $scale ( 10, 100, 1000, 10_000 ) {
-        my $result = int( $scale * $st->size / 1024 / 1024 ) / $scale;
+        my $result = int( $scale * $size / 1024 / 1024 ) / $scale;
         return $result if $result > 0;
     }
 
