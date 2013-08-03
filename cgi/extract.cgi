@@ -425,7 +425,10 @@ sub language_links {
     my $qq   = CGI->new($q);
     my $data = qq{<span id="language">\n};
 
-    my $cookie_lang = $q->cookie( -name => "lang" ) || "";
+    my $cookie_lang =
+         $q->cookie( -name => "lang" )
+      || &http_accept_language($q)
+      || "";
 
     foreach my $l ( @{ $option->{'supported_languages'} } ) {
         if ( $l ne $language ) {
@@ -1349,7 +1352,7 @@ sub get_language {
          $q->param("lang")
       || $q->param("language")
       || $q->cookie( -name => "lang" )
-      || http_accept_language($q);
+      || &http_accept_language($q);
 
     return $language if !defined $lang;
 
