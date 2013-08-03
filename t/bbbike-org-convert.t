@@ -120,7 +120,7 @@ sub md5_file {
 
 sub check_files {
     my $city = shift || 'Cusco';
-    my $dir = "$prefix/${city}-data-osm/tmp/$city";
+    my $dir = "$prefix/${city}-data-osm/$city";
 
     foreach my $f (@files) {
         my $file = "$dir/$f";
