@@ -666,9 +666,11 @@ update-javascript:
 java-config:
 	test -r $$HOME/.osmosis || ln -fs $$HOME/projects/bbbike/world/etc/dot.osmosis $$HOME/.osmosis
 
-dist-clean devel-clean distclean: clean rotate-osm deb-clean temp-clean
+dist-clean devel-clean distclean: clean rotate-osm deb-clean temp-clean clean-t
 	${RM_BG} ${OSM_DIR}
 	mkdir -p ${OSM_DIR}
+
+clean-t:
 	${MAKE} -C./t distclean
 
 temp-clean:
@@ -827,9 +829,14 @@ tile-extract: tile-lng tile-lnglat tile-lng-run tile-lnglat-run tile-pbf2pbf
 tile-csv:
 	rm -f ${TILES_DIR}/etc/tile-*.csv
 	mkdir -p ${TILES_DIR}/etc
-	for format in pbf osm.gz garmin-cycle.zip shp.zip navit.zip obf.zip mapsforge-osm.zip; do \
+	for format in pbf osm.gz garmin-osm.zip shp.zip navit.zip obf.zip mapsforge-osm.zip; do \
 	   ( cd ${TILES_DIR}/lnglat; find . -name '*.'$$format | xargs du -k | sort -n  -k1 -k2 -k3 -k4 -k5 | \
 	     perl -npe 's,\S+/planet_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > ${TILES_DIR}/etc/tile-$$format.csv; \
+	done;
+	pwd=`pwd`; max_cpu=${MAX_CPU}; \
+	for format in garmin-osm.zip shp.zip navit.zip obf.zip mapsforge-osm.zip; do \
+	    ( cd ${TILES_DIR}/lnglat; find . -name '*.'$$format | xargs -n1 -P$$max_cpu $$pwd/world/bin/extract-disk-usage.sh --du | sort -n  -k1 -k2 -k3 -k4 -k5 | \
+	     perl -npe 's,\S+/planet_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > ${TILES_DIR}/etc/tile-$$format-image.csv; \
 	done
 	ls -l ${TILES_DIR}/etc/tile-*.csv
 

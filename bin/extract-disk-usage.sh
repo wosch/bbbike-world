@@ -8,15 +8,21 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 
 tempfile=$(mktemp);
 trap 'rm -f $tempfile' 0 1 2 15
+with_path=""; export with_path
 
 set -e
 
 usage () {
    echo "$@"
    echo ""
-   echo "usage: $0 file.zip"
+   echo "usage: $0 [--du ] file.zip"
    exit 1
 }
+
+# du(1) compatible output format
+case $1 in
+    --path | --du ) shift; with_path=true ;;
+esac
 
 file="$1"
 
@@ -40,7 +46,10 @@ perl -e '
             }
         }
     }
-    print int($counter / 1024 + 0.5), "\n";
+    print int($counter / 1024 + 0.5);
 ' < $tempfile
 
-
+if [ -n "$with_path" ]; then
+    printf "\t$file"
+fi
+echo ""
