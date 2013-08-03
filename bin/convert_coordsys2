@@ -20,61 +20,70 @@
 use strict;
 
 use FindBin;
-use lib ("$FindBin::RealBin/..", "$FindBin::RealBin/../lib");
+use lib (
+    "$FindBin::RealBin/..",    "$FindBin::RealBin/../lib",
+    "$FindBin::RealBin/../..", "$FindBin::RealBin/../../lib"
+);
 use Karte;
 use Strassen;
 Karte::preload(':all');
 use Getopt::Long;
 
-my($addx,$addy) = (0,0);
+my ( $addx, $addy ) = ( 0, 0 );
 
 my $startc;
 
-if (!GetOptions("addx=i" => \$addx,
-		"addy=i" => \$addy,
-		"startc" => \$startc
-		)) {
+if (
+    !GetOptions(
+        "addx=i" => \$addx,
+        "addy=i" => \$addy,
+        "startc" => \$startc
+    )
+  )
+{
     usage();
 }
 
-my($from, $to);
+my ( $from, $to );
 
-if (@ARGV == 1) {
+if ( @ARGV == 1 ) {
     $ARGV[1] = 'standard';
 }
-if (@ARGV == 2) {
-    $from = $Karte::map{$ARGV[0]} || usage_coordsys($ARGV[0]);
-    $to   = $Karte::map{$ARGV[1]} || usage_coordsys($ARGV[1]);
-} else {
+if ( @ARGV == 2 ) {
+    $from = $Karte::map{ $ARGV[0] } || usage_coordsys( $ARGV[0] );
+    $to   = $Karte::map{ $ARGV[1] } || usage_coordsys( $ARGV[1] );
+}
+else {
     usage();
 }
 
 print "#: map: $ARGV[1]\n" if !$startc;
 
 sub c {
-	my $coord = shift;
-	my ($x, $y) = split(/,/, $coord);
+    my $coord = shift;
+    my ( $x, $y ) = split( /,/, $coord );
 
-        return join(",", $to->trim_accuracy($from->map2map($to, $x, $y)));
+    return join( ",", $to->trim_accuracy( $from->map2map( $to, $x, $y ) ) );
 }
 
 # wrapper
-sub startc { 
-    my ($param, $x, $y) = @_;
+sub startc {
+    my ( $param, $x, $y ) = @_;
     return "$param=" . &c("$x,$y");
 }
 
-while(<STDIN>) {
+while (<STDIN>) {
     chomp;
-    if ($_ =~ m{^#}) { 
-	print $_, "\n";
-	next;
+    if ( $_ =~ m{^#} ) {
+        print $_, "\n";
+        next;
     }
 
     if ($startc) {
-       s/(startc|viac|zielc)=(\-?\d+)%2C(\-?\d+)/&startc($1,$2,$3)/eg;
-    } else {
-       s/(\-?\d+,\-?\d+)/&c($1)/eg;
+        s/(startc|viac|zielc)=(\-?\d+)%2C(\-?\d+)/&startc($1,$2,$3)/eg;
+    }
+    else {
+        s/(\-?\d+,\-?\d+)/&c($1)/eg;
     }
 
     print "$_\n";
@@ -82,8 +91,8 @@ while(<STDIN>) {
 
 sub usage_coordsys {
     my $tried = shift;
-    die "Unknown coordsys token <$tried>. Use one of following:\n" .
-	join(", ", keys %Karte::map) . "\n";
+    die "Unknown coordsys token <$tried>. Use one of following:\n"
+      . join( ", ", keys %Karte::map ) . "\n";
 }
 
 sub usage {

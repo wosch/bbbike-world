@@ -18,6 +18,8 @@ use Time::HiRes qw/gettimeofday tv_interval/;
 
 use lib '.';
 use lib 'lib';
+use lib '../../';
+use lib '../../lib';
 use Karte::Polar;
 use Strassen;
 use Strassen::Dataset;

@@ -20,6 +20,8 @@ use lib (
     grep { -d } (
         "$FindBin::RealBin/..",
         "$FindBin::RealBin/../lib",
+        "$FindBin::RealBin/../..",
+        "$FindBin::RealBin/../../lib",
 
         # für Radzeit:
         "$FindBin::RealBin/../BBBike",
