@@ -660,9 +660,11 @@ update-javascript:
 java-config:
 	test -r $$HOME/.osmosis || ln -fs $$HOME/projects/bbbike/world/etc/dot.osmosis $$HOME/.osmosis
 
-dist-clean devel-clean distclean: clean rotate-osm deb-clean temp-clean
+dist-clean devel-clean distclean: clean rotate-osm deb-clean temp-clean clean-t
 	${RM_BG} ${OSM_DIR}
 	mkdir -p ${OSM_DIR}
+
+clean-t:
 	${MAKE} -C./t distclean
 
 temp-clean:
