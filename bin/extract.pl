@@ -1130,10 +1130,12 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
             unlink(@unlink) or die "unlink: @unlink: $!\n";
         }
 
+        $msg = get_msg( $obj->{"lang"} || "en" );
+
         ###################################################################
         # display uncompressed image file size
         if ( $option->{show_image_size} && $to =~ /\.zip$/ ) {
-            $file_size .= " zip archive, ";
+            $file_size .= " " . M("zip archive") . ", ";
             my $prog = dirname($0) . "/extract-disk-usage.sh";
             open my $fh, "$prog $to |" or die open "open $prog $to";
 
@@ -1144,7 +1146,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
                 $du = $_;
             }
 
-            $file_size .= file_size_mb( $du * 1024 ) . " MB total image size";
+            $file_size .= file_size_mb( $du * 1024 ) . " MB " . M("images");
             warn "image file size $to: $file_size\n" if $debug >= 1;
         }
 
@@ -1164,8 +1166,6 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         my $script_url = &script_url( $option, $obj );
         my $database_update =
           gmtime( stat( $option->{planet_osm} )->mtime ) . " UTC";
-
-        $msg = get_msg( $obj->{"lang"} || "en" );
 
         my $text = join "\n", @{ $msg->{EXTRACT_EMAIL} };
         my $granularity;
