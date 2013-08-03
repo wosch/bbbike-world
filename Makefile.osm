@@ -986,7 +986,7 @@ lighttpd-restart: temp-clean test-org
 test prove: lighttpd-restart 
 	perl -c cgi/bbbike.cgi
 	mkdir -p ${TMP_DIR}
-	TMPDIR=${TMP_DIR} LANG=C time prove -j${MAX_CPU} t/*.t world/t/*.t
+	TMPDIR=${TMP_DIR} LANG=C time prove ${prove_opt} -j${MAX_CPU} t/*.t world/t/*.t
 
 help:
 	@echo "bbbike version: ${GIT_ID}"
