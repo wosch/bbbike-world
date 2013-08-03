@@ -18,7 +18,7 @@ use File::stat;
 use strict;
 use warnings;
 
-plan tests => 4;
+plan tests => 6;
 
 my $pbf_file = 'world/t/data-osm/tmp/Cusco.osm.pbf';
 
@@ -66,5 +66,11 @@ is( $?, 0, "valid zip file" );
 
 my $size = $st->size;
 cmp_ok( $size, '>', $min_size, "$out: $size > $min_size" );
+
+system(qq[world/bin/extract-disk-usage.sh $out > $tempfile]);
+is( $?, 0, "extract disk usage check" );
+
+my $image_size = `cat $tempfile` * 1024;
+cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
 
 __END__
