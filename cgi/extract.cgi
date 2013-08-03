@@ -28,6 +28,7 @@ use GIS::Distance::Lite;
 use HTTP::Date;
 use Math::Polygon::Calc;
 use Math::Polygon::Transform;
+use Locale::Util;
 
 use strict;
 use warnings;
@@ -151,6 +152,25 @@ sub webservice {
     }
 }
 
+sub http_accept_language {
+    my $q = shift;
+    my $requested_language = $q->http('Accept-language') || "";
+
+    return "" if !$requested_language;
+
+    my @lang = Locale::Util::parse_http_accept_language($requested_language);
+    warn "Accept-language: " . join( ", ", @lang ) if $debug >= 2;
+
+    foreach my $l (@lang) {
+        if ( grep { $l eq $_ } @{ $option->{supported_languages} } ) {
+            warn "Select language by browser: $l\n" if $debug >= 1;
+            return $l;
+        }
+    }
+
+    return "";
+}
+
 sub header {
     my $q    = shift;
     my %args = @_;
@@ -183,13 +203,14 @@ sub header {
             -name  => 'format',
             -value => $q->param("format"),
             @cookie_opt
-          );
+          ) if $q->param("format");
+
         push @cookies,
           $q->cookie(
             -name  => 'email',
             -value => $q->param("email"),
             @cookie_opt
-          );
+          ) if $q->param("email");
 
         my $l = $q->param("lang") || "";
         if ( $l && grep { $l eq $_ } @{ $option->{supported_languages} } ) {
@@ -1327,7 +1348,9 @@ sub get_language {
     my $lang =
          $q->param("lang")
       || $q->param("language")
-      || $q->cookie( -name => "lang" );
+      || $q->cookie( -name => "lang" )
+      || http_accept_language($q);
+
     return $language if !defined $lang;
 
     if ( grep { $_ eq $lang } @{ $option->{'supported_languages'} } ) {
