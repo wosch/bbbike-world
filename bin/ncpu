@@ -38,7 +38,7 @@ config () {
         vcpu=$(cat $HOME/.ncpu.vcpu)
     fi
     if [ -e $HOME/.ncpu.hcpu ]; then
-        ncpu=$(cat $HOME/.ncpu.hcpu)
+        hcpu=$(cat $HOME/.ncpu.hcpu)
     fi
 }
 
