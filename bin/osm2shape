@@ -69,7 +69,7 @@ case $BBBIKE_EXTRACT_LANG in
    * ) ext2=".$BBBIKE_EXTRACT_LANG" ;;
 esac
 
-( $MD5 *; $SHA * ) > .checksum.txt; mv -f .checksum.txt CHECKSUM.txt
+( $MD5 shape/*; $SHA shape/* ) > .checksum.txt; mv -f .checksum.txt CHECKSUM.txt
 
 cd ..
 shape_zip=`dirname $file`/$shape.osm.shp${ext2}.zip

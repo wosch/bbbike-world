@@ -104,7 +104,7 @@ case $BBBIKE_EXTRACT_LANG in
    * ) ext2=".$BBBIKE_EXTRACT_LANG" ;;
 esac
 
-( $MD5 *; $SHA * ) > .checksum.txt; mv -f .checksum.txt CHECKSUM.txt
+( $MD5 *.bin; $SHA *.bin ) > .checksum.txt; mv -f .checksum.txt CHECKSUM.txt
 
 cd ..
 zip_file=`dirname $file`/$navit.osm.navit${ext2}.zip

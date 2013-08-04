@@ -165,7 +165,7 @@ case $BBBIKE_EXTRACT_LANG in
    * ) ext2=".${BBBIKE_EXTRACT_LANG}" ;;
 esac
 
-( $MD5 *; $SHA * ) > .checksum.txt; mv -f .checksum.txt CHECKSUM.txt
+( $MD5 *.obf; $SHA *.obf ) > .checksum.txt; mv -f .checksum.txt CHECKSUM.txt
 
 cd ..
 zip_file=`dirname $file`/$obf.osm.obf${ext2}.zip
