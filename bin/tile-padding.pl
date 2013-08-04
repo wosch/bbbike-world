@@ -28,6 +28,16 @@ sub to_csv {
       $kb . "\t" . join( " ", ( $lng_sw, $lat_sw, $lng_ne, $lat_ne ) ) . "\n";
 }
 
+sub guess_format {
+    my $file = shift;
+
+    my $format = "";
+
+    if ( $file =~ m,[\-\.]([^/]+\.zip)\.csv$, ) {
+        return $format = $1;
+    }
+}
+
 ######################################################################
 # GET /w/api.php?namespace=1&q=berlin HTTP/1.1
 #
@@ -70,6 +80,10 @@ my $database_padding = shift;
 die &usage if $help;
 die "missinag database argument" . &usage
   if ( !$database_pbf || !$database_padding );
+
+if ( !$format ) {
+    $format = guess_format($database_padding);
+}
 die "missing format argument" . &usage if !$format;
 
 my $tile_pbf     = TileSize->new( 'database' => $database_pbf );
