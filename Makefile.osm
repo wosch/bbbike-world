@@ -829,8 +829,9 @@ tile-csv:
 	done;
 	pwd=`pwd`; max_cpu=${MAX_CPU}; \
 	for format in garmin-osm.zip shp.zip navit.zip obf.zip mapsforge-osm.zip; do \
-	    ( cd ${TILES_DIR}/lnglat; find . -name '*.'$$format | xargs -n1 -P$$max_cpu $$pwd/world/bin/extract-disk-usage.sh --du | sort -n  -k1 -k2 -k3 -k4 -k5 | \
+	    ( cd ${TILES_DIR}/lnglat; find . -name '*.'$$format -print0 | xargs -0 -n1 -P1 $$pwd/world/bin/extract-disk-usage.sh --du | sort -n  -k1 -k2 -k3 -k4 -k5 | \
 	     perl -npe 's,\S+/planet_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > ${TILES_DIR}/etc/tile-$$format.csv; \
+             $$pwd/world/bin/tile-padding.pl ${TILES_DIR}/etc/tile-pbf.csv ${TILES_DIR}/etc/tile-$$format.csv > ${TILES_DIR}/etc/tile-$$format.csv.new; \
 	done
 	ls -l ${TILES_DIR}/etc/tile-*.csv
 
