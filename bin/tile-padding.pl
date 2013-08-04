@@ -64,7 +64,7 @@ GetOptions(
     "help"       => \$help,
 ) or die usage;
 
-my $database_pbf   = shift;
+my $database_pbf     = shift;
 my $database_padding = shift;
 
 die &usage if $help;
@@ -72,7 +72,7 @@ die "missinag database argument" . &usage
   if ( !$database_pbf || !$database_padding );
 die "missing format argument" . &usage if !$format;
 
-my $tile_pbf   = TileSize->new( 'database' => $database_pbf );
+my $tile_pbf     = TileSize->new( 'database' => $database_pbf );
 my $tile_padding = TileSize->new( 'database' => $database_padding );
 
 die "unknown format '$format'" . &usage if !exists $TileSize::factor->{$format};
