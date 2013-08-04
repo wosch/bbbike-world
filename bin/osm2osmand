@@ -12,6 +12,9 @@ PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
 : ${BBBIKE_OSMAND_VERSION="OsmAndMapCreator"}
 : ${osmand_home="$BBBIKE_OPT_DIR/$BBBIKE_OSMAND_VERSION"}
+: ${MD5=`which md5 md5sum false | head -1`}
+: ${SHA="shasum -a 256"}
+
 dirname=$(dirname $0)
 
 java_opt=-Xmx${java_heap}
@@ -161,6 +164,8 @@ case $BBBIKE_EXTRACT_LANG in
   en ) ext2="" ;;
    * ) ext2=".${BBBIKE_EXTRACT_LANG}" ;;
 esac
+
+( $MD5 *; $SHA * ) > .checksum.txt; mv -f .checksum.txt CHECKSUM.txt
 
 cd ..
 zip_file=`dirname $file`/$obf.osm.obf${ext2}.zip

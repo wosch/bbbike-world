@@ -6,6 +6,8 @@
 
 PATH=/bin:/usr/bin:/usr/local/bin; export PATH
 : ${BBBIKE_EXTRACT_LANG=en}
+: ${MD5=`which md5 md5sum false | head -1`}
+: ${SHA="shasum -a 256"}
 
 set -e
 
@@ -66,6 +68,8 @@ case $BBBIKE_EXTRACT_LANG in
   en ) ext2="" ;;
    * ) ext2=".$BBBIKE_EXTRACT_LANG" ;;
 esac
+
+( $MD5 *; $SHA * ) > .checksum.txt; mv -f .checksum.txt CHECKSUM.txt
 
 cd ..
 shape_zip=`dirname $file`/$shape.osm.shp${ext2}.zip

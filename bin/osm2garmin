@@ -9,6 +9,8 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
 : ${BBBIKE_MKGMAP_VERSION="mkgmap"}
 : ${BBBIKE_SPLITTER_VERSION="splitter"}
+: ${MD5=`which md5 md5sum false | head -1`}
+: ${SHA="shasum -a 256"}
 
 set -e
 
@@ -114,7 +116,6 @@ case $ext in
    *bbbike* )  garmin_product_id=4 ;;
 esac
 
-: ${MD5=`which md5 md5sum false | head -1`}
 garmin_family_id=$(basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//')
 garmin_family_id=$(echo $garmin_family_id $ext | $MD5 | perl -ne 's/[a-f]//g; print /^(\d{4})/ ? $1 : "4444"')
 mkgmap_opt="--keep-going --family-id=$garmin_family_id --product-id=$garmin_product_id --remove-short-arcs --route --add-pois-to-areas --copyright-message="$copyright" --license-file=$license --index --make-all-cycleways"
@@ -217,6 +218,8 @@ case $BBBIKE_EXTRACT_LANG in
   en ) ext2=$ext ;;
    * ) ext2=$(echo $ext | perl -npe "s/\.zip\$/.${BBBIKE_EXTRACT_LANG}.zip/") ;;
 esac
+
+( $MD5 *; $SHA * ) > .checksum.txt; mv -f .checksum.txt CHECKSUM.txt
 
 cd ..
 garmin_zip=`dirname $file`/$garmin.osm.$ext2
