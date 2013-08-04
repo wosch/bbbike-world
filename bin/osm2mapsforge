@@ -128,7 +128,7 @@ case $BBBIKE_EXTRACT_LANG in
    * ) ext2=$(echo $ext | perl -npe "s/\.zip\$/.${BBBIKE_EXTRACT_LANG}.zip/") ;;
 esac
 
-( $MD5 *; $SHA * ) > .checksum.txt; mv -f .checksum.txt CHECKSUM.txt
+( $MD5 *.map; $SHA *.map ) > .checksum.txt; mv -f .checksum.txt CHECKSUM.txt
 
 cd ..
 mapsforge_zip=`dirname $file`/$mapsforge.osm.${ext2}
