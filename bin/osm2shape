@@ -80,4 +80,3 @@ zip -q -r - -- `basename $shape_dir` | \
   )
 
 $debug || rm -rf $tmpdir
-
