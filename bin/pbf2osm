@@ -15,7 +15,8 @@ osm2shape=$dirname/osm2shape
 osm2osmand=$dirname/osm2osmand
 osm2navit=$dirname/osm2navit
 osm2mapsforge=$dirname/osm2mapsforge
-osm2o5m=osmconvert
+: ${osm2o5m="osmconvert"}
+: ${osm2o5m_opt="--fake-version"}
 
 # max. file size in KB
 : ${max_file_size_garmin=2950000}
@@ -131,7 +132,7 @@ esac
     f=`basename $file .pbf`
     dir=`dirname $file`
     case $compress in
-	  "") $osm2o5m --out-osm "$file" ;;
+	  "") $osm2o5m $osm2o5m_opt "$file" ;;
     	cat ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout ;;
 
 	# legacy osmosis
@@ -142,16 +143,16 @@ esac
 	osmosis-xz )     osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $xz $xz_opt > $dir/$f.tmp; mv -f $dir/$f.tmp $dir/$f.xz ;;
 
 	# compression
-        gzip )   $osm2o5m "$file" --out-osm | gzip > $dir/$f.gz.tmp; mv -f $dir/$f.gz.tmp $dir/$f.gz ;;
-        bzip2 )  $osm2o5m "$file" --out-osm | bzip2 > $dir/$f.bz2.tmp; mv -f $dir/$f.bz2.tmp $dir/$f.bz2 ;;
-        pgzip )  $osm2o5m "$file" --out-osm | $gzip > $dir/$f.gz.tmp; mv -f $dir/$f.gz.tmp $dir/$f.gz ;;
-        pbzip2 ) $osm2o5m "$file" --out-osm | $bzip2 > $dir/$f.bz2.tmp; mv -f $dir/$f.bz2.tmp $dir/$f.bz2 ;;
-        xz )     $osm2o5m "$file" --out-osm | $xz $xz_opt > $dir/$f.tmp; mv -f $dir/$f.tmp $dir/$f.xz ;;
+        gzip )   $osm2o5m $osm2o5m_opt "$file" | gzip > $dir/$f.gz.tmp; mv -f $dir/$f.gz.tmp $dir/$f.gz ;;
+        bzip2 )  $osm2o5m $osm2o5m_opt "$file" | bzip2 > $dir/$f.bz2.tmp; mv -f $dir/$f.bz2.tmp $dir/$f.bz2 ;;
+        pgzip )  $osm2o5m $osm2o5m_opt "$file" | $gzip > $dir/$f.gz.tmp; mv -f $dir/$f.gz.tmp $dir/$f.gz ;;
+        pbzip2 ) $osm2o5m $osm2o5m_opt "$file" | $bzip2 > $dir/$f.bz2.tmp; mv -f $dir/$f.bz2.tmp $dir/$f.bz2 ;;
+        xz )     $osm2o5m $osm2o5m_opt "$file" | $xz $xz_opt > $dir/$f.tmp; mv -f $dir/$f.tmp $dir/$f.xz ;;
 
 	# o5m format
-        o5m )       $osm2o5m "$file" --out-o5m ;;
-        o5m-gzip )  $osm2o5m "$file" --out-o5m | $gzip > $dir/$f.o5m.gz.tmp; mv -f $dir/$f.o5m.gz.tmp $dir/$f.o5m.gz ;;
-        o5m-bzip2 ) $osm2o5m "$file" --out-o5m | $bzip2 > $dir/$f.o5m.bz2.tmp; mv -f $dir/$f.o5m.bz2.tmp $dir/$f.o5m.bz2 ;;
+        o5m )       $osm2o5m $osm2o5m_opt --out-o5m "$file" ;;
+        o5m-gzip )  $osm2o5m $osm2o5m_opt --out-o5m "$file" | $gzip > $dir/$f.o5m.gz.tmp; mv -f $dir/$f.o5m.gz.tmp $dir/$f.o5m.gz ;;
+        o5m-bzip2 ) $osm2o5m $osm2o5m_opt --out-o5m "$file" | $bzip2 > $dir/$f.o5m.bz2.tmp; mv -f $dir/$f.o5m.bz2.tmp $dir/$f.o5m.bz2 ;;
 
 	# other formats
 	garmin ) $osm2garmin "$file" "$garmin_style" "$city" ;;
