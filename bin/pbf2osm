@@ -36,26 +36,26 @@ case $1 in
     # single core, more than one *.pbf files at once
     -gzip | --gzip)    shift; compress=gzip;;
     -bzip2 | --bzip2 ) shift; compress=bzip2 ;;
-  
+
     # multi-core
     --pbzip2 ) shift; compress=pbzip2; _max_cpu_time=36000 ;;
     --pgzip | --pigz ) shift; compress=pgzip; _max_cpu_time=10800 ;;
-  
+
     -o5m | --o5m ) shift; compress=o5m ;;
     -o5m-gzip | --o5m-gzip ) shift; compress=o5m-gzip ;;
     -o5m-bzip2 | --o5m-bzip2 ) shift; compress=o5m-bzip2 ;;
-  
+
     -xz | --xz )       shift; compress=xz; _max_cpu_time=10800 ;;
     -shape | --shape | -shp | --shp | --shapefile ) shift; compress=shape ;;
     -osmand | --osmand | -obf | --obf ) shift; compress=osmand ;;
     -navit | --navit ) shift; compress=navit ;;
-  
+
     -garmin | --garmin ) shift; compress=garmin; garmin_style=$2 ;;
     -garmin-osm | --garmin-osm ) shift; compress=garmin; garmin_style=osm ;;
     -garmin-cycle | --garmin-cycle ) shift; compress=garmin; garmin_style=cycle ;;
     -garmin-leisure | --garmin-leisure ) shift; compress=garmin; garmin_style=leisure ;;
     -garmin-bbbike | --garmin-bbbike ) shift; compress=garmin; garmin_style=bbbike ;;
-  
+
     -mapsforge-osm | --mapsforge-osm ) shift; compress=mapsforge; mapsforge_style=osm ;;
 esac
 
@@ -67,12 +67,43 @@ city="$2"
 
 usage () {
    echo "$@"
-   echo "usage [ option ] file.osm.pbf"
+   cat <<EOF
+usage [ option ] file.osm.pbf
+
+--gzip
+--pgzip
+--bzip2
+--pbzip2
+--xz
+
+--osmosis-gzip
+--osmosis-bzip2
+--osmosis-pgzip
+--osmosis-pbzip2
+--osmosis-xz
+
+--osmosis
+
+--o5m
+--o5m-gzip
+--o5m-bzip2
+
+--shape
+--osmand
+--navit
+--garmin-osm
+--garmin-cycle
+--garmin-leisure
+--garmin-bbbike
+--mapsforge-osm
+
+EOF
+
    exit 1
 }
 
 if ! [ -f "$file" ]; then
-    usage "missing file"	
+    usage "missing file"
 fi
 
 # run in quiet mode
@@ -86,15 +117,15 @@ osm2osm () {
         bzip2 ) ext=.bz2 ;;
         * ) echo "unknown compress $compressionMethod"; exit 2;;
     esac
-    
+
     args=""
     for f
     do
         ff=`echo $f | sed "s/\.pbf$/$ext.tmp/"`
         args="$args --read-pbf $f --write-xml $ff compressionMethod=$compressionMethod"
     done
-    
-    
+
+
     if osmosis $global_opt $args
     then
         for f
