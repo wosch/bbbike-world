@@ -39,6 +39,8 @@ usage () {
    cat <<EOF
 usage [ option ] file.osm.pbf
 
+--osm
+
 --gzip
 --pgzip
 --bzip2
@@ -73,6 +75,10 @@ EOF
 
 
 case $1 in
+    # default - convert to osm
+    -osm | --osm)    shift; compress="";;
+
+    # use old osmosis tool to conver to osm
     -osmosis | --osmosis)    shift; compress=cat;;
 
     # single core, more than one *.pbf files at once
