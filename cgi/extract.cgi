@@ -384,8 +384,8 @@ sub footer {
 
 <div id="footer">
   @{[ &footer_top($q, 'map' => $args{'map'}, 'css' => $args{'css'} ) ]}
-  <div id="copyright" class="normalscreen">
   <hr/>
+  <div id="copyright" class="normalscreen">
     (&copy;) 2013 <a href="http://www.bbbike.org">BBBike.org</a>
     by <a href="http://wolfram.schneider.org">Wolfram Schneider</a><br/>
     Map data (&copy;) <a href="http://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
