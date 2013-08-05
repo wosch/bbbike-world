@@ -833,9 +833,12 @@ tile-csv:
 	    (( cd ${TILES_DIR}/lnglat; find . -name '*.'$$format -print0 | xargs -0 -n1 -P1 $$pwd/world/bin/extract-disk-usage.sh --du | sort -n  -k1 -k2 -k3 -k4 -k5 | \
 	     perl -npe 's,\S+/planet_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > ${TILES_DIR}/etc/tile-$$format.csv; \
              $$pwd/world/bin/tile-padding.pl --min-size=10 ${TILES_DIR}/etc/tile-pbf.csv ${TILES_DIR}/etc/tile-$$format.csv | \
-		sort -n  -k1 -k2 -k3 -k4 -k5 > ${TILES_DIR}/etc/tile-$$format.csv.new ) & \
+		sort -n  -k1 -k2 -k3 -k4 -k5 > ${TILES_DIR}/etc/tile-$$format.csv.new; \
+	   	mv -f ${TILES_DIR}/etc/tile-$$format.csv ${TILES_DIR}/etc/tile-$$format.csv.original; \
+	   	mv -f ${TILES_DIR}/etc/tile-$$format.csv.new ${TILES_DIR}/etc/tile-$$format.csv; \
+	    ) & \
 	done; wait
-	ls -l ${TILES_DIR}/etc/tile-*.csv*
+	wc -lc ${TILES_DIR}/etc/tile-*.csv*
 
 tile-aws-s3:
 	cd ${TILES_DIR}/etc; \
