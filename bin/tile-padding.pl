@@ -30,10 +30,10 @@ sub to_csv {
 
 sub guess_format {
     my $file = shift;
-
+    
     my $format = "";
-
-    if ( $file =~ m,[\-\.]([^/]+\.zip)\.csv$, ) {
+    
+    if ($file =~ m,[\-\.]([^/]+\.zip)\.csv$,) {
         return $format = $1;
     }
 }
@@ -80,8 +80,8 @@ my $database_padding = shift;
 die &usage if $help;
 die "missinag database argument" . &usage
   if ( !$database_pbf || !$database_padding );
-
-if ( !$format ) {
+  
+if (!$format) {
     $format = guess_format($database_padding);
 }
 die "missing format argument" . &usage if !$format;
@@ -94,15 +94,19 @@ die "unknown format '$format'" . &usage if !exists $TileSize::factor->{$format};
 #warn Dumper($tile_padding->{_size});
 
 # original data
+my %hash;
 while ( my ( $key, $val ) = each %{ $tile_padding->{_size} } ) {
-    print to_csv( $key, $val ) if $val >= $min_size;
+    if ($val >= $min_size) {
+        print to_csv( $key, $val );
+        $hash{$key} = 1;
+    }
 }
 
 # guess misssing size based on PBF database
 my $factor = $tile_padding->{'factor'}->{$format};
 while ( my ( $key, $val ) = each %{ $tile_pbf->{_size} } ) {
     if ( !exists $tile_padding->{_size}->{$key} ) {
-        print to_csv( $key, int( $val * $factor + 0.5 ) ) if $val >= $min_size;
+        print to_csv( $key, int( $val * $factor + 0.5 ) ) if $val >= $min_size && !$hash{$key};
     }
 }
 
