@@ -1247,7 +1247,8 @@ qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="j
                           . " <a class='tools-helptrigger-small' href='$extract_dialog/$language/email.html'><img src='/html/help-16px.png' alt=''/></a><br/></span>"
                           . $q->textfield(
                             -name  => 'email',
-                            -size  => 28,
+                            -id  => 'email',
+                            #-size  => 22,
                             -value => $default_email
                           )
                           . $q->hidden(
@@ -1281,7 +1282,7 @@ qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="j
                           . $q->textfield(
                             -name => 'city',
                             -id   => 'city',
-                            -size => 28
+                            #-size => 18
                           ),
 '<span id="time_small" title="approx. extract time in minutes"></span>'
                     ]
