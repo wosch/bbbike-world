@@ -384,8 +384,8 @@ sub footer {
 
 <div id="footer">
   @{[ &footer_top($q, 'map' => $args{'map'}, 'css' => $args{'css'} ) ]}
-  <div id="copyright" class="normalscreen">
   <hr/>
+  <div id="copyright" class="normalscreen">
     (&copy;) 2013 <a href="http://www.bbbike.org">BBBike.org</a>
     by <a href="http://wolfram.schneider.org">Wolfram Schneider</a><br/>
     Map data (&copy;) <a href="http://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
@@ -476,7 +476,7 @@ sub message {
 
 <span id="tools-titlebar">
  @{[ &language_links($q, $language) ]}
- @{[ &social_links ]} - 
+ @{[ &social_links ]} -
  <span id="tools-help"><a class='tools-helptrigger' href='$extract_dialog/$language/about.html' title='info'><span>@{[ M("about") ]} extracts</span></a> - </span>
  <span id="pageload-indicator">&nbsp;<img src="/html/indicator.gif" alt="" title="Loading JavaScript libraries" /></span>
  <span class="jqmWindow jqmWindowLarge" id="tools-helpwin"></span>
@@ -1235,10 +1235,15 @@ qq{<span title="hide longitude,latitude box" class="lnglatbox" onclick="javascri
                             -labels  => $formats,
                             -default => $default_format
                           ),
-qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" />show lnglat</span><br/>\n}
-                          . '<span id="square_km_small" title="area covers N square kilometers"></span>'
                     ]
-                ),
+                  )
+                  . $q->td(
+                    { "class" => "center" },
+                    [
+qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" />show lnglat</span><br/>\n}
+                          . '<span class="center" id="square_km_small" title="area covers N square kilometers"></span>'
+                    ]
+                  ),
 
                 $q->td(
                     [
@@ -1246,8 +1251,10 @@ qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="j
                           . M("Your email address")
                           . " <a class='tools-helptrigger-small' href='$extract_dialog/$language/email.html'><img src='/html/help-16px.png' alt=''/></a><br/></span>"
                           . $q->textfield(
-                            -name  => 'email',
-                            -size  => 28,
+                            -name => 'email',
+                            -id   => 'email',
+
+                            #-size  => 22,
                             -value => $default_email
                           )
                           . $q->hidden(
@@ -1270,10 +1277,14 @@ qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="j
                             -value => "",
                             -id    => 'layers'
                           ),
-'<span title="file data size approx." id="size_small"></span>'
                     ]
-                ),
-
+                  )
+                  . $q->td(
+                    { "class" => "center" },
+                    [
+'<span class="center" title="file data size approx." id="size_small"></span>'
+                    ]
+                  ),
                 $q->td(
                     [
 "<span class='' title='Give the city or area to extract a name. "
@@ -1281,11 +1292,17 @@ qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="j
                           . $q->textfield(
                             -name => 'city',
                             -id   => 'city',
-                            -size => 28
+
+                            #-size => 18
                           ),
-'<span id="time_small" title="approx. extract time in minutes"></span>'
                     ]
-                ),
+                  )
+                  . $q->td(
+                    { "class" => "center" },
+                    [
+'<span id="time_small" class="center" title="approx. extract time in minutes"></span>'
+                    ]
+                  ),
 
                 $q->td(
                     [
