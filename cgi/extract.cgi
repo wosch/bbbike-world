@@ -66,6 +66,8 @@ our $option = {
     'supported_languages' => [qw/en de es fr ru/],
     'message_path'        => "../world/etc/extract",
     'pro'                 => 0,
+
+    'with_google_maps' => 1,
 };
 
 our $formats = {
@@ -379,6 +381,10 @@ sub footer {
       jquery/jqModal-2009.03.01-r14.js jquery/jquery-ui-1.9.1.custom.min.js extract.js);
     my $javascript = join "\n",
       map { qq{<script src="../html/$_" type="text/javascript"></script>} } @js;
+
+    $javascript .=
+qq{\n<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3.9&amp;sensor=false&amp;language=en&amp;libraries=weather,panoramio"></script>}
+      if $option->{"with_google_maps"};
 
     return <<EOF;
 
