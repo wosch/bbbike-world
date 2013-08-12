@@ -378,7 +378,7 @@ sub footer {
 
     my @js =
       qw(OpenLayers/2.12/OpenLayers-min.js OpenLayers/2.12/OpenStreetMap.js jquery/jquery-1.7.1.min.js
-      jquery/jqModal-2009.03.01-r14.js jquery/jquery-ui-1.9.1.custom.min.js extract.js);
+      jquery/jqModal-2009.03.01-r14.js jquery/jquery-ui-1.9.1.custom.min.js jquery/jquery.cookie-1.3.1.js extract.js);
     my $javascript = join "\n",
       map { qq{<script src="../html/$_" type="text/javascript"></script>} } @js;
 
@@ -1277,6 +1277,11 @@ qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="j
                             -name  => 'coords',
                             -value => "",
                             -id    => 'coords'
+                          )
+                          . $q->hidden(
+                            -name  => 'oi',
+                            -value => "0",
+                            -id    => 'oi'
                           )
                           . $q->hidden(
                             -name  => 'layers',
