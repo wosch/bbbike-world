@@ -20,7 +20,7 @@ osm2mapsforge=$dirname/osm2mapsforge
 
 # max. file size in KB
 : ${max_file_size_garmin=2950000}
-: ${max_file_size_mapsforge=195000}
+: ${max_file_size_mapsforge=255000}
 : ${max_file_size_osmand=600000}
 _max_cpu_time=7200
 
