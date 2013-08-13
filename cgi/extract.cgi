@@ -294,11 +294,18 @@ sub manual_area {
   <div id="sidebar_content">
     <span class="export_hint">
       <span id="drag_box">
-        <span id="drag_box_manually"><input id="manually_select" type="radio" />@{[ M("Manually select a different area") ]}
+        <span id="drag_box_manually"><input id="manually_select" type="radio" />
+            @{[ M("Manually select a different area") ]}
+            <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>
         </span>
-        <span id="drag_box_drag" style="display:none">@{[ M("Drag a box on the map to select an area") ]}</span>
+        <span id="drag_box_drag" style="display:none">
+            <!--
+            @{[ M("Drag a box on the map to select an area") ]}
+            <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>
+            -->
+            <span>@{[ join "\n", @{ $msg->{EXTRACT_USAGE} } ]}</span>
+        </span>
       </span>
-      <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a><br/><p/>
     </span>
     <span id="square_km"></span>
 
@@ -312,7 +319,10 @@ sub manual_area {
 	<label for="rotate">@{[ M("resize or drag polygon") ]}
 	<img src="$img_prefix/move_feature_on.png" alt="move feature"/>
 	</label>
+        
+        <span>@{[ join "\n", @{ $msg->{EXTRACT_USAGE2} } ]}</span>
     </div>
+    
 
   </div> <!-- sidebar_content -->
  </div><!-- manual_area -->
