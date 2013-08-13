@@ -303,7 +303,7 @@ sub manual_area {
             @{[ M("Drag a box on the map to select an area") ]}
             <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>
             -->
-            <span>@{[ join "\n", @{ $msg->{EXTRACT_USAGE} } ]}</span>
+            <span>@{[ M("EXTRACT_USAGE") ]}</span>
         </span>
       </span>
     </span>
@@ -320,7 +320,7 @@ sub manual_area {
 	<img src="$img_prefix/move_feature_on.png" alt="move feature"/>
 	</label>
         
-        <span>@{[ join "\n", @{ $msg->{EXTRACT_USAGE2} } ]}</span>
+        <span>@{[ M("EXTRACT_USAGE2") ]}</span>
     </div>
     
 
@@ -1441,10 +1441,6 @@ sub M {
     my $text;
     if ( $msg && exists $msg->{$key} ) {
         $text = $msg->{$key};
-
-        #} elsif ($msg_en && exists $msg_en->{$key}) {
-        #    warn "Unknown translation local lang $lang: $key\n";
-        #    $text = $msg_en->{$key};
     }
     else {
         if ( $debug >= 1 && $msg ) {
@@ -1452,6 +1448,10 @@ sub M {
               if $debug >= 2 || $language ne "en";
         }
         $text = $key;
+    }
+
+    if ( ref $text eq 'ARRAY' ) {
+        $text = join "\n", @$text, "\n";
     }
 
     return $text;
