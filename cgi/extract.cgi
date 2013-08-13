@@ -347,11 +347,13 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
           . qq{<a href="$community_link#donate"><img class="logo" height="47" width="126" src="/images/btn_donateCC_LG.gif" alt="donate"/></a></p>};
     }
 
+    my $home = $q->url( -query => 0, -relative => 0 );
+
     return <<EOF;
   $donate
   $css
   <div id="footer_top">
-    <a href="../">home</a> |
+    <a href="$home">home</a> |
     <a href="../extract.html">@{[ M("help") ]}</a> |
     <a href="http://download.bbbike.org/osm/">download</a> |
     <!-- <a href="/cgi/livesearch-extract.cgi">@{[ M("livesearch") ]}</a> | -->
