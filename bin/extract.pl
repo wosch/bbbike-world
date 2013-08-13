@@ -1168,7 +1168,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         my $database_update =
           gmtime( stat( $option->{planet_osm} )->mtime ) . " UTC";
 
-        my $text = join "\n", @{ $msg->{EXTRACT_EMAIL} };
+        my $text = M("EXTRACT_EMAIL");
         my $granularity;
         if ( ref $osmosis_options eq 'ARRAY' && grep { /^granularity=10000$/ }
             @$osmosis_options )
@@ -1428,6 +1428,10 @@ sub M {
               if $debug >= 2 || $language ne "en";
         }
         $text = $key;
+    }
+
+    if ( ref $text eq 'ARRAY' ) {
+        $text = join "\n", @$text, "\n";
     }
 
     return $text;
