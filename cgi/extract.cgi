@@ -885,7 +885,7 @@ qq{Please click on the <a href="javascript:history.back()">back button</a> };
           )
           : "$sw_lng,$sw_lat x $ne_lng,$ne_lat";
 
-        my $text = join "\n", @{ $msg->{EXTRACT_CONFIRMED} };
+        my $text = M("EXTRACT_CONFIRMED");
         printf( $text,
             escapeHTML($city), large_int($skm), $coordinates, $format );
 
@@ -966,7 +966,7 @@ qq{Please click on the <a href="javascript:history.back()">back button</a> };
         }
 
         else {
-            print join "\n", @{ $msg->{EXTRACT_DONATION} };
+            print M("EXTRACT_DONATION");
             print qq{<br/>} x 4, "</p>\n";
         }
     }
