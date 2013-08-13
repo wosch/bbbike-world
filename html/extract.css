@@ -9,17 +9,6 @@ div#map { width: 100%; height: 100%; }
 
 #debug { color: red; font-size: small; }
 
-div#footer_community { display: none; }
-
-div#footer { margin: 0.5em; }
-
-div#copyright {
-  font-size: small;
-  margin: 0px;
-  padding: 0px;
-  text-align: left;
-}
-
 body {
   margin: 0px;
   padding: 0px;
@@ -43,7 +32,7 @@ div#table {
  position:relative;
  top:0;
  left:0;
- width: 21em;
+ /* width: 24em; */
  margin: 0.0em;
  border-spacing: 1px;
 }
@@ -71,16 +60,13 @@ div#export_osm_too_large { color: red }
 #social { position:absolute; right: 20px; bottom: -2px; }
 
 #sidebar_left, #footer {
-	width: 23.5em;
+	width: 24.5em;
 	position: absolute;
 }
 
-#footer {
-	bottom: 0em;
-}
 
 #map {
-	left: 23.5em;
+	left: 24.5em;
 	position: relative;
 	width: 100%;
 }
@@ -91,30 +77,33 @@ hr { margin-top: 0.2em; margin-bottom: 0.2em; }
 
 #result { margin-top: 1em; padding: 0.5em; padding-bottom: 4em; }
 
-span#noscript { 
+span#noscript {
     color: red;
     font-size: xx-large;
     font-weight: bold;
 }
 
-span#square_km_small, span#size_small, span#time_small { 
-	font-size: small; 
+span#square_km_small, span#size_small, span#time_small {
+	font-size: small;
 	font-style: italic;
 	color: #808080; /* grey; */
 }
 
-input#city, input#email { width: 95%; } 
+/* set width of input fields in left column to max. available size */
+input#city, input#email {
+    width: 95%;
+}
 
 .jqmWindow {
     display: none;
-    
+
     position: fixed;
     top: 50px;
     left: 50%;
-    
+
     margin-left: -350px;
     /* width: 640px; */
-    
+
     background-color: #EEE;
     color: #333;
     border: 1px solid black;
@@ -163,19 +152,33 @@ span.current_language { font-size: large; }
 span#language_switch a { color: green; }
 
 span#maplink { font-size: small; }
-div#footer { font-size: small; text-align: center; padding-top: 0.7em; }
-div#footer_top { text-align: left; }
-div#footer_community { padding-top: 0.5em; padding-bottom: 0.5em }
-a         {text-decoration: none; color: green; }
 
-a.tools-helptrigger img, a.tools-helptrigger-small img { 
+div#footer { 	bottom: 0em; }
+div#footer { text-align: center; padding-top: 0.7em; }
+div#footer { margin: 0.5em; }
+div#footer hr { width: 24.0em; padding-left: 0; margin-left: 0; }
+
+div#footer_top { text-align: left; font-size: small;}
+div#footer_community { padding-top: 0.5em; padding-bottom: 0.5em }
+div#footer_community { display: none; }
+
+div#copyright {
+  font-size: small;
+  margin: 0px;
+  padding: 0px;
+  text-align: left;
+}
+
+a         { text-decoration: none; color: green; }
+
+a.tools-helptrigger img, a.tools-helptrigger-small img {
    height: 13px;
    width: 13px;
    border: 0;
    opacity:0.75;
 }
 
-a.tools-helptrigger:hover img, a.tools-helptrigger-small:hover img { 
+a.tools-helptrigger:hover img, a.tools-helptrigger-small:hover img {
   opacity: 1.0;
 }
 
@@ -191,4 +194,8 @@ a.tools-helptrigger:hover img, a.tools-helptrigger-small:hover img {
 td { white-space: nowrap; }
 
 #extract-pro { font-size: x-large; }
+
+.center { text-align: center; }
+a.large { font-size: large; }
+a.x-large { font-size: x-large; }
 

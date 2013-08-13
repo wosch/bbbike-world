@@ -12,11 +12,12 @@ var config = {
     "color_error": "red",
     "max_skm": 24000000,
 
-    // map box for San Francisco, default
-    "city": {
-        "sw": [-122.9, 37.2],
-        "ne": [-121.7, 37.9]
-    },
+    // display a box at startup
+    // see function select_city()
+    "default_box": false,
+
+    // open help page at start up
+    "open_infopage": true,
 
     "show_filesize": true,
     "city_name_optional": false,
@@ -61,6 +62,7 @@ function init() {
     init_map_size();
 
     var opt = {
+        "param": 0,
         "back_button": 0
     };
 
@@ -79,11 +81,12 @@ function init() {
         displayProjection: new OpenLayers.Projection("EPSG:4326")
     });
 
-    map.addLayer(new OpenLayers.Layer.OSM("Esri Topographic", "http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/${z}/${y}/${x}.png", {
-        attribution: '<a href="http://www.esri.com/">(&copy;) Esri</a>',
+
+    map.addLayer(new OpenLayers.Layer.OSM("OSM Landscape", ["http://a.tile3.opencyclemap.org/landscape/${z}/${x}/${y}.png", "http://b.tile3.opencyclemap.org/landscape/${z}/${x}/${y}.png"], {
         tileOptions: {
             crossOriginKeyword: null
         },
+        attribution: '<a href="http://www.OpenStreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="http://www.opencyclemap.org/">(&copy) OpenCycleMap</a>',
         numZoomLevels: 18
     }));
 
@@ -95,13 +98,6 @@ function init() {
         attribution: '<a href="http://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="http://www.opencyclemap.org/">(&copy) OpenCycleMap</a>'
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("OSM Hike&Bike", ["http://a.www.toolserver.org/tiles/hikebike/${z}/${x}/${y}.png", "http://b.www.toolserver.org/tiles/hikebike/${z}/${x}/${y}.png"], {
-        tileOptions: {
-            crossOriginKeyword: null
-        },
-        attribution: '<a href="http://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>',
-        numZoomLevels: 18
-    }));
 
     map.addLayer(new OpenLayers.Layer.OSM("OSM Transport", ["http://a.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png", "http://b.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png"], {
         tileOptions: {
@@ -109,6 +105,23 @@ function init() {
         },
         attribution: '<a href="http://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>',
         numZoomLevels: 19
+    }));
+
+    map.addLayer(new OpenLayers.Layer.OSM("Esri Topographic", "http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/${z}/${y}/${x}.png", {
+        attribution: '<a href="http://www.esri.com/">(&copy;) Esri</a>',
+        tileOptions: {
+            crossOriginKeyword: null
+        },
+        numZoomLevels: 18
+    }));
+
+/* disabled maps
+    map.addLayer(new OpenLayers.Layer.OSM("OSM Hike&Bike", ["http://a.www.toolserver.org/tiles/hikebike/${z}/${x}/${y}.png", "http://b.www.toolserver.org/tiles/hikebike/${z}/${x}/${y}.png"], {
+        tileOptions: {
+            crossOriginKeyword: null
+        },
+        attribution: '<a href="http://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>',
+        numZoomLevels: 18
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM("Mapquest OSM", ["http://otile1.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png", "http://otile2.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png"], {
@@ -126,12 +139,26 @@ function init() {
         attribution: '<a href="http://www.mapquest.com/">(&copy;) MapQuest</a>',
         numZoomLevels: 19
     }));
+    */
+
+    map.addLayer(new OpenLayers.Layer.Google("Google Physical", {
+        type: google.maps.MapTypeId.TERRAIN
+    }));
+    map.addLayer(new OpenLayers.Layer.Google("Google Satellite", {
+        type: google.maps.MapTypeId.SATELLITE
+    }));
+    map.addLayer(new OpenLayers.Layer.Google("Google Map", {
+        type: google.maps.MapTypeId.ROADMAP
+    }));
 
 
     var epsg4326 = new OpenLayers.Projection("EPSG:4326");
     var bounds;
 
-    // read from input, back button pressed?
+/*
+     * read from input, back button pressed?
+     *
+     */
     var back_botton = check_lnglat_form(true);
     var coords = "";
     if (back_botton) {
@@ -141,6 +168,7 @@ function init() {
         var ne_lat = $("#ne_lat").val();
         coords = $("#coords").val();
 
+        if (coords == "") opt.param = 1;
         if (coords == "0,0,0") { // to long URL, ignore
             coords = "";
         }
@@ -211,26 +239,52 @@ function init() {
                 polygon_menu(true);
             };
 
-            setTimeout(function () {
-                var polygon = coords ? string2coords(coords) : rectangle2polygon(sw_lng, sw_lat, ne_lng, ne_lat);
-                var feature = plot_polygon(polygon);
-                vectors.addFeatures(feature);
-                if (coords) {
-                    // trigger a recalculation of polygon size
-                    setTimeout(function () {
-                        vectors.events.triggerEvent("sketchcomplete", {
-                            "feature": feature
-                        });
-                    }, 500);
-                }
-                opt.back_function();
+            if (config.default_box) {
+                setTimeout(function () {
+                    var polygon = coords ? string2coords(coords) : rectangle2polygon(sw_lng, sw_lat, ne_lng, ne_lat);
+                    var feature = plot_polygon(polygon);
+                    vectors.addFeatures(feature);
+                    if (coords) {
+                        // trigger a recalculation of polygon size
+                        setTimeout(function () {
+                            vectors.events.triggerEvent("sketchcomplete", {
+                                "feature": feature
+                            });
+                        }, 500);
+                    }
+                    opt.back_function();
 
-            }, 700);
+                }, 700);
+
+            } else {
+                debug("Do not plot default box");
+            }
         }
     }
 
-    bounds.transform(epsg4326, map.getProjectionObject());
-    map.zoomToExtent(bounds);
+    if (bounds) {
+        bounds.transform(epsg4326, map.getProjectionObject());
+        map.zoomToExtent(bounds);
+    }
+
+    // open info page at startup, but display it only once for the user
+    if (config.open_infopage) {
+        var oi_html = $("input#oi").val();
+        var oi_cookie = jQuery.cookie("oi");
+
+        if (oi_html == 0 && !oi_cookie) {
+            debug("will open info page at startup");
+
+            jQuery.cookie("oi", 1, {
+                expires: 1
+            });
+            $("span#tools-help a").trigger("click");
+        } else {
+            debug("do not open info page again. html: " + oi_html + ", cookie: " + oi_cookie);
+        }
+
+        $("input#oi").val("1");
+    }
 
     extract_init(opt);
     permalink_init();
@@ -315,13 +369,14 @@ function permalink_init() {
         params.ne_lat = $("#ne_lat").val();
         params.format = $("select[name=format] option:selected").val();
 
+        params.oi = $("#oi").val();
+        if (!params.oi) delete params.oi;
         params.city = $("#city").val();
         if (!params.city) delete params.city;
-
         params.coords = $("#coords").val(); // polygon
         if (!params.coords) delete params.coords;
 
-        //layers        
+        //layers
         layers = layers || map.layers;
         params.layers = '';
         for (var i = 0, len = layers.length; i < len; i++) {
@@ -486,6 +541,9 @@ function extract_init(opt) {
         var epsg4326 = new OpenLayers.Projection("EPSG:4326");
         var decimals = Math.pow(10, Math.floor(map.getZoom() / 3));
 
+        // box not set yet
+        if (!bounds) return;
+
         bounds = bounds.clone().transform(map.getProjectionObject(), epsg4326);
 
         function v(value) {
@@ -557,6 +615,7 @@ function extract_init(opt) {
     }
 
     startExport(opt);
+    if (opt.param == 0) startDrag();
 
     if (config.enable_polygon) {
         setTimeout(function () {
@@ -867,7 +926,7 @@ function show_skm(skm, filesize) {
         var html = "area covers " + large_int(skm) + " square km";
         if (config.show_filesize) {
             html += filesize.html;
-            $("#square_km_small").html(large_int(skm) + " skm");
+            $("#square_km_small").html(large_int(skm) + " km<sup>2</sup>");
             var fs = filesize.size < 1 ? Math.round(filesize.size * 10) / 10 : Math.round(filesize.size);
             $("#size_small").html("~" + fs + " MB");
             $("#time_small").html(filesize.time + " min");
@@ -1088,7 +1147,7 @@ function polygon_init() {
     }
 
     vectors.onFeatureInsert = function () {
-        debug("rectangle/polygon created");
+        debug("rectangle or polygon was created");
     }
 
     vectors.events.on({
