@@ -97,6 +97,8 @@ our $option = {
     'email_rest_enabled' => 0,
 
     'show_image_size' => 1,
+
+    'pbf2pbf_postprocess' => 1,
 };
 
 ######################################################################
@@ -1289,7 +1291,10 @@ sub aws_s3_path {
     return $aws_path;
 }
 
-# prepare to sent mail about extracted area
+#
+# pbf2pbf postprocess
+# e.g. make sure that lat,lon are in valid range -180 .. +180
+#
 sub fix_pbf {
     my $files     = shift;
     my $test_mode = shift;
@@ -1300,13 +1305,17 @@ sub fix_pbf {
 
     my @nice = ( "nice", "-n", $nice_level_converter );
     my @system;
-    foreach my $pbf (@$files) {
-        @system = ( @nice, $pbf2pbf, $pbf );
-        warn "Fix pbf $pbf\n" if $debug >= 2;
-        @system = 'true' if $test_mode;
+    if ( $option->{"pbf2pbf_postprocess"} ) {
+        warn "Run pbf2pbf post process\n" if $debug;
 
-        system(@system) == 0
-          or die "system @system failed: $?";
+        foreach my $pbf (@$files) {
+            @system = ( @nice, $pbf2pbf, $pbf );
+            warn "Fix pbf $pbf\n" if $debug >= 2;
+            @system = 'true' if $test_mode;
+
+            system(@system) == 0
+              or die "system @system failed: $?";
+        }
     }
 }
 
