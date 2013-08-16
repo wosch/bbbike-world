@@ -648,7 +648,10 @@ sync-sitemap: create-sitemap
 	rsync -a world/web/sitemap.xml.gz ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}/world/web
 	rsync -a world/download/sitemap.xml.gz ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}/../download.bbbike.org
 
-update-files: kml create-osp index update-robots.txt create-bbbike-web-symlinks java-config update-javascript test-org extract-config #create-sitemap
+update-files: kml create-osp index update-robots.txt create-bbbike-web-symlinks java-config update-javascript test-org extract-config garmin-legend #create-sitemap
+
+garmin-legend:
+	make -C./world/etc/mkgmap legend
 
 extract-config:
 	test -e .bbbike-extract-rc || ln -fs $$HOME/.bbbike-extract-rc .
@@ -1032,6 +1035,7 @@ help:
 	@echo ""
 	@echo "  [ staging | extract-bbbike-org-install | extract-distclean ]"
 	@echo "  [ extract-gc | extract-gc7 | extract-gc-osm ]"
+	@echo "  [ garmin-legend ]"
 	@echo "  [ tile | tile-extract | tile-convert | tile-csv | tile-checksum ]"
 	@echo "  [ tile-distclean | tile-rsync | tile-aws-s3 ]"
 	@echo "  [ test-org | lighttpd-restart | test ]"
