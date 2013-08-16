@@ -26,7 +26,12 @@ legend-cyclemap: legend-dir
 legend-leisure: legend-dir
 	${TYPE2LEGEND} -o ${TYPE2LEGEND_DIR}/leisure freizeit.TXT
 
-legend: clean legend-bbbike legend-cyclemap legend-leisure
+legend: clean legend-bbbike legend-cyclemap legend-leisure legend-index
+
+legend-index:
+	ls ${TYPE2LEGEND_DIR} | egrep -v index.html | \
+	  perl -ne 'chomp; print qq{<a href="$$_">$$_</a><br/>\n}' > ${TYPE2LEGEND_DIR}/index.html
+	tidy -i -m ${TYPE2LEGEND_DIR}/index.html || tidy -i -m ${TYPE2LEGEND_DIR}/index.html
 
 clean:
 	rm -rf ${TYPE2LEGEND_DIR}
