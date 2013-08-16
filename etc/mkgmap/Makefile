@@ -14,17 +14,19 @@ TYPE2LEGEND_DIR=	../../web/garmin
 
 all: help
 
-legend:
+legend-dir:
 	mkdir -p ${TYPE2LEGEND_DIR}
 
-legend-bbbike:
+legend-bbbike: legend-dir
 	${TYPE2LEGEND} -o ${TYPE2LEGEND_DIR}/bbbike ../../../misc/mkgmap/typ/M000002a.TXT
 
-legend-cyclemap:
+legend-cyclemap: legend-dir
 	${TYPE2LEGEND} -o ${TYPE2LEGEND_DIR}/cyclemap cyclemap.TXT 
 
-legend-leisure:
+legend-leisure: legend-dir
 	${TYPE2LEGEND} -o ${TYPE2LEGEND_DIR}/leisure freizeit.TXT
+
+legend: clean legend-bbbike legend-cyclemap legend-leisure
 
 clean:
 	rm -rf ${TYPE2LEGEND_DIR}
