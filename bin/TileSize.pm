@@ -2,6 +2,8 @@
 # Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
 #
 # TileSize.pm - module to guess size of a lat,lng tile
+#
+# todo: check $factor
 
 package TileSize;
 
