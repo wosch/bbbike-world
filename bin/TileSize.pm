@@ -40,6 +40,7 @@ our $factor = {
     'navit.zip'          => 0.75,
     'o5m.bz2'            => 0.88,
     'o5m.gz'             => 1.04,
+    'o5m.xz'             => 1.04,
     'obf.zip'            => 1.4,
     'osm.bz2'            => 1.5,
     'osm.gz'             => 1.93,
