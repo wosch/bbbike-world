@@ -47,6 +47,10 @@ our $factor = {
     'osm.xz'             => 1.8,
     'shp.zip'            => 1.5,
     'pbf'                => 1,
+
+    'csv.xz'  => 0.50,
+    'csv.gz'  => 1.00,
+    'csv.bz2' => 0.90,
 };
 
 sub new {
