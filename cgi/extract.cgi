@@ -298,16 +298,16 @@ sub manual_area {
   <div id="sidebar_content">
     <span class="export_hint">
       <span id="drag_box">
-        <span id="drag_box_manually" style="display:none"><input id="manually_select" type="radio" />
-            @{[ M("Manually select a different area") ]}
+        <span id="drag_box_select" style="display:none"><input id="drag_box_select_reset" type="radio" />
+            @{[ M("Select a different area") ]}
             <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>
+            <p></p>
         </span>
-        <span id="drag_box_drag">
-            <!--
-            @{[ M("Drag a box on the map to select an area") ]}
+        <span id="drag_box_default">
+            @{[ M("Move the map to your desired location.") ]} <br/>
+            Then click here <input id="start_default_box" type="radio" /> @{[ M("to create the bounding box.") ]}
             <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>
-            -->
-            <span>@{[ M("EXTRACT_USAGE") ]}</span>
+            <br/>
         </span>
       </span>
     </span>
