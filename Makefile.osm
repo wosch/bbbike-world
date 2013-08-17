@@ -813,6 +813,8 @@ tile-convert: tile-convert-osm tile-convert-shp tile-convert-navit tile-convert-
 
 tile-convert-osm:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | ${NICE} ${TIME} xargs -0 -n1 -P$${MAX_PBF2OSM} ${PBF2OSM} --pgzip
+tile-convert-csv:
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | ${NICE} ${TIME} xargs -0 -n1 -P$${MAX_PBF2OSM} ${PBF2OSM} --csv-xz
 tile-convert-shp:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2SHAPE}
 tile-convert-garmin:
