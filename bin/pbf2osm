@@ -58,6 +58,10 @@ usage [ option ] file.osm.pbf
 --o5m
 --o5m-gzip
 --o5m-bzip2
+--o5m-xz
+--csv-gzip
+--csv-bzip2
+--csv-xz
 
 --shape
 --osmand
@@ -92,6 +96,7 @@ case $1 in
     -o5m | --o5m ) shift; compress=o5m ;;
     -o5m-gzip | --o5m-gzip ) shift; compress=o5m-gzip ;;
     -o5m-bzip2 | --o5m-bzip2 ) shift; compress=o5m-bzip2 ;;
+    -o5m-xz | --o5m-xz ) shift; compress=o5m-xz ;;
 
     -xz | --xz )       shift; compress=xz; _max_cpu_time=10800 ;;
     -shape | --shape | -shp | --shp | --shapefile ) shift; compress=shape ;;
@@ -193,6 +198,7 @@ esac
 	# o5m format
         o5m )       $osm2o5m $osm2o5m_opt --out-o5m "$file" ;;
         o5m-gzip )  $osm2o5m $osm2o5m_opt --out-o5m "$file" | $gzip > $dir/$f.o5m.gz.tmp; mv -f $dir/$f.o5m.gz.tmp $dir/$f.o5m.gz ;;
+        o5m-xz )    $osm2o5m $osm2o5m_opt --out-o5m "$file" | $xz $xz_opt > $dir/$f.o5m.xz.tmp; mv -f $dir/$f.o5m.xz.tmp $dir/$f.o5m.xz ;;
         o5m-bzip2 ) $osm2o5m $osm2o5m_opt --out-o5m "$file" | $bzip2 > $dir/$f.o5m.bz2.tmp; mv -f $dir/$f.o5m.bz2.tmp $dir/$f.o5m.bz2 ;;
 
 	# other formats
