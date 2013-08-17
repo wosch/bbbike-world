@@ -1,16 +1,16 @@
 # For more information see the manual pages of crontab(5) and cron(8)
 # 
 # m h  dom mon dow   command
-#*/4 * * * * cd $HOME/projects/bbbike/ && world/bin/extract-cron.sh --job=3 --send-email=1
-*/4 * * * * cd /usr/local/www/bbbike.org/ && world/bin/extract-cron.sh --job=6
+*/2 * * * * cd $HOME/projects/bbbike/ && world/bin/extract-cron.sh --job=2
+
+#*/2 * * * * cd /usr/local/www/bbbike.org/ && world/bin/extract.pl --debug=1 --job=3
 */4 * * * * cd /usr/local/www/bbbike.org/ && BBBIKE_EXTRACT_PROFILE=$HOME/.bbbike-extract-pro.rc world/bin/extract-cron.sh --job=3
-8 */2 * * * $HOME/projects/bbbike/world/bin/extract-watermark
-5 * * * * cd /usr/local/www/bbbike.org/ && make -s extract-gc7 extract-gc && make -s EXTRACTS_SPOOL_DIR=/var/cache/extract-pro extract-gc7 extract-gc
-25 * * * * $HOME/projects/bbbike/world/bin/planet-checksum
-30 0 * * * $HOME/projects/bbbike/world/bin/planet-download-replication
+5 * * * * cd /usr/local/www/bbbike.org/ && make -s extract-gc7 extract-gc
+25 5,21 * * * $HOME/projects/bbbike/world/bin/planet-checksum
 
 MAILTO=wosch
 # m h  dom mon dow   command
 #15,45 15-23 * * 4     cd $HOME/projects/bbbike/ && world/bin/planet-download-alert
-36 15-23,0,1,2 * * * cd $HOME/projects/bbbike/ && world/bin/planet-download-alert
+25 15-20 * * * cd $HOME/projects/bbbike/ && world/bin/planet-download-alert
 
+#29 0 * * * $HOME/projects/bbbike/world/bin/planet-download-replication

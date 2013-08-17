@@ -66,6 +66,8 @@ our $option = {
     'supported_languages' => [qw/en de es fr ru/],
     'message_path'        => "../world/etc/extract",
     'pro'                 => 0,
+
+    'with_google_maps' => 1,
 };
 
 our $formats = {
@@ -83,7 +85,11 @@ our $formats = {
     'navit.zip'         => "Navit",
     'obf.zip'           => "Osmand (OBF)",
     'o5m.gz'            => "o5m gzip'd",
-    'o5m.bz2'           => "o5m bzip'd",
+    'o5m.xz'            => "o5m 7z (xz)",
+
+    #'o5m.bz2'           => "o5m bzip'd",
+    'csv.gz'            => "CSV gzip'd",
+    'csv.xz'            => "CSV 7z (xz)",
     'mapsforge-osm.zip' => "Mapsforge OSM",
 };
 
@@ -292,11 +298,18 @@ sub manual_area {
   <div id="sidebar_content">
     <span class="export_hint">
       <span id="drag_box">
-        <span id="drag_box_manually"><input id="manually_select" type="radio" />@{[ M("Manually select a different area") ]}
+        <span id="drag_box_manually" style="display:none"><input id="manually_select" type="radio" />
+            @{[ M("Manually select a different area") ]}
+            <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>
         </span>
-        <span id="drag_box_drag" style="display:none">@{[ M("Drag a box on the map to select an area") ]}</span>
+        <span id="drag_box_drag">
+            <!--
+            @{[ M("Drag a box on the map to select an area") ]}
+            <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>
+            -->
+            <span>@{[ M("EXTRACT_USAGE") ]}</span>
+        </span>
       </span>
-      <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a><br/><p/>
     </span>
     <span id="square_km"></span>
 
@@ -310,7 +323,10 @@ sub manual_area {
 	<label for="rotate">@{[ M("resize or drag polygon") ]}
 	<img src="$img_prefix/move_feature_on.png" alt="move feature"/>
 	</label>
+        
+        <span>@{[ M("EXTRACT_USAGE2") ]}</span>
     </div>
+    
 
   </div> <!-- sidebar_content -->
  </div><!-- manual_area -->
@@ -345,11 +361,13 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
           . qq{<a href="$community_link#donate"><img class="logo" height="47" width="126" src="/images/btn_donateCC_LG.gif" alt="donate"/></a></p>};
     }
 
+    my $home = $q->url( -query => 0, -relative => 0 );
+
     return <<EOF;
   $donate
   $css
   <div id="footer_top">
-    <a href="../">home</a> |
+    <a href="$home">home</a> |
     <a href="../extract.html">@{[ M("help") ]}</a> |
     <a href="http://download.bbbike.org/osm/">download</a> |
     <!-- <a href="/cgi/livesearch-extract.cgi">@{[ M("livesearch") ]}</a> | -->
@@ -376,9 +394,13 @@ sub footer {
 
     my @js =
       qw(OpenLayers/2.12/OpenLayers-min.js OpenLayers/2.12/OpenStreetMap.js jquery/jquery-1.7.1.min.js
-      jquery/jqModal-2009.03.01-r14.js jquery/jquery-ui-1.9.1.custom.min.js extract.js);
+      jquery/jqModal-2009.03.01-r14.js jquery/jquery-ui-1.9.1.custom.min.js jquery/jquery.cookie-1.3.1.js extract.js);
     my $javascript = join "\n",
       map { qq{<script src="../html/$_" type="text/javascript"></script>} } @js;
+
+    $javascript .=
+qq{\n<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3.9&amp;sensor=false&amp;language=en&amp;libraries=weather,panoramio"></script>}
+      if $option->{"with_google_maps"};
 
     return <<EOF;
 
@@ -867,7 +889,7 @@ qq{Please click on the <a href="javascript:history.back()">back button</a> };
           )
           : "$sw_lng,$sw_lat x $ne_lng,$ne_lat";
 
-        my $text = join "\n", @{ $msg->{EXTRACT_CONFIRMED} };
+        my $text = M("EXTRACT_CONFIRMED");
         printf( $text,
             escapeHTML($city), large_int($skm), $coordinates, $format );
 
@@ -948,7 +970,7 @@ qq{Please click on the <a href="javascript:history.back()">back button</a> };
         }
 
         else {
-            print join "\n", @{ $msg->{EXTRACT_DONATION} };
+            print M("EXTRACT_DONATION");
             print qq{<br/>} x 4, "</p>\n";
         }
     }
@@ -1273,6 +1295,11 @@ qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="j
                             -id    => 'coords'
                           )
                           . $q->hidden(
+                            -name  => 'oi',
+                            -value => "0",
+                            -id    => 'oi'
+                          )
+                          . $q->hidden(
                             -name  => 'layers',
                             -value => "",
                             -id    => 'layers'
@@ -1418,10 +1445,6 @@ sub M {
     my $text;
     if ( $msg && exists $msg->{$key} ) {
         $text = $msg->{$key};
-
-        #} elsif ($msg_en && exists $msg_en->{$key}) {
-        #    warn "Unknown translation local lang $lang: $key\n";
-        #    $text = $msg_en->{$key};
     }
     else {
         if ( $debug >= 1 && $msg ) {
@@ -1429,6 +1452,10 @@ sub M {
               if $debug >= 2 || $language ne "en";
         }
         $text = $key;
+    }
+
+    if ( ref $text eq 'ARRAY' ) {
+        $text = join "\n", @$text, "\n";
     }
 
     return $text;
