@@ -214,6 +214,9 @@ pbf2osm:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n1 -0 -P${MAX_PBF2OSM} ${PBF2OSM} --pgzip
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${OSM_CHECKSUM}
 
+pbf2csv:
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n1 -0 -P${MAX_PBF2OSM} ${PBF2OSM} --csv-xz
+
 _pbf2pbf:
 	if [ "$$OSM_DIR_NOSUBDIR" = "true" ]; then \
 	  echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_.osm.pbf\0, ' | ${XARGS} -n32 -0 -P${MAX_PBF2OSM} ${PBF2PBF}; \
