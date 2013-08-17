@@ -85,7 +85,9 @@ our $formats = {
     'navit.zip'         => "Navit",
     'obf.zip'           => "Osmand (OBF)",
     'o5m.gz'            => "o5m gzip'd",
-    'o5m.bz2'           => "o5m bzip'd",
+
+    #'o5m.bz2'           => "o5m bzip'd",
+    'o5m.xz'            => "o5m 7z (xz)",
     'mapsforge-osm.zip' => "Mapsforge OSM",
 };
 
