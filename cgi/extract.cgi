@@ -85,7 +85,11 @@ our $formats = {
     'navit.zip'         => "Navit",
     'obf.zip'           => "Osmand (OBF)",
     'o5m.gz'            => "o5m gzip'd",
-    'o5m.bz2'           => "o5m bzip'd",
+    'o5m.xz'            => "o5m 7z (xz)",
+
+    #'o5m.bz2'           => "o5m bzip'd",
+    'csv.gz'            => "csv gzip'd",
+    'csv.xz'            => "csv 7z (xz)",
     'mapsforge-osm.zip' => "Mapsforge OSM",
 };
 
@@ -294,11 +298,11 @@ sub manual_area {
   <div id="sidebar_content">
     <span class="export_hint">
       <span id="drag_box">
-        <span id="drag_box_manually"><input id="manually_select" type="radio" />
+        <span id="drag_box_manually" style="display:none"><input id="manually_select" type="radio" />
             @{[ M("Manually select a different area") ]}
             <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>
         </span>
-        <span id="drag_box_drag" style="display:none">
+        <span id="drag_box_drag">
             <!--
             @{[ M("Drag a box on the map to select an area") ]}
             <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>

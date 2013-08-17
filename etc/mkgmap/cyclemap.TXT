@@ -1,0 +1,847 @@
+; THIS FILE WAS CREATED BY DECOMPILER v1.162 AT http://ati.land.cz/gps/typdecomp AND IT MAY NOT
+; EXACTLY CORRESPOND TO ORIGINAL .TYP FILE.
+; SOME ELEMENTS MAY BE MISSING FROM THIS FILE, AND OTHERS MAY BE INCOMPLETE!
+; 
+; IF YOU USE THIS FILE AS SOURCE FOR cGPSmapper, IT WILL ALMOST CERTAINLY NOT PRODUCE WHAT YOU WANT.
+; 
+; IF YOU WANT JUST TO CHANGE SOMETHING, USE TYP EDITOR AT http://ati.land.cz/gps/typedit
+; Original TYP was created 25.9.2009 at 17:57:51, probably with Garmin MPC
+; Text codepage=1252
+; Version=1
+
+; Header length: 0x005b bytes, header format: OLD
+; Header dump:
+;  draworder:                                        info@0x000000-0x000000 (elem_size=5, #elements=0)
+;    polygon: data@0x00005b-0x00006e (len=0x000014), info@0x00006f-0x000082 (elem_size=4, #elements=5)
+;      point: data@0x00041f-0x000c7f (len=0x000861), info@0x000c80-0x000c93 (elem_size=4, #elements=5)
+;       line: data@0x000083-0x0003a2 (len=0x000320), info@0x0003a3-0x00041e (elem_size=4, #elements=31)
+;   NT1point: data@0x000000-0x000000 (len=0x000000), info@0x000000-0x000000 (elem_size=0, #elements=0)
+
+[_id]
+ProductCode=0x0
+FID=0x0 ; 
+[end]
+
+[_drawOrder]
+[end]
+
+; --------------------------------------------------------------------------
+; start of polygon collection
+; --------------------------------------------------------------------------
+[_polygon]
+; Originally @(0x00005b+0x000000)=0x00005b
+; Drawing order: 
+Type=0x002
+XPM="0 0 1 2",
+"XX  c #dddddd",
+[end]
+
+[_polygon]
+; Originally @(0x00005b+0x000004)=0x00005f
+; Drawing order: 
+Type=0x005
+XPM="0 0 1 2",
+"XX  c #f6eeb6",
+[end]
+
+[_polygon]
+; Originally @(0x00005b+0x000008)=0x000063
+; Drawing order: 
+Type=0x008
+XPM="0 0 1 2",
+"XX  c #f1dada",
+[end]
+
+[_polygon]
+; Originally @(0x00005b+0x00000c)=0x000067
+; Drawing order: 
+Type=0x00c
+XPM="0 0 1 2",
+"XX  c #ded0d5",
+[end]
+
+[_polygon]
+; Originally @(0x00005b+0x000010)=0x00006b
+; Drawing order: 
+Type=0x019
+XPM="0 0 1 2",
+"XX  c #a8d3af",
+[end]
+
+
+; --------------------------------------------------------------------------
+; start of line collection
+; --------------------------------------------------------------------------
+[_line]
+; Originally @(0x000083+0x000000)=0x000083
+Type=0x000
+UseOrientation=Y
+XPM="0 0 1 2",
+"XX  c #77bbff",
+LineWidth=2
+String1=0x00,Waterway
+[end]
+
+[_line]
+; Originally @(0x000083+0x000011)=0x000094
+Type=0x001
+UseOrientation=Y
+XPM="0 0 1 2",
+"XX  c #ff0000",
+LineWidth=3
+String1=0x00,NCN on-road
+[end]
+
+[_line]
+; Originally @(0x000083+0x000025)=0x0000a8
+Type=0x002
+UseOrientation=N
+XPM="32 5 2 2",
+"XX  c #ff0000",
+"==  c #ffdd00",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+"==========XXXXXX==========XXXXXX==========XXXXXX==========XXXXXX",
+"==========XXXXXX==========XXXXXX==========XXXXXX==========XXXXXX",
+"==========XXXXXX==========XXXXXX==========XXXXXX==========XXXXXX",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+};
+String1=0x00,NCN off-road
+[end]
+
+[_line]
+; Originally @(0x000083+0x000050)=0x0000d3
+Type=0x003
+UseOrientation=Y
+XPM="0 0 1 2",
+"XX  c #0000ff",
+LineWidth=3
+String1=0x00,Local route on-road
+[end]
+
+[_line]
+; Originally @(0x000083+0x00006c)=0x0000ef
+Type=0x004
+UseOrientation=Y
+XPM="32 5 2 2",
+"XX  c #0000ff",
+"==  c #ffdd00",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+"==========XXXXXX==========XXXXXX==========XXXXXX==========XXXXXX",
+"==========XXXXXX==========XXXXXX==========XXXXXX==========XXXXXX",
+"==========XXXXXX==========XXXXXX==========XXXXXX==========XXXXXX",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+};
+String1=0x00,Local route off-road
+[end]
+
+[_line]
+; Originally @(0x000083+0x00009f)=0x000122
+Type=0x005
+UseOrientation=Y
+XPM="0 0 1 2",
+"XX  c #773300",
+LineWidth=3
+String1=0x00,National Byway
+[end]
+
+[_line]
+; Originally @(0x000083+0x0000b6)=0x000139
+Type=0x006
+UseOrientation=N
+XPM="32 4 2 2",
+"XX  c #ff0000",
+"==  c #773300",
+"================================================================",
+"================================================================",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+};
+String1=0x00,NCN and National Byway
+[end]
+
+[_line]
+; Originally @(0x000083+0x0000e7)=0x00016a
+Type=0x007
+UseOrientation=N
+XPM="32 4 2 2",
+"XX  c #0000ff",
+"==  c #773300",
+"================================================================",
+"================================================================",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+};
+String1=0x00,Local route and National Byway
+[end]
+
+[_line]
+; Originally @(0x000083+0x000120)=0x0001a3
+Type=0x00b
+UseOrientation=Y
+XPM="0 0 1 2",
+"XX  c #559955",
+LineWidth=2
+String1=0x00,Trunk road
+[end]
+
+[_line]
+; Originally @(0x000083+0x000133)=0x0001b6
+Type=0x00c
+UseOrientation=Y
+XPM="0 0 1 2",
+"XX  c #cc5555",
+LineWidth=2
+String1=0x00,Primary road
+[end]
+
+[_line]
+; Originally @(0x000083+0x000148)=0x0001cb
+Type=0x00d
+UseOrientation=Y
+XPM="0 0 1 2",
+"XX  c #cc7700",
+LineWidth=2
+String1=0x00,Secondary road
+[end]
+
+[_line]
+; Originally @(0x000083+0x00015f)=0x0001e2
+Type=0x00e
+UseOrientation=Y
+XPM="0 0 1 2",
+"XX  c #aa6600",
+LineWidth=1
+String1=0x00,Tertiary road
+[end]
+
+[_line]
+; Originally @(0x000083+0x000175)=0x0001f8
+Type=0x00f
+UseOrientation=Y
+XPM="0 0 1 2",
+"XX  c #555555",
+LineWidth=1
+String1=0x00,Minor road
+[end]
+
+[_line]
+; Originally @(0x000083+0x000188)=0x00020b
+Type=0x010
+UseOrientation=Y
+XPM="0 0 1 2",
+"XX  c #aaaaaa",
+LineWidth=1
+String1=0x00,Residential road
+[end]
+
+[_line]
+; Originally @(0x000083+0x0001a1)=0x000224
+Type=0x011
+UseOrientation=Y
+XPM="32 3 2 2",
+"XX  c #00aa00",
+"==  c none",
+"XX====XXXX====XXXX====XXXX====XXXX====XXXX====XXXX====XXXX====XX",
+"================================================================",
+"XX====XXXX====XXXX====XXXX====XXXX====XXXX====XXXX====XXXX====XX"
+};
+String1=0x00,Track
+[end]
+
+[_line]
+; Originally @(0x000083+0x0001ba)=0x00023d
+Type=0x012
+UseOrientation=Y
+XPM="32 1 2 2",
+"XX  c #00aa00",
+"==  c none",
+"============XXXX============XXXX============XXXX============XXXX"
+};
+String1=0x00,Bridleway
+[end]
+
+[_line]
+; Originally @(0x000083+0x0001cf)=0x000252
+Type=0x013
+UseOrientation=Y
+XPM="32 1 2 2",
+"XX  c #0000ff",
+"==  c none",
+"============XXXX============XXXX============XXXX============XXXX"
+};
+String1=0x00,Cycleway
+[end]
+
+[_line]
+; Originally @(0x000083+0x0001e3)=0x000266
+Type=0x014
+UseOrientation=Y
+XPM="32 3 2 2",
+"XX  c #000000",
+"==  c #ffffff",
+"================================================================",
+"========XXXXXXXX========XXXXXXXX========XXXXXXXX========XXXXXXXX",
+"================================================================"
+};
+[end]
+
+[_line]
+; Originally @(0x000083+0x0001f7)=0x00027a
+Type=0x015
+UseOrientation=Y
+XPM="32 3 2 2",
+"XX  c #0000ff",
+"==  c #eeee22",
+"XX==XXXXXX==XXXXXX==XXXXXX==XXXXXX==XXXXXX==XXXXXX==XXXXXX==XXXX",
+"================================================================",
+"==XXXXXX==XXXXXX==XXXXXX==XXXXXX==XXXXXX==XXXXXX==XXXXXX==XXXXXX"
+};
+[end]
+
+[_line]
+; Originally @(0x000083+0x00020b)=0x00028e
+Type=0x017
+UseOrientation=Y
+XPM="32 1 2 2",
+"XX  c #aaaaaa",
+"==  c #555555",
+"========XXXXXXXX========XXXXXXXX========XXXXXXXX========XXXXXXXX"
+};
+String1=0x00,Road (unknown)
+[end]
+
+[_line]
+; Originally @(0x000083+0x000228)=0x0002ab
+Type=0x018
+UseOrientation=Y
+XPM="32 2 2 2",
+"XX  c #ff0000",
+"==  c none",
+"==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX",
+"==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX"
+};
+String1=0x00,NCN (difficult)
+[end]
+
+[_line]
+; Originally @(0x000083+0x000247)=0x0002ca
+Type=0x019
+UseOrientation=N
+XPM="32 2 2 2",
+"XX  c #0000ff",
+"==  c none",
+"==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX",
+"==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX"
+};
+String1=0x00,Local route (difficult)
+[end]
+
+[_line]
+; Originally @(0x000083+0x00026e)=0x0002f1
+Type=0x01a
+UseOrientation=Y
+XPM="32 5 2 2",
+"XX  c #0000ff",
+"==  c none",
+"==XXXXXXXXXXXXXX==XXXXXXXXXXXXXX==XXXXXXXXXXXXXX==XXXXXXXXXXXXXX",
+"XX==XXXXXXXXXXXXXX==XXXXXXXXXXXXXX==XXXXXXXXXXXXXX==XXXXXXXXXXXX",
+"XXXX==XXXXXXXXXXXXXX==XXXXXXXXXXXXXX==XXXXXXXXXXXXXX==XXXXXXXXXX",
+"XX==XXXXXXXXXXXXXX==XXXXXXXXXXXXXX==XXXXXXXXXXXXXX==XXXXXXXXXXXX",
+"==XXXXXXXXXXXXXX==XXXXXXXXXXXXXX==XXXXXXXXXXXXXX==XXXXXXXXXXXXXX"
+};
+[end]
+
+[_line]
+; Originally @(0x000083+0x000287)=0x00030a
+Type=0x01c
+UseOrientation=Y
+XPM="0 0 1 2",
+"XX  c #6666aa",
+LineWidth=2
+String1=0x00,Motorway
+[end]
+
+[_line]
+; Originally @(0x000083+0x000298)=0x00031b
+Type=0x01e
+UseOrientation=Y
+XPM="0 0 1 2",
+"XX  c #77bbff",
+LineWidth=1
+String1=0x00,Stream
+[end]
+
+[_line]
+; Originally @(0x000083+0x0002a7)=0x00032a
+Type=0x020
+UseOrientation=Y
+XPM="32 1 2 2",
+"XX  c #ffaa44",
+"==  c none",
+"==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX==XX"
+};
+[end]
+
+[_line]
+; Originally @(0x000083+0x0002b0)=0x000333
+Type=0x021
+UseOrientation=Y
+XPM="0 0 1 2",
+"XX  c #ffaa44",
+LineWidth=1
+[end]
+
+[_line]
+; Originally @(0x000083+0x0002b6)=0x000339
+Type=0x022
+UseOrientation=Y
+XPM="32 2 2 2",
+"XX  c #ffaa44",
+"==  c #dd8844",
+"================================================================",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+};
+[end]
+
+[_line]
+; Originally @(0x000083+0x0002c6)=0x000349
+Type=0x026
+UseOrientation=Y
+XPM="32 3 2 2",
+"XX  c #00aa00",
+"==  c none",
+"XXXXXXXX==XXXXXXXXXXXXXX==XXXXXXXXXXXXXX==XXXXXXXXXXXXXX==XXXXXX",
+"XXXX==XX==XX==XXXXXX==XX==XX==XXXXXX==XX==XX==XXXXXX==XX==XX==XX",
+"XXXXXXXX==XXXXXXXXXXXXXX==XXXXXXXXXXXXXX==XXXXXXXXXXXXXX==XXXXXX"
+};
+String1=0x00,Track (difficult)
+[end]
+
+[_line]
+; Originally @(0x000083+0x0002eb)=0x00036e
+Type=0x027
+UseOrientation=Y
+XPM="32 1 2 2",
+"XX  c #00aa00",
+"==  c none",
+"==XX==XX==XXXXXX==XX==XX==XXXXXX==XX==XX==XXXXXX==XX==XX==XXXXXX"
+};
+String1=0x00,Bridleway (difficult)
+[end]
+
+[_line]
+; Originally @(0x000083+0x00030c)=0x00038f
+Type=0x028
+UseOrientation=Y
+XPM="32 1 2 2",
+"XX  c #00aa00",
+"==  c none",
+"==XXXXXX==XXXXXX==XXXXXX==XXXXXX==XXXXXX==XXXXXX==XXXXXX==XXXXXX"
+};
+String1=0x00,Footpath
+[end]
+
+
+; --------------------------------------------------------------------------
+; start of point collection
+; --------------------------------------------------------------------------
+[_point]
+; Originally @(0x00041f+0x000000)=0x00041f
+Type=0x02a
+SubType=0x0e
+XPM="17 15 150 2",
+"XX  c #000000",
+"==  c #ffffff",
+"**  c #cbc9c9",
+"##  c #716f6d",
+"%%  c #696767",
+"11  c #696464",
+"22  c #696364",
+"33  c #6d6667",
+"44  c #7a787a",
+"55  c #f8f8f8",
+"66  c #fbfbfb",
+"77  c #f5f5f5",
+"88  c #80807d",
+"99  c #9d9a97",
+"00  c #eee8e5",
+"AA  c #fff6fa",
+"BB  c #d4cfd3",
+"CC  c #8f8e8f",
+"DD  c #7e7d80",
+"EE  c #545355",
+"FF  c #8e8d8f",
+"GG  c #aeaeae",
+"HH  c #a6a1a0",
+"II  c #f6e9e9",
+"JJ  c #c1aeaf",
+"KK  c #81676b",
+"LL  c #86666b",
+"MM  c #8d666d",
+"NN  c #865d65",
+"OO  c #a1878e",
+"PP  c #d5d1d4",
+"QQ  c #d3d1d3",
+"RR  c #888789",
+"SS  c #7c7a7d",
+"TT  c #363536",
+"UU  c #a79fa0",
+"VV  c #dac9cb",
+"WW  c #533a3d",
+"YY  c #1e0004",
+"ZZ  c #1a0000",
+"aa  c #1b0000",
+"bb  c #1e0000",
+"cc  c #41232b",
+"dd  c #aea7ab",
+"ee  c #f1eff2",
+"ff  c #59585a",
+"gg  c #848286",
+"hh  c #383638",
+"ii  c #afaeae",
+"jj  c #afa7aa",
+"kk  c #d9c9cf",
+"ll  c #c3afb7",
+"mm  c #c2aab4",
+"nn  c #c1a7b1",
+"oo  c #c1a9b4",
+"pp  c #d2bec7",
+"qq  c #c6c3c6",
+"rr  c #333135",
+"ss  c #a6a4a7",
+"tt  c #4e4d4f",
+"uu  c #d7d4d5",
+"vv  c #8e898c",
+"ww  c #fffaff",
+"xx  c #fff8ff",
+"yy  c #faf1f7",
+"zz  c #d4d1d5",
+"!!  c #676669",
+"@@  c #525053",
+"$$  c #8c8a8d",
+"^^  c #c1c1c2",
+"&&  c #67676a",
+"((  c #eae9ec",
+"))  c #f0eff4",
+"--  c #e5e3e9",
+"++  c #dbd9df",
+"//  c #ceccd1",
+"<<  c #bab6bb",
+">>  c #bab7bb",
+",,  c #636064",
+"::  c #d7d7d7",
+"X=  c #f0f0f0",
+"X*  c #38383a",
+"X#  c #7a7a7e",
+"X%  c #d5d7d9",
+"X1  c #eaeef1",
+"X2  c #e4e8ea",
+"X3  c #cfd2d5",
+"X4  c #c2c6c8",
+"X5  c #b8babc",
+"X6  c #9f9ea0",
+"X7  c #5b5a5d",
+"X8  c #5a595a",
+"X9  c #a9a6a7",
+"X0  c #f1f1f1",
+"XA  c #767577",
+"XB  c #aba9ab",
+"XC  c #f0eff1",
+"XD  c #818182",
+"XE  c #fffcff",
+"XF  c #e1e0e3",
+"XG  c #c9c7cb",
+"XH  c #c2c1c3",
+"XI  c #b7b6b8",
+"XJ  c #727474",
+"XK  c #666666",
+"XL  c #cccccc",
+"XM  c #a1a1a1",
+"XN  c #6d6d6d",
+"XO  c #d7d4d8",
+"XP  c #a09ea0",
+"XQ  c #b4b1b5",
+"XR  c #b2b0b4",
+"XS  c #8f8d91",
+"XT  c #8e8c8f",
+"XU  c #706f71",
+"XV  c #5e5e5e",
+"XW  c #bdbdbd",
+"XY  c #494949",
+"XZ  c #8c8a8c",
+"Xa  c #989599",
+"Xb  c #d2d1d2",
+"Xc  c #b7b5b8",
+"Xd  c #c9c7c9",
+"Xe  c #bdbbbd",
+"Xf  c #c1bec2",
+"Xg  c #bcbbbd",
+"Xh  c #e0e0e0",
+"Xi  c #9f9f9f",
+"Xj  c #8a8a8a",
+"Xk  c #3a383a",
+"Xl  c #888688",
+"Xm  c #a19fa3",
+"Xn  c #dad8db",
+"Xo  c #fcfaff",
+"Xp  c #f8f6fa",
+"Xq  c #faf7fa",
+"Xr  c #dad9db",
+"Xs  c #acacac",
+"Xt  c #8c8c8c",
+"Xu  c #666464",
+"Xv  c #989898",
+"Xw  c #cdcccd",
+"Xx  c #a4a3a4",
+"Xy  c #5f5d60",
+"Xz  c #3d3c3e",
+"X!  c #49484a",
+"X@  c #3d3b3e",
+"X$  c #403d41",
+"X^  c #9b9b9b",
+"X&  c #cbcbcb",
+"XXXXXXXX================XXXXXXXXXX",
+"XXXX====**##%%111122334455==66==XX",
+"XX==77889900========AABBCCDDEEFF==",
+"XX==GGHHIIJJKKLLMMNNOOPPQQRRSSTT==",
+"XX==GGUUVVWWYYZZaabbccddeeffgghh==",
+"XX==iijj==kkllmmnnoopp==qqrrsstt==",
+"XX==uuvv========wwxxyyzz!!@@$$^^==",
+"XXXX==&&((==))--++//<<>>,,EE::==XX",
+"XXX=X*X#X%==X1X2X3X4X5X6X7X8X9X0XX",
+"==XAXBXCXD==XEXFXGXHXIXJXKXLXMXN==",
+"==@@====XOXPXQXRXSXTXUXVXW====XY==",
+"==XZXa====XbXcXdXeXfXgXh==XhXiXj==",
+"XX==XkXlXmXnXoXpXqeeXrXsXtXuXv==XX",
+"XXXX==XwXxXyXzX!X@X$X7X^X&====XXXX",
+"XXXXXX====================XXXXXXXX"
+};
+[end]
+
+[_point]
+; Originally @(0x00041f+0x000311)=0x000730
+Type=0x02e
+SubType=0x10
+XPM="16 16 12 2",
+"XX  c #000000",
+"==  c #ffffff",
+"**  c #000000",
+"##  c #44d265",
+"%%  c #70da77",
+"11  c #44d244",
+"22  c #1aca2f",
+"33  c #70da9a",
+"44  c #1aca58",
+"55  c #22ca1a",
+"66  c #44d28a",
+"77  c #48ca1a",
+"XXXX========================XXXX",
+"XX==************************==XX",
+"==**##%%####11##221122222222**==",
+"==**##33##====44##2211442222**==",
+"==**33##%%====##554422225522**==",
+"==**##66######======22222222**==",
+"==**11##11##==========222222**==",
+"==**44========4422====222222**==",
+"==**112211221122======225522**==",
+"==**22====2244======22====55**==",
+"==**==2222==55====22==2222==**==",
+"==**==2222==22====22==2222==**==",
+"==**22====222222552277====22**==",
+"==**222222222222222222552255**==",
+"XX==************************==XX",
+"XXXX========================XXXX"
+};
+String1=0x00,Cycle shop
+[end]
+
+[_point]
+; Originally @(0x00041f+0x0003cd)=0x0007ec
+Type=0x02f
+SubType=0x0a
+XPM="16 16 9 2",
+"XX  c #000000",
+"==  c #ffffff",
+"**  c #000000",
+"##  c #1aca2f",
+"%%  c #f5f6fd",
+"11  c #70da9a",
+"22  c #f9f9fd",
+"33  c #f9fafd",
+"44  c #f2f5fc",
+"XXXX========================XXXX",
+"XX==************************==XX",
+"==**########################**==",
+"==**######========%%11######**==",
+"==**######====####11==11####**==",
+"==**######====######==22####**==",
+"==**######====######==33####**==",
+"==**######====####11==11####**==",
+"==**######========4411######**==",
+"==**######====##############**==",
+"==**######====##############**==",
+"==**######====##############**==",
+"==**######====##############**==",
+"==**########################**==",
+"XX==************************==XX",
+"XXXX========================XXXX"
+};
+String1=0x00,Cycle parking
+[end]
+
+[_point]
+; Originally @(0x00041f+0x000482)=0x0008a1
+Type=0x030
+SubType=0x0b
+XPM="8 19 46 2",
+"XX  c #000000",
+"==  c #ffffff",
+"**  c #000000",
+"##  c #b70909",
+"%%  c #f00000",
+"11  c #f10000",
+"22  c #b90808",
+"33  c #ee0000",
+"44  c #f90000",
+"55  c #ec0000",
+"66  c #ae0000",
+"77  c #f20100",
+"88  c #f30100",
+"99  c #b20000",
+"00  c #2a1800",
+"AA  c #a15300",
+"BB  c #a35400",
+"CC  c #2c1900",
+"DD  c #abad00",
+"EE  c #eff200",
+"FF  c #aeb100",
+"GG  c #edf100",
+"HH  c #f9ff00",
+"II  c #eef200",
+"JJ  c #eef100",
+"KK  c #eff300",
+"LL  c #b1b300",
+"MM  c #f1f400",
+"NN  c #f1f500",
+"OO  c #b4b700",
+"PP  c #1c2800",
+"QQ  c #5c9701",
+"RR  c #5d9a01",
+"SS  c #1e2b00",
+"TT  c #008e03",
+"UU  c #01cc05",
+"VV  c #01cd05",
+"WW  c #009103",
+"YY  c #00c805",
+"ZZ  c #00d305",
+"aa  c #00c905",
+"bb  c #00cb05",
+"cc  c #08a10b",
+"dd  c #00cd05",
+"ee  c #00ce05",
+"ff  c #07a40a",
+"XXXX========XXXX",
+"XX==********==XX",
+"==************==",
+"==**##%%1122**==",
+"==**334444%%**==",
+"==**55444433**==",
+"==**66778899**==",
+"==**00AABBCC**==",
+"==**DDEEEEFF**==",
+"==**GGHHHHII**==",
+"==**JJHHHHKK**==",
+"==**LLMMNNOO**==",
+"==**PPQQRRSS**==",
+"==**TTUUVVWW**==",
+"==**YYZZZZaa**==",
+"==**bbZZZZbb**==",
+"==**ccddeeff**==",
+"XX==********==XX",
+"XXXX========XXXX"
+};
+[end]
+
+[_point]
+; Originally @(0x00041f+0x0005c0)=0x0009df
+Type=0x064
+XPM="17 32 35 2",
+"XX  c #000080",
+"==  c #3b3b9d",
+"**  c #8f8fc7",
+"##  c #babadd",
+"%%  c #9e9ecf",
+"11  c #5d5dae",
+"22  c #020281",
+"33  c #9595ca",
+"44  c #ffffff",
+"55  c #cecee7",
+"66  c #14148a",
+"77  c #6767b3",
+"88  c #b1b1d8",
+"99  c #cbcbe5",
+"00  c #f0f0f8",
+"AA  c #38389c",
+"BB  c #bdbdde",
+"CC  c #fbfbfd",
+"DD  c #0a0a85",
+"EE  c #4141a0",
+"FF  c #fcfcfe",
+"GG  c #8989c4",
+"HH  c #5a5aad",
+"II  c #ededf6",
+"JJ  c #9393c9",
+"KK  c #040482",
+"LL  c #131389",
+"MM  c #5454aa",
+"NN  c #7b7bbd",
+"OO  c #6262b1",
+"PP  c #262693",
+"QQ  c #000000",
+"RR  c #800000",
+"SS  c #800000",
+"TT  c #800000",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+"XXXXXXXXXXXX==**##%%1122XXXXXXXXXX",
+"XXXXXXXXXX3344444444445566XXXXXXXX",
+"XXXXXXXX774444444444444488XXXXXXXX",
+"XXXXXXXX99444444444444444466XXXXXX",
+"XXXXXXXX004444444444444444AAXXXXXX",
+"XXXXXXXXBB44444444444444CCDDXXXXXX",
+"XXXXXXXXEEFF444444444444GGXXXXXXXX",
+"XXXXXXXXXXHHII444444FFJJKKXXXXXXXX",
+"XXXXXXXXXXXXLLMMNNOOPPXXXXXXXXXXXX",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+"QQQQQQQQQQQQRRSSSSSSTTQQQQQQQQQQQQ",
+"QQQQQQQQQQQQRRSSSSSSTTQQQQQQQQQQQQ",
+"QQQQQQQQQQQQRRSSSSSSTTQQQQQQQQQQQQ",
+"QQQQQQQQQQQQRRSSSSSSTTQQQQQQQQQQQQ",
+"QQQQQQQQQQQQRRSSSSSSTTQQQQQQQQQQQQ",
+"QQQQQQQQQQQQRRSSSSSSTTQQQQQQQQQQQQ",
+"QQQQQQQQQQQQRRSSSSSSTTQQQQQQQQQQQQ",
+"QQQQQQQQQQQQRRSSSSSSTTQQQQQQQQQQQQ",
+"QQQQQQQQQQQQRRSSSSSSTTQQQQQQQQQQQQ",
+"QQQQQQQQQQQQRRSSSSSSTTQQQQQQQQQQQQ"
+};
+; !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+; additional block with colors:
+; 00000000  04                                                 .
+; !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+[end]
+
+
+; --------------------------------------------------------------------------
+; start of NT1point collection
+; --------------------------------------------------------------------------
+

@@ -1072,9 +1072,25 @@ function show_filesize(skm, real_size) {
             "size": 1.04,
             "time": 1
         },
+        "o5m.xz": {
+            "size": 0.94,
+            "time": 1
+        },
         "o5m.bz2": {
             "size": 0.88,
             "time": 1.1
+        },
+        "csv.gz": {
+            "size": 1,
+            "time": 1
+        },
+        "csv.xz": {
+            "size": 0.50,
+            "time": 1
+        },
+        "csv.bz2": {
+            "size": 0.80,
+            "time": 1.2
         },
         "mapsforge-osm.zip": {
             "size": 0.8,

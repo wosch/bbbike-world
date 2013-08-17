@@ -94,15 +94,20 @@ die "unknown format '$format'" . &usage if !exists $TileSize::factor->{$format};
 #warn Dumper($tile_padding->{_size});
 
 # original data
+my %hash;
 while ( my ( $key, $val ) = each %{ $tile_padding->{_size} } ) {
-    print to_csv( $key, $val ) if $val >= $min_size;
+    if ( $val >= $min_size ) {
+        print to_csv( $key, $val );
+        $hash{$key} = 1;
+    }
 }
 
 # guess misssing size based on PBF database
 my $factor = $tile_padding->{'factor'}->{$format};
 while ( my ( $key, $val ) = each %{ $tile_pbf->{_size} } ) {
     if ( !exists $tile_padding->{_size}->{$key} ) {
-        print to_csv( $key, int( $val * $factor + 0.5 ) ) if $val >= $min_size;
+        print to_csv( $key, int( $val * $factor + 0.5 ) )
+          if $val >= $min_size && !$hash{$key};
     }
 }
 

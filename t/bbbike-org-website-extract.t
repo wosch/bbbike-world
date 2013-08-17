@@ -18,10 +18,11 @@ BEGIN {
 use LWP;
 use LWP::UserAgent;
 
-my @homepages = (
-    'http://extract.bbbike.org', 'http://localhost',
-    'http://dev2.bbbike.org',    'http://dev4.bbbike.org'
-);
+my @homepages_localhost = qw[ http://localhost ];
+my @homepages =
+  qw[ http://extract.bbbike.org http://dev2.bbbike.org http://dev4.bbbike.org ];
+push @homepages, @homepages_localhost;
+
 my @lang = qw/en de ru es fr/;
 my @tags =
   ( '</html>', '<head>', '<body[ >]', '</body>', '</head>', '<html[ >]' );
@@ -36,7 +37,9 @@ if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
       ( MYGET * scalar(@lang) +
           ( MYGET * scalar(@extract_dialog) * scalar(@lang) ) +
           scalar(@tags) +
-          32 );
+          32 ) +
+      ( scalar(@tags) + 2 + 3 ) * 3 +
+      MYGET;
 }
 else {
     plan 'no_plan';
@@ -105,9 +108,31 @@ sub page_check {
     }
 }
 
+sub garmin_check {
+    my $home_url = shift;
+
+    sub legend {
+        my $res = shift;
+
+        my @t = ( @tags, '<table[ >]', '<table[ >]' );
+        foreach my $tags (@t) {
+            like( $res->decoded_content, qr|$tags|,
+                "bbbike garmin legend $tags" );
+        }
+    }
+    myget( "$home_url/garmin/", 300 );
+
+    legend( myget( "$home_url/garmin/bbbike/",   18_000 ) );
+    legend( myget( "$home_url/garmin/leisure/",  25_000 ) );
+    legend( myget( "$home_url/garmin/cyclemap/", 5_000 ) );
+}
+
 foreach my $home_url (@homepages) {
     $home_url =~ /^extract/ ? &page_check($home_url) : &page_check($home_url);
 }
+
+# http://extract.bbbike.org/garmin/bbbike/
+&garmin_check( $homepages_localhost[0] );
 
 __END__
 

@@ -74,15 +74,15 @@
 
     "EXTRACT_USAGE": [
         "<ol>",
-        "<li>Move the map to your desired location.</li>",
-        "<li>Click and hold the left mouse button, draw the bounding box, release the left mouse button.</li>",
+        "<li>Verschiebe die Karte zur gew&uuml;nschten Position.</li>",
+        "<li>Klicke und halte den linke Mausbutton, ziehe eine Bounding-Box und lassen den linken Mausbutton los.</li>",
         "</ol>"
         ],
 
     "EXTRACT_USAGE2": [
         "<ol>",
-        "<li>Select a <b>Format</b>, enter <b>Your email address</b> and <b>Name of area to extract</b>.</li>",
-        "<li>Click the <b>extract</b> button. Wait for email notification and download the map. Done!</li>",
+        "<li>W&auml;hle ein <b>Format</b>, gib <b>Deine E-Mail Adresse</b> ein und <b>Name der extrahierten Region</b>.</li>",
+        "<li>Klicke auf den <b>extrakt</b> Button. Warte auf die E-Mail Best&auml;tigung und lade die Karte runter. Fertig!</li>",
         "</ol>"
         ],
 

@@ -19,26 +19,39 @@ my $debug = 2;
 
 # map format to database
 my %format = (
-    "osm.pbf"            => "pbf",
-    "pbf"                => "pbf",
-    "osm.gz"             => "osm.gz",
-    "osm"                => "osm.gz",
-    "gz"                 => "osm.gz",
-    "osm.xz"             => "osm.gz",
-    "osm.bz2"            => "osm.gz",
-    "shp.zip"            => "shp.zip",
-    "shp"                => "shp.zip",
-    "obf.zip"            => "obf.zip",
-    "obf"                => "obf.zip",
+    "osm.pbf" => "pbf",
+    "pbf"     => "pbf",
+    "osm.gz"  => "osm.gz",
+    "osm"     => "osm.gz",
+    "gz"      => "osm.gz",
+    "osm.xz"  => "osm.gz",
+    "osm.bz2" => "osm.gz",
+
+    "shp.zip" => "shp.zip",
+    "shp"     => "shp.zip",
+
+    "obf.zip" => "obf.zip",
+    "obf"     => "obf.zip",
+
     "garmin-cycle.zip"   => "garmin-cycle.zip",
     "garmin-osm.zip"     => "garmin-cycle.zip",
     "garmin-leisure.zip" => "garmin-cycle.zip",
     "garmin-bbbike.zip"  => "garmin-cycle.zip",
-    "navit.zip"          => "obf.zip",
-    "navit"              => "obf.zip",
-    "o5m.gz"             => "pbf",
-    "o5m.bz2"            => "pbf",
-    "mapsforge-osm.zip"  => "mapsforge-osm.zip",
+
+    "navit.zip" => "obf.zip",
+    "navit"     => "obf.zip",
+
+    "mapsforge-osm.zip" => "mapsforge-osm.zip",
+
+    "o5m.gz"  => "pbf",
+    "o5m.bz2" => "pbf",
+    "o5m.xz"  => "pbf",
+
+    "csv.xz"  => "pbf",
+    "csv.gz"  => "pbf",
+    "csv.bz2" => "pbf",
+
+    #"csv.xz"            => "csv.xz",
 );
 
 sub Param {
@@ -112,7 +125,7 @@ my $tile = TileSize->new( 'database' => $database_file );
 
 # guess factor based on similar data
 if ( grep { $_ eq $format }
-    qw/garmin-leisure.zip garmin-bbbike.zip garmin-osm.zip osm.bz2 osm.xz o5m.bz2 o5m.gz/
+    qw/garmin-leisure.zip garmin-bbbike.zip garmin-osm.zip osm.bz2 osm.xz o5m.bz2 o5m.gz o5m.xz/
   )
 {
     if (   exists $tile->{'factor'}->{$format}

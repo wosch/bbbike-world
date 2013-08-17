@@ -165,4 +165,9 @@ $tile =
   new TileSize( 'debug' => 0, 'database' => "world/etc/tile/tile-shp.zip.csv" );
 is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 194908 );
 
+# placeholder for osm csv format
+#$tile =
+#  new TileSize( 'debug' => 0, 'database' => "world/etc/tile/tile-shp.zip.csv" );
+#is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 194908 );
+
 __END__
