@@ -764,9 +764,9 @@ sub reorder_pbf {
         'o5m.xz'  => 0.9,
         'o5m.bz2' => 1.2,
 
-        'csv.gz'  => 1.1,
-        'csv.xz'  => 0.9,
-        'csv.bz2' => 1.2,
+        'csv.gz'  => 0.42,
+        'csv.xz'  => 0.2,
+        'csv.bz2' => 0.45,
     );
 
     foreach my $json_file (@$json) {
