@@ -190,8 +190,7 @@ sub header {
     my $ns = webservice($q);
 
     if ( $type eq 'homepage' ) {
-
-        # @onload = ( -onLoad, 'init();' );
+        @onload = ( -onLoad, 'init();' );
     }
     else {
         push @css, "../html/extract-center.css";
