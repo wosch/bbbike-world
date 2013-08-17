@@ -104,14 +104,19 @@ our $option = {
 ######################################################################
 
 my $formats = {
-    'osm.pbf'            => 'Protocolbuffer Binary Format (PBF)',
-    'osm.gz'             => "OSM XML gzip'd",
-    'osm.bz2'            => "OSM XML bzip'd",
-    'osm.xz'             => "OSM XML 7z/xz",
-    'shp.zip'            => "Shapefile (Esri)",
-    'obf.zip'            => "Osmand (OBF)",
-    'o5m.gz'             => "o5m gzip'd",
-    'o5m.bz2'            => "o5m bzip'd",
+    'osm.pbf' => 'Protocolbuffer Binary Format (PBF)',
+    'osm.gz'  => "OSM XML gzip'd",
+    'osm.bz2' => "OSM XML bzip'd",
+    'osm.xz'  => "OSM XML 7z/xz",
+    'shp.zip' => "Shapefile (Esri)",
+    'obf.zip' => "Osmand (OBF)",
+    'o5m.gz'  => "o5m gzip'd",
+    'o5m.bz2' => "o5m bzip'd",
+    'o5m.xz'  => "o5m 7z (xz)",
+    'csv.gz'  => "CSV gzip'd",
+    'csv.bz2' => "CSV bzip'd",
+    'csv.xz'  => "CSV 7z (xz)",
+
     'garmin-osm.zip'     => "Garmin OSM",
     'garmin-cycle.zip'   => "Garmin Cycle",
     'garmin-leisure.zip' => "Garmin Leisure",
@@ -740,20 +745,28 @@ sub reorder_pbf {
 
     my %hash;
     my %format = (
-        'osm.pbf'            => 0,
-        'osm.gz'             => 1,
-        'osm.bz2'            => 1.2,
-        'osm.xz'             => 2.5,
-        'shp.zip'            => 1.3,
-        'obf.zip'            => 10,
-        'mapsforge-osm.zip'  => 15,
-        'navit.zip'          => 1.1,
+        'osm.pbf' => 0,
+        'osm.gz'  => 1,
+        'osm.bz2' => 1.2,
+        'osm.xz'  => 2.5,
+
+        'shp.zip'           => 1.3,
+        'obf.zip'           => 10,
+        'mapsforge-osm.zip' => 15,
+        'navit.zip'         => 1.1,
+
         'garmin-osm.zip'     => 3,
         'garmin-cycle.zip'   => 3,
         'garmin-leisure.zip' => 3.5,
         'garmin-bbbike.zip'  => 3,
-        'o5m.gz'             => 1.1,
-        'o5m.bz2'            => 1.2,
+
+        'o5m.gz'  => 1.1,
+        'o5m.xz'  => 0.9,
+        'o5m.bz2' => 1.2,
+
+        'csv.gz'  => 1.1,
+        'csv.xz'  => 0.9,
+        'csv.bz2' => 1.2,
     );
 
     foreach my $json_file (@$json) {
@@ -995,6 +1008,17 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
             if ( !cached_format( $file, $pbf_file ) ) {
                 @system =
                   ( @nice, "$dirname/pbf2osm", "--o5m-bzip2", $pbf_file );
+
+                warn "@system\n" if $debug >= 2;
+                @system = 'true' if $test_mode;
+
+                system(@system) == 0 or die "system @system failed: $?";
+            }
+        }
+        elsif ( $format eq 'o5m.xz' ) {
+            $file =~ s/\.pbf$/.o5m.xz/;
+            if ( !cached_format( $file, $pbf_file ) ) {
+                @system = ( @nice, "$dirname/pbf2osm", "--o5m-xz", $pbf_file );
 
                 warn "@system\n" if $debug >= 2;
                 @system = 'true' if $test_mode;
