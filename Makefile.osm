@@ -1013,7 +1013,7 @@ help:
 	@echo "  [ rsync-planet | symlink-download ]"
 	@echo "  [ jsbeautifier | perltidy | tidy ]"
 	@echo ""
-	@echo "  [ bbbike-osm2pbf | osm2pbf | pbf2osm ]"
+	@echo "  [ bbbike-osm2pbf | osm2pbf | pbf2osm | pbf2csv ]"
 	@echo "  [ osm2garmin | osm2shape | osm2osmand | osm2navit | osm2mapsforge ]"
 	@echo "  [ bbbike2wgs84-mapnik | bbbike-mapnik-config ]"
 	@echo "  [ bbbike-mapnik-postgis | bbbike-tile-update ]"
