@@ -50,6 +50,19 @@ my $feed = XML::Atom::SimpleFeed->new(
 
 $feed->add_entry(
     title =>
+qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now CSV format},
+    id      => 'd41d8cd98f00b204e9800998ecf8427e',
+    content => {
+        type => 'html',
+        content =>
+qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now CSV format},
+    },
+    updated  => '2013-08-17T13:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title =>
 qq{GPSies blog article (German): Easy way to generate maps for Garmin GPS and Android Locus app <a href="http://blog.gpsies.com/article/187/karten-aus-openstreetmap-fuer-garmin-outdoor-gps-erstellen">http://blog.gpsies.com/article/187/karten-aus-openstreetmap-fuer-garmin-outdoor-gps-erstellen</a>},
     id      => 'd6f59d1bb8315958eb25b197de28d24d',
     content => {
