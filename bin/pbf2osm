@@ -81,41 +81,41 @@ EOF
 
 case $1 in
     # default - convert to osm
-    -osm | --osm)    shift; compress="";;
+    --osm)    shift; compress="";;
 
     # use old osmosis tool to conver to osm
-    -osmosis | --osmosis)    shift; compress=cat;;
+    --osmosis)    shift; compress=cat;;
 
     # single core, more than one *.pbf files at once
-    -gzip | --gzip)    shift; compress=gzip;;
-    -bzip2 | --bzip2 ) shift; compress=bzip2 ;;
+    --gzip)    shift; compress=gzip;;
+    --bzip2 ) shift; compress=bzip2 ;;
 
     # multi-core
     --pbzip2 ) shift; compress=pbzip2; _max_cpu_time=36000 ;;
     --pgzip | --pigz ) shift; compress=pgzip; _max_cpu_time=10800 ;;
 
-    -o5m | --o5m ) shift; compress=o5m ;;
-    -o5m-gzip | --o5m-gzip ) shift; compress=o5m-gzip ;;
-    -o5m-bzip2 | --o5m-bzip2 ) shift; compress=o5m-bzip2 ;;
-    -o5m-xz | --o5m-xz ) shift; compress=o5m-xz ;;
+    --o5m ) shift; compress=o5m ;;
+    --o5m-gzip ) shift; compress=o5m-gzip ;;
+    --o5m-bzip2 ) shift; compress=o5m-bzip2 ;;
+    --o5m-xz ) shift; compress=o5m-xz ;;
 
-    -csv | --csv ) shift; compress=csv ;;
-    -csv-gzip | --csv-gzip ) shift; compress=csv-gzip ;;
-    -csv-bzip2 | --csv-bzip2 ) shift; compress=csv-bzip2 ;;
-    -csv-xz | --csv-xz ) shift; compress=csv-xz ;;
+    --csv ) shift; compress=csv ;;
+    --csv-gzip ) shift; compress=csv-gzip ;;
+    --csv-bzip2 ) shift; compress=csv-bzip2 ;;
+    --csv-xz ) shift; compress=csv-xz ;;
     
-    -xz | --xz )       shift; compress=xz; _max_cpu_time=10800 ;;
-    -shape | --shape | -shp | --shp | --shapefile ) shift; compress=shape ;;
-    -osmand | --osmand | -obf | --obf ) shift; compress=osmand ;;
-    -navit | --navit ) shift; compress=navit ;;
+    --xz )       shift; compress=xz; _max_cpu_time=10800 ;;
+    --shape | --shp | --shapefile ) shift; compress=shape ;;
+    --osmand | --obf ) shift; compress=osmand ;;
+    --navit ) shift; compress=navit ;;
 
-    -garmin | --garmin ) shift; compress=garmin; garmin_style=$2 ;;
-    -garmin-osm | --garmin-osm ) shift; compress=garmin; garmin_style=osm ;;
-    -garmin-cycle | --garmin-cycle ) shift; compress=garmin; garmin_style=cycle ;;
-    -garmin-leisure | --garmin-leisure ) shift; compress=garmin; garmin_style=leisure ;;
-    -garmin-bbbike | --garmin-bbbike ) shift; compress=garmin; garmin_style=bbbike ;;
+    --garmin ) shift; compress=garmin; garmin_style=$2 ;;
+    --garmin-osm ) shift; compress=garmin; garmin_style=osm ;;
+    --garmin-cycle ) shift; compress=garmin; garmin_style=cycle ;;
+    --garmin-leisure ) shift; compress=garmin; garmin_style=leisure ;;
+    --garmin-bbbike ) shift; compress=garmin; garmin_style=bbbike ;;
 
-    -mapsforge-osm | --mapsforge-osm ) shift; compress=mapsforge; mapsforge_style=osm ;;
+    --mapsforge-osm | --mapsforge ) shift; compress=mapsforge; mapsforge_style=osm ;;
 
     -* ) usage "unknown option '$1'" ;;
 esac
