@@ -1026,6 +1026,43 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
                 system(@system) == 0 or die "system @system failed: $?";
             }
         }
+
+        elsif ( $format eq 'csv.gz' ) {
+            $file =~ s/\.pbf$/.csv.gz/;
+            if ( !cached_format( $file, $pbf_file ) ) {
+                @system =
+                  ( @nice, "$dirname/pbf2osm", "--csv-gzip", $pbf_file );
+
+                warn "@system\n" if $debug >= 2;
+                @system = 'true' if $test_mode;
+
+                system(@system) == 0 or die "system @system failed: $?";
+            }
+        }
+        elsif ( $format eq 'csv.bz2' ) {
+            $file =~ s/\.pbf$/.csv.bz2/;
+            if ( !cached_format( $file, $pbf_file ) ) {
+                @system =
+                  ( @nice, "$dirname/pbf2osm", "--csv-bzip2", $pbf_file );
+
+                warn "@system\n" if $debug >= 2;
+                @system = 'true' if $test_mode;
+
+                system(@system) == 0 or die "system @system failed: $?";
+            }
+        }
+        elsif ( $format eq 'csv.xz' ) {
+            $file =~ s/\.pbf$/.csv.xz/;
+            if ( !cached_format( $file, $pbf_file ) ) {
+                @system = ( @nice, "$dirname/pbf2osm", "--csv-xz", $pbf_file );
+
+                warn "@system\n" if $debug >= 2;
+                @system = 'true' if $test_mode;
+
+                system(@system) == 0 or die "system @system failed: $?";
+            }
+        }
+
         elsif ( $format =~ /^garmin-(osm|cycle|leisure|bbbike).zip$/ ) {
             my $style = $1;
             $file =~ s/\.pbf$/.$format/;
