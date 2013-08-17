@@ -209,9 +209,9 @@ esac
         
 	# CSV format
         csv )       $osm2o5m $osm2o5m_opt --out-csv "$file" ;;
-        csv-gzip )  $osm2o5m $osm2o5m_opt --out-csv "$file" | $gzip > $dir/$f.o5m.gz.tmp; mv -f $dir/$f.o5m.gz.tmp $dir/$f.o5m.gz ;;
-        csv-xz )    $osm2o5m $osm2o5m_opt --out-csv "$file" | $xz $xz_opt > $dir/$f.o5m.xz.tmp; mv -f $dir/$f.o5m.xz.tmp $dir/$f.o5m.xz ;;
-        csv-bzip2 ) $osm2o5m $osm2o5m_opt --out-csv "$file" | $bzip2 > $dir/$f.o5m.bz2.tmp; mv -f $dir/$f.o5m.bz2.tmp $dir/$f.o5m.bz2 ;;
+        csv-gzip )  $osm2o5m $osm2o5m_opt --out-csv "$file" | $gzip > $dir/$f.csv.gz.tmp; mv -f $dir/$f.csv.gz.tmp $dir/$f.csv.gz ;;
+        csv-xz )    $osm2o5m $osm2o5m_opt --out-csv "$file" | $xz $xz_opt > $dir/$f.csv.xz.tmp; mv -f $dir/$f.csv.xz.tmp $dir/$f.csv.xz ;;
+        csv-bzip2 ) $osm2o5m $osm2o5m_opt --out-csv "$file" | $bzip2 > $dir/$f.csv.bz2.tmp; mv -f $dir/$f.csv.bz2.tmp $dir/$f.csv.bz2 ;;
 
 	# other formats
 	garmin ) $osm2garmin "$file" "$garmin_style" "$city" ;;
