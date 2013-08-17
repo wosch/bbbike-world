@@ -88,8 +88,8 @@ our $formats = {
     'o5m.xz'            => "o5m 7z (xz)",
 
     #'o5m.bz2'           => "o5m bzip'd",
-    'csv.gz'            => "CSV gzip'd",
-    'csv.xz'            => "CSV 7z (xz)",
+    'csv.gz'            => "csv gzip'd",
+    'csv.xz'            => "csv 7z (xz)",
     'mapsforge-osm.zip' => "Mapsforge OSM",
 };
 
