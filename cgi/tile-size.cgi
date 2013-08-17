@@ -38,6 +38,8 @@ my %format = (
     "navit"              => "obf.zip",
     "o5m.gz"             => "pbf",
     "o5m.bz2"            => "pbf",
+    "o5m.xz"             => "pbf",
+    "csv.xz"             => "csv.xz",
     "mapsforge-osm.zip"  => "mapsforge-osm.zip",
 );
 
@@ -112,7 +114,7 @@ my $tile = TileSize->new( 'database' => $database_file );
 
 # guess factor based on similar data
 if ( grep { $_ eq $format }
-    qw/garmin-leisure.zip garmin-bbbike.zip garmin-osm.zip osm.bz2 osm.xz o5m.bz2 o5m.gz/
+    qw/garmin-leisure.zip garmin-bbbike.zip garmin-osm.zip osm.bz2 osm.xz o5m.bz2 o5m.gz o5m.xz/
   )
 {
     if (   exists $tile->{'factor'}->{$format}
