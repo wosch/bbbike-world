@@ -3,7 +3,7 @@
     "about": "info",
     "Format": "Formato",
     "Name of area to extract": "Nombre de la zona para extraer",
-    "Manually select a different area": "Seleccionar manualmente una zona diferente",
+    "Select a different area": "Seleccionar una zona diferente",
     "Drag a box on the map to select an area": "Arrastre un cuadro en el mapa para seleccionar en el área",
     "add points to polygon": "Añadir puntos a polígono",
     "resize or drag polygon": "Cambiar el tamaño o arrastrar polígono",

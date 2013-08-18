@@ -3,7 +3,7 @@
     "about": "о",
     "Format": "Формат",
     "Name of area to extract": "Имя области, чтобы извлечь",
-    "Manually select a different area": "Вручную выбрать другую область",
+    "Select a different area": "Вручную выбрать другую область",
     "Drag a box on the map to select an area": "Перетащите поле на карту, чтобы выбрать район",
     "add points to polygon": "добавить указывает на полигоне",
     "resize or drag polygon": "изменить размер или перетащите многоугольник",
