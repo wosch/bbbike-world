@@ -13,6 +13,8 @@
     "Left lower corner (South-West)": "Le coin inférieur gauche (sud-ouest)",
     "Right top corner (North-East)": "Coin droit supérieur (Nord-Est)",
 
+    "Move the map to your desired location": "Move the map to your desired location",
+    // todo
     "EXTRACT_CONFIRMED": [
         "<p>Merci - les données d'entrée semble bon.</p><p>",
         "Il faut entre 15-30 minutes pour extraire une zone de planet.osm,",

@@ -13,6 +13,8 @@
     "Left lower corner (South-West)": "Esquina inferior izquierda (Sur-Oeste)",
     "Right top corner (North-East)": "Esquina superior derecha (noreste)",
 
+    "Move the map to your desired location": "Move the map to your desired location",
+    // todo
     "EXTRACT_CONFIRMED": [
         "<p>Gracias - los datos de entrada se ve bien.</p><p>",
         "Se tarda entre 15-30 minutos para extraer un área de planet.osm,",

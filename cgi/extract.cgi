@@ -60,10 +60,9 @@ our $option = {
     'enable_polygon'      => 1,
     'email_valid_mxcheck' => 1,
 
-    'debug'          => "2",
-    'language'       => "en",
-    'request_method' => "GET",
-
+    'debug'               => "2",
+    'language'            => "en",
+    'request_method'      => "GET",
     #'supported_languages' => [qw/en de es fr ru/],
     'supported_languages' => [qw/en de/],
     'message_path'        => "../world/etc/extract",
@@ -307,7 +306,7 @@ sub manual_area {
             <p></p>
         </span>
         <span id="drag_box_default">
-            @{[ M("Move the map to your desired location.") ]} <br/>
+            @{[ M("Move the map to your desired location") ]}. <br/>
             Then click here <input id="start_default_box" type="radio" /> @{[ M("to create the bounding box.") ]}
             <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>
             <br/>

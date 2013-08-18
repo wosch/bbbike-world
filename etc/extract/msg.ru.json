@@ -14,6 +14,8 @@
     "Right top corner (North-East)": "Правый верхний угол (Северо-Восток)",
     "extract": "экстракт",
 
+    "Move the map to your desired location": "Move the map to your desired location",
+    // todo
     "EXTRACT_CONFIRMED": [
         "<p>Спасибо - входные данные хорошо выглядит.</p><p>",
         "Это занимает 15-30 минут для извлечения площадью от planet.osm",
