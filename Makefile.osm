@@ -1003,6 +1003,9 @@ test prove: lighttpd-restart
 	mkdir -p ${TMP_DIR}
 	TMPDIR=${TMP_DIR} LANG=C time prove -j${MAX_CPU}
 
+diff:
+	git diff
+
 help:
 	@echo "bbbike version: ${GIT_ID}"
 	@echo ""
