@@ -307,7 +307,7 @@ sub manual_area {
         </span>
         <span id="drag_box_default">
             @{[ M("Move the map to your desired location") ]}. <br/>
-            Then click here <input id="start_default_box" type="radio" /> @{[ M("to create the bounding box.") ]}
+            @{[ M("Then click here") ]} <input id="start_default_box" type="radio" /> @{[ M("to create the bounding box") ]}.
             <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>
             <br/>
         </span>
@@ -1229,7 +1229,7 @@ sub homepage {
                             -size => 8
                           )
                           . '</span>',
-qq{<span title="hide longitude,latitude box" class="lnglatbox" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" />hide lnglat</span>}
+qq{<span title="hide longitude,latitude box" class="lnglatbox" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" />@{[ M("hide") ]} lnglat</span>}
                     ]
                 ),
 
@@ -1273,7 +1273,7 @@ qq{<span title="hide longitude,latitude box" class="lnglatbox" onclick="javascri
                   . $q->td(
                     { "class" => "center" },
                     [
-qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" />show lnglat</span><br/>\n}
+qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" />@{[ M("show") ]} lnglat</span><br/>\n}
                           . '<span class="center" id="square_km_small" title="area covers N square kilometers"></span>'
                     ]
                   ),

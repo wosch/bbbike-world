@@ -16,7 +16,11 @@
     "zip archive": "zip Archiv",
     "uncompressed": "unkomprimiert",
     "Move the map to your desired location": "Verschiebe die Karte zur gew&uuml;nschten Position",
-
+    "Then click here":"Dann clicke hier",
+    "to create the bounding box":"um die Bounding-Box zu erzeugen",
+    "show":"zeige",
+    "hide":"verstecke",
+    
     "EXTRACT_CONFIRMED": [
         "<p>Danke - die Eingabedaten sind korrekt.</p><p>",
         "Es dauert ca. 15-30 Minuten um eine Region aus der Planet.osm Datei auszuschneiden - ",

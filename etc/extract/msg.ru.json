@@ -14,8 +14,13 @@
     "Right top corner (North-East)": "Правый верхний угол (Северо-Восток)",
     "extract": "экстракт",
 
-    "Move the map to your desired location": "Move the map to your desired location",
     // todo
+    "Move the map to your desired location": "Move the map to your desired location",
+    "Then click here":"Then click here",
+    "to create the bounding box":"to create the bounding box",
+    "show":"show",
+    "hide":"hide",
+    
     "EXTRACT_CONFIRMED": [
         "<p>Спасибо - входные данные хорошо выглядит.</p><p>",
         "Это занимает 15-30 минут для извлечения площадью от planet.osm",
