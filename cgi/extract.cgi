@@ -60,9 +60,10 @@ our $option = {
     'enable_polygon'      => 1,
     'email_valid_mxcheck' => 1,
 
-    'debug'               => "2",
-    'language'            => "en",
-    'request_method'      => "GET",
+    'debug'          => "2",
+    'language'       => "en",
+    'request_method' => "GET",
+
     #'supported_languages' => [qw/en de es fr ru/],
     'supported_languages' => [qw/en de/],
     'message_path'        => "../world/etc/extract",

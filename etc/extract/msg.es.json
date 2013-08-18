@@ -15,11 +15,11 @@
 
     // todo
     "Move the map to your desired location": "Move the map to your desired location",
-    "Then click here":"Then click here",
-    "to create the bounding box":"to create the bounding box",
-    "show":"show",
-    "hide":"hide",
-    
+    "Then click here": "Then click here",
+    "to create the bounding box": "to create the bounding box",
+    "show": "show",
+    "hide": "hide",
+
     "EXTRACT_CONFIRMED": [
         "<p>Gracias - los datos de entrada se ve bien.</p><p>",
         "Se tarda entre 15-30 minutos para extraer un área de planet.osm,",
