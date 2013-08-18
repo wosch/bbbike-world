@@ -67,7 +67,8 @@ our $option = {
     'message_path'        => "../world/etc/extract",
     'pro'                 => 0,
 
-    'with_google_maps' => 1,
+    'with_google_maps'        => 1,
+    'enable_google_analytics' => 1,
 };
 
 our $formats = {
@@ -385,7 +386,7 @@ sub footer {
     my $ns = webservice($q);
     return if $ns;
 
-    my $analytics = &google_analytics;
+    my $analytics = &google_analytics($q);
     my $url       = $q->url( -relative => 1 );
     my $error     = $args{'error'} || 0;
 
@@ -471,6 +472,15 @@ sub language_links {
 }
 
 sub google_analytics {
+    my $q = shift;
+
+    my $url = $q->url( -base => 1 );
+
+    return "" if !$option->{"enable_google_analytics"};
+    if ( $url !~ m,^http://(www|extract)[2-4]?\., ) {
+        return "";    # devel installation
+    }
+
     return <<EOF;
 <script type="text/javascript">
 //<![CDATA[
