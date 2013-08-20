@@ -28,6 +28,7 @@ use GIS::Distance::Lite;
 use HTTP::Date;
 use Math::Polygon::Calc;
 use Math::Polygon::Transform;
+use Locale::Util;
 
 use strict;
 use warnings;
@@ -65,6 +66,8 @@ our $option = {
     'supported_languages' => [qw/en de es fr ru/],
     'message_path'        => "../world/etc/extract",
     'pro'                 => 0,
+
+    'with_google_maps' => 1,
 };
 
 our $formats = {
@@ -82,7 +85,11 @@ our $formats = {
     'navit.zip'         => "Navit",
     'obf.zip'           => "Osmand (OBF)",
     'o5m.gz'            => "o5m gzip'd",
-    'o5m.bz2'           => "o5m bzip'd",
+    'o5m.xz'            => "o5m 7z (xz)",
+
+    #'o5m.bz2'           => "o5m bzip'd",
+    'csv.gz'            => "csv gzip'd",
+    'csv.xz'            => "csv 7z (xz)",
     'mapsforge-osm.zip' => "Mapsforge OSM",
 };
 
@@ -151,6 +158,25 @@ sub webservice {
     }
 }
 
+sub http_accept_language {
+    my $q = shift;
+    my $requested_language = $q->http('Accept-language') || "";
+
+    return "" if !$requested_language;
+
+    my @lang = Locale::Util::parse_http_accept_language($requested_language);
+    warn "Accept-language: " . join( ", ", @lang ) if $debug >= 2;
+
+    foreach my $l (@lang) {
+        if ( grep { $l eq $_ } @{ $option->{supported_languages} } ) {
+            warn "Select language by browser: $l\n" if $debug >= 1;
+            return $l;
+        }
+    }
+
+    return "";
+}
+
 sub header {
     my $q    = shift;
     my %args = @_;
@@ -183,13 +209,14 @@ sub header {
             -name  => 'format',
             -value => $q->param("format"),
             @cookie_opt
-          );
+          ) if $q->param("format");
+
         push @cookies,
           $q->cookie(
             -name  => 'email',
             -value => $q->param("email"),
             @cookie_opt
-          );
+          ) if $q->param("email");
 
         my $l = $q->param("lang") || "";
         if ( $l && grep { $l eq $_ } @{ $option->{supported_languages} } ) {
@@ -271,11 +298,18 @@ sub manual_area {
   <div id="sidebar_content">
     <span class="export_hint">
       <span id="drag_box">
-        <span id="drag_box_manually"><input id="manually_select" type="radio" />@{[ M("Manually select a different area") ]}
+        <span id="drag_box_manually" style="display:none"><input id="manually_select" type="radio" />
+            @{[ M("Manually select a different area") ]}
+            <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>
         </span>
-        <span id="drag_box_drag" style="display:none">@{[ M("Drag a box on the map to select an area") ]}</span>
+        <span id="drag_box_drag">
+            <!--
+            @{[ M("Drag a box on the map to select an area") ]}
+            <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>
+            -->
+            <span>@{[ M("EXTRACT_USAGE") ]}</span>
+        </span>
       </span>
-      <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a><br/><p/>
     </span>
     <span id="square_km"></span>
 
@@ -289,7 +323,10 @@ sub manual_area {
 	<label for="rotate">@{[ M("resize or drag polygon") ]}
 	<img src="$img_prefix/move_feature_on.png" alt="move feature"/>
 	</label>
+        
+        <span>@{[ M("EXTRACT_USAGE2") ]}</span>
     </div>
+    
 
   </div> <!-- sidebar_content -->
  </div><!-- manual_area -->
@@ -324,11 +361,13 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
           . qq{<a href="$community_link#donate"><img class="logo" height="47" width="126" src="/images/btn_donateCC_LG.gif" alt="donate"/></a></p>};
     }
 
+    my $home = $q->url( -query => 0, -relative => 0 );
+
     return <<EOF;
   $donate
   $css
   <div id="footer_top">
-    <a href="../">home</a> |
+    <a href="$home">home</a> |
     <a href="../extract.html">@{[ M("help") ]}</a> |
     <a href="http://download.bbbike.org/osm/">download</a> |
     <!-- <a href="/cgi/livesearch-extract.cgi">@{[ M("livesearch") ]}</a> | -->
@@ -355,16 +394,20 @@ sub footer {
 
     my @js =
       qw(OpenLayers/2.12/OpenLayers-min.js OpenLayers/2.12/OpenStreetMap.js jquery/jquery-1.7.1.min.js
-      jquery/jqModal-2009.03.01-r14.js jquery/jquery-ui-1.9.1.custom.min.js extract.js);
+      jquery/jqModal-2009.03.01-r14.js jquery/jquery-ui-1.9.1.custom.min.js jquery/jquery.cookie-1.3.1.js extract.js);
     my $javascript = join "\n",
       map { qq{<script src="../html/$_" type="text/javascript"></script>} } @js;
+
+    $javascript .=
+qq{\n<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3.9&amp;sensor=false&amp;language=en&amp;libraries=weather,panoramio"></script>}
+      if $option->{"with_google_maps"};
 
     return <<EOF;
 
 <div id="footer">
   @{[ &footer_top($q, 'map' => $args{'map'}, 'css' => $args{'css'} ) ]}
-  <div id="copyright" class="normalscreen">
   <hr/>
+  <div id="copyright" class="normalscreen">
     (&copy;) 2013 <a href="http://www.bbbike.org">BBBike.org</a>
     by <a href="http://wolfram.schneider.org">Wolfram Schneider</a><br/>
     Map data (&copy;) <a href="http://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
@@ -404,7 +447,10 @@ sub language_links {
     my $qq   = CGI->new($q);
     my $data = qq{<span id="language">\n};
 
-    my $cookie_lang = $q->cookie( -name => "lang" ) || "";
+    my $cookie_lang =
+         $q->cookie( -name => "lang" )
+      || &http_accept_language($q)
+      || "";
 
     foreach my $l ( @{ $option->{'supported_languages'} } ) {
         if ( $l ne $language ) {
@@ -452,7 +498,7 @@ sub message {
 
 <span id="tools-titlebar">
  @{[ &language_links($q, $language) ]}
- @{[ &social_links ]} - 
+ @{[ &social_links ]} -
  <span id="tools-help"><a class='tools-helptrigger' href='$extract_dialog/$language/about.html' title='info'><span>@{[ M("about") ]} extracts</span></a> - </span>
  <span id="pageload-indicator">&nbsp;<img src="/html/indicator.gif" alt="" title="Loading JavaScript libraries" /></span>
  <span class="jqmWindow jqmWindowLarge" id="tools-helpwin"></span>
@@ -843,7 +889,7 @@ qq{Please click on the <a href="javascript:history.back()">back button</a> };
           )
           : "$sw_lng,$sw_lat x $ne_lng,$ne_lat";
 
-        my $text = join "\n", @{ $msg->{EXTRACT_CONFIRMED} };
+        my $text = M("EXTRACT_CONFIRMED");
         printf( $text,
             escapeHTML($city), large_int($skm), $coordinates, $format );
 
@@ -924,7 +970,7 @@ qq{Please click on the <a href="javascript:history.back()">back button</a> };
         }
 
         else {
-            print join "\n", @{ $msg->{EXTRACT_DONATION} };
+            print M("EXTRACT_DONATION");
             print qq{<br/>} x 4, "</p>\n";
         }
     }
@@ -1211,10 +1257,15 @@ qq{<span title="hide longitude,latitude box" class="lnglatbox" onclick="javascri
                             -labels  => $formats,
                             -default => $default_format
                           ),
-qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" />show lnglat</span><br/>\n}
-                          . '<span id="square_km_small" title="area covers N square kilometers"></span>'
                     ]
-                ),
+                  )
+                  . $q->td(
+                    { "class" => "center" },
+                    [
+qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" />show lnglat</span><br/>\n}
+                          . '<span class="center" id="square_km_small" title="area covers N square kilometers"></span>'
+                    ]
+                  ),
 
                 $q->td(
                     [
@@ -1222,8 +1273,10 @@ qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="j
                           . M("Your email address")
                           . " <a class='tools-helptrigger-small' href='$extract_dialog/$language/email.html'><img src='/html/help-16px.png' alt=''/></a><br/></span>"
                           . $q->textfield(
-                            -name  => 'email',
-                            -size  => 28,
+                            -name => 'email',
+                            -id   => 'email',
+
+                            #-size  => 22,
                             -value => $default_email
                           )
                           . $q->hidden(
@@ -1242,14 +1295,23 @@ qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="j
                             -id    => 'coords'
                           )
                           . $q->hidden(
+                            -name  => 'oi',
+                            -value => "0",
+                            -id    => 'oi'
+                          )
+                          . $q->hidden(
                             -name  => 'layers',
                             -value => "",
                             -id    => 'layers'
                           ),
-'<span title="file data size approx." id="size_small"></span>'
                     ]
-                ),
-
+                  )
+                  . $q->td(
+                    { "class" => "center" },
+                    [
+'<span class="center" title="file data size approx." id="size_small"></span>'
+                    ]
+                  ),
                 $q->td(
                     [
 "<span class='' title='Give the city or area to extract a name. "
@@ -1257,11 +1319,17 @@ qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="j
                           . $q->textfield(
                             -name => 'city',
                             -id   => 'city',
-                            -size => 28
+
+                            #-size => 18
                           ),
-'<span id="time_small" title="approx. extract time in minutes"></span>'
                     ]
-                ),
+                  )
+                  . $q->td(
+                    { "class" => "center" },
+                    [
+'<span id="time_small" class="center" title="approx. extract time in minutes"></span>'
+                    ]
+                  ),
 
                 $q->td(
                     [
@@ -1327,16 +1395,19 @@ sub get_language {
     my $lang =
          $q->param("lang")
       || $q->param("language")
-      || $q->cookie( -name => "lang" );
+      || $q->cookie( -name => "lang" )
+      || &http_accept_language($q);
+
     return $language if !defined $lang;
 
     if ( grep { $_ eq $lang } @{ $option->{'supported_languages'} } ) {
-        warn "language: $lang\n" if $debug >= 1;
+        warn "get language: $lang\n" if $debug >= 1;
         return $lang;
     }
 
     # default language
     else {
+        warn "default language: $lang\n" if $debug >= 1;
         return $language;
     }
 }
@@ -1374,10 +1445,6 @@ sub M {
     my $text;
     if ( $msg && exists $msg->{$key} ) {
         $text = $msg->{$key};
-
-        #} elsif ($msg_en && exists $msg_en->{$key}) {
-        #    warn "Unknown translation local lang $lang: $key\n";
-        #    $text = $msg_en->{$key};
     }
     else {
         if ( $debug >= 1 && $msg ) {
@@ -1385,6 +1452,10 @@ sub M {
               if $debug >= 2 || $language ne "en";
         }
         $text = $key;
+    }
+
+    if ( ref $text eq 'ARRAY' ) {
+        $text = join "\n", @$text, "\n";
     }
 
     return $text;

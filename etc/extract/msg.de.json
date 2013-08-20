@@ -3,11 +3,11 @@
     "about": "info",
     "extract": "extrakt",
     "Format": "Format",
-    "Name of area to extract": "Name der zu extrahierenden Region",
+    "Name of area to extract": "Name der extrahierten Region",
     "Manually select a different area": "Manuell andere Region ausw&auml;hlen",
     "Drag a box on the map to select an area": "Ziehe eine Box auf der Karte um eine Region ausw&auml;hlen",
     "add points to polygon": "Punkte zum Polygon hinzuf&uuml;gen",
-    "resize or drag polygon": "Polygon vergr&ouml;ssern oder verschieben",
+    "resize or drag polygon": "Polygon vergr&ouml;ssern o. verschieben",
     "help": "hilfe",
     "livesearch": "livesuche",
     "donate": "spenden",
@@ -70,6 +70,20 @@
         "-- ",
         "Planet.osm extracts: http://extract.bbbike.org",
         "BBBike Map Compare: http://bbbike.org/mc"
+        ],
+
+    "EXTRACT_USAGE": [
+        "<ol>",
+        "<li>Verschiebe die Karte zur gew&uuml;nschten Position.</li>",
+        "<li>Klicke und halte den linke Mausbutton, ziehe eine Bounding-Box und lassen den linken Mausbutton los.</li>",
+        "</ol>"
+        ],
+
+    "EXTRACT_USAGE2": [
+        "<ol>",
+        "<li>W&auml;hle ein <b>Format</b>, gib <b>Deine E-Mail Adresse</b> ein und <b>Name der extrahierten Region</b>.</li>",
+        "<li>Klicke auf den <b>extrakt</b> Button. Warte auf die E-Mail Best&auml;tigung und lade die Karte runter. Fertig!</li>",
+        "</ol>"
         ],
 
     "dummy": "dummy"

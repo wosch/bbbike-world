@@ -34,6 +34,6 @@ Depends: pbzip2, bzip2, xz-utils, git-core, screen, lynx, curl, wget, time,
  libgdal-perl, libtext-csv-xs-perl, libcapture-tiny-perl, freebsd-buildutils, 
  dh-make-perl, ntp, munin, dpkg-sig, reprepro,lighttpd, equivs,
  build-essential, devscripts, debhelper, dh-make, libyaml-libyaml-perl,
- google-sitemapgen, ltrace, libintl-perl
+ google-sitemapgen, ltrace, libintl-perl, iotop, iftop
 Description: BBBike @ World standard debian packages
  BBBike @ World standard debian packages
