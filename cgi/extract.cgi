@@ -60,14 +60,17 @@ our $option = {
     'enable_polygon'      => 1,
     'email_valid_mxcheck' => 1,
 
-    'debug'               => "2",
-    'language'            => "en",
-    'request_method'      => "GET",
-    'supported_languages' => [qw/en de es fr ru/],
+    'debug'          => "2",
+    'language'       => "en",
+    'request_method' => "GET",
+
+    #'supported_languages' => [qw/en de es fr ru/],
+    'supported_languages' => [qw/en de/],
     'message_path'        => "../world/etc/extract",
     'pro'                 => 0,
 
-    'with_google_maps' => 1,
+    'with_google_maps'        => 1,
+    'enable_google_analytics' => 1,
 };
 
 our $formats = {
@@ -298,16 +301,16 @@ sub manual_area {
   <div id="sidebar_content">
     <span class="export_hint">
       <span id="drag_box">
-        <span id="drag_box_manually" style="display:none"><input id="manually_select" type="radio" />
-            @{[ M("Manually select a different area") ]}
+        <span id="drag_box_select" style="display:none">
+            <button>@{[ M("Select a different area") ]}</button>
             <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>
+            <p></p>
         </span>
-        <span id="drag_box_drag">
-            <!--
-            @{[ M("Drag a box on the map to select an area") ]}
+        <span id="drag_box_default">
+            @{[ M("Move the map to your desired location") ]}. <br/>
+            @{[ M("Then click") ]} <button>@{[ M("here") ]}</button> @{[ M("to create the bounding box") ]}.
             <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>
-            -->
-            <span>@{[ M("EXTRACT_USAGE") ]}</span>
+            <br/>
         </span>
       </span>
     </span>
@@ -385,7 +388,7 @@ sub footer {
     my $ns = webservice($q);
     return if $ns;
 
-    my $analytics = &google_analytics;
+    my $analytics = &google_analytics($q);
     my $url       = $q->url( -relative => 1 );
     my $error     = $args{'error'} || 0;
 
@@ -471,6 +474,15 @@ sub language_links {
 }
 
 sub google_analytics {
+    my $q = shift;
+
+    my $url = $q->url( -base => 1 );
+
+    return "" if !$option->{"enable_google_analytics"};
+    if ( $url !~ m,^http://(www|extract)[2-4]?\., ) {
+        return "";    # devel installation
+    }
+
     return <<EOF;
 <script type="text/javascript">
 //<![CDATA[
@@ -1218,7 +1230,7 @@ sub homepage {
                             -size => 8
                           )
                           . '</span>',
-qq{<span title="hide longitude,latitude box" class="lnglatbox" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" />hide lnglat</span>}
+qq{<span title="hide longitude,latitude box" class="lnglatbox" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" />@{[ M("hide") ]} lnglat</span>}
                     ]
                 ),
 
@@ -1262,7 +1274,7 @@ qq{<span title="hide longitude,latitude box" class="lnglatbox" onclick="javascri
                   . $q->td(
                     { "class" => "center" },
                     [
-qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" />show lnglat</span><br/>\n}
+qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" />@{[ M("show") ]} lnglat</span><br/>\n}
                           . '<span class="center" id="square_km_small" title="area covers N square kilometers"></span>'
                     ]
                   ),

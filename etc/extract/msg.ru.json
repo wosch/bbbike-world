@@ -3,7 +3,7 @@
     "about": "о",
     "Format": "Формат",
     "Name of area to extract": "Имя области, чтобы извлечь",
-    "Manually select a different area": "Вручную выбрать другую область",
+    "Select a different area": "Вручную выбрать другую область",
     "Drag a box on the map to select an area": "Перетащите поле на карту, чтобы выбрать район",
     "add points to polygon": "добавить указывает на полигоне",
     "resize or drag polygon": "изменить размер или перетащите многоугольник",
@@ -13,6 +13,12 @@
     "Left lower corner (South-West)": "Левый нижний угол (Юго-Запад)",
     "Right top corner (North-East)": "Правый верхний угол (Северо-Восток)",
     "extract": "экстракт",
+
+    "Move the map to your desired location": "Move the map to your desired location",
+    "Then click here": "Then click here",
+    "to create the bounding box": "to create the bounding box",
+    "show": "show",
+    "hide": "hide",
 
     "EXTRACT_CONFIRMED": [
         "<p>Спасибо - входные данные хорошо выглядит.</p><p>",

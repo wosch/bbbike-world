@@ -3,7 +3,7 @@
     "about": "info",
     "Format": "Formato",
     "Name of area to extract": "Nombre de la zona para extraer",
-    "Manually select a different area": "Seleccionar manualmente una zona diferente",
+    "Select a different area": "Seleccionar una zona diferente",
     "Drag a box on the map to select an area": "Arrastre un cuadro en el mapa para seleccionar en el área",
     "add points to polygon": "Añadir puntos a polígono",
     "resize or drag polygon": "Cambiar el tamaño o arrastrar polígono",
@@ -12,6 +12,12 @@
     "donate": "Donar",
     "Left lower corner (South-West)": "Esquina inferior izquierda (Sur-Oeste)",
     "Right top corner (North-East)": "Esquina superior derecha (noreste)",
+
+    "Move the map to your desired location": "Move the map to your desired location",
+    "Then click here": "Then click here",
+    "to create the bounding box": "to create the bounding box",
+    "show": "show",
+    "hide": "hide",
 
     "EXTRACT_CONFIRMED": [
         "<p>Gracias - los datos de entrada se ve bien.</p><p>",

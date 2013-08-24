@@ -874,6 +874,9 @@ tile-distclean:
 tile-rsync:
 	rsync -av ${TILES_DIR}/lnglat/ ${BBBIKE_WEBSERVER_DOWNLOAD_DIR}/osm/planet/${TILES_DIR}/lnglat/
 
+data-distclean:
+	rm -f data/*.lock data/*.inx4
+
 # for errors look in ./tile/tmp
 tile: tile-extract tile-convert tile-checksum tile-csv tile-aws-s3
 #tile: tile-convert tile-csv tile-aws-s3
@@ -1010,6 +1013,9 @@ test prove: lighttpd-restart
 	mkdir -p ${TMP_DIR}
 	TMPDIR=${TMP_DIR} LANG=C time prove ${prove_opt} -j${MAX_CPU} t/*.t world/t/*.t
 
+diff:
+	git diff
+
 help:
 	@echo "bbbike version: ${GIT_ID}"
 	@echo ""
@@ -1018,6 +1024,7 @@ help:
 	@echo "  [ "`${PERL} -e 'print join " ", sort @ARGV' ${CITIES}` "]"
 	@echo ""
 	@echo "  [ help | cities | cities-parallel | fetch-extracts ]"
+	@echo "  [ data-distclean ]"
 	@echo "  [ rsync | rsync-tgz | rsync-osm | rsync-osm-dev ]"
 	@echo "  [ rsync-planet | symlink-download ]"
 	@echo "  [ jsbeautifier | perltidy | tidy ]"

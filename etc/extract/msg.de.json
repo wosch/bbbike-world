@@ -4,7 +4,7 @@
     "extract": "extrakt",
     "Format": "Format",
     "Name of area to extract": "Name der extrahierten Region",
-    "Manually select a different area": "Manuell andere Region ausw&auml;hlen",
+    "Select a different area": "Andere Region ausw&auml;hlen",
     "Drag a box on the map to select an area": "Ziehe eine Box auf der Karte um eine Region ausw&auml;hlen",
     "add points to polygon": "Punkte zum Polygon hinzuf&uuml;gen",
     "resize or drag polygon": "Polygon vergr&ouml;ssern o. verschieben",
@@ -15,7 +15,12 @@
     "Right top corner (North-East)": "Ecke oben rechts (Nord-Ost)",
     "zip archive": "zip Archiv",
     "uncompressed": "unkomprimiert",
-
+    "Move the map to your desired location": "Verschiebe die Karte zur gew&uuml;nschten Position",
+    "Then click": "Dann clicke",
+    "here": "hier",
+    "to create the bounding box": "um die Bounding-Box zu erzeugen",
+    "show": "zeige",
+    "hide": "verstecke",
 
     "EXTRACT_CONFIRMED": [
         "<p>Danke - die Eingabedaten sind korrekt.</p><p>",

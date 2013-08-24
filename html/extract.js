@@ -1,73 +1,156 @@
 /*
  Copyright (c) by http://www.openstreetmap.org/export - OSM License, 2012
- Copyright (c) 2012 Wolfram Schneider, http://bbbike.org
+ Copyright (c) 2012-2013 Wolfram Schneider, http://bbbike.org
 */
 
 // HTML5: may not work on Android devices!
-// "use strict"
+//"use strict"
 // central config
 var config = {
-    "coord": ["#sw_lng", "#sw_lat", "#ne_lng", "#ne_lat"],
-    "color_normal": "white",
-    "color_error": "red",
-    "max_skm": 24000000,
-
-    // display a box at startup
-    // see function select_city()
-    "default_box": false,
-
     // open help page at start up
     "open_infopage": true,
 
-    "show_filesize": true,
-    "city_name_optional": false,
-    "enable_polygon": true,
-    "polygon_rotate": true,
-    "simple": true,
+    // run locate me function at startup
+    "locate_me": false,
 
-    // in MB
+    // show approx. file size of extract
+    "show_filesize": true,
+
+    // city name required
+    "city_name_optional": false,
+
+    // limit are size to max. square kilometers
+    "max_skm": 24000000,
+
+    // max. area size in MB
     "max_size": {
         "default": 768,
         "obf.zip": 250,
         "navit.zip": 512,
+        "garmin-bbbike.zip": 650,
+        "garmin-osm.zip": 768,
+        "garmin-cycle.zip": 650,
+        "garmin-leisure.zip": 650,
         "mapsforge-osm.zip": 100
     },
 
+    // display messages in browser console
     debug: 1,
 
     // extract-pro service with meta data and daily updates
     extract_pro: 0,
+
+    // size of box in relation to the map
+    "default_box_size": 0.66,
+
+    "id_coord": ["#sw_lng", "#sw_lat", "#ne_lng", "#ne_lat"],
+    "color_normal": "white",
+    "color_error": "red",
+
+    // ??
+    "polygon_rotate": true,
+
     // not used yet
     "dummy": ""
 };
 
 // global variables
 var state = {
+    box: 0,
+    /* 0: none, 1: box, 2: polygon, 3: polygon back or permalink */
     polygon: {}
 };
 
 // Initialise the 'map' object
 var map;
 
-// Sic! IE8 has no console.log()
-var console;
-
 // polygon & rectangle variables
 var vectors;
 
+// Sic! IE8 has no console.log()
+var console;
+
 ////////////////////////////////////////////////////////////////////////////////
+// main function after page load
+//
 
 function init() {
+    var opt = {};
+
     initKeyPress();
-    init_map_size();
+    init_map_resize();
+    map = init_map();
 
-    var opt = {
-        "param": 0,
-        "back_button": 0
-    };
+    extract_init_pro(opt);
+    extract_init(opt);
+    polygon_init();
 
+    // old extract from permalink or back button
+    if (check_lnglat_form(true)) {
+        plot_polygon_back();
+    } else {
+        // start from scratch
+        move_map_to_city();
+    }
+
+    // plot_default_box();
+    $("#drag_box_default").click(plot_default_box);
+    $("#drag_box_select").click(plot_default_box_menu_off);
+
+    permalink_init();
+    if (config.open_infopage) open_infopage();
+}
+
+function move_map_to_city() {
+    // default city Berlin
+    var c = select_city();
+
+    var sw_lng = c.sw[0];
+    var sw_lat = c.sw[1];
+    var ne_lng = c.ne[0];
+    var ne_lat = c.ne[1];
+
+    center_city(sw_lng, sw_lat, ne_lng, ne_lat);
+}
+
+function plot_polygon_back() {
+    debug("plot polygon back");
+    state.box = 3;
+
+    var sw_lng = $("#sw_lng").val();
+    var sw_lat = $("#sw_lat").val();
+    var ne_lng = $("#ne_lng").val();
+    var ne_lat = $("#ne_lat").val();
+    var coords = $("#coords").val();
+
+    if (coords == "0,0,0") { // to long URL, ignore
+        coords = "";
+    }
+    debug("get coords from back button: " + coords);
+
+    center_city(sw_lng, sw_lat, ne_lng, ne_lat);
+
+    var polygon = coords ? string2coords(coords) : rectangle2polygon(sw_lng, sw_lat, ne_lng, ne_lat);
+    var feature = plot_polygon(polygon);
+    vectors.addFeatures(feature);
+
+    validateControls();
+    plot_default_box_menu_on();
+}
+
+function center_city(sw_lng, sw_lat, ne_lng, ne_lat) {
+    debug("center city: " + sw_lng + "," + sw_lat + " " + ne_lng + "," + ne_lat);
+
+    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
+    var bounds = new OpenLayers.Bounds(sw_lng, sw_lat, ne_lng, ne_lat);
+
+    bounds.transform(epsg4326, map.getProjectionObject());
+    map.zoomToExtent(bounds);
+}
+
+function init_map() {
     var keyboard = new OpenLayers.Control.KeyboardDefaults({}); // "observeElement": $("#map")} );
-    map = new OpenLayers.Map("map", {
+    var map = new OpenLayers.Map("map", {
         controls: [
         new OpenLayers.Control.Navigation(), new OpenLayers.Control.PanZoomBar(), new OpenLayers.Control.ScaleLine({
             geodesic: true
@@ -98,7 +181,6 @@ function init() {
         attribution: '<a href="http://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="http://www.opencyclemap.org/">(&copy) OpenCycleMap</a>'
     }));
 
-
     map.addLayer(new OpenLayers.Layer.OSM("OSM Transport", ["http://a.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png", "http://b.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png"], {
         tileOptions: {
             crossOriginKeyword: null
@@ -115,182 +197,42 @@ function init() {
         numZoomLevels: 18
     }));
 
-/* disabled maps
-    map.addLayer(new OpenLayers.Layer.OSM("OSM Hike&Bike", ["http://a.www.toolserver.org/tiles/hikebike/${z}/${x}/${y}.png", "http://b.www.toolserver.org/tiles/hikebike/${z}/${x}/${y}.png"], {
-        tileOptions: {
-            crossOriginKeyword: null
-        },
-        attribution: '<a href="http://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>',
-        numZoomLevels: 18
-    }));
-
-    map.addLayer(new OpenLayers.Layer.OSM("Mapquest OSM", ["http://otile1.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png", "http://otile2.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png"], {
-        tileOptions: {
-            crossOriginKeyword: null
-        },
-        attribution: '<a href="http://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="http://www.mapquest.com/">(&copy;) MapQuest</a>',
-        numZoomLevels: 19
-    }));
-
-    map.addLayer(new OpenLayers.Layer.OSM("Mapquest Satellite", ["http://mtile01.mqcdn.com/tiles/1.0.0/vy/sat/${z}/${x}/${y}.png", "http://mtile02.mqcdn.com/tiles/1.0.0/vy/sat/${z}/${x}/${y}.png"], {
-        tileOptions: {
-            crossOriginKeyword: null
-        },
-        attribution: '<a href="http://www.mapquest.com/">(&copy;) MapQuest</a>',
-        numZoomLevels: 19
-    }));
-    */
-
     map.addLayer(new OpenLayers.Layer.Google("Google Physical", {
         type: google.maps.MapTypeId.TERRAIN
     }));
+
     map.addLayer(new OpenLayers.Layer.Google("Google Satellite", {
         type: google.maps.MapTypeId.SATELLITE
     }));
+
     map.addLayer(new OpenLayers.Layer.Google("Google Map", {
         type: google.maps.MapTypeId.ROADMAP
     }));
 
-
-    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
-    var bounds;
-
-/*
-     * read from input, back button pressed?
-     *
-     */
-    var back_botton = check_lnglat_form(true);
-    var coords = "";
-    if (back_botton) {
-        var sw_lng = $("#sw_lng").val();
-        var sw_lat = $("#sw_lat").val();
-        var ne_lng = $("#ne_lng").val();
-        var ne_lat = $("#ne_lat").val();
-        coords = $("#coords").val();
-
-        if (coords == "") opt.param = 1;
-        if (coords == "0,0,0") { // to long URL, ignore
-            coords = "";
-        }
-
-        bounds = new OpenLayers.Bounds(sw_lng, sw_lat, ne_lng, ne_lat);
-
-        // back button: reset coordinates to original values
-        opt.back_function = function () {
-            debug("get coords from back button");
-
-            $("#sw_lng").val(sw_lng);
-            $("#sw_lat").val(sw_lat);
-            $("#ne_lng").val(ne_lng);
-            $("#ne_lat").val(ne_lat);
-            $("#coords").val(coords);
-
-            debug("coords: " + coords);
-            state.validateControls();
-            map.events.unregister("moveend", map, state.mapMoved);
-            polygon_menu(true);
-        };
-
-        if (config.enable_polygon) {
-            setTimeout(function () {
-                var polygon = coords ? string2coords(coords) : rectangle2polygon(sw_lng, sw_lat, ne_lng, ne_lat);
-                var feature = plot_polygon(polygon);
-                vectors.addFeatures(feature);
-                if (coords) {
-                    // trigger a recalculation of polygon size
-                    setTimeout(function () {
-                        vectors.events.triggerEvent("sketchcomplete", {
-                            "feature": feature
-                        });
-                    }, 500);
-                }
-                opt.back_function();
-
-            }, 700);
-        } else {
-            opt.back_button = 1;
-        }
-    }
-
-    // default city
-    else {
-        var c = select_city();
-        var sw_lng = c.sw[0];
-        var sw_lat = c.sw[1];
-        var ne_lng = c.ne[0];
-        var ne_lat = c.ne[1];
-
-        debug("default city: " + c.sw[0] + "," + c.sw[1] + " " + c.ne[0] + "," + c.ne[1]);
-        bounds = new OpenLayers.Bounds(sw_lng, sw_lat, ne_lng, ne_lat);
-        if (config.simple) {
-
-            opt.back_function = function () {
-                debug("get coords from back button");
-
-                $("#sw_lng").val(sw_lng);
-                $("#sw_lat").val(sw_lat);
-                $("#ne_lng").val(ne_lng);
-                $("#ne_lat").val(ne_lat);
-                $("#coords").val(coords);
-
-                debug("coords: " + coords);
-                state.validateControls();
-                map.events.unregister("moveend", map, state.mapMoved);
-                polygon_menu(true);
-            };
-
-            if (config.default_box) {
-                setTimeout(function () {
-                    var polygon = coords ? string2coords(coords) : rectangle2polygon(sw_lng, sw_lat, ne_lng, ne_lat);
-                    var feature = plot_polygon(polygon);
-                    vectors.addFeatures(feature);
-                    if (coords) {
-                        // trigger a recalculation of polygon size
-                        setTimeout(function () {
-                            vectors.events.triggerEvent("sketchcomplete", {
-                                "feature": feature
-                            });
-                        }, 500);
-                    }
-                    opt.back_function();
-
-                }, 700);
-
-            } else {
-                debug("Do not plot default box");
-            }
-        }
-    }
-
-    if (bounds) {
-        bounds.transform(epsg4326, map.getProjectionObject());
-        map.zoomToExtent(bounds);
-    }
-
-    // open info page at startup, but display it only once for the user
-    if (config.open_infopage) {
-        var oi_html = $("input#oi").val();
-        var oi_cookie = jQuery.cookie("oi");
-
-        if (oi_html == 0 && !oi_cookie) {
-            debug("will open info page at startup");
-
-            jQuery.cookie("oi", 1, {
-                expires: 1
-            });
-            $("span#tools-help a").trigger("click");
-        } else {
-            debug("do not open info page again. html: " + oi_html + ", cookie: " + oi_cookie);
-        }
-
-        $("input#oi").val("1");
-    }
-
-    extract_init(opt);
-    permalink_init();
+    return map;
 }
 
-function init_map_size() {
+// open info page at startup, but display it only once for the user
+
+function open_infopage() {
+    var oi_html = $("input#oi").val();
+    var oi_cookie = jQuery.cookie("oi");
+
+    if (oi_html == 0 && !oi_cookie) {
+        debug("will open info page at startup");
+
+        jQuery.cookie("oi", 1, {
+            expires: 7
+        });
+        $("span#tools-help a").trigger("click");
+    } else {
+        debug("do not open info page again. html: " + oi_html + ", cookie: " + oi_cookie);
+    }
+
+    $("input#oi").val("1");
+}
+
+function init_map_resize() {
     var resize = null;
 
     // set map height depending on the free space on the browser window
@@ -300,8 +242,9 @@ function init_map_size() {
     $(window).resize(function () {
         if (resize) clearTimeout(resize);
         resize = setTimeout(function () {
+            debug("resize event");
             setMapHeight();
-        }, 500);
+        }, 200);
     });
 }
 
@@ -319,7 +262,7 @@ function string2coords(coords) {
 /* create a polygon based on a points list, which can be added to a vector */
 
 function plot_polygon(poly) {
-    debug("polygon length: " + poly.length);
+    debug("plot polygon, length: " + poly.length);
 
     var epsg4326 = new OpenLayers.Projection("EPSG:4326");
     var points = [];
@@ -353,6 +296,8 @@ function rectangle2polygon(sw_lng, sw_lat, ne_lng, ne_lat) {
 // override standard OpenLayers permalink method
 
 function permalink_init() {
+    debug("permalink init");
+
     OpenLayers.Control.Permalink.prototype.createParams = function (center, zoom, layers) {
         var params = OpenLayers.Util.getParameters(this.base);
 
@@ -399,9 +344,7 @@ function permalink_init() {
     var permalink = new OpenLayers.Control.Permalink('permalink');
     state.permalink = permalink;
 
-    setTimeout(function () {
-        map.addControl(permalink);
-    }, 200);
+    map.addControl(permalink);
 }
 
 
@@ -411,219 +354,251 @@ function extract_init(opt) {
     var markerLayer;
     var markerControl;
 
-    extract_init_pro();
+    // main vector
+    vectors = new OpenLayers.Layer.Vector("Vector Layer", {
+        displayInLayerSwitcher: false
+    });
+    map.addLayer(vectors);
 
-    // extract-pro service can extract larger areas
-
-    function extract_init_pro(opt) {
-        var hostname = $(location).attr('hostname');
-        if (hostname.match(/^(extract-pro|dev)[2-4]?\.bbbike\.org/i)) {
-            config.max_size["default"] *= 2;
-            config.max_skm *= 2;
+    // start with a rectangle first
+    box = new OpenLayers.Control.DrawFeature(vectors, OpenLayers.Handler.RegularPolygon, {
+        handlerOptions: {
+            sides: 4,
+            snapAngle: 90,
+            irregular: true,
+            persist: true
         }
-    }
+    });
 
-    function startExport() {
-        // main vector
-        vectors = new OpenLayers.Layer.Vector("Vector Layer", {
-            displayInLayerSwitcher: false
-        });
-        map.addLayer(vectors);
+    // box.handler.callbacks.done = endDrag;
+    map.addControl(box);
 
-        // start with a rectangle first
-        box = new OpenLayers.Control.DrawFeature(vectors, OpenLayers.Handler.RegularPolygon, {
-            handlerOptions: {
-                sides: 4,
-                snapAngle: 90,
-                irregular: true,
-                persist: true
-            }
-        });
-        box.handler.callbacks.done = endDrag;
-        map.addControl(box);
+    // resize retangle, but not rotate or add points
+    transform = new OpenLayers.Control.TransformFeature(vectors, {
+        rotate: false,
+        irregular: true
+    });
+    transform.events.register("transformcomplete", transform, transformComplete);
+    state.transform = transform;
 
-        // resize retangle, but not rotate or add points
-        transform = new OpenLayers.Control.TransformFeature(vectors, {
-            rotate: false,
-            irregular: true
-        });
-        transform.events.register("transformcomplete", transform, transformComplete);
+    map.addControl(transform);
 
-        map.addControl(transform);
-        map.events.register("moveend", map, mapMoved);
+    // moving the map top/bottom/left/right
+    map.events.register("moveend", map, mapMoved);
 
-        $("#ne_lat").change(boundsChanged);
-        $("#sw_lng").change(boundsChanged);
-        $("#ne_lng").change(boundsChanged);
-        $("#sw_lat").change(boundsChanged);
+    $("#ne_lat").change(boundsChanged);
+    $("#sw_lng").change(boundsChanged);
+    $("#ne_lng").change(boundsChanged);
+    $("#sw_lat").change(boundsChanged);
+    $("#city").change(updatePermalink);
 
-        $("#city").change(updatePermalink);
+    setBounds(map.getExtent());
 
-        $("#drag_box").click(startDrag);
-        setBounds(map.getExtent());
-
-        // implement history for back button
-        if (opt.back_button) {
-            opt.back_function();
-            boundsChanged();
-        }
-    }
-
-    function boundsChanged() {
-        debug("boundsChanged");
-
-        var epsg4326 = new OpenLayers.Projection("EPSG:4326");
-
-        if (!check_lnglat_form()) {
-            alert("lng or lat value is out of range -180 ... 180, -90 .. 90");
-            return;
-        }
-
-        var bounds = new OpenLayers.Bounds($("#sw_lng").val(), $("#sw_lat").val(), $("#ne_lng").val(), $("#ne_lat").val());
-
-        bounds.transform(epsg4326, map.getProjectionObject());
-
-        map.events.unregister("moveend", map, mapMoved);
-        map.zoomToExtent(bounds);
-
-        clearBox();
-        drawBox(bounds);
-        validateControls();
-        mapnikSizeChanged();
-    }
-
-    function startDrag() {
-        // $("#drag_box").html("Drag a box on the map to select an area");
-        $("#drag_box_manually").hide();
-        $("#drag_box_drag").show();
-
-        if (config.enable_polygon) polygon_menu(false);
-
-        clearBox();
-        setBounds(map.getExtent());
-        // setBounds(bounds);
-        box.activate();
-    };
-
-    function endDrag(bbox) {
-        var bounds = bbox.getBounds();
-
-        map.events.unregister("moveend", map, mapMoved);
-        setBounds(bounds);
-        drawBox(bounds);
-        box.deactivate();
-        validateControls();
-
-        // $("#drag_box").html("Manually select a different area");
-        $("#drag_box_drag").hide();
-        $("#drag_box_manually").show();
-        $("#manually_select").attr('checked', false);
-
-        if (config.enable_polygon) {
-            polygon_menu(true);
-            polygon_update();
-        }
-    }
-
-    function transformComplete(event) {
-        setBounds(event.feature.geometry.bounds);
-        validateControls();
-    }
-
-    function mapMoved() {
-        // debug("mapMoved");
-        setBounds(map.getExtent());
-        validateControls();
-    }
-    state.mapMoved = mapMoved;
-
-    function setBounds(bounds) {
-        var epsg4326 = new OpenLayers.Projection("EPSG:4326");
-        var decimals = Math.pow(10, Math.floor(map.getZoom() / 3));
-
-        // box not set yet
-        if (!bounds) return;
-
-        bounds = bounds.clone().transform(map.getProjectionObject(), epsg4326);
-
-        function v(value) {
-            var val = Math.round(value * decimals) / decimals;
-            if (val < -180) {
-                val += 360;
-            } else if (val > 180) {
-                val -= 360;
-            }
-
-            return val;
-        }
-
-        $("#sw_lng").val(v(bounds.left));
-        $("#sw_lat").val(v(bounds.bottom));
-        $("#ne_lng").val(v(bounds.right));
-        $("#ne_lat").val(v(bounds.top));
-
-        mapnikSizeChanged();
-    }
-
-    function clearBox() {
-        debug("clearBox");
-
-        transform.deactivate();
-        vectors.destroyFeatures();
-
-        $("#coords").attr("value", "");
-        $("#as").attr("value", "");
-        $("#pg").attr("value", "");
-        state.polygon.area = 0;
-    }
-
-    function drawBox(bounds) {
-        var feature = new OpenLayers.Feature.Vector(bounds.toGeometry());
-
-        vectors.addFeatures(feature);
-        if (!config.enable_polygon) {
-            transform.setFeature(feature); // hidden rectangle
-        }
-    }
-
-
-    // wait 0.2 seconds before starting validate
-    var _validate_timeout;
-
-    var validateControls = function () {
-            if (_validate_timeout) clearTimeout(_validate_timeout);
-            _validate_timeout = setTimeout(function () {
-                validateControlsAjax();
-            }, 200);
-
-        }
-    state.validateControls = validateControls;
-
-    function mapnikSizeChanged() {
-        var size = mapnikImageSize($("#mapnik_scale").val());
-
-        $("#mapnik_image_width").html(size.w);
-        $("#mapnik_image_height").html(size.h);
-
-        validateControls();
-    }
-
-    if ($("select[name=format]")) {
+    if ($("select[name=format]").length) {
         $("select[name=format]").change(function () {
             validateControls()
         });
     }
+}
 
-    startExport(opt);
-    if (opt.param == 0) startDrag();
+function boundsChanged() {
+    debug("boundsChanged");
 
-    if (config.enable_polygon) {
-        setTimeout(function () {
-            $("#controls").show();
-            polygon_init();
-            polygon_update();
-        }, 1000);
+    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
+
+    if (!check_lnglat_form()) {
+        alert(M("lng or lat value is out of range -180 ... 180, -90 .. 90"));
+        return;
     }
+
+    var bounds = new OpenLayers.Bounds($("#sw_lng").val(), $("#sw_lat").val(), $("#ne_lng").val(), $("#ne_lat").val());
+
+    bounds.transform(epsg4326, map.getProjectionObject());
+
+    map.events.unregister("moveend", map, mapMoved);
+    map.zoomToExtent(bounds);
+
+    clearBox();
+    drawBox(bounds);
+    validateControls();
+    mapnikSizeChanged();
+}
+
+function clearBox() {
+    debug("clearBox");
+
+    state.transform.deactivate();
+    vectors.destroyFeatures();
+
+    // reset hidden variables
+    $("#coords").attr("value", "");
+    $("#as").attr("value", "");
+    $("#pg").attr("value", "");
+
+    // reset visible skm / filesize / time estimates
+    $("#square_km_small").html("");
+    $("#size_small").html("");
+    $("#time_small").html("");
+
+    // reset warnings
+    $("#export_osm_too_large").hide();
+
+
+    state.polygon.area = 0;
+    state.box = 0;
+
+}
+
+
+function drawBox(bounds) {
+    debug("drawBox");
+    state.box = 1;
+
+    var feature = new OpenLayers.Feature.Vector(bounds.toGeometry());
+    vectors.addFeatures(feature);
+}
+
+function transformComplete(event) {
+    setBounds(event.feature.geometry.bounds);
+    validateControls();
+}
+
+function mapMoved() {
+    debug("mapMoved");
+    if (state.box == 0) {
+        setBounds(map.getExtent());
+        validateControls();
+    }
+}
+
+function mapnikSizeChanged() {
+    var size = mapnikImageSize($("#mapnik_scale").val());
+
+    $("#mapnik_image_width").html(size.w);
+    $("#mapnik_image_height").html(size.h);
+
+    validateControls();
+}
+
+/*
+ * set the bounds box values (sw, ne) by a given box
+ *
+ */
+function setBounds(bounds) {
+    debug("setBounds");
+    // debug(arguments.callee.caller);
+    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
+    var decimals = Math.pow(10, Math.floor(map.getZoom() / 3));
+
+    // box not set yet
+    if (!bounds) return;
+
+    bounds = bounds.clone().transform(map.getProjectionObject(), epsg4326);
+
+    function v(value) {
+        var val = Math.round(value * decimals) / decimals;
+        if (val < -180) {
+            val += 360;
+        } else if (val > 180) {
+            val -= 360;
+        }
+
+        return val;
+    }
+
+    $("#sw_lng").val(v(bounds.left));
+    $("#sw_lat").val(v(bounds.bottom));
+    $("#ne_lng").val(v(bounds.right));
+    $("#ne_lat").val(v(bounds.top));
+    debug("set bounds box: " + bounds.left + "," + bounds.bottom + " " + bounds.right + "," + bounds.top)
+
+    mapnikSizeChanged();
+}
+
+// extract-pro service can extract larger areas
+
+function extract_init_pro(opt) {
+    var hostname = $(location).attr('hostname');
+    if (hostname.match(/^(extract-pro|dev)[2-4]?\.bbbike\.org/i)) {
+        config.max_size["default"] *= 2;
+        config.max_skm *= 2;
+    }
+}
+
+// return javascript float coordinates
+
+function cf(name) {
+    var val = $("#" + name).val();
+    return parseFloat(val);
+}
+
+function plot_default_box() {
+    debug("plot default box");
+
+    // reset to full map
+    setBounds(map.getExtent());
+    validateControls();
+
+    if (!check_lnglat_form()) {
+        alert(M("lng or lat value is out of range -180 ... 180, -90 .. 90"));
+        return;
+    }
+
+
+    var sw_lng = cf("sw_lng");
+    var sw_lat = cf("sw_lat");
+    var ne_lng = cf("ne_lng");
+    var ne_lat = cf("ne_lat");
+
+    debug("map box: " + sw_lng + "," + sw_lat + " " + ne_lng + "," + ne_lat);
+
+    // draw a smaller box than the map, by config default_box_size
+    if (config.default_box_size > 0 && config.default_box_size < 1) {
+        debug("default box factor: " + config.default_box_size);
+        var lng = ne_lng - sw_lng;
+        var lat = ne_lat - sw_lat;
+        var factor = (1 - config.default_box_size) / 2;
+
+        debug("lng: " + lng * factor + " " + lat * factor + " " + factor);
+
+        sw_lng += lng * factor;
+        sw_lat += lat * factor;
+
+        ne_lng -= lng * factor;
+        ne_lat -= lat * factor;
+
+        debug("default box: " + sw_lng + "," + sw_lat + " " + ne_lng + "," + ne_lat);
+    }
+
+    state.box = 1;
+    var polygon = rectangle2polygon(sw_lng, sw_lat, ne_lng, ne_lat);
+    var feature = plot_polygon(polygon);
+    vectors.addFeatures(feature);
+
+    setBounds(feature.geometry.bounds);
+    plot_default_box_menu_on();
+    // setBounds(map.getExtent());
+}
+
+function plot_default_box_menu_on() {
+    polygon_menu(true); // display poygon menu
+    polygon_update();
+    // switch menu
+    $("#drag_box_default").hide();
+    $("#drag_box_select").show();
+    $("#start_default_box").attr('checked', false);
+}
+
+// remove default box from map
+
+function plot_default_box_menu_off() {
+    // $("#drag_box_select_reset").attr('checked', false);
+    $("#drag_box_default").show();
+    $("#drag_box_select").hide();
+
+    polygon_menu(false);
+    clearBox();
+    setMapHeight();
 }
 
 // called from HTML page
@@ -672,9 +647,13 @@ function checkform() {
     for (var i = 0; i < inputs.length; ++i) {
         var e = inputs[i];
 
+
         if (e.value == "") {
             // ignore hidden input fields for check, e.g. "coords"
             if (e.type == "hidden") continue;
+
+            // check only named input fields
+            if (e.name == "") continue;
 
             // optional forms fields
             if (config.city_name_optional && e.name == "city") continue;
@@ -697,15 +676,20 @@ function checkform() {
         if (e.name == "as") {
             var format = $("select[name=format] option:selected").val();
             var max_size = config.max_size[format] ? config.max_size[format] : config.max_size["default"];
-            if (e.value < 0 || e.value > max_size) ret = 2;
+            if (e.value < 0 || e.value > max_size) {
+                ret = 2;
+            }
         }
 
         // reset color
         e.style.background = color_normal;
     }
 
-    if (ret > 0) {
-        alert(ret == 1 ? "Please fill out all fields!" : "Use a smaller area! Max size: " + max_size + "MB");
+    if (state.box == 0) {
+        alert(M("Please create a bounding box first!"));
+        ret = 3;
+    } else if (ret > 0) {
+        alert(ret == 1 ? M("Please fill out all fields!") : M("Use a smaller area! Max size: ") + max_size + "MB");
     }
 
     return ret == 0 ? true : false;
@@ -714,7 +698,7 @@ function checkform() {
 
 function check_lnglat_form(noerror) {
     var ret = true;
-    var coord = config.coord;
+    var coord = config.id_coord;
 
     for (var i = 0; i < coord.length; i++) {
         var val = $(coord[i]).val();
@@ -723,9 +707,11 @@ function check_lnglat_form(noerror) {
         } else {
             if (!noerror) $(coord[i]).css("background", config.color_error);
             ret = false;
+            // debug("check_lnglat_form: " + coord[i] + " " + val);
         }
     }
 
+    debug("check_lnglat_form: " + ret);
     return ret;
 }
 
@@ -736,7 +722,7 @@ function debug(text, id) {
     if (config.debug < 1) return;
 
     // log to JavaScript console
-    if (console && console.log) console.log("BBBike extract: " + text);
+    if (console && console.log) console.log("BBBike extract: " + state.box + " " + text);
 
     // no debug on html page
     if (config.debug <= 1) return;
@@ -749,6 +735,8 @@ function debug(text, id) {
     // log to HTML page
     tag.html(text);
 }
+
+// check browser window height, and re-adjust sidebar and map size
 
 function setMapHeight() {
     var height = $(window).height();
@@ -763,7 +751,7 @@ function setMapHeight() {
     $('#map').width(width);
     $('#map').height(height);
 
-    debug($(window).height() + " " + $(window).width());
+    debug("setMapHeight: " + $(window).height() + " " + $(window).width());
 
     // hide help messages on small screens
     if ($(window).height() < 480) {
@@ -776,7 +764,8 @@ function setMapHeight() {
         }, 250);
     }
 
-    permalink_init();
+    validateControls();
+    // permalink_init();
 };
 
 /*
@@ -864,6 +853,10 @@ function initKeyPress() {
     };
 };
 
+/*
+ * show/hide polygon menu for rotate/resize
+ *
+ */
 function polygon_menu(enabled) {
     enabled ? $("#polygon_controls").show() : $("#polygon_controls").hide();
 
@@ -875,16 +868,17 @@ function polygon_menu(enabled) {
 }
 
 /*
-  select an area to display on the map
-*/
+ * select an area to display on the map
+ */
 function select_city(name) {
     var city = {
         "Berlin": {
             "sw": [12.875, 52.329],
             "ne": [13.902, 52.705]
-        },
+        }
 
 /*
+	,
         "SanFrancisco": {
             "sw": [-122.9, 37.2],
             "ne": [-121.7, 37.9]
@@ -922,7 +916,7 @@ function updatePermalink() {
 }
 
 function show_skm(skm, filesize) {
-    if ($("#square_km")) {
+    if ($("#square_km").length) {
         var html = "area covers " + large_int(skm) + " square km";
         if (config.show_filesize) {
             html += filesize.html;
@@ -979,14 +973,17 @@ function square_km(x1, y1, x2, y2) { // SW x NE
     return (height * width);
 }
 
-function validateControlsAjax() {
+function validateControls() {
+    debug("validateControls state.box: " + state.box);
+    if (state.box == 0) return;
+
     var bounds = new OpenLayers.Bounds($("#sw_lng").val(), $("#sw_lat").val(), $("#ne_lng").val(), $("#ne_lat").val());
 
     var skm = square_km($("#sw_lat").val(), $("#sw_lng").val(), $("#ne_lat").val(), $("#ne_lng").val());
     var format = $("select[name=format] option:selected").val();
 
     if (!state.polygon.area && $("#pg").val()) {
-        debug("found pg: " + $("#pg").val() + " as: " + $("#as").val());
+        debug("validateControls found polygon: " + $("#pg").val() + " as: " + $("#as").val());
     }
 
     //
@@ -997,7 +994,7 @@ function validateControlsAjax() {
 
     var url = "/cgi/tile-size.cgi?format=" + format + "&lat_sw=" + $("#sw_lat").val() + "&lng_sw=" + $("#sw_lng").val() + "&lat_ne=" + $("#ne_lat").val() + "&lng_ne=" + $("#ne_lng").val();
 
-    debug("p frac: " + polygon + " skm: " + skm);
+    debug("validateControls frac: " + polygon + " skm: " + skm);
 
     // plot area size and file size
     $.getJSON(url, function (data) {
@@ -1025,8 +1022,9 @@ function show_filesize(skm, real_size) {
     var extract_time = 800; // standard extract time in seconds for PBF
     var format = $("select[name=format] option:selected").val();
     var size = real_size ? real_size / 1024 : 0;
-    debug("skm: " + parseInt(skm) + " size: " + Math.round(size) + "MB " + format);
+    debug("show filesize skm: " + parseInt(skm) + " size: " + Math.round(size) + "MB " + format);
 
+    // all formats *must* be configured
     var filesize = {
         "osm.pbf": {
             "size": 1,
@@ -1037,8 +1035,7 @@ function show_filesize(skm, real_size) {
             "time": 0.5
         },
         "osm.bz2": {
-            "size": 1.5,
-            "time": 1
+            "size": 1.5
         },
         "osm.xz": {
             "size": 1.8,
@@ -1061,32 +1058,26 @@ function show_filesize(skm, real_size) {
             "time": 2
         },
         "shp.zip": {
-            "size": 1.5,
-            "time": 1
+            "size": 1.5
         },
         "obf.zip": {
             "size": 1.4,
             "time": 10
         },
         "o5m.gz": {
-            "size": 1.04,
-            "time": 1
+            "size": 1.04
         },
         "o5m.xz": {
-            "size": 0.94,
-            "time": 1
+            "size": 0.94
         },
         "o5m.bz2": {
-            "size": 0.88,
-            "time": 1.1
+            "size": 0.88
         },
         "csv.gz": {
-            "size": 1,
-            "time": 1
+            "size": 1
         },
         "csv.xz": {
-            "size": 0.50,
-            "time": 1
+            "size": 0.50
         },
         "csv.bz2": {
             "size": 0.80,
@@ -1097,13 +1088,16 @@ function show_filesize(skm, real_size) {
             "time": 14
         },
         "navit.zip": {
-            "size": 0.8,
-            "time": 1
+            "size": 0.8
         }
     };
 
-    var factor = filesize[format].size;
-    var factor_time = filesize[format].time;
+    if (!filesize[format]) {
+        debug("Unknwon format: " + format);
+    }
+
+    var factor = filesize[format].size ? filesize[format].size : 1;
+    var factor_time = filesize[format].time ? filesize[format].time : 1;
 
     var time_min = extract_time + 0.6 * size + (size * factor_time);
     var time_max = extract_time + 0.6 * size + (size * factor_time * 2);
@@ -1145,7 +1139,10 @@ function mapnikImageSize(scale) {
     return new OpenLayers.Size(Math.round(bounds.getWidth() / scale / 0.00028), Math.round(bounds.getHeight() / scale / 0.00028));
 }
 
-
+/*
+ * configure and initialise polygon objects and events
+ *
+ */
 function polygon_init() {
     var controls;
 
@@ -1191,6 +1188,7 @@ function polygon_init() {
 
     function serialize(obj) {
         debug("serialize");
+        state.box = 2;
 
         var epsg4326 = new OpenLayers.Projection("EPSG:4326");
 
@@ -1202,7 +1200,7 @@ function polygon_init() {
 
         var vec = feature.geometry.getVertices();
 
-        debug("p len: " + vec.length);
+        debug("serialize polygon len: " + vec.length);
         // Calculate the approximate area of the polygon were it projected onto the earth.
         var polygon_area = feature.geometry.getGeodesicArea();
         state.polygon.area = polygon_area;
@@ -1222,7 +1220,7 @@ function polygon_init() {
             $("#sw_lat").val(v(bounds.bottom));
             $("#ne_lng").val(v(bounds.right));
             $("#ne_lat").val(v(bounds.top));
-            validateControlsAjax();
+            validateControls();
         }
     }
 
@@ -1273,8 +1271,11 @@ function toggle_lnglatbox() {
     $('.uncheck').attr('checked', false);
 }
 
-// dialog help windows
-jQuery(document).ready(function () {
+/*
+ * initialise jquery dialog helper windows
+ *
+ */
+function init_dialog_window() {
     if (jQuery('#tools-helpwin').length == 0) return;
 
     jQuery('#tools-helpwin').jqm({
@@ -1292,6 +1293,17 @@ jQuery(document).ready(function () {
             }
         }
     }).draggable();
+}
+
+/* localized messages */
+
+function M(message) {
+    return message;
+}
+
+/* after page load */
+jQuery(document).ready(function () {
+    init_dialog_window();
 });
 
 // EOF
