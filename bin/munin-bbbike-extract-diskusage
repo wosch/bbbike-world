@@ -44,6 +44,7 @@ if [ "$1" = "config" ]; then
     : ${critical=120000000}
      
     cat <<EOF
+graph_args --base 1024 --lower-limit 0
 graph_title Extracts disk usage
 graph_vlabel Extracts disk usage
 graph_category BBBike
@@ -61,6 +62,6 @@ echo "download.critical $jobs_critical"
     exit 0
 fi
 
-echo "osm.value" 	`( cd $extract_dir/; du -ks osm | awk '{ print $1 }' )`
-echo "download.value" 	`( cd $extract_dir/; du -ks download | awk '{ print $1 }' )`
+echo "osm.value" 	`( cd $extract_dir/; du -ks osm | awk '{ print $1 * 1024 }' )`
+echo "download.value" 	`( cd $extract_dir/; du -ks download | awk '{ print $1 * 1024 }' )`
 
