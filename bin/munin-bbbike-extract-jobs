@@ -1,7 +1,7 @@
 #!/bin/sh
 # Copyright (c) Sep 2011-2013 Wolfram Schneider, http://bbbike.org
 #
-# munin-bbbike-extract-jobs - munin statistics for BBBike, searches per interval
+# munin-bbbike-extract-jobs - munin statistics for BBBike extract, running jobs
 #
 # usage: /etc/munin/plugins/bbbike-extract-jobs [ config ]
 #
@@ -11,7 +11,7 @@
 
 =head1 NAME
 
-munin-bbbike-extract-jobs  - Plugin to monitor metaproxy memory usage
+munin-bbbike-extract-jobs  - Plugin to monitor running extract jobs
 
 =head1 ABOUT
 
