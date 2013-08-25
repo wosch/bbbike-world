@@ -1,0 +1,66 @@
+#!/bin/sh
+# Copyright (c) Sep 2011-2013 Wolfram Schneider, http://bbbike.org
+#
+# munin-bbbike-extract-diskusage - munin statistics for BBBike, disk usage
+#
+# usage: /etc/munin/plugins/bbbike-extract-diskusage [ config ]
+#
+# get documentation with: perldoc /path/to/script
+
+: << =cut
+
+=head1 NAME
+
+munin-bbbike-extract-disksize  - Plugin to monitor disk usage
+
+=head1 ABOUT
+
+Munin plugin to monitor to bbbike extract disk usage
+[...]
+
+=head1 USAGE
+
+[...]
+
+=head1 CONFIGURATION
+
+Configuration parameters for /etc/munin/plugin-conf.d/munin-node
+if you need to override the defaults below:
+
+ [metaproxy-memory]
+   env.warning   - Generate a warning if number of memory goes below this level
+   env.critical  - Generate a critical if number of memory goes below this level
+
+=cut
+
+
+PATH=/bin:/usr/bin; export PATH
+extract_dir=/var/cache/extract
+
+config=$1
+
+if [ "$1" = "config" ]; then
+    : ${warning=80000000}
+    : ${critical=120000000}
+     
+    cat <<EOF
+graph_title Extracts disk usage
+graph_vlabel Extracts disk usage
+graph_category BBBike
+graph_info Disk usage
+graph_period minute
+osm.label Disk usage PBF
+osm.min 0
+download.label Disk usage PBF+other
+download.min 0
+EOF
+
+echo "osm.warning $jobs_warning"
+echo "download.critical $jobs_critical"
+
+    exit 0
+fi
+
+echo "osm.value" 	`( cd $extract_dir/; du -ks osm | awk '{ print $1 }' )`
+echo "download.value" 	`( cd $extract_dir/; du -ks download | awk '{ print $1 }' )`
+
