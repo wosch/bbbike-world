@@ -1,8 +1,6 @@
 #!/bin/sh
 # Copyright (c) Sep 2011-2013 Wolfram Schneider, http://bbbike.org
 #
-# munin-bbbike-extract-diskusage - munin statistics for BBBike, disk usage
-#
 # usage: /etc/munin/plugins/bbbike-extract-diskusage [ config ]
 #
 # get documentation with: perldoc /path/to/script
@@ -27,9 +25,9 @@ Munin plugin to monitor to bbbike extract disk usage
 Configuration parameters for /etc/munin/plugin-conf.d/munin-node
 if you need to override the defaults below:
 
- [metaproxy-memory]
-   env.warning   - Generate a warning if number of memory goes below this level
-   env.critical  - Generate a critical if number of memory goes below this level
+ [bbbike-extract-diskusage]
+   env.warning   - Generate a warning if disk usage goes above this level
+   env.critical  - Generate a critical if disk usage goes above this level
 
 =cut
 

@@ -1,8 +1,6 @@
 #!/bin/sh
 # Copyright (c) Sep 2011-2013 Wolfram Schneider, http://bbbike.org
 #
-# munin-bbbike-extract-files - munin statistics for BBBike, number of files
-#
 # usage: /etc/munin/plugins/bbbike-extract-files [ config ]
 #
 # get documentation with: perldoc /path/to/script
@@ -27,7 +25,7 @@ Munin plugin to monitor to bbbike extract files
 Configuration parameters for /etc/munin/plugin-conf.d/munin-node
 if you need to override the defaults below:
 
- [metaproxy-memory]
+ [bbbike-extract-files]
    env.warning   - Generate a warning if number of memory goes below this level
    env.critical  - Generate a critical if number of memory goes below this level
 
