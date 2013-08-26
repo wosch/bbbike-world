@@ -19,9 +19,6 @@ my $debug = defined $ENV{MUNIN_BBBIKE_DEBUG} ? $ENV{MUNIN_BBBIKE_DEBUG} : 0;
 my $database = '/var/tmp/munin-bbbike-extract';
 my $logfile  = '/var/log/lighttpd/extract.bbbike.log';
 
-# standard munin interval of 5 minutes
-my $interval = 1;    # 5
-
 # munin-bbbike config file
 my $munin_config_file = "/etc/munin/munin-bbbike-extract.conf";
 
@@ -33,6 +30,9 @@ my $min_value = 0;
 my $ignore_old_offset = 1;
 
 my $type = 'extract';
+
+# reset offset
+my $reset = 0;
 
 my $config = {
     'tilesize' => [
@@ -50,19 +50,10 @@ usage: $0 [ options ] config
 --debug=0..2    		default: $debug
 --logfile=/path/to/logfile	default: $logfile
 --database=/path/to/logfile	default: $database
---interval=interval		interval in minutes, default: $interval;
+--reset=[0,1]                   reset offset to zero
 
 Munin bbbike config file: $munin_config_file
 EOF
-}
-
-sub interval {
-    my $value = shift;
-    my $period = shift || $interval;
-
-    $period = 1 if $period <= 0;
-
-    return ( $value / $period );
 }
 
 sub get_types {
@@ -130,10 +121,8 @@ sub display_results {
 
     foreach my $label ( sort @$config ) {
         my $label_e = escape_label($label);
-        $data .=
-            "$label_e.value "
-          . ( exists $count->{$label} ? interval( $count->{$label} ) : 0 )
-          . "\n";
+        $data .= "$label_e.value "
+          . ( exists $count->{$label} ? $count->{$label} : 0 ) . "\n";
     }
 
     return $data;
@@ -145,7 +134,6 @@ sub parse_log {
     my $logfile  = $args{'logfile'};
     my $type     = $args{'type'};
     my $database = $args{'database'};
-    my $interval = $args{'interval'};
     $database .= "-$<-$type.txt";
 
     my $st = stat($logfile) or die "stat $logfile: $!";
@@ -184,7 +172,7 @@ sub parse_log {
             'type'    => $type
         );
 
-        $data = "data.value " . &interval($extract_count) . "\n";
+        $data = "data.value " . $extract_count . "\n";
     }
 
     elsif ( $type eq 'tilesize' ) {
@@ -242,6 +230,11 @@ sub count_tilesize {
 
 sub get_offset {
     my $file = shift;
+
+    if ($reset) {
+        warn "Reset offset to zero in $file\n" if $debug;
+        return 0;
+    }
 
     my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
     my $number = <$fh>;
@@ -350,10 +343,10 @@ push( @ARGV, @config ) if @config;
 
 GetOptions(
     "debug=i"    => \$debug,
+    "reset=i"    => \$reset,
     "database=s" => \$database,
     "logfile=s"  => \$logfile,
     "type=s"     => \$type,
-    "interval=i" => \$interval,
     "help"       => \$help,
 ) or die usage;
 
@@ -367,9 +360,7 @@ else {
     my $text = &parse_log(
         'logfile'  => $logfile,
         'database' => $database,
-        'interval' => $interval,
         'type'     => $type
     );
     print $text if $text;
 }
-
