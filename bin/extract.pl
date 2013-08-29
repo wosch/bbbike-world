@@ -1233,10 +1233,18 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
 
         my $text = M("EXTRACT_EMAIL");
         my $granularity;
-        if ( ref $osmosis_options eq 'ARRAY' && grep { /^granularity=10000$/ }
-            @$osmosis_options )
+        if ( grep { /^granularity=10000$/ } @{ $option->{"osmosis_options"} } )
         {
-            $granularity = "10,001 (1.1 meters)";
+            $granularity = "10,000 (1.1 meters)";
+        }
+        elsif ( grep { /^granularity=1000$/ }
+            @{ $option->{"osmosis_options"} } )
+        {
+            $granularity = "1,000 (11 cm)";
+        }
+        elsif ( grep { /^granularity=100$/ } @{ $option->{"osmosis_options"} } )
+        {
+            $granularity = "100 (1.1 cm)";
         }
         else {
             $granularity = "full";
