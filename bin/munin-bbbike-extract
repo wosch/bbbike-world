@@ -75,7 +75,7 @@ EOF
 }
 
 sub get_types {
-    my @types = qw/tilesize extract/;
+    my @types = qw/tilesize extract format/;
     return sort @types;
 }
 
@@ -125,11 +125,31 @@ EOF
     return $data;
 }
 
+sub config_format () {
+    my $data = <<EOF;
+graph_title Extract formats
+graph_vlabel Format
+graph_category BBBike
+graph_info Number Requests by Format
+graph_period minute
+graph_scale no
+EOF
+
+    foreach my $label ( sort @{ $config->{'tilesize'} } ) {
+        my $label_e = escape_label($label);
+        $data .= "$label_e.label $label\n";
+        $data .= "$label_e.min $min_value\n";
+    }
+
+    return $data;
+}
+
 sub config {
     my $type = shift;
 
     return
         $type eq 'tilesize' ? &config_tilesize
+      : $type eq 'format'   ? &config_format
       : $type eq 'extract'  ? &config_extract
       :                       die "Unknown stat type: $type\n";
 }
@@ -207,6 +227,16 @@ sub parse_log {
         $data = display_results( $config->{'tilesize'}, $count );
     }
 
+    elsif ( $type eq 'format' ) {
+        my $count = count_format(
+            'logfile' => $logfile,
+            'offset'  => $last_offset,
+            'type'    => $type,
+            'scripts' => $config->{'format'}
+        );
+        $data = display_results( $config->{'format'}, $count );
+    }
+
     else {
         die "Unknown type: $type\n";
     }
@@ -243,6 +273,32 @@ sub count_tilesize {
         #next if $ignore_localrequests && localrequest($_);
 
         if (m,"GET /cgi/tile-size\.cgi\?.*format=([^&" ]+),) {
+            $counter->{$1}++;
+        }
+    }
+
+    return $counter;
+}
+
+#
+# parse the bbbike access log file and count request by format
+#
+sub count_format {
+    my %args   = @_;
+    my $file   = $args{'logfile'};
+    my $offset = $args{'offset'};
+
+    my $counter = {};
+    warn "open $file\n" if $debug;
+    my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
+
+    if ( defined $offset ) {
+        warn "Starting at offset: $offset\n" if $debug;
+        seek( $fh, $offset, 0 );
+    }
+
+    while (<$fh>) {
+        if (m,"GET /(cgi/extract\.cgi)?\?.*format=([^&" ]+),) {
             $counter->{$1}++;
         }
     }
