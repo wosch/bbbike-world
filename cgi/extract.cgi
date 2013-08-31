@@ -302,13 +302,13 @@ sub manual_area {
     <span class="export_hint">
       <span id="drag_box">
         <span id="drag_box_select" style="display:none">
-            <button>@{[ M("Select a different area") ]}</button>
+            <button class="link">@{[ M("Select a different area") ]}</button>
             <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>
             <p></p>
         </span>
         <span id="drag_box_default">
             @{[ M("Move the map to your desired location") ]}. <br/>
-            @{[ M("Then click") ]} <button>@{[ M("here") ]}</button> @{[ M("to create the bounding box") ]}.
+            @{[ M("Then click") ]} <button class="link">@{[ M("here") ]}</button> @{[ M("to create the bounding box") ]}.
             <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>
             <br/>
         </span>
@@ -318,18 +318,18 @@ sub manual_area {
 
     <div id="polygon_controls" style="display:none">
 	<input id="createVertices" type="radio" name="type" onclick="polygon_update()" />
-	<label for="createVertices">@{[ M("add points to polygon") ]}
+	<label class="link" for="createVertices">@{[ M("add points to polygon") ]}
 	<img src="$img_prefix/add_point_on.png" alt=""/>  <a class='tools-helptrigger' href='$extract_dialog/$language/polygon.html'><img src='/html/help-16px.png' alt="" /></a><br/>
 	</label>
 
 	<input id="rotate" type="radio" name="type" onclick="polygon_update()" />
-	<label for="rotate">@{[ M("resize or drag polygon") ]}
+	<label class="link" for="rotate">@{[ M("resize or drag polygon") ]}
 	<img src="$img_prefix/move_feature_on.png" alt="move feature"/>
 	</label>
-        
+
         <span>@{[ M("EXTRACT_USAGE2") ]}</span>
     </div>
-    
+
 
   </div> <!-- sidebar_content -->
  </div><!-- manual_area -->
