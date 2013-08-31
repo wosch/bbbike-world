@@ -91,7 +91,7 @@ sub escape_label {
 
 sub config_extract () {
     <<EOF;
-graph_title Extracts
+graph_title Extract Requests
 graph_vlabel Extracts
 graph_category BBBike
 graph_info Number of extracts
@@ -108,7 +108,7 @@ EOF
 
 sub config_tilesize () {
     my $data = <<EOF;
-graph_title Tile Size
+graph_title Extract Tile Size
 graph_vlabel Format
 graph_category BBBike
 graph_info Number of Tile Size Requests by Format
