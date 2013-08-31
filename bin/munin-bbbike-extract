@@ -234,7 +234,7 @@ sub parse_log {
             'type'    => $type,
             'scripts' => $config->{'format'}
         );
-        $data = display_results( $config->{'format'}, $count );
+        $data = display_results( $config->{'tilesize'}, $count );
     }
 
     else {
@@ -299,7 +299,7 @@ sub count_format {
 
     while (<$fh>) {
         if (m,"GET /(cgi/extract\.cgi)?\?.*format=([^&" ]+),) {
-            $counter->{$1}++;
+            $counter->{$2}++;
         }
     }
 
