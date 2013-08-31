@@ -74,7 +74,7 @@ our $option = {
 };
 
 our $formats = {
-    'osm.pbf' => 'Protocolbuffer Binary (PBF)',
+    'osm.pbf' => 'Protocolbuffer (PBF)',
     'osm.gz'  => "OSM XML gzip'd",
     'osm.bz2' => "OSM XML bzip'd",
     'osm.xz'  => "OSM XML 7z (xz)",
