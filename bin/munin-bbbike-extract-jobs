@@ -1,8 +1,6 @@
 #!/bin/sh
 # Copyright (c) Sep 2011-2013 Wolfram Schneider, http://bbbike.org
 #
-# munin-bbbike-extract-jobs - munin statistics for BBBike, searches per interval
-#
 # usage: /etc/munin/plugins/bbbike-extract-jobs [ config ]
 #
 # get documentation with: perldoc /path/to/script
@@ -11,7 +9,7 @@
 
 =head1 NAME
 
-munin-bbbike-extract-jobs  - Plugin to monitor metaproxy memory usage
+munin-bbbike-extract-jobs  - Plugin to monitor running extract jobs
 
 =head1 ABOUT
 
@@ -27,9 +25,9 @@ Munin plugin to monitor to bbbike extract queue
 Configuration parameters for /etc/munin/plugin-conf.d/munin-node
 if you need to override the defaults below:
 
- [metaproxy-memory]
-   env.warning   - Generate a warning if number of memory goes below this level
-   env.critical  - Generate a critical if number of memory goes below this level
+ [bbbike-extract-jobs]
+   env.warning   - Generate a warning if number of jobs goes above this level
+   env.critical  - Generate a critical if number of jobs goes above this level
    env.jobs_warnings - [...]
    env.jobs_critical - [...]
    env.proc_warnings - [...]

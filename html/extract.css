@@ -59,6 +59,10 @@ form input[type=submit] {
 	margin-bottom: 0em;
 }
 
+button.link, label.link {
+  color: green;
+}
+
 div#export_osm_too_large { color: red }
 
 #locate { position:absolute; right: 0; }
@@ -208,3 +212,18 @@ td { white-space: nowrap; }
 a.large { font-size: large; }
 a.x-large { font-size: x-large; }
 
+
+/* test */
+/*
+#sidebar_left, #footer {
+	border-right: dotted;
+	border-right-color: red;
+	border-right-width: 1px;
+}
+#map {
+	border-left: dotted;
+	border-left-color: blue;
+	border-left-width: 1px;
+}
+
+*/

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Copyright (c) 2012-2013 Wolfram Schneider, http://bbbike.org
 #
 # osm2navit  - convert a .pbf file to navit .bin
@@ -10,6 +10,7 @@ PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 : ${SHA="shasum -a 256"}
 
 set -e
+set -o pipefail # bash only
 
 usage () {
    echo "$@"
