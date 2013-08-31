@@ -131,7 +131,6 @@ sub config {
     return
         $type eq 'tilesize' ? &config_tilesize
       : $type eq 'extract'  ? &config_extract
-      : $type eq 'maptype'  ? &config_maptype
       :                       die "Unknown stat type: $type\n";
 }
 
