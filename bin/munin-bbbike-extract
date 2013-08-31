@@ -68,6 +68,7 @@ usage: $0 [ options ] config
 --logfile=/path/to/logfile	default: $logfile
 --database=/path/to/logfile	default: $database
 --reset=[0,1]                   reset offset to zero
+--type=<stat type>		$types, default: $type
 
 Munin bbbike config file: $munin_config_file
 EOF
