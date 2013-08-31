@@ -10,7 +10,6 @@ PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 : ${SHA="shasum -a 256"}
 
 set -e
-set -o pipefail # bash only
 
 usage () {
    echo "$@"
@@ -79,6 +78,8 @@ logfile=$navit_dir/logfile.txt
 
 cd $navit_dir
 counter=0
+
+set -o pipefail # bash only
 
 case $file in
   *.pbf) $pbf2osm $file | time maptool ${navit}.bin > $logfile 2>&1 ;;
