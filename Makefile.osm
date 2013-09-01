@@ -138,7 +138,7 @@ convert-post: create-osp bbbike2wgs84 elevation-update
 
 # convert bbbike files from OSM files
 convert-bbbike-full: build-runtime-perl
-	${MAKE} -f Makefile.osm DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} OSM2BBD_MAPTYPE="-map bbbike" convert2
+	${BBMAKE} DATA_OSM_DIR=${DATA_OSM_BBBIKE_DIR} OSM2BBD_MAPTYPE="-map bbbike" convert2
 	rm -f ${DATA_OSM_BBBIKE_DIR}/*/opensearch.*
 	rm -f ${DATA_OSM_BBBIKE_DIR}/*/_*
 	rm -f ${DATA_OSM_BBBIKE_DIR}/*/*.gz
@@ -162,10 +162,10 @@ _tarball:
 	mv -f ${DATA_DIR}.tbz.tmp ${DATA_DIR}.tbz
 
 cities-api:
-	@for i in `${PERL} -e 'print "x " x 2'`; do ${MAKE} -f Makefile.osm _cities; done
-	${MAKE} -f Makefile.osm cleanup-osm-error
-	${MAKE} -f Makefile.osm _cities_complete
-	${MAKE} -f Makefile.osm check-osm
+	@for i in `${PERL} -e 'print "x " x 2'`; do ${BBMAKE} _cities; done
+	${BBMAKE} cleanup-osm-error
+	${BBMAKE} _cities_complete
+	${BBMAKE} check-osm
 
 #  completeWays=no completeRelations=no
 _osmosis_opt:
@@ -186,14 +186,14 @@ _cities-osm: poly
 
 _cities-pbf: poly
 	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=${OSMOSIS_BUFFER_CAPACITY} --tee `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm city-count` `${MAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} -f Makefile.osm _osmosis_opt_pbf`
-	test "$$NO_PBF2PBF" = "true" || ${MAKE} -f Makefile.osm CITIES="${CITIES}" _pbf2pbf
+	test "$$NO_PBF2PBF" = "true" || ${BBMAKE} CITIES="${CITIES}" _pbf2pbf
 
 cities-pbf cities: _cities-pbf
-	${MAKE} -f Makefile.osm _pbf2pbf-checksum
-	#${MAKE} -f Makefile.osm pbf2osm
+	${BBMAKE} _pbf2pbf-checksum
+	#${BBMAKE} pbf2osm
 
 cities-osm: _cities-osm
-	${MAKE} -f Makefile.osm osm2pbf
+	${BBMAKE} osm2pbf
 
 # if an extract does not exists localy, try to fetch it from the web
 fetch-extracts fetch:
@@ -275,7 +275,7 @@ _cities:
 		${XARGS} -n 1 -P ${MAX_PARALLELS_OSM_DOWNLOADS} ${MAKE} -f Makefile.osm
 
 _cities_complete:
-	${MAKE} -f Makefile.osm OSM_TIMEOUT="--timeout=300" `echo ${CITIES} | ${PERL} -npe 's/\s+/-download /g'`
+	${BBMAKE} OSM_TIMEOUT="--timeout=300" `echo ${CITIES} | ${PERL} -npe 's/\s+/-download /g'`
 poly:
 	${MAKE} -j ${MAX_VCPU} -f Makefile.osm `echo ${CITIES} | ${PERL} -npe 's/\s+/-poly /g'`
 
@@ -340,7 +340,7 @@ check-osm-error:
 	@find ${OSM_DIR} -name '*.gz' -print0 | ${XARGS} -0 -n8 -P${MAX_CPU} zegrep -l '<error>' || true
 
 cleanup-osm-error:
-	${MAKE} -f Makefile.osm check-osm 2>&1 | grep ^gzip | awk '{ print $$2 }' | ${PERL} -npe 's,:,,' | sort -u | ${XARGS} rm -f
+	${BBMAKE} check-osm 2>&1 | grep ^gzip | awk '{ print $$2 }' | ${PERL} -npe 's,:,,' | sort -u | ${XARGS} rm -f
 	@find ${OSM_DIR} -name '*.gz' -print0 | ${XARGS} -0 -n8 -P${MAX_CPU} zegrep -l '<error>' | ${XARGS} rm -f
 
 check-data-osm:
@@ -421,7 +421,7 @@ $(_cp):
 	fi
 
 ${CITIES}:
-	${MAKE} -f Makefile.osm $@-download $@-convert
+	${BBMAKE} $@-download $@-convert
 	
 ######################################################################
 
@@ -782,7 +782,7 @@ extract-gc7:
 	find ${EXTRACTS_SPOOL_DIR} -type f -mtime +14  -print0 | xargs -0 rm -f
 	
 staging:
-	${MAKE} -f Makefile.osm -s perlcheck 2>/dev/null
+	${BBMAKE} -s perlcheck 2>/dev/null
 	git push
 	cd /usr/local/www/bbbike.org/; git diff; git pull; ${MAKE} -s update-files; git diff
 
