@@ -1015,6 +1015,9 @@ test prove: lighttpd-restart
 
 diff:
 	git diff
+        
+jasmine-node test-js:
+	jasmine-node t/spec
 
 help:
 	@echo "bbbike version: ${GIT_ID}"
@@ -1058,6 +1061,7 @@ help:
 	@echo "  [ tile | tile-extract | tile-convert | tile-csv | tile-checksum ]"
 	@echo "  [ tile-distclean | tile-rsync | tile-aws-s3 ]"
 	@echo "  [ test-org | lighttpd-restart | test ]"
+	@echo "  [ jasmine-node | test-js ]"
 	@echo "  [ deb-perl | deb-equivs | deb-bin ]"
 	@echo "  [ deb-clean | deb-repo ]"
 	@echo "  [ debian-bootstrap | bbbike-bootstrap ]"

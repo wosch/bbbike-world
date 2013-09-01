@@ -244,7 +244,7 @@ function init_map_resize() {
         resize = setTimeout(function () {
             debug("resize event");
             setMapHeight();
-        }, 200);
+        }, 0);
     });
 }
 
@@ -716,13 +716,26 @@ function check_lnglat_form(noerror) {
 }
 
 // write to JS console or debug tag
+// keep time state for debugging
+state.debug_time = {
+    "start": $.now(),
+    "last": $.now()
+};
 
 function debug(text, id) {
+    if (typeof console === "undefined" || typeof console.log === "undefined") { /* ARGH!!! old IE */
+        return;
+    }
+
     // no debug at all
     if (config.debug < 1) return;
 
+    var now = $.now();
+    var timestamp = (now - state.debug_time.start) / 1000 + " (+" + (now - state.debug_time.last) / 1000 + ") "
+    state.debug_time.last = now;
+
     // log to JavaScript console
-    if (console && console.log) console.log("BBBike extract: " + state.box + " " + text);
+    console.log("BBBike extract: " + timestamp + state.box + " " + text);
 
     // no debug on html page
     if (config.debug <= 1) return;
@@ -733,7 +746,7 @@ function debug(text, id) {
     if (!tag) return;
 
     // log to HTML page
-    tag.html(text);
+    tag.html(timestamp + text);
 }
 
 // check browser window height, and re-adjust sidebar and map size

@@ -1,101 +1,122 @@
-/* for http://extract.bbbike.org only */
-div#all {
-	max-width: 100%;
-	padding: 0px;
-	margin: 0px;
-}
+/*
+ * for http://extract.bbbike.org only
+ *
+ */
 
-div#map { width: 100%; height: 100%; }
-
-#debug { color: red; font-size: small; }
+/*************************************************************************
+ * basic layout
+ *
+ */
 
 body {
-  margin: 0px;
-  padding: 0px;
+    margin: 0px;
+    padding: 0px;
 }
 
 div#border {
-	padding: 0px;
-	background-color: #FFF;
+    padding: 0px;
+    background-color: #FFF;
+}
+
+div#all {
+    max-width: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+
+/*************************************************************************
+ * right map
+ *
+ */
+div#map {
+    position: relative;
+    left: 24.5em; /* must be exact the same as sidebar left, see setMapHeight() in extract.js */
+    width: 100%;
+    height: 100%;
+}
+
+/*************************************************************************
+ * left sidebar
+ *
+ */
+#sidebar_left, #footer {
+    width: 24.5em;
+    position: absolute;
+    /* border-right-color: red; border-right-style: dashed; border-right-width: 1px; */
+}
+
+#sidebar_content {
+    padding: 0px;
+    margin: 0px;
 }
 
 div#intro {
-	position:static;
-	margin: 0.3em;
+    position: static;
+    padding: 0.3em;
+}
+
+div#intro hr {
+    margin-left: -0.3em;
+    margin-right: -0.3em;
 }
 
 div#message {
-	position:relative;
+    position: relative;
 }
 
+/* table in left sidebar */
 div#table {
- position:relative;
- top:0;
- left:0;
- /* width: 24em; */
- margin: 0.0em;
- border-spacing: 1px;
+    position: relative;
+    top: 0;
+    left: 0;
+    margin: 0.0em;
+    border-spacing: 1px;
 }
 
 table {
- border-spacing: 0px;
+    border-spacing: 0px;
 }
 
-
-input[type=submit] { margin-top: 0.5em; }
-
 table tr td {
-  padding-left: 3px;
-  padding-right: 3px;
-  padding-top: 2px;
-  padding-bottom: 2px;
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 
 /* large green submit button, to focus user actions */
 form input[type=submit] {
-        color: green;
-        font-size: large;
-	margin-top: 0.3em;
-	margin-bottom: 0em;
+    color: green;
+    font-size: large;
+    margin-top: 0.3em;
+    margin-bottom: 0.2em;
 }
 
-button.link, label.link {
-  color: green;
+div#export_osm_too_large {
+    color: red
 }
 
-div#export_osm_too_large { color: red }
-
-#locate { position:absolute; right: 0; }
-#social { position:absolute; right: 20px; bottom: -2px; }
-
-#sidebar_left, #footer {
-	width: 24.5em;
-	position: absolute;
+#locate {
+    position: absolute;
+    right: 0;
 }
 
-
-#map {
-	left: 24.5em;
-	position: relative;
-	width: 100%;
+#social {
+    position: absolute;
+    right: 20px;
+    bottom: -2px;
 }
 
-#sidebar_content { padding: 0px; margin: 0px; }
-
-hr { margin-top: 0.2em; margin-bottom: 0.2em; }
-
-#result { margin-top: 1em; padding: 0.5em; padding-bottom: 4em; }
-
-span#noscript {
-    color: red;
-    font-size: xx-large;
-    font-weight: bold;
+hr {
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
 }
 
 span#square_km_small, span#size_small, span#time_small {
-	font-size: small;
-	font-style: italic;
-	color: #808080; /* grey; */
+    font-size: small;
+    font-style: italic;
+    color: #808080;
 }
 
 /* set width of input fields in left column to max. available size */
@@ -103,30 +124,148 @@ input#city, input#email {
     width: 95%;
 }
 
+#result {
+    margin-top: 1em;
+    padding: 0.5em;
+    padding-bottom: 4em;
+}
+
+img.logo {
+    border: 0px;
+}
+
+span#social {
+    padding-right: 0.5em
+}
+
+div#header_links {
+    font-size: small;
+}
+
+span.current_language {
+    font-size: large;
+}
+
+span#language_switch a {
+    color: green;
+}
+
+span#maplink {
+    font-size: small;
+}
+
+a {
+    text-decoration: none;
+    color: green;
+}
+
+.lnglatbox, .lnglatbox_toggle {
+    opacity: 0.6;
+    font-size: small;
+}
+
+/* disabled by default */
+.lnglatbox {
+    display: none;
+}
+
+.lnglatbox_toggle {
+    display: inline;
+}
+
+td {
+    white-space: nowrap;
+}
+
+.center {
+    text-align: center;
+}
+
+a.large {
+    font-size: large;
+}
+
+a.x-large {
+    font-size: x-large;
+}
+
+#extract-pro {
+    font-size: x-large;
+}
+
+button.link, label.link {
+    color: green;
+}
+
+/*************************************************************************
+ * footer
+ *
+ */
+div#footer {
+    text-align: center;
+    padding-top: 0.7em;
+    bottom: 0em;
+}
+
+div#footer hr {
+    padding-left: 0;
+    margin-left: 0;
+}
+
+div#footer_top {
+    text-align: left;
+    font-size: small;
+    padding-left: 0.5em;
+}
+
+div#footer_community {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    display: none;
+}
+
+div#copyright {
+    font-size: small;
+    margin: 0px;
+    padding-left: 0.5em;
+    padding-bottom: 0.5em;
+    text-align: left;
+}
+
+
+/*************************************************************************
+ * dialog windows
+ *
+ */
 .jqmWindow {
     display: none;
-
     position: fixed;
     top: 50px;
     left: 50%;
-
     margin-left: -350px;
     /* width: 640px; */
-
     background-color: #EEE;
     color: #333;
     border: 1px solid black;
 }
-.jqmWindowLarge { width: 640px; }
-.jqmWindowSmall { width: 340px; }
+
+.jqmWindowLarge {
+    width: 640px;
+}
+
+.jqmWindowSmall {
+    width: 340px;
+}
 
 * html .jqmWindow {
-     position: absolute;
-     top: expression((document.documentElement.scrollTop || document.body.scrollTop) + Math.round(17 * (
+    position: absolute;
+    top: expression((document.documentElement.scrollTop || document.body.scrollTop) + Math.round(17 * (
 document.documentElement.offsetHeight || document.body.clientHeight) / 100) + 'px');
 }
 
-.jqmOverlay { background-color: #000; }
+.jqmOverlay {
+    background-color: #000;
+}
 
 div.dialog-title {
     background-color: #000000;
@@ -154,76 +293,32 @@ div.dialog-msg td {
     font-size: small;
 }
 
-img.logo { border: 0px; }
-span#social { padding-right: 0.5em }
-div#header_links { font-size: small; }
-span.current_language { font-size: large; }
-span#language_switch a { color: green; }
-
-span#maplink { font-size: small; }
-
-div#footer { 	bottom: 0em; }
-div#footer { text-align: center; padding-top: 0.7em; }
-div#footer { margin: 0.5em; }
-div#footer hr { width: 24.0em; padding-left: 0; margin-left: 0; }
-
-div#footer_top { text-align: left; font-size: small;}
-div#footer_community { padding-top: 0.5em; padding-bottom: 0.5em }
-div#footer_community { display: none; }
-
-div#copyright {
-  font-size: small;
-  margin: 0px;
-  padding: 0px;
-  text-align: left;
-}
-
-a         { text-decoration: none; color: green; }
-
 a.tools-helptrigger img, a.tools-helptrigger-small img {
-   height: 13px;
-   width: 13px;
-   border: 0;
-   opacity:0.75;
+    height: 13px;
+    width: 13px;
+    border: 0;
+    opacity: 0.75;
 }
 
 a.tools-helptrigger:hover img, a.tools-helptrigger-small:hover img {
-  opacity: 1.0;
+    opacity: 1.0;
 }
 
-.lnglatbox, .lnglatbox_toggle {
-    opacity: 0.6;
+
+/*************************************************************************
+ * helper
+ *
+ */
+#debug {
+    color: red;
     font-size: small;
 }
 
-/* disabled by default */
-.lnglatbox { display: none; }
-.lnglatbox_toggle { display: inline; }
-/*
-.lnglatbox { display: inline; }
-.lnglatbox_toggle { display: none; }
-*/
-
-td { white-space: nowrap; }
-
-#extract-pro { font-size: x-large; }
-
-.center { text-align: center; }
-a.large { font-size: large; }
-a.x-large { font-size: x-large; }
-
-
-/* test */
-/*
-#sidebar_left, #footer {
-	border-right: dotted;
-	border-right-color: red;
-	border-right-width: 1px;
-}
-#map {
-	border-left: dotted;
-	border-left-color: blue;
-	border-left-width: 1px;
+span#noscript {
+    color: red;
+    font-size: xx-large;
+    font-weight: bold;
 }
 
-*/
+/* EOF */
+
