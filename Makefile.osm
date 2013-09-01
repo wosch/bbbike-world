@@ -612,7 +612,7 @@ rotate-osm:
 	-test -e ${OSM_DIR}      && mv ${OSM_DIR}      ${OSM_DIR}.old
 
 update-database: build-runtime
-	@${MAKE} -f Makefile.osm -s opensearch-bbbike
+	@${BBMAKE} -s opensearch-bbbike
 	${TIME} ./world/bin/update-database
 
 PERL_SCRIPTS=	BBBikeGooglemap.pm BBBikeElevation.pm miscsrc/osm2bbd-poi t/bbbike-org-*.t
@@ -801,7 +801,7 @@ tile-lnglat-run:
 	${TIME} env NO_PBF2PBF=true OSM_DIR_NOSUBDIR=true ${XARGS5} -0 -n1 -P${MAX_CPU} /bin/sh -c < ${TILES_DIR}/lnglat.sh
 
 tile-lng-run:
-	env OSM_DIR_NOSUBDIR=true NO_PBF2PBF=true LOG_DIR=${TILES_DIR}/tmp ${MAKE} -f Makefile.osm -s LOG_DIR=${TILES_DIR}/tmp \
+	env OSM_DIR_NOSUBDIR=true NO_PBF2PBF=true LOG_DIR=${TILES_DIR}/tmp ${BBMAKE} -s LOG_DIR=${TILES_DIR}/tmp \
 	   CITIES_FILE=${TILES_DIR}/cities/cities2.txt CITIES_DB=${TILES_DIR}/cities/cities2.csv \
 	   MAX_CPU=${MAX_CPU} JAVACMD_OPTIONS2= OSM_DIR=${TILES_DIR}/lng _cities-parallel-pbf
 
@@ -921,7 +921,7 @@ deb-repo:
 
 deb-bootstrap debian-bootstrap: deb-bootstrap-rsync deb-bootstrap-dir
 bbbike-bootstrap:  update-files debian-bootstrap install-backend-lighttpd
-	sudo ${MAKE} -f Makefile.osm -s extract-bbbike-org-install bbbike-cache-install
+	sudo ${BBMAKE} -s extract-bbbike-org-install bbbike-cache-install
 	@echo ""
 	@echo "You may also run: make staging"
 	
