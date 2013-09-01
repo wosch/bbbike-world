@@ -6,7 +6,7 @@
 # For more information about BBBike, visit http://www.bbbike.org
 #
 
-
+BBMAKE=	${MAKE} -f Makefile.osm
 MAX_PARALLELS_OSM_DOWNLOADS=	2
 NICE=		nice -n 10
 NICE5=		nice -n 9
@@ -366,7 +366,9 @@ convert3:
 	echo ${CITIES} " " | ${PERL} -npe 's/\s+/-convert /g' | \
 	   ${XARGS} -n 1 -P ${MAX_VCPU} ${TIME} ${MAKE} -f Makefile.osm
 
-check: test
+check: 
+	${BBMAKE} test > tmp/log.check 2>&1
+	tail -n 5 tmp/log.check
 
 check-bbd:
 	for i in ${CITIES}; do echo ${DATA_OSM_DIR}/$$i; done | \
