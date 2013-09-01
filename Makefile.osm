@@ -179,7 +179,7 @@ _osmosis_opt_pbf:
 	fi
 
 cities-poly: poly
-	${NICE5} ${BZIP2} -dc ${OSM_PLANET} | ${NICE5} ${OSMOSIS} --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=${OSMOSIS_BUFFER_CAPACITY} --tee `${BBMAKE} Makefile.osm CITIES_DB=${CITIES_DB} CITIES="${CITIES}" -s city-count` `${BBMAKE} CITIES_DB=${CITIES_DB} CITIES="${CITIES}" -s _osmosis_opt`
+	${NICE5} ${BZIP2} -dc ${OSM_PLANET} | ${NICE5} ${OSMOSIS} --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=${OSMOSIS_BUFFER_CAPACITY} --tee `${BBMAKE} CITIES_DB=${CITIES_DB} CITIES="${CITIES}" -s city-count` `${BBMAKE} CITIES_DB=${CITIES_DB} CITIES="${CITIES}" -s _osmosis_opt`
 
 _cities-osm: poly
 	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=${OSMOSIS_BUFFER_CAPACITY} --tee `${BBMAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} city-count` `${BBMAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} _osmosis_opt`
