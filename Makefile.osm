@@ -1017,7 +1017,7 @@ diff:
 	git diff
         
 jasmine-node test-js:
-	jasmine-node t/spec
+	jasmine-node world/t/spec
 
 help:
 	@echo "bbbike version: ${GIT_ID}"
