@@ -580,7 +580,7 @@ clean-tile tile-cache-cleanup:
 	world/bin/tile-cache-cleanup
 
 clean: rotate-data-osm
-	${MAKE} -C cgi/msg $@	
+	${MAKE} -C world/cgi/msg $@	
 	${MAKE} -C world/bin $@	
 	${MAKE} -C world/cgi $@	
 	${MAKE} -C world/cgi/msg $@	
