@@ -61,7 +61,7 @@ sub md5_file {
     return $md5;
 }
 
-my $pbf_file = 't/data-osm/tmp/zero.osm.pbf';
+my $pbf_file = 'world/t/data-osm/tmp/zero.osm.pbf';
 my $pbf_md5  = "d41d8cd98f00b204e9800998ecf8427e";
 my $tempfile = File::Temp->new( SUFFIX => ".osm" );
 
