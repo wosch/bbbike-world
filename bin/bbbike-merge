@@ -62,7 +62,7 @@ if $verbose; then
 	$command
     fi
     echo "please run:"
-    echo "( cd $dir/bbbike; make lighttpd-restart test )"
+    echo "( cd $dir/bbbike; make test )"
     echo "( cd $dir/bbbike; git push $git_repo )"
     echo "rm -rf $dir"
 else
