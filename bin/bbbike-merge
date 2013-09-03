@@ -7,6 +7,7 @@ set -e
 : ${verbose=true}
 : ${debug=false}
 : ${bbbike_fast_checkout=true}
+: ${bbbike_test=true}
 
 dir=`dirname $0`
 PATH=$PATH:$dir; export PATH 
@@ -47,6 +48,12 @@ fi
 
 make -s js perltidy || error "js perltidy"
 make -s update-files  || error "update-files"
+
+if $bbbike_test; then
+    echo "running tests, will run for 2 minutes"
+    make prove > tmp/log.prove 2>&1 || error "test; `tail -n 5 tmp/log.profe`"
+fi
+
 git diff
 
 if $verbose; then
