@@ -366,7 +366,8 @@ convert3:
 	echo ${CITIES} " " | ${PERL} -npe 's/\s+/-convert /g' | \
 	   ${XARGS} -n 1 -P ${MAX_VCPU} ${TIME} ${BBMAKE}
 
-check: 
+check: test
+checkXXX: 
 	${BBMAKE} test > tmp/log.check 2>&1
 	tail -n 5 tmp/log.check
 
