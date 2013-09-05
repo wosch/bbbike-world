@@ -31,7 +31,26 @@ use XBase;
 use XML::Atom::SimpleFeed;
 use XML::LibXML::Reader;
 use accessors;
-use YAML:XS;
+use YAML::XS;
+use IPC::Run;
+
+use Archive::Zip;
+use Cairo;
+use Class::Accessor;
+use DBI;
+use Date::Calc;
+use GD;
+use GD::SVG;
+use Image::ExifTool;
+use Image::Magick;
+use Imager::File::JPEG;
+use Imager::File::PNG;
+use SVG;
+use Statistics::Descriptive;
+#use Strassen::InlineDist;
+#use StrassenNetz::CNetFile;
+use Template;
+use XML::Twig;
 
 #use PerlIO::gzip;
 
