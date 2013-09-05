@@ -45,6 +45,7 @@ if $bbbike_fast_checkout; then
 	  git fetch origin
 	  git fetch eserte
 	  git fetch github
+	  git pull
 	)
 
 	echo "fast checkout done"
