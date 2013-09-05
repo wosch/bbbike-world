@@ -12,7 +12,7 @@ perltidy: perlcheck
 	echo ${ALL} | xargs -n2 -P${NCPU} -E " " perltidy -b
 
 clean distclean:
-	rm -f *.bak *.tdy
+	rm -f *.bak *.tdy *.ERR
 
 help:
 	@echo "usage: make [ perltidy | clean | help ]"

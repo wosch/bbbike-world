@@ -578,7 +578,7 @@ clean: rotate-data-osm
 	${MAKE} -C world/bin $@	
 	${MAKE} -C world/cgi $@	
 	${MAKE} -C world/web/feed $@	
-	rm -f *.bak *.tdy
+	rm -f *.bak *.tdy *.ERR
 	cd world/web && rm -rf ${LANGUAGES}
 	cd world/web && rm -rf ${CITIES} bbbike
 	rm -f ${OSMBIKE_DATA}

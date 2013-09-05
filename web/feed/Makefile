@@ -19,7 +19,7 @@ perltidy: perlcheck
 	perltidy -b ${FEED_SCRIPT}
 
 clean:
-	rm -f *.log *.bak *.tdy
+	rm -f *.log *.bak *.tdy *.ERR
 
 distclean: clean
 	rm -f ${RSS}
