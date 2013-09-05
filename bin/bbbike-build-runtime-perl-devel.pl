@@ -31,6 +31,7 @@ use XBase;
 use XML::Atom::SimpleFeed;
 use XML::LibXML::Reader;
 use accessors;
+use YAML:XS;
 
 #use PerlIO::gzip;
 
