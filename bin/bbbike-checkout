@@ -40,7 +40,13 @@ if $bbbike_fast_checkout; then
     if [ -e $bbbike_src ]; then
 	# even faster from a tarball
 	tar xfz $bbbike_src
-	git fetch
+	( 
+	  cd bbbike; 
+	  git fetch origin
+	  git fetch eserte
+	  git fetch github
+	)
+
 	echo "fast checkout done"
 	exit 0
     else
