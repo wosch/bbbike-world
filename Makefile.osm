@@ -669,10 +669,11 @@ sync-sitemap: create-sitemap
 update-files: update-files-fast 
 update-files-slow: kml create-osp index update-robots.txt create-bbbike-web-symlinks java-config update-javascript test-org extract-config garmin-legend #create-sitemap
 
-update-files-fast: kml create-osp index java-config update-javascript test-org extract-config 
+update-files-fast: 
 	for i in update-robots.txt create-bbbike-web-symlinks garmin-legend; do \
 	   ${BBMAKE} $$i & \
 	done; wait
+	${BBMAKE} kml create-osp index java-config update-javascript test-org extract-config 
 
 garmin-legend:
 	make -C./world/etc/mkgmap legend
