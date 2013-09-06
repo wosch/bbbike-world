@@ -42,8 +42,9 @@ use GD;
 use GD::SVG;
 use Image::ExifTool;
 use Image::Magick;
-use Imager::File::JPEG;
-use Imager::File::PNG;
+
+#use Imager::File::JPEG;
+#use Imager::File::PNG;
 use SVG;
 use Statistics::Descriptive;
 
