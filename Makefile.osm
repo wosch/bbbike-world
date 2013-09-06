@@ -656,7 +656,13 @@ sync-sitemap: create-sitemap
 	rsync -a world/web/sitemap.xml.gz ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}/world/web
 	rsync -a world/download/sitemap.xml.gz ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}/../download.bbbike.org
 
-update-files: kml create-osp index update-robots.txt create-bbbike-web-symlinks java-config update-javascript test-org extract-config garmin-legend #create-sitemap
+update-files: update-files-fast 
+update-files-slow: kml create-osp index update-robots.txt create-bbbike-web-symlinks java-config update-javascript test-org extract-config garmin-legend #create-sitemap
+
+update-files-fast: kml create-osp index java-config update-javascript test-org extract-config 
+	for i in update-robots.txt create-bbbike-web-symlinks garmin-legend; do \
+	   ${BBMAKE} $$i & \
+	done; wait
 
 garmin-legend:
 	make -C./world/etc/mkgmap legend
