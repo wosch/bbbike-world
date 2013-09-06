@@ -8,6 +8,7 @@ PATH=$HOME/bin:$PATH; export PATH
 LANG=C; export LANG
 dns=dns
 dns=cat
+zcat='gzip -dc'
 
 cd /var/log/lighttpd || exit 2
 : ${varnish_log=/var/log/varnish/varnishncsa.log}
@@ -32,11 +33,11 @@ url_match="$front_end(/cgi/[A-Zb]|/[A-Z][a-z][A-Za-z]+/|/berlin/|/[a-z][a-z]/[A-
 
 log_all () {
     match=${1-"."}
-    zcat -f $logfiles | egrep -v '^10\.|^5\.9\.4\.153' | egrep "GET $match"
+    $zcat -f $logfiles | egrep -v '^10\.|^5\.9\.4\.153' | egrep "GET $match"
 }
 log_full () {
     match=${1-"."}
-    zcat -f $logfiles | egrep -v '^10\.|^5\.9\.4\.153' | egrep "$match"
+    $zcat -f $logfiles | egrep -v '^10\.|^5\.9\.4\.153' | egrep "$match"
 }
 log () {
     match=${1-"."}
@@ -55,7 +56,7 @@ log $url_match | awk '{print $1}' | wc -l
 echo ""
 echo -n "mobile bbbike.org page views: "
 if [ -f $logfiles_mobile ]; then
-    zcat -f $logfiles_mobile | egrep -v '^10\.' | egrep "GET $url_match" | egrep -v '" 40[34] ' | awk '{print $1}' | wc -l
+    $zcat -f $logfiles_mobile | egrep -v '^10\.' | egrep "GET $url_match" | egrep -v '" 40[34] ' | awk '{print $1}' | wc -l
 fi
 
 echo ""
@@ -340,28 +341,28 @@ fi
 if [ -s /var/log/lighttpd/extract.bbbike.log ]; then
     echo ""
     echo -n "extract stat: "
-    zcat -f $extract_log | egrep 'GET /\?.*?submit=extract' | egrep 'city=.+' | wc -l
+    $zcat -f $extract_log | egrep 'GET /\?.*?submit=extract' | egrep 'city=.+' | wc -l
 
     echo ""
     echo "extract cities:"
-    zcat -f $extract_log | egrep 'GET /\?.*?submit=extract' | egrep 'city=.+' | perl -ne 'print "$1\n" if /city=(.*?)&/' | sort -u | perl -npe 'use CGI;; s,&,\t,g; $_=CGI::Util::unescape($_)'
+    $zcat -f $extract_log | egrep 'GET /\?.*?submit=extract' | egrep 'city=.+' | perl -ne 'print "$1\n" if /city=(.*?)&/' | sort -u | perl -npe 'use CGI;; s,&,\t,g; $_=CGI::Util::unescape($_)'
 
     echo ""
     echo "extract statistics by format: "
-    zcat -f $extract_log | egrep  'GET /\?.*?submit=extract' | egrep 'city=.+' | awk '{print $7}' | perl -npe 'use CGI;; s,&,\t,g; $_=CGI::Util::unescape($_)' |
+    $zcat -f $extract_log | egrep  'GET /\?.*?submit=extract' | egrep 'city=.+' | awk '{print $7}' | perl -npe 'use CGI;; s,&,\t,g; $_=CGI::Util::unescape($_)' |
 	perl -ne 'print "$1\n" if /\s+format=(\S+)/' | sort | uniq -c | sort -nr
 
     echo ""
     echo -n "extract statistics by user: "
-    zcat -f $extract_log | egrep  'GET /\?.*?submit=extract' | egrep 'city=.+' | awk '{print $7}' | perl -npe 'use CGI;; s,&,\t,g; $_=CGI::Util::unescape($_)' |
+    $zcat -f $extract_log | egrep  'GET /\?.*?submit=extract' | egrep 'city=.+' | awk '{print $7}' | perl -npe 'use CGI;; s,&,\t,g; $_=CGI::Util::unescape($_)' |
 	perl -ne 'print "$1\n" if /\s+email=(\S+)/' | sort -u | wc -l
-    zcat -f $extract_log | egrep   'GET /\?.*?submit=extract' | egrep 'city=.+' | awk '{print $7}' | perl -npe 'use CGI;; s,&,\t,g; $_=CGI::Util::unescape($_)' |
+    $zcat -f $extract_log | egrep   'GET /\?.*?submit=extract' | egrep 'city=.+' | awk '{print $7}' | perl -npe 'use CGI;; s,&,\t,g; $_=CGI::Util::unescape($_)' |
 	perl -ne 'print "$1\n" if /\s+email=(\S+)/' | sort | uniq -c | sort -nr
 
     echo ""
     echo -n "extract statistics: "
-    zcat -f $extract_log | egrep 'GET /\?.*?submit=extract' | egrep 'city=.+' | awk '{print $7}' | sort -u | wc -l
-    zcat -f $extract_log | egrep 'GET /\?.*?submit=extract' | egrep 'city=.+' | awk '{print $7}' | sort -u | perl -npe 'use CGI;; s,&,\t,g; $_=CGI::Util::unescape($_)'
+    $zcat -f $extract_log | egrep 'GET /\?.*?submit=extract' | egrep 'city=.+' | awk '{print $7}' | sort -u | wc -l
+    $zcat -f $extract_log | egrep 'GET /\?.*?submit=extract' | egrep 'city=.+' | awk '{print $7}' | sort -u | perl -npe 'use CGI;; s,&,\t,g; $_=CGI::Util::unescape($_)'
 fi
 
 echo ""

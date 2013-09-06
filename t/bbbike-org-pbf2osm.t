@@ -60,13 +60,13 @@ is( $?,                  0,        "pbf2osm converter" );
 is( md5_file($tempfile), $osm_md5, "osm md5 checksum matched" );
 
 system(
-qq[world/bin/pbf2osm --gzip $pbf_file; zcat $osm_file_gz | perl -npe 's/timestamp=".*?"/timestamp="0"/' > $tempfile]
+qq[world/bin/pbf2osm --gzip $pbf_file; gzip -dc $osm_file_gz | perl -npe 's/timestamp=".*?"/timestamp="0"/' > $tempfile]
 );
 is( $?,                  0,        "pbf2osm --gzip converter" );
 is( md5_file($tempfile), $osm_md5, "osm gzip md5 checksum matched" );
 
 system(
-qq[world/bin/pbf2osm --pgzip $pbf_file; zcat $osm_file_gz  | perl -npe 's/timestamp=".*?"/timestamp="0"/' > $tempfile]
+qq[world/bin/pbf2osm --pgzip $pbf_file; gzip -dc $osm_file_gz  | perl -npe 's/timestamp=".*?"/timestamp="0"/' > $tempfile]
 );
 is( $?,                  0,        "pbf2osm --pgzip converter" );
 is( md5_file($tempfile), $osm_md5, "osm pigz md5 checksum matched" );

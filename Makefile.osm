@@ -366,10 +366,12 @@ convert3:
 	echo ${CITIES} " " | ${PERL} -npe 's/\s+/-convert /g' | \
 	   ${XARGS} -n 1 -P ${MAX_VCPU} ${TIME} ${BBMAKE}
 
-check: test
-checkXXX: 
+check: 
 	${BBMAKE} test > tmp/log.check 2>&1
 	tail -n 5 tmp/log.check
+check-full: 
+	BBBIKE_TEST_FAST="" ${BBMAKE} test > tmp/log.check-full 2>&1
+	tail -n 5 tmp/log.check-full
 
 check-bbd:
 	for i in ${CITIES}; do echo ${DATA_OSM_DIR}/$$i; done | \
@@ -586,7 +588,7 @@ clean: rotate-data-osm
 	${MAKE} -C world/cgi $@	
 	${MAKE} -C world/cgi/msg $@	
 	${MAKE} -C world/web/feed $@	
-	rm -f *.bak *.tdy
+	rm -f *.bak *.tdy *.ERR
 	cd world/web && rm -rf ${LANGUAGES}
 	cd world/web && rm -rf ${CITIES} bbbike
 	rm -f ${OSMBIKE_DATA}
@@ -610,7 +612,7 @@ rotate-data-osm:
 	-test -e ${DATA_OSM_DIR}     && mv ${DATA_OSM_DIR}     ${DATA_OSM_DIR}.old
 	-test -e ${DATA_OSM_BBBIKE_DIR}.old && mv ${DATA_OSM_BBBIKE_DIR}.old ${DATA_OSM_BBBIKE_DIR}.old2
 	-test -e ${DATA_OSM_BBBIKE_DIR}     && mv ${DATA_OSM_BBBIKE_DIR}     ${DATA_OSM_BBBIKE_DIR}.old
-	find ${DATA_OSM_BBBIKE_DIR}.old -type f ! -name '*.gz' -print0 | ${XARGS} -0 ${GZIP}
+	find ${DATA_OSM_BBBIKE_DIR}.old -type f ! -name '*.gz' -print0 | ${XARGS} -0 ${GZIP} # gzip old files
 	mkdir -p ${DATA_OSM_DIR} ${DATA_OSM_BBBIKE_DIR}
 	touch ${DATA_OSM_DIR}/.touch ${DATA_OSM_BBBIKE_DIR}/.touch
 
@@ -624,8 +626,11 @@ update-database: build-runtime
 	${TIME} ./world/bin/update-database
 
 PERL_SCRIPTS=	BBBikeGooglemap.pm BBBikeElevation.pm world/bin/osm2bbd-poi world/t/bbbike-org-*.t
+
 _perlcheck:
-	@echo ${PERL_SCRIPTS} | ${XARGS} -n1 -P${MAX_VCPU} -E " " ${PERL} -cw >/dev/null 2>&1
+	${BBMAKE} _perlcheck2 >/dev/null 2>&1 || ${BBMAKE} _perlcheck2
+_perlcheck2:
+	@echo ${PERL_SCRIPTS} | ${XARGS} -n1 -P${MAX_VCPU} -E " " ${PERL} -cw
 
 _perltidy: _perlcheck
 	echo ${PERL_SCRIPTS} | ${XARGS} -n2 -P${MAX_VCPU} -E " " perltidy -b
@@ -661,7 +666,13 @@ sync-sitemap: create-sitemap
 	rsync -a world/web/sitemap.xml.gz ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}/world/web
 	rsync -a world/download/sitemap.xml.gz ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}/../download.bbbike.org
 
-update-files: kml create-osp index update-robots.txt create-bbbike-web-symlinks java-config update-javascript test-org extract-config garmin-legend #create-sitemap
+update-files: update-files-fast 
+update-files-slow: kml create-osp index update-robots.txt create-bbbike-web-symlinks java-config update-javascript test-org extract-config garmin-legend #create-sitemap
+
+update-files-fast: kml create-osp index java-config update-javascript test-org extract-config 
+	for i in update-robots.txt create-bbbike-web-symlinks garmin-legend; do \
+	   ${BBMAKE} $$i & \
+	done; wait
 
 garmin-legend:
 	make -C./world/etc/mkgmap legend
@@ -1068,6 +1079,7 @@ help:
 	@echo "  [ deb-perl | deb-equivs | deb-bin ]"
 	@echo "  [ deb-clean | deb-repo ]"
 	@echo "  [ debian-bootstrap | bbbike-bootstrap ]"
+	@echo "  [ build-runtime ]"
 
 	@echo ""
 	@echo "see also ./world/README"

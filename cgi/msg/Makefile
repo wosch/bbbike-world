@@ -4,7 +4,9 @@ NCPU=`../../../world/bin/ncpu`
 ALL=??
 
 perlcheck:
-	@echo ${ALL} | xargs -n1 -P${NCPU} -E " " perl -I. -T -cw 2>/dev/null
+	${MAKE} _perlcheck 2>/dev/null || ${MAKE} _perlcheck
+_perlcheck:
+	@echo ${ALL} | xargs -n1 -P${NCPU} -E " " perl -I. -T -cw
 
 perltidy: perlcheck
 	echo ${ALL} | xargs -n2 -P${NCPU} -E " " perltidy -b -l=400

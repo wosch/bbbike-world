@@ -24,7 +24,7 @@ p=`pwd`/world/bin
 
 # use original "strassen" data
 if [ -e $prefix/$city/strassen-orig.gz ]; then
-    zcat $prefix/$city/strassen-orig.gz > $prefix/$city/strassen
+    gzip -dc $prefix/$city/strassen-orig.gz > $prefix/$city/strassen
 else 
     cp -f $prefix/$city/strassen $prefix/$city/strassen-orig
 fi

@@ -4,9 +4,8 @@
 # start web server for testing
 #
 
-PATH=/usr/local/bin:/opt/local/sbin:/usr/sbin:/bin:/usr/bin; export PATH
+PATH=/usr/local/bin:/usr/local/sbin:/opt/local/sbin:/usr/sbin:/bin:/usr/bin; export PATH
 
-set -e
 
 if [ -e $HOME/.bbbikerc ]; then 
     . $HOME/.bbbikerc
@@ -18,6 +17,7 @@ export PWD USER
 
 : ${BBBIKE_LIGHTTPD_FILE=`pwd`/world/etc/lighttpd/test-more.conf}
 lighttpd=$(which lighttpd)
+set -e
 
 if [ -z "$lighttpd" ]; then
     echo "lighttpd not found"; exit 2
