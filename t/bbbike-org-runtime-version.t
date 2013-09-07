@@ -22,7 +22,7 @@ my $versions = {
         [ [qw/osmosis -v/],        qr/^INFO: Osmosis Version 0\.40\.1/m ],
         [ [qw/pigz --version/],    qr/^pigz 2\.1\.6/ ],
         [ [qw/java -version/],     qr/^java version "1\.6\.0_27"/m ],
-        [ [qw/java -version/],     qr/^OpenJDK 64-Bit/m ],
+        [ [qw/java -version/],     qr/^OpenJDK (64-Bit )?Server VM/m ],
         [ [qw/perltidy -v/],       qr/^This is perltidy, v20090616/ ],
     ]
 };
