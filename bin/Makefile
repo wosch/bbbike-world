@@ -11,7 +11,7 @@ _perlcheck:
 	@echo ${ALL} | xargs -n1 -P${NCPU} -E " " perl -I. -cw
 
 perltidy: perlcheck
-	echo ${ALL} | xargs -n2 -P${NCPU} -E " " perltidy -b
+	echo ${ALL} | xargs -n4 -P${NCPU} -E " " perltidy -b
 
 clean distclean:
 	rm -f *.bak *.tdy *.ERR
