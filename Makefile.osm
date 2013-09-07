@@ -626,7 +626,7 @@ _perlcheck2:
 	@echo ${PERL_SCRIPTS} | ${XARGS} -n1 -P${MAX_VCPU} -E " " ${PERL} -cw
 
 _perltidy: _perlcheck
-	echo ${PERL_SCRIPTS} | ${XARGS} -n2 -P${MAX_VCPU} -E " " perltidy -b
+	echo ${PERL_SCRIPTS} | ${XARGS} -n4 -P${MAX_VCPU} -E " " perltidy -b
 
 perltidy:
 	${MAKE} _perltidy
