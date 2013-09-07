@@ -8,7 +8,7 @@ make_verbose=-s
 git="nice -5 git"
 git_clone_opt="-q"
 : ${bbbike_macos=false}
-: ${bbbike_fast_checkout=false}
+: ${bbbike_fast_checkout=true}
 : ${bbbike_src=$HOME/src/bbbike.tgz}
 
 
