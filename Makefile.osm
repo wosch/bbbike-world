@@ -664,9 +664,9 @@ update-files-slow: kml create-osp index update-robots.txt create-bbbike-web-syml
 
 update-files-fast: 
 	for i in update-robots.txt create-bbbike-web-symlinks garmin-legend; do \
-	   ${BBMAKE} $$i & \
+	   LANG=C ${BBMAKE} $$i & \
 	done; wait
-	${BBMAKE} kml create-osp index java-config update-javascript test-org extract-config 
+	LANG=C ${BBMAKE} kml create-osp index java-config update-javascript test-org extract-config 
 
 garmin-legend:
 	make -C./world/etc/mkgmap legend
