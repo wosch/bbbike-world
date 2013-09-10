@@ -293,7 +293,7 @@ city-memory:
 	echo ${CITIES} | ${TIME} ${XARGS} -E " " -n1 -P${MAX_RCPU} ./world/bin/bbbike-memory
 
 update-robots.txt:
-	( cat world/web/robots.txt.in; \
+	( LANG=C; LC_ALL=C; cat world/web/robots.txt.in; \
 	  echo ${LANGUAGES} | ${PERL} -npe 's,\s+,\n,g' | sort | egrep -v "^en$$" | \
 	   ${PERL} -ne 'chomp; next if $$_ eq "m"; s,^,Disallow: /,; print "$$_/\n" '; \
 	  ${PERL} -e 'for ("A".."Z") { print qq{Disallow: /m/$$_\n} }'; \
@@ -671,9 +671,9 @@ update-files-slow: kml create-osp index update-robots.txt create-bbbike-web-syml
 
 update-files-fast: 
 	for i in update-robots.txt create-bbbike-web-symlinks garmin-legend; do \
-	   LANG=C ${BBMAKE} $$i & \
+	   LC_ALL=C LANG=C ${BBMAKE} $$i & \
 	done; wait
-	LANG=C ${BBMAKE} kml create-osp index java-config update-javascript test-org extract-config 
+	LC_ALL=C LANG=C ${BBMAKE} kml create-osp index java-config update-javascript test-org extract-config 
 
 garmin-legend:
 	make -C./world/etc/mkgmap legend
@@ -1026,7 +1026,7 @@ lighttpd-restart: temp-clean test-org
 test prove: lighttpd-restart 
 	perl -c cgi/bbbike.cgi
 	mkdir -p ${TMP_DIR}
-	TMPDIR=${TMP_DIR} LANG=C time prove ${prove_opt} -j${MAX_CPU} t/*.t world/t/*.t
+	TMPDIR=${TMP_DIR} LANG=C LC_ALL=C time prove ${prove_opt} -j${MAX_CPU} t/*.t world/t/*.t
 
 diff:
 	git diff
