@@ -1,0 +1,541 @@
+#!/usr/local/bin/perl
+#
+# osm2bbd-poi - for a point of interest (POI), find the nearest cross
+#
+# env CITY=data-osm/Berlin ./world/bin/osm2bbd-poi data-osm/Berlin 13.2840194,52.5585
+
+use vars qw($VERSION);
+$VERSION = 0.1;
+
+BEGIN {
+    $ENV{'BBBIKE_DATADIR'} = $ENV{'DATA_DIR'} = $ENV{CITY};
+}
+
+use Getopt::Long;
+use CGI;
+use Data::Dumper;
+use Time::HiRes qw/gettimeofday tv_interval/;
+
+use lib '.';
+use lib 'lib';
+use lib '../../';
+use lib '../../lib';
+use Karte::Polar;
+use Strassen;
+use Strassen::Dataset;
+use Storable;
+
+use strict;
+use warnings;
+
+my $debug = 1;
+my @poi_files =
+  qw(faehren icao kinos kneipen orte rbahnhof restaurants sbahnhof sehenswuerdigkeit ubahnhof);
+push @poi_files, qw( _education _oepnv _building);
+push @poi_files,
+  qw( _natural _landuse _sport _leisure _tourism _shop _public_services);
+
+my $storable;
+
+#@poi_files = qw( _oepnv faehren icao orte rbahnhof sbahnhof ubahnhof);
+
+my $use_exact_streetchooser = 1;
+my $use_cooked_street_data;
+my $use_polar     = 1;
+my $data_is_wgs84 = 1;
+my $keep_coord    = 0;
+
+my $q = new CGI;
+my $kr;
+my $str;
+my $crossings;
+my $g_str;
+
+my $enable_bus_stations  = 0;
+my $enable_tram_stations = 0;
+my $sort_entries         = 0;
+
+# foo -> S foo
+# bar -> U bar
+my $enable_stations_prefix = 1;
+
+# old or other names
+my $oldnames = 1;
+
+if ($use_polar) {
+    no warnings 'redefine';
+
+    require Strassen::Util;
+    *Strassen::Util::strecke   = \&Strassen::Util::strecke_polar;
+    *Strassen::Util::strecke_s = \&Strassen::Util::strecke_s_polar;
+    if ( defined &StrassenNetz::make_net_PP ) {
+        *StrassenNetz::make_net = \&StrassenNetz::make_net_PP;
+    }
+}
+
+sub new_kreuzungen {
+    if ( !$kr ) {
+        all_crossings();
+        my $str = get_streets();
+        $kr = new Kreuzungen(
+            Hash     => $crossings,
+            Strassen => $str
+        );
+        $kr->make_grid( UseCache => 1 );
+    }
+    $kr;
+}
+
+sub all_crossings {
+    if ( scalar keys %$crossings == 0 ) {
+        my $str = get_streets();
+        $crossings = $str->all_crossings(
+            RetType  => 'hash',
+            UseCache => 1
+        );
+    }
+}
+
+sub get_streets {
+    my ($scope) = shift || $q->param("scope") || "city";
+    $scope =~ s/^all,//;
+    if ( $g_str && $g_str->{Scope} eq $scope ) {
+        return $g_str;
+    }
+    my @f = (
+        "strassen",
+        ( $scope =~ /region/ ? "landstrassen" : () ),
+        ( $scope eq 'wideregion' ? "landstrassen2" : () ),
+    );
+
+    if ( $q->param("addnet") ) {
+        for my $addnet ( $q->param("addnet") ) {
+            if ( $addnet =~ /^(?:  )$/x ) {    # no addnet support for now
+                push @f, $addnet;
+            }
+        }
+    }
+
+    # XXX do not use Strassen::StrassenNetz::add_faehre, so better
+    # display in route list is possible
+    if ( defined $q->param('pref_ferry') && $q->param('pref_ferry') eq 'use' ) {
+        push @f, 'faehren';
+    }
+
+    # Should be last:
+    if ( defined $q->param("pref_fragezeichen")
+        && $q->param("pref_fragezeichen") eq 'yes' )
+    {
+        push @f, "fragezeichen";
+    }
+
+    my $use_cooked_street_data = $use_cooked_street_data;
+    while (1) {
+        my @f = @f;
+        if ($use_cooked_street_data) {
+            @f = map {
+
+                # Note: no "cooked" version for faehren available
+                $_ eq "faehren" ? $_ : "$_-cooked"
+            } @f;
+        }
+        eval {
+            if ( @f == 1 )
+            {
+                $g_str = new Strassen $f[0];
+            }
+            else {
+                $g_str = new MultiStrassen @f;
+            }
+        };
+        if ($@) {
+            if ($use_cooked_street_data) {
+                warn
+qq{Maybe the "cooked" version for <@f> is missing? Try again the normal version...};
+                $use_cooked_street_data = 0;
+                next;
+            }
+            else {
+                die $@;
+            }
+        }
+        last;
+    }
+    $g_str->{Scope} = $scope;
+
+    if ( !$use_cooked_street_data ) {
+        my $i_s;
+        eval { $i_s = new Strassen "inaccessible_strassen" };
+        if ($i_s) {
+            $g_str = $g_str->new_with_removed_points($i_s);
+            $g_str->{Scope} = $scope;
+        }
+    }
+
+    $crossings = {};
+
+    $g_str;
+}
+
+sub get_nearest_crossing_coords {
+    my ( $x, $y ) = @_;
+
+    # only a single argument, split $xy to $x and $y
+    if ( $x && !$y && $x =~ /([^,]+),([^,]+)/ ) {
+        $x = $1;
+        $y = $2;
+    }
+
+    return "$x,$y" if $keep_coord;
+
+    new_kreuzungen();
+    my $xy;
+    while (1) {
+        if ($use_exact_streetchooser) {
+            my $str = get_streets();
+            my $ret = $str->nearest_point( "$x,$y", FullReturn => 1 );
+            $xy = $ret->{Coord};
+
+            print Dumper($ret) if $debug >= 3;
+
+            if ( $xy && !$kr->crossing_exists($xy) ) {
+
+         # This may happen, because nearest_point does also return Kurvenpointe,
+         # whereas $kr has only real Kreuzungen. Find a real Kreuzung...
+                my @street_coords =
+                  @{ $ret->{StreetObj}->[ Strassen::COORDS() ] || [] };
+
+                # find this point in @street_coords
+                my $start_index = 0;
+                for ( ; $start_index <= $#street_coords ; $start_index++ ) {
+                    last if ( $street_coords[$start_index] eq $xy );
+                }
+                if ( $start_index > $#street_coords ) {
+
+                    # This may happen if there's really no "nearest point".
+                    # Hopefully we'll get one after incrementing the scope,
+                    # see below.
+                }
+                else {
+                    my $before_xy;
+                    my $after_xy;
+                    for ( my $i = $start_index - 1 ; $i >= 0 ; $i-- ) {
+                        if ( $kr->crossing_exists( $street_coords[$i] ) ) {
+                            $before_xy = $street_coords[$i];
+                            last;
+                        }
+                    }
+                    for (
+                        my $i = $start_index + 1 ;
+                        $i <= $#street_coords ;
+                        $i++
+                      )
+                    {
+                        if ( $kr->crossing_exists( $street_coords[$i] ) ) {
+                            $after_xy = $street_coords[$i];
+                            last;
+                        }
+                    }
+                    if ( !$before_xy && !$after_xy ) {
+                        warn
+"Harmless? Cannot find any real crossing in <@street_coords>\n"
+                          ;    #, scope is <@{[ $q->param('scope') ]}>";
+                    }
+                    else {
+                        if ( $after_xy && $before_xy ) {
+
+                            # choose nearest
+                            if (
+                                Strassen::Util::strecke_s(
+                                    "$x,$y", $before_xy
+                                ) <
+                                Strassen::Util::strecke_s( "$x,$y", $after_xy )
+                              )
+                            {
+                                $xy = $before_xy;
+                            }
+                            else {
+                                $xy = $after_xy;
+                            }
+                        }
+                        elsif ($before_xy) {
+                            $xy = $before_xy;
+                        }
+                        elsif ($after_xy) {
+                            $xy = $after_xy;
+                        }
+                    }
+                }
+
+            }
+        }
+        else {
+            $xy = ( ( $kr->nearest_loop( $x, $y ) )[0] );
+        }
+        last if defined $xy;
+        my $new_scope = increment_scope();
+        last if !defined $new_scope;
+        get_streets_rebuild_dependents();
+    }
+
+    $xy;
+}
+
+# Increment scope and return the new scope, or undef if the largest scope
+# is already used. Call get_streets_rebuild_dependents after.
+sub increment_scope {
+    my $scope = $q->param("scope") || "";
+    if ( $scope eq "" || $scope eq "city" ) {
+        $scope = "region";
+    }
+    elsif ( $scope eq "region" ) {
+        $scope = "wideregion";
+    }
+    else {
+        return undef;
+    }
+    $q->param( "scope", $scope );
+    $scope;
+}
+
+sub get_streets_rebuild_dependents {
+
+    #$g_str = get_streets();
+}
+
+my %file_hash;
+
+sub get_poi {
+    my @files = @_;
+
+    my @points;
+    foreach my $file (@files) {
+        my $file_type = ( $file =~ /^([sur])bahnhof$/ ? $1 : "" );
+
+        $file = $ENV{'BBBIKE_DATADIR'} . "/$file";
+        my $fh;
+
+        if ( !-f $file ) {
+            if ( -f "$file.gz" ) {
+                $file = "$file.gz";
+            }
+            else {
+                warn "$file does not exists, skip...\n" if $debug >= 1;
+                next;
+            }
+        }
+
+        if ( $file_hash{$file} ) {
+            warn "$file was already parsed, ignore\n" if $debug >= 1;
+            next;
+        }
+        $file_hash{$file} = 1;
+
+        warn "open $file ...\n" if $debug >= 2;
+        if ( $file =~ /\.gz$/ ) {
+            open $fh, '-|', 'gzip', '-dc', $file
+              or die "Can't run zcat on $file: $!";
+        }
+        else {
+            open $fh, $file or die "open file '$file': $!\n";
+        }
+
+        my @p = get_poi_fh( $fh, $file_type );
+        push( @points, @p ) if scalar(@p);
+    }
+
+    return @points;
+}
+
+sub get_poi_fh {
+    my $fh        = shift;
+    my $file_type = shift;
+    $file_type = uc($file_type);
+
+    binmode $fh, ":utf8";
+
+    my @p;
+    my @p_old;
+    my $flag = 0;
+    while (<$fh>) {
+        chomp;
+        if ( $oldnames && /^#:\s+\w+_name:\s+/ ) {
+            push @p_old, [$_];
+            $flag = $.;    # current line for next real entry
+            next;
+        }
+
+        next if /^\s*#/;
+        next if /^\s+/;
+        next if /^\s*$/;
+
+        my ( $poi, $rest ) = split "\t", $_;
+
+        my ( $type, $first_coord, @coords ) = split " ", $rest;
+        $type =~ s/:.*//;
+
+        # ignore bus stations
+        next if !$enable_bus_stations && $type =~ /^Bus/i;
+        next if !$enable_tram_stations && $type eq 'Tramstop';
+
+        # ignore incomplete entries
+        next if $poi eq "" || $type eq "" || $first_coord eq "";
+
+        # train stations
+        if ( $file_type && $enable_stations_prefix ) {
+            $poi = "$file_type $poi";
+        }
+
+        # alias, old names for a *known* point
+        if ( $flag + 1 == $. ) {
+            push @p, @p_old;
+        }
+        undef @p_old;
+
+        push @p, [ $poi, $type, $first_coord ];
+    }
+
+    return @p;
+}
+
+sub read_storable {
+    my $file = shift;
+
+    my $cache = Storable::retrieve($file) or die "storable $file: $!\n";
+
+    return $cache;
+}
+
+sub write_storable {
+    my $file  = shift;
+    my $cache = shift;
+
+    my $file_tmp = "$file.tmp";
+
+    if ( !Storable::store( $cache, $file_tmp ) ) {
+        die "Can't write to $file: $!\n";
+    }
+
+    rename( $file_tmp, $file ) or die "rename $file_tmp => $file: $!\n";
+}
+
+sub head {
+    <<EOF;
+#: #: -*- coding: utf-8 -*-
+#:encoding: utf-8
+#:map: polar
+#:date: fixed
+#:
+#
+# OpenStreetMap data can be used freely under the terms of the 
+# Creative Commons Attribution-ShareAlike 2.0 license.
+# http://wiki.openstreetmap.org/index.php/OpenStreetMap_License
+#
+# Converted from openstreetmap data using
+# /home/wosch/projects/bbbike/miscsrc/osm2bbd v0.11
+# DO NOT EDIT THIS FILE! Edit the original openstreetmap data!
+#
+EOF
+}
+
+sub usage () {
+    <<EOF;
+usage: env CITY=data-osm/<city> $0 [ options ] poi
+
+--debug=0..2      debug level, default $debug
+--oldnames=0|1    keep alias, historic or nick names
+--poi-file file	  files with points of interests
+--poi=x,y	  GPS coordinates
+--storable=file.db cache database for POI
+EOF
+}
+
+sub is_gps_point {
+    my $point = shift;
+
+    return $point =~ /^[\d\-\+\.]+,[\d\-\+\.]+$/ ? 1 : 0;
+}
+
+binmode \*STDIN,  ":utf8";
+binmode \*STDOUT, ":utf8";
+binmode \*STDERR, ":utf8";
+
+my $help;
+my $poi;
+my $ret = GetOptions(
+    "debug=i"    => \$debug,
+    "poi-file=s" => \@poi_files,
+    "poi=s"      => \$poi,
+    "oldnames=i" => \$oldnames,
+    "storable=s" => \$storable,
+    "help"       => \$help
+);
+
+die usage if $help || !$ret;
+if ( !$ENV{'BBBIKE_DATADIR'} ) {
+    warn "No city defined!\n";
+    die usage;
+}
+
+if ( $sort_entries && $oldnames ) {
+    warn "ignore sorting names if oldnames is enabled!\n";
+    $sort_entries = 0;
+}
+
+my @points;
+
+# single point 13.2840194,52.5585185
+if ($poi) {
+    my $point = get_nearest_crossing_coords($poi) || "";
+    print "$point\n";
+    exit;
+}
+
+my $cache = $storable && -f $storable ? read_storable($storable) : {};
+
+# for all POI in the database
+print &head;
+foreach my $file (@poi_files) {
+    @points = &get_poi($file);
+
+    my @data;
+    my $t0 = [gettimeofday];
+    foreach my $poi (@points) {
+        if ( $oldnames && $poi->[0] =~ /^#/ ) {
+            push @data, $poi->[0] . "\n";
+            next;
+        }
+
+        my $coord = $poi->[2];
+        my $point;
+        if ( exists $cache->{$coord} ) {
+            $point = $cache->{$coord};
+        }
+        else {
+            $point = get_nearest_crossing_coords($coord) || "";
+            $cache->{$coord} = $point;
+        }
+
+        if ( $poi->[0] ne "" && $poi->[1] ne "" && is_gps_point($point) ) {
+            push @data, $poi->[0] . "\t" . $poi->[1] . " $point\n";
+        }
+        elsif ($debug) {
+            warn join( ":", @$poi, $point ), "\n";
+        }
+    }
+
+    my $elapsed = int( tv_interval($t0) * 100 ) / 100;
+    my $average =
+      scalar(@points) ? int( $elapsed * 1000 / scalar(@points) ) : 0;
+
+    print "#\n";
+    print "# file: $file, number of points: "
+      . scalar(@points)
+      . ", time: ${elapsed}sec, average: ${average}ms\n";
+    print $sort_entries ? sort @data : @data;
+}
+
+&write_storable( $storable, $cache ) if $storable;
+
+__DATA__
+

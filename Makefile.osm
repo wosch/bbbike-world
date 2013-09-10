@@ -466,7 +466,7 @@ create-bbbike-web-symlinks-bbbike.en.cgi:
 update-feed:
 	${MAKE} -C world/web/feed
 
-create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi index update-feed bbbike-org-t
+create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi index update-feed bbbike-org-t create-bbbike-org-symlinks
 	ln -fs world/Makefile.osm ${BBBIKE_WEB_DIR}
 	ln -fs Makefile.osm Makefile
 	cd world/web; \
@@ -497,6 +497,12 @@ create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi index updat
 			*) ${PERL} -npe "s,<a href=\"../$$i/\" title=\"(.*?)\">$$i</a>,<span class=\"current_language\" title=\"$1\">$$i</span>,"  world/web/index.en.html > world/web/$$i/index.html;; \
 		esac \
 	done
+        
+create-bbbike-org-symlinks:
+	cd images; ln -fs ../world/images/* .
+	cd html; ln -fs ../world/html/* .
+	ln -fs world/bin/BBBike*.pm .
+	cd cgi/msg/; ln -fs ../world/cgi/msg/* .
 
 bbbike-org-t:
 	cd world/web; ln -fs ../../data
@@ -577,9 +583,10 @@ clean-tile tile-cache-cleanup:
 	world/bin/tile-cache-cleanup
 
 clean: rotate-data-osm
-	${MAKE} -C cgi/msg $@	
+	${MAKE} -C world/cgi/msg $@	
 	${MAKE} -C world/bin $@	
 	${MAKE} -C world/cgi $@	
+	${MAKE} -C world/cgi/msg $@	
 	${MAKE} -C world/web/feed $@	
 	rm -f *.bak *.tdy *.ERR
 	cd world/web && rm -rf ${LANGUAGES}
@@ -618,7 +625,7 @@ update-database: build-runtime
 	@${BBMAKE} -s opensearch-bbbike
 	${TIME} ./world/bin/update-database
 
-PERL_SCRIPTS=	BBBikeGooglemap.pm BBBikeElevation.pm miscsrc/osm2bbd-poi t/bbbike-org-*.t
+PERL_SCRIPTS=	BBBikeGooglemap.pm BBBikeElevation.pm world/bin/osm2bbd-poi world/t/bbbike-org-*.t
 
 _perlcheck:
 	${BBMAKE} _perlcheck2 >/dev/null 2>&1 || ${BBMAKE} _perlcheck2
@@ -630,7 +637,7 @@ _perltidy: _perlcheck
 
 perltidy:
 	${MAKE} _perltidy
-	${MAKE} -C cgi/msg $@	
+	${MAKE} -C world/cgi/msg $@	
 	${MAKE} -C world/bin $@	
 	${MAKE} -C world/cgi $@	
 	${MAKE} -C world/web/feed $@	
@@ -638,7 +645,7 @@ perltidy:
 
 perlcheck:
 	${MAKE} _perlcheck
-	${MAKE} -C cgi/msg $@	
+	${MAKE} -C world/cgi/msg $@	
 	${MAKE} -C world/bin $@	
 	${MAKE} -C world/cgi $@	
 	${MAKE} -C world/web/feed $@	
@@ -882,8 +889,8 @@ tile-distclean:
 tile-rsync:
 	rsync -av ${TILES_DIR}/lnglat/ ${BBBIKE_WEBSERVER_DOWNLOAD_DIR}/osm/planet/${TILES_DIR}/lnglat/
 
-data-distclean:
-	rm -f data/*.lock data/*.inx4
+data-distclean distclean-data:
+	rm -f data/*.lock data/*.inx4 data/*.st
 
 # for errors look in ./tile/tmp
 tile: tile-extract tile-convert tile-checksum tile-csv tile-aws-s3
@@ -1019,13 +1026,13 @@ lighttpd-restart: temp-clean test-org
 test prove: lighttpd-restart 
 	perl -c cgi/bbbike.cgi
 	mkdir -p ${TMP_DIR}
-	TMPDIR=${TMP_DIR} LANG=C LC_ALL=C time prove -j${MAX_CPU}
+	TMPDIR=${TMP_DIR} LANG=C LC_ALL=C time prove ${prove_opt} -j${MAX_CPU} t/*.t world/t/*.t
 
 diff:
 	git diff
         
 jasmine-node test-js:
-	jasmine-node t/spec
+	jasmine-node world/t/spec
 
 help:
 	@echo "bbbike version: ${GIT_ID}"

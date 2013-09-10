@@ -1,0 +1,98 @@
+// Copyright (C) 2011-2012 Wolfram Schneider, http://bbbike.org
+
+body {
+  	margin: 0;
+  	padding: 1em 0em 0em 1em;
+  	color: #000;
+  	background: #fff;
+}
+
+div#top {
+  	position: absolute;
+  	top: 0em;
+  	background: #fff;
+  	padding: 1em;
+  	border: 1px solid #9c9;
+	width: 54em; 
+	margin-left: -2em;
+}
+
+@media screen {
+  div#top
+    {
+    position: fixed;
+    }
+  /* Don't do this at home */
+  * html
+    {
+    overflow-y: hidden;
+    }
+  * html body
+    {
+    overflow-y: auto;
+    height: 100%;
+    padding: 27em 0em 0em 1em;
+    font-size: 100%;
+    }
+  * html div#top
+    {
+    position: absolute;  
+    }
+  * html div#ad_right
+    {
+    position: absolute;  
+    }
+  /* All done. */
+}
+
+div#main {
+        max-width: 54em;
+        margin: 0px auto; /* Right And Left Margin Widths To Auto */
+        text-align: left; 
+        background-color: #E4E9F1; /* light blue-grey */
+        color:          #000;     
+        padding: 16px;
+  	border: 1px solid #9c9;
+}
+
+/* a big white border line inside #main */
+#main_border {
+        padding-top:    0.5em;
+        padding-bottom: 1em; 
+        padding-left:   1em; 
+        padding-right:  1em; 
+        color:          #000;     
+        background-color:  #FFF; 
+}
+
+
+body {
+        text-align:     center;
+        // font-family:    Verdana, Geneva, Arial, sans-serif;
+        // margin:         1em;
+        margin-top:     25em;
+        color:          #000;
+        background-color: #9c9; /* green */
+        text-align: left;
+}
+
+/*Win IE fix \*/
+* html #main { width: 56em; } /* IE cannot handle max-width */
+* html div#top_ie { width: 56em; position: absolute; top: 0em; }
+* html div#top  { width: 56em; margin-left: -2em; }
+* html #main { width: 56em; } /* IE cannot handle max-width */
+/*End Win IE fix*/
+
+// highlight search queries
+.hilite  { background-color: #ff0; }
+.hilite1 { background-color: #ff0; }
+.hilite2 { background-color: #f0f; }
+.hilite3 { background-color: #aaa; }
+.hilite4 { background-color: #f00; }
+.hilite5 { background-color: #8f8; }
+.hilite6 { background-color: #88f; }
+.hilite7, .hilite8 { background-color: #0ff; }
+
+.hilite1, .hilite2, .hilite3, .hilite4, .hilite5, .hilite6, .hilite7, .hilite8 { font-style: italic; padding-left: 3px; padding-right: 3px; padding-top: 1px; padding-bottom: 1px; }
+#hitcount { font-size: small; text-align: right; }
+
