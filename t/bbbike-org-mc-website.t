@@ -6,6 +6,7 @@
 
 use LWP::UserAgent;
 use Encode;
+use Test::More;
 
 use strict;
 use warnings;
