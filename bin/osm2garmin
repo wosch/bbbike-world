@@ -74,7 +74,7 @@ license="license.txt"
 copyright="OpenStreetMap.org"
 java_opt=-Xmx${java_heap}
 mkgmap_map_style="osm"
-: ${max_jobs="--max-jobs=2"}
+: ${osm2xxx_max_jobs="--max-jobs=2"}
 
 etc_dir=`dirname $0`/../etc/mkgmap
 # absolute path
@@ -197,7 +197,7 @@ fi
 # --mapname="$mapid" 
 echo ">>> Run mkgmap, map style: $mkgmap_map_style" >> $logfile
 ( set -x 
-  java $java_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_MKGMAP_VERSION/mkgmap.jar $max_jobs $mkgmap_opt $mkgmap_map \
+  java $java_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_MKGMAP_VERSION/mkgmap.jar $osm2xxx_max_jobs $mkgmap_opt $mkgmap_map \
     --gmapsupp --description="$description" --family-name="$coords style=$mkgmap_map_style" $split_dir/*.pbf $mkgmap_map_type ) >> $logfile 2>&1  || error
 
 #echo ">>> Run mkgmap, create gmapsupp file" >> $logfile
