@@ -502,7 +502,7 @@ create-bbbike-org-symlinks:
 	cd images; ln -fs ../world/images/* .
 	cd html; ln -fs ../world/html/* .
 	ln -fs world/bin/BBBike*.pm .
-	cd cgi/msg/; ln -fs ../world/cgi/msg/* .
+	cd cgi/msg/; ln -fs ../../world/cgi/msg/* .
 
 bbbike-org-t:
 	cd world/web; ln -fs ../../data
