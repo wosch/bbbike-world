@@ -62,7 +62,7 @@ if $verbose; then
 	$command
     fi
     echo "please run:"
-    echo "( cd $dir/bbbike; make test )"
+    echo "( cd $dir/bbbike; make check-full )"
     echo "( cd $dir/bbbike; git push )"
     echo "rm -rf $dir"
 else
