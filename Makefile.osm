@@ -679,8 +679,8 @@ garmin-legend:
 	make -C./world/etc/mkgmap legend
 
 extract-config:
-	test -e .bbbike-extract-rc || ln -fs $$HOME/.bbbike-extract-rc .
-	test -e .bbbike-extract-pro-rc || ln -fs $$HOME/.bbbike-extract-pro-rc .
+	test -e .bbbike-extract.rc || ln -fs $$HOME/.bbbike-extract.rc .
+	test -e .bbbike-extract-pro.rc || ln -fs $$HOME/.bbbike-extract-pro.rc .
 
 update-javascript:
 	make -C html bbbike-js
