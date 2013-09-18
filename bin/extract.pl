@@ -1303,7 +1303,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
           . $obj->{'city'}
           . "', format="
           . $obj->{'format'}
-          . " is ready for download: '";
+          . " is ready for download";
         my @args = ( $obj->{'email'}, $subject, $message, $option->{'bcc'} );
 
         my $email_rest_enabled = $option->{"email_rest_enabled"};
