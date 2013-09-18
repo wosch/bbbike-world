@@ -779,7 +779,7 @@ sub reorder_pbf {
         my $pbf_file = $obj->{'pbf_file'};
         my $format   = $obj->{'format'};
 
-        my $st   = stat($pbf_file);
+        my $st   = stat($pbf_file) or die "stat $pbf_file: $!\n";
         my $size = $st->size * $format{$format};
 
         $hash{$json_file} = $size;
