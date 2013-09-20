@@ -15,8 +15,8 @@ PATH=$PATH:$dir; export PATH
 command="$@"
 export bbbike_fast_checkout
 
-if [ -d /tmpfs ]; then
-   TMPDIR=/tmpfs; export TMPDIR
+if [ -d /bbbike/tmp ]; then
+   TMPDIR=/bbbike/tmp; export TMPDIR
 fi
 
 dir=$(mktemp -d -t bbbike-bootstrap.XXXXXXXX)
