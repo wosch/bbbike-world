@@ -23,7 +23,7 @@ binmode \*STDOUT, "utf8";
 binmode \*STDERR, "utf8";
 
 my @homepages_localhost = qw[ http://localhost ];
-my @homepages           = qw[ http://www.bbbike.org http://dev2.bbbike.org ];
+my @homepages           = qw[ http://www.bbbike.org ];
 unshift @homepages, @homepages_localhost;
 
 my @cities = qw/Berlin Zuerich Toronto Moscow/;
