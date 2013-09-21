@@ -24,7 +24,7 @@ binmode \*STDERR, "utf8";
 my @homepages_localhost = qw[ http://localhost ];
 my @homepages =
   qw[ http://extract.bbbike.org http://dev2.bbbike.org http://dev4.bbbike.org ];
-push @homepages, @homepages_localhost;
+unshift @homepages, @homepages_localhost;
 
 my @lang = qw/en de ru es fr/;
 my @tags =
@@ -157,6 +157,8 @@ sub garmin_check {
 
 # check a bunch of homepages
 foreach my $home_url (@homepages) {
+    warn "$home_url\n";
+    
     $home_url =~ /^extract/ ? &page_check($home_url) : &page_check($home_url);
 }
 
