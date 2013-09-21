@@ -23,12 +23,10 @@ binmode \*STDOUT, "utf8";
 binmode \*STDERR, "utf8";
 
 my @homepages_localhost = qw[ http://localhost ];
-my @homepages =
-  qw[ http://www.bbbike.org http://dev2.bbbike.org http://dev4.bbbike.org ];
+my @homepages           = qw[ http://www.bbbike.org http://dev2.bbbike.org ];
 unshift @homepages, @homepages_localhost;
 
-my $homepage = 'http://www.bbbike.org';
-my @cities   = qw/Berlin Zuerich Toronto Moscow/;
+my @cities = qw/Berlin Zuerich Toronto Moscow/;
 use constant MYGET => 3;
 
 my @lang = qw/de da  es  fr  hr  nl  pl  pt  ru  zh/;
@@ -59,12 +57,17 @@ if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
     my $counter_html = ( MYGET * 11 ) + 2;
     my $counter_cities =
       scalar(@cities) * ( MYGET * 2 + 26 ) * ( scalar(@lang) + 1 );
+    my $counter_ads = 0;
 
-    my $counter_ads =
-      scalar( grep { $_ !~ m,^http://www, } $homepage ) * scalar(@cities);
+    # ads only on production system
+    foreach my $homepage (@homepages) {
+        $counter_ads +=
+          scalar( grep { $_ !~ m,^http://www, } $homepage ) *
+          ( scalar(@cities) * ( scalar(@lang) + 1 ) );
+    }
 
-    plan tests => $counter_html + $counter_cities +
-      $counter_text;    #- $counter_ads;
+    plan tests => scalar(@homepages) *
+      ( $counter_html + $counter_cities + $counter_text ) - $counter_ads;
 }
 else {
     plan 'no_plan';
@@ -236,11 +239,11 @@ sub html {
 ########################################################################
 # main
 #
-#foreach $homepage ("http://dev2.bbbike.org") {
-warn $homepage;
-&cities($homepage);
-&html($homepage);
 
-#}
+foreach my $homepage (@homepages) {
+    diag "check homepage $homepage";
+    &cities($homepage);
+    &html($homepage);
+}
 
 __END__
