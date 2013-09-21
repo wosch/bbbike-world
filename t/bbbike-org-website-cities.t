@@ -31,6 +31,7 @@ use constant MYGET => 3;
 
 my @lang = qw/de da  es  fr  hr  nl  pl  pt  ru  zh/;
 
+# for each translation, check a translated term
 my $msg = {
     "de" => ["Start- und Zielstra&szlig;e der Route eingeben"],
     "da" => ["Angiv start-og bestemmelsessted gadenavn"],
