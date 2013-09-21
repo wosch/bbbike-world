@@ -124,85 +124,63 @@ sub _cities {
     $homepage =~ s,(^http://[^/]+).*,$1,;
 
     my $res     = myget($url);
-    my $content = $res->decoded_content;
+    my $content = $res->decoded_content();
     my $data    = $content;
 
-    like( $res->decoded_content, qr|"real_time"|, "complete html" );
-    like( $res->decoded_content,
-        qr|Content-Type" content="text/html; charset=utf-8"|, "charset" );
-    like( $res->decoded_content, qr|rel="shortcut|, "icon" );
-    like( $res->decoded_content,
+    like( $content, qr|"real_time"|, "complete html" );
+    like( $content, qr|Content-Type" content="text/html; charset=utf-8"|,
+        "charset" );
+    like( $content, qr|rel="shortcut|, "icon" );
+    like( $content,
         qr|type="application/opensearchdescription\+xml" rel="search"|,
         "opensearch" );
     like(
-        $res->decoded_content,
+        $content,
 qr|type="application/atom\+xml" rel="alternate" href="/feed/bbbike-world.xml|,
         "rss"
     );
-    like( $res->decoded_content, qr|src="/html/bbbike(-js)?.js"|,
-        "bbbike(-js)?.js" );
-    like( $res->decoded_content, qr|href="/html/bbbike.css"|, "bbbike.css" );
-    like(
-        $res->decoded_content,
-        qr|<span id="language_switch">|,
-        "language switch"
-    );
-    like( $res->decoded_content, qr|href="http://twitter.com/BBBikeWorld"|,
-        "twitter" );
-    like( $res->decoded_content, qr|class="mobile_link|, "mobile link" );
-    like(
-        $res->decoded_content,
-        qr|#suggest_start\'\).autocomplete|,
-        "autocomplete start"
-    );
-    like(
-        $res->decoded_content,
-        qr|#suggest_via\'\).autocomplete|,
-        "autocomplete via"
-    );
-    like(
-        $res->decoded_content,
-        qr|#suggest_ziel\'\).autocomplete|,
-        "autocomplete ziel"
-    );
-    like(
-        $res->decoded_content,
-        qr|"/images/spinning_wheel32.gif"|,
-        "spinning wheel"
-    );
+    like( $content, qr|src="/html/bbbike(-js)?.js"|, "bbbike(-js)?.js" );
+    like( $content, qr|href="/html/bbbike.css"|,     "bbbike.css" );
+    like( $content, qr|<span id="language_switch">|, "language switch" );
+    like( $content, qr|href="http://twitter.com/BBBikeWorld"|, "twitter" );
+    like( $content, qr|class="mobile_link|, "mobile link" );
+    like( $content, qr|#suggest_start\'\).autocomplete|, "autocomplete start" );
+    like( $content, qr|#suggest_via\'\).autocomplete|,   "autocomplete via" );
+    like( $content, qr|#suggest_ziel\'\).autocomplete|,  "autocomplete ziel" );
+    like( $content, qr|"/images/spinning_wheel32.gif"|,  "spinning wheel" );
 
     # only on production systems
     if ( $homepage =~ m,^http://www, ) {
-        like( $res->decoded_content, qr|google_ad_client|, "google_ad_client" );
+        like( $content, qr|google_ad_client|, "google_ad_client" );
     }
 
-    like( $res->decoded_content, qr|<div id="map"></div>|, "div#map" );
-    like( $res->decoded_content, qr|bbbike_maps_init|,     "bbbike_maps_init" );
-    like( $res->decoded_content, qr|city = ".+";|,         "city" );
-    like( $res->decoded_content, qr|display_current_weather|,
-        "display_current_weather" );
-    like( $res->decoded_content, qr|displayCurrentPosition|,
-        "displayCurrentPosition" );
-    like( $res->decoded_content, qr|<div id="footer">|, "footer" );
-    like( $res->decoded_content, qr|id="other_cities"|, "other cities" );
-    like( $res->decoded_content, qr|</html>|,           "closing </html>" );
+    like( $content, qr|<div id="map"></div>|,    "div#map" );
+    like( $content, qr|bbbike_maps_init|,        "bbbike_maps_init" );
+    like( $content, qr|city = ".+";|,            "city" );
+    like( $content, qr|display_current_weather|, "display_current_weather" );
+    like( $content, qr|displayCurrentPosition|,  "displayCurrentPosition" );
+    like( $content, qr|<div id="footer">|,       "footer" );
+    like( $content, qr|id="other_cities"|,       "other cities" );
+    like( $content, qr|</html>|,                 "closing </html>" );
 
     # skip other tests on slow networks (e.g. on mobile phone links)
     return $data if $ENV{BBBIKE_TEST_SLOW_NETWORK};
 
     $res = myget( "$homepage/osp/$city.xml", 100 );
+    $content = $res->decoded_content();
+
     like(
-        $res->decoded_content,
+        $content,
         qr|<InputEncoding>UTF-8</InputEncoding>|,
         "opensearch input encoding utf8"
     );
     like(
-        $res->decoded_content,
+        $content,
         qr|template="http://www.bbbike.org/cgi/api.cgi\?sourceid=|,
         "opensearch template"
     );
     like(
-        $res->decoded_content,
+        $content,
         qr|http://www.bbbike.org/images/srtbike16.gif</Image>|,
         "opensearch icon"
     );
@@ -224,8 +202,10 @@ sub html {
 
     if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
         my $res = myget( "$homepage/html/bbbike-js.js", 100_000 );
-        like( $res->decoded_content, qr|#BBBikeGooglemap|, "bbbike js" );
-        like( $res->decoded_content, qr|downloadUrl|,      "bbbike js" );
+        my $content = $res->decoded_content;
+
+        like( $content, qr|#BBBikeGooglemap|, "bbbike js" );
+        like( $content, qr|downloadUrl|,      "bbbike js" );
 
         myget( "$homepage/html/streets.css", 2_000 );
         myget( "$homepage/html/luft.css",    3_000 );
