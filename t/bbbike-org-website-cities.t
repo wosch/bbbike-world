@@ -18,14 +18,44 @@ BEGIN {
 use LWP;
 use LWP::UserAgent;
 
+my @homepages_localhost = qw[ http://localhost ];
+my @homepages =
+  qw[ http://www.bbbike.org http://dev2.bbbike.org http://dev4.bbbike.org ];
+unshift @homepages, @homepages_localhost;
+
 my $homepage = 'http://www.bbbike.org';
 my @cities   = qw/Berlin Zuerich Toronto Moscow/;
 use constant MYGET => 3;
 
+my @lang = qw/de da  es  fr  hr  nl  pl  pt  ru  zh/;
+
+my $msg = {
+
+    "de" => ["Start- und Zielstraße der Route eingeben"],
+    "da" => ["Angiv start-og bestemmelsessted gadenavn"],
+    "es" => ["Por favor, introduzca de inicio y destino"],
+    "fr" => ["S'il vous plaît entrez vous nom de la rue de destination"],
+    "hr" => ["Molimo unesite početak i odredište naziv ulice"],
+    "nl" => ["Geef start-en straatnaam van uw bestemming"],
+    "pl" => ["Proszę podać start i ulicy przeznaczenia nazwę"],
+    "pt" => ["Por favor, indique de partida eo destino nome da rua"],
+    "ru" => [
+"Пожалуйста, введите начало и назначения название улицы"
+    ],
+    "zh" =>
+      ["请输入起始和没有门牌号码</乙>目的地的街道名称的"]
+};
+
 if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
-    plan tests => scalar(@cities) * ( MYGET * 4 ) +
-      ( MYGET * 11 ) +
-      ( scalar(@cities) * 26 ) + 2;
+    my $counter_text = 0;
+    foreach my $l ( keys %$msg ) {
+        $counter_text += scalar( @{ $msg->{$l} } );
+    }
+
+    my $counter_html = ( MYGET * 11 ) + 2;
+    my $counter_cities = scalar(@cities) * ( MYGET * 2 + 26 );
+
+    plan tests => $counter_html + $counter_cities * ( scalar(@lang) + 1 );
 }
 else {
     plan 'no_plan';
@@ -53,95 +83,110 @@ sub myget {
 }
 
 sub cities {
+    my $homepage = shift;
+
     foreach my $city (@cities) {
-        my $url = "$homepage/$city/";
-        my $res = myget($url);
-
-        like( $res->decoded_content, qr|"real_time"|, "complete html" );
-        like( $res->decoded_content,
-            qr|Content-Type" content="text/html; charset=utf-8"|, "charset" );
-        like( $res->decoded_content, qr|rel="shortcut|, "icon" );
-        like( $res->decoded_content,
-            qr|type="application/opensearchdescription\+xml" rel="search"|,
-            "opensearch" );
-        like(
-            $res->decoded_content,
-qr|type="application/atom\+xml" rel="alternate" href="/feed/bbbike-world.xml|,
-            "rss"
-        );
-        like( $res->decoded_content, qr|src="/html/bbbike-js.js"|,
-            "bbbike-js.js" );
-        like( $res->decoded_content, qr|href="/html/bbbike.css"|,
-            "bbbike.css" );
-        like(
-            $res->decoded_content,
-            qr|<span id="language_switch">|,
-            "language switch"
-        );
-        like( $res->decoded_content, qr|href="http://twitter.com/BBBikeWorld"|,
-            "twitter" );
-        like( $res->decoded_content, qr|class="mobile_link|, "mobile link" );
-        like(
-            $res->decoded_content,
-            qr|#suggest_start\'\).autocomplete|,
-            "autocomplete start"
-        );
-        like(
-            $res->decoded_content,
-            qr|#suggest_via\'\).autocomplete|,
-            "autocomplete via"
-        );
-        like(
-            $res->decoded_content,
-            qr|#suggest_ziel\'\).autocomplete|,
-            "autocomplete ziel"
-        );
-        like(
-            $res->decoded_content,
-            qr|"/images/spinning_wheel32.gif"|,
-            "spinning wheel"
-        );
-        like( $res->decoded_content, qr|google_ad_client|, "google_ad_client" );
-        like( $res->decoded_content, qr|<div id="map"></div>|, "div#map" );
-        like( $res->decoded_content, qr|bbbike_maps_init|, "bbbike_maps_init" );
-        like( $res->decoded_content, qr|city = ".+";|,     "city" );
-        like( $res->decoded_content, qr|display_current_weather|,
-            "display_current_weather" );
-        like( $res->decoded_content, qr|displayCurrentPosition|,
-            "displayCurrentPosition" );
-        like( $res->decoded_content, qr|<div id="footer">|, "footer" );
-        like( $res->decoded_content, qr|id="other_cities"|, "other cities" );
-        like( $res->decoded_content, qr|</html>|,           "closing </html>" );
-
-        # skip other tests on slow networks (e.g. on mobile phone links)
-        next if $ENV{BBBIKE_TEST_SLOW_NETWORK};
-
-        $url = "$homepage/en/$city/";
-        myget($url);
-        $url = "$homepage/ru/$city/";
-        myget($url);
-        $url = "$homepage/de/$city/";
-
-        $res = myget( "$homepage/osp/$city.xml", 100 );
-        like(
-            $res->decoded_content,
-            qr|<InputEncoding>UTF-8</InputEncoding>|,
-            "opensearch input encoding utf8"
-        );
-        like(
-            $res->decoded_content,
-            qr|template="http://www.bbbike.org/cgi/api.cgi\?sourceid=|,
-            "opensearch template"
-        );
-        like(
-            $res->decoded_content,
-            qr|http://www.bbbike.org/images/srtbike16.gif</Image>|,
-            "opensearch icon"
-        );
+        foreach my $lang ( "", @lang ) {
+            my $url =
+              $lang eq "" ? "$homepage/$city/" : "$homepage/$lang/$city/";
+            _cities( $city, $url );
+        }
     }
 }
 
+sub _cities {
+    my $city = shift;
+    my $url  = shift;
+
+    my $homepage = $url;
+    $homepage =~ s,(^http://[^/]+).*,$1,;
+
+    my $res = myget($url);
+
+    like( $res->decoded_content, qr|"real_time"|, "complete html" );
+    like( $res->decoded_content,
+        qr|Content-Type" content="text/html; charset=utf-8"|, "charset" );
+    like( $res->decoded_content, qr|rel="shortcut|, "icon" );
+    like( $res->decoded_content,
+        qr|type="application/opensearchdescription\+xml" rel="search"|,
+        "opensearch" );
+    like(
+        $res->decoded_content,
+qr|type="application/atom\+xml" rel="alternate" href="/feed/bbbike-world.xml|,
+        "rss"
+    );
+    like( $res->decoded_content, qr|src="/html/bbbike-js.js"|, "bbbike-js.js" );
+    like( $res->decoded_content, qr|href="/html/bbbike.css"|,  "bbbike.css" );
+    like(
+        $res->decoded_content,
+        qr|<span id="language_switch">|,
+        "language switch"
+    );
+    like( $res->decoded_content, qr|href="http://twitter.com/BBBikeWorld"|,
+        "twitter" );
+    like( $res->decoded_content, qr|class="mobile_link|, "mobile link" );
+    like(
+        $res->decoded_content,
+        qr|#suggest_start\'\).autocomplete|,
+        "autocomplete start"
+    );
+    like(
+        $res->decoded_content,
+        qr|#suggest_via\'\).autocomplete|,
+        "autocomplete via"
+    );
+    like(
+        $res->decoded_content,
+        qr|#suggest_ziel\'\).autocomplete|,
+        "autocomplete ziel"
+    );
+    like(
+        $res->decoded_content,
+        qr|"/images/spinning_wheel32.gif"|,
+        "spinning wheel"
+    );
+    like( $res->decoded_content, qr|google_ad_client|,     "google_ad_client" );
+    like( $res->decoded_content, qr|<div id="map"></div>|, "div#map" );
+    like( $res->decoded_content, qr|bbbike_maps_init|,     "bbbike_maps_init" );
+    like( $res->decoded_content, qr|city = ".+";|,         "city" );
+    like( $res->decoded_content, qr|display_current_weather|,
+        "display_current_weather" );
+    like( $res->decoded_content, qr|displayCurrentPosition|,
+        "displayCurrentPosition" );
+    like( $res->decoded_content, qr|<div id="footer">|, "footer" );
+    like( $res->decoded_content, qr|id="other_cities"|, "other cities" );
+    like( $res->decoded_content, qr|</html>|,           "closing </html>" );
+
+    # skip other tests on slow networks (e.g. on mobile phone links)
+    next if $ENV{BBBIKE_TEST_SLOW_NETWORK};
+
+    #$url = "$homepage/en/$city/";
+    #myget($url);
+    #$url = "$homepage/ru/$city/";
+    #myget($url);
+    #$url = "$homepage/de/$city/";
+
+    $res = myget( "$homepage/osp/$city.xml", 100 );
+    like(
+        $res->decoded_content,
+        qr|<InputEncoding>UTF-8</InputEncoding>|,
+        "opensearch input encoding utf8"
+    );
+    like(
+        $res->decoded_content,
+        qr|template="http://www.bbbike.org/cgi/api.cgi\?sourceid=|,
+        "opensearch template"
+    );
+    like(
+        $res->decoded_content,
+        qr|http://www.bbbike.org/images/srtbike16.gif</Image>|,
+        "opensearch icon"
+    );
+}
+
 sub html {
+    my $homepage = shift;
+
     myget( "$homepage/osp/Zuerich.en.xml", 100 );
     myget( "$homepage/osp/Toronto.de.xml", 100 );
     myget( "$homepage/osp/Moscow.de.xml",  100 );
@@ -166,8 +211,7 @@ sub html {
     }
 }
 
-&cities;
-&html;
+&cities($homepage);
+&html($homepage);
 
 __END__
-
