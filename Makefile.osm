@@ -625,7 +625,7 @@ update-database: build-runtime
 	@${BBMAKE} -s opensearch-bbbike
 	${TIME} ./world/bin/update-database
 
-PERL_SCRIPTS=	BBBikeGooglemap.pm BBBikeElevation.pm world/bin/osm2bbd-poi
+PERL_SCRIPTS=	BBBikeGooglemap.pm BBBikeElevation.pm
 
 _perlcheck:
 	${BBMAKE} _perlcheck2 >/dev/null 2>&1 || ${BBMAKE} _perlcheck2
