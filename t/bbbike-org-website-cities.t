@@ -30,7 +30,6 @@ use constant MYGET => 3;
 my @lang = qw/de da  es  fr  hr  nl  pl  pt  ru  zh/;
 
 my $msg = {
-
     "de" => ["Start- und Zielstraße der Route eingeben"],
     "da" => ["Angiv start-og bestemmelsessted gadenavn"],
     "es" => ["Por favor, introduzca de inicio y destino"],
@@ -48,14 +47,16 @@ my $msg = {
 
 if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
     my $counter_text = 0;
-    foreach my $l ( keys %$msg ) {
+    foreach my $l (@lang) {
         $counter_text += scalar( @{ $msg->{$l} } );
     }
+    $counter_text *= scalar(@cities);
 
     my $counter_html = ( MYGET * 11 ) + 2;
-    my $counter_cities = scalar(@cities) * ( MYGET * 2 + 26 );
+    my $counter_cities =
+      scalar(@cities) * ( MYGET * 2 + 26 ) * ( scalar(@lang) + 1 );
 
-    plan tests => $counter_html + $counter_cities * ( scalar(@lang) + 1 );
+    plan tests => $counter_html + $counter_cities + $counter_text;
 }
 else {
     plan 'no_plan';
@@ -89,19 +90,28 @@ sub cities {
         foreach my $lang ( "", @lang ) {
             my $url =
               $lang eq "" ? "$homepage/$city/" : "$homepage/$lang/$city/";
-            _cities( $city, $url );
+            my $data = _cities( $city, $lang, $url );
+
+            if ( $lang ne "" ) {
+                foreach my $text ( @{ $msg->{$lang} } ) {
+                    like( $data, qr|.|, "check translations" );
+                }
+            }
         }
     }
 }
 
 sub _cities {
     my $city = shift;
+    my $lang = shift;
     my $url  = shift;
 
     my $homepage = $url;
     $homepage =~ s,(^http://[^/]+).*,$1,;
 
-    my $res = myget($url);
+    my $res     = myget($url);
+    my $content = $res->decoded_content;
+    my $data    = $content;
 
     like( $res->decoded_content, qr|"real_time"|, "complete html" );
     like( $res->decoded_content,
@@ -158,13 +168,7 @@ qr|type="application/atom\+xml" rel="alternate" href="/feed/bbbike-world.xml|,
     like( $res->decoded_content, qr|</html>|,           "closing </html>" );
 
     # skip other tests on slow networks (e.g. on mobile phone links)
-    next if $ENV{BBBIKE_TEST_SLOW_NETWORK};
-
-    #$url = "$homepage/en/$city/";
-    #myget($url);
-    #$url = "$homepage/ru/$city/";
-    #myget($url);
-    #$url = "$homepage/de/$city/";
+    return $data if $ENV{BBBIKE_TEST_SLOW_NETWORK};
 
     $res = myget( "$homepage/osp/$city.xml", 100 );
     like(
@@ -182,6 +186,8 @@ qr|type="application/atom\+xml" rel="alternate" href="/feed/bbbike-world.xml|,
         qr|http://www.bbbike.org/images/srtbike16.gif</Image>|,
         "opensearch icon"
     );
+
+    return $data;
 }
 
 sub html {
