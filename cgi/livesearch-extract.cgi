@@ -229,6 +229,9 @@ sub statistic {
             ),
             $q->meta(
                 { -name => "robots", -content => "nofollow,noindex,noarchive" }
+            ),
+            $q->meta(
+                { -rel => "shortcut icon", -href => "/images/srtbike16.gif" }
             )
         ],
 
