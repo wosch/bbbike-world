@@ -52,33 +52,30 @@ sub myget {
 sub livesearch_extract {
     my $url = shift;
 
-    my $res     = myget( $url, 5_000 );
-    my $content = $res->decoded_content;
-    my $data    = $content;
+    my $res = myget( $url, 5_000 );
+    my $content = $res->decoded_content();
 
-    like( $res->decoded_content,
-        qr|Content-Type" content="text/html; charset=utf-8"|, "charset" );
+    like( $content, qr|Content-Type" content="text/html; charset=utf-8"|,
+        "charset" );
 
-    #like( $res->decoded_content, qr|rel="shortcut|, "icon" );
-    like( $res->decoded_content, qr|src="(..)?/html/bbbike(-js)?.js"|,
-        "bbbike(-js)?.js" );
-    like( $res->decoded_content, qr|href="(..)?/html/bbbike.css"|,
-        "bbbike.css" );
+    #like( $content, qr|rel="shortcut|, "icon" );
+    like( $content, qr|src="(..)?/html/bbbike(-js)?.js"|, "bbbike(-js)?.js" );
+    like( $content, qr|href="(..)?/html/bbbike.css"|,     "bbbike.css" );
 
-    like( $res->decoded_content, qr|<div id="map"></div>|, "div#map" );
-    like( $res->decoded_content, qr|bbbike_maps_init|,     "bbbike_maps_init" );
-    like( $res->decoded_content, qr|city = ".+";|,         "city" );
+    like( $content, qr|<div id="map"></div>|, "div#map" );
+    like( $content, qr|bbbike_maps_init|,     "bbbike_maps_init" );
+    like( $content, qr|city = ".+";|,         "city" );
 
-    like( $res->decoded_content, qr|bbbike_maps_init|, "bbbike_maps_init" );
-    like( $res->decoded_content, qr|plotRoute|,        "plotRoute" );
-    like( $res->decoded_content, qr|unique total:|,    "unique total:" );
-    like( $res->decoded_content, qr|jumpToCity|,       "jumpToCity" );
-    like( $res->decoded_content, qr|>today<|,          ">today<" );
+    like( $content, qr|bbbike_maps_init|, "bbbike_maps_init" );
+    like( $content, qr|plotRoute|,        "plotRoute" );
+    like( $content, qr|unique total:|,    "unique total:" );
+    like( $content, qr|jumpToCity|,       "jumpToCity" );
+    like( $content, qr|>today<|,          ">today<" );
 
-    like( $res->decoded_content, qr|<div id="footer">|, "footer" );
-    like( $res->decoded_content, qr|</html>|,           "closing </html>" );
+    like( $content, qr|<div id="footer">|, "footer" );
+    like( $content, qr|</html>|,           "closing </html>" );
 
-    return $data;
+    return $content;
 }
 
 ########################################################################
