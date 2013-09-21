@@ -1033,6 +1033,12 @@ diff:
         
 jasmine-node test-js:
 	jasmine-node world/t/spec
+   
+# run a git fetch on all remote git repos     
+git-fetch:
+	git fetch eserte
+	git fetch origin
+	git fetch github
 
 help:
 	@echo "bbbike version: ${GIT_ID}"
@@ -1080,7 +1086,7 @@ help:
 	@echo "  [ deb-perl | deb-equivs | deb-bin ]"
 	@echo "  [ deb-clean | deb-repo ]"
 	@echo "  [ debian-bootstrap | bbbike-bootstrap ]"
-	@echo "  [ build-runtime ]"
+	@echo "  [ build-runtime | git-fetch ]"
 
 	@echo ""
 	@echo "see also ./world/README"
