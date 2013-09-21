@@ -645,7 +645,7 @@ perltidy:
 	git diff
 
 perlcheck:
-	${MAKE} _perlcheck
+	#${MAKE} _perlcheck
 	${MAKE} -C world/cgi/msg $@	
 	${MAKE} -C world/bin $@	
 	${MAKE} -C world/cgi $@	
