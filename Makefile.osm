@@ -625,7 +625,7 @@ update-database: build-runtime
 	@${BBMAKE} -s opensearch-bbbike
 	${TIME} ./world/bin/update-database
 
-PERL_SCRIPTS=	BBBikeGooglemap.pm BBBikeElevation.pm world/bin/osm2bbd-poi world/t/bbbike-org-*.t
+PERL_SCRIPTS=	BBBikeGooglemap.pm BBBikeElevation.pm world/bin/osm2bbd-poi
 
 _perlcheck:
 	${BBMAKE} _perlcheck2 >/dev/null 2>&1 || ${BBMAKE} _perlcheck2
@@ -641,6 +641,7 @@ perltidy:
 	${MAKE} -C world/bin $@	
 	${MAKE} -C world/cgi $@	
 	${MAKE} -C world/web/feed $@	
+	${MAKE} -C world/t $@	
 	git diff
 
 perlcheck:
@@ -649,6 +650,7 @@ perlcheck:
 	${MAKE} -C world/bin $@	
 	${MAKE} -C world/cgi $@	
 	${MAKE} -C world/web/feed $@	
+	${MAKE} -C world/t $@	
 	git diff
 
 jsbeautifier js:
