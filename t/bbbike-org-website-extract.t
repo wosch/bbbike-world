@@ -24,6 +24,9 @@ binmode \*STDERR, "utf8";
 my @homepages_localhost = qw[ http://localhost ];
 my @homepages =
   qw[ http://extract.bbbike.org http://dev2.bbbike.org http://dev4.bbbike.org ];
+if ( $ENV{BBBIKE_TEST_FAST} ) {
+    @homepages = ();
+}
 unshift @homepages, @homepages_localhost;
 
 my @lang = qw/en de ru es fr/;
