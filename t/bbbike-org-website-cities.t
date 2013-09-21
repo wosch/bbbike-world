@@ -22,7 +22,8 @@ BEGIN {
 binmode \*STDOUT, "utf8";
 binmode \*STDERR, "utf8";
 
-my @homepages_localhost = qw[ http://localhost ];
+my @homepages_localhost =
+  ( $ENV{BBBIKE_TEST_SERVER} ? $ENV{BBBIKE_TEST_SERVER} : "http://localhost" );
 my @homepages =
   qw[ http://www.bbbike.org http://dev2.bbbike.org http://dev4.bbbike.org];
 if ( $ENV{BBBIKE_TEST_FAST} ) {
