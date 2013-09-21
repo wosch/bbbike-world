@@ -1,7 +1,11 @@
 #!/usr/bin/perl
 # Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
 
+use utf8;
 use Test::More;
+use LWP;
+use LWP::UserAgent;
+
 use strict;
 use warnings;
 
@@ -15,8 +19,8 @@ BEGIN {
     }
 }
 
-use LWP;
-use LWP::UserAgent;
+binmode \*STDOUT, "utf8";
+binmode \*STDERR, "utf8";
 
 my @homepages_localhost = qw[ http://localhost ];
 my @homepages =
@@ -30,7 +34,7 @@ use constant MYGET => 3;
 my @lang = qw/de da  es  fr  hr  nl  pl  pt  ru  zh/;
 
 my $msg = {
-    "de" => ["Start- und Zielstraße der Route eingeben"],
+    "de" => ["Start- und Zielstra&szlig;e der Route eingeben"],
     "da" => ["Angiv start-og bestemmelsessted gadenavn"],
     "es" => ["Por favor, introduzca de inicio y destino"],
     "fr" => ["S'il vous plaît entrez vous nom de la rue de destination"],
@@ -56,7 +60,11 @@ if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
     my $counter_cities =
       scalar(@cities) * ( MYGET * 2 + 26 ) * ( scalar(@lang) + 1 );
 
-    plan tests => $counter_html + $counter_cities + $counter_text;
+    my $counter_ads =
+      scalar( grep { $_ !~ m,^http://www, } $homepage ) * scalar(@cities);
+
+    plan tests => $counter_html + $counter_cities +
+      $counter_text;    #- $counter_ads;
 }
 else {
     plan 'no_plan';
@@ -92,9 +100,11 @@ sub cities {
               $lang eq "" ? "$homepage/$city/" : "$homepage/$lang/$city/";
             my $data = _cities( $city, $lang, $url );
 
+            # check for correct translations
             if ( $lang ne "" ) {
                 foreach my $text ( @{ $msg->{$lang} } ) {
-                    like( $data, qr|.|, "check translations" );
+                    like( $data, qr|$text|,
+                        "check translations $url -> $text" );
                 }
             }
         }
@@ -125,8 +135,9 @@ sub _cities {
 qr|type="application/atom\+xml" rel="alternate" href="/feed/bbbike-world.xml|,
         "rss"
     );
-    like( $res->decoded_content, qr|src="/html/bbbike-js.js"|, "bbbike-js.js" );
-    like( $res->decoded_content, qr|href="/html/bbbike.css"|,  "bbbike.css" );
+    like( $res->decoded_content, qr|src="/html/bbbike(-js)?.js"|,
+        "bbbike(-js)?.js" );
+    like( $res->decoded_content, qr|href="/html/bbbike.css"|, "bbbike.css" );
     like(
         $res->decoded_content,
         qr|<span id="language_switch">|,
@@ -155,7 +166,12 @@ qr|type="application/atom\+xml" rel="alternate" href="/feed/bbbike-world.xml|,
         qr|"/images/spinning_wheel32.gif"|,
         "spinning wheel"
     );
-    like( $res->decoded_content, qr|google_ad_client|,     "google_ad_client" );
+
+    # only on production systems
+    if ( $homepage =~ m,^http://www, ) {
+        like( $res->decoded_content, qr|google_ad_client|, "google_ad_client" );
+    }
+
     like( $res->decoded_content, qr|<div id="map"></div>|, "div#map" );
     like( $res->decoded_content, qr|bbbike_maps_init|,     "bbbike_maps_init" );
     like( $res->decoded_content, qr|city = ".+";|,         "city" );
@@ -217,7 +233,14 @@ sub html {
     }
 }
 
+########################################################################
+# main
+#
+#foreach $homepage ("http://dev2.bbbike.org") {
+warn $homepage;
 &cities($homepage);
 &html($homepage);
+
+#}
 
 __END__
