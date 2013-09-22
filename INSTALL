@@ -35,6 +35,9 @@ sudo port install pbzip2 bzip2 git-core lynx wget \
 
 sudo port install lighttpd munin varnish openjdk6 
 
+brew install node.js pbzip2 git lynx wget tidy
+
+
 sudo_cpan="sudo cpan-5.12"
 $sudo_cpan BSD::Resource
 $sudo_cpan Text::Unidecode
