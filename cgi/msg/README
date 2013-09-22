@@ -1,0 +1,16 @@
+How to translate messages to other languages:
+-----------------------------------------------
+
+1. Run a english dump:
+
+$ perl -e '$a=require "es"; use Data::Dumper; $c=1;foreach $k(keys %$a) { print qq|$c "$a->{$k}"\n|; $c++}' > en.txt
+
+2. translate file with http://translate.google.de/
+
+es.txt pl.txt ...
+
+3. map message by number:
+
+perl -e 'open IN, "de.txt"; $a=""; while(<IN>){chomp; /^(\d+)\s+"(.*?)"/;  $a->{$1}=$2 }; open LA, $ARGV[0]; while(<LA>){chomp; /^(\d+)\s+"(.*?)"/; print qq|"$a->{$1}" => "$2"\n| }' pl.txt
+
+

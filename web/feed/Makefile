@@ -13,13 +13,15 @@ bbbike-world.xml: ${FEED_SCRIPT}
 	rm -f $@.log
 
 perlcheck:
-	@perl -cw ${FEED_SCRIPT} 2>/dev/null || perl -cw ${FEED_SCRIPT} 2>/dev/null
+	${MAKE} _perlcheck 2>/dev/null || ${MAKE} _perlcheck
+_perlcheck:
+	@perl -cw ${FEED_SCRIPT}
 
 perltidy: perlcheck
 	perltidy -b ${FEED_SCRIPT}
 
 clean:
-	rm -f *.log *.bak *.tdy
+	rm -f *.log *.bak *.tdy *.ERR
 
 distclean: clean
 	rm -f ${RSS}

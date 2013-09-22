@@ -7,8 +7,10 @@
 PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_EXTRACT_LANG=en}
 : ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
-: ${BBBIKE_MKGMAP_VERSION="mkgmap-r2373"}
-: ${BBBIKE_SPLITTER_VERSION="splitter-r200"}
+: ${BBBIKE_MKGMAP_VERSION="mkgmap"}
+: ${BBBIKE_SPLITTER_VERSION="splitter"}
+: ${MD5=`which md5 md5sum false | head -1`}
+: ${SHA="shasum -a 256"}
 
 set -e
 
@@ -72,7 +74,7 @@ license="license.txt"
 copyright="OpenStreetMap.org"
 java_opt=-Xmx${java_heap}
 mkgmap_map_style="osm"
-: ${max_jobs="--max-jobs=2"}
+: ${osm2xxx_max_jobs="2"}
 
 etc_dir=`dirname $0`/../etc/mkgmap
 # absolute path
@@ -114,7 +116,6 @@ case $ext in
    *bbbike* )  garmin_product_id=4 ;;
 esac
 
-: ${MD5=`which md5 md5sum false | head -1`}
 garmin_family_id=$(basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//')
 garmin_family_id=$(echo $garmin_family_id $ext | $MD5 | perl -ne 's/[a-f]//g; print /^(\d{4})/ ? $1 : "4444"')
 mkgmap_opt="--keep-going --family-id=$garmin_family_id --product-id=$garmin_product_id --remove-short-arcs --route --add-pois-to-areas --copyright-message="$copyright" --license-file=$license --index --make-all-cycleways"
@@ -164,13 +165,14 @@ if [ $(ls $split_dir/*.pbf 2>/dev/null | wc -l) -eq 0 ]; then
 fi
 
 date=$(date -u)
-date_short=$(date '+%b %Y')
+date_short=$(date -u '+%d-%b-%Y %H:%M:%S')
 if [ -z "$city" ]; then
-   description="$garmin, $date_short"
+   description="$garmin, BBBike.org $date_short"
 else
-   description="$city, $date_short"
+   description="$city, BBBike.org $date_short"
 fi
 
+# the limit for description field is 50 bytes
 coords=$(echo $garmin | perl -npe 's,planet_,,; s/_/ /g')
 description=$(echo $description | perl -npe '$_=substr($_,0,50)')
 
@@ -195,8 +197,8 @@ fi
 # --mapname="$mapid" 
 echo ">>> Run mkgmap, map style: $mkgmap_map_style" >> $logfile
 ( set -x 
-  java $java_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_MKGMAP_VERSION/mkgmap.jar $max_jobs $mkgmap_opt $mkgmap_map \
-    --gmapsupp --description="$description" --family-name="BBBike.org style=$mkgmap_map_style $coords" $split_dir/*.pbf $mkgmap_map_type ) >> $logfile 2>&1  || error
+  java $java_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_MKGMAP_VERSION/mkgmap.jar --max-jobs=$osm2xxx_max_jobs $mkgmap_opt $mkgmap_map \
+    --gmapsupp --description="$description" --family-name="$coords style=$mkgmap_map_style" $split_dir/*.pbf $mkgmap_map_type ) >> $logfile 2>&1  || error
 
 #echo ">>> Run mkgmap, create gmapsupp file" >> $logfile
 #( set -x
@@ -210,12 +212,14 @@ rm -f $license
 rm -f map.TYP
 
 # gmapsupp.img cleanup
-rm -rf osmmap.tdb osmmap.img osmmap.mdx osmmap_mdr.img [0-9][0-9]*.img
+rm -rf osmmap.tdb osmmap.img osmmap.mdx osmmap_mdr.img [0-9][0-9]*.img ovm_*.img
 
 case $BBBIKE_EXTRACT_LANG in
   en ) ext2=$ext ;;
    * ) ext2=$(echo $ext | perl -npe "s/\.zip\$/.${BBBIKE_EXTRACT_LANG}.zip/") ;;
 esac
+
+( $MD5 gmapsupp.img; $SHA gmapsupp.img ) > .checksum.txt; mv -f .checksum.txt CHECKSUM.txt
 
 cd ..
 garmin_zip=`dirname $file`/$garmin.osm.$ext2

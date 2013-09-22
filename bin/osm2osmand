@@ -7,10 +7,15 @@
 PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 
 : ${java_heap=2G}
-: ${max_jobs=2}
+: ${osm2xxx_max_jobs=2}
 : ${BBBIKE_EXTRACT_LANG=en}
 : ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
-: ${osmand_home="$BBBIKE_OPT_DIR/OsmAndMapCreator-development"}
+: ${BBBIKE_OSMAND_VERSION="OsmAndMapCreator"}
+: ${osmand_home="$BBBIKE_OPT_DIR/$BBBIKE_OSMAND_VERSION"}
+: ${MD5=`which md5 md5sum false | head -1`}
+: ${SHA="shasum -a 256"}
+
+dirname=$(dirname $0)
 
 java_opt=-Xmx${java_heap}
 
@@ -37,9 +42,9 @@ warn () {
 file=$1
 city="$2"
 test -e "$file" || usage "file $file does not exists"
-: ${osm_checksum=`dirname $0`/osm-checksum}
+: ${osm_checksum=$dirname/osm-checksum}
 
-template=$(dirname $0)/../etc/extract/$(basename $0).$BBBIKE_EXTRACT_LANG.sh
+template=$dirname/../etc/extract/$(basename $0).$BBBIKE_EXTRACT_LANG.sh
 case $template in /*) ;; *) template=$(pwd)/$template ;; esac
 
 : ${debug=false}
@@ -67,13 +72,13 @@ obf=`basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
 obf_dir=$tmpdir/${obf}-obf
 mkdir -p $obf_dir
 
-etc_dir=`dirname $0`/../etc/OsmAndMapCreator
+etc_dir=$dirname/../etc/OsmAndMapCreator
 
 # absolute path
 case $etc_dir in /* ) ;; *) etc_dir=$pwd/$etc_dir ;; esac
 case $file in /* ) ;; *) file=$pwd/$file ;; esac
 
-text2html=$(dirname $0)/text2html.sh
+text2html=$dirname/text2html.sh
 case $text2html in /*) ;; *) text2html=$(pwd)/$text2html ;; esac
 
 logfile=$obf_dir/logfile.txt
@@ -121,7 +126,7 @@ else
     do
 	printf "(cd $i; time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp $osmand_home/OsmAndMapCreator.jar:$osmand_home/lib/*.jar net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml && ln data/indexes/*.obf ../.. ) > $i.log 2>&1 \0"
     done > data/jobs.sh
-    if xargs -0 -n1 -P${max_jobs} sh -c < data/jobs.sh >> $logfile 2>&1; then
+    if xargs -0 -n1 -P${osm2xxx_max_jobs} sh -c < data/jobs.sh >> $logfile 2>&1; then
 	:
     else
     	exit=$?
@@ -159,6 +164,8 @@ case $BBBIKE_EXTRACT_LANG in
   en ) ext2="" ;;
    * ) ext2=".${BBBIKE_EXTRACT_LANG}" ;;
 esac
+
+( $MD5 *.obf; $SHA *.obf ) > .checksum.txt; mv -f .checksum.txt CHECKSUM.txt
 
 cd ..
 zip_file=`dirname $file`/$obf.osm.obf${ext2}.zip

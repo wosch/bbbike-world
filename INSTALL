@@ -68,13 +68,5 @@ $sudo_cpan XBase
 $sudo_cpan CDB_File
 
 # MacOS 
-$sudo_cpan GIS::Distance::Lite
-$sudo_cpan XML::Atom::SimpleFeed
-$sudo_cpan Math::MatrixReal
-$sudo_cpan Geo::Google::PolylineEncoder
-$sudo_cpan Image::Info # newer version
-$sudo_cpan Kwalify
-$sudo_cpan Math::Polygon
-$sudo_cpan Object::Iterate
-$sudo_cpan WWW::Mechanize::FormFiller
+$ egrep  -h ^use ./world/bin/bbbike-build-runtime-perl*.pl |perl -npe 's,use,\$sudo_cpan,g; s/;//' | sort -u
 

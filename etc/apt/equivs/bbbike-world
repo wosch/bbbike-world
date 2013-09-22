@@ -1,25 +1,11 @@
-### Commented entries have reasonable defaults.
-### Uncomment to edit them.
 Section: misc
 Priority: optional
-# Homepage: <enter URL here; no default>
 Standards-Version: 3.6.2
 
 Package: bbbike-world
-Version: 1.3
+Version: 1.4
 Maintainer: Wolfram Schneider <wosch@freebsd.org>
 # Pre-Depends: <comma-separated list of packages>
-Depends: bbbike-world-debian-meta, bbbike-world-perlmodules-meta, bbbike-world-javalibs-meta, bbbike-world-bin-meta
-# Recommends: <comma-separated list of packages>
-# Suggests: <comma-separated list of packages>
-# Provides: <comma-separated list of packages>
-# Replaces: <comma-separated list of packages>
-# Architecture: all
-# Copyright: <copyright file; defaults to GPL2>
-# Changelog: <changelog file; defaults to a generic changelog>
-# Readme: <README.Debian file; defaults to a generic one>
-# Extra-Files: <comma-separated list of additional files for the doc directory>
-# Files: <pair of space-separated paths; First is file to include, second is destination>
-#  <more pairs, if there's more than one file to include. Notice the starting space>
+Depends: bbbike-world-debian-meta, bbbike-world-perlmodules-meta, bbbike-world-javalibs-misc, bbbike-world-bin-misc
 Description: BBBike @ World meta package
  BBBike @ World meta package for all modules

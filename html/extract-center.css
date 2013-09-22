@@ -1,0 +1,35 @@
+/***************************/
+
+body {
+	background-color: #9c9;
+	margin: 0px 5px 0px 5px;
+	text-align: center;
+	/* font-family: Verdana, Geneva, Arial, sans-serif;  */
+	margin: 1em;
+}
+
+div#border { 
+	padding: 10px; 
+	/* background-color: #FFFFED; */
+	background-color: #FFF; 
+}
+
+div#all {
+	max-width: 48em;
+	/* background-color: #9c9; */
+	background-color: #9c9;
+	margin: 1em;
+	margin: 0px auto; /* Right And Left Margin Widths To Auto */
+	position: relative;
+	text-align: left; 
+	padding: 10px; 
+}
+
+/* ************************************************************ */
+/*Win IE fix \*/
+* html #all { width: 56em; }
+/*End Win IE fix*/
+/* ************************************************************ */
+
+h2 { text-align: center; } 
+

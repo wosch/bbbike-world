@@ -1,0 +1,14 @@
+{
+   "poly_file" : "/var/tmp/bbbike/extract/running/73e37ac31432ac99c6bcfdce6f7240b6/51.34333,13.10-52.00,15.10.poly",
+   "time" : 1323717157,
+   "file" : "0a2457220cb5c8fe8944618f179732b3.json",
+   "ne_lat" : "52.00",
+   "skm" : 19022,
+   "email" : "wschnr@googlemail.com",
+   "sw_lat" : "51.34333",
+   "city" : "full extract ../../; date",
+   "format" : "osm.gz",
+   "pbf_file" : "/var/tmp/bbbike/extract/running/73e37ac31432ac99c6bcfdce6f7240b6/51.34333,13.10-52.00,15.10.pbf",
+   "sw_lng" : "13.10",
+   "ne_lng" : "15.10"
+}

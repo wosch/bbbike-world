@@ -1,5 +1,7 @@
 #!/usr/bin/perl
 #
+# by http://www.freizeitkarte-osm.de
+#
 # Usage: set-typ.pl <family id> <product id> <TYP file>
 #
 # Position of bytes in TYP file:
@@ -7,6 +9,8 @@
 # Little-endian
 # Bytes 2f-30: Family ID
 # Bytes 31-32: Procuct ID
+
+my $debug = 1;
 
 my $familyID  = shift(@ARGV);
 my $productID = shift(@ARGV);
@@ -19,7 +23,9 @@ my $PIDstart = 0x31;
 
 open( TYP, "+<$typFile" ) || die "Can't update $typFile: $!";
 
-print "Updating $typFile...\n";
+warn
+"Set garmin type: Updating $typFile, familyID: $familyID, productID: $productID\n"
+  if $debug;
 
 seek( TYP, $FIDstart, 0 );
 read( TYP, $FID, $IDsize ) == $IDsize || die "can't read FID: $!";
@@ -31,7 +37,7 @@ my $FIDu = unpack( "S", $FID );
 
 my $PIDu = unpack( "S", $PID );
 
-print "Original Fid: $FIDu Pid: $PIDu\n";
+warn "Set garmin type: Original Fid: $FIDu Pid: $PIDu\n" if $debug;
 
 #-----------------
 # Change FID, PID:
@@ -54,7 +60,7 @@ $FIDu = unpack( "S", $FID );
 
 $PIDu = unpack( "S", $PID );
 
-print "Changed Fid: $FIDu Pid: $PIDu\n";
+warn "Set garmin type: Changed Fid: $FIDu Pid: $PIDu\n" if $debug;
 
 close TYP;
 

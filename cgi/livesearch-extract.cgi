@@ -229,6 +229,9 @@ sub statistic {
             ),
             $q->meta(
                 { -name => "robots", -content => "nofollow,noindex,noarchive" }
+            ),
+            $q->meta(
+                { -rel => "shortcut icon", -href => "/images/srtbike16.gif" }
             )
         ],
 
@@ -304,10 +307,12 @@ EOF
     my $counter_total = 0;
     my @cities;
     my %format;
+    my %email;
 
     foreach my $o (@d) {
         $counter_total++;
         $format{ $o->{"format"} }++;
+        $email{ $o->{"email"} }++;
 
         my $data =
 qq|$o->{"sw_lng"},$o->{"sw_lat"}!$o->{"ne_lng"},$o->{"ne_lat"},$o->{"format"}|;
@@ -340,10 +345,14 @@ qq|$o->{"sw_lng"},$o->{"sw_lat"}!$o->{"ne_lng"},$o->{"ne_lat"},$o->{"format"}|;
           } sort { $a->{'city'} cmp $b->{'city'} } @cities
     );
 
+    my $per_user = sprintf(
+        qq{<span title="average %2.2f">users: %d</span>},
+        $counter_total / scalar( keys %email ),
+        scalar( keys %email )
+    );
     my $summary = "unique total: " . scalar(@cities);
-
-    #if ( scalar(@cities) < $counter_total && $counter_total < $max ) {}
-    $summary .= "<br/>total: $counter_total";
+    $summary .= qq{<br/> total: $counter_total};
+    $summary .= qq{<br/> $per_user};
 
     $summary .= join "<br/>", "", "", map { "$_ ($format{$_})" }
       reverse sort { $format{$a} <=> $format{$b} } keys %format;

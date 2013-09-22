@@ -1,0 +1,131 @@
+/* ------------------------------------------------------------------- */
+a         {text-decoration: none; color: green; }
+
+div.htmltagcloud a:link    {color: #d64}
+div.htmltagcloud a:visited {color: #864}
+div.htmltagcloud a:hover   {text-decoration: underline }
+div.htmltagcloud a:active  {text-decoration: underline}
+div.htmltagcloud a.empty   {color: gray}
+div.htmltagcloud a.private {color: black}
+
+/***************************/
+
+body {
+	background-color: #9c9;
+	margin: 0px 5px 0px 5px;
+	text-align: center;
+	/* font-family: Verdana, Geneva, Arial, sans-serif;  */
+	margin: 1em;
+}
+
+div#border { 
+	padding: 10px; 
+	/* background-color: #FFFFED; */
+	background-color: #FFF; 
+}
+
+div#all {
+	max-width: 48em;
+	/* background-color: #9c9; */
+	background-color: #9c9;
+	margin: 1em;
+	margin: 0px auto; /* Right And Left Margin Widths To Auto */
+	position: relative;
+	text-align: left; 
+	padding: 10px; 
+}
+
+div#footer { font-size: small; text-align: center; padding-top: 0.7em; }
+div#footer_top { text-align: left; }
+
+/* ************************************************************ */
+/*Win IE fix \*/
+* html #all { width: 56em; }
+/*End Win IE fix*/
+/* ************************************************************ */
+
+h2 { text-align: center; } 
+div#copyright { text-align: center; padding-top: 0.7em; font-size: small; }
+div#wetter { padding-left: 10px; }
+
+div#main { } /* width: 600px; } */
+
+
+/* ************************************************************ */
+div.htmltagcloud {
+  text-align:  center; 
+  line-height: 1; 
+}
+
+span.tagcloud0 { font-size: 12px;}
+span.tagcloud0 a {text-decoration: none;}
+span.tagcloud1 { font-size: 13px;}
+span.tagcloud1 a {text-decoration: none;}
+span.tagcloud2 { font-size: 14px;}
+span.tagcloud2 a {text-decoration: none;}
+span.tagcloud3 { font-size: 15px;}
+span.tagcloud3 a {text-decoration: none;}
+span.tagcloud4 { font-size: 16px;}
+span.tagcloud4 a {text-decoration: none;}
+span.tagcloud5 { font-size: 17px;}
+span.tagcloud5 a {text-decoration: none;}
+span.tagcloud6 { font-size: 18px;}
+span.tagcloud6 a {text-decoration: none;}
+span.tagcloud7 { font-size: 19px;}
+span.tagcloud7 a {text-decoration: none;}
+span.tagcloud8 { font-size: 20px;}
+span.tagcloud8 a {text-decoration: none;}
+span.tagcloud9 { font-size: 21px;}
+span.tagcloud9 a {text-decoration: none;}
+span.tagcloud10 { font-size: 22px;}
+span.tagcloud10 a {text-decoration: none;}
+span.tagcloud11 { font-size: 23px;}
+span.tagcloud11 a {text-decoration: none;}
+span.tagcloud12 { font-size: 24px;}
+span.tagcloud12 a {text-decoration: none;}
+span.tagcloud13 { font-size: 25px;}
+span.tagcloud13 a {text-decoration: none;}
+span.tagcloud14 { font-size: 26px;}
+span.tagcloud14 a {text-decoration: none;}
+span.tagcloud15 { font-size: 27px;}
+span.tagcloud15 a {text-decoration: none;}
+span.tagcloud16 { font-size: 28px;}
+span.tagcloud16 a {text-decoration: none;}
+span.tagcloud17 { font-size: 29px;}
+span.tagcloud17 a {text-decoration: none;}
+span.tagcloud18 { font-size: 30px;}
+span.tagcloud18 a {text-decoration: none;}
+span.tagcloud19 { font-size: 31px;}
+span.tagcloud19 a {text-decoration: none;}
+span.tagcloud20 { font-size: 32px;}
+span.tagcloud20 a {text-decoration: none;}
+span.tagcloud21 { font-size: 33px;}
+span.tagcloud21 a {text-decoration: none;}
+span.tagcloud22 { font-size: 34px;}
+span.tagcloud22 a {text-decoration: none;}
+span.tagcloud23 { font-size: 35px;}
+span.tagcloud23 a {text-decoration: none;}
+span.tagcloud24 { font-size: 36px;}
+span.tagcloud24 a {text-decoration: none;}
+
+.gml_tiny   { border-width: 0px; height: 18px; width: 50px;  margin-left: 10px; }
+
+table tr td { padding: 5px; }
+
+table td#cell_germany { background-color: #FFC }
+table td#cell_europe  { background-color: #CCF }
+table td#cell_other   { background-color: #CCC }
+
+div#streets input:focus { background-color: #FFC }
+div#footer_community { padding-top: 0.5em; padding-bottom: 0.5em }
+
+div.htmltagcloud a:hover { color: green; text-decoration: underline; }
+
+img.logo { border: 0px; }
+span#social { padding-right: 0.5em }
+div#header_links { font-size: small; }
+span.current_language { font-size: large; }
+span#language_switch a { color: green; }
+
+span#maplink { font-size: small; }
+

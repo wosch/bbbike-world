@@ -8,7 +8,8 @@ make_verbose=-s
 git="nice -5 git"
 git_clone_opt="-q"
 : ${bbbike_macos=false}
-: ${bbbike_fast_checkout=false}
+: ${bbbike_fast_checkout=true}
+: ${bbbike_src=$HOME/src/bbbike.tgz}
 
 
 if [ ! -x /usr/local/bin/perl ]; then
@@ -36,8 +37,23 @@ fi
 #git clone $git_clone_opt git@github.com:wolframschneider/bbbike.git
 # local cache repo
 if $bbbike_fast_checkout; then
-    git clone $git_clone_opt $HOME/projects/bbbike
-    ( cd bbbike && git remote add bbbike ssh://git.bbbike.org/home/git/bbbike )
+    if [ -e $bbbike_src ]; then
+	# even faster from a tarball
+	tar xfz $bbbike_src
+	( 
+	  cd bbbike; 
+	  git fetch origin
+	  git fetch eserte
+	  git fetch github
+	  git pull
+	)
+
+	echo "fast checkout done"
+	exit 0
+    else
+    	git clone $git_clone_opt $HOME/projects/bbbike
+    	( cd bbbike && git remote add bbbike ssh://git.bbbike.org/home/git/bbbike )
+    fi
 else
     git clone $git_clone_opt ssh://git.bbbike.org/home/git/bbbike
 fi

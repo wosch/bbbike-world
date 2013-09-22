@@ -1,8 +1,6 @@
 #!/bin/sh
 # Copyright (c) Sep 2011-2013 Wolfram Schneider, http://bbbike.org
 #
-# munin-bbbike-extract-jobs - munin statistics for BBBike, searches per interval
-#
 # usage: /etc/munin/plugins/bbbike-extract-jobs [ config ]
 #
 # get documentation with: perldoc /path/to/script
@@ -11,7 +9,7 @@
 
 =head1 NAME
 
-munin-bbbike-extract-jobs  - Plugin to monitor metaproxy memory usage
+munin-bbbike-extract-jobs  - Plugin to monitor running extract jobs
 
 =head1 ABOUT
 
@@ -27,9 +25,9 @@ Munin plugin to monitor to bbbike extract queue
 Configuration parameters for /etc/munin/plugin-conf.d/munin-node
 if you need to override the defaults below:
 
- [metaproxy-memory]
-   env.warning   - Generate a warning if number of memory goes below this level
-   env.critical  - Generate a critical if number of memory goes below this level
+ [bbbike-extract-jobs]
+   env.warning   - Generate a warning if number of jobs goes above this level
+   env.critical  - Generate a critical if number of jobs goes above this level
    env.jobs_warnings - [...]
    env.jobs_critical - [...]
    env.proc_warnings - [...]
@@ -46,14 +44,14 @@ extract_dir=/var/cache/extract/running
 config=$1
 
 if [ "$1" = "config" ]; then
-    : ${warning=10}
-    : ${critical=16}
-    : ${jobs_warning=10}
-    : ${jobs_critical=20}
-    : ${proc_warning=4}
-    : ${proc_critical=6}
-    : ${waiting_warning=16}
-    : ${waiting_critical=32}
+    : ${warning=20}
+    : ${critical=40}
+    : ${jobs_warning=20}
+    : ${jobs_critical=40}
+    : ${proc_warning=5}
+    : ${proc_critical=7}
+    : ${waiting_warning=40}
+    : ${waiting_critical=80}
      
     cat <<EOF
 graph_title Extracts queue

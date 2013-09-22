@@ -1,0 +1,324 @@
+/*
+ * for http://extract.bbbike.org only
+ *
+ */
+
+/*************************************************************************
+ * basic layout
+ *
+ */
+
+body {
+    margin: 0px;
+    padding: 0px;
+}
+
+div#border {
+    padding: 0px;
+    background-color: #FFF;
+}
+
+div#all {
+    max-width: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+
+/*************************************************************************
+ * right map
+ *
+ */
+div#map {
+    position: relative;
+    left: 24.5em; /* must be exact the same as sidebar left, see setMapHeight() in extract.js */
+    width: 100%;
+    height: 100%;
+}
+
+/*************************************************************************
+ * left sidebar
+ *
+ */
+#sidebar_left, #footer {
+    width: 24.5em;
+    position: absolute;
+    /* border-right-color: red; border-right-style: dashed; border-right-width: 1px; */
+}
+
+#sidebar_content {
+    padding: 0px;
+    margin: 0px;
+}
+
+div#intro {
+    position: static;
+    padding: 0.3em;
+}
+
+div#intro hr {
+    margin-left: -0.3em;
+    margin-right: -0.3em;
+}
+
+div#message {
+    position: relative;
+}
+
+/* table in left sidebar */
+div#table {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin: 0.0em;
+    border-spacing: 1px;
+}
+
+table {
+    border-spacing: 0px;
+}
+
+table tr td {
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+/* large green submit button, to focus user actions */
+form input[type=submit] {
+    color: green;
+    font-size: large;
+    margin-top: 0.3em;
+    margin-bottom: 0.2em;
+}
+
+div#export_osm_too_large {
+    color: red
+}
+
+#locate {
+    position: absolute;
+    right: 0;
+}
+
+#social {
+    position: absolute;
+    right: 20px;
+    bottom: -2px;
+}
+
+hr {
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+}
+
+span#square_km_small, span#size_small, span#time_small {
+    font-size: small;
+    font-style: italic;
+    color: #808080;
+}
+
+/* set width of input fields in left column to max. available size */
+input#city, input#email {
+    width: 95%;
+}
+
+#result {
+    margin-top: 1em;
+    padding: 0.5em;
+    padding-bottom: 4em;
+}
+
+img.logo {
+    border: 0px;
+}
+
+span#social {
+    padding-right: 0.5em
+}
+
+div#header_links {
+    font-size: small;
+}
+
+span.current_language {
+    font-size: large;
+}
+
+span#language_switch a {
+    color: green;
+}
+
+span#maplink {
+    font-size: small;
+}
+
+a {
+    text-decoration: none;
+    color: green;
+}
+
+.lnglatbox, .lnglatbox_toggle {
+    opacity: 0.6;
+    font-size: small;
+}
+
+/* disabled by default */
+.lnglatbox {
+    display: none;
+}
+
+.lnglatbox_toggle {
+    display: inline;
+}
+
+td {
+    white-space: nowrap;
+}
+
+.center {
+    text-align: center;
+}
+
+a.large {
+    font-size: large;
+}
+
+a.x-large {
+    font-size: x-large;
+}
+
+#extract-pro {
+    font-size: x-large;
+}
+
+button.link, label.link {
+    color: green;
+}
+
+/*************************************************************************
+ * footer
+ *
+ */
+div#footer {
+    text-align: center;
+    padding-top: 0.7em;
+    bottom: 0em;
+}
+
+div#footer hr {
+    padding-left: 0;
+    margin-left: 0;
+}
+
+div#footer_top {
+    text-align: left;
+    font-size: small;
+    padding-left: 0.5em;
+}
+
+div#footer_community {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    display: none;
+}
+
+div#copyright {
+    font-size: small;
+    margin: 0px;
+    padding-left: 0.5em;
+    padding-bottom: 0.5em;
+    text-align: left;
+}
+
+
+/*************************************************************************
+ * dialog windows
+ *
+ */
+.jqmWindow {
+    display: none;
+    position: fixed;
+    top: 50px;
+    left: 50%;
+    margin-left: -350px;
+    /* width: 640px; */
+    background-color: #EEE;
+    color: #333;
+    border: 1px solid black;
+}
+
+.jqmWindowLarge {
+    width: 640px;
+}
+
+.jqmWindowSmall {
+    width: 340px;
+}
+
+* html .jqmWindow {
+    position: absolute;
+    top: expression((document.documentElement.scrollTop || document.body.scrollTop) + Math.round(17 * (
+document.documentElement.offsetHeight || document.body.clientHeight) / 100) + 'px');
+}
+
+.jqmOverlay {
+    background-color: #000;
+}
+
+div.dialog-title {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 2px 6px;
+    font-weight: bold;
+}
+
+div.dialog-title img {
+    position: absolute;
+    right: 2px;
+}
+
+div.dialog-msg {
+    padding: 12px;
+    /* height: 600px; */
+    overflow: auto;
+    font-size: 100%;
+}
+
+div.dialog-msg td {
+    vertical-align: top;
+    padding: 2px 0px;
+    border-bottom: 1px dotted #ffffff;
+    font-size: small;
+}
+
+a.tools-helptrigger img, a.tools-helptrigger-small img {
+    height: 13px;
+    width: 13px;
+    border: 0;
+    opacity: 0.75;
+}
+
+a.tools-helptrigger:hover img, a.tools-helptrigger-small:hover img {
+    opacity: 1.0;
+}
+
+
+/*************************************************************************
+ * helper
+ *
+ */
+#debug {
+    color: red;
+    font-size: small;
+}
+
+span#noscript {
+    color: red;
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+/* EOF */
+

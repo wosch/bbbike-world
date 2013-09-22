@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Copyright (c) 2012-2013 Wolfram Schneider, http://bbbike.org
 #
 # osm2navit  - convert a .pbf file to navit .bin
@@ -6,6 +6,8 @@
 
 PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_EXTRACT_LANG=en}
+: ${MD5=`which md5 md5sum false | head -1`}
+: ${SHA="shasum -a 256"}
 
 set -e
 
@@ -55,6 +57,7 @@ tmpdir=`mktemp -d ${TMPDIR-"$_tmp"}/osm2navit.XXXXXXXXXXX`
 
 # cleanup after signal, but show errors first
 trap '( sleep 1; rm -rf $tmpdir ) &' 1 2 15
+trap 'test $? -ne 0 && echo "failed: $file"' 0
 
 navit=`basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
 navit_dir=$tmpdir/${navit}-navit
@@ -75,6 +78,8 @@ logfile=$navit_dir/logfile.txt
 
 cd $navit_dir
 counter=0
+
+set -o pipefail # bash only
 
 case $file in
   *.pbf) $pbf2osm $file | time maptool ${navit}.bin > $logfile 2>&1 ;;
@@ -101,6 +106,8 @@ case $BBBIKE_EXTRACT_LANG in
   en ) ext2="" ;;
    * ) ext2=".$BBBIKE_EXTRACT_LANG" ;;
 esac
+
+( $MD5 *.bin; $SHA *.bin ) > .checksum.txt; mv -f .checksum.txt CHECKSUM.txt
 
 cd ..
 zip_file=`dirname $file`/$navit.osm.navit${ext2}.zip

@@ -2,6 +2,8 @@
 # Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
 #
 # TileSize.pm - module to guess size of a lat,lng tile
+#
+# todo: check $factor
 
 package TileSize;
 
@@ -40,12 +42,17 @@ our $factor = {
     'navit.zip'          => 0.75,
     'o5m.bz2'            => 0.88,
     'o5m.gz'             => 1.04,
+    'o5m.xz'             => 0.80,
     'obf.zip'            => 1.4,
     'osm.bz2'            => 1.5,
     'osm.gz'             => 1.93,
     'osm.xz'             => 1.8,
     'shp.zip'            => 1.5,
     'pbf'                => 1,
+
+    'csv.xz'  => 0.50,
+    'csv.gz'  => 1.00,
+    'csv.bz2' => 0.80,
 };
 
 sub new {

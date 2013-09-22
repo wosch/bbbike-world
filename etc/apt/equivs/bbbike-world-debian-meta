@@ -1,14 +1,10 @@
-### Commented entries have reasonable defaults.
-### Uncomment to edit them.
 Section: misc
 Priority: optional
-# Homepage: <enter URL here; no default>
 Standards-Version: 3.6.2
 
 Package: bbbike-world-debian-meta
-Version: 1.1.6
+Version: 1.1.7
 Maintainer: Wolfram Schneider <wosch@freebsd.org>
-# Pre-Depends: <comma-separated list of packages>
 Depends: pbzip2, bzip2, xz-utils, git-core, screen, lynx, curl, wget, time,
  lsof, whois, pigz, make, acct, telnet, dnsutils, bc, sysstat, buffer,
  pktstat, emacs, unzip, vim, gcc, zlib1g-dev, perltidy, tidy, bsd-mailx,
@@ -38,17 +34,6 @@ Depends: pbzip2, bzip2, xz-utils, git-core, screen, lynx, curl, wget, time,
  libgdal-perl, libtext-csv-xs-perl, libcapture-tiny-perl, freebsd-buildutils, 
  dh-make-perl, ntp, munin, dpkg-sig, reprepro,lighttpd, equivs,
  build-essential, devscripts, debhelper, dh-make, libyaml-libyaml-perl,
- google-sitemapgen, ltrace
-# Recommends: <comma-separated list of packages>
-# Suggests: <comma-separated list of packages>
-# Provides: <comma-separated list of packages>
-# Replaces: <comma-separated list of packages>
-# Architecture: all
-# Copyright: <copyright file; defaults to GPL2>
-# Changelog: <changelog file; defaults to a generic changelog>
-# Readme: <README.Debian file; defaults to a generic one>
-# Extra-Files: <comma-separated list of additional files for the doc directory>
-# Files: <pair of space-separated paths; First is file to include, second is destination>
-#  <more pairs, if there's more than one file to include. Notice the starting space>
+ google-sitemapgen, ltrace, libintl-perl, iotop, iftop
 Description: BBBike @ World standard debian packages
  BBBike @ World standard debian packages

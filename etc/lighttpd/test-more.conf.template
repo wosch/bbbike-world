@@ -17,7 +17,7 @@ server.modules = (
 )
 
 server.document-root 	    = "%PWD%/world/web"
-server.errorlog             = "%PWD%/tmp/test-more-error.log"
+server.errorlog             = "%PWD%/tmp/localhost-error.log"
 
 server.pid-file             = "%PWD%/tmp/lighttpd.pid"
 server.username             = "%USER%"
@@ -37,8 +37,8 @@ server.port = 8080
 $HTTP["host"] =~ "^localhost:8080$" {
 
   	server.document-root 	= "%PWD%/world/web"
-	accesslog.filename      = "%PWD%/tmp/test-more.log"
-	server.breakagelog         = "%PWD%/tmp/test-more-breakage.log"
+	accesslog.filename      = "%PWD%/tmp/localhost.log"
+	server.breakagelog         = "%PWD%/tmp/localhost-breakage.log"
 	#compress.cache-dir      = "%PWD%/tmp/test-more"
 
 	# /streets.html mapping

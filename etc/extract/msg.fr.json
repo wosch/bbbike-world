@@ -3,7 +3,7 @@
     "about": "info",
     "Format": "Format",
     "Name of area to extract": "Nom de la zone à extraire",
-    "Manually select a different area": "Manuellement sélectionner une zone différente",
+    "Select a different area": "Sélectionner une zone différente",
     "Drag a box on the map to select an area": "Faites glisser une zone sur la carte pour sélectionner au domaine",
     "add points to polygon": "Ajouter des points à polygone",
     "resize or drag polygon": "Redimensionner ou déplacer polygone",
@@ -12,6 +12,12 @@
     "donate": "Faire un don",
     "Left lower corner (South-West)": "Le coin inférieur gauche (sud-ouest)",
     "Right top corner (North-East)": "Coin droit supérieur (Nord-Est)",
+
+    "Move the map to your desired location": "Move the map to your desired location",
+    "Then click here": "Then click here",
+    "to create the bounding box": "to create the bounding box",
+    "show": "show",
+    "hide": "hide",
 
     "EXTRACT_CONFIRMED": [
         "<p>Merci - les données d'entrée semble bon.</p><p>",
@@ -67,6 +73,20 @@
         "-",
         "Planet.osm extracts: http://extract.bbbike.org",
         "BBBike Map Compare: http://bbbike.org/mc"
+        ],
+
+    "EXTRACT_USAGE": [
+        "<ol>",
+        "<li>Move the map to your desired location.</li>",
+        "<li>Click and hold the left mouse button, draw the bounding box, release the left mouse button.</li>",
+        "</ol>"
+        ],
+
+    "EXTRACT_USAGE2": [
+        "<ol>",
+        "<li>Select a <b>Format</b>, enter <b>Your email address</b> and <b>Name of area to extract</b>.</li>",
+        "<li>Click the <b>extract</b> button. Wait for email notification and download the map. Done!</li>",
+        "</ol>"
         ],
 
     "dummy": "dummy"
