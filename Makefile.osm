@@ -502,7 +502,7 @@ create-bbbike-org-symlinks:
 	cd images; ln -fs ../world/images/* .
 	cd html; ln -fs ../world/html/* .
 	ln -fs world/bin/BBBike*.pm .
-	cd cgi/msg/; ln -fs ../world/cgi/msg/* .
+	cd cgi/msg/; ln -fs ../../world/cgi/msg/* .
 
 bbbike-org-t:
 	cd world/web; ln -fs ../../data
@@ -625,30 +625,32 @@ update-database: build-runtime
 	@${BBMAKE} -s opensearch-bbbike
 	${TIME} ./world/bin/update-database
 
-PERL_SCRIPTS=	BBBikeGooglemap.pm BBBikeElevation.pm world/bin/osm2bbd-poi world/t/bbbike-org-*.t
-
-_perlcheck:
-	${BBMAKE} _perlcheck2 >/dev/null 2>&1 || ${BBMAKE} _perlcheck2
-_perlcheck2:
-	@echo ${PERL_SCRIPTS} | ${XARGS} -n1 -P${MAX_VCPU} -E " " ${PERL} -cw
-
-_perltidy: _perlcheck
-	echo ${PERL_SCRIPTS} | ${XARGS} -n4 -P${MAX_VCPU} -E " " perltidy -b
+#PERL_SCRIPTS=	BBBikeGooglemap.pm BBBikeElevation.pm
+#
+#_perlcheck:
+#	${BBMAKE} _perlcheck2 >/dev/null 2>&1 || ${BBMAKE} _perlcheck2
+#_perlcheck2:
+#	@echo ${PERL_SCRIPTS} | ${XARGS} -n1 -P${MAX_VCPU} -E " " ${PERL} -cw
+#
+#_perltidy: _perlcheck
+#	echo ${PERL_SCRIPTS} | ${XARGS} -n4 -P${MAX_VCPU} -E " " perltidy -b
 
 perltidy:
-	${MAKE} _perltidy
+	#${MAKE} _perltidy
 	${MAKE} -C world/cgi/msg $@	
 	${MAKE} -C world/bin $@	
 	${MAKE} -C world/cgi $@	
 	${MAKE} -C world/web/feed $@	
+	${MAKE} -C world/t $@	
 	git diff
 
 perlcheck:
-	${MAKE} _perlcheck
+	#${MAKE} _perlcheck
 	${MAKE} -C world/cgi/msg $@	
 	${MAKE} -C world/bin $@	
 	${MAKE} -C world/cgi $@	
 	${MAKE} -C world/web/feed $@	
+	${MAKE} -C world/t $@	
 	git diff
 
 jsbeautifier js:
@@ -679,8 +681,8 @@ garmin-legend:
 	make -C./world/etc/mkgmap legend
 
 extract-config:
-	test -e .bbbike-extract-rc || ln -fs $$HOME/.bbbike-extract-rc .
-	test -e .bbbike-extract-pro-rc || ln -fs $$HOME/.bbbike-extract-pro-rc .
+	test -e .bbbike-extract.rc || ln -fs $$HOME/.bbbike-extract.rc .
+	test -e .bbbike-extract-pro.rc || ln -fs $$HOME/.bbbike-extract-pro.rc .
 
 update-javascript:
 	make -C html bbbike-js
@@ -1033,6 +1035,12 @@ diff:
         
 jasmine-node test-js:
 	jasmine-node world/t/spec
+   
+# run a git fetch on all remote git repos     
+git-fetch:
+	git fetch eserte
+	git fetch origin
+	git fetch github
 
 help:
 	@echo "bbbike version: ${GIT_ID}"
@@ -1080,7 +1088,7 @@ help:
 	@echo "  [ deb-perl | deb-equivs | deb-bin ]"
 	@echo "  [ deb-clean | deb-repo ]"
 	@echo "  [ debian-bootstrap | bbbike-bootstrap ]"
-	@echo "  [ build-runtime ]"
+	@echo "  [ build-runtime | git-fetch ]"
 
 	@echo ""
 	@echo "see also ./world/README"

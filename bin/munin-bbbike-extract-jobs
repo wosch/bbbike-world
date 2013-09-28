@@ -44,14 +44,14 @@ extract_dir=/var/cache/extract/running
 config=$1
 
 if [ "$1" = "config" ]; then
-    : ${warning=10}
-    : ${critical=16}
-    : ${jobs_warning=10}
-    : ${jobs_critical=20}
-    : ${proc_warning=4}
-    : ${proc_critical=6}
-    : ${waiting_warning=16}
-    : ${waiting_critical=32}
+    : ${warning=20}
+    : ${critical=40}
+    : ${jobs_warning=20}
+    : ${jobs_critical=40}
+    : ${proc_warning=5}
+    : ${proc_critical=7}
+    : ${waiting_warning=40}
+    : ${waiting_critical=80}
      
     cat <<EOF
 graph_title Extracts queue

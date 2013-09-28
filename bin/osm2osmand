@@ -7,7 +7,7 @@
 PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 
 : ${java_heap=2G}
-: ${max_jobs=2}
+: ${osm2xxx_max_jobs=2}
 : ${BBBIKE_EXTRACT_LANG=en}
 : ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
 : ${BBBIKE_OSMAND_VERSION="OsmAndMapCreator"}
@@ -126,7 +126,7 @@ else
     do
 	printf "(cd $i; time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp $osmand_home/OsmAndMapCreator.jar:$osmand_home/lib/*.jar net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml && ln data/indexes/*.obf ../.. ) > $i.log 2>&1 \0"
     done > data/jobs.sh
-    if xargs -0 -n1 -P${max_jobs} sh -c < data/jobs.sh >> $logfile 2>&1; then
+    if xargs -0 -n1 -P${osm2xxx_max_jobs} sh -c < data/jobs.sh >> $logfile 2>&1; then
 	:
     else
     	exit=$?

@@ -18,10 +18,17 @@ BEGIN {
 use LWP;
 use LWP::UserAgent;
 
-my @homepages_localhost = qw[ http://localhost ];
+binmode \*STDOUT, "utf8";
+binmode \*STDERR, "utf8";
+
+my @homepages_localhost =
+  ( $ENV{BBBIKE_TEST_SERVER} ? $ENV{BBBIKE_TEST_SERVER} : "http://localhost" );
 my @homepages =
   qw[ http://extract.bbbike.org http://dev2.bbbike.org http://dev4.bbbike.org ];
-push @homepages, @homepages_localhost;
+if ( $ENV{BBBIKE_TEST_FAST} ) {
+    @homepages = ();
+}
+unshift @homepages, @homepages_localhost;
 
 my @lang = qw/en de ru es fr/;
 my @tags =
@@ -30,11 +37,25 @@ my @tags =
 my @extract_dialog =
   qw/about.html email.html format.html name.html polygon.html select-area.html/;
 
+my $msg = {
+    "de" => [ "Deine E-Mail Adresse", "Punkte zum Polygon hinzuf&uuml;gen" ],
+    "en" => [ "Wait for email notification", "Name of area to extract" ],
+    "ru" => [ "Wait for email notification", "Name of area to extract" ],
+    "es" => [ "Wait for email notification", "Name of area to extract" ],
+    "fr" => [ "Wait for email notification", "Name of area to extract" ],
+};
+
 use constant MYGET => 3;
 
 if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
+    my $text = 0;
+    foreach my $l ( keys %$msg ) {
+        $text += scalar( @{ $msg->{$l} } );
+    }
+
     plan tests => scalar(@homepages) *
-      ( MYGET * scalar(@lang) +
+      ( $text +
+          MYGET * scalar(@lang) +
           ( MYGET * scalar(@extract_dialog) * scalar(@lang) ) +
           scalar(@tags) +
           32 ) +
@@ -71,8 +92,15 @@ sub page_check {
     my $script_url = shift || "$home_url/cgi/extract.cgi";
 
     foreach my $l (@lang) {
-        myget( "$script_url?lang=$l", 9_000 );
+        my $res = myget( "$script_url?lang=$l", 9_000 );
+
+        # correct translations?
+        foreach my $text ( @{ $msg->{$l} } ) {
+            like( $res->decoded_content, qr/$text/,
+                "bbbike extract translation" );
+        }
     }
+
     foreach my $l (@lang) {
         foreach my $file (@extract_dialog) {
             myget( "$home_url/extract-dialog/$l/$file", 420 );
@@ -127,12 +155,20 @@ sub garmin_check {
     legend( myget( "$home_url/garmin/cyclemap/", 5_000 ) );
 }
 
-foreach my $home_url (@homepages) {
+#############################################################################
+# main
+#
+
+# check a bunch of homepages
+foreach my $home_url (
+    $ENV{BBBIKE_TEST_SLOW_NETWORK} ? @homepages_localhost : @homepages )
+{
     $home_url =~ /^extract/ ? &page_check($home_url) : &page_check($home_url);
+
+    #diag "checked site: $home_url";
 }
 
-# http://extract.bbbike.org/garmin/bbbike/
+# check garmin legend: http://extract.bbbike.org/garmin/bbbike/
 &garmin_check( $homepages_localhost[0] );
 
 __END__
-

@@ -60,30 +60,31 @@ sub cities {
         my $path = $homepage;
         $path =~ s,http://.*?/,/,;
 
-        like( $res->decoded_content,
-            qr|Content-Type" content="text/html; charset=utf-8"|, "charset" );
+        my $content = $res->decoded_content();
 
-        #like( $res->decoded_content, qr|rel="shortcut|, "icon" );
-        like( $res->decoded_content, qr|src=".*/html/bbbike.js"|, "bbbike.js" );
-        like( $res->decoded_content, qr|href=".*/html/bbbike.css"|,
-            "bbbike.css" );
+        like( $content, qr|Content-Type" content="text/html; charset=utf-8"|,
+            "charset" );
 
-#like( $res->decoded_content, qr|href="http://twitter.com/BBBikeWorld"|, "twitter" );
-        like( $res->decoded_content, qr|<div id="map"></div>|, "div#map" );
-        like( $res->decoded_content, qr|bbbike_maps_init|, "bbbike_maps_init" );
-        like( $res->decoded_content, qr|city = ".+";|,     "city" );
-        like( $res->decoded_content, qr|<div id="footer">|, "footer" );
-        like( $res->decoded_content, qr|id="more_cities"|,  "more cities" );
-        like( $res->decoded_content, qr|</html>|,           "closing </html>" );
+        #like( $content, qr|rel="shortcut|, "icon" );
+        like( $content, qr|src=".*/html/bbbike.js"|,   "bbbike.js" );
+        like( $content, qr|href=".*/html/bbbike.css"|, "bbbike.css" );
+
+        #like( $content, qr|href="http://twitter.com/BBBikeWorld"|, "twitter" );
+        like( $content, qr|<div id="map"></div>|, "div#map" );
+        like( $content, qr|bbbike_maps_init|,     "bbbike_maps_init" );
+        like( $content, qr|city = ".+";|,         "city" );
+        like( $content, qr|<div id="footer">|,    "footer" );
+        like( $content, qr|id="more_cities"|,     "more cities" );
+        like( $content, qr|</html>|,              "closing </html>" );
 
         like(
-            $res->decoded_content,
+            $content,
 qr|Start bicycle routing for .*?href="http://www.bbbike.org/$city/">|,
             "routing link"
         );
 
         foreach my $ext (qw/gz pbf/) {
-            like( $res->decoded_content, qr|($path/$city)?/$city.osm.$ext"|,
+            like( $content, qr|($path/$city)?/$city.osm.$ext"|,
                 "$path/$city/$city.osm.$ext" );
         }
 
@@ -92,13 +93,12 @@ qr|Start bicycle routing for .*?href="http://www.bbbike.org/$city/">|,
                 qw/osm.garmin-cycle.zip osm.garmin-leisure.zip osm.garmin-osm.zip osm.shp.zip osm.navit.zip poly/
               )
             {
-                like( $res->decoded_content, qr|($path/$city)?/$city.$ext"|,
+                like( $content, qr|($path/$city)?/$city.$ext"|,
                     "$path/$city/$city.$ext" );
             }
         }
 
-        like( $res->decoded_content, qr|($path/$city)?/CHECKSUM.txt"|,
-            "CHECKSUM.txt" );
+        like( $content, qr|($path/$city)?/CHECKSUM.txt"|, "CHECKSUM.txt" );
     }
 }
 

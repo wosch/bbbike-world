@@ -229,6 +229,9 @@ sub statistic {
             ),
             $q->meta(
                 { -name => "robots", -content => "nofollow,noindex,noarchive" }
+            ),
+            $q->meta(
+                { -rel => "shortcut icon", -href => "/images/srtbike16.gif" }
             )
         ],
 
@@ -343,12 +346,13 @@ qq|$o->{"sw_lng"},$o->{"sw_lat"}!$o->{"ne_lng"},$o->{"ne_lat"},$o->{"format"}|;
     );
 
     my $per_user = sprintf(
-        "users: %d, average %2.2f",
-        scalar( keys %email ),
-        $counter_total / scalar( keys %email )
+        qq{<span title="average %2.2f">users: %d</span>},
+        $counter_total / scalar( keys %email ),
+        scalar( keys %email )
     );
     my $summary = "unique total: " . scalar(@cities);
-    $summary .= qq{<br/>total: <span title="$per_user">$counter_total</span>};
+    $summary .= qq{<br/> total: $counter_total};
+    $summary .= qq{<br/> $per_user};
 
     $summary .= join "<br/>", "", "", map { "$_ ($format{$_})" }
       reverse sort { $format{$a} <=> $format{$b} } keys %format;

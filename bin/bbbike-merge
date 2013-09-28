@@ -15,8 +15,8 @@ PATH=$PATH:$dir; export PATH
 command="$@"
 export bbbike_fast_checkout
 
-if [ -d /tmpfs ]; then
-   TMPDIR=/tmpfs; export TMPDIR
+if [ -d /bbbike/tmp ]; then
+   TMPDIR=/bbbike/tmp; export TMPDIR
 fi
 
 dir=$(mktemp -d -t bbbike-bootstrap.XXXXXXXX)
@@ -51,7 +51,7 @@ make -s update-files  || error "update-files"
 
 if $bbbike_test; then
     echo "running tests, will run for 2 minutes"
-    make prove > tmp/log.prove 2>&1 || error "test; `tail -n 5 tmp/log.profe`"
+    make prove > tmp/log.prove 2>&1 || error "test $(pwd); `tail -n 15 tmp/log.prove`"
 fi
 
 git diff
@@ -62,7 +62,7 @@ if $verbose; then
 	$command
     fi
     echo "please run:"
-    echo "( cd $dir/bbbike; make test )"
+    echo "( cd $dir/bbbike; make check-full )"
     echo "( cd $dir/bbbike; git push )"
     echo "rm -rf $dir"
 else
