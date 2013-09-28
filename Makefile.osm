@@ -690,7 +690,9 @@ update-javascript:
 java-config:
 	test -r $$HOME/.osmosis || ln -fs $$HOME/projects/bbbike/world/etc/dot.osmosis $$HOME/.osmosis
 
-dist-clean devel-clean distclean: clean rotate-osm deb-clean temp-clean clean-t
+dist-clean devel-clean distclean: clean deb-clean temp-clean clean-t
+
+distclean-osm: rotate-osm
 	${RM_BG} ${OSM_DIR}
 	mkdir -p ${OSM_DIR}
 
