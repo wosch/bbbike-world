@@ -1,7 +1,8 @@
 #!/usr/local/bin/perl
 # Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
 #
-# api.cgi - suggestion service for street names
+# log.cgi - logging gmaps suggestion service for street names
+#
 
 use lib '.';
 use MyCgiSimple;
