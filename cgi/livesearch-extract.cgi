@@ -147,7 +147,7 @@ sub footer {
     my $data = "";
     $q->delete('date');
 
-    foreach my $number ( 10, 25, 50, 100, 250 ) {
+    foreach my $number ( 10, 25, 50, 100, 250, 500 ) {
         if ( $number == $max ) {
             $data .= " | $number";
         }
