@@ -352,7 +352,9 @@ qq|$o->{"sw_lng"},$o->{"sw_lat"}!$o->{"ne_lng"},$o->{"ne_lat"},$o->{"format"}|;
     );
     my $per_total = sprintf(
         qq{<span title="ratio %2.2f">total: %d</span>},
-        $counter_total / scalar( @cities ), $counter_total);
+        $counter_total / scalar(@cities),
+        $counter_total
+    );
 
     my $summary = "unique total: " . scalar(@cities);
     $summary .= qq{<br/> $per_total};
