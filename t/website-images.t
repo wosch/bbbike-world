@@ -72,6 +72,7 @@ sub images {
 }
 
 foreach my $hp (@homepages) {
+    diag "test homepage $hp";
     &images($hp);
 }
 
