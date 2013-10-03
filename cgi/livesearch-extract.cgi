@@ -347,12 +347,12 @@ qq|$o->{"sw_lng"},$o->{"sw_lat"}!$o->{"ne_lng"},$o->{"ne_lat"},$o->{"format"}|;
 
     my $per_user = sprintf(
         qq{<span title="average %2.2f">users: %d</span>},
-        $counter_total / scalar( keys %email ),
+        $counter_total / ( scalar( keys %email ) ? scalar( keys %email ) : 1 ),
         scalar( keys %email )
     );
     my $per_total = sprintf(
         qq{<span title="ratio %2.2f">total: %d</span>},
-        $counter_total / scalar(@cities),
+        $counter_total / ( scalar(@cities) ? scalar(@cities) : 1 ),
         $counter_total
     );
 
