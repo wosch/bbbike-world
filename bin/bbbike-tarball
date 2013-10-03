@@ -16,9 +16,6 @@ fi
 dir=$(mktemp -d -t bbbike-tarball.XXXXXXXX)
 cd $dir
 
-logfile=$(pwd)/log.bbbike
-$debug || exec 2> $logfile
-
 error () {
    message="$@"
    echo $message
@@ -34,4 +31,3 @@ tar cf - bbbike | gzip > $HOME/src/bbbike.tgz.new
 mv -f $HOME/src/bbbike.tgz.new $HOME/src/bbbike.tgz
 
 rm -rf $dir
-
