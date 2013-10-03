@@ -4,15 +4,14 @@
 # bbbike-tarball - create $HOME/src/bbbike.tgz tarball
 
 set -e
-: ${verbose=true}
-
-export bbbike_fast_checkout="false"
 
 dir=`dirname $0`
 PATH=$PATH:$dir; export PATH 
+export bbbike_fast_checkout="false"
 
-command="$@"
-export bbbike_fast_checkout
+if [ -d /bbbike/tmp ]; then
+   TMPDIR=/bbbike/tmp; export TMPDIR
+fi
 
 dir=$(mktemp -d -t bbbike-tarball.XXXXXXXX)
 cd $dir
