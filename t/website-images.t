@@ -19,16 +19,21 @@ use LWP;
 use LWP::UserAgent;
 
 my $homepage = 'http://www.bbbike.org';
+
+my @homepages_localhost =
+  ( $ENV{BBBIKE_TEST_SERVER} ? $ENV{BBBIKE_TEST_SERVER} : "http://localhost" );
+my @homepages =
+  qw[ http://www.bbbike.org http://dev2.bbbike.org http://dev4.bbbike.org];
+if ( $ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
+    @homepages = ();
+}
+unshift @homepages, @homepages_localhost;
+
 use constant MYGET => 3;
 my @images =
   qw/mm_20_yellow.png srtbike72.png srtbike114.png srtbike57.png shadow-dot.png dest.gif purple-dot.png mm_20_white.png ubahn.gif mm_20_red.png sbahn.gif printer.gif printer_narrow.gif ziel.gif mm_20_green.png yellow-dot.png dd-end.png dd-start.png phone.png via.gif start.gif twitter-t.png spinning_wheel32.gif srtbike.gif srtbike1.ico rss-icon.png google-plusone-t.png flattr-compact.png facebook-like.png twitter-b.png donate.png facebook-t.png/;
 
-if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
-    plan tests => @images * ( MYGET + 1 );
-}
-else {
-    plan 'no_plan';
-}
+plan tests => @images * ( MYGET + 1 ) * scalar(@homepages);
 
 my $ua = LWP::UserAgent->new;
 $ua->agent("BBBike.org-Test/1.0");
@@ -52,6 +57,8 @@ sub myget {
 }
 
 sub images {
+    my $homepage = shift;
+
     foreach my $image (@images) {
         my $res = myget( "$homepage/images/$image", 60 );
         my $mime_type = "image/"
@@ -64,7 +71,9 @@ sub images {
     }
 }
 
-&images;
+foreach my $hp (@homepages) {
+    &images($hp);
+}
 
 __END__
 
