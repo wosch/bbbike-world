@@ -1,0 +1,38 @@
+#!/bin/sh
+# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+#
+# bbbike-tarball - create $HOME/src/bbbike.tgz tarball
+
+set -e
+: ${verbose=true}
+
+export bbbike_fast_checkout="false"
+
+dir=`dirname $0`
+PATH=$PATH:$dir; export PATH 
+
+command="$@"
+export bbbike_fast_checkout
+
+dir=$(mktemp -d -t bbbike-tarball.XXXXXXXX)
+cd $dir
+
+logfile=$(pwd)/log.bbbike
+$debug || exec 2> $logfile
+
+error () {
+   message="$@"
+   echo $message
+   exit 2
+}
+
+bbbike-checkout >&2 || error "checkout failed: $dir"
+
+make -s js perltidy || error "js perltidy"
+make -s update-files  || error "update-files"
+
+tar cf - bbbike | gzip > $HOME/src/bbbike.tgz.new
+mv -f $HOME/src/bbbike.tgz.new $HOME/src/bbbike.tgz
+
+rm -rf $dir
+
