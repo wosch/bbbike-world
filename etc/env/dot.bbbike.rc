@@ -1,19 +1,30 @@
 # Planet.osm download server
-#planet_osm_server=http://ftp.heanet.ie/mirrors/openstreetmap.org
+planet_osm_server=http://planet.openstreetmap.org/planet
 #planet_osm_server=http://download.bbbike.org/osm/planet
+#planet_osm_server=http://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org
 
-planet_osm_server=http://planet.openstreetmap.org
-
+export BBBIKE_TEST_SERVER="http://localhost:8080"
 export BBBIKE_TEST_CGIDIR="http://localhost:8080/cgi"
 export BBBIKE_TEST_CGIURL="http://localhost:8080/cgi/bbbike.cgi"
 export BBBIKE_TEST_HTMLDIR="http://localhost:8080"
 export BBBIKE_TEST_MAPSERVERURL="http://localhost:8080/cgi-bin/mapserv"
 export BBBIKE_TEST_WAPURL="http://localhost:8080/cgi/wapbbbike.cgi"
 
-# export BBBIKE_TEST_NO_CGI_TESTS=1
-# export BBBIKE_TEST_SLOW_NETWORK=1
-# export BBBIKE_TEST_NO_NETWORK=1
 export BBBIKE_TEST_ORG=1
+export BBBIKE_TEST_ORG_LATER=1
 export BBBIKE_TEST_NO_APACHE=1
 export BBBIKE_TEST_NO_MAPSERVER=1
+export BBBIKE_TEST_SKIP_MAPSERVER=1
+
+export BBBIKE_WEB_SERVER=www4.bbbike.org
+export BBBIKE_API_SERVER=api4.bbbike.org
+
+export BBBIKE_TEST_FAST=1
+export BBBIKE_OPT_DIR=/var/lib/bbbike/opt
+
+# BBBIKE_TEST_SLOW_NETWORK=1
+# BBBIKE_TEST_NO_NETWORK=1
+#
+# Web server options:
+# BBBIKE_TEST_NO_CGI_TESTS=1
 
