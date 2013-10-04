@@ -1,7 +1,27 @@
-# example config file for bbbike/world/bin/extract.pl
+# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+#
+# example config file for cron job bbbike/world/bin/extract.pl
 # 
-# put it in ~/.bbbike-extract 
+# put it in $HOME/.bbbike-extract.rc
 
-$option->{'homepage'} = 'http://download2.bbbike.org/osm/extract';
-#$option->{'bcc'} = 'nobody@gmail.com';
+$option->{'homepage'} = 'http://download.bbbike.org/osm/extract';
+$option->{'script_homepage'} = 'http://extract.bbbike.org';
+$option->{'test'} = 0; 
+$option->{'debug'} = 1; 
+$option->{'email_valid_mxcheck'} = 1; 
+#$option->{'planet_osm'} = '../osm-streetnames/download/geofabrik/europe.osm.pbf';
+#$option->{'planet_osm'} = '../osm/download/pbf/planet.new.pbf';
+#$option->{'planet_osm'} = '../osm/download/geofabrik/europe/germany/brandenburg.osm.pbf';
+
+$option->{'email_token'} = "secret";
+$option->{'bcc'} = 'nobody@gmail.com';
+
+$option->{'aws_s3_enabled'} = 0;
+$option->{'email_rest_enabled'} = 0;
+$option->{'email_rest_url'} = 'http://extract.bbbike.org/cgi/extract-email.cgi';
+$option->{'max_areas'} = 10;
+
+$option->{'pro'} = 0;
+
+1;
 
