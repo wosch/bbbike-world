@@ -150,6 +150,8 @@ function center_city(sw_lng, sw_lat, ne_lng, ne_lat) {
 
 function init_map() {
     var keyboard = new OpenLayers.Control.KeyboardDefaults({}); // "observeElement": $("#map")} );
+    
+    // var keyboard = new OpenLayers.Control.KeyboardDefaults({"observeElement": "map"});
     var map = new OpenLayers.Map("map", {
         controls: [
         new OpenLayers.Control.Navigation(), new OpenLayers.Control.PanZoomBar(), new OpenLayers.Control.ScaleLine({
@@ -846,7 +848,7 @@ function initKeyPress() {
         });
     };
 
-    OpenLayers.Control.KeyboardDefaults.observeElement = $("#map");
+    // OpenLayers.Control.KeyboardDefaults.observeElement = $("#map");
 
     OpenLayers.Control.KeyboardDefaults.prototype.defaultKeyPress = function (evt) {
         switch (evt.keyCode) {
@@ -861,6 +863,27 @@ function initKeyPress() {
             break;
         case OpenLayers.Event.KEY_DOWN:
             moveMap(0, this.slideFactor);
+            break;
+        
+        // '+', '=''
+        case 43:
+        case 61:
+        case 187:
+        case 107:
+            this.map.zoomIn();
+            break;
+
+        // '-'
+        case 45:
+        case 109:
+        case 189:
+        case 95:
+            this.map.zoomOut();
+            break;
+        
+        case 71:
+            // 'g'
+            locateMe();
             break;
         }
     };
