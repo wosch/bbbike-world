@@ -864,7 +864,8 @@ function initKeyPress() {
         case OpenLayers.Event.KEY_DOWN:
             moveMap(0, this.slideFactor);
             break;
-        
+       
+        /* 
         // '+', '=''
         case 43:
         case 61:
@@ -880,6 +881,7 @@ function initKeyPress() {
         case 95:
             this.map.zoomOut();
             break;
+	*/
         
         case 71:
             // 'g'
