@@ -2,6 +2,7 @@
 
 User-agent: *
 Disallow: /osm/planet/planet
+Disallow: /osm/planet/tile
 Disallow: /osm/extract
 Disallow: /bbbike
 
