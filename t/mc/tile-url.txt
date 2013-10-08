@@ -77,3 +77,8 @@ http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer
 http://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/8/86/137.jpg
 http://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Reference_Overlay/MapServer/tile/8/86/137.jpg
 http://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/8/86/137.jpg
+http://tile.waymarkedtrails.org/hiking/8/132/89.png
+http://tile.waymarkedtrails.org/cycling/8/132/89.png
+http://tile.waymarkedtrails.org/mtb/8/133/90.png
+http://tile.waymarkedtrails.org/skating/8/133/89.png
+http://a.tile.osm-tools.org/osm_then/11/1617/936.png
