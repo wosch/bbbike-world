@@ -52,7 +52,7 @@ sub footer {
 <hr/>
 
 <div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em;" >
-  (&copy;) 2008-2013 <a href="http://bbbike.org">BBBike.org</a> // 
+  (&copy;) 2008-2013 <a href="http://bbbike.org">BBBike.org</a> //
   Map data (&copy;) <a href="http://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors <br/>
   <a href="http://mc.bbbike.org/mc/">map compare</a> - <a href="http://extract.bbbike.org/">osm extract service</a>
 
@@ -162,6 +162,10 @@ EOF
 
     $data .= <<EOF;
 </table>
+
+<br/>
+<a href="http://extract.bbbike.org/extract.html" target="_new">help</a> |
+<a href="http://extract.bbbike.org/extract-screenshots.html" target="_new">screenshots</a>
 <hr/>
 
 <span class="city">
@@ -185,9 +189,6 @@ sub header {
     my $sensor = 'true';
     my $base   = "";
 
-    #if ($offline) { $base = "$www_bbbike_org/cgi/"; }
-
-#my @javascript = ( "http://www.google.com/jsapi?hl=de", "http://maps.googleapis.com/maps/api/js?sensor=false&amp;language=de&amp;libraries=panoramio,weather", "/html/bbbike-js.js");
     my @javascript = (
         "/html/jquery/jquery-1.4.2.min.js",
         "/html/devbridge-jquery-autocomplete-1.1.2/jquery.autocomplete-min.js",
@@ -231,7 +232,7 @@ sub js_jump {
 
     city = "dummy";
     bbbike_maps_init('$map_type', [[43, 8],[57, 15]], "en", 1 );
-  
+
     function jumpToCity (coord) {
 	var b = coord.split("!");
 
@@ -246,7 +247,7 @@ sub js_jump {
 
         // no zoom level higher than 15
          map.setZoom( zoom < 16 ? zoom + 0 : 16);
-    } 
+    }
 
     //]]>
     </script>
@@ -420,4 +421,3 @@ print qq{<p/></div><!-- more cities -->\n};
 print &footer( "cities" => \@city_list, 'city' => $city );
 print "</div> <!-- bottom -->\n";
 print $q->end_html;
-
