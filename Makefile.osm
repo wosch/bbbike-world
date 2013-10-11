@@ -688,7 +688,7 @@ update-javascript:
 	make -C html bbbike-js
 
 java-config:
-	test -r $$HOME/.osmosis || ln -fs $$HOME/projects/bbbike/world/etc/dot.osmosis $$HOME/.osmosis
+	test -r $$HOME/.osmosis || ln -fs $$HOME/projects/bbbike/world/etc/env/dot.osmosis $$HOME/.osmosis
 
 dist-clean devel-clean distclean: clean deb-clean temp-clean clean-t
 
