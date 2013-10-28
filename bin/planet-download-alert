@@ -47,7 +47,7 @@ if test -n "$new" && test "$new" -ne "$old"; then
    if [ -n "$automatic_update" ]; then
      echo "start updated, may run 8-12 hours"
      logfile=tmp/log.update-database
-     ( make -s update-database > $logfile 2>&1 || cat $logfile ) &
+     ( make -s update-database > $logfile 2>&1 || tail -n 200 $logfile ) &
    fi
 fi
 
