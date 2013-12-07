@@ -2,7 +2,7 @@
 # Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
-    system( qq[printf "quit\n" | nc localhost 4949 >/dev/null] );
+    system(qq[printf "quit\n" | nc localhost 4949 >/dev/null]);
     if ($?) {
         print "1..0 # no running munin daemon found, skip tests\n";
         exit;
@@ -16,8 +16,10 @@ use warnings;
 plan tests => 1;
 
 ######################################################################
-system( qq[printf "fetch bbbike-route\nquit\n" | nc localhost 4949 | egrep -q value]);
-    
+system(
+    qq[printf "fetch bbbike-route\nquit\n" | nc localhost 4949 | egrep -q value]
+);
+
 is( $?, 0, "munin bbbike script is running" );
 
 __END__
