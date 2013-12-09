@@ -41,7 +41,7 @@ if test -n "$new" && test "$new" -ne "$old"; then
    echo "please update me: $old $new"
    echo "$planet_osm_server/$file"
    echo ""
-   curl -sSf --head --location $planet_osm_server/$file | egrep "^(Content-Length|Last-)"
+   curl -sSf --head --location $planet_osm_server/$file | egrep "^(Content-Length:|Last-|Location:)"
    touch $update
 
    if [ -n "$automatic_update" ]; then
