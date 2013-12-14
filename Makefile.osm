@@ -267,7 +267,7 @@ _cities-parallel:
 _cities-parallel-pbf:
 	@echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | env CITIES_DB=${CITIES_DB} ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} _cities-pbf | ${TIME} xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
 
-cities-parallel: _cities-parallel check-osm-gzip
+cities-parallel: _cities-parallel check-osm
 
 _cities:
 	@echo ${CITIES} | \
@@ -327,10 +327,13 @@ planet-streets:
 ##########################################################################################
 # check if the downloaded OSM files are valid
 #
-check-osm: check-osm-gzip check-osm-error
+check-osm: check-osm-pbf
 
 check-osm-gzip:
 	@find ${OSM_DIR} -name '*.gz' -print0 | ${XARGS} -0 -n8 -P${MAX_CPU} ${GZIP} -t
+
+check-osm-pbf:
+	@find ${OSM_DIR} -name '*.pbf' -print0 | ${XARGS} -0 -n1 -P${MAX_CPU} osmconvert >/dev/null
 
 check-zip:
 	@find ${OSM_DIR} -name '*.zip' -print0 | ${XARGS} -0 -n1 -P${MAX_CPU} unzip -qq -t
