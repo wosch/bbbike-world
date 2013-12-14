@@ -49,6 +49,7 @@ wait
 # set an notice
 (  
    echo "hostname: `hostname`"
+   egrep $(hostname) /etc/hosts
    echo "begin: $begin"
    echo "end:   `date`" 
 ) | mail -s "$0/done" `whoami`
