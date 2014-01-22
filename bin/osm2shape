@@ -32,7 +32,14 @@ test -z "$file" && usage
 : ${osm_checksum=`dirname $0`/osm-checksum}
 osm_fixme=`dirname $0`/pbf2pbf
 
-tmpdir=`mktemp -d ${TMPDIR-"/bbbike/tmp"}/osmium2shape.XXXXXXXXXXX`
+# use RAM disk if available
+if [ -e /tmpfs ]; then
+    _tmp=/tmpfs
+else
+    _tmp=/bbbike/tmp
+fi
+
+tmpdir=`mktemp -d ${TMPDIR-"$_tmp"}/osmium2shape.XXXXXXXXXXX`
 
 # cleanup after signal, but show errors first
 trap '( sleep 1; rm -rf $tmpdir ) &' 1 2 15
