@@ -1,7 +1,7 @@
 Origin: BBBike
 Label: BBBike
 Codename: squeeze
-Architectures: amd64 i386
+Architectures: amd64
 Components: main
 Description: BBBike.org
 SignWith: 3D084B60
