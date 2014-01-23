@@ -1,5 +1,5 @@
 ############################################################################
-#
+# debian/wheezy (debian7)
 #
 
 equivs/ 	files to build simple debian meta packages

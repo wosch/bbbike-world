@@ -1,2 +1,2 @@
 # bbbike.org own stuff
-deb http://debian.bbbike.org/debian squeeze main
+deb http://debian.bbbike.org/debian wheezy main
