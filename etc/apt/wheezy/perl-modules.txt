@@ -1,0 +1,13 @@
+# list of self compiled perl modules for debian
+GIS::Distance::Lite
+XML::Atom::SimpleFeed
+Math::MatrixReal
+Geo::Google::PolylineEncoder
+Image::Info # newer version
+Kwalify
+Math::Polygon
+Object::Iterate
+WWW::Mechanize::FormFiller
+accessors
+#PerlIO::gzip
+
