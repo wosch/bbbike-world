@@ -4,7 +4,7 @@
 
 LIB=	bbbike-world-javalibs
 DEB_REPO_DIR=   /usr/local/www/debian.bbbike.org/debian
-DEB_RELEASE=wheezy
+DEB_RELEASE=squeeze
 
 all: help
 
