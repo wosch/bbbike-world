@@ -911,7 +911,7 @@ DEB_DIR=tmp/deb
 DEB_MODULE_LIST=world/etc/apt/${DEB_RELEASE}/perl-modules.txt
 DEB_PACKAGES=	$(shell ${PERL} -npe 's/\#.*//' ${DEB_MODULE_LIST})
 DEB_CONTROLS=	$(shell ${MAKE} -s -Cworld/etc/apt/${DEB_RELEASE}/equivs)
-DEB_REPO_DIR=	/usr/local/www/debian.bbbike.org/debian 
+DEB_REPO_DIR=	/usr/local/www/debian.bbbike.org/debian
 DEB_OPT_DIR=	/var/lib/bbbike/opt
 
 # don't forget to run deb-clean first
@@ -934,17 +934,24 @@ deb-equivs: deb-clean
 	${MAKE} deb-repo
 
 deb-bin:
-	${MAKE} -C./world/etc/apt/${DEB_RELEASE}/deb $@
+	${MAKE} -C./world/etc/apt/${DEB_RELEASE}/deb DEB_RELEASE=${DEB_RELEASE} $@
 
 deb-clean:
 	rm -rf ${DEB_DIR}
 
-deb-repo:
+deb-repo-dir:
+	mkdir -p ${DEB_REPO_DIR}/${DEB_RELEASE}/conf
+	pwd=`pwd`; cd ${DEB_REPO_DIR}/${DEB_RELEASE}/conf; \
+	if [ ! -e distributions ]; then \
+	    ln -s $$pwd/world/etc/apt/${DEB_RELEASE}/conf/distributions; \
+	fi
+	
+deb-repo: deb-repo-dir
 	dpkg-sig -k 3D084B60 --sign builder ${DEB_DIR}/*.deb
-	pwd=`pwd`; cd ${DEB_REPO_DIR}; \
+	pwd=`pwd`; cd ${DEB_REPO_DIR}/${DEB_RELEASE}; \
 	for i in $$pwd/${DEB_DIR}/*.deb; do \
- 	   reprepro -Vb . --conf +b/dists/${DEB_RELEASE}/conf removematched ${DEB_RELEASE} $$(echo $$i | perl -npe 's,.*/,,; s,_[\d+\.\-]+\_all\.deb$$,,'); \
- 	   reprepro -Vb . --conf +b/dists/${DEB_RELEASE}/conf includedeb ${DEB_RELEASE} $$i; \
+ 	   reprepro -Vb . removematched ${DEB_RELEASE} $$(echo $$i | perl -npe 's,.*/,,; s,_[\d+\.\-]+\_all\.deb$$,,'); \
+ 	   reprepro -Vb . includedeb ${DEB_RELEASE} $$i; \
 	done
 
 deb-bootstrap debian-bootstrap: deb-bootstrap-rsync deb-bootstrap-dir
