@@ -4,6 +4,7 @@
 
 LIB=	bbbike-world-javalibs
 DEB_REPO_DIR=   /usr/local/www/debian.bbbike.org/debian
+DEB_RELEASE=wheezy
 
 all: help
 
@@ -21,7 +22,7 @@ build:
 
 deb-repo:
 	dpkg-sig -k 3D084B60 --sign builder 	${LIB}*.deb
-	pwd=$$(pwd); cd ${DEB_REPO_DIR}; \
+	pwd=$$(pwd); cd ${DEB_REPO_DIR}/${DEB_RELEASE}; \
 	  reprepro -Vb . removematched squeeze 	${LIB}-misc; \
 	  reprepro -Vb . includedeb squeeze 	$$pwd/${LIB}*.deb
 
