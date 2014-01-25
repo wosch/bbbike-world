@@ -962,6 +962,7 @@ bbbike-bootstrap:  update-files debian-bootstrap install-backend-lighttpd
 	
 install-backend-lighttpd:
 	${MAKE} -C./world/etc install-backend-lighttpd
+	sudo chmod o+rx /var/log/lighttpd
 
 # sync config files
 deb-bootstrap-rsync:
