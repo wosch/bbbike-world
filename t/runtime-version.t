@@ -17,13 +17,13 @@ my $versions = {
     'debian6' => [
 
         # version commands, regex to match
-        [ [qw/pbzip2 --version/],  qr/ BZIP2 v1.1.1 / ],
+        [ [qw/pbzip2 --version/],  qr/ BZIP2 v1.1.[1-9] /m ],
         [ [qw/osmconvert --help/], qr/^osmconvert 0\.7T/m ],
         [ [qw/osmosis -v/],        qr/^INFO: Osmosis Version 0\.40\.1/m ],
-        [ [qw/pigz --version/],    qr/^pigz 2\.1\.6/ ],
+        [ [qw/pigz --version/],    qr/^pigz (2\.1\.6|2\.2\.[4-9])/ ],
         [ [qw/java -version/],     qr/^java version "1\.6\.0_27"/m ],
         [ [qw/java -version/],     qr/^OpenJDK (64-Bit )?Server VM/m ],
-        [ [qw/perltidy -v/],       qr/^This is perltidy, v20090616/ ],
+        [ [qw/perltidy -v/],       qr/^This is perltidy, (v20090616|v20101217)/ ],
     ]
 };
 
