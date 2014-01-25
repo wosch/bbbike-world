@@ -23,7 +23,7 @@ my $versions = {
         [ [qw/pigz --version/],    qr/^pigz (2\.1\.6|2\.2\.[4-9])/ ],
         [ [qw/java -version/],     qr/^java version "1\.6\.0_27"/m ],
         [ [qw/java -version/],     qr/^OpenJDK (64-Bit )?Server VM/m ],
-        [ [qw/perltidy -v/],       qr/^This is perltidy, (v20090616|v20101217)/ ],
+        [ [qw/perltidy -v/], qr/^This is perltidy, (v20090616|v20101217)/ ],
     ]
 };
 
