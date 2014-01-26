@@ -969,6 +969,7 @@ deb-bootstrap debian-bootstrap: deb-bootstrap-rsync deb-bootstrap-dir
 bbbike-bootstrap: debian-bootstrap update-files install-backend-lighttpd 
 	sudo ${BBMAKE} -s cache-clean extract-bbbike-org-install bbbike-cache-install
 	sudo ${MAKE} -C./world/etc install-munin-bbbike install-munin-bbbike-extract 
+	sudo update-rc.d lighttpd defaults
 	@echo ""
 	@echo "You may also run: make staging"
 	
