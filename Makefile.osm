@@ -986,7 +986,8 @@ deb-bootstrap-dir:
 	     test -e /usr/local/bin/$$i || sudo ln -fs ${DEB_OPT_DIR}/bin/$$i /usr/local/bin/$$i; \
 	   done	
 	test -e /usr/local/bin/perl || sudo ln -fs /usr/bin/perl /usr/local/bin/perl
-	test -e /usr/lib/libgeos-3.2.2.so || sudo ln -fs /usr/lib/libgeos-3.2.0.so /usr/lib/libgeos-3.2.2.so
+	test -e /usr/lib/libprotobuf-lite.so.6.0.0 || sudo ln -fs ${DEB_OPT_DIR}/lib/libprotobuf-lite.so.6.0.0 /usr/lib/libprotobuf-lite.so.6.0.0
+	test -e /usr/lib/libprotobuf-lite.so.6     || sudo ln -fs ${DEB_OPT_DIR}/lib/libprotobuf-lite.so.6     /usr/lib/libprotobuf-lite.so.6
 	test -e /usr/local/bin/osmosis || sudo ln -sf ${DEB_OPT_DIR}/osmosis-0.40.1/bin/osmosis /usr/local/bin/osmosis
 	sudo mkdir -p /bbbike/tmp /tmpfs
 	sudo chmod 7777 /bbbike/tmp /tmpfs
