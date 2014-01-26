@@ -63,6 +63,7 @@ DATA_OSM_BBBIKE_DIR=	data-osm.bbbike
 OSMBIKE_DATA=	${DATA_OSM_BBBIKE_DIR}.tgz
 DATA_DIR=	data
 BBBIKE_CACHE_DIR=	/var/cache/bbbike
+LIGHTTPD_CACHE_DIR=	/var/cache/lighttpd
 MAX_OSMOSIS=	${MAX_CPU}
 LANGUAGES=	m da de en es fr hr nl pl pt ru zh
 ELEVATION_SCRIPT=world/bin/elevation-database
@@ -600,6 +601,11 @@ clean-cache cache-clean:
 	du -hs ${BBBIKE_CACHE_DIR}/
 	-du -hs ${BBBIKE_CACHE_DIR}/*
 	mkdir -p ${BBBIKE_CACHE_DIR}/${BBBIKE_WEB_SERVER} ${BBBIKE_CACHE_DIR}/localhost
+	mkdir -p ${LIGHTTPD_CACHE_DIR}/${BBBIKE_WEB_SERVER} \
+	  ${LIGHTTPD_CACHE_DIR}/dev.bbbike.org \
+	  ${LIGHTTPD_CACHE_DIR}/devel.bbbike.org \
+	  ${LIGHTTPD_CACHE_DIR}/localhost.bbbike.org \
+	  ${LIGHTTPD_CACHE_DIR}/compress
 	mkdir -p ${BBBIKE_CACHE_DIR}/.tmp.$$$$; \
 	    mv -f ${BBBIKE_CACHE_DIR}/*bbbike.org ${BBBIKE_CACHE_DIR}/localhost ${BBBIKE_CACHE_DIR}/.tmp.$$$$ || true; \
 	    rm -rf ${BBBIKE_CACHE_DIR}/.tmp.$$$$ &
@@ -956,7 +962,7 @@ deb-repo: deb-repo-dir
 	done
 
 deb-bootstrap debian-bootstrap: deb-bootstrap-rsync deb-bootstrap-dir
-bbbike-bootstrap:  update-files debian-bootstrap install-backend-lighttpd
+bbbike-bootstrap:  update-files debian-bootstrap install-backend-lighttpd cache-clean
 	sudo ${BBMAKE} -s extract-bbbike-org-install bbbike-cache-install
 	@echo ""
 	@echo "You may also run: make staging"
