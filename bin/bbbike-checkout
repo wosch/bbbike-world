@@ -14,8 +14,8 @@ git_clone_opt="-q"
 
 if [ ! -x /usr/local/bin/perl ]; then
     echo >&2 "/usr/local/bin/perl does not exists"
-    echo >&2 "Please run: ln -s /usr/bin/perl /usr/local/bin/perl"
-    echo >&2 "        or: ln -s /opt/local/bin/perl /usr/local/bin/perl"
+    echo >&2 "Please run: sudo ln -s /usr/bin/perl /usr/local/bin/perl"
+    echo >&2 "        or: sudo ln -s /opt/local/bin/perl /usr/local/bin/perl"
     exit 1
 fi
 
