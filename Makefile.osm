@@ -63,6 +63,7 @@ DATA_OSM_BBBIKE_DIR=	data-osm.bbbike
 OSMBIKE_DATA=	${DATA_OSM_BBBIKE_DIR}.tgz
 DATA_DIR=	data
 BBBIKE_CACHE_DIR=	/var/cache/bbbike
+LIGHTTPD_CACHE_DIR=	/var/cache/lighttpd
 MAX_OSMOSIS=	${MAX_CPU}
 LANGUAGES=	m da de en es fr hr nl pl pt ru zh
 ELEVATION_SCRIPT=world/bin/elevation-database
@@ -372,9 +373,13 @@ convert3:
 check: 
 	${BBMAKE} test > tmp/log.check 2>&1
 	tail -n 5 tmp/log.check
+
 check-full: 
 	BBBIKE_TEST_FAST="" ${BBMAKE} test > tmp/log.check-full 2>&1
 	tail -n 5 tmp/log.check-full
+
+check-failed:
+	prove --state=failed
 
 check-bbd:
 	for i in ${CITIES}; do echo ${DATA_OSM_DIR}/$$i; done | \
@@ -597,9 +602,14 @@ clean: rotate-data-osm
 	rm -f ${OSMBIKE_DATA}
 
 clean-cache cache-clean:
-	du -hs ${BBBIKE_CACHE_DIR}/
-	-du -hs ${BBBIKE_CACHE_DIR}/*
+	-du -hs ${BBBIKE_CACHE_DIR}/
+	-du -hs ${BBBIKE_CACHE_DIR}/* 2>/dev/null
 	mkdir -p ${BBBIKE_CACHE_DIR}/${BBBIKE_WEB_SERVER} ${BBBIKE_CACHE_DIR}/localhost
+	mkdir -p ${LIGHTTPD_CACHE_DIR}/${BBBIKE_WEB_SERVER} \
+	  ${LIGHTTPD_CACHE_DIR}/dev.bbbike.org \
+	  ${LIGHTTPD_CACHE_DIR}/devel.bbbike.org \
+	  ${LIGHTTPD_CACHE_DIR}/localhost.bbbike.org \
+	  ${LIGHTTPD_CACHE_DIR}/compress
 	mkdir -p ${BBBIKE_CACHE_DIR}/.tmp.$$$$; \
 	    mv -f ${BBBIKE_CACHE_DIR}/*bbbike.org ${BBBIKE_CACHE_DIR}/localhost ${BBBIKE_CACHE_DIR}/.tmp.$$$$ || true; \
 	    rm -rf ${BBBIKE_CACHE_DIR}/.tmp.$$$$ &
@@ -778,6 +788,7 @@ extract-install extract-bbbike-org-install:
 	else \
 	   ln -fs ${BBBIKE_PARTITION}/projects/osm /var/cache/osm; \
 	fi
+	mkdir -p /usr/local/www/osm
 	ln -fs /var/cache/osm /usr/local/www/osm
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/incoming
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/confirmed
@@ -955,8 +966,9 @@ deb-repo: deb-repo-dir
 	done
 
 deb-bootstrap debian-bootstrap: deb-bootstrap-rsync deb-bootstrap-dir
-bbbike-bootstrap:  update-files debian-bootstrap install-backend-lighttpd
-	sudo ${BBMAKE} -s extract-bbbike-org-install bbbike-cache-install
+bbbike-bootstrap: debian-bootstrap update-files install-backend-lighttpd 
+	sudo ${BBMAKE} -s cache-clean extract-bbbike-org-install bbbike-cache-install
+	sudo ${MAKE} -C./world/etc install-munin-bbbike install-munin-bbbike-extract 
 	@echo ""
 	@echo "You may also run: make staging"
 	
@@ -979,7 +991,18 @@ deb-bootstrap-dir:
 	     test -e /usr/local/bin/$$i || sudo ln -fs ${DEB_OPT_DIR}/bin/$$i /usr/local/bin/$$i; \
 	   done	
 	test -e /usr/local/bin/perl || sudo ln -fs /usr/bin/perl /usr/local/bin/perl
-	test -e /usr/lib/libgeos-3.2.2.so || sudo ln -fs /usr/lib/libgeos-3.2.0.so /usr/lib/libgeos-3.2.2.so
+	test -e /usr/lib/libprotobuf-lite.so.6.0.0 || sudo ln -fs ${DEB_OPT_DIR}/lib/libprotobuf-lite.so.6.0.0 /usr/lib/libprotobuf-lite.so.6.0.0
+	test -e /usr/lib/libprotobuf-lite.so.6     || sudo ln -fs ${DEB_OPT_DIR}/lib/libprotobuf-lite.so.6     /usr/lib/libprotobuf-lite.so.6
+	cd /usr/lib; \
+	if [ ! -e libgeos-3.2.2.so ]; then \
+	    if [ -e libgeos-3.3.3.so ]; then \
+	       sudo ln -fs libgeos-3.3.3.so libgeos-3.2.2.so; \
+ 	    else \
+	       if [ -e libgeos-3.2.0.so ]; then \
+	         sudo ln -fs libgeos-3.2.0.so libgeos-3.2.2.so; \
+	       fi; \
+	    fi; \
+	fi
 	test -e /usr/local/bin/osmosis || sudo ln -sf ${DEB_OPT_DIR}/osmosis-0.40.1/bin/osmosis /usr/local/bin/osmosis
 	sudo mkdir -p /bbbike/tmp /tmpfs
 	sudo chmod 7777 /bbbike/tmp /tmpfs
@@ -1103,6 +1126,7 @@ help:
 	@echo "  [ deb-clean | deb-repo ]"
 	@echo "  [ debian-bootstrap | bbbike-bootstrap ]"
 	@echo "  [ build-runtime | git-fetch ]"
+	@echo "  [ check | check-full | check-failed ]"
 
 	@echo ""
 	@echo "see also ./world/README"

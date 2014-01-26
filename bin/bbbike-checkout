@@ -50,9 +50,13 @@ if $bbbike_fast_checkout; then
 
 	echo "fast checkout done"
 	exit 0
-    else
-    	git clone $git_clone_opt $HOME/projects/bbbike
-    	( cd bbbike && git remote add bbbike ssh://git.bbbike.org/home/git/bbbike )
+    else 
+	if [ -e $HOME/projects/bbbike ]; then
+    	    git clone $git_clone_opt $HOME/projects/bbbike
+    	    ( cd bbbike && git remote add bbbike ssh://git.bbbike.org/home/git/bbbike )
+        else 
+    	    git clone $git_clone_opt ssh://git.bbbike.org/home/git/bbbike
+	fi
     fi
 else
     git clone $git_clone_opt ssh://git.bbbike.org/home/git/bbbike
