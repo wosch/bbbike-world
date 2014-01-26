@@ -373,9 +373,13 @@ convert3:
 check: 
 	${BBMAKE} test > tmp/log.check 2>&1
 	tail -n 5 tmp/log.check
+
 check-full: 
 	BBBIKE_TEST_FAST="" ${BBMAKE} test > tmp/log.check-full 2>&1
 	tail -n 5 tmp/log.check-full
+
+check-failed:
+	prove --state=failed
 
 check-bbd:
 	for i in ${CITIES}; do echo ${DATA_OSM_DIR}/$$i; done | \
@@ -1111,6 +1115,7 @@ help:
 	@echo "  [ deb-clean | deb-repo ]"
 	@echo "  [ debian-bootstrap | bbbike-bootstrap ]"
 	@echo "  [ build-runtime | git-fetch ]"
+	@echo "  [ check | check-full | check-failed ]"
 
 	@echo ""
 	@echo "see also ./world/README"
