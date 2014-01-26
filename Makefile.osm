@@ -962,8 +962,8 @@ deb-repo: deb-repo-dir
 	done
 
 deb-bootstrap debian-bootstrap: deb-bootstrap-rsync deb-bootstrap-dir
-bbbike-bootstrap:  update-files debian-bootstrap install-backend-lighttpd cache-clean
-	sudo ${BBMAKE} -s extract-bbbike-org-install bbbike-cache-install
+bbbike-bootstrap: debian-bootstrap update-files install-backend-lighttpd 
+	sudo ${BBMAKE} -s cache-clean extract-bbbike-org-install bbbike-cache-install
 	@echo ""
 	@echo "You may also run: make staging"
 	
