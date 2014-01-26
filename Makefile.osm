@@ -598,8 +598,8 @@ clean: rotate-data-osm
 	rm -f ${OSMBIKE_DATA}
 
 clean-cache cache-clean:
-	du -hs ${BBBIKE_CACHE_DIR}/
-	-du -hs ${BBBIKE_CACHE_DIR}/*
+	-du -hs ${BBBIKE_CACHE_DIR}/
+	-du -hs ${BBBIKE_CACHE_DIR}/* 2>/dev/null
 	mkdir -p ${BBBIKE_CACHE_DIR}/${BBBIKE_WEB_SERVER} ${BBBIKE_CACHE_DIR}/localhost
 	mkdir -p ${LIGHTTPD_CACHE_DIR}/${BBBIKE_WEB_SERVER} \
 	  ${LIGHTTPD_CACHE_DIR}/dev.bbbike.org \
@@ -962,8 +962,8 @@ deb-repo: deb-repo-dir
 	done
 
 deb-bootstrap debian-bootstrap: deb-bootstrap-rsync deb-bootstrap-dir
-bbbike-bootstrap:  update-files debian-bootstrap install-backend-lighttpd cache-clean
-	sudo ${BBMAKE} -s extract-bbbike-org-install bbbike-cache-install
+bbbike-bootstrap: debian-bootstrap update-files install-backend-lighttpd 
+	sudo ${BBMAKE} -s cache-clean extract-bbbike-org-install bbbike-cache-install
 	@echo ""
 	@echo "You may also run: make staging"
 	
