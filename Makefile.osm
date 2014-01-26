@@ -598,7 +598,7 @@ clean: rotate-data-osm
 	rm -f ${OSMBIKE_DATA}
 
 clean-cache cache-clean:
-	du -hs ${BBBIKE_CACHE_DIR}/
+	-du -hs ${BBBIKE_CACHE_DIR}/
 	-du -hs ${BBBIKE_CACHE_DIR}/*
 	mkdir -p ${BBBIKE_CACHE_DIR}/${BBBIKE_WEB_SERVER} ${BBBIKE_CACHE_DIR}/localhost
 	mkdir -p ${LIGHTTPD_CACHE_DIR}/${BBBIKE_WEB_SERVER} \
