@@ -599,7 +599,7 @@ clean: rotate-data-osm
 
 clean-cache cache-clean:
 	-du -hs ${BBBIKE_CACHE_DIR}/
-	-du -hs ${BBBIKE_CACHE_DIR}/*
+	-du -hs ${BBBIKE_CACHE_DIR}/* 2>/dev/null
 	mkdir -p ${BBBIKE_CACHE_DIR}/${BBBIKE_WEB_SERVER} ${BBBIKE_CACHE_DIR}/localhost
 	mkdir -p ${LIGHTTPD_CACHE_DIR}/${BBBIKE_WEB_SERVER} \
 	  ${LIGHTTPD_CACHE_DIR}/dev.bbbike.org \
