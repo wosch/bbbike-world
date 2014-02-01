@@ -110,7 +110,7 @@ sub vcl_recv {
     } else if (req.http.host ~ "^eserte\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$") {
         set req.backend = eserte;
     } else {
-        set req.backend = localhost;
+        set req.backend = default;
     }
 
     # dummy
@@ -200,17 +200,17 @@ sub vcl_recv {
 }
 
 # We're only interested in major categories, not versions, etc...
-sub normalize_user_agent {
-    if (req.http.user-agent ~ "MSIE 6") {
-        set req.http.X-UA = "MSIE 6";
-    } else if (req.http.user-agent ~ "MSIE 7") {
-        set req.http.X-UA = "MSIE 7";
-    } else if (req.http.user-agent ~ "iPhone|Android|iPod|Nokia|Symbian|BlackBerry|SonyEricsson") {
-        set req.http.X-UA = "Mobile";
-    } else {
-        set req.http.X-UA = "";
-    }
-}
+#sub normalize_user_agent {
+#    if (req.http.user-agent ~ "MSIE 6") {
+#        set req.http.X-UA = "MSIE 6";
+#    } else if (req.http.user-agent ~ "MSIE 7") {
+#        set req.http.X-UA = "MSIE 7";
+#    } else if (req.http.user-agent ~ "iPhone|Android|iPod|Nokia|Symbian|BlackBerry|SonyEricsson") {
+#        set req.http.X-UA = "Mobile";
+#    } else {
+#        set req.http.X-UA = "";
+#    }
+#}
 
 # 
 # Below is a commented-out copy of the default VCL logic.  If you
