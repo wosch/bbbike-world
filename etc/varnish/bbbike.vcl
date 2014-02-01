@@ -189,6 +189,12 @@ sub vcl_recv {
     # cache just by major browser type
     #call normalize_user_agent;
     #set req.http.User-Agent = req.http.X-UA;
+    
+    #if (req.http.Authorization || req.http.Cookie) {
+    if (req.http.Authorization) {
+         /* Not cacheable by default */
+        return (pass);
+    }
 
     return (lookup);
 }
