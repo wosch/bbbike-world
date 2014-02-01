@@ -51,13 +51,13 @@ backend eserte {
     .between_bytes_timeout = 300s;
 }
 
-backend slaven {
-    .host = "slaven";
-    .port = "80";
-    .first_byte_timeout = 300s;
-    .connect_timeout = 300s;
-    .between_bytes_timeout = 300s;
-}
+#backend slaven {
+#    .host = "slaven";
+#    .port = "80";
+#    .first_byte_timeout = 300s;
+#    .connect_timeout = 300s;
+#    .between_bytes_timeout = 300s;
+#}
 
 backend wosch {
     .host = "wosch";
@@ -106,11 +106,11 @@ sub vcl_recv {
     #
 
     # munin statistics
-    if (req.http.host ~ "^dev[234]?\.bbbike\.org$" && req.url ~ "^/munin") {
+    if (req.http.host ~ "^dev[1-4]?\.bbbike\.org$" && req.url ~ "^/munin") {
         set req.backend = localhost;
-    } else if (req.http.host ~ "^download[234]?\.bbbike\.org$") {
+    } else if (req.http.host ~ "^download[1-4]?\.bbbike\.org$") {
         set req.backend = bbbike;
-    } else if (req.http.host ~ "^(m\.|api[234]?|www[234]?\.|dev[234]?\.|devel[234]?\.|)bbbike\.org$") {
+    } else if (req.http.host ~ "^(m\.|api[1-4]?|www[1-4]?\.|dev[1-4]?\.|devel[1-4]?\.|)bbbike\.org$") {
         set req.backend = bbbike;
 
         # failover production @ www3 
@@ -119,8 +119,8 @@ sub vcl_recv {
         }
     } else if (req.http.host ~ "^eserte\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$") {
         set req.backend = eserte;
-    } else if (req.http.host ~ "^eserte-devel\.bbbike\.org$" || req.http.host ~ "^.*dev.*bbbike\.de$" ) {
-        set req.backend = slaven;
+    #} else if (req.http.host ~ "^eserte-devel\.bbbike\.org$" || req.http.host ~ "^.*dev.*bbbike\.de$" ) {
+    #    set req.backend = slaven;
     } else if (req.http.host ~ "^([a-f]\.)?tile\.bbbike\.org$") {
         set req.backend = tile;
     } else if (req.http.host ~ "^([u-z])\.tile\.bbbike\.org$") {
@@ -131,7 +131,7 @@ sub vcl_recv {
         set req.backend = wosch;
     } else if (req.http.host ~ "^(dvh|tkb)\.bookmaps\.org$") {
         set req.backend = wosch;
-    } else if (req.http.host ~ "^extract[2-4]?\.bbbike\.org$") {
+    } else if (req.http.host ~ "^extract[1-4]?\.bbbike\.org$") {
         set req.backend = bbbike;
     } else {
         set req.backend = bbbike;
@@ -144,8 +144,7 @@ sub vcl_recv {
 
     # log real IP address in backend
     if (req.http.x-forwarded-for) {
-       set req.http.X-Forwarded-For =
-           req.http.X-Forwarded-For ", " client.ip;
+	set req.http.X-Forwarded-For = req.http.X-Forwarded-For + ", " + client.ip;
     } else {
        set req.http.X-Forwarded-For = client.ip;
     }
@@ -154,7 +153,7 @@ sub vcl_recv {
     # backends without caching, pipe/pass
 
     # do not cache OSM files
-    if (req.http.host ~ "^(download[234]?)\.bbbike\.org$") {
+    if (req.http.host ~ "^(download[1-4]?)\.bbbike\.org$") {
          return (pipe);
     }
 
@@ -172,7 +171,7 @@ sub vcl_recv {
 
     ######################################################################
     # force caching of images and CSS/JS files
-    if (req.url ~ "^/html|^/images|^/feed/|^/osp/|^/cgi/[acdf-z]|.*\.html$|.+/$|^/osm/" || req.http.host ~ "^api[234]?.bbbike\.org$" ) {
+    if (req.url ~ "^/html|^/images|^/feed/|^/osp/|^/cgi/[acdf-z]|.*\.html$|.+/$|^/osm/" || req.http.host ~ "^api[1-4]?.bbbike\.org$" ) {
        unset req.http.cookie;
        #unset req.http.Accept-Encoding;
        unset req.http.User-Agent;
@@ -210,10 +209,10 @@ sub vcl_recv {
 
 
     # test & development, no caching
-    if (req.http.host ~ "^(dev|devel)[234]?\.bbbike\.org$") {
+    if (req.http.host ~ "^(dev|devel)[1-4]?\.bbbike\.org$") {
 	return (pass);
     }
-    if (req.http.host ~ "^extract[234]?\.bbbike\.org") { return (pass); } # no cache
+    if (req.http.host ~ "^extract[1-4]?\.bbbike\.org") { return (pass); } # no cache
 
     # cache just by major browser type
     call normalize_user_agent;
@@ -224,35 +223,35 @@ sub vcl_recv {
     return (lookup);
 }
 
-sub vcl_hash {
+#sub XXXvcl_hash {
     # cache requests with cookies in mind
-    set req.hash += req.http.cookie;
-}
+   #set req.hash += req.http.cookie;
+#}
 
-sub vcl_fetch {
+#sub vcl_fetch {
     #return (pass);
 
     #if (req.url ~ "^/html|^/images|^/feed/|.*\.html$|.*/$") {
     #   unset beresp.http.cookie;
     #}
 
-    if (!beresp.cacheable) {
-         return (pass);
-    }
+    #if (!beresp.cacheable) {
+    #     return (pass);
+    #}
 
-    return (deliver);
+#    return (deliver);
 
     #unset beresp.http.set-cookie;
     #if (beresp.http.Set-Cookie) {
     #    return (pass);
     #}
     #return (deliver);
-}
+#}
 
-sub vcl_pipe {
-    /* Force the connection to be closed afterwards so subsequent reqs don't use pipe */
-    set bereq.http.connection = "close";
-}
+#sub vcl_pipe {
+#    /* Force the connection to be closed afterwards so subsequent reqs don't use pipe */
+#    set bereq.http.connection = "close";
+#}
 
 # We're only interested in major categories, not versions, etc...
 sub normalize_user_agent {
