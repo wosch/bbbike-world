@@ -106,12 +106,14 @@ foreach my $obj (@list) {
 
     my $mime_type = exists $obj->{mime_type} ? $obj->{mime_type} : "text/html";
     is( $resp->content_type, $mime_type, "page $url is $mime_type" );
-    cmp_ok( $resp->content_length, ">", $obj->{min_size},
-            "page $url is greather than: "
-          . $resp->content_length . " > "
-          . $obj->{min_size} );
-
     my $content = $resp->decoded_content;
+    my $content_length =
+      defined $resp->content_length ? $resp->content_length : length($content);
+
+    cmp_ok( $content_length, ">", $obj->{min_size},
+            "page $url is greather than: "
+          . $content_length . " > "
+          . $obj->{min_size} );
 
     next if !exists $obj->{'match'};
     foreach my $match ( @{ $obj->{'match'} } ) {
