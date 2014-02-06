@@ -666,7 +666,7 @@ perlcheck:
 	${MAKE} -C world/t $@	
 	git diff
 
-jsbeautifier js:
+jsbeautifier js jsb:
 	${MAKE} -C html $@
 	${MAKE} -C world/tile/web $@
 	${MAKE} -C world/etc/extract $@
