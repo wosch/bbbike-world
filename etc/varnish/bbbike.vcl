@@ -9,22 +9,34 @@ backend default {
     .port = "8080";
 }
 
+/*
+#backend tile2 {
+#    #.host = "10.0.0.5";
+#    .host = "tile";
+#    .port = "80";
+#
+#    .first_byte_timeout = 600s;
+#    .connect_timeout = 600s;
+#    .between_bytes_timeout = 600s;
+#
+#    #.probe = {
+#    #    .url = "/test.txt";
+#    #    .timeout = 2s;
+#    #    .interval = 10s;
+#    #    .window = 1;
+#    #    .threshold = 1;
+#    #}
+#}
+*/
+
 backend tile {
-    #.host = "10.0.0.5";
-    .host = "tile";
+    #.host = "tile";
+    .host = "y.tile.bbbike.org";
     .port = "80";
 
     .first_byte_timeout = 600s;
     .connect_timeout = 600s;
     .between_bytes_timeout = 600s;
-
-    #.probe = {
-    #    .url = "/test.txt";
-    #    .timeout = 2s;
-    #    .interval = 10s;
-    #    .window = 1;
-    #    .threshold = 1;
-    #}
 }
 
 backend bbbike {
@@ -90,10 +102,10 @@ sub vcl_recv {
     # munin statistics
     if (req.http.host ~ "^dev[1-4]?\.bbbike\.org$" && req.url ~ "^/munin") {
         set req.backend = munin_localhost;
-    } else if (req.http.host ~ "^(m\.|api[1-4]?|www[1-4]?\.|dev[1-4]?\.|devel[1-4]?\.|)bbbike\.org$") {
+    } else if (req.http.host ~ "^(m\.|api[1-4]?\.|www[1-4]?\.|dev[1-4]?\.|devel[1-4]?\.|)bbbike\.org$") {
         set req.backend = bbbike;
 
-        # failover production @ www3 
+        # failover production @ www4 
         if (req.restarts == 1 || !req.backend.healthy) {
                 set req.backend = bbbike_failover;
         }
@@ -109,6 +121,8 @@ sub vcl_recv {
         set req.backend = wosch;
     } else if (req.http.host ~ "^eserte\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$") {
         set req.backend = eserte;
+    } else if (req.http.host ~ "^(www\.|)cyclerouteplanner.(org|com)$") {
+        set req.backend = bbbike;
     } else {
         set req.backend = default;
     }
