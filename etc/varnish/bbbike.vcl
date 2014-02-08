@@ -95,6 +95,14 @@ backend bbbike_failover {
 
 
 sub vcl_recv {
+    # allow PURGE from localhost and 192.168.55...
+    if (req.request == "PURGE") {
+        if (!client.ip ~ purge) {
+            error 405 "Not allowed: " + client.ip;
+        }
+        return (lookup);
+    }
+
     ######################################################################
     # backend config
     #
@@ -212,6 +220,31 @@ sub vcl_recv {
 
     return (lookup);
 }
+
+############################################################
+# PURGE config section
+#
+acl purge {
+    "localhost";
+    "10.0.0.0"/24;
+    "144.76.200.87";
+}
+
+sub vcl_hit {
+    if (req.request == "PURGE") {
+        purge;
+        error 200 "Purged vcl_hit.";
+    }
+}
+
+sub vcl_miss {
+    if (req.request == "PURGE") {
+        purge;
+        error 200 "Purged vcl_miss." + client.ip;
+    }
+}
+
+
 
 # We're only interested in major categories, not versions, etc...
 #sub normalize_user_agent {
