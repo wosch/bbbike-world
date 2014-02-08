@@ -1,24 +1,13 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2014 Wolfram Schneider, http://bbbike.org
 
 use LWP::UserAgent;
-use Encode;
-use utf8;    # test contains unicode characters, see Test::More::UTF8;
+use Test::More;
 
 use strict;
 use warnings;
 
 BEGIN {
-    if (
-        !eval q{
-	use Test::More;
-	1;
-    }
-      )
-    {
-        print "1..0 # skip no Test::More module\n";
-        exit;
-    }
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} ) {
         print "1..0 # skip due no network\n";
         exit;
@@ -28,62 +17,61 @@ BEGIN {
 binmode \*STDOUT, "utf8";
 binmode \*STDERR, "utf8";
 
-my @cities = qw/Berlin Cottbus Toronto/;
-
-# unicode cities
-my @cities_utf8 = (
-    "Київ", "‏بيروت", "กรุงเทพมหานคร",
-    "北京市", "東京", "Thành phố Hồ Chí Minh", "София"
-);
-
 my @list = (
     {
-        'page'     => 'http://www.bbbike.org',
+        'page'     => 'http://www.bbike.org',
         'min_size' => 10_000,
-        'match'    => [ "</html>", @cities, @cities_utf8 ]
+        'match'    => ["</html>"]
     },
     {
-        'page'     => 'http://m.bbbike.org',
-        'min_size' => 1_000,
-        'match'    => [ "</html>", @cities ]
-    },
-    {
-        'page'     => 'http://www.bbbike.org/en/',
+        'page'     => 'http://bbike.org',
         'min_size' => 10_000,
-        'match'    => [ "</html>", @cities ]
+        'match'    => ["</html>"]
     },
+
     {
-        'page'     => 'http://www.bbbike.org/de/',
+        'page'     => 'http://mc.bbike.org/mc/',
+        'min_size' => 300,
+        'match'    => [ "</html>", ">Map Compare<" ]
+    },
+
+    {
+        'page'     => 'http://www.cyclerouteplanner.org',
         'min_size' => 10_000,
-        'match'    => [ "</html>", @cities ]
+        'match'    => ["</html>"]
     },
     {
-        'page'     => 'http://extract.bbbike.org',
-        'min_size' => 5_000,
-        'match'    => [ "</html>", "about" ]
+        'page'     => 'http://cyclerouteplanner.org',
+        'min_size' => 10_000,
+        'match'    => ["</html>"]
+    },
+
+    {
+        'page'     => 'http://www.cyclerouteplanner.com',
+        'min_size' => 10_000,
+        'match'    => ["</html>"]
     },
     {
-        'page'     => 'http://download.bbbike.org/osm/',
-        'min_size' => 2_000,
-        'match' =>
-          [ "</html>", "Select your own region", "offers a database dump" ]
+        'page'     => 'http://cyclerouteplanner.com',
+        'min_size' => 10_000,
+        'match'    => ["</html>"]
+    },
+
+    {
+        'page'     => 'http://www.cycleroute.net',
+        'min_size' => 10_000,
+        'match'    => ["</html>"]
     },
     {
-        'page'     => 'http://mc.bbbike.org/osm/',
-        'min_size' => 1_500,
-        'match'    => [ "</html>", qq/ id="map">/ ]
+        'page'     => 'http://cycleroute.net',
+        'min_size' => 10_000,
+        'match'    => ["</html>"]
     },
+
     {
-        'page'     => 'http://mc.bbbike.org/mc/',
-        'min_size' => 5_000,
-        'match'    => [ "</html>", "Choose map type", ' src="js/mc.js"' ]
-    },
-    {
-        'page' =>
-          'http://a.tile.bbbike.org/osm/mapnik-german/15/17602/10746.png',
-        'min_size'  => 10_000,
-        'match'     => [],
-        'mime_type' => 'image/png'
+        'page'     => 'http://extract.bbike.org',
+        'min_size' => 10_000,
+        'match'    => ["</html>"]
     },
 );
 
