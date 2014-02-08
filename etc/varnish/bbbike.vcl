@@ -103,6 +103,14 @@ sub vcl_recv {
         return (lookup);
     }
 
+    # allow only GET, HEAD, and POST requests    
+    if (req.request != "GET" &&
+        req.request != "HEAD" &&
+        req.request != "POST") {
+         /* Non-RFC2616 or CONNECT which is weird. */
+        error 405 "Unknown request METHOD";
+    }
+
     ######################################################################
     # backend config
     #
