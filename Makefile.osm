@@ -79,6 +79,7 @@ RM_BG=	world/bin/rm-bg
 WEB_GROUP=	www-data
 EXTRACTS_SPOOL_DIR=/var/cache/extract
 POSTGIS_STYLE=/usr/share/osm2pgsql/osm2pgsql/bbbike.style
+POSTGIS_STYLE9=/usr/share/osm2pgsql/bbbike.style
 BBBIKE_WEB_SERVER	?= www.bbbike.org
 BBBIKE_API_SERVER	?= api.bbbike.org
 API_DIR=	api/0.2
@@ -567,6 +568,13 @@ bbbike-mapnik-config:
 	    mv -f ${POSTGIS_STYLE} ${POSTGIS_STYLE}.bak; \
 	fi
 	cat /usr/share/osm2pgsql/osm2pgsql/default.style world/tile/etc/bbbike.style.inc > ${POSTGIS_STYLE}
+
+bbbike-mapnik-config9:
+	if test -e ${POSTGIS_STYLE9}; then \
+	    mv -f ${POSTGIS_STYLE9} ${POSTGIS_STYLE9}.bak; \
+	fi
+	cat /usr/share/osm2pgsql/default.style world/tile/etc/bbbike.style.inc > ${POSTGIS_STYLE9}
+
 
 bbbike-mapnik-postgis:
 	osm2pgsql --slim -S ${POSTGIS_STYLE} -c ${LOG_DIR}/bbbike-mapnik.osm.gz
