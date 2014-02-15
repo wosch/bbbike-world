@@ -376,6 +376,7 @@ check:
 	tail -n 5 tmp/log.check
 
 check-full: 
+	@echo "In case of failure run: BBBIKE_TEST_FAST=\"\" make check-failed"
 	BBBIKE_TEST_FAST="" ${BBMAKE} test > tmp/log.check-full 2>&1
 	tail -n 5 tmp/log.check-full
 
@@ -674,7 +675,7 @@ perlcheck:
 	${MAKE} -C world/t $@	
 	git diff
 
-jsbeautifier js:
+jsbeautifier js jsb:
 	${MAKE} -C html $@
 	${MAKE} -C world/tile/web $@
 	${MAKE} -C world/etc/extract $@
@@ -750,7 +751,9 @@ cache-heater-common:
 	if `ls ${BBBIKE_CACHE_DIR}/* 2>/dev/null`; then du -hs ${BBBIKE_CACHE_DIR}/*; fi
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
 	   ${PERL} -ne 'chomp; print "http://'${BBBIKE_WEB_SERVER}'/$$_/?generate_cache=1\0"; print "http://'${BBBIKE_API_SERVER}/${API_DIR}'/$$_/?generate_cache=1\0"' | \
-	   ${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
+            cat > tmp/$@.txt
+	   ${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf -X PURGE < tmp/$@.txt >/dev/null
+	   ${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf < tmp/$@.txt >/dev/null
 	@echo "cache usage after"
 	du -hs ${BBBIKE_CACHE_DIR}/
 	du -hs ${BBBIKE_CACHE_DIR}/*
@@ -758,16 +761,23 @@ cache-heater-common:
 cache-heater-streets: cache-heater-homepage cache-heater-opensearch
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
 		${PERL} -e 'while(<>) { chomp; push @a, "http://'${BBBIKE_WEB_SERVER}'/$$_/streets.html"; push @b, "http://'${BBBIKE_WEB_SERVER}'/en/$$_/streets.html" } print join "\0", @a, @b, ""' | \
-		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
+                cat > tmp/$@.txt
+		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf -X PURGE < tmp/$@.txt >/dev/null
+		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf < tmp/$@.txt >/dev/null
 
 cache-heater-homepage: cache-heater-osp
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
 		${PERL} -e 'while(<>) { chomp; push @a, "http://'${BBBIKE_WEB_SERVER}'/$$_/"; push @b, "http://'${BBBIKE_WEB_SERVER}'/en/$$_/"; push @c, "http://'${BBBIKE_WEB_SERVER}'/m/$$_/" } print join "\0", @a, @b, @c, ""' | \
-		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
+                cat > tmp/$@.txt
+		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf -X PURGE < tmp/$@.txt >/dev/null
+		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf < tmp/$@.txt >/dev/null
+                
 
 cache-heater-osp:
 	find osp -name '*.xml' -print0 | perl -n0e 'print qq{http://'${BBBIKE_WEB_SERVER}'/$$_}' | \
-		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
+                cat > tmp/$@.txt
+		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf -X PURGE < tmp/$@.txt >/dev/null
+		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf < tmp/$@.txt >/dev/null
 
 cache-heater-opensearch:
 	cat ${BBBIKE_WEBSERVER_DIR}/data-osm/*/opensearch.streetnames | wc -c >/dev/null
