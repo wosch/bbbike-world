@@ -5,26 +5,38 @@
 # server.
 # 
 backend default {
-    .host = "10.0.0.1";
-    .port = "80";
+    .host = "127.0.0.1";
+    .port = "8080";
 }
 
+/*
+#backend tile2 {
+#    #.host = "10.0.0.5";
+#    .host = "tile";
+#    .port = "80";
+#
+#    .first_byte_timeout = 600s;
+#    .connect_timeout = 600s;
+#    .between_bytes_timeout = 600s;
+#
+#    #.probe = {
+#    #    .url = "/test.txt";
+#    #    .timeout = 2s;
+#    #    .interval = 10s;
+#    #    .window = 1;
+#    #    .threshold = 1;
+#    #}
+#}
+*/
+
 backend tile {
-    #.host = "10.0.0.5";
-    .host = "tile";
+    #.host = "tile";
+    .host = "y.tile.bbbike.org";
     .port = "80";
 
     .first_byte_timeout = 600s;
     .connect_timeout = 600s;
     .between_bytes_timeout = 600s;
-
-    #.probe = {
-    #    .url = "/test.txt";
-    #    .timeout = 2s;
-    #    .interval = 10s;
-    #    .window = 1;
-    #    .threshold = 1;
-    #}
 }
 
 backend bbbike {
@@ -51,14 +63,6 @@ backend eserte {
     .between_bytes_timeout = 300s;
 }
 
-#backend slaven {
-#    .host = "slaven";
-#    .port = "80";
-#    .first_byte_timeout = 300s;
-#    .connect_timeout = 300s;
-#    .between_bytes_timeout = 300s;
-#}
-
 backend wosch {
     .host = "wosch";
     .port = "80";
@@ -67,19 +71,8 @@ backend wosch {
     .between_bytes_timeout = 300s;
 }
 
-/*
-backend eserte_devel {
-    .host = "eserte";
-    .port = "88";
-    .first_byte_timeout = 300s;
-    .connect_timeout = 300s;
-    .between_bytes_timeout = 300s;
-}
-*/
-
-
 # munin
-backend localhost {
+backend munin_localhost {
     .host = "localhost";
     .port = "8080";
 }
@@ -100,41 +93,54 @@ backend bbbike_failover {
     }
 }
 
+
 sub vcl_recv {
+    # allow PURGE from localhost and 192.168.55...
+    if (req.request == "PURGE") {
+        if (!client.ip ~ purge) {
+            error 405 "Not allowed: " + client.ip;
+        }
+        return (lookup);
+    }
+
+    # allow only GET, HEAD, and POST requests    
+    if (req.request != "GET" &&
+        req.request != "HEAD" &&
+        req.request != "POST") {
+         /* Non-RFC2616 or CONNECT which is weird. */
+        error 405 "Unknown request METHOD";
+    }
+
     ######################################################################
     # backend config
     #
 
     # munin statistics
     if (req.http.host ~ "^dev[1-4]?\.bbbike\.org$" && req.url ~ "^/munin") {
-        set req.backend = localhost;
-    } else if (req.http.host ~ "^download[1-4]?\.bbbike\.org$") {
-        set req.backend = bbbike;
-    } else if (req.http.host ~ "^(m\.|api[1-4]?|www[1-4]?\.|dev[1-4]?\.|devel[1-4]?\.|)bbbike\.org$") {
+        set req.backend = munin_localhost;
+    } else if (req.http.host ~ "^(m\.|api[1-4]?\.|www[1-4]?\.|dev[1-4]?\.|devel[1-4]?\.|)bbbike\.org$") {
         set req.backend = bbbike;
 
-        # failover production @ www3 
+        # failover production @ www4 
         if (req.restarts == 1 || !req.backend.healthy) {
                 set req.backend = bbbike_failover;
         }
-    } else if (req.http.host ~ "^eserte\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$") {
-        set req.backend = eserte;
-    #} else if (req.http.host ~ "^eserte-devel\.bbbike\.org$" || req.http.host ~ "^.*dev.*bbbike\.de$" ) {
-    #    set req.backend = slaven;
-    } else if (req.http.host ~ "^([a-f]\.)?tile\.bbbike\.org$") {
-        set req.backend = tile;
-    } else if (req.http.host ~ "^([u-z])\.tile\.bbbike\.org$") {
-        set req.backend = tile;
-    } else if (req.http.host ~ "^(mc|mapcompare)\.bbbike\.org$") {
+    } else if (req.http.host ~ "^extract[1-4]?\.bbbike\.org$") {
+        set req.backend = bbbike;
+    } else if (req.http.host ~ "^download[1-4]?\.bbbike\.org$") {
+        set req.backend = bbbike;
+    } else if (req.http.host ~ "^([a-z]\.)?tile\.bbbike\.org$" || req.http.host ~ "^(mc)\.bbbike\.org$") {
         set req.backend = tile;
     } else if (req.http.host ~ "^(www2?\.)?manualpages\.de$") {
         set req.backend = wosch;
     } else if (req.http.host ~ "^(dvh|tkb)\.bookmaps\.org$") {
         set req.backend = wosch;
-    } else if (req.http.host ~ "^extract[1-4]?\.bbbike\.org$") {
+    } else if (req.http.host ~ "^eserte\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$") {
+        set req.backend = eserte;
+    } else if (req.http.host ~ "^(www\.|)(cyclerouteplanner\.org|cyclerouteplanner\.com|bbike\.org|cycleroute\.net)$") {
         set req.backend = bbbike;
     } else {
-        set req.backend = bbbike;
+        set req.backend = default;
     }
 
     # dummy
@@ -162,20 +168,28 @@ sub vcl_recv {
 	return (pass);
     }
 
+    if (req.http.host ~ "^(www2?\.)manualpages\.de$$")  { return (pass); } # no cache
+    if (req.http.host ~ "^extract[1-4]?\.bbbike\.org") { return (pass); } # no cache
+    if (req.http.host ~ "^([a-z]\.)?tile\.bbbike\.org") { return (pass); } # no cache
+    if (req.http.host ~ "^(dev|devel)[1-4]?\.bbbike\.org$") { 	return (pass); } # test & development, no caching
+  
+    # pipeline post requests trac #4124 
+    if (req.request == "POST") {
+	return (pass);
+    }
+        
     # not invented here
     if (req.http.host !~ "\.bbbike\.org$") {
 	return (pass);
     }
-
-    if (req.http.host ~ "^(www2?\.)manualpages\.de$$")  { return (pass); } # no cache
-
+    
     ######################################################################
     # force caching of images and CSS/JS files
     if (req.url ~ "^/html|^/images|^/feed/|^/osp/|^/cgi/[acdf-z]|.*\.html$|.+/$|^/osm/" || req.http.host ~ "^api[1-4]?.bbbike\.org$" ) {
        unset req.http.cookie;
-       #unset req.http.Accept-Encoding;
        unset req.http.User-Agent;
        unset req.http.referer;
+       #unset req.http.Accept-Encoding;
     }
 
     # override page reload requests from impatient users
@@ -188,95 +202,84 @@ sub vcl_recv {
     }
 
     # https://www.varnish-cache.org/trac/wiki/FAQ/Compression
-    if (req.http.Accept-Encoding) {
-        if (req.url ~ "\.(jpg|png|gif|gz|tgz|bz2|tbz|mp3|ogg|zip)$") {
-            # No point in compressing these
-            remove req.http.Accept-Encoding;
-        } elsif (req.http.Accept-Encoding ~ "gzip") {
-            set req.http.Accept-Encoding = "gzip";
-        } elsif (req.http.Accept-Encoding ~ "deflate" && req.http.user-agent !~ "MSIE") {
-            set req.http.Accept-Encoding = "deflate";
-        } else {
-            # unkown algorithm
-            remove req.http.Accept-Encoding;
-        }
-    }
-
-    # pipeline post requests trac #4124 
-    if (req.request == "POST") {
-	return (pass);
-    }
-
-
-    # test & development, no caching
-    if (req.http.host ~ "^(dev|devel)[1-4]?\.bbbike\.org$") {
-	return (pass);
-    }
-    if (req.http.host ~ "^extract[1-4]?\.bbbike\.org") { return (pass); } # no cache
+    #if (req.http.Accept-Encoding) {
+    #    if (req.url ~ "\.(jpg|png|gif|gz|tgz|bz2|tbz|mp3|ogg|zip)$") {
+    #        # No point in compressing these
+    #        remove req.http.Accept-Encoding;
+    #    } elsif (req.http.Accept-Encoding ~ "gzip") {
+    #        set req.http.Accept-Encoding = "gzip";
+    #    } elsif (req.http.Accept-Encoding ~ "deflate" && req.http.user-agent !~ "MSIE") {
+    #        set req.http.Accept-Encoding = "deflate";
+    #    } else {
+    #        # unkown algorithm
+    #        remove req.http.Accept-Encoding;
+    #    }
+    #}
 
     # cache just by major browser type
-    call normalize_user_agent;
-    set req.http.User-Agent = req.http.X-UA;
-
-    if (req.http.host ~ "^([a-z]\.)?tile\.bbbike\.org") { return (pass); } # no cache
+    #call normalize_user_agent;
+    #set req.http.User-Agent = req.http.X-UA;
+    
+    #if (req.http.Authorization || req.http.Cookie) {
+    if (req.http.Authorization) {
+         /* Not cacheable by default */
+        return (pass);
+    }
 
     return (lookup);
 }
 
-#sub XXXvcl_hash {
-    # cache requests with cookies in mind
-   #set req.hash += req.http.cookie;
-#}
+############################################################
+# PURGE config section
+#
+acl purge {
+    "localhost";
+    "10.0.0.0"/24;
+    "144.76.200.87";
+    "88.198.198.75";
+}
 
-#sub vcl_fetch {
-    #return (pass);
-
-    #if (req.url ~ "^/html|^/images|^/feed/|.*\.html$|.*/$") {
-    #   unset beresp.http.cookie;
-    #}
-
-    #if (!beresp.cacheable) {
-    #     return (pass);
-    #}
-
-#    return (deliver);
-
-    #unset beresp.http.set-cookie;
-    #if (beresp.http.Set-Cookie) {
-    #    return (pass);
-    #}
-    #return (deliver);
-#}
-
-#sub vcl_pipe {
-#    /* Force the connection to be closed afterwards so subsequent reqs don't use pipe */
-#    set bereq.http.connection = "close";
-#}
-
-# We're only interested in major categories, not versions, etc...
-sub normalize_user_agent {
-    if (req.http.user-agent ~ "MSIE 6") {
-        set req.http.X-UA = "MSIE 6";
-    } else if (req.http.user-agent ~ "MSIE 7") {
-        set req.http.X-UA = "MSIE 7";
-    } else if (req.http.user-agent ~ "iPhone|Android|iPod|Nokia|Symbian|BlackBerry|SonyEricsson") {
-        set req.http.X-UA = "Mobile";
-    } else {
-        set req.http.X-UA = "";
+sub vcl_hit {
+    if (req.request == "PURGE") {
+        purge;
+        error 200 "Purged vcl_hit.";
     }
 }
+
+sub vcl_miss {
+    if (req.request == "PURGE") {
+        purge;
+        error 200 "Purged vcl_miss." + client.ip;
+    }
+}
+
+
+
+# We're only interested in major categories, not versions, etc...
+#sub normalize_user_agent {
+#    if (req.http.user-agent ~ "MSIE 6") {
+#        set req.http.X-UA = "MSIE 6";
+#    } else if (req.http.user-agent ~ "MSIE 7") {
+#        set req.http.X-UA = "MSIE 7";
+#    } else if (req.http.user-agent ~ "iPhone|Android|iPod|Nokia|Symbian|BlackBerry|SonyEricsson") {
+#        set req.http.X-UA = "Mobile";
+#    } else {
+#        set req.http.X-UA = "";
+#    }
+#}
 
 # 
 # Below is a commented-out copy of the default VCL logic.  If you
 # redefine any of these subroutines, the built-in logic will be
 # appended to your code.
-# 
 # sub vcl_recv {
-#     if (req.http.x-forwarded-for) {
-# 	set req.http.X-Forwarded-For =
-# 	    req.http.X-Forwarded-For ", " client.ip;
-#     } else {
-# 	set req.http.X-Forwarded-For = client.ip;
+#     if (req.restarts == 0) {
+# 	if (req.http.x-forwarded-for) {
+# 	    set req.http.X-Forwarded-For =
+# 		req.http.X-Forwarded-For + ", " + client.ip;
+# 	} else {
+# 	    set req.http.X-Forwarded-For = client.ip;
+# 	}
 #     }
 #     if (req.request != "GET" &&
 #       req.request != "HEAD" &&
@@ -303,7 +306,7 @@ sub normalize_user_agent {
 #     # Note that only the first request to the backend will have
 #     # X-Forwarded-For set.  If you use X-Forwarded-For and want to
 #     # have it set for all requests, make sure to have:
-#     # set req.http.connection = "close";
+#     # set bereq.http.connection = "close";
 #     # here.  It is not set by default as it might break some broken web
 #     # applications, like IIS with NTLM authentication.
 #     return (pipe);
@@ -314,19 +317,16 @@ sub normalize_user_agent {
 # }
 # 
 # sub vcl_hash {
-#     set req.hash += req.url;
+#     hash_data(req.url);
 #     if (req.http.host) {
-#         set req.hash += req.http.host;
+#         hash_data(req.http.host);
 #     } else {
-#         set req.hash += server.ip;
+#         hash_data(server.ip);
 #     }
 #     return (hash);
 # }
 # 
 # sub vcl_hit {
-#     if (!obj.cacheable) {
-#         return (pass);
-#     }
 #     return (deliver);
 # }
 # 
@@ -335,11 +335,14 @@ sub normalize_user_agent {
 # }
 # 
 # sub vcl_fetch {
-#     if (!beresp.cacheable) {
-#         return (pass);
-#     }
-#     if (beresp.http.Set-Cookie) {
-#         return (pass);
+#     if (beresp.ttl <= 0s ||
+#         beresp.http.Set-Cookie ||
+#         beresp.http.Vary == "*") {
+# 		/*
+# 		 * Mark as "Hit-For-Pass" for the next 2 minutes
+# 		 */
+# 		set beresp.ttl = 120 s;
+# 		return (hit_for_pass);
 #     }
 #     return (deliver);
 # }
@@ -350,23 +353,32 @@ sub normalize_user_agent {
 # 
 # sub vcl_error {
 #     set obj.http.Content-Type = "text/html; charset=utf-8";
+#     set obj.http.Retry-After = "5";
 #     synthetic {"
 # <?xml version="1.0" encoding="utf-8"?>
 # <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 #  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 # <html>
 #   <head>
-#     <title>"} obj.status " " obj.response {"</title>
+#     <title>"} + obj.status + " " + obj.response + {"</title>
 #   </head>
 #   <body>
-#     <h1>Error "} obj.status " " obj.response {"</h1>
-#     <p>"} obj.response {"</p>
+#     <h1>Error "} + obj.status + " " + obj.response + {"</h1>
+#     <p>"} + obj.response + {"</p>
 #     <h3>Guru Meditation:</h3>
-#     <p>XID: "} req.xid {"</p>
+#     <p>XID: "} + req.xid + {"</p>
 #     <hr>
 #     <p>Varnish cache server</p>
 #   </body>
 # </html>
 # "};
 #     return (deliver);
+# }
+# 
+# sub vcl_init {
+# 	return (ok);
+# }
+# 
+# sub vcl_fini {
+# 	return (ok);
 # }

@@ -79,6 +79,7 @@ RM_BG=	world/bin/rm-bg
 WEB_GROUP=	www-data
 EXTRACTS_SPOOL_DIR=/var/cache/extract
 POSTGIS_STYLE=/usr/share/osm2pgsql/osm2pgsql/bbbike.style
+POSTGIS_STYLE9=/usr/share/osm2pgsql/bbbike.style
 BBBIKE_WEB_SERVER	?= www.bbbike.org
 BBBIKE_API_SERVER	?= api.bbbike.org
 API_DIR=	api/0.2
@@ -373,9 +374,14 @@ convert3:
 check: 
 	${BBMAKE} test > tmp/log.check 2>&1
 	tail -n 5 tmp/log.check
+
 check-full: 
+	@echo "In case of failure run: BBBIKE_TEST_FAST=\"\" make check-failed"
 	BBBIKE_TEST_FAST="" ${BBMAKE} test > tmp/log.check-full 2>&1
 	tail -n 5 tmp/log.check-full
+
+check-failed:
+	prove --state=failed
 
 check-bbd:
 	for i in ${CITIES}; do echo ${DATA_OSM_DIR}/$$i; done | \
@@ -564,6 +570,13 @@ bbbike-mapnik-config:
 	fi
 	cat /usr/share/osm2pgsql/osm2pgsql/default.style world/tile/etc/bbbike.style.inc > ${POSTGIS_STYLE}
 
+bbbike-mapnik-config9:
+	if test -e ${POSTGIS_STYLE9}; then \
+	    mv -f ${POSTGIS_STYLE9} ${POSTGIS_STYLE9}.bak; \
+	fi
+	cat /usr/share/osm2pgsql/default.style world/tile/etc/bbbike.style.inc > ${POSTGIS_STYLE9}
+
+
 bbbike-mapnik-postgis:
 	osm2pgsql --slim -S ${POSTGIS_STYLE} -c ${LOG_DIR}/bbbike-mapnik.osm.gz
 
@@ -598,8 +611,8 @@ clean: rotate-data-osm
 	rm -f ${OSMBIKE_DATA}
 
 clean-cache cache-clean:
-	du -hs ${BBBIKE_CACHE_DIR}/
-	-du -hs ${BBBIKE_CACHE_DIR}/*
+	-du -hs ${BBBIKE_CACHE_DIR}/
+	-du -hs ${BBBIKE_CACHE_DIR}/* 2>/dev/null
 	mkdir -p ${BBBIKE_CACHE_DIR}/${BBBIKE_WEB_SERVER} ${BBBIKE_CACHE_DIR}/localhost
 	mkdir -p ${LIGHTTPD_CACHE_DIR}/${BBBIKE_WEB_SERVER} \
 	  ${LIGHTTPD_CACHE_DIR}/dev.bbbike.org \
@@ -662,7 +675,7 @@ perlcheck:
 	${MAKE} -C world/t $@	
 	git diff
 
-jsbeautifier js:
+jsbeautifier js jsb:
 	${MAKE} -C html $@
 	${MAKE} -C world/tile/web $@
 	${MAKE} -C world/etc/extract $@
@@ -738,7 +751,9 @@ cache-heater-common:
 	if `ls ${BBBIKE_CACHE_DIR}/* 2>/dev/null`; then du -hs ${BBBIKE_CACHE_DIR}/*; fi
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
 	   ${PERL} -ne 'chomp; print "http://'${BBBIKE_WEB_SERVER}'/$$_/?generate_cache=1\0"; print "http://'${BBBIKE_API_SERVER}/${API_DIR}'/$$_/?generate_cache=1\0"' | \
-	   ${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
+            cat > tmp/$@.txt
+	   ${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf -X PURGE < tmp/$@.txt >/dev/null
+	   ${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf < tmp/$@.txt >/dev/null
 	@echo "cache usage after"
 	du -hs ${BBBIKE_CACHE_DIR}/
 	du -hs ${BBBIKE_CACHE_DIR}/*
@@ -746,16 +761,23 @@ cache-heater-common:
 cache-heater-streets: cache-heater-homepage cache-heater-opensearch
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
 		${PERL} -e 'while(<>) { chomp; push @a, "http://'${BBBIKE_WEB_SERVER}'/$$_/streets.html"; push @b, "http://'${BBBIKE_WEB_SERVER}'/en/$$_/streets.html" } print join "\0", @a, @b, ""' | \
-		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
+                cat > tmp/$@.txt
+		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf -X PURGE < tmp/$@.txt >/dev/null
+		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf < tmp/$@.txt >/dev/null
 
 cache-heater-homepage: cache-heater-osp
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
 		${PERL} -e 'while(<>) { chomp; push @a, "http://'${BBBIKE_WEB_SERVER}'/$$_/"; push @b, "http://'${BBBIKE_WEB_SERVER}'/en/$$_/"; push @c, "http://'${BBBIKE_WEB_SERVER}'/m/$$_/" } print join "\0", @a, @b, @c, ""' | \
-		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
+                cat > tmp/$@.txt
+		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf -X PURGE < tmp/$@.txt >/dev/null
+		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf < tmp/$@.txt >/dev/null
+                
 
 cache-heater-osp:
 	find osp -name '*.xml' -print0 | perl -n0e 'print qq{http://'${BBBIKE_WEB_SERVER}'/$$_}' | \
-		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
+                cat > tmp/$@.txt
+		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf -X PURGE < tmp/$@.txt >/dev/null
+		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf < tmp/$@.txt >/dev/null
 
 cache-heater-opensearch:
 	cat ${BBBIKE_WEBSERVER_DIR}/data-osm/*/opensearch.streetnames | wc -c >/dev/null
@@ -962,8 +984,11 @@ deb-repo: deb-repo-dir
 	done
 
 deb-bootstrap debian-bootstrap: deb-bootstrap-rsync deb-bootstrap-dir
-bbbike-bootstrap:  update-files debian-bootstrap install-backend-lighttpd cache-clean
-	sudo ${BBMAKE} -s extract-bbbike-org-install bbbike-cache-install
+bbbike-bootstrap: debian-bootstrap update-files install-backend-lighttpd 
+	sudo ${BBMAKE} -s cache-clean extract-bbbike-org-install bbbike-cache-install
+	sudo ${MAKE} -C./world/etc install-munin-bbbike install-munin-bbbike-extract 
+	sudo update-rc.d lighttpd defaults
+	sudo /etc/init.d/lighttpd restart
 	@echo ""
 	@echo "You may also run: make staging"
 	
@@ -986,7 +1011,18 @@ deb-bootstrap-dir:
 	     test -e /usr/local/bin/$$i || sudo ln -fs ${DEB_OPT_DIR}/bin/$$i /usr/local/bin/$$i; \
 	   done	
 	test -e /usr/local/bin/perl || sudo ln -fs /usr/bin/perl /usr/local/bin/perl
-	test -e /usr/lib/libgeos-3.2.2.so || sudo ln -fs /usr/lib/libgeos-3.2.0.so /usr/lib/libgeos-3.2.2.so
+	test -e /usr/lib/libprotobuf-lite.so.6.0.0 || sudo ln -fs ${DEB_OPT_DIR}/lib/libprotobuf-lite.so.6.0.0 /usr/lib/libprotobuf-lite.so.6.0.0
+	test -e /usr/lib/libprotobuf-lite.so.6     || sudo ln -fs ${DEB_OPT_DIR}/lib/libprotobuf-lite.so.6     /usr/lib/libprotobuf-lite.so.6
+	cd /usr/lib; \
+	if [ ! -e libgeos-3.2.2.so ]; then \
+	    if [ -e libgeos-3.3.3.so ]; then \
+	       sudo ln -fs libgeos-3.3.3.so libgeos-3.2.2.so; \
+ 	    else \
+	       if [ -e libgeos-3.2.0.so ]; then \
+	         sudo ln -fs libgeos-3.2.0.so libgeos-3.2.2.so; \
+	       fi; \
+	    fi; \
+	fi
 	test -e /usr/local/bin/osmosis || sudo ln -sf ${DEB_OPT_DIR}/osmosis-0.40.1/bin/osmosis /usr/local/bin/osmosis
 	sudo mkdir -p /bbbike/tmp /tmpfs
 	sudo chmod 7777 /bbbike/tmp /tmpfs
@@ -1110,6 +1146,7 @@ help:
 	@echo "  [ deb-clean | deb-repo ]"
 	@echo "  [ debian-bootstrap | bbbike-bootstrap ]"
 	@echo "  [ build-runtime | git-fetch ]"
+	@echo "  [ check | check-full | check-failed ]"
 
 	@echo ""
 	@echo "see also ./world/README"

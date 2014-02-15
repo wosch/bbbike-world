@@ -22,7 +22,7 @@ binmode \*STDERR, "utf8";
 my @homepages_localhost =
   ( $ENV{BBBIKE_TEST_SERVER} ? $ENV{BBBIKE_TEST_SERVER} : "http://localhost" );
 my @homepages =
-  qw[ http://www.bbbike.org http://dev2.bbbike.org http://dev4.bbbike.org];
+  qw[ http://www.bbbike.org http://dev1.bbbike.org http://dev4.bbbike.org];
 if ( $ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
     @homepages = ();
 }
@@ -57,7 +57,7 @@ sub myget {
 sub livesearch_extract {
     my $url = shift;
 
-    my $res = myget( $url, 5_000 );
+    my $res = myget( $url, 4_600 );
     my $content = $res->decoded_content();
 
     like( $content, qr|Content-Type" content="text/html; charset=utf-8"|,

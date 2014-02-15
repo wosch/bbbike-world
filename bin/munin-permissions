@@ -1,0 +1,10 @@
+#!/bin/sh
+
+log_dir=/var/log/munin
+cache_dir=/var/cache/munin
+
+chown -R munin:www-data $log_dir $cache_dir
+chmod -R g+w $log_dir $cache_dir
+
+find $cache_dir -type d -print0 | xargs -0 chmod g+s
+
