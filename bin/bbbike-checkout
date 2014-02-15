@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2014 Wolfram Schneider, http://bbbike.org
 #
 # bbbike-checkout - checkout bbbike @ world sources and setup configuration
 
@@ -34,7 +34,7 @@ if $bbbike_macos; then
 fi
 
 # original github repo
-#git clone $git_clone_opt git@github.com:wolframschneider/bbbike.git
+# git clone $git_clone_opt git@github.com:wolframschneider/bbbike.git
 # local cache repo
 if $bbbike_fast_checkout; then
     if [ -e $bbbike_src ]; then
@@ -45,7 +45,7 @@ if $bbbike_fast_checkout; then
 	  git fetch origin
 	  git fetch eserte
 	  git fetch github
-	  git pull
+	  git pull -q
 	)
 
 	echo "fast checkout done"
