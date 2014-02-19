@@ -28,5 +28,5 @@ if [ $(ls $failed | wc -l) -gt 0 ]; then
 fi
 
 # checked for failed running processes in run queue
-find $running/ -cmin +400
+( cd $running && find . -cmin +400 ! -name . -print )
 
