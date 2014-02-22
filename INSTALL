@@ -98,12 +98,12 @@ echo 'User wosch' > ~/.ssh/config
 sudo apt-get update
 sudo apt-get install -y bbbike-world
 
-( cd ~/tmp/bbbike; make -f world/Makefile.osm create-perl-symlink create-bbbike-web-symlinks )
+( cd ~/tmp/bbbike; make -s -f world/Makefile.osm create-perl-symlink create-bbbike-web-symlinks )
 ( cd ~/tmp/bbbike; make bbbike-tarball )
 ( sudo mkdir -p /usr/local/www )
 ( cd /usr/local/www && sudo chown $(logname) . &&  ~/tmp/bbbike/world/bin/bbbike-checkout )
 ( cd /usr/local/www && ln -sf bbbike bbbike.org )
-( cd ~/tmp/bbbike; make bbbike-bootstrap )
+( cd ~/tmp/bbbike; make -s bbbike-bootstrap )
 . ~/.bashrc 
 ( cd ~/projects/; ~/tmp/bbbike/world/bin/bbbike-checkout )
 ( cd ~/projects/bbbike; make -s update-files )
