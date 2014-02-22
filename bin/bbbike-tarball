@@ -6,6 +6,11 @@
 set -e
 
 dir=`dirname $0`
+case $dir in 
+  /* ) ;;
+   * ) dir=$(pwd)/$dir;;
+esac
+
 PATH=$PATH:$dir; export PATH 
 export bbbike_fast_checkout="false"
 : ${bbbike_src=$HOME/src/bbbike.tgz}
