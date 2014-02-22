@@ -994,7 +994,7 @@ bbbike-bootstrap: debian-bootstrap update-files install-backend-lighttpd
 	sudo ${BBMAKE} -s extract-bbbike-org-install 
 	sudo ${BBMAKE} -s bbbike-cache-install clean-cache
 	sudo ${BBMAKE} -s download-bbbike-org-install
-	sudo ${MAKE} -C./world/etc install-munin-bbbike install-munin-bbbike-extract 
+	sudo ${MAKE} -s -C./world/etc install-munin-bbbike install-munin-bbbike-extract 
 	sudo update-rc.d lighttpd defaults
 	sudo /etc/init.d/lighttpd restart
 	@echo ""
