@@ -57,6 +57,7 @@ if $bbbike_fast_checkout; then
     else 
         # local clone 
 	if [ -e $HOME/projects/bbbike ]; then
+	    echo "Checkout from $HOME/projects/bbbike"
     	    git clone $git_clone_opt $HOME/projects/bbbike
     	    ( cd bbbike && git remote add bbbike ssh://git.bbbike.org/home/git/bbbike )
         else 
