@@ -88,8 +88,8 @@ ssh git.calaminus.com date
 ssh git.bbbike.org date
 
 ( cd projects; git clone ssh://git.calaminus.com:222/home/wosch/git/wosch-ssh-config )
-( cd $HOME/.ssh/ && ln -fs ../projects/wosch-ssh-config/config )
-( cd tmp/ && git clone ssh://git.bbbike.org/home/git/bbbike )
+( cd ~/.ssh/ && ln -fs ../projects/wosch-ssh-config/config )
+( cd ~/tmp/ && git clone ssh://git.bbbike.org/home/git/bbbike )
 (cd ~/tmp/bbbike/world/etc/apt/wheezy/gpg && sudo apt-key add bbbike.asc )
 sudo apt-get update
 sudo apt-get install bbbike-world
