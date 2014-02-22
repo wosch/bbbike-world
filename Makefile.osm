@@ -820,7 +820,9 @@ extract-install extract-bbbike-org-install:
 
 bbbike-cache-install:
 	mkdir -p ${BBBIKE_PARTITION}/cache
-	if [ ! -e ${BBBIKE_CACHE_DIR} ]; then ln -fs ${BBBIKE_PARTITION}/cache ${BBBIKE_CACHE_DIR}; fi
+	if [ ! -e ${BBBIKE_CACHE_DIR} ]; then \
+	    ln -fs ${BBBIKE_PARTITION}/cache ${BBBIKE_CACHE_DIR}; \
+	fi
 	chown -R ${WEB_GROUP}:${WEB_GROUP} ${BBBIKE_PARTITION}/cache
 
 extract-distclean:
@@ -984,8 +986,11 @@ deb-repo: deb-repo-dir
 	done
 
 deb-bootstrap debian-bootstrap: deb-bootstrap-rsync deb-bootstrap-dir
-bbbike-bootstrap: debian-bootstrap update-files install-backend-lighttpd 
-	sudo ${BBMAKE} -s cache-clean extract-bbbike-org-install bbbike-cache-install
+bbbike-bootstrap: debian-bootstrap update-files install-backend-lighttpd
+	sudo ${BBMAKE} -s cache-clean 
+	sudo ${BBMAKE} -s extract-bbbike-org-install 
+	sudo ${BBMAKE} -s bbbike-cache-install clean-cache
+	sudo ${BBMAKE} -s download-bbbike-org-install
 	sudo ${MAKE} -C./world/etc install-munin-bbbike install-munin-bbbike-extract 
 	sudo update-rc.d lighttpd defaults
 	sudo /etc/init.d/lighttpd restart
