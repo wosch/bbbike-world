@@ -75,15 +75,16 @@ $ egrep  -h ^use ./world/bin/bbbike-build-runtime-perl*.pl |perl -npe 's,use,\$s
 su -
 apt-get install git-core sudo
 echo 'indexdata   ALL=NOPASSWD: ALL' >> /etc/sudoers
+echo 'deb http://debian.bbbike.org/debian/wheezy wheezy main' > /etc/apt/sources.list.d/bbbike.list 
 mkdir .ssh
 mkdir projects
 mkdir tmp
 echo 'User wosch' > .ssh/config
 # create .ssh/authorized_keys
-cd projects
-git clone ssh://git.calaminus.com:222/home/wosch/git/wosch-ssh-config
+( cd projects; git clone ssh://git.calaminus.com:222/home/wosch/git/wosch-ssh-config )
 ( cd $HOME/.ssh/ && ln -fs ../projects/wosch-ssh-config/config )
-( cd tmp/ && git clone ssh://git.bbbike.org/home/git/bbbike; cd bbbike/world/etc/apt/wheezy/; sudo apt-key add bbbike.asc )
+( cd tmp/ && git clone ssh://git.bbbike.org/home/git/bbbike )
+(cd ~/tmp/bbbike/world/etc/apt/wheezy/gpg && sudo apt-key add bbbike.asc )
 sudo apt-get update
 sudo apt-get install bbbike-world
 
