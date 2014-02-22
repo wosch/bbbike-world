@@ -84,12 +84,13 @@ mkdir -p ~/.ssh
 mkdir -p ~/projects
 mkdir -p ~/tmp
 echo 'User wosch' > ~/.ssh/config
+echo 'StrictHostKeyChecking=no' >> ~/.ssh/config
+
 # create .ssh/authorized_keys
 
 ( cd ~/projects; git clone ssh://git.calaminus.com:222/home/wosch/git/wosch-ssh-config )
 ( cd ~/.ssh/ && ln -fs ../projects/wosch-ssh-config/config )
 
-# ssh warnings
 echo 'StrictHostKeyChecking=no' >> ~/.ssh/config
 
 ( cd ~/tmp/ && git clone ssh://git.bbbike.org/home/git/bbbike )
