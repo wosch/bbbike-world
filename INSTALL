@@ -70,3 +70,31 @@ $sudo_cpan CDB_File
 # MacOS 
 $ egrep  -h ^use ./world/bin/bbbike-build-runtime-perl*.pl |perl -npe 's,use,\$sudo_cpan,g; s/;//' | sort -u
 
+
+# fresh maschine
+su -
+apt-get install git-core sudo
+echo 'indexdata   ALL=NOPASSWD: ALL' >> /etc/sudoers
+mkdir .ssh
+mkdir projects
+mkdir tmp
+echo 'User wosch' > .ssh/config
+# create .ssh/authorized_keys
+cd projects
+git clone ssh://git.calaminus.com:222/home/wosch/git/wosch-ssh-config
+( cd $HOME/.ssh/ && ln -fs ../projects/wosch-ssh-config/config )
+( cd tmp/ && git clone ssh://git.bbbike.org/home/git/bbbike; cd bbbike/world/etc/apt/wheezy/; sudo apt-key add bbbike.asc )
+sudo apt-get update
+sudo apt-get install bbbike-world
+
+( cd ~/tmp/bbbike; make -f world/Makefile.osm create-bbbike-web-symlinks  )
+( cd ~/tmp/bbbike; make bbbike-bootstrap )
+( cd ~/tmp/bbbike; make bbbike-tarball )
+( cd ~/projects/; ~/tmp/bbbike/world/bin/bbbike-checkout )
+( cd /usr/local/www && sudo chown $(logname) . &&  ~/tmp/bbbike/world/bin/bbbike-checkout )
+( cd /usr/local/www && ln -sf bbbike bbbike.org )
+( cd ~/projects/bbbike; make -s update-files )
+( cd ~/projects/bbbike; make check )
+
+
+
