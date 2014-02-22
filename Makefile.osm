@@ -1101,6 +1101,9 @@ git-fetch:
 	git fetch origin
 	git fetch github
 
+bbbike-tarball bbbike-src:
+	./world/bin/bbbike-tarball
+
 help:
 	@echo "bbbike version: ${GIT_ID}"
 	@echo ""
@@ -1118,6 +1121,7 @@ help:
 	@echo "  [ osm2garmin | osm2shape | osm2osmand | osm2navit | osm2mapsforge ]"
 	@echo "  [ bbbike2wgs84-mapnik | bbbike-mapnik-config ]"
 	@echo "  [ bbbike-mapnik-postgis | bbbike-tile-update ]"
+	@echo "  [ bbbike-tarball ]"
 	@echo ""
 	@echo "  [ clean | dist-clean | clean-cache | clean-planet | clean-tile ]"
 	@echo ""
