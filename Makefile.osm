@@ -1092,7 +1092,8 @@ test prove: lighttpd-restart
 	perl -c cgi/bbbike.cgi
 	mkdir -p ${TMP_DIR}
 	TMPDIR=${TMP_DIR} LANG=C LC_ALL=C time prove ${prove_opt} -j${MAX_CPU} t/*.t world/t/*.t
-	./world/bin/lighttpd-stop
+	echo "All tests are successfully done. Stop lighttpd"
+	@./world/bin/lighttpd-stop
 
 diff:
 	git diff
