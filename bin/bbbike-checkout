@@ -37,8 +37,9 @@ fi
 # git clone $git_clone_opt git@github.com:wolframschneider/bbbike.git
 # local cache repo
 if $bbbike_fast_checkout; then
+
+    # even faster from a tarball
     if [ -e $bbbike_src ]; then
-	# even faster from a tarball
 	tar xfz $bbbike_src
 	( 
 	  cd bbbike; 
@@ -49,8 +50,12 @@ if $bbbike_fast_checkout; then
 	)
 
 	echo "fast checkout done"
+        echo -n "Updating files..."
+	make -C./bbbike -s update-files
+	echo ""
 	exit 0
     else 
+        # local clone 
 	if [ -e $HOME/projects/bbbike ]; then
     	    git clone $git_clone_opt $HOME/projects/bbbike
     	    ( cd bbbike && git remote add bbbike ssh://git.bbbike.org/home/git/bbbike )
