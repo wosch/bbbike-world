@@ -73,7 +73,7 @@ $ egrep  -h ^use ./world/bin/bbbike-build-runtime-perl*.pl |perl -npe 's,use,\$s
 ############################################
 # fresh maschine
 #
-# rm -rf ~/projects ~/tmp 
+# rm -rf ~/projects ~/tmp ~/.ssh/config
 # sudo rm -rf /bbbike /usr/local/www /var/cache/bbbike 
 #
 su -
