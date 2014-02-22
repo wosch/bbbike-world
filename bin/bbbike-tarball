@@ -10,10 +10,6 @@ PATH=$PATH:$dir; export PATH
 export bbbike_fast_checkout="false"
 : ${bbbike_src=$HOME/src/bbbike.tgz}
 
-if [ -d /bbbike/tmp ]; then
-   TMPDIR=/bbbike/tmp; export TMPDIR
-fi
-
 dir=$(mktemp -d -t bbbike-tarball.XXXXXXXX)
 cd $dir
 
@@ -32,3 +28,4 @@ tar cf - bbbike | gzip > ${bbbike_src}.new
 mv -f ${bbbike_src}.new ${bbbike_src}
 
 rm -rf $dir
+
