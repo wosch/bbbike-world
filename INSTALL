@@ -94,7 +94,7 @@ echo 'User wosch' > ~/.ssh/config
 ( cd ~/.ssh/ && ln -fs ../projects/wosch-ssh-config/config )
 
 ( cd ~/tmp/ && git clone ssh://git.bbbike.org/home/git/bbbike )
-(cd ~/tmp/bbbike/world/etc/apt/wheezy/gpg && sudo apt-key add bbbike.asc )
+( cd ~/tmp/bbbike/world/etc/apt/wheezy/gpg && sudo apt-key add bbbike.asc )
 sudo apt-get update -qq
 sudo apt-get install -y bbbike-world </dev/null
 
