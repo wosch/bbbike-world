@@ -80,18 +80,17 @@ su -
 apt-get install -y git-core sudo
 echo 'indexdata   ALL=NOPASSWD: ALL' >> /etc/sudoers
 echo 'deb http://debian.bbbike.org/debian/wheezy wheezy main' > /etc/apt/sources.list.d/bbbike.list 
+echo 'StrictHostKeyChecking=no' >> /etc/ssh/ssh_config 
+
 mkdir -p ~/.ssh
 mkdir -p ~/projects
 mkdir -p ~/tmp
 echo 'User wosch' > ~/.ssh/config
-echo 'StrictHostKeyChecking=no' >> ~/.ssh/config
 
 # create .ssh/authorized_keys
 
 ( cd ~/projects; git clone ssh://git.calaminus.com:222/home/wosch/git/wosch-ssh-config )
 ( cd ~/.ssh/ && ln -fs ../projects/wosch-ssh-config/config )
-
-echo 'StrictHostKeyChecking=no' >> ~/.ssh/config
 
 ( cd ~/tmp/ && git clone ssh://git.bbbike.org/home/git/bbbike )
 (cd ~/tmp/bbbike/world/etc/apt/wheezy/gpg && sudo apt-key add bbbike.asc )
