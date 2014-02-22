@@ -8,6 +8,7 @@ set -e
 dir=`dirname $0`
 PATH=$PATH:$dir; export PATH 
 export bbbike_fast_checkout="false"
+: ${bbbike_src=$HOME/src/bbbike.tgz}
 
 if [ -d /bbbike/tmp ]; then
    TMPDIR=/bbbike/tmp; export TMPDIR
@@ -27,7 +28,7 @@ bbbike-checkout >&2 || error "checkout failed: $dir"
 make -s js perltidy || error "js perltidy"
 make -s update-files  || error "update-files"
 
-tar cf - bbbike | gzip > $HOME/src/bbbike.tgz.new
-mv -f $HOME/src/bbbike.tgz.new $HOME/src/bbbike.tgz
+tar cf - bbbike | gzip > ${bbbike_src}.new
+mv -f ${bbbike_src}.new ${bbbike_src}
 
 rm -rf $dir
