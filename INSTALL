@@ -77,7 +77,7 @@ $ egrep  -h ^use ./world/bin/bbbike-build-runtime-perl*.pl |perl -npe 's,use,\$s
 # sudo rm -rf /bbbike /usr/local/www /var/cache/bbbike /usr/local/bin
 #
 su -
-apt-get install -y git-core sudo
+apt-get install -y git-core sudo </dev/null
 echo 'indexdata   ALL=NOPASSWD: ALL' >> /etc/sudoers
 echo 'deb http://debian.bbbike.org/debian/wheezy wheezy main' > /etc/apt/sources.list.d/bbbike.list 
 echo 'StrictHostKeyChecking=no' >> /etc/ssh/ssh_config 
@@ -96,7 +96,7 @@ echo 'User wosch' > ~/.ssh/config
 ( cd ~/tmp/ && git clone ssh://git.bbbike.org/home/git/bbbike )
 (cd ~/tmp/bbbike/world/etc/apt/wheezy/gpg && sudo apt-key add bbbike.asc )
 sudo apt-get update -qq
-sudo apt-get install -y bbbike-world
+sudo apt-get install -y bbbike-world </dev/null
 
 ( cd ~/tmp/bbbike; make -s -f world/Makefile.osm create-perl-symlink create-bbbike-web-symlinks )
 ( cd ~/tmp/bbbike; make bbbike-tarball )
