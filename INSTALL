@@ -97,6 +97,7 @@ sudo apt-get install bbbike-world
 ( cd /usr/local/bin; sudo ln -fs /usr/bin/perl )
 ( cd ~/tmp/bbbike; make -f world/Makefile.osm create-bbbike-web-symlinks  )
 ( cd ~/tmp/bbbike; make bbbike-bootstrap )
+. ~/.bashrc 
 ( cd ~/tmp/bbbike; make bbbike-tarball )
 ( cd ~/projects/; ~/tmp/bbbike/world/bin/bbbike-checkout )
 ( cd /usr/local/www && sudo chown $(logname) . &&  ~/tmp/bbbike/world/bin/bbbike-checkout )
