@@ -76,10 +76,10 @@ su -
 apt-get install git-core sudo
 echo 'indexdata   ALL=NOPASSWD: ALL' >> /etc/sudoers
 echo 'deb http://debian.bbbike.org/debian/wheezy wheezy main' > /etc/apt/sources.list.d/bbbike.list 
-mkdir .ssh
-mkdir projects
-mkdir tmp
-echo 'User wosch' > .ssh/config
+mkdir -p ~/.ssh
+mkdir -p ~/projects
+mkdir -p ~/tmp
+echo 'User wosch' > ~/.ssh/config
 # create .ssh/authorized_keys
 
 # ssh warnings
