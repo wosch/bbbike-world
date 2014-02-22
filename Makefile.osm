@@ -710,7 +710,7 @@ extract-config:
 	test -e .bbbike-extract-pro.rc || ln -fs $$HOME/.bbbike-extract-pro.rc .
 
 update-javascript:
-	make -C html bbbike-js
+	make -C./html bbbike-js
 
 java-config:
 	test -r $$HOME/.osmosis || ln -fs $$HOME/projects/bbbike/world/etc/env/dot.osmosis $$HOME/.osmosis
