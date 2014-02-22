@@ -1,0 +1,31 @@
+#!/bin/sh
+# Copyright (c) 2009-2014 Wolfram Schneider, http://bbbike.org
+#
+# stop web server for testing
+#
+
+PATH=/usr/local/bin:/usr/local/sbin:/opt/local/sbin:/usr/sbin:/bin:/usr/bin; export PATH
+set -e
+
+if [ -e $HOME/.bbbikerc ]; then 
+    . $HOME/.bbbikerc
+fi
+
+: ${BBBIKE_LIGHTTPD_FILE=`pwd`/world/etc/lighttpd/test-more.conf}
+
+pid_file=$(egrep ^server.pid-file $BBBIKE_LIGHTTPD_FILE | perl -npe 's,.*=.*?"(.*?)",$1,')
+
+if [ ! -f "$pid_file" ]; then
+    echo "pid file \"$pid_file\" does not exists anymore"
+    exit 0
+fi
+
+# main kill
+kill -TERM $(cat $pid_file)
+sleep 0.3
+
+# second kill, die hard
+if [ -f "$pid_file" ]; then 
+    kill -9 $(cat $pid_file)
+fi
+

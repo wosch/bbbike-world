@@ -6,12 +6,15 @@
 set -e
 
 dir=`dirname $0`
+case $dir in 
+  /* ) ;;
+   * ) dir=$(pwd)/$dir;;
+esac
+
 PATH=$PATH:$dir; export PATH 
 export bbbike_fast_checkout="false"
-
-if [ -d /bbbike/tmp ]; then
-   TMPDIR=/bbbike/tmp; export TMPDIR
-fi
+: ${bbbike_src=$HOME/src/bbbike.tgz}
+gzip=`which pigz gzip | head -n 1`
 
 dir=$(mktemp -d -t bbbike-tarball.XXXXXXXX)
 cd $dir
@@ -24,10 +27,14 @@ error () {
 
 bbbike-checkout >&2 || error "checkout failed: $dir"
 
-make -s js perltidy || error "js perltidy"
-make -s update-files  || error "update-files"
+make -C./bbbike -s update-files  || error "update-files"
+make -C./bbbike -s js perltidy || error "js perltidy"
 
-tar cf - bbbike | gzip > $HOME/src/bbbike.tgz.new
-mv -f $HOME/src/bbbike.tgz.new $HOME/src/bbbike.tgz
+mkdir -p $(dirname ${bbbike_src})
+
+tar cf - bbbike | $gzip > ${bbbike_src}.new
+mv -f ${bbbike_src}.new ${bbbike_src}
+$gzip -t ${bbbike_src}
 
 rm -rf $dir
+
