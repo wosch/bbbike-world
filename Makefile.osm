@@ -1077,8 +1077,9 @@ test-org:
 	./world/bin/lighttpd-template-update
 
 lighttpd-restart: temp-clean test-org
-	-killall lighttpd
-	sleep 0.9
+	-killall -TERM lighttpd
+	sleep 0.5
+	-killall -SIGKILL lighttpd
 	mkdir -p ${TMP_DIR}
 	TMPDIR=${TMP_DIR} $$(pwd)/world/bin/lighttpd-start &
 
