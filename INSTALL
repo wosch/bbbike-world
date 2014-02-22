@@ -81,6 +81,12 @@ mkdir projects
 mkdir tmp
 echo 'User wosch' > .ssh/config
 # create .ssh/authorized_keys
+
+# ssh warnings
+ssh www.bbbike.org date
+ssh git.calaminus.com date
+ssh git.bbbike.org date
+
 ( cd projects; git clone ssh://git.calaminus.com:222/home/wosch/git/wosch-ssh-config )
 ( cd $HOME/.ssh/ && ln -fs ../projects/wosch-ssh-config/config )
 ( cd tmp/ && git clone ssh://git.bbbike.org/home/git/bbbike )
@@ -88,6 +94,7 @@ echo 'User wosch' > .ssh/config
 sudo apt-get update
 sudo apt-get install bbbike-world
 
+( cd /usr/local/bin; sudo ln -fs /usr/bin/perl )
 ( cd ~/tmp/bbbike; make -f world/Makefile.osm create-bbbike-web-symlinks  )
 ( cd ~/tmp/bbbike; make bbbike-bootstrap )
 ( cd ~/tmp/bbbike; make bbbike-tarball )
