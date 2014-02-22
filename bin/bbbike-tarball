@@ -25,6 +25,8 @@ bbbike-checkout >&2 || error "checkout failed: $dir"
 make -C./bbbike -s update-files  || error "update-files"
 make -C./bbbike -s js perltidy || error "js perltidy"
 
+mkdir -p $(dirname ${bbbike_src})
+
 tar cf - bbbike | $gzip > ${bbbike_src}.new
 mv -f ${bbbike_src}.new ${bbbike_src}
 $gzip -t ${bbbike_src}
