@@ -70,8 +70,12 @@ $sudo_cpan CDB_File
 # MacOS 
 $ egrep  -h ^use ./world/bin/bbbike-build-runtime-perl*.pl |perl -npe 's,use,\$sudo_cpan,g; s/;//' | sort -u
 
-
+############################################
 # fresh maschine
+#
+# rm -rf ~/projects ~/tmp 
+# sudo rm -rf /bbbike /usr/local/www /var/cache/bbbike 
+#
 su -
 apt-get install git-core sudo
 echo 'indexdata   ALL=NOPASSWD: ALL' >> /etc/sudoers
