@@ -567,21 +567,23 @@ bbbike-tile-update:
 	  ${MAKE} DATA_DIR=../bbbike-eserte/data bbbike2wgs84-mapnik  bbbike-mapnik-postgis tile-cache-cleanup; \
 	fi
 
-bbbike-mapnik-config:
+bbbike-mapnik-config8:
 	if test -e ${POSTGIS_STYLE}; then \
 	    mv -f ${POSTGIS_STYLE} ${POSTGIS_STYLE}.bak; \
 	fi
 	cat /usr/share/osm2pgsql/osm2pgsql/default.style world/tile/etc/bbbike.style.inc > ${POSTGIS_STYLE}
 
-bbbike-mapnik-config9:
+bbbike-mapnik-config9 bbbike-mapnik-config:
 	if test -e ${POSTGIS_STYLE9}; then \
 	    mv -f ${POSTGIS_STYLE9} ${POSTGIS_STYLE9}.bak; \
 	fi
 	cat /usr/share/osm2pgsql/default.style world/tile/etc/bbbike.style.inc > ${POSTGIS_STYLE9}
 
 
-bbbike-mapnik-postgis:
+bbbike-mapnik-postgis8:
 	osm2pgsql --slim -S ${POSTGIS_STYLE} -c ${LOG_DIR}/bbbike-mapnik.osm.gz
+bbbike-mapnik-postgis bbbike-mapnik-postgis9:
+	osm2pgsql --slim -S ${POSTGIS_STYLE9} -c ${LOG_DIR}/bbbike-mapnik.osm.gz
 
 planet-download:
 	download_script=`pwd`/world/bin/planet-download; cd ../osm/download && $$download_script
