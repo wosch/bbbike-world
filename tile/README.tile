@@ -110,7 +110,7 @@ cd /var/www/
 sudo ln -s ~/projects/bbbike/world/tile/web/robots.txt .
 
 cd /etc/
-sudo ln -s /home/wosch/projects/bbbike/world/tile/etc/renderd.conf
+sudo ln -s ~/projects/bbbike/world/tile/etc/renderd.conf
 
 # error check
 tail -f /var/log/syslog
