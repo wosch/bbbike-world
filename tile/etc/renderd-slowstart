@@ -12,5 +12,5 @@
 # symlink or copy to /etc/init.d
 # sudo update-rc.d renderd-slowstart  defaults 30
 
-( sleep 25; sh /etc/init.d/renderd "$@" ) &
+( sleep 20; sh /etc/init.d/renderd "$@" ) &
 
