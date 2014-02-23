@@ -33,8 +33,8 @@ HINT:  Use the same encoding as in the template database, or use template0 as te
 
 # Trouble shooting:
 # setup a utf8 database
-sudo pg_dropcluster --stop 8.4 main
-sudo pg_createcluster --start -e UTF-8 8.4 main
+sudo pg_dropcluster --stop 9.1 main
+sudo pg_createcluster --start -e UTF-8 9.1 main
 
 sudo dpkg-reconfigure openstreetmap-postgis-db-setup
 # EOF Trouble shooting
@@ -47,9 +47,11 @@ sudo apt-get install openstreetmap-mapnik-stylesheet-data
 
 
 # setup your own style sheet
-#svn checkout http://svn.openstreetmap.org/applications/rendering/mapnik
+cd ~/projects
+svn checkout http://svn.openstreetmap.org/applications/rendering/mapnik
 svn checkout http://svn.openstreetmap.org/applications/rendering/mapnik-german
-sudo mv mapnik-german /etc/mapnik-german
+cd /etc
+sudo ln -s ~/projects/mapnik-german .
 
 cd /etc/mapnik-german
 ln -s /usr/share/mapnik-osm-data/world_boundaries .
@@ -108,7 +110,7 @@ cd /var/www/
 sudo ln -s ~/projects/bbbike/world/tile/web/robots.txt .
 
 cd /etc/
-sudo ln -s /home/wosch/projects/bbbike/world/tile/etc/renderd.conf
+sudo ln -s ~/projects/bbbike/world/tile/etc/renderd.conf
 
 # error check
 tail -f /var/log/syslog
