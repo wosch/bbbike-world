@@ -136,7 +136,7 @@ cd ~/projects
 git clone ssh://git.bbbike.org/home/wosch/git/mc
 
 
-time osm2pgsql -C 16000 -S /usr/share/osm2pgsql/default.style  --slim -v -c brandenburg.osm.pbf 
+time osm2pgsql -C 600 -S /usr/share/osm2pgsql/default.style  --slim -v -c ~/projects/osm/download/brandenburg-latest.osm.pbf 
 # 224 minutes real times
 time osm2pgsql -C 16000 -S /usr/share/osm2pgsql/default.style  --slim -v -c germany.osm.pbf 
 
