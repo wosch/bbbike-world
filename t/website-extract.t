@@ -152,7 +152,7 @@ sub garmin_check {
 
     legend( myget( "$home_url/garmin/bbbike/",   18_000 ) );
     legend( myget( "$home_url/garmin/leisure/",  25_000 ) );
-    legend( myget( "$home_url/garmin/cyclemap/", 5_000 ) );
+    legend( myget( "$home_url/garmin/cyclemap/", 4_700 ) );
 }
 
 #############################################################################
