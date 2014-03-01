@@ -16,7 +16,7 @@ dir=$HOME/projects/osm/download
 
 # lower I/O nice level on linux
 if which ionice >/dev/null; then
-   nice="$nice ionice -c 3"
+   nice="$nice ionice -c 2 -n 6"
 fi
 
 cd $dir
