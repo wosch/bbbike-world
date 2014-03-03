@@ -564,7 +564,7 @@ bbbike-tile-update:
 	if [ $$(cat ../bbbike-eserte/.bbbike_status_git) -eq 2 ]; then \
 	  true; \
 	else \
-	  ${MAKE} DATA_DIR=../bbbike-eserte/data bbbike2wgs84-mapnik  bbbike-mapnik-postgis tile-cache-cleanup; \
+	  ${MAKE} DATA_DIR=../bbbike-eserte/data bbbike2wgs84-mapnik  bbbike-mapnik-postgis${POSTGIS_VERSION} tile-cache-cleanup; \
 	fi
 
 bbbike-mapnik-config8:
