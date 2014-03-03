@@ -725,6 +725,7 @@ distclean-osm: rotate-osm
 
 clean-t:
 	${MAKE} -C./t distclean
+	${MAKE} -C./world/t distclean
 
 temp-clean:
 	rm -rf ${TMP_DIR}
