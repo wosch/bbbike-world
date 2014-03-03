@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -T
-# Copyright (c) 2011-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2011-2014 Wolfram Schneider, http://bbbike.org
 #
 # extract.cgi - extracts areas in a batch job
 #
@@ -411,7 +411,7 @@ qq{\n<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?
   @{[ &footer_top($q, 'map' => $args{'map'}, 'css' => $args{'css'} ) ]}
   <hr/>
   <div id="copyright" class="normalscreen">
-    (&copy;) 2013 <a href="http://www.bbbike.org">BBBike.org</a>
+    (&copy;) 2014 <a href="http://www.bbbike.org">BBBike.org</a>
     by <a href="http://wolfram.schneider.org">Wolfram Schneider</a><br/>
     Map data (&copy;) <a href="http://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
   <div id="footer_community"></div>

@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2014 Wolfram Schneider, http://bbbike.org
 #
 # livesearch.cgi - bbbike.org live routing search
 
@@ -291,7 +291,7 @@ $data
 
 <div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em;" >
 <hr>
-(&copy;) 2008-2013 <a href="http://bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="http://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
+(&copy;) 2008-2014 <a href="http://bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="http://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
 <div id="footer_community">
 </div>
 </div>
@@ -670,7 +670,7 @@ sub statistic_basic {
     print qq{ | <a href="} . $q->url( -query => 1 ) . qq{">today</a>\n};
     print "<hr />\n";
     print
-      qq{Copyright (c) 2011-2013 <a href="http://bbbike.org">BBBike.org</a>\n};
+      qq{Copyright (c) 2011-2014 <a href="http://bbbike.org">BBBike.org</a>\n};
     print "<br/>\n" . localtime() . "\n";
 }
 
