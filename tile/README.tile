@@ -4,7 +4,7 @@
 #
 sudo apt-get install unzip bzip2 make subversion tidy gcc \
 	libimager-perl imagemagick libinline-perl libhtml-tagcloud-perl \
-	libtie-ixhash-perl
+	libtie-ixhash-perl libhtml-parser-perl
 sudo ln -s /usr/bin/perl /usr/local/bin/perl
 
 
@@ -130,6 +130,8 @@ sudo rm -f /etc/apache2/sites-enabled/tileserver_site
 
 sudo /etc/init.d/renderd restart
 sudo /etc/init.d/apache2 restart
+
+make mapnik-restart
 
 # postgis trouble shooting
 sudo /usr/bin/install-postgis-osm-user.sh gis www-data
