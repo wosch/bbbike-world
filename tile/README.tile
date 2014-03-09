@@ -57,7 +57,7 @@ cd ~/projects
 svn checkout http://svn.openstreetmap.org/applications/rendering/mapnik
 svn checkout http://svn.openstreetmap.org/applications/rendering/mapnik-german
 cd /etc
-sudo ln -s ~/projects/mapnik-german .
+sudo ln -sf ~/projects/mapnik-german .
 
 cd /etc/mapnik-german
 ln -s /usr/share/mapnik-osm-data/world_boundaries .
