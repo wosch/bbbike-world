@@ -2,17 +2,14 @@
 # setup a tile server for debian
 # based on http://wiki.openstreetmap.org/wiki/Ubuntu_tile_server
 #
-sudo apt-get install unzip bzip2
-
-# optinal, for german mapnik style
-sudo apt-get install subversion
+sudo apt-get install unzip bzip2 make subversion
 
 # see unicode problems
 # sudo apt-get install postgresql
 
 # add the openstreemap repo
 echo "deb http://ppa.launchpad.net/kakrueger/openstreetmap/ubuntu natty main" > /etc/apt/sources.list.d/openstreetmap.list
-# deb http://ppa.launchpad.net/kakrueger/openstreetmap/ubuntu precise main
+#echo "deb http://ppa.launchpad.net/kakrueger/openstreetmap/ubuntu precise main" > /etc/apt/sources.list.d/openstreetmap.list
 
 # get key repo pgp ID
 sudo apt-get update > /dev/null  
