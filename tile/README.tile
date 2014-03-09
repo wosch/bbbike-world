@@ -2,8 +2,8 @@
 # setup a tile server for debian
 # based on http://wiki.openstreetmap.org/wiki/Ubuntu_tile_server
 #
-sudo apt-get install unzip bzip2 make subversion libhtml-tagcloud-perl 
-sudo apt-get install libimager-perl imagemagick tidy gcc libinline-perl
+sudo apt-get install unzip bzip2 make subversion tidy gcc \
+	libimager-perl imagemagick libinline-perl libhtml-tagcloud-perl 
 sudo ln -s /usr/bin/perl /usr/local/bin/perl
 
 
