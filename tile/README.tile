@@ -12,6 +12,7 @@ sudo apt-get install subversion
 
 # add the openstreemap repo
 echo "deb http://ppa.launchpad.net/kakrueger/openstreetmap/ubuntu natty main" > /etc/apt/sources.list.d/openstreetmap.list
+# deb http://ppa.launchpad.net/kakrueger/openstreetmap/ubuntu precise main
 
 # get key repo pgp ID
 sudo apt-get update > /dev/null  
@@ -77,7 +78,7 @@ cp settings.xml.inc.template settings.xml.inc
 
 
 # create osm dump, and import it
-cd bbbike
+cd ~/projects/bbbike
 # add bbbike quality attributes to osm2pgsql
 sudo make bbbike-mapnik-config
 make bbbike2wgs84-mapnik
