@@ -3,7 +3,7 @@
 # based on http://wiki.openstreetmap.org/wiki/Ubuntu_tile_server
 #
 sudo apt-get install unzip bzip2 make subversion libhtml-tagcloud-perl 
-sudo apt-get install libimager-perl imagemagick tidy
+sudo apt-get install libimager-perl imagemagick tidy gcc
 sudo ln -s /usr/bin/perl /usr/local/bin/perl
 
 
