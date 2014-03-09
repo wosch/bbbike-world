@@ -588,6 +588,11 @@ bbbike-mapnik-postgis8:
 bbbike-mapnik-postgis bbbike-mapnik-postgis9:
 	osm2pgsql --slim -S ${POSTGIS_STYLE9} -c ${LOG_DIR}/bbbike-mapnik.osm.gz
 
+mapnik-restart:
+	sudo /etc/init.d/apache2 restart
+	sudo /etc/init.d/renderd restart
+	./world/bin/tile-cache-cleanup	
+
 planet-download:
 	download_script=`pwd`/world/bin/planet-download; cd ../osm/download && $$download_script
 
@@ -1136,7 +1141,7 @@ help:
 	@echo "  [ osm2garmin | osm2shape | osm2osmand | osm2navit | osm2mapsforge ]"
 	@echo "  [ bbbike2wgs84-mapnik | bbbike-mapnik-config ]"
 	@echo "  [ bbbike-mapnik-postgis | bbbike-tile-update ]"
-	@echo "  [ bbbike-tarball ]"
+	@echo "  [ bbbike-tarball | mapnik-restart ]"
 	@echo ""
 	@echo "  [ clean | dist-clean | clean-cache | clean-planet | clean-tile ]"
 	@echo ""
