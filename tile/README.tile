@@ -97,24 +97,24 @@ sudo ln -s ~/projects/bbbike/world/tile/etc/bbbike-smoothness-srt.xml
 
 # web server config
 cd /var/www
-sudo ln -s ~/projects/bbbike/images/favicon.ico 
-sudo ln -s ~/projects/bbbike/world/tile/web/index.html 
+sudo ln -fs ~/projects/bbbike/images/favicon.ico 
+sudo ln -fs ~/projects/bbbike/world/tile/web/index.html 
 
 cd /var/www/osm
-sudo ln -s ~/projects/bbbike/html/OpenLayers
-sudo ln -s ~/projects/bbbike/world/tile/web/style.css
-sudo ln -s ~/projects/bbbike/world/tile/web/slippymap.js
-sudo ln -s ~/projects/bbbike/world/tile/web/slippymap-dev.html 
-sudo ln -s ~/projects/bbbike/world/tile/web/slippymap.html index.html
+sudo ln -fs ~/projects/bbbike/html/OpenLayers
+sudo ln -fs ~/projects/bbbike/world/tile/web/style.css
+sudo ln -fs ~/projects/bbbike/world/tile/web/slippymap.js
+sudo ln -fs ~/projects/bbbike/world/tile/web/slippymap-dev.html 
+sudo ln -fs ~/projects/bbbike/world/tile/web/slippymap.html index.html
 
 cd /var/www/
-sudo ln -s ~/projects/mc 
+sudo ln -fs ~/projects/mc 
 
 cd /var/www/
-sudo ln -s ~/projects/bbbike/world/tile/web/robots.txt .
+sudo ln -fs ~/projects/bbbike/world/tile/web/robots.txt .
 
 cd /etc/
-sudo ln -s ~/projects/bbbike/world/tile/etc/renderd.conf
+sudo ln -fs ~/projects/bbbike/world/tile/etc/renderd.conf
 
 # error check
 tail -f /var/log/syslog
