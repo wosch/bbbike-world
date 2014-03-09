@@ -94,8 +94,6 @@ sudo update-rc.d renderd disable
 # bbbike layers
 cd /etc/mapnik-osm-data
 sudo ln -s ~/projects/bbbike/world/tile/etc/bbbike-smoothness-srt.xml 
-#sudo ln -s ~/projects/bbbike/world/tile/etc/bbbike-smoothness.xml 
-#sudo ln -s ~/projects/bbbike/world/tile/etc/osm-smoothness.xml    
 
 # web server config
 cd /var/www
