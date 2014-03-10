@@ -1,5 +1,5 @@
 ############################################################################
-# debian/wheezy (debian7)
+# ubuntu/precise (ubuntu 12.04)
 #
 
 equivs/ 	files to build simple debian meta packages

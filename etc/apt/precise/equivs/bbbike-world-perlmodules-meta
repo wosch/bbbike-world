@@ -10,4 +10,4 @@ Depends: libwww-mechanize-formfiller-perl, libkwalify-perl,
  libobject-iterate-perl, libmath-polygon-perl, libmath-matrixreal-perl,
  libimage-info-perl, libxml-atom-simplefeed-perl, libaccessors-perl
 Description: BBBike @ World perl modules
- perl modules which are not part of debian wheezy
+ perl modules which are not part of ubuntu precise

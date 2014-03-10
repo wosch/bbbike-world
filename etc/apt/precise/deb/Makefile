@@ -1,10 +1,10 @@
 ###############################################################
-# Copyright (c) 2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2013-2014 Wolfram Schneider, http://bbbike.org
 #
 
 LIB=	bbbike-world-javalibs
-DEB_REPO_DIR=   /usr/local/www/debian.bbbike.org/debian
-DEB_RELEASE=	wheezy
+DEB_REPO_DIR=   /usr/local/www/debian.bbbike.org/ubuntu
+DEB_RELEASE=	precise
 
 all: help
 
@@ -23,8 +23,8 @@ build:
 deb-repo:
 	dpkg-sig -k 3D084B60 --sign builder 	${LIB}*.deb
 	pwd=$$(pwd); cd ${DEB_REPO_DIR}/${DEB_RELEASE}; \
-	  reprepro -Vb . removematched wheezy 	${LIB}-misc; \
-	  reprepro -Vb . includedeb wheezy 	$$pwd/${LIB}*.deb
+	  reprepro -Vb . removematched ${DEB_RELEASE} ${LIB}-misc; \
+	  reprepro -Vb . includedeb ${DEB_RELEASE} $$pwd/${LIB}*.deb
 
 deb-bin:
 	${MAKE} LIB=bbbike-world-bin distclean build deb-repo
