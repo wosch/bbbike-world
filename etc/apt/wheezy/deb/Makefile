@@ -23,8 +23,8 @@ build:
 deb-repo:
 	dpkg-sig -k 3D084B60 --sign builder 	${LIB}*.deb
 	pwd=$$(pwd); cd ${DEB_REPO_DIR}/${DEB_RELEASE}; \
-	  reprepro -Vb . removematched wheezy 	${LIB}-misc; \
-	  reprepro -Vb . includedeb wheezy 	$$pwd/${LIB}*.deb
+	  reprepro -Vb . removematched ${DEB_RELEASE} ${LIB}-misc; \
+	  reprepro -Vb . includedeb ${DEB_RELEASE} $$pwd/${LIB}*.deb
 
 deb-bin:
 	${MAKE} LIB=bbbike-world-bin distclean build deb-repo
