@@ -725,7 +725,7 @@ update-javascript:
 java-config:
 	test -r $$HOME/.osmosis || ln -fs $$HOME/projects/bbbike/world/etc/env/dot.osmosis $$HOME/.osmosis
 
-dist-clean devel-clean distclean: clean deb-clean temp-clean clean-t
+dist-clean devel-clean distclean: clean deb-clean temp-clean clean-t data-distclean
 
 distclean-osm: rotate-osm
 	${RM_BG} ${OSM_DIR}
@@ -942,7 +942,7 @@ tile-rsync:
 	rsync -av ${TILES_DIR}/lnglat/ ${BBBIKE_WEBSERVER_DOWNLOAD_DIR}/osm/planet/${TILES_DIR}/lnglat/
 
 data-distclean distclean-data:
-	rm -f data/*.lock data/*.inx4 data/*.st
+	rm -f data/*.lock data/*.inx[456] data/*.st
 
 # for errors look in ./tile/tmp
 tile: tile-extract tile-convert tile-checksum tile-csv tile-aws-s3
