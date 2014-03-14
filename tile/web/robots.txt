@@ -1,4 +1,4 @@
 # general
 User-agent: *
-Disallow: /
+Disallow: /osm
 
