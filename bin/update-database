@@ -25,7 +25,7 @@ commands="$bbbike_build $bbbike_download $bbbike_extract $bbbike_convert $bbbike
 # lower I/O nice level on linux
 if which ionice >/dev/null; then
    ionice=ionice
-   ionice_opt="-c 3"
+   ionice_opt="-c 2 -n 6"
 fi
 
 begin="`date`"

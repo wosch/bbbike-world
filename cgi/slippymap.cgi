@@ -1148,7 +1148,7 @@ EOF
         new GLatLngBounds(new GLatLng(-90,-180), new GLatLng(90,180)), 0,
         '(<a rel="license" target="_ccbysa" href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>)');
     var copyrightCollection =
-        new GCopyrightCollection('Map data &copy; 2011-2013 <a target="_osm" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> Contributors');
+        new GCopyrightCollection('Map data &copy; 2011-2014 <a target="_osm" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> Contributors');
     copyrightCollection.addCopyright(copyright);
 
     map.addMapType(G_PHYSICAL_MAP);
@@ -1438,7 +1438,7 @@ EOF
 
 <hr />
   <div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em; " >
-(&copy;) 2008-2013 <a href="http://www.rezic.de/eserte">Slaven Rezi&#x107;</a> &amp; <a href="http://wolfram.schneider.org">Wolfram Schneider</a> 
+(&copy;) 2008-2014 <a href="http://www.rezic.de/eserte">Slaven Rezi&#x107;</a> &amp; <a href="http://wolfram.schneider.org">Wolfram Schneider</a> 
 // <a href="http://www.bbbike.de">http://www.bbbike.de</a> <br/>
   Map data by the <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> Project // <a href="http://wiki.openstreetmap.org/wiki/OpenStreetMap_License">OpenStreetMap License</a> <br />
   </div>

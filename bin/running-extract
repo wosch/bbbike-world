@@ -12,11 +12,12 @@ case $0 in
 esac
 
 : ${extract_dir=/var/cache/$dir/running}
-if [ -z "$1" ]; then
-   term=.
-else
-   term="\"$1\""
-fi
+term="$1"
+case $term in 
+      "" ) term="." ;;
+   proc* ) term="\"processes\"" ;;
+       * ) term="\"$term\"" ;;
+esac
 
 if [ $(ls $extract_dir/*/*json 2>/dev/null | wc -l ) -gt 0 ]; then
     ( cat $extract_dir/*/*json 

@@ -8,5 +8,5 @@ You can see the size of the area on a map at
 All Data from OpenStreetMap is licensed under the OpenStreetMap License
 
 --
-Copyright (c) 2011-2013 http://www.BBBike.org
+Copyright (c) 2011-2014 http://www.BBBike.org
 http://www.BBBike.org/community.html - We appreciate any feedback, suggestions and a donation! 

@@ -57,7 +57,7 @@ sub myget {
 sub livesearch_extract {
     my $url = shift;
 
-    my $res = myget( $url, 5_000 );
+    my $res = myget( $url, 4_600 );
     my $content = $res->decoded_content();
 
     like( $content, qr|Content-Type" content="text/html; charset=utf-8"|,

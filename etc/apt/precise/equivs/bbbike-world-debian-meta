@@ -1,0 +1,39 @@
+Section: misc
+Priority: optional
+Standards-Version: 3.6.2
+
+Package: bbbike-world-debian-meta
+Version: 1.1.7
+Maintainer: Wolfram Schneider <wosch@freebsd.org>
+Depends: pbzip2, bzip2, xz-utils, git-core, screen, lynx, curl, wget, time,
+ lsof, whois, pigz, make, acct, telnet, dnsutils, bc, sysstat, buffer,
+ pktstat, emacs, unzip, vim, gcc, zlib1g-dev, perltidy, tidy, bsd-mailx,
+ mutt, perl-doc, zip, sudo, munin-node, htop, strace, python, openjdk-6-jdk,
+ g++, sockstat, kwalify, libhtml-tagcloud-perl, libtext-unidecode-perl, munin,
+ libxml-atom-simplefeed-perl, libjson-perl, liburi-perl, libxml-libxml-perl,
+ libyaml-perl, libyaml-syck-perl, libxml-simple-perl, libdevel-size-perl,
+ libtie-ixhash-perl, libdevel-size-perl, libbsd-resource-perl,
+ libobject-realize-later-perl, libemail-valid-perl, libcairo-perl,
+ libpango-perl, libinline-perl, libpdf-create-perl, libgd-gd2-perl, pdftk,
+ osm2navit, libprotobuf-lite7, libshp1, libgeos-dev, libxml2-dev,
+ libxml-twig-perl, libipc-run-perl, libimage-info-perl, libwww-mechanize-perl,
+ libemail-mime-perl, libdbi-perl, libobject-realize-later-perl, libmldbm-perl,
+ libclass-accessor-perl, libarchive-zip-perl, libtemplate-perl,
+ libdata-compare-perl, libgd2-xpm, libgd2-xpm-dev, libgd-gd2-perl,
+ ttf-bitstream-vera, ttf-dejavu, libtext-table-perl, libpdf-create-perl,
+ libcairo-perl, libpango-perl, libfont-afm-perl, libtest-number-delta-perl,
+ libimager-perl, netpbm, libgd-gd2-perl, ttf-bitstream-vera, ttf-dejavu,
+ libyaml-tiny-perl, libcompress-zlib-perl, liblzma-dev, 
+ libclass-accessor-children-perl, subversion, libimage-size-perl,
+ libmime-tools-perl, libcdb-file-perl, libdate-calc-perl,
+ libimage-exiftool-perl, libstatistics-descriptive-perl, libsvg-perl,
+ libgd-svg-perl, perlmagick, libimager-perl, imagemagick, libsvg-perl,
+ libdb-file-lock-perl, libgeo-metar-perl, libstring-approx-perl,
+ libdbd-xbase-perl, libdevel-leak-perl, libfile-readbackwards-perl,
+ libhtml-treebuilder-xpath-perl, libxml2-utils, libgdal-perl,
+ libgdal-perl, libtext-csv-xs-perl, libcapture-tiny-perl, freebsd-buildutils, 
+ dh-make-perl, ntp, munin, dpkg-sig, reprepro,lighttpd, equivs,
+ build-essential, devscripts, debhelper, dh-make, libyaml-libyaml-perl,
+ google-sitemapgen, ltrace, libintl-perl, iotop, iftop
+Description: BBBike @ World standard debian packages
+ BBBike @ World standard debian packages

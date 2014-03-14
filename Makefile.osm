@@ -79,6 +79,7 @@ RM_BG=	world/bin/rm-bg
 WEB_GROUP=	www-data
 EXTRACTS_SPOOL_DIR=/var/cache/extract
 POSTGIS_STYLE=/usr/share/osm2pgsql/osm2pgsql/bbbike.style
+POSTGIS_STYLE9=/usr/share/osm2pgsql/bbbike.style
 BBBIKE_WEB_SERVER	?= www.bbbike.org
 BBBIKE_API_SERVER	?= api.bbbike.org
 API_DIR=	api/0.2
@@ -475,6 +476,9 @@ create-bbbike-web-symlinks-bbbike.en.cgi:
 update-feed:
 	${MAKE} -C world/web/feed
 
+create-perl-symlink:
+	test -e /usr/local/bin/perl || sudo ln -fs /usr/bin/perl /usr/local/bin/perl
+
 create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi index update-feed bbbike-org-t create-bbbike-org-symlinks
 	ln -fs world/Makefile.osm ${BBBIKE_WEB_DIR}
 	ln -fs Makefile.osm Makefile
@@ -560,17 +564,34 @@ bbbike-tile-update:
 	if [ $$(cat ../bbbike-eserte/.bbbike_status_git) -eq 2 ]; then \
 	  true; \
 	else \
-	  ${MAKE} DATA_DIR=../bbbike-eserte/data bbbike2wgs84-mapnik  bbbike-mapnik-postgis tile-cache-cleanup; \
+	  ${MAKE} bbbike-tile-update-real; \
 	fi
 
-bbbike-mapnik-config:
+bbbike-tile-update-real:
+	  ${MAKE} DATA_DIR=../bbbike-eserte/data bbbike2wgs84-mapnik  bbbike-mapnik-postgis${POSTGIS_VERSION} tile-cache-cleanup; \
+
+bbbike-mapnik-config8:
 	if test -e ${POSTGIS_STYLE}; then \
 	    mv -f ${POSTGIS_STYLE} ${POSTGIS_STYLE}.bak; \
 	fi
 	cat /usr/share/osm2pgsql/osm2pgsql/default.style world/tile/etc/bbbike.style.inc > ${POSTGIS_STYLE}
 
-bbbike-mapnik-postgis:
+bbbike-mapnik-config9 bbbike-mapnik-config:
+	if test -e ${POSTGIS_STYLE9}; then \
+	    mv -f ${POSTGIS_STYLE9} ${POSTGIS_STYLE9}.bak; \
+	fi
+	cat /usr/share/osm2pgsql/default.style world/tile/etc/bbbike.style.inc > ${POSTGIS_STYLE9}
+
+
+bbbike-mapnik-postgis8:
 	osm2pgsql --slim -S ${POSTGIS_STYLE} -c ${LOG_DIR}/bbbike-mapnik.osm.gz
+bbbike-mapnik-postgis bbbike-mapnik-postgis9:
+	osm2pgsql --slim -S ${POSTGIS_STYLE9} -c ${LOG_DIR}/bbbike-mapnik.osm.gz
+
+mapnik-restart:
+	sudo /etc/init.d/apache2 restart
+	sudo /etc/init.d/renderd restart
+	./world/bin/tile-cache-cleanup	
 
 planet-download:
 	download_script=`pwd`/world/bin/planet-download; cd ../osm/download && $$download_script
@@ -699,12 +720,12 @@ extract-config:
 	test -e .bbbike-extract-pro.rc || ln -fs $$HOME/.bbbike-extract-pro.rc .
 
 update-javascript:
-	make -C html bbbike-js
+	make -C./html bbbike-js
 
 java-config:
 	test -r $$HOME/.osmosis || ln -fs $$HOME/projects/bbbike/world/etc/env/dot.osmosis $$HOME/.osmosis
 
-dist-clean devel-clean distclean: clean deb-clean temp-clean clean-t
+dist-clean devel-clean distclean: clean deb-clean temp-clean clean-t data-distclean
 
 distclean-osm: rotate-osm
 	${RM_BG} ${OSM_DIR}
@@ -712,6 +733,7 @@ distclean-osm: rotate-osm
 
 clean-t:
 	${MAKE} -C./t distclean
+	${MAKE} -C./world/t distclean
 
 temp-clean:
 	rm -rf ${TMP_DIR}
@@ -743,7 +765,9 @@ cache-heater-common:
 	if `ls ${BBBIKE_CACHE_DIR}/* 2>/dev/null`; then du -hs ${BBBIKE_CACHE_DIR}/*; fi
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
 	   ${PERL} -ne 'chomp; print "http://'${BBBIKE_WEB_SERVER}'/$$_/?generate_cache=1\0"; print "http://'${BBBIKE_API_SERVER}/${API_DIR}'/$$_/?generate_cache=1\0"' | \
-	   ${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
+            cat > tmp/$@.txt
+	   ${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf -X PURGE < tmp/$@.txt >/dev/null
+	   ${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf < tmp/$@.txt >/dev/null
 	@echo "cache usage after"
 	du -hs ${BBBIKE_CACHE_DIR}/
 	du -hs ${BBBIKE_CACHE_DIR}/*
@@ -751,16 +775,23 @@ cache-heater-common:
 cache-heater-streets: cache-heater-homepage cache-heater-opensearch
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
 		${PERL} -e 'while(<>) { chomp; push @a, "http://'${BBBIKE_WEB_SERVER}'/$$_/streets.html"; push @b, "http://'${BBBIKE_WEB_SERVER}'/en/$$_/streets.html" } print join "\0", @a, @b, ""' | \
-		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
+                cat > tmp/$@.txt
+		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf -X PURGE < tmp/$@.txt >/dev/null
+		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf < tmp/$@.txt >/dev/null
 
 cache-heater-homepage: cache-heater-osp
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
 		${PERL} -e 'while(<>) { chomp; push @a, "http://'${BBBIKE_WEB_SERVER}'/$$_/"; push @b, "http://'${BBBIKE_WEB_SERVER}'/en/$$_/"; push @c, "http://'${BBBIKE_WEB_SERVER}'/m/$$_/" } print join "\0", @a, @b, @c, ""' | \
-		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
+                cat > tmp/$@.txt
+		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf -X PURGE < tmp/$@.txt >/dev/null
+		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf < tmp/$@.txt >/dev/null
+                
 
 cache-heater-osp:
 	find osp -name '*.xml' -print0 | perl -n0e 'print qq{http://'${BBBIKE_WEB_SERVER}'/$$_}' | \
-		${XARGS} -0 -n1 -P${MAX_CPU} curl -sS >/dev/null
+                cat > tmp/$@.txt
+		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf -X PURGE < tmp/$@.txt >/dev/null
+		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf < tmp/$@.txt >/dev/null
 
 cache-heater-opensearch:
 	cat ${BBBIKE_WEBSERVER_DIR}/data-osm/*/opensearch.streetnames | wc -c >/dev/null
@@ -803,7 +834,9 @@ extract-install extract-bbbike-org-install:
 
 bbbike-cache-install:
 	mkdir -p ${BBBIKE_PARTITION}/cache
-	if [ ! -e ${BBBIKE_CACHE_DIR} ]; then ln -fs ${BBBIKE_PARTITION}/cache ${BBBIKE_CACHE_DIR}; fi
+	if [ ! -e ${BBBIKE_CACHE_DIR} ]; then \
+	    ln -fs ${BBBIKE_PARTITION}/cache ${BBBIKE_CACHE_DIR}; \
+	fi
 	chown -R ${WEB_GROUP}:${WEB_GROUP} ${BBBIKE_PARTITION}/cache
 
 extract-distclean:
@@ -909,7 +942,7 @@ tile-rsync:
 	rsync -av ${TILES_DIR}/lnglat/ ${BBBIKE_WEBSERVER_DOWNLOAD_DIR}/osm/planet/${TILES_DIR}/lnglat/
 
 data-distclean distclean-data:
-	rm -f data/*.lock data/*.inx4 data/*.st
+	rm -f data/*.lock data/*.inx[456] data/*.st
 
 # for errors look in ./tile/tmp
 tile: tile-extract tile-convert tile-checksum tile-csv tile-aws-s3
@@ -919,11 +952,12 @@ tile: tile-extract tile-convert tile-checksum tile-csv tile-aws-s3
 # debian package rules
 #
 DEB_RELEASE=wheezy
+DEB_VENDOR=debian
 DEB_DIR=tmp/deb
 DEB_MODULE_LIST=world/etc/apt/${DEB_RELEASE}/perl-modules.txt
 DEB_PACKAGES=	$(shell ${PERL} -npe 's/\#.*//' ${DEB_MODULE_LIST})
 DEB_CONTROLS=	$(shell ${MAKE} -s -Cworld/etc/apt/${DEB_RELEASE}/equivs)
-DEB_REPO_DIR=	/usr/local/www/debian.bbbike.org/debian
+DEB_REPO_DIR=	/usr/local/www/debian.bbbike.org/${DEB_VENDOR}
 DEB_OPT_DIR=	/var/lib/bbbike/opt
 
 # don't forget to run deb-clean first
@@ -967,9 +1001,12 @@ deb-repo: deb-repo-dir
 	done
 
 deb-bootstrap debian-bootstrap: deb-bootstrap-rsync deb-bootstrap-dir
-bbbike-bootstrap: debian-bootstrap update-files install-backend-lighttpd 
-	sudo ${BBMAKE} -s cache-clean extract-bbbike-org-install bbbike-cache-install
-	sudo ${MAKE} -C./world/etc install-munin-bbbike install-munin-bbbike-extract 
+bbbike-bootstrap: debian-bootstrap update-files install-backend-lighttpd
+	sudo ${BBMAKE} -s cache-clean 
+	sudo ${BBMAKE} -s extract-bbbike-org-install 
+	sudo ${BBMAKE} -s bbbike-cache-install clean-cache
+	sudo ${BBMAKE} -s download-bbbike-org-install
+	sudo ${MAKE} -s -C./world/etc install-munin-bbbike install-munin-bbbike-extract 
 	sudo update-rc.d lighttpd defaults
 	sudo /etc/init.d/lighttpd restart
 	@echo ""
@@ -1060,8 +1097,9 @@ test-org:
 	./world/bin/lighttpd-template-update
 
 lighttpd-restart: temp-clean test-org
-	-killall lighttpd
-	sleep 0.9
+	-killall -TERM lighttpd
+	sleep 0.5
+	-killall -SIGKILL lighttpd
 	mkdir -p ${TMP_DIR}
 	TMPDIR=${TMP_DIR} $$(pwd)/world/bin/lighttpd-start &
 
@@ -1069,6 +1107,8 @@ test prove: lighttpd-restart
 	perl -c cgi/bbbike.cgi
 	mkdir -p ${TMP_DIR}
 	TMPDIR=${TMP_DIR} LANG=C LC_ALL=C time prove ${prove_opt} -j${MAX_CPU} t/*.t world/t/*.t
+	@echo "All tests are successfully done. Stop lighttpd"
+	@./world/bin/lighttpd-stop
 
 diff:
 	git diff
@@ -1081,6 +1121,9 @@ git-fetch:
 	git fetch eserte
 	git fetch origin
 	git fetch github
+
+bbbike-tarball bbbike-src:
+	./world/bin/bbbike-tarball
 
 help:
 	@echo "bbbike version: ${GIT_ID}"
@@ -1099,6 +1142,7 @@ help:
 	@echo "  [ osm2garmin | osm2shape | osm2osmand | osm2navit | osm2mapsforge ]"
 	@echo "  [ bbbike2wgs84-mapnik | bbbike-mapnik-config ]"
 	@echo "  [ bbbike-mapnik-postgis | bbbike-tile-update ]"
+	@echo "  [ bbbike-tarball | mapnik-restart ]"
 	@echo ""
 	@echo "  [ clean | dist-clean | clean-cache | clean-planet | clean-tile ]"
 	@echo ""

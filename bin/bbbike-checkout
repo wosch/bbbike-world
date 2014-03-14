@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2014 Wolfram Schneider, http://bbbike.org
 #
 # bbbike-checkout - checkout bbbike @ world sources and setup configuration
 
@@ -34,24 +34,30 @@ if $bbbike_macos; then
 fi
 
 # original github repo
-#git clone $git_clone_opt git@github.com:wolframschneider/bbbike.git
+# git clone $git_clone_opt git@github.com:wolframschneider/bbbike.git
 # local cache repo
 if $bbbike_fast_checkout; then
+
+    # even faster from a tarball
     if [ -e $bbbike_src ]; then
-	# even faster from a tarball
 	tar xfz $bbbike_src
 	( 
 	  cd bbbike; 
 	  git fetch origin
 	  git fetch eserte
 	  git fetch github
-	  git pull
+	  git pull -q
 	)
 
 	echo "fast checkout done"
+        echo -n "Updating files..."
+	make -C./bbbike -s update-files
+	echo ""
 	exit 0
     else 
+        # local clone 
 	if [ -e $HOME/projects/bbbike ]; then
+	    echo "Checkout from $HOME/projects/bbbike"
     	    git clone $git_clone_opt $HOME/projects/bbbike
     	    ( cd bbbike && git remote add bbbike ssh://git.bbbike.org/home/git/bbbike )
         else 

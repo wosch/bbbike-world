@@ -70,3 +70,43 @@ $sudo_cpan CDB_File
 # MacOS 
 $ egrep  -h ^use ./world/bin/bbbike-build-runtime-perl*.pl |perl -npe 's,use,\$sudo_cpan,g; s/;//' | sort -u
 
+############################################
+# fresh maschine
+#
+# rm -rf ~/projects ~/tmp ~/.ssh/config ~/.ssh/known_hosts ~/src/bbbike.tgz
+# sudo rm -rf /bbbike /usr/local/www /var/cache/bbbike /usr/local/bin
+#
+su -
+apt-get install -y git-core sudo </dev/null
+echo 'indexdata   ALL=NOPASSWD: ALL' >> /etc/sudoers
+echo 'deb http://debian.bbbike.org/debian/wheezy wheezy main' > /etc/apt/sources.list.d/bbbike.list 
+echo 'StrictHostKeyChecking=no' >> /etc/ssh/ssh_config 
+mkdir -p /usr/local/bin
+
+mkdir -p ~/.ssh
+mkdir -p ~/projects
+mkdir -p ~/tmp
+echo 'User wosch' > ~/.ssh/config
+
+# create .ssh/authorized_keys
+
+( cd ~/projects; git clone ssh://git.calaminus.com:222/home/wosch/git/wosch-ssh-config )
+( cd ~/.ssh/ && ln -fs ../projects/wosch-ssh-config/config )
+
+( cd ~/tmp/ && git clone ssh://git.bbbike.org/home/git/bbbike )
+( cd ~/tmp/bbbike/world/etc/apt/wheezy/gpg && sudo apt-key add bbbike.asc )
+sudo apt-get update -qq
+sudo apt-get install -y bbbike-world </dev/null
+
+( cd ~/tmp/bbbike; make -s -f world/Makefile.osm create-perl-symlink create-bbbike-web-symlinks )
+( cd ~/tmp/bbbike; make bbbike-tarball )
+( sudo mkdir -p /usr/local/www )
+( cd /usr/local/www && sudo chown $(logname) . &&  ~/tmp/bbbike/world/bin/bbbike-checkout )
+( cd /usr/local/www && ln -sf bbbike bbbike.org )
+( cd ~/tmp/bbbike; make -s bbbike-bootstrap )
+. ~/.bashrc 
+( cd ~/projects/; ~/tmp/bbbike/world/bin/bbbike-checkout )
+( cd ~/projects/bbbike; make -s update-files )
+( cd ~/projects/bbbike; make -s staging )
+( cd ~/projects/bbbike; make check )
+

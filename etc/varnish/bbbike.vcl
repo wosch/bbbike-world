@@ -137,7 +137,7 @@ sub vcl_recv {
         set req.backend = wosch;
     } else if (req.http.host ~ "^eserte\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$") {
         set req.backend = eserte;
-    } else if (req.http.host ~ "^(www\.|)cyclerouteplanner.(org|com)$") {
+    } else if (req.http.host ~ "^(www\.|)(cyclerouteplanner\.org|cyclerouteplanner\.com|bbike\.org|cycleroute\.net)$") {
         set req.backend = bbbike;
     } else {
         set req.backend = default;
