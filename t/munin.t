@@ -16,9 +16,6 @@ use warnings;
 plan tests => 1;
 
 ######################################################################
-# may fail if permissions are wrong, e.g. after a system upgrade
-# sudo chmod o+rx /var/log/lighttpd
-#
 system(
     qq[printf "fetch bbbike-route\nquit\n" | nc localhost 4949 | egrep -q value]
 );
