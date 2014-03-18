@@ -1,0 +1,17 @@
+#!/bin/sh
+# Copyright (c) 2014 Wolfram Schneider, http://bbbike.org
+#
+# cleanup stale temp files from extract.bbbike.org service
+
+tmp_dir=/tmpfs
+username=wosch
+set -e
+
+# nothing to tod
+if [ ! -d $tmp_dir ]; then
+    exit 0
+fi
+
+cd $tmp_dir
+su -s /bin/sh -c "find $tmp_dir -type f -mmin +2000 -print0 | xargs -0 -r rm" $username
+
