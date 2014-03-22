@@ -186,7 +186,7 @@ my $nice_level_converter =
 
 # test & debug
 $planet_osm =
-"$ENV{HOME}/projects/osm/download/geofabrik/europe/germany/brandenburg.osm.pbf"
+"$ENV{HOME}/projects/osm/download/geofabrik/europe/germany/brandenburg-latest.osm.pbf"
   if $test;
 
 ######################################################################
