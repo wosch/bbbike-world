@@ -94,6 +94,10 @@ our $formats = {
     'csv.gz'            => "csv gzip'd",
     'csv.xz'            => "csv 7z (xz)",
     'mapsforge-osm.zip' => "Mapsforge OSM",
+    
+    'srtm-europe.osm.pbf' => 'SRTM Europe PBF',
+    'srtm-southamerica.osm.pbf' => 'SRTM South America PBF',
+    'srtm-europe-garmin.zip' => 'SRTM Europe Garmin',
 };
 
 ###
