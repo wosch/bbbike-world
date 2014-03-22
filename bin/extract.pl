@@ -67,8 +67,10 @@ our $option = {
     'planet' => {
         'world' => '../osm/download/planet-latest.osm.pbf',
         'srtm-europe.osm.pbf' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
+        'srtm-europe.garmin.zip' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
+        'srtm-europe.obf.zip' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
+        'srtm-europe.mapsforge-osm.zip' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
         'srtm-southamerica.osm.pbf' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_SOUTHAMERICA.osm.pbf',
-        'srtm-europe-garmin.zip' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
     },
     
     'debug'      => 0,
@@ -132,8 +134,11 @@ my $formats = {
     'mapsforge-osm.zip'  => "mapsforge OSM",
     
     'srtm-europe.osm.pbf' => 'SRTM Europe PBF',
+    'srtm-europe.garmin.zip' => 'SRTM Europe Garmin',
+    'srtm-europe.mapsforge-osm.zip' => 'SRTM Europe Mapsforge',
+    'srtm-europe.obf.zip' => 'SRTM Europe Osmand',
+    
     'srtm-southamerica.osm.pbf' => 'SRTM South America PBF',
-    'srtm-europe-garmin.zip' => 'SRTM Europe Garmin',
 };
 
 # translations
@@ -747,7 +752,7 @@ sub cached_format {
     return 0;
 }
 
-# reorder PBFs by size, smalles first
+# reorder PBFs by size and compute time, smalles first
 sub reorder_pbf {
     my $json      = shift;
     my $test_mode = shift;
