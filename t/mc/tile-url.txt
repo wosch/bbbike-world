@@ -85,3 +85,7 @@ http://tile.waymarkedtrails.org/skating/8/133/89.png
 http://a.tile.osm-tools.org/osm_then/11/1617/936.png
 http://a.tiles.mapbox.com/v3/examples.bc17bb2a/15/17604/10746.png
 http://tile.geofabrik.de/osm_retina/15/17604/10746.png
+http://c.tile.openstreetmap.fr/openriverboatmap/17/70413/42988.png
+http://c.tile.openstreetmap.fr/hot/17/70413/42988.png
+http://c.tile.openstreetmap.fr/osmfr/17/70413/42988.png
+
