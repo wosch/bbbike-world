@@ -1267,7 +1267,7 @@ qq{<span title="hide longitude,latitude box" class="lnglatbox" onclick="javascri
                           . $q->popup_menu(
                             -name   => 'format',
                             -values => [
-                                sort { $formats->{$a} cmp $formats->{$b} }
+                                sort { lc($formats->{$a}) cmp lc($formats->{$b}) }
                                   keys %$formats
                             ],
                             -labels  => $formats,
