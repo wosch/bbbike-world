@@ -580,7 +580,7 @@ sub run_extracts {
 
         my $osm = $spool->{'osm'} . "/" . basename($out);
         if ( -e $osm ) {
-            my $newer = file_mtime_diff( $osm, $option->{planet_osm} );
+            my $newer = file_mtime_diff( $osm, $planet_osm );
             if ( $newer > 0 ) {
                 warn "File $osm already exists, skip\n" if $debug;
                 link( $osm, $out ) or die "link $osm => $out: $!\n";
@@ -1240,7 +1240,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
 
         my $script_url = &script_url( $option, $obj );
         my $database_update =
-          gmtime( stat( $option->{planet_osm} )->mtime ) . " UTC";
+          gmtime( stat( $planet_osm )->mtime ) . " UTC";
 
         my $text = M("EXTRACT_EMAIL");
         my $granularity;
