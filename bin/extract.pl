@@ -783,6 +783,12 @@ sub reorder_pbf {
         'csv.gz'  => 0.42,
         'csv.xz'  => 0.2,
         'csv.bz2' => 0.45,
+        
+        'srtm-europe.osm.pbf' => 1,
+        'srtm-europe.garmin.zip' => 1.5,
+        'srtm-europe.obf.zip' => 10,
+        'srtm-europe.mapsforge-osm.zip' => 2,
+        'srtm-southamerica.osm.pbf' => 1,
     );
 
     foreach my $json_file (@$json) {
