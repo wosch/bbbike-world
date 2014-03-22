@@ -123,6 +123,10 @@ my $formats = {
     'garmin-bbbike.zip'  => "Garmin BBBike",
     'navit.zip'          => "Navit",
     'mapsforge-osm.zip'  => "mapsforge OSM",
+    
+    'srtm-europe.osm.pbf' => 'SRTM Europe PBF',
+    'srtm-southamerica.osm.pbf' => 'SRTM South America PBF',
+    'srtm-europe-garmin.zip' => 'SRTM Europe Garmin',
 };
 
 # translations
