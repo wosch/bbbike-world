@@ -64,6 +64,13 @@ our $option = {
     #'nice_level_converter' => 3,
 
     'planet_osm' => "../osm/download/planet-latest.osm.pbf",
+    'planet' => {
+        'world' => '../osm/download/planet-latest.osm.pbf',
+        'srtm-europe.osm.pbf' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
+        'srtm-southamerica.osm.pbf' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_SOUTHAMERICA.osm.pbf',
+        'srtm-europe-garmin.zip' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
+    },
+    
     'debug'      => 0,
     'test'       => 0,
 
