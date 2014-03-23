@@ -133,7 +133,7 @@ my $formats = {
     'mapsforge-osm.zip'  => "mapsforge OSM",
     
     'srtm-europe.osm.pbf' => 'SRTM Europe PBF',
-    'srtm-europe.garmin.zip' => 'SRTM Europe Garmin',
+    'srtm-europe.garmin-osm.zip' => 'SRTM Europe Garmin',
     'srtm-europe.mapsforge-osm.zip' => 'SRTM Europe Mapsforge',
     'srtm-europe.obf.zip' => 'SRTM Europe Osmand',
     
@@ -816,7 +816,7 @@ sub reorder_pbf {
         'csv.bz2' => 0.45,
         
         'srtm-europe.osm.pbf' => 1,
-        'srtm-europe.garmin.zip' => 1.5,
+        'srtm-europe.garmin-osm.zip' => 1.5,
         'srtm-europe.obf.zip' => 10,
         'srtm-europe.mapsforge-osm.zip' => 2,
         
@@ -1120,7 +1120,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
             }
         }
 
-        elsif ( $format =~ /^garmin-(osm|cycle|leisure|bbbike).zip$/ || $format =~ /^[a-z\-]+\.garmin\.zip$/) {
+        elsif ( $format =~ /^garmin-(osm|cycle|leisure|bbbike).zip$/ || $format =~ /^[a-z\-]+\.garmin-(osm)\.zip$/) {
             my $style = $1;
             $file =~ s/\.pbf$/.$format/;
             $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
@@ -1178,7 +1178,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
                 system(@system) == 0 or die "system @system failed: $?";
             }
         }
-        elsif ( $format =~ /^mapsforge-(osm).zip$/ || $format =~ /^[a-z\-]+\.mapsforge-osm\.zip$/) {
+        elsif ( $format =~ /^mapsforge-(osm)\.zip$/ || $format =~ /^[a-z\-]+\.mapsforge-(osm)\.zip$/) {
             my $style = $1;
             $file =~ s/\.pbf$/.$format/;
             $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
