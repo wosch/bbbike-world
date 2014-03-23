@@ -286,6 +286,8 @@ sub parse_jobs {
     my $max   = $args{'max'};
 
     my $hash;
+    my $default_planet_osm = "";
+    
     foreach my $f (@$files) {
         my $file = "$dir/$f";
 
@@ -301,9 +303,19 @@ sub parse_jobs {
         # planet.osm file per job
         my $format = $json_perl->{"format"};
         $json_perl->{'planet_osm'} = exists $option->{'planet'}->{$format} ? $option->{'planet'}->{$format} : $option->{'planet'}->{'planet.osm'};
+        
+        # first jobs defines the planet.osm file
+        if (!$default_planet_osm) {
+            $default_planet_osm = $json_perl->{'planet_osm'};
+        }
 
-        # a slot for every user
-        push @{ $hash->{ $json_perl->{'email'} } }, $json_perl;
+        # only the same planet.osm file
+        if ($json_perl->{'planet_osm'} eq $default_planet_osm) {
+            # a slot for every user
+            push @{ $hash->{ $json_perl->{'email'} } }, $json_perl;
+        } else {
+            warn "Ignore job due different planet.osm file: $default_planet_osm <=> $json_perl->{'planet_osm'}\n" if $debug >= 1;
+        }
     }
 
     # sort by user and date, oldest first
@@ -316,8 +328,9 @@ sub parse_jobs {
     my @list;
     my $counter        = $max;
     my $counter_coords = 0;
-    my $max_coords =
-      $option->{max_coords};    # 4196 polygones is enough for the queue
+    # 4196 polygones is enough for the queue
+    my $max_coords = $option->{max_coords};
+      
     while ( $counter-- > 0 ) {
         foreach my $email ( sort keys %$hash ) {
             if ( scalar( @{ $hash->{$email} } ) ) {
@@ -346,7 +359,7 @@ sub parse_jobs {
                     warn "coords counter length for $city: ",
                       "$counter_coords > $max_coords, stop after\n"
                       if $debug;
-                    return @list;
+                    return (\@list, $default_planet_osm);
                 }
             }
             last if scalar(@list) >= $max;
@@ -354,7 +367,7 @@ sub parse_jobs {
         last if scalar(@list) >= $max;
     }
 
-    return @list;
+    return (\@list, $default_planet_osm);
 }
 
 sub json_compat {
@@ -579,23 +592,23 @@ sub create_poly_file {
     store_data( $file, $data );
 }
 
-# get the planet.osm file path
-# assume that all jobs use the same planet.osm file
-sub get_planet_osm {
-    my $files = shift;
-    
-    my $file = $planet_osm;
-    
-    foreach my $p (@$files) {
-        if (exists $p->{'planet_osm'}) {
-            $file = $p->{'planet_osm'};
-            last;
-        }
-    }
-
-    warn "Planet.osm file for all extracts: $file\n" if $debug >= 1;    
-    return $file;
-}
+## get the planet.osm file path
+## assume that all jobs use the same planet.osm file
+#sub get_planet_osm {
+#    my $files = shift;
+#    
+#    my $file = $planet_osm;
+#    
+#    foreach my $p (@$files) {
+#        if (exists $p->{'planet_osm'}) {
+#            $file = $p->{'planet_osm'};
+#            last;
+#        }
+#    }
+#
+#    warn "Planet.osm file for all extracts: $file\n" if $debug >= 1;    
+#    return $file;
+#}
 
 #
 # extract area(s) from planet.osm with osmosis tool
@@ -604,7 +617,7 @@ sub run_extracts {
     my %args  = @_;
     my $spool = $args{'spool'};
     my $poly  = $args{'poly'};
-    my $planet_osm  = get_planet_osm($poly);
+    my $planet_osm  = $args{'planet_osm'};
 
     my $osm = $spool->{'osm'};
 
@@ -1660,11 +1673,13 @@ sub run_jobs {
 
     warn "Use lockfile $lockfile\n" if $debug;
 
-    my @list = parse_jobs(
+    my ($list, $planet_osm) = parse_jobs(
         'files' => \@files,
         'dir'   => $spool->{'confirmed'},
         'max'   => $max_areas,
     );
+    my @list = @$list;
+    
     print "run jobs: " . Dumper( \@list ) if $debug >= 3;
 
     my $key     = get_job_id(@list);
@@ -1682,7 +1697,7 @@ sub run_jobs {
     ###########################################################
     # main
     my ( $system, $new_pbf_files ) =
-      run_extracts( 'spool' => $spool, 'poly' => $poly );
+      run_extracts( 'spool' => $spool, 'poly' => $poly, 'planet_osm' => $planet_osm );
     my @system = @$system;
 
     ###########################################################
