@@ -320,5 +320,9 @@ span#noscript {
     font-weight: bold;
 }
 
+select {
+    max-height: 35em;
+}
+
 /* EOF */
 
