@@ -377,10 +377,26 @@ sub get_job_id {
     return $key;
 }
 
+# file prefix depending on input PBF file, e.g. "planet_"
+sub get_file_prefix {
+    my $obj = shift;
+    
+    my $file_prefix = $option->{'file_prefix'};
+    my $format = $obj->{'format'};
+    
+    if (exists $option->{'planet'}->{ $format }) {
+        $format =~ s/\..*/_/;
+        $file_prefix = $format if $format;
+    }
+    
+    warn "Use file prefix: '$file_prefix'\n" if $debug >= 2;
+    return $file_prefix;
+}
+
 # store lng,lat in file name
 sub file_lnglat {
     my $obj    = shift;
-    my $file   = $option->{'file_prefix'};
+    my $file   = get_file_prefix($obj);
     my $coords = $obj->{coords} || [];
 
     # rectangle
@@ -788,6 +804,7 @@ sub reorder_pbf {
         'srtm-europe.garmin.zip' => 1.5,
         'srtm-europe.obf.zip' => 10,
         'srtm-europe.mapsforge-osm.zip' => 2,
+        
         'srtm-southamerica.osm.pbf' => 1,
     );
 
