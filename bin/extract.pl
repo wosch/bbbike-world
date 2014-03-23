@@ -297,6 +297,10 @@ sub parse_jobs {
         json_compat($json_perl);
 
         $json_perl->{"file"} = $f;
+        
+        # planet.osm file per job
+        my $format = $json_perl->{"format"};
+        $json_perl->{'planet_osm'} = exists $option->{'planet'}->{$format} ? $option->{'planet'}->{$format} : $option->{'planet'}->{'planet.osm'};
 
         # a slot for every user
         push @{ $hash->{ $json_perl->{'email'} } }, $json_perl;
@@ -578,11 +582,12 @@ sub create_poly_file {
 # get the planet.osm file path
 # assume that all jobs use the same planet.osm file
 sub get_planet_osm {
-    my $poly = shift;
+    my $files = shift;
     
     my $file = $planet_osm;
-    foreach my $p (@$poly) {
-        if (exits $p->{'planet_osm'}) {
+    
+    foreach my $p (@$files) {
+        if (exists $p->{'planet_osm'}) {
             $file = $p->{'planet_osm'};
             last;
         }
