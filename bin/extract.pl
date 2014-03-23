@@ -62,8 +62,7 @@ our $option = {
     'nice_level' => 2,
 
     #'nice_level_converter' => 3,
-
-    'planet_osm' => "../osm/download/planet-latest.osm.pbf",
+    #'planet_osm' => "../osm/download/planet-latest.osm.pbf",
     'planet' => {
         'planet.osm' => '../osm/download/planet-latest.osm.pbf',
         'srtm-europe.osm.pbf' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
@@ -175,7 +174,7 @@ my $spool = {
 my $alarm      = $option->{"alarm"};
 my $nice_level = $option->{"nice_level"};
 my $email_from = $option->{"email_from"};
-my $planet_osm = $option->{"planet_osm"};
+my $planet_osm = $option->{"planet_osm"} || $option->{"planet"}->{"planet.osm"};
 my $debug      = $option->{"debug"};
 my $test       = $option->{"test"};
 
@@ -190,9 +189,7 @@ my $nice_level_converter =
   : $nice_level + 3;
 
 # test & debug
-$planet_osm =
-"$ENV{HOME}/projects/osm/download/geofabrik/europe/germany/brandenburg-latest.osm.pbf"
-  if $test;
+$planet_osm = "../osm/download/geofabrik/europe/germany/brandenburg-latest.osm.pbf" if $test;
 
 ######################################################################
 #
@@ -871,6 +868,7 @@ sub convert_send_email {
     my $keep       = $args{'keep'};
     my $alarm      = $args{'alarm'};
     my $test_mode  = $args{'test_mode'};
+    my $planet_osm  = $args{'planet_osm'};
 
     # all scripts are in these directory
     my $dirname = dirname($0);
@@ -888,6 +886,7 @@ sub convert_send_email {
                 'json_file'  => $json_file,
                 'send_email' => $send_email,
                 'test_mode'  => $test_mode,
+                'planet_osm'  => $planet_osm,
                 'alarm'      => $alarm
             );
         };
@@ -987,6 +986,7 @@ sub _convert_send_email {
     my $send_email = $args{'send_email'};
     my $alarm      = $args{'alarm'};
     my $test_mode  = $args{'test_mode'};
+    my $planet_osm  = $args{'planet_osm'};
 
     my $obj2 = get_json($json_file);
     &set_alarm( $alarm, $obj2->{'pbf_file'} . " " . $obj2->{'format'} );
@@ -1620,7 +1620,7 @@ usage: $0 [ options ]
 --job={1..4}		job number for parallels runs, default: $option->{max_jobs}
 --timeout=1..86400	time out, default $option->{"alarm"}
 --send-email={0,1}	send out email, default: $option->{"send_email"}
---planet-osm=/path/to/planet.osm.pbf  default: $option->{planet_osm}
+--planet-osm=/path/to/planet.osm.pbf  default: $option->{"planet"}->{"planet.osm"}
 --spool-dir=/path/to/spool 	      default: $option->{spool_dir}
 --test-mode		do not execude commands
 EOF
@@ -1702,6 +1702,7 @@ sub run_jobs {
         'send_email' => $send_email,
         'alarm'      => $option->{alarm_convert},
         'test_mode'  => $test_mode,
+        'planet_osm' => $planet_osm,
         'keep'       => 1
     );
 
@@ -1757,6 +1758,8 @@ die "Max jobs: $max_jobs out of range!\n" . &usage
   if $max_jobs < 1 || $max_jobs > 12;
 die "Max areas: $max_areas out of range 1..64!\n" . &usage
   if $max_areas < 1 || $max_areas > 64;
+
+$option->{"planet"}->{"planet.osm"} = $planet_osm;
 
 # full path for spool directories
 while ( my ( $key, $val ) = each %$spool ) {
