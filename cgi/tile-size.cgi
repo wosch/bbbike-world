@@ -51,6 +51,13 @@ my %format = (
     "csv.gz"  => "pbf",
     "csv.bz2" => "pbf",
 
+    # needs to be implemented    
+    "srtm-europe.osm.pbf" => "pbf",
+    "srtm-europe.garmin.zip" => "pbf",
+    "srtm-europe.mapsforge-osm.zip" => "pbf",
+    "srtm-europe.obf.zip" => "pbf",
+    "srtm-southamerica.osm.pbf" => "pbf",
+
     #"csv.xz"            => "csv.xz",
 );
 
