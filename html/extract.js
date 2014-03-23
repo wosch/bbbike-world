@@ -1138,7 +1138,7 @@ function show_filesize(skm, real_size) {
             "size": 0.8,
             "time": 14
         },
-                "srtm-europe.garmin.zip": {
+        "srtm-europe.garmin-osm.zip": {
             "size": 0.8,
             "time": 2
         },
