@@ -592,24 +592,6 @@ sub create_poly_file {
     store_data( $file, $data );
 }
 
-## get the planet.osm file path
-## assume that all jobs use the same planet.osm file
-#sub get_planet_osm {
-#    my $files = shift;
-#    
-#    my $file = $planet_osm;
-#    
-#    foreach my $p (@$files) {
-#        if (exists $p->{'planet_osm'}) {
-#            $file = $p->{'planet_osm'};
-#            last;
-#        }
-#    }
-#
-#    warn "Planet.osm file for all extracts: $file\n" if $debug >= 1;    
-#    return $file;
-#}
-
 #
 # extract area(s) from planet.osm with osmosis tool
 #
