@@ -100,7 +100,7 @@ our $formats = {
     'srtm-europe.mapsforge-osm.zip' => 'SRTM Europe Mapsforge',
     'srtm-europe.obf.zip' => 'SRTM Europe Osmand',
     
-    'srtm-southamerica.osm.pbf' => 'SRTM South America PBF',
+    #'srtm-southamerica.osm.pbf' => 'SRTM South America PBF',
 };
 
 ###
