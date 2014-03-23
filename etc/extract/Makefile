@@ -4,7 +4,7 @@ BBBIKE_WORLD_JAVASCRIPT_FILES=msg.??.json
 
 JAVASCRIPT_FILES= ${BBBIKE_WORLD_JAVASCRIPT_FILES}
 
-jsbeautifier js:
+jsbeautifier js jsb:
 	for i in ${BBBIKE_WORLD_JAVASCRIPT_FILES}; do \
 	   jsbeautifier -k $$i > $@.tmp && mv -f $@.tmp $$i; \
 	done
