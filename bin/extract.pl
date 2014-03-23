@@ -65,7 +65,7 @@ our $option = {
 
     'planet_osm' => "../osm/download/planet-latest.osm.pbf",
     'planet' => {
-        'world' => '../osm/download/planet-latest.osm.pbf',
+        'planet.osm' => '../osm/download/planet-latest.osm.pbf',
         'srtm-europe.osm.pbf' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
         'srtm-europe.garmin.zip' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
         'srtm-europe.obf.zip' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
@@ -633,7 +633,7 @@ sub run_extracts {
         @data = "true";
     }
 
-    warn "Use planet.osm file $planet_osm\n" if $debug == 1;
+    warn "Use planet.osm file $planet_osm\n" if $debug >= 1;
     warn "Run extracts: " . join( " ", @data ), "\n" if $debug >= 2;
     return ( \@data, \@fixme );
 }
