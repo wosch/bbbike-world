@@ -1120,7 +1120,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
             }
         }
 
-        elsif ( $format =~ /^garmin-(osm|cycle|leisure|bbbike).zip$/ || $format =~ /^([a-z\-]+\.garmin\.zip$/) {
+        elsif ( $format =~ /^garmin-(osm|cycle|leisure|bbbike).zip$/ || $format =~ /^[a-z\-]+\.garmin\.zip$/) {
             my $style = $1;
             $file =~ s/\.pbf$/.$format/;
             $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
@@ -1178,7 +1178,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
                 system(@system) == 0 or die "system @system failed: $?";
             }
         }
-        elsif ( $format =~ /^mapsforge-(osm).zip$/ || $format =~ /^([a-z\-]+\.mapsforge-osm\.zip$/) {
+        elsif ( $format =~ /^mapsforge-(osm).zip$/ || $format =~ /^[a-z\-]+\.mapsforge-osm\.zip$/) {
             my $style = $1;
             $file =~ s/\.pbf$/.$format/;
             $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
