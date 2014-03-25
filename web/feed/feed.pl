@@ -50,6 +50,19 @@ my $feed = XML::Atom::SimpleFeed->new(
 
 $feed->add_entry(
     title =>
+qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now SRTM extracts for PBF, Garmin, and Osmand},
+    id      => '21de8970bd81fb04b751c1935e023e0c',
+    content => {
+        type => 'html',
+        content =>
+qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now SRTM extracts for PBF, Garmin, and Osmand},
+    },
+    updated  => '2014-03-25T13:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title =>
 qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now CSV format},
     id      => 'd41d8cd98f00b204e9800998ecf8427e',
     content => {
