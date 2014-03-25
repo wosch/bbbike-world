@@ -71,7 +71,7 @@ our $option = {
         'srtm-europe.mapsforge-osm.zip' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
         'srtm-southamerica.osm.pbf' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_SOUTHAMERICA.osm.pbf',
     },
-    
+
     'debug'      => 0,
     'test'       => 0,
 
@@ -131,12 +131,12 @@ my $formats = {
     'garmin-bbbike.zip'  => "Garmin BBBike",
     'navit.zip'          => "Navit",
     'mapsforge-osm.zip'  => "mapsforge OSM",
-    
+
     'srtm-europe.osm.pbf' => 'SRTM Europe PBF',
     'srtm-europe.garmin-osm.zip' => 'SRTM Europe Garmin',
     'srtm-europe.mapsforge-osm.zip' => 'SRTM Europe Mapsforge',
     'srtm-europe.obf.zip' => 'SRTM Europe Osmand',
-    
+
     'srtm-southamerica.osm.pbf' => 'SRTM South America PBF',
 };
 
@@ -284,7 +284,7 @@ sub parse_jobs {
 
     my $hash;
     my $default_planet_osm = "";
-    
+
     foreach my $f (@$files) {
         my $file = "$dir/$f";
 
@@ -296,11 +296,11 @@ sub parse_jobs {
         json_compat($json_perl);
 
         $json_perl->{"file"} = $f;
-        
+
         # planet.osm file per job
         my $format = $json_perl->{"format"};
         $json_perl->{'planet_osm'} = exists $option->{'planet'}->{$format} ? $option->{'planet'}->{$format} : $option->{'planet'}->{'planet.osm'};
-        
+
         # first jobs defines the planet.osm file
         if (!$default_planet_osm) {
             $default_planet_osm = $json_perl->{'planet_osm'};
@@ -327,7 +327,7 @@ sub parse_jobs {
     my $counter_coords = 0;
     # 4196 polygones is enough for the queue
     my $max_coords = $option->{max_coords};
-      
+
     while ( $counter-- > 0 ) {
         foreach my $email ( sort keys %$hash ) {
             if ( scalar( @{ $hash->{$email} } ) ) {
@@ -394,15 +394,15 @@ sub get_job_id {
 # file prefix depending on input PBF file, e.g. "planet_"
 sub get_file_prefix {
     my $obj = shift;
-    
+
     my $file_prefix = $option->{'file_prefix'};
     my $format = $obj->{'format'};
-    
+
     if (exists $option->{'planet'}->{ $format }) {
         $format =~ s/\..*/_/;
         $file_prefix = $format if $format;
     }
-    
+
     warn "Use file prefix: '$file_prefix'\n" if $debug >= 2;
     return $file_prefix;
 }
@@ -814,12 +814,12 @@ sub reorder_pbf {
         'csv.gz'  => 0.42,
         'csv.xz'  => 0.2,
         'csv.bz2' => 0.45,
-        
+
         'srtm-europe.osm.pbf' => 1,
         'srtm-europe.garmin-osm.zip' => 1.5,
         'srtm-europe.obf.zip' => 10,
         'srtm-europe.mapsforge-osm.zip' => 2,
-        
+
         'srtm-southamerica.osm.pbf' => 1,
     );
 
@@ -1122,7 +1122,10 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
 
         elsif ( $format =~ /^garmin-(osm|cycle|leisure|bbbike).zip$/ || $format =~ /^[a-z\-]+\.garmin-(osm)\.zip$/) {
             my $style = $1;
-            $file =~ s/\.pbf$/.$format/;
+            my $format_ext = $format;
+            $format_ext =~ s/^[a-z\-]+\.garmin/garmin/;
+
+            $file =~ s/\.pbf$/.$format_ext/;
             $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
 
             if ( !cached_format( $file, $pbf_file ) ) {
@@ -1151,7 +1154,10 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
             }
         }
         elsif ( $format eq 'obf.zip' || $format =~ /^[a-z\-]+\.obf.zip$/ ) {
-            $file =~ s/\.pbf$/.$format/;
+            my $format_ext = $format;
+            $format_ext =~ s/^[a-z\-]+\.obf/obf/;
+
+            $file =~ s/\.pbf$/.$format_ext/;
             $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
 
             if ( !cached_format( $file, $pbf_file ) ) {
@@ -1180,7 +1186,10 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         }
         elsif ( $format =~ /^mapsforge-(osm)\.zip$/ || $format =~ /^[a-z\-]+\.mapsforge-(osm)\.zip$/) {
             my $style = $1;
-            $file =~ s/\.pbf$/.$format/;
+            my $format_ext = $format;
+            $format_ext =~ s/^[a-z\-]+\.mapsforge/mapsforge/;
+
+            $file =~ s/\.pbf$/.$format_ext/;
             $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
 
             if ( !cached_format( $file, $pbf_file ) ) {
@@ -1406,7 +1415,7 @@ sub aws_s3_path {
     my $sep = "/";
 
     my $aws_path =
-        $option->{"aws_s3"}->{"bucket"} 
+        $option->{"aws_s3"}->{"bucket"}
       . $sep
       . $option->{"aws_s3"}->{"path"}
       . $sep
@@ -1661,7 +1670,7 @@ sub run_jobs {
         'max'   => $max_areas,
     );
     my @list = @$list;
-    
+
     print "run jobs: " . Dumper( \@list ) if $debug >= 3;
 
     my $key     = get_job_id(@list);
