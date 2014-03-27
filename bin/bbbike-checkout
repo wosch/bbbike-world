@@ -10,6 +10,7 @@ git_clone_opt="-q"
 : ${bbbike_macos=false}
 : ${bbbike_fast_checkout=true}
 : ${bbbike_src=$HOME/src/bbbike.tgz}
+: ${bbbike_branch="world"}
 
 
 if [ ! -x /usr/local/bin/perl ]; then
@@ -23,6 +24,15 @@ git_config () {
     git config user.name "Wolfram Schneider"
     git config user.email wosch@freebsd.org
     git config push.default current
+}
+
+branch_check () {
+    # *world is the default branch at github for bbbike@world
+    case "$bbbike_branch" in
+       world )  ;;
+       [a-z]* ) ( cd bbbike && git checkout -b "$bbbike_branch" "origin/$bbbike_branch" );;
+       * )      echo "Unknown branch \"$bbbike_branch\", ignore";;
+    esac
 }
 
 ######################################################################
@@ -49,11 +59,15 @@ if $bbbike_fast_checkout; then
 	  git pull -q
 	)
 
+        branch_check
 	echo "fast checkout done"
         echo -n "Updating files..."
 	make -C./bbbike -s update-files
 	echo ""
+
+        # XXX
 	exit 0
+
     else 
         # local clone 
 	if [ -e $HOME/projects/bbbike ]; then
@@ -69,6 +83,8 @@ else
 fi
 
 ( cd bbbike && git_config )
+branch_check
+
 if $bbbike_macos; then
     ( cd bbbike-macos && git_config )
 fi
@@ -78,8 +94,6 @@ mkdir -p osm/download
 cd bbbike
 git_config
 
-# *world is the default branch at github for bbbike@world
-#git checkout -b world origin/world
 ( cd ext; time make all; time make install; echo $: ) > tmp/log.ext 2>&1 &
 
 # add remote master from eserte
