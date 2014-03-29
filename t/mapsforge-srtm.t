@@ -1,7 +1,12 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2014 Wolfram Schneider, http://bbbike.org
 
-BEGIN { }
+BEGIN {
+    if ( $ENV{BBBIKE_TEST_FAST} ) {
+        print "1..0 # skip BBBIKE_TEST_FAST\n";
+        exit;
+    }
+}
 
 use FindBin;
 use lib ( "$FindBin::RealBin/..", "$FindBin::RealBin/../lib",
