@@ -170,4 +170,18 @@ is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 194908 );
 #  new TileSize( 'debug' => 0, 'database' => "world/etc/tile/tile-shp.zip.csv" );
 #is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 194908 );
 
+# elevation test
+$tile = new TileSize(
+    'debug'    => 0,
+    'database' => "world/etc/tile/tile-srtm-europe.pbf.csv"
+);
+is(
+    int(
+        $tile->area_size(
+            6.148, 45.955, 11.778, 49.371, TileSize::FRACTAL_REAL
+        )
+    ),
+    82392
+);
+
 __END__
