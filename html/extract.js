@@ -883,12 +883,13 @@ function initKeyPress() {
         case 95:
             this.map.zoomOut();
             break;
-	*/
         
         case 71:
             // 'g'
             locateMe();
             break;
+	*/
+
         }
     };
 };
