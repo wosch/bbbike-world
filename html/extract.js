@@ -1140,11 +1140,11 @@ function show_filesize(skm, real_size) {
             "time": 14
         },
         "srtm-europe.garmin-osm.zip": {
-            "size": 0.8,
+            "size": 0.6,
             "time": 2
         },
             "srtm-europe.obf.zip": {
-            "size": 1.4,
+            "size": 2.0,
             "time": 10
         },
         "srtm-southamerica.osm.pbf": {
