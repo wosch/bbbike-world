@@ -98,6 +98,7 @@ OSM_AREAS_OPENSEARCH=data-opensearch-places
 OSM_PLANET=	../osm/download/planet-latest.osm.bz2
 OSM_PLANET_PBF=	../osm/download/planet-latest.osm.pbf
 #OSM_PLANET_PBF=	../osm/download/geofabrik/europe/germany/brandenburg.osm.pbf
+#OSM_PLANET_PBF=	../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf
 
 OSM_AREAS_LARGE=	${OSM_PLANET_PBF}
 
@@ -948,8 +949,9 @@ data-distclean distclean-data:
 	rm -f data/*.lock data/*.inx[456] data/*.st
 
 # for errors look in ./tile/tmp
-tile: tile-extract tile-convert tile-checksum tile-csv tile-aws-s3
-#tile: tile-convert tile-csv tile-aws-s3
+tile: tile-extract tile-csv
+#tile: tile-extract tile-convert tile-checksum tile-csv #tile-aws-s3
+#tile: tile-convert tile-csv #tile-aws-s3
 
 ##############################################################################################
 # debian package rules
