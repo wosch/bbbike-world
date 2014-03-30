@@ -791,7 +791,7 @@ cache-heater-osp:
 	find osp -name '*.xml' -print0 | perl -n0e 'print qq{http://'${BBBIKE_WEB_SERVER}'/$$_}' | \
                 cat > tmp/$@.txt
 		${XARGS} -0 -n8 -P2 curl -sS -X PURGE < tmp/$@.txt >/dev/null
-		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf < tmp/$@.txt >/dev/null
+		${XARGS} -0 -n8 -P${MAX_CPU} curl -sSf < tmp/$@.txt >/dev/null
 
 cache-heater-opensearch:
 	cat ${BBBIKE_WEBSERVER_DIR}/data-osm/*/opensearch.streetnames | wc -c >/dev/null
