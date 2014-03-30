@@ -94,12 +94,12 @@ our $formats = {
     'csv.gz'            => "csv gzip'd",
     'csv.xz'            => "csv 7z (xz)",
     'mapsforge-osm.zip' => "Mapsforge OSM",
-    
-    'srtm-europe.osm.pbf' => 'SRTM Europe PBF',
+
+    'srtm-europe.osm.pbf'        => 'SRTM Europe PBF',
     'srtm-europe.garmin-osm.zip' => 'SRTM Europe Garmin',
-    #'srtm-europe.mapsforge-osm.zip' => 'SRTM Europe Mapsforge',
     'srtm-europe.obf.zip' => 'SRTM Europe Osmand',
-    
+    #'srtm-europe.mapsforge-osm.zip' => 'SRTM Europe Mapsforge',
+
     'srtm-southamerica.osm.pbf' => 'SRTM South America PBF',
 };
 
@@ -1270,7 +1270,10 @@ qq{<span title="hide longitude,latitude box" class="lnglatbox" onclick="javascri
                           . $q->popup_menu(
                             -name   => 'format',
                             -values => [
-                                sort { lc($formats->{$a}) cmp lc($formats->{$b}) }
+                                sort {
+                                    lc( $formats->{$a} ) cmp
+                                      lc( $formats->{$b} )
+                                  }
                                   keys %$formats
                             ],
                             -labels  => $formats,
