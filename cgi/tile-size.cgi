@@ -52,7 +52,7 @@ my %format = (
     "csv.bz2" => "pbf",
 
     "srtm-europe.osm.pbf"           => "srtm-europe.pbf",
-    "srtm-europe.garmin-osm.zip"    => "srtm-europe.pbf",
+    "srtm-europe.garmin-srtm.zip"   => "srtm-europe.pbf",
     "srtm-europe.mapsforge-osm.zip" => "srtm-europe.pbf",
     "srtm-europe.obf.zip"           => "srtm-europe.pbf",
 

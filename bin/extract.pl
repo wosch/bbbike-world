@@ -66,7 +66,7 @@ our $option = {
     'planet' => {
         'planet.osm' => '../osm/download/planet-latest.osm.pbf',
         'srtm-europe.osm.pbf' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
-        'srtm-europe.garmin-osm.zip' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
+        'srtm-europe.garmin-srtm.zip' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
         'srtm-europe.obf.zip' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
         'srtm-europe.mapsforge-osm.zip' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
         'srtm-southamerica.osm.pbf' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_SOUTHAMERICA.osm.pbf',
@@ -134,6 +134,7 @@ my $formats = {
 
     'srtm-europe.osm.pbf' => 'SRTM Europe PBF',
     'srtm-europe.garmin-osm.zip' => 'SRTM Europe Garmin',
+    'srtm-europe.garmin-cycle.zip' => 'SRTM Europe Garmin',
     'srtm-europe.mapsforge-osm.zip' => 'SRTM Europe Mapsforge',
     'srtm-europe.obf.zip' => 'SRTM Europe Osmand',
 
@@ -1120,7 +1121,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
             }
         }
 
-        elsif ( $format =~ /^garmin-(osm|cycle|leisure|bbbike).zip$/ || $format =~ /^[a-z\-]+\.garmin-(osm)\.zip$/) {
+        elsif ( $format =~ /^garmin-(osm|cycle|leisure|bbbike).zip$/ || $format =~ /^[a-z\-]+\.garmin-(osm|cycle)\.zip$/) {
             my $style = $1;
             my $format_ext = $format;
             $format_ext =~ s/^[a-z\-]+\.garmin/garmin/;
