@@ -16,7 +16,7 @@ set -e
 
 usage () {
    echo "$@"
-   echo "usage file [ osm | cycle | leisure | bbbike ] [ title ]"
+   echo "usage file [ osm | cycle | leisure | bbbike | srtm ] [ title ]"
    exit 1
 }
 
@@ -105,6 +105,13 @@ case $ext in
    osm | garmin-osm.zip )
 	ext=garmin-osm.zip
 	;;
+        
+   srtm | garmin-srtm.zip )
+	ext=garmin-srtm.zip
+	mkgmap_map=--style-file=$etc_dir/srtm
+	mkgmap_map_style=srtm
+	mkgmap_map_type=$etc_dir/srtm.TYP
+	;;
 
    *) usage ;;
 esac
@@ -114,6 +121,7 @@ case $ext in
    *cycle* )   garmin_product_id=2 ;;
    *leisure* ) garmin_product_id=3 ;;
    *bbbike* )  garmin_product_id=4 ;;
+   *srtm* )    garmin_product_id=5 ;;
 esac
 
 garmin_family_id=$(basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//')
