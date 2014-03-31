@@ -54,23 +54,13 @@ function init() {
         attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("BBBike.org bbbike", "/osm/bbbike/${z}/${x}/${y}.png", {
-        numZoomLevels: 19,
-        attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
-    }));
-    
-    map.addLayer(new OpenLayers.Layer.OSM("BBBike.org bbbike", "/osm/bbbike/${z}/${x}/${y}.png", {
-        numZoomLevels: 19,
-        attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
-    }));
-    
-    map.addLayer(new OpenLayers.Layer.OSM("BBBike.org Mapnik (de)", "/osm/mapnik-german/${z}/${x}/${y}.png", {
-        tileOptions: { crossOriginKeyword: null },
-        numZoomLevels: 19,
-        attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
-    }));
-
     map.addLayer(new OpenLayers.Layer.OSM.Mapnik("OSM Mapnik"));
+
+    map.addLayer(new OpenLayers.Layer.OSM("BBBike.org bbbike", "/osm/bbbike/${z}/${x}/${y}.png", {
+        numZoomLevels: 19,
+        attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
+    }));
+    
 
     map.addLayer(new OpenLayers.Layer.OSM("OSM Mapnik (de)", "http://a.tile.openstreetmap.de/tiles/osmde/${z}/${x}/${y}.png", {
         tileOptions: {
@@ -389,7 +379,7 @@ function init() {
         noOpaq: true
     }));
 
-    map.addLayer(new OpenLayers.Layer.TMS("BBBike Fahrbahnqualit&auml;t (solid)", "/osm/bbbike-smoothness-solid/", {
+    map.addLayer(new OpenLayers.Layer.TMS("BBBike Fahrbahnqu. (solid)", "/osm/bbbike-smoothness-solid/", {
         type: 'png',
         getURL: osm_getTileURL,
         displayOutsideMaxExtent: true,
