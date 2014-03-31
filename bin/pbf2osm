@@ -71,6 +71,7 @@ usage [ option ] file.osm.pbf
 --garmin-cycle
 --garmin-leisure
 --garmin-bbbike
+--garmin-srtm
 --mapsforge-osm
 
 EOF
@@ -114,6 +115,7 @@ case $1 in
     --garmin-cycle ) shift; compress=garmin; garmin_style=cycle ;;
     --garmin-leisure ) shift; compress=garmin; garmin_style=leisure ;;
     --garmin-bbbike ) shift; compress=garmin; garmin_style=bbbike ;;
+    --garmin-srtm ) shift; compress=garmin; garmin_style=srtm ;;
 
     --mapsforge-osm | --mapsforge ) shift; compress=mapsforge; mapsforge_style=osm ;;
 
