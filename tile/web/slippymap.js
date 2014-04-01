@@ -49,7 +49,9 @@ function init() {
 
     // This is the layer that uses the locally stored tiles
     map.addLayer(new OpenLayers.Layer.OSM("BBBike.org Mapnik (de)", "/osm/mapnik-german/${z}/${x}/${y}.png", {
-        tileOptions: { crossOriginKeyword: null },
+        tileOptions: {
+            crossOriginKeyword: null
+        },
         numZoomLevels: 19,
         attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
     }));
@@ -58,14 +60,16 @@ function init() {
         numZoomLevels: 19,
         attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
     }));
-    
+
     map.addLayer(new OpenLayers.Layer.OSM("BBBike.org bbbike", "/osm/bbbike/${z}/${x}/${y}.png", {
         numZoomLevels: 19,
         attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
     }));
-    
+
     map.addLayer(new OpenLayers.Layer.OSM("BBBike.org Mapnik (de)", "/osm/mapnik-german/${z}/${x}/${y}.png", {
-        tileOptions: { crossOriginKeyword: null },
+        tileOptions: {
+            crossOriginKeyword: null
+        },
         numZoomLevels: 19,
         attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
     }));
@@ -400,7 +404,7 @@ function init() {
         numZoomLevels: 19,
         noOpaq: true
     }));
-    
+
     map.addLayer(new OpenLayers.Layer.TMS("BBBike handicap", "/osm/bbbike-handicap/", {
         type: 'png',
         getURL: osm_getTileURL,
@@ -412,7 +416,7 @@ function init() {
         numZoomLevels: 19,
         noOpaq: true
     }));
-        
+
     map.addLayer(new OpenLayers.Layer.TMS("BBBike cycle routes", "/osm/bbbike-cycle-routes/", {
         type: 'png',
         getURL: osm_getTileURL,
@@ -424,7 +428,7 @@ function init() {
         numZoomLevels: 19,
         noOpaq: true
     }));
-    
+
     map.addLayer(new OpenLayers.Layer.TMS("BBBike cycleway", "/osm/bbbike-cycleway/", {
         type: 'png',
         getURL: osm_getTileURL,
@@ -436,7 +440,7 @@ function init() {
         numZoomLevels: 19,
         noOpaq: true
     }));
-    
+
     map.addLayer(new OpenLayers.Layer.TMS("ADFC Radwegenetz", "", {
         type: 'png',
         getURL: get_mm_bikeTracks,
