@@ -1155,7 +1155,7 @@ function show_filesize(skm, real_size) {
     };
 
     if (!filesize[format]) {
-        debug("Unknwon format: " + format);
+        debug("Unknown format: '" + format + "'");
     }
 
     var factor = filesize[format].size ? filesize[format].size : 1;
