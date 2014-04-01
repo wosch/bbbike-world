@@ -32,6 +32,7 @@ var config = {
         "garmin-cycle.zip": 650,
         "garmin-leisure.zip": 650,
         "mapsforge-osm.zip": 100,
+        "srtm-europe.garmin-srtm.zip": 800,
         "srtm-europe.mapsforge-osm.zip": 200,
         "srtm-europe.obf.zip": 200
     },
@@ -1139,11 +1140,11 @@ function show_filesize(skm, real_size) {
             "size": 0.8,
             "time": 14
         },
-        "srtm-europe.garmin-osm.zip": {
-            "size": 0.6,
+        "srtm-europe.garmin-srtm.zip": {
+            "size": 1.3,
             "time": 2
         },
-            "srtm-europe.obf.zip": {
+        "srtm-europe.obf.zip": {
             "size": 2.0,
             "time": 10
         },
