@@ -936,9 +936,10 @@ tile-checksum:
 	   cd $$pwd/$$i && ( md5sum `ls -v planet*.*` > CHECKSUM.md5; shasum -a 256 `ls -v planet*.*` > CHECKSUM.sha256 & );  \
 	done; wait
 
-tile-distclean:
-	rm -rf ${TILES_DIR}
+tile-db-clean:
 	rm -rf /var/tmp/_tilesize-*-localhost-*
+tile-distclean: tile-db-clean
+	rm -rf ${TILES_DIR}
 
 tile-rsync:
 	rsync -av ${TILES_DIR}/lnglat/ ${BBBIKE_WEBSERVER_DOWNLOAD_DIR}/osm/planet/${TILES_DIR}/lnglat/
