@@ -938,6 +938,7 @@ tile-checksum:
 
 tile-distclean:
 	rm -rf ${TILES_DIR}
+	rm -rf /var/tmp/_tilesize-*-localhost-*
 
 tile-rsync:
 	rsync -av ${TILES_DIR}/lnglat/ ${BBBIKE_WEBSERVER_DOWNLOAD_DIR}/osm/planet/${TILES_DIR}/lnglat/
