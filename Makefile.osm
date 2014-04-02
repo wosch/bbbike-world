@@ -378,6 +378,7 @@ check:
 check-full: 
 	@echo "In case of failure run:"
 	@echo "BBBIKE_TEST_FAST=\"\" make check-failed"
+	@echo ""
 	BBBIKE_TEST_FAST="" ${BBMAKE} test > tmp/log.check-full 2>&1
 	tail -n 5 tmp/log.check-full
 
