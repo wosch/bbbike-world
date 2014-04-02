@@ -3,6 +3,8 @@
 #
 # extract-disk-usage - calculate uncompressed image size for Garmin & Osmand
 #
+# For the size, the image size on the device matters, not the size
+# of the generated *.zip file, which is for download only
 
 PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 
