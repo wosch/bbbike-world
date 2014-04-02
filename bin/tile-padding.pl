@@ -33,9 +33,12 @@ sub guess_format {
 
     my $format = "";
 
-    if ( $file =~ m,[\-\.]([^/]+\.zip)\.csv$, ) {
+    if ( $file =~ m,[\-\.]([^/]+\.(zip|xz))\.csv$, ) {
         return $format = $1;
     }
+
+    warn "Cannot guess format: '$file'\n";
+    return $format;
 }
 
 ######################################################################
@@ -53,7 +56,7 @@ my $format;
 my $min_size = 0;
 
 my @format =
-  qw/garmin-cycle.zip mapsforge-osm.zip navit.zip obf.zip osm.gz shp.zip/;
+  qw/garmin-cycle.zip mapsforge-osm.zip navit.zip obf.zip osm.gz shp.zip csv.xz/;
 
 sub usage () {
     <<EOF;
