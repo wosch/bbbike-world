@@ -137,9 +137,9 @@ is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 215380 );
 
 $tile = new TileSize(
     'debug'    => 0,
-    'database' => "world/etc/tile/tile-garmin-cycle.zip.csv"
+    'database' => "world/etc/tile/tile-garmin-osm.zip.csv"
 );
-is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 143032 );
+is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 226954 );
 
 $tile = new TileSize(
     'debug'    => 0,
