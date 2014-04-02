@@ -892,14 +892,14 @@ tile-convert-csv:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_PBF2OSM} ${PBF2OSM} --csv-xz
 tile-convert-shp:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2SHAPE}
+tile-convert-navit:
+	find ${_pbf_dir} -name '*.osm.gz' ${_min_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2NAVIT}
 tile-convert-garmin:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
 tile-convert-osmand:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | osm_checksum=true max_jobs=1 java_heap=2200M ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2OSMAND}
 tile-convert-mapsforge:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2MAPSFORGE}
-tile-convert-navit:
-	find ${_pbf_dir} -name '*.osm.gz' ${_min_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2NAVIT}
 
 tile-extract: tile-lng tile-lnglat tile-lng-run tile-lnglat-run tile-pbf2pbf
 
@@ -908,6 +908,7 @@ tile-csv:
 	mkdir -p ${TILES_DIR}/etc
 	for format in pbf osm.gz csv.xz; do \
 	   ( cd ${TILES_DIR}/lnglat; find . -name '*.'$$format | xargs du -k | sort -n  -k1 -k2 -k3 -k4 -k5 | \
+	     awk '{ if ($$1 > 12) { print } }' | \
 	     perl -npe 's,\S+/planet_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > ${TILES_DIR}/etc/tile-$$format.csv; \
 	done;
 	pwd=`pwd`; max_cpu=${MAX_CPU}; \
@@ -916,7 +917,7 @@ tile-csv:
 	    (( cd ${TILES_DIR}/lnglat; find . -name '*.'$$format -print0 | xargs -0 -n1 -P1 $$pwd/world/bin/extract-disk-usage.sh --du | sort -n  -k1 -k2 -k3 -k4 -k5 | \
 	     perl -npe 's,\S+/planet_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > ${TILES_DIR}/etc/tile-$$format.csv; \
              $$pwd/world/bin/tile-padding.pl --min-size=10 ${TILES_DIR}/etc/tile-pbf.csv ${TILES_DIR}/etc/tile-$$format.csv | \
-		sort -n  -k1 -k2 -k3 -k4 -k5 > ${TILES_DIR}/etc/tile-$$format.csv.new; \
+		sort -n  -k1 -k2 -k3 -k4 -k5 | awk '{ if ($$1 > 12) { print } }' > ${TILES_DIR}/etc/tile-$$format.csv.new; \
 	   	mv -f ${TILES_DIR}/etc/tile-$$format.csv ${TILES_DIR}/etc/tile-$$format.csv.original; \
 	   	mv -f ${TILES_DIR}/etc/tile-$$format.csv.new ${TILES_DIR}/etc/tile-$$format.csv; \
 	    ) & \
@@ -936,7 +937,9 @@ tile-checksum:
 	   cd $$pwd/$$i && ( md5sum `ls -v planet*.*` > CHECKSUM.md5; shasum -a 256 `ls -v planet*.*` > CHECKSUM.sha256 & );  \
 	done; wait
 
-tile-distclean:
+tile-db-clean:
+	rm -rf /var/tmp/_tilesize-*-localhost-*
+tile-distclean: tile-db-clean
 	rm -rf ${TILES_DIR}
 
 tile-rsync:
@@ -946,7 +949,7 @@ data-distclean distclean-data:
 	rm -f data/*.lock data/*.inx[456] data/*.st
 
 # for errors look in ./tile/tmp
-tile: tile-extract tile-convert tile-checksum tile-csv tile-aws-s3
+tile: tile-extract tile-convert tile-csv #tile-aws-s3
 #tile: tile-convert tile-csv tile-aws-s3
 
 ##############################################################################################
