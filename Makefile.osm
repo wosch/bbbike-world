@@ -377,7 +377,8 @@ check:
 	tail -n 5 tmp/log.check
 
 check-full: 
-	@echo "In case of failure run: BBBIKE_TEST_FAST=\"\" make check-failed"
+	@echo "In case of failure run:"
+	@echo "BBBIKE_TEST_FAST=\"\" make check-failed"
 	BBBIKE_TEST_FAST="" ${BBMAKE} test > tmp/log.check-full 2>&1
 	tail -n 5 tmp/log.check-full
 
@@ -759,7 +760,7 @@ cache-heater-common:
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
 	   ${PERL} -ne 'chomp; print "http://'${BBBIKE_WEB_SERVER}'/$$_/?generate_cache=1\0"; print "http://'${BBBIKE_API_SERVER}/${API_DIR}'/$$_/?generate_cache=1\0"' | \
             cat > tmp/$@.txt
-	   ${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf -X PURGE < tmp/$@.txt >/dev/null
+	   ${XARGS} -0 -n8 -P2 curl -sS -X PURGE < tmp/$@.txt >/dev/null
 	   ${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf < tmp/$@.txt >/dev/null
 	@echo "cache usage after"
 	du -hs ${BBBIKE_CACHE_DIR}/
@@ -769,22 +770,22 @@ cache-heater-streets: cache-heater-homepage cache-heater-opensearch
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
 		${PERL} -e 'while(<>) { chomp; push @a, "http://'${BBBIKE_WEB_SERVER}'/$$_/streets.html"; push @b, "http://'${BBBIKE_WEB_SERVER}'/en/$$_/streets.html" } print join "\0", @a, @b, ""' | \
                 cat > tmp/$@.txt
-		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf -X PURGE < tmp/$@.txt >/dev/null
+		${XARGS} -0 -n8 -P2 curl -sS -X PURGE < tmp/$@.txt >/dev/null
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf < tmp/$@.txt >/dev/null
 
 cache-heater-homepage: cache-heater-osp
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
 		${PERL} -e 'while(<>) { chomp; push @a, "http://'${BBBIKE_WEB_SERVER}'/$$_/"; push @b, "http://'${BBBIKE_WEB_SERVER}'/en/$$_/"; push @c, "http://'${BBBIKE_WEB_SERVER}'/m/$$_/" } print join "\0", @a, @b, @c, ""' | \
                 cat > tmp/$@.txt
-		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf -X PURGE < tmp/$@.txt >/dev/null
+		${XARGS} -0 -n8 -P2 curl -sS -X PURGE < tmp/$@.txt >/dev/null
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf < tmp/$@.txt >/dev/null
                 
 
 cache-heater-osp:
 	find osp -name '*.xml' -print0 | perl -n0e 'print qq{http://'${BBBIKE_WEB_SERVER}'/$$_}' | \
                 cat > tmp/$@.txt
-		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf -X PURGE < tmp/$@.txt >/dev/null
-		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf < tmp/$@.txt >/dev/null
+		${XARGS} -0 -n8 -P2 curl -sS -X PURGE < tmp/$@.txt >/dev/null
+		${XARGS} -0 -n8 -P${MAX_CPU} curl -sSf < tmp/$@.txt >/dev/null
 
 cache-heater-opensearch:
 	cat ${BBBIKE_WEBSERVER_DIR}/data-osm/*/opensearch.streetnames | wc -c >/dev/null
@@ -884,31 +885,38 @@ tile-convert-csv:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_PBF2OSM} ${PBF2OSM} --csv-xz
 tile-convert-shp:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2SHAPE}
+tile-convert-navit:
+	find ${_pbf_dir} -name '*.osm.gz' ${_min_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2NAVIT}
 tile-convert-garmin:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
 tile-convert-osmand:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | osm_checksum=true max_jobs=1 java_heap=2200M ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2OSMAND}
 tile-convert-mapsforge:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2MAPSFORGE}
-tile-convert-navit:
-	find ${_pbf_dir} -name '*.osm.gz' ${_min_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2NAVIT}
 
 tile-extract: tile-lng tile-lnglat tile-lng-run tile-lnglat-run tile-pbf2pbf
 
 tile-csv:
-	rm -f ${TILES_DIR}/etc/tile-*.csv
+	rm -f ${TILES_DIR}/etc/tile-*.csv ${TILES_DIR}/etc/tile-*.csv.original
 	mkdir -p ${TILES_DIR}/etc
 	for format in pbf osm.gz csv.xz; do \
 	   ( cd ${TILES_DIR}/lnglat; find . -name '*.'$$format | xargs du -k | sort -n  -k1 -k2 -k3 -k4 -k5 | \
-	     perl -npe 's,\S+/planet_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > ${TILES_DIR}/etc/tile-$$format.csv; \
-	done;
+	     awk '{ if ($$1 > 12) { print } }' | \
+	     perl -npe 's,\S+/planet_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > ${TILES_DIR}/etc/tile-$$format.csv.new; \
+	     mv -f ${TILES_DIR}/etc/tile-$$format.csv.new ${TILES_DIR}/etc/tile-$$format.csv; \
+	done
+	for format in csv.xz; do \
+             ./world/bin/tile-padding.pl --min-size=10 \
+		${TILES_DIR}/etc/tile-pbf.csv ${TILES_DIR}/etc/tile-$$format.csv > ${TILES_DIR}/etc/tile-$$format.csv.new; \
+	     mv -f ${TILES_DIR}/etc/tile-$$format.csv.new ${TILES_DIR}/etc/tile-$$format.csv; \
+	done
 	pwd=`pwd`; max_cpu=${MAX_CPU}; \
 	for format in garmin-osm.zip shp.zip navit.zip obf.zip mapsforge-osm.zip; do \
             echo "Run format $$format"; \
 	    (( cd ${TILES_DIR}/lnglat; find . -name '*.'$$format -print0 | xargs -0 -n1 -P1 $$pwd/world/bin/extract-disk-usage.sh --du | sort -n  -k1 -k2 -k3 -k4 -k5 | \
 	     perl -npe 's,\S+/planet_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > ${TILES_DIR}/etc/tile-$$format.csv; \
              $$pwd/world/bin/tile-padding.pl --min-size=10 ${TILES_DIR}/etc/tile-pbf.csv ${TILES_DIR}/etc/tile-$$format.csv | \
-		sort -n  -k1 -k2 -k3 -k4 -k5 > ${TILES_DIR}/etc/tile-$$format.csv.new; \
+		sort -n  -k1 -k2 -k3 -k4 -k5 | awk '{ if ($$1 > 12) { print } }' > ${TILES_DIR}/etc/tile-$$format.csv.new; \
 	   	mv -f ${TILES_DIR}/etc/tile-$$format.csv ${TILES_DIR}/etc/tile-$$format.csv.original; \
 	   	mv -f ${TILES_DIR}/etc/tile-$$format.csv.new ${TILES_DIR}/etc/tile-$$format.csv; \
 	    ) & \
@@ -928,7 +936,9 @@ tile-checksum:
 	   cd $$pwd/$$i && ( md5sum `ls -v planet*.*` > CHECKSUM.md5; shasum -a 256 `ls -v planet*.*` > CHECKSUM.sha256 & );  \
 	done; wait
 
-tile-distclean:
+tile-db-clean:
+	rm -rf /var/tmp/_tilesize-*-localhost-*
+tile-distclean: tile-db-clean
 	rm -rf ${TILES_DIR}
 
 tile-rsync:
@@ -938,9 +948,7 @@ data-distclean distclean-data:
 	rm -f data/*.lock data/*.inx[456] data/*.st
 
 # for errors look in ./tile/tmp
-tile: tile-extract tile-csv
-#tile: tile-extract tile-convert tile-checksum tile-csv #tile-aws-s3
-#tile: tile-convert tile-csv #tile-aws-s3
+tile: tile-extract tile-convert tile-csv #tile-aws-s3
 
 ##############################################################################################
 # debian package rules
