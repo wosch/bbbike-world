@@ -904,13 +904,19 @@ tile-convert-mapsforge:
 tile-extract: tile-lng tile-lnglat tile-lng-run tile-lnglat-run tile-pbf2pbf
 
 tile-csv:
-	rm -f ${TILES_DIR}/etc/tile-*.csv
+	rm -f ${TILES_DIR}/etc/tile-*.csv ${TILES_DIR}/etc/tile-*.csv.original
 	mkdir -p ${TILES_DIR}/etc
 	for format in pbf osm.gz csv.xz; do \
 	   ( cd ${TILES_DIR}/lnglat; find . -name '*.'$$format | xargs du -k | sort -n  -k1 -k2 -k3 -k4 -k5 | \
 	     awk '{ if ($$1 > 12) { print } }' | \
-	     perl -npe 's,\S+/planet_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > ${TILES_DIR}/etc/tile-$$format.csv; \
-	done;
+	     perl -npe 's,\S+/planet_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > ${TILES_DIR}/etc/tile-$$format.csv.new; \
+	     mv -f ${TILES_DIR}/etc/tile-$$format.csv.new ${TILES_DIR}/etc/tile-$$format.csv; \
+	done
+	for format in csv.xz; do \
+             ./world/bin/tile-padding.pl --min-size=10 \
+		${TILES_DIR}/etc/tile-pbf.csv ${TILES_DIR}/etc/tile-$$format.csv > ${TILES_DIR}/etc/tile-$$format.csv.new; \
+	     mv -f ${TILES_DIR}/etc/tile-$$format.csv.new ${TILES_DIR}/etc/tile-$$format.csv; \
+	done
 	pwd=`pwd`; max_cpu=${MAX_CPU}; \
 	for format in garmin-osm.zip shp.zip navit.zip obf.zip mapsforge-osm.zip; do \
             echo "Run format $$format"; \
