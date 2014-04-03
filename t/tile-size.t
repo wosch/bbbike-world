@@ -155,7 +155,7 @@ is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 181314 );
 
 $tile =
   new TileSize( 'debug' => 0, 'database' => "world/etc/tile/tile-obf.zip.csv" );
-is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 451750 );
+is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 451733 );
 
 $tile =
   new TileSize( 'debug' => 0, 'database' => "world/etc/tile/tile-osm.gz.csv" );
@@ -163,7 +163,7 @@ is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 424132 );
 
 $tile =
   new TileSize( 'debug' => 0, 'database' => "world/etc/tile/tile-shp.zip.csv" );
-is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 905307 );
+is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 905289 );
 
 # placeholder for osm csv format
 #$tile =
