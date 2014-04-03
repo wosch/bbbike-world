@@ -559,7 +559,7 @@ bbbike2wgs84:
 
 bbbike2wgs84-mapnik:
 	if test -e ${LOG_DIR}/bbbike-mapnik.osm.gz; then mv -f ${LOG_DIR}/bbbike-mapnik.osm.gz ${LOG_DIR}/bbbike-mapnik.osm.gz.old; fi
-	${NICE} ./miscsrc/bbd2osm --optimize-for=mapnik ${DATA_DIR} | ${GZIP} > ${LOG_DIR}/bbbike-mapnik.osm.gz.tmp
+	${NICE} ./miscsrc/bbd2osm --optimize-for=mapnik-bbbike --experiment=cycle-route ${DATA_DIR} | ${GZIP} > ${LOG_DIR}/bbbike-mapnik.osm.gz.tmp
 	mv -f ${LOG_DIR}/bbbike-mapnik.osm.gz.tmp ${LOG_DIR}/bbbike-mapnik.osm.gz
 
 bbbike-tile-update:
