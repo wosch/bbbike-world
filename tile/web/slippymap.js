@@ -431,7 +431,7 @@ function init() {
         numZoomLevels: 19,
         noOpaq: true
     }));
-    
+
     map.addLayer(new OpenLayers.Layer.TMS("ADFC Radwegenetz", "", {
         type: 'png',
         getURL: get_mm_bikeTracks,

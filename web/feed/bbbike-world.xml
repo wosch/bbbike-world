@@ -4,7 +4,7 @@
   <link href="http://www.bbbike.org" />
   <link href="http://www.bbbike.org/feed/bbbike-world.xml" rel="self" />
   <icon>http://www.bbbike.org/images/srtbike.ico</icon>
-  <updated>Sat Aug 17 12:50:08 2013 +0000</updated>
+  <updated>Tue Mar 25 17:58:48 2014 +0100</updated>
   <author>
     <name>Wolfram Schneider</name>
   </author>
@@ -12,6 +12,15 @@
   OpenStreetMap project!</subtitle>
   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af7</id>
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/" version="0.86">XML::Atom::SimpleFeed</generator>
+  <entry>
+    <title type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now SRTM extracts for PBF,
+    Garmin, and Osmand</title>
+    <id>21de8970bd81fb04b751c1935e023e0c</id>
+    <content type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now SRTM extracts for
+    PBF, Garmin, and Osmand</content>
+    <updated>2014-03-25T13:30:02Z</updated>
+    <category term="News" />
+  </entry>
   <entry>
     <title type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now CSV format</title>
     <id>d41d8cd98f00b204e9800998ecf8427e</id>

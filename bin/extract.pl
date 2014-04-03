@@ -62,8 +62,16 @@ our $option = {
     'nice_level' => 2,
 
     #'nice_level_converter' => 3,
+    #'planet_osm' => "../osm/download/planet-latest.osm.pbf",
+    'planet' => {
+        'planet.osm' => '../osm/download/planet-latest.osm.pbf',
+        'srtm-europe.osm.pbf' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
+        'srtm-europe.garmin-srtm.zip' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
+        'srtm-europe.obf.zip' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
+        'srtm-europe.mapsforge-osm.zip' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
+        'srtm-southamerica.osm.pbf' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_SOUTHAMERICA.osm.pbf',
+    },
 
-    'planet_osm' => "../osm/download/planet-latest.osm.pbf",
     'debug'      => 0,
     'test'       => 0,
 
@@ -123,6 +131,13 @@ my $formats = {
     'garmin-bbbike.zip'  => "Garmin BBBike",
     'navit.zip'          => "Navit",
     'mapsforge-osm.zip'  => "mapsforge OSM",
+
+    'srtm-europe.osm.pbf' => 'SRTM Europe PBF',
+    'srtm-europe.garmin-srtm.zip' => 'SRTM Europe Garmin',
+    'srtm-europe.mapsforge-osm.zip' => 'SRTM Europe Mapsforge',
+    'srtm-europe.obf.zip' => 'SRTM Europe Osmand',
+
+    'srtm-southamerica.osm.pbf' => 'SRTM South America PBF',
 };
 
 # translations
@@ -159,7 +174,7 @@ my $spool = {
 my $alarm      = $option->{"alarm"};
 my $nice_level = $option->{"nice_level"};
 my $email_from = $option->{"email_from"};
-my $planet_osm = $option->{"planet_osm"};
+my $planet_osm = $option->{"planet_osm"} || $option->{"planet"}->{"planet.osm"};
 my $debug      = $option->{"debug"};
 my $test       = $option->{"test"};
 
@@ -174,9 +189,7 @@ my $nice_level_converter =
   : $nice_level + 3;
 
 # test & debug
-$planet_osm =
-"$ENV{HOME}/projects/osm/download/geofabrik/europe/germany/brandenburg.osm.pbf"
-  if $test;
+$planet_osm = "../osm/download/geofabrik/europe/germany/brandenburg-latest.osm.pbf" if $test;
 
 ######################################################################
 #
@@ -270,6 +283,8 @@ sub parse_jobs {
     my $max   = $args{'max'};
 
     my $hash;
+    my $default_planet_osm = "";
+
     foreach my $f (@$files) {
         my $file = "$dir/$f";
 
@@ -282,8 +297,22 @@ sub parse_jobs {
 
         $json_perl->{"file"} = $f;
 
-        # a slot for every user
-        push @{ $hash->{ $json_perl->{'email'} } }, $json_perl;
+        # planet.osm file per job
+        my $format = $json_perl->{"format"};
+        $json_perl->{'planet_osm'} = exists $option->{'planet'}->{$format} ? $option->{'planet'}->{$format} : $option->{'planet'}->{'planet.osm'};
+
+        # first jobs defines the planet.osm file
+        if (!$default_planet_osm) {
+            $default_planet_osm = $json_perl->{'planet_osm'};
+        }
+
+        # only the same planet.osm file
+        if ($json_perl->{'planet_osm'} eq $default_planet_osm) {
+            # a slot for every user
+            push @{ $hash->{ $json_perl->{'email'} } }, $json_perl;
+        } else {
+            warn "Ignore job due different planet.osm file: $default_planet_osm <=> $json_perl->{'planet_osm'}\n" if $debug >= 1;
+        }
     }
 
     # sort by user and date, oldest first
@@ -296,8 +325,9 @@ sub parse_jobs {
     my @list;
     my $counter        = $max;
     my $counter_coords = 0;
-    my $max_coords =
-      $option->{max_coords};    # 4196 polygones is enough for the queue
+    # 4196 polygones is enough for the queue
+    my $max_coords = $option->{max_coords};
+
     while ( $counter-- > 0 ) {
         foreach my $email ( sort keys %$hash ) {
             if ( scalar( @{ $hash->{$email} } ) ) {
@@ -326,7 +356,7 @@ sub parse_jobs {
                     warn "coords counter length for $city: ",
                       "$counter_coords > $max_coords, stop after\n"
                       if $debug;
-                    return @list;
+                    return (\@list, $default_planet_osm);
                 }
             }
             last if scalar(@list) >= $max;
@@ -334,7 +364,7 @@ sub parse_jobs {
         last if scalar(@list) >= $max;
     }
 
-    return @list;
+    return (\@list, $default_planet_osm);
 }
 
 sub json_compat {
@@ -361,10 +391,26 @@ sub get_job_id {
     return $key;
 }
 
+# file prefix depending on input PBF file, e.g. "planet_"
+sub get_file_prefix {
+    my $obj = shift;
+
+    my $file_prefix = $option->{'file_prefix'};
+    my $format = $obj->{'format'};
+
+    if (exists $option->{'planet'}->{ $format }) {
+        $format =~ s/\..*/_/;
+        $file_prefix = $format if $format;
+    }
+
+    warn "Use file prefix: '$file_prefix'\n" if $debug >= 2;
+    return $file_prefix;
+}
+
 # store lng,lat in file name
 sub file_lnglat {
     my $obj    = shift;
-    my $file   = $option->{'file_prefix'};
+    my $file   = get_file_prefix($obj);
     my $coords = $obj->{coords} || [];
 
     # rectangle
@@ -550,6 +596,7 @@ sub run_extracts {
     my %args  = @_;
     my $spool = $args{'spool'};
     my $poly  = $args{'poly'};
+    my $planet_osm  = $args{'planet_osm'};
 
     my $osm = $spool->{'osm'};
 
@@ -569,7 +616,7 @@ sub run_extracts {
 
         my $osm = $spool->{'osm'} . "/" . basename($out);
         if ( -e $osm ) {
-            my $newer = file_mtime_diff( $osm, $option->{planet_osm} );
+            my $newer = file_mtime_diff( $osm, $planet_osm );
             if ( $newer > 0 ) {
                 warn "File $osm already exists, skip\n" if $debug;
                 link( $osm, $out ) or die "link $osm => $out: $!\n";
@@ -601,7 +648,7 @@ sub run_extracts {
         @data = "true";
     }
 
-    warn "Use planet.osm file $planet_osm\n" if $debug == 1;
+    warn "Use planet.osm file $planet_osm\n" if $debug >= 1;
     warn "Run extracts: " . join( " ", @data ), "\n" if $debug >= 2;
     return ( \@data, \@fixme );
 }
@@ -736,7 +783,7 @@ sub cached_format {
     return 0;
 }
 
-# reorder PBFs by size, smalles first
+# reorder PBFs by size and compute time, smalles first
 sub reorder_pbf {
     my $json      = shift;
     my $test_mode = shift;
@@ -767,6 +814,13 @@ sub reorder_pbf {
         'csv.gz'  => 0.42,
         'csv.xz'  => 0.2,
         'csv.bz2' => 0.45,
+
+        'srtm-europe.osm.pbf' => 1,
+        'srtm-europe.garmin-srtm.zip' => 1.5,
+        'srtm-europe.obf.zip' => 10,
+        'srtm-europe.mapsforge-osm.zip' => 2,
+
+        'srtm-southamerica.osm.pbf' => 1,
     );
 
     foreach my $json_file (@$json) {
@@ -814,6 +868,7 @@ sub convert_send_email {
     my $keep       = $args{'keep'};
     my $alarm      = $args{'alarm'};
     my $test_mode  = $args{'test_mode'};
+    my $planet_osm  = $args{'planet_osm'};
 
     # all scripts are in these directory
     my $dirname = dirname($0);
@@ -831,6 +886,7 @@ sub convert_send_email {
                 'json_file'  => $json_file,
                 'send_email' => $send_email,
                 'test_mode'  => $test_mode,
+                'planet_osm'  => $planet_osm,
                 'alarm'      => $alarm
             );
         };
@@ -930,6 +986,7 @@ sub _convert_send_email {
     my $send_email = $args{'send_email'};
     my $alarm      = $args{'alarm'};
     my $test_mode  = $args{'test_mode'};
+    my $planet_osm  = $args{'planet_osm'};
 
     my $obj2 = get_json($json_file);
     &set_alarm( $alarm, $obj2->{'pbf_file'} . " " . $obj2->{'format'} );
@@ -1063,9 +1120,12 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
             }
         }
 
-        elsif ( $format =~ /^garmin-(osm|cycle|leisure|bbbike).zip$/ ) {
+        elsif ( $format =~ /^garmin-(osm|cycle|leisure|bbbike).zip$/ || $format =~ /^[a-z\-]+\.garmin-(osm|cycle|leisure|srtm)\.zip$/) {
             my $style = $1;
-            $file =~ s/\.pbf$/.$format/;
+            my $format_ext = $format;
+            $format_ext =~ s/^[a-z\-]+\.garmin/garmin/;
+
+            $file =~ s/\.pbf$/.$format_ext/;
             $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
 
             if ( !cached_format( $file, $pbf_file ) ) {
@@ -1093,8 +1153,11 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
                 system(@system) == 0 or die "system @system failed: $?";
             }
         }
-        elsif ( $format eq 'obf.zip' ) {
-            $file =~ s/\.pbf$/.$format/;
+        elsif ( $format eq 'obf.zip' || $format =~ /^[a-z\-]+\.obf.zip$/ ) {
+            my $format_ext = $format;
+            $format_ext =~ s/^[a-z\-]+\.obf/obf/;
+
+            $file =~ s/\.pbf$/.$format_ext/;
             $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
 
             if ( !cached_format( $file, $pbf_file ) ) {
@@ -1121,9 +1184,12 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
                 system(@system) == 0 or die "system @system failed: $?";
             }
         }
-        elsif ( $format =~ /^mapsforge-(osm).zip$/ ) {
+        elsif ( $format =~ /^mapsforge-(osm)\.zip$/ || $format =~ /^[a-z\-]+\.mapsforge-(osm)\.zip$/) {
             my $style = $1;
-            $file =~ s/\.pbf$/.$format/;
+            my $format_ext = $format;
+            $format_ext =~ s/^[a-z\-]+\.mapsforge/mapsforge/;
+
+            $file =~ s/\.pbf$/.$format_ext/;
             $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
 
             if ( !cached_format( $file, $pbf_file ) ) {
@@ -1229,7 +1295,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
 
         my $script_url = &script_url( $option, $obj );
         my $database_update =
-          gmtime( stat( $option->{planet_osm} )->mtime ) . " UTC";
+          gmtime( stat( $planet_osm )->mtime ) . " UTC";
 
         my $text = M("EXTRACT_EMAIL");
         my $granularity;
@@ -1349,7 +1415,7 @@ sub aws_s3_path {
     my $sep = "/";
 
     my $aws_path =
-        $option->{"aws_s3"}->{"bucket"} 
+        $option->{"aws_s3"}->{"bucket"}
       . $sep
       . $option->{"aws_s3"}->{"path"}
       . $sep
@@ -1563,7 +1629,7 @@ usage: $0 [ options ]
 --job={1..4}		job number for parallels runs, default: $option->{max_jobs}
 --timeout=1..86400	time out, default $option->{"alarm"}
 --send-email={0,1}	send out email, default: $option->{"send_email"}
---planet-osm=/path/to/planet.osm.pbf  default: $option->{planet_osm}
+--planet-osm=/path/to/planet.osm.pbf  default: $option->{"planet"}->{"planet.osm"}
 --spool-dir=/path/to/spool 	      default: $option->{spool_dir}
 --test-mode		do not execude commands
 EOF
@@ -1598,11 +1664,13 @@ sub run_jobs {
 
     warn "Use lockfile $lockfile\n" if $debug;
 
-    my @list = parse_jobs(
+    my ($list, $planet_osm) = parse_jobs(
         'files' => \@files,
         'dir'   => $spool->{'confirmed'},
         'max'   => $max_areas,
     );
+    my @list = @$list;
+
     print "run jobs: " . Dumper( \@list ) if $debug >= 3;
 
     my $key     = get_job_id(@list);
@@ -1620,7 +1688,7 @@ sub run_jobs {
     ###########################################################
     # main
     my ( $system, $new_pbf_files ) =
-      run_extracts( 'spool' => $spool, 'poly' => $poly );
+      run_extracts( 'spool' => $spool, 'poly' => $poly, 'planet_osm' => $planet_osm );
     my @system = @$system;
 
     ###########################################################
@@ -1643,6 +1711,7 @@ sub run_jobs {
         'send_email' => $send_email,
         'alarm'      => $option->{alarm_convert},
         'test_mode'  => $test_mode,
+        'planet_osm' => $planet_osm,
         'keep'       => 1
     );
 
@@ -1698,6 +1767,8 @@ die "Max jobs: $max_jobs out of range!\n" . &usage
   if $max_jobs < 1 || $max_jobs > 12;
 die "Max areas: $max_areas out of range 1..64!\n" . &usage
   if $max_areas < 1 || $max_areas > 64;
+
+$option->{"planet"}->{"planet.osm"} = $planet_osm;
 
 # full path for spool directories
 while ( my ( $key, $val ) = each %$spool ) {

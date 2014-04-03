@@ -31,7 +31,10 @@ var config = {
         "garmin-osm.zip": 768,
         "garmin-cycle.zip": 650,
         "garmin-leisure.zip": 650,
-        "mapsforge-osm.zip": 100
+        "mapsforge-osm.zip": 100,
+        "srtm-europe.garmin-srtm.zip": 800,
+        "srtm-europe.mapsforge-osm.zip": 200,
+        "srtm-europe.obf.zip": 200
     },
 
     // display messages in browser console
@@ -881,12 +884,13 @@ function initKeyPress() {
         case 95:
             this.map.zoomOut();
             break;
-	*/
         
         case 71:
             // 'g'
             locateMe();
             break;
+	*/
+
         }
     };
 };
@@ -1127,11 +1131,31 @@ function show_filesize(skm, real_size) {
         },
         "navit.zip": {
             "size": 0.8
+        },
+        "srtm-europe.osm.pbf": {
+            "size": 1,
+            "time": 1
+        },
+        "srtm-europe.mapsforge-osm.zip": {
+            "size": 0.8,
+            "time": 14
+        },
+        "srtm-europe.garmin-srtm.zip": {
+            "size": 1.3,
+            "time": 2
+        },
+        "srtm-europe.obf.zip": {
+            "size": 2.0,
+            "time": 10
+        },
+        "srtm-southamerica.osm.pbf": {
+            "size": 1,
+            "time": 1
         }
     };
 
     if (!filesize[format]) {
-        debug("Unknwon format: " + format);
+        debug("Unknown format: '" + format + "'");
     }
 
     var factor = filesize[format].size ? filesize[format].size : 1;

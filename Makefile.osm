@@ -98,6 +98,7 @@ OSM_AREAS_OPENSEARCH=data-opensearch-places
 OSM_PLANET=	../osm/download/planet-latest.osm.bz2
 OSM_PLANET_PBF=	../osm/download/planet-latest.osm.pbf
 #OSM_PLANET_PBF=	../osm/download/geofabrik/europe/germany/brandenburg.osm.pbf
+#OSM_PLANET_PBF=	../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf
 
 OSM_AREAS_LARGE=	${OSM_PLANET_PBF}
 
@@ -662,18 +663,7 @@ update-database: build-runtime
 	@${BBMAKE} -s opensearch-bbbike
 	${TIME} ./world/bin/update-database
 
-#PERL_SCRIPTS=	BBBikeGooglemap.pm BBBikeElevation.pm
-#
-#_perlcheck:
-#	${BBMAKE} _perlcheck2 >/dev/null 2>&1 || ${BBMAKE} _perlcheck2
-#_perlcheck2:
-#	@echo ${PERL_SCRIPTS} | ${XARGS} -n1 -P${MAX_VCPU} -E " " ${PERL} -cw
-#
-#_perltidy: _perlcheck
-#	echo ${PERL_SCRIPTS} | ${XARGS} -n4 -P${MAX_VCPU} -E " " perltidy -b
-
 perltidy:
-	#${MAKE} _perltidy
 	${MAKE} -C world/cgi/msg $@	
 	${MAKE} -C world/bin $@	
 	${MAKE} -C world/cgi $@	
@@ -727,7 +717,7 @@ update-javascript:
 java-config:
 	test -r $$HOME/.osmosis || ln -fs $$HOME/projects/bbbike/world/etc/env/dot.osmosis $$HOME/.osmosis
 
-dist-clean devel-clean distclean: clean deb-clean temp-clean clean-t data-distclean
+dist-clean devel-clean distclean: clean deb-clean temp-clean clean-t data-distclean download-clean
 
 distclean-osm: rotate-osm
 	${RM_BG} ${OSM_DIR}
@@ -739,6 +729,9 @@ clean-t:
 
 temp-clean:
 	rm -rf ${TMP_DIR}
+
+download-clean:
+	rm -rf ../osm/download/tmp.[0-9]*
 
 clean-planet:
 	${RM_BG} ../osm/download/*.old.*
@@ -957,7 +950,6 @@ data-distclean distclean-data:
 
 # for errors look in ./tile/tmp
 tile: tile-extract tile-convert tile-csv #tile-aws-s3
-#tile: tile-convert tile-csv tile-aws-s3
 
 ##############################################################################################
 # debian package rules
@@ -1061,7 +1053,7 @@ deb-bootstrap-dir:
 
 
 DOWNLOAD_PREFIX=/usr/local/www/download.bbbike.org
-download-bbbike-org-install:
+download-bbbike-org-install: download-srtm-bbbike-org-install
 	mkdir -p ${DOWNLOAD_PREFIX}
 	mkdir -p ${DOWNLOAD_PREFIX}/osm/planet
 	mkdir -p ${DOWNLOAD_PREFIX}/bbbike
@@ -1084,6 +1076,10 @@ download-bbbike-org-install:
 	  ln -fs ../../../bbbike.org/world/download/osm/planet/HEADER.txt .
 	cd ${DOWNLOAD_PREFIX}/..; mkdir -p osm; cd osm; \
 	  ln -fs ../download.bbbike.org/osm/planet download
+
+# http://download.freizeitkarte-osm.de/Development/ele_25_250_500/Hoehendaten_Freizeitkarte_Europe.osm.pbf
+download-srtm-bbbike-org-install:
+	mkdir -p ../osm/download/srtm
 
 
 #
