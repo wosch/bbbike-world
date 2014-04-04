@@ -854,6 +854,7 @@ extract-gc7:
 staging:
 	${BBMAKE} -s perlcheck 2>/dev/null
 	git push
+	cd /usr/local/www/bbbike.org
 	cd /usr/local/www/bbbike.org/; git diff; git pull; ${MAKE} -s update-files; git diff
 
 
