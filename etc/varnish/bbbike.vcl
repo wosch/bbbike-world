@@ -30,8 +30,8 @@ backend default {
 */
 
 backend tile {
-    #.host = "tile";
-    .host = "y.tile.bbbike.org";
+    .host = "tile";
+    #.host = "y.tile.bbbike.org";
     .port = "80";
 
     .first_byte_timeout = 600s;
@@ -135,7 +135,7 @@ sub vcl_recv {
         set req.backend = wosch;
     } else if (req.http.host ~ "^(dvh|tkb)\.bookmaps\.org$") {
         set req.backend = wosch;
-    } else if (req.http.host ~ "^eserte\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$") {
+    } else if (req.http.host ~ "^eserte\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$" || req.http.host ~ "^jenkins\.bbbike\.(org|de)$") {
         set req.backend = eserte;
     } else if (req.http.host ~ "^(www\.|)(cyclerouteplanner\.org|cyclerouteplanner\.com|bbike\.org|cycleroute\.net)$") {
         set req.backend = bbbike;
@@ -165,6 +165,11 @@ sub vcl_recv {
 
     # development machine of S.R.T
     if (req.http.host ~ "^eserte.*\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$") {
+	return (pass);
+    }
+
+    # jenkins
+    if (req.http.host ~ "^jenkins\.bbbike\.(org|de)$") {
 	return (pass);
     }
 
