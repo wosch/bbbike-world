@@ -3,6 +3,8 @@ Required perl modules:
 
 see ../bin/bbbike-build-runtime-perl.pl
 
+sudo apt-get install libhtml-tagcloud-perl
+
 Required debian modules
 ------------------------------------
 
