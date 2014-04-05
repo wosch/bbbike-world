@@ -35,6 +35,7 @@ legend-index:
 
 clean:
 	rm -rf ${TYPE2LEGEND_DIR}
+distclean: clean
 
 help:
 	@echo "usage: make [ targets ... ]"
