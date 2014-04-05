@@ -43,7 +43,7 @@ HTTP_PORT=8080
 
 # port for AJP connector (disabled by default)
 #AJP_PORT=-1
-AJP_PORT=-8102
+AJP_PORT=8102
 AJP_ADDRESS=127.0.0.1
 
 # servlet context, important if you want to use apache proxying  
