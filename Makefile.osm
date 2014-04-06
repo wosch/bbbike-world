@@ -1125,6 +1125,9 @@ test prove: lighttpd-restart
 	mkdir -p ${TMP_DIR}
 	TMPDIR=${TMP_DIR} LANG=C LC_ALL=C time prove ${prove_opt} -j${MAX_CPU} t/*.t world/t/*.t
 	@echo "All tests are successfully done. Stop lighttpd"
+	${MAKE} lighttpd-stop
+
+lighttpd-stop:
 	@./world/bin/lighttpd-stop
 
 diff:
