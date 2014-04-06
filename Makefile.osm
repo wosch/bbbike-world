@@ -1122,6 +1122,7 @@ lighttpd-restart: temp-clean test-org
 	-killall -SIGKILL lighttpd
 	mkdir -p ${TMP_DIR}
 	TMPDIR=${TMP_DIR} $$(pwd)/world/bin/lighttpd-start &
+	sleep 0.2
 
 test prove: lighttpd-restart 
 	perl -c cgi/bbbike.cgi
