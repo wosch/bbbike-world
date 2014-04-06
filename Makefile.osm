@@ -1055,6 +1055,9 @@ deb-bootstrap-dir:
 	test -e /usr/local/bin/osmosis || sudo ln -sf ${DEB_OPT_DIR}/osmosis-0.40.1/bin/osmosis /usr/local/bin/osmosis
 	sudo mkdir -p /bbbike/tmp /tmpfs
 	sudo chmod 7777 /bbbike/tmp /tmpfs
+	${MAKE} -f world/Makefile.osm bbbike-c
+
+bbbike-c:
 	${MAKE} -s -C./ext all install >/dev/null 2>&1
 
 
