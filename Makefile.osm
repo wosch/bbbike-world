@@ -723,6 +723,7 @@ java-config:
 	test -r $$HOME/.osmosis || ln -fs $$HOME/projects/bbbike/world/etc/env/dot.osmosis $$HOME/.osmosis
 
 dist-clean devel-clean distclean: clean deb-clean temp-clean clean-t data-distclean download-clean
+	${MAKE} -C./world/etc/mkgmap distclean
 
 distclean-osm: rotate-osm
 	${RM_BG} ${OSM_DIR}
