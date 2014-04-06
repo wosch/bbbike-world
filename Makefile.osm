@@ -663,6 +663,8 @@ rotate-osm:
 	${RM_BG} ${OSM_DIR}.old2
 	-test -e ${OSM_DIR}.old  && mv ${OSM_DIR}.old  ${OSM_DIR}.old2
 	-test -e ${OSM_DIR}      && mv ${OSM_DIR}      ${OSM_DIR}.old
+	mkdir -p ${OSM_DIR}
+	touch ${OSM_DIR}/.gitkeep
 
 update-database: build-runtime
 	@${BBMAKE} -s opensearch-bbbike
@@ -723,10 +725,9 @@ java-config:
 	test -r $$HOME/.osmosis || ln -fs $$HOME/projects/bbbike/world/etc/env/dot.osmosis $$HOME/.osmosis
 
 dist-clean devel-clean distclean: clean deb-clean temp-clean clean-t data-distclean download-clean
+	${MAKE} -C./world/etc/mkgmap distclean
 
 distclean-osm: rotate-osm
-	${RM_BG} ${OSM_DIR}
-	mkdir -p ${OSM_DIR}
 
 clean-t:
 	${MAKE} -C./t distclean
