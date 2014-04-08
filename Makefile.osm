@@ -42,6 +42,7 @@ OSM_CHECKSUM=	world/bin/osm-checksum
 PBF2PBF=	world/bin/pbf2pbf
 OSM2GARMIN=	world/bin/osm2garmin
 OSM2GARMIN_CYCLE=	world/bin/pbf2osm --garmin-cycle
+OSM2GARMIN_SRTM=        world/bin/pbf2osm --garmin-srtm
 OSM2SHAPE=	world/bin/osm2shape
 OSM2OSMAND=	world/bin/osm2osmand
 OSM2NAVIT=	world/bin/osm2navit
