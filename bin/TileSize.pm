@@ -38,6 +38,7 @@ our $factor = {
     'garmin-cycle.zip'   => 0.581,
     'garmin-leisure.zip' => 0.755,
     'garmin-osm.zip'     => 0.583,
+    'garmin-srtm.zip'    => 1.3,
     'mapsforge-osm.zip'  => 0.80,
     'navit.zip'          => 0.75,
     'o5m.bz2'            => 0.88,
