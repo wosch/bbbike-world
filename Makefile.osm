@@ -100,7 +100,7 @@ OSM_PLANET=	../osm/download/planet-latest.osm.bz2
 OSM_PLANET_PBF=	../osm/download/planet-latest.osm.pbf
 #OSM_PLANET_PBF=	../osm/download/geofabrik/europe/germany/brandenburg.osm.pbf
 #OSM_PLANET_PBF=	../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf
-OSM_PLANET_PBF=	../osm/download/srtm/Hoehendaten_Freizeitkarte_SOUTHAMERICA.osm.pbf
+#OSM_PLANET_PBF=	../osm/download/srtm/Hoehendaten_Freizeitkarte_SOUTHAMERICA.osm.pbf
 
 OSM_AREAS_LARGE=	${OSM_PLANET_PBF}
 
