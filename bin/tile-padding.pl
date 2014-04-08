@@ -61,7 +61,7 @@ my @format =
 sub usage () {
     <<EOF;
     
-usage: $0 [options] --format=format tile-pbf.csv tile-garmin-cycle.csv
+usage: $0 [options] --format=format tile-pbf.csv tile-garmin-osm.csv
 
 --debug=0..2      debug option
 --format=format   @{[ join " | ", @format ]}
