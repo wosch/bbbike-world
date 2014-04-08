@@ -56,7 +56,7 @@ my $format;
 my $min_size = 0;
 
 my @format =
-  qw/garmin-cycle.zip mapsforge-osm.zip navit.zip obf.zip osm.gz shp.zip csv.xz/;
+  qw/garmin-cycle.zip garmin-srtm.zip garmin-osm.zip garmin-leisure.zip mapsforge-osm.zip navit.zip obf.zip osm.gz shp.zip csv.xz/;
 
 sub usage () {
     <<EOF;
