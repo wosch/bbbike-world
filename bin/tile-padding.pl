@@ -58,12 +58,12 @@ my $format;
 my $min_size = 0;
 
 my @format =
-  qw/garmin-cycle.zip mapsforge-osm.zip navit.zip obf.zip osm.gz shp.zip csv.xz/;
+  qw/garmin-cycle.zip garmin-srtm.zip garmin-osm.zip garmin-leisure.zip mapsforge-osm.zip navit.zip obf.zip osm.gz shp.zip csv.xz/;
 
 sub usage () {
     <<EOF;
     
-usage: $0 [options] --format=format tile-pbf.csv tile-garmin-cycle.csv
+usage: $0 [options] --format=format tile-pbf.csv tile-garmin-osm.csv
 
 --debug=0..2      debug option
 --format=format   @{[ join " | ", @format ]}
