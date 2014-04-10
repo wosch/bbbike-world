@@ -42,6 +42,7 @@ OSM_CHECKSUM=	world/bin/osm-checksum
 PBF2PBF=	world/bin/pbf2pbf
 OSM2GARMIN=	world/bin/osm2garmin
 OSM2GARMIN_CYCLE=	world/bin/pbf2osm --garmin-cycle
+OSM2GARMIN_SRTM=        world/bin/pbf2osm --garmin-srtm
 OSM2SHAPE=	world/bin/osm2shape
 OSM2OSMAND=	world/bin/osm2osmand
 OSM2NAVIT=	world/bin/osm2navit
@@ -99,6 +100,7 @@ OSM_PLANET=	../osm/download/planet-latest.osm.bz2
 OSM_PLANET_PBF=	../osm/download/planet-latest.osm.pbf
 #OSM_PLANET_PBF=	../osm/download/geofabrik/europe/germany/brandenburg.osm.pbf
 #OSM_PLANET_PBF=	../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf
+#OSM_PLANET_PBF=	../osm/download/srtm/Hoehendaten_Freizeitkarte_SOUTHAMERICA.osm.pbf
 
 OSM_AREAS_LARGE=	${OSM_PLANET_PBF}
 
@@ -889,6 +891,8 @@ tile-pbf2pbf:
 _pbf_dir=${TILES_DIR}/lnglat/
 _min_size=-size +500k
 tile-convert: tile-convert-osm tile-convert-shp tile-convert-navit tile-convert-garmin tile-convert-osmand tile-convert-mapsforge
+tile-convert-srtm: tile-convert-garmin-srtm tile-convert-osmand
+
 
 tile-convert-osm:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_PBF2OSM} ${PBF2OSM} --pgzip
@@ -900,6 +904,8 @@ tile-convert-navit:
 	find ${_pbf_dir} -name '*.osm.gz' ${_min_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2NAVIT}
 tile-convert-garmin:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
+tile-convert-garmin-srtm:
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_OSM2GARMIN} ${OSM2GARMIN_SRTM}
 tile-convert-osmand:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | osm_checksum=true max_jobs=1 java_heap=2200M ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2OSMAND}
 tile-convert-mapsforge:
