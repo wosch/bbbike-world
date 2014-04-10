@@ -33,10 +33,10 @@ my %format = (
     "obf.zip" => "obf.zip",
     "obf"     => "obf.zip",
 
-    "garmin-cycle.zip"   => "garmin-cycle.zip",
-    "garmin-osm.zip"     => "garmin-cycle.zip",
-    "garmin-leisure.zip" => "garmin-cycle.zip",
-    "garmin-bbbike.zip"  => "garmin-cycle.zip",
+    "garmin-cycle.zip"   => "garmin-osm.zip",
+    "garmin-osm.zip"     => "garmin-osm.zip",
+    "garmin-leisure.zip" => "garmin-osm.zip",
+    "garmin-bbbike.zip"  => "garmin-osm.zip",
 
     "navit.zip" => "obf.zip",
     "navit"     => "obf.zip",
