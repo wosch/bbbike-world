@@ -24,6 +24,7 @@ file_pbf=`echo "$file" | perl -npe 's/\.[^\.]+$/.pbf/'`
 case $file in 
 	*.gz )  uncompress="$gzip -dc" ;;
 	*.bz2 ) uncompress="$bzip2 -dc" ;;
+	*.zip | *.ZIP ) uncompress="unzip -p" ;;
 	/dev/stdin ) uncompress="cat"; file_pbf=/dev/stdout ;;
 	*) exit 2 ;;
 esac
@@ -32,7 +33,7 @@ esac
 # run in quiet mode
 global_opt=-q
 
-if $uncompress "$file" | osmosis $global_opt --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 \
+if $uncompress "$file" | osmosis $global_opt --read-xml enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 \
 	--write-pbf $file_pbf omitmetadata=true granularity=10000
 then
     :
