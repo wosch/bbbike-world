@@ -1,0 +1,35 @@
+#!/bin/sh
+# Copyright (c) 2012-2013 Wolfram Schneider, http://bbbike.org
+#
+# ov2pbf - wrapper to fix OSM/PBF format
+#
+# make sure all GPS points inside a rectangle of -180..-90 .. 180..90
+
+set -e
+
+if [ -z "$1" ]; then
+    echo >&2 "usage: $0 file...."
+    exit 0
+fi
+
+logfile=$(mktemp -t _pbf2pbf.XXXXXXXX)
+buffer="--buffer bufferCapacity=4000"
+
+: ${java_heap=2400M}
+JAVACMD_OPTIONS=-Xmx${java_heap}; export JAVACMD_OPTIONS
+
+args=""
+file_in=$1
+file_out=$(basename $file_in .gz).pbf
+
+args="$args --read-xml enableDateParsing=no $file_in $buffer --bb left=-180 right=180 top=90 bottom=-90 clipIncompleteEntities=true --sort --write-pbf $file_out"
+
+if osmosis $args > $logfile 2>&1
+then
+    rm -f $logfile
+else
+    echo "File $@ failed"
+    cat $logfile
+    exit 2
+fi 
+
