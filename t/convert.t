@@ -165,10 +165,7 @@ sub checksum {
       $^O =~ m{darwin}i
       ? ["db9f5b2cae816cf162acbe0a2a2187e5"]
       : [
-        "9e37f12187bf1d30ab8628d88c050fb0",
-        "1b3e7cf43d13500305a8bca47bd6c1a8",
-        "b37066406896daba4cba1a11a0931ea5",
-        "7022e2aa33c59ca6bbe475aa4be149cf"
+        "8c67a337a4caf77923c8e392a5b3cf0c", # debian7
       ];
     my $md5_checksum = ( grep { $md5 eq $_ } @$md5_checksum_select )[0];
 
