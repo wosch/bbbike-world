@@ -6,14 +6,14 @@
 file=$1
 : ${osm_checksum=`dirname $0`/osm-checksum}
 
-if ! [ -e "$file" ]; then
-	echo "usage file"
-	exit 1
-fi
-
 # /dev/stdin
-if ! [ -f "$file" ]; then
+if [ "$file" = '-' -o "$file" = "/dev/stdin" ]; then
     osm_checksum=true
+else 
+    if [ ! -f "$file" ]; then
+    	echo "$file does not exists"
+    	exit 2
+    fi
 fi
 
 gzip=`which pigz gzip | head -n 1`
@@ -25,7 +25,7 @@ case $file in
 	*.gz )  uncompress="$gzip -dc" ;;
 	*.bz2 ) uncompress="$bzip2 -dc" ;;
 	*.zip | *.ZIP ) uncompress="unzip -p" ;;
-	*.osm | /dev/stdin ) uncompress="cat"; file_pbf=/dev/stdout ;;
+	*.osm | /dev/stdin | "-" ) uncompress="cat"; file_pbf=/dev/stdout ;;
 	*) echo "Unknown file extention for $file"; exit 2 ;;
 esac
 
