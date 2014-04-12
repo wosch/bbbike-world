@@ -25,7 +25,8 @@ case $file in
 	*.gz )  uncompress="$gzip -dc" ;;
 	*.bz2 ) uncompress="$bzip2 -dc" ;;
 	*.zip | *.ZIP ) uncompress="unzip -p" ;;
-	*.osm | /dev/stdin | "-" ) uncompress="cat"; file_pbf=/dev/stdout ;;
+	*.osm ) uncompress="cat" ;;
+	/dev/stdin | "-" ) uncompress="cat"; file_pbf=/dev/stdout ;;
 	*) echo "Unknown file extention for $file"; exit 2 ;;
 esac
 
