@@ -22,10 +22,11 @@ args=""
 file_in=$1
 file_out=$(basename $file_in .gz).pbf
 
-args="$args --read-xml enableDateParsing=no $file_in $buffer --bb left=-180 right=180 top=90 bottom=-90 clipIncompleteEntities=true --sort --write-pbf omitmetadata=true $file_out"
+args="$args --read-xml enableDateParsing=no $file_in $buffer --bb left=-180 right=180 top=90 bottom=-90 clipIncompleteEntities=true --sort --write-pbf omitmetadata=true ${file_out}.tmp"
 
 if osmosis $args > $logfile 2>&1
 then
+    mv -f ${file_out}.tmp ${file_out}
     rm -f $logfile
 else
     echo "File $@ failed"
