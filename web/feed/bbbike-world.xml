@@ -13,12 +13,12 @@
   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af7</id>
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/" version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
-    <title type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now SRTM extracts for PBF,
-    Garmin, and Osmand</title>
-    <id>21de8970bd81fb04b751c1935e023e0c</id>
+    <title type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now Contours (SRTM)
+    extracts for PBF, Garmin, and Osmand</title>
+    <id>21de8970bd81fb04b751c1935e023e0d</id>
     <content type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now SRTM extracts for
     PBF, Garmin, and Osmand</content>
-    <updated>2014-03-25T13:30:02Z</updated>
+    <updated>2014-04-15T13:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
