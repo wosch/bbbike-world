@@ -37,23 +37,25 @@ my $reset = 0;
 my $config = {
     'tilesize' => [
         qw/
+          csv.gz
+          csv.xz
           garmin-bbbike.zip
           garmin-cycle.zip
           garmin-leisure.zip
           garmin-osm.zip
           mapsforge-osm.zip
           navit.zip
-          osm.xz
+          o5m.gz
+          o5m.xz
+          obf.zip
           osm.bz2
           osm.gz
-          obf.zip
-          selected
+          osm.pbf
+          osm.xz
           shp.zip
-          csv.xz
-          csv.gz
-          o5m.xz
-          o5m.gz
-          unknown
+          srtm-europe.garmin-srtm.zip
+          srtm-europe.obf.zip
+          srtm-europe.osm.pbf
           /
     ]
 };
