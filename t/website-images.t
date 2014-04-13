@@ -50,7 +50,9 @@ my @screenshot_images =
   garmin-cycle2-micro.png garmin-mallorca-120.png garmin-osm4-small.png navit-tiny.png
   garmin-cycle2-small.png garmin-mallorca-200.png garmin-osm5-small.png osmand-micro.png
   garmin-cycle3-small.png garmin-mallorca-2000.png garmin-srtm-1200.png osmand-small.png
-  garmin-cycle4-small.png garmin-mallorca-300.png garmin-srtm-200.png osmand-tiny.png/;
+  garmin-cycle4-small.png garmin-mallorca-300.png garmin-srtm-200.png osmand-tiny.png
+  osmand-small.png osmand-tiny.png 
+/;
 
 push @images, @screenshot_images;
 
