@@ -69,6 +69,12 @@ our $option = {
         'srtm-europe.garmin-srtm.zip' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
         'srtm-europe.obf.zip' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
         'srtm-europe.mapsforge-osm.zip' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
+        
+        'srtm.osm.pbf' => '../osm/download/srtm/planet-srtm-e25.osm.pbf',
+        'srtm.garmin-srtm.zip' => '../osm/download/srtm/planet-srtm-e25.osm.pbf',
+        'srtm.obf.zip' => '../osm/download/srtm/planet-srtm-e25.osm.pbf',
+        'srtm.mapsforge-osm.zip' => '../osm/download/srtm/planet-srtm-e25.osm.pbf',
+        
         'srtm-southamerica.osm.pbf' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_SOUTHAMERICA.osm.pbf',
     },
 
@@ -136,6 +142,11 @@ my $formats = {
     'srtm-europe.garmin-srtm.zip' => 'SRTM Europe Garmin',
     'srtm-europe.mapsforge-osm.zip' => 'SRTM Europe Mapsforge',
     'srtm-europe.obf.zip' => 'SRTM Europe Osmand',
+    
+    'srtm.osm.pbf' => 'SRTM PBF',
+    'srtm.garmin-srtm.zip' => 'SRTM Garmin',
+    'srtm.mapsforge-osm.zip' => 'SRTM Mapsforge',
+    'srtm.obf.zip' => 'SRTM Osmand',
 
     'srtm-southamerica.osm.pbf' => 'SRTM South America PBF',
 };
@@ -819,6 +830,11 @@ sub reorder_pbf {
         'srtm-europe.garmin-srtm.zip' => 1.5,
         'srtm-europe.obf.zip' => 10,
         'srtm-europe.mapsforge-osm.zip' => 2,
+        
+        'srtm.osm.pbf' => 1,
+        'srtm.garmin-srtm.zip' => 1.5,
+        'srtm.obf.zip' => 10,
+        'srtm.mapsforge-osm.zip' => 2,
 
         'srtm-southamerica.osm.pbf' => 1,
     );

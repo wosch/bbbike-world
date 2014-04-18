@@ -98,6 +98,10 @@ our $formats = {
     'srtm-europe.osm.pbf'        => 'SRTM Europe PBF',
     'srtm-europe.garmin-srtm.zip' => 'SRTM Europe Garmin',
     'srtm-europe.obf.zip' => 'SRTM Europe Osmand',
+    
+    'srtm.osm.pbf'        => 'SRTM PBF',
+    'srtm.garmin-srtm.zip' => 'SRTM Garmin',
+    'srtm.obf.zip' => 'SRTM Osmand',
     #'srtm-europe.mapsforge-osm.zip' => 'SRTM Europe Mapsforge',
 
     #'srtm-southamerica.osm.pbf' => 'SRTM South America PBF',
