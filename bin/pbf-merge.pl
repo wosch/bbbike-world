@@ -7,6 +7,7 @@
 
 use IO::File;
 use Getopt::Long;
+use File::Temp;
 use Data::Dumper;
 
 use strict;
@@ -23,7 +24,7 @@ my $merge_dir = "pbf-merge";
 
 sub usage {
     my $message = shift || "";
-    
+
     <<EOF;
 @{[$message]}
     
@@ -65,9 +66,8 @@ die usage("No files given") if !@files;
 
 &validate_input();
 
-my $max    = `ls *.pbf | wc -l`;    #16767; # 1022; # 1676 16747
-my $factor = 12;
-
+#my $max    = `ls *.pbf | wc -l`;    #16767; # 1022; # 1676 16747
+#my $factor = 12;
 #for ( 1 .. (int($max/$factor) + 1 )) {
 #    my $rest = $max - ($_ - 1) * $factor > $factor ? $factor : ($max - ($_ - 1) * $factor);
 #
