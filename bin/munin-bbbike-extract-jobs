@@ -67,6 +67,8 @@ proc.label Running proc
 proc.min 0
 waiting.label Waiting jobs
 waiting.min 0
+users.label Active Users
+users.min 0
 EOF
 
 echo "jobs.warning $jobs_warning"
