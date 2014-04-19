@@ -74,24 +74,34 @@ sub create_script {
     
     warn Dumper(\%args) if $debug >= 2;
     
+    my @round;
+    foreach my $round ('a' .. 'z') {
     my @data;
     my @script;
     my $counter = 0;
-    foreach my $file (@files) {
+    
+    for (my $i = 0; $i < @files; $i++) {
+        my $file = $files[$i];
+        
         push @data, $file;
-        if (scalar(@data) == $max_files) {
-            my ($script) = create_merge("$merge_dir/$counter.pbf", \@data);
+        if (scalar(@data) == $max_files || (@data && $i == $#files)) {
+            my $out = "$merge_dir/$round-$counter.pbf";
+            my ($script) = create_merge($out, \@data);
             push @script, $script;
             $counter++;
             undef @data;
+            push @round, $out;
         }
     }
-    if (@data) {
-            my ($script) = create_merge("$merge_dir/$counter.pbf", \@data);
-            push @script, $script;
-    }
     
+    print "# round: $round\n";
     print join "\n", @script, "";
+    if (@round > 1) {
+        @files = @round;
+    }
+    undef @round;
+    
+    }
 }
 
 sub create_merge {
