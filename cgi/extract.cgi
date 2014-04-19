@@ -95,15 +95,15 @@ our $formats = {
     'csv.xz'            => "csv 7z (xz)",
     'mapsforge-osm.zip' => "Mapsforge OSM",
 
-    'srtm-europe.osm.pbf'        => 'SRTM Europe PBF',
+    'srtm-europe.osm.pbf'         => 'SRTM Europe PBF',
     'srtm-europe.garmin-srtm.zip' => 'SRTM Europe Garmin',
-    'srtm-europe.obf.zip' => 'SRTM Europe Osmand',
-    
-    'srtm.osm.pbf'        => 'SRTM PBF',
-    'srtm.garmin-srtm.zip' => 'SRTM Garmin',
-    'srtm.obf.zip' => 'SRTM Osmand',
-    #'srtm-europe.mapsforge-osm.zip' => 'SRTM Europe Mapsforge',
+    'srtm-europe.obf.zip'         => 'SRTM Europe Osmand',
 
+    #'srtm.osm.pbf'         => 'SRTM PBF',
+    #'srtm.garmin-srtm.zip' => 'SRTM Garmin',
+    #'srtm.obf.zip'         => 'SRTM Osmand',
+
+    #'srtm-europe.mapsforge-osm.zip' => 'SRTM Europe Mapsforge',
     #'srtm-southamerica.osm.pbf' => 'SRTM South America PBF',
 };
 
@@ -1197,11 +1197,11 @@ sub homepage {
 
     print &header( $q, -type => 'homepage' );
     print &layout($q);
-    
+
     # localize formats
     my $formats_locale = {};
-    foreach my $key (keys %$formats) {
-        $formats_locale->{$key} = M($formats->{$key});
+    foreach my $key ( keys %$formats ) {
+        $formats_locale->{$key} = M( $formats->{$key} );
     }
 
     print qq{<div id="intro">\n};
