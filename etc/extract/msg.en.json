@@ -1,4 +1,11 @@
 {
+    "SRTM Europe PBF": "SRTM Contours Europe PBF",
+    "SRTM Europe Garmin": "SRTM Contours Europe Garmin",
+    "SRTM Europe Osmand": "SRTM Contours Europe Osmand",
+    "SRTM PBF": "SRTM Contours PBF",
+    "SRTM Garmin": "SRTM Contours Garmin",
+    "SRTM Osmand": "SRTM Contours Osmand",
+
     "EXTRACT_CONFIRMED": [
         "<p>Thanks - the input data looks good.</p><p>",
         "It takes between 15-30 minutes to extract an area from planet.osm,",

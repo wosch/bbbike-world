@@ -22,6 +22,16 @@
     "show": "zeige",
     "hide": "verstecke",
 
+    "Garmin Cycle": "Garmin Fahrrad",
+    "Garmin Leisure": "Garmin Freizeitkarte",
+
+    "SRTM Europe PBF": "SRTM Höhenlinien Europa PBF",
+    "SRTM Europe Garmin": "SRTM Höhenlinien Europa Garmin",
+    "SRTM Europe Osmand": "SRTM Höhenlinien Europa Osmand",
+    "SRTM PBF": "SRTM Höhenlinien PBF",
+    "SRTM Garmin": "SRTM Höhenlinien Garmin",
+    "SRTM Osmand": "SRTM Höhenlinien Osmand",
+
     "EXTRACT_CONFIRMED": [
         "<p>Danke - die Eingabedaten sind korrekt.</p><p>",
         "Es dauert ca. 15-30 Minuten um eine Region aus der Planet.osm Datei auszuschneiden - ",
