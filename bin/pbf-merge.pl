@@ -52,6 +52,68 @@ sub validate_input {
     }
 }
 
+#my $max    = `ls *.pbf | wc -l`;    #16767; # 1022; # 1676 16747
+#my $factor = 12;
+#for ( 1 .. (int($max/$factor) + 1 )) {
+#    my $rest = $max - ($_ - 1) * $factor > $factor ? $factor : ($max - ($_ - 1) * $factor);
+#
+#    print qq{head -}, ( $_ * $factor ),
+#      qq{ .list | tail -$rest | },
+#q{perl -e '@a=("osmosis", "-q"); while(<>) { chomp; push @a, "--read-pbf",  $_,;  push @b, "--merge"}; pop @b; print join " ", @a, @b, "--write-pbf",  "omitmetadata=true", "../merged/}, "$_.pbf.tmp && mv -f ../merged/$_.pbf.tmp ../merged/$_.pbf", qq{" ' | /bin/sh\n};
+#
+#}
+
+sub create_script {
+    my %args = @_;
+ 
+    my $files = $args{'files'};
+    my $max_files = $args{'max_files'};
+    my $merge_dir = $args{'merge_dir'};
+    my $max_cpu = $args{'max_cpu'};
+    my @files = @$files;
+    
+    warn Dumper(\%args) if $debug >= 2;
+    
+    my @data;
+    my @script;
+    my $counter = 0;
+    foreach my $file (@files) {
+        push @data, $file;
+        if (scalar(@data) == $max_files) {
+            my ($script) = create_merge("$merge_dir/$counter.pbf", \@data);
+            push @script, $script;
+            $counter++;
+            undef @data;
+        }
+    }
+    if (@data) {
+            my ($script) = create_merge("$merge_dir/$counter.pbf", \@data);
+            push @script, $script;
+    }
+    
+    print join "\n", @script, "";
+}
+
+sub create_merge {
+    my ($merge_file, $data) = @_;
+    my @files = @$data;
+
+    my @script = ("osmosis", "-q");
+    my @todo;
+    foreach my $file (@files) {
+        push @script, ("--read-pbf", $file);
+        push @todo, "--merge";
+    }
+    
+    pop @todo;
+    push @script, @todo;
+    push @script, ("--write-pbf",  "omitmetadata=true", "$merge_file.tmp");
+    push @script, ("mv -f $merge_file.tmp $merge_file");
+                   
+    return join " ", @script;
+}
+
+
 GetOptions(
     "debug=i"     => \$debug,
     "max-files=i" => \$max_files,
@@ -65,15 +127,5 @@ die &usage if $help;
 die usage("No files given") if !@files;
 
 &validate_input();
-
-#my $max    = `ls *.pbf | wc -l`;    #16767; # 1022; # 1676 16747
-#my $factor = 12;
-#for ( 1 .. (int($max/$factor) + 1 )) {
-#    my $rest = $max - ($_ - 1) * $factor > $factor ? $factor : ($max - ($_ - 1) * $factor);
-#
-#    print qq{head -}, ( $_ * $factor ),
-#      qq{ .list | tail -$rest | },
-#q{perl -e '@a=("osmosis", "-q"); while(<>) { chomp; push @a, "--read-pbf",  $_,;  push @b, "--merge"}; pop @b; print join " ", @a, @b, "--write-pbf",  "omitmetadata=true", "../merged/}, "$_.pbf.tmp && mv -f ../merged/$_.pbf.tmp ../merged/$_.pbf", qq{" ' | /bin/sh\n};
-#
-#}
+&create_script('files' => \@files, 'merge_dir' => $merge_dir, 'max_cpu' => $max_cpu, 'max_files' => $max_files);
 
