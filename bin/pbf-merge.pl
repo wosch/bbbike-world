@@ -65,64 +65,71 @@ sub validate_input {
 
 sub create_script {
     my %args = @_;
- 
-    my $files = $args{'files'};
+
+    my $files     = $args{'files'};
     my $max_files = $args{'max_files'};
     my $merge_dir = $args{'merge_dir'};
-    my $max_cpu = $args{'max_cpu'};
-    my @files = @$files;
-    
-    warn Dumper(\%args) if $debug >= 2;
-    
-    my @round;
-    foreach my $round ('a' .. 'z') {
-    my @data;
-    my @script;
-    my $counter = 0;
-    
-    for (my $i = 0; $i < @files; $i++) {
-        my $file = $files[$i];
-        
-        push @data, $file;
-        if (scalar(@data) == $max_files || (@data && $i == $#files)) {
-            my $out = "$merge_dir/$round-$counter.pbf";
-            my ($script) = create_merge($out, \@data);
-            push @script, $script;
-            $counter++;
-            undef @data;
-            push @round, $out;
+    my $max_cpu   = $args{'max_cpu'};
+    my @files     = @$files;
+
+    warn Dumper( \%args ) if $debug >= 2;
+
+    # up top 2^N rounds, 26 should be enough
+    foreach my $round ( 'a' .. 'z' ) {
+        my @round;
+        my @data;
+        my @script;
+        my $counter = 0;
+        my $out;
+
+        for ( my $i = 0 ; $i < @files ; $i++ ) {
+            my $file = $files[$i];
+
+            push @data, $file;
+            if ( scalar(@data) == $max_files || ( @data && $i == $#files ) ) {
+                $out = "$merge_dir/$round-$counter.pbf";
+                my $script = create_merge( $out, \@data );
+                push @script, $script;
+                $counter++;
+                undef @data;
+                push @round, $out;
+            }
         }
-    }
-    
-    print "# round: $round\n";
-    print join "\n", @script, "";
-    if (@round > 1) {
-        @files = @round;
-    }
-    undef @round;
-    
+
+        if (@script) {
+            print "# round: $round\n";
+            print join "\n", @script, "";
+        }
+       
+        # another round? 
+        if ( @round > 1 ) {
+            @files = @round;
+        } else {
+            @files = ();
+            print "# Last round: $out\n";
+            last;
+        }
     }
 }
 
 sub create_merge {
-    my ($merge_file, $data) = @_;
+    my ( $merge_file, $data ) = @_;
     my @files = @$data;
 
-    my @script = ("osmosis", "-q");
+    my @script = ( "osmosis", "-q" );
     my @todo;
     foreach my $file (@files) {
-        push @script, ("--read-pbf", $file);
+        push @script, ( "--read-pbf", $file );
         push @todo, "--merge";
     }
-    
+
     pop @todo;
     push @script, @todo;
-    push @script, ("--write-pbf",  "omitmetadata=true", "$merge_file.tmp");
+    push @script, ( "--write-pbf", "omitmetadata=true", "$merge_file.tmp" );
     push @script, ("mv -f $merge_file.tmp $merge_file");
-                   
+
     return join " ", @script;
 }
-
 
 GetOptions(
     "debug=i"     => \$debug,
@@ -137,5 +144,10 @@ die &usage if $help;
 die usage("No files given") if !@files;
 
 &validate_input();
-&create_script('files' => \@files, 'merge_dir' => $merge_dir, 'max_cpu' => $max_cpu, 'max_files' => $max_files);
+&create_script(
+    'files'     => \@files,
+    'merge_dir' => $merge_dir,
+    'max_cpu'   => $max_cpu,
+    'max_files' => $max_files
+);
 
