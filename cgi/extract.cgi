@@ -1197,6 +1197,12 @@ sub homepage {
 
     print &header( $q, -type => 'homepage' );
     print &layout($q);
+    
+    # localize formats
+    my $formats_locale = {};
+    foreach my $key (keys %$formats) {
+        $formats_locale->{$key} = M($formats->{$key});
+    }
 
     print qq{<div id="intro">\n};
 
@@ -1275,12 +1281,12 @@ qq{<span title="hide longitude,latitude box" class="lnglatbox" onclick="javascri
                             -name   => 'format',
                             -values => [
                                 sort {
-                                    lc( $formats->{$a} ) cmp
-                                      lc( $formats->{$b} )
+                                    lc( $formats_locale->{$a} ) cmp
+                                      lc( $formats_locale->{$b} )
                                   }
-                                  keys %$formats
+                                  keys %$formats_locale
                             ],
-                            -labels  => $formats,
+                            -labels  => $formats_locale,
                             -default => $default_format
                           ),
                     ]
