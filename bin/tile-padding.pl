@@ -100,7 +100,7 @@ my $tile_padding =
 
 die "unknown format '$format'" . &usage if !exists $TileSize::factor->{$format};
 
-#warn Dumper($tile_padding->{_size});
+warn Dumper( $tile_padding->{_size} ) if $debug >= 2;
 
 # original data
 my %hash;
