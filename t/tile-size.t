@@ -10,6 +10,7 @@ use warnings;
 
 # reset default debug value
 $TileSize::debug = 0;
+$TileSize::use_cache = 0;
 
 plan 'no_plan';
 
