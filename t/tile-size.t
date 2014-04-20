@@ -8,6 +8,9 @@ use TileSize;
 use strict;
 use warnings;
 
+# reset default debug value
+$TileSize::debug = 0;
+
 plan 'no_plan';
 
 my $tile = new TileSize( 'debug' => -1 );
@@ -131,50 +134,35 @@ cmp_ok( $tile->area_size( -280, 0, -279, 1, TileSize::FRACTAL_100 ), "==", 1 );
 cmp_ok( $tile->area_size( 280,  0, 281,  1, TileSize::FRACTAL_100 ), "==", 1 );
 
 # test with real planet.osm data
-$tile =
-  new TileSize( 'debug' => 0, 'database' => "world/etc/tile/tile-pbf.csv" );
+$tile = new TileSize( 'database' => "world/etc/tile/tile-pbf.csv" );
 is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 215380 );
 
-$tile = new TileSize(
-    'debug'    => 0,
-    'database' => "world/etc/tile/tile-garmin-osm.zip.csv"
-);
+$tile = new TileSize( 'database' => "world/etc/tile/tile-garmin-osm.zip.csv" );
 is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 226954 );
 
-$tile = new TileSize(
-    'debug'    => 0,
-    'database' => "world/etc/tile/tile-mapsforge-osm.zip.csv"
-);
+$tile =
+  new TileSize( 'database' => "world/etc/tile/tile-mapsforge-osm.zip.csv" );
 is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 172379 );
 
-$tile = new TileSize(
-    'debug'    => 0,
-    'database' => "world/etc/tile/tile-navit.zip.csv"
-);
+$tile = new TileSize( 'database' => "world/etc/tile/tile-navit.zip.csv" );
 is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 181314 );
 
-$tile =
-  new TileSize( 'debug' => 0, 'database' => "world/etc/tile/tile-obf.zip.csv" );
+$tile = new TileSize( 'database' => "world/etc/tile/tile-obf.zip.csv" );
 is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 451733 );
 
-$tile =
-  new TileSize( 'debug' => 0, 'database' => "world/etc/tile/tile-osm.gz.csv" );
+$tile = new TileSize( 'database' => "world/etc/tile/tile-osm.gz.csv" );
 is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 424132 );
 
-$tile =
-  new TileSize( 'debug' => 0, 'database' => "world/etc/tile/tile-shp.zip.csv" );
+$tile = new TileSize( 'database' => "world/etc/tile/tile-shp.zip.csv" );
 is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 905289 );
 
 # placeholder for osm csv format
 #$tile =
-#  new TileSize( 'debug' => 0, 'database' => "world/etc/tile/tile-shp.zip.csv" );
+#  new TileSize( 'database' => "world/etc/tile/tile-shp.zip.csv" );
 #is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 194908 );
 
 # elevation test
-$tile = new TileSize(
-    'debug'    => 0,
-    'database' => "world/etc/tile/tile-srtm-europe.pbf.csv"
-);
+$tile = new TileSize( 'database' => "world/etc/tile/tile-srtm-europe.pbf.csv" );
 is(
     int(
         $tile->area_size(
