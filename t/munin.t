@@ -23,6 +23,12 @@ system(
     qq[printf "fetch bbbike-route\nquit\n" | nc localhost 4949 | egrep -q value]
 );
 
-is( $?, 0, "munin bbbike script is running" );
+my $status = $?;
+if ($status) {
+    system( "ls", "-ld", "/var/log/lighttpd" );
+}
+
+is( $status, 0,
+    "munin bbbike script is running and can read /var/log/lighttpd" );
 
 __END__
