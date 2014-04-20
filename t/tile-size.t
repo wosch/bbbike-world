@@ -171,5 +171,26 @@ is(
     ),
     82392
 );
+$tile =
+  new TileSize( 'database' => "world/etc/tile/tile-srtm-europe.obf.zip.csv" );
+is(
+    int(
+        $tile->area_size(
+            6.148, 45.955, 11.778, 49.371, TileSize::FRACTAL_REAL
+        )
+    ),
+    159617
+);
+
+$tile = new TileSize(
+    'database' => "world/etc/tile/tile-srtm-europe.garmin-srtm.zip.csv" );
+is(
+    int(
+        $tile->area_size(
+            6.148, 45.955, 11.778, 49.371, TileSize::FRACTAL_REAL
+        )
+    ),
+    115754
+);
 
 __END__
