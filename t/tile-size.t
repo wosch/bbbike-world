@@ -161,67 +161,27 @@ is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 905289 );
 #  new TileSize( 'database' => "world/etc/tile/tile-shp.zip.csv" );
 #is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 194908 );
 
+my $size = TileSize::FRACTAL_REAL;
+
 # elevation test
 $tile = new TileSize( 'database' => "world/etc/tile/tile-srtm-europe.pbf.csv" );
-is(
-    int(
-        $tile->area_size(
-            6.148, 45.955, 11.778, 49.371, TileSize::FRACTAL_REAL
-        )
-    ),
-    82392
-);
+is( int( $tile->area_size( 6.148, 45.955, 11.778, 49.371, $size ) ), 82392 );
 $tile =
   new TileSize( 'database' => "world/etc/tile/tile-srtm-europe.obf.zip.csv" );
-is(
-    int(
-        $tile->area_size(
-            6.148, 45.955, 11.778, 49.371, TileSize::FRACTAL_REAL
-        )
-    ),
-    159617
-);
+is( int( $tile->area_size( 6.148, 45.955, 11.778, 49.371, $size ) ), 159617 );
 
 $tile = new TileSize(
     'database' => "world/etc/tile/tile-srtm-europe.garmin-srtm.zip.csv" );
-is(
-    int(
-        $tile->area_size(
-            6.148, 45.955, 11.778, 49.371, TileSize::FRACTAL_REAL
-        )
-    ),
-    115754
-);
+is( int( $tile->area_size( 6.148, 45.955, 11.778, 49.371, $size ) ), 115754 );
 
 # elevation test
 $tile = new TileSize( 'database' => "world/etc/tile/tile-srtm-pbf.csv" );
-is(
-    int(
-        $tile->area_size(
-            6.148, 45.955, 11.778, 49.371, TileSize::FRACTAL_REAL
-        )
-    ),
-    65263
-);
+is( int( $tile->area_size( 6.148, 45.955, 11.778, 49.371, $size ) ), 65263 );
 $tile = new TileSize( 'database' => "world/etc/tile/tile-srtm-obf.zip.csv" );
-is(
-    int(
-        $tile->area_size(
-            6.148, 45.955, 11.778, 49.371, TileSize::FRACTAL_REAL
-        )
-    ),
-    216920
-);
+is( int( $tile->area_size( 6.148, 45.955, 11.778, 49.371, $size ) ), 216920 );
 
 $tile =
   new TileSize( 'database' => "world/etc/tile/tile-srtm-garmin-srtm.zip.csv" );
-is(
-    int(
-        $tile->area_size(
-            6.148, 45.955, 11.778, 49.371, TileSize::FRACTAL_REAL
-        )
-    ),
-    153152
-);
+is( int( $tile->area_size( 6.148, 45.955, 11.778, 49.371, $size ) ), 153152 );
 
 __END__
