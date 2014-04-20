@@ -14,6 +14,7 @@ use GIS::Distance::Lite;
 use Storable;
 use Digest::MD5 qw(md5_hex);
 use File::stat;
+use Cwd 'abs_path';
 
 use strict;
 use warnings;
@@ -84,7 +85,7 @@ sub get_cache_file {
     my $file =
         $self->{'tmpdir'}
       . "/_tilesize-$<-$hostname-"
-      . md5_hex( $self->{'database'} . ".db" );
+      . md5_hex( abs_path( $self->{'database'} ) );
     return $file;
 }
 
