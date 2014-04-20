@@ -51,17 +51,17 @@ my %format = (
     "csv.gz"  => "pbf",
     "csv.bz2" => "pbf",
 
-    "srtm-europe.osm.pbf"           => "srtm-europe.pbf",
-    "srtm-europe.garmin-srtm.zip"   => "srtm-europe.pbf",
-    "srtm-europe.mapsforge-osm.zip" => "srtm-europe.pbf",
-    "srtm-europe.obf.zip"           => "srtm-europe.pbf",
+    "srtm-europe.osm.pbf"         => "srtm-europe.pbf",
+    "srtm-europe.garmin-srtm.zip" => "srtm-europe.garmin-srtm.zip",
+    "srtm-europe.obf.zip"         => "srtm-europe.obf.zip",
 
     "srtm.osm.pbf"         => "srtm-pbf",
     "srtm.garmin-srtm.zip" => "srtm-garmin-srtm.zip",
     "srtm.obf.zip"         => "srtm-obf.zip",
 
     # needs to be implemented
-    "srtm-southamerica.osm.pbf" => "srtm-pbf",
+    #"srtm-southamerica.osm.pbf" => "srtm-pbf",
+    #"srtm-europe.mapsforge-osm.zip" => "srtm-europe.pbf",
 );
 
 sub Param {
