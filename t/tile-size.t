@@ -193,4 +193,35 @@ is(
     115754
 );
 
+# elevation test
+$tile = new TileSize( 'database' => "world/etc/tile/tile-srtm-pbf.csv" );
+is(
+    int(
+        $tile->area_size(
+            6.148, 45.955, 11.778, 49.371, TileSize::FRACTAL_REAL
+        )
+    ),
+    65263
+);
+$tile = new TileSize( 'database' => "world/etc/tile/tile-srtm-obf.zip.csv" );
+is(
+    int(
+        $tile->area_size(
+            6.148, 45.955, 11.778, 49.371, TileSize::FRACTAL_REAL
+        )
+    ),
+    216920
+);
+
+$tile =
+  new TileSize( 'database' => "world/etc/tile/tile-srtm-garmin-srtm.zip.csv" );
+is(
+    int(
+        $tile->area_size(
+            6.148, 45.955, 11.778, 49.371, TileSize::FRACTAL_REAL
+        )
+    ),
+    153152
+);
+
 __END__
