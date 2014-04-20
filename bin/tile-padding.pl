@@ -91,6 +91,8 @@ if ( !$format ) {
 }
 die "missing format argument" . &usage if !$format;
 
+warn "tile pbf db: $database_pbf, tile padding db: $database_padding\n"
+  if $debug >= 1;
 my $tile_pbf     = TileSize->new( 'database' => $database_pbf );
 my $tile_padding = TileSize->new( 'database' => $database_padding );
 
