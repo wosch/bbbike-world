@@ -52,6 +52,8 @@ if [ "$1" = "config" ]; then
     : ${proc_critical=7}
     : ${waiting_warning=40}
     : ${waiting_critical=80}
+    : ${users_warning=10}
+    : ${users_critical=20}
      
     cat <<EOF
 graph_title Extracts queue
@@ -65,6 +67,8 @@ proc.label Running proc
 proc.min 0
 waiting.label Waiting jobs
 waiting.min 0
+users.label Active Users
+users.min 0
 EOF
 
 echo "jobs.warning $jobs_warning"
@@ -73,10 +77,15 @@ echo "proc.warning $proc_warning"
 echo "proc.critical $proc_critical"
 echo "waiting.warning $waiting_warning"
 echo "waiting.critical $waiting_critical"
+echo "users.warning $users_warning"
+echo "users.critical $users_critical"
 
     exit 0
 fi
 
+#############################################
+# main
+#
 echo "jobs.value" $(ls $extract_dir/*/*json 2>/dev/null | wc -l) 
 
 count=0
@@ -92,3 +101,6 @@ echo "proc.value $count"
 
 echo "waiting.value" $(ls $extract_dir/../confirmed/*json 2>/dev/null | wc -l) 
 
+echo "users.value" $(egrep -h '"email"' $extract_dir/*/*json 2>/dev/null | sort -u | wc -l) 
+
+# EOF
