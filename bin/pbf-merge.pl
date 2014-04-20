@@ -100,11 +100,12 @@ sub create_script {
             print "# round: $round\n";
             print join "\n", @script, "";
         }
-       
-        # another round? 
+
+        # another round?
         if ( @round > 1 ) {
             @files = @round;
-        } else {
+        }
+        else {
             @files = ();
             print "# Last round: $out\n";
             last;
