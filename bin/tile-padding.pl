@@ -15,6 +15,7 @@ use strict;
 use warnings;
 
 my $debug = 2;
+$TileSize::use_cache = 0;
 
 sub to_csv {
     my $key = shift;
@@ -93,8 +94,9 @@ die "missing format argument" . &usage if !$format;
 
 warn "tile pbf db: $database_pbf, tile padding db: $database_padding\n"
   if $debug >= 1;
-my $tile_pbf     = TileSize->new( 'database' => $database_pbf );
-my $tile_padding = TileSize->new( 'database' => $database_padding );
+my $tile_pbf = TileSize->new( 'database' => $database_pbf, 'debug' => $debug );
+my $tile_padding =
+  TileSize->new( 'database' => $database_padding, 'debug' => $debug );
 
 die "unknown format '$format'" . &usage if !exists $TileSize::factor->{$format};
 
