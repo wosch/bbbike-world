@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2014 Wolfram Schneider, http://bbbike.org
 #
 # extract-disk-usage - calculate uncompressed image size for Garmin & Osmand
 #
@@ -15,9 +15,12 @@ with_path=""; export with_path
 set -e
 
 usage () {
-   echo "$@"
-   echo ""
-   echo "usage: $0 [--du ] file.zip"
+    cat <<EOF >&2
+$@
+
+usage: $0 [--du ] file.zip
+EOF
+
    exit 1
 }
 
