@@ -14,7 +14,7 @@ use TileSize;
 use strict;
 use warnings;
 
-my $debug = 2;
+my $debug = 0;
 $TileSize::use_cache = 0;
 
 sub to_csv {
