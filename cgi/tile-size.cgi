@@ -56,8 +56,12 @@ my %format = (
     "srtm-europe.mapsforge-osm.zip" => "srtm-europe.pbf",
     "srtm-europe.obf.zip"           => "srtm-europe.pbf",
 
+    "srtm.osm.pbf"         => "srtm-pbf",
+    "srtm.garmin-srtm.zip" => "srtm-garmin-srtm.zip",
+    "srtm.obf.zip"         => "srtm-obf.zip",
+
     # needs to be implemented
-    "srtm-southamerica.osm.pbf" => "pbf",
+    "srtm-southamerica.osm.pbf" => "srtm-pbf",
 );
 
 sub Param {
