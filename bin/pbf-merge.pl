@@ -22,7 +22,7 @@ binmode( \*STDOUT, ":raw" );
 my $help;
 my $max_cpu   = 2;
 my $max_files = 40;
-my $debug     = 1;
+my $debug     = 0;
 my $merge_dir = "pbf-merge";
 my $random    = 0;
 
