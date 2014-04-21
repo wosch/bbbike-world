@@ -117,7 +117,7 @@ sub create_merge {
     my ( $merge_file, $data ) = @_;
     my @files = @$data;
 
-    my @script = ( "osmosis", "-q" );
+    my @script = ( "time", "osmosis", "-q" );
     my @todo;
     foreach my $file (@files) {
         push @script, ( "--read-pbf", $file );
@@ -127,7 +127,7 @@ sub create_merge {
     pop @todo;
     push @script, @todo;
     push @script, ( "--write-pbf", "omitmetadata=true", "$merge_file.tmp" );
-    push @script, ("mv -f $merge_file.tmp $merge_file");
+    push @script, (" && mv -f $merge_file.tmp $merge_file");
 
     return join " ", @script;
 }
