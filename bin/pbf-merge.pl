@@ -145,6 +145,19 @@ sub random_files {
 
     return @list;
 }
+
+sub check_merge_dir {
+    my $merge_dir = shift;
+
+    if ( -d $merge_dir ) {
+        warn "Merge directory '$merge_dir' exists\n" if $debug >= 2;
+    }
+    else {
+        system( "mkdir", "-p", $merge_dir ) == 0
+          or die "mkdir exit status: $?\n";
+    }
+}
+
 #############################################################################
 # main
 #
@@ -167,6 +180,8 @@ if ($random) {
 }
 
 &validate_input();
+&check_merge_dir($merge_dir);
+
 &create_script(
     'files'     => \@files,
     'merge_dir' => $merge_dir,
