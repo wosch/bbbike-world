@@ -4,10 +4,13 @@
 # mkdir ../osm
 # ls *.zip | perl -MFile::Basename -ne 'chomp; $num = 10_000 if !$num; print qq{zcat $_ | perl -npe "s, (ref|id)=\\\"10, \\\$1=\\\"$num," | osmconvert --fake-version - | pigz > ../osm/}, basename($_, ".zip"), ".gz\0"; $num++' | nice -20 time xargs -n1 -P6 -0 /bin/sh -c >& a.log
 #
+# TODO: multi-process. At the moment osmosis is multi-threaded, with up to 300% CPU
+#       usage (good enough for now)
 
 use IO::File;
 use Getopt::Long;
 use File::Temp;
+use Digest::MD5 qw(md5_hex);
 use Data::Dumper;
 
 use strict;
@@ -21,6 +24,7 @@ my $max_cpu   = 2;
 my $max_files = 40;
 my $debug     = 1;
 my $merge_dir = "pbf-merge";
+my $random    = 0;
 
 sub usage {
     my $message = shift || "";
@@ -34,6 +38,7 @@ usage: $0 [options] file1.pbf file2.pbf ....
 --max-files=2..100        max. files merged default: $max_files
 --merge-dir=/path/to/dir  where to write results, default: $merge_dir
 --max-cpu=1..N            max. number of parallel processes, default: $max_cpu
+--random=0|1              merge files in random order, default: $random
 
 EOF
 }
@@ -132,17 +137,34 @@ sub create_merge {
     return join " ", @script;
 }
 
+sub random_files {
+    my @files = @_;
+
+    my %hash = map { $_ => md5_hex($_) } @files;
+    my @list = sort { $hash{$a} cmp $hash{$b} } @files;
+
+    return @list;
+}
+#############################################################################
+# main
+#
 GetOptions(
     "debug=i"     => \$debug,
     "max-files=i" => \$max_files,
     "merge-dir=s" => \$merge_dir,
     "max-cpu=i"   => \$max_cpu,
+    "random=i"    => \$random,
     "help"        => \$help,
 ) or die usage;
 
 my @files = @ARGV;
 die &usage if $help;
 die usage("No files given") if !@files;
+
+if ($random) {
+    warn "Re-sort files in random order\n" if $debug >= 1;
+    @files = &random_files(@files);
+}
 
 &validate_input();
 &create_script(
