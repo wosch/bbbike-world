@@ -872,6 +872,7 @@ tile-lng:
 	mkdir -p ${TILES_DIR}/tmp ${TILES_DIR}/cities tmp
 	./world/bin/tile-lng.pl > ${TILES_DIR}/cities/cities2.csv
 	awk -F: '{ print $$1 }' ${TILES_DIR}/cities/cities2.csv > ${TILES_DIR}/cities/cities2.txt
+	echo "Planet.osm input file: ${OSM_PLANET_PBF}" > ${TILES_DIR}/tmp/planet.log
 
 tile-lnglat:
 	env TILES_DIR=${TILES_DIR} ./world/bin/tile-lnglat0.sh
