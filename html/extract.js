@@ -1136,10 +1136,6 @@ function show_filesize(skm, real_size) {
             "size": 1,
             "time": 1
         },
-        "srtm-europe.mapsforge-osm.zip": {
-            "size": 0.8,
-            "time": 14
-        },
         "srtm-europe.garmin-srtm.zip": {
             "size": 1.3,
             "time": 2
@@ -1148,10 +1144,26 @@ function show_filesize(skm, real_size) {
             "size": 2.0,
             "time": 10
         },
-        "srtm-southamerica.osm.pbf": {
+        "srtm.osm.pbf": {
             "size": 1,
             "time": 1
+        },
+        "srtm.garmin-srtm.zip": {
+            "size": 1.3,
+            "time": 2
+        },
+        "srtm.obf.zip": {
+            "size": 2.0,
+            "time": 10
         }
+        //"srtm-europe.mapsforge-osm.zip": {
+        //    "size": 0.8,
+        //    "time": 14
+        //},
+        //"srtm-southamerica.osm.pbf": {
+        //    "size": 1,
+        //    "time": 1
+        //}
     };
 
     if (!filesize[format]) {
