@@ -150,9 +150,10 @@ sub check_merge_dir {
     my $merge_dir = shift;
 
     if ( -d $merge_dir ) {
-        warn "Merge directory '$merge_dir' exists\n" if $debug >= 2;
+        warn "Merge directory '$merge_dir' exists\n" if $debug >= 1;
     }
     else {
+        warn "Create merge directory '$merge_dir'\n" if $debug >= 1;
         system( "mkdir", "-p", $merge_dir ) == 0
           or die "mkdir exit status: $?\n";
     }
