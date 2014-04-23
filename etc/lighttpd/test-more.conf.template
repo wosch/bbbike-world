@@ -14,6 +14,7 @@ server.modules = (
         "mod_accesslog",
 	"mod_extforward",
 	"mod_status",
+	"mod_setenv",
 )
 
 server.document-root 	    = "%PWD%/world/web"
@@ -46,9 +47,10 @@ $HTTP["host"] =~ "^localhost:8080$" {
             url.rewrite-once = ( "^/([a-z][a-z]/|m/)?([A-Z][A-Za-z]+)/streets.html$" => "/$1$2/index.cgi?all=2" )
 	}
 
-    	setenv.add-environment = ( 
+        setenv.add-environment = (
+      		"WOSCH" => "%TMPDIR%",
       		"TMPDIR" => "%TMPDIR%" 
-    	)
+      	)
 }
 
 #include_shell "/usr/share/lighttpd/create-mime.assign.pl"
