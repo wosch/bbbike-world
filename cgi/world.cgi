@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2014 Wolfram Schneider, http://bbbike.org
 #
 # world.cgi - cgi/shell wrapper for bbbike @ world city
 
@@ -50,7 +50,7 @@ fi
 
 cache_dir=/var/cache/bbbike/${server}/$name
 if [ "$server" = "localhost" ]; then
-    cache_dir=/tmp/bbbike-${server}/$name
+    cache_dir=/tmp/bbbike-${server}-$(whoami)/$name
 fi
 mkdir -p $cache_dir
 
