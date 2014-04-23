@@ -1129,14 +1129,14 @@ osmand-devel:
 	   ls -l `pwd`/$$dir.zip
 
 test-org:
-	./world/bin/lighttpd-template-update
+	TMPDIR=${TMP_DIR} ./world/bin/lighttpd-template-update
 
 lighttpd-restart: temp-clean test-org
 	-killall -TERM lighttpd
 	sleep 0.5
 	-killall -SIGKILL lighttpd
 	mkdir -p ${TMP_DIR}
-	TMPDIR=${TMP_DIR} $$(pwd)/world/bin/lighttpd-start &
+	$$(pwd)/world/bin/lighttpd-start &
 	sleep 0.2
 
 test prove: lighttpd-restart 
