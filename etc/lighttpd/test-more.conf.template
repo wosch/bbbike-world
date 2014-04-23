@@ -45,6 +45,10 @@ $HTTP["host"] =~ "^localhost:8080$" {
 	$HTTP["request-method"] == "GET" {
             url.rewrite-once = ( "^/([a-z][a-z]/|m/)?([A-Z][A-Za-z]+)/streets.html$" => "/$1$2/index.cgi?all=2" )
 	}
+
+    	setenv.add-environment = ( 
+      		"TMDPDIR" => "%TMPDIR%" 
+    	)
 }
 
 #include_shell "/usr/share/lighttpd/create-mime.assign.pl"
