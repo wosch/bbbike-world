@@ -47,7 +47,7 @@ $HTTP["host"] =~ "^localhost:8080$" {
 	}
 
     	setenv.add-environment = ( 
-      		"TMDPDIR" => "%TMPDIR%" 
+      		"TMPDIR" => "%TMPDIR%" 
     	)
 }
 
