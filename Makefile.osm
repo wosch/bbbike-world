@@ -781,7 +781,7 @@ cache-heater-common:
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
 	   ${PERL} -ne 'chomp; print "http://'${BBBIKE_WEB_SERVER}'/$$_/?generate_cache=1\0"; print "http://'${BBBIKE_API_SERVER}/${API_DIR}'/$$_/?generate_cache=1\0"' | \
             cat > tmp/$@.txt
-	   ${XARGS} -0 -n8 -P2 curl -sS -X PURGE < tmp/$@.txt >/dev/null
+	   #${XARGS} -0 -n8 -P2 curl -sS -X PURGE < tmp/$@.txt >/dev/null
 	   ${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf < tmp/$@.txt >/dev/null
 	@echo "cache usage after"
 	du -hs ${BBBIKE_CACHE_DIR}/
