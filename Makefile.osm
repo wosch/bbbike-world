@@ -86,6 +86,7 @@ BBBIKE_API_SERVER	?= api.bbbike.org
 API_DIR=	api/0.2
 LOG_DIR=tmp
 BBBIKE_PARTITION=	/bbbike
+PROVE_FILES=	t/*.t world/t/*.t
 
 CITIES=$(shell ${PERL} -npe 's/\#.*//' ${CITIES_FILE})
 
@@ -379,14 +380,21 @@ check:
 	@echo " make check-failed"
 	@echo ""
 	${BBMAKE} test > tmp/log.check 2>&1
-	tail -n 5 tmp/log.check
+	tail -n 10 tmp/log.check
+
+check-world: 
+	@echo "In case of failure run:"
+	@echo " make check-failed"
+	@echo ""
+	${BBMAKE} PROVE_FILES="world/t/*.t" test > tmp/log.check-world 2>&1
+	tail -n 10 tmp/log.check-world
 
 check-full: 
 	@echo "In case of failure run:"
 	@echo " BBBIKE_TEST_FAST=\"\" make check-failed"
 	@echo ""
 	BBBIKE_TEST_FAST="" ${BBMAKE} test > tmp/log.check-full 2>&1
-	tail -n 5 tmp/log.check-full
+	tail -n 10 tmp/log.check-full
 
 check-devel:
 	prove world/t/website-images.t  ./world/t/080-perlcheck.t 
@@ -1142,7 +1150,7 @@ lighttpd-restart: temp-clean test-org
 test prove: lighttpd-restart 
 	perl -c cgi/bbbike.cgi
 	mkdir -p ${TMP_DIR}
-	TMPDIR=${TMP_DIR} LANG=C LC_ALL=C time prove ${prove_opt} -j${MAX_CPU} t/*.t world/t/*.t
+	TMPDIR=${TMP_DIR} LANG=C LC_ALL=C time prove ${prove_opt} -j${MAX_CPU} ${PROVE_FILES}
 	@echo "All tests are successfully done. Stop lighttpd"
 	${MAKE} lighttpd-stop
 
@@ -1212,7 +1220,7 @@ help:
 	@echo "  [ deb-clean | deb-repo ]"
 	@echo "  [ debian-bootstrap | bbbike-bootstrap ]"
 	@echo "  [ build-runtime | git-fetch ]"
-	@echo "  [ check | check-full | check-failed ]"
+	@echo "  [ check | check-world | check-full | check-failed ]"
 
 	@echo ""
 	@echo "see also ./world/README"
