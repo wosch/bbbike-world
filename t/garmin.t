@@ -18,7 +18,12 @@ use File::stat;
 use strict;
 use warnings;
 
-my @garmin_styles = qw/cycle leisure osm bbbike/;
+my @garmin_styles = qw/cycle osm/;
+
+if ( !$ENV{BBBIKE_TEST_FAST} ) {
+    push @garmin_styles, qw/leisure bbbike/;
+}
+
 plan tests => 4 + 5 * scalar(@garmin_styles);
 
 my $pbf_file = 'world/t/data-osm/tmp/Cusco.osm.pbf';
