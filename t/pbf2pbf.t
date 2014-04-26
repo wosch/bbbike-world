@@ -37,8 +37,8 @@ sub md5_file {
 
 my $pbf_file = 'world/t/data-osm/tmp/Cusco.osm.pbf';
 if ( !-f $pbf_file ) {
-    system(qw(ln -sf ../Cusco.osm.pbf world/t/data-osm/tmp));
-    die "symlink failed: $!\n" if $?;
+    system(qw(ln -sf ../Cusco.osm.pbf world/t/data-osm/tmp)) == 0
+      or die "symlink failed: $?\n";
 }
 
 my $pbf_file2 = 'world/t/data-osm/tmp/Cusco2.osm.pbf';

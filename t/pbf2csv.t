@@ -45,8 +45,8 @@ my $csv_file_bz2 = "$prefix/Cusco.osm.csv.bz2";
 my $csv_file_xz  = "$prefix/Cusco.osm.csv.xz";
 
 if ( !-f $pbf_file ) {
-    system(qw(ln -sf ../Cusco.osm.pbf t/data-osm/tmp));
-    die "symlink failed: $!\n" if $?;
+    system(qw(ln -sf ../Cusco.osm.pbf t/data-osm/tmp)) == 0
+      or die "symlink failed: $?\n";
 }
 
 my $pbf_md5 = "6dc9df64ddc42347bbb70bc134b4feda";

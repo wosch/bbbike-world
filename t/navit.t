@@ -23,8 +23,8 @@ plan tests => 6;
 my $pbf_file = 'world/t/data-osm/tmp/Cusco.osm.pbf';
 
 if ( !-f $pbf_file ) {
-    system(qw(ln -sf ../Cusco.osm.pbf t/data-osm/tmp));
-    die "symlink failed: $!\n" if $?;
+    system(qw(ln -sf ../Cusco.osm.pbf t/data-osm/tmp)) == 0
+      or die "symlink failed: $?\n";
 }
 
 my $pbf_md5 = "6dc9df64ddc42347bbb70bc134b4feda";

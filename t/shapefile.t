@@ -30,8 +30,8 @@ my $prefix   = 'world/t/data-osm/tmp';
 my $pbf_file = "$prefix/Cusco.osm.pbf";
 
 if ( !-f $pbf_file ) {
-    system(qw(ln -sf ../Cusco.osm.pbf world/t/data-osm/tmp));
-    die "symlink failed: $!\n" if $?;
+    system(qw(ln -sf ../Cusco.osm.pbf world/t/data-osm/tmp)) == 0
+      or die "symlink failed: $?\n";
 }
 
 my $pbf_md5 = "6dc9df64ddc42347bbb70bc134b4feda";
