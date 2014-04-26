@@ -1,8 +1,7 @@
 #!/usr/local/bin/perl
 # Copyright (c) April 2014-2014 Wolfram Schneider, http://bbbike.org
 #
-# mkdir ../osm
-# ls *.zip | perl -MFile::Basename -ne 'chomp; $num = 10_000 if !$num; print qq{zcat $_ | perl -npe "s, (ref|id)=\\\"10, \\\$1=\\\"$num," | osmconvert --fake-version - | pigz > ../osm/}, basename($_, ".zip"), ".gz\0"; $num++' | nice -20 time xargs -n1 -P6 -0 /bin/sh -c >& a.log
+# pbf-merge - merge N number of *.pbf files into one big
 #
 # TODO: multi-process. At the moment osmosis is multi-threaded, with up to 300% CPU
 #       usage (good enough for now)
