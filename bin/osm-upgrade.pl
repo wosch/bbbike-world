@@ -6,7 +6,7 @@
 #
 
 use Getopt::Long;
-use File::Temp;
+use File::Basename;
 use Data::Dumper;
 
 use strict;
@@ -18,7 +18,7 @@ binmode( \*STDOUT, ":raw" );
 my $help;
 my $max_nodes = 1;
 my $debug     = 0;
-my $out_dir   = "../osm";
+my $out_dir   = "osm";
 
 sub usage {
     my $message = shift || "";
@@ -55,15 +55,15 @@ sub create_script {
     my $num = 10_000;
     foreach my $file (@files) {
 
-        print qq{zcat $file | },
+        print qq{pigz -dc $file | },
           qq{perl -npe "s, (ref|id)=\\\"10, \\\$1=\\\"$num," | },
           qq{osmconvert --fake-version - | };
 
         print
-qq{perl -ne 'if (/<nd /) {$a++; if ($a > 65_000) { next} } else {$a=0}' |}
+q{perl -ne 'if (/<nd /) { $a++; if ($a > 65_000) { next } } else { $a=0 }; print' | }
           if $max_nodes;
 
-        print qq{pigz > $out_dir}, basename( $file, ".zip", ".gz" ), ".gz\0";
+        print qq{pigz > $out_dir/}, basename( $file, ".zip", ".gz" ), ".gz\0";
         $num++;
     }
 }
