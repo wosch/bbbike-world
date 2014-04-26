@@ -1,9 +1,15 @@
 #!/bin/sh
-# Copyright (c) 2012-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2014 Wolfram Schneider, http://bbbike.org
 #
 # ov2pbf - wrapper to fix OSM/PBF format
 #
 # make sure all GPS points inside a rectangle of -180..-90 .. 180..90
+#
+# Note: older osmosis version cannot handle nodes in a way to 2^16 !!! Use a newer
+# osmosis version or strip it out before, e.g.:
+#
+# perl -ne 'if (/<nd /) {$a++; if ($a > 65_000) { next} } else {$a=0}; print' a.osm > /tmp/b.osm
+
 
 set -e
 
