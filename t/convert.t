@@ -155,7 +155,7 @@ sub check_files {
 
 sub convert {
     my $shell = 'world/t/data-osm/convert.sh';
-    system($shell);
+    system($shell) == 0 or die "Command '$shell' failed with status: $?\n";
     is( $?, 0, "convert city" );
 }
 
