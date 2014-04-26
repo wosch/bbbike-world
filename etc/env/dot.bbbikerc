@@ -29,3 +29,6 @@ export BBBIKE_OPT_DIR=/var/lib/bbbike/opt
 # Web server options:
 # BBBIKE_TEST_NO_CGI_TESTS=1
 
+# workaround for imagemagic thread bug / busy waiting in libgomp
+export OMP_WAIT_POLICY=PASSIVE
+
