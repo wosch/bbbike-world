@@ -52,10 +52,14 @@ sub create_script {
 
     warn Dumper( \%args ) if $debug >= 2;
 
+    # find the fastest gzip program
+    my $gzip = `which pigz gzip | head -1`;
+    chomp($gzip);
+
     my $num = 10_000;
     foreach my $file (@files) {
 
-        print qq{pigz -dc $file | },
+        print qq{$gzip -dc $file | },
           qq{perl -npe "s, (ref|id)=\\\"10, \\\$1=\\\"$num," | },
           qq{osmconvert --fake-version - | };
 
@@ -63,7 +67,7 @@ sub create_script {
 q{perl -ne 'if (/<nd /) { $a++; if ($a > 65_000) { next } } else { $a=0 }; print' | }
           if $max_nodes;
 
-        print qq{pigz > $out_dir/}, basename( $file, ".zip", ".gz" ), ".gz\0";
+        print qq{$gzip > $out_dir/}, basename( $file, ".zip", ".gz" ), ".gz\0";
         $num++;
     }
 }
