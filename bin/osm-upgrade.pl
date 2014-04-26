@@ -67,7 +67,8 @@ sub create_script {
 q{perl -ne 'if (/<nd /) { $a++; if ($a > 65_000) { next } } else { $a=0 }; print' | }
           if $max_nodes;
 
-        print qq{$gzip > $out_dir/}, basename( $file, ".zip", ".gz" ), ".gz\0";
+        my $out_file = "$out_dir/" . basename( $file, ".zip", ".gz" ) . ".gz";
+        print qq{$gzip > $out_file.tmp && mv -f $out_file.tmp $out_file\0};
         $num++;
     }
 }
