@@ -74,7 +74,7 @@ elif [ "$rcpu_param" = 1 ]; then
     else
         n=$rcpu
     fi
-elif [ "$rcpu_param" = 1 ]; then
+elif [ "$hcpu_param" = 1 ]; then
     n=$hcpu
 else
     n=$ncpu
