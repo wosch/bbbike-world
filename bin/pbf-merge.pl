@@ -20,7 +20,7 @@ binmode( \*STDOUT, ":raw" );
 
 my $help;
 my $max_cpu   = 2;
-my $max_files = 40;
+my $max_files = 16;
 my $debug     = 0;
 my $merge_dir = "pbf-merge";
 my $random    = 0;
@@ -45,7 +45,7 @@ EOF
 sub validate_input {
     if ( $max_files < 2 || $max_files > 100 ) {
         warn "max_files out of range 2..100: $max_files\n" if $debug;
-        $max_files = 40;
+        $max_files = 16;
         warn " reset max_files to $max_files\n" if $debug;
     }
 
