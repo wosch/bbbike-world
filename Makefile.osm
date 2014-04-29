@@ -102,7 +102,7 @@ OSM_PLANET_PBF=	../osm/download/planet-latest.osm.pbf
 OSM_PLANET_PBF=	../osm/download/planet-latest.osm.pbf
 #OSM_PLANET_PBF=	../osm/download/geofabrik/europe/germany/brandenburg.osm.pbf
 #OSM_PLANET_PBF=	../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf
-#OSM_PLANET_PBF=/usr/local/www/download.bbbike.org/osm/srtm/e25/planet-srtm-e25.osm.pbf
+OSM_PLANET_PBF=/usr/local/www/download.bbbike.org/osm/srtm/e25/planet-srtm-e25.osm.pbf
 
 OSM_AREAS_LARGE=	${OSM_PLANET_PBF}
 
@@ -1221,7 +1221,8 @@ help:
 	@echo "  [ extract-gc | extract-gc7 | extract-gc-osm ]"
 	@echo "  [ garmin-legend ]"
 	@echo "  [ tile | tile-extract | tile-convert | tile-csv | tile-checksum ]"
-	@echo "  [ tile-distclean | tile-rsync | tile-aws-s3 | tile-convert-srtm ]"
+	@echo "  [ tile-distclean | tile-rsync | tile-aws-s3"
+	@echo "  [ tile-convert-srtm | tile-srtm-csv ]"
 	@echo "  [ test-org | lighttpd-restart | test ]"
 	@echo "  [ jasmine-node | test-js ]"
 	@echo "  [ deb-perl | deb-equivs | deb-bin ]"
