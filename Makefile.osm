@@ -957,6 +957,13 @@ tile-csv:
 	done; wait
 	wc -lc ${TILES_DIR}/etc/tile-*.csv*
 
+tile-srtm-csv: tile-csv
+	cd ${TILES_DIR}/etc/; \
+	for i in garmin-srtm.zip.csv obf.zip.csv pbf.csv; do \
+	  mv -f tile-$$i tile-srtm-$$i; \
+	done
+	wc -lc ${TILES_DIR}/etc/tile-srtm-*.csv*
+
 tile-aws-s3:
 	cd ${TILES_DIR}/etc; \
 	  for i in tile-*.csv; do \
