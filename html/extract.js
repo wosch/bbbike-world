@@ -1156,14 +1156,6 @@ function show_filesize(skm, real_size) {
             "size": 2.0,
             "time": 10
         }
-        //"srtm-europe.mapsforge-osm.zip": {
-        //    "size": 0.8,
-        //    "time": 14
-        //},
-        //"srtm-southamerica.osm.pbf": {
-        //    "size": 1,
-        //    "time": 1
-        //}
     };
 
     if (!filesize[format]) {

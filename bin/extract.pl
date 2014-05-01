@@ -80,9 +80,6 @@ our $option = {
         'srtm.obf.zip' => '../osm/download/srtm/planet-srtm-e25.osm.pbf',
         'srtm.mapsforge-osm.zip' =>
           '../osm/download/srtm/planet-srtm-e25.osm.pbf',
-
-        'srtm-southamerica.osm.pbf' =>
-          '../osm/download/srtm/Hoehendaten_Freizeitkarte_SOUTHAMERICA.osm.pbf',
     },
 
     'debug' => 0,
@@ -154,8 +151,6 @@ my $formats = {
     'srtm.garmin-srtm.zip'   => 'SRTM Garmin',
     'srtm.mapsforge-osm.zip' => 'SRTM Mapsforge',
     'srtm.obf.zip'           => 'SRTM Osmand',
-
-    'srtm-southamerica.osm.pbf' => 'SRTM South America PBF',
 };
 
 # translations
@@ -852,8 +847,6 @@ sub reorder_pbf {
         'srtm.garmin-srtm.zip'   => 1.5,
         'srtm.obf.zip'           => 10,
         'srtm.mapsforge-osm.zip' => 2,
-
-        'srtm-southamerica.osm.pbf' => 1,
     );
 
     foreach my $json_file (@$json) {
