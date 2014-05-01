@@ -168,6 +168,18 @@ sub square_km {
     return ( $height * $width );
 }
 
+sub total_tiles {
+    my $self  = shift;
+    my $total = 0;
+    my $db    = $self->{_size};
+
+    $total = scalar( keys %$db );
+
+    warn "total tiles: $total\n" if $debug >= 2;
+
+    return $total;
+}
+
 sub total {
     my $self  = shift;
     my $total = 0;

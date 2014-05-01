@@ -175,14 +175,23 @@ $tile = new TileSize(
     'database' => "world/etc/tile/tile-srtm-europe.garmin-srtm.zip.csv" );
 is( int( $tile->area_size( 6.148, 45.955, 11.778, 49.371, $size ) ), 115754 );
 
-# elevation test
+####################################################################
+# elevation test with planet-srtm.pbf
+#
 $tile = new TileSize( 'database' => "world/etc/tile/tile-srtm-pbf.csv" );
 is( int( $tile->area_size( 6.148, 45.955, 11.778, 49.371, $size ) ), 65263 );
+is( $tile->total_tiles, 13418 );
+is( $tile->total,       14387080 );
+
 $tile = new TileSize( 'database' => "world/etc/tile/tile-srtm-obf.zip.csv" );
 is( int( $tile->area_size( 6.148, 45.955, 11.778, 49.371, $size ) ), 216920 );
+is( $tile->total_tiles, 13418 );
+is( $tile->total,       39058946 );
 
 $tile =
   new TileSize( 'database' => "world/etc/tile/tile-srtm-garmin-srtm.zip.csv" );
 is( int( $tile->area_size( 6.148, 45.955, 11.778, 49.371, $size ) ), 153152 );
+is( $tile->total_tiles, 13418 );
+is( $tile->total,       28491956 );
 
 __END__
