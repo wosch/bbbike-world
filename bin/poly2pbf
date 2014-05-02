@@ -1,0 +1,44 @@
+#!/bin/sh
+# Copyright (c) 2012-2014 Wolfram Schneider, http://bbbike.org
+#
+# poly2pbf - extract poly area from a given PBF
+
+set -e
+
+: ${OSM_PLANET_PBF="$HOME/projects/osm/download/geofabrik/europe/germany/brandenburg-latest.osm.pbf"}
+
+if [ -z "$1" ]; then
+    echo >&2 "usage: $0 file...."
+    exit 0
+fi
+
+logfile=$(mktemp -t _pbf2pbf.XXXXXXXX)
+buffer="--buffer bufferCapacity=4000"
+
+: ${java_heap=2400M}
+JAVACMD_OPTIONS=-Xmx${java_heap}; export JAVACMD_OPTIONS
+
+# support more than one file
+args=""
+for f 
+do
+   pbf=$(echo $f | perl -npe 's/\.poly$/.pbf/')
+   args="$args --bp file=$f --write-pbf omitmetadata=true $pbf.tmp"
+done
+
+if osmosis --read-pbf ${OSM_PLANET_PBF} $buffer --tee $# $args > $logfile 2>&1
+then
+    for f 
+    do
+        pbf=$(echo $f | perl -npe 's/\.poly$/.pbf/')
+	mv -f $pbf.tmp $pbf
+        chmod 664 $f
+    done
+    rm -f $logfile
+else
+    echo "File $@ failed"
+    echo "cat $logfile"
+    cat $logfile
+    exit 2
+fi 
+
