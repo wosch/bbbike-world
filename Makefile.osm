@@ -382,7 +382,7 @@ check:
 	${BBMAKE} test > tmp/log.check 2>&1
 	tail -n 10 tmp/log.check
 
-check-world: 
+check-world check-w: 
 	@echo "In case of failure run:"
 	@echo " make check-failed"
 	@echo ""
