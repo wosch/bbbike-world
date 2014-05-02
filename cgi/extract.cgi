@@ -688,19 +688,6 @@ sub parse_coords_string {
     return @data;
 }
 
-#sub get_languageXXX {
-#    my $q = shift;
-#
-#    my $lang = $option->{'language'} || "en";
-#    my $l = $q->param("lang");
-#
-#    if ( $l && grep { $l eq $_ } @{ $option->{supported_languages} } ) {
-#        $lang = $1;
-#    }
-#
-#    return $lang;
-#}
-
 #
 # validate user input
 # reject wrong values
@@ -1503,11 +1490,6 @@ $msg = get_msg($language);
 if ( $q->param("submit") ) {
     &check_input( 'q' => $q );
 }
-
-# legacy
-#elsif ( $q->param("key") ) {
-#    &confirm_key( 'q' => $q );
-#}
 else {
     &homepage( 'q' => $q );
 }
