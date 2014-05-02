@@ -71,6 +71,9 @@ our $option = {
 
     'with_google_maps'        => 1,
     'enable_google_analytics' => 1,
+
+    # scheduler with priorities (by IP or user agent)
+    'enable_priority' => 1,
 };
 
 our $formats = {
@@ -938,8 +941,10 @@ qq{Please click on the <a href="javascript:history.back()">back button</a> };
         'lang'            => $lang,
     };
 
-    #my $json      = new JSON;
-    #my $json_text = $json->utf8->pretty->encode($obj);
+    if ( $option->{enable_priority} ) {
+        $obj->{'ip_address'} = $q->remote_host();
+        $obj->{'user_agent'} = $q->user_agent();
+    }
 
     my ( $key, $json_file ) = &save_request($obj);
     my $mail_error = "";
