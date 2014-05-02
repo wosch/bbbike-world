@@ -74,12 +74,12 @@ our $option = {
         'srtm-europe.mapsforge-osm.zip' =>
           '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
 
-        'srtm.osm.pbf' => '../osm/download/srtm/planet-srtm-e25.osm.pbf',
+        'srtm.osm.pbf' => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
         'srtm.garmin-srtm.zip' =>
-          '../osm/download/srtm/planet-srtm-e25.osm.pbf',
-        'srtm.obf.zip' => '../osm/download/srtm/planet-srtm-e25.osm.pbf',
+          '../osm/download/srtm/planet-srtm-e40.osm.pbf',
+        'srtm.obf.zip' => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
         'srtm.mapsforge-osm.zip' =>
-          '../osm/download/srtm/planet-srtm-e25.osm.pbf',
+          '../osm/download/srtm/planet-srtm-e40.osm.pbf',
     },
 
     'debug' => 0,
