@@ -59,7 +59,7 @@ tmpdir=`mktemp -d ${TMPDIR-"$_tmp"}/osm2navit.XXXXXXXXXXX`
 trap '( sleep 1; rm -rf $tmpdir ) &' 1 2 15
 trap 'test $? -ne 0 && echo "failed: $file"' 0
 
-navit=`basename $file | perl -npe 's/\.osm(\.pbf|\.gz|\.bz2)?$//'`
+navit=`basename $file | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//'`
 navit_dir=$tmpdir/${navit}-navit
 mkdir -p $navit_dir
 
