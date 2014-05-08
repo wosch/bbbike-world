@@ -78,7 +78,7 @@ backend munin_localhost {
 }
 
 backend bbbike_failover {
-    .host = "www4.bbbike.org";
+    .host = "www1.bbbike.org";
     .port = "80";
     .first_byte_timeout = 300s;
     .connect_timeout = 300s;
@@ -121,7 +121,7 @@ sub vcl_recv {
     } else if (req.http.host ~ "^(m\.|api[1-4]?\.|www[1-4]?\.|dev[1-4]?\.|devel[1-4]?\.|)bbbike\.org$") {
         set req.backend = bbbike;
 
-        # failover production @ www4 
+        # failover production @ www1 
         if (req.restarts == 1 || !req.backend.healthy) {
                 set req.backend = bbbike_failover;
         }
