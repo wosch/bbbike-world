@@ -51,13 +51,20 @@ my @aliases = qw(
 
 my @development = qw(
   www1.bbbike.org
+  www2.bbbike.org
   www4.bbbike.org
   dev.bbbike.org
   dev1.bbbike.org
+  dev2.bbbike.org
   dev4.bbbike.org
   tile.bbbike.org
   extract1.bbbike.org
+  extract2.bbbike.org
   download1.bbbike.org
+  download2.bbbike.org
+  api1.bbbike.org
+  api2.bbbike.org
+  api4.bbbike.org
 );
 
 my @not_used = qw(

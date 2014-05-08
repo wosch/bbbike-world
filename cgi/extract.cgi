@@ -121,7 +121,7 @@ my $extract_dialog = '/extract-dialog';
 # This allows to override standard config values
 #
 my $config_file = "../.bbbike-extract.rc";
-if ( CGI->new->url( -full => 1 ) =~ m,^http://extract[2-4]?-pro[2-4]?\., ) {
+if ( CGI->new->url( -full => 1 ) =~ m,^http://extract-pro[1-4]?\., ) {
     $config_file = '../.bbbike-extract-pro.rc';
     warn "Use extract pro config file $config_file\n"
       if $option->{"debug"} >= 2;
@@ -493,7 +493,7 @@ sub google_analytics {
     my $url = $q->url( -base => 1 );
 
     return "" if !$option->{"enable_google_analytics"};
-    if ( $url !~ m,^http://(www|extract)[2-4]?\., ) {
+    if ( $url !~ m,^http://(www|extract)[1-4]?\., ) {
         return "";    # devel installation
     }
 
