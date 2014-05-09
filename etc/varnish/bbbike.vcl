@@ -127,6 +127,8 @@ sub vcl_recv {
         }
     } else if (req.http.host ~ "^extract[1-4]?\.bbbike\.org$") {
         set req.backend = bbbike;
+    } else if (req.http.host ~ "^extract-pro[1-4]?\.bbbike\.org$") {
+        set req.backend = bbbike;
     } else if (req.http.host ~ "^download[1-4]?\.bbbike\.org$") {
         set req.backend = bbbike;
     } else if (req.http.host ~ "^([a-z]\.)?tile\.bbbike\.org$" || req.http.host ~ "^(mc)\.bbbike\.org$") {
@@ -175,6 +177,7 @@ sub vcl_recv {
 
     if (req.http.host ~ "^(www2?\.)manualpages\.de$$")  { return (pass); } # no cache
     if (req.http.host ~ "^extract[1-4]?\.bbbike\.org") { return (pass); } # no cache
+    if (req.http.host ~ "^extract-pro[1-4]?\.bbbike\.org") { return (pass); } # no cache
     if (req.http.host ~ "^([a-z]\.)?tile\.bbbike\.org") { return (pass); } # no cache
     if (req.http.host ~ "^(dev|devel)[1-4]?\.bbbike\.org$") { 	return (pass); } # test & development, no caching
   
