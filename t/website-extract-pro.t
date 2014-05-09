@@ -33,7 +33,7 @@ if ( $ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
 unshift @homepages, @homepages_localhost;
 
 use constant MYGET => 3;
-plan tests         => scalar(@homepages) * MYGET;
+plan tests         => scalar(@homepages) * 3 * MYGET;
 
 my $ua = LWP::UserAgent->new;
 $ua->agent("BBBike.org-Test/1.0");
@@ -63,7 +63,9 @@ sub myget_401 {
 sub page_check {
     my $home_url = shift;
 
-    my $res = myget_401($home_url);
+    myget_401($home_url);
+    myget_401("$home_url/robots.txt");
+    myget_401("$home_url/cgi/extract.cgi");
 }
 
 #############################################################################
