@@ -8,6 +8,7 @@
 PATH=/bin:/usr/bin; export PATH
 #set -e
 
+log_output=/var/tmp/extract.log
 prog=$(echo $0 | perl -npe 's/-cron\.sh$/.pl/')
 subject="bbbike extract status:"
 
@@ -24,5 +25,10 @@ error=$?
 if [ -s $tmp ]; then
     mail -s "$subject $error" $(whoami) < $tmp
 fi
+
+if [ -n "$log_output" ]; then
+   cat $tmp >> $log_output
+fi
+
 rm -f $tmp
 
