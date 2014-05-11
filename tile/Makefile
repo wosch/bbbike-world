@@ -13,7 +13,8 @@ DEBIAN_MODULES= unzip bzip2 make subversion tidy gcc git \
         libtie-ixhash-perl libhtml-parser-perl apache2
 
 TILE_MODULES= python-mapnik2 postgresql #osm2pgsql=0.80.0+r27899-4
-TILE_MODULES2= libapache2-mod-tile openstreetmap-mapnik-stylesheet-data
+TILE_MODULES_OSM= openstreetmap-mapnik-stylesheet-data  postgresql-contrib postgresql-contrib-9.1 renderd
+#libapache2-mod-tile openstreetmap-mapnik-stylesheet-data
 
 
 PROJECT_DIR=	$$HOME/projects
@@ -34,6 +35,7 @@ osm-repo:
 	   sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys AE74800FB745A04C; \
 	fi
 	sudo apt-get update
+	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES_OSM}	
 
 postgis-utf8:
 	sudo pg_dropcluster --stop 9.1 main
@@ -97,6 +99,9 @@ bbbike-mapnik:
 	  sudo make bbbike-mapnik-config; \
 	  make bbbike2wgs84-mapnik; \
 	  make bbbike-mapnik-postgis 
+
+mod-tile:
+	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} libapache2-mod-tile
 
 all: install-packages osm-repo postgis-utf8 repo-checkout symlinks
 
