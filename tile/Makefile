@@ -92,6 +92,19 @@ mapnik-symlinks:
 	cd ~/projects/mapnik-bbbike; \
 	  make -C./tools setup-mapnik-on-mosor
 
+mapnik-german:
+	cd /etc/mapnik-german; \
+	  ln -sf /usr/share/mapnik-osm-data/world_boundaries .
+	cd /etc/mapnik-german/inc-de; \
+	  cp datasource-settings.xml.inc.template datasource-settings.xml.inc; \
+	  perl -i.bak -npe 's,%\(password\)s,gis,; s,.*"(host|port|extent)".*,,; s,%\(user\)s,www-data,; s,%\(dbname\)s,gis,; s,%\(estimate_extent\)s,true,;' datasource-settings.xml.inc
+	cd /etc/mapnik-german/inc-de; cp fontset-settings.xml.inc.template fontset-settings.xml.inc   
+	cd /etc/mapnik-german/inc-de; \
+          cp settings.xml.inc.template settings.xml.inc; \
+	  perl -i.bak -npe 's,%\(epsg\)s,900913;,; s,%\(world_boundaries\)s,world_boundaries,; s,%\(prefix\)s,planet_osm,; ' settings.xml.inc
+	cd /etc/mapnik-german/; if [ ! -e osm-de2.xml ]; then ln -fs ${PROJECT_DIR}/bbbike/world/tile/etc/osm-de2.xml .; fi 
+
+	  
 www-symlinks:
 	cd /var/www; \
 	  sudo ln -fs ~/projects/mc .;\
