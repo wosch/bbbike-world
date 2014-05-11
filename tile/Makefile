@@ -118,7 +118,7 @@ www-symlinks:
 	  sudo ln -fs ~/projects/bbbike/world/tile/web/slippymap-dev.html; \
 	  sudo ln -fs ~/projects/bbbike/world/tile/web/slippymap.html index.html
 
-symlinks: etc-symlinks etc-init-symlinks apache-symlinks mapnik-symlinks www-symlinks
+symlinks: etc-symlinks etc-init-symlinks apache-symlinks mapnik-symlinks www-symlinks mapnik-german
 	
 bbbike-mapnik:
 	cd ${PROJECT_DIR}/bbbike; \
