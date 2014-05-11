@@ -141,3 +141,5 @@ help:
 	@echo ""
 	@echo "see also ./world/tile/README.tile"
 
+# sudo update-rc.d lighttpd disable
+
