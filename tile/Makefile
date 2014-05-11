@@ -35,6 +35,10 @@ osm-repo:
 	fi
 	sudo apt-get update
 
+postgis-utf8:
+	sudo pg_dropcluster --stop 9.1 main
+	sudo pg_createcluster --start -e UTF-8 9.1 main
+
 repo-checkout: git-checkout svn-checkout
 	
 git-checkout:
@@ -88,7 +92,7 @@ bbbike-mapnik:
 	  make bbbike2wgs84-mapnik; \
 	  make bbbike-mapnik-postgis 
 
-all: install-packages osm-repo repo-checkout symlinks
+all: install-packages osm-repo postgis-utf8 repo-checkout symlinks
 
 distclean: clean
 clean:
