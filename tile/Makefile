@@ -12,7 +12,7 @@ DEBIAN_MODULES= unzip bzip2 make subversion tidy gcc git \
         libimager-perl imagemagick libinline-perl libhtml-tagcloud-perl \
         libtie-ixhash-perl libhtml-parser-perl
 
-TILE_MODULES= python-mapnik2 postgresql osm2pgsql
+TILE_MODULES= python-mapnik2 postgresql #osm2pgsql=0.80.0+r27899-4
 TILE_MODULES2= libapache2-mod-tile openstreetmap-mapnik-stylesheet-data
 
 
@@ -45,7 +45,13 @@ git-checkout:
 	mkdir -p ${PROJECT_DIR}
 	cd ${PROJECT_DIR}; if [ ! -e mc ]; then git clone ssh://git.bbbike.org/home/wosch/git/mc; fi
 	cd ${PROJECT_DIR}; if [ ! -e mapnik-bbbike ]; then git clone https://github.com/eserte/mapnik-bbbike; fi
-	cd ${PROJECT_DIR}; if [ ! -e bbbike-eserte ]; then git clone git://github.com/eserte/bbbike.git bbbike-eserte; fi
+	cd ${PROJECT_DIR}; \
+	  if [ ! -e bbbike-eserte ]; then \
+	    git clone bbbike bbbike-eserte; \
+	    git remote add eserte git://github.com/eserte/bbbike.git; \
+	    git fetch eserte; \
+	    git checkout -b eserte_master eserte/master; \ 
+	  fi
 
 svn-checkout:
 	mkdir -p ${PROJECT_DIR}
