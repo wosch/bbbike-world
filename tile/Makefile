@@ -41,6 +41,10 @@ postgis-utf8:
 	sudo pg_dropcluster --stop 9.1 main
 	sudo pg_createcluster --start -e UTF-8 9.1 main
 
+openstreetmap-postgis: postgis-utf8
+	sudo apt-get purge -y openstreetmap-postgis-db-setup </dev/null
+	sudo apt-get install -y openstreetmap-postgis-db-setup </dev/null
+
 repo-checkout: git-checkout svn-checkout
 	
 git-checkout:
@@ -112,7 +116,9 @@ help:
 	@echo ""
 	@echo "usage: make [ targets ... ]"
 	@echo ""
+	@echo "  [ all ]"
 	@echo "  [ install-packages | symlinks | bbbike-mapnik ]"
+	@echo "  [ openstreetmap-postgis ]"
 	@echo "  [ clean | distclean ]"
 	@echo ""
 	@echo "see also ./world/tile/README.tile"
