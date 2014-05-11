@@ -12,9 +12,8 @@ DEBIAN_MODULES= unzip bzip2 make subversion tidy gcc git \
         libimager-perl imagemagick libinline-perl libhtml-tagcloud-perl \
         libtie-ixhash-perl libhtml-parser-perl apache2
 
-TILE_MODULES= python-mapnik2 postgresql #osm2pgsql=0.80.0+r27899-4
-TILE_MODULES_OSM= openstreetmap-mapnik-stylesheet-data  postgresql-contrib postgresql-contrib-9.1 renderd
-#libapache2-mod-tile openstreetmap-mapnik-stylesheet-data
+TILE_MODULES= python-mapnik2 postgresql osm2pgsql=0.80.0+r27899-4
+TILE_MODULES_OSM= openstreetmap-mapnik-stylesheet-data  postgresql-contrib postgresql-contrib-9.1 renderd libapache2-mod-tile 
 
 
 PROJECT_DIR=	$$HOME/projects
