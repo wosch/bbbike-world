@@ -40,6 +40,7 @@ osm-repo:
 	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES_OSM}	
 
 postgis-utf8:
+	-sudo /etc/init.d/renderd stop
 	sudo pg_dropcluster --stop 9.1 main
 	sudo pg_createcluster --start -e UTF-8 9.1 main
 
@@ -118,7 +119,13 @@ mod-tile:
 mapnik-restart:
 	make -C ${PROJECT_DIR}/bbbike $@
 
-install-all: install-packages osm-repo postgis-utf8 repo-checkout symlinks
+manual:
+	@echo ""
+	@echo "now run"
+	@echo "make openstreetmap-postgis bbbike-mapnik mapnik-restart"
+	@echo ""
+
+install-all: install-packages osm-repo postgis-utf8 repo-checkout symlinks manual
 
 distclean: clean
 clean:
