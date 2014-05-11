@@ -20,6 +20,8 @@ TILE_MODULES_OSM= openstreetmap-mapnik-stylesheet-data  postgresql-contrib postg
 PROJECT_DIR=	$$HOME/projects
 DEBIAN_INSTALL_FLAGS=	-y  # -y -d
 
+all: help
+
 install-packages: perl
 	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES}	
 	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES}	
@@ -113,7 +115,10 @@ bbbike-mapnik:
 mod-tile:
 	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} libapache2-mod-tile
 
-all: install-packages osm-repo postgis-utf8 repo-checkout symlinks
+mapnik-restart:
+	make -C ${PROJECT_DIR}/bbbike $@
+
+install-all: install-packages osm-repo postgis-utf8 repo-checkout symlinks
 
 distclean: clean
 clean:
@@ -122,9 +127,9 @@ help:
 	@echo ""
 	@echo "usage: make [ targets ... ]"
 	@echo ""
-	@echo "  [ all ]"
+	@echo "  [ install-all ]"
 	@echo "  [ install-packages | symlinks | bbbike-mapnik ]"
-	@echo "  [ openstreetmap-postgis ]"
+	@echo "  [ openstreetmap-postgis | mapnik-restart ]"
 	@echo "  [ clean | distclean ]"
 	@echo ""
 	@echo "see also ./world/tile/README.tile"
