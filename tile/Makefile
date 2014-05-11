@@ -13,7 +13,7 @@ DEBIAN_MODULES= unzip bzip2 make subversion tidy gcc git \
 TILE_MODULES= python-mapnik2 postgresql osm2pgsql
 
 PROJECT_DIR=	$$HOME/projects
-DEBIAN_INSTALL_FLAGS=	-y -d
+DEBIAN_INSTALL_FLAGS=	-y  # -y -d
 
 install-packages: perl
 	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES}	
