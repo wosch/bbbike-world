@@ -120,13 +120,20 @@ mod-tile:
 mapnik-restart:
 	make -C ${PROJECT_DIR}/bbbike $@
 
+munin:
+	sudo apt-get install libdbd-pg-perl
+	cd /etc/munin/plugins/
+	sudo ln -s /usr/share/munin/plugins/postgres_* .
+	for i in postgres_*_;do echo $$i;sudo mv $$i $${i}ALL;done
+	sudo /etc/init.d/munin-node restart
+
 manual:
 	@echo ""
 	@echo "now run"
 	@echo "make openstreetmap-postgis bbbike-mapnik mapnik-restart"
 	@echo ""
 
-install-all: install-packages osm-repo postgis-utf8 repo-checkout symlinks manual
+install-all: install-packages osm-repo postgis-utf8 repo-checkout symlinks munin manual
 
 distclean: clean
 clean:
