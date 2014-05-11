@@ -12,6 +12,8 @@ sudo ln -sf /usr/bin/perl /usr/local/bin/perl
 
 # see unicode problems
 # sudo apt-get install postgresql
+# sudo apt-get install osm2pgsql
+
 
 # add the openstreemap repo
 echo "deb http://ppa.launchpad.net/kakrueger/openstreetmap/ubuntu natty main" > /etc/apt/sources.list.d/openstreetmap.list
@@ -26,6 +28,8 @@ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys AE74800FB745A04C
 
 sudo apt-get update
 sudo apt-get install libapache2-mod-tile
+
+# apt-get -f install
 
 # Note: if the coastline download failed, see below
 
@@ -79,6 +83,12 @@ cp fontset-settings.xml.inc.template fontset-settings.xml.inc
 cp settings.xml.inc.template settings.xml.inc          
 # follow the instructions!
 
+cd /etc
+sudo ln -fs ~/projects/bbbike-eserte bbbike
+sudo ln -fs ~/projects/mapnik-german .
+
+cd ~/projects/mapnik-bbbike
+make -C./tools setup-mapnik-on-mosor
 
 # create osm dump, and import it
 cd ~/projects/bbbike
@@ -92,6 +102,10 @@ cd /etc/init.d/
 sudo ln -s ~/projects/bbbike/world/tile/etc/renderd-slowstart 
 sudo update-rc.d renderd-slowstart  defaults 30
 sudo update-rc.d renderd disable
+
+cd ~/projects
+git clone ssh://git.bbbike.org/home/wosch/git/mc
+git clone https://github.com/eserte/mapnik-bbbike
 
 # bbbike layers
 cd /etc/
@@ -134,14 +148,14 @@ sudo rm -f /etc/apache2/sites-enabled/tileserver_site
 sudo /etc/init.d/renderd restart
 sudo /etc/init.d/apache2 restart
 
+cd ~/projects/bbbike
 make mapnik-restart
+
+-------------------------------------------------
 
 # postgis trouble shooting
 sudo /usr/bin/install-postgis-osm-user.sh gis www-data
 
-cd ~/projects
-git clone ssh://git.bbbike.org/home/wosch/git/mc
-git clone https://github.com/eserte/mapnik-bbbike
 
 
 time osm2pgsql -C 600 -S /usr/share/osm2pgsql/default.style  --slim -v -c ~/projects/osm/download/brandenburg-latest.osm.pbf 
