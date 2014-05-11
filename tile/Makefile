@@ -141,9 +141,8 @@ munin:
 
 manual:
 	@echo ""
-	@echo "now run"
-	@echo "make openstreetmap-postgis"
-	@echo "make bbbike-mapnik mapnik-restart"
+	@echo "now run:"
+	@echo "make openstreetmap-postgis bbbike-mapnik mapnik-restart"
 	@echo ""
 
 install-all: install-packages osm-repo postgis-utf8 repo-checkout symlinks munin manual
