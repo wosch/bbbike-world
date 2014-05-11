@@ -11,6 +11,7 @@ git_clone_opt="-q"
 : ${bbbike_fast_checkout=true}
 : ${bbbike_src=$HOME/src/bbbike.tgz}
 : ${bbbike_branch="world"}
+: ${bbbike_update_files="true"}
 
 
 if [ ! -x /usr/local/bin/perl ]; then
@@ -61,9 +62,11 @@ if $bbbike_fast_checkout; then
 
         branch_check
 	echo "fast checkout done"
-        echo -n "Updating files..."
-	make -C./bbbike -s update-files
-	echo ""
+	  if $bbbike_update_files; then
+          echo -n "Updating files..."
+	  make -C./bbbike -s update-files
+	  echo ""
+	fi
 
         # XXX
 	exit 0
