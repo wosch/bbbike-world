@@ -95,6 +95,12 @@ www-symlinks:
 	  sudo ln -fs ~/projects/bbbike/world/tile/web/robots.txt .; \
 	  sudo ln -fs ~/projects/bbbike/images/favicon.ico ; \
 	  sudo ln -fs ~/projects/bbbike/world/tile/web/index.html 
+	cd /var/www/osm; \
+	  sudo ln -fs ~/projects/bbbike/html/OpenLayers; \
+	  sudo ln -fs ~/projects/bbbike/world/tile/web/style.css; \
+	  sudo ln -fs ~/projects/bbbike/world/tile/web/slippymap.js; \
+	  sudo ln -fs ~/projects/bbbike/world/tile/web/slippymap-dev.html; \
+	  sudo ln -fs ~/projects/bbbike/world/tile/web/slippymap.html index.html
 
 symlinks: etc-symlinks etc-init-symlinks apache-symlinks mapnik-symlinks www-symlinks
 	
