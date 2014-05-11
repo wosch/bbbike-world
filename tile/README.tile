@@ -87,6 +87,8 @@ cd /etc
 sudo ln -fs ~/projects/bbbike-eserte bbbike
 sudo ln -fs ~/projects/mapnik-german .
 
+cd ~/projects/mapnik-bbbike
+make -C./tools setup-mapnik-on-mosor
 
 # create osm dump, and import it
 cd ~/projects/bbbike
