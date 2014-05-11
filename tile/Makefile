@@ -57,6 +57,7 @@ git-checkout:
 	cd ${PROJECT_DIR}; \
 	  if [ ! -e bbbike-eserte ]; then \
 	    git clone bbbike bbbike-eserte; \
+	    cd bbbike-eserte; \
 	    git remote add eserte git://github.com/eserte/bbbike.git; \
 	    git fetch eserte; \
 	    git checkout -b eserte_master eserte/master; \
