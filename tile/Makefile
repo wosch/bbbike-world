@@ -50,7 +50,7 @@ git-checkout:
 	    git clone bbbike bbbike-eserte; \
 	    git remote add eserte git://github.com/eserte/bbbike.git; \
 	    git fetch eserte; \
-	    git checkout -b eserte_master eserte/master; \ 
+	    git checkout -b eserte_master eserte/master; \
 	  fi
 
 svn-checkout:
