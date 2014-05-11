@@ -6,6 +6,8 @@
 # For more information about BBBike, visit http://www.bbbike.org
 #
 
+DEBIAN_RELEASE=wheezy
+
 DEBIAN_MODULES= unzip bzip2 make subversion tidy gcc git \
         libimager-perl imagemagick libinline-perl libhtml-tagcloud-perl \
         libtie-ixhash-perl libhtml-parser-perl
