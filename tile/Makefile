@@ -10,7 +10,7 @@ DEBIAN_RELEASE=wheezy
 
 DEBIAN_MODULES= unzip bzip2 make subversion tidy gcc git \
         libimager-perl imagemagick libinline-perl libhtml-tagcloud-perl \
-        libtie-ixhash-perl libhtml-parser-perl
+        libtie-ixhash-perl libhtml-parser-perl apache2
 
 TILE_MODULES= python-mapnik2 postgresql #osm2pgsql=0.80.0+r27899-4
 TILE_MODULES2= libapache2-mod-tile openstreetmap-mapnik-stylesheet-data
@@ -68,7 +68,7 @@ etc-symlinks:
 etc-init-symlinks:
 	cd /etc/init.d/; sudo ln -fs ~/projects/bbbike/world/tile/etc/renderd-slowstart .;
 	sudo update-rc.d renderd-slowstart  defaults 30
-	sudo update-rc.d renderd disable
+	-sudo update-rc.d renderd disable
 
 apache-symlinks:
 	cd /etc/apache2/sites-available; \
