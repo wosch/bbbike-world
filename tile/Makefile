@@ -13,6 +13,8 @@ DEBIAN_MODULES= unzip bzip2 make subversion tidy gcc git \
         libtie-ixhash-perl libhtml-parser-perl
 
 TILE_MODULES= python-mapnik2 postgresql osm2pgsql
+TILE_MODULES2= libapache2-mod-tile openstreetmap-mapnik-stylesheet-data
+
 
 PROJECT_DIR=	$$HOME/projects
 DEBIAN_INSTALL_FLAGS=	-y  # -y -d
@@ -25,6 +27,13 @@ perl:
 	if [ ! -e /usr/local/bin/perl ]; then \
 	   sudo ln -sf /usr/bin/perl /usr/local/bin/perl; \
 	fi
+
+osm-repo:
+	if [ ! -e /etc/apt/sources.list.d/openstreetmap.list ]; then \
+	   sudo cp ${PROJECT_DIR}/bbbike/world/etc/apt/wheezy/sources.list.d/openstreetmap.list /etc/apt/sources.list.d/openstreetmap.list ;\
+	   sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys AE74800FB745A04C; \
+	fi
+	sudo apt-get update
 
 repo-checkout: git-checkout svn-checkout
 	
@@ -79,7 +88,7 @@ bbbike-mapnik:
 	  make bbbike2wgs84-mapnik; \
 	  make bbbike-mapnik-postgis 
 
-all: install-packages repo-checkout symlinks
+all: install-packages osm-repo repo-checkout symlinks
 
 distclean: clean
 clean:
