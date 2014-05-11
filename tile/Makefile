@@ -6,20 +6,22 @@
 # For more information about BBBike, visit http://www.bbbike.org
 #
 
-DEBIAN_MODULES= apt-get install -y unzip bzip2 make subversion tidy gcc git \
+DEBIAN_MODULES= unzip bzip2 make subversion tidy gcc git \
         libimager-perl imagemagick libinline-perl libhtml-tagcloud-perl \
         libtie-ixhash-perl libhtml-parser-perl
+
 TILE_MODULES= python-mapnik2 postgresql osm2pgsql
 
 PROJECT_DIR=	$$HOME/projects
+DEBIAN_INSTALL_FLAGS=	-y -d
 
 install-packages: perl
-	sudo apt-get install -y ${DEBIAN_MODULES}	
-	sudo apt-get install -y ${TILE_MODULES}	
+	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES}	
+	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES}	
 
 perl:
-	if [ ! -e /usr/local/bin/perl ]; then
-	   sudo ln -sf /usr/bin/perl /usr/local/bin/perl
+	if [ ! -e /usr/local/bin/perl ]; then \
+	   sudo ln -sf /usr/bin/perl /usr/local/bin/perl; \
 	fi
 
 repo-checkout: git-checkout svn-checkout
