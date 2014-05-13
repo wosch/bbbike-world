@@ -118,7 +118,7 @@ our $option = {
 
     'pbf2pbf_postprocess' => 1,
 
-    'bots'             => [qw/curl wget/],
+    'bots'             => [qw/curl Wget/],
     'bots_detecation'  => 1,
     'bots_max_loadavg' => 4,
 };
@@ -372,10 +372,14 @@ sub parse_jobs {
                     next;
                 }
 
-                if (   $option->{'bots_detecation'}
-                    && $loadavg >= $option->{'bots_max_loadavg'} )
-                {
-                    if ( is_bot($obj) ) {
+                if ( is_bot($obj) ) {
+                    warn
+"detect bot for area '$city', user agent: '@{[ $obj->{'user_agent'} ]}'\n"
+                      if $debug;
+
+                    if (   $option->{'bots_detecation'}
+                        && $loadavg >= $option->{'bots_max_loadavg'} )
+                    {
                         warn
 "ignore bot request for area '$city' due high load average: $loadavg\n"
                           if $debug;
@@ -1725,12 +1729,11 @@ sub run_jobs {
         'max'   => $max_areas,
     );
     my @list = @$list;
-    if (!@list) {
+    if ( !@list ) {
         print "Nothing to do for users\n" if $debug >= 2;
         &remove_lock( 'lockfile' => $lockfile );
         exit 0;
     }
-    
 
     print "run jobs: " . Dumper( \@list ) if $debug >= 3;
 
