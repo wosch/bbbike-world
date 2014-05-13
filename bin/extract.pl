@@ -46,7 +46,7 @@ binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
 our $option = {
-    'max_areas'       => 9,
+    'max_areas'       => 8,
     'homepage'        => 'http://download.bbbike.org/osm/extract',
     'script_homepage' => 'http://extract.bbbike.org',
     'max_jobs'        => 3,
@@ -120,7 +120,7 @@ our $option = {
 
     'bots'             => [qw/curl Wget/],
     'bots_detecation'  => 1,
-    'bots_max_loadavg' => 4,
+    'bots_max_loadavg' => 3,
 };
 
 ######################################################################
