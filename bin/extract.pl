@@ -120,7 +120,7 @@ our $option = {
 
     'bots'             => [qw/curl wget/],
     'bots_detecation'  => 1,
-    'bots_max_loadavg' => 0,
+    'bots_max_loadavg' => 4,
 };
 
 ######################################################################
@@ -377,7 +377,7 @@ sub parse_jobs {
                 {
                     if ( is_bot($obj) ) {
                         warn
-"ignore bot request '$city' due high load average: $loadavg\n"
+"ignore bot request for area '$city' due high load average: $loadavg\n"
                           if $debug;
                         next;
                     }
@@ -1725,6 +1725,12 @@ sub run_jobs {
         'max'   => $max_areas,
     );
     my @list = @$list;
+    if (!@list) {
+        print "Nothing to do for users\n" if $debug >= 2;
+        &remove_lock( 'lockfile' => $lockfile );
+        exit 0;
+    }
+    
 
     print "run jobs: " . Dumper( \@list ) if $debug >= 3;
 
