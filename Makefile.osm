@@ -851,9 +851,9 @@ extract-install extract-bbbike-org-install:
 	chown -R $$(logname):${WEB_GROUP} ${EXTRACTS_SPOOL_DIR}/
 
 bbbike-cache-install:
-	sudo mkdir -p ${BBBIKE_PARTITION}/cache
-	sudo ln -fs ${BBBIKE_PARTITION}/cache ${BBBIKE_CACHE_DIR}; \
-	sudo chown -R ${WEB_GROUP}:${WEB_GROUP} ${BBBIKE_PARTITION}/cache
+	mkdir -p ${BBBIKE_PARTITION}/cache
+	ln -fs ${BBBIKE_PARTITION}/cache ${BBBIKE_CACHE_DIR}; \
+	chown -R ${WEB_GROUP}:${WEB_GROUP} ${BBBIKE_PARTITION}/cache
 
 extract-distclean:
 	find ${EXTRACTS_SPOOL_DIR}/ -type f -print0 | xargs -0 rm -f
@@ -1045,7 +1045,7 @@ deb-repo: deb-repo-dir
 	done
 
 deb-bootstrap debian-bootstrap: deb-bootstrap-rsync deb-bootstrap-dir
-bbbike-bootstrap: bbbike-cache-install debian-bootstrap update-files install-backend-lighttpd
+bbbike-bootstrap: bbbike-partition debian-bootstrap update-files install-backend-lighttpd
 	sudo ${BBMAKE} -s cache-clean 
 	sudo ${BBMAKE} -s extract-bbbike-org-install 
 	sudo ${BBMAKE} -s clean-cache
@@ -1055,6 +1055,10 @@ bbbike-bootstrap: bbbike-cache-install debian-bootstrap update-files install-bac
 	sudo /etc/init.d/lighttpd restart
 	@echo ""
 	@echo "You may also run: make staging"
+
+bbbike-partition:
+	cd ${BBBIKE_PARTITION}; mkdir -p cache extract projects tmp www
+	sudo ${MAKE} bbbike-cache-install
 	
 install-backend-lighttpd:
 	${MAKE} -C./world/etc install-backend-lighttpd
