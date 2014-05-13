@@ -117,10 +117,10 @@ our $option = {
     'show_image_size' => 1,
 
     'pbf2pbf_postprocess' => 1,
-    
-    'bots' => [qw/curl wget/],
-    'bots_detecation' => 1,
-    'bots_max_loadavg'      => 0,
+
+    'bots'             => [qw/curl wget/],
+    'bots_detecation'  => 1,
+    'bots_max_loadavg' => 0,
 };
 
 ######################################################################
@@ -371,10 +371,14 @@ sub parse_jobs {
                       if $debug;
                     next;
                 }
-                
-                if ($option->{'bots_detecation'} && $loadavg >= $option->{'bots_max_loadavg'}) {
-                    if (is_bot($obj)) {
-                        warn "ignore bot request '$city' due high load average: $loadavg\n" if $debug;
+
+                if (   $option->{'bots_detecation'}
+                    && $loadavg >= $option->{'bots_max_loadavg'} )
+                {
+                    if ( is_bot($obj) ) {
+                        warn
+"ignore bot request '$city' due high load average: $loadavg\n"
+                          if $debug;
                         next;
                     }
                 }
@@ -405,11 +409,11 @@ sub parse_jobs {
 # detect bots by user agent, or other meta data
 sub is_bot {
     my $obj = shift;
-    
-    my @bots = @{ $option->{'bots'}};
+
+    my @bots       = @{ $option->{'bots'} };
     my $user_agent = $obj->{'user_agent'};
-    
-    return (grep { $user_agent =~ /$_/ } @bots) ? 1 : 0;
+
+    return ( grep { $user_agent =~ /$_/ } @bots ) ? 1 : 0;
 }
 
 sub json_compat {
