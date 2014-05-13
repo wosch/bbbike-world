@@ -852,9 +852,7 @@ extract-install extract-bbbike-org-install:
 
 bbbike-cache-install:
 	mkdir -p ${BBBIKE_PARTITION}/cache
-	if [ ! -e ${BBBIKE_CACHE_DIR} ]; then \
-	    ln -fs ${BBBIKE_PARTITION}/cache ${BBBIKE_CACHE_DIR}; \
-	fi
+	ln -fs ${BBBIKE_PARTITION}/cache ${BBBIKE_CACHE_DIR}; \
 	chown -R ${WEB_GROUP}:${WEB_GROUP} ${BBBIKE_PARTITION}/cache
 
 extract-distclean:
