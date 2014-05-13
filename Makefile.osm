@@ -1232,6 +1232,9 @@ help:
 	@echo "  [ debian-bootstrap | bbbike-bootstrap ]"
 	@echo "  [ build-runtime | git-fetch ]"
 	@echo "  [ check | check-world | check-full | check-failed ]"
+	@echo ""
+	@echo "failed install/cache:"
+	@echo "bbbike_download= bbbike_extract= bbbike_convert= bbbike_install= make update-database"
 
 	@echo ""
 	@echo "see also ./world/README"
