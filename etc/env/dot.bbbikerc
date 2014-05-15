@@ -1,7 +1,8 @@
+# Copyright (c) 2009-2014 Wolfram Schneider, http://bbbike.org
+#
 # Planet.osm download server
 planet_osm_server=http://planet.openstreetmap.org/planet
 #planet_osm_server=http://download.bbbike.org/osm/planet
-#planet_osm_server=http://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org
 
 export BBBIKE_TEST_SERVER="http://localhost:8080"
 export BBBIKE_TEST_CGIDIR="http://localhost:8080/cgi"
@@ -32,3 +33,4 @@ export BBBIKE_OPT_DIR=/var/lib/bbbike/opt
 # workaround for imagemagic thread bug / busy waiting in libgomp
 export OMP_WAIT_POLICY=PASSIVE
 
+#EOF
