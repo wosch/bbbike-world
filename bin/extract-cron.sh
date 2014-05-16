@@ -27,7 +27,7 @@ if [ -s $tmp ]; then
 fi
 
 if [ -n "$log_output" ]; then
-   cat $tmp >> $log_output
+   ( echo ""; date; cat $tmp ) >> $log_output
 fi
 
 rm -f $tmp
