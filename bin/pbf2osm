@@ -17,6 +17,8 @@ osm2navit=$dirname/osm2navit
 osm2mapsforge=$dirname/osm2mapsforge
 : ${osm2o5m="osmconvert"}
 : ${osm2o5m_opt="--fake-version"}
+: ${osmium_convert="osmium_convert"}
+osmium_convert_opt="-f pbf -t opl"
 
 # max. file size in KB
 : ${max_file_size_garmin=2950000}
@@ -214,6 +216,11 @@ case $compress in
     csv-gzip | csv-gz )   $osm2o5m $osm2o5m_opt --out-csv "$file" | $gzip > $dir/$f.csv.gz.tmp; mv -f $dir/$f.csv.gz.tmp $dir/$f.csv.gz ;;
     csv-bzip2 | csv-bz2 ) $osm2o5m $osm2o5m_opt --out-csv "$file" | $bzip2 > $dir/$f.csv.bz2.tmp; mv -f $dir/$f.csv.bz2.tmp $dir/$f.csv.bz2 ;;
     csv-xz )              $osm2o5m $osm2o5m_opt --out-csv "$file" | $xz $xz_opt > $dir/$f.csv.xz.tmp; mv -f $dir/$f.csv.xz.tmp $dir/$f.csv.xz ;;
+    
+    # OPL format
+    opl-gzip | opl-gz )   $osmium_convert $osmium_convert_opt "$file" | $gzip > $dir/$f.opl.gz.tmp; mv -f $dir/$f.opl.gz.tmp $dir/$f.opl.gz ;;
+    opl-bzip2 | opl-bz2 ) $osmium_convert $osmium_convert_opt "$file" | $bzip2 > $dir/$f.opl.bz2.tmp; mv -f $dir/$f.opl.bz2.tmp $dir/$f.opl.bz2 ;;
+    opl-xz )              $osmium_convert $osmium_convert_opt "$file" | $xz -1 > $dir/$f.opl.xz.tmp; mv -f $dir/$f.opl.xz.tmp $dir/$f.opl.xz ;;
 
     # other formats
     garmin ) $osm2garmin "$file" "$garmin_style" "$city" ;;
