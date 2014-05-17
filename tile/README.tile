@@ -3,17 +3,17 @@
 # based on http://wiki.openstreetmap.org/wiki/Ubuntu_tile_server
 #
 
+Everything runs by a make command. Try:
+
 make install-all
 make help
 
+
+EOF
 ######################################################################
 ######################################################################
 # legacy documentation, use the make targets instead
 ######################################################################
-######################################################################
-
-
-
 
 
 sudo apt-get install -y unzip bzip2 make subversion tidy gcc git \
