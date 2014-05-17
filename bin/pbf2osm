@@ -48,6 +48,7 @@ usage [ option ] file.osm.pbf
 --bzip2
 --pbzip2
 --xz
+--pxz
 
 --osmosis-gzip
 --osmosis-bzip2
@@ -102,6 +103,8 @@ case $1 in
     # multi-core
     --pbzip2 ) shift; compress=pbzip2; _max_cpu_time=36000 ;;
     --pgzip | --pigz ) shift; compress=pgzip; _max_cpu_time=10800 ;;
+    
+    --xz | --pxz ) shift; compress=xz; _max_cpu_time=10800 ;;
 
     --o5m ) shift; compress=o5m ;;
     --o5m-gzip | --o5m-gz ) shift; compress=o5m-gzip ;;
@@ -118,7 +121,6 @@ case $1 in
     --opl-bzip2 | --opl-bz2 ) shift; compress=opl-bzip2 ;;
     --opl-xz ) shift; compress=opl-xz ;;
     
-    --xz )       shift; compress=xz; _max_cpu_time=10800 ;;
     --shape | --shp | --shapefile ) shift; compress=shape ;;
     --osmand | --obf ) shift; compress=osmand ;;
     --navit ) shift; compress=navit ;;

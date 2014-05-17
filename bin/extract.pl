@@ -1090,67 +1090,24 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
 
         # convert .pbf to .osm if requested
         my @nice = ( "nice", "-n", $nice_level_converter );
-        if ( $format eq 'osm.bz2' ) {
-            $file =~ s/\.pbf$/.bz2/;
+
+        if ( $format =~ /^osm\.(xz|gz|bz2)$/ ) {
+            my $ext = $1;
+            $file =~ s/\.pbf$/.$ext/;
             if ( !cached_format( $file, $pbf_file ) ) {
-                @system = ( @nice, "$dirname/pbf2osm", "--pbzip2", $pbf_file );
+                @system = ( @nice, "$dirname/pbf2osm", "--p$ext", $pbf_file );
                 warn "@system\n" if $debug >= 2;
                 @system = 'true' if $test_mode;
 
                 system(@system) == 0 or die "system @system failed: $?";
             }
         }
-        elsif ( $format eq 'osm.gz' ) {
-            $file =~ s/\.pbf$/.gz/;
-            if ( !cached_format( $file, $pbf_file ) ) {
-                @system = ( @nice, "$dirname/pbf2osm", "--pgzip", $pbf_file );
-
-                warn "@system\n" if $debug >= 2;
-                @system = 'true' if $test_mode;
-
-                system(@system) == 0 or die "system @system failed: $?";
-            }
-        }
-        elsif ( $format eq 'osm.xz' ) {
-            $file =~ s/\.pbf$/.xz/;
-            if ( !cached_format( $file, $pbf_file ) ) {
-                @system = ( @nice, "$dirname/pbf2osm", "--xz", $pbf_file );
-
-                warn "@system\n" if $debug >= 2;
-                @system = 'true' if $test_mode;
-
-                system(@system) == 0 or die "system @system failed: $?";
-            }
-        }
-        elsif ( $format eq 'o5m.gz' ) {
-            $file =~ s/\.pbf$/.o5m.gz/;
+        elsif ( $format =~ /^o5m\.(xz|gz|bz2)$/ ) {
+            my $ext = $1;
+            $file =~ s/\.pbf$/.o5m.$ext/;
             if ( !cached_format( $file, $pbf_file ) ) {
                 @system =
-                  ( @nice, "$dirname/pbf2osm", "--o5m-gzip", $pbf_file );
-
-                warn "@system\n" if $debug >= 2;
-                @system = 'true' if $test_mode;
-
-                system(@system) == 0 or die "system @system failed: $?";
-            }
-        }
-        elsif ( $format eq 'o5m.bz2' ) {
-            $file =~ s/\.pbf$/.o5m.bz2/;
-            if ( !cached_format( $file, $pbf_file ) ) {
-                @system =
-                  ( @nice, "$dirname/pbf2osm", "--o5m-bzip2", $pbf_file );
-
-                warn "@system\n" if $debug >= 2;
-                @system = 'true' if $test_mode;
-
-                system(@system) == 0 or die "system @system failed: $?";
-            }
-        }
-        elsif ( $format eq 'o5m.xz' ) {
-            $file =~ s/\.pbf$/.o5m.xz/;
-            if ( !cached_format( $file, $pbf_file ) ) {
-                @system = ( @nice, "$dirname/pbf2osm", "--o5m-xz", $pbf_file );
-
+                  ( @nice, "$dirname/pbf2osm", "--o5m-$ext", $pbf_file );
                 warn "@system\n" if $debug >= 2;
                 @system = 'true' if $test_mode;
 
@@ -1170,34 +1127,12 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
                 system(@system) == 0 or die "system @system failed: $?";
             }
         }
-        elsif ( $format eq 'csv.gz' ) {
-            $file =~ s/\.pbf$/.csv.gz/;
+        elsif ( $format =~ /^csv\.(xz|gz|bz2)$/ ) {
+            my $ext = $1;
+            $file =~ s/\.pbf$/.csv.$ext/;
             if ( !cached_format( $file, $pbf_file ) ) {
                 @system =
-                  ( @nice, "$dirname/pbf2osm", "--csv-gzip", $pbf_file );
-
-                warn "@system\n" if $debug >= 2;
-                @system = 'true' if $test_mode;
-
-                system(@system) == 0 or die "system @system failed: $?";
-            }
-        }
-        elsif ( $format eq 'csv.bz2' ) {
-            $file =~ s/\.pbf$/.csv.bz2/;
-            if ( !cached_format( $file, $pbf_file ) ) {
-                @system =
-                  ( @nice, "$dirname/pbf2osm", "--csv-bzip2", $pbf_file );
-
-                warn "@system\n" if $debug >= 2;
-                @system = 'true' if $test_mode;
-
-                system(@system) == 0 or die "system @system failed: $?";
-            }
-        }
-        elsif ( $format eq 'csv.xz' ) {
-            $file =~ s/\.pbf$/.csv.xz/;
-            if ( !cached_format( $file, $pbf_file ) ) {
-                @system = ( @nice, "$dirname/pbf2osm", "--csv-xz", $pbf_file );
+                  ( @nice, "$dirname/pbf2osm", "--csv-$ext", $pbf_file );
 
                 warn "@system\n" if $debug >= 2;
                 @system = 'true' if $test_mode;
