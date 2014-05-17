@@ -101,8 +101,8 @@ case $1 in
     --bzip2 | --bz2 ) shift; compress=bzip2 ;;
 
     # multi-core
-    --pbzip2 ) shift; compress=pbzip2; _max_cpu_time=36000 ;;
-    --pgzip | --pigz ) shift; compress=pgzip; _max_cpu_time=10800 ;;
+    --pbzip2 | --pbz2) shift; compress=pbzip2; _max_cpu_time=36000 ;;
+    --pgzip | --pigz | --pgz ) shift; compress=pgzip; _max_cpu_time=10800 ;;
     
     --xz | --pxz ) shift; compress=xz; _max_cpu_time=10800 ;;
 
