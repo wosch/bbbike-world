@@ -13,14 +13,14 @@ make help
 sudo apt-get install -y unzip bzip2 make subversion tidy gcc git \
 	libimager-perl imagemagick libinline-perl libhtml-tagcloud-perl \
 	libtie-ixhash-perl libhtml-parser-perl
-sudo apt-get install python-mapnik2
+sudo apt-get install -y python-mapnik2
 
 sudo ln -sf /usr/bin/perl /usr/local/bin/perl
 
 
 # see unicode problems
-# sudo apt-get install postgresql
-# sudo apt-get install osm2pgsql
+# sudo apt-get install -y postgresql
+# sudo apt-get install -y osm2pgsql
 
 
 # add the openstreemap repo
@@ -35,7 +35,7 @@ W: GPG error: http://ppa.launchpad.net natty Release: The following signatures c
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys AE74800FB745A04C
 
 sudo apt-get update
-sudo apt-get install libapache2-mod-tile
+sudo apt-get install -y libapache2-mod-tile
 
 # apt-get -f install
 
@@ -205,7 +205,7 @@ http://www.hyperionreactor.net/blog/how-build-your-own-osm-server-part-1-postgis
 # sudo service procps start
 
 # munin
-sudo apt-get install libdbd-pg-perl
+sudo apt-get install -y libdbd-pg-perl
 cd /etc/munin/plugins/
 sudo ln -s /usr/share/munin/plugins/postgres_* .
 for i in postgres_*_;do echo $i;sudo mv $i ${i}ALL;done
