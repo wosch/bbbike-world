@@ -61,10 +61,16 @@ usage [ option ] file.osm.pbf
 --o5m-gzip
 --o5m-bzip2
 --o5m-xz
+
 --csv
 --csv-gzip
 --csv-bzip2
 --csv-xz
+
+--opl
+--opl-gzip
+--opl-bzip2
+--opl-xz
 
 --shape
 --osmand
@@ -106,6 +112,11 @@ case $1 in
     --csv-gzip | --csv-gz ) shift; compress=csv-gzip ;;
     --csv-bzip2 | --csv-bz2 ) shift; compress=csv-bzip2 ;;
     --csv-xz ) shift; compress=csv-xz ;;
+    
+    --opl ) shift; compress=opl ;;
+    --opl-gzip | --opl-gz ) shift; compress=opl-gzip ;;
+    --opl-bzip2 | --opl-bz2 ) shift; compress=opl-bzip2 ;;
+    --opl-xz ) shift; compress=opl-xz ;;
     
     --xz )       shift; compress=xz; _max_cpu_time=10800 ;;
     --shape | --shp | --shapefile ) shift; compress=shape ;;
@@ -218,6 +229,7 @@ case $compress in
     csv-xz )              $osm2o5m $osm2o5m_opt --out-csv "$file" | $xz $xz_opt > $dir/$f.csv.xz.tmp; mv -f $dir/$f.csv.xz.tmp $dir/$f.csv.xz ;;
     
     # OPL format
+    opl )                 $osmium_convert $osmium_convert_opt "$file" ;;
     opl-gzip | opl-gz )   $osmium_convert $osmium_convert_opt "$file" | $gzip > $dir/$f.opl.gz.tmp; mv -f $dir/$f.opl.gz.tmp $dir/$f.opl.gz ;;
     opl-bzip2 | opl-bz2 ) $osmium_convert $osmium_convert_opt "$file" | $bzip2 > $dir/$f.opl.bz2.tmp; mv -f $dir/$f.opl.bz2.tmp $dir/$f.opl.bz2 ;;
     opl-xz )              $osmium_convert $osmium_convert_opt "$file" | $xz -1 > $dir/$f.opl.xz.tmp; mv -f $dir/$f.opl.xz.tmp $dir/$f.opl.xz ;;
