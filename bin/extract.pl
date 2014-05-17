@@ -136,6 +136,7 @@ my $formats = {
     'o5m.gz'  => "o5m gzip'd",
     'o5m.bz2' => "o5m bzip'd",
     'o5m.xz'  => "o5m 7z (xz)",
+    'opl.xz'  => "opl 7z (xz)",
     'csv.gz'  => "CSV gzip'd",
     'csv.bz2' => "CSV bzip'd",
     'csv.xz'  => "CSV 7z (xz)",
@@ -879,6 +880,8 @@ sub reorder_pbf {
         'o5m.xz'  => 0.9,
         'o5m.bz2' => 1.2,
 
+        'opl.xz' => 1.3,
+
         'csv.gz'  => 0.42,
         'csv.xz'  => 0.2,
         'csv.bz2' => 0.45,
@@ -1154,7 +1157,19 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
                 system(@system) == 0 or die "system @system failed: $?";
             }
         }
+        elsif ( $format =~ /^opl\.(xz|gz|bz2)$/ ) {
+            my $ext = $1;
+            $file =~ s/\.pbf$/.opl.$ext/;
+            if ( !cached_format( $file, $pbf_file ) ) {
+                @system =
+                  ( @nice, "$dirname/pbf2osm", "--opl-$ext", $pbf_file );
 
+                warn "@system\n" if $debug >= 2;
+                @system = 'true' if $test_mode;
+
+                system(@system) == 0 or die "system @system failed: $?";
+            }
+        }
         elsif ( $format eq 'csv.gz' ) {
             $file =~ s/\.pbf$/.csv.gz/;
             if ( !cached_format( $file, $pbf_file ) ) {
