@@ -88,21 +88,21 @@ case $1 in
     --osmosis)    shift; compress=cat;;
 
     # single core, more than one *.pbf files at once
-    --gzip)    shift; compress=gzip;;
-    --bzip2 ) shift; compress=bzip2 ;;
+    --gzip | --gz )    shift; compress=gzip;;
+    --bzip2 | --bz2 ) shift; compress=bzip2 ;;
 
     # multi-core
     --pbzip2 ) shift; compress=pbzip2; _max_cpu_time=36000 ;;
     --pgzip | --pigz ) shift; compress=pgzip; _max_cpu_time=10800 ;;
 
     --o5m ) shift; compress=o5m ;;
-    --o5m-gzip ) shift; compress=o5m-gzip ;;
-    --o5m-bzip2 ) shift; compress=o5m-bzip2 ;;
+    --o5m-gzip | --o5m-gz ) shift; compress=o5m-gzip ;;
+    --o5m-bzip2 | --o5m-bz2 ) shift; compress=o5m-bzip2 ;;
     --o5m-xz ) shift; compress=o5m-xz ;;
 
     --csv ) shift; compress=csv ;;
-    --csv-gzip ) shift; compress=csv-gzip ;;
-    --csv-bzip2 ) shift; compress=csv-bzip2 ;;
+    --csv-gzip | --csv-gz ) shift; compress=csv-gzip ;;
+    --csv-bzip2 | --csv-bz2 ) shift; compress=csv-bzip2 ;;
     --csv-xz ) shift; compress=csv-xz ;;
     
     --xz )       shift; compress=xz; _max_cpu_time=10800 ;;
@@ -183,44 +183,44 @@ case $compress in
     * ) ;;
 esac
 
-    f=`basename $file .pbf`
-    dir=`dirname $file`
-    case $compress in
-	  "") $osm2o5m $osm2o5m_opt "$file" ;;
-    	cat ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout ;;
+f=`basename $file .pbf`
+dir=`dirname $file`
+case $compress in
+      "") $osm2o5m $osm2o5m_opt "$file" ;;
+    cat ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout ;;
 
-	# legacy osmosis
-	osmosis-gzip )   osm2osm $compress "$@";;
-	osmosis-bzip2 )  osm2osm $compress "$@";;
-	osmosis-pgzip )  osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $gzip > $dir/$f.gz.tmp; mv -f $dir/$f.gz.tmp $dir/$f.gz ;;
-	osmosis-pbzip2 ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $bzip2 > $dir/$f.bz2.tmp; mv -f $dir/$f.bz2.tmp $dir/$f.bz2 ;;
-	osmosis-xz )     osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $xz $xz_opt > $dir/$f.tmp; mv -f $dir/$f.tmp $dir/$f.xz ;;
+    # legacy osmosis
+    osmosis-gzip )   osm2osm $compress "$@";;
+    osmosis-bzip2 )  osm2osm $compress "$@";;
+    osmosis-pgzip )  osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $gzip > $dir/$f.gz.tmp; mv -f $dir/$f.gz.tmp $dir/$f.gz ;;
+    osmosis-pbzip2 ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $bzip2 > $dir/$f.bz2.tmp; mv -f $dir/$f.bz2.tmp $dir/$f.bz2 ;;
+    osmosis-xz )     osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $xz $xz_opt > $dir/$f.tmp; mv -f $dir/$f.tmp $dir/$f.xz ;;
 
-	# compression
-        gzip )   $osm2o5m $osm2o5m_opt "$file" | gzip > $dir/$f.gz.tmp; mv -f $dir/$f.gz.tmp $dir/$f.gz ;;
-        bzip2 )  $osm2o5m $osm2o5m_opt "$file" | bzip2 > $dir/$f.bz2.tmp; mv -f $dir/$f.bz2.tmp $dir/$f.bz2 ;;
-        pgzip )  $osm2o5m $osm2o5m_opt "$file" | $gzip > $dir/$f.gz.tmp; mv -f $dir/$f.gz.tmp $dir/$f.gz ;;
-        pbzip2 ) $osm2o5m $osm2o5m_opt "$file" | $bzip2 > $dir/$f.bz2.tmp; mv -f $dir/$f.bz2.tmp $dir/$f.bz2 ;;
-        xz )     $osm2o5m $osm2o5m_opt "$file" | $xz $xz_opt > $dir/$f.tmp; mv -f $dir/$f.tmp $dir/$f.xz ;;
+    # compression
+    gzip )   $osm2o5m $osm2o5m_opt "$file" | gzip > $dir/$f.gz.tmp; mv -f $dir/$f.gz.tmp $dir/$f.gz ;;
+    bzip2 )  $osm2o5m $osm2o5m_opt "$file" | bzip2 > $dir/$f.bz2.tmp; mv -f $dir/$f.bz2.tmp $dir/$f.bz2 ;;
+    pgzip )  $osm2o5m $osm2o5m_opt "$file" | $gzip > $dir/$f.gz.tmp; mv -f $dir/$f.gz.tmp $dir/$f.gz ;;
+    pbzip2 ) $osm2o5m $osm2o5m_opt "$file" | $bzip2 > $dir/$f.bz2.tmp; mv -f $dir/$f.bz2.tmp $dir/$f.bz2 ;;
+    xz )     $osm2o5m $osm2o5m_opt "$file" | $xz $xz_opt > $dir/$f.tmp; mv -f $dir/$f.tmp $dir/$f.xz ;;
 
-	# o5m format
-        o5m )       $osm2o5m $osm2o5m_opt --out-o5m "$file" ;;
-        o5m-gzip )  $osm2o5m $osm2o5m_opt --out-o5m "$file" | $gzip > $dir/$f.o5m.gz.tmp; mv -f $dir/$f.o5m.gz.tmp $dir/$f.o5m.gz ;;
-        o5m-xz )    $osm2o5m $osm2o5m_opt --out-o5m "$file" | $xz $xz_opt > $dir/$f.o5m.xz.tmp; mv -f $dir/$f.o5m.xz.tmp $dir/$f.o5m.xz ;;
-        o5m-bzip2 ) $osm2o5m $osm2o5m_opt --out-o5m "$file" | $bzip2 > $dir/$f.o5m.bz2.tmp; mv -f $dir/$f.o5m.bz2.tmp $dir/$f.o5m.bz2 ;;
-        
-	# CSV format
-        csv )       $osm2o5m $osm2o5m_opt --out-csv "$file" ;;
-        csv-gzip )  $osm2o5m $osm2o5m_opt --out-csv "$file" | $gzip > $dir/$f.csv.gz.tmp; mv -f $dir/$f.csv.gz.tmp $dir/$f.csv.gz ;;
-        csv-xz )    $osm2o5m $osm2o5m_opt --out-csv "$file" | $xz $xz_opt > $dir/$f.csv.xz.tmp; mv -f $dir/$f.csv.xz.tmp $dir/$f.csv.xz ;;
-        csv-bzip2 ) $osm2o5m $osm2o5m_opt --out-csv "$file" | $bzip2 > $dir/$f.csv.bz2.tmp; mv -f $dir/$f.csv.bz2.tmp $dir/$f.csv.bz2 ;;
+    # o5m format
+    o5m )                 $osm2o5m $osm2o5m_opt --out-o5m "$file" ;;
+    o5m-gzip | o5m-gz )   $osm2o5m $osm2o5m_opt --out-o5m "$file" | $gzip > $dir/$f.o5m.gz.tmp; mv -f $dir/$f.o5m.gz.tmp $dir/$f.o5m.gz ;;
+    o5m-bzip2 | o5m-bz2 ) $osm2o5m $osm2o5m_opt --out-o5m "$file" | $bzip2 > $dir/$f.o5m.bz2.tmp; mv -f $dir/$f.o5m.bz2.tmp $dir/$f.o5m.bz2 ;;
+    o5m-xz )    $osm2o5m  $osm2o5m_opt --out-o5m "$file" | $xz $xz_opt > $dir/$f.o5m.xz.tmp; mv -f $dir/$f.o5m.xz.tmp $dir/$f.o5m.xz ;;
+    
+    # CSV format
+    csv )                 $osm2o5m $osm2o5m_opt --out-csv "$file" ;;
+    csv-gzip | csv-gz )   $osm2o5m $osm2o5m_opt --out-csv "$file" | $gzip > $dir/$f.csv.gz.tmp; mv -f $dir/$f.csv.gz.tmp $dir/$f.csv.gz ;;
+    csv-bzip2 | csv-bz2 ) $osm2o5m $osm2o5m_opt --out-csv "$file" | $bzip2 > $dir/$f.csv.bz2.tmp; mv -f $dir/$f.csv.bz2.tmp $dir/$f.csv.bz2 ;;
+    csv-xz )              $osm2o5m $osm2o5m_opt --out-csv "$file" | $xz $xz_opt > $dir/$f.csv.xz.tmp; mv -f $dir/$f.csv.xz.tmp $dir/$f.csv.xz ;;
 
-	# other formats
-	garmin ) $osm2garmin "$file" "$garmin_style" "$city" ;;
-	shape )  $osm2shape  "$file" "$city" ;;
-       	osmand ) $osm2osmand "$file" "$city" ;;
-       	navit )  $osm2navit  "$file" "$city" ;;
-	mapsforge ) $osm2mapsforge "$file" "$mapsforge_style" "$city" ;;
+    # other formats
+    garmin ) $osm2garmin "$file" "$garmin_style" "$city" ;;
+    shape )  $osm2shape  "$file" "$city" ;;
+    osmand ) $osm2osmand "$file" "$city" ;;
+    navit )  $osm2navit  "$file" "$city" ;;
+    mapsforge ) $osm2mapsforge "$file" "$mapsforge_style" "$city" ;;
 
-	* ) echo >& 2 "Oops, unknown '$compress'"; exit 2 ;;
-    esac
+    * ) echo >& 2 "Oops, unknown '$compress'"; exit 2 ;;
+esac
