@@ -70,7 +70,7 @@ is( $pbf_md5, md5_file($pbf_file), "md5 checksum matched" );
 
 my $tempfile = File::Temp->new( SUFFIX => ".osm" );
 
-system( qq[world/bin/pbf2osm --opl $pbf_file > $tempfile] );
+system(qq[world/bin/pbf2osm --opl $pbf_file > $tempfile]);
 is( $?,                  0,        "pbf2osm --opl converter" );
 is( md5_file($tempfile), $opl_md5, "opl gmd5 checksum matched" );
 
