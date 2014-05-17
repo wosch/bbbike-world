@@ -373,7 +373,7 @@ sub parse_jobs {
     return ( \@list, $default_planet_osm );
 }
 
-sub parse_jobs {
+sub parse_jobs_planet {
     my %args = @_;
 
     my $dir   = $args{'dir'};
