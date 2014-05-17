@@ -1125,6 +1125,9 @@ function show_filesize(skm, real_size) {
             "size": 0.80,
             "time": 1.2
         },
+        "opl.xz": {
+            "size": 1.30
+        },
         "mapsforge-osm.zip": {
             "size": 0.8,
             "time": 14
