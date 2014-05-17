@@ -304,10 +304,11 @@ sub parse_jobs {
 
     my ( $hash, $default_planet_osm, $counter ) = parse_jobs_planet(%args);
 
-    # sort by user and date, oldest first
+    # sort by user and date, newest first
     foreach my $email ( keys %$hash ) {
         $hash->{$email} =
-          [ sort { $a->{"time"} <=> $b->{"time"} } @{ $hash->{$email} } ];
+          [ reverse sort { $a->{"time"} <=> $b->{"time"} }
+              @{ $hash->{$email} } ];
     }
 
     # fair scheduler, take one from each customer first
