@@ -304,6 +304,7 @@ sub parse_jobs {
 
     my $hash;
     my $default_planet_osm = "";
+    my $counter            = 0;
 
     foreach my $f (@$files) {
         my $file = "$dir/$f";
@@ -334,6 +335,7 @@ sub parse_jobs {
 
             # a slot for every user
             push @{ $hash->{ $json_perl->{'email'} } }, $json_perl;
+            $counter++;
         }
         else {
             warn
@@ -350,7 +352,6 @@ sub parse_jobs {
 
     # fair scheduler, take one from each customer first
     my @list;
-    my $counter        = $max;
     my $counter_coords = 0;
 
     # 4196 polygones is enough for the queue
