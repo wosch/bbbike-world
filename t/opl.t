@@ -18,9 +18,7 @@ use File::stat;
 use strict;
 use warnings;
 
-my @compress = qw/gz xz bz2/;
-
-plan tests => 4 + 5 * scalar(@compress);
+plan tests => 11;
 
 my $prefix       = 'world/t/data-osm/tmp';
 my $pbf_file     = 'world/t/data-osm/tmp/Cusco.osm.pbf';
@@ -34,7 +32,7 @@ if ( !-f $pbf_file ) {
 }
 
 my $pbf_md5 = "6dc9df64ddc42347bbb70bc134b4feda";
-my $opl_md5 = "24dff23d30cf931540d585238314c7c1";
+my $opl_md5 = "038c3b6fbe96e7087f0e948fb7681ca9";
 
 # min size of garmin zip file
 my $min_size = 200_000;
