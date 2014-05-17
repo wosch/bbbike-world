@@ -3,7 +3,8 @@ Required perl modules:
 
 see ../bin/bbbike-build-runtime-perl.pl
 
-sudo apt-get install libhtml-tagcloud-perl libhtml-parser-perl libxml-atom-simplefeed-perl tidy
+apt-get install -y libhtml-tagcloud-perl libhtml-parser-perl \
+  libxml-atom-simplefeed-perl tidy sudo git vim
 #perlmagick imagemagick
 
 Required debian modules
