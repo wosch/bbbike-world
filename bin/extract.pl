@@ -1706,7 +1706,7 @@ sub run_jobs {
     my @files = @$files;
     my $lockfile;
 
-    warn "Start job at: @{[ gmctime() ]}\n" if $debug;
+    warn "Start job at: @{[ gmctime() ]} UTC\n" if $debug;
 
     # find a free job
     foreach my $number ( 1 .. $max_jobs ) {
