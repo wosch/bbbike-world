@@ -30,7 +30,7 @@ MAX_HCPU=	`world/bin/ncpu hcpu`
 MAX_OSM2PBF=	1
 MAX_OSM2SHAPE=	${MAX_CPU}
 MAX_PBF2OSM=	${MAX_CPU}
-MAX_OSM2OSMAND=	${MAX_HCPU}
+MAX_OSM2OSMAND=	${MAX_CPU}
 MAX_OSM2GARMIN=	${MAX_HCPU}
 
 XARGS=		${NICE} `which gxargs xargs | head -1`
