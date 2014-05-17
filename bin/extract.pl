@@ -302,47 +302,7 @@ sub parse_jobs {
     my $files = $args{'files'};
     my $max   = $args{'max'};
 
-    my $hash;
-    my $default_planet_osm = "";
-    my $counter            = 0;
-
-    foreach my $f (@$files) {
-        my $file = "$dir/$f";
-
-        my $json_text = read_data($file);
-
-        my $json = new JSON;
-        my $json_perl = eval { $json->decode($json_text) };
-        die "json $file $@" if $@;
-        json_compat($json_perl);
-
-        $json_perl->{"file"} = $f;
-
-        # planet.osm file per job
-        my $format = $json_perl->{"format"};
-        $json_perl->{'planet_osm'} =
-          exists $option->{'planet'}->{$format}
-          ? $option->{'planet'}->{$format}
-          : $option->{'planet'}->{'planet.osm'};
-
-        # first jobs defines the planet.osm file
-        if ( !$default_planet_osm ) {
-            $default_planet_osm = $json_perl->{'planet_osm'};
-        }
-
-        # only the same planet.osm file
-        if ( $json_perl->{'planet_osm'} eq $default_planet_osm ) {
-
-            # a slot for every user
-            push @{ $hash->{ $json_perl->{'email'} } }, $json_perl;
-            $counter++;
-        }
-        else {
-            warn
-"Ignore job due different planet.osm file: $default_planet_osm <=> $json_perl->{'planet_osm'}\n"
-              if $debug >= 1;
-        }
-    }
+    my ( $hash, $default_planet_osm, $counter ) = parse_jobs_planet(%args);
 
     # sort by user and date, oldest first
     foreach my $email ( keys %$hash ) {
@@ -410,6 +370,58 @@ sub parse_jobs {
     }
 
     return ( \@list, $default_planet_osm );
+}
+
+sub parse_jobs {
+    my %args = @_;
+
+    my $dir   = $args{'dir'};
+    my $files = $args{'files'};
+    my $max   = $args{'max'};
+
+    my $hash;
+    my $default_planet_osm = "";
+    my $counter            = 0;
+
+    foreach my $f (@$files) {
+        my $file = "$dir/$f";
+
+        my $json_text = read_data($file);
+
+        my $json = new JSON;
+        my $json_perl = eval { $json->decode($json_text) };
+        die "json $file $@" if $@;
+        json_compat($json_perl);
+
+        $json_perl->{"file"} = $f;
+
+        # planet.osm file per job
+        my $format = $json_perl->{"format"};
+        $json_perl->{'planet_osm'} =
+          exists $option->{'planet'}->{$format}
+          ? $option->{'planet'}->{$format}
+          : $option->{'planet'}->{'planet.osm'};
+
+        # first jobs defines the planet.osm file
+        if ( !$default_planet_osm ) {
+            $default_planet_osm = $json_perl->{'planet_osm'};
+        }
+
+        # only the same planet.osm file
+        if ( $json_perl->{'planet_osm'} eq $default_planet_osm ) {
+
+            # a slot for every user
+            push @{ $hash->{ $json_perl->{'email'} } }, $json_perl;
+            $counter++;
+        }
+        else {
+            warn
+"Ignore job due different planet.osm file: $default_planet_osm <=> $json_perl->{'planet_osm'}\n"
+              if $debug >= 1;
+        }
+    }
+
+    return ( $hash, $default_planet_osm, $counter );
 }
 
 # detect bots by user agent, or other meta data
