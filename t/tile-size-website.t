@@ -48,8 +48,11 @@ my $formats = {
     'o5m.xz'            => "o5m 7z (xz)",
 
     #'o5m.bz2'           => "o5m bzip'd",
-    'csv.gz'            => "csv gzip'd",
-    'csv.xz'            => "csv 7z (xz)",
+    'csv.gz' => "csv gzip'd",
+    'csv.xz' => "csv 7z (xz)",
+
+    "opl.xz" => "pbf",
+
     'mapsforge-osm.zip' => "Mapsforge OSM",
 
     'srtm-europe.osm.pbf'         => 'SRTM Europe PBF',
