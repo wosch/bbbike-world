@@ -26,8 +26,12 @@ if [ -s $tmp ]; then
     mail -s "$subject $error" $(whoami) < $tmp
 fi
 
-if [ -n "$log_output" -a -s $tmp ]; then
-   ( echo ""; date; cat $tmp ) >> $log_output
+if [ -n "$log_output" ]; then
+   if [ -s $tmp ]; then
+      ( echo ""; echo "==> $(date)"; cat $tmp ) >> $log_output
+   else
+      ( echo "==> $(date)" ) >> $log_output
+   fi
 fi
 
 rm -f $tmp

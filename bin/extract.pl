@@ -30,6 +30,7 @@ use File::stat;
 use GIS::Distance::Lite;
 use LWP;
 use LWP::UserAgent;
+use Time::gmtime;
 
 use strict;
 use warnings;
@@ -1703,8 +1704,9 @@ sub run_jobs {
     my $test_mode  = $args{'test_mode'};
 
     my @files = @$files;
-
     my $lockfile;
+
+    warn "Start job at: @{[ gmctime() ]} UTC\n" if $debug;
 
     # find a free job
     foreach my $number ( 1 .. $max_jobs ) {
