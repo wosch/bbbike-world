@@ -18,9 +18,7 @@ use File::stat;
 use strict;
 use warnings;
 
-my @compress = qw/gz xz bz2/;
-
-plan tests => 4 + 5 * scalar(@compress);
+plan tests => 11;
 
 my $prefix       = 'world/t/data-osm/tmp';
 my $pbf_file     = 'world/t/data-osm/tmp/Cusco.osm.pbf';
@@ -91,7 +89,7 @@ is( $?,                  0,        "pbf2osm --csv-bz2 converter" );
 is( md5_file($tempfile), $csv_md5, "csv bz2 md5 checksum matched" );
 
 system(
-    qq[world/bin/pbf2osm --csv-xz $pbf_file; xzcat $osm_file_xz > $tempfile] );
+    qq[world/bin/pbf2osm --csv-xz $pbf_file; xzcat $osm_file_xz > $tempfile]);
 is( $?,                  0,        "pbf2osm --csv-xz converter" );
 is( md5_file($tempfile), $csv_md5, "csv xz md5 checksum matched" );
 
