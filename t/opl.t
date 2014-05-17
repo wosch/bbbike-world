@@ -1,7 +1,13 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2014 Wolfram Schneider, http://bbbike.org
 
-BEGIN { }
+BEGIN {
+    system( "which", "osmium_convert" );
+    if ($?) {
+        print "1..0 # skip no osmium_convert found, skip tests\n";
+        exit;
+    }
+}
 
 use FindBin;
 use lib ( "$FindBin::RealBin/..", "$FindBin::RealBin/../lib",
@@ -18,7 +24,7 @@ use File::stat;
 use strict;
 use warnings;
 
-plan tests => 11;
+plan tests => 13;
 
 my $prefix       = 'world/t/data-osm/tmp';
 my $pbf_file     = 'world/t/data-osm/tmp/Cusco.osm.pbf';
@@ -63,6 +69,10 @@ if ( !-f $pbf_file ) {
 is( $pbf_md5, md5_file($pbf_file), "md5 checksum matched" );
 
 my $tempfile = File::Temp->new( SUFFIX => ".osm" );
+
+system( qq[world/bin/pbf2osm --opl $pbf_file > $tempfile] );
+is( $?,                  0,        "pbf2osm --opl converter" );
+is( md5_file($tempfile), $opl_md5, "opl gmd5 checksum matched" );
 
 system(
 qq[world/bin/pbf2osm --opl-gzip $pbf_file; gzip -dc $osm_file_gz > $tempfile]
