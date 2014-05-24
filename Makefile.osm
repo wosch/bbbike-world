@@ -750,6 +750,7 @@ clean-t:
 
 temp-clean:
 	rm -rf ${TMP_DIR}
+	rm -f log.check log.check-full
 
 download-clean:
 	rm -rf ../osm/download/tmp.[0-9]*
