@@ -1073,6 +1073,7 @@ deb-bootstrap-rsync:
 	rsync -az ${BBBIKE_WEB_SERVER}:.bbbike* $$HOME
 	rsync -az ${BBBIKE_WEB_SERVER}:.bashrc $$HOME
 	rsync -az ${BBBIKE_WEB_SERVER}:.proverc $$HOME
+	rsync -az ${BBBIKE_WEB_SERVER}:.gitconfig $$HOME
 
 # post debian package configuration
 deb-bootstrap-dir:
