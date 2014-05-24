@@ -58,7 +58,7 @@ if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
           MYGET * scalar(@lang) +
           ( MYGET * scalar(@extract_dialog) * scalar(@lang) ) +
           scalar(@tags) +
-          32 ) +
+          33 ) +
       ( scalar(@tags) + 2 + 3 ) * 3 +
       MYGET;
 }
@@ -117,8 +117,8 @@ sub page_check {
         like( $res->decoded_content, qr|id="map"|,           "bbbike extract" );
         like( $res->decoded_content, qr|polygon_update|,     "bbbike extract" );
         like( $res->decoded_content, qr|"garmin-cycle.zip"|, "bbbike extract" );
-        like( $res->decoded_content,
-            qr|Content-Type" content="text/html; charset=utf-8"|, "charset" );
+        like( $res->decoded_content, qr|" content="text/html; charset=utf-8"|, "charset" );
+        like( $res->decoded_content, qr| http-equiv="Content-Type"|, "Content-Type" );
 
         foreach my $tag (@tags) {
             like( $res->decoded_content, qr|$tag|,
