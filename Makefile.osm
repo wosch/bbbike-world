@@ -739,7 +739,7 @@ update-javascript:
 java-config:
 	test -r $$HOME/.osmosis || ln -fs $$HOME/projects/bbbike/world/etc/env/dot.osmosis $$HOME/.osmosis
 
-dist-clean devel-clean distclean: clean deb-clean temp-clean clean-t data-distclean download-clean
+dist-clean devel-clean distclean: clean deb-clean temp-clean clean-t data-distclean download-clean log-clean
 	${MAKE} -C./world/etc/mkgmap distclean
 
 distclean-osm: rotate-osm
@@ -750,6 +750,8 @@ clean-t:
 
 temp-clean:
 	rm -rf ${TMP_DIR}
+log-clean:
+	rm -f log.check log.check-full
 
 download-clean:
 	rm -rf ../osm/download/tmp.[0-9]*
@@ -830,6 +832,7 @@ cache-install:
 extract-install extract-bbbike-org-install:
 	mkdir -p /tmpfs
 	mkdir -p ${BBBIKE_PARTITION}/$$(basename ${EXTRACTS_SPOOL_DIR})
+	chown -R $$(logname) ${BBBIKE_PARTITION}/
 	if [ ! -e ${EXTRACTS_SPOOL_DIR} ]; then \
 	   ln -fs ${BBBIKE_PARTITION}/$$(basename ${EXTRACTS_SPOOL_DIR}) ${EXTRACTS_SPOOL_DIR}; \
 	fi
@@ -1071,6 +1074,7 @@ deb-bootstrap-rsync:
 	rsync -az ${BBBIKE_WEB_SERVER}:.bbbike* $$HOME
 	rsync -az ${BBBIKE_WEB_SERVER}:.bashrc $$HOME
 	rsync -az ${BBBIKE_WEB_SERVER}:.proverc $$HOME
+	rsync -az ${BBBIKE_WEB_SERVER}:.gitconfig $$HOME
 
 # post debian package configuration
 deb-bootstrap-dir:
