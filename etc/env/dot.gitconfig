@@ -1,0 +1,5 @@
+[user]
+	name = Wolfram Schneider
+	email = wosch@freebsd.org
+[push]
+	default = current
