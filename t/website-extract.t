@@ -117,7 +117,7 @@ sub page_check {
         like( $res->decoded_content, qr|id="map"|,           "bbbike extract" );
         like( $res->decoded_content, qr|polygon_update|,     "bbbike extract" );
         like( $res->decoded_content, qr|"garmin-cycle.zip"|, "bbbike extract" );
-        like( $res->decoded_content, qr|" content="text/html; charset=utf-8"|,
+        like( $res->decoded_content, qr| content="text/html; charset=utf-8"|,
             "charset" );
         like( $res->decoded_content, qr| http-equiv="Content-Type"|,
             "Content-Type" );
