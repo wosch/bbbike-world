@@ -133,15 +133,20 @@ sub _cities {
     my $data    = $content;
 
     like( $content, qr|"real_time"|, "complete html" );
-    like( $content, qr|Content-Type" content="text/html; charset=utf-8"|,
-        "charset" );
-    like( $content, qr|rel="shortcut|, "icon" );
-    like( $content,
-        qr|type="application/opensearchdescription\+xml" rel="search"|,
-        "opensearch" );
     like(
         $content,
-qr|type="application/atom\+xml" rel="alternate" href="/feed/bbbike-world.xml|,
+qr{Content-Type" content="text/html; charset=utf-8"|content="text/html; charset=utf-8" http-equiv="Content-Type"},
+        "charset"
+    );
+    like( $content, qr|rel="shortcut|, "icon" );
+    like(
+        $content,
+qr{type="application/opensearchdescription\+xml" .*href="/osp/\S+\.xml"|href="/osp/\S+\.xml" .*type="application/opensearchdescription\+xml"},
+        "opensearch"
+    );
+    like(
+        $content,
+qr{type="application/atom\+xml" .*href="/feed/bbbike-world.xml| href="/feed/bbbike-world.xml" .*type="application/atom\+xml"},
         "rss"
     );
     like( $content, qr|src="/html/bbbike(-js)?.js"|, "bbbike(-js)?.js" );
