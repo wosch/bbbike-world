@@ -832,6 +832,7 @@ cache-install:
 extract-install extract-bbbike-org-install:
 	mkdir -p /tmpfs
 	mkdir -p ${BBBIKE_PARTITION}/$$(basename ${EXTRACTS_SPOOL_DIR})
+	chown -R $$(logname) ${BBBIKE_PARTITION}/
 	if [ ! -e ${EXTRACTS_SPOOL_DIR} ]; then \
 	   ln -fs ${BBBIKE_PARTITION}/$$(basename ${EXTRACTS_SPOOL_DIR}) ${EXTRACTS_SPOOL_DIR}; \
 	fi
