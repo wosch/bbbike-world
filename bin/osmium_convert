@@ -1,0 +1,9 @@
+#!/bin/sh
+# wrapper to run osmium_convert on a different machine
+
+# skip options: osmium_convert -f pbf -t opl bremen-latest.osm.pbf
+case $1 in -f | -t ) shift; shift;; esac
+case $1 in -f | -t ) shift; shift;; esac
+
+cat "$@" | ssh debian8-opl '/usr/local/bin/osmium_convert -f pbf -t opl /dev/stdin'
+
