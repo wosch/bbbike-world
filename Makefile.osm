@@ -379,22 +379,22 @@ check:
 	@echo "In case of failure run:"
 	@echo " make check-failed"
 	@echo ""
-	http_proxy="" ${BBMAKE} test > tmp/log.check 2>&1
-	tail -n 10 tmp/log.check
+	http_proxy="" ${BBMAKE} test > log.check 2>&1
+	tail -n 10 log.check
 
 check-world check-w: 
 	@echo "In case of failure run:"
 	@echo " make check-failed"
 	@echo ""
-	http_proxy="" ${BBMAKE} PROVE_FILES="world/t/*.t" test > tmp/log.check-world 2>&1
-	tail -n 10 tmp/log.check-world
+	http_proxy="" ${BBMAKE} PROVE_FILES="world/t/*.t" test > log.check-world 2>&1
+	tail -n 10 log.check-world
 
 check-full: 
 	@echo "In case of failure run:"
 	@echo " BBBIKE_TEST_FAST=\"\" make check-failed"
 	@echo ""
-	http_proxy="" BBBIKE_TEST_FAST="" ${BBMAKE} test > tmp/log.check-full 2>&1
-	tail -n 10 tmp/log.check-full
+	http_proxy="" BBBIKE_TEST_FAST="" ${BBMAKE} test > log.check-full 2>&1
+	tail -n 10 log.check-full
 
 check-devel:
 	prove world/t/website-images.t  ./world/t/080-perlcheck.t 
