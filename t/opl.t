@@ -2,7 +2,10 @@
 # Copyright (c) Sep 2012-2014 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
-    system( "env", "PATH=/bin:/usr/bin:/usr/local/bin", "which", "osmium_convert" );
+    system(
+        "env",   "PATH=/bin:/usr/bin:/usr/local/bin",
+        "which", "osmium_convert"
+    );
     if ($?) {
         print "1..0 # skip no osmium_convert found, skip tests\n";
         exit;
