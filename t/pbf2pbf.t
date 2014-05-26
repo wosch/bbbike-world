@@ -43,7 +43,7 @@ if ( !-f $pbf_file ) {
 
 my $pbf_file2 = 'world/t/data-osm/tmp/Cusco2.osm.pbf';
 my $pbf_md5   = "6dc9df64ddc42347bbb70bc134b4feda";
-my $pbf2_md5  = "1c011b6910f5ef7a8cefd76005921680";
+my $pbf2_md5  = "6dc9df64ddc42347bbb70bc134b4feda";
 my $osm_md5   = "d222cfe84480b8f0ac0081eaf6e2c2ce";
 my $tempfile  = File::Temp->new( SUFFIX => ".osm" );
 
