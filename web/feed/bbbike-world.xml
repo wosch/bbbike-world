@@ -13,6 +13,15 @@
   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af7</id>
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/" version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now libosmium OPL
+    format</title>
+    <id>d41d8cd98f00b204e9800998ecf8437e</id>
+    <content type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now libosmium OPL
+    format</content>
+    <updated>2014-05-27T13:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now Contours (SRTM)
     extracts for PBF, Garmin, and Osmand</title>
     <id>21de8970bd81fb04b751c1935e023e0d</id>

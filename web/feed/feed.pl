@@ -50,6 +50,19 @@ my $feed = XML::Atom::SimpleFeed->new(
 
 $feed->add_entry(
     title =>
+qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now libosmium OPL format},
+    id      => 'd41d8cd98f00b204e9800998ecf8437e',
+    content => {
+        type => 'html',
+        content =>
+qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now libosmium OPL format},
+    },
+    updated  => '2014-05-27T13:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title =>
 qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now Contours (SRTM) extracts for PBF, Garmin, and Osmand},
     id      => '21de8970bd81fb04b751c1935e023e0d',
     content => {
