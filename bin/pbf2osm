@@ -1,10 +1,11 @@
-#!/bin/sh
-# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+#!/bin/bash
+# Copyright (c) 2009-2014 Wolfram Schneider, http://bbbike.org
 #
 # pbf2osm - convert PBF format to OSM XML
 
 PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 set -e
+set -o pipefail # bash only
 
 dirname=$(dirname $0)
 compress=""
