@@ -94,7 +94,7 @@ our $formats = {
     'o5m.gz' => "o5m gzip'd",
     'o5m.xz' => "o5m 7z (xz)",
 
-    'opl.xz'            => "OPL 7z (xz)",
+    'opl.xz' => "OPL 7z (xz)",
     'csv.gz' => "csv gzip'd",
     'csv.xz' => "csv 7z (xz)",
 
