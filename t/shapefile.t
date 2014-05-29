@@ -30,6 +30,7 @@ my $prefix   = 'world/t/data-osm/tmp';
 my $pbf_file = "$prefix/Cusco.osm.pbf";
 
 if ( !-f $pbf_file ) {
+    die "Directory '$prefix' does not exits\n" if !-d $prefix;
     system(qw(ln -sf ../Cusco.osm.pbf world/t/data-osm/tmp)) == 0
       or die "symlink failed: $?\n";
 }

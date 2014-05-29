@@ -42,6 +42,7 @@ my $osm_file_bz2 = "$prefix/Cusco.osm.bz2";
 my $osm_file_xz  = "$prefix/Cusco.osm.xz";
 
 if ( !-f $pbf_file ) {
+    die "Directory '$prefix' does not exits\n" if !-d $prefix;
     system(qw(ln -sf ../Cusco.osm.pbf world/t/data-osm/tmp)) == 0
       or die "symlink failed: $?\n";
 }
