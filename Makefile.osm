@@ -758,8 +758,9 @@ clean-t:
 
 temp-clean:
 	rm -rf ${TMP_DIR}
+
 log-clean:
-	rm -f log.check log.check-full
+	rm -f log.check log.check-full log.check-world
 
 download-clean:
 	rm -rf ../osm/download/tmp.[0-9]*
