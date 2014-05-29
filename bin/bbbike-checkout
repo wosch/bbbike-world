@@ -97,7 +97,7 @@ mkdir -p osm/download
 cd bbbike
 git_config
 
-( cd ext; time make all; time make install; echo $: ) > tmp/log.ext 2>&1 &
+( cd ext; time make all; time make install; echo $: ) > tmp/ext.log 2>&1 &
 
 # add remote master from eserte
 git remote add eserte git://github.com/eserte/bbbike.git
