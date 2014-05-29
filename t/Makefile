@@ -1,4 +1,4 @@
-# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2014 Wolfram Schneider, http://bbbike.org
 
 all: help
 
@@ -12,9 +12,12 @@ _perlcheck:
 perltidy: perlcheck
 	cd ../../; ls world/t/*.t | xargs -n4 -P${NCPU} perltidy -b
 
-clean distclean:
+clean:
 	rm -f *.bak *.tdy *.ERR
 
+distclean: clean
+	rm -rf data-osm/tmp
+
 help:
-	@echo "usage: make [ perltidy | clean | help ]"
+	@echo "usage: make [ perltidy | clean | distclean | help ]"
 
