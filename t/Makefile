@@ -16,7 +16,7 @@ clean:
 	rm -f *.bak *.tdy *.ERR
 
 distclean: clean
-	rm -rf data-osm/tmp
+	rm -rf data-osm/tmp/[A-Za-z]*
 
 help:
 	@echo "usage: make [ perltidy | clean | distclean | help ]"
