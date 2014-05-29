@@ -761,6 +761,7 @@ temp-clean:
 
 log-clean:
 	rm -f log.check log.check-full log.check-world
+	rm -f tmp/*.log
 
 download-clean:
 	rm -rf ../osm/download/tmp.[0-9]*
