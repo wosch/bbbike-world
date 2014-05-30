@@ -209,6 +209,9 @@ f=`basename $file .pbf`
 dir=`dirname $file`
 tmp=$(mktemp $file.XXXXXXXX.tmp)
 
+# cleanup after signal
+trap 'rm -f $tmp' 0 1 2 15
+
 case $compress in
       "") $osm2o5m $osm2o5m_opt "$file" ;;
     cat ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout ;;
@@ -254,3 +257,4 @@ case $compress in
 
     * ) echo >& 2 "Oops, unknown '$compress'"; exit 2 ;;
 esac
+
