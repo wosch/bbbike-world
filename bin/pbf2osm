@@ -207,7 +207,7 @@ esac
 
 f=`basename $file .pbf`
 dir=`dirname $file`
-tmp="tmp.$$"
+tmp=$(mktemp XXXXXXXX.tmp)
 
 case $compress in
       "") $osm2o5m $osm2o5m_opt "$file" ;;
