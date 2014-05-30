@@ -207,7 +207,7 @@ esac
 
 f=`basename $file .pbf`
 dir=`dirname $file`
-tmp=$(mktemp XXXXXXXX.tmp)
+tmp=$(mktemp $file.XXXXXXXX.tmp)
 
 case $compress in
       "") $osm2o5m $osm2o5m_opt "$file" ;;
@@ -216,34 +216,34 @@ case $compress in
     # legacy osmosis
     osmosis-gzip )   osm2osm $compress "$@";;
     osmosis-bzip2 )  osm2osm $compress "$@";;
-    osmosis-pgzip )  osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $gzip > $dir/$f.gz.$tmp; mv -f $dir/$f.gz.$tmp $dir/$f.gz ;;
-    osmosis-pbzip2 ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $bzip2 > $dir/$f.bz2.$tmp; mv -f $dir/$f.bz2.$tmp $dir/$f.bz2 ;;
-    osmosis-xz )     osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $xz $xz_opt > $dir/$f.$tmp; mv -f $dir/$f.$tmp $dir/$f.xz ;;
+    osmosis-pgzip )  osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $gzip  > $tmp && mv -f $tmp $dir/$f.gz ;;
+    osmosis-pbzip2 ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $bzip2 > $tmp && mv -f $tmp $dir/$f.bz2 ;;
+    osmosis-xz )     osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.xz ;;
 
     # compression
-    gzip )   $osm2o5m $osm2o5m_opt "$file" | gzip > $dir/$f.gz.$tmp; mv -f $dir/$f.gz.$tmp $dir/$f.gz ;;
-    bzip2 )  $osm2o5m $osm2o5m_opt "$file" | bzip2 > $dir/$f.bz2.$tmp; mv -f $dir/$f.bz2.$tmp $dir/$f.bz2 ;;
-    pgzip )  $osm2o5m $osm2o5m_opt "$file" | $gzip > $dir/$f.gz.$tmp; mv -f $dir/$f.gz.$tmp $dir/$f.gz ;;
-    pbzip2 ) $osm2o5m $osm2o5m_opt "$file" | $bzip2 > $dir/$f.bz2.$tmp; mv -f $dir/$f.bz2.$tmp $dir/$f.bz2 ;;
-    xz )     $osm2o5m $osm2o5m_opt "$file" | $xz $xz_opt > $dir/$f.$tmp; mv -f $dir/$f.$tmp $dir/$f.xz ;;
+    gzip )   $osm2o5m $osm2o5m_opt "$file" | gzip   > $tmp && mv -f $tmp $dir/$f.gz ;;
+    bzip2 )  $osm2o5m $osm2o5m_opt "$file" | bzip2  > $tmp && mv -f $tmp $dir/$f.bz2 ;;
+    pgzip )  $osm2o5m $osm2o5m_opt "$file" | $gzip  > $tmp && mv -f $tmp $dir/$f.gz ;;
+    pbzip2 ) $osm2o5m $osm2o5m_opt "$file" | $bzip2 > $tmp && mv -f $tmp $dir/$f.bz2 ;;
+    xz )     $osm2o5m $osm2o5m_opt "$file" | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.xz ;;
 
     # o5m format
     o5m )                 $osm2o5m $osm2o5m_opt --out-o5m "$file" ;;
-    o5m-gzip | o5m-gz )   $osm2o5m $osm2o5m_opt --out-o5m "$file" | $gzip > $dir/$f.o5m.gz.$tmp; mv -f $dir/$f.o5m.gz.$tmp $dir/$f.o5m.gz ;;
-    o5m-bzip2 | o5m-bz2 ) $osm2o5m $osm2o5m_opt --out-o5m "$file" | $bzip2 > $dir/$f.o5m.bz2.$tmp; mv -f $dir/$f.o5m.bz2.$tmp $dir/$f.o5m.bz2 ;;
-    o5m-xz )    $osm2o5m  $osm2o5m_opt --out-o5m "$file" | $xz $xz_opt > $dir/$f.o5m.xz.$tmp; mv -f $dir/$f.o5m.xz.$tmp $dir/$f.o5m.xz ;;
+    o5m-gzip | o5m-gz )   $osm2o5m $osm2o5m_opt --out-o5m "$file" | $gzip  > $tmp && mv -f $tmp $dir/$f.o5m.gz ;;
+    o5m-bzip2 | o5m-bz2 ) $osm2o5m $osm2o5m_opt --out-o5m "$file" | $bzip2 > $tmp && mv -f $tmp $dir/$f.o5m.bz2 ;;
+    o5m-xz )    $osm2o5m  $osm2o5m_opt --out-o5m "$file"     | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.o5m.xz ;;
     
     # CSV format
     csv )                 $osm2o5m $osm2o5m_opt --out-csv "$file" ;;
-    csv-gzip | csv-gz )   $osm2o5m $osm2o5m_opt --out-csv "$file" | $gzip > $dir/$f.csv.gz.$tmp; mv -f $dir/$f.csv.gz.$tmp $dir/$f.csv.gz ;;
-    csv-bzip2 | csv-bz2 ) $osm2o5m $osm2o5m_opt --out-csv "$file" | $bzip2 > $dir/$f.csv.bz2.$tmp; mv -f $dir/$f.csv.bz2.$tmp $dir/$f.csv.bz2 ;;
-    csv-xz )              $osm2o5m $osm2o5m_opt --out-csv "$file" | $xz $xz_opt > $dir/$f.csv.xz.$tmp; mv -f $dir/$f.csv.xz.$tmp $dir/$f.csv.xz ;;
+    csv-gzip | csv-gz )   $osm2o5m $osm2o5m_opt --out-csv "$file" | $gzip  > $tmp && mv -f $tmp $dir/$f.csv.gz ;;
+    csv-bzip2 | csv-bz2 ) $osm2o5m $osm2o5m_opt --out-csv "$file" | $bzip2 > $tmp && mv -f $tmp $dir/$f.csv.bz2 ;;
+    csv-xz )              $osm2o5m $osm2o5m_opt --out-csv "$file" | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.csv.xz ;;
     
     # OPL format
     opl )                 $osmium_convert $osmium_convert_opt "$file" ;;
-    opl-gzip | opl-gz )   $osmium_convert $osmium_convert_opt "$file" | $gzip > $dir/$f.opl.gz.$tmp; mv -f $dir/$f.opl.gz.$tmp $dir/$f.opl.gz ;;
-    opl-bzip2 | opl-bz2 ) $osmium_convert $osmium_convert_opt "$file" | $bzip2 > $dir/$f.opl.bz2.$tmp; mv -f $dir/$f.opl.bz2.$tmp $dir/$f.opl.bz2 ;;
-    opl-xz )              $osmium_convert $osmium_convert_opt "$file" | $xz -1 > $dir/$f.opl.xz.$tmp; mv -f $dir/$f.opl.xz.$tmp $dir/$f.opl.xz ;;
+    opl-gzip | opl-gz )   $osmium_convert $osmium_convert_opt "$file" | $gzip  > $tmp && mv -f $tmp $dir/$f.opl.gz ;;
+    opl-bzip2 | opl-bz2 ) $osmium_convert $osmium_convert_opt "$file" | $bzip2 > $tmp && mv -f $tmp $dir/$f.opl.bz2 ;;
+    opl-xz )              $osmium_convert $osmium_convert_opt "$file" | $xz -1 > $tmp && mv -f $tmp $dir/$f.opl.xz ;;
 
     # other formats
     garmin ) $osm2garmin "$file" "$garmin_style" "$city" ;;
