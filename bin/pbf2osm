@@ -5,7 +5,6 @@
 
 PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 set -e
-set -o pipefail # bash only
 
 dirname=$(dirname $0)
 compress=""
@@ -198,6 +197,13 @@ case $compress in
 	;;
     * ) ;;
 esac
+
+
+# fail if the pipe failed, bash only
+case $compress in
+    osmosis-* | *gzip | *bzip2 | xz | o5m-* | csv-* | opl-* ) set -o pipefail ;;
+esac
+
 
 f=`basename $file .pbf`
 dir=`dirname $file`
