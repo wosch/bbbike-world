@@ -6,21 +6,12 @@
 
 use LWP::UserAgent;
 use Encode;
+use Test::More;
 
 use strict;
 use warnings;
 
 BEGIN {
-    if (
-        !eval q{
-	use Test::More;
-	1;
-    }
-      )
-    {
-        print "1..0 # skip no Test::More module\n";
-        exit;
-    }
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} ) {
         print "1..0 # skip due no network\n";
         exit;
