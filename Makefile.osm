@@ -1099,7 +1099,7 @@ deb-bootstrap-dir:
 	test -e /usr/lib/libprotobuf-lite.so.6     || sudo ln -fs ${DEB_OPT_DIR}/lib/libprotobuf-lite.so.6     /usr/lib/libprotobuf-lite.so.6
 	cd /usr/lib; \
 	if [ ! -e libgeos-3.2.2.so ]; then \
-	    sudo ln -fs libgeos.so libgeos-3.2.2.so; \
+	    sudo ln -fs libgeos-3.*.so libgeos-3.2.2.so; \
 	fi
 	test -e /usr/local/bin/osmosis || sudo ln -sf ${DEB_OPT_DIR}/osmosis-0.40.1/bin/osmosis /usr/local/bin/osmosis
 	sudo mkdir -p /bbbike/tmp /tmpfs
