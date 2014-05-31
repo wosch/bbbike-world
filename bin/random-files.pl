@@ -11,7 +11,7 @@ use warnings;
 sub out {
    my @files = @_;
 
-   print join " ", @files, "\n";
+   print join " ", @files;
 }
 
 sub random_sort {
