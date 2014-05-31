@@ -64,14 +64,14 @@ sub myget {
 
     $size = 10_000 if !defined $size;
 
-    my $req = HTTP::Request->new( GET => $url );
+    my $req = HTTP::Request->new( HEAD => $url );
     my $res = $ua->request($req);
 
     isnt( $res->is_success, undef, "$url is success" );
     is( $res->status_line, "200 OK", "status code 200" );
 
-    my $content = $res->decoded_content();
-    cmp_ok( length($content), ">", $size, "greather than $size" );
+    my $content_length = $res->header("Content-Length");
+    cmp_ok( $content_length, ">", $size, "greather than $size" );
 
     return $res;
 }
