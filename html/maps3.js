@@ -1185,7 +1185,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
     var nokia_traffic_options = {
         bbbike: {
             "name": "NokiaTraffic",
-            "description": "Nokia Traffic, by maps.nokia.com"
+            "description": "Here Traffic, by maps.here.com"
         },
         getTileUrl: function (a, z) {
             return nokia(a, z, "normal.day.grey");
@@ -1319,13 +1319,14 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         // [http://4.maptile.lbs.ovi.com/maptiler/v2/maptile/a2e328a0c5/normal.day/${z}/${x}/${y}/256/png8?app_id=SqE1xcSngCd3m4a1zEGb&token=r0sR1DzqDkS6sDnh902FWQ&lg=ENG"]
         var app_id = "SqE1xcSngCd3m4a1zEGb";
         var token = "r0sR1DzqDkS6sDnh902FWQ&lg";
-        var url_prefix = "maptile.lbs.ovi.com/maptiler/v2/maptile/a2e328a0c5";
+	var tile_id = "f8c7b21875";
+        var url_prefix = "base.maps.api.here.com/maptile/2.1/maptile/" + tile_id;
 
         if (!servers || servers.length == 0) {
-            servers = (name == "normal.day.grey" ? ["a", "b", "c", "d"] : ["1", "2", "3", "4"]);
+            servers = ["1", "2", "3", "4"];
         }
         if (name == "normal.day.grey") { // traffic
-            url_prefix = "mrsmon.lbs.ovi.com/maptiler/v2/traffictile/b8abea5c78";
+            url_prefix = "traffic.maps.api.here.com/maptile/2.1/traffictile/" + tile_id;
         }
 
         var url = "http://" + randomServer(servers) + "." + url_prefix + "/" + name + "/" + z + "/" + a.x + "/" + a.y + "/256/png8?app_id=" + app_id + "&token=" + token + "lg=ENG";
@@ -2383,7 +2384,7 @@ function translate_mapcontrol(word, lang) {
             "PanoramioLayer": "Panoramio",
             "toner": "Toner",
             "watercolor": "Watercolor",
-            "NokiaTraffic": "Nokia Traffic",
+            "NokiaTraffic": "Here Traffic",
 
             "start": "Start",
             "ziel": "Destination",
@@ -2418,7 +2419,7 @@ function translate_mapcontrol(word, lang) {
 
             "bing_birdview": "Bing Sat",
             "WeatherLayer": "Wetter",
-            "NokiaTraffic": "Nokia Verkehr",
+            "NokiaTraffic": "Here Verkehr",
 
             "Set start point": "Setze Startpunkt",
             "Set destination point": "Setze Zielpunkt",
