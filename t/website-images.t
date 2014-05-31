@@ -6,7 +6,7 @@ use strict;
 use warnings;
 
 BEGIN {
-    if ( $ENV{BBBIKE_TEST_NO_NETWORK} ||  $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
+    if ( $ENV{BBBIKE_TEST_NO_NETWORK} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
         print "1..0 # skip due slow or no network\n";
         exit;
     }
