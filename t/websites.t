@@ -4,6 +4,7 @@
 use LWP::UserAgent;
 use Encode;
 use utf8;    # test contains unicode characters, see Test::More::UTF8;
+use Test::More;
 
 use strict;
 use warnings;
