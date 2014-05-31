@@ -1188,7 +1188,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "Here Traffic, by maps.here.com"
         },
         getTileUrl: function (a, z) {
-            return nokia(a, z, "normal.day.grey");
+            return nokia(a, z, "newest/normal.day");
         },
         isPng: true,
         opacity: 1.0,
@@ -1320,14 +1320,20 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         var app_id = "SqE1xcSngCd3m4a1zEGb";
         var token = "r0sR1DzqDkS6sDnh902FWQ&lg";
 	var tile_id = "f8c7b21875";
-        var url_prefix = "base.maps.api.here.com/maptile/2.1/maptile/" + tile_id;
 
         if (!servers || servers.length == 0) {
             servers = ["1", "2", "3", "4"];
         }
-        if (name == "normal.day.grey") { // traffic
-            url_prefix = "traffic.maps.api.here.com/maptile/2.1/traffictile/" + tile_id;
-        }
+
+        var urls = {
+            "normal.day": "base.maps.api.here.com/maptile/2.1/maptile/" + tile_id,
+            "terrain.day": "aerial.maps.api.here.com/maptile/2.1/maptile/" + tile_id,
+            "satellite.day": "aerial.maps.api.here.com/maptile/2.1/maptile/" + tile_id,
+            "hybrid.day": "aerial.maps.api.here.com/maptile/2.1/maptile/" + tile_id,
+            "normal.day.transit": "base.maps.api.here.com/maptile/2.1/maptile/" + tile_id,
+            "newest/normal.day": "traffic.maps.api.here.com/maptile/2.1/" + "traffictile"
+        };
+        var url_prefix = urls[name];
 
         var url = "http://" + randomServer(servers) + "." + url_prefix + "/" + name + "/" + z + "/" + a.x + "/" + a.y + "/256/png8?app_id=" + app_id + "&token=" + token + "lg=ENG";
 
