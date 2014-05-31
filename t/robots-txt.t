@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2014 Wolfram Schneider, http://bbbike.org
 #
 # check map compare JS/images and external libs
 #
@@ -12,8 +12,8 @@ use strict;
 use warnings;
 
 BEGIN {
-    if ( $ENV{BBBIKE_TEST_NO_NETWORK} ) {
-        print "1..0 # skip due no network\n";
+    if ( $ENV{BBBIKE_TEST_NO_NETWORK} ||  $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
+        print "1..0 # skip due slow or no network\n";
         exit;
     }
 }
