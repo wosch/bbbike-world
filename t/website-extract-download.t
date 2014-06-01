@@ -14,37 +14,39 @@ BEGIN {
         print "1..0 # skip due slow or no network\n";
         exit;
     }
-    #if ( $ENV{BBBIKE_TEST_FAST} ) { print "1..0 # skip due fast test\n"; exit; }
+
+   #if ( $ENV{BBBIKE_TEST_FAST} ) { print "1..0 # skip due fast test\n"; exit; }
 }
 
 binmode \*STDOUT, "utf8";
 binmode \*STDERR, "utf8";
 
 my @homepages = "http://download.bbbike.org";
-if ( !$ENV{BBBIKE_TEST_FAST} ) { 
-  push @homepages, qw|http://download1.bbbike.org http://download2.bbbike.org|;
+if ( !$ENV{BBBIKE_TEST_FAST} ) {
+    push @homepages,
+      qw|http://download1.bbbike.org http://download2.bbbike.org|;
 }
 
 sub get_extract_files {
-   my $url = shift;
-   my $data = `lynx -dump $url`;
-   my @urls = ();
+    my $url  = shift;
+    my $data = `lynx -dump $url`;
+    my @urls = ();
 
-   my @data = split $", $data;
-   foreach my $line (@data) {
-     if ($line =~ m,(http://\S+),) {
-	push @urls, $1;
-     }
-   }
+    my @data = split $", $data;
+    foreach my $line (@data) {
+        if ( $line =~ m,(http://\S+), ) {
+            push @urls, $1;
+        }
+    }
 
-   return @urls;
+    return @urls;
 }
 
 use constant MYGET => 3;
 
 my @urls;
 foreach my $home (@homepages) {
-   push @urls, get_extract_files("$home/osm/extract/");
+    push @urls, get_extract_files("$home/osm/extract/");
 }
 
 # ads only on production system
@@ -77,8 +79,8 @@ sub myget_head {
 # main
 #
 
-    foreach my $u (@urls) {
-        myget_head( $u );
-    }
+foreach my $u (@urls) {
+    myget_head($u);
+}
 
 __END__
