@@ -20,6 +20,7 @@ BEGIN {
 
 binmode \*STDOUT, "utf8";
 binmode \*STDERR, "utf8";
+my $debug = 0;
 
 my @homepages = "http://download.bbbike.org";
 if ( !$ENV{BBBIKE_TEST_FAST} ) {
@@ -50,7 +51,7 @@ foreach my $home (@homepages) {
 }
 
 # ads only on production system
-plan tests => scalar(@homepages) * MYGET * scalar(@urls);
+plan tests => MYGET * scalar(@urls);
 
 my $ua = LWP::UserAgent->new;
 $ua->agent("BBBike.org-Test/1.0");
@@ -79,7 +80,9 @@ sub myget_head {
 # main
 #
 
+diag( "extract downloads URLs to check: " . scalar(@urls) ) if $debug;
 foreach my $u (@urls) {
+    diag("URL: $u") if $debug >= 2;
     myget_head($u);
 }
 
