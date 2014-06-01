@@ -208,6 +208,7 @@ esac
 f=`basename $file .pbf`
 dir=`dirname $file`
 tmp=$(mktemp $file.XXXXXXXX.tmp)
+chmod 644 $tmp
 
 # cleanup after signal
 trap 'rm -f $tmp' 0 1 2 15
