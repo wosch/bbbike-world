@@ -1319,7 +1319,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         next if !$send_email;
 
         my $script_url = &script_url( $option, $obj );
-        my $database_update = gmtime( stat($planet_osm)->mtime ) . " UTC";
+        my $database_update = gmctime( stat($planet_osm)->mtime ) . " UTC";
 
         my $text = M("EXTRACT_EMAIL");
         my $granularity;
