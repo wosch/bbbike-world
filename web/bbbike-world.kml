@@ -1761,8 +1761,8 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name>Potsdam</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Potsdam/">BBBike @ Potsdam</a></span><p/>
+    <name>Potsdam/Mittelmark</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Potsdam/">BBBike @ Potsdam/Mittelmark</a></span><p/>
 	OpenStreetMap data <a href="http://www.bbbike.org/cgi/area.cgi?city=Potsdam">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
