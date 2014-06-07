@@ -28,7 +28,10 @@ my @homepages = "http://www.bbbike.org"; #http://www2.bbbike.org http://dev1.bbb
 my @cities = map { chomp; $_ } (`./world/bin/bbbike-db --list`);
 use constant MYGET => 3;
 
-my @lang = qw/de da en es  fr  hr  nl  pl  pt  ru  zh/;
+my @lang = qw/de en/;
+if ($ENV{BBBIKE_TEST_LONG}) {
+   push @lang, qw/da es fr hr nl pl pt ru zh/;
+}
 
 # for each translation, check a translated term
 my $msg = {
