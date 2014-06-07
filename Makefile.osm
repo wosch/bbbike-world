@@ -539,7 +539,7 @@ create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi index updat
         
 create-bbbike-org-symlinks:
 	cd images; ln -fs ../world/images/* .
-	cd html; ln -fs ../world/html/* .
+	cd html; ln -fs ../world/html/[a-z]* .
 	ln -fs world/bin/BBBike*.pm .
 	cd cgi/msg/; ln -fs ../../world/cgi/msg/* .
 
