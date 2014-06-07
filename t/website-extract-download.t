@@ -15,7 +15,7 @@ BEGIN {
         exit;
     }
 
-   #if ( $ENV{BBBIKE_TEST_FAST} ) { print "1..0 # skip due fast test\n"; exit; }
+    if ( $ENV{BBBIKE_TEST_FAST} ) { print "1..0 # skip due fast test\n"; exit; }
 }
 
 binmode \*STDOUT, "utf8";
