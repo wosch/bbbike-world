@@ -3488,24 +3488,15 @@ function toogleDiv(id, value) {
 }
 
 /* set map height, depending on footer height */
-
 function setMapHeight() {
-    var height = jQuery(window).height() - jQuery('#bottom').height() - 20;
+    var height = jQuery("body").height() - jQuery('#bottom').height() - 15;
     if (height < 200) height = 200;
+    var width = jQuery("body").width() - jQuery('#routing').width() - 20;
 
     jQuery('#BBBikeGooglemap').height(height);
-
-    debug("height: " + height);
-};
-
-function setMapWidth() {
-    var width = jQuery(window).width() - jQuery('#sidebar').width() - 60;
-    if (width < 200) width = 200;
-
     jQuery('#BBBikeGooglemap').width(width);
 
-    debug("width: " + width);
+    debug("height: " + height + ", width: " + width);
 };
-
 
 // EOF
