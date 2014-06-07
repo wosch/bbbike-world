@@ -1,5 +1,9 @@
 ######################################################################
+# Copyright (c) 2008-2014 Wolfram Schneider, http://bbbike.org
 #
+
+JSMIN:=        $(shell which jsmin cat | head -1)
+
 BBBIKE_WORLD_JAVASCRIPT_FILES=\
 	bbbike.js \
 	extract.js \
