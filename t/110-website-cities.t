@@ -36,6 +36,7 @@ if ( $ENV{BBBIKE_TEST_LONG} ) {
 
 # for each translation, check a translated term
 my $msg = {
+    "en" => ["Please enter start and destination street name"],
     "de" => ["Start- und Zielstra&szlig;e der Route eingeben"],
     "da" => ["Angiv start-og bestemmelsessted gadenavn"],
     "es" => ["Por favor, introduzca de inicio y destino"],
