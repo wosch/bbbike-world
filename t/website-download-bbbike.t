@@ -15,7 +15,7 @@ BEGIN {
         exit;
     }
 
-    #if ( $ENV{BBBIKE_TEST_FAST} ) { print "1..0 # skip due fast test\n"; exit; }
+   #if ( $ENV{BBBIKE_TEST_FAST} ) { print "1..0 # skip due fast test\n"; exit; }
 }
 
 binmode \*STDOUT, "utf8";
@@ -27,35 +27,34 @@ my @homepages = "http://download.bbbike.org";
 my @cities = map { chomp; $_ } (`./world/bin/bbbike-db --list`);
 
 # only the first 4 cities
-if ($ENV{BBBIKE_TEST_FAST}) {
-    @cities = @cities[0..3];
+if ( $ENV{BBBIKE_TEST_FAST} ) {
+    @cities = @cities[ 0 .. 3 ];
 }
 
-
 sub get_bbbike_files {
-    my $url  = shift;
+    my $url    = shift;
     my $cities = shift;
     my @cities = @$cities;
-   
+
     my @ext = qw/osm.csv.xz
-osm.garmin-bbbike.zip
-osm.garmin-cycle.zip
-osm.garmin-leisure.zip
-osm.garmin-osm.zip
-osm.gz
-osm.opl.xz
-osm.navit.zip
-osm.obf.zip
-osm.pbf
-osm.shp.zip
-poly/;
-    
+      osm.garmin-bbbike.zip
+      osm.garmin-cycle.zip
+      osm.garmin-leisure.zip
+      osm.garmin-osm.zip
+      osm.gz
+      osm.opl.xz
+      osm.navit.zip
+      osm.obf.zip
+      osm.pbf
+      osm.shp.zip
+      poly/;
+
     my @urls;
     foreach my $city (@cities) {
         foreach my $e (@ext) {
             push @urls, "$url/$city/$city.$e";
         }
-        push @urls, "$url/$city/CHECKSUM.txt"; 
+        push @urls, "$url/$city/CHECKSUM.txt";
     }
 
     return @urls;
@@ -65,7 +64,7 @@ use constant MYGET => 3;
 
 my @urls;
 foreach my $home (@homepages) {
-    push @urls, get_bbbike_files("$home/osm/bbbike", \@cities);
+    push @urls, get_bbbike_files( "$home/osm/bbbike", \@cities );
 }
 
 # ads only on production system
