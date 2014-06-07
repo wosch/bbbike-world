@@ -115,10 +115,7 @@ sub vcl_recv {
     # backend config
     #
 
-    # munin statistics
-    if (req.http.host ~ "^dev[1-4]?\.bbbike\.org$" && req.url ~ "^/munin") {
-        set req.backend = munin_localhost;
-    } else if (req.http.host ~ "^(m\.|api[1-4]?\.|www[1-4]?\.|dev[1-4]?\.|devel[1-4]?\.|)bbbike\.org$") {
+    if (req.http.host ~ "^(m\.|api[1-4]?\.|www[1-4]?\.|dev[1-4]?\.|devel[1-4]?\.|)bbbike\.org$") {
         set req.backend = bbbike;
 
         # failover production @ www1 
@@ -141,6 +138,8 @@ sub vcl_recv {
         set req.backend = eserte;
     } else if (req.http.host ~ "^(www\.|)(cyclerouteplanner\.org|cyclerouteplanner\.com|bbike\.org|cycleroute\.net)$") {
         set req.backend = bbbike;
+    } else if (req.http.host ~ "^dev[1-4]?\.bbbike\.org$" && req.url ~ "^/munin") {  # munin statistics
+        set req.backend = munin_localhost;
     } else {
         set req.backend = default;
     }
@@ -175,11 +174,12 @@ sub vcl_recv {
 	return (pass);
     }
 
-    if (req.http.host ~ "^(www2?\.)manualpages\.de$$")  { return (pass); } # no cache
-    if (req.http.host ~ "^extract[1-4]?\.bbbike\.org") { return (pass); } # no cache
-    if (req.http.host ~ "^extract-pro[1-4]?\.bbbike\.org") { return (pass); } # no cache
-    if (req.http.host ~ "^([a-z]\.)?tile\.bbbike\.org") { return (pass); } # no cache
-    if (req.http.host ~ "^(dev|devel)[1-4]?\.bbbike\.org$") { 	return (pass); } # test & development, no caching
+    # no caching
+    if (req.http.host ~ "^(www2?\.)manualpages\.de$$")		{ return (pass); }
+    if (req.http.host ~ "^extract[1-4]?\.bbbike\.org") 		{ return (pass); }
+    if (req.http.host ~ "^([a-z]\.)?tile\.bbbike\.org") 	{ return (pass); }
+    if (req.http.host ~ "^extract-pro[1-4]?\.bbbike\.org") 	{ return (pass); }
+    if (req.http.host ~ "^(dev|devel)[1-4]?\.bbbike\.org$") 	{ return (pass); }
   
     # pipeline post requests trac #4124 
     if (req.request == "POST") {
