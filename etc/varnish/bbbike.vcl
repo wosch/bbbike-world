@@ -115,6 +115,10 @@ sub vcl_recv {
     # backend config
     #
 
+    if (req.http.host ~ "^dev[1-4]?\.bbbike\.org$" && req.url ~ "^/munin") {  # munin statistics
+        set req.backend = munin_localhost;
+    } else 
+
     if (req.http.host ~ "^(m\.|api[1-4]?\.|www[1-4]?\.|dev[1-4]?\.|devel[1-4]?\.|)bbbike\.org$") {
         set req.backend = bbbike;
 
@@ -138,8 +142,6 @@ sub vcl_recv {
         set req.backend = eserte;
     } else if (req.http.host ~ "^(www\.|)(cyclerouteplanner\.org|cyclerouteplanner\.com|bbike\.org|cycleroute\.net)$") {
         set req.backend = bbbike;
-    } else if (req.http.host ~ "^dev[1-4]?\.bbbike\.org$" && req.url ~ "^/munin") {  # munin statistics
-        set req.backend = munin_localhost;
     } else {
         set req.backend = default;
     }
