@@ -43,6 +43,7 @@ osm.garmin-cycle.zip
 osm.garmin-leisure.zip
 osm.garmin-osm.zip
 osm.gz
+osm.opl.xz
 osm.navit.zip
 osm.obf.zip
 osm.pbf
