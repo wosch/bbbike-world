@@ -68,7 +68,9 @@ ulimit -v 2700000
 # export NYTPROF=trace=2:start=init:file=/tmp/nytprof.out
 # perl -d:NYTProf $dirname_original/$name.cgi #$dirname/bbbike.cgi
 data="data-osm/$name"
-if [ ! -d "$data" ]; then
+
+# fall back to previous version
+if [ ! -d "$dirname_original/../$data" -a -d "$dirname_original/../data-osm.old/$name" ]; then
    data="data-osm.old/$name"
 fi
 
