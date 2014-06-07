@@ -209,6 +209,10 @@ sub vcl_recv {
       #unset req.http.Expires;
     }
 
+    if (req.http.host ~ "^(www)[1-4]?\.bbbike\.org$") 	{
+       unset req.http.cookie;
+    }
+
     # https://www.varnish-cache.org/trac/wiki/FAQ/Compression
     #if (req.http.Accept-Encoding) {
     #    if (req.url ~ "\.(jpg|png|gif|gz|tgz|bz2|tbz|mp3|ogg|zip)$") {
@@ -342,7 +346,12 @@ sub vcl_miss {
 #     return (fetch);
 # }
 # 
-# sub vcl_fetch {
+
+sub vcl_fetch {
+    if (req.http.host ~ "^(www)[1-4]?\.bbbike\.org$") 	{
+        unset beresp.http.set-cookie;
+    }
+
 #     if (beresp.ttl <= 0s ||
 #         beresp.http.Set-Cookie ||
 #         beresp.http.Vary == "*") {
@@ -352,8 +361,9 @@ sub vcl_miss {
 # 		set beresp.ttl = 120 s;
 # 		return (hit_for_pass);
 #     }
-#     return (deliver);
-# }
+     return (deliver);
+}
+
 # 
 # sub vcl_deliver {
 #     return (deliver);
