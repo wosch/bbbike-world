@@ -26,6 +26,7 @@ export BBBIKE_OPT_DIR=/var/lib/bbbike/opt
 
 # BBBIKE_TEST_SLOW_NETWORK=1
 # BBBIKE_TEST_NO_NETWORK=1
+# BBBIKE_TEST_LONG=1
 #
 # Web server options:
 # BBBIKE_TEST_NO_CGI_TESTS=1
