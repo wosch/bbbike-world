@@ -39,7 +39,7 @@ my $urls = [
     [ "/bbbike/BBBike-3.18-devel-Intel.dmg",              33_000 ],
     [ "/bbbike/data-osm/Ottawa.tbz",                      32_000 ],
     [ "/favicon.ico",                                     1_000 ],
-    [ "/robots.txt",                                      100 ],
+    [ "/robots.txt",                                      36 ],
     [ "/sitemap.xml.gz",                                  1_000 ],
     [ "/index.html",                                      800 ],
     [ "/osm/srtm/e40/planet-srtm-e40.osm.pbf",            14_000_000 ],
