@@ -153,7 +153,6 @@ function center_city(sw_lng, sw_lat, ne_lng, ne_lat) {
 
 function init_map() {
     var keyboard = new OpenLayers.Control.KeyboardDefaults({}); // "observeElement": $("#map")} );
-    
     // var keyboard = new OpenLayers.Control.KeyboardDefaults({"observeElement": "map"});
     var map = new OpenLayers.Map("map", {
         controls: [
@@ -852,7 +851,6 @@ function initKeyPress() {
     };
 
     // OpenLayers.Control.KeyboardDefaults.observeElement = $("#map");
-
     OpenLayers.Control.KeyboardDefaults.prototype.defaultKeyPress = function (evt) {
         switch (evt.keyCode) {
         case OpenLayers.Event.KEY_LEFT:
@@ -867,8 +865,8 @@ function initKeyPress() {
         case OpenLayers.Event.KEY_DOWN:
             moveMap(0, this.slideFactor);
             break;
-       
-        /* 
+
+/* 
         // '+', '=''
         case 43:
         case 61:
