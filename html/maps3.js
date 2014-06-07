@@ -1319,7 +1319,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         // [http://4.maptile.lbs.ovi.com/maptiler/v2/maptile/a2e328a0c5/normal.day/${z}/${x}/${y}/256/png8?app_id=SqE1xcSngCd3m4a1zEGb&token=r0sR1DzqDkS6sDnh902FWQ&lg=ENG"]
         var app_id = "SqE1xcSngCd3m4a1zEGb";
         var token = "r0sR1DzqDkS6sDnh902FWQ&lg";
-	var tile_id = "f8c7b21875";
+        var tile_id = "f8c7b21875";
 
         if (!servers || servers.length == 0) {
             servers = ["1", "2", "3", "4"];
@@ -3488,6 +3488,7 @@ function toogleDiv(id, value) {
 }
 
 /* set map height, depending on footer height */
+
 function setMapHeight() {
     var height = jQuery("body").height() - jQuery('#bottom').height() - 15;
     if (height < 200) height = 200;
