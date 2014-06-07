@@ -10,11 +10,11 @@ use strict;
 use warnings;
 
 BEGIN {
-    if ( $ENV{BBBIKE_TEST_NO_NETWORK} || $ENV{BBBIKE_TEST_SLOW_NETWORK}) {
+    if ( $ENV{BBBIKE_TEST_NO_NETWORK} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
         print "1..0 # skip due slow or no network\n";
         exit;
     }
-    if ( $ENV{BBBIKE_TEST_FAST}) {
+    if ( $ENV{BBBIKE_TEST_FAST} ) {
         print "1..0 # skip due fast check\n";
         exit;
     }
@@ -23,14 +23,15 @@ BEGIN {
 binmode \*STDOUT, "utf8";
 binmode \*STDERR, "utf8";
 
-my @homepages = "http://www.bbbike.org"; #http://www2.bbbike.org http://dev1.bbbike.org http://dev2.bbbike.org];
+my @homepages = "http://www.bbbike.org"
+  ;    #http://www2.bbbike.org http://dev1.bbbike.org http://dev2.bbbike.org];
 
 my @cities = map { chomp; $_ } (`./world/bin/bbbike-db --list`);
 use constant MYGET => 3;
 
 my @lang = qw/de en/;
-if ($ENV{BBBIKE_TEST_LONG}) {
-   push @lang, qw/da es fr hr nl pl pt ru zh/;
+if ( $ENV{BBBIKE_TEST_LONG} ) {
+    push @lang, qw/da es fr hr nl pl pt ru zh/;
 }
 
 # for each translation, check a translated term
