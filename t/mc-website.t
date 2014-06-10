@@ -29,13 +29,6 @@ my @list = (
         'match'     => [],
         'mime_type' => 'text/javascript'
     },
-    {
-        'page' =>
-          'http://api.maps.yahoo.com/ajaxymap?v=3.0&appid=euzuro-openlayers',
-        'min_size'  => 800,
-        'match'     => [],
-        'mime_type' => 'text/html'
-    }
 );
 
 my @javascript = qw(
