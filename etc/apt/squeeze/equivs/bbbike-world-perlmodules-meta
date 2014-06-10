@@ -3,12 +3,11 @@ Priority: optional
 Standards-Version: 3.6.2
 
 Package: bbbike-world-perlmodules-meta
-Version: 1.1.1
+Version: 1.1.2
 Maintainer: Wolfram Schneider <wosch@freebsd.org>
 Depends: libwww-mechanize-formfiller-perl, libkwalify-perl,
  libgis-distance-lite-perl, libgeo-google-polylineencoder-perl,
  libobject-iterate-perl, libmath-polygon-perl, libmath-matrixreal-perl,
- libimage-info-perl, libxml-atom-simplefeed-perl, libaccessors-perl,
- libdatetime-perl 
+ libimage-info-perl, libxml-atom-simplefeed-perl, libaccessors-perl
 Description: BBBike @ World perl modules
  perl modules which are not part of debian squeeze
