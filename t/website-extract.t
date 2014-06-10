@@ -133,7 +133,7 @@ sub page_check {
         myget( "$home_url/html/jquery/jquery-1.7.1.min.js",           20_000 );
 
         #myget( "$home_url/html/jquery/jquery.cookie-1.3.1.js",        2_000 );
-        myget( "$home_url/html/OpenLayers/2.12/OpenStreetMap.js",  10_000 );
+        myget( "$home_url/html/OpenLayers/2.12/OpenStreetMap.js",  8_000 );
         myget( "$home_url/html/OpenLayers/2.12/OpenLayers-min.js", 500_000 );
     }
 }

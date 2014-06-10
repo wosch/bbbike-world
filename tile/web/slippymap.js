@@ -241,26 +241,6 @@ function init() {
         numZoomLevels: 19
     }));
 
-    map.addLayer(new OpenLayers.Layer.Yahoo("Yahoo Street", {
-        'sphericalMercator': true,
-        attribution: '<a href="http://yahoo.com/">Yahoo Local Maps</a>',
-        numZoomLevels: 18
-    }));
-
-    map.addLayer(new OpenLayers.Layer.Yahoo("Yahoo Aerial", {
-        'type': YAHOO_MAP_SAT,
-        'sphericalMercator': true,
-        attribution: '<a href="http://yahoo.com/">Yahoo Local Maps</a>',
-        numZoomLevels: 18
-    }));
-
-    map.addLayer(new OpenLayers.Layer.Yahoo("Yahoo Hybrid", {
-        'type': YAHOO_MAP_HYB,
-        'sphericalMercator': true,
-        attribution: '<a href="http://yahoo.com/">Yahoo Local Maps</a>',
-        numZoomLevels: 18
-    }));
-
     map.addLayer(new OpenLayers.Layer.WMS("Soviet Military Topo", "http://www.topomapper.com/cgi-bin/tilecache-2.11b/tilecache.py", {
         layers: "topomapper_gmerc",
         format: 'image/jpeg'

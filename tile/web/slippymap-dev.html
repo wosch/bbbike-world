@@ -9,8 +9,6 @@
 <script type="text/javascript" src="http://www.google.com/jsapi?hl=de"></script>
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;language=de"></script>
 
-<script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=3.0&appid=euzuro-openlayers"></script>
-
     <!-- <script src="http://openlayers.org/api/OpenLayers.js"></script> -->
     <script src="http://www.bbbike.org/html/OpenLayers-2.11/OpenLayers.js"></script>
  
@@ -74,8 +72,6 @@
 	    map.addLayer( new OpenLayers.Layer.Google( "Google Satellite", { type: google.maps.MapTypeId.SATELLITE, 'sphericalMercator': true, attribution: ', <a href="http://maps.google.com/">Google</a>', numZoomLevels:19 } ));
 	    map.addLayer( new OpenLayers.Layer.Google( "Google Hybrid", { type: google.maps.MapTypeId.HYBRID, 'sphericalMercator': true, attribution: ', <a href="http://maps.google.com/">Google</a>', numZoomLevels:19 } ));
 
-	    map.addLayer( new OpenLayers.Layer.Yahoo( "Yahoo Street", { 'sphericalMercator': true, attribution: '<a href="http://yahoo.com/">Yahoo Local Maps</a>', numZoomLevels:18 } ));
-	    map.addLayer( new OpenLayers.Layer.Yahoo( "Yahoo Aerial", { 'type': YAHOO_MAP_SAT, 'sphericalMercator': true, attribution: '<a href="http://yahoo.com/">Yahoo Local Maps</a>', numZoomLevels:18 } ));
 
 
 // This is the end of the layer
