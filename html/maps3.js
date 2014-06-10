@@ -38,11 +38,6 @@ var bbbike = {
         Toner: true,
         Watercolor: true,
         NokiaTraffic: true,
-
-        YahooMapMapType: true,
-        YahooHybridMapType: false,
-        YahooSatelliteMapType: true,
-
         BingMapMapType: true,
         BingMapOldMapType: false,
         BingHybridMapType: true,
@@ -61,11 +56,8 @@ var bbbike = {
         "bing_hybrid": "BOTTOM_RIGHT",
         "bing_satellite": "BOTTOM_RIGHT",
         "bing_birdview": "BOTTOM_RIGHT",
-        "yahoo_map": "BOTTOM_RIGHT",
-        "yahoo_hybrid": "BOTTOM_RIGHT",
         "mapquest": "BOTTOM_RIGHT",
         "mapquest_satellite": "BOTTOM_RIGHT",
-        "yahoo_satellite": "BOTTOM_RIGHT"
     },
 
     // optinal layers in google maps or all maps
@@ -100,7 +92,7 @@ var bbbike = {
     },
 
     available_google_maps: ["roadmap", "terrain", "satellite", "hybrid"],
-    available_custom_maps: ["bing_birdview", "bing_map", "bing_map_old", "bing_hybrid", "bing_satellite", "yahoo_map", "yahoo_hybrid", "yahoo_satellite", "public_transport", "ocm_transport", "ocm_landscape", "hike_bike", "mapnik_de", "mapnik_bw", "mapnik", "cycle", "bbbike_mapnik", "bbbike_mapnik_german", "bbbike_smoothness", "land_shading", "mapquest", "mapquest_satellite", "esri", "esri_topo", "mapbox", "apple", "velo_layer", "max_speed", "toner", "watercolor", "nokia_traffic"],
+    available_custom_maps: ["bing_birdview", "bing_map", "bing_map_old", "bing_hybrid", "bing_satellite", "public_transport", "ocm_transport", "ocm_landscape", "hike_bike", "mapnik_de", "mapnik_bw", "mapnik", "cycle", "bbbike_mapnik", "bbbike_mapnik_german", "bbbike_smoothness", "land_shading", "mapquest", "mapquest_satellite", "esri", "esri_topo", "mapbox", "apple", "velo_layer", "max_speed", "toner", "watercolor", "nokia_traffic"],
 
     area: {
         visible: true,
@@ -994,56 +986,6 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         maxZoom: 18
     };
 
-    // http://png.maps.yimg.com/png?t=m&v=4.1&s=256&f=j&x=34&y=11&z=12
-    // http://png.maps.yimg.com/png?t=m&v=4.1&s=256&f=j&x=34&y=11&z=12
-    // http://png.maps.yimg.com/png?t=m&v=4.1&s=256&f=j&x=34&y=11&z=12
-    // http://www.guidebee.biz/forum/viewthread.php?tid=71
-    var yahoo_map_options = {
-        bbbike: {
-            "name": "Yahoo",
-            "description": "Yahoo, by maps.yahoo.com"
-        },
-        getTileUrl: function (a, z) {
-            return "http://png.maps.yimg.com/png?t=m&v=4.1&s=256&f=j&x=" + a.x + "&y=" + (((1 << z) >> 1) - 1 - a.y) + "&z=" + (18 - z);
-        },
-        isPng: true,
-        opacity: 1.0,
-        tileSize: new google.maps.Size(256, 256),
-        name: "YAHOO-MAP",
-        minZoom: 1,
-        maxZoom: 17
-    };
-    var yahoo_hybrid_options = {
-        bbbike: {
-            "name": "Yahoo Hybrid",
-            "description": "Yahoo Hybrid, by maps.yahoo.com",
-        },
-        getTileUrl: function (a, z) {
-            return "http://us.maps3.yimg.com/aerial.maps.yimg.com/png?v=1.1&t=h&s=256&x=" + a.x + "&y=" + (((1 << z) >> 1) - 1 - a.y) + "&z=" + (18 - z);
-        },
-        isPng: true,
-        opacity: 1.0,
-        tileSize: new google.maps.Size(256, 256),
-        name: "YAHOO-HYBRID",
-        minZoom: 1,
-        maxZoom: 17
-    };
-    var yahoo_satellite_options = {
-        bbbike: {
-            "name": "Yahoo Sat",
-            "description": "Yahoo Satellite, by maps.yahoo.com",
-        },
-        getTileUrl: function (a, z) {
-            return "http://aerial.maps.yimg.com/ximg?t=a&v=1.7&s=256&x=" + a.x + "&y=" + (((1 << z) >> 1) - 1 - a.y) + "&z=" + (18 - z);
-        },
-        isPng: true,
-        opacity: 1.0,
-        tileSize: new google.maps.Size(256, 256),
-        name: "YAHOO-SATELLITE",
-        minZoom: 1,
-        maxZoom: 17
-    }
-
     function getTileUrlBing(a, z, type) {
         var fmt = (type == "r" ? "png" : "jpeg");
         var digit = ((a.y & 1) << 1) + (a.x & 1);
@@ -1420,28 +1362,6 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             }
         },
 
-        "yahoo_map": function () {
-            if (bbbike.mapType.YahooMapMapType) {
-                var YahooMapMapType = new google.maps.ImageMapType(yahoo_map_options);
-                map.mapTypes.set("yahoo_map", YahooMapMapType);
-                custom_map("yahoo_map", lang, yahoo_map_options.bbbike);
-            }
-        },
-        "yahoo_satellite": function () {
-            if (bbbike.mapType.YahooSatelliteMapType) {
-                var YahooSatelliteMapType = new google.maps.ImageMapType(yahoo_satellite_options);
-                map.mapTypes.set("yahoo_satellite", YahooSatelliteMapType);
-                custom_map("yahoo_satellite", lang, yahoo_satellite_options.bbbike);
-            }
-        },
-        "yahoo_hybrid": function () {
-            if (bbbike.mapType.YahooHybridMapType) {
-                var YahooHybridMapType = new google.maps.ImageMapType(yahoo_hybrid_options);
-                map.mapTypes.set("yahoo_hybrid", YahooHybridMapType);
-                custom_map("yahoo_hybrid", lang, yahoo_hybrid_options.bbbike);
-            }
-        },
-
         "bing_map_old": function () {
             if (bbbike.mapType.BingMapOldMapType) {
                 var BingMapMapType = new google.maps.ImageMapType(bing_map_old_options);
@@ -1590,14 +1510,11 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
     mapControls.nokia_traffic();
     mapControls.bing_map();
     mapControls.bing_map_old();
-    mapControls.yahoo_map();
     mapControls.mapquest();
     mapControls.mapquest_satellite();
     mapControls.bing_satellite();
     mapControls.bing_birdview();
-    mapControls.yahoo_satellite();
     mapControls.bing_hybrid();
-    mapControls.yahoo_hybrid();
 
     map.setMapTypeId(maptype);
     if (is_supported_maptype(maptype, bbbike.available_custom_maps)) {
@@ -2366,11 +2283,8 @@ function translate_mapcontrol(word, lang) {
             "public_transport": "Public Transport",
             "mapnik_de": "Mapnik (de)",
             "mapnik_bw": "Mapnik (b/w)",
-            "yahoo_map": "Yahoo",
             "mapquest": "MapQuest",
             "mapquest_satellite": "MapQuest (Sat)",
-            "yahoo_hybrid": "Yahoo (hybrid)",
-            "yahoo_satellite": "Yahoo (Sat)",
             "bing_map": "Bing",
             "bing_map_old": "Bing (old)",
             "bing_satellite": "Bing Sat",
