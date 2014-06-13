@@ -58,7 +58,9 @@ install-munin-bbbike-extract:
 	${MAKE} munin-restart
 
 munin-restart:
-	sudo /etc/init.d/munin-node restart
+	sudo /etc/init.d/munin-node stop
+	sleep 0.2
+	sudo /etc/init.d/munin-node start
 
 help:
 	@echo "make [ sync-backend | sync-frontend ]"
