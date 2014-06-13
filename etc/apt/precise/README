@@ -3,16 +3,16 @@
 #
 
 equivs/ 	files to build simple debian meta packages
-		$ cd project/bbbike; make DEB_RELEASE=precise deb-equivs
+		$ cd project/bbbike; make DEB_VENDOR=ubuntu DEB_RELEASE=precise deb-equivs
 
 deb
 		files to build *real* debian packages
-		$ cd project/bbbike; make DEB_RELEASE=precise deb-bin
+		$ cd project/bbbike; make DEB_VENDOR=ubuntu DEB_RELEASE=precise deb-bin
 		
 gpg		public pgp key for bbbike packages
 
 perl-modules.txt 	list of self compiled perl modules for debian
-			$ cd project/bbbike; make DEB_RELEASE=precise deb-perl
+			$ cd project/bbbike; make DEB_VENDOR=ubuntu DEB_RELEASE=precise deb-perl
 
 sources.list.d		list of files to store in /etc/apt/sources.list.d/
 
