@@ -1,6 +1,6 @@
 Origin: BBBike
 Label: BBBike
-Codename: precise
+Codename: trusty
 Architectures: amd64 i386
 Components: main
 Description: BBBike.org

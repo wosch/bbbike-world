@@ -4,7 +4,7 @@
 
 LIB=	bbbike-world-javalibs
 DEB_REPO_DIR=   /usr/local/www/debian.bbbike.org/ubuntu
-DEB_RELEASE=	precise
+DEB_RELEASE=	trusty
 
 all: help
 
