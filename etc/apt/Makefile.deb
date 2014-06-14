@@ -29,8 +29,8 @@ deb-repo:
 	  reprepro -Vb . includedeb ${DEB_RELEASE} $$pwd/${LIB}*.deb
 
 deb-bin:
-	${MAKE} ${MAKEFLAGS} LIB=bbbike-world-bin distclean build deb-repo
-	${MAKE} ${MAKEFLAGS} LIB=bbbike-world-javalibs distclean build deb-repo
+	${MAKE} -f ../../Makefile.deb LIB=bbbike-world-bin distclean build deb-repo
+	${MAKE} -f ../../Makefile.deb LIB=bbbike-world-javalibs distclean build deb-repo
 
 help:
 	@echo ""
