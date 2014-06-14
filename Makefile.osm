@@ -1040,7 +1040,7 @@ deb-equivs: deb-clean
 	ls -l ${DEB_DIR}/*.deb
 	${MAKE} deb-repo
 
-deb-bin:
+deb-bin: deb-repo-dir
 	${MAKE} -C./world/etc/apt/${DEB_RELEASE}/deb -f ../../Makefile.deb DEB_RELEASE=${DEB_RELEASE} DEB_VENDOR=${DEB_VENDOR} $@
 
 deb-clean:
