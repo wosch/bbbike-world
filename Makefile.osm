@@ -1029,7 +1029,7 @@ deb-perl: deb-clean
 	    dh-make-perl --build --cpan $$i; \
 	done
 	ls -l ${DEB_DIR}/*.deb
-	@echo "Please run now: ${MAKE} deb-repo"
+	${MAKE} deb-repo
 
 deb-equivs: deb-clean
 	mkdir -p ${DEB_DIR}
@@ -1242,7 +1242,7 @@ help:
 	@echo "  [ test-org | lighttpd-restart | test ]"
 	@echo "  [ jasmine-node | test-js ]"
 	@echo "  [ deb-perl | deb-equivs | deb-bin ]"
-	@echo "  [ DEB_RELEASE=precise  DEB_VENDOR=ubuntu deb-equivs deb-repo ]"
+	@echo "  [ DEB_RELEASE=precise  DEB_VENDOR=ubuntu deb-equivs ]"
 	@echo "  [ deb-clean | deb-repo ]"
 	@echo "  [ debian-bootstrap | bbbike-bootstrap ]"
 	@echo "  [ build-runtime | git-fetch ]"
