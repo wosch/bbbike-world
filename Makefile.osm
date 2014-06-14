@@ -1242,7 +1242,7 @@ help:
 	@echo "  [ test-org | lighttpd-restart | test ]"
 	@echo "  [ jasmine-node | test-js ]"
 	@echo "  [ deb-perl | deb-equivs | deb-bin ]"
-	@echo "  [ DEB_RELEASE=precise  DEB_VENDOR=ubuntu deb-equivs ]"
+	@echo "  [ DEB_RELEASE=precise  DEB_VENDOR=ubuntu deb-equivs deb-bin deb-perl ]"
 	@echo "  [ deb-clean | deb-repo ]"
 	@echo "  [ debian-bootstrap | bbbike-bootstrap ]"
 	@echo "  [ build-runtime | git-fetch ]"
