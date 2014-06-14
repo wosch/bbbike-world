@@ -1,6 +1,7 @@
 ###############################################################
 # Copyright (c) 2013-2014 Wolfram Schneider, http://bbbike.org
 #
+# run me from ./<deb_release>/deb/
 
 DEB_VENDOR=	ubuntu
 DEB_RELEASE=	trusty
