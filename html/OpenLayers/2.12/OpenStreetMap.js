@@ -223,7 +223,7 @@ OpenLayers.Layer.Nokia = OpenLayers.Class(OpenLayers.Layer.XYZ, {
         var servers = opt.servers;
 
         if (!tile_id) // may change every 3 months (sic!)
-            tile_id = "f8c7b21875";
+            tile_id = "7f0c1bb0a9";
         
         var urls = {
             "normal.day": "base.maps.api.here.com/maptile/2.1/maptile/" + tile_id,
