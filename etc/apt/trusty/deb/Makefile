@@ -2,9 +2,10 @@
 # Copyright (c) 2013-2014 Wolfram Schneider, http://bbbike.org
 #
 
-LIB=	bbbike-world-javalibs
-DEB_REPO_DIR=   /usr/local/www/debian.bbbike.org/ubuntu
+DEB_VENDOR=	ubuntu
 DEB_RELEASE=	trusty
+DEB_REPO_DIR=   /usr/local/www/debian.bbbike.org/${DEB_VENDOR}
+LIB=	bbbike-world-javalibs
 
 all: help
 
