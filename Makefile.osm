@@ -1041,7 +1041,7 @@ deb-equivs: deb-clean
 	${MAKE} deb-repo
 
 deb-bin:
-	${MAKE} -C./world/etc/apt/${DEB_RELEASE}/deb DEB_RELEASE=${DEB_RELEASE} $@
+	${MAKE} -C./world/etc/apt/${DEB_RELEASE}/deb -f ../../Makefile.deb DEB_RELEASE=${DEB_RELEASE} DEB_VENDOR=${DEB_VENDOR} $@
 
 deb-clean:
 	rm -rf ${DEB_DIR}
@@ -1242,7 +1242,7 @@ help:
 	@echo "  [ test-org | lighttpd-restart | test ]"
 	@echo "  [ jasmine-node | test-js ]"
 	@echo "  [ deb-perl | deb-equivs | deb-bin ]"
-	@echo "  [ DEB_RELEASE=precise  DEB_VENDOR=ubuntu deb-equivs deb-bin deb-perl ]"
+	@echo "  [ DEB_VENDOR=ubuntu DEB_RELEASE=precise deb-equivs deb-bin deb-perl ]"
 	@echo "  [ deb-clean | deb-repo ]"
 	@echo "  [ debian-bootstrap | bbbike-bootstrap ]"
 	@echo "  [ build-runtime | git-fetch ]"
