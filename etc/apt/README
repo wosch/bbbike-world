@@ -25,16 +25,16 @@ $ make deb-clean deb-perl deb-equivs deb-bin
 # other releases
 
 # debian6/squeeze
-make DEB_RELEASE=debian DEB_VENDOR=squeeze deb-perl deb-equivs deb-bin
+make DEB_VENDOR=debian DEB_RELEASE=squeeze deb-perl deb-equivs deb-bin
 
 # debian7/wheezy
-make DEB_RELEASE=debian DEB_VENDOR=wheezy deb-perl deb-equivs deb-bin
+make DEB_VENDOR=debian DEB_RELEASE=wheezy deb-perl deb-equivs deb-bin
 
 # ubuntu12
-make DEB_RELEASE=precise DEB_VENDOR=ubuntu deb-perl deb-equivs deb-bin
+make DEB_VENDOR=ubuntu DEB_RELEASE=precise deb-perl deb-equivs deb-bin
 
 # ubuntu14
-make DEB_RELEASE=trusty DEB_VENDOR=ubuntu deb-perl deb-equivs deb-bin
+make DEB_VENDOR=ubuntu DEB_RELEASE=trusty deb-perl deb-equivs deb-bin
 
 --
 June 2014
