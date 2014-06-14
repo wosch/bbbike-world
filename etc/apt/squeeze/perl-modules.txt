@@ -1,4 +1,5 @@
 # list of self compiled perl modules for debian
+Test::Data
 GIS::Distance::Lite
 XML::Atom::SimpleFeed
 Math::MatrixReal
