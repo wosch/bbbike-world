@@ -60,7 +60,7 @@ sub myget_head {
     my $url  = shift;
     my $size = shift;
 
-    $size = 1 if !defined $size;
+    $size = 0 if !defined $size;
 
     my $req = HTTP::Request->new( HEAD => $url );
     my $res = $ua->request($req);
@@ -69,6 +69,12 @@ sub myget_head {
     is( $res->status_line, "200 OK", "status code 200" );
 
     my $content_length = $res->content_length;
+
+    # RFC2616
+    if ( !defined $content_length ) {
+        diag "Content length is not defined, empty file?\n";
+        $content_length = $size + 1;
+    }
 
     #diag("content_length: " . $content_length);
     cmp_ok( $content_length, ">", $size, "greather than $size" );
