@@ -20,7 +20,7 @@ BEGIN {
 
 binmode \*STDOUT, "utf8";
 binmode \*STDERR, "utf8";
-my $debug = 0;
+my $debug = $ENV{DEBUG} || 0;
 
 my @homepages = "http://download.bbbike.org";
 if ( !$ENV{BBBIKE_TEST_FAST} ) {
