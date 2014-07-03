@@ -852,22 +852,30 @@ function initKeyPress() {
 
     // OpenLayers.Control.KeyboardDefaults.observeElement = $("#map");
     OpenLayers.Control.KeyboardDefaults.prototype.defaultKeyPress = function (evt) {
+        // ignore key events while in forms
+        if (forms_focus()) {
+            return;
+        }
+
         switch (evt.keyCode) {
         case OpenLayers.Event.KEY_LEFT:
+        case 72:
             moveMap(-this.slideFactor, 0);
             break;
         case OpenLayers.Event.KEY_RIGHT:
+        case 76:
             moveMap(this.slideFactor, 0);
             break;
         case OpenLayers.Event.KEY_UP:
+        case 75:
             moveMap(0, -this.slideFactor);
             break;
         case OpenLayers.Event.KEY_DOWN:
+        case 74:
             moveMap(0, this.slideFactor);
             break;
 
-/* 
-        // '+', '=''
+            // '+', '=''
         case 43:
         case 61:
         case 187:
@@ -875,20 +883,18 @@ function initKeyPress() {
             this.map.zoomIn();
             break;
 
-        // '-'
+            // '-'
         case 45:
         case 109:
         case 189:
         case 95:
             this.map.zoomOut();
             break;
-        
+
         case 71:
             // 'g'
             locateMe();
             break;
-	*/
-
         }
     };
 };
@@ -1336,6 +1342,18 @@ function toggle_lnglatbox() {
     $('.lnglatbox_toggle').toggle();
 
     $('.uncheck').attr('checked', false);
+}
+
+// check if we have an active forms
+
+
+function forms_focus() {
+    var focus = jQuery(':focus');
+    if (focus.attr('id')) {
+        // focus.trigger("blur");
+        debug("Extract focus is on form element: " + focus.attr('id'));
+        return 1;
+    }
 }
 
 /*

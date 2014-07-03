@@ -1273,6 +1273,7 @@ qq{<span title="hide longitude,latitude box" class="lnglatbox" onclick="javascri
                           . "<br/></span>"
                           . $q->popup_menu(
                             -name   => 'format',
+                            -id     => 'format',
                             -values => [
                                 sort {
                                     lc( $formats_locale->{$a} ) cmp
