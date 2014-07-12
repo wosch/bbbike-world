@@ -5,6 +5,7 @@
 
 : ${data_osm=data-osm}
 : ${debug=""}
+: ${time=""} # time=time
 
 # die on exit
 set -e
@@ -13,7 +14,7 @@ set -e
 for city 
 do
    env DATA_DIR="data-osm/$city" BBBIKE_DATADIR="data-osm/$city" \
-     time perl -MDevel::Size=total_size -MStrassen -MStrassen::StrassenNetz -e \
+     $time perl -MDevel::Size=total_size -MStrassen -MStrassen::StrassenNetz -e \
 	'$net=StrassenNetz->new(Strassen->new("strassen"));$net->make_net; print "$ENV{DATA_DIR}: ", int(total_size($net)/1024/1024*10)/10, " MB\n"'
 done
 
