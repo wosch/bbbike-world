@@ -1261,7 +1261,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         // [http://4.maptile.lbs.ovi.com/maptiler/v2/maptile/a2e328a0c5/normal.day/${z}/${x}/${y}/256/png8?app_id=SqE1xcSngCd3m4a1zEGb&token=r0sR1DzqDkS6sDnh902FWQ&lg=ENG"]
         var app_id = "SqE1xcSngCd3m4a1zEGb";
         var token = "r0sR1DzqDkS6sDnh902FWQ&lg";
-        var tile_id = "7f0c1bb0a9";
+        var tile_id = "428bc6ceaf";
 
         if (!servers || servers.length == 0) {
             servers = ["1", "2", "3", "4"];
