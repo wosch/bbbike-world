@@ -1141,6 +1141,15 @@ download-bbbike-org-install: download-srtm-bbbike-org-install
 download-srtm-bbbike-org-install:
 	mkdir -p ../osm/download/srtm
 
+update-apt:
+	# debian6/squeeze
+	make DEB_VENDOR=debian DEB_RELEASE=squeeze deb-perl deb-equivs deb-bin
+	# debian7/wheezy
+	make DEB_VENDOR=debian DEB_RELEASE=wheezy deb-perl deb-equivs deb-bin
+	# ubuntu12
+	make DEB_VENDOR=ubuntu DEB_RELEASE=precise deb-perl deb-equivs deb-bin
+	# ubuntu14
+	make DEB_VENDOR=ubuntu DEB_RELEASE=trusty deb-perl deb-equivs deb-bin
 
 #
 # build Osmand.net devel java libs
@@ -1243,7 +1252,7 @@ help:
 	@echo "  [ jasmine-node | test-js ]"
 	@echo "  [ deb-perl | deb-equivs | deb-bin ]"
 	@echo "  [ DEB_VENDOR=ubuntu DEB_RELEASE=precise deb-equivs deb-bin deb-perl ]"
-	@echo "  [ deb-clean | deb-repo ]"
+	@echo "  [ deb-clean | deb-repo | update-apt ]"
 	@echo "  [ debian-bootstrap | bbbike-bootstrap ]"
 	@echo "  [ build-runtime | git-fetch ]"
 	@echo "  [ check | check-world | check-full | check-failed ]"
