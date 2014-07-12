@@ -14,6 +14,16 @@ var map; //complex object of type OpenLayers.Map
 //Initialise the 'map' object
 
 function init() {
+    var layer_options = {
+        tileOptions: {
+            crossOriginKeyword: null
+        },
+        sphericalMercator: true,
+        // buffer: 0,
+        transitionEffect: "resize",
+        numZoomLevels: 19
+    };
+
     // create the custom layer for toolserver.org
     OpenLayers.Layer.OSM.Toolserver = OpenLayers.Class(OpenLayers.Layer.OSM, {
         initialize: function (name, path, options) {
@@ -127,6 +137,11 @@ function init() {
         },
         numZoomLevels: 18
     }));
+
+    map.addLayer(new OpenLayers.Layer.OSM('Lyrk (OSM)', "https://tiles.lyrk.org/ls/${z}/${x}/${y}?apikey=e9f8eb3824344d18a5b4b657773caf30", layer_options)),
+
+    map.addLayer(new OpenLayers.Layer.OSM('Lyrk Retina (OSM)', "https://tiles.lyrk.org/lr/${z}/${x}/${y}?apikey=e9f8eb3824344d18a5b4b657773caf30", layer_options)),
+
 
     map.addLayer(new OpenLayers.Layer.OSM("MapBox (OSM)", ["http://a.tiles.mapbox.com/v3/examples.map-vyofok3q/${z}/${x}/${y}.png", "http://b.tiles.mapbox.com/v3/examples.map-vyofok3q/${z}/${x}/${y}.png"], {
         numZoomLevels: 17
