@@ -8,3 +8,4 @@ Kwalify
 Math::Polygon
 Object::Iterate
 accessors
+Geo::Distance::XS
