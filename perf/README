@@ -1,0 +1,2 @@
+# check the memory usage of a city
+world/bin/bbbike-memory Strassburg Berlin Colmar
