@@ -9,4 +9,4 @@ Math::Polygon
 Object::Iterate
 accessors
 Geo::Distance
-Geo::Distance::XS
+#Geo::Distance::XS
