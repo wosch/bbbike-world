@@ -201,7 +201,7 @@ function init() {
         token: "r0sR1DzqDkS6sDnh902FWQ"
     }));
     map.addLayer(new OpenLayers.Layer.Here("HERE Traffic", {
-        type: "normal.day.grey",
+        type: "newest/normal.day",
         app_id: "SqE1xcSngCd3m4a1zEGb",
         token: "r0sR1DzqDkS6sDnh902FWQ"
     }));
