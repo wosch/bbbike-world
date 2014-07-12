@@ -34,6 +34,7 @@ my @list = (
 my @javascript = qw(
   http://mc.bbbike.org/mc/js/OpenLayers/2.12/OpenLayers-min.js
   http://mc.bbbike.org/mc/js/OpenLayers/2.12/OpenStreetMap.js
+  http://mc.bbbike.org/mc/js/OpenLayers/2.12/Here.js
   http://mc.bbbike.org/mc/js/common.js
   http://mc.bbbike.org/mc/js/jqModal/jqModal-2009.03.01-r14.js
   http://mc.bbbike.org/mc/js/jquery/jquery-1.7.min.js
