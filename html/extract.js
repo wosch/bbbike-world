@@ -1346,7 +1346,6 @@ function toggle_lnglatbox() {
 
 // check if we have an active forms
 
-
 function forms_focus() {
     var focus = jQuery(':focus');
     if (focus.attr('id')) {
