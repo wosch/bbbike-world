@@ -59,7 +59,7 @@ if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
           ( MYGET * scalar(@extract_dialog) * scalar(@lang) ) +
           scalar(@tags) +
           33 ) +
-      ( scalar(@tags) + 2 + 3 ) * 3 +
+      ( scalar(@tags) + 2 + 3 ) * 3 + 2 *
       MYGET;
 }
 else {
@@ -133,8 +133,8 @@ sub page_check {
         myget( "$home_url/html/jquery/jquery-1.7.1.min.js",           20_000 );
 
         #myget( "$home_url/html/jquery/jquery.cookie-1.3.1.js",        2_000 );
-        myget( "$home_url/html/OpenLayers/2.12/OpenStreetMap.js",  6_000 );
-        myget( "$home_url/html/OpenLayers/2.12/Here.js",           2_000 );
+        myget( "$home_url/html/OpenLayers/2.12/OpenStreetMap.js",  3_000 );
+        myget( "$home_url/html/OpenLayers/2.12/Here.js",           5_000 );
         myget( "$home_url/html/OpenLayers/2.12/OpenLayers-min.js", 500_000 );
     }
 }
