@@ -15,7 +15,7 @@ var map; //complex object of type OpenLayers.Map
 
 function init() {
     initKeyPress();
-    
+
     var layer_options = {
         tileOptions: {
             crossOriginKeyword: null
