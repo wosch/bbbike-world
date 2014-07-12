@@ -175,32 +175,32 @@ function init() {
         numZoomLevels: 19
     }));
 
-    map.addLayer(new OpenLayers.Layer.Nokia("Nokia Map", {
+    map.addLayer(new OpenLayers.Layer.Here("HERE Map", {
         type: "normal.day",
         app_id: "SqE1xcSngCd3m4a1zEGb",
         token: "r0sR1DzqDkS6sDnh902FWQ"
     }));
-    map.addLayer(new OpenLayers.Layer.Nokia("Nokia Terrain", {
+    map.addLayer(new OpenLayers.Layer.Here("HERE Terrain", {
         type: "terrain.day",
         app_id: "SqE1xcSngCd3m4a1zEGb",
         token: "r0sR1DzqDkS6sDnh902FWQ"
     }));
-    map.addLayer(new OpenLayers.Layer.Nokia("Nokia Satellite", {
+    map.addLayer(new OpenLayers.Layer.Here("HERE Satellite", {
         type: "satellite.day",
         app_id: "SqE1xcSngCd3m4a1zEGb",
         token: "r0sR1DzqDkS6sDnh902FWQ"
     }));
-    map.addLayer(new OpenLayers.Layer.Nokia("Nokia Hybrid", {
+    map.addLayer(new OpenLayers.Layer.Here("HERE Hybrid", {
         type: "hybrid.day",
         app_id: "SqE1xcSngCd3m4a1zEGb",
         token: "r0sR1DzqDkS6sDnh902FWQ"
     }));
-    map.addLayer(new OpenLayers.Layer.Nokia("Nokia Public Transit", {
+    map.addLayer(new OpenLayers.Layer.Here("HERE Public Transit", {
         type: "normal.day.transit",
         app_id: "SqE1xcSngCd3m4a1zEGb",
         token: "r0sR1DzqDkS6sDnh902FWQ"
     }));
-    map.addLayer(new OpenLayers.Layer.Nokia("Nokia Traffic", {
+    map.addLayer(new OpenLayers.Layer.Here("HERE Traffic", {
         type: "normal.day.grey",
         app_id: "SqE1xcSngCd3m4a1zEGb",
         token: "r0sR1DzqDkS6sDnh902FWQ"
