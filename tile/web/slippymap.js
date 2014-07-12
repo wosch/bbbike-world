@@ -14,6 +14,8 @@ var map; //complex object of type OpenLayers.Map
 //Initialise the 'map' object
 
 function init() {
+    initKeyPress();
+    
     var layer_options = {
         tileOptions: {
             crossOriginKeyword: null
@@ -676,5 +678,82 @@ function resizeBaseLayer() {
     head.appendChild(style);
     // alert("base: " + base + " data: " + data);
 }
+
+/*
+  here are dragons!
+  code copied from js/OpenLayers-2.11/OpenLayers.js: OpenLayers.Control.KeyboardDefaults
+
+  see also: http://www.mediaevent.de/javascript/Extras-Javascript-Keycodes.html
+*/
+function initKeyPress() {
+    OpenLayers.Control.KeyboardDefaults.prototype.defaultKeyPress = function (evt) {
+        switch (evt.keyCode) {
+
+        case OpenLayers.Event.KEY_LEFT:
+        case 72:
+            moveMap(-this.slideFactor, 0);
+            break;
+        case OpenLayers.Event.KEY_RIGHT:
+        case 76:
+            moveMap(this.slideFactor, 0);
+            break;
+        case OpenLayers.Event.KEY_UP:
+        case 75:
+            moveMap(0, -this.slideFactor);
+            break;
+        case OpenLayers.Event.KEY_DOWN:
+        case 74:
+            moveMap(0, this.slideFactor);
+            break;
+
+        case 33:
+            var size = this.map.getSize();
+            this.map.pan(0, -0.75 * size.h);
+            break;
+        case 34:
+            var size = this.map.getSize();
+            this.map.pan(0, 0.75 * size.h);
+            break;
+        case 35:
+            var size = this.map.getSize();
+            this.map.pan(0.75 * size.w, 0);
+            break;
+        case 36:
+            var size = this.map.getSize();
+            this.map.pan(-0.75 * size.w, 0);
+            break;
+
+            // '+', '=''
+        case 43:
+        case 61:
+        case 187:
+        case 107:
+        case 171:
+            // Firefox 15.x
+            this.map.zoomIn();
+            break;
+
+            // '-'
+        case 45:
+        case 109:
+        case 189:
+        case 95:
+        case 173:
+            // Firefox 15.x or later, see https://github.com/openlayers/openlayers/issues/605
+            this.map.zoomOut();
+            break;
+
+        case 71:
+            // 'g'
+            locateMe();
+            break;
+        case 48:
+            for (var i = 0; i < 17; i++) {
+                if (this.map.getZoom() < i) this.map.zoomIn();
+            }
+            break;
+        }
+    };
+};
 
 // 1;
