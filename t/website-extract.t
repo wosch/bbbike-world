@@ -59,7 +59,8 @@ if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
           ( MYGET * scalar(@extract_dialog) * scalar(@lang) ) +
           scalar(@tags) +
           33 ) +
-      ( scalar(@tags) + 2 + 3 ) * 3 + 2 *
+      ( scalar(@tags) + 2 + 3 ) * 3 +
+      ( MYGET * scalar(@homepages) ) +
       MYGET;
 }
 else {
