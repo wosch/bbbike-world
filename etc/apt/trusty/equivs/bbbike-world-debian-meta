@@ -36,6 +36,7 @@ Depends: pbzip2, bzip2, xz-utils, git-core, screen, lynx, curl, wget, time,
  build-essential, devscripts, debhelper, dh-make, libyaml-libyaml-perl,
  google-sitemapgen, ltrace, libintl-perl, iotop, iftop, libdatetime-perl, pixz,
  libdata-random-perl, libtest-data-perl, libimage-info-perl, libmath-polygon-perl,
- libwww-mechanize-formfiller-perl, libaccessors-perl, libxml-atom-simplefeed-perl
+ libwww-mechanize-formfiller-perl, libaccessors-perl, libxml-atom-simplefeed-perl,
+ libdevel-nytprof-perl, libgeo-distance-xs-perl
 Description: BBBike @ World standard debian packages
  BBBike @ World standard debian packages
