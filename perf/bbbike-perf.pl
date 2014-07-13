@@ -1,12 +1,12 @@
-#!/usr/local/bin/perl -MDevel::Size=total_size
-# Copyright (c) 2011-2013 Wolfram Schneider, http://bbbike.org
+#!/usr/local/bin/perl
+# Copyright (c) 2011-2014 Wolfram Schneider, http://bbbike.org
 #
 # bbbike-perf.pl - check perl memory / cpu usage of a city
 
 use List::Util qw(sum);
 use Data::Dumper;
 
-#use lib "./lib"; #use BBBikeXS;
+use lib "./lib";    #use BBBikeXS;
 use Strassen;
 use Strassen::StrassenNetz;
 
