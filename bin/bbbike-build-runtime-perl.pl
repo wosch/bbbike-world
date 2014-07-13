@@ -26,6 +26,8 @@ use Date::Calc;
 
 # make first startup of bbbike.cgi 4 times faster
 use Geo::Distance::XS;
+# make the search 3 times faster
+use Array::Heap;
 
 # extract.cgi
 use GIS::Distance::Lite;
