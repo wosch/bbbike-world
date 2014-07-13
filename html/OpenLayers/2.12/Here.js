@@ -136,7 +136,7 @@ OpenLayers.Layer.Here = OpenLayers.Class(OpenLayers.Layer.XYZ, {
             "satellite.day": "aerial.maps.api.here.com/maptile/2.1/maptile/" + tile_style_version,
             "hybrid.day": "aerial.maps.api.here.com/maptile/2.1/maptile/" + tile_style_version,
             "normal.day.transit": "base.maps.api.here.com/maptile/2.1/maptile/" + tile_style_version,
-            "newest/normal.day": "traffic.maps.api.here.com/maptile/2.1/" + "traffictile"
+            "newest/normal.day": "traffic.maps.api.here.com/maptile/2.1/traffictile"
         };
         
         var url_prefix = urls[type];
