@@ -1,5 +1,0 @@
-# check the memory usage of a city
-
-$ city=Berlin; env DATA_DIR="data-osm/$city" BBBIKE_DATADIR="data-osm/$city"  time perl -MDevel::Size=total_size -MStrassen -MStrassen::StrassenNetz -e '$net=StrassenNetz->new(Strassen->new("strassen"));$net->make_net;warn total_size($net)'
-
-

@@ -4,3 +4,4 @@ Math::MatrixReal
 Geo::Google::PolylineEncoder
 Kwalify
 Object::Iterate
+Array::Heap
