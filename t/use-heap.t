@@ -28,15 +28,15 @@ use warnings;
 my $file       = 'world/t/start-dest-points.txt';
 my $debug      = 1;
 my $WideSearch = 0;
-my $max        = 40;
-my $penalty    = '';
+my $max        = 20;
+#my $penalty    = '';
 
 my $net;
 my %time;
 my %dist;
 my %extra_args;
 
-sub extra_args {
+sub extra_args_cat {
     my $type = shift;
 
     my $penalty_N1 = {
@@ -70,6 +70,31 @@ sub extra_args {
 
     $extra_args{Strcat} = {
         Net     => $strcat_net,
+        Penalty => $penalty,
+    };
+
+    return %extra_args;
+}
+
+sub extra_args_quality {
+    my $type = shift;
+
+    my $penalty_Q2 = {
+        "Q0" => 1,
+        "Q1" => 1,
+        "Q2" => 1.5,
+        "Q3" => 1.8
+    };
+
+    my $penalty = $type eq 'Q2' ? $penalty_Q2 : {};
+
+    my $qualitaet_net = new StrassenNetz( Strassen->new("qualitaet_s") );
+    $qualitaet_net->make_net_cat( -usecache => 1 );
+
+    my %extra_args;
+
+    $extra_args{Qualitaet} = {
+        Net     => $qualitaet_net,
         Penalty => $penalty,
     };
 
@@ -141,26 +166,36 @@ sub get_streets {
 
 ####################################################################
 #
-&init;
 
+my $quality = 'Q2';
 foreach my $type ( '', 'N1', 'N2' ) {
-    %extra_args = &extra_args($type);
+    foreach my $q ('', 'Q2') {
+        
+    &init;
+    %extra_args = (&extra_args_cat($type), &extra_args_quality($q));
+    
+    # reset stat
+    %time = ();
+    %dist = ();
+    
     my $counter = &run_searches;
 
     if ($debug) {
-        diag "Preferred street category: $type\n";
+        diag "Preferred street category: '$type', quality: '$q'\n";
+        
         foreach my $key ( 0, 1 ) {
-            diag "Total   time spend in heap '$key': ", $time{$key}, " sec\n";
+            diag "  total time spend in heap '$key': ", $time{$key}, " sec\n";
             diag "average time spend in heap '$key': ", $time{$key} / $counter,
               " sec\n";
 
-            diag "Total   dist spend in heap '$key': ",
+            diag "  total dist spend in heap '$key': ",
               int( $dist{$key} / 100 ) / 10, " km\n";
             diag "average dist spend in heap '$key': ",
               ( int( $dist{$key} / 100 ) / $counter ) / 10, " km\n";
         }
 
         diag "Speed up: ", $time{"0"} / $time{"1"}, "\n";
+    }
     }
 }
 
