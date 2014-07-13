@@ -25,8 +25,10 @@ use Strassen::StrassenNetz;
 use strict;
 use warnings;
 
-my $file  = 'world/t/start-dest-points.txt';
-my $debug = 1;
+my $file       = 'world/t/start-dest-points.txt';
+my $debug      = 1;
+my $WideSearch = 0;
+
 my $net;
 my %time;
 
@@ -53,7 +55,7 @@ sub heap_test {
         my $t0 = [gettimeofday];
 
         $StrassenNetz::use_heap = $heap;
-        my ($path) = $net->search( $c1, $c2, WideSearch => 0 );
+        my ($path) = $net->search( $c1, $c2, WideSearch => $WideSearch );
         my (@route) = $net->route_to_name($path);
         my $dist1 = int sum map { $_->[StrassenNetz::ROUTE_DIST] } @route;
         diag "dist: ", int( $dist1 / 100 ) / 10, " km\n" if $debug >= 2;
