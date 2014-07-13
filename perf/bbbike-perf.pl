@@ -31,8 +31,9 @@ foreach my $heap ( 0, 1 ) {
     my $dist1 = int sum map { $_->[StrassenNetz::ROUTE_DIST] } @route;
     print "dist: ", int( $dist1 / 100 ) / 10, " km\n";
     push @result, \@route;
+
     #print Dumper( \@route );
 }
 
-is_deeply($result[0], $result[1]);
+is_deeply( $result[0], $result[1] );
 
