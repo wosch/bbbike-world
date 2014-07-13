@@ -28,8 +28,7 @@ use warnings;
 my $file       = 'world/t/start-dest-points.txt';
 my $debug      = 1;
 my $WideSearch = 0;
-my $max        = 20;
-#my $penalty    = '';
+my $max        = $ENV{BBBIKE_TEST_LONG} ? 100 : $ENV{BBBIKE_TEST_FAST} ? 5 : 20;
 
 my $net;
 my %time;
@@ -169,33 +168,35 @@ sub get_streets {
 
 my $quality = 'Q2';
 foreach my $type ( '', 'N1', 'N2' ) {
-    foreach my $q ('', 'Q2') {
-        
-    &init;
-    %extra_args = (&extra_args_cat($type), &extra_args_quality($q));
-    
-    # reset stat
-    %time = ();
-    %dist = ();
-    
-    my $counter = &run_searches;
+    foreach my $q ( '', 'Q2' ) {
 
-    if ($debug) {
-        diag "Preferred street category: '$type', quality: '$q'\n";
-        
-        foreach my $key ( 0, 1 ) {
-            diag "  total time spend in heap '$key': ", $time{$key}, " sec\n";
-            diag "average time spend in heap '$key': ", $time{$key} / $counter,
-              " sec\n";
+        &init;
+        %extra_args = ( &extra_args_cat($type), &extra_args_quality($q) );
 
-            diag "  total dist spend in heap '$key': ",
-              int( $dist{$key} / 100 ) / 10, " km\n";
-            diag "average dist spend in heap '$key': ",
-              ( int( $dist{$key} / 100 ) / $counter ) / 10, " km\n";
+        # reset stat
+        %time = ();
+        %dist = ();
+
+        my $counter = &run_searches;
+
+        if ($debug) {
+            diag "Preferred street category: '$type', quality: '$q'\n";
+
+            foreach my $key ( 0, 1 ) {
+                diag "  total time spend in heap '$key': ", $time{$key},
+                  " sec\n";
+                diag "average time spend in heap '$key': ",
+                  $time{$key} / $counter,
+                  " sec\n";
+
+                diag "  total dist spend in heap '$key': ",
+                  int( $dist{$key} / 100 ) / 10, " km\n";
+                diag "average dist spend in heap '$key': ",
+                  ( int( $dist{$key} / 100 ) / $counter ) / 10, " km\n";
+            }
+
+            diag "Speed up: ", $time{"0"} / $time{"1"}, "\n";
         }
-
-        diag "Speed up: ", $time{"0"} / $time{"1"}, "\n";
-    }
     }
 }
 
