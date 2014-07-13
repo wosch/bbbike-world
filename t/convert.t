@@ -167,11 +167,11 @@ sub checksum {
       : [
         "f25c5175e83725228bd10134992a659a",    # debian7
         "09d99413f9ce071b29b8c794a8651dba",    # debian6
-        "cc30e032e0d27f02f2a40d4577c1e657",    # debian8
+        "81f06aff247b4039a292b39caaf14d03",    # debian8
       ];
     my $md5_checksum = ( grep { $md5 eq $_ } @$md5_checksum_select )[0];
 
-    isnt( $md5_checksum, undef, "Unknown checksum, did the data changed?" );
+    isnt( $md5_checksum, "", "Unknown checksum, did the data changed?" );
     is( $md5, $md5_checksum, "md5 checksum" );
 }
 
