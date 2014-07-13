@@ -9,6 +9,7 @@ use Data::Dumper;
 use lib "./lib";    #use BBBikeXS;
 use Strassen;
 use Strassen::StrassenNetz;
+use Test::More "no_plan";
 
 use strict;
 use warnings;
@@ -22,9 +23,16 @@ my $net = StrassenNetz->new( Strassen->new("strassen") );
 $net->make_net;
 print int( total_size($net) / 1024 / 1024 * 10 ) / 10, " MB\n";
 
-my ($path) = $net->search( $c1, $c2, WideSearch => 0 );
-my (@route) = $net->route_to_name($path);
-my $dist1 = int sum map { $_->[StrassenNetz::ROUTE_DIST] } @route;
-print "dist: ", int( $dist1 / 100 ) / 10, " km\n";
+my @result;
+foreach my $heap ( 0, 1 ) {
+    $StrassenNetz::use_heap = $heap;
+    my ($path) = $net->search( $c1, $c2, WideSearch => 0 );
+    my (@route) = $net->route_to_name($path);
+    my $dist1 = int sum map { $_->[StrassenNetz::ROUTE_DIST] } @route;
+    print "dist: ", int( $dist1 / 100 ) / 10, " km\n";
+    push @result, \@route;
+    #print Dumper( \@route );
+}
 
-#print Dumper(\@route);
+is_deeply($result[0], $result[1]);
+
