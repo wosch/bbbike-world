@@ -9,7 +9,6 @@ Depends: libkwalify-perl,
  libgis-distance-lite-perl, libgeo-google-polylineencoder-perl,
  libobject-iterate-perl, libmath-polygon-perl, libmath-matrixreal-perl,
  libimage-info-perl,
- libtest-data-perl, libaccessors-perl, 
- libgeo-distance-perl
+ libtest-data-perl, libaccessors-perl
 Description: BBBike @ World perl modules
  perl modules which are not part of debian squeeze
