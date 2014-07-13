@@ -1127,7 +1127,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
     var nokia_traffic_options = {
         bbbike: {
             "name": "NokiaTraffic",
-            "description": "Here Traffic, by maps.here.com"
+            "description": "HERE Traffic, by maps.here.com"
         },
         getTileUrl: function (a, z) {
             return nokia(a, z, "newest/normal.day");
@@ -1261,19 +1261,19 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         // [http://4.maptile.lbs.ovi.com/maptiler/v2/maptile/a2e328a0c5/normal.day/${z}/${x}/${y}/256/png8?app_id=SqE1xcSngCd3m4a1zEGb&token=r0sR1DzqDkS6sDnh902FWQ&lg=ENG"]
         var app_id = "SqE1xcSngCd3m4a1zEGb";
         var token = "r0sR1DzqDkS6sDnh902FWQ&lg";
-        var tile_id = "newest";
+        var tile_style_version = "newest";
 
         if (!servers || servers.length == 0) {
             servers = ["1", "2", "3", "4"];
         }
 
         var urls = {
-            "normal.day": "base.maps.api.here.com/maptile/2.1/maptile/" + tile_id,
-            "terrain.day": "aerial.maps.api.here.com/maptile/2.1/maptile/" + tile_id,
-            "satellite.day": "aerial.maps.api.here.com/maptile/2.1/maptile/" + tile_id,
-            "hybrid.day": "aerial.maps.api.here.com/maptile/2.1/maptile/" + tile_id,
-            "normal.day.transit": "base.maps.api.here.com/maptile/2.1/maptile/" + tile_id,
-            "newest/normal.day": "traffic.maps.api.here.com/maptile/2.1/" + "traffictile"
+            "normal.day": "base.maps.api.here.com/maptile/2.1/maptile/" + tile_style_version,
+            "terrain.day": "aerial.maps.api.here.com/maptile/2.1/maptile/" + tile_style_version,
+            "satellite.day": "aerial.maps.api.here.com/maptile/2.1/maptile/" + tile_style_version,
+            "hybrid.day": "aerial.maps.api.here.com/maptile/2.1/maptile/" + tile_style_version,
+            "normal.day.transit": "base.maps.api.here.com/maptile/2.1/maptile/" + tile_style_version,
+            "newest/normal.day": "traffic.maps.api.here.com/maptile/2.1/traffictile"
         };
         var url_prefix = urls[name];
 
@@ -2304,7 +2304,7 @@ function translate_mapcontrol(word, lang) {
             "PanoramioLayer": "Panoramio",
             "toner": "Toner",
             "watercolor": "Watercolor",
-            "NokiaTraffic": "Here Traffic",
+            "NokiaTraffic": "HERE Traffic",
 
             "start": "Start",
             "ziel": "Destination",
@@ -2339,7 +2339,7 @@ function translate_mapcontrol(word, lang) {
 
             "bing_birdview": "Bing Sat",
             "WeatherLayer": "Wetter",
-            "NokiaTraffic": "Here Verkehr",
+            "NokiaTraffic": "HERE Verkehr",
 
             "Set start point": "Setze Startpunkt",
             "Set destination point": "Setze Zielpunkt",
