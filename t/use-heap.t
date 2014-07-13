@@ -28,9 +28,53 @@ use warnings;
 my $file       = 'world/t/start-dest-points.txt';
 my $debug      = 1;
 my $WideSearch = 0;
+my $max        = 40;
+my $penalty    = '';
 
 my $net;
 my %time;
+my %dist;
+my %extra_args;
+
+sub extra_args {
+    my $type = shift;
+
+    my $penalty_N1 = {
+        "B"  => 1.5,
+        "HH" => 1.5,
+        "H"  => 1.5,
+        "NH" => 1,
+        "N"  => 1,
+        "NN" => 1
+    };
+
+    my $penalty_N2 = {
+        "B"  => 4,
+        "HH" => 4,
+        "H"  => 4,
+        "NH" => 2,
+        "N"  => 1,
+        "NN" => 1
+    };
+
+    my $penalty =
+        $type eq 'N1' ? $penalty_N1
+      : $type eq 'N2' ? $penalty_N2
+      :                 {};
+
+    my $str        = get_streets();
+    my $strcat_net = new StrassenNetz $str;
+    $strcat_net->make_net_cat( -usecache => 1 );
+
+    my %extra_args;
+
+    $extra_args{Strcat} = {
+        Net     => $strcat_net,
+        Penalty => $penalty,
+    };
+
+    return %extra_args;
+}
 
 sub init {
     $net = StrassenNetz->new( Strassen->new("strassen") );
@@ -55,13 +99,15 @@ sub heap_test {
         my $t0 = [gettimeofday];
 
         $StrassenNetz::use_heap = $heap;
-        my ($path) = $net->search( $c1, $c2, WideSearch => $WideSearch );
+        my ($path) =
+          $net->search( $c1, $c2, WideSearch => $WideSearch, %extra_args );
         my (@route) = $net->route_to_name($path);
         my $dist1 = int sum map { $_->[StrassenNetz::ROUTE_DIST] } @route;
         diag "dist: ", int( $dist1 / 100 ) / 10, " km\n" if $debug >= 2;
         my $elapsed = tv_interval($t0);
         diag "time: $elapsed\n" if $debug >= 2;
         $time{$heap} += $elapsed;
+        $dist{$heap} += $dist1;
 
         push @result, \@route;
 
@@ -83,22 +129,39 @@ sub run_searches {
 
         heap_test( $c1, $c2 );
         $counter++;
+
+        last if $counter >= $max;
     }
     return $counter;
 }
 
+sub get_streets {
+    return new Strassen "strassen";
+}
+
+####################################################################
+#
 &init;
-my $counter = &run_searches;
 
-if ($debug) {
-    diag "\n";
-    foreach my $key ( 0, 1 ) {
-        diag "Total   time spend in heap '$key': ", $time{$key}, " sec\n";
-        diag "average Time spend in heap '$key': ", $time{$key} / $counter,
-          " sec\n";
+foreach my $type ( '', 'N1', 'N2' ) {
+    %extra_args = &extra_args($type);
+    my $counter = &run_searches;
+
+    if ($debug) {
+        diag "Preferred street category: $type\n";
+        foreach my $key ( 0, 1 ) {
+            diag "Total   time spend in heap '$key': ", $time{$key}, " sec\n";
+            diag "average time spend in heap '$key': ", $time{$key} / $counter,
+              " sec\n";
+
+            diag "Total   dist spend in heap '$key': ",
+              int( $dist{$key} / 100 ) / 10, " km\n";
+            diag "average dist spend in heap '$key': ",
+              ( int( $dist{$key} / 100 ) / $counter ) / 10, " km\n";
+        }
+
+        diag "Speed up: ", $time{"0"} / $time{"1"}, "\n";
     }
-
-    diag "Speed up: ", $time{"0"} / $time{"1"}, "\n";
 }
 
 1;
