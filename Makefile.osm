@@ -786,7 +786,7 @@ elevation-update:
 	echo ${CITIES} | ${XARGS} -E " " -n500 -P${MAX_ELEVATION_SCRIPTS} ${ELEVATION_SCRIPT} --readonly-database --database=../osm/srtm/elevation.db --debug=0
 
 # re-build cache
-_cache-heater: cache-gc cache-heater-streets cache-heater-common
+_cache-heater: cache-gc cache-heater-streets cache-heater-common cache-heater-searches
 cache-heater: _cache-heater
 #cache-heater:
 #	date
@@ -810,6 +810,13 @@ cache-heater-streets: cache-heater-homepage cache-heater-opensearch
                 cat > tmp/$@.txt
 		${XARGS} -0 -n8 -P2 curl -sS -X PURGE < tmp/$@.txt >/dev/null
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf < tmp/$@.txt >/dev/null
+
+cache-heater-searches:
+	for city in ${CITIES}; do \
+	  ./world/bin/bbbike-db --coord $$city | perl -ne 'chomp; @a=split; foreach my $$b ([0,1,2,1]) { print qq{curl -sSf "http://'${BBBIKE_WEB_SERVER}'/'$$city'/?startc=$$a[$$b->[0]],$$a[$$b->[1]]&zielc=$$a[$$b->[2]],$$a[$$b->[3]]&pref_cat=N1&pref_quality=Q2" | egrep real_time\0}}'; \
+	done > tmp/$@.txt.tmp
+	mv -f tmp/$@.txt.tmp tmp/$@.txt
+	${XARGS} -0 -n1 -P${MAX_CPU} /bin/sh -c < tmp/$@.txt > tmp/$@.log
 
 cache-heater-homepage: cache-heater-osp
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
