@@ -25,10 +25,10 @@ use Strassen::StrassenNetz;
 use strict;
 use warnings;
 
-my $file       = $ENV{BBBIKE_START_DEST_POINTS} || 'world/t/start-dest-points.txt';
-my $debug      = 1;
+my $file = $ENV{BBBIKE_START_DEST_POINTS} || 'world/t/start-dest-points.txt';
+my $debug = 1;
 my $WideSearch = 0;
-my $max        = $ENV{BBBIKE_TEST_LONG} ? 100 : $ENV{BBBIKE_TEST_FAST} ? 5 : 20;
+my $max = $ENV{BBBIKE_TEST_LONG} ? 100 : $ENV{BBBIKE_TEST_FAST} ? 5 : 20;
 
 my $net;
 my %time;
@@ -37,7 +37,7 @@ my %extra_args;
 
 sub extra_args_cat {
     my $type = shift;
-    my $t0 = [gettimeofday];
+    my $t0   = [gettimeofday];
 
     my $penalty_N1 = {
         "B"  => 1.5,
@@ -80,7 +80,7 @@ sub extra_args_cat {
 
 sub extra_args_quality {
     my $type = shift;
-    my $t0 = [gettimeofday];
+    my $t0   = [gettimeofday];
 
     my $penalty_Q2 = {
         "Q0" => 1,
