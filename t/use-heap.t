@@ -37,6 +37,7 @@ my %extra_args;
 
 sub extra_args_cat {
     my $type = shift;
+    my $t0 = [gettimeofday];
 
     my $penalty_N1 = {
         "B"  => 1.5,
@@ -72,11 +73,14 @@ sub extra_args_cat {
         Penalty => $penalty,
     };
 
+    my $elapsed = tv_interval($t0);
+    diag "extra_args_cat(): $elapsed sec\n" if $debug >= 1;
     return %extra_args;
 }
 
 sub extra_args_quality {
     my $type = shift;
+    my $t0 = [gettimeofday];
 
     my $penalty_Q2 = {
         "Q0" => 1,
@@ -97,14 +101,24 @@ sub extra_args_quality {
         Penalty => $penalty,
     };
 
+    my $elapsed = tv_interval($t0);
+    diag "extra_args_quality(): $elapsed sec\n" if $debug >= 1;
     return %extra_args;
 }
 
 sub init {
+    my $t0 = [gettimeofday];
     $net = StrassenNetz->new( Strassen->new("strassen") );
+    my $elapsed = tv_interval($t0);
+    diag "Strassen->new('strassen'): $elapsed sec\n" if $debug >= 1;
+
     isnt( $net, undef, "got net" );
 
+    $t0 = [gettimeofday];
     $net->make_net;
+    $elapsed = tv_interval($t0);
+    diag "make_net: $elapsed sec\n" if $debug >= 1;
+
     my $size = int( total_size($net) / 1024 / 1024 * 10 ) / 10;
 
     cmp_ok( $size, '>', 10, "network size $size > 10" );
@@ -182,7 +196,7 @@ foreach my $type ( '', 'N1', 'N2' ) {
         if ($debug) {
             diag "Preferred street category: '$type', quality: '$q'\n";
 
-            foreach my $key ( 0, 1 ) {
+            foreach my $key ( 1, 0 ) {
                 diag "  total time spend in heap '$key': ", $time{$key},
                   " sec\n";
                 diag "average time spend in heap '$key': ",
