@@ -25,7 +25,7 @@ use Strassen::StrassenNetz;
 use strict;
 use warnings;
 
-my $file       = 'world/t/start-dest-points.txt';
+my $file       = $ENV{BBBIKE_START_DEST_POINTS} || 'world/t/start-dest-points.txt';
 my $debug      = 1;
 my $WideSearch = 0;
 my $max        = $ENV{BBBIKE_TEST_LONG} ? 100 : $ENV{BBBIKE_TEST_FAST} ? 5 : 20;
