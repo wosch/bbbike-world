@@ -100,7 +100,7 @@ my @size_50k = qw/
 plan tests => scalar(@files) +
   scalar(@size_76c) +
   scalar(@size_10k) +
-  scalar(@size_50k) + 2;
+  scalar(@size_50k) + 3;
 
 sub md5_file {
     my $file = shift;
@@ -165,12 +165,13 @@ sub checksum {
       $^O =~ m{darwin}i
       ? ["db9f5b2cae816cf162acbe0a2a2187e5"]
       : [
-        "8c67a337a4caf77923c8e392a5b3cf0c",    # debian7
-        "2f83736c3053b38ec82da4c31fdfc3a4",    # debian6
-        "cc30e032e0d27f02f2a40d4577c1e657",    # debian8
+        "f25c5175e83725228bd10134992a659a",    # debian7
+        "09d99413f9ce071b29b8c794a8651dba",    # debian6
+        "81f06aff247b4039a292b39caaf14d03",    # debian8
       ];
     my $md5_checksum = ( grep { $md5 eq $_ } @$md5_checksum_select )[0];
 
+    isnt( $md5_checksum, "", "Unknown checksum, did the data changed?" );
     is( $md5, $md5_checksum, "md5 checksum" );
 }
 

@@ -24,6 +24,8 @@ $ make deb-clean deb-perl deb-equivs deb-bin
 ##############################################################################
 # other releases
 
+For all debian versions: make update-apt
+
 # debian6/squeeze
 make DEB_VENDOR=debian DEB_RELEASE=squeeze deb-perl deb-equivs deb-bin
 

@@ -104,7 +104,7 @@ OpenLayers.Layer.Here = OpenLayers.Class(OpenLayers.Layer.XYZ, {
         name = name || this.name;
         var url = this.hereTileSeverUrl(type, {
             app_id: options.app_id,
-            tile_id: options.tile_id,
+            tile_style_version: options.tile_style_version,
             token: options.token
         });
 
@@ -124,19 +124,19 @@ OpenLayers.Layer.Here = OpenLayers.Class(OpenLayers.Layer.XYZ, {
     hereTileSeverUrl: function (type, opt) {
         var app_id = opt.app_id;
         var token = opt.token;
-        var tile_id = opt.tile_id;
+        var tile_style_version = opt.tile_style_version;
         var servers = opt.servers;
 
-        if (!tile_id) // may change every 3 months (sic!)
-            tile_id = "newest";
+        if (!tile_style_version) // may change every 3 months (sic!)
+            tile_style_version = "newest";
         
         var urls = {
-            "normal.day": "base.maps.api.here.com/maptile/2.1/maptile/" + tile_id,
-            "terrain.day": "aerial.maps.api.here.com/maptile/2.1/maptile/" + tile_id,
-            "satellite.day": "aerial.maps.api.here.com/maptile/2.1/maptile/" + tile_id,
-            "hybrid.day": "aerial.maps.api.here.com/maptile/2.1/maptile/" + tile_id,
-            "normal.day.transit": "base.maps.api.here.com/maptile/2.1/maptile/" + tile_id,
-            "newest/normal.day": "traffic.maps.api.here.com/maptile/2.1/" + "traffictile"
+            "normal.day": "base.maps.api.here.com/maptile/2.1/maptile/" + tile_style_version,
+            "terrain.day": "aerial.maps.api.here.com/maptile/2.1/maptile/" + tile_style_version,
+            "satellite.day": "aerial.maps.api.here.com/maptile/2.1/maptile/" + tile_style_version,
+            "hybrid.day": "aerial.maps.api.here.com/maptile/2.1/maptile/" + tile_style_version,
+            "normal.day.transit": "base.maps.api.here.com/maptile/2.1/maptile/" + tile_style_version,
+            "newest/normal.day": "traffic.maps.api.here.com/maptile/2.1/traffictile"
         };
         
         var url_prefix = urls[type];

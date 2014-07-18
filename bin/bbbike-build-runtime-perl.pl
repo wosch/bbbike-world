@@ -24,6 +24,9 @@ use Date::Calc;
 #use GPS::Point;
 #use Geo::Inverse;
 
+# make first startup of bbbike.cgi 4 times faster
+use Geo::Distance::XS;
+
 # extract.cgi
 use GIS::Distance::Lite;
 use Email::Valid;
