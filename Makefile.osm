@@ -466,18 +466,18 @@ rsync: sync-sitemap osm-header _rsync rsync-osm
 rsync-bg: _rsync
 
 _rsync:
-	rsync -a --exclude='*.bak' --exclude='*.gz' --exclude=${LOG_DIR} --delete-excluded --delete --max-delete=512 ${DATA_OSM_DIR} ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}
+	rsync -a --delay-updates --exclude='*.bak' --exclude='*.gz' --exclude=${LOG_DIR} --delete-excluded --delete --max-delete=512 ${DATA_OSM_DIR} ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}
 	-rsync -av --exclude='*.bak' data/opensearch.streetnames ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}/data
 	@echo ""
 	@echo "don't forget to cleanup the data cache in ${BBBIKE_CACHE_DIR}, run:"
 	@echo "$$ sudo make clean-cache; make cache-heater"
 
 rsync-osm:
-	rsync -a --exclude='*.bak' ${OSM_DIR} ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}
+	rsync -a --delay-updates --exclude='*.bak' ${OSM_DIR} ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}
 
 # delete old files
 rsync-osm-full:
-	rsync -a --exclude='*.bak' --delete-excluded --delete --max-delete=512 ${OSM_DIR} ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}
+	rsync -a --delay-updates --exclude='*.bak' --delete-excluded --delete --max-delete=512 ${OSM_DIR} ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}
 
 
 osm-header:
@@ -487,7 +487,7 @@ osm-header:
 	fi
 
 rsync-osm-devel rsync-osm-dev:
-	rsync -azv --delete --max-delete=512 bbbike.org:projects/bbbike/osm .
+	rsync -azv --delay-updates --delete --max-delete=512 bbbike.org:projects/bbbike/osm .
 
 rsync-planet:
 	cd ../osm/download; \
@@ -634,8 +634,8 @@ create-osp:
 	./world/bin/bbbike-world-opensearch-plugin ${OSP_DIR} ${CITIES}
 	
 rsync-tgz:
-	rsync -a ${DATA_OSM_BBBIKE_DIR}/ ${BBBIKE_SERVER}/usr/local/www/download.bbbike.org/bbbike/${DATA_OSM_DIR}
-	rsync -a world/etc/cities.csv ${BBBIKE_SERVER}/usr/local/www/download.bbbike.org/bbbike/${DATA_OSM_DIR}
+	rsync -a --delay-updates ${DATA_OSM_BBBIKE_DIR}/ ${BBBIKE_SERVER}/usr/local/www/download.bbbike.org/bbbike/${DATA_OSM_DIR}
+	rsync -a --delay-updates world/etc/cities.csv ${BBBIKE_SERVER}/usr/local/www/download.bbbike.org/bbbike/${DATA_OSM_DIR}
 
 clean-tile tile-cache-cleanup:
 	world/bin/tile-cache-cleanup
@@ -725,10 +725,10 @@ sync-sitemap: create-sitemap
 	rsync -a world/download/sitemap.xml.gz ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}/../download.bbbike.org
 
 update-files: update-files-fast 
-update-files-slow: kml create-osp index update-robots.txt create-bbbike-web-symlinks java-config update-javascript test-org extract-config garmin-legend #create-sitemap
+update-files-slow: kml create-osp index update-robots.txt create-bbbike-web-symlinks java-config test-org extract-config #create-sitemap
 
 update-files-fast: 
-	for i in update-robots.txt create-bbbike-web-symlinks garmin-legend; do \
+	for i in update-robots.txt create-bbbike-web-symlinks garmin-legend update-javascript; do \
 	   LC_ALL=C LANG=C ${BBMAKE} $$i & \
 	done; wait
 	LC_ALL=C LANG=C ${BBMAKE} kml create-osp index java-config update-javascript test-org extract-config 
@@ -786,7 +786,7 @@ elevation-update:
 	echo ${CITIES} | ${XARGS} -E " " -n500 -P${MAX_ELEVATION_SCRIPTS} ${ELEVATION_SCRIPT} --readonly-database --database=../osm/srtm/elevation.db --debug=0
 
 # re-build cache
-_cache-heater: cache-gc cache-heater-streets cache-heater-common
+_cache-heater: cache-gc cache-heater-streets cache-heater-common cache-heater-searches
 cache-heater: _cache-heater
 #cache-heater:
 #	date
@@ -810,6 +810,13 @@ cache-heater-streets: cache-heater-homepage cache-heater-opensearch
                 cat > tmp/$@.txt
 		${XARGS} -0 -n8 -P2 curl -sS -X PURGE < tmp/$@.txt >/dev/null
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf < tmp/$@.txt >/dev/null
+
+cache-heater-searches:
+	for city in ${CITIES}; do \
+	  ./world/bin/bbbike-db --coord $$city | perl -ne 'chomp; @a=split; foreach my $$b ([0,1,2,1]) { print qq{curl -sSf "http://{'${BBBIKE_WEB_SERVER},${BBBIKE_API_SERVER}/api/0.2'}/'$$city'/?startc=$$a[$$b->[0]],$$a[$$b->[1]]&zielc=$$a[$$b->[2]],$$a[$$b->[3]]&pref_cat=N1&pref_quality=Q2&x=\$$RANDOM" | egrep real_time\0}}'; \
+	done > tmp/$@.txt.tmp
+	mv -f tmp/$@.txt.tmp tmp/$@.txt
+	${XARGS} -0 -n1 -P${MAX_CPU} /bin/bash -c < tmp/$@.txt > tmp/$@.log
 
 cache-heater-homepage: cache-heater-osp
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
