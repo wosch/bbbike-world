@@ -14,9 +14,10 @@
 export LANG="C"
 export PATH="/opt/local/bin:/bin:/usr/bin:/usr/local/bin"
 : ${city="Strassburg"}
-: ${QUERY_STRING=""}
+#: ${QUERY_STRING=""}
 server=nytperf
-export SCRIPT_NAME=/cgi/world.cgi
+#: ${perl_opt="-d:NYTProf"}
+
 
 umask 002
 set -e
@@ -31,12 +32,19 @@ export NYTPROF=trace=0:start=init:file=/tmp/nytprof.out
 #export NYTPROF=trace=2:start=init:file=/tmp/nytprof.out
 data="data-osm/$city"
 
+# local dir?
+if [ $(dirname $0) = '.' ]; then
+    cd ../..
+fi
+
 # run from world web directory, as the cgi scripts
 cd world/web/$city
 
-export REQUEST_URI="/$city/"
+export REQUEST_METHOD="GET"
 export SCRIPT_NAME="/$city/index.cgi"
+export QUERY_STRING="startc=7.71651%2C48.56897&zielc=7.77475%2C48.583&output_as=yaml"
+export REQUEST_URI="/$city/?$QUERY_STRING"
 
 time env TMPDIR=$cache_dir DATA_DIR="$data" BBBIKE_DATADIR="$data" \
-	perl -d:NYTProf $(pwd)/$city.cgi
+	perl $perl_opt $(pwd)/$city.cgi
 
