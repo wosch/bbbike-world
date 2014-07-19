@@ -38,13 +38,13 @@ if [ $(dirname $0) = '.' ]; then
     cd ../..
 fi
 
-# run from world web directory, as the cgi scripts
-cd world/web/$city
-
 export REQUEST_METHOD="GET"
 export SCRIPT_NAME="/$city/index.cgi"
-export QUERY_STRING="startc=7.71651%2C48.56897&zielc=7.77475%2C48.583&output_as=yaml"
+export QUERY_STRING="output_as=yaml&$(./world/bin/bbbike-db --startc $city)"
 export REQUEST_URI="/$city/?$QUERY_STRING"
+
+# run from world web directory, as the cgi scripts
+cd world/web/$city
 
 exit=0
 export NYTPROF="trace=0:start=init:file=./nytprof.out"
