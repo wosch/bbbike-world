@@ -177,6 +177,7 @@ usage: $0 [--debug={0..2}] [options] city
 --area=area
 --city-names
 --city-stat
+--startc
 --step
 --list
 --city-database=/path/to/etc/cities.csv
@@ -200,6 +201,7 @@ my $neighbours;
 my $other_names;
 my $city_stat;
 my $region;
+my $startc;
 
 GetOptions(
     "debug=i"         => \$debug,
@@ -212,6 +214,7 @@ GetOptions(
     "other-names"     => \$other_names,
     "region"          => \$region,
     "coord"           => \$coord,
+    "startc"          => \$startc,
     "poly"            => \$poly,
     "centerdelta"     => \$centerdelta,
     "area=s"          => \$area,
@@ -295,6 +298,11 @@ if ( exists $hash{$city} ) {
         my ( $x1, $y1, $x2, $y2 ) =
           map { &osm_round( $_, 100 ) } split( /\s+/, $hash{$city}->{coord} );
         print "$x1 $y1 $x2 $y2 ";
+    }
+    elsif ($startc) {
+        my ( $x1, $y1, $x2, $y2 ) =
+          map { &osm_round( $_, 100 ) } split( /\s+/, $hash{$city}->{coord} );
+        print "startc=$x1,$y1&zielc=$x1,$y2\n";
     }
     elsif ($poly) {
         my ( $x1, $y1, $x2, $y2 ) =
