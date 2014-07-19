@@ -10,13 +10,14 @@
 # HTTP_REFERER=http://dev2.bbbike.org/Strassburg/
 # PWD=/bbbike/projects/bbbike/world/web/Strassburg
 # SCRIPT_NAME=/Strassburg/index.cgi
+# REQUEST_METHOD="GET"
 
 export LANG="C"
 export PATH="/opt/local/bin:/bin:/usr/bin:/usr/local/bin"
 : ${city="Strassburg"}
 #: ${QUERY_STRING=""}
 server=nytperf
-#: ${perl_opt="-d:NYTProf"}
+: ${nytprof="-d:NYTProf"}
 
 
 umask 002
@@ -45,6 +46,16 @@ export SCRIPT_NAME="/$city/index.cgi"
 export QUERY_STRING="startc=7.71651%2C48.56897&zielc=7.77475%2C48.583&output_as=yaml"
 export REQUEST_URI="/$city/?$QUERY_STRING"
 
+exit=0
+export NYTPROF="trace=0:start=init:file=./nytprof.out"
 time env TMPDIR=$cache_dir DATA_DIR="$data" BBBIKE_DATADIR="$data" \
-	perl $perl_opt $(pwd)/$city.cgi
+	perl $nytprof $(pwd)/$city.cgi || exit=$?
+
+# generated HTML page of profiler
+if [ -n "$nytprof" ]; then
+    echo "Running profiler HTML output in: $(pwd)"
+    nytprofhtml
+fi
+
+exit $exit
 
