@@ -1,19 +1,17 @@
 #!/bin/sh
-# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2014 Wolfram Schneider, http://bbbike.org
 #
 # bbbike-tarball - create $HOME/src/bbbike.tgz tarball
 
 set -e
+: ${bbbike_src=$HOME/src/bbbike.tgz}
 
-dir=`dirname $0`
-case $dir in 
+dirname=`dirname $0`
+case $dirname in 
   /* ) ;;
-   * ) dir=$(pwd)/$dir;;
+   * ) dirname=$(pwd)/$dirname;;
 esac
 
-PATH=$PATH:$dir; export PATH 
-export bbbike_fast_checkout="false"
-: ${bbbike_src=$HOME/src/bbbike.tgz}
 gzip=`which pigz gzip | head -n 1`
 
 dir=$(mktemp -d -t bbbike-tarball.XXXXXXXX)
@@ -25,7 +23,7 @@ error () {
    exit 2
 }
 
-bbbike-checkout >&2 || error "checkout failed: $dir"
+env bbbike_fast_checkout="false" $dirname/bbbike-checkout >&2 || error "checkout failed: $dir"
 
 make -C./bbbike -s update-files || error "update-files"
 make -C./bbbike -s bbbike-c     || error "bbbike c files"
