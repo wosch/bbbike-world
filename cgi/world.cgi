@@ -74,6 +74,7 @@ if [ ! -d "$dirname_original/../$data" -a -d "$dirname_original/../data-osm.old/
    data="data-osm.old/$name"
 fi
 
+#printenv > /tmp/printenv
 time env TMPDIR=$cache_dir DATA_DIR="$data" BBBIKE_DATADIR="$data" \
 	$dirname_original/$name.cgi 
 
