@@ -27,7 +27,7 @@ env bbbike_fast_checkout="false" $dirname/bbbike-checkout >&2 || error "checkout
 
 make -C./bbbike -s update-files || error "update-files"
 make -C./bbbike -s bbbike-c     || error "bbbike c files"
-make -C./bbbike -s perlcheck    || error "perlcheck"
+#make -C./bbbike -s perlcheck    || error "perlcheck"
 
 mkdir -p $(dirname ${bbbike_src})
 
