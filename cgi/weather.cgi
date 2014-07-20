@@ -36,6 +36,11 @@ sub cache_file {
 sub get_data_from_cache {
     my $file = shift;
 
+    # ignore cache
+    if ( $q->param('generate_cache') ) {
+        return;
+    }
+
     my (@stat) = stat($file);
     if ( !defined $stat[9] or $stat[9] + 30 * 60 < time() ) {
         return;
