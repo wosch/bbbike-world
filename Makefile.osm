@@ -795,7 +795,7 @@ cache-heater: _cache-heater
 cache-du:
 	@echo "cache usage"
 	du -hs ${BBBIKE_CACHE_DIR}/
-	if `ls ${BBBIKE_CACHE_DIR}/* 2>/dev/null`; then du -hs ${BBBIKE_CACHE_DIR}/*; fi
+	@if `ls ${BBBIKE_CACHE_DIR}/* >/dev/null`; then du -hs ${BBBIKE_CACHE_DIR}/*; fi
         
 #cache-heater-common:
 #	@echo "cache usage before"
