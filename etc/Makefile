@@ -62,12 +62,31 @@ munin-restart:
 	sleep 0.2
 	sudo /etc/init.d/munin-node start
 
+##################################################################################
+# perltidy section
+#
+NCPU=`../bin/ncpu`
+PERL_FILES:=	$(shell file * | egrep -iw perl | egrep -v homemap.cgi | awk '{print $$1}' | perl -ne 's/://; print if !/.(bak|tdy|ERR)$$/' | sort)
+
+perlcheck:
+	${MAKE} _perlcheck 2>/dev/null || ${MAKE} _perlcheck
+_perlcheck:
+	@echo ${PERL_FILES} | xargs -n1 -P${NCPU} -E " " perl -T -cw
+
+perltidy: perlcheck
+	echo ${PERL_FILES} | xargs -n4 -P${NCPU} -E " " perltidy -b
+	
+clean distclean:
+	rm -f *.bak *.tdy *.ERR
+
+	
 help:
 	@echo "make [ sync-backend | sync-frontend ]"
 	@echo "make [ install-backend-lighttpd ]"
 	@echo "make [ install-munin-lighttpd ]"
 	@echo "make [ install-munin-bbbike | install-munin-bbbike-extract ]"
 	@echo "make [ install-munin-xen ]"
+	@echo "make [ perltidy | distclean ]"
 	@echo ""
 	@echo "for bbbike.de: "
 	@echo "make MUNIN_BBBIKE=\"bbbike-output bbbike-pref bbbike-route bbbike-appid\" install-munin-bbbike"
