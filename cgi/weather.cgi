@@ -18,7 +18,7 @@ my $q         = new CGI;
 my $debug     = 2;
 my $cache_dir = "/var/cache/bbbike";
 
-my $enable_google_weather_forecast = 1;
+my $enable_google_weather_forecast = 0;
 
 sub cache_file {
     my $q = shift;
@@ -116,7 +116,7 @@ Fatal(
     "Missing parameters: lat: '$lat', lng: '$lng', lang: '$lang', city: '$city'"
 ) if !( $lat && $lng && $lang && $city );
 
-my $url = 'http://ws.geonames.org/findNearByWeatherJSON?lat=';
+my $url = 'http://ws.geonames.org/findNearByWeatherJSON?username=foobar&lat=';
 
 my $wettermeldung_file      = &cache_file($q);
 my $wettermeldung_file_json = "$wettermeldung_file.$lang.json";
