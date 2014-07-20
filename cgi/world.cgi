@@ -44,6 +44,9 @@ case $name in
 esac
 
 server=$SERVER_NAME
+# map api.bbbike.org to www.bbbike.org, will improve caching for API requests
+server=$(echo $server | perl -npe 's,^api,www,')
+
 if [ -z "$server" ]; then
 	server=bbbike.org
 fi
