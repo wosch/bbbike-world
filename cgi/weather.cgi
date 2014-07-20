@@ -2,6 +2,8 @@
 # Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
 #
 # weather.cgi - get weather data for a city from google or other sources
+#
+# TODO: http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139
 
 use CGI qw/-utf-8/;
 use CGI::Carp;
