@@ -666,7 +666,7 @@ clean-cache cache-clean:
 	find /var/cache/lighttpd -type f -print0 | ${PERL} -n0e unlink
 
 cache-gc:
-	find ${BBBIKE_CACHE_DIR}/ -type f -mtime +21 -print0 | ${PERL} -n0e unlink
+	find ${BBBIKE_CACHE_DIR}/ -type f -mtime +21 -print0 | sudo ${PERL} -n0e unlink
 
 rotate-data-osm:
 	${RM_BG} ${DATA_OSM_DIR}.old2
