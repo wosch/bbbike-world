@@ -787,23 +787,28 @@ elevation-update:
 	echo ${CITIES} | ${XARGS} -E " " -n500 -P${MAX_ELEVATION_SCRIPTS} ${ELEVATION_SCRIPT} --readonly-database --database=../osm/srtm/elevation.db --debug=0
 
 # re-build cache
-_cache-heater: cache-gc cache-heater-searches cache-heater-streets
+_cache-heater: cache-gc cache-heater-searches cache-heater-streets cache-du
 cache-heater: _cache-heater
 #cache-heater:
 #	date
 
-cache-heater-common:
-	@echo "cache usage before"
+cache-du:
+	@echo "cache usage"
 	du -hs ${BBBIKE_CACHE_DIR}/
 	if `ls ${BBBIKE_CACHE_DIR}/* 2>/dev/null`; then du -hs ${BBBIKE_CACHE_DIR}/*; fi
-	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
-	   ${PERL} -ne 'chomp; print "http://'${BBBIKE_WEB_SERVER}'/$$_/?generate_cache=1\0"; print "http://'${BBBIKE_API_SERVER}/${API_DIR}'/$$_/?generate_cache=1\0"' | \
-            cat > tmp/$@.txt
-	   #${XARGS} -0 -n8 -P2 curl -sS -X PURGE < tmp/$@.txt >/dev/null
-	   ${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf < tmp/$@.txt >/dev/null
-	@echo "cache usage after"
-	du -hs ${BBBIKE_CACHE_DIR}/
-	du -hs ${BBBIKE_CACHE_DIR}/*
+        
+#cache-heater-common:
+#	@echo "cache usage before"
+#	du -hs ${BBBIKE_CACHE_DIR}/
+#	if `ls ${BBBIKE_CACHE_DIR}/* 2>/dev/null`; then du -hs ${BBBIKE_CACHE_DIR}/*; fi
+#	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
+#	   ${PERL} -ne 'chomp; print "http://'${BBBIKE_WEB_SERVER}'/$$_/?generate_cache=1\0"; print "http://'${BBBIKE_API_SERVER}/${API_DIR}'/$$_/?generate_cache=1\0"' | \
+#            cat > tmp/$@.txt
+#	   #${XARGS} -0 -n8 -P2 curl -sS -X PURGE < tmp/$@.txt >/dev/null
+#	   ${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf < tmp/$@.txt >/dev/null
+#	@echo "cache usage after"
+#	du -hs ${BBBIKE_CACHE_DIR}/
+#	du -hs ${BBBIKE_CACHE_DIR}/*
 
 cache-heater-streets: cache-heater-homepage cache-heater-opensearch
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
