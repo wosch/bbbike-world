@@ -1,5 +1,5 @@
 ###############################################################
-# Copyright (c) 2008-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2008-2014 Wolfram Schneider, http://bbbike.org
 #
 # configurations files
 #
@@ -7,6 +7,8 @@
 MUNIN_LIGHTTPD=	lighttpd_accesses lighttpd_busyservers lighttpd_idleservers lighttpd_kbytes lighttpd_uptime	
 MUNIN_BBBIKE= 	bbbike-ajax bbbike-output bbbike-pref bbbike-maptype bbbike-route bbbike-appid
 MUNIN_PLUGINS_DIR=	/etc/munin/plugins
+
+CRONTAB_ROOT=/etc/cron.d/bbbike.root
 
 all: help
 
@@ -62,6 +64,11 @@ munin-restart:
 	sleep 0.2
 	sudo /etc/init.d/munin-node start
 
+crontab-root:
+	if [ ! -e ${CRONTAB_ROOT} ]; then \
+	   sudo ln -fs `pwd`/crontab.root ${CRONTAB_ROOT}; \
+	fi
+
 ##################################################################################
 # perltidy section
 #
@@ -86,6 +93,7 @@ help:
 	@echo "make [ install-munin-lighttpd ]"
 	@echo "make [ install-munin-bbbike | install-munin-bbbike-extract ]"
 	@echo "make [ install-munin-xen ]"
+	@echo "make [ crontab-root ]"
 	@echo "make [ perltidy | distclean ]"
 	@echo ""
 	@echo "for bbbike.de: "
