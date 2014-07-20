@@ -123,6 +123,11 @@ echo -n "google maps addresses gps, start+ziel: "
 log "$url_match.*?\?" | egrep -c 'start=[^&]+%2C1%5D&.*ziel=[^&]+%2C1%5D&'
 
 echo ""
+echo -n "api.bbbike.org appid: "
+log_full 'api.bbbike.org/' | perl -ne 'print "$1\n" if /appid=([^;&]+)/' | wc -l
+log_full 'api.bbbike.org/' | perl -ne 'print "$1\n" if /appid=([^;&]+)/' | sort | uniq -c | sort -nr
+
+echo ""
 echo -n "BBBike iPhone city searches: "
 log_full 'api.bbbike.org/[^/]+/' | egrep -v 'http://api.bbbike.org/robots.txt ' | egrep 'HTTP/1.1" 200 ' | wc -l
 echo -n "BBBike iPhone city count: "
