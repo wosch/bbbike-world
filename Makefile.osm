@@ -819,7 +819,7 @@ cache-heater-streets: cache-heater-homepage cache-heater-opensearch
 
 cache-heater-searches:
 	for city in ${CITIES}; do \
-            perl -e 'print qq{curl -sSf "http://'${BBBIKE_WEB_SERVER}/$$city/?$$(./world/bin/bbbike-db --startc $$city)'&pref_cat=N1&pref_quality=Q2&generate_cache_searches=\$$RANDOM" | egrep real_time\0}'; \
+            perl -e 'print qq{curl -sSf "http://'${BBBIKE_WEB_SERVER}/$$city/?$$(./world/bin/bbbike-db --startc $$city)'&pref_cat=N1&pref_quality=Q2&cache=\$$RANDOM" | egrep real_time\0}'; \
 	done > tmp/$@.txt.tmp
 	mv -f tmp/$@.txt.tmp tmp/$@.txt
 	${XARGS} -0 -n1 -P${MAX_CPU} /bin/bash -c < tmp/$@.txt > tmp/$@.log
