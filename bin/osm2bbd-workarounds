@@ -21,6 +21,7 @@ tmpdir=`mktemp -d ${TMPDIR-"/tmp"}/bbbike.XXXXXXXXXXX`
 TMPDIR=$tmpdir; export TMPDIR
 
 p=`pwd`/world/bin
+pwd=$(pwd)
 
 # use original "strassen" data
 if [ -e $prefix/$city/strassen-orig.gz ]; then
@@ -104,9 +105,8 @@ perl -ne 'print if !/^\s+|^\s*#|^$/' strassen | sort -uf > opensearch.street-coo
 
 # cooked streets
 echo "Run cookied streets"
-time perl -I../.. -I../../lib -MStrassen -e  '$s = Strassen->new($ARGV[0], UseLocalDirectives => 1); $ina = Strassen->new($ARGV[1]); $s->new_with_removed_points($ina)->write("-")'  $(pwd)/strassen  $(pwd)/inaccessible_strassen  > strassen-cooked.tmp
+time perl -I$pwd -I$pwd/lib -MStrassen -e  '$s = Strassen->new($ARGV[0], UseLocalDirectives => 1); $ina = Strassen->new($ARGV[1]); $s->new_with_removed_points($ina)->write("-")'  $(pwd)/strassen  $(pwd)/inaccessible_strassen  > strassen-cooked.tmp
 mv -f strassen-cooked.tmp strassen-cooked
-
 
 for i in Berlin.coords.data Potsdam.coords.data comments_mount flaechen green nolighting plaetze qualitaet_s rbahn rbahnhof sbahn sbahnhof strassen ubahn ubahnhof wasserstrassen faehren `find . -type f -size 0`
 do
