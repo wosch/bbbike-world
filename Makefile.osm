@@ -824,7 +824,7 @@ cache-heater-searches:
 	done > tmp/$@.txt.tmp
 	mv -f tmp/$@.txt.tmp tmp/$@.txt
 	${XARGS} -0 -n1 -P${MAX_CPU} /bin/bash -c < tmp/$@.txt > tmp/$@.log
-	perl -n0pe 's/^curl/curl -X PURGE/; ' tmp/$@.txt | ${XARGS} -0 -n1 /bin/sh -c
+	perl -n0pe 's/^curl/curl -X PURGE/; s/\|.*//' tmp/$@.txt | ${XARGS} -0 -n1 /bin/sh -c >/dev/null
 
 cache-heater-homepage: cache-heater-osp
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
