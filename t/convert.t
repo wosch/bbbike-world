@@ -171,7 +171,7 @@ sub checksum {
       ];
     my $md5_checksum = ( grep { $md5 eq $_ } @$md5_checksum_select )[0];
 
-    isnt( $md5_checksum, "", "Unknown checksum, did the data changed?" );
+    isnt( $md5_checksum, (), "Unknown checksum, did the data changed?" );
     is( $md5, $md5_checksum, "md5 checksum" );
 }
 
