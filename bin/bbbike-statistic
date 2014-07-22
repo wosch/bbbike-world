@@ -124,8 +124,8 @@ log "$url_match.*?\?" | egrep -c 'start=[^&]+%2C1%5D&.*ziel=[^&]+%2C1%5D&'
 
 echo ""
 echo -n "api.bbbike.org appid: "
-log_full 'api.bbbike.org/' | perl -ne 'print "$1\n" if /appid=([^;&]+)/' | wc -l
-log_full 'api.bbbike.org/' | perl -ne 'print "$1\n" if /appid=([^;&]+)/' | sort | uniq -c | sort -nr
+log_full 'api.bbbike.org/' | perl -ne 'print "$1\n" if /appid=([^;&\s]+)/' | wc -l
+log_full 'api.bbbike.org/' | perl -ne 'print "$1\n" if /appid=([^;&\s]+)/' | sort | uniq -c | sort -nr
 
 echo ""
 echo -n "BBBike iPhone city searches: "
