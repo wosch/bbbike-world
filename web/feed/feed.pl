@@ -49,12 +49,13 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
-    title => qq{The <a href="http://www.bbbike.org/">BBBike route searches</a> are now 2-3 times faster},
+    title =>
+qq{<a href="http://www.bbbike.org/">BBBike route searches</a> are now 2-3 times faster},
     id      => 'd41d8cd98f00b204e9800998ecf8437e',
     content => {
         type => 'html',
         content =>
-qq{The <a href="http://www.bbbike.org/">BBBike route searches</a> are now 2-3 times faster}
+qq{<a href="http://www.bbbike.org/">BBBike route searches</a> are now 2-3 times faster}
     },
     updated  => '2014-07-22T13:30:02Z',
     category => 'News',
