@@ -32,6 +32,7 @@ MAX_OSM2SHAPE=	${MAX_CPU}
 MAX_PBF2OSM=	${MAX_CPU}
 MAX_OSM2OSMAND=	${MAX_CPU}
 MAX_OSM2GARMIN=	${MAX_HCPU}
+CURL_USER_AGENT=	-A "BBBike.org-CacheHeater/1.0" 
 
 XARGS=		${NICE} `which gxargs xargs | head -1`
 XARGS5=		`which gxargs xargs | head -1`
@@ -209,7 +210,7 @@ fetch-extracts fetch:
 	   if [ ! -e ${OSM_DIR}/$$i/$$i.osm.pbf ]; then \
 	      mkdir -p ${OSM_DIR}/$$i; \
 	      echo "fetch from http://download.bbbike.org/osm/bbbike/$$i/$$i.osm.pbf"; \
-	      curl -sSf -o ${OSM_DIR}/$$i/$$i.osm.pbf http://download.bbbike.org/osm/bbbike/$$i/$$i.osm.pbf; \
+	      curl -sSf ${CURL_USER_AGENT} -o ${OSM_DIR}/$$i/$$i.osm.pbf http://download.bbbike.org/osm/bbbike/$$i/$$i.osm.pbf; \
 	      ( ./world/bin/pbf2osm ${OSM_DIR}/$$i/$$i.osm.pbf | ${GZIP} > ${OSM_DIR}/$$i/$$i.osm.gz.tmp; \
 	         mv -f ${OSM_DIR}/$$i/$$i.osm.gz.tmp ${OSM_DIR}/$$i/$$i.osm.gz ) & \
 	   fi; \
@@ -814,8 +815,8 @@ cache-heater-streets: cache-heater-homepage cache-heater-opensearch
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
 		${PERL} -e 'while(<>) { chomp; push @a, "http://'${BBBIKE_WEB_SERVER}'/$$_/streets.html"; push @b, "http://'${BBBIKE_WEB_SERVER}'/en/$$_/streets.html" } print join "\0", @a, ""' | \
                 cat > tmp/$@.txt
-		${XARGS} -0 -n8 -P2 curl -sS -X PURGE < tmp/$@.txt >/dev/null
-		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf < tmp/$@.txt >/dev/null
+		${XARGS} -0 -n8 -P2 curl -sS ${CURL_USER_AGENT} -X PURGE < tmp/$@.txt >/dev/null
+		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf ${CURL_USER_AGENT} < tmp/$@.txt >/dev/null
 
 cache-heater-searches:
 	random=$$(bash -c 'echo $$RANDOM'); \
@@ -830,15 +831,15 @@ cache-heater-homepage: cache-heater-osp
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
 		${PERL} -e 'while(<>) { chomp; push @a, "http://'${BBBIKE_WEB_SERVER}'/$$_/"; push @b, "http://'${BBBIKE_WEB_SERVER}'/en/$$_/"; push @c, "http://'${BBBIKE_WEB_SERVER}'/m/$$_/" } print join "\0", @a, ""' | \
                 cat > tmp/$@.txt
-		${XARGS} -0 -n8 -P2 curl -sS -X PURGE < tmp/$@.txt >/dev/null
-		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf < tmp/$@.txt >/dev/null
+		${XARGS} -0 -n8 -P2 curl -sS ${CURL_USER_AGENT} -X PURGE < tmp/$@.txt >/dev/null
+		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf ${CURL_USER_AGENT} < tmp/$@.txt >/dev/null
                 
 
 cache-heater-osp:
 	find osp -name '*.xml' -print0 | perl -n0e 'print qq{http://'${BBBIKE_WEB_SERVER}'/$$_}' | \
                 cat > tmp/$@.txt
-		${XARGS} -0 -n8 -P2 curl -sS -X PURGE < tmp/$@.txt >/dev/null
-		${XARGS} -0 -n8 -P${MAX_CPU} curl -sSf < tmp/$@.txt >/dev/null
+		${XARGS} -0 -n8 -P2 curl -sS ${CURL_USER_AGENT} -X PURGE < tmp/$@.txt >/dev/null
+		${XARGS} -0 -n8 -P${MAX_CPU} curl -sSf ${CURL_USER_AGENT} < tmp/$@.txt >/dev/null
 
 cache-heater-opensearch:
 	cat ${BBBIKE_WEBSERVER_DIR}/data-osm/*/opensearch.streetnames | wc -c >/dev/null
