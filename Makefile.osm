@@ -378,7 +378,7 @@ convert3:
 	mkdir -p ${DATA_OSM_DIR}
 	cd ${OSM_DIR} # test
 	echo ${CITIES} " " | ${PERL} -npe 's/\s+/-convert /g' | \
-	   ${XARGS} -n 1 -P ${MAX_VCPU} ${TIME} ${BBMAKE}
+	   ${XARGS} -n 1 -P ${MAX_CPU} ${TIME} ${BBMAKE}
 
 check: 
 	@echo "In case of failure run:"
