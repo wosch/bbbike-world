@@ -51,6 +51,10 @@ if [ -z "$server" ]; then
 	server=bbbike.org
 fi
 
+case $server in
+    dev* | localhost ) export BBBIKE_RENICE=1 ;;
+esac
+
 cache_dir=/var/cache/bbbike/${server}/$name
 if [ "$server" = "localhost" ]; then
     cache_dir=/tmp/bbbike-${server}-$(whoami)/$name
