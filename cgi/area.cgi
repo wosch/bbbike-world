@@ -1,9 +1,10 @@
-#!/usr/local/bin/perl
+#!/usr/local/bin/perl -T
 # Copyright (c) 2009-2014 Wolfram Schneider, http://bbbike.org
 #
 # area.cgi - which areas are covered by bbbike.org
 
 use CGI qw/-utf-8/;
+use CGI::Carp;
 use IO::File;
 use IO::Dir;
 use File::stat;
