@@ -1,10 +1,10 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2014 Wolfram Schneider, http://bbbike.org
 #
 # livesearch.cgi - bbbike.org live routing search
 
 use CGI qw/-utf-8 escapeHTML/;
-
+use CGI::Carp;
 use IO::File;
 use IO::Dir;
 use Encode;
@@ -118,6 +118,12 @@ sub display_table {
     print "</table>\n";
 }
 
+# debugging
+sub is_tainted {
+    local $@;    # Don't pollute caller's value.
+    return !eval { eval( "#" . substr( join( "", @_ ), 0, 0 ) ); 1 };
+}
+
 ##############################################################################################
 #
 # main
@@ -136,7 +142,13 @@ print $q->start_html(
 );
 
 my @languages = &get_languages_list($dir);
-my $lang      = $q->param('lang');
+my $lang = $q->param('lang') || "";
+if ( $lang =~ /^([a-z]+$)/ ) {
+    $lang = $1;
+}
+else {
+    $lang = "";
+}
 
 print &css;
 
@@ -153,3 +165,4 @@ print &footer;
 
 print $q->end_html;
 
+1;
