@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl -T
 # Copyright (c) 2009-2014 Wolfram Schneider, http://bbbike.org
 #
-# weather.cgi - get weather data for a city from google or other sources
+# weather.cgi - get weather data for a cit
 #
 # TODO: http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139
 
@@ -19,8 +19,6 @@ use warnings;
 my $q         = new CGI;
 my $debug     = 2;
 my $cache_dir = "/var/cache/bbbike";
-
-my $enable_google_weather_forecast = 0;
 
 sub cache_file {
     my $q = shift;
@@ -147,7 +145,6 @@ if ( my $content = get_data_from_cache($wettermeldung_file_json) ) {
     my $forecast = get_data_from_cache($weather_forecast) || "{}";
 
     $weather{'weather'} = $content;
-    $weather{'forecast'} = $forecast if $enable_google_weather_forecast;
     print &merge_json( \%weather );
     exit 0;
 }
@@ -172,45 +169,6 @@ elsif ( $lat && $lng ) {
     }
     else {
         warn "No weather data for: $url\n" if $debug >= 1;
-    }
-
-    # forecast
-    if ($enable_google_weather_forecast) {
-
-        my $city = $q->param('city');
-
-       # by city name
-       #$url = 'http://www.google.com/ig/api?weather=' . $city . '&hl=' . $lang;
-
-        # by lat/lng
-        $url =
-            'http://www.google.com/ig/api?weather='
-          . "$city,,,"
-          . int( 1_000_000 * $lat ) . ","
-          . int( 1_000_000 * $lng )
-          . "&hl=$lang";
-
-        warn "Download URL: $url\n" if $debug >= 2;
-
-        $req = HTTP::Request->new( GET => $url );
-        $res = $ua->request($req);
-
-        # Check the outcome of the response
-        if ( $res->is_success ) {
-            my @c = grep { s/^charset=// && $_ } $res->content_type();
-            my $charset = $c[0];
-            warn "weather forecast charset: $charset\n" if $debug >= 2;
-            $content =
-              Encode::decode( $charset, $res->content, $Encode::FB_DEFAULT );
-
-            my $perl = XMLin($content);
-            my $json = encode_json($perl);
-            $weather{'forecast'} = Encode::decode( 'utf-8', $json );
-            write_to_cache( $weather_forecast, $weather{'forecast'} );
-        }
-        else {
-            warn "No weather data for: $url\n" if $debug >= 1;
-        }
     }
 
     print &merge_json( \%weather );
