@@ -121,10 +121,11 @@ if ( $debug >= 9 ) {
     $q->param( "lang", "hr" );
 }
 
-my $lat  = $q->param('lat')  || "";
-my $lng  = $q->param('lng')  || "";
-my $lang = $q->param('lang') || "";
-my $city = $q->param('city') || "";
+my $lat         = $q->param('lat')         || "";
+my $lng         = $q->param('lng')         || "";
+my $lang        = $q->param('lang')        || "";
+my $city        = $q->param('city')        || "";
+my $city_script = $q->param('city_script') || "";
 
 # untaint
 $lang = ( $lang =~ /^([a-z_]+)$/  ? $1 : "" );
@@ -132,7 +133,7 @@ $city = ( $city =~ /^([^\.\s]+)$/ ? $1 : "" );
 
 Fatal(
     "Missing parameters: lat: '$lat', lng: '$lng', lang: '$lang', city: '$city'"
-) if !( $lat && $lng && $lang && $city );
+) if !( $lat && $lng && $lang && $city && $city_script );
 
 my $url = 'http://ws.geonames.org/findNearByWeatherJSON?username=foobar&lat=';
 
@@ -175,3 +176,4 @@ elsif ( $lat && $lng ) {
 
 }
 
+1;
