@@ -67,6 +67,33 @@ sub get_city {
     return @cities;
 }
 
+#
+# Add coordinates to a list of cities:
+#
+# [
+#   { name   => Berlin,
+#     coords => [[x1,y1], [x2,y2]]
+#   }, {... }
+# ]
+sub with_coords {
+    my $hash   = shift;
+    my @cities = @_;      # ( city1, city2 )
+
+    my @list = ();
+
+    foreach my $city (@cities) {
+
+        my ( $x1, $y1, $x2, $y2 ) = split( /\s+/, $hash->{$city}{"coord"} );
+        my $obj = {
+            'area'   => $city,
+            'coords' => [ [ $x1, $y1 ], [ $x2, $y2 ] ]
+        };
+        push @list, $obj;
+    }
+
+    return @list;
+}
+
 ##############################################################################################
 #
 # main
@@ -82,6 +109,7 @@ print $q->header(
 
 my $lat = $q->param('lat') || "";
 my $lng = $q->param('lng') || "";
+my $ns  = $q->param('ns')  || "";
 
 # $lat = 52.5924955; $lng= 13.4619832; # Berlin-Blankenburg, inside area "Berlin" and "Oranienburg"
 # $lat = 52.459331502; $lng = 13.453662344;    # Berlin-Neukoelln, Berlin and Potsdam
@@ -99,6 +127,11 @@ else {
 }
 
 my $json = new JSON;
+$json->pretty if $q->param('pretty');
+if ( $ns eq 'coords' ) {
+    @city = with_coords( $db->city, @city );
+}
+
 print $json->encode( \@city );
 
 my $remote_host = $q->remote_host;
