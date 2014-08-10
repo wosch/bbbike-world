@@ -103,7 +103,8 @@ sub Fatal {
 
 binmode \*STDOUT, ':utf8';
 print $q->header(
-    -type    => 'application/json;charset=UTF-8',
+    -type    => 'application/json',
+    -charset => 'utf-8',
     -expires => '+30m'
 );
 
