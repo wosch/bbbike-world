@@ -128,7 +128,8 @@ sub with_coords {
 my $db = BBBikeWorldDB->new( 'database' => $database );
 
 print $q->header(
-    -type                        => 'application/json;charset=UTF-8',
+    -type                        => 'application/json',
+    -charset                     => 'utf-8',
     -expires                     => '+5m',
     -access_control_allow_origin => '*',
 );
