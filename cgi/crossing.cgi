@@ -2,6 +2,16 @@
 # Copyright (c) 2011-2014 Wolfram Schneider, http://bbbike.org
 #
 # street-coord.cgi - plot latlng names on a map as a suggestion service
+#
+# Example:
+#
+# curl 'http://www.bbbike.org/cgi/crossing.cgi?id=suggest_ziel;ns=dbac;city=Mannheim;q=8.45186,49.47912'
+#
+# {
+#    query: "8.45186,49.47912",
+#     suggestions: ["8.45211,49.47872	/Ernst-Bloch-Platz", "8.45211,49.47863	/Ernst-Bloch-Platz", "8.45212,49.47863	Roonstr./", "8.45222,49.47868	/Ernst-Bloch-Platz", "8.45223,49.47867	Roonstr./", "8.45239,49.47884	/Ernst-Bloch-Platz", "8.45239,49.47974	/Berliner Platz", "8.45097,49.47914	Berliner Platz/", "8.45097,49.47908	/Dammstr.", "8.45133,49.47839	/Ernst-Bloch-Platz"]
+# }
+#
 
 use lib '.';
 use MyCgiSimple;
