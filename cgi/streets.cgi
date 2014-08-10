@@ -4,6 +4,7 @@
 # streets.cgi - redirect to a street on google maps / openstreetmap.org
 
 use CGI qw(escape);
+use CGI::Carp;
 
 # use warnings make the script 20% slower!
 #use warnings;

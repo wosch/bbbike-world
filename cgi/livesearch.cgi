@@ -4,9 +4,9 @@
 # livesearch.cgi - bbbike.org live routing search
 
 use CGI qw/-utf-8 unescape/;
+use CGI::Carp;
 use URI;
 use URI::QueryParam;
-
 use IO::File;
 use JSON;
 use Data::Dumper;
