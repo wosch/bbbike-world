@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl
+#!/usr/local/bin/perl -T
 # Copyright (c) 2012-2014 Wolfram Schneider, http://bbbike.org
 #
 # livesearch-extract.cgi - extractbbbike.org live extracts
