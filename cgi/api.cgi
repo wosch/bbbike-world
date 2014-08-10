@@ -1,5 +1,5 @@
-#!/usr/local/bin/perl
-# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+#!/usr/local/bin/perl -T
+# Copyright (c) 2009-2014 Wolfram Schneider, http://bbbike.org
 #
 # api.cgi - suggestion service for street names
 
@@ -350,6 +350,9 @@ my $city      = $q->param('city')      || 'Berlin';
 my $namespace = $q->param('namespace') || $q->param('ns') || '0';
 my $crossing  = $q->param('crossing')  || $q->param('c') || '0';
 
+$city      = $city      =~ /^([A-Za-z]+$)/    ? $1 : "Berlin";
+$namespace = $namespace =~ /^([A-Za-z0-9]+$)/ ? $1 : "0";
+
 if ( my $d = $q->param('debug') || $q->param('d') ) {
     $debug = $d if defined $d && $d >= 0 && $d <= 3;
 }
@@ -366,6 +369,10 @@ print $q->header(
 binmode( \*STDOUT, ":utf8" ) if $force_utf8;
 
 $street = &crossing_padding( $street, $granularity ) if $crossing;
+
+if ( $street =~ /^(.+)$/ ) {
+    $street = $1;
+}
 
 my @suggestion = &streetnames_suggestions_unique(
     'city'     => $city,
@@ -506,3 +513,5 @@ else {
 if ($debug) {
     warn "street: '$street', suggestions: ", join ", ", @suggestion, "\n";
 }
+
+1;
