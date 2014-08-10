@@ -25,14 +25,22 @@ my $enable_google_weather_forecast = 0;
 sub cache_file {
     my $q = shift;
 
-    my $server = $q->server_name;
-    my $city = $q->param('city_script') || $q->param('city');
+    my $server      = $q->server_name;
+    my $city_script = $q->param('city_script');
 
-    if ( $city !~ /^[A-Za-z_-]+$/ ) {
-        warn "Illegal city name: '$city'!\n";
+    if ( $server !~ /^([a-z0-9A-Z\.]+)$/ ) {
+        warn "Illegal server name: '$server'!\n";
         return;
     }
-    return "$cache_dir/$server/$city/wettermeldung-$<";
+    $server = $1;
+
+    if ( $city_script !~ /^([A-Za-z]+)$/ ) {
+        warn "Illegal city_script name: '$city_script'!\n";
+        return;
+    }
+    $city_script = $1;
+
+    return "$cache_dir/$server/$city_script/wettermeldung-$<";
 }
 
 sub get_data_from_cache {
@@ -119,6 +127,10 @@ my $lat  = $q->param('lat')  || "";
 my $lng  = $q->param('lng')  || "";
 my $lang = $q->param('lang') || "";
 my $city = $q->param('city') || "";
+
+# untaint
+$lang = ( $lang =~ /^([a-z_]+)$/  ? $1 : "" );
+$city = ( $city =~ /^([^\.\s]+)$/ ? $1 : "" );
 
 Fatal(
     "Missing parameters: lat: '$lat', lng: '$lng', lang: '$lang', city: '$city'"
