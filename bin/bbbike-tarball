@@ -12,7 +12,7 @@ case $dirname in
    * ) dirname=$(pwd)/$dirname;;
 esac
 
-gzip=`which pigz gzip | head -n 1`
+gzip=`which pigz gzip 2>/dev/null | head -n 1`
 
 dir=$(mktemp -d -t bbbike-tarball.XXXXXXXX)
 cd $dir

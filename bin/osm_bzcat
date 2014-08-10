@@ -5,13 +5,13 @@
 
 PATH=/bin:/usr/bin:/opt/local/bin; export PATH
 
-if which pbzip2 >/dev/null; then
+if which pbzip2 >/dev/null 2>&1; then
 	bzcat='pbzip2 -dc'
 else
 	bzcat='bzip2 -dc'
 fi
 
-if which buffer >/dev/null && test -e /proc ; then
+if which buffer >/dev/null 2>&1 && test -e /proc ; then
 	$bzcat "$@" | buffer -m 6400k
 else
 	$bzcat "$@"

@@ -8,8 +8,8 @@ set -e
 
 dirname=$(dirname $0)
 compress=""
-gzip=`which pigz gzip | head -n 1`
-bzip2=`which pbzip2 bzip2 | head -n 1`
+gzip=`which pigz gzip 2>/dev/null | head -n 1`
+bzip2=`which pbzip2 bzip2 2>/dev/null | head -n 1`
 osm2garmin=$dirname/osm2garmin
 osm2shape=$dirname/osm2shape
 osm2osmand=$dirname/osm2osmand
@@ -26,9 +26,9 @@ osmium_convert_opt="-f pbf -t opl"
 : ${max_file_size_osmand=600000}
 _max_cpu_time=7200
 
-xz=`which xz | head -n 1`
+xz=`which xz 2>/dev/null | head -n 1`
 xz_opt=-2
-if which pixz >/dev/null; then
+if which pixz >/dev/null 2>&1; then
     xz="pixz -t"
 fi
 

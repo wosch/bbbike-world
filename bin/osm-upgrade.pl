@@ -53,7 +53,7 @@ sub create_script {
     warn Dumper( \%args ) if $debug >= 2;
 
     # find the fastest gzip program
-    my $gzip = `which pigz gzip | head -1`;
+    my $gzip = `which pigz gzip 2>/dev/null | head -1`;
     chomp($gzip);
 
     my $num = 10_000;

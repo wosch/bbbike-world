@@ -24,7 +24,7 @@ test -e "$file" || usage "file $file does not exists"
 dirname=$(dirname $file)
 basename=$(basename $file)
 
-md5sum=`which md5 md5sum false | head -n 1`
+md5sum=`which md5 md5sum false 2>/dev/null | head -n 1`
 : ${SHA="shasum -a 256"}
 
 ( cd $dirname; $md5sum $basename ) > $file.md5
