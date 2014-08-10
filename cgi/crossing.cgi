@@ -1,7 +1,7 @@
-#!/usr/local/bin/perl
-# Copyright (c) 2011-2013 Wolfram Schneider, http://bbbike.org
+#!/usr/local/bin/perl -T
+# Copyright (c) 2011-2014 Wolfram Schneider, http://bbbike.org
 #
-# latlng-coord.cgi - plot latlng names on a map as a suggestion service
+# street-coord.cgi - plot latlng names on a map as a suggestion service
 
 use lib '.';
 use MyCgiSimple;
@@ -249,6 +249,8 @@ if ($force_utf8) {
 
 my $city = $q->param('city') || 'Oranienburg';
 my $namespace = $q->param('namespace') || $q->param('ns') || '0';
+$city      = ( $city      =~ /^([A-Za-z]+$)/    ? $1 : "Berlin" );
+$namespace = ( $namespace =~ /^([A-Za-z0-9]+$)/ ? $1 : "0" );
 
 if ( my $d = $q->param('debug') || $q->param('d') ) {
     $debug = $d if defined $d && $d >= 0 && $d <= 3;
