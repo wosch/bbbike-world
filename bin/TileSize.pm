@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2014 Wolfram Schneider, http://bbbike.org
 #
 # TileSize.pm - module to guess size of a lat,lng tile
 #
@@ -80,15 +80,39 @@ sub new {
     return $self;
 }
 
+sub valid_hostname {
+    my $self = shift;
+    my $hostname = shift || $ENV{HTTP_HOST} || "localhost";
+    $hostname =~ s/:.*//;
+
+    if ( $hostname =~ /^([a-zA-Z0-9\.]+)$/ ) {
+        return $1;
+    }
+    else {
+        warn "Unknown hostname '$hostname'\n";
+        return "unknown";
+    }
+}
+
 sub get_cache_file {
     my $self = shift;
 
-    my $hostname = $ENV{HTTP_HOST} || "localhost";
-    my $file =
-        $self->{'tmpdir'}
-      . "/_tilesize-$<-$hostname-"
-      . md5_hex( abs_path( $self->{'database'} ) );
+    my $hostname = $self->valid_hostname();
+    my $tmpdir   = $self->{'tmpdir'};
+    my $md5      = md5_hex( abs_path( $self->{'database'} ) );
+
+    # untaint
+    if ( $md5 =~ /^([a-f0-9]{32})$/ ) {
+        $md5 = $1;
+    }
+    else {
+        die "Wrong md5 checksum: $md5, give up!\n";
+    }
+
+    my $file = "$tmpdir/_tilesize-$<-$hostname-$md5";
     return $file;
+
+# foreach ($hostname, $tmpdir, "/_tilesize-$<-$hostname-",  $md5, $file ) { warn "is tainted: $_ :: "  . is_tainted($_), "\n"; }
 }
 
 sub parse_database {
@@ -150,6 +174,7 @@ sub set_cache {
     my $cache = shift;
 
     my $file = $self->get_cache_file;
+
     warn "Set cache $file\n" if $debug >= 1;
     if ( !Storable::nstore( $cache, $file ) ) {
         warn "Could not store cache $file: $!\n";
@@ -371,6 +396,12 @@ sub _area_size {
 
     warn "Got $tile_parts parts\n" if $debug > 0;
     return $size;
+}
+
+# debugging
+sub is_tainted {
+    local $@;    # Don't pollute caller's value.
+    return !eval { eval( "#" . substr( join( "", @_ ), 0, 0 ) ); 1 };
 }
 
 1;
