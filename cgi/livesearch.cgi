@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl
+#!/usr/local/bin/perl -T
 # Copyright (c) 2009-2014 Wolfram Schneider, http://bbbike.org
 #
 # livesearch.cgi - bbbike.org live routing search
