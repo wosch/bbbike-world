@@ -1,5 +1,5 @@
-#!/usr/local/bin/perl
-# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+#!/usr/local/bin/perl -T
+# Copyright (c) 2009-2014 Wolfram Schneider, http://bbbike.org
 #
 # street-coord.cgi - plot street names on a map as a suggestion service
 #
@@ -248,6 +248,13 @@ if ( $street =~ /^(.*?)\s+[\-=]>\s+(.*)/ ) {
 
 my $city = $q->param('city') || 'Basel';
 my $namespace = $q->param('namespace') || $q->param('ns') || '0';
+
+# untaint
+$city      = ( $city      =~ /^([A-Za-z]+$)/    ? $1 : "Berlin" );
+$namespace = ( $namespace =~ /^([A-Za-z0-9]+$)/ ? $1 : "0" );
+if ( $street =~ /^(.+)$/ ) {
+    $street = $1;
+}
 
 if ( my $d = $q->param('debug') || $q->param('d') ) {
     $debug = $d if defined $d && $d >= 0 && $d <= 3;
