@@ -259,6 +259,8 @@ if ($force_utf8) {
 
 my $city = $q->param('city') || 'Oranienburg';
 my $namespace = $q->param('namespace') || $q->param('ns') || '0';
+
+# untaint
 $city      = ( $city      =~ /^([A-Za-z]+$)/    ? $1 : "Berlin" );
 $namespace = ( $namespace =~ /^([A-Za-z0-9]+$)/ ? $1 : "0" );
 
