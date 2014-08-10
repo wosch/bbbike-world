@@ -1,10 +1,9 @@
-#!/usr/local/bin/perl
-# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+#!/usr/local/bin/perl -T
+# Copyright (c) 2009-2014 Wolfram Schneider, http://bbbike.org
 #
 # streets.cgi - redirect to a street on google maps / openstreetmap.org
 
 use CGI qw(escape);
-use CGI::Carp;
 
 # use warnings make the script 20% slower!
 #use warnings;
@@ -142,6 +141,13 @@ my $action    = 'opensearch';
 my $street    = $q->param('search') || $q->param('q') || 'Garibaldi';
 my $city      = $q->param('city') || 'planet';
 my $namespace = $q->param('namespace') || '0';
+
+# untaint
+$city      = ( $city      =~ /^([A-Za-z]+$)/    ? $1 : "Berlin" );
+$namespace = ( $namespace =~ /^([A-Za-z0-9]+$)/ ? $1 : "0" );
+if ( $street =~ /^(.+)$/ ) {
+    $street = $1;
+}
 
 binmode( \*STDERR, ":utf8" ) if $debug >= 1;
 
