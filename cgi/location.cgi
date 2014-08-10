@@ -1,7 +1,33 @@
-#!/usr/local/bin/perl
-# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+#!/usr/local/bin/perl -T
+# Copyright (c) 2009-2014 Wolfram Schneider, http://bbbike.org
 #
 # location.cgi - find a bbbike city close to the user
+#
+# Examples:
+#
+# 1. simple list
+#
+# curl 'http://www.bbbike.org/cgi/location.cgi?lng=13.404954&lat=52.520007'
+# ["Berlin","Oranienburg","Potsdam"]
+#
+# 2. a list with coordinates, pretty indented
+#
+# curl 'http://www.bbbike.org/cgi/location.cgi?lng=13.404954&lat=52.520007&ns=coords&pretty=1'
+# [
+#   {
+#      "coords" : [
+#         [
+#            "12.76",
+#            "52.23"
+#         ],
+#         [
+#            "13.98",
+#            "52.82"
+#         ]
+#      ],
+#      "area" : "Berlin"
+#   },
+#   .....
 
 use CGI qw/-utf-8/;
 use IO::File;
@@ -71,7 +97,7 @@ sub get_city {
 # Add coordinates to a list of cities:
 #
 # [
-#   { name   => Berlin,
+#   { area   => Berlin,
 #     coords => [[x1,y1], [x2,y2]]
 #   }, {... }
 # ]
