@@ -1,5 +1,5 @@
-#!/usr/bin/perl
-# Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
+#!/usr/local/bin/perl
+# Copyright (c) Sep 2012-2014 Wolfram Schneider, http://bbbike.org
 
 use Test::More;
 use JSON;
@@ -32,7 +32,7 @@ if ( $ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
 unshift @homepages, @homepages_localhost;
 
 use constant MYGET     => 3;
-use constant API_CHECK => 3;
+use constant API_CHECK => 4;
 use constant LANG      => 2;
 
 #plan 'no_plan';
@@ -64,6 +64,9 @@ sub api_check {
 
     my $res = myget( "$url", 168 );
     my $perl = decode_json( $res->decoded_content );
+
+    is($res->content_type, "application/json", "application/json");
+    #is($res->charset, "charset=utf-8", "charset=utf-8");
 
     isnt( $perl->{'weather'}, undef, "weather object" );
     isnt( $perl->{'weather'}->{'weatherObservation'}->{'temperature'},
