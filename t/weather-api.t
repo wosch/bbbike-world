@@ -65,7 +65,8 @@ sub api_check {
     my $res = myget( "$url", 168 );
     my $perl = decode_json( $res->decoded_content );
 
-    is($res->content_type, "application/json", "application/json");
+    is( $res->content_type, "application/json", "application/json" );
+
     #is($res->charset, "charset=utf-8", "charset=utf-8");
 
     isnt( $perl->{'weather'}, undef, "weather object" );
