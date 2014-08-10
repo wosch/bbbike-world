@@ -12,7 +12,7 @@
 set -e
 
 # bug in perl module Archive::Tar
-#bzip2=`which pbzip2 bzip2 | head -n 1`
+#bzip2=`which pbzip2 bzip2 2>/dev/null | head -n 1`
 bzip2=bzip2
 
 for city 

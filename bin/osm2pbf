@@ -16,8 +16,8 @@ else
     fi
 fi
 
-gzip=`which pigz gzip | head -n 1`
-bzip2=`which pbzip2 bzip2 | head -n 1`
+gzip=`which pigz gzip 2>/dev/null | head -n 1`
+bzip2=`which pbzip2 bzip2 2>/dev/null | head -n 1`
 
 file_pbf=`echo "$file" | perl -npe 's/\.[^\.]+$/.pbf/'`
 

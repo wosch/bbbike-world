@@ -23,7 +23,7 @@ mkdir -p $tmp
 commands="$bbbike_build $bbbike_download $bbbike_extract $bbbike_convert $bbbike_install $bbbike_post"
 
 # lower I/O nice level on linux
-if which ionice >/dev/null; then
+if which ionice >/dev/null 2>&1; then
    ionice=ionice
    ionice_opt="-c 2 -n 6"
 fi
