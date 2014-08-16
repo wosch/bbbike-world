@@ -1,0 +1,7 @@
+Origin: BBBike
+Label: BBBike
+Codename: wheezy
+Architectures: amd64 i386
+Components: main
+Description: BBBike.org
+SignWith: 3D084B60
