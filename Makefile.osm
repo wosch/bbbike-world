@@ -1030,7 +1030,7 @@ tile: tile-extract tile-convert tile-csv #tile-aws-s3
 #
 DEB_RELEASE=wheezy
 DEB_VENDOR=debian
-DEB_DIR=tmp/deb
+DEB_DIR=tmp/deb/${DEB_VENDOR}/${DEB_RELEASE}
 DEB_MODULE_LIST=world/etc/apt/${DEB_RELEASE}/perl-modules.txt
 DEB_PACKAGES=	$(shell ${PERL} -npe 's/\#.*//' ${DEB_MODULE_LIST})
 DEB_CONTROLS=	$(shell ${MAKE} -s -Cworld/etc/apt/${DEB_RELEASE}/equivs)
