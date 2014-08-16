@@ -1030,7 +1030,8 @@ tile: tile-extract tile-convert tile-csv #tile-aws-s3
 #
 DEB_RELEASE=wheezy
 DEB_VENDOR=debian
-DEB_DIR=tmp/deb/${DEB_VENDOR}/${DEB_RELEASE}
+DEB_TMP=tmp/deb
+DEB_DIR=${DEB_TMP}/${DEB_VENDOR}/${DEB_RELEASE}
 DEB_MODULE_LIST=world/etc/apt/${DEB_RELEASE}/perl-modules.txt
 DEB_PACKAGES=	$(shell ${PERL} -npe 's/\#.*//' ${DEB_MODULE_LIST})
 DEB_CONTROLS=	$(shell ${MAKE} -s -Cworld/etc/apt/${DEB_RELEASE}/equivs)
@@ -1076,6 +1077,10 @@ deb-repo: deb-repo-dir
  	   reprepro --ignore=undefinedtarget -Vb . removematched ${DEB_RELEASE} $$(echo $$i | perl -npe 's,.*/,,; s,_[\d+\.\-]+\_all\.deb$$,,'); \
  	   reprepro --ignore=undefinedtarget -Vb . includedeb ${DEB_RELEASE} $$i; \
 	done
+
+deb-repo-upload:
+	find ${DEB_TMP}/ ! -name '*.deb' -type f| xargs rm
+	rsync -m -azv ${DEB_TMP} debian.bbbike.org:projects/bbbike/tmp	
 
 deb-bootstrap debian-bootstrap: deb-bootstrap-rsync deb-bootstrap-dir
 bbbike-bootstrap: bbbike-partition debian-bootstrap update-files install-backend-lighttpd
@@ -1283,7 +1288,7 @@ help:
 	@echo "  [ jasmine-node | test-js ]"
 	@echo "  [ deb-perl | deb-equivs | deb-bin ]"
 	@echo "  [ DEB_VENDOR=ubuntu DEB_RELEASE=precise deb-equivs deb-bin deb-perl ]"
-	@echo "  [ deb-clean | deb-repo | update-apt ]"
+	@echo "  [ deb-clean | deb-repo | deb-repo-upload | update-apt ]"
 	@echo "  [ debian-bootstrap | bbbike-bootstrap ]"
 	@echo "  [ build-runtime | git-fetch ]"
 	@echo "  [ check | check-world | check-full | check-failed ]"
