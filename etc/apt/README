@@ -24,19 +24,9 @@ $ make deb-clean deb-perl deb-equivs deb-bin
 ##############################################################################
 # other releases
 
-For all debian versions: make update-apt
+For all debian versions run on the top level directory:
 
-# debian6/squeeze
-make DEB_VENDOR=debian DEB_RELEASE=squeeze deb-perl deb-equivs deb-bin
-
-# debian7/wheezy
-make DEB_VENDOR=debian DEB_RELEASE=wheezy deb-perl deb-equivs deb-bin
-
-# ubuntu12
-make DEB_VENDOR=ubuntu DEB_RELEASE=precise deb-perl deb-equivs deb-bin
-
-# ubuntu14
-make DEB_VENDOR=ubuntu DEB_RELEASE=trusty deb-perl deb-equivs deb-bin
+make update-apt
 
 --
 June 2014
