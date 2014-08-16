@@ -1158,17 +1158,29 @@ download-srtm-bbbike-org-install:
 	mkdir -p ../osm/download/srtm
 
 UPDATE_APT=deb-perl deb-equivs deb-bin
-update-apt:
-	# debian6/squeeze
+update-apt: update-apt-squeeze update-apt-wheezy update-apt-jessie \
+	    update-apt-precise update-apt-trusty
+
+# debian6/squeeze
+update-apt-squeeze:
 	make DEB_VENDOR=debian DEB_RELEASE=squeeze ${UPDATE_APT}
-	# debian7/wheezy
+
+# debian7/wheezy
+update-apt-wheezy:
 	make DEB_VENDOR=debian DEB_RELEASE=wheezy  ${UPDATE_APT}
-	# debian8/jessie
+
+# debian8/jessie
+update-apt-jessie:
 	make DEB_VENDOR=debian DEB_RELEASE=jessie  ${UPDATE_APT}
-	# ubuntu12
+
+# ubuntu12
+update-apt-precise:
 	make DEB_VENDOR=ubuntu DEB_RELEASE=precise ${UPDATE_APT}
-	# ubuntu14
+
+# ubuntu14
+update-apt-trusty:
 	make DEB_VENDOR=ubuntu DEB_RELEASE=trusty  ${UPDATE_APT}
+
 
 #
 # build Osmand.net devel java libs
