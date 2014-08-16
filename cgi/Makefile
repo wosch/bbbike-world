@@ -13,8 +13,12 @@ _perlcheck:
 perltidy: perlcheck
 	echo ${ALL} | xargs -n4 -P${NCPU} -E " " perltidy -b
 
-clean distclean:
+clean:
 	rm -f *.bak *.tdy *.ERR
+
+distclean: clean msg-clean
+msg-clean:
+	rm -f ../../cgi/msg/*.bak
 
 help:
 	@echo "make [ perltidy | clean ]"
