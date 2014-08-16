@@ -1170,7 +1170,7 @@ download-bbbike-org-install: download-srtm-bbbike-org-install
 download-srtm-bbbike-org-install:
 	mkdir -p ../osm/download/srtm
 
-UPDATE_APT=deb-perl deb-equivs deb-bin
+UPDATE_APT=deb-perl deb-equivs deb-bin deb-repo-upload
 update-apt: update-apt-squeeze update-apt-wheezy update-apt-jessie \
 	    update-apt-precise update-apt-trusty
 
