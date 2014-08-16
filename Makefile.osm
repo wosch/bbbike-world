@@ -1162,6 +1162,8 @@ update-apt:
 	make DEB_VENDOR=debian DEB_RELEASE=squeeze deb-perl deb-equivs deb-bin
 	# debian7/wheezy
 	make DEB_VENDOR=debian DEB_RELEASE=wheezy deb-perl deb-equivs deb-bin
+	# debian8/jessie
+	make DEB_VENDOR=debian DEB_RELEASE=jessie deb-perl deb-equivs deb-bin
 	# ubuntu12
 	make DEB_VENDOR=ubuntu DEB_RELEASE=precise deb-perl deb-equivs deb-bin
 	# ubuntu14
