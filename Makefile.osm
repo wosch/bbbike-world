@@ -651,6 +651,7 @@ clean: rotate-data-osm
 	cd world/web && rm -rf ${LANGUAGES}
 	cd world/web && rm -rf ${CITIES} bbbike
 	rm -f ${OSMBIKE_DATA}
+	rm -f world/cgi/msg/*.bak
 
 clean-cache cache-clean:
 	-du -hs ${BBBIKE_CACHE_DIR}/
@@ -748,7 +749,7 @@ update-javascript:
 java-config:
 	test -r $$HOME/.osmosis || ln -fs $$HOME/projects/bbbike/world/etc/env/dot.osmosis $$HOME/.osmosis
 
-dist-clean devel-clean distclean: clean deb-clean temp-clean clean-t data-distclean download-clean log-clean index-clean
+dist-clean devel-clean distclean: clean deb-clean temp-clean clean-t data-distclean download-clean log-clean index-clean cache-clean
 	${MAKE} -C./world/etc/mkgmap distclean
 
 index-clean:
@@ -764,6 +765,9 @@ clean-t:
 
 temp-clean:
 	rm -rf ${TMP_DIR}
+
+cache-clean:
+	rm -rf ./cache
 
 log-clean:
 	rm -f log.check log.check-full log.check-world
