@@ -1085,7 +1085,7 @@ deb-repo: deb-repo-dir
 	done
 
 deb-repo-upload:
-	find ${DEB_TMP}/ ! -name '*.deb' -type f| xargs rm
+	find ${DEB_TMP}/ ! -name '*.deb' -type f| xargs rm -f
 	rsync -m -azv ${DEB_TMP} debian.bbbike.org:projects/bbbike/tmp	
 
 deb-bootstrap debian-bootstrap: deb-bootstrap-rsync deb-bootstrap-dir
