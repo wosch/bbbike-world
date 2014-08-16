@@ -1,4 +1,7 @@
 # list of self compiled perl modules for debian
+# dont' forget to update 
+#    world/etc/apt/wheezy/equivs/bbbike-world-perlmodules-meta  
+#
 GIS::Distance::Lite
 Geo::Distance
 Geo::Distance::XS
