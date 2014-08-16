@@ -11,6 +11,9 @@ deb
 		
 gpg		public pgp key for bbbike packages
 
+# basically, we run:
+# dh-make-perl --build --cpan Our::Perl::Module::not::supported::by::debian
+#
 perl-modules.txt 	list of self compiled perl modules for debian
 			$ cd project/bbbike; make deb-perl
 
