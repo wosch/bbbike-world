@@ -749,7 +749,7 @@ update-javascript:
 java-config:
 	test -r $$HOME/.osmosis || ln -fs $$HOME/projects/bbbike/world/etc/env/dot.osmosis $$HOME/.osmosis
 
-dist-clean devel-clean distclean: clean deb-clean temp-clean clean-t data-distclean download-clean log-clean index-clean cache-clean
+dist-clean devel-clean distclean: clean deb-clean temp-clean clean-t data-distclean download-clean log-clean index-clean cache-clean-local
 	${MAKE} -C./world/etc/mkgmap distclean
 
 index-clean:
@@ -766,7 +766,7 @@ clean-t:
 temp-clean:
 	rm -rf ${TMP_DIR}
 
-cache-clean:
+cache-clean-local:
 	rm -rf ./cache
 
 log-clean:
