@@ -1178,7 +1178,7 @@ update-apt-precise update-apt-ubuntu update-apt-ubuntu12:
 	make DEB_VENDOR=ubuntu DEB_RELEASE=precise ${UPDATE_APT}
 
 # ubuntu14
-update-apt-trusty update-apt-upbuntu14:
+update-apt-trusty update-apt-ubuntu14:
 	make DEB_VENDOR=ubuntu DEB_RELEASE=trusty  ${UPDATE_APT}
 
 
