@@ -1038,6 +1038,11 @@ DEB_CONTROLS=	$(shell ${MAKE} -s -Cworld/etc/apt/${DEB_RELEASE}/equivs)
 DEB_REPO_DIR=	/usr/local/www/debian.bbbike.org/${DEB_VENDOR}
 DEB_OPT_DIR=	/var/lib/bbbike/opt
 
+# 
+# basically, we run:
+#
+# dh-make-perl --build --cpan Our::Perl::Module::not::supported::by::debian
+#
 # don't forget to run deb-clean first
 deb-perl: deb-clean
 	mkdir -p ${DEB_DIR}
