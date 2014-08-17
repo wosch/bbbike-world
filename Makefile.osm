@@ -1303,7 +1303,7 @@ help:
 	@echo "  [ deb-perl | deb-equivs | deb-bin ]"
 	@echo "  [ DEB_VENDOR=ubuntu DEB_RELEASE=precise deb-equivs deb-bin deb-perl ]"
 	@echo "  [ deb-clean | deb-repo | deb-repo-upload | update-apt ]"
-	@echo "  [ debian-bootstrap | bbbike-bootstrap ]"
+	@echo "  [ debian-bootstrap | bbbike-bootstrap | bbbike-c ]"
 	@echo "  [ build-runtime | git-fetch ]"
 	@echo "  [ check | check-world | check-full | check-failed ]"
 	@echo ""
