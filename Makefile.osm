@@ -1055,6 +1055,7 @@ deb-perl: deb-clean
 	    dh-make-perl --build --cpan $$i; \
 	done
 	ls -l ${DEB_DIR}/*.deb
+	echo "Number of deps: $$(ls ${DEB_DIR} | egrep '*.deb$' | wc -l)"
 	${MAKE} deb-repo
 
 deb-equivs: deb-clean
