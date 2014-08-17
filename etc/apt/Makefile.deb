@@ -22,11 +22,13 @@ build:
 	   dpkg-buildpackage -rfakeroot -us -uc > debian.log 2>&1
 	@ls -l *.deb
 
+_tmp=	../../../../../tmp/deb/${DEB_VENDOR}/${DEB_RELEASE}
 deb-repo:
 	dpkg-sig -k 3D084B60 --sign builder 	${LIB}*.deb
 	pwd=$$(pwd); cd ${DEB_REPO_DIR}/${DEB_RELEASE}; \
-	  reprepro -Vb . removematched ${DEB_RELEASE} ${LIB}-misc; \
-	  reprepro -Vb . includedeb ${DEB_RELEASE} $$pwd/${LIB}*.deb
+	  reprepro --ignore=undefinedtarget -Vb . removematched ${DEB_RELEASE} ${LIB}-misc; \
+	  reprepro --ignore=undefinedtarget -Vb . includedeb ${DEB_RELEASE} $$pwd/${LIB}*.deb
+	mkdir -p ${_tmp} && cp -f ${LIB}*.deb ${_tmp};
 
 deb-bin:
 	${MAKE} -f ../../Makefile.deb LIB=bbbike-world-bin distclean build deb-repo
