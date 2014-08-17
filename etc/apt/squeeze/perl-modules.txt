@@ -1,5 +1,5 @@
 # list of self compiled perl modules for debian
-Test::Data
+#Test::Data
 GIS::Distance::Lite
 Geo::Distance
 Geo::Distance::XS
