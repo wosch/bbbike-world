@@ -1052,7 +1052,7 @@ deb-perl: deb-clean
 	mkdir -p ${DEB_DIR}
 	set -e; cd ${DEB_DIR}; \
 	for i in ${DEB_PACKAGES}; do \
-	    dh-make-perl --build --cpan $$i; \
+	    dh-make-perl --build --requiredeps --email 'wosch@freebsd.org' --cpan $$i; \
 	done
 	ls -l ${DEB_DIR}/*.deb
 	echo "Number of deps: $$(ls ${DEB_DIR} | egrep '*.deb$$' | wc -l)"
