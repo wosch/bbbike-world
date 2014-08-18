@@ -10,7 +10,7 @@ use CDB_File;
 use DB_File::Lock;
 use Devel::Leak;
 use Email::Valid;
-use Module::Build; # 0.40;
+use Module::Build;    # 0.40;
 use File::ReadBackwards;
 use Geo::METAR;
 use HTML::FormatText;
