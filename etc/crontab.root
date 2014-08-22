@@ -1,3 +1,7 @@
-# delete old cache files
-2 */8    * * *   root   find /var/cache/bbbike/ -type f -atime +10 print0 | xargs -0 rm -f
-3 */8    * * *   root   find /var/cache/bbbike/ -type f -mtime +16 print0 | xargs -0 rm -f
+# delete old BBBike cache files
+PATH=/bin:/usr/bin
+MAILTO=root
+
+2 */6    * * *   root   find /var/cache/bbbike/ -type f -atime +10 -print0 | xargs -0 rm -f
+3 */6    * * *   root   find /var/cache/bbbike/ -type f -mtime +16 -print0 | xargs -0 rm -f
+
