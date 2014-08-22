@@ -49,6 +49,19 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
+    title   => qq{BBBike Windows Phone app},
+    id      => 'dda2b9aa0307ba9a55d2dd15a93dcbd2',
+    content => {
+        type => 'html',
+        content =>
+qq{A free <a href="http://www.windowsphone.com/s?appid=6cc2f571-7c0e-414c-9e71-806162601d7a">BBBike Windows Phone app</a>
+	is availble in the Windows Phone store. The city Berlin use the original BBBike data, the other cities are OSM based.}
+    },
+    updated  => '2014-08-22T13:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title =>
 qq{<a href="http://www.bbbike.org/">BBBike cycle route searches</a> are now 2-3 times faster},
     id      => 'd41d8cd98f00b204e9800998ecf8437e',
@@ -1353,4 +1366,3 @@ $feed->add_entry(
 );
 
 $feed->print;
-

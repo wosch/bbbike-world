@@ -13,6 +13,15 @@
   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af7</id>
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/" version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>BBBike Windows Phone app</title>
+    <id>dda2b9aa0307ba9a55d2dd15a93dcbd2</id>
+    <content type="html">A free &lt;a href="http://www.windowsphone.com/s?appid=6cc2f571-7c0e-414c-9e71-806162601d7a"&gt;BBBike Windows
+    Phone app&lt;/a&gt; is availble in the Windows Phone store. The city Berlin use the original BBBike data, the other cities are OSM
+    based.</content>
+    <updated>2014-08-22T13:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title type="html">&lt;a href="http://www.bbbike.org/"&gt;BBBike cycle route searches&lt;/a&gt; are now 2-3 times faster</title>
     <id>d41d8cd98f00b204e9800998ecf8437e</id>
     <content type="html">&lt;a href="http://www.bbbike.org/"&gt;BBBike cycle route searches&lt;/a&gt; are now 2-3 times faster</content>
