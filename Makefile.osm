@@ -1052,7 +1052,7 @@ DEB_REPO?=  deb-repo
 # --requiredeps
 deb-perl: deb-clean perl-cpan
 	mkdir -p ${DEB_DIR}
-	set -e; cd ${DEB_DIR}; export PERL5LIB="$HOME/perl5"; \
+	set -e; cd ${DEB_DIR}; export PERL5LIB="$HOME/perl5:$$HOME/perl5/lib/perl5"; \
 	for i in ${DEB_PACKAGES}; do \
 	    dh-make-perl --build --email 'wosch@freebsd.org' --cpan $$i; \
 	done
