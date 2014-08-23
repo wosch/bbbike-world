@@ -31,5 +31,11 @@ For all debian versions run on the top level directory:
 
 make update-apt
 
+
+#################################################
+# upgrade debian version numbers
+#
+perl -i.bak  -npe 's/^(Version: [\d.]+\.)(\d+)/sprintf("%s%s",$1, $2+1)/e' wheezy/equivs/bbbike-world-debian-meta
+
 --
-June 2014
+Aug 2014
