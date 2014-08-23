@@ -1050,7 +1050,7 @@ DEB_REPO?=  deb-repo
 #
 # don't forget to run deb-clean first
 # --requiredeps
-deb-perl: deb-clean
+deb-perl: deb-clean perl-cpan
 	mkdir -p ${DEB_DIR}
 	set -e; cd ${DEB_DIR}; \
 	for i in ${DEB_PACKAGES}; do \
@@ -1059,6 +1059,9 @@ deb-perl: deb-clean
 	ls -l ${DEB_DIR}/*.deb
 	echo "Number of deps: $$(ls ${DEB_DIR} | egrep '*.deb$$' | wc -l)"
 	if test -n "${DEB_REPO}"; then ${MAKE} deb-repo; fi
+
+perl-cpan:
+	PERL_MB_OPT="--install_base $HOME/perl5" PERL_MM_OPT="INSTALL_BASE=$HOME/perl5" cpan ${DEB_PACKAGES}
 
 deb-equivs: deb-clean
 	mkdir -p ${DEB_DIR}
