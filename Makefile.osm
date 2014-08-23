@@ -1061,7 +1061,7 @@ deb-perl: deb-clean perl-cpan
 	if test -n "${DEB_REPO}"; then ${MAKE} deb-repo; fi
 
 perl-cpan:
-	PERL_MB_OPT="--install_base $HOME/perl5" PERL_MM_OPT="INSTALL_BASE=$HOME/perl5" cpan ${DEB_PACKAGES}
+	PERL_MB_OPT="--install_base $$HOME/perl5" PERL_MM_OPT="INSTALL_BASE=$$HOME/perl5" cpan ${DEB_PACKAGES}
 
 deb-equivs: deb-clean
 	mkdir -p ${DEB_DIR}
