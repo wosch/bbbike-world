@@ -7,6 +7,11 @@ BEGIN {
         print "1..0 # skip no osmium2shape found, skip tests\n";
         exit;
     }
+
+    if ( $ENV{BBBIKE_TEST_LOW_MEMORY} ) {
+        print "1..0 # skip due no low memory\n";
+        exit;
+    }
 }
 
 use FindBin;
