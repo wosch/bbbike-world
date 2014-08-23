@@ -38,6 +38,7 @@ Depends: pbzip2, bzip2, xz-utils, git-core, screen, lynx, curl, wget, time,
  google-sitemapgen, ltrace, libintl-perl, iotop, iftop, libdatetime-perl,
  libdata-random-perl, libtest-data-perl, libimage-info-perl, libmath-polygon-perl,
  libwww-mechanize-formfiller-perl, libaccessors-perl, libxml-atom-simplefeed-perl,
- libdevel-nytprof-perl, libtest-most-perl, libmodule-build-perl
+ libdevel-nytprof-perl, libtest-most-perl, libmodule-build-perl,
+ libtest-fatal-perl
 Description: BBBike @ World standard debian packages
  BBBike @ World standard debian packages
