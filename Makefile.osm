@@ -1057,7 +1057,7 @@ deb-perl: deb-clean
 	done
 	ls -l ${DEB_DIR}/*.deb
 	echo "Number of deps: $$(ls ${DEB_DIR} | egrep '*.deb$$' | wc -l)"
-	${MAKE} deb-repo
+	#${MAKE} deb-repo
 
 deb-equivs: deb-clean
 	mkdir -p ${DEB_DIR}
@@ -1066,7 +1066,7 @@ deb-equivs: deb-clean
 	    equivs-build $$i; \
 	done
 	ls -l ${DEB_DIR}/*.deb
-	${MAKE} deb-repo
+	#${MAKE} deb-repo
 
 deb-bin: deb-repo-dir
 	${MAKE} -C./world/etc/apt/${DEB_RELEASE}/deb -f ../../Makefile.deb DEB_RELEASE=${DEB_RELEASE} DEB_VENDOR=${DEB_VENDOR} $@
