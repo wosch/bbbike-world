@@ -8,6 +8,7 @@ DEB_RELEASE=	trusty
 DEB_REPO_DIR=   /usr/local/www/debian.bbbike.org/${DEB_VENDOR}
 LIB=	bbbike-world-javalibs
 COPY_DEB?=	false
+DEB_REPO?=	deb-repo
 
 all: help
 
@@ -34,8 +35,8 @@ deb-repo:
 	fi
 
 deb-bin:
-	${MAKE} -f ../../Makefile.deb LIB=bbbike-world-bin distclean build deb-repo
-	${MAKE} -f ../../Makefile.deb LIB=bbbike-world-javalibs distclean build deb-repo
+	${MAKE} -f ../../Makefile.deb LIB=bbbike-world-bin distclean build ${DEB_REPO}
+	${MAKE} -f ../../Makefile.deb LIB=bbbike-world-javalibs distclean build ${DEB_REPO}
 
 help:
 	@echo ""

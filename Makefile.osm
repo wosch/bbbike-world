@@ -1041,6 +1041,7 @@ DEB_PACKAGES=	$(shell ${PERL} -npe 's/\#.*//' ${DEB_MODULE_LIST})
 DEB_CONTROLS=	$(shell ${MAKE} -s -Cworld/etc/apt/${DEB_RELEASE}/equivs)
 DEB_REPO_DIR=	/usr/local/www/debian.bbbike.org/${DEB_VENDOR}
 DEB_OPT_DIR=	/var/lib/bbbike/opt
+DEB_REPO?=  deb-repo
 
 # 
 # basically, we run:
@@ -1057,7 +1058,7 @@ deb-perl: deb-clean
 	done
 	ls -l ${DEB_DIR}/*.deb
 	echo "Number of deps: $$(ls ${DEB_DIR} | egrep '*.deb$$' | wc -l)"
-	#${MAKE} deb-repo
+	if test -n "${DEB_REPO}"; then ${MAKE} deb-repo; fi
 
 deb-equivs: deb-clean
 	mkdir -p ${DEB_DIR}
@@ -1066,7 +1067,7 @@ deb-equivs: deb-clean
 	    equivs-build $$i; \
 	done
 	ls -l ${DEB_DIR}/*.deb
-	#${MAKE} deb-repo
+	if test -n "${DEB_REPO}"; then ${MAKE} deb-repo; fi
 
 deb-bin: deb-repo-dir
 	${MAKE} -C./world/etc/apt/${DEB_RELEASE}/deb -f ../../Makefile.deb DEB_RELEASE=${DEB_RELEASE} DEB_VENDOR=${DEB_VENDOR} $@
