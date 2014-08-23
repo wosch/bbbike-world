@@ -3,7 +3,7 @@ Priority: optional
 Standards-Version: 3.6.2
 
 Package: bbbike-world-debian-meta
-Version: 1.1.20
+Version: 1.1.21
 Maintainer: Wolfram Schneider <wosch@freebsd.org>
 Depends: pbzip2, bzip2, xz-utils, git-core, screen, lynx, curl, wget, time,
  lsof, whois, pigz, make, acct, telnet, dnsutils, bc, sysstat, buffer,
@@ -19,7 +19,7 @@ Depends: pbzip2, bzip2, xz-utils, git-core, screen, lynx, curl, wget, time,
  libxml-twig-perl, libipc-run-perl, libimage-info-perl, libwww-mechanize-perl,
  libemail-mime-perl, libdbi-perl, libobject-realize-later-perl, libmldbm-perl,
  libclass-accessor-perl, libarchive-zip-perl, libtemplate-perl,
- libdata-compare-perl, libgd2-xpm, libgd2-xpm-dev, libgd-gd2-perl,
+ libdata-compare-perl, libgd2-xpm-dev, libgd-gd2-perl,
  ttf-bitstream-vera, ttf-dejavu, libtext-table-perl, libpdf-create-perl,
  libcairo-perl, libpango-perl, libfont-afm-perl, libtest-number-delta-perl,
  libimager-perl, netpbm, libgd-gd2-perl, ttf-bitstream-vera, ttf-dejavu,
