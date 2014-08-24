@@ -2,7 +2,7 @@
 # Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
-    system( "which", "osmium2shape" );
+    system("which osmium2shape >/dev/null");
     if ($?) {
         print "1..0 # skip no osmium2shape found, skip tests\n";
         exit;
@@ -11,6 +11,17 @@ BEGIN {
     if ( $ENV{BBBIKE_TEST_LOW_MEMORY} ) {
         print "1..0 # skip due no low memory\n";
         exit;
+    }
+
+    # run only if we have more than 1.8GB RAM
+    if ( -e "/proc/meminfo" ) {
+        system(
+q[egrep '^MemTotal: ' /proc/meminfo | awk '{ if ($2 > 1.8 * 1000000) { exit 0 } else { exit 1 }}']
+        );
+        if ($?) {
+            print "1..0 # skip due less than 1.8GB memory\n";
+            exit;
+        }
     }
 }
 

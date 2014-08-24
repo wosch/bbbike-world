@@ -1037,7 +1037,9 @@ DEB_VENDOR=debian
 DEB_TMP=tmp/deb
 DEB_DIR=${DEB_TMP}/${DEB_VENDOR}/${DEB_RELEASE}
 DEB_MODULE_LIST=world/etc/apt/${DEB_RELEASE}/perl-modules.txt
+DEB_MODULE_LIST_DEVEL=world/etc/apt/${DEB_RELEASE}/perl-modules-devel.txt
 DEB_PACKAGES=	$(shell ${PERL} -npe 's/\#.*//' ${DEB_MODULE_LIST})
+DEB_PACKAGES_DEVEL=	$(shell ${PERL} -npe 's/\#.*//' ${DEB_MODULE_LIST_DEVEL})
 DEB_CONTROLS=	$(shell ${MAKE} -s -Cworld/etc/apt/${DEB_RELEASE}/equivs)
 DEB_REPO_DIR=	/usr/local/www/debian.bbbike.org/${DEB_VENDOR}
 DEB_OPT_DIR=	/var/lib/bbbike/opt
@@ -1061,7 +1063,9 @@ deb-perl: deb-clean perl-cpan
 	if test -n "${DEB_REPO}"; then ${MAKE} deb-repo; fi
 
 perl-cpan:
-	PERL_MB_OPT="--install_base $$HOME/perl5" PERL_MM_OPT="INSTALL_BASE=$$HOME/perl5" PERL5LIB="$$HOME/perl5/lib/perl5" cpan ${DEB_PACKAGES}
+	PERL_MB_OPT="--install_base $$HOME/perl5" PERL_MM_OPT="INSTALL_BASE=$$HOME/perl5" \
+	  PERL5LIB="$$HOME/perl5/lib/perl5" \
+	  cpan ${DEB_PACKAGES_DEVEL} ${DEB_PACKAGES}
 
 deb-equivs: deb-clean
 	mkdir -p ${DEB_DIR}
