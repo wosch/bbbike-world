@@ -1,0 +1,34 @@
+#!/bin/sh
+# Copyright (c) 2014 Wolfram Schneider, http://bbbike.org
+#
+# deb2deb - fix debian perl pages
+#
+# ar tv libarray-heap-perl_3.0-1_amd64.deb
+# rw-r--r-- 0/0      4 Aug 24 07:19 2014 debian-binary
+# rw-r--r-- 0/0   1054 Aug 24 07:19 2014 control.tar.gz
+# rw-r--r-- 0/0  23068 Aug 24 07:19 2014 data.tar.gz
+#
+# extract a debian archive, clean it up and build it again
+#
+# supported: remove perllocal.pod file, broken MakeMaker module
+
+set -e
+deb=$1
+
+tmp_dir=$(mktemp -d -t "deb.XXXXXXXXXXX")
+scratch_dir=$tmp_dir/1
+mkdir $scratch_dir
+
+ar p $deb debian-binary > $tmp_dir/debian-binary
+ar p $deb control.tar.gz > $tmp_dir/control.tar.gz
+ar p $deb data.tar.gz | ( 
+ cd $scratch_dir && tar --exclude=perllocal.pod -zxf - 
+ tar cf - . | gzip > $tmp_dir/data.tar.gz
+)
+
+( cd $tmp_dir; ar -rc deb.deb debian-binary control.tar.gz data.tar.gz )
+cp $tmp_dir/deb.deb $deb.tmp
+mv -f $deb.tmp $deb
+
+rm -rf $tmp_dir
+
