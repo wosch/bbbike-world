@@ -17,6 +17,10 @@ which xz >/dev/null
 which gzip >/dev/null
 
 deb=$1
+if ! [ -n "$deb" -a -e $deb ]; then
+    echo "Deb file '$deb' does not exists"
+    exit 2
+fi
 
 tmp_dir=$(mktemp -d -t "deb.XXXXXXXXXXX")
 scratch_dir=$tmp_dir/1
@@ -26,18 +30,21 @@ ar p $deb debian-binary > $tmp_dir/debian-binary
 ar p $deb control.tar.gz > $tmp_dir/control.tar.gz
 
 if ar t $deb | egrep -q '^data.tar.gz$'; then
-   ar p $deb data.tar.gz | gzip -dc > $tmp_dir/data.tar 
-else if ar t $deb | egrep -q '^data.tar.xz$'; then
-   ar p $deb data.tar.xz | xz -dc > $tmp_dir/data.tar 
-else
-   echo "Unknown data.tar format"
-   ar t $deb
-   exit
+    ar p $deb data.tar.gz | gzip -dc > $tmp_dir/data.tar 
+fi
+if ar t $deb | egrep -q '^data.tar.xz$'; then
+    ar p $deb data.tar.xz | xz -dc > $tmp_dir/data.tar 
+fi
+
+if [ ! -e  $tmp_dir/data.tar ]; then
+    echo "Unknown data.tar format"
+    ar t $deb
+    exit
 fi
 
 ( 
   cd $scratch_dir
-  tar --exclude=perllocal.pod -f $tmp_dir/data.tar 
+  tar --exclude=perllocal.pod -xf $tmp_dir/data.tar 
   tar cf - . | gzip > $tmp_dir/data.tar.gz
 )
 
