@@ -1320,7 +1320,7 @@ help:
 	@echo "  [ deb-perl | deb-equivs | deb-bin ]"
 	@echo "  [ deb-clean | deb-repo | deb-repo-upload | update-apt ]"
 	@echo "  [ DEB_VENDOR=ubuntu DEB_RELEASE=precise deb-perl deb-equivs deb-bin deb-repo-upload ]"
-	@echo "  [ DEB_REPO= make update-apt-$$(hostname) ]"
+	@echo "  [ DEB_REPO= make update-apt-\$$(hostname) ]"
 	@echo "  [ DEB_REPO= make UPDATE_APT=deb-perl update-apt-$$(hostname) ]"
 	@echo ""
 	@echo "  [ debian-bootstrap | bbbike-bootstrap | bbbike-c ]"
