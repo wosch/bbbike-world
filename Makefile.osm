@@ -1044,7 +1044,8 @@ DEB_PACKAGES_DEVEL=	$(shell ${PERL} -npe 's/\#.*//' ${DEB_MODULE_LIST_DEVEL})
 DEB_CONTROLS=	$(shell ${MAKE} -s -Cworld/etc/apt/${DEB_RELEASE}/equivs)
 DEB_REPO_DIR=	/usr/local/www/debian.bbbike.org/${DEB_VENDOR}
 DEB_OPT_DIR=	/var/lib/bbbike/opt
-DEB_REPO?=  deb-repo
+DEB_REPO?= deb-repo
+COPY_DEB?= false
 
 # 
 # basically, we run:
