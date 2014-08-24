@@ -43,6 +43,17 @@ my %formats = (
     "--mapsforge-osm"  => 1
 );
 
+# run shape files only if we have more than 1.8GB RAM
+if ( -e "/proc/meminfo" ) {
+    system(
+q[egrep '^MemTotal: ' /proc/meminfo | awk '{ if ($2 > 1.8 * 1000000) { exit 0 } else { exit 1 }}']
+    );
+    if ($?) {
+        print "1..0 # skip pbf2osm --shape due less than 1.8GB memory\n";
+        delete $formats{"--shape"};
+    }
+}
+
 plan tests => 1 + scalar( keys %formats );
 
 sub md5_file {
