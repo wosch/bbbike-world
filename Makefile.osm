@@ -1328,7 +1328,7 @@ help:
 	@echo "  [ build-runtime | git-fetch ]"
 	@echo "  [ check | check-world | check-full | check-failed ]"
 	@echo ""
-	@echo "failed install/cache:"
+	@echo "after failed install/cache update:"
 	@echo "bbbike_download= bbbike_extract= bbbike_convert= bbbike_install= make update-database"
 
 	@echo ""
