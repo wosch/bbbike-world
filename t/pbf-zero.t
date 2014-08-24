@@ -4,12 +4,6 @@
 # check pbf2osm results for a *.pbf with zero file size
 #
 
-BEGIN { }
-
-use FindBin;
-use lib ( "$FindBin::RealBin/..", "$FindBin::RealBin/../lib",
-    "$FindBin::RealBin", );
-
 use Getopt::Long;
 use Data::Dumper qw(Dumper);
 use Test::More;
@@ -49,7 +43,7 @@ if ( -e "/proc/meminfo" ) {
 q[egrep '^MemTotal: ' /proc/meminfo | awk '{ if ($2 > 1.8 * 1000000) { exit 0 } else { exit 1 }}']
     );
     if ($?) {
-        print "1..0 # skip pbf2osm --shape due less than 1.8GB memory\n";
+        warn "1..0 # skip pbf2osm --shape due less than 1.8GB memory\n";
         delete $formats{"--shape"};
     }
 }
@@ -89,5 +83,7 @@ foreach my $format ( sort keys %formats ) {
     system(qq[world/bin/pbf2osm $format $pbf_file > $tempfile]);
     is( $? == 0 ? 0 : 1, $formats{$format}, "pbf2osm $format" );
 }
+
+1;
 
 __END__
