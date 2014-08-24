@@ -1204,23 +1204,23 @@ update-apt: update-apt-squeeze update-apt-wheezy update-apt-jessie \
 
 # debian6/squeeze
 update-apt-squeeze update-apt-debian6:
-	make DEB_VENDOR=debian DEB_RELEASE=squeeze ${UPDATE_APT}
+	${MAKE} DEB_VENDOR=debian DEB_RELEASE=squeeze ${UPDATE_APT}
 
 # debian7/wheezy
 update-apt-wheezy update-apt-debian7:
-	make DEB_VENDOR=debian DEB_RELEASE=wheezy  ${UPDATE_APT}
+	${MAKE} DEB_VENDOR=debian DEB_RELEASE=wheezy  ${UPDATE_APT}
 
 # debian8/jessie
 update-apt-jessie update-apt-debian8:
-	make DEB_VENDOR=debian DEB_RELEASE=jessie  ${UPDATE_APT}
+	${MAKE} DEB_VENDOR=debian DEB_RELEASE=jessie  ${UPDATE_APT}
 
 # ubuntu12
 update-apt-precise update-apt-ubuntu update-apt-ubuntu12:
-	make DEB_VENDOR=ubuntu DEB_RELEASE=precise ${UPDATE_APT}
+	${MAKE} DEB_VENDOR=ubuntu DEB_RELEASE=precise ${UPDATE_APT}
 
 # ubuntu14
 update-apt-trusty update-apt-ubuntu14:
-	make DEB_VENDOR=ubuntu DEB_RELEASE=trusty  ${UPDATE_APT}
+	${MAKE} DEB_VENDOR=ubuntu DEB_RELEASE=trusty  ${UPDATE_APT}
 
 
 #
