@@ -1077,6 +1077,7 @@ deb-equivs: deb-clean
 	for i in ${DEB_CONTROLS}; do \
 	    equivs-build $$i; \
 	done
+	for i in ${LIB_DIR}/*.deb; do world/bin/deb2deb $$i; done
 	ls -l ${DEB_DIR}/*.deb
 	if test -n "${DEB_REPO}"; then ${MAKE} deb-repo; fi
 
