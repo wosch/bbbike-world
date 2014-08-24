@@ -1322,7 +1322,7 @@ help:
 	@echo "  [ DEB_VENDOR=ubuntu DEB_RELEASE=precise deb-perl deb-equivs deb-bin deb-repo-upload ]"
 	@echo "  [ DEB_REPO= make update-apt-\$$(hostname) ]"
 	@echo "  [ DEB_REPO= make UPDATE_APT=deb-perl update-apt-$$(hostname) ]"
-	@echo "  [ sudo apt-get cache && sudo apt-get update && sudo apt-get dist-upgrade -y ]"
+	@echo "  [ sudo apt-get clean && sudo apt-get update && sudo apt-get dist-upgrade -y ]"
 	@echo ""
 	@echo "  [ debian-bootstrap | bbbike-bootstrap | bbbike-c ]"
 	@echo "  [ build-runtime | git-fetch ]"
