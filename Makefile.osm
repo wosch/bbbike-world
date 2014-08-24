@@ -1111,6 +1111,9 @@ deb-repo: deb-repo-dir
 
 deb-repo-upload:
 	find ${DEB_TMP}/ ! -name '*.deb' -type f| xargs rm -f
+	for i in $$(find ${DEB_TMP}/ -name '*.deb' -type f ); do \
+	   world/bin/deb2deb $$i; \
+	done
 	rsync -m -azv ${DEB_TMP} debian.bbbike.org:projects/bbbike/tmp	
 	@echo "Now run:"
 	ssh debian.bbbike.org 'cd projects/bbbike && make DEB_VENDOR=${DEB_VENDOR} DEB_RELEASE=${DEB_RELEASE} deb-repo'
