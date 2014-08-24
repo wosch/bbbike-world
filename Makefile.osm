@@ -1116,7 +1116,7 @@ deb-repo-upload:
 	done
 	rsync -m -azv ${DEB_TMP} debian.bbbike.org:projects/bbbike/tmp	
 	@echo "Now run:"
-	ssh debian.bbbike.org 'cd projects/bbbike && make DEB_VENDOR=${DEB_VENDOR} DEB_RELEASE=${DEB_RELEASE} deb-repo'
+	ssh debian.bbbike.org 'cd ~/projects/bbbike && make DEB_VENDOR=${DEB_VENDOR} DEB_RELEASE=${DEB_RELEASE} deb-repo'
 
 deb-bootstrap debian-bootstrap: deb-bootstrap-rsync deb-bootstrap-dir
 bbbike-bootstrap: bbbike-partition debian-bootstrap update-files install-backend-lighttpd
