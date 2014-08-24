@@ -151,7 +151,7 @@ convert-bbbike-full: build-runtime-perl
 	rm -f ${DATA_OSM_BBBIKE_DIR}/*/opensearch.*
 	rm -f ${DATA_OSM_BBBIKE_DIR}/*/_*
 	rm -f ${DATA_OSM_BBBIKE_DIR}/*/*.gz
-	for i in ${CITIES}; do \
+	set -e; for i in ${CITIES}; do \
 	   ( cd ${DATA_OSM_BBBIKE_DIR}; tar cf - $$i | ${BZIP2} > $$i.tbz.tmp; mv -f $$i.tbz.tmp $$i.tbz; \
 	     rm -rf $$i ); \
 	done
@@ -206,6 +206,7 @@ cities-osm: _cities-osm
 
 # if an extract does not exists localy, try to fetch it from the web
 fetch-extracts fetch:
+	set -e; \
 	for i in ${CITIES}; do \
 	   if [ ! -e ${OSM_DIR}/$$i/$$i.osm.pbf ]; then \
 	      mkdir -p ${OSM_DIR}/$$i; \
