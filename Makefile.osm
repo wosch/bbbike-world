@@ -1101,6 +1101,9 @@ deb-repo-dir:
 	fi
 	
 deb-repo: deb-repo-dir
+	for i in ${DEB_DIR}/*.deb; do \
+	  world/bin/deb2deb $$i; \
+	done
 	dpkg-sig -k 3D084B60 --sign builder ${DEB_DIR}/*.deb
 	set -e; pwd=`pwd`; cd ${DEB_REPO_DIR}/${DEB_RELEASE}; \
 	for i in $$pwd/${DEB_DIR}/*.deb; do \
@@ -1111,9 +1114,6 @@ deb-repo: deb-repo-dir
 
 deb-repo-upload:
 	find ${DEB_TMP}/ ! -name '*.deb' -type f| xargs rm -f
-	for i in $$(find ${DEB_TMP}/ -name '*.deb' -type f ); do \
-	   world/bin/deb2deb $$i; \
-	done
 	rsync -m -azv ${DEB_TMP} debian.bbbike.org:projects/bbbike/tmp	
 	@echo "Now run:"
 	ssh debian.bbbike.org 'cd ~/projects/bbbike && make DEB_VENDOR=${DEB_VENDOR} DEB_RELEASE=${DEB_RELEASE} deb-repo'
