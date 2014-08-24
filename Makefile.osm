@@ -1323,6 +1323,7 @@ help:
 	@echo "  [ DEB_REPO= make update-apt-\$$(hostname) ]"
 	@echo "  [ DEB_REPO= make UPDATE_APT=deb-perl update-apt-$$(hostname) ]"
 	@echo "  [ sudo apt-get clean && sudo apt-get update && sudo apt-get dist-upgrade -y ]"
+	@echo "  [ sudo apt-get install bbbike-world ]"
 	@echo ""
 	@echo "  [ debian-bootstrap | bbbike-bootstrap | bbbike-c ]"
 	@echo "  [ build-runtime | git-fetch ]"
