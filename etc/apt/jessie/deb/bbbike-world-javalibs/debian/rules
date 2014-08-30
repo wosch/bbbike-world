@@ -13,11 +13,11 @@ export DH_OPTIONS
 ########################################################################
 # the tarballs must exists in /usr/local/www/debian.bbbike.org/src
 #
-JAVALIBS_OSMAND=	OsmAndMapCreator-development-2012-11-17.tar.gz
-JAVALIBS_MKGMAP=	mkgmap-r2659.tar.gz
-JAVALIBS_OSMOSIS=	osmosis-0.40.1.tar.gz
-JAVALIBS_MAPSFORGE=	mapsforge-0.3.0.tar.gz
-JAVALIBS_SPLITTER=	splitter-r306.tar.gz
+JAVALIBS_OSMAND=	OsmAndMapCreator-development-2014-08-30.tar.gz
+JAVALIBS_MKGMAP=	mkgmap-r3333.tar.gz
+JAVALIBS_OSMOSIS=	osmosis-0.43.1
+JAVALIBS_MAPSFORGE=	mapsforge-0.4.3.tar.gz 
+JAVALIBS_SPLITTER=	splitter-r412.tar.gz
 
 JAVALIBS_TARBALL=	${JAVALIBS_OSMAND} ${JAVALIBS_MKGMAP} ${JAVALIBS_OSMOSIS} ${JAVALIBS_MAPSFORGE} ${JAVALIBS_SPLITTER}
 			
