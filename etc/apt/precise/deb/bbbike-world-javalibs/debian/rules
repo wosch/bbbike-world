@@ -15,7 +15,7 @@ export DH_OPTIONS
 #
 JAVALIBS_OSMAND=	OsmAndMapCreator-development-2014-08-30.tar.gz
 JAVALIBS_MKGMAP=	mkgmap-r3333.tar.gz
-JAVALIBS_OSMOSIS=	osmosis-0.43.1
+JAVALIBS_OSMOSIS=	osmosis-0.43.1.tar.gz
 JAVALIBS_MAPSFORGE=	mapsforge-0.4.3.tar.gz 
 JAVALIBS_SPLITTER=	splitter-r412.tar.gz
 
@@ -37,14 +37,14 @@ install:
 	#dh_installdirs
 
 	mkdir -p $(CURDIR)/debian/src
-	cd $(CURDIR)/debian/src; \
+	set -e; cd $(CURDIR)/debian/src; \
 	  for i in ${JAVALIBS_TARBALL}; do \
 		test -e $$i || wget ${HOMEPAGE_TARBALL}/src/$$i; \
 	  done
 
 	rm -rf $(CURDIR)/debian/tmp/${JAVALIBS_DIR}
 	mkdir -p $(CURDIR)/debian/tmp/${JAVALIBS_DIR}
-	for i in ${JAVALIBS_TARBALL}; do \
+	set -e; for i in ${JAVALIBS_TARBALL}; do \
 	  gzip -dc $(CURDIR)/debian/src/$$i | tar -C$(CURDIR)/debian/tmp/${JAVALIBS_DIR} -xvf -; \
 	done
 
