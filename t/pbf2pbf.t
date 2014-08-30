@@ -43,8 +43,8 @@ if ( !-f $pbf_file ) {
 
 my $pbf_file2 = 'world/t/data-osm/tmp/Cusco2.osm.pbf';
 my $pbf_md5   = "6dc9df64ddc42347bbb70bc134b4feda";
-my $pbf2_md5  = "6dc9df64ddc42347bbb70bc134b4feda";
-my $osm_md5   = "d222cfe84480b8f0ac0081eaf6e2c2ce";
+my $pbf2_md5  = "e4166713890a2000975592edf54589eb";
+my $osm_md5   = "9bc169cd61d66537c54a67f83276c9a6";
 my $tempfile  = File::Temp->new( SUFFIX => ".osm" );
 
 is( $pbf_md5, md5_file($pbf_file), "md5 checksum matched: $pbf_file" );
