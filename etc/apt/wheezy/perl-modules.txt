@@ -10,3 +10,4 @@ Geo::Google::PolylineEncoder
 Kwalify
 Math::MatrixReal
 Object::Iterate
+Image::Info

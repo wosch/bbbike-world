@@ -30,10 +30,10 @@ MAX_HCPU=	`world/bin/ncpu hcpu`
 MAX_OSM2PBF=	1
 MAX_OSM2SHAPE=	${MAX_CPU}
 MAX_OSM2NAVIT=	${MAX_CPU}
-MAX_OSM2MAPSFORGE=${MAX_CPU}
 MAX_PBF2OSM=	${MAX_CPU2}
 MAX_OSM2OSMAND=	${MAX_CPU2}
 MAX_OSM2GARMIN=	${MAX_CPU2}
+MAX_OSM2MAPSFORGE=${MAX_CPU2}
 
 CURL_USER_AGENT=	-A "BBBike.org-CacheHeater/1.0" 
 
@@ -90,6 +90,9 @@ BBBIKE_API_SERVER	?= api.bbbike.org
 API_DIR=	api/0.2
 LOG_DIR=tmp
 BBBIKE_PARTITION=	/bbbike
+
+OSMOSIS_PLUGIN_DIR=$$HOME/.openstreetmap/osmosis/plugins
+
 
 # BBBIKE_RANDOM_FILES=1
 PROVE_FILES=	t/*.t world/t/*.t
@@ -1072,7 +1075,7 @@ deb-perl: deb-clean perl-cpan
 
 perl-cpan:
 	PERL_MB_OPT="--install_base $$HOME/perl5" PERL_MM_OPT="INSTALL_BASE=$$HOME/perl5" \
-	  PERL5LIB="$$HOME/perl5/lib/perl5" \
+	  PERL5LIB="$$HOME/perl5" \
 	  cpan ${DEB_PACKAGES_DEVEL} ${DEB_PACKAGES}
 
 deb-equivs: deb-clean
@@ -1151,7 +1154,7 @@ deb-bootstrap-rsync:
 	rsync -az ${BBBIKE_WEB_SERVER}:.gitconfig $$HOME
 
 # post debian package configuration
-deb-bootstrap-dir:
+deb-bootstrap-dir: osmosis-bootstrap
 	set -e; cd ${DEB_OPT_DIR}/bin; \
 	   for i in *; do \
 	     test -e /usr/local/bin/$$i || sudo ln -fs ${DEB_OPT_DIR}/bin/$$i /usr/local/bin/$$i; \
@@ -1167,6 +1170,12 @@ deb-bootstrap-dir:
 	sudo mkdir -p /bbbike/tmp /tmpfs
 	sudo chmod 7777 /bbbike/tmp /tmpfs
 	${MAKE} -f world/Makefile.osm bbbike-c
+
+osmosis-bootstrap:
+	mkdir -p ${OSMOSIS_PLUGIN_DIR}
+	cd ${OSMOSIS_PLUGIN_DIR}; \
+	  rm -f mapsforge-map-writer-*.jar; \
+	  ln -fs ${DEB_OPT_DIR}/mapsforge/mapsforge-map-writer-*.jar .
 
 bbbike-c:
 	${MAKE} -s -C./ext all install >/dev/null 2>&1
@@ -1329,8 +1338,8 @@ help:
 	@echo "  [ deb-clean | deb-repo | deb-repo-upload | update-apt ]"
 	@echo "  [ DEB_VENDOR=ubuntu DEB_RELEASE=precise deb-perl deb-equivs deb-bin deb-repo-upload ]"
 	@echo "  [ DEB_REPO= make update-apt-\$$(hostname) ]"
-	@echo "  [ DEB_REPO= make UPDATE_APT=deb-perl update-apt-$$(hostname) ]"
-	@echo "  [ DEB_REPO= COPY_DEB=true make UPDATE_APT=deb-bin update-apt-$$(hostname) ]"
+	@echo "  [ DEB_REPO= make UPDATE_APT='deb-perl deb-repo-upload' update-apt-\$$(hostname) ]"
+	@echo "  [ DEB_REPO= COPY_DEB=true make UPDATE_APT=deb-bin update-apt-\$$(hostname) ]"
 	@echo "  [ sudo apt-get clean && sudo apt-get update && sudo apt-get dist-upgrade -y ]"
 	@echo "  [ sudo apt-get install bbbike-world ]"
 	@echo ""

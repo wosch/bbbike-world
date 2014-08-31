@@ -87,7 +87,7 @@ fi
 : ${TMPDIR=$_tmp}
 
 
-tmpdir=`mktemp -d ${TMPDIR}/mapsforge.$(basename $ext .zip).XXXXXXXXXXX`
+tmpdir=`mktemp -d ${TMPDIR}/osm2mapsforge.$(basename $ext .zip).XXXXXXXXXXX`
 TMPDIR=$tmpdir; export TMPDIR
 OSMOSIS_TMPDIR="-Djava.io.tmpdir=${TMPDIR}"; export OSMOSIS_TMPDIR
 

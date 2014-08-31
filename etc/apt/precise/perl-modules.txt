@@ -6,3 +6,4 @@ Geo::Google::PolylineEncoder
 Kwalify
 Object::Iterate
 Array::Heap
+Image::Info
