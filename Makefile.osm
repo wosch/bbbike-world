@@ -1093,6 +1093,7 @@ deb-bin: deb-repo-dir
 
 deb-clean:
 	rm -rf ${DEB_DIR}
+	${MAKE} -C./world/etc/apt/${DEB_RELEASE}/deb -f ../../Makefile.deb DEB_RELEASE=${DEB_RELEASE} DEB_VENDOR=${DEB_VENDOR} distclean
 
 deb-distclean: deb-clean
 	rm -rf ${DEB_TMP}
