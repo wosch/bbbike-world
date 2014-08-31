@@ -7,6 +7,12 @@ BEGIN {
         print "1..0 # no running munin daemon found, skip tests\n";
         exit;
     }
+
+    my $logfile = "/var/log/lighttpd/bbbike.log";
+    if (! -f $logfile) {
+        print "1..0 # no $logfile found, not in production yet?\n";
+	exit;
+    }
 }
 
 use Test::More;
