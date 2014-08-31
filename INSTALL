@@ -12,6 +12,7 @@ curl -sSfL https://github.com/wolframschneider/bbbike/raw/world/world/bin/bbbike
 curl -sSfL https://github.com/wolframschneider/bbbike/raw/world/world/bin/bbbike-checkout > bbbike-checkout
 chmod a+x bbbike-checkout bbbike-tarball
 ./bbbike-tarball
+./bbbike-checkout
 
 
 Required debian modules
