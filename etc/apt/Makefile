@@ -40,8 +40,8 @@ deb-repo:
 	  reprepro --ignore=undefinedtarget -Vb . includedeb ${DEB_RELEASE} $$pwd/${LIB}*.deb
 
 deb-bin:
-	${MAKE} -f ../../Makefile.deb LIB=bbbike-world-bin distclean build ${DEB_REPO}
-	${MAKE} -f ../../Makefile.deb LIB=bbbike-world-javalibs distclean build ${DEB_REPO}
+	${MAKE} -f ../../Makefile LIB=bbbike-world-bin distclean build ${DEB_REPO}
+	${MAKE} -f ../../Makefile LIB=bbbike-world-javalibs distclean build ${DEB_REPO}
 
 help:
 	@echo ""
