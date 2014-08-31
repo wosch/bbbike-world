@@ -148,7 +148,8 @@ log_full 'api.bbbike.org/[^/]+/' | egrep -v 'http://api.bbbike.org/robots.txt ' 
 echo ""
 echo "api.bbbike.org hosts: "
 log_full 'api.bbbike.org/api/[^/]+/' | egrep -v 'http://api.bbbike.org/robots.txt ' | egrep 'HTTP/1.1" 200 ' |
-        awk '{print $1, $7 }' | perl $perl_utf8 -npe 's/\?.*//; s,/cgi/,,; s,(\.en)?\.cgi,,;' |
+        awk '{print $1, $7 }' | egrep -v '/location.cgi' |
+	perl $perl_utf8 -npe 's/\?.*?(appid=[^ ;&]+).*/ $1/; s,/cgi/,,; s,(\.en)?\.cgi,,;' |
 	perl -npe 's,http://api.bbbike.org/api/0.2,,' |
         sort | uniq -c | sort -nr | head -40 | $dns
 echo ""
