@@ -9,9 +9,9 @@ BEGIN {
     }
 
     my $logfile = "/var/log/lighttpd/bbbike.log";
-    if (! -f $logfile) {
+    if ( !-f $logfile ) {
         print "1..0 # no $logfile found, not in production yet?\n";
-	exit;
+        exit;
     }
 }
 
