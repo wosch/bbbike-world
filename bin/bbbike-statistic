@@ -124,30 +124,31 @@ log "$url_match.*?\?" | egrep -c 'start=[^&]+%2C1%5D&.*ziel=[^&]+%2C1%5D&'
 
 echo ""
 echo -n "api.bbbike.org appid: "
-log_full 'api.bbbike.org/' | perl -ne 'print "$1\n" if /appid=([^;&\s]+)/' | wc -l
-log_full 'api.bbbike.org/' | perl -ne 'print "$1\n" if /appid=([^;&\s]+)/' | sort | uniq -c | sort -nr
+log_full 'api.bbbike.org/api/[0-9]+\.[0-9]+/[A-Z][a-z]' | perl -ne 'print "$1\n" if /appid=([^;&\s]+)/' | wc -l
+log_full 'api.bbbike.org/api/[0-9]+\.[0-9]+/[A-Z][a-z]' | perl -ne 'print "$1\n" if /appid=([^;&\s]+)/' | sort | uniq -c | sort -nr
 
 echo ""
 echo -n "BBBike api city searches: "
-log_full 'api.bbbike.org/[^/]+/' | egrep -v 'http://api.bbbike.org/robots.txt ' | egrep 'HTTP/1.1" 200 ' | egrep '/api/0.2/[A-Z]' | wc -l
+log_full 'api.bbbike.org/api/[0-9]+\.[0-9]+/[A-Z][a-z]' | egrep 'HTTP/1.1" 200 ' | wc -l
 echo -n "BBBike api city count: "
-log_full 'api.bbbike.org/[^/]+/' | egrep -v 'http://api.bbbike.org/robots.txt ' | egrep 'HTTP/1.1" 200 ' | 
-	awk '{ print $7 }' | perl -npe 's,/\?.*,,; s,.*/,,' | egrep -v 'location.cgi' | sort -u | wc -l
-log_full 'api.bbbike.org/[^/]+/' | egrep -v 'http://api.bbbike.org/robots.txt ' | egrep 'HTTP/1.1" 200 ' | 
-	awk '{ print $7 }' | perl -npe 's,/\?.*,,; s,.*/,,' | egrep -v 'location.cgi' | sort | uniq -c | sort -nr
+log_full 'api.bbbike.org/api/[0-9]+\.[0-9]+/[A-Z][a-z]' | egrep 'HTTP/1.1" 200 ' | 
+	awk '{ print $7 }' | perl -npe 's,/\?.*,,; s,.*/,,' | sort -u | wc -l
+log_full 'api.bbbike.org/api/[0-9]+\.[0-9]+/[A-Z][a-z]' | egrep 'HTTP/1.1" 200 ' | 
+	awk '{ print $7 }' | perl -npe 's,/\?.*,,; s,.*/,,' | sort | uniq -c | sort -nr
 
 echo ""
 echo -n "api.bbbike.org UserAgent: "
-log_full 'api.bbbike.org/' | egrep -v 'http://api.bbbike.org/robots.txt ' | egrep 'HTTP/1.1" 200 ' | wc -l
-log_full 'api.bbbike.org/' | egrep -v 'http://api.bbbike.org/robots.txt ' | egrep 'HTTP/1.1" 200 ' | perl -npe 's,.*?"([^"]+)"$,$1,' | sort | uniq -c | sort -nr
+log_full 'api.bbbike.org/api/[0-9]+\.[0-9]+/[A-Z][a-z]' | egrep 'HTTP/1.1" 200 ' | wc -l
+log_full 'api.bbbike.org/api/[0-9]+\.[0-9]+/[A-Z][a-z]' | egrep 'HTTP/1.1" 200 ' | perl -npe 's,.*?"([^"]+)"$,$1,' | sort | uniq -c | sort -nr
 
 echo ""
 echo "api.bbbike.org format: "
-log_full 'api.bbbike.org/[^/]+/' | egrep -v 'http://api.bbbike.org/robots.txt ' | egrep 'HTTP/1.1" 200 ' | awk '{ print $7 }' | perl -ne 'print "$1\n" if /output_as=(.*?)[&;]/' | sort | uniq -c | sort -nr
+log_full 'api.bbbike.org/api/[0-9]+\.[0-9]+/[A-Z][a-z]' | egrep 'HTTP/1.1" 200 ' | 
+  awk '{ print $7 }' | perl -ne 'print "$1\n" if /output_as=(.*?)[&;]/' | sort | uniq -c | sort -nr
 
 echo ""
 echo "api.bbbike.org hosts: "
-log_full 'api.bbbike.org/api/[^/]+/' | egrep -v 'http://api.bbbike.org/robots.txt ' | egrep 'HTTP/1.1" 200 ' |
+log_full 'api.bbbike.org/api/[0-9]+\.[0-9]+/[A-Z][a-z]' | egrep 'HTTP/1.1" 200 ' |
         awk '{print $1, $7 }' | egrep -v '/location.cgi' |
 	perl $perl_utf8 -npe 's/\?.*?(appid=[^ ;&]+).*/ $1/; s,/cgi/,,; s,(\.en)?\.cgi,,;' |
 	perl -npe 's,http://api.bbbike.org/api/0.2,,' |
