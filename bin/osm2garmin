@@ -132,7 +132,7 @@ if [ -n "$mkgmap_map_type" ]; then
    test -e "$mkgmap_map_type" || usage "cannot find $mkgmap_map_type file"
 fi
 
-tmpdir=`mktemp -d ${TMPDIR-"/tmpfs"}/garmin.$(basename $ext .zip).XXXXXXXXXXX`
+tmpdir=`mktemp -d ${TMPDIR-"/tmpfs"}/osm2garmin.$(basename $ext .zip).XXXXXXXXXXX`
 
 # cleanup after signal, but show errors first
 trap '( sleep 1; rm -rf $tmpdir ) &' 1 2 15
