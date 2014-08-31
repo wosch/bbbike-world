@@ -91,6 +91,9 @@ API_DIR=	api/0.2
 LOG_DIR=tmp
 BBBIKE_PARTITION=	/bbbike
 
+OSMOSIS_PLUGIN_DIR=$$HOME/.openstreetmap/osmosis/plugins
+
+
 # BBBIKE_RANDOM_FILES=1
 PROVE_FILES=	t/*.t world/t/*.t
 
@@ -1167,6 +1170,12 @@ deb-bootstrap-dir:
 	sudo mkdir -p /bbbike/tmp /tmpfs
 	sudo chmod 7777 /bbbike/tmp /tmpfs
 	${MAKE} -f world/Makefile.osm bbbike-c
+
+osmosis-bootstrap:
+	mkdir -p ${OSMOSIS_PLUGIN_DIR}
+	cd ${OSMOSIS_PLUGIN_DIR}; \
+	  rm -f mapsforge-map-writer-*.jar; \
+	  ln -fs ${DEB_OPT_DIR}/mapsforge/mapsforge-map-writer-*.jar .
 
 bbbike-c:
 	${MAKE} -s -C./ext all install >/dev/null 2>&1
