@@ -48,6 +48,13 @@ q[egrep '^MemTotal: ' /proc/meminfo | awk '{ if ($2 > 1.8 * 1000000) { exit 0 } 
     }
 }
 
+if ( $ENV{BBBIKE_TEST_FAST} ) {
+    delete $formats{"--garmin-cycle"};
+    delete $formats{"--garmin-leisure"};
+    delete $formats{"--garmin-bbbike"};
+}
+delete $formats{"--garmin-bbbike"} if !$ENV{BBBIKE_TEST_LONG};
+
 plan tests => 1 + scalar( keys %formats );
 
 sub md5_file {
