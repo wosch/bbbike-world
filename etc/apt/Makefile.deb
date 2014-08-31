@@ -16,9 +16,14 @@ all: help
 clean:
 	rm -f ${LIB}*.tar.gz ${LIB}*.dsc ${LIB}*.changes
 
-distclean:
+distclean: clean
 	rm -f */debian.log *.deb
 	rm -f *.tar.gz *.changes *.dsc
+	rm -f */debian/debhelper.log
+	rm -f */debian/substvars
+	rm -f */debian/files
+	rm -rf */debian/src
+	rm -rf */debian/tmp
 
 build:
 	cd ${LIB}; \
