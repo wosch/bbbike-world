@@ -1,7 +1,7 @@
 cat << EOF
 Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
 Extracts created by BBBike, http://BBBike.org
-mapsforge map writer v0.3.0 by http://mapsforge.org
+mapsforge map writer 0.4.3 by http://mapsforge.org
 
 
 Please read the OSM wiki how to install the maps on your Android device:
