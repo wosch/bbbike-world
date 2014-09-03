@@ -445,6 +445,18 @@ function init() {
         noOpaq: true
     }));
 
+    map.addLayer(new OpenLayers.Layer.TMS("BBBike unknown", "/osm/bbbike-unknown/", {
+        type: 'png',
+        getURL: osm_getTileURL,
+        displayOutsideMaxExtent: true,
+        attribution: '<a href="http://bbbike.de/">BBBike</a>',
+        opacity: 1,
+        isBaseLayer: false,
+        visibility: false,
+        numZoomLevels: 19,
+        noOpaq: true
+    }));
+
     map.addLayer(new OpenLayers.Layer.TMS("BBBike unlit", "/osm/bbbike-unlit/", {
         type: 'png',
         getURL: osm_getTileURL,
