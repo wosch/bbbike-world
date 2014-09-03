@@ -128,6 +128,7 @@ our $option = {
         'osmand_version'    => 'OsmAndMapCreator-1.1.3',
         'mapsforge_version' => 'mapsforge-0.4.3',
         'navit_version'     => 'maptool-0.5.0~svn5126',
+        'shape_version'     => 'osmium2shape-1.0',
     }
 };
 
@@ -1099,6 +1100,8 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
           $option->{pbf2osm}->{mapsforge_version};
         $ENV{'BBBIKE_EXTRACT_NAVIT_VERSION'} =
           $option->{pbf2osm}->{navit_version};
+        $ENV{'BBBIKE_EXTRACT_SHAPE_VERSION'} =
+          $option->{pbf2osm}->{shape_version};
 
         ###################################################################
         # converted file name

@@ -1,7 +1,7 @@
 cat << EOF
 Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
 Extracts created by BBBike, http://BBBike.org
-osmium2shape by Geofabrik, http://geofabrik.de
+$BBBIKE_EXTRACT_SHAPE_VERSION by Geofabrik, http://geofabrik.de
 
 
 Please read the OSM wiki how to use shape files.
