@@ -1,7 +1,7 @@
 cat << EOF
 Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
 Extracts created by BBBike, http://BBBike.org
-mkgmap by http://www.mkgmap.org.uk
+$BBBIKE_EXTRACT_GARMIN_VERSION by http://www.mkgmap.org.uk
 
 Please read the OSM wiki how to install the maps on your GPS device:
 

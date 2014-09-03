@@ -1,7 +1,7 @@
 cat << EOF
 Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
 Extracts created by BBBike, http://BBBike.org
-Navit by http://www.navit-project.org
+$BBBIKE_EXTRACT_NAVIT_VERSION by http://www.navit-project.org
 
 
 Please read the Navit homepage and the wiki how to use Navit files:

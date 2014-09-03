@@ -122,6 +122,13 @@ our $option = {
     'bots'             => [qw/curl Wget/],
     'bots_detecation'  => 1,
     'bots_max_loadavg' => 3,
+
+    'pbf2osm' => {
+        'garmin_version'    => 'mkgmap-3334',
+        'osmand_version'    => 'OsmAndMapCreator-1.1.3',
+        'mapsforge_version' => 'mapsforge-0.4.3',
+        'navit_version'     => 'maptool-0.5.0~svn5126',
+    }
 };
 
 ######################################################################
@@ -1083,6 +1090,15 @@ sub _convert_send_email {
         $ENV{BBBIKE_EXTRACT_COORDS} =
 qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         $ENV{'BBBIKE_EXTRACT_LANG'} = $lang;
+
+        $ENV{'BBBIKE_EXTRACT_GARMIN_VERSION'} =
+          $option->{pbf2osm}->{garmin_version};
+        $ENV{'BBBIKE_EXTRACT_OSMAND_VERSION'} =
+          $option->{pbf2osm}->{osmand_version};
+        $ENV{'BBBIKE_EXTRACT_MAPSFORGE_VERSION'} =
+          $option->{pbf2osm}->{mapsforge_version};
+        $ENV{'BBBIKE_EXTRACT_NAVIT_VERSION'} =
+          $option->{pbf2osm}->{navit_version};
 
         ###################################################################
         # converted file name
