@@ -1,11 +1,15 @@
 #!/bin/sh
-# Copyright (c) 2012-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2014 Wolfram Schneider, http://bbbike.org
 #
 # pbf2pbf - wrapper to fix PBF format
 #
 # make sure all GPS points inside a rectangle of -180..-90 .. 180..90
 
 set -e
+
+if ! osmosis --version 2>&1 | egrep -q 'INFO: Osmosis Version 0\.40\.'; then
+    exit 0
+fi
 
 if [ -z "$1" ]; then
     echo >&2 "usage: $0 file...."
