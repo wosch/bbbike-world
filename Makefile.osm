@@ -621,7 +621,7 @@ bbbike-mapnik-config9 bbbike-mapnik-config:
 bbbike-mapnik-postgis8:
 	osm2pgsql --slim -S ${POSTGIS_STYLE} -c ${LOG_DIR}/bbbike-mapnik.osm.gz
 bbbike-mapnik-postgis bbbike-mapnik-postgis9:
-	osm2pgsql --slim -S ${POSTGIS_STYLE9} -c ${LOG_DIR}/bbbike-mapnik.osm.gz
+	osm2pgsql --cache-strategy sparse --cache=100 --slim -S ${POSTGIS_STYLE9} -c ${LOG_DIR}/bbbike-mapnik.osm.gz
 
 mapnik-restart:
 	sudo /etc/init.d/postgresql restart; sleep 0.5
