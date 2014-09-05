@@ -7,7 +7,8 @@
 
 set -e
 
-if ! osmosis --version 2>&1 | egrep -q 'INFO: Osmosis Version 0\.40\.'; then
+# run for osmosis 0.40.1 only
+if [ $(bbbike-osmosis-version) != '0.40.1' ]; then
     exit 0
 fi
 
