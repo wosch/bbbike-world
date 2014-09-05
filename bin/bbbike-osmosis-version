@@ -1,0 +1,4 @@
+#!/bin/sh
+
+osmosis --bbbike-fake-flag 2>&1 | egrep '^INFO: Osmosis Version ' | perl -npe 's/INFO: Osmosis Version //'
+
