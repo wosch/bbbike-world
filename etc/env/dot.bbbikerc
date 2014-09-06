@@ -8,7 +8,7 @@ export BBBIKE_TEST_SERVER="http://localhost:8080"
 export BBBIKE_TEST_CGIDIR="http://localhost:8080/cgi"
 export BBBIKE_TEST_CGIURL="http://localhost:8080/cgi/bbbike.cgi"
 export BBBIKE_TEST_HTMLDIR="http://localhost:8080"
-export BBBIKE_TEST_MAPSERVERURL="http://localhost:8080/cgi-bin/mapserv"
+export BBBIKE_TEST_MAPSERVERURL="http://localhost:8080/cgi/mapserv"
 export BBBIKE_TEST_WAPURL="http://localhost:8080/cgi/wapbbbike.cgi"
 
 export BBBIKE_TEST_ORG=1
