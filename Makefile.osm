@@ -188,13 +188,13 @@ OSMOSIS_BOUNDING_POLYGON=   clipIncompleteEntities=true
 OSMOSIS_BOUNDING_OPT= ${OSMOSIS_BOUNDING_POLYGON}
 #  completeWays=no completeRelations=no
 _osmosis_opt:
-	for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i/$$i.poly ${OSMOSIS_BOUNDING_OPT} --wx file=${OSM_DIR}/$$i/$$i.osm.gz"; done
+	for i in ${CITIES}; do printf " --bounding-polygon file=${OSM_DIR}/$$i/$$i.poly ${OSMOSIS_BOUNDING_OPT} --wx file=${OSM_DIR}/$$i/$$i.osm.gz"; done
 
 _osmosis_opt_pbf:
 	if [ "$$OSM_DIR_NOSUBDIR" = "true" ]; then \
-	  for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i.poly ${OSMOSIS_BOUNDING_OPT} --write-pbf file=${OSM_DIR}/$$i.osm.pbf omitmetadata=true"; done; \
+	  for i in ${CITIES}; do printf " --bounding-polygon file=${OSM_DIR}/$$i.poly ${OSMOSIS_BOUNDING_OPT} --write-pbf file=${OSM_DIR}/$$i.osm.pbf omitmetadata=true"; done; \
 	else \
-	  for i in ${CITIES}; do printf " --bp file=${OSM_DIR}/$$i/$$i.poly ${OSMOSIS_BOUNDING_OPT} --write-pbf file=${OSM_DIR}/$$i/$$i.osm.pbf omitmetadata=true"; done; \
+	  for i in ${CITIES}; do printf " --bounding-polygon file=${OSM_DIR}/$$i/$$i.poly ${OSMOSIS_BOUNDING_OPT} --write-pbf file=${OSM_DIR}/$$i/$$i.osm.pbf omitmetadata=true"; done; \
 	fi
 
 cities-poly: poly
