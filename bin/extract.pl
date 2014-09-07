@@ -102,6 +102,7 @@ our $option = {
     'message_path' => "world/etc/extract",
 
     'osmosis_options' => [ "omitmetadata=true", "granularity=10000" ],
+    'osmosis_options_bounding_polygon' => ["clipIncompleteEntities=true"],
 
     'aws_s3_enabled' => 0,
     'aws_s3'         => {
@@ -708,9 +709,11 @@ sub run_extracts {
             }
         }
 
-        push @pbf, "--bp",        "file=$p";
+        push @pbf, "--bounding-polygon", "file=$p",
+          @{ $option->{"osmosis_options_bounding_polygon"} };
         push @pbf, "--write-pbf", "file=$out",
           @{ $option->{"osmosis_options"} };
+
         $tee++;
         push @fixme, $out;
     }
