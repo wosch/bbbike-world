@@ -183,7 +183,7 @@ cities-api:
 	${BBMAKE} _cities_complete
 	${BBMAKE} check-osm
 
-OSMOSIS_BOUNDING_BOX=       --bb left=-180 right=180 top=90 bottom=-90 clipIncompleteEntities=true
+OSMOSIS_BOUNDING_BOX=       --bounding-box left=-180 right=180 top=90 bottom=-90 clipIncompleteEntities=true
 OSMOSIS_BOUNDING_POLYGON=   clipIncompleteEntities=true
 OSMOSIS_BOUNDING_OPT= ${OSMOSIS_BOUNDING_POLYGON}
 #  completeWays=no completeRelations=no
