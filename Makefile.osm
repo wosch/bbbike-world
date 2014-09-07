@@ -35,7 +35,7 @@ MAX_OSM2OSMAND=	${MAX_CPU2}
 MAX_OSM2GARMIN=	${MAX_CPU2}
 MAX_OSM2MAPSFORGE=${MAX_CPU2}
 
-CURL_USER_AGENT=	-A "BBBike.org-CacheHeater/1.0" 
+CURL_USER_AGENT=	-A "BBBike.org-CacheHeater/1.0"
 
 XARGS=		${NICE} `which gxargs xargs | head -1`
 XARGS5=		`which gxargs xargs | head -1`
@@ -392,21 +392,21 @@ convert3:
 	echo ${CITIES} " " | ${PERL} -npe 's/\s+/-convert /g' | \
 	   ${XARGS} -n 1 -P ${MAX_CPU} ${TIME} ${BBMAKE}
 
-check: 
+check:
 	@echo "In case of failure run:"
 	@echo " make check-failed"
 	@echo ""
 	http_proxy="" ${BBMAKE} test > log.check 2>&1
 	tail -n 10 log.check
 
-check-world check-w: 
+check-world check-w:
 	@echo "In case of failure run:"
 	@echo " make check-failed"
 	@echo ""
 	http_proxy="" ${BBMAKE} PROVE_FILES="world/t/*.t" test > log.check-world 2>&1
 	tail -n 10 log.check-world
 
-check-full: 
+check-full:
 	@echo "In case of failure run:"
 	@echo " BBBIKE_TEST_FAST=\"\" make check-failed"
 	@echo ""
@@ -414,7 +414,7 @@ check-full:
 	tail -n 10 log.check-full
 
 check-devel:
-	prove world/t/website-images.t  ./world/t/080-perlcheck.t 
+	prove world/t/website-images.t  ./world/t/080-perlcheck.t
 
 check-failed:
 	TMPDIR=${TMP_DIR} LANG=C LC_ALL=C time prove --state=failed
@@ -548,7 +548,7 @@ create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi index updat
 			*) ${PERL} -npe "s,<a href=\"../$$i/\" title=\"(.*?)\">$$i</a>,<span class=\"current_language\" title=\"$1\">$$i</span>,"  world/web/index.en.html > world/web/$$i/index.html;; \
 		esac \
 	done
-        
+
 create-bbbike-org-symlinks:
 	cd images; ln -fs ../world/images/* .
 	cd html; ln -fs ../world/html/[a-zO]* .
@@ -607,7 +607,7 @@ bbbike-tile-update:
 
 bbbike-tile-update-real:
 	${MAKE} DATA_DIR=../bbbike-eserte/data bbbike2wgs84-mapnik  bbbike-mapnik-postgis${POSTGIS_VERSION} tile-cache-cleanup; \
-	prove ./world/t/websites.t 
+	prove ./world/t/websites.t
 
 bbbike-mapnik-config8:
 	if test -e ${POSTGIS_STYLE}; then \
@@ -738,14 +738,14 @@ sync-sitemap: create-sitemap
 	rsync -a world/web/sitemap.xml.gz ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}/world/web
 	rsync -a world/download/sitemap.xml.gz ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}/../download.bbbike.org
 
-update-files: update-files-fast 
+update-files: update-files-fast
 update-files-slow: kml create-osp index update-robots.txt create-bbbike-web-symlinks java-config test-org extract-config #create-sitemap
 
-update-files-fast: 
+update-files-fast:
 	for i in update-robots.txt create-bbbike-web-symlinks garmin-legend update-javascript; do \
 	   LC_ALL=C LANG=C ${BBMAKE} $$i & \
 	done; wait
-	LC_ALL=C LANG=C ${BBMAKE} kml create-osp index java-config update-javascript test-org extract-config 
+	LC_ALL=C LANG=C ${BBMAKE} kml create-osp index java-config update-javascript test-org extract-config
 
 garmin-legend:
 	make -C./world/etc/mkgmap legend
@@ -812,7 +812,7 @@ cache-du:
 	@echo "cache usage"
 	du -hs ${BBBIKE_CACHE_DIR}/
 	@if `ls ${BBBIKE_CACHE_DIR}/* >/dev/null`; then du -hs ${BBBIKE_CACHE_DIR}/*; fi
-        
+
 #cache-heater-common:
 #	@echo "cache usage before"
 #	du -hs ${BBBIKE_CACHE_DIR}/
@@ -848,7 +848,7 @@ cache-heater-homepage: cache-heater-osp
                 cat > tmp/$@.txt
 		${XARGS} -0 -n8 -P2 curl -sS ${CURL_USER_AGENT} -X PURGE < tmp/$@.txt >/dev/null
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf ${CURL_USER_AGENT} < tmp/$@.txt >/dev/null
-                
+
 
 cache-heater-osp:
 	find osp -name '*.xml' -print0 | perl -n0e 'print qq{http://'${BBBIKE_WEB_SERVER}'/$$_}' | \
@@ -1057,7 +1057,7 @@ DEB_OPT_DIR=	/var/lib/bbbike/opt
 DEB_REPO?= deb-repo
 COPY_DEB?= false
 
-# 
+#
 # basically, we run:
 #
 # dh-make-perl --build --cpan Our::Perl::Module::not::supported::by::debian
@@ -1131,8 +1131,8 @@ deb-repo-upload:
 
 deb-bootstrap debian-bootstrap: deb-bootstrap-rsync deb-bootstrap-dir
 bbbike-bootstrap: bbbike-partition debian-bootstrap update-files install-backend-lighttpd
-	sudo ${BBMAKE} -s cache-clean 
-	sudo ${BBMAKE} -s extract-bbbike-org-install 
+	sudo ${BBMAKE} -s cache-clean
+	sudo ${BBMAKE} -s extract-bbbike-org-install
 	sudo ${BBMAKE} -s clean-cache
 	sudo ${BBMAKE} -s download-bbbike-org-install
 	sudo ${MAKE} -s -C./world/etc install-munin-bbbike install-munin-bbbike-extract crontab-root
@@ -1269,7 +1269,7 @@ lighttpd-restart: temp-clean test-org
 	$$(pwd)/world/bin/lighttpd-start &
 	sleep 0.2
 
-test prove: lighttpd-restart 
+test prove: lighttpd-restart
 	perl -c cgi/bbbike.cgi
 	mkdir -p ${TMP_DIR}
 	TMPDIR=${TMP_DIR} LANG=C LC_ALL=C time prove ${prove_opt} -j${MAX_CPU} $$(./world/bin/random-files.pl ${PROVE_FILES})
@@ -1281,11 +1281,11 @@ lighttpd-stop:
 
 diff:
 	git diff
-        
+
 jasmine-node test-js:
 	jasmine-node world/t/spec
-   
-# run a git fetch on all remote git repos     
+
+# run a git fetch on all remote git repos
 git-fetch:
 	git fetch eserte
 	git fetch origin
