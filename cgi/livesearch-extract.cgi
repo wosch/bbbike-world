@@ -182,6 +182,8 @@ sub footer {
       . qq{">today</a>\n};
 
     return <<EOF;
+
+<div id="bottom">
 <div id="footer">
 <div id="footer_top">
 <a href="../">home</a>
@@ -194,7 +196,8 @@ $data
 (&copy;) 2008-2014 <a href="http://bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="http://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
 <div id="footer_community">
 </div>
-</div>
+</div> <!-- footer -->
+</div> <!-- bottom -->
 EOF
 }
 
@@ -202,7 +205,9 @@ sub css_map {
     return <<EOF;
 <style type="text/css">
 div#BBBikeGooglemap, div#nomap { left: 18em; }
-div#sidebar { width: 17em; }
+div#sidebar { width: 17em; padding: 0.5em; }
+body { margin: 0px; }
+div#footer { padding-top: 2px; padding-left: 0.5em; padding-bottom: 0px; }
 </style>
 
 EOF
