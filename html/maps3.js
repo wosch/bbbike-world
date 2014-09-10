@@ -33,7 +33,7 @@ var bbbike = {
         MapQuestSatellite: true,
         Esri: true,
         EsriTopo: true,
-        MapBox: true,
+        MapBox: false,
         Apple: true,
         Toner: true,
         Watercolor: true,
