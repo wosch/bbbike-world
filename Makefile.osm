@@ -643,7 +643,7 @@ planet-geofabrik-download:
 create-osp:
 	rm -rf ${OSP_DIR}
 	mkdir ${OSP_DIR}
-	./world/bin/bbbike-world-opensearch-plugin ${OSP_DIR} ${CITIES}
+	./world/bin/bbbike-world-opensearch-plugin ${OSP_DIR} ${CITIES} bbbike
 	
 rsync-tgz:
 	rsync -a --delay-updates ${DATA_OSM_BBBIKE_DIR}/ ${BBBIKE_SERVER}/usr/local/www/download.bbbike.org/bbbike/${DATA_OSM_DIR}
