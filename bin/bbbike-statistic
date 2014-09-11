@@ -156,6 +156,14 @@ log_full 'api.bbbike.org/api/[0-9]+\.[0-9]+/[A-Z][a-z]' | egrep 'HTTP/1.1" 200 '
 echo ""
 
 echo ""
+echo "api.bbbike.org hosts/appid: "
+log_full 'api.bbbike.org/api/[0-9]+\.[0-9]+/[A-Z][a-z]' | egrep 'HTTP/1.1" 200 ' |
+        awk '{print $1, $7 }' | egrep -v '/location.cgi' |
+	perl $perl_utf8 -npe 's/\?.*?(appid=[^ ;&]+).*/ $1/; s,/cgi/,,; s,(\.en)?\.cgi,,;' |
+	perl -npe 's,http://api.bbbike.org/api/0.2,,' |
+        sort | uniq -c | sort -nr |  awk '{print $4}' | sort | uniq -c | sort -nr 
+
+echo ""
 echo -n "Bots www.bbbike.org city: "
 log_full 'BBBike/[0-9]+ CFNetwork' | egrep 'HTTP/1.1" 200 ' | wc -l
 log_full 'BBBike/[0-9]+ CFNetwork' | egrep 'HTTP/1.1" 200 ' | awk '{ print $7 }' | perl -npe 's,/\?.*,,; s,.*/,,' | sort | uniq -c | sort -nr
