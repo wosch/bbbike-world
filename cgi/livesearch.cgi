@@ -590,13 +590,13 @@ qq{Number of unique routes: <span title="total routes: $counter2, cities: }
         print qq[\njumpToCity('$city_center->{ $city }');\n];
     }
 
-    print qq"})\n"; # $(document).ready();
+    print qq"})\n";    # $(document).ready();
     print qq{\n</script>\n};
 
     print
 qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\n</noscript>\n};
     print "</div>\n";
-    
+
     print &footer;
     print $q->end_html;
 }
