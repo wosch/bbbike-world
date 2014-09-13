@@ -372,7 +372,7 @@ EOF
     if ( $route_length ne '' ) {
 
         $html .= <<EOF;
-     var elevation_obj = {
+    var elevation_obj = {
 	"driving_time":"$driving_time",
 	"area":$marker_list,
 	"lang":"$lang",
@@ -383,7 +383,11 @@ EOF
 	"vianame":  "@{[ CGI::escapeHTML($vianame) ]}",
 	"maptype":"cycle"
     };
-    elevation_initialize(map, elevation_obj);
+    
+    
+    \$(document).ready(function() {
+        elevation_initialize(map, elevation_obj);
+    });
 EOF
     }
 
