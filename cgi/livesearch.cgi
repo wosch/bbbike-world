@@ -409,15 +409,14 @@ sub statistic_maps {
 
     print &css_map;
     print qq{<div id="routes"></div>\n};
-    print qq{<div id="BBBikeGooglemap" style="height:92%">\n};
+    print qq{<div id="BBBikeGooglemap">\n};
     print qq{<div id="map"></div>\n};
 
-    print <<EOF;
+    print << 'EOF';
     <script type="text/javascript">
     //<![CDATA[
 
     city = "dummy";
-    bbbike_maps_init("terrain", [[43, 8],[57, 15]], "en", true, "eu" );
   
     function jumpToCity (coord) {
 	debug("jumpToCity: " + coord);
@@ -443,6 +442,11 @@ sub statistic_maps {
          map.setZoom( zoom < 13 ? zoom + 0 : 13);
     } 
 
+    $(document).ready(function() {
+        bbbike_maps_init("terrain", [[43, 8],[57, 15]], "en", true, "eu" );
+        setMapHeight();
+    });
+    
     //]]>
     </script>
 EOF
@@ -459,6 +463,7 @@ EOF
     #print join ("\n", @d); exit;
 
     print qq{<script type="text/javascript">\n};
+    print "\$(document).ready(function() {\n";
 
     my $city_center;
     my $json = new JSON;
@@ -585,13 +590,14 @@ qq{Number of unique routes: <span title="total routes: $counter2, cities: }
         print qq[\njumpToCity('$city_center->{ $city }');\n];
     }
 
+    print qq"})\n";
     print qq{\n</script>\n};
 
     print
 qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\n</noscript>\n};
     print "</div>\n";
+    
     print &footer;
-
     print $q->end_html;
 }
 
