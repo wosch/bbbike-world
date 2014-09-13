@@ -385,7 +385,7 @@ qq|$o->{"sw_lng"},$o->{"sw_lat"}!$o->{"ne_lng"},$o->{"ne_lat"},$o->{"format"}|;
         print qq[\njumpToCity('$city_center->{ $city }');\n];
     }
 
-    print qq"})\n";    # $(document).ready();
+    print qq"})\n"; # $(document).ready();
     print qq{\n</script>\n};
 
     print
