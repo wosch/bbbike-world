@@ -3424,9 +3424,9 @@ function setMapHeight() {
     var width = jQuery("body").width();
 
     // all kind of visible (!) sidebar names
-    var sidebar = ['#routing', '#sidebar'];
+    var sidebar = ['routing', 'sidebar', 'sidebar_dummy'];
     for (var i = 0; i < sidebar.length; i++) {
-        width -= jQuery(sidebar[i] + ":visible").width();
+        width -= jQuery('#' + sidebar[i] + ":visible").width();
     }
 
     jQuery('#BBBikeGooglemap').height(height);

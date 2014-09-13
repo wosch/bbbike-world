@@ -300,14 +300,8 @@ sub get_html {
     if ($fullscreen) {
         $html = <<EOF;
 <style type="text/css">
-div#BBBikeGooglemap { 
-	width: 90%; 
-	height: 80%; 
-	margin-left: 5%; 
-	margin-right: 5%; 
-	padding: 0em; 
-        top: 0em; 
-	left: 0em;
+div#BBBikeGooglemap {
+    left: 0em;
 }
 </style>
 EOF
