@@ -406,7 +406,7 @@ sub statistic_maps {
     );
 
     print &css_map;
-    print qq{<div id="sidebar_stat">\n<div id="routes"></div>\n</div>\n};
+    print qq{<div id="sidebar_stat">\n\t<div id="routes"></div>\n</div>\n\n};
     print qq{<div id="BBBikeGooglemap">\n};
     print qq{<div id="map"></div>\n};
 

@@ -204,10 +204,8 @@ EOF
 sub css_map {
     return <<EOF;
 <style type="text/css">
-div#BBBikeGooglemap, div#nomap { left: 18em; }
-div#sidebar { width: 17em; padding: 0.5em; }
-body { margin: 0px; }
-div#footer { padding-top: 2px; padding-left: 0.5em; padding-bottom: 0px; }
+body 	   { margin: 0px; }
+div#footer { padding-top: 4px; padding-left: 0.5em; padding-bottom: 0px; }
 </style>
 
 EOF
@@ -247,12 +245,16 @@ sub statistic {
                 'src' =>
 "http://maps.googleapis.com/maps/api/js?v=3.9&sensor=false&language=en&libraries=weather,panoramio"
             },
-            { 'src' => "../html/bbbike-js.js" }
+
+            #{ 'src' => "../html/bbbike-js.js" }
+            { 'src' => "/html/maps3.js" },
+            { 'src' => "/html/bbbike.js" },
+            { 'src' => "/html/jquery/jquery-1.4.2.min.js" }
         ],
     );
 
     print &css_map;
-    print qq{<div id="sidebar"></div>\n};
+    print qq{<div id="sidebar_stat">\n\t<div id="formats"></div>\n</div>\n\n};
     if ( $ns ne 'text' ) {
         print qq{<div id="BBBikeGooglemap">\n};
         print qq{<div id="map"></div>\n};
@@ -378,7 +380,7 @@ qq|$o->{"sw_lng"},$o->{"sw_lat"}!$o->{"ne_lng"},$o->{"ne_lat"},$o->{"format"}|;
     }
 
     my $html = $summary . "<hr/>" . $d;
-    print qq{\n\$("div#sidebar").html('$html');\n\n};
+    print qq{\n\$("div#formats").html('$html');\n\n};
 
     my $city = $q->param('city') || "";
     if ( $city && exists $city_center->{$city} ) {
