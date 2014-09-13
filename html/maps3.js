@@ -331,12 +331,14 @@ function toogleFullScreen(none, none2, toogleColor) {
         }
     }
 
+
     resizeFullScreen(fullscreen);
     // toogleColor(fullscreen)
     state.fullscreen = fullscreen ? false : true;
 
     // re-calculate map size 
     setMapHeight();
+    google.maps.event.trigger(map, 'resize');
 }
 
 // start slide show left from current map
@@ -3428,6 +3430,7 @@ function setMapHeight() {
     for (var i = 0; i < sidebar.length; i++) {
         width -= jQuery('#' + sidebar[i] + ":visible").width();
     }
+
 
     jQuery('#BBBikeGooglemap').height(height);
     jQuery('#BBBikeGooglemap').width(width);
