@@ -590,7 +590,7 @@ qq{Number of unique routes: <span title="total routes: $counter2, cities: }
         print qq[\njumpToCity('$city_center->{ $city }');\n];
     }
 
-    print qq"})\n";
+    print qq"})\n"; # $(document).ready();
     print qq{\n</script>\n};
 
     print
