@@ -290,7 +290,7 @@ $data
 </div>
 </div> <!-- footer -->
 
-<div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em;" >
+<div id="copyright">
 <hr>
 (&copy;) 2008-2014 <a href="http://bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="http://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
 <div id="footer_community">
@@ -303,7 +303,8 @@ EOF
 sub css_map {
     return <<EOF;
 <style type="text/css">
-div#footer { padding-top: 4px; padding-left: 0.5em; padding-bottom: 0px; }
+div#footer    { padding-top: 4px; padding-left: 0.5em; padding-bottom: 0px; }
+div#copyright { text-align: center; font-size: x-small; margin-top: 2px; }
 </style>
 
 EOF
