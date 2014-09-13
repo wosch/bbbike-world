@@ -3403,8 +3403,18 @@ function toogleDiv(id, value) {
 
 /* set map height, depending on footer height */
 
+/*
+
+  html -> body ->
+
+  sidebar |  BBBikeGooglemap
+  ---------------------------
+  bottom
+
+*/
+
 function setMapHeight() {
-    var height = jQuery("body").height() - jQuery('#bottom').height() - 15;
+    var height = jQuery("body").height() - jQuery('#bottom').height() - 0;
     if (height < 200) height = 200;
 
     var width = jQuery("body").width() - 0;
