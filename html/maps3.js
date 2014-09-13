@@ -3030,7 +3030,7 @@ function smallerMap(step, id, id2) {
     tag.style.width = m + unit;
     tag.style.left = (100 - m) + unit;
 
-    // debug("M: " + m + " " + tag.style.width + " " + tag.style.left );
+    debug("M: " + m + " " + tag.style.width + " " + tag.style.left );
 }
 
 //
