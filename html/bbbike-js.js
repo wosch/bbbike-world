@@ -177,7 +177,7 @@ function reset(){if(polyline){polyline.setMap(null);}
 for(var i in markers){markers[i].setMap(null);}
 markers=[];document.getElementById('chart_div').style.display='none';}
 function smallerMap(step,id,id2){if(!id)id="BBBikeGooglemap";if(!step)step=2;var tag=document.getElementById(id);if(!tag)return;var width=tag.style.width||"75%";var matches=width.match(/^([0-9\.\-]+)%$/);var unit="%";var m=0;if(matches){m=parseFloat(matches[0])-step;}
-if(m<=0||m>105)m=75;tag.style.width=m+unit;tag.style.left=(100-m)+unit;}
+if(m<=0||m>105)m=75;tag.style.width=m+unit;tag.style.left=(100-m)+unit;debug("M: "+m+" "+tag.style.width+" "+tag.style.left);}
 function init_markers(opt){var timeout=setTimeout(function(){_init_markers(opt)},900);google.maps.event.addListener(map,"bounds_changed",function(){clearTimeout(timeout);timeout=setTimeout(function(){_init_markers(opt)},1000);});}
 function _init_markers(opt){var area=opt.area;var lang=opt.lang||"en";var zoom=map.getZoom();var ne=map.getBounds().getNorthEast();var sw=map.getBounds().getSouthWest();var lat,lng;if(area){lat=area[1][0];lng=area[0][1];}
 else{lat=ne.lat();lng=sw.lng();}
@@ -213,7 +213,7 @@ var box=state.marker_list;var bounds=new google.maps.LatLngBounds;bounds.extend(
 state.geocoder.geocode({'address':address,'bounds':bounds},function(results,status){if(status==google.maps.GeocoderStatus.OK){var autocomplete='{ query:"'+address+'", suggestions:[';var streets=[];for(var i=0;i<results.length;i++){if(inside_area({lat:results[i].geometry.location.lat(),lng:results[i].geometry.location.lng()})){streets.push('"'+format_address(results[i].formatted_address)+' ['+granularity(results[i].geometry.location.lng())+','+granularity(results[i].geometry.location.lat())+',1]"');}}
 autocomplete+=streets.join(",");autocomplete+='] }';callback(autocomplete);log_geocoder(logger,"0");}else{log_geocoder(logger,status);}});}
 function toogleDiv(id,value){var tag=document.getElementById(id);if(!tag)return;tag.style.display=tag.style.display=="none"?"block":"none";setMapHeight();}
-function setMapHeight(){var padding=10;var height=jQuery("body").height()-jQuery('#bottom').height()-padding;if(height<200)height=200;var width=jQuery("body").width();var sidebar=['#routing','#sidebar'];for(var i=0;i<sidebar.length;i++){width-=jQuery(sidebar[i]+":visible").width();}
+function setMapHeight(){var padding=10;var height=jQuery("body").height()-jQuery('#bottom').height()-padding;if(height<200)height=200;var width=jQuery("body").width();var sidebar=['routing','sidebar','sidebar_dummy'];for(var i=0;i<sidebar.length;i++){width-=jQuery('#'+sidebar[i]+":visible").width();}
 jQuery('#BBBikeGooglemap').height(height);jQuery('#BBBikeGooglemap').width(width);debug("body hight: "+jQuery("body").height()+" body width: "+jQuery("body").width()+" height: "+height+", width: "+width);};
 function createXmlHttpRequest(){try{if(typeof ActiveXObject!='undefined'){return new ActiveXObject('Microsoft.XMLHTTP');}else if(window["XMLHttpRequest"]){return new XMLHttpRequest();}}catch(e){}
 return null;};function downloadUrl(url,callback){var status=-1;var request=createXmlHttpRequest();if(!request){return false;}
