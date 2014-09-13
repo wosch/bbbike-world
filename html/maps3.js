@@ -3164,7 +3164,7 @@ function debug(text, id) {
     // log to JavaScript console
     if (typeof console === "undefined" || typeof console.log === "undefined") { /* ARGH!!! old IE */
     } else {
-        console.log("BBBike extract: " + text);
+        console.log("BBBike: " + text);
     }
 
     if (!id) id = "debug";
