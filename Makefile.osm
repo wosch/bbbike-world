@@ -762,6 +762,7 @@ java-config:
 
 dist-clean devel-clean distclean: clean temp-clean clean-t data-distclean download-clean log-clean index-clean cache-clean-local deb-distclean
 	${MAKE} -C./world/etc/mkgmap distclean
+	${MAKE} -C./cgi/msg distclean
 
 index-clean:
 	rm -f ${TMP}/??.cities.*
