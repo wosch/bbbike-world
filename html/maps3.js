@@ -3414,10 +3414,12 @@ function toogleDiv(id, value) {
 */
 
 function setMapHeight() {
-    var height = jQuery("body").height() - jQuery('#bottom').height() - 0;
+    var padding = 10; // XXX: browser problems?
+
+    var height = jQuery("body").height() - jQuery('#bottom').height() - padding; 
     if (height < 200) height = 200;
 
-    var width = jQuery("body").width() - 0;
+    var width = jQuery("body").width();
 
     // all kind of sidebar names
     var sidebar = ['#routing', '#sidebar', '#sidebar_stat'];
@@ -3428,7 +3430,7 @@ function setMapHeight() {
     jQuery('#BBBikeGooglemap').height(height);
     jQuery('#BBBikeGooglemap').width(width);
 
-    debug("height: " + height + ", width: " + width);
+    debug("body hight: " + jQuery("body").height() + " height: " + height + ", width: " + width);
 };
 
 // EOF
