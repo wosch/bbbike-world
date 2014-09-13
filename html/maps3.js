@@ -145,7 +145,7 @@ var state = {
     replay: false,
 
     // tags to hide in full screen mode
-    non_map_tags: ["copyright", "weather_forecast_html", "top_right", "other_cities", "footer", "routing", "route_table", "routelist", "link_list", "bbbike_graphic", "chart_div", "routes", "headlogo", "bottom", "language_switch", "headline", "sidebar"],
+    non_map_tags: ["copyright", "weather_forecast_html", "top_right", "other_cities", "footer", "routing", "route_table", "routelist", "link_list", "bbbike_graphic", "chart_div", "routes", "headlogo", "bottom", "language_switch", "headline", "sidebar", "sidebar_stat"],
 
     // keep state of non map tags
     non_map_tags_val: {},
@@ -3420,16 +3420,16 @@ function setMapHeight() {
 
     var width = jQuery("body").width();
 
-    // all kind of sidebar names
+    // all kind of visible (!) sidebar names
     var sidebar = ['#routing', '#sidebar', '#sidebar_stat'];
     for (var i = 0; i < sidebar.length; i++) {
-        width -= jQuery(sidebar[i]).width();
+        width -= jQuery(sidebar[i] + ":visible").width();
     }
 
     jQuery('#BBBikeGooglemap').height(height);
     jQuery('#BBBikeGooglemap').width(width);
 
-    debug("body hight: " + jQuery("body").height() + " height: " + height + ", width: " + width);
+    debug("body hight: " + jQuery("body").height() + " body width: " + jQuery("body").width() + " height: " + height + ", width: " + width);
 };
 
 // EOF
