@@ -754,7 +754,7 @@ extract-config:
 	test -e .bbbike-extract.rc || ln -fs $$HOME/.bbbike-extract.rc .
 	test -e .bbbike-extract-pro.rc || ln -fs $$HOME/.bbbike-extract-pro.rc .
 
-update-javascript:
+update-javascript bbbike-js:
 	make -C./world/html bbbike-js
 
 java-config:
