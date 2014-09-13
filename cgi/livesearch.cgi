@@ -281,20 +281,34 @@ sub footer {
       . qq{">today</a>\n};
 
     return <<EOF;
+<div id="bottom">
 <div id="footer">
 <div id="footer_top">
 <a href="../">home</a> |
 <a href="../cgi/area.cgi">covered area</a>
 $data
 </div>
-</div>
+</div> <!-- footer -->
 
 <div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em;" >
 <hr>
 (&copy;) 2008-2014 <a href="http://bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="http://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
 <div id="footer_community">
 </div>
-</div>
+</div> <!-- copyright -->
+</div> <!-- bottom -->
+EOF
+}
+
+sub css_map {
+    return <<EOF;
+<style type="text/css">
+div#BBBikeGooglemap, div#nomap { left: 18em; }
+div#routes { width: 17em; padding: 0.5em; }
+body       { margin: 0px; }
+div#footer { padding-top: 2px; padding-left: 0.5em; padding-bottom: 0px; }
+</style>
+
 EOF
 }
 
@@ -393,8 +407,9 @@ sub statistic_maps {
         ],
     );
 
+    print &css_map;
     print qq{<div id="routes"></div>\n};
-    print qq{<div id="BBBikeGooglemap" style="height:94%">\n};
+    print qq{<div id="BBBikeGooglemap" style="height:92%">\n};
     print qq{<div id="map"></div>\n};
 
     print <<EOF;
