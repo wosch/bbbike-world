@@ -252,7 +252,7 @@ sub statistic {
     );
 
     print &css_map;
-    print qq{<div id="sidebar_stat">\n\t<div id="formats"></div>\n</div>\n\n};
+    print qq{<div id="sidebar">\n\t<div id="formats"></div>\n</div>\n\n};
     if ( $ns ne 'text' ) {
         print qq{<div id="BBBikeGooglemap">\n};
         print qq{<div id="map"></div>\n};
