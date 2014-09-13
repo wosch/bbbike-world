@@ -334,6 +334,9 @@ function toogleFullScreen(none, none2, toogleColor) {
     resizeFullScreen(fullscreen);
     // toogleColor(fullscreen)
     state.fullscreen = fullscreen ? false : true;
+
+    // re-calculate map size 
+    setMapHeight();
 }
 
 // start slide show left from current map
