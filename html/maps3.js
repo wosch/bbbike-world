@@ -3406,7 +3406,14 @@ function toogleDiv(id, value) {
 function setMapHeight() {
     var height = jQuery("body").height() - jQuery('#bottom').height() - 15;
     if (height < 200) height = 200;
-    var width = jQuery("body").width() - jQuery('#routing').width() - 20;
+
+    var width = jQuery("body").width() - 20;
+    
+    // all kind of sidebar names
+    var sidebar = ['#routing', '#sidebar', '#routes'];
+    for (var i = 0; i < sidebar.length; i++) {
+        width -= jQuery(sidebar[i]).width();
+    }
 
     jQuery('#BBBikeGooglemap').height(height);
     jQuery('#BBBikeGooglemap').width(width);
