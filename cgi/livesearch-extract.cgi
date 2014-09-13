@@ -204,8 +204,6 @@ EOF
 sub css_map {
     return <<EOF;
 <style type="text/css">
-div#footer    { padding-top: 4px; padding-left: 0.5em; padding-bottom: 0px; }
-div#copyright { text-align: center; font-size: x-small; margin-top: 2px; }
 </style>
 
 EOF
