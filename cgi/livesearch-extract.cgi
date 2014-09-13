@@ -204,7 +204,6 @@ EOF
 sub css_map {
     return <<EOF;
 <style type="text/css">
-body 	   { margin: 0px; }
 div#footer { padding-top: 4px; padding-left: 0.5em; padding-bottom: 0px; }
 </style>
 
