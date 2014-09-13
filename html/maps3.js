@@ -3408,7 +3408,7 @@ function setMapHeight() {
     if (height < 200) height = 200;
 
     var width = jQuery("body").width() - 20;
-    
+
     // all kind of sidebar names
     var sidebar = ['#routing', '#sidebar', '#routes'];
     for (var i = 0; i < sidebar.length; i++) {
