@@ -3415,8 +3415,7 @@ function toogleDiv(id, value) {
 
 function setMapHeight() {
     var padding = 10; // XXX: browser problems?
-
-    var height = jQuery("body").height() - jQuery('#bottom').height() - padding; 
+    var height = jQuery("body").height() - jQuery('#bottom').height() - padding;
     if (height < 200) height = 200;
 
     var width = jQuery("body").width();
