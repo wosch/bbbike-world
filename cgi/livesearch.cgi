@@ -303,10 +303,8 @@ EOF
 sub css_map {
     return <<EOF;
 <style type="text/css">
-div#BBBikeGooglemap, div#nomap { left: 18em; }
-div#routes { width: 17em; padding: 0.5em; }
 body       { margin: 0px; }
-div#footer { padding-top: 2px; padding-left: 0.5em; padding-bottom: 0px; }
+div#footer { padding-top: 4px; padding-left: 0.5em; padding-bottom: 0px; }
 </style>
 
 EOF
@@ -408,7 +406,7 @@ sub statistic_maps {
     );
 
     print &css_map;
-    print qq{<div id="routes"></div>\n};
+    print qq{<div id="sidebar_stat">\n<div id="routes"></div>\n</div>\n};
     print qq{<div id="BBBikeGooglemap">\n};
     print qq{<div id="map"></div>\n};
 

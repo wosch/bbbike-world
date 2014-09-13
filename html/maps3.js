@@ -3407,10 +3407,10 @@ function setMapHeight() {
     var height = jQuery("body").height() - jQuery('#bottom').height() - 15;
     if (height < 200) height = 200;
 
-    var width = jQuery("body").width() - 20;
+    var width = jQuery("body").width() - 0;
 
     // all kind of sidebar names
-    var sidebar = ['#routing', '#sidebar', '#routes'];
+    var sidebar = ['#routing', '#sidebar', '#sidebar_stat'];
     for (var i = 0; i < sidebar.length; i++) {
         width -= jQuery(sidebar[i]).width();
     }
