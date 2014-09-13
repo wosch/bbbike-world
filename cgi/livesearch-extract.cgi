@@ -254,19 +254,18 @@ sub statistic {
     print &css_map;
     print qq{<div id="sidebar"></div>\n};
     if ( $ns ne 'text' ) {
-        print qq{<div id="BBBikeGooglemap" style="height:92%">\n};
+        print qq{<div id="BBBikeGooglemap">\n};
         print qq{<div id="map"></div>\n};
     }
     else {
         print qq{<div id="nomap" style="height:92%">\n};
     }
 
-    print <<EOF;
+    print <<'EOF';
     <script type="text/javascript">
     //<![CDATA[
 
     city = "dummy";
-    bbbike_maps_init("mapnik_bw", [[30, 30],[59, -10]], "en", true, "eu" );
 
     function jumpToCity (coord) {
 	var b = coord.split("!");
@@ -284,6 +283,11 @@ sub statistic {
          map.setZoom( zoom < 16 ? zoom + 0 : 16);
     }
 
+    $(document).ready(function() {
+	bbbike_maps_init("mapnik_bw", [[30, 30],[59, -10]], "en", true, "eu" );
+        setMapHeight();
+    });
+    
     //]]>
     </script>
 EOF
@@ -300,6 +304,7 @@ EOF
     #print Dumper(\@d); exit;
 
     print qq{<script type="text/javascript">\n};
+    print "\$(document).ready(function() {\n";
 
     my $city_center;
     my $cities;
@@ -380,6 +385,7 @@ qq|$o->{"sw_lng"},$o->{"sw_lat"}!$o->{"ne_lng"},$o->{"ne_lat"},$o->{"format"}|;
         print qq[\njumpToCity('$city_center->{ $city }');\n];
     }
 
+    print qq"})\n"; # $(document).ready();
     print qq{\n</script>\n};
 
     print
