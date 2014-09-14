@@ -804,7 +804,7 @@ elevation-update:
 	echo ${CITIES} | ${XARGS} -E " " -n500 -P${MAX_ELEVATION_SCRIPTS} ${ELEVATION_SCRIPT} --readonly-database --database=../osm/srtm/elevation.db --debug=0
 
 # re-build cache
-_cache-heater: cache-gc cache-heater-searches cache-heater-streets cache-du
+_cache-heater: cache-gc cache-heater-searches cache-heater-streets cache-du purge-cache-js
 cache-heater: _cache-heater
 #cache-heater:
 #	date
