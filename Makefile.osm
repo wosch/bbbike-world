@@ -926,6 +926,7 @@ staging:
 	git push
 	cd /usr/local/www/bbbike.org
 	cd /usr/local/www/bbbike.org/; git diff; git pull; ${MAKE} -s update-files; git diff
+	${BBMAKE} -s purge-cache-js >/dev/null
 
 
 # extract 180x360 data tiles from planet.osm
