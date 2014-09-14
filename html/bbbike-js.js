@@ -214,7 +214,7 @@ state.geocoder.geocode({'address':address,'bounds':bounds},function(results,stat
 autocomplete+=streets.join(",");autocomplete+='] }';callback(autocomplete);log_geocoder(logger,"0");}else{log_geocoder(logger,status);}});}
 function toogleDiv(id,value){var tag=document.getElementById(id);if(!tag)return;tag.style.display=tag.style.display=="none"?"block":"none";setMapHeight();}
 function setMapHeight(){var padding=10;var height=jQuery("body").height()-jQuery('#bottom').height()-padding;if(height<200)height=200;var width=jQuery("body").width();var sidebar=['routing','sidebar','sidebar_dummy'];for(var i=0;i<sidebar.length;i++){width-=jQuery('#'+sidebar[i]+":visible").width();}
-jQuery('#BBBikeGooglemap').height(height);jQuery('#BBBikeGooglemap').width(width);debug("body hight: "+jQuery("body").height()+" body width: "+jQuery("body").width()+" height: "+height+", width: "+width);};
+jQuery('#BBBikeGooglemap').height(height);jQuery('#BBBikeGooglemap').width(width);debug("setMapHeight: body hight: "+jQuery("body").height()+" body width: "+jQuery("body").width()+" height: "+height+", width: "+width);};
 function createXmlHttpRequest(){try{if(typeof ActiveXObject!='undefined'){return new ActiveXObject('Microsoft.XMLHTTP');}else if(window["XMLHttpRequest"]){return new XMLHttpRequest();}}catch(e){}
 return null;};function downloadUrl(url,callback){var status=-1;var request=createXmlHttpRequest();if(!request){return false;}
 request.onreadystatechange=function(){if(request.readyState==4){try{status=request.status;}catch(e){}
