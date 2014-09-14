@@ -276,18 +276,8 @@ sub js_map {
     return <<EOF;
     <script type="text/javascript">
     //<![CDATA[
-
-    var resize;
-    setTimeout(function () { setMapWidth(); }, 200);
-
-    // reset map size, 3x a second
-    jQuery(window).resize(function () {
-        if (resize) clearTimeout(resize);
-        resize = setTimeout(function () {
-            setMapWidth();
-        }, 300);
-    });
-
+      /* xxx */
+      
     //]]>
     </script>
 EOF
