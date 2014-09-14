@@ -346,7 +346,7 @@ qq{<script type="text/javascript"> google.load("maps", $gmap_api_version); </scr
     
     \$(document).ready(function() {
         setMapHeight();
-        bbbike_maps_init("$m", $marker_list, "$lang", false, "$region", "$zoom_param", "$layer", $is_route );
+        bbbike_maps_init("$m", $marker_list, "$lang", false, "$region", "$zoom_param", "$layer", $is_route, @{[ $is_route ? "false" : "true" ]} );
         if (document.getElementById("suggest_start")) {
             init_markers({"lang":"$lang"});
         }

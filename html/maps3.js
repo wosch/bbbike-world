@@ -524,7 +524,7 @@ function is_supported_maptype(maptype, list) {
     return 0;
 }
 
-function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoomParam, layer, is_route) {
+function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoomParam, layer, is_route, scrollwheel) {
     // init google map types by name and order
     for (var i = 0; i < bbbike.mapTypeControlOptions.mapTypeNames.length; i++) {
         bbbike.mapTypeControlOptions.mapTypeIds.push(google.maps.MapTypeId[bbbike.mapTypeControlOptions.mapTypeNames[i]]);
@@ -552,6 +552,8 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         scaleControl: bbbike.controls.scaleControl,
         panControl: bbbike.controls.panControl,
         disableDoubleClickZoom: false,
+	scrollwheel: scrollwheel ? true : false,
+
         mapTypeControlOptions: {
             mapTypeIds: bbbike.mapTypeControlOptions.mapTypeIds
         },
