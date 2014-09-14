@@ -233,8 +233,8 @@ sub js_jump {
     <script type="text/javascript">
     //<![CDATA[
 
-    city = "dummy";
-    bbbike_maps_init('$map_type', [[43, 8],[57, 15]], "en", 1 );
+    var city = "dummy";
+    var more_cities = false;
 
     function jumpToCity (coord) {
 	var b = coord.split("!");
@@ -251,6 +251,32 @@ sub js_jump {
         // no zoom level higher than 15
          map.setZoom( zoom < 16 ? zoom + 0 : 16);
     }
+
+    function resizeOtherCities(toogle) {
+	var tag = document.getElementById("BBBikeGooglemap");
+	var tag_more_cities = document.getElementById("more_cities");
+    
+	if (!tag) return;
+	if (!tag_more_cities) return;
+    
+	if (!toogle) {
+	    tag.style.height = "75%";
+	    tag_more_cities.style.display = "block";
+	    tag_more_cities.style.fontSize = "85%";
+    
+	} else {
+	    tag_more_cities.style.display = "none";
+	    tag.style.height = "90%";
+	}
+    
+	more_cities = toogle ? false : true;
+	google.maps.event.trigger(map, 'resize');
+    }
+	
+    \$(document).ready(function() {
+	bbbike_maps_init('$map_type', [[43, 8],[57, 15]], "en", 1 );
+	setMapHeight();
+    });
 
     //]]>
     </script>
@@ -270,15 +296,12 @@ div#sidebar         { width: 22em; height: 60%; }
 EOF
 }
 
+# place holder
 sub js_map {
     my $map_type = shift;
 
     return <<EOF;
     <script type="text/javascript">
-    //<![CDATA[
-      /* xxx */
-      
-    //]]>
     </script>
 EOF
 }
@@ -341,6 +364,8 @@ print &js_map;
 
 print <<EOF;
 <script type="text/javascript">
+\$(document).ready(function() {
+
 city = "$city";
 
 EOF
@@ -376,36 +401,17 @@ if ( $city && exists $city_center->{$city} ) {
 }
 
 print <<EOF;
-var more_cities = false;
-function resizeOtherCities(toogle) {
-    var tag = document.getElementById("BBBikeGooglemap");
-    var tag_more_cities = document.getElementById("more_cities");
-
-    if (!tag) return;
-    if (!tag_more_cities) return;
-
-    if (!toogle) {
-        tag.style.height = "75%";
-	tag_more_cities.style.display = "block";
-	tag_more_cities.style.fontSize = "85%";
-
-    } else {
-	tag_more_cities.style.display = "none";
-        tag.style.height = "90%";
-    }
-
-    more_cities = toogle ? false : true;
-    google.maps.event.trigger(map, 'resize');
-}
-
-// resizeFullScreen(false);
+});    // \$(document).ready();
 
 </script>
+
 <noscript>
 <p>You must enable JavaScript and CSS to run this application!</p>
 </noscript>
+
 </div> <!-- map -->
 
+<!-- ******************************************* -->
 EOF
 
 print qq{<div id="bottom">\n};
