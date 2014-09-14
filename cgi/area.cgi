@@ -42,6 +42,7 @@ sub footer {
     $city = CGI::escapeHTML($city);
 
     return <<EOF;
+<div id="bottom">
 <div id="footer">
   <div id="footer_top">
     <a href="/">home</a> |
@@ -49,7 +50,7 @@ sub footer {
     <a href="$www_bbbike_org/$city/" title="start bicycle routing for $city area">$city</a> |
     <a href="javascript:resizeOtherCities(more_cities);">more cities</a>
   </div>
-</div>
+</div> <!-- footer -->
 <hr/>
 
 <div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em;" >
@@ -58,7 +59,8 @@ sub footer {
   <a href="http://mc.bbbike.org/mc/">map compare</a> - <a href="http://extract.bbbike.org/">osm extract service</a>
 
   <div id="footer_community"></div>
-</div>
+</div> <!-- copyright -->
+</div> <!-- bottom -->
 EOF
 }
 
@@ -255,10 +257,14 @@ sub js_jump {
 EOF
 }
 
+#
+# local CSS overrides for this script
+#
 sub css_map {
     return <<EOF;
 <style type="text/css">
-div#BBBikeGooglemap { left: 21em; }
+div#BBBikeGooglemap { left: 22em; }
+div#sidebar         { width: 22em; height: 60%; }
 </style>
 
 EOF
@@ -330,8 +336,13 @@ my $city = $q->param('city') || $offline_city || $city_default;
 print &header( $q, $offline, $city );
 print &css_map;
 
-print qq{<div id="sidebar">\n}, &download_area( $city, $offline ), qq{</div>\n};
-print qq{<div id="BBBikeGooglemap" style="height:94%">\n};
+print qq{<div id="sidebar">\n};
+print qq{\t<div id="routes">}
+  . &download_area( $city, $offline )
+  . qq{</div>\n};
+print qq{</div> <!-- sidebar -->\n};
+
+print qq{<div id="BBBikeGooglemap">\n};
 print qq{<div id="map"></div>\n};
 
 my $map_type = "hike_bike";
@@ -422,3 +433,5 @@ print qq{<p/></div><!-- more cities -->\n};
 print &footer( "cities" => \@city_list, 'city' => $city );
 print "</div> <!-- bottom -->\n";
 print $q->end_html;
+
+1;
