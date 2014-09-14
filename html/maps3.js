@@ -552,7 +552,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         scaleControl: bbbike.controls.scaleControl,
         panControl: bbbike.controls.panControl,
         disableDoubleClickZoom: false,
-	scrollwheel: scrollwheel ? true : false,
+        scrollwheel: scrollwheel ? true : false,
 
         mapTypeControlOptions: {
             mapTypeIds: bbbike.mapTypeControlOptions.mapTypeIds
