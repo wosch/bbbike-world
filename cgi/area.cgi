@@ -289,8 +289,8 @@ EOF
 sub css_map {
     return <<EOF;
 <style type="text/css">
-div#BBBikeGooglemap { left: 22em; }
-div#sidebar         { width: 22em; height: 60%; }
+div#BBBikeGooglemap { left:  24em; }
+div#sidebar         { width: 24em; height: auto; }
 </style>
 
 EOF
