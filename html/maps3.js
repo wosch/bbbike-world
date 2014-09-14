@@ -3435,7 +3435,7 @@ function setMapHeight() {
     jQuery('#BBBikeGooglemap').height(height);
     jQuery('#BBBikeGooglemap').width(width);
 
-    debug("body hight: " + jQuery("body").height() + " body width: " + jQuery("body").width() + " height: " + height + ", width: " + width);
+    debug("setMapHeight: body hight: " + jQuery("body").height() + " body width: " + jQuery("body").width() + " height: " + height + ", width: " + width);
 };
 
 // EOF
