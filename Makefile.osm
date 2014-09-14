@@ -834,6 +834,9 @@ cache-heater-streets: cache-heater-homepage cache-heater-opensearch
 		${XARGS} -0 -n8 -P2 curl -sS ${CURL_USER_AGENT} -X PURGE < tmp/$@.txt >/dev/null
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf ${CURL_USER_AGENT} < tmp/$@.txt >/dev/null
 
+purge-cache-js:
+		find html -name '*.js' | perl -npe 's/\n/\0/g; s,^,http://'${BBBIKE_WEB_SERVER}'/,g' | ${XARGS} -0 -n1 -P1 curl -sS ${CURL_USER_AGENT} -X PURGE 
+
 cache-heater-searches:
 	random=$$(bash -c 'echo $$RANDOM'); \
 	for city in ${CITIES}; do \
@@ -1318,6 +1321,7 @@ help:
 	@echo ""
 	@echo "  [ create-osp | bbbike2wgs84 | update-robots.txt | create-sitemap ]"
 	@echo "  [ cache-install | cache-heater | cache-heater-streets ]"
+	@echo "  [ purge-cache-js ]"
 	@echo "  [ create-bbbike-web-symlinks | kml | create-osp | index ]"
 	@echo "  [ convert-wgs84 | convert-bbbike | convert-bbbike-full ]"
 	@echo "  [ city-count | city-reorder | city-file | check-osm | cleanup-osm-error ]"
