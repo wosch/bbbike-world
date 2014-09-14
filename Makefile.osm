@@ -835,7 +835,7 @@ cache-heater-streets: cache-heater-homepage cache-heater-opensearch
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf ${CURL_USER_AGENT} < tmp/$@.txt >/dev/null
 
 purge-cache-js:
-		find html -name '*.js' | perl -npe 's/\n/\0/g; s,^,http://'${BBBIKE_WEB_SERVER}'/,g' | ${XARGS} -0 -n1 -P1 curl -sS ${CURL_USER_AGENT} -X PURGE 
+		find html \( -name '*.js' -or -name '*.css' \) -print0 | perl -0npe 's,^,http://'${BBBIKE_WEB_SERVER}'/,g' | ${XARGS} -0 -n1 -P1 curl -sS ${CURL_USER_AGENT} -X PURGE 
 
 cache-heater-searches:
 	random=$$(bash -c 'echo $$RANDOM'); \
