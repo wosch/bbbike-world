@@ -260,13 +260,13 @@ sub js_jump {
 	if (!tag_more_cities) return;
     
 	if (!toogle) {
-	    tag.style.height = "75%";
+	    // tag.style.height = "75%";
+	    // tag_more_cities.style.fontSize = "85%";
 	    tag_more_cities.style.display = "block";
-	    tag_more_cities.style.fontSize = "85%";
     
 	} else {
 	    tag_more_cities.style.display = "none";
-	    tag.style.height = "90%";
+	    // tag.style.height = "90%";
 	}
     
 	more_cities = toogle ? false : true;
@@ -416,7 +416,8 @@ print <<EOF;
 EOF
 
 print qq{<div id="bottom">\n};
-print qq{<div id="more_cities" style="display:none;">\n<p/>\n};
+print qq{<div id="more_cities" style="display:none;">\n};
+print qq{<div id="more_cities_inner">\n};
 foreach my $c (@city_list) {
     next if $c eq 'dummy' || $c eq 'bbbike';
     print qq{<a href="}
@@ -425,7 +426,8 @@ foreach my $c (@city_list) {
 }
 print
 qq{\n| <span id="maplink"><a href="http://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=http:%2F%2Fwww.bbbike.org%2Fbbbike-world.kml&amp;ie=UTF8&amp;t=p&amp;ll=52.961875,12.128906&amp;spn=22.334434,47.460938&amp;z=4" >View on a Map</a></span>\n};
-print qq{<p/></div><!-- more cities -->\n};
+print qq{</div><!-- more cities inner -->\n};
+print qq{</div><!-- more cities -->\n};
 
 print &footer( "cities" => \@city_list, 'city' => $city );
 print "</div> <!-- bottom -->\n";
