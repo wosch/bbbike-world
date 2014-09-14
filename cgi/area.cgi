@@ -270,7 +270,8 @@ sub js_jump {
 	}
     
 	more_cities = toogle ? false : true;
-	google.maps.event.trigger(map, 'resize');
+	// google.maps.event.trigger(map, 'resize');
+	setMapHeight();
     }
 	
     \$(document).ready(function() {
