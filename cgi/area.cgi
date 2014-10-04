@@ -42,6 +42,7 @@ sub footer {
     $city = CGI::escapeHTML($city);
 
     return <<EOF;
+<div id="bottom">
 <div id="footer">
   <div id="footer_top">
     <a href="/">home</a> |
@@ -49,7 +50,7 @@ sub footer {
     <a href="$www_bbbike_org/$city/" title="start bicycle routing for $city area">$city</a> |
     <a href="javascript:resizeOtherCities(more_cities);">more cities</a>
   </div>
-</div>
+</div> <!-- footer -->
 <hr/>
 
 <div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em;" >
@@ -58,7 +59,8 @@ sub footer {
   <a href="http://mc.bbbike.org/mc/">map compare</a> - <a href="http://extract.bbbike.org/">osm extract service</a>
 
   <div id="footer_community"></div>
-</div>
+</div> <!-- copyright -->
+</div> <!-- bottom -->
 EOF
 }
 
@@ -231,8 +233,8 @@ sub js_jump {
     <script type="text/javascript">
     //<![CDATA[
 
-    city = "dummy";
-    bbbike_maps_init('$map_type', [[43, 8],[57, 15]], "en", 1 );
+    var city = "dummy";
+    var more_cities = false;
 
     function jumpToCity (coord) {
 	var b = coord.split("!");
@@ -250,39 +252,57 @@ sub js_jump {
          map.setZoom( zoom < 16 ? zoom + 0 : 16);
     }
 
+    function resizeOtherCities(toogle) {
+	var tag = document.getElementById("BBBikeGooglemap");
+	var tag_more_cities = document.getElementById("more_cities");
+    
+	if (!tag) return;
+	if (!tag_more_cities) return;
+    
+	if (!toogle) {
+	    // tag.style.height = "75%";
+	    // tag_more_cities.style.fontSize = "85%";
+	    tag_more_cities.style.display = "block";
+    
+	} else {
+	    tag_more_cities.style.display = "none";
+	    // tag.style.height = "90%";
+	}
+    
+	more_cities = toogle ? false : true;
+	// google.maps.event.trigger(map, 'resize');
+	setMapHeight();
+    }
+	
+    \$(document).ready(function() {
+	bbbike_maps_init('$map_type', [[43, 8],[57, 15]], "en", 1 );
+	setMapHeight();
+    });
+
     //]]>
     </script>
 EOF
 }
 
+#
+# local CSS overrides for this script
+#
 sub css_map {
     return <<EOF;
 <style type="text/css">
-div#BBBikeGooglemap { left: 21em; }
+div#BBBikeGooglemap { left:  24em; }
+div#sidebar         { width: 24em; height: auto; }
 </style>
 
 EOF
 }
 
+# place holder
 sub js_map {
     my $map_type = shift;
 
     return <<EOF;
     <script type="text/javascript">
-    //<![CDATA[
-
-    var resize;
-    setTimeout(function () { setMapWidth(); }, 200);
-
-    // reset map size, 3x a second
-    jQuery(window).resize(function () {
-        if (resize) clearTimeout(resize);
-        resize = setTimeout(function () {
-            setMapWidth();
-        }, 300);
-    });
-
-    //]]>
     </script>
 EOF
 }
@@ -330,8 +350,13 @@ my $city = $q->param('city') || $offline_city || $city_default;
 print &header( $q, $offline, $city );
 print &css_map;
 
-print qq{<div id="sidebar">\n}, &download_area( $city, $offline ), qq{</div>\n};
-print qq{<div id="BBBikeGooglemap" style="height:94%">\n};
+print qq{<div id="sidebar">\n};
+print qq{\t<div id="routes">}
+  . &download_area( $city, $offline )
+  . qq{</div>\n};
+print qq{</div> <!-- sidebar -->\n};
+
+print qq{<div id="BBBikeGooglemap">\n};
 print qq{<div id="map"></div>\n};
 
 my $map_type = "hike_bike";
@@ -340,6 +365,8 @@ print &js_map;
 
 print <<EOF;
 <script type="text/javascript">
+\$(document).ready(function() {
+
 city = "$city";
 
 EOF
@@ -375,40 +402,22 @@ if ( $city && exists $city_center->{$city} ) {
 }
 
 print <<EOF;
-var more_cities = false;
-function resizeOtherCities(toogle) {
-    var tag = document.getElementById("BBBikeGooglemap");
-    var tag_more_cities = document.getElementById("more_cities");
-
-    if (!tag) return;
-    if (!tag_more_cities) return;
-
-    if (!toogle) {
-        tag.style.height = "75%";
-	tag_more_cities.style.display = "block";
-	tag_more_cities.style.fontSize = "85%";
-
-    } else {
-	tag_more_cities.style.display = "none";
-        tag.style.height = "90%";
-    }
-
-    more_cities = toogle ? false : true;
-    google.maps.event.trigger(map, 'resize');
-}
-
-// resizeFullScreen(false);
+});    // \$(document).ready();
 
 </script>
+
 <noscript>
 <p>You must enable JavaScript and CSS to run this application!</p>
 </noscript>
+
 </div> <!-- map -->
 
+<!-- ******************************************* -->
 EOF
 
 print qq{<div id="bottom">\n};
-print qq{<div id="more_cities" style="display:none;">\n<p/>\n};
+print qq{<div id="more_cities" style="display:none;">\n};
+print qq{<div id="more_cities_inner">\n};
 foreach my $c (@city_list) {
     next if $c eq 'dummy' || $c eq 'bbbike';
     print qq{<a href="}
@@ -417,8 +426,11 @@ foreach my $c (@city_list) {
 }
 print
 qq{\n| <span id="maplink"><a href="http://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=http:%2F%2Fwww.bbbike.org%2Fbbbike-world.kml&amp;ie=UTF8&amp;t=p&amp;ll=52.961875,12.128906&amp;spn=22.334434,47.460938&amp;z=4" >View on a Map</a></span>\n};
-print qq{<p/></div><!-- more cities -->\n};
+print qq{</div><!-- more cities inner -->\n};
+print qq{</div><!-- more cities -->\n};
 
 print &footer( "cities" => \@city_list, 'city' => $city );
 print "</div> <!-- bottom -->\n";
 print $q->end_html;
+
+1;
