@@ -39,7 +39,7 @@ fi
 bbbike-checkout >&2 || error "checkout failed: $dir"
 cd bbbike
 
-git_opt=""
+git_opt="--no-edit"
 $verbose || git_opt="-q"
 if ! git merge $git_opt eserte/master; then
    echo "merged failed: $dir/bbbike"
