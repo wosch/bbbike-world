@@ -158,7 +158,7 @@ sub extract_route {
     warn "extract route: file: $file, max: $max, date: $date, appid=$appid\n"
       if $debug;
 
-    my $host = $devel ? '(dev|devel|www)' : '(www|api)';
+    my $host = $devel ? '(dev|devel|www|api)' : '(www|api)';
 
     # read more data then requested, expect some duplicated URLs
     my $duplication_factor = 1.5;
@@ -212,8 +212,7 @@ sub extract_route {
 
             next
               if $only_production_statistic
-                  && !
-m, (slippymap|bbbike|[A-Z][a-zA-Z]+)\.cgi: (URL:)?http://$host.bbbike.org/,i;
+                  && !m, ([a-zA-Z]+)\.cgi: (URL:)?http://$host.bbbike.org/,;
             next if !/coords/;
             next if $date && !/$date/;
             next if $appid && !/appid=$appid[;& ]/;
