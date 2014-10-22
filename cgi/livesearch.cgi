@@ -131,7 +131,10 @@ sub estimated_daily_usage {
 sub is_production {
     my $q = shift;
 
-    return 1 if -e "/tmp/is_production";
+    if ( defined $q->param('devel') ) {
+        return $q->param('devel') ? 1 : 0;
+    }
+
     return $q->virtual_host() =~ /^www\.bbbike\.org$/i ? 1 : 0;
 }
 
