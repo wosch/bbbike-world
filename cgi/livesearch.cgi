@@ -137,13 +137,23 @@ sub is_production {
 
 # extract URLs from web server error log
 sub extract_route {
-    my $file   = shift;
-    my $max    = shift;
-    my $devel  = shift;
-    my $date   = shift;
-    my $unique = shift;
+    my %args = @_;
+    warn Dumper( \%args );
 
-    warn "extract route: file: $file, max: $max, date: $date\n" if $debug;
+    my $file   = $args{'file'};
+    my $max    = $args{'max'};
+    my $devel  = $args{'devel'};
+    my $date   = $args{'date'} || "";
+    my $unique = $args{'unique'};
+    my $appid  = $args{'appid'} || "";
+
+    if ( $appid && $appid !~ /^[a-z0-9]+$/ ) {
+        warn "Reset appid=$appid due wrong characters!\n";
+        $appid = "";
+    }
+
+    warn "extract route: file: $file, max: $max, date: $date, appid=$appid\n"
+      if $debug;
 
     my $host = $devel ? '(dev|devel|www)' : '(www|api)';
 
@@ -203,6 +213,8 @@ sub extract_route {
 m, (slippymap|bbbike|[A-Z][a-zA-Z]+)\.cgi: (URL:)?http://$host.bbbike.org/,i;
             next if !/coords/;
             next if $date && !/$date/;
+            next if $appid && !/appid=$appid[;& ]/;
+
             next if /[;&]cache=1/;
 
             # binmode dies, use Encode module instead
@@ -413,7 +425,7 @@ sub statistic_maps {
     //<![CDATA[
 
     city = "dummy";
-  
+
     function jumpToCity (coord) {
 	debug("jumpToCity: " + coord);
 	if (!coord) {
@@ -436,13 +448,13 @@ sub statistic_maps {
 
         // no zoom level higher than 15
          map.setZoom( zoom < 13 ? zoom + 0 : 13);
-    } 
+    }
 
     $(document).ready(function() {
         bbbike_maps_init("terrain", [[43, 8],[57, 15]], "en", true, "eu" );
         setMapHeight();
     });
-    
+
     //]]>
     </script>
 EOF
@@ -452,9 +464,16 @@ EOF
         $max = $m if $m > 0 && $m <= 5_000;
     }
 
-    my $date = $q->param('date') || "";
-    my $stat = $q->param('stat') || "name";
-    my @d = &extract_route( $logfile, $max, &is_production($q), $date );
+    my $date  = $q->param('date')  || "";
+    my $stat  = $q->param('stat')  || "name";
+    my $appid = $q->param('appid') || "";
+    my @d     = &extract_route(
+        'file'  => $logfile,
+        'max'   => $max,
+        'devel' => &is_production($q),
+        'date'  => $date,
+        'appid' => $appid
+    );
 
     #print join ("\n", @d); exit;
 
@@ -608,8 +627,15 @@ sub statistic_basic {
         $max = $m if $m > 0 && $m <= 15_000;
     }
 
-    my $date = $q->param('date') || "today";
-    my @d = &extract_route( $logfile, $max, &is_production($q), $date );
+    my $date  = $q->param('date')  || "today";
+    my $appid = $q->param('appid') || "";
+    my @d     = &extract_route(
+        'file'  => $logfile,
+        'max'   => $max,
+        'devel' => &is_production($q),
+        'date'  => $date,
+        'appid' => $appid
+    );
 
     my $city_center;
     my $json = new JSON;
@@ -681,6 +707,11 @@ sub statistic_basic {
     # footer
     print qq{<br/><br/>\n<a href="../">home</a>\n};
 
+    $q->param( "date", "yesterday2" );
+    print qq{ | <a href="}
+      . $q->url( -query => 1 )
+      . qq{">before yesterday</a>\n};
+
     $q->param( "date", "yesterday" );
     print qq{ | <a href="} . $q->url( -query => 1 ) . qq{">yesterday</a>\n};
     $q->param( "date", "today" );
@@ -695,7 +726,7 @@ sub dump_url_list {
     my $q = shift;
 
     my $max = 1000;
-    my @d = &extract_route( $logfile, $max, 0, "" );
+    my @d = &extract_route( 'file' => $logfile, 'max' => $max, devel => 0 );
 
     my $cities;
     my %hash;
@@ -768,4 +799,3 @@ elsif ( $ns =~ /^cache/ ) {
 else {
     &statistic_maps($q);
 }
-
