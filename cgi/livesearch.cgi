@@ -215,7 +215,14 @@ sub extract_route {
                   && !m, ([a-zA-Z]+)\.cgi: (URL:)?http://$host.bbbike.org/,;
             next if !/coords/;
             next if $date && !/$date/;
-            next if $appid && !/appid=$appid[;& ]/;
+
+            # internal appid "web0"
+            if ( $appid eq 'web0' && !/appid=/ ) {
+                ;
+            }
+            else {
+                next if $appid && !/appid=$appid[;& ]/;
+            }
 
             next if /[;&]cache=1/;
 
