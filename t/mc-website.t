@@ -21,6 +21,8 @@ BEGIN {
 binmode \*STDOUT, "utf8";
 binmode \*STDERR, "utf8";
 
+our $enable_devel_server = 1;    # y.tile.bbbike.org
+
 my @list = (
     {
         'page' =>
@@ -32,7 +34,7 @@ my @list = (
 );
 
 my @javascript = qw(
-  http://mc.bbbike.org/mc/js/OpenLayers/2.12/OpenLayers-min.js
+  http://mc.bbbike.org/mc/js/OpenLayers/2.12/OpenLayers.min.js
   http://mc.bbbike.org/mc/js/OpenLayers/2.12/OpenStreetMap.js
   http://mc.bbbike.org/mc/js/OpenLayers/2.12/Here.js
   http://mc.bbbike.org/mc/js/common.js
@@ -46,6 +48,7 @@ my @javascript = qw(
 my @gif = qw(
   http://mc.bbbike.org/mc/img/bg-right.gif
   http://mc.bbbike.org/mc/img/help.gif
+  http://mc.bbbike.org/mc/img/close.gif
   http://mc.bbbike.org/mc/img/indicator.gif
 );
 
@@ -66,6 +69,7 @@ my @png = qw(
   http://mc.bbbike.org/mc/img/theme/geofabrik/img/zoom-minus-mini.png
   http://mc.bbbike.org/mc/img/theme/geofabrik/img/zoom-plus-mini.png
   http://mc.bbbike.org/mc/img/theme/geofabrik/img/zoombar.png
+  http://mc.bbbike.org/mc/img/theme/geofabrik/img/cloud-popup-relative.png
 );
 
 my @css = qw(
@@ -132,6 +136,17 @@ my $count = 3 * scalar(@list);
 foreach my $obj (@list) {
     $count += scalar( @{ $obj->{'match'} } );
 }
+
+#
+# both production and devel server:
+# http://mc.bbbike.org
+# http://y.tile.bbbike.org
+#
+if ($enable_devel_server) {
+    push @list, map { s,mc.bbbike.org,y.tile.bbbike.org,; $_ } @list;
+    $count *= 2;
+}
+
 plan tests => $count;
 
 ############################################################################
