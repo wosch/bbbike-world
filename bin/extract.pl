@@ -241,15 +241,15 @@ sub set_alarm {
         # and kill running java processes
         local $SIG{HUP} = "IGNORE";
         kill "HUP", -$pgid;
-	sleep 0.5;
+        sleep 0.5;
 
         local $SIG{TERM} = "IGNORE";
-        kill "TERM", -$pgid
-	sleep 0.5;
+        kill "TERM", -$pgid;
+        sleep 0.5;
 
         local $SIG{INT} = "IGNORE";
-        kill "INT", -$pgid
-	sleep 0.5;
+        kill "INT", -$pgid;
+        sleep 0.5;
 
         warn "Send a hang-up to all childs.\n";
 
