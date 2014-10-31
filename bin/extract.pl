@@ -233,17 +233,23 @@ sub set_alarm {
     $time = $alarm if !defined $time;
 
     $SIG{ALRM} = sub {
+        my $pgid = getpgrp();
 
         warn "Time out alarm $time\n";
 
         # sends a hang-up signal to all processes in the current process group
         # and kill running java processes
         local $SIG{HUP} = "IGNORE";
-        kill 1, -$$;
+        kill "HUP", -$pgid;
+	sleep 0.5;
 
         local $SIG{TERM} = "IGNORE";
-        kill 15, -$$;
-        kill 15, -$$;
+        kill "TERM", -$pgid
+	sleep 0.5;
+
+        local $SIG{INT} = "IGNORE";
+        kill "INT", -$pgid
+	sleep 0.5;
 
         warn "Send a hang-up to all childs.\n";
 
