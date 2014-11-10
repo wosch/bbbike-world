@@ -63,12 +63,14 @@ graph_info Running extract jobs
 graph_period minute
 jobs.label Running jobs
 jobs.min 0
-proc.label Running proc
-proc.min 0
 waiting.label Waiting jobs
 waiting.min 0
+proc.label Running proc
+proc.min 0
 users.label Active Users
 users.min 0
+users_waiting.label Waitung Users
+users_waiting.min 0
 EOF
 
 echo "jobs.warning $jobs_warning"
@@ -99,8 +101,10 @@ for i in *.pid; do
 done
 echo "proc.value $count"
 
-echo "waiting.value" $(ls $extract_dir/../confirmed/*json 2>/dev/null | wc -l) 
+echo "waiting.value" $(ls $extract_dir/../confirmed/*.json 2>/dev/null | wc -l) 
 
-echo "users.value" $(egrep -h '"email"' $extract_dir/*/*json 2>/dev/null | sort -u | wc -l) 
+echo "users.value" $(egrep -h '"email"' $extract_dir/*/*.json 2>/dev/null | sort -u | wc -l) 
+
+echo "users_waiting.value" $(egrep -h '"email"' $extract_dir/../confirmed/*.json 2>/dev/null | sort -u | wc -l) 
 
 # EOF
