@@ -160,7 +160,9 @@ sub convert {
 }
 
 sub checksum {
+    # see world/t/data-osm/convert.sh
     my $md5 = md5_file("$prefix/Cusco/checksum");
+
     my $md5_checksum_select =
       $^O =~ m{darwin}i
       ? ["db9f5b2cae816cf162acbe0a2a2187e5"]
