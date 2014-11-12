@@ -160,15 +160,23 @@ sub convert {
 }
 
 sub checksum {
+
+    # see world/t/data-osm/convert.sh
     my $md5 = md5_file("$prefix/Cusco/checksum");
+
     my $md5_checksum_select =
       $^O =~ m{darwin}i
       ? ["db9f5b2cae816cf162acbe0a2a2187e5"]
       : [
-        "5a3b69d13ccf6d639d61a0c98247a9bf",    # debian7
+        "00be5db534e43686458a87b40f15d739",    # debian7
+        "03dfd15fd5cc3a35a419f4e807d39111",    # debian7
+
         "93537a5063709529864cd104243aa1d0",    # debian7
         "09d99413f9ce071b29b8c794a8651dba",    # debian6
         "70251aa7f78f63891856535c912499ca",    # debian8
+        "a3a6fc46b0158372543a466bc948976e",    # debian8
+
+        "606eb68a137bc985378760d647da7c76",    # ubuntu14
       ];
     my $md5_checksum = ( grep { $md5 eq $_ } @$md5_checksum_select )[0];
 
