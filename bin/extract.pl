@@ -1836,9 +1836,14 @@ while ( my ( $key, $val ) = each %$spool ) {
     $spool->{$key} = "$spool_dir/$val";
 }
 
+my $lockfile = $spool->{'running'} . "/extract.pid";
+&create_lock( 'lockfile' => $lockfile )
+  or die "Cannot get lockfile $lockfile, give up\n";
+
 my @files = get_jobs( $spool->{'confirmed'} );
 if ( !scalar(@files) ) {
     print "Nothing to do\n" if $debug >= 2;
+    &remove_lock( 'lockfile' => $lockfile );
     exit 0;
 }
 
@@ -1871,6 +1876,7 @@ my $errors = &run_jobs(
     'files'      => \@files
 );
 
+&remove_lock( 'lockfile' => $lockfile );
 exit($errors);
 
 1;
