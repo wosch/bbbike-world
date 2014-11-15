@@ -37,11 +37,11 @@ my @javascript = qw(
   http://mc.bbbike.org/mc/js/OpenLayers/2.12/OpenLayers.min.js
   http://mc.bbbike.org/mc/js/OpenLayers/2.12/OpenStreetMap.js
   http://mc.bbbike.org/mc/js/OpenLayers/2.12/Here.js
-  http://mc.bbbike.org/mc/js/common.js
-  http://mc.bbbike.org/mc/js/jqModal/jqModal-2009.03.01-r14.js
-  http://mc.bbbike.org/mc/js/jquery/jquery-1.7.min.js
+  http://mc.bbbike.org/mc/js/jqModal/jqModal-1.1.0.js
+  http://mc.bbbike.org/mc/js/jquery/jquery-1.8.3.min.js
   http://mc.bbbike.org/mc/js/jquery/jquery-ui-1.7.2.custom.min.js
   http://mc.bbbike.org/mc/js/jquery/jquery.cookie.js
+  http://mc.bbbike.org/mc/js/jquery/jquery.iecors.js
   http://mc.bbbike.org/mc/js/mc.js
 );
 
@@ -126,7 +126,7 @@ foreach my $item (@javascript) {
     push @list,
       {
         'page'      => $item,
-        'min_size'  => 1_900,
+        'min_size'  => 1_500,
         'match'     => [],
         'mime_type' => 'application/javascript'
       };
