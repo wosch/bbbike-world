@@ -31,6 +31,7 @@ use GIS::Distance::Lite;
 use LWP;
 use LWP::UserAgent;
 use Time::gmtime;
+use LockFile::Simple;
 
 use strict;
 use warnings;
@@ -1555,34 +1556,38 @@ sub read_data {
 }
 
 sub create_lock {
-    my %args = @_;
-
+    my %args     = @_;
     my $lockfile = $args{'lockfile'};
 
-    if ( -e $lockfile ) {
-        my $pid = read_data($lockfile);
-        if ( kill( 0, $pid ) ) {
-            warn "$pid is still running\n";
-            return 0;
-        }
-        else {
-            warn "$pid is no longer running\n";
-            remove_lock( 'lockfile' => $lockfile );
-        }
+    warn "create lockfile: $lockfile, value: $$\n" if $debug >= 2;
+
+    my $lockmgr = LockFile::Simple->make(
+        -autoclean => 1,
+        -max       => 5,
+        -stale     => 1,
+        -delay     => 1
+    );
+    if ( $lockmgr->trylock($lockfile) ) {
+        return $lockmgr;
     }
 
-    warn "create lockfile: $lockfile\n" if $debug >= 2;
-    store_data( $lockfile, $$ );
-    return 1;
+    # return undefined for failure
+    else {
+        warn "Cannot get lockfile: $lockfile\n" if $debug >= 2;
+        return;
+    }
 }
 
 sub remove_lock {
     my %args = @_;
 
     my $lockfile = $args{'lockfile'};
+    my $lockmgr  = $args{'lockmgr'};
 
     warn "remove lockfile: $lockfile\n" if $debug >= 2;
-    unlink($lockfile) or die "unlink $lockfile: $!\n";
+    $lockmgr->unlock($lockfile);
+
+    #unlink($lockfile) or die "unlink $lockfile: $!\n";
 }
 
 sub get_msg {
@@ -1697,23 +1702,43 @@ sub run_jobs {
 
     my @files = @$files;
     my $lockfile;
+    my $lockmgr;
 
     warn "Start job at: @{[ gmctime() ]} UTC\n" if $debug;
+
+    #############################################################
+    # semaphore for parsing the jobs
+    # run only one extract.pl script at once while parsing
+    #
+    my $lockfile_extract = $spool->{'running'} . "/extract.pid";
+    my $lockmgr_extract = &create_lock( 'lockfile' => $lockfile_extract )
+      or die "Cannot get lockfile $lockfile_extract, give up\n";
+    warn "Use lockfile $lockfile_extract\n" if $debug;
+
+    &remove_lock(
+        'lockfile' => $lockfile_extract,
+        'lockmgr'  => $lockmgr_extract
+    );
 
     # find a free job
     foreach my $number ( 1 .. $max_jobs ) {
         my $file = $spool->{'running'} . "/job${number}.pid";
 
         # lock pid
-        if ( &create_lock( 'lockfile' => $file ) ) {
+        if ( $lockmgr = &create_lock( 'lockfile' => $file ) ) {
             $lockfile = $file;
             last;
         }
     }
 
     # Oops, are jobs are in use, give up
-    die "Cannot get lock for jobs 1..$max_jobs\n" . qx(uptime)
-      if !$lockfile;
+    if ( !$lockfile ) {
+        &remove_lock(
+            'lockfile' => $lockfile_extract,
+            'lockmgr'  => $lockmgr_extract
+        );
+        die "Cannot get lock for jobs 1..$max_jobs\n" . qx(uptime);
+    }
 
     warn "Use lockfile $lockfile\n" if $debug;
 
@@ -1723,9 +1748,13 @@ sub run_jobs {
         'max'   => $max_areas,
     );
     my @list = @$list;
+
     if ( !@list ) {
         print "Nothing to do for users\n" if $debug >= 2;
-        &remove_lock( 'lockfile' => $lockfile );
+        &remove_lock(
+            'lockfile' => $lockfile_extract,
+            'lockmgr'  => $lockmgr_extract
+        );
         exit 0;
     }
 
@@ -1739,6 +1768,13 @@ sub run_jobs {
         'list'    => \@list,
         'spool'   => $spool,
     );
+
+    # EOF semaphone block
+    &remove_lock(
+        'lockfile' => $lockfile_extract,
+        'lockmgr'  => $lockmgr_extract
+    );
+    ############################################################
 
     # be paranoid, give up after N hours (java bugs?)
     &set_alarm( $alarm, "osmosis" );
@@ -1784,7 +1820,7 @@ sub run_jobs {
     warn "Number of errors: $errors\n" if $errors;
 
     # unlock pid
-    &remove_lock( 'lockfile' => $lockfile );
+    &remove_lock( 'lockfile' => $lockfile, 'lockmgr' => $lockmgr );
 
     &cleanup_jobdir(
         'job_dir' => $job_dir,
@@ -1836,14 +1872,9 @@ while ( my ( $key, $val ) = each %$spool ) {
     $spool->{$key} = "$spool_dir/$val";
 }
 
-my $lockfile = $spool->{'running'} . "/extract.pid";
-&create_lock( 'lockfile' => $lockfile )
-  or die "Cannot get lockfile $lockfile, give up\n";
-
 my @files = get_jobs( $spool->{'confirmed'} );
 if ( !scalar(@files) ) {
     print "Nothing to do\n" if $debug >= 2;
-    &remove_lock( 'lockfile' => $lockfile );
     exit 0;
 }
 
@@ -1876,7 +1907,6 @@ my $errors = &run_jobs(
     'files'      => \@files
 );
 
-&remove_lock( 'lockfile' => $lockfile );
 exit($errors);
 
 1;
