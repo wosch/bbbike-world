@@ -412,8 +412,8 @@ sub footer {
       $args{'map'} ? ' | <a href="javascript:locateMe()">where am I?</a>' : "";
 
     my @js =
-      qw(OpenLayers/2.12/OpenLayers-min.js OpenLayers/2.12/OpenStreetMap.js jquery/jquery-1.7.1.min.js
-      jquery/jqModal-2009.03.01-r14.js jquery/jquery-ui-1.9.1.custom.min.js jquery/jquery.cookie-1.3.1.js extract.js);
+      qw(OpenLayers/2.12/OpenLayers-min.js OpenLayers/2.12/OpenStreetMap.js jquery/jquery-1.8.3.min.js
+      jquery/jqModal-1.1.0.js jquery/jquery-ui-1.9.1.custom.min.js jquery/jquery.cookie-1.3.1.js extract.js);
     my $javascript = join "\n",
       map { qq{<script src="../html/$_" type="text/javascript"></script>} } @js;
 
