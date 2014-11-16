@@ -61,6 +61,7 @@ var config = {
         viewbox: true,
         limit: 25,
         marker_permalink: false,
+        marker_input_field: "city",
         paging: 5
     },
 
@@ -1515,6 +1516,9 @@ function set_popup(obj) {
     if (mc.search.marker_permalink) {
         // message_p += '<p/><div><a href="' + $("#permalink").attr("href") + '&marker=' + message + '">permalink</a></div>';
         message_p += '<p/><div><a onclick="click_share_link(' + obj.lon + ',' + obj.lat + ')">share</a></div>';
+    }
+    if (mc.search.marker_input_field) {
+        $("input#" + mc.search.marker_input_field).attr("value", message);
     }
 
     // A popup with some information about our location
