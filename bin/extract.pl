@@ -450,7 +450,7 @@ sub is_bot {
     my $user_agent = $obj->{'user_agent'};
 
     # legacy config jobs
-    if ( defined $user_agent ) {
+    if ( !defined $user_agent ) {
         $user_agent = "";
     }
 
