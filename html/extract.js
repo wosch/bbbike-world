@@ -56,7 +56,7 @@ var config = {
     // nominatim address search
     search: {
         type: 'nominatim',
-        max_zoom: 16,
+        max_zoom: 15,
         show_marker: true,
         viewbox: true,
         limit: 25,
