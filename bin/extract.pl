@@ -449,6 +449,11 @@ sub is_bot {
     my @bots       = @{ $option->{'bots'} };
     my $user_agent = $obj->{'user_agent'};
 
+    # legacy config jobs
+    if ( defined $user_agent ) {
+        $user_agent = "";
+    }
+
     return ( grep { $user_agent =~ /$_/ } @bots ) ? 1 : 0;
 }
 
