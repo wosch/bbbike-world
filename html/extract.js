@@ -62,6 +62,7 @@ var config = {
         limit: 25,
         marker_permalink: false,
         marker_input_field: "city",
+        user_agent: "extract.bbbike.org",
         paging: 5
     },
 
@@ -1587,9 +1588,10 @@ function mc_search_nominatim(query, offset, paging) {
     $("div#search-results").html("<p>start searching...</p>"); // remove old results first
     set_search_width();
 
+    var email = mc.search.user_agent ? "&email=" + mc.search.user_agent : "";
 
     // async search request to nominatim
-    var url = 'http://nominatim.openstreetmap.org/search?format=json&limit=' + limit + "&viewboxlbrt=" + viewport + '&q=' + encodeURI(query);
+    var url = 'http://nominatim.openstreetmap.org/search?format=json&limit=' + limit + "&viewboxlbrt=" + viewport + '&q=' + encodeURI(query) + email;
 
     // IE8/IE9
     // $.support.cors = false;
