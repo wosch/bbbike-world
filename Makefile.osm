@@ -1352,6 +1352,7 @@ help:
 	@echo "  [ deb-clean | deb-repo | deb-repo-upload | update-apt ]"
 	@echo "  [ DEB_VENDOR=ubuntu DEB_RELEASE=precise deb-perl deb-equivs deb-bin deb-repo-upload ]"
 	@echo "  [ DEB_REPO= make update-apt-\$$(hostname) ]"
+	@echo "  [ DEB_REPO= make UPDATE_APT='deb-equivs deb-repo-upload' update-apt-\$$(hostname) ]"
 	@echo "  [ DEB_REPO= make UPDATE_APT='deb-perl deb-repo-upload' update-apt-\$$(hostname) ]"
 	@echo "  [ DEB_REPO= COPY_DEB=true make UPDATE_APT=deb-bin update-apt-\$$(hostname) ]"
 	@echo "  [ sudo apt-get clean && sudo apt-get update && sudo apt-get dist-upgrade -y ]"
