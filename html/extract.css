@@ -324,5 +324,13 @@ select {
     max-height: 35em;
 }
 
+/* search popup */
+div.dialog-search h3 { text-align: center; }
+div.dialog-search form { text-align: center; }
+div.dialog-search input#address-query { width: 20em; font-size: large }
+div.dialog-search input { font-size: large; }
+div.dialog-title.search-title { text-align: center; }
+div#search-results p { margin: 0.6em; }
+
 /* EOF */
 

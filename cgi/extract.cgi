@@ -1341,7 +1341,7 @@ qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="j
                 $q->td(
                     [
 "<span class='' title='Give the city or area to extract a name. "
-                          . "The name is optional, but better fill it out to find it later again.'>@{[ M('Name of area to extract') ]} <a class='tools-helptrigger-small' href='$extract_dialog/$language/name.html'><img src='/html/help-16px.png' alt='' /></a><br/></span>"
+                          . "The name is optional, but better fill it out to find it later again.'>@{[ M('Name of area to extract') ]} <a class='tools-helptrigger-small' href='$extract_dialog/$language/search.html'><img src='/html/help-16px.png' alt='' /></a><br/></span>"
                           . $q->textfield(
                             -name => 'city',
                             -id   => 'city',

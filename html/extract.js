@@ -53,6 +53,17 @@ var config = {
     // ??
     "polygon_rotate": true,
 
+    // nominatim address search
+    search: {
+        type: 'nominatim',
+        max_zoom: 16,
+        show_marker: true,
+        viewbox: true,
+        limit: 25,
+        marker_permalink: false,
+        paging: 5
+    },
+
     // not used yet
     "dummy": ""
 };
@@ -213,6 +224,7 @@ function init_map() {
         type: google.maps.MapTypeId.ROADMAP
     }));
 
+    state.map = map;
     return map;
 }
 
@@ -403,6 +415,8 @@ function extract_init(opt) {
             validateControls()
         });
     }
+
+    state.proj4326 = new OpenLayers.Projection('EPSG:4326');
 }
 
 function boundsChanged() {
@@ -1389,5 +1403,227 @@ function M(message) {
 jQuery(document).ready(function () {
     init_dialog_window();
 });
+
+/************************************************************************
+ * map compare
+ *
+ */
+
+var mc = {
+    search: config.search
+};
+
+function chooseAddrBTLR(b, t, l, r, lon, lat, message) {
+    chooseAddr(l, b, r, t, lon, lat, message)
+}
+
+function chooseAddr(l, b, r, t, lon, lat, message) {
+    var bounds = new OpenLayers.Bounds(l, b, r, t).transform("EPSG:4326", "EPSG:900913");
+    map.zoomToExtent(bounds);
+    var zoom = map.zoom;
+
+    if (mc.search.max_zoom && mc.search.max_zoom < zoom) {
+        zoom = mc.search.max_zoom;
+        debug("reset zoom level for address: " + zoom);
+        map.zoomTo(zoom);
+    }
+
+    // marker for address
+    if (mc.search.show_marker) {
+        set_popup({
+            "lon": lon,
+            "lat": lat,
+            "message": message
+        });
+    }
+}
+
+function set_search_width() {
+    var width = $(window).width();
+    var height = $("div#search-results").outerHeight(true) + $("div#search-form").outerHeight(true);
+    var max_with = 760;
+
+    if (width > max_with) {
+        width = max_with;
+    }
+    var help_width = Math.floor(width * 0.95);
+
+    $(".jqmWindow").width(help_width);
+    $(".jqmWindow").css("right", 20);
+
+    $(".dialog-search").height(height + 20);
+    debug("search help width: " + help_width + " height: " + $(".dialog-search").outerHeight(true));
+}
+
+function mc_search(query) {
+    if (!query) {
+        query = $("input#address-query").attr("value") || "";
+    }
+
+    if (mc.search.type == 'nominatim') {
+        mc_search_nominatim(query);
+    } else {
+        debug("unknown search type");
+    }
+}
+
+function init_search() {
+    // $('#address-submit').click(function () {
+    // IE8, IE9 submit on enter, see http://support.microsoft.com/kb/298498/
+    $('div#search-form form').on('submit', function () {
+        mc_search();
+        return false;
+    });
+
+    // disable keyboard shortcuts on input fields
+    $("#search-form").on("focus blur mousein mouseout mouseover", "input#address-query", function () {
+        var active = document.activeElement.id == this.id;
+
+        debug("document active: " + (document.activeElement.id ? document.activeElement.id : "ACTIVE") + " " + active);
+
+        // xxx
+        if (!state.control || !state.control.keyboard) {
+            return;
+        }
+        active ? state.control.keyboard.deactivate() : state.control.keyboard.activate();
+    });
+
+    set_search_width();
+
+    // XXX: on newer jqModal we need a timeout
+    setTimeout(function () {
+        set_search_width();
+    }, 0);
+
+    // XXX: jquery 1.8.3 set the focus later
+    // inital focus set
+    setTimeout(function () {
+        $("div#search-form input#address-query").focus();
+    }, 50);
+}
+
+function set_popup(obj) {
+    if (!obj) return;
+
+    var map = state.map;
+    var message = obj.message || "marker";
+    var pos = new OpenLayers.LonLat(obj.lon, obj.lat).transform(state.proj4326, map.getProjectionObject());
+    debug("set marker: " + obj.lon + "," + obj.lat);
+
+
+    var message_p = "";
+    if (mc.search.marker_permalink) {
+        // message_p += '<p/><div><a href="' + $("#permalink").attr("href") + '&marker=' + message + '">permalink</a></div>';
+        message_p += '<p/><div><a onclick="click_share_link(' + obj.lon + ',' + obj.lat + ')">share</a></div>';
+    }
+
+    // A popup with some information about our location
+    var popup = new OpenLayers.Popup.FramedCloud("Popup", pos, null, // new OpenLayers.Size(50,50), // null,
+    "<span id='mc_popup'>" + message + "</span>" + message_p, null, true // <-- true if we want a close (X) button, false otherwise
+    );
+
+    // remove old popups from search clicks
+    if (state.popup) {
+        map.removePopup(state.popup);
+    }
+
+    map.addPopup(popup);
+
+    // keep values for further usage (delete, position)
+    state.popup = popup;
+    state.marker_message = message;
+}
+
+/*
+ viewbox=<left>,<top>,<right>,<bottom>
+ or viewboxlbrt=<left>,<bottom>,<right>,<top>
+   The preferred area to find search results
+   */
+
+function get_viewport(map) {
+    var proj = map.getProjectionObject();
+    var center = map.getCenter().clone();
+    var zoom = map.getZoom();
+
+    var box = map.getExtent();
+    // 13.184573,52.365721,13.593127,52.66782
+    // x1,y1 x2,y2
+    var bbox = box.transform(map.getProjectionObject(), state.proj4326).toArray();
+
+    debug(bbox + " " + bbox.length);
+
+    if (bbox && bbox.length == 4) {
+        return bbox.join(",");
+    } else {
+        debug("Warning: no viewboxlbrt found");
+        return "";
+    }
+}
+
+function mc_search_nominatim(query, offset, paging) {
+    var limit = mc.search.limit || 25;
+    var viewport = "";
+
+    if (!paging) {
+        paging = mc.search.paging || 5;
+    }
+    if (!offset) {
+        offset = 0;
+    }
+
+    var items = [];
+    var counter = 0;
+
+
+    if (mc.search.viewbox) {
+        viewport = get_viewport(map);
+    }
+
+    debug("start address search query: " + query + " limit: " + limit + " viewport: " + viewport);
+    $("div#search-results").html("<p>start searching...</p>"); // remove old results first
+    set_search_width();
+
+
+    // async search request to nominatim
+    var url = 'http://nominatim.openstreetmap.org/search?format=json&limit=' + limit + "&viewboxlbrt=" + viewport + '&q=' + encodeURI(query);
+
+    // IE8/IE9
+    // $.support.cors = false;
+    $.getJSON(url, function (data) {
+        $("div#search-results").html(""); // remove old results first
+        $.each(data, function (index, val) {
+            counter++;
+            if (index >= offset && index < offset + paging) {
+                if (items.length == 0) {
+                    $("div#search-results").append("<br/>");
+                }
+                debug("Address: " + index + ". " + val.display_name + " lat: " + val.lat + " lon: " + val.lon);
+
+                var link = "<p><a title='lat,lon: " + val.lat + "," + val.lon + " [" + val["class"] + "]'";
+                link += "href='#' onclick='chooseAddrBTLR(" + val.boundingbox + "," + val.lon + "," + val.lat + ", \"" + val.display_name + "\");return false;'>" + counter + ". " + val.display_name + "</a></p>";
+                $("div#search-results").append(link);
+                items.push(link);
+            }
+        });
+
+        // nothing found
+        if (items.length == 0) {
+            $("div#search-results").append("<p>No results found</p>");
+        }
+
+        // probably more results, search again
+        else if (items.length == paging && offset + paging < counter) {
+            $("div#search-results").append("<hr/><a href='#' onclick='mc_search_nominatim(\"" + query + "\"," + (offset + paging) + ", " + paging + "); return false;'>More results...</a>");
+        }
+
+        set_search_width();
+
+    }).fail(function (data, textStatus, error) {
+        debug("error nominatim search: " + url);
+        debug("error nominatim: data: " + data + ", textStatus: " + textStatus + ", error: " + error);
+        $("div#search-results").html("<p>Search with nominatim failed. Please try again later. Sorry!</p>" + "<p>" + error + "</p>");
+        set_search_width();
+    });
+}
 
 // EOF
