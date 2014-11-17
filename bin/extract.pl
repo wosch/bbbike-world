@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2011-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2011-2014 Wolfram Schneider, http://bbbike.org
 #
 # extract.pl - extracts areas in a batch job
 #
@@ -959,13 +959,14 @@ sub copy_to_trash {
 
 # prepare to sent mail about extracted area
 sub convert_send_email {
-    my %args       = @_;
-    my $json       = $args{'json'};
-    my $send_email = $args{'send_email'};
-    my $keep       = $args{'keep'};
-    my $alarm      = $args{'alarm'};
-    my $test_mode  = $args{'test_mode'};
-    my $planet_osm = $args{'planet_osm'};
+    my %args             = @_;
+    my $json             = $args{'json'};
+    my $send_email       = $args{'send_email'};
+    my $keep             = $args{'keep'};
+    my $alarm            = $args{'alarm'};
+    my $test_mode        = $args{'test_mode'};
+    my $planet_osm       = $args{'planet_osm'};
+    my $planet_osm_mtime = $args{'planet_osm_mtime'};
 
     # all scripts are in these directory
     my $dirname = dirname($0);
@@ -980,11 +981,12 @@ sub convert_send_email {
 
         eval {
             _convert_send_email(
-                'json_file'  => $json_file,
-                'send_email' => $send_email,
-                'test_mode'  => $test_mode,
-                'planet_osm' => $planet_osm,
-                'alarm'      => $alarm
+                'json_file'        => $json_file,
+                'send_email'       => $send_email,
+                'test_mode'        => $test_mode,
+                'planet_osm'       => $planet_osm,
+                'planet_osm_mtime' => $planet_osm_mtime,
+                'alarm'            => $alarm
             );
         };
 
@@ -1078,12 +1080,13 @@ sub script_url {
 }
 
 sub _convert_send_email {
-    my %args       = @_;
-    my $json_file  = $args{'json_file'};
-    my $send_email = $args{'send_email'};
-    my $alarm      = $args{'alarm'};
-    my $test_mode  = $args{'test_mode'};
-    my $planet_osm = $args{'planet_osm'};
+    my %args             = @_;
+    my $json_file        = $args{'json_file'};
+    my $send_email       = $args{'send_email'};
+    my $alarm            = $args{'alarm'};
+    my $test_mode        = $args{'test_mode'};
+    my $planet_osm       = $args{'planet_osm'};
+    my $planet_osm_mtime = $args{'planet_osm_mtime'};
 
     my $obj2 = get_json($json_file);
     &set_alarm( $alarm, $obj2->{'pbf_file'} . " " . $obj2->{'format'} );
@@ -1353,7 +1356,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         next if !$send_email;
 
         my $script_url = &script_url( $option, $obj );
-        my $database_update = gmctime( stat($planet_osm)->mtime ) . " UTC";
+        my $database_update = gmctime($planet_osm_mtime) . " UTC";
 
         my $text = M("EXTRACT_EMAIL");
         my $granularity;
@@ -1781,6 +1784,8 @@ sub run_jobs {
     );
     ############################################################
 
+    my $stat = stat($planet_osm) or die "cannot stat $planet_osm: $!\n";
+
     # be paranoid, give up after N hours (java bugs?)
     &set_alarm( $alarm, "osmosis" );
 
@@ -1809,12 +1814,13 @@ sub run_jobs {
     # send out mail
     $time = time();
     my $errors = &convert_send_email(
-        'json'       => $json,
-        'send_email' => $send_email,
-        'alarm'      => $option->{alarm_convert},
-        'test_mode'  => $test_mode,
-        'planet_osm' => $planet_osm,
-        'keep'       => 1
+        'json'             => $json,
+        'send_email'       => $send_email,
+        'alarm'            => $option->{alarm_convert},
+        'test_mode'        => $test_mode,
+        'planet_osm'       => $planet_osm,
+        'planet_osm_mtime' => $stat->mtime,
+        'keep'             => 1
     );
 
     warn "Total convert and email time: ", time() - $time, " seconds\n"
