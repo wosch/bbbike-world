@@ -19,6 +19,9 @@ var config = {
     // city name required
     "city_name_optional": false,
 
+    // box must be on map before submit
+    "box_on_map": true,
+
     // limit are size to max. square kilometers
     "max_skm": 24000000,
 
@@ -663,6 +666,7 @@ function checkform() {
     var color_normal = "white";
     var color_error = "red";
 
+
     var inputs = $("form#extract input"); // debug("inputs elements: " + inputs.length); return false;
     for (var i = 0; i < inputs.length; ++i) {
         var e = inputs[i];
@@ -710,6 +714,11 @@ function checkform() {
         ret = 3;
     } else if (ret > 0) {
         alert(ret == 1 ? M("Please fill out all fields!") : M("Use a smaller area! Max size: ") + max_size + "MB");
+    } else if (config.box_on_map) {
+        if (!validate_box_on_map()) {
+            alert(M("The bounding box is outside of the map. Please move back to the box, or >>Select a different<< area on the map"));
+            ret = 4;
+        }
     }
 
     return ret == 0 ? true : false;
@@ -1058,6 +1067,8 @@ function validateControls() {
 
     debug("validateControls frac: " + polygon + " skm: " + skm);
 
+    debug("polygon is on map: " + validate_box_on_map());
+
     // plot area size and file size
     $.getJSON(url, function (data) {
         var size = data.size
@@ -1078,6 +1089,23 @@ function validateControls() {
         var filesize = show_filesize(skm * polygon, size * polygon);
         show_skm(skm * polygon, filesize);
     });
+}
+
+function validate_box_on_map() {
+    debug("check if bounding box is on map: state.box: " + state.box);
+    if (state.box == 0) return 0;
+
+    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
+    var bounds = map.getExtent();
+    bounds.transform(map.getProjectionObject(), epsg4326);
+
+    if (bounds.contains($("#sw_lng").val(), $("#sw_lat").val()) || bounds.contains($("#ne_lng").val(), $("#ne_lat").val())) {
+
+        debug("box is on map");
+        return 1;
+    }
+
+    return 0;
 }
 
 function show_filesize(skm, real_size) {
