@@ -1518,6 +1518,15 @@ function init_search() {
         active ? state.control.keyboard.deactivate() : state.control.keyboard.activate();
     });
 
+    // copy name of aera into search field, and trigger a search
+    if (mc.search.marker_input_field) {
+        var query = $("input#" + mc.search.marker_input_field).attr("value");
+        if (query != "") {
+            $("input#address-query").attr("value", query);
+            $('div#search-form form').trigger('submit');
+        }
+    }
+
     set_search_width();
 
     // XXX: on newer jqModal we need a timeout
