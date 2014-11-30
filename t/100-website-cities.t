@@ -92,7 +92,7 @@ sub myget {
     my $res = $ua->request($req);
 
     isnt( $res->is_success, undef, "$url is success" );
-    is( $res->status_line, "200 OK", "status code 200" );
+    is( $res->status_line, "200 OK", "status code 200 for url:$url" );
 
     my $content = $res->decoded_content();
     cmp_ok( length($content), ">", $size, "greather than $size" );
