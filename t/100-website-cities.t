@@ -22,6 +22,8 @@ BEGIN {
 binmode \*STDOUT, "utf8";
 binmode \*STDERR, "utf8";
 
+my $debug = 1;
+
 my @homepages_localhost =
   ( $ENV{BBBIKE_TEST_SERVER} ? $ENV{BBBIKE_TEST_SERVER} : "http://localhost" );
 my @homepages =
@@ -131,7 +133,7 @@ sub _cities {
     my $content = $res->decoded_content();
     my $data    = $content;
 
-    diag "check url:$url";
+    diag "check url:$url" if $debug >= 1;
 
     like( $content, qr|"real_time"|, "complete html" );
     like(
