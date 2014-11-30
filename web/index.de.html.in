@@ -41,17 +41,11 @@
 
         <!-- <a href="index.en.html">[de]</a> -->
 	<span id="language_switch">
-        <a href="../da/" title="d&auml;nisch">da</a> |
 	<span class="current_language" title="deutsch">de</span> |
         <a href="../en/" title="englisch">en</a> |
         <a href="../es/" title="spanisch">es</a> |
         <a href="../fr/" title="franz&ouml;sisch">fr</a> |
-        <a href="../hr/" title="kroatisch">hr</a> |
-        <a href="../nl/" title="niederl&auml;ndisch">nl</a> |
-        <a href="../pl/" title="polnisch">pl</a> |
-        <a href="../pt/" title="portugisisch">pt</a> |
         <a href="../ru/" title="russisch">ru</a> |
-        <a href="../zh/" title="chinesisch">zh</a> |
         <a href="../">andere</a> |
 	<a href="../m/" title="BBBike f&uuml;r mobile Ger&auml;te">mobil</a>
 	</span>
