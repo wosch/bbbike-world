@@ -2661,10 +2661,17 @@ function displayCurrentPosition(area, lang) {
         return;
     }
 
+    // 6 numbers after dot: 53.12456
+
+
+    function round6(number) {
+        return Math.round(number * 1000000) / 1000000;
+    }
+
     navigator.geolocation.getCurrentPosition(function (position) {
         currentPosition = {
-            "lat": position.coords.latitude,
-            "lng": position.coords.longitude
+            "lat": round6(position.coords.latitude),
+            "lng": round6(position.coords.longitude)
         };
 
         var pos = new google.maps.LatLng(currentPosition.lat, currentPosition.lng);
