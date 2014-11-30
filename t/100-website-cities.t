@@ -34,23 +34,22 @@ unshift @homepages, @homepages_localhost;
 my @cities = qw/Berlin Zuerich Toronto Moscow/;
 use constant MYGET => 3;
 
-my @lang = qw/de da  es  fr  hr  nl  pl  pt  ru  zh/;
+my @lang = qw/de es  fr  ru/;
 
 # for each translation, check a translated term
 my $msg = {
     "de" => ["Start- und Zielstra&szlig;e der Route eingeben"],
-    "da" => ["Angiv start-og bestemmelsessted gadenavn"],
     "es" => ["Por favor, introduzca de inicio y destino"],
     "fr" => ["S'il vous plaît entrez vous nom de la rue de destination"],
-    "hr" => ["Molimo unesite početak i odredište naziv ulice"],
-    "nl" => ["Geef start-en straatnaam van uw bestemming"],
-    "pl" => ["Proszę podać start i ulicy przeznaczenia nazwę"],
-    "pt" => ["Por favor, indique de partida eo destino nome da rua"],
     "ru" => [
 "Пожалуйста, введите начало и назначения название улицы"
     ],
-    "zh" =>
-      ["请输入起始和没有门牌号码</乙>目的地的街道名称的"]
+    #"hr" => ["Molimo unesite početak i odredište naziv ulice"],
+    #"nl" => ["Geef start-en straatnaam van uw bestemming"],
+    #"pl" => ["Proszę podać start i ulicy przeznaczenia nazwę"],
+    #"pt" => ["Por favor, indique de partida eo destino nome da rua"],
+    #"da" => ["Angiv start-og bestemmelsessted gadenavn"],
+    #"zh" => ["请输入起始和没有门牌号码</乙>目的地的街道名称的"]
 };
 
 if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
