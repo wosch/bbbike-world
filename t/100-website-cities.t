@@ -46,12 +46,13 @@ my $msg = {
     "ru" => [
 "Пожалуйста, введите начало и назначения название улицы"
     ],
-    #"hr" => ["Molimo unesite početak i odredište naziv ulice"],
-    #"nl" => ["Geef start-en straatnaam van uw bestemming"],
-    #"pl" => ["Proszę podać start i ulicy przeznaczenia nazwę"],
-    #"pt" => ["Por favor, indique de partida eo destino nome da rua"],
-    #"da" => ["Angiv start-og bestemmelsessted gadenavn"],
-    #"zh" => ["请输入起始和没有门牌号码</乙>目的地的街道名称的"]
+
+#"hr" => ["Molimo unesite početak i odredište naziv ulice"],
+#"nl" => ["Geef start-en straatnaam van uw bestemming"],
+#"pl" => ["Proszę podać start i ulicy przeznaczenia nazwę"],
+#"pt" => ["Por favor, indique de partida eo destino nome da rua"],
+#"da" => ["Angiv start-og bestemmelsessted gadenavn"],
+#"zh" => ["请输入起始和没有门牌号码</乙>目的地的街道名称的"]
 };
 
 if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
