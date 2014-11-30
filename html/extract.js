@@ -1099,8 +1099,11 @@ function validate_box_on_map() {
     var bounds = map.getExtent();
     bounds.transform(map.getProjectionObject(), epsg4326);
 
-    if (bounds.contains($("#sw_lng").val(), $("#sw_lat").val()) || bounds.contains($("#ne_lng").val(), $("#ne_lat").val())) {
-
+    if (bounds.contains($("#sw_lng").val(), $("#sw_lat").val()) || // left, bottom
+    bounds.contains($("#ne_lng").val(), $("#ne_lat").val()) || // right, top
+    bounds.contains($("#sw_lng").val(), $("#ne_lat").val()) || // left, top
+    bounds.contains($("#ne_lng").val(), $("#sw_lat").val()) // right, bottom
+    ) {
         debug("box is on map");
         return 1;
     }
