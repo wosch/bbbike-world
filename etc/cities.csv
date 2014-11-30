@@ -17,7 +17,7 @@ Bangkok:th!กรุงเทพมหานคร::th:other:100.35 13.48 100.80
 Barcelona:::es:eu:1.802 41.23 2.479 41.618:2248911::
 Madrid:::es:eu:-4.07 40.17 -3.23 40.65:6400000::
 Basel:::de:eu:7.25 47.24 8.09 47.83:348791::
-Beijing:de!Peking,zh!北京市 en:other:116.08 39.68 116.77 40.18:12000000::
+Beijing:de!Peking,zh!北京市::en:other:116.08 39.68 116.77 40.18:12000000::
 Beirut:ar!‏بيروت::ar:other:35.4354 33.7935 35.6187 33.9238:2700000::
 Berlin:::de::12.76 52.23 13.98 52.82:4500000::
 Bern:de!Bern,en!Bern,fr!Berne::de:eu:7.172 46.729 7.768 47.169:349000::
@@ -57,7 +57,7 @@ Malmoe:Malmö::sv:eu:12.78 55.33 13.72 55.95:260000::
 Goeteborg:en!Gothenburg,de!Göteborg,da!Gøteborg,sv!Göteborg::sv:eu:11.70 57.55 12.22 57.82:510000::
 Corvallis::en::other:-123.412 44.475 -123.033 44.676:49807::
 Cottbus:Cottbus::de::13.65 51.35 15.10 52.00:102811::Spreewald;Forst (Lausitz);Senftenberg;Niederlausitz
-Cracow:de!Krakau,en!Cracow,pl!Krakówen:eu:19.756 49.963 20.156 50.136:801100::
+Cracow:de!Krakau,en!Cracow,pl!Krakówenen::en:eu:19.756 49.963 20.156 50.136:801100::
 CraterLake:Crater Lake:en::other:-123.05 42.04 -121.55 43.38:0::
 Balaton:en!Lake Balaton,de!Plattensee::hu:eu:17.081 46.588 18.32 47.207:100000::
 Curitiba:::en:other:-49.3549 -25.5195 -49.1647 -25.381:1700000::
