@@ -132,6 +132,8 @@ sub _cities {
     my $content = $res->decoded_content();
     my $data    = $content;
 
+    diag "check url:$url";
+
     like( $content, qr|"real_time"|, "complete html" );
     like(
         $content,
