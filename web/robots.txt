@@ -452,7 +452,7 @@ Disallow: /en/Lodz/
 Disallow: /en/Seattle/
 Disallow: /en/Lima/?
 Disallow: /en/BrandenburgHavel/?
-Disallow: /en/Cracow/?
+Disallow: /en/Cracow/
 Disallow: /en/Tokyo/?
 Disallow: /en/Turin/?
 Disallow: /en/Denver/
@@ -482,7 +482,7 @@ Disallow: /en/Poznan/
 Disallow: /en/SanJose/
 Disallow: /en/Victoria/
 Disallow: /en/PaloAlto/
-Disallow: /en/Beijing/?
+Disallow: /en/Beijing/
 Disallow: /en/Magdeburg/?
 Disallow: /en/PortlandME/
 Disallow: /en/Glasgow/
