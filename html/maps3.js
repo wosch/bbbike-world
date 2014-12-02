@@ -2663,7 +2663,6 @@ function displayCurrentPosition(area, lang) {
 
     // 6 numbers after dot: 53.12456
 
-
     function round6(number) {
         return Math.round(number * 1000000) / 1000000;
     }
