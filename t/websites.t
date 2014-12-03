@@ -23,8 +23,9 @@ my @cities = qw/Berlin Cottbus Toronto/;
 
 # unicode cities
 my @cities_utf8 = (
-    "Київ", "‏بيروت", "กรุงเทพมหานคร",
-    "北京市", "東京", "Thành phố Hồ Chí Minh", "София"
+    "Київ",                                "‏بيروت",
+    "กรุงเทพมหานคร", "Thành phố Hồ Chí Minh",
+    "София"
 );
 
 my @list = (
