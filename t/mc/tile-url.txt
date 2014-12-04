@@ -54,9 +54,6 @@ http://mt0.googleapis.com/vt?lyrs=t@130,r@202221627&src=apiv3&hl=en&x=2200&y=134
 http://mt0.googleapis.com/vt?lyrs=m@202221627,traffic&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&style=api%7Csmartmaps
 http://mt0.googleapis.com/vt?lyrs=m@202221627,transit:comp%7Cvm:1&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&opts=r&style=api%7Csmartmaps
 http://mt0.googleapis.com/vt?lyrs=t@130,r@202221627,bike,transit:comp%7Cvm:1,traffic&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&opts=r&style=api%7Csmartmaps
-http://maps1.yimg.com/ae/ximg?v=1.9&t=a&s=256&x=2200&y=705&z=6
-http://maps1.yimg.com/hx/tl?v=4.4&t=h&x=2200&y=705&z=6
-http://maps1.yimg.com/hx/tl?v=4.4&x=2200&y=705&z=6
 http://sat01.maps.yandex.net/tiles?l=sat&v=1.35.0&x=2200&y=1346&z=12
 http://vec02.maps.yandex.net/tiles?l=map&v=2.2.3&x=2200&y=1346&z=12
 http://worldtiles2.waze.com/tiles/13/4400/2688.png
@@ -84,7 +81,6 @@ http://tile.waymarkedtrails.org/mtb/8/133/90.png
 http://tile.waymarkedtrails.org/skating/8/133/89.png
 http://a.tile.osm-tools.org/osm_then/11/1617/936.png
 http://a.tiles.mapbox.com/v3/examples.bc17bb2a/15/17604/10746.png
-http://tile.geofabrik.de/osm_retina/15/17604/10746.png
 http://c.tile.openstreetmap.fr/openriverboatmap/17/70413/42988.png
 http://c.tile.openstreetmap.fr/hot/17/70413/42988.png
 http://c.tile.openstreetmap.fr/osmfr/17/70413/42988.png
