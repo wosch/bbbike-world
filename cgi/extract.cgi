@@ -4,7 +4,6 @@
 # extract.cgi - extracts areas in a batch job
 #
 # spool area
-#   /incoming   - request to extract an area, email sent out to user
 #   /confirmed  - user confirmed request by clicking on a link in the email
 #   /running    - the request is running
 #   /osm        - the request is done, files are saved for further usage
@@ -50,10 +49,6 @@ our $option = {
     'max_skm'                   => 24_000_000,    # max. area in square km
     'max_size'                  => 768_000,       # max area in KB size
 
-    # request to confirm request with a click on an URL
-    # -1: do not check email, 0: check email address, 1: sent out email
-    'confirm' => 0,
-
     # max count of gps points for a polygon
     'max_coords' => 256 * 256,
 
@@ -74,6 +69,9 @@ our $option = {
 
     # scheduler with priorities (by IP or user agent)
     'enable_priority' => 1,
+
+    # scheduler limits
+    'scheduler' => { 'user_limit' => 5 },
 };
 
 our $formats = {
@@ -145,7 +143,6 @@ my $email_from = 'BBBike Admin <bbbike@bbbike.org>';
 my $spool_dir = $option->{'spool_dir'} || '/var/cache/extract';
 
 my $spool = {
-    'incoming'  => "$spool_dir/incoming",
     'confirmed' => "$spool_dir/confirmed",
     'running'   => "$spool_dir/running",
 };
@@ -957,99 +954,23 @@ qq{Please click on the <a href="javascript:history.back()">back button</a> };
 
     my ( $key, $json_file ) = &save_request($obj);
     my $mail_error = "";
-    if (
-        !$key
-        || (
-            $option->{'confirm'} >= 0
-            && (
-                $mail_error = send_email_confirm(
-                    'q'       => $q,
-                    'obj'     => $obj,
-                    'key'     => $key,
-                    'confirm' => $option->{'confirm'}
-                )
-            )
-        )
-      )
-    {
-        print
-          qq{<p class="error">I'm so sorry, I couldn't save your request.\n},
-          qq{Please contact the BBBike.org maintainer!</p>};
-        print "<p>Error message: ", escapeHTML($mail_error), "<br/>\n";
-        print "Please check if the E-Mail address is correct."
-          if $mail_error =~ /verify SMTP recipient/;
-        print "</p>\n";
 
-        # cleanup temp json file
-        unlink($json_file) or die "unlink $json_file: $!\n";
+    if ( !&complete_save_request($json_file) ) {
+        print qq{<p class="error">I'm so sorry,},
+          qq{ I couldn't save your request.\n},
+          qq{Please contact the BBBike.org maintainer!</p>};
+        $error++;
     }
 
     else {
-
-        if ( !&complete_save_request($json_file) ) {
-            print qq{<p class="error">I'm so sorry,},
-              qq{ I couldn't save your request.\n},
-              qq{Please contact the BBBike.org maintainer!</p>};
-            $error++;
-        }
-
-        else {
-            print M("EXTRACT_DONATION");
-            print qq{<br/>} x 4, "</p>\n";
-        }
+        print M("EXTRACT_DONATION");
+        print qq{<br/>} x 4, "</p>\n";
     }
 
     print &footer( $q,
         'css' => '#footer { width: 90%; padding-bottom: 20px; }' );
 
     return $error;
-}
-
-# save request in incoming spool
-sub send_email_confirm {
-    my %args = @_;
-
-    my $obj     = $args{'obj'};
-    my $key     = $args{'key'};
-    my $q       = $args{'q'};
-    my $confirm = $args{'confirm'};
-
-    my $url = $q->url( -full => 1, -absolute => 1 ) . "?key=$key";
-
-    my $message = <<EOF;
-Hi,
-
-somone - possible you - requested to extract an OpenStreetMaps area
-from planet.osm
-
- City: $obj->{"city"}
- Area: $obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}
- Format: $obj->{"format"}
-
-
-To proceeed, please click on the following link:
-
-  $url
-
-othewise just ignore this e-mail.
-
-Sincerely, your BBBike extract admin
-
---
-http://BBBike.org - Your Cycle Route Planner
-EOF
-
-    eval {
-        &send_email( $obj->{"email"},
-            "Please confirm planet.osm extract request",
-            $message, $confirm );
-    };
-    if ($@) {
-        warn "send_email_confirm: $@\n";
-        return $@;
-    }
-
-    return 0;
 }
 
 # SMTP wrapper
@@ -1102,17 +1023,16 @@ sub large_int {
     return scalar reverse $text;
 }
 
-# save request in incoming spool
+# save request in confirmed spool
 sub save_request {
     my $obj = shift;
 
     my $json      = new JSON;
     my $json_text = $json->pretty->encode($obj);
 
-    my $key = md5_hex( encode_utf8($json_text) . rand() );
-    my $spool_dir =
-      $option->{'confirm'} > 0 ? $spool->{"incoming"} : $spool->{"confirmed"};
-    my $job = "$spool_dir/$key.json.tmp";
+    my $key       = md5_hex( encode_utf8($json_text) . rand() );
+    my $spool_dir = $spool->{"confirmed"};
+    my $job       = "$spool_dir/$key.json.tmp";
 
     warn "Store request $job: $json_text\n" if $debug;
 
@@ -1152,43 +1072,6 @@ sub complete_save_request {
         warn "rename $file -> $temp_file: $!\n";
         return;
     }
-}
-
-# the user confirm a request
-# move the config file from incoming to confirmed directory
-sub confirm_key {
-    my %args = @_;
-    my $q    = $args{'q'};
-
-    my $key = $q->param("key") || "";
-
-    my $incoming  = $spool->{"incoming"} . "/$key.json";
-    my $confirmed = $spool->{"confirmed"} . "/$key.json";
-
-    print &header($q);
-    print &layout($q);
-
-    # move file to next spool directory
-    # Don't complain if the file was already moved (users clicked twice?)
-    my $success = ( -f $incoming && rename( $incoming, $confirmed ) )
-      || -f $confirmed;
-
-    if ( !$success ) {
-        print
-qq{<p class="error">I'm so sorry, I couldn't find a key for your request.\n},
-          qq{Please contact the BBBike.org maintainer!</p>};
-    }
-    else {
-        print
-          qq{<p class="">Thanks - your request has been confirmed.\n},
-          qq{It takes usually 15-30 minutes to extract the data.\n},
-qq{You will be notified by e-mail if your extract is ready for download. Stay tuned!</p>};
-
-        print qq{<hr/>\n<p>We appreciate any feedback, suggestions },
-          qq{and a <a href="../community.html#donate">donation</a>!</p>};
-    }
-
-    print &footer($q);
 }
 
 # startpage
