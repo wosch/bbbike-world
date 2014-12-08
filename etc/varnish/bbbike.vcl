@@ -111,6 +111,12 @@ sub vcl_recv {
         error 405 "Unknown request METHOD";
     }
 
+    # block rogue bots
+    if (req.http.user-agent ~ "^facebookexternalhit") {
+        error 405 "rogue bot request";
+    }
+
+
     ######################################################################
     # backend config
     #
