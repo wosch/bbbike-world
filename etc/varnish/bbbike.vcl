@@ -78,7 +78,7 @@ backend munin_localhost {
 }
 
 backend bbbike_failover {
-    .host = "www1.bbbike.org";
+    .host = "www2.bbbike.org";
     .port = "80";
     .first_byte_timeout = 300s;
     .connect_timeout = 300s;
@@ -110,6 +110,12 @@ sub vcl_recv {
          /* Non-RFC2616 or CONNECT which is weird. */
         error 405 "Unknown request METHOD";
     }
+
+    # block rogue bots
+    if (req.http.user-agent ~ "^facebookexternalhit") {
+        error 405 "rogue bot request";
+    }
+
 
     ######################################################################
     # backend config
