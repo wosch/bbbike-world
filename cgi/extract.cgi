@@ -69,7 +69,7 @@ our $option = {
 
     # scheduler with priorities (by IP or user agent)
     'enable_priority' => 1,
-    
+
     # scheduler limits
     'scheduler' => { 'user_limit' => 5 },
 };
@@ -952,15 +952,16 @@ qq{Please click on the <a href="javascript:history.back()">back button</a> };
         $obj->{'user_agent'} = $q->user_agent();
     }
 
-    if (&check_queue('obj' => $obj) {
-        
+    if ( &check_queue( 'obj' => $obj ) ) {
+
+        #
     }
-    
-    my ( $key, $json_file ) = &save_request($obj);
+
+    my ( $key, $json_file ) = &save_request( 'obj' => $obj );
     my $mail_error = "";
 
     #if ( !&check_queue('obj' => $obj) ) {
-        
+
     if ( !&complete_save_request($json_file) ) {
         print qq{<p class="error">I'm so sorry,},
           qq{ I couldn't save your request.\n},
@@ -1057,9 +1058,9 @@ sub save_request {
 
 sub parse_json_file {
     my $file = shift;
-    
+
     warn "Open file '$file'\n" if $debug >= 2;
-    
+
     my $fh = new IO::File $file, "r" or die "open '$file': $!\n";
     binmode $fh, ":utf8";
 
@@ -1068,7 +1069,7 @@ sub parse_json_file {
         $json_text .= $_;
     }
     $fh->close;
-    
+
     my $json = new JSON;
     my $json_perl = eval { $json->decode($json_text) };
     die "json $file $@" if $@;
@@ -1079,31 +1080,31 @@ sub parse_json_file {
 
 sub check_queue {
     my %args = @_;
-    my $obj = $args{'obj'};
-    
+    my $obj  = $args{'obj'};
+
     my $spool_dir = $spool->{'confirmed'};
-    
+
     # newest files from confirmed spool
     my @files = `ls -t $spool_dir` or die "opendir $spool_dir\n";
     my $mail_error = "";
 
     my $email_counter = 0;
-    my $counter = 1000;
+    my $counter       = 1000;
     foreach my $file (@files) {
         chomp $file;
         next if $file !~ /\.json$/;
-        
+
         # check only the first 1000 files
         last if $counter-- < 0;
-        
+
         my $perl = parse_json_file("$spool_dir/$file");
-        if ($perl->{"email"} eq $obj->{"email"}) {
+        if ( $perl->{"email"} eq $obj->{"email"} ) {
             $email_counter++;
         }
-        
+
     }
-   
-    warn "E-Mail spool counter: $email_counter\n" if $debug >= 1; 
+
+    warn "E-Mail spool counter: $email_counter\n" if $debug >= 1;
     return 1;
 }
 
