@@ -80,7 +80,7 @@
         ],
 
     "EXTRACT_LIMIT": [
-        "<p>Too many requests. Please try again later in 15min.</p>",
+        "<p>Too many requests. Please try again later in 15min. Thanks!</p>"
         ],
 
     "dummy": "dummy"
