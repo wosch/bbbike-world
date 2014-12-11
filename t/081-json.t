@@ -58,7 +58,7 @@ sub validate {
     my $same = '0.001';
 
     my $poly = get_json_from_file($file);
-    isnt( $poly, undef, "valid json" );
+    isnt( $poly, undef, "valid json: $file" );
 
     print Dumper($poly) if $debug >= 2;
 }
