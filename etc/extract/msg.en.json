@@ -78,6 +78,10 @@
         "<li>Click the <b>extract</b> button. Wait for email notification and download the map. Done!</li>",
         "</ol>"
         ],
+    
+    "EXTRACT_LIMIT": [
+        "<p>Too many requests. Please try again later in 15min.</p>",
+        ],
 
     "dummy": "dummy"
 }

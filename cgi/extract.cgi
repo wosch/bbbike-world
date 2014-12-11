@@ -69,7 +69,7 @@ our $option = {
 
     # scheduler with priorities (by IP or user agent)
     'enable_priority' => 1,
-
+    
     # scheduler limits
     'scheduler' => { 'user_limit' => 5 },
 };
@@ -952,9 +952,15 @@ qq{Please click on the <a href="javascript:history.back()">back button</a> };
         $obj->{'user_agent'} = $q->user_agent();
     }
 
+    if (&check_queue('obj' => $obj) {
+        
+    }
+    
     my ( $key, $json_file ) = &save_request($obj);
     my $mail_error = "";
 
+    #if ( !&check_queue('obj' => $obj) ) {
+        
     if ( !&complete_save_request($json_file) ) {
         print qq{<p class="error">I'm so sorry,},
           qq{ I couldn't save your request.\n},
@@ -1026,13 +1032,13 @@ sub large_int {
 # save request in confirmed spool
 sub save_request {
     my $obj = shift;
+    my $spool_dir = shift || $spool->{"confirmed"};
 
     my $json      = new JSON;
     my $json_text = $json->pretty->encode($obj);
 
-    my $key       = md5_hex( encode_utf8($json_text) . rand() );
-    my $spool_dir = $spool->{"confirmed"};
-    my $job       = "$spool_dir/$key.json.tmp";
+    my $key = md5_hex( encode_utf8($json_text) . rand() );
+    my $job = "$spool_dir/$key.json.tmp";
 
     warn "Store request $job: $json_text\n" if $debug;
 
@@ -1047,6 +1053,58 @@ sub save_request {
     $fh->close;
 
     return ( $key, $job );
+}
+
+sub parse_json_file {
+    my $file = shift;
+    
+    warn "Open file '$file'\n" if $debug >= 2;
+    
+    my $fh = new IO::File $file, "r" or die "open '$file': $!\n";
+    binmode $fh, ":utf8";
+
+    my $json_text;
+    while (<$fh>) {
+        $json_text .= $_;
+    }
+    $fh->close;
+    
+    my $json = new JSON;
+    my $json_perl = eval { $json->decode($json_text) };
+    die "json $file $@" if $@;
+
+    warn Dumper($json_perl) if $debug >= 3;
+    return $json_perl;
+}
+
+sub check_queue {
+    my %args = @_;
+    my $obj = $args{'obj'};
+    
+    my $spool_dir = $spool->{'confirmed'};
+    
+    # newest files from confirmed spool
+    my @files = `ls -t $spool_dir` or die "opendir $spool_dir\n";
+    my $mail_error = "";
+
+    my $email_counter = 0;
+    my $counter = 1000;
+    foreach my $file (@files) {
+        chomp $file;
+        next if $file !~ /\.json$/;
+        
+        # check only the first 1000 files
+        last if $counter-- < 0;
+        
+        my $perl = parse_json_file("$spool_dir/$file");
+        if ($perl->{"email"} eq $obj->{"email"}) {
+            $email_counter++;
+        }
+        
+    }
+   
+    warn "E-Mail spool counter: $email_counter\n" if $debug >= 1; 
+    return 1;
 }
 
 # foo.json.tmp -> foo.json
