@@ -95,3 +95,4 @@ http://t3.beta.itoworld.com/124/baafeeae799c1dcc732ea30dd4ae5c97/11/1100/671.png
 http://t3.beta.itoworld.com/215/3f91703263bfa5c9376e129ada11252b/11/1100/671.png
 http://c.tiles.wmflabs.org/bw-mapnik/11/1100/671.png
 http://c.tiles.wmflabs.org/hikebike/11/1100/671.png
+http://c.tiles.wmflabs.org/osm-no-labels/11/1100/671.png
