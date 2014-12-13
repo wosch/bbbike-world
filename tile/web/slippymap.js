@@ -170,7 +170,7 @@ function init() {
         numZoomLevels: 19
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("Mapquest Satellite", ["http://mtile01.mqcdn.com/tiles/1.0.0/vy/sat/${z}/${x}/${y}.png", "http://mtile02.mqcdn.com/tiles/1.0.0/vy/sat/${z}/${x}/${y}.png"], {
+    map.addLayer(new OpenLayers.Layer.OSM("Mapquest Satellite", ["http://ttiles01.mqcdn.com/tiles/1.0.0/vy/sat/${z}/${x}/${y}.png", "http://ttiles02.mqcdn.com/tiles/1.0.0/vy/sat/${z}/${x}/${y}.png"], {
         tileOptions: {
             crossOriginKeyword: null
         },
@@ -355,7 +355,7 @@ function init() {
         attribution: '<a href="http://beta-maps.yandex.ru/">Яндекс.Карты</a>'
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("Waze", ["http://tiles1.waze.com/tiles/${z}/${x}/${y}.png", "http://tiles2.waze.com/tiles/${z}/${x}/${y}.png"], {
+    map.addLayer(new OpenLayers.Layer.OSM("Waze", ["http://worldtiles1.waze.com/tiles/${z}/${x}/${y}.png"], {
         tileOptions: {
             crossOriginKeyword: null
         },
@@ -377,6 +377,7 @@ function init() {
         noOpaq: true
     }));
 
+    /*
     map.addLayer(new OpenLayers.Layer.TMS("BBBike Fahrbahnqu. (solid)", "/osm/bbbike-smoothness-solid/", {
         type: 'png',
         getURL: osm_getTileURL,
@@ -388,6 +389,7 @@ function init() {
         numZoomLevels: 19,
         noOpaq: true
     }));
+    */
 
     map.addLayer(new OpenLayers.Layer.TMS("BBBike handicap", "/osm/bbbike-handicap/", {
         type: 'png',
