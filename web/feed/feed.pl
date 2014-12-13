@@ -49,7 +49,7 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 $feed->add_entry(
     title =>
-qq{Map Compare now supports up to 108 maps: http://mc.bbbike.org/mc/},
+      qq{Map Compare now supports up to 108 maps: http://mc.bbbike.org/mc/},
     id      => '51d474fb21860b0629bfe8467ee42c0d',
     content => {
         type => 'html',
