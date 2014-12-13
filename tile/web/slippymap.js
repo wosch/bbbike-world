@@ -377,7 +377,7 @@ function init() {
         noOpaq: true
     }));
 
-    /*
+/*
     map.addLayer(new OpenLayers.Layer.TMS("BBBike Fahrbahnqu. (solid)", "/osm/bbbike-smoothness-solid/", {
         type: 'png',
         getURL: osm_getTileURL,
