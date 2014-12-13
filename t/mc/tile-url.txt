@@ -88,3 +88,8 @@ http://mobil.bvg.de/tiles/base/15/17601/22023.png
 http://b.basemaps.cartocdn.com/light_all/11/1099/670.png
 http://a.basemaps.cartocdn.com/dark_all/6/18/24.png
 http://tiles.maps.sputnik.ru/tiles/kmt2/12/2197/1344.png
+http://d.tile.geofabrik.de/549e80f319af070f8ea8d0f149a149c2/13/4401/2684.png
+http://d.tile.geofabrik.de/23228979966ae9040ceb0597251e12a2/13/4401/2684.png
+http://a.tile.geofabrik.de/15173cf79060ee4a66573954f6017ab0/13/4399/2684.png
+http://www.opensnowmap.org/opensnowmap-overlay/11/1099/671.png
+
