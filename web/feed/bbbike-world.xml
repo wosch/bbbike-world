@@ -13,6 +13,14 @@
   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af7</id>
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/" version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>Map Compare now supports up to 108 maps: http://mc.bbbike.org/mc/</title>
+    <id>51d474fb21860b0629bfe8467ee42c0d</id>
+    <content type="html">Map Compare now supports up to 108 maps: &lt;a
+    href="http://mc.bbbike.org/mc/"&gt;bbbike.org/mc&lt;/a&gt;</content>
+    <updated>2014-12-06T13:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title>BBBike Windows Phone app</title>
     <id>dda2b9aa0307ba9a55d2dd15a93dcbd2</id>
     <content type="html">A free &lt;a href="http://www.windowsphone.com/s?appid=6cc2f571-7c0e-414c-9e71-806162601d7a"&gt;BBBike Windows
