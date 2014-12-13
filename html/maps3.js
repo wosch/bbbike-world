@@ -770,7 +770,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "Max Speed, by itoworld.org"
         },
         getTileUrl: function (a, z) {
-            return "http://t" + randomServerOSM(3) + ".beta.itoworld.com/124/baafeeae799c1dcc732ea30dd4ae5c97/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "http://t" + randomServer(["0","1","2","3"]) + ".beta.itoworld.com/124/baafeeae799c1dcc732ea30dd4ae5c97/" + z + "/" + a.x + "/" + a.y + ".png";
         },
         isPng: true,
         opacity: 1.0,
