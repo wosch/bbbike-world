@@ -764,28 +764,13 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         maxZoom: 18
     };
 
-    var velo_layer_options = {
-        bbbike: {
-            "name": "Velo-Layer",
-            "description": "Velo-Layer, by osm.t-i.ch/bicycle/map"
-        },
-        getTileUrl: function (a, z) {
-            return "http://toolserver.org/tiles/bicycle/" + z + "/" + a.x + "/" + a.y + ".png";
-        },
-        isPng: true,
-        opacity: 1.0,
-        tileSize: new google.maps.Size(256, 256),
-        name: "VELO-LAYER",
-        minZoom: 1,
-        maxZoom: 19
-    };
     var max_speed_options = {
         bbbike: {
             "name": "Max Speed",
-            "description": "Max Speed, by wince.dentro.info/koord/osm/KosmosMap.htm"
+            "description": "Max Speed, by itoworld.org"
         },
         getTileUrl: function (a, z) {
-            return "http://wince.dentro.info/koord/osm/tiles/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "http://t" + randomServerOSM(3) + ".beta.itoworld.com/124/baafeeae799c1dcc732ea30dd4ae5c97/" + z + "/" + a.x + "/" + a.y + ".png";
         },
         isPng: true,
         opacity: 1.0,
@@ -837,7 +822,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "Mapnik Black and White, by OpenStreetMap.org and wikimedia.org"
         },
         getTileUrl: function (a, z) {
-            return "http://" + randomServerOSM() + ".www.toolserver.org/tiles/bw-mapnik/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "http://" + randomServerOSM() + ".tiles.wmflabs.org/bw-mapnik/" + z + "/" + a.x + "/" + a.y + ".png";
         },
         isPng: true,
         opacity: 1.0,
@@ -871,7 +856,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "Hike&Bike, by OpenStreetMap.org and wikimedia.org"
         },
         getTileUrl: function (a, z) {
-            return "http://" + randomServerOSM() + ".www.toolserver.org/tiles/hikebike/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "http://" + randomServerOSM() + ".tiles.wmflabs.org/hikebike/" + z + "/" + a.x + "/" + a.y + ".png";
         },
         isPng: true,
         opacity: 1.0,
@@ -1432,13 +1417,6 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
                 custom_map("esri_topo", lang, esri_topo_options.bbbike);
             }
         },
-        "mapbox": function () {
-            if (bbbike.mapType.MapBox) {
-                var MapBoxMapType = new google.maps.ImageMapType(mapbox_options);
-                map.mapTypes.set("mapbox", MapBoxMapType);
-                custom_map("mapbox", lang, mapbox_options.bbbike);
-            }
-        },
         "toner": function () {
             if (bbbike.mapType.Toner) {
                 var TonerType = new google.maps.ImageMapType(toner_options);
@@ -1475,11 +1453,6 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         "bbbike_smoothness": function () {
             if (bbbike.mapLayers.Smoothness) {
                 return new google.maps.ImageMapType(bbbike_smoothness_options);
-            }
-        },
-        "velo_layer": function () {
-            if (bbbike.mapLayers.VeloLayer) {
-                return new google.maps.ImageMapType(velo_layer_options);
             }
         },
         "max_speed": function () {
@@ -1554,7 +1527,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         });
     }
 
-    if (bbbike.mapLayers.MaxSpeed && is_european(region)) {
+    if (bbbike.mapLayers.MaxSpeed) {
         custom_layer(map, {
             "id": "max_speed",
             "layer": "MaxSpeed",
