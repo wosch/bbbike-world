@@ -839,7 +839,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "Public Transport, by öpnvkarte.de and OpenStreetMap.org"
         },
         getTileUrl: function (a, z) {
-            return "http://" + randomServerOSM() + ".tile.xn--pnvkarte-m4a.de/tilegen/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "http://" + randomServerOSM() + ".tileserver.memomaps.de/tilegen/" + z + "/" + a.x + "/" + a.y + ".png";
         },
         isPng: true,
         opacity: 1.0,
@@ -1738,9 +1738,6 @@ function init_custom_layers(layer) {
     }
     if (bbbike.mapLayers.LandShading) {
         layers.land_shadingLayer = layer.land_shading();
-    }
-    if (bbbike.mapLayers.VeloLayer) {
-        layers.veloLayer = layer.velo_layer();
     }
     if (bbbike.mapLayers.MaxSpeed) {
         layers.maxSpeedLayer = layer.max_speed();
