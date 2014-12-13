@@ -92,7 +92,7 @@ var bbbike = {
     },
 
     available_google_maps: ["roadmap", "terrain", "satellite", "hybrid"],
-    available_custom_maps: ["bing_birdview", "bing_map", "bing_map_old", "bing_hybrid", "bing_satellite", "public_transport", "ocm_transport", "ocm_landscape", "hike_bike", "mapnik_de", "mapnik_bw", "mapnik", "cycle", "bbbike_mapnik", "bbbike_mapnik_german", "bbbike_smoothness", "land_shading", "mapquest", "mapquest_satellite", "esri", "esri_topo", "mapbox", "apple", "velo_layer", "max_speed", "toner", "watercolor", "nokia_traffic"],
+    available_custom_maps: ["bing_birdview", "bing_map", "bing_map_old", "bing_hybrid", "bing_satellite", "public_transport", "ocm_transport", "ocm_landscape", "hike_bike", "mapnik_de", "mapnik_bw", "mapnik", "cycle", "bbbike_mapnik", "bbbike_mapnik_german", "bbbike_smoothness", "land_shading", "mapquest", "mapquest_satellite", "esri", "esri_topo", "apple", "velo_layer", "max_speed", "toner", "watercolor", "nokia_traffic"],
 
     area: {
         visible: true,
@@ -1052,6 +1052,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         maxZoom: 17
     };
 
+    /*
     var mapbox_options = {
         bbbike: {
             "name": "MapBox",
@@ -1067,6 +1068,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         minZoom: 1,
         maxZoom: 17
     };
+    */
 
     var apple_options = {
         bbbike: {
@@ -1480,7 +1482,6 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
     mapControls.ocm_landscape();
     mapControls.esri();
     mapControls.esri_topo();
-    mapControls.mapbox();
     mapControls.apple();
 
     // bottom postion
@@ -2274,7 +2275,7 @@ function translate_mapcontrol(word, lang) {
             "SlideShow": "Slide Show",
             "esri": "Esri",
             "esri_topo": "Esri Topo",
-            "mapbox": "MapBox",
+            //"mapbox": "MapBox",
             "apple": "Apple",
             "VeloLayer": "Velo-Layer",
             "MaxSpeed": "Speed Limit",
