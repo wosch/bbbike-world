@@ -71,7 +71,7 @@ var bbbike = {
         SlideShow: true,
         FullScreen: true,
         Smoothness: true,
-        VeloLayer: true,
+        VeloLayer: false,
         MaxSpeed: true,
         Replay: true,
         LandShading: true
@@ -762,6 +762,22 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         name: "BBBIKE-SMOOTHNESS",
         minZoom: 1,
         maxZoom: 18
+    };
+
+    var velo_layer_options = {
+        bbbike: {
+            "name": "Velo-Layer",
+            "description": "Velo-Layer, by itoworld.org"
+        },
+        getTileUrl: function (a, z) {
+            return "http://t" + randomServer(["0", "1", "2", "3"]) + ".beta.itoworld.com/124/baafeeae799c1dcc732ea30dd4ae5c97/" + z + "/" + a.x + "/" + a.y + ".png";
+        },
+        isPng: true,
+        opacity: 1.0,
+        tileSize: new google.maps.Size(256, 256),
+        name: "VELO-LAYER",
+        minZoom: 1,
+        maxZoom: 19
     };
 
     var max_speed_options = {
@@ -1457,6 +1473,11 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
                 return new google.maps.ImageMapType(bbbike_smoothness_options);
             }
         },
+        "velo_layer": function () {
+            if (bbbike.mapLayers.VeloLayer) {
+                return new google.maps.ImageMapType(velo_layer_options);
+            }
+        },
         "max_speed": function () {
             if (bbbike.mapLayers.MaxSpeed) {
                 return new google.maps.ImageMapType(max_speed_options);
@@ -1517,7 +1538,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         });
     }
 
-    if (bbbike.mapLayers.VeloLayer && is_european(region)) {
+    if (bbbike.mapLayers.VeloLayer) {
         custom_layer(map, {
             "id": "velo_layer",
             "layer": "VeloLayer",
@@ -1738,6 +1759,9 @@ function init_custom_layers(layer) {
     }
     if (bbbike.mapLayers.LandShading) {
         layers.land_shadingLayer = layer.land_shading();
+    }
+    if (bbbike.mapLayers.VeloLayer) {
+        layers.veloLayer = layer.velo_layer();
     }
     if (bbbike.mapLayers.MaxSpeed) {
         layers.maxSpeedLayer = layer.max_speed();
