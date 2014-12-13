@@ -139,10 +139,11 @@ function init() {
 
     map.addLayer(new OpenLayers.Layer.OSM('Lyrk Retina (OSM)', "https://tiles.lyrk.org/lr/${z}/${x}/${y}?apikey=e9f8eb3824344d18a5b4b657773caf30", layer_options)),
 
-
+/*
     map.addLayer(new OpenLayers.Layer.OSM("MapBox (OSM)", ["http://a.tiles.mapbox.com/v3/examples.map-vyofok3q/${z}/${x}/${y}.png", "http://b.tiles.mapbox.com/v3/examples.map-vyofok3q/${z}/${x}/${y}.png"], {
         numZoomLevels: 17
     }));
+    */
 
     map.addLayer(new OpenLayers.Layer.OSM("Maptookit Topo (OSM)", ['http://tile1.maptoolkit.net/terrain/${z}/${x}/${y}.png', 'http://tile2.maptoolkit.net/terrain/${z}/${x}/${y}.png'], {
         numZoomLevels: 19,
@@ -166,10 +167,6 @@ function init() {
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM("Mapquest EU (OSM)", ["http://otile1.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png", "http://otile2.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png"], {
-        numZoomLevels: 19
-    }));
-
-    map.addLayer(new OpenLayers.Layer.OSM("Mapquest US (OSM)", ["http://mtile01.mqcdn.com/tiles/1.0.0/vy/map/${z}/${x}/${y}.png", "http://mtile02.mqcdn.com/tiles/1.0.0/vy/map/${z}/${x}/${y}.png"], {
         numZoomLevels: 19
     }));
 
