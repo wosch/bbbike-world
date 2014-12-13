@@ -1,4 +1,3 @@
-http://a.www.toolserver.org/tiles/bw-mapnik/12/2200/1342.png
 http://b.tile.bbbike.org/osm/mapnik-german/12/2200/1342.png
 http://a.www.toolserver.org/tiles/osm-labels-fr/12/2200/1342.png
 http://a.www.toolserver.org/tiles/osm-labels-ru/12/2200/1342.png
@@ -94,4 +93,5 @@ http://www.opensnowmap.org/opensnowmap-overlay/11/1099/671.png
 http://t3.beta.itoworld.com/69/84f7729ed2e9b4c7e2aed58e8fb171fe/11/1100/671.png
 http://t3.beta.itoworld.com/124/baafeeae799c1dcc732ea30dd4ae5c97/11/1100/671.png
 http://t3.beta.itoworld.com/215/3f91703263bfa5c9376e129ada11252b/11/1100/671.png
-
+http://c.tiles.wmflabs.org/bw-mapnik/11/1100/671.png
+http://c.tiles.wmflabs.org/hikebike/11/1100/671.png
