@@ -1,11 +1,7 @@
 http://b.tile.bbbike.org/osm/mapnik-german/12/2200/1342.png
-http://a.www.toolserver.org/tiles/osm-labels-fr/12/2200/1342.png
-http://a.www.toolserver.org/tiles/osm-labels-ru/12/2200/1342.png
 http://a.tile.openstreetmap.org/12/2200/1342.png
 http://a.tile.stamen.com/toner/12/2200/1342.png
 http://a.tile2.opencyclemap.org/transport/12/2200/1342.png
-http://toolserver.org/~cmarqu/hill/12/2200/1342.png
-http://toolserver.org/tiles/bicycle/12/2200/1342.png
 http://tiles1.skobbler.net/osm_tiles2/12/2200/1342.png
 http://wince.dentro.info/koord/osm/tiles/12/2200/1342.png
 http://tiles2.openpistemap.org/landshaded/12/2200/1342.png
@@ -13,9 +9,6 @@ http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/t
 http://a.tile.bbbike.org/osm/mapnik-german/12/2200/1342.png
 http://a.tile.stamen.com/watercolor/12/2200/1342.png
 http://tile.openstreetmap.de/tiles/osmde/12/2200/1342.png
-http://a.www.toolserver.org/tiles/osm-labels-es/12/2200/1342.png
-http://a.www.toolserver.org/tiles/osm-no-labels/12/2200/1342.png
-http://a.www.toolserver.org/tiles/bicycle_network/12/2200/1342.png
 http://a.tile.bbbike.org/osm/mapnik/12/2200/1342.png
 http://gsp2.apple.com/tile?api=1&style=slideshow&layers=default&lang=de_DE&z=12&x=2200&y=1342&v=9
 http://a.tile.bbbike.org/osm/bbbike-smoothness/12/2200/1342.png
