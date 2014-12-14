@@ -4,7 +4,7 @@
   <link href="http://www.bbbike.org" />
   <link href="http://www.bbbike.org/feed/bbbike-world.xml" rel="self" />
   <icon>http://www.bbbike.org/images/srtbike.ico</icon>
-  <updated>Fri Aug 22 08:17:00 2014 +0000</updated>
+  <updated>Sat Dec 13 19:24:59 2014 +0000</updated>
   <author>
     <name>Wolfram Schneider</name>
   </author>
@@ -12,6 +12,14 @@
   OpenStreetMap project!</subtitle>
   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af7</id>
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/" version="0.86">XML::Atom::SimpleFeed</generator>
+  <entry>
+    <title>Map Compare now supports up to 108 maps: http://mc.bbbike.org/mc/</title>
+    <id>51d474fb21860b0629bfe8467ee42c0d</id>
+    <content type="html">Map Compare now supports up to 108 maps: &lt;a
+    href="http://mc.bbbike.org/mc/"&gt;bbbike.org/mc&lt;/a&gt;</content>
+    <updated>2014-12-06T13:30:02Z</updated>
+    <category term="News" />
+  </entry>
   <entry>
     <title>BBBike Windows Phone app</title>
     <id>dda2b9aa0307ba9a55d2dd15a93dcbd2</id>

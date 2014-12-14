@@ -47,6 +47,18 @@ my $feed = XML::Atom::SimpleFeed->new(
 # TODO
 # - larger area for most cities, up top 30 km radius the centr of the city
 #
+$feed->add_entry(
+    title =>
+      qq{Map Compare now supports up to 108 maps: http://mc.bbbike.org/mc/},
+    id      => '51d474fb21860b0629bfe8467ee42c0d',
+    content => {
+        type => 'html',
+        content =>
+qq{Map Compare now supports up to 108 maps: <a href="http://mc.bbbike.org/mc/">bbbike.org/mc</a>},
+    },
+    updated  => '2014-12-06T13:30:02Z',
+    category => 'News',
+);
 
 $feed->add_entry(
     title   => qq{BBBike Windows Phone app},

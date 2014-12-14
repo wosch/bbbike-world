@@ -29,7 +29,7 @@ function init() {
     // create the custom layer for toolserver.org
     OpenLayers.Layer.OSM.Toolserver = OpenLayers.Class(OpenLayers.Layer.OSM, {
         initialize: function (name, path, options) {
-            var url = ["http://a.www.toolserver.org/tiles/" + path + "/${z}/${x}/${y}.png", "http://b.www.toolserver.org/tiles/" + path + "/${z}/${x}/${y}.png", "http://c.www.toolserver.org/tiles/" + path + "/${z}/${x}/${y}.png"];
+            var url = ["http://a.tiles.wmflabs.org/" + path + "/${z}/${x}/${y}.png", "http://b.tiles.wmflabs.org/" + path + "/${z}/${x}/${y}.png", "http://c.tiles.wmflabs.org/" + path + "/${z}/${x}/${y}.png"];
 
             options = OpenLayers.Util.extend({
                 tileOptions: {
@@ -90,12 +90,7 @@ function init() {
         numZoomLevels: 18
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("OSM Mapnik b/w", "http://a.www.toolserver.org/tiles/bw-mapnik/${z}/${x}/${y}.png", {
-        tileOptions: {
-            crossOriginKeyword: null
-        },
-        numZoomLevels: 18
-    }));
+    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM Mapnik b/w", 'bw-mapnik'));
 
     map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM no labels", 'osm-no-labels'));
 
@@ -124,7 +119,7 @@ function init() {
         numZoomLevels: 18
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("OSM Hike&Bike", ["http://a.www.toolserver.org/tiles/hikebike/${z}/${x}/${y}.png", "http://b.www.toolserver.org/tiles/hikebike/${z}/${x}/${y}.png"], {
+    map.addLayer(new OpenLayers.Layer.OSM("OSM Hike&Bike", ["http://a.tiles.wmflabs.org/hikebike/${z}/${x}/${y}.png", "http://b.tiles.wmflabs.org/hikebike/${z}/${x}/${y}.png"], {
         tileOptions: {
             crossOriginKeyword: null
         },
@@ -144,10 +139,11 @@ function init() {
 
     map.addLayer(new OpenLayers.Layer.OSM('Lyrk Retina (OSM)', "https://tiles.lyrk.org/lr/${z}/${x}/${y}?apikey=e9f8eb3824344d18a5b4b657773caf30", layer_options)),
 
-
+/*
     map.addLayer(new OpenLayers.Layer.OSM("MapBox (OSM)", ["http://a.tiles.mapbox.com/v3/examples.map-vyofok3q/${z}/${x}/${y}.png", "http://b.tiles.mapbox.com/v3/examples.map-vyofok3q/${z}/${x}/${y}.png"], {
         numZoomLevels: 17
     }));
+    */
 
     map.addLayer(new OpenLayers.Layer.OSM("Maptookit Topo (OSM)", ['http://tile1.maptoolkit.net/terrain/${z}/${x}/${y}.png', 'http://tile2.maptoolkit.net/terrain/${z}/${x}/${y}.png'], {
         numZoomLevels: 19,
@@ -174,11 +170,7 @@ function init() {
         numZoomLevels: 19
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("Mapquest US (OSM)", ["http://mtile01.mqcdn.com/tiles/1.0.0/vy/map/${z}/${x}/${y}.png", "http://mtile02.mqcdn.com/tiles/1.0.0/vy/map/${z}/${x}/${y}.png"], {
-        numZoomLevels: 19
-    }));
-
-    map.addLayer(new OpenLayers.Layer.OSM("Mapquest Satellite", ["http://mtile01.mqcdn.com/tiles/1.0.0/vy/sat/${z}/${x}/${y}.png", "http://mtile02.mqcdn.com/tiles/1.0.0/vy/sat/${z}/${x}/${y}.png"], {
+    map.addLayer(new OpenLayers.Layer.OSM("Mapquest Satellite", ["http://ttiles01.mqcdn.com/tiles/1.0.0/vy/sat/${z}/${x}/${y}.png", "http://ttiles02.mqcdn.com/tiles/1.0.0/vy/sat/${z}/${x}/${y}.png"], {
         tileOptions: {
             crossOriginKeyword: null
         },
@@ -363,7 +355,7 @@ function init() {
         attribution: '<a href="http://beta-maps.yandex.ru/">Яндекс.Карты</a>'
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("Waze", ["http://tiles1.waze.com/tiles/${z}/${x}/${y}.png", "http://tiles2.waze.com/tiles/${z}/${x}/${y}.png"], {
+    map.addLayer(new OpenLayers.Layer.OSM("Waze", ["http://worldtiles1.waze.com/tiles/${z}/${x}/${y}.png"], {
         tileOptions: {
             crossOriginKeyword: null
         },
@@ -385,6 +377,7 @@ function init() {
         noOpaq: true
     }));
 
+/*
     map.addLayer(new OpenLayers.Layer.TMS("BBBike Fahrbahnqu. (solid)", "/osm/bbbike-smoothness-solid/", {
         type: 'png',
         getURL: osm_getTileURL,
@@ -396,6 +389,7 @@ function init() {
         numZoomLevels: 19,
         noOpaq: true
     }));
+    */
 
     map.addLayer(new OpenLayers.Layer.TMS("BBBike handicap", "/osm/bbbike-handicap/", {
         type: 'png',
@@ -481,22 +475,6 @@ function init() {
         noOpaq: true
     }));
 
-    map.addLayer(new OpenLayers.Layer.XYZ("Velo-Layer", "http://toolserver.org/tiles/bicycle/${z}/${x}/${y}.png", {
-        attribution: '<a href="http://osm.t-i.ch/bicycle/map/">Velo-Layer</a>',
-        opacity: 1,
-        isBaseLayer: false,
-        visibility: false,
-        numZoomLevels: 18,
-        noOpaq: true
-    }));
-
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver('Bicycle Network', 'bicycle_network', {
-        isBaseLayer: false,
-        visibility: false,
-        opacity: 0.8,
-        numZoomLevels: 16
-    }));
-
     map.addLayer(new OpenLayers.Layer.XYZ("Max Speed", "http://wince.dentro.info/koord/osm/tiles/${z}/${x}/${y}.png", {
         attribution: '<a href="http://wince.dentro.info/koord/osm/KosmosMap.htm">MaxSpeedMap</a>',
         opacity: 1,
@@ -527,18 +505,6 @@ function init() {
         attribution: '<a href="http://beta-maps.yandex.ru/">Яндекс.Карты</a>'
     }));
 
-    map.addLayer(new OpenLayers.Layer.TMS("Hillshading SRTM3 V2", "http://toolserver.org/~cmarqu/hill/", {
-        type: 'png',
-        getURL: osm_getTileURL,
-        displayOutsideMaxExtent: true,
-        attribution: '<a href="http://toolserver.org/~cmarqu/hill/">Hillshading SRTM3 V2</a>',
-        opacity: 1,
-        isBaseLayer: false,
-        visibility: false,
-        numZoomLevels: 17,
-        noOpaq: true
-    }));
-
     map.addLayer(new OpenLayers.Layer.TMS("Land Shading", "http://tiles2.openpistemap.org/landshaded/", {
         type: 'png',
         getURL: osm_getTileURL,
@@ -549,66 +515,6 @@ function init() {
         visibility: false,
         numZoomLevels: 19,
         noOpaq: true
-    }));
-
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver('Parking', 'parktrans', {
-        isBaseLayer: false,
-        visibility: false,
-        opacity: 0.8,
-        numZoomLevels: 16
-    }));
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver('Power Map', 'powermap', {
-        isBaseLayer: false,
-        visibility: false,
-        numZoomLevels: 13
-    }));
-
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Arabic (ar)", 'osm-labels-ar', {
-        isBaseLayer: false,
-        visibility: false,
-        numZoomLevels: 13
-    }));
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Chinese (zh)", 'osm-labels-zh', {
-        isBaseLayer: false,
-        visibility: false,
-        numZoomLevels: 13
-    }));
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels English (en)", 'osm-labels-en', {
-        isBaseLayer: false,
-        visibility: false,
-        numZoomLevels: 18
-    }));
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels French (fr)", 'osm-labels-fr', {
-        isBaseLayer: false,
-        visibility: false,
-        numZoomLevels: 16
-    }));
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels German (de)", 'osm-labels-de', {
-        isBaseLayer: false,
-        visibility: false
-    }));
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Japanese (ja)", 'osm-labels-ja', {
-        isBaseLayer: false,
-        visibility: false,
-        numZoomLevels: 13
-    }));
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Korean (ko)", 'osm-labels-ko', {
-        isBaseLayer: false,
-        visibility: false,
-        numZoomLevels: 13
-    }));
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Polish (pl)", 'osm-labels-pl', {
-        isBaseLayer: false,
-        visibility: false
-    }));
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Russian (ru)", 'osm-labels-ru', {
-        isBaseLayer: false,
-        visibility: false
-    }));
-    map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM labels Spanish (es)", 'osm-labels-es', {
-        isBaseLayer: false,
-        visibility: false,
-        numZoomLevels: 16
     }));
 
     var switcherControl = new OpenLayers.Control.LayerSwitcher();

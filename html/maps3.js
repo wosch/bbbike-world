@@ -71,7 +71,7 @@ var bbbike = {
         SlideShow: true,
         FullScreen: true,
         Smoothness: true,
-        VeloLayer: true,
+        VeloLayer: false,
         MaxSpeed: true,
         Replay: true,
         LandShading: true
@@ -92,7 +92,7 @@ var bbbike = {
     },
 
     available_google_maps: ["roadmap", "terrain", "satellite", "hybrid"],
-    available_custom_maps: ["bing_birdview", "bing_map", "bing_map_old", "bing_hybrid", "bing_satellite", "public_transport", "ocm_transport", "ocm_landscape", "hike_bike", "mapnik_de", "mapnik_bw", "mapnik", "cycle", "bbbike_mapnik", "bbbike_mapnik_german", "bbbike_smoothness", "land_shading", "mapquest", "mapquest_satellite", "esri", "esri_topo", "mapbox", "apple", "velo_layer", "max_speed", "toner", "watercolor", "nokia_traffic"],
+    available_custom_maps: ["bing_birdview", "bing_map", "bing_map_old", "bing_hybrid", "bing_satellite", "public_transport", "ocm_transport", "ocm_landscape", "hike_bike", "mapnik_de", "mapnik_bw", "mapnik", "cycle", "bbbike_mapnik", "bbbike_mapnik_german", "bbbike_smoothness", "land_shading", "mapquest", "mapquest_satellite", "esri", "esri_topo", "apple", "velo_layer", "max_speed", "toner", "watercolor", "nokia_traffic"],
 
     area: {
         visible: true,
@@ -767,10 +767,10 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
     var velo_layer_options = {
         bbbike: {
             "name": "Velo-Layer",
-            "description": "Velo-Layer, by osm.t-i.ch/bicycle/map"
+            "description": "Velo-Layer, by itoworld.org"
         },
         getTileUrl: function (a, z) {
-            return "http://toolserver.org/tiles/bicycle/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "http://t" + randomServer(["0", "1", "2", "3"]) + ".beta.itoworld.com/124/baafeeae799c1dcc732ea30dd4ae5c97/" + z + "/" + a.x + "/" + a.y + ".png";
         },
         isPng: true,
         opacity: 1.0,
@@ -779,13 +779,14 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         minZoom: 1,
         maxZoom: 19
     };
+
     var max_speed_options = {
         bbbike: {
             "name": "Max Speed",
-            "description": "Max Speed, by wince.dentro.info/koord/osm/KosmosMap.htm"
+            "description": "Max Speed, by itoworld.org"
         },
         getTileUrl: function (a, z) {
-            return "http://wince.dentro.info/koord/osm/tiles/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "http://t" + randomServer(["0", "1", "2", "3"]) + ".beta.itoworld.com/124/baafeeae799c1dcc732ea30dd4ae5c97/" + z + "/" + a.x + "/" + a.y + ".png";
         },
         isPng: true,
         opacity: 1.0,
@@ -837,7 +838,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "Mapnik Black and White, by OpenStreetMap.org and wikimedia.org"
         },
         getTileUrl: function (a, z) {
-            return "http://" + randomServerOSM() + ".www.toolserver.org/tiles/bw-mapnik/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "http://" + randomServerOSM() + ".tiles.wmflabs.org/bw-mapnik/" + z + "/" + a.x + "/" + a.y + ".png";
         },
         isPng: true,
         opacity: 1.0,
@@ -854,7 +855,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "Public Transport, by öpnvkarte.de and OpenStreetMap.org"
         },
         getTileUrl: function (a, z) {
-            return "http://" + randomServerOSM() + ".tile.xn--pnvkarte-m4a.de/tilegen/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "http://" + randomServerOSM() + ".tileserver.memomaps.de/tilegen/" + z + "/" + a.x + "/" + a.y + ".png";
         },
         isPng: true,
         opacity: 1.0,
@@ -871,7 +872,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "Hike&Bike, by OpenStreetMap.org and wikimedia.org"
         },
         getTileUrl: function (a, z) {
-            return "http://" + randomServerOSM() + ".www.toolserver.org/tiles/hikebike/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "http://" + randomServerOSM() + ".tiles.wmflabs.org/hikebike/" + z + "/" + a.x + "/" + a.y + ".png";
         },
         isPng: true,
         opacity: 1.0,
@@ -1067,6 +1068,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         maxZoom: 17
     };
 
+/*
     var mapbox_options = {
         bbbike: {
             "name": "MapBox",
@@ -1082,6 +1084,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         minZoom: 1,
         maxZoom: 17
     };
+    */
 
     var apple_options = {
         bbbike: {
@@ -1432,13 +1435,6 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
                 custom_map("esri_topo", lang, esri_topo_options.bbbike);
             }
         },
-        "mapbox": function () {
-            if (bbbike.mapType.MapBox) {
-                var MapBoxMapType = new google.maps.ImageMapType(mapbox_options);
-                map.mapTypes.set("mapbox", MapBoxMapType);
-                custom_map("mapbox", lang, mapbox_options.bbbike);
-            }
-        },
         "toner": function () {
             if (bbbike.mapType.Toner) {
                 var TonerType = new google.maps.ImageMapType(toner_options);
@@ -1507,7 +1503,6 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
     mapControls.ocm_landscape();
     mapControls.esri();
     mapControls.esri_topo();
-    mapControls.mapbox();
     mapControls.apple();
 
     // bottom postion
@@ -1543,7 +1538,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         });
     }
 
-    if (bbbike.mapLayers.VeloLayer && is_european(region)) {
+    if (bbbike.mapLayers.VeloLayer) {
         custom_layer(map, {
             "id": "velo_layer",
             "layer": "VeloLayer",
@@ -1554,7 +1549,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         });
     }
 
-    if (bbbike.mapLayers.MaxSpeed && is_european(region)) {
+    if (bbbike.mapLayers.MaxSpeed) {
         custom_layer(map, {
             "id": "max_speed",
             "layer": "MaxSpeed",
@@ -2301,7 +2296,7 @@ function translate_mapcontrol(word, lang) {
             "SlideShow": "Slide Show",
             "esri": "Esri",
             "esri_topo": "Esri Topo",
-            "mapbox": "MapBox",
+            //"mapbox": "MapBox",
             "apple": "Apple",
             "VeloLayer": "Velo-Layer",
             "MaxSpeed": "Speed Limit",
