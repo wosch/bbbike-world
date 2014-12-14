@@ -718,6 +718,19 @@ sub check_input {
     print "$json_text\n\n";
 }
 
+sub is_lng { return is_coord( shift, 180 ); }
+sub is_lat { return is_coord( shift, 90 ); }
+
+sub is_coord {
+    my $number = shift;
+    my $max    = shift;
+
+    return 0 if $number eq "";
+    return 0 if $number !~ /^[\-\+]?[0-9]+(\.[0-9]+)?$/;
+
+    return $number <= $max && $number >= -$max ? 1 : 0;
+}
+
 sub _check_input {
     my %args = @_;
     my $q    = $args{'q'};
@@ -738,19 +751,6 @@ sub _check_input {
         $error++;
 
         print "<p>", $no_escape ? $message : escapeHTML($message), "</p>\n";
-    }
-
-    sub is_lng { return is_coord( shift, 180 ); }
-    sub is_lat { return is_coord( shift, 90 ); }
-
-    sub is_coord {
-        my $number = shift;
-        my $max    = shift;
-
-        return 0 if $number eq "";
-        return 0 if $number !~ /^[\-\+]?[0-9]+(\.[0-9]+)?$/;
-
-        return $number <= $max && $number >= -$max ? 1 : 0;
     }
 
     sub Param {
@@ -805,10 +805,11 @@ sub _check_input {
     $coords = extract_coords($coords);
 
     if ($coords) {
-        if ( !$option->{enable_polygon} ) {
-            error("A polygon is not supported, use a rectangle instead");
-            goto NEXT;
-        }
+
+        #if ( !$option->{enable_polygon} ) {
+        #    error("A polygon is not supported, use a rectangle instead");
+        #    goto NEXT;
+        #}
 
         @coords = parse_coords($coords);
         error(  "to many coordinates for polygon: "
@@ -820,7 +821,8 @@ sub _check_input {
         if ( scalar(@coords) <= 2 ) {
             error("Need more than 2 points.");
             error("Maybe the input file is corrupt?") if scalar(@coords) == 0;
-            goto NEXT;
+
+            #goto NEXT;
         }
 
         foreach my $point (@coords) {
@@ -864,7 +866,7 @@ sub _check_input {
         ) if $skm > $max_skm;
     }
 
-  NEXT:
+    #NEXT:
 
     if ( $city eq '' ) {
         if ( $option->{'city_name_optional'} ) {
@@ -882,37 +884,16 @@ sub _check_input {
         error("layers '$layers' is out of range");
     }
 
-    if ($error) {
-        print qq{<p class="error">The input data is not valid. };
-        print
-qq{Please click on the <a href="javascript:history.back()">back button</a> };
-        print qq{of your browser and correct the values!</p>\n};
-
-        print "<br/>" x 4;
-        print &footer(
-            $q,
-            'error' => $error,
-            'css'   => '#footer { width: 90%; padding-bottom: 20px; }'
-        );
-        return $error;
-    }
-    else {
-
-        # display coordinates, but not more than 32
-        my $coordinates =
-          @coords
-          ? encode_json(
-            $#coords < 32
-            ? \@coords
-            : [ @coords[ 0 .. 15 ], "to long to read..." ]
-          )
-          : "$sw_lng,$sw_lat x $ne_lng,$ne_lat";
-
-        my $text = M("EXTRACT_CONFIRMED");
-        printf( $text,
-            escapeHTML($city), large_int($skm), $coordinates, $format );
-
-    }
+    ###############################################################################
+    # display coordinates, but not more than 32
+    my $coordinates =
+      @coords
+      ? encode_json(
+        $#coords < 32
+        ? \@coords
+        : [ @coords[ 0 .. 15 ], "to long to read..." ]
+      )
+      : "$sw_lng,$sw_lat x $ne_lng,$ne_lat";
 
     my $script_url = &script_url(
         $option,
@@ -952,26 +933,42 @@ qq{Please click on the <a href="javascript:history.back()">back button</a> };
         $obj->{'user_agent'} = $q->user_agent();
     }
 
+    ###############################################################################
     if ( &check_queue( 'obj' => $obj ) ) {
 
-        #
+        # bots?
     }
 
+    if ($error) {
+        print qq{<p class="error">The input data is not valid. };
+        print
+qq{Please click on the <a href="javascript:history.back()">back button</a> };
+        print qq{of your browser and correct the values!</p>\n};
+
+        print "<br/>" x 4;
+        print &footer(
+            $q,
+            'error' => $error,
+            'css'   => '#footer { width: 90%; padding-bottom: 20px; }'
+        );
+        return $error;
+    }
+
+    my $text = M("EXTRACT_CONFIRMED");
+    printf( $text, escapeHTML($city), large_int($skm), $coordinates, $format );
+
     my ( $key, $json_file ) = &save_request( 'obj' => $obj );
-    my $mail_error = "";
+    if ( &complete_save_request($json_file) ) {
+        print M("EXTRACT_DONATION");
+        print qq{<br/>} x 4, "</p>\n";
+    }
 
-    #if ( !&check_queue('obj' => $obj) ) {
-
-    if ( !&complete_save_request($json_file) ) {
+    # disk full, permission problem?
+    else {
         print qq{<p class="error">I'm so sorry,},
           qq{ I couldn't save your request.\n},
           qq{Please contact the BBBike.org maintainer!</p>};
         $error++;
-    }
-
-    else {
-        print M("EXTRACT_DONATION");
-        print qq{<br/>} x 4, "</p>\n";
     }
 
     print &footer( $q,
