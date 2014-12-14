@@ -350,9 +350,10 @@ EOF
 }
 
 sub footer_top {
-    my $q    = shift;
-    my %args = @_;
-    my $css  = $args{'css'} || "";
+    my $q     = shift;
+    my %args  = @_;
+    my $css   = $args{'css'} || "";
+    my $error = $args{'error'} || 0;
 
     my $locate =
       $args{'map'}
@@ -372,7 +373,7 @@ sub footer_top {
         $donate =
 qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro service">extract pro</p>\n};
     }
-    else {
+    elsif ( !$error ) {
         $donate = qq{<p class="normalscreen" id="big_donate_image">}
           . qq{<a href="$community_link#donate"><img class="logo" height="47" width="126" src="/images/btn_donateCC_LG.gif" alt="donate"/></a></p>};
     }
@@ -429,7 +430,7 @@ qq{\n<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?
     return <<EOF;
 
 <div id="footer">
-  @{[ &footer_top($q, 'map' => $args{'map'}, 'css' => $args{'css'} ) ]}
+  @{[ &footer_top($q, 'error' => $error, 'map' => $args{'map'}, 'css' => $args{'css'} ) ]}
   <hr/>
   <div id="copyright" class="normalscreen">
     (&copy;) 2014 <a href="http://www.bbbike.org">BBBike.org</a>
@@ -957,7 +958,7 @@ qq{Please click on the <a href="javascript:history.back()">back button</a> };
     my $text = M("EXTRACT_CONFIRMED");
     printf( $text, escapeHTML($city), large_int($skm), $coordinates, $format );
 
-    my ( $key, $json_file ) = &save_request( 'obj' => $obj );
+    my ( $key, $json_file ) = &save_request($obj);
     if ( &complete_save_request($json_file) ) {
         print M("EXTRACT_DONATION");
         print qq{<br/>} x 4, "</p>\n";
