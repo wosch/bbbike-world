@@ -732,13 +732,26 @@ sub is_coord {
     return $number <= $max && $number >= -$max ? 1 : 0;
 }
 
+sub Param {
+    my $qq    = shift;
+    my $param = shift;
+    my $data  = $qq->param($param);
+    $data = "" if !defined $data;
+
+    $data =~ s/^\s+//;
+    $data =~ s/\s+$//;
+    $data =~ s/[\t\n]+/ /g;
+    return $data;
+}
+
 sub _check_input {
     my %args = @_;
     my $q    = $args{'q'};
 
-    our $qq = $q;
+    #our $qq = $q;
 
-    my $lang = get_language($q);
+    my $lang  = get_language($q);
+    my @error = ();
 
     print &header( $q, -type => 'check_input' );
     print &layout( $q, 'check_input' => 1 );
@@ -751,31 +764,23 @@ sub _check_input {
 
         $error++;
 
-        print "<p>", $no_escape ? $message : escapeHTML($message), "</p>\n";
+        my $data =
+          "<p>" . ( $no_escape ? $message : escapeHTML($message) ) . "</p>\n";
+        print $data;
+        push @error, $data;
     }
 
-    sub Param {
-        my $param = shift;
-        my $data  = $qq->param($param);
-        $data = "" if !defined $data;
-
-        $data =~ s/^\s+//;
-        $data =~ s/\s+$//;
-        $data =~ s/[\t\n]+/ /g;
-        return $data;
-    }
-
-    my $format = Param("format");
-    my $city   = Param("city");
-    my $email  = Param("email");
-    my $sw_lat = Param("sw_lat");
-    my $sw_lng = Param("sw_lng");
-    my $ne_lat = Param("ne_lat");
-    my $ne_lng = Param("ne_lng");
-    my $coords = Param("coords");
-    my $layers = Param("layers");
-    my $pg     = Param("pg");
-    my $as     = Param("as");
+    my $format = Param( $q, "format" );
+    my $city   = Param( $q, "city" );
+    my $email  = Param( $q, "email" );
+    my $sw_lat = Param( $q, "sw_lat" );
+    my $sw_lng = Param( $q, "sw_lng" );
+    my $ne_lat = Param( $q, "ne_lat" );
+    my $ne_lng = Param( $q, "ne_lng" );
+    my $coords = Param( $q, "coords" );
+    my $layers = Param( $q, "layers" );
+    my $pg     = Param( $q, "pg" );
+    my $as     = Param( $q, "as" );
 
     if ( !exists $formats->{$format} ) {
         error("Unknown error format '$format'");
