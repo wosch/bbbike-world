@@ -1072,7 +1072,12 @@ sub check_queue {
     my $spool_dir = $spool->{'confirmed'};
 
     # newest files from confirmed spool
-    my @files = `ls -t $spool_dir` or die "opendir $spool_dir\n";
+    my @files = `ls -t $spool_dir`;
+    if ($?) {
+        warn "opendir $spool_dir failed: $?\n";
+        return ( 10000, 10000 );
+    }
+
     my $mail_error = "";
 
     my $email_counter = 0;
