@@ -220,19 +220,21 @@ sub header {
             -expires => '+30d'
         );
 
+        my $format = $q->param("format");
         push @cookies,
           $q->cookie(
             -name  => 'format',
-            -value => $q->param("format"),
+            -value => $format,
             @cookie_opt
-          ) if $q->param("format");
+          ) if defined $format;
 
+        my $email = $q->param("email");
         push @cookies,
           $q->cookie(
             -name  => 'email',
-            -value => $q->param("email"),
+            -value => $email,
             @cookie_opt
-          ) if $q->param("email");
+          ) if defined $email;
 
         my $l = $q->param("lang") || "";
         if ( $l && grep { $l eq $_ } @{ $option->{supported_languages} } ) {
