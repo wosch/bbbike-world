@@ -932,7 +932,7 @@ sub _check_input {
 
     # invalid input, do not save the request and give up
     if ($error) {
-        error( M("EXTRACT_LIMIT"), 1 );
+        error( M("EXTRACT_VALID"), 1 );
 
         if ($debug) {
             warn join "\n", "==> User input errors, stop: "
