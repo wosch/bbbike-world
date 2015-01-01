@@ -160,20 +160,6 @@ my $debug = $option->{'debug'};
 # helper functions
 #
 
-sub webservice {
-    my $q = shift;
-
-    my @ns = qw/json/;
-
-    my $ns = $q->param("ns");
-    if ( defined $ns && grep { $_ eq $ns } @ns ) {
-        return $ns;
-    }
-    else {
-        return "";
-    }
-}
-
 sub http_accept_language {
     my $q = shift;
     my $requested_language = $q->http('Accept-language') || "";
@@ -203,8 +189,6 @@ sub header {
     my @cookie;
     my @css     = "../html/extract.css";
     my @expires = ();
-
-    my $ns = webservice($q);
 
     if ( $type eq 'homepage' ) {
         @onload = ( -onLoad, 'init();' );
@@ -257,18 +241,8 @@ sub header {
 
     my @status = ( -status => $error ? 503 : 200 );
     my $data = "";
-    if ( $ns eq 'json' ) {
-        $data .= $q->header(
-            @status,
-            -charset      => 'utf-8',
-            -content_type => 'application/json'
-        );
-        $data .= "/* JavaScript comments follow as HTML\n\n"
-          ;    # XXX: all outputs in comments
-    }
-    else {
-        $data .= $q->header( @status, -charset => 'utf-8', @cookie );
-    }
+
+    $data .= $q->header( @status, -charset => 'utf-8', @cookie );
 
     $data .= $q->start_html(
         -title => 'Planet.osm extracts | BBBike.org',
@@ -291,7 +265,7 @@ sub header {
 
         # -script => [ map { { 'src' => $_ } } @javascript ],
         @onload,
-    ) if !$ns;
+    );
 
     return $data;
 }
@@ -403,9 +377,6 @@ EOF
 sub footer {
     my $q    = shift;
     my %args = @_;
-
-    my $ns = webservice($q);
-    return if $ns;
 
     my $analytics = &google_analytics($q);
     my $url       = $q->url( -relative => 1 );
@@ -549,9 +520,6 @@ EOF
 sub layout {
     my $q    = shift;
     my %args = @_;
-
-    my $ns = webservice($q);
-    return "" if $ns ne "";
 
     my $data = <<EOF;
   <div id="all">
@@ -711,37 +679,21 @@ sub check_input {
     my %args = @_;
     my $q    = $args{'q'};
 
-    my $ns = webservice($q);
-
     my $error;
     my $data;
 
-    # HTML
-    if ( !$ns || $ns ne 'json' ) {
-        ( $error, $data ) = _check_input(@_);
+    ( $error, $data ) = _check_input(@_);
 
-        print &header( $q, -type => 'check_input', -error => $error );
-        print &layout( $q, 'check_input' => 1 );
+    print &header( $q, -type => 'check_input', -error => $error );
+    print &layout( $q, 'check_input' => 1 );
 
-        print $data;
+    print $data;
 
-        print &footer(
-            $q,
-            'error' => $error,
-            'css'   => '#footer { width: 90%; padding-bottom: 20px; }'
-        );
-    }
-
-    # JSON
-    else {
-
-        # XXX: we put HTML output in JavaScript comments
-        my $error = _check_input(@_);
-        print "\n\nJavaScript comments in HTML ends here */\n\n";
-
-        my $json_text = encode_json( { "status" => $error } );
-        print "$json_text\n\n";
-    }
+    print &footer(
+        $q,
+        'error' => $error,
+        'css'   => '#footer { width: 90%; padding-bottom: 20px; }'
+    );
 }
 
 sub is_lng { return is_coord( shift, 180 ); }
