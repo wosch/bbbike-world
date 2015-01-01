@@ -746,6 +746,11 @@ sub Param {
     return $data;
 }
 
+#
+# Check input values.
+# On error, return a HTTP 503 status
+# and a HTML message.
+#
 sub _check_input {
     my %args = @_;
     my $q    = $args{'q'};
