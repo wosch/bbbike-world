@@ -732,8 +732,8 @@ sub _check_input {
 
     #our $qq = $q;
 
-    my $lang  = get_language($q);
-    my @error = ();
+    my $lang = get_language($q);
+    our @error = ();
     our $error = 0;
 
     sub error {
