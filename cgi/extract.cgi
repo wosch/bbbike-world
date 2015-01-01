@@ -934,6 +934,11 @@ qq{Please click on the <a href="javascript:history.back()">back button</a> };
         push @data, qq{of your browser and correct the values!</p>\n};
         push @data, "<br/>" x 4;
 
+        if ($debug) {
+            warn join "\n", "==> User input errors, stop: "
+              . $q->url( -full => 1, -query => 1 ), @error;
+        }
+
         return ( $error, join "\n", @error, @data );
     }
 
