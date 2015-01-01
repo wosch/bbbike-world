@@ -109,5 +109,12 @@
         "Zu viele Anfragen. Bitte versuchen Sie es in 15min noch einmal. Danke!"
         ],
 
+    "EXTRACT_VALID": [
+        "<p class='error'>Die Eingabedaten sind ung&uuml;ltig.",
+        "Bitte benutze den <a href='javascript:history.back()'>back button</a>",
+        "im Browser and korrigiere die Eingabewerte!</p>",
+        "<br/><br/><br/><br/>"
+        ],
+
     "dummy": "dummy"
 }

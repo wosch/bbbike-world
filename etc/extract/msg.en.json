@@ -83,5 +83,12 @@
         "Too many requests. Please try again later in 15min. Thanks!"
         ],
 
+    "EXTRACT_VALID": [
+        "<p class='error'>The input data is not valid.",
+        "Please click on the <a href='javascript:history.back()'>back button</a>",
+        "of your browser and correct the values!</p>",
+        "<br/><br/><br/><br/>"
+        ],
+
     "dummy": "dummy"
 }
