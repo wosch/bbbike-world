@@ -71,7 +71,10 @@ our $option = {
     'enable_priority' => 1,
 
     # scheduler limits
-    'scheduler' => { 'user_limit' => 5, 'ip_limit' => 10 },
+    'scheduler' => {
+        'user_limit' => 25,
+        'ip_limit'   => 50
+    },
 };
 
 our $formats = {
@@ -1092,7 +1095,8 @@ sub check_queue {
 
     }
 
-    warn "E-Mail spool counter: $email_counter, ip address: $ip_counter\n"
+    warn qq[E-Mail spool counter: $obj->{"email"} => $email_counter, ],
+      qq[ip address: $obj->{"ip_address"} => $ip_counter\n]
       if $debug >= 1;
 
     return ( $email_counter, $ip_counter );
