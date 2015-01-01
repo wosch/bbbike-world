@@ -71,7 +71,7 @@ our $option = {
     'enable_priority' => 1,
 
     # scheduler limits
-    'scheduler' => { 'user_limit' => 5 },
+    'scheduler' => { 'user_limit' => 5, 'ip_limit' => 10 },
 };
 
 our $formats = {
@@ -919,20 +919,20 @@ sub _check_input {
     }
 
     ###############################################################################
-    if ( &check_queue( 'obj' => $obj ) ) {
-
-        # bots?
+    # bots?
+    my ( $email_counter, $ip_counter ) = &check_queue( 'obj' => $obj );
+    if ( $email_counter > $option->{'scheduler'}->{'user_limit'} ) {
+        error( M("EXTRACT_LIMIT") );
+    }
+    elsif ( $ip_counter > $option->{'scheduler'}->{'ip_limit'} ) {
+        error( M("EXTRACT_LIMIT") );
     }
 
     my @data;
 
     # invalid input, do not save the request and give up
     if ($error) {
-        push @data, qq{<p class="error">The input data is not valid. };
-        push @data,
-qq{Please click on the <a href="javascript:history.back()">back button</a> };
-        push @data, qq{of your browser and correct the values!</p>\n};
-        push @data, "<br/>" x 4;
+        error( M("EXTRACT_LIMIT"), 1 );
 
         if ($debug) {
             warn join "\n", "==> User input errors, stop: "
@@ -1073,6 +1073,7 @@ sub check_queue {
     my $mail_error = "";
 
     my $email_counter = 0;
+    my $ip_counter    = 0;
     my $counter       = 1000;
     foreach my $file (@files) {
         chomp $file;
@@ -1085,11 +1086,16 @@ sub check_queue {
         if ( $perl->{"email"} eq $obj->{"email"} ) {
             $email_counter++;
         }
+        if ( $perl->{"ip_address"} eq $obj->{"ip_address"} ) {
+            $ip_counter++;
+        }
 
     }
 
-    warn "E-Mail spool counter: $email_counter\n" if $debug >= 1;
-    return 1;
+    warn "E-Mail spool counter: $email_counter, ip address: $ip_counter\n"
+      if $debug >= 1;
+
+    return ( $email_counter, $ip_counter );
 }
 
 # foo.json.tmp -> foo.json
