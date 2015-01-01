@@ -95,7 +95,7 @@ sub run {
     {
         my ( $cgiparam, $polylines_ref ) = @$def;
 
-        for my $coords ( $q->param($cgiparam) ) {
+        for my $coords ( scalar $q->param($cgiparam) ) {
             my (@coords) = split /[!;]/, $coords;
             my (@coords_polar) = map {
                 my ( $x, $y ) = split /,/, $_;
@@ -110,7 +110,7 @@ sub run {
         push @polylines_polar, ["13.376431,52.516172"];
     }
 
-    for my $wpt ( $q->param("wpt") ) {
+    for my $wpt ( scalar $q->param("wpt") ) {
         my ( $name, $coord );
         if ( $wpt =~ /[!;]/ ) {
             ( $name, $coord ) = split /[!;]/, $wpt;
@@ -285,15 +285,15 @@ sub get_html {
 
     $lang = "en" if !$lang;
 
-    my $startname    = Encode::decode( utf8 => $q->param('startname') );
-    my $zielname     = Encode::decode( utf8 => $q->param('zielname') );
-    my $vianame      = Encode::decode( utf8 => $q->param('vianame') || "" );
-    my $driving_time = Encode::decode( utf8 => $q->param('driving_time') );
-    my $route_length = Encode::decode( utf8 => $q->param('route_length') );
+    my $startname    = Encode::decode( utf8 => scalar $q->param('startname') );
+    my $zielname     = Encode::decode( utf8 => scalar $q->param('zielname') );
+    my $vianame      = Encode::decode( utf8 => scalar $q->param('vianame') || "" );
+    my $driving_time = Encode::decode( utf8 => scalar $q->param('driving_time') );
+    my $route_length = Encode::decode( utf8 => scalar $q->param('route_length') );
     my $zoom_param = $q->param('zoom_param');
 
-    my $map   = Encode::decode( utf8 => $q->param('map') )   || "default";
-    my $layer = Encode::decode( utf8 => $q->param('layer') ) || "";
+    my $map   = Encode::decode( utf8 => scalar $q->param('map') )   || "default";
+    my $layer = Encode::decode( utf8 => scalar $q->param('layer') ) || "";
 
     my $html = "";
 
