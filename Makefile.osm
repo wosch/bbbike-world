@@ -607,7 +607,7 @@ bbbike-tile-update:
 
 bbbike-tile-update-real:
 	${MAKE} DATA_DIR=../bbbike-eserte/data bbbike2wgs84-mapnik  bbbike-mapnik-postgis${POSTGIS_VERSION} tile-cache-cleanup; \
-	prove ./world/t/websites.t
+	prove world/t/mc-tilecheck.t ./world/t/websites.t
 
 bbbike-mapnik-config8:
 	if test -e ${POSTGIS_STYLE}; then \
