@@ -346,7 +346,7 @@ sub footer_top {
 
     my $community_link =
       $language eq 'de' ? "/community.de.html" : "/community.html";
-    my $donate;
+    my $donate = "";
 
     if ( $option->{'pro'} ) {
         $donate =
