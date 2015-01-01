@@ -671,7 +671,7 @@ sub statistic_basic {
         push @params,
           qw/pref_cat pref_quality pref_specialvehicle pref_speed pref_ferry pref_unlit/;
 
-        my $opt = { map { $_ => ( $qq->param($_) || "" ) } @params };
+        my $opt = { map { $_ => ( scalar $qq->param($_) || "" ) } @params };
 
         $city_center->{ $opt->{'city'} } = $opt->{'area'};
 
