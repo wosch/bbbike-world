@@ -759,10 +759,6 @@ sub _check_input {
 
     my $lang  = get_language($q);
     my @error = ();
-
-    print &header( $q, -type => 'check_input' );
-    print &layout( $q, 'check_input' => 1 );
-
     our $error = 0;
 
     sub error {
@@ -773,7 +769,8 @@ sub _check_input {
 
         my $data =
           "<p>" . ( $no_escape ? $message : escapeHTML($message) ) . "</p>\n";
-        print $data;
+
+        #print $data;
         push @error, $data;
     }
 
@@ -952,7 +949,12 @@ sub _check_input {
         # bots?
     }
 
+    print &header( $q, -type => 'check_input' );
+    print &layout( $q, 'check_input' => 1 );
+
     if ($error) {
+        print join "\n", @error;
+
         print qq{<p class="error">The input data is not valid. };
         print
 qq{Please click on the <a href="javascript:history.back()">back button</a> };
