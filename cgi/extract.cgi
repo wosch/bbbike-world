@@ -1073,9 +1073,11 @@ sub check_queue {
 
     # newest files from confirmed spool
     my @files = `ls -t $spool_dir`;
+
+    # argh!
     if ($?) {
         warn "opendir $spool_dir failed: $?\n";
-        return ( 10000, 10000 );
+        return ( 10000, 10000 );    # fake error
     }
 
     my $mail_error = "";
