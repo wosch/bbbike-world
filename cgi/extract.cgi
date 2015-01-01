@@ -194,9 +194,10 @@ sub http_accept_language {
 }
 
 sub header {
-    my $q    = shift;
-    my %args = @_;
-    my $type = $args{-type} || "";
+    my $q     = shift;
+    my %args  = @_;
+    my $type  = $args{-type} || "";
+    my $error = $args{-error} || "";
 
     my @onload;
     my @cookie;
@@ -254,9 +255,11 @@ sub header {
         @expires = ( -expires => "+0s" );
     }
 
+    my @status = ( -status => $error ? 503 : 200 );
     my $data = "";
     if ( $ns eq 'json' ) {
         $data .= $q->header(
+            @status,
             -charset      => 'utf-8',
             -content_type => 'application/json'
         );
@@ -264,7 +267,7 @@ sub header {
           ;    # XXX: all outputs in comments
     }
     else {
-        $data .= $q->header( -charset => 'utf-8', @cookie );
+        $data .= $q->header( @status, -charset => 'utf-8', @cookie );
     }
 
     $data .= $q->start_html(
@@ -709,16 +712,36 @@ sub check_input {
     my $q    = $args{'q'};
 
     my $ns = webservice($q);
+
+    my $error;
+    my $data;
+
+    # HTML
     if ( !$ns || $ns ne 'json' ) {
-        return _check_input(@_);
+        ( $error, $data ) = _check_input(@_);
+
+        print &header( $q, -type => 'check_input', -error => $error );
+        print &layout( $q, 'check_input' => 1 );
+
+        print $data;
+
+        print &footer(
+            $q,
+            'error' => $error,
+            'css'   => '#footer { width: 90%; padding-bottom: 20px; }'
+        );
     }
 
-    # XXX: we put HTML output in JavaScript comments
-    my $error = _check_input(@_);
-    print "\n\nJavaScript comments in HTML ends here */\n\n";
+    # JSON
+    else {
 
-    my $json_text = encode_json( { "status" => $error } );
-    print "$json_text\n\n";
+        # XXX: we put HTML output in JavaScript comments
+        my $error = _check_input(@_);
+        print "\n\nJavaScript comments in HTML ends here */\n\n";
+
+        my $json_text = encode_json( { "status" => $error } );
+        print "$json_text\n\n";
+    }
 }
 
 sub is_lng { return is_coord( shift, 180 ); }
@@ -860,7 +883,7 @@ sub _check_input {
 
     $pg = 1 if !$pg || $pg > 1 || $pg <= 0;
 
-    error("as '$as' must be greather than zero") if $as <= 0;
+    error("area size '$as' must be greather than zero") if $as <= 0;
 
     if ( !$error ) {
         error("ne lng '$ne_lng' must be larger than sw lng '$sw_lng'")
@@ -949,47 +972,39 @@ sub _check_input {
         # bots?
     }
 
-    print &header( $q, -type => 'check_input' );
-    print &layout( $q, 'check_input' => 1 );
+    my @data;
 
+    # invalid input, do not save the request and give up
     if ($error) {
-        print join "\n", @error;
-
-        print qq{<p class="error">The input data is not valid. };
-        print
+        push @data, qq{<p class="error">The input data is not valid. };
+        push @data,
 qq{Please click on the <a href="javascript:history.back()">back button</a> };
-        print qq{of your browser and correct the values!</p>\n};
+        push @data, qq{of your browser and correct the values!</p>\n};
+        push @data, "<br/>" x 4;
 
-        print "<br/>" x 4;
-        print &footer(
-            $q,
-            'error' => $error,
-            'css'   => '#footer { width: 90%; padding-bottom: 20px; }'
-        );
-        return $error;
+        return ( $error, join "\n", @error, @data );
     }
 
     my $text = M("EXTRACT_CONFIRMED");
-    printf( $text, escapeHTML($city), large_int($skm), $coordinates, $format );
+    push @data,
+      sprintf( $text,
+        escapeHTML($city), large_int($skm), $coordinates, $format );
 
     my ( $key, $json_file ) = &save_request($obj);
     if ( &complete_save_request($json_file) ) {
-        print M("EXTRACT_DONATION");
-        print qq{<br/>} x 4, "</p>\n";
+        push @data, M("EXTRACT_DONATION");
+        push @data, qq{<br/>} x 4, "</p>\n";
     }
 
     # disk full, permission problem?
     else {
-        print qq{<p class="error">I'm so sorry,},
+        push @error, qq{<p class="error">I'm so sorry,},
           qq{ I couldn't save your request.\n},
           qq{Please contact the BBBike.org maintainer!</p>};
         $error++;
     }
 
-    print &footer( $q,
-        'css' => '#footer { width: 90%; padding-bottom: 20px; }' );
-
-    return $error;
+    return ( $error, join "\n", @error, @data );
 }
 
 # SMTP wrapper
