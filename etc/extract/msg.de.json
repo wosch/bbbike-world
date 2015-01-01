@@ -106,7 +106,7 @@
         ],
 
     "EXTRACT_LIMIT": [
-        "<p>Zu viele Anfragen. Bitte versuchen Sie es in 15min noch einmal. Danke!</p>"
+        "Zu viele Anfragen. Bitte versuchen Sie es in 15min noch einmal. Danke!"
         ],
 
     "dummy": "dummy"
