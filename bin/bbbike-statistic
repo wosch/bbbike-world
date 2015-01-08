@@ -92,7 +92,7 @@ if [ -f $varnish_log ]; then
 
     echo ""
     echo "map compare referer"
-    log_full 'http://mc.bbbike.org/mc/ ' | awk '{ print $11 }' | egrep -v http://mc.bbbike.org/ | sort | uniq -c | sort -nr
+    log_full 'GET http://mc.bbbike.org/mc/' | awk '{ print $11 }' | egrep -v http://mc.bbbike.org/ | sort | uniq -c | sort -nr
 
     echo ""
     echo "extract referer"
