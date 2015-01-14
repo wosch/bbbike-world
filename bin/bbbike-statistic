@@ -26,7 +26,7 @@ fi
 
 
 # man perlrun
-perl_utf8="-CIO"
+perl_utf8="-CIOEio"
 
 front_end='(http://www.bbbike.org)?'
 url_match="$front_end(/cgi/[A-Zb]|/[A-Z][a-z][A-Za-z]+/|/berlin/|/[a-z][a-z]/[A-Z][a-z][A-Za-z]+/)"
@@ -211,10 +211,10 @@ log "(/ |$url_match.*)" | egrep -v '/streets.html ' | egrep -i '\.google\.' |
 echo ""
 echo -n "bbbike cities: "
 log "$url_match.*?\?" | egrep -v 'imagetype=png.*geometry=240x180' |
-	perl $perl_utf8 -ne 'print "$1\n" if m,GET \S*/cgi/(.*?).cgi, || m,GET \S*/([A-Z][a-z]+)/\?, || m,GET \S*/([a-z][a-z]/[A-Z][a-z]+)/\?, ' | wc -l
+	perl -ne 'print "$1\n" if m,GET \S*/cgi/(.*?).cgi, || m,GET \S*/([A-Z][a-z]+)/\?, || m,GET \S*/([a-z][a-z]/[A-Z][a-z]+)/\?, ' | wc -l
 
 log "$url_match.*?\?" | egrep -v 'imagetype=png.*geometry=240x180' |
-	perl $perl_utf8 -ne 'print "$1\n" if m,GET \S*/cgi/(.*?).cgi, || m,GET \S*/([A-Z][a-z]+)/\?, || m,GET \S*/([a-z][a-z]/[A-Z][a-z]+)/\?,' |
+	perl -ne 'print "$1\n" if m,GET \S*/cgi/(.*?).cgi, || m,GET \S*/([A-Z][a-z]+)/\?, || m,GET \S*/([a-z][a-z]/[A-Z][a-z]+)/\?,' |
 	sort | uniq -c | sort -nr
 
 echo ""
@@ -268,16 +268,16 @@ log '[^ ]*/cgi/street-coord.cgi\?' | wc -l
 
 echo ""
 echo -n "bbbike cities pdf: "
-log_post POST | egrep 'POST (/[a-z][a-z])?/[A-Z][a-z]+.*?\?|/[A-Z][a-z]+/ ' | perl $perl_utf8 -ne 'print "$1\n" if m,POST /[A-Z][a-z]+/(.*?), || m,POST /[a-z][a-z]/[A-Z][a-z]+/(.*?),' | wc -l
-log_post POST | egrep 'POST (/[a-z][a-z])?/[A-Z][a-z]+/( |\?)' | perl $perl_utf8 -ne 'print "$2\n" if m,POST /([a-z][a-z]/)?([A-Z][a-z]+)/,' | sort | uniq -c | sort -nr
+log_post POST | egrep 'POST (/[a-z][a-z])?/[A-Z][a-z]+.*?\?|/[A-Z][a-z]+/ ' | perl -ne 'print "$1\n" if m,POST /[A-Z][a-z]+/(.*?), || m,POST /[a-z][a-z]/[A-Z][a-z]+/(.*?),' | wc -l
+log_post POST | egrep 'POST (/[a-z][a-z])?/[A-Z][a-z]+/( |\?)' | perl -ne 'print "$2\n" if m,POST /([a-z][a-z]/)?([A-Z][a-z]+)/,' | sort | uniq -c | sort -nr
 
 echo ""
 echo -n "output formats total: "
 log_post $url_match | egrep "GET $url_match.*?\?" |
-	perl $perl_utf8 -ne 'print "$1 $2\n" if m,GET /(.*?[A-Z][^/]+)/.*?\?\S*output_as=([^;&\s]+),' | wc -l
+	perl -ne 'print "$1 $2\n" if m,GET /(.*?[A-Z][^/]+)/.*?\?\S*output_as=([^;&\s]+),' | wc -l
 echo "output formats: "
 log_post $url_match | egrep "GET $url_match.*?\?" |
-	perl $perl_utf8 -ne 'print "$1 $2\n" if m,GET /(.*?[A-Z][^/]+)/.*?\?\S*output_as=([^;&\s]+),' | sort | uniq -c | sort -nr
+	perl -ne 'print "$1 $2\n" if m,GET /(.*?[A-Z][^/]+)/.*?\?\S*output_as=([^;&\s]+),' | sort | uniq -c | sort -nr
 
 echo ""
 echo -n "slippymap cities: "
