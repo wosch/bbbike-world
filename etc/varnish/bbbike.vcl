@@ -62,13 +62,13 @@ backend tile_size {
     .connect_timeout = 300s;
     .between_bytes_timeout = 300s;
 
-    .probe = {
-        .url = "/test.txt";
-        .timeout =  1s;
-        .interval = 300s;
-        .window = 1;
-        .threshold = 1;
-    }
+    #.probe = {
+    #    .url = "/test.txt";
+    #    .timeout =  1s;
+    #    .interval = 300s;
+    #    .window = 1;
+    #    .threshold = 1;
+    #}
 }
 
 backend eserte {
@@ -143,7 +143,7 @@ sub vcl_recv {
     } 
 
     # tile.size with node.js daemon
-    else if (req.url ~ "^/cgi/tile-size2.cgi$" && req.http.host ~ "^.*?\.bbbike\.org$" ) {
+    else if (req.url ~ "^/cgi/tile\-size2\.cgi" && req.http.host ~ "^.*?\.bbbike\.org$" ) {
         set req.backend = tile_size;
     } 
 
