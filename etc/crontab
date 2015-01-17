@@ -14,3 +14,7 @@ MAILTO=wosch
 25 15-20 * * * cd $HOME/projects/bbbike/ && world/bin/planet-download-alert
 
 #29 0 * * * $HOME/projects/bbbike/world/bin/planet-download-replication
+
+# stale jobs?
+49 * * * *     find /var/cache/extract/confirmed -name '*.json' -mtime +240 -ls
+
