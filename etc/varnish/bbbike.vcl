@@ -55,6 +55,22 @@ backend bbbike {
     }
 }
 
+backend tile_size {
+    .host = "bbbike";
+    .port = "7070";
+    .first_byte_timeout = 300s;
+    .connect_timeout = 300s;
+    .between_bytes_timeout = 300s;
+
+    .probe = {
+        .url = "/test.txt";
+        .timeout =  1s;
+        .interval = 300s;
+        .window = 1;
+        .threshold = 1;
+    }
+}
+
 backend eserte {
     .host = "eserte";
     .port = "80";
@@ -121,11 +137,18 @@ sub vcl_recv {
     # backend config
     #
 
-    if (req.http.host ~ "^dev[1-4]?\.bbbike\.org$" && req.url ~ "^/munin") {  # munin statistics
+    # munin statistics with lighttpd
+    if (req.http.host ~ "^dev[1-4]?\.bbbike\.org$" && req.url ~ "^/munin") {
         set req.backend = munin_localhost;
-    } else 
+    } 
 
-    if (req.http.host ~ "^(m\.|api[1-4]?\.|www[1-4]?\.|dev[1-4]?\.|devel[1-4]?\.|)bbbike\.org$") {
+    # tile.size with node.js daemon
+    else if (req.url ~ "^/cgi/tile-size2.cgi$" && req.http.host ~ "^.*?\.bbbike\.org$" ) {
+        set req.backend = tile_size;
+    } 
+
+    # other VMs
+    else if (req.http.host ~ "^(m\.|api[1-4]?\.|www[1-4]?\.|dev[1-4]?\.|devel[1-4]?\.|)bbbike\.org$") {
         set req.backend = bbbike;
 
         # failover production @ www1 
