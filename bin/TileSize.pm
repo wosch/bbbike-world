@@ -195,6 +195,12 @@ sub square_km {
     return ( $height * $width );
 }
 
+# 
+# count number of tiles in database
+# max. value is 180*360 = 64800
+#
+# missing values will be replace by zero or a small value
+#
 sub total_tiles {
     my $self  = shift;
     my $total = 0;
@@ -207,6 +213,9 @@ sub total_tiles {
     return $total;
 }
 
+# 
+# count total size of tiles
+#
 sub total {
     my $self  = shift;
     my $total = 0;
