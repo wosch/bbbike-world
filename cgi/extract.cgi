@@ -101,13 +101,13 @@ our $formats = {
 
     'mapsforge-osm.zip' => "Mapsforge OSM",
 
-    'srtm-europe.osm.pbf'         => 'SRTM Europe PBF',
-    'srtm-europe.garmin-srtm.zip' => 'SRTM Europe Garmin',
-    'srtm-europe.obf.zip'         => 'SRTM Europe Osmand',
+    'srtm-europe.osm.pbf'         => 'SRTM Europe PBF (25m)',
+    'srtm-europe.garmin-srtm.zip' => 'SRTM Europe Garmin (25m)',
+    'srtm-europe.obf.zip'         => 'SRTM Europe Osmand (25m)',
 
-    #'srtm.osm.pbf'         => 'SRTM PBF',
-    #'srtm.garmin-srtm.zip' => 'SRTM Garmin',
-    #'srtm.obf.zip'         => 'SRTM Osmand',
+    'srtm.osm.pbf'         => 'SRTM World PBF (40m)',
+    'srtm.garmin-srtm.zip' => 'SRTM World Garmin (40m)',
+    'srtm.obf.zip'         => 'SRTM World Osmand (40m)',
 
     #'srtm-europe.mapsforge-osm.zip' => 'SRTM Europe Mapsforge',
     #'srtm-southamerica.osm.pbf' => 'SRTM South America PBF',
@@ -437,7 +437,6 @@ sub social_links {
     <<EOF;
     <span id="social">
     <a href="http://twitter.com/BBBikeWorld" target="_new"><img class="logo" width="16" height="16" src="/images/twitter-t.png" alt="" title="Follow us on twitter.com/BBBikeWorld" /></a>
-    <a class="gplus" onmouseover="javascript:google_plusone();" ><img alt="" src="/images/google-plusone-t.png"/></a><g:plusone href="http://extract.bbbike.org" size="small" count="false"></g:plusone>
     <a href="http://www.bbbike.org/feed/bbbike-world.xml"><img class="logo" width="14" height="14" title="What's new on BBBike.org" src="/images/rss-icon.png" alt="" /></a>
     </span>
 EOF

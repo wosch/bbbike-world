@@ -58,7 +58,6 @@ my @png = qw(
   http://mc.bbbike.org/mc/img/cross.png
   http://mc.bbbike.org/mc/img/location-icon.png
   http://mc.bbbike.org/mc/img/social/facebook-t.png
-  http://mc.bbbike.org/mc/img/social/google-plusone-t.png
   http://mc.bbbike.org/mc/img/social/rss-icon.png
   http://mc.bbbike.org/mc/img/social/twitter-t.png
   http://mc.bbbike.org/mc/img/theme/geofabrik/img/east-mini.png
