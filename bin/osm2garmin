@@ -111,6 +111,7 @@ case $ext in
 	mkgmap_map=--style-file=$etc_dir/srtm
 	mkgmap_map_style=srtm
 	mkgmap_map_type=$etc_dir/srtm.TYP
+        : ${java_heap=4G}
 	;;
 
    *) usage ;;

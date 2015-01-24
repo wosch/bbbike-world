@@ -195,7 +195,7 @@ sub square_km {
     return ( $height * $width );
 }
 
-# 
+#
 # count number of tiles in database
 # max. value is 180*360 = 64800
 #
@@ -213,7 +213,7 @@ sub total_tiles {
     return $total;
 }
 
-# 
+#
 # count total size of tiles
 #
 sub total {
