@@ -435,7 +435,8 @@ function extract_init(opt) {
 
     if ($("select[name=format]").length) {
         $("select[name=format]").change(function () {
-            validateControls()
+            validateControls();
+            if (config.display_format_image) display_format_image();
         });
     }
 
@@ -1085,7 +1086,6 @@ function display_format_image() {
 
 function validateControls() {
     debug("validateControls state.box: " + state.box);
-    if (config.display_format_image) display_format_image();
 
     if (state.box == 0) return;
 
