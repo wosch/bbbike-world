@@ -50,6 +50,14 @@ test -z "$ext" && ext=${2-"osm"}
 : ${debug=false}
 
 size=$(du -ks -L "$file" | awk '{ print $1}')
+
+# higher defaults for SRTM
+case $ext in
+   srtm | garmin-srtm.zip )
+        : ${java_heap=6G}
+        ;;
+esac
+        
 : ${java_heap=3G}
 if [ $size -gt 250000 ]; then
    java_heap=6G
@@ -111,7 +119,6 @@ case $ext in
 	mkgmap_map=--style-file=$etc_dir/srtm
 	mkgmap_map_style=srtm
 	mkgmap_map_type=$etc_dir/srtm.TYP
-        : ${java_heap=4G}
 	;;
 
    *) usage ;;
