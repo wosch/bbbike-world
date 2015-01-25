@@ -49,6 +49,7 @@ var config = {
 
         "mapsforge-osm.zip": "/images/mapsforge-small.png",
         "navit.zip": "/images/navit-small.png",
+        "obf.zip": "/images/osmand-small.png",
         "srtm-europe.garmin-srtm.zip": "/images/garmin-srtm-800.png",
         "srtm.garmin-srtm.zip": "/images/garmin-srtm-1200.png",
         "srtm-europe.obf.zip": "/images/osmand-lago-contours-small.png",
