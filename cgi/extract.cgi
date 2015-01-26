@@ -324,7 +324,8 @@ sub manual_area {
 
         <span>@{[ M("EXTRACT_USAGE2") ]}</span>
     </div>
-
+    
+    <div id="format_image"></div>
 
   </div> <!-- sidebar_content -->
  </div><!-- manual_area -->

@@ -40,6 +40,24 @@ var config = {
         "srtm-europe.obf.zip": 200
     },
 
+    // help image per format
+    "format_images": {
+        "garmin-bbbike.zip": "/images/garmin-bbbike-small.png",
+        "garmin-cycle.zip": "/images/garmin-cycle-small.png",
+        "garmin-leisure.zip": "/images/garmin-leisure-small.png",
+        "garmin-osm.zip": "/images/garmin-osm-small.png",
+
+        "mapsforge-osm.zip": "/images/mapsforge-small.png",
+        "navit.zip": "/images/navit-small.png",
+        "obf.zip": "/images/osmand-small.png",
+        "srtm-europe.garmin-srtm.zip": "/images/garmin-srtm-800.png",
+        "srtm.garmin-srtm.zip": "/images/garmin-srtm-1200.png",
+        "srtm-europe.obf.zip": "/images/osmand-lago-contours-small.png",
+        "srtm.obf.zip": "/images/osmand-lago-contours-small.png",
+    },
+    display_format_image: true,
+
+
     // display messages in browser console
     debug: 1,
 
@@ -417,7 +435,8 @@ function extract_init(opt) {
 
     if ($("select[name=format]").length) {
         $("select[name=format]").change(function () {
-            validateControls()
+            validateControls();
+            if (config.display_format_image) display_format_image();
         });
     }
 
@@ -1044,8 +1063,30 @@ function square_km(x1, y1, x2, y2) { // SW x NE
     return (height * width);
 }
 
+function display_format_image() {
+    var format = $("select[name=format] option:selected").val();
+
+    var image = config.format_images[format] || "";
+    debug("display format: " + format + ", image: " + image);
+
+    if (!image) {
+        $("#format_image").html("");
+    } else {
+        $("#format_image").html('<p align="center">' + '<a target="_new" href="/extract-screenshots.html">' + '<img src="' + image + '"/>' + '</a></p>');
+
+        // clear previous timeouts, always display images for 5 seconds
+        if (state.display_timeout) {
+            clearTimeout(state.display_timeout);
+        }
+        state.display_timeout = setTimeout(function () {
+            $("#format_image").html("")
+        }, 5 * 1000);
+    }
+}
+
 function validateControls() {
     debug("validateControls state.box: " + state.box);
+
     if (state.box == 0) return;
 
     var bounds = new OpenLayers.Bounds($("#sw_lng").val(), $("#sw_lat").val(), $("#ne_lng").val(), $("#ne_lat").val());
