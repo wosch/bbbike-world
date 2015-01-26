@@ -55,8 +55,9 @@ size=$(du -ks -L "$file" | awk '{ print $1}')
 case $ext in
    srtm | garmin-srtm.zip )
         : ${java_heap_splitter=8G}
+        : ${java_heap=6G}
         : ${splitter_max_nodes=50000}
-        : ${splitter_max_areas=20}
+        : ${splitter_max_areas=50}
         ;;
 esac
         
