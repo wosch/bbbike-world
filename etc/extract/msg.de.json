@@ -33,6 +33,8 @@
     "SRTM Garmin": "SRTM Höhenlinien Garmin",
     "SRTM Osmand": "SRTM Höhenlinien Osmand",
 
+    "Elevation": "Höhenlinie",
+
     "EXTRACT_CONFIRMED": [
         "<p>Danke - die Eingabedaten sind korrekt.</p><p>",
         "Es dauert ca. 15-30 Minuten um eine Region aus der Planet.osm Datei auszuschneiden - ",
