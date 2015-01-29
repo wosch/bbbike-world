@@ -26,14 +26,14 @@
     "Garmin Cycle": "Garmin Fahrrad",
     "Garmin Leisure": "Garmin Freizeitkarte",
 
-    "SRTM Europe PBF": "SRTM Höhenlinien Europa PBF",
-    "SRTM Europe Garmin": "SRTM Höhenlinien Europa Garmin",
-    "SRTM Europe Osmand": "SRTM Höhenlinien Europa Osmand",
-    "SRTM PBF": "SRTM Höhenlinien PBF",
-    "SRTM Garmin": "SRTM Höhenlinien Garmin",
-    "SRTM Osmand": "SRTM Höhenlinien Osmand",
+    "SRTM Europe PBF (25m)": "SRTM Höhenlinien Europa PBF (25m)",
+    "SRTM Europe Garmin (25m)": "SRTM Höhenlinien Europa Garmin (25m)",
+    "SRTM Europe Osmand (25m)": "SRTM Höhenlinien Europa Osmand (25m)",
+    "SRTM World PBF (40m)": "SRTM Höhenlinien PBF (40m)",
+    "SRTM World Garmin (40m)": "SRTM Höhenlinien Garmin (40m)",
+    "SRTM World Osmand (40m)": "SRTM Höhenlinien Osmand (40m)",
 
-    "Elevation": "Höhenlinie",
+    "Elevation (SRTM)": "Höhenlinie (SRTM)",
 
     "EXTRACT_CONFIRMED": [
         "<p>Danke - die Eingabedaten sind korrekt.</p><p>",

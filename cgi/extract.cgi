@@ -75,6 +75,38 @@ our $option = {
         'user_limit' => 25,
         'ip_limit'   => 50
     },
+
+    # configure order of formats in menu
+    'formats' => [
+        {
+            'optgroup' => "OSM",
+            'formats'  => [
+                'osm.pbf', 'osm.xz', 'osm.gz', 'osm.bz2',
+                'o5m.xz',  'o5m.gz', 'opl.xz', 'csv.xz',
+                'csv.gz'
+            ]
+        },
+        { 'optgroup' => "Shapefile", 'formats' => ['shp.zip'] },
+        {
+            'optgroup' => "Garmin",
+            'formats'  => [
+                'garmin-osm.zip',     'garmin-cycle.zip',
+                'garmin-leisure.zip', 'garmin-bbbike.zip'
+            ]
+        },
+        {
+            'optgroup' => "Android",
+            'formats'  => [ 'obf.zip', 'mapsforge-osm.zip', 'navit.zip' ]
+        },
+        {
+            'optgroup' => "Elevation (SRTM)",
+            'formats'  => [
+                'srtm-europe.osm.pbf',  'srtm-europe.garmin-srtm.zip',
+                'srtm-europe.obf.zip',  'srtm.osm.pbf',
+                'srtm.garmin-srtm.zip', 'srtm.obf.zip'
+            ]
+        }
+    ],
 };
 
 our $formats = {
@@ -1169,6 +1201,20 @@ sub homepage {
 
     print $q->hidden( "lang", $language ), "\n\n";
 
+    my @values = ();
+    foreach my $group ( @{ $option->{'formats'} } ) {
+        my @f;
+        foreach my $f ( @{ $group->{'formats'} } ) {
+            push @f, $f if exists $formats->{$f};
+        }
+
+        push @values,
+          $q->optgroup(
+            -name   => M( $group->{'optgroup'} ),
+            -values => [ map { $formats_locale->{$_} } @f ]
+          );
+    }
+
     print qq{<div id="table">\n};
     print $q->table(
         { -width => '100%' },
@@ -1222,15 +1268,9 @@ qq{<span title="hide longitude,latitude box" class="lnglatbox" onclick="javascri
                           . "<a class='tools-helptrigger' href='$extract_dialog/$language/format.html'><img src='/html/help-16px.png' alt=''/></a>"
                           . "<br/></span>"
                           . $q->popup_menu(
-                            -name   => 'format',
-                            -id     => 'format',
-                            -values => [
-                                sort {
-                                    lc( $formats_locale->{$a} ) cmp
-                                      lc( $formats_locale->{$b} )
-                                  }
-                                  keys %$formats_locale
-                            ],
+                            -name    => 'format',
+                            -id      => 'format',
+                            -values  => \@values,
                             -labels  => $formats_locale,
                             -default => $default_format
                           ),
