@@ -1201,6 +1201,7 @@ sub homepage {
 
     print $q->hidden( "lang", $language ), "\n\n";
 
+    # build group for formats
     my @values = ();
     foreach my $group ( @{ $option->{'formats'} } ) {
         my @f;
