@@ -34,6 +34,7 @@ if you need to override the defaults below:
 
 PATH=/bin:/usr/bin; export PATH
 extract_dir=/var/cache/extract
+formats="csv.gz csv.xz garmin-bbbike.zip garmin-cycle.zip garmin-leisure.zip garmin-osm.zip mapsforge-osm.zip navit.zip o5m.gz o5m.xz obf.zip osm.bz2 osm.gz osm.pbf osm.xz shp.zip srtm-europe.garmin-srtm.zip srtm-europe.obf.zip srtm-europe.osm.pbf srtm.garmin-srtm.zip srtm.obf.zip srtm.osm.pbf"
 
 config=$1
 
@@ -54,12 +55,25 @@ download.label Disk usage PBF+other
 download.min 0
 EOF
 
-echo "osm.warning $jobs_warning"
-echo "download.critical $jobs_critical"
+    echo "osm.warning $warning"
+    echo "osm.critical $critical"
+    echo "download.warning $warning"
+    echo "download.critical $critical"
+
+    for f in $formats
+    do
+        echo "$f.label $f"
+        echo "$f.min 0"
+        echo "$f.warnings $warning"
+        echo "$f.critical $critical"
+    done
 
     exit 0
 fi
 
 echo "osm.value" 	`( cd $extract_dir/; du -ks osm | awk '{ print $1 * 1024 }' )`
 echo "download.value" 	`( cd $extract_dir/; du -ks download | awk '{ print $1 * 1024 }' )`
-
+for f in $formats
+do
+    echo "$f.value"     `( cd $extract_dir/download; du -k | egrep "${f}$" | awk '{ print $1 * 1024 }' )`
+done
