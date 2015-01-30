@@ -75,6 +75,7 @@ echo "osm.value" 	`( cd $extract_dir/; ls osm | wc -l )`
 echo "download.value" 	`( cd $extract_dir/; ls download | wc -l )`
 for f in $formats
 do
-    echo "$f.value"     `( cd $extract_dir/; ls download | egrep "${f}$" | wc -l )`
+    ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
+    echo "$ff.value"     `( cd $extract_dir/; ls download | egrep "${f}$" | wc -l )`
 done | perl -npe 's/[\.\-]/_/g'
 
