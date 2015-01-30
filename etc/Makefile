@@ -6,6 +6,10 @@
 
 MUNIN_LIGHTTPD=	lighttpd_accesses lighttpd_busyservers lighttpd_idleservers lighttpd_kbytes lighttpd_uptime	
 MUNIN_BBBIKE= 	bbbike-ajax bbbike-output bbbike-pref bbbike-maptype bbbike-route bbbike-appid
+MUNIN_BBBIKE_EXTRACT= 	munin-bbbike-extract-diskusage \
+			munin-bbbike-extract-files \
+			munin-bbbike-extract-size \
+			munin-bbbike-extract-size-median
 MUNIN_PLUGINS_DIR=	/etc/munin/plugins
 
 CRONTAB_ROOT=/etc/cron.d/bbbike.root
@@ -54,10 +58,9 @@ install-munin-bbbike-extract:
 	sudo ln -fs `pwd`/../bin/munin-bbbike-extract ${MUNIN_PLUGINS_DIR}/bbbike-extract; \
 	sudo ln -fs `pwd`/../bin/munin-bbbike-extract ${MUNIN_PLUGINS_DIR}/bbbike-extract-tilesize; \
 	sudo ln -fs `pwd`/../bin/munin-bbbike-extract ${MUNIN_PLUGINS_DIR}/bbbike-extract-format; \
-	sudo ln -fs `pwd`/../bin/munin-bbbike-extract-jobs ${MUNIN_PLUGINS_DIR}/bbbike-extract-jobs; \
-	sudo ln -fs `pwd`/../bin/munin-bbbike-extract-diskusage ${MUNIN_PLUGINS_DIR}/bbbike-extract-diskusage; \
-	sudo ln -fs `pwd`/../bin/munin-bbbike-extract-files ${MUNIN_PLUGINS_DIR}/bbbike-extract-files; \
-	sudo ln -fs `pwd`/../bin/munin-bbbike-extract-size ${MUNIN_PLUGINS_DIR}/bbbike-extract-size; \
+	for i in ${MUNIN_BBBIKE_EXTRACT}; do \
+	   sudo ln -fs `pwd`/../bin/$$i ${MUNIN_PLUGINS_DIR}/$$i; \
+	done
 	${MAKE} munin-restart
 
 munin-restart:
