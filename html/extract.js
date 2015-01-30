@@ -1229,16 +1229,19 @@ function show_filesize(skm, real_size) {
             "size": 0.8
         },
         "srtm-europe.osm.pbf": {
+            "planet": 0.3,
             "size": 1,
-            "time": 1
+            "time": 0.2
         },
         "srtm-europe.garmin-srtm.zip": {
+            "planet": 0.3,
             "size": 1.3,
-            "time": 2
+            "time": 0.3
         },
         "srtm-europe.obf.zip": {
+            "planet": 0.3,
             "size": 2.0,
-            "time": 10
+            "time": 0.5
         },
         "srtm.osm.pbf": {
             "size": 1,
@@ -1260,9 +1263,10 @@ function show_filesize(skm, real_size) {
 
     var factor = filesize[format].size ? filesize[format].size : 1;
     var factor_time = filesize[format].time ? filesize[format].time : 1;
+    var extract_time_min = extract_time * (filesize[format].planet ? filesize[format].planet : 1);
 
-    var time_min = extract_time + 0.6 * size + (size * factor_time);
-    var time_max = extract_time + 0.6 * size + (size * factor_time * 2);
+    var time_min = extract_time_min + 0.6 * size + (size * factor_time);
+    var time_max = extract_time_min + 0.6 * size + (size * factor_time * 2);
 
     var html = ", ~" + Math.round(size * 10) / 10 + "MB"; //  + format + " data";
     var time = "";
