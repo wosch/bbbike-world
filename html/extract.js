@@ -56,6 +56,7 @@ var config = {
         "srtm.obf.zip": "/images/osmand-lago-contours-small.png",
     },
     display_format_image: true,
+    display_format_time: 7,
 
 
     // display messages in browser console
@@ -1080,7 +1081,7 @@ function display_format_image() {
         }
         state.display_timeout = setTimeout(function () {
             $("#format_image").html("")
-        }, 5 * 1000);
+        }, config.display_format_time * 1000);
     }
 }
 
