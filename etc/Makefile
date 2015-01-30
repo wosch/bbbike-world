@@ -57,6 +57,7 @@ install-munin-bbbike-extract:
 	sudo ln -fs `pwd`/../bin/munin-bbbike-extract-jobs ${MUNIN_PLUGINS_DIR}/bbbike-extract-jobs; \
 	sudo ln -fs `pwd`/../bin/munin-bbbike-extract-diskusage ${MUNIN_PLUGINS_DIR}/bbbike-extract-diskusage; \
 	sudo ln -fs `pwd`/../bin/munin-bbbike-extract-files ${MUNIN_PLUGINS_DIR}/bbbike-extract-files; \
+	sudo ln -fs `pwd`/../bin/munin-bbbike-extract-size ${MUNIN_PLUGINS_DIR}/bbbike-extract-size; \
 	${MAKE} munin-restart
 
 munin-restart:
