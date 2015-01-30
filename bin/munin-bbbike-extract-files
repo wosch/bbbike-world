@@ -61,10 +61,11 @@ EOF
     
     for f in $formats
     do
-        echo "$f.label $f"
-        echo "$f.min 0"
-        echo "$f.warnings $warning"
-        echo "$f.critical $critical"
+        ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
+        echo "$ff.label $f"
+        echo "$ff.min 0"
+        echo "$ff.warnings $warning"
+        echo "$ff.critical $critical"
     done
 
     exit 0
@@ -75,5 +76,5 @@ echo "download.value" 	`( cd $extract_dir/; ls download | wc -l )`
 for f in $formats
 do
     echo "$f.value"     `( cd $extract_dir/; ls download | egrep "${f}$" | wc -l )`
-done
+done | perl -npe 's/[\.\-]/_/g'
 
