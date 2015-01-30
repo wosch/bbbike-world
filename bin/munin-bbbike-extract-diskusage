@@ -77,6 +77,6 @@ echo "download.value" 	`( cd $extract_dir/; du -ks download | awk '{ print $1 * 
 for f in $formats
 do
     ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
-    echo "$ff.value"     `( cd $extract_dir/download; du -k | egrep "${f}$" | awk '{ print $1 * 1024 }' )`
+    echo "$ff.value"     `( cd $extract_dir/download; du -k | egrep "${f}$" | awk '{ print $1 * 1024 } END { if (NR==0) { print 0} }' )`
 done
 
