@@ -59,7 +59,8 @@ install-munin-bbbike-extract:
 	sudo ln -fs `pwd`/../bin/munin-bbbike-extract ${MUNIN_PLUGINS_DIR}/bbbike-extract-tilesize; \
 	sudo ln -fs `pwd`/../bin/munin-bbbike-extract ${MUNIN_PLUGINS_DIR}/bbbike-extract-format; \
 	for i in ${MUNIN_BBBIKE_EXTRACT}; do \
-	   sudo ln -fs `pwd`/../bin/$$i ${MUNIN_PLUGINS_DIR}/$$i; \
+	   to=`echo $$i | perl -npe 's,munin-,,'`; \
+	   sudo ln -fs `pwd`/../bin/$$i ${MUNIN_PLUGINS_DIR}/$$to; \
 	done
 	${MAKE} munin-restart
 
