@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) Sep 2011-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2011-2015 Wolfram Schneider, http://bbbike.org
 #
 # usage: /etc/munin/plugins/bbbike-extract-diskusage [ config ]
 #
@@ -9,11 +9,11 @@
 
 =head1 NAME
 
-munin-bbbike-extract-disksize  - Plugin to monitor disk usage
+munin-bbbike-extract-size  - Plugin to monitor average file size
 
 =head1 ABOUT
 
-Munin plugin to monitor to bbbike extract disk usage
+Munin plugin to monitor to bbbike extract average file size
 [...]
 
 =head1 USAGE
