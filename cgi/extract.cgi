@@ -79,28 +79,28 @@ our $option = {
     # configure order of formats in menu
     'formats' => [
         {
-            'optgroup' => "OSM",
-            'formats'  => [
+            'title'   => "OSM",
+            'formats' => [
                 'osm.pbf', 'osm.xz', 'osm.gz', 'osm.bz2',
                 'o5m.xz',  'o5m.gz', 'opl.xz', 'csv.xz',
                 'csv.gz'
             ]
         },
-        { 'optgroup' => "Shapefile", 'formats' => ['shp.zip'] },
         {
-            'optgroup' => "Garmin",
-            'formats'  => [
+            'title'   => "Garmin",
+            'formats' => [
                 'garmin-osm.zip',     'garmin-cycle.zip',
                 'garmin-leisure.zip', 'garmin-bbbike.zip'
             ]
         },
         {
-            'optgroup' => "Android",
-            'formats'  => [ 'obf.zip', 'mapsforge-osm.zip', 'navit.zip' ]
+            'title'   => "Android",
+            'formats' => [ 'obf.zip', 'mapsforge-osm.zip', 'navit.zip' ]
         },
+        { 'title' => "Shapefile", 'formats' => ['shp.zip'] },
         {
-            'optgroup' => "Elevation (SRTM)",
-            'formats'  => [
+            'title'   => "Elevation (SRTM)",
+            'formats' => [
                 'srtm-europe.osm.pbf',  'srtm-europe.garmin-srtm.zip',
                 'srtm-europe.obf.zip',  'srtm.osm.pbf',
                 'srtm.garmin-srtm.zip', 'srtm.obf.zip'
@@ -356,7 +356,7 @@ sub manual_area {
 
         <span>@{[ M("EXTRACT_USAGE2") ]}</span>
     </div>
-    
+
     <div id="format_image"></div>
 
   </div> <!-- sidebar_content -->
@@ -1205,16 +1205,20 @@ sub homepage {
     my @values = ();
     foreach my $group ( @{ $option->{'formats'} } ) {
         my @f;
+
+        # only formats which are configured in $formats hash
         foreach my $f ( @{ $group->{'formats'} } ) {
             push @f, $f if exists $formats->{$f};
         }
 
         push @values,
           $q->optgroup(
-            -name   => M( $group->{'optgroup'} ),
-            -values => [ map { $formats_locale->{$_} } @f ]
+            -name   => M( $group->{'title'} ),
+            -values => \@f,
+            -labels => $formats_locale,
           );
     }
+    warn Dumper( \@values );
 
     print qq{<div id="table">\n};
     print $q->table(
