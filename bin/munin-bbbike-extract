@@ -56,6 +56,9 @@ my $config = {
           srtm-europe.garmin-srtm.zip
           srtm-europe.obf.zip
           srtm-europe.osm.pbf
+          srtm.garmin-srtm.zip
+          srtm.obf.zip
+          srtm.osm.pbf
           /
     ]
 };
