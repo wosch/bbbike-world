@@ -38,8 +38,8 @@ formats="csv.gz csv.xz garmin-bbbike.zip garmin-cycle.zip garmin-leisure.zip gar
 config=$1
 
 if [ "$1" = "config" ]; then
-    : ${warning=600}
-    : ${critical=1000}
+    : ${warning=1500}
+    : ${critical=2000}
      
     cat <<EOF
 graph_title Extracts files
