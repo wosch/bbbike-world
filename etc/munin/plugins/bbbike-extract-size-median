@@ -64,6 +64,7 @@ fi
 for f in $formats
 do
     ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
+    f=$(echo $f | perl -npe 's/(srtm(-europe)?)/${1}.*/g')
     echo "$ff.value"     `( cd $extract_dir/download; du -k * | egrep "${f}$" |
         awk '{
             count[NR] = $1;
