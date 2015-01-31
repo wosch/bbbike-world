@@ -38,8 +38,8 @@ formats="csv.gz csv.xz garmin-bbbike.zip garmin-cycle.zip garmin-leisure.zip gar
 config=$1
 
 if [ "$1" = "config" ]; then
-    : ${warning=80000000}
-    : ${critical=120000000}
+    : ${warning=80000000000}
+    : ${critical=120000000000}
      
     cat <<EOF
 graph_args --base 1024 --lower-limit 0
