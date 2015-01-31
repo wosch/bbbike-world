@@ -13,7 +13,6 @@ munin-bbbike-extract-disksize  - Plugin to monitor disk usage
 
 =head1 ABOUT
 
-Munin plugin to monitor to bbbike extract disk usage
 [...]
 
 =head1 USAGE

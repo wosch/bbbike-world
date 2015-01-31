@@ -13,7 +13,6 @@ munin-bbbike-extract-jobs  - Plugin to monitor running extract jobs
 
 =head1 ABOUT
 
-Munin plugin to monitor to bbbike extract queue
 [...]
 
 =head1 USAGE

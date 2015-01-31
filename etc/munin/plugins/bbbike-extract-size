@@ -1,7 +1,7 @@
 #!/bin/sh
 # Copyright (c) Sep 2011-2015 Wolfram Schneider, http://bbbike.org
 #
-# usage: /etc/munin/plugins/bbbike-extract-diskusage [ config ]
+# usage: /etc/munin/plugins/bbbike-extract-size [ config ]
 #
 # get documentation with: perldoc /path/to/script
 
@@ -13,7 +13,6 @@ munin-bbbike-extract-size  - Plugin to monitor average file size
 
 =head1 ABOUT
 
-Munin plugin to monitor to bbbike extract average file size
 [...]
 
 =head1 USAGE
@@ -25,7 +24,7 @@ Munin plugin to monitor to bbbike extract average file size
 Configuration parameters for /etc/munin/plugin-conf.d/munin-node
 if you need to override the defaults below:
 
- [bbbike-extract-diskusage]
+ [bbbike-extract-size]
    env.warning   - Generate a warning if disk usage goes above this level
    env.critical  - Generate a critical if disk usage goes above this level
 

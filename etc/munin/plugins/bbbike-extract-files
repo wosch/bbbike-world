@@ -13,7 +13,6 @@ munin-bbbike-extract-files  - Plugin to monitor number of files
 
 =head1 ABOUT
 
-Munin plugin to monitor to bbbike extract files
 [...]
 
 =head1 USAGE
