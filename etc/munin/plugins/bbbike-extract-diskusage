@@ -45,7 +45,7 @@ if [ "$1" = "config" ]; then
 graph_args --base 1024 --lower-limit 0
 graph_title Extracts disk usage
 graph_vlabel Extracts disk usage
-graph_category BBBikeExtracts
+graph_category extractsize
 graph_info Disk usage
 graph_period minute
 osm.label Disk usage PBF

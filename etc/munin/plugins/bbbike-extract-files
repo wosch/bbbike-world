@@ -44,7 +44,7 @@ if [ "$1" = "config" ]; then
     cat <<EOF
 graph_title Extracts files
 graph_vlabel Extracts files
-graph_category BBBikeExtracts
+graph_category extractsize
 graph_info Number of Files
 graph_period minute
 osm.label Files PBF
