@@ -50,7 +50,7 @@ munin-restart:
 ##################################################################################
 # perltidy section
 #
-NCPU=`../bin/ncpu`
+NCPU=`../../bin/ncpu`
 PERL_FILES:=	$(shell file * */* | egrep -iw perl | awk '{print $$1}' | perl -ne 's/://; print if !/.(bak|tdy|ERR)$$/' | sort)
 
 perlcheck:

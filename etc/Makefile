@@ -43,6 +43,9 @@ crontab-root:
 	   sudo ln -fs `pwd`/crontab.root ${CRONTAB_ROOT}; \
 	fi
 
+perltidy:
+	${MAKE} -C./munin $@
+
 clean distclean:
 	rm -f *.bak *.tdy *.ERR
 
