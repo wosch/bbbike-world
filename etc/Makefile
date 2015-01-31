@@ -48,10 +48,10 @@ clean distclean:
 
 help:
 	@echo "make [ sync-backend | sync-frontend ]"
-	@echo "make [ install-backend-lighttpd ]"
-	@echo "make [ install-munin-lighttpd ]"
-	@echo "make [ crontab-root ]"
-	@echo "make [ clean ]"
+	@echo "     [ install-backend-lighttpd ]"
+	@echo "     [ install-munin-lighttpd ]"
+	@echo "     [ crontab-root ]"
+	@echo "     [ clean ]"
 	@echo ""
 	@echo "for bbbike.de: "
 	@echo "make MUNIN_BBBIKE=\"bbbike-output bbbike-pref bbbike-route bbbike-appid\" install-munin-bbbike"
