@@ -67,7 +67,7 @@ clean distclean:
 	
 help:
 	@echo "make [ install-munin-xen | install-munin-bbbike | install-munin-bbbike-extract ]"
-	@echo "make [ perltidy | distclean ]"
+	@echo "     [ perltidy | distclean ]"
 	@echo ""
 	@echo "for bbbike.de: "
 	@echo "make MUNIN_BBBIKE=\"bbbike-output bbbike-pref bbbike-route bbbike-appid\" install-munin-bbbike"
