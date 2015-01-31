@@ -25,8 +25,8 @@ Configuration parameters for /etc/munin/plugin-conf.d/munin-node
 if you need to override the defaults below:
 
  [bbbike-extract-files]
-   env.warning   - Generate a warning if number of memory goes below this level
-   env.critical  - Generate a critical if number of memory goes below this level
+   env.warning   - Generate a warning if number of files goes above this level
+   env.critical  - Generate a critical if number of files goes above this level
 
 =cut
 
