@@ -47,18 +47,11 @@ graph_vlabel Extracts files
 graph_category extractsize
 graph_info Number of Files
 graph_period minute
-osm.label Files PBF
-osm.min 0
-download.label FilesPBF+other
-download.min 0
+ALL.label All
+ALL.min 0
 EOF
 
-    echo "osm.warning $warning"
-    echo "osm.critical $critical"
-    echo "download.warning $warning"
-    echo "download.critical $critical"
-    
-    for f in $formats
+    for f in $formats ALL
     do
         ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
         echo "$ff.label $f"
@@ -70,8 +63,7 @@ EOF
     exit 0
 fi
 
-echo "osm.value" 	`( cd $extract_dir/; ls osm | wc -l )`
-echo "download.value" 	`( cd $extract_dir/; ls download | wc -l )`
+echo "ALL.value" 	`( cd $extract_dir/; ls download | wc -l )`
 for f in $formats
 do
     ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
