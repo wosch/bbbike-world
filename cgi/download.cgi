@@ -40,7 +40,7 @@ our $option = {
     'spool_dir' => '/var/cache/extract',
 
     # cut to long city names
-    'max_city_length' => 40,
+    'max_city_length' => 32,
 };
 
 our $formats = {
@@ -234,6 +234,15 @@ div#bottom {
 EOF
 }
 
+# osm.pbf -> format_osm_pbf
+sub class_format {
+    my $format = shift;
+
+    $format =~ s/\./_/g;
+
+    return "format_" . $format;
+}
+
 #
 sub download {
     my $q = shift;
@@ -293,7 +302,7 @@ qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\
 
     print qq{<table id="download">\n};
     print qq{<thead>\n<tr>\n}
-      . qq{<th>Name</th>\n<th>Format</th>\n<th>Size</th><th>Link</th>\n<th>Map</th>\n}
+      . qq{<th>Name of area</th>\n<th>Format</th>\n<th>Size</th><th>Link</th>\n<th>Map</th>\n}
       . qq{</tr>\n</thead>\n};
     print qq{<tbody>\n};
 
@@ -311,7 +320,10 @@ qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\
         print "</td>\n";
 
         print "<td>";
+        print qq{<span class="}
+          . class_format( $download->{"format"} ) . qq{">};
         print escapeHTML( $formats->{ $download->{"format"} } );
+        print "</span>";
         print "</td>\n";
 
         print "<td>";
