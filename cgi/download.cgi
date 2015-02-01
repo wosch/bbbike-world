@@ -14,13 +14,12 @@ use JSON;
 use Data::Dumper;
 use Encode;
 use File::stat;
+use File::Basename;
 
 use strict;
 use warnings;
 
-my $log_dir = '/var/cache/extract/trash';
-
-my $max   = 25;
+my $max   = 3000;
 my $debug = 1;
 
 binmode \*STDOUT, ":utf8";
@@ -28,11 +27,68 @@ binmode \*STDERR, ":utf8";
 
 my $q = new CGI;
 
+our $option = {
+    'homepage'        => 'http://download.bbbike.org/osm/extract',
+    'script_homepage' => 'http://extract.bbbike.org',
+
+    'supported_languages' => [qw/en de/],
+    'message_path'        => "../world/etc/extract",
+    'pro'                 => 0,
+
+    # spool directory. Should be at least 100GB large
+    'spool_dir' => '/var/cache/extract',
+};
+
+our $formats = {
+    'osm.pbf' => 'Protocolbuffer (PBF)',
+    'osm.gz'  => "OSM XML gzip'd",
+    'osm.bz2' => "OSM XML bzip'd",
+    'osm.xz'  => "OSM XML 7z (xz)",
+
+    'shp.zip'            => "Shapefile (Esri)",
+    'garmin-osm.zip'     => "Garmin OSM",
+    'garmin-cycle.zip'   => "Garmin Cycle",
+    'garmin-leisure.zip' => "Garmin Leisure",
+
+    'garmin-bbbike.zip' => "Garmin BBBike",
+    'navit.zip'         => "Navit",
+    'obf.zip'           => "Osmand (OBF)",
+
+    'o5m.gz' => "o5m gzip'd",
+    'o5m.xz' => "o5m 7z (xz)",
+
+    'opl.xz' => "OPL 7z (xz)",
+    'csv.gz' => "csv gzip'd",
+    'csv.xz' => "csv 7z (xz)",
+
+    'mapsforge-osm.zip' => "Mapsforge OSM",
+
+    'srtm-europe.osm.pbf'         => 'SRTM Europe PBF (25m)',
+    'srtm-europe.garmin-srtm.zip' => 'SRTM Europe Garmin (25m)',
+    'srtm-europe.obf.zip'         => 'SRTM Europe Osmand (25m)',
+
+    'srtm.osm.pbf'         => 'SRTM World PBF (40m)',
+    'srtm.garmin-srtm.zip' => 'SRTM World Garmin (40m)',
+    'srtm.obf.zip'         => 'SRTM World Osmand (40m)',
+
+    #'srtm-europe.mapsforge-osm.zip' => 'SRTM Europe Mapsforge',
+    #'srtm-southamerica.osm.pbf' => 'SRTM South America PBF',
+};
+
+my $spool = {
+    'confirmed' => "confirmed",    # ready to run
+    'running'   => "running",      # currently running job
+    'osm'       => "osm",          # cache older runs
+    'download'  => "download",     # final directory for download
+    'trash'     => "trash",        # keep a copy of the config for debugging
+    'failed'    => "failed",       # keep record of failed runs
+};
+
 sub is_production {
     my $q = shift;
 
     return 1 if -e "/tmp/is_production";
-    return $q->virtual_host() =~ /^www\.bbbike\.org$/i ? 1 : 0;
+    return $q->virtual_host() =~ /^extract\.bbbike\.org$/i ? 1 : 0;
 }
 
 # extract areas from trash can
@@ -41,7 +97,7 @@ sub extract_areas {
     my $max     = shift;
     my $devel   = shift;
 
-    warn "extract route: log dir: $log_dir, max: $max\n" if $debug;
+    warn "download: log dir: $log_dir, max: $max, devel: $devel\n" if $debug;
 
     my %hash;
     my $dh = IO::Dir->new($log_dir) or die "open $log_dir: $!\n";
@@ -59,7 +115,9 @@ sub extract_areas {
     my @list = reverse sort { $hash{$a} <=> $hash{$b} } keys %hash;
 
     my @area;
-    my $json = new JSON;
+    my $json         = new JSON;
+    my $download_dir = $option->{"spool_dir"} . "/" . $spool->{"download"};
+
     for ( my $i = 0 ; $i < scalar(@list) && $i < $max ; $i++ ) {
         my $file = $list[$i];
         my $fh = new IO::File $file, "r" or die "open $file: $!\n";
@@ -73,8 +131,23 @@ sub extract_areas {
         my $obj = $json->decode($data);
         next if !exists $obj->{'date'};
 
-        #warn "xxx: ", Dumper($obj);
+        my $pbf_file = $download_dir . "/" . basename( $obj->{"pbf_file"} );
+        my $format   = $obj->{"format"};
 
+        my $download_file = $pbf_file;
+        $download_file =~ s/\.osm.pbf$//;
+        $download_file .= "." . $format;
+
+        if ( !-e $download_file ) {
+            warn "ignore missing $download_file\n" if $debug >= 2;
+            next;
+        }
+
+        $obj->{"download_file"} = basename($download_file);
+
+        warn "found download file $download_file\n" if $debug >= 3;
+
+        warn "xxx: ", Dumper($obj) if $debug >= 3;
         push @area, $obj;
     }
 
@@ -115,6 +188,8 @@ EOF
 sub download {
     my $q = shift;
 
+    my $log_dir = $option->{"spool_dir"} . "/" . $spool->{"trash"};
+
     my $ns = $q->param("namespace") || $q->param("ns") || "";
     $ns = "text" if $ns =~ /^(text|ascii|plain)$/;
 
@@ -148,27 +223,52 @@ sub download {
     );
 
     print &css_map;
-    print qq{<div id="sidebar">\n\t<div id="formats"></div>\n</div>\n\n};
-
-    print <<'EOF';
-    <script type="text/javascript">
-    </script>
-EOF
+    print
+qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\n</noscript>\n};
+    print "</div>\n";
 
     if ( $q->param('max') ) {
         my $m = $q->param('max');
         $max = $m if $m > 0 && $m <= 5_000;
     }
 
-    my $date = $q->param('date') || "";
-    my $stat = $q->param('stat') || "name";
-    my @d = &extract_areas( $log_dir, $max * 1.5, &is_production($q), $date );
+    my @downloads = &extract_areas( $log_dir, $max * 1.5, &is_production($q) );
 
-    print
-qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\n</noscript>\n};
-    print "</div>\n";
+    print "<pre>" . scalar(@downloads) . "</pre>";
+    print "<pre>" . Dumper( \@downloads ) . "</pre>" if $debug >= 3;
 
-    #print "<pre>" . Dumper(\@d) . "</pre>";
+    print "<table>\n";
+    foreach my $download (@downloads) {
+        print "<tr>\n";
+
+        print "<td>";
+        print $download->{"date"};
+        print "</td>\n";
+
+        print "<td>";
+        print qq{<span title="}
+          . $download->{"city"} . qq{">}
+          . substr( $download->{"city"}, 0, 20 )
+          . qq{</span>};
+        print "</td>\n";
+
+        print "<td>";
+        print $download->{"format"};
+        print "</td>\n";
+
+        print "<td>";
+        print qq{<a href="/osm/extract/}
+          . $download->{"download_file"}
+          . qq{">download</a>};
+        print "</td>\n";
+
+        print "<td>";
+        print qq{<a href="} . $download->{"script_url"} . qq{">map</a>};
+        print "</td>\n";
+
+        print "</tr>\n";
+    }
+    print "</table>\n";
 
     print &footer;
 
