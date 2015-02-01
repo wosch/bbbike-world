@@ -67,5 +67,6 @@ echo "ALL.value" 	`( cd $extract_dir/; ls download | wc -l )`
 for f in $formats
 do
     ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
+    f=$(echo $f | perl -npe 's/(srtm(-europe)?)/${1}.*/g')
     echo "$ff.value"     `( cd $extract_dir/; ls download | egrep "${f}$" | wc -l )`
 done
