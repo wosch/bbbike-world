@@ -3,7 +3,7 @@
 #
 # livesearch.cgi - bbbike.org live routing search
 
-use CGI qw/-utf-8 unescape/;
+use CGI qw/-utf-8 unescape escapeHTML escape/;
 use CGI::Carp;
 use URI;
 use URI::QueryParam;
@@ -603,7 +603,7 @@ qq{Number of unique routes: <span title="total routes: $counter2, cities: }
     }
     $d .= "</div>";
 
-    print qq{\n\$("div#routes").html('$d');\n\n};
+    print qq{\n\$("div#routes").html(unescape('} . escape($d) . qq{'));\n\n};
 
     my $city = $q->param('city') || "";
     if ( $city && exists $city_center->{$city} ) {

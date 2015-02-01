@@ -3,7 +3,7 @@
 #
 # livesearch-extract.cgi - extractbbbike.org live extracts
 
-use CGI qw/-utf-8 unescape escapeHTML/;
+use CGI qw/-utf-8 unescape escapeHTML escape/;
 use CGI::Carp;
 use URI;
 use URI::QueryParam;
@@ -380,7 +380,9 @@ qq|$o->{"sw_lng"},$o->{"sw_lat"}!$o->{"ne_lng"},$o->{"ne_lat"},$o->{"format"}|;
     }
 
     my $html = $summary . "<hr/>" . $d;
-    print qq{\n\$("div#formats").html('$html');\n\n};
+    print qq{\n\$("div#formats").html(unescape('}
+      . escape($html)
+      . qq{'));\n\n};
 
     my $city = $q->param('city') || "";
     if ( $city && exists $city_center->{$city} ) {
