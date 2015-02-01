@@ -213,6 +213,8 @@ tbody tr:nth-child(odd)  { background-color: #EEE; }
 tbody tr:nth-child(even) { background-color: #FFF; }
 tbody tr:nth-child(odd):hover, tr:nth-child(even):hover { background-color:silver; }
 
+tbody tr td:nth-child(1)  { text-align: right; }
+tbody tr td:nth-child(2)  { text-align: center; }
 tbody tr td:nth-child(3)  { text-align: right; }
 
 table#download td, table.download th {
@@ -229,6 +231,8 @@ tr { border: 0px solid; }
 div#bottom {
     margin-top: 2em;
 }
+
+h2 { text-aling: center; }
 </style>
 
 EOF
@@ -295,7 +299,7 @@ qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\
 
     print qq{<div id="intro">\n};
     print $q->h2("Extracts ready to download");
-    print qq{</div> <!-- intro -->\n};
+    print qq{\n</div> <!-- intro -->\n\n};
 
     #print "<pre>" . scalar(@downloads) . "</pre>\n\n";
     print "<pre>" . Dumper( \@downloads ) . "</pre>" if $debug >= 3;
