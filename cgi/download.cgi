@@ -384,7 +384,7 @@ sub header {
     my $ns = $q->param("namespace") || $q->param("ns") || "";
     $ns = "text" if $ns =~ /^(text|ascii|plain)$/;
 
-    print $q->header( -charset => 'utf-8', -expires => '+30m' );
+    print $q->header( -charset => 'utf-8', -expires => '+0s' );
 
     print $q->start_html(
         -title => 'BBBike extract livesearch',
