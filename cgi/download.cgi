@@ -185,7 +185,7 @@ sub extract_areas {
 }
 
 # running or ready to run
-sub running_areas {
+sub running_extract_areas {
     my $log_dir = shift;
     my $max     = shift;
     my $devel   = shift || 0;
@@ -224,22 +224,13 @@ sub running_areas {
 
         my $obj = $json->decode($data);
         next if !exists $obj->{'date'};
+        my $script_url = $obj->{"script_url"};
 
-        my $pbf_file = $download_dir . "/" . basename( $obj->{"pbf_file"} );
-        my $format   = $obj->{"format"};
-
-        my $download_file = $pbf_file;
-        $download_file =~ s/\.pbf$//;
-        my $format_display = $format;
-        $format_display =~ s/^(osm|srtm)\.//;
-
-        $download_file .= "." . $format_display;
-
-        if ( $unique{$download_file} ) {
-            warn "ignore duplicated $download_file\n" if $debug >= 2;
+        if ( $unique{$script_url} ) {
+            warn "ignore duplicated $script_url\n" if $debug >= 2;
             next;
         }
-        $unique{$download_file} = 1;
+        $unique{$script_url} = 1;
 
         warn "xxx: ", Dumper($obj) if $debug >= 3;
         push @area, $obj;
@@ -360,13 +351,25 @@ sub result {
         print "</td>\n";
 
         print "<td>";
-        print file_size_mb( $download->{"extract_size"} ) . " MB";
+        if ( $download->{"extract_size"} ) {
+            print file_size_mb( $download->{"extract_size"} ) . " MB";
+        }
+        else {
+            print "-";
+        }
         print "</td>\n";
 
+        # download link if available
         print "<td>";
-        print qq{<a title="$date" href="/osm/extract/}
-          . escapeHTML( $download->{"download_file"} )
-          . qq{">download</a>};
+        if ( $download->{"download_file"} ) {
+
+            print qq{<a title="$date" href="/osm/extract/}
+              . escapeHTML( $download->{"download_file"} )
+              . qq{">download</a>};
+        }
+        else {
+            print "-";
+        }
         print "</td>\n";
 
         print "<td>";
@@ -456,20 +459,19 @@ EOF
     print qq{\n</div> <!-- intro -->\n\n};
 
     my @extracts;
+    my $spool_dir = $option->{"spool_dir"};
     @extracts =
-      &running_areas( $option->{"spool_dir"} . "/" . $spool->{"confirmed"},
-        $max );
+      &running_extract_areas( "$spool_dir/" . $spool->{"confirmed"}, $max );
+    result(
+        'type'  => 'confirmed',
+        'name'  => 'Waiting extracts',
+        'files' => \@extracts
+    );
 
-#result('type' => 'confirmed', 'name' => 'Waiting extracts', 'files' => \@extracts);
-
-    my @extracts =
-      &running_areas( $option->{"spool_dir"} . "/" . $spool->{"running"},
-        $max );
-
+#my @extracts = &running_extract_areas("$spool_dir/" . $spool->{"running"}, $max );
 #result('type' => 'running', 'name' => 'Running extracts', 'files' => \@extracts);
 
-    @extracts =
-      &extract_areas( $option->{"spool_dir"} . "/" . $spool->{"trash"}, $max );
+    @extracts = &extract_areas( "$spool_dir/" . $spool->{"trash"}, $max );
     result(
         'type'  => 'download',
         'name'  => 'Ready extracts',
