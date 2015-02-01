@@ -238,7 +238,7 @@ sub footer {
 <div id="footer_top">
 <a href="@{[ $option->{'script_homepage'} ]}">home</a> |
 <a href="/community.html">donate</a>
-<hr>
+<hr/>
 </div> <!-- footer_top -->
 
 <div id="copyright">
@@ -252,7 +252,6 @@ EOF
 
 sub css_map {
     return <<EOF;
-<style type="text/css">
 
 tbody tr:nth-child(odd)  { background-color: #EEE; }
 tbody tr:nth-child(even) { background-color: #FFF; }
@@ -285,7 +284,6 @@ div#bottom {
 }
 
 h2 { text-align: center; }
-</style>
 
 EOF
 }
@@ -403,12 +401,15 @@ sub header {
             $q->meta(
                 { -name => "robots", -content => "nofollow,noindex,noarchive" }
             ),
-            $q->meta(
+            $q->Link(
                 { -rel => "shortcut icon", -href => "/images/srtbike16.gif" }
             )
         ],
 
-        -style  => { 'src' => [ "/html/bbbike.css", "/html/luft.css" ] },
+        -style => {
+            'src' => [ "/html/bbbike.css", "/html/luft.css" ],
+            -code => &css_map
+        },
         -script => [
 
             #{ 'src' => "../html/bbbike-js.js" }
@@ -418,9 +419,9 @@ sub header {
         ],
     );
 
-    print &css_map;
-    print
-qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\n</noscript>\n};
+    print qq{<noscript><p>},
+      qq{You must enable JavaScript and CSS to run this application!},
+      qq{</p>\n</noscript>\n};
     print qq{<div id="all">\n};
     print qq{  <div id="border">\n};
     print qq{    <div id="main">\n};
