@@ -474,7 +474,7 @@ EOF
         'type'    => 'running',
         'files'   => \@extracts,
         'name'    => 'Running extracts',
-        'message' => 'Will be ready in the next 15-30 minutes',
+        'message' => 'Will be ready in the next 5-30 minutes.',
     );
 
     @extracts = &extract_areas( "$spool_dir/" . $spool->{"trash"}, $max );
