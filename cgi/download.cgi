@@ -111,7 +111,7 @@ sub file_size_mb {
 sub extract_areas {
     my $log_dir = shift;
     my $max     = shift;
-    my $devel   = shift;
+    my $devel   = shift || 0;
 
     warn "download: log dir: $log_dir, max: $max, devel: $devel\n" if $debug;
 
@@ -184,6 +184,70 @@ sub extract_areas {
     return reverse sort { $a->{"extract_time"} <=> $b->{"extract_time"} } @area;
 }
 
+# running or ready to run
+sub running_areas {
+    my $log_dir = shift;
+    my $max     = shift;
+    my $devel   = shift || 0;
+
+    warn "download: log dir: $log_dir, max: $max, devel: $devel\n" if $debug;
+
+    my %hash;
+    my $dh = IO::Dir->new($log_dir) or die "open $log_dir: $!\n";
+
+    while ( defined( my $file = $dh->read ) ) {
+        next if $file !~ /\.json$/;
+
+        my $f = "$log_dir/$file";
+        my $st = stat($f) or die "stat $f: $!\n";
+        $hash{$f} = $st->mtime;
+    }
+    $dh->close;
+
+    # newest first
+    my @list = reverse sort { $hash{$a} <=> $hash{$b} } keys %hash;
+
+    my @area;
+    my $json         = new JSON;
+    my $download_dir = $option->{"spool_dir"} . "/" . $spool->{"download"};
+
+    my %unique;
+    for ( my $i = 0 ; $i < scalar(@list) && $i < $max ; $i++ ) {
+        my $file = $list[$i];
+        my $fh = new IO::File $file, "r" or die "open $file: $!\n";
+        binmode $fh, ":utf8";
+
+        my $data = "";
+        while (<$fh>) {
+            $data .= $_;
+        }
+
+        my $obj = $json->decode($data);
+        next if !exists $obj->{'date'};
+
+        my $pbf_file = $download_dir . "/" . basename( $obj->{"pbf_file"} );
+        my $format   = $obj->{"format"};
+
+        my $download_file = $pbf_file;
+        $download_file =~ s/\.pbf$//;
+        my $format_display = $format;
+        $format_display =~ s/^(osm|srtm)\.//;
+
+        $download_file .= "." . $format_display;
+
+        if ( $unique{$download_file} ) {
+            warn "ignore duplicated $download_file\n" if $debug >= 2;
+            next;
+        }
+        $unique{$download_file} = 1;
+
+        warn "xxx: ", Dumper($obj) if $debug >= 3;
+        push @area, $obj;
+    }
+
+    return sort { $a->{"time"} <=> $b->{"time"} } @area;
+}
+
 sub footer {
     my %args = @_;
     my $date = $args{'date'};
@@ -198,14 +262,13 @@ sub footer {
 <div id="footer">
 <div id="footer_top">
 <a href="@{[ $option->{'script_homepage'} ]}">home</a>
-</div>
-</div>
+</div> <!-- footer_top -->
 
 <div id="copyright">
 <hr>
 (&copy;) 2008-2015 <a href="http://bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="http://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
-<div id="footer_community">
-</div>
+</div> <!-- copyright -->
+
 </div> <!-- footer -->
 </div> <!-- bottom -->
 EOF
@@ -253,73 +316,23 @@ sub class_format {
     return "format_" . $format;
 }
 
-#
-sub download {
-    my $q = shift;
+sub result {
+    my %args = @_;
 
-    my $log_dir = $option->{"spool_dir"} . "/" . $spool->{"trash"};
+    my $type  = $args{'type'};
+    my $name  = $args{'name'};
+    my $files = $args{'files'};
 
-    my $ns = $q->param("namespace") || $q->param("ns") || "";
-    $ns = "text" if $ns =~ /^(text|ascii|plain)$/;
+    my @downloads = @$files;
 
-    print $q->header( -charset => 'utf-8', -expires => '+30m' );
-
-    print $q->start_html(
-        -title => 'BBBike extract livesearch',
-        -head  => [
-            $q->meta(
-                {
-                    -http_equiv => 'Content-Type',
-                    -content    => 'text/html; charset=utf-8'
-                }
-            ),
-            $q->meta(
-                { -name => "robots", -content => "nofollow,noindex,noarchive" }
-            ),
-            $q->meta(
-                { -rel => "shortcut icon", -href => "/images/srtbike16.gif" }
-            )
-        ],
-
-        -style  => { 'src' => ["../html/bbbike.css"] },
-        -script => [
-
-            #{ 'src' => "../html/bbbike-js.js" }
-            { 'src' => "/html/maps3.js" },
-            { 'src' => "/html/bbbike.js" },
-            { 'src' => "/html/jquery/jquery-1.8.3.min.js " }
-        ],
-    );
-
-    print &css_map;
-    print
-qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\n</noscript>\n};
-    print qq{<div id="main">\n};
-
-    if ( $q->param('max') ) {
-        my $m = $q->param('max');
-        $max = $m if $m > 0 && $m <= 5_000;
+    if ( !@downloads ) {
+        warn "Nothing todo for $type\n" if $debug >= 2;
+        return;
     }
 
-    my @downloads = &extract_areas( $log_dir, $max * 1.5, &is_production($q) );
+    print qq{<h3>$name</h3>\n\n};
 
-    print qq{<div id="intro">\n};
-    print $q->h2("Extracts ready to download");
-
-    my $date = time2str(time);
-    print <<EOF;
-<p>
-Newest extracts are first.
-Last update: $date
-</p>
-EOF
-
-    print qq{\n</div> <!-- intro -->\n\n};
-
-    #print "<pre>" . scalar(@downloads) . "</pre>\n\n";
-    print "<pre>" . Dumper( \@downloads ) . "</pre>" if $debug >= 3;
-
-    print qq{<table id="download">\n};
+    print qq{<table id="$type">\n};
     print qq{<thead>\n<tr>\n}
       . qq{<th>Name of area</th>\n<th>Format</th>\n<th>Size</th><th>Link</th>\n<th>Map</th>\n}
       . qq{</tr>\n</thead>\n};
@@ -365,6 +378,100 @@ EOF
     }
     print "</tbody>\n";
     print "</table>\n";
+}
+
+sub header {
+    my $q = shift;
+
+    my $ns = $q->param("namespace") || $q->param("ns") || "";
+    $ns = "text" if $ns =~ /^(text|ascii|plain)$/;
+
+    print $q->header( -charset => 'utf-8', -expires => '+30m' );
+
+    print $q->start_html(
+        -title => 'BBBike extract livesearch',
+        -head  => [
+            $q->meta(
+                {
+                    -http_equiv => 'Content-Type',
+                    -content    => 'text/html; charset=utf-8'
+                }
+            ),
+            $q->meta(
+                { -name => "robots", -content => "nofollow,noindex,noarchive" }
+            ),
+            $q->meta(
+                { -rel => "shortcut icon", -href => "/images/srtbike16.gif" }
+            )
+        ],
+
+        -style  => { 'src' => ["../html/bbbike.css"] },
+        -script => [
+
+            #{ 'src' => "../html/bbbike-js.js" }
+            { 'src' => "/html/maps3.js" },
+            { 'src' => "/html/bbbike.js" },
+            { 'src' => "/html/jquery/jquery-1.8.3.min.js " }
+        ],
+    );
+
+    print &css_map;
+    print
+qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\n</noscript>\n};
+    print qq{<div id="main">\n};
+}
+
+###########################################################################
+#
+sub download {
+    my $q = shift;
+
+    header($q);
+
+    if ( $q->param('max') ) {
+        my $m = $q->param('max');
+        $max = $m if $m > 0 && $m <= 5_000;
+    }
+
+    print qq{<div id="intro">\n};
+    print $q->h2("Extracts ready to download");
+
+    my $date = time2str(time);
+    print <<EOF;
+    
+<p>
+Last update: $date<br/>
+Newest extracts are first.
+</p>
+EOF
+
+    print <<EOF;
+<p>
+</p>
+EOF
+
+    print qq{\n</div> <!-- intro -->\n\n};
+
+    my @extracts;
+    @extracts =
+      &running_areas( $option->{"spool_dir"} . "/" . $spool->{"confirmed"},
+        $max );
+
+#result('type' => 'confirmed', 'name' => 'Waiting extracts', 'files' => \@extracts);
+
+    my @extracts =
+      &running_areas( $option->{"spool_dir"} . "/" . $spool->{"running"},
+        $max );
+
+#result('type' => 'running', 'name' => 'Running extracts', 'files' => \@extracts);
+
+    @extracts =
+      &extract_areas( $option->{"spool_dir"} . "/" . $spool->{"trash"}, $max );
+    result(
+        'type'  => 'download',
+        'name'  => 'Ready extracts',
+        'files' => \@extracts
+    );
 
     print qq{</div> <!-- main -->\n};
     print &footer( 'date' => $date );
