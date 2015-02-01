@@ -238,7 +238,7 @@ sub footer {
 <div id="footer_top">
 <a href="@{[ $option->{'script_homepage'} ]}">home</a> |
 <a href="/community.html">donate</a>
-<hr>
+<hr/>
 </div> <!-- footer_top -->
 
 <div id="copyright">
@@ -252,7 +252,6 @@ EOF
 
 sub css_map {
     return <<EOF;
-<style type="text/css">
 
 tbody tr:nth-child(odd)  { background-color: #EEE; }
 tbody tr:nth-child(even) { background-color: #FFF; }
@@ -264,9 +263,9 @@ tbody tr td:nth-child(3), thead tr th:nth-child(3) { text-align: right; }
 tbody tr td:nth-child(4), thead tr th:nth-child(4) { text-align: center; }
 tbody tr td:nth-child(5), thead tr th:nth-child(5) { text-align: center; }
 
-tbody tr td:nth-child(1) { min-width: 19em; }
+tbody tr td:nth-child(1) { min-width: 16em; }
 tbody tr td:nth-child(2) { min-width: 12em; }
-tbody tr td:nth-child(3) { min-width: 4em; }
+tbody tr td:nth-child(3) { min-width: 5em; }
 tbody tr td:nth-child(4) { min-width: 4em; }
 
 table#download td, table.download th {
@@ -285,7 +284,6 @@ div#bottom {
 }
 
 h2 { text-align: center; }
-</style>
 
 EOF
 }
@@ -302,9 +300,10 @@ sub class_format {
 sub result {
     my %args = @_;
 
-    my $type  = $args{'type'};
-    my $name  = $args{'name'};
-    my $files = $args{'files'};
+    my $type    = $args{'type'};
+    my $name    = $args{'name'};
+    my $files   = $args{'files'};
+    my $message = $args{'message'};
 
     my @downloads = @$files;
 
@@ -315,6 +314,10 @@ sub result {
         print qq{<p>None</p>\n};
         print "<hr/>\n\n";
         return;
+    }
+
+    if ($message) {
+        print qq{<p>$message</p>\n\n};
     }
 
     print qq{<table id="$type">\n};
@@ -398,12 +401,15 @@ sub header {
             $q->meta(
                 { -name => "robots", -content => "nofollow,noindex,noarchive" }
             ),
-            $q->meta(
+            $q->Link(
                 { -rel => "shortcut icon", -href => "/images/srtbike16.gif" }
             )
         ],
 
-        -style  => { 'src' => [ "/html/bbbike.css", "/html/luft.css" ] },
+        -style => {
+            'src' => [ "/html/bbbike.css", "/html/luft.css" ],
+            -code => &css_map
+        },
         -script => [
 
             #{ 'src' => "../html/bbbike-js.js" }
@@ -413,9 +419,9 @@ sub header {
         ],
     );
 
-    print &css_map;
-    print
-qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\n</noscript>\n};
+    print qq{<noscript><p>},
+      qq{You must enable JavaScript and CSS to run this application!},
+      qq{</p>\n</noscript>\n};
     print qq{<div id="all">\n};
     print qq{  <div id="border">\n};
     print qq{    <div id="main">\n};
@@ -456,17 +462,19 @@ EOF
     @extracts =
       &running_extract_areas( "$spool_dir/" . $spool->{"confirmed"}, $max );
     result(
-        'type'  => 'confirmed',
-        'name'  => 'Waiting extracts',
-        'files' => \@extracts
+        'type'    => 'confirmed',
+        'files'   => \@extracts,
+        'name'    => 'Waiting extracts',
+        'message' => 'Will start in the next 5 minutes.',
     );
 
     my @extracts =
       &running_extract_areas( "$spool_dir/" . $spool->{"running"}, $max );
     result(
-        'type'  => 'running',
-        'name'  => 'Running extracts',
-        'files' => \@extracts
+        'type'    => 'running',
+        'files'   => \@extracts,
+        'name'    => 'Running extracts',
+        'message' => 'Will be ready in the next 5-30 minutes.',
     );
 
     @extracts = &extract_areas( "$spool_dir/" . $spool->{"trash"}, $max );
