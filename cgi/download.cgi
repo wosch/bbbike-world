@@ -283,7 +283,7 @@ tbody tr:nth-child(even) { background-color: #FFF; }
 tbody tr:nth-child(odd):hover, tr:nth-child(even):hover { background-color:silver; }
 
 tbody tr td:nth-child(1)  { text-align: right; }
-tbody tr td:nth-child(2)  { text-align: center; }
+tbody tr td:nth-child(2)  { text-align: right; }
 tbody tr td:nth-child(3)  { text-align: right; }
 
 table#download td, table.download th {
@@ -405,7 +405,7 @@ sub header {
             )
         ],
 
-        -style  => { 'src' => ["../html/bbbike.css"] },
+        -style  => { 'src' => ["/html/bbbike.css", "/html/luft.css"] },
         -script => [
 
             #{ 'src' => "../html/bbbike-js.js" }
@@ -418,7 +418,9 @@ sub header {
     print &css_map;
     print
 qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\n</noscript>\n};
-    print qq{<div id="main">\n};
+    print qq{<div id="all">\n};
+    print qq{  <div id="border">\n};
+    print qq{    <div id="main">\n};
 }
 
 ###########################################################################
@@ -473,8 +475,11 @@ EOF
         'files' => \@extracts
     );
 
-    print qq{</div> <!-- main -->\n};
     print &footer( 'date' => $date );
+    
+    print qq{    </div> <!-- main -->\n};
+    print qq{  </div> <!-- border -->\n};
+    print qq{</div> <!-- all -->\n};
 
     print $q->end_html;
 }
