@@ -15,6 +15,7 @@ use Data::Dumper;
 use Encode;
 use File::stat;
 use File::Basename;
+use HTTP::Date;
 
 use strict;
 use warnings;
@@ -37,6 +38,9 @@ our $option = {
 
     # spool directory. Should be at least 100GB large
     'spool_dir' => '/var/cache/extract',
+
+    # cut to long city names
+    'max_city_length' => 40,
 };
 
 our $formats = {
@@ -89,6 +93,18 @@ sub is_production {
 
     return 1 if -e "/tmp/is_production";
     return $q->virtual_host() =~ /^extract\.bbbike\.org$/i ? 1 : 0;
+}
+
+# sacle file size in x.y MB
+sub file_size_mb {
+    my $size = shift;
+
+    foreach my $scale ( 10, 100, 1000, 10_000 ) {
+        my $result = int( $scale * $size / 1024 / 1024 ) / $scale;
+        return $result if $result > 0;
+    }
+
+    return "0.0";
 }
 
 # extract areas from trash can
@@ -145,13 +161,17 @@ sub extract_areas {
 
         $obj->{"download_file"} = basename($download_file);
 
+        my $st = stat($download_file) or die "stat $download_file: $!\n";
+        $obj->{"extract_time"} = $st->mtime;
+        $obj->{"extract_size"} = $st->size;
+
         warn "found download file $download_file\n" if $debug >= 3;
 
         warn "xxx: ", Dumper($obj) if $debug >= 3;
         push @area, $obj;
     }
 
-    return @area;
+    return reverse sort { $a->{"extract_time"} <=> $b->{"extract_time"} } @area;
 }
 
 sub footer {
@@ -159,6 +179,7 @@ sub footer {
 
     return <<EOF;
 
+<br/>
 <div id="bottom">
 <div id="footer">
 <div id="footer_top">
@@ -179,6 +200,18 @@ EOF
 sub css_map {
     return <<EOF;
 <style type="text/css">
+
+tbody tr:nth-child(odd)  { background-color: #EEE; }
+tbody tr:nth-child(even) { background-color: #FFF; }
+tbody tr:nth-child(odd):hover, tr:nth-child(even):hover { background-color:silver; }
+
+tbody tr td:nth-child(3)  { text-align: right; }
+
+table#download td, table.download th {
+  border: 1px solid #DDD;
+  padding-left: 4px !important;
+  padding-right: 4px !important;
+}
 </style>
 
 EOF
@@ -225,7 +258,7 @@ sub download {
     print &css_map;
     print
 qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\n</noscript>\n};
-    print "</div>\n";
+    print qq{<div id="main">\n};
 
     if ( $q->param('max') ) {
         my $m = $q->param('max');
@@ -234,26 +267,37 @@ qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\
 
     my @downloads = &extract_areas( $log_dir, $max * 1.5, &is_production($q) );
 
-    print "<pre>" . scalar(@downloads) . "</pre>";
+    print "<pre>" . scalar(@downloads) . "</pre>\n\n";
     print "<pre>" . Dumper( \@downloads ) . "</pre>" if $debug >= 3;
 
-    print "<table>\n";
+    print qq{<table id="download">\n};
+    print
+qq{<thead><th><td>Name</td><td>Format</td><td>Size</td><td>Link</td><td>Map</td></th></thead>\n};
+    print qq{<tbody>\n};
+
     foreach my $download (@downloads) {
         print "<tr>\n";
 
-        print "<td>";
-        print $download->{"date"};
-        print "</td>\n";
+        if (0) {
+
+            print "<td>";
+            print time2str( $download->{"extract_time"} );
+            print "</td>\n";
+        }
 
         print "<td>";
         print qq{<span title="}
           . $download->{"city"} . qq{">}
-          . substr( $download->{"city"}, 0, 20 )
+          . substr( $download->{"city"}, 0, $option->{"max_city_length"} )
           . qq{</span>};
         print "</td>\n";
 
         print "<td>";
         print $download->{"format"};
+        print "</td>\n";
+
+        print "<td>";
+        print file_size_mb( $download->{"extract_size"} ) . " MB";
         print "</td>\n";
 
         print "<td>";
@@ -268,8 +312,10 @@ qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\
 
         print "</tr>\n";
     }
+    print "</tbody>\n";
     print "</table>\n";
 
+    print qq{</div> <!-- main -->\n};
     print &footer;
 
     print $q->end_html;
