@@ -20,7 +20,7 @@ use HTTP::Date;
 use strict;
 use warnings;
 
-my $max   = 300;
+my $max   = 100;
 my $debug = 1;
 
 binmode \*STDOUT, ":utf8";
@@ -278,7 +278,9 @@ qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\
 
     my @downloads = &extract_areas( $log_dir, $max * 1.5, &is_production($q) );
 
-    print "<pre>" . scalar(@downloads) . "</pre>\n\n";
+    print $q->h2("Extracts ready to download");
+
+    #print "<pre>" . scalar(@downloads) . "</pre>\n\n";
     print "<pre>" . Dumper( \@downloads ) . "</pre>" if $debug >= 3;
 
     print qq{<table id="download">\n};
