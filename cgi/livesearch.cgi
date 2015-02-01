@@ -675,7 +675,7 @@ sub statistic_basic {
         push @route_display, $url;
     }
 
-    print $q->header( -charset => 'utf-8', -expires => '+30m' );
+    print $q->header( -charset => 'utf-8', -expires => '+0s' );
     print $q->start_html( -title => 'BBBike @ World livesearch' );
 
     my @cities        = sort keys %{$cities};

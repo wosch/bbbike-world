@@ -214,7 +214,7 @@ sub statistic {
     my $ns = $q->param("namespace") || $q->param("ns") || "";
     $ns = "text" if $ns =~ /^(text|ascii|plain)$/;
 
-    print $q->header( -charset => 'utf-8', -expires => '+30m' );
+    print $q->header( -charset => 'utf-8', -expires => '+0s' );
 
     my $sensor = is_mobile($q) ? 'true' : 'false';
     print $q->start_html(
