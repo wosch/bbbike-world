@@ -36,7 +36,7 @@ our $option = {
     'spool_dir' => '/var/cache/extract',
 
     # cut to long city names
-    'max_city_length' => 40,
+    'max_city_length' => 38,
 };
 
 our $formats = {
