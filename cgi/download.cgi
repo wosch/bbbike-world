@@ -20,8 +20,8 @@ use warnings;
 
 my $log_dir = '/var/cache/extract/trash';
 
-my $max                       = 25;
-my $debug                     = 1;
+my $max   = 25;
+my $debug = 1;
 
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
@@ -74,7 +74,6 @@ sub extract_areas {
         next if !exists $obj->{'date'};
 
         #warn "xxx: ", Dumper($obj);
-        next if $date && $obj->{'date'} !~ /$date/;
 
         push @area, $obj;
     }
@@ -112,7 +111,7 @@ sub css_map {
 EOF
 }
 
-# 
+#
 sub download {
     my $q = shift;
 
@@ -168,9 +167,9 @@ EOF
     print
 qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\n</noscript>\n};
     print "</div>\n";
-    
+
     #print "<pre>" . Dumper(\@d) . "</pre>";
-    
+
     print &footer;
 
     print $q->end_html;
