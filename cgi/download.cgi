@@ -264,9 +264,9 @@ tbody tr td:nth-child(3), thead tr th:nth-child(3) { text-align: right; }
 tbody tr td:nth-child(4), thead tr th:nth-child(4) { text-align: center; }
 tbody tr td:nth-child(5), thead tr th:nth-child(5) { text-align: center; }
 
-tbody tr td:nth-child(1) { min-width: 19em; }
+tbody tr td:nth-child(1) { min-width: 16em; }
 tbody tr td:nth-child(2) { min-width: 12em; }
-tbody tr td:nth-child(3) { min-width: 4em; }
+tbody tr td:nth-child(3) { min-width: 5em; }
 tbody tr td:nth-child(4) { min-width: 4em; }
 
 table#download td, table.download th {
