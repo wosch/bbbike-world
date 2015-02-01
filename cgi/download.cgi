@@ -134,6 +134,7 @@ sub extract_areas {
     my $json         = new JSON;
     my $download_dir = $option->{"spool_dir"} . "/" . $spool->{"download"};
 
+    my %unique;
     for ( my $i = 0 ; $i < scalar(@list) && $i < $max ; $i++ ) {
         my $file = $list[$i];
         my $fh = new IO::File $file, "r" or die "open $file: $!\n";
@@ -162,6 +163,12 @@ sub extract_areas {
             next;
         }
 
+        if ( $unique{$download_file} ) {
+            warn "ignore duplicated $download_file\n" if $debug >= 2;
+            next;
+        }
+        $unique{$download_file} = 1;
+
         $obj->{"download_file"} = basename($download_file);
 
         my $st = stat($download_file) or die "stat $download_file: $!\n";
@@ -178,9 +185,8 @@ sub extract_areas {
 }
 
 sub footer {
-    my $q = new CGI;
-
-    my $date = time2str(time);
+    my %args = @_;
+    my $date = $args{'date'};
 
     return <<EOF;
 
@@ -299,6 +305,15 @@ qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\
 
     print qq{<div id="intro">\n};
     print $q->h2("Extracts ready to download");
+
+    my $date = time2str(time);
+    print <<EOF;
+<p>
+Newest extracts are first.
+Last update: $date
+</p>
+EOF
+
     print qq{\n</div> <!-- intro -->\n\n};
 
     #print "<pre>" . scalar(@downloads) . "</pre>\n\n";
@@ -352,7 +367,7 @@ qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\
     print "</table>\n";
 
     print qq{</div> <!-- main -->\n};
-    print &footer;
+    print &footer( 'date' => $date );
 
     print $q->end_html;
 }
