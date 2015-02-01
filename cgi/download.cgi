@@ -5,14 +5,10 @@
 
 use CGI qw/-utf-8 unescape escapeHTML/;
 use CGI::Carp;
-use URI;
-use URI::QueryParam;
 
 use IO::File;
-use IO::Dir;
 use JSON;
 use Data::Dumper;
-use Encode;
 use File::stat;
 use File::Basename;
 use HTTP::Date;
@@ -116,16 +112,10 @@ sub extract_areas {
     warn "download: log dir: $log_dir, max: $max, devel: $devel\n" if $debug;
 
     my %hash;
-    my $dh = IO::Dir->new($log_dir) or die "open $log_dir: $!\n";
-
-    while ( defined( my $file = $dh->read ) ) {
-        next if $file !~ /\.json$/;
-
-        my $f = "$log_dir/$file";
+    foreach my $f ( glob("$log_dir/*.json") ) {
         my $st = stat($f) or die "stat $f: $!\n";
         $hash{$f} = $st->mtime;
     }
-    $dh->close;
 
     # newest first
     my @list = reverse sort { $hash{$a} <=> $hash{$b} } keys %hash;
@@ -193,16 +183,10 @@ sub running_extract_areas {
     warn "download: log dir: $log_dir, max: $max, devel: $devel\n" if $debug;
 
     my %hash;
-    my $dh = IO::Dir->new($log_dir) or die "open $log_dir: $!\n";
-
-    while ( defined( my $file = $dh->read ) ) {
-        next if $file !~ /\.json$/;
-
-        my $f = "$log_dir/$file";
+    foreach my $f ( glob("$log_dir/*.json"), glob("$log_dir/*/*.json") ) {
         my $st = stat($f) or die "stat $f: $!\n";
         $hash{$f} = $st->mtime;
     }
-    $dh->close;
 
     # newest first
     my @list = reverse sort { $hash{$a} <=> $hash{$b} } keys %hash;
@@ -274,9 +258,16 @@ tbody tr:nth-child(odd)  { background-color: #EEE; }
 tbody tr:nth-child(even) { background-color: #FFF; }
 tbody tr:nth-child(odd):hover, tr:nth-child(even):hover { background-color:silver; }
 
-tbody tr td:nth-child(1)  { text-align: right; }
-tbody tr td:nth-child(2)  { text-align: right; }
-tbody tr td:nth-child(3)  { text-align: right; }
+tbody tr td:nth-child(1), thead tr th:nth-child(1) { text-align: right; }
+tbody tr td:nth-child(2), thead tr th:nth-child(2) { text-align: right; }
+tbody tr td:nth-child(3), thead tr th:nth-child(3) { text-align: right; }
+tbody tr td:nth-child(4), thead tr th:nth-child(4) { text-align: center; }
+tbody tr td:nth-child(5), thead tr th:nth-child(5) { text-align: center; }
+
+tbody tr td:nth-child(1) { min-width: 19em; }
+tbody tr td:nth-child(2) { min-width: 12em; }
+tbody tr td:nth-child(3) { min-width: 4em; }
+tbody tr td:nth-child(4) { min-width: 4em; }
 
 table#download td, table.download th {
   border: 1px solid #DDD;
@@ -293,7 +284,7 @@ div#bottom {
     margin-top: 2em;
 }
 
-h2 { text-aling: center; }
+h2 { text-align: center; }
 </style>
 
 EOF
@@ -317,12 +308,14 @@ sub result {
 
     my @downloads = @$files;
 
+    print qq{<h4>$name</h4>\n\n};
+
     if ( !@downloads ) {
         warn "Nothing todo for $type\n" if $debug >= 2;
+        print qq{<p>None</p>\n};
+        print "<hr/>\n\n";
         return;
     }
-
-    print qq{<h3>$name</h3>\n\n};
 
     print qq{<table id="$type">\n};
     print qq{<thead>\n<tr>\n}
@@ -382,6 +375,7 @@ sub result {
     }
     print "</tbody>\n";
     print "</table>\n";
+    print "<hr/>\n\n";
 }
 
 sub header {
@@ -468,8 +462,13 @@ EOF
         'files' => \@extracts
     );
 
-#my @extracts = &running_extract_areas("$spool_dir/" . $spool->{"running"}, $max );
-#result('type' => 'running', 'name' => 'Running extracts', 'files' => \@extracts);
+    my @extracts =
+      &running_extract_areas( "$spool_dir/" . $spool->{"running"}, $max );
+    result(
+        'type'  => 'running',
+        'name'  => 'Running extracts',
+        'files' => \@extracts
+    );
 
     @extracts = &extract_areas( "$spool_dir/" . $spool->{"trash"}, $max );
     result(
