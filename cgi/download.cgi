@@ -20,8 +20,8 @@ use HTTP::Date;
 use strict;
 use warnings;
 
-my $max   = 100;
-my $debug = 1;
+my $max   = 3000;
+my $debug = 2;
 
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
@@ -151,8 +151,11 @@ sub extract_areas {
         my $format   = $obj->{"format"};
 
         my $download_file = $pbf_file;
-        $download_file =~ s/\.osm.pbf$//;
-        $download_file .= "." . $format;
+        $download_file =~ s/\.pbf$//;
+        my $format_display = $format;
+        $format_display =~ s/^(osm|srtm)\.//;
+
+        $download_file .= "." . $format_display;
 
         if ( !-e $download_file ) {
             warn "ignore missing $download_file\n" if $debug >= 2;
@@ -182,10 +185,13 @@ sub footer {
     return <<EOF;
 
 <div id="bottom">
-Last update: $date
+<p>
+  Last update: $date
+</p>
+
 <div id="footer">
 <div id="footer_top">
-<a href="../">home</a>
+<a href="@{[ $option->{'script_homepage'} ]}">home</a>
 </div>
 </div>
 
@@ -278,7 +284,9 @@ qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\
 
     my @downloads = &extract_areas( $log_dir, $max * 1.5, &is_production($q) );
 
+    print qq{<div id="intro">\n};
     print $q->h2("Extracts ready to download");
+    print qq{</div> <!-- intro -->\n};
 
     #print "<pre>" . scalar(@downloads) . "</pre>\n\n";
     print "<pre>" . Dumper( \@downloads ) . "</pre>" if $debug >= 3;
@@ -301,7 +309,7 @@ qq{<thead>\n<tr>\n<th>Name</th>\n<th>Format</th>\n<th>Size</th><th>Link</th>\n<t
         print "</td>\n";
 
         print "<td>";
-        print $download->{"format"};
+        print escapeHTML( $formats->{ $download->{"format"} } );
         print "</td>\n";
 
         print "<td>";
