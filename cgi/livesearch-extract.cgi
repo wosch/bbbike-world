@@ -192,7 +192,7 @@ $data
 </div>
 
 <div id="copyright">
-<hr>
+<hr/>
 (&copy;) 2008-2015 <a href="http://bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="http://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
 <div id="footer_community">
 </div>
@@ -203,8 +203,6 @@ EOF
 
 sub css_map {
     return <<EOF;
-<style type="text/css">
-</style>
 
 EOF
 }
@@ -231,12 +229,12 @@ sub statistic {
             $q->meta(
                 { -name => "robots", -content => "nofollow,noindex,noarchive" }
             ),
-            $q->meta(
+            $q->Link(
                 { -rel => "shortcut icon", -href => "/images/srtbike16.gif" }
             )
         ],
 
-        -style  => { 'src' => ["../html/bbbike.css"] },
+        -style  => { 'src' => ["../html/bbbike.css"], -code => &css_map },
         -script => [
             { 'src' => "http://www.google.com/jsapi?hl=en" },
             {
@@ -251,7 +249,6 @@ sub statistic {
         ],
     );
 
-    print &css_map;
     print qq{<div id="sidebar">\n\t<div id="formats"></div>\n</div>\n\n};
     print qq{<div id="BBBikeGooglemap">\n};
     print qq{<div id="map"></div>\n};
