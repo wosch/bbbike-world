@@ -40,7 +40,7 @@ our $option = {
     'spool_dir' => '/var/cache/extract',
 
     # cut to long city names
-    'max_city_length' => 32,
+    'max_city_length' => 40,
 };
 
 our $formats = {
@@ -261,11 +261,12 @@ sub footer {
 
 <div id="footer">
 <div id="footer_top">
-<a href="@{[ $option->{'script_homepage'} ]}">home</a>
+<a href="@{[ $option->{'script_homepage'} ]}">home</a> |
+<a href="/community.html">donate</a>
+<hr>
 </div> <!-- footer_top -->
 
 <div id="copyright">
-<hr>
 (&copy;) 2008-2015 <a href="http://bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="http://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
 </div> <!-- copyright -->
 
@@ -405,7 +406,7 @@ sub header {
             )
         ],
 
-        -style  => { 'src' => ["/html/bbbike.css", "/html/luft.css"] },
+        -style  => { 'src' => [ "/html/bbbike.css", "/html/luft.css" ] },
         -script => [
 
             #{ 'src' => "../html/bbbike-js.js" }
@@ -476,7 +477,7 @@ EOF
     );
 
     print &footer( 'date' => $date );
-    
+
     print qq{    </div> <!-- main -->\n};
     print qq{  </div> <!-- border -->\n};
     print qq{</div> <!-- all -->\n};
