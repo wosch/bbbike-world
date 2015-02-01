@@ -20,7 +20,7 @@ use HTTP::Date;
 use strict;
 use warnings;
 
-my $max   = 3000;
+my $max   = 300;
 my $debug = 1;
 
 binmode \*STDOUT, ":utf8";
@@ -177,10 +177,12 @@ sub extract_areas {
 sub footer {
     my $q = new CGI;
 
+    my $date = time2str(time);
+
     return <<EOF;
 
-<br/>
 <div id="bottom">
+Last update: $date
 <div id="footer">
 <div id="footer_top">
 <a href="../">home</a>
@@ -211,6 +213,15 @@ table#download td, table.download th {
   border: 1px solid #DDD;
   padding-left: 4px !important;
   padding-right: 4px !important;
+}
+
+th { border-left: 1px solid #b9b8b6; }
+/* no line breaks in table header */
+th { white-space: nowrap; }
+tr { border: 0px solid; }
+
+div#bottom {
+    margin-top: 2em;
 }
 </style>
 
@@ -272,18 +283,13 @@ qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\
 
     print qq{<table id="download">\n};
     print
-qq{<thead><th><td>Name</td><td>Format</td><td>Size</td><td>Link</td><td>Map</td></th></thead>\n};
+qq{<thead>\n<tr>\n<th>Name</th>\n<th>Format</th>\n<th>Size</th><th>Link</th>\n<th>Map</th>\n</tr>\n</thead>\n};
     print qq{<tbody>\n};
 
     foreach my $download (@downloads) {
         print "<tr>\n";
 
-        if (0) {
-
-            print "<td>";
-            print time2str( $download->{"extract_time"} );
-            print "</td>\n";
-        }
+        my $date = time2str( $download->{"extract_time"} );
 
         print "<td>";
         print qq{<span title="}
@@ -301,13 +307,15 @@ qq{<thead><th><td>Name</td><td>Format</td><td>Size</td><td>Link</td><td>Map</td>
         print "</td>\n";
 
         print "<td>";
-        print qq{<a href="/osm/extract/}
+        print qq{<a title="$date" href="/osm/extract/}
           . $download->{"download_file"}
           . qq{">download</a>};
         print "</td>\n";
 
         print "<td>";
-        print qq{<a href="} . $download->{"script_url"} . qq{">map</a>};
+        print qq{<a href="}
+          . escapeHTML( $download->{"script_url"} )
+          . qq{">map</a>};
         print "</td>\n";
 
         print "</tr>\n";
