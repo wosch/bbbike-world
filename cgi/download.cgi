@@ -440,8 +440,7 @@ sub download {
     print <<EOF;
     
 <p>
-Last update: $date<br/>
-Newest extracts are first.
+Newest extracts are first. Last update: $date<br/>
 </p>
 EOF
 
