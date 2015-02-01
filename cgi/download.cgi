@@ -302,9 +302,10 @@ sub class_format {
 sub result {
     my %args = @_;
 
-    my $type  = $args{'type'};
-    my $name  = $args{'name'};
-    my $files = $args{'files'};
+    my $type    = $args{'type'};
+    my $name    = $args{'name'};
+    my $files   = $args{'files'};
+    my $message = $args{'message'};
 
     my @downloads = @$files;
 
@@ -315,6 +316,10 @@ sub result {
         print qq{<p>None</p>\n};
         print "<hr/>\n\n";
         return;
+    }
+
+    if ($message) {
+        print qq{<p>$message</p>\n\n};
     }
 
     print qq{<table id="$type">\n};
@@ -456,17 +461,19 @@ EOF
     @extracts =
       &running_extract_areas( "$spool_dir/" . $spool->{"confirmed"}, $max );
     result(
-        'type'  => 'confirmed',
-        'name'  => 'Waiting extracts',
-        'files' => \@extracts
+        'type'    => 'confirmed',
+        'files'   => \@extracts,
+        'name'    => 'Waiting extracts',
+        'message' => 'Will start in the next 5 minutes.',
     );
 
     my @extracts =
       &running_extract_areas( "$spool_dir/" . $spool->{"running"}, $max );
     result(
-        'type'  => 'running',
-        'name'  => 'Running extracts',
-        'files' => \@extracts
+        'type'    => 'running',
+        'files'   => \@extracts,
+        'name'    => 'Running extracts',
+        'message' => 'Will be ready in the next 15-30 minutes',
     );
 
     @extracts = &extract_areas( "$spool_dir/" . $spool->{"trash"}, $max );
