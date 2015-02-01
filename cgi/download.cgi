@@ -292,19 +292,21 @@ qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\
     print "<pre>" . Dumper( \@downloads ) . "</pre>" if $debug >= 3;
 
     print qq{<table id="download">\n};
-    print
-qq{<thead>\n<tr>\n<th>Name</th>\n<th>Format</th>\n<th>Size</th><th>Link</th>\n<th>Map</th>\n</tr>\n</thead>\n};
+    print qq{<thead>\n<tr>\n}
+      . qq{<th>Name</th>\n<th>Format</th>\n<th>Size</th><th>Link</th>\n<th>Map</th>\n}
+      . qq{</tr>\n</thead>\n};
     print qq{<tbody>\n};
 
     foreach my $download (@downloads) {
         print "<tr>\n";
 
         my $date = time2str( $download->{"extract_time"} );
+        my $city = $download->{"city"};
 
         print "<td>";
         print qq{<span title="}
-          . $download->{"city"} . qq{">}
-          . substr( $download->{"city"}, 0, $option->{"max_city_length"} )
+          . escapeHTML($city) . qq{">}
+          . escapeHTML( substr( $city, 0, $option->{"max_city_length"} ) )
           . qq{</span>};
         print "</td>\n";
 
@@ -318,7 +320,7 @@ qq{<thead>\n<tr>\n<th>Name</th>\n<th>Format</th>\n<th>Size</th><th>Link</th>\n<t
 
         print "<td>";
         print qq{<a title="$date" href="/osm/extract/}
-          . $download->{"download_file"}
+          . escapeHTML( $download->{"download_file"} )
           . qq{">download</a>};
         print "</td>\n";
 
