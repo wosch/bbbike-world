@@ -237,6 +237,7 @@ sub footer {
 <div id="footer">
 <div id="footer_top">
 <a href="@{[ $option->{'script_homepage'} ]}">home</a> |
+<a href="/extract.html">help</a> |
 <a href="/community.html">donate</a>
 <hr/>
 </div> <!-- footer_top -->
