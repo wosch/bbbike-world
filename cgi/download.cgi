@@ -220,7 +220,7 @@ sub running_extract_areas {
         push @area, $obj;
     }
 
-    return sort { $a->{"time"} <=> $b->{"time"} } @area;
+    return reverse sort { $a->{"time"} <=> $b->{"time"} } @area;
 }
 
 sub footer {
