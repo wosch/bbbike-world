@@ -779,6 +779,11 @@ sub send_email_smtp {
     my $mail_server = "localhost";
     my @to = split /,/, $to;
 
+    # expand nobody -> nobody@bbbike.org
+    foreach (@to) {
+        $_ .= '@bbbike.org' if !/@/;
+    }
+
     my $from         = $email_from;
     my @bcc          = split /,/, $bcc;
     my $content_type = "Content-Type: text/plain; charset=UTF-8\n"
