@@ -566,9 +566,9 @@ EOF
         map {
                 qq/<a title="area $_:/
               . &route_stat( $cities, $_ )
-              . qq/" href="#" onclick="jumpToCity(\\'/
+              . qq/" href="#" onclick="jumpToCity('/
               . $city_center->{$_}
-              . qq/\\')">$_ (/
+              . qq/')">$_ (/
               . scalar( @{ $cities->{$_} } ) . ")</a>"
           } @cities
     );
