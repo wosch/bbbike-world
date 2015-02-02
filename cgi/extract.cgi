@@ -39,7 +39,7 @@ binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
 our $option = {
-    'homepage'        => 'http://download.bbbike.org/osm/extract',
+    'homepage'        => 'http://download.bbbike.org/osm/extract/',
     'script_homepage' => 'http://extract.bbbike.org',
 
     'max_extracts'              => 50,
@@ -980,7 +980,8 @@ sub _check_input {
     my $text = M("EXTRACT_CONFIRMED");
     push @data,
       sprintf( $text,
-        escapeHTML($city), large_int($skm), $coordinates, $format );
+        $option->{'homepage'}, escapeHTML($city), large_int($skm), $coordinates,
+        $format );
 
     my ( $key, $json_file ) = &save_request($obj);
     if ( &complete_save_request($json_file) ) {
