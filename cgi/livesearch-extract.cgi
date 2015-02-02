@@ -351,9 +351,9 @@ qq|$o->{"sw_lng"},$o->{"sw_lat"}!$o->{"ne_lng"},$o->{"ne_lat"},$o->{"format"}|;
         "<br/>",
         map {
                 qq/<a title="format $_->{'format'}/
-              . qq/" href="#" onclick="jumpToCity(\\'/
+              . qq/" href="#" onclick="jumpToCity('/
               . $city_center->{ $_->{'city'} }
-              . qq,\\')">$_->{'city'}</a>,
+              . qq,')">$_->{'city'}</a>,
           } sort { $a->{'city'} cmp $b->{'city'} } @cities
     );
 
