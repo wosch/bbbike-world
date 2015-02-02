@@ -54,7 +54,7 @@ our $option = {
 
     'enable_polygon'      => 1,
     'email_valid_mxcheck' => 1,
-    'email_allow_nobody' => 1,
+    'email_allow_nobody'  => 1,
 
     'debug'          => "2",
     'language'       => "en",
@@ -809,12 +809,12 @@ sub _check_input {
             1
         );
     }
-   
-    # accecpt "nobody" as email address 
+
+    # accecpt "nobody" as email address
     elsif ( $option->{'email_allow_nobody'} && $email eq 'nobody' ) {
         warn "E-Mail addresse $email is used\n" if $debug >= 1;
     }
-    
+
     elsif (
         !Email::Valid->address(
             -address => $email,
