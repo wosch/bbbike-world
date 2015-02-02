@@ -308,7 +308,7 @@ sub result {
 
     my @downloads = @$files;
 
-    print qq{<h4>$name</h4>\n\n};
+    print qq{<h4 title="} . scalar(@downloads) . qq{ extracts">$name</h4>\n\n};
 
     if ( !@downloads ) {
         warn "Nothing todo for $type\n" if $debug >= 2;
