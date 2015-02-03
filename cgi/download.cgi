@@ -148,7 +148,7 @@ sub extract_areas {
         my $download_file = $pbf_file;
         $download_file =~ s/\.pbf$//;
         my $format_display = $format;
-        $format_display =~ s/^(osm|srtm)\.//;
+        $format_display =~ s/^(osm|srtm|srtm-europe)\.//;
 
         $download_file .= "." . $format_display;
 
