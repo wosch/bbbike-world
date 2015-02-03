@@ -421,10 +421,10 @@ sub header {
             'src' => [ "/html/bbbike.css", "/html/luft.css" ],
             -code => &css_map
         },
-        -script => [
-            { 'src' => "/html/bbbike.js" },
-            { 'src' => "/html/jquery/jquery-1.8.3.min.js " }
-        ],
+        #-script => [
+        #    { 'src' => "/html/bbbike.js" },
+        #    { 'src' => "/html/jquery/jquery-1.8.3.min.js " }
+        #],
     );
 
     # print qq{<noscript><p>}, qq{You must enable JavaScript and CSS to run this application!}, qq{</p>\n</noscript>\n};
