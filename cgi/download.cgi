@@ -239,6 +239,8 @@ sub footer {
 
     return <<EOF;
 
+<p align="center"><a href="/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></p>
+
 <div id="bottom">
 <p>
   Last update: $date
@@ -263,71 +265,6 @@ EOF
 
 sub css_map {
     return <<EOF;
-
-tbody tr:nth-child(odd)  { background-color: #EEE; }
-tbody tr:nth-child(even) { background-color: #FFF; }
-tbody tr:nth-child(odd):hover, tr:nth-child(even):hover { background-color:silver; }
-
-tbody tr td:nth-child(1), thead tr th:nth-child(1) { text-align: right; }
-tbody tr td:nth-child(2), thead tr th:nth-child(2) { text-align: right; }
-tbody tr td:nth-child(3), thead tr th:nth-child(3) { text-align: right; }
-tbody tr td:nth-child(4), thead tr th:nth-child(4) { text-align: center; }
-tbody tr td:nth-child(5), thead tr th:nth-child(5) { text-align: center; }
-
-tbody tr td:nth-child(1) { min-width: 16em; }
-tbody tr td:nth-child(2) { min-width: 12em; }
-tbody tr td:nth-child(3) { min-width: 5em; }
-tbody tr td:nth-child(4) { min-width: 4em; }
-
-table#download td, table.download th {
-  border: 1px solid #DDD;
-  padding-left: 4px !important;
-  padding-right: 4px !important;
-}
-
-th { border-left: 1px solid #b9b8b6; }
-/* no line breaks in table header */
-th { white-space: nowrap; }
-tr { border: 0px solid; }
-
-div#bottom {
-    margin-top: 2em;
-}
-
-h2 { text-align: center; }
-
-/* a rectangle or a polygon */
-a.polygon1 { font-style: italic; }
-
-/* formats by color */
-span.format_csv_gz { color: yellow; }
-span.format_csv_xz { color: yellow; }
-
-span.format_garmin_bbbike_zip { color: #DAA520; }
-span.format_garmin_cycle_zip { color: #DAA520; }
-span.format_garmin_leisure_zip { color: #DAA520; }
-span.format_garmin_osm_zip { color: #DAA520; }
-
-span.format_mapsforge_osm_zip { color: grey; }
-span.format_shp_zip { color: orange; }
-span.format_navit_zip { color: lightblue; }
-
-span.format_o5m_gz { color: #B22222; }
-span.format_o5m_xz { color: #B22222; }
-span.format_obf_zip { color: #B22222; }
-span.format_opl_xz { color: #B22222; }
-span.format_osm_bz2 { color: #B22222; }
-span.format_osm_gz { color: #B22222; }
-span.format_osm_pbf { color: #B22222; }
-span.format_osm_xz { color: #B22222; }
-
-span.format_srtm_europe_garmin_srtm_zip { color: brown; }
-span.format_srtm_europe_obf_zip { color: brown; }
-span.format_srtm_europe_osm_pbf { color: brown; }
-span.format_srtm_garmin_srtm_zip { color: brown; }
-span.format_srtm_obf_zip { color: brown; }
-span.format_srtm_osm_pbf { color: brown; }
-
 EOF
 }
 
@@ -412,10 +349,8 @@ sub result {
         print "</td>\n";
 
         print "<td>";
-        my @coords = @{ $download->{"coords"} };
-        print qq{<a class="polygon}
-          . ( scalar(@coords) ? 1 : 0 )
-          . qq{" href="}
+	my @coords = @{$download->{"coords"}};
+        print qq{<a class="polygon} . (scalar(@coords) ? 1 : 0) . qq{" href="}
           . escapeHTML( $download->{"script_url"} )
           . qq{">map</a>};
         print "</td>\n";
@@ -453,17 +388,16 @@ sub header {
         ],
 
         -style => {
-            'src' => [ "/html/bbbike.css", "/html/luft.css" ],
+            'src' => [ "/html/bbbike.css", "/html/luft.css", "/html/extract-download.css" ],
             -code => &css_map
         },
-
         #-script => [
         #    { 'src' => "/html/bbbike.js" },
         #    { 'src' => "/html/jquery/jquery-1.8.3.min.js " }
         #],
     );
 
-# print qq{<noscript><p>}, qq{You must enable JavaScript and CSS to run this application!}, qq{</p>\n</noscript>\n};
+    # print qq{<noscript><p>}, qq{You must enable JavaScript and CSS to run this application!}, qq{</p>\n</noscript>\n};
     print qq{<div id="all">\n};
     print qq{  <div id="border">\n};
     print qq{    <div id="main">\n};
@@ -487,6 +421,7 @@ sub download {
     my $date = time2str(time);
     print <<EOF;
 
+<p align="right"><a href="/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></p>
 <p>
 Newest extracts are first. Last update: $date<br/>
 </p>
