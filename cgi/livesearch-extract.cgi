@@ -289,7 +289,7 @@ EOF
 	bbbike_maps_init("ocm_transport", [[30, 30],[59, -10]], "en", true, "eu" );
         setMapHeight();
     });
-    
+
     //]]>
     </script>
 EOF
@@ -380,7 +380,7 @@ qq|$o->{"sw_lng"},$o->{"sw_lat"}!$o->{"ne_lng"},$o->{"ne_lat"},$o->{"format"}|;
     }
 
     my $html = $summary . "<hr/>" . $d;
-    print qq{\n\$("div#formats").html(unescape('}
+    print qq{\n\$("div#formats").html(decodeURIComponent('}
       . escape($html)
       . qq{'));\n\n};
 

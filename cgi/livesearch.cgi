@@ -603,7 +603,7 @@ qq{Number of unique routes: <span title="total routes: $counter2, cities: }
     }
     $d .= "</div>";
 
-    print qq{\n\$("div#routes").html(unescape('} . escape($d) . qq{'));\n\n};
+    print qq{\n\$("div#routes").html(decodeURIComponent('} . escape($d) . qq{'));\n\n};
 
     my $city = $q->param('city') || "";
     if ( $city && exists $city_center->{$city} ) {
