@@ -296,6 +296,38 @@ div#bottom {
 
 h2 { text-align: center; }
 
+/* a rectangle or a polygon */
+a.polygon1 { font-style: italic; }
+
+/* formats by color */
+span.format_csv_gz { color: yellow; }
+span.format_csv_xz { color: yellow; }
+
+span.format_garmin_bbbike_zip { color: #DAA520; }
+span.format_garmin_cycle_zip { color: #DAA520; }
+span.format_garmin_leisure_zip { color: #DAA520; }
+span.format_garmin_osm_zip { color: #DAA520; }
+
+span.format_mapsforge_osm_zip { color: grey; }
+span.format_shp_zip { color: orange; }
+span.format_navit_zip { color: lightblue; }
+
+span.format_o5m_gz { color: #B22222; }
+span.format_o5m_xz { color: #B22222; }
+span.format_obf_zip { color: #B22222; }
+span.format_opl_xz { color: #B22222; }
+span.format_osm_bz2 { color: #B22222; }
+span.format_osm_gz { color: #B22222; }
+span.format_osm_pbf { color: #B22222; }
+span.format_osm_xz { color: #B22222; }
+
+span.format_srtm_europe_garmin_srtm_zip { color: brown; }
+span.format_srtm_europe_obf_zip { color: brown; }
+span.format_srtm_europe_osm_pbf { color: brown; }
+span.format_srtm_garmin_srtm_zip { color: brown; }
+span.format_srtm_obf_zip { color: brown; }
+span.format_srtm_osm_pbf { color: brown; }
+
 EOF
 }
 
@@ -303,7 +335,7 @@ EOF
 sub class_format {
     my $format = shift;
 
-    $format =~ s/\./_/g;
+    $format =~ s/[\.\-]/_/g;
 
     return "format_" . $format;
 }
@@ -380,7 +412,10 @@ sub result {
         print "</td>\n";
 
         print "<td>";
-        print qq{<a href="}
+        my @coords = @{ $download->{"coords"} };
+        print qq{<a class="polygon}
+          . ( scalar(@coords) ? 1 : 0 )
+          . qq{" href="}
           . escapeHTML( $download->{"script_url"} )
           . qq{">map</a>};
         print "</td>\n";
@@ -421,13 +456,14 @@ sub header {
             'src' => [ "/html/bbbike.css", "/html/luft.css" ],
             -code => &css_map
         },
+
         #-script => [
         #    { 'src' => "/html/bbbike.js" },
         #    { 'src' => "/html/jquery/jquery-1.8.3.min.js " }
         #],
     );
 
-    # print qq{<noscript><p>}, qq{You must enable JavaScript and CSS to run this application!}, qq{</p>\n</noscript>\n};
+# print qq{<noscript><p>}, qq{You must enable JavaScript and CSS to run this application!}, qq{</p>\n</noscript>\n};
     print qq{<div id="all">\n};
     print qq{  <div id="border">\n};
     print qq{    <div id="main">\n};
