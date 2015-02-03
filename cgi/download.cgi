@@ -16,8 +16,8 @@ use HTTP::Date;
 use strict;
 use warnings;
 
-my $max   = 3000;
-my $debug = 2;
+my $max   = 2000;
+my $debug = 1;
 
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
@@ -147,6 +147,12 @@ sub extract_areas {
         $format_display =~ s/^(osm|srtm)\.//;
 
         $download_file .= "." . $format_display;
+
+        # other languages ?
+        my $lang = $obj->{"lang"};
+        if ($lang ne "en" && $lang ne "") {
+            $download_file =~ s/\.zip$/.${lang}.zip/;
+        }
 
         if ( !-e $download_file ) {
             warn "ignore missing $download_file\n" if $debug >= 2;
@@ -445,7 +451,7 @@ sub download {
 
     my $date = time2str(time);
     print <<EOF;
-    
+
 <p>
 Newest extracts are first. Last update: $date<br/>
 </p>
