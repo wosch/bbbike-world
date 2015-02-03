@@ -349,8 +349,10 @@ sub result {
         print "</td>\n";
 
         print "<td>";
-	my @coords = @{$download->{"coords"}};
-        print qq{<a class="polygon} . (scalar(@coords) ? 1 : 0) . qq{" href="}
+        my @coords = @{ $download->{"coords"} };
+        print qq{<a class="polygon}
+          . ( scalar(@coords) ? 1 : 0 )
+          . qq{" href="}
           . escapeHTML( $download->{"script_url"} )
           . qq{">map</a>};
         print "</td>\n";
@@ -388,16 +390,20 @@ sub header {
         ],
 
         -style => {
-            'src' => [ "/html/bbbike.css", "/html/luft.css", "/html/extract-download.css" ],
+            'src' => [
+                "/html/bbbike.css", "/html/luft.css",
+                "/html/extract-download.css"
+            ],
             -code => &css_map
         },
+
         #-script => [
         #    { 'src' => "/html/bbbike.js" },
         #    { 'src' => "/html/jquery/jquery-1.8.3.min.js " }
         #],
     );
 
-    # print qq{<noscript><p>}, qq{You must enable JavaScript and CSS to run this application!}, qq{</p>\n</noscript>\n};
+# print qq{<noscript><p>}, qq{You must enable JavaScript and CSS to run this application!}, qq{</p>\n</noscript>\n};
     print qq{<div id="all">\n};
     print qq{  <div id="border">\n};
     print qq{    <div id="main">\n};
