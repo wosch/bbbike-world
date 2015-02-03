@@ -390,10 +390,7 @@ sub header {
         ],
 
         -style => {
-            'src' => [
-                "/html/bbbike.css", "/html/luft.css",
-                "/html/extract-download.css"
-            ],
+            'src' => [ "/html/bbbike.css", "/html/extract-download.css" ],
             -code => &css_map
         },
 
