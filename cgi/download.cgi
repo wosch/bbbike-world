@@ -150,7 +150,7 @@ sub extract_areas {
 
         # other languages ?
         my $lang = $obj->{"lang"};
-        if ($lang ne "en" && $lang ne "") {
+        if ( $lang ne "en" && $lang ne "" ) {
             $download_file =~ s/\.zip$/.${lang}.zip/;
         }
 
