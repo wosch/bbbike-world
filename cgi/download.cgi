@@ -427,9 +427,7 @@ sub header {
         ],
     );
 
-    print qq{<noscript><p>},
-      qq{You must enable JavaScript and CSS to run this application!},
-      qq{</p>\n</noscript>\n};
+    # print qq{<noscript><p>}, qq{You must enable JavaScript and CSS to run this application!}, qq{</p>\n</noscript>\n};
     print qq{<div id="all">\n};
     print qq{  <div id="border">\n};
     print qq{    <div id="main">\n};
