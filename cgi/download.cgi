@@ -24,6 +24,10 @@ binmode \*STDERR, ":utf8";
 
 my $q = new CGI;
 
+if ( defined $q->param('debug') ) {
+    $debug = int( $q->param('debug') );
+}
+
 our $option = {
     'homepage'        => 'http://download.bbbike.org/osm/extract',
     'script_homepage' => 'http://extract.bbbike.org',
