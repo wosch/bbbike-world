@@ -812,7 +812,8 @@ sub _check_input {
 
     # accecpt "nobody" as email address
     elsif ( $option->{'email_allow_nobody'} && $email eq 'nobody' ) {
-        warn "E-Mail addresse $email is used\n" if $debug >= 1;
+        $email .= '@bbbike.org';
+        warn "Reset E-Mail addresse to $email\n" if $debug >= 1;
     }
 
     elsif (
