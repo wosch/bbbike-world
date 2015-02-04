@@ -450,7 +450,8 @@ sub download {
     }
 
     print qq{<div id="intro">\n};
-    print $q->h2("Extracts ready to download");
+    print $q->h2(
+        qq{<a href="} . $q->url() . qq{">Extracts ready to download</a>} );
 
     my $date = time2str(time);
     print <<EOF;
