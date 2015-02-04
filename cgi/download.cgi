@@ -321,19 +321,18 @@ sub result {
 
     print qq{<table id="$type">\n};
     print qq{<thead>\n<tr>\n};
-    if ($type eq 'download') {
-	print qq{<th><a href="?sort=name">Name of area</a></th>\n}
-      . qq{<th><a href="?sort=format">Format</a></th>\n}
-      . qq{<th><a href="?sort=size">Size</a></th>};
-    } else {
-	print qq{<th>Name of area</th>\n}
-      . qq{<th>Format</th>\n}
-      . qq{<th>Size</th>};
+    if ( $type eq 'download' ) {
+        print qq{<th><a href="?sort=name">Name of area</a></th>\n}
+          . qq{<th><a href="?sort=format">Format</a></th>\n}
+          . qq{<th><a href="?sort=size">Size</a></th>};
     }
-    
-    print  
-      . qq{<th>Link</th>\n<th>Map</th>\n}
-      . qq{</tr>\n</thead>\n};
+    else {
+        print qq{<th>Name of area</th>\n}
+          . qq{<th>Format</th>\n}
+          . qq{<th>Size</th>};
+    }
+
+    print . qq{<th>Link</th>\n<th>Map</th>\n} . qq{</tr>\n</thead>\n};
     print qq{<tbody>\n};
 
     foreach my $download (@downloads) {
