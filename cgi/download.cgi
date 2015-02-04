@@ -352,6 +352,8 @@ sub result {
         my @coords = @{ $download->{"coords"} };
         print qq{<a class="polygon}
           . ( scalar(@coords) ? 1 : 0 )
+          . qq{" title="}
+          . ( scalar(@coords) ? "polygon" : "rectangle" )
           . qq{" href="}
           . escapeHTML( $download->{"script_url"} )
           . qq{">map</a>};
