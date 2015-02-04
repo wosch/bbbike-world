@@ -403,10 +403,12 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
     <a href="$home">home</a> |
     <a href="/extract.html">@{[ M("help") ]}</a> |
     <a href="http://download.bbbike.org/osm/">download</a> |
+    <a href="@{[ $option->{"homepage"} ]}">status</a> |
     <!-- <a href="/cgi/livesearch-extract.cgi">@{[ M("livesearch") ]}</a> | -->
     <a href="http://mc.bbbike.org/mc/">map compare</a> |
     <a href="/extract.html#extract-pro">pro</a> |
-    <a href="$community_link#donate">@{[ M("donate") ]}</a> $locate
+    <a href="$community_link#donate">@{[ M("donate") ]}</a>
+    $locate
   </div>
 EOF
 }
