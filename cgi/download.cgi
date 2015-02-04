@@ -188,7 +188,7 @@ sub extract_areas {
     }
     elsif ( $sort_by eq 'format' ) {
         return reverse sort {
-            $a->{"format"} cmp $b->{"format"}
+                $a->{"format"} cmp $b->{"format"}
               ? $a->{"format"} cmp $b->{"format"}
               : $a->{"extract_size"} <=> $b->{"extract_size"}
         } @area;
