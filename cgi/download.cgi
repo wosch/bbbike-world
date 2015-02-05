@@ -112,6 +112,7 @@ sub extract_areas {
     my $log_dir = shift;
     my $max     = shift;
     my $devel   = shift || 0;
+    my $sort_by = shift || "time";
 
     warn "download: log dir: $log_dir, max: $max, devel: $devel\n" if $debug;
 
@@ -181,7 +182,25 @@ sub extract_areas {
         push @area, $obj;
     }
 
-    return reverse sort { $a->{"extract_time"} <=> $b->{"extract_time"} } @area;
+    # newest first, or otherwise
+    if ( $sort_by eq 'name' ) {
+        return sort { $a->{"city"} cmp $b->{"city"} } @area;
+    }
+    elsif ( $sort_by eq 'format' ) {
+        return reverse sort {
+                $a->{"format"} cmp $b->{"format"}
+              ? $a->{"format"} cmp $b->{"format"}
+              : $a->{"extract_size"} <=> $b->{"extract_size"}
+        } @area;
+    }
+    elsif ( $sort_by eq 'size' ) {
+        return
+          reverse sort { $a->{"extract_size"} <=> $b->{"extract_size"} } @area;
+    }
+    else {
+        return
+          reverse sort { $a->{"extract_time"} <=> $b->{"extract_time"} } @area;
+    }
 }
 
 # running or ready to run
@@ -301,9 +320,19 @@ sub result {
     }
 
     print qq{<table id="$type">\n};
-    print qq{<thead>\n<tr>\n}
-      . qq{<th>Name of area</th>\n<th>Format</th>\n<th>Size</th><th>Link</th>\n<th>Map</th>\n}
-      . qq{</tr>\n</thead>\n};
+    print qq{<thead>\n<tr>\n};
+    if ( $type eq 'download' ) {
+        print qq{<th><a href="?sort=name">Name of area</a></th>\n}
+          . qq{<th><a href="?sort=format">Format</a></th>\n}
+          . qq{<th><a href="?sort=size">Size</a></th>};
+    }
+    else {
+        print qq{<th>Name of area</th>\n}
+          . qq{<th>Format</th>\n}
+          . qq{<th>Size</th>};
+    }
+
+    print . qq{<th>Link</th>\n<th>Map</th>\n} . qq{</tr>\n</thead>\n};
     print qq{<tbody>\n};
 
     foreach my $download (@downloads) {
@@ -352,6 +381,8 @@ sub result {
         my @coords = @{ $download->{"coords"} };
         print qq{<a class="polygon}
           . ( scalar(@coords) ? 1 : 0 )
+          . qq{" title="}
+          . ( scalar(@coords) ? "polygon" : "rectangle" )
           . qq{" href="}
           . escapeHTML( $download->{"script_url"} )
           . qq{">map</a>};
@@ -419,7 +450,8 @@ sub download {
     }
 
     print qq{<div id="intro">\n};
-    print $q->h2("Extracts ready to download");
+    print $q->h2(
+        qq{<a href="} . $q->url() . qq{">Extracts ready to download</a>} );
 
     my $date = time2str(time);
     print <<EOF;
@@ -448,7 +480,7 @@ EOF
         'message' => 'Will start in the next 5 minutes.',
     );
 
-    my @extracts =
+    @extracts =
       &running_extract_areas( "$spool_dir/" . $spool->{"running"}, $max );
     result(
         'type'    => 'running',
@@ -457,7 +489,9 @@ EOF
         'message' => 'Will be ready in the next 5-30 minutes.',
     );
 
-    @extracts = &extract_areas( "$spool_dir/" . $spool->{"trash"}, $max );
+    my $sort_by = $q->param('sort_by') || $q->param("sort");
+    @extracts =
+      &extract_areas( "$spool_dir/" . $spool->{"trash"}, $max, 0, $sort_by );
     result(
         'type'  => 'download',
         'name'  => 'Ready extracts',
