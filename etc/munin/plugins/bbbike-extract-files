@@ -63,7 +63,7 @@ graph_info Number of Files
 graph_period minute
 EOF
 
-    for f in $formats ALL
+    for f in $formats
     do
         ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
         echo "$ff.label $f"
