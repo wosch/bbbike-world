@@ -187,10 +187,10 @@ sub extract_areas {
         return sort { $a->{"city"} cmp $b->{"city"} } @area;
     }
     elsif ( $sort_by eq 'format' ) {
-        return reverse sort {
+        return sort {
                 $a->{"format"} cmp $b->{"format"}
               ? $a->{"format"} cmp $b->{"format"}
-              : $a->{"extract_size"} <=> $b->{"extract_size"}
+              : ( $a->{"extract_size"} <=> $b->{"extract_size"} ) * -1
         } @area;
     }
     elsif ( $sort_by eq 'size' ) {
