@@ -322,9 +322,10 @@ sub result {
     print qq{<table id="$type">\n};
     print qq{<thead>\n<tr>\n};
     if ( $type eq 'download' ) {
-        print qq{<th><a href="?sort=name">Name of area</a></th>\n}
-          . qq{<th><a href="?sort=format">Format</a></th>\n}
-          . qq{<th><a href="?sort=size">Size</a></th>};
+        print
+qq{<th><a title="Sort by Name" href="?sort=name">Name of area</a></th>\n}
+          . qq{<th><a title="Sort by Format" href="?sort=format">Format</a></th>\n}
+          . qq{<th><a title="Sort by Size, largest first" href="?sort=size">Size</a></th>};
     }
     else {
         print qq{<th>Name of area</th>\n}
