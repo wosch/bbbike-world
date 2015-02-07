@@ -332,5 +332,19 @@ div.dialog-search input { font-size: large; }
 div.dialog-title.search-title { text-align: center; }
 div#search-results p { margin: 0.6em; }
 
+#format_image img {
+    max-height: 400px;
+}
+
+select optgroup {
+    color: grey;
+    font-style: normal;
+    font-weight: normal;
+}
+
+select optgroup option {
+    color: black;
+}
+
 /* EOF */
 

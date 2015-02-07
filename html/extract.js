@@ -40,6 +40,25 @@ var config = {
         "srtm-europe.obf.zip": 200
     },
 
+    // help image per format
+    "format_images": {
+        "garmin-bbbike.zip": "/images/garmin-bbbike-small.png",
+        "garmin-cycle.zip": "/images/garmin-cycle-small.png",
+        "garmin-leisure.zip": "/images/garmin-leisure-small.png",
+        "garmin-osm.zip": "/images/garmin-osm-small.png",
+
+        "mapsforge-osm.zip": "/images/mapsforge-small.png",
+        "navit.zip": "/images/navit-small.png",
+        "obf.zip": "/images/osmand-small.png",
+        "srtm-europe.garmin-srtm.zip": "/images/garmin-srtm-800.png",
+        "srtm.garmin-srtm.zip": "/images/garmin-srtm-1200.png",
+        "srtm-europe.obf.zip": "/images/osmand-lago-contours-small.png",
+        "srtm.obf.zip": "/images/osmand-lago-contours-small.png",
+    },
+    display_format_image: true,
+    display_format_time: 7,
+
+
     // display messages in browser console
     debug: 1,
 
@@ -417,7 +436,8 @@ function extract_init(opt) {
 
     if ($("select[name=format]").length) {
         $("select[name=format]").change(function () {
-            validateControls()
+            validateControls();
+            if (config.display_format_image) display_format_image();
         });
     }
 
@@ -1044,8 +1064,30 @@ function square_km(x1, y1, x2, y2) { // SW x NE
     return (height * width);
 }
 
+function display_format_image() {
+    var format = $("select[name=format] option:selected").val();
+
+    var image = config.format_images[format] || "";
+    debug("display format: " + format + ", image: " + image);
+
+    if (!image) {
+        $("#format_image").html("");
+    } else {
+        $("#format_image").html('<p align="center">' + '<a target="_new" href="/extract-screenshots.html">' + '<img src="' + image + '"/>' + '</a></p>');
+
+        // clear previous timeouts, always display images for 5 seconds
+        if (state.display_timeout) {
+            clearTimeout(state.display_timeout);
+        }
+        state.display_timeout = setTimeout(function () {
+            $("#format_image").html("")
+        }, config.display_format_time * 1000);
+    }
+}
+
 function validateControls() {
     debug("validateControls state.box: " + state.box);
+
     if (state.box == 0) return;
 
     var bounds = new OpenLayers.Bounds($("#sw_lng").val(), $("#sw_lat").val(), $("#ne_lng").val(), $("#ne_lat").val());
@@ -1187,16 +1229,19 @@ function show_filesize(skm, real_size) {
             "size": 0.8
         },
         "srtm-europe.osm.pbf": {
+            "planet": 0.3,
             "size": 1,
-            "time": 1
+            "time": 0.2
         },
         "srtm-europe.garmin-srtm.zip": {
+            "planet": 0.3,
             "size": 1.3,
-            "time": 2
+            "time": 0.3
         },
         "srtm-europe.obf.zip": {
+            "planet": 0.3,
             "size": 2.0,
-            "time": 10
+            "time": 0.5
         },
         "srtm.osm.pbf": {
             "size": 1,
@@ -1218,9 +1263,10 @@ function show_filesize(skm, real_size) {
 
     var factor = filesize[format].size ? filesize[format].size : 1;
     var factor_time = filesize[format].time ? filesize[format].time : 1;
+    var extract_time_min = extract_time * (filesize[format].planet ? filesize[format].planet : 1);
 
-    var time_min = extract_time + 0.6 * size + (size * factor_time);
-    var time_max = extract_time + 0.6 * size + (size * factor_time * 2);
+    var time_min = extract_time_min + 0.6 * size + (size * factor_time);
+    var time_max = extract_time_min + 0.6 * size + (size * factor_time * 2);
 
     var html = ", ~" + Math.round(size * 10) / 10 + "MB"; //  + format + " data";
     var time = "";

@@ -1,0 +1,116 @@
+/*
+ * for http://download.bbbike.org only
+ *
+ */
+
+/* luft.css */
+body {
+    background-color: #9c9;
+    margin: 0px 5px 0px 5px;
+    text-align: center;
+    /* font-family: Verdana, Geneva, Arial, sans-serif;  */
+    margin: 1em;
+}
+
+div#border { 
+    padding: 10px; 
+    /* background-color: #FFFFED; */
+    background-color: #FFF; 
+}
+
+div#all {
+    max-width: 52em;
+    /* background-color: #9c9; */
+    background-color: #9c9;
+    margin: 1em;
+    margin: 0px auto; /* Right And Left Margin Widths To Auto */
+    position: relative;
+    text-align: left; 
+    padding: 10px; 
+}
+
+div#footer { font-size: small; text-align: center; padding-top: 0.7em; }
+div#footer_top { text-align: left; }
+
+/* ************************************************************ */
+/*Win IE fix \*/
+* html #all { width: 56em; }
+/*End Win IE fix*/
+/* ************************************************************ */
+
+
+
+h2 { text-align: center; } 
+div#copyright { text-align: center; padding-top: 0.7em; font-size: small; }
+div#wetter { padding-left: 10px; }
+
+div#main { } /* width: 600px; } */
+
+
+tbody tr:nth-child(odd)  { background-color: #EEE; }
+tbody tr:nth-child(even) { background-color: #FFF; }
+tbody tr:nth-child(odd):hover, tr:nth-child(even):hover { background-color:silver; }
+
+tbody tr td:nth-child(1), thead tr th:nth-child(1) { text-align: right; }
+tbody tr td:nth-child(2), thead tr th:nth-child(2) { text-align: right; }
+tbody tr td:nth-child(3), thead tr th:nth-child(3) { text-align: right; }
+tbody tr td:nth-child(4), thead tr th:nth-child(4) { text-align: center; }
+tbody tr td:nth-child(5), thead tr th:nth-child(5) { text-align: center; }
+
+tbody tr td:nth-child(1) { min-width: 22em; }
+tbody tr td:nth-child(2) { min-width: 12em; }
+tbody tr td:nth-child(3) { min-width: 5em; }
+tbody tr td:nth-child(4) { min-width: 4em; }
+
+table#download td, table.download th {
+  border: 1px solid #DDD;
+  padding-left: 4px !important;
+  padding-right: 4px !important;
+}
+
+th { border-left: 1px solid #b9b8b6; }
+/* no line breaks in table header */
+th { white-space: nowrap; }
+tr { border: 0px solid; }
+
+div#bottom {
+    margin-top: 2em;
+}
+
+h2 { text-align: center; }
+
+/* a rectangle or a polygon */
+a.polygon1 { font-style: italic; }
+
+
+/*
+ * formats by color
+*/
+span.format_csv_gz { color: yellow; }
+span.format_csv_xz { color: yellow; }
+
+span.format_garmin_bbbike_zip { color: #DAA520; }
+span.format_garmin_cycle_zip { color: #DAA520; }
+span.format_garmin_leisure_zip { color: #DAA520; }
+span.format_garmin_osm_zip { color: #DAA520; }
+
+span.format_mapsforge_osm_zip { color: grey; }
+span.format_shp_zip { color: orange; }
+span.format_navit_zip { color: lightblue; }
+
+span.format_o5m_gz { color: #B22222; }
+span.format_o5m_xz { color: #B22222; }
+span.format_obf_zip { color: #B22222; }
+span.format_opl_xz { color: #B22222; }
+span.format_osm_bz2 { color: #B22222; }
+span.format_osm_gz { color: #B22222; }
+span.format_osm_pbf { color: #B22222; }
+span.format_osm_xz { color: #B22222; }
+
+span.format_srtm_europe_garmin_srtm_zip { color: brown; }
+span.format_srtm_europe_obf_zip { color: brown; }
+span.format_srtm_europe_osm_pbf { color: brown; }
+span.format_srtm_garmin_srtm_zip { color: brown; }
+span.format_srtm_obf_zip { color: brown; }
+span.format_srtm_osm_pbf { color: brown; }
+

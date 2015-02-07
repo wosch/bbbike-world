@@ -3,7 +3,7 @@
 #
 # livesearch.cgi - bbbike.org live routing search
 
-use CGI qw/-utf-8 unescape/;
+use CGI qw/-utf-8 unescape escapeHTML escape/;
 use CGI::Carp;
 use URI;
 use URI::QueryParam;
@@ -312,7 +312,7 @@ $data
 </div> <!-- footer -->
 
 <div id="copyright">
-<hr>
+<hr/>
 (&copy;) 2008-2015 <a href="http://bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="http://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
 <div id="footer_community">
 </div>
@@ -323,9 +323,6 @@ EOF
 
 sub css_map {
     return <<EOF;
-<style type="text/css">
-</style>
-
 EOF
 }
 
@@ -409,7 +406,7 @@ sub statistic_maps {
             )
         ],
 
-        -style  => { 'src' => ["../html/bbbike.css"] },
+        -style  => { 'src' => ["../html/bbbike.css"], -code => &css_map },
         -script => [
             { 'src' => "http://www.google.com/jsapi?hl=en" },
             {
@@ -424,7 +421,6 @@ sub statistic_maps {
         ],
     );
 
-    print &css_map;
     print qq{<div id="sidebar">\n\t<div id="routes"></div>\n</div>\n\n};
     print qq{<div id="BBBikeGooglemap">\n};
     print qq{<div id="map"></div>\n};
@@ -570,9 +566,9 @@ EOF
         map {
                 qq/<a title="area $_:/
               . &route_stat( $cities, $_ )
-              . qq/" href="#" onclick="jumpToCity(\\'/
+              . qq/" href="#" onclick="jumpToCity('/
               . $city_center->{$_}
-              . qq/\\')">$_ (/
+              . qq/')">$_ (/
               . scalar( @{ $cities->{$_} } ) . ")</a>"
           } @cities
     );
@@ -607,7 +603,9 @@ qq{Number of unique routes: <span title="total routes: $counter2, cities: }
     }
     $d .= "</div>";
 
-    print qq{\n\$("div#routes").html('$d');\n\n};
+    print qq{\n\$("div#routes").html(decodeURIComponent('}
+      . escape($d)
+      . qq{'));\n\n};
 
     my $city = $q->param('city') || "";
     if ( $city && exists $city_center->{$city} ) {
@@ -679,7 +677,7 @@ sub statistic_basic {
         push @route_display, $url;
     }
 
-    print $q->header( -charset => 'utf-8', -expires => '+30m' );
+    print $q->header( -charset => 'utf-8', -expires => '+0s' );
     print $q->start_html( -title => 'BBBike @ World livesearch' );
 
     my @cities        = sort keys %{$cities};

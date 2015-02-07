@@ -35,8 +35,11 @@ sub get_extract_files {
 
     my @data = split $", $data;
     foreach my $line (@data) {
-        if ( $line =~ m,(http://\S+), ) {
-            push @urls, $1;
+        if ( $line =~ m,(http://download[0-9]\.bbbike.org/osm/extract/\S+), ) {
+            my $url = $1;
+            next if $url =~ /\?/;
+
+            push @urls, $url;
         }
     }
 
@@ -66,13 +69,13 @@ sub myget_head {
     my $res = $ua->request($req);
 
     isnt( $res->is_success, undef, "$url is success" );
-    is( $res->status_line, "200 OK", "status code 200" );
+    is( $res->status_line, "200 OK", "status code 200, $url" );
 
     my $content_length = $res->content_length;
 
     # RFC2616
     if ( !defined $content_length ) {
-        diag "Content length is not defined, empty file?\n";
+        diag "Content length is not defined, empty file? $url\n";
         $content_length = $size + 1;
     }
 

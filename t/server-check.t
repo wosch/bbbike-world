@@ -22,7 +22,7 @@ my $homepage = 'http://www.bbbike.org';
 my @cities   = qw/Berlin Zuerich Toronto Moscow/;
 use constant MYGET => 3;
 my @images =
-  qw/mm_20_yellow.png srtbike72.png srtbike114.png srtbike57.png shadow-dot.png dest.gif purple-dot.png mm_20_white.png ubahn.gif mm_20_red.png sbahn.gif printer.gif printer_narrow.gif ziel.gif mm_20_green.png yellow-dot.png dd-end.png dd-start.png phone.png px_1t.gif via.gif start.gif twitter-t.png spinning_wheel32.gif srtbike.gif srtbike1.ico rss-icon.png flattr-compact.png facebook-like.png twitter-b.png donate.png facebook-t.png/;
+  qw/mm_20_yellow.png srtbike72.png srtbike114.png srtbike57.png shadow-dot.png dest.gif purple-dot.png mm_20_white.png ubahn.gif mm_20_red.png sbahn.gif printer.gif printer_narrow.gif ziel.gif mm_20_green.png yellow-dot.png dd-end.png dd-start.png phone.png px_1t.gif via.gif start.gif twitter-t.png spinning_wheel32.gif srtbike.gif srtbike1.ico rss-icon.png flattr-compact.png twitter-b.png donate.png/;
 
 if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
     plan tests => scalar(@cities) * MYGET * 4 + MYGET * 11;

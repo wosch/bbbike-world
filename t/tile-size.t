@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
 
 use Test::More;
 use lib 'world/bin';
@@ -12,7 +12,7 @@ use warnings;
 $TileSize::debug     = 0;
 $TileSize::use_cache = 0;
 
-plan tests => 96;
+plan tests => 109;
 
 my $tile = new TileSize( 'debug' => -1 );
 
@@ -136,40 +136,47 @@ cmp_ok( $tile->area_size( 280,  0, 281,  1, TileSize::FRACTAL_100 ), "==", 1 );
 
 # test with real planet.osm data
 $tile = new TileSize( 'database' => "world/etc/tile/tile-pbf.csv" );
-is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 215380 );
-is( $tile->total_tiles, 14364 );
-is( $tile->total,       16163836 );
+is( int( $tile->area_size(qw/13 52 14 53/) ), 45108 );
+is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 251444 );
+is( $tile->total_tiles, 14548 );
+is( $tile->total,       18270352 );
 
 $tile = new TileSize( 'database' => "world/etc/tile/tile-garmin-osm.zip.csv" );
-is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 226954 );
-is( $tile->total_tiles, 12270 );
-is( $tile->total,       14334609 );
+is( int( $tile->area_size(qw/13 52 14 53/) ), 38494 );
+is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 248568 );
+is( $tile->total_tiles, 12768 );
+is( $tile->total,       16345151 );
 
 $tile =
   new TileSize( 'database' => "world/etc/tile/tile-mapsforge-osm.zip.csv" );
-is( $tile->total_tiles, 14364 );
-is( $tile->total,       12978246 );
-is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 172379 );
+is( int( $tile->area_size(qw/13 52 14 53/) ), 40290 );
+is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 217266 );
+is( $tile->total_tiles, 14548 );
+is( $tile->total,       17850202 );
 
 $tile = new TileSize( 'database' => "world/etc/tile/tile-navit.zip.csv" );
-is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 181314 );
-is( $tile->total_tiles, 13325 );
-is( $tile->total,       12998385 );
+is( int( $tile->area_size(qw/13 52 14 53/) ), 41958 );
+is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 229298 );
+is( $tile->total_tiles, 13554 );
+is( $tile->total,       15654411 );
 
 $tile = new TileSize( 'database' => "world/etc/tile/tile-obf.zip.csv" );
-is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 451733 );
-is( $tile->total_tiles, 14364 );
-is( $tile->total,       26678494 );
+is( int( $tile->area_size(qw/13 52 14 53/) ), 123017 );
+is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 547526 );
+is( $tile->total_tiles, 14548 );
+is( $tile->total,       32387430 );
 
 $tile = new TileSize( 'database' => "world/etc/tile/tile-osm.gz.csv" );
-is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 424132 );
-is( $tile->total_tiles, 3453 );
-is( $tile->total,       29208184 );
+is( int( $tile->area_size(qw/13 52 14 53/) ), 88460 );
+is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 511144 );
+is( $tile->total_tiles, 3832 );
+is( $tile->total,       34513452 );
 
 $tile = new TileSize( 'database' => "world/etc/tile/tile-shp.zip.csv" );
-is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 905289 );
-is( $tile->total_tiles, 14357 );
-is( $tile->total,       65240773 );
+is( int( $tile->area_size(qw/13 52 14 53/) ), 228420 );
+is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 1153815 );
+is( $tile->total_tiles, 14543 );
+is( $tile->total,       77497133 );
 
 # placeholder for osm csv format
 #$tile =
@@ -180,30 +187,36 @@ my $size = TileSize::FRACTAL_REAL;
 
 # elevation test
 $tile = new TileSize( 'database' => "world/etc/tile/tile-srtm-europe.pbf.csv" );
+is( int( $tile->area_size(qw/13 52 14 53/) ), 396 );
 is( int( $tile->area_size( 6.148, 45.955, 11.778, 49.371, $size ) ), 82392 );
 $tile =
   new TileSize( 'database' => "world/etc/tile/tile-srtm-europe.obf.zip.csv" );
+is( int( $tile->area_size(qw/13 52 14 53/) ), 554 );
 is( int( $tile->area_size( 6.148, 45.955, 11.778, 49.371, $size ) ), 159617 );
 
 $tile = new TileSize(
     'database' => "world/etc/tile/tile-srtm-europe.garmin-srtm.zip.csv" );
+is( int( $tile->area_size(qw/13 52 14 53/) ), 515 );
 is( int( $tile->area_size( 6.148, 45.955, 11.778, 49.371, $size ) ), 115754 );
 
 ####################################################################
 # elevation test with planet-srtm.pbf
 #
 $tile = new TileSize( 'database' => "world/etc/tile/tile-srtm-pbf.csv" );
+is( int( $tile->area_size(qw/13 52 14 53/) ), 244 );
 is( int( $tile->area_size( 6.148, 45.955, 11.778, 49.371, $size ) ), 65263 );
 is( $tile->total_tiles, 13418 );
 is( $tile->total,       14387080 );
 
 $tile = new TileSize( 'database' => "world/etc/tile/tile-srtm-obf.zip.csv" );
+is( int( $tile->area_size(qw/13 52 14 53/) ), 342 );
 is( int( $tile->area_size( 6.148, 45.955, 11.778, 49.371, $size ) ), 216920 );
 is( $tile->total_tiles, 13418 );
 is( $tile->total,       39058946 );
 
 $tile =
   new TileSize( 'database' => "world/etc/tile/tile-srtm-garmin-srtm.zip.csv" );
+is( int( $tile->area_size(qw/13 52 14 53/) ), 317 );
 is( int( $tile->area_size( 6.148, 45.955, 11.778, 49.371, $size ) ), 153152 );
 is( $tile->total_tiles, 13418 );
 is( $tile->total,       28491956 );

@@ -39,7 +39,7 @@ binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
 our $option = {
-    'homepage'        => 'http://download.bbbike.org/osm/extract',
+    'homepage'        => 'http://download.bbbike.org/osm/extract/',
     'script_homepage' => 'http://extract.bbbike.org',
 
     'max_extracts'              => 50,
@@ -54,6 +54,7 @@ our $option = {
 
     'enable_polygon'      => 1,
     'email_valid_mxcheck' => 1,
+    'email_allow_nobody'  => 1,
 
     'debug'          => "2",
     'language'       => "en",
@@ -75,6 +76,38 @@ our $option = {
         'user_limit' => 25,
         'ip_limit'   => 50
     },
+
+    # configure order of formats in menu
+    'formats' => [
+        {
+            'title'   => "OSM",
+            'formats' => [
+                'osm.pbf', 'osm.xz', 'osm.gz', 'osm.bz2',
+                'o5m.xz',  'o5m.gz', 'opl.xz', 'csv.xz',
+                'csv.gz'
+            ]
+        },
+        {
+            'title'   => "Garmin",
+            'formats' => [
+                'garmin-osm.zip',     'garmin-cycle.zip',
+                'garmin-leisure.zip', 'garmin-bbbike.zip'
+            ]
+        },
+        {
+            'title'   => "Android",
+            'formats' => [ 'obf.zip', 'mapsforge-osm.zip', 'navit.zip' ]
+        },
+        { 'title' => "Shapefile", 'formats' => ['shp.zip'] },
+        {
+            'title'   => "Elevation (SRTM)",
+            'formats' => [
+                'srtm-europe.osm.pbf',  'srtm-europe.garmin-srtm.zip',
+                'srtm-europe.obf.zip',  'srtm.osm.pbf',
+                'srtm.garmin-srtm.zip', 'srtm.obf.zip'
+            ]
+        }
+    ],
 };
 
 our $formats = {
@@ -325,6 +358,7 @@ sub manual_area {
         <span>@{[ M("EXTRACT_USAGE2") ]}</span>
     </div>
 
+    <div id="format_image"></div>
 
   </div> <!-- sidebar_content -->
  </div><!-- manual_area -->
@@ -367,12 +401,14 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
   $css
   <div id="footer_top">
     <a href="$home">home</a> |
-    <a href="../extract.html">@{[ M("help") ]}</a> |
+    <a href="/extract.html">@{[ M("help") ]}</a> |
     <a href="http://download.bbbike.org/osm/">download</a> |
+    <a href="@{[ $option->{"homepage"} ]}">status</a> |
     <!-- <a href="/cgi/livesearch-extract.cgi">@{[ M("livesearch") ]}</a> | -->
     <a href="http://mc.bbbike.org/mc/">map compare</a> |
     <a href="/extract.html#extract-pro">pro</a> |
-    <a href="$community_link#donate">@{[ M("donate") ]}</a> $locate
+    <a href="$community_link#donate">@{[ M("donate") ]}</a>
+    $locate
   </div>
 EOF
 }
@@ -775,6 +811,13 @@ sub _check_input {
             1
         );
     }
+
+    # accecpt "nobody" as email address
+    elsif ( $option->{'email_allow_nobody'} && $email eq 'nobody' ) {
+        $email .= '@bbbike.org';
+        warn "Reset E-Mail addresse to $email\n" if $debug >= 1;
+    }
+
     elsif (
         !Email::Valid->address(
             -address => $email,
@@ -947,7 +990,8 @@ sub _check_input {
     my $text = M("EXTRACT_CONFIRMED");
     push @data,
       sprintf( $text,
-        escapeHTML($city), large_int($skm), $coordinates, $format );
+        $option->{'homepage'}, escapeHTML($city), large_int($skm), $coordinates,
+        $format );
 
     my ( $key, $json_file ) = &save_request($obj);
     if ( &complete_save_request($json_file) ) {
@@ -1168,6 +1212,25 @@ sub homepage {
 
     print $q->hidden( "lang", $language ), "\n\n";
 
+    # build group for formats
+    my @values = ();
+    foreach my $group ( @{ $option->{'formats'} } ) {
+        my @f;
+
+        # only formats which are configured in $formats hash
+        foreach my $f ( @{ $group->{'formats'} } ) {
+            push @f, $f if exists $formats->{$f};
+        }
+
+        push @values,
+          $q->optgroup(
+            -name   => M( $group->{'title'} ),
+            -values => \@f,
+            -labels => $formats_locale,
+          );
+    }
+    warn Dumper( \@values );
+
     print qq{<div id="table">\n};
     print $q->table(
         { -width => '100%' },
@@ -1221,15 +1284,9 @@ qq{<span title="hide longitude,latitude box" class="lnglatbox" onclick="javascri
                           . "<a class='tools-helptrigger' href='$extract_dialog/$language/format.html'><img src='/html/help-16px.png' alt=''/></a>"
                           . "<br/></span>"
                           . $q->popup_menu(
-                            -name   => 'format',
-                            -id     => 'format',
-                            -values => [
-                                sort {
-                                    lc( $formats_locale->{$a} ) cmp
-                                      lc( $formats_locale->{$b} )
-                                  }
-                                  keys %$formats_locale
-                            ],
+                            -name    => 'format',
+                            -id      => 'format',
+                            -values  => \@values,
                             -labels  => $formats_locale,
                             -default => $default_format
                           ),

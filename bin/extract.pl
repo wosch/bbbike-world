@@ -1497,7 +1497,7 @@ sub fix_pbf {
     my $dirname = dirname($0);
     my $pbf2pbf = "$dirname/pbf2pbf";
 
-    my @nice = ( "nice", "-n", $nice_level_converter );
+    my @nice = ( "nice", "-n", $nice_level + 1 );
     my @system;
     if ( $option->{"pbf2pbf_postprocess"} ) {
         warn "Run pbf2pbf post process\n" if $debug;
