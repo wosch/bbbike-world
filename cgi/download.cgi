@@ -116,6 +116,7 @@ sub extract_areas {
     my $max     = $args{'max'};
     my $devel   = $args{'devel'} || 0;
     my $sort_by = $args{'sort_by'} || "time";
+    my $date    = $args{'date'} || "";
 
     warn "download: log dir: $log_dir, max: $max, devel: $devel\n" if $debug;
 
@@ -131,6 +132,7 @@ sub extract_areas {
     my @area;
     my $json         = new JSON;
     my $download_dir = $option->{"spool_dir"} . "/" . $spool->{"download"};
+    my $time         = time();
 
     my %unique;
     for ( my $i = 0 ; $i < scalar(@list) && $i < $max ; $i++ ) {
@@ -178,6 +180,14 @@ sub extract_areas {
         my $st = stat($download_file) or die "stat $download_file: $!\n";
         $obj->{"extract_time"} = $st->mtime;
         $obj->{"extract_size"} = $st->size;
+
+        if ( $date =~ /^(\d+)h$/ ) {
+            my $hours = $1;
+            if ( $obj->{"extract_time"} + $hours * 3600 < $time ) {
+                warn "filtered by $hours: $download_file\n" if $debug >= 2;
+                next;
+            }
+        }
 
         warn "found download file $download_file\n" if $debug >= 3;
 
@@ -374,7 +384,7 @@ sub result {
     table_head( $type, 'format', "Format" );
     table_head( $type, 'size',   "Size" );
 
-    print . qq{<th>Link</th>\n<th>Map</th>\n} . qq{</tr>\n</thead>\n};
+    print qq{<th>Link</th>\n<th>Map</th>\n} . qq{</tr>\n</thead>\n};
     print qq{<tbody>\n};
 
     foreach my $download (@downloads) {
@@ -445,7 +455,8 @@ sub table_head {
 
     print "<th>";
 
-    if ( $type eq 'download' && $sort_by ne $q->param("sort_by") ) {
+    my $sort_by_param = $q->param("sort_by") || "";
+    if ( $type eq 'download' && $sort_by ne $sort_by_param ) {
         $q->param( "sort_by", $sort_by );
         print $q->a(
             { href => $q->url( -query => 1 ), title => "Sort by $name" },
@@ -500,19 +511,39 @@ sub download_header {
     print qq{    <div id="main">\n};
 }
 
+sub filter_date {
+    my %args = @_;
+
+    my $filter_date = $args{'filter_date'};
+
+    my $q    = new CGI;
+    my $data = "";
+
+    foreach my $filter (@$filter_date) {
+        $q->param( "date", $filter );
+        $data .= " |\n" if $data;
+        $data .=
+          $q->a( { href => $q->url( -query => 1, -absolute => 0 ) }, $filter );
+    }
+
+    print "Limit to date: $data\n\n";
+}
+
 ###########################################################################
 #
 sub download {
     my $q = shift;
 
     download_header($q);
+    my @filter_date = qw/1h 3h 6h 12h 24h 48h/;
 
     if ( $q->param('max') ) {
         my $m = $q->param('max');
         $max = $m if $m > 0 && $m <= 5_000;
     }
+
     my $date = $q->param('date') || $default_date;
-    if ( $date ne "" && $date !~ /^(24h|today|yesterday)$/ ) {
+    if ( $date ne "" && !grep { $date eq $_ } @filter_date ) {
         warn "Reset date: '$date'\n" if $debug;
         $date = "";
     }
@@ -565,7 +596,8 @@ EOF
     @extracts = &extract_areas(
         'log_dir' => "$spool_dir/" . $spool->{"trash"},
         'max'     => $max,
-        'sort_by' => $sort_by
+        'sort_by' => $sort_by,
+        'date'    => $date
     );
     result(
         'type'  => 'download',
@@ -573,6 +605,7 @@ EOF
         'files' => \@extracts
     );
 
+    filter_date( 'filter_date' => \@filter_date );
     statistic( 'files' => \@extracts );
 
     print &footer( 'date' => $current_date );
