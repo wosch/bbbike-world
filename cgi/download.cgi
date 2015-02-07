@@ -16,8 +16,9 @@ use HTTP::Date;
 use strict;
 use warnings;
 
-my $max   = 2000;
-my $debug = 1;
+my $max          = 2000;
+my $debug        = 1;
+my $default_date = "";
 
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
@@ -109,10 +110,12 @@ sub file_size_mb {
 
 # extract areas from trash can
 sub extract_areas {
-    my $log_dir = shift;
-    my $max     = shift;
-    my $devel   = shift || 0;
-    my $sort_by = shift || "time";
+    my %args = @_;
+
+    my $log_dir = $args{'log_dir'};
+    my $max     = $args{'max'};
+    my $devel   = $args{'devel'} || 0;
+    my $sort_by = $args{'sort_by'} || "time";
 
     warn "download: log dir: $log_dir, max: $max, devel: $devel\n" if $debug;
 
@@ -182,6 +185,13 @@ sub extract_areas {
         push @area, $obj;
     }
 
+    return sort_extracts( $sort_by, @area );
+}
+
+sub sort_extracts {
+    my $sort_by = shift;
+    my @area    = @_;
+
     # newest first, or otherwise
     if ( $sort_by eq 'name' ) {
         return sort { $a->{"city"} cmp $b->{"city"} } @area;
@@ -205,9 +215,12 @@ sub extract_areas {
 
 # running or ready to run
 sub running_extract_areas {
-    my $log_dir = shift;
-    my $max     = shift;
-    my $devel   = shift || 0;
+    my %args = @_;
+
+    my $log_dir = $args{'log_dir'};
+    my $max     = $args{'max'};
+    my $devel   = $args{'devel'} || 0;
+    my $sort_by = $args{'sort_by'} || "time";
 
     warn "download: log dir: $log_dir, max: $max, devel: $devel\n" if $debug;
 
@@ -449,17 +462,22 @@ sub download {
         my $m = $q->param('max');
         $max = $m if $m > 0 && $m <= 5_000;
     }
+    my $date = $q->param('date') || $default_date;
+    if ( $date ne "" && $date !~ /^(24h|today|yesterday)$/ ) {
+        warn "Reset date: '$date'\n" if $debug;
+        $date = "";
+    }
 
     print qq{<div id="intro">\n};
     print $q->h2(
         qq{<a href="} . $q->url() . qq{">Extracts ready to download</a>} );
 
-    my $date = time2str(time);
+    my $current_date = time2str(time);
     print <<EOF;
 
 <p align="right"><a href="/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></p>
 <p>
-Newest extracts are first. Last update: $date<br/>
+Newest extracts are first. Last update: $current_date<br/>
 </p>
 EOF
 
@@ -472,8 +490,10 @@ EOF
 
     my @extracts;
     my $spool_dir = $option->{"spool_dir"};
-    @extracts =
-      &running_extract_areas( "$spool_dir/" . $spool->{"confirmed"}, $max );
+    @extracts = &running_extract_areas(
+        'log_dir' => "$spool_dir/" . $spool->{"confirmed"},
+        'max'     => $max
+    );
     result(
         'type'    => 'confirmed',
         'files'   => \@extracts,
@@ -481,8 +501,10 @@ EOF
         'message' => 'Will start in the next 5 minutes.',
     );
 
-    @extracts =
-      &running_extract_areas( "$spool_dir/" . $spool->{"running"}, $max );
+    @extracts = &running_extract_areas(
+        'log_dir' => "$spool_dir/" . $spool->{"running"},
+        'max'     => $max
+    );
     result(
         'type'    => 'running',
         'files'   => \@extracts,
@@ -491,15 +513,18 @@ EOF
     );
 
     my $sort_by = $q->param('sort_by') || $q->param("sort");
-    @extracts =
-      &extract_areas( "$spool_dir/" . $spool->{"trash"}, $max, 0, $sort_by );
+    @extracts = &extract_areas(
+        'log_dir' => "$spool_dir/" . $spool->{"trash"},
+        'max'     => $max,
+        'sort_by' => $sort_by
+    );
     result(
         'type'  => 'download',
         'name'  => 'Ready extracts',
         'files' => \@extracts
     );
 
-    print &footer( 'date' => $date );
+    print &footer( 'date' => $current_date );
 
     print qq{    </div> <!-- main -->\n};
     print qq{  </div> <!-- border -->\n};
