@@ -309,6 +309,41 @@ sub class_format {
     return "format_" . $format;
 }
 
+sub statistic {
+    my %args = @_;
+
+    my $files     = $args{'files'};
+    my @downloads = @$files;
+
+    print qq{<h3>Statistic</h3>\n\n};
+
+    if ( !@downloads ) {
+        print qq{<p>None</p>\n};
+        print "<hr/>\n\n";
+        return;
+    }
+
+    print qq{<p>Number of extracts: } . scalar(@downloads) . qq{</p>\n};
+
+    my %format_counter;
+    foreach my $download (@downloads) {
+        $format_counter{ $download->{"format"} } += 1;
+    }
+
+    foreach my $f ( reverse sort { $format_counter{$a} <=> $format_counter{$b} }
+        keys %format_counter )
+    {
+        print qq{<span class="}
+          . class_format($f)
+          . qq{" title="}
+          . sprintf( "%2.2f", $format_counter{$f} * 100 / scalar(@downloads) )
+          . qq{%">};
+        print $formats->{$f} . " (" . $format_counter{$f} . ")";
+        print "</span><br/>\n";
+    }
+    print "<hr/>\n\n";
+}
+
 sub result {
     my %args = @_;
 
@@ -537,6 +572,8 @@ EOF
         'name'  => 'Ready extracts',
         'files' => \@extracts
     );
+
+    statistic( 'files' => \@extracts );
 
     print &footer( 'date' => $current_date );
 
