@@ -340,8 +340,10 @@ sub statistic {
         $format_counter{ $download->{"format"} } += 1;
     }
 
-    foreach my $f ( reverse sort { $format_counter{$a} <=> $format_counter{$b} }
-        keys %format_counter )
+    foreach my $f (
+        reverse sort { $format_counter{$a} <=> $format_counter{$b} }
+        keys %format_counter
+      )
     {
         print qq{<span class="}
           . class_format($f)
