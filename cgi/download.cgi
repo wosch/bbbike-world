@@ -334,17 +334,10 @@ sub result {
 
     print qq{<table id="$type">\n};
     print qq{<thead>\n<tr>\n};
-    if ( $type eq 'download' ) {
-        print
-qq{<th><a title="Sort by Name" href="?sort=name">Name of area</a></th>\n}
-          . qq{<th><a title="Sort by Format" href="?sort=format">Format</a></th>\n}
-          . qq{<th><a title="Sort by Size, largest first" href="?sort=size">Size</a></th>};
-    }
-    else {
-        print qq{<th>Name of area</th>\n}
-          . qq{<th>Format</th>\n}
-          . qq{<th>Size</th>};
-    }
+
+    table_head( $type, 'name',   "Name of area" );
+    table_head( $type, 'format', "Format" );
+    table_head( $type, 'size',   "Size" );
 
     print . qq{<th>Link</th>\n<th>Map</th>\n} . qq{</tr>\n</thead>\n};
     print qq{<tbody>\n};
@@ -407,6 +400,27 @@ qq{<th><a title="Sort by Name" href="?sort=name">Name of area</a></th>\n}
     print "</tbody>\n";
     print "</table>\n";
     print "<hr/>\n\n";
+}
+
+# sort table by name, size, format
+sub table_head {
+    my ( $type, $sort_by, $name ) = @_;
+
+    my $q = new CGI;
+
+    print "<th>";
+
+    if ( $type eq 'download' && $sort_by ne $q->param("sort_by") ) {
+        $q->param( "sort_by", $sort_by );
+        print $q->a(
+            { href => $q->url( -query => 1 ), title => "Sort by $name" },
+            $name );
+    }
+    else {
+        print $name;
+    }
+
+    print "</th>";
 }
 
 sub header {
