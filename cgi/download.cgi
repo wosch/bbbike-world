@@ -423,7 +423,7 @@ sub table_head {
     print "</th>";
 }
 
-sub header {
+sub download_header {
     my $q = shift;
 
     my $ns = $q->param("namespace") || $q->param("ns") || "";
@@ -470,7 +470,7 @@ sub header {
 sub download {
     my $q = shift;
 
-    header($q);
+    download_header($q);
 
     if ( $q->param('max') ) {
         my $m = $q->param('max');
