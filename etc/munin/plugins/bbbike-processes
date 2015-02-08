@@ -53,7 +53,7 @@ EOF
     for p in $process_names
     do
         echo "$p.label $p"
-        echo "$p.warnings $warning"
+        echo "$p.warning $warning"
         echo "$p.critical $critical"
     done
 
