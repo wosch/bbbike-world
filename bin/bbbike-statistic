@@ -357,7 +357,11 @@ if [ -s $download_log ]; then
 	awk '{print $7, int($10/1024/1024), "MB"}' | sort
 fi
 
-if [ -s /var/log/lighttpd/extract.bbbike.log ]; then
+if [ -s $extract_log ]; then
+    echo ""
+    echo "extract referer"
+    egrep '"GET /' $extract_log | awk '{ print $11 }' | sort | uniq -c | sort -nr
+    
     echo ""
     echo -n "extract stat: "
     $zcat -f $extract_log | egrep 'GET /\?.*?submit=extract' | egrep 'city=.+' | wc -l
