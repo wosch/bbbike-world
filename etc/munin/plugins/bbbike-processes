@@ -39,8 +39,8 @@ PATH=/bin:/usr/bin; export PATH
 config=$1
 
 if [ "$1" = "config" ]; then
-    : ${warning=1:10}
-    : ${critical=1:50}
+    : ${warning=1:25}
+    : ${critical=1:80}
      
     cat <<EOF
 graph_title BBBike Processes
