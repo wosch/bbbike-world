@@ -39,8 +39,8 @@ PATH=/bin:/usr/bin; export PATH
 config=$1
 
 if [ "$1" = "config" ]; then
-    : ${warning=10}
-    : ${critical=50}
+    : ${warning=1:10}
+    : ${critical=1:50}
      
     cat <<EOF
 graph_title BBBike Processes
@@ -53,7 +53,6 @@ EOF
     for p in $process_names
     do
         echo "$p.label $p"
-        echo "$p.min 1"
         echo "$p.warnings $warning"
         echo "$p.critical $critical"
     done
