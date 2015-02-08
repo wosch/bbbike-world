@@ -1,3 +1,12 @@
+# tile.dev
 [bbbike-processes]
 env.process_names apache2 exim4 sshd ntpd renderd postgres
+
+# dom0
+[bbbike-processes]
+env.process_names lighttpd exim4 sshd ntpd varnishd varnishncsa
+
+# bbbike
+[bbbike-processes]
+env.process_names lighttpd exim4 sshd ntpd
 
