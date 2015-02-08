@@ -26,6 +26,10 @@ all: help
 install-munin-xen:
 	sudo ln -fs `pwd`/../src/munin/xen_multi ${MUNIN_PLUGINS_DIR}
 	${MAKE} munin-restart
+	${MAKE} help-update
+
+help-update:
+	@echo ""
 	@echo  "don't forget to update /etc/munin/plugin-conf.d/munin-node, see ./README"
 
 install-munin-bbbike-system:
@@ -33,7 +37,7 @@ install-munin-bbbike-system:
 	   sudo ln -fs `pwd`/plugins/$$i ${MUNIN_PLUGINS_DIR}/$$i; \
 	done
 	${MAKE} munin-restart
-	@echo  "don't forget to update /etc/munin/plugin-conf.d/munin-node, see ./README"
+	${MAKE} help-update
 	
 	
 install-munin-bbbike-web install-munin-bbbike:
