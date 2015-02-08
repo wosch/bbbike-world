@@ -99,7 +99,7 @@ if [ -f $varnish_log ]; then
     log_full http://extract.bbbike.org/ | awk '{ print $11 }' | egrep -v http://extract.bbbike.org/ | sort | uniq -c | sort -nr
 
     echo ""
-    echo -n "OSM map log hosts: "
+    echo -n "OSM map log hosts mc.bbbike.org/osm/: "
     log_full "mc.bbbike.org/osm/ " | awk '{ print $1 }' | sort -u | wc -l
 fi
 
