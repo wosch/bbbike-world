@@ -339,24 +339,6 @@ echo "error 500"
 log_full '" 500 ' | awk '{ print $1 }'| sort | uniq -c | sort -nr | $dns
 
 
-if [ -s $download_log ]; then
-    echo ""
-    echo -n "download stat: "
-    awk '{ s+=$10 } END { print int(s/1024/1024), "MB" }' $download_log
-
-    echo ""
-    echo "download referer"
-    egrep '"GET /osm/' $download_log | awk '{ print $11 }' | sort | uniq -c | sort -nr
-
-    echo ""
-    echo "download stat by IP address: "
-    awk '{ print $1 }' $download_log | egrep -v '\.(sha256|md5) ' | sort | uniq -c | sort -nr | head -20
-
-    echo ""
-    egrep '\.osm\.[^ ]+ ' $download_log | egrep 'GET ' | egrep -v '\.(sha256|md5) |/tile/' |
-	awk '{print $7, int($10/1024/1024), "MB"}' | sort
-fi
-
 if [ -s $extract_log ]; then
     echo ""
     echo "extract referer"
@@ -386,6 +368,24 @@ if [ -s $extract_log ]; then
     echo -n "extract statistics: "
     $zcat -f $extract_log | egrep 'GET /\?.*?submit=extract' | egrep 'city=.+' | awk '{print $7}' | sort -u | wc -l
     $zcat -f $extract_log | egrep 'GET /\?.*?submit=extract' | egrep 'city=.+' | awk '{print $7}' | sort -u | perl -npe 'use CGI;; s,&,\t,g; $_=CGI::Util::unescape($_)'
+fi
+
+if [ -s $download_log ]; then
+    echo ""
+    echo -n "download stat: "
+    awk '{ s+=$10 } END { print int(s/1024/1024), "MB" }' $download_log
+
+    echo ""
+    echo "download referer"
+    egrep '"GET /osm/' $download_log | awk '{ print $11 }' | sort | uniq -c | sort -nr
+
+    echo ""
+    echo "download stat by IP address: "
+    awk '{ print $1 }' $download_log | egrep -v '\.(sha256|md5) ' | sort | uniq -c | sort -nr | head -20
+
+    echo ""
+    egrep '\.osm\.[^ ]+ ' $download_log | egrep 'GET ' | egrep -v '\.(sha256|md5) |/tile/' |
+	awk '{print $7, int($10/1024/1024), "MB"}' | sort
 fi
 
 echo ""
