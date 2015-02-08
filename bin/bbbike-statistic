@@ -360,7 +360,7 @@ fi
 if [ -s $extract_log ]; then
     echo ""
     echo "extract referer"
-    egrep '"GET /' $extract_log | awk '{ print $11 }' | sort | uniq -c | sort -nr
+    egrep '"GET /' $extract_log | awk '{ print $11 }' | egrep -v 'http://extract.bbbike.org/' | sort | uniq -c | sort -nr
     
     echo ""
     echo -n "extract stat: "
