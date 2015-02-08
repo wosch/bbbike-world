@@ -27,17 +27,21 @@ var config = {
 
     // max. area size in MB
     "max_size": {
-        "default": 768,
+        "default": 900,
+
         "obf.zip": 250,
         "navit.zip": 512,
+        "mapsforge-osm.zip": 100,
+
         "garmin-bbbike.zip": 650,
         "garmin-osm.zip": 768,
         "garmin-cycle.zip": 650,
         "garmin-leisure.zip": 650,
-        "mapsforge-osm.zip": 100,
+
         "srtm-europe.garmin-srtm.zip": 800,
-        "srtm-europe.mapsforge-osm.zip": 200,
-        "srtm-europe.obf.zip": 200
+        "srtm-europe.obf.zip": 200,
+        "srtm.garmin-srtm.zip": 800,
+        "srtm.obf.zip": 200
     },
 
     // help image per format
@@ -562,7 +566,7 @@ function setBounds(bounds) {
 
 function extract_init_pro(opt) {
     var hostname = $(location).attr('hostname');
-    if (hostname.match(/^(extract-pro|dev)[2-4]?\.bbbike\.org/i)) {
+    if (hostname.match(/^(extract-pro|devX)[2-4]?\.bbbike\.org/i)) {
         config.max_size["default"] *= 2;
         config.max_skm *= 2;
     }
@@ -1028,12 +1032,14 @@ function show_skm(skm, filesize) {
     if (skm > config.max_skm) {
         $("#size").html("Max area size: " + config.max_skm + "skm.");
         $("#export_osm_too_large").show();
-    } else if (config.max_size[filesize.format] && filesize.size > config.max_size[filesize.format]) {
-        // Osmand works only for small areas less than 200MB
-        $("#size").html("Max osmand file size: " + config.max_size[filesize.format] + " MB.");
+    }
+
+    // Osmand etc. works only for small areas less than 200MB
+    else if (config.max_size[filesize.format] && filesize.size > config.max_size[filesize.format]) {
+        $("#size").html("Max " + filesize.format + " file size: " + config.max_size[filesize.format] + " MB.");
         $("#export_osm_too_large").show();
     } else if (filesize.size > config.max_size["default"]) {
-        $("#size").html("Max file size: " + config.max_size["default"] + " MB.");
+        $("#size").html("Max default file size: " + config.max_size["default"] + " MB.");
         $("#export_osm_too_large").show();
     } else {
         $("#export_osm_too_large").hide();
