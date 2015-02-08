@@ -809,6 +809,9 @@ elevation-update:
 _cache-heater: cache-gc cache-heater-homepage cache-heater-opensearch cache-heater-osp cache-heater-streets cache-heater-searches cache-du purge-cache-js
 cache-heater: _cache-heater
 
+# do not care about cache failures
+cache-heater-k:
+	${BBMAKE} -k cache-heater
 
 cache-du:
 	@echo "cache usage"
