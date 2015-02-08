@@ -9,6 +9,7 @@ MUNIN_BBBIKE= 		bbbike-ajax \
 			bbbike-pref \
 			bbbike-maptype \
 			bbbike-route \
+			bbbike-processes \
 			bbbike-appid
 
 MUNIN_BBBIKE_EXTRACT= 	bbbike-extract-diskusage \
