@@ -373,18 +373,18 @@ fi
 if [ -s $download_log ]; then
     echo ""
     echo -n "download stat: "
-    awk '{ s+=$10 } END { print int(s/1024/1024), "MB" }' $download_log
+    $zcat $download_log | awk '{ s+=$10 } END { print int(s/1024/1024), "MB" }'
 
     echo ""
     echo "download referer"
-    egrep '"GET /osm/' $download_log | awk '{ print $11 }' | sort | uniq -c | sort -nr
+    $zcat $download_log | egrep '"GET /osm/' | awk '{ print $11 }' | sort | uniq -c | sort -nr
 
     echo ""
     echo "download stat by IP address: "
-    awk '{ print $1 }' $download_log | egrep -v '\.(sha256|md5) ' | sort | uniq -c | sort -nr | head -20
+    $zcat $download_log | awk '{ print $1 }' | egrep -v '\.(sha256|md5) ' | sort | uniq -c | sort -nr | head -20
 
     echo ""
-    egrep '\.osm\.[^ ]+ ' $download_log | egrep 'GET ' | egrep -v '\.(sha256|md5) |/tile/' |
+    $zcat $download_log | egrep '\.osm\.[^ ]+ ' | egrep 'GET ' | egrep -v '\.(sha256|md5) |/tile/' |
 	awk '{print $7, int($10/1024/1024), "MB"}' | sort
 fi
 
