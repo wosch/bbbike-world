@@ -8,7 +8,7 @@ PATH=$HOME/bin:$PATH; export PATH
 LANG=C; export LANG
 dns=dns
 dns=cat
-zcat='gzip -dc'
+zcat='gzip -dc -f'
 
 cd /var/log/lighttpd || exit 2
 : ${varnish_log=/var/log/varnish/varnishncsa.log}
@@ -342,7 +342,7 @@ log_full '" 500 ' | awk '{ print $1 }'| sort | uniq -c | sort -nr | $dns
 if [ -s $extract_log ]; then
     echo ""
     echo "extract referer"
-    egrep '"GET /' $extract_log | awk '{ print $11 }' | egrep -v 'http://extract.bbbike.org/' | sort | uniq -c | sort -nr
+    $zcat -f $extract_log | egrep '"GET /' | awk '{ print $11 }' | egrep -v 'http://extract.bbbike.org/' | sort | uniq -c | sort -nr
     
     echo ""
     echo -n "extract stat: "
