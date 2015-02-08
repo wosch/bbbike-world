@@ -30,13 +30,13 @@ install-munin-xen:
 
 install-munin-bbbike-system:
 	for i in ${MUNIN_BBBIKE_SYSTEM}; do \
-	   sudo ln -fs `pwd`/plugins/bbbike ${MUNIN_PLUGINS_DIR}/$$i; \
+	   sudo ln -fs `pwd`/plugins/$$i ${MUNIN_PLUGINS_DIR}/$$i; \
 	done
 	${MAKE} munin-restart
 	@echo  "don't forget to update /etc/munin/plugin-conf.d/munin-node, see ./README"
 	
 	
-install-munin-bbbike_web install-munin-bbbike:
+install-munin-bbbike-web install-munin-bbbike:
 	for i in ${MUNIN_BBBIKE_WEB}; do \
 	   sudo ln -fs `pwd`/plugins/bbbike ${MUNIN_PLUGINS_DIR}/$$i; \
 	done
@@ -76,8 +76,11 @@ clean distclean:
 
 	
 help:
-	@echo "make [ install-munin-xen | install-munin-bbbike-system ]"
-	@echo "     [ install-munin-bbbike-web | install-munin-bbbike-extract ]"
+	@echo "make [ install-munin-xen ]"
+	@echo "     [ install-munin-bbbike-system ]"
+	@echo "     [ install-munin-bbbike-web ]"
+	@echo "     [ install-munin-bbbike-extract ]"
+	@echo "     [ munin-restart ]" 
 	@echo "     [ perltidy | distclean ]"
 	@echo ""
 	@echo "for bbbike.de: "
