@@ -26,7 +26,7 @@ plan tests => 1;
 # sudo chmod o+rx /var/log/lighttpd
 #
 system(
-    qq[printf "fetch bbbike-route\nquit\n" | nc localhost 4949 | egrep -q value]
+    qq[printf "fetch bbbike-processes\nquit\n" | nc localhost 4949 | egrep -q value]
 );
 
 my $status = $?;
