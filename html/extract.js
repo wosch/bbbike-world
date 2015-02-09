@@ -31,7 +31,7 @@ var config = {
 
         "obf.zip": 250,
         "navit.zip": 512,
-        "mapsforge-osm.zip": 100,
+        "mapsforge-osm.zip": 400,
 
         "garmin-bbbike.zip": 650,
         "garmin-osm.zip": 768,
@@ -1229,7 +1229,7 @@ function show_filesize(skm, real_size) {
         },
         "mapsforge-osm.zip": {
             "size": 0.8,
-            "time": 14
+            "time": 3
         },
         "navit.zip": {
             "size": 0.8

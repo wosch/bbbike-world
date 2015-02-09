@@ -22,7 +22,7 @@ osmium_convert_opt="-f pbf -t opl"
 
 # max. file size in KB
 : ${max_file_size_garmin=2950000}
-: ${max_file_size_mapsforge=255000}
+: ${max_file_size_mapsforge=600000}
 : ${max_file_size_osmand=600000}
 _max_cpu_time=7200
 
