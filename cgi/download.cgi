@@ -335,9 +335,18 @@ sub statistic {
 
     print qq{<p>Number of extracts: } . scalar(@downloads) . qq{</p>\n};
 
+    sub strip_format {
+        my $f = shift;
+        $f =~ s/\-.*//;
+        $f =~ s/\..*//;
+        return $f;
+    }
+
     my %format_counter;
+    my %format_counter_all;
     foreach my $download (@downloads) {
         $format_counter{ $download->{"format"} } += 1;
+        $format_counter_all{ strip_format( $download->{"format"} ) } += 1;
     }
 
     foreach my $f (
@@ -351,6 +360,21 @@ sub statistic {
           . sprintf( "%2.2f", $format_counter{$f} * 100 / scalar(@downloads) )
           . qq{%">};
         print $formats->{$f} . " (" . $format_counter{$f} . ")";
+        print "</span><br/>\n";
+    }
+    print "<hr/>\n\n";
+
+    foreach my $f (
+        reverse sort { $format_counter_all{$a} <=> $format_counter_all{$b} }
+        keys %format_counter_all
+      )
+    {
+        print qq{<span }
+          . qq{ title="}
+          . sprintf( "%2.2f",
+            $format_counter_all{$f} * 100 / scalar(@downloads) )
+          . qq{%">};
+        print $f . " (" . $format_counter_all{$f} . ")";
         print "</span><br/>\n";
     }
     print "<hr/>\n\n";
