@@ -323,6 +323,7 @@ sub statistic {
     my %args = @_;
 
     my $files     = $args{'files'};
+    my $summary   = $args{'summary'};
     my @downloads = @$files;
 
     print qq{<h3>Statistic</h3>\n\n};
@@ -364,6 +365,7 @@ sub statistic {
     }
     print "<hr/>\n\n";
 
+    return if !$summary;
     foreach my $f (
         reverse sort { $format_counter_all{$a} <=> $format_counter_all{$b} }
         keys %format_counter_all
@@ -632,7 +634,7 @@ EOF
     );
 
     filter_date( 'filter_date' => \@filter_date );
-    statistic( 'files' => \@extracts );
+    statistic( 'files' => \@extracts, 'summary' => 1 );
 
     print &footer( 'date' => $current_date );
 
