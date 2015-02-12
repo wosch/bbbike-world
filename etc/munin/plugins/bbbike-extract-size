@@ -42,9 +42,29 @@ if [ "$1" = "config" ]; then
     : ${critical=1200000000}
      
     cat <<EOF
+multigraph pbf_size_average
 graph_args --base 1024 --lower-limit 0
 graph_title Extracts size - average
 graph_vlabel Extracts size - average
+graph_category extractsize
+graph_info File size
+graph_period minute
+EOF
+    for f in $formats
+    do
+        ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
+        echo "$ff.label $f"
+        echo "$ff.min 0"
+        echo "$ff.warnings $warning"
+        echo "$ff.critical $critical"
+    done
+    
+    cat <<EOF
+    
+multigraph pbf_size_median
+graph_args --base 1024 --lower-limit 0
+graph_title Extracts size - median
+graph_vlabel Extracts size - median
 graph_category extractsize
 graph_info File size
 graph_period minute
@@ -61,9 +81,30 @@ EOF
     exit 0
 fi
 
+###########################################################
+echo "multigraph pbf_size_average"
 for f in $formats
 do
     ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
     f=$(echo $f | perl -npe 's/(srtm(-europe)?)/${1}.*/g')
     echo "$ff.value"     `( cd $extract_dir/download; du -k * | egrep "${f}$" | awk '{ s += $1 } END { printf("%d", NR ? s * 1024 / NR : 0)  }' )`
+done
+
+echo ""
+echo "multigraph pbf_size_median"
+for f in $formats
+do
+    ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
+    f=$(echo $f | perl -npe 's/(srtm(-europe)?)/${1}.*/g')
+    echo "$ff.value"     `( cd $extract_dir/download; du -k * | egrep "${f}$" |
+        awk '{
+            count[NR] = $1;
+        } END {
+            if (NR % 2) {
+                print 1024 * count[(NR + 1) / 2];
+            } else {
+                print 1024 * (count[(NR / 2)] + count[(NR / 2) + 1]) / 2.0;
+            }
+        }'
+    )`
 done

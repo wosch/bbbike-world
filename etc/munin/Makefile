@@ -16,8 +16,7 @@ MUNIN_BBBIKE_WEB=	bbbike-ajax \
 MUNIN_BBBIKE_EXTRACT= 	bbbike-extract-diskusage \
 			bbbike-extract-files \
 			bbbike-extract-size \
-			bbbike-extract-jobs \
-			bbbike-extract-size-median
+			bbbike-extract-jobs
 
 MUNIN_PLUGINS_DIR=	/etc/munin/plugins
 
