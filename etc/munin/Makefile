@@ -76,6 +76,7 @@ perltidy: perlcheck
 	
 clean distclean:
 	rm -f *.bak *.tdy *.ERR
+	rm -f plugins/*.bak plugins/*.tdy
 
 	
 help:
