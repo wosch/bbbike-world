@@ -737,7 +737,7 @@ function checkform() {
         alert(M("Please create a bounding box first!"));
         ret = 3;
     } else if (ret > 0) {
-        alert(ret == 1 ? M("Please fill out all fields!") : M("Use a smaller area! Max size: ") + max_size + "MB");
+        alert(ret == 1 ? M("Please fill out all fields!") : M("Please use a smaller area! Max size: ") + max_size + "MB");
     } else if (config.box_on_map) {
         if (!validate_box_on_map()) {
             alert(M("The bounding box is outside of the map. Please move back to the box, or >>Select a different<< area on the map"));
