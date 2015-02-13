@@ -957,6 +957,7 @@ sub _check_input {
         'coords_original' => $debug >= 2 ? $coords : "",
         'lang'            => $lang,
         'as'              => $as,
+        'pg'              => $pg,
     };
 
     if ( $option->{enable_priority} ) {
