@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) Sep 2011-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2011-2015 Wolfram Schneider, http://bbbike.org
 #
 # usage: /etc/munin/plugins/bbbike-extract-jobs [ config ]
 #
@@ -43,12 +43,12 @@ extract_dir=/var/cache/extract/running
 config=$1
 
 if [ "$1" = "config" ]; then
-    : ${warning=20}
-    : ${critical=40}
-    : ${jobs_warning=20}
-    : ${jobs_critical=40}
-    : ${proc_warning=5}
-    : ${proc_critical=7}
+    : ${warning=40}
+    : ${critical=80}
+    : ${jobs_warning=40}
+    : ${jobs_critical=80}
+    : ${proc_warning=6}
+    : ${proc_critical=8}
     : ${waiting_warning=40}
     : ${waiting_critical=80}
     : ${users_warning=10}
