@@ -1231,7 +1231,7 @@ sub homepage {
             -labels => $formats_locale,
           );
     }
-    warn Dumper( \@values );
+    warn Dumper( \@values ) if $debug >= 3;
 
     print qq{<div id="table">\n};
     print $q->table(
