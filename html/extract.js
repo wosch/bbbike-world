@@ -176,6 +176,9 @@ function plot_polygon_back() {
     var feature = plot_polygon(polygon);
     vectors.addFeatures(feature);
 
+    // re-calculate polygon size
+    state.func_serialize(feature);
+
     validateControls();
     plot_default_box_menu_on();
 }
@@ -1395,7 +1398,7 @@ function polygon_init() {
             validateControls();
         }
     }
-
+    state.func_serialize = serialize; // needs to be called from plot_polygon_back()
 /*
     var options = {}; // hover: true, onSelect: serialize,
     var select = new OpenLayers.Control.SelectFeature(vectors, options);
