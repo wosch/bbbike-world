@@ -811,7 +811,7 @@ cache-heater: _cache-heater
 
 # do not care about cache failures
 cache-heater-k:
-	${BBMAKE} -k cache-heater
+	${BBMAKE} cache-heater || true
 
 cache-du:
 	@echo "cache usage"
