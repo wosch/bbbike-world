@@ -544,14 +544,18 @@ sub filter_date {
 
     my $filter_date = $args{'filter_date'};
 
-    my $q    = new CGI;
-    my $data = "";
+    my $q              = new CGI;
+    my $data           = "";
+    my $current_filter = $q->param("date") || "";
 
     foreach my $filter (@$filter_date) {
         $q->param( "date", $filter );
         $data .= " |\n" if $data;
         $data .=
-          $q->a( { href => $q->url( -query => 1, -absolute => 0 ) }, $filter );
+            $filter eq $current_filter
+          ? $filter
+          : $q->a( { href => $q->url( -query => 1, -absolute => 0 ) },
+            $filter );
     }
 
     print "Limit to date: $data\n\n";
