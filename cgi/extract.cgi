@@ -452,7 +452,7 @@ qq{\n<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?
     by <a href="http://wolfram.schneider.org">Wolfram Schneider</a><br/>
     Map data (&copy;) <a href="http://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
   <div id="footer_community"></div>
-  </div>
+  </div> <!-- copyright -->
 </div>
 
 </div></div></div> <!-- layout -->
