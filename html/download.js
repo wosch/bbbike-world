@@ -15,7 +15,7 @@ function download_init_map() {
 
         maxExtent: new OpenLayers.Bounds(-20037508.34, -20037508.34, 20037508.34, 20037508.34),
         maxResolution: 156543.0339,
-        numZoomLevels: 19,
+        numZoomLevels: 17,
         units: 'm',
         projection: new OpenLayers.Projection("EPSG:900913"),
         displayProjection: new OpenLayers.Projection("EPSG:4326")
@@ -46,10 +46,11 @@ function get_download_area(url) {
 
 function parse_areas_from_links() {
     var params = OpenLayers.Util.getParameters(this.base);
+
     $("td > a.polygon0, td > a.polygon1").each(function(i, n) {
         $(n).on("mouseover", "", function() {
             var url = $(n).attr("href");
-            var obj = plot_download_area(url);
+            var obj = get_download_area(url);
             $("#debug").html(obj.format);
         });
     });
