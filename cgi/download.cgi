@@ -501,8 +501,12 @@ sub table_head {
     if ( $type eq 'download' && $sort_by ne $sort_by_param ) {
         $q->param( "sort_by", $sort_by );
         print $q->a(
-            { href => $q->url( -query => 1 ), title => "Sort by $name" },
-            $name );
+            {
+                href  => $q->url( -query => 1, -relative => 1 ),
+                title => "Sort by $name"
+            },
+            $name
+        );
     }
     else {
         print $name;
@@ -568,7 +572,7 @@ sub filter_date {
         $data .=
             $filter eq $current_filter
           ? $filter
-          : $q->a( { href => $q->url( -query => 1, -absolute => 0 ) },
+          : $q->a( { href => $q->url( -query => 1, -relative => 1 ) },
             $filter );
     }
 
@@ -595,8 +599,9 @@ sub download {
     }
 
     print qq{<div id="intro">\n};
-    print $q->h2(
-        qq{<a href="} . $q->url() . qq{">Extracts ready to download</a>} );
+    print $q->h2( qq{<a href="}
+          . $q->url( -relative => 1 )
+          . qq{">Extracts ready to download</a>} );
 
     my $current_date = time2str(time);
     print <<EOF;
