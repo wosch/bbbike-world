@@ -305,6 +305,20 @@ sub footer {
 EOF
 }
 
+sub load_javascript_libs {
+    my @js = qw(
+      OpenLayers/2.12/OpenLayers-min.js
+      OpenLayers/2.12/OpenStreetMap.js
+      jquery/jquery-1.8.3.min.js
+      download.js
+    );
+
+    my $javascript = join "\n",
+      map { qq{<script src="/html/$_" type="text/javascript"></script>} } @js;
+
+    return $javascript;
+}
+
 sub css_map {
     return <<EOF;
 EOF
@@ -646,6 +660,7 @@ EOF
     print qq{  </div> <!-- border -->\n};
     print qq{</div> <!-- all -->\n};
 
+    print &load_javascript_libs;
     print $q->end_html;
 }
 
