@@ -394,7 +394,7 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
           . qq{<a href="$community_link#donate"><img class="logo" height="47" width="126" src="/images/btn_donateCC_LG.gif" alt="donate"/></a></p>};
     }
 
-    my $home = $q->url( -query => 0, -relative => 0 );
+    my $home = $q->url( -query => 0, -relative => 1 );
 
     return <<EOF;
   $donate
@@ -501,7 +501,10 @@ sub language_links {
               ? $qq->delete("lang")
               : $qq->param( "lang", $l );
 
-            $data .= qq{<a href="} . $qq->url( -query => 1 ) . qq{">$l</a>\n};
+            $data .=
+                qq{<a href="}
+              . $qq->url( -query => 1, -relative => 1 )
+              . qq{">$l</a>\n};
         }
         else {
             $data .= qq{<span id="active_language">$l</span>\n};
