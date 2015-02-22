@@ -603,6 +603,10 @@ sub download {
           . $q->url( -relative => 1 )
           . qq{">Extracts ready to download</a>} );
 
+    print qq{\n\n<span id="debug">debug</span>\n};
+    print
+qq{<div id="map" height="300" width="600" style="border:1px">map</div>\n\n};
+
     my $current_date = time2str(time);
     print <<EOF;
 
