@@ -223,14 +223,14 @@ sub header {
 
     my @onload;
     my @cookie;
-    my @css     = "../html/extract.css";
+    my @css     = "/html/extract.css";
     my @expires = ();
 
     if ( $type eq 'homepage' ) {
         @onload = ( -onLoad, 'init();' );
     }
     else {
-        push @css, "../html/extract-center.css";
+        push @css, "/html/extract-center.css";
     }
 
     # store last used selected in cookies for further usage
@@ -306,7 +306,7 @@ sub header {
     return $data;
 }
 
-# see ../html/extract.js
+# see /html/extract.js
 sub map {
 
     return <<EOF;
@@ -436,7 +436,7 @@ sub footer {
     );
 
     my $javascript = join "\n",
-      map { qq{<script src="../html/$_" type="text/javascript"></script>} } @js;
+      map { qq{<script src="/html/$_" type="text/javascript"></script>} } @js;
 
     $javascript .=
 qq{\n<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3.9&amp;sensor=false&amp;language=en&amp;libraries=weather,panoramio"></script>}
