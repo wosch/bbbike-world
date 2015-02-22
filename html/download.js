@@ -56,7 +56,92 @@ function parse_areas_from_links() {
     });
 }
 
+function download_plot_polygon(obj) {
+    debug("plot polygon");
+
+    center_city(obj.sw_lng, obj.sw_lat, obj.ne_lng, obj.ne_lat);
+
+    var polygon = coords ? string2coords(coords) : rectangle2polygon(obj.sw_lng, obj.sw_lat, obj.ne_lng, obj.ne_lat);
+
+    var feature = plot_polygon(polygon);
+    vectors.addFeatures(feature);
+}
+
+/***********************************************************************************
+ * shared code from extract.js
+ * keep in sync!
+ */
+function string2coords(coords) {
+    var list = [];
+    if (!coords) return list;
+    var _list = coords.split("|");
+    for (var i = 0; i < _list.length; i++) {
+        var pos = _list[i].split(",");
+        list.push(pos);
+    }
+    return list;
+}
+
+
+function center_city(sw_lng, sw_lat, ne_lng, ne_lat) {
+    debug("center city: " + sw_lng + "," + sw_lat + " " + ne_lng + "," + ne_lat);
+
+    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
+    var bounds = new OpenLayers.Bounds(sw_lng, sw_lat, ne_lng, ne_lat);
+
+    bounds.transform(epsg4326, map.getProjectionObject());
+    map.zoomToExtent(bounds);
+}
+
+/* create a polygon based on a points list, which can be added to a vector */
+function plot_polygon(poly) {
+    debug("plot polygon, length: " + poly.length);
+
+    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
+    var points = [];
+    for (var i = 0; i < poly.length; i++) {
+        var point = new OpenLayers.Geometry.Point(poly[i][0], poly[i][1]);
+        point.transform(epsg4326, map.getProjectionObject());
+        points.push(point);
+    }
+
+    var linear_ring = new OpenLayers.Geometry.LinearRing(points);
+    var polygonFeature = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Polygon(linear_ring));
+
+    return polygonFeature;
+}
+
+function debug(text, id) {
+    if (typeof console === "undefined" || typeof console.log === "undefined") { /* ARGH!!! old IE */
+        return;
+    }
+
+    // no debug at all
+    if (config.debug < 1) return;
+
+    var now = $.now();
+    var timestamp = (now - state.debug_time.start) / 1000 + " (+" + (now - state.debug_time.last) / 1000 + ") "
+    state.debug_time.last = now;
+
+    // log to JavaScript console
+    console.log("BBBike download: " + timestamp + state.box + " " + text);
+
+    // no debug on html page
+    if (config.debug <= 1) return;
+
+    if (!id) id = "debug";
+
+    var tag = $("#" + id);
+    if (!tag) return;
+
+    // log to HTML page
+    tag.html(timestamp + text);
+}
+
+
+/* main */
 $(document).ready(function() {
     download_init_map();
     parse_areas_from_links();
 });
+
