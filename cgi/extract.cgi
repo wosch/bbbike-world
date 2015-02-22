@@ -463,6 +463,11 @@ $analytics
   jQuery('#pageload-indicator').hide();
 </script>
 
+  <!-- pre-load some images for slow mobile networks -->
+  <div id="slow-network" style="display:none">
+    <img src="/html/close.png"/>
+  </dvi>
+
 <!-- bbbike_extract_status: $error -->
 </body>
 </html>
