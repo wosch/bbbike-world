@@ -101,7 +101,12 @@ function download_plot_polygon(obj) {
 
     var polygon = obj.coords ? string2coords(obj.coords) : rectangle2polygon(obj.sw_lng, obj.sw_lat, obj.ne_lng, obj.ne_lat);
 
-    OpenLayers.Feature.Vector.style['default']['fillColor'] = '#000';
+    var color = $("span." + obj.class_format).css("color");
+    // color = "#000";
+    debug("color: " + color);
+
+    OpenLayers.Feature.Vector.style['default']['fillColor'] = color;
+    OpenLayers.Feature.Vector.style['default']['strokeColor'] = color;
 
     var feature = plot_polygon(polygon);
     state.vectors.addFeatures(feature);
