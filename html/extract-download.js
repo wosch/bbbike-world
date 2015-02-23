@@ -23,16 +23,15 @@ var state = {
         "last": $.now()
     },
     box: 0
-};
-/* end of global variables */
+}; /* end of global variables */
 
 
-function download_init_map () {
+function download_init_map() {
     map = new OpenLayers.Map("map", {
-        controls: [ new OpenLayers.Control.Navigation(), new OpenLayers.Control.PanZoom,
-                   new OpenLayers.Control.ScaleLine({ geodesic: true }),
-                   new OpenLayers.Control.MousePosition(), new OpenLayers.Control.Attribution(), new OpenLayers.Control.LayerSwitcher()],
-                maxExtent: new OpenLayers.Bounds(-20037508.34, -20037508.34, 20037508.34, 20037508.34),
+        controls: [new OpenLayers.Control.Navigation(), new OpenLayers.Control.PanZoom, new OpenLayers.Control.ScaleLine({
+            geodesic: true
+        }), new OpenLayers.Control.MousePosition(), new OpenLayers.Control.Attribution(), new OpenLayers.Control.LayerSwitcher()],
+        maxExtent: new OpenLayers.Bounds(-20037508.34, -20037508.34, 20037508.34, 20037508.34),
         maxResolution: 156543.0339,
         numZoomLevels: 16,
         units: 'm',
@@ -47,9 +46,9 @@ function download_init_map () {
     map.addLayer(new OpenLayers.Layer.OSM.CycleMap("OSM CycleMap", {
         attribution: '<a href="http://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="http://www.opencyclemap.org/">(&copy) OpenCycleMap</a>'
     }));
-    
+
     map.zoomToMaxExtent();
-    
+
     // main vector
     vectors = new OpenLayers.Layer.Vector("Vector Layer", {
         displayInLayerSwitcher: false
@@ -57,7 +56,9 @@ function download_init_map () {
 }
 
 function get_download_area(url) {
-    var params = OpenLayers.Util.getParameters(url, { "splitArgs": false });
+    var params = OpenLayers.Util.getParameters(url, {
+        "splitArgs": false
+    });
 
     // put the extracted parameters into an object
     var obj = {
@@ -69,17 +70,18 @@ function get_download_area(url) {
         format: params.format,
         city: params.city
     };
-    
+
     return obj;
 }
 
 /* extract coordinates from links on the fly after page load */
+
 function parse_areas_from_links() {
-    $("td > a.polygon0, td > a.polygon1").each(function(i, n) {
-        $(n).on("mouseover", "", function() {
+    $("td > a.polygon0, td > a.polygon1").each(function (i, n) {
+        $(n).on("mouseover", "", function () {
             var url = $(n).attr("href");
             var obj = get_download_area(url);
-            
+
             $("#debug").html(obj.format);
             download_plot_polygon(obj);
         });
@@ -100,18 +102,19 @@ function download_plot_polygon(obj) {
  * shared code from extract.js
  * keep in sync!
  */
+
 function string2coords(coords) {
     debug("string2coords: " + coords);
-    
+
     var list = [];
     if (!coords) return list;
-    
+
     var _list = coords.split("|");
     for (var i = 0; i < _list.length; i++) {
         var pos = _list[i].split(",");
         list.push(pos);
     }
-    
+
     return list;
 }
 
@@ -127,6 +130,7 @@ function center_city(sw_lng, sw_lat, ne_lng, ne_lat) {
 }
 
 /* create a polygon based on a points list, which can be added to a vector */
+
 function plot_polygon(poly) {
     debug("plot polygon, length: " + poly.length);
 
@@ -188,8 +192,7 @@ function debug(text, id) {
 
 
 /* main */
-$(document).ready(function() {
+$(document).ready(function () {
     download_init_map();
     parse_areas_from_links();
 });
-
