@@ -346,7 +346,7 @@ sub load_javascript_libs {
       OpenLayers/2.12/OpenLayers-min.js
       OpenLayers/2.12/OpenStreetMap.js
       jquery/jquery-1.8.3.min.js
-      download.js
+      extract-download.js
     );
 
     my $javascript = join "\n",
