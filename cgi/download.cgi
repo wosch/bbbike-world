@@ -641,7 +641,7 @@ sub download {
       if $option->{'show_heading'};
 
     print qq{<div id="map" style="height:250px"></div>\n\n};
-    print qq{\n\n<span id="debug">debug</span>\n};
+    print qq{\n\n<span id="debug"></span>\n};
 
     my $current_date = time2str(time);
 
