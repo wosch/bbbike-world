@@ -9,10 +9,6 @@
 // Initialise the 'map' object
 var map;
 
-// polygon & rectangle variables
-var vectors;
-
-
 var config = {
     debug: 1
 };
@@ -22,6 +18,8 @@ var state = {
         "start": $.now(),
         "last": $.now()
     },
+    vectors: {},
+    // polygon 
     box: 0
 }; /* end of global variables */
 
@@ -48,11 +46,16 @@ function download_init_map() {
     }));
 
     map.zoomToMaxExtent();
+    download_init_vectors(map);
+}
 
+function download_init_vectors(map) {
     // main vector
-    vectors = new OpenLayers.Layer.Vector("Vector Layer", {
+    state.vectors = new OpenLayers.Layer.Vector("Vector Layer", {
         displayInLayerSwitcher: false
     });
+
+    map.addLayer(state.vectors);
 }
 
 function get_download_area(url) {
@@ -95,7 +98,7 @@ function download_plot_polygon(obj) {
     var polygon = obj.coords ? string2coords(obj.coords) : rectangle2polygon(obj.sw_lng, obj.sw_lat, obj.ne_lng, obj.ne_lat);
 
     var feature = plot_polygon(polygon);
-    vectors.addFeatures(feature);
+    state.vectors.addFeatures(feature);
 }
 
 /***********************************************************************************
