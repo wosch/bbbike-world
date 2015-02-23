@@ -2,6 +2,8 @@
  Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
 */
 
+/* global variables */
+
 // HTML5: may not work on Android devices!
 //"use strict"
 // Initialise the 'map' object
@@ -10,8 +12,20 @@ var map;
 // polygon & rectangle variables
 var vectors;
 
-var config = { debug: 1 };
-var state = { box: 0, debug_time: {} };
+
+var config = {
+    debug: 1
+};
+
+var state = {
+    debug_time: {
+    "start": $.now(),
+    "last": $.now()
+    },
+    box: 0
+};
+/* end of global variables */
+
 
 function download_init_map () {
     map = new OpenLayers.Map("map", {
@@ -144,14 +158,6 @@ function rectangle2polygon(sw_lng, sw_lat, ne_lng, ne_lat) {
 
     return p;
 }
-
-
-// write to JS console or debug tag
-// keep time state for debugging
-state.debug_time = {
-    "start": $.now(),
-    "last": $.now()
-};
 
 function debug(text, id) {
     if (typeof console === "undefined" || typeof console.log === "undefined") { /* ARGH!!! old IE */
