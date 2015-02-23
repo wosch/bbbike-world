@@ -515,6 +515,8 @@ sub result {
           . ( scalar(@coords) ? "polygon" : "rectangle" )
           . qq{" href="}
           . escapeHTML( $download->{"script_url"} )
+          . qq{" class_format="}
+          . class_format( $download->{"format"} )
           . qq{">map</a>};
         print "</td>\n";
 

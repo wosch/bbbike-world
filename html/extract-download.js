@@ -85,6 +85,7 @@ function parse_areas_from_links() {
         var url = $(n).attr("href");
         var obj = get_download_area(url);
 
+        obj.class_format = $(n).attr("class_format"); // polygon color by format
         // plot all polygons first
         download_plot_polygon(obj);
 
