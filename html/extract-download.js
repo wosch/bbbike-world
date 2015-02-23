@@ -86,7 +86,7 @@ function parse_areas_from_links() {
             var url = $(n).attr("href");
             var obj = get_download_area(url);
 
-            $("#debug").html(obj.format);
+            $("#debug").text("selected area: " + obj.city + ", format: " + obj.format); // no escape for .text() neeeded
             download_plot_polygon(obj);
         });
     });
