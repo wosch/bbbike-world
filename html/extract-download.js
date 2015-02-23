@@ -82,12 +82,15 @@ function get_download_area(url) {
 
 function parse_areas_from_links() {
     $("td > a.polygon0, td > a.polygon1").each(function (i, n) {
-        $(n).on("mouseover", "", function () {
-            var url = $(n).attr("href");
-            var obj = get_download_area(url);
+        var url = $(n).attr("href");
+        var obj = get_download_area(url);
 
-            $("#debug").text("selected area: " + obj.city + ", format: " + obj.format); // no escape for .text() neeeded
-            download_plot_polygon(obj);
+        // plot all polygons first
+        download_plot_polygon(obj);
+
+        // on mouseover, move to the polygon and center
+        $(n).on("mouseover", "", function () {
+            download_center_polygon(obj);
         });
     });
 }
@@ -95,7 +98,6 @@ function parse_areas_from_links() {
 function download_plot_polygon(obj) {
     debug("download plot polygon");
 
-    center_city(obj.sw_lng, obj.sw_lat, obj.ne_lng, obj.ne_lat);
     var polygon = obj.coords ? string2coords(obj.coords) : rectangle2polygon(obj.sw_lng, obj.sw_lat, obj.ne_lng, obj.ne_lat);
 
     var feature = plot_polygon(polygon);
@@ -136,6 +138,11 @@ function center_city(sw_lng, sw_lat, ne_lng, ne_lat) {
     if (zoom > config.minZoomLevel) {
         map.zoomTo(config.minZoomLevel);
     }
+}
+
+function download_center_polygon(obj) {
+    $("#debug").text("selected area: " + obj.city + ", format: " + obj.format); // no escape for .text() neeeded
+    center_city(obj.sw_lng, obj.sw_lat, obj.ne_lng, obj.ne_lat);
 }
 
 /* create a polygon based on a points list, which can be added to a vector */
