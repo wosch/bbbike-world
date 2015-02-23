@@ -19,8 +19,8 @@ var config = {
 
 var state = {
     debug_time: {
-    "start": $.now(),
-    "last": $.now()
+        "start": $.now(),
+        "last": $.now()
     },
     box: 0
 };
