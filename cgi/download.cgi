@@ -282,7 +282,7 @@ sub footer {
     my $date = $args{'date'};
 
     return <<EOF;
-
+    
 <p align="center"><a href="/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></p>
 
 <div id="bottom">
@@ -610,12 +610,16 @@ sub download {
     print qq{\n\n<span id="debug">debug</span>\n};
 
     my $current_date = time2str(time);
-    print <<EOF;
 
-<p align="right"><a href="/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></p>
-<p>
-Newest extracts are first. Last update: $current_date<br/>
-</p>
+    print <<EOF;
+    
+<table id="donate">
+  <tr>
+    <td>Newest extracts are first. Last update: $current_date</td>
+    <td><a href="/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></td>
+  </tr>
+</table>
+
 EOF
 
     print <<EOF;
