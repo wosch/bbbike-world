@@ -10,6 +10,7 @@
 var map;
 
 var config = {
+    minZoomLevel: 9,
     debug: 1
 };
 
@@ -31,7 +32,7 @@ function download_init_map() {
         }), new OpenLayers.Control.MousePosition(), new OpenLayers.Control.Attribution(), new OpenLayers.Control.LayerSwitcher()],
         maxExtent: new OpenLayers.Bounds(-20037508.34, -20037508.34, 20037508.34, 20037508.34),
         maxResolution: 156543.0339,
-        numZoomLevels: 16,
+        numZoomLevels: 17,
         units: 'm',
         projection: new OpenLayers.Projection("EPSG:900913"),
         displayProjection: new OpenLayers.Projection("EPSG:4326")
@@ -130,6 +131,11 @@ function center_city(sw_lng, sw_lat, ne_lng, ne_lat) {
 
     bounds.transform(epsg4326, map.getProjectionObject());
     map.zoomToExtent(bounds);
+
+    var zoom = map.getZoom();
+    if (zoom > config.minZoomLevel) {
+        map.zoomTo(config.minZoomLevel);
+    }
 }
 
 /* create a polygon based on a points list, which can be added to a vector */
