@@ -4,7 +4,14 @@
 
 // HTML5: may not work on Android devices!
 //"use strict"
-var map; // global map object
+// Initialise the 'map' object
+var map;
+
+// polygon & rectangle variables
+var vectors;
+
+var config = { debug: 1 };
+var state = { box: 0, debug_time: {} };
 
 function download_init_map () {
     map = new OpenLayers.Map("map", {
@@ -28,12 +35,18 @@ function download_init_map () {
     }));
     
     map.zoomToMaxExtent();
+    
+    // main vector
+    vectors = new OpenLayers.Layer.Vector("Vector Layer", {
+        displayInLayerSwitcher: false
+    });
 }
 
 function get_download_area(url) {
     var params = OpenLayers.Util.getParameters(url);
 
-    return {
+    // put the extracted parameters into an object
+    var obj = {
         sw_lng: params.sw_lng,
         sw_lat: params.sw_lat,
         ne_lng: params.ne_lng,
@@ -41,9 +54,12 @@ function get_download_area(url) {
         coords: params.coords,
         city: params.city,
         format: params.format
-    }
+    };
+    
+    return obj;
 }
 
+/* extract coordinates from links on the fly after page load */
 function parse_areas_from_links() {
     var params = OpenLayers.Util.getParameters(this.base);
 
@@ -51,17 +67,18 @@ function parse_areas_from_links() {
         $(n).on("mouseover", "", function() {
             var url = $(n).attr("href");
             var obj = get_download_area(url);
+            
             $("#debug").html(obj.format);
+            download_plot_polygon(obj);
         });
     });
 }
 
 function download_plot_polygon(obj) {
-    debug("plot polygon");
+    debug("download plot polygon");
 
     center_city(obj.sw_lng, obj.sw_lat, obj.ne_lng, obj.ne_lat);
-
-    var polygon = coords ? string2coords(coords) : rectangle2polygon(obj.sw_lng, obj.sw_lat, obj.ne_lng, obj.ne_lat);
+    var polygon = obj.coords ? string2coords(obj.coords) : rectangle2polygon(obj.sw_lng, obj.sw_lat, obj.ne_lng, obj.ne_lat);
 
     var feature = plot_polygon(polygon);
     vectors.addFeatures(feature);
@@ -72,8 +89,11 @@ function download_plot_polygon(obj) {
  * keep in sync!
  */
 function string2coords(coords) {
+    debug("string2coords: " + coords);
+    
     var list = [];
     if (!coords) return list;
+    
     var _list = coords.split("|");
     for (var i = 0; i < _list.length; i++) {
         var pos = _list[i].split(",");
@@ -110,6 +130,29 @@ function plot_polygon(poly) {
 
     return polygonFeature;
 }
+
+/*
+  create a 5 point polygon based on 2 rectangle points
+*/
+function rectangle2polygon(sw_lng, sw_lat, ne_lng, ne_lat) {
+    var p = [];
+
+    p.push([sw_lng, sw_lat]);
+    p.push([ne_lng, sw_lat]);
+    p.push([ne_lng, ne_lat]);
+    p.push([sw_lng, ne_lat]);
+    p.push([sw_lng, sw_lat]);
+
+    return p;
+}
+
+
+// write to JS console or debug tag
+// keep time state for debugging
+state.debug_time = {
+    "start": $.now(),
+    "last": $.now()
+};
 
 function debug(text, id) {
     if (typeof console === "undefined" || typeof console.log === "undefined") { /* ARGH!!! old IE */
