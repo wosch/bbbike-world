@@ -43,7 +43,7 @@ function download_init_map () {
 }
 
 function get_download_area(url) {
-    var params = OpenLayers.Util.getParameters(url);
+    var params = OpenLayers.Util.getParameters(url, { "splitArgs": false });
 
     // put the extracted parameters into an object
     var obj = {
@@ -52,8 +52,8 @@ function get_download_area(url) {
         ne_lng: params.ne_lng,
         ne_lat: params.ne_lat,
         coords: params.coords,
-        city: params.city,
-        format: params.format
+        format: params.format,
+        city: params.city
     };
     
     return obj;
@@ -61,8 +61,6 @@ function get_download_area(url) {
 
 /* extract coordinates from links on the fly after page load */
 function parse_areas_from_links() {
-    var params = OpenLayers.Util.getParameters(this.base);
-
     $("td > a.polygon0, td > a.polygon1").each(function(i, n) {
         $(n).on("mouseover", "", function() {
             var url = $(n).attr("href");
@@ -90,11 +88,12 @@ function download_plot_polygon(obj) {
  */
 function string2coords(coords) {
     debug("string2coords: " + coords);
+    state.coords = coords;
     
     var list = [];
     if (!coords) return list;
     
-    var _list = coords.split("|");
+    var _list = coords.split('|');
     for (var i = 0; i < _list.length; i++) {
         var pos = _list[i].split(",");
         list.push(pos);
