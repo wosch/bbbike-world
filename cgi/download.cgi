@@ -44,6 +44,8 @@ our $option = {
     'max_city_length' => 38,
 
     'show_heading' => 0,
+
+    'enable_google_analytics' => 1,
 };
 
 our $formats = {
@@ -277,9 +279,38 @@ sub running_extract_areas {
     return reverse sort { $a->{"time"} <=> $b->{"time"} } @area;
 }
 
+sub google_analytics {
+    my $q = shift;
+
+    my $url = $q->url( -base => 1 );
+
+    return "" if !$option->{"enable_google_analytics"};
+    if ( $url !~ m,^http://(www|extract|dev|download)[1-4]?\., ) {
+        return "";    # devel installation
+    }
+
+    return <<EOF;
+<script type="text/javascript">
+//<![CDATA[
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+  //]]>
+  </script><script type="text/javascript">
+//<![CDATA[
+  try {
+  var pageTracker = _gat._getTracker("UA-286675-19");
+  pageTracker._trackPageview();
+  } catch(err) {}
+  //]]>
+  </script>
+EOF
+}
+
 sub footer {
     my %args = @_;
     my $date = $args{'date'};
+
+    my $analytics = &google_analytics($q);
 
     return <<EOF;
     
@@ -675,7 +706,10 @@ EOF
     print qq{  </div> <!-- border -->\n};
     print qq{</div> <!-- all -->\n};
 
+    # load javascript code late
     print &load_javascript_libs;
+    print &google_analytics($q);
+
     print $q->end_html;
 }
 
