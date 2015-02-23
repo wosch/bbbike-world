@@ -285,12 +285,13 @@ sub google_analytics {
     my $url = $q->url( -base => 1 );
 
     return "" if !$option->{"enable_google_analytics"};
-    if ( $url !~ m,^http://(www|extract|dev|download)[1-4]?\., ) {
+    if ( $url !~ m,^http://(www|extract|download)[1-4]?\., ) {
         return "";    # devel installation
     }
 
     return <<EOF;
     
+
 <script type="text/javascript">
 //<![CDATA[
   var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
