@@ -42,6 +42,8 @@ our $option = {
 
     # cut to long city names
     'max_city_length' => 38,
+
+    'show_heading' => 0,
 };
 
 our $formats = {
@@ -601,7 +603,8 @@ sub download {
     print qq{<div id="intro">\n};
     print $q->h2( qq{<a href="}
           . $q->url( -relative => 1 )
-          . qq{">Extracts ready to download</a>} );
+          . qq{">Extracts ready to download</a>} )
+      if $option->{'show_heading'};
 
     print qq{<div id="map" style="height:250px"></div>\n\n};
     print qq{\n\n<span id="debug">debug</span>\n};
