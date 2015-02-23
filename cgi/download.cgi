@@ -526,7 +526,7 @@ sub download_header {
     print $q->header( -charset => 'utf-8', -expires => '+0s' );
 
     print $q->start_html(
-        -title => 'BBBike extracts ready to download',
+        -title => 'Extracts ready to download | BBBike.org',
         -head  => [
             $q->meta(
                 {
