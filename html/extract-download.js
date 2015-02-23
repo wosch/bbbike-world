@@ -88,16 +88,16 @@ function download_plot_polygon(obj) {
  */
 function string2coords(coords) {
     debug("string2coords: " + coords);
-    state.coords = coords;
     
     var list = [];
     if (!coords) return list;
     
-    var _list = coords.split('|');
+    var _list = coords.split("|");
     for (var i = 0; i < _list.length; i++) {
         var pos = _list[i].split(",");
         list.push(pos);
     }
+    
     return list;
 }
 
