@@ -527,6 +527,7 @@ sub google_analytics {
     }
 
     return <<EOF;
+
 <script type="text/javascript">
 //<![CDATA[
   var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
@@ -539,7 +540,8 @@ sub google_analytics {
   pageTracker._trackPageview();
   } catch(err) {}
   //]]>
-  </script>
+</script>
+
 EOF
 }
 
