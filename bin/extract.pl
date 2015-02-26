@@ -121,9 +121,11 @@ our $option = {
 
     'pbf2pbf_postprocess' => 1,
 
-    'bots'             => [qw/curl Wget/],
-    'bots_detecation'  => 1,
-    'bots_max_loadavg' => 3,
+    'bots' => {
+        'names'       => [qw/curl Wget/],
+        'detecation'  => 1,
+        'max_loadavg' => 3,
+    },
 
     'pbf2osm' => {
         'garmin_version'    => 'mkgmap-3334',
@@ -357,8 +359,8 @@ sub parse_jobs {
 "detect bot for area '$city', user agent: '@{[ $obj->{'user_agent'} ]}'\n"
                       if $debug;
 
-                    if (   $option->{'bots_detecation'}
-                        && $loadavg >= $option->{'bots_max_loadavg'} )
+                    if (   $option->{'bots'}{'detecation'}
+                        && $loadavg >= $option->{'bots'}{'max_loadavg'} )
                     {
                         warn
 "ignore bot request for area '$city' due high load average: $loadavg\n"
@@ -446,7 +448,7 @@ sub parse_jobs_planet {
 sub is_bot {
     my $obj = shift;
 
-    my @bots       = @{ $option->{'bots'} };
+    my @bots       = @{ $option->{'bots'}{'names'} };
     my $user_agent = $obj->{'user_agent'};
 
     # legacy config jobs
