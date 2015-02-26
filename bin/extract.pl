@@ -93,8 +93,8 @@ our $option = {
     'file_prefix' => 'planet_',
 
     # reset max_jobs if load is to high
-    'max_loadavg'      => 10,
-    'max_loadavg_jobs' => 2,    # 0: stop running at all
+    'max_loadavg'      => 9,
+    'max_loadavg_jobs' => 3,    # 0: stop running at all
 
     # 4196 polygones is enough for the queue
     'max_coords' => 4 * 1024,
