@@ -338,6 +338,8 @@ sub footer {
 
 </div> <!-- footer -->
 </div> <!-- bottom -->
+
+</div> <!-- nomap -->
 EOF
 }
 
@@ -642,6 +644,7 @@ sub download {
 
     print qq{<div id="map" style="height:320px"></div>\n\n};
     print qq{\n\n<span id="debug"></span>\n};
+    print qq{<div id="nomap">\n};
 
     my $current_date = time2str(time);
 
