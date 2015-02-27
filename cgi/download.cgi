@@ -325,20 +325,20 @@ sub footer {
 </p>
 
 <div id="footer">
-<div id="footer_top">
-<a href="@{[ $option->{'script_homepage'} ]}">home</a> |
-<a href="/extract.html">help</a> |
-<a href="/community.html">donate</a>
-<hr/>
-</div> <!-- footer_top -->
+  <div id="footer_top">
+    <a href="@{[ $option->{'script_homepage'} ]}">home</a> |
+    <a href="/extract.html">help</a> |
+    <a href="/community.html">donate</a>
+    <hr/>
+  </div> <!-- footer_top -->
 
-<div id="copyright">
-(&copy;) 2008-2015 <a href="http://bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="http://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
-</div> <!-- copyright -->
+  <div id="copyright">
+    (&copy;) 2008-2015 <a href="http://bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="http://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
+  </div> <!-- copyright -->
 
 </div> <!-- footer -->
-</div> <!-- bottom -->
 
+</div> <!-- bottom -->
 </div> <!-- nomap -->
 EOF
 }
