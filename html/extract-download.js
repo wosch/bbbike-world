@@ -1,6 +1,6 @@
 /*
- Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
-*/
+ * Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
+ */
 
 /* global variables */
 
@@ -53,7 +53,14 @@ function download_init_map() {
 function download_init_vectors(map) {
     // main vector
     state.vectors = new OpenLayers.Layer.Vector("Vector Layer", {
-        displayInLayerSwitcher: false
+        displayInLayerSwitcher: false,
+
+        styleMap: new OpenLayers.StyleMap({
+            fillOpacity: 0.5,
+            fillColor: "${type}",
+            // based on feature.attributes.type
+            strokeColor: "${type}" // based on feature.attributes.type
+        })
     });
 
     map.addLayer(state.vectors);
@@ -107,10 +114,11 @@ function download_plot_polygon(obj) {
     // color = "#000";
     debug("color: " + color);
 
-    OpenLayers.Feature.Vector.style['default']['fillColor'] = color;
-    OpenLayers.Feature.Vector.style['default']['strokeColor'] = color;
-
-    var feature = plot_polygon(polygon);
+    // OpenLayers.Feature.Vector.style['default']['fillColor'] = color;
+    // OpenLayers.Feature.Vector.style['default']['strokeColor'] = color;
+    var feature = plot_polygon(polygon, {
+        type: color
+    });
     state.vectors.addFeatures(feature);
 }
 
@@ -157,7 +165,7 @@ function download_center_polygon(obj) {
 
 /* create a polygon based on a points list, which can be added to a vector */
 
-function plot_polygon(poly) {
+function plot_polygon(poly, styleObj) {
     debug("plot polygon, length: " + poly.length);
 
     var epsg4326 = new OpenLayers.Projection("EPSG:4326");
@@ -169,7 +177,7 @@ function plot_polygon(poly) {
     }
 
     var linear_ring = new OpenLayers.Geometry.LinearRing(points);
-    var polygonFeature = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Polygon(linear_ring));
+    var polygonFeature = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Polygon(linear_ring), styleObj);
 
     return polygonFeature;
 }

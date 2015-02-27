@@ -640,7 +640,7 @@ sub download {
           . qq{">Extracts ready to download</a>} )
       if $option->{'show_heading'};
 
-    print qq{<div id="map" style="height:250px"></div>\n\n};
+    print qq{<div id="map" style="height:320px"></div>\n\n};
     print qq{\n\n<span id="debug"></span>\n};
 
     my $current_date = time2str(time);
