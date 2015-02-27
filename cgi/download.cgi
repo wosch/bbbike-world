@@ -42,6 +42,10 @@ our $option = {
 
     # cut to long city names
     'max_city_length' => 38,
+
+    'show_heading' => 0,
+
+    'enable_google_analytics' => 1,
 };
 
 our $formats = {
@@ -275,12 +279,44 @@ sub running_extract_areas {
     return reverse sort { $a->{"time"} <=> $b->{"time"} } @area;
 }
 
+sub google_analytics {
+    my $q = shift;
+
+    my $url = $q->url( -base => 1 );
+
+    return "" if !$option->{"enable_google_analytics"};
+    if ( $url !~ m,^http://(www|extract|download)[1-4]?\., ) {
+        return "";    # devel installation
+    }
+
+    return <<EOF;
+    
+
+<script type="text/javascript">
+//<![CDATA[
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+  //]]>
+  </script><script type="text/javascript">
+//<![CDATA[
+  try {
+  var pageTracker = _gat._getTracker("UA-286675-19");
+  pageTracker._trackPageview();
+  } catch(err) {}
+  //]]>
+</script>
+  
+EOF
+}
+
 sub footer {
     my %args = @_;
     my $date = $args{'date'};
 
-    return <<EOF;
+    my $analytics = &google_analytics($q);
 
+    return <<EOF;
+    
 <p align="center"><a href="/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></p>
 
 <div id="bottom">
@@ -289,20 +325,36 @@ sub footer {
 </p>
 
 <div id="footer">
-<div id="footer_top">
-<a href="@{[ $option->{'script_homepage'} ]}">home</a> |
-<a href="/extract.html">help</a> |
-<a href="/community.html">donate</a>
-<hr/>
-</div> <!-- footer_top -->
+  <div id="footer_top">
+    <a href="@{[ $option->{'script_homepage'} ]}">home</a> |
+    <a href="/extract.html">help</a> |
+    <a href="/community.html">donate</a>
+    <hr/>
+  </div> <!-- footer_top -->
 
-<div id="copyright">
-(&copy;) 2008-2015 <a href="http://bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="http://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
-</div> <!-- copyright -->
+  <div id="copyright">
+    (&copy;) 2008-2015 <a href="http://bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="http://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
+  </div> <!-- copyright -->
 
 </div> <!-- footer -->
+
 </div> <!-- bottom -->
+</div> <!-- nomap -->
 EOF
+}
+
+sub load_javascript_libs {
+    my @js = qw(
+      OpenLayers/2.12/OpenLayers-min.js
+      OpenLayers/2.12/OpenStreetMap.js
+      jquery/jquery-1.8.3.min.js
+      extract-download.js
+    );
+
+    my $javascript = join "\n",
+      map { qq{<script src="/html/$_" type="text/javascript"></script>} } @js;
+
+    return $javascript;
 }
 
 sub css_map {
@@ -487,8 +539,12 @@ sub table_head {
     if ( $type eq 'download' && $sort_by ne $sort_by_param ) {
         $q->param( "sort_by", $sort_by );
         print $q->a(
-            { href => $q->url( -query => 1 ), title => "Sort by $name" },
-            $name );
+            {
+                href  => $q->url( -query => 1, -relative => 1 ),
+                title => "Sort by $name"
+            },
+            $name
+        );
     }
     else {
         print $name;
@@ -506,7 +562,7 @@ sub download_header {
     print $q->header( -charset => 'utf-8', -expires => '+0s' );
 
     print $q->start_html(
-        -title => 'BBBike extract livesearch',
+        -title => 'Extracts ready to download | BBBike.org',
         -head  => [
             $q->meta(
                 {
@@ -544,14 +600,18 @@ sub filter_date {
 
     my $filter_date = $args{'filter_date'};
 
-    my $q    = new CGI;
-    my $data = "";
+    my $q              = new CGI;
+    my $data           = "";
+    my $current_filter = $q->param("date") || "";
 
     foreach my $filter (@$filter_date) {
         $q->param( "date", $filter );
         $data .= " |\n" if $data;
         $data .=
-          $q->a( { href => $q->url( -query => 1, -absolute => 0 ) }, $filter );
+            $filter eq $current_filter
+          ? $filter
+          : $q->a( { href => $q->url( -query => 1, -relative => 1 ) },
+            $filter );
     }
 
     print "Limit to date: $data\n\n";
@@ -577,16 +637,26 @@ sub download {
     }
 
     print qq{<div id="intro">\n};
-    print $q->h2(
-        qq{<a href="} . $q->url() . qq{">Extracts ready to download</a>} );
+    print $q->h2( qq{<a href="}
+          . $q->url( -relative => 1 )
+          . qq{">Extracts ready to download</a>} )
+      if $option->{'show_heading'};
+
+    print qq{<div id="map" style="height:320px"></div>\n\n};
+    print qq{\n\n<span id="debug"></span>\n};
+    print qq{<div id="nomap">\n};
 
     my $current_date = time2str(time);
-    print <<EOF;
 
-<p align="right"><a href="/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></p>
-<p>
-Newest extracts are first. Last update: $current_date<br/>
-</p>
+    print <<EOF;
+    
+<table id="donate">
+  <tr>
+    <td>Newest extracts are first. Last update: $current_date</td>
+    <td><a href="/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></td>
+  </tr>
+</table>
+
 EOF
 
     print <<EOF;
@@ -641,6 +711,10 @@ EOF
     print qq{    </div> <!-- main -->\n};
     print qq{  </div> <!-- border -->\n};
     print qq{</div> <!-- all -->\n};
+
+    # load javascript code late
+    print &load_javascript_libs;
+    print &google_analytics($q);
 
     print $q->end_html;
 }

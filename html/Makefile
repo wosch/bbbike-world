@@ -7,6 +7,7 @@ JSMIN:=        $(shell which jsmin cat | head -1)
 BBBIKE_WORLD_JAVASCRIPT_FILES=\
 	bbbike.js \
 	extract.js \
+	extract-download.js \
 	maps3.js
 
 JAVASCRIPT_FILES= ${BBBIKE_WORLD_JAVASCRIPT_FILES}

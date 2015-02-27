@@ -93,8 +93,8 @@ our $option = {
     'file_prefix' => 'planet_',
 
     # reset max_jobs if load is to high
-    'max_loadavg'      => 10,
-    'max_loadavg_jobs' => 2,    # 0: stop running at all
+    'max_loadavg'      => 9,
+    'max_loadavg_jobs' => 3,    # 0: stop running at all
 
     # 4196 polygones is enough for the queue
     'max_coords' => 4 * 1024,
@@ -121,9 +121,14 @@ our $option = {
 
     'pbf2pbf_postprocess' => 1,
 
-    'bots'             => [qw/curl Wget/],
-    'bots_detecation'  => 1,
-    'bots_max_loadavg' => 3,
+    'bots' => {
+        'names'       => [qw/curl Wget/],
+        'detecation'  => 1,              # 0, 1
+        'max_loadavg' => 3,              # 3 .. 6
+                                         # 1: only one bot queue (soft blocking)
+                                         # 2: ignore bots (hard blocking)
+        'scheduler'   => 1,
+    },
 
     'pbf2osm' => {
         'garmin_version'    => 'mkgmap-3334',
@@ -315,9 +320,10 @@ sub large_int {
 sub parse_jobs {
     my %args = @_;
 
-    my $dir   = $args{'dir'};
-    my $files = $args{'files'};
-    my $max   = $args{'max'};
+    my $dir        = $args{'dir'};
+    my $files      = $args{'files'};
+    my $max        = $args{'max'};
+    my $job_number = $args{'job_number'};
 
     my ( $hash, $default_planet_osm, $counter ) = parse_jobs_planet(%args);
 
@@ -357,13 +363,26 @@ sub parse_jobs {
 "detect bot for area '$city', user agent: '@{[ $obj->{'user_agent'} ]}'\n"
                       if $debug;
 
-                    if (   $option->{'bots_detecation'}
-                        && $loadavg >= $option->{'bots_max_loadavg'} )
+                    if (   $option->{'bots'}{'detecation'}
+                        && $loadavg >= $option->{'bots'}{'max_loadavg'} )
                     {
-                        warn
+
+                        # soft bot handle
+                        if (   $option->{'bots'}{'scheduler'} == 1
+                            && $job_number == 1 )
+                        {
+                            warn
+"accepts bot request for area '$city' for first job queue: $loadavg\n"
+                              if $debug;
+                        }
+
+                        # hard ignore
+                        else {
+                            warn
 "ignore bot request for area '$city' due high load average: $loadavg\n"
-                          if $debug;
-                        next;
+                              if $debug;
+                            next;
+                        }
                     }
                 }
 
@@ -446,7 +465,7 @@ sub parse_jobs_planet {
 sub is_bot {
     my $obj = shift;
 
-    my @bots       = @{ $option->{'bots'} };
+    my @bots       = @{ $option->{'bots'}{'names'} };
     my $user_agent = $obj->{'user_agent'};
 
     # legacy config jobs
@@ -1729,7 +1748,8 @@ sub run_jobs {
     );
 
     # find a free job
-    foreach my $number ( 1 .. $max_jobs ) {
+    my $number;
+    foreach $number ( 1 .. $max_jobs ) {
         my $file = $spool->{'running'} . "/job${number}.pid";
 
         # lock pid
@@ -1751,9 +1771,10 @@ sub run_jobs {
     warn "Use lockfile $lockfile\n" if $debug;
 
     my ( $list, $planet_osm ) = parse_jobs(
-        'files' => \@files,
-        'dir'   => $spool->{'confirmed'},
-        'max'   => $max_areas,
+        'files'      => \@files,
+        'dir'        => $spool->{'confirmed'},
+        'max'        => $max_areas,
+        'job_number' => $number,
     );
     my @list = @$list;
 

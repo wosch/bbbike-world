@@ -223,14 +223,14 @@ sub header {
 
     my @onload;
     my @cookie;
-    my @css     = "../html/extract.css";
+    my @css     = "/html/extract.css";
     my @expires = ();
 
     if ( $type eq 'homepage' ) {
         @onload = ( -onLoad, 'init();' );
     }
     else {
-        push @css, "../html/extract-center.css";
+        push @css, "/html/extract-center.css";
     }
 
     # store last used selected in cookies for further usage
@@ -306,7 +306,7 @@ sub header {
     return $data;
 }
 
-# see ../html/extract.js
+# see /html/extract.js
 sub map {
 
     return <<EOF;
@@ -394,7 +394,7 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
           . qq{<a href="$community_link#donate"><img class="logo" height="47" width="126" src="/images/btn_donateCC_LG.gif" alt="donate"/></a></p>};
     }
 
-    my $home = $q->url( -query => 0, -relative => 0 );
+    my $home = $q->url( -query => 0, -relative => 1 );
 
     return <<EOF;
   $donate
@@ -436,7 +436,7 @@ sub footer {
     );
 
     my $javascript = join "\n",
-      map { qq{<script src="../html/$_" type="text/javascript"></script>} } @js;
+      map { qq{<script src="/html/$_" type="text/javascript"></script>} } @js;
 
     $javascript .=
 qq{\n<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3.9&amp;sensor=false&amp;language=en&amp;libraries=weather,panoramio"></script>}
@@ -452,7 +452,7 @@ qq{\n<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?
     by <a href="http://wolfram.schneider.org">Wolfram Schneider</a><br/>
     Map data (&copy;) <a href="http://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
   <div id="footer_community"></div>
-  </div>
+  </div> <!-- copyright -->
 </div>
 
 </div></div></div> <!-- layout -->
@@ -462,6 +462,11 @@ $analytics
 <script type="text/javascript">
   jQuery('#pageload-indicator').hide();
 </script>
+
+  <!-- pre-load some images for slow mobile networks -->
+  <div id="slow-network" style="display:none">
+    <img src="/html/close.png"/>
+  </dvi>
 
 <!-- bbbike_extract_status: $error -->
 </body>
@@ -496,7 +501,10 @@ sub language_links {
               ? $qq->delete("lang")
               : $qq->param( "lang", $l );
 
-            $data .= qq{<a href="} . $qq->url( -query => 1 ) . qq{">$l</a>\n};
+            $data .=
+                qq{<a href="}
+              . $qq->url( -query => 1, -relative => 1 )
+              . qq{">$l</a>\n};
         }
         else {
             $data .= qq{<span id="active_language">$l</span>\n};
@@ -514,11 +522,12 @@ sub google_analytics {
     my $url = $q->url( -base => 1 );
 
     return "" if !$option->{"enable_google_analytics"};
-    if ( $url !~ m,^http://(www|extract)[1-4]?\., ) {
+    if ( $url !~ m,^http://(www|extract|download)[1-4]?\., ) {
         return "";    # devel installation
     }
 
     return <<EOF;
+
 <script type="text/javascript">
 //<![CDATA[
   var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
@@ -531,7 +540,8 @@ sub google_analytics {
   pageTracker._trackPageview();
   } catch(err) {}
   //]]>
-  </script>
+</script>
+
 EOF
 }
 
