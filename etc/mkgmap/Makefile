@@ -18,15 +18,15 @@ legend-dir:
 	mkdir -p ${TYPE2LEGEND_DIR}
 
 legend-bbbike: legend-dir
-	${TYPE2LEGEND} -o ${TYPE2LEGEND_DIR}/bbbike ../../../misc/mkgmap/typ/M000002a.TXT
+	test -e ${TYPE2LEGEND_DIR}/bbbike || ${TYPE2LEGEND} -o ${TYPE2LEGEND_DIR}/bbbike ../../../misc/mkgmap/typ/M000002a.TXT
 
 legend-cyclemap: legend-dir
-	${TYPE2LEGEND} -o ${TYPE2LEGEND_DIR}/cyclemap cyclemap.TXT 
+	test -e ${TYPE2LEGEND_DIR}/cyclemap || ${TYPE2LEGEND} -o ${TYPE2LEGEND_DIR}/cyclemap cyclemap.TXT 
 
 legend-leisure: legend-dir
-	${TYPE2LEGEND} -o ${TYPE2LEGEND_DIR}/leisure freizeit.TXT
+	test -e ${TYPE2LEGEND_DIR}/leisure || ${TYPE2LEGEND} -o ${TYPE2LEGEND_DIR}/leisure freizeit.TXT
 
-legend: clean legend-bbbike legend-cyclemap legend-leisure legend-index
+legend: legend-bbbike legend-cyclemap legend-leisure legend-index
 
 legend-index:
 	ls ${TYPE2LEGEND_DIR} | egrep -v index.html | \

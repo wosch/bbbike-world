@@ -19,6 +19,7 @@ var state = {
         "start": $.now(),
         "last": $.now()
     },
+    epsg4326: new OpenLayers.Projection("EPSG:4326"),
     vectors: {},
     // polygon 
     box: 0
@@ -27,15 +28,23 @@ var state = {
 
 function download_init_map() {
     map = new OpenLayers.Map("map", {
-        controls: [new OpenLayers.Control.Navigation(), new OpenLayers.Control.PanZoom, new OpenLayers.Control.ScaleLine({
+        controls: [
+        new OpenLayers.Control.Navigation(), //
+        new OpenLayers.Control.PanZoom, //
+        new OpenLayers.Control.ScaleLine({
             geodesic: true
-        }), new OpenLayers.Control.MousePosition(), new OpenLayers.Control.Attribution(), new OpenLayers.Control.LayerSwitcher()],
+        }), // 
+        new OpenLayers.Control.MousePosition(), //
+        new OpenLayers.Control.Attribution(), //
+        new OpenLayers.Control.LayerSwitcher(), //
+        new OpenLayers.Control.KeyboardDefaults({}) //
+        ],
         maxExtent: new OpenLayers.Bounds(-20037508.34, -20037508.34, 20037508.34, 20037508.34),
         maxResolution: 156543.0339,
         numZoomLevels: 17,
         units: 'm',
         projection: new OpenLayers.Projection("EPSG:900913"),
-        displayProjection: new OpenLayers.Projection("EPSG:4326")
+        displayProjection: state.epsg4326
     });
 
     map.addLayer(new OpenLayers.Layer.OSM.Mapnik("OSM Mapnik", {
@@ -46,8 +55,14 @@ function download_init_map() {
         attribution: '<a href="http://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="http://www.opencyclemap.org/">(&copy) OpenCycleMap</a>'
     }));
 
-    map.zoomToMaxExtent();
     download_init_vectors(map);
+
+    // most extracts are in the northern hemisphere,
+    // set center to Central Europe
+    var center = new OpenLayers.LonLat(15, 25).transform(state.epsg4326, map.getProjectionObject());
+    map.setCenter(center, 2);
+
+    //map.zoomToMaxExtent();
 }
 
 function download_init_vectors(map) {
@@ -95,7 +110,7 @@ function parse_areas_from_links() {
         // get class format from the <td> before
         obj.class_format = $($(n).parent().parent().find("td > span")[1]).attr("class");
 
-        // plot all polygons first
+        // display *all* polygons first, looks nicer
         download_plot_polygon(obj);
 
         // on mouseover, move to the polygon and center
@@ -109,13 +124,9 @@ function download_plot_polygon(obj) {
     debug("download plot polygon");
 
     var polygon = obj.coords ? string2coords(obj.coords) : rectangle2polygon(obj.sw_lng, obj.sw_lat, obj.ne_lng, obj.ne_lat);
-
     var color = $("span." + obj.class_format).css("color");
-    // color = "#000";
-    debug("color: " + color);
+    debug("class_format: " + obj.class_format + " color: " + color);
 
-    // OpenLayers.Feature.Vector.style['default']['fillColor'] = color;
-    // OpenLayers.Feature.Vector.style['default']['strokeColor'] = color;
     var feature = plot_polygon(polygon, {
         type: color
     });
@@ -146,10 +157,9 @@ function string2coords(coords) {
 function center_city(sw_lng, sw_lat, ne_lng, ne_lat) {
     debug("center city: " + sw_lng + "," + sw_lat + " " + ne_lng + "," + ne_lat);
 
-    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
     var bounds = new OpenLayers.Bounds(sw_lng, sw_lat, ne_lng, ne_lat);
 
-    bounds.transform(epsg4326, map.getProjectionObject());
+    bounds.transform(state.epsg4326, map.getProjectionObject());
     map.zoomToExtent(bounds);
 
     var zoom = map.getZoom();
@@ -168,11 +178,10 @@ function download_center_polygon(obj) {
 function plot_polygon(poly, styleObj) {
     debug("plot polygon, length: " + poly.length);
 
-    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
     var points = [];
     for (var i = 0; i < poly.length; i++) {
         var point = new OpenLayers.Geometry.Point(poly[i][0], poly[i][1]);
-        point.transform(epsg4326, map.getProjectionObject());
+        point.transform(state.epsg4326, map.getProjectionObject());
         points.push(point);
     }
 
