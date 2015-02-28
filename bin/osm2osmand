@@ -57,6 +57,7 @@ esac
 : ${java_heap_splitter=$java_heap}
 : ${splitter_max_nodes=1000000}
 : ${splitter_max_areas=512}
+splitter_resolution=13
 
 java_opt=-Xmx${java_heap}
 java_splitter_opt=-Xmx${java_heap_splitter}    
