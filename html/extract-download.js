@@ -149,10 +149,9 @@ function string2coords(coords) {
 function center_city(sw_lng, sw_lat, ne_lng, ne_lat) {
     debug("center city: " + sw_lng + "," + sw_lat + " " + ne_lng + "," + ne_lat);
 
-    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
     var bounds = new OpenLayers.Bounds(sw_lng, sw_lat, ne_lng, ne_lat);
 
-    bounds.transform(epsg4326, map.getProjectionObject());
+    bounds.transform(state.epsg4326, map.getProjectionObject());
     map.zoomToExtent(bounds);
 
     var zoom = map.getZoom();
@@ -171,11 +170,10 @@ function download_center_polygon(obj) {
 function plot_polygon(poly, styleObj) {
     debug("plot polygon, length: " + poly.length);
 
-    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
     var points = [];
     for (var i = 0; i < poly.length; i++) {
         var point = new OpenLayers.Geometry.Point(poly[i][0], poly[i][1]);
-        point.transform(epsg4326, map.getProjectionObject());
+        point.transform(state.epsg4326, map.getProjectionObject());
         points.push(point);
     }
 
