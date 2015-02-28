@@ -557,7 +557,7 @@ sub message {
  @{[ &language_links($q, $language) ]}
  @{[ &social_links ]} -
  <span id="tools-help"><a class='tools-helptrigger' href='$extract_dialog/$language/about.html' title='info'><span>@{[ M("about") ]} extracts</span></a> - </span>
- <span id="pageload-indicator">&nbsp;<img src="/html/indicator.gif" alt="" title="Loading JavaScript libraries" /></span>
+ <span id="pageload-indicator">&nbsp;<img src="/html/indicator.gif" width="14" height="14" alt="" title="Loading JavaScript libraries" /> Loading JavaScript</span>
  <span class="jqmWindow jqmWindowLarge" id="tools-helpwin"></span>
 </span>
 
@@ -1418,7 +1418,7 @@ qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="j
 sub locate_message {
     return <<EOF;
 <span id="locate">
-<span style="display:none" id="tools-pageload">Please wait... <img src="/images/indicator.gif" alt="loading" /></span>
+<span style="display:none" id="tools-pageload"></span>
 <a title="where am I?" href="javascript:locateMe()"><img id="location-icon" src="/images/location-icon.png" width="25" height="23" alt="loading" border="0"/></a>
 </span>
 EOF
