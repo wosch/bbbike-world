@@ -28,15 +28,23 @@ var state = {
 
 function download_init_map() {
     map = new OpenLayers.Map("map", {
-        controls: [new OpenLayers.Control.Navigation(), new OpenLayers.Control.PanZoom, new OpenLayers.Control.ScaleLine({
+        controls: [
+        new OpenLayers.Control.Navigation(), //
+        new OpenLayers.Control.PanZoom, //
+        new OpenLayers.Control.ScaleLine({
             geodesic: true
-        }), new OpenLayers.Control.MousePosition(), new OpenLayers.Control.Attribution(), new OpenLayers.Control.LayerSwitcher()],
+        }), // 
+        new OpenLayers.Control.MousePosition(), //
+        new OpenLayers.Control.Attribution(), //
+        new OpenLayers.Control.LayerSwitcher(), //
+        new OpenLayers.Control.KeyboardDefaults({}) //
+        ],
         maxExtent: new OpenLayers.Bounds(-20037508.34, -20037508.34, 20037508.34, 20037508.34),
         maxResolution: 156543.0339,
         numZoomLevels: 17,
         units: 'm',
         projection: new OpenLayers.Projection("EPSG:900913"),
-        displayProjection: new OpenLayers.Projection("EPSG:4326")
+        displayProjection: state.epsg4326
     });
 
     map.addLayer(new OpenLayers.Layer.OSM.Mapnik("OSM Mapnik", {
