@@ -19,6 +19,7 @@ var state = {
         "start": $.now(),
         "last": $.now()
     },
+    epsg4326: new OpenLayers.Projection("EPSG:4326"),
     vectors: {},
     // polygon 
     box: 0
@@ -46,8 +47,14 @@ function download_init_map() {
         attribution: '<a href="http://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="http://www.opencyclemap.org/">(&copy) OpenCycleMap</a>'
     }));
 
-    map.zoomToMaxExtent();
     download_init_vectors(map);
+
+    // most extracts are in the northern hemisphere,
+    // set center to Central Europe
+    var center = new OpenLayers.LonLat(15, 25).transform(state.epsg4326, map.getProjectionObject());
+    map.setCenter(center, 2);
+
+    //map.zoomToMaxExtent();
 }
 
 function download_init_vectors(map) {
@@ -112,7 +119,9 @@ function download_plot_polygon(obj) {
     var color = $("span." + obj.class_format).css("color");
     debug("class_format: " + obj.class_format + " color: " + color);
 
-    var feature = plot_polygon(polygon, { type: color });
+    var feature = plot_polygon(polygon, {
+        type: color
+    });
     state.vectors.addFeatures(feature);
 }
 
