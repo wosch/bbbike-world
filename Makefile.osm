@@ -322,13 +322,7 @@ update-robots.txt:
 	  ${PERL} -e 'for ("A".."Z") { print qq{Disallow: /m/$$_\n} }'; \
 	  echo ${CITIES} | ${PERL} -npe 's,\s+,\n,g' | sort | \
 	   ${PERL} -ne 'chomp; s,^,Disallow: /,; print "$$_/?\n" '; \
-	  for i in ${CITIES}; do \
-            en=`${DB} --local-lang $$i | ${PERL} -npe 's/\s+//g'`; \
-	    case $$en in \
-		en ) echo "Disallow: /en/$$i/" ;; \
-		*  ) echo "Disallow: /en/$$i/?" ;; \
-	    esac; \
-	  done; \
+          ${DB} --robots-local-lang ${CITIES}; \
 	) > world/web/robots.txt
 
 
