@@ -1,12 +1,12 @@
 #!/bin/sh
-# Copyright (c) 2012-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
 #
 # osm2osmand  - convert a .pbf file to osmand .obf
 #
 
 PATH=/usr/local/bin:/bin:/usr/bin; export PATH
+set -e
 
-: ${java_heap=2G}
 : ${osm2xxx_max_jobs=2}
 : ${BBBIKE_EXTRACT_LANG=en}
 : ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
@@ -16,10 +16,6 @@ PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 : ${SHA="shasum -a 256"}
 
 dirname=$(dirname $0)
-
-java_opt=-Xmx${java_heap}
-
-set -e
 
 usage () {
    echo "$@"
@@ -43,6 +39,26 @@ file=$1
 city="$2"
 test -e "$file" || usage "file $file does not exists"
 : ${osm_checksum=$dirname/osm-checksum}
+
+case $file in
+    *srtm* )
+        : ${java_heap_splitter=12G}
+        : ${java_heap=6G}
+        : ${splitter_max_nodes=50000}
+        : ${splitter_max_areas=100}
+        : ${splitter_keep_complete="--keep-complete=false"}
+        ;;
+    *)         
+        : ${java_heap=2G}
+        ;;
+esac
+
+: ${java_heap_splitter=$java_heap}
+: ${splitter_max_nodes=1000000}
+: ${splitter_max_areas=512}
+
+java_opt=-Xmx${java_heap}
+java_splitter_opt=-Xmx${java_heap_splitter}    
 
 template=$dirname/../etc/extract/$(basename $0).$BBBIKE_EXTRACT_LANG.sh
 case $template in /*) ;; *) template=$(pwd)/$template ;; esac
@@ -91,28 +107,30 @@ counter=0
 # magic 8-byte filename long
 mapid=93240001
 
-if [ $size -le 50000 ]; then
-    ( cd data/osm; ln -s $file $mapid.osm.pbf )
-else
-   # file to large
-   split_dir=data/osm
-   echo ">>> Run splitter" >> $logfile
-   java $java_opt -jar $BBBIKE_OPT_DIR/splitter/splitter.jar --output-dir=$split_dir  --max-nodes=4000000 --mapid=$mapid $file >> $logfile 2>&1 || error
+split_dir=data/osm
+echo ">>> Run splitter" >> $logfile
 
-   prefix=`basename $file .osm.pbf`
-   for i in $split_dir/*.osm.pbf
-   do
-      mkdir -p data/_$counter/data/osm data/_$counter/data/indexes
-      #new=$split_dir/$prefix$(echo $i | perl -npe 's,.*/,,; s/.{5}/-/'); mv -f $i $new
-      new=$i
-      ln $new data/_$counter/data/osm
+( set -x; 
+java $java_splitter_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar \
+     $splitter_keep_complete \
+     --resolution=$splitter_resolution \
+     --max-areas=$splitter_max_areas \
+     --max-nodes=$splitter_max_nodes \
+     --mapid="$mapid" \
+     --output-dir=$split_dir $file ) >> $logfile 2>&1 || error
 
-      counter=`expr $counter + 1`
-   done
+#java $java_opt -jar $BBBIKE_OPT_DIR/splitter/splitter.jar --output-dir=$split_dir  --max-nodes=4000000 --mapid=$mapid $file >> $logfile 2>&1 || error
 
-   $debug && ls -l $split_dir
-fi
-#counter=0
+prefix=`basename $file .osm.pbf`
+for i in $split_dir/*.osm.pbf
+do
+   mkdir -p data/_$counter/data/osm data/_$counter/data/indexes
+   new=$i
+   ln $new data/_$counter/data/osm
+
+   counter=`expr $counter + 1`
+done
+$debug && ls -l $split_dir
 
 exit=0
 class_path="$osmand_home/OsmAndMapCreator.jar:$osmand_home//lib/OsmAnd-core.jar:$osmand_home/lib/*.jar"
