@@ -109,13 +109,9 @@ function download_plot_polygon(obj) {
     debug("download plot polygon");
 
     var polygon = obj.coords ? string2coords(obj.coords) : rectangle2polygon(obj.sw_lng, obj.sw_lat, obj.ne_lng, obj.ne_lat);
-
     var color = $("span." + obj.class_format).css("color");
-    // color = "#000";
-    debug("color: " + color);
+    debug("class_format: " + obj.class_format + " color: " + color);
 
-    // OpenLayers.Feature.Vector.style['default']['fillColor'] = color;
-    // OpenLayers.Feature.Vector.style['default']['strokeColor'] = color;
     var feature = plot_polygon(polygon, {
         type: color
     });
