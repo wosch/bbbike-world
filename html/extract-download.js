@@ -95,7 +95,7 @@ function parse_areas_from_links() {
         // get class format from the <td> before
         obj.class_format = $($(n).parent().parent().find("td > span")[1]).attr("class");
 
-        // plot all polygons first
+        // display *all* polygons first, looks nicer
         download_plot_polygon(obj);
 
         // on mouseover, move to the polygon and center
@@ -112,9 +112,7 @@ function download_plot_polygon(obj) {
     var color = $("span." + obj.class_format).css("color");
     debug("class_format: " + obj.class_format + " color: " + color);
 
-    var feature = plot_polygon(polygon, {
-        type: color
-    });
+    var feature = plot_polygon(polygon, { type: color });
     state.vectors.addFeatures(feature);
 }
 
