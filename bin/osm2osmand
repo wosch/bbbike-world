@@ -135,7 +135,7 @@ done
 $debug && ls -l $split_dir
 
 exit=0
-class_path="$osmand_home/OsmAndMapCreator.jar:$osmand_home//lib/OsmAnd-core.jar:$osmand_home/lib/*.jar"
+class_path="$osmand_home/OsmAndMapCreator.jar:$osmand_home/lib/OsmAnd-core.jar:$osmand_home/lib/*.jar"
 if [ $counter -eq 0 ]; then
     if time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp "$class_path" net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml > $logfile 2>&1 && ln data/indexes/*.obf .; then
 	:
