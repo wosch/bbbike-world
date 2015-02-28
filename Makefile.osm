@@ -658,6 +658,7 @@ clean: rotate-data-osm
 	${MAKE} -C world/cgi $@	
 	${MAKE} -C world/cgi/msg $@	
 	${MAKE} -C world/web/feed $@	
+	${MAKE} -C world/etc/mkgmap $@	
 	rm -f *.bak *.tdy *.ERR
 	cd world/web && rm -rf ${LANGUAGES}
 	cd world/web && rm -rf ${CITIES} bbbike
