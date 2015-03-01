@@ -628,17 +628,21 @@ sub download {
         $date = "";
     }
 
-    print qq{<div id="intro">\n};
+    print qq{      <div id="intro">\n};
     print $q->h2( qq{<a href="}
           . $q->url( -relative => 1 )
           . qq{">Extracts ready to download</a>} )
       if $option->{'show_heading'};
 
-    print qq{<span id="noscript"><noscript>Please enable JavaScript in your browser. Thanks!</noscript></span>};
-    print qq{<div id="map" style="height:320px"></div>\n\n};
-    print qq{\n\n<span id="debug"></span>\n};
-    print qq{<div id="nomap">\n};
-    
+    print <<EOF;
+        <span id="noscript"><noscript>Please enable JavaScript in your browser. Thanks!</noscript></span>
+        <div id="map" style="height:320px"></div>
+
+        <span id="debug"></span>
+
+        <div id="nomap">
+EOF
+
     print $locale->language_links( 'with_separator' => 1 );
 
     my $current_date = time2str(time);
