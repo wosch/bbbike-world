@@ -31,6 +31,7 @@ use Math::Polygon::Transform;
 use lib '../world/lib';
 use lib '../lib';
 use BBBikeLocale;
+use BBBikeAnalytics;
 
 use strict;
 use warnings;
@@ -397,9 +398,12 @@ sub footer {
     my $q    = shift;
     my %args = @_;
 
-    my $analytics = &google_analytics($q);
-    my $url       = $q->url( -relative => 1 );
-    my $error     = $args{'error'} || 0;
+    my $analytics =
+      $option->{"enable_google_analytics"}
+      ? BBBikeAnalytics->new( 'q' => $q )->google_analytics
+      : "";
+    my $url = $q->url( -relative => 1 );
+    my $error = $args{'error'} || 0;
 
     my $locate =
       $args{'map'} ? ' | <a href="javascript:locateMe()">where am I?</a>' : "";
@@ -460,35 +464,6 @@ sub social_links {
     <a href="http://twitter.com/BBBikeWorld" target="_new"><img class="logo" width="16" height="16" src="/images/twitter-t.png" alt="" title="Follow us on twitter.com/BBBikeWorld" /></a>
     <a href="http://www.bbbike.org/feed/bbbike-world.xml"><img class="logo" width="14" height="14" title="What's new on BBBike.org" src="/images/rss-icon.png" alt="" /></a>
     </span>
-EOF
-}
-
-sub google_analytics {
-    my $q = shift;
-
-    my $url = $q->url( -base => 1 );
-
-    return "" if !$option->{"enable_google_analytics"};
-    if ( $url !~ m,^http://(www|extract|download)[1-4]?\., ) {
-        return "";    # devel installation
-    }
-
-    return <<EOF;
-
-<script type="text/javascript">
-//<![CDATA[
-  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-  //]]>
-  </script><script type="text/javascript">
-//<![CDATA[
-  try {
-  var pageTracker = _gat._getTracker("UA-286675-19");
-  pageTracker._trackPageview();
-  } catch(err) {}
-  //]]>
-</script>
-
 EOF
 }
 
