@@ -449,7 +449,7 @@ $analytics
 
   <!-- pre-load some images for slow mobile networks -->
   <div id="slow-network" style="display:none">
-    <img src="/html/close.png"/>
+    <img src="/html/close.png" alt="close button" />
   </div>
 
 <!-- bbbike_extract_status: $error -->
