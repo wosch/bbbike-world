@@ -35,6 +35,7 @@ our $option = {
     'message_path'        => "../world/etc/extract",
 };
 
+# global variables
 my $debug        = 0;
 my $q;
 my $msg; # translations
@@ -55,13 +56,13 @@ sub new {
 sub init {
     my $self = shift;
     
-    $q = $self->{'q'};
+    $q = $self->{'q'}; # make it global
     
     if ( defined $q->param('debug') ) {
         $debug = int( $q->param('debug') );
     }
     
-    $language = $self->get_language( $q, $option->{'language'} );
+    $language = $self->get_language;
     $msg = $self->get_msg($language);
 }
 
@@ -123,7 +124,6 @@ sub get_msg {
 sub http_accept_language {
     my $self = shift;
     
-    my $q = shift;
     my $requested_language = $q->http('Accept-language') || "";
 
     return "" if !$requested_language;
@@ -143,11 +143,9 @@ sub http_accept_language {
 
 sub language_links {
     my $self = shift;
+    my %args = @_;
     
-    my $q        = shift;
-    my $language = shift;
-    my $with_separator = shift;
-    
+    my $with_separator = $args{'with_separator'};
     my $sep = ' | ';
 
     my $qq   = CGI->new($q);
@@ -155,16 +153,17 @@ sub language_links {
 
     my $cookie_lang =
          $q->cookie( -name => "lang" )
-      || $self->http_accept_language($q)
+      || $self->http_accept_language
       || "";
 
+    my $counter = 0;
     foreach my $l ( @{ $option->{'supported_languages'} } ) {
+        $data .= $sep if $counter++ && $with_separator;
+        
         if ( $l ne $language ) {
             $l eq $option->{'language'} && !$cookie_lang
               ? $qq->delete("lang")
               : $qq->param( "lang", $l );
-
-            $data .= $sep if $data && $with_separator;
             
             $data .=
                 qq{<a href="}
@@ -184,14 +183,11 @@ sub language_links {
 sub get_language {
     my $self = shift;
     
-    my $q = shift;
-    my $language = shift || $language;
-
     my $lang =
          $q->param("lang")
       || $q->param("language")
       || $q->cookie( -name => "lang" )
-      || &http_accept_language($q);
+      || $self->http_accept_language;
 
     return $language if !defined $lang;
 
@@ -212,5 +208,3 @@ sub get_language {
 1;
 
 __DATA__;
-
-

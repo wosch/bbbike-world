@@ -12,7 +12,10 @@ use Data::Dumper;
 use File::stat;
 use File::Basename;
 use HTTP::Date;
-use Locale::Util;
+
+use lib '../world/lib';
+use lib '../lib';
+use BBBikeLocale;
 
 use strict;
 use warnings;
@@ -22,9 +25,6 @@ use warnings;
 my $max          = 2000;
 my $debug        = 0;
 my $default_date = "36h";    # 36h: today and some hours from yesterday
-
-# translations
-my $msg;
 
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
@@ -42,10 +42,6 @@ our $option = {
     'supported_languages' => [qw/en de/],
     'message_path'        => "../world/etc/extract",
     'pro'                 => 0,
-
-    'language'            => "en",
-    'supported_languages' => [qw/en de/],
-    'message_path'        => "../world/etc/extract",
 
     # spool directory. Should be at least 100GB large
     'spool_dir' => '/var/cache/extract',
@@ -103,138 +99,10 @@ my $spool = {
     'failed'    => "failed",       # keep record of failed runs
 };
 
-my $language = $option->{'language'};
-
 # EOF config
 ###########################################################################
 
-# cut&paste from extract.cgi
-sub M {
-    my $key = shift;
-
-    my $text;
-    if ( $msg && exists $msg->{$key} ) {
-        $text = $msg->{$key};
-    }
-    else {
-        if ( $debug >= 1 && $msg ) {
-            warn "Unknown language '$language' translation: $key\n"
-              if $debug >= 2 || $language ne "en";
-        }
-        $text = $key;
-    }
-
-    if ( ref $text eq 'ARRAY' ) {
-        $text = join "\n", @$text, "\n";
-    }
-
-    return $text;
-}
-
-sub get_msg {
-    my $language = shift || $option->{'language'};
-
-    my $file = $option->{'message_path'} . "/msg.$language.json";
-    if ( !-e $file ) {
-        warn "Language file $file not found, ignored\n" . qx(pwd);
-        return {};
-    }
-
-    warn "Open message file $file for language $language\n" if $debug >= 1;
-    my $fh = new IO::File $file, "r" or die "open $file: $!\n";
-    binmode $fh, ":utf8";
-
-    my $json_text;
-    while (<$fh>) {
-        $json_text .= $_;
-    }
-    $fh->close;
-
-    my $json = new JSON;
-    my $json_perl = eval { $json->decode($json_text) };
-    die "json $file $@" if $@;
-
-    warn Dumper($json_perl) if $debug >= 3;
-    return $json_perl;
-}
-
-sub http_accept_language {
-    my $q = shift;
-    my $requested_language = $q->http('Accept-language') || "";
-
-    return "" if !$requested_language;
-
-    my @lang = Locale::Util::parse_http_accept_language($requested_language);
-    warn "Accept-language: " . join( ", ", @lang ) if $debug >= 2;
-
-    foreach my $l (@lang) {
-        if ( grep { $l eq $_ } @{ $option->{supported_languages} } ) {
-            warn "Select language by browser: $l\n" if $debug >= 1;
-            return $l;
-        }
-    }
-
-    return "";
-}
-
-sub language_links {
-    my $q        = shift;
-    my $language = shift;
-
-    my $qq   = CGI->new($q);
-    my $data = qq{<span id="language">\n};
-
-    my $cookie_lang =
-         $q->cookie( -name => "lang" )
-      || &http_accept_language($q)
-      || "";
-
-    foreach my $l ( @{ $option->{'supported_languages'} } ) {
-        if ( $l ne $language ) {
-            $l eq $option->{'language'} && !$cookie_lang
-              ? $qq->delete("lang")
-              : $qq->param( "lang", $l );
-
-            $data .=
-                qq{<a href="}
-              . $qq->url( -query => 1, -relative => 1 )
-              . qq{">$l</a>\n};
-        }
-        else {
-            $data .= qq{<span id="active_language">$l</span>\n};
-        }
-
-    }
-    $data .= qq{</span>\n};
-
-    return $data;
-}
-
-sub get_language {
-    my $q = shift;
-    my $language = shift || $language;
-
-    my $lang =
-         $q->param("lang")
-      || $q->param("language")
-      || $q->cookie( -name => "lang" )
-      || &http_accept_language($q);
-
-    return $language if !defined $lang;
-
-    if ( grep { $_ eq $lang } @{ $option->{'supported_languages'} } ) {
-        warn "get language: $lang\n" if $debug >= 1;
-        return $lang;
-    }
-
-    # default language
-    else {
-        warn "default language: $lang\n" if $debug >= 1;
-        return $language;
-    }
-}
-
-#####################################################################
+sub M { return BBBikeLocale::M(@_); };    # wrapper
 
 sub is_production {
     my $q = shift;
@@ -770,6 +638,7 @@ sub filter_date {
 #
 sub download {
     my $q = shift;
+    my $locale = BBBikeLocale->new( 'q' => $q );
 
     download_header($q);
     my @filter_date = qw/1h 3h 6h 12h 24h 36h 48h 72h all/;
@@ -794,7 +663,7 @@ sub download {
     print qq{<div id="map" style="height:320px"></div>\n\n};
     print qq{\n\n<span id="debug"></span>\n};
     print qq{<div id="nomap">\n};
-    print language_links( $q, $language );
+    print $locale->language_links( 'with_separator' => 1 );
 
     my $current_date = time2str(time);
 
@@ -873,8 +742,4 @@ EOF
 #
 # main
 #
-
-$language = get_language( $q, $language );
-$msg = get_msg($language);
-
 &download($q);
