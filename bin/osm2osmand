@@ -122,6 +122,14 @@ java $java_splitter_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.j
      --output-dir=$split_dir $file ) >> $logfile 2>&1 || error
 
 #java $java_opt -jar $BBBIKE_OPT_DIR/splitter/splitter.jar --output-dir=$split_dir  --max-nodes=4000000 --mapid=$mapid $file >> $logfile 2>&1 || error
+if [ $(ls $split_dir/*.pbf 2>/dev/null | wc -l) -eq 0 ]; then
+    echo "Warning: splitter didn't created a file: $file"
+    if [ $size -le 1000 ]; then
+	cp -f $file $split_dir/$mapid.osm.pbf
+    else
+	echo "Argh, $file with size $size to big for single run"
+    fi
+fi
 
 prefix=`basename $file .osm.pbf`
 for i in $split_dir/*.osm.pbf
