@@ -37,7 +37,6 @@ our $option = {
 
 # global variables
 my $debug        = 0;
-my $q;
 my $msg; # translations
 my $language;
 
@@ -55,8 +54,7 @@ sub new {
 
 sub init {
     my $self = shift;
-    
-    $q = $self->{'q'}; # make it global
+    my $q = $self->{'q'};
     
     if ( defined $q->param('debug') ) {
         $debug = int( $q->param('debug') );
@@ -123,6 +121,7 @@ sub get_msg {
 
 sub http_accept_language {
     my $self = shift;
+    my $q = $self->{'q'};
     
     my $requested_language = $q->http('Accept-language') || "";
 
@@ -144,6 +143,7 @@ sub http_accept_language {
 sub language_links {
     my $self = shift;
     my %args = @_;
+    my $q = $self->{'q'};
     
     my $with_separator = $args{'with_separator'};
     my $sep = ' | ';
@@ -182,6 +182,7 @@ sub language_links {
 
 sub get_language {
     my $self = shift;
+    my $q = $self->{'q'};
     
     my $lang =
          $q->param("lang")
@@ -202,8 +203,6 @@ sub get_language {
         return $language;
     }
 }
-
-# @{[ M("Last update") ]}: $date
 
 1;
 

@@ -618,6 +618,11 @@ sub filter_date {
     my $filter_date    = $args{'filter_date'};
     my $current_filter = $args{'date'};
 
+    sub display_filter {
+        my $filter = shift;
+        return $filter =~ /^d+/ ? $filter : M($filter);
+    }
+
     my $q    = new CGI;
     my $data = "";
 
@@ -626,12 +631,12 @@ sub filter_date {
         $data .= " |\n" if $data;
         $data .=
             $filter eq $current_filter
-          ? $filter
+          ? &display_filter($filter)
           : $q->a( { href => $q->url( -query => 1, -relative => 1 ) },
-            $filter );
+            &display_filter($filter) );
     }
 
-    print "Limit to date: $data\n\n";
+    print M("Limit to date") . ": $data\n\n";
 }
 
 ###########################################################################
