@@ -1,0 +1,43 @@
+#!/usr/local/bin/perl
+# Copyright (c) Feb 2015-2015 Wolfram Schneider, http://bbbike.org
+
+use CGI;
+use Test::More;
+
+use lib './world/lib';
+use BBBikeAnalytics;
+
+use strict;
+use warnings;
+
+plan tests => 7;
+my $debug = 1;
+
+##########################################################################
+# standard english
+
+# fake server hostname
+$ENV{HTTP_HOST} = "extract.bbbike.org";
+
+my $q = new CGI;
+my $analytics = BBBikeAnalytics->new( 'q' => $q )->google_analytics;
+
+diag "analytics code: $analytics\n" if $debug >= 2;
+
+isnt( $analytics, undef, "analytics class is success" );
+cmp_ok( length($analytics), ">", 450, "analytics size" );
+
+$analytics = BBBikeAnalytics->new( 'q' => $q, 'tracker_id' => "foobar123" )
+  ->google_analytics;
+diag "analytics code: $analytics\n" if $debug >= 2;
+
+isnt( $analytics, undef, "analytics class is success" );
+cmp_ok( length($analytics), ">", 450, "analytics size" );
+like( $analytics, qr/foobar123/, "tracker id check" );
+
+$ENV{HTTP_HOST} = "dev.bbbike.org";
+$analytics = BBBikeAnalytics->new( 'q' => $q )->google_analytics;
+isnt( $analytics, undef, "analytics class is success" );
+is( $analytics, "", "no analytics on devel machines" );
+
+__END__
