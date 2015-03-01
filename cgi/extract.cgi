@@ -450,7 +450,7 @@ $analytics
   <!-- pre-load some images for slow mobile networks -->
   <div id="slow-network" style="display:none">
     <img src="/html/close.png"/>
-  </dvi>
+  </div>
 
 <!-- bbbike_extract_status: $error -->
 </body>
