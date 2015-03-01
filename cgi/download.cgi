@@ -634,9 +634,11 @@ sub download {
           . qq{">Extracts ready to download</a>} )
       if $option->{'show_heading'};
 
+    print qq{<span id="noscript"><noscript>Please enable JavaScript in your browser. Thanks!</noscript></span>};
     print qq{<div id="map" style="height:320px"></div>\n\n};
     print qq{\n\n<span id="debug"></span>\n};
     print qq{<div id="nomap">\n};
+    
     print $locale->language_links( 'with_separator' => 1 );
 
     my $current_date = time2str(time);
