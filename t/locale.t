@@ -24,8 +24,8 @@ $BBBikeLocale::option->{"message_path"} = "./world/etc/extract";
 my $q = new CGI;
 my $locale = BBBikeLocale->new( 'q' => $q );
 
-isnt( $locale, undef, "locale is success" );
-is( M("help"), "help", "help" );
+isnt( $locale, undef, "locale class is success" );
+is( M("help"), "help", "en:help" );
 
 ##########################################################################
 # German
@@ -33,6 +33,6 @@ my $qq = new CGI;
 $qq->param( "lang", "de" );
 $locale = BBBikeLocale->new( 'q' => $qq );
 
-is( M("help"), "hilfe", "hilfe" );
+is( M("help"), "hilfe", "de:hilfe" );
 
 __END__
