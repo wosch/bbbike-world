@@ -623,7 +623,7 @@ sub download {
     my $q = shift;
 
     download_header($q);
-    my @filter_date = qw/1h 3h 6h 12h 24h 48h/;
+    my @filter_date = qw/1h 3h 6h 12h 24h 36h 48h 72h all/;
 
     if ( $q->param('max') ) {
         my $m = $q->param('max');
