@@ -23,6 +23,18 @@
     "hide": "verstecke",
     "or search": "oder Suche",
 
+    "None": "keine",
+    "Waiting extracts": "Wartende Extrakte",
+    "Running extracts": "Extrakte in Bearbeitung",
+    "Ready extracts": "Fertige Extrakte",
+    "Statistic": "Statistik",
+    "Number of extracts": "Anzahl der Extrakte",
+    "Last update": "Letzte Aktualisierung",
+    "Name of area": "Name der Area",
+    "Size": "Gr&ouml;sse",
+    "Map": "Karte",
+    "Newest extracts are first": "Neueste Extrakte zuerst",
+
     "Garmin Cycle": "Garmin Fahrrad",
     "Garmin Leisure": "Garmin Freizeitkarte",
 
