@@ -16,9 +16,11 @@ use HTTP::Date;
 use strict;
 use warnings;
 
+###########################################################################
+# config
 my $max          = 2000;
 my $debug        = 1;
-my $default_date = "";
+my $default_date = "36h";    # 36h: today and some hours from yesterday
 
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
@@ -93,6 +95,9 @@ my $spool = {
     'failed'    => "failed",       # keep record of failed runs
 };
 
+# EOF config
+###########################################################################
+
 sub is_production {
     my $q = shift;
 
@@ -122,7 +127,9 @@ sub extract_areas {
     my $sort_by = $args{'sort_by'} || "time";
     my $date    = $args{'date'} || "";
 
-    warn "download: log dir: $log_dir, max: $max, devel: $devel\n" if $debug;
+    warn
+      "download: log dir: $log_dir, max: $max, devel: $devel, date: '$date'\n"
+      if $debug;
 
     my %hash;
     foreach my $f ( glob("$log_dir/*.json") ) {
@@ -598,11 +605,11 @@ sub download_header {
 sub filter_date {
     my %args = @_;
 
-    my $filter_date = $args{'filter_date'};
+    my $filter_date    = $args{'filter_date'};
+    my $current_filter = $args{'date'};
 
-    my $q              = new CGI;
-    my $data           = "";
-    my $current_filter = $q->param("date") || "";
+    my $q    = new CGI;
+    my $data = "";
 
     foreach my $filter (@$filter_date) {
         $q->param( "date", $filter );
@@ -703,7 +710,7 @@ EOF
         'files' => \@extracts
     );
 
-    filter_date( 'filter_date' => \@filter_date );
+    filter_date( 'filter_date' => \@filter_date, 'date' => $date );
     statistic( 'files' => \@extracts, 'summary' => 1 );
 
     print &footer( 'date' => $current_date );
