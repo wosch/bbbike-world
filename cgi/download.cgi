@@ -32,8 +32,8 @@ if ( defined $q->param('debug') ) {
 }
 
 our $option = {
-    'homepage'        => 'http://download.bbbike.org/osm/extract',
-    'script_homepage' => 'http://extract.bbbike.org',
+    'homepage_download' => 'http://download.bbbike.org/osm/',
+    'homepage_extract'  => 'http://extract.bbbike.org',
 
     'supported_languages' => [qw/en de/],
     'message_path'        => "../world/etc/extract",
@@ -333,7 +333,7 @@ sub footer {
 
 <div id="footer">
   <div id="footer_top">
-    <a href="@{[ $option->{'script_homepage'} ]}">home</a> |
+    <a href="@{[ $option->{'homepage_download'} ]}">home</a> |
     <a href="/extract.html">help</a> |
     <a href="/community.html">donate</a>
     <hr/>
