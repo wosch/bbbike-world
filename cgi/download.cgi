@@ -12,13 +12,19 @@ use Data::Dumper;
 use File::stat;
 use File::Basename;
 use HTTP::Date;
+use Locale::Util;
 
 use strict;
 use warnings;
 
+###########################################################################
+# config
 my $max          = 2000;
-my $debug        = 1;
-my $default_date = "";
+my $debug        = 0;
+my $default_date = "36h";    # 36h: today and some hours from yesterday
+
+# translations
+my $msg;
 
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
@@ -30,12 +36,16 @@ if ( defined $q->param('debug') ) {
 }
 
 our $option = {
-    'homepage'        => 'http://download.bbbike.org/osm/extract',
-    'script_homepage' => 'http://extract.bbbike.org',
+    'homepage_download' => 'http://download.bbbike.org/osm/',
+    'homepage_extract'  => 'http://extract.bbbike.org',
 
     'supported_languages' => [qw/en de/],
     'message_path'        => "../world/etc/extract",
     'pro'                 => 0,
+
+    'language'            => "en",
+    'supported_languages' => [qw/en de/],
+    'message_path'        => "../world/etc/extract",
 
     # spool directory. Should be at least 100GB large
     'spool_dir' => '/var/cache/extract',
@@ -93,6 +103,139 @@ my $spool = {
     'failed'    => "failed",       # keep record of failed runs
 };
 
+my $language = $option->{'language'};
+
+# EOF config
+###########################################################################
+
+# cut&paste from extract.cgi
+sub M {
+    my $key = shift;
+
+    my $text;
+    if ( $msg && exists $msg->{$key} ) {
+        $text = $msg->{$key};
+    }
+    else {
+        if ( $debug >= 1 && $msg ) {
+            warn "Unknown language '$language' translation: $key\n"
+              if $debug >= 2 || $language ne "en";
+        }
+        $text = $key;
+    }
+
+    if ( ref $text eq 'ARRAY' ) {
+        $text = join "\n", @$text, "\n";
+    }
+
+    return $text;
+}
+
+sub get_msg {
+    my $language = shift || $option->{'language'};
+
+    my $file = $option->{'message_path'} . "/msg.$language.json";
+    if ( !-e $file ) {
+        warn "Language file $file not found, ignored\n" . qx(pwd);
+        return {};
+    }
+
+    warn "Open message file $file for language $language\n" if $debug >= 1;
+    my $fh = new IO::File $file, "r" or die "open $file: $!\n";
+    binmode $fh, ":utf8";
+
+    my $json_text;
+    while (<$fh>) {
+        $json_text .= $_;
+    }
+    $fh->close;
+
+    my $json = new JSON;
+    my $json_perl = eval { $json->decode($json_text) };
+    die "json $file $@" if $@;
+
+    warn Dumper($json_perl) if $debug >= 3;
+    return $json_perl;
+}
+
+sub http_accept_language {
+    my $q = shift;
+    my $requested_language = $q->http('Accept-language') || "";
+
+    return "" if !$requested_language;
+
+    my @lang = Locale::Util::parse_http_accept_language($requested_language);
+    warn "Accept-language: " . join( ", ", @lang ) if $debug >= 2;
+
+    foreach my $l (@lang) {
+        if ( grep { $l eq $_ } @{ $option->{supported_languages} } ) {
+            warn "Select language by browser: $l\n" if $debug >= 1;
+            return $l;
+        }
+    }
+
+    return "";
+}
+
+sub language_links {
+    my $q        = shift;
+    my $language = shift;
+
+    my $qq   = CGI->new($q);
+    my $data = qq{<span id="language">\n};
+
+    my $cookie_lang =
+         $q->cookie( -name => "lang" )
+      || &http_accept_language($q)
+      || "";
+
+    foreach my $l ( @{ $option->{'supported_languages'} } ) {
+        if ( $l ne $language ) {
+            $l eq $option->{'language'} && !$cookie_lang
+              ? $qq->delete("lang")
+              : $qq->param( "lang", $l );
+
+            $data .=
+                qq{<a href="}
+              . $qq->url( -query => 1, -relative => 1 )
+              . qq{">$l</a>\n};
+        }
+        else {
+            $data .= qq{<span id="active_language">$l</span>\n};
+        }
+
+    }
+    $data .= qq{</span>\n};
+
+    return $data;
+}
+
+sub get_language {
+    my $q = shift;
+    my $language = shift || $language;
+
+    my $lang =
+         $q->param("lang")
+      || $q->param("language")
+      || $q->cookie( -name => "lang" )
+      || &http_accept_language($q);
+
+    return $language if !defined $lang;
+
+    if ( grep { $_ eq $lang } @{ $option->{'supported_languages'} } ) {
+        warn "get language: $lang\n" if $debug >= 1;
+        return $lang;
+    }
+
+    # default language
+    else {
+        warn "default language: $lang\n" if $debug >= 1;
+        return $language;
+    }
+}
+
+#####################################################################
+
 sub is_production {
     my $q = shift;
 
@@ -122,7 +265,9 @@ sub extract_areas {
     my $sort_by = $args{'sort_by'} || "time";
     my $date    = $args{'date'} || "";
 
-    warn "download: log dir: $log_dir, max: $max, devel: $devel\n" if $debug;
+    warn
+      "download: log dir: $log_dir, max: $max, devel: $devel, date: '$date'\n"
+      if $debug;
 
     my %hash;
     foreach my $f ( glob("$log_dir/*.json") ) {
@@ -321,14 +466,14 @@ sub footer {
 
 <div id="bottom">
 <p>
-  Last update: $date
+  @{[ M("Last update") ]}: $date
 </p>
 
 <div id="footer">
   <div id="footer_top">
-    <a href="@{[ $option->{'script_homepage'} ]}">home</a> |
-    <a href="/extract.html">help</a> |
-    <a href="/community.html">donate</a>
+    <a href="@{[ $option->{'homepage_download'} ]}">home</a> |
+    <a href="/extract.html">@{[ M("help") ]}</a> |
+    <a href="/community.html">@{[ M("donate") ]}</a>
     <hr/>
   </div> <!-- footer_top -->
 
@@ -378,15 +523,17 @@ sub statistic {
     my $summary   = $args{'summary'};
     my @downloads = @$files;
 
-    print qq{<h3>Statistic</h3>\n\n};
+    print qq{<h3>@{[ M("Statistic") ]}</h3>\n\n};
 
     if ( !@downloads ) {
-        print qq{<p>None</p>\n};
+        print qq{<p>@{[ M("None") ]}</p>\n};
         print "<hr/>\n\n";
         return;
     }
 
-    print qq{<p>Number of extracts: } . scalar(@downloads) . qq{</p>\n};
+    print qq{<p>@{[ M("Number of extracts") ]}: }
+      . scalar(@downloads)
+      . qq{</p>\n};
 
     sub strip_format {
         my $f = shift;
@@ -444,27 +591,29 @@ sub result {
 
     my @downloads = @$files;
 
-    print qq{<h4 title="} . scalar(@downloads) . qq{ extracts">$name</h4>\n\n};
+    print qq{<h4 title="}
+      . scalar(@downloads)
+      . qq{ extracts">@{[ M($name) ]}</h4>\n\n};
 
     if ( !@downloads ) {
         warn "Nothing todo for $type\n" if $debug >= 2;
-        print qq{<p>None</p>\n};
+        print qq{<p>@{[ M("None") ]}</p>\n};
         print "<hr/>\n\n";
         return;
     }
 
     if ($message) {
-        print qq{<p>$message</p>\n\n};
+        print qq{<p>@{[ M($message) ]}</p>\n\n};
     }
 
     print qq{<table id="$type">\n};
     print qq{<thead>\n<tr>\n};
 
-    table_head( $type, 'name',   "Name of area" );
-    table_head( $type, 'format', "Format" );
-    table_head( $type, 'size',   "Size" );
+    table_head( $type, 'name',   M("Name of area") );
+    table_head( $type, 'format', M("Format") );
+    table_head( $type, 'size',   M("Size") );
 
-    print qq{<th>Link</th>\n<th>Map</th>\n} . qq{</tr>\n</thead>\n};
+    print qq{<th>Link</th>\n<th>@{[ M("Map") ]}</th>\n} . qq{</tr>\n</thead>\n};
     print qq{<tbody>\n};
 
     foreach my $download (@downloads) {
@@ -598,11 +747,11 @@ sub download_header {
 sub filter_date {
     my %args = @_;
 
-    my $filter_date = $args{'filter_date'};
+    my $filter_date    = $args{'filter_date'};
+    my $current_filter = $args{'date'};
 
-    my $q              = new CGI;
-    my $data           = "";
-    my $current_filter = $q->param("date") || "";
+    my $q    = new CGI;
+    my $data = "";
 
     foreach my $filter (@$filter_date) {
         $q->param( "date", $filter );
@@ -623,7 +772,7 @@ sub download {
     my $q = shift;
 
     download_header($q);
-    my @filter_date = qw/1h 3h 6h 12h 24h 48h/;
+    my @filter_date = qw/1h 3h 6h 12h 24h 36h 48h 72h all/;
 
     if ( $q->param('max') ) {
         my $m = $q->param('max');
@@ -645,6 +794,7 @@ sub download {
     print qq{<div id="map" style="height:320px"></div>\n\n};
     print qq{\n\n<span id="debug"></span>\n};
     print qq{<div id="nomap">\n};
+    print language_links( $q, $language );
 
     my $current_date = time2str(time);
 
@@ -652,7 +802,7 @@ sub download {
     
 <table id="donate">
   <tr>
-    <td>Newest extracts are first. Last update: $current_date</td>
+    <td>@{[ M("Newest extracts are first") ]}. @{[ M("Last update") ]}: $current_date</td>
     <td><a href="/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></td>
   </tr>
 </table>
@@ -703,7 +853,7 @@ EOF
         'files' => \@extracts
     );
 
-    filter_date( 'filter_date' => \@filter_date );
+    filter_date( 'filter_date' => \@filter_date, 'date' => $date );
     statistic( 'files' => \@extracts, 'summary' => 1 );
 
     print &footer( 'date' => $current_date );
@@ -723,5 +873,8 @@ EOF
 #
 # main
 #
+
+$language = get_language( $q, $language );
+$msg = get_msg($language);
 
 &download($q);
