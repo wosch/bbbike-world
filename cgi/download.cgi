@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl -T
 # Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
 #
-# download.cgi - extractbbbike.org live extracts
+# extract-download.cgi - extract.bbbike.org live extracts
 
 use CGI qw/-utf-8 unescape escapeHTML/;
 use CGI::Carp;

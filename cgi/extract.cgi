@@ -27,7 +27,10 @@ use GIS::Distance::Lite;
 use HTTP::Date;
 use Math::Polygon::Calc;
 use Math::Polygon::Transform;
-use Locale::Util;
+
+use lib '../world/lib';
+use lib '../lib';
+use BBBikeLocale;
 
 use strict;
 use warnings;
@@ -57,13 +60,9 @@ our $option = {
     'email_allow_nobody'  => 1,
 
     'debug'          => "2",
-    'language'       => "en",
     'request_method' => "GET",
 
-    #'supported_languages' => [qw/en de es fr ru/],
-    'supported_languages' => [qw/en de/],
-    'message_path'        => "../world/etc/extract",
-    'pro'                 => 0,
+    'pro' => 0,
 
     'with_google_maps'        => 1,
     'enable_google_analytics' => 1,
@@ -195,25 +194,6 @@ my $debug = $option->{'debug'};
 ######################################################################
 # helper functions
 #
-
-sub http_accept_language {
-    my $q = shift;
-    my $requested_language = $q->http('Accept-language') || "";
-
-    return "" if !$requested_language;
-
-    my @lang = Locale::Util::parse_http_accept_language($requested_language);
-    warn "Accept-language: " . join( ", ", @lang ) if $debug >= 2;
-
-    foreach my $l (@lang) {
-        if ( grep { $l eq $_ } @{ $option->{supported_languages} } ) {
-            warn "Select language by browser: $l\n" if $debug >= 1;
-            return $l;
-        }
-    }
-
-    return "";
-}
 
 sub header {
     my $q     = shift;
@@ -483,39 +463,6 @@ sub social_links {
 EOF
 }
 
-sub language_links {
-    my $q        = shift;
-    my $language = shift;
-
-    my $qq   = CGI->new($q);
-    my $data = qq{<span id="language">\n};
-
-    my $cookie_lang =
-         $q->cookie( -name => "lang" )
-      || &http_accept_language($q)
-      || "";
-
-    foreach my $l ( @{ $option->{'supported_languages'} } ) {
-        if ( $l ne $language ) {
-            $l eq $option->{'language'} && !$cookie_lang
-              ? $qq->delete("lang")
-              : $qq->param( "lang", $l );
-
-            $data .=
-                qq{<a href="}
-              . $qq->url( -query => 1, -relative => 1 )
-              . qq{">$l</a>\n};
-        }
-        else {
-            $data .= qq{<span id="active_language">$l</span>\n};
-        }
-
-    }
-    $data .= qq{</span>\n};
-
-    return $data;
-}
-
 sub google_analytics {
     my $q = shift;
 
@@ -548,13 +495,14 @@ EOF
 sub message {
     my $q        = shift;
     my $language = shift;
+    my $locale   = shift;
 
     return <<EOF;
 <span id="noscript"><noscript>Please enable JavaScript in your browser. Thanks!</noscript></span>
 <span id="toolbar"></span>
 
 <span id="tools-titlebar">
- @{[ &language_links($q, $language) ]}
+ @{[ $locale->language_links ]}
  @{[ &social_links ]} -
  <span id="tools-help"><a class='tools-helptrigger' href='$extract_dialog/$language/about.html' title='info'><span>@{[ M("about") ]} extracts</span></a> - </span>
  <span id="pageload-indicator">&nbsp;<img src="/html/indicator.gif" width="14" height="14" alt="" title="Loading JavaScript libraries" /> Loading JavaScript</span>
@@ -775,12 +723,13 @@ sub Param {
 # and a HTML message.
 #
 sub _check_input {
-    my %args = @_;
-    my $q    = $args{'q'};
+    my %args   = @_;
+    my $q      = $args{'q'};
+    my $locale = $args{'locale'};
 
     #our $qq = $q;
 
-    my $lang = get_language($q);
+    my $lang = $locale->get_language;
     our @error = ();
     our $error = 0;
 
@@ -1191,8 +1140,9 @@ sub complete_save_request {
 
 # startpage
 sub homepage {
-    my %args = @_;
-    my $q    = $args{'q'};
+    my %args   = @_;
+    my $q      = $args{'q'};
+    my $locale = $args{'locale'};
 
     print &header( $q, -type => 'homepage' );
     print &layout($q);
@@ -1205,7 +1155,8 @@ sub homepage {
 
     print qq{<div id="intro">\n};
 
-    print qq{<div id="message">\n}, &message( $q, $language ), &locate_message,
+    print qq{<div id="message">\n}, &message( $q, $language, $locale ),
+      &locate_message,
       "</div>\n";
     print "<hr/>\n\n";
 
@@ -1437,91 +1388,19 @@ sub export_osm {
 EOF
 }
 
-sub get_language {
-    my $q = shift;
-    my $language = shift || $language;
-
-    my $lang =
-         $q->param("lang")
-      || $q->param("language")
-      || $q->cookie( -name => "lang" )
-      || &http_accept_language($q);
-
-    return $language if !defined $lang;
-
-    if ( grep { $_ eq $lang } @{ $option->{'supported_languages'} } ) {
-        warn "get language: $lang\n" if $debug >= 1;
-        return $lang;
-    }
-
-    # default language
-    else {
-        warn "default language: $lang\n" if $debug >= 1;
-        return $language;
-    }
-}
-
-sub get_msg {
-    my $language = shift || $option->{'language'};
-
-    my $file = $option->{'message_path'} . "/msg.$language.json";
-    if ( !-e $file ) {
-        warn "Language file $file not found, ignored\n" . qx(pwd);
-        return {};
-    }
-
-    warn "Open message file $file for language $language\n" if $debug >= 1;
-    my $fh = new IO::File $file, "r" or die "open $file: $!\n";
-    binmode $fh, ":utf8";
-
-    my $json_text;
-    while (<$fh>) {
-        $json_text .= $_;
-    }
-    $fh->close;
-
-    my $json = new JSON;
-    my $json_perl = eval { $json->decode($json_text) };
-    die "json $file $@" if $@;
-
-    warn Dumper($json_perl) if $debug >= 3;
-    return $json_perl;
-}
-
-sub M {
-    my $key = shift;
-
-    my $text;
-    if ( $msg && exists $msg->{$key} ) {
-        $text = $msg->{$key};
-    }
-    else {
-        if ( $debug >= 1 && $msg ) {
-            warn "Unknown translation: $key\n"
-              if $debug >= 2 || $language ne "en";
-        }
-        $text = $key;
-    }
-
-    if ( ref $text eq 'ARRAY' ) {
-        $text = join "\n", @$text, "\n";
-    }
-
-    return $text;
-}
+sub M { return BBBikeLocale::M(@_); };    # wrapper
 
 ######################################################################
 # main
 my $q = new CGI;
-
-$language = get_language( $q, $language );
-$msg = get_msg($language);
+my $locale = BBBikeLocale->new( 'q' => $q );
+$language = $locale->get_language;
 
 if ( $q->param("submit") ) {
-    &check_input( 'q' => $q );
+    &check_input( 'q' => $q, 'locale' => $locale );
 }
 else {
-    &homepage( 'q' => $q );
+    &homepage( 'q' => $q, 'locale' => $locale );
 }
 
 1;
