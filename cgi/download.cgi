@@ -19,7 +19,7 @@ use warnings;
 ###########################################################################
 # config
 my $max          = 2000;
-my $debug        = 1;
+my $debug        = 0;
 my $default_date = "36h";    # 36h: today and some hours from yesterday
 
 binmode \*STDOUT, ":utf8";
