@@ -40,9 +40,8 @@ our $option = {
     'homepage_download' => 'http://download.bbbike.org/osm/',
     'homepage_extract'  => 'http://extract.bbbike.org',
 
-    'supported_languages' => [qw/en de/],
-    'message_path'        => "../world/etc/extract",
-    'pro'                 => 0,
+    'message_path' => "../world/etc/extract",
+    'pro'          => 0,
 
     # spool directory. Should be at least 100GB large
     'spool_dir' => '/var/cache/extract',
