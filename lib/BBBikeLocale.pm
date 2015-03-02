@@ -62,7 +62,7 @@ sub init {
 
     # override default values from new('language' => "de")    
     foreach my $key (%$option) {
-        if (exists $self->{$key}) {
+        if (exists $self->{$key} && defined $self->{$key}) {
             $option->{$key} = $self->{$key};
         }
     }
@@ -193,7 +193,14 @@ sub language_links {
 sub get_language {
     my $self = shift;
     my $q = $self->{'q'};
-    my $language = $self->{'language'};
+   
+    # validate config 
+    if ( !grep { $_ eq $option->{"language"} }  @{ $option->{'supported_languages'} } ) {
+        warn "Unknown default language, reset to first value: @{[ $option->{'language'} ]}\n";
+        $option->{"language" } = $option->{'supported_languages'}->[0];
+    }
+    
+    my $language = $option->{'language'};
     
     my $lang =
          $q->param("lang")
