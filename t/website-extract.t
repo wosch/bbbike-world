@@ -167,9 +167,8 @@ sub garmin_check {
 foreach my $home_url (
     $ENV{BBBIKE_TEST_SLOW_NETWORK} ? @homepages_localhost : @homepages )
 {
-    $home_url =~ /^extract/ ? &page_check($home_url) : &page_check($home_url);
-
     #diag "checked site: $home_url";
+    &page_check($home_url);
 }
 
 # check garmin legend: http://extract.bbbike.org/garmin/bbbike/
