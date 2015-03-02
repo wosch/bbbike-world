@@ -63,8 +63,8 @@ our $option = {
     'debug'          => "2",
     'request_method' => "GET",
 
-    'supported_languages' => $BBBikeLocale::option::supported_languages,
-    'language'            => $BBBikeLocale::option::language,
+    'supported_languages' => $BBBikeLocale::option->{"supported_languages"},
+    'language'            => $BBBikeLocale::option->{"language"},
 
     'pro' => 0,
 
@@ -1372,7 +1372,6 @@ sub M { return BBBikeLocale::M(@_); };    # wrapper
 # main
 my $q = new CGI;
 
-$BBBikeLocale::debug = 2;
 my $locale = BBBikeLocale->new(
     'q'                   => $q,
     'supported_languages' => $option->{'supported_languages'},
