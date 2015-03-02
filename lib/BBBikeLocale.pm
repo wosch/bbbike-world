@@ -36,7 +36,7 @@ our $option = {
 };
 
 # global variables
-my $debug        = 0;
+our $debug        = 0;
 my $msg; # translations
 my $language = $option->{"language"} || "en";
 
@@ -58,6 +58,13 @@ sub init {
     
     if ( defined $q->param('debug') ) {
         $debug = int( $q->param('debug') );
+    }
+
+    # override default values from new('language' => "de")    
+    foreach my $key (%$option) {
+        if (exists $self->{$key}) {
+            $option->{$key} = $self->{$key};
+        }
     }
     
     $language = $self->get_language;
@@ -199,7 +206,7 @@ sub get_language {
 
     # default language
     else {
-        warn "default language: $lang\n" if $debug >= 1;
+        warn "default language: $language\n" if $debug >= 1;
         return $language;
     }
 }

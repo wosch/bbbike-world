@@ -1371,7 +1371,13 @@ sub M { return BBBikeLocale::M(@_); };    # wrapper
 ######################################################################
 # main
 my $q = new CGI;
-my $locale = BBBikeLocale->new( 'q' => $q );
+
+$BBBikeLocale::debug = 2;
+my $locale = BBBikeLocale->new(
+    'q'                   => $q,
+    'supported_languages' => $option->{'supported_languages'},
+    'language'            => $option->{'language'}
+);
 $language = $locale->get_language;
 
 if ( $q->param("submit") ) {
