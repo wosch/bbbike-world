@@ -62,9 +62,9 @@ our $option = {
 
     'debug'          => "2",
     'request_method' => "GET",
-    
+
     'supported_languages' => $BBBikeLocale::option::supported_languages,
-    'language'       => $BBBikeLocale::option::language,
+    'language'            => $BBBikeLocale::option::language,
 
     'pro' => 0,
 
@@ -152,7 +152,7 @@ our $formats = {
 ###
 # global variables
 #
-my $language       = ""; # will be set later
+my $language       = "";                  # will be set later
 my $extract_dialog = '/extract-dialog';
 
 #
