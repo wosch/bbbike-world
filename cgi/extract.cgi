@@ -62,6 +62,7 @@ our $option = {
 
     'debug'          => "2",
     'request_method' => "GET",
+    'language'       => "en",
 
     'pro' => 0,
 
