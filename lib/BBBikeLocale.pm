@@ -38,7 +38,7 @@ our $option = {
 # global variables
 my $debug        = 0;
 my $msg; # translations
-my $language;
+my $language = $option->{"language"} || "en";
 
 sub new {
     my $class = shift;
