@@ -38,7 +38,7 @@ our $option = {
 # global variables
 our $debug        = 0;
 my $msg; # translations
-my $language = $option->{"language"} || "en";
+my $language;
 
 sub new {
     my $class = shift;
@@ -66,6 +66,9 @@ sub init {
             $option->{$key} = $self->{$key};
         }
     }
+    
+    warn Dumper($option) if $debug >= 2;
+    warn Dumper($self) if $debug >= 2;
     
     $language = $self->get_language;
     $msg = $self->get_msg($language);
@@ -190,6 +193,7 @@ sub language_links {
 sub get_language {
     my $self = shift;
     my $q = $self->{'q'};
+    my $language = $self->{'language'};
     
     my $lang =
          $q->param("lang")
