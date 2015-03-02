@@ -43,6 +43,7 @@ my $msg = {
     "ru" => [ "Wait for email notification", "Name of area to extract" ],
     "es" => [ "Wait for email notification", "Name of area to extract" ],
     "fr" => [ "Wait for email notification", "Name of area to extract" ],
+    ""   => [ "Wait for email notification", "Name of area to extract" ],
 };
 
 use constant MYGET => 3;
@@ -92,6 +93,7 @@ sub page_check {
     my $home_url = shift;
     my $script_url = shift || "$home_url/cgi/extract.cgi";
 
+    # check for known languages
     foreach my $l (@lang) {
         my $res = myget( "$script_url?lang=$l", 9_000 );
 
@@ -100,6 +102,28 @@ sub page_check {
             like( $res->decoded_content, qr/$text/,
                 "bbbike extract translation" );
         }
+    }
+
+    foreach my $l (@lang) {
+        foreach my $file (@extract_dialog) {
+            myget( "$home_url/extract-dialog/$l/$file", 420 );
+        }
+    }
+
+    # check for unknown language in parameter
+    foreach my $l ( "XYZ", "" ) {
+        my $res = myget( "$script_url?lang=$l", 9_000 );
+
+        # correct translations?
+        foreach my $text ( @{ $msg->{$l} } ) {
+            like( $res->decoded_content, qr/$text/,
+                "bbbike extract translation" );
+        }
+        like(
+            $res->decoded_content,
+            qr|href='/extract-dialog/en/select-area.html'|,
+            "default to english language"
+        );
     }
 
     foreach my $l (@lang) {
@@ -167,6 +191,7 @@ sub garmin_check {
 foreach my $home_url (
     $ENV{BBBIKE_TEST_SLOW_NETWORK} ? @homepages_localhost : @homepages )
 {
+
     #diag "checked site: $home_url";
     &page_check($home_url);
 }
