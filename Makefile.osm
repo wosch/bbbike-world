@@ -1255,7 +1255,7 @@ osmand-devel:
 test-org:
 	TMPDIR=${TMP_DIR} ./world/bin/lighttpd-template-update
 
-lighttpd-start: lighttpd-restart
+lighttpd-start webserver-start: lighttpd-restart
 lighttpd-restart: temp-clean test-org
 	-killall -TERM lighttpd
 	sleep 0.5
