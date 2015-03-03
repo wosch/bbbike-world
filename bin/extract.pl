@@ -95,6 +95,7 @@ our $option = {
     # reset max_jobs if load is to high
     'max_loadavg'      => 9,
     'max_loadavg_jobs' => 3,    # 0: stop running at all
+    'loadavg_status_program' => '/etc/munin/plugins/bbbike-extract-jobs',
 
     # 4196 polygones is enough for the queue
     'max_coords' => 4 * 1024,
@@ -269,6 +270,7 @@ sub set_alarm {
 sub get_loadavg {
     my @loadavg = ( qx(uptime) =~ /([\.\d]+),?\s+([\.\d]+),?\s+([\.\d]+)/ );
 
+    warn "Current load average is: $loadavg[0]\n" if $debug >= 1;
     return $loadavg[0];
 }
 
@@ -290,6 +292,21 @@ sub get_jobs {
     undef $d;
 
     return @data;
+}
+
+# display output of a program to STDERR
+sub program_output {
+    my $program = shift;
+    my $fh = shift || \*STDERR;
+
+    if ( -e $program && -x $program ) {
+        open( OUT, "$program |" ) or die "$program: $!\n";
+        print $fh "$program:\n";
+        while (<OUT>) {
+            print $fh $_;
+        }
+        close OUT;
+    }
 }
 
 # ($lat1, $lon1 => $lat2, $lon2);
@@ -1923,11 +1940,15 @@ if ( $loadavg > $option->{max_loadavg} ) {
         warn
 "Load avarage $loadavg is to high, reset max jobs to: $max_loadavg_jobs\n"
           if $debug >= 1;
+        &program_output( $option->{'loadavg_status_program'} ) if $debug >= 1;
+
         $max_jobs = $max_loadavg_jobs;
     }
 
     else {
-        die "Load avarage $loadavg is to high, give up!\n";
+        warn "Load avarage $loadavg is to high, give up!\n";
+        program_output( $option->{'loadavg_status_program'} );
+        exit(1);
     }
 }
 
