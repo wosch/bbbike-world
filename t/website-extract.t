@@ -96,17 +96,18 @@ sub page_check {
 
     # check for unknown language in parameter
     foreach my $l ( "XYZ", "" ) {
-        my $res = myget( "$script_url?lang=$l", 9_000 );
+        my $url = "$script_url?lang=$l";
+        my $res = myget( $url, 9_000 );
 
         # correct translations?
         foreach my $text ( @{ $msg->{$l} } ) {
             like( $res->decoded_content, qr/$text/,
-                "bbbike extract translation" );
+                "bbbike extract translation: $url" );
         }
         like(
             $res->decoded_content,
             qr|href='/extract-dialog/en/select-area.html'|,
-            "default to english language"
+            "default to english language: $url"
         );
     }
 
