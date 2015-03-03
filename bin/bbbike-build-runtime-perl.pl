@@ -3,7 +3,7 @@
 #
 # test if all perl modules are installed
 #
-# sudo /opt/local/bin/cpan HTML::TagCloud
+# sudo /usr/local/bin/cpan HTML::TagCloud
 
 use Text::Unidecode;
 use HTML::TagCloud;
@@ -16,8 +16,7 @@ use Tie::IxHash;
 use YAML;
 use Perl::Tidy;
 use BSD::Resource;
-use Date::Calc;
-
+#use Date::Calc;
 #use YAML::Syck;
 
 # not used yet
