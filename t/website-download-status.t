@@ -102,7 +102,7 @@ sub page_check {
 
     # check for known languages
     foreach my $l (@lang) {
-        my $res = myget( "$script_url?lang=$l", 3_000 );
+        my $res = myget( "$script_url?lang=$l", 2_900 );
 
         # correct translations?
         foreach my $text ( @{ $msg->{$l} } ) {
@@ -114,7 +114,7 @@ sub page_check {
     # check for unknown language in parameter
     foreach my $l ( "XYZ", "" ) {
         my $url = "$script_url?lang=$l";
-        my $res = myget( $url, 3_000 );
+        my $res = myget( $url, 2_900 );
 
         # correct translations?
         foreach my $text ( @{ $msg->{$l} } ) {
