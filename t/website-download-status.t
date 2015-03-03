@@ -2,6 +2,9 @@
 # Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
 
 use Test::More;
+use LWP;
+use LWP::UserAgent;
+
 use strict;
 use warnings;
 
@@ -15,11 +18,10 @@ BEGIN {
     }
 }
 
-use LWP;
-use LWP::UserAgent;
-
 binmode \*STDOUT, "utf8";
 binmode \*STDERR, "utf8";
+
+my $debug = 1;
 
 my @homepages_localhost =
   ( $ENV{BBBIKE_TEST_SERVER} ? $ENV{BBBIKE_TEST_SERVER} : "http://localhost" );
@@ -188,11 +190,8 @@ sub garmin_check {
 foreach my $home_url (
     $ENV{BBBIKE_TEST_SLOW_NETWORK} ? @homepages_localhost : @homepages )
 {
-
-    #diag "checked site: $home_url";
+    diag "checked site: $home_url" if $debug >= 1;
     &page_check($home_url);
 }
-
-&garmin_check( $homepages_localhost[0] );
 
 __END__
