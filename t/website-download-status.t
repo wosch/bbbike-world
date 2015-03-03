@@ -126,7 +126,7 @@ sub page_check {
     myget( "$home_url/html/extract-download.css", 3_000 );
     myget( "$home_url/html/extract-download.js",  6_000 );
 
-    my $res = myget( "$script_url", 5_000 );
+    my $res = myget( "$script_url", 2_900 );
     like( $res->decoded_content, qr|id="map"|,   "bbbike extract download" );
     like( $res->decoded_content, qr|id="nomap"|, "bbbike extract download" );
 
