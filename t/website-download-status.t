@@ -24,27 +24,48 @@ binmode \*STDERR, "utf8";
 my @homepages_localhost =
   ( $ENV{BBBIKE_TEST_SERVER} ? $ENV{BBBIKE_TEST_SERVER} : "http://localhost" );
 my @homepages =
-  qw[ http://extract.bbbike.org http://extract2.bbbike.org http://dev1.bbbike.org http://dev2.bbbike.org ];
+  qw[ http://download.bbbike.org http://download1.bbbike.org http://dev1.bbbike.org http://dev2.bbbike.org ];
 if ( $ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
     @homepages = ();
 }
 unshift @homepages, @homepages_localhost;
 
-my @lang = qw/en de ru es fr/;
+my @lang = qw/en de/;
 my @tags =
   ( '</html>', '<head>', '<body[ >]', '</body>', '</head>', '<html[ >]' );
-
-my @extract_dialog =
-  qw/about.html email.html format.html name.html polygon.html select-area.html/;
+my @elements = qw[
+  /community.html
+  /extract.html
+  /html/bbbike.css
+  /html/extract-download.css
+  /html/extract-download.js
+  /html/jquery/jquery-1.8.3.min.js
+  /html/OpenLayers/2.12/OpenLayers-min.js
+  /html/OpenLayers/2.12/OpenStreetMap.js
+  /images/btn_donateCC_LG.gif
+  /images/srtbike16.gif];
 
 my $msg = {
-    "de" => [ "Deine E-Mail Adresse", "Punkte zum Polygon hinzuf&uuml;gen" ],
-    "en"  => [ "Wait for email notification", "Name of area to extract" ],
-    "ru"  => [ "Wait for email notification", "Name of area to extract" ],
-    "es"  => [ "Wait for email notification", "Name of area to extract" ],
-    "fr"  => [ "Wait for email notification", "Name of area to extract" ],
-    "XYZ" => [ "Wait for email notification", "Name of area to extract" ],
-    ""    => [ "Wait for email notification", "Name of area to extract" ],
+    "en" => [
+        "Newest extracts are first", "Number of extracts",
+        "Last update",               "help",
+        "donate",                    "Statistic"
+    ],
+    "de" => [
+        "Neueste Extrakte zuerst", "Anzahl der Extrakte",
+        "Letzte Aktualisierung",   "hilfe",
+        "spenden",                 "Statistik"
+    ],
+    "XYZ" => [
+        "Newest extracts are first", "Number of extracts",
+        "Last update",               "help",
+        "donate",                    "Statistic"
+    ],
+    "" => [
+        "Newest extracts are first", "Number of extracts",
+        "Last update",               "help",
+        "donate",                    "Statistic"
+    ],
 };
 
 use constant MYGET => 3;
@@ -75,76 +96,67 @@ sub myget {
 
 sub page_check {
     my $home_url = shift;
-    my $script_url = shift || "$home_url/cgi/extract.cgi";
+    my $script_url = shift || "$home_url/cgi/download.cgi";
 
     # check for known languages
     foreach my $l (@lang) {
-        my $res = myget( "$script_url?lang=$l", 9_000 );
+        my $res = myget( "$script_url?lang=$l", 5_000 );
 
         # correct translations?
         foreach my $text ( @{ $msg->{$l} } ) {
             like( $res->decoded_content, qr/$text/,
-                "bbbike extract translation" );
-        }
-    }
-
-    foreach my $l (@lang) {
-        foreach my $file (@extract_dialog) {
-            myget( "$home_url/extract-dialog/$l/$file", 420 );
+                "bbbike extract download translation" );
         }
     }
 
     # check for unknown language in parameter
     foreach my $l ( "XYZ", "" ) {
         my $url = "$script_url?lang=$l";
-        my $res = myget( $url, 9_000 );
+        my $res = myget( $url, 5_000 );
 
         # correct translations?
         foreach my $text ( @{ $msg->{$l} } ) {
             like( $res->decoded_content, qr/$text/,
-                "bbbike extract translation: $url" );
-        }
-        like(
-            $res->decoded_content,
-            qr|href='/extract-dialog/en/select-area.html'|,
-            "default to english language: $url"
-        );
-    }
-
-    foreach my $l (@lang) {
-        foreach my $file (@extract_dialog) {
-            myget( "$home_url/extract-dialog/$l/$file", 420 );
+                "bbbike extract download translation: $url" );
         }
     }
 
-    myget( "$home_url/html/extract.css",         3_000 );
-    myget( "$home_url/html/extract.js",          1_000 );
-    myget( "$home_url/extract.html",             12_000 );
-    myget( "$home_url/extract-screenshots.html", 4_000 );
+    myget( "$home_url/html/extract-download.css", 3_000 );
+    myget( "$home_url/html/extract-download.js",  6_000 );
+
+    my $res = myget( "$script_url", 5_000 );
+    like( $res->decoded_content, qr|id="map"|,   "bbbike extract download" );
+    like( $res->decoded_content, qr|id="nomap"|, "bbbike extract download" );
+
+ #like( $res->decoded_content, qr|id="social"|,     "bbbike extract download" );
+    like( $res->decoded_content, qr| content="text/html; charset=utf-8"|,
+        "charset" );
+    like( $res->decoded_content, qr| http-equiv="Content-Type"|,
+        "Content-Type" );
+    like( $res->decoded_content, qr|date=12h|,
+        "bbbike extract download date 12h" );
+    like( $res->decoded_content, qr|date=24h|,
+        "bbbike extract download date 24h" );
+    like( $res->decoded_content, qr[^36h |],
+        "bbbike extract download date 36h" );
+    like( $res->decoded_content, qr|date=48h|,
+        "bbbike extract download date 48h" );
+    like( $res->decoded_content, qr|date=72h|,
+        "bbbike extract download date 72h" );
+
+    foreach my $tag (@tags) {
+        like( $res->decoded_content, qr|$tag|,
+            "bbbike extract html tag: $tag" );
+    }
+
+    foreach my $element (@elements) {
+        like( $res->decoded_content, qr|$element|,
+            "bbbike extract element: $element" );
+    }
 
     if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
-        my $res = myget( "$script_url", 10_000 );
-        like( $res->decoded_content, qr|id="map"|,           "bbbike extract" );
-        like( $res->decoded_content, qr|polygon_update|,     "bbbike extract" );
-        like( $res->decoded_content, qr|"garmin-cycle.zip"|, "bbbike extract" );
-        like( $res->decoded_content, qr| content="text/html; charset=utf-8"|,
-            "charset" );
-        like( $res->decoded_content, qr| http-equiv="Content-Type"|,
-            "Content-Type" );
-
-        foreach my $tag (@tags) {
-            like( $res->decoded_content, qr|$tag|,
-                "bbbike extract html tag: $tag" );
-        }
-
-        like( $res->decoded_content, qr|polygon_update|, "bbbike extract" );
-
-        myget( "$home_url/html/jquery/jquery-ui-1.9.1.custom.min.js", 1_000 );
-        myget( "$home_url/html/jquery/jquery-1.7.1.min.js",           20_000 );
-
-        #myget( "$home_url/html/jquery/jquery.cookie-1.3.1.js",        2_000 );
+        myget( "$home_url/html/jquery/jquery-1.8.3.min.js",        20_000 );
         myget( "$home_url/html/OpenLayers/2.12/OpenStreetMap.js",  3_000 );
-        myget( "$home_url/html/OpenLayers/2.12/Here.js",           5_000 );
         myget( "$home_url/html/OpenLayers/2.12/OpenLayers-min.js", 500_000 );
     }
 }
