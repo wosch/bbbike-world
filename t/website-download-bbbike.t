@@ -1,5 +1,5 @@
-#!/usr/bin/perl
-# Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
+#!/usr/local/bin/perl
+# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
 
 use utf8;
 use Test::More;
