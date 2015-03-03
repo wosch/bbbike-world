@@ -49,22 +49,22 @@ my @elements = qw[
 
 my $msg = {
     "en" => [
-        "Newest extracts are first", "Number of extracts",
+        "Newest extracts are first", "Number of extracts|None",
         "Last update",               "help",
         "donate",                    "Statistic"
     ],
     "de" => [
-        "Neueste Extrakte zuerst", "Anzahl der Extrakte",
+        "Neueste Extrakte zuerst", "Anzahl der Extrakte|keine",
         "Letzte Aktualisierung",   "hilfe",
         "spenden",                 "Statistik"
     ],
     "XYZ" => [
-        "Newest extracts are first", "Number of extracts",
+        "Newest extracts are first", "Number of extracts|None",
         "Last update",               "help",
         "donate",                    "Statistic"
     ],
     "" => [
-        "Newest extracts are first", "Number of extracts",
+        "Newest extracts are first", "Number of extracts|None",
         "Last update",               "help",
         "donate",                    "Statistic"
     ],
