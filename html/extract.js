@@ -227,9 +227,43 @@ function init_map() {
         attribution: '<a href="http://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="http://www.opencyclemap.org/">(&copy) OpenCycleMap</a>'
     }));
 
+    // Bing roads and Satellite/Hybrid
+    add_bing_maps(map);
+
     state.map = map;
     return map;
 }
+
+function add_bing_maps(map) {
+    var BingApiKey = "AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf";
+
+    map.addLayer(new OpenLayers.Layer.Bing(
+    // XXX: bing.com returns a wrong zoom level in JSON API call
+    OpenLayers.Util.extend({
+        initLayer: function () {
+            // pretend we have a zoomMin of 0
+            this.metadata.resourceSets[0].resources[0].zoomMin = 0;
+            OpenLayers.Layer.Bing.prototype.initLayer.apply(this, arguments);
+        }
+    }, {
+        key: BingApiKey,
+        type: "Road"
+        //,  metadataParams: { mapVersion: "v1" }
+    })));
+
+    map.addLayer(new OpenLayers.Layer.Bing(OpenLayers.Util.extend({
+        initLayer: function () {
+            this.metadata.resourceSets[0].resources[0].zoomMin = 0;
+            OpenLayers.Layer.Bing.prototype.initLayer.apply(this, arguments);
+        }
+    }, {
+        key: BingApiKey,
+        type: "AerialWithLabels",
+        name: "Bing Hybrid",
+        numZoomLevels: 18
+    })));
+}
+
 
 // open info page at startup, but display it only once for the user
 
