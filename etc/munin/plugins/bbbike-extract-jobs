@@ -93,7 +93,8 @@ count=0
 cd $extract_dir
 for i in *.pid.lock *.pid; do
   if [ -e "$i" ]; then 
-   if kill -0 $(cat $i); then
+   #if kill -0 $(cat $i); then
+   if test -e /proc/$(cat $i); then
       count=$(expr $count + 1)
     fi
   fi
