@@ -1,4 +1,4 @@
-#!/usr/bin/perl -0
+#!/usr/local/bin/perl -0
 
 my $url_prefix = shift or die "usage $0 URL\n";
 
