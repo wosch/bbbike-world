@@ -15,7 +15,7 @@ file_bpf=`echo "$file" | perl -npe 's/\.bz2$/.pbf/'`
 file_bpf_new=$file_bpf.new.$$
 
 time $nice pbzip2 -dc $file | buffer |
-  $nice time osmosis  --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --write-pbf $file_bpf_new omitmetadata=true
+  $nice time osmosis --fast-read-xml enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 --write-pbf $file_bpf_new omitmetadata=true
 
 mv -f $file_bpf_new $file_bpf
 $MD5 $file_bpf | tee $file_bpf.md5
