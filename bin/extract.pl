@@ -103,7 +103,7 @@ our $option = {
     'language'     => "en",
     'message_path' => "world/etc/extract",
 
-    'osmosis_options' => [ "omitmetadata=true", "granularity=10000" ],
+    'osmosis_options' => [ "omitmetadata=true", $ENV{BBBIKE_PLANET_OSM_GRANULARITY} ],
     'osmosis_options_bounding_polygon' => ["clipIncompleteEntities=true"],
 
     'aws_s3_enabled' => 0,
