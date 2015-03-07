@@ -278,7 +278,7 @@ sub running_extract_areas {
         my $obj;
         eval { $obj = $json->decode($data); };
         if ($@) {
-            warn "Cannot parse json  file $file: $@\n";
+            warn "Cannot parse json file $file: $@\n";
             next;
         }
 
