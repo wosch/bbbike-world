@@ -26,7 +26,7 @@ do
    args="$args --bp file=$f --write-pbf omitmetadata=true $pbf.tmp"
 done
 
-if osmosis --read-pbf ${OSM_PLANET_PBF} $buffer --tee $# $args > $logfile 2>&1
+if osmosis --read-pbf-fast ${OSM_PLANET_PBF} $buffer --tee $# $args > $logfile 2>&1
 then
     for f 
     do
