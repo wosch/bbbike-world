@@ -68,7 +68,7 @@ our $option = {
 
     'pro' => 0,
 
-    'with_google_maps'        => 1,
+    'with_google_maps'        => 0,
     'enable_google_analytics' => 1,
 
     # scheduler with priorities (by IP or user agent)

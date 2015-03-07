@@ -160,7 +160,7 @@ osm2osm () {
     for f
     do
         ff=`echo $f | sed "s/\.pbf$/$ext.tmp/"`
-        args="$args --read-pbf $f --write-xml $ff compressionMethod=$compressionMethod"
+        args="$args --read-pbf-fast $f --write-xml $ff compressionMethod=$compressionMethod"
     done
 
 
@@ -215,14 +215,14 @@ trap 'rm -f $tmp' 0 1 2 15
 
 case $compress in
       "") $osm2o5m $osm2o5m_opt "$file" ;;
-    cat ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout ;;
+    cat ) osmosis $global_opt --read-pbf-fast "$file" --write-xml /dev/stdout ;;
 
     # legacy osmosis
     osmosis-gzip )   osm2osm $compress "$@";;
     osmosis-bzip2 )  osm2osm $compress "$@";;
-    osmosis-pgzip )  osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $gzip  > $tmp && mv -f $tmp $dir/$f.gz ;;
-    osmosis-pbzip2 ) osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $bzip2 > $tmp && mv -f $tmp $dir/$f.bz2 ;;
-    osmosis-xz )     osmosis $global_opt --read-pbf "$file" --write-xml /dev/stdout | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.xz ;;
+    osmosis-pgzip )  osmosis $global_opt --read-pbf-fast "$file" --write-xml /dev/stdout | $gzip  > $tmp && mv -f $tmp $dir/$f.gz ;;
+    osmosis-pbzip2 ) osmosis $global_opt --read-pbf-fast "$file" --write-xml /dev/stdout | $bzip2 > $tmp && mv -f $tmp $dir/$f.bz2 ;;
+    osmosis-xz )     osmosis $global_opt --read-pbf-fast "$file" --write-xml /dev/stdout | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.xz ;;
 
     # compression
     gzip )   $osm2o5m $osm2o5m_opt "$file" | gzip   > $tmp && mv -f $tmp $dir/$f.gz ;;

@@ -34,7 +34,7 @@ esac
 # run in quiet mode
 global_opt=-q
 
-if $uncompress "$file" | osmosis $global_opt --read-xml enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 \
+if $uncompress "$file" | osmosis $global_opt --read-xml-fast enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 \
 	--write-pbf $file_pbf omitmetadata=true granularity=10000
 then
     :
