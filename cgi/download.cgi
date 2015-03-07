@@ -275,7 +275,13 @@ sub running_extract_areas {
             $data .= $_;
         }
 
-        my $obj = $json->decode($data);
+        my $obj;
+        eval { $obj = $json->decode($data); };
+        if ($@) {
+            warn "Cannot parse json  file $file: $@\n";
+            next;
+        }
+
         next if !exists $obj->{'date'};
         my $script_url = $obj->{"script_url"};
 
