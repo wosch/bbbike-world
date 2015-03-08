@@ -233,7 +233,7 @@ sub js_jump {
     <script type="text/javascript">
     //<![CDATA[
 
-    var city = "dummy";
+    var city = "Berlin";
     var more_cities = false;
 
     function jumpToCity (coord) {
@@ -381,7 +381,7 @@ my @city_list;
 
 print "var bbbike_db = [\n";
 foreach my $city ( sort keys %hash ) {
-    next if $city eq 'dummy';
+    next if $city eq 'dummy' || $city eq 'bbbike';
 
     my $coord = $hash{$city}->{'coord'};
 
@@ -401,10 +401,25 @@ foreach my $city ( sort keys %hash ) {
 }
 print <<EOF;
 ]; // var bbbike_db = [ ... ];
+var offline = "$offline";
 
+var data = "";
 for(var i = 0; i < bbbike_db.length; i++) {
-    plotRoute(map, {"city": bbbike_db[i][0], "area": bbbike_db[i][1]}, []);
+    var c = bbbike_db[i][0];
+    plotRoute(map, {"city": c, "area": bbbike_db[i][1]}, []);
+    
+    // footer links
+    data += '<a href="';
+    if (offline) {
+	data += '../' + c + '/';
+    } else {
+	data += '?city=' + c;
+    }
+	
+    data += '">' + c + '</a>\\n';
 }
+
+\$("#more_cities_inner").html(data);
 
 EOF
 
@@ -429,12 +444,6 @@ EOF
 print qq{<div id="bottom">\n};
 print qq{<div id="more_cities" style="display:none;">\n};
 print qq{<div id="more_cities_inner">\n};
-foreach my $c (@city_list) {
-    next if $c eq 'dummy' || $c eq 'bbbike';
-    print qq{<a href="}
-      . ( $offline ? "../$c/" : qq{?city=$c} )
-      . qq{">$c</a>\n};
-}
 print
 qq{\n| <span id="maplink"><a href="http://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=http:%2F%2Fwww.bbbike.org%2Fbbbike-world.kml&amp;ie=UTF8&amp;t=p&amp;ll=52.961875,12.128906&amp;spn=22.334434,47.460938&amp;z=4" >View on a Map</a></span>\n};
 print qq{</div><!-- more cities inner -->\n};
