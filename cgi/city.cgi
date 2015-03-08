@@ -378,7 +378,10 @@ my @route_display;
 my %hash = %{ $db->city };
 my $city_center;
 my @city_list;
+
+print "var bbbike_db = [\n";
 foreach my $city ( sort keys %hash ) {
+    next if $city eq 'dummy';
 
     my $coord = $hash{$city}->{'coord'};
 
@@ -392,10 +395,18 @@ foreach my $city ( sort keys %hash ) {
     $city_center->{$city} = $opt->{"area"};
 
     my $opt_json = $json->encode($opt);
-    print qq{plotRoute(map, $opt_json, "[]");\n};
+    printf( qq|["%s","%s"],\n|, $opt->{"city"}, $opt->{"area"} );
 
     push @city_list, $city;
 }
+print <<EOF;
+]; // var bbbike_db = [ ... ];
+
+for(var i = 0; i < bbbike_db.length; i++) {
+    plotRoute(map, {"city": bbbike_db[i][0], "area": bbbike_db[i][1]}, []);
+}
+
+EOF
 
 if ( $city && exists $city_center->{$city} ) {
     print "\n", qq[jumpToCity('$city_center->{$city}');\n];
