@@ -85,8 +85,8 @@ sub footer {
   <div id="footer_top">
     <a href="/">home</a> |
     <a href="$www_bbbike_org/community.html">donate</a> |
-    <a href="$www_bbbike_org/$city/" title="start bicycle routing for $city area">$city</a> |
-    <a href="javascript:resizeOtherCities(more_cities);">more cities</a>
+    <a href="$www_bbbike_org/$city/" title="@{[ ("start bicycle routing for") ]} $city @{[ ("area") ]}">$city</a> |
+    <a href="javascript:resizeOtherCities(more_cities);">@{[ M("more cities") ]}</a>
   </div>
 </div> <!-- footer -->
 <hr/>
@@ -124,13 +124,17 @@ sub mtime {
 }
 
 sub download_area {
-    my $city = shift || $city_default;
+    my $city    = shift || $city_default;
     my $offline = shift;
+    my $q       = shift;
 
     my $osm_dir = "../osm";
 
     #die system("pwd > /tmp/a.pwd");
     my $dir = "$osm_dir/$city/";
+
+    my $locale = BBBikeLocale->new( 'q' => $q );
+    print $locale->language_links( 'with_separator' => 1 );
 
     my $data = <<EOF;
 <h3>OSM extracts for $city</h3>
@@ -390,7 +394,7 @@ print &css_map;
 
 print qq{<div id="sidebar">\n};
 print qq{\t<div id="routes">}
-  . &download_area( $city, $offline )
+  . &download_area( $city, $offline, $q )
   . qq{</div>\n};
 print qq{</div> <!-- sidebar -->\n};
 
@@ -478,9 +482,6 @@ print <<EOF;
 
 <!-- ******************************************* -->
 EOF
-
-my $locale = BBBikeLocale->new( 'q' => $q );
-print $locale->language_links( 'with_separator' => 1 );
 
 print qq{<div id="bottom">\n};
 print qq{<div id="more_cities" style="display:none;">\n};
