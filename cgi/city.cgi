@@ -12,22 +12,60 @@ use JSON;
 use Data::Dumper;
 use Getopt::Long;
 
-use lib './world/bin';
-use lib '../world/bin';
-use lib '../bin';
+use lib qw(./world/bin ../world/bin ../bin);
+use lib qw(../world/lib ../lib);
 use BBBikeWorldDB;
+use BBBikeLocale;
+use BBBikeAnalytics;
 
 use strict;
 use warnings;
 
-my $debug               = 1;
-my $city_default        = "Berlin";
-my $download_bbbike_org = "http://download.bbbike.org";
-my $www_bbbike_org      = "http://www.bbbike.org";
-my $checksum_file       = 'CHECKSUM.txt';
+our $option = {
+    'homepage_download' => 'http://download.bbbike.org/osm/',
+    'homepage_bbbike'   => 'http://www.bbbike.org',
 
-binmode \*STDOUT, ":raw";
+    'message_path' => "../world/etc/extract",
+    'city_default' => 'Berlin',
+    'debug'        => 1,
+
+    'enable_google_analytics' => 1,
+};
+
+my $debug               = $option->{'debug'};
+my $city_default        = $option->{'city_default'};
+my $download_bbbike_org = $option->{'homepage_download'};
+my $www_bbbike_org      = $option->{'homepage_bbbike'};
+
+my $checksum_file = 'CHECKSUM.txt';
+
+#binmode \*STDOUT, ":raw";
+binmode \*STDOUT, ":utf8";
+binmode \*STDERR, ":utf8";
+
+# EOF config
+###########################################################################
+
+sub M { return BBBikeLocale::M(@_); };    # wrapper
+
 my $q = new CGI;
+if ( defined $q->param('debug') ) {
+    $debug = int( $q->param('debug') );
+}
+
+sub load_javascript_libs {
+    my @js = qw(
+      OpenLayers/2.12/OpenLayers-min.js
+      OpenLayers/2.12/OpenStreetMap.js
+      jquery/jquery-1.8.3.min.js
+      extract-download.js
+    );
+
+    my $javascript = join "\n",
+      map { qq{<script src="/html/$_" type="text/javascript"></script>} } @js;
+
+    return $javascript;
+}
 
 sub footer {
     my %args   = @_;
@@ -441,6 +479,9 @@ print <<EOF;
 <!-- ******************************************* -->
 EOF
 
+my $locale = BBBikeLocale->new( 'q' => $q );
+print $locale->language_links( 'with_separator' => 1 );
+
 print qq{<div id="bottom">\n};
 print qq{<div id="more_cities" style="display:none;">\n};
 print qq{<div id="more_cities_inner">\n};
@@ -451,6 +492,13 @@ print qq{</div><!-- more cities -->\n};
 
 print &footer( "cities" => \@city_list, 'city' => $city );
 print "</div> <!-- bottom -->\n";
+
+# load javascript code late
+print &load_javascript_libs;
+print $option->{"enable_google_analytics"}
+  ? BBBikeAnalytics->new( 'q' => $q )->google_analytics
+  : "";
+
 print $q->end_html;
 
 1;
