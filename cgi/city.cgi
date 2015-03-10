@@ -331,8 +331,14 @@ EOF
 sub css_map {
     return <<EOF;
 <style type="text/css">
-div#BBBikeGooglemap { left:  24em; }
-div#sidebar         { width: 24em; height: auto; }
+div#BBBikeGooglemap, div#map_wrapper { left:  24.5em; }
+div#sidebar, div#sidebar_left        { width: 24.5em; height: auto; }
+
+span#language {
+  position: inherit;
+  padding-left: 20em;
+  padding-top: 0.5em;
+}
 </style>
 
 EOF
