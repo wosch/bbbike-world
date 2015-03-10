@@ -84,8 +84,6 @@ sub footer {
 <div id="footer">
   <div id="footer_top">
     <a href="/">home</a> |
-    <a href="$www_bbbike_org/community.html">donate</a> |
-    <a href="$www_bbbike_org/$city/" title="@{[ ("start bicycle routing for") ]} $city @{[ ("area") ]}">$city</a> |
     <a href="javascript:resizeOtherCities(more_cities);">@{[ M("more cities") ]}</a>
   </div>
 </div> <!-- footer -->
@@ -210,7 +208,8 @@ EOF
 
 <br/>
 <a href="http://extract.bbbike.org/extract.html" target="_new">help</a> |
-<a href="http://extract.bbbike.org/extract-screenshots.html" target="_new">screenshots</a>
+<a href="http://extract.bbbike.org/extract-screenshots.html" target="_new">screenshots</a> |
+<a href="$www_bbbike_org/$city/" title="@{[ ("start bicycle routing for") ]} $city @{[ ("area") ]}">@{[ M("cycle routing") ]} $city</a>
 <hr/>
 
 <span class="city">
