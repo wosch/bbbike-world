@@ -80,7 +80,7 @@ sub footer {
     $city = CGI::escapeHTML($city);
 
     return <<EOF;
-<div id="bottom">
+<div id="bottom2">
 <div id="footer">
   <div id="footer_top">
     <a href="/">home</a> |
