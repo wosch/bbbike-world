@@ -13,8 +13,7 @@ use File::stat;
 use File::Basename;
 use HTTP::Date;
 
-use lib '../world/lib';
-use lib '../lib';
+use lib qw[../world/lib ../lib];
 use BBBikeLocale;
 use BBBikeAnalytics;
 
