@@ -417,12 +417,9 @@ sub statistic {
         keys %format_counter_all
       )
     {
-        print qq{<span }
-          . qq{ title="}
-          . sprintf( "%2.2f",
-            $format_counter_all{$f} * 100 / scalar(@downloads) )
-          . qq{%">};
-        print $f . " (" . $format_counter_all{$f} . ")";
+        print qq{<span title="} . $format_counter_all{$f} . qq{">};
+        printf( "%s (%2.2f%%)",
+            $f, $format_counter_all{$f} * 100 / scalar(@downloads) );
         print "</span><br/>\n";
     }
     print "<hr/>\n\n";
