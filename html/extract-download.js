@@ -234,8 +234,9 @@ function debug(text, id) {
 }
 
 
-/* main */
+/* main
 $(document).ready(function () {
     download_init_map();
     parse_areas_from_links();
 });
+*/

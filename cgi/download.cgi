@@ -346,7 +346,17 @@ sub load_javascript_libs {
     my $javascript = join "\n",
       map { qq{<script src="/html/$_" type="text/javascript"></script>} } @js;
 
-    return $javascript;
+    my $dom_ready = <<'EOF';
+    
+<script type="text/javascript">
+$(document).ready(function () {
+    download_init_map();
+    parse_areas_from_links();
+});
+</script>
+EOF
+
+    return $javascript . $dom_ready;
 }
 
 sub css_map {
