@@ -57,8 +57,8 @@ sub load_javascript_libs {
     my @js = qw(
       OpenLayers/2.12/OpenLayers-min.js
       OpenLayers/2.12/OpenStreetMap.js
-      jquery/jquery-1.8.3.min.js
       extract-download.js
+      area.js
     );
 
     my $javascript = join "\n",
@@ -80,7 +80,6 @@ sub footer {
     $city = CGI::escapeHTML($city);
 
     return <<EOF;
-<div id="bottom2">
 <div id="footer">
   <div id="footer_top">
     <a href="/">home</a> |
@@ -96,7 +95,6 @@ sub footer {
 
   <div id="footer_community"></div>
 </div> <!-- copyright -->
-</div> <!-- bottom -->
 EOF
 }
 
@@ -233,13 +231,7 @@ sub header {
     my $sensor = 'true';
     my $base   = "";
 
-    my @javascript = (
-        "/html/jquery/jquery-1.4.2.min.js",
-        "/html/devbridge-jquery-autocomplete-1.1.2/jquery.autocomplete-min.js",
-"http://maps.googleapis.com/maps/api/js?v=3.9&sensor=false&language=en&libraries=weather,panoramio",
-        "/html/bbbike.js",
-        "/html/maps3.js"
-    );
+    my @javascript = qw(/html/jquery/jquery-1.8.3.min.js);
 
     my $description =
 "OSM extracts for $city in OSM, PBF, Garmin cycle map, Osmand, mapsforge, Navit and Esri shapefile format";
@@ -256,12 +248,7 @@ sub header {
             ),
         ],
 
-        -style => {
-            'src' => [
-                $base . "/html/devbridge-jquery-autocomplete-1.1.2/styles.css",
-                $base . "/html/bbbike.css"
-            ]
-        },
+        -style => { 'src' => [ $base . "/html/bbbike.css" ] },
         -script =>
           [ map { { 'src' => ( /^http:/ ? $_ : $base . $_ ) } } @javascript ],
     );
@@ -270,54 +257,16 @@ sub header {
 sub js_jump {
     my $map_type = shift;
 
-    return <<EOF;
+    return << 'EOF';
     <script type="text/javascript">
     //<![CDATA[
 
     var city = "Berlin";
     var more_cities = false;
 
-    function jumpToCity (coord) {
-	var b = coord.split("!");
-
-	var bounds = new google.maps.LatLngBounds;
-        for (var i=0; i<b.length; i++) {
-	      var c = b[i].split(",");
-              bounds.extend(new google.maps.LatLng( c[1], c[0]));
-        }
-        map.setCenter(bounds.getCenter());
-        map.fitBounds(bounds);
-	var zoom = map.getZoom();
-
-        // no zoom level higher than 15
-         map.setZoom( zoom < 16 ? zoom + 0 : 16);
-    }
-
-    function resizeOtherCities(toogle) {
-	var tag = document.getElementById("BBBikeGooglemap");
-	var tag_more_cities = document.getElementById("more_cities");
-    
-	if (!tag) return;
-	if (!tag_more_cities) return;
-    
-	if (!toogle) {
-	    // tag.style.height = "75%";
-	    // tag_more_cities.style.fontSize = "85%";
-	    tag_more_cities.style.display = "block";
-    
-	} else {
-	    tag_more_cities.style.display = "none";
-	    // tag.style.height = "90%";
-	}
-    
-	more_cities = toogle ? false : true;
-	// google.maps.event.trigger(map, 'resize');
-	setMapHeight();
-    }
-	
-    \$(document).ready(function() {
-	bbbike_maps_init('$map_type', [[43, 8],[57, 15]], "en", 1 );
-	setMapHeight();
+    $(document).ready(function() {
+	download_init_map();
+	set_map_height();
     });
 
     //]]>
@@ -442,36 +391,18 @@ foreach my $city ( sort keys %hash ) {
     $city_center->{$city} = $opt->{"area"};
 
     my $opt_json = $json->encode($opt);
-    printf( qq|["%s","%s"],\n|, $opt->{"city"}, $opt->{"area"} );
+    printf( qq|\t["%s",%s,%s,%s,%s],\n|, $opt->{"city"}, $x1, $y1, $x2, $y2 );
 
     push @city_list, $city;
 }
 print <<EOF;
 ]; // var bbbike_db = [ ... ];
-var offline = "$offline";
-
-var data = "";
-for(var i = 0; i < bbbike_db.length; i++) {
-    var c = bbbike_db[i][0];
-    plotRoute(map, {"city": c, "area": bbbike_db[i][1]}, []);
-    
-    // footer links
-    data += '<a href="';
-    if (offline) {
-	data += '../' + c + '/';
-    } else {
-	data += '?city=' + c;
-    }
-	
-    data += '">' + c + '</a>\\n';
-}
-
-\$("#more_cities_inner").html(data);
+plot_bbbike_areas(bbbike_db, $offline);
 
 EOF
 
-if ( $city && exists $city_center->{$city} ) {
-    print "\n", qq[jumpToCity('$city_center->{$city}');\n];
+if ( $city && exists $hash{$city} ) {
+    print qq[jump_to_city(bbbike_db, "$city")\n];
 }
 
 print <<EOF;

@@ -124,7 +124,7 @@ function download_plot_polygon(obj) {
     debug("download plot polygon");
 
     var polygon = obj.coords ? string2coords(obj.coords) : rectangle2polygon(obj.sw_lng, obj.sw_lat, obj.ne_lng, obj.ne_lat);
-    var color = $("span." + obj.class_format).css("color");
+    var color = obj.color ? obj.color : $("span." + obj.class_format).css("color");
     debug("class_format: " + obj.class_format + " color: " + color);
 
     var feature = plot_polygon(polygon, {
