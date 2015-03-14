@@ -39,7 +39,6 @@ my $www_bbbike_org      = $option->{'homepage_bbbike'};
 
 my $checksum_file = 'CHECKSUM.txt';
 
-#binmode \*STDOUT, ":raw";
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
@@ -254,28 +253,6 @@ sub header {
     );
 }
 
-sub js_jump {
-    my $map_type = shift;
-
-    return << 'EOF';
-    
-<script type="text/javascript">
-    //<![CDATA[
-
-    var city = "Berlin";
-    var bbbike_db = [];
-
-    $(document).ready(function() {
-	download_init_map();
-	init_map_resize();
-    });
-
-    //]]>
-</script>
-
-EOF
-}
-
 #
 # local CSS overrides for this script
 #
@@ -295,13 +272,12 @@ span#language {
 EOF
 }
 
-# place holder
-sub js_map {
-    my $map_type = shift;
-
-    return <<EOF;
-<script type="text/javascript">
-</script>
+sub noscript {
+    return <<'EOF';
+    
+<noscript>
+  <p>You must enable JavaScript and CSS to run this application!</p>
+</noscript>
 
 EOF
 }
@@ -359,13 +335,12 @@ print qq{<div id="BBBikeGooglemap">\n};
 print qq{<div id="map"></div>\n};
 
 my $map_type = "hike_bike";
-print &js_jump($map_type);
-print &js_map;
 
 print <<EOF;
 <script type="text/javascript">
+var bbbike_db = [];
 \$(document).ready(function() {
-    city = "$city";
+    var city = "$city";
 
 EOF
 
@@ -377,9 +352,12 @@ my %hash = %{ $db->city };
 my $city_center;
 my @city_list;
 
+my $counter = 10;
+
 print "    bbbike_db = [\n";
 foreach my $city ( sort keys %hash ) {
     next if $city eq 'dummy' || $city eq 'bbbike';
+    next if $counter-- <= 0;    # debugging
 
     my $coord = $hash{$city}->{'coord'};
 
@@ -400,26 +378,17 @@ foreach my $city ( sort keys %hash ) {
 print <<EOF;
     ]; // var bbbike_db = [ ... ];
     
+    download_init_map();
+    init_map_resize();
     plot_bbbike_areas(bbbike_db, $offline);
-EOF
-
-if ( $city && exists $hash{$city} ) {
-    print qq[    jump_to_city(bbbike_db, "$city");\n\n];
-}
-
-print <<EOF;
+    jump_to_city(bbbike_db, city);
 });    // \$(document).ready();
 
 </script>
-
-<noscript>
-<p>You must enable JavaScript and CSS to run this application!</p>
-</noscript>
-
-</div> <!-- map -->
-
-<!-- ******************************************* -->
 EOF
+
+print &noscript;
+print "</div> <!-- map -->\n\n";
 
 print qq{<div id="bottom">\n};
 print qq{<div id="more_cities" style="display:none;">\n};
