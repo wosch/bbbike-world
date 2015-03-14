@@ -4,7 +4,10 @@
 
 // var bbbike_db = [ .... ];
 
-function plot_bbbike_areas(bbbike_db, offline) {
+function plot_bbbike_areas(bbbike_db, conf) {
+    if (!conf) var conf = {};
+    var offline = conf.offline;
+    var city = conf.city;
 
     var data = "";
     for (var i = 0; i < bbbike_db.length; i++) {
@@ -12,7 +15,7 @@ function plot_bbbike_areas(bbbike_db, offline) {
         var c = bbbike_db[i][0];
 
         download_plot_polygon({
-            "color": "orange",
+            "color": c == city ? "red" : "orange",
             "sw_lng": coords[0],
             "sw_lat": coords[1],
             "ne_lng": coords[2],

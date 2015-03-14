@@ -26,7 +26,7 @@ var state = {
 }; /* end of global variables */
 
 
-function download_init_map(obj) {
+function download_init_map(conf) {
     map = new OpenLayers.Map("map", {
         controls: [
         new OpenLayers.Control.Navigation(), //
@@ -55,10 +55,10 @@ function download_init_map(obj) {
         attribution: '<a href="http://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="http://www.opencyclemap.org/">(&copy) OpenCycleMap</a>'
     }));
 
-    download_init_vectors(map);
+    download_init_vectors(map, conf);
 
     // by default we center the world map, otherwise use {nocenter: true}
-    if (!obj && !obj.nocenter) {
+    if (!conf && !conf.nocenter) {
         // most extracts are in the northern hemisphere,
         // set center to Central Europe
         var center = new OpenLayers.LonLat(15, 25).transform(state.epsg4326, map.getProjectionObject());
@@ -66,13 +66,16 @@ function download_init_map(obj) {
     }
 }
 
-function download_init_vectors(map) {
+function download_init_vectors(map, conf) {
     // main vector
+    var fillOpacity = conf && conf.fillOpacity ? conf.fillOpacity : 0.5;
+    debug("fillOpacity: " + fillOpacity);
+
     state.vectors = new OpenLayers.Layer.Vector("Vector Layer", {
         displayInLayerSwitcher: false,
 
         styleMap: new OpenLayers.StyleMap({
-            fillOpacity: 0.5,
+            fillOpacity: fillOpacity,
             fillColor: "${type}",
             // based on feature.attributes.type
             strokeColor: "${type}" // based on feature.attributes.type

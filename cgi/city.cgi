@@ -357,9 +357,11 @@ my $counter = 10;
 print "    bbbike_db = [\n";
 foreach my $city ( sort keys %hash ) {
     next if $city eq 'dummy' || $city eq 'bbbike';
+
     #next if $counter-- <= 0;    # debugging
 
     my $coord = $hash{$city}->{'coord'};
+
     # warn "c: $city\n"; warn Dumper($hash{$city}), "\n";
 
     my $opt;
@@ -379,8 +381,8 @@ print <<EOF;
     ]; // var bbbike_db = [ ... ];
     
     set_map_height(); // called early for OpenLayers....
-    download_init_map({"nocenter": true});
-    plot_bbbike_areas(bbbike_db, $offline);
+    download_init_map({"nocenter": true, "fillOpacity": 0.3});
+    plot_bbbike_areas(bbbike_db, {"offline": $offline, "city": "$city"});
     jump_to_city(bbbike_db, city);
     init_map_resize();
     
