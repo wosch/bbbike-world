@@ -394,7 +394,7 @@ foreach my $city ( sort keys %hash ) {
     $city_center->{$city} = $opt->{"area"};
 
     my $opt_json = $json->encode($opt);
-    printf( qq|\t["%s",%s,%s,%s,%s],\n|, $opt->{"city"}, $x1, $y1, $x2, $y2 );
+    printf( qq|\t["%s",[%s,%s,%s,%s]],\n|, $opt->{"city"}, $x1, $y1, $x2, $y2 );
 
     push @city_list, $city;
 }
