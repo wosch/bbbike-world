@@ -26,7 +26,7 @@ var state = {
 }; /* end of global variables */
 
 
-function download_init_map() {
+function download_init_map(obj) {
     map = new OpenLayers.Map("map", {
         controls: [
         new OpenLayers.Control.Navigation(), //
@@ -57,12 +57,13 @@ function download_init_map() {
 
     download_init_vectors(map);
 
-    // most extracts are in the northern hemisphere,
-    // set center to Central Europe
-    var center = new OpenLayers.LonLat(15, 25).transform(state.epsg4326, map.getProjectionObject());
-    map.setCenter(center, 2);
-
-    //map.zoomToMaxExtent();
+    // by default we center the world map, otherwise use {nocenter: true}
+    if (!obj && !obj.nocenter) {
+        // most extracts are in the northern hemisphere,
+        // set center to Central Europe
+        var center = new OpenLayers.LonLat(15, 25).transform(state.epsg4326, map.getProjectionObject());
+        map.setCenter(center, 2);
+    }
 }
 
 function download_init_vectors(map) {
@@ -155,7 +156,7 @@ function string2coords(coords) {
 
 
 function center_city(sw_lng, sw_lat, ne_lng, ne_lat) {
-    debug("center city: " + sw_lng + "," + sw_lat + " " + ne_lng + "," + ne_lat);
+    debug("center city: sw_lng: " + sw_lng + " sw_lat: " + sw_lat + " ne_lng: " + ne_lng + " ne_lat: " + ne_lat);
 
     var bounds = new OpenLayers.Bounds(sw_lng, sw_lat, ne_lng, ne_lat);
 

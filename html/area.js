@@ -44,14 +44,18 @@ function set_map_height() {
 };
 
 function jump_to_city(bbbike_db, city) {
-    var obj;
     for (var i = 0; i < bbbike_db.length; i++) {
-        obj = bbbike_db[i];
+        var obj = bbbike_db[i];
+
         if (obj[0] == city) {
-            center_city(obj[1], obj[2], obj[3], obj[4]);
+            var coords = obj[1];
+            debug("jump to city: " + city + " coords: " + coords)
+
+            center_city(coords[0], coords[1], coords[2], coords[3]);
             return;
         }
     }
+
     debug("did not found city in db: " + city);
 }
 
@@ -74,6 +78,6 @@ function init_map_resize() {
         resize = setTimeout(function () {
             debug("resize event");
             set_map_height();
-        }, 100);
+        }, 0);
     });
 }

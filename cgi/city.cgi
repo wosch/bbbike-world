@@ -375,13 +375,16 @@ foreach my $city ( sort keys %hash ) {
 
     push @city_list, $city;
 }
+
 print <<EOF;
     ]; // var bbbike_db = [ ... ];
     
-    download_init_map();
-    init_map_resize();
+    set_map_height(); // called early for OpenLayers....
+    download_init_map({"nocenter": true});
     plot_bbbike_areas(bbbike_db, $offline);
     jump_to_city(bbbike_db, city);
+    init_map_resize();
+    
 });    // \$(document).ready();
 
 </script>
