@@ -268,7 +268,7 @@ sub js_jump {
 
     $(document).ready(function() {
 	download_init_map();
-	set_map_height();
+	init_map_resize();
     });
 
     //]]>
