@@ -10,7 +10,7 @@
 var map;
 
 var config = {
-    minZoomLevel: 9,
+    minZoomLevel: 10,
     debug: 1
 };
 
