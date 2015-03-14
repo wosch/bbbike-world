@@ -83,7 +83,7 @@ sub footer {
 <div id="footer">
   <div id="footer_top">
     <a href="/">home</a> |
-    <a href="javascript:resizeOtherCities(more_cities);">@{[ M("more cities") ]}</a>
+    <a href="javascript:toggle_more_cities('more_cities');">@{[ M("more cities") ]}</a>
   </div>
 </div> <!-- footer -->
 <hr/>
@@ -263,7 +263,6 @@ sub js_jump {
     //<![CDATA[
 
     var city = "Berlin";
-    var more_cities = false;
     var bbbike_db = [];
 
     $(document).ready(function() {
