@@ -258,11 +258,13 @@ sub js_jump {
     my $map_type = shift;
 
     return << 'EOF';
-    <script type="text/javascript">
+    
+<script type="text/javascript">
     //<![CDATA[
 
     var city = "Berlin";
     var more_cities = false;
+    var bbbike_db = [];
 
     $(document).ready(function() {
 	download_init_map();
@@ -270,7 +272,8 @@ sub js_jump {
     });
 
     //]]>
-    </script>
+</script>
+
 EOF
 }
 
@@ -298,8 +301,9 @@ sub js_map {
     my $map_type = shift;
 
     return <<EOF;
-    <script type="text/javascript">
-    </script>
+<script type="text/javascript">
+</script>
+
 EOF
 }
 
@@ -362,8 +366,7 @@ print &js_map;
 print <<EOF;
 <script type="text/javascript">
 \$(document).ready(function() {
-
-city = "$city";
+    city = "$city";
 
 EOF
 
@@ -375,7 +378,7 @@ my %hash = %{ $db->city };
 my $city_center;
 my @city_list;
 
-print "var bbbike_db = [\n";
+print "    bbbike_db = [\n";
 foreach my $city ( sort keys %hash ) {
     next if $city eq 'dummy' || $city eq 'bbbike';
 
@@ -396,13 +399,13 @@ foreach my $city ( sort keys %hash ) {
     push @city_list, $city;
 }
 print <<EOF;
-]; // var bbbike_db = [ ... ];
-plot_bbbike_areas(bbbike_db, $offline);
-
+    ]; // var bbbike_db = [ ... ];
+    
+    plot_bbbike_areas(bbbike_db, $offline);
 EOF
 
 if ( $city && exists $hash{$city} ) {
-    print qq[jump_to_city(bbbike_db, "$city")\n];
+    print qq[    jump_to_city(bbbike_db, "$city");\n\n];
 }
 
 print <<EOF;
