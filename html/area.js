@@ -8,15 +8,15 @@ function plot_bbbike_areas(bbbike_db, offline) {
 
     var data = "";
     for (var i = 0; i < bbbike_db.length; i++) {
-        var obj = bbbike_db[i];
-        var c = obj[0];
+        var coords = bbbike_db[i][1];
+        var c = bbbike_db[i][0];
 
         download_plot_polygon({
             "color": "orange",
-            "sw_lng": obj[1],
-            "sw_lat": obj[2],
-            "ne_lng": obj[3],
-            "ne_lat": obj[4]
+            "sw_lng": coords[0],
+            "sw_lat": coords[1],
+            "ne_lng": coords[2],
+            "ne_lat": coords[3]
         });
 
         // footer links
@@ -34,7 +34,7 @@ function plot_bbbike_areas(bbbike_db, offline) {
 }
 
 function set_map_height() {
-    var padding = 10; // XXX: browser problems?
+    var padding = 0; // XXX: browser problems?
     var height = $("body").height() - $('#bottom').height() - padding;
     if (height < 200) height = 200;
 
@@ -55,24 +55,25 @@ function jump_to_city(bbbike_db, city) {
     debug("did not found city in db: " + city);
 }
 
-function resizeOtherCities(toogle) {
-    var tag = document.getElementById("BBBikeGooglemap");
-    var tag_more_cities = document.getElementById("more_cities");
+function toggle_more_cities(id) {
+    var tag_more_cities = $("#" + id);
 
-    if (!tag) return;
-    if (!tag_more_cities) return;
-
-    if (!toogle) {
-        // tag.style.height = "75%";
-        // tag_more_cities.style.fontSize = "85%";
-        tag_more_cities.style.display = "block";
-
-    } else {
-        tag_more_cities.style.display = "none";
-        // tag.style.height = "90%";
-    }
-
-    more_cities = toogle ? false : true;
-    // google.maps.event.trigger(map, 'resize');
+    tag_more_cities.toggle();
     set_map_height();
+}
+
+function init_map_resize() {
+    var resize = null;
+
+    // set map height depending on the free space on the browser window
+    set_map_height();
+
+    // reset map size, 3x a second
+    $(window).resize(function () {
+        if (resize) clearTimeout(resize);
+        resize = setTimeout(function () {
+            debug("resize event");
+            set_map_height();
+        }, 100);
+    });
 }
