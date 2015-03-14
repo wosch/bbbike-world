@@ -357,7 +357,8 @@ my $counter = 10;
 print "    bbbike_db = [\n";
 foreach my $city ( sort keys %hash ) {
     next if $city eq 'dummy' || $city eq 'bbbike';
-    next if $counter-- <= 0;    # debugging
+
+    #next if $counter-- <= 0;    # debugging
 
     my $coord = $hash{$city}->{'coord'};
 
