@@ -170,6 +170,7 @@ sub checksum {
       : [
         "00be5db534e43686458a87b40f15d739",    # debian7
         "03dfd15fd5cc3a35a419f4e807d39111",    # debian7
+        "95b0c34bdbd3babf1071c026763215f8",    # debian7
 
         "93537a5063709529864cd104243aa1d0",    # debian7
         "09d99413f9ce071b29b8c794a8651dba",    # debian6
