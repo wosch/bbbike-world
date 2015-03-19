@@ -100,10 +100,8 @@ for i in *.pid.lock *.pid; do
 done
 echo "proc.value $count"
 
-echo "waiting.value" $(ls $extract_dir/../confirmed/*.json 2>/dev/null | wc -l) 
-
 echo "users.value" $(egrep -h '"email"' $extract_dir/*/*.json 2>/dev/null | sort -u | wc -l) 
-
+echo "waiting.value" $(ls $extract_dir/../confirmed/*.json 2>/dev/null | wc -l) 
 echo "users_waiting.value" $(egrep -h '"email"' $extract_dir/../confirmed/*.json 2>/dev/null | sort -u | wc -l) 
 
 # EOF
