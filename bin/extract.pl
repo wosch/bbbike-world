@@ -347,6 +347,8 @@ sub parse_jobs {
     my $max        = $args{'max'};
     my $job_number = $args{'job_number'};
 
+    warn "job number is: $job_number\n" if $debug >= 1;
+
     my ( $hash, $default_planet_osm, $counter ) = parse_jobs_planet(%args);
 
     # sort by user and date, newest first
@@ -1770,9 +1772,10 @@ sub run_jobs {
     );
 
     # find a free job
-    my $number;
-    foreach $number ( 1 .. $max_jobs ) {
+    my $job_number;
+    foreach my $number ( 1 .. $max_jobs ) {
         my $file = $spool->{'running'} . "/job${number}.pid";
+        $job_number = $number;
 
         # lock pid
         if ( $lockmgr = &create_lock( 'lockfile' => $file ) ) {
@@ -1796,7 +1799,7 @@ sub run_jobs {
         'files'      => \@files,
         'dir'        => $spool->{'confirmed'},
         'max'        => $max_areas,
-        'job_number' => $number,
+        'job_number' => $job_number,
     );
     my @list = @$list;
 
