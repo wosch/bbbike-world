@@ -120,3 +120,4 @@ span.format_srtm_garmin_srtm_zip { color: brown; }
 span.format_srtm_obf_zip { color: brown; }
 span.format_srtm_osm_pbf { color: brown; }
 
+div#nomap { padding-top: 0.5em; }
