@@ -27,6 +27,7 @@ var state = {
 
 
 function download_init_map(conf) {
+    if (!conf) conf = {}; // init
     map = new OpenLayers.Map("map", {
         controls: [
         new OpenLayers.Control.Navigation(), //
@@ -58,7 +59,7 @@ function download_init_map(conf) {
     download_init_vectors(map, conf);
 
     // by default we center the world map, otherwise use {nocenter: true}
-    if (!conf && !conf.nocenter) {
+    if (!conf.nocenter) {
         // most extracts are in the northern hemisphere,
         // set center to Central Europe
         var center = new OpenLayers.LonLat(15, 25).transform(state.epsg4326, map.getProjectionObject());
