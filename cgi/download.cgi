@@ -750,7 +750,10 @@ EOF
 sub check_extract_pro {
     my $q = shift;
 
-    return if !$q->param("pro");
+    my $url = $q->url( -full => 1 );
+
+    # basic version, skip
+    return if !( $q->param("pro") || $url =~ m,/extract-pro/, );
 
     foreach my $key (qw/homepage_extract spool_dir download/) {
         my $key_pro = $key . "_pro";
