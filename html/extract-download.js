@@ -68,8 +68,9 @@ function download_init_map(conf) {
 }
 
 function download_init_vectors(map, conf) {
+    if (!conf) conf = {}; // init
     // main vector
-    var fillOpacity = conf && conf.fillOpacity ? conf.fillOpacity : 0.5;
+    var fillOpacity = conf.fillOpacity ? conf.fillOpacity : 0.5;
     debug("fillOpacity: " + fillOpacity);
 
     state.vectors = new OpenLayers.Layer.Vector("Vector Layer", {
