@@ -753,26 +753,6 @@ sub check_extract_pro {
     $option->{"pro"} = 1;
 }
 
-our $option = {
-    'homepage_download'    => 'http://download.bbbike.org/osm/',
-    'homepage_extract'     => 'http://extract.bbbike.org',
-    'homepage_extract_pro' => 'http://extract-pro.bbbike.org',
-
-    'message_path' => "../world/etc/extract",
-    'pro'          => 0,
-
-    # spool directory. Should be at least 100GB large
-    'spool_dir'     => '/var/cache/extract',
-    'spool_dir_pro' => '/var/cache/extract-pro',
-
-    # cut to long city names
-    'max_city_length' => 38,
-
-    'show_heading' => 0,
-
-    'enable_google_analytics' => 1,
-};
-
 ##############################################################################################
 #
 # main
