@@ -8,6 +8,11 @@
 PATH=/bin:/usr/bin; export PATH
 #set -e
 
+# load standard BBBike extract config
+if [ -f $HOME/.bbbikerc ]; then
+    . $HOME/.bbbikerc
+fi
+
 log_output=/var/tmp/extract.log
 prog=$(echo $0 | perl -npe 's/-cron\.sh$/.pl/')
 subject="bbbike extract status:"

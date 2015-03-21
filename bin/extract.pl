@@ -47,6 +47,10 @@ umask(002);
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
+# backward compatible
+$ENV{BBBIKE_PLANET_OSM_GRANULARITY} = "granularity=10000"
+  if !defined $ENV{BBBIKE_PLANET_OSM_GRANULARITY};
+
 our $option = {
     'max_areas'       => 8,
     'homepage'        => 'http://download.bbbike.org/osm/extract',
@@ -103,7 +107,8 @@ our $option = {
     'language'     => "en",
     'message_path' => "world/etc/extract",
 
-    'osmosis_options' => [ "omitmetadata=true", "granularity=10000" ],
+    'osmosis_options' =>
+      [ "omitmetadata=true", $ENV{BBBIKE_PLANET_OSM_GRANULARITY} ],
     'osmosis_options_bounding_polygon' => ["clipIncompleteEntities=true"],
 
     'aws_s3_enabled' => 0,

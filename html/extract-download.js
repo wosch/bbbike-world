@@ -10,7 +10,7 @@
 var map;
 
 var config = {
-    minZoomLevel: 9,
+    minZoomLevel: 10,
     debug: 1
 };
 
@@ -26,7 +26,8 @@ var state = {
 }; /* end of global variables */
 
 
-function download_init_map() {
+function download_init_map(conf) {
+    if (!conf) conf = {}; // init
     map = new OpenLayers.Map("map", {
         controls: [
         new OpenLayers.Control.Navigation(), //
@@ -55,23 +56,28 @@ function download_init_map() {
         attribution: '<a href="http://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="http://www.opencyclemap.org/">(&copy) OpenCycleMap</a>'
     }));
 
-    download_init_vectors(map);
+    download_init_vectors(map, conf);
 
-    // most extracts are in the northern hemisphere,
-    // set center to Central Europe
-    var center = new OpenLayers.LonLat(15, 25).transform(state.epsg4326, map.getProjectionObject());
-    map.setCenter(center, 2);
-
-    //map.zoomToMaxExtent();
+    // by default we center the world map, otherwise use {nocenter: true}
+    if (!conf.nocenter) {
+        // most extracts are in the northern hemisphere,
+        // set center to Central Europe
+        var center = new OpenLayers.LonLat(15, 25).transform(state.epsg4326, map.getProjectionObject());
+        map.setCenter(center, 2);
+    }
 }
 
-function download_init_vectors(map) {
+function download_init_vectors(map, conf) {
+    if (!conf) conf = {}; // init
     // main vector
+    var fillOpacity = conf.fillOpacity ? conf.fillOpacity : 0.5;
+    debug("fillOpacity: " + fillOpacity);
+
     state.vectors = new OpenLayers.Layer.Vector("Vector Layer", {
         displayInLayerSwitcher: false,
 
         styleMap: new OpenLayers.StyleMap({
-            fillOpacity: 0.5,
+            fillOpacity: fillOpacity,
             fillColor: "${type}",
             // based on feature.attributes.type
             strokeColor: "${type}" // based on feature.attributes.type
@@ -124,7 +130,7 @@ function download_plot_polygon(obj) {
     debug("download plot polygon");
 
     var polygon = obj.coords ? string2coords(obj.coords) : rectangle2polygon(obj.sw_lng, obj.sw_lat, obj.ne_lng, obj.ne_lat);
-    var color = $("span." + obj.class_format).css("color");
+    var color = obj.color ? obj.color : $("span." + obj.class_format).css("color");
     debug("class_format: " + obj.class_format + " color: " + color);
 
     var feature = plot_polygon(polygon, {
@@ -155,7 +161,7 @@ function string2coords(coords) {
 
 
 function center_city(sw_lng, sw_lat, ne_lng, ne_lat) {
-    debug("center city: " + sw_lng + "," + sw_lat + " " + ne_lng + "," + ne_lat);
+    debug("center city: sw_lng: " + sw_lng + " sw_lat: " + sw_lat + " ne_lng: " + ne_lng + " ne_lat: " + ne_lat);
 
     var bounds = new OpenLayers.Bounds(sw_lng, sw_lat, ne_lng, ne_lat);
 
@@ -234,8 +240,9 @@ function debug(text, id) {
 }
 
 
-/* main */
+/* main
 $(document).ready(function () {
     download_init_map();
     parse_areas_from_links();
 });
+*/
