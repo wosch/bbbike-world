@@ -47,6 +47,9 @@ our $option = {
     'spool_dir'     => '/var/cache/extract',
     'spool_dir_pro' => '/var/cache/extract-pro',
 
+    'download'     => '/osm/extract/',
+    'download_pro' => '/osm/extract-pro/',
+
     # cut to long city names
     'max_city_length' => 38,
 
@@ -478,6 +481,7 @@ sub result {
         my $date = time2str( $download->{"extract_time"} );
         my $city = $download->{"city"};
 
+        # name of area
         print "<td>";
         print qq{<span title="}
           . escapeHTML($city) . qq{">}
@@ -485,6 +489,7 @@ sub result {
           . qq{</span>};
         print "</td>\n";
 
+        # Format
         print "<td>";
         print qq{<span class="}
           . class_format( $download->{"format"} ) . qq{">};
@@ -492,6 +497,7 @@ sub result {
         print "</span>";
         print "</td>\n";
 
+        # size (in MB)
         print "<td>";
         if ( $download->{"extract_size"} ) {
             print file_size_mb( $download->{"extract_size"} ) . " MB";
@@ -504,8 +510,9 @@ sub result {
         # download link if available
         print "<td>";
         if ( $download->{"download_file"} ) {
+            my $prefix = $option->{"download"};
 
-            print qq{<a title="$date" href="/osm/extract/}
+            print qq{<a title="$date" href="$prefix}
               . escapeHTML( $download->{"download_file"} )
               . qq{">download</a>};
         }
@@ -745,7 +752,7 @@ sub check_extract_pro {
 
     return if !$q->param("pro");
 
-    foreach my $key (qw/homepage_extract spool_dir/) {
+    foreach my $key (qw/homepage_extract spool_dir download/) {
         my $key_pro = $key . "_pro";
         $option->{$key} = $option->{$key_pro};
     }
