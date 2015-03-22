@@ -512,7 +512,7 @@ sub extract_coords {
     if ( ref $coords ne "" ) {
         my $fh_file = $coords;
 
-        binmode $fh_file, ":raw";
+        binmode $fh_file, ":utf8";
         local $/ = "";
         my $data = <$fh_file>;
         undef $fh_file;
