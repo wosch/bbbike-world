@@ -160,15 +160,34 @@ my $extract_dialog = '/extract-dialog';
 # This allows to override standard config values
 #
 my $config_file = "../.bbbike-extract.rc";
-if ( CGI->new->url( -full => 1 ) =~ m,^http://extract-pro[1-4]?\., ) {
-    $config_file = '../.bbbike-extract-pro.rc';
-    warn "Use extract pro config file $config_file\n"
-      if $option->{"debug"} >= 2;
+{
+    my $q = new CGI;
+    if (   $q->param('pro')
+        || $q->url( -full => 1 ) =~ m,^http://extract-pro[1-4]?\., )
+    {
+        $option->{'pro'} = 1;
+
+        $config_file = '../.bbbike-extract-pro.rc';
+        warn "Use extract pro config file $config_file\n"
+          if $option->{"debug"} >= 2;
+    }
+
 }
 
 if ( -e $config_file ) {
     warn "Load config file: $config_file\n" if $option->{"debug"} >= 2;
     require $config_file;
+
+    my $q = new CGI;
+
+    # double-check
+    if ( $q->param("pro") ) {
+        my $token = $option->{'email_token'} || "";
+        if ( $token ne $q->param('pro') ) {
+            warn Dumper($option);
+            die "Pro parameter does not match token\n";
+        }
+    }
 }
 else {
     warn "config file: $config_file not found, ignored\n"
