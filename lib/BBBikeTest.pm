@@ -5,6 +5,8 @@
 # my $test = BBBikeTest->new('size' => 5_000);
 # $test->myget("http://localhost/foobar.html")
 # $test->myget_401("http://localhost/auth.html")
+# $test->myget_500("http://localhost/cgi/fail.cgi")
+# $test->myget_head("http://localhost/cgi/true.cgi")
 #
 
 package BBBikeTest;
@@ -41,29 +43,7 @@ sub init {
     $self->{'ua'} = $ua;
 }
 
-# GET request with HTTP 401 result
-sub myget_401 {
-    my $self = shift;
-    my $url  = shift;
-    my $size = shift || $self->{'size'};
 
-    $size = 300 if !defined $size;
-
-    my $req = HTTP::Request->new( GET => $url );
-    my $res = $self->{'ua'}->request($req);
-
-    isnt( $res->is_success, undef, "$url is success" );
-    is(
-        $res->status_line,
-        "401 Unauthorized",
-        "status code 401 Unauthorized - great!"
-    );
-
-    my $content = $res->decoded_content();
-    cmp_ok( length($content), ">", $size, "greather than $size for URL $url" );
-
-    return $res;
-}
 
 # standard GET request
 sub myget {
@@ -103,6 +83,30 @@ sub myget_head {
 
     #diag("content_length: " . $content_length);
     cmp_ok( $content_length, ">", $size, "greather than $size" );
+
+    return $res;
+}
+
+# GET request with HTTP 401 result
+sub myget_401 {
+    my $self = shift;
+    my $url  = shift;
+    my $size = shift || $self->{'size'};
+
+    $size = 300 if !defined $size;
+
+    my $req = HTTP::Request->new( GET => $url );
+    my $res = $self->{'ua'}->request($req);
+
+    isnt( $res->is_success, undef, "$url is success" );
+    is(
+        $res->status_line,
+        "401 Unauthorized",
+        "status code 401 Unauthorized - great!"
+    );
+
+    my $content = $res->decoded_content();
+    cmp_ok( length($content), ">", $size, "greather than $size for URL $url" );
 
     return $res;
 }
