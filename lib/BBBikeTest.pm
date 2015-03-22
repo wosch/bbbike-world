@@ -41,6 +41,7 @@ sub init {
     $self->{'ua'} = $ua;
 }
 
+# GET request with HTTP 401 result
 sub myget_401 {
     my $self = shift;
     my $url  = shift;
@@ -64,6 +65,7 @@ sub myget_401 {
     return $res;
 }
 
+# standard GET request
 sub myget {
     my $self = shift;
     my $url  = shift;
@@ -83,6 +85,29 @@ sub myget {
     return $res;
 }
 
+# a HEAD request
+sub myget_head {
+    my $self = shift;
+    my $url  = shift;
+    my $size = shift;
+
+    $size = 1 if !defined $size;
+
+    my $req = HTTP::Request->new( HEAD => $url );
+    my $res = $self->{'ua'}->request($req);
+
+    isnt( $res->is_success, undef, "$url is success" );
+    is( $res->status_line, "200 OK", "status code 200" );
+
+    my $content_length = $res->content_length;
+
+    #diag("content_length: " . $content_length);
+    cmp_ok( $content_length, ">", $size, "greather than $size" );
+
+    return $res;
+}
+
+# GET request with HTTP 500 result
 sub myget_500 {
     my $self = shift;
     my $url  = shift;
@@ -103,8 +128,10 @@ sub myget_500 {
 }
 
 
+
 use constant MYGET => 3;
 sub myget_counter { return MYGET; }
+sub myget_head_counter { return MYGET; }
 sub myget_401_counter { return MYGET; }
 sub myget_500_counter { return MYGET; }
 
