@@ -646,7 +646,7 @@ EOF
         'type'    => 'confirmed',
         'files'   => \@extracts,
         'name'    => 'Waiting extracts',
-        'message' => 'Will start in the next 5 minutes.',
+        'message' => 'Will start in the next 5 minutes',
     );
 
     @extracts = &running_extract_areas(
@@ -657,7 +657,7 @@ EOF
         'type'    => 'running',
         'files'   => \@extracts,
         'name'    => 'Running extracts',
-        'message' => 'Will be ready in the next 5-30 minutes.',
+        'message' => 'Will be ready in the next 5-30 minutes',
     );
 
     my $sort_by = $q->param('sort_by') || $q->param("sort");
