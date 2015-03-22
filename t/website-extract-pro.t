@@ -25,6 +25,7 @@ binmode \*STDERR, "utf8";
 my @homepages_localhost = ();
 my @homepages           = qw[
   http://extract-pro.bbbike.org
+  http://extract-pro1.bbbike.org
 ];
 
 if ( $ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
