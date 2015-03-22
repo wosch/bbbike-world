@@ -36,7 +36,7 @@ my $counter_production =
   scalar(@homepages_production) * $test->myget_401_counter * 3;
 my $counter_localhost =
   scalar(@homepages_localhost) *
-  ( $test->myget_500_counter + 2 * $test->myget_counter );
+  ( $test->myget_500_counter + 2 * $test->myget_head_counter );
 plan tests => $counter_production + $counter_localhost;
 
 sub page_check_401 {
@@ -50,8 +50,8 @@ sub page_check_401 {
 sub page_check_500 {
     my $home_url = shift;
 
-    $test->myget("$home_url/cgi/extract.cgi?pro=");
-    $test->myget("$home_url/cgi/extract.cgi?proXXX=");
+    $test->myget_head("$home_url/cgi/extract.cgi?pro=");
+    $test->myget_head("$home_url/cgi/extract.cgi?proXXX=");
     $test->myget_500("$home_url/cgi/extract.cgi?pro=foobar");
 }
 
