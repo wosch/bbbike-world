@@ -27,8 +27,6 @@ use warnings;
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
-my $q = new CGI;
-
 our $option = {
     'debug'                => "0",
     'homepage_download'    => 'http://download.bbbike.org/osm/',
@@ -53,23 +51,20 @@ our $option = {
     'enable_google_analytics' => 1,
 };
 
+my $q            = new CGI;
 my $max          = 2000;
-my $default_date = "36h";             # 36h: today and some hours from yesterday
-my $debug        = $option->{'debug'};
+my $default_date = "36h";     # 36h: today and some hours from yesterday
+
+my $debug = $option->{'debug'};
 if ( defined $q->param('debug') ) {
     $debug = int( $q->param('debug') );
 }
 
-our $formats = $BBBikeExtract::formats;
-my $extract = BBBikeExtract->new( 'q' => CGI->new(), 'option' => $option );
+my $extract = BBBikeExtract->new( 'q' => $q, 'option' => $option );
 $extract->load_config;
 $extract->check_extract_pro;
-
-my $spool = {
-    'confirmed' => "confirmed",       # ready to run
-    'running'   => "running",         # currently running job
-    'download'  => "download",        # final directory for download
-};
+my $formats = $BBBikeExtract::formats;
+my $spool   = $BBBikeExtract::spool;
 
 # EOF config
 ###########################################################################
