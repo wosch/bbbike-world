@@ -116,19 +116,23 @@ our $option = {
 ###
 # global variables
 #
-my $language       = "";                  # will be set later
-my $extract_dialog = '/extract-dialog';
+my $q     = new CGI;
+my $debug = $option->{'debug'};
+if ( defined $q->param('debug') ) {
+    $debug = int( $q->param('debug') );
+}
 
-our $formats = $BBBikeExtract::formats;
-BBBikeExtract->new( 'q' => CGI->new(), 'option' => $option )->load_config();
+my $extract = BBBikeExtract->new( 'q' => $q, 'option' => $option );
+$extract->load_config;
+$extract->check_extract_pro;
+my $formats = $BBBikeExtract::formats;
+my $spool   = $BBBikeExtract::spool;
 
 # spool directory. Should be at least 100GB large
 my $spool_dir = $option->{'spool_dir'} || '/var/cache/extract';
 
-my $spool = {
-    'confirmed' => "$spool_dir/confirmed",
-    'running'   => "$spool_dir/running",
-};
+my $language       = "";                  # will be set later
+my $extract_dialog = '/extract-dialog';
 
 my $max_skm = $option->{'max_skm'};
 
@@ -137,7 +141,6 @@ my $request_method = $option->{request_method};
 
 # translations
 my $msg;
-my $debug = $option->{'debug'};
 
 ######################################################################
 # helper functions
@@ -911,54 +914,6 @@ sub large_int {
     return scalar reverse $text;
 }
 
-# save request in confirmed spool
-sub save_request {
-    my $obj = shift;
-    my $spool_dir = shift || $spool->{"confirmed"};
-
-    my $json      = new JSON;
-    my $json_text = $json->pretty->encode($obj);
-
-    my $key = md5_hex( encode_utf8($json_text) . rand() );
-    my $job = "$spool_dir/$key.json.tmp";
-
-    warn "Store request $job: $json_text\n" if $debug;
-
-    my $fh = new IO::File $job, "w";
-    if ( !defined $fh ) {
-        warn "Cannot open $job: $!\n";
-        return;
-    }
-    binmode $fh, ":utf8";
-
-    print $fh $json_text, "\n";
-    $fh->close;
-
-    return ( $key, $job );
-}
-
-sub parse_json_file {
-    my $file = shift;
-
-    warn "Open file '$file'\n" if $debug >= 2;
-
-    my $fh = new IO::File $file, "r" or die "open '$file': $!\n";
-    binmode $fh, ":utf8";
-
-    my $json_text;
-    while (<$fh>) {
-        $json_text .= $_;
-    }
-    $fh->close;
-
-    my $json = new JSON;
-    my $json_perl = eval { $json->decode($json_text) };
-    die "json $file $@" if $@;
-
-    warn Dumper($json_perl) if $debug >= 3;
-    return $json_perl;
-}
-
 sub check_queue {
     my %args = @_;
     my $obj  = $args{'obj'};
@@ -986,7 +941,7 @@ sub check_queue {
         # check only the first 1000 files
         last if $counter-- < 0;
 
-        my $perl = parse_json_file("$spool_dir/$file");
+        my $perl = $extract->parse_json_file("$spool_dir/$file");
         if ( $perl->{"email"} eq $obj->{"email"} ) {
             $email_counter++;
         }
@@ -1001,6 +956,32 @@ sub check_queue {
       if $debug >= 1;
 
     return ( $email_counter, $ip_counter );
+}
+
+# save request in confirmed spool
+sub save_request {
+    my $obj = shift;
+    my $spool_dir = shift || $spool->{"confirmed"};
+
+    my $json      = new JSON;
+    my $json_text = $json->pretty->encode($obj);
+
+    my $key = md5_hex( encode_utf8($json_text) . rand() );
+    my $job = "$spool_dir/$key.json.tmp";
+
+    warn "Store request $job: $json_text\n" if $debug;
+
+    my $fh = new IO::File $job, "w";
+    if ( !defined $fh ) {
+        warn "Cannot open $job: $!\n";
+        return;
+    }
+    binmode $fh, ":utf8";
+
+    print $fh $json_text, "\n";
+    $fh->close;
+
+    return ( $key, $job );
 }
 
 # foo.json.tmp -> foo.json
@@ -1282,7 +1263,6 @@ sub M { return BBBikeLocale::M(@_); };    # wrapper
 
 ######################################################################
 # main
-my $q = new CGI;
 
 my $locale = BBBikeLocale->new(
     'q'                   => $q,

@@ -6,7 +6,7 @@ package BBBikeExtract;
 
 use CGI;
 use CGI::Carp;
-
+use JSON;
 use Data::Dumper;
 
 require Exporter;
@@ -97,7 +97,9 @@ sub load_config {
     my $config_file = "../.bbbike-extract.rc";
     my $q = $self->{'q'};
     our $option = $self->{'option'};
-    my $debug = $q->param("debug") || $option->{'debug'};
+    
+    my $debug = $q->param("debug") || $self->{'debug'} || $option->{'debug'};
+    $self->{'debug'} = $debug;
     
     if (   $q->param('pro')
         || $q->url( -full => 1 ) =~ m,^http://extract-pro[1-4]?\., )
@@ -129,6 +131,31 @@ sub load_config {
           if $debug >= 2;
     }
 }
+
+#
+# Parse user config file.
+# This allows to override standard config values
+#
+sub load_config_nocgi {
+    my $self = shift;
+    
+    our $option = $self->{'option'};
+    my $debug = $self->{'debug'} || $option->{'debug'};
+    
+my $config_file = "$ENV{HOME}/.bbbike-extract.rc";
+if ( $ENV{BBBIKE_EXTRACT_PROFILE} ) {
+    $config_file = $ENV{BBBIKE_EXTRACT_PROFILE};
+}
+if ( -e $config_file ) {
+    warn "Load config file: $config_file\n" if $debug >= 2;
+    require $config_file;
+}
+else {
+    warn "config file: $config_file not found, ignored\n"
+      if $debug >= 2;
+}
+}
+
 
 # re-set values for extract-pro service
 sub check_extract_pro {
@@ -169,6 +196,34 @@ sub file_size_mb {
     }
 
     return "0.0";
+}
+
+sub parse_json_file {
+    my $self = shift;
+    my $file = shift;
+    my $non_fatal = shift;
+
+    my $debug = $self->{'debug'};
+    warn "Open file '$file'\n" if $debug >= 2;
+
+    my $fh = new IO::File $file, "r" or die "open '$file': $!\n";
+    binmode $fh, ":utf8";
+
+    my $json_text;
+    while (<$fh>) {
+        $json_text .= $_;
+    }
+    $fh->close;
+
+    my $json = new JSON;
+    my $json_perl = eval { $json->decode($json_text) };
+    if ($@) {
+        warn "parse json file '$file' $@\n";
+        exit(1) if $non_fatal;
+    }
+
+    warn Dumper($json_perl) if $debug >= 3;
+    return $json_perl;
 }
 
 1;

@@ -96,27 +96,13 @@ sub extract_areas {
     my @list = reverse sort { $hash{$a} <=> $hash{$b} } keys %hash;
 
     my @area;
-    my $json         = new JSON;
     my $download_dir = $option->{"spool_dir"} . "/" . $spool->{"download"};
     my $time         = time();
 
     my %unique;
     for ( my $i = 0 ; $i < scalar(@list) && $i < $max ; $i++ ) {
         my $file = $list[$i];
-        my $fh = new IO::File $file, "r" or die "open $file: $!\n";
-        binmode $fh, ":utf8";
-
-        my $data = "";
-        while (<$fh>) {
-            $data .= $_;
-        }
-
-        my $obj;
-        eval { $obj = $json->decode($data) };
-        if ($@) {
-            warn "Cannot parse json file $file: $@\n";
-            next;
-        }
+        my $obj = $extract->parse_json_file( $file, 1 );
 
         next if !exists $obj->{'date'};
 
