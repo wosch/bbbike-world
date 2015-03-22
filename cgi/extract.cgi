@@ -122,9 +122,6 @@ my $extract_dialog = '/extract-dialog';
 our $formats = $BBBikeExtract::formats;
 BBBikeExtract->new( 'q' => CGI->new(), 'option' => $option )->load_config();
 
-# sent out emails as
-my $email_from = 'BBBike Admin <bbbike@bbbike.org>';
-
 # spool directory. Should be at least 100GB large
 my $spool_dir = $option->{'spool_dir'} || '/var/cache/extract';
 
@@ -894,38 +891,6 @@ sub _check_input {
     }
 
     return ( $error, join "\n", @error, @data );
-}
-
-# SMTP wrapper
-sub send_email {
-    my ( $to, $subject, $text, $confirm ) = @_;
-    my $mail_server  = "localhost";
-    my @to           = split /,/, $to;
-    my $content_type = "Content-Type: text/plain; charset=UTF-8\n"
-      . "Content-Transfer-Encoding: binary";
-
-    my $from = $email_from;
-    my $data =
-      "From: $from\nTo: $to\nSubject: $subject\n" . "$content_type\n$text";
-    my $smtp = new Net::SMTP( $mail_server, Hello => "localhost", Debug => 0 )
-      or die "can't make SMTP object\n";
-
-    # validate e-mail addresses - even if we don't sent out an email yet
-    $smtp->mail($from) or die "can't send email from $from\n";
-    $smtp->to(@to)     or die "can't use SMTP recipient '$to'\n";
-    $smtp->verify(@to) or die "can't verify SMTP recipient '$to'\n";
-
-    # sent out an email and ask to confirm
-    # configured by: $option->{'conform'}
-    if ( $confirm > 0 ) {
-        $smtp->data($data) or die "can't email data to '$to'\n";
-    }
-    else {
-
-        # do not sent mail body data
-    }
-
-    $smtp->quit() or die "can't send email to '$to'\n";
 }
 
 # ($lat1, $lon1 => $lat2, $lon2);
