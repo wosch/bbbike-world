@@ -30,6 +30,7 @@ use Math::Polygon::Transform;
 
 use lib '../world/lib';
 use lib '../lib';
+use BBBikeExtract;
 use BBBikeLocale;
 use BBBikeAnalytics;
 
@@ -113,41 +114,6 @@ our $option = {
     ],
 };
 
-our $formats = {
-    'osm.pbf' => 'Protocolbuffer (PBF)',
-    'osm.gz'  => "OSM XML gzip'd",
-    'osm.bz2' => "OSM XML bzip'd",
-    'osm.xz'  => "OSM XML 7z (xz)",
-
-    'shp.zip'            => "Shapefile (Esri)",
-    'garmin-osm.zip'     => "Garmin OSM",
-    'garmin-cycle.zip'   => "Garmin Cycle",
-    'garmin-leisure.zip' => "Garmin Leisure",
-
-    'garmin-bbbike.zip' => "Garmin BBBike",
-    'navit.zip'         => "Navit",
-    'obf.zip'           => "Osmand (OBF)",
-
-    'o5m.gz' => "o5m gzip'd",
-    'o5m.xz' => "o5m 7z (xz)",
-
-    'opl.xz' => "OPL 7z (xz)",
-    'csv.gz' => "csv gzip'd",
-    'csv.xz' => "csv 7z (xz)",
-
-    'mapsforge-osm.zip' => "Mapsforge OSM",
-
-    'srtm-europe.osm.pbf'         => 'SRTM Europe PBF (25m)',
-    'srtm-europe.garmin-srtm.zip' => 'SRTM Europe Garmin (25m)',
-    'srtm-europe.obf.zip'         => 'SRTM Europe Osmand (25m)',
-
-    'srtm.osm.pbf'         => 'SRTM World PBF (40m)',
-    'srtm.garmin-srtm.zip' => 'SRTM World Garmin (40m)',
-    'srtm.obf.zip'         => 'SRTM World Osmand (40m)',
-
-    #'srtm-europe.mapsforge-osm.zip' => 'SRTM Europe Mapsforge',
-    #'srtm-southamerica.osm.pbf' => 'SRTM South America PBF',
-};
 
 ###
 # global variables
@@ -155,44 +121,47 @@ our $formats = {
 my $language       = "";                  # will be set later
 my $extract_dialog = '/extract-dialog';
 
+our $formats = $BBBikeExtract::formats;
+BBBikeExtract->new( 'q' => CGI->new(), 'option' => $option)->load_config();
+
+##
+## Parse user config file.
+## This allows to override standard config values
+##
+#my $config_file = "../.bbbike-extract.rc";
+#{
+#    my $q = new CGI;
+#    if (   $q->param('pro')
+#        || $q->url( -full => 1 ) =~ m,^http://extract-pro[1-4]?\., )
+#    {
+#        $option->{'pro'} = 1;
 #
-# Parse user config file.
-# This allows to override standard config values
+#        $config_file = '../.bbbike-extract-pro.rc';
+#        warn "Use extract pro config file $config_file\n"
+#          if $option->{"debug"} >= 2;
+#    }
+#    
+#}
 #
-my $config_file = "../.bbbike-extract.rc";
-{
-    my $q = new CGI;
-    if (   $q->param('pro')
-        || $q->url( -full => 1 ) =~ m,^http://extract-pro[1-4]?\., )
-    {
-        $option->{'pro'} = 1;
-
-        $config_file = '../.bbbike-extract-pro.rc';
-        warn "Use extract pro config file $config_file\n"
-          if $option->{"debug"} >= 2;
-    }
-
-}
-
-if ( -e $config_file ) {
-    warn "Load config file: $config_file\n" if $option->{"debug"} >= 2;
-    require $config_file;
-
-    my $q = new CGI;
-
-    # double-check
-    if ( $q->param("pro") ) {
-        my $token = $option->{'email_token'} || "";
-        if ( $token ne $q->param('pro') ) {
-            warn Dumper($option);
-            die "Pro parameter does not match token\n";
-        }
-    }
-}
-else {
-    warn "config file: $config_file not found, ignored\n"
-      if $option->{"debug"} >= 2;
-}
+#if ( -e $config_file ) {
+#    warn "Load config file: $config_file\n" if $option->{"debug"} >= 2;
+#    require $config_file;
+#    
+#    my $q = new CGI;
+#    
+#    # double-check
+#    if ($q->param("pro")) {
+#        my $token = $option->{'email_token'} || "";
+#        if ($token ne $q->param('pro')) {
+#            warn Dumper($option);
+#            die "Pro parameter does not match token\n";
+#        }
+#    }
+#}
+#else {
+#    warn "config file: $config_file not found, ignored\n"
+#      if $option->{"debug"} >= 2;
+#}
 
 # sent out emails as
 my $email_from = 'BBBike Admin <bbbike@bbbike.org>';
@@ -474,7 +443,7 @@ $analytics
     <img src="/html/close.png" alt="close button" />
   </div>
 
-<!-- bbbike_extract_status: $error -->
+<!-- bbbike_extract_status: $error, pro version: @{[ $option->{'pro'} ]} -->
 </body>
 </html>
 EOF
