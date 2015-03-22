@@ -918,14 +918,14 @@ sub check_queue {
     my %args = @_;
     my $obj  = $args{'obj'};
 
-    my $spool_dir = $spool->{'confirmed'};
+    my $spool_dir_confirmed = "$spool_dir/" . $spool->{'confirmed'};
 
     # newest files from confirmed spool
-    my @files = `ls -t $spool_dir`;
+    my @files = `ls -t $spool_dir_confirmed`;
 
     # argh!
     if ($?) {
-        warn "opendir $spool_dir failed: $?\n";
+        warn "opendir '$spool_dir_confirmed' failed: $?\n";
         return ( 10000, 10000 );    # fake error
     }
 
@@ -941,7 +941,7 @@ sub check_queue {
         # check only the first 1000 files
         last if $counter-- < 0;
 
-        my $perl = $extract->parse_json_file("$spool_dir/$file");
+        my $perl = $extract->parse_json_file("$spool_dir_confirmed/$file");
         if ( $perl->{"email"} eq $obj->{"email"} ) {
             $email_counter++;
         }
@@ -961,13 +961,14 @@ sub check_queue {
 # save request in confirmed spool
 sub save_request {
     my $obj = shift;
-    my $spool_dir = shift || $spool->{"confirmed"};
+    my $spool_dir_confirmed =
+      "$spool_dir/" . ( shift || $spool->{"confirmed"} );
 
     my $json      = new JSON;
     my $json_text = $json->pretty->encode($obj);
 
     my $key = md5_hex( encode_utf8($json_text) . rand() );
-    my $job = "$spool_dir/$key.json.tmp";
+    my $job = "$spool_dir_confirmed/$key.json.tmp";
 
     warn "Store request $job: $json_text\n" if $debug;
 

@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2011-2014 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2011-2015 Wolfram Schneider, http://bbbike.org
 #
 # extract.pl - extracts areas in a batch job
 #
@@ -33,7 +33,7 @@ use LWP::UserAgent;
 use Time::gmtime;
 use LockFile::Simple;
 
-use lib qw[../world/lib ../lib];
+use lib qw[world/lib ../lib];
 use BBBikeExtract;
 
 use strict;
