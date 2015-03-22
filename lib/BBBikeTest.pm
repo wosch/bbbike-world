@@ -71,7 +71,7 @@ sub myget_head {
     my $url  = shift;
     my $size = shift;
 
-    $size = 1 if !defined $size;
+    #$size = 1 if !defined $size;
 
     my $req = HTTP::Request->new( HEAD => $url );
     my $res = $self->{'ua'}->request($req);
@@ -82,7 +82,8 @@ sub myget_head {
     my $content_length = $res->content_length;
 
     #diag("content_length: " . $content_length);
-    cmp_ok( $content_length, ">", $size, "greather than $size" );
+    #cmp_ok( $content_length, ">", $size, "greather than $size" );
+    is( $content_length, $size, "HEAD size check" );
 
     return $res;
 }
