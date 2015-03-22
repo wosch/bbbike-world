@@ -14,6 +14,7 @@ use File::Basename;
 use HTTP::Date;
 
 use lib qw[../world/lib ../lib];
+use BBBikeExtract;
 use BBBikeLocale;
 use BBBikeAnalytics;
 
@@ -58,49 +59,13 @@ our $option = {
     'enable_google_analytics' => 1,
 };
 
-our $formats = {
-    'osm.pbf' => 'Protocolbuffer (PBF)',
-    'osm.gz'  => "OSM XML gzip'd",
-    'osm.bz2' => "OSM XML bzip'd",
-    'osm.xz'  => "OSM XML 7z (xz)",
-
-    'shp.zip'            => "Shapefile (Esri)",
-    'garmin-osm.zip'     => "Garmin OSM",
-    'garmin-cycle.zip'   => "Garmin Cycle",
-    'garmin-leisure.zip' => "Garmin Leisure",
-
-    'garmin-bbbike.zip' => "Garmin BBBike",
-    'navit.zip'         => "Navit",
-    'obf.zip'           => "Osmand (OBF)",
-
-    'o5m.gz' => "o5m gzip'd",
-    'o5m.xz' => "o5m 7z (xz)",
-
-    'opl.xz' => "OPL 7z (xz)",
-    'csv.gz' => "csv gzip'd",
-    'csv.xz' => "csv 7z (xz)",
-
-    'mapsforge-osm.zip' => "Mapsforge OSM",
-
-    'srtm-europe.osm.pbf'         => 'SRTM Europe PBF (25m)',
-    'srtm-europe.garmin-srtm.zip' => 'SRTM Europe Garmin (25m)',
-    'srtm-europe.obf.zip'         => 'SRTM Europe Osmand (25m)',
-
-    'srtm.osm.pbf'         => 'SRTM World PBF (40m)',
-    'srtm.garmin-srtm.zip' => 'SRTM World Garmin (40m)',
-    'srtm.obf.zip'         => 'SRTM World Osmand (40m)',
-
-    #'srtm-europe.mapsforge-osm.zip' => 'SRTM Europe Mapsforge',
-    #'srtm-southamerica.osm.pbf' => 'SRTM South America PBF',
-};
+our $formats = $BBBikeExtract::formats;
+BBBikeExtract->new( 'q' => CGI->new(), 'option' => $option )->load_config();
 
 my $spool = {
     'confirmed' => "confirmed",    # ready to run
     'running'   => "running",      # currently running job
-    'osm'       => "osm",          # cache older runs
     'download'  => "download",     # final directory for download
-    'trash'     => "trash",        # keep a copy of the config for debugging
-    'failed'    => "failed",       # keep record of failed runs
 };
 
 # EOF config
