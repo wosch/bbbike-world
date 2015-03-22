@@ -114,7 +114,6 @@ our $option = {
     ],
 };
 
-
 ###
 # global variables
 #
@@ -122,46 +121,7 @@ my $language       = "";                  # will be set later
 my $extract_dialog = '/extract-dialog';
 
 our $formats = $BBBikeExtract::formats;
-BBBikeExtract->new( 'q' => CGI->new(), 'option' => $option)->load_config();
-
-##
-## Parse user config file.
-## This allows to override standard config values
-##
-#my $config_file = "../.bbbike-extract.rc";
-#{
-#    my $q = new CGI;
-#    if (   $q->param('pro')
-#        || $q->url( -full => 1 ) =~ m,^http://extract-pro[1-4]?\., )
-#    {
-#        $option->{'pro'} = 1;
-#
-#        $config_file = '../.bbbike-extract-pro.rc';
-#        warn "Use extract pro config file $config_file\n"
-#          if $option->{"debug"} >= 2;
-#    }
-#    
-#}
-#
-#if ( -e $config_file ) {
-#    warn "Load config file: $config_file\n" if $option->{"debug"} >= 2;
-#    require $config_file;
-#    
-#    my $q = new CGI;
-#    
-#    # double-check
-#    if ($q->param("pro")) {
-#        my $token = $option->{'email_token'} || "";
-#        if ($token ne $q->param('pro')) {
-#            warn Dumper($option);
-#            die "Pro parameter does not match token\n";
-#        }
-#    }
-#}
-#else {
-#    warn "config file: $config_file not found, ignored\n"
-#      if $option->{"debug"} >= 2;
-#}
+BBBikeExtract->new( 'q' => CGI->new(), 'option' => $option )->load_config();
 
 # sent out emails as
 my $email_from = 'BBBike Admin <bbbike@bbbike.org>';
