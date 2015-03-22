@@ -158,6 +158,19 @@ sub is_production {
     return $q->virtual_host() =~ /^extract\.bbbike\.org$/i ? 1 : 0;
 }
 
+# scale file size in x.y MB
+sub file_size_mb {
+    my $self = shift;
+    my $size = shift;
+
+    foreach my $scale ( 10, 100, 1000, 10_000 ) {
+        my $result = int( $scale * $size / 1024 / 1024 ) / $scale;
+        return $result if $result > 0;
+    }
+
+    return "0.0";
+}
+
 1;
 
 __DATA__;

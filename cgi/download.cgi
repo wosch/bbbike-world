@@ -69,26 +69,8 @@ my $spool   = $BBBikeExtract::spool;
 # EOF config
 ###########################################################################
 
-sub M { return BBBikeLocale::M(@_); };    # wrapper
-
-sub is_production {
-    my $q = shift;
-
-    return 1 if -e "/tmp/is_production";
-    return $q->virtual_host() =~ /^extract\.bbbike\.org$/i ? 1 : 0;
-}
-
-# sacle file size in x.y MB
-sub file_size_mb {
-    my $size = shift;
-
-    foreach my $scale ( 10, 100, 1000, 10_000 ) {
-        my $result = int( $scale * $size / 1024 / 1024 ) / $scale;
-        return $result if $result > 0;
-    }
-
-    return "0.0";
-}
+sub M            { return BBBikeLocale::M(@_); };        # wrapper
+sub file_size_mb { return $extract->file_size_mb(@_) }
 
 # extract areas from trash can
 sub extract_areas {
