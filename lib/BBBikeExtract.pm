@@ -119,6 +119,14 @@ sub load_config {
     }
 }
 
+sub is_production {
+    my $self = shift;
+    my $q = $self->{'q'};
+
+    return 1 if -e "/tmp/is_production";
+    
+    return $q->virtual_host() =~ /^extract\.bbbike\.org$/i ? 1 : 0;
+}
 
 1;
 
