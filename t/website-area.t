@@ -1,9 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
-
-use Test::More;
-use strict;
-use warnings;
+# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} ) {
@@ -15,47 +11,32 @@ BEGIN {
     }
 }
 
-use LWP;
-use LWP::UserAgent;
+use Test::More;
+use lib qw(./world/lib ../lib);
+use BBBikeTest;
+
+use strict;
+use warnings;
+
+my $test = BBBikeTest->new();
 
 my $homepage = 'http://download.bbbike.org/osm/bbbike';
 my @cities   = qw/Berlin Zuerich Toronto Moscow/;
-use constant MYGET => 3;
 
 my $garmin = 1;    # 0, 1
 
 if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
-    plan tests => scalar(@cities) * ( MYGET * 4 + 5 + 5 * $garmin );
+    plan tests => scalar(@cities) *
+      ( $test->myget_counter * 4 + 5 + 5 * $garmin );
 }
 else {
     plan 'no_plan';
 }
 
-my $ua = LWP::UserAgent->new;
-$ua->agent("BBBike.org-Test/1.0");
-
-sub myget {
-    my $url  = shift;
-    my $size = shift;
-
-    $size = 30_000 if !defined $size;
-
-    my $req = HTTP::Request->new( GET => $url );
-    my $res = $ua->request($req);
-
-    isnt( $res->is_success, undef, "$url is success" );
-    is( $res->status_line, "200 OK", "status code 200" );
-
-    my $content = $res->decoded_content();
-    cmp_ok( length($content), ">", $size, "greather than $size" );
-
-    return $res;
-}
-
 sub cities {
     foreach my $city (@cities) {
         my $url = "$homepage/$city/";
-        my $res = myget($url);
+        my $res = $test->myget($url);
 
         my $path = $homepage;
         $path =~ s,http://.*?/,/,;

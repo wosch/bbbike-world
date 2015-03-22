@@ -1,13 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
-
-use utf8;
-use Test::More;
-use LWP;
-use LWP::UserAgent;
-
-use strict;
-use warnings;
+# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
@@ -18,8 +10,15 @@ BEGIN {
     if ( $ENV{BBBIKE_TEST_FAST} ) { print "1..0 # skip due fast test\n"; exit; }
 }
 
-binmode \*STDOUT, "utf8";
-binmode \*STDERR, "utf8";
+use utf8;
+use Test::More;
+use lib qw(./world/lib ../lib);
+use BBBikeTest;
+
+use strict;
+use warnings;
+
+my $test = BBBikeTest->new();
 my $debug = $ENV{DEBUG} || 0;
 
 my @homepages = "http://download.bbbike.org";
@@ -46,20 +45,15 @@ sub get_extract_files {
     return @urls;
 }
 
-use constant MYGET => 3;
-
 my @urls;
 foreach my $home (@homepages) {
     push @urls, get_extract_files("$home/osm/extract/");
 }
 
 # ads only on production system
-plan tests => MYGET * scalar(@urls);
+plan tests => $test->myget_counter * scalar(@urls);
 
-my $ua = LWP::UserAgent->new;
-$ua->agent("BBBike.org-Test/1.0");
-
-sub myget_head {
+sub myget_headXXX {
     my $url  = shift;
     my $size = shift;
 
@@ -92,7 +86,7 @@ sub myget_head {
 diag( "extract downloads URLs to check: " . scalar(@urls) ) if $debug;
 foreach my $u (@urls) {
     diag("URL: $u") if $debug >= 2;
-    myget_head($u);
+    $test->myget_head($u);
 }
 
 __END__

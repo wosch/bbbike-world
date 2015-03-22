@@ -1,15 +1,8 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2014 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
 #
 # check map compare JS/images and external libs
 #
-
-use LWP::UserAgent;
-use Encode;
-use Test::More;
-
-use strict;
-use warnings;
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
@@ -18,8 +11,15 @@ BEGIN {
     }
 }
 
-binmode \*STDOUT, "utf8";
-binmode \*STDERR, "utf8";
+use Test::More;
+use Encode;
+use lib qw(./world/lib ../lib);
+use BBBikeTest;
+
+use strict;
+use warnings;
+
+my $test = BBBikeTest->new();
 
 my @list = ();
 

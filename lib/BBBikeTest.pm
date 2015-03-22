@@ -81,9 +81,11 @@ sub myget_head {
 
     my $content_length = $res->content_length;
 
-    #diag("content_length: " . $content_length);
-    #cmp_ok( $content_length, ">", $size, "greather than $size" );
-    is( $content_length, $size, "HEAD size check" );
+    if (defined $size && $size) {
+        cmp_ok( $content_length, ">", $size, "greather than $size, $url" );
+    } else {
+        is( $content_length, $size, "HEAD size check" );
+    }
 
     return $res;
 }

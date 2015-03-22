@@ -112,13 +112,16 @@ sub page_check {
 
         like( $res->decoded_content, qr|polygon_update|, "bbbike extract" );
 
-        $test->myget( "$home_url/html/jquery/jquery-ui-1.9.1.custom.min.js", 1_000 );
-        $test->myget( "$home_url/html/jquery/jquery-1.7.1.min.js",           20_000 );
+        $test->myget( "$home_url/html/jquery/jquery-ui-1.9.1.custom.min.js",
+            1_000 );
+        $test->myget( "$home_url/html/jquery/jquery-1.7.1.min.js", 20_000 );
 
         #myget( "$home_url/html/jquery/jquery.cookie-1.3.1.js",        2_000 );
-        $test->myget( "$home_url/html/OpenLayers/2.12/OpenStreetMap.js",  3_000 );
-        $test->myget( "$home_url/html/OpenLayers/2.12/Here.js",           5_000 );
-        $test->myget( "$home_url/html/OpenLayers/2.12/OpenLayers-min.js", 500_000 );
+        $test->myget( "$home_url/html/OpenLayers/2.12/OpenStreetMap.js",
+            3_000 );
+        $test->myget( "$home_url/html/OpenLayers/2.12/Here.js", 5_000 );
+        $test->myget( "$home_url/html/OpenLayers/2.12/OpenLayers-min.js",
+            500_000 );
     }
 }
 
@@ -149,6 +152,7 @@ sub garmin_check {
 foreach my $home_url (
     $ENV{BBBIKE_TEST_SLOW_NETWORK} ? @homepages_localhost : @homepages )
 {
+
     #diag "checked site: $home_url";
     &page_check($home_url);
 }

@@ -1,12 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
-
-use Test::More;
-use LWP;
-use LWP::UserAgent;
-
-use strict;
-use warnings;
+# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} ) {
@@ -18,9 +11,14 @@ BEGIN {
     }
 }
 
-binmode \*STDOUT, "utf8";
-binmode \*STDERR, "utf8";
+use Test::More;
+use lib qw(./world/lib ../lib);
+use BBBikeTest;
 
+use strict;
+use warnings;
+
+my $test  = BBBikeTest->new();
 my $debug = 1;
 
 my @homepages_localhost =
@@ -70,31 +68,8 @@ my $msg = {
     ],
 };
 
-use constant MYGET => 3;
-
 # to complicated to maintain the exact numbers, ignore it
 plan 'no_plan';
-
-my $ua = LWP::UserAgent->new;
-$ua->agent("BBBike.org-Test/1.0");
-
-sub myget {
-    my $url  = shift;
-    my $size = shift;
-
-    $size = 10_000 if !defined $size;
-
-    my $req = HTTP::Request->new( GET => $url );
-    my $res = $ua->request($req);
-
-    isnt( $res->is_success, undef, "$url is success" );
-    is( $res->status_line, "200 OK", "status code 200" );
-
-    my $content = $res->decoded_content();
-    cmp_ok( length($content), ">", $size, "greather than $size for URL $url" );
-
-    return $res;
-}
 
 sub page_check {
     my $home_url = shift;
@@ -102,7 +77,7 @@ sub page_check {
 
     # check for known languages
     foreach my $l (@lang) {
-        my $res = myget( "$script_url?lang=$l", 2_900 );
+        my $res = $test->myget( "$script_url?lang=$l", 2_900 );
 
         # correct translations?
         foreach my $text ( @{ $msg->{$l} } ) {
@@ -114,7 +89,7 @@ sub page_check {
     # check for unknown language in parameter
     foreach my $l ( "XYZ", "" ) {
         my $url = "$script_url?lang=$l";
-        my $res = myget( $url, 2_900 );
+        my $res = $test->myget( $url, 2_900 );
 
         # correct translations?
         foreach my $text ( @{ $msg->{$l} } ) {
@@ -123,10 +98,10 @@ sub page_check {
         }
     }
 
-    myget( "$home_url/html/extract-download.css", 3_000 );
-    myget( "$home_url/html/extract-download.js",  6_000 );
+    $test->myget( "$home_url/html/extract-download.css", 3_000 );
+    $test->myget( "$home_url/html/extract-download.js",  6_000 );
 
-    my $res = myget( "$script_url", 2_900 );
+    my $res = $test->myget( "$script_url", 2_900 );
     like( $res->decoded_content, qr|id="map"|,   "bbbike extract download" );
     like( $res->decoded_content, qr|id="nomap"|, "bbbike extract download" );
 
@@ -157,9 +132,11 @@ sub page_check {
     }
 
     if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
-        myget( "$home_url/html/jquery/jquery-1.8.3.min.js",        20_000 );
-        myget( "$home_url/html/OpenLayers/2.12/OpenStreetMap.js",  3_000 );
-        myget( "$home_url/html/OpenLayers/2.12/OpenLayers-min.js", 500_000 );
+        $test->myget( "$home_url/html/jquery/jquery-1.8.3.min.js", 20_000 );
+        $test->myget( "$home_url/html/OpenLayers/2.12/OpenStreetMap.js",
+            3_000 );
+        $test->myget( "$home_url/html/OpenLayers/2.12/OpenLayers-min.js",
+            500_000 );
     }
 }
 
@@ -175,11 +152,11 @@ sub garmin_check {
                 "bbbike garmin legend $tags" );
         }
     }
-    myget( "$home_url/garmin/", 300 );
+    $test->myget( "$home_url/garmin/", 300 );
 
-    legend( myget( "$home_url/garmin/bbbike/",   18_000 ) );
-    legend( myget( "$home_url/garmin/leisure/",  25_000 ) );
-    legend( myget( "$home_url/garmin/cyclemap/", 4_700 ) );
+    legend( $test->myget( "$home_url/garmin/bbbike/",   18_000 ) );
+    legend( $test->myget( "$home_url/garmin/leisure/",  25_000 ) );
+    legend( $test->myget( "$home_url/garmin/cyclemap/", 4_700 ) );
 }
 
 #############################################################################

@@ -1,14 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2014 Wolfram Schneider, http://bbbike.org
-
-use Test::More;
-use JSON;
-use LWP;
-use LWP::UserAgent;
-use Data::Dumper;
-
-use strict;
-use warnings;
+# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} ) {
@@ -17,9 +8,16 @@ BEGIN {
     }
 }
 
-binmode \*STDOUT, "utf8";
-binmode \*STDERR, "utf8";
+use Test::More;
+use Data::Dumper;
+use JSON;
+use lib qw(./world/lib ../lib);
+use BBBikeTest;
 
+use strict;
+use warnings;
+
+my $test  = BBBikeTest->new();
 my $debug = 1;
 
 my @homepages_localhost =
@@ -31,38 +29,16 @@ if ( $ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
 }
 unshift @homepages, @homepages_localhost;
 
-use constant MYGET     => 3;
 use constant API_CHECK => 4;
 use constant LANG      => 2;
 
 #plan 'no_plan';
-plan tests => scalar(@homepages) * LANG * ( API_CHECK + MYGET );
-
-my $ua = LWP::UserAgent->new;
-$ua->agent("BBBike.org-Test/1.0");
-
-sub myget {
-    my $url  = shift;
-    my $size = shift;
-
-    $size = 168 if !defined $size;
-
-    my $req = HTTP::Request->new( GET => $url );
-    my $res = $ua->request($req);
-
-    isnt( $res->is_success, undef, "$url is success" );
-    is( $res->status_line, "200 OK", "status code 200" );
-
-    my $content = $res->decoded_content();
-    cmp_ok( length($content), ">", $size, "greather than $size for URL $url" );
-
-    return $res;
-}
+plan tests => scalar(@homepages) * LANG * ( API_CHECK + $test->myget_counter );
 
 sub api_check {
     my $url = shift;
 
-    my $res = myget( "$url", 168 );
+    my $res = $test->myget( "$url", 168 );
     my $perl = decode_json( $res->decoded_content );
 
     is( $res->content_type, "application/json", "application/json" );

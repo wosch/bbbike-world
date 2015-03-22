@@ -1,9 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
-
-use Test::More;
-use strict;
-use warnings;
+# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} ) {
@@ -15,11 +11,11 @@ BEGIN {
     }
 }
 
-use LWP;
-use LWP::UserAgent;
+use Test::More;
+use lib qw(./world/lib ../lib);
+use BBBikeTest;
 
-binmode \*STDOUT, "utf8";
-binmode \*STDERR, "utf8";
+my $test = BBBikeTest->new();
 
 my @homepages_localhost =
   ( $ENV{BBBIKE_TEST_SERVER} ? $ENV{BBBIKE_TEST_SERVER} : "http://localhost" );
@@ -64,32 +60,11 @@ my $formats = {
     'srtm.obf.zip'         => 'SRTM Osmand',
 };
 
-use constant MYGET => 3;
-
-plan tests => scalar( keys %$formats ) * scalar(@homepages) * ( MYGET + 1 );
+plan tests => scalar( keys %$formats ) *
+  scalar(@homepages) *
+  ( $test->myget_counter + 1 );
 
 #plan 'no_plan';
-
-my $ua = LWP::UserAgent->new;
-$ua->agent("BBBike.org-Test/1.0");
-
-sub myget {
-    my $url  = shift;
-    my $size = shift;
-
-    $size = 11 if !defined $size;
-
-    my $req = HTTP::Request->new( GET => $url );
-    my $res = $ua->request($req);
-
-    isnt( $res->is_success, undef, "$url is success" );
-    is( $res->status_line, "200 OK", "status code 200" );
-
-    my $content = $res->decoded_content();
-    cmp_ok( length($content), ">", $size, "greather than $size for URL $url" );
-
-    return $res;
-}
 
 sub page_check {
     my $home_url   = shift;
@@ -97,7 +72,7 @@ sub page_check {
       || "$home_url/cgi/tile-size.cgi?lat_sw=51.775&lng_sw=11.995&lat_ne=53.218&lng_ne=14.775";
 
     foreach my $f ( keys %$formats ) {
-        my $res = myget( "$script_url&format=$f", 11 );
+        my $res = $test->myget( "$script_url&format=$f", 11 );
 
         # {"size": 65667.599 }
         # {"size": 0 }

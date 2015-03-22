@@ -1,9 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
-
-use Test::More;
-use strict;
-use warnings;
+# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
@@ -12,8 +8,14 @@ BEGIN {
     }
 }
 
-use LWP;
-use LWP::UserAgent;
+use Test::More;
+use lib qw(./world/lib ../lib);
+use BBBikeTest;
+
+use strict;
+use warnings;
+
+my $test = BBBikeTest->new();
 
 my $homepage = 'http://www.bbbike.org';
 
@@ -26,7 +28,6 @@ if ( $ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
 }
 unshift @homepages, @homepages_localhost;
 
-use constant MYGET => 3;
 my @images =
   qw/mm_20_yellow.png srtbike72.png srtbike114.png srtbike57.png shadow-dot.png
   dest.gif purple-dot.png mm_20_white.png ubahn.gif mm_20_red.png sbahn.gif
@@ -53,34 +54,13 @@ my @screenshot_images =
 
 push @images, @screenshot_images;
 
-plan tests => @images * ( MYGET + 1 ) * scalar(@homepages);
-
-my $ua = LWP::UserAgent->new;
-$ua->agent("BBBike.org-Test/1.0");
-
-sub myget {
-    my $url  = shift;
-    my $size = shift;
-
-    $size = 10_000 if !defined $size;
-
-    my $req = HTTP::Request->new( HEAD => $url );
-    my $res = $ua->request($req);
-
-    isnt( $res->is_success, undef, "$url is success" );
-    is( $res->status_line, "200 OK", "status code 200" );
-
-    my $content_length = $res->header("Content-Length");
-    cmp_ok( $content_length, ">", $size, "greather than $size" );
-
-    return $res;
-}
+plan tests => @images * ( $test->myget_counter + 1 ) * scalar(@homepages);
 
 sub images {
     my $homepage = shift;
 
     foreach my $image (@images) {
-        my $res = myget( "$homepage/images/$image", 60 );
+        my $res = $test->myget( "$homepage/images/$image", 60 );
         my $mime_type = "image/"
           . (
               $image =~ /\.gif$/ ? "gif"

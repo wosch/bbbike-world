@@ -1,13 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
-
-use utf8;
-use Test::More;
-use LWP;
-use LWP::UserAgent;
-
-use strict;
-use warnings;
+# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} || $ENV{BBBIKE_TEST_NO_PRODUCTION} ) {
@@ -16,8 +8,15 @@ BEGIN {
     }
 }
 
-binmode \*STDOUT, "utf8";
-binmode \*STDERR, "utf8";
+use utf8;
+use Test::More;
+use lib qw(./world/lib ../lib);
+use BBBikeTest;
+
+use strict;
+use warnings;
+
+my $test = BBBikeTest->new();
 
 my @homepages_localhost =
   ( $ENV{BBBIKE_TEST_SERVER} ? $ENV{BBBIKE_TEST_SERVER} : "http://localhost" );
@@ -28,36 +27,13 @@ if ( $ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
 }
 unshift @homepages, @homepages_localhost;
 
-use constant MYGET => 3;
-
 # ads only on production system
-plan tests => scalar(@homepages) * ( MYGET + 13 );
-
-my $ua = LWP::UserAgent->new;
-$ua->agent("BBBike.org-Test/1.0");
-
-sub myget {
-    my $url  = shift;
-    my $size = shift;
-
-    $size = 10_000 if !defined $size;
-
-    my $req = HTTP::Request->new( GET => $url );
-    my $res = $ua->request($req);
-
-    isnt( $res->is_success, undef, "$url is success" );
-    is( $res->status_line, "200 OK", "status code 200" );
-
-    my $content = $res->decoded_content();
-    cmp_ok( length($content), ">", $size, "greather than $size" );
-
-    return $res;
-}
+plan tests => scalar(@homepages) * ( $test->myget_counter + 13 );
 
 sub livesearch_extract {
     my $url = shift;
 
-    my $res = myget( $url, 4_600 );
+    my $res = $test->myget( $url, 4_600 );
     my $content = $res->decoded_content();
 
     like( $content, qr|Content-Type" content="text/html; charset=utf-8"|,

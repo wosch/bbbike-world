@@ -1,13 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2014 Wolfram Schneider, http://bbbike.org
-
-use LWP::UserAgent;
-use Encode;
-use utf8;    # test contains unicode characters, see Test::More::UTF8;
-use Test::More;
-
-use strict;
-use warnings;
+# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
@@ -16,8 +8,16 @@ BEGIN {
     }
 }
 
-binmode \*STDOUT, "utf8";
-binmode \*STDERR, "utf8";
+use utf8;    # test contains unicode characters, see Test::More::UTF8;
+use Encode;
+use Test::More;
+use lib qw(./world/lib ../lib);
+use BBBikeTest;
+
+use strict;
+use warnings;
+
+my $test = BBBikeTest->new();
 
 my @cities = qw/Berlin Cottbus Toronto/;
 
