@@ -89,9 +89,7 @@ foreach my $obj (@list) {
 plan tests => $count;
 
 ############################################################################
-my $ua = LWP::UserAgent->new;
-$ua->agent('BBBike.org-Test/1.0');
-$ua->env_proxy;
+my $ua = $test->{'ua'};
 
 foreach my $obj (@list) {
     my $url = $obj->{'page'};
