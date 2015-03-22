@@ -60,7 +60,7 @@ sub myget_headXXX {
     $size = 0 if !defined $size;
 
     my $req = HTTP::Request->new( HEAD => $url );
-    my $res = $ua->request($req);
+    my $res = $test->{'ua'}->request($req);
 
     isnt( $res->is_success, undef, "$url is success" );
     is( $res->status_line, "200 OK", "status code 200, $url" );
@@ -86,7 +86,7 @@ sub myget_headXXX {
 diag( "extract downloads URLs to check: " . scalar(@urls) ) if $debug;
 foreach my $u (@urls) {
     diag("URL: $u") if $debug >= 2;
-    $test->myget_head($u);
+    $test->myget_head( $u, 1_000 );
 }
 
 __END__
