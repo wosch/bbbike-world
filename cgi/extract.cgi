@@ -326,7 +326,7 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
           . qq{<a href="$community_link#donate"><img class="logo" height="47" width="126" src="/images/btn_donateCC_LG.gif" alt="donate"/></a></p>};
     }
 
-    my $home = $q->url( -query => 0, -relative => 1 );
+    my $home = $q->url( -query => 0, -relative => 1 ) || "/";
 
     return <<EOF;
   $donate
