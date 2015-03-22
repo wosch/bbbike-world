@@ -23,20 +23,14 @@ use warnings;
 
 ###########################################################################
 # config
-my $max          = 2000;
-my $debug        = 0;
-my $default_date = "36h";    # 36h: today and some hours from yesterday
 
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
 my $q = new CGI;
 
-if ( defined $q->param('debug') ) {
-    $debug = int( $q->param('debug') );
-}
-
 our $option = {
+    'debug'                => "0",
     'homepage_download'    => 'http://download.bbbike.org/osm/',
     'homepage_extract'     => 'http://extract.bbbike.org',
     'homepage_extract_pro' => 'http://extract-pro.bbbike.org',
@@ -59,13 +53,22 @@ our $option = {
     'enable_google_analytics' => 1,
 };
 
+my $max          = 2000;
+my $default_date = "36h";             # 36h: today and some hours from yesterday
+my $debug        = $option->{'debug'};
+if ( defined $q->param('debug') ) {
+    $debug = int( $q->param('debug') );
+}
+
 our $formats = $BBBikeExtract::formats;
-BBBikeExtract->new( 'q' => CGI->new(), 'option' => $option )->load_config();
+my $extract = BBBikeExtract->new( 'q' => CGI->new(), 'option' => $option );
+$extract->load_config;
+$extract->check_extract_pro;
 
 my $spool = {
-    'confirmed' => "confirmed",    # ready to run
-    'running'   => "running",      # currently running job
-    'download'  => "download",     # final directory for download
+    'confirmed' => "confirmed",       # ready to run
+    'running'   => "running",         # currently running job
+    'download'  => "download",        # final directory for download
 };
 
 # EOF config
@@ -711,26 +714,8 @@ EOF
     print $q->end_html;
 }
 
-# re-set values for extract-pro service
-sub check_extract_pro {
-    my $q = shift;
-
-    my $url = $q->url( -full => 1 );
-
-    # basic version, skip
-    return if !( $q->param("pro") || $url =~ m,/extract-pro/, );
-
-    foreach my $key (qw/homepage_extract spool_dir download/) {
-        my $key_pro = $key . "_pro";
-        $option->{$key} = $option->{$key_pro};
-    }
-
-    $option->{"pro"} = 1;
-}
-
 ##############################################################################################
 #
 # main
 #
-&check_extract_pro($q);
 &download($q);

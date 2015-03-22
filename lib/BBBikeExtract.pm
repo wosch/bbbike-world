@@ -119,6 +119,25 @@ sub load_config {
     }
 }
 
+# re-set values for extract-pro service
+sub check_extract_pro {
+    my $self = shift;
+    my $q = $self->{'q'};
+    our $option = $self->{'option'};
+
+    my $url = $q->url( -full => 1 );
+
+    # basic version, skip
+    return if !( $q->param("pro") || $url =~ m,/extract-pro/, );
+
+    foreach my $key (qw/homepage_extract spool_dir download/) {
+        my $key_pro = $key . "_pro";
+        $option->{$key} = $option->{$key_pro};
+    }
+
+    $option->{"pro"} = 1;
+}
+
 sub is_production {
     my $self = shift;
     my $q = $self->{'q'};
