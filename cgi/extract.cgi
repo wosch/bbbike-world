@@ -28,8 +28,7 @@ use HTTP::Date;
 use Math::Polygon::Calc;
 use Math::Polygon::Transform;
 
-use lib '../world/lib';
-use lib '../lib';
+use lib qw[../world/lib ../lib];
 use BBBikeExtract;
 use BBBikeLocale;
 use BBBikeAnalytics;
