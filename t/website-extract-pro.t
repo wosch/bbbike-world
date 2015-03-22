@@ -32,7 +32,12 @@ if ( $ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
 }
 
 my $test = BBBikeTest->new();
-plan tests => scalar(@homepages_production) * $test->myget_counter * 3;
+my $counter_production =
+  scalar(@homepages_production) * $test->myget_401_counter * 3;
+my $counter_localhost =
+  scalar(@homepages_localhost) *
+  ( $test->myget_500_counter + 2 * $test->myget_counter );
+plan tests => $counter_production + $counter_localhost;
 
 sub page_check_401 {
     my $home_url = shift;
@@ -45,7 +50,9 @@ sub page_check_401 {
 sub page_check_500 {
     my $home_url = shift;
 
-    #myget_401("$home_url/cgi/extract.cgi");
+    $test->myget("$home_url/cgi/extract.cgi?pro=");
+    $test->myget("$home_url/cgi/extract.cgi?proXXX=");
+    $test->myget_500("$home_url/cgi/extract.cgi?pro=foobar");
 }
 
 #############################################################################
@@ -57,8 +64,8 @@ foreach my $home_url (@homepages_production) {
     &page_check_401($home_url);
 }
 
-#foreach my $home_url (@homepages_localhost) {
-#    &page_check_500($home_url);
-#}
+foreach my $home_url (@homepages_localhost) {
+    &page_check_500($home_url);
+}
 
 __END__

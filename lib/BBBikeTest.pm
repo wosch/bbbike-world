@@ -83,9 +83,30 @@ sub myget {
     return $res;
 }
 
+sub myget_500 {
+    my $self = shift;
+    my $url  = shift;
+    my $size = shift || $self->{'size'};
+
+    $size = 200 if !defined $size;
+
+    my $req = HTTP::Request->new( GET => $url );
+    my $res = $self->{'ua'}->request($req);
+
+    isnt( $res->is_success, undef, "$url is success" );
+    is( $res->status_line, "500 Internal Server Error", "status code 500" );
+
+    my $content = $res->decoded_content();
+    cmp_ok( length($content), ">", $size, "greather than $size for URL $url" );
+
+    return $res;
+}
+
+
 use constant MYGET => 3;
 sub myget_counter { return MYGET; }
-sub myget401_counter { return MYGET; }
+sub myget_401_counter { return MYGET; }
+sub myget_500_counter { return MYGET; }
 
 1;
 
