@@ -53,6 +53,7 @@ install-munin-bbbike-extract:
 	   to=`echo $$i | perl -npe 's,munin-,,'`; \
 	   sudo ln -fs `pwd`/plugins/$$i ${MUNIN_PLUGINS_DIR}/$$to; \
 	done
+	sudo ln -fs ${MUNIN_PLUGINS_DIR}/bbbike-extract-jobs ${MUNIN_PLUGINS_DIR}/bbbike-extract-pro-jobs
 	${MAKE} munin-restart
 
 munin-restart:

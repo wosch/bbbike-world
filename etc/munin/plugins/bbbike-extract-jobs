@@ -38,9 +38,13 @@ if you need to override the defaults below:
 
 
 PATH=/bin:/usr/bin; export PATH
-extract_dir=/var/cache/extract/running
+: ${extract_dir="/var/cache/extract/running"}
 
 config=$1
+
+case $extract_dir in 
+    *-pro/* ) pro="pro" ;;
+esac
 
 if [ "$1" = "config" ]; then
     : ${warning=40}
@@ -55,20 +59,20 @@ if [ "$1" = "config" ]; then
     : ${users_critical=20}
      
     cat <<EOF
-graph_title Extracts queue
-graph_vlabel Extracts queue
+graph_title Extracts queue $pro
+graph_vlabel Extracts queue $pro
 graph_category extract
-graph_info Running extract jobs
+graph_info Running extract jobs $pro
 graph_period minute
-jobs.label Running jobs
+jobs.label Running jobs $pro
 jobs.min 0
-waiting.label Waiting jobs
+waiting.label Waiting jobs $pro
 waiting.min 0
-proc.label Running proc
+proc.label Running proc $pro
 proc.min 0
-users.label Active Users
+users.label Active Users $pro
 users.min 0
-users_waiting.label Waitung Users
+users_waiting.label Waitung Users $pro
 users_waiting.min 0
 EOF
 
