@@ -1,8 +1,9 @@
 #!/bin/sh
-# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2015 Wolfram Schneider, http://bbbike.org
 #
 # planet-download-alert - alert if new planet.osm if available
 #
+# If a new planet.osm is available, start an update
 
 PATH=/usr/local/bin:/bin:/usr/bin; export PATH 
 
@@ -15,11 +16,8 @@ if [ -e "$bbbikerc" ]; then
     . "$bbbikerc"
 fi
 
-
 old="0"
 new="1"
-
-
 dir=../osm/download
 update=$dir/.update
 
