@@ -1,0 +1,73 @@
+#!/bin/sh
+# Copyright (c) 2009-2015 Wolfram Schneider, http://bbbike.org
+#
+# planet-download-xml - alert if new planet.osm.xml if available
+#
+# If a new planet.osm is available, start an update
+
+set -e
+#set -o pipefail # bash only
+
+PATH=/usr/local/bin:/bin:/usr/bin; export PATH 
+
+: ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
+
+file=planet-latest.osm.bz2
+automatic_update="yes"
+planet_osm_server=http://planet.openstreetmap.org/planet
+bbbikerc=$HOME/.bbbikerc
+
+if [ -e "$bbbikerc" ]; then 
+    . "$bbbikerc"
+fi
+
+old="0"
+new="1"
+dir=../osm/download
+update=$dir/.update
+
+# don't run again if already run in the last 48 hours
+if [ -e $update ]; then
+   if [ `find $update -mmin -2900 | wc -l` -gt 0 ]; then
+	exit 0
+   fi
+fi
+
+new=`curl -sSf --head --location $planet_osm_server/$file | perl -ne 'print "$1\n" if /^Content-Length:\s+(\d+)/'`
+
+cache_file=$dir/$file
+if [ -e  $cache_file ]; then
+   old=`ls -l $cache_file | awk '{ print $5 }'`
+fi
+
+if test -n "$new" && test "$new" -eq "$old"; then
+    # we are done
+    exit 0
+fi
+
+
+echo "please update me: $old $new"
+echo "$planet_osm_server/$file"
+echo ""
+   
+curl -sSf --head --location $planet_osm_server/$file | egrep "^(Content-Length:|Last-|Location:)"
+
+dir="tmp.$$.new"
+mkdir -p $dir
+pwd=`pwd`
+cd $dir
+   
+# get md5 checksum first
+curl -sSf -o $file.md5 $planet_osm_server/$file.md5
+
+time curl -L -sSf $planet_osm_server/$file > $file.tmp
+mv -f $file.tmp $file
+$MD5 $file | tee $file.md5
+
+mv -f $file $file.md5 $pwd
+cd $pwd
+rmdir $dir
+
+touch $update
+
+
