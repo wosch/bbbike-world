@@ -28,8 +28,7 @@ use HTTP::Date;
 use Math::Polygon::Calc;
 use Math::Polygon::Transform;
 
-use lib '../world/lib';
-use lib '../lib';
+use lib qw[../world/lib ../lib];
 use BBBikeExtract;
 use BBBikeLocale;
 use BBBikeAnalytics;
@@ -117,22 +116,23 @@ our $option = {
 ###
 # global variables
 #
-my $language       = "";                  # will be set later
-my $extract_dialog = '/extract-dialog';
+my $q     = new CGI;
+my $debug = $option->{'debug'};
+if ( defined $q->param('debug') ) {
+    $debug = int( $q->param('debug') );
+}
 
-our $formats = $BBBikeExtract::formats;
-BBBikeExtract->new( 'q' => CGI->new(), 'option' => $option )->load_config();
-
-# sent out emails as
-my $email_from = 'BBBike Admin <bbbike@bbbike.org>';
+my $extract = BBBikeExtract->new( 'q' => $q, 'option' => $option );
+$extract->load_config;
+$extract->check_extract_pro;
+my $formats = $BBBikeExtract::formats;
+my $spool   = $BBBikeExtract::spool;
 
 # spool directory. Should be at least 100GB large
 my $spool_dir = $option->{'spool_dir'} || '/var/cache/extract';
 
-my $spool = {
-    'confirmed' => "$spool_dir/confirmed",
-    'running'   => "$spool_dir/running",
-};
+my $language       = "";                  # will be set later
+my $extract_dialog = '/extract-dialog';
 
 my $max_skm = $option->{'max_skm'};
 
@@ -141,7 +141,6 @@ my $request_method = $option->{request_method};
 
 # translations
 my $msg;
-my $debug = $option->{'debug'};
 
 ######################################################################
 # helper functions
@@ -516,7 +515,7 @@ sub extract_coords {
     if ( ref $coords ne "" ) {
         my $fh_file = $coords;
 
-        binmode $fh_file, ":raw";
+        binmode $fh_file, ":utf8";
         local $/ = "";
         my $data = <$fh_file>;
         undef $fh_file;
@@ -897,38 +896,6 @@ sub _check_input {
     return ( $error, join "\n", @error, @data );
 }
 
-# SMTP wrapper
-sub send_email {
-    my ( $to, $subject, $text, $confirm ) = @_;
-    my $mail_server  = "localhost";
-    my @to           = split /,/, $to;
-    my $content_type = "Content-Type: text/plain; charset=UTF-8\n"
-      . "Content-Transfer-Encoding: binary";
-
-    my $from = $email_from;
-    my $data =
-      "From: $from\nTo: $to\nSubject: $subject\n" . "$content_type\n$text";
-    my $smtp = new Net::SMTP( $mail_server, Hello => "localhost", Debug => 0 )
-      or die "can't make SMTP object\n";
-
-    # validate e-mail addresses - even if we don't sent out an email yet
-    $smtp->mail($from) or die "can't send email from $from\n";
-    $smtp->to(@to)     or die "can't use SMTP recipient '$to'\n";
-    $smtp->verify(@to) or die "can't verify SMTP recipient '$to'\n";
-
-    # sent out an email and ask to confirm
-    # configured by: $option->{'conform'}
-    if ( $confirm > 0 ) {
-        $smtp->data($data) or die "can't email data to '$to'\n";
-    }
-    else {
-
-        # do not sent mail body data
-    }
-
-    $smtp->quit() or die "can't send email to '$to'\n";
-}
-
 # ($lat1, $lon1 => $lat2, $lon2);
 sub square_km {
     my ( $x1, $y1, $x2, $y2, $factor ) = @_;
@@ -947,66 +914,18 @@ sub large_int {
     return scalar reverse $text;
 }
 
-# save request in confirmed spool
-sub save_request {
-    my $obj = shift;
-    my $spool_dir = shift || $spool->{"confirmed"};
-
-    my $json      = new JSON;
-    my $json_text = $json->pretty->encode($obj);
-
-    my $key = md5_hex( encode_utf8($json_text) . rand() );
-    my $job = "$spool_dir/$key.json.tmp";
-
-    warn "Store request $job: $json_text\n" if $debug;
-
-    my $fh = new IO::File $job, "w";
-    if ( !defined $fh ) {
-        warn "Cannot open $job: $!\n";
-        return;
-    }
-    binmode $fh, ":utf8";
-
-    print $fh $json_text, "\n";
-    $fh->close;
-
-    return ( $key, $job );
-}
-
-sub parse_json_file {
-    my $file = shift;
-
-    warn "Open file '$file'\n" if $debug >= 2;
-
-    my $fh = new IO::File $file, "r" or die "open '$file': $!\n";
-    binmode $fh, ":utf8";
-
-    my $json_text;
-    while (<$fh>) {
-        $json_text .= $_;
-    }
-    $fh->close;
-
-    my $json = new JSON;
-    my $json_perl = eval { $json->decode($json_text) };
-    die "json $file $@" if $@;
-
-    warn Dumper($json_perl) if $debug >= 3;
-    return $json_perl;
-}
-
 sub check_queue {
     my %args = @_;
     my $obj  = $args{'obj'};
 
-    my $spool_dir = $spool->{'confirmed'};
+    my $spool_dir_confirmed = "$spool_dir/" . $spool->{'confirmed'};
 
     # newest files from confirmed spool
-    my @files = `ls -t $spool_dir`;
+    my @files = `ls -t $spool_dir_confirmed`;
 
     # argh!
     if ($?) {
-        warn "opendir $spool_dir failed: $?\n";
+        warn "opendir '$spool_dir_confirmed' failed: $?\n";
         return ( 10000, 10000 );    # fake error
     }
 
@@ -1022,7 +941,7 @@ sub check_queue {
         # check only the first 1000 files
         last if $counter-- < 0;
 
-        my $perl = parse_json_file("$spool_dir/$file");
+        my $perl = $extract->parse_json_file("$spool_dir_confirmed/$file");
         if ( $perl->{"email"} eq $obj->{"email"} ) {
             $email_counter++;
         }
@@ -1037,6 +956,33 @@ sub check_queue {
       if $debug >= 1;
 
     return ( $email_counter, $ip_counter );
+}
+
+# save request in confirmed spool
+sub save_request {
+    my $obj = shift;
+    my $spool_dir_confirmed =
+      "$spool_dir/" . ( shift || $spool->{"confirmed"} );
+
+    my $json      = new JSON;
+    my $json_text = $json->pretty->encode($obj);
+
+    my $key = md5_hex( encode_utf8($json_text) . rand() );
+    my $job = "$spool_dir_confirmed/$key.json.tmp";
+
+    warn "Store request $job: $json_text\n" if $debug;
+
+    my $fh = new IO::File $job, "w";
+    if ( !defined $fh ) {
+        warn "Cannot open $job: $!\n";
+        return;
+    }
+    binmode $fh, ":utf8";
+
+    print $fh $json_text, "\n";
+    $fh->close;
+
+    return ( $key, $job );
 }
 
 # foo.json.tmp -> foo.json
@@ -1318,7 +1264,6 @@ sub M { return BBBikeLocale::M(@_); };    # wrapper
 
 ######################################################################
 # main
-my $q = new CGI;
 
 my $locale = BBBikeLocale->new(
     'q'                   => $q,

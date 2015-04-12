@@ -14,6 +14,7 @@ use File::Basename;
 use HTTP::Date;
 
 use lib qw[../world/lib ../lib];
+use BBBikeExtract;
 use BBBikeLocale;
 use BBBikeAnalytics;
 
@@ -22,20 +23,12 @@ use warnings;
 
 ###########################################################################
 # config
-my $max          = 2000;
-my $debug        = 0;
-my $default_date = "36h";    # 36h: today and some hours from yesterday
 
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
-my $q = new CGI;
-
-if ( defined $q->param('debug') ) {
-    $debug = int( $q->param('debug') );
-}
-
 our $option = {
+    'debug'                => "0",
     'homepage_download'    => 'http://download.bbbike.org/osm/',
     'homepage_extract'     => 'http://extract.bbbike.org',
     'homepage_extract_pro' => 'http://extract-pro.bbbike.org',
@@ -58,74 +51,26 @@ our $option = {
     'enable_google_analytics' => 1,
 };
 
-our $formats = {
-    'osm.pbf' => 'Protocolbuffer (PBF)',
-    'osm.gz'  => "OSM XML gzip'd",
-    'osm.bz2' => "OSM XML bzip'd",
-    'osm.xz'  => "OSM XML 7z (xz)",
+my $q            = new CGI;
+my $max          = 2000;
+my $default_date = "36h";     # 36h: today and some hours from yesterday
 
-    'shp.zip'            => "Shapefile (Esri)",
-    'garmin-osm.zip'     => "Garmin OSM",
-    'garmin-cycle.zip'   => "Garmin Cycle",
-    'garmin-leisure.zip' => "Garmin Leisure",
+my $debug = $option->{'debug'};
+if ( defined $q->param('debug') ) {
+    $debug = int( $q->param('debug') );
+}
 
-    'garmin-bbbike.zip' => "Garmin BBBike",
-    'navit.zip'         => "Navit",
-    'obf.zip'           => "Osmand (OBF)",
-
-    'o5m.gz' => "o5m gzip'd",
-    'o5m.xz' => "o5m 7z (xz)",
-
-    'opl.xz' => "OPL 7z (xz)",
-    'csv.gz' => "csv gzip'd",
-    'csv.xz' => "csv 7z (xz)",
-
-    'mapsforge-osm.zip' => "Mapsforge OSM",
-
-    'srtm-europe.osm.pbf'         => 'SRTM Europe PBF (25m)',
-    'srtm-europe.garmin-srtm.zip' => 'SRTM Europe Garmin (25m)',
-    'srtm-europe.obf.zip'         => 'SRTM Europe Osmand (25m)',
-
-    'srtm.osm.pbf'         => 'SRTM World PBF (40m)',
-    'srtm.garmin-srtm.zip' => 'SRTM World Garmin (40m)',
-    'srtm.obf.zip'         => 'SRTM World Osmand (40m)',
-
-    #'srtm-europe.mapsforge-osm.zip' => 'SRTM Europe Mapsforge',
-    #'srtm-southamerica.osm.pbf' => 'SRTM South America PBF',
-};
-
-my $spool = {
-    'confirmed' => "confirmed",    # ready to run
-    'running'   => "running",      # currently running job
-    'osm'       => "osm",          # cache older runs
-    'download'  => "download",     # final directory for download
-    'trash'     => "trash",        # keep a copy of the config for debugging
-    'failed'    => "failed",       # keep record of failed runs
-};
+my $extract = BBBikeExtract->new( 'q' => $q, 'option' => $option );
+$extract->load_config;
+$extract->check_extract_pro;
+my $formats = $BBBikeExtract::formats;
+my $spool   = $BBBikeExtract::spool;
 
 # EOF config
 ###########################################################################
 
-sub M { return BBBikeLocale::M(@_); };    # wrapper
-
-sub is_production {
-    my $q = shift;
-
-    return 1 if -e "/tmp/is_production";
-    return $q->virtual_host() =~ /^extract\.bbbike\.org$/i ? 1 : 0;
-}
-
-# sacle file size in x.y MB
-sub file_size_mb {
-    my $size = shift;
-
-    foreach my $scale ( 10, 100, 1000, 10_000 ) {
-        my $result = int( $scale * $size / 1024 / 1024 ) / $scale;
-        return $result if $result > 0;
-    }
-
-    return "0.0";
-}
+sub M            { return BBBikeLocale::M(@_); };        # wrapper
+sub file_size_mb { return $extract->file_size_mb(@_) }
 
 # extract areas from trash can
 sub extract_areas {
@@ -151,27 +96,13 @@ sub extract_areas {
     my @list = reverse sort { $hash{$a} <=> $hash{$b} } keys %hash;
 
     my @area;
-    my $json         = new JSON;
     my $download_dir = $option->{"spool_dir"} . "/" . $spool->{"download"};
     my $time         = time();
 
     my %unique;
     for ( my $i = 0 ; $i < scalar(@list) && $i < $max ; $i++ ) {
         my $file = $list[$i];
-        my $fh = new IO::File $file, "r" or die "open $file: $!\n";
-        binmode $fh, ":utf8";
-
-        my $data = "";
-        while (<$fh>) {
-            $data .= $_;
-        }
-
-        my $obj;
-        eval { $obj = $json->decode($data) };
-        if ($@) {
-            warn "Cannot parse json file $file: $@\n";
-            next;
-        }
+        my $obj = $extract->parse_json_file( $file, 1 );
 
         next if !exists $obj->{'date'};
 
@@ -701,7 +632,7 @@ EOF
         'type'    => 'confirmed',
         'files'   => \@extracts,
         'name'    => 'Waiting extracts',
-        'message' => 'Will start in the next 5 minutes.',
+        'message' => 'Will start in the next 5 minutes',
     );
 
     @extracts = &running_extract_areas(
@@ -712,7 +643,7 @@ EOF
         'type'    => 'running',
         'files'   => \@extracts,
         'name'    => 'Running extracts',
-        'message' => 'Will be ready in the next 5-30 minutes.',
+        'message' => 'Will be ready in the next 5-30 minutes',
     );
 
     my $sort_by = $q->param('sort_by') || $q->param("sort");
@@ -746,26 +677,8 @@ EOF
     print $q->end_html;
 }
 
-# re-set values for extract-pro service
-sub check_extract_pro {
-    my $q = shift;
-
-    my $url = $q->url( -full => 1 );
-
-    # basic version, skip
-    return if !( $q->param("pro") || $url =~ m,/extract-pro/, );
-
-    foreach my $key (qw/homepage_extract spool_dir download/) {
-        my $key_pro = $key . "_pro";
-        $option->{$key} = $option->{$key_pro};
-    }
-
-    $option->{"pro"} = 1;
-}
-
 ##############################################################################################
 #
 # main
 #
-&check_extract_pro($q);
 &download($q);

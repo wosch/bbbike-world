@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2011-2014 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2011-2015 Wolfram Schneider, http://bbbike.org
 #
 # extract.pl - extracts areas in a batch job
 #
@@ -32,6 +32,9 @@ use LWP;
 use LWP::UserAgent;
 use Time::gmtime;
 use LockFile::Simple;
+
+use lib qw[world/lib ../lib];
+use BBBikeExtract;
 
 use strict;
 use warnings;
@@ -147,69 +150,14 @@ our $option = {
 
 ######################################################################
 
-my $formats = {
-    'osm.pbf' => 'Protocolbuffer Binary Format (PBF)',
-    'osm.gz'  => "OSM XML gzip'd",
-    'osm.bz2' => "OSM XML bzip'd",
-    'osm.xz'  => "OSM XML 7z/xz",
-    'shp.zip' => "Shapefile (Esri)",
-    'obf.zip' => "Osmand (OBF)",
-    'o5m.gz'  => "o5m gzip'd",
-    'o5m.bz2' => "o5m bzip'd",
-    'o5m.xz'  => "o5m 7z (xz)",
-    'opl.xz'  => "opl 7z (xz)",
-    'csv.gz'  => "CSV gzip'd",
-    'csv.bz2' => "CSV bzip'd",
-    'csv.xz'  => "CSV 7z (xz)",
-
-    'garmin-osm.zip'     => "Garmin OSM",
-    'garmin-cycle.zip'   => "Garmin Cycle",
-    'garmin-leisure.zip' => "Garmin Leisure",
-    'garmin-bbbike.zip'  => "Garmin BBBike",
-    'navit.zip'          => "Navit",
-    'mapsforge-osm.zip'  => "mapsforge OSM",
-
-    'srtm-europe.osm.pbf'           => 'SRTM Europe PBF',
-    'srtm-europe.garmin-srtm.zip'   => 'SRTM Europe Garmin',
-    'srtm-europe.mapsforge-osm.zip' => 'SRTM Europe Mapsforge',
-    'srtm-europe.obf.zip'           => 'SRTM Europe Osmand',
-
-    'srtm.osm.pbf'           => 'SRTM PBF',
-    'srtm.garmin-srtm.zip'   => 'SRTM Garmin',
-    'srtm.mapsforge-osm.zip' => 'SRTM Mapsforge',
-    'srtm.obf.zip'           => 'SRTM Osmand',
-};
+my $extract = BBBikeExtract->new( 'option' => $option );
+my $formats = $BBBikeExtract::formats;
+my $spool   = $BBBikeExtract::spool;
+$extract->load_config_nocgi;
 
 # translations
 my $msg;
 my $language = $option->{'language'};
-
-#
-# Parse user config file.
-# This allows to override standard config values
-#
-my $config_file = "$ENV{HOME}/.bbbike-extract.rc";
-if ( $ENV{BBBIKE_EXTRACT_PROFILE} ) {
-    $config_file = $ENV{BBBIKE_EXTRACT_PROFILE};
-}
-if ( -e $config_file ) {
-    warn "Load config file: $config_file\n" if $option->{"debug"} >= 2;
-    require $config_file;
-}
-else {
-    warn "config file: $config_file not found, ignored\n"
-      if $option->{"debug"} >= 2;
-}
-
-my $spool = {
-    'incoming'  => "incoming",     # incoming request, not confirmed yet
-    'confirmed' => "confirmed",    # ready to run
-    'running'   => "running",      # currently running job
-    'osm'       => "osm",          # cache older runs
-    'download'  => "download",     # final directory for download
-    'trash'     => "trash",        # keep a copy of the config for debugging
-    'failed'    => "failed",       # keep record of failed runs
-};
 
 my $alarm      = $option->{"alarm"};
 my $nice_level = $option->{"nice_level"};
