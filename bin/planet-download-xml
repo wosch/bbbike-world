@@ -1,11 +1,16 @@
 #!/bin/sh
 # Copyright (c) 2009-2015 Wolfram Schneider, http://bbbike.org
 #
-# planet-download-alert - alert if new planet.osm if available
+# planet-download-xml - alert if new planet.osm.xml if available
 #
 # If a new planet.osm is available, start an update
 
+set -e
+#set -o pipefail # bash only
+
 PATH=/usr/local/bin:/bin:/usr/bin; export PATH 
+
+: ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
 
 file=planet-latest.osm.bz2
 automatic_update="yes"
@@ -35,18 +40,34 @@ if [ -e  $cache_file ]; then
    old=`ls -l $cache_file | awk '{ print $5 }'`
 fi
 
-if test -n "$new" && test "$new" -ne "$old"; then
-   echo "please update me: $old $new"
-   echo "$planet_osm_server/$file"
-   echo ""
-   curl -sSf --head --location $planet_osm_server/$file | egrep "^(Content-Length:|Last-|Location:)"
-   touch $update
-
-   if [ -n "$automatic_update" ]; then
-     echo "start updated: $(date), may run 8-12 hours"
-     logfile=tmp/log.update-database
-     make -s update-database > $logfile 2>&1 || tail -n 200 $logfile 
-     echo "done updated: $(date)"
-   fi
+if test -n "$new" && test "$new" -eq "$old"; then
+    # we are done
+    exit 0
 fi
+
+
+echo "please update me: $old $new"
+echo "$planet_osm_server/$file"
+echo ""
+   
+curl -sSf --head --location $planet_osm_server/$file | egrep "^(Content-Length:|Last-|Location:)"
+
+dir="tmp.$$.new"
+mkdir -p $dir
+pwd=`pwd`
+cd $dir
+   
+# get md5 checksum first
+curl -sSf -o $file.md5 $planet_osm_server/$file.md5
+
+time curl -L -sSf $planet_osm_server/$file > $file.tmp
+mv -f $file.tmp $file
+$MD5 $file | tee $file.md5
+
+mv -f $file $file.md5 $pwd
+cd $pwd
+rmdir $dir
+
+touch $update
+
 
