@@ -58,6 +58,7 @@ case $ext in
         : ${java_heap=6G}
         : ${splitter_max_nodes=50000}
         : ${splitter_max_areas=100}
+        : ${splitter_resolution=13}
         : ${splitter_keep_complete="--keep-complete=false"}
         ;;
     *)         
@@ -77,11 +78,11 @@ esac
 : ${splitter_max_areas=512}
 
 if [ $size -lt 100 ]; then
-  splitter_resolution=18
+  : ${splitter_resolution=18}
 elif [ $size -lt 2000 ]; then
-  splitter_resolution=16
+  : ${splitter_resolution=16}
 else
-  splitter_resolution=13
+  : ${splitter_resolution=13}
 fi
 
 #case $ext in *leisure* ) java_heap=3500M ;; esac
