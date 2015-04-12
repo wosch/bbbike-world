@@ -5,12 +5,11 @@
 #
 # If a new planet.osm is available, start an update
 
-set -e
-#set -o pipefail # bash only
-
 PATH=/usr/local/bin:/bin:/usr/bin; export PATH 
 
+set -e
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
+: ${download_dir="."}
 
 file=planet-latest.osm.bz2
 automatic_update="yes"
@@ -23,7 +22,8 @@ fi
 
 old="0"
 new="1"
-dir=../osm/download
+dir=$download_dir
+
 update=$dir/.update
 
 # don't run again if already run in the last 48 hours
@@ -46,16 +46,20 @@ if test -n "$new" && test "$new" -eq "$old"; then
 fi
 
 
-echo "please update me: $old $new"
+echo "please update me: old: $old, new: $new"
 echo "$planet_osm_server/$file"
+echo "In directory: $download_dir"
 echo ""
    
 curl -sSf --head --location $planet_osm_server/$file | egrep "^(Content-Length:|Last-|Location:)"
 
-dir="tmp.$$.new"
-mkdir -p $dir
-pwd=`pwd`
-cd $dir
+cd $download_dir
+
+# download files into a temporary sub-directory
+tmpdir="tmp.$$.new"
+mkdir -p $tmpdir
+pwd=$(pwd)
+cd $tmpdir
    
 # get md5 checksum first
 curl -sSf -o $file.md5 $planet_osm_server/$file.md5
@@ -66,8 +70,8 @@ $MD5 $file | tee $file.md5
 
 mv -f $file $file.md5 $pwd
 cd $pwd
-rmdir $dir
+rmdir $tmpdir
 
 touch $update
 
-
+# EOF
