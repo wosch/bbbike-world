@@ -12,6 +12,11 @@ use JSON;
 use Data::Dumper;
 use Encode;
 
+use lib './world/bin';
+use lib '../world/bin';
+use lib '../bin';
+use BBBikeWorldDB;
+
 use strict;
 use warnings;
 
@@ -39,6 +44,43 @@ sub is_mobile {
     else {
         return 0;
     }
+}
+
+sub get_bbbike_db {
+
+    my $database = "world/etc/cities.csv";
+    $database = "../$database" if -e "../$database";
+
+    my $db = BBBikeWorldDB->new( 'database' => $database, 'debug' => 0 );
+    return $db;
+}
+
+sub cities_by_area {
+    my %args = @_;
+    my $cities = $args{'cities'} or die "no cities argument given\n";
+
+    my $db = &get_bbbike_db()->city;
+
+    my %hash;
+
+    my $total = 0;
+    foreach my $city ( keys %$cities ) {
+        my $area  = $db->{$city}->{"area"};
+        my $count = scalar( @{ $cities->{$city} } );
+
+        $total += $count;
+        $hash{$area} += $count;
+    }
+
+    my $data = "Search by geographic area: ";
+    foreach my $area ( reverse sort { $hash{$a} <=> $hash{$b} } keys %hash ) {
+        $data .= "$area: $hash{$area}";
+        $data .= sprintf( " (%2.1f%)\n", 100 * $hash{$area} / $total );
+    }
+
+    return $data;
+
+    #return Dumper($data, \%hash, );
 }
 
 sub date_alias {
@@ -695,7 +737,6 @@ sub statistic_basic {
     print "<p>Cycle Route Statistic<br/>" . &route_stat($cities) . "</p>\n";
 
     if ( $most_used_cities && scalar(@cities) > 20 ) {
-        print "<hr />\n";
         my @cities2 =
           reverse sort { $#{ $cities->{$a} } <=> $#{ $cities->{$b} } }
           keys %$cities;
@@ -703,6 +744,10 @@ sub statistic_basic {
         if ( scalar(@cities2) >= $most_used_cities ) {
             @cities2 = @cities2[ 0 .. ( $most_used_cities - 1 ) ];
         }
+
+        print &cities_by_area( 'cities' => $cities );
+
+        print "<hr />\n";
         print join( "<br/>\n",
             map { $_ . " (" . scalar( @{ $cities->{$_} } ) . ")" } @cities2 );
     }
