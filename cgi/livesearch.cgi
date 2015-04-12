@@ -75,7 +75,7 @@ sub cities_by_area {
     my $data = "Search by geographic area: ";
     foreach my $area ( reverse sort { $hash{$a} <=> $hash{$b} } keys %hash ) {
         $data .= "$area: $hash{$area}";
-        $data .= sprintf( " (%2.1f%)\n", 100 * $hash{$area} / $total );
+        $data .= sprintf( " (%2.1f%%)\n", 100 * $hash{$area} / $total );
     }
 
     return $data;
