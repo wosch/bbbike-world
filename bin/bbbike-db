@@ -182,11 +182,13 @@ usage: $0 [--debug={0..2}] [options] city
 --list
 --city-database=/path/to/etc/cities.csv
 --other_names
+--robots-local-lang cities .....
 EOF
 }
 
 my $lang;
 my $local_lang;
+my $robots_local_lang;
 my $step;
 my $population;
 my $coord;
@@ -204,24 +206,25 @@ my $region;
 my $startc;
 
 GetOptions(
-    "debug=i"         => \$debug,
-    "lang"            => \$lang,
-    "local-lang"      => \$local_lang,
-    "step"            => \$step,
-    "city-names"      => \$city_names,
-    "population"      => \$population,
-    "neighbours"      => \$neighbours,
-    "other-names"     => \$other_names,
-    "region"          => \$region,
-    "coord"           => \$coord,
-    "startc"          => \$startc,
-    "poly"            => \$poly,
-    "centerdelta"     => \$centerdelta,
-    "area=s"          => \$area,
-    "city-en"         => \$city_en,
-    "city-stat"       => \$city_stat,
-    "list"            => \$list,
-    "city-database=s" => \$city_database,
+    "debug=i"           => \$debug,
+    "lang"              => \$lang,
+    "local-lang"        => \$local_lang,
+    "robots-local-lang" => \$robots_local_lang,
+    "step"              => \$step,
+    "city-names"        => \$city_names,
+    "population"        => \$population,
+    "neighbours"        => \$neighbours,
+    "other-names"       => \$other_names,
+    "region"            => \$region,
+    "coord"             => \$coord,
+    "startc"            => \$startc,
+    "poly"              => \$poly,
+    "centerdelta"       => \$centerdelta,
+    "area=s"            => \$area,
+    "city-en"           => \$city_en,
+    "city-stat"         => \$city_stat,
+    "list"              => \$list,
+    "city-database=s"   => \$city_database,
 ) or die usage;
 
 my $city = shift;
@@ -268,6 +271,23 @@ if ( defined $city_stat ) {
         print "\n";
 
     }
+    exit;
+}
+
+if ($robots_local_lang) {
+    my @cities = ( $city, @ARGV );
+
+    foreach $city (@cities) {
+        my $l = $hash{$city}->{local_lang} ? $hash{$city}->{local_lang} : "en";
+
+        if ( $l eq 'en' ) {
+            print "Disallow: /en/$city/\n";
+        }
+        else {
+            print "Disallow: /en/$city/?\n";
+        }
+    }
+
     exit;
 }
 

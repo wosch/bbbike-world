@@ -1,4 +1,4 @@
-# Copyright (c) 2009-2014 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2015 Wolfram Schneider, http://bbbike.org
 #
 # Planet.osm download server
 planet_osm_server=http://planet.openstreetmap.org/planet
@@ -26,14 +26,16 @@ export BBBIKE_API_SERVER=api4.bbbike.org
 export BBBIKE_TEST_FAST=1
 export BBBIKE_OPT_DIR=/var/lib/bbbike/opt
 
-# BBBIKE_TEST_SLOW_NETWORK=1
-# BBBIKE_TEST_NO_NETWORK=1
-# BBBIKE_TEST_LONG=1
+# export BBBIKE_TEST_SLOW_NETWORK=1
+# export BBBIKE_TEST_NO_NETWORK=1
+# export BBBIKE_TEST_LONG=1
 #
 # Web server options:
-# BBBIKE_TEST_NO_CGI_TESTS=1
+# export BBBIKE_TEST_NO_CGI_TESTS=1
 
 # workaround for imagemagic thread bug / busy waiting in libgomp
 export OMP_WAIT_POLICY=PASSIVE
+
+# export BBBIKE_PLANET_OSM_GRANULARITY="granularity=10000"
 
 #EOF

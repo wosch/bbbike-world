@@ -27,7 +27,11 @@ use GIS::Distance::Lite;
 use HTTP::Date;
 use Math::Polygon::Calc;
 use Math::Polygon::Transform;
-use Locale::Util;
+
+use lib qw[../world/lib ../lib];
+use BBBikeExtract;
+use BBBikeLocale;
+use BBBikeAnalytics;
 
 use strict;
 use warnings;
@@ -57,15 +61,14 @@ our $option = {
     'email_allow_nobody'  => 1,
 
     'debug'          => "2",
-    'language'       => "en",
     'request_method' => "GET",
 
-    #'supported_languages' => [qw/en de es fr ru/],
-    'supported_languages' => [qw/en de/],
-    'message_path'        => "../world/etc/extract",
-    'pro'                 => 0,
+    'supported_languages' => $BBBikeLocale::option->{"supported_languages"},
+    'language'            => $BBBikeLocale::option->{"language"},
 
-    'with_google_maps'        => 1,
+    'pro' => 0,
+
+    'with_google_maps'        => 0,
     'enable_google_analytics' => 1,
 
     # scheduler with priorities (by IP or user agent)
@@ -110,78 +113,26 @@ our $option = {
     ],
 };
 
-our $formats = {
-    'osm.pbf' => 'Protocolbuffer (PBF)',
-    'osm.gz'  => "OSM XML gzip'd",
-    'osm.bz2' => "OSM XML bzip'd",
-    'osm.xz'  => "OSM XML 7z (xz)",
-
-    'shp.zip'            => "Shapefile (Esri)",
-    'garmin-osm.zip'     => "Garmin OSM",
-    'garmin-cycle.zip'   => "Garmin Cycle",
-    'garmin-leisure.zip' => "Garmin Leisure",
-
-    'garmin-bbbike.zip' => "Garmin BBBike",
-    'navit.zip'         => "Navit",
-    'obf.zip'           => "Osmand (OBF)",
-
-    'o5m.gz' => "o5m gzip'd",
-    'o5m.xz' => "o5m 7z (xz)",
-
-    'opl.xz' => "OPL 7z (xz)",
-    'csv.gz' => "csv gzip'd",
-    'csv.xz' => "csv 7z (xz)",
-
-    'mapsforge-osm.zip' => "Mapsforge OSM",
-
-    'srtm-europe.osm.pbf'         => 'SRTM Europe PBF (25m)',
-    'srtm-europe.garmin-srtm.zip' => 'SRTM Europe Garmin (25m)',
-    'srtm-europe.obf.zip'         => 'SRTM Europe Osmand (25m)',
-
-    'srtm.osm.pbf'         => 'SRTM World PBF (40m)',
-    'srtm.garmin-srtm.zip' => 'SRTM World Garmin (40m)',
-    'srtm.obf.zip'         => 'SRTM World Osmand (40m)',
-
-    #'srtm-europe.mapsforge-osm.zip' => 'SRTM Europe Mapsforge',
-    #'srtm-southamerica.osm.pbf' => 'SRTM South America PBF',
-};
-
 ###
 # global variables
 #
-my $language       = $option->{'language'};
-my $extract_dialog = '/extract-dialog';
-
-#
-# Parse user config file.
-# This allows to override standard config values
-#
-my $config_file = "../.bbbike-extract.rc";
-if ( CGI->new->url( -full => 1 ) =~ m,^http://extract-pro[1-4]?\., ) {
-    $config_file = '../.bbbike-extract-pro.rc';
-    warn "Use extract pro config file $config_file\n"
-      if $option->{"debug"} >= 2;
+my $q     = new CGI;
+my $debug = $option->{'debug'};
+if ( defined $q->param('debug') ) {
+    $debug = int( $q->param('debug') );
 }
 
-if ( -e $config_file ) {
-    warn "Load config file: $config_file\n" if $option->{"debug"} >= 2;
-    require $config_file;
-}
-else {
-    warn "config file: $config_file not found, ignored\n"
-      if $option->{"debug"} >= 2;
-}
-
-# sent out emails as
-my $email_from = 'BBBike Admin <bbbike@bbbike.org>';
+my $extract = BBBikeExtract->new( 'q' => $q, 'option' => $option );
+$extract->load_config;
+$extract->check_extract_pro;
+my $formats = $BBBikeExtract::formats;
+my $spool   = $BBBikeExtract::spool;
 
 # spool directory. Should be at least 100GB large
 my $spool_dir = $option->{'spool_dir'} || '/var/cache/extract';
 
-my $spool = {
-    'confirmed' => "$spool_dir/confirmed",
-    'running'   => "$spool_dir/running",
-};
+my $language       = "";                  # will be set later
+my $extract_dialog = '/extract-dialog';
 
 my $max_skm = $option->{'max_skm'};
 
@@ -190,30 +141,10 @@ my $request_method = $option->{request_method};
 
 # translations
 my $msg;
-my $debug = $option->{'debug'};
 
 ######################################################################
 # helper functions
 #
-
-sub http_accept_language {
-    my $q = shift;
-    my $requested_language = $q->http('Accept-language') || "";
-
-    return "" if !$requested_language;
-
-    my @lang = Locale::Util::parse_http_accept_language($requested_language);
-    warn "Accept-language: " . join( ", ", @lang ) if $debug >= 2;
-
-    foreach my $l (@lang) {
-        if ( grep { $l eq $_ } @{ $option->{supported_languages} } ) {
-            warn "Select language by browser: $l\n" if $debug >= 1;
-            return $l;
-        }
-    }
-
-    return "";
-}
 
 sub header {
     my $q     = shift;
@@ -223,14 +154,14 @@ sub header {
 
     my @onload;
     my @cookie;
-    my @css     = "../html/extract.css";
+    my @css     = "/html/extract.css";
     my @expires = ();
 
     if ( $type eq 'homepage' ) {
         @onload = ( -onLoad, 'init();' );
     }
     else {
-        push @css, "../html/extract-center.css";
+        push @css, "/html/extract-center.css";
     }
 
     # store last used selected in cookies for further usage
@@ -306,7 +237,7 @@ sub header {
     return $data;
 }
 
-# see ../html/extract.js
+# see /html/extract.js
 sub map {
 
     return <<EOF;
@@ -394,7 +325,7 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
           . qq{<a href="$community_link#donate"><img class="logo" height="47" width="126" src="/images/btn_donateCC_LG.gif" alt="donate"/></a></p>};
     }
 
-    my $home = $q->url( -query => 0, -relative => 0 );
+    my $home = $q->url( -query => 0, -relative => 1 ) || "/";
 
     return <<EOF;
   $donate
@@ -417,9 +348,12 @@ sub footer {
     my $q    = shift;
     my %args = @_;
 
-    my $analytics = &google_analytics($q);
-    my $url       = $q->url( -relative => 1 );
-    my $error     = $args{'error'} || 0;
+    my $analytics =
+      $option->{"enable_google_analytics"}
+      ? BBBikeAnalytics->new( 'q' => $q )->google_analytics
+      : "";
+    my $url = $q->url( -relative => 1 );
+    my $error = $args{'error'} || 0;
 
     my $locate =
       $args{'map'} ? ' | <a href="javascript:locateMe()">where am I?</a>' : "";
@@ -436,7 +370,7 @@ sub footer {
     );
 
     my $javascript = join "\n",
-      map { qq{<script src="../html/$_" type="text/javascript"></script>} } @js;
+      map { qq{<script src="/html/$_" type="text/javascript"></script>} } @js;
 
     $javascript .=
 qq{\n<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3.9&amp;sensor=false&amp;language=en&amp;libraries=weather,panoramio"></script>}
@@ -452,7 +386,7 @@ qq{\n<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?
     by <a href="http://wolfram.schneider.org">Wolfram Schneider</a><br/>
     Map data (&copy;) <a href="http://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
   <div id="footer_community"></div>
-  </div>
+  </div> <!-- copyright -->
 </div>
 
 </div></div></div> <!-- layout -->
@@ -463,7 +397,12 @@ $analytics
   jQuery('#pageload-indicator').hide();
 </script>
 
-<!-- bbbike_extract_status: $error -->
+  <!-- pre-load some images for slow mobile networks -->
+  <div id="slow-network" style="display:none">
+    <img src="/html/close.png" alt="close button" />
+  </div>
+
+<!-- bbbike_extract_status: $error, pro version: @{[ $option->{'pro'} ]} -->
 </body>
 </html>
 EOF
@@ -478,76 +417,20 @@ sub social_links {
 EOF
 }
 
-sub language_links {
-    my $q        = shift;
-    my $language = shift;
-
-    my $qq   = CGI->new($q);
-    my $data = qq{<span id="language">\n};
-
-    my $cookie_lang =
-         $q->cookie( -name => "lang" )
-      || &http_accept_language($q)
-      || "";
-
-    foreach my $l ( @{ $option->{'supported_languages'} } ) {
-        if ( $l ne $language ) {
-            $l eq $option->{'language'} && !$cookie_lang
-              ? $qq->delete("lang")
-              : $qq->param( "lang", $l );
-
-            $data .= qq{<a href="} . $qq->url( -query => 1 ) . qq{">$l</a>\n};
-        }
-        else {
-            $data .= qq{<span id="active_language">$l</span>\n};
-        }
-
-    }
-    $data .= qq{</span>\n};
-
-    return $data;
-}
-
-sub google_analytics {
-    my $q = shift;
-
-    my $url = $q->url( -base => 1 );
-
-    return "" if !$option->{"enable_google_analytics"};
-    if ( $url !~ m,^http://(www|extract)[1-4]?\., ) {
-        return "";    # devel installation
-    }
-
-    return <<EOF;
-<script type="text/javascript">
-//<![CDATA[
-  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-  //]]>
-  </script><script type="text/javascript">
-//<![CDATA[
-  try {
-  var pageTracker = _gat._getTracker("UA-286675-19");
-  pageTracker._trackPageview();
-  } catch(err) {}
-  //]]>
-  </script>
-EOF
-}
-
 sub message {
     my $q        = shift;
     my $language = shift;
+    my $locale   = shift;
 
     return <<EOF;
 <span id="noscript"><noscript>Please enable JavaScript in your browser. Thanks!</noscript></span>
 <span id="toolbar"></span>
 
 <span id="tools-titlebar">
- @{[ &language_links($q, $language) ]}
+ @{[ $locale->language_links ]}
  @{[ &social_links ]} -
  <span id="tools-help"><a class='tools-helptrigger' href='$extract_dialog/$language/about.html' title='info'><span>@{[ M("about") ]} extracts</span></a> - </span>
- <span id="pageload-indicator">&nbsp;<img src="/html/indicator.gif" alt="" title="Loading JavaScript libraries" /></span>
+ <span id="pageload-indicator">&nbsp;<img src="/html/indicator.gif" width="14" height="14" alt="" title="Loading JavaScript libraries" /> Loading JavaScript</span>
  <span class="jqmWindow jqmWindowLarge" id="tools-helpwin"></span>
 </span>
 
@@ -632,7 +515,7 @@ sub extract_coords {
     if ( ref $coords ne "" ) {
         my $fh_file = $coords;
 
-        binmode $fh_file, ":raw";
+        binmode $fh_file, ":utf8";
         local $/ = "";
         my $data = <$fh_file>;
         undef $fh_file;
@@ -765,12 +648,13 @@ sub Param {
 # and a HTML message.
 #
 sub _check_input {
-    my %args = @_;
-    my $q    = $args{'q'};
+    my %args   = @_;
+    my $q      = $args{'q'};
+    my $locale = $args{'locale'};
 
     #our $qq = $q;
 
-    my $lang = get_language($q);
+    my $lang = $locale->get_language;
     our @error = ();
     our $error = 0;
 
@@ -956,6 +840,8 @@ sub _check_input {
         'script_url'      => $script_url,
         'coords_original' => $debug >= 2 ? $coords : "",
         'lang'            => $lang,
+        'as'              => $as,
+        'pg'              => $pg,
     };
 
     if ( $option->{enable_priority} ) {
@@ -1010,38 +896,6 @@ sub _check_input {
     return ( $error, join "\n", @error, @data );
 }
 
-# SMTP wrapper
-sub send_email {
-    my ( $to, $subject, $text, $confirm ) = @_;
-    my $mail_server  = "localhost";
-    my @to           = split /,/, $to;
-    my $content_type = "Content-Type: text/plain; charset=UTF-8\n"
-      . "Content-Transfer-Encoding: binary";
-
-    my $from = $email_from;
-    my $data =
-      "From: $from\nTo: $to\nSubject: $subject\n" . "$content_type\n$text";
-    my $smtp = new Net::SMTP( $mail_server, Hello => "localhost", Debug => 0 )
-      or die "can't make SMTP object\n";
-
-    # validate e-mail addresses - even if we don't sent out an email yet
-    $smtp->mail($from) or die "can't send email from $from\n";
-    $smtp->to(@to)     or die "can't use SMTP recipient '$to'\n";
-    $smtp->verify(@to) or die "can't verify SMTP recipient '$to'\n";
-
-    # sent out an email and ask to confirm
-    # configured by: $option->{'conform'}
-    if ( $confirm > 0 ) {
-        $smtp->data($data) or die "can't email data to '$to'\n";
-    }
-    else {
-
-        # do not sent mail body data
-    }
-
-    $smtp->quit() or die "can't send email to '$to'\n";
-}
-
 # ($lat1, $lon1 => $lat2, $lon2);
 sub square_km {
     my ( $x1, $y1, $x2, $y2, $factor ) = @_;
@@ -1060,66 +914,18 @@ sub large_int {
     return scalar reverse $text;
 }
 
-# save request in confirmed spool
-sub save_request {
-    my $obj = shift;
-    my $spool_dir = shift || $spool->{"confirmed"};
-
-    my $json      = new JSON;
-    my $json_text = $json->pretty->encode($obj);
-
-    my $key = md5_hex( encode_utf8($json_text) . rand() );
-    my $job = "$spool_dir/$key.json.tmp";
-
-    warn "Store request $job: $json_text\n" if $debug;
-
-    my $fh = new IO::File $job, "w";
-    if ( !defined $fh ) {
-        warn "Cannot open $job: $!\n";
-        return;
-    }
-    binmode $fh, ":utf8";
-
-    print $fh $json_text, "\n";
-    $fh->close;
-
-    return ( $key, $job );
-}
-
-sub parse_json_file {
-    my $file = shift;
-
-    warn "Open file '$file'\n" if $debug >= 2;
-
-    my $fh = new IO::File $file, "r" or die "open '$file': $!\n";
-    binmode $fh, ":utf8";
-
-    my $json_text;
-    while (<$fh>) {
-        $json_text .= $_;
-    }
-    $fh->close;
-
-    my $json = new JSON;
-    my $json_perl = eval { $json->decode($json_text) };
-    die "json $file $@" if $@;
-
-    warn Dumper($json_perl) if $debug >= 3;
-    return $json_perl;
-}
-
 sub check_queue {
     my %args = @_;
     my $obj  = $args{'obj'};
 
-    my $spool_dir = $spool->{'confirmed'};
+    my $spool_dir_confirmed = "$spool_dir/" . $spool->{'confirmed'};
 
     # newest files from confirmed spool
-    my @files = `ls -t $spool_dir`;
+    my @files = `ls -t $spool_dir_confirmed`;
 
     # argh!
     if ($?) {
-        warn "opendir $spool_dir failed: $?\n";
+        warn "opendir '$spool_dir_confirmed' failed: $?\n";
         return ( 10000, 10000 );    # fake error
     }
 
@@ -1135,7 +941,7 @@ sub check_queue {
         # check only the first 1000 files
         last if $counter-- < 0;
 
-        my $perl = parse_json_file("$spool_dir/$file");
+        my $perl = $extract->parse_json_file("$spool_dir_confirmed/$file");
         if ( $perl->{"email"} eq $obj->{"email"} ) {
             $email_counter++;
         }
@@ -1150,6 +956,33 @@ sub check_queue {
       if $debug >= 1;
 
     return ( $email_counter, $ip_counter );
+}
+
+# save request in confirmed spool
+sub save_request {
+    my $obj = shift;
+    my $spool_dir_confirmed =
+      "$spool_dir/" . ( shift || $spool->{"confirmed"} );
+
+    my $json      = new JSON;
+    my $json_text = $json->pretty->encode($obj);
+
+    my $key = md5_hex( encode_utf8($json_text) . rand() );
+    my $job = "$spool_dir_confirmed/$key.json.tmp";
+
+    warn "Store request $job: $json_text\n" if $debug;
+
+    my $fh = new IO::File $job, "w";
+    if ( !defined $fh ) {
+        warn "Cannot open $job: $!\n";
+        return;
+    }
+    binmode $fh, ":utf8";
+
+    print $fh $json_text, "\n";
+    $fh->close;
+
+    return ( $key, $job );
 }
 
 # foo.json.tmp -> foo.json
@@ -1179,8 +1012,9 @@ sub complete_save_request {
 
 # startpage
 sub homepage {
-    my %args = @_;
-    my $q    = $args{'q'};
+    my %args   = @_;
+    my $q      = $args{'q'};
+    my $locale = $args{'locale'};
 
     print &header( $q, -type => 'homepage' );
     print &layout($q);
@@ -1193,7 +1027,8 @@ sub homepage {
 
     print qq{<div id="intro">\n};
 
-    print qq{<div id="message">\n}, &message( $q, $language ), &locate_message,
+    print qq{<div id="message">\n}, &message( $q, $language, $locale ),
+      &locate_message,
       "</div>\n";
     print "<hr/>\n\n";
 
@@ -1229,7 +1064,7 @@ sub homepage {
             -labels => $formats_locale,
           );
     }
-    warn Dumper( \@values );
+    warn Dumper( \@values ) if $debug >= 3;
 
     print qq{<div id="table">\n};
     print $q->table(
@@ -1406,8 +1241,8 @@ qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="j
 sub locate_message {
     return <<EOF;
 <span id="locate">
-<span style="display:none" id="tools-pageload">Please wait... <img src="/images/indicator.gif" alt="loading" /></span>
-<a title="where am I?" href="javascript:locateMe()"><img src="/images/location-icon.png" width="25" height="23" alt="loading" border="0"/></a>
+<span style="display:none" id="tools-pageload"></span>
+<a title="where am I?" href="javascript:locateMe()"><img id="location-icon" src="/images/location-icon.png" width="25" height="23" alt="loading" border="0"/></a>
 </span>
 EOF
 }
@@ -1425,91 +1260,23 @@ sub export_osm {
 EOF
 }
 
-sub get_language {
-    my $q = shift;
-    my $language = shift || $language;
-
-    my $lang =
-         $q->param("lang")
-      || $q->param("language")
-      || $q->cookie( -name => "lang" )
-      || &http_accept_language($q);
-
-    return $language if !defined $lang;
-
-    if ( grep { $_ eq $lang } @{ $option->{'supported_languages'} } ) {
-        warn "get language: $lang\n" if $debug >= 1;
-        return $lang;
-    }
-
-    # default language
-    else {
-        warn "default language: $lang\n" if $debug >= 1;
-        return $language;
-    }
-}
-
-sub get_msg {
-    my $language = shift || $option->{'language'};
-
-    my $file = $option->{'message_path'} . "/msg.$language.json";
-    if ( !-e $file ) {
-        warn "Language file $file not found, ignored\n" . qx(pwd);
-        return {};
-    }
-
-    warn "Open message file $file for language $language\n" if $debug >= 1;
-    my $fh = new IO::File $file, "r" or die "open $file: $!\n";
-    binmode $fh, ":utf8";
-
-    my $json_text;
-    while (<$fh>) {
-        $json_text .= $_;
-    }
-    $fh->close;
-
-    my $json = new JSON;
-    my $json_perl = eval { $json->decode($json_text) };
-    die "json $file $@" if $@;
-
-    warn Dumper($json_perl) if $debug >= 3;
-    return $json_perl;
-}
-
-sub M {
-    my $key = shift;
-
-    my $text;
-    if ( $msg && exists $msg->{$key} ) {
-        $text = $msg->{$key};
-    }
-    else {
-        if ( $debug >= 1 && $msg ) {
-            warn "Unknown translation: $key\n"
-              if $debug >= 2 || $language ne "en";
-        }
-        $text = $key;
-    }
-
-    if ( ref $text eq 'ARRAY' ) {
-        $text = join "\n", @$text, "\n";
-    }
-
-    return $text;
-}
+sub M { return BBBikeLocale::M(@_); };    # wrapper
 
 ######################################################################
 # main
-my $q = new CGI;
 
-$language = get_language( $q, $language );
-$msg = get_msg($language);
+my $locale = BBBikeLocale->new(
+    'q'                   => $q,
+    'supported_languages' => $option->{'supported_languages'},
+    'language'            => $option->{'language'}
+);
+$language = $locale->get_language;
 
 if ( $q->param("submit") ) {
-    &check_input( 'q' => $q );
+    &check_input( 'q' => $q, 'locale' => $locale );
 }
 else {
-    &homepage( 'q' => $q );
+    &homepage( 'q' => $q, 'locale' => $locale );
 }
 
 1;

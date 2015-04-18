@@ -27,17 +27,21 @@ var config = {
 
     // max. area size in MB
     "max_size": {
-        "default": 768,
+        "default": 1536,
+
         "obf.zip": 250,
         "navit.zip": 512,
+        "mapsforge-osm.zip": 400,
+
         "garmin-bbbike.zip": 650,
         "garmin-osm.zip": 768,
         "garmin-cycle.zip": 650,
         "garmin-leisure.zip": 650,
-        "mapsforge-osm.zip": 100,
+
         "srtm-europe.garmin-srtm.zip": 800,
-        "srtm-europe.mapsforge-osm.zip": 200,
-        "srtm-europe.obf.zip": 200
+        "srtm-europe.obf.zip": 200,
+        "srtm.garmin-srtm.zip": 800,
+        "srtm.obf.zip": 200
     },
 
     // help image per format
@@ -172,6 +176,9 @@ function plot_polygon_back() {
     var feature = plot_polygon(polygon);
     vectors.addFeatures(feature);
 
+    // re-calculate polygon size
+    state.func_serialize(feature);
+
     validateControls();
     plot_default_box_menu_on();
 }
@@ -220,37 +227,43 @@ function init_map() {
         attribution: '<a href="http://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="http://www.opencyclemap.org/">(&copy) OpenCycleMap</a>'
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("OSM Transport", ["http://a.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png", "http://b.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png"], {
-        tileOptions: {
-            crossOriginKeyword: null
-        },
-        attribution: '<a href="http://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>',
-        numZoomLevels: 19
-    }));
-
-    map.addLayer(new OpenLayers.Layer.OSM("Esri Topographic", "http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/${z}/${y}/${x}.png", {
-        attribution: '<a href="http://www.esri.com/">(&copy;) Esri</a>',
-        tileOptions: {
-            crossOriginKeyword: null
-        },
-        numZoomLevels: 18
-    }));
-
-    map.addLayer(new OpenLayers.Layer.Google("Google Physical", {
-        type: google.maps.MapTypeId.TERRAIN
-    }));
-
-    map.addLayer(new OpenLayers.Layer.Google("Google Satellite", {
-        type: google.maps.MapTypeId.SATELLITE
-    }));
-
-    map.addLayer(new OpenLayers.Layer.Google("Google Map", {
-        type: google.maps.MapTypeId.ROADMAP
-    }));
+    // Bing roads and Satellite/Hybrid
+    add_bing_maps(map);
 
     state.map = map;
     return map;
 }
+
+function add_bing_maps(map) {
+    var BingApiKey = "AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf";
+
+    map.addLayer(new OpenLayers.Layer.Bing(
+    // XXX: bing.com returns a wrong zoom level in JSON API call
+    OpenLayers.Util.extend({
+        initLayer: function () {
+            // pretend we have a zoomMin of 0
+            this.metadata.resourceSets[0].resources[0].zoomMin = 0;
+            OpenLayers.Layer.Bing.prototype.initLayer.apply(this, arguments);
+        }
+    }, {
+        key: BingApiKey,
+        type: "Road"
+        //,  metadataParams: { mapVersion: "v1" }
+    })));
+
+    map.addLayer(new OpenLayers.Layer.Bing(OpenLayers.Util.extend({
+        initLayer: function () {
+            this.metadata.resourceSets[0].resources[0].zoomMin = 0;
+            OpenLayers.Layer.Bing.prototype.initLayer.apply(this, arguments);
+        }
+    }, {
+        key: BingApiKey,
+        type: "AerialWithLabels",
+        name: "Bing Hybrid",
+        numZoomLevels: 18
+    })));
+}
+
 
 // open info page at startup, but display it only once for the user
 
@@ -562,7 +575,7 @@ function setBounds(bounds) {
 
 function extract_init_pro(opt) {
     var hostname = $(location).attr('hostname');
-    if (hostname.match(/^(extract-pro|dev)[2-4]?\.bbbike\.org/i)) {
+    if (hostname.match(/^(extract-pro|devX)[2-4]?\.bbbike\.org/i)) {
         config.max_size["default"] *= 2;
         config.max_skm *= 2;
     }
@@ -733,7 +746,7 @@ function checkform() {
         alert(M("Please create a bounding box first!"));
         ret = 3;
     } else if (ret > 0) {
-        alert(ret == 1 ? M("Please fill out all fields!") : M("Use a smaller area! Max size: ") + max_size + "MB");
+        alert(ret == 1 ? M("Please fill out all fields!") : M("Please use a smaller area! Max size: ") + max_size + "MB");
     } else if (config.box_on_map) {
         if (!validate_box_on_map()) {
             alert(M("The bounding box is outside of the map. Please move back to the box, or >>Select a different<< area on the map"));
@@ -1028,12 +1041,14 @@ function show_skm(skm, filesize) {
     if (skm > config.max_skm) {
         $("#size").html("Max area size: " + config.max_skm + "skm.");
         $("#export_osm_too_large").show();
-    } else if (config.max_size[filesize.format] && filesize.size > config.max_size[filesize.format]) {
-        // Osmand works only for small areas less than 200MB
-        $("#size").html("Max osmand file size: " + config.max_size[filesize.format] + " MB.");
+    }
+
+    // Osmand etc. works only for small areas less than 200MB
+    else if (config.max_size[filesize.format] && filesize.size > config.max_size[filesize.format]) {
+        $("#size").html("Max " + filesize.format + " file size: " + config.max_size[filesize.format] + " MB.");
         $("#export_osm_too_large").show();
     } else if (filesize.size > config.max_size["default"]) {
-        $("#size").html("Max file size: " + config.max_size["default"] + " MB.");
+        $("#size").html("Max default file size: " + config.max_size["default"] + " MB.");
         $("#export_osm_too_large").show();
     } else {
         $("#export_osm_too_large").hide();
@@ -1223,7 +1238,7 @@ function show_filesize(skm, real_size) {
         },
         "mapsforge-osm.zip": {
             "size": 0.8,
-            "time": 14
+            "time": 3
         },
         "navit.zip": {
             "size": 0.8
@@ -1389,7 +1404,7 @@ function polygon_init() {
             validateControls();
         }
     }
-
+    state.func_serialize = serialize; // needs to be called from plot_polygon_back()
 /*
     var options = {}; // hover: true, onSelect: serialize,
     var select = new OpenLayers.Control.SelectFeature(vectors, options);

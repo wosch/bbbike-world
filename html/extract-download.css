@@ -9,7 +9,7 @@ body {
     margin: 0px 5px 0px 5px;
     text-align: center;
     /* font-family: Verdana, Geneva, Arial, sans-serif;  */
-    margin: 1em;
+    margin: 0.5em;
 }
 
 div#border { 
@@ -68,6 +68,12 @@ table#download td, table.download th {
   padding-right: 4px !important;
 }
 
+/* donate section */
+table#donate tr { background-color: #FFF; }
+table#donate tr td:nth-child(1) { text-align: left; }
+table#donate tr td:nth-child(2) { text-align: right; }
+table#donate { width: 100%; }
+
 th { border-left: 1px solid #b9b8b6; }
 /* no line breaks in table header */
 th { white-space: nowrap; }
@@ -114,3 +120,4 @@ span.format_srtm_garmin_srtm_zip { color: brown; }
 span.format_srtm_obf_zip { color: brown; }
 span.format_srtm_osm_pbf { color: brown; }
 
+div#nomap { padding-top: 0.5em; }

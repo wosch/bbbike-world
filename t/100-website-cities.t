@@ -1,13 +1,5 @@
-#!/usr/bin/perl
-# Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
-
-use utf8;
-use Test::More;
-use LWP;
-use LWP::UserAgent;
-
-use strict;
-use warnings;
+#!/usr/local/bin/perl
+# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} ) {
@@ -19,9 +11,15 @@ BEGIN {
     }
 }
 
-binmode \*STDOUT, "utf8";
-binmode \*STDERR, "utf8";
+use utf8;
+use Test::More;
+use lib qw(./world/lib ../lib);
+use BBBikeTest;
 
+use strict;
+use warnings;
+
+my $test  = BBBikeTest->new();
 my $debug = 1;
 
 my @homepages_localhost =
@@ -34,7 +32,6 @@ if ( $ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
 unshift @homepages, @homepages_localhost;
 
 my @cities = qw/Berlin Zuerich Toronto Moscow/;
-use constant MYGET => 3;
 
 my @lang = qw/de es  fr  ru/;
 
@@ -62,9 +59,11 @@ if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
     }
     $counter_text *= scalar(@cities);
 
-    my $counter_html = ( MYGET * 11 ) + 2;
+    my $counter_html = ( $test->myget_counter * 11 ) + 2;
     my $counter_cities =
-      scalar(@cities) * ( MYGET * 2 + 26 ) * ( scalar(@lang) + 1 );
+      scalar(@cities) *
+      ( $test->myget_counter * 2 + 26 ) *
+      ( scalar(@lang) + 1 );
     my $counter_ads = 0;
 
     # ads only on production system
@@ -79,27 +78,6 @@ if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
 }
 else {
     plan 'no_plan';
-}
-
-my $ua = LWP::UserAgent->new;
-$ua->agent("BBBike.org-Test/1.0");
-
-sub myget {
-    my $url  = shift;
-    my $size = shift;
-
-    $size = 10_000 if !defined $size;
-
-    my $req = HTTP::Request->new( GET => $url );
-    my $res = $ua->request($req);
-
-    isnt( $res->is_success, undef, "$url is success" );
-    is( $res->status_line, "200 OK", "status code 200 for url:$url" );
-
-    my $content = $res->decoded_content();
-    cmp_ok( length($content), ">", $size, "greather than $size" );
-
-    return $res;
 }
 
 sub cities {
@@ -130,7 +108,7 @@ sub _cities {
     my $homepage = $url;
     $homepage =~ s,(^http://[^/]+).*,$1,;
 
-    my $res     = myget($url);
+    my $res     = $test->myget($url);
     my $content = $res->decoded_content();
     my $data    = $content;
 
@@ -180,7 +158,7 @@ qr{type="application/atom\+xml" .*href="/feed/bbbike-world.xml| href="/feed/bbbi
     # skip other tests on slow networks (e.g. on mobile phone links)
     return $data if $ENV{BBBIKE_TEST_SLOW_NETWORK};
 
-    $res = myget( "$homepage/osp/$city.xml", 100 );
+    $res = $test->myget( "$homepage/osp/$city.xml", 100 );
     $content = $res->decoded_content();
 
     like(
@@ -205,29 +183,30 @@ qr{type="application/atom\+xml" .*href="/feed/bbbike-world.xml| href="/feed/bbbi
 sub html {
     my $homepage = shift;
 
-    myget( "$homepage/osp/Zuerich.en.xml", 100 );
-    myget( "$homepage/osp/Toronto.de.xml", 100 );
-    myget( "$homepage/osp/Moscow.de.xml",  100 );
-    myget( "$homepage/osp/Moscow.en.xml",  100 );
+    $test->myget( "$homepage/osp/Zuerich.en.xml", 100 );
+    $test->myget( "$homepage/osp/Toronto.de.xml", 100 );
+    $test->myget( "$homepage/osp/Moscow.de.xml",  100 );
+    $test->myget( "$homepage/osp/Moscow.en.xml",  100 );
 
-    myget( "$homepage/html/bbbike.css", 7_000 );
-    myget( "$homepage/html/devbridge-jquery-autocomplete-1.1.2/shadow.png",
+    $test->myget( "$homepage/html/bbbike.css", 7_000 );
+    $test->myget(
+        "$homepage/html/devbridge-jquery-autocomplete-1.1.2/shadow.png",
         1_000 );
 
     if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
-        my $res = myget( "$homepage/html/bbbike-js.js", 100_000 );
+        my $res = $test->myget( "$homepage/html/bbbike-js.js", 100_000 );
         my $content = $res->decoded_content;
 
         like( $content, qr|#BBBikeGooglemap|, "bbbike js" );
         like( $content, qr|downloadUrl|,      "bbbike js" );
 
-        myget( "$homepage/html/streets.css", 2_000 );
-        myget( "$homepage/html/luft.css",    3_000 );
-        myget(
+        $test->myget( "$homepage/html/streets.css", 2_000 );
+        $test->myget( "$homepage/html/luft.css",    3_000 );
+        $test->myget(
 "$homepage/html/devbridge-jquery-autocomplete-1.1.2/jquery.autocomplete-min.js",
             1_000
         );
-        myget( "$homepage/html/jquery/jquery-1.4.2.min.js", 20_000 );
+        $test->myget( "$homepage/html/jquery/jquery-1.4.2.min.js", 20_000 );
     }
 }
 

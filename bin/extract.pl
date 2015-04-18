@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2011-2014 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2011-2015 Wolfram Schneider, http://bbbike.org
 #
 # extract.pl - extracts areas in a batch job
 #
@@ -33,6 +33,9 @@ use LWP::UserAgent;
 use Time::gmtime;
 use LockFile::Simple;
 
+use lib qw[world/lib ../lib];
+use BBBikeExtract;
+
 use strict;
 use warnings;
 
@@ -46,6 +49,10 @@ umask(002);
 
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
+
+# backward compatible
+$ENV{BBBIKE_PLANET_OSM_GRANULARITY} = "granularity=10000"
+  if !defined $ENV{BBBIKE_PLANET_OSM_GRANULARITY};
 
 our $option = {
     'max_areas'       => 8,
@@ -93,8 +100,9 @@ our $option = {
     'file_prefix' => 'planet_',
 
     # reset max_jobs if load is to high
-    'max_loadavg'      => 10,
-    'max_loadavg_jobs' => 2,    # 0: stop running at all
+    'max_loadavg'      => 9,
+    'max_loadavg_jobs' => 3,    # 0: stop running at all
+    'loadavg_status_program' => '/etc/munin/plugins/bbbike-extract-jobs',
 
     # 4196 polygones is enough for the queue
     'max_coords' => 4 * 1024,
@@ -102,7 +110,8 @@ our $option = {
     'language'     => "en",
     'message_path' => "world/etc/extract",
 
-    'osmosis_options' => [ "omitmetadata=true", "granularity=10000" ],
+    'osmosis_options' =>
+      [ "omitmetadata=true", $ENV{BBBIKE_PLANET_OSM_GRANULARITY} ],
     'osmosis_options_bounding_polygon' => ["clipIncompleteEntities=true"],
 
     'aws_s3_enabled' => 0,
@@ -121,9 +130,14 @@ our $option = {
 
     'pbf2pbf_postprocess' => 1,
 
-    'bots'             => [qw/curl Wget/],
-    'bots_detecation'  => 1,
-    'bots_max_loadavg' => 3,
+    'bots' => {
+        'names'       => [qw/curl Wget/],
+        'detecation'  => 1,              # 0, 1
+        'max_loadavg' => 3,              # 3 .. 6
+                                         # 1: only one bot queue (soft blocking)
+                                         # 2: ignore bots (hard blocking)
+        'scheduler'   => 1,
+    },
 
     'pbf2osm' => {
         'garmin_version'    => 'mkgmap-3334',
@@ -136,69 +150,14 @@ our $option = {
 
 ######################################################################
 
-my $formats = {
-    'osm.pbf' => 'Protocolbuffer Binary Format (PBF)',
-    'osm.gz'  => "OSM XML gzip'd",
-    'osm.bz2' => "OSM XML bzip'd",
-    'osm.xz'  => "OSM XML 7z/xz",
-    'shp.zip' => "Shapefile (Esri)",
-    'obf.zip' => "Osmand (OBF)",
-    'o5m.gz'  => "o5m gzip'd",
-    'o5m.bz2' => "o5m bzip'd",
-    'o5m.xz'  => "o5m 7z (xz)",
-    'opl.xz'  => "opl 7z (xz)",
-    'csv.gz'  => "CSV gzip'd",
-    'csv.bz2' => "CSV bzip'd",
-    'csv.xz'  => "CSV 7z (xz)",
-
-    'garmin-osm.zip'     => "Garmin OSM",
-    'garmin-cycle.zip'   => "Garmin Cycle",
-    'garmin-leisure.zip' => "Garmin Leisure",
-    'garmin-bbbike.zip'  => "Garmin BBBike",
-    'navit.zip'          => "Navit",
-    'mapsforge-osm.zip'  => "mapsforge OSM",
-
-    'srtm-europe.osm.pbf'           => 'SRTM Europe PBF',
-    'srtm-europe.garmin-srtm.zip'   => 'SRTM Europe Garmin',
-    'srtm-europe.mapsforge-osm.zip' => 'SRTM Europe Mapsforge',
-    'srtm-europe.obf.zip'           => 'SRTM Europe Osmand',
-
-    'srtm.osm.pbf'           => 'SRTM PBF',
-    'srtm.garmin-srtm.zip'   => 'SRTM Garmin',
-    'srtm.mapsforge-osm.zip' => 'SRTM Mapsforge',
-    'srtm.obf.zip'           => 'SRTM Osmand',
-};
+my $extract = BBBikeExtract->new( 'option' => $option );
+my $formats = $BBBikeExtract::formats;
+my $spool   = $BBBikeExtract::spool;
+$extract->load_config_nocgi;
 
 # translations
 my $msg;
 my $language = $option->{'language'};
-
-#
-# Parse user config file.
-# This allows to override standard config values
-#
-my $config_file = "$ENV{HOME}/.bbbike-extract.rc";
-if ( $ENV{BBBIKE_EXTRACT_PROFILE} ) {
-    $config_file = $ENV{BBBIKE_EXTRACT_PROFILE};
-}
-if ( -e $config_file ) {
-    warn "Load config file: $config_file\n" if $option->{"debug"} >= 2;
-    require $config_file;
-}
-else {
-    warn "config file: $config_file not found, ignored\n"
-      if $option->{"debug"} >= 2;
-}
-
-my $spool = {
-    'incoming'  => "incoming",     # incoming request, not confirmed yet
-    'confirmed' => "confirmed",    # ready to run
-    'running'   => "running",      # currently running job
-    'osm'       => "osm",          # cache older runs
-    'download'  => "download",     # final directory for download
-    'trash'     => "trash",        # keep a copy of the config for debugging
-    'failed'    => "failed",       # keep record of failed runs
-};
 
 my $alarm      = $option->{"alarm"};
 my $nice_level = $option->{"nice_level"};
@@ -264,6 +223,7 @@ sub set_alarm {
 sub get_loadavg {
     my @loadavg = ( qx(uptime) =~ /([\.\d]+),?\s+([\.\d]+),?\s+([\.\d]+)/ );
 
+    warn "Current load average is: $loadavg[0]\n" if $debug >= 1;
     return $loadavg[0];
 }
 
@@ -285,6 +245,21 @@ sub get_jobs {
     undef $d;
 
     return @data;
+}
+
+# display output of a program to STDERR
+sub program_output {
+    my $program = shift;
+    my $fh = shift || \*STDERR;
+
+    if ( -e $program && -x $program ) {
+        open( OUT, "$program |" ) or die "$program: $!\n";
+        print $fh "$program:\n";
+        while (<OUT>) {
+            print $fh $_;
+        }
+        close OUT;
+    }
 }
 
 # ($lat1, $lon1 => $lat2, $lon2);
@@ -315,9 +290,12 @@ sub large_int {
 sub parse_jobs {
     my %args = @_;
 
-    my $dir   = $args{'dir'};
-    my $files = $args{'files'};
-    my $max   = $args{'max'};
+    my $dir        = $args{'dir'};
+    my $files      = $args{'files'};
+    my $max        = $args{'max'};
+    my $job_number = $args{'job_number'};
+
+    warn "job number is: $job_number\n" if $debug >= 1;
 
     my ( $hash, $default_planet_osm, $counter ) = parse_jobs_planet(%args);
 
@@ -357,13 +335,26 @@ sub parse_jobs {
 "detect bot for area '$city', user agent: '@{[ $obj->{'user_agent'} ]}'\n"
                       if $debug;
 
-                    if (   $option->{'bots_detecation'}
-                        && $loadavg >= $option->{'bots_max_loadavg'} )
+                    if (   $option->{'bots'}{'detecation'}
+                        && $loadavg >= $option->{'bots'}{'max_loadavg'} )
                     {
-                        warn
+
+                        # soft bot handle
+                        if (   $option->{'bots'}{'scheduler'} == 1
+                            && $job_number == 1 )
+                        {
+                            warn
+"accepts bot request for area '$city' for first job queue: $loadavg\n"
+                              if $debug;
+                        }
+
+                        # hard ignore
+                        else {
+                            warn
 "ignore bot request for area '$city' due high load average: $loadavg\n"
-                          if $debug;
-                        next;
+                              if $debug;
+                            next;
+                        }
                     }
                 }
 
@@ -446,7 +437,7 @@ sub parse_jobs_planet {
 sub is_bot {
     my $obj = shift;
 
-    my @bots       = @{ $option->{'bots'} };
+    my @bots       = @{ $option->{'bots'}{'names'} };
     my $user_agent = $obj->{'user_agent'};
 
     # legacy config jobs
@@ -1729,8 +1720,10 @@ sub run_jobs {
     );
 
     # find a free job
+    my $job_number;
     foreach my $number ( 1 .. $max_jobs ) {
         my $file = $spool->{'running'} . "/job${number}.pid";
+        $job_number = $number;
 
         # lock pid
         if ( $lockmgr = &create_lock( 'lockfile' => $file ) ) {
@@ -1751,9 +1744,10 @@ sub run_jobs {
     warn "Use lockfile $lockfile\n" if $debug;
 
     my ( $list, $planet_osm ) = parse_jobs(
-        'files' => \@files,
-        'dir'   => $spool->{'confirmed'},
-        'max'   => $max_areas,
+        'files'      => \@files,
+        'dir'        => $spool->{'confirmed'},
+        'max'        => $max_areas,
+        'job_number' => $job_number,
     );
     my @list = @$list;
 
@@ -1902,11 +1896,15 @@ if ( $loadavg > $option->{max_loadavg} ) {
         warn
 "Load avarage $loadavg is to high, reset max jobs to: $max_loadavg_jobs\n"
           if $debug >= 1;
+        &program_output( $option->{'loadavg_status_program'} ) if $debug >= 1;
+
         $max_jobs = $max_loadavg_jobs;
     }
 
     else {
-        die "Load avarage $loadavg is to high, give up!\n";
+        warn "Load avarage $loadavg is to high, give up!\n";
+        program_output( $option->{'loadavg_status_program'} );
+        exit(1);
     }
 }
 

@@ -4,7 +4,9 @@
 # munin setup
 #
 
-MUNIN_BBBIKE= 		bbbike-ajax \
+MUNIN_BBBIKE_SYSTEM= 	bbbike-processes
+
+MUNIN_BBBIKE_WEB=	bbbike-ajax \
 			bbbike-output \
 			bbbike-pref \
 			bbbike-maptype \
@@ -14,8 +16,7 @@ MUNIN_BBBIKE= 		bbbike-ajax \
 MUNIN_BBBIKE_EXTRACT= 	bbbike-extract-diskusage \
 			bbbike-extract-files \
 			bbbike-extract-size \
-			bbbike-extract-jobs \
-			bbbike-extract-size-median
+			bbbike-extract-jobs
 
 MUNIN_PLUGINS_DIR=	/etc/munin/plugins
 
@@ -24,10 +25,22 @@ all: help
 install-munin-xen:
 	sudo ln -fs `pwd`/../src/munin/xen_multi ${MUNIN_PLUGINS_DIR}
 	${MAKE} munin-restart
+	${MAKE} help-update
+
+help-update:
+	@echo ""
 	@echo  "don't forget to update /etc/munin/plugin-conf.d/munin-node, see ./README"
+
+install-munin-bbbike-system:
+	for i in ${MUNIN_BBBIKE_SYSTEM}; do \
+	   sudo ln -fs `pwd`/plugins/$$i ${MUNIN_PLUGINS_DIR}/$$i; \
+	done
+	${MAKE} munin-restart
+	${MAKE} help-update
 	
-install-munin-bbbike:
-	for i in ${MUNIN_BBBIKE}; do \
+	
+install-munin-bbbike-web install-munin-bbbike:
+	for i in ${MUNIN_BBBIKE_WEB}; do \
 	   sudo ln -fs `pwd`/plugins/bbbike ${MUNIN_PLUGINS_DIR}/$$i; \
 	done
 	${MAKE} munin-restart
@@ -40,6 +53,7 @@ install-munin-bbbike-extract:
 	   to=`echo $$i | perl -npe 's,munin-,,'`; \
 	   sudo ln -fs `pwd`/plugins/$$i ${MUNIN_PLUGINS_DIR}/$$to; \
 	done
+	sudo ln -fs ${MUNIN_PLUGINS_DIR}/bbbike-extract-jobs ${MUNIN_PLUGINS_DIR}/bbbike-extract-pro-jobs
 	${MAKE} munin-restart
 
 munin-restart:
@@ -63,10 +77,15 @@ perltidy: perlcheck
 	
 clean distclean:
 	rm -f *.bak *.tdy *.ERR
+	rm -f plugins/*.bak plugins/*.tdy
 
 	
 help:
-	@echo "make [ install-munin-xen | install-munin-bbbike | install-munin-bbbike-extract ]"
+	@echo "make [ install-munin-xen ]"
+	@echo "     [ install-munin-bbbike-system ]"
+	@echo "     [ install-munin-bbbike-web ]"
+	@echo "     [ install-munin-bbbike-extract ]"
+	@echo "     [ munin-restart ]" 
 	@echo "     [ perltidy | distclean ]"
 	@echo ""
 	@echo "for bbbike.de: "

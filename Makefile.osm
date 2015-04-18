@@ -198,13 +198,13 @@ _osmosis_opt_pbf:
 	fi
 
 cities-poly: poly
-	${NICE5} ${BZIP2} -dc ${OSM_PLANET} | ${NICE5} ${OSMOSIS} --rx enableDateParsing=no /dev/stdin --buffer bufferCapacity=${OSMOSIS_BUFFER_CAPACITY} --tee `${BBMAKE} CITIES_DB=${CITIES_DB} CITIES="${CITIES}" -s city-count` `${BBMAKE} CITIES_DB=${CITIES_DB} CITIES="${CITIES}" -s _osmosis_opt`
+	${NICE5} ${BZIP2} -dc ${OSM_PLANET} | ${NICE5} ${OSMOSIS} --fast-read-xml enableDateParsing=no /dev/stdin --buffer bufferCapacity=${OSMOSIS_BUFFER_CAPACITY} --tee `${BBMAKE} CITIES_DB=${CITIES_DB} CITIES="${CITIES}" -s city-count` `${BBMAKE} CITIES_DB=${CITIES_DB} CITIES="${CITIES}" -s _osmosis_opt`
 
 _cities-osm: poly
-	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=${OSMOSIS_BUFFER_CAPACITY} --tee `${BBMAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} city-count` `${BBMAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} _osmosis_opt`
+	${NICE5} ${OSMOSIS} --read-pbf-fast ${OSM_PLANET_PBF} --buffer bufferCapacity=${OSMOSIS_BUFFER_CAPACITY} --tee `${BBMAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} city-count` `${BBMAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} _osmosis_opt`
 
 _cities-pbf: poly
-	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=${OSMOSIS_BUFFER_CAPACITY} --tee `${BBMAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} city-count` `${BBMAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} _osmosis_opt_pbf`
+	${NICE5} ${OSMOSIS} --read-pbf-fast ${OSM_PLANET_PBF} --buffer bufferCapacity=${OSMOSIS_BUFFER_CAPACITY} --tee `${BBMAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} city-count` `${BBMAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} _osmosis_opt_pbf`
 	test "$$NO_PBF2PBF" = "true" || ${BBMAKE} CITIES="${CITIES}" _pbf2pbf
 
 cities-pbf cities: _cities-pbf
@@ -322,13 +322,7 @@ update-robots.txt:
 	  ${PERL} -e 'for ("A".."Z") { print qq{Disallow: /m/$$_\n} }'; \
 	  echo ${CITIES} | ${PERL} -npe 's,\s+,\n,g' | sort | \
 	   ${PERL} -ne 'chomp; s,^,Disallow: /,; print "$$_/?\n" '; \
-	  for i in ${CITIES}; do \
-            en=`${DB} --local-lang $$i | ${PERL} -npe 's/\s+//g'`; \
-	    case $$en in \
-		en ) echo "Disallow: /en/$$i/" ;; \
-		*  ) echo "Disallow: /en/$$i/?" ;; \
-	    esac; \
-	  done; \
+          ${DB} --robots-local-lang ${CITIES}; \
 	) > world/web/robots.txt
 
 
@@ -537,7 +531,7 @@ create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi index updat
 		  ( cd $$lang && ln -fs ../$$city ); \
 		done; \
 	done
-	for script in MyCgiSimple.pm  api.cgi area.cgi livesearch.cgi  location.cgi maptype.cgi street-coord.cgi crossing.cgi weather.cgi languages.cgi extract.cgi extract-email.cgi tile-size.cgi livesearch-extract.cgi download.cgi log.cgi; do \
+	for script in MyCgiSimple.pm api.cgi area.cgi city.cgi livesearch.cgi location.cgi maptype.cgi street-coord.cgi crossing.cgi weather.cgi languages.cgi extract.cgi extract-email.cgi tile-size.cgi livesearch-extract.cgi download.cgi log.cgi; do \
 	   ( cd ${BBBIKE_WEB_DIR}/cgi && ln -fs ../world/cgi/$$script ); \
 	done
 	cp -f world/web/index.de.html world/web/de/index.html
@@ -656,8 +650,10 @@ clean: rotate-data-osm
 	${MAKE} -C world/cgi/msg $@	
 	${MAKE} -C world/bin $@	
 	${MAKE} -C world/cgi $@	
+	${MAKE} -C world/lib $@	
 	${MAKE} -C world/cgi/msg $@	
 	${MAKE} -C world/web/feed $@	
+	${MAKE} -C world/etc/mkgmap $@	
 	rm -f *.bak *.tdy *.ERR
 	cd world/web && rm -rf ${LANGUAGES}
 	cd world/web && rm -rf ${CITIES} bbbike
@@ -710,6 +706,7 @@ update-database: build-runtime
 perltidy:
 	${MAKE} -C world/cgi/msg $@	
 	${MAKE} -C world/bin $@	
+	${MAKE} -C world/lib $@	
 	${MAKE} -C world/cgi $@	
 	${MAKE} -C world/etc $@	
 	${MAKE} -C world/web/feed $@	
@@ -720,6 +717,7 @@ perlcheck:
 	#${MAKE} _perlcheck
 	${MAKE} -C world/cgi/msg $@	
 	${MAKE} -C world/bin $@	
+	${MAKE} -C world/lib $@	
 	${MAKE} -C world/cgi $@	
 	${MAKE} -C world/web/feed $@	
 	${MAKE} -C world/t $@	
@@ -809,6 +807,9 @@ elevation-update:
 _cache-heater: cache-gc cache-heater-homepage cache-heater-opensearch cache-heater-osp cache-heater-streets cache-heater-searches cache-du purge-cache-js
 cache-heater: _cache-heater
 
+# do not care about cache failures
+cache-heater-k:
+	${BBMAKE} cache-heater || true
 
 cache-du:
 	@echo "cache usage"
@@ -1254,6 +1255,7 @@ osmand-devel:
 test-org:
 	TMPDIR=${TMP_DIR} ./world/bin/lighttpd-template-update
 
+lighttpd-start webserver-start: lighttpd-restart
 lighttpd-restart: temp-clean test-org
 	-killall -TERM lighttpd
 	sleep 0.5

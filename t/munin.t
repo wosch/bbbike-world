@@ -19,14 +19,15 @@ use Test::More;
 use strict;
 use warnings;
 
-plan tests => 1;
+my @munin_scripts = glob("/etc/munin/plugins/bbbike-*");
+plan tests => 1 + scalar(@munin_scripts) * 3;
 
 ######################################################################
 # may fail if permissions are wrong, e.g. after a system upgrade
 # sudo chmod o+rx /var/log/lighttpd
 #
 system(
-    qq[printf "fetch bbbike-route\nquit\n" | nc localhost 4949 | egrep -q value]
+qq[printf "fetch bbbike-processes\nquit\n" | nc localhost 4949 | egrep -q value]
 );
 
 my $status = $?;
@@ -36,5 +37,11 @@ if ($status) {
 
 is( $status, 0,
     "munin bbbike script is running and can read /var/log/lighttpd" );
+
+foreach my $script (@munin_scripts) {
+    is( -e $script && -x $script, 1, "munin script $script is executable\n" );
+    is( system("$script config >/dev/null"), 0, "check config\n" );
+    is( system("$script >/dev/null"),        0, "check output\n" );
+}
 
 __END__

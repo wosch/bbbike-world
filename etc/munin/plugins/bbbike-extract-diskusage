@@ -38,13 +38,14 @@ formats="csv.gz csv.xz garmin-bbbike.zip garmin-cycle.zip garmin-leisure.zip gar
 config=$1
 
 if [ "$1" = "config" ]; then
-    : ${warning=80000000000}
-    : ${critical=120000000000}
+    : ${warning=140000000000}
+    : ${critical=200000000000}
      
     cat <<EOF
+multigraph disksize_pbf
 graph_args --base 1024 --lower-limit 0
-graph_title Extracts disk usage
-graph_vlabel Extracts disk usage
+graph_title Extracts disk usage PBF format
+graph_vlabel Extracts disk usage PBF
 graph_category extractsize
 graph_info Disk usage
 graph_period minute
@@ -59,6 +60,17 @@ EOF
     echo "download.warning $warning"
     echo "download.critical $critical"
 
+    cat <<EOF
+    
+multigraph disksize_other
+graph_args --base 1024 --lower-limit 0
+graph_title Extracts disk usage formats
+graph_vlabel Extracts disk usage formats
+graph_category extractsize
+graph_info Disk usage
+graph_period minute
+EOF
+
     for f in $formats
     do
         ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
@@ -71,8 +83,12 @@ EOF
     exit 0
 fi
 
+echo "multigraph disksize_pbf"
 echo "osm.value" 	`( cd $extract_dir/; du -ks osm | awk '{ print $1 * 1024 }' )`
 echo "download.value" 	`( cd $extract_dir/; du -ks download | awk '{ print $1 * 1024 }' )`
+
+echo ""
+echo "multigraph disksize_other"
 for f in $formats
 do
     ff=$(echo $f | perl -npe 's/[\.\-]/_/g')

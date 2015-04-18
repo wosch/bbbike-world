@@ -1,12 +1,8 @@
-#!/usr/bin/perl
-# Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
-
-use Test::More;
-use strict;
-use warnings;
+#!/usr/local/bin/perl
+# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
-    if ( $ENV{BBBIKE_TEST_NO_NETWORK} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
+    if ( $ENV{BBBIKE_TEST_NO_NETWORK} ) {
         print "1..0 # skip due slow or no network\n";
         exit;
     }
@@ -16,56 +12,47 @@ BEGIN {
     }
 }
 
-use LWP;
-use LWP::UserAgent;
+use Test::More;
+use lib qw(./world/lib ../lib);
+use BBBikeTest;
 
-binmode \*STDOUT, "utf8";
-binmode \*STDERR, "utf8";
+use strict;
+use warnings;
 
-my @homepages_localhost = ();
-my @homepages           = qw[
+my @homepages_localhost =
+  ( $ENV{BBBIKE_TEST_SERVER} ? $ENV{BBBIKE_TEST_SERVER} : "http://localhost" );
+
+my @homepages_production = qw[
   http://extract-pro.bbbike.org
+  http://extract-pro1.bbbike.org
 ];
 
 if ( $ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
-    @homepages = ();
-}
-unshift @homepages, @homepages_localhost;
-
-use constant MYGET => 3;
-plan tests         => scalar(@homepages) * 3 * MYGET;
-
-my $ua = LWP::UserAgent->new;
-$ua->agent("BBBike.org-Test/1.0");
-
-sub myget_401 {
-    my $url  = shift;
-    my $size = shift;
-
-    $size = 300 if !defined $size;
-
-    my $req = HTTP::Request->new( GET => $url );
-    my $res = $ua->request($req);
-
-    isnt( $res->is_success, undef, "$url is success" );
-    is(
-        $res->status_line,
-        "401 Unauthorized",
-        "status code 401 Unauthorized - great!"
-    );
-
-    my $content = $res->decoded_content();
-    cmp_ok( length($content), ">", $size, "greather than $size for URL $url" );
-
-    return $res;
+    @homepages_production = ();
 }
 
-sub page_check {
+my $test = BBBikeTest->new();
+my $counter_production =
+  scalar(@homepages_production) * $test->myget_401_counter * 3;
+my $counter_localhost =
+  scalar(@homepages_localhost) *
+  ( $test->myget_500_counter + 2 * $test->myget_head_counter );
+plan tests => $counter_production + $counter_localhost;
+
+sub page_check_401 {
     my $home_url = shift;
 
-    myget_401($home_url);
-    myget_401("$home_url/robots.txt");
-    myget_401("$home_url/cgi/extract.cgi");
+    $test->myget_401($home_url);
+    $test->myget_401("$home_url/robots.txt");
+    $test->myget_401("$home_url/cgi/extract.cgi");
+}
+
+sub page_check_500 {
+    my $home_url = shift;
+
+    $test->myget_head("$home_url/cgi/extract.cgi?pro=");
+    $test->myget_head("$home_url/cgi/extract.cgi?proXXX=");
+    $test->myget_500("$home_url/cgi/extract.cgi?pro=foobar");
 }
 
 #############################################################################
@@ -73,8 +60,12 @@ sub page_check {
 #
 
 # check a bunch of homepages
-foreach my $home_url (@homepages) {
-    &page_check($home_url);
+foreach my $home_url (@homepages_production) {
+    &page_check_401($home_url);
+}
+
+foreach my $home_url (@homepages_localhost) {
+    &page_check_500($home_url);
 }
 
 __END__

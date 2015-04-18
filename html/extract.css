@@ -134,6 +134,18 @@ img.logo {
     border: 0px;
 }
 
+/* location icon is 23x23, too big, move it up */
+img#location-icon {
+    margin-top: -4px;
+}
+
+span#pageload-indicator > img {
+    margin-top: -2px;
+}
+span#pageload-indicator {
+    font-size: small;
+}
+
 span#social {
     padding-right: 0.5em
 }

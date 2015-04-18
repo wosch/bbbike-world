@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) Sep 2011-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2011-2015 Wolfram Schneider, http://bbbike.org
 #
 # usage: /etc/munin/plugins/bbbike-extract-jobs [ config ]
 #
@@ -38,37 +38,41 @@ if you need to override the defaults below:
 
 
 PATH=/bin:/usr/bin; export PATH
-extract_dir=/var/cache/extract/running
+: ${extract_dir="/var/cache/extract/running"}
 
 config=$1
 
+case $extract_dir in 
+    *-pro/* ) pro="pro" ;;
+esac
+
 if [ "$1" = "config" ]; then
-    : ${warning=20}
-    : ${critical=40}
-    : ${jobs_warning=20}
-    : ${jobs_critical=40}
-    : ${proc_warning=5}
-    : ${proc_critical=7}
+    : ${warning=40}
+    : ${critical=80}
+    : ${jobs_warning=40}
+    : ${jobs_critical=80}
+    : ${proc_warning=6}
+    : ${proc_critical=8}
     : ${waiting_warning=40}
     : ${waiting_critical=80}
     : ${users_warning=10}
     : ${users_critical=20}
      
     cat <<EOF
-graph_title Extracts queue
-graph_vlabel Extracts queue
+graph_title Extracts queue $pro
+graph_vlabel Extracts queue $pro
 graph_category extract
-graph_info Running extract jobs
+graph_info Running extract jobs $pro
 graph_period minute
-jobs.label Running jobs
+jobs.label Running jobs $pro
 jobs.min 0
-waiting.label Waiting jobs
+waiting.label Waiting jobs $pro
 waiting.min 0
-proc.label Running proc
+proc.label Running proc $pro
 proc.min 0
-users.label Active Users
+users.label Active Users $pro
 users.min 0
-users_waiting.label Waitung Users
+users_waiting.label Waitung Users $pro
 users_waiting.min 0
 EOF
 
@@ -93,17 +97,16 @@ count=0
 cd $extract_dir
 for i in *.pid.lock *.pid; do
   if [ -e "$i" ]; then 
-   if kill -0 $(cat $i); then
+   #if kill -0 $(cat $i); then
+   if test -e /proc/$(cat $i); then
       count=$(expr $count + 1)
     fi
   fi
 done
 echo "proc.value $count"
 
-echo "waiting.value" $(ls $extract_dir/../confirmed/*.json 2>/dev/null | wc -l) 
-
 echo "users.value" $(egrep -h '"email"' $extract_dir/*/*.json 2>/dev/null | sort -u | wc -l) 
-
+echo "waiting.value" $(ls $extract_dir/../confirmed/*.json 2>/dev/null | wc -l) 
 echo "users_waiting.value" $(egrep -h '"email"' $extract_dir/../confirmed/*.json 2>/dev/null | sort -u | wc -l) 
 
 # EOF

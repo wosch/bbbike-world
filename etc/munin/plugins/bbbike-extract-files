@@ -43,8 +43,8 @@ if [ "$1" = "config" ]; then
      
     cat <<EOF
 multigraph pbf_pbf
-graph_title Extracts files
-graph_vlabel Extracts files
+graph_title Extracts files PBF/Other
+graph_vlabel Extracts files PBF/Other
 graph_category extractsize
 graph_info Number of Files
 graph_period minute
@@ -56,8 +56,8 @@ ALL.label All
 ALL.min 0
 
 multigraph pbf_other
-graph_title Extracts files
-graph_vlabel Extracts files
+graph_title Extracts files by format
+graph_vlabel Extracts files by format
 graph_category extractsize
 graph_info Number of Files
 graph_period minute
