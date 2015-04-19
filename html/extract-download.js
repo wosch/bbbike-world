@@ -38,7 +38,7 @@ function download_init_map(conf) {
         new OpenLayers.Control.MousePosition(), //
         new OpenLayers.Control.Attribution(), //
         new OpenLayers.Control.LayerSwitcher(), //
-        new OpenLayers.Control.KeyboardDefaults({}) //
+        // new OpenLayers.Control.KeyboardDefaults({}) //
         ],
         maxExtent: new OpenLayers.Bounds(-20037508.34, -20037508.34, 20037508.34, 20037508.34),
         maxResolution: 156543.0339,
