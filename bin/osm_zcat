@@ -4,10 +4,11 @@
 # linux wrapper for gzip
 
 PATH=/bin:/usr/bin; export PATH
+gzip=`which pigz gzip | head -n 1`
 
 if which mbuffer >/dev/null 2>&1; then
-	gzip -dc "$@" | mbuffer -q -m 64m
+	$gzip -dc "$@" | mbuffer -q -m 64m
 else
-	gzip -dc "$@"
+	$gzip -dc "$@"
 fi
 
