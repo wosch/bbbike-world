@@ -205,6 +205,9 @@ my $city_stat;
 my $region;
 my $startc;
 
+# ignore dummy entries in cities.csv (name=dummy or step=dummy)
+my $ignore_dummy = 1;
+
 GetOptions(
     "debug=i"           => \$debug,
     "lang"              => \$lang,
@@ -242,7 +245,9 @@ my $db = BBBikeWorldDB->new( 'database' => $database, 'debug' => 0 );
 
 if ( defined $area ) {
     while ( my ( $key, $val ) = each %hash ) {
-        print $key, "\n" if $hash{$key}->{area} eq $area;
+        next if $ignore_dummy && $hash{$key}->{"dummy"};
+
+        print $key, "\n" if $hash{$key}->{"area"} eq $area;
     }
     exit 0;
 }
