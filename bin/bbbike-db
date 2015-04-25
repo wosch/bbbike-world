@@ -183,9 +183,11 @@ usage: $0 [--debug={0..2}] [options] city
 --city-database=/path/to/etc/cities.csv
 --other_names
 --robots-local-lang cities .....
+--help
 EOF
 }
 
+my $help;
 my $lang;
 my $local_lang;
 my $robots_local_lang;
@@ -211,6 +213,7 @@ my $ignore_dummy = 1;
 GetOptions(
     "debug=i"           => \$debug,
     "lang"              => \$lang,
+    "help"              => \$help,
     "local-lang"        => \$local_lang,
     "robots-local-lang" => \$robots_local_lang,
     "step"              => \$step,
@@ -229,6 +232,11 @@ GetOptions(
     "list"              => \$list,
     "city-database=s"   => \$city_database,
 ) or die usage;
+
+if ($help) {
+    print &usage;
+    exit;
+}
 
 my $city = shift;
 die &usage if !( $city || $area || $city_en || $list || $city_stat );
