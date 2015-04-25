@@ -11,6 +11,7 @@ bash
 gzip
 bzip2
 buffer
+mbuffer
 curl
 git
 iconv
