@@ -1,12 +1,12 @@
 #!/bin/sh
-# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2015 Wolfram Schneider, http://bbbike.org
 #
 # linux wrapper for gzip
 
 PATH=/bin:/usr/bin; export PATH
 
-if which buffer >/dev/null 2>&1; then
-	gzip -dc "$@" | buffer -m 6400k
+if which mbuffer >/dev/null 2>&1; then
+	gzip -dc "$@" | mbuffer -q -m 64m
 else
 	gzip -dc "$@"
 fi

@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2015 Wolfram Schneider, http://bbbike.org
 #
 # linux wrapper for (parallel) bzip2
 
@@ -11,8 +11,8 @@ else
 	bzcat='bzip2 -dc'
 fi
 
-if which buffer >/dev/null 2>&1 && test -e /proc ; then
-	$bzcat "$@" | buffer -m 6400k
+if which mbuffer >/dev/null 2>&1 && test -e /proc ; then
+	$bzcat "$@" | mbuffer -q -m 64m
 else
 	$bzcat "$@"
 fi
