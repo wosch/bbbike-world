@@ -73,7 +73,10 @@ our $option = {
     #'nice_level_converter' => 3,
     #'planet_osm' => "../osm/download/planet-latest.osm.pbf",
     'planet' => {
-        'planet.osm' => '../osm/download/planet-latest.osm.pbf',
+
+        #'planet.osm' => '../osm/download/planet-latest.osm.pbf',
+        'planet.osm' => '../osm/download/planet-latest-nometa.osm.pbf',
+
         'srtm-europe.osm.pbf' =>
           '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
         'srtm-europe.garmin-srtm.zip' =>
