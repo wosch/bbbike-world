@@ -1939,6 +1939,11 @@ die "Max areas: $max_areas out of range 1..64!\n" . &usage
 
 $option->{"planet"}->{"planet.osm"} = $planet_osm;
 
+if ( $option->{"osmconvert_enabled"} && $max_areas != 1 ) {
+    warn "Reset max_areas to 1 for osmconvert\n" if $debug >= 1;
+    $max_areas = 1;
+}
+
 # full path for spool directories
 while ( my ( $key, $val ) = each %$spool ) {
     $spool->{$key} = "$spool_dir/$val";
