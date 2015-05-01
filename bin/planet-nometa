@@ -1,0 +1,29 @@
+#!/bin/bash
+# Copyright (c) 2009-2015 Wolfram Schneider, http://bbbike.org
+#
+# planet-nometa - convert a planet.osm to a smaller file without meta data
+#
+
+set -e
+set -o pipefail # bash only
+
+: ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
+: ${bzip2=`which pbzip2 bzip2 2>/dev/null | head -n 1`}
+
+nice="nice -n 15"
+
+file=planet-latest.osm.bz2
+
+if [ -e $HOME/.bbbikerc ]; then 
+    . $HOME/.bbbikerc
+fi
+
+file_bpf=`basename $file .osm.bz2`-nometa.osm.pbf
+dir="tmp.$$.new"
+
+
+$nice $bzip2 -dc $file |  mbuffer -q -m 256m | \
+   time osmconvert-0.8.3 --drop-version --drop-author --out-pbf /dev/stdin > $file_pbf.tmp
+
+mv -f $file_pbf.tmp $file_pbf
+$MD5 $file_bpf | tee $file_bpf.md5
