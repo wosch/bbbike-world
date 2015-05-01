@@ -129,6 +129,7 @@ our $option = {
     'show_image_size' => 1,
 
     'pbf2pbf_postprocess' => 1,
+    'osmconvert_enabled'  => 1,
 
     'bots' => {
         'names'       => [qw/curl Wget/],
@@ -670,10 +671,16 @@ sub create_poly_file {
     store_data( $file, $data );
 }
 
+sub run_extracts {
+    return $option->{'osmconvert_enabled'}
+      ? &run_extracts_osmconvert(@_)
+      : &run_extracts_osmosis(@_);
+}
+
 #
 # extract area(s) from planet.osm with osmosis tool
 #
-sub run_extracts {
+sub run_extracts_osmosis {
     my %args       = @_;
     my $spool      = $args{'spool'};
     my $poly       = $args{'poly'};
@@ -730,6 +737,65 @@ sub run_extracts {
         # nothing to do
         @data = "true";
     }
+
+    warn "Use planet.osm file $planet_osm\n" if $debug >= 1;
+    warn "Run extracts: " . join( " ", @data ), "\n" if $debug >= 2;
+    return ( \@data, \@fixme );
+}
+
+#
+# extract area(s) from planet.osm with osmosis tool
+#
+sub run_extracts_osmconvert {
+    my %args       = @_;
+    my $spool      = $args{'spool'};
+    my $poly       = $args{'poly'};
+    my $planet_osm = $args{'planet_osm'};
+
+    my $osm = $spool->{'osm'};
+
+    warn "Poly: " . Dumper($poly) if $debug >= 3;
+    return () if !defined $poly || scalar(@$poly) <= 0;
+
+    my @data = ( "nice", "-n", $nice_level, "osmconvert-wrapper" );
+
+    my @pbf;
+    my @fixme;
+    foreach my $p ( shift @$poly ) {
+        my $out = $p;
+        $out =~ s/\.poly$/.osm.pbf/;
+
+        my $osm = $spool->{'osm'} . "/" . basename($out);
+        if ( -e $osm ) {
+            my $newer = file_mtime_diff( $osm, $planet_osm );
+            if ( $newer > 0 ) {
+                warn "File $osm already exists, skip\n" if $debug;
+                link( $osm, $out ) or die "link $osm => $out: $!\n";
+
+                #&touch_file($osm);
+                next;
+            }
+            else {
+                warn "file $osm already exists, ",
+                  "but a new planet.osm is here since ", abs($newer),
+                  " seconds. Rebuild.\n";
+            }
+        }
+
+        push @pbf, "-o", $out;
+        push @pbf, "-B=$p";
+    }
+
+    if (@pbf) {
+        push @data, @pbf;
+    }
+    else {
+
+        # nothing to do
+        @data = "true";
+    }
+    push @data, ( "--drop-author", "--drop-version", "--out-pbf" );
+    push @data, $planet_osm;
 
     warn "Use planet.osm file $planet_osm\n" if $debug >= 1;
     warn "Run extracts: " . join( " ", @data ), "\n" if $debug >= 2;
@@ -1802,7 +1868,8 @@ sub run_jobs {
     system(@system) == 0
       or die "system @system failed: $?";
 
-    &fix_pbf( $new_pbf_files, $test_mode );
+    &fix_pbf( $new_pbf_files, $test_mode ) if !$option->{'osmconvert_enabled'};
+
     warn "Running extract time: ", time() - $time, " seconds\n" if $debug;
 
     # send out mail
