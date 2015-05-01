@@ -55,7 +55,7 @@ $ENV{BBBIKE_PLANET_OSM_GRANULARITY} = "granularity=10000"
   if !defined $ENV{BBBIKE_PLANET_OSM_GRANULARITY};
 
 our $option = {
-    'max_areas'       => 8,
+    'max_areas'       => 1,
     'homepage'        => 'http://download.bbbike.org/osm/extract',
     'script_homepage' => 'http://extract.bbbike.org',
     'max_jobs'        => 3,
