@@ -630,6 +630,9 @@ mapnik-restart:
 planet-download:
 	download_script=`pwd`/world/bin/planet-download; cd ../osm/download && $$download_script
 
+planet-nometa:
+	download_script=`pwd`/world/bin/planet-nometa; cd ../osm/download && $$download_script
+
 planet-geofabrik-download:
 	download_script=`pwd`/world/bin/planet-geofabrik-download; \
 		cd ../osm/download && $$download_script
@@ -1323,7 +1326,7 @@ help:
 	@echo ""
 	@echo "  [ elevation-fetch | elevation-update | elevation-check | elevation-repair ]"
 	@echo ""
-	@echo "  [ planet-download | planet-geofabrik-download ]"
+	@echo "  [ planet-download | planet-nometa | planet-geofabrik-download ]"
 	@echo "  [ planet-streets | planet-places ]"
 	@echo "  [ update-database | update-files ]"
 	@echo "  [ download-bbbike-org-install ]"
