@@ -18,12 +18,10 @@ if [ -e $HOME/.bbbikerc ]; then
     . $HOME/.bbbikerc
 fi
 
-file_bpf=`basename $file .osm.bz2`-nometa.osm.pbf
-dir="tmp.$$.new"
-
+file_pbf=$(basename $file .osm.bz2)-nometa.osm.pbf
 
 $nice $bzip2 -dc $file |  mbuffer -q -m 256m | \
-   time osmconvert-0.8.3 --drop-version --drop-author --out-pbf /dev/stdin > $file_pbf.tmp
+   time osmconvert-0.8.3 --drop-version --drop-author --out-pbf /dev/stdin > ${file_pbf}.tmp
 
-mv -f $file_pbf.tmp $file_pbf
+mv -f ${file_pbf}.tmp $file_pbf
 $MD5 $file_bpf | tee $file_bpf.md5
