@@ -239,7 +239,7 @@ sub area_size {
     my $self = shift;
     my ( $lng_sw, $lat_sw, $lng_ne, $lat_ne, $parts ) = @_;
 
-    warn "@_ lat sw: $lat_sw, ne: $lat_ne, ", $lat_sw - $lat_ne, "\n"
+    warn "lng_sw: $lng_sw, lat_sw: $lat_sw, lng_ne: $lng_ne, lat_ne: $lat_ne\n"
       if $debug >= 2;
 
     # cannot handle > 360 degrees lng, or >90, <-90 lat
