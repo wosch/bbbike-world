@@ -289,6 +289,59 @@ sub large_int {
     return $number;
 }
 
+# returns 1 if we want to ignore a bot, otherwise 0
+sub ignore_bot {
+    my %args = @_;
+
+    my $loadavg    = $args{'loadavg'};
+    my $city       = $args{'city'};
+    my $obj        = $args{'obj'};
+    my $job_number = $args{'job_number'};
+
+    warn
+      "detect bot for area '$city', user agent: '@{[ $obj->{'user_agent'} ]}'\n"
+      if $debug;
+
+    if (   $option->{'bots'}{'detecation'}
+        && $loadavg >= $option->{'bots'}{'max_loadavg'} )
+    {
+
+        # soft bot handle
+        if (   $option->{'bots'}{'scheduler'} == 1
+            && $job_number == 1 )
+        {
+            warn
+"accepts bot request for area '$city' for first job queue: $loadavg\n"
+              if $debug;
+        }
+
+        # hard ignore
+        else {
+            warn
+"ignore bot request for area '$city' due high load average: $loadavg\n"
+              if $debug;
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+# get a list of email addresses, and return a random list
+sub random_user {
+    my @list = @_;
+
+    my %hash = map { $_ => rand() } @list;
+
+    @list = sort { $hash{$a} <=> $hash{$b} } keys %hash;
+
+    if ( $debug >= 2 ) {
+        warn join " ", @list, "\n";
+    }
+
+    return @list;
+}
+
 # fair scheduler, take one from each customer first until
 # we reach the limit
 sub parse_jobs {
@@ -319,7 +372,7 @@ sub parse_jobs {
 
     my $loadavg = &get_loadavg;
     while ( $counter-- > 0 ) {
-        foreach my $email ( sort keys %$hash ) {
+        foreach my $email ( &random_user( keys %$hash ) ) {
             if ( scalar( @{ $hash->{$email} } ) ) {
                 my $obj  = shift @{ $hash->{$email} };
                 my $city = $obj->{'city'};
@@ -335,31 +388,13 @@ sub parse_jobs {
                 }
 
                 if ( is_bot($obj) ) {
-                    warn
-"detect bot for area '$city', user agent: '@{[ $obj->{'user_agent'} ]}'\n"
-                      if $debug;
-
-                    if (   $option->{'bots'}{'detecation'}
-                        && $loadavg >= $option->{'bots'}{'max_loadavg'} )
-                    {
-
-                        # soft bot handle
-                        if (   $option->{'bots'}{'scheduler'} == 1
-                            && $job_number == 1 )
-                        {
-                            warn
-"accepts bot request for area '$city' for first job queue: $loadavg\n"
-                              if $debug;
-                        }
-
-                        # hard ignore
-                        else {
-                            warn
-"ignore bot request for area '$city' due high load average: $loadavg\n"
-                              if $debug;
-                            next;
-                        }
-                    }
+                    next
+                      if ignore_bot(
+                        'loadavg'    => $loadavg,
+                        'job_number' => $job_number,
+                        'obj'        => $obj,
+                        'city'       => $city
+                      );
                 }
 
                 push @list, $obj;
