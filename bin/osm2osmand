@@ -55,7 +55,7 @@ case $file in
 esac
 
 : ${java_heap_splitter=$java_heap}
-: ${splitter_max_nodes=6000000}
+: ${splitter_max_nodes=2000000}
 : ${splitter_max_areas=512}
 splitter_resolution=13
 
