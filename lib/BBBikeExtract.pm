@@ -1,3 +1,5 @@
+#!/usr/local/bin/perl
+#
 # Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
 #
 # BBBikeExtract.pm - extract config and libraries
@@ -5,6 +7,7 @@
 package BBBikeExtract;
 
 use CGI;
+
 #use CGI::Carp;
 use JSON;
 use Data::Dumper;
@@ -68,7 +71,6 @@ our $spool = {
     'failed'    => "failed",       # keep record of failed runs
 };
 
-
 ##########################
 # helper functions
 #
@@ -78,13 +80,12 @@ sub new {
     my $class = shift;
     my %args  = @_;
 
-    my $self = { %args };
+    my $self = {%args};
 
     bless $self, $class;
-    
+
     return $self;
 }
-
 
 #
 # Parse user config file.
@@ -93,14 +94,14 @@ sub new {
 
 sub load_config {
     my $self = shift;
-    
+
     my $config_file = "../.bbbike-extract.rc";
-    my $q = $self->{'q'};
+    my $q           = $self->{'q'};
     our $option = $self->{'option'};
-    
+
     my $debug = $q->param("debug") || $self->{'debug'} || $option->{'debug'};
     $self->{'debug'} = $debug;
-    
+
     if (   $q->param('pro')
         || $q->url( -full => 1 ) =~ m,^http://extract-pro[1-4]?\., )
     {
@@ -110,22 +111,21 @@ sub load_config {
         warn "Use extract pro config file $config_file\n"
           if $debug >= 2;
     }
-    
 
     if ( -e $config_file ) {
         warn "Load config file: $config_file\n" if $debug >= 2;
         require $config_file;
-        
+
         # double-check
-        if ($q->param("pro")) {
+        if ( $q->param("pro") ) {
             my $token = $option->{'email_token'} || "";
-            if ($token ne $q->param('pro')) {
+            if ( $token ne $q->param('pro') ) {
                 warn Dumper($option) if $debug;
                 die "Pro parameter does not match token\n";
             }
         }
     }
-    
+
     else {
         warn "config file: $config_file not found, ignored\n"
           if $debug >= 2;
@@ -138,29 +138,28 @@ sub load_config {
 #
 sub load_config_nocgi {
     my $self = shift;
-    
+
     our $option = $self->{'option'};
     my $debug = $self->{'debug'} || $option->{'debug'};
-    
-my $config_file = "$ENV{HOME}/.bbbike-extract.rc";
-if ( $ENV{BBBIKE_EXTRACT_PROFILE} ) {
-    $config_file = $ENV{BBBIKE_EXTRACT_PROFILE};
-}
-if ( -e $config_file ) {
-    warn "Load config file: $config_file\n" if $debug >= 2;
-    require $config_file;
-}
-else {
-    warn "config file: $config_file not found, ignored\n"
-      if $debug >= 2;
-}
-}
 
+    my $config_file = "$ENV{HOME}/.bbbike-extract.rc";
+    if ( $ENV{BBBIKE_EXTRACT_PROFILE} ) {
+        $config_file = $ENV{BBBIKE_EXTRACT_PROFILE};
+    }
+    if ( -e $config_file ) {
+        warn "Load config file: $config_file\n" if $debug >= 2;
+        require $config_file;
+    }
+    else {
+        warn "config file: $config_file not found, ignored\n"
+          if $debug >= 2;
+    }
+}
 
 # re-set values for extract-pro service
 sub check_extract_pro {
     my $self = shift;
-    my $q = $self->{'q'};
+    my $q    = $self->{'q'};
     our $option = $self->{'option'};
 
     my $url = $q->url( -full => 1 );
@@ -178,10 +177,10 @@ sub check_extract_pro {
 
 sub is_production {
     my $self = shift;
-    my $q = $self->{'q'};
+    my $q    = $self->{'q'};
 
     return 1 if -e "/tmp/is_production";
-    
+
     return $q->virtual_host() =~ /^extract\.bbbike\.org$/i ? 1 : 0;
 }
 
@@ -199,8 +198,8 @@ sub file_size_mb {
 }
 
 sub parse_json_file {
-    my $self = shift;
-    my $file = shift;
+    my $self      = shift;
+    my $file      = shift;
     my $non_fatal = shift;
 
     my $debug = $self->{'debug'};

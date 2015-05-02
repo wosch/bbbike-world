@@ -1,3 +1,5 @@
+#!/usr/local/bin/perl
+#
 # Copyright (C) 2008-2015 Wolfram Schneider. All rights reserved.
 #
 # BBBikeAnalytics - analytics code
