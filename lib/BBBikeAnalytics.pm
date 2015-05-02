@@ -18,20 +18,20 @@ sub new {
     my $self = { %option, %args };
 
     bless $self, $class;
-    
+
     return $self;
 }
 
 sub google_analytics {
     my $self = shift;
-    my $q = $self->{'q'};
+    my $q    = $self->{'q'};
 
     my $url = $q->url( -base => 1 );
 
     if ( $url !~ m,^http://(www|extract|download)[1-4]?\., ) {
         return "";    # devel installation
     }
-    
+
     my $tracker_id = $self->{'tracker_id'};
 
     return <<EOF;
