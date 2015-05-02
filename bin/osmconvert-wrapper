@@ -1,12 +1,12 @@
 #!/bin/sh
-# Copyright (c) 2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2015 Wolfram Schneider, http://bbbike.org
 #
 # a wrapper to sent osmconvert output to a file
 #
 # usage: ./osmconvert_wrapper -o outfile.pbf [ osmconvert parameters ]
 
 set -e
-: ${osmconvert_program="osmconvert-0.8.3"}
+: ${osmconvert_program="osmconvert"}
 
 case $1 in
   -o | --o ) out=$2; exec > $out.tmp; shift; shift;;
