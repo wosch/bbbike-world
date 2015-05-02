@@ -1869,6 +1869,7 @@ sub run_jobs {
         'job_number' => $job_number,
     );
     my @list = @$list;
+    print "job list: @{[ scalar(@list) ]}\n" if $debug >= 2;
 
     if ( !@list ) {
         print "Nothing to do for users\n" if $debug >= 2;
@@ -1879,7 +1880,7 @@ sub run_jobs {
         exit 0;
     }
 
-    print "run jobs: " . Dumper( \@list ) if $debug >= 3;
+    warn "run jobs: " . Dumper( \@list ) if $debug >= 3;
 
     my $key     = get_job_id(@list);
     my $job_dir = $spool->{'running'} . "/$key";
