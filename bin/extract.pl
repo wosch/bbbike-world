@@ -371,6 +371,9 @@ sub parse_jobs {
     my $max_coords = $option->{max_coords};
 
     my $loadavg = &get_loadavg;
+
+    my %duplicated_poly = ();
+
     while ( $counter-- > 0 ) {
         foreach my $email ( &random_user( keys %$hash ) ) {
             if ( scalar( @{ $hash->{$email} } ) ) {
@@ -400,6 +403,10 @@ sub parse_jobs {
                 push @list, $obj;
                 $counter_coords += $length_coords;
 
+                # extract the same area only once
+                my $poly_data = create_poly_data( 'job' => $obj );
+                $duplicated_poly{ md5_hex($poly_data) } += 1;
+
                 warn
 "coords total length: $counter_coords, city=$city, length=$length_coords\n"
                   if $debug;
@@ -412,9 +419,9 @@ sub parse_jobs {
                     return ( \@list, $default_planet_osm );
                 }
             }
-            last if scalar(@list) >= $max;
+            last if scalar( keys %duplicated_poly ) >= $max;
         }
-        last if scalar(@list) >= $max;
+        last if scalar( keys %duplicated_poly ) >= $max;
     }
 
     return ( \@list, $default_planet_osm );
@@ -675,7 +682,6 @@ sub create_poly_file {
 
 sub create_poly_data {
     my %args = @_;
-    my $file = $args{'file'};
     my $obj  = $args{'job'};
 
     my $data = "";
