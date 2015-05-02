@@ -1472,20 +1472,21 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
             $granularity = "full";
         }
 
-        my $message = sprintf( $text,
+        my $message = sprintf(
+            $text,
             $obj->{'city'},
             $url,
             $obj->{'city'},
 qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
             $script_url,
             $square_km,
-            $granularity,
-            $osmosis_options,
+            $granularity,    #$osmosis_options,
             $obj->{"format"},
             $file_size,
             $checksum_sha256,
             $checksum_md5,
-            $database_update );
+            $database_update
+        );
 
 #        my $message = <<EOF;
 #Hi,
@@ -1503,7 +1504,6 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
 # Script URL: $script_url
 # Square kilometre: $square_km
 # Granularity: 10,000 (1.1 meters)
-# Osmosis options: $osmosis_options
 # Format: $obj->{"format"}
 # File size: $file_size
 # SHA256 checksum: $checksum
