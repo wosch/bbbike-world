@@ -419,9 +419,14 @@ sub parse_jobs {
                     return ( \@list, $default_planet_osm );
                 }
             }
-            last if scalar( keys %duplicated_poly ) >= $max;
+            last if scalar( keys %duplicated_poly ) > $max;
         }
-        last if scalar( keys %duplicated_poly ) >= $max;
+        last if scalar( keys %duplicated_poly ) > $max;
+    }
+
+    # off-by-one correction
+    if ( scalar( keys %duplicated_poly ) > $max ) {
+        pop @list;
     }
 
     return ( \@list, $default_planet_osm );
