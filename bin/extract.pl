@@ -660,6 +660,21 @@ sub store_data {
 # an area from planet.osm
 sub create_poly_file {
     my %args = @_;
+
+    my ( $data, $counter ) = create_poly_data(%args);
+    my $file = $args{'file'};
+
+    if ( -e $file ) {
+        warn "poly file $file already exists!\n";
+        return;
+    }
+
+    warn "create poly file $file with $counter elements\n" if $debug >= 2;
+    store_data( $file, $data );
+}
+
+sub create_poly_data {
+    my %args = @_;
     my $file = $args{'file'};
     my $obj  = $args{'job'};
 
@@ -700,13 +715,7 @@ sub create_poly_file {
     $data .= "END\n";
     $data .= "END\n";
 
-    if ( -e $file ) {
-        warn "poly file $file already exists!\n";
-        return;
-    }
-
-    warn "create poly file $file with $counter elements\n" if $debug >= 2;
-    store_data( $file, $data );
+    return ( $data, $counter );
 }
 
 sub run_extracts {
