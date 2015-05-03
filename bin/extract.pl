@@ -33,8 +33,9 @@ use LWP::UserAgent;
 use Time::gmtime;
 use LockFile::Simple;
 
-use lib qw[world/lib ../lib];
+use lib qw(world/lib ../lib);
 use BBBikeExtract;
+use BBBikePoly;
 
 use strict;
 use warnings;

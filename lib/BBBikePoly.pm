@@ -8,6 +8,7 @@ package BBBikePoly;
 
 use JSON;
 use Data::Dumper;
+use CGI qw(escapeHTML);
 
 use lib qw(world/bin);
 use TileSize;
@@ -100,6 +101,85 @@ sub subplanet_size {
     $size = int( $size * 1000 + 0.5 ) / 1000;
 
     return $size;
+}
+
+sub get_job_obj {
+    my $self   = shift;
+    my $region = shift;
+
+    my $coords = $area->{$region}->{'poly'};
+
+    my $obj = {
+        "city"   => $region,
+        "ne_lng" => $coords->[0],
+        "ne_lat" => $coords->[1],
+        "sw_lat" => $coords->[2],
+        "sw_lng" => $coords->[3],
+        "coords" => []
+    };
+
+    warn Dumper($obj) if $debug >= 2;
+    return $obj;
+}
+
+#
+# create a poly file based on a rectangle or polygon coordinates
+#
+# $obj->{ 'coords' => [ ... ] };
+#
+# $obj-> {
+#   "ne_lng" => -2.2226,
+#   "ne_lat" => 47.2941,
+#   "sw_lat" => 47.2653,
+#   "sw_lng" -> -2.2697,
+# }
+#
+sub create_poly_data {
+    my $self = shift;
+
+    my %args = @_;
+    my $obj  = $args{'job'};
+
+    warn Dumper($obj) if $debug >= 2;
+
+    my $data = "";
+
+    my $city = escapeHTML( $obj->{"city"} );
+    $data .= "$city\n";
+    $data .= "1\n";
+
+    my $counter = 0;
+
+    # rectangle
+    if ( !scalar( @{ $obj->{"coords"} } ) ) {
+        $data .= "   $obj->{'sw_lng'}  $obj->{'sw_lat'}\n";
+        $data .= "   $obj->{'ne_lng'}  $obj->{'sw_lat'}\n";
+        $data .= "   $obj->{'ne_lng'}  $obj->{'ne_lat'}\n";
+        $data .= "   $obj->{'sw_lng'}  $obj->{'ne_lat'}\n";
+        $counter += 4;
+    }
+
+    # polygone
+    else {
+        my @c = @{ $obj->{coords} };
+
+        # close polygone if not already closed
+        if ( $c[0]->[0] ne $c[-1]->[0] || $c[0]->[1] ne $c[-1]->[1] ) {
+            push @c, $c[0];
+        }
+
+        for ( my $i = 0 ; $i <= $#c ; $i++ ) {
+            my ( $lng, $lat ) = ( $c[$i]->[0], $c[$i]->[1] );
+            $data .= "   $lng  $lat\n";
+        }
+
+        $counter += $#c;
+    }
+
+    $data .= "END\n";
+    $data .= "END\n";
+
+    return ( $data, $counter );
 }
 
 1;
