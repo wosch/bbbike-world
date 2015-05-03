@@ -697,7 +697,7 @@ sub _check_input {
     }
 
     # accecpt "nobody" as email address
-    elsif ( $option->{'email_allow_nobody'} && $email eq 'nobody' ) {
+    elsif ( $option->{'email_allow_nobody'} && $email eq lc('nobody') ) {
         $email .= '@bbbike.org';
         warn "Reset E-Mail addresse to $email\n" if $debug >= 1;
     }
