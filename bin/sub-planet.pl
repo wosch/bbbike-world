@@ -16,6 +16,8 @@ my $sub_planet_dir      = '../osm/download/sub-planet';
 my $sub_planet_conf_dir = 'world/etc/sub-planet';
 my $planet_osm          = "../osm/download/planet-latest-nometa.osm.pbf";
 
+my $osmconvert_factor = 1.2; # full Granularity
+
 my $poly = new BBBikePoly( 'debug' => $debug );
 my @regions = $poly->list_subplanets;
 
@@ -41,7 +43,7 @@ sub store_data {
 my @shell;
 foreach my $region (@regions) {
     my $size    = $poly->subplanet_size($region);
-    my $size_mb = $poly->file_size_mb( $size * 1000 );
+    my $size_mb = $poly->file_size_mb( $size * 1000 * $osmconvert_factor);
     warn "region: $region: $size_mb MB\n" if $debug;
 
     my $obj = $poly->get_job_obj($region);
