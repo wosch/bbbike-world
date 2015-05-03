@@ -1,3 +1,5 @@
+#!/usr/local/bin/perl
+#
 # Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
 #
 # BBBikeTest.pm - helper function for ./world/t
@@ -25,25 +27,23 @@ sub new {
     my $class = shift;
     my %args  = @_;
 
-    my $self = { %args };
+    my $self = {%args};
 
     bless $self, $class;
-    
+
     $self->init;
-    
+
     return $self;
 }
 
 sub init {
     my $self = shift;
-    
+
     my $ua = LWP::UserAgent->new;
     $ua->agent("BBBike.org-Test/1.1");
-    
+
     $self->{'ua'} = $ua;
 }
-
-
 
 # standard GET request
 sub myget {
@@ -81,9 +81,10 @@ sub myget_head {
 
     my $content_length = $res->content_length;
 
-    if (defined $size && $size) {
+    if ( defined $size && $size ) {
         cmp_ok( $content_length, ">", $size, "greather than $size, $url" );
-    } else {
+    }
+    else {
         is( $content_length, $size, "HEAD size check" );
     }
 
@@ -134,13 +135,11 @@ sub myget_500 {
     return $res;
 }
 
-
-
 use constant MYGET => 3;
-sub myget_counter { return MYGET; }
+sub myget_counter      { return MYGET; }
 sub myget_head_counter { return MYGET; }
-sub myget_401_counter { return MYGET; }
-sub myget_500_counter { return MYGET; }
+sub myget_401_counter  { return MYGET; }
+sub myget_500_counter  { return MYGET; }
 
 1;
 

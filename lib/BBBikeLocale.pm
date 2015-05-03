@@ -1,3 +1,5 @@
+#!/usr/local/bin/perl
+#
 # Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
 #
 # BBBikeLocale.pm - translations
@@ -17,6 +19,7 @@ use Locale::Util;
 
 require Exporter;
 @EXPORT = qw(M);
+
 # print M("help");
 # print qq/foobar @{[ M("Last update") ]}: $date/;
 
@@ -36,42 +39,42 @@ our $option = {
 };
 
 # global variables
-our $debug        = 0;
-my $msg; # translations
+our $debug = 0;
+my $msg;    # translations
 my $language;
 
 sub new {
     my $class = shift;
     my %args  = @_;
 
-    my $self = { %args };
+    my $self = {%args};
 
     bless $self, $class;
-    
-    $self->init();    
+
+    $self->init();
     return $self;
 }
 
 sub init {
     my $self = shift;
-    my $q = $self->{'q'};
-    
+    my $q    = $self->{'q'};
+
     if ( defined $q->param('debug') ) {
         $debug = int( $q->param('debug') );
     }
 
-    # override default values from new('language' => "de")    
+    # override default values from new('language' => "de")
     foreach my $key (%$option) {
-        if (exists $self->{$key} && defined $self->{$key}) {
+        if ( exists $self->{$key} && defined $self->{$key} ) {
             $option->{$key} = $self->{$key};
         }
     }
-    
+
     warn Dumper($option) if $debug >= 2;
-    warn Dumper($self) if $debug >= 2;
-    
+    warn Dumper($self)   if $debug >= 2;
+
     $language = $self->get_language;
-    $msg = $self->get_msg($language);
+    $msg      = $self->get_msg($language);
 }
 
 # EOF config
@@ -102,7 +105,7 @@ sub M {
 
 sub get_msg {
     my $self = shift;
-    
+
     my $language = shift || $option->{'language'};
 
     my $file = $option->{'message_path'} . "/msg.$language.json";
@@ -131,8 +134,8 @@ sub get_msg {
 
 sub http_accept_language {
     my $self = shift;
-    my $q = $self->{'q'};
-    
+    my $q    = $self->{'q'};
+
     my $requested_language = $q->http('Accept-language') || "";
 
     return "" if !$requested_language;
@@ -153,10 +156,10 @@ sub http_accept_language {
 sub language_links {
     my $self = shift;
     my %args = @_;
-    my $q = $self->{'q'};
-    
+    my $q    = $self->{'q'};
+
     my $with_separator = $args{'with_separator'};
-    my $sep = ' | ';
+    my $sep            = ' | ';
 
     my $qq   = CGI->new($q);
     my $data = qq{<span id="language">\n};
@@ -169,12 +172,12 @@ sub language_links {
     my $counter = 0;
     foreach my $l ( @{ $option->{'supported_languages'} } ) {
         $data .= $sep if $counter++ && $with_separator;
-        
+
         if ( $l ne $language ) {
             $l eq $option->{'language'} && !$cookie_lang
               ? $qq->delete("lang")
               : $qq->param( "lang", $l );
-            
+
             $data .=
                 qq{<a href="}
               . $qq->url( -query => 1, -relative => 1 )
@@ -192,16 +195,19 @@ sub language_links {
 
 sub get_language {
     my $self = shift;
-    my $q = $self->{'q'};
-   
-    # validate config 
-    if ( !grep { $_ eq $option->{"language"} }  @{ $option->{'supported_languages'} } ) {
-        warn "Unknown default language, reset to first value: @{[ $option->{'language'} ]}\n";
-        $option->{"language" } = $option->{'supported_languages'}->[0];
+    my $q    = $self->{'q'};
+
+    # validate config
+    if ( !grep { $_ eq $option->{"language"} }
+        @{ $option->{'supported_languages'} } )
+    {
+        warn
+"Unknown default language, reset to first value: @{[ $option->{'language'} ]}\n";
+        $option->{"language"} = $option->{'supported_languages'}->[0];
     }
-    
+
     my $language = $option->{'language'};
-    
+
     my $lang =
          $q->param("lang")
       || $q->param("language")
