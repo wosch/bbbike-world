@@ -4,13 +4,13 @@
 # poly setup
 #
 
-all: help
+all: update
 
 update update-poly:
 	cd ../../.. && ./world/bin/sub-planet.pl 
 	git diff .
 
 help:
-	@echo "make [ update ]"
+	@echo "make [ update | help ]"
 	@echo ""
 
