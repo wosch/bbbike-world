@@ -71,7 +71,7 @@ perlcheck:
 	${MAKE} _perlcheck 2>/dev/null || ${MAKE} _perlcheck
 
 _perlcheck:
-	@echo "Check perl modules/scripts: ${ALL}"
+	@echo "Check perl modules/scripts: ${PERL_FILES}"
 	@echo ${PERL_FILES} | xargs -n1 -P${NCPU} -E " " perl -T -cw
 
 perltidy: perlcheck
