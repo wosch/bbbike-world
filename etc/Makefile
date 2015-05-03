@@ -43,7 +43,7 @@ crontab-root:
 	   sudo ln -fs `pwd`/crontab.root ${CRONTAB_ROOT}; \
 	fi
 
-perltidy:
+perltidy perlcheck:
 	${MAKE} -C./munin $@
 
 clean distclean:
