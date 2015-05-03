@@ -408,7 +408,7 @@ sub parse_jobs {
                 # extract the same area only once
                 my ( $poly_data, $counter2 ) =
                   $poly->create_poly_data( 'job' => $obj );
-                $duplicated_poly{ md5_hex($poly_data) } += 1;
+                $duplicated_poly{ md5_hex( encode_utf8($poly_data) ) } += 1;
 
                 warn
 "coords total length: $counter_coords, city=$city, length=$length_coords\n"
