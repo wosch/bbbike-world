@@ -1895,8 +1895,6 @@ sub run_jobs {
         warn "Running fix pbf time: ", time() - $time, " seconds\n" if $debug;
     }
 
-    warn "Running extract time: ", time() - $time, " seconds\n" if $debug;
-
     # send out mail
     $time = time();
     my $errors = &convert_send_email(
