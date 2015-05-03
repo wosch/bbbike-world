@@ -12,7 +12,7 @@ package BBBikeElevation;
 
 use Encode;
 
-use lib './lib';
+use lib qw(./lib ../../lib ../..);
 use Strassen;
 use BikePower;
 use Data::Dumper;
