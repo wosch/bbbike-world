@@ -31,6 +31,8 @@ our $area = {
     'central-europe' => { 'poly'  => [ 3.295,   42.571,  29.482,  60.992 ] },
     'asia'           => { 'poly'  => [ 43.505,  -53.122, 183.583, 63.052 ] },
     'planet'         => { 'poly2' => [ -180,    -90,     180,     90 ] },
+
+    'Berlin' => { 'poly2' => [ 12.76, 52.23, 13.98, 52.82 ] },
 };
 
 our $debug = 1;
@@ -111,10 +113,10 @@ sub get_job_obj {
 
     my $obj = {
         "city"   => $region,
-        "ne_lng" => $coords->[0],
-        "ne_lat" => $coords->[1],
-        "sw_lat" => $coords->[2],
-        "sw_lng" => $coords->[3],
+        "sw_lng" => $coords->[0],
+        "sw_lat" => $coords->[1],
+        "ne_lng" => $coords->[2],
+        "ne_lat" => $coords->[3],
         "coords" => []
     };
 
