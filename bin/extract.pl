@@ -1927,7 +1927,12 @@ sub run_jobs {
     system(@system) == 0
       or die "system @system failed: $?";
 
-    &fix_pbf( $new_pbf_files, $test_mode ) if !$option->{'osmconvert_enabled'};
+    warn "Running extract time: ", time() - $time, " seconds\n" if $debug;
+
+    if ( !$option->{'osmconvert_enabled'} ) {
+        &fix_pbf( $new_pbf_files, $test_mode );
+        warn "Running fix pbf time: ", time() - $time, " seconds\n" if $debug;
+    }
 
     warn "Running extract time: ", time() - $time, " seconds\n" if $debug;
 
