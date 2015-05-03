@@ -706,22 +706,12 @@ update-database: build-runtime
 	@${BBMAKE} -s opensearch-bbbike
 	${TIME} ./world/bin/update-database
 
-perltidy:
+perltidy perlcheck:
 	${MAKE} -C world/cgi/msg $@	
 	${MAKE} -C world/bin $@	
 	${MAKE} -C world/lib $@	
 	${MAKE} -C world/cgi $@	
 	${MAKE} -C world/etc $@	
-	${MAKE} -C world/web/feed $@	
-	${MAKE} -C world/t $@	
-	git diff
-
-perlcheck:
-	#${MAKE} _perlcheck
-	${MAKE} -C world/cgi/msg $@	
-	${MAKE} -C world/bin $@	
-	${MAKE} -C world/lib $@	
-	${MAKE} -C world/cgi $@	
 	${MAKE} -C world/web/feed $@	
 	${MAKE} -C world/t $@	
 	git diff
