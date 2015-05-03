@@ -1943,7 +1943,8 @@ sub run_jobs {
         'keep'             => 1
     );
 
-    warn "Total convert and email time: ", time() - $time, " seconds\n"
+    warn "Total format convert and e-mail check time: ", time() - $time,
+      " seconds\n"
       if $debug;
     warn "Total time: ", time() - $starttime,
       " seconds, for @{[ scalar(@list) ]} job(s)\n"
