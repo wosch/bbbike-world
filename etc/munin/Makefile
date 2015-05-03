@@ -65,11 +65,13 @@ munin-restart:
 # perltidy section
 #
 NCPU=`../../bin/ncpu`
-PERL_FILES:=	$(shell file * */* | egrep -iw perl | awk '{print $$1}' | perl -ne 's/://; print if !/.(bak|tdy|ERR)$$/' | sort)
+PERL_FILES:=	$(shell file * */* | egrep -w 'perl|Perl|Perl5' | awk '{print $$1}' | perl -ne 's/://; print if !/.(bak|tdy|ERR)$$/' | sort)
 
 perlcheck:
 	${MAKE} _perlcheck 2>/dev/null || ${MAKE} _perlcheck
+
 _perlcheck:
+	@echo "Check perl modules/scripts: ${ALL}"
 	@echo ${PERL_FILES} | xargs -n1 -P${NCPU} -E " " perl -T -cw
 
 perltidy: perlcheck

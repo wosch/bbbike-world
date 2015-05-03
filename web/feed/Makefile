@@ -14,7 +14,9 @@ bbbike-world.xml: ${FEED_SCRIPT}
 
 perlcheck:
 	${MAKE} _perlcheck 2>/dev/null || ${MAKE} _perlcheck
+
 _perlcheck:
+	@echo "Check perl modules/scripts: ${FEED_SCRIPT}"
 	@perl -cw ${FEED_SCRIPT}
 
 perltidy: perlcheck

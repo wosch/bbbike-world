@@ -5,7 +5,9 @@ all: help
 NCPU:=  $(shell ../bin/ncpu)
 
 perlcheck:
+	echo "Check perl modules/scripts: ../../world/t/*.t"
 	${MAKE} _perlcheck >/dev/null 2>&1 || ${MAKE} _perlcheck
+
 _perlcheck:
 	cd ../../; ls world/t/*.t | xargs -n1 -P${NCPU} perl -I. -cw
 

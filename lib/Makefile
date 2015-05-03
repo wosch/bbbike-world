@@ -7,6 +7,7 @@ ALL:=	$(shell file * | egrep -w 'perl|Perl|Perl5' | awk '{print $$1}' | perl -ne
 
 perlcheck:
 	${MAKE} _perlcheck 2>/dev/null || ${MAKE} _perlcheck
+
 _perlcheck:
 	@echo "Check perl modules/scripts: ${ALL}"
 	@echo ${ALL} | xargs -n1 -P${NCPU} -E " " perl -I. -I../bin -cw
