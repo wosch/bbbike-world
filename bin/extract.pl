@@ -374,6 +374,7 @@ sub parse_jobs {
     my $loadavg = &get_loadavg;
 
     my %duplicated_poly = ();
+    my $poly = new BBBikePoly( 'debug' => 1 );
 
     while ( $counter-- > 0 ) {
         foreach my $email ( &random_user( keys %$hash ) ) {
@@ -405,7 +406,8 @@ sub parse_jobs {
                 $counter_coords += $length_coords;
 
                 # extract the same area only once
-                my $poly_data = create_poly_data( 'job' => $obj );
+                my ( $poly_data, $counter2 ) =
+                  $poly->create_poly_data( 'job' => $obj );
                 $duplicated_poly{ md5_hex($poly_data) } += 1;
 
                 warn
@@ -674,7 +676,9 @@ sub store_data {
 sub create_poly_file {
     my %args = @_;
 
-    my ( $data, $counter ) = create_poly_data(%args);
+    my $poly = new BBBikePoly( 'debug' => 1 );
+    my ( $data, $counter ) = $poly->create_poly_data(%args);
+
     my $file = $args{'file'};
 
     if ( -e $file ) {
@@ -684,50 +688,6 @@ sub create_poly_file {
 
     warn "create poly file $file with $counter elements\n" if $debug >= 2;
     store_data( $file, $data );
-}
-
-sub create_poly_data {
-    my %args = @_;
-    my $obj  = $args{'job'};
-
-    my $data = "";
-
-    my $city = escapeHTML( $obj->{city} );
-    $data .= "$city\n";
-    $data .= "1\n";
-
-    my $counter = 0;
-
-    # rectangle
-    if ( !scalar( @{ $obj->{coords} } ) ) {
-        $data .= "   $obj->{sw_lng}  $obj->{sw_lat}\n";
-        $data .= "   $obj->{ne_lng}  $obj->{sw_lat}\n";
-        $data .= "   $obj->{ne_lng}  $obj->{ne_lat}\n";
-        $data .= "   $obj->{sw_lng}  $obj->{ne_lat}\n";
-        $counter += 4;
-    }
-
-    # polygone
-    else {
-        my @c = @{ $obj->{coords} };
-
-        # close polygone if not already closed
-        if ( $c[0]->[0] ne $c[-1]->[0] || $c[0]->[1] ne $c[-1]->[1] ) {
-            push @c, $c[0];
-        }
-
-        for ( my $i = 0 ; $i <= $#c ; $i++ ) {
-            my ( $lng, $lat ) = ( $c[$i]->[0], $c[$i]->[1] );
-            $data .= "   $lng  $lat\n";
-        }
-
-        $counter += $#c;
-    }
-
-    $data .= "END\n";
-    $data .= "END\n";
-
-    return ( $data, $counter );
 }
 
 sub run_extracts {
