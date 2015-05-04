@@ -62,6 +62,7 @@ sub store_data {
 }
 
 my @shell = ("mkdir -p $sub_planet_dir");
+my @shell2;
 foreach my $region (@regions) {
     my $size    = $poly->subplanet_size($region);
     my $size_mb = $poly->file_size_mb( $size * 1000 * $osmconvert_factor );
@@ -74,12 +75,26 @@ foreach my $region (@regions) {
     &store_data( $file, $data );
 
     my @sh = (
-        "osmconvert-wrapper", "-o", "$sub_planet_dir/$region.osm.pbf",
-        "-B=$file", "--drop-author", "--drop-version", "--out-pbf", $planet_osm
+        "osmconvert-wrapper",                         "-o",
+        "$sub_planet_dir/osmconvert-$region.osm.pbf", "-B=$file",
+        "--drop-author",                              "--drop-version",
+        "--out-pbf",                                  $planet_osm
     );
-    push @shell, join " ", @sh;
+    my @sh2 = (
+        "osmosis",            "-q",
+        "--read-pbf",         "file=$planet_osm",
+        "--bounding-polygon", "file=$file",
+        "--write-pbf",        "file=$sub_planet_dir/osmosis-fiji.osm.pbf",
+        " omitmetadata=true"
+    );
+
+    push @shell,  join " ", @sh;
+    push @shell2, join " ", @sh2;
 }
 
-store_data( "$sub_planet_conf_dir/sub-planet.sh", join "\0", @shell );
+store_data( "$sub_planet_conf_dir/dateline-planet-osmconvert.sh",
+    join "\0", @shell );
+store_data( "$sub_planet_conf_dir/dateline-planet-osmosis.sh",
+    join "\0", @shell2 );
 
 __END__
