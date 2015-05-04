@@ -19,18 +19,19 @@ my $planet_osm          = "../osm/download/planet-latest-nometa.osm.pbf";
 my $osmconvert_factor = 1.2;    # full Granularity
 
 $BBBikePoly::area = {
+
     # left close
     'left-179' => { 'poly' => [ -1, 179, 1, 179.999 ] },
-    
+
     # left on date line
     'left-180' => { 'poly' => [ -1, 179, 1, 180 ] },
-   
-    # right close 
+
+    # right close
     'right-179' => { 'poly' => [ -1, -179.999, 1, -179 ] },
-    
+
     # right on date line
     'right-180' => { 'poly' => [ -1, -180, 1, -179 ] },
-    
+
     # left and right on date line
     'left-right-180' => { 'poly' => [ -1, 179, 1, -179 ] },
 };
@@ -57,10 +58,7 @@ sub store_data {
     rename( $file, $file_real ) or die "Rename $file -> $file_real: $!\n";
 }
 
-
-
-
-my @shell;
+my @shell = ( "mkdir", "-p", $sub_planet_dir );
 foreach my $region (@regions) {
     my $size    = $poly->subplanet_size($region);
     my $size_mb = $poly->file_size_mb( $size * 1000 * $osmconvert_factor );
