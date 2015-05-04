@@ -58,7 +58,7 @@ sub store_data {
     rename( $file, $file_real ) or die "Rename $file -> $file_real: $!\n";
 }
 
-my @shell = ( "mkdir", "-p", $sub_planet_dir );
+my @shell = ("mkdir -p $sub_planet_dir");
 foreach my $region (@regions) {
     my $size    = $poly->subplanet_size($region);
     my $size_mb = $poly->file_size_mb( $size * 1000 * $osmconvert_factor );
