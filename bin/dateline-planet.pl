@@ -21,19 +21,22 @@ my $osmconvert_factor = 1.2;    # full Granularity
 $BBBikePoly::area = {
 
     # left close
-    'left-179' => { 'poly' => [ -1, 179, 1, 179.999 ] },
+    'left-179' => { 'poly' => [ -17, 179, 17, 179.999 ] },
 
     # left on date line
-    'left-180' => { 'poly' => [ -1, 179, 1, 180 ] },
+    'left-180' => { 'poly' => [ -17, 179, 17, 180 ] },
 
     # right close
-    'right-179' => { 'poly' => [ -1, -179.999, 1, -179 ] },
+    'right-179' => { 'poly' => [ -17, -179.999, 17, -179 ] },
 
     # right on date line
-    'right-180' => { 'poly' => [ -1, -180, 1, -179 ] },
+    'right-180' => { 'poly' => [ -17, -180, 17, -179 ] },
 
     # left and right on date line
-    'left-right-180' => { 'poly' => [ -1, 179, 1, -179 ] },
+    'left-right-180' => { 'poly' => [ -17, 179, 17, -179 ] },
+
+    # a real island
+    'fiji' => { 'poly' => [ -20, 175, -10, -170 ] },
 };
 
 my $poly = new BBBikePoly( 'debug' => $debug );
