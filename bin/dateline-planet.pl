@@ -120,6 +120,7 @@ sub output {
 
 sub create_shell_commands {
     my $poly       = shift;
+    my $cities     = shift;
     my $planet_osm = shift;
 
     my $prefix = basename( $planet_osm, ".osm.pbf" );
@@ -127,11 +128,11 @@ sub create_shell_commands {
     my ( $osmconvert_sh, $osmosis_sh ) =
       output( $poly, \@regions, $planet_osm );
 
-    my $file = "$sub_planet_conf_dir/dateline-$prefix-osmconvert.sh";
+    my $file = "$sub_planet_conf_dir/$cities-$prefix-osmconvert.sh";
     store_data( $file, join "\0", @$osmconvert_sh );
     warn "nice -15 xargs -0 -n1 -P3 /bin/sh -c < $file\n";
 
-    $file = "$sub_planet_conf_dir/dateline-$prefix-osmosis.sh";
+    $file = "$sub_planet_conf_dir/$cities-$prefix-osmosis.sh";
     store_data( $file, join "\0", $osmosis_sh );
     warn "nice -15 xargs -0 -n1 -P1 /bin/sh -c < $file\n";
 
@@ -141,11 +142,18 @@ sub create_shell_commands {
 #
 #
 
+# date line
 $BBBikePoly::area = $dateline_area;
-
 my $poly = new BBBikePoly( 'debug' => $debug );
 
-&create_shell_commands( $poly, $planet_osm );
-&create_shell_commands( $poly, $planet_osm_original );
+&create_shell_commands( $poly, 'dateline', $planet_osm );
+&create_shell_commands( $poly, 'dateline', $planet_osm_original );
+
+# cities / islands
+$BBBikePoly::area = $city_area;
+$poly = new BBBikePoly( 'debug' => $debug );
+
+&create_shell_commands( $poly, 'cities', $planet_osm );
+&create_shell_commands( $poly, 'cities', $planet_osm_original );
 
 __END__
