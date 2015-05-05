@@ -12,7 +12,7 @@ use BBBikePoly;
 use strict;
 use warnings;
 
-my $debug               = 1;
+my $debug               = 0;
 my $sub_planet_dir      = 'tmp/dateline-planet';
 my $sub_planet_conf_dir = 'world/etc/dateline-planet';
 my $planet_osm          = "../osm/download/planet-latest-nometa.osm.pbf";
@@ -76,7 +76,10 @@ sub output {
     my @regions = @$regions;
 
     my @osmconvert_sh = ("mkdir -p $sub_planet_dir");
-    my @osmosis_sh;
+    my @osmosis_sh    = (
+        "osmosis", "-q", "--read-pbf", "file=$planet_osm", "--tee",
+        scalar(@regions)
+    );
 
     my $prefix = basename( $planet_osm, ".osm.pbf" );
 
@@ -103,22 +106,16 @@ sub output {
         );
 
         my @sh2 = (
-            "osmosis",
-            "-q",
-            "--read-pbf",
-            "file=$planet_osm",
-            "--bounding-polygon",
-            "file=$file",
-            "--write-pbf",
+            "--bounding-polygon", "file=$file", "--write-pbf",
             "file=$sub_planet_dir/$prefix-osmosis-region.osm.pbf",
             " omitmetadata=true"
         );
 
         push @osmconvert_sh, join " ", @sh;
-        push @osmosis_sh,    join " ", @sh2;
+        push @osmosis_sh, @sh2;
     }
 
-    return ( \@osmconvert_sh, \@osmosis_sh );
+    return ( \@osmconvert_sh, join " ", @osmosis_sh );
 }
 
 #####################################################################################
@@ -131,22 +128,24 @@ my $poly = new BBBikePoly( 'debug' => $debug );
 my @regions = $poly->list_subplanets;
 
 my ( $osmconvert_sh, $osmosis_sh ) = output( $poly, \@regions, $planet_osm );
+
 my $file = "$sub_planet_conf_dir/dateline-planet-osmconvert.sh";
 store_data( $file, join "\0", @$osmconvert_sh );
 warn "nice -15 xargs -0 -n1 -P3 /bin/sh -c < $file\n";
 
 $file = "$sub_planet_conf_dir/dateline-planet-osmosis.sh";
-store_data( $file, join "\0", @$osmosis_sh );
+store_data( $file, join "\0", $osmosis_sh );
 warn "nice -15 xargs -0 -n1 -P1 /bin/sh -c < $file\n";
 
 ( $osmconvert_sh, $osmosis_sh ) =
   output( $poly, \@regions, $planet_osm_original );
+
 $file = "$sub_planet_conf_dir/dateline-planet-original-osmconvert.sh";
 store_data( $file, join "\0", @$osmconvert_sh );
 warn "nice -15 xargs -0 -n1 -P3 /bin/sh -c < $file\n";
 
 $file = "$sub_planet_conf_dir/dateline-planet-original-osmosis.sh";
-store_data( $file, join "\0", @$osmosis_sh );
+store_data( $file, join "\0", $osmosis_sh );
 warn "nice -15 xargs -0 -n1 -P1 /bin/sh -c < $file\n";
 
 __END__
