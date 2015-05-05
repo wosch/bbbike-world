@@ -18,7 +18,7 @@ my $planet_osm          = "../osm/download/planet-latest-nometa.osm.pbf";
 
 my $osmconvert_factor = 1.2;    # full Granularity
 
-$BBBikePoly::area = {
+my $dateline_area = {
 
     # left close
     'left-179' => { 'poly' => [ -17, 179, 17, 179.999 ] },
@@ -39,8 +39,13 @@ $BBBikePoly::area = {
     'fiji' => { 'poly' => [ -20, 175, -10, -170 ] },
 };
 
-my $poly = new BBBikePoly( 'debug' => $debug );
-my @regions = $poly->list_subplanets;
+my $city_area = {
+    'san-francisco' => { 'poly' => [ -122.607, 37.595, -122.224, 37.949 ] },
+    'berlin'        => { 'poly' => [ 13.321,   52.467, 13.457,   52.564 ] },
+    'singapore'     => { 'poly' => [ 103.486,  1.145,  104.075,  1.594 ] },
+    'sofia'         => { 'poly' => [ 23.106,   42.589, 23.515,   42.817 ] },
+    'malta'         => { 'poly' => [ 14.014,   35.677, 14.745,   36.21 ] },
+};
 
 sub store_data {
     my $file_real = shift;
@@ -61,40 +66,64 @@ sub store_data {
     rename( $file, $file_real ) or die "Rename $file -> $file_real: $!\n";
 }
 
-my @shell = ("mkdir -p $sub_planet_dir");
-my @shell2;
-foreach my $region (@regions) {
-    my $size    = $poly->subplanet_size($region);
-    my $size_mb = $poly->file_size_mb( $size * 1000 * $osmconvert_factor );
-    warn "region: $region: $size_mb MB\n" if $debug;
+sub output {
+    my $poly    = shift;
+    my $regions = shift;
 
-    my $obj = $poly->get_job_obj($region);
-    my ( $data, $counter ) = $poly->create_poly_data( 'job' => $obj );
+    my @regions = @$regions;
 
-    my $file = "$sub_planet_conf_dir/$region.poly";
-    &store_data( $file, $data );
+    my @osmconvert_sh = ("mkdir -p $sub_planet_dir");
+    my @osmosis_sh;
+    foreach my $region (@regions) {
+        my $size    = $poly->subplanet_size($region);
+        my $size_mb = $poly->file_size_mb( $size * 1000 * $osmconvert_factor );
+        warn "region: $region: $size_mb MB\n" if $debug;
 
-    my @sh = (
-        "osmconvert-wrapper",                         "-o",
-        "$sub_planet_dir/osmconvert-$region.osm.pbf", "-B=$file",
-        "--drop-author",                              "--drop-version",
-        "--out-pbf",                                  $planet_osm
-    );
-    my @sh2 = (
-        "osmosis",            "-q",
-        "--read-pbf",         "file=$planet_osm",
-        "--bounding-polygon", "file=$file",
-        "--write-pbf",        "file=$sub_planet_dir/osmosis-fiji.osm.pbf",
-        " omitmetadata=true"
-    );
+        my $obj = $poly->get_job_obj($region);
+        my ( $data, $counter ) = $poly->create_poly_data( 'job' => $obj );
 
-    push @shell,  join " ", @sh;
-    push @shell2, join " ", @sh2;
+        my $file = "$sub_planet_conf_dir/$region.poly";
+        &store_data( $file, $data );
+
+        my @sh = (
+            "osmconvert-wrapper",                         "-o",
+            "$sub_planet_dir/osmconvert-$region.osm.pbf", "-B=$file",
+            "--drop-author",                              "--drop-version",
+            "--out-pbf",                                  $planet_osm
+        );
+
+        my @sh2 = (
+            "osmosis",
+            "-q",
+            "--read-pbf",
+            "file=$planet_osm",
+            "--bounding-polygon",
+            "file=$file",
+            "--write-pbf",
+            "file=$sub_planet_dir/osmosis-region.osm.pbf",
+            " omitmetadata=true"
+        );
+
+        push @osmconvert_sh, join " ", @sh;
+        push @osmosis_sh,    join " ", @sh2;
+    }
+
+    return ( \@osmconvert_sh, \@osmosis_sh );
 }
 
+#####################################################################################
+#
+#
+
+$BBBikePoly::area = $dateline_area;
+
+my $poly = new BBBikePoly( 'debug' => $debug );
+my @regions = $poly->list_subplanets;
+
+my ( $osmconvert_sh, $osmosis_sh ) = output( $poly, \@regions );
 store_data( "$sub_planet_conf_dir/dateline-planet-osmconvert.sh",
-    join "\0", @shell );
+    join "\0", @$osmconvert_sh );
 store_data( "$sub_planet_conf_dir/dateline-planet-osmosis.sh",
-    join "\0", @shell2 );
+    join "\0", @$osmosis_sh );
 
 __END__
