@@ -118,6 +118,25 @@ sub output {
     return ( \@osmconvert_sh, join " ", @osmosis_sh );
 }
 
+sub create_shell_commands {
+    my $poly       = shift;
+    my $planet_osm = shift;
+
+    my $prefix = basename( $planet_osm, ".osm.pbf" );
+    my @regions = $poly->list_subplanets;
+    my ( $osmconvert_sh, $osmosis_sh ) =
+      output( $poly, \@regions, $planet_osm );
+
+    my $file = "$sub_planet_conf_dir/dateline-$prefix-osmconvert.sh";
+    store_data( $file, join "\0", @$osmconvert_sh );
+    warn "nice -15 xargs -0 -n1 -P3 /bin/sh -c < $file\n";
+
+    $file = "$sub_planet_conf_dir/dateline-$prefix-osmosis.sh";
+    store_data( $file, join "\0", $osmosis_sh );
+    warn "nice -15 xargs -0 -n1 -P1 /bin/sh -c < $file\n";
+
+}
+
 #####################################################################################
 #
 #
@@ -125,27 +144,8 @@ sub output {
 $BBBikePoly::area = $dateline_area;
 
 my $poly = new BBBikePoly( 'debug' => $debug );
-my @regions = $poly->list_subplanets;
 
-my ( $osmconvert_sh, $osmosis_sh ) = output( $poly, \@regions, $planet_osm );
-
-my $file = "$sub_planet_conf_dir/dateline-planet-osmconvert.sh";
-store_data( $file, join "\0", @$osmconvert_sh );
-warn "nice -15 xargs -0 -n1 -P3 /bin/sh -c < $file\n";
-
-$file = "$sub_planet_conf_dir/dateline-planet-osmosis.sh";
-store_data( $file, join "\0", $osmosis_sh );
-warn "nice -15 xargs -0 -n1 -P1 /bin/sh -c < $file\n";
-
-( $osmconvert_sh, $osmosis_sh ) =
-  output( $poly, \@regions, $planet_osm_original );
-
-$file = "$sub_planet_conf_dir/dateline-planet-original-osmconvert.sh";
-store_data( $file, join "\0", @$osmconvert_sh );
-warn "nice -15 xargs -0 -n1 -P3 /bin/sh -c < $file\n";
-
-$file = "$sub_planet_conf_dir/dateline-planet-original-osmosis.sh";
-store_data( $file, join "\0", $osmosis_sh );
-warn "nice -15 xargs -0 -n1 -P1 /bin/sh -c < $file\n";
+&create_shell_commands( $poly, $planet_osm );
+&create_shell_commands( $poly, $planet_osm_original );
 
 __END__
