@@ -70,10 +70,10 @@ sub store_data {
 
 sub output {
     my $poly       = shift;
-    my $regions    = shift;
+    my $reg        = shift;
     my $planet_osm = shift;
 
-    my @regions = @$regions;
+    my @regions = @$reg;
 
     my @osmconvert_sh = ("mkdir -p $sub_planet_dir");
     my @osmosis_sh    = (
@@ -97,7 +97,7 @@ sub output {
         my @sh = (
             "osmconvert-wrapper",
             "-o",
-            "$sub_planet_dir/$prefix-osmconvert-$region.osm.pbf",
+            "$sub_planet_dir/${prefix}-osmconvert-${region}.osm.pbf",
             "-B=$file",
             "--drop-author",
             "--drop-version",
@@ -106,8 +106,10 @@ sub output {
         );
 
         my @sh2 = (
-            "--bounding-polygon", "file=$file", "--write-pbf",
-            "file=$sub_planet_dir/$prefix-osmosis-region.osm.pbf",
+            "--bounding-polygon",
+            "file=$file",
+            "--write-pbf",
+            "file=$sub_planet_dir/${prefix}-osmosis-${region}.osm.pbf",
             " omitmetadata=true"
         );
 
