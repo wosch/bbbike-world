@@ -4,6 +4,7 @@
 # create poly files for the date line
 
 use IO::File;
+use File::Basename;
 
 use lib qw(world/bin world/lib ../lib);
 use BBBikePoly;
@@ -15,6 +16,7 @@ my $debug               = 1;
 my $sub_planet_dir      = 'tmp/dateline-planet';
 my $sub_planet_conf_dir = 'world/etc/dateline-planet';
 my $planet_osm          = "../osm/download/planet-latest-nometa.osm.pbf";
+my $planet_osm_original = "../osm/download/pbf/planet-latest.osm.pbf";
 
 my $osmconvert_factor = 1.2;    # full Granularity
 
@@ -67,13 +69,17 @@ sub store_data {
 }
 
 sub output {
-    my $poly    = shift;
-    my $regions = shift;
+    my $poly       = shift;
+    my $regions    = shift;
+    my $planet_osm = shift;
 
     my @regions = @$regions;
 
     my @osmconvert_sh = ("mkdir -p $sub_planet_dir");
     my @osmosis_sh;
+
+    my $prefix = basename( $planet_osm, ".osm.pbf" );
+
     foreach my $region (@regions) {
         my $size    = $poly->subplanet_size($region);
         my $size_mb = $poly->file_size_mb( $size * 1000 * $osmconvert_factor );
@@ -86,10 +92,14 @@ sub output {
         &store_data( $file, $data );
 
         my @sh = (
-            "osmconvert-wrapper",                         "-o",
-            "$sub_planet_dir/osmconvert-$region.osm.pbf", "-B=$file",
-            "--drop-author",                              "--drop-version",
-            "--out-pbf",                                  $planet_osm
+            "osmconvert-wrapper",
+            "-o",
+            "$sub_planet_dir/$prefix-osmconvert-$region.osm.pbf",
+            "-B=$file",
+            "--drop-author",
+            "--drop-version",
+            "--out-pbf",
+            $planet_osm
         );
 
         my @sh2 = (
@@ -100,7 +110,7 @@ sub output {
             "--bounding-polygon",
             "file=$file",
             "--write-pbf",
-            "file=$sub_planet_dir/osmosis-region.osm.pbf",
+            "file=$sub_planet_dir/$prefix-osmosis-region.osm.pbf",
             " omitmetadata=true"
         );
 
@@ -120,10 +130,17 @@ $BBBikePoly::area = $dateline_area;
 my $poly = new BBBikePoly( 'debug' => $debug );
 my @regions = $poly->list_subplanets;
 
-my ( $osmconvert_sh, $osmosis_sh ) = output( $poly, \@regions );
+my ( $osmconvert_sh, $osmosis_sh ) = output( $poly, \@regions, $planet_osm );
 store_data( "$sub_planet_conf_dir/dateline-planet-osmconvert.sh",
     join "\0", @$osmconvert_sh );
 store_data( "$sub_planet_conf_dir/dateline-planet-osmosis.sh",
+    join "\0", @$osmosis_sh );
+
+( $osmconvert_sh, $osmosis_sh ) =
+  output( $poly, \@regions, $planet_osm_original );
+store_data( "$sub_planet_conf_dir/dateline-planet-original-osmconvert.sh",
+    join "\0", @$osmconvert_sh );
+store_data( "$sub_planet_conf_dir/dateline-planet-original-osmosis.sh",
     join "\0", @$osmosis_sh );
 
 __END__
