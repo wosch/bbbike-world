@@ -23,19 +23,19 @@ my $osmconvert_factor = 1.2;    # full Granularity
 my $dateline_area = {
 
     # left close
-    'left-179' => { 'poly' => [ -17, 179, 17, 179.999 ] },
+    'left-179' => { 'poly' => [ -17, 179, -16, 179.999 ] },
 
     # left on date line
-    'left-180' => { 'poly' => [ -17, 179, 17, 180 ] },
+    'left-180' => { 'poly' => [ -17, 179, -16, 180 ] },
 
     # right close
     'right-179' => { 'poly' => [ -17, -179.999, 17, -179 ] },
 
     # right on date line
-    'right-180' => { 'poly' => [ -17, -180, 17, -179 ] },
+    'right-180' => { 'poly' => [ -17, -180, -16, -179 ] },
 
     # left and right on date line
-    'left-right-180' => { 'poly' => [ -17, 179, 17, -179 ] },
+    'left-right-180' => { 'poly' => [ -17, 179, -16, -179 ] },
 
     # a real island
     'fiji' => { 'poly' => [ -20, 175, -10, -170 ] },
@@ -47,6 +47,8 @@ my $city_area = {
     'singapore'     => { 'poly' => [ 103.486,  1.145,  104.075,  1.594 ] },
     'sofia'         => { 'poly' => [ 23.106,   42.589, 23.515,   42.817 ] },
     'malta'         => { 'poly' => [ 14.014,   35.677, 14.745,   36.21 ] },
+
+  #'new-zealand'         => { 'poly' => [ 164.887, -47.559, 178.985, -33.851] },
 };
 
 sub store_data {
@@ -131,13 +133,14 @@ sub create_shell_commands {
       output( $poly, \@regions, $planet_osm );
 
     my $file = "$sub_planet_conf_dir/$cities-$prefix-osmconvert.sh";
-    store_data( $file, join "\0", @$osmconvert_sh );
-    warn "nice -15 xargs -0 -n1 -P3 /bin/sh -c < $file\n";
+    store_data( $file, join "\n", @$osmconvert_sh );
+    warn
+"perl -npe 's/\n/\0/g' $file | time nice -15 xargs -0 -n1 -P3 /bin/sh -c\n";
 
     $file = "$sub_planet_conf_dir/$cities-$prefix-osmosis.sh";
-    store_data( $file, join "\0", $osmosis_sh );
-    warn "nice -15 xargs -0 -n1 -P1 /bin/sh -c < $file\n";
-
+    store_data( $file, join "\n", $osmosis_sh );
+    warn
+"perl -npe 's/\n/\0/g' $file | time nice -15 xargs -0 -n1 -P1 /bin/sh -c\n";
 }
 
 #####################################################################################
