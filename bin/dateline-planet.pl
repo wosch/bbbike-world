@@ -135,12 +135,12 @@ sub create_shell_commands {
     my $file = "$sub_planet_conf_dir/$cities-$prefix-osmconvert.sh";
     store_data( $file, join "\n", @$osmconvert_sh );
     warn
-"perl -npe 's/\n/\0/g' $file | time nice -15 xargs -0 -n1 -P3 /bin/sh -c\n";
+"perl -npe 's/\\n/\\0/g' $file | time nice -15 xargs -0 -n1 -P3 /bin/sh -c\n";
 
     $file = "$sub_planet_conf_dir/$cities-$prefix-osmosis.sh";
     store_data( $file, join "\n", $osmosis_sh );
     warn
-"perl -npe 's/\n/\0/g' $file | time nice -15 xargs -0 -n1 -P1 /bin/sh -c\n";
+"perl -npe 's/\\n/\\0/g' $file | time nice -15 xargs -0 -n1 -P1 /bin/sh -c\n";
 }
 
 #####################################################################################
