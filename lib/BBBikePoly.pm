@@ -151,32 +151,32 @@ sub create_poly_data {
     $data .= "1\n";
 
     my $counter = 0;
+    my @c;
 
     # rectangle
     if ( !scalar( @{ $obj->{"coords"} } ) ) {
-        $data .= "   $obj->{'sw_lng'}  $obj->{'sw_lat'}\n";
-        $data .= "   $obj->{'ne_lng'}  $obj->{'sw_lat'}\n";
-        $data .= "   $obj->{'ne_lng'}  $obj->{'ne_lat'}\n";
-        $data .= "   $obj->{'sw_lng'}  $obj->{'ne_lat'}\n";
-        $counter += 4;
+        push @c, [ $obj->{'sw_lng'}, $obj->{'sw_lat'} ];
+        push @c, [ $obj->{'ne_lng'}, $obj->{'sw_lat'} ];
+        push @c, [ $obj->{'ne_lng'}, $obj->{'ne_lat'} ];
+        push @c, [ $obj->{'sw_lng'}, $obj->{'ne_lat'} ];
     }
 
-    # polygone
+    # polygon
     else {
-        my @c = @{ $obj->{coords} };
-
-        # close polygone if not already closed
-        if ( $c[0]->[0] ne $c[-1]->[0] || $c[0]->[1] ne $c[-1]->[1] ) {
-            push @c, $c[0];
-        }
-
-        for ( my $i = 0 ; $i <= $#c ; $i++ ) {
-            my ( $lng, $lat ) = ( $c[$i]->[0], $c[$i]->[1] );
-            $data .= "   $lng  $lat\n";
-        }
-
-        $counter += $#c;
+        @c = @{ $obj->{coords} };
     }
+
+    # close polygone if not already closed
+    if ( $c[0]->[0] ne $c[-1]->[0] || $c[0]->[1] ne $c[-1]->[1] ) {
+        push @c, $c[0];
+    }
+
+    for ( my $i = 0 ; $i <= $#c ; $i++ ) {
+        my ( $lng, $lat ) = ( $c[$i]->[0], $c[$i]->[1] );
+        $data .= sprintf( "   %e  %e\n", $lng, $lat );
+    }
+
+    $counter += $#c;
 
     $data .= "END\n";
     $data .= "END\n";
