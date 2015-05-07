@@ -1074,7 +1074,7 @@ sub homepage {
             [
                 $q->td(
                     [
-"<span class='lnglatbox' title='South West, valid values: -180 .. 180'>@{[ M('Left lower corner (South-West)') ]}<br/>"
+"<span class='lnglatbox' title='South West, valid values: lng -180 .. 180, lat -90 .. 90'>@{[ M('Left lower corner (South-West)') ]}<br/>"
                           . "&nbsp;&nbsp; $lng: "
                           . $q->textfield(
                             -name => 'sw_lng',
@@ -1094,7 +1094,7 @@ qq{<span title="hide longitude,latitude box" class="lnglatbox" onclick="javascri
 
                 $q->td(
                     [
-"<span class='lnglatbox' title='North East, valid values: -180 .. 180'>@{[ M('Right top corner (North-East)') ]}<br/>"
+"<span class='lnglatbox' title='North East, valid values: lng -180 .. 180, lat -90 .. 90'>@{[ M('Right top corner (North-East)') ]}<br/>"
                           . "&nbsp;&nbsp; $lng: "
                           . $q->textfield(
                             -name => 'ne_lng',

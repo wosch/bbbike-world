@@ -463,7 +463,7 @@ function boundsChanged() {
     var epsg4326 = new OpenLayers.Projection("EPSG:4326");
 
     if (!check_lnglat_form()) {
-        alert(M("lng or lat value is out of range -180 ... 180, -90 .. 90"));
+        alert(M("value is out of range: lng -180 ... 180, lat -90 .. 90"));
         return;
     }
 
