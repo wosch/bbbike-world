@@ -23,22 +23,22 @@ my $osmconvert_factor = 1.2;    # full Granularity
 my $dateline_area = {
 
     # left close
-    'left-179' => { 'poly' => [ -17, 179, -16, 179.999 ] },
+    'left-179' => { 'poly' => [ 179, -17, 179.999, -16, ] },
 
     # left on date line
-    'left-180' => { 'poly' => [ -17, 179, -16, 180 ] },
+    'left-180' => { 'poly' => [ 179, -17, 180, -16 ] },
 
     # right close
-    'right-179' => { 'poly' => [ -17, -179.999, 17, -179 ] },
+    'right-179' => { 'poly' => [ -179.999, -17, -179, 17 ] },
 
     # right on date line
-    'right-180' => { 'poly' => [ -17, -180, -16, -179 ] },
+    'right-180' => { 'poly' => [ -180, -17, -179, -16 ] },
 
     # left and right on date line
-    'left-right-180' => { 'poly' => [ -17, 179, -16, -179 ] },
+    'left-right-180' => { 'poly' => [ 179, -17, -179, -16 ] },
 
     # a real island
-    'fiji' => { 'poly' => [ -20, 175, -10, -170 ] },
+    'fiji' => { 'poly' => [ 175, -20, -170, -10 ] },
 };
 
 my $city_area = {
