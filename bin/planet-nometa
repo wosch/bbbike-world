@@ -21,7 +21,8 @@ fi
 file_pbf=$(basename $file .osm.bz2)-nometa.osm.pbf
 
 $nice $bzip2 -dc $file |  mbuffer -q -m 256m | \
-   time osmconvert-0.8.3 --drop-version --drop-author --out-pbf /dev/stdin > ${file_pbf}.tmp
+   time osmconvert --drop-version --drop-author --out-pbf - > ${file_pbf}.tmp
 
 mv -f ${file_pbf}.tmp $file_pbf
-$MD5 $file_bpf | tee $file_bpf.md5
+$MD5 $file_pbf > ${file_pbf}.md5
+
