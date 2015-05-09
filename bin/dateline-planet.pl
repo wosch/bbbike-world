@@ -82,6 +82,7 @@ sub output {
         "osmosis", "-q", "--read-pbf", "file=$planet_osm", "--tee",
         scalar(@regions)
     );
+    my @overpass_sh;
 
     my $prefix = basename( $planet_osm, ".osm.pbf" );
 
@@ -115,11 +116,20 @@ sub output {
             " omitmetadata=true"
         );
 
+        my $url = $poly->create_overpass_api_url( 'job' => $obj );
+        my @sh3 = (
+            "curl", "-A", "BBBike.org-Test/1.1", "-g", "-sSf",, qq["$url"], "|",
+            "time", "osmconvert", "--out-pbf", "-", ">",
+            "$sub_planet_dir/${prefix}-overpass-${region}.osm.pbf"
+        );
+
         push @osmconvert_sh, join " ", @sh;
-        push @osmosis_sh, @sh2;
+        push @osmosis_sh,    @sh2;
+        push @overpass_sh,   join " ", @sh3;
     }
 
-    return ( \@osmconvert_sh, join " ", @osmosis_sh );
+    my $osmosis_sh = join " ", @osmosis_sh;
+    return ( \@osmconvert_sh, $osmosis_sh, \@overpass_sh );
 }
 
 sub create_shell_commands {
@@ -129,7 +139,7 @@ sub create_shell_commands {
 
     my $prefix = basename( $planet_osm, ".osm.pbf" );
     my @regions = $poly->list_subplanets;
-    my ( $osmconvert_sh, $osmosis_sh ) =
+    my ( $osmconvert_sh, $osmosis_sh, $overpass_sh ) =
       output( $poly, \@regions, $planet_osm );
 
     my $file = "$sub_planet_conf_dir/$cities-$prefix-osmconvert.sh";
@@ -141,6 +151,13 @@ sub create_shell_commands {
     store_data( $file, join "\n", $osmosis_sh );
     warn
 "perl -npe 's/\\n/\\0/g' $file | time nice -15 xargs -0 -n1 -P1 /bin/sh -c\n";
+
+    if ( $planet_osm ne $planet_osm_original ) {
+        $file = "$sub_planet_conf_dir/$cities-$prefix-overpass.sh";
+        store_data( $file, join "\n", @$overpass_sh );
+        warn
+"perl -npe 's/\\n/\\0/g' $file | time nice -15 xargs -0 -n1 -P1 /bin/sh -c\n";
+    }
 }
 
 #####################################################################################

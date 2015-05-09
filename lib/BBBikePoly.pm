@@ -152,6 +152,21 @@ sub is_coord {
     return $number <= $max && $number >= -$max ? 1 : 0;
 }
 
+sub create_overpass_api_url {
+    my $self = shift;
+    my %args = @_;
+
+    my $obj = $args{'job'};
+    warn Dumper($obj) if $debug >= 2;
+
+    my $url = "http://overpass-api.de/api/interpreter?data=[out:xml];node%28";
+    $url .= qq|$obj->{"sw_lat"},$obj->{"sw_lng"},|;
+    $url .= qq|$obj->{"ne_lat"},$obj->{"ne_lng"}|;
+    $url .= "%29;out;";
+
+    return $url;
+}
+
 #
 # create a poly file based on a rectangle or polygon coordinates
 #
