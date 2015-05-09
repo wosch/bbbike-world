@@ -146,10 +146,6 @@ sub create_poly_data {
 
     my $data = "";
 
-    my $city = escapeHTML( $obj->{"city"} );
-    $data .= "$city\n";
-    $data .= "0\n";
-
     my $counter = 0;
     my @c;
 
@@ -171,16 +167,20 @@ sub create_poly_data {
         push @c, $c[0];
     }
 
+    # create poly data
+    my $city = escapeHTML( $obj->{"city"} );
+    $data .= "$city\n";
+    $data .= "0\n";
+
     for ( my $i = 0 ; $i <= $#c ; $i++ ) {
         my ( $lng, $lat ) = ( $c[$i]->[0], $c[$i]->[1] );
         $data .= sprintf( "   %E  %E\n", $lng, $lat );
     }
 
+    $data .= "END\n";
+    $data .= "END\n";
+
     $counter += $#c;
-
-    $data .= "END\n";
-    $data .= "END\n";
-
     return ( $data, $counter );
 }
 
