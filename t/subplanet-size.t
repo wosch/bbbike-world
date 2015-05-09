@@ -15,7 +15,7 @@ my $debug   = 1;
 my $poly    = new BBBikePoly( 'debug' => $debug );
 my @regions = $poly->list_subplanets;
 
-plan tests => scalar(@regions) * 2 + 1;
+plan tests => scalar(@regions) * 2 + ( 1 + 2 );
 
 foreach my $region (@regions) {
     my $size    = $poly->subplanet_size($region);
@@ -59,5 +59,17 @@ if ( $debug >= 2 ) {
     diag "Old $berlin";
     diag "New $data";
 }
+
+#######################################################################################
+# check for invalid lng,lat values
+#
+$region = 'Alien';
+$BBBikePoly::area->{$region}->{"poly"} =
+  $BBBikePoly::area->{$region}->{"poly2"};
+$obj = $poly->get_job_obj($region);
+( $data, $counter ) = $poly->create_poly_data( 'job' => $obj );
+
+is( $data,    "", "Invalid data, poly file must be empty" );
+is( $counter, 0,  "Invalid data, poly counter must be zero" );
 
 __END__
