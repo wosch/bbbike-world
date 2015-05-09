@@ -44,6 +44,7 @@ deb-bin:
 	${MAKE} -f ../../Makefile distclean
 	${MAKE} -f ../../Makefile LIB=bbbike-world-bin clean build ${DEB_REPO}
 	${MAKE} -f ../../Makefile LIB=bbbike-world-javalibs clean build ${DEB_REPO}
+	${MAKE} -f ../../Makefile clean
 
 help:
 	@echo ""
