@@ -14,13 +14,14 @@ tmp=tmp
 mkdir -p $tmp
 
 : ${bbbike_build="build-runtime update-files"}
-: ${bbbike_download="planet-download planet-nometa"}
+: ${bbbike_download="planet-download"}
+: ${bbbike_download_convert="planet-nometa planet-sub"}
 : ${bbbike_extract="distclean-osm distclean update-files cities-parallel"}
 : ${bbbike_convert="convert-wgs84 convert-post check-data-osm convert-bbbike update-files"}
 : ${bbbike_install="rsync-tgz _rsync cache-heater-k"}
 : ${bbbike_post="pbf2osm pbf2csv pbf2opl osm2garmin osm2shape osm2navit osm2mapsforge osm2osmand osm-html rsync rsync-osm-full"}
 
-commands="$bbbike_build $bbbike_download $bbbike_extract $bbbike_convert $bbbike_install $bbbike_post"
+commands="$bbbike_build $bbbike_download $bbbike_download_convert $bbbike_extract $bbbike_convert $bbbike_install $bbbike_post"
 
 # lower I/O nice level on linux
 if which ionice >/dev/null 2>&1; then

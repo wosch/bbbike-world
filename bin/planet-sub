@@ -1,0 +1,16 @@
+#!/bin/bash
+# Copyright (c) 2009-2015 Wolfram Schneider, http://bbbike.org
+#
+# planet-sub - convert a planet.osm to a smaller files for each continent
+#
+
+set -e
+set -o pipefail # bash only
+
+if [ -e $HOME/.bbbikerc ]; then 
+    . $HOME/.bbbikerc
+fi
+
+perl -npe 's/\n/\0/g' world/etc/sub-planet/sub-planet.sh | \
+	time xargs -0 -n1 -P3 /bin/sh -c
+
