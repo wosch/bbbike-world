@@ -32,7 +32,9 @@ our $area = {
     'asia'           => { 'poly'  => [ 43.505,  -53.122, 179.99,  63.052 ] },
     'planet'         => { 'poly2' => [ -180,    -90,     180,     90 ] },
 
+    # test data
     'Berlin' => { 'poly2' => [ 12.76, 52.23, 13.98, 52.82 ] },
+    'Alien'  => { 'poly2' => [ 181,   91,    -300,  0 ] },
 };
 
 our $debug = 1;
@@ -220,6 +222,7 @@ sub create_poly_data {
     $counter += $#c;
 
     if ($error) {
+        warn "Poly file is currupt, no valid coordinates are given\n";
         return ( "", 0 );
     }
     else {
