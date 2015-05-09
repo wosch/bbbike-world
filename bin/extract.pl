@@ -813,7 +813,12 @@ sub run_extracts_osmconvert {
         # nothing to do
         @data = "true";
     }
-    push @data, ( "--drop-author", "--drop-version", "--out-pbf" );
+
+    push @data, "--out-pbf";
+    if ( !$option->{"pro"} ) {
+        push @data, ( "--drop-author", "--drop-version" );
+    }
+
     push @data, $planet_osm;
 
     warn "Use planet.osm file $planet_osm\n" if $debug >= 1;
