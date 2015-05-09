@@ -124,6 +124,32 @@ sub get_job_obj {
     return $obj;
 }
 
+sub is_lng {
+    my $self = shift;
+    my $val  = shift;
+
+    return $self->is_coord( $val, 180 );
+}
+
+sub is_lat {
+    my $self = shift;
+    my $val  = shift;
+
+    return $self->is_coord( $val, 90 );
+}
+
+sub is_coord {
+    my $self = shift;
+
+    my $number = shift;
+    my $max    = shift;
+
+    return 0 if $number eq "";
+    return 0 if $number !~ /^[\-\+]?[0-9]+(\.[0-9]+)?$/;
+
+    return $number <= $max && $number >= -$max ? 1 : 0;
+}
+
 #
 # create a poly file based on a rectangle or polygon coordinates
 #
@@ -167,6 +193,8 @@ sub create_poly_data {
         push @c, $c[0];
     }
 
+    my $error = 0;
+
     # create poly data
     my $city = escapeHTML( $obj->{"city"} );
     $data .= "$city\n";
@@ -174,6 +202,15 @@ sub create_poly_data {
 
     for ( my $i = 0 ; $i <= $#c ; $i++ ) {
         my ( $lng, $lat ) = ( $c[$i]->[0], $c[$i]->[1] );
+        if ( !$self->is_lng($lng) ) {
+            warn "lng $lng is out of range -180 .. 180\n";
+            $error++;
+        }
+        if ( !$self->is_lat($lat) ) {
+            warn "lat $lat is out of range -90 .. 90\n";
+            $error++;
+        }
+
         $data .= sprintf( "   %E  %E\n", $lng, $lat );
     }
 
@@ -181,7 +218,13 @@ sub create_poly_data {
     $data .= "END\n";
 
     $counter += $#c;
-    return ( $data, $counter );
+
+    if ($error) {
+        return ( "", 0 );
+    }
+    else {
+        return ( $data, $counter );
+    }
 }
 
 1;
