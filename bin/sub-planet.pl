@@ -53,12 +53,18 @@ foreach my $region (@regions) {
     &store_data( $file, $data );
 
     my @sh = (
-        "osmconvert-wrapper", "-o", "$sub_planet_dir/$region.osm.pbf",
-        "-B=$file", "--drop-author", "--drop-version", "--out-pbf", $planet_osm
+        "nice",           "-n15",
+        "time",           "osmconvert-wrapper",
+        "-o",             "$sub_planet_dir/$region.osm.pbf",
+        "-B=$file",       "--drop-author",
+        "--drop-version", "--out-pbf",
+        $planet_osm
     );
     push @shell, join " ", @sh;
 }
 
-store_data( "$sub_planet_conf_dir/sub-planet.sh", join "\0", @shell );
+my $script = "$sub_planet_conf_dir/sub-planet.sh";
+warn "Now run $script\n" if $debug;
+store_data( $script, join "\n", @shell );
 
 __END__
