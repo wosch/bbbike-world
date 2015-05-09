@@ -148,7 +148,7 @@ sub create_poly_data {
 
     my $city = escapeHTML( $obj->{"city"} );
     $data .= "$city\n";
-    $data .= "1\n";
+    $data .= "0\n";
 
     my $counter = 0;
     my @c;
