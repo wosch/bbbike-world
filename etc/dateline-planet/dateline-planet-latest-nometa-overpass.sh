@@ -1,0 +1,6 @@
+curl -A BBBike.org-Test/1.1 -g -sSf "http://overpass-api.de/api/interpreter?data=[out:xml];node%28-20,175,-10,-170%29;out;" | time osmconvert --out-pbf - > tmp/dateline-planet/planet-latest-nometa-overpass-fiji.osm.pbf
+curl -A BBBike.org-Test/1.1 -g -sSf "http://overpass-api.de/api/interpreter?data=[out:xml];node%28-17,179,-16,179.999%29;out;" | time osmconvert --out-pbf - > tmp/dateline-planet/planet-latest-nometa-overpass-left-179.osm.pbf
+curl -A BBBike.org-Test/1.1 -g -sSf "http://overpass-api.de/api/interpreter?data=[out:xml];node%28-17,179,-16,180%29;out;" | time osmconvert --out-pbf - > tmp/dateline-planet/planet-latest-nometa-overpass-left-180.osm.pbf
+curl -A BBBike.org-Test/1.1 -g -sSf "http://overpass-api.de/api/interpreter?data=[out:xml];node%28-17,179,-16,-179%29;out;" | time osmconvert --out-pbf - > tmp/dateline-planet/planet-latest-nometa-overpass-left-right-180.osm.pbf
+curl -A BBBike.org-Test/1.1 -g -sSf "http://overpass-api.de/api/interpreter?data=[out:xml];node%28-17,-179.999,17,-179%29;out;" | time osmconvert --out-pbf - > tmp/dateline-planet/planet-latest-nometa-overpass-right-179.osm.pbf
+curl -A BBBike.org-Test/1.1 -g -sSf "http://overpass-api.de/api/interpreter?data=[out:xml];node%28-17,-180,-16,-179%29;out;" | time osmconvert --out-pbf - > tmp/dateline-planet/planet-latest-nometa-overpass-right-180.osm.pbf
