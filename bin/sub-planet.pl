@@ -64,7 +64,7 @@ foreach my $region (@regions) {
 }
 
 my $script = "$sub_planet_conf_dir/sub-planet.sh";
-warn "Now run $script\n" if $debug;
+warn "Now run ./world/bin/planet-sub\n" if $debug;
 store_data( $script, join "\n", @shell );
 
 __END__
