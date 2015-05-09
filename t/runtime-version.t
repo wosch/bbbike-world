@@ -18,7 +18,7 @@ my $versions = {
 
         # version commands, regex to match
         [ [qw/pbzip2 --version/],  qr/ BZIP2 v1.1.[1-9] /m ],
-        [ [qw/osmconvert --help/], qr/^osmconvert 0\.7T/m ],
+        [ [qw/osmconvert --help/], qr/^osmconvert 0\.8\.3/m ],
         [ [qw/osmosis -v/], qr/^INFO: Osmosis Version (0\.40\.1|0\.43\.1)/m ],
         [ [qw/pigz --version/], qr/^pigz (2\.1\.6|2\.2\.[4-9]|2\.3\.1|2\.3)/ ],
         [ [qw/java -version/],  qr/^java version "1\.7\.0_(75|79)"/m ],
