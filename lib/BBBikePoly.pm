@@ -173,7 +173,7 @@ sub create_poly_data {
 
     for ( my $i = 0 ; $i <= $#c ; $i++ ) {
         my ( $lng, $lat ) = ( $c[$i]->[0], $c[$i]->[1] );
-        $data .= sprintf( "   %e  %e\n", $lng, $lat );
+        $data .= sprintf( "   %E  %E\n", $lng, $lat );
     }
 
     $counter += $#c;
