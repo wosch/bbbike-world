@@ -15,15 +15,16 @@ all: help
 
 clean:
 	rm -f ${LIB}*.tar.gz ${LIB}*.dsc ${LIB}*.changes
-
-distclean: clean
-	rm -f */debian.log *.deb
+	rm -f */debian.log
 	rm -f *.tar.gz *.changes *.dsc
 	rm -f */debian/debhelper.log
 	rm -f */debian/substvars
 	rm -f */debian/files
 	rm -rf */debian/src
 	rm -rf */debian/tmp
+
+distclean: clean
+	rm -f *.deb
 
 build:
 	cd ${LIB}; \
@@ -40,8 +41,9 @@ deb-repo:
 	  reprepro --ignore=undefinedtarget -Vb . includedeb ${DEB_RELEASE} $$pwd/${LIB}*.deb
 
 deb-bin:
-	${MAKE} -f ../../Makefile LIB=bbbike-world-bin distclean build ${DEB_REPO}
-	${MAKE} -f ../../Makefile LIB=bbbike-world-javalibs distclean build ${DEB_REPO}
+	${MAKE} -f ../../Makefile distclean
+	${MAKE} -f ../../Makefile LIB=bbbike-world-bin clean build ${DEB_REPO}
+	${MAKE} -f ../../Makefile LIB=bbbike-world-javalibs clean build ${DEB_REPO}
 
 help:
 	@echo ""
