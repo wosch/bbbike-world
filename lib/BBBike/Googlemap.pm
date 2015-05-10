@@ -425,7 +425,7 @@ EOF
     return $html;
 }
 
-#my $o = BBBikeGooglemap->new;
+#my $o = BBBike::Googlemap->new;
 #$o->run(new CGI);
 
 1;
