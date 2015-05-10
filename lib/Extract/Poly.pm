@@ -4,14 +4,14 @@
 #
 # BBBikePoly.pm - polygon helper functions
 
-package BBBikePoly;
+package Extract::Poly;
 
 use JSON;
 use Data::Dumper;
 use CGI qw(escapeHTML);
 
-use lib qw(world/bin);
-use TileSize;
+use lib qw(world/lib);
+use Extract::TileSize;
 
 use strict;
 use warnings;
@@ -93,7 +93,7 @@ sub subplanet_size {
     my $self   = shift;
     my $region = shift;
 
-    my $tile = new TileSize( 'database' => $self->{'database'} );
+    my $tile = new Extract::TileSize( 'database' => $self->{'database'} );
 
     if ( !$area->{$region} ) {
         warn "Area '$region' does not exists, skip\n" if $debug;
@@ -101,7 +101,7 @@ sub subplanet_size {
     }
 
     my $size = $tile->area_size( @{ $area->{$region}->{'poly'} },
-        TileSize::FRACTAL_REAL );
+        Extract::TileSize::FRACTAL_REAL );
     $size = int( $size * 1000 + 0.5 ) / 1000;
 
     return $size;

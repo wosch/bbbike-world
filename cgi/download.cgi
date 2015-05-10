@@ -14,7 +14,7 @@ use File::Basename;
 use HTTP::Date;
 
 use lib qw[../world/lib ../lib];
-use BBBikeExtract;
+use Extract::Config;
 use BBBikeLocale;
 use BBBikeAnalytics;
 
@@ -60,11 +60,11 @@ if ( defined $q->param('debug') ) {
     $debug = int( $q->param('debug') );
 }
 
-my $extract = BBBikeExtract->new( 'q' => $q, 'option' => $option );
+my $extract = Extract::Config->new( 'q' => $q, 'option' => $option );
 $extract->load_config;
 $extract->check_extract_pro;
-my $formats = $BBBikeExtract::formats;
-my $spool   = $BBBikeExtract::spool;
+my $formats = $Extract::Config::formats;
+my $spool   = $Extract::Config::spool;
 
 # EOF config
 ###########################################################################

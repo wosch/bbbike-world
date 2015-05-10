@@ -6,7 +6,7 @@
 use IO::File;
 
 use lib qw(world/lib ../lib);
-use BBBikePoly;
+use Extract::Poly;
 
 use strict;
 use warnings;
@@ -18,7 +18,7 @@ my $planet_osm          = "../osm/download/planet-latest-nometa.osm.pbf";
 
 my $osmconvert_factor = 1.2;    # full Granularity
 
-my $poly = new BBBikePoly( 'debug' => $debug );
+my $poly = new Extract::Poly( 'debug' => $debug );
 my @regions = $poly->list_subplanets;
 
 sub store_data {

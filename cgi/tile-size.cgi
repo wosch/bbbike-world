@@ -7,14 +7,14 @@ use CGI;
 use CGI::Carp;
 use IO::File;
 use lib qw(../world/lib ../lib);
-use TileSize;
+use Extract::TileSize;
 
 use strict;
 use warnings;
 
 my $debug = 2;
 
-# $TileSize::debug = 2;
+# $Extract::TileSize::debug = 2;
 
 # map format to database
 my %format = (
@@ -132,7 +132,7 @@ else {
 }
 
 my $database_file = "../world/etc/tile/tile-$ext.csv";
-my $tile = TileSize->new( 'database' => $database_file );
+my $tile = Extract::TileSize->new( 'database' => $database_file );
 
 # guess factor based on similar data
 if ( grep { $_ eq $format }
@@ -167,7 +167,7 @@ my $size =
   $factor *
   $factor_format *
   $tile->area_size( $lng_sw, $lat_sw, $lng_ne, $lat_ne,
-    TileSize::FRACTAL_REAL );
+    Extract::TileSize::FRACTAL_REAL );
 $size = int( $size * 1000 + 0.5 ) / 1000;
 
 warn

@@ -34,8 +34,8 @@ use Time::gmtime;
 use LockFile::Simple;
 
 use lib qw(world/lib ../lib);
-use BBBikeExtract;
-use BBBikePoly;
+use Extract::Config;
+use Extract::Poly;
 
 use strict;
 use warnings;
@@ -155,9 +155,9 @@ our $option = {
 
 ######################################################################
 
-my $extract = BBBikeExtract->new( 'option' => $option );
-my $formats = $BBBikeExtract::formats;
-my $spool   = $BBBikeExtract::spool;
+my $extract = Extract::Config->new( 'option' => $option );
+my $formats = $Extract::Config::formats;
+my $spool   = $Extract::Config::spool;
 $extract->load_config_nocgi;
 
 # translations
@@ -374,7 +374,7 @@ sub parse_jobs {
     my $loadavg = &get_loadavg;
 
     my %duplicated_poly = ();
-    my $poly = new BBBikePoly( 'debug' => 1 );
+    my $poly = new Extract::Poly( 'debug' => 1 );
 
     while ( $counter-- > 0 ) {
         foreach my $email ( &random_user( keys %$hash ) ) {
@@ -676,7 +676,7 @@ sub store_data {
 sub create_poly_file {
     my %args = @_;
 
-    my $poly = new BBBikePoly( 'debug' => 1 );
+    my $poly = new Extract::Poly( 'debug' => 1 );
     my ( $data, $counter ) = $poly->create_poly_data(%args);
 
     my $file = $args{'file'};

@@ -5,7 +5,7 @@
 #
 # todo: check $factor
 
-package TileSize;
+package Extract::TileSize;
 
 use IO::File;
 use Data::Dumper;

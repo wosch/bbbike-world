@@ -29,7 +29,7 @@ use Math::Polygon::Calc;
 use Math::Polygon::Transform;
 
 use lib qw[../world/lib ../lib];
-use BBBikeExtract;
+use Extract::Config;
 use BBBikeLocale;
 use BBBikeAnalytics;
 
@@ -122,11 +122,11 @@ if ( defined $q->param('debug') ) {
     $debug = int( $q->param('debug') );
 }
 
-my $extract = BBBikeExtract->new( 'q' => $q, 'option' => $option );
+my $extract = Extract::Config->new( 'q' => $q, 'option' => $option );
 $extract->load_config;
 $extract->check_extract_pro;
-my $formats = $BBBikeExtract::formats;
-my $spool   = $BBBikeExtract::spool;
+my $formats = $Extract::Config::formats;
+my $spool   = $Extract::Config::spool;
 
 # spool directory. Should be at least 100GB large
 my $spool_dir = $option->{'spool_dir'} || '/var/cache/extract';

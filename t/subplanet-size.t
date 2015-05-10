@@ -6,13 +6,13 @@ use Data::Dumper;
 use Digest::MD5 qw(md5_hex);
 
 use lib qw(world/lib);
-use BBBikePoly;
+use Extract::Poly;
 
 use strict;
 use warnings;
 
 my $debug   = 1;
-my $poly    = new BBBikePoly( 'debug' => $debug );
+my $poly    = new Extract::Poly( 'debug' => $debug );
 my @regions = $poly->list_subplanets;
 
 plan tests => scalar(@regions) * 2 + ( 1 + 2 );
@@ -47,8 +47,8 @@ __EOF__
 my $region = "Berlin";
 
 # activate disabled poly
-$BBBikePoly::area->{$region}->{"poly"} =
-  $BBBikePoly::area->{$region}->{"poly2"};
+$Extract::Poly::area->{$region}->{"poly"} =
+  $Extract::Poly::area->{$region}->{"poly2"};
 my $obj = $poly->get_job_obj($region);
 my ( $data, $counter ) = $poly->create_poly_data( 'job' => $obj );
 
@@ -64,8 +64,8 @@ if ( $debug >= 2 ) {
 # check for invalid lng,lat values
 #
 $region = 'Alien';
-$BBBikePoly::area->{$region}->{"poly"} =
-  $BBBikePoly::area->{$region}->{"poly2"};
+$Extract::Poly::area->{$region}->{"poly"} =
+  $Extract::Poly::area->{$region}->{"poly2"};
 $obj = $poly->get_job_obj($region);
 ( $data, $counter ) = $poly->create_poly_data( 'job' => $obj );
 

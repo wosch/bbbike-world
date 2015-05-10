@@ -4,7 +4,7 @@
 #
 # BBBikeExtract.pm - extract config and libraries
 
-package BBBikeExtract;
+package Extract::Config;
 
 use CGI;
 
