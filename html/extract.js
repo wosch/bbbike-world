@@ -61,7 +61,9 @@ var config = {
     },
     display_format_image: true,
     display_format_time: 7,
-
+    
+    // standard extract time in seconds for PBF
+    extract_time: 420,
 
     // display messages in browser console
     debug: 1,
@@ -1153,7 +1155,7 @@ function validate_box_on_map() {
 }
 
 function show_filesize(skm, real_size) {
-    var extract_time = 800; // standard extract time in seconds for PBF
+    var extract_time = config.extract_time || 900; // standard extract time in seconds for PBF
     var format = $("select[name=format] option:selected").val();
     var size = real_size ? real_size / 1024 : 0;
     debug("show filesize skm: " + parseInt(skm) + " size: " + Math.round(size) + "MB " + format);
