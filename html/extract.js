@@ -61,9 +61,9 @@ var config = {
     },
     display_format_image: true,
     display_format_time: 7,
-    
+
     // standard extract time in seconds for PBF
-    extract_time: 420,
+    extract_time: 400,
 
     // display messages in browser console
     debug: 1,
