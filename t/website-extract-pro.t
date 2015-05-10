@@ -14,7 +14,7 @@ BEGIN {
 
 use Test::More;
 use lib qw(./world/lib ../lib);
-use BBBikeTest;
+use BBBike::Test;
 
 use strict;
 use warnings;
@@ -31,7 +31,7 @@ if ( $ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
     @homepages_production = ();
 }
 
-my $test = BBBikeTest->new();
+my $test = BBBike::Test->new();
 my $counter_production =
   scalar(@homepages_production) * $test->myget_401_counter * 3;
 my $counter_localhost =

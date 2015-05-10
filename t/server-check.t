@@ -13,9 +13,9 @@ BEGIN {
 
 use Test::More;
 use lib qw(./world/lib ../lib);
-use BBBikeTest;
+use BBBike::Test;
 
-my $test = BBBikeTest->new();
+my $test = BBBike::Test->new();
 
 my $homepage = 'http://www.bbbike.org';
 my @cities   = qw/Berlin Zuerich Toronto Moscow/;

@@ -30,8 +30,8 @@ use Math::Polygon::Transform;
 
 use lib qw[../world/lib ../lib];
 use Extract::Config;
-use BBBikeLocale;
-use BBBikeAnalytics;
+use BBBike::Locale;
+use BBBike::Analytics;
 
 use strict;
 use warnings;
@@ -63,8 +63,8 @@ our $option = {
     'debug'          => "2",
     'request_method' => "GET",
 
-    'supported_languages' => $BBBikeLocale::option->{"supported_languages"},
-    'language'            => $BBBikeLocale::option->{"language"},
+    'supported_languages' => $BBBike::Locale::option->{"supported_languages"},
+    'language'            => $BBBike::Locale::option->{"language"},
 
     'pro' => 0,
 
@@ -350,7 +350,7 @@ sub footer {
 
     my $analytics =
       $option->{"enable_google_analytics"}
-      ? BBBikeAnalytics->new( 'q' => $q )->google_analytics
+      ? BBBike::Analytics->new( 'q' => $q )->google_analytics
       : "";
     my $url = $q->url( -relative => 1 );
     my $error = $args{'error'} || 0;
@@ -1260,12 +1260,12 @@ sub export_osm {
 EOF
 }
 
-sub M { return BBBikeLocale::M(@_); };    # wrapper
+sub M { return BBBike::Locale::M(@_); };    # wrapper
 
 ######################################################################
 # main
 
-my $locale = BBBikeLocale->new(
+my $locale = BBBike::Locale->new(
     'q'                   => $q,
     'supported_languages' => $option->{'supported_languages'},
     'language'            => $option->{'language'}

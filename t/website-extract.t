@@ -13,9 +13,9 @@ BEGIN {
 
 use Test::More;
 use lib qw(./world/lib ../lib);
-use BBBikeTest;
+use BBBike::Test;
 
-my $test = BBBikeTest->new();
+my $test = BBBike::Test->new();
 
 my @homepages_localhost =
   ( $ENV{BBBIKE_TEST_SERVER} ? $ENV{BBBIKE_TEST_SERVER} : "http://localhost" );

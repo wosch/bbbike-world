@@ -1,9 +1,9 @@
 #!/usr/local/bin/perl
 # Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
 #
-# BBBikeWorldDB.pm - module to parse bbbike @ world city database
+# BBBike::WorldDB.pm - module to parse bbbike @ world city database
 
-package BBBikeWorldDB;
+package BBBike::WorldDB;
 
 use IO::File;
 

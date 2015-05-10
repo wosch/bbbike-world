@@ -15,8 +15,8 @@ use HTTP::Date;
 
 use lib qw[../world/lib ../lib];
 use Extract::Config;
-use BBBikeLocale;
-use BBBikeAnalytics;
+use BBBike::Locale;
+use BBBike::Analytics;
 
 use strict;
 use warnings;
@@ -69,7 +69,7 @@ my $spool   = $Extract::Config::spool;
 # EOF config
 ###########################################################################
 
-sub M            { return BBBikeLocale::M(@_); };        # wrapper
+sub M            { return BBBike::Locale::M(@_); };      # wrapper
 sub file_size_mb { return $extract->file_size_mb(@_) }
 
 # extract areas from trash can
@@ -569,7 +569,7 @@ sub filter_date {
 #
 sub download {
     my $q = shift;
-    my $locale = BBBikeLocale->new( 'q' => $q );
+    my $locale = BBBike::Locale->new( 'q' => $q );
 
     download_header($q);
     my @filter_date = qw/1h 3h 6h 12h 24h 36h 48h 72h all/;
@@ -671,7 +671,7 @@ EOF
     # load javascript code late
     print &load_javascript_libs;
     print $option->{"enable_google_analytics"}
-      ? BBBikeAnalytics->new( 'q' => $q )->google_analytics
+      ? BBBike::Analytics->new( 'q' => $q )->google_analytics
       : "";
 
     print $q->end_html;

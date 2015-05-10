@@ -35,7 +35,7 @@ use CGI::Carp;
 use JSON;
 
 use lib qw(../world/lib ../../world/lib);
-use BBBikeWorldDB;
+use BBBike::WorldDB;
 
 use strict;
 use warnings;
@@ -124,7 +124,7 @@ sub with_coords {
 # main
 #
 
-my $db = BBBikeWorldDB->new( 'database' => $database );
+my $db = BBBike::WorldDB->new( 'database' => $database );
 
 print $q->header(
     -type                        => 'application/json',

@@ -2,7 +2,7 @@
 #
 # BBBikeAds.pm - advertising module
 
-package BBBikeAds;
+package BBBike::Ads;
 
 use strict;
 use warnings;

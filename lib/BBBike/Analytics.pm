@@ -4,7 +4,7 @@
 #
 # BBBikeAnalytics - analytics code
 
-package BBBikeAnalytics;
+package BBBike::Analytics;
 
 use strict;
 use warnings;

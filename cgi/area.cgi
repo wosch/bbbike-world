@@ -13,7 +13,7 @@ use Data::Dumper;
 use Getopt::Long;
 
 use lib qw(world/lib ../world/lib ../lib);
-use BBBikeWorldDB;
+use BBBike::WorldDB;
 
 use strict;
 use warnings;
@@ -338,7 +338,7 @@ $download_bbbike_org = "" if $offline;
 my $database = "world/etc/cities.csv";
 $database = "../$database" if -e "../$database";
 
-my $db = BBBikeWorldDB->new( 'database' => $database, 'debug' => 0 );
+my $db = BBBike::WorldDB->new( 'database' => $database, 'debug' => 0 );
 
 print $q->header( -charset => 'utf-8', -expires => '+30m' ) if !$offline;
 

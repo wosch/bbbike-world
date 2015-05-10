@@ -4,7 +4,7 @@
 # bbbike-world-kml - create an Google Earth KML file for all BBBike @ World cities
 
 use lib qw(world/lib ../lib);
-use BBBikeWorldDB;
+use BBBike::WorldDB;
 
 use strict;
 use warnings;
@@ -22,7 +22,7 @@ EOF
 sub extract_coords {
     my $database = shift;
 
-    my $db = BBBikeWorldDB->new( 'database' => $database );
+    my $db = BBBike::WorldDB->new( 'database' => $database );
 
     my @data;
     foreach my $city ( $db->list_cities ) {

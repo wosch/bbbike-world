@@ -40,9 +40,9 @@ use Strassen::Lazy;
 use Strassen::StrassenNetz;
 use Route;
 use Route::Heavy;
-use BBBikeElevation;
+use BBBike::Elevation;
 
-use BBBikeTest;
+use BBBike::Test;
 
 use strict;
 use warnings;
@@ -59,7 +59,7 @@ $s_net->make_net();    # UseCache => 1 );
     local $Data::Dumper::Indent = 0;
     my $enable_dist = 1;
 
-    my $e = new BBBikeElevation;
+    my $e = new BBBike::Elevation;
     $e->init;
 
     if ( $debug >= 3 ) {

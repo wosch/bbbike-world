@@ -6,7 +6,7 @@
 use Getopt::Long;
 
 use lib qw(world/lib ../lib);
-use BBBikeWorldDB;
+use BBBike::WorldDB;
 
 use strict;
 use warnings;
@@ -50,7 +50,7 @@ GetOptions(
     "local-names=i"      => \$local_names,
 ) or die usage;
 
-my $db = BBBikeWorldDB->new( 'database' => '/dev/stdin' );
+my $db = BBBike::WorldDB->new( 'database' => '/dev/stdin' );
 my %hash;
 my %class;
 

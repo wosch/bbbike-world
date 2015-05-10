@@ -2,7 +2,7 @@
 #
 # Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
 #
-# BBBikeTest.pm - helper function for ./world/t
+# BBBike::Test.pm - helper function for ./world/t
 #
 # my $test = BBBikeTest->new('size' => 5_000);
 # $test->myget("http://localhost/foobar.html")
@@ -11,7 +11,7 @@
 # $test->myget_head("http://localhost/cgi/true.cgi")
 #
 
-package BBBikeTest;
+package BBBike::Test;
 
 use Test::More;
 use LWP;

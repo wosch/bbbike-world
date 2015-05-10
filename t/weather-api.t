@@ -12,12 +12,12 @@ use Test::More;
 use Data::Dumper;
 use JSON;
 use lib qw(./world/lib ../lib);
-use BBBikeTest;
+use BBBike::Test;
 
 use strict;
 use warnings;
 
-my $test  = BBBikeTest->new();
+my $test  = BBBike::Test->new();
 my $debug = 1;
 
 my @homepages_localhost =

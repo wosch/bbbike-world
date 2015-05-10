@@ -14,9 +14,9 @@ use Getopt::Long;
 
 use lib qw(./world/bin ../world/bin ../bin);
 use lib qw(../world/lib ../lib);
-use BBBikeWorldDB;
-use BBBikeLocale;
-use BBBikeAnalytics;
+use BBBike::WorldDB;
+use BBBike::Locale;
+use BBBike::Analytics;
 
 use strict;
 use warnings;
@@ -45,7 +45,7 @@ binmode \*STDERR, ":utf8";
 # EOF config
 ###########################################################################
 
-sub M { return BBBikeLocale::M(@_); };    # wrapper
+sub M { return BBBike::Locale::M(@_); };    # wrapper
 
 my $q = new CGI;
 if ( defined $q->param('debug') ) {
@@ -128,7 +128,7 @@ sub download_area {
     #die system("pwd > /tmp/a.pwd");
     my $dir = "$osm_dir/$city/";
 
-    my $locale = BBBikeLocale->new( 'q' => $q );
+    my $locale = BBBike::Locale->new( 'q' => $q );
     print $locale->language_links( 'with_separator' => 1 );
 
     my $data = <<EOF;
@@ -315,7 +315,7 @@ $download_bbbike_org = "" if $offline;
 my $database = "world/etc/cities.csv";
 $database = "../$database" if -e "../$database";
 
-my $db = BBBikeWorldDB->new( 'database' => $database, 'debug' => 0 );
+my $db = BBBike::WorldDB->new( 'database' => $database, 'debug' => 0 );
 
 print $q->header( -charset => 'utf-8', -expires => '+30m' ) if !$offline;
 
@@ -406,7 +406,7 @@ print "</div> <!-- bottom -->\n";
 # load javascript code late
 print &load_javascript_libs;
 print $option->{"enable_google_analytics"}
-  ? BBBikeAnalytics->new( 'q' => $q )->google_analytics
+  ? BBBike::Analytics->new( 'q' => $q )->google_analytics
   : "";
 
 print $q->end_html;

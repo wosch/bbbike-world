@@ -7,7 +7,7 @@ use utf8;
 use Test::More;
 use lib qw(world/lib ../lib);
 
-#use BBBikeTest;
+#use BBBike::Test;
 
 use strict;
 use warnings;

@@ -8,7 +8,7 @@
 # WWW:  http://bbbike.sourceforge.net
 #
 
-package BBBikeElevation;
+package BBBike::Elevation;
 
 use Encode;
 

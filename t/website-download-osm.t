@@ -15,12 +15,12 @@ BEGIN {
 use utf8;
 use Test::More;
 use lib qw(./world/lib ../lib);
-use BBBikeTest;
+use BBBike::Test;
 
 use strict;
 use warnings;
 
-my $test = BBBikeTest->new();
+my $test = BBBike::Test->new();
 
 my @homepages = qw[
   http://download.bbbike.org

@@ -12,7 +12,7 @@
 # WWW:  http://bbbike.sourceforge.net
 #
 
-package BBBikeGooglemap;
+package BBBike::Googlemap;
 
 use strict;
 use FindBin;
@@ -21,6 +21,7 @@ use lib (
         "$FindBin::RealBin/..",
         "$FindBin::RealBin/../lib",
         "$FindBin::RealBin/../..",
+        "$FindBin::RealBin/../../..",
         "$FindBin::RealBin/../../lib",
 
         # für Radzeit:
