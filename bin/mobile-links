@@ -5,8 +5,7 @@
 
 use Getopt::Long;
 
-use lib '.';
-use lib './world/bin';
+use lib qw(world/lib ../lib);
 use BBBikeWorldDB;
 
 use strict;

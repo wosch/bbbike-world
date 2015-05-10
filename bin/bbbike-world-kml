@@ -3,8 +3,7 @@
 #
 # bbbike-world-kml - create an Google Earth KML file for all BBBike @ World cities
 
-use lib '.';
-use lib './world/bin';
+use lib qw(world/lib ../lib);
 use BBBikeWorldDB;
 
 use strict;

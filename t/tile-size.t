@@ -2,7 +2,7 @@
 # Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
 
 use Test::More;
-use lib 'world/bin';
+use lib qw(world/lib);
 use TileSize;
 
 use strict;

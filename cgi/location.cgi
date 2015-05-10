@@ -34,8 +34,7 @@ use IO::File;
 use CGI::Carp;
 use JSON;
 
-use lib '../world/bin';
-use lib '../../world/bin';
+use lib qw(../world/lib ../../world/lib);
 use BBBikeWorldDB;
 
 use strict;

@@ -6,14 +6,10 @@
 use File::Basename;
 
 #use Data::Dumper;
-
-use lib '.';
-use lib './world/bin';
-use lib '../..';
+use lib qw(world/lib ../lib);
 
 # bbbike-macos
-use lib '../bbbike';
-use lib '../bbbike/world/bin';
+use lib qw(../bbbike ../bbbike/world/lib);
 
 use BBBikeWorldDB;
 

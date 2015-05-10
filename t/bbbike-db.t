@@ -5,7 +5,7 @@ BEGIN { }
 
 use utf8;
 use Test::More;
-use lib qw(./world/lib ../lib);
+use lib qw(world/lib ../lib);
 
 #use BBBikeTest;
 

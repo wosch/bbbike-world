@@ -5,7 +5,7 @@
 
 use IO::File;
 
-use lib qw(world/bin world/lib ../lib);
+use lib qw(world/lib ../lib);
 use BBBikePoly;
 
 use strict;

@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) June 2012-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) June 2012-2015 Wolfram Schneider, http://bbbike.org
 #
 # tile-padding.pl - guess size based on factor of known size of osm.pbf
 
@@ -7,8 +7,7 @@ use IO::File;
 use Getopt::Long;
 use Data::Dumper;
 
-use lib 'world/bin';
-use lib '.';
+use lib qw(world/lib ../lib);
 use TileSize;
 
 use strict;

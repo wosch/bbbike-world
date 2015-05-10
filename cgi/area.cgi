@@ -12,9 +12,7 @@ use JSON;
 use Data::Dumper;
 use Getopt::Long;
 
-use lib './world/bin';
-use lib '../world/bin';
-use lib '../bin';
+use lib qw(world/lib ../world/lib ../lib);
 use BBBikeWorldDB;
 
 use strict;

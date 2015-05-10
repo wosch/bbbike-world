@@ -5,7 +5,7 @@ use Test::More;
 use Data::Dumper;
 use Digest::MD5 qw(md5_hex);
 
-use lib qw(world/bin world/lib);
+use lib qw(world/lib);
 use BBBikePoly;
 
 use strict;

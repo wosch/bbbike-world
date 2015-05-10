@@ -6,8 +6,7 @@
 use CGI;
 use CGI::Carp;
 use IO::File;
-use lib '../world/bin';
-use lib '../bin';
+use lib qw(../world/lib ../lib);
 use TileSize;
 
 use strict;

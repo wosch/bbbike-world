@@ -12,9 +12,7 @@ use JSON;
 use Data::Dumper;
 use Encode;
 
-use lib './world/bin';
-use lib '../world/bin';
-use lib '../bin';
+use lib qw(world/bin ../world/lib ../lib);
 use BBBikeWorldDB;
 
 use strict;
