@@ -11,6 +11,9 @@ if [ -e $HOME/.bbbikerc ]; then
     . $HOME/.bbbikerc
 fi
 
-perl -npe 's/\n/\0/g' world/etc/sub-planet/sub-planet.sh | \
+: ${program="sub-planet"}
+# program=sub-srtm
+
+perl -npe 's/\n/\0/g' world/etc/$program/$program.sh | \
 	nice -15 ionice -c 2 -n 6 time xargs -0 -n1 -P3 /bin/sh -c
 
