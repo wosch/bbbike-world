@@ -1,5 +1,5 @@
-###############################################################
-# Copyright (c) 2008-2014 Wolfram Schneider, http://bbbike.org
+:###############################################################
+# Copyright (c) 2008-2015 Wolfram Schneider, http://bbbike.org
 #
 # Get and convert OpenStreetMap.org data to BBBike
 #
@@ -108,6 +108,7 @@ TILES_DIR=	tile
 OSM_AREAS_OPENSEARCH=data-opensearch-places
 OSM_PLANET=	../osm/download/planet-latest.osm.bz2
 OSM_PLANET_PBF=	../osm/download/planet-latest.osm.pbf
+#OSM_PLANET_PBF=	../osm/download/planet-latest-nometa.osm.pbf
 #OSM_PLANET_PBF=	../osm/download/geofabrik/europe/germany/brandenburg.osm.pbf
 #OSM_PLANET_PBF=	../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf
 #OSM_PLANET_PBF=/usr/local/www/download.bbbike.org/osm/srtm/e40/planet-srtm-e40.osm.pbf
@@ -633,6 +634,7 @@ planet-nometa:
 	download_script=`pwd`/world/bin/planet-nometa; cd ../osm/download && $$download_script
 
 planet-sub:
+	mkdir -p ../osm/download/sub-planet
 	./world/bin/planet-sub
 
 planet-geofabrik-download:
