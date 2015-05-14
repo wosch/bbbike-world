@@ -105,7 +105,7 @@ sub page_check {
     like( $res->decoded_content, qr|id="map"|,   "bbbike extract download" );
     like( $res->decoded_content, qr|id="nomap"|, "bbbike extract download" );
 
- #like( $res->decoded_content, qr|id="social"|,     "bbbike extract download" );
+    ##like( $res->decoded_content, qr|id="social"|,     "bbbike extract download" );
     like( $res->decoded_content, qr| content="text/html; charset=utf-8"|,
         "charset" );
     like( $res->decoded_content, qr| http-equiv="Content-Type"|,

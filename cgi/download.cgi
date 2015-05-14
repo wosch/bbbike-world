@@ -15,6 +15,7 @@ use HTTP::Date;
 
 use lib qw[../world/lib ../lib];
 use Extract::Config;
+use Extract::Utils;
 use BBBike::Locale;
 use BBBike::Analytics;
 
@@ -60,7 +61,9 @@ if ( defined $q->param('debug') ) {
     $debug = int( $q->param('debug') );
 }
 
+my $extract_utils = new Extract::Utils;
 my $extract = Extract::Config->new( 'q' => $q, 'option' => $option );
+
 $extract->load_config;
 $extract->check_extract_pro;
 my $formats = $Extract::Config::formats;
@@ -69,8 +72,8 @@ my $spool   = $Extract::Config::spool;
 # EOF config
 ###########################################################################
 
-sub M            { return BBBike::Locale::M(@_); };      # wrapper
-sub file_size_mb { return $extract->file_size_mb(@_) }
+sub M            { return BBBike::Locale::M(@_); };            # wrapper
+sub file_size_mb { return $extract_utils->file_size_mb(@_) }
 
 # extract areas from trash can
 sub extract_areas {
@@ -102,7 +105,7 @@ sub extract_areas {
     my %unique;
     for ( my $i = 0 ; $i < scalar(@list) && $i < $max ; $i++ ) {
         my $file = $list[$i];
-        my $obj = $extract->parse_json_file( $file, 1 );
+        my $obj = $extract_utils->parse_json_file( $file, 1 );
 
         next if !exists $obj->{'date'};
 
