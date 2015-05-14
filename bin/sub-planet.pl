@@ -48,8 +48,8 @@ sub store_data {
 }
 
 sub regions {
-    my %args                = @_;
-    
+    my %args = @_;
+
     my $sub_planet_dir      = $args{'sub_planet_dir'};
     my $sub_planet_conf_dir = $args{'sub_planet_conf_dir'};
     my $planet_osm          = $args{'planet_osm'};
@@ -88,6 +88,12 @@ sub regions {
 #############################################################################
 # main
 #
+GetOptions(
+    "debug=i"  => \$debug,
+    "prefix=s" => \$prefix,
+    "planet=s" => \$planet_osm,
+) or die usage;
+
 my $sub_planet_dir      = "../osm/download/$prefix";
 my $sub_planet_conf_dir = "world/etc/$prefix";
 
@@ -96,6 +102,7 @@ my @shell = &regions(
     'sub_planet_dir'      => $sub_planet_dir,
     'sub_planet_conf_dir' => $sub_planet_conf_dir
 );
+
 my $script = "$sub_planet_conf_dir/$prefix.sh";
 warn "Now run ./world/bin/$prefix\n" if $debug;
 store_data( $script, join "\n", @shell );
