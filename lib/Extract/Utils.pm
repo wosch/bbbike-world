@@ -1,8 +1,7 @@
 #!/usr/local/bin/perl
-#
 # Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
 #
-# BBBikeExtract.pm - extract config and libraries
+# extract config and libraries
 
 package Extract::Utils;
 use JSON;

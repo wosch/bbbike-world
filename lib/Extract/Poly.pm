@@ -1,8 +1,7 @@
 #!/usr/local/bin/perl
-#
 # Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
 #
-# BBBikePoly.pm - polygon helper functions
+# polygon helper functions
 
 package Extract::Poly;
 

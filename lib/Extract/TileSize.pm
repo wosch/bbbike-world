@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2009-2014 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2015 Wolfram Schneider, http://bbbike.org
 #
-# TileSize.pm - module to guess size of a lat,lng tile
+# module to guess size of a lat,lng tile
 #
 # todo: check $factor
 
