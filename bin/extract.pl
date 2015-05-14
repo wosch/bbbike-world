@@ -435,6 +435,15 @@ sub parse_jobs {
     return ( \@list, $default_planet_osm );
 }
 
+#
+# select a planet.osm based on a given format
+# then sort the request by email
+#
+#
+# $obj -> { "foo@example.com" -> [ job1, job2, job3 ], "bar@example.com" => [ job1 ] }
+# planet.osm.pbf
+# counter=4
+#
 sub parse_jobs_planet {
     my %args = @_;
 
