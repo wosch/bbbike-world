@@ -1,6 +1,6 @@
-nice -n15 time osmconvert-wrapper -o ../osm/download/sub-srtm/africa.osm.pbf -B=world/etc/sub-srtm/africa.poly --drop-author --drop-version --out-pbf ../osm/download/planet-latest-nometa.osm.pbf
-nice -n15 time osmconvert-wrapper -o ../osm/download/sub-srtm/asia.osm.pbf -B=world/etc/sub-srtm/asia.poly --drop-author --drop-version --out-pbf ../osm/download/planet-latest-nometa.osm.pbf
-nice -n15 time osmconvert-wrapper -o ../osm/download/sub-srtm/central-europe.osm.pbf -B=world/etc/sub-srtm/central-europe.poly --drop-author --drop-version --out-pbf ../osm/download/planet-latest-nometa.osm.pbf
-nice -n15 time osmconvert-wrapper -o ../osm/download/sub-srtm/europe.osm.pbf -B=world/etc/sub-srtm/europe.poly --drop-author --drop-version --out-pbf ../osm/download/planet-latest-nometa.osm.pbf
-nice -n15 time osmconvert-wrapper -o ../osm/download/sub-srtm/noth-america.osm.pbf -B=world/etc/sub-srtm/noth-america.poly --drop-author --drop-version --out-pbf ../osm/download/planet-latest-nometa.osm.pbf
-nice -n15 time osmconvert-wrapper -o ../osm/download/sub-srtm/south-america.osm.pbf -B=world/etc/sub-srtm/south-america.poly --drop-author --drop-version --out-pbf ../osm/download/planet-latest-nometa.osm.pbf
+nice -n15 time osmconvert-wrapper -o ../osm/download/sub-srtm/africa.osm.pbf -B=world/etc/sub-srtm/africa.poly --drop-author --drop-version --out-pbf ../osm/download/srtm/planet-srtm-e40.osm.pbf
+nice -n15 time osmconvert-wrapper -o ../osm/download/sub-srtm/asia.osm.pbf -B=world/etc/sub-srtm/asia.poly --drop-author --drop-version --out-pbf ../osm/download/srtm/planet-srtm-e40.osm.pbf
+nice -n15 time osmconvert-wrapper -o ../osm/download/sub-srtm/central-europe.osm.pbf -B=world/etc/sub-srtm/central-europe.poly --drop-author --drop-version --out-pbf ../osm/download/srtm/planet-srtm-e40.osm.pbf
+nice -n15 time osmconvert-wrapper -o ../osm/download/sub-srtm/europe.osm.pbf -B=world/etc/sub-srtm/europe.poly --drop-author --drop-version --out-pbf ../osm/download/srtm/planet-srtm-e40.osm.pbf
+nice -n15 time osmconvert-wrapper -o ../osm/download/sub-srtm/noth-america.osm.pbf -B=world/etc/sub-srtm/noth-america.poly --drop-author --drop-version --out-pbf ../osm/download/srtm/planet-srtm-e40.osm.pbf
+nice -n15 time osmconvert-wrapper -o ../osm/download/sub-srtm/south-america.osm.pbf -B=world/etc/sub-srtm/south-america.poly --drop-author --drop-version --out-pbf ../osm/download/srtm/planet-srtm-e40.osm.pbf

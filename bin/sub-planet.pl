@@ -12,9 +12,10 @@ use Extract::Poly;
 use strict;
 use warnings;
 
-my $debug      = 1;
-my $prefix     = 'sub-planet';
-my $planet_osm = "../osm/download/planet-latest-nometa.osm.pbf";
+my $debug       = 1;
+my $prefix      = 'sub-planet';
+my $planet_osm  = "../osm/download/planet-latest-nometa.osm.pbf";
+my $planet_srtm = "../osm/download/srtm/planet-srtm-e40.osm.pbf";
 
 sub usage () {
     <<EOF;
@@ -88,11 +89,18 @@ sub regions {
 #############################################################################
 # main
 #
+my @args = @ARGV;
 GetOptions(
     "debug=i"  => \$debug,
     "prefix=s" => \$prefix,
     "planet=s" => \$planet_osm,
 ) or die usage;
+
+# SRTM planet
+if ( $prefix eq 'sub-srtm' && !grep { /--planet=/ } @args ) {
+    $planet_osm = $planet_srtm;
+    warn "Reset planet_osm to $planet_osm\n" if $debug;
+}
 
 my $sub_planet_dir      = "../osm/download/$prefix";
 my $sub_planet_conf_dir = "world/etc/$prefix";
