@@ -71,6 +71,21 @@ sub parse_json_file {
     return $json_perl;
 }
 
+# random sort of filenames
+sub random_filename_sort {
+    my $self = shift;
+    return $self->random_sort(@_);
+}
+
+sub random_sort {
+    my $self  = shift;
+    my @files = @_;
+
+    my %hash = map { $_ => rand() } @files;
+
+    return sort { $hash{$a} <=> $hash{$b} } keys %hash;
+}
+
 1;
 
 __DATA__;

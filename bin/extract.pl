@@ -35,6 +35,7 @@ use LockFile::Simple;
 
 use lib qw(world/lib ../lib);
 use Extract::Config;
+use Extract::Utils;
 use Extract::Poly;
 
 use strict;
@@ -455,7 +456,10 @@ sub parse_jobs_planet {
     my $default_planet_osm = "";
     my $counter            = 0;
 
-    foreach my $f (@$files) {
+    my $extract_utils = new Extract::Utils;
+    my @files         = $extract_utils->random_filename_sort(@$files);
+
+    foreach my $f (@files) {
         my $file = "$dir/$f";
 
         my $json_text = read_data($file);
