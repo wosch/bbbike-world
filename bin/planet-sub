@@ -12,5 +12,5 @@ if [ -e $HOME/.bbbikerc ]; then
 fi
 
 perl -npe 's/\n/\0/g' world/etc/sub-planet/sub-planet.sh | \
-	time xargs -0 -n1 -P3 /bin/sh -c
+	nice -15 ionice -c 2 -n 6 time xargs -0 -n1 -P3 /bin/sh -c
 
