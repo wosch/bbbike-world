@@ -74,7 +74,7 @@ our $spool = {
 # helper functions
 #
 
-# BBBikeExtract::new->('q'=> $q, 'option' => $option)
+# Extract::Config::new->('q'=> $q, 'option' => $option)
 sub new {
     my $class = shift;
     my %args  = @_;

@@ -19,7 +19,7 @@ use warnings;
 
 our $debug = 0;
 
-# BBBikeExtract::new->('q'=> $q, 'option' => $option)
+# Extract::Utils::new->('q'=> $q, 'option' => $option)
 sub new {
     my $class = shift;
     my %args  = @_;
