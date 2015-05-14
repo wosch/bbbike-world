@@ -30,6 +30,7 @@ use Math::Polygon::Transform;
 
 use lib qw[../world/lib ../lib];
 use Extract::Config;
+use Extract::Utils;
 use BBBike::Locale;
 use BBBike::Analytics;
 
@@ -934,6 +935,9 @@ sub check_queue {
     my $email_counter = 0;
     my $ip_counter    = 0;
     my $counter       = 1000;
+
+    my $extract_utils = new Extract::Utils;
+
     foreach my $file (@files) {
         chomp $file;
         next if $file !~ /\.json$/;
@@ -941,14 +945,14 @@ sub check_queue {
         # check only the first 1000 files
         last if $counter-- < 0;
 
-        my $perl = $extract->parse_json_file("$spool_dir_confirmed/$file");
+        my $perl =
+          $extract_utils->parse_json_file("$spool_dir_confirmed/$file");
         if ( $perl->{"email"} eq $obj->{"email"} ) {
             $email_counter++;
         }
         if ( $perl->{"ip_address"} eq $obj->{"ip_address"} ) {
             $ip_counter++;
         }
-
     }
 
     warn qq[E-Mail spool counter: $obj->{"email"} => $email_counter, ],
