@@ -42,7 +42,7 @@ our $area = {
 # helper functions
 #
 
-# BBBikePoly::new->('debug'=> 2, 'option' => $option)
+# Extract::Poly::new->('debug'=> 2, 'option' => $option)
 sub new {
     my $class = shift;
     my %args  = @_;
