@@ -7,8 +7,8 @@
 package Extract::Poly;
 
 use JSON;
-use Data::Dumper;
 use CGI qw(escapeHTML);
+use Data::Dumper;
 
 use lib qw(world/lib);
 use Extract::TileSize;
@@ -19,6 +19,8 @@ use warnings;
 ###########################################################################
 # config
 #
+
+our $debug = 1;
 
 our $area = {
     'noth-america' => {
@@ -36,8 +38,6 @@ our $area = {
     'Berlin' => { 'poly2' => [ 12.76, 52.23, 13.98, 52.82 ] },
     'Alien'  => { 'poly2' => [ 181,   91,    -300,  0 ] },
 };
-
-our $debug = 1;
 
 ##########################
 # helper functions
