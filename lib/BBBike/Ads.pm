@@ -13,6 +13,22 @@ our (
     $enable_google_adsense_street_linkblock
 );
 
+sub new {
+    my $class = shift;
+    my %args  = @_;
+
+    my $self = {%args};
+
+    bless $self, $class;
+
+    $self->init;
+    return $self;
+}
+
+sub init {
+    my $self = shift;
+}
+
 sub adsense_start_page {
     my $file = "/usr/local/www/etc/bbbike/adsense_start_page.js";
 
