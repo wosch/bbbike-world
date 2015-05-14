@@ -6,6 +6,7 @@
 package Extract::Planet;
 
 use JSON;
+use Math::Polygon;
 use Data::Dumper;
 
 use lib qw(world/lib);
@@ -44,6 +45,26 @@ sub init {
     if ( $self->{'debug'} ) {
         $debug = $self->{'debug'};
     }
+}
+
+# check if the inner polygon is inside the outer polygon
+sub sub_polygon {
+    my $self = shift;
+
+    my %args  = @_;
+    my $outer = $args{'outer'};
+    my $inner = $args{'inner'};
+
+    my $poly = Math::Polygon->new(@$outer);
+    my $flag = 0;
+
+    foreach my $point (@$inner) {
+        if ( !$poly->contains($point) ) {
+            return 0;
+        }
+    }
+
+    return 1;
 }
 
 1;
