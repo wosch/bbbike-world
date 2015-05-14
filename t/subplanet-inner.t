@@ -2,10 +2,12 @@
 # Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
 
 use Test::More;
+use Data::Dumper;
 
 use lib qw(world/lib);
 use Extract::Poly;
 use Extract::Planet;
+use BBBike::WorldDB;
 
 use strict;
 use warnings;
@@ -14,8 +16,6 @@ my $debug   = 1;
 my $poly    = new Extract::Poly( 'debug' => $debug );
 my $planet  = new Extract::Planet( 'debug' => $debug );
 my @regions = $poly->list_subplanets;
-
-plan tests => 1 + scalar(@regions) * 2 + 4;
 
 my $planet_polygon = &planet_polygon;
 cmp_ok( scalar(@$planet_polygon),
@@ -45,6 +45,7 @@ sub get_polygon {
 }
 
 sub check_regions {
+    my @regions = @_;
     foreach my $region (@regions) {
         my $obj = $poly->get_job_obj($region);
         my ( $data, $counter, $polygon ) =
@@ -59,6 +60,8 @@ sub check_regions {
         );
         is( $inner, 1, "region $region is inside planet" );
     }
+
+    return 2 * scalar(@regions);
 }
 
 sub check_cities {
@@ -93,9 +96,56 @@ sub check_cities {
     );
     is( $inner, 0, "region $region is outside $outer" );
 
+    return 4;
 }
 
-&check_regions;
-&check_cities;
+sub check_bbbike_cities {
 
+    my $database = "world/etc/cities.csv";
+    my $db      = BBBike::WorldDB->new( 'database' => $database, 'debug' => 0 );
+    my %hash    = %{ $db->city };
+    my $counter = 0;
+
+    diag Dumper( \%hash ) if $debug >= 3;
+
+    foreach my $city ( keys %hash ) {
+        my $area  = $hash{$city}->{"area"};
+        my $coord = $hash{$city}->{"coord"};
+        my @coord = split( /\s+/, $coord );
+
+        my $city_polygon = get_polygon( $city, \@coord );
+        my $inner = $planet->sub_polygon(
+            'inner' => $city_polygon,
+            'outer' => $planet_polygon
+        );
+        is( $inner, 1, "region $city is inside planet" );
+
+        #my $outer = 'central-europe';
+        #$inner = $planet->sub_polygon(
+        #    'inner' => $city_polygon,
+        #    'outer' => get_polygon($outer)
+        #);
+        #my $result = $area eq 'de' ? 1 : 0;
+        #is( $inner, $result, "region $city is inside $outer" );
+
+        my $result = $area =~ /^(de|eu)$/ ? 1 : 0;
+        my $outer = 'europe';
+        $inner = $planet->sub_polygon(
+            'inner' => $city_polygon,
+            'outer' => get_polygon($outer)
+        );
+        is( $inner, $result, "region $city is inside $outer" );
+
+        $counter += 3;
+    }
+
+    return $counter;
+}
+
+my $counter = 1;
+$counter += &check_regions(@regions);
+$counter += &check_cities;
+$counter += &check_bbbike_cities;
+
+plan tests => $counter;
 __END__
