@@ -633,9 +633,9 @@ planet-download:
 planet-nometa:
 	download_script=`pwd`/world/bin/planet-nometa; cd ../osm/download && $$download_script
 
-planet-sub:
-	mkdir -p ../osm/download/sub-planet
-	./world/bin/planet-sub
+sub-planet sub-srtm:
+	mkdir -p ../osm/download/$@
+	./world/bin/$@
 
 planet-geofabrik-download:
 	download_script=`pwd`/world/bin/planet-geofabrik-download; \
@@ -1323,7 +1323,7 @@ help:
 	@echo "  [ elevation-fetch | elevation-update | elevation-check | elevation-repair ]"
 	@echo ""
 	@echo "  [ planet-download | planet-geofabrik-download ]"
-	@echo "  [ planet-nometa | planet-sub ]"
+	@echo "  [ planet-nometa | sub-planet | sub-srtm ]"
 	@echo "  [ planet-streets | planet-places ]"
 	@echo "  [ update-database | update-files ]"
 	@echo "  [ download-bbbike-org-install ]"
