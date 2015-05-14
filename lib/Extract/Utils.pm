@@ -18,6 +18,8 @@ use warnings;
 # helper functions
 #
 
+our $debug = 0;
+
 # BBBikeExtract::new->('q'=> $q, 'option' => $option)
 sub new {
     my $class = shift;
@@ -26,8 +28,17 @@ sub new {
     my $self = {%args};
 
     bless $self, $class;
+    $self->init;
 
     return $self;
+}
+
+sub init {
+    my $self = shift;
+
+    if ( defined $self->{'debug'} ) {
+        $debug = $self->{'debug'};
+    }
 }
 
 # scale file size in x.y MB
