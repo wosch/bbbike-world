@@ -59,7 +59,7 @@ sub init {
     my $self = shift;
     my $q    = $self->{'q'};
 
-    if ( defined $q->param('debug') ) {
+    if ( defined $q && defined $q->param('debug') ) {
         $debug = int( $q->param('debug') );
     }
 
@@ -207,6 +207,7 @@ sub get_language {
     }
 
     my $language = $option->{'language'};
+    return $language if !defined $q;
 
     my $lang =
          $q->param("lang")
