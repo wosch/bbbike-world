@@ -109,8 +109,9 @@ sub subplanet_size {
 sub get_job_obj {
     my $self   = shift;
     my $region = shift;
+    my $poly   = shift;
 
-    my $coords = $area->{$region}->{'poly'};
+    my $coords = defined $poly ? $poly : $area->{$region}->{'poly'};
 
     my $obj = {
         "city"   => $region,
@@ -187,6 +188,7 @@ sub create_poly_data {
     warn Dumper($obj) if $debug >= 2;
 
     my $data = "";
+    my @poly = ();
 
     my $counter = 0;
     my @c;
@@ -228,6 +230,7 @@ sub create_poly_data {
         }
 
         $data .= sprintf( "   %E  %E\n", $lng, $lat );
+        push @poly, [ $lng, $lat ];
     }
 
     $data .= "END\n";
@@ -240,7 +243,7 @@ sub create_poly_data {
         return ( "", 0 );
     }
     else {
-        return ( $data, $counter );
+        return ( $data, $counter, \@poly );
     }
 }
 
