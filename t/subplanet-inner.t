@@ -107,8 +107,11 @@ sub check_bbbike_cities {
     my $counter = 0;
 
     diag Dumper( \%hash ) if $debug >= 3;
+    my @close_eu = qw/Baghdad Istanbul Jerusalem Beirut Alexandria Cairo/;
 
     foreach my $city ( keys %hash ) {
+        next if $hash{$city}->{"dummy"};
+
         my $area  = $hash{$city}->{"area"};
         my $coord = $hash{$city}->{"coord"};
         my @coord = split( /\s+/, $coord );
@@ -128,15 +131,29 @@ sub check_bbbike_cities {
         #my $result = $area eq 'de' ? 1 : 0;
         #is( $inner, $result, "region $city is inside $outer" );
 
-        my $result = $area =~ /^(de|eu)$/ ? 1 : 0;
+        my $result =
+          $area =~ /^(de|eu)$/ ? 1 : scalar( grep { $city eq $_ } @close_eu );
+
         my $outer = 'europe';
         $inner = $planet->sub_polygon(
             'inner' => $city_polygon,
             'outer' => get_polygon($outer)
         );
         is( $inner, $result, "region $city is inside $outer" );
+        $counter += 2;
 
-        $counter += 3;
+        # European cities are outside of nothern america
+        next if $area !~ /^(de|eu)$/;
+
+        $outer  = 'noth-america';
+        $result = 0;
+        $inner  = $planet->sub_polygon(
+            'inner' => $city_polygon,
+            'outer' => get_polygon($outer)
+        );
+        is( $inner, $result, "region $city is inside $outer" );
+
+        $counter += 1;
     }
 
     return $counter;
