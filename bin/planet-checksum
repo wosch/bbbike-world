@@ -11,7 +11,7 @@ set -e
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
 nice="nice -n 9"
 
-: ${file=planet-latest.osm.pbf}
+: ${file="planet-latest-nometa.osm.pbf"}
 dir=$HOME/projects/osm/download
 
 # lower I/O nice level on linux
