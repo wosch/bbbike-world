@@ -185,51 +185,51 @@ cmp_ok( $tile->area_size( 280, 0, 281, 1, Extract::TileSize::FRACTAL_100 ),
 
 # test with real planet.osm data
 $tile = new Extract::TileSize( 'database' => "world/etc/tile/tile-pbf.csv" );
-is( int( $tile->area_size(qw/13 52 14 53/) ), 47016 );
-is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 262496 );
-is( $tile->total_tiles, 14762 );
-is( $tile->total,       18906256 );
+is( int( $tile->area_size(qw/13 52 14 53/) ), 52720 );
+is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 296396 );
+is( $tile->total_tiles, 14962 );
+is( $tile->total,       21249944 );
 
 $tile = new Extract::TileSize(
     'database' => "world/etc/tile/tile-garmin-osm.zip.csv" );
-is( int( $tile->area_size(qw/13 52 14 53/) ), 39801 );
-is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 255742 );
-is( $tile->total_tiles, 13003 );
-is( $tile->total,       16917253 );
+is( int( $tile->area_size(qw/13 52 14 53/) ), 38243 );
+is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 245509 );
+is( $tile->total_tiles, 13283 );
+is( $tile->total,       16296425 );
 
 $tile = new Extract::TileSize(
     'database' => "world/etc/tile/tile-mapsforge-osm.zip.csv" );
-is( int( $tile->area_size(qw/13 52 14 53/) ), 43818 );
-is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 229070 );
-is( $tile->total_tiles, 14762 );
-is( $tile->total,       18384290 );
+is( int( $tile->area_size(qw/13 52 14 53/) ), 42587 );
+is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 230719 );
+is( $tile->total_tiles, 14962 );
+is( $tile->total,       18564820 );
 
 $tile =
   new Extract::TileSize( 'database' => "world/etc/tile/tile-navit.zip.csv" );
-is( int( $tile->area_size(qw/13 52 14 53/) ), 43751 );
-is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 241734 );
-is( $tile->total_tiles, 13788 );
-is( $tile->total,       16301553 );
+is( int( $tile->area_size(qw/13 52 14 53/) ), 45211 );
+is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 245309 );
+is( $tile->total_tiles, 14054 );
+is( $tile->total,       16751740 );
 
 $tile =
   new Extract::TileSize( 'database' => "world/etc/tile/tile-obf.zip.csv" );
-is( int( $tile->area_size(qw/13 52 14 53/) ), 126824 );
-is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 567589 );
-is( $tile->total_tiles, 14762 );
-is( $tile->total,       33635199 );
+is( int( $tile->area_size(qw/13 52 14 53/) ), 112080 );
+is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 539294 );
+is( $tile->total_tiles, 14962 );
+is( $tile->total,       34141911 );
 
 $tile = new Extract::TileSize( 'database' => "world/etc/tile/tile-osm.gz.csv" );
-is( int( $tile->area_size(qw/13 52 14 53/) ), 92568 );
-is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 538352 );
-is( $tile->total_tiles, 3956 );
-is( $tile->total,       35948328 );
+is( int( $tile->area_size(qw/13 52 14 53/) ), 109712 );
+is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 633172 );
+is( $tile->total_tiles, 4218 );
+is( $tile->total,       42906432 );
 
 $tile =
   new Extract::TileSize( 'database' => "world/etc/tile/tile-shp.zip.csv" );
-is( int( $tile->area_size(qw/13 52 14 53/) ), 239164 );
-is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 1238057 );
-is( $tile->total_tiles, 14757 );
-is( $tile->total,       80777096 );
+is( int( $tile->area_size(qw/13 52 14 53/) ), 242970 );
+is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 1252384 );
+is( $tile->total_tiles, 14954 );
+is( $tile->total,       82483183 );
 
 # placeholder for osm csv format
 #$tile =
