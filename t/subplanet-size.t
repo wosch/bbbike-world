@@ -15,7 +15,7 @@ my $debug   = 1;
 my $poly    = new Extract::Poly( 'debug' => $debug );
 my @regions = $poly->list_subplanets;
 
-plan tests => scalar(@regions) * 2 + 6;
+plan tests => scalar(@regions) * 2 + 7;
 
 ######################################################################################
 # list of regions
