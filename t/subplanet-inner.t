@@ -167,8 +167,17 @@ sub check_match_cities {
     my %hash    = %{ $db->city };
     my $counter = 0;
 
-    diag Dumper( \%hash ) if $debug >= 3;
-    diag Dumper(\@regions_sorted);
+    diag Dumper( \%hash )           if $debug >= 3;
+    diag Dumper( \@regions_sorted ) if $debug >= 2;
+
+    # avoid perl warnings
+    sub get_part {
+        my $city = shift;
+        my $name = shift;
+
+        no warnings;
+        return $hash{$city}->{$name};
+    }
 
     sub check_sorted_regions {
         my $name   = shift;
@@ -177,8 +186,10 @@ sub check_match_cities {
         my $counter = 0;
 
         foreach my $city (@cities) {
-            my $area  = $hash{$city}->{"area"};
-            my $coord = $hash{$city}->{"coord"};
+            get_part("area");
+
+            my $area  = get_part( $city, "area" );
+            my $coord = get_part( $city, "coord" );
             my @coord = split( /\s+/, $coord );
 
             my $city_polygon = get_polygon( $city, \@coord );
@@ -197,6 +208,7 @@ sub check_match_cities {
                 last if $result == 1;
             }
         }
+
         return $counter;
     }
 
@@ -207,8 +219,7 @@ sub check_match_cities {
       &check_sorted_regions( 'north-america', qw/SanFrancisco Denver Toronto/ );
     $counter += &check_sorted_regions( 'south-america',
         qw/LaPlata BuenosAires RiodeJaneiro/ );
-    $counter +=
-      &check_sorted_regions( 'africa', qw/Johannesburg Alexandria Cairo/ );
+    $counter += &check_sorted_regions( 'africa', qw/Johannesburg CapeTown/ );
     $counter += &check_sorted_regions( 'asia', qw/Seoul Singapore Melbourne/ );
 
     return $counter;
