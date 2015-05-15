@@ -7,6 +7,7 @@ package Extract::Poly;
 
 use JSON;
 use CGI qw(escapeHTML);
+use GIS::Distance::Lite;
 use Data::Dumper;
 
 use lib qw(world/lib);
@@ -64,6 +65,31 @@ sub init {
     }
 
     $self->{'database'} = "world/etc/tile/tile-pbf.csv";
+}
+
+#
+# wrapper for x,y parameters
+#
+# ($lon1, $lat1 => $lon2, $lat2);
+# (sw_lng, sw_lat, ne_lng, ne_lat)
+sub rectangle_km {
+    my $self = shift;
+    my ( $x1, $y1, $x2, $y2, $factor ) = @_;
+
+    return $self->square_km( $y1, $x1, $y2, $x2, $factor );
+}
+
+# ($lat1, $lon1 => $lat2, $lon2);
+sub square_km {
+    my $self = shift;
+
+    my ( $x1, $y1, $x2, $y2, $factor ) = @_;
+    $factor = 1 if !defined $factor;
+
+    my $height = GIS::Distance::Lite::distance( $x1, $y1 => $x1, $y2 ) / 1000;
+    my $width  = GIS::Distance::Lite::distance( $x1, $y1 => $x2, $y1 ) / 1000;
+
+    return int( $height * $width * $factor );
 }
 
 sub list_subplanets {

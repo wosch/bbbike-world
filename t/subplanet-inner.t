@@ -69,6 +69,8 @@ sub check_cities {
     my $region = 'Berlin';
 
     my $berlin_polygon = get_polygon( $region, [ 12.76, 52.23, 13.98, 52.82 ] );
+    diag Dumper($berlin_polygon);
+
     my $inner = $planet->sub_polygon(
         'inner' => $berlin_polygon,
         'outer' => $planet_polygon

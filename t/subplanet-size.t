@@ -15,7 +15,7 @@ my $debug   = 1;
 my $poly    = new Extract::Poly( 'debug' => $debug );
 my @regions = $poly->list_subplanets;
 
-plan tests => scalar(@regions) * 2 + ( 1 + 2 );
+plan tests => scalar(@regions) * 2 + ( 1 + 2 + 1 );
 
 foreach my $region (@regions) {
     my $size    = $poly->subplanet_size($region);
@@ -59,6 +59,11 @@ if ( $debug >= 2 ) {
     diag "Old $berlin";
     diag "New $data";
 }
+
+my $size =
+  $poly->rectangle_km( @{ $Extract::Poly::area->{$region}->{"poly"} } );
+my $size_real = 5452;
+is( $size, $size_real, "Area size $region is $size_real" );
 
 #######################################################################################
 # check for invalid lng,lat values
