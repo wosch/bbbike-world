@@ -12,10 +12,11 @@ use BBBike::WorldDB;
 use strict;
 use warnings;
 
-my $debug   = 1;
-my $poly    = new Extract::Poly( 'debug' => $debug );
-my $planet  = new Extract::Planet( 'debug' => $debug );
-my @regions = $poly->list_subplanets;
+my $debug          = 1;
+my $poly           = new Extract::Poly( 'debug' => $debug );
+my $planet         = new Extract::Planet( 'debug' => $debug );
+my @regions        = $poly->list_subplanets;
+my @regions_sorted = $poly->list_subplanets(1);
 
 my $planet_polygon = &planet_polygon;
 cmp_ok( scalar(@$planet_polygon),
@@ -160,10 +161,51 @@ sub check_bbbike_cities {
     return $counter;
 }
 
+sub check_match_cities {
+    my $database = "world/etc/cities.csv";
+    my $db      = BBBike::WorldDB->new( 'database' => $database, 'debug' => 0 );
+    my %hash    = %{ $db->city };
+    my $counter = 0;
+
+    diag Dumper( \%hash ) if $debug >= 3;
+
+    my @central_europe = qw/Berlin Hamburg Dresden/;
+    my @europe         = qw/London Madrid Sofia/;
+    my @north_america  = qw/SanFrancisco Denver Toronto/;
+    my @south_america  = qw/LaPlata BuenosAires RiodeJaneiro/;
+    my @africa         = qw/Johannesburg Alexandria Cairo/;
+    my @asia           = qw/Seoul Singapore Melbourne/;
+
+    foreach my $city (@central_europe) {
+        my $area  = $hash{$city}->{"area"};
+        my $coord = $hash{$city}->{"coord"};
+        my @coord = split( /\s+/, $coord );
+
+        my $city_polygon = get_polygon( $city, \@coord );
+
+        foreach my $outer (@regions_sorted) {
+            my $result = $outer eq 'central-europe' ? 1 : 0;
+
+            my $inner = $planet->sub_polygon(
+                'inner' => $city_polygon,
+                'outer' => get_polygon($outer)
+            );
+            is( $inner, $result, "region $city is inside $outer" );
+            $counter += 1;
+
+            # stop at first match
+            last if $result == 1;
+        }
+    }
+
+    return $counter;
+}
+
 my $counter = 1;
 $counter += &check_regions(@regions);
 $counter += &check_cities;
 $counter += &check_bbbike_cities;
+$counter += &check_match_cities;
 
 plan tests => $counter;
 __END__
