@@ -93,12 +93,22 @@ sub square_km {
 }
 
 sub list_subplanets {
-    my $self = shift;
+    my $self    = shift;
+    my $sort_by = shift;
 
     # only regions with a 'poly' field
     my @list = grep { exists $area->{$_}->{'poly'} } keys %$area;
 
-    return sort @list;
+    if ($sort_by) {
+        my %hash =
+          map { $_ => $self->rectangle_km( @{ $area->{$_}->{'poly'} } ) } @list;
+        @list = sort { $hash{$a} <=> $hash{$b} } @list;
+    }
+    else {
+        @list = sort @list;
+    }
+
+    return @list;
 }
 
 # scale file size in x.y MB
