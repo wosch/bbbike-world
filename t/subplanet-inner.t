@@ -147,7 +147,7 @@ sub check_bbbike_cities {
         # European cities are outside of nothern america
         next if $area !~ /^(de|eu)$/;
 
-        $outer  = 'noth-america';
+        $outer  = 'north-america';
         $result = 0;
         $inner  = $planet->sub_polygon(
             'inner' => $city_polygon,
@@ -168,35 +168,48 @@ sub check_match_cities {
     my $counter = 0;
 
     diag Dumper( \%hash ) if $debug >= 3;
+    diag Dumper(\@regions_sorted);
 
-    my @central_europe = qw/Berlin Hamburg Dresden/;
-    my @europe         = qw/London Madrid Sofia/;
-    my @north_america  = qw/SanFrancisco Denver Toronto/;
-    my @south_america  = qw/LaPlata BuenosAires RiodeJaneiro/;
-    my @africa         = qw/Johannesburg Alexandria Cairo/;
-    my @asia           = qw/Seoul Singapore Melbourne/;
+    sub check_sorted_regions {
+        my $name   = shift;
+        my @cities = @_;
 
-    foreach my $city (@central_europe) {
-        my $area  = $hash{$city}->{"area"};
-        my $coord = $hash{$city}->{"coord"};
-        my @coord = split( /\s+/, $coord );
+        my $counter = 0;
 
-        my $city_polygon = get_polygon( $city, \@coord );
+        foreach my $city (@cities) {
+            my $area  = $hash{$city}->{"area"};
+            my $coord = $hash{$city}->{"coord"};
+            my @coord = split( /\s+/, $coord );
 
-        foreach my $outer (@regions_sorted) {
-            my $result = $outer eq 'central-europe' ? 1 : 0;
+            my $city_polygon = get_polygon( $city, \@coord );
 
-            my $inner = $planet->sub_polygon(
-                'inner' => $city_polygon,
-                'outer' => get_polygon($outer)
-            );
-            is( $inner, $result, "region $city is inside $outer" );
-            $counter += 1;
+            foreach my $outer (@regions_sorted) {
+                my $result = $outer eq $name ? 1 : 0;
 
-            # stop at first match
-            last if $result == 1;
+                my $inner = $planet->sub_polygon(
+                    'inner' => $city_polygon,
+                    'outer' => get_polygon($outer)
+                );
+                is( $inner, $result, "region $city is inside $outer" );
+                $counter += 1;
+
+                # stop at first match
+                last if $result == 1;
+            }
         }
+        return $counter;
     }
+
+    $counter +=
+      &check_sorted_regions( 'central-europe', qw/Berlin Hamburg Dresden/ );
+    $counter += &check_sorted_regions( 'europe', qw/London Madrid Sofia/ );
+    $counter +=
+      &check_sorted_regions( 'north-america', qw/SanFrancisco Denver Toronto/ );
+    $counter += &check_sorted_regions( 'south-america',
+        qw/LaPlata BuenosAires RiodeJaneiro/ );
+    $counter +=
+      &check_sorted_regions( 'africa', qw/Johannesburg Alexandria Cairo/ );
+    $counter += &check_sorted_regions( 'asia', qw/Seoul Singapore Melbourne/ );
 
     return $counter;
 }
