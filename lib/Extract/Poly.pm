@@ -202,9 +202,10 @@ sub create_overpass_api_url {
 
 sub get_coords {
     my $self = shift;
-    my $obj = shift;
-    
+    my $obj  = shift;
+
     my @c;
+
     # rectangle
     if ( !scalar( @{ $obj->{"coords"} } ) ) {
         push @c, [ $obj->{'sw_lng'}, $obj->{'sw_lat'} ];
@@ -217,7 +218,7 @@ sub get_coords {
     else {
         @c = @{ $obj->{coords} };
     }
-    
+
     return @c;
 }
 
@@ -245,7 +246,7 @@ sub create_poly_data {
     my @poly = ();
 
     my $counter = 0;
-    my @c = $self->get_coords($obj);
+    my @c       = $self->get_coords($obj);
 
     # close polygone if not already closed
     if ( $c[0]->[0] ne $c[-1]->[0] || $c[0]->[1] ne $c[-1]->[1] ) {
