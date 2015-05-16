@@ -6,11 +6,13 @@
 package Extract::Planet;
 
 use JSON;
+use File::stat;
 use Math::Polygon;
 use Data::Dumper;
 
 use lib qw(world/lib);
 use Extract::Poly;
+use Extract::Utils;
 
 use strict;
 use warnings;
@@ -21,6 +23,7 @@ use warnings;
 
 our $debug          = 1;
 our $sub_planet_dir = '../osm/download/sub-planet';
+our $planet_osm     = '../osm/download/planet-latest-nometa.osm.pbf';
 
 ##########################
 # helper functions
@@ -46,6 +49,8 @@ sub init {
     if ( $self->{'debug'} ) {
         $debug = $self->{'debug'};
     }
+
+    $self->{'utils'} = new Extract::Utils;
 }
 
 # check if the inner polygon is inside the outer polygon
@@ -106,6 +111,39 @@ sub get_smallest_planet {
 
     # nothing found, fall back to full planet
     return "planet";
+}
+
+# find the smallest matching sub-planet
+sub get_smallest_planet_file {
+    my $self    = shift;
+    my $obj     = shift;
+    my $regions = shift;
+
+    # time in seconds after we consider a sub-planet stale
+    my $stale_time = 6 * 3600;
+
+    my $planet = $self->get_smallest_planet( $obj, $regions );
+    my $file = "$sub_planet_dir/$planet.osm.pbf";
+
+    if ( $planet eq 'planet' ) {
+        return "";
+    }
+
+    if ( !-e $file ) {
+        warn "sub-planet file $file does not exists, ignored\n" if $debug >= 1;
+        return "";
+    }
+
+    my $time_diff = $self->{'utils'}->file_mtime_diff( $file, $planet_osm );
+
+    if ( $time_diff > $stale_time ) {
+        warn "sub-planet file $file is stale: $time_diff seconds, ignored\n"
+          if $debug >= 1;
+        return "";
+    }
+    else {
+        return $file;
+    }
 }
 
 1;

@@ -4,7 +4,10 @@
 # extract config and libraries
 
 package Extract::Utils;
+
 use JSON;
+use File::Basename;
+use File::stat;
 use Data::Dumper;
 
 require Exporter;
@@ -93,6 +96,18 @@ sub random_sort {
     my %hash = map { $_ => rand() } @files;
 
     return sort { $hash{$a} <=> $hash{$b} } keys %hash;
+}
+
+# compare 2 files and return the modification diff time in seconds
+sub file_mtime_diff {
+    my $self  = shift;
+    my $file1 = shift;
+    my $file2 = shift;
+
+    my $st1 = stat($file1) or die "stat $file1: $!\n";
+    my $st2 = stat($file2) or die "stat $file2: $!\n";
+
+    return $st1->mtime - $st2->mtime;
 }
 
 1;
