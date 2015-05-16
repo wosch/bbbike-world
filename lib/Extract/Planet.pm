@@ -19,7 +19,8 @@ use warnings;
 # config
 #
 
-our $debug = 1;
+our $debug          = 1;
+our $sub_planet_dir = '../osm/download/sub-planet';
 
 ##########################
 # helper functions
@@ -65,6 +66,46 @@ sub sub_polygon {
     }
 
     return 1;
+}
+
+sub get_polygon {
+    my $self = shift;
+    my $poly = shift;
+    my $name = shift;
+    my $list = shift;
+
+    my $obj = $poly->get_job_obj( $name, $list );
+    my ( $data, $counter, $polygon ) = $poly->create_poly_data( 'job' => $obj );
+
+    return $polygon;
+}
+
+# find the smallest matching sub-planet
+sub get_smallest_planet {
+    my $self    = shift;
+    my $obj     = shift;
+    my $regions = shift;
+
+    my $poly = new Extract::Poly( 'debug' => $debug );
+    my @regions = $regions ? @$regions : $poly->list_subplanets(1);
+
+    my ( $data, $counter, $city_polygon ) =
+      $poly->create_poly_data( 'job' => $obj );
+    warn Dumper($city_polygon) if $debug >= 2;
+
+    foreach my $outer (@regions) {
+        my $inner = $self->sub_polygon(
+            'inner' => $city_polygon,
+            'outer' => $self->get_polygon( $poly, $outer )
+        );
+
+        if ($inner) {
+            return $outer;
+        }
+    }
+
+    # nothing found, fall back to full planet
+    return "planet";
 }
 
 1;
