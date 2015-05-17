@@ -303,7 +303,7 @@ sub ignore_bot {
 
     warn
       "detect bot for area '$city', user agent: '@{[ $obj->{'user_agent'} ]}'\n"
-      if $debug;
+      if $debug >= 1;
 
     if (   $option->{'bots'}{'detecation'}
         && $loadavg >= $option->{'bots'}{'max_loadavg'} )
@@ -315,14 +315,14 @@ sub ignore_bot {
         {
             warn
 "accepts bot request for area '$city' for first job queue: $loadavg\n"
-              if $debug;
+              if $debug >= 1;
         }
 
         # hard ignore
         else {
             warn
 "ignore bot request for area '$city' due high load average: $loadavg\n"
-              if $debug;
+              if $debug >= 1;
             return 1;
         }
     }
@@ -390,7 +390,7 @@ sub parse_jobs {
                 if ( $length_coords > $max_coords && $counter_coords > 0 ) {
                     warn
                       "do not add a large polygone $city to an existing list\n"
-                      if $debug;
+                      if $debug >= 1;
                     next;
                 }
 
@@ -414,13 +414,13 @@ sub parse_jobs {
 
                 warn
 "coords total length: $counter_coords, city=$city, length=$length_coords\n"
-                  if $debug;
+                  if $debug >= 1;
 
                 # stop here, list is to long
                 if ( $counter_coords > $max_coords ) {
                     warn "coords counter length for $city: ",
                       "$counter_coords > $max_coords, stop after\n"
-                      if $debug;
+                      if $debug >= 1;
                     return ( \@list, $default_planet_osm );
                 }
             }
@@ -630,7 +630,7 @@ sub create_poly_files {
 
         $job->{pbf_file} = $pbf_file;
         if ( exists $hash{$file} ) {
-            warn "ignore duplicate: $file\n" if $debug;
+            warn "ignore duplicate: $file\n" if $debug >= 1;
             next;
         }
         $hash{$file} = 1;
@@ -682,7 +682,7 @@ sub touch_file {
 
     my @system = ( "touch", $file );
 
-    warn "touch $file\n" if $debug;
+    warn "touch $file\n" if $debug >= 1;
     @system = 'true' if $test_mode;
 
     system(@system) == 0
@@ -754,7 +754,7 @@ sub run_extracts_osmosis {
         if ( -e $osm ) {
             my $newer = file_mtime_diff( $osm, $planet_osm );
             if ( $newer > 0 ) {
-                warn "File $osm already exists, skip\n" if $debug;
+                warn "File $osm already exists, skip\n" if $debug >= 1;
                 link( $osm, $out ) or die "link $osm => $out: $!\n";
 
                 #&touch_file($osm);
@@ -817,7 +817,7 @@ sub run_extracts_osmconvert {
         if ( -e $osm ) {
             my $newer = file_mtime_diff( $osm, $planet_osm );
             if ( $newer > 0 ) {
-                warn "File $osm already exists, skip\n" if $debug;
+                warn "File $osm already exists, skip\n" if $debug >= 1;
                 link( $osm, $out ) or die "link $osm => $out: $!\n";
 
                 #&touch_file($osm);
@@ -937,7 +937,7 @@ sub send_email_rest {
     # Check the outcome of the response
     if ( !$res->is_success ) {
         my $err = "HTTP error: " . $res->status_line . "\n";
-        $err .= $res->content . "\n" if $debug;
+        $err .= $res->content . "\n" if $debug >= 1;
         die $err;
     }
 
@@ -1610,7 +1610,7 @@ sub fix_pbf {
     my @nice = ( "nice", "-n", $nice_level + 1 );
     my @system;
     if ( $option->{"pbf2pbf_postprocess"} ) {
-        warn "Run pbf2pbf post process\n" if $debug;
+        warn "Run pbf2pbf post process\n" if $debug >= 1;
 
         foreach my $pbf (@$files) {
             @system = ( @nice, $pbf2pbf, $pbf );
@@ -1778,7 +1778,7 @@ sub cleanup_jobdir {
 
     if ( $errors && $keep ) {
         my $to_dir = "$failed_dir/" . basename($job_dir);
-        warn "Keep job dir: $to_dir\n" if $debug;
+        warn "Keep job dir: $to_dir\n" if $debug >= 1;
 
         @system = ( 'rm', '-rf', $to_dir );
         system(@system) == 0
@@ -1822,7 +1822,7 @@ sub run_jobs {
     my $lockfile;
     my $lockmgr;
 
-    warn "Start job at: @{[ gmctime() ]} UTC\n" if $debug;
+    warn "Start job at: @{[ gmctime() ]} UTC\n" if $debug >= 1;
 
     #############################################################
     # semaphore for parsing the jobs
@@ -1831,7 +1831,7 @@ sub run_jobs {
     my $lockfile_extract = $spool->{'running'} . "/extract.pid";
     my $lockmgr_extract = &create_lock( 'lockfile' => $lockfile_extract )
       or die "Cannot get lockfile $lockfile_extract, give up\n";
-    warn "Use lockfile $lockfile_extract\n" if $debug;
+    warn "Use lockfile $lockfile_extract\n" if $debug >= 1;
 
     &remove_lock(
         'lockfile' => $lockfile_extract,
@@ -1860,7 +1860,7 @@ sub run_jobs {
         die "Cannot get lock for jobs 1..$max_jobs\n" . qx(uptime);
     }
 
-    warn "Use lockfile $lockfile\n" if $debug;
+    warn "Use lockfile $lockfile\n" if $debug >= 1;
 
     my ( $list, $planet_osm ) = parse_jobs(
         'files'      => \@files,
@@ -1922,11 +1922,12 @@ sub run_jobs {
     system(@system) == 0
       or die "system @system failed: $?";
 
-    warn "Running extract time: ", time() - $time, " seconds\n" if $debug;
+    warn "Running extract time: ", time() - $time, " seconds\n" if $debug >= 1;
 
     if ( !$option->{'osmconvert_enabled'} ) {
         &fix_pbf( $new_pbf_files, $test_mode );
-        warn "Running fix pbf time: ", time() - $time, " seconds\n" if $debug;
+        warn "Running fix pbf time: ", time() - $time, " seconds\n"
+          if $debug >= 1;
     }
 
     # send out mail
@@ -1943,10 +1944,10 @@ sub run_jobs {
 
     warn "Total format convert and e-mail check time: ", time() - $time,
       " seconds\n"
-      if $debug;
+      if $debug >= 1;
     warn "Total time: ", time() - $starttime,
       " seconds, for @{[ scalar(@list) ]} job(s)\n"
-      if $debug;
+      if $debug >= 1;
     warn "Number of errors: $errors\n" if $errors;
 
     # unlock pid
