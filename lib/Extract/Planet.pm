@@ -173,9 +173,11 @@ sub get_smallest_planet_file {
         return "";
     }
 
+    # a negative value means that the sub-planet is older than the planet
     my $time_diff = $self->{'utils'}->file_mtime_diff( $file, $planet_osm );
 
-    if ( $time_diff > $stale_time ) {
+    # use the sub-planet if it is no older than 3 hours compared to the planet
+    if ( (-1 * $time_diff) > $stale_time ) {
         warn "sub-planet file $file is stale: $time_diff seconds, ignored\n"
           if $debug >= 1;
         return "";
