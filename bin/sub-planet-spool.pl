@@ -32,8 +32,14 @@ foreach my $file (@ARGV) {
 
     warn Dumper($obj) if $debug >= 2;
 
-    printf( "%s\t%s\n",
-        $obj->{"city"}, $planet->get_smallest_planet_file($obj) );
+    printf(
+        "%s\t%s\n",
+        $obj->{"city"},
+        $planet->get_smallest_planet_file(
+            'obj'        => $obj,
+            'planet_osm' => $obj->{"planet_osm"}
+        )
+    );
 }
 
 __END__

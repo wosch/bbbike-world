@@ -37,6 +37,7 @@ use lib qw(world/lib ../lib);
 use Extract::Config;
 use Extract::Utils;
 use Extract::Poly;
+use Extract::Planet;
 
 use strict;
 use warnings;

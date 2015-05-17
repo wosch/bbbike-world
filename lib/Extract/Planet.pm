@@ -21,9 +21,21 @@ use warnings;
 # config
 #
 
-our $debug          = 1;
-our $sub_planet_dir = '../osm/download/sub-planet';
-our $planet_osm     = '../osm/download/planet-latest-nometa.osm.pbf';
+our $debug = 1;
+
+#our $planet_osm     = '../osm/download/planet-latest-nometa.osm.pbf';
+
+our $config = {
+    'stale_time' => 6 * 3600,
+    'planet_osm' => '../osm/download/planet-latest-nometa.osm.pbf',
+
+    'planet_sub_dir' => {
+        '../osm/download/planet-latest-nometa.osm.pbf' =>
+          '../osm/download/sub-planet',
+        '../osm/download/srtm/planet-srtm-e40.osm.pbf' =>
+          '../osm/download/sub-srtm',
+    }
+};
 
 ##########################
 # helper functions
@@ -87,9 +99,11 @@ sub get_polygon {
 
 # find the smallest matching sub-planet
 sub get_smallest_planet {
-    my $self    = shift;
-    my $obj     = shift;
-    my $regions = shift;
+    my $self = shift;
+    my %args = @_;
+
+    my $obj     = $args{'obj'};
+    my $regions = $args{'regions'};
 
     my $poly = new Extract::Poly( 'debug' => $debug );
     my @regions = $regions ? @$regions : $poly->list_subplanets(1);
@@ -115,19 +129,37 @@ sub get_smallest_planet {
 
 # find the smallest matching sub-planet
 sub get_smallest_planet_file {
-    my $self    = shift;
-    my $obj     = shift;
-    my $regions = shift;
+    my $self = shift;
+    my %args = @_;
 
-    # time in seconds after we consider a sub-planet stale
-    my $stale_time = 6 * 3600;
+    my $obj        = $args{'obj'};
+    my $regions    = $args{'regions'};
+    my $planet_osm = $args{'planet_osm'};
 
-    my $planet = $self->get_smallest_planet( $obj, $regions );
-    my $file = "$sub_planet_dir/$planet.osm.pbf";
-
-    if ( $planet eq 'planet' ) {
+    if ( !$planet_osm ) {
+        warn "No planet.osm file given, ignore\n" if $debug >= 2;
         return "";
     }
+
+    # time in seconds after we consider a sub-planet stale
+    my $stale_time = $config->{'stale_time'};
+
+    my $planet =
+      $self->get_smallest_planet( 'obj' => $obj, 'regions' => $regions );
+
+    my $sub_planet_dir = $config->{'planet_sub_dir'}->{$planet_osm};
+
+    if ( $planet eq 'planet' ) {
+        warn "No sub-planet match, use full planet\n" if $debug >= 2;
+        return "";
+    }
+
+    if ( !defined $sub_planet_dir ) {
+        warn "No sub-planet exists, use full planet\n" if $debug >= 2;
+        return "";
+    }
+
+    my $file = "$sub_planet_dir/$planet.osm.pbf";
 
     if ( !-e $file ) {
         warn "sub-planet file $file does not exists, ignored\n" if $debug >= 1;
