@@ -513,7 +513,7 @@ sub parse_jobs_planet {
         }
     }
 
-    if ( $default_planet_osm ne $sub_planet_file ) {
+    if ( $sub_planet_file ne "" && $default_planet_osm ne $sub_planet_file ) {
         warn
 "Reset planet to sub planet: $default_planet_osm -> $sub_planet_file\n"
           if $debug >= 1;
