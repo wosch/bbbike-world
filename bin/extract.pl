@@ -858,7 +858,9 @@ sub run_extracts_osmconvert {
 
     push @data, $planet_osm;
 
-    warn "Use planet.osm file $planet_osm\n" if $debug >= 1;
+    warn
+"Use planet.osm file $planet_osm, size: @{[ file_size($planet_osm) ]} MB\n"
+      if $debug >= 1;
     warn "Run extracts: " . join( " ", @data ), "\n" if $debug >= 2;
     return ( \@data, \@fixme );
 }
