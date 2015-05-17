@@ -460,6 +460,9 @@ sub parse_jobs_planet {
     my $extract_utils = new Extract::Utils;
     my @files         = $extract_utils->random_filename_sort(@$files);
 
+    my $planet = new Extract::Planet( 'debug' => $debug );
+    my $sub_planet_file = "";
+
     foreach my $f (@files) {
         my $file = "$dir/$f";
 
@@ -482,10 +485,15 @@ sub parse_jobs_planet {
         # first jobs defines the planet.osm file
         if ( !$default_planet_osm ) {
             $default_planet_osm = $json_perl->{'planet_osm'};
+            $sub_planet_file    = $planet->get_smallest_planet_file(
+                'obj'        => $json_perl,
+                'planet_osm' => $default_planet_osm
+            );
         }
 
         # only the same planet.osm file
         if ( $json_perl->{'planet_osm'} eq $default_planet_osm ) {
+            $json_perl->{"planet_osm_sub"} = $sub_planet_file;
 
             # a slot for every user
             push @{ $hash->{ $json_perl->{'email'} } }, $json_perl;
@@ -496,6 +504,13 @@ sub parse_jobs_planet {
 "Ignore job due different planet.osm file: $default_planet_osm <=> $json_perl->{'planet_osm'}\n"
               if $debug >= 1;
         }
+    }
+
+    if ( $default_planet_osm ne $sub_planet_file ) {
+        warn
+"Reset planet to sub planet: $default_planet_osm -> $sub_planet_file\n"
+          if $debug >= 1;
+        $default_planet_osm = $sub_planet_file;
     }
 
     return ( $hash, $default_planet_osm, $counter );
