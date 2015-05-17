@@ -30,8 +30,15 @@ our $config = {
     'planet_osm' => '../osm/download/planet-latest-nometa.osm.pbf',
 
     'planet_sub_dir' => {
+
+        # planet without meta data
         '../osm/download/planet-latest-nometa.osm.pbf' =>
           '../osm/download/sub-planet',
+
+        # compatibility, planet without meta data and 1.1
+        '../osm/download/planet-latest.osm.pbf' => '../osm/download/sub-planet',
+
+        # SRTM planet
         '../osm/download/srtm/planet-srtm-e40.osm.pbf' =>
           '../osm/download/sub-srtm',
     }
