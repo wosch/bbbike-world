@@ -623,7 +623,8 @@ sub create_poly_files {
         return;
     }
 
-    warn "create job dir $job_dir\n" if $debug >= 1;
+    warn "create job dir $job_dir\n"             if $debug >= 1;
+    warn "checked files: @{[ scalar(@list) ]}\n" if $debug >= 1;
     mkdir($job_dir) or die "mkdir $job_dir $!\n";
 
     my %hash;
