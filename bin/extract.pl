@@ -1244,6 +1244,8 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         ###################################################################
         # converted file name
         my $file = $pbf_file;
+        warn "pbf file size $pbf_file: @{[ file_size($pbf_file) ]} MB\n"
+          if $debug >= 1;
 
         # convert .pbf to .osm if requested
         my @nice = ( "nice", "-n", $nice_level_converter );
@@ -1402,7 +1404,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         aws_s3_put( 'file' => $to );
 
         my $file_size = file_size($to) . " MB";
-        warn "file size $to: $file_size\n" if $debug >= 1;
+        warn "generated file size $to: $file_size\n" if $debug >= 1;
 
         ###################################################################
         # copy for downloading in /download
