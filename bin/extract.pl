@@ -524,14 +524,6 @@ sub parse_jobs_planet {
         # first jobs defines the planet.osm file
         if ( !$default_planet_osm ) {
             $default_planet_osm = $json_perl->{'planet_osm'};
-
-#$sub_planet_file    = $planet->get_smallest_planet_file(
-#    'obj'        => $json_perl,
-#    'planet_osm' => $default_planet_osm
-#);
-#warn "Found sub planet '$sub_planet_file' for city ",
-#    $json_perl->{'city'}, " lon,lat: $json_perl->{'sw_lng'},$json_perl->{'sw_lat'}",
-#    " $json_perl->{'ne_lng'},$json_perl->{'ne_lat'}\n" if $debug >= 1;
         }
 
         # only the same planet.osm file
@@ -549,13 +541,6 @@ sub parse_jobs_planet {
               if $debug >= 1;
         }
     }
-
- #    if ( $sub_planet_file ne "" && $default_planet_osm ne $sub_planet_file ) {
- #        warn
- #"Reset planet to sub planet: $default_planet_osm -> $sub_planet_file\n"
- #          if $debug >= 1;
- #        $default_planet_osm = $sub_planet_file;
- #    }
 
     return ( $hash, $default_planet_osm, $counter );
 }
