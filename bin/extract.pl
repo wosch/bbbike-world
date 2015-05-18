@@ -359,6 +359,9 @@ sub parse_jobs {
 
     my ( $hash, $default_planet_osm, $counter ) = parse_jobs_planet(%args);
 
+    my $planet = new Extract::Planet( 'debug' => $debug );
+    my $sub_planet_file = "";
+
     # sort by user and date, newest first
     foreach my $email ( keys %$hash ) {
         $hash->{$email} =
@@ -407,6 +410,35 @@ sub parse_jobs {
                         'obj'        => $obj,
                         'city'       => $city
                       );
+                }
+
+                my $sub_planet_file2 = $planet->get_smallest_planet_file(
+                    'obj'        => $obj,
+                    'planet_osm' => $obj->{'planet_osm'}
+                );
+
+                warn "Found sub planet '$sub_planet_file2' for city ",
+                  $obj->{'city'}, " lon,lat: $obj->{'sw_lng'},$obj->{'sw_lat'}",
+                  " $obj->{'ne_lng'},$obj->{'ne_lat'}\n"
+                  if $debug >= 1;
+                $obj->{"planet_osm_sub"} = $sub_planet_file;
+
+                $obj->{"planet_osm_sub"} = $sub_planet_file;
+
+                # first sub-planet wins
+                if ( scalar(@list) == 0 ) {
+                    $sub_planet_file = $sub_planet_file2;
+                }
+
+                elsif ( $sub_planet_file ne $sub_planet_file2 ) {
+                    warn
+"different sub-planet file detected: '$sub_planet_file' <=> '$sub_planet_file2', ignored\n"
+                      if $debug;
+                    next;
+                }
+
+                if ($sub_planet_file2) {
+                    $default_planet_osm = $sub_planet_file2;
                 }
 
                 push @list, $obj;
@@ -467,7 +499,7 @@ sub parse_jobs_planet {
     my $extract_utils = new Extract::Utils;
     my @files         = $extract_utils->random_filename_sort(@$files);
 
-    my $planet = new Extract::Planet( 'debug' => $debug );
+    #my $planet = new Extract::Planet( 'debug' => $debug );
     my $sub_planet_file = "";
 
     foreach my $f (@files) {
@@ -492,15 +524,20 @@ sub parse_jobs_planet {
         # first jobs defines the planet.osm file
         if ( !$default_planet_osm ) {
             $default_planet_osm = $json_perl->{'planet_osm'};
-            $sub_planet_file    = $planet->get_smallest_planet_file(
-                'obj'        => $json_perl,
-                'planet_osm' => $default_planet_osm
-            );
+
+#$sub_planet_file    = $planet->get_smallest_planet_file(
+#    'obj'        => $json_perl,
+#    'planet_osm' => $default_planet_osm
+#);
+#warn "Found sub planet '$sub_planet_file' for city ",
+#    $json_perl->{'city'}, " lon,lat: $json_perl->{'sw_lng'},$json_perl->{'sw_lat'}",
+#    " $json_perl->{'ne_lng'},$json_perl->{'ne_lat'}\n" if $debug >= 1;
         }
 
         # only the same planet.osm file
         if ( $json_perl->{'planet_osm'} eq $default_planet_osm ) {
-            $json_perl->{"planet_osm_sub"} = $sub_planet_file;
+
+            #$json_perl->{"planet_osm_sub"} = $sub_planet_file;
 
             # a slot for every user
             push @{ $hash->{ $json_perl->{'email'} } }, $json_perl;
@@ -513,12 +550,12 @@ sub parse_jobs_planet {
         }
     }
 
-    if ( $sub_planet_file ne "" && $default_planet_osm ne $sub_planet_file ) {
-        warn
-"Reset planet to sub planet: $default_planet_osm -> $sub_planet_file\n"
-          if $debug >= 1;
-        $default_planet_osm = $sub_planet_file;
-    }
+ #    if ( $sub_planet_file ne "" && $default_planet_osm ne $sub_planet_file ) {
+ #        warn
+ #"Reset planet to sub planet: $default_planet_osm -> $sub_planet_file\n"
+ #          if $debug >= 1;
+ #        $default_planet_osm = $sub_planet_file;
+ #    }
 
     return ( $hash, $default_planet_osm, $counter );
 }
@@ -674,12 +711,18 @@ sub create_poly_files {
         store_data( $to, $data );
         unlink($from) or die "unlink $from: $!\n";
         push @json, $to;
+
+        if ( $debug >= 1 ) {
+            warn "Running city: $job->{'city'}\n";
+            warn "Script URL: @{[ script_url($option, $job) ]}\n";
+        }
     }
 
     if ($debug) {
         warn "number of poly files: ", scalar(@poly),
           ", number of json files: ", scalar(@json), "\n";
     }
+
     return ( \@poly, \@json );
 }
 
