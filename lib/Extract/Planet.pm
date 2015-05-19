@@ -178,7 +178,8 @@ sub get_smallest_planet_file {
 
     # use the sub-planet if it is no older than 3 hours compared to the planet
     if ( ( -1 * $time_diff ) > $stale_time ) {
-        warn "sub-planet file $file is stale: $time_diff seconds, ignored\n"
+        warn
+"sub-planet file $file <=> $planet_osm is stale: $time_diff seconds, ignored\n"
           if $debug >= 1;
         return "";
     }
