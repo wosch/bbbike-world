@@ -478,7 +478,8 @@ sub parse_jobs {
     }
 
     warn
-"number of different poly files detected: @{[ scalar( keys %duplicated_poly) ]}, max: $max\n";
+"number of different poly files detected: @{[ scalar( keys %duplicated_poly) ]}, max: $max\n"
+      if $debug >= 1;
     return ( \@list, $default_planet_osm );
 }
 
