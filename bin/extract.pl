@@ -346,7 +346,7 @@ sub random_user {
 }
 
 sub get_sub_planet {
-    my $obj;
+    my $obj = shift;
 
     my $planet = new Extract::Planet( 'debug' => $debug );
     my $sub_planet_file = $planet->get_smallest_planet_file(
