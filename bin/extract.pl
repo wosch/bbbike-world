@@ -345,6 +345,25 @@ sub random_user {
     return @list;
 }
 
+sub get_sub_planet {
+    my $obj;
+
+    my $planet = new Extract::Planet( 'debug' => $debug );
+    my $sub_planet_file = $planet->get_smallest_planet_file(
+        'obj'        => $obj,
+        'planet_osm' => $obj->{'planet_osm'}
+    );
+
+    warn "Found sub planet '$sub_planet_file' for city ",
+      $obj->{'city'}, " lon,lat: $obj->{'sw_lng'},$obj->{'sw_lat'}",
+      " $obj->{'ne_lng'},$obj->{'ne_lat'}\n"
+      if $debug >= 1;
+
+    $obj->{"planet_osm_sub"} = $sub_planet_file;
+
+    return $sub_planet_file;
+}
+
 # fair scheduler, take one from each customer first until
 # we reach the limit
 sub parse_jobs {
@@ -359,7 +378,6 @@ sub parse_jobs {
 
     my ( $hash, $default_planet_osm, $counter ) = parse_jobs_planet(%args);
 
-    my $planet = new Extract::Planet( 'debug' => $debug );
     my $sub_planet_file = "";
 
     # sort by user and date, newest first
@@ -412,33 +430,21 @@ sub parse_jobs {
                       );
                 }
 
-                my $sub_planet_file2 = $planet->get_smallest_planet_file(
-                    'obj'        => $obj,
-                    'planet_osm' => $obj->{'planet_osm'}
-                );
-
-                warn "Found sub planet '$sub_planet_file2' for city ",
-                  $obj->{'city'}, " lon,lat: $obj->{'sw_lng'},$obj->{'sw_lat'}",
-                  " $obj->{'ne_lng'},$obj->{'ne_lat'}\n"
-                  if $debug >= 1;
-                $obj->{"planet_osm_sub"} = $sub_planet_file;
-
-                $obj->{"planet_osm_sub"} = $sub_planet_file;
+                my $obj_sub_planet_file = get_sub_planet($obj);
 
                 # first sub-planet wins
-                if ( scalar(@list) == 0 ) {
-                    $sub_planet_file = $sub_planet_file2;
+                if ( scalar(@list) == 0 && $obj_sub_planet_file ) {
+                    $sub_planet_file    = $obj_sub_planet_file;
+                    $default_planet_osm = $obj_sub_planet_file;
                 }
 
-                elsif ( $sub_planet_file ne $sub_planet_file2 ) {
+                # ignore different sub-planets
+                elsif ( $sub_planet_file ne $obj_sub_planet_file ) {
                     warn
-"different sub-planet file detected: '$sub_planet_file' <=> '$sub_planet_file2', ignored\n"
+                      "different sub-planet file detected: '$sub_planet_file'",
+                      " <=> '$obj_sub_planet_file', ignored\n"
                       if $debug;
                     next;
-                }
-
-                if ($sub_planet_file2) {
-                    $default_planet_osm = $sub_planet_file2;
                 }
 
                 push @list, $obj;
