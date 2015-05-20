@@ -3,7 +3,6 @@ http://a.tile.openstreetmap.org/12/2200/1342.png
 http://a.tile.stamen.com/toner/12/2200/1342.png
 http://a.tile2.opencyclemap.org/transport/12/2200/1342.png
 http://tiles1.skobbler.net/osm_tiles2/12/2200/1342.png
-http://wince.dentro.info/koord/osm/tiles/12/2200/1342.png
 http://tiles2.openpistemap.org/landshaded/12/2200/1342.png
 http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/12/1342/2200.jpg
 http://a.tile.bbbike.org/osm/mapnik-german/12/2200/1342.png
