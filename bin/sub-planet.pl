@@ -23,7 +23,7 @@ sub usage () {
 usage: $0 [options]
 
 --debug=0..2            debug option
---prefix=prefix         default: $prefix
+--prefix=sup-planet|sub-srtm  default: $prefix
 --planet=planet.osm.pbf default: $planet_osm
 
 EOF
