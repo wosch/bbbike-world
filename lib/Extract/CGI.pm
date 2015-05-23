@@ -299,7 +299,7 @@ qq{\n<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?
     return <<EOF;
 
 <div id="footer">
-  @{[ &footer_top($q, 'error' => $error, 'map' => $args{'map'}, 'css' => $args{'css'} ) ]}
+  @{[ $self->footer_top($q, 'error' => $error, 'map' => $args{'map'}, 'css' => $args{'css'} ) ]}
   <hr/>
   <div id="copyright" class="normalscreen">
     (&copy;) 2015 <a href="http://www.bbbike.org">BBBike.org</a>
@@ -352,7 +352,7 @@ sub message {
 
 <span id="tools-titlebar">
  @{[ $locale->language_links ]}
- @{[ &social_links ]} -
+ @{[ $self->social_links ]} -
  <span id="tools-help"><a class='tools-helptrigger' href='$extract_dialog/$language/about.html' title='info'><span>@{[ M("about") ]} extracts</span></a> - </span>
  <span id="pageload-indicator">&nbsp;<img src="/html/indicator.gif" width="14" height="14" alt="" title="Loading JavaScript libraries" /> Loading JavaScript</span>
  <span class="jqmWindow jqmWindowLarge" id="tools-helpwin"></span>
@@ -427,12 +427,12 @@ sub check_input {
 
     ( $error, $data ) = _check_input(@_);
 
-    print &header( $q, -type => 'check_input', -error => $error );
-    print &layout( $q, 'check_input' => 1 );
+    print $self->header( $q, -type => 'check_input', -error => $error );
+    print $self->layout( $q, 'check_input' => 1 );
 
     print $data;
 
-    print &footer(
+    print $self->footer(
         $q,
         'error' => $error,
         'css'   => '#footer { width: 90%; padding-bottom: 20px; }'
@@ -609,7 +609,7 @@ sub _check_input {
       )
       : "$sw_lng,$sw_lat x $ne_lng,$ne_lat";
 
-    my $script_url = &script_url(
+    my $script_url = $self->script_url(
         $option,
         {
             'sw_lat' => $sw_lat,
@@ -651,7 +651,7 @@ sub _check_input {
 
     ###############################################################################
     # bots?
-    my ( $email_counter, $ip_counter ) = &check_queue( 'obj' => $obj );
+    my ( $email_counter, $ip_counter ) = $self->check_queue( 'obj' => $obj );
     if ( $email_counter > $option->{'scheduler'}->{'user_limit'} ) {
         error( M("EXTRACT_LIMIT") );
     }
@@ -709,8 +709,8 @@ sub homepage {
     my $formats        = $self->{'formats'};
     my $request_method = $self->{'option'}->{'request_method'};
 
-    print &header( $q, -type => 'homepage' );
-    print &layout($q);
+    print $self->header( $q, -type => 'homepage' );
+    print $self->layout($q);
 
     # localize formats
     my $formats_locale = {};
@@ -720,8 +720,8 @@ sub homepage {
 
     print qq{<div id="intro">\n};
 
-    print qq{<div id="message">\n}, &message( $q, $language, $locale ),
-      &locate_message,
+    print qq{<div id="message">\n}, $self->message( $q, $language, $locale ),
+      $self->locate_message,
       "</div>\n";
     print "<hr/>\n\n";
 
@@ -921,14 +921,14 @@ qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="j
     #    #-id    => 'extract'
     #);
     print $q->end_form;
-    print &export_osm;
+    print $self->export_osm;
     print qq{<hr/>\n};
-    print &manual_area;
+    print $self->manual_area;
     print "</div>\n";
 
-    print &map;
+    print $self->map;
 
-    print &footer( $q, 'map' => 1 );
+    print $self->footer( $q, 'map' => 1 );
 }
 
 sub locate_message {
