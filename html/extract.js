@@ -51,6 +51,10 @@ var config = {
         "garmin-leisure.zip": "/images/garmin-leisure-small.png",
         "garmin-osm.zip": "/images/garmin-osm-small.png",
 
+        "opl.xz": "/images/opl.png",
+        "csv.xz": "/images/csv.png",
+        "csv.gz": "/images/csv.png",
+
         "mapsforge-osm.zip": "/images/mapsforge-small.png",
         "navit.zip": "/images/navit-small.png",
         "obf.zip": "/images/osmand-small.png",
