@@ -743,6 +743,17 @@ sub store_data {
     $fh->close;
 }
 
+sub store_json {
+    my ( $file, $obj ) = @_;
+
+    my $file_tmp = "$file.tmp";
+    my $json     = new JSON;
+    my $data     = $json->pretty->encode($obj);
+
+    store_data( $file_tmp, $data );
+    rename( $file_tmp, $file ) or die "rename $file: $!\n";
+}
+
 # create a poly file which will be read by osmosis(1) to extract
 # an area from planet.osm
 sub create_poly_file {
@@ -1601,7 +1612,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
         send_email_smtp(@args);
     }
 
-    warn "XXX: " . Dumper($obj);
+    store_json( $json_file, $obj );
 }
 
 sub aws_s3_put {
