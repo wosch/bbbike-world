@@ -14,9 +14,8 @@ use lib qw(world/lib);
 use BBBike::Locale;
 use BBBike::Analytics;
 use Extract::Config;
-use Extract::Utils qw(normalize_polygon save_request complete_save_request
-  check_queue Param square_km large_int extract_coords is_lat is_lng
-  square_km);
+use Extract::Utils
+  ; # qw(normalize_polygon save_request complete_save_request check_queue Param square_km large_int extract_coords is_lat is_lng square_km);
 
 use strict;
 use warnings;
