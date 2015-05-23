@@ -55,6 +55,10 @@ var config = {
         "csv.xz": "/images/csv.png",
         "csv.gz": "/images/csv.png",
 
+        "osm.gz": "/images/osm.png",
+        "osm.xz": "/images/osm.png",
+        "osm.bz2": "/images/osm.png",
+
         "mapsforge-osm.zip": "/images/mapsforge-small.png",
         "navit.zip": "/images/navit-small.png",
         "obf.zip": "/images/osmand-small.png",
