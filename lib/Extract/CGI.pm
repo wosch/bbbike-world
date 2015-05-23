@@ -14,8 +14,9 @@ use lib qw(world/lib);
 use BBBike::Locale;
 use BBBike::Analytics;
 use Extract::Config;
-use Extract::Utils
-  qw(normalize_polygon save_request complete_save_request check_queue);
+use Extract::Utils qw(normalize_polygon save_request complete_save_request
+  check_queue Param square_km large_int extract_coords is_lat is_lng
+  square_km);
 
 use strict;
 use warnings;
@@ -430,7 +431,7 @@ sub check_input {
     my $error;
     my $data;
 
-    ( $error, $data ) = _check_input(@_);
+    ( $error, $data ) = $self->_check_input(@_);
 
     print $self->header( $q, -type => 'check_input', -error => $error );
     print $self->layout( $q, 'check_input' => 1 );
@@ -659,7 +660,8 @@ sub _check_input {
     my $spool_dir     = $self->{'option'}->{'spool_dir'};
     my $confirmed_dir = "$spool_dir/" . $Extract::Config::spool->{"confirmed"};
 
-    my ( $email_counter, $ip_counter ) = check_queue( 'obj' => $obj );
+    my ( $email_counter, $ip_counter ) =
+      check_queue( 'obj' => $obj, 'spool_dir_confirmed' => $confirmed_dir );
     if ( $email_counter > $option->{'scheduler'}->{'user_limit'} ) {
         error( M("EXTRACT_LIMIT") );
     }
@@ -687,9 +689,11 @@ sub _check_input {
         $option->{'homepage'}, escapeHTML($city), large_int($skm), $coordinates,
         $format );
 
-    my $spool_dir = $self->{'option'}->{'spool_dir'};
-    my ( $key, $json_file ) =
-      &save_request( $obj, $spool_dir, $Extract::Config::spool->{"confirmed"} );
+    my ( $key, $json_file ) = &save_request(
+        $obj,
+        $self->{'option'}->{'spool_dir'},
+        $Extract::Config::spool->{"confirmed"}
+    );
     if ( &complete_save_request($json_file) ) {
         push @data, M("EXTRACT_DONATION");
         push @data, qq{<br/>} x 4, "</p>\n";
