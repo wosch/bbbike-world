@@ -6,6 +6,7 @@
 # /this/script ./extract/trash/*.json
 #
 use JSON;
+use Getopt::Long;
 use Data::Dumper;
 
 use lib qw(world/lib ../lib);
@@ -15,15 +16,34 @@ use Extract::Planet;
 use strict;
 use warnings;
 
+binmode( \*STDOUT, ":utf8" );
 my $debug = 0;
-my $planet = new Extract::Planet( 'debug' => $debug );
+my $help;
+
+sub usage {
+    my $message = shift || "";
+
+    print "$message\n" if $message;
+
+    <<EOF;
+usage: $0 [--debug={0..2}] *.json ....
+
+--help
+--debug=0..2    debug option
+EOF
+}
 
 #############################################
 # main
 #
+GetOptions(
+    "debug=i" => \$debug,
+    "help"    => \$help,
+) or die usage;
+die usage if $help;
 
-binmode( \*STDOUT, ":utf8" );
-my $extract_utils = new Extract::Utils;
+my $planet = new Extract::Planet( 'debug' => $debug );
+my $extract_utils = Extract::Utils->new( 'debug' => $debug );
 die "No file given\n" if !@ARGV;
 
 foreach my $file (@ARGV) {
