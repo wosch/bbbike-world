@@ -1253,315 +1253,304 @@ sub _convert_send_email {
     my $dirname = dirname($0);
 
     my @unlink;
+
+    my $obj       = get_json($json_file);
+    my $format    = $obj->{'format'};
+    my $pbf_file  = $obj->{'pbf_file'};
+    my $poly_file = $obj->{'poly_file'};
+    my $city      = mkgmap_description( $obj->{'city'} );
+    my $lang      = $obj->{'lang'} || "en";
+    my @system;
+
+    # parameters for osm2XXX shell scripts
+    $ENV{BBBIKE_EXTRACT_URL} = &script_url( $option, $obj );
+    $ENV{BBBIKE_EXTRACT_COORDS} =
+      qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
+    $ENV{'BBBIKE_EXTRACT_LANG'} = $lang;
+
+    $ENV{'BBBIKE_EXTRACT_GARMIN_VERSION'} =
+      $option->{pbf2osm}->{garmin_version};
+    $ENV{'BBBIKE_EXTRACT_OSMAND_VERSION'} =
+      $option->{pbf2osm}->{osmand_version};
+    $ENV{'BBBIKE_EXTRACT_MAPSFORGE_VERSION'} =
+      $option->{pbf2osm}->{mapsforge_version};
+    $ENV{'BBBIKE_EXTRACT_NAVIT_VERSION'} = $option->{pbf2osm}->{navit_version};
+    $ENV{'BBBIKE_EXTRACT_SHAPE_VERSION'} = $option->{pbf2osm}->{shape_version};
+
+    ###################################################################
+    # converted file name
+    my $file = $pbf_file;
+    warn "pbf file size $pbf_file: @{[ file_size_mb($pbf_file) ]} MB\n"
+      if $debug >= 1;
+    $obj->{"pbf_file_size"} = file_size($pbf_file);
+
+    # convert .pbf to .osm if requested
+    my @nice = ( "nice", "-n", $nice_level_converter );
+    my $time = time();
+
+    if ( $format =~ /^osm\.(xz|gz|bz2)$/ ) {
+        my $ext = $1;
+        $file =~ s/\.pbf$/.$ext/;
+        if ( !cached_format( $file, $pbf_file ) ) {
+            @system = ( @nice, "$dirname/pbf2osm", "--p$ext", $pbf_file );
+            warn "@system\n" if $debug >= 2;
+            @system = 'true' if $test_mode;
+
+            system(@system) == 0 or die "system @system failed: $?";
+        }
+    }
+    elsif ( $format =~ /^o5m\.(xz|gz|bz2)$/ ) {
+        my $ext = $1;
+        $file =~ s/\.pbf$/.o5m.$ext/;
+        if ( !cached_format( $file, $pbf_file ) ) {
+            @system = ( @nice, "$dirname/pbf2osm", "--o5m-$ext", $pbf_file );
+            warn "@system\n" if $debug >= 2;
+            @system = 'true' if $test_mode;
+
+            system(@system) == 0 or die "system @system failed: $?";
+        }
+    }
+    elsif ( $format =~ /^opl\.(xz|gz|bz2)$/ ) {
+        my $ext = $1;
+        $file =~ s/\.pbf$/.opl.$ext/;
+        if ( !cached_format( $file, $pbf_file ) ) {
+            @system = ( @nice, "$dirname/pbf2osm", "--opl-$ext", $pbf_file );
+
+            warn "@system\n" if $debug >= 2;
+            @system = 'true' if $test_mode;
+
+            system(@system) == 0 or die "system @system failed: $?";
+        }
+    }
+    elsif ( $format =~ /^csv\.(xz|gz|bz2)$/ ) {
+        my $ext = $1;
+        $file =~ s/\.pbf$/.csv.$ext/;
+        if ( !cached_format( $file, $pbf_file ) ) {
+            @system = ( @nice, "$dirname/pbf2osm", "--csv-$ext", $pbf_file );
+
+            warn "@system\n" if $debug >= 2;
+            @system = 'true' if $test_mode;
+
+            system(@system) == 0 or die "system @system failed: $?";
+        }
+    }
+
+    elsif ($format =~ /^garmin-(osm|cycle|leisure|bbbike).zip$/
+        || $format =~ /^[a-z\-]+\.garmin-(osm|cycle|leisure|srtm)\.zip$/ )
     {
-        my $obj       = get_json($json_file);
-        my $format    = $obj->{'format'};
-        my $pbf_file  = $obj->{'pbf_file'};
-        my $poly_file = $obj->{'poly_file'};
-        my $city      = mkgmap_description( $obj->{'city'} );
-        my $lang      = $obj->{'lang'} || "en";
-        my @system;
+        my $style      = $1;
+        my $format_ext = $format;
+        $format_ext =~ s/^[a-z\-]+\.garmin/garmin/;
 
-        # parameters for osm2XXX shell scripts
-        $ENV{BBBIKE_EXTRACT_URL} = &script_url( $option, $obj );
-        $ENV{BBBIKE_EXTRACT_COORDS} =
-qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
-        $ENV{'BBBIKE_EXTRACT_LANG'} = $lang;
+        $file =~ s/\.pbf$/.$format_ext/;
+        $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
 
-        $ENV{'BBBIKE_EXTRACT_GARMIN_VERSION'} =
-          $option->{pbf2osm}->{garmin_version};
-        $ENV{'BBBIKE_EXTRACT_OSMAND_VERSION'} =
-          $option->{pbf2osm}->{osmand_version};
-        $ENV{'BBBIKE_EXTRACT_MAPSFORGE_VERSION'} =
-          $option->{pbf2osm}->{mapsforge_version};
-        $ENV{'BBBIKE_EXTRACT_NAVIT_VERSION'} =
-          $option->{pbf2osm}->{navit_version};
-        $ENV{'BBBIKE_EXTRACT_SHAPE_VERSION'} =
-          $option->{pbf2osm}->{shape_version};
+        if ( !cached_format( $file, $pbf_file ) ) {
+            @system = ( @nice, "$dirname/pbf2osm", "--garmin-$style", $pbf_file,
+                $city );
+            warn "@system\n" if $debug >= 2;
+            @system = 'true' if $test_mode;
 
-        ###################################################################
-        # converted file name
-        my $file = $pbf_file;
-        warn "pbf file size $pbf_file: @{[ file_size_mb($pbf_file) ]} MB\n"
-          if $debug >= 1;
-        $obj->{"pbf_file_size"} = file_size($pbf_file);
-
-        # convert .pbf to .osm if requested
-        my @nice = ( "nice", "-n", $nice_level_converter );
-        my $time = time();
-
-        if ( $format =~ /^osm\.(xz|gz|bz2)$/ ) {
-            my $ext = $1;
-            $file =~ s/\.pbf$/.$ext/;
-            if ( !cached_format( $file, $pbf_file ) ) {
-                @system = ( @nice, "$dirname/pbf2osm", "--p$ext", $pbf_file );
-                warn "@system\n" if $debug >= 2;
-                @system = 'true' if $test_mode;
-
-                system(@system) == 0 or die "system @system failed: $?";
-            }
+            system(@system) == 0 or die "system @system failed: $?";
         }
-        elsif ( $format =~ /^o5m\.(xz|gz|bz2)$/ ) {
-            my $ext = $1;
-            $file =~ s/\.pbf$/.o5m.$ext/;
-            if ( !cached_format( $file, $pbf_file ) ) {
-                @system =
-                  ( @nice, "$dirname/pbf2osm", "--o5m-$ext", $pbf_file );
-                warn "@system\n" if $debug >= 2;
-                @system = 'true' if $test_mode;
+    }
+    elsif ( $format eq 'shp.zip' ) {
+        $file =~ s/\.pbf$/.$format/;
+        $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
 
-                system(@system) == 0 or die "system @system failed: $?";
-            }
+        if ( !cached_format( $file, $pbf_file ) ) {
+            @system =
+              ( @nice, "$dirname/pbf2osm", "--shape", $pbf_file, $city );
+
+            warn "@system\n" if $debug >= 2;
+            @system = 'true' if $test_mode;
+
+            system(@system) == 0 or die "system @system failed: $?";
         }
-        elsif ( $format =~ /^opl\.(xz|gz|bz2)$/ ) {
-            my $ext = $1;
-            $file =~ s/\.pbf$/.opl.$ext/;
-            if ( !cached_format( $file, $pbf_file ) ) {
-                @system =
-                  ( @nice, "$dirname/pbf2osm", "--opl-$ext", $pbf_file );
+    }
+    elsif ( $format eq 'obf.zip' || $format =~ /^[a-z\-]+\.obf.zip$/ ) {
+        my $format_ext = $format;
+        $format_ext =~ s/^[a-z\-]+\.obf/obf/;
 
-                warn "@system\n" if $debug >= 2;
-                @system = 'true' if $test_mode;
+        $file =~ s/\.pbf$/.$format_ext/;
+        $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
 
-                system(@system) == 0 or die "system @system failed: $?";
-            }
+        if ( !cached_format( $file, $pbf_file ) ) {
+            @system =
+              ( @nice, "$dirname/pbf2osm", "--osmand", $pbf_file, $city );
+
+            warn "@system\n" if $debug >= 2;
+            @system = 'true' if $test_mode;
+
+            system(@system) == 0 or die "system @system failed: $?";
         }
-        elsif ( $format =~ /^csv\.(xz|gz|bz2)$/ ) {
-            my $ext = $1;
-            $file =~ s/\.pbf$/.csv.$ext/;
-            if ( !cached_format( $file, $pbf_file ) ) {
-                @system =
-                  ( @nice, "$dirname/pbf2osm", "--csv-$ext", $pbf_file );
+    }
+    elsif ( $format eq 'navit.zip' ) {
+        $file =~ s/\.pbf$/.$format/;
+        $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
 
-                warn "@system\n" if $debug >= 2;
-                @system = 'true' if $test_mode;
+        if ( !cached_format( $file, $pbf_file ) ) {
+            @system =
+              ( @nice, "$dirname/pbf2osm", "--navit", $pbf_file, $city );
 
-                system(@system) == 0 or die "system @system failed: $?";
-            }
+            warn "@system\n" if $debug >= 2;
+            @system = 'true' if $test_mode;
+
+            system(@system) == 0 or die "system @system failed: $?";
         }
+    }
+    elsif ($format =~ /^mapsforge-(osm)\.zip$/
+        || $format =~ /^[a-z\-]+\.mapsforge-(osm)\.zip$/ )
+    {
+        my $style      = $1;
+        my $format_ext = $format;
+        $format_ext =~ s/^[a-z\-]+\.mapsforge/mapsforge/;
 
-        elsif ($format =~ /^garmin-(osm|cycle|leisure|bbbike).zip$/
-            || $format =~ /^[a-z\-]+\.garmin-(osm|cycle|leisure|srtm)\.zip$/ )
-        {
-            my $style      = $1;
-            my $format_ext = $format;
-            $format_ext =~ s/^[a-z\-]+\.garmin/garmin/;
+        $file =~ s/\.pbf$/.$format_ext/;
+        $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
 
-            $file =~ s/\.pbf$/.$format_ext/;
-            $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
+        if ( !cached_format( $file, $pbf_file ) ) {
+            @system = (
+                @nice, "$dirname/pbf2osm", "--mapsforge-$style", $pbf_file,
+                $city
+            );
 
-            if ( !cached_format( $file, $pbf_file ) ) {
-                @system = (
-                    @nice, "$dirname/pbf2osm", "--garmin-$style", $pbf_file,
-                    $city
-                );
-                warn "@system\n" if $debug >= 2;
-                @system = 'true' if $test_mode;
+            warn "@system\n" if $debug >= 2;
+            @system = 'true' if $test_mode;
 
-                system(@system) == 0 or die "system @system failed: $?";
-            }
+            system(@system) == 0 or die "system @system failed: $?";
         }
-        elsif ( $format eq 'shp.zip' ) {
-            $file =~ s/\.pbf$/.$format/;
-            $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
+    }
 
-            if ( !cached_format( $file, $pbf_file ) ) {
-                @system =
-                  ( @nice, "$dirname/pbf2osm", "--shape", $pbf_file, $city );
+    # cleanup poly file after successfull convert
+    push @unlink, $poly_file if defined $poly_file;
 
-                warn "@system\n" if $debug >= 2;
-                @system = 'true' if $test_mode;
+    next if $test_mode;
 
-                system(@system) == 0 or die "system @system failed: $?";
-            }
-        }
-        elsif ( $format eq 'obf.zip' || $format =~ /^[a-z\-]+\.obf.zip$/ ) {
-            my $format_ext = $format;
-            $format_ext =~ s/^[a-z\-]+\.obf/obf/;
+    my $convert_time = time() - $time;
+    $obj->{"convert_time"} = $convert_time;
+    $obj->{"extract_time"} = $extract_time;
 
-            $file =~ s/\.pbf$/.$format_ext/;
-            $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
+    ###################################################################
+    # keep a copy of .pbf in ./osm for further usage
+    my $to = $spool->{'osm'} . "/" . basename($pbf_file);
 
-            if ( !cached_format( $file, $pbf_file ) ) {
-                @system =
-                  ( @nice, "$dirname/pbf2osm", "--osmand", $pbf_file, $city );
+    unlink($to);
+    warn "link $pbf_file => $to\n" if $debug >= 2;
+    link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
+    aws_s3_put( 'file' => $to );
 
-                warn "@system\n" if $debug >= 2;
-                @system = 'true' if $test_mode;
+    my $file_size = file_size_mb($to) . " MB";
+    warn "generated file size $to: $file_size\n" if $debug >= 1;
 
-                system(@system) == 0 or die "system @system failed: $?";
-            }
-        }
-        elsif ( $format eq 'navit.zip' ) {
-            $file =~ s/\.pbf$/.$format/;
-            $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
+    ###################################################################
+    # copy for downloading in /download
+    $to = $spool->{'download'} . "/" . basename($pbf_file);
+    unlink($to);
+    warn "link $pbf_file => $to\n" if $debug >= 1;
+    link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
 
-            if ( !cached_format( $file, $pbf_file ) ) {
-                @system =
-                  ( @nice, "$dirname/pbf2osm", "--navit", $pbf_file, $city );
-
-                warn "@system\n" if $debug >= 2;
-                @system = 'true' if $test_mode;
-
-                system(@system) == 0 or die "system @system failed: $?";
-            }
-        }
-        elsif ($format =~ /^mapsforge-(osm)\.zip$/
-            || $format =~ /^[a-z\-]+\.mapsforge-(osm)\.zip$/ )
-        {
-            my $style      = $1;
-            my $format_ext = $format;
-            $format_ext =~ s/^[a-z\-]+\.mapsforge/mapsforge/;
-
-            $file =~ s/\.pbf$/.$format_ext/;
-            $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
-
-            if ( !cached_format( $file, $pbf_file ) ) {
-                @system = (
-                    @nice, "$dirname/pbf2osm", "--mapsforge-$style", $pbf_file,
-                    $city
-                );
-
-                warn "@system\n" if $debug >= 2;
-                @system = 'true' if $test_mode;
-
-                system(@system) == 0 or die "system @system failed: $?";
-            }
-        }
-
-        # cleanup poly file after successfull convert
-        push @unlink, $poly_file if defined $poly_file;
-
-        next if $test_mode;
-
-        my $convert_time = time() - $time;
-        $obj->{"convert_time"} = $convert_time;
-        $obj->{"extract_time"} = $extract_time;
-
-        ###################################################################
-        # keep a copy of .pbf in ./osm for further usage
-        my $to = $spool->{'osm'} . "/" . basename($pbf_file);
-
+    ###################################################################
+    # .osm.gz or .osm.bzip2 files?
+    if ( $file ne $pbf_file ) {
+        $to = $spool->{'download'} . "/" . basename($file);
         unlink($to);
-        warn "link $pbf_file => $to\n" if $debug >= 2;
-        link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
-        aws_s3_put( 'file' => $to );
 
-        my $file_size = file_size_mb($to) . " MB";
-        warn "generated file size $to: $file_size\n" if $debug >= 1;
+        link( $file, $to ) or die "link $file => $to: $!\n";
+        aws_s3_put( 'file' => $file );
 
-        ###################################################################
-        # copy for downloading in /download
-        $to = $spool->{'download'} . "/" . basename($pbf_file);
-        unlink($to);
-        warn "link $pbf_file => $to\n" if $debug >= 1;
-        link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
+        $file_size = file_size_mb($to) . " MB";
+        warn "file size $to: $file_size\n" if $debug >= 1;
 
-        ###################################################################
-        # .osm.gz or .osm.bzip2 files?
-        if ( $file ne $pbf_file ) {
-            $to = $spool->{'download'} . "/" . basename($file);
-            unlink($to);
+        push @unlink, $file;
+    }
 
-            link( $file, $to ) or die "link $file => $to: $!\n";
-            aws_s3_put( 'file' => $file );
+    my $url = $option->{'homepage'} . "/" . basename($to);
+    if ( $option->{"aws_s3_enabled"} ) {
+        $url = $option->{"aws_s3"}->{"homepage"} . "/" . aws_s3_path($to);
+    }
 
-            $file_size = file_size_mb($to) . " MB";
-            warn "file size $to: $file_size\n" if $debug >= 1;
+    my $checksum_sha256 = checksum( $to, "sha256" );
+    my $checksum_md5    = checksum( $to, "md5" );
+    $obj->{"checksum_md5"} = $checksum_md5;
 
-            push @unlink, $file;
+    # unlink temporary .pbf files after all files are proceeds
+    if (@unlink) {
+        warn "Unlink temp files: " . join( "", @unlink ) . "\n"
+          if $debug >= 2;
+        unlink(@unlink) or die "unlink: @unlink: $!\n";
+    }
+
+    $msg = get_msg( $obj->{"lang"} || "en" );
+
+    ###################################################################
+    # display uncompressed image file size
+    if ( $option->{show_image_size} && $to =~ /\.zip$/ ) {
+        $file_size .= " " . M("zip archive") . ", ";
+        $obj->{"image_size_zip"} = file_size($to);
+
+        my $prog = dirname($0) . "/extract-disk-usage.sh";
+        open my $fh, "$prog $to |" or die open "open $prog $to";
+
+        my $du = -1;
+        while (<$fh>) {
+            warn $_;
+            chomp;
+            $du = $_;
         }
 
-        my $url = $option->{'homepage'} . "/" . basename($to);
-        if ( $option->{"aws_s3_enabled"} ) {
-            $url = $option->{"aws_s3"}->{"homepage"} . "/" . aws_s3_path($to);
-        }
+        $file_size .= kb_to_mb( $du * 1024 ) . " MB " . M("uncompressed");
+        warn "image file size $to: $file_size\n" if $debug >= 1;
 
-        my $checksum_sha256 = checksum( $to, "sha256" );
-        my $checksum_md5    = checksum( $to, "md5" );
-        $obj->{"checksum_md5"} = $checksum_md5;
+        $obj->{"image_size_du"} = $du * 1024;
+    }
 
-        # unlink temporary .pbf files after all files are proceeds
-        if (@unlink) {
-            warn "Unlink temp files: " . join( "", @unlink ) . "\n"
-              if $debug >= 2;
-            unlink(@unlink) or die "unlink: @unlink: $!\n";
-        }
+    ###################################################################
+    # mail
 
-        $msg = get_msg( $obj->{"lang"} || "en" );
+    my $square_km = large_int(
+        square_km(
+            $obj->{"sw_lat"}, $obj->{"sw_lng"},
+            $obj->{"ne_lat"}, $obj->{"ne_lng"}
+        ),
+        $obj->{'lang'}
+    );
 
-        ###################################################################
-        # display uncompressed image file size
-        if ( $option->{show_image_size} && $to =~ /\.zip$/ ) {
-            $file_size .= " " . M("zip archive") . ", ";
-            $obj->{"image_size_zip"} = file_size($to);
+    next if !$send_email;
 
-            my $prog = dirname($0) . "/extract-disk-usage.sh";
-            open my $fh, "$prog $to |" or die open "open $prog $to";
+    my $script_url = &script_url( $option, $obj );
+    my $database_update = gmctime($planet_osm_mtime) . " UTC";
 
-            my $du = -1;
-            while (<$fh>) {
-                warn $_;
-                chomp;
-                $du = $_;
-            }
+    my $text = M("EXTRACT_EMAIL");
+    my $granularity;
+    if ( grep { /^granularity=10000$/ } @{ $option->{"osmosis_options"} } ) {
+        $granularity = "10,000 (1.1 meters)";
+    }
+    elsif ( grep { /^granularity=1000$/ } @{ $option->{"osmosis_options"} } ) {
+        $granularity = "1,000 (11 cm)";
+    }
+    elsif ( grep { /^granularity=100$/ } @{ $option->{"osmosis_options"} } ) {
+        $granularity = "100 (1.1 cm)";
+    }
+    else {
+        $granularity = "full";
+    }
 
-            $file_size .= kb_to_mb( $du * 1024 ) . " MB " . M("uncompressed");
-            warn "image file size $to: $file_size\n" if $debug >= 1;
-
-            $obj->{"image_size_du"} = $du * 1024;
-        }
-
-        ###################################################################
-        # mail
-
-        my $square_km = large_int(
-            square_km(
-                $obj->{"sw_lat"}, $obj->{"sw_lng"},
-                $obj->{"ne_lat"}, $obj->{"ne_lng"}
-            ),
-            $obj->{'lang'}
-        );
-
-        next if !$send_email;
-
-        my $script_url = &script_url( $option, $obj );
-        my $database_update = gmctime($planet_osm_mtime) . " UTC";
-
-        my $text = M("EXTRACT_EMAIL");
-        my $granularity;
-        if ( grep { /^granularity=10000$/ } @{ $option->{"osmosis_options"} } )
-        {
-            $granularity = "10,000 (1.1 meters)";
-        }
-        elsif ( grep { /^granularity=1000$/ }
-            @{ $option->{"osmosis_options"} } )
-        {
-            $granularity = "1,000 (11 cm)";
-        }
-        elsif ( grep { /^granularity=100$/ } @{ $option->{"osmosis_options"} } )
-        {
-            $granularity = "100 (1.1 cm)";
-        }
-        else {
-            $granularity = "full";
-        }
-
-        my $message = sprintf(
-            $text,
-            $obj->{'city'},
-            $url,
-            $obj->{'city'},
+    my $message = sprintf(
+        $text,
+        $obj->{'city'},
+        $url,
+        $obj->{'city'},
 qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
-            $script_url,
-            $square_km,
-            $granularity,    #$osmosis_options,
-            $obj->{"format"},
-            $file_size,
-            $checksum_sha256,
-            $checksum_md5,
-            $database_update
-        );
+        $script_url,
+        $square_km,
+        $granularity,    #$osmosis_options,
+        $obj->{"format"},
+        $file_size,
+        $checksum_sha256,
+        $checksum_md5,
+        $database_update
+    );
 
 #        my $message = <<EOF;
 #Hi,
@@ -1595,25 +1584,24 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
 #http://www.BBBike.org - Your Cycle Route Planner
 #EOF
 
-        my $subject =
-            "BBBike extract: area '"
-          . $obj->{'city'}
-          . "', format="
-          . $obj->{'format'}
-          . " is ready for download";
-        my @args = ( $obj->{'email'}, $subject, $message, $option->{'bcc'} );
+    my $subject =
+        "BBBike extract: area '"
+      . $obj->{'city'}
+      . "', format="
+      . $obj->{'format'}
+      . " is ready for download";
+    my @args = ( $obj->{'email'}, $subject, $message, $option->{'bcc'} );
 
-        my $email_rest_enabled = $option->{"email_rest_enabled"};
-        warn "email_rest_enabled: $email_rest_enabled\n" if $debug >= 2;
-        if ($email_rest_enabled) {
-            send_email_rest(@args);
-        }
-        else {
-            send_email_smtp(@args);
-        }
-
-        warn "XXX: " . Dumper($obj);
+    my $email_rest_enabled = $option->{"email_rest_enabled"};
+    warn "email_rest_enabled: $email_rest_enabled\n" if $debug >= 2;
+    if ($email_rest_enabled) {
+        send_email_rest(@args);
     }
+    else {
+        send_email_smtp(@args);
+    }
+
+    warn "XXX: " . Dumper($obj);
 }
 
 sub aws_s3_put {
