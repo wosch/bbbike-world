@@ -894,7 +894,7 @@ sub run_extracts_osmconvert {
     push @data, $planet_osm;
 
     warn
-"Use planet.osm file $planet_osm, size: @{[ file_size($planet_osm) ]} MB\n"
+"Use planet.osm file $planet_osm, size: @{[ file_size_mb($planet_osm) ]} MB\n"
       if $debug >= 1;
     warn "Run extracts: " . join( " ", @data ), "\n" if $debug >= 2;
     return ( \@data, \@fixme );
@@ -1282,9 +1282,9 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         ###################################################################
         # converted file name
         my $file = $pbf_file;
-        warn "pbf file size $pbf_file: @{[ file_size($pbf_file) ]} MB\n"
+        warn "pbf file size $pbf_file: @{[ file_size_mb($pbf_file) ]} MB\n"
           if $debug >= 1;
-        $obj->{"pbf_file_size"} = file_size($pbf_file);
+        $obj->{"pbf_file_size"} = file_size_mb($pbf_file);
 
         # convert .pbf to .osm if requested
         my @nice = ( "nice", "-n", $nice_level_converter );
@@ -1434,8 +1434,9 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
 
         next if $test_mode;
 
-        my $convert_time = $time - time();
+        my $convert_time = time() - $time;
         $obj->{"convert_time"} = $convert_time;
+        $obj->{"extract_time"} = $extract_time;
 
         ###################################################################
         # keep a copy of .pbf in ./osm for further usage
@@ -1446,7 +1447,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
         aws_s3_put( 'file' => $to );
 
-        my $file_size = file_size($to) . " MB";
+        my $file_size = file_size_mb($to) . " MB";
         warn "generated file size $to: $file_size\n" if $debug >= 1;
 
         ###################################################################
@@ -1465,7 +1466,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
             link( $file, $to ) or die "link $file => $to: $!\n";
             aws_s3_put( 'file' => $file );
 
-            $file_size = file_size($to) . " MB";
+            $file_size = file_size_mb($to) . " MB";
             warn "file size $to: $file_size\n" if $debug >= 1;
 
             push @unlink, $file;
@@ -1493,7 +1494,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         # display uncompressed image file size
         if ( $option->{show_image_size} && $to =~ /\.zip$/ ) {
             $file_size .= " " . M("zip archive") . ", ";
-            $obj->{"image_size_zip"} = $file_size;
+            $obj->{"image_size_zip"} = file_size($file);
 
             my $prog = dirname($0) . "/extract-disk-usage.sh";
             open my $fh, "$prog $to |" or die open "open $prog $to";
@@ -1505,8 +1506,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
                 $du = $_;
             }
 
-            $file_size .=
-              file_size_mb( $du * 1024 ) . " MB " . M("uncompressed");
+            $file_size .= kb_to_mb( $du * 1024 ) . " MB " . M("uncompressed");
             warn "image file size $to: $file_size\n" if $debug >= 1;
 
             $obj->{"image_size_du"} = $du;
@@ -1611,8 +1611,8 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
         else {
             send_email_smtp(@args);
         }
-        
-        warn Dumper($obj);
+
+        warn "XXX: " . Dumper($obj);
     }
 }
 
@@ -1630,7 +1630,7 @@ sub aws_s3_put {
         return;
     }
 
-    my $file_size = file_size($file) . " MB";
+    my $file_size = file_size_mb($file) . " MB";
     warn "Upload $file with size $file_size to AWS S3\n" if $debug >= 1;
 
     my $sep = "/";
@@ -1696,17 +1696,24 @@ sub file_mtime_diff {
     return $st1->mtime - $st2->mtime;
 }
 
-# file size in x.y MB
+# file size in KB
 sub file_size {
     my $file = shift;
 
     my $st = stat($file) or die "stat $file: $!\n";
 
-    return file_size_mb( $st->size );
+    return $st->size;
+}
+
+# file size in x.y MB
+sub file_size_mb {
+    my $file = shift;
+
+    return kb_to_mb( file_size($file) );
 }
 
 # sacle file size in x.y MB
-sub file_size_mb {
+sub kb_to_mb {
     my $size = shift;
 
     foreach my $scale ( 10, 100, 1000, 10_000 ) {
