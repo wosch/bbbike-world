@@ -1122,6 +1122,7 @@ sub convert_send_email {
     my $test_mode        = $args{'test_mode'};
     my $planet_osm       = $args{'planet_osm'};
     my $planet_osm_mtime = $args{'planet_osm_mtime'};
+    my $extract_time     = $args{'extract_time'};
 
     # all scripts are in these directory
     my $dirname = dirname($0);
@@ -1141,6 +1142,7 @@ sub convert_send_email {
                 'test_mode'        => $test_mode,
                 'planet_osm'       => $planet_osm,
                 'planet_osm_mtime' => $planet_osm_mtime,
+                'extract_time'     => $extract_time,
                 'alarm'            => $alarm
             );
         };
@@ -1241,6 +1243,7 @@ sub _convert_send_email {
     my $alarm            = $args{'alarm'};
     my $test_mode        = $args{'test_mode'};
     my $planet_osm       = $args{'planet_osm'};
+    my $extract_time     = $args{'extract_time'};
     my $planet_osm_mtime = $args{'planet_osm_mtime'};
 
     my $obj2 = get_json($json_file);
@@ -1281,9 +1284,11 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         my $file = $pbf_file;
         warn "pbf file size $pbf_file: @{[ file_size($pbf_file) ]} MB\n"
           if $debug >= 1;
+        $obj->{"pbf_file_size"} = file_size($pbf_file);
 
         # convert .pbf to .osm if requested
         my @nice = ( "nice", "-n", $nice_level_converter );
+        my $time = time();
 
         if ( $format =~ /^osm\.(xz|gz|bz2)$/ ) {
             my $ext = $1;
@@ -1429,6 +1434,9 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
 
         next if $test_mode;
 
+        my $convert_time = $time - time();
+        $obj->{"convert_time"} = $convert_time;
+
         ###################################################################
         # keep a copy of .pbf in ./osm for further usage
         my $to = $spool->{'osm'} . "/" . basename($pbf_file);
@@ -1470,6 +1478,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
 
         my $checksum_sha256 = checksum( $to, "sha256" );
         my $checksum_md5    = checksum( $to, "md5" );
+        $obj->{"checksum_md5"} = $checksum_md5;
 
         # unlink temporary .pbf files after all files are proceeds
         if (@unlink) {
@@ -1484,6 +1493,8 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         # display uncompressed image file size
         if ( $option->{show_image_size} && $to =~ /\.zip$/ ) {
             $file_size .= " " . M("zip archive") . ", ";
+            $obj->{"image_size_zip"} = $file_size;
+
             my $prog = dirname($0) . "/extract-disk-usage.sh";
             open my $fh, "$prog $to |" or die open "open $prog $to";
 
@@ -1497,6 +1508,8 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
             $file_size .=
               file_size_mb( $du * 1024 ) . " MB " . M("uncompressed");
             warn "image file size $to: $file_size\n" if $debug >= 1;
+
+            $obj->{"image_size_du"} = $du;
         }
 
         ###################################################################
@@ -1598,6 +1611,8 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
         else {
             send_email_smtp(@args);
         }
+        
+        warn Dumper($obj);
     }
 }
 
@@ -1969,7 +1984,8 @@ sub run_jobs {
     system(@system) == 0
       or die "system @system failed: $?";
 
-    warn "Running extract time: ", time() - $time, " seconds\n" if $debug >= 1;
+    my $extract_time = time() - $time;
+    warn "Running extract time: $extract_time seconds\n" if $debug >= 1;
 
     if ( !$option->{'osmconvert_enabled'} ) {
         &fix_pbf( $new_pbf_files, $test_mode );
@@ -1986,6 +2002,7 @@ sub run_jobs {
         'test_mode'        => $test_mode,
         'planet_osm'       => $planet_osm,
         'planet_osm_mtime' => $stat->mtime,
+        'extract_time'     => $extract_time,
         'keep'             => 1
     );
 
