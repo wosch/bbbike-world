@@ -1284,7 +1284,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         my $file = $pbf_file;
         warn "pbf file size $pbf_file: @{[ file_size_mb($pbf_file) ]} MB\n"
           if $debug >= 1;
-        $obj->{"pbf_file_size"} = file_size_mb($pbf_file);
+        $obj->{"pbf_file_size"} = file_size($pbf_file);
 
         # convert .pbf to .osm if requested
         my @nice = ( "nice", "-n", $nice_level_converter );
@@ -1494,7 +1494,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
         # display uncompressed image file size
         if ( $option->{show_image_size} && $to =~ /\.zip$/ ) {
             $file_size .= " " . M("zip archive") . ", ";
-            $obj->{"image_size_zip"} = file_size($file);
+            $obj->{"image_size_zip"} = file_size($to);
 
             my $prog = dirname($0) . "/extract-disk-usage.sh";
             open my $fh, "$prog $to |" or die open "open $prog $to";
@@ -1509,7 +1509,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}];
             $file_size .= kb_to_mb( $du * 1024 ) . " MB " . M("uncompressed");
             warn "image file size $to: $file_size\n" if $debug >= 1;
 
-            $obj->{"image_size_du"} = $du;
+            $obj->{"image_size_du"} = $du * 1024;
         }
 
         ###################################################################
