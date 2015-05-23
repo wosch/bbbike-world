@@ -155,7 +155,7 @@ sub get_job_obj {
         "coords" => []
     };
 
-    warn Dumper($obj) if $debug >= 2;
+    warn "get_job_obj: " . Dumper($obj) if $debug >= 2;
     return $obj;
 }
 
@@ -240,7 +240,7 @@ sub create_poly_data {
     my %args = @_;
     my $obj  = $args{'job'};
 
-    warn Dumper($obj) if $debug >= 2;
+    warn "create_poly_data: " . Dumper($obj) if $debug >= 2;
 
     my $data = "";
     my @poly = ();
