@@ -10,6 +10,7 @@ use Getopt::Long;
 use Data::Dumper;
 
 use lib qw(world/lib ../lib);
+use Extract::Config;
 use Extract::Utils;
 use Extract::Planet;
 
@@ -42,9 +43,13 @@ GetOptions(
 ) or die usage;
 die usage if $help;
 
+my $config = new Extract::Config;
+
 my $planet = new Extract::Planet( 'debug' => $debug );
 my $extract_utils = Extract::Utils->new( 'debug' => $debug );
 die "No file given\n" if !@ARGV;
+
+my $planet_osm = $Extract::Planet::config->{'planet_osm'};
 
 foreach my $file (@ARGV) {
     my $obj = $extract_utils->parse_json_file($file);
@@ -58,7 +63,7 @@ foreach my $file (@ARGV) {
         $obj->{"city"},
         $planet->get_smallest_planet_file(
             'obj'        => $obj,
-            'planet_osm' => $obj->{"planet_osm"}
+            'planet_osm' => $obj->{"planet_osm"} || $planet_osm
         )
     );
 }
