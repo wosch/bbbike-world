@@ -11,6 +11,7 @@ use Data::Dumper;
 use lib qw(world/lib);
 use BBBike::Locale;
 use Extract::Config;
+use Extract::Utils qw(normalize_polygon);
 
 use strict;
 use warnings;
@@ -679,7 +680,9 @@ sub _check_input {
         $option->{'homepage'}, escapeHTML($city), large_int($skm), $coordinates,
         $format );
 
-    my ( $key, $json_file ) = &save_request($obj);
+    my $spool_dir = $self->{'option'}->{'spool_dir'};
+    my ( $key, $json_file ) =
+      &save_request( $obj, $spool_dir, $Extract::Config::spool->{"confirmed"} );
     if ( &complete_save_request($json_file) ) {
         push @data, M("EXTRACT_DONATION");
         push @data, qq{<br/>} x 4, "</p>\n";
