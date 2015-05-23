@@ -5,13 +5,17 @@
 
 package Extract::CGI;
 
+use HTTP::Date;
 use CGI qw(escapeHTML);
 use Data::Dumper;
+use Email::Valid;
 
 use lib qw(world/lib);
 use BBBike::Locale;
+use BBBike::Analytics;
 use Extract::Config;
-use Extract::Utils qw(normalize_polygon);
+use Extract::Utils
+  qw(normalize_polygon save_request complete_save_request check_queue);
 
 use strict;
 use warnings;
@@ -652,7 +656,10 @@ sub _check_input {
 
     ###############################################################################
     # bots?
-    my ( $email_counter, $ip_counter ) = $self->check_queue( 'obj' => $obj );
+    my $spool_dir     = $self->{'option'}->{'spool_dir'};
+    my $confirmed_dir = "$spool_dir/" . $Extract::Config::spool->{"confirmed"};
+
+    my ( $email_counter, $ip_counter ) = check_queue( 'obj' => $obj );
     if ( $email_counter > $option->{'scheduler'}->{'user_limit'} ) {
         error( M("EXTRACT_LIMIT") );
     }

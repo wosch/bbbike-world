@@ -5,13 +5,17 @@
 
 package Extract::Utils;
 
+use Encode qw/encode_utf8/;
+use Digest::MD5 qw(md5_hex);
+use GIS::Distance::Lite;
 use JSON;
 use File::Basename;
 use File::stat;
 use Data::Dumper;
 
 require Exporter;
-@EXPORT = qw(normalize_polygon);
+@EXPORT =
+  qw(normalize_polygon save_request complete_save_request check_queue Param square_km large_int);
 
 use strict;
 use warnings;
@@ -190,6 +194,179 @@ sub complete_save_request {
         warn "rename $file -> $temp_file: $!\n";
         return;
     }
+}
+
+sub check_queue {
+    my %args = @_;
+    my $obj  = $args{'obj'};
+
+    my $spool_dir_confirmed =
+      $args{'spool_dir_confirmed'};    #"$spool_dir/" . $spool->{'confirmed'};
+
+    # newest files from confirmed spool
+    my @files = `ls -t $spool_dir_confirmed`;
+
+    # argh!
+    if ($?) {
+        warn "opendir '$spool_dir_confirmed' failed: $?\n";
+        return ( 10000, 10000 );       # fake error
+    }
+
+    my $mail_error = "";
+
+    my $email_counter = 0;
+    my $ip_counter    = 0;
+    my $counter       = 1000;
+
+    my $self = new();
+    foreach my $file (@files) {
+        chomp $file;
+        next if $file !~ /\.json$/;
+
+        # check only the first 1000 files
+        last if $counter-- < 0;
+
+        my $perl = $self->parse_json_file("$spool_dir_confirmed/$file");
+        if ( $perl->{"email"} eq $obj->{"email"} ) {
+            $email_counter++;
+        }
+        if ( $perl->{"ip_address"} eq $obj->{"ip_address"} ) {
+            $ip_counter++;
+        }
+    }
+
+    warn qq[E-Mail spool counter: $obj->{"email"} => $email_counter, ],
+      qq[ip address: $obj->{"ip_address"} => $ip_counter\n]
+      if $debug >= 1;
+
+    return ( $email_counter, $ip_counter );
+}
+
+## get coordinates from a string or a file handle
+sub extract_coords {
+    my $coords = shift;
+
+    if ( ref $coords ne "" ) {
+        my $fh_file = $coords;
+
+        binmode $fh_file, ":utf8";
+        local $/ = "";
+        my $data = <$fh_file>;
+        undef $fh_file;
+        $coords = $data;
+    }
+
+    return $coords;
+}
+
+#
+# upload poly file to extract an area:
+#
+# curl -sSf -F "submit=extract" -F "email=nobody@gmail.com" -F "city=Karlsruhe" -F "format=osm.pbf" \
+#   -F "coords=@karlsruhe.poly" http://extract.bbbike.org | lynx -nolist -dump -stdin
+#
+sub parse_coords {
+    my $coords = shift;
+
+    if ( $coords =~ /\|/ ) {
+        return parse_coords_string($coords);
+    }
+    elsif ( $coords =~ /\[/ ) {
+        return parse_coords_json($coords);
+    }
+    elsif ( $coords =~ /END/ ) {
+        return parse_coords_poly($coords);
+    }
+    else {
+        warn "No known coords system found: '$coords'\n";
+        return ();
+    }
+}
+
+sub parse_coords_json {
+    my $coords = shift;
+
+    my $perl;
+    eval { $perl = decode_json($coords) };
+    if ($@) {
+        warn "decode_json: $@ for $coords\n";
+        return ();
+    }
+
+    return @$perl;
+}
+
+sub parse_coords_poly {
+    my $coords = shift;
+
+    my @list = split "\n", $coords;
+    my @data;
+    foreach (@list) {
+        next if !/^\s+/;
+        chomp;
+
+        my ( $lng, $lat ) = split;
+        push @data, [ $lng, $lat ];
+    }
+
+    return @data;
+}
+
+sub parse_coords_string {
+    my $coords = shift;
+    my @data;
+
+    my @coords = split /\|/, $coords;
+
+    foreach my $point (@coords) {
+        my ( $lng, $lat ) = split ",", $point;
+        push @data, [ $lng, $lat ];
+    }
+
+    return @data;
+}
+
+sub is_lng { return is_coord( shift, 180 ); }
+sub is_lat { return is_coord( shift, 90 ); }
+
+sub is_coord {
+    my $number = shift;
+    my $max    = shift;
+
+    return 0 if $number eq "";
+    return 0 if $number !~ /^[\-\+]?[0-9]+(\.[0-9]+)?$/;
+
+    return $number <= $max && $number >= -$max ? 1 : 0;
+}
+
+sub Param {
+    my $qq    = shift;
+    my $param = shift;
+    my $data  = $qq->param($param);
+    $data = "" if !defined $data;
+
+    $data =~ s/^\s+//;
+    $data =~ s/\s+$//;
+    $data =~ s/[\t\n]+/ /g;
+    return $data;
+}
+
+# ($lat1, $lon1 => $lat2, $lon2);
+sub square_km {
+    my ( $x1, $y1, $x2, $y2, $factor ) = @_;
+    $factor = 1 if !defined $factor;
+
+    my $height = GIS::Distance::Lite::distance( $x1, $y1 => $x1, $y2 ) / 1000;
+    my $width  = GIS::Distance::Lite::distance( $x1, $y1 => $x2, $y1 ) / 1000;
+
+    return int( $height * $width * $factor );
+}
+
+# 240000 -> 240,000
+sub large_int {
+    my $text = reverse shift;
+    $text =~ s/(\d\d\d)(?=\d)(?!\d*\.)/$1,/g;
+    return scalar reverse $text;
 }
 
 1;
