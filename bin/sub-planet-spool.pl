@@ -55,8 +55,6 @@ foreach my $file (@ARGV) {
     my $obj = $extract_utils->parse_json_file($file);
     next if !exists $obj->{"coords"} or ref $obj->{"coords"} ne 'ARRAY';
 
-    warn Dumper($obj) if $debug >= 2;
-
     printf(
         "%s\t%s\t%s\n",
         $file,
