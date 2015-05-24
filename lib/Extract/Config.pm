@@ -70,6 +70,8 @@ our $spool = {
     'failed'    => "failed",       # keep record of failed runs
 };
 
+our $spool_dir = '/var/cache/extract';
+
 ##########################
 # helper functions
 #

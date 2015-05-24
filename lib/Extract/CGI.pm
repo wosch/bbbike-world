@@ -422,6 +422,15 @@ sub script_url {
     return $script_url;
 }
 
+sub get_spool_dir {
+    my $self = shift;
+
+    my $spool_dir = $self->{'option'}->{'spool_dir'}
+      || $Extract::Config::spool_dir;
+
+    return $spool_dir;
+}
+
 #
 # validate user input
 # reject wrong values
@@ -661,8 +670,8 @@ sub _check_input {
 
     ###############################################################################
     # bots?
-    my $spool_dir     = $self->{'option'}->{'spool_dir'};
-    my $confirmed_dir = "$spool_dir/" . $Extract::Config::spool->{"confirmed"};
+    my $confirmed_dir =
+      $self->get_spool_dir() . "/" . $Extract::Config::spool->{"confirmed"};
 
     my ( $email_counter, $ip_counter ) =
       check_queue( 'obj' => $obj, 'spool_dir_confirmed' => $confirmed_dir );
@@ -693,11 +702,9 @@ sub _check_input {
         $option->{'homepage'}, escapeHTML($city), large_int($skm), $coordinates,
         $format );
 
-    my ( $key, $json_file ) = &save_request(
-        $obj,
-        $self->{'option'}->{'spool_dir'},
-        $Extract::Config::spool->{"confirmed"}
-    );
+    my ( $key, $json_file ) =
+      &save_request( $obj, $self->get_spool_dir,
+        $Extract::Config::spool->{"confirmed"} );
     if ( &complete_save_request($json_file) ) {
         push @data, M("EXTRACT_DONATION");
         push @data, qq{<br/>} x 4, "</p>\n";
