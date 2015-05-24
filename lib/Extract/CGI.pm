@@ -56,6 +56,8 @@ sub init {
     $option = $self->{'option'} if $self->{'option'};
 
     $self->{'formats'}  = $Extract::Config::formats;
+    $self->{'language'} = $self->{'locale'}->get_language;
+
     $self->{'database'} = "world/etc/tile/tile-pbf.csv";
 }
 
@@ -456,8 +458,8 @@ sub _check_input {
     my $self = shift;
 
     my %args    = @_;
-    my $q       = $args{'q'};
-    my $locale  = $args{'locale'};
+    my $q       = $args{'q'} || $self->{'q'};
+    my $locale  = $args{'locale'} || $self->{'locale'};
     my $max_skm = $self->{'option'}->{'max_skm'};
 
     #our $qq = $q;
@@ -662,7 +664,8 @@ sub _check_input {
     my $spool_dir     = $self->{'option'}->{'spool_dir'};
     my $confirmed_dir = "$spool_dir/" . $Extract::Config::spool->{"confirmed"};
 
-    my ( $email_counter, $ip_counter ) = check_queue( 'obj' => $obj, 'spool_dir_confirmed' =>  $confirmed_dir);
+    my ( $email_counter, $ip_counter ) =
+      check_queue( 'obj' => $obj, 'spool_dir_confirmed' => $confirmed_dir );
     if ( $email_counter > $option->{'scheduler'}->{'user_limit'} ) {
         error( M("EXTRACT_LIMIT") );
     }
@@ -690,8 +693,11 @@ sub _check_input {
         $option->{'homepage'}, escapeHTML($city), large_int($skm), $coordinates,
         $format );
 
-    my ( $key, $json_file ) =
-      &save_request( $obj, $self->{'option'}->{'spool_dir'}, $Extract::Config::spool->{"confirmed"} );
+    my ( $key, $json_file ) = &save_request(
+        $obj,
+        $self->{'option'}->{'spool_dir'},
+        $Extract::Config::spool->{"confirmed"}
+    );
     if ( &complete_save_request($json_file) ) {
         push @data, M("EXTRACT_DONATION");
         push @data, qq{<br/>} x 4, "</p>\n";
@@ -715,8 +721,8 @@ sub homepage {
     my $self = shift;
 
     my %args           = @_;
-    my $q              = $args{'q'};
-    my $locale         = $args{'locale'};
+    my $q              = $args{'q'} || $self->{'q'};
+    my $locale         = $args{'locale'} || $self->{'locale'};
     my $language       = $self->{'language'};
     my $formats        = $self->{'formats'};
     my $request_method = $self->{'option'}->{'request_method'};

@@ -117,9 +117,6 @@ my $extract_config = Extract::Config->new( 'q' => $q, 'option' => $option );
 $extract_config->load_config;
 $extract_config->check_extract_pro;
 
-my $extract_cgi =
-  Extract::CGI->new( 'q' => $q, 'option' => $option, 'debug' => $debug );
-
 #my $formats = $Extract::Config::formats;
 #my $spool   = $Extract::Config::spool;
 #
@@ -151,11 +148,18 @@ my $locale = BBBike::Locale->new(
     'language'            => $option->{'language'}
 );
 
+my $extract_cgi = Extract::CGI->new(
+    'q'      => $q,
+    'option' => $option,
+    'debug'  => $debug,
+    'locale' => $locale
+);
+
 if ( $q->param("submit") ) {
-    $extract_cgi->check_input( 'q' => $q, 'locale' => $locale );
+    $extract_cgi->check_input;
 }
 else {
-    $extract_cgi->homepage( 'q' => $q, 'locale' => $locale );
+    $extract_cgi->homepage;
 }
 
 1;
