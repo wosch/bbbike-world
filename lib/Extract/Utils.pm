@@ -220,7 +220,7 @@ sub check_queue {
     my $ip_counter    = 0;
     my $counter       = 1000;
 
-    my $self = new();
+    my $self = new Extract::Utils;
     foreach my $file (@files) {
         chomp $file;
         next if $file !~ /\.json$/;

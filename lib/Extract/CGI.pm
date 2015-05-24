@@ -439,7 +439,7 @@ sub check_input {
     my $self = shift;
 
     my %args = @_;
-    my $q    = $args{'q'};
+    my $q = $args{'q'} || $self->{'q'};
 
     my $error;
     my $data;
