@@ -53,7 +53,7 @@
 
     "EXTRACT_CONFIRMED": [
         "<p>Danke - die Eingabedaten sind korrekt.</p><p>",
-        "Es dauert ca. 7-12 Minuten um eine Region aus der Planet.osm Datei auszuschneiden - ",
+        "Es dauert ca. 2-7 Minuten um eine Region aus der Planet.osm Datei auszuschneiden - ",
         " in Abh&auml;ngigkeit der Gr&ouml;sse der Region und der Systemauslastung.",
         "Du wirst per E-Mail benachrichtigt, wenn das Extrakt fertig zum Downloaden ist.",
         "Bitte folge den Anweisungen in der E-Mail um den Extrakt-Auftrag abzuschliessen.",
