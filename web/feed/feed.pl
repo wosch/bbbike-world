@@ -49,12 +49,12 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 $feed->add_entry(
     title =>
-      qq{The extract service is now 5 times faster. It takes between 2-7 minutes to extract an area from planet.osm},
+qq{The extract service is now 5 times faster. It takes between 2-7 minutes to extract an area from planet.osm},
     id      => '5f5b1fc9a70af4642e758b84227c8ea6',
     content => {
         type => 'html',
         content =>
-      qq{The <a href="http://extract.bbbike.org/">extract service</a> is now 5 times faster. It takes between 2-7 minutes to extract an area from planet.osm},
+qq{The <a href="http://extract.bbbike.org/">extract service</a> is now 5 times faster. It takes between 2-7 minutes to extract an area from planet.osm},
     },
     updated  => '2015-05-24T13:30:02Z',
     category => 'News',

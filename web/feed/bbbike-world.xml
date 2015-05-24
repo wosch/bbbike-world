@@ -4,7 +4,7 @@
   <link href="http://www.bbbike.org" />
   <link href="http://www.bbbike.org/feed/bbbike-world.xml" rel="self" />
   <icon>http://www.bbbike.org/images/srtbike.ico</icon>
-  <updated>Sat Dec 13 19:24:59 2014 +0000</updated>
+  <updated>Sun May 24 10:32:01 2015 +0200</updated>
   <author>
     <name>Wolfram Schneider</name>
   </author>
@@ -12,6 +12,14 @@
   OpenStreetMap project!</subtitle>
   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af7</id>
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/" version="0.86">XML::Atom::SimpleFeed</generator>
+  <entry>
+    <title>The extract service is now 5 times faster. It takes between 2-7 minutes to extract an area from planet.osm</title>
+    <id>5f5b1fc9a70af4642e758b84227c8ea6</id>
+    <content type="html">The &lt;a href="http://extract.bbbike.org/"&gt;extract service&lt;/a&gt; is now 5 times faster. It takes between
+    2-7 minutes to extract an area from planet.osm</content>
+    <updated>2015-05-24T13:30:02Z</updated>
+    <category term="News" />
+  </entry>
   <entry>
     <title>Map Compare now supports up to 108 maps: http://mc.bbbike.org/mc/</title>
     <id>51d474fb21860b0629bfe8467ee42c0d</id>
