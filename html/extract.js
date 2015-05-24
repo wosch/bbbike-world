@@ -54,6 +54,7 @@ var config = {
         "opl.xz": "/images/opl.png",
         "csv.xz": "/images/csv.png",
         "csv.gz": "/images/csv.png",
+        "shp.zip": "/images/shp-small.png",
 
         "osm.gz": "/images/osm.png",
         "osm.xz": "/images/osm.png",
