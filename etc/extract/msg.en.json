@@ -8,7 +8,7 @@
 
     "EXTRACT_CONFIRMED": [
         "<p>Thanks - the input data looks good.</p><p>",
-        "It takes between 7-12 minutes to extract an area from planet.osm,",
+        "It takes between 2-7 minutes to extract an area from planet.osm,",
         "depending on the size of the area and the system load.",
         "You will be notified by e-mail if your extract is ready for download.",
         "Please follow the instruction in the email to proceed your request.",
