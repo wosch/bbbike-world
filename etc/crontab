@@ -2,11 +2,13 @@
 # 
 # m h  dom mon dow   command
 
-# extract.indexdata.com 
-*/6 * * * * cd /usr/local/www/bbbike.org/ && world/bin/extract-cron.sh --job=7
+# extract.bbbike.org 
+#*/6 * * * * cd /usr/local/www/bbbike.org/ && world/bin/extract-cron.sh --job=7
+* * * * * cd /usr/local/www/bbbike.org/ && world/bin/extract-cron.sh --job=10
+* * * * * cd /usr/local/www/bbbike.org/ && sleep 30 && world/bin/extract-cron.sh --job=10
 
-# extract-pro.indexdata.com 
-#*/5 * * * * cd /usr/local/www/bbbike.org/ && BBBIKE_EXTRACT_PROFILE=$HOME/.bbbike-extract-pro.rc world/bin/extract-cron.sh --job=3
+# extract-pro.bbbike.org 
+*/2 * * * * cd /usr/local/www/bbbike.org/ && BBBIKE_EXTRACT_PROFILE=$HOME/.bbbike-extract-pro.rc world/bin/extract-cron.sh --job=3
 
 # disk full?
 8 */2 * * * $HOME/projects/bbbike/world/bin/extract-watermark
@@ -22,8 +24,7 @@
 
 MAILTO=wosch
 # m h  dom mon dow   command
-#15 * * * *     cd $HOME/projects/bbbike/ && world/bin/planet-download-alert
-16 * * * *     cd $HOME/projects/bbbike/ && world/bin/planet-download-alert
+32 * * * *     cd $HOME/projects/bbbike/ && world/bin/planet-download-alert
 
 # stale jobs?
 49 * * * *     find /var/cache/extract/confirmed -name '*.json' -mtime +240 -ls
