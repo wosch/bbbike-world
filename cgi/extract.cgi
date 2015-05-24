@@ -5,12 +5,10 @@
 #
 
 use CGI;
-use CGI::Carp;
 
 use lib qw[../world/lib ../lib];
 use Extract::Config;
 use Extract::CGI;
-use BBBike::Locale;
 
 use strict;
 use warnings;
@@ -105,24 +103,20 @@ my $extract_config = Extract::Config->new( 'q' => $q, 'option' => $option );
 $extract_config->load_config;
 $extract_config->check_extract_pro;
 
-my $locale = BBBike::Locale->new(
-    'q'                   => $q,
-    'supported_languages' => $option->{'supported_languages'},
-    'language'            => $option->{'language'}
-);
-
 my $extract_cgi = Extract::CGI->new(
     'q'      => $q,
     'option' => $option,
-    'debug'  => $debug,
-    'locale' => $locale
+    'debug'  => $debug
 );
 
+# second page
 if ( $q->param("submit") ) {
     $extract_cgi->check_input;
 }
+
+# first page, homee page
 else {
     $extract_cgi->homepage;
 }
 
-1;
+__END__;

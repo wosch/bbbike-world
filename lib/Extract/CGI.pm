@@ -57,9 +57,15 @@ sub init {
     $option = $self->{'option'} if $self->{'option'};
 
     $self->{'formats'}  = $Extract::Config::formats;
-    $self->{'language'} = $self->{'locale'}->get_language;
-
     $self->{'database'} = "world/etc/tile/tile-pbf.csv";
+
+    $self->{'locale'} = BBBike::Locale->new(
+        'q'                   => $self->{'q'},
+        'supported_languages' => $option->{'supported_languages'},
+        'language'            => $option->{'language'}
+    );
+
+    $self->{'language'} = $self->{'locale'}->get_language;
 }
 
 ######################################################################
