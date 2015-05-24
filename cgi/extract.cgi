@@ -3,24 +3,12 @@
 #
 # extract.cgi - extracts areas in a batch job
 #
-# spool area
-#   /confirmed  - user confirmed request by clicking on a link in the email
-#   /running    - the request is running
-#   /osm        - the request is done, files are saved for further usage
-#   /download   - where the user can download the files, email sent out
-#  /jobN.pid    - running jobs
-#
-# todo:
-# - xxx
-#
 
-use CGI qw/-utf8 unescape escapeHTML/;
+use CGI;
 use CGI::Carp;
-use Data::Dumper;
 
 use lib qw[../world/lib ../lib];
 use Extract::Config;
-use Extract::Utils;
 use Extract::CGI;
 use BBBike::Locale;
 
@@ -104,8 +92,8 @@ our $option = {
     ],
 };
 
-###
-# global variables
+##########################################################################
+# main
 #
 my $q     = new CGI;
 my $debug = $option->{'debug'};
@@ -116,31 +104,6 @@ if ( defined $q->param('debug') ) {
 my $extract_config = Extract::Config->new( 'q' => $q, 'option' => $option );
 $extract_config->load_config;
 $extract_config->check_extract_pro;
-
-#my $formats = $Extract::Config::formats;
-#my $spool   = $Extract::Config::spool;
-#
-## spool directory. Should be at least 100GB large
-#my $spool_dir = $option->{'spool_dir'} || '/var/cache/extract';
-#
-#my $language       = "";                  # will be set later
-#my $extract_dialog = '/extract-dialog';
-#
-#my $max_skm = $option->{'max_skm'};
-#
-## use "GET" or "POST" for forms
-#my $request_method = $option->{request_method};
-#
-## translations
-#my $msg;
-#
-#
-#
-#
-#sub M { return BBBike::Locale::M(@_); };    # wrapper
-
-######################################################################
-# main
 
 my $locale = BBBike::Locale->new(
     'q'                   => $q,
