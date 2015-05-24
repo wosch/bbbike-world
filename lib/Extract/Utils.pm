@@ -12,13 +12,14 @@ use JSON;
 use File::Basename;
 use File::stat;
 use Data::Dumper;
-use Math::Polygon qw(polygon_simplify);
+use Math::Polygon::Transform qw(polygon_simplify);
+use Math::Polygon::Calc;
 
 require Exporter;
 use base qw/Exporter/;
 our @EXPORT = qw(normalize_polygon save_request complete_save_request
   check_queue Param large_int
-  extract_coords is_lat is_lng square_km parse_coords);
+  extract_coords is_lat is_lng square_km parse_coords polygon_bbox);
 
 use strict;
 use warnings;
@@ -370,6 +371,11 @@ sub large_int {
     my $text = reverse shift;
     $text =~ s/(\d\d\d)(?=\d)(?!\d*\.)/$1,/g;
     return scalar reverse $text;
+}
+
+# just a wrapper
+sub polygon_bbox {
+    return Math::Polygon::Calc::polygon_bbox(@_);
 }
 
 1;
