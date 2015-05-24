@@ -12,12 +12,13 @@ use JSON;
 use File::Basename;
 use File::stat;
 use Data::Dumper;
+use Math::Polygon qw(polygon_simplify);
 
 require Exporter;
 use base qw/Exporter/;
 our @EXPORT = qw(normalize_polygon save_request complete_save_request
-  check_queue Param square_km large_int extract_coords is_lat is_lng
-  square_km);
+  check_queue Param large_int
+  extract_coords is_lat is_lng square_km parse_coords);
 
 use strict;
 use warnings;
