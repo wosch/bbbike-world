@@ -466,6 +466,9 @@ function extract_init(opt) {
     }
 
     state.proj4326 = new OpenLayers.Projection('EPSG:4326');
+
+    // run at startup
+    if (config.display_format_image) display_format_image();
 }
 
 function boundsChanged() {
