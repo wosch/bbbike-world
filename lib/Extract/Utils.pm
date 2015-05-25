@@ -12,14 +12,11 @@ use JSON;
 use File::Basename;
 use File::stat;
 use Data::Dumper;
-use Math::Polygon::Transform qw(polygon_simplify);
-use Math::Polygon::Calc qw();
 
 require Exporter;
 use base qw/Exporter/;
-our @EXPORT = qw(save_request complete_save_request
-  check_queue Param large_int square_km
-  polygon_bbox);
+our @EXPORT =
+  qw(save_request complete_save_request check_queue Param large_int square_km);
 
 use strict;
 use warnings;
@@ -274,12 +271,6 @@ sub large_int {
     return scalar reverse $text;
 }
 
-# just a wrapper
-sub polygon_bbox {
-    return Math::Polygon::Calc::polygon_bbox(@_);
-}
-
 1;
 
 __DATA__;
-    

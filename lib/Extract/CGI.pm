@@ -575,7 +575,7 @@ sub _check_input {
               if !$poly->is_lat( $point->[1] );
         }
 
-        ( $sw_lng, $sw_lat, $ne_lng, $ne_lat ) = polygon_bbox(@coords);
+        ( $sw_lng, $sw_lat, $ne_lng, $ne_lat ) = $poly->polygon_bbox(@coords);
         warn "Calculate poygone bbox: ",
           "sw_lng: $sw_lng, sw_lat: $sw_lat, ne_lng: $ne_lng, ne_lat: $ne_lat\n"
           if $debug >= 1;

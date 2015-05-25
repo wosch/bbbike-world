@@ -8,6 +8,7 @@ package Extract::Poly;
 use CGI qw(escapeHTML);
 use JSON;
 use Math::Polygon::Transform qw(polygon_simplify);
+use Math::Polygon::Calc qw();
 use Data::Dumper;
 
 use lib qw(world/lib);
@@ -376,6 +377,13 @@ sub normalize_polygon {
     }
 
     return @poly;
+}
+
+# just a wrapper
+sub polygon_bbox {
+    my $self = shift;
+
+    return Math::Polygon::Calc::polygon_bbox(@_);
 }
 
 1;
