@@ -97,6 +97,15 @@ is( perl2string( \@coords ),
 #diag($data);
 #diag Dumper(\@coords) if $debug >= 0;
 
-plan tests => 27;
+diag("file_size_mb()") if $debug;
+is( $poly->file_size_mb( 0 * 1024 ),            "0.0",   "file_size_mb 0.0" );
+is( $poly->file_size_mb( 22 * 1024 ),           "0.02",  "file_size_mb 0.02" );
+is( $poly->file_size_mb( 222 * 1024 ),          "0.2",   "file_size_mb 0.2" );
+is( $poly->file_size_mb( 20 * 1024 * 1024 ),    "20",    "file_size_mb 20" );
+is( $poly->file_size_mb( 172.3 * 1024 * 1024 ), "172.3", "file_size_mb 172.3" );
+is( $poly->file_size_mb( 172.345 * 1024 * 1024 ),
+    "172.3", "file_size_mb 172.345" );
+
+plan tests => 28;
 
 __END__
