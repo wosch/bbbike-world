@@ -89,15 +89,16 @@ sub new {
 }
 
 #
-# Parse user config file.
+# Parse user config file by extract.cgi
 # This allows to override standard config values
 #
 
 sub load_config {
     my $self = shift;
 
-    my $config_file = "../.bbbike-extract.rc";
-    my $q           = $self->{'q'};
+    my $config_file = shift || "../.bbbike-extract.rc";
+
+    my $q = $self->{'q'};
     our $option = $self->{'option'};
 
     my $debug = $q->param("debug") || $self->{'debug'} || $option->{'debug'};
@@ -148,7 +149,7 @@ sub load_config_nocgi {
         $config_file = $ENV{BBBIKE_EXTRACT_PROFILE};
     }
     if ( -e $config_file ) {
-        warn "Load config file: $config_file\n" if $debug >= 2;
+        warn "Load config file nocgi: $config_file\n" if $debug >= 2;
         require $config_file;
     }
     else {
@@ -160,7 +161,8 @@ sub load_config_nocgi {
 # re-set values for extract-pro service
 sub check_extract_pro {
     my $self = shift;
-    my $q    = $self->{'q'};
+
+    my $q = $self->{'q'};
     our $option = $self->{'option'};
 
     my $url = $q->url( -full => 1 );
@@ -178,7 +180,8 @@ sub check_extract_pro {
 
 sub is_production {
     my $self = shift;
-    my $q    = $self->{'q'};
+
+    my $q = $self->{'q'};
 
     return 1 if -e "/tmp/is_production";
 
