@@ -20,6 +20,7 @@ our $option = {
     'max_extracts'        => 50,
     'default_format'      => 'osm.pbf',
     'enable_polygon'      => 1,
+    'pro'                 => 0,
     'debug'               => "2",
     'request_method'      => "GET",
     'supported_languages' => $BBBike::Locale::option->{"supported_languages"},
