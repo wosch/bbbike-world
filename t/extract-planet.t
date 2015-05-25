@@ -1,5 +1,7 @@
 #!/usr/local/bin/perl
 # Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
+#
+# see also world/t/subplanet-inner.t
 
 use Test::More;
 use Data::Dumper;
