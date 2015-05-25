@@ -639,29 +639,7 @@ qq{Number of unique routes: <span title="total routes: $counter2, cities: }
           . ( $stat ne 'hits' ? " hits " : " name " )
           . qq{</a><br />};
 
-        if ($filter_by_client) {
-            $qq = CGI->new($q);
-            my $appid = $qq->param("appid");
-
-            $d .= qq{Filter by device: };
-            my $data = "";
-            foreach my $app ( @appid, "" ) {
-                $data .= " | " if $data;
-                my $name = $app ne "" ? $app : "none";
-                if ( $app eq $appid ) {
-                    $data .= " $name";
-                }
-                else {
-                    $qq->param( "appid", $app );
-
-                    $data .=
-                        qq{<a href="}
-                      . $qq->url( -relative => 1, -query => 1 )
-                      . qq{">$name</a>\n};
-                }
-            }
-            $d .= $data;
-        }
+        $d .= &filter_by_client_link($q);
 
         $d .= "<p>Cycle Route Statistic<br/>" . &route_stat($cities) . "</p>";
 
@@ -689,6 +667,37 @@ qq{<noscript><p>You must enable JavaScript and CSS to run this application!</p>\
 
     print &footer;
     print $q->end_html;
+}
+
+sub filter_by_client_link {
+    my $q = shift;
+
+    return "" if !$filter_by_client;
+
+    my $qq    = CGI->new($q);
+    my $appid = $qq->param("appid");
+
+    my $message = qq{Filter by device: };
+    my $data    = "";
+
+    foreach my $app ( @appid, "" ) {
+        $data .= " | " if $data;
+        my $name = $app ne "" ? $app : "none";
+        if ( $app eq $appid ) {
+            $data .= " $name";
+        }
+        else {
+            $qq->param( "appid", $app );
+
+            $data .=
+                qq{<a href="}
+              . $qq->url( -relative => 1, -query => 1 )
+              . qq{">$name</a>\n};
+        }
+    }
+
+    $message .= $data;
+    return $message;
 }
 
 # basic statistic, no maps
@@ -753,6 +762,8 @@ sub statistic_basic {
 
     print "<p>City count: ", scalar(@cities),
       ", unique routes: $unique_routes, ", "total routes: $counter2</p>\n";
+
+    print &filter_by_client_link($q);
 
     if ( $unique_routes > 20 && !is_production($q) && $date eq 'today' ) {
         print "<p>Estimated usage today: "
