@@ -141,9 +141,11 @@ my $q       = new CGI;
 $counter += &config_success( $q, $test_option );
 $counter += &config_success_pro( $q, $test_option );
 $counter += &config_failed( $q, $test_option );
+$counter += &config_failed( $q, $test_option );
 
 plan tests => $counter;
 
 #diag(Dumper($option));
+#diag (Dumper(\%INC));
 
 __END__

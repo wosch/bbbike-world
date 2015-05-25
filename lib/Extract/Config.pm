@@ -73,7 +73,7 @@ sub new {
     my $class = shift;
     my %args  = @_;
 
-    my $self = {%args};
+    my $self = { %args };
 
     bless $self, $class;
 
@@ -104,6 +104,14 @@ sub load_config {
         $config_file = '../.bbbike-extract-pro.rc';
         warn "Use extract pro config file $config_file\n"
           if $debug >= 2;
+    }
+
+    # you can run "require" in perl only once
+    if ( $INC{$config_file} ) {
+        warn "WARNING: Config file $config_file was already loaded, ignored.\n";
+        warn
+qq{did you called Extract::Config->load_config("$config_file") twice?\n};
+        return;
     }
 
     if ( -e $config_file ) {
