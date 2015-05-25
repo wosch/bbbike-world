@@ -106,6 +106,14 @@ is( $poly->file_size_mb( 172.3 * 1024 * 1024 ), "172.3", "file_size_mb 172.3" );
 is( $poly->file_size_mb( 172.345 * 1024 * 1024 ),
     "172.3", "file_size_mb 172.345" );
 
-plan tests => 28;
+diag("square_km()") if $debug;
+is( $poly->rectangle_km( 12.76, 52.23, 13.98, 52.82 ), 5452, "5452 square km" );
+is( $poly->rectangle_km( 0,  0,  1,  1 ),  12366, "12366 square km" );
+is( $poly->rectangle_km( 0,  0,  0,  0 ),  0,     "0 square km" );
+is( $poly->rectangle_km( 3,  3,  3,  3 ),  0,     "0 square km" );
+is( $poly->rectangle_km( -3, -3, -3, -3 ), 0,     "0 square km" );
+is( $poly->rectangle_km( -3, -3, -3, 3 ),  0,     "0 square km" );
+
+plan tests => 39;
 
 __END__
