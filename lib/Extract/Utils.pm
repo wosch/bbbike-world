@@ -54,6 +54,7 @@ sub init {
 # scale file size in x.y MB
 sub file_size_mb {
     my $self = shift;
+    
     my $size = shift;
 
     foreach my $scale ( 10, 100, 1000, 10_000 ) {
@@ -66,6 +67,7 @@ sub file_size_mb {
 
 sub parse_json_file {
     my $self      = shift;
+    
     my $file      = shift;
     my $non_fatal = shift;
 
@@ -94,11 +96,13 @@ sub parse_json_file {
 # random sort of filenames
 sub random_filename_sort {
     my $self = shift;
+    
     return $self->random_sort(@_);
 }
 
 sub random_sort {
     my $self  = shift;
+    
     my @files = @_;
 
     my %hash = map { $_ => rand() } @files;
@@ -109,6 +113,7 @@ sub random_sort {
 # compare 2 files and return the modification diff time in seconds
 sub file_mtime_diff {
     my $self  = shift;
+    
     my $file1 = shift;
     my $file2 = shift;
 
