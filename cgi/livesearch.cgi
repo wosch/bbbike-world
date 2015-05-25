@@ -25,6 +25,8 @@ my $max                          = 50;
 my $only_production_statistic    = 1;
 my $debug                        = 1;
 my $logrotate_first_uncompressed = 1;
+my $filter_by_client             = 1;
+our @appid = qw/ios1 wp0 web0/;
 
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
@@ -636,7 +638,33 @@ qq{Number of unique routes: <span title="total routes: $counter2, cities: }
           . $qq->url( -relative => 1, -query => 1 ) . qq{">}
           . ( $stat ne 'hits' ? " hits " : " name " )
           . qq{</a><br />};
+
+        if ($filter_by_client) {
+            $qq = CGI->new($q);
+            my $appid = $qq->param("appid");
+
+            $d .= qq{Filter by device: };
+            my $data = "";
+            foreach my $app ( @appid, "" ) {
+                $data .= " | " if $data;
+                my $name = $app ne "" ? $app : "none";
+                if ( $app eq $appid ) {
+                    $data .= " $name";
+                }
+                else {
+                    $qq->param( "appid", $app );
+
+                    $data .=
+                        qq{<a href="}
+                      . $qq->url( -relative => 1, -query => 1 )
+                      . qq{">$name</a>\n};
+                }
+            }
+            $d .= $data;
+        }
+
         $d .= "<p>Cycle Route Statistic<br/>" . &route_stat($cities) . "</p>";
+
     }
     else {
         $d .= "No routes found";
