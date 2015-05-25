@@ -87,17 +87,16 @@ sub config_failed {
     my $homepage = $option->{'homepage'};
     my $config = Extract::Config->new( 'q' => $q, 'option' => $option );
     $config->load_config();    #'/bbbike-extract.rc');
-    is( $homepage, $option > {'homepage'}, "homepage not changed" );
-    isnt( $homepage, $option->{'homepage'}, "homepage not changed" );
-    isnt( $option->{'homepage'}, $option->{'homepage'},
-        "homepage not changed" );
+    is( $homepage, $option->{'homepage'},
+        "homepage not changed for default config" );
 
     $config = Extract::Config->new( 'q' => $q, 'option' => $option );
     $config->load_config('/bbbike-extract.rc');
-    is( $homepage, $option->{'homepage'}, "homepage not changed" );
+    is( $homepage, $option->{'homepage'},
+        "homepage not changed for non-exist config" );
 
     diag( Dumper($option) ) if $debug >= 2;
-    return 4;
+    return 2;
 }
 
 #################################################################################
@@ -140,9 +139,8 @@ sub config_success_pro {
 my $counter = 0;
 my $q       = new CGI;
 $counter += &config_success( $q, $test_option );
-
-#$counter += &config_failed($q, $test_option);
 $counter += &config_success_pro( $q, $test_option );
+$counter += &config_failed( $q, $test_option );
 
 plan tests => $counter;
 
