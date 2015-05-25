@@ -73,7 +73,7 @@ sub new {
     my $class = shift;
     my %args  = @_;
 
-    my $self = { %args };
+    my $self = {%args};
 
     bless $self, $class;
 
