@@ -17,9 +17,9 @@ use Math::Polygon::Calc qw();
 
 require Exporter;
 use base qw/Exporter/;
-our @EXPORT = qw(normalize_polygon save_request complete_save_request
-  check_queue Param large_int
-  extract_coords is_lat is_lng square_km parse_coords polygon_bbox);
+our @EXPORT = qw(save_request complete_save_request
+  check_queue Param large_int square_km
+  extract_coords normalize_polygon parse_coords polygon_bbox);
 
 use strict;
 use warnings;
@@ -328,19 +328,6 @@ sub parse_coords_string {
     }
 
     return @data;
-}
-
-sub is_lng { return is_coord( shift, 180 ); }
-sub is_lat { return is_coord( shift, 90 ); }
-
-sub is_coord {
-    my $number = shift;
-    my $max    = shift;
-
-    return 0 if $number eq "";
-    return 0 if $number !~ /^[\-\+]?[0-9]+(\.[0-9]+)?$/;
-
-    return $number <= $max && $number >= -$max ? 1 : 0;
 }
 
 sub Param {

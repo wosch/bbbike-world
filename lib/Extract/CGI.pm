@@ -15,10 +15,11 @@ use lib qw(world/lib);
 use BBBike::Locale;
 use BBBike::Analytics;
 use Extract::Config;
+use Extract::Poly;
 use Extract::Utils;
 
 # qw(normalize_polygon save_request complete_save_request
-#    check_queue Param square_km large_int extract_coords is_lat is_lng
+#    check_queue Param square_km large_int extract_coords
 #    square_km);
 
 use strict;
@@ -544,6 +545,7 @@ sub _check_input {
     my @coords = ();
     $coords = extract_coords($coords);
 
+    my $poly = new Extract::Poly;
     if ($coords) {
 
         #if ( !$option->{enable_polygon} ) {
@@ -567,9 +569,9 @@ sub _check_input {
 
         foreach my $point (@coords) {
             error("lng '$point->[0]' is out of range -180 ... 180")
-              if !is_lng( $point->[0] );
+              if !$poly->is_lng( $point->[0] );
             error("lat '$point->[1]' is out of range -90 ... 90")
-              if !is_lat( $point->[1] );
+              if !$poly->is_lat( $point->[1] );
         }
 
         ( $sw_lng, $sw_lat, $ne_lng, $ne_lat ) = polygon_bbox(@coords);
@@ -580,13 +582,13 @@ sub _check_input {
 
     # rectangle, 2 points
     error("sw lat '$sw_lat' is out of range -90 ... 90")
-      if !is_lat($sw_lat);
+      if !$poly->is_lat($sw_lat);
     error("sw lng '$sw_lng' is out of range -180 ... 180")
-      if !is_lng($sw_lng);
+      if !$poly->is_lng($sw_lng);
     error("ne lat '$ne_lat' is out of range -90 ... 90")
-      if !is_lat($ne_lat);
+      if !$poly->is_lat($ne_lat);
     error("ne lng '$ne_lng' is out of range -180 ... 180")
-      if !is_lng($ne_lng);
+      if !$poly->is_lng($ne_lng);
 
     $pg = 1 if !$pg || $pg > 1 || $pg <= 0;
 
