@@ -114,6 +114,14 @@ is( $poly->rectangle_km( 3,  3,  3,  3 ),  0,     "0 square km" );
 is( $poly->rectangle_km( -3, -3, -3, -3 ), 0,     "0 square km" );
 is( $poly->rectangle_km( -3, -3, -3, 3 ),  0,     "0 square km" );
 
-plan tests => 39;
+diag("normalize_polygon()") if $debug;
+@coords = $poly->normalize_polygon($coords);
+is(
+    perl2string($coords),
+    perl2string( \@coords ),
+    "parse coords from normalized poly"
+);
+
+plan tests => 40;
 
 __END__

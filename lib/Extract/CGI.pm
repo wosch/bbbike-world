@@ -559,7 +559,7 @@ sub _check_input {
               . scalar(@coords) . ' > '
               . $option->{max_coords} )
           if $#coords > $option->{max_coords};
-        @coords = &normalize_polygon( \@coords );
+        @coords = $poly->normalize_polygon( \@coords );
 
         if ( scalar(@coords) <= 2 ) {
             error("Need more than 2 points.");

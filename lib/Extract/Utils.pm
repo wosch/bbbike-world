@@ -19,7 +19,7 @@ require Exporter;
 use base qw/Exporter/;
 our @EXPORT = qw(save_request complete_save_request
   check_queue Param large_int square_km
-  normalize_polygon polygon_bbox);
+  polygon_bbox);
 
 use strict;
 use warnings;
@@ -126,30 +126,6 @@ sub file_mtime_diff {
 ###########################################################################
 # from extract.cgi
 #
-
-# fewer points, max. 1024 points in a polygon
-sub normalize_polygon {
-    my $poly = shift;
-    my $max = shift || 1024;
-
-    my $same = '0.001';
-    warn "Polygon input: " . Dumper($poly) if $debug >= 3;
-
-    # max. 10 meters accuracy
-    my @poly = polygon_simplify( 'same' => $same, @$poly );
-
-    # but not more than N points
-    if ( scalar(@poly) > $max ) {
-        warn "Resize 0.01 $#poly\n" if $debug >= 1;
-        @poly = polygon_simplify( 'same' => 0.01, @$poly );
-        if ( scalar(@poly) > $max ) {
-            warn "Resize $max points $#poly\n" if $debug >= 1;
-            @poly = polygon_simplify( max_points => $max, @poly );
-        }
-    }
-
-    return @poly;
-}
 
 # save request in confirmed spool
 sub save_request {
@@ -306,3 +282,4 @@ sub polygon_bbox {
 1;
 
 __DATA__;
+    

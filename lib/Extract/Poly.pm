@@ -7,7 +7,7 @@ package Extract::Poly;
 
 use CGI qw(escapeHTML);
 use JSON;
-use GIS::Distance::Lite;
+use Math::Polygon::Transform qw(polygon_simplify);
 use Data::Dumper;
 
 use lib qw(world/lib);
@@ -350,6 +350,32 @@ sub parse_coords_string {
     }
 
     return @data;
+}
+
+# fewer points, max. 1024 points in a polygon
+sub normalize_polygon {
+    my $self = shift;
+
+    my $poly = shift;
+    my $max = shift || 1024;
+
+    my $same = '0.001';
+    warn "Polygon input: " . Dumper($poly) if $debug >= 3;
+
+    # max. 10 meters accuracy
+    my @poly = polygon_simplify( 'same' => $same, @$poly );
+
+    # but not more than N points
+    if ( scalar(@poly) > $max ) {
+        warn "Resize 0.01 $#poly\n" if $debug >= 1;
+        @poly = polygon_simplify( 'same' => 0.01, @$poly );
+        if ( scalar(@poly) > $max ) {
+            warn "Resize $max points $#poly\n" if $debug >= 1;
+            @poly = polygon_simplify( max_points => $max, @poly );
+        }
+    }
+
+    return @poly;
 }
 
 1;
