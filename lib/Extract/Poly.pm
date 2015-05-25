@@ -285,7 +285,7 @@ sub create_poly_data {
 #
 sub parse_coords {
     my $self = shift;
-    
+
     my $coords = shift;
 
     if ( $coords =~ /\|/ ) {
@@ -305,7 +305,7 @@ sub parse_coords {
 
 sub parse_coords_json {
     my $self = shift;
-    
+
     my $coords = shift;
 
     my $perl;
@@ -320,7 +320,7 @@ sub parse_coords_json {
 
 sub parse_coords_poly {
     my $self = shift;
-    
+
     my $coords = shift;
 
     my @list = split "\n", $coords;
@@ -338,7 +338,7 @@ sub parse_coords_poly {
 
 sub parse_coords_string {
     my $self = shift;
-    
+
     my $coords = shift;
     my @data;
 
