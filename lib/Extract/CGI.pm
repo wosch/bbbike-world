@@ -553,7 +553,7 @@ sub _check_input {
         #    goto NEXT;
         #}
 
-        @coords = parse_coords($coords);
+        @coords = $poly->parse_coords($coords);
         error(  "to many coordinates for polygon: "
               . scalar(@coords) . ' > '
               . $option->{max_coords} )

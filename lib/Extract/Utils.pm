@@ -19,7 +19,7 @@ require Exporter;
 use base qw/Exporter/;
 our @EXPORT = qw(save_request complete_save_request
   check_queue Param large_int square_km
-  extract_coords normalize_polygon parse_coords polygon_bbox);
+  extract_coords normalize_polygon polygon_bbox);
 
 use strict;
 use warnings;
@@ -261,73 +261,6 @@ sub extract_coords {
     }
 
     return $coords;
-}
-
-#
-# upload poly file to extract an area:
-#
-# curl -sSf -F "submit=extract" -F "email=nobody@gmail.com" -F "city=Karlsruhe" -F "format=osm.pbf" \
-#   -F "coords=@karlsruhe.poly" http://extract.bbbike.org | lynx -nolist -dump -stdin
-#
-sub parse_coords {
-    my $coords = shift;
-
-    if ( $coords =~ /\|/ ) {
-        return parse_coords_string($coords);
-    }
-    elsif ( $coords =~ /\[/ ) {
-        return parse_coords_json($coords);
-    }
-    elsif ( $coords =~ /END/ ) {
-        return parse_coords_poly($coords);
-    }
-    else {
-        warn "No known coords system found: '$coords'\n";
-        return ();
-    }
-}
-
-sub parse_coords_json {
-    my $coords = shift;
-
-    my $perl;
-    eval { $perl = decode_json($coords) };
-    if ($@) {
-        warn "decode_json: $@ for $coords\n";
-        return ();
-    }
-
-    return @$perl;
-}
-
-sub parse_coords_poly {
-    my $coords = shift;
-
-    my @list = split "\n", $coords;
-    my @data;
-    foreach (@list) {
-        next if !/^\s+/;
-        chomp;
-
-        my ( $lng, $lat ) = split;
-        push @data, [ $lng, $lat ];
-    }
-
-    return @data;
-}
-
-sub parse_coords_string {
-    my $coords = shift;
-    my @data;
-
-    my @coords = split /\|/, $coords;
-
-    foreach my $point (@coords) {
-        my ( $lng, $lat ) = split ",", $point;
-        push @data, [ $lng, $lat ];
-    }
-
-    return @data;
 }
 
 sub Param {

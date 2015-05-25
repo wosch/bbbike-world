@@ -5,8 +5,8 @@
 
 package Extract::Poly;
 
-use JSON;
 use CGI qw(escapeHTML);
+use JSON;
 use GIS::Distance::Lite;
 use Data::Dumper;
 
@@ -275,6 +275,81 @@ sub create_poly_data {
     else {
         return ( $data, $counter, \@poly );
     }
+}
+
+#
+# upload poly file to extract an area:
+#
+# curl -sSf -F "submit=extract" -F "email=nobody@gmail.com" -F "city=Karlsruhe" -F "format=osm.pbf" \
+#   -F "coords=@karlsruhe.poly" http://extract.bbbike.org | lynx -nolist -dump -stdin
+#
+sub parse_coords {
+    my $self = shift;
+    
+    my $coords = shift;
+
+    if ( $coords =~ /\|/ ) {
+        return $self->parse_coords_string($coords);
+    }
+    elsif ( $coords =~ /\[/ ) {
+        return $self->parse_coords_json($coords);
+    }
+    elsif ( $coords =~ /END/ ) {
+        return $self->parse_coords_poly($coords);
+    }
+    else {
+        warn "No known coords system found: '$coords'\n";
+        return ();
+    }
+}
+
+sub parse_coords_json {
+    my $self = shift;
+    
+    my $coords = shift;
+
+    my $perl;
+    eval { $perl = decode_json($coords) };
+    if ($@) {
+        warn "decode_json: $@ for $coords\n";
+        return ();
+    }
+
+    return @$perl;
+}
+
+sub parse_coords_poly {
+    my $self = shift;
+    
+    my $coords = shift;
+
+    my @list = split "\n", $coords;
+    my @data;
+    foreach (@list) {
+        next if !/^\s+/;
+        chomp;
+
+        my ( $lng, $lat ) = split;
+        push @data, [ $lng, $lat ];
+    }
+
+    return @data;
+}
+
+sub parse_coords_string {
+    my $self = shift;
+    
+    my $coords = shift;
+    my @data;
+
+    my @coords = split /\|/, $coords;
+
+    foreach my $point (@coords) {
+        my ( $lng, $lat ) = split ",", $point;
+        push @data, [ $lng, $lat ];
+    }
+
+    return @data;
 }
 
 1;

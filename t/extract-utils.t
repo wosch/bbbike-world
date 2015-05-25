@@ -7,8 +7,8 @@ use CGI;
 use JSON;
 
 use lib qw(world/lib);
-use Extract::Utils;
 use Extract::Poly;
+use Extract::Utils;
 
 use strict;
 use warnings;
@@ -30,7 +30,6 @@ sub perl2string {
 #  normalize_polygon
 #  check_queue
 #  extract_coords
-#  parse_coords
 #  polygon_bbox;
 
 diag("large_int()") if $debug;
@@ -102,10 +101,10 @@ my $coords = [
     [ "13.399", "52.485" ]
 ];
 
-my @coords = Extract::Utils::parse_coords( encode_json($coords) );
+my @coords = $poly->parse_coords( encode_json($coords) );
 is( perl2string($coords), perl2string( \@coords ), "parse coords from json" );
 
-#diag Dumper(\@coords);
+diag Dumper(\@coords) if $debug >= 2;
 
 plan tests => 44;
 
