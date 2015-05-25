@@ -29,7 +29,6 @@ sub perl2string {
 #
 #  normalize_polygon
 #  check_queue
-#  extract_coords
 #  polygon_bbox;
 
 diag("large_int()") if $debug;
@@ -52,6 +51,10 @@ is( square_km( 3,     3,     3,     3 ),     0,     "0 square km" );
 is( square_km( -3,    -3,    -3,    -3 ),    0,     "0 square km" );
 is( square_km( -3,    -3,    -3,    3 ),     0,     "0 square km" );
 
-plan tests => 16;
+diag("file_mtime_diff()") if $debug;
+my $utils = new Extract::Utils;
+is( $utils->file_mtime_diff( $0, $0 ), 0, "file mtime diff" );
+
+plan tests => 17;
 
 __END__
