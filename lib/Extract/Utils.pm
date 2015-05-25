@@ -19,7 +19,7 @@ require Exporter;
 use base qw/Exporter/;
 our @EXPORT = qw(save_request complete_save_request
   check_queue Param large_int square_km
-  extract_coords normalize_polygon polygon_bbox);
+  normalize_polygon polygon_bbox);
 
 use strict;
 use warnings;
@@ -246,22 +246,22 @@ sub check_queue {
     return ( $email_counter, $ip_counter );
 }
 
-## get coordinates from a string or a file handle
-sub extract_coords {
-    my $coords = shift;
-
-    if ( ref $coords ne "" ) {
-        my $fh_file = $coords;
-
-        binmode $fh_file, ":utf8";
-        local $/ = "";
-        my $data = <$fh_file>;
-        undef $fh_file;
-        $coords = $data;
-    }
-
-    return $coords;
-}
+### get coordinates from a string or a file handle
+#sub extract_coords {
+#    my $coords = shift;
+#
+#    if ( ref $coords ne "" ) {
+#        my $fh_file = $coords;
+#
+#        binmode $fh_file, ":utf8";
+#        local $/ = "";
+#        my $data = <$fh_file>;
+#        undef $fh_file;
+#        $coords = $data;
+#    }
+#
+#    return $coords;
+#}
 
 sub Param {
     my $qq    = shift;

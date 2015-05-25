@@ -19,7 +19,7 @@ use Extract::Poly;
 use Extract::Utils;
 
 # qw(normalize_polygon save_request complete_save_request
-#    check_queue Param square_km large_int extract_coords
+#    check_queue Param square_km large_int
 #    square_km);
 
 use strict;
@@ -543,7 +543,8 @@ sub _check_input {
 
     # polygon, N points
     my @coords = ();
-    $coords = extract_coords($coords);
+
+    #$coords = extract_coords($coords);
 
     my $poly = new Extract::Poly;
     if ($coords) {
