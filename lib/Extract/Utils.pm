@@ -13,7 +13,7 @@ use File::Basename;
 use File::stat;
 use Data::Dumper;
 use Math::Polygon::Transform qw(polygon_simplify);
-use Math::Polygon::Calc;
+use Math::Polygon::Calc qw();
 
 require Exporter;
 use base qw/Exporter/;
