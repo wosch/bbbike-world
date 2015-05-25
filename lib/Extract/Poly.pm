@@ -12,6 +12,7 @@ use Data::Dumper;
 
 use lib qw(world/lib);
 use Extract::TileSize;
+use Extract::Utils qw(square_km);
 
 use strict;
 use warnings;
@@ -73,20 +74,7 @@ sub rectangle_km {
     my $self = shift;
     my ( $x1, $y1, $x2, $y2, $factor ) = @_;
 
-    return $self->square_km( $y1, $x1, $y2, $x2, $factor );
-}
-
-# ($lat1, $lon1 => $lat2, $lon2);
-sub square_km {
-    my $self = shift;
-
-    my ( $x1, $y1, $x2, $y2, $factor ) = @_;
-    $factor = 1 if !defined $factor;
-
-    my $height = GIS::Distance::Lite::distance( $x1, $y1 => $x1, $y2 ) / 1000;
-    my $width  = GIS::Distance::Lite::distance( $x1, $y1 => $x2, $y1 ) / 1000;
-
-    return int( $height * $width * $factor );
+    return Extract::Utils::square_km( $y1, $x1, $y2, $x2, $factor );
 }
 
 sub list_subplanets {
