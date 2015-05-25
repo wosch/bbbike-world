@@ -17,6 +17,7 @@ perltidy: perlcheck
 
 clean distclean:
 	rm -f *.bak *.tdy *.ERR
+	rm -f */*.bak */*.tdy */*.ERR
 
 help:
 	@echo "usage: make [ perltidy | clean | help ]"
