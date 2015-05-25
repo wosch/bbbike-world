@@ -269,29 +269,6 @@ sub program_output {
     }
 }
 
-# ($lat1, $lon1 => $lat2, $lon2);
-sub square_km {
-    my ( $x1, $y1, $x2, $y2 ) = @_;
-
-    my $height = GIS::Distance::Lite::distance( $x1, $y1 => $x1, $y2 ) / 1000;
-    my $width  = GIS::Distance::Lite::distance( $x1, $y1 => $x2, $y1 ) / 1000;
-
-    return int( $height * $width );
-}
-
-# 240000 -> 240,000
-sub large_int {
-    my $int = shift;
-    my $lang = shift || "en";
-
-    return $int if $int < 1_000;
-
-    my $sep = $lang eq "de" ? "." : ",";
-
-    my $number = substr( $int, 0, -3 ) . $sep . substr( $int, -3, 3 );
-    return $number;
-}
-
 # returns 1 if we want to ignore a bot, otherwise 0
 sub ignore_bot {
     my %args = @_;
