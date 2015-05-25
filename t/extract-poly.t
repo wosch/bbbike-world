@@ -88,9 +88,15 @@ is(
     "parse coords from poly"
 );
 
+# URL parameter string
+$data = join( "|", map { join( ",", @{$_} ) } @$coords );
+@coords = $poly->parse_coords($data);
+is( perl2string( \@coords ),
+    perl2string($coords), "parse coords from URL string" );
+
 #diag($data);
 #diag Dumper(\@coords) if $debug >= 0;
 
-plan tests => 26;
+plan tests => 27;
 
 __END__
