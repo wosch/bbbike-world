@@ -1,24 +1,16 @@
 #!/usr/local/bin/perl
 # Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
 #
-# extract config and libraries
+# extract config load
 
 package Extract::Config;
 
 use CGI;
-
-#use CGI::Carp;
 use JSON;
 use Data::Dumper;
 
-require Exporter;
-@EXPORT = qw();
-
 use strict;
 use warnings;
-
-#binmode \*STDOUT, ":utf8";
-#binmode \*STDERR, ":utf8";
 
 ###########################################################################
 # config
@@ -81,7 +73,7 @@ sub new {
     my $class = shift;
     my %args  = @_;
 
-    my $self = {%args};
+    my $self = { %args };
 
     bless $self, $class;
 
