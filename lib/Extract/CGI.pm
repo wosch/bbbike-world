@@ -362,7 +362,7 @@ sub message {
 
     my $q        = shift;
     my $language = shift;
-    my $locale   = shift;
+    my $locale   = shift || $self->{'locale'};
 
     return <<EOF;
 <span id="noscript"><noscript>Please enable JavaScript in your browser. Thanks!</noscript></span>
