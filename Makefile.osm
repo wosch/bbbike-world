@@ -761,9 +761,12 @@ update-javascript bbbike-js:
 java-config:
 	test -r $$HOME/.osmosis || ln -fs $$HOME/projects/bbbike/world/etc/env/dot.osmosis $$HOME/.osmosis
 
-dist-clean devel-clean distclean: clean temp-clean clean-t data-distclean download-clean log-clean index-clean cache-clean-local deb-distclean
+dist-clean devel-clean distclean: clean temp-clean clean-t data-distclean download-clean log-clean index-clean cache-clean-local deb-distclean stale-symlink-clean
 	${MAKE} -C./world/etc/mkgmap distclean
 	${MAKE} -C./cgi/msg distclean
+
+stale-symlink-clean:
+	find . -type l -print0 | perl -n0e 'unlink if ! -e'
 
 index-clean:
 	rm -f ${TMP}/??.cities.*
