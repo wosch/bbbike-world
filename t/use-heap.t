@@ -25,8 +25,7 @@ use Strassen::StrassenNetz;
 use strict;
 use warnings;
 
-my $test_counter = 0;
-my $file  = $ENV{BBBIKE_START_DEST_POINTS} || 'world/t/start-dest-points.txt';
+my $file = $ENV{BBBIKE_START_DEST_POINTS} || 'world/t/start-dest-points.txt';
 my $debug = 1;
 my $WideSearch = 0;
 my $max = $ENV{BBBIKE_TEST_LONG} ? 100 : $ENV{BBBIKE_TEST_FAST} ? 5 : 20;
@@ -125,8 +124,6 @@ sub init {
     cmp_ok( $size, '>', 10, "network size $size > 10" );
 
     diag "memory usage: $size MB\n";
-
-    $test_counter += 2;
 }
 
 sub heap_test {
@@ -167,7 +164,6 @@ sub heap_test {
     }
 
     is_deeply( $result[0], $result[1] );
-    $test_counter += 1;
 }
 
 sub run_searches {
@@ -229,7 +225,7 @@ foreach my $type ( '', 'N1', 'N2' ) {
     }
 }
 
-plan tests => $test_counter;
+done_testing;
 
 1;
 
