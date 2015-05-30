@@ -137,6 +137,17 @@ sub heap_test {
         my $t0 = [gettimeofday];
 
         $StrassenNetz::use_heap = $heap;
+
+        # check if coordinates are valid
+        for ( $c1, $c2 ) {
+            if ( !$net->reachable($_) ) {
+                my $new = $net->fix_coords($_);
+                diag "correct coords $file: $_ => $new";
+                $_ = $new;
+                next;
+            }
+        }
+
         my ($path) =
           $net->search( $c1, $c2, WideSearch => $WideSearch, %extra_args );
         my (@route) = $net->route_to_name($path);
