@@ -12,10 +12,11 @@ use Extract::Poly;
 use strict;
 use warnings;
 
-my $debug       = 1;
-my $prefix      = 'sub-planet';
-my $planet_osm  = "../osm/download/planet-latest-nometa.osm.pbf";
-my $planet_srtm = "../osm/download/srtm/planet-srtm-e40.osm.pbf";
+my $debug           = 1;
+my $prefix          = 'sub-planet';
+my $planet_osm      = "../osm/download/planet-latest-nometa.osm.pbf";
+my $planet_osm_full = "../osm/download/pbf/planet.daily.osm.pbf";
+my $planet_srtm     = "../osm/download/srtm/planet-srtm-e40.osm.pbf";
 
 sub usage () {
     <<EOF;
@@ -23,7 +24,7 @@ sub usage () {
 usage: $0 [options]
 
 --debug=0..2            debug option
---prefix=sup-planet|sub-srtm  default: $prefix
+--prefix= { sup-planet | sub-srtm | sub-planet-full } default: $prefix
 --planet=planet.osm.pbf default: $planet_osm
 
 EOF
@@ -99,6 +100,10 @@ GetOptions(
 # SRTM planet
 if ( $prefix eq 'sub-srtm' && !grep { /--planet=/ } @args ) {
     $planet_osm = $planet_srtm;
+    warn "Reset planet_osm to $planet_osm\n" if $debug;
+}
+elsif ( $prefix eq 'sub-planet-full' && !grep { /--planet=/ } @args ) {
+    $planet_osm = $planet_osm_full;
     warn "Reset planet_osm to $planet_osm\n" if $debug;
 }
 

@@ -1,0 +1,6 @@
+nice -n15 time osmconvert-wrapper -o ../osm/download/sub-planet-full/africa.osm.pbf -B=world/etc/sub-planet-full/africa.poly --drop-author --drop-version --out-pbf ../osm/download/pbf/planet.daily.osm.pbf
+nice -n15 time osmconvert-wrapper -o ../osm/download/sub-planet-full/asia.osm.pbf -B=world/etc/sub-planet-full/asia.poly --drop-author --drop-version --out-pbf ../osm/download/pbf/planet.daily.osm.pbf
+nice -n15 time osmconvert-wrapper -o ../osm/download/sub-planet-full/central-europe.osm.pbf -B=world/etc/sub-planet-full/central-europe.poly --drop-author --drop-version --out-pbf ../osm/download/pbf/planet.daily.osm.pbf
+nice -n15 time osmconvert-wrapper -o ../osm/download/sub-planet-full/europe.osm.pbf -B=world/etc/sub-planet-full/europe.poly --drop-author --drop-version --out-pbf ../osm/download/pbf/planet.daily.osm.pbf
+nice -n15 time osmconvert-wrapper -o ../osm/download/sub-planet-full/north-america.osm.pbf -B=world/etc/sub-planet-full/north-america.poly --drop-author --drop-version --out-pbf ../osm/download/pbf/planet.daily.osm.pbf
+nice -n15 time osmconvert-wrapper -o ../osm/download/sub-planet-full/south-america.osm.pbf -B=world/etc/sub-planet-full/south-america.poly --drop-author --drop-version --out-pbf ../osm/download/pbf/planet.daily.osm.pbf
