@@ -13,7 +13,8 @@ use strict;
 use warnings;
 
 my $debug           = 1;
-my $prefix          = 'sub-planet';
+my $prefix_default  = 'sub-planet';
+my $prefix          = $prefix_default;
 my $planet_osm      = "../osm/download/planet-latest-nometa.osm.pbf";
 my $planet_osm_full = "../osm/download/pbf/planet.daily.osm.pbf";
 my $planet_srtm     = "../osm/download/srtm/planet-srtm-e40.osm.pbf";
@@ -117,7 +118,7 @@ my @shell = &regions(
 );
 
 my $script = "$sub_planet_conf_dir/$prefix.sh";
-warn "Now run ./world/bin/$prefix\n" if $debug;
+warn "\nNow run:\nprogram=$prefix ./world/bin/$prefix_default\n" if $debug;
 store_data( $script, join "\n", @shell );
 
 __END__
