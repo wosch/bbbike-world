@@ -212,6 +212,17 @@ sub get_smallest_planet_file {
     }
 }
 
+# size in bytes
+sub planet_size {
+    my $self   = shift;
+    my $planet = shift;
+
+    $planet = $self->normalize_dir($planet);
+    my $st = stat($planet) or die "stat $planet: $!\n";
+
+    return $st->size;
+}
+
 1;
 
 __DATA__;

@@ -100,22 +100,12 @@ sub sub_planet {
             "sub_planet_path" => $sub_planet,
             "sub_planet_size" => int( $st->size / 1024 ),
             "planet_osm"      => $planet_osm,
-            "planet_size" => int( planet_size( $planet, $planet_osm ) / 1024 )
+            "planet_size"     => int( $planet->planet_size($planet_osm) / 1024 )
         };
     }
     else {
         return {};
     }
-}
-
-sub planet_size {
-    my $self   = shift;
-    my $planet = shift;
-
-    $planet = $self->normalize_dir($planet);
-    my $st = stat($planet) or die "stat $planet: $!\n";
-
-    return $st->size;
 }
 
 ######################################################################
