@@ -206,9 +206,12 @@ sub get_coords {
         push @c, [ $obj->{'ne_lng'}, $obj->{'sw_lat'} ];
         push @c, [ $obj->{'ne_lng'}, $obj->{'ne_lat'} ];
         push @c, [ $obj->{'sw_lng'}, $obj->{'ne_lat'} ];
+        push @c, [ $obj->{'sw_lng'}, $obj->{'sw_lat'} ];
     }
 
-    if ( !scalar(@c) <= 1 ) {
+    warn "Polygon elements counter: @{[ scalar(@c) ]}\n" if $debug >= 1;
+    if ( scalar(@c) <= 1 ) {
+        warn Dumper( \@c, $obj ) if $debug >= 2;
         die "get_coords(): cannot get coordinates, give up!\n";
     }
 

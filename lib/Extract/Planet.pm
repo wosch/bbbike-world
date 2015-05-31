@@ -27,6 +27,10 @@ our $debug = 1;
 
 our $config = {
     'stale_time' => 6 * 3600,
+
+    # offset relative to the main checkout directory
+    'pwd' => '',
+
     'planet_osm' => '../osm/download/planet-latest-nometa.osm.pbf',
 
     'planet_sub_dir' => {
@@ -59,6 +63,22 @@ sub new {
 
     $self->init;
     return $self;
+}
+
+#
+# adjust directories, e.g. add a prefix "../" if in a sub-directory
+# this is needed for CGI scripts running outside the bbbike root directory
+#
+sub normalize_dir {
+    my $self = shift;
+    my $dir  = shift;
+
+    if ( $self->{'pwd'} ) {
+        return $self->{'pwd'} . "/" . $dir;
+    }
+    else {
+        return $dir;
+    }
 }
 
 sub init {
@@ -139,12 +159,14 @@ sub get_smallest_planet_file {
     my $self = shift;
     my %args = @_;
 
-    my $obj        = $args{'obj'};
-    my $regions    = $args{'regions'};
-    my $planet_osm = $args{'planet_osm'};
+    my $obj                 = $args{'obj'};
+    my $regions             = $args{'regions'};
+    my $planet_osm          = $args{'planet_osm'};
+    my $planet_osm_original = $planet_osm;
+    $planet_osm = $self->normalize_dir($planet_osm);
 
     if ( !$planet_osm ) {
-        warn "No planet.osm file given, ignore\n" if $debug >= 2;
+        warn "No planet.osm file given, ignored\n" if $debug >= 2;
         return "";
     }
 
@@ -154,7 +176,9 @@ sub get_smallest_planet_file {
     my $planet =
       $self->get_smallest_planet( 'obj' => $obj, 'regions' => $regions );
 
-    my $sub_planet_dir = $config->{'planet_sub_dir'}->{$planet_osm};
+    my $sub_planet_dir =
+      $self->normalize_dir(
+        $config->{'planet_sub_dir'}->{$planet_osm_original} );
 
     if ( $planet eq 'planet' ) {
         warn "No sub-planet match, use full planet\n" if $debug >= 2;
