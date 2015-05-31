@@ -17,10 +17,6 @@ use warnings;
 
 my $debug = 2;
 
-# $Extract::TileSize::debug = 2;
-
-# map format to database
-
 sub Param {
     my $q   = shift;
     my $lat = shift;
@@ -168,7 +164,9 @@ my $sub_planet = sub_planet(
 );
 
 my $sub_planet_path = $sub_planet->{'sub_planet_path'};
-$sub_planet_path =~ s,.*?/([^/]+/+[^/]+)$,$1,;    # double basename
+
+# double basename: "sub-srtm/central-europe.osm.pbf"
+$sub_planet_path =~ s,.*?/([^/]+/+[^/]+)$,$1,;
 
 warn
 "size: $size, factor $factor, format: $format, ext: $ext, factor_format: $factor_format, ",
