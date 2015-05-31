@@ -40,7 +40,7 @@ my @streets = (
     #[ "Dudenstr",               ["Dudenstr. (10965)"] ],
     [ "Seumestr",               ["Seumestr. (10245)"] ],
     [ "garibaldistr",           ["Garibaldistr. (13158)"] ],
-    [ "Garibaldi",              ["Garibaldistr. (13158)"] ],
+    [ "Garibaldis",              ["Garibaldistr. (13158)"] ],
     [ "Really does not exist!", [] ],
 );
 
