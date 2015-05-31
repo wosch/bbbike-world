@@ -84,6 +84,51 @@ our $planet_osm = {
     'srtm.mapsforge-osm.zip' => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
 };
 
+# config for tile size databases
+our $tile_format = {
+    "osm.pbf" => "pbf",
+    "pbf"     => "pbf",
+    "osm.gz"  => "osm.gz",
+    "osm"     => "osm.gz",
+    "gz"      => "osm.gz",
+    "osm.xz"  => "osm.gz",
+    "osm.bz2" => "osm.gz",
+
+    "shp.zip" => "shp.zip",
+    "shp"     => "shp.zip",
+
+    "obf.zip" => "obf.zip",
+    "obf"     => "obf.zip",
+
+    "garmin-cycle.zip"   => "garmin-osm.zip",
+    "garmin-osm.zip"     => "garmin-osm.zip",
+    "garmin-leisure.zip" => "garmin-osm.zip",
+    "garmin-bbbike.zip"  => "garmin-osm.zip",
+
+    "navit.zip" => "obf.zip",
+    "navit"     => "obf.zip",
+
+    "mapsforge-osm.zip" => "mapsforge-osm.zip",
+
+    "o5m.gz"  => "pbf",
+    "o5m.bz2" => "pbf",
+    "o5m.xz"  => "pbf",
+
+    "csv.xz"  => "pbf",
+    "csv.gz"  => "pbf",
+    "csv.bz2" => "pbf",
+
+    "opl.xz" => "pbf",
+
+    "srtm-europe.osm.pbf"         => "srtm-europe.pbf",
+    "srtm-europe.garmin-srtm.zip" => "srtm-europe.garmin-srtm.zip",
+    "srtm-europe.obf.zip"         => "srtm-europe.obf.zip",
+
+    "srtm.osm.pbf"         => "srtm-pbf",
+    "srtm.garmin-srtm.zip" => "srtm-garmin-srtm.zip",
+    "srtm.obf.zip"         => "srtm-obf.zip",
+};
+
 ##########################
 # helper functions
 #

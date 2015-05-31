@@ -20,53 +20,6 @@ my $debug = 2;
 # $Extract::TileSize::debug = 2;
 
 # map format to database
-my %format = (
-    "osm.pbf" => "pbf",
-    "pbf"     => "pbf",
-    "osm.gz"  => "osm.gz",
-    "osm"     => "osm.gz",
-    "gz"      => "osm.gz",
-    "osm.xz"  => "osm.gz",
-    "osm.bz2" => "osm.gz",
-
-    "shp.zip" => "shp.zip",
-    "shp"     => "shp.zip",
-
-    "obf.zip" => "obf.zip",
-    "obf"     => "obf.zip",
-
-    "garmin-cycle.zip"   => "garmin-osm.zip",
-    "garmin-osm.zip"     => "garmin-osm.zip",
-    "garmin-leisure.zip" => "garmin-osm.zip",
-    "garmin-bbbike.zip"  => "garmin-osm.zip",
-
-    "navit.zip" => "obf.zip",
-    "navit"     => "obf.zip",
-
-    "mapsforge-osm.zip" => "mapsforge-osm.zip",
-
-    "o5m.gz"  => "pbf",
-    "o5m.bz2" => "pbf",
-    "o5m.xz"  => "pbf",
-
-    "csv.xz"  => "pbf",
-    "csv.gz"  => "pbf",
-    "csv.bz2" => "pbf",
-
-    "opl.xz" => "pbf",
-
-    "srtm-europe.osm.pbf"         => "srtm-europe.pbf",
-    "srtm-europe.garmin-srtm.zip" => "srtm-europe.garmin-srtm.zip",
-    "srtm-europe.obf.zip"         => "srtm-europe.obf.zip",
-
-    "srtm.osm.pbf"         => "srtm-pbf",
-    "srtm.garmin-srtm.zip" => "srtm-garmin-srtm.zip",
-    "srtm.obf.zip"         => "srtm-obf.zip",
-
-    # needs to be implemented
-    #"srtm-southamerica.osm.pbf" => "srtm-pbf",
-    #"srtm-europe.mapsforge-osm.zip" => "srtm-europe.pbf",
-);
 
 sub Param {
     my $q   = shift;
@@ -152,12 +105,14 @@ else {
 }
 
 # find the right database file for a given format
+my $tile_format = $Extract::Config::tile_format;
 my $ext;
-if ( $format && $format{$format} ) {
-    $ext = $format{$format};
+
+if ( $format && $tile_format->{$format} ) {
+    $ext = $tile_format->{$format};
 }
 else {
-    $ext = $format{"pbf"};
+    $ext = $tile_format->{"pbf"};
 }
 
 my $database_file = "../world/etc/tile/tile-$ext.csv";
