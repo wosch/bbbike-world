@@ -60,6 +60,13 @@ var config = {
         "osm.xz": "/images/osm.png",
         "osm.bz2": "/images/osm.png",
 
+        "o5m.xz": "/images/o5m.png",
+        "o5m.gz": "/images/o5m.png",
+
+        "osm.pbf": "/images/pbf.png",
+        "srtm-europe.osm.pbf": "/images/pbf.png",
+        "srtm.osm.pbf": "/images/pbf.png",
+
         "mapsforge-osm.zip": "/images/mapsforge-small.png",
         "navit.zip": "/images/navit-small.png",
         "obf.zip": "/images/osmand-small.png",
