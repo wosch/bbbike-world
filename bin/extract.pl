@@ -75,6 +75,8 @@ our $option = {
 
     #'nice_level_converter' => 3,
     #'planet_osm' => "../osm/download/planet-latest.osm.pbf",
+
+    # XXX: Extract::Config
     'planet' => {
 
         #'planet.osm' => '../osm/download/planet-latest.osm.pbf',
