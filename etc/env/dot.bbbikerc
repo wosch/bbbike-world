@@ -38,4 +38,7 @@ export OMP_WAIT_POLICY=PASSIVE
 
 # export BBBIKE_PLANET_OSM_GRANULARITY="granularity=10000"
 
+# keep a backup of the planet file as planet-latest-nometa.osm.pbf.0
+# export BBBIKE_PLANET_OSM_BACKUP="YES"
+
 #EOF
