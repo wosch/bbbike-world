@@ -91,10 +91,10 @@ print $q->header(
     -access_control_allow_origin => '*',
 );
 
-my $lng_sw = Param( $q, "lng", "sw" );
-my $lat_sw = Param( $q, "lat", "sw" );
-my $lng_ne = Param( $q, "lng", "ne" );
-my $lat_ne = Param( $q, "lat", "ne" );
+my $sw_lng = Param( $q, "lng", "sw" );
+my $sw_lat = Param( $q, "lat", "sw" );
+my $ne_lng = Param( $q, "lng", "ne" );
+my $ne_lat = Param( $q, "lat", "ne" );
 
 my $factor        = $q->param("factor") || 1;
 my $factor_format = 1;
@@ -136,13 +136,13 @@ if ( grep { $_ eq $format }
 
 # short cut "area=lat,lng,lat,lng"
 if ( defined $area ) {
-    ( $lng_sw, $lat_sw, $lng_ne, $lat_ne ) = split /,/, $area;
+    ( $sw_lng, $sw_lat, $ne_lng, $ne_lat ) = split /,/, $area;
 }
 
-if (   !defined $lng_sw
-    || !defined $lat_sw
-    || !defined $lng_ne
-    || !defined $lat_ne )
+if (   !defined $sw_lng
+    || !defined $sw_lat
+    || !defined $ne_lng
+    || !defined $ne_lat )
 {
     print "{}\n";
     warn "Missing lat,lng parameter\n";
@@ -153,17 +153,17 @@ $factor = 1 if $factor < 0 || $factor > 100;
 my $size =
   $factor *
   $factor_format *
-  $tile->area_size( $lng_sw, $lat_sw, $lng_ne, $lat_ne,
+  $tile->area_size( $sw_lng, $sw_lat, $ne_lng, $ne_lat,
     Extract::TileSize::FRACTAL_REAL );
 $size = int( $size * 1000 + 0.5 ) / 1000;
 
 my $sub_planet = sub_planet(
     {
         "format" => $format,
-        "sw_lng" => $lng_sw,
-        "sw_lat" => $lat_sw,
-        "ne_lng" => $lng_ne,
-        "ne_lat" => $lat_ne
+        "sw_lng" => $sw_lng,
+        "sw_lat" => $sw_lat,
+        "ne_lng" => $ne_lng,
+        "ne_lat" => $ne_lat
     }
 );
 
@@ -172,7 +172,7 @@ $sub_planet_path =~ s,.*?/([^/]+/+[^/]+)$,$1,;    # double basename
 
 warn
 "size: $size, factor $factor, format: $format, ext: $ext, factor_format: $factor_format, ",
-  "area: $lng_sw,$lat_sw,$lng_ne,$lat_ne",
+  "area: $sw_lng,$sw_lat,$ne_lng,$ne_lat",
   ", sub_planet_path: $sub_planet_path", "\n"
   if $debug >= 2;
 
