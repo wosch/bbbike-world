@@ -12,25 +12,35 @@ use Extract::Planet;
 use strict;
 use warnings;
 
+plan tests => 3;
 my $debug = 1;
 
 our $option;
-
-my $counter = 0;
 
 sub planet {
     my $planet = new Extract::Planet;
 
     isnt( $planet, undef, "planet" );
+}
 
-    return 1;
+sub normalize_dir {
+    my $path = "../planet.osm.pbf";
+
+    my $planet = new Extract::Planet;
+    is( $path, $planet->normalize_dir($path), "normalize path $path" );
+
+    my $dir = '..';
+    $planet = new Extract::Planet( 'pwd' => $dir );
+    is(
+        "$dir/$path",
+        $planet->normalize_dir($path),
+        "normalize path $dir/$path"
+    );
 }
 
 ########################################################################################
-# stub
 #
-$counter += &planet;
-
-plan tests => $counter;
+&planet;
+&normalize_dir;
 
 __END__
