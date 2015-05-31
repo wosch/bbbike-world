@@ -12,6 +12,7 @@ BEGIN {
 }
 
 use Test::More;
+use JSON;
 use lib qw(./world/lib ../lib);
 use BBBike::Test;
 
@@ -76,7 +77,8 @@ sub page_check {
 
         # {"size": 65667.599 }
         # {"size": 0 }
-        like( $res->decoded_content, qr|^{"size": [\d\.]+ }$|, "size" );
+        my $obj = from_json( $res->decoded_content );
+        like( $obj->{"size"}, qr/^[\d\.]+$/, "size" );
     }
 }
 
