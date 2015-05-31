@@ -212,7 +212,7 @@ sub get_smallest_planet_file {
     }
 }
 
-# size in bytes
+# planet.osm.pbf size in bytes
 sub planet_size {
     my $self   = shift;
     my $planet = shift;
