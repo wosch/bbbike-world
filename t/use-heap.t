@@ -15,7 +15,7 @@ use Devel::Size qw(total_size);
 use List::Util qw(sum);
 use Data::Dumper;
 
-use Test::More "no_plan";
+use Test::More;
 use Time::HiRes qw( gettimeofday tv_interval );
 use IO::File;
 
@@ -137,6 +137,17 @@ sub heap_test {
         my $t0 = [gettimeofday];
 
         $StrassenNetz::use_heap = $heap;
+
+        # check if coordinates are valid
+        for ( $c1, $c2 ) {
+            if ( !$net->reachable($_) ) {
+                my $new = $net->fix_coords($_);
+                diag "correct coords $file: $_ => $new";
+                $_ = $new;
+                next;
+            }
+        }
+
         my ($path) =
           $net->search( $c1, $c2, WideSearch => $WideSearch, %extra_args );
         my (@route) = $net->route_to_name($path);
@@ -213,6 +224,8 @@ foreach my $type ( '', 'N1', 'N2' ) {
         }
     }
 }
+
+done_testing;
 
 1;
 

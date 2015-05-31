@@ -12,8 +12,9 @@ BEGIN {
 }
 
 use utf8;
-use Test::More;
 use lib qw(./world/lib ../lib);
+use Test::More;
+use Test::More::UTF8;
 use BBBike::Test;
 
 use strict;
