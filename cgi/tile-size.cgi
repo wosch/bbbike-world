@@ -6,8 +6,11 @@
 use CGI;
 use CGI::Carp;
 use IO::File;
+use File::stat;
 use lib qw(../world/lib ../lib);
 use Extract::TileSize;
+use Extract::Config;
+use Extract::Planet;
 
 use strict;
 use warnings;
@@ -77,6 +80,42 @@ sub Param {
     else {
         return $q->param("${lat}_${sw}");
     }
+}
+
+sub sub_planet {
+    my $obj = shift;
+
+    my $planet_osm = $Extract::Planet::config->{'planet_osm'};
+    my $planet = new Extract::Planet( 'debug' => $debug, 'pwd' => '..' );
+
+    my $sub_planet = $planet->get_smallest_planet_file(
+        'obj'        => $obj,
+        'planet_osm' => $planet_osm
+    );
+
+    my $st = $sub_planet ? stat($sub_planet) : undef;
+
+    if ( $sub_planet && $st ) {
+        return {
+            "sub_planet_path" => $sub_planet,
+            "sub_planet_size" => int( $st->size / 1024 ),
+            "planet_osm"      => $planet_osm,
+            "planet_size" => int( planet_size( $planet, $planet_osm ) / 1024 )
+        };
+    }
+    else {
+        return {};
+    }
+}
+
+sub planet_size {
+    my $self   = shift;
+    my $planet = shift;
+
+    $planet = $self->normalize_dir($planet);
+    my $st = stat($planet) or die "stat $planet: $!\n";
+
+    return $st->size;
 }
 
 ######################################################################
@@ -170,12 +209,33 @@ my $size =
     Extract::TileSize::FRACTAL_REAL );
 $size = int( $size * 1000 + 0.5 ) / 1000;
 
+my $sub_planet = sub_planet(
+    {
+        "sw_lng" => $lng_sw,
+        "sw_lat" => $lat_sw,
+        "ne_lng" => $lng_ne,
+        "ne_lat" => $lat_ne
+    }
+);
+
+my $sub_planet_path = $sub_planet->{'sub_planet_path'};
+$sub_planet_path =~ s,.*?/([^/]+/+[^/]+)$,$1,;    # double basename
+
 warn
 "size: $size, factor $factor, format: $format, ext: $ext, factor_format: $factor_format, ",
-  "area: $lng_sw,$lat_sw,$lng_ne,$lat_ne\n"
+  "area: $lng_sw,$lat_sw,$lng_ne,$lat_ne",
+  ", sub_planet_path: $sub_planet_path", "\n"
   if $debug >= 2;
 
 # display JSON result
-print qq|{"size": $size }\n|;
+print <<EOF;
+{
+  "size": $size,
+  "sub_planet_path": "$sub_planet_path",
+  "sub_planet_size": $sub_planet->{'sub_planet_size'},
+  "planet_osm": "$sub_planet->{'planet_osm'}",
+  "planet_size": $sub_planet->{'planet_size'}
+}
+EOF
 
 1;
