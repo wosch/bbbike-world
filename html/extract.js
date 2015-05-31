@@ -1148,7 +1148,8 @@ function validateControls() {
             polygon = p;
         }
 
-        var filesize = show_filesize(skm * polygon, size * polygon);
+        var sub_planet_factor = data.sub_planet_size / data.planet_size;
+        var filesize = show_filesize(skm * polygon, size * polygon, sub_planet_factor);
         show_skm(skm * polygon, filesize);
     });
 }
@@ -1173,11 +1174,11 @@ function validate_box_on_map() {
     return 0;
 }
 
-function show_filesize(skm, real_size) {
+function show_filesize(skm, real_size, sub_planet_factor) {
     var extract_time = config.extract_time || 900; // standard extract time in seconds for PBF
     var format = $("select[name=format] option:selected").val();
     var size = real_size ? real_size / 1024 : 0;
-    debug("show filesize skm: " + parseInt(skm) + " size: " + Math.round(size) + "MB " + format);
+    debug("show filesize skm: " + parseInt(skm) + " size: " + Math.round(size) + "MB " + format + " sub planet factor: " + sub_planet_factor);
 
     // all formats *must* be configured
     var filesize = {
@@ -1285,8 +1286,13 @@ function show_filesize(skm, real_size) {
     var factor_time = filesize[format].time ? filesize[format].time : 1;
     var extract_time_min = extract_time * (filesize[format].planet ? filesize[format].planet : 1);
 
-    var time_min = extract_time_min + 0.6 * size + (size * factor_time);
-    var time_max = extract_time_min + 0.6 * size + (size * factor_time * 2);
+    // sub planets are much faster to extract
+    if (sub_planet_factor) {
+        extract_time_min *= sub_planet_factor;
+    }
+
+    var time_min = extract_time_min + (0.15 * size * factor_time);
+    var time_max = extract_time_min + (0.30 * size * factor_time);
 
     var html = ", ~" + Math.round(size * 10) / 10 + "MB"; //  + format + " data";
     var time = "";
@@ -1294,7 +1300,6 @@ function show_filesize(skm, real_size) {
         var min = Math.ceil(time_min / 60);
         var max = Math.ceil(time_max / 60);
         time = min + (min != max ? "-" + max : "");
-
         html += ", approx. extract time: " + time + " minutes";
     }
 
