@@ -195,17 +195,21 @@ sub get_coords {
 
     my @c;
 
+    # polygon
+    if ( exists $obj->{"coords"} && scalar( @{ $obj->{"coords"} } ) ) {
+        @c = @{ $obj->{coords} };
+    }
+
     # rectangle
-    if ( !scalar( @{ $obj->{"coords"} } ) ) {
+    else {
         push @c, [ $obj->{'sw_lng'}, $obj->{'sw_lat'} ];
         push @c, [ $obj->{'ne_lng'}, $obj->{'sw_lat'} ];
         push @c, [ $obj->{'ne_lng'}, $obj->{'ne_lat'} ];
         push @c, [ $obj->{'sw_lng'}, $obj->{'ne_lat'} ];
     }
 
-    # polygon
-    else {
-        @c = @{ $obj->{coords} };
+    if ( !scalar(@c) <= 1 ) {
+        die "get_coords(): cannot get coordinates, give up!\n";
     }
 
     return @c;
