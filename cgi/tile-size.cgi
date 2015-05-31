@@ -38,7 +38,15 @@ sub Param {
 sub sub_planet {
     my $obj = shift;
 
-    my $planet_osm = $Extract::Planet::config->{'planet_osm'};
+    my $planet_type_default = 'planet.osm';
+    my $format              = $obj->{"format"};
+    my $planet_osm          = $Extract::Config::planet_osm;
+
+    my $planet_osm =
+      exists $planet_osm->{$format}
+      ? $planet_osm->{$format}
+      : $planet_osm->{$planet_type_default};
+
     my $planet = new Extract::Planet( 'debug' => $debug, 'pwd' => '..' );
 
     my $sub_planet = $planet->get_smallest_planet_file(
@@ -48,17 +56,12 @@ sub sub_planet {
 
     my $st = $sub_planet ? stat($sub_planet) : undef;
 
-    if ( $sub_planet && $st ) {
-        return {
-            "sub_planet_path" => $sub_planet,
-            "sub_planet_size" => int( $st->size / 1024 ),
-            "planet_osm"      => $planet_osm,
-            "planet_size"     => int( $planet->planet_size($planet_osm) / 1024 )
-        };
-    }
-    else {
-        return {};
-    }
+    return {
+        "sub_planet_path" => "$sub_planet",
+        "sub_planet_size" => $st ? int( $st->size / 1024 ) : 0,
+        "planet_osm"      => "$planet_osm",
+        "planet_size" => int( $planet->planet_size($planet_osm) / 1024 ) || 0
+    };
 }
 
 ######################################################################
@@ -156,6 +159,7 @@ $size = int( $size * 1000 + 0.5 ) / 1000;
 
 my $sub_planet = sub_planet(
     {
+        "format" => $format,
         "sw_lng" => $lng_sw,
         "sw_lat" => $lat_sw,
         "ne_lng" => $lng_ne,
