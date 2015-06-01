@@ -218,7 +218,12 @@ sub planet_size {
     my $planet = shift;
 
     $planet = $self->normalize_dir($planet);
-    my $st = stat($planet) or die "stat $planet: $!\n";
+    my $st = stat($planet);
+
+    if ( !$st ) {
+        warn "stat $planet: $!\n";
+        return 0;
+    }
 
     return $st->size;
 }
