@@ -6,6 +6,7 @@ use Data::Dumper;
 use CGI;
 use JSON;
 use Clone qw(clone);
+use File::stat;
 
 use lib qw(world/lib);
 use Extract::Config;
@@ -57,10 +58,22 @@ sub config_success {
     my $script_homepage    = $option->{'script_homepage'};
     my $pro                = $option->{'pro'};
 
-    $config->load_config('.bbbike-extract.rc');
+    my $bbbike_extract_rc = '.bbbike-extract.rc';
+    $config->load_config($bbbike_extract_rc);
     isnt( $option, undef, "option" );
     is( $Extract::Config::spool->{'confirmed'}, "confirmed",
         "spool confirmed" );
+
+    # check for empty .bbbike-extract.rc
+    my $st = stat($bbbike_extract_rc); # or die "stat $bbbike_extract_rc: $!\n";
+    if ( !$st ) {
+        diag "$bbbike_extract_rc does not exists, ignored\n";
+        return 3;
+    }
+    if ( $st->size < 20 ) {
+        diag "$bbbike_extract_rc to small, ignored\n";
+        return 3;
+    }
 
     isnt(
         $email_allow_nobody,
