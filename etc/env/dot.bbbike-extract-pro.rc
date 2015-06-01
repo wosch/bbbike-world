@@ -14,15 +14,15 @@ $option->{'email_valid_mxcheck'} = 1;
 #$option->{'planet_osm'} = '../osm/download/geofabrik/europe/germany/brandenburg.osm.pbf';
 
 $option->{'email_token'} = "secret";
+$option->{'email_allow_nobody'} = 1; 
 $option->{'bcc'} = 'nobody@gmail.com';
 
 $option->{'aws_s3_enabled'} = 0;
-$option->{'email_allow_nobody'} = 1;
 $option->{'email_rest_enabled'} = 0;
 $option->{'email_rest_url'} = 'http://extract.bbbike.org/cgi/extract-email.cgi';
 $option->{'max_areas'} = 10;
 
-$option->{'pro'} = 0;
+$option->{'pro'} = 1;
 
 1;
 
