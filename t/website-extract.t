@@ -48,9 +48,14 @@ my $msg = {
 my $unicode = [
     {
         'path' =>
-'/cgi/extract.cgi?lang=en&sw_lng=23.147&sw_lat=42.578&ne_lng=23.177&ne_lat=42.602&format=osm.pbf&oi=1&city=София%2C%20Ингилизка%20махала%2C%20Pernik%2C%20Pernik%20Region%2C%202343%2C%20Bulgaria&layers=B0000T',
+'/cgi/extract.cgi?lang=en&sw_lng=23.147&sw_lat=42.578&ne_lng=23.177&ne_lat=42.602&format=osm.pbf&oi=1&city=София%2C%20Ингилизка%20махала%2C%20Pernik%2C%20Pernik&layers=B0000T',
         'match' =>
           [qr/value="София, Ингилизка махала, Pernik/]
+    },
+    {
+        'path' =>
+'/cgi/extract.cgi?lang=en&sw_lng=23.149&sw_lat=42.579&ne_lng=23.179&ne_lat=42.603&format=osm.pbf&oi=1&city=M%C3%BCnchen%2C%20Landkreis&layers=B0000T',
+        'match' => [qr/value="München, Landkreis/]
     }
 ];
 
