@@ -27,6 +27,7 @@ my $test_option = {
     'max_skm'                 => 24_000_000,    # max. area in square km
     'max_size'                => 768_001,       # max area in KB size
     'email_allow_nobody'      => 2,
+    'pro'                     => 0,
     'enable_google_analytics' => 1,
     'scheduler'               => {
         'user_limit' => 25,
@@ -45,7 +46,7 @@ my $test_option2 = {
 # successfull load of config file ~/.bbbike-extract.rc
 #
 sub config_success {
-    my ( $q, $conf ) = @_;
+    my ( $q, $conf, $bbbike_extract_rc ) = @_;
 
     diag( Dumper($conf) ) if $debug >= 2;
 
@@ -58,22 +59,10 @@ sub config_success {
     my $script_homepage    = $option->{'script_homepage'};
     my $pro                = $option->{'pro'};
 
-    my $bbbike_extract_rc = '.bbbike-extract.rc';
     $config->load_config($bbbike_extract_rc);
     isnt( $option, undef, "option" );
     is( $Extract::Config::spool->{'confirmed'}, "confirmed",
         "spool confirmed" );
-
-    # check for empty .bbbike-extract.rc
-    my $st = stat($bbbike_extract_rc); # or die "stat $bbbike_extract_rc: $!\n";
-    if ( !$st ) {
-        diag "$bbbike_extract_rc does not exists, ignored\n";
-        return 3;
-    }
-    if ( $st->size < 20 ) {
-        diag "$bbbike_extract_rc to small, ignored\n";
-        return 3;
-    }
 
     isnt(
         $email_allow_nobody,
@@ -83,6 +72,43 @@ sub config_success {
     isnt( $homepage, $option->{'homepage'}, "homepage changed" );
     isnt( $homepage, "", "homepage not empty" );
     is( $option->{'pro'}, 0, "pro changed" );
+
+    diag( Dumper($option) ) if $debug >= 2;
+    return 7;
+}
+
+#################################################################################
+# successfull load of config file ~/.bbbike-extract-pro.rc
+# Extract Pro Version
+#
+
+sub config_success_pro {
+    my ( $q, $conf, $bbbike_extract_rc ) = @_;
+
+    diag( Dumper($conf) ) if $debug >= 2;
+    $option = clone($conf);
+
+    my $spool_dir       = $option->{'spool_dir'};
+    my $pro             = $option->{'pro'};
+    my $script_homepage = $option->{'script_homepage'};
+    my $planet_osm      = $option->{'planet_osm'};
+
+    my $config = Extract::Config->new( 'q' => $q, 'option' => $option );
+    $config->load_config($bbbike_extract_rc);
+    isnt( $option, undef, "option" );
+
+    isnt( $planet_osm, $option->{'planet_osm'}, "planet_osm changed" );
+    isnt(
+        $script_homepage,
+        $option->{'script_homepage'},
+        "script_homepage changed"
+    );
+    isnt( $script_homepage, "", "script_homepage not empty" );
+
+    is( $spool_dir, undef, "spool_dir not empty" );
+    isnt( $option->{'spool_dir'},
+        $spool_dir, "spool_dir changed to $option->{'spool_dir'}" );
+    is( $option->{'pro'}, 1, "pro changed" );
 
     diag( Dumper($option) ) if $debug >= 2;
     return 7;
@@ -112,47 +138,12 @@ sub config_failed {
     return 2;
 }
 
-#################################################################################
-# successfull load of config file ~/.bbbike-extract-pro.rc
-# Extract Pro Version
-#
-
-sub config_success_pro {
-    my ( $q, $conf ) = @_;
-
-    diag( Dumper($conf) ) if $debug >= 2;
-    $option = clone($conf);
-
-    my $spool_dir       = $option->{'spool_dir'};
-    my $pro             = $option->{'pro'};
-    my $script_homepage = $option->{'script_homepage'};
-    my $planet_osm      = $option->{'planet_osm'};
-
-    my $config = Extract::Config->new( 'q' => $q, 'option' => $option );
-    $config->load_config('.bbbike-extract-pro.rc');
-    isnt( $option, undef, "option" );
-
-    isnt( $planet_osm, $option->{'planet_osm'}, "planet_osm changed" );
-    isnt(
-        $script_homepage,
-        $option->{'script_homepage'},
-        "script_homepage changed"
-    );
-    isnt( $script_homepage, "", "script_homepage not empty" );
-
-    is( $spool_dir, undef, "spool_dir not empty" );
-    isnt( $option->{'spool_dir'},
-        $spool_dir, "spool_dir changed to $option->{'spool_dir'}" );
-    is( $option->{'pro'}, 1, "pro changed" );
-
-    diag( Dumper($option) ) if $debug >= 2;
-    return 7;
-}
-
 my $counter = 0;
 my $q       = new CGI;
-$counter += &config_success( $q, $test_option );
-$counter += &config_success_pro( $q, $test_option );
+$counter +=
+  &config_success( $q, $test_option, 'world/etc/env/dot.bbbike-extract.rc' );
+
+#$counter += &config_success_pro( $q, $test_option, 'world/etc/env/dot.bbbike-extract-pro.rc' );
 $counter += &config_failed( $q, $test_option );
 $counter += &config_failed( $q, $test_option );
 
