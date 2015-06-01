@@ -5,7 +5,7 @@
 
 package Extract::Utils;
 
-use Encode qw/encode_utf8/;
+use Encode qw/encode_utf8 decode_utf8/;
 use Digest::MD5 qw(md5_hex);
 use GIS::Distance::Lite;
 use JSON;
@@ -244,7 +244,7 @@ sub check_queue {
 sub Param {
     my $qq    = shift;
     my $param = shift;
-    my $data  = $qq->param($param);
+    my $data  = decode_utf8( $qq->param($param));
     $data = "" if !defined $data;
 
     $data =~ s/^\s+//;
