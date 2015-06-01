@@ -11,8 +11,10 @@ BEGIN {
     }
 }
 
+use utf8;
 use Test::More;
 use lib qw(./world/lib ../lib);
+use Test::More::UTF8;
 use BBBike::Test;
 
 my $test = BBBike::Test->new();
@@ -43,8 +45,29 @@ my $msg = {
     ""    => [ "Wait for email notification", "Name of area to extract" ],
 };
 
-# to complicated to maintain the exact numbers, ignore it
-plan 'no_plan';
+my $unicode = [
+    {
+        'path' =>
+'/cgi/extract.cgi?lang=en&sw_lng=23.147&sw_lat=42.578&ne_lng=23.177&ne_lat=42.602&format=osm.pbf&oi=1&city=София%2C%20Ингилизка%20махала%2C%20Pernik%2C%20Pernik%20Region%2C%202343%2C%20Bulgaria&layers=B0000T',
+        'match' =>
+          [qr/value="София, Ингилизка махала, Pernik/]
+    }
+];
+
+sub page_check_unicode {
+    my ( $home_url, $unicode ) = @_;
+
+    foreach my $obj (@$unicode) {
+        my $path  = $obj->{'path'};
+        my $match = $obj->{'match'};
+        my $url   = $home_url . $path;
+        my $res   = $test->myget( $url, 9_000 );
+
+        foreach my $text (@$match) {
+            like( $res->decoded_content, $text, "match unicode: $text $url" );
+        }
+    }
+}
 
 sub page_check {
     my $home_url = shift;
@@ -155,9 +178,12 @@ foreach my $home_url (
 
     #diag "checked site: $home_url";
     &page_check($home_url);
+    &page_check_unicode( $home_url, $unicode );
 }
 
 # check garmin legend: http://extract.bbbike.org/garmin/bbbike/
 &garmin_check( $homepages_localhost[0] );
+
+done_testing;
 
 __END__
