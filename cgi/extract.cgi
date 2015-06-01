@@ -4,7 +4,8 @@
 # extract.cgi - extracts areas in a batch job
 #
 
-use CGI;
+# CGI.pm treat all parameters as UTF-8 strings
+use CGI qw(-utf8);
 
 use lib qw[../world/lib ../lib];
 use Extract::Config;
