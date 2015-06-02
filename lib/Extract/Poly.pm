@@ -209,7 +209,7 @@ sub get_coords {
         push @c, [ $obj->{'sw_lng'}, $obj->{'sw_lat'} ];
     }
 
-    warn "Polygon elements counter: @{[ scalar(@c) ]}\n" if $debug >= 1;
+    warn "Polygon elements counter: @{[ scalar(@c) ]}\n" if $debug >= 2;
     if ( scalar(@c) <= 1 ) {
         warn Dumper( \@c, $obj ) if $debug >= 2;
         die "get_coords(): cannot get coordinates, give up!\n";
