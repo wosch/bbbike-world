@@ -46,8 +46,8 @@ $MD5 $file | tee $file.md5
 $MD5 $file_pbf | tee $file_pbf.md5
 $SHA $file_pbf | tee $file_pbf.sha256
 
+cd $pwd
 if [ "$BBBIKE_PLANET_OSM_BACKUP" = "YES" ]; then
-    cd $pwd
     for i in ""
     do
         case $i in 
