@@ -141,7 +141,7 @@ file="$1"
 city="$2"
 
 if ! [ -f "$file" ]; then
-    usage "missing file"
+    usage "file does not exists: $file"
 fi
 
 # run in quiet mode
