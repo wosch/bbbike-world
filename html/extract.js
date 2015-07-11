@@ -1086,6 +1086,7 @@ function square_km(x1, y1, x2, y2) { // SW x NE
 
 function display_format_image() {
     var format = $("select[name=format] option:selected").val();
+    var format_text = $("select[name=format] option:selected").text();
 
     var image = config.format_images[format] || "";
     debug("display format: " + format + ", image: " + image);
@@ -1093,7 +1094,8 @@ function display_format_image() {
     if (!image) {
         $("#format_image").html("");
     } else {
-        $("#format_image").html('<p align="center">' + '<a target="_new" href="/extract-screenshots.html">' + '<img src="' + image + '"/>' + '</a></p>');
+        var text = '<div><i>Extract format is: ' + format_text + '</i></div>';
+        $("#format_image").html('<div align="center">' + text + '<a target="_new" href="/extract-screenshots.html">' + '<img src="' + image + '"/>' + '</a></div>');
 
         // clear previous timeouts, always display images for 5 seconds
         if (state.display_timeout) {
