@@ -468,6 +468,7 @@ function extract_init(opt) {
     if ($("select[name=format]").length) {
         $("select[name=format]").change(function () {
             validateControls();
+            updatePermalink();
             if (config.display_format_image) display_format_image();
         });
     }
