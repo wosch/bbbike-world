@@ -96,7 +96,7 @@ for f in $formats
 do
     ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
     f=$(echo $f | perl -npe 's/(srtm(-europe)?)/${1}.*/g')
-    echo "$ff.value"     `( cd $extract_dir/download; du -k * | egrep "${f}$" |
+    echo "$ff.value"     `( cd $extract_dir/download; du -k * | egrep "${f}$" | sort -n |
         awk '{
             count[NR] = $1;
         } END {
