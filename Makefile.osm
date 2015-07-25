@@ -1296,10 +1296,15 @@ jasmine-node test-js:
 	jasmine-node world/t/spec
 
 # run a git fetch on all remote git repos
-git-fetch:
+git-fetch: git-fetch-world
 	git fetch eserte
 	git fetch origin
 	git fetch github
+
+git-fetch-world:
+	if [ -d world/.git/config ]; then \
+	    cd && world git fetch origin; \
+	fi
 
 bbbike-tarball bbbike-src:
 	./world/bin/bbbike-tarball
