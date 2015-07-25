@@ -92,7 +92,7 @@ if $bbbike_fast_checkout; then
     fi
 else
     git clone $git_clone_opt ssh://git.bbbike.org/home/git/bbbike
-    git checkout -b newworld origin/newworld
+    ( cd bbbike; git checkout -b newworld origin/newworld )
     submodule_world
 fi
 
