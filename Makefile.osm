@@ -1299,7 +1299,7 @@ git-fetch: git-fetch-world
 	git fetch github
 
 git-fetch-world:
-	if [ -f world/.git/config ]; then \
+	@if [ -f world/.git/config ]; then \
 	    cd world && git fetch origin; \
 	fi
 
@@ -1315,7 +1315,7 @@ git-diff diff: git-diff-world
 	git diff
 
 git-diff-world:
-	if [ -f world/.git/config ]; then \
+	@if [ -f world/.git/config ]; then \
 	    cd world && git diff; \
 	fi
 
