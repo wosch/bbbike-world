@@ -749,7 +749,11 @@ update-files-fast:
 	LC_ALL=C LANG=C ${BBMAKE} kml create-osp index java-config update-javascript test-org extract-config
 
 garmin-legend:
-	make -C./world/etc/mkgmap legend
+	@if which convert >/dev/null; then \
+	    make -C./world/etc/mkgmap legend; \
+	else \
+	    echo "convert tool not found, imagemagick package not installed? skip"; \
+	fi
 
 extract-config:
 	test -e .bbbike-extract.rc || ln -fs $$HOME/.bbbike-extract.rc .
