@@ -1289,9 +1289,6 @@ test prove: lighttpd-restart perlcheck-bbbike-cgi
 lighttpd-stop:
 	@./world/bin/lighttpd-stop
 
-diff:
-	git diff
-
 jasmine-node test-js:
 	jasmine-node world/t/spec
 
@@ -1302,9 +1299,26 @@ git-fetch: git-fetch-world
 	git fetch github
 
 git-fetch-world:
-	if [ -d world/.git/config ]; then \
-	    cd && world git fetch origin; \
+	if [ -f world/.git/config ]; then \
+	    cd world && git fetch origin; \
 	fi
+
+git-push: git-push-world
+	git push
+
+git-push-world:
+	@if [ -f world/.git/config ]; then \
+	    cd world && git push; \
+	fi
+
+git-diff diff: git-diff-world
+	git diff
+
+git-diff-world:
+	if [ -f world/.git/config ]; then \
+	    cd world && git diff; \
+	fi
+
 
 bbbike-tarball bbbike-src:
 	./world/bin/bbbike-tarball
