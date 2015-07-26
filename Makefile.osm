@@ -1328,6 +1328,14 @@ git-diff-world:
 	    cd world && git diff; \
 	fi
 
+git-status: git-status-world
+	git status
+
+git-status-world:
+	@if [ -f world/.git/config ]; then \
+	    cd world && git status; \
+	fi
+
 
 bbbike-tarball bbbike-src:
 	./world/bin/bbbike-tarball
