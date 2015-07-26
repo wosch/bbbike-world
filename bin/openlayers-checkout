@@ -18,7 +18,7 @@ git_config () {
 #
 
 # original github repo
-git clone $git_clone_opt git@github.com:wolframschneider/openlayers
+git clone $git_clone_opt git@github.com:wosch/openlayers
 
 cd openlayers
 git_config

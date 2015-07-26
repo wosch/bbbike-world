@@ -50,11 +50,11 @@ submodule_world () {
 #
 
 if $bbbike_macos; then
-    git clone $git_clone_opt git@github.com:wolframschneider/bbbike-macos.git
+    git clone $git_clone_opt git@github.com:wosch/bbbike-macos.git
 fi
 
 # original github repo
-# git clone $git_clone_opt git@github.com:wolframschneider/bbbike.git
+# git clone $git_clone_opt git@github.com:wosch/bbbike.git
 # local cache repo
 if $bbbike_fast_checkout; then
 
@@ -115,7 +115,7 @@ git remote add eserte git://github.com/eserte/bbbike.git
 git fetch eserte
 
 # add remote world from github
-git remote add github git@github.com:wolframschneider/bbbike.git
+git remote add github git@github.com:wosch/bbbike.git
 git fetch github
 
 
