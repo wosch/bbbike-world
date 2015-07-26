@@ -127,10 +127,10 @@ git branch
 echo ""
 
 echo "create symlinks ..."
-ln -s world/Makefile.osm
+ln -s world/Makefile.osm .
 
-make -f world/Makefile.osm git-fetch
-make -f world/Makefile.osm git-pull
+make -f Makefile.osm git-fetch
+make -f Makefile.osm git-pull
 make $make_verbose -f Makefile.osm create-bbbike-web-symlinks java-config
 
 # make ext
