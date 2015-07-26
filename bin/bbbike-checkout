@@ -41,7 +41,10 @@ submodule_world () {
 	cd bbbike
     	if [ ! -e world ]; then
     	    git clone $git_clone_opt ssh://git.bbbike.org/home/git/bbbike-world world
-	    ( cd world && git_config )
+	    ( cd world 
+	   	git_config 
+		git remote add github git@github.com:wosch/bbbike-world.git
+	    )
 	fi
     )
 }
@@ -62,11 +65,8 @@ if $bbbike_fast_checkout; then
     # even faster from a tarball
     if [ -e $bbbike_src ]; then
 	tar xfz $bbbike_src
-	( 
-	  cd bbbike; 
-	  make -s git-fetch
-	  git pull -q
-	)
+	make -C./bbbike -s git-fetch
+	make -C./bbbike -s git-pull
 
         branch_check
 	echo "fast checkout done"
@@ -76,7 +76,7 @@ if $bbbike_fast_checkout; then
 	  echo ""
 	fi
 
-        # XXX
+        # fast exit
 	exit 0
 
     else 
@@ -93,7 +93,6 @@ if $bbbike_fast_checkout; then
     fi
 else
     git clone $git_clone_opt ssh://git.bbbike.org/home/git/bbbike
-    #( cd bbbike; git checkout -b newworld origin/newworld )
     submodule_world
 fi
 
@@ -113,11 +112,9 @@ git_config
 
 # add remote master from eserte
 git remote add eserte git://github.com/eserte/bbbike.git
-git fetch eserte
 
 # add remote world from github
 git remote add github git@github.com:wosch/bbbike.git
-git fetch github
 
 
 ######################################################################
@@ -131,6 +128,9 @@ echo ""
 
 echo "create symlinks ..."
 ln -s world/Makefile.osm
+
+make -f world/Makefile.osm git-fetch
+make -f world/Makefile.osm git-pull
 make $make_verbose -f Makefile.osm create-bbbike-web-symlinks java-config
 
 # make ext
