@@ -1311,6 +1311,14 @@ git-push-world:
 	    cd world && git push; \
 	fi
 
+git-pull: git-pull-world
+	git pull
+
+git-pull-world:
+	@if [ -f world/.git/config ]; then \
+	    cd world && git pull; \
+	fi
+
 git-diff diff: git-diff-world
 	git diff
 
