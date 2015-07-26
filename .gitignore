@@ -1,0 +1,16 @@
+web/[A-Z]*
+web/bbbike
+web/cgi
+web/doc
+web/html
+web/images
+web/berlin
+web/[a-z][a-z]
+web/m/
+tmp
+sitemap/files/bbbike-org.txt
+web/sitemap.xml.gz
+download/sitemap.xml.gz
+web/garmin/
+etc/lighttpd/test-more.conf
+web/data
