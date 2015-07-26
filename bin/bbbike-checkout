@@ -41,6 +41,7 @@ submodule_world () {
 	cd bbbike
     	if [ ! -e world ]; then
     	    git clone $git_clone_opt ssh://git.bbbike.org/home/git/bbbike-world world
+	    ( cd world && git_config )
 	fi
     )
 }
