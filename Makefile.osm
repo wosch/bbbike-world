@@ -1300,41 +1300,32 @@ git-fetch: git-fetch-world
 	git fetch github
 
 git-fetch-world:
-	@if [ -f world/.git/config ]; then \
-	    cd world && git fetch origin; \
-	fi
+	cd world; git fetch origin
+	cd world; git fetch github
 
 git-push: git-push-world
 	git push
 
 git-push-world:
-	@if [ -f world/.git/config ]; then \
-	    cd world && git push; \
-	fi
+	cd world; git push
 
 git-pull: git-pull-world
 	git pull
 
 git-pull-world:
-	@if [ -f world/.git/config ]; then \
-	    cd world && git pull; \
-	fi
+	cd world; git pull
 
 git-diff diff: git-diff-world
 	git diff
 
 git-diff-world:
-	@if [ -f world/.git/config ]; then \
-	    cd world && git diff; \
-	fi
+	cd world; git diff
 
 git-status: git-status-world
 	git status
 
 git-status-world:
-	@if [ -f world/.git/config ]; then \
-	    cd world && git status; \
-	fi
+	cd world; git status
 
 
 bbbike-tarball bbbike-src:
