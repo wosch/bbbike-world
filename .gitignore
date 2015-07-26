@@ -1,3 +1,4 @@
+.gitignore
 web/[A-Z]*
 web/bbbike
 web/cgi
@@ -7,6 +8,10 @@ web/images
 web/berlin
 web/[a-z][a-z]
 web/m/
+web/data-osm
+web/favicon.ico
+web/osm
+web/osp
 tmp
 sitemap/files/bbbike-org.txt
 web/sitemap.xml.gz
