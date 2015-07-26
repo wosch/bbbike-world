@@ -43,7 +43,8 @@ submodule_world () {
     	    git clone $git_clone_opt ssh://git.bbbike.org/home/git/bbbike-world world
 	    ( cd world 
 	   	git_config 
-		git remote add github ssh://github.com/wosch/bbbike-world.git
+		#git remote add github ssh://github.com/wosch/bbbike-world.git
+		git remote add github https://github.com/wosch/bbbike-world.git
 	    )
 	fi
     )
@@ -114,7 +115,7 @@ git_config
 git remote add eserte https://github.com/eserte/bbbike.git
 
 # add remote world from github
-git remote add github ssh://github.com/wosch/bbbike.git
+git remote add github https://github.com/wosch/bbbike.git
 
 
 ######################################################################
