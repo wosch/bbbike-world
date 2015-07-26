@@ -1,4 +1,6 @@
 .gitignore
+*.bak
+.DS_Store
 web/[A-Z]*
 web/bbbike
 web/cgi
