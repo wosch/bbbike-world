@@ -62,13 +62,13 @@ backend tile_size {
     .connect_timeout = 300s;
     .between_bytes_timeout = 300s;
 
-    #.probe = {
-    #    .url = "/test.txt";
-    #    .timeout =  1s;
-    #    .interval = 300s;
-    #    .window = 1;
-    #    .threshold = 1;
-    #}
+    .probe = {
+        .url = "/test.txt";
+        .timeout =  1s;
+        .interval = 300s;
+        .window = 1;
+        .threshold = 1;
+    }
 }
 
 backend eserte {
@@ -111,6 +111,11 @@ backend bbbike_failover {
 
 
 sub vcl_recv {
+    # block rough IP addresses
+    if (client.ip ~ rough_ip) {
+        error 405 "IP address blocked: " + client.ip;
+    }
+
     # allow PURGE from localhost and 192.168.55...
     if (req.request == "PURGE") {
         if (!client.ip ~ purge) {
@@ -143,7 +148,7 @@ sub vcl_recv {
     } 
 
     # tile.size with node.js daemon
-    else if (req.url ~ "^/cgi/tile\-size2\.cgi" && req.http.host ~ "^.*?\.bbbike\.org$" ) {
+    else if (req.url ~ "^/cgi/tile-size2.cgi$" && req.http.host ~ "^.*?\.bbbike\.org$" ) {
         set req.backend = tile_size;
     } 
 
@@ -281,6 +286,10 @@ acl purge {
     "10.0.0.0"/24;
     "144.76.200.87";
     "88.198.198.75";
+}
+
+acl rough_ip {
+    "85.216.69.114";
 }
 
 sub vcl_hit {
