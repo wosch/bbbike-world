@@ -1,0 +1,17 @@
+#!/bin/sh
+# Copyright (c) 2009-2015 Wolfram Schneider, http://bbbike.org
+#
+# bbbike-bootstrap - initial bbbike checkout from github in current
+#                    working directory
+
+set -e
+
+curl -sSfL https://github.com/wosch/bbbike-world/raw/world/bin/bbbike-tarball > bbbike-tarball
+curl -sSfL https://github.com/wosch/bbbike-world/raw/world/bin/bbbike-checkout > bbbike-checkout
+chmod a+x bbbike-checkout bbbike-tarball
+./bbbike-tarball
+./bbbike-checkout
+
+rm -f bbbike-checkout bbbike-tarball
+echo "Please check now ./bbbike"
+
