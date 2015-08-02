@@ -5,6 +5,7 @@
 
 set -e
 : ${bbbike_src=$HOME/src/bbbike.tgz}
+: ${bbbike_checkout=bbbike-checkout}
 
 dirname=`dirname $0`
 case $dirname in 
@@ -28,7 +29,7 @@ if [ -f "$bbbike_src" ]; then
     mv -f $bbbike_src ${bbbike_src}.old
 fi
 
-env bbbike_fast_checkout="false" $dirname/bbbike-checkout >&2 || error "checkout failed: $dir"
+env bbbike_fast_checkout="false" $dirname/$bbbike_checkout >&2 || error "checkout failed: $dir"
 
 make -C./bbbike -s update-files || error "update-files"
 make -C./bbbike -s bbbike-c     || error "bbbike c files"
