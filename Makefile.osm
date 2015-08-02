@@ -1328,7 +1328,7 @@ git-status-world:
 	cd world; git status
 
 
-bbbike-tarball bbbike-src:
+bbbike-tarball bbbike-src tarball:
 	./world/bin/bbbike-tarball
 
 help:
