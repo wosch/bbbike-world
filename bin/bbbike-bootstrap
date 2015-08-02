@@ -6,12 +6,15 @@
 
 set -e
 
-curl -sSfL https://github.com/wosch/bbbike-world/raw/world/bin/bbbike-tarball > bbbike-tarball
-curl -sSfL https://github.com/wosch/bbbike-world/raw/world/bin/bbbike-checkout > bbbike-checkout
-chmod a+x bbbike-checkout bbbike-tarball
-./bbbike-tarball
-./bbbike-checkout
+bbbike_tarball=$(mktemp  bbbike-tarball.XXXXXXXX)
+bbbike_checkout=$(mktemp  bbbike-checkout.XXXXXXXX)
 
-rm -f bbbike-checkout bbbike-tarball
+curl -sSfL https://github.com/wosch/bbbike-world/raw/world/bin/bbbike-tarball > $bbbike_tarball
+curl -sSfL https://github.com/wosch/bbbike-world/raw/world/bin/bbbike-checkout > $bbbike_checkout
+chmod a+x bbbike-checkout bbbike-tarball
+./$bbbike_tarball
+./$bbbike_checkout
+
+rm -f $bbbike_tarball $bbbike_checkout
 echo "Please check now ./bbbike"
 
