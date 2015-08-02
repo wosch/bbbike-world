@@ -138,6 +138,7 @@ our $option = {
 
     'pbf2pbf_postprocess' => 1,
     'osmconvert_enabled'  => 1,
+    'osmconvert_options'  => ["--drop-broken-refs"],
 
     'bots' => {
         'names'       => [qw/curl Wget/],
@@ -877,6 +878,14 @@ sub run_extracts_osmconvert {
     }
 
     push @data, "--out-pbf";
+
+    # drop broken refs?
+    if ( ref $option->{'osmconvert_options'} eq 'ARRAY'
+        && scalar( @{ $option->{'osmconvert_options'} } ) )
+    {
+        push @data, @{ $option->{'osmconvert_options'} };
+    }
+
     if ( !$option->{"pro"} ) {
         push @data, ( "--drop-author", "--drop-version" );
     }
