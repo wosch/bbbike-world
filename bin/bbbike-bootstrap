@@ -6,8 +6,8 @@
 
 set -e
 
-bbbike_tarball=$(mktemp  bbbike-tarball.XXXXXXXX)
-bbbike_checkout=$(mktemp  bbbike-checkout.XXXXXXXX)
+bbbike_tarball=$(mktemp bbbike-tarball.XXXXXXXX)
+bbbike_checkout=$(mktemp bbbike-checkout.XXXXXXXX)
 
 curl -sSfL https://github.com/wosch/bbbike-world/raw/world/bin/bbbike-tarball > $bbbike_tarball
 curl -sSfL https://github.com/wosch/bbbike-world/raw/world/bin/bbbike-checkout > $bbbike_checkout
