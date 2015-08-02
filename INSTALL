@@ -1,20 +1,14 @@
 Required perl modules:
 ------------------------------------
 
-see ../bin/bbbike-build-runtime-perl.pl
 
+# see ../bin/bbbike-build-runtime-perl.pl
 sudo apt-get install -y libhtml-tagcloud-perl libhtml-parser-perl \
   libxml-atom-simplefeed-perl libinline-perl \
   tidy sudo git vim make iftop 
 
-#perlmagick imagemagick
-
-
-curl -sSfL https://github.com/wosch/bbbike-world/raw/world/bin/bbbike-tarball > bbbike-tarball
-curl -sSfL https://github.com/wosch/bbbike-world/raw/world/bin/bbbike-checkout > bbbike-checkout
-chmod a+x bbbike-checkout bbbike-tarball
-./bbbike-tarball
-./bbbike-checkout
+# checkout sources from git
+curl -sSfL https://github.com/wosch/bbbike-world/raw/world/bin/bbbike-bootstrap | /bin/sh
 
 
 Required debian modules
