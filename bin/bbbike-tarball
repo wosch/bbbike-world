@@ -23,6 +23,11 @@ error () {
    exit 2
 }
 
+# remove old tarball first
+if [ -f "$bbbike_src" ]; then
+    mv -f $bbbike_src ${bbbike_src}.old
+fi
+
 env bbbike_fast_checkout="false" $dirname/bbbike-checkout >&2 || error "checkout failed: $dir"
 
 make -C./bbbike -s update-files || error "update-files"
