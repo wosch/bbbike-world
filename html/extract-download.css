@@ -4,48 +4,78 @@
  */
 
 /* luft.css */
+
 body {
-    background-color: #9c9;
-    margin: 0px 5px 0px 5px;
-    text-align: center;
-    /* font-family: Verdana, Geneva, Arial, sans-serif;  */
-    margin: 0.5em;
+  background-color:#ffffff;
+  color:#000000;
+  font-family:sans-serif,helvetica,verdana,arial;
+  margin: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
 }
 
-div#border { 
-    padding: 10px; 
-    /* background-color: #FFFFED; */
-    background-color: #FFF; 
+
+div#map_area {
+    position: fixed;
+    width: 100%;
 }
 
-div#all {
-    max-width: 52em;
-    /* background-color: #9c9; */
-    background-color: #9c9;
-    margin: 1em;
-    margin: 0px auto; /* Right And Left Margin Widths To Auto */
-    position: relative;
-    text-align: left; 
-    padding: 10px; 
+div#nomap {
+    padding-top: 600px;
+    margin: 0px 8px 8px 8px;
 }
+
+div#map_after {
+    margin: 8px;
+}
+
+div#map_after {
+    z-index: 10000;
+}
+
+div#nomap {
+    z-index: 0;
+}
+
+span#debug { font-size: small; }
+span#language_switch { font-size: small; }
+span.current_language { font-size: large; }
+
+span#language {
+    position: fixed;
+    top: 10px;
+    right: 5px;
+    z-index: 1000000000;
+}
+span#debug {
+    position: fixed;
+    top: 500px;
+    left: 120px;
+    z-index: 1000000000;
+}
+
+table#download {
+    z-index: -1;
+}
+
+/* link colors */
+a { text-decoration:none; color: green; }
+a:hover { text-decoration:underline; }
+
 
 div#footer { font-size: small; text-align: center; padding-top: 0.7em; }
 div#footer_top { text-align: left; }
 
 /* ************************************************************ */
 /*Win IE fix \*/
-* html #all { width: 56em; }
+* html #all_XXX { width: 56em; }
 /*End Win IE fix*/
 /* ************************************************************ */
 
 
-
 h2 { text-align: center; } 
 div#copyright { text-align: center; padding-top: 0.7em; font-size: small; }
-div#wetter { padding-left: 10px; }
-
-div#main { } /* width: 600px; } */
-
 
 tbody tr:nth-child(odd)  { background-color: #EEE; }
 tbody tr:nth-child(even) { background-color: #FFF; }
@@ -120,4 +150,3 @@ span.format_srtm_garmin_srtm_zip { color: brown; }
 span.format_srtm_obf_zip { color: brown; }
 span.format_srtm_osm_pbf { color: brown; }
 
-div#nomap { padding-top: 0.5em; }

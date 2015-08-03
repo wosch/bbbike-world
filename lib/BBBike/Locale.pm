@@ -184,11 +184,12 @@ sub language_links {
               . qq{">$l</a>\n};
         }
         else {
-            $data .= qq{<span id="active_language">$l</span>\n};
+            $data .=
+qq{<span id="active_language">$l</span> <!-- active language -->\n};
         }
 
     }
-    $data .= qq{</span>\n};
+    $data .= qq{</span> <!-- language -->\n};
 
     return $data;
 }

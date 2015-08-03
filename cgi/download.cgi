@@ -247,25 +247,25 @@ sub footer {
     my $date = $args{'date'};
 
     return <<EOF;
-    
+
 <p align="center"><a href="/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></p>
 
 <div id="bottom">
 <p>
-  @{[ M("Last update") ]}: $date
+@{[ M("Last update") ]}: $date
 </p>
 
 <div id="footer">
-  <div id="footer_top">
-    <a href="@{[ $option->{'homepage_download'} ]}">home</a> |
-    <a href="/extract.html">@{[ M("help") ]}</a> |
-    <a href="/community.html">@{[ M("donate") ]}</a>
-    <hr/>
-  </div> <!-- footer_top -->
+<div id="footer_top">
+<a href="@{[ $option->{'homepage_download'} ]}">home</a> |
+<a href="/extract.html">@{[ M("help") ]}</a> |
+<a href="/community.html">@{[ M("donate") ]}</a>
+<hr/>
+</div> <!-- footer_top -->
 
-  <div id="copyright">
-    (&copy;) 2008-2015 <a href="http://bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="http://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
-  </div> <!-- copyright -->
+<div id="copyright">
+(&copy;) 2008-2015 <a href="http://bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="http://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
+</div> <!-- copyright -->
 
 </div> <!-- footer -->
 
@@ -286,11 +286,11 @@ sub load_javascript_libs {
       map { qq{<script src="/html/$_" type="text/javascript"></script>} } @js;
 
     my $dom_ready = <<'EOF';
-    
+
 <script type="text/javascript">
 $(document).ready(function () {
-    download_init_map();
-    parse_areas_from_links();
+download_init_map();
+parse_areas_from_links();
 });
 </script>
 EOF
@@ -525,7 +525,7 @@ sub download_header {
         ],
 
         -style => {
-            'src' => [ "/html/bbbike.css", "/html/extract-download.css" ],
+            'src' => ["/html/extract-download.css"],
             -code => &css_map
         },
 
@@ -537,8 +537,9 @@ sub download_header {
 
 # print qq{<noscript><p>}, qq{You must enable JavaScript and CSS to run this application!}, qq{</p>\n</noscript>\n};
     print qq{<div id="all">\n};
-    print qq{  <div id="border">\n};
-    print qq{    <div id="main">\n};
+
+    #print qq{  <div id="border">\n};
+    #print qq{    <div id="main">\n};
 }
 
 sub filter_date {
@@ -588,19 +589,18 @@ sub download {
         $date = "";
     }
 
-    print qq{      <div id="intro">\n};
+    print qq{<div id="map_area">\n};
     print $q->h2( qq{<a href="}
           . $q->url( -relative => 1 )
           . qq{">Extracts ready to download</a>} )
       if $option->{'show_heading'};
 
     print <<EOF;
-        <span id="noscript"><noscript>Please enable JavaScript in your browser. Thanks!</noscript></span>
-        <div id="map" style="height:320px"></div>
+<span id="noscript"><noscript>Please enable JavaScript in your browser. Thanks!</noscript></span>
+<div id="map" style="height:520px"></div> <!-- map -->
+<div id="map_after">
+<span id="debug"></span>
 
-        <span id="debug"></span>
-
-        <div id="nomap">
 EOF
 
     print $locale->language_links( 'with_separator' => 1 );
@@ -608,12 +608,12 @@ EOF
     my $current_date = time2str(time);
 
     print <<EOF;
-    
+
 <table id="donate">
-  <tr>
-    <td>@{[ M("Newest extracts are first") ]}. @{[ M("Last update") ]}: $current_date</td>
-    <td><a href="/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></td>
-  </tr>
+<tr>
+<td>@{[ M("Newest extracts are first") ]}. @{[ M("Last update") ]}: $current_date</td>
+<td><a href="/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></td>
+</tr>
 </table>
 
 EOF
@@ -621,9 +621,11 @@ EOF
     print <<EOF;
 <p>
 </p>
-EOF
 
-    print qq{\n</div> <!-- intro -->\n\n};
+</div> <!-- map_after -->
+</div> <!-- map_area -->
+<div id="nomap">
+EOF
 
     my @extracts;
     my $spool_dir = $option->{"spool_dir"};
@@ -667,8 +669,8 @@ EOF
 
     print &footer( 'date' => $current_date );
 
-    print qq{    </div> <!-- main -->\n};
-    print qq{  </div> <!-- border -->\n};
+    #print qq{    </div> <!-- main -->\n};
+    #print qq{  </div> <!-- border -->\n};
     print qq{</div> <!-- all -->\n};
 
     # load javascript code late
