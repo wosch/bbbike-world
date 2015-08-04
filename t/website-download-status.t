@@ -36,7 +36,6 @@ my @tags =
 my @elements = qw[
   /community.html
   /extract.html
-  /html/bbbike.css
   /html/extract-download.css
   /html/extract-download.js
   /html/jquery/jquery-1.8.3.min.js
