@@ -48,6 +48,14 @@ function download_init_map(conf) {
         displayProjection: state.epsg4326
     });
 
+    map.addLayer(new OpenLayers.Layer.OSM("OSM Landscape", ["http://a.tile3.opencyclemap.org/landscape/${z}/${x}/${y}.png", "http://b.tile3.opencyclemap.org/landscape/${z}/${x}/${y}.png"], {
+        tileOptions: {
+            crossOriginKeyword: null
+        },
+        attribution: '<a href="http://www.OpenStreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="http://www.opencyclemap.org/">(&copy) OpenCycleMap</a>',
+        numZoomLevels: 18
+    }));
+
     map.addLayer(new OpenLayers.Layer.OSM.Mapnik("OSM Mapnik", {
         attribution: '<a href="http://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>'
     }));
@@ -55,6 +63,9 @@ function download_init_map(conf) {
     map.addLayer(new OpenLayers.Layer.OSM.CycleMap("OSM CycleMap", {
         attribution: '<a href="http://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="http://www.opencyclemap.org/">(&copy) OpenCycleMap</a>'
     }));
+
+    // Bing roads and Satellite/Hybrid
+    add_bing_maps(map);
 
     download_init_vectors(map, conf);
 
@@ -66,6 +77,37 @@ function download_init_map(conf) {
         map.setCenter(center, 2);
     }
 }
+
+function add_bing_maps(map) {
+    var BingApiKey = "AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf";
+
+    map.addLayer(new OpenLayers.Layer.Bing(
+    // XXX: bing.com returns a wrong zoom level in JSON API call
+    OpenLayers.Util.extend({
+        initLayer: function () {
+            // pretend we have a zoomMin of 0
+            this.metadata.resourceSets[0].resources[0].zoomMin = 0;
+            OpenLayers.Layer.Bing.prototype.initLayer.apply(this, arguments);
+        }
+    }, {
+        key: BingApiKey,
+        type: "Road"
+        //,  metadataParams: { mapVersion: "v1" }
+    })));
+
+    map.addLayer(new OpenLayers.Layer.Bing(OpenLayers.Util.extend({
+        initLayer: function () {
+            this.metadata.resourceSets[0].resources[0].zoomMin = 0;
+            OpenLayers.Layer.Bing.prototype.initLayer.apply(this, arguments);
+        }
+    }, {
+        key: BingApiKey,
+        type: "AerialWithLabels",
+        name: "Bing Hybrid",
+        numZoomLevels: 18
+    })));
+}
+
 
 function download_init_vectors(map, conf) {
     if (!conf) conf = {}; // init
