@@ -322,7 +322,7 @@ sub statistic {
     print qq{<h3>@{[ M("Statistic") ]}</h3>\n\n};
 
     if ( !@downloads ) {
-        print qq{<p>@{[ M("None") ]}</p>\n};
+        print qq{<p>@{[ M("none") ]}</p>\n};
         print "<hr/>\n\n";
         return;
     }
@@ -384,20 +384,21 @@ sub result {
 
     my @downloads = @$files;
 
-    print qq{<h4 title="}
-      . scalar(@downloads)
-      . qq{ extracts">@{[ M($name) ]}</h4>\n\n};
-
+    my $sub_title = "";
     if ( !@downloads ) {
         warn "Nothing todo for $type\n" if $debug >= 2;
-        print qq{<p>@{[ M("None") ]}</p>\n};
-        print "<hr/>\n\n";
-        return;
+        $sub_title = ": " . M("none");
+    }
+    elsif ($message) {
+        $sub_title = ": " . M($message);
     }
 
-    if ($message) {
-        print qq{<p>@{[ M($message) ]}</p>\n\n};
-    }
+    print qq{<h4 title="}
+      . scalar(@downloads)
+      . qq{ extracts">@{[ M($name) ]}$sub_title</h4>\n\n};
+
+    # no waiting or running extracts - done
+    return if !@downloads;
 
     print qq{<table id="$type">\n};
     print qq{<thead>\n<tr>\n};

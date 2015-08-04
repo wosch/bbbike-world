@@ -51,7 +51,7 @@ span#language {
 }
 span#debug {
     position: fixed;
-    top: 500px; // 520px
+    top: 500px;
     left: 120px;
     z-index: 1000000000;
 }
