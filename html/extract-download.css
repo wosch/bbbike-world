@@ -22,7 +22,7 @@ div#map_area {
 }
 
 div#nomap {
-    padding-top: 585px;
+    padding-top: 545px;
     margin: 0px 8px 8px 8px;
 }
 
@@ -51,7 +51,7 @@ span#language {
 }
 span#debug {
     position: fixed;
-    top: 500px;
+    top: 460px;
     left: 120px;
     z-index: 1000000000;
 }

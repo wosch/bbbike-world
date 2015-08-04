@@ -598,7 +598,7 @@ sub download {
 
     print <<EOF;
 <span id="noscript"><noscript>Please enable JavaScript in your browser. Thanks!</noscript></span>
-<div id="map" style="height:520px"></div> <!-- map -->
+<div id="map" style="height:480px"></div> <!-- map -->
 <div id="map_after">
 <span id="debug"></span>
 
