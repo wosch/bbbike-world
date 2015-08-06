@@ -44,6 +44,12 @@ function download_init_map(conf) {
         maxResolution: 156543.0339,
         numZoomLevels: 17,
         units: 'm',
+        wrapDateLine: true,
+
+        // most extracts are in the northern hemisphere,
+        // set center to Central Europe
+        center: new OpenLayers.LonLat(0, 35).transform(state.epsg4326, new OpenLayers.Projection("EPSG:900913")),
+
         projection: new OpenLayers.Projection("EPSG:900913"),
         displayProjection: state.epsg4326
     });
@@ -71,10 +77,9 @@ function download_init_map(conf) {
 
     // by default we center the world map, otherwise use {nocenter: true}
     if (!conf.nocenter) {
-        // most extracts are in the northern hemisphere,
-        // set center to Central Europe
-        var center = new OpenLayers.LonLat(15, 25).transform(state.epsg4326, map.getProjectionObject());
-        map.setCenter(center, 2);
+        // var center = new OpenLayers.LonLat(0, 35).transform(state.epsg4326, map.getProjectionObject());
+        // map.setCenter(center, 2);
+        map.zoomTo(2);
     }
 }
 
