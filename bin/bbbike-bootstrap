@@ -3,6 +3,9 @@
 #
 # bbbike-bootstrap - initial bbbike checkout from github in current
 #                    working directory
+#
+# curl -sSfL https://github.com/wosch/bbbike-world/raw/world/bin/bbbike-tarball | /bin/sh
+#
 
 set -e
 
@@ -17,5 +20,5 @@ bbbike_checkout=$bbbike_checkout sh $bbbike_tarball
 sh $bbbike_checkout
 
 rm -f $bbbike_tarball $bbbike_checkout
-echo "Please check now ./bbbike"
+echo "Please visit now ./bbbike"
 
