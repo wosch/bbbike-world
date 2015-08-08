@@ -54,7 +54,7 @@ if $bbbike_test; then
     make prove > tmp/log.prove 2>&1 || error "test $(pwd); `tail -n 15 tmp/log.prove`"
 fi
 
-git diff
+make git-diff
 
 if $verbose; then
     pwd
@@ -64,7 +64,7 @@ if $verbose; then
     echo "please run:"
     echo ""
     echo "#( cd $dir/bbbike && make check-full )"
-    echo "( cd $dir/bbbike && git push )"
+    echo "( cd $dir/bbbike && make git-push )"
     echo "rm -rf $dir"
 else
     rm -rf $dir
