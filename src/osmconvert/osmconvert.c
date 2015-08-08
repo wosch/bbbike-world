@@ -1,10 +1,10 @@
-// osmconvert 2013-06-30 10:30
-#define VERSION "0.7T"
+// osmconvert 2014-11-15 21:10
+#define VERSION "0.8.3"
 //
 // compile this file:
 // gcc osmconvert.c -lz -O3 -o osmconvert
 //
-// (c) 2011..2013 Markus Weber, Nuernberg
+// (c) 2011..2014 Markus Weber, Nuernberg
 // Richard Russo contributed the initiative to --add-bbox-tags option
 //
 // This program is free software; you can redistribute it and/or
@@ -45,6 +45,7 @@ const char* shorthelptext=
 "--diff                    calculate differences between two files\n"
 "--diff-contents           same as before, but compare whole contents\n"
 "--subtract                subtract objects given by following files\n"
+"--pbf-granularity=<val>   lon/lat granularity of .pbf input file\n"
 "--emulate-osmosis         emulate Osmosis XML output format\n"
 "--emulate-pbf2osm         emulate pbf2osm output format\n"
 "--fake-author             set changeset to 1 and timestamp to 1970\n"
@@ -199,6 +200,12 @@ const char* helptext=
 "        one of the input files following this directive. For example:\n"
 "        osmconvert input.o5m --subtract minus.o5m -o=output.o5m\n"
 "\n"
+"--pbf-granularity=<val>\n"
+"        Rarely .pbf files come with non-standard granularity.\n"
+"        osmconvert will recognize this and suggest to specify the\n"
+"        abnormal lon/lat granularity using this command line option.\n"
+"        Allowed values are: 100 (default), 1000, 10000, ..., 10000000.\n"
+"\n"
 "--emulate-osmosis\n"
 "--emulate-pbf2osm\n"
 "        In case of .osm output format, the program will try to use\n"
@@ -349,15 +356,15 @@ const char* helptext=
 "Tuning\n"
 "\n"
 "To speed-up the process, the program uses some main memory for a\n"
-"hash table. By default, it uses 480 MB for storing a flag for every\n"
-"possible node, 90 for the way flags, and 30 relation flags.\n"
-"Every byte holds the flags for 8 ID numbers, i.e., in 480 MB the\n"
-"program can store 3840 million flags. As there are less than 1900\n"
-"million IDs for nodes at present (July 2012), 240 MB would suffice.\n"
-"So, for example, you can decrease the hash sizes to e.g. 240, 30 and\n"
+"hash table. By default, it uses 900 MB for storing a flag for every\n"
+"possible node, 90 for the way flags, and 10 relation flags.\n"
+"Every byte holds the flags for 8 ID numbers, i.e., in 900 MB the\n"
+"program can store 7200 million flags. As there are less than 3200\n"
+"million IDs for nodes at present (Oct 2014), 400 MB would suffice.\n"
+"So, for example, you can decrease the hash sizes to e.g. 400, 50 and\n"
 "2 MB using this option:\n"
 "\n"
-"  --hash-memory=240-30-2\n"
+"  --hash-memory=400-50-2\n"
 "\n"
 "But keep in mind that the OSM database is continuously expanding. For\n"
 "this reason the program-own default value is higher than shown in the\n"
@@ -366,10 +373,10 @@ const char* helptext=
 "amount of memory as a sum, and the program will divide it by itself.\n"
 "For example:\n"
 "\n"
-"  --hash-memory=1000\n"
+"  --hash-memory=1500\n"
 "\n"
-"These 1000 MiB will be split in three parts: 800 for nodes, 150 for\n"
-"ways, and 50 for relations.\n"
+"These 1500 MB will be split in three parts: 1350 for nodes, 135 for\n"
+"ways, and 15 for relations.\n"
 "\n"
 "Because we are taking hashes, it is not necessary to provide all the\n"
 "suggested memory; the program will operate with less hash memory too.\n"
@@ -499,6 +506,11 @@ static bool global_outosh= false;  // output shall have .osh format
 static bool global_outpbf= false;  // output shall have .pbf format
 static bool global_outcsv= false;  // output shall have .csv format
 static bool global_outnone= false;  // no standard output at all
+static int32_t global_pbfgranularity= 100;
+  // granularity of lon/lat in .pbf files; unit: 1 nanodegree;
+static int32_t global_pbfgranularity100= 0;
+  // granularity of lon/lat in .pbf files; unit: 100 nanodegrees;
+  // 0: default: 100 nanodegrees;
 static bool global_emulatepbf2osm= false;
   // emulate pbf2osm compatible output
 static bool global_emulateosmosis= false;
@@ -2536,7 +2548,7 @@ static inline void write_sint64(int64_t v) {
 
 static inline char* write_createsfix7o(int32_t v,char* s) {
   // convert a signed 7 decimals fixpoint value into a string;
-  // keep trailing zeroes;
+  // keep trailing zeros;
   // v: fixpoint value
   // return: pointer do string terminator;
   // s[12]: destination string;
@@ -2571,7 +2583,7 @@ static inline void write_sfix7(int32_t v) {
     { *s1++= '-'; v= -v; }
   s2= s1;
   i= 7;
-  while((v%10)==0 && i>0)  // trailing zeroes
+  while((v%10)==0 && i>1)  // trailing zeros
     { v/= 10;  i--; }
   while(--i>=0)
     { *s2++= (v%10)+'0'; v/= 10; }
@@ -2587,7 +2599,7 @@ static inline void write_sfix7(int32_t v) {
 
 static inline void write_sfix7o(int32_t v) {
   // write a signed 7 decimals fixpoint value to standard output;
-  // keep trailing zeroes;
+  // keep trailing zeros;
   char s[20],*s1,*s2,c;
   int i;
 
@@ -2610,7 +2622,7 @@ static inline void write_sfix7o(int32_t v) {
 
 static inline void write_sfix6o(int32_t v) {
   // write a signed 6 decimals fixpoint value to standard output;
-  // keep trailing zeroes;
+  // keep trailing zeros;
   char s[20],*s1,*s2,c;
   int i;
 
@@ -3105,8 +3117,14 @@ return 0;
         nodelon<nodelone) {  // dense nodes left
       // provide a node
       pb_id+= pbf_sint64(&nodeid);
-      pb_lat+= pbf_sint32(&nodelat);
-      pb_lon+= pbf_sint32(&nodelon);
+      if(global_pbfgranularity100!=0) {
+        pb_lat+= pbf_sint32(&nodelat)*global_pbfgranularity100;
+        pb_lon+= pbf_sint32(&nodelon)*global_pbfgranularity100;
+        }
+      else {
+        pb_lat+= pbf_sint32(&nodelat);
+        pb_lon+= pbf_sint32(&nodelon);
+        }
       if(nodever>=nodevere || nodetime>=nodetimee ||
           nodecset>=nodecsete || nodeuid>=nodeuide ||
           nodeuser>=nodeusere)  // no author information available
@@ -3449,8 +3467,13 @@ return 0;
               pb_hisver= 0;
             else if((hiscomplete&24)!=24)  // no user information
               pb_hisuid= 0;
+            #if 1  // 2014-06-16
+            if((complete & 1)==1) {  // minimum contents available
+                // (at least id)
+            #else
             if((complete & 17)==17) {  // minimum contents available
                 // (at least id and node refs)
+            #endif
               waycomplete= true;
               goto mainloop;
               }
@@ -3716,7 +3739,7 @@ return 0;
             l= pbf_uint32(&bp);
             bp+= l;  // (ignore this element)
             break;
-          case 0x80:  // 0x02 V 32, osmosis_replication_timestamp ,,,
+          case 0x80:  // 0x02 V 32, osmosis_replication_timestamp
             if(bp[1]!=0x02) goto h_unknown;
             bp+= 2;
             pb_filetimestamp= pbf_uint64(&bp);
@@ -3805,8 +3828,16 @@ return 0;
             if(bp[1]!=0x01) goto d_unknown;
             bp+= 2;
             l= pbf_uint32(&bp);
-            if(l!=100)
-              ENDEv(-121,"node nanodegrees must be 100: %u",l)
+            if(l!=global_pbfgranularity) {
+              if(l>100)
+                ENDEv(-120,"please specify: "
+                  "--pbf-granularity=%u",l)
+              else if(l==100)
+                ENDE(-120,"please do not specify "
+                  "--pbf-granularity")
+              else
+                ENDEv(-121,"granularity %u must be >=100.",l)
+              }
             break;
           case 0x90:  // 0x01 V 18, millisec
             if(bp[1]!=0x01) goto d_unknown;
@@ -5126,7 +5157,7 @@ static void pw_header(bool bboxvalid,
   pw__obj_add_id2(0x8a01);  // S 17 'source'
   pw__obj_add_str("http://www.openstreetmap.org/api/0.6");
   if(timestamp!=0) {  // file timestamp given
-    pw__obj_add_id2(0x8002);  // V 32 osmosis_replication_timestamp ,,,
+    pw__obj_add_id2(0x8002);  // V 32 osmosis_replication_timestamp
     pw__obj_add_uint64(timestamp);
     }  // file timestamp given
   /* write 'raw_size' into hierarchy object's header */ {
@@ -6933,7 +6964,7 @@ static void str_read(byte** pp,char** s1p,char** s2p) {
   char* p;
   int len1,len2;
   int ref;
-  bool donotstore;  // string has 'do not store flag'  2012-10-01 ,,,
+  bool donotstore;  // string has 'do not store flag'  2012-10-01
 
   p= (char*)*pp;
   if(*p==0) {  // string (pair) given directly
@@ -7842,7 +7873,7 @@ static inline void wo_addbboxtags(bool fornode,
       else
         wo_wayrel_keyval("bBoxArea",s);
       }  // add bbox area tags
-    if(global_addbboxweight) {  // add bbox weight tags ,,,,,
+    if(global_addbboxweight) {  // add bbox weight tags
       write_createsint64(msbit(area),s);
       if(fornode)
         wo_node_keyval("bBoxWeight",s);
@@ -8372,7 +8403,7 @@ static void oo__findbb() {
   // oo__bbvalid: following border box information is valid;
   // oo__bbx1 .. oo__bby2: border box coordinates;
   // read_bufp will not be changed;
-  byte* bufp,*bufe;
+  byte* bufp,*bufe,*bufe1;
   int32_t bbx1= 0,bby1= 0,bbx2= 0,bby2= 0;
     // bbox coordinates (base 10^-7)
 
@@ -8395,23 +8426,23 @@ return;
       if(b==0xdc) {  // timestamp
         bufp++;
         l= pbf_uint32(&bufp);
-        bufe= bufp+l;
-        if(bufp<bufe) oo__timestamp= pbf_sint64(&bufp);
-        bufp= bufe;
+        bufe1= bufp+l; if(bufe1>=bufe) bufe1= bufe;
+        if(bufp<bufe1) oo__timestamp= pbf_sint64(&bufp);
+        bufp= bufe1;
     continue;
         }  // timestamp
       if(b==0xdb) {  // border box
         bufp++;
         l= pbf_uint32(&bufp);
-        bufe= bufp+l;
-        if(bufp<bufe) bbx1= pbf_sint32(&bufp);
-        if(bufp<bufe) bby1= pbf_sint32(&bufp);
-        if(bufp<bufe) bbx2= pbf_sint32(&bufp);
-        if(bufp<bufe) {
+        bufe1= bufp+l; if(bufe1>=bufe) bufe1= bufe;
+        if(bufp<bufe1) bbx1= pbf_sint32(&bufp);
+        if(bufp<bufe1) bby1= pbf_sint32(&bufp);
+        if(bufp<bufe1) bbx2= pbf_sint32(&bufp);
+        if(bufp<bufe1) {
           bby2= pbf_sint32(&bufp);
           oo__mergebbox(bbx1,bby1,bbx2,bby2);
           }
-        bufp= bufe;
+        bufp= bufe1;
     continue;
         }  // border box
       bufp++;
@@ -10456,7 +10487,7 @@ return 26;
                 refidp++;
                 }  // end   for every referenced node
               if(global_add)
-                wo_addbboxtags(false,x_min,y_min,x_max,y_max);  //,,,,,
+                wo_addbboxtags(false,x_min,y_min,x_max,y_max);
               keyp= key; valp= val;
               while(keyp<keye)  // for all key/val pairs of this object
                 wo_wayrel_keyval(*keyp++,*valp++);
@@ -10632,7 +10663,7 @@ return 26;
                 }
               refidp++; reftypep++; refrolep++;
               }  // end   for every referenced object
-            if(global_add) {  //,,,,,
+            if(global_add) {
               posi_get(id+global_otypeoffset20);  // get coordinates
               if(posi_xy!=NULL && posi_xy[0]!=posi_nil)
                   // stored coordinates are valid
@@ -11599,6 +11630,14 @@ return 0;
       global_outcsv= true;
   continue;  // take next parameter
       }
+    if((l= strzlcmp(a,"--pbf-granularity="))>0 && a[l]!=0) {
+        // specify lon/lat granularity for .pbf input files
+      global_pbfgranularity= oo__strtouint32(a+l);
+      global_pbfgranularity100= global_pbfgranularity/100;
+      global_pbfgranularity= global_pbfgranularity100*100;
+      if(global_pbfgranularity==1) global_pbfgranularity= 0;
+  continue;  // take next parameter
+      }
     if(strzcmp(a,"--emulate-pbf2")==0) {
         // emulate pbf2osm compatible output
       global_emulatepbf2osm= true;
@@ -11817,7 +11856,8 @@ return 0;  // end the program, because without having input files
     // try to determine the output format by evaluating
     // the file name extension
     if(strycmp(outputfilename,".o5m")==0) global_outo5m= true;
-    else if(strycmp(outputfilename,".o5c")==0) global_outo5c= true;
+    else if(strycmp(outputfilename,".o5c")==0)
+      global_outo5m= global_outo5c= true;
     else if(strycmp(outputfilename,".osm")==0) global_outosm= true;
     else if(strycmp(outputfilename,".osc")==0) global_outosc= true;
     else if(strycmp(outputfilename,".osh")==0) global_outosh= true;
@@ -11834,12 +11874,12 @@ return 3;
         "-b=, -B=, --drop-brokenrefs must not be combined with --diff");
 return 6;
       }
-    if(h_n==0) h_n= 600;  // use standard value if not set otherwise
+    if(h_n==0) h_n= 1000;  // use standard value if not set otherwise
     if(h_w==0 && h_r==0) {
         // user chose simple form for hash memory value
       // take the one given value as reference and determine the 
-      // three values using these factors: 80%, 15%, 5%
-      h_w= h_n/5; h_r= h_n/20;
+      // three values using these factors: 90%, 9%, 1%
+      h_w= h_n/10; h_r= h_n/100;
       h_n-= h_w; h_w-= h_r; }
     r= hash_ini(h_n,h_w,h_r);  // initialize hash table
     if(r==1)
