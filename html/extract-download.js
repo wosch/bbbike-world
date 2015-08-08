@@ -81,6 +81,8 @@ function download_init_map(conf) {
         // map.setCenter(center, 2);
         map.zoomTo(2);
     }
+
+    init_map_resize();
 }
 
 function add_bing_maps(map) {
@@ -286,6 +288,42 @@ function debug(text, id) {
     tag.html(timestamp + text);
 }
 
+
+function init_map_resize() {
+    var resize = null;
+
+    // set map height depending on the free space on the browser window
+    setMapHeight();
+
+    // reset map size, 3x a second
+    $(window).resize(function () {
+        if (resize) clearTimeout(resize);
+        resize = setTimeout(function () {
+            debug("resize event");
+            setMapHeight();
+        }, 100);
+    });
+}
+
+function setMapHeight() {
+    var height = $(window).height();
+    var map_height = $("#map").height();
+    var map_height_new = map_height;
+
+    var map_height_default = 480;
+
+    height = Math.floor(height);
+    map_height = Math.floor(map_height);
+
+    if (map_height * 2 >= height || map_height <= map_height_default) {
+        map_height_new = Math.floor(height / 2);
+
+        debug("setMapHeight: map: " + map_height_new + "px, total height: " + height + "px");
+        $('#map').height(map_height_new);
+        $('span#debug').css('top', map_height_new - 20);
+        $('div#nomap').css('padding-top', map_height_new + 55);
+    }
+};
 
 /* main
 $(document).ready(function () {
