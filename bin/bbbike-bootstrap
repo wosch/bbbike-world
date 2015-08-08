@@ -4,7 +4,7 @@
 # bbbike-bootstrap - initial bbbike checkout from github in current
 #                    working directory
 #
-# curl -sSfL https://github.com/wosch/bbbike-world/raw/world/bin/bbbike-tarball | /bin/sh
+# curl -sSfL https://github.com/wosch/bbbike-world/raw/world/bin/bbbike-bootstrap | /bin/sh
 #
 
 set -e
