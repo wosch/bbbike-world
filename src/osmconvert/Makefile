@@ -28,6 +28,7 @@ help:
 	@echo ""
 	@echo "  [ help | clean | all ]"
 
+distclean: clean
 clean:
 	rm -f ${PROG} ${PROG}-${DATE} ${PROG}-${VERSION}
 
