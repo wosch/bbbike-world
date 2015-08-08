@@ -30,5 +30,5 @@ help:
 
 distclean: clean
 clean:
-	rm -f ${PROG} ${PROG}-${DATE} ${PROG}-${VERSION}
+	rm -f ${PROG} ${PROG}-${DATE} ${PROG}-${VERSION} ${PROG}.o
 
