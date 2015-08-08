@@ -1102,7 +1102,7 @@ deb-equivs: deb-clean
 	ls -l ${DEB_DIR}/*.deb
 	if test -n "${DEB_REPO}"; then ${MAKE} deb-repo; fi
 
-deb-bin: deb-repo-dir
+deb-bin deb-bin-java deb-bin-x86: deb-repo-dir
 	${MAKE} -C./world/etc/apt/${DEB_RELEASE}/deb -f ../../Makefile DEB_RELEASE=${DEB_RELEASE} DEB_VENDOR=${DEB_VENDOR} $@
 
 deb-clean:
