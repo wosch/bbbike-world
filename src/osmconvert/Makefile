@@ -11,11 +11,17 @@
 
 PROG=osmconvert
 DATE := $(shell date '+%Y-%m-%d')
+VERSION := $(shell egrep '^.define VERSION' ${PROG}.c  | perl -npe 's,.*?",,; s,".*,,')
 
 all: ${PROG}
 
-${PROG}: ${PROG}.c
-	cc -x c $< -lz -O3 -o ${PROG}-${DATE}
+${PROG}.o: ${PROG}.c
+	cc -c $< 
+
+${PROG}: ${PROG}.o
+	cc $< -lz -O3 -o ${PROG}-${VERSION}
+	ls -l ${PROG}-${VERSION}
+	ldd ${PROG}-${VERSION}
 
 help:
 	@echo "usage: make [ targets ... ]"
@@ -23,5 +29,5 @@ help:
 	@echo "  [ help | clean | all ]"
 
 clean:
-	rm -f ${PROG} ${PROG}-${DATE}
+	rm -f ${PROG} ${PROG}-${DATE} ${PROG}-${VERSION}
 
