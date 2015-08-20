@@ -3,6 +3,8 @@
 #
 # wrapper for Makefile
 #
+# e.g. run after convert-wgs8 failure:
+# bbbike_download="" bbbike_download_convert="" bbbike_extract="" /path/to/this/file
 
 set -e
 
