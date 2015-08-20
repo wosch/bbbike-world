@@ -48,7 +48,7 @@ if ( !-f $pbf_file ) {
 }
 
 my $pbf_md5 = "6dc9df64ddc42347bbb70bc134b4feda";
-my $osm_md5 = "d485bf3257559292785099ee7ed05446";
+my $osm_md5 = "627b0c69901bad8b12c2b20183035016";
 
 is( $pbf_md5, md5_file($pbf_file), "md5 checksum matched" );
 
