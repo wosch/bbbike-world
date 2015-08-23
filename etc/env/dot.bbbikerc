@@ -42,6 +42,7 @@ export OMP_WAIT_POLICY=PASSIVE
 # keep a backup of the planet file as planet-latest-nometa.osm.pbf.0
 # export BBBIKE_PLANET_OSM_BACKUP="YES"
 
-export TMPDIR=/bbbike/tmp
+export BBBIKE_TMPDIR=/bbbike/tmp
+export BBBIKE_TMPFS=/tmpfs
 
 #EOF
