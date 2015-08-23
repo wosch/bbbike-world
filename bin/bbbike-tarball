@@ -6,6 +6,7 @@
 set -e
 : ${bbbike_src=$HOME/src/bbbike.tgz}
 : ${bbbike_checkout=bbbike-checkout}
+: ${BBBIKE_TMPDIR="/bbbike/tmp"}
 
 dirname=`dirname $0`
 case $dirname in 
@@ -15,7 +16,7 @@ esac
 
 gzip=`which pigz gzip 2>/dev/null | head -n 1`
 
-dir=$(mktemp -d -t bbbike-tarball.XXXXXXXX)
+dir=$(mktemp -d -t ${BBBIKE_TMPDIR}/bbbike-tarball.XXXXXXXX)
 cd $dir
 
 error () {

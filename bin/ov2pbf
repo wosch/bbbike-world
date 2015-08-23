@@ -12,13 +12,14 @@
 
 
 set -e
+: ${BBBIKE_TMPDIR="/bbbike/tmp"}
 
 if [ -z "$1" ]; then
     echo >&2 "usage: $0 file...."
     exit 0
 fi
 
-logfile=$(mktemp -t _pbf2pbf.XXXXXXXX)
+logfile=$(mktemp -t ${BBBIKE_TMPDIR}/_pbf2pbf.XXXXXXXX)
 buffer="--buffer bufferCapacity=4000"
 
 : ${java_heap=2400M}
