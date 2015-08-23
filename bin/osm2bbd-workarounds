@@ -5,6 +5,7 @@
 
 set -e
 export LANG=C
+: ${BBBIKE_TMPDIR="/bbbike/tmp"}
 
 prefix=$1
 city=$2
@@ -17,7 +18,7 @@ if test -z "$prefix" -o -z "$city"; then
 	exit 2
 fi
 
-tmpdir=`mktemp -d ${TMPDIR-"/tmp"}/osm2bbd-workarounds.XXXXXXXXXXX`
+tmpdir=`mktemp -d ${BBBIKE_TMPDIR}/osm2bbd-workarounds.XXXXXXXXXXX`
 TMPDIR=$tmpdir; export TMPDIR
 
 p=`pwd`/world/bin

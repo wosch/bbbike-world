@@ -1,11 +1,12 @@
 #!/bin/sh
-# Copyright (c) 2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2013-2015 Wolfram Schneider, http://bbbike.org
 #
 # extract-cron.sh - wrapper for extract.pl script 
 #
 # the subject line contains the exit status
 
 PATH=/bin:/usr/bin; export PATH
+: ${BBBIKE_TMPDIR="/bbbike/tmp"}
 #set -e
 
 # load standard BBBike extract config
@@ -21,7 +22,7 @@ case $BBBIKE_EXTRACT_PROFILE in
     *extract-pro* ) subject="bbbike extract pro status:";;
 esac
 
-tmp=$(mktemp -t extract.XXXXXXXXXXX)
+tmp=$(mktemp ${BBBIKE_TMPDIR}/extract.XXXXXXXXXXX)
 
 $prog --debug=1 $@ > $tmp 2>&1
 error=$?

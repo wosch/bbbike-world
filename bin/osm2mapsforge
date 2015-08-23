@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
 #
 # osm2mapsforge - convert a osm/pbf file to mapsforge
 #
@@ -8,6 +8,8 @@ PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_EXTRACT_LANG=en}
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
 : ${SHA="shasum -a 256"}
+: ${BBBIKE_TMPDIR="/bbbike/tmp"}
+: ${BBBIKE_TMPFS="/tmpfs"}
 
 set -e
 
@@ -85,16 +87,8 @@ esac
 
 test -z "$file" && usage
 
-# use RAM disk if available
-if [ -e /tmpfs ]; then
-    _tmp=/tmpfs
-else
-    _tmp=/bbbike/tmp
-fi
-: ${TMPDIR=$_tmp}
-
-
-tmpdir=`mktemp -d ${TMPDIR}/osm2mapsforge.$(basename $ext .zip).XXXXXXXXXXX`
+# use RAM disk
+tmpdir=`mktemp -d ${BBBIKE_TMPFS}/osm2mapsforge.$(basename $ext .zip).XXXXXXXXXXX`
 TMPDIR=$tmpdir; export TMPDIR
 OSMOSIS_TMPDIR="-Djava.io.tmpdir=${TMPDIR}"; export OSMOSIS_TMPDIR
 

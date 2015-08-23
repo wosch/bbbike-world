@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2012-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
 #
 # osm2navit  - convert a .pbf file to navit .bin
 #
@@ -8,6 +8,8 @@ PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_EXTRACT_LANG=en}
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
 : ${SHA="shasum -a 256"}
+: ${BBBIKE_TMPDIR="/bbbike/tmp"}
+: ${BBBIKE_TMPFS="/tmpfs"}
 
 set -e
 
@@ -46,14 +48,8 @@ city_ascii=$(perl -e 'use Text::Unidecode; $a = shift; $a = substr(unidecode($a)
 
 test -z "$file" && usage
 
-# use RAM disk if available
-if [ -e /tmpfs ]; then
-    _tmp=/tmpfs
-else
-    _tmp=/bbbike/tmp
-fi
-
-tmpdir=`mktemp -d ${TMPDIR-"$_tmp"}/osm2navit.XXXXXXXXXXX`
+# use RAM disk
+tmpdir=`mktemp -d ${BBBIKE_TMPFS}/osm2navit.XXXXXXXXXXX`
 
 # cleanup after signal, but show errors first
 trap '( sleep 1; rm -rf $tmpdir ) &' 1 2 15
