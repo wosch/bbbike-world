@@ -19,7 +19,7 @@ if [ -z "$1" ]; then
     exit 0
 fi
 
-logfile=$(mktemp -t ${BBBIKE_TMPDIR}/_pbf2pbf.XXXXXXXX)
+logfile=$(mktemp ${BBBIKE_TMPDIR}/_pbf2pbf.XXXXXXXX)
 buffer="--buffer bufferCapacity=4000"
 
 : ${java_heap=2400M}
