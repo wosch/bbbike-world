@@ -16,7 +16,7 @@ esac
 
 gzip=`which pigz gzip 2>/dev/null | head -n 1`
 
-dir=$(mktemp -d -t ${BBBIKE_TMPDIR}/bbbike-tarball.XXXXXXXX)
+dir=$(mktemp -d ${BBBIKE_TMPDIR}/bbbike-tarball.XXXXXXXX)
 cd $dir
 
 error () {
