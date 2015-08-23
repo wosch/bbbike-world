@@ -22,7 +22,7 @@ fi
 
 cd $dir
 
-tmp=$(mktemp -t ${BBBIKE_TMPDIR}/md5.XXXXXXXXXXX)
+tmp=$(mktemp ${BBBIKE_TMPDIR}/md5.XXXXXXXXXXX)
 $nice $MD5 $file > $tmp
 
 if diff $file.md5 $tmp; then
