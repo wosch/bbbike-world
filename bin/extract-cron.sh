@@ -22,7 +22,7 @@ case $BBBIKE_EXTRACT_PROFILE in
     *extract-pro* ) subject="bbbike extract pro status:";;
 esac
 
-tmp=$(mktemp -t ${BBBIKE_TMPDIR}/extract.XXXXXXXXXXX)
+tmp=$(mktemp ${BBBIKE_TMPDIR}/extract.XXXXXXXXXXX)
 
 $prog --debug=1 $@ > $tmp 2>&1
 error=$?
