@@ -29,7 +29,7 @@ xargs
 osmconvert
 "
 
-tmpdirs="/bbbike/tmp /tmpfs"
+tmpdirs="/bbbike/tmp /tmpfs $BBBIKE_TMPDIR $BBBIKE_TMPFS"
 for c in $tmpdirs
 do
    if [ ! -d $c ]; then
