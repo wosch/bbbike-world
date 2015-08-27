@@ -246,9 +246,10 @@ sub footer {
     my %args = @_;
     my $date = $args{'date'};
 
+    my $homepage_extract = $option->{'homepage_extract'};
     return <<EOF;
 
-<p align="center"><a href="/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></p>
+<p align="center"><a href="$homepage_extract/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></p>
 
 <div id="bottom">
 <p>
@@ -258,8 +259,8 @@ sub footer {
 <div id="footer">
 <div id="footer_top">
 <a href="@{[ $option->{'homepage_download'} ]}">home</a> |
-<a href="/extract.html">@{[ M("help") ]}</a> |
-<a href="/community.html">@{[ M("donate") ]}</a>
+<a href="$homepage_extract/extract.html">@{[ M("help") ]}</a> |
+<a href="$homepage_extract/community.html">@{[ M("donate") ]}</a>
 <hr/>
 </div> <!-- footer_top -->
 
@@ -606,14 +607,15 @@ EOF
 
     print $locale->language_links( 'with_separator' => 1 );
 
-    my $current_date = time2str(time);
+    my $current_date     = time2str(time);
+    my $homepage_extract = $option->{'homepage_extract'};
 
     print <<EOF;
 
 <table id="donate">
 <tr>
 <td>@{[ M("Newest extracts are first") ]}. @{[ M("Last update") ]}: $current_date</td>
-<td><a href="/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></td>
+<td><a href="$homepage_extract/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></td>
 </tr>
 </table>
 

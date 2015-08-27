@@ -8,6 +8,10 @@ set -e
 : ${bbbike_checkout=bbbike-checkout}
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
 
+if [ ! -d ${BBBIKE_TMPDIR} ]; then
+  BBBIKE_TMPDIR=/tmp
+fi
+
 dirname=`dirname $0`
 case $dirname in 
   /* ) ;;

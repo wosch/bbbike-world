@@ -316,7 +316,7 @@ function setMapHeight() {
     map_height = Math.floor(map_height);
 
     if (map_height * 2 >= height || map_height <= map_height_default) {
-        map_height_new = Math.floor(height / 2);
+        map_height_new = Math.floor(height * 0.4);
 
         debug("setMapHeight: map: " + map_height_new + "px, total height: " + height + "px");
         $('#map').height(map_height_new);
