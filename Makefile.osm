@@ -722,7 +722,7 @@ perltidy perlcheck: perlcheck-bbbike-cgi
 	${MAKE} -C world/etc $@	
 	${MAKE} -C world/web/feed $@	
 	${MAKE} -C world/t $@	
-	git diff
+	${MAKE} git-diff
 
 jsbeautifier js jsb:
 	${MAKE} -C world/html $@
