@@ -28,7 +28,7 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 
 usage () {
    echo "$@"
-   echo "usage file [ osm | google | hike | wireframe | night ]" # [ title ]
+   echo "usage file [ osm | google | hiking | wireframe | urbanight ]" # [ title ]
    exit 1
 }
 
@@ -59,12 +59,21 @@ case $template in /*) ;; *) template=$(pwd)/$template ;; esac
 
 test -z "$map_style" && map_style=${2-"$BBBIKE_MAPERITIVE_MAPSTYLE"}
 
+alias=""
+case "$map_style" in
+   osm )        alias=default ;;
+   google )     alias=googlemaps ;;
+   hiking )     alias=hiking ;;
+   wireframe )  alias=wireframe ;;
+   urbanight )  alias=urbanight ;;
+    * ) usage "unknown map_style: '$map_style'" ;;
+esac
 
 size=$(du -ks -L "$file" | awk '{ print $1}')
 pwd=$(pwd)
 
 basename=$(basename $file | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//')
-tmpdir=$(mktemp -d ${BBBIKE_TMPDIR}/osm2png.$map_style.XXXXXXXXXXX)/${basename}-png-$map_style
+tmpdir=$(mktemp -d ${BBBIKE_TMPDIR}/osm2png.$map_style.XXXXXXXXXXX)/${basename}-png-${map_style}
 mkdir -p $tmpdir
 cd $tmpdir
 
@@ -80,15 +89,6 @@ zoom=$BBBIKE_MAPERITIVE_ZOOM
 scale=$BBBIKE_MAPERITIVE_SCALE
 program="mono --desktop  $BBBIKE_OPT_DIR/$BBBIKE_MAPERITIVE_VERSION/Maperitive.exe"
 
-alias=""
-case "$map_style" in
-   osm | default | Default )    alias=default ;;
-   google | googlemaps )        alias=googlemaps ;;
-   hike | hiking | hike_bike )  alias=hiking ;;
-   wireframe | Wireframe )      alias=wireframe ;;
-   urbanight | night )          alias=urbanight ;;
-    * ) usage "unknown map_style: '$map_style'" ;;
-esac
 
 #####################################################################################
 # create config file on the fly
