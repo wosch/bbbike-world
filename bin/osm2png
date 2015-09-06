@@ -121,7 +121,7 @@ cd ..
 tarball_zip=$(dirname $file)/${basename}-png-${map_style}.zip
 zip -q -r - -- $(basename $tmpdir) | \
   ( cd $pwd;
-    cat > $tarball_zip.tmp && mv $tarball_zip.tmp $tarball_zip
+    cat > $tarball_zip.$$ && mv $tarball_zip.$$ $tarball_zip
     $osm_checksum $tarball_zip
   )
   
