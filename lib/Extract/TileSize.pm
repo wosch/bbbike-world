@@ -40,17 +40,27 @@ our $factor = {
     'garmin-leisure.zip' => 0.755,
     'garmin-osm.zip'     => 0.583,
     'garmin-srtm.zip'    => 1.3,
-    'mapsforge-osm.zip'  => 0.80,
-    'navit.zip'          => 0.75,
-    'o5m.bz2'            => 0.88,
-    'o5m.gz'             => 1.04,
-    'o5m.xz'             => 0.80,
-    'obf.zip'            => 1.4,
-    'osm.bz2'            => 1.5,
-    'osm.gz'             => 1.93,
-    'osm.xz'             => 1.8,
-    'shp.zip'            => 1.5,
-    'pbf'                => 1,
+
+    'png-google.zip'     => 8,
+    'png-osm.zip'        => 10,
+    'png-urbanight.zip', => 5,
+    'png-wireframe.zip'  => 12,
+
+    'mapsforge-osm.zip' => 0.80,
+
+    'navit.zip' => 0.75,
+
+    'o5m.bz2' => 0.88,
+    'o5m.gz'  => 1.04,
+    'o5m.xz'  => 0.80,
+
+    'obf.zip' => 1.4,
+
+    'osm.bz2' => 1.5,
+    'osm.gz'  => 1.93,
+    'osm.xz'  => 1.8,
+    'shp.zip' => 1.5,
+    'pbf'     => 1,
 
     'csv.xz'  => 0.50,
     'csv.gz'  => 1.00,

@@ -38,6 +38,11 @@ var config = {
         "garmin-cycle.zip": 650,
         "garmin-leisure.zip": 650,
 
+        "png-google.zip": 100,
+        "png-osm.zip": 100,
+        "png-urbanight.zip": 100,
+        "png-wireframe.zip": 100,
+
         "srtm-europe.garmin-srtm.zip": 800,
         "srtm-europe.obf.zip": 200,
         "srtm.garmin-srtm.zip": 800,
@@ -50,6 +55,11 @@ var config = {
         "garmin-cycle.zip": "/images/garmin-cycle-small.png",
         "garmin-leisure.zip": "/images/garmin-leisure-small.png",
         "garmin-osm.zip": "/images/garmin-osm-small.png",
+
+        "png-google.zip": "/images/garmin-bbbike-small.png",
+        "png-osm.zip": "/images/garmin-bbbike-small.png",
+        "png-urbanight.zip": "/images/garmin-bbbike-small.png",
+        "png-wireframe.zip": "/images/garmin-bbbike-small.png",
 
         "opl.xz": "/images/opl.png",
         "csv.xz": "/images/csv.png",
@@ -1214,6 +1224,22 @@ function show_filesize(skm, real_size, sub_planet_factor) {
         },
         "garmin-bbbike.zip": {
             "size": 0.8,
+            "time": 2
+        },
+        "png-google.zip": {
+            "size": 1,
+            "time": 2
+        },
+        "png-osm.zip": {
+            "size": 1,
+            "time": 2
+        },
+        "png-urbanight.zip": {
+            "size": 1,
+            "time": 2
+        },
+        "png-wireframe.zip": {
+            "size": 1,
             "time": 2
         },
         "shp.zip": {

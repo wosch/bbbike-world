@@ -81,6 +81,12 @@ our $option = {
         },
         { 'title' => "Shapefile", 'formats' => ['shp.zip'] },
         {
+            'title'   => "PNG",
+            'formats' => [
+                qw/png-google.zip png-osm.zip png-urbanight.zip png-wireframe.zip/
+            ]
+        },
+        {
             'title'   => "Elevation (SRTM)",
             'formats' => [
                 'srtm-europe.osm.pbf',  'srtm-europe.garmin-srtm.zip',

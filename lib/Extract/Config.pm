@@ -22,14 +22,21 @@ our $formats = {
     'osm.bz2' => "OSM XML bzip'd",
     'osm.xz'  => "OSM XML 7z (xz)",
 
-    'shp.zip'            => "Shapefile (Esri)",
+    'shp.zip' => "Shapefile (Esri)",
+
     'garmin-osm.zip'     => "Garmin OSM",
     'garmin-cycle.zip'   => "Garmin Cycle",
     'garmin-leisure.zip' => "Garmin Leisure",
+    'garmin-bbbike.zip'  => "Garmin BBBike",
 
-    'garmin-bbbike.zip' => "Garmin BBBike",
-    'navit.zip'         => "Navit",
-    'obf.zip'           => "Osmand (OBF)",
+    'png-google.zip'     => 'PNG google',
+    'png-osm.zip'        => 'PNG mapnik',
+    'png-urbanight.zip', => 'PNG night',
+    'png-wireframe.zip'  => 'PNG wireframe',
+
+    'navit.zip' => "Navit",
+
+    'obf.zip' => "Osmand (OBF)",
 
     'o5m.gz' => "o5m gzip'd",
     'o5m.xz' => "o5m 7z (xz)",
