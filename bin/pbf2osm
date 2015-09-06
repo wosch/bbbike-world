@@ -11,6 +11,7 @@ compress=""
 gzip=`which pigz gzip 2>/dev/null | head -n 1`
 bzip2=`which pbzip2 bzip2 2>/dev/null | head -n 1`
 osm2garmin=$dirname/osm2garmin
+osm2png=$dirname/osm2png
 osm2shape=$dirname/osm2shape
 osm2osmand=$dirname/osm2osmand
 osm2navit=$dirname/osm2navit
