@@ -118,8 +118,11 @@ my $database_file = "../world/etc/tile/tile-$ext.csv";
 my $tile = Extract::TileSize->new( 'database' => $database_file );
 
 # guess factor based on similar data
-if ( grep { $_ eq $format }
-    qw/garmin-leisure.zip garmin-bbbike.zip garmin-osm.zip osm.bz2 osm.xz o5m.bz2 o5m.gz o5m.xz/
+if (
+    grep { $_ eq $format }
+    qw/garmin-leisure.zip garmin-bbbike.zip garmin-osm.zip
+    osm.bz2 osm.xz o5m.bz2 o5m.gz o5m.xz
+    png-google.zip png-osm.zip png-urbanight.zip png-wireframe.zip/
   )
 {
     if (   exists $tile->{'factor'}->{$format}
