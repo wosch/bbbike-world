@@ -150,11 +150,12 @@ our $option = {
     },
 
     'pbf2osm' => {
-        'garmin_version'    => 'mkgmap-3334',
-        'osmand_version'    => 'OsmAndMapCreator-1.1.3',
-        'mapsforge_version' => 'mapsforge-0.4.3',
-        'navit_version'     => 'maptool-0.5.0~svn5126',
-        'shape_version'     => 'osmium2shape-1.0',
+        'garmin_version'     => 'mkgmap-3334',
+        'maperitive_version' => 'Maperitive-2.3.34',
+        'osmand_version'     => 'OsmAndMapCreator-1.1.3',
+        'mapsforge_version'  => 'mapsforge-0.4.3',
+        'navit_version'      => 'maptool-0.5.0~svn5126',
+        'shape_version'      => 'osmium2shape-1.0',
     }
 };
 
@@ -1053,6 +1054,11 @@ sub reorder_pbf {
         'garmin-leisure.zip' => 3.5,
         'garmin-bbbike.zip'  => 3,
 
+        'png-google.zip'    => 5,
+        'png-osm.zip'       => 5,
+        'png-urbanight.zip' => 5,
+        'png-wireframe.zip' => 5,
+
         'o5m.gz'  => 1.1,
         'o5m.xz'  => 0.9,
         'o5m.bz2' => 1.2,
@@ -1269,6 +1275,8 @@ sub _convert_send_email {
 
     $ENV{'BBBIKE_EXTRACT_GARMIN_VERSION'} =
       $option->{pbf2osm}->{garmin_version};
+    $ENV{'BBBIKE_EXTRACT_MAPERITIVE_VERSION'} =
+      $option->{pbf2osm}->{maperitive_version};
     $ENV{'BBBIKE_EXTRACT_OSMAND_VERSION'} =
       $option->{pbf2osm}->{osmand_version};
     $ENV{'BBBIKE_EXTRACT_MAPSFORGE_VERSION'} =
@@ -1353,6 +1361,25 @@ sub _convert_send_email {
             system(@system) == 0 or die "system @system failed: $?";
         }
     }
+
+    elsif ( $format =~ /^png-(osm|google|urbanight|wireframe).zip$/ ) {
+        my $style      = $1;
+        my $format_ext = $format;
+        $format_ext =~ s/^[a-z\-]+\.garmin/garmin/;
+
+        $file =~ s/\.pbf$/.$format_ext/;
+        $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
+
+        if ( !cached_format( $file, $pbf_file ) ) {
+            @system =
+              ( @nice, "$dirname/pbf2osm", "--png-$style", $pbf_file, $city );
+            warn "@system\n" if $debug >= 2;
+            @system = 'true' if $test_mode;
+
+            system(@system) == 0 or die "system @system failed: $?";
+        }
+    }
+
     elsif ( $format eq 'shp.zip' ) {
         $file =~ s/\.pbf$/.$format/;
         $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
