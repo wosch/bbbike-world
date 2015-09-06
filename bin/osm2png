@@ -17,6 +17,8 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_MAPERITIVE_MAPSTYLE="osm"}
 : ${BBBIKE_MAPERITIVE_DISPLAY=":100"}
 
+: ${debug=false}
+
 #: ${BBBIKE_MAPERITIVE_WIDTH="1200"}
 #: ${BBBIKE_MAPERITIVE_HEIGHT="900"}
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
@@ -35,7 +37,9 @@ error () {
 
     echo "$message"
     echo "file: $file"
-    cat $logfile
+    if [ -e $logfile ]; then
+        cat $logfile
+    fi
     exit 1
 }
 
@@ -55,22 +59,12 @@ case $template in /*) ;; *) template=$(pwd)/$template ;; esac
 
 test -z "$map_style" && map_style=${2-"$BBBIKE_MAPERITIVE_MAPSTYLE"}
 
-alias=""
-case "$map_style" in
-   osm | default | Default )    alias=default ;;
-   google | googlemaps )        alias=googlemaps ;;
-   hike | hiking | hike_bike )  alias=hiking ;;
-   wireframe | Wireframe )      alias=wireframe ;;
-   urbanight | night )          alias=urbanight ;;
-    * ) error "unknown map_style: '$map_style'" ;;
-esac
-
-: ${debug=false}
 
 size=$(du -ks -L "$file" | awk '{ print $1}')
 pwd=$(pwd)
 
-tmpdir=$(mktemp -d ${BBBIKE_TMPDIR}/osm2png.$map_style.XXXXXXXXXXX)/png-$map_style
+basename=$(basename $file | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//')
+tmpdir=$(mktemp -d ${BBBIKE_TMPDIR}/osm2png.$map_style.XXXXXXXXXXX)/${basename}-png-$map_style
 mkdir -p $tmpdir
 cd $tmpdir
 
@@ -78,13 +72,23 @@ cd $tmpdir
 trap '( sleep 1; rm -rf $tmpdir ) &' 1 2 15
 
 logfile=$tmpdir/logfile.txt
+touch $logfile
 
 config_file=config.mscript
 image_file=image.png
-touch $logfile
 zoom=$BBBIKE_MAPERITIVE_ZOOM
 scale=$BBBIKE_MAPERITIVE_SCALE
 program="mono --desktop  $BBBIKE_OPT_DIR/$BBBIKE_MAPERITIVE_VERSION/Maperitive.exe"
+
+alias=""
+case "$map_style" in
+   osm | default | Default )    alias=default ;;
+   google | googlemaps )        alias=googlemaps ;;
+   hike | hiking | hike_bike )  alias=hiking ;;
+   wireframe | Wireframe )      alias=wireframe ;;
+   urbanight | night )          alias=urbanight ;;
+    * ) usage "unknown map_style: '$map_style'" ;;
+esac
 
 #####################################################################################
 # create config file on the fly
@@ -114,7 +118,6 @@ DISPLAY=$BBBIKE_MAPERITIVE_DISPLAY time $program  -exitafter $(pwd)/$config_file
 cd ..
 
 # zip file in same directory as the PBF file
-basename=$(basename $file | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//')
 tarball_zip=$(dirname $file)/${basename}-png-${map_style}.zip
 zip -q -r - -- $(basename $tmpdir) | \
   ( cd $pwd;
