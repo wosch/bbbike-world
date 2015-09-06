@@ -34,6 +34,7 @@ our $use_cache = 1;
 our $default_size = 4;
 
 # guess size based on factor of known size of osm.pbf
+# PS: dont forget to update tile-size.cgi code as well
 our $factor = {
     'garmin-bbbike.zip'  => 0.582,
     'garmin-cycle.zip'   => 0.581,
