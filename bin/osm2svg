@@ -118,7 +118,7 @@ DISPLAY=$BBBIKE_MAPERITIVE_DISPLAY time $program  -exitafter $(pwd)/$config_file
 cd ..
 
 # zip file in same directory as the PBF file
-tarball_zip=$(dirname $file)/${basename}-svg-${map_style}.zip
+tarball_zip=$(dirname $file)/${basename}.osm.svg-${map_style}.zip
 zip -q -r - -- $(basename $tmpdir) | \
   ( cd $pwd;
     cat > $tarball_zip.$$ && mv $tarball_zip.$$ $tarball_zip
