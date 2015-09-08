@@ -38,15 +38,15 @@ var config = {
         "garmin-cycle.zip": 650,
         "garmin-leisure.zip": 650,
 
-        "png-google.zip": 100,
-        "png-osm.zip": 100,
-        "png-urbanight.zip": 100,
-        "png-wireframe.zip": 100,
+        "png-google.zip": 32,
+        "png-osm.zip": 32,
+        "png-urbanight.zip": 32,
+        "png-wireframe.zip": 32,
 
-        "svg-google.zip": 100,
-        "svg-osm.zip": 100,
-        "svg-urbanight.zip": 100,
-        "svg-wireframe.zip": 100,
+        "svg-google.zip": 32,
+        "svg-osm.zip": 32,
+        "svg-urbanight.zip": 32,
+        "svg-wireframe.zip": 32,
 
         "srtm-europe.garmin-srtm.zip": 800,
         "srtm-europe.obf.zip": 200,
