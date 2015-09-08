@@ -24,7 +24,7 @@ use warnings;
 
 my @png_styles = qw/google/;
 push @png_styles, qw/osm/ if !$ENV{BBBIKE_TEST_FAST};
-push @png_styles, qw/urbanight wireframe/  if $ENV{BBBIKE_TEST_LONG};
+push @png_styles, qw/urbanight wireframe/ if $ENV{BBBIKE_TEST_LONG};
 
 plan tests => 4 + 5 * scalar(@png_styles);
 

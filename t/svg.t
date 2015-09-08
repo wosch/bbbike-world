@@ -24,7 +24,7 @@ use warnings;
 
 my @svg_styles = qw/google/;
 push @svg_styles, qw/osm/ if !$ENV{BBBIKE_TEST_FAST};
-push @svg_styles, qw/urbanight wireframe/  if $ENV{BBBIKE_TEST_LONG};
+push @svg_styles, qw/urbanight wireframe/ if $ENV{BBBIKE_TEST_LONG};
 
 plan tests => 4 + 5 * scalar(@svg_styles);
 
