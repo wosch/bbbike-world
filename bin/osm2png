@@ -115,6 +115,9 @@ DISPLAY=$BBBIKE_MAPERITIVE_DISPLAY time $program  -exitafter $(pwd)/$config_file
 
 ( $MD5 $image_file; $SHA $image_file ) > .checksum.txt.tmp; mv -f .checksum.txt.tmp CHECKSUM.txt
 
+rules_config=$(ls $BBBIKE_OPT_DIR/$BBBIKE_MAPERITIVE_VERSION/Rules | egrep -i "^$alias.mrules$")
+cp $BBBIKE_OPT_DIR/$BBBIKE_MAPERITIVE_VERSION/Rules/$rules_config .
+
 cd ..
 
 # zip file in same directory as the PBF file
