@@ -1,0 +1,131 @@
+#!/bin/sh
+# Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
+#
+# osm2svg - convert a osm/pbf file to SVG
+#
+
+set -e
+PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
+
+: ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
+: ${BBBIKE_TMPDIR="/bbbike/tmp"}
+: ${BBBIKE_EXTRACT_LANG="en"}
+
+: ${BBBIKE_MAPERITIVE_VERSION="Maperitive-2.3.34"}
+: ${BBBIKE_MAPERITIVE_ZOOM="15"}
+: ${BBBIKE_MAPERITIVE_SCALE="1"}
+: ${BBBIKE_MAPERITIVE_MAPSTYLE="osm"}
+: ${BBBIKE_MAPERITIVE_DISPLAY=":100"}
+
+: ${debug=false}
+
+#: ${BBBIKE_MAPERITIVE_WIDTH="1200"}
+#: ${BBBIKE_MAPERITIVE_HEIGHT="900"}
+: ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
+: ${SHA="shasum -a 256"}
+: ${osm_checksum=$(dirname $0)/osm-checksum}
+
+
+usage () {
+   echo "$@"
+   echo "usage file [ osm | google | hiking | wireframe | urbanight ]" # [ title ]
+   exit 1
+}
+
+error () {
+    message="$@"
+
+    echo "$message"
+    echo "file: $file"
+    if [ -e $logfile ]; then
+        cat $logfile
+    fi
+    exit 1
+}
+
+file=$1
+map_style=$2
+
+test -z "$file" && usage
+
+# absolute file path
+case $file in /*) ;; *) file=$(pwd)/$file ;; esac
+
+text2html=$(dirname $0)/text2html.sh
+case $text2html in /*) ;; *) text2html=$(pwd)/$text2html ;; esac
+
+template=$(dirname $0)/../etc/extract/$(basename $0).$BBBIKE_EXTRACT_LANG.sh
+case $template in /*) ;; *) template=$(pwd)/$template ;; esac
+
+test -z "$map_style" && map_style=${2-"$BBBIKE_MAPERITIVE_MAPSTYLE"}
+
+alias=""
+case "$map_style" in
+   osm )        alias=default ;;
+   google )     alias=googlemaps ;;
+   hiking )     alias=hiking ;;
+   wireframe )  alias=wireframe ;;
+   urbanight )  alias=urbanight ;;
+    * ) usage "unknown map_style: '$map_style'" ;;
+esac
+
+size=$(du -ks -L "$file" | awk '{ print $1}')
+pwd=$(pwd)
+
+basename=$(basename $file | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//')
+tmpdir=$(mktemp -d ${BBBIKE_TMPDIR}/osm2svg.$map_style.XXXXXXXXXXX)/${basename}-svg-${map_style}
+mkdir -p $tmpdir
+cd $tmpdir
+
+# cleanup after signal, but show errors first
+trap '( sleep 1; rm -rf $tmpdir ) &' 1 2 15
+
+logfile=$tmpdir/logfile.txt
+touch $logfile
+
+config_file=config.mscript
+image_file=file.svg
+zoom=$BBBIKE_MAPERITIVE_ZOOM
+scale=$BBBIKE_MAPERITIVE_SCALE
+program="mono --desktop  $BBBIKE_OPT_DIR/$BBBIKE_MAPERITIVE_VERSION/Maperitive.exe"
+
+
+#####################################################################################
+# create config file on the fly
+#
+cat > $config_file <<EOF
+clear-map
+load-source $file
+use-ruleset alias=$alias
+apply-ruleset
+export-svg zoom=$zoom file=$image_file scale=$scale
+EOF
+
+date=$(date -u)
+BBBIKE_EXTRACT_COORDS=$BBBIKE_EXTRACT_COORDS BBBIKE_EXTRACT_URL=$BBBIKE_EXTRACT_URL \
+  date=$date maperitive_map_style=$map_style sh $template > $tmpdir/README.txt
+
+$text2html < README.txt > README.html
+
+#####################################################################################
+# main
+#
+echo ">>> Run Maperitive, map style: $map_style" >> $logfile
+DISPLAY=$BBBIKE_MAPERITIVE_DISPLAY time $program  -exitafter $(pwd)/$config_file >> $logfile 2>&1
+
+( $MD5 $image_file; $SHA $image_file ) > .checksum.txt.tmp; mv -f .checksum.txt.tmp CHECKSUM.txt
+
+cd ..
+
+# zip file in same directory as the PBF file
+tarball_zip=$(dirname $file)/${basename}-svg-${map_style}.zip
+zip -q -r - -- $(basename $tmpdir) | \
+  ( cd $pwd;
+    cat > $tarball_zip.$$ && mv $tarball_zip.$$ $tarball_zip
+    $osm_checksum $tarball_zip
+  )
+  
+# cleanup except in debug mode  
+$debug || rm -rf $tmpdir
+
+# EOF
