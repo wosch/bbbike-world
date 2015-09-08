@@ -4,7 +4,7 @@ Extracts created by BBBike, http://BBBike.org
 $BBBIKE_MAPERITIVE_VERSION by http://maperitive.net/
 
 
-Diese Garmin Karte wurde erzeugt am: $date
+Diese PNG Karte wurde erzeugt am: $date
 Garmin Kartenstil: $maperitive_map_style
 GPS Rechteck Koordinaten (lng,lat): $BBBIKE_EXTRACT_COORDS
 Script URL: $BBBIKE_EXTRACT_URL
