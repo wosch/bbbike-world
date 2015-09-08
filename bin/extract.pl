@@ -1059,6 +1059,11 @@ sub reorder_pbf {
         'png-urbanight.zip' => 5,
         'png-wireframe.zip' => 5,
 
+        'svg-google.zip'    => 5,
+        'svg-osm.zip'       => 5,
+        'svg-urbanight.zip' => 5,
+        'svg-wireframe.zip' => 5,
+
         'o5m.gz'  => 1.1,
         'o5m.xz'  => 0.9,
         'o5m.bz2' => 1.2,
@@ -1365,7 +1370,7 @@ sub _convert_send_email {
     elsif ( $format =~ /^png-(osm|google|urbanight|wireframe).zip$/ ) {
         my $style      = $1;
         my $format_ext = $format;
-        $format_ext =~ s/^[a-z\-]+\.garmin/garmin/;
+        $format_ext =~ s/^[a-z\-]+\.png/png/;
 
         $file =~ s/\.pbf$/.$format_ext/;
         $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
@@ -1373,6 +1378,24 @@ sub _convert_send_email {
         if ( !cached_format( $file, $pbf_file ) ) {
             @system =
               ( @nice, "$dirname/pbf2osm", "--png-$style", $pbf_file, $city );
+            warn "@system\n" if $debug >= 2;
+            @system = 'true' if $test_mode;
+
+            system(@system) == 0 or die "system @system failed: $?";
+        }
+    }
+
+    elsif ( $format =~ /^svg-(osm|google|urbanight|wireframe).zip$/ ) {
+        my $style      = $1;
+        my $format_ext = $format;
+        $format_ext =~ s/^[a-z\-]+\.svg/svg/;
+
+        $file =~ s/\.pbf$/.$format_ext/;
+        $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
+
+        if ( !cached_format( $file, $pbf_file ) ) {
+            @system =
+              ( @nice, "$dirname/pbf2osm", "--svg-$style", $pbf_file, $city );
             warn "@system\n" if $debug >= 2;
             @system = 'true' if $test_mode;
 

@@ -61,8 +61,8 @@ $prefix =~ s/\.pbf$//;
 my $st = 0;
 
 # any style
-system(qq[world/bin/pbf2osm --garmin $pbf_file osm]);
-is( $?, 0, "pbf2osm --garmin converter" );
+system(qq[world/bin/pbf2osm --garmin-osm $pbf_file osm]);
+is( $?, 0, "pbf2osm --garmin-osm converter" );
 my $out = "$prefix.garmin-osm.zip";
 $st = stat($out) or die "Cannot stat $out\n";
 

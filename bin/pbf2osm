@@ -12,6 +12,7 @@ gzip=`which pigz gzip 2>/dev/null | head -n 1`
 bzip2=`which pbzip2 bzip2 2>/dev/null | head -n 1`
 osm2garmin=$dirname/osm2garmin
 osm2png=$dirname/osm2png
+osm2svg=$dirname/osm2svg
 osm2shape=$dirname/osm2shape
 osm2osmand=$dirname/osm2osmand
 osm2navit=$dirname/osm2navit
@@ -25,6 +26,7 @@ osmium_convert_opt="-f pbf -t opl"
 : ${max_file_size_garmin=2950000}
 : ${max_file_size_mapsforge=666000}
 : ${max_file_size_osmand=666000}
+: ${max_file_size_maperitive=50000}
 _max_cpu_time=7200
 
 xz=`which xz 2>/dev/null | head -n 1`
@@ -77,12 +79,23 @@ usage [ option ] file.osm.pbf
 --shape
 --osmand
 --navit
+--mapsforge-osm
+
 --garmin-osm
 --garmin-cycle
 --garmin-leisure
 --garmin-bbbike
 --garmin-srtm
---mapsforge-osm
+
+--png-osm
+--png-google
+--png-urbanight
+--png-wireframe
+
+--svg-osm
+--svg-google
+--svg-urbanight
+--svg-wireframe
 
 EOF
 
@@ -126,12 +139,10 @@ case $1 in
     --osmand | --obf ) shift; compress=osmand ;;
     --navit ) shift; compress=navit ;;
 
-    --garmin ) shift; compress=garmin; garmin_style=$2 ;;
-    --garmin-osm ) shift; compress=garmin; garmin_style=osm ;;
-    --garmin-cycle ) shift; compress=garmin; garmin_style=cycle ;;
-    --garmin-leisure ) shift; compress=garmin; garmin_style=leisure ;;
-    --garmin-bbbike ) shift; compress=garmin; garmin_style=bbbike ;;
-    --garmin-srtm ) shift; compress=garmin; garmin_style=srtm ;;
+    --garmin-osm | --garmin-cycle | --garmin-leisure | --garmin-bbbike | --garmin-srtm )
+        garmin_style=$(echo $1 | perl -npe 's,.*-',,); shift; compress=garmin ;;
+    --png-osm | --png-google | --png-urbanight | --png-wireframe ) png_style=$(echo $1 | perl -npe 's,.*-,,'); shift; compress=png ;;
+    --svg-osm | --svg-google | --svg-urbanight | --svg-wireframe ) svg_style=$(echo $1 | perl -npe 's,.*-,,'); shift; compress=svg ;;
 
     --mapsforge-osm | --mapsforge ) shift; compress=mapsforge; mapsforge_style=osm ;;
 
@@ -184,6 +195,11 @@ case $compress in
     garmin | navit | shape )
 	if [ $size -gt $max_file_size_garmin ]; then
 	  usage "file '$file' size to big: $size > $max_file_size_garmin"
+	fi
+	;;
+    png | svg )
+	if [ $size -gt $max_file_size_maperitive ]; then
+	  usage "file '$file' size to big: $size > $max_file_size_maperitive"
 	fi
 	;;
     osmand )
@@ -252,6 +268,8 @@ case $compress in
 
     # other formats
     garmin ) $osm2garmin "$file" "$garmin_style" "$city" ;;
+    png )    $osm2png    "$file" "$png_style" ;;
+    svg )    $osm2svg    "$file" "$svg_style" ;;
     shape )  $osm2shape  "$file" "$city" ;;
     osmand ) $osm2osmand "$file" "$city" ;;
     navit )  $osm2navit  "$file" "$city" ;;

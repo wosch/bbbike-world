@@ -87,6 +87,12 @@ our $option = {
             ]
         },
         {
+            'title'   => "SVG",
+            'formats' => [
+                qw/svg-google.zip svg-osm.zip svg-urbanight.zip svg-wireframe.zip/
+            ]
+        },
+        {
             'title'   => "Elevation (SRTM)",
             'formats' => [
                 'srtm-europe.osm.pbf',  'srtm-europe.garmin-srtm.zip',
