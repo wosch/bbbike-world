@@ -47,6 +47,11 @@ our $factor = {
     'png-urbanight.zip', => 5,
     'png-wireframe.zip'  => 12,
 
+    'svg-google.zip'     => 8,
+    'svg-osm.zip'        => 10,
+    'svg-urbanight.zip', => 5,
+    'svg-wireframe.zip'  => 12,
+
     'mapsforge-osm.zip' => 0.80,
 
     'navit.zip' => 0.75,

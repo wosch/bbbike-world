@@ -34,6 +34,11 @@ our $formats = {
     'png-urbanight.zip', => 'PNG night',
     'png-wireframe.zip'  => 'PNG wireframe',
 
+    'svg-google.zip'     => 'SVG google',
+    'svg-osm.zip'        => 'SVG mapnik',
+    'svg-urbanight.zip', => 'SVG night',
+    'svg-wireframe.zip'  => 'SVG wireframe',
+
     'navit.zip' => "Navit",
 
     'obf.zip' => "Osmand (OBF)",
