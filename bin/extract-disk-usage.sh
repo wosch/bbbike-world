@@ -45,7 +45,7 @@ perl -e '
     my $counter = 0;
     while(<>) {
         chomp;
-        if (m, (planet_|Cusco-|srtm[_\-]).*?/(gmapsupp\.img|shape/.*|.*\.(map|obf|bin))$, ) {
+        if (m, (planet_|Cusco-|srtm[_\-]).*?/(gmapsupp\.img|shape/.*|.*\.(map|obf|bin|svg|png))$, ) {
             if (/^\s*(\d+)/) {
                 $counter += $1;
             }
