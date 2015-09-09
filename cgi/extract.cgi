@@ -59,48 +59,7 @@ our $option = {
     },
 
     # configure order of formats in menu
-    'formats' => [
-        {
-            'title'   => "OSM",
-            'formats' => [
-                'osm.pbf', 'osm.xz', 'osm.gz', 'osm.bz2',
-                'o5m.xz',  'o5m.gz', 'opl.xz', 'csv.xz',
-                'csv.gz'
-            ]
-        },
-        {
-            'title'   => "Garmin",
-            'formats' => [
-                'garmin-osm.zip',     'garmin-cycle.zip',
-                'garmin-leisure.zip', 'garmin-bbbike.zip'
-            ]
-        },
-        {
-            'title'   => "Android",
-            'formats' => [ 'obf.zip', 'mapsforge-osm.zip', 'navit.zip' ]
-        },
-        { 'title' => "Shapefile", 'formats' => ['shp.zip'] },
-        {
-            'title'   => "PNG",
-            'formats' => [
-                qw/png-google.zip png-osm.zip png-urbanight.zip png-wireframe.zip/
-            ]
-        },
-        {
-            'title'   => "SVG",
-            'formats' => [
-                qw/svg-google.zip svg-osm.zip svg-urbanight.zip svg-wireframe.zip/
-            ]
-        },
-        {
-            'title'   => "Elevation (SRTM)",
-            'formats' => [
-                'srtm-europe.osm.pbf',  'srtm-europe.garmin-srtm.zip',
-                'srtm-europe.obf.zip',  'srtm.osm.pbf',
-                'srtm.garmin-srtm.zip', 'srtm.obf.zip'
-            ]
-        }
-    ],
+    'formats_order' => [qw/osm shape garmin android svg png srtm/],
 };
 
 ##########################################################################

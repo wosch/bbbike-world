@@ -62,6 +62,49 @@ our $formats = {
 
     #'srtm-europe.mapsforge-osm.zip' => 'SRTM Europe Mapsforge',
     #'srtm-southamerica.osm.pbf' => 'SRTM South America PBF',
+
+};
+
+our $formats_menu = {
+    'osm' => {
+        'title'   => "OSM",
+        'formats' => [
+            'osm.pbf', 'osm.xz', 'osm.gz', 'osm.bz2', 'o5m.xz', 'o5m.gz',
+            'opl.xz',  'csv.xz', 'csv.gz'
+        ]
+    },
+    'garmin' => {
+        'title'   => "Garmin",
+        'formats' => [
+            'garmin-osm.zip',     'garmin-cycle.zip',
+            'garmin-leisure.zip', 'garmin-bbbike.zip'
+        ]
+    },
+    'android' => {
+        'title'   => "Android",
+        'formats' => [ 'obf.zip', 'mapsforge-osm.zip', 'navit.zip' ]
+    },
+    'shape' => { 'title' => "Shapefile", 'formats' => ['shp.zip'] },
+    'png'   => {
+        'title'   => "PNG",
+        'formats' => [
+            qw/png-google.zip png-osm.zip png-urbanight.zip png-wireframe.zip/
+        ]
+    },
+    'svg' => {
+        'title'   => "SVG",
+        'formats' => [
+            qw/svg-google.zip svg-osm.zip svg-urbanight.zip svg-wireframe.zip/
+        ]
+    },
+    'srtm' => {
+        'title'   => "Elevation (SRTM)",
+        'formats' => [
+            'srtm-europe.osm.pbf',  'srtm-europe.garmin-srtm.zip',
+            'srtm-europe.obf.zip',  'srtm.osm.pbf',
+            'srtm.garmin-srtm.zip', 'srtm.obf.zip'
+        ]
+    }
 };
 
 our $spool = {
@@ -208,6 +251,19 @@ qq{did you called Extract::Config->load_config("$config_file") twice?\n};
     else {
         warn "config file: $config_file not found, ignored\n"
           if $debug >= 2;
+    }
+
+    $self->config_format_menu;
+}
+
+sub config_format_menu {
+    my $self = shift;
+
+    our $option = $self->{'option'};
+
+    my $formats_order = $option->{'formats_order'};
+    foreach my $f (@$formats_order) {
+        push @{ $option->{'formats'} }, $formats_menu->{$f};
     }
 }
 
