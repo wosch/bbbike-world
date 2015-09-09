@@ -98,7 +98,7 @@ clear-map
 load-source $file
 use-ruleset alias=$alias
 apply-ruleset
-export-bitmap zoom=$zoom file=$image_file scale=$scale
+export-bitmap zoom=$zoom file=$image_file scale=$scale width=16384 height=12288
 EOF
 
 date=$(date -u)
