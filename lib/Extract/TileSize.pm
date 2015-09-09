@@ -96,6 +96,39 @@ sub new {
     return $self;
 }
 
+#
+# guess factor based on similar data, different styles
+# for garmin or SVG
+#
+sub factor_format {
+    my $self = shift;
+
+    my $format = shift;
+    my $ext    = shift;
+
+    my $factor_format = 1;
+    my $tile          = $self;
+
+    if (
+        grep { $_ eq $format }
+        qw/garmin-leisure.zip garmin-bbbike.zip garmin-osm.zip
+        osm.bz2 osm.xz o5m.bz2 o5m.gz o5m.xz
+        png-google.zip png-osm.zip png-urbanight.zip png-wireframe.zip
+        svg-google.zip svg-osm.zip svg-urbanight.zip svg-wireframe.zip
+        /
+      )
+    {
+        if (   exists $tile->{'factor'}->{$format}
+            && exists $tile->{'factor'}->{$ext} )
+        {
+            $factor_format =
+              $tile->{'factor'}->{$format} / $tile->{'factor'}->{$ext};
+        }
+    }
+
+    return $factor_format;
+}
+
 sub valid_hostname {
     my $self = shift;
     my $hostname = shift || $ENV{HTTP_HOST} || "localhost";

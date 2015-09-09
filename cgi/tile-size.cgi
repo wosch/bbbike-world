@@ -93,7 +93,6 @@ my $ne_lng = Param( $q, "lng", "ne" );
 my $ne_lat = Param( $q, "lat", "ne" );
 
 my $factor        = $q->param("factor") || 1;
-my $factor_format = 1;
 my $format        = $q->param("format") || "";
 
 if ( $format =~ /^([a-zA-Z0-9\-\.]+)$/ ) {
@@ -116,24 +115,7 @@ else {
 
 my $database_file = "../world/etc/tile/tile-$ext.csv";
 my $tile = Extract::TileSize->new( 'database' => $database_file );
-
-# guess factor based on similar data
-if (
-    grep { $_ eq $format }
-    qw/garmin-leisure.zip garmin-bbbike.zip garmin-osm.zip
-    osm.bz2 osm.xz o5m.bz2 o5m.gz o5m.xz
-    png-google.zip png-osm.zip png-urbanight.zip png-wireframe.zip
-    svg-google.zip svg-osm.zip svg-urbanight.zip svg-wireframe.zip
-    /
-  )
-{
-    if (   exists $tile->{'factor'}->{$format}
-        && exists $tile->{'factor'}->{$ext} )
-    {
-        $factor_format =
-          $tile->{'factor'}->{$format} / $tile->{'factor'}->{$ext};
-    }
-}
+my $factor_format = $tile->factor_format($format, $ext);
 
 # short cut "area=lat,lng,lat,lng"
 if ( defined $area ) {
