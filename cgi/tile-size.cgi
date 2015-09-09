@@ -38,7 +38,7 @@ sub sub_planet {
     my $format              = $obj->{"format"};
     my $planet_osm          = $Extract::Config::planet_osm;
 
-    my $planet_osm =
+    $planet_osm =
       exists $planet_osm->{$format}
       ? $planet_osm->{$format}
       : $planet_osm->{$planet_type_default};
@@ -92,8 +92,8 @@ my $sw_lat = Param( $q, "lat", "sw" );
 my $ne_lng = Param( $q, "lng", "ne" );
 my $ne_lat = Param( $q, "lat", "ne" );
 
-my $factor        = $q->param("factor") || 1;
-my $format        = $q->param("format") || "";
+my $factor = $q->param("factor") || 1;
+my $format = $q->param("format") || "";
 
 if ( $format =~ /^([a-zA-Z0-9\-\.]+)$/ ) {
     $format = $1;
@@ -114,8 +114,8 @@ else {
 }
 
 my $database_file = "../world/etc/tile/tile-$ext.csv";
-my $tile = Extract::TileSize->new( 'database' => $database_file );
-my $factor_format = $tile->factor_format($format, $ext);
+my $tile          = Extract::TileSize->new( 'database' => $database_file );
+my $factor_format = $tile->factor_format( $format, $ext );
 
 # short cut "area=lat,lng,lat,lng"
 if ( defined $area ) {
