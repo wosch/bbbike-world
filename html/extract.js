@@ -54,6 +54,18 @@ var config = {
         "srtm.obf.zip": 200
     },
 
+    max_skm_format: {
+        "png-google.zip": 900,
+        "png-osm.zip": 900,
+        "png-urbanight.zip": 900,
+        "png-wireframe.zip": 900,
+
+        "svg-google.zip": 900,
+        "svg-osm.zip": 900,
+        "svg-urbanight.zip": 900,
+        "svg-wireframe.zip": 900,
+    },
+
     // help image per format
     "format_images": {
         "garmin-bbbike.zip": "/images/garmin-bbbike-small.png",
@@ -1046,6 +1058,9 @@ function updatePermalink() {
 }
 
 function show_skm(skm, filesize) {
+    var format = filesize.format;
+    var max_skm = config.max_skm_format[format] || config.max_skm;
+
     if ($("#square_km").length) {
         var html = "area covers " + large_int(skm) + " square km";
         if (config.show_filesize) {
@@ -1064,14 +1079,14 @@ function show_skm(skm, filesize) {
         area_size.attr("value", filesize.size);
     }
 
-    if (skm > config.max_skm) {
-        $("#size").html("Max area size: " + config.max_skm + "skm.");
+    if (skm > max_skm) {
+        $("#size").html("Max area size: " + max_skm + "skm.");
         $("#export_osm_too_large").show();
     }
 
     // Osmand etc. works only for small areas less than 200MB
-    else if (config.max_size[filesize.format] && filesize.size > config.max_size[filesize.format]) {
-        $("#size").html("Max " + filesize.format + " file size: " + config.max_size[filesize.format] + " MB.");
+    else if (config.max_size[format] && filesize.size > config.max_size[format]) {
+        $("#size").html("Max " + format + " file size: " + config.max_size[format] + " MB.");
         $("#export_osm_too_large").show();
     } else if (filesize.size > config.max_size["default"]) {
         $("#size").html("Max default file size: " + config.max_size["default"] + " MB.");
