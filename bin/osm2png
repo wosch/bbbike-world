@@ -97,9 +97,9 @@ program="mono --desktop  $BBBIKE_OPT_DIR/$BBBIKE_MAPERITIVE_VERSION/Maperitive.e
 #
 cat > $config_file <<EOF
 clear-map
-load-source $file
 use-ruleset alias=$alias
 apply-ruleset
+load-source $file
 export-bitmap zoom=$zoom file=$image_file scale=$scale width=16384 height=12288
 EOF
 
