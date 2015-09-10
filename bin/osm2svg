@@ -57,7 +57,9 @@ case $text2html in /*) ;; *) text2html=$(pwd)/$text2html ;; esac
 template=$(dirname $0)/../etc/extract/$(basename $0).$BBBIKE_EXTRACT_LANG.sh
 case $template in /*) ;; *) template=$(pwd)/$template ;; esac
 
-test -z "$map_style" && map_style=${2-"$BBBIKE_MAPERITIVE_MAPSTYLE"}
+if [ -z "$map_style" ]; then 
+   map_style=$BBBIKE_MAPERITIVE_MAPSTYLE
+fi
 
 alias=""
 case "$map_style" in
