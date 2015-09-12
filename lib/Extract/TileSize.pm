@@ -42,15 +42,17 @@ our $factor = {
     'garmin-osm.zip'     => 0.583,
     'garmin-srtm.zip'    => 1.3,
 
-    'png-google.zip'     => 8,
-    'png-osm.zip'        => 10,
-    'png-urbanight.zip', => 5,
-    'png-wireframe.zip'  => 12,
+    'svg-google.zip'     => 1.68,
+    'svg-hiking.zip'     => 3.82,
+    'svg-osm.zip'        => 3.34,
+    'svg-urbanight.zip', => 1.14,
+    'svg-wireframe.zip'  => 3.28,
 
-    'svg-google.zip'     => 8,
-    'svg-osm.zip'        => 10,
-    'svg-urbanight.zip', => 5,
-    'svg-wireframe.zip'  => 12,
+    'png-google.zip'     => 3.59,
+    'png-hiking.zip'     => 3.91,
+    'png-osm.zip'        => 4.33,
+    'png-urbanight.zip', => 2.74,
+    'png-wireframe.zip'  => 4.28,
 
     'mapsforge-osm.zip' => 0.80,
 
