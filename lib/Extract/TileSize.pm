@@ -107,6 +107,8 @@ sub new {
 # guess factor based on similar data, different styles
 # for garmin or SVG
 #
+# e.g.: guess "garmin-cycle.zip" based on "garmin-osm.zip"
+#
 sub factor_format {
     my $self = shift;
 
@@ -122,7 +124,7 @@ sub factor_format {
         csv.gz csv.xz
         opl.xz
         osm.bz2 osm.xz o5m.bz2 o5m.gz o5m.xz
-        garmin-leisure.zip garmin-bbbike.zip garmin-osm.zip
+        garmin-leisure.zip garmin-bbbike.zip garmin-cycle.zip
         png-google.zip png-osm.zip png-urbanight.zip png-wireframe.zip
         svg-google.zip svg-osm.zip svg-urbanight.zip svg-wireframe.zip
         /
