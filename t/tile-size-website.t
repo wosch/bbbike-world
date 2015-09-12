@@ -15,6 +15,7 @@ use Test::More;
 use JSON;
 use lib qw(./world/lib ../lib);
 use BBBike::Test;
+use Extract::Config;
 
 my $test = BBBike::Test->new();
 
@@ -27,39 +28,7 @@ if ( $ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
 }
 unshift @homepages, @homepages_localhost;
 
-my $formats = {
-    'osm.pbf' => 'Protocolbuffer (PBF)',
-    'osm.gz'  => "OSM XML gzip'd",
-    'osm.bz2' => "OSM XML bzip'd",
-    'osm.xz'  => "OSM XML 7z (xz)",
-
-    'shp.zip'            => "Shapefile (Esri)",
-    'garmin-osm.zip'     => "Garmin OSM",
-    'garmin-cycle.zip'   => "Garmin Cycle",
-    'garmin-leisure.zip' => "Garmin Leisure",
-
-    'garmin-bbbike.zip' => "Garmin BBBike",
-    'navit.zip'         => "Navit",
-    'obf.zip'           => "Osmand (OBF)",
-    'o5m.gz'            => "o5m gzip'd",
-    'o5m.xz'            => "o5m 7z (xz)",
-
-    #'o5m.bz2'           => "o5m bzip'd",
-    'csv.gz' => "csv gzip'd",
-    'csv.xz' => "csv 7z (xz)",
-
-    "opl.xz" => "pbf",
-
-    'mapsforge-osm.zip' => "Mapsforge OSM",
-
-    'srtm-europe.osm.pbf'         => 'SRTM Europe PBF',
-    'srtm-europe.garmin-srtm.zip' => 'SRTM Europe Garmin',
-    'srtm-europe.obf.zip'         => 'SRTM Europe Osmand',
-
-    'srtm.osm.pbf'         => 'SRTM PBF',
-    'srtm.garmin-srtm.zip' => 'SRTM Garmin',
-    'srtm.obf.zip'         => 'SRTM Osmand',
-};
+my $formats = $Extract::Config::formats;
 
 plan tests => scalar( keys %$formats ) *
   scalar(@homepages) *
