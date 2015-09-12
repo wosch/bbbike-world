@@ -45,57 +45,24 @@ usage () {
 usage [ option ] file.osm.pbf
 
 --osm
-
 --gzip
 --pgzip
---bzip2
---pbzip2
---xz
---pxz
+--bzip2 --pbzip2
+--xz --pxz
 
---osmosis-gzip
---osmosis-bzip2
---osmosis-pgzip
---osmosis-pbzip2
---osmosis-xz
-
---osmosis
-
---o5m
---o5m-gzip
---o5m-bzip2
---o5m-xz
-
---csv
---csv-gzip
---csv-bzip2
---csv-xz
-
---opl
---opl-gzip
---opl-bzip2
---opl-xz
+--osmosis --osmosis-gzip --osmosis-bzip2 --osmosis-pgzip --osmosis-pbzip2 --osmosis-xz
+--o5m --o5m-gzip --o5m-bzip2 --o5m-xz 
+--csv --csv-gzip --csv-bzip2 --csv-xz
+--opl --opl-gzip --opl-bzip2 --opl-xz
 
 --shape
 --osmand
 --navit
 --mapsforge-osm
 
---garmin-osm
---garmin-cycle
---garmin-leisure
---garmin-bbbike
---garmin-srtm
-
---png-osm
---png-google
---png-urbanight
---png-wireframe
-
---svg-osm
---svg-google
---svg-urbanight
---svg-wireframe
+--garmin-osm --garmin-cycle --garmin-leisure --garmin-bbbike --garmin-srtm
+--png-osm --png-google --png-urbanight --png-wireframe
+--svg-osm --svg-google --svg-urbanight --svg-wireframe
 
 EOF
 
