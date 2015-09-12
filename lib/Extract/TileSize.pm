@@ -41,7 +41,7 @@ our $default_size = 4;
 #       internal file, not for the *.zip file itself
 #
 our $factor = {
-    'garmin-bbbike.zip'  => 0.582,
+    'garmin-bbbike.zip'  => 0.585,
     'garmin-cycle.zip'   => 0.581,
     'garmin-leisure.zip' => 0.755,
     'garmin-osm.zip'     => 0.583,
@@ -118,8 +118,11 @@ sub factor_format {
 
     if (
         grep { $_ eq $format }
-        qw/garmin-leisure.zip garmin-bbbike.zip garmin-osm.zip
+        qw/
+        csv.gz csv.xz
+        opl.xz
         osm.bz2 osm.xz o5m.bz2 o5m.gz o5m.xz
+        garmin-leisure.zip garmin-bbbike.zip garmin-osm.zip
         png-google.zip png-osm.zip png-urbanight.zip png-wireframe.zip
         svg-google.zip svg-osm.zip svg-urbanight.zip svg-wireframe.zip
         /
