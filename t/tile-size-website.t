@@ -32,7 +32,7 @@ my $formats = $Extract::Config::formats;
 
 plan tests => scalar( keys %$formats ) *
   scalar(@homepages) *
-  ( $test->myget_counter + 1 );
+  ( $test->myget_counter + 2 );
 
 #plan 'no_plan';
 
@@ -41,14 +41,24 @@ sub page_check {
     my $script_url = shift
       || "$home_url/cgi/tile-size.cgi?lat_sw=51.775&lng_sw=11.995&lat_ne=53.218&lng_ne=14.775";
 
+    my %size;
     foreach my $f ( keys %$formats ) {
         my $res = $test->myget( "$script_url&format=$f", 11 );
 
         # {"size": 65667.599 }
         # {"size": 0 }
+
         my $obj = from_json( $res->decoded_content );
         like( $obj->{"size"}, qr/^[\d\.]+$/,
             "format: $f, size: $obj->{'size'}" );
+
+        # no two formats should have the same size
+        # otherwise we may have forgotten to configure a format
+        is( $size{ $obj->{'size'} },
+            undef,
+            "format: $f match size $obj->{'size'} of $size{$obj->{'size'}}" );
+
+        $size{ $obj->{'size'} } = $f;
     }
 }
 

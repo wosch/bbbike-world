@@ -76,7 +76,7 @@ our $factor = {
     'pbf'     => 1,
 
     'csv.xz'  => 0.50,
-    'csv.gz'  => 1.00,
+    'csv.gz'  => 1.01,
     'csv.bz2' => 0.80,
 
     'opl.xz' => 1.30,
