@@ -15,7 +15,7 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_MAPERITIVE_ZOOM="15"}
 : ${BBBIKE_MAPERITIVE_SCALE="1"}
 : ${BBBIKE_MAPERITIVE_MAPSTYLE="osm"}
-: ${BBBIKE_MAPERITIVE_DISPLAY=":100"}
+: ${BBBIKE_MAPERITIVE_DISPLAY=":200"}
 
 : ${debug=false}
 

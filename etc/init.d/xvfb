@@ -13,7 +13,7 @@ set -e
 PATH=/usr/bin:/bin
 NAME=xvfb
 TMPDIR=/tmp
-display=101
+display=200
 
 . /lib/lsb/init-functions
 if [ -f /etc/default/rcS ]; then
