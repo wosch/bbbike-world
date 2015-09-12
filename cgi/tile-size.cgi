@@ -15,7 +15,7 @@ use Extract::Planet;
 use strict;
 use warnings;
 
-my $debug = 2;
+my $debug = 1;
 
 sub Param {
     my $q   = shift;
@@ -159,7 +159,7 @@ warn
 "size: $size, factor $factor, format: $format, ext: $ext, factor_format: $factor_format, ",
   "area: $sw_lng,$sw_lat,$ne_lng,$ne_lat",
   ", sub_planet_path: $sub_planet_path", "\n"
-  if $debug >= 2;
+  if $debug >= 1;
 
 # display JSON result
 print <<EOF;
