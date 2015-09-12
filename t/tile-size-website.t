@@ -47,7 +47,8 @@ sub page_check {
         # {"size": 65667.599 }
         # {"size": 0 }
         my $obj = from_json( $res->decoded_content );
-        like( $obj->{"size"}, qr/^[\d\.]+$/, "size" );
+        like( $obj->{"size"}, qr/^[\d\.]+$/,
+            "format: $f, size: $obj->{'size'}" );
     }
 }
 
