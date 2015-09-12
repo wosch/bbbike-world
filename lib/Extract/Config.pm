@@ -165,6 +165,7 @@ our $planet_osm = {
 our $tile_format = {
     "osm.pbf" => "pbf",
     "pbf"     => "pbf",
+
     "osm.gz"  => "osm.gz",
     "osm"     => "osm.gz",
     "gz"      => "osm.gz",
