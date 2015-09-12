@@ -1,15 +1,15 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
 
-#BEGIN { }
 BEGIN {
-    print "1..0 # skip, not implemented yet\n";
-    exit;
-}
+    my $display = $ENV{BBBIKE_MAPERITIVE_DISPLAY} || 200;
+    my $lockfile = "/tmp/.X$display-lock";
 
-use FindBin;
-use lib ( "$FindBin::RealBin/..", "$FindBin::RealBin/../lib",
-    "$FindBin::RealBin", );
+    if ( !-e $lockfile ) {
+        print "1..0 # skip, DISPLAY=:$display xvfb not running?\n";
+        exit;
+    }
+}
 
 use Getopt::Long;
 use Data::Dumper qw(Dumper);
@@ -26,7 +26,7 @@ my @svg_styles = qw/google/;
 push @svg_styles, qw/osm/ if !$ENV{BBBIKE_TEST_FAST};
 push @svg_styles, qw/urbanight wireframe/ if $ENV{BBBIKE_TEST_LONG};
 
-plan tests => 4 + 5 * scalar(@svg_styles);
+plan tests => 1 + ( 5 * scalar(@svg_styles) );
 
 my $pbf_file = 'world/t/data-osm/tmp/Cusco.osm.pbf';
 
@@ -38,7 +38,7 @@ if ( !-f $pbf_file ) {
 my $pbf_md5 = "6dc9df64ddc42347bbb70bc134b4feda";
 
 # min size of garmin zip file
-my $min_size = 200_000;
+my $min_size = 100_000;
 
 sub md5_file {
     my $file = shift;
@@ -62,29 +62,23 @@ is( $pbf_md5, md5_file($pbf_file), "md5 checksum matched" );
 my $tempfile = File::Temp->new( SUFFIX => ".osm" );
 my $prefix = $pbf_file;
 $prefix =~ s/\.pbf$//;
-my $st = 0;
-
-# any style
-system(qq[world/bin/pbf2osm --svg-osm $pbf_file osm]);
-is( $?, 0, "pbf2osm --svg-osm converter" );
-my $out = "$prefix.svg-osm.zip";
-$st = stat($out) or die "Cannot stat $out\n";
-
-system(qq[unzip -t $out]);
-is( $?, 0, "valid zip file" );
-
-cmp_ok( $st->size, '>', $min_size, "$out greather than $min_size" );
+my $st      = 0;
+my $timeout = 30;
+my $out     = "";
 
 # known styles
 foreach my $style (@svg_styles) {
-    system(qq[world/bin/pbf2osm --svg-$style $pbf_file]);
+    system(
+qq[world/bin/bomb.pl --timeout=$timeout --screenshot-file=$pbf_file.png -- world/bin/pbf2osm --svg-$style $pbf_file]
+    );
     is( $?, 0, "pbf2osm --svg-$style converter" );
 
     $out = "$prefix.svg-$style.zip";
     system(qq[unzip -tqq $out]);
     is( $?, 0, "valid zip file" );
-    $st = stat($out);
-    my $size = $st->size;
+    $st = stat($out) or warn "stat $out: $!\n";
+
+    my $size = $st ? $st->size : -1;
     cmp_ok( $size, '>', $min_size, "$out: $size > $min_size" );
 
     system(qq[world/bin/extract-disk-usage.sh $out > $tempfile]);
