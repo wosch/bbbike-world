@@ -240,6 +240,13 @@ sub create_poly_data {
 
     my $data = "";
     my @poly = ();
+    my $city = $obj->{"city"};
+
+    if ( !defined $city ) {
+        $city = "unknown city";
+        warn "reset undefined city to $city\n" if $debug >= 2;
+    }
+    $city = escapeHTML($city);
 
     my $counter = 0;
     my @c       = $self->get_coords($obj);
@@ -252,7 +259,6 @@ sub create_poly_data {
     my $error = 0;
 
     # create poly data
-    my $city = escapeHTML( $obj->{"city"} );
     $data .= "$city\n";
     $data .= "0\n";
 
