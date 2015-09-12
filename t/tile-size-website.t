@@ -16,6 +16,7 @@ use JSON;
 use lib qw(./world/lib ../lib);
 use BBBike::Test;
 use Extract::Config;
+use Extract::TileSize;
 
 my $test = BBBike::Test->new();
 
@@ -28,13 +29,35 @@ if ( $ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
 }
 unshift @homepages, @homepages_localhost;
 
-my $formats = $Extract::Config::formats;
+my $formats          = $Extract::Config::formats;
+my $factor_tile_size = $Extract::TileSize::factor;
 
 plan tests => scalar( keys %$formats ) *
   scalar(@homepages) *
-  ( $test->myget_counter + 2 );
+  ( $test->myget_counter + 2 ) +
+  ( ( scalar( keys %$factor_tile_size ) - 1 ) * 2 );
 
 #plan 'no_plan';
+
+# check the formats configuration in lib/Extract/TileSize.pm
+sub factor_check {
+    my %hash;
+    my $factor = $factor_tile_size;
+
+    foreach my $f ( keys %$factor ) {
+        next if $f eq 'pbf';
+
+        cmp_ok( $factor->{$f}, '!=', 1,
+            "format $f should not have size of $factor->{$f}" );
+
+        isnt(
+            $factor->{$f},
+            $hash{ $factor->{$f} },
+            "format $f should not have size of $hash{$factor->{$f}}"
+        );
+        $hash{ $factor->{$f} } = $f;
+    }
+}
 
 sub page_check {
     my $home_url   = shift;
@@ -65,6 +88,8 @@ sub page_check {
 #############################################################################
 # main
 #
+
+&factor_check;
 
 # check a bunch of homepages
 foreach my $home_url (
