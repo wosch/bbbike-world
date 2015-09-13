@@ -25,10 +25,6 @@ q[egrep '^MemTotal: ' /proc/meminfo | awk '{ if ($2 > 1.8 * 1000000) { exit 0 } 
     }
 }
 
-use FindBin;
-use lib ( "$FindBin::RealBin/..", "$FindBin::RealBin/../lib",
-    "$FindBin::RealBin", );
-
 use Getopt::Long;
 use Data::Dumper qw(Dumper);
 use Test::More;

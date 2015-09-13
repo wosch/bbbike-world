@@ -1,12 +1,6 @@
 #!/usr/local/bin/perl
 # Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
 
-BEGIN { }
-
-use FindBin;
-use lib ( "$FindBin::RealBin/..", "$FindBin::RealBin/../lib",
-    "$FindBin::RealBin", );
-
 use Getopt::Long;
 use Data::Dumper qw(Dumper);
 use Test::More;

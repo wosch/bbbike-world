@@ -8,10 +8,6 @@ BEGIN {
     }
 }
 
-use FindBin;
-use lib ( "$FindBin::RealBin/..", "$FindBin::RealBin/../lib",
-    "$FindBin::RealBin", );
-
 use Getopt::Long;
 use Data::Dumper qw(Dumper);
 use Test::More;
