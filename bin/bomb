@@ -1,0 +1,19 @@
+#!/bin/bash
+#
+# bomb - wrapper to stop a process after N seconds
+
+# Turn on job control. This will switch the process group
+# as on an interactive shell, and make sure that a signal
+# to the process group will not kill any parent processes.
+set -o monitor
+
+# the maximum amount of cpu time in seconds
+ulimit -t 120
+
+# now run the perl script. For unknown reasons, the
+# call to setpgrp() in perl does not work as expected,
+# and we solve the issue by this simple shell wrapper
+
+$0.pl "$@"
+
+# EOF
