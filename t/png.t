@@ -2,13 +2,18 @@
 # Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
-    my $display = $ENV{BBBIKE_MAPERITIVE_DISPLAY} || 200;
-    my $lockfile = "/tmp/.X$display-lock";
+    my $display = $ENV{BBBIKE_MAPERITIVE_DISPLAY} || $ENV{DISPLAY} || ":200";
+    my $display_number = $display;
+    $display_number =~ s,^:,,;
+
+    my $lockfile = "/tmp/.X${display_number}-lock";
 
     if ( !-e $lockfile ) {
-        print "1..0 # skip, DISPLAY=:$display xvfb not running?\n";
+        print "1..0 # skip, DISPLAY=$display xvfb not running?\n";
         exit;
     }
+
+    $ENV{DISPLAY} = $display;
 }
 
 use Getopt::Long;
@@ -75,7 +80,7 @@ foreach my $style (@svg_styles) {
     unlink($out);
 
     system(
-qq[world/bin/bomb.pl --timeout=$timeout --screenshot-file=$pbf_file.png -- world/bin/pbf2osm --$type-$style $pbf_file]
+qq[world/bin/bomb --timeout=$timeout --screenshot-file=$pbf_file.png -- world/bin/pbf2osm --$type-$style $pbf_file]
     );
     is( $?, 0, "pbf2osm --$type-$style converter" );
 
