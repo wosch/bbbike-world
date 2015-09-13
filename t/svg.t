@@ -18,12 +18,15 @@ use File::Temp qw(tempfile);
 use IO::File;
 use Digest::MD5 qw(md5_hex);
 use File::stat;
+use File::Basename;
 
 use strict;
 use warnings;
 
+my $type = basename( $0, ".t" );    #"svg";
+
 my @svg_styles = qw/google/;
-push @svg_styles, qw/osm/ if !$ENV{BBBIKE_TEST_FAST};
+push @svg_styles, qw/osm/ if !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG};
 push @svg_styles, qw/urbanight wireframe/ if $ENV{BBBIKE_TEST_LONG};
 
 plan tests => 1 + ( 5 * scalar(@svg_styles) );
@@ -69,11 +72,11 @@ my $out     = "";
 # known styles
 foreach my $style (@svg_styles) {
     system(
-qq[world/bin/bomb.pl --timeout=$timeout --screenshot-file=$pbf_file.png -- world/bin/pbf2osm --svg-$style $pbf_file]
+qq[world/bin/bomb.pl --timeout=$timeout --screenshot-file=$pbf_file.png -- world/bin/pbf2osm --$type-$style $pbf_file]
     );
-    is( $?, 0, "pbf2osm --svg-$style converter" );
+    is( $?, 0, "pbf2osm --$type-$style converter" );
 
-    $out = "$prefix.svg-$style.zip";
+    $out = "$prefix.$type-$style.zip";
     system(qq[unzip -tqq $out]);
     is( $?, 0, "valid zip file" );
     $st = stat($out) or warn "stat $out: $!\n";
