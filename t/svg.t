@@ -71,12 +71,14 @@ my $out     = "";
 
 # known styles
 foreach my $style (@svg_styles) {
+    $out = "$prefix.$type-$style.zip";
+    unlink($out);
+
     system(
 qq[world/bin/bomb.pl --timeout=$timeout --screenshot-file=$pbf_file.png -- world/bin/pbf2osm --$type-$style $pbf_file]
     );
     is( $?, 0, "pbf2osm --$type-$style converter" );
 
-    $out = "$prefix.$type-$style.zip";
     system(qq[unzip -tqq $out]);
     is( $?, 0, "valid zip file" );
     $st = stat($out) or warn "stat $out: $!\n";
