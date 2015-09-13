@@ -73,15 +73,15 @@ var config = {
         "garmin-leisure.zip": "/images/garmin-leisure-small.png",
         "garmin-osm.zip": "/images/garmin-osm-small.png",
 
-        "png-google.zip": "/images/garmin-bbbike-small.png",
-        "png-osm.zip": "/images/garmin-bbbike-small.png",
-        "png-urbanight.zip": "/images/garmin-bbbike-small.png",
-        "png-wireframe.zip": "/images/garmin-bbbike-small.png",
+        "svg-google.zip": "/images/svg-google-small.png",
+        "svg-osm.zip": "/images/svg-osm-small.png",
+        "svg-urbanight.zip": "/images/svg-urbanight-small.png",
+        "svg-wireframe.zip": "/images/svg-wireframe-small.png",
 
-        "svg-google.zip": "/images/garmin-bbbike-small.png",
-        "svg-osm.zip": "/images/garmin-bbbike-small.png",
-        "svg-urbanight.zip": "/images/garmin-bbbike-small.png",
-        "svg-wireframe.zip": "/images/garmin-bbbike-small.png",
+        "png-google.zip": "/images/svg-google-small.png",
+        "png-osm.zip": "/images/svg-osm-small.png",
+        "png-urbanight.zip": "/images/svg-urbanight-small.png",
+        "png-wireframe.zip": "/images/svg-wireframe-small.png",
 
         "opl.xz": "/images/opl.png",
         "csv.xz": "/images/csv.png",
