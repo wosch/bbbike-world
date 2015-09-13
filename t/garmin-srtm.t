@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 my @garmin_styles = qw/osm/;
-plan tests => 4 + 5 * scalar(@garmin_styles);
+plan tests => 1 + ( scalar(@garmin_styles) * 5 );
 
 my $pbf_file = 'world/t/data-osm/tmp/Cusco-SRTM.osm.pbf';
 
@@ -59,17 +59,7 @@ $prefix =~ s/\.pbf$//;
 my $st = 0;
 
 # any style
-my $out = "$prefix.garmin-osm.zip";
-unlink $out;
-
-system(qq[world/bin/pbf2osm --garmin $pbf_file osm]);
-is( $?, 0, "pbf2osm --garmin converter" );
-$st = stat($out) or die "Cannot stat $out\n";
-
-system(qq[unzip -t $out]);
-is( $?, 0, "valid zip file" );
-
-cmp_ok( $st->size, '>', $min_size, "$out greather than $min_size" );
+my $out = "";
 
 # known styles
 foreach my $style (@garmin_styles) {
