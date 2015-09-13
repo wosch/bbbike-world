@@ -23,8 +23,8 @@ export BBBIKE_TEST_INTERACTIVE=0
 export BBBIKE_TEST_INTERACTIVE_FULL=0
 
 
-export BBBIKE_WEB_SERVER=www4.bbbike.org
-export BBBIKE_API_SERVER=api4.bbbike.org
+export BBBIKE_WEB_SERVER=www.bbbike.org
+export BBBIKE_API_SERVER=api.bbbike.org
 
 export BBBIKE_TEST_FAST=1
 export BBBIKE_OPT_DIR=/var/lib/bbbike/opt
