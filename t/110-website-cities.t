@@ -28,7 +28,7 @@ my @cities = map { chomp; $_ } (`./world/bin/bbbike-db --list`);
 
 my @lang = qw/de en/;
 if ( $ENV{BBBIKE_TEST_LONG} ) {
-    push @lang, qw/da es fr hr nl pl pt ru zh/;
+    push @lang, qw/es fr ru/;
 }
 
 # for each translation, check a translated term
