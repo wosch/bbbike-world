@@ -70,14 +70,15 @@ $SIG{ALRM} = sub {
         warn "Final kill -9 now the process group $pgid\n";
         kill "KILL", -$pgid;
     }
+};
 
-    # don't kill ourself
-    $SIG{TERM} = "IGNORE";
+# don't kill ourself
+$SIG{TERM} = "IGNORE";
 
-    alarm($timeout);
+alarm($timeout);
 
-    system(@system) == 0
-      or die "system('@system') failed: ?='$?', !='$!'\n";
+system(@system) == 0
+  or die "system('@system') failed: ?='$?', !='$!'\n";
 
-    1;
+1;
 
