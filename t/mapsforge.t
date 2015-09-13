@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
 
 BEGIN { }
 
@@ -56,9 +56,11 @@ my $prefix = $pbf_file;
 $prefix =~ s/\.pbf$//;
 my $st = 0;
 
+my $out = "$prefix.mapsforge-osm.zip";
+unlink $out;
+
 system(qq[world/bin/pbf2osm --mapsforge-osm $pbf_file]);
 is( $?, 0, "pbf2osm --mapsforge-osm converter" );
-my $out = "$prefix.mapsforge-osm.zip";
 $st = stat($out) or die "Cannot stat $out\n";
 
 system(qq[unzip -t $out]);

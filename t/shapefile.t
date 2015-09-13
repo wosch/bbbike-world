@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
     system("which osmium2shape >/dev/null");
@@ -80,9 +80,11 @@ $prefix = $pbf_file;
 $prefix =~ s/\.pbf$//;
 my $st = 0;
 
+my $out = "$prefix.shp.zip";
+unlink $out;
+
 system(qq[world/bin/pbf2osm --shape $pbf_file]);
 is( $?, 0, "pbf2osm --shape converter" );
-my $out = "$prefix.shp.zip";
 $st = stat($out) or die "Cannot stat $out\n";
 
 system(qq[unzip -t $out]);

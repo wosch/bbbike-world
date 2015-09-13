@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2014 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_FAST} ) {
@@ -63,9 +63,11 @@ $prefix =~ s/\.pbf$//;
 my $st = 0;
 
 # any style
+my $out = "$prefix.garmin-osm.zip";
+unlink $out;
+
 system(qq[world/bin/pbf2osm --garmin $pbf_file osm]);
 is( $?, 0, "pbf2osm --garmin converter" );
-my $out = "$prefix.garmin-osm.zip";
 $st = stat($out) or die "Cannot stat $out\n";
 
 system(qq[unzip -t $out]);
@@ -75,10 +77,12 @@ cmp_ok( $st->size, '>', $min_size, "$out greather than $min_size" );
 
 # known styles
 foreach my $style (@garmin_styles) {
+    $out = "$prefix.garmin-$style.zip";
+    unlink $out;
+
     system(qq[world/bin/pbf2osm --garmin-$style $pbf_file]);
     is( $?, 0, "pbf2osm --garmin-$style converter" );
 
-    $out = "$prefix.garmin-$style.zip";
     system(qq[unzip -tqq $out]);
     is( $?, 0, "valid zip file" );
     $st = stat($out);
