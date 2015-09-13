@@ -1,9 +1,21 @@
 # Copyright (c) 2009-2015 Wolfram Schneider, http://bbbike.org
 #
+#
+##################################################################
 # Planet.osm download server
+#
 planet_osm_server=http://planet.openstreetmap.org/planet
 #planet_osm_server=http://download.bbbike.org/osm/planet
 
+##################################################################
+# General
+#
+export BBBIKE_TMPDIR=/bbbike/tmp
+export BBBIKE_TMPFS=/tmpfs
+
+###################################################################
+# Testing
+#
 export BBBIKE_TEST_SERVER="http://localhost:8080"
 export BBBIKE_TEST_CGIDIR="http://localhost:8080/cgi"
 export BBBIKE_TEST_CGIURL="http://localhost:8080/cgi/bbbike.cgi"
@@ -22,10 +34,6 @@ export BBBIKE_TEST_SKIP_PLACK=1
 export BBBIKE_TEST_INTERACTIVE=0
 export BBBIKE_TEST_INTERACTIVE_FULL=0
 
-
-export BBBIKE_WEB_SERVER=www.bbbike.org
-export BBBIKE_API_SERVER=api.bbbike.org
-
 export BBBIKE_TEST_FAST=1
 export BBBIKE_OPT_DIR=/var/lib/bbbike/opt
 
@@ -35,16 +43,22 @@ export BBBIKE_OPT_DIR=/var/lib/bbbike/opt
 #
 # Web server options:
 # export BBBIKE_TEST_NO_CGI_TESTS=1
+export BBBIKE_WEB_SERVER=www.bbbike.org
+export BBBIKE_API_SERVER=api.bbbike.org
 
-# workaround for imagemagic thread bug / busy waiting in libgomp
-export OMP_WAIT_POLICY=PASSIVE
-
-# export BBBIKE_PLANET_OSM_GRANULARITY="granularity=10000"
 
 # keep a backup of the planet file as planet-latest-nometa.osm.pbf.0
 # export BBBIKE_PLANET_OSM_BACKUP="YES"
 
-export BBBIKE_TMPDIR=/bbbike/tmp
-export BBBIKE_TMPFS=/tmpfs
+###################################################################
+# Extract service
+#
+# export BBBIKE_EXTRACT_LANG=en
+# export BBBIKE_MAPERITIVE_DISPLAY=":200"
+# export BBBIKE_PLANET_OSM_GRANULARITY="granularity=10000"
+
+# workaround for imagemagic thread bug / busy waiting in libgomp
+export OMP_WAIT_POLICY=PASSIVE
+
 
 #EOF
