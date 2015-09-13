@@ -26,7 +26,7 @@ osmium_convert_opt="-f pbf -t opl"
 : ${max_file_size_garmin=2950000}
 : ${max_file_size_mapsforge=666000}
 : ${max_file_size_osmand=666000}
-: ${max_file_size_maperitive=30000}
+: ${max_file_size_maperitive=50000}
 _max_cpu_time=7200
 
 xz=`which xz 2>/dev/null | head -n 1`
