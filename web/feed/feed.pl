@@ -48,6 +48,18 @@ my $feed = XML::Atom::SimpleFeed->new(
 # - larger area for most cities, up top 30 km radius the centr of the city
 #
 $feed->add_entry(
+    title   => qq{The extract service supports now SVG format and PNG images},
+    id      => '5f5b1fc9a70af4642e758b84227c8ea7',
+    content => {
+        type => 'html',
+        content =>
+qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now SVG format and PNG images},
+    },
+    updated  => '2015-09-13T13:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title =>
 qq{The extract service is now 5 times faster. It takes between 2-7 minutes to extract an area from planet.osm},
     id      => '5f5b1fc9a70af4642e758b84227c8ea6',
