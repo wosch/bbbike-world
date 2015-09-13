@@ -13,8 +13,9 @@ use strict;
 use warnings;
 
 my @garmin_styles = qw/cycle osm/;
-push @garmin_styles, qw/leisure/ if !$ENV{BBBIKE_TEST_FAST};
-push @garmin_styles, qw/bbbike/  if $ENV{BBBIKE_TEST_LONG};
+push @garmin_styles, qw/leisure/
+  if !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG};
+push @garmin_styles, qw/bbbike/ if $ENV{BBBIKE_TEST_LONG};
 
 plan tests => 4 + 5 * scalar(@garmin_styles);
 
