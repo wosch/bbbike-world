@@ -1,6 +1,8 @@
 #!/bin/bash
+# Copyright (c) 2015 Wolfram Schneider, http://bbbike.org
 #
 # bomb - wrapper to stop a process after N seconds
+#        job control in bourne shell
 
 # Turn on job control. This will switch the process group
 # as on an interactive shell, and make sure that a signal
@@ -8,12 +10,9 @@
 set -o monitor
 
 # the maximum amount of cpu time in seconds
-ulimit -t 120
+ulimit -t 3600
 
-# now run the perl script. For unknown reasons, the
-# call to setpgrp() in perl does not work as expected,
-# and we solve the issue by this simple shell wrapper
-
+# now run the perl script in foreground and with job control
 $0.pl "$@"
 
 # EOF
