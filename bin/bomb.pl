@@ -29,9 +29,9 @@ EOF
 }
 
 GetOptions(
-    "help"      => \$help,
-    "debug=i"   => \$debug,
-    "timeout=f" => \$timeout,
+    "help"              => \$help,
+    "debug=i"           => \$debug,
+    "timeout=f"         => \$timeout,
     "screenshot-file=s" => \$screenshot_file,
 ) or die usage;
 
@@ -39,7 +39,6 @@ my @system = @ARGV;
 
 die usage if $help;
 die usage if !@system;
-
 
 #
 # configure signal handlers
@@ -50,18 +49,20 @@ $SIG{ALRM} = sub {
     warn "Alarm handler got called after $timeout seconds\n";
     warn "Kill now the process group $pgid\n\n";
     warn "Command: @system\n";
-    
+
     if ($screenshot_file) {
-        system("xwd -root -display $ENV{DISPLAY} | xwdtopnm | pnmtopng > $screenshot_file") == 0
-            or warn "system screenshot failed: $? $!\n";
-	warn "Screenshot file:  $screenshot_file\n";
+        system(
+"xwd -root -display $ENV{DISPLAY} | xwdtopnm | pnmtopng > $screenshot_file"
+          ) == 0
+          or warn "system screenshot failed: $? $!\n";
+        warn "Screenshot file:  $screenshot_file\n";
     }
 
     # kill process group
     kill "TERM", -$pgid;
     sleep 3;
     system("pgrep -l -g $pgid");
-     
+
     warn "Final kill -9 now the process group $pgid\n";
     kill "KILL", -$pgid;
 };
