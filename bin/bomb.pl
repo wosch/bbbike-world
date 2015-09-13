@@ -51,29 +51,33 @@ $SIG{ALRM} = sub {
     warn "Command: @system\n";
 
     if ($screenshot_file) {
-        system(
+        if ( $ENV{DISPLAY} ) {
+            system(
 "xwd -root -display $ENV{DISPLAY} | xwdtopnm | pnmtopng > $screenshot_file"
-          ) == 0
-          or warn "system screenshot failed: $? $!\n";
-        warn "Screenshot file:  $screenshot_file\n";
+              ) == 0
+              or warn "system screenshot failed: $? $!\n";
+            warn "Screenshot file:  $screenshot_file\n";
+        }
+        else {
+            warn "env DISPLAY not set, cannot take a screen shot\n";
+        }
+
+        # kill process group
+        kill "TERM", -$pgid;
+        sleep 3;
+        system("pgrep -l -g $pgid");
+
+        warn "Final kill -9 now the process group $pgid\n";
+        kill "KILL", -$pgid;
     }
 
-    # kill process group
-    kill "TERM", -$pgid;
-    sleep 3;
-    system("pgrep -l -g $pgid");
+    # don't kill ourself
+    $SIG{TERM} = "IGNORE";
 
-    warn "Final kill -9 now the process group $pgid\n";
-    kill "KILL", -$pgid;
-};
+    alarm($timeout);
 
-# don't kill ourself
-$SIG{TERM} = "IGNORE";
+    system(@system) == 0
+      or die "system('@system') failed: ?='$?', !='$!'\n";
 
-alarm($timeout);
-
-system(@system) == 0
-  or die "system('@system') failed: ?='$?', !='$!'\n";
-
-1;
+    1;
 
