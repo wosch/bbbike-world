@@ -6,8 +6,8 @@ $BBBIKE_MAPERITIVE_VERSION by http://maperitive.net/
 Please read the OSM wiki how to use SVG
 
   http://wiki.openstreetmap.org/wiki/SVG
-  
-  
+
+
 This SVG map was created on: $date
 Maperitive map style: $maperitive_map_style
 GPS rectangle coordinates (lng,lat): $BBBIKE_EXTRACT_COORDS
