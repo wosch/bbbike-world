@@ -10,7 +10,7 @@
 set -o monitor
 
 # the maximum amount of cpu time in seconds
-ulimit -t 3600
+ulimit -t 7600
 
 # now run the perl script in foreground and with job control
 $0.pl "$@"
