@@ -5,6 +5,7 @@ $BBBIKE_MAPERITIVE_VERSION by http://maperitive.net/
 
 Please read the OSM wiki how to use SVG
 
+  https://en.wikipedia.org/wiki/Scalable_Vector_Graphics
   https://wiki.openstreetmap.org/wiki/SVG
 
 
