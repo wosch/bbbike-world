@@ -164,7 +164,7 @@ function bbbike_maps_init(maptype, marker_list, lang) {
     }
 
     var copyright = new GCopyright(1, new GLatLngBounds(new GLatLng(-90, -180), new GLatLng(90, 180)), 0, '(<a rel="license" target="_ccbysa" href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>)');
-    var copyrightCollection = new GCopyrightCollection('Map data &copy; 2010 <a target="_osm" href="http://www.openstreetmap.org/">OpenStreetMap</a> Contributors');
+    var copyrightCollection = new GCopyrightCollection('Map data &copy; 2010 <a target="_osm" href="https://www.openstreetmap.org/">OpenStreetMap</a> Contributors');
     copyrightCollection.addCopyright(copyright);
 
     map.addMapType(G_PHYSICAL_MAP);

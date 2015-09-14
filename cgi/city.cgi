@@ -89,7 +89,7 @@ sub footer {
 
 <div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em;" >
   (&copy;) 2008-2015 <a href="http://bbbike.org">BBBike.org</a> //
-  Map data (&copy;) <a href="http://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors <br/>
+  Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors <br/>
   <a href="http://mc.bbbike.org/mc/">map compare</a> - <a href="http://extract.bbbike.org/">osm extract service</a>
 
   <div id="footer_community"></div>

@@ -58,16 +58,16 @@ function download_init_map(conf) {
         tileOptions: {
             crossOriginKeyword: null
         },
-        attribution: '<a href="http://www.OpenStreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="http://www.opencyclemap.org/">(&copy) OpenCycleMap</a>',
+        attribution: '<a href="https://www.OpenStreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="http://www.opencyclemap.org/">(&copy) OpenCycleMap</a>',
         numZoomLevels: 18
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM.Mapnik("OSM Mapnik", {
-        attribution: '<a href="http://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>'
+        attribution: '<a href="https://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>'
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM.CycleMap("OSM CycleMap", {
-        attribution: '<a href="http://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="http://www.opencyclemap.org/">(&copy) OpenCycleMap</a>'
+        attribution: '<a href="https://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="http://www.opencyclemap.org/">(&copy) OpenCycleMap</a>'
     }));
 
     // Bing roads and Satellite/Hybrid

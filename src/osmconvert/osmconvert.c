@@ -5156,7 +5156,7 @@ static void pw_header(bool bboxvalid,
   pw__obj_add_id2(0x8201);  // S 16 'writingprogram'
   pw__obj_add_str("osmconvert "VERSION);
   pw__obj_add_id2(0x8a01);  // S 17 'source'
-  pw__obj_add_str("http://www.openstreetmap.org/api/0.6");
+  pw__obj_add_str("https://www.openstreetmap.org/api/0.6");
   if(timestamp!=0) {  // file timestamp given
     pw__obj_add_id2(0x8002);  // V 32 osmosis_replication_timestamp
     pw__obj_add_uint64(timestamp);
@@ -8511,7 +8511,7 @@ return;
         // <bounds minlat="53.01104" minlon="8.481593"
         //   maxlat="53.61092" maxlon="8.990601"/>
         // <bound box="49.10868,6.35017,49.64072,7.40979"
-        //   origin="http://www.openstreetmap.org/api/0.6"/>
+        //   origin="https://www.openstreetmap.org/api/0.6"/>
         uint32_t bboxcomplete;  // flags for bbx1 .. bby2
         int l;
         char c;
