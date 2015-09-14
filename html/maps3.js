@@ -14,7 +14,7 @@ var bbbike = {
     },
 
     // enable Google Arial View: 45 Imagery
-    // http://en.wikipedia.org/wiki/Google_Maps#Google_Aerial_View
+    // https://en.wikipedia.org/wiki/Google_Maps#Google_Aerial_View
     mapImagery45: 45,
 
     // map type by OpenStreetMap & other
