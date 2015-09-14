@@ -1259,6 +1259,10 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "size": 1,
             "time": 2
         },
+        "png-hiking.zip": {
+            "size": 1,
+            "time": 2
+        },
         "png-urbanight.zip": {
             "size": 1,
             "time": 2
@@ -1272,6 +1276,10 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "time": 2
         },
         "svg-osm.zip": {
+            "size": 1,
+            "time": 2
+        },
+        "svg-hiking.zip": {
             "size": 1,
             "time": 2
         },

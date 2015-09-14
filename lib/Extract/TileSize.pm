@@ -125,8 +125,8 @@ sub factor_format {
         opl.xz
         osm.bz2 osm.xz o5m.bz2 o5m.gz o5m.xz
         garmin-leisure.zip garmin-bbbike.zip garmin-cycle.zip
-        png-google.zip png-osm.zip png-urbanight.zip png-wireframe.zip
-        svg-google.zip svg-osm.zip svg-urbanight.zip svg-wireframe.zip
+        svg-google.zip svg-hiking.zip svg-osm.zip svg-urbanight.zip svg-wireframe.zip
+        png-google.zip png-hiking.zip png-osm.zip png-urbanight.zip png-wireframe.zip
         /
       )
     {

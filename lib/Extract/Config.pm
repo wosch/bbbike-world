@@ -29,15 +29,17 @@ our $formats = {
     'garmin-leisure.zip' => "Garmin Leisure",
     'garmin-bbbike.zip'  => "Garmin BBBike",
 
-    'png-google.zip'     => 'PNG google',
-    'png-osm.zip'        => 'PNG mapnik',
-    'png-urbanight.zip', => 'PNG night',
-    'png-wireframe.zip'  => 'PNG wireframe',
-
     'svg-google.zip'     => 'SVG google',
+    'svg-hiking.zip'     => 'SVG hiking',
     'svg-osm.zip'        => 'SVG mapnik',
     'svg-urbanight.zip', => 'SVG night',
     'svg-wireframe.zip'  => 'SVG wireframe',
+
+    'png-google.zip'     => 'PNG google',
+    'png-hiking.zip'     => 'PNG hiking',
+    'png-osm.zip'        => 'PNG mapnik',
+    'png-urbanight.zip', => 'PNG night',
+    'png-wireframe.zip'  => 'PNG wireframe',
 
     'navit.zip' => "Navit",
 
@@ -85,16 +87,16 @@ our $formats_menu = {
         'formats' => [ 'obf.zip', 'mapsforge-osm.zip', 'navit.zip' ]
     },
     'shape' => { 'title' => "Shapefile", 'formats' => ['shp.zip'] },
-    'png'   => {
-        'title'   => "PNG",
-        'formats' => [
-            qw/png-google.zip png-osm.zip png-urbanight.zip png-wireframe.zip/
-        ]
-    },
-    'svg' => {
+    'svg'   => {
         'title'   => "SVG",
         'formats' => [
-            qw/svg-google.zip svg-osm.zip svg-urbanight.zip svg-wireframe.zip/
+            qw/svg-google.zip svg-hiking.zip svg-osm.zip svg-urbanight.zip svg-wireframe.zip/
+        ]
+    },
+    'png' => {
+        'title'   => "PNG",
+        'formats' => [
+            qw/png-google.zip png-hiking.zip png-osm.zip png-urbanight.zip png-wireframe.zip/
         ]
     },
     'srtm' => {
