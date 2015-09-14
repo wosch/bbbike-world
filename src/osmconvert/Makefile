@@ -6,7 +6,7 @@
 # For more information about BBBike, visit http://www.bbbike.org
 #
 # see also
-# http://wiki.openstreetmap.org/wiki/Osmconvert#Download
+# https://wiki.openstreetmap.org/wiki/Osmconvert#Download
 #
 
 PROG=osmconvert

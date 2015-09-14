@@ -5,8 +5,8 @@ $BBBIKE_EXTRACT_GARMIN_VERSION by http://www.mkgmap.org.uk
 
 Please read the OSM wiki how to install the maps on your GPS device:
 
-  http://wiki.openstreetmap.org/wiki/OSM_Map_On_Garmin#Installing_the_map_onto_your_GPS
-  http://wiki.openstreetmap.org/wiki/OSM_Map_On_Garmin/Download
+  https://wiki.openstreetmap.org/wiki/OSM_Map_On_Garmin#Installing_the_map_onto_your_GPS
+  https://wiki.openstreetmap.org/wiki/OSM_Map_On_Garmin/Download
 
 
 This garmin map was created on: $date

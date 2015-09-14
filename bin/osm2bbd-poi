@@ -429,7 +429,7 @@ sub head {
 #
 # OpenStreetMap data can be used freely under the terms of the 
 # Creative Commons Attribution-ShareAlike 2.0 license.
-# http://wiki.openstreetmap.org/index.php/OpenStreetMap_License
+# https://wiki.openstreetmap.org/index.php/OpenStreetMap_License
 #
 # Converted from openstreetmap data using
 # /home/wosch/projects/bbbike/miscsrc/osm2bbd v0.11

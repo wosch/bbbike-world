@@ -1,6 +1,6 @@
 ######################################################################
 # setup a tile server for debian
-# based on http://wiki.openstreetmap.org/wiki/Ubuntu_tile_server
+# based on https://wiki.openstreetmap.org/wiki/Ubuntu_tile_server
 #
 
 Everything runs by a make command. Try:

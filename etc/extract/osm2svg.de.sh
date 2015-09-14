@@ -5,7 +5,7 @@ $BBBIKE_MAPERITIVE_VERSION by http://maperitive.net/
 
 Please read the OSM wiki how to use SVG
 
-  http://wiki.openstreetmap.org/wiki/SVG
+  https://wiki.openstreetmap.org/wiki/SVG
 
 
 Diese SVG Karte wurde erzeugt am: $date

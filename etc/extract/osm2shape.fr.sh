@@ -6,7 +6,7 @@ $BBBIKE_EXTRACT_SHAPE_VERSION by Geofabrik, http://geofabrik.de
 
 Please read the OSM wiki how to use shape files.
 
-  http://wiki.openstreetmap.org/wiki/Shapefiles
+  https://wiki.openstreetmap.org/wiki/Shapefiles
 
 
 This shape file was created on: $date

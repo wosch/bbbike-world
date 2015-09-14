@@ -1120,7 +1120,7 @@ for my $osm_file (@osm_files) {
                     my $reversed = 1;
 
                     # Special case -1, see
-                    # http://wiki.openstreetmap.org/index.php/Key:oneway
+                    # https://wiki.openstreetmap.org/index.php/Key:oneway
                     if ( $oneway eq '-1' ) {
                         $oneway   = "true";
                         $reversed = 0;
@@ -1680,7 +1680,7 @@ EOF
 #
 # OpenStreetMap data can be used freely under the terms of the 
 # Creative Commons Attribution-ShareAlike 2.0 license.
-# http://wiki.openstreetmap.org/index.php/OpenStreetMap_License
+# https://wiki.openstreetmap.org/index.php/OpenStreetMap_License
 #
 # Converted from openstreetmap data using
 # $prog v$VERSION

@@ -21,10 +21,10 @@
 # - Definition der Pistenregeln durch Roman Büchler
 #
 # Hinweis auf weitere Unterlagen:
-# - http://wiki.openstreetmap.org/wiki/DE:Map_Features
-# - http://wiki.openstreetmap.org/wiki/Mkgmap/How_to_create_a_map
-# - http://wiki.openstreetmap.org/wiki/Mkgmap/help/style_rules
-# - http://wiki.openstreetmap.org/wiki/Mkgmap/help/Custom_styles
+# - https://wiki.openstreetmap.org/wiki/DE:Map_Features
+# - https://wiki.openstreetmap.org/wiki/Mkgmap/How_to_create_a_map
+# - https://wiki.openstreetmap.org/wiki/Mkgmap/help/style_rules
+# - https://wiki.openstreetmap.org/wiki/Mkgmap/help/Custom_styles
 #
 # Liste der Garmin-Standardbelegung (gemaess cGPSmapper-Manual; zur Orientierung):
 #
@@ -1527,7 +1527,7 @@ contour = elevation & contour_ext = elevation_major  & ele > 0 { set name = '${e
 # - Die Erstellung und Pflege Pistenregeln erfolgt durch Roman.
 # - Die Skitouren sind nach dem SAC (Schweizer Alpen Club) Standard definiert.
 # - Die Farben und Kategorien sind entsprechend der folgenden Quelle:
-#   http://wiki.openstreetmap.org/wiki/Proposed_features/Piste_Maps
+#   https://wiki.openstreetmap.org/wiki/Proposed_features/Piste_Maps
 # ------------------------------------------------------------
 #ifdef WINTERSPORT
   #downhill: Skipiste mit verschiedenen Schwierigkeitsgraden

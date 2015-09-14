@@ -10,7 +10,7 @@ Are you missing a city or region? Please go to
 and select your own a region!
 
 All Data from OpenStreetMap is licensed under the 
-OpenStreetMap License: http://wiki.openstreetmap.org/wiki/OpenStreetMap_License
+OpenStreetMap License: https://wiki.openstreetmap.org/wiki/OpenStreetMap_License
 
 --
 Copyright (c) 2011-2015 http://BBBike.org

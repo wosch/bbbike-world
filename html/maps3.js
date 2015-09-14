@@ -694,8 +694,8 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
 
     //
     // see:
-    // 	http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
-    //  http://wiki.openstreetmap.org/wiki/Tileserver
+    // 	https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
+    //  https://wiki.openstreetmap.org/wiki/Tileserver
     //
     var mapnik_options = {
         bbbike: {
