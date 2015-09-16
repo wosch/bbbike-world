@@ -45,6 +45,7 @@ var config = {
 
         "svg-google.zip": 32,
         "svg-osm.zip": 32,
+        "svg-hiking.zip": 32,
         "svg-urbanight.zip": 32,
         "svg-wireframe.zip": 32,
 
@@ -57,6 +58,7 @@ var config = {
     max_skm_format: {
         "png-google.zip": 900,
         "png-osm.zip": 900,
+        "png-hiking.zip": 900,
         "png-urbanight.zip": 900,
         "png-wireframe.zip": 900,
 
