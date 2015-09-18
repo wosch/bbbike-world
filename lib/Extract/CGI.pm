@@ -709,7 +709,8 @@ sub _check_input {
     my $text = M("EXTRACT_CONFIRMED");
     push @data,
       sprintf( $text,
-        escapeHTML($city), large_int($skm), $coordinates, $format,
+        escapeHTML($city), large_int($skm), $coordinates,
+        $self->{'formats'}->{$format},
         $option->{'homepage'}, );
 
     my ( $key, $json_file ) =
