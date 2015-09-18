@@ -499,11 +499,19 @@ function extract_init(opt) {
 
     setBounds(map.getExtent());
 
-    if ($("select[name=format]").length) {
-        $("select[name=format]").change(function () {
+    if ($("select#format").length) {
+        $("select#format").change(function () {
             validateControls();
             updatePermalink();
             if (config.display_format_image) display_format_image();
+        });
+
+        // !!! Firefox only !!
+        // The select element is a UI object, not a HTML object and will not
+        // fire events except on Firefox
+        $("select#format").on("keyup keydown keypress mouseover", function () {
+            if (config.display_format_image) display_format_image();
+            validateControls();
         });
     }
 
