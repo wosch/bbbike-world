@@ -79,7 +79,7 @@ if ( my $d = $q->param('debug') || $q->param('d') ) {
     $debug = $d if defined $d && $d >= 0 && $d <= 3;
 }
 
-my $expire = $debug >= 2 ? '+1s' : '+1h';
+my $expire = $debug >= 2 ? '+1s' : '+8h';
 print $q->header(
     -type                        => 'text/javascript',
     -charset                     => 'utf-8',
