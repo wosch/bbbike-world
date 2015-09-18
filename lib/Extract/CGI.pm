@@ -709,8 +709,8 @@ sub _check_input {
     my $text = M("EXTRACT_CONFIRMED");
     push @data,
       sprintf( $text,
-        $option->{'homepage'}, escapeHTML($city), large_int($skm), $coordinates,
-        $format );
+        escapeHTML($city), large_int($skm), $coordinates, $format,
+        $option->{'homepage'}, );
 
     my ( $key, $json_file ) =
       &save_request( $obj, $self->get_spool_dir,
