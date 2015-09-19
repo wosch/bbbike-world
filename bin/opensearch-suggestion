@@ -258,7 +258,7 @@ sub text_unidecode {
     return unidecode($s);
 }
 
-# http://de.wikipedia.org/wiki/Kyrillisches_Alphabet
+# https://de.wikipedia.org/wiki/Kyrillisches_Alphabet
 #
 # Cyrillic to German
 sub cyrillic_de {
