@@ -7,7 +7,7 @@ $BBBIKE_EXTRACT_MAPSFORGE_VERSION by http://mapsforge.org
 Please read the OSM wiki how to install the maps on your Android device:
 
   https://wiki.openstreetmap.org/wiki/Mapsforge
-  http://code.google.com/p/mapsforge/
+  https://github.com/mapsforge/mapsforge/
 
 
 This mapsforge map was created on: $date
