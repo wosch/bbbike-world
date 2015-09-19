@@ -9,7 +9,7 @@ PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 
 (
   echo "<html><head><title>README</title></head><body><pre>"
-  perl -npe 's,(http://\S+),<a href="$1">$1</a>,g'
+  perl -npe 's,(https?://\S+),<a href="$1">$1</a>,gi'
   echo "</pre></body></html>"
 ) | tidy -raw -i /dev/stdin 2>/dev/null
 
