@@ -1,5 +1,5 @@
 cat << EOF
-Map data (c) OpenStreetMap contributors, http://www.openstreetmap.org
+Map data (c) OpenStreetMap contributors, https://www.openstreetmap.org
 Extracts created by BBBike, http://BBBike.org
 $BBBIKE_EXTRACT_GARMIN_VERSION by http://www.mkgmap.org.uk
 
