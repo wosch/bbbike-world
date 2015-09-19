@@ -4,7 +4,7 @@
 # extract config and libraries
 
 package Extract::Test::Archive;
-
+use Test::More;
 use Data::Dumper;
 
 require Exporter;
@@ -81,6 +81,13 @@ sub init_env {
 
 #$ENV{BBBIKE_EXTRACT_URL}  = 'http://extract.bbbike.org/?sw_lng=-72.33&sw_lat=-13.712&ne_lng=-71.532&ne_lat=-13.217&format=png-google.zip&city=Cusco%2C%20Peru';
 #$ENV{BBBIKE_EXTRACT_COORDS} = '-72.33,-13.712 x -71.532,-13.217';
+}
+
+sub validate {
+    my $self = shift;
+    my %args = @_;
+
+    return 0;
 }
 
 1;

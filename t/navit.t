@@ -9,10 +9,12 @@ use IO::File;
 use Digest::MD5 qw(md5_hex);
 use File::stat;
 
+use lib qw(./world/lib ../lib);
+use Test::More::UTF8;
+use Extract::Test::Archive;
+
 use strict;
 use warnings;
-
-plan tests => 6;
 
 my $pbf_file = 'world/t/data-osm/tmp/Cusco.osm.pbf';
 
@@ -71,5 +73,10 @@ $image_size *=
   1.02;   # navit has good compression, add more to avoid false positive reports
 
 cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
+
+my $test = new Extract::Test::Archive;
+my $res = $test->validate( 'lang' => 'en', 'file' => $out );
+
+plan tests => 6 + $res;
 
 __END__
