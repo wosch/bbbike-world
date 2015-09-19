@@ -85,6 +85,7 @@ sub init_env {
 
 sub validate {
     my $self = shift;
+
     my %args = @_;
 
     return 0;
