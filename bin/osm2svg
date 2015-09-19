@@ -45,6 +45,7 @@ error () {
 
 file=$1
 map_style=$2
+city=$3
 
 test -z "$file" && usage
 
@@ -105,7 +106,7 @@ EOF
 
 date=$(date -u)
 BBBIKE_EXTRACT_COORDS=$BBBIKE_EXTRACT_COORDS BBBIKE_EXTRACT_URL=$BBBIKE_EXTRACT_URL \
-  date=$date maperitive_map_style=$map_style sh $template > $tmpdir/README.txt
+  date=$date city=$city maperitive_map_style=$map_style sh $template > $tmpdir/README.txt
 
 $text2html < README.txt > README.html
 
