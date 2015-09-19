@@ -235,8 +235,8 @@ case $compress in
 
     # other formats
     garmin ) $osm2garmin "$file" "$garmin_style" "$city" ;;
-    png )    $osm2png    "$file" "$png_style" ;;
-    svg )    $osm2svg    "$file" "$svg_style" ;;
+    png )    $osm2png    "$file" "$png_style" "$city" ;;
+    svg )    $osm2svg    "$file" "$svg_style" "$city" ;;
     shape )  $osm2shape  "$file" "$city" ;;
     osmand ) $osm2osmand "$file" "$city" ;;
     navit )  $osm2navit  "$file" "$city" ;;
