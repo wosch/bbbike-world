@@ -5,6 +5,7 @@ $BBBIKE_EXTRACT_MAPERITIVE_VERSION by http://maperitive.net/
 
 Please read the OSM wiki how to use PNG
 
+  https://wiki.openstreetmap.org/wiki/Export
   https://en.wikipedia.org/wiki/Portable_Network_Graphics
 
  
