@@ -50,7 +50,7 @@ sub cities {
         like( $content, qr|src=".*/html/bbbike.js"|,   "bbbike.js" );
         like( $content, qr|href=".*/html/bbbike.css"|, "bbbike.css" );
 
-        #like( $content, qr|href="http://twitter.com/BBBikeWorld"|, "twitter" );
+        #like( $content, qr|href="https://twitter.com/BBBikeWorld"|, "twitter" );
         like( $content, qr|<div id="map"></div>|, "div#map" );
         like( $content, qr|bbbike_maps_init|,     "bbbike_maps_init" );
         like( $content, qr|city = ".+";|,         "city" );

@@ -1218,7 +1218,7 @@ $feed->add_entry(
 
     content => {
         type    => 'text',
-        content => qq{BBBike is on http://twitter.com/BBBikeWorld! },
+        content => qq{BBBike is on https://twitter.com/BBBikeWorld! },
     },
 
     updated  => '2010-08-14T18:30:02Z',

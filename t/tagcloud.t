@@ -40,7 +40,7 @@ foreach my $file (@files) {
     like( $data, qr|<title>.+</title>|, "check html elements" );
     like(
         $data,
-        qr| href="http://twitter.com/BBBikeWorld" |,
+        qr| href="https://twitter.com/BBBikeWorld" |,
         "check html elements"
     );
 

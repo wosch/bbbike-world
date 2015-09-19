@@ -129,7 +129,7 @@ qr{type="application/atom\+xml" .*href="/feed/bbbike-world.xml| href="/feed/bbbi
     like( $content, qr|src="/html/bbbike(-js)?.js"|, "bbbike(-js)?.js" );
     like( $content, qr|href="/html/bbbike.css"|,     "bbbike.css" );
     like( $content, qr|<span id="language_switch">|, "language switch" );
-    like( $content, qr|href="http://twitter.com/BBBikeWorld"|, "twitter" );
+    like( $content, qr|href="https://twitter.com/BBBikeWorld"|, "twitter" );
     like( $content, qr|class="mobile_link|, "mobile link" );
     like( $content, qr|#suggest_start\'\).autocomplete|, "autocomplete start" );
     like( $content, qr|#suggest_via\'\).autocomplete|,   "autocomplete via" );
