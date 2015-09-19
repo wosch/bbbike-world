@@ -511,9 +511,16 @@ function extract_init(opt) {
         // !!! Firefox only !!
         // The select element is a UI object, not a HTML object and will not
         // fire events except on Firefox
-        $("select#format").on("keyup keydown keypress mouseover", function () {
-            if (config.display_format_image) display_format_image();
+        var display_format_image_timer;
+        $("select#format").on("keyup mouseover", function (e) {
             validateControls();
+            // debug("got event: " + e.type);
+            if (config.display_format_image) {
+                if (display_format_image_timer) clearTimeout(display_format_image_timer);
+                display_format_image_timer = setTimeout(function () {
+                    display_format_image()
+                }, 200);
+            }
         });
     }
 
@@ -1133,8 +1140,8 @@ function square_km(x1, y1, x2, y2) { // SW x NE
 }
 
 function display_format_image() {
-    var format = $("select[name=format] option:selected").val();
-    var format_text = $("select[name=format] option:selected").text();
+    var format = $("select#format option:selected").val();
+    var format_text = $("select#format option:selected").text();
 
     var image = config.format_images[format] || "";
     debug("display format: " + format + ", image: " + image);
