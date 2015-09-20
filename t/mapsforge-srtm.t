@@ -23,8 +23,6 @@ use Extract::Test::Archive;
 use strict;
 use warnings;
 
-plan tests => 4;
-
 my $pbf_file = 'world/t/data-osm/tmp/Cusco-SRTM.osm.pbf';
 
 if ( !-f $pbf_file ) {
@@ -54,24 +52,58 @@ sub md5_file {
 }
 
 ######################################################################
+sub convert_format {
+    my $lang        = shift;
+    my $format      = shift;
+    my $format_name = shift;
+
+    my $timeout  = 30;
+    my $counter  = 0;
+    my $tempfile = File::Temp->new( SUFFIX => ".osm" );
+    my $st       = 0;
+
+    my $test = Extract::Test::Archive->new(
+        'lang'        => $lang,
+        'pbf_file'    => $pbf_file,
+        'format'      => $format,
+        'format_name' => $format_name
+    );
+    my $city = $test->init_cusco;
+
+    my $style = "osm";
+
+    my $out = $test->out($style);
+    unlink $out;
+
+    system(qq[world/bin/pbf2osm --mapsforge-osm $pbf_file $city]);
+    is( $?, 0, "pbf2osm --mapsforge-osm converter" );
+    $st = stat($out) or die "Cannot stat $out\n";
+
+    system(qq[unzip -t $out]);
+    is( $?, 0, "valid zip file" );
+
+    my $size = $st->size;
+    cmp_ok( $size, '>', $min_size, "$out: $size > $min_size" );
+
+    $counter += 3;
+    $test->validate;
+    return $counter + $test->counter;
+}
+#######################################################
+#
 is( $pbf_md5, md5_file($pbf_file), "md5 checksum matched" );
 
-my $tempfile = File::Temp->new( SUFFIX => ".osm" );
-my $prefix = $pbf_file;
-$prefix =~ s/\.pbf$//;
-my $st = 0;
+my $counter = 0;
+my @lang = ( "en", "de" );
 
-my $out = "$prefix.mapsforge-osm.zip";
-unlink $out;
+if ( !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG} ) {
+    push @lang, ( "fr", "es", "ru", "" );
+}
 
-system(qq[world/bin/pbf2osm --mapsforge-osm $pbf_file]);
-is( $?, 0, "pbf2osm --mapsforge-osm converter" );
-$st = stat($out) or die "Cannot stat $out\n";
+foreach my $lang (@lang) {
+    $counter += &convert_format( $lang, 'mapsforge', 'Mapsforge' );
+}
 
-system(qq[unzip -t $out]);
-is( $?, 0, "valid zip file" );
-
-my $size = $st->size;
-cmp_ok( $size, '>', $min_size, "$out: $size > $min_size" );
+plan tests => 1 + $counter;
 
 __END__
