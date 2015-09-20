@@ -54,6 +54,7 @@ sub init {
     $self->{'counter'} = 0;
 
     $self->init_env;
+    $self->init_lang;
 }
 
 #############################################################################
@@ -93,6 +94,51 @@ sub init_env {
 
 #$ENV{BBBIKE_EXTRACT_URL}  = 'http://extract.bbbike.org/?sw_lng=-72.33&sw_lat=-13.712&ne_lng=-71.532&ne_lat=-13.217&format=png-google.zip&city=Cusco%2C%20Peru';
 #$ENV{BBBIKE_EXTRACT_COORDS} = '-72.33,-13.712 x -71.532,-13.217';
+}
+
+# default env values for Cusco test
+sub init_cusco {
+    my $self = shift;
+
+    my $format = $self->{'format'};
+    my $lang   = $self->{'lang'};
+
+    $ENV{BBBIKE_EXTRACT_URL} =
+"http://extract.bbbike.org/?sw_lng=-72.33&sw_lat=-13.712&ne_lng=-71.532&ne_lat=-13.217&format=$format.zip&city=Cusco%2C%20Peru"
+      . ( $lang ? "&lang=$lang" : "" );
+
+    $ENV{BBBIKE_EXTRACT_COORDS} = "-72.329,-13.711 x -71.531,-13.216";
+}
+
+sub init_lang {
+    my $self = shift;
+    my $lang = $self->{'lang'};
+
+    $ENV{'BBBIKE_EXTRACT_LANG'} = $lang;
+
+    # delete empty value
+    if ( !$ENV{'BBBIKE_EXTRACT_LANG'} || $ENV{'BBBIKE_EXTRACT_LANG'} eq "" ) {
+        delete $ENV{'BBBIKE_EXTRACT_LANG'};
+        $lang = "";
+    }
+
+    return $self->{'lang'} = $lang;
+}
+
+sub out {
+    my $self     = shift;
+    my $pbf_file = $self->{'pbf_file'};
+
+    my $prefix = $pbf_file;
+    $prefix =~ s/\.pbf$//;
+
+    my $lang   = $self->{'lang'};
+    my $format = $self->{'format'};
+
+    return $self->{'file'} =
+      "$prefix.$format"
+      . (    $lang
+          && $lang ne "en" ? ".$ENV{'BBBIKE_EXTRACT_LANG'}.zip" : ".zip" );
 }
 
 sub validate {

@@ -49,37 +49,19 @@ sub convert_format {
     my $format      = shift;
     my $format_name = shift;
 
-    my $counter = 5;
-
-    $ENV{'BBBIKE_EXTRACT_LANG'} = $lang;
-
-    # delete empty value
-    if ( !$ENV{'BBBIKE_EXTRACT_LANG'} || $ENV{'BBBIKE_EXTRACT_LANG'} eq "" ) {
-        delete $ENV{'BBBIKE_EXTRACT_LANG'};
-        $lang = "";
-    }
-    $ENV{BBBIKE_EXTRACT_URL} =
-"http://extract.bbbike.org/?sw_lng=-72.33&sw_lat=-13.712&ne_lng=-71.532&ne_lat=-13.217&format=$format.zip&city=Cusco%2C%20Peru&lang="
-      . $lang;
-    $ENV{BBBIKE_EXTRACT_COORDS} = "-72.329,-13.711 x -71.531,-13.216";
-
+    my $counter  = 5;
     my $tempfile = File::Temp->new( SUFFIX => ".osm" );
-    my $prefix = $pbf_file;
-    $prefix =~ s/\.pbf$//;
-    my $st = 0;
-
-    my $out =
-      "$prefix.navit"
-      . (    $lang
-          && $lang ne "en" ? ".$ENV{'BBBIKE_EXTRACT_LANG'}.zip" : ".zip" );
-    unlink $out;
+    my $st       = 0;
 
     my $test = Extract::Test::Archive->new(
         'lang'        => $lang,
-        'file'        => $out,
+        'pbf_file'    => $pbf_file,
         'format'      => $format,
         'format_name' => $format_name
     );
+    $test->init_cusco;
+    my $out = $test->out;
+    unlink $out;
 
     system(qq[world/bin/pbf2osm --navit $pbf_file Cusco]);
     is( $?, 0, "pbf2osm --navit converter" );
