@@ -44,7 +44,7 @@ sub md5_file {
     return $md5;
 }
 
-sub navit_zip {
+sub convert_format {
     my $lang    = shift;
     my $counter = 5;
 
@@ -113,7 +113,7 @@ if ( !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG} ) {
 }
 
 foreach my $lang (@lang) {
-    $counter += &navit_zip($lang);
+    $counter += &convert_format($lang);
 }
 
 plan tests => 1 + $counter;
