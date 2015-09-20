@@ -26,7 +26,16 @@ sub new {
     my $class = shift;
     my %args  = @_;
 
-    my $self = {%args};
+    my $self = {
+        'supported_languages' => [ "de", "en" ],
+        'lang'                => 'en',
+        'format'              => '',
+        'url'                 => '',
+        'coords'              => '',
+        'file'                => '',
+
+        %args
+    };
 
     bless $self, $class;
     $self->init;
