@@ -23,8 +23,6 @@ use Extract::Test::Archive;
 use strict;
 use warnings;
 
-plan tests => 6;
-
 my $pbf_file = 'world/t/data-osm/tmp/Cusco-SRTM.osm.pbf';
 
 if ( !-f $pbf_file ) {
@@ -54,30 +52,65 @@ sub md5_file {
 }
 
 ######################################################################
+sub convert_format {
+    my $lang        = shift;
+    my $format      = shift;
+    my $format_name = shift;
+
+    my $timeout  = 30;
+    my $counter  = 0;
+    my $tempfile = File::Temp->new( SUFFIX => ".osm" );
+    my $st       = 0;
+
+    my $test = Extract::Test::Archive->new(
+        'lang'        => $lang,
+        'pbf_file'    => $pbf_file,
+        'format'      => $format,
+        'format_name' => $format_name
+    );
+    my $city = $test->init_cusco;
+
+    my $style = "osm";
+
+    my $out = $test->out();
+    unlink $out;
+
+    system(qq[world/bin/pbf2osm --osmand $pbf_file $city]);
+    is( $?, 0, "pbf2osm --osmand converter" );
+    $st = stat($out) or die "Cannot stat $out\n";
+
+    system(qq[unzip -t $out]);
+    is( $?, 0, "valid zip file" );
+
+    my $size = $st->size;
+    cmp_ok( $size, '>', $min_size, "$out: $size > $min_size" );
+
+    system(qq[world/bin/extract-disk-usage.sh $out > $tempfile]);
+    is( $?, 0, "extract disk usage check" );
+
+    my $image_size = `cat $tempfile` * 1024;
+    cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
+
+    $counter += 5;
+    $test->validate;
+    return $counter + $test->counter;
+}
+
+#######################################################
+#
 is( $pbf_md5, md5_file($pbf_file), "md5 checksum matched" );
 
-my $tempfile = File::Temp->new( SUFFIX => ".osm" );
-my $prefix = $pbf_file;
-$prefix =~ s/\.pbf$//;
-my $st = 0;
+my $counter = 0;
+my @lang = ( "en", "de" );
 
-my $out = "$prefix.obf.zip";
-unlink $out;
+if ( !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG} ) {
+    push @lang, ( "fr", "es", "ru", "" );
+}
 
-system(qq[world/bin/pbf2osm --osmand $pbf_file]);
-is( $?, 0, "pbf2osm --osmand converter" );
-$st = stat($out) or die "Cannot stat $out\n";
+foreach my $lang (@lang) {
+    $counter += &convert_format( $lang, 'obf', 'Osmand' );
+}
 
-system(qq[unzip -t $out]);
-is( $?, 0, "valid zip file" );
-
-my $size = $st->size;
-cmp_ok( $size, '>', $min_size, "$out: $size > $min_size" );
-
-system(qq[world/bin/extract-disk-usage.sh $out > $tempfile]);
-is( $?, 0, "extract disk usage check" );
-
-my $image_size = `cat $tempfile` * 1024;
-cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
+plan tests => 1 + $counter;
 
 __END__
