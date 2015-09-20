@@ -106,7 +106,11 @@ sub navit_zip {
 is( $pbf_md5, md5_file($pbf_file), "md5 checksum matched" );
 
 my $counter = 0;
-my @lang = ( "en", "de", "fr", "es", "ru", "" );
+my @lang = ( "en", "de" );
+
+if ( !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG} ) {
+    push @lang, ( "fr", "es", "ru", "" );
+}
 
 foreach my $lang (@lang) {
     $counter += &navit_zip($lang);
