@@ -9,7 +9,7 @@ Please read the OsmAnd homepage how to use obf files:
   http://osmand.net
 
 
-Diese osmand Karte wurde erzeugt am: $date
+Diese Osmand Karte wurde erzeugt am: $date
 GPS Rechteck Koordinaten (lng,lat): $BBBIKE_EXTRACT_COORDS
 Script URL: $BBBIKE_EXTRACT_URL
 Name des Gebietes: $city

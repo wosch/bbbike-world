@@ -9,7 +9,7 @@ Please read the OsmAnd homepage how to use obf files:
   http://osmand.net
 
 
-This osmand file was created on: $date
+This Osmand file was created on: $date
 GPS rectangle coordinates (lng,lat): $BBBIKE_EXTRACT_COORDS
 Script URL: $BBBIKE_EXTRACT_URL
 Name of area: $city
