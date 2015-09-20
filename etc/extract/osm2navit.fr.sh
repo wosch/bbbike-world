@@ -9,7 +9,7 @@ Please read the Navit homepage and the wiki how to use Navit files:
   http://wiki.navit-project.org/
 
 
-This Navit file was created on: $date
+This Navit map was created on: $date
 GPS rectangle coordinates (lng,lat): $BBBIKE_EXTRACT_COORDS
 Script URL: $BBBIKE_EXTRACT_URL
 Name of area: $city
