@@ -108,6 +108,8 @@ sub init_cusco {
       . ( $lang ? "&lang=$lang" : "" );
 
     $ENV{BBBIKE_EXTRACT_COORDS} = "-72.329,-13.711 x -71.531,-13.216";
+
+    return $self->{'city'} = 'Cusco';
 }
 
 sub init_lang {
@@ -128,6 +130,7 @@ sub init_lang {
 sub out {
     my $self     = shift;
     my $pbf_file = $self->{'pbf_file'};
+    my $style    = shift;
 
     my $prefix = $pbf_file;
     $prefix =~ s/\.pbf$//;
@@ -136,7 +139,8 @@ sub out {
     my $format = $self->{'format'};
 
     return $self->{'file'} =
-      "$prefix.$format"
+        "$prefix.$format"
+      . ( $style ? "-$style" : "" )
       . (    $lang
           && $lang ne "en" ? ".$ENV{'BBBIKE_EXTRACT_LANG'}.zip" : ".zip" );
 }
@@ -264,7 +268,7 @@ qr"^Map data.*OpenStreetMap contributors, https://www.openstreetmap.org",
         ok(
             (
                 grep {
-                    /^This $format_name file was created on: \S+\s+.*UTC.+$/
+/^This $format_name (file|map) was created on: \S+\s+.*UTC.+$/
                   } @data
             ),
             "date"

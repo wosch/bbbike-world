@@ -25,6 +25,10 @@ use Digest::MD5 qw(md5_hex);
 use File::stat;
 use File::Basename;
 
+use lib qw(./world/lib ../lib);
+use Test::More::UTF8;
+use Extract::Test::Archive;
+
 use strict;
 use warnings;
 
@@ -33,8 +37,6 @@ my $type = basename( $0, ".t" );    #"svg";
 my @svg_styles = qw/google/;
 push @svg_styles, qw/osm/ if !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG};
 push @svg_styles, qw/hiking urbanight wireframe/ if $ENV{BBBIKE_TEST_LONG};
-
-plan tests => 1 + ( 5 * scalar(@svg_styles) );
 
 my $pbf_file = 'world/t/data-osm/tmp/Cusco.osm.pbf';
 
@@ -65,37 +67,66 @@ sub md5_file {
 }
 
 ######################################################################
+sub convert_format {
+    my $lang        = shift;
+    my $format      = shift;
+    my $format_name = shift;
+
+    my $timeout  = 30;
+    my $counter  = 0;
+    my $tempfile = File::Temp->new( SUFFIX => ".osm" );
+    my $st       = 0;
+
+    my $test = Extract::Test::Archive->new(
+        'lang'        => $lang,
+        'pbf_file'    => $pbf_file,
+        'format'      => $format,
+        'format_name' => $format_name
+    );
+    my $city = $test->init_cusco;
+
+    # known styles
+    foreach my $style (@svg_styles) {
+        my $out = $test->out($style);
+        unlink($out);
+
+        system(
+qq[world/bin/bomb --timeout=$timeout --screenshot-file=$pbf_file.png -- world/bin/pbf2osm --$type-$style $pbf_file $city]
+        );
+        is( $?, 0, "pbf2osm --$type-$style converter" );
+
+        system(qq[unzip -tqq $out]);
+        is( $?, 0, "valid zip file" );
+        $st = stat($out) or warn "stat $out: $!\n";
+
+        my $size = $st ? $st->size : -1;
+        cmp_ok( $size, '>', $min_size, "$out: $size > $min_size" );
+
+        system(qq[world/bin/extract-disk-usage.sh $out > $tempfile]);
+        is( $?, 0, "extract disk usage check" );
+
+        my $image_size = `cat $tempfile` * 1024;
+        cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
+
+        $counter += 5 + $test->validate;
+
+    }
+    return $counter;
+}
+
+#######################################################
+#
 is( $pbf_md5, md5_file($pbf_file), "md5 checksum matched" );
 
-my $tempfile = File::Temp->new( SUFFIX => ".osm" );
-my $prefix = $pbf_file;
-$prefix =~ s/\.pbf$//;
-my $st      = 0;
-my $timeout = 30;
-my $out     = "";
+my $counter = 0;
+my @lang    = ("en");
+push @lang, ("de") if !$ENV{BBBIKE_TEST_FAST};
+push @lang, ( "fr", "es", "ru", "" ) if $ENV{BBBIKE_TEST_LONG};
 
-# known styles
-foreach my $style (@svg_styles) {
-    $out = "$prefix.$type-$style.zip";
-    unlink($out);
-
-    system(
-qq[world/bin/bomb --timeout=$timeout --screenshot-file=$pbf_file.png -- world/bin/pbf2osm --$type-$style $pbf_file]
-    );
-    is( $?, 0, "pbf2osm --$type-$style converter" );
-
-    system(qq[unzip -tqq $out]);
-    is( $?, 0, "valid zip file" );
-    $st = stat($out) or warn "stat $out: $!\n";
-
-    my $size = $st ? $st->size : -1;
-    cmp_ok( $size, '>', $min_size, "$out: $size > $min_size" );
-
-    system(qq[world/bin/extract-disk-usage.sh $out > $tempfile]);
-    is( $?, 0, "extract disk usage check" );
-
-    my $image_size = `cat $tempfile` * 1024;
-    cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
+foreach my $lang (@lang) {
+    $counter += &convert_format( $lang, 'svg', 'SVG' );
 }
+
+plan tests => 1 + $counter;
 
 __END__
