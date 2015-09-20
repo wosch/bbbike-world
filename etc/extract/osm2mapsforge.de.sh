@@ -10,7 +10,7 @@ Please read the OSM wiki how to install the maps on your Android device:
   https://github.com/mapsforge/mapsforge/
 
 
-Diese mapsforge Karte wurde erzeugt am: $date
+Diese Mapsforge Karte wurde erzeugt am: $date
 Mapsforge Kartenstil: $map_style
 GPS Rechteck Koordinaten (lng,lat): $BBBIKE_EXTRACT_COORDS
 Script URL: $BBBIKE_EXTRACT_URL
