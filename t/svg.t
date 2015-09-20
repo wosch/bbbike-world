@@ -111,6 +111,7 @@ qq[world/bin/bomb --timeout=$timeout --screenshot-file=$pbf_file.png -- world/bi
         $counter += 5;
         $test->validate;
     }
+
     return $counter + $test->counter;
 }
 
