@@ -90,9 +90,12 @@ sub navit_zip {
 
     cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
 
-    my $test = new Extract::Test::Archive;
-    $counter +=
-      $test->validate( 'lang' => $lang, 'file' => $out, 'format' => 'navit' );
+    my $test = Extract::Test::Archive->new(
+        'lang'   => $lang,
+        'file'   => $out,
+        'format' => 'navit'
+    );
+    $counter += $test->validate;
     return $counter;
 }
 
