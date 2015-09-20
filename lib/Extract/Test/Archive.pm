@@ -50,6 +50,8 @@ sub init {
         $debug = $self->{'debug'};
     }
 
+    $self->{'counter'} = 0;
+
     $self->init_env;
 }
 
@@ -97,7 +99,46 @@ sub validate {
 
     my %args = @_;
 
-    return 0;
+    $self->check_checksum;
+
+    return $self->{'counter'};
+}
+
+sub extract_file {
+    my $self = shift;
+
+    my $file     = shift;
+    my $zip_file = $self->{'file'};
+
+    my @data = ();
+    if ( !-e $zip_file ) {
+        die "zip file '$zip_file' does not exists\n";
+    }
+
+    if ( !open( IN, "unzip -p $zip_file '*/$file' |" ) ) {
+        warn "unzip -p $zip_file: $!\n";
+        return @data;
+    }
+
+    while (<IN>) {
+        push @data, $_;
+    }
+    close IN;
+
+    return @data;
+}
+
+sub check_checksum {
+    my $self = shift;
+
+    my @data = $self->extract_file('CHECKSUM.txt');
+
+    is( scalar(@data), 2, "two checksums" );
+    cmp_ok( length( $data[0] ), ">", 34, "md5 + text is larger than 32 bytes" );
+    cmp_ok( length( $data[1] ),
+        ">", 66, "sha256 + text is larger than 64 bytes" );
+
+    $self->{'counter'} += 3;
 }
 
 1;
