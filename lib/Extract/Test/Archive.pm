@@ -6,6 +6,7 @@
 package Extract::Test::Archive;
 use Test::More;
 use Data::Dumper;
+use BBBike::Test;
 
 require Exporter;
 
@@ -20,6 +21,9 @@ use warnings;
 #
 
 our $debug = 0;
+
+# global URL hash per class
+our $url_hash = {};
 
 # Extract::Utils::new->('q'=> $q, 'option' => $option)
 sub new {
@@ -152,6 +156,7 @@ sub validate {
 
     $self->check_checksum;
     $self->check_readme;
+    $self->check_readme_html;
 
     return $self->{'counter'};
 }
@@ -321,6 +326,61 @@ qr"^PayPal, Flattr or bank wire transfer: http://www.BBBike.org/community.html"
     $self->{'counter'} += 4;
 }
 
+sub check_readme_html {
+    my $self = shift;
+
+    my $lang        = $self->{'lang'};
+    my $format      = $self->{'format'};
+    my $format_name = $self->{'format_name'};
+
+    my @data = $self->extract_file('README.html');
+
+    cmp_ok( scalar(@data), ">", "20",
+        "README.html must be at least 20 lines long $#data, lang='$lang'" );
+
+    ok( ( grep { / charset=utf-8"/ } @data ), "charset" );
+
+    ok( ( grep { qr"<title>.+</title>" } @data ), "<title/>" );
+    ok( ( grep { qr"<body>" } @data ),            "<body>" );
+    ok( ( grep { qr"</pre>" } @data ),            "</pre>" );
+    ok( ( grep { qr"</body>" } @data ),           "</body>" );
+    ok( ( grep { qr"</html>" } @data ),           "</html>" );
+
+    my @url;
+    foreach my $url (@data) {
+        push @url, $1 if $url =~ /href="(.+?)"/;
+    }
+
+    $self->{'counter'} += 7;
+
+    $self->validate_url(@url);
+}
+
+sub validate_url {
+    my $self = shift;
+    my @url  = @_;
+
+    my $test = BBBike::Test->new();
+    my $hash = $url_hash;
+
+    foreach my $url (@url) {
+        $url =~ s,^(https?://(www\.)?)BBBike\.org,${1}bbbike\.org,;
+
+        diag "url: $url" if $debug;
+        if ( exists $hash->{$url} ) {
+
+            #diag "cache";
+        }
+        else {
+
+            my $res = $test->myget_head($url);
+            $hash->{$url} = $res;
+            $self->{'counter'} += 3;
+        }
+    }
+
+    #$url_hash = $hash;
+}
 1;
 
 __DATA__;
