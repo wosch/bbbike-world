@@ -9,6 +9,10 @@ use IO::File;
 use Digest::MD5 qw(md5_hex);
 use File::stat;
 
+use lib qw(./world/lib ../lib);
+use Test::More::UTF8;
+use Extract::Test::Archive;
+
 use strict;
 use warnings;
 
