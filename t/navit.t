@@ -45,7 +45,10 @@ sub md5_file {
 }
 
 sub convert_format {
-    my $lang    = shift;
+    my $lang        = shift;
+    my $format      = shift;
+    my $format_name = shift;
+
     my $counter = 5;
 
     $ENV{'BBBIKE_EXTRACT_LANG'} = $lang;
@@ -56,7 +59,7 @@ sub convert_format {
         $lang = "";
     }
     $ENV{BBBIKE_EXTRACT_URL} =
-'http://extract.bbbike.org/?sw_lng=-72.33&sw_lat=-13.712&ne_lng=-71.532&ne_lat=-13.217&format=png-google.zip&city=Cusco%2C%20Peru&lang='
+"http://extract.bbbike.org/?sw_lng=-72.33&sw_lat=-13.712&ne_lng=-71.532&ne_lat=-13.217&format=$format.zip&city=Cusco%2C%20Peru&lang="
       . $lang;
     $ENV{BBBIKE_EXTRACT_COORDS} = "-72.329,-13.711 x -71.531,-13.216";
 
@@ -74,8 +77,8 @@ sub convert_format {
     my $test = Extract::Test::Archive->new(
         'lang'        => $lang,
         'file'        => $out,
-        'format'      => 'navit',
-        'format_name' => 'Navit'
+        'format'      => $format,
+        'format_name' => $format_name
     );
 
     system(qq[world/bin/pbf2osm --navit $pbf_file Cusco]);
@@ -113,7 +116,7 @@ if ( !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG} ) {
 }
 
 foreach my $lang (@lang) {
-    $counter += &convert_format($lang);
+    $counter += &convert_format( $lang, 'navit', 'Navit' );
 }
 
 plan tests => 1 + $counter;
