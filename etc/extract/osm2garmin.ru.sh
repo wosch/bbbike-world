@@ -9,7 +9,7 @@ Please read the OSM wiki how to install the maps on your GPS device:
   https://wiki.openstreetmap.org/wiki/OSM_Map_On_Garmin/Download
 
 
-This garmin map was created on: $date
+This Garmin map was created on: $date
 Garmin map style: $mkgmap_map_style
 GPS rectangle coordinates (lng,lat): $BBBIKE_EXTRACT_COORDS
 Script URL: $BBBIKE_EXTRACT_URL
