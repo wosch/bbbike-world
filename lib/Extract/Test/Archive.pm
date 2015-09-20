@@ -180,6 +180,12 @@ sub extract_file {
     return @data;
 }
 
+sub counter {
+    my $self = shift;
+
+    return $self->{'counter'};
+}
+
 sub check_checksum {
     my $self = shift;
 

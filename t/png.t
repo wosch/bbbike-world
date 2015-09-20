@@ -108,10 +108,10 @@ qq[world/bin/bomb --timeout=$timeout --screenshot-file=$pbf_file.png -- world/bi
         my $image_size = `cat $tempfile` * 1024;
         cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
 
-        $counter += 5 + $test->validate;
-
+        $counter += 5;
+        $test->validate;
     }
-    return $counter;
+    return $counter + $test->counter;
 }
 
 #######################################################
@@ -121,7 +121,7 @@ is( $pbf_md5, md5_file($pbf_file), "md5 checksum matched" );
 my $counter = 0;
 my @lang    = ("en");
 push @lang, ("de") if !$ENV{BBBIKE_TEST_FAST};
-push @lang, ( "fr", "es", "ru", "" ) if $ENV{BBBIKE_TEST_LONG};
+push @lang, ("")   if $ENV{BBBIKE_TEST_LONG};
 
 foreach my $lang (@lang) {
     $counter +=
