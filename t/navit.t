@@ -59,11 +59,11 @@ sub convert_format {
         'format'      => $format,
         'format_name' => $format_name
     );
-    $test->init_cusco;
-    my $out = $test->out;
+    my $city = $test->init_cusco;
+    my $out  = $test->out;
     unlink $out;
 
-    system(qq[world/bin/pbf2osm --navit $pbf_file Cusco]);
+    system(qq[world/bin/pbf2osm --navit $pbf_file $city]);
     is( $?, 0, "pbf2osm --navit converter" );
     $st = stat($out) or die "Cannot stat $out\n";
 
