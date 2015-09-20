@@ -55,6 +55,10 @@ sub navit_zip {
         delete $ENV{'BBBIKE_EXTRACT_LANG'};
         $lang = "";
     }
+    $ENV{BBBIKE_EXTRACT_URL} =
+'http://extract.bbbike.org/?sw_lng=-72.33&sw_lat=-13.712&ne_lng=-71.532&ne_lat=-13.217&format=png-google.zip&city=Cusco%2C%20Peru&lang='
+      . $lang;
+    $ENV{BBBIKE_EXTRACT_COORDS} = "-72.329,-13.711 x -71.531,-13.216";
 
     my $tempfile = File::Temp->new( SUFFIX => ".osm" );
     my $prefix = $pbf_file;
@@ -67,7 +71,7 @@ sub navit_zip {
           && $lang ne "en" ? ".$ENV{'BBBIKE_EXTRACT_LANG'}.zip" : ".zip" );
     unlink $out;
 
-    system(qq[world/bin/pbf2osm --navit $pbf_file]);
+    system(qq[world/bin/pbf2osm --navit $pbf_file Cusco]);
     is( $?, 0, "pbf2osm --navit converter" );
     $st = stat($out) or die "Cannot stat $out\n";
 
