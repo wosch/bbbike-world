@@ -71,6 +71,13 @@ sub navit_zip {
           && $lang ne "en" ? ".$ENV{'BBBIKE_EXTRACT_LANG'}.zip" : ".zip" );
     unlink $out;
 
+    my $test = Extract::Test::Archive->new(
+        'lang'        => $lang,
+        'file'        => $out,
+        'format'      => 'navit',
+        'format_name' => 'Navit'
+    );
+
     system(qq[world/bin/pbf2osm --navit $pbf_file Cusco]);
     is( $?, 0, "pbf2osm --navit converter" );
     $st = stat($out) or die "Cannot stat $out\n";
@@ -90,11 +97,6 @@ sub navit_zip {
 
     cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
 
-    my $test = Extract::Test::Archive->new(
-        'lang'   => $lang,
-        'file'   => $out,
-        'format' => 'navit'
-    );
     $counter += $test->validate;
     return $counter;
 }

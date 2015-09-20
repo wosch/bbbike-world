@@ -30,6 +30,7 @@ sub new {
         'supported_languages' => [ "de", "en" ],
         'lang'                => 'en',
         'format'              => '',
+        'format_name'         => '',
         'url'                 => '',
         'coords'              => '',
         'file'                => '',
@@ -100,6 +101,7 @@ sub validate {
     my %args = @_;
 
     $self->check_checksum;
+    $self->check_readme;
 
     return $self->{'counter'};
 }
@@ -144,10 +146,14 @@ sub check_checksum {
 sub check_readme {
     my $self = shift;
 
+    my $lang        = $self->{'lang'};
+    my $format      = $self->{'format'};
+    my $format_name = $self->{'format_name'};
+
     my @data = $self->extract_file('README.txt');
 
     cmp_ok( scalar(@data), ">", "20",
-        "README.txt must be at least 20 lines long" );
+        "README.txt must be at least 20 lines long $#data, lang='$lang'" );
 
     like(
         $data[0],
@@ -160,6 +166,101 @@ qr"^Map data.*OpenStreetMap contributors, https://www.openstreetmap.org",
         "by bbbike.org"
     );
     like( $data[2], qr"^\S+\s+by\s+https?://\S+", "by software" );
+
+    if ( $lang eq 'de' ) {
+        ok(
+            (
+                grep {
+                    /^Diese $format_name Karte wurde erzeugt am: \S+\s+.*UTC.+$/
+                  } @data
+            ),
+            "date"
+        );
+        ok(
+            (
+                grep {
+/^GPS Rechteck Koordinaten \(lng,lat\): [\-0-9\.]+,.* [\-0-9\.]+,/
+                  } @data
+            ),
+            "gps"
+        );
+        ok(
+            (
+                grep {
+                    qr"^Script URL: http://.*bbbike.org/.*\?.*format=.+.*city="
+                  } @data
+            ),
+            "url"
+        );
+        ok( ( grep { /^Name des Gebietes: \S+/ } @data ), "name" );
+
+        ok( ( grep { /^Spenden sind willkommen/ } @data ), "feedback" );
+        ok(
+            (
+                grep {
+                    qr"unterstuetzen: http://www.bbbike.org/community.de.html"
+                  } @data
+            ),
+            "donate"
+        );
+        ok( ( grep { /^Danke, Wolfram Schneider/ } @data ), "thanks" );
+        ok(
+            (
+                grep { qr"^http://www.BBBike.org - Dein Fahrrad-Routenplaner" }
+                  @data
+            ),
+            "footer"
+        );
+
+        $self->{'counter'} += 8;
+    }
+    else {
+        ok(
+            (
+                grep {
+                    /^This $format_name file was created on: \S+\s+.*UTC.+$/
+                  } @data
+            ),
+            "date"
+        );
+        ok(
+            (
+                grep {
+/^GPS rectangle coordinates \(lng,lat\): [\-0-9\.]+,.* [\-0-9\.]+,/
+                  } @data
+            ),
+            "gps"
+        );
+        ok(
+            (
+                grep {
+                    qr"^Script URL: http://.*bbbike.org/.*\?.*format=.+.*city="
+                  } @data
+            ),
+            "url"
+        );
+        ok( ( grep { /^Name of area: \S+/ } @data ), "name" );
+
+        ok( ( grep { /^We appreciate any feedback/ } @data ), "feedback" );
+        ok(
+            (
+                grep {
+qr"^PayPal, Flattr or bank wire transfer: http://www.BBBike.org/community.html"
+                  } @data
+            ),
+            "donate"
+        );
+        ok( ( grep { /^thanks, Wolfram Schneider/ } @data ), "thanks" );
+        ok(
+            (
+                grep { qr"^http://www.BBBike.org - Your Cycle Route Planner" }
+                  @data
+            ),
+            "footer"
+        );
+
+        $self->{'counter'} += 8;
+    }
 
     $self->{'counter'} += 4;
 }
