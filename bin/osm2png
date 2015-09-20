@@ -72,6 +72,11 @@ case "$map_style" in
     * ) usage "unknown map_style: '$map_style'" ;;
 esac
 
+case $BBBIKE_EXTRACT_LANG in
+  en ) ext2="" ;;
+   * ) ext2=".$BBBIKE_EXTRACT_LANG" ;;
+esac
+
 size=$(du -ks -L "$file" | awk '{ print $1}')
 pwd=$(pwd)
 
@@ -124,7 +129,7 @@ cp $BBBIKE_OPT_DIR/$BBBIKE_MAPERITIVE_VERSION/Rules/$rules_config .
 cd ..
 
 # zip file in same directory as the PBF file
-tarball_zip=$(dirname $file)/${basename}.osm.png-${map_style}.zip
+tarball_zip=$(dirname $file)/${basename}.osm.png-${map_style}${ext2}.zip
 zip -q -r - -- $(basename $tmpdir) | \
   ( cd $pwd;
     cat > $tarball_zip.$$ && mv $tarball_zip.$$ $tarball_zip
