@@ -44,9 +44,6 @@ sub md5_file {
     return $md5;
 }
 
-######################################################################
-is( $pbf_md5, md5_file($pbf_file), "md5 checksum matched" );
-
 sub navit_zip {
     my $lang    = shift;
     my $counter = 5;
@@ -90,12 +87,15 @@ sub navit_zip {
     cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
 
     my $test = new Extract::Test::Archive;
-    $counter += $test->validate( 'lang' => $lang, 'file' => $out );
+    $counter +=
+      $test->validate( 'lang' => $lang, 'file' => $out, 'format' => 'navit' );
     return $counter;
 }
 
 #######################################################
 #
+is( $pbf_md5, md5_file($pbf_file), "md5 checksum matched" );
+
 my $counter = 0;
 my @lang = ( "en", "de", "fr", "es", "ru", "" );
 
