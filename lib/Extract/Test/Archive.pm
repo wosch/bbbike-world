@@ -141,6 +141,29 @@ sub check_checksum {
     $self->{'counter'} += 3;
 }
 
+sub check_readme {
+    my $self = shift;
+
+    my @data = $self->extract_file('README.txt');
+
+    cmp_ok( scalar(@data), ">", "20",
+        "README.txt must be at least 20 lines long" );
+
+    like(
+        $data[0],
+qr"^Map data.*OpenStreetMap contributors, https://www.openstreetmap.org",
+        "map data"
+    );
+    like(
+        $data[1],
+        qr"^Extracts created by BBBike, http://BBBike.org",
+        "by bbbike.org"
+    );
+    like( $data[2], qr"^\S+\s+by\s+https?://\S+", "by software" );
+
+    $self->{'counter'} += 4;
+}
+
 1;
 
 __DATA__;
