@@ -91,9 +91,9 @@ sub convert_format {
         unlink($out);
 
         system(
-qq[world/bin/bomb --timeout=$timeout --screenshot-file=$pbf_file.png -- world/bin/pbf2osm --$type-$style $pbf_file $city]
+qq[world/bin/bomb --timeout=$timeout --screenshot-file=$pbf_file.png -- world/bin/pbf2osm --$format-$style $pbf_file $city]
         );
-        is( $?, 0, "pbf2osm --$type-$style converter" );
+        is( $?, 0, "pbf2osm --$format-$style converter" );
 
         system(qq[unzip -tqq $out]);
         is( $?, 0, "valid zip file" );
@@ -124,7 +124,8 @@ push @lang, ("de") if !$ENV{BBBIKE_TEST_FAST};
 push @lang, ( "fr", "es", "ru", "" ) if $ENV{BBBIKE_TEST_LONG};
 
 foreach my $lang (@lang) {
-    $counter += &convert_format( $lang, 'svg', 'SVG' );
+    $counter +=
+      &convert_format( $lang, $type, ( $type eq 'svg' ? 'SVG' : 'PNG' ) );
 }
 
 plan tests => 1 + $counter;
