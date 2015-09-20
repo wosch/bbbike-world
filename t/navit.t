@@ -47,36 +47,62 @@ sub md5_file {
 ######################################################################
 is( $pbf_md5, md5_file($pbf_file), "md5 checksum matched" );
 
-my $tempfile = File::Temp->new( SUFFIX => ".osm" );
-my $prefix = $pbf_file;
-$prefix =~ s/\.pbf$//;
-my $st = 0;
+sub navit_zip {
+    my $lang    = shift;
+    my $counter = 5;
 
-my $out = "$prefix.navit.zip";
-unlink $out;
+    $ENV{'BBBIKE_EXTRACT_LANG'} = $lang;
 
-system(qq[world/bin/pbf2osm --navit $pbf_file]);
-is( $?, 0, "pbf2osm --navit converter" );
-$st = stat($out) or die "Cannot stat $out\n";
+    # delete empty value
+    if ( !$ENV{'BBBIKE_EXTRACT_LANG'} || $ENV{'BBBIKE_EXTRACT_LANG'} eq "" ) {
+        delete $ENV{'BBBIKE_EXTRACT_LANG'};
+        $lang = "";
+    }
 
-system(qq[unzip -t $out]);
-is( $?, 0, "valid zip file" );
+    my $tempfile = File::Temp->new( SUFFIX => ".osm" );
+    my $prefix = $pbf_file;
+    $prefix =~ s/\.pbf$//;
+    my $st = 0;
 
-my $size = $st->size;
-cmp_ok( $size, '>', $min_size, "$out: $size > $min_size" );
+    my $out =
+      "$prefix.navit"
+      . (    $lang
+          && $lang ne "en" ? ".$ENV{'BBBIKE_EXTRACT_LANG'}.zip" : ".zip" );
+    unlink $out;
 
-system(qq[world/bin/extract-disk-usage.sh $out > $tempfile]);
-is( $?, 0, "extract disk usage check" );
+    system(qq[world/bin/pbf2osm --navit $pbf_file]);
+    is( $?, 0, "pbf2osm --navit converter" );
+    $st = stat($out) or die "Cannot stat $out\n";
 
-my $image_size = `cat $tempfile` * 1024;
-$image_size *=
-  1.02;   # navit has good compression, add more to avoid false positive reports
+    system(qq[unzip -t $out]);
+    is( $?, 0, "valid zip file" );
 
-cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
+    my $size = $st->size;
+    cmp_ok( $size, '>', $min_size, "$out: $size > $min_size" );
 
-my $test = new Extract::Test::Archive;
-my $res = $test->validate( 'lang' => 'en', 'file' => $out );
+    system(qq[world/bin/extract-disk-usage.sh $out > $tempfile]);
+    is( $?, 0, "extract disk usage check" );
 
-plan tests => 6 + $res;
+    my $image_size = `cat $tempfile` * 1024;
+    $image_size *= 1.02
+      ;   # navit has good compression, add more to avoid false positive reports
+
+    cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
+
+    my $test = new Extract::Test::Archive;
+    $counter += $test->validate( 'lang' => $lang, 'file' => $out );
+    return $counter;
+}
+
+#######################################################
+#
+my $counter = 0;
+my @lang = ( "en", "de", "fr", "es", "ru", "" );
+
+foreach my $lang (@lang) {
+    $counter += &navit_zip($lang);
+}
+
+plan tests => 1 + $counter;
 
 __END__
