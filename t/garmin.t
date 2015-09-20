@@ -91,6 +91,8 @@ sub convert_format {
         $counter += 5;
         $test->validate;
     }
+
+    return $counter + $test->counter;
 }
 
 #######################################################
