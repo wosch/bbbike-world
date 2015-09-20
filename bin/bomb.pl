@@ -62,14 +62,17 @@ $SIG{ALRM} = sub {
             warn "env DISPLAY not set, cannot take a screen shot\n";
         }
 
-        # kill process group
-        kill "TERM", -$pgid;
-        sleep 3;
-        system("pgrep -l -g $pgid");
-
-        warn "Final kill -9 now the process group $pgid\n";
-        kill "KILL", -$pgid;
     }
+
+    # kill process group
+    kill "TERM", -$pgid;
+
+    # wait a little bit
+    sleep 3;
+    system("pgrep -l -g $pgid");
+
+    warn "Final kill -9 now the process group $pgid\n";
+    kill "KILL", -$pgid;
 };
 
 # don't kill ourself
