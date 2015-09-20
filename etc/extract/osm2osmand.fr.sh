@@ -1,7 +1,7 @@
 cat << EOF
 Map data (c) OpenStreetMap contributors, https://www.openstreetmap.org
 Extracts created by BBBike, http://BBBike.org
-$BBBIKE_EXTRACT_OSMAND_VERSION by osmand.net, https://github.com/osmandapp/Osmand
+$BBBIKE_EXTRACT_OSMAND_VERSION by https://github.com/osmandapp/Osmand
 
 
 Please read the OsmAnd homepage how to use obf files:
