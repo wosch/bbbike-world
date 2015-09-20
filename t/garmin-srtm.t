@@ -24,7 +24,6 @@ use strict;
 use warnings;
 
 my @garmin_styles = qw/osm/;
-plan tests => 1 + ( scalar(@garmin_styles) * 5 );
 
 my $pbf_file = 'world/t/data-osm/tmp/Cusco-SRTM.osm.pbf';
 
@@ -55,35 +54,66 @@ sub md5_file {
 }
 
 ######################################################################
+sub convert_format {
+    my $lang        = shift;
+    my $format      = shift;
+    my $format_name = shift;
+
+    my $timeout  = 30;
+    my $counter  = 0;
+    my $tempfile = File::Temp->new( SUFFIX => ".osm" );
+    my $st       = 0;
+
+    my $test = Extract::Test::Archive->new(
+        'lang'        => $lang,
+        'pbf_file'    => $pbf_file,
+        'format'      => $format,
+        'format_name' => $format_name
+    );
+    my $city = $test->init_cusco;
+
+    # known styles
+    foreach my $style (@garmin_styles) {
+        my $out = $test->out($style);
+        unlink $out;
+
+        system(qq[world/bin/pbf2osm --garmin-$style $pbf_file $city]);
+        is( $?, 0, "pbf2osm --garmin-$style converter" );
+
+        system(qq[unzip -tqq $out]);
+        is( $?, 0, "valid zip file" );
+        $st = stat($out);
+        my $size = $st->size;
+        cmp_ok( $size, '>', $min_size, "$out: $size > $min_size" );
+
+        system(qq[world/bin/extract-disk-usage.sh $out > $tempfile]);
+        is( $?, 0, "extract disk usage check" );
+
+        my $image_size = `cat $tempfile` * 1024;
+        cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
+
+        $counter += 5;
+        $test->validate;
+    }
+
+    return $counter + $test->counter;
+}
+
+#######################################################
+#
 is( $pbf_md5, md5_file($pbf_file), "md5 checksum matched" );
 
-my $tempfile = File::Temp->new( SUFFIX => ".osm" );
-my $prefix = $pbf_file;
-$prefix =~ s/\.pbf$//;
-my $st = 0;
+my $counter = 0;
+my @lang = ( "en", "de" );
 
-# any style
-my $out = "";
-
-# known styles
-foreach my $style (@garmin_styles) {
-    $out = "$prefix.garmin-$style.zip";
-    unlink $out;
-
-    system(qq[world/bin/pbf2osm --garmin-$style $pbf_file]);
-    is( $?, 0, "pbf2osm --garmin-$style converter" );
-
-    system(qq[unzip -tqq $out]);
-    is( $?, 0, "valid zip file" );
-    $st = stat($out);
-    my $size = $st->size;
-    cmp_ok( $size, '>', $min_size, "$out: $size > $min_size" );
-
-    system(qq[world/bin/extract-disk-usage.sh $out > $tempfile]);
-    is( $?, 0, "extract disk usage check" );
-
-    my $image_size = `cat $tempfile` * 1024;
-    cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
+if ( $ENV{BBBIKE_TEST_LONG} ) {
+    push @lang, ( "fr", "es", "ru", "" );
 }
+
+foreach my $lang (@lang) {
+    $counter += &convert_format( $lang, 'garmin', 'Garmin' );
+}
+
+plan tests => 1 + $counter;
 
 __END__
