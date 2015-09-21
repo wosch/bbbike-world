@@ -1,0 +1,8 @@
+#!/bin/sh
+# Copyright (c) 2009-2015 Wolfram Schneider, http://bbbike.org
+#
+# wrapper-instable - run an instable script several times until it succeeds
+
+# runs a command twice
+$@ || $@
+
