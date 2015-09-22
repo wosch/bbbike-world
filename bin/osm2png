@@ -125,6 +125,7 @@ DISPLAY=$BBBIKE_MAPERITIVE_DISPLAY time $program  -exitafter $(pwd)/$config_file
 
 rules_config=$(ls $BBBIKE_OPT_DIR/$BBBIKE_MAPERITIVE_VERSION/Rules | egrep -i "^$alias.mrules$")
 cp $BBBIKE_OPT_DIR/$BBBIKE_MAPERITIVE_VERSION/Rules/$rules_config .
+mv $image_file.georef georef.xml
 
 cd ..
 
