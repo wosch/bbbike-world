@@ -3,6 +3,6 @@
 #
 # wrapper-instable - run an instable script several times until it succeeds
 
-# runs a command twice
-$@ || $@
+# runs a command 3 times
+$@ || $@ || $@
 
