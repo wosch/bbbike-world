@@ -58,7 +58,7 @@ case $text2html in /*) ;; *) text2html=$(pwd)/$text2html ;; esac
 template=$(dirname $0)/../etc/extract/$(basename $0).$BBBIKE_EXTRACT_LANG.sh
 case $template in /*) ;; *) template=$(pwd)/$template ;; esac
 
-if [ -z "$map_style" ]; then 
+if [ -z "$map_style" ]; then
    map_style=$BBBIKE_MAPERITIVE_MAPSTYLE
 fi
 
@@ -92,7 +92,7 @@ logfile=$tmpdir/logfile.txt
 touch $logfile
 
 config_file=config.mscript
-image_file=file.svg
+image_file=$(basename $file | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//')-${map_style}.svg
 zoom=$BBBIKE_MAPERITIVE_ZOOM
 scale=$BBBIKE_MAPERITIVE_SCALE
 program="mono --desktop  $BBBIKE_OPT_DIR/$BBBIKE_MAPERITIVE_VERSION/Maperitive.exe"
@@ -135,8 +135,8 @@ zip -q -r - -- $(basename $tmpdir) | \
     cat > $tarball_zip.$$ && mv $tarball_zip.$$ $tarball_zip
     $osm_checksum $tarball_zip
   )
-  
-# cleanup except in debug mode  
+
+# cleanup except in debug mode
 $debug || rm -rf $tmpdir
 
 # EOF
