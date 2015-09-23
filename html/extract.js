@@ -1096,8 +1096,6 @@ function getMCLink(href) {
     var center = map.getCenter().transform(map.getProjectionObject(), state.proj4326)
     var zoom = map.getZoom();
 
-    debug("center xxxx: " + center);
-
     // full base URL, without parameters
     var base = href;
     if (base.indexOf("?") != -1) {
