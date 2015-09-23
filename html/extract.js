@@ -598,6 +598,7 @@ function mapMoved() {
         setBounds(map.getExtent());
         validateControls();
     }
+    updateMClink();
 }
 
 function mapnikSizeChanged() {
@@ -1074,7 +1075,46 @@ function updatePermalink() {
         debug("updatePermalink");
         state.permalink.updateLink();
     }
+
+    updateMClink();
 }
+
+function updateMClink() {
+    var mc_link = $('#mc_link');
+    var url = getMCLink(mc_link.attr("href"));
+
+    if (!mc_link || mc_link.length == 0) {
+        return;
+    }
+
+    mc_link.attr("href", url);
+
+    return url;
+}
+
+function getMCLink(href) {
+    var center = map.getCenter().transform(map.getProjectionObject(), state.proj4326)
+    var zoom = map.getZoom();
+
+    debug("center xxxx: " + center);
+
+    // full base URL, without parameters
+    var base = href;
+    if (base.indexOf("?") != -1) {
+        base = base.substring(0, base.indexOf("?"));
+    }
+
+    // bbbike.org/mc/#map=5/51.509/-5.603    
+    if (base.indexOf("#") != -1) {
+        debug("cleanup '#' in url: " + base);
+        base = base.substring(0, base.indexOf("#"));
+    }
+
+    var url = base + '?lon=' + center.lon + '&lat=' + center.lat + '&zoom=' + zoom + "&source=extract";
+
+    return url;
+}
+
 
 function show_skm(skm, filesize) {
     var format = filesize.format;

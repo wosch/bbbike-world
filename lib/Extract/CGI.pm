@@ -25,6 +25,8 @@ use Extract::Utils;
 use strict;
 use warnings;
 
+$ENV{PATH} = "/bin:/usr/bin";
+
 ###########################################################################
 # config
 #
@@ -272,7 +274,7 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
     <a href="http://download.bbbike.org/osm/">download</a> |
     <a href="@{[ $option->{"homepage"} ]}">status</a> |
     <!-- <a href="/cgi/livesearch-extract.cgi">@{[ M("livesearch") ]}</a> | -->
-    <a href="http://mc.bbbike.org/mc/">map compare</a> |
+    <a href="http://mc.bbbike.org/mc/" id="mc_link" target="_blank">map compare</a> |
     <a href="/extract.html#extract-pro">pro</a> |
     <a href="$community_link#donate">@{[ M("donate") ]}</a>
     $locate

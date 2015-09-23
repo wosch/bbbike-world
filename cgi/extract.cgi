@@ -19,6 +19,7 @@ umask(002);
 
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
+$ENV{PATH} = "/bin:/usr/bin";
 
 our $option = {
     'homepage'        => 'http://download.bbbike.org/osm/extract/',
