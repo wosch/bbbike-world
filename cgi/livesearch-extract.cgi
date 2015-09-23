@@ -18,6 +18,10 @@ use File::stat;
 use strict;
 use warnings;
 
+binmode \*STDOUT, ":utf8";
+binmode \*STDERR, ":utf8";
+$ENV{PATH} = "/bin:/usr/bin";
+
 my $log_dir = '/var/cache/extract/trash';
 
 my $max                       = 25;
@@ -25,9 +29,6 @@ my $only_production_statistic = 1;
 my $debug                     = 1;
 my $default_date              = "";
 my $timezone                  = 'UTC';    # json log runs in UTC
-
-binmode \*STDOUT, ":utf8";
-binmode \*STDERR, ":utf8";
 
 my $q = new CGI;
 

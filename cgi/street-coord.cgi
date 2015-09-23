@@ -20,6 +20,7 @@ use MyCgiSimple;
 use strict;
 
 $ENV{LANG} = 'C';
+$ENV{PATH} = "/bin:/usr/bin";
 
 # how many streets to suggestest
 my $max_suggestions = 64;

@@ -11,6 +11,7 @@ use MyCgiSimple;
 
 use strict;
 
+$ENV{PATH} = "/bin:/usr/bin";
 $ENV{LANG} = 'C';
 
 # how many streets to suggestest

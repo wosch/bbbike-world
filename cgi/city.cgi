@@ -21,6 +21,10 @@ use BBBike::Analytics;
 use strict;
 use warnings;
 
+binmode \*STDOUT, ":utf8";
+binmode \*STDERR, ":utf8";
+$ENV{PATH} = "/bin:/usr/bin";
+
 our $option = {
     'homepage_download' => 'http://download.bbbike.org/osm/',
     'homepage_bbbike'   => 'http://www.bbbike.org',
@@ -38,9 +42,6 @@ my $download_bbbike_org = $option->{'homepage_download'};
 my $www_bbbike_org      = $option->{'homepage_bbbike'};
 
 my $checksum_file = 'CHECKSUM.txt';
-
-binmode \*STDOUT, ":utf8";
-binmode \*STDERR, ":utf8";
 
 # EOF config
 ###########################################################################

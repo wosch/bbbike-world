@@ -13,6 +13,7 @@ use MyCgiSimple;
 use strict;
 
 $ENV{LANG} = 'C';
+$ENV{PATH} = "/bin:/usr/bin";
 
 ######################################################################
 # GET /w/api.php?namespace=1&q=berlin HTTP/1.1

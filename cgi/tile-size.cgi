@@ -15,6 +15,8 @@ use Extract::Planet;
 use strict;
 use warnings;
 
+$ENV{PATH} = "/bin:/usr/bin";
+
 my $debug = 1;
 
 sub Param {
