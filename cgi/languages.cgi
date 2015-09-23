@@ -14,6 +14,8 @@ use strict;
 use warnings;
 
 binmode \*STDOUT, ":utf8";
+$ENV{PATH} = "/bin:/usr/bin";
+
 my $q = new CGI;
 
 my $dir         = "msg";

@@ -21,6 +21,7 @@ use MyCgiSimple;
 
 use strict;
 $ENV{LANG} = 'C';
+$ENV{PATH} = "/bin:/usr/bin";
 
 my $debug = 0;
 

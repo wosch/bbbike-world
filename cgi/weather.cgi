@@ -16,6 +16,8 @@ use LWP::UserAgent;
 use strict;
 use warnings;
 
+$ENV{PATH} = "/bin:/usr/bin";
+
 my $q         = new CGI;
 my $debug     = 2;
 my $cache_dir = "/var/cache/bbbike";

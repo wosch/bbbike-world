@@ -18,13 +18,15 @@ use BBBike::WorldDB;
 use strict;
 use warnings;
 
+binmode \*STDOUT, ":raw";
+$ENV{PATH} = "/bin:/usr/bin";
+
 my $debug               = 1;
 my $city_default        = "Berlin";
 my $download_bbbike_org = "http://download.bbbike.org";
 my $www_bbbike_org      = "http://www.bbbike.org";
 my $checksum_file       = 'CHECKSUM.txt';
 
-binmode \*STDOUT, ":raw";
 my $q = new CGI;
 
 sub footer {

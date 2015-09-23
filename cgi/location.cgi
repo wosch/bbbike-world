@@ -40,6 +40,8 @@ use BBBike::WorldDB;
 use strict;
 use warnings;
 
+$ENV{PATH} = "/bin:/usr/bin";
+
 my $q        = new CGI;
 my $debug    = 1;
 my $database = '../world/etc/cities.csv';

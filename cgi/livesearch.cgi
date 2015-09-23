@@ -18,6 +18,10 @@ use BBBike::WorldDB;
 use strict;
 use warnings;
 
+binmode \*STDOUT, ":utf8";
+binmode \*STDERR, ":utf8";
+$ENV{PATH} = "/bin:/usr/bin";
+
 my $logfile = '/var/log/lighttpd/bbbike.error.log';
 
 #my $logfile                      = '../../tmp/lighttpd/bbbike.error.log';
@@ -27,9 +31,6 @@ my $debug                        = 1;
 my $logrotate_first_uncompressed = 1;
 my $filter_by_client             = 1;
 our @appid = qw/ios1 wp0 web0/;
-
-binmode \*STDOUT, ":utf8";
-binmode \*STDERR, ":utf8";
 
 my $q = new CGI;
 

@@ -28,6 +28,8 @@ use warnings;
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
+$ENV{PATH} = "/bin:/usr/bin";
+
 our $option = {
     'debug'                => "0",
     'homepage_download'    => 'http://download.bbbike.org/osm/',
@@ -90,7 +92,8 @@ sub extract_areas {
       if $debug;
 
     my %hash;
-    foreach my $f ( glob("$log_dir/*.json") ) {
+    foreach my $f (`find $log_dir/ -name '*.json' -mtime -6 -print`) {
+        chomp $f;
         my $st = stat($f) or die "stat $f: $!\n";
         $hash{$f} = $st->mtime;
     }

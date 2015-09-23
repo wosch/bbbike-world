@@ -23,6 +23,7 @@ umask(002);
 
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
+$ENV{PATH} = "/bin:/usr/bin";
 
 our $option = {
     'script_homepage' => 'http://extract.bbbike.org',
