@@ -119,7 +119,10 @@ $text2html < README.txt > README.html
 # main
 #
 echo ">>> Run Maperitive, map style: $map_style" >> $logfile
-DISPLAY=$BBBIKE_MAPERITIVE_DISPLAY time $program  -exitafter $(pwd)/$config_file >> $logfile 2>&1
+if ! DISPLAY=$BBBIKE_MAPERITIVE_DISPLAY time $program  -exitafter $(pwd)/$config_file >> $logfile 2>&1; then
+  tail -n 20 $logfile
+  exit 2
+fi
 
 ( $MD5 $image_file; $SHA $image_file ) > .checksum.txt.tmp; mv -f .checksum.txt.tmp CHECKSUM.txt
 
