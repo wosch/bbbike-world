@@ -231,6 +231,31 @@ sub manual_area {
 EOF
 }
 
+# link to same area on map compare
+sub mc_parameters {
+    my $self = shift;
+    my $q    = shift;
+
+    my $sw_lng = Param( $q, "sw_lng" ) + 0;
+    my $sw_lat = Param( $q, "sw_lat" ) + 0;
+    my $ne_lng = Param( $q, "ne_lng" ) + 0;
+    my $ne_lat = Param( $q, "ne_lat" ) + 0;
+
+    my $lng = $sw_lng + ( $ne_lng - $sw_lng ) / 2;
+    my $lat = $sw_lat + ( $ne_lat - $sw_lat ) / 2;
+
+    if ( $lng && $lat ) {
+        return
+            "?lon="
+          . escapeHTML($lng) . "&lat="
+          . escapeHTML($lat)
+          . "&profile=extract";
+    }
+    else {
+        return "";
+    }
+}
+
 sub footer_top {
     my $self = shift;
 
@@ -264,6 +289,7 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
     }
 
     my $home = $q->url( -query => 0, -relative => 1 ) || "/";
+    my $mc_parameters = $self->mc_parameters($q);
 
     return <<EOF;
   $donate
@@ -274,7 +300,7 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
     <a href="http://download.bbbike.org/osm/">download</a> |
     <a href="@{[ $option->{"homepage"} ]}">status</a> |
     <!-- <a href="/cgi/livesearch-extract.cgi">@{[ M("livesearch") ]}</a> | -->
-    <a href="http://mc.bbbike.org/mc/" id="mc_link" target="_blank">map compare</a> |
+    <a href="http://mc.bbbike.org/mc/$mc_parameters" id="mc_link" target="_blank">map compare</a> |
     <a href="/extract.html#extract-pro">pro</a> |
     <a href="$community_link#donate">@{[ M("donate") ]}</a>
     $locate
