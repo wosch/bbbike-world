@@ -1108,7 +1108,7 @@ function getMCLink(href) {
         base = base.substring(0, base.indexOf("#"));
     }
 
-    var url = base + '?lon=' + center.lon + '&lat=' + center.lat + '&zoom=' + zoom + "&source=extract";
+    var url = base + '?lon=' + center.lon + '&lat=' + center.lat + '&zoom=' + zoom + "&profile=extract" + "&source=extract";
 
     return url;
 }
