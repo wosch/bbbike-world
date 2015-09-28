@@ -1838,7 +1838,7 @@ function mc_search_nominatim(query, offset, paging) {
     var email = mc.search.user_agent ? "&email=" + mc.search.user_agent : "";
 
     // async search request to nominatim
-    var url = 'http://nominatim.openstreetmap.org/search?format=json&limit=' + limit + "&viewboxlbrt=" + viewport + '&q=' + encodeURI(query) + email;
+    var url = 'https://nominatim.openstreetmap.org/search?format=json&limit=' + limit + "&viewboxlbrt=" + viewport + '&q=' + encodeURI(query) + email;
 
     // IE8/IE9
     // $.support.cors = false;
