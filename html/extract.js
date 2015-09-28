@@ -1096,8 +1096,6 @@ function getMCLink(href) {
     var center = map.getCenter().transform(map.getProjectionObject(), state.proj4326)
     var zoom = map.getZoom();
 
-    debug("center xxxx: " + center);
-
     // full base URL, without parameters
     var base = href;
     if (base.indexOf("?") != -1) {
@@ -1110,7 +1108,7 @@ function getMCLink(href) {
         base = base.substring(0, base.indexOf("#"));
     }
 
-    var url = base + '?lon=' + center.lon + '&lat=' + center.lat + '&zoom=' + zoom + "&source=extract";
+    var url = base + '?lon=' + center.lon + '&lat=' + center.lat + '&zoom=' + zoom + "&profile=extract" + "&source=extract";
 
     return url;
 }
@@ -1840,7 +1838,7 @@ function mc_search_nominatim(query, offset, paging) {
     var email = mc.search.user_agent ? "&email=" + mc.search.user_agent : "";
 
     // async search request to nominatim
-    var url = 'http://nominatim.openstreetmap.org/search?format=json&limit=' + limit + "&viewboxlbrt=" + viewport + '&q=' + encodeURI(query) + email;
+    var url = 'https://nominatim.openstreetmap.org/search?format=json&limit=' + limit + "&viewboxlbrt=" + viewport + '&q=' + encodeURI(query) + email;
 
     // IE8/IE9
     // $.support.cors = false;
