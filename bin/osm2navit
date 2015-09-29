@@ -11,6 +11,9 @@ PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmpfs"}
 
+unset LC_ALL
+unset LANG
+
 set -e
 
 usage () {
