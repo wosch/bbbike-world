@@ -101,3 +101,4 @@ http://a.tile.stamen.com/toner/17/70408/42972@2x.png
 http://online4.map.bdimg.com/tile/?qt=tile&styles=sl&x=396&y=145&z=11&scaler=1
 http://online1.map.bdimg.com/tile/?qt=tile&styles=pl&x=396&y=149&z=11&scaler=2
 http://shangetu4.map.bdimg.com/it/?u=x=396;y=149;z=11;v=009;type=sate&fm=46
+http://mm-lbserver.dnsalias.com/wms/wms.php?REQUEST=GetMap&SERVICE=WMS&VERSION=1.1.1&LAYERS=MM_SEGMENT&STYLES=&FORMAT=image/gif&BGCOLOR=0xFFFFFF&TRANSPARENT=TRUE&SRS=EPSG:4326&BBOX=13.18359425,52.48278,13.359375,52.589701&WIDTH=256&HEIGHT=256
