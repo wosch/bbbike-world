@@ -56,8 +56,8 @@ sub myget {
     my $req = HTTP::Request->new( GET => $url );
     my $res = $self->{'ua'}->request($req);
 
-    isnt( $res->is_success, undef, "$url is success" );
-    is( $res->status_line, "200 OK", "status code 200" );
+    ok( $res->is_success, "$url is success" );
+    is( $res->status_line, "200 OK", "status code 200 for $url" );
 
     my $content = $res->decoded_content();
     cmp_ok( length($content), ">", $size, "greather than $size for URL $url" );
@@ -76,8 +76,8 @@ sub myget_head {
     my $req = HTTP::Request->new( HEAD => $url );
     my $res = $self->{'ua'}->request($req);
 
-    isnt( $res->is_success, undef, "$url is success" );
-    is( $res->status_line, "200 OK", "status code 200" );
+    ok( $res->is_success, "$url is success" );
+    is( $res->status_line, "200 OK", "HEAD status code 200 for $url" );
 
     my $content_length = $res->content_length;
 
