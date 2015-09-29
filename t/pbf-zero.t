@@ -14,7 +14,7 @@ use Digest::MD5 qw(md5_hex);
 use strict;
 use warnings;
 
-my $debug = 1;
+my $debug = 0;
 
 # 0: success, 1: non-zero exit status
 my %formats = (
