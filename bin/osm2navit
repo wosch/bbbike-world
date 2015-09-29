@@ -75,13 +75,13 @@ logfile=$navit_dir/logfile.txt
 cd $navit_dir
 counter=0
 
-set -o pipefail # bash only
-
-case $file in
-  *.pbf) $pbf2osm $file | time maptool ${navit}.bin > $logfile 2>&1 ;;
-  *.gz) $gzip -dc $file | time maptool ${navit}.bin > $logfile 2>&1 ;;
-  * ) false ;;
-esac
+#set -o pipefail # bash only
+#case $file in
+#  *.pbf) $pbf2osm $file | time maptool ${navit}.bin > $logfile 2>&1 ;;
+#  *.gz) $gzip -dc $file | time maptool ${navit}.bin > $logfile 2>&1 ;;
+#  * ) false ;;
+#esac
+time maptool --protobuf --input-file "$file" ${navit}.bin > $logfile 2>&1
 
 exit=$?
 
