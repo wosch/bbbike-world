@@ -1,7 +1,7 @@
 http://b.tile.bbbike.org/osm/mapnik-german/12/2200/1342.png
 http://a.tile.openstreetmap.org/12/2200/1342.png
 http://a.tile.stamen.com/toner/12/2200/1342.png
-http://a.tile2.opencyclemap.org/transport/12/2200/1342.png
+http://a.tile.thunderforest.com/transport/12/2200/1342.png
 http://tiles1.skobbler.net/osm_tiles2/12/2200/1342.png
 http://tiles2.openpistemap.org/landshaded/12/2200/1342.png
 http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/12/1342/2200.jpg
@@ -11,11 +11,13 @@ http://tile.openstreetmap.de/tiles/osmde/12/2200/1342.png
 http://a.tile.bbbike.org/osm/mapnik/12/2200/1342.png
 http://gsp2.apple.com/tile?api=1&style=slideshow&layers=default&lang=de_DE&z=12&x=2200&y=1342&v=9
 http://a.tile.bbbike.org/osm/bbbike-smoothness/12/2200/1342.png
-http://a.tile.opencyclemap.org/cycle/12/2200/1342.png
+http://a.tile.thunderforest.com/cycle/12/2200/1342.png
+http://a.tile.thunderforest.com/outdoors/12/2200/1342.png
+http://a.tile.thunderforest.com/transport-dark/12/2200/1342.png
 http://otile1.mqcdn.com/tiles/1.0.0/osm/12/2200/1342.png
 http://ttiles02.mqcdn.com/tiles/1.0.0/vy/hyb/11/1099/670.png
 http://ttiles03.mqcdn.com/tiles/1.0.0/vy/sat/13/4400/2686.png
-http://a.tile3.opencyclemap.org/landscape/12/2200/1342.png
+http://a.tile.thunderforest.com/landscape/12/2200/1342.png
 http://tile.memomaps.de/tilegen/12/2200/1342.png
 http://www.openptmap.org/tiles/12/2200/1342.png
 http://1.traffic.maps.api.here.com/maptile/2.1/traffictile/newest/normal.day/12/2200/1342/256/png8?app_id=SqE1xcSngCd3m4a1zEGb&token=r0sR1DzqDkS6sDnh902FWQ&lglg=ENG
