@@ -20,14 +20,14 @@ my $debug = 0;
 my %formats = (
 
     # osmconvert
-    "--osm"   => 1,
-    "--o5m"   => 1,
-    "--csv"   => 1,
+    "--osm" => 1,
+    "--o5m" => 1,
+    "--csv" => 1,
 
     # osmosis
     "--osmosis" => 0,
-    
-    "--navit" => 0,
+
+    "--navit"          => 0,
     "--shape"          => 0,
     "--osmand"         => 0,
     "--garmin-osm"     => 0,
