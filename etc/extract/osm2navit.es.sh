@@ -6,7 +6,7 @@ $BBBIKE_EXTRACT_NAVIT_VERSION by http://www.navit-project.org
 
 Please read the Navit homepage and the wiki how to use Navit files:
 
-  http://wiki.navit-project.org/
+  http://wiki.navit-project.org
 
 
 This Navit map was created on: $date
