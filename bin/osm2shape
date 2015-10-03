@@ -11,6 +11,7 @@ PATH=/bin:/usr/bin:/usr/local/bin; export PATH
 : ${fixpbf=false}
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmpfs"}
+: ${BBBIKE_LD_LIBRARY_PATH="/var/lib/bbbike/opt/lib"}
 
 set -e
 
@@ -63,7 +64,7 @@ case $text2html in /*) ;; *) text2html=$(pwd)/$text2html ;; esac
 
 logfile=$shape_dir/logfile.txt
 
-if osmium2shape -d $shape_dir/shape $file > $logfile 2>&1; then
+if LD_LIBRARY_PATH=$BBBIKE_LD_LIBRARY_PATH osmium2shape -d $shape_dir/shape $file > $logfile 2>&1; then
    :
 else
    exit=$?
