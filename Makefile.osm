@@ -1336,6 +1336,8 @@ git-status: git-status-world
 git-status-world:
 	cd world; git status
 
+mygit: git-fetch git-pull git-push
+
 
 bbbike-tarball bbbike-src tarball:
 	./world/bin/bbbike-tarball
@@ -1402,7 +1404,8 @@ help:
 	@echo "  [ sudo apt-get install bbbike-world ]"
 	@echo ""
 	@echo "  [ debian-bootstrap | bbbike-bootstrap | bbbike-c ]"
-	@echo "  [ build-runtime | git-fetch ]"
+	@echo "  [ build-runtime ]"
+	@echo "  [ git-fetch | git-pull | git-push | mygit ]"
 	@echo "  [ check | check-world | check-full | check-failed ]"
 	@echo ""
 	@echo "after failed install/cache update:"
