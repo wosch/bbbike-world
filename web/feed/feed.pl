@@ -48,6 +48,19 @@ my $feed = XML::Atom::SimpleFeed->new(
 # - larger area for most cities, up top 30 km radius the centr of the city
 #
 $feed->add_entry(
+    title =>
+      qq{Map Compare now supports up to 140 maps: http://mc.bbbike.org/mc/},
+    id      => '8f26db14e49f2e3a1c6e3e46f6fe5d83',
+    content => {
+        type => 'html',
+        content =>
+qq{Map Compare now supports up to 140 maps: <a href="http://mc.bbbike.org/mc/">bbbike.org/mc</a>},
+    },
+    updated  => '2015-10-06T13:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title   => qq{The extract service supports now SVG format and PNG images},
     id      => '5f5b1fc9a70af4642e758b84227c8ea7',
     content => {
