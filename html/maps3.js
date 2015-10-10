@@ -952,7 +952,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "MapQuest Satellite, by mapquest.com"
         },
         getTileUrl: function (a, z) {
-            return "http://mtile0" + randomServer(4) + ".mqcdn.com/tiles/1.0.0/vy/sat/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "http://ttiles0" + randomServer(4) + ".mqcdn.com/tiles/1.0.0/vy/sat/" + z + "/" + a.x + "/" + a.y + ".png";
         },
         isPng: true,
         opacity: 1.0,
