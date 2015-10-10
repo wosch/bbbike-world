@@ -998,7 +998,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         var fmt = (type == "r" ? "png" : "jpeg");
         var digit = ((a.y & 1) << 1) + (a.x & 1);
 
-        var ret = "https://" + type + digit + ".ortho.tiles.virtualearth.net/tiles/" + type;
+        var ret = "http://" + type + digit + ".ortho.tiles.virtualearth.net/tiles/" + type;
         for (var i = z - 1; i >= 0; i--) {
             ret += ((((a.y >> i) & 1) << 1) + ((a.x >> i) & 1));
         }
