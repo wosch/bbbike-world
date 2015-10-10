@@ -703,7 +703,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "Mapnik, by OpenStreetMap.org"
         },
         getTileUrl: function (a, z) {
-            return "http://" + randomServerOSM() + ".tile.openstreetmap.org/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "https://" + randomServerOSM() + ".tile.openstreetmap.org/" + z + "/" + a.x + "/" + a.y + ".png";
         },
         isPng: true,
         opacity: 1.0,
@@ -888,7 +888,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "Cycle, by OpenStreetMap"
         },
         getTileUrl: function (a, z) {
-            return "http://" + randomServerOSM() + ".tile.opencyclemap.org/cycle/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "https://" + randomServerOSM() + ".tile.thunderforest.com/cycle/" + z + "/" + a.x + "/" + a.y + ".png";
         },
         isPng: true,
         opacity: 1.0,
@@ -904,7 +904,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "Transport, by OpenCycleMap.org"
         },
         getTileUrl: function (a, z) {
-            return "http://" + randomServerOSM() + ".tile2.opencyclemap.org/transport/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "https://" + randomServerOSM() + ".tile.thunderforest.com/transport/" + z + "/" + a.x + "/" + a.y + ".png";
         },
         isPng: true,
         opacity: 1.0,
@@ -920,7 +920,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "Landscape, by OpenCycleMap.org"
         },
         getTileUrl: function (a, z) {
-            return "http://" + randomServerOSM() + ".tile3.opencyclemap.org/landscape/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "https://" + randomServerOSM() + ".tile.thunderforest.com/landscape/" + z + "/" + a.x + "/" + a.y + ".png";
         },
         isPng: true,
         opacity: 1.0,
@@ -968,7 +968,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "Esri, by arcgisonline.com"
         },
         getTileUrl: function (a, z) {
-            return "http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/" + z + "/" + a.y + "/" + a.x + ".png";
+            return "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/" + z + "/" + a.y + "/" + a.x + ".png";
         },
         isPng: true,
         opacity: 1.0,
@@ -984,7 +984,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "Esri Topo, by arcgisonline.com"
         },
         getTileUrl: function (a, z) {
-            return "http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/" + z + "/" + a.y + "/" + a.x + ".png";
+            return "https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/" + z + "/" + a.y + "/" + a.x + ".png";
         },
         isPng: true,
         opacity: 1.0,
@@ -998,7 +998,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         var fmt = (type == "r" ? "png" : "jpeg");
         var digit = ((a.y & 1) << 1) + (a.x & 1);
 
-        var ret = "http://" + type + digit + ".ortho.tiles.virtualearth.net/tiles/" + type;
+        var ret = "https://" + type + digit + ".ortho.tiles.virtualearth.net/tiles/" + type;
         for (var i = z - 1; i >= 0; i--) {
             ret += ((((a.y >> i) & 1) << 1) + ((a.x >> i) & 1));
         }
@@ -1161,7 +1161,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         var server;
 
         if (typeof list == "number") {
-            server = parseInt(Math.random() * list);
+            server = parseInt(Math.random() * list) + 1;
         } else {
             server = list[parseInt(Math.random() * list.length)];
         }
@@ -1205,7 +1205,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
 
         // low resolution, hybrid like map
         if (z <= 17) {
-            url = "http://ecn.t" + randomServer(4) + ".tiles.virtualearth.net/tiles/" + type + getQuadKey(a, z);
+            url = "https://ecn.t" + randomServer(4) + ".tiles.virtualearth.net/tiles/" + type + getQuadKey(a, z);
 
             if (type == "r") {
                 url += "?g=681&mkt=" + lang + "&lbl=l1&stl=h&shading=hill&n=z";
@@ -1215,7 +1215,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
 
             // Bird view
         } else {
-            url = "http://ecn.t" + randomServer(4) + ".tiles.virtualearth.net/tiles/cmd/ObliqueHybrid?" + type + "=" + getQuadKey(a, z);
+            url = "https://ecn.t" + randomServer(4) + ".tiles.virtualearth.net/tiles/cmd/ObliqueHybrid?" + type + "=" + getQuadKey(a, z);
             url += "-256-19-18" + "&g=681";
         }
 
@@ -1287,7 +1287,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         };
         var url_prefix = urls[name];
 
-        var url = "http://" + randomServer(servers) + "." + url_prefix + "/" + name + "/" + z + "/" + a.x + "/" + a.y + "/256/png8?app_id=" + app_id + "&token=" + token + "lg=ENG";
+        var url = "https://" + randomServer(servers) + "." + url_prefix + "/" + name + "/" + z + "/" + a.x + "/" + a.y + "/256/png8?app_id=" + app_id + "&token=" + token + "lg=ENG";
 
         return url;
     }
