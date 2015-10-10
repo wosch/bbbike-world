@@ -133,7 +133,7 @@ sub page_check {
     if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
         $test->myget( "$home_url/html/jquery/jquery-1.8.3.min.js", 20_000 );
         $test->myget( "$home_url/html/OpenLayers/2.12/OpenStreetMap.js",
-            3_000 );
+            2_800 );
         $test->myget( "$home_url/html/OpenLayers/2.12/OpenLayers-min.js",
             500_000 );
     }

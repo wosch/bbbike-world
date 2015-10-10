@@ -146,7 +146,7 @@ sub page_check {
 
         #myget( "$home_url/html/jquery/jquery.cookie-1.3.1.js",        2_000 );
         $test->myget( "$home_url/html/OpenLayers/2.12/OpenStreetMap.js",
-            3_000 );
+            2_800 );
         $test->myget( "$home_url/html/OpenLayers/2.12/Here.js", 5_000 );
         $test->myget( "$home_url/html/OpenLayers/2.12/OpenLayers-min.js",
             500_000 );
