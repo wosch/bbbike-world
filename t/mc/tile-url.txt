@@ -47,8 +47,8 @@ https://mt0.googleapis.com/vt?lyrs=m@202221627,transit:comp%7Cvm:1&src=apiv3&hl=
 https://mt0.googleapis.com/vt?lyrs=t@130,r@202221627,bike,transit:comp%7Cvm:1,traffic&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&opts=r&style=api%7Csmartmaps
 http://sat01.maps.yandex.net/tiles?l=sat&v=1.35.0&x=2200&y=1346&z=12
 http://vec02.maps.yandex.net/tiles?l=map&v=2.2.3&x=2200&y=1346&z=12
-http://worldtiles2.waze.com/tiles/13/4400/2688.png
-http://livemap-tiles3.waze.com/tiles/12/1176/1560.png
+https://worldtiles2.waze.com/tiles/13/4400/2688.png
+https://livemap-tiles3.waze.com/tiles/12/1176/1560.png
 #http://www.topomapper.com/cgi-bin/tilecache-2.11b/tilecache.py?LAYERS=topomapper_gmerc&FORMAT=image%2Fjpeg&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&SRS=EPSG%3A900913&BBOX=1487158.8221094,6907461.3711133,1506726.7013477,6927029.2503516&WIDTH=256&HEIGHT=256
 http://korona.geog.uni-heidelberg.de/tiles/roads/x=4399&y=2688&z=13
 http://korona.geog.uni-heidelberg.de/tiles/roadsg/x=4399&y=2688&z=13
