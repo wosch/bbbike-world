@@ -16,7 +16,7 @@ use warnings;
 
 my $debug = 0;
 
-# 0: success, 1: non-zero exit status
+# 0: success, 1: non-zero exit status, 99: ignore
 my %formats = (
 
     # osmconvert
@@ -27,7 +27,7 @@ my %formats = (
     # osmosis
     "--osmosis" => 0,
 
-    "--navit"          => 0,
+    "--navit"          => 99,
     "--shape"          => 0,
     "--osmand"         => 0,
     "--garmin-osm"     => 0,
@@ -85,6 +85,12 @@ if ( !-f $pbf_file ) {
 is( $pbf_md5, md5_file($pbf_file), "md5 checksum matched: $pbf_file" );
 
 foreach my $format ( sort keys %formats ) {
+    if ( $formats{$format} == 99 ) {
+        diag("skip format check for: $format");
+        ok( 1, "skip $format" );
+        next;
+    }
+
     diag(qq[world/bin/pbf2osm $format $pbf_file > $tempfile]) if $debug;
 
     system(qq[world/bin/pbf2osm $format $pbf_file > $tempfile]);
