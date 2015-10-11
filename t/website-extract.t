@@ -36,11 +36,13 @@ my @extract_dialog =
   qw/about.html email.html format.html name.html polygon.html select-area.html/;
 
 my $msg = {
+    "en" => [ "Wait for email notification", "Name of area to extract" ],
     "de" => [ "Deine E-Mail Adresse", "Punkte zum Polygon hinzuf&uuml;gen" ],
-    "en"  => [ "Wait for email notification", "Name of area to extract" ],
+    "fr" => [ "Votre adresse électronique", "Nom de la zone à extraire" ],
+
+    # rest
     "ru"  => [ "Wait for email notification", "Name of area to extract" ],
     "es"  => [ "Wait for email notification", "Name of area to extract" ],
-    "fr"  => [ "Wait for email notification", "Name of area to extract" ],
     "XYZ" => [ "Wait for email notification", "Name of area to extract" ],
     ""    => [ "Wait for email notification", "Name of area to extract" ],
 };
@@ -80,12 +82,13 @@ sub page_check {
 
     # check for known languages
     foreach my $l (@lang) {
-        my $res = $test->myget( "$script_url?lang=$l", 9_000 );
+        my $url = "$script_url?lang=$l";
+        my $res = $test->myget( $url, 9_000 );
 
         # correct translations?
         foreach my $text ( @{ $msg->{$l} } ) {
             like( $res->decoded_content, qr/$text/,
-                "bbbike extract translation" );
+                "bbbike extract translation: $text url:$url" );
         }
     }
 
@@ -135,7 +138,7 @@ sub page_check {
 
         foreach my $tag (@tags) {
             like( $res->decoded_content, qr|$tag|,
-                "bbbike extract html tag: $tag" );
+                "bbbike extract html tag: $tag url:$script_url" );
         }
 
         like( $res->decoded_content, qr|polygon_update|, "bbbike extract" );
