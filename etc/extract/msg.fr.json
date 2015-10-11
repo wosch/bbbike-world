@@ -1,93 +1,120 @@
 {
-    "Your email address": "Votre adresse email",
-    "about": "info",
+    "SRTM Europe PBF": "SRTM Contours Europe PBF",
+    "SRTM Europe Garmin": "SRTM Contours Europe Garmin",
+    "SRTM Europe Osmand": "SRTM Contours Europe Osmand",
+    "SRTM PBF": "SRTM Contours PBF",
+    "SRTM Garmin": "SRTM Contours Garmin",
+    "SRTM Osmand": "SRTM Contours Osmand",
+
+    "Your email address": "Votre adresse électronique",
+    "about": "À propos",
     "Format": "Format",
     "Name of area to extract": "Nom de la zone à extraire",
-    "Select a different area": "Sélectionner une zone différente",
-    "Drag a box on the map to select an area": "Faites glisser une zone sur la carte pour sélectionner au domaine",
-    "add points to polygon": "Ajouter des points à polygone",
-    "resize or drag polygon": "Redimensionner ou déplacer polygone",
+    "Select a different area": "Sélectionnez une zone différente",
+    "Drag a box on the map to select an area": "Dessinez un rectangle pour sélectionner une zone sur la carte",
+    "add points to polygon": "Ajoutez des points au polygone",
+    "resize or drag polygon": "Redimensionnez ou déplacez le polygone",
     "help": "Aide",
-    "livesearch": "Live search",
+    "livesearch": "Recherche en ligne ",
     "donate": "Faire un don",
-    "Left lower corner (South-West)": "Le coin inférieur gauche (sud-ouest)",
-    "Right top corner (North-East)": "Coin droit supérieur (Nord-Est)",
+    "Left lower corner (South-West)": "Angle inférieur gauche (Sud-Ouest)",
+    "Right top corner (North-East)": "Angle supérieur droit (Nord-Est)",
 
-    "Move the map to your desired location": "Move the map to your desired location",
-    "Then click here": "Then click here",
-    "to create the bounding box": "to create the bounding box",
-    "show": "show",
-    "hide": "hide",
+    "Move the map to your desired location": "Déplacez la carte dans la zone souhaitée ",
+    "Then click here": "Puis cliquez ici",
+    "to create the bounding box": "pour créer un rectangle de sélection",
+    "show": "afficher",
+    "hide": "masquer",
 
     "EXTRACT_CONFIRMED": [
-        "<p>Merci - les données d'entrée semble bon.</p><p>",
-        "Il faut entre 15-30 minutes pour extraire une zone de planet.osm,",
-        "En fonction de la taille de la zone et la charge du système.",
-        "Vous serez averti par e-mail si votre extrait est prêt pour le téléchargement.",
-        "S'il vous plaît suivez les instructions dans l'email de procéder à votre demande.</p>",
-        "",
-        "<p align='left'> Superficie: '%s' couvre kilomètres carrés <br/> %s",
-        "Coordonnées: %s <br/>",
-        "Format: %s",
-        "</p>",
-        "",
-        "<p> Appuyez sur le bouton de retour pour obtenir la même zone dans un format différent, ou pour demander une nouvelle zone.</p>"
+        "<p>Merci - les paramètres saisis semblent corrects.</p><p>",
+           "Il faut entre 2 et 7 minutes pour extraire une zone depuis planet.osm,",
+         "en fonction de la taille de la zone et la charge du système.",
+            "Un courrier électronique vous sera envoyé lorsque votre extrait sera prêt pour le téléchargement.",
+            "Veuillez suivre les instructions dans le courriel pour récupérer votre extrait.</p>",
+            "<p align='left'> Superficie : '%s' couvre %s kilomètres carrés <br/> %s",
+            "Coordonnées : %s <br/>",
+            "Format : %s",
+            "</p>",
+            "",
+            "Vous pouvez suivre l'état de votre demande sur la <a href='%s'>page d'état du serveur</a>.<br/><br/></p>",
+            "<p> Appuyez sur le bouton retour pour obtenir la même zone dans un autre format, ou pour demander l'extrait sur une nouvelle zone.</p>"
         ],
 
     "EXTRACT_DONATION": [
-        "Nous <p> apprécions tous les commentaires, suggestions",
-        "Et un don <a href='../community.html#donate'> </ a>!",
-        "Vous pouvez nous soutenir par le biais de PayPal, Flattr ou virement bancaire."
-        ],
+        "Nous apprécions tous les commentaires et suggestions,",
+           "ainsi que les <a href='../community.html#donate'>dons</a>!",
+           "Vous pouvez nous soutenir via PayPal, Flattr ou virement bancaire."
+             ],
+
 
     "EXTRACT_EMAIL": [
-        "Salut,",
+        "Bonjour,",
         "",
-        "Votre région OpenStreetMap demandé '%s' a été extrait de planet.osm",
-        "Pour télécharger le fichier, s'il vous plaît cliquer sur le lien suivant:",
+        "La zone OpenStreetMap '%s' a été extraite de la base planet.osm",
+        "Pour télécharger le fichier, veuillez cliquer sur le lien suivant :",
         "",
         "  %s",
         "",
-        "Le fichier sera disponible pour les prochaines 48 heures. S'il vous plaît télécharger le",
-        "Le fichier le plus tôt possible.",
+        "Le fichier est disponible dans les prochaines 48 heures.",
+        "Veuillez donc télécharger le fichier rapidement.",
         "",
-        "Nom: %s",
-        "Coordonnées: %s",
-        "URL du script: %s",
-        "Kilomètre carré: %s",
-        "Granularité:%s",
-        "Osmose options: %s",
-        "Format: %s",
-        "Taille du fichier: %s",
-        "SHA256: %s",
-        "MD5: %s",
-        "Dernière mise à jour de base de données planet.osm: %s",
-        "Licence: Licence OpenStreetMap",
+        "Nom : %s",
+        "Coordonnées : %s",
+        "URL du script : %s",
+        "Kilomètres carrés : %s",
+        "Granularité : %s",
         "",
-        "Nous apprécions tous les commentaires, suggestions et un don!",
-        "Vous pouvez nous soutenir par le biais de PayPal, Flattr ou virement bancaire.",
+        "Format : %s",
+        "Taille du fichier : %s",
+        "SHA256 : %s",
+        "MD5 : %s",
+        "Dernière mise à jour de la base de données planet.osm: %s",
+        "Licence : Licence OpenStreetMap",
+        "",
+        "Consultez l’aide d’extraction en ligne pour plus d‘information",
+        "http://extract.bbbike.org/extract.html",
+
+        "Nous apprécions tous les commentaires, suggestions et dons !",
+        "Vous pouvez nous soutenir par le biais de PayPal, Flattr ou par virement bancaire.",
         "http://www.BBBike.org/community.html",
         "",
-        "Sincèrement, la fée extrait BBBike",
+        "Sincèrement, la fée des extraits BBBike",
         "",
         "-",
-        "Planet.osm extracts: http://extract.bbbike.org",
-        "BBBike Map Compare: http://bbbike.org/mc"
+        "extraction Planet.osm: http://extract.bbbike.org",
+        "Comparatif de cartesBBBike: http://bbbike.org/mc"
         ],
+
 
     "EXTRACT_USAGE": [
         "<ol>",
-        "<li>Move the map to your desired location.</li>",
-        "<li>Click and hold the left mouse button, draw the bounding box, release the left mouse button.</li>",
+        "<li>Déplacez la carte dans la région souhaitée.</li>",
+        "<li>Cliquez et maintenez le bouton gauche de la souris, dessinez le cadre de sélection, puis relâchez le bouton gauche de la souris.</li>",
         "</ol>"
         ],
 
+
     "EXTRACT_USAGE2": [
         "<ol>",
-        "<li>Select a <b>Format</b>, enter <b>Your email address</b> and <b>Name of area to extract</b>.</li>",
-        "<li>Click the <b>extract</b> button. Wait for email notification and download the map. Done!</li>",
+        "<li>Sélectionnez un <b>Format</b>, entrez votre <b>adresse électronique</b> et <b>le nom de la zone à extraire</b>.</li>",
+        "<li>Cliquez sur le bouton <b>extraire</b>. Attendez la notification dans votre messagerie électronique et téléchargez alors la carte. C'est prêt !</li>",
         "</ol>"
         ],
+
+
+    "EXTRACT_LIMIT": [
+        "Trop de requêtes. veuillez réessayer dans 15 minutes. Merci !"
+        ],
+
+
+    "EXTRACT_VALID": [
+        "<p class='error'>Les données d’entrée ne sont pas valides.",
+        "Cliquez sur le bouton <a href='javascript:history.back()'>retour</a>",
+        "de votre navigateur et corrigez les valeurs !</p>",
+        "<br/><br/><br/><br/>"
+        ],
+
 
     "dummy": "dummy"
 }
