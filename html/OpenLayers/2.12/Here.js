@@ -20,7 +20,7 @@
  * information. Note: Terms of Service compliant use requires the map to be
  * configured with an <OpenLayers.Control.Attribution> control and the
  * attribution placed on or near the map.
- * 
+ *
  * Inherits from:
  *  - <OpenLayers.Layer.XYZ>
  */
@@ -43,7 +43,7 @@ OpenLayers.Layer.Here = OpenLayers.Class(OpenLayers.Layer.XYZ, {
     /**
      * Property: key
      * {String} API key for Here maps, get your own key
-     *     at http://developer.here.net/
+     *     at https://developer.here.com/
      */
     app_id: null,
     token: null,
@@ -52,9 +52,7 @@ OpenLayers.Layer.Here = OpenLayers.Class(OpenLayers.Layer.XYZ, {
      * Property: attributionTemplate
      * {String}
      */
-    attribution : '<span class="olHereAttribution">' +
-         '<a target="_blank" href="http://maps.here.com/">Here.com</a>' +
-         '</span>',
+    attribution: '<span class="olHereAttribution">' + '<a target="_blank" href="https://maps.here.com/">Here.com</a>' + '</span>',
 
 
     /**
@@ -93,7 +91,7 @@ OpenLayers.Layer.Here = OpenLayers.Class(OpenLayers.Layer.XYZ, {
      *     layer option can be set in this object (e.g.
      *     <OpenLayers.Layer.Grid.buffer>).
      */
-    initialize: function(name, options) {
+    initialize: function (name, options) {
         OpenLayers.Layer.XYZ.prototype.initialize.apply(this, arguments);
 
         var type = (options.type || this.type);
@@ -120,7 +118,7 @@ OpenLayers.Layer.Here = OpenLayers.Class(OpenLayers.Layer.XYZ, {
         }, this.options && this.options.tileOptions);
     },
 
-    // [http://4.maps.nlp.here.com/maptile/2.1/maptile/a2e328a0c5/normal.day/${z}/${x}/${y}/256/png8?app_id=abx&token=def&lg=ENG"]
+    // [https://4.maps.nlp.here.com/maptile/2.1/maptile/a2e328a0c5/normal.day/${z}/${x}/${y}/256/png8?app_id=abx&token=def&lg=ENG"]
     hereTileSeverUrl: function (type, opt) {
         var app_id = opt.app_id;
         var token = opt.token;
@@ -128,8 +126,8 @@ OpenLayers.Layer.Here = OpenLayers.Class(OpenLayers.Layer.XYZ, {
         var servers = opt.servers;
 
         if (!tile_style_version) // may change every 3 months (sic!)
-            tile_style_version = "newest";
-        
+        tile_style_version = "newest";
+
         var urls = {
             "normal.day": "base.maps.api.here.com/maptile/2.1/maptile/" + tile_style_version,
             "terrain.day": "aerial.maps.api.here.com/maptile/2.1/maptile/" + tile_style_version,
@@ -138,7 +136,7 @@ OpenLayers.Layer.Here = OpenLayers.Class(OpenLayers.Layer.XYZ, {
             "normal.day.transit": "base.maps.api.here.com/maptile/2.1/maptile/" + tile_style_version,
             "newest/normal.day": "traffic.maps.api.here.com/maptile/2.1/traffictile"
         };
-        
+
         var url_prefix = urls[type];
 
         // traffic layer use a different API
@@ -148,16 +146,15 @@ OpenLayers.Layer.Here = OpenLayers.Class(OpenLayers.Layer.XYZ, {
 
         var url_list = [];
         for (var i = 0; i < servers.length; i++) {
-            url_list.push("http://" + (servers[i] ? servers[i] + "." : "") + url_prefix + "/" + type + "/${z}/${x}/${y}/256/png8?app_id=" + app_id + "&token=" + token + "&lg=ENG");
+            url_list.push("https://" + (servers[i] ? servers[i] + "." : "") + url_prefix + "/" + type + "/${z}/${x}/${y}/256/png8?app_id=" + app_id + "&token=" + token + "&lg=ENG");
         }
 
         return url_list;
     },
-    
-    checkLayerType: function(layers, type) {
+
+    checkLayerType: function (layers, type) {
         for (var i = 0; i < layers.length; i++) {
-            if (layers[i] == type)
-                return true;
+            if (layers[i] == type) return true;
         }
         return false;
     },
@@ -171,7 +168,7 @@ OpenLayers.Layer.Here = OpenLayers.Class(OpenLayers.Layer.XYZ, {
      * Returns:
      * {<OpenLayers.Layer.Here>} An exact clone of this <OpenLayers.Layer.Here>
      */
-    clone: function(obj) {
+    clone: function (obj) {
         if (obj == null) {
             obj = new OpenLayers.Layer.Here(this.options);
         }
