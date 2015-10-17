@@ -265,7 +265,7 @@ function init_map() {
     });
 
 
-    map.addLayer(new OpenLayers.Layer.OSM("OSM Landscape", ["http://a.tile3.opencyclemap.org/landscape/${z}/${x}/${y}.png", "http://b.tile3.opencyclemap.org/landscape/${z}/${x}/${y}.png"], {
+    map.addLayer(new OpenLayers.Layer.OSM("OSM Landscape", ["https://a.tile.thunderforest.com/landscape/${z}/${x}/${y}.png", "https://b.tile.thunderforest.com/landscape/${z}/${x}/${y}.png"], {
         tileOptions: {
             crossOriginKeyword: null
         },

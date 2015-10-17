@@ -339,7 +339,7 @@ sub footer {
       map { qq{<script src="/html/$_" type="text/javascript"></script>} } @js;
 
     $javascript .=
-qq{\n<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3.9&amp;sensor=false&amp;language=en&amp;libraries=weather,panoramio"></script>}
+qq{\n<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.9&amp;sensor=false&amp;language=en&amp;libraries=weather,panoramio"></script>}
       if $option->{"with_google_maps"};
 
     return <<EOF;
@@ -546,7 +546,7 @@ sub _check_input {
             "Please enter a e-mail address. "
               . "We need an e-mail address to notify you if your extract is ready for download. "
               . "If you don't have an e-mail address, you can get a temporary from "
-              . "<a href='http://mailinator.com/'>mailinator.com</a>",
+              . "<a href='https://mailinator.com/'>mailinator.com</a>",
             1
         );
     }

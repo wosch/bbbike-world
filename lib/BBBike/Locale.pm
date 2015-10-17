@@ -34,7 +34,7 @@ binmode \*STDERR, ":utf8";
 
 our $option = {
     'language'            => "en",
-    'supported_languages' => [qw/en de/],
+    'supported_languages' => [qw/en de fr/],
     'message_path'        => "../world/etc/extract",
 };
 
