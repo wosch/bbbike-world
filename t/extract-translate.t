@@ -5,11 +5,10 @@ use utf8;
 use Test::More;
 use lib qw(./world/lib ../lib);
 use Test::More::UTF8;
-use BBBike::Test;
+
+#use BBBike::Test;
 use BBBike::Locale;
 use File::stat;
-
-my $test = BBBike::Test->new();
 
 #our $option = {
 #    'language'            => "en",
