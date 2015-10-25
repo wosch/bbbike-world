@@ -66,20 +66,23 @@ sub page_check {
 
     my %size;
     foreach my $f ( keys %$formats ) {
-        my $res = $test->myget( "$script_url&format=$f", 11 );
+        my $url = "$script_url&format=$f";
+        my $res = $test->myget( $url, 11 );
 
         # {"size": 65667.599 }
         # {"size": 0 }
 
         my $obj = from_json( $res->decoded_content );
         like( $obj->{"size"}, qr/^[\d\.]+$/,
-            "format: $f, size: $obj->{'size'}" );
+            "format: $f, size: $obj->{'size'} url: $url" );
 
         # no two formats should have the same size
         # otherwise we may have forgotten to configure a format
-        is( $size{ $obj->{'size'} },
+        is(
+            $size{ $obj->{'size'} },
             undef,
-            "format: $f match size $obj->{'size'} of $size{$obj->{'size'}}" );
+"format: $f match size $obj->{'size'} of $size{$obj->{'size'}} url: $url"
+        );
 
         $size{ $obj->{'size'} } = $f;
     }
