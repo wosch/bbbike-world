@@ -36,7 +36,8 @@ my $type = basename( $0, ".t" );    #"svg";
 
 my @svg_styles = qw/google/;
 push @svg_styles, qw/osm/ if !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG};
-push @svg_styles, qw/hiking urbanight wireframe/ if $ENV{BBBIKE_TEST_LONG};
+push @svg_styles, qw/hiking urbanight wireframe cadastre/
+  if $ENV{BBBIKE_TEST_LONG};
 
 my $pbf_file = 'world/t/data-osm/tmp/Cusco.osm.pbf';
 

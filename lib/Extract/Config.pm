@@ -34,12 +34,14 @@ our $formats = {
     'svg-osm.zip'        => 'SVG mapnik',
     'svg-urbanight.zip', => 'SVG night',
     'svg-wireframe.zip'  => 'SVG wireframe',
+    'svg-cadastre.zip'   => 'SVG cadastre',
 
     'png-google.zip'     => 'PNG google',
     'png-hiking.zip'     => 'PNG hiking',
     'png-osm.zip'        => 'PNG mapnik',
     'png-urbanight.zip', => 'PNG night',
     'png-wireframe.zip'  => 'PNG wireframe',
+    'png-cadastre.zip'   => 'PNG cadastre',
 
     'navit.zip' => "Navit",
 
@@ -90,13 +92,13 @@ our $formats_menu = {
     'svg'   => {
         'title'   => "SVG",
         'formats' => [
-            qw/svg-google.zip svg-hiking.zip svg-osm.zip svg-urbanight.zip svg-wireframe.zip/
+            qw/svg-google.zip svg-hiking.zip svg-osm.zip svg-urbanight.zip svg-wireframe.zip svg-cadastre.zip/
         ]
     },
     'png' => {
         'title'   => "PNG",
         'formats' => [
-            qw/png-google.zip png-hiking.zip png-osm.zip png-urbanight.zip png-wireframe.zip/
+            qw/png-google.zip png-hiking.zip png-osm.zip png-urbanight.zip png-wireframe.zip png-cadastre.zip/
         ]
     },
     'srtm' => {

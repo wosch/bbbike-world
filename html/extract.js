@@ -42,12 +42,14 @@ var config = {
         "png-osm.zip": 32,
         "png-urbanight.zip": 32,
         "png-wireframe.zip": 32,
+        "png-cadastre.zip": 32,
 
         "svg-google.zip": 32,
         "svg-osm.zip": 32,
         "svg-hiking.zip": 32,
         "svg-urbanight.zip": 32,
         "svg-wireframe.zip": 32,
+        "svg-cadastre.zip": 32,
 
         "srtm-europe.garmin-srtm.zip": 800,
         "srtm-europe.obf.zip": 200,
@@ -61,11 +63,13 @@ var config = {
         "png-hiking.zip": 900,
         "png-urbanight.zip": 900,
         "png-wireframe.zip": 900,
+        "png-cadastre.zip": 900,
 
         "svg-google.zip": 900,
         "svg-osm.zip": 900,
         "svg-urbanight.zip": 900,
         "svg-wireframe.zip": 900,
+        "svg-cadastre.zip": 900
     },
 
     // help image per format
@@ -80,12 +84,14 @@ var config = {
         "svg-hiking.zip": "/images/svg-hiking-small.png",
         "svg-urbanight.zip": "/images/svg-urbanight-small.png",
         "svg-wireframe.zip": "/images/svg-wireframe-small.png",
+        "svg-cadastre.zip": "/images/svg-wireframe-small.png",
 
         "png-google.zip": "/images/svg-google-small.png",
         "png-osm.zip": "/images/svg-osm-small.png",
         "png-hiking.zip": "/images/svg-hiking-small.png",
         "png-urbanight.zip": "/images/svg-urbanight-small.png",
         "png-wireframe.zip": "/images/svg-wireframe-small.png",
+        "png-cadastre.zip": "/images/svg-wireframe-small.png",
 
         "opl.xz": "/images/opl.png",
         "csv.xz": "/images/csv.png",
@@ -109,7 +115,7 @@ var config = {
         "srtm-europe.garmin-srtm.zip": "/images/garmin-srtm-800.png",
         "srtm.garmin-srtm.zip": "/images/garmin-srtm-1200.png",
         "srtm-europe.obf.zip": "/images/osmand-lago-contours-small.png",
-        "srtm.obf.zip": "/images/osmand-lago-contours-small.png",
+        "srtm.obf.zip": "/images/osmand-lago-contours-small.png"
     },
     display_format_image: true,
     display_format_time: 7,
@@ -1328,6 +1334,10 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "size": 1,
             "time": 2
         },
+        "png-cadastre.zip": {
+            "size": 1,
+            "time": 2
+        },
         "svg-google.zip": {
             "size": 1,
             "time": 2
@@ -1345,6 +1355,10 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "time": 2
         },
         "svg-wireframe.zip": {
+            "size": 1,
+            "time": 2
+        },
+        "svg-cadastre.zip": {
             "size": 1,
             "time": 2
         },

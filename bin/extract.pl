@@ -1059,12 +1059,14 @@ sub reorder_pbf {
         'svg-osm.zip'       => 5,
         'svg-urbanight.zip' => 5,
         'svg-wireframe.zip' => 5,
+        'svg-cadastre.zip'  => 5,
 
         'png-google.zip'    => 5,
         'png-hiking.zip'    => 5,
         'png-osm.zip'       => 5,
         'png-urbanight.zip' => 5,
         'png-wireframe.zip' => 5,
+        'png-cadastre.zip'  => 5,
 
         'o5m.gz'  => 1.1,
         'o5m.xz'  => 0.9,
@@ -1372,7 +1374,9 @@ sub _convert_send_email {
         }
     }
 
-    elsif ( $format =~ /^svg-(google|hiking|osm|urbanight|wireframe).zip$/ ) {
+    elsif ( $format =~
+        /^svg-(google|hiking|osm|urbanight|wireframe|cadastre).zip$/ )
+    {
         my $style      = $1;
         my $format_ext = $format;
         $format_ext =~ s/^[a-z\-]+\.svg/svg/;
@@ -1390,7 +1394,9 @@ sub _convert_send_email {
         }
     }
 
-    elsif ( $format =~ /^png-(google|osm|hiking|urbanight|wireframe).zip$/ ) {
+    elsif ( $format =~
+        /^png-(google|osm|hiking|urbanight|wireframe|cadastre).zip$/ )
+    {
         my $style      = $1;
         my $format_ext = $format;
         $format_ext =~ s/^[a-z\-]+\.png/png/;

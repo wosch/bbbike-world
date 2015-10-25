@@ -52,12 +52,14 @@ our $factor = {
     'svg-osm.zip'        => 3.34,
     'svg-urbanight.zip', => 1.14,
     'svg-wireframe.zip'  => 3.28,
+    'svg-cadastre.zip'   => 4.96,
 
     'png-google.zip'     => 3.59,
     'png-hiking.zip'     => 3.91,
     'png-osm.zip'        => 4.33,
     'png-urbanight.zip', => 2.74,
     'png-wireframe.zip'  => 4.28,
+    'png-cadastre.zip'   => 2.85,
 
     'mapsforge-osm.zip' => 0.80,
 
@@ -125,8 +127,8 @@ sub factor_format {
         opl.xz
         osm.bz2 osm.xz o5m.bz2 o5m.gz o5m.xz
         garmin-leisure.zip garmin-bbbike.zip garmin-cycle.zip
-        svg-google.zip svg-hiking.zip svg-osm.zip svg-urbanight.zip svg-wireframe.zip
-        png-google.zip png-hiking.zip png-osm.zip png-urbanight.zip png-wireframe.zip
+        svg-google.zip svg-hiking.zip svg-osm.zip svg-urbanight.zip svg-wireframe.zip svg-cadastre.zip
+        png-google.zip png-hiking.zip png-osm.zip png-urbanight.zip png-wireframe.zip png-cadastre.zip
         /
       )
     {
