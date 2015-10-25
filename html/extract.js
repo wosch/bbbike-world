@@ -84,14 +84,14 @@ var config = {
         "svg-hiking.zip": "/images/svg-hiking-small.png",
         "svg-urbanight.zip": "/images/svg-urbanight-small.png",
         "svg-wireframe.zip": "/images/svg-wireframe-small.png",
-        "svg-cadastre.zip": "/images/svg-wireframe-small.png",
+        "svg-cadastre.zip": "/images/svg-cadastre-small.png",
 
         "png-google.zip": "/images/svg-google-small.png",
         "png-osm.zip": "/images/svg-osm-small.png",
         "png-hiking.zip": "/images/svg-hiking-small.png",
         "png-urbanight.zip": "/images/svg-urbanight-small.png",
         "png-wireframe.zip": "/images/svg-wireframe-small.png",
-        "png-cadastre.zip": "/images/svg-wireframe-small.png",
+        "png-cadastre.zip": "/images/svg-cadastre-small.png",
 
         "opl.xz": "/images/opl.png",
         "csv.xz": "/images/csv.png",
