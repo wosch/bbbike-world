@@ -1,7 +1,7 @@
 #!/bin/sh
 # Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
 #
-# osm2svg - convert a osm/pbf file to png
+# osm2png - convert a osm/pbf file to png
 #
 
 set -e
@@ -153,6 +153,11 @@ else
 fi
 
 cd ..
+
+# PNG
+if [ -e $image_file.georef ] ;then
+    mv $image_file.georef georef.xml
+fi
 
 # zip file in same directory as the PBF file
 tarball_zip=$(dirname $file)/${basename}.osm.png-${map_style}${ext2}.zip

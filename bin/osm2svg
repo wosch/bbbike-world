@@ -154,6 +154,11 @@ fi
 
 cd ..
 
+# PNG
+if [ -e $image_file.georef ] ;then
+    mv $image_file.georef georef.xml
+fi
+
 # zip file in same directory as the PBF file
 tarball_zip=$(dirname $file)/${basename}.osm.svg-${map_style}${ext2}.zip
 zip -q -r - -- $(basename $tmpdir) | \
