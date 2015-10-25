@@ -1,7 +1,7 @@
 #!/bin/sh
 # Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
 #
-# osm2svg - convert a osm/pbf file to svg
+# osm2svg - convert a osm/pbf file to svg/png
 #
 
 set -e
@@ -44,6 +44,12 @@ error () {
     exit 1
 }
 
+case $(basename $0) in
+    osm2svg* ) type=svg ;;
+    osm2png* ) type=png ;;
+    * ) usage "unknown type $0, only png and svg supported" ;;
+esac
+
 file=$1
 map_style=$2
 city=$3
@@ -82,7 +88,7 @@ esac
 size=$(du -ks -L "$file" | awk '{ print $1}')
 
 basename=$(basename $file | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//')
-tmpdir=$(mktemp -d ${BBBIKE_TMPDIR}/osm2svg.$map_style.XXXXXXXXXXX)/${basename}-svg-${map_style}
+tmpdir=$(mktemp -d ${BBBIKE_TMPDIR}/osm2${type}.$map_style.XXXXXXXXXXX)/${basename}-${type}-${map_style}
 mkdir -p $tmpdir
 cd $tmpdir
 
@@ -93,7 +99,7 @@ logfile=$tmpdir/logfile.txt
 touch $logfile
 
 config_file=config.mscript
-image_file=$(basename $file | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//')-${map_style}.svg
+image_file=$(basename $file | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//')-${map_style}.${type}
 zoom=$BBBIKE_MAPERITIVE_ZOOM
 scale=$BBBIKE_MAPERITIVE_SCALE
 program="mono --desktop  $BBBIKE_OPT_DIR/$BBBIKE_MAPERITIVE_VERSION/Maperitive.exe"
@@ -123,8 +129,14 @@ esac
 cat >> $config_file <<EOF
 apply-ruleset
 load-source $file
-export-svg zoom=$zoom file=$image_file scale=$scale
 EOF
+
+case $type in
+    svg ) export="export-svg" ;;
+    png ) export="export-bitmap" ;;
+esac
+    
+echo "$export zoom=$zoom file=$image_file scale=$scale" >> $config_file
 
 date=$(date -u)
 BBBIKE_EXTRACT_COORDS=$BBBIKE_EXTRACT_COORDS BBBIKE_EXTRACT_URL=$BBBIKE_EXTRACT_URL \
@@ -152,15 +164,15 @@ else
     cp $BBBIKE_OPT_DIR/$BBBIKE_MAPERITIVE_VERSION/Rules/$rules_config .
 fi
 
-cd ..
-
 # PNG
 if [ -e $image_file.georef ] ;then
     mv $image_file.georef georef.xml
 fi
 
+cd ..
+
 # zip file in same directory as the PBF file
-tarball_zip=$(dirname $file)/${basename}.osm.svg-${map_style}${ext2}.zip
+tarball_zip=$(dirname $file)/${basename}.osm.${type}-${map_style}${ext2}.zip
 zip -q -r - -- $(basename $tmpdir) | \
   ( cd $pwd;
     cat > $tarball_zip.$$ && mv $tarball_zip.$$ $tarball_zip
