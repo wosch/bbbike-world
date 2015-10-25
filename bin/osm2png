@@ -1,7 +1,7 @@
 #!/bin/sh
 # Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
 #
-# osm2png - convert a osm/pbf file to PNG
+# osm2png - convert a osm/pbf file to png
 #
 
 set -e
@@ -28,7 +28,7 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 
 usage () {
    echo "$@"
-   echo "usage file [ osm | google | hiking | wireframe | urbanight ]" # [ title ]
+   echo "usage file [ osm | google | hiking | wireframe | urbanight | cadastre ]" # [ title ]
    exit 1
 }
 
@@ -69,6 +69,7 @@ case "$map_style" in
    hiking )     alias=hiking ;;
    wireframe )  alias=wireframe ;;
    urbanight )  alias=urbanight ;;
+   cadastre )   alias=nakaner/cadastre ;;
     * ) usage "unknown map_style: '$map_style'" ;;
 esac
 
@@ -101,12 +102,26 @@ program="mono --desktop  $BBBIKE_OPT_DIR/$BBBIKE_MAPERITIVE_VERSION/Maperitive.e
 #####################################################################################
 # create config file on the fly
 #
-cat > $config_file <<EOF
-clear-map
-use-ruleset alias=$alias
+etc_dir=$(dirname $0)/../etc/maperitive
+
+echo "clear-map" > $config_file
+
+# local style or standard style?
+case $alias in
+    */* ) alias_file=$etc_dir/$alias.mrules
+          if [ ! -f "$alias_file" ]; then
+              usage "cannot file rule file $alias_file"
+          fi
+          
+          echo "use-ruleset location=$etc_dir/$alias.mrules as-alias=$(basename $alias)" >> $config_file
+          ;;
+    * )   echo "use-ruleset alias=$alias" >> $config_file ;;
+esac
+
+cat >> $config_file <<EOF
 apply-ruleset
 load-source $file
-export-bitmap zoom=$zoom file=$image_file scale=$scale width=16384 height=12288
+export-bitmap zoom=$zoom file=$image_file scale=$scale
 EOF
 
 date=$(date -u)
@@ -126,9 +141,14 @@ fi
 
 ( $MD5 $image_file; $SHA $image_file ) > .checksum.txt.tmp; mv -f .checksum.txt.tmp CHECKSUM.txt
 
-rules_config=$(ls $BBBIKE_OPT_DIR/$BBBIKE_MAPERITIVE_VERSION/Rules | egrep -i "^$alias.mrules$")
-cp $BBBIKE_OPT_DIR/$BBBIKE_MAPERITIVE_VERSION/Rules/$rules_config .
-mv $image_file.georef georef.xml
+# local style
+if [ -n "$alias_file" -a -f "$alias_file" ]; then
+    cp $alias_file .
+# standard style
+else
+    rules_config=$(ls $BBBIKE_OPT_DIR/$BBBIKE_MAPERITIVE_VERSION/Rules | egrep -i "^$alias.mrules$")
+    cp $BBBIKE_OPT_DIR/$BBBIKE_MAPERITIVE_VERSION/Rules/$rules_config .
+fi
 
 cd ..
 

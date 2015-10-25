@@ -61,8 +61,8 @@ usage [ option ] file.osm.pbf
 --mapsforge-osm
 
 --garmin-osm --garmin-cycle --garmin-leisure --garmin-bbbike --garmin-srtm
---svg-google --svg-hiking --svg-osm --svg-urbanight --svg-wireframe
---png-google --png-hiking --png-osm --png-urbanight --png-wireframe
+--svg-google --svg-hiking --svg-osm --svg-urbanight --svg-wireframe --svg-cadastre
+--png-google --png-hiking --png-osm --png-urbanight --png-wireframe --png-cadastre
 
 EOF
 
@@ -108,8 +108,8 @@ case $1 in
 
     --garmin-osm | --garmin-cycle | --garmin-leisure | --garmin-bbbike | --garmin-srtm )
         garmin_style=$(echo $1 | perl -npe 's,.*-',,); shift; compress=garmin ;;
-    --svg-google | --svg-hiking | --svg-osm | --svg-urbanight | --svg-wireframe ) svg_style=$(echo $1 | perl -npe 's,.*-,,'); shift; compress=svg ;;
-    --png-google | --png-hiking | --png-osm | --png-urbanight | --png-wireframe ) png_style=$(echo $1 | perl -npe 's,.*-,,'); shift; compress=png ;;
+    --svg-google | --svg-hiking | --svg-osm | --svg-urbanight | --svg-wireframe | --svg-cadastre ) svg_style=$(echo $1 | perl -npe 's,.*-,,'); shift; compress=svg ;;
+    --png-google | --png-hiking | --png-osm | --png-urbanight | --png-wireframe | --png-cadastre ) png_style=$(echo $1 | perl -npe 's,.*-,,'); shift; compress=png ;;
 
     --mapsforge-osm | --mapsforge ) shift; compress=mapsforge; mapsforge_style=osm ;;
 

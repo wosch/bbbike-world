@@ -1,0 +1,402 @@
+// Author: Nakaner
+// Version: 2013-01-26
+//
+// About this style? 1) A style which is only black and white to be able to add coloured notes.
+//                   2) The style should look like German cadastre plans.
+//                   3) The style is designed for mapping building use and house numbers.
+//                   4) At the moment, this style does not support streets mapped as areas as 
+//                      the cadastre has.
+// Features: buildings and their use, house numbers, streets, street names, waterways
+//
+// Modification history:
+// date         author      summary
+// 2013-01-26   Nakaner     Intitial version
+//
+// Licence: Creative Commons Attribution-ShareAlike 2.0 and newer
+// 
+// Source: http://wiki.openstreetmap.org/w/index.php?title=User:Nakaner/Cadastre_Style
+// Feedback wanted at: http://wiki.openstreetmap.org/wiki/User_talk:Nakaner/Cadastre_Style
+//
+// TODO:
+//   - canals, drains, docks
+//   - topographical features, e.g. trees, fences
+//   - entrances into buildings
+//   - oneways
+//   - steps
+//   - railway bridges
+//   - administrative boundaries
+
+features
+		
+	lines
+
+		//highways mapped as lines
+		highway motorway : highway=motorway OR highway=trunk
+		highway motorway link : highway=motorway_link OR highway=trunk_link
+		highway main : highway=primary OR highway=secondary OR highway=tertiary OR highway=unclassified
+		highway main link : highway=primary_link OR highway=secondary_link
+		highway major : highway=residential OR highway=living_street OR highway=pedestrian
+		highway minor : highway=service
+		highway track : highway=track
+		highway foot : highway=path OR highway=footway OR highway=cycleway
+
+		//water
+		water river : waterway=river
+		water stream : waterway=stream
+		water ditch : waterway=ditch	
+
+		//railways
+		railway tram : railway=tram
+		railway light rail : railway=light_rail
+		railway subway : railway=subway
+		railway rail : (railway=rail OR railway=narrow_gauge) AND NOT tunnel=yes
+		railway rail tunnel : (railway=rail OR railway=narrow_gauge) AND tunnel=yes
+		railway disused : disused=yes
+
+	points
+		address node : node[addr:housenumber]	
+
+	areas
+		water lake : landuse=reservoir OR natural=water
+		water riverbank : waterway=riverbank
+		
+		//buildings
+		building use residential : building=residential OR building=apartments OR building=dormitory OR building=house OR building=terrace OR building=detached
+		building use commercial : building=commercial
+		building use barn : building=barn
+		building use industrial : building=industrial OR ((building=yes) AND (man_made=works))
+		building use warehouse : building=warehouse
+		building use church : bulding=church OR ((amenity=place_of_worship) AND (religion=christian))
+		building use hospital : building=hospital
+		building use school : building=school OR (building=yes AND amenity=school)
+		building use university : building=university OR (building=yes AND amenity=university)
+		building use service : building=service
+		building use hut : building=hut
+		building use farm : building=farm OR bulding=farm_auxiliary
+		building use garage : building=garage OR building=garages
+		building use roof : building=roof
+		building use public : building=public OR building=civic OR (building=yes AND (amenity=townhall OR amenity=community_center))
+		building use retail : (building=retail) OR (shop)
+		building use kindergarten : building=kindergarten OR (building=yes AND amenity=kindergarten)
+		building other: building
+
+properties
+	map-background-color	: #FFFFFF
+	map-background-opacity	: 1
+	map-sea-color : #FFFFFF
+	font-family : Verdana
+	text-max-width : 7
+	text-halo-width : 0%
+	text-align-horizontal : center
+	text-align-vertical : near
+	text-offset-vertical : 0
+	
+rules
+//buildings
+	target : building use*
+		define
+			line-style : solid
+			line-width : 0.5
+			line-color : black
+			line-end-cap : square
+			line-start-cap : square
+		define
+			font-size : 15:4;18:9;20:14
+			min-zoom : 15
+			text-color : black
+			text-halo-width : 2
+			fill-color : black
+			fill-hatch-color : white
+			fill-hatch : vertical
+			text-offset-vertical : 15:-2;18:-4.5;20:-7
+
+		if : *use*	
+			if : *commercial
+				define
+					text : @if([[addr:housenumber]],"Komm" "\n" [[addr:housenumber]], "Komm")
+			elseif : *barn
+				define
+					text : "Wirtg" "\n " [[addr:housenumber]]
+			elseif : *industrial
+				define
+					text : "Fabr" "\n" [[addr:housenumber]]
+			elseif : *warehouse
+				define
+					text : "Lagg" "\n" [[addr:housenumber]]
+			elseif : *church
+				define
+					text : "Kirche" "\n" [[addr:housenumber]]
+			elseif : *hospital
+				define
+					text : "Krhs" "\n" [[addr:housenumber]]
+			elseif : *school
+				define
+					text : "Schule" "\n" [[addr:housenumber]]
+			elseif : *university
+				define
+					text : "Hochsch" "\n" [[addr:housenumber]]
+			elseif : *service
+				define
+					text : "Btrg" "\n" [[addr:housenumber]]
+			elseif : *hut
+				define
+					text : "Hütte" "\n" [[addr:housenumber]]
+			elseif : *farm
+				define
+					text : "Wirtg" "\n" [[addr:housenumber]]
+			elseif : *garage
+				define
+					text : @if([[addr:housenumber]],"Gar" "\n" [[addr:housenumber]], "Gar")
+			elseif : *hangar
+				define
+					text : "Lagg" "\n" [[addr:housenumber]]
+			elseif : *roof
+				define
+					text : "Vord" "\n" [[addr:housenumber]]
+			elseif : *retail
+				define
+					text : "Hand" "\n" [[addr:housenumber]]
+			elseif : *kindergarten
+				define
+					text : "Kiga" "\n" [[addr:housenumber]]
+			elseif : *industrial
+				define
+					text : "Fabr" "\n" [[addr:housenumber]]
+			elseif : *residential
+				define
+					fill-hatch : swne
+					text : [[addr:housenumber]]
+			else
+				define
+					text : [[addr:housenumber]]
+		
+		draw : line
+		draw : fill
+		draw : text
+
+	target : building other
+		define
+			line-style : solid
+			line-color : black
+			line-width : 0.5
+			line-end-cap : square
+			line-start-cap : square
+			font-size : 15:4;18:10;20:14
+			min-zoom : 15
+			text-color : black
+			text-halo-width : 2
+			text-offset-vertical : 15:-2;18:-4.5;20:-7
+			text : [[addr:housenumber]]
+		draw : line
+		draw : text
+
+//adresses
+	target : address node
+		define
+			font-size : 15:4;18:8.5;20:11
+			min-zoom : 15
+			text : [[addr:housenumber]]
+			text-color : black
+			text-halo-width : 0
+		draw : text
+
+//streets
+	target : highway*
+		define
+			text : name
+			text-color : black
+			font-weight : bold
+			text-halo-width : 0
+			font-size : 15:3.5;17:5;18:8;20:11
+		if : *motorway*
+			define
+				line-end-cap : round
+				line-start-cap : round
+				line-color : #B9B9B9
+				line-width : 15:7;17:9;18:14;20:20
+				border-color : #3C3C3C
+				border-width : 21%
+				border-style : solid
+			for : bridge=yes
+				define
+					border-width : 35%
+					border-color : black
+			if : *link
+				define
+					line-width : 15:5;17:6.5;18:9;20:14
+		elseif : *main*
+			define
+				line-end-cap : round
+				line-start-cap : round
+				line-color : #B9B9B9
+				line-width : 15:5.5;17:7;18:11;20:16
+				border-color : #585858
+				border-width : 21%
+				border-style : solid
+			for : bridge=yes
+				define
+					border-width : 35%
+					border-color : black
+			if : *link
+				define
+					line-width : 15:4;17:5;18:8;20:12
+
+		elseif : *major
+			define
+				line-end-cap : round
+				line-start-cap : round
+				min-zoom : 12
+				line-color : #C3C3C3
+				line-width : 15:5;17:6.5;18:9.5;20:14
+				border-color : #585858
+				border-width : 12%
+				border-style : solid
+			for : bridge=yes
+				define
+					border-width : 35%
+					border-color : black
+		elseif : *minor
+			define
+				line-end-cap : round
+				line-start-cap : round
+				min-zoom : 15
+				line-color : #CFCFCF
+				line-width : 15:3;17:5.2;18:7.5;20:10
+				border-color : #585858
+				border-width : 7%
+				border-style : solid
+			for : bridge=yes
+				define
+					border-width : 35%
+					border-color : black
+	
+		elseif : *track
+			define
+				line-end-cap : round
+				line-start-cap : round
+				min-zoom : 15
+				line-color : #E9E9E9
+				line-width : 15:3;17:5.2;18:7.5;20:10
+				border-color : #585858
+				border-width : 7%
+				border-style : solid
+			for : bridge=yes
+				define
+					border-width : 35%
+					border-color : black
+		elseif : *foot
+			define
+				line-end-cap : round
+				line-start-cap : round
+				min-zoom : 15
+				line-color : #D3D3D3
+				line-width : 15:1.8;17:4;18:6.2;20:7
+			for : bridge=yes
+				define
+					border-width : 35%
+					border-color : black
+		else
+			stop
+		
+		for : tunnel=yes OR tunnel=passage OR covered=yes
+			define
+				line-style : dot
+				line-end-cap : none
+				line-start-cap : none
+				border-style : none
+		draw : line
+		draw : text
+
+//railways
+	target : railway*
+		if : *disused
+			stop
+		else
+		define
+			line-end-cap : none
+			line-start-cap : none
+		if : *rail
+			define
+				line-width : 15:3;17:4.5;18:7;20:9.7
+				line-color : black
+				border-color : black
+			draw : line
+			define
+				line-color : #F2F2F2
+				line-style : dashlong
+			draw : line
+		elseif : *rail tunnel
+			define
+				line-width : 15:3;17:4.5;18:7;20:9.7
+				line-color : black
+			draw : line
+			define
+				line-color : white
+				line-style : dashlong
+			draw : line
+			define
+				line-color : white
+				line-style : dot
+			draw : line
+		else
+			for : tunnel=yes
+				define
+					line-style : dot
+			if : *tram
+				define
+					line-width : 15:3;17:4;18:5.5;20:8
+					line-color : black
+				draw : line
+			elseif : *light rail
+				define
+					line-width : 15:3;17:4;18:5.5;20:8
+					line-color : black
+				draw : line
+			elseif : *subway
+				define
+					line-width : 15:3;17:4;18:5.5;20:8
+					line-color : black
+				draw : line
+		for : tunnel=yes
+			define
+				line-style : dot
+				line-end-cap : none
+				line-start-cap : none
+				border-style : none
+//water
+	target : water*
+		define
+			text : name
+			text-color : white
+			font-weight : bold
+			line-end-cap : round
+			line-start-cap : round
+		for : tunnel=yes OR culvert=yes
+			define
+				line-style : dot
+				line-end-cap : none
+				line-start-cap : none
+		if : *stream
+			define
+				line-width : 15:4;17:6;18:8.5;20:12
+				line-color : #666666
+				font-size : 15:2;17:4;18:6;20:8.5
+		elseif : *river
+			define
+				line-width : 15:7;17:9;18:11.5;20:17
+				line-color : #666666
+				font-size : 15:5.5;17:7.5;18:10;20:15
+		elseif : *riverbank
+			define
+				fill-color : #666666
+				fill-hatch : solid
+				line-style : none
+			draw : fill
+		elseif : *lake
+			define
+				fill-color : #666666
+				fill-hatch : solid
+				line-style : none
+			draw : fill
+		draw : line
+		draw : text
