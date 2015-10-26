@@ -32,7 +32,7 @@
          "en fonction de la taille de la zone et la charge du système.",
             "Un courrier électronique vous sera envoyé lorsque votre extrait sera prêt pour le téléchargement.",
             "Veuillez suivre les instructions dans le courriel pour récupérer votre extrait.</p>",
-            "<p align='left'> Superficie : '%s' couvre %s kilomètres carrés <br/> %s",
+            "<p align='left'> Superficie : '%s' couvre %s kilomètres carrés <br/>",
             "Coordonnées : %s <br/>",
             "Format : %s",
             "</p>",
