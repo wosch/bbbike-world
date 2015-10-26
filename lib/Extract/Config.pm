@@ -57,12 +57,12 @@ our $formats = {
     'mapsforge-osm.zip' => "Mapsforge OSM",
 
     'srtm-europe.osm.pbf'         => 'SRTM Europe PBF (25m)',
-    'srtm-europe.osm.xz'          => 'SRTM Europe XML 7z (25m)',
+    'srtm-europe.osm.xz'          => 'SRTM Europe OSM XML 7z (25m)',
     'srtm-europe.garmin-srtm.zip' => 'SRTM Europe Garmin (25m)',
     'srtm-europe.obf.zip'         => 'SRTM Europe Osmand (25m)',
 
     'srtm.osm.pbf'         => 'SRTM World PBF (40m)',
-    'srtm.osm.xz'          => 'SRTM World XML 7z (40m)',
+    'srtm.osm.xz'          => 'SRTM World OSM XML 7z (40m)',
     'srtm.garmin-srtm.zip' => 'SRTM World Garmin (40m)',
     'srtm.obf.zip'         => 'SRTM World Osmand (40m)',
 
