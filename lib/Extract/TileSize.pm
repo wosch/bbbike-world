@@ -27,7 +27,7 @@ use constant {
     FRACTAL_REAL => 2
 };
 
-our $debug     = 0;
+our $debug     = 1;
 our $use_cache = 1;
 
 # default size if the coordinates are not in the database
@@ -132,6 +132,7 @@ sub factor_format {
         /
       )
     {
+
         if (   exists $tile->{'factor'}->{$format}
             && exists $tile->{'factor'}->{$ext} )
         {

@@ -106,14 +106,20 @@ var config = {
         "o5m.gz": "/images/o5m.png",
 
         "osm.pbf": "/images/pbf.png",
+
         "srtm-europe.osm.pbf": "/images/pbf.png",
+        "srtm-europe.osm.xz": "/images/osm.png",
+
         "srtm.osm.pbf": "/images/pbf.png",
+        "srtm.osm.xz": "/images/osm.png",
 
         "mapsforge-osm.zip": "/images/mapsforge-small.png",
         "navit.zip": "/images/navit-small.png",
         "obf.zip": "/images/osmand-small.png",
+
         "srtm-europe.garmin-srtm.zip": "/images/garmin-srtm-800.png",
         "srtm.garmin-srtm.zip": "/images/garmin-srtm-1200.png",
+
         "srtm-europe.obf.zip": "/images/osmand-lago-contours-small.png",
         "srtm.obf.zip": "/images/osmand-lago-contours-small.png"
     },
@@ -1404,6 +1410,11 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "size": 1,
             "time": 0.2
         },
+        "srtm-europe.osm.xz": {
+            "planet": 0.3,
+            "size": 1.8,
+            "time": 0.2
+        },
         "srtm-europe.garmin-srtm.zip": {
             "planet": 0.3,
             "size": 1.3,
@@ -1416,6 +1427,10 @@ function show_filesize(skm, real_size, sub_planet_factor) {
         },
         "srtm.osm.pbf": {
             "size": 1,
+            "time": 1
+        },
+        "srtm.osm.xz": {
+            "size": 1.8,
             "time": 1
         },
         "srtm.garmin-srtm.zip": {
