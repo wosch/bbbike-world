@@ -699,9 +699,9 @@ cache-gc:
 rotate-data-osm:
 	${RM_BG} ${DATA_OSM_DIR}.old2
 	${RM_BG} ${DATA_OSM_BBBIKE_DIR}.old2
-	-test -e ${DATA_OSM_DIR}.old && mv ${DATA_OSM_DIR}.old ${DATA_OSM_DIR}.old2
+	#-test -e ${DATA_OSM_DIR}.old && mv ${DATA_OSM_DIR}.old ${DATA_OSM_DIR}.old2
 	-test -e ${DATA_OSM_DIR}     && mv ${DATA_OSM_DIR}     ${DATA_OSM_DIR}.old
-	-test -e ${DATA_OSM_BBBIKE_DIR}.old && mv ${DATA_OSM_BBBIKE_DIR}.old ${DATA_OSM_BBBIKE_DIR}.old2
+	#-test -e ${DATA_OSM_BBBIKE_DIR}.old && mv ${DATA_OSM_BBBIKE_DIR}.old ${DATA_OSM_BBBIKE_DIR}.old2
 	-test -e ${DATA_OSM_BBBIKE_DIR}     && mv ${DATA_OSM_BBBIKE_DIR}     ${DATA_OSM_BBBIKE_DIR}.old
 	if [ -e ${DATA_OSM_BBBIKE_DIR}.old ]; then \
 		find ${DATA_OSM_BBBIKE_DIR}.old -type f ! -name '*.gz' -print0 | ${XARGS} -0 ${GZIP} # gzip old files \
@@ -711,7 +711,7 @@ rotate-data-osm:
 
 rotate-osm:
 	${RM_BG} ${OSM_DIR}.old2
-	-test -e ${OSM_DIR}.old  && mv ${OSM_DIR}.old  ${OSM_DIR}.old2
+	#-test -e ${OSM_DIR}.old  && mv ${OSM_DIR}.old  ${OSM_DIR}.old2
 	-test -e ${OSM_DIR}      && mv ${OSM_DIR}      ${OSM_DIR}.old
 	mkdir -p ${OSM_DIR}
 	touch ${OSM_DIR}/.gitkeep
