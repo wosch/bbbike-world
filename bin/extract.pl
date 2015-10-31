@@ -1304,8 +1304,8 @@ sub _convert_send_email {
     my @nice = ( "nice", "-n", $nice_level_converter );
     my $time = time();
 
-    if ( $format =~ /^osm\.(xz|gz|bz2)$/ ) {
-        my $ext = $1;
+    if ( $format =~ /^(srtm\.|srtm-europe\.)?osm\.(xz|gz|bz2)$/ ) {
+        my $ext = $2;
         $file =~ s/\.pbf$/.$ext/;
         if ( !cached_format( $file, $pbf_file ) ) {
 

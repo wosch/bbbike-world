@@ -57,10 +57,12 @@ our $formats = {
     'mapsforge-osm.zip' => "Mapsforge OSM",
 
     'srtm-europe.osm.pbf'         => 'SRTM Europe PBF (25m)',
+    'srtm-europe.osm.xz'          => 'SRTM Europe OSM XML 7z (25m)',
     'srtm-europe.garmin-srtm.zip' => 'SRTM Europe Garmin (25m)',
     'srtm-europe.obf.zip'         => 'SRTM Europe Osmand (25m)',
 
     'srtm.osm.pbf'         => 'SRTM World PBF (40m)',
+    'srtm.osm.xz'          => 'SRTM World OSM XML 7z (40m)',
     'srtm.garmin-srtm.zip' => 'SRTM World Garmin (40m)',
     'srtm.obf.zip'         => 'SRTM World Osmand (40m)',
 
@@ -104,9 +106,10 @@ our $formats_menu = {
     'srtm' => {
         'title'   => "Elevation (SRTM)",
         'formats' => [
-            'srtm-europe.osm.pbf',  'srtm-europe.garmin-srtm.zip',
-            'srtm-europe.obf.zip',  'srtm.osm.pbf',
-            'srtm.garmin-srtm.zip', 'srtm.obf.zip'
+            'srtm-europe.osm.pbf',         'srtm-europe.osm.xz',
+            'srtm-europe.garmin-srtm.zip', 'srtm-europe.obf.zip',
+            'srtm.osm.pbf',                'srtm.osm.xz',
+            'srtm.garmin-srtm.zip',        'srtm.obf.zip'
         ]
     }
 };
@@ -130,6 +133,8 @@ our $planet_osm = {
 
     'srtm-europe.osm.pbf' =>
       '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
+    'srtm-europe.osm.xz' =>
+      '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
     'srtm-europe.garmin-srtm.zip' =>
       '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
     'srtm-europe.obf.zip' =>
@@ -138,6 +143,7 @@ our $planet_osm = {
       '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
 
     'srtm.osm.pbf'           => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
+    'srtm.osm.xz'            => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
     'srtm.garmin-srtm.zip'   => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
     'srtm.obf.zip'           => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
     'srtm.mapsforge-osm.zip' => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
@@ -203,10 +209,12 @@ our $tile_format = {
     "opl.xz" => "pbf",
 
     "srtm-europe.osm.pbf"         => "srtm-europe.pbf",
+    "srtm-europe.osm.xz"          => "srtm-europe.pbf",
     "srtm-europe.garmin-srtm.zip" => "srtm-europe.garmin-srtm.zip",
     "srtm-europe.obf.zip"         => "srtm-europe.obf.zip",
 
     "srtm.osm.pbf"         => "srtm-pbf",
+    "srtm.osm.xz"          => "srtm-pbf",
     "srtm.garmin-srtm.zip" => "srtm-garmin-srtm.zip",
     "srtm.obf.zip"         => "srtm-obf.zip",
 };
