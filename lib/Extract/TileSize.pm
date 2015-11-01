@@ -75,13 +75,21 @@ our $factor = {
     'osm.gz'  => 1.93,
     'osm.xz'  => 1.8,
     'shp.zip' => 1.5,
-    'pbf'     => 1,
 
     'csv.xz'  => 0.50,
     'csv.gz'  => 1.01,
     'csv.bz2' => 0.80,
 
     'opl.xz' => 1.30,
+
+    # pseudo extension
+    'pbf'             => 1,
+    'srtm-pbf'        => 1,
+    'srtm-europe-pbf' => 1,
+
+    # SRTM
+    'srtm.osm.xz'        => 1.801,
+    'srtm-europe.osm.xz' => 1.802,
 };
 
 sub new {
@@ -120,25 +128,16 @@ sub factor_format {
     my $factor_format = 1;
     my $tile          = $self;
 
-    if (
-        grep { $_ eq $format }
-        qw/
-        csv.gz csv.xz
-        opl.xz
-        osm.bz2 osm.xz o5m.bz2 o5m.gz o5m.xz
-        garmin-leisure.zip garmin-bbbike.zip garmin-cycle.zip
-        svg-google.zip svg-hiking.zip svg-osm.zip svg-urbanight.zip svg-wireframe.zip svg-cadastre.zip
-        png-google.zip png-hiking.zip png-osm.zip png-urbanight.zip png-wireframe.zip png-cadastre.zip
-        /
-      )
+    if (   exists $tile->{'factor'}->{$format}
+        && exists $tile->{'factor'}->{$ext} )
     {
-
-        if (   exists $tile->{'factor'}->{$format}
-            && exists $tile->{'factor'}->{$ext} )
-        {
-            $factor_format =
-              $tile->{'factor'}->{$format} / $tile->{'factor'}->{$ext};
-        }
+        $factor_format =
+          $tile->{'factor'}->{$format} / $tile->{'factor'}->{$ext};
+        warn "got factor_format for: $format -> $ext, value: $factor_format\n"
+          if $debug;
+    }
+    else {
+        warn "no matching factor format: $format, ext: $ext\n" if $debug;
     }
 
     return $factor_format;

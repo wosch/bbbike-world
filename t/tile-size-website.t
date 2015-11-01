@@ -35,7 +35,7 @@ my $factor_tile_size = $Extract::TileSize::factor;
 plan tests => scalar( keys %$formats ) *
   scalar(@homepages) *
   ( $test->myget_counter + 2 ) +
-  ( ( scalar( keys %$factor_tile_size ) - 1 ) * 2 );
+  ( ( scalar( keys %$factor_tile_size ) - 3 ) * 2 );
 
 #plan 'no_plan';
 
@@ -45,7 +45,9 @@ sub factor_check {
     my $factor = $factor_tile_size;
 
     foreach my $f ( keys %$factor ) {
-        next if $f eq 'pbf';
+
+        # basic planet factor types
+        next if grep { $_ eq $f } qw/pbf srtm-pbf srtm-europe-pbf/;
 
         cmp_ok( $factor->{$f}, '!=', 1,
             "format $f should not have size of $factor->{$f}" );

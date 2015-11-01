@@ -208,10 +208,10 @@ our $tile_format = {
 
     "opl.xz" => "pbf",
 
-    "srtm-europe.osm.pbf"         => "srtm-europe.pbf",
-    "srtm-europe.osm.xz"          => "srtm-europe.pbf",
-    "srtm-europe.garmin-srtm.zip" => "srtm-europe.garmin-srtm.zip",
-    "srtm-europe.obf.zip"         => "srtm-europe.obf.zip",
+    "srtm-europe.osm.pbf"         => "srtm-europe-pbf",
+    "srtm-europe.osm.xz"          => "srtm-europe-pbf",
+    "srtm-europe.garmin-srtm.zip" => "srtm-europe-garmin-srtm.zip",
+    "srtm-europe.obf.zip"         => "srtm-europe-obf.zip",
 
     "srtm.osm.pbf"         => "srtm-pbf",
     "srtm.osm.xz"          => "srtm-pbf",

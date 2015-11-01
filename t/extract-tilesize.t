@@ -240,16 +240,16 @@ my $size = Extract::TileSize::FRACTAL_REAL;
 
 # elevation test
 $tile = new Extract::TileSize(
-    'database' => "world/etc/tile/tile-srtm-europe.pbf.csv" );
+    'database' => "world/etc/tile/tile-srtm-europe-pbf.csv" );
 is( int( $tile->area_size(qw/13 52 14 53/) ), 396 );
 is( int( $tile->area_size( 6.148, 45.955, 11.778, 49.371, $size ) ), 82392 );
 $tile = new Extract::TileSize(
-    'database' => "world/etc/tile/tile-srtm-europe.obf.zip.csv" );
+    'database' => "world/etc/tile/tile-srtm-europe-obf.zip.csv" );
 is( int( $tile->area_size(qw/13 52 14 53/) ), 554 );
 is( int( $tile->area_size( 6.148, 45.955, 11.778, 49.371, $size ) ), 159617 );
 
 $tile = new Extract::TileSize(
-    'database' => "world/etc/tile/tile-srtm-europe.garmin-srtm.zip.csv" );
+    'database' => "world/etc/tile/tile-srtm-europe-garmin-srtm.zip.csv" );
 is( int( $tile->area_size(qw/13 52 14 53/) ), 515 );
 is( int( $tile->area_size( 6.148, 45.955, 11.778, 49.371, $size ) ), 115754 );
 
