@@ -116,7 +116,7 @@ else {
     $ext = $tile_format->{"pbf"};
 }
 
-my $database_file = "../world/etc/tile/tile-$ext.csv";
+my $database_file = "../world/etc/tile/$ext.csv";
 my $tile          = Extract::TileSize->new( 'database' => $database_file );
 my $factor_format = $tile->factor_format( $format, $ext );
 

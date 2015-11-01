@@ -98,7 +98,7 @@ sub new {
     my $self = {
         'debug'    => $debug,
         'format'   => 'pbf',
-        'database' => 'world/etc/tile/tile-test.csv',
+        'database' => 'world/etc/tile/test.csv',
         'factor'   => $factor,
         'tmpdir'   => '/var/tmp',
         '_size'    => {},
