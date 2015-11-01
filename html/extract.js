@@ -18,6 +18,7 @@ var config = {
 
     // city name required
     "city_name_optional": false,
+    "city_name_check": true,
 
     // box must be on map before submit
     "box_on_map": true,
@@ -807,6 +808,16 @@ function checkform() {
             continue;
         }
 
+        // catch email addresses in city name - a typical user mistake
+        if (config.city_name_check && e.name == "city") {
+            if (e.value && e.value.match(/\w+@.+\.\w+$/)) {
+                $("input#city").val("");
+                e.style.background = color_error;
+                ret = 5;
+                continue;
+            }
+        }
+
         if (e.name == "sw_lat" || e.name == "sw_lng" || e.name == "ne_lat" || e.name == "ne_lng") {
             if (e.name.match(/_lat/) ? !check_lat(e.value) : !check_lng(e.value)) {
                 e.style.background = color_error;
@@ -832,7 +843,7 @@ function checkform() {
         alert(M("Please create a bounding box first!"));
         ret = 3;
     } else if (ret > 0) {
-        alert(ret == 1 ? M("Please fill out all fields!") : M("Please use a smaller area! Max size: ") + max_size + "MB");
+        alert(ret == 1 ? M("Please fill out all fields!") : ret == 5 ? M("Please do not use an e-mail address as name, it will be public") : M("Please use a smaller area! Max size: ") + max_size + "MB");
     } else if (config.box_on_map) {
         if (!validate_box_on_map()) {
             alert(M("The bounding box is outside of the map. Please move back to the box, or >>Select a different<< area on the map"));
@@ -1662,7 +1673,10 @@ function init_dialog_window() {
     }).draggable();
 }
 
-/* localized messages */
+/*
+ * localized messages
+ * XXX: not implemented yet.
+*/
 
 function M(message) {
     return message;
