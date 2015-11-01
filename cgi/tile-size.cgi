@@ -158,7 +158,7 @@ my $sub_planet_path = $sub_planet->{'sub_planet_path'};
 $sub_planet_path =~ s,.*?/([^/]+/+[^/]+)$,$1,;
 
 warn
-"size: $size, factor $factor, format: $format, ext: $ext, factor_format: $factor_format, ",
+"size: $size, param factor $factor, format: $format, ext: $ext, factor_format: $factor_format, ",
   "area: $sw_lng,$sw_lat,$ne_lng,$ne_lat",
   ", sub_planet_path: $sub_planet_path", "\n"
   if $debug >= 1;
