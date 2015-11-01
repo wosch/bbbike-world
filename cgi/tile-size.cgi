@@ -112,6 +112,7 @@ if ( $format && $tile_format->{$format} ) {
     $ext = $tile_format->{$format};
 }
 else {
+    warn "fall back to PBF tile database\n" if $debug;
     $ext = $tile_format->{"pbf"};
 }
 
@@ -159,6 +160,7 @@ $sub_planet_path =~ s,.*?/([^/]+/+[^/]+)$,$1,;
 
 warn
 "size: $size, param factor $factor, format: $format, ext: $ext, factor_format: $factor_format, ",
+  "database_file: $database_file, ",
   "area: $sw_lng,$sw_lat,$ne_lng,$ne_lat",
   ", sub_planet_path: $sub_planet_path", "\n"
   if $debug >= 1;
