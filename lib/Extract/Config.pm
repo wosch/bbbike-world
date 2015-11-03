@@ -154,21 +154,21 @@ our $planet_osm = {
 #
 # available databases:
 #
-# world/etc/tile/tile-csv.xz.csv
-# world/etc/tile/tile-garmin-osm.zip.csv
-# world/etc/tile/tile-mapsforge-osm.zip.csv
-# world/etc/tile/tile-navit.zip.csv
-# world/etc/tile/tile-obf.zip.csv
-# world/etc/tile/tile-osm.gz.csv
-# world/etc/tile/tile-pbf.csv
-# world/etc/tile/tile-shp.zip.csv
-# world/etc/tile/tile-srtm-europe.garmin-srtm.zip.csv
-# world/etc/tile/tile-srtm-europe.obf.zip.csv
-# world/etc/tile/tile-srtm-europe.pbf.csv
-# world/etc/tile/tile-srtm-garmin-srtm.zip.csv
-# world/etc/tile/tile-srtm-obf.zip.csv
-# world/etc/tile/tile-srtm-pbf.csv
-# world/etc/tile/tile-test.csv
+# world/etc/tile/csv.xz.csv
+# world/etc/tile/garmin-osm.zip.csv
+# world/etc/tile/mapsforge-osm.zip.csv
+# world/etc/tile/navit.zip.csv
+# world/etc/tile/obf.zip.csv
+# world/etc/tile/osm.gz.csv
+# world/etc/tile/pbf.csv
+# world/etc/tile/shp.zip.csv
+# world/etc/tile/srtm-europe.garmin-srtm.zip.csv
+# world/etc/tile/srtm-europe.obf.zip.csv
+# world/etc/tile/srtm-europe.pbf.csv
+# world/etc/tile/srtm-garmin-srtm.zip.csv
+# world/etc/tile/srtm-obf.zip.csv
+# world/etc/tile/srtm-pbf.csv
+# world/etc/tile/test.csv
 #
 # all others must be matched to a known database
 #

@@ -63,7 +63,7 @@ sub init {
         $debug = $self->{'debug'};
     }
 
-    $self->{'database'} = "world/etc/tile/tile-pbf.csv";
+    $self->{'database'} = "world/etc/tile/pbf.csv";
 }
 
 #

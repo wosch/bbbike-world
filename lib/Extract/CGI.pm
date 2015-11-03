@@ -60,7 +60,7 @@ sub init {
     $option = $self->{'option'} if $self->{'option'};
 
     $self->{'formats'}  = $Extract::Config::formats;
-    $self->{'database'} = "world/etc/tile/tile-pbf.csv";
+    $self->{'database'} = "world/etc/tile/pbf.csv";
 
     $self->{'locale'} = BBBike::Locale->new(
         'q'                   => $self->{'q'},
