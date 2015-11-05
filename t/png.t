@@ -2,6 +2,11 @@
 # Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
+    print "1..0 # skip due problems with Maperitive\n";
+    exit;
+}
+
+BEGIN {
     my $display = $ENV{BBBIKE_MAPERITIVE_DISPLAY} || $ENV{DISPLAY} || ":200";
     my $display_number = $display;
     $display_number =~ s,^:,,;
