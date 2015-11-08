@@ -1324,7 +1324,9 @@ git-pull: git-pull-world
 	git pull
 
 git-pull-world:
-	cd world; git pull
+	cd world; \
+	 git checkout html/bbbike-js.js; \
+	 git pull
 
 git-diff diff: git-diff-world
 	git diff
