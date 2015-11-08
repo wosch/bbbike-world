@@ -2,9 +2,9 @@
 #
 # Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
 #
-# BBBike::Locale.pm - translations
+# Extract::Locale.pm - translations
 
-package BBBike::Locale;
+package Extract::Locale;
 
 use CGI qw/-utf-8 unescape escapeHTML/;
 use CGI::Carp;

@@ -15,7 +15,7 @@ use Getopt::Long;
 use lib qw(./world/bin ../world/bin ../bin);
 use lib qw(../world/lib ../lib);
 use BBBike::WorldDB;
-use BBBike::Locale;
+use Extract::Locale;
 use BBBike::Analytics;
 
 use strict;
@@ -46,7 +46,7 @@ my $checksum_file = 'CHECKSUM.txt';
 # EOF config
 ###########################################################################
 
-sub M { return BBBike::Locale::M(@_); };    # wrapper
+sub M { return Extract::Locale::M(@_); };    # wrapper
 
 my $q = new CGI;
 if ( defined $q->param('debug') ) {
@@ -129,7 +129,7 @@ sub download_area {
     #die system("pwd > /tmp/a.pwd");
     my $dir = "$osm_dir/$city/";
 
-    my $locale = BBBike::Locale->new( 'q' => $q );
+    my $locale = Extract::Locale->new( 'q' => $q );
     print $locale->language_links( 'with_separator' => 1 );
 
     my $data = <<EOF;

@@ -12,7 +12,7 @@ use JSON;
 use Email::Valid;
 
 use lib qw(world/lib);
-use BBBike::Locale;
+use Extract::Locale;
 use BBBike::Analytics;
 use Extract::Config;
 use Extract::Poly;
@@ -62,7 +62,7 @@ sub init {
     $self->{'formats'}  = $Extract::Config::formats;
     $self->{'database'} = "world/etc/tile/pbf.csv";
 
-    $self->{'locale'} = BBBike::Locale->new(
+    $self->{'locale'} = Extract::Locale->new(
         'q'                   => $self->{'q'},
         'supported_languages' => $option->{'supported_languages'},
         'language'            => $option->{'language'}
@@ -1021,7 +1021,7 @@ sub export_osm {
 EOF
 }
 
-sub M { return BBBike::Locale::M(@_); };    # wrapper
+sub M { return Extract::Locale::M(@_); };    # wrapper
 
 1;
 

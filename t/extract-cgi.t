@@ -5,7 +5,7 @@ use Test::More;
 use Data::Dumper;
 
 use lib qw(world/lib);
-use BBBike::Locale;
+use Extract::Locale;
 use Extract::Config;
 use Extract::CGI;
 
@@ -23,11 +23,11 @@ our $option = {
     'pro'                 => 0,
     'debug'               => "2",
     'request_method'      => "GET",
-    'supported_languages' => $BBBike::Locale::option->{"supported_languages"},
-    'language'            => $BBBike::Locale::option->{"language"},
+    'supported_languages' => $Extract::Locale::option->{"supported_languages"},
+    'language'            => $Extract::Locale::option->{"language"},
 };
 
-$BBBike::Locale::option->{"message_path"} = "./world/etc/extract";
+$Extract::Locale::option->{"message_path"} = "./world/etc/extract";
 
 sub cgi {
     my $q = shift;

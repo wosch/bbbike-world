@@ -16,7 +16,7 @@ use HTTP::Date;
 use lib qw[../world/lib ../lib];
 use Extract::Config;
 use Extract::Utils;
-use BBBike::Locale;
+use Extract::Locale;
 use BBBike::Analytics;
 
 use strict;
@@ -74,7 +74,7 @@ my $spool   = $Extract::Config::spool;
 # EOF config
 ###########################################################################
 
-sub M            { return BBBike::Locale::M(@_); };            # wrapper
+sub M            { return Extract::Locale::M(@_); };            # wrapper
 sub file_size_mb { return $extract_utils->file_size_mb(@_) }
 
 # extract areas from trash can
@@ -578,7 +578,7 @@ sub filter_date {
 #
 sub download {
     my $q = shift;
-    my $locale = BBBike::Locale->new( 'q' => $q );
+    my $locale = Extract::Locale->new( 'q' => $q );
 
     download_header($q);
     my @filter_date = qw/1h 3h 6h 12h 24h 36h 48h 72h all/;

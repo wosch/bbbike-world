@@ -42,8 +42,8 @@ our $option = {
     'debug'          => "2",
     'request_method' => "GET",
 
-    'supported_languages' => $BBBike::Locale::option->{"supported_languages"},
-    'language'            => $BBBike::Locale::option->{"language"},
+    'supported_languages' => $Extract::Locale::option->{"supported_languages"},
+    'language'            => $Extract::Locale::option->{"language"},
 
     'pro' => 0,
 

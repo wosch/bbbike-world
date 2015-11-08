@@ -5,7 +5,7 @@ use CGI;
 use Test::More;
 
 use lib './world/lib';
-use BBBike::Locale;
+use Extract::Locale;
 
 use strict;
 use warnings;
@@ -14,15 +14,15 @@ plan tests => 5;
 my $debug = 0;
 
 # wrapper
-sub M { return BBBike::Locale::M(@_); }
+sub M { return Extract::Locale::M(@_); }
 
 # adjust path for regression tests
-$BBBike::Locale::option->{"message_path"} = "./world/etc/extract";
+$Extract::Locale::option->{"message_path"} = "./world/etc/extract";
 
 ##########################################################################
 # standard english
 my $q = new CGI;
-my $locale = BBBike::Locale->new( 'q' => $q );
+my $locale = Extract::Locale->new( 'q' => $q );
 
 isnt( $locale, undef, "locale class is success" );
 is( M("help"),   "help",   "en:help" );
@@ -32,7 +32,7 @@ is( M("foobar"), "foobar", "en:foobar" );
 # German
 my $qq = new CGI;
 $qq->param( "lang", "de" );
-$locale = BBBike::Locale->new( 'q' => $qq );
+$locale = Extract::Locale->new( 'q' => $qq );
 
 is( M("help"),   "hilfe",  "de:hilfe" );
 is( M("foobar"), "foobar", "de:foobar" );

@@ -7,7 +7,7 @@ use lib qw(./world/lib ../lib);
 use Test::More::UTF8;
 
 #use BBBike::Test;
-use BBBike::Locale;
+use Extract::Locale;
 use File::stat;
 
 #our $option = {
@@ -17,7 +17,7 @@ use File::stat;
 #};
 
 my @lang         = qw/en de es fr ru/;
-my $message_path = $BBBike::Locale::option->{'message_path'};
+my $message_path = $Extract::Locale::option->{'message_path'};
 $message_path =~ s,^\.\./,,;
 
 # formats with a *.zip tarball
