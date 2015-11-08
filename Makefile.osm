@@ -1056,7 +1056,7 @@ tile-rsync:
 data-distclean distclean-data:
 	rm -f data/*.lock data/*.inx[456] data/*.st
 	rm -rf ${TMP_DIR}
-	rm -f  /bbbike/tmp/bbbike_*
+	rm -f /bbbike/tmp/bbbike_*
 
 # for errors look in ./tile/tmp
 tile: tile-extract tile-convert tile-csv #tile-aws-s3
