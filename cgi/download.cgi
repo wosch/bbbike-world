@@ -74,7 +74,7 @@ my $spool   = $Extract::Config::spool;
 # EOF config
 ###########################################################################
 
-sub M            { return Extract::Locale::M(@_); };            # wrapper
+sub M            { return Extract::Locale::M(@_); };           # wrapper
 sub file_size_mb { return $extract_utils->file_size_mb(@_) }
 
 # extract areas from trash can
