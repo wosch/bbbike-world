@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
 #
 # extract-watermark - check if extract service is healthy
 #
@@ -28,5 +28,12 @@ if [ $(ls $failed | wc -l) -gt 0 ]; then
 fi
 
 # checked for failed running processes in run queue
-( cd $running && find . -cmin +400 ! -name . -print )
+# should not happens in production
+# only during development/tests
+if [ $(cd $running && find . -cmin +400 ! -name . -print | wc -l) -gt 0 ]; then
+    echo "stale running processes"
+    egrep bbbike /etc/hosts
+    echo ""
+    ( cd $running && find . -cmin +400 ! -name . -print )
+fi
 
