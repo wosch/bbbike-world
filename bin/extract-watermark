@@ -31,9 +31,10 @@ fi
 # should not happens in production
 # only during development/tests
 if [ $(cd $running && find . -cmin +400 ! -name . -print | wc -l) -gt 0 ]; then
-    echo "stale running processes"
-    egrep bbbike /etc/hosts
+    echo "stale running processes: "
     echo ""
     ( cd $running && find . -cmin +400 ! -name . -print )
+    echo ""
+    egrep bbbike /etc/hosts
 fi
 
