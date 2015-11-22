@@ -59,7 +59,7 @@ sub convert_format {
         'lang'        => $lang,
         'pbf_file'    => $pbf_file,
         'format'      => $format,
-        'format_name' => $format_name
+        'format_name' => $format_name    # real format name in README.txt
     );
     my $city = $test->init_cusco;
 
@@ -94,7 +94,7 @@ if ( !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG} ) {
 }
 
 foreach my $lang (@lang) {
-    $counter += &convert_format( $lang, 'omim', 'Maps.me' );
+    $counter += &convert_format( $lang, 'omim', 'maps.me' );
 }
 
 plan tests => 1 + $counter;

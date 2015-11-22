@@ -82,6 +82,7 @@ sub init_env {
             'mapsforge_version'  => 'mapsforge-0.4.3',
             'navit_version'      => 'maptool-0.5.0~svn5126',
             'shape_version'      => 'osmium2shape-1.0',
+            'omim_version'       => 'omim-1.0',
         }
     };
 
@@ -95,6 +96,7 @@ sub init_env {
       $option->{pbf2osm}->{mapsforge_version};
     $ENV{'BBBIKE_EXTRACT_NAVIT_VERSION'} = $option->{pbf2osm}->{navit_version};
     $ENV{'BBBIKE_EXTRACT_SHAPE_VERSION'} = $option->{pbf2osm}->{shape_version};
+    $ENV{'BBBIKE_EXTRACT_OMIM_VERSION'}  = $option->{pbf2osm}->{omim_version};
 
 #$ENV{BBBIKE_EXTRACT_URL}  = 'http://extract.bbbike.org/?sw_lng=-72.33&sw_lat=-13.712&ne_lng=-71.532&ne_lat=-13.217&format=png-google.zip&city=Cusco%2C%20Peru';
 #$ENV{BBBIKE_EXTRACT_COORDS} = '-72.33,-13.712 x -71.532,-13.217';
@@ -235,7 +237,7 @@ qr"^Map data.*OpenStreetMap contributors, https://www.openstreetmap.org",
                     /^Diese $format_name Karte wurde erzeugt am: \S+\s+.*UTC.+$/
                   } @data
             ),
-            "date"
+            "format_name + datum check"
         );
         ok(
             (
@@ -282,7 +284,7 @@ qr"^Map data.*OpenStreetMap contributors, https://www.openstreetmap.org",
 /^This $format_name (file|map) was created on: \S+\s+.*UTC.+$/
                   } @data
             ),
-            "date"
+            "format_name + date check"
         );
         ok(
             (
