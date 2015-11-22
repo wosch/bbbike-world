@@ -62,6 +62,7 @@ our $factor = {
     'png-cadastre.zip'   => 2.85,
 
     'mapsforge-osm.zip' => 0.80,
+    'omim-osm.zip'      => 0.85,
 
     'navit.zip' => 0.75,
 
