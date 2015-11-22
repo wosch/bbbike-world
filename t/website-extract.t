@@ -33,7 +33,7 @@ my @tags =
   ( '</html>', '<head>', '<body[ >]', '</body>', '</head>', '<html[ >]' );
 
 my @extract_dialog =
-  qw/about.html email.html format.html name.html polygon.html select-area.html/;
+  qw/about.html email.html format.html name.html polygon.html search.html select-area.html/;
 
 my $msg = {
     "en" => [ "Wait for email notification", "Name of area to extract" ],
