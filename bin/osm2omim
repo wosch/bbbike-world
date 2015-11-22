@@ -63,13 +63,19 @@ case $text2html in /*) ;; *) text2html=$(pwd)/$text2html ;; esac
 
 logfile=$omim_dir/logfile.txt
 
-if LD_LIBRARY_PATH=$BBBIKE_LD_LIBRARY_PATH TMPDIR=$tmpdir \
+LD_LIBRARY_PATH=$BBBIKE_LD_LIBRARY_PATH TMPDIR=$tmpdir \
     GENERATOR_TOOL=$OMIM_PATH/bin/generator_tool OSMCONVERT=$(which osmconvert) \
     OMIM_PATH=$OMIM_PATH \
-    time $OMIM_PATH/bin/generate_mwm.sh $file_symlink > $logfile 2>&1; then
-   :
-else
-   exit=$?
+    time $OMIM_PATH/bin/generate_mwm.sh $file_symlink > $logfile 2>&1
+exit=$?
+
+# missimg *.mwm file
+if ! ls  $omim_dir | egrep -q '\.mwm$'; then
+   echo "No *.mwm file in $omim_dir found for $file_orig"
+   exit=99
+fi
+
+if [ $exit -ne 0 ]; then
    echo "Failed to convert $file_orig / $file_symlink"
    cat $logfile
    exit $exit
