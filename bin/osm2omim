@@ -50,7 +50,7 @@ file_orig=$file
 trap '( sleep 1; rm -rf $tmpdir $tmpfile) &' 1 2 15
 
 omim=$(basename "$file" | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//')
-omim_dir=$tmpdir/${omim}-omim
+omim_dir=$tmpdir/${omim}-omim-${map_style}
 mkdir -p $omim_dir
 ( cd $omim_dir; ln -s $file_orig . )
 file_symlink=$omim_dir/$(basename $file_orig)
