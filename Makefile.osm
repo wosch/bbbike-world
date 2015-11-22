@@ -36,6 +36,7 @@ MAX_OSM2GARMIN=	${MAX_CPU2}
 MAX_OSM2PNG=	${MAX_CPU2}
 MAX_OSM2SVG=	${MAX_CPU2}
 MAX_OSM2MAPSFORGE=${MAX_CPU2}
+MAX_OSM2OMIM=	${MAX_CPU2}
 
 CURL_USER_AGENT=	-A "BBBike.org-CacheHeater/1.0"
 
@@ -55,6 +56,7 @@ OSM2SHAPE=	world/bin/osm2shape
 OSM2OSMAND=	world/bin/osm2osmand
 OSM2NAVIT=	world/bin/osm2navit
 OSM2MAPSFORGE=	world/bin/osm2mapsforge
+OSM2OMIM=	world/bin/pbf2osm --omim-osm
 
 CITIES_DB=	world/etc/cities.csv
 CITIES_FILE=world/etc/cities.txt
@@ -281,6 +283,9 @@ osm2navit:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2NAVIT} ${OSM2NAVIT}
 osm2shape osm2shp:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2SHAPE} ${OSM2SHAPE}
+        
+osm2omim osm2mapsme:
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2OMIM} ${OSM2OMIM}
 
 
 osm-readme:
@@ -973,6 +978,9 @@ tile-convert-csv:
 
 tile-convert-shp:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2SHAPE}
+        
+tile-convert-omim:
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2OMIM}
 
 tile-convert-garmin:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true osm2xxx_max_jobs=1 ${NICE} ${TIME} xargs -0 -n1 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
@@ -1361,7 +1369,7 @@ help:
 	@echo ""
 	@echo "  [ bbbike-osm2pbf | osm2pbf | pbf2osm | pbf2csv | pbf2opl ]"
 	@echo "  [ osm2garmin | osm2shape | osm2osmand | osm2navit | osm2mapsforge ]"
-	@echo "  [ osm2png | osm2svg ]"
+	@echo "  [ osm2png | osm2svg | osm2omim ]"
 	@echo "  [ bbbike2wgs84-mapnik | bbbike-mapnik-config ]"
 	@echo "  [ bbbike-mapnik-postgis | bbbike-tile-update ]"
 	@echo "  [ bbbike-tarball | mapnik-restart ]"
