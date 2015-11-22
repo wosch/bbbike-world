@@ -1,0 +1,101 @@
+#!/bin/sh
+# Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
+#
+# osm2shape  - convert a osm/pbf file to shape
+#
+
+PATH=/bin:/usr/bin:/usr/local/bin; export PATH
+: ${BBBIKE_EXTRACT_LANG=en}
+: ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
+: ${SHA="shasum -a 256"}
+: ${fixpbf=false}
+: ${BBBIKE_TMPDIR="/bbbike/tmp"}
+: ${BBBIKE_TMPFS="/tmpfs"}
+: ${BBBIKE_LD_LIBRARY_PATH="/var/lib/bbbike/opt/lib"}
+
+set -e
+
+usage () {
+   echo "$@"
+   echo "usage file.pbf"
+   exit 1
+}
+
+file="$1"
+city="$2"
+
+test -e "$file" || usage "file $file does not exists"
+
+: ${debug=false}
+pwd=$(pwd)
+
+
+template=$(dirname $0)/../etc/extract/$(basename $0).$BBBIKE_EXTRACT_LANG.sh
+case $template in /*) ;; *) template=$(pwd)/$template ;; esac
+
+test -z "$file" && usage
+: ${osm_checksum=`dirname $0`/osm-checksum}
+osm_fixme=`dirname $0`/pbf2pbf
+
+# use RAM disk
+tmpdir=`mktemp -d ${BBBIKE_TMPFS}/osm2shape.XXXXXXXXXXX`
+tmpdir_pbf=`mktemp -d ${BBBIKE_TMPFS}/pbf2pbf.XXXXXXXXXXX`
+tmpfile=$tmpdir_pbf/$(basename $file)
+
+# keep old name for results
+file_orig=$file
+
+# fix broken pbf first
+if $fixpbf; then
+    cp -f $file $tmpfile
+    $(dirname $0)/pbf2pbf $tmpfile
+    file=$tmpfile	
+fi
+
+# cleanup after signal, but show errors first
+trap '( sleep 1; rm -rf $tmpdir $tmpfile) &' 1 2 15
+
+shape=`basename "$file" | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//'`
+shape_dir=$tmpdir/${shape}-shp
+mkdir -p $shape_dir $shape_dir/shape
+
+text2html=$(dirname $0)/text2html.sh
+case $text2html in /*) ;; *) text2html=$(pwd)/$text2html ;; esac
+
+logfile=$shape_dir/logfile.txt
+
+if LD_LIBRARY_PATH=$BBBIKE_LD_LIBRARY_PATH osmium2shape -d $shape_dir/shape $file > $logfile 2>&1; then
+   :
+else
+   exit=$?
+   echo "Failed to convert $file"
+   cat $logfile
+   exit $exit
+fi
+#rm -f $file_fixme
+
+cd $shape_dir
+date=$(date -u)
+
+BBBIKE_EXTRACT_COORDS=$BBBIKE_EXTRACT_COORDS BBBIKE_EXTRACT_URL=$BBBIKE_EXTRACT_URL \
+  date=$date city=$city sh $template > README.txt
+
+$text2html < README.txt > README.html
+
+case $BBBIKE_EXTRACT_LANG in
+  en ) ext2="" ;;
+   * ) ext2=".$BBBIKE_EXTRACT_LANG" ;;
+esac
+
+( $MD5 shape/*; $SHA shape/* ) > .checksum.txt; mv -f .checksum.txt CHECKSUM.txt
+
+cd ..
+shape_zip=`dirname $file_orig`/$shape.osm.shp${ext2}.zip
+zip -q -r - -- `basename $shape_dir` | \
+  ( cd $pwd;
+    cat > $shape_zip.tmp && mv $shape_zip.tmp $shape_zip
+    $osm_checksum $shape_zip
+  )
+
+$debug || rm -rf $tmpdir $tmpdir_pbf
+
