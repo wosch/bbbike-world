@@ -55,7 +55,7 @@ our $formats = {
     'csv.xz' => "csv 7z (xz)",
 
     'mapsforge-osm.zip' => "Mapsforge OSM",
-    'omim-osm.zip'      => "MAPS.ME OSM",
+    'omim-osm.zip'      => "maps.me OSM",
 
     'srtm-europe.osm.pbf'         => 'SRTM Europe PBF (25m)',
     'srtm-europe.osm.xz'          => 'SRTM Europe OSM XML 7z (25m)',
