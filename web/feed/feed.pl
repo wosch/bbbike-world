@@ -49,7 +49,8 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
-    title   => qq{The extract service supports now MAPSE.ME format for Android and iOS},
+    title =>
+      qq{The extract service supports now MAPSE.ME format for Android and iOS},
     id      => '5f5b1fc9a70a146420758b84227c8ea7',
     content => {
         type => 'html',
