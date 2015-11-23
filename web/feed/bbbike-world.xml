@@ -13,6 +13,14 @@
   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af7</id>
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/" version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>The extract service supports now MAPSE.ME format for Android and iOS</title>
+    <id>5f5b1fc9a70a146420758b84227c8ea7</id>
+    <content type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now MAPSE.ME format for
+    Android and iOS</content>
+    <updated>2015-11-24T13:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title>Map Compare now supports up to 140 maps: http://mc.bbbike.org/mc/</title>
     <id>8f26db14e49f2e3a1c6e3e46f6fe5d83</id>
     <content type="html">Map Compare now supports up to 140 maps: &lt;a
