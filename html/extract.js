@@ -116,7 +116,7 @@ var config = {
         "srtm.osm.xz": "/images/osm.png",
 
         "mapsforge-osm.zip": "/images/mapsforge-small.png",
-        "omim-osm.zip": "/images/mapsforge-small.png",
+        "omim-osm.zip": "/images/omim-small.png",
         "navit.zip": "/images/navit-small.png",
         "obf.zip": "/images/osmand-small.png",
 
