@@ -4,7 +4,7 @@ Extracts created by BBBike, http://BBBike.org
 $BBBIKE_EXTRACT_MAPSME_VERSION by https://github.com/mapsme/omim
 
 
-Please read the Maps.me homepage how to use mwm files:
+Please read the maps.me homepage how to use mwm files:
 
   https://maps.me/de/home
   https://maps.me/de/help
