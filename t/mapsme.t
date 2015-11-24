@@ -68,8 +68,8 @@ sub convert_format {
     my $out = $test->out($style);
     unlink $out;
 
-    system(qq[world/bin/pbf2osm --omim-$style $pbf_file $city]);
-    is( $?, 0, "pbf2osm --omim-osm converter" );
+    system(qq[world/bin/pbf2osm --mapsme-$style $pbf_file $city]);
+    is( $?, 0, "pbf2osm --mapsme-osm converter" );
     $st = stat($out) or die "Cannot stat $out\n";
 
     system(qq[unzip -t $out]);
@@ -94,7 +94,7 @@ if ( !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG} ) {
 }
 
 foreach my $lang (@lang) {
-    $counter += &convert_format( $lang, 'omim', 'maps.me' );
+    $counter += &convert_format( $lang, 'mapsme', 'maps.me' );
 }
 
 plan tests => 1 + $counter;

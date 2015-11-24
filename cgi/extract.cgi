@@ -60,7 +60,7 @@ our $option = {
     },
 
     # configure order of formats in menu
-    'formats_order' => [qw/osm shape garmin android svg omim srtm/],
+    'formats_order' => [qw/osm shape garmin android svg mapsme srtm/],
 };
 
 ##########################################################################

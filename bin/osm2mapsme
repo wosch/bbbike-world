@@ -1,7 +1,7 @@
 #!/bin/sh
 # Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
 #
-# osm2omim  - convert a osm/pbf file to omim/maps.me
+# osm2mapsme  - convert a osm/pbf file to maps.me (omim)
 #
 
 PATH=/bin:/usr/bin:/usr/local/bin; export PATH
@@ -40,7 +40,7 @@ test -z "$file" && usage
 : ${osm_checksum=$(dirname $0)/osm-checksum}
 
 # use RAM disk
-tmpdir=$(mktemp -d ${BBBIKE_TMPFS}/osm2omim.XXXXXXXXXXX)
+tmpdir=$(mktemp -d ${BBBIKE_TMPFS}/osm2mapsme.XXXXXXXXXXX)
 tmpfile=$tmpdir_pbf/$(basename $file)
 
 # keep old name for results
@@ -52,16 +52,16 @@ case $file in /*) ;; *) file=$(pwd)/$file ;; esac
 # cleanup after signal, but show errors first
 trap '( sleep 1; rm -rf $tmpdir $tmpfile) &' 1 2 15
 
-omim=$(basename "$file" | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//')
-omim_dir=$tmpdir/${omim}-omim-${map_style}
-mkdir -p $omim_dir
-( cd $omim_dir; ln -s $file . )
-file_symlink=$omim_dir/$(basename $file)
+mapsme=$(basename "$file" | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//')
+mapsme_dir=$tmpdir/${mapsme}-mapsme-${map_style}
+mkdir -p $mapsme_dir
+( cd $mapsme_dir; ln -s $file . )
+file_symlink=$mapsme_dir/$(basename $file)
 
 text2html=$(dirname $0)/text2html.sh
 case $text2html in /*) ;; *) text2html=$(pwd)/$text2html ;; esac
 
-logfile=$omim_dir/logfile.txt
+logfile=$mapsme_dir/logfile.txt
 
 LD_LIBRARY_PATH=$BBBIKE_LD_LIBRARY_PATH TMPDIR=$tmpdir \
     GENERATOR_TOOL=$OMIM_PATH/bin/generator_tool OSMCONVERT=$(which osmconvert) \
@@ -70,8 +70,8 @@ LD_LIBRARY_PATH=$BBBIKE_LD_LIBRARY_PATH TMPDIR=$tmpdir \
 exit=$?
 
 # missimg *.mwm file
-if ! ls  $omim_dir | egrep -q '\.mwm$'; then
-   echo "No *.mwm file in $omim_dir found for $file_orig"
+if ! ls  $mapsme_dir | egrep -q '\.mwm$'; then
+   echo "No *.mwm file in $mapsme_dir found for $file_orig"
    exit=99
 fi
 
@@ -81,7 +81,7 @@ if [ $exit -ne 0 ]; then
    exit $exit
 fi
 
-cd $omim_dir
+cd $mapsme_dir
 date=$(date -u)
 
 BBBIKE_EXTRACT_COORDS=$BBBIKE_EXTRACT_COORDS BBBIKE_EXTRACT_URL=$BBBIKE_EXTRACT_URL \
@@ -98,11 +98,11 @@ esac
 rm -f $file_symlink
 
 cd ..
-omim_zip=$(dirname $file_orig)/$omim.osm.omim-${map_style}${ext2}.zip
-zip -q -r - -- $(basename $omim_dir) | \
+mapsme_zip=$(dirname $file_orig)/$mapsme.osm.mapsme-${map_style}${ext2}.zip
+zip -q -r - -- $(basename $mapsme_dir) | \
   ( cd $pwd;
-    cat > $omim_zip.tmp && mv $omim_zip.tmp $omim_zip
-    $osm_checksum $omim_zip
+    cat > $mapsme_zip.tmp && mv $mapsme_zip.tmp $mapsme_zip
+    $osm_checksum $mapsme_zip
   )
 
 $debug || rm -rf $tmpdir $tmpdir_pbf

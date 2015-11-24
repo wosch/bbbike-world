@@ -33,7 +33,7 @@ var config = {
         "obf.zip": 250,
         "navit.zip": 512,
         "mapsforge-osm.zip": 400,
-        "omim-osm.zip": 500,
+        "mapsme-osm.zip": 500,
 
         "garmin-bbbike.zip": 650,
         "garmin-osm.zip": 768,
@@ -116,7 +116,7 @@ var config = {
         "srtm.osm.xz": "/images/osm.png",
 
         "mapsforge-osm.zip": "/images/mapsforge-small.png",
-        "omim-osm.zip": "/images/omim-small.png",
+        "mapsme-osm.zip": "/images/mapsme-small.png",
         "navit.zip": "/images/navit-small.png",
         "obf.zip": "/images/osmand-small.png",
 
@@ -1415,7 +1415,7 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "size": 0.8,
             "time": 3
         },
-        "omim-osm.zip": {
+        "mapsme-osm.zip": {
             "size": 0.85,
             "time": 1
         },

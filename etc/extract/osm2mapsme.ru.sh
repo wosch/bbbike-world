@@ -1,7 +1,7 @@
 cat << EOF
 Map data (c) OpenStreetMap contributors, https://www.openstreetmap.org
 Extracts created by BBBike, http://BBBike.org
-$BBBIKE_EXTRACT_OMIM_VERSION by https://github.com/mapsme/omim
+$BBBIKE_EXTRACT_MAPSME_VERSION by https://github.com/mapsme/omim
 
 
 Please read the Maps.me homepage how to use mwm files:

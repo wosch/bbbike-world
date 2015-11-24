@@ -154,7 +154,7 @@ our $option = {
         'maperitive_version' => 'Maperitive-2.3.34',
         'osmand_version'     => 'OsmAndMapCreator-1.1.3',
         'mapsforge_version'  => 'mapsforge-0.4.3',
-        'omim_version'       => 'omim-1.0.0',
+        'mapsme_version'       => 'mapsme-1.0.0',
         'navit_version'      => 'maptool-0.5.0~svn5126',
         'shape_version'      => 'osmium2shape-1.0',
     }
@@ -1049,7 +1049,7 @@ sub reorder_pbf {
         'obf.zip'           => 10,
         'navit.zip'         => 1.1,
         'mapsforge-osm.zip' => 15,
-        'omim-osm.zip'      => 1.2,
+        'mapsme-osm.zip'      => 1.2,
 
         'garmin-osm.zip'     => 3,
         'garmin-cycle.zip'   => 3,
@@ -1294,7 +1294,7 @@ sub _convert_send_email {
       $option->{pbf2osm}->{mapsforge_version};
     $ENV{'BBBIKE_EXTRACT_NAVIT_VERSION'} = $option->{pbf2osm}->{navit_version};
     $ENV{'BBBIKE_EXTRACT_SHAPE_VERSION'} = $option->{pbf2osm}->{shape_version};
-    $ENV{'BBBIKE_EXTRACT_OMIM_VERSION'}  = $option->{pbf2osm}->{omim_version};
+    $ENV{'BBBIKE_EXTRACT_MAPSME_VERSION'}  = $option->{pbf2osm}->{mapsme_version};
 
     ###################################################################
     # converted file name
@@ -1484,19 +1484,19 @@ sub _convert_send_email {
             system(@system) == 0 or die "system @system failed: $?";
         }
     }
-    elsif ($format =~ /^omim-(osm)\.zip$/
-        || $format =~ /^[a-z\-]+\.omim-(osm)\.zip$/ )
+    elsif ($format =~ /^mapsme-(osm)\.zip$/
+        || $format =~ /^[a-z\-]+\.mapsme-(osm)\.zip$/ )
     {
         my $style      = $1;
         my $format_ext = $format;
-        $format_ext =~ s/^[a-z\-]+\.omim/omim/;
+        $format_ext =~ s/^[a-z\-]+\.mapsme/mapsme/;
 
         $file =~ s/\.pbf$/.$format_ext/;
         $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
 
         if ( !cached_format( $file, $pbf_file ) ) {
             @system =
-              ( @nice, "$dirname/pbf2osm", "--omim-$style", $pbf_file, $city );
+              ( @nice, "$dirname/pbf2osm", "--mapsme-$style", $pbf_file, $city );
 
             warn "@system\n" if $debug >= 2;
             @system = 'true' if $test_mode;
