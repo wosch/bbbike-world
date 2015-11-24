@@ -82,7 +82,7 @@ sub init_env {
             'mapsforge_version'  => 'mapsforge-0.4.3',
             'navit_version'      => 'maptool-0.5.0~svn5126',
             'shape_version'      => 'osmium2shape-1.0',
-            'mapsme_version'       => 'mapsme-1.0',
+            'mapsme_version'     => 'mapsme-1.0',
         }
     };
 
@@ -96,7 +96,8 @@ sub init_env {
       $option->{pbf2osm}->{mapsforge_version};
     $ENV{'BBBIKE_EXTRACT_NAVIT_VERSION'} = $option->{pbf2osm}->{navit_version};
     $ENV{'BBBIKE_EXTRACT_SHAPE_VERSION'} = $option->{pbf2osm}->{shape_version};
-    $ENV{'BBBIKE_EXTRACT_MAPSME_VERSION'}  = $option->{pbf2osm}->{mapsme_version};
+    $ENV{'BBBIKE_EXTRACT_MAPSME_VERSION'} =
+      $option->{pbf2osm}->{mapsme_version};
 
 #$ENV{BBBIKE_EXTRACT_URL}  = 'http://extract.bbbike.org/?sw_lng=-72.33&sw_lat=-13.712&ne_lng=-71.532&ne_lat=-13.217&format=png-google.zip&city=Cusco%2C%20Peru';
 #$ENV{BBBIKE_EXTRACT_COORDS} = '-72.33,-13.712 x -71.532,-13.217';

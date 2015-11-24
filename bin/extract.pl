@@ -154,7 +154,7 @@ our $option = {
         'maperitive_version' => 'Maperitive-2.3.34',
         'osmand_version'     => 'OsmAndMapCreator-1.1.3',
         'mapsforge_version'  => 'mapsforge-0.4.3',
-        'mapsme_version'       => 'mapsme-1.0.0',
+        'mapsme_version'     => 'mapsme-1.0.0',
         'navit_version'      => 'maptool-0.5.0~svn5126',
         'shape_version'      => 'osmium2shape-1.0',
     }
@@ -1049,7 +1049,7 @@ sub reorder_pbf {
         'obf.zip'           => 10,
         'navit.zip'         => 1.1,
         'mapsforge-osm.zip' => 15,
-        'mapsme-osm.zip'      => 1.2,
+        'mapsme-osm.zip'    => 1.2,
 
         'garmin-osm.zip'     => 3,
         'garmin-cycle.zip'   => 3,
@@ -1294,7 +1294,8 @@ sub _convert_send_email {
       $option->{pbf2osm}->{mapsforge_version};
     $ENV{'BBBIKE_EXTRACT_NAVIT_VERSION'} = $option->{pbf2osm}->{navit_version};
     $ENV{'BBBIKE_EXTRACT_SHAPE_VERSION'} = $option->{pbf2osm}->{shape_version};
-    $ENV{'BBBIKE_EXTRACT_MAPSME_VERSION'}  = $option->{pbf2osm}->{mapsme_version};
+    $ENV{'BBBIKE_EXTRACT_MAPSME_VERSION'} =
+      $option->{pbf2osm}->{mapsme_version};
 
     ###################################################################
     # converted file name
@@ -1495,8 +1496,8 @@ sub _convert_send_email {
         $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
 
         if ( !cached_format( $file, $pbf_file ) ) {
-            @system =
-              ( @nice, "$dirname/pbf2osm", "--mapsme-$style", $pbf_file, $city );
+            @system = ( @nice, "$dirname/pbf2osm", "--mapsme-$style", $pbf_file,
+                $city );
 
             warn "@system\n" if $debug >= 2;
             @system = 'true' if $test_mode;

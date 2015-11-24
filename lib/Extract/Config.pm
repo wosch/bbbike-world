@@ -55,7 +55,7 @@ our $formats = {
     'csv.xz' => "csv 7z (xz)",
 
     'mapsforge-osm.zip' => "Mapsforge OSM",
-    'mapsme-osm.zip'      => "maps.me OSM",
+    'mapsme-osm.zip'    => "maps.me OSM",
 
     'srtm-europe.osm.pbf'         => 'SRTM Europe PBF (25m)',
     'srtm-europe.osm.xz'          => 'SRTM Europe OSM XML 7z (25m)',
@@ -199,7 +199,7 @@ our $tile_format = {
     "navit"     => "navit.zip",
 
     "mapsforge-osm.zip" => "mapsforge-osm.zip",
-    "mapsme-osm.zip"      => "pbf",
+    "mapsme-osm.zip"    => "pbf",
 
     "o5m.gz"  => "pbf",
     "o5m.bz2" => "pbf",
