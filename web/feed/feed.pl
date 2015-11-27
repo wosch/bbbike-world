@@ -47,6 +47,20 @@ my $feed = XML::Atom::SimpleFeed->new(
 # TODO
 # - larger area for most cities, up top 30 km radius the centr of the city
 #
+
+$feed->add_entry(
+    title =>
+      qq{The extract service supports now MAPSE.ME format for Android and iOS},
+    id      => '5f5b1fc9a70a146420758b84227c8ea7',
+    content => {
+        type => 'html',
+        content =>
+qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now MAPSE.ME format for Android and iOS},
+    },
+    updated  => '2015-11-24T13:30:02Z',
+    category => 'News',
+);
+
 $feed->add_entry(
     title =>
       qq{Map Compare now supports up to 140 maps: http://mc.bbbike.org/mc/},

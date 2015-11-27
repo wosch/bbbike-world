@@ -23,6 +23,7 @@
 	<span title="o5m">o5m</span>,
 	<span title="Garmin GPS devices">Garmin</span>,
 	<span title="mobile devices">Navit</span>,
+	<span title="mobile devices">maps.me</span>,
 	<span title="Osmand Android devices">Osmand</span>,
 	<span title="Esri shapefile">Esri shapefile</span>,
 	<span title="mapsforge">mapsforge</span>,
@@ -61,6 +62,7 @@
 	  <li>supports <a href="https://en.wikipedia.org/wiki/Portable_Network_Graphics">Portable Network Graphics (PNG)</a> format</li>
           <li>supports <a href="http://osmand.net">Osmand (OBF)</a> format for Android devices</li>
           <li>supports <a href="https://github.com/mapsforge/mapsforge/">mapsforge (map)</a> format for Android devices</li>
+          <li>supports <a href="https://maps.me/en/home">maps.me (omim)</a> format for Android and iOS devices</li>
           <li>supports <a href="http://www.navit-project.org">Navit</a> format for Linux, Windows, Android, OpenMoko Freerunner, Wince, Nokia n800 Internet tables, iPhone, Zaurus</li>
           <li>supports libosmium <a href="https://github.com/osmcode/libosmium/">OPL</a> format</li>
 	  <li>planet.osm data updated every week</li>
@@ -97,6 +99,7 @@
 	      <td>Osmand</td>
 	      <td>Osmand Contours</td>
 	      <td>mapsforge</td>
+	      <td>maps.me</td>
 	      <td>navit</td>
 	    </tr>
 	  </thead>
@@ -105,6 +108,7 @@
 	      <td><a target="_blank" href="/extract-screenshots.html#osmand"><img src="/images/osmand-micro.png" alt="" title="screen shot Osmand"/></a></td>
 	      <td><a target="_blank" href="/extract-screenshots.html#osmand"><img src="/images/osmand-osm-contours-micro.png" alt="" title="screen shot Osmand Contours"/></a></td>
 	      <td><a target="_blank" href="/extract-screenshots.html#mapsforge"><img src="/images/mapsforge-micro.png" alt="" title="screen shot mapsforge"/></a></td>
+	      <td><a target="_blank" href="/extract-screenshots.html#mapsme"><img src="/images/mapsme-micro.png" alt="" title="screen shot mapsme"/></a></td>
 	      <td><a target="_blank" href="/extract-screenshots.html#navit"><img src="/images/navit-micro.png" alt="" title="screen shot navit"/></a></td>
 	    </tr>
 	  </tbody>
@@ -230,7 +234,33 @@
 	<li><a href="https://github.com/mapsforge/mapsforge/">github.com/mapsforge/mapsforge/</a></li>
 	</ul>
 	<a href="/images/mapsforge-small.png"><img src="/images/mapsforge-tiny.png" alt="" title="screen shot mapsforge"/></a>
-
+	
+        <h3>maps.me documentation</h3>
+	<ul>
+	<li><a href="https://maps.me/en/home">maps.me</a></li>
+	<li><a href="https://maps.me/en/help">maps.me/en/help</a></li>
+	<li><a href="https://wiki.openstreetmap.org/wiki/Maps.Me">wiki.openstreetmap.org/wiki/Maps.Me</a></li>
+	</ul>
+	
+	<p>
+	  Note: Routing in this extract is not support yet! Sorry.
+	</p>
+	<p>
+	  For iOS: you need to connect your device to your computer, start iTunes, select your device. In the left
+	  sidebar select <i>Apps</i> and scroll down to the the very end in iTunes until the section <i>File Sharing</i>
+	  appears. Select <i>maps.me</i> in the left side bar.
+	  Now you can add the *.mwm file on the right side, or just drop it here.
+	</p>
+	<p>
+	 For Android: copy the *.mwm file to the MapsWithMe folder. Depending on your device setup, the folder
+	 can be on the system partion or on an SD card.
+	</p>
+	After installing the map, you have to restart the app to see the new map.
+	
+	<p>
+	<a href="/images/mapsme-small.png"><img src="/images/mapsme-tiny.png" alt="" title="screen shot mapsme"/></a>
+	</p>
+	
         <h3>Navit documentation</h3>
 	<ul>
 	<li><a href="http://www.navit-project.org/">navit-project.org/</a></li>
@@ -284,6 +314,7 @@
 	  <tr><td>o5m gzip'd</td><td>1.04</td></tr>
 	  <tr><td>o5m bzip'd</td><td>0.88</td></tr>
 	  <tr><td>Navit zip'd</td><td>0.8</td></tr>
+	  <tr><td>maps.me zip'd</td><td>0.85</td></tr>
 	  <tr><td>mapsforge</td><td>0.8</td></tr>
 	  <tr><td>Shapefile (Esri)</td><td>1.5</td></tr>
 	  <tr><td>Osmand (OBF)</td><td>1.4</td></tr>

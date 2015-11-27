@@ -17,6 +17,7 @@ osm2shape=$dirname/osm2shape
 osm2osmand=$dirname/osm2osmand
 osm2navit=$dirname/osm2navit
 osm2mapsforge=$dirname/osm2mapsforge
+osm2mapsme=$dirname/osm2mapsme
 : ${osm2o5m="osmconvert"}
 : ${osm2o5m_opt="--fake-version"}
 : ${osmium_convert="osmium_convert"}
@@ -26,6 +27,7 @@ osmium_convert_opt="-f pbf -t opl"
 : ${max_file_size_garmin=2950000}
 : ${max_file_size_mapsforge=666000}
 : ${max_file_size_osmand=666000}
+: ${max_file_size_mapsme=666000}
 : ${max_file_size_maperitive=90000}
 _max_cpu_time=7200
 
@@ -63,6 +65,8 @@ usage [ option ] file.osm.pbf
 --garmin-osm --garmin-cycle --garmin-leisure --garmin-bbbike --garmin-srtm
 --svg-google --svg-hiking --svg-osm --svg-urbanight --svg-wireframe --svg-cadastre
 --png-google --png-hiking --png-osm --png-urbanight --png-wireframe --png-cadastre
+
+--mapsme-osm
 
 EOF
 
@@ -112,6 +116,8 @@ case $1 in
     --png-google | --png-hiking | --png-osm | --png-urbanight | --png-wireframe | --png-cadastre ) png_style=$(echo $1 | perl -npe 's,.*-,,'); shift; compress=png ;;
 
     --mapsforge-osm | --mapsforge ) shift; compress=mapsforge; mapsforge_style=osm ;;
+    
+    --mapsme-osm ) shift; compress=mapsme; mapsme_style=osm ;;
 
     -* ) usage "unknown option '$1'" ;;
 esac
@@ -179,6 +185,11 @@ case $compress in
 	  usage "file '$file' size to big: $size > $max_file_size_mapsforge"
 	fi
 	;;
+    mapsme )
+	if [ $size -gt $max_file_size_mapsme ]; then
+	  usage "file '$file' size to big: $size > $max_file_size_mapsme"
+	fi
+	;;
     * ) ;;
 esac
 
@@ -239,6 +250,7 @@ case $compress in
     svg )    $osm2svg    "$file" "$svg_style" "$city" ;;
     shape )  $osm2shape  "$file" "$city" ;;
     osmand ) $osm2osmand "$file" "$city" ;;
+    mapsme )   $osm2mapsme   "$file" "$mapsme_style" "$city" ;;
     navit )  $osm2navit  "$file" "$city" ;;
     mapsforge ) $osm2mapsforge "$file" "$mapsforge_style" "$city" ;;
 
