@@ -71,7 +71,7 @@ qr|Start bicycle routing for .*?href="http://www.bbbike.org/$city/">|,
 
         if ($garmin) {
             foreach
-              my $ext ( qw/osm.garmin-osm.zip osm.shp.zip osm.navit.zip poly/ )
+              my $ext (qw/osm.garmin-osm.zip osm.shp.zip osm.navit.zip poly/)
             {
                 like( $content, qr|($path/$city)?/$city.$ext"|,
                     "$path/$city/$city.$ext" );
