@@ -43,6 +43,24 @@ div#nomap {
     z-index: 0;
 }
 
+/***************************************************************
+   avoid overlapping text from the download list
+   while the map tiles are not yet loaded. We just
+   hide the text.
+*/
+div#map {
+    color: white;
+    background: white;
+}
+
+/* but not for the elements inside the map */
+div#map > div {
+    color: black;
+    background: white;
+  
+}
+
+
 span#debug { font-size: small; }
 span#language_switch { font-size: small; }
 span.current_language { font-size: large; }
