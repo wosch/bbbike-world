@@ -88,13 +88,19 @@ function download_init_map(conf) {
 function add_bing_maps(map) {
     var BingApiKey = "AnlZwa5p0zgN6mSGFEULXVJgqmUsl8K8GdC_P7MBTVUQSuDY4LR-szxGn-SdpztI";
 
+    /* bing road */
     map.addLayer(new OpenLayers.Layer.Bing(
     // XXX: bing.com returns a wrong zoom level in JSON API call
     OpenLayers.Util.extend({
         initLayer: function () {
             // pretend we have a zoomMin of 0
-            this.metadata.resourceSets[0].resources[0].zoomMin = 0;
-            OpenLayers.Layer.Bing.prototype.initLayer.apply(this, arguments);
+            // resources may not exists if the service is down, or the bing key expired
+            if (this.metadata.resourceSets[0] && this.metadata.resourceSets[0].resources) {
+                this.metadata.resourceSets[0].resources[0].zoomMin = 0;
+                OpenLayers.Layer.Bing.prototype.initLayer.apply(this, arguments);
+            } else {
+                debug("Cannot find bing metadata resources, give up bing layer road");
+            }
         }
     }, {
         key: BingApiKey,
@@ -102,10 +108,16 @@ function add_bing_maps(map) {
         //,  metadataParams: { mapVersion: "v1" }
     })));
 
+    /* bing hybrid */
     map.addLayer(new OpenLayers.Layer.Bing(OpenLayers.Util.extend({
         initLayer: function () {
-            this.metadata.resourceSets[0].resources[0].zoomMin = 0;
-            OpenLayers.Layer.Bing.prototype.initLayer.apply(this, arguments);
+            // resources may not exists if the service is down, or the bing key expired
+            if (this.metadata.resourceSets[0] && this.metadata.resourceSets[0].resources) {
+                this.metadata.resourceSets[0].resources[0].zoomMin = 0;
+                OpenLayers.Layer.Bing.prototype.initLayer.apply(this, arguments);
+            } else {
+                debug("Cannot find bing metadata resources, give up bing layer hybrid");
+            }
         }
     }, {
         key: BingApiKey,
