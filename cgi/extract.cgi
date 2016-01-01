@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -T
-# Copyright (c) 2011-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2011-2016 Wolfram Schneider, http://bbbike.org
 #
 # extract.cgi - extracts areas in a batch job
 #
