@@ -1188,7 +1188,7 @@ deb-bootstrap-rsync:
 	rsync -az ${BBBIKE_WEB_SERVER}:.gitconfig $$HOME
 
 # post debian package configuration
-deb-bootstrap-dir: osmosis-bootstrap
+deb-bootstrap-dir: osmosis-bootstrap deb-omim-bootstrap
 	set -e; cd ${DEB_OPT_DIR}/bin; \
 	   for i in *; do \
 	     test -e /usr/local/bin/$$i || sudo ln -fs ${DEB_OPT_DIR}/bin/$$i /usr/local/bin/$$i; \
