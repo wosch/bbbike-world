@@ -1,3 +1,7 @@
+bbbike-world-bin-misc (1.8-1) unstable; urgency=low
+
+  * supports maps.me
+
 bbbike-world-bin-misc (1.7-1) unstable; urgency=low
 
   * osmium_convert
