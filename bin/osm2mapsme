@@ -5,7 +5,7 @@
 #
 
 PATH=/bin:/usr/bin:/usr/local/bin; export PATH
-: ${OMIM_PATH=$HOME/opt/omim}
+: ${OMIM_PATH=/var/lib/bbbike/opt/omim}
 : ${BBBIKE_EXTRACT_LANG=en}
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmpfs"}

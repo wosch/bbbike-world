@@ -1205,6 +1205,9 @@ deb-bootstrap-dir: osmosis-bootstrap
 	sudo chmod 7777 /bbbike/tmp /tmpfs
 	${MAKE} -f world/Makefile.osm bbbike-c
 
+deb-omim-bootstrap:
+	cd ${DEB_OPT_DIR}; sudo ln -fs omim-1.0 omim
+
 osmosis-bootstrap:
 	mkdir -p ${OSMOSIS_PLUGIN_DIR}
 	cd ${OSMOSIS_PLUGIN_DIR}; \
