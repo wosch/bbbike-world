@@ -1158,7 +1158,7 @@ deb-repo-upload:
 	@echo "Now run:"
 	ssh debian.bbbike.org 'cd ~/projects/bbbike && make DEB_VENDOR=${DEB_VENDOR} DEB_RELEASE=${DEB_RELEASE} deb-repo'
 
-deb-bootstrap debian-bootstrap: deb-bootstrap-rsync deb-bootstrap-dir
+deb-bootstrap debian-bootstrap: deb-bootstrap-rsync deb-bootstrap-dir deb-opt-dir-version
 bbbike-bootstrap: bbbike-partition debian-bootstrap update-files install-backend-lighttpd
 	sudo ${BBMAKE} -s cache-clean
 	sudo ${BBMAKE} -s extract-bbbike-org-install
@@ -1169,6 +1169,10 @@ bbbike-bootstrap: bbbike-partition debian-bootstrap update-files install-backend
 	sudo /etc/init.d/lighttpd restart
 	@echo ""
 	@echo "You may also run: make staging"
+
+deb-opt-dir-version:
+	cd ${DEB_OPT_DIR}; \
+	  sudo ln -fs omim-1.0 omim 
 
 bbbike-partition:
 	cd ${BBBIKE_PARTITION}; mkdir -p cache extract projects tmp www
