@@ -408,6 +408,9 @@ check:
 	http_proxy="" ${BBMAKE} test > log.check 2>&1
 	tail -n 10 log.check
 
+travis:
+	http_proxy="" ${BBMAKE} test
+
 check-world check-w:
 	@echo "In case of failure run:"
 	@echo " make check-failed"
