@@ -76,8 +76,8 @@ our $formats_menu = {
     'osm' => {
         'title'   => "OSM",
         'formats' => [
-            'osm.pbf', 'osm.xz', 'osm.gz', 'osm.bz2', 'o5m.xz', 'o5m.gz',
-            'opl.xz',  'csv.xz', 'csv.gz'
+            'osm.pbf', 'osm.xz', 'osm.gz', 'osm.bz2',
+            'o5m.xz',  'opl.xz', 'csv.xz',
         ]
     },
     'garmin' => {
