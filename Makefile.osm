@@ -408,6 +408,9 @@ check:
 	http_proxy="" ${BBMAKE} test > log.check 2>&1
 	tail -n 10 log.check
 
+travis:
+	http_proxy="" ${BBMAKE} test
+
 check-world check-w:
 	@echo "In case of failure run:"
 	@echo " make check-failed"
@@ -1170,6 +1173,10 @@ bbbike-bootstrap: bbbike-partition debian-bootstrap update-files install-backend
 	@echo ""
 	@echo "You may also run: make staging"
 
+deb-opt-dir-version:
+	cd ${DEB_OPT_DIR}; \
+	  sudo ln -fs omim-1.0 omim 
+
 bbbike-partition:
 	cd ${BBBIKE_PARTITION}; mkdir -p cache extract projects tmp www
 	sudo ${MAKE} bbbike-cache-install
@@ -1188,7 +1195,7 @@ deb-bootstrap-rsync:
 	rsync -az ${BBBIKE_WEB_SERVER}:.gitconfig $$HOME
 
 # post debian package configuration
-deb-bootstrap-dir: osmosis-bootstrap deb-omim-bootstrap
+deb-bootstrap-dir: osmosis-bootstrap deb-opt-dir-version
 	set -e; cd ${DEB_OPT_DIR}/bin; \
 	   for i in *; do \
 	     test -e /usr/local/bin/$$i || sudo ln -fs ${DEB_OPT_DIR}/bin/$$i /usr/local/bin/$$i; \
@@ -1204,9 +1211,6 @@ deb-bootstrap-dir: osmosis-bootstrap deb-omim-bootstrap
 	sudo mkdir -p /bbbike/tmp /tmpfs
 	sudo chmod 7777 /bbbike/tmp /tmpfs
 	${MAKE} -f world/Makefile.osm bbbike-c
-
-deb-omim-bootstrap:
-	cd ${DEB_OPT_DIR}; sudo ln -fs omim-1.0 omim
 
 osmosis-bootstrap:
 	mkdir -p ${OSMOSIS_PLUGIN_DIR}
@@ -1422,6 +1426,7 @@ help:
 	@echo "  [ build-runtime ]"
 	@echo "  [ git-fetch | git-pull | git-push | mygit ]"
 	@echo "  [ check | check-world | check-full | check-failed ]"
+	@echo "  [ travis ]"
 	@echo ""
 	@echo "after failed install/cache update:"
 	@echo "bbbike_download= bbbike_extract= bbbike_convert= bbbike_install= make update-database"
