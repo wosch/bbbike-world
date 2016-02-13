@@ -2,7 +2,7 @@
 # Copyright (c) Sep 2012-2016 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
-    $ENV{PERL_HASH_SEED} = 0;
+    #$ENV{PERL_HASH_SEED} = 0;
 }
 
 use Test::More;
