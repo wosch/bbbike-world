@@ -1175,7 +1175,8 @@ bbbike-bootstrap: bbbike-partition debian-bootstrap deb-bootstrap-rsync update-f
 
 deb-opt-dir-version:
 	cd ${DEB_OPT_DIR}; \
-	  sudo ln -fs omim-1.0 omim 
+	  sudo ln -fs omim-1.0 omim; \
+	  sudo ln -fs Maperitive-2.3.34 Maperitive; 
 
 bbbike-partition:
 	cd ${BBBIKE_PARTITION}; mkdir -p cache extract projects tmp www
