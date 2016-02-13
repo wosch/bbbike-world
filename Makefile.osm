@@ -773,8 +773,8 @@ garmin-legend:
 	fi
 
 extract-config:
-	test -e .bbbike-extract.rc || ln -fs $$HOME/.bbbike-extract.rc .
-	test -e .bbbike-extract-pro.rc || ln -fs $$HOME/.bbbike-extract-pro.rc .
+	if [ -e $$HOME/.bbbike-extract.rc ]; then test -e .bbbike-extract.rc || ln -fs $$HOME/.bbbike-extract.rc . ; fi
+	if [ -e $$HOME/.bbbike-extract-pro.rc ]; then test -e .bbbike-extract-pro.rc || ln -fs $$HOME/.bbbike-extract-pro.rc . ; fi
 
 update-javascript bbbike-js:
 	make -C./world/html bbbike-js
