@@ -1,7 +1,7 @@
 http://b.tile.bbbike.org/osm/mapnik-german/12/2200/1342.png
 http://a.tile.openstreetmap.org/12/2200/1342.png
 http://a.tile.stamen.com/toner/12/2200/1342.png
-https://a.tile.thunderforest.com/transport/12/2200/1342.png
+https://a.tile.thunderforest.com/transport/12/2200/1342@2x.png
 http://tiles1.skobbler.net/osm_tiles2/12/2200/1342.png
 http://a.tile.bbbike.org/osm/mapnik-german/12/2200/1342.png
 http://a.tile.stamen.com/watercolor/12/2200/1342.png
@@ -9,13 +9,13 @@ http://tile.openstreetmap.de/tiles/osmde/12/2200/1342.png
 http://a.tile.bbbike.org/osm/mapnik/12/2200/1342.png
 http://gsp2.apple.com/tile?api=1&style=slideshow&layers=default&lang=de_DE&z=12&x=2200&y=1342&v=9
 http://a.tile.bbbike.org/osm/bbbike-smoothness/12/2200/1342.png
-https://a.tile.thunderforest.com/cycle/12/2200/1342.png
-https://a.tile.thunderforest.com/outdoors/12/2200/1342.png
-https://a.tile.thunderforest.com/transport-dark/12/2200/1342.png
+https://a.tile.thunderforest.com/cycle/12/2200/1342@2x.png
+https://a.tile.thunderforest.com/outdoors/12/2200/1342@2x.png
+https://a.tile.thunderforest.com/transport-dark/12/2200/1342@2x.png
 http://otile1.mqcdn.com/tiles/1.0.0/osm/12/2200/1342.png
 http://ttiles02.mqcdn.com/tiles/1.0.0/vy/hyb/11/1099/670.png
 http://ttiles03.mqcdn.com/tiles/1.0.0/vy/sat/13/4400/2686.png
-https://a.tile.thunderforest.com/landscape/12/2200/1342.png
+https://a.tile.thunderforest.com/landscape/12/2200/1342@2x.png
 http://tile.memomaps.de/tilegen/12/2200/1342.png
 http://www.openptmap.org/tiles/12/2200/1342.png
 https://1.traffic.maps.api.here.com/maptile/2.1/traffictile/newest/normal.day/12/2200/1342/256/png8?app_id=g7UuRR708Tsut4YSnDLy&token=fVzaDAdRK62zo3CuNcPtDg&lglg=ENG
