@@ -524,12 +524,16 @@ create-bbbike-web-symlinks-bbbike.en.cgi:
 update-feed:
 	${MAKE} -C world/web/feed
 
+create-usr-local-bin-symlink: create-perl-symlink create-bash-symlink
+
 create-perl-symlink:
 	test -e /usr/local/bin/perl || sudo ln -fs /usr/bin/perl /usr/local/bin/perl
+create-bash-symlink:
+	test -e /usr/local/bin/bash || sudo ln -fs /bin/bash /usr/local/bin/bash
 
 symlinks: create-bbbike-web-symlinks
 
-create-bbbike-web-symlinks: create-perl-symlink create-bbbike-web-symlinks-bbbike.en.cgi index update-feed bbbike-org-t create-bbbike-org-symlinks
+create-bbbike-web-symlinks: create-usr-local-bin-symlink create-bbbike-web-symlinks-bbbike.en.cgi index update-feed bbbike-org-t create-bbbike-org-symlinks
 	ln -fs world/Makefile.osm ${BBBIKE_WEB_DIR}
 	ln -fs Makefile.osm Makefile
 	cd cgi; ln -fs ../world/cgi/bbbike.cgi.config .
