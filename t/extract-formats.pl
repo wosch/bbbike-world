@@ -27,6 +27,8 @@ qq{# please run now: ./world/t/extract-formats.pl | xargs -P4 -n1 -0 /bin/sh -c 
 sub generate_urls {
 
     foreach my $key ( keys %$formats ) {
+        next if $key =~ /^png-/;
+
         print qq{curl -sSf "$server/cgi/extract.cgi}
           . qq{?sw_lng=$sw_lng&sw_lat=$sw_lat}
           . ( $random ? int( rand(1_000_000) ) : "" )
