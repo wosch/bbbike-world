@@ -39,6 +39,12 @@ init_apt_mono() {
     fi
 }
 
+# required packages for this script
+init_apt_deb() {
+    sudo apt-get install -qq -y lsb-release wget
+}
+
+init_apt_deb
 init_apt_bbbike
 init_apt_mono
 
