@@ -8,6 +8,10 @@ BEGIN {
 
     my $lockfile = "/tmp/.X${display_number}-lock";
 
+    if ( $ENV{BBBIKE_MAPERITIVE_DISABLED} ) {
+        print "1..0 # skip, maperitive disabled\n";
+        exit;
+    }
     if ( !-e $lockfile ) {
         print "1..0 # skip, DISPLAY=$display xvfb not running?\n";
         exit;
