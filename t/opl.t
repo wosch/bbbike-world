@@ -79,31 +79,31 @@ is( $?,                  0,        "pbf2osm --opl converter" );
 is( md5_file($tempfile), $opl_md5, "opl gmd5 checksum matched" );
 
 system(
-qq[world/bin/pbf2osm --opl-gzip $pbf_file; gzip -dc $osm_file_gz > $tempfile]
+qq[world/bin/pbf2osm --opl-gzip $pbf_file && gzip -dc $osm_file_gz > $tempfile]
 );
 is( $?,                  0,        "pbf2osm --opl-gzip converter" );
 is( md5_file($tempfile), $opl_md5, "opl gzip md5 checksum matched" );
 
 system(
-    qq[world/bin/pbf2osm --opl-gz $pbf_file; gzip -dc $osm_file_gz > $tempfile]
+qq[world/bin/pbf2osm --opl-gz $pbf_file && gzip -dc $osm_file_gz > $tempfile]
 );
 is( $?,                  0,        "pbf2osm --opl-gz converter" );
 is( md5_file($tempfile), $opl_md5, "opl gz md5 checksum matched" );
 
 system(
-    qq[world/bin/pbf2osm --opl-bzip2 $pbf_file; bzcat $osm_file_bz2 > $tempfile]
+qq[world/bin/pbf2osm --opl-bzip2 $pbf_file && bzcat $osm_file_bz2 > $tempfile]
 );
 is( $?,                  0,        "pbf2osm --opl-bzip2 converter" );
 is( md5_file($tempfile), $opl_md5, "opl bzip2 md5 checksum matched" );
 
 system(
-    qq[world/bin/pbf2osm --opl-bz2 $pbf_file; bzcat $osm_file_bz2 > $tempfile]
+    qq[world/bin/pbf2osm --opl-bz2 $pbf_file && bzcat $osm_file_bz2 > $tempfile]
 );
 is( $?,                  0,        "pbf2osm --opl-bz2 converter" );
 is( md5_file($tempfile), $opl_md5, "opl bz2 md5 checksum matched" );
 
 system(
-    qq[world/bin/pbf2osm --opl-xz $pbf_file; xzcat $osm_file_xz > $tempfile]);
+    qq[world/bin/pbf2osm --opl-xz $pbf_file && xzcat $osm_file_xz > $tempfile]);
 is( $?,                  0,        "pbf2osm --opl-xz converter" );
 is( md5_file($tempfile), $opl_md5, "opl xz md5 checksum matched" );
 

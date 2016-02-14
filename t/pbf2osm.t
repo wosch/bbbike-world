@@ -61,31 +61,31 @@ is( $?,                  0,        "pbf2osm converter" );
 is( md5_file($tempfile), $osm_md5, "osm md5 checksum matched" );
 
 system(
-qq[world/bin/pbf2osm --gzip $pbf_file; gzip -dc $osm_file_gz | perl -npe 's/timestamp=".*?"/timestamp="0"/' > $tempfile]
+qq[world/bin/pbf2osm --gzip $pbf_file && gzip -dc $osm_file_gz | perl -npe 's/timestamp=".*?"/timestamp="0"/' > $tempfile]
 );
 is( $?,                  0,        "pbf2osm --gzip converter" );
 is( md5_file($tempfile), $osm_md5, "osm gzip md5 checksum matched" );
 
 system(
-qq[world/bin/pbf2osm --pgzip $pbf_file; gzip -dc $osm_file_gz  | perl -npe 's/timestamp=".*?"/timestamp="0"/' > $tempfile]
+qq[world/bin/pbf2osm --pgzip $pbf_file && gzip -dc $osm_file_gz  | perl -npe 's/timestamp=".*?"/timestamp="0"/' > $tempfile]
 );
 is( $?,                  0,        "pbf2osm --pgzip converter" );
 is( md5_file($tempfile), $osm_md5, "osm pigz md5 checksum matched" );
 
 system(
-qq[world/bin/pbf2osm --bzip2 $pbf_file; bzcat $osm_file_bz2 | perl -npe 's/timestamp=".*?"/timestamp="0"/' > $tempfile]
+qq[world/bin/pbf2osm --bzip2 $pbf_file && bzcat $osm_file_bz2 | perl -npe 's/timestamp=".*?"/timestamp="0"/' > $tempfile]
 );
 is( $?,                  0,        "pbf2osm --bzip2 converter" );
 is( md5_file($tempfile), $osm_md5, "osm bzip2 md5 checksum matched" );
 
 system(
-qq[world/bin/pbf2osm --pbzip2 $pbf_file; bzcat $osm_file_bz2 | perl -npe 's/timestamp=".*?"/timestamp="0"/' > $tempfile]
+qq[world/bin/pbf2osm --pbzip2 $pbf_file && bzcat $osm_file_bz2 | perl -npe 's/timestamp=".*?"/timestamp="0"/' > $tempfile]
 );
 is( $?,                  0,        "pbf2osm --pbzip2 converter" );
 is( md5_file($tempfile), $osm_md5, "osm pbzip2 md5 checksum matched" );
 
 system(
-qq[world/bin/pbf2osm --xz $pbf_file; xzcat $osm_file_xz | perl -npe 's/timestamp=".*?"/timestamp="0"/' > $tempfile]
+qq[world/bin/pbf2osm --xz $pbf_file && xzcat $osm_file_xz | perl -npe 's/timestamp=".*?"/timestamp="0"/' > $tempfile]
 );
 is( $?,                  0,        "pbf2osm --xz converter" );
 is( md5_file($tempfile), $osm_md5, "osm xz md5 checksum matched" );

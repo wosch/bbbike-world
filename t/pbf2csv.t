@@ -62,19 +62,19 @@ is( $?,                  0,        "pbf2osm --csv converter" );
 is( md5_file($tempfile), $csv_md5, "csv md5 checksum matched" );
 
 system(
-qq[world/bin/pbf2osm --csv-gzip $pbf_file; gzip -dc $csv_file_gz > $tempfile]
+qq[world/bin/pbf2osm --csv-gzip $pbf_file && gzip -dc $csv_file_gz > $tempfile]
 );
 is( $?,                  0,        "pbf2osm --csv-gzip converter" );
 is( md5_file($tempfile), $csv_md5, "csv gzip md5 checksum matched" );
 
 system(
-    qq[world/bin/pbf2osm --csv-bzip2 $pbf_file; bzcat $csv_file_bz2 > $tempfile]
+qq[world/bin/pbf2osm --csv-bzip2 $pbf_file && bzcat $csv_file_bz2 > $tempfile]
 );
 is( $?,                  0,        "pbf2osm --csv-bzip2 converter" );
 is( md5_file($tempfile), $csv_md5, "csv bzip2 md5 checksum matched" );
 
 system(
-    qq[world/bin/pbf2osm --csv-xz $pbf_file; xzcat $csv_file_xz > $tempfile]);
+    qq[world/bin/pbf2osm --csv-xz $pbf_file && xzcat $csv_file_xz > $tempfile]);
 is( $?,                  0,        "pbf2osm --csv-xz converter" );
 is( md5_file($tempfile), $csv_md5, "csv xz md5 checksum matched" );
 
