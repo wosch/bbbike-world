@@ -306,7 +306,7 @@ if ( $list || $city_en ) {
         my $local_lang = $hash{$key}->{local_lang} eq 'de' ? 'de' : "en";
         print $key, "\n"
           if $list
-              || $local_lang eq 'en';
+          || $local_lang eq 'en';
     }
     exit 0;
 }

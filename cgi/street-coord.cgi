@@ -251,7 +251,7 @@ my $city = $q->param('city') || 'Basel';
 my $namespace = $q->param('namespace') || $q->param('ns') || '0';
 
 # untaint
-$city      = ( $city      =~ /^([A-Za-z]+$)/    ? $1 : "Berlin" );
+$city      = ( $city =~ /^([A-Za-z]+$)/         ? $1 : "Berlin" );
 $namespace = ( $namespace =~ /^([A-Za-z0-9]+$)/ ? $1 : "0" );
 if ( $street =~ /^(.+)$/ ) {
     $street = $1;

@@ -236,7 +236,7 @@ qr"^Map data.*OpenStreetMap contributors, https://www.openstreetmap.org",
             (
                 grep {
                     /^Diese $format_name Karte wurde erzeugt am: \S+\s+.*UTC.+$/
-                  } @data
+                } @data
             ),
             "format_name + datum check"
         );
@@ -244,7 +244,7 @@ qr"^Map data.*OpenStreetMap contributors, https://www.openstreetmap.org",
             (
                 grep {
 /^GPS Rechteck Koordinaten \(lng,lat\): [\-0-9\.]+,.* [\-0-9\.]+,/
-                  } @data
+                } @data
             ),
             "gps"
         );
@@ -252,7 +252,7 @@ qr"^Map data.*OpenStreetMap contributors, https://www.openstreetmap.org",
             (
                 grep {
                     qr"^Script URL: http://.*bbbike.org/.*\?.*format=.+.*city="
-                  } @data
+                } @data
             ),
             "url"
         );
@@ -263,7 +263,7 @@ qr"^Map data.*OpenStreetMap contributors, https://www.openstreetmap.org",
             (
                 grep {
                     qr"unterstuetzen: http://www.bbbike.org/community.de.html"
-                  } @data
+                } @data
             ),
             "donate"
         );
@@ -283,7 +283,7 @@ qr"^Map data.*OpenStreetMap contributors, https://www.openstreetmap.org",
             (
                 grep {
 /^This $format_name (file|map) was created on: \S+\s+.*UTC.+$/
-                  } @data
+                } @data
             ),
             "format_name + date check"
         );
@@ -291,7 +291,7 @@ qr"^Map data.*OpenStreetMap contributors, https://www.openstreetmap.org",
             (
                 grep {
 /^GPS rectangle coordinates \(lng,lat\): [\-0-9\.]+,.* [\-0-9\.]+,/
-                  } @data
+                } @data
             ),
             "gps"
         );
@@ -299,7 +299,7 @@ qr"^Map data.*OpenStreetMap contributors, https://www.openstreetmap.org",
             (
                 grep {
                     qr"^Script URL: http://.*bbbike.org/.*\?.*format=.+.*city="
-                  } @data
+                } @data
             ),
             "url"
         );
@@ -310,7 +310,7 @@ qr"^Map data.*OpenStreetMap contributors, https://www.openstreetmap.org",
             (
                 grep {
 qr"^PayPal, Flattr or bank wire transfer: http://www.BBBike.org/community.html"
-                  } @data
+                } @data
             ),
             "donate"
         );

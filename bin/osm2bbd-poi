@@ -104,7 +104,7 @@ sub get_streets {
     }
     my @f = (
         "strassen",
-        ( $scope =~ /region/ ? "landstrassen" : () ),
+        ( $scope =~ /region/     ? "landstrassen"  : () ),
         ( $scope eq 'wideregion' ? "landstrassen2" : () ),
     );
 
@@ -140,8 +140,7 @@ sub get_streets {
             } @f;
         }
         eval {
-            if ( @f == 1 )
-            {
+            if ( @f == 1 ) {
                 $g_str = new Strassen $f[0];
             }
             else {
@@ -375,7 +374,7 @@ sub get_poi_fh {
         $type =~ s/:.*//;
 
         # ignore bus stations
-        next if !$enable_bus_stations && $type =~ /^Bus/i;
+        next if !$enable_bus_stations  && $type =~ /^Bus/i;
         next if !$enable_tram_stations && $type eq 'Tramstop';
 
         # ignore incomplete entries

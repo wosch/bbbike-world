@@ -1720,7 +1720,7 @@ sub aws_s3_path {
     my $sep = "/";
 
     my $aws_path =
-        $option->{"aws_s3"}->{"bucket"} 
+        $option->{"aws_s3"}->{"bucket"}
       . $sep
       . $option->{"aws_s3"}->{"path"}
       . $sep

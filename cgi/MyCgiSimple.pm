@@ -396,7 +396,7 @@ sub _add_param {
     for my $value (@values) {
         next
           if $value eq ''
-              and $self->{'.globals'}->{'NO_UNDEF_PARAMS'};
+          and $self->{'.globals'}->{'NO_UNDEF_PARAMS'};
         $value =~ tr/\000//d if $self->{'.globals'}->{'NO_NULL'};
         $value = Encode::decode( utf8 => $value )
           if $self->{'.globals'}->{PARAM_UTF8};

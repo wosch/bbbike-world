@@ -255,7 +255,7 @@ sub extract_route {
 
             next
               if $only_production_statistic
-                  && !m, ([a-zA-Z]+)\.cgi: (URL:)?http://$host.bbbike.org/,;
+              && !m, ([a-zA-Z]+)\.cgi: (URL:)?http://$host.bbbike.org/,;
             next if !/coords/;
             next if $date && !/$date/;
 
@@ -613,7 +613,7 @@ EOF
               . $city_center->{$_}
               . qq/')">$_ (/
               . scalar( @{ $cities->{$_} } ) . ")</a>"
-          } @cities
+        } @cities
     );
 
 #$d.= qq{<p><a href="javascript:flipMarkers(infoMarkers)">flip markers</a></p>};

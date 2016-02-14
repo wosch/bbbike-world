@@ -351,7 +351,7 @@ my $city      = $q->param('city')      || 'Berlin';
 my $namespace = $q->param('namespace') || $q->param('ns') || '0';
 my $crossing  = $q->param('crossing')  || $q->param('c') || '0';
 
-$city      = ( $city      =~ /^([A-Za-z]+$)/    ? $1 : "Berlin" );
+$city      = ( $city =~ /^([A-Za-z]+$)/         ? $1 : "Berlin" );
 $namespace = ( $namespace =~ /^([A-Za-z0-9]+$)/ ? $1 : "0" );
 
 if ( my $d = $q->param('debug') || $q->param('d') ) {

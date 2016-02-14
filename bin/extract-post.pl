@@ -191,18 +191,18 @@ else {
     $coords = perl2coords(
           $coords_json ? get_json_from_file($coords_json)
         : $coords_perl ? get_perl_from_file($coords_perl)
-        : get_poly_from_file($coords_poly)
+        :                get_poly_from_file($coords_poly)
     );
 }
 
-die "No city name is given!\n" . &usage  if $city   eq "";
-die "No email address given!\n" . &usage if $email  eq "";
+die "No city name is given!\n" . &usage  if $city eq "";
+die "No email address given!\n" . &usage if $email eq "";
 die "No format is given!\n" . &usage     if $format eq "";
 die "No coords file is given!\n" . &usage
   if $coords_json eq ""
-      && $coords_perl  eq ""
-      && $coords_poly  eq ""
-      && $extract_file eq "";
+  && $coords_perl eq ""
+  && $coords_poly eq ""
+  && $extract_file eq "";
 
 Die "No coordinates found in input file!\n" if $coords eq "";
 

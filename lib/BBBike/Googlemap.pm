@@ -140,7 +140,7 @@ sub run {
         : $maptype =~ /^cycle$/    ? 'cycle_map'
         : $maptype =~ /^mapnik$/   ? 'mapnik_map'
         : $maptype =~ /^tah$/      ? 'tah_map'
-        : 'cycle_map'
+        :                            'cycle_map'
     );
 
     my $mapmode = $q->param("mapmode") || "";
@@ -251,7 +251,7 @@ sub get_html {
     my $google_api_key = $google_api_keys{$host}
       || $google_api_keys{$fallback_host};
     my $cgi_reldir = dirname( $full->path );
-    my $is_beta = $full =~ m{bbikegooglemap2.cgi};
+    my $is_beta    = $full =~ m{bbikegooglemap2.cgi};
 
     my $bbbikeroot      = "/BBBike";
     my $get_public_link = sub {

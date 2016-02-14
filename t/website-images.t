@@ -65,7 +65,7 @@ sub images {
           . (
               $image =~ /\.gif$/ ? "gif"
             : $image =~ /\.ico$/ ? "x-icon"
-            : "png"
+            :                      "png"
           );
         is( $res->content_type, $mime_type, "$image is $mime_type" );
     }

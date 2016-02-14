@@ -58,7 +58,7 @@ sub adsense_street_page {
     return if !$enable_google_adsense || !-f $file;
     return
       if defined $enable_google_adsense_street
-          && !$enable_google_adsense_street;
+      && !$enable_google_adsense_street;
 
     open( FH, $file ) or return;
 
@@ -83,7 +83,7 @@ sub adsense_linkblock {
     return if !$enable_google_adsense || !-f $file;
     return
       if defined $enable_google_adsense_linkblock
-          && !$enable_google_adsense_linkblock;
+      && !$enable_google_adsense_linkblock;
 
     open( FH, $file ) or return;
 
@@ -105,7 +105,7 @@ sub adsense_street_linkblock {
     return if !$enable_google_adsense || !-f $file;
     return
       if defined $enable_google_adsense_street_linkblock
-          && !$enable_google_adsense_street_linkblock;
+      && !$enable_google_adsense_street_linkblock;
 
     open( FH, $file ) or return;
 

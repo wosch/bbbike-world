@@ -472,8 +472,8 @@ sub wordlist {
 
     my @list;
     my $s = $string;
-    $s =~ s/\s+\[.*?\]//g;     # remove zip codes
-    $s =~ s/\s+\(.*?\)//g;     # remove zip codes
+    $s =~ s/\s+\[.*?\]//g;    # remove zip codes
+    $s =~ s/\s+\(.*?\)//g;    # remove zip codes
     $s =~ s/^[\[\s"'()]+//g;
     $s =~ s/[\[\s"'()]+$//g;
 
