@@ -9,10 +9,10 @@ perlcheck:
 	${MAKE} _perlcheck >/dev/null 2>&1 || ${MAKE} _perlcheck
 
 _perlcheck:
-	cd ../../; ls world/t/*.t | xargs -n1 -P${NCPU} perl -I. -cw
+	cd ../../; ls world/t/*.t world/t/*.pl | xargs -n1 -P${NCPU} perl -I. -cw
 
 perltidy: perlcheck
-	cd ../../; ls world/t/*.t | xargs -n4 -P${NCPU} perltidy -b
+	cd ../../; ls world/t/*.t world/t/*.pl | xargs -n4 -P${NCPU} perltidy -b
 
 clean:
 	rm -f *.bak *.tdy *.ERR
