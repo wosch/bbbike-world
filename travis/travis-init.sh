@@ -11,8 +11,8 @@ init_apt_bbbike() {
     deb_url=http://debian.bbbike.org
 
     file="$sources_list_d/$bbbike_list"
-    os=ubuntu
-    codename=$(lsb_release -c -s)
+    os=$(lsb_release -i | perl -npe 's,^Distributor ID:\s+,,; $_=lc($_)')
+    codename=$(lsb_release -cs)
 
     if [ ! -e $file ]; then 
         wget -O- $apt_key | sudo apt-key add -
