@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/local/bin/bash
 # Copyright (c) 2009-2015 Wolfram Schneider, http://bbbike.org
 #
 # sub-planet - convert a planet.osm to a smaller files for each continent
