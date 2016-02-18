@@ -43,8 +43,7 @@ sub cities {
 
         my $content = $res->decoded_content();
 
-        like( $content, qr|\s+content="text/html; charset=utf-8"|,
-            "charset" );
+        like( $content, qr|\s+content="text/html; charset=utf-8"|, "charset" );
 
         #like( $content, qr|rel="shortcut|, "icon" );
         like( $content, qr|src=".*/html/bbbike.js"|,   "bbbike.js" );
