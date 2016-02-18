@@ -43,7 +43,7 @@ sub cities {
 
         my $content = $res->decoded_content();
 
-        like( $content, qr|Content-Type" content="text/html; charset=utf-8"|,
+        like( $content, qr|\s+content="text/html; charset=utf-8"|,
             "charset" );
 
         #like( $content, qr|rel="shortcut|, "icon" );
