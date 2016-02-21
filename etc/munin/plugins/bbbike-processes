@@ -38,6 +38,11 @@ PATH=/bin:/usr/bin; export PATH
 
 config=$1
 
+pname ()
+{
+    echo "$1" | sed 's/\./_/g'
+}
+
 if [ "$1" = "config" ]; then
     : ${warning=1:25}
     : ${critical=1:80}
@@ -50,8 +55,9 @@ graph_info BBBike Processes
 graph_period minute
 EOF
 
-    for p in $process_names
+    for pp in $process_names
     do
+	p=$(pname $pp)
         echo "$p.label $p"
         echo "$p.warning $warning"
         echo "$p.critical $critical"
@@ -60,8 +66,9 @@ EOF
     exit 0
 fi
 
-for p in $process_names
+for pp in $process_names
 do
-    echo "$p.value" $(egrep "^${p}$" /proc/*/comm | wc -l)
+    p=$(pname $pp)
+    echo "$p.value" $(egrep "^${pp}$" /proc/*/comm | wc -l)
 done
 
