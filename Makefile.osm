@@ -622,7 +622,9 @@ bbbike-tile-update:
 	fi
 
 bbbike-tile-update-real:
-	${MAKE} DATA_DIR=../bbbike-eserte/data bbbike2wgs84-mapnik  bbbike-mapnik-postgis${POSTGIS_VERSION}
+	@echo "Updating postgis database..., see tmp/log.bbbike-mapnik-postgis${POSTGIS_VERSION}"
+	${MAKE} DATA_DIR=../bbbike-eserte/data bbbike2wgs84-mapnik 
+	time ${MAKE} bbbike-mapnik-postgis${POSTGIS_VERSION} > tmp/log.bbbike-mapnik-postgis${POSTGIS_VERSION} 2>&1
 	${MAKE} tile-cache-cleanup
 	prove world/t/mc-tilecheck.t ./world/t/websites.t
 
