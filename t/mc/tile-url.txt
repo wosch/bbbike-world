@@ -108,3 +108,7 @@ https://a.tile.hosted.thunderforest.com/komoot-2/11/1101/671.png
 https://tile1.maptoolkit.net/terrain/11/1099/671.png
 http://tiles1.sigma-dc-control.com/layer5/12/2200/1342.png
 http://tiles1.sigma-dc-control.com/layer8/12/2200/1342.png
+https://maps.wien.gv.at/basemap/geolandbasemap/normal/google3857/18/90897/142993.png
+https://maps.wien.gv.at/basemap/bmaphidpi/normal/google3857/18/90897/142993.jpeg
+https://maps.wien.gv.at/basemap/bmapgrau/normal/google3857/18/90897/142994.png
+https://maps.wien.gv.at/basemap/bmaporthofoto30cm/normal/google3857/18/90897/142994.jpeg
