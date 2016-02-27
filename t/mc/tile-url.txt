@@ -106,3 +106,5 @@ http://mm-lbserver.dnsalias.com/wms/wms.php?REQUEST=GetMap&SERVICE=WMS&VERSION=1
 http://maps-for-free.com/layer/relief/z9/row179/9_273-179.jpg
 https://a.tile.hosted.thunderforest.com/komoot-2/11/1101/671.png
 https://tile1.maptoolkit.net/terrain/11/1099/671.png
+http://tiles1.sigma-dc-control.com/layer5/12/2200/1342.png
+http://tiles1.sigma-dc-control.com/layer8/12/2200/1342.png
