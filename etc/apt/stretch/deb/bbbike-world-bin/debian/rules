@@ -24,12 +24,15 @@ install:
 	dh_testdir
 	#dh_testroot
 	#dh_prep
-	#dh_installdirs
+	dh_installdirs
 
 	mkdir -p $(CURDIR)/debian/src
 	cd $(CURDIR)/debian/src; \
 	  for i in ${JAVALIBS_TARBALL}; do \
-		test -e $$i || wget ${HOMEPAGE_TARBALL}/src/$$i; \
+		if ! test -e $$i; then \
+		  curl -f ${HOMEPAGE_TARBALL}/src/$$i > $$i.tmp; \
+		  mv -f $$i.tmp $$i; \
+		fi; \
 	  done
 
 	rm -rf $(CURDIR)/debian/tmp/${JAVALIBS_DIR}
@@ -38,10 +41,8 @@ install:
 	  gzip -dc $(CURDIR)/debian/src/$$i | tar -C$(CURDIR)/debian/tmp/${JAVALIBS_DIR} -xvf -; \
 	done
 
-	cd $(CURDIR)/debian/tmp/${JAVALIBS_DIR}/bin
-	#dh_install
-	mv debian/tmp/* debian/bbbike-world-bin-misc 
-
+	dh_install
+	mv $(CURDIR)/debian/tmp/* $(CURDIR)/debian/bbbike-world-bin-misc/
 
 build: install
 
