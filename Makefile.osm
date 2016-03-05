@@ -1124,7 +1124,7 @@ deb-perl: deb-clean perl-cpan
 perl-cpan:
 	set -e; \
 	for i in ${DEB_PACKAGES_DEVEL} ${DEB_PACKAGES}; do \
-	PERL_MB_OPT="--install_base $$HOME/perl5" PERL_MM_OPT="INSTALL_BASE=$$HOME/perl5" PERL5LIB="$$HOME/perl5" \
+	PERL_MB_OPT="--install_base $$HOME/perl5" PERL_MM_OPT="INSTALL_BASE=$$HOME/perl5" PERL5LIB="$$HOME/perl5:$$HOME/perl5/lib/perl5" \
 	  cpan $$i; \
 	done
 
