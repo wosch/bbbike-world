@@ -28,7 +28,7 @@ distclean: clean
 
 build:
 	cd ${LIB}; \
-	   dpkg-buildpackage -rfakeroot -us -uc > debian.log 2>&1
+	   dpkg-buildpackage -rfakeroot -us -uc #> debian.log 2>&1
 	@ls -l *.deb
 	if ${COPY_DEB}; then \
 	  mkdir -p ${_tmp} && cp -f *.deb ${_tmp}; \
