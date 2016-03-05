@@ -47,12 +47,12 @@ deb-bin:
 	${MAKE} -f ../../Makefile clean
 
 deb-bin-java:
-	${MAKE} -f ../../Makefile distclean
+	#${MAKE} -f ../../Makefile distclean
 	${MAKE} -f ../../Makefile LIB=bbbike-world-javalibs clean build ${DEB_REPO}
 	${MAKE} -f ../../Makefile clean
 
 deb-bin-x86:
-	${MAKE} -f ../../Makefile distclean
+	#${MAKE} -f ../../Makefile distclean
 	${MAKE} -f ../../Makefile LIB=bbbike-world-bin clean build ${DEB_REPO}
 	${MAKE} -f ../../Makefile clean
 
