@@ -1079,8 +1079,8 @@ tile: tile-extract tile-convert tile-csv #tile-aws-s3
 ##############################################################################################
 # debian package rules
 #
-DEB_RELEASE=wheezy
-DEB_VENDOR=debian
+DEB_RELEASE=	$(shell lsb_release -cs)
+DEB_VENDOR=	$(shell lsb_release -is | tr  'A-Z' 'a-z')
 DEB_TMP=tmp/deb
 DEB_DIR=${DEB_TMP}/${DEB_VENDOR}/${DEB_RELEASE}
 DEB_MODULE_LIST=world/etc/apt/${DEB_RELEASE}/perl-modules.txt
