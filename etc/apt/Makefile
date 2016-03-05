@@ -20,11 +20,11 @@ clean:
 	rm -f */debian/debhelper.log
 	rm -f */debian/substvars
 	rm -f */debian/files
-	rm -rf */debian/src
 	rm -rf */debian/tmp
 
 distclean: clean
 	rm -f *.deb
+	rm -rf */debian/src
 
 build:
 	cd ${LIB}; \
