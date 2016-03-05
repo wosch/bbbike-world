@@ -1275,6 +1275,10 @@ update-apt-wheezy update-apt-debian7:
 update-apt-jessie update-apt-debian8:
 	${MAKE} DEB_VENDOR=debian DEB_RELEASE=jessie  ${UPDATE_APT}
 
+# debian9/stretch
+update-apt-stretch update-apt-debian9:
+	${MAKE} DEB_VENDOR=debian DEB_RELEASE=stretch  ${UPDATE_APT}
+
 # ubuntu12
 update-apt-precise update-apt-ubuntu update-apt-ubuntu12:
 	${MAKE} DEB_VENDOR=ubuntu DEB_RELEASE=precise ${UPDATE_APT}

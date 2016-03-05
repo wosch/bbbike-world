@@ -1,0 +1,4 @@
+# list of self compiled perl modules for debian
+GIS::Distance::Lite
+Geo::Distance::XS
+Math::MatrixReal
