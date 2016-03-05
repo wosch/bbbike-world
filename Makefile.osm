@@ -1122,8 +1122,7 @@ deb-perl: deb-clean perl-cpan
 
 # build cpan modules first, and later build deb packages
 perl-cpan:
-	PERL_MB_OPT="--install_base $$HOME/perl5" PERL_MM_OPT="INSTALL_BASE=$$HOME/perl5" \
-	  PERL5LIB="$$HOME/perl5" \
+	PERL_MB_OPT="--install_base $$HOME/perl5" PERL_MM_OPT="INSTALL_BASE=$$HOME/perl5" PERL5LIB="$$HOME/perl5" \
 	  cpan ${DEB_PACKAGES_DEVEL} ${DEB_PACKAGES}
 
 deb-equivs: deb-clean
