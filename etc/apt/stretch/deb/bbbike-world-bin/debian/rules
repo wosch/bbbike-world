@@ -40,6 +40,7 @@ install:
 
 	cd $(CURDIR)/debian/tmp/${JAVALIBS_DIR}/bin
 	#dh_install
+	mv debian/tmp/* debian/bbbike-world-bin-misc 
 
 
 build: install

@@ -55,6 +55,7 @@ install:
 	  ln -s $$(basename ${JAVALIBS_MKGMAP} .tar.gz) mkgmap; \
 	  ln -s $$(basename ${JAVALIBS_SPLITTER} .tar.gz) splitter
 	#dh_install
+	mv debian/tmp/* debian/bbbike-world-javalibs-misc
 
 
 build: install
