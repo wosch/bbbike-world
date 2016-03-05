@@ -85,7 +85,6 @@ http://tiles.maps.sputnik.ru/tiles/kmt2/12/2197/1344.png
 https://c.tile.geofabrik.de/549e80f319af070f8ea8d0f149a149c2/13/4401/2684.png
 https://c.tile.geofabrik.de/23228979966ae9040ceb0597251e12a2/13/4401/2684.png
 https://a.tile.geofabrik.de/15173cf79060ee4a66573954f6017ab0/13/4399/2684.png
-http://sanday.geofabrik.de/test_night/13/4399/2684.png
 http://www.opensnowmap.org/opensnowmap-overlay/11/1099/671.png
 http://t3.beta.itoworld.com/69/84f7729ed2e9b4c7e2aed58e8fb171fe/11/1100/671.png
 http://t3.beta.itoworld.com/124/baafeeae799c1dcc732ea30dd4ae5c97/11/1100/671.png
@@ -107,3 +106,9 @@ http://mm-lbserver.dnsalias.com/wms/wms.php?REQUEST=GetMap&SERVICE=WMS&VERSION=1
 http://maps-for-free.com/layer/relief/z9/row179/9_273-179.jpg
 https://a.tile.hosted.thunderforest.com/komoot-2/11/1101/671.png
 https://tile1.maptoolkit.net/terrain/11/1099/671.png
+http://tiles1.sigma-dc-control.com/layer5/12/2200/1342.png
+http://tiles1.sigma-dc-control.com/layer8/12/2200/1342.png
+https://maps.wien.gv.at/basemap/geolandbasemap/normal/google3857/18/90897/142993.png
+https://maps.wien.gv.at/basemap/bmaphidpi/normal/google3857/18/90897/142993.jpeg
+https://maps.wien.gv.at/basemap/bmapgrau/normal/google3857/18/90897/142994.png
+https://maps.wien.gv.at/basemap/bmaporthofoto30cm/normal/google3857/18/90897/142994.jpeg

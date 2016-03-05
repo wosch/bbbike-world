@@ -15,7 +15,7 @@ Depends: pbzip2, bzip2, xz-utils, pixz, git-core, screen, lynx, curl, wget, time
  libtie-ixhash-perl, libdevel-size-perl, libbsd-resource-perl,
  libobject-realize-later-perl, libemail-valid-perl, libcairo-perl,
  libpango-perl, libinline-perl, libpdf-create-perl, libgd-gd2-perl, pdftk,
- osm2navit, libprotobuf-lite9, libshp1, libgeos-dev, libxml2-dev,
+ osm2navit, libprotobuf-lite9v5, libshp1, libgeos-dev, libxml2-dev,
  libxml-twig-perl, libipc-run-perl, libimage-info-perl, libwww-mechanize-perl,
  libemail-mime-perl, libdbi-perl, libobject-realize-later-perl, libmldbm-perl,
  libclass-accessor-perl, libarchive-zip-perl, libtemplate-perl,
@@ -42,5 +42,6 @@ Depends: pbzip2, bzip2, xz-utils, pixz, git-core, screen, lynx, curl, wget, time
  libtest-fatal-perl, liblockfile-simple-perl, mosh, libcgi-fast-perl,
  libjpeg-progs, libplack-perl,
  libcompress-raw-bzip2-perl, libcompress-raw-zlib-perl, libio-compress-perl,
+ libcanary-stability-perl  
 Description: BBBike @ World standard debian packages
  BBBike @ World standard debian packages

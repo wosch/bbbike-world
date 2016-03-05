@@ -622,7 +622,10 @@ bbbike-tile-update:
 	fi
 
 bbbike-tile-update-real:
-	${MAKE} DATA_DIR=../bbbike-eserte/data bbbike2wgs84-mapnik  bbbike-mapnik-postgis${POSTGIS_VERSION} tile-cache-cleanup; \
+	@echo "Updating postgis database..., see tmp/log.bbbike-mapnik-postgis${POSTGIS_VERSION}"
+	${MAKE} DATA_DIR=../bbbike-eserte/data bbbike2wgs84-mapnik 
+	time ${MAKE} bbbike-mapnik-postgis${POSTGIS_VERSION} > tmp/log.bbbike-mapnik-postgis${POSTGIS_VERSION} 2>&1
+	${MAKE} tile-cache-cleanup
 	prove world/t/mc-tilecheck.t ./world/t/websites.t
 
 bbbike-mapnik-config8:
@@ -1100,10 +1103,14 @@ COPY_DEB?= false
 #
 # don't forget to run deb-clean first
 # --requiredeps
+#
+# in case of strange errors, please cleanup ~/perl5 first!
+#
 deb-perl: deb-clean perl-cpan
 	mkdir -p ${DEB_DIR}
 	set -e; cd ${DEB_DIR}; export PERL5LIB="$$HOME/perl5:$$HOME/perl5/lib/perl5"; \
 	for i in ${DEB_PACKAGES}; do \
+	    echo "dh-make: $$i"; \
 	    dh-make-perl --build --email 'wosch@freebsd.org' --cpan $$i; \
 	done
 	set -e; for i in ${DEB_DIR}/*.deb; do \
@@ -1113,10 +1120,13 @@ deb-perl: deb-clean perl-cpan
 	echo "Number of deps: $$(ls ${DEB_DIR} | egrep '*.deb$$' | wc -l)"
 	if test -n "${DEB_REPO}"; then ${MAKE} deb-repo; fi
 
+# build cpan modules first, and later build deb packages
 perl-cpan:
-	PERL_MB_OPT="--install_base $$HOME/perl5" PERL_MM_OPT="INSTALL_BASE=$$HOME/perl5" \
-	  PERL5LIB="$$HOME/perl5" \
-	  cpan ${DEB_PACKAGES_DEVEL} ${DEB_PACKAGES}
+	set -e; \
+	for i in ${DEB_PACKAGES_DEVEL} ${DEB_PACKAGES}; do \
+	PERL_MB_OPT="--install_base $$HOME/perl5" PERL_MM_OPT="INSTALL_BASE=$$HOME/perl5" PERL5LIB="$$HOME/perl5:$$HOME/perl5/lib/perl5" \
+	  cpan $$i; \
+	done
 
 deb-equivs: deb-clean
 	mkdir -p ${DEB_DIR}
@@ -1272,6 +1282,10 @@ update-apt-wheezy update-apt-debian7:
 update-apt-jessie update-apt-debian8:
 	${MAKE} DEB_VENDOR=debian DEB_RELEASE=jessie  ${UPDATE_APT}
 
+# debian9/stretch
+update-apt-stretch update-apt-debian9:
+	${MAKE} DEB_VENDOR=debian DEB_RELEASE=stretch  ${UPDATE_APT}
+
 # ubuntu12
 update-apt-precise update-apt-ubuntu update-apt-ubuntu12:
 	${MAKE} DEB_VENDOR=ubuntu DEB_RELEASE=precise ${UPDATE_APT}
@@ -1418,6 +1432,7 @@ help:
 	@echo "  [ deb-clean | deb-repo | deb-repo-upload | update-apt ]"
 	@echo "  [ DEB_VENDOR=ubuntu DEB_RELEASE=precise deb-perl deb-equivs deb-bin deb-repo-upload ]"
 	@echo "  [ DEB_REPO= make update-apt-\$$(hostname) ]"
+	@echo "  [ DEB_REPO= make COPY_DEB=true update-apt-\$$(hostname) ]"
 	@echo "  [ DEB_REPO= make UPDATE_APT='deb-clean deb-perl deb-repo-upload' update-apt-\$$(hostname) ]"
 	@echo "  [ DEB_REPO= make UPDATE_APT='deb-clean deb-equivs deb-repo-upload' update-apt-\$$(hostname) ]"
 	@echo "  [ DEB_REPO= make UPDATE_APT='deb-bin deb-repo-upload' update-apt-\$$(hostname) ]"
