@@ -1156,7 +1156,8 @@ deb-repo-dir:
 	if [ ! -e distributions ]; then \
 	    ln -s $$pwd/world/etc/apt/${DEB_RELEASE}/conf/distributions; \
 	fi
-	
+
+# fix & sign debian packages	
 deb-repo: deb-repo-dir
 	for i in ${DEB_DIR}/*.deb; do \
 	  world/bin/deb2deb $$i; \
