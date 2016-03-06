@@ -39,7 +39,8 @@ install:
 	rm -rf $(CURDIR)/debian/tmp/${JAVALIBS_DIR}
 	mkdir -p $(CURDIR)/debian/tmp/${JAVALIBS_DIR}
 	for i in ${JAVALIBS_TARBALL}; do \
-	  gzip -dc $(CURDIR)/debian/src/$$i | tar -C$(CURDIR)/debian/tmp/${JAVALIBS_DIR} -xvf -; \
+	  echo "extract $$i"; \
+	  gzip -dc $(CURDIR)/debian/src/$$i | tar -C$(CURDIR)/debian/tmp/${JAVALIBS_DIR} -xf -; \
 	done
 
 	dh_install
