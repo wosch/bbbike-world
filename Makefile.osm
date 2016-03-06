@@ -1120,6 +1120,9 @@ deb-perl: deb-clean perl-cpan
 	echo "Number of deps: $$(ls ${DEB_DIR} | egrep '*.deb$$' | wc -l)"
 	if test -n "${DEB_REPO}"; then ${MAKE} deb-repo; fi
 
+perl-cpan-clean:
+	rm -rf $$HOME/perl5 $$HOME/.cpan/build
+
 # build cpan modules first, and later build deb packages
 perl-cpan:
 	set -e; \
