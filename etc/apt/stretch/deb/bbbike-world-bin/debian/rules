@@ -30,7 +30,8 @@ install:
 	cd $(CURDIR)/debian/src; \
 	  for i in ${JAVALIBS_TARBALL}; do \
 		if ! test -e $$i; then \
-		  curl -f ${HOMEPAGE_TARBALL}/src/$$i > $$i.tmp; \
+		  echo "download ${HOMEPAGE_TARBALL}/src/$$i"; \
+		  curl -sSf ${HOMEPAGE_TARBALL}/src/$$i > $$i.tmp; \
 		  mv -f $$i.tmp $$i; \
 		fi; \
 	  done
