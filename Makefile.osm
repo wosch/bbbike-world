@@ -1423,7 +1423,7 @@ help:
 	@echo "  [ test-org | lighttpd-restart | test ]"
 	@echo "  [ jasmine-node | test-js ]"
 	@echo "  [ deb-perl | deb-equivs | deb-bin ]"
-	@echo "  [ deb-clean | deb-repo | deb-repo-upload ]"
+	@echo "  [ deb-clean | deb-repo | deb-repo-upload | perl-cpan-clean ]"
 	@echo "  [ DEB_REPO= make COPY_DEB=true deb-perl deb-equivs deb-bin deb-repo-upload ]"
 	@echo "  [ DEB_REPO= make deb-clean deb-perl deb-repo-upload ]"
 	@echo "  [ DEB_REPO= make deb-clean deb-equivs deb-repo-upload ]"
