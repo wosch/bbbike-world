@@ -8,7 +8,9 @@ DEB_RELEASE=	trusty
 DEB_REPO_DIR=   /usr/local/www/debian.bbbike.org/${DEB_VENDOR}
 LIB=	bbbike-world-javalibs
 COPY_DEB?=	true
-DEB_REPO?=	deb-repo
+
+# sign the packages?
+DEB_REPO?=	#deb-repo
 _tmp=	../../../../../tmp/deb/${DEB_VENDOR}/${DEB_RELEASE}
 
 all: help
