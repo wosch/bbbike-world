@@ -1267,12 +1267,6 @@ download-srtm-bbbike-org-install:
 	mkdir -p ../osm/download/srtm
 
 UPDATE_APT=deb-perl deb-equivs deb-bin deb-repo-upload
-update-apt: update-apt-squeeze update-apt-wheezy update-apt-jessie \
-	    update-apt-precise update-apt-trusty
-
-# debian6/squeeze
-update-apt-squeeze update-apt-debian6:
-	${MAKE} DEB_VENDOR=debian DEB_RELEASE=squeeze ${UPDATE_APT}
 
 # debian7/wheezy
 update-apt-wheezy update-apt-debian7:
@@ -1285,10 +1279,6 @@ update-apt-jessie update-apt-debian8:
 # debian9/stretch
 update-apt-stretch update-apt-debian9:
 	${MAKE} DEB_VENDOR=debian DEB_RELEASE=stretch  ${UPDATE_APT}
-
-# ubuntu12
-update-apt-precise update-apt-ubuntu update-apt-ubuntu12:
-	${MAKE} DEB_VENDOR=ubuntu DEB_RELEASE=precise ${UPDATE_APT}
 
 # ubuntu14
 update-apt-trusty update-apt-ubuntu14:
@@ -1429,7 +1419,7 @@ help:
 	@echo "  [ test-org | lighttpd-restart | test ]"
 	@echo "  [ jasmine-node | test-js ]"
 	@echo "  [ deb-perl | deb-equivs | deb-bin ]"
-	@echo "  [ deb-clean | deb-repo | deb-repo-upload | update-apt ]"
+	@echo "  [ deb-clean | deb-repo | deb-repo-upload | update-apt-\$$(hostname) ]"
 	@echo "  [ DEB_VENDOR=ubuntu DEB_RELEASE=precise deb-perl deb-equivs deb-bin deb-repo-upload ]"
 	@echo "  [ DEB_REPO= make COPY_DEB=true update-apt-\$$(hostname) ]"
 	@echo "  [ DEB_REPO= make UPDATE_APT='deb-clean deb-perl deb-repo-upload' update-apt-\$$(hostname) ]"
