@@ -1093,7 +1093,6 @@ DEB_PACKAGES_DEVEL=	$(shell ${PERL} -npe 's/\#.*//' ${DEB_MODULE_LIST_DEVEL})
 DEB_CONTROLS=	$(shell ${MAKE} -s -Cworld/etc/apt/${DEB_RELEASE}/equivs)
 DEB_REPO_DIR=	/usr/local/www/debian.bbbike.org/${DEB_VENDOR}
 DEB_OPT_DIR=	/var/lib/bbbike/opt
-DEB_REPO?= deb-repo
 COPY_DEB?= false
 
 #
@@ -1118,7 +1117,6 @@ deb-perl: deb-clean perl-cpan
 	done
 	ls -l ${DEB_DIR}/*.deb
 	echo "Number of deps: $$(ls ${DEB_DIR} | egrep '*.deb$$' | wc -l)"
-	if test -n "${DEB_REPO}"; then ${MAKE} deb-repo; fi
 
 perl-cpan-clean:
 	rm -rf $$HOME/perl5 $$HOME/.cpan/build
@@ -1139,7 +1137,6 @@ deb-equivs: deb-clean
 	done
 	for i in ${DEB_DIR}/*.deb; do world/bin/deb2deb $$i; done
 	ls -l ${DEB_DIR}/*.deb
-	if test -n "${DEB_REPO}"; then ${MAKE} deb-repo; fi
 
 deb-bin deb-bin-java deb-bin-x86: deb-repo-dir
 	${MAKE} -C./world/etc/apt/${DEB_RELEASE}/deb -f ../../Makefile DEB_RELEASE=${DEB_RELEASE} DEB_VENDOR=${DEB_VENDOR} $@
@@ -1424,13 +1421,13 @@ help:
 	@echo "  [ jasmine-node | test-js ]"
 	@echo "  [ deb-perl | deb-equivs | deb-bin ]"
 	@echo "  [ deb-clean | deb-repo | deb-repo-upload | perl-cpan-clean ]"
-	@echo "  [ DEB_REPO= make COPY_DEB=true deb-perl deb-equivs deb-bin deb-repo-upload ]"
-	@echo "  [ DEB_REPO= make deb-clean deb-perl deb-repo-upload ]"
-	@echo "  [ DEB_REPO= make deb-clean deb-equivs deb-repo-upload ]"
-	@echo "  [ DEB_REPO= COPY_DEB=true make deb-clean deb-bin deb-repo-upload ]"
-	@echo "  [ DEB_REPO= COPY_DEB=true make deb-clean deb-bin ]"
-	@echo "  [ DEB_REPO= COPY_DEB=true make deb-clean deb-bin-x86 deb-repo-upload ]"
-	@echo "  [ DEB_REPO= COPY_DEB=true make deb-clean deb-bin-java deb-repo-upload ]"
+	@echo "  [ make COPY_DEB=true deb-perl deb-equivs deb-bin deb-repo-upload ]"
+	@echo "  [ make deb-clean deb-perl deb-repo-upload ]"
+	@echo "  [ make deb-clean deb-equivs deb-repo-upload ]"
+	@echo "  [ COPY_DEB=true make deb-clean deb-bin deb-repo-upload ]"
+	@echo "  [ COPY_DEB=true make deb-clean deb-bin ]"
+	@echo "  [ COPY_DEB=true make deb-clean deb-bin-x86 deb-repo-upload ]"
+	@echo "  [ COPY_DEB=true make deb-clean deb-bin-java deb-repo-upload ]"
 	@echo "  [ sudo apt-get clean && sudo apt-get update && sudo apt-get dist-upgrade -y ]"
 	@echo "  [ sudo apt-get install bbbike-world ]"
 	@echo ""
