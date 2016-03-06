@@ -1422,7 +1422,7 @@ help:
 	@echo ""
 	@echo "  [ deb-perl | deb-equivs | deb-bin ]"
 	@echo "  [ deb-clean | deb-repo | deb-repo-upload | perl-cpan-clean ]"
-	@echo "  [ make deb-perl deb-equivs deb-bin deb-repo-upload ]"
+	@echo "  [ make deb-clean deb-perl deb-equivs deb-bin deb-repo-upload ]"
 	@echo "  [ make deb-clean deb-perl deb-repo-upload ]"
 	@echo "  [ make deb-clean deb-equivs deb-repo-upload ]"
 	@echo "  [ make deb-clean deb-bin deb-repo-upload ]"
