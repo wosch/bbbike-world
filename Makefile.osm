@@ -1093,7 +1093,7 @@ DEB_PACKAGES_DEVEL=	$(shell ${PERL} -npe 's/\#.*//' ${DEB_MODULE_LIST_DEVEL})
 DEB_CONTROLS=	$(shell ${MAKE} -s -Cworld/etc/apt/${DEB_RELEASE}/equivs)
 DEB_REPO_DIR=	/usr/local/www/debian.bbbike.org/${DEB_VENDOR}
 DEB_OPT_DIR=	/var/lib/bbbike/opt
-COPY_DEB?= false
+COPY_DEB?= true
 
 #
 # basically, we run:
@@ -1419,15 +1419,16 @@ help:
 	@echo "  [ tile-convert-srtm | tile-srtm-csv ]"
 	@echo "  [ test-org | lighttpd-restart | test ]"
 	@echo "  [ jasmine-node | test-js ]"
+	@echo ""
 	@echo "  [ deb-perl | deb-equivs | deb-bin ]"
 	@echo "  [ deb-clean | deb-repo | deb-repo-upload | perl-cpan-clean ]"
-	@echo "  [ make COPY_DEB=true deb-perl deb-equivs deb-bin deb-repo-upload ]"
+	@echo "  [ make deb-perl deb-equivs deb-bin deb-repo-upload ]"
 	@echo "  [ make deb-clean deb-perl deb-repo-upload ]"
 	@echo "  [ make deb-clean deb-equivs deb-repo-upload ]"
-	@echo "  [ COPY_DEB=true make deb-clean deb-bin deb-repo-upload ]"
-	@echo "  [ COPY_DEB=true make deb-clean deb-bin ]"
-	@echo "  [ COPY_DEB=true make deb-clean deb-bin-x86 deb-repo-upload ]"
-	@echo "  [ COPY_DEB=true make deb-clean deb-bin-java deb-repo-upload ]"
+	@echo "  [ make deb-clean deb-bin deb-repo-upload ]"
+	@echo "  [ make deb-clean deb-bin-x86 deb-repo-upload ]"
+	@echo "  [ make deb-clean deb-bin-java deb-repo-upload ]"
+	@echo ""
 	@echo "  [ sudo apt-get clean && sudo apt-get update && sudo apt-get dist-upgrade -y ]"
 	@echo "  [ sudo apt-get install bbbike-world ]"
 	@echo ""
