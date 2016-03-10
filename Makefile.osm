@@ -1082,8 +1082,8 @@ tile: tile-extract tile-convert tile-csv #tile-aws-s3
 ##############################################################################################
 # debian package rules
 #
-DEB_RELEASE=wheezy
-DEB_VENDOR=debian
+DEB_RELEASE=	$(shell lsb_release -cs)
+DEB_VENDOR=	$(shell lsb_release -is | tr  'A-Z' 'a-z')
 DEB_TMP=tmp/deb
 DEB_DIR=${DEB_TMP}/${DEB_VENDOR}/${DEB_RELEASE}
 DEB_MODULE_LIST=world/etc/apt/${DEB_RELEASE}/perl-modules.txt
@@ -1093,8 +1093,7 @@ DEB_PACKAGES_DEVEL=	$(shell ${PERL} -npe 's/\#.*//' ${DEB_MODULE_LIST_DEVEL})
 DEB_CONTROLS=	$(shell ${MAKE} -s -Cworld/etc/apt/${DEB_RELEASE}/equivs)
 DEB_REPO_DIR=	/usr/local/www/debian.bbbike.org/${DEB_VENDOR}
 DEB_OPT_DIR=	/var/lib/bbbike/opt
-DEB_REPO?= deb-repo
-COPY_DEB?= false
+COPY_DEB?= true
 
 #
 # basically, we run:
@@ -1103,10 +1102,14 @@ COPY_DEB?= false
 #
 # don't forget to run deb-clean first
 # --requiredeps
+#
+# in case of strange errors, please cleanup ~/perl5 first!
+#
 deb-perl: deb-clean perl-cpan
 	mkdir -p ${DEB_DIR}
 	set -e; cd ${DEB_DIR}; export PERL5LIB="$$HOME/perl5:$$HOME/perl5/lib/perl5"; \
 	for i in ${DEB_PACKAGES}; do \
+	    echo "dh-make: $$i"; \
 	    dh-make-perl --build --email 'wosch@freebsd.org' --cpan $$i; \
 	done
 	set -e; for i in ${DEB_DIR}/*.deb; do \
@@ -1114,12 +1117,17 @@ deb-perl: deb-clean perl-cpan
 	done
 	ls -l ${DEB_DIR}/*.deb
 	echo "Number of deps: $$(ls ${DEB_DIR} | egrep '*.deb$$' | wc -l)"
-	if test -n "${DEB_REPO}"; then ${MAKE} deb-repo; fi
 
+perl-cpan-clean:
+	rm -rf $$HOME/perl5 $$HOME/.cpan/build
+
+# build cpan modules first, and later build deb packages
 perl-cpan:
-	PERL_MB_OPT="--install_base $$HOME/perl5" PERL_MM_OPT="INSTALL_BASE=$$HOME/perl5" \
-	  PERL5LIB="$$HOME/perl5" \
-	  cpan ${DEB_PACKAGES_DEVEL} ${DEB_PACKAGES}
+	set -e; \
+	for i in ${DEB_PACKAGES_DEVEL} ${DEB_PACKAGES}; do \
+	PERL_MB_OPT="--install_base $$HOME/perl5" PERL_MM_OPT="INSTALL_BASE=$$HOME/perl5" PERL5LIB="$$HOME/perl5:$$HOME/perl5/lib/perl5" \
+	  cpan $$i; \
+	done
 
 deb-equivs: deb-clean
 	mkdir -p ${DEB_DIR}
@@ -1129,9 +1137,8 @@ deb-equivs: deb-clean
 	done
 	for i in ${DEB_DIR}/*.deb; do world/bin/deb2deb $$i; done
 	ls -l ${DEB_DIR}/*.deb
-	if test -n "${DEB_REPO}"; then ${MAKE} deb-repo; fi
 
-deb-bin deb-bin-java deb-bin-x86: deb-repo-dir
+deb-bin deb-bin-java deb-bin-x86: 
 	${MAKE} -C./world/etc/apt/${DEB_RELEASE}/deb -f ../../Makefile DEB_RELEASE=${DEB_RELEASE} DEB_VENDOR=${DEB_VENDOR} $@
 
 deb-clean:
@@ -1149,7 +1156,8 @@ deb-repo-dir:
 	if [ ! -e distributions ]; then \
 	    ln -s $$pwd/world/etc/apt/${DEB_RELEASE}/conf/distributions; \
 	fi
-	
+
+# fix & sign debian packages	
 deb-repo: deb-repo-dir
 	for i in ${DEB_DIR}/*.deb; do \
 	  world/bin/deb2deb $$i; \
@@ -1260,12 +1268,6 @@ download-srtm-bbbike-org-install:
 	mkdir -p ../osm/download/srtm
 
 UPDATE_APT=deb-perl deb-equivs deb-bin deb-repo-upload
-update-apt: update-apt-squeeze update-apt-wheezy update-apt-jessie \
-	    update-apt-precise update-apt-trusty
-
-# debian6/squeeze
-update-apt-squeeze update-apt-debian6:
-	${MAKE} DEB_VENDOR=debian DEB_RELEASE=squeeze ${UPDATE_APT}
 
 # debian7/wheezy
 update-apt-wheezy update-apt-debian7:
@@ -1278,10 +1280,6 @@ update-apt-jessie update-apt-debian8:
 # debian9/stretch
 update-apt-stretch update-apt-debian9:
 	${MAKE} DEB_VENDOR=debian DEB_RELEASE=stretch  ${UPDATE_APT}
-
-# ubuntu12
-update-apt-precise update-apt-ubuntu update-apt-ubuntu12:
-	${MAKE} DEB_VENDOR=ubuntu DEB_RELEASE=precise ${UPDATE_APT}
 
 # ubuntu14
 update-apt-trusty update-apt-ubuntu14:
@@ -1421,16 +1419,16 @@ help:
 	@echo "  [ tile-convert-srtm | tile-srtm-csv ]"
 	@echo "  [ test-org | lighttpd-restart | test ]"
 	@echo "  [ jasmine-node | test-js ]"
+	@echo ""
 	@echo "  [ deb-perl | deb-equivs | deb-bin ]"
-	@echo "  [ deb-clean | deb-repo | deb-repo-upload | update-apt ]"
-	@echo "  [ DEB_VENDOR=ubuntu DEB_RELEASE=precise deb-perl deb-equivs deb-bin deb-repo-upload ]"
-	@echo "  [ DEB_REPO= make update-apt-\$$(hostname) ]"
-	@echo "  [ DEB_REPO= make UPDATE_APT='deb-clean deb-perl deb-repo-upload' update-apt-\$$(hostname) ]"
-	@echo "  [ DEB_REPO= make UPDATE_APT='deb-clean deb-equivs deb-repo-upload' update-apt-\$$(hostname) ]"
-	@echo "  [ DEB_REPO= make UPDATE_APT='deb-bin deb-repo-upload' update-apt-\$$(hostname) ]"
-	@echo "  [ DEB_REPO= COPY_DEB=true make UPDATE_APT='deb-bin' update-apt-\$$(hostname) ]"
-	@echo "  [ DEB_REPO= COPY_DEB=true make UPDATE_APT='deb-clean deb-bin-x86 deb-repo-upload' update-apt-\$$(hostname) ]"
-	@echo "  [ DEB_REPO= COPY_DEB=true make UPDATE_APT='deb-bin-java deb-repo-upload' update-apt-\$$(hostname) ]"
+	@echo "  [ deb-clean | deb-repo | deb-repo-upload | perl-cpan-clean ]"
+	@echo "  [ make deb-clean deb-perl deb-equivs deb-bin deb-repo-upload ]"
+	@echo "  [ make deb-clean deb-perl deb-repo-upload ]"
+	@echo "  [ make deb-clean deb-equivs deb-repo-upload ]"
+	@echo "  [ make deb-clean deb-bin deb-repo-upload ]"
+	@echo "  [ make deb-clean deb-bin-x86 deb-repo-upload ]"
+	@echo "  [ make deb-clean deb-bin-java deb-repo-upload ]"
+	@echo ""
 	@echo "  [ sudo apt-get clean && sudo apt-get update && sudo apt-get dist-upgrade -y ]"
 	@echo "  [ sudo apt-get install bbbike-world ]"
 	@echo ""
