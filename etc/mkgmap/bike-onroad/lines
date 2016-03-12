@@ -7,9 +7,9 @@
 
 highway=trunk [ 0x01 road_class=4 resolution 18]
 highway=primary [ 0x03 road_class=3 resolution 18]
-highway=secondary [ 0x04 road_class=2 resolution 22]
-highway=tertiary & !(surface=unpaved) [ 0x06 road_class=2 resolution 22]
-highway=tertiary & surface=unpaved [ 0x0a road_class=2 resolution 22]
+highway=secondary [ 0x04 road_class=2 resolution 20]
+highway=tertiary & !(surface=unpaved) [ 0x06 road_class=2 resolution 20]
+highway=tertiary & surface=unpaved [ 0x0a road_class=2 resolution 20]
 highway=residential & !(surface=unpaved) [ 0x06 road_class=0 resolution 22]
 highway=residential & surface=unpaved [ 0x0a road_class=0 resolution 22]
 highway=unclassified & !(surface=unpaved) [ 0x06 road_class=0 resolution 22]
@@ -22,8 +22,8 @@ natural=coastline [0x15 resolution 18]
 
 railway=abandoned [0x0a road_class=0 road_speed=1 resolution 22]
 railway=platform [0x16 road_class=0 road_speed=0 resolution 22]
-(railway=rail | railway=tram | railway=disused | railway=subway | railway=narrow_gauge | railway=light_rail | railway=preserved) & !(tunnel=yes) [0x14 resolution 20]
+(railway=rail | railway=tram | railway=disused | railway=subway | railway=narrow_gauge | railway=light_rail | railway=preserved) & !(tunnel=yes) [0x14 resolution 18]
 
-waterway=canal [0x1f resolution 20]
-waterway=river [0x1f resolution 20]
+waterway=canal [0x1f resolution 18]
+waterway=river [0x1f resolution 18]
 
