@@ -86,7 +86,7 @@ our $formats_menu = {
         'formats' => [
             'garmin-osm.zip',     'garmin-cycle.zip',
             'garmin-leisure.zip', 'garmin-bbbike.zip',
-            'garmin-onroad'
+            'garmin-onroad.zip'
         ]
     },
     'android' => {
