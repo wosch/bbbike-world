@@ -1,5 +1,6 @@
-place=city [0x0700 resolution 18]
+place=city [0x0400 resolution 17]
 place=town [0x0700 resolution 18]
+place=suburb [0x0a00 resolution 20]
 place=village [0x0900 resolution 22]
 place=hamlet [0x0b00 resolution 22]
 
