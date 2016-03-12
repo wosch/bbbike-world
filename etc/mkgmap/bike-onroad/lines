@@ -1,0 +1,21 @@
+# Road classes are:
+# 4 Major HW/Ramp
+# 3 Principal HW
+# 2 Arterial St / Other HW
+# 1 Roundabout / Collector
+# 0 Residential Street / Unpaved road / Trail
+
+highway=trunk [ 0x01 road_class=4 resolution 18]
+highway=primary [ 0x03 road_class=3 resolution 18]
+highway=secondary [ 0x04 road_class=2 resolution 22]
+highway=tertiary & !(surface=unpaved) [ 0x06 road_class=2 resolution 22]
+highway=tertiary & surface=unpaved [ 0x0a road_class=2 resolution 22]
+highway=residential & !(surface=unpaved) [ 0x06 road_class=0 resolution 22]
+highway=residential & surface=unpaved [ 0x0a road_class=0 resolution 22]
+highway=unclassified & !(surface=unpaved) [ 0x06 road_class=0 resolution 22]
+highway=unclassified & surface=unpaved [ 0x0a road_class=0 resolution 22]
+
+highway=path & bicycle=designated [ 0x07 road_class=0 resolution 22]
+highway=cycleway [ 0x07 road_class=0 resolution 22]
+
+natural=coastline [0x15 resolution 18]

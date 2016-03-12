@@ -1,0 +1,11 @@
+place=city [0x0700 resolution 18]
+place=town [0x0700 resolution 18]
+place=village [0x0900 resolution 22]
+place=hamlet [0x0b00 resolution 22]
+
+amenity=drinking_water [0x5000 resolution 22 default_name 'Water']
+
+<finalize>
+# The finalizer section is executed for each element when a rule with an element type matches
+name=* { name '${name}' }
+

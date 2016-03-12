@@ -1,0 +1,7 @@
+summary: Basic style for road cycling
+version=0.1
+description {
+This style is intended to remove many features not relevant and result
+in the smallest possible file for import into a simple cycling GPS such
+as Garmin's Edge 520.
+}
