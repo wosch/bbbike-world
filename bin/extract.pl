@@ -1359,9 +1359,7 @@ sub _convert_send_email {
         }
     }
 
-    elsif ($format =~ /^garmin-(osm|cycle|leisure|bbbike|onroad).zip$/
-        || $format =~
-        /^[a-z\-]+\.garmin-(osm|cycle|leisure|bbbike|onroad|srtm)\.zip$/ )
+    elsif ( $format =~ /garmin-([a-z\-]+)\.zip$/ && exists $formats->{$format} )
     {
         my $style      = $1;
         my $format_ext = $format;
