@@ -5,10 +5,11 @@
 # 1 Roundabout / Collector
 # 0 Residential Street / Unpaved road / Trail
 
-highway=motorway [0x1C road_class=0 resolution 16]
+highway=motorway [0x01 road_class=4 resolution 16]
+highway=motorway_link [0x01 road_class=4 resolution 16]
 highway=trunk [ 0x01 road_class=4 resolution 18]
 highway=primary [ 0x03 road_class=3 resolution 18]
-highway=secondary [ 0x04 road_class=2 resolution 20]
+highway=secondary [ 0x04 road_class=2 resolution 19]
 highway=tertiary & !(surface=unpaved) [ 0x06 road_class=2 resolution 20]
 highway=tertiary & surface=unpaved [ 0x0a road_class=2 resolution 20]
 highway=residential & !(surface=unpaved) [ 0x06 road_class=0 resolution 22]
