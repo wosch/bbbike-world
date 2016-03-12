@@ -39,6 +39,7 @@ var config = {
         "garmin-osm.zip": 768,
         "garmin-cycle.zip": 650,
         "garmin-leisure.zip": 650,
+        "garmin-onroad.zip": 650,
 
         "png-google.zip": 32,
         "png-osm.zip": 32,
@@ -76,6 +77,7 @@ var config = {
 
     // help image per format
     "format_images": {
+        "garmin-onroad.zip": "/images/garmin-bbbike-small.png",
         "garmin-bbbike.zip": "/images/garmin-bbbike-small.png",
         "garmin-cycle.zip": "/images/garmin-cycle-small.png",
         "garmin-leisure.zip": "/images/garmin-leisure-small.png",
@@ -1332,6 +1334,10 @@ function show_filesize(skm, real_size, sub_planet_factor) {
         "garmin-bbbike.zip": {
             "size": 0.8,
             "time": 2
+        },
+        "garmin-onroad.zip": {
+            "size": 0.1,
+            "time": 1.2
         },
         "png-google.zip": {
             "size": 1,
