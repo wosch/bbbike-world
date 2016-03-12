@@ -5,8 +5,9 @@ place=village [0x0900 resolution 22]
 place=hamlet [0x0b00 resolution 22]
 
 amenity=drinking_water [0x5000 resolution 22 default_name 'Water']
-amenity=fuel [0x2f01 resolution 19]
+amenity=fuel [0x2f01 resolution 20]
 amenity=restaurant [0x2a00 resolution 20]
+shop=bicycle [0x2e10 resolution 20]
 
 <finalize>
 # The finalizer section is executed for each element when a rule with an element type matches
