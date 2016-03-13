@@ -4,10 +4,12 @@ place=suburb [0x0a00 resolution 20]
 place=village [0x0900 resolution 22]
 place=hamlet [0x0b00 resolution 22]
 
+aeroway=airport [0x2d0b resolution 20]
+
 amenity=drinking_water [0x5000 resolution 22 default_name 'Water']
 amenity=fuel [0x2f01 resolution 20]
 amenity=biergarten [0x2d02 resolution 20]
-shop=bicycle [0x2e10 resolution 20]
+shop=bicycle [0x2d0a resolution 20 default_name 'Bicycle Shop']
 
 # 3.5% more size 
 #amenity=restaurant [0x2a00 resolution 20]
