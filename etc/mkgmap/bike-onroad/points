@@ -14,6 +14,12 @@ amenity=pharmacy [0x2e05 resolution 20]
 amenity=police [0x3001 resolution 21]
 amenity=post_office [0x2f05 resolution 20]
 
+historic=museum [0x2c02 resolution 20]
+historic=archaeological_site [0x2c02 resolution 21]
+
+railway=halt [0x300c resolution 21]
+railway=station [0x300c resolution 20]
+
 <finalize>
 # The finalizer section is executed for each element when a rule with an element type matches
 name=* { name '${name}' }
