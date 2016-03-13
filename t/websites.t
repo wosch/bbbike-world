@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2016 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
@@ -70,7 +70,7 @@ my @list = (
     {
         'page'     => 'http://mc.bbbike.org/mc/',
         'min_size' => 5_000,
-        'match'    => [ "</html>", "Choose map type", ' src="js/mc.js"' ]
+        'match'    => [ "</html>", "Choose map type", ' src="js/mc.js(\?version=\d+)?"' ]
     },
     {
         'page' =>
