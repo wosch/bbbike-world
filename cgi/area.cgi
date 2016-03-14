@@ -168,7 +168,8 @@ EOF
 
 <br/>
 <a href="http://extract.bbbike.org/extract.html" target="_new">help</a> |
-<a href="http://extract.bbbike.org/extract-screenshots.html" target="_new">screenshots</a>
+<a href="http://extract.bbbike.org/extract-screenshots.html" target="_new">screenshots</a> |
+<a href="http://extract.bbbike.org/" target="_new">extracts</a>
 <hr/>
 
 <span class="city">
