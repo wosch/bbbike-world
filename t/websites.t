@@ -70,7 +70,8 @@ my @list = (
     {
         'page'     => 'http://mc.bbbike.org/mc/',
         'min_size' => 5_000,
-        'match'    => [ "</html>", "Choose map type", ' src="js/mc.js(\?version=\d+)?"' ]
+        'match' =>
+          [ "</html>", "Choose map type", ' src="js/mc.js(\?version=\d+)?"' ]
     },
     {
         'page' =>
