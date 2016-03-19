@@ -72,7 +72,11 @@ $cpan Imager
 $cpan XBase
 $cpan CDB_File
 
-# MacOS 
+# MacOS
+# runtime
+$ egrep  -h ^use ./world/bin/bbbike-build-runtime-perl.pl |perl -npe 's,use,\$cpan,g; s/;//' | sort -u
+
+# development
 $ egrep  -h ^use ./world/bin/bbbike-build-runtime-perl*.pl |perl -npe 's,use,\$cpan,g; s/;//' | sort -u
 
 ############################################
