@@ -49,6 +49,18 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
+    title   => qq{New Garmin style Openfiets},
+    id      => '6f5b1fc9a70a146420758b84427c8ea7',
+    content => {
+        type => 'html',
+        content =>
+qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports Garmin Openfiets style},
+    },
+    updated  => '2016-03-19T18:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title =>
 qq{New Garmin style "Onroad" for older devices with less space - usually 1/10 the size of Garmin OSM},
     id      => '5f5b1fc9a70a146420758b84427c8ea7',

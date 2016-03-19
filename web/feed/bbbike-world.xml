@@ -13,6 +13,14 @@
   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af7</id>
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/" version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>New Garmin style Openfiets</title>
+    <id>6f5b1fc9a70a146420758b84427c8ea7</id>
+    <content type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports Garmin Openfiets
+    style</content>
+    <updated>2016-03-19T18:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title type="html">New Garmin style "Onroad" for older devices with less space - usually 1/10 the size of Garmin OSM</title>
     <id>5f5b1fc9a70a146420758b84427c8ea7</id>
     <content type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports Garmin Onroad style for
