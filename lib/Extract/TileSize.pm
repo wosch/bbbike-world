@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2009-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2016 Wolfram Schneider, http://bbbike.org
 #
 # module to guess size of a lat,lng tile
 #
@@ -41,12 +41,13 @@ our $default_size = 4;
 #       internal file, not for the *.zip file itself
 #
 our $factor = {
-    'garmin-onroad.zip'  => 0.07,
-    'garmin-bbbike.zip'  => 0.585,
-    'garmin-cycle.zip'   => 0.581,
-    'garmin-leisure.zip' => 0.755,
-    'garmin-osm.zip'     => 0.583,
-    'garmin-srtm.zip'    => 1.3,
+    'garmin-onroad.zip'        => 0.07,
+    'garmin-bbbike.zip'        => 0.585,
+    'garmin-cycle.zip'         => 0.581,
+    'garmin-openfietslite.zip' => 0.6,
+    'garmin-leisure.zip'       => 0.755,
+    'garmin-osm.zip'           => 0.583,
+    'garmin-srtm.zip'          => 1.3,
 
     'svg-google.zip'     => 1.68,
     'svg-hiking.zip'     => 3.82,
