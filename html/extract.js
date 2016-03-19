@@ -1342,7 +1342,7 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "time": 1.2
         },
         "garmin-openfietslite.zip": {
-            "size": 0.8,
+            "size": 0.6,
             "time": 2
         },
         "png-google.zip": {
