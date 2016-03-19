@@ -410,6 +410,7 @@ check:
 	http_proxy="" ${BBMAKE} test > log.check 2>&1
 	tail -n 10 log.check
 
+# travis needs output on stdout, cannot log into a file
 travis:
 	http_proxy="" ${BBMAKE} test
 
