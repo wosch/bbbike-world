@@ -50,7 +50,7 @@ my $feed = XML::Atom::SimpleFeed->new(
 
 $feed->add_entry(
     title =>
-      qq{New Garmin style "Onroad" for older devices with less space - usually 1/10 the size of Garmin OSM},
+qq{New Garmin style "Onroad" for older devices with less space - usually 1/10 the size of Garmin OSM},
     id      => '5f5b1fc9a70a146420758b84427c8ea7',
     content => {
         type => 'html',
