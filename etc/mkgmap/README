@@ -1,4 +1,13 @@
 OSM based Styles for garmin
+---------------------------------
 
 freizeit - Freizeitkarte, http://freizeitkarte-osm.de/
+
 cyclemap - Cycle Map, https://wiki.openstreetmap.org/wiki/OSM_Map_On_Garmin/Cycle_map
+
+srtm     - SRTM elevation contour lines
+
+bike-onroad - A Garmin style for older devices with less space - usually 1/10 
+  	      the size of Garmin OSM. See also
+	      https://github.com/raintonr/mkgmap-bike-onroad.git
+
