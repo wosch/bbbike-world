@@ -78,7 +78,7 @@ var config = {
 
     // help image per format
     "format_images": {
-        "garmin-openfietslite.zip": "/images/garmin-bbbike-small.png",
+        "garmin-openfietslite.zip": "/images/garmin-openfietsmap-small.png",
         "garmin-onroad.zip": "/images/garmin-onroad2-small.png",
         "garmin-bbbike.zip": "/images/garmin-bbbike-small.png",
         "garmin-cycle.zip": "/images/garmin-cycle-small.png",
