@@ -137,9 +137,9 @@ case $ext in
 
    openfietslite | garmin-openfietslite.zip )
 	ext=garmin-openfietslite.zip
-	mkgmap_map=--style-file=$etc_dir/openfietsmap-lite
+	mkgmap_map=--style-file=$etc_dir/style/openfietsmap-lite
 	mkgmap_map_style=openfietslite
-	mkgmap_map_type=$etc_dir/openfietsmap-lite.TYP
+	mkgmap_map_type=$etc_dir/typ/openfietsmap-lite/openfietsmap-lite.TYP
         ;;
 
    osm | garmin-osm.zip )
