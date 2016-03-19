@@ -1055,6 +1055,7 @@ sub reorder_pbf {
         'garmin-cycle.zip'   => 3,
         'garmin-leisure.zip' => 3.5,
         'garmin-bbbike.zip'  => 3,
+        'garmin-onroad.zip'  => 1.5,
 
         'svg-google.zip'    => 5,
         'svg-hiking.zip'    => 5,
@@ -1358,8 +1359,7 @@ sub _convert_send_email {
         }
     }
 
-    elsif ($format =~ /^garmin-(osm|cycle|leisure|bbbike).zip$/
-        || $format =~ /^[a-z\-]+\.garmin-(osm|cycle|leisure|srtm)\.zip$/ )
+    elsif ( $format =~ /garmin-([a-z\-]+)\.zip$/ && exists $formats->{$format} )
     {
         my $style      = $1;
         my $format_ext = $format;

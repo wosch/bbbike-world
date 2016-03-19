@@ -363,6 +363,11 @@ sub validate_url {
     my $self = shift;
     my @url  = @_;
 
+    if ( $ENV{'BBBIKE_TEST_NO_NETWORK'} ) {
+        diag "Ignore URL check due no network";
+        return;
+    }
+
     my $test = BBBike::Test->new();
     my $hash = $url_hash;
 
