@@ -50,6 +50,19 @@ my $feed = XML::Atom::SimpleFeed->new(
 
 $feed->add_entry(
     title =>
+qq{New Garmin style "Onroad" for older devices with less space - usually 1/10 the size of Garmin OSM},
+    id      => '5f5b1fc9a70a146420758b84427c8ea7',
+    content => {
+        type => 'html',
+        content =>
+qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports Garmin Onroad style for older devices with less space},
+    },
+    updated  => '2016-03-19T13:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title =>
       qq{The extract service supports now MAPSE.ME format for Android and iOS},
     id      => '5f5b1fc9a70a146420758b84227c8ea7',
     content => {

@@ -1,5 +1,15 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2016 Wolfram Schneider, http://bbbike.org
+
+BEGIN {
+    if ( $ENV{BBBIKE_TEST_LONG} ) {
+        ;
+    }
+    elsif ( $ENV{BBBIKE_TEST_FAST} ) {
+        warn "1..0 # skip network tests due instable web site\n";
+        $ENV{BBBIKE_TEST_NO_NETWORK} = 1;
+    }
+}
 
 use Getopt::Long;
 use Data::Dumper qw(Dumper);
