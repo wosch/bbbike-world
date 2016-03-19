@@ -28,6 +28,7 @@ our $formats = {
     'garmin-cycle.zip'   => "Garmin Cycle",
     'garmin-leisure.zip' => "Garmin Leisure",
     'garmin-bbbike.zip'  => "Garmin BBBike",
+    'garmin-onroad.zip'  => "Garmin Onroad",
 
     'svg-google.zip'     => 'SVG google',
     'svg-hiking.zip'     => 'SVG hiking',
@@ -84,7 +85,8 @@ our $formats_menu = {
         'title'   => "Garmin",
         'formats' => [
             'garmin-osm.zip',     'garmin-cycle.zip',
-            'garmin-leisure.zip', 'garmin-bbbike.zip'
+            'garmin-leisure.zip', 'garmin-bbbike.zip',
+            'garmin-onroad.zip'
         ]
     },
     'android' => {
@@ -194,6 +196,7 @@ our $tile_format = {
     "garmin-osm.zip"     => "garmin-osm.zip",
     "garmin-leisure.zip" => "garmin-osm.zip",
     "garmin-bbbike.zip"  => "garmin-osm.zip",
+    "garmin-onroad.zip"  => "garmin-osm.zip",
 
     "navit.zip" => "navit.zip",
     "navit"     => "navit.zip",
