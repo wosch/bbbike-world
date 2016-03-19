@@ -8,7 +8,8 @@ sudo apt-get install -y libhtml-tagcloud-perl libhtml-parser-perl \
   tidy sudo git vim make iftop 
 
 # cpan
-cpan Inline::MakeMaker HTML::TagCloud
+cpan Inline::MakeMaker
+cpan HTML::TagCloud
 
 # checkout sources from git
 curl -sSfL https://github.com/wosch/bbbike-world/raw/world/bin/bbbike-bootstrap | /bin/sh
@@ -38,6 +39,7 @@ ln -s ../Cellar/perl518/5.18.2/bin/perl .
 cpan=/usr/local/bin/cpan
 $cpan XML::Atom::SimpleFeed
 $cpan HTML::TagCloud
+$cpan Inline::MakeMaker
 
 
 brew install node.js pbzip2 git lynx wget tidy
