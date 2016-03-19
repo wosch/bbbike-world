@@ -423,9 +423,9 @@ check-world check-w:
 
 check-full:
 	@echo "In case of failure run:"
-	@echo " BBBIKE_TEST_FAST=\"\" make check-failed"
+	@echo " BBBIKE_TEST_FAST=\"\" BBBIKE_TEST_LONG=1 make check-failed"
 	@echo ""
-	http_proxy="" BBBIKE_TEST_FAST="" ${BBMAKE} test > log.check-full 2>&1
+	http_proxy="" BBBIKE_TEST_FAST="" BBBIKE_TEST_LONG=1 ${BBMAKE} test > log.check-full 2>&1
 	tail -n 10 log.check-full
 
 check-devel:
