@@ -17,7 +17,6 @@ curl -sSfL https://github.com/wosch/bbbike-world/raw/world/bin/bbbike-bootstrap 
 Required debian modules
 ------------------------------------
 
-
 /etc/apt/sources.list:
 ## backports
 deb	http://ftp-stud.hs-esslingen.de/debian-backports squeeze-backports main contrib non-free
@@ -28,56 +27,57 @@ sudo apt-get install bbbike-world
 # reverse proxy
 sudo apt-get install varnish
 
+Required homebrew
+--------------------
 
-Required MacPorts modules
-------------------------------------
-sudo port install pbzip2 bzip2 git-core lynx wget \
-	pigz buffer tidy pdftk htop \
-	p5-yaml p5-bsd-resource p5-uri p5-json p5-xml-simple p5-tie-ixhash \
-	p5-yaml-syck p5-yaml p5-perl-tidy p5-libwww-perl p5-perlio-gzip \
-	p5-perl-tidy p5-extutils-makemaker p5-module-build p5-inline \
-	p5-archive-zip p5-date-calc p5-template-toolkit p5-image-info \
-	p5-www-mechanize p5-xml-twig p5-perl-tidy p5-algorithm-diff \
-	p5-image-exiftool p5-mime-tools p5-ipc-run p5-statistics-descriptive \
-	p5-dbi p5-class-accessor p5-data-compare p5-math-matrix p5-cairo \
-	p5-svg p5-yaml-tiny p5-gd-svg p5-perlmagick libxml2
+brew install homebrew/versions/perl518
+cd /usr/local/bin;
+ln -s ../Cellar/perl518/5.18.2/bin/cpan .
+ln -s ../Cellar/perl518/5.18.2/bin/perl .
 
-sudo port install lighttpd munin varnish openjdk6 
+cpan=/usr/local/bin/cpan
+$cpan XML::Atom::SimpleFeed
+$cpan HTML::TagCloud
+
 
 brew install node.js pbzip2 git lynx wget tidy
+brew install Caskroom/versions/java7
 
 
-sudo_cpan="sudo cpan-5.12"
-$sudo_cpan BSD::Resource
-$sudo_cpan Text::Unidecode
-$sudo_cpan HTML::TagCloud
-$sudo_cpan Object::Realize::Later
-$sudo_cpan Email::Valid
-$sudo_cpan Geo::METAR
-$sudo_cpan Imager
-$sudo_cpan Text::CSV_XS
-$sudo_cpan Capture::Tiny
-$sudo_cpan XML::LibXML::Reader
-$sudo_cpan Image::Info
-#$sudo_cpan PerlIO::gzip
-$sudo_cpan accessors
+$cpan BSD::Resource
+$cpan Text::Unidecode
+$cpan HTML::TagCloud
+$cpan Object::Realize::Later
+$cpan Email::Valid
+$cpan Geo::METAR
+$cpan Imager
+$cpan Text::CSV_XS
+$cpan Capture::Tiny
+$cpan XML::LibXML::Reader
+$cpan Image::Info
+#$cpa PerlIO::gzip
+$cpan accessors
 
 # optional/devel
-$sudo_cpan Devel::Leak
-$sudo_cpan JSON::XS
-$sudo_cpan File::ReadBackwards
-$sudo_cpan HTML::TreeBuilder::XPath
-$sudo_cpan HTML::FormatText
-$sudo_cpan PDF::Create
-$sudo_cpan Text::Table
-$sudo_cpan String::Approx
-$sudo_cpan DB_File::Lock
-$sudo_cpan Imager
-$sudo_cpan XBase
-$sudo_cpan CDB_File
+$cpan Devel::Leak
+$cpan JSON::XS
+$cpan File::ReadBackwards
+$cpan HTML::TreeBuilder::XPath
+$cpan HTML::FormatText
+$cpan PDF::Create
+$cpan Text::Table
+$cpan String::Approx
+$cpan DB_File::Lock
+$cpan Imager
+$cpan XBase
+$cpan CDB_File
 
-# MacOS 
-$ egrep  -h ^use ./world/bin/bbbike-build-runtime-perl*.pl |perl -npe 's,use,\$sudo_cpan,g; s/;//' | sort -u
+# MacOS
+# runtime
+$ egrep  -h ^use ./world/bin/bbbike-build-runtime-perl.pl |perl -npe 's,use,\$cpan,g; s/;//' | sort -u
+
+# development
+$ egrep  -h ^use ./world/bin/bbbike-build-runtime-perl*.pl |perl -npe 's,use,\$cpan,g; s/;//' | sort -u
 
 ############################################
 # fresh maschine
