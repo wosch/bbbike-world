@@ -233,10 +233,16 @@ qr"^Map data.*? OpenStreetMap contributors, https://www.openstreetmap.org",
 
     like( $data[2], qr"^\S+\s+by\s+https?://\S+", "by software" );
 
-    like( $data[4],
-        qr"^Map style.*? by OpenStreetMap.org, BBBike.org, openfietsmap.nl",
-        "map style" )
-      if $format =~ /garmin-/;
+    $self->{'counter'} += 4;
+
+    if ( $format =~ /garmin-/ ) {
+        like(
+            $data[4],
+            qr"^Map style.*? by OpenStreetMap.org, BBBike.org, openfietsmap.nl",
+            "map style"
+        );
+        $self->{'counter'} += 1;
+    }
 
     if ( $lang eq 'de' ) {
         ok(
@@ -333,8 +339,6 @@ qr"^PayPal, Flattr or bank wire transfer: http://www.BBBike.org/community.html"
         $self->{'counter'} += 8;
     }
 
-    $self->{'counter'} += 4;
-    $self->{'counter'} += 1 if $format =~ /garmin-/;
 }
 
 sub check_readme_html {
