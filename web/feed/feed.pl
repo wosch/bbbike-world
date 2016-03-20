@@ -49,12 +49,12 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
-    title   => qq{New Garmin style Openfiets Lite},
+    title   => qq{New Garmin style Openfietsmap Lite},
     id      => '6f5b1fc9a70a146420758b84427c8ea7',
     content => {
         type => 'html',
         content =>
-qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports Garmin Openfiets Lite style},
+qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports Garmin Openfietsmap Lite style},
     },
     updated  => '2016-03-19T18:30:02Z',
     category => 'News',
