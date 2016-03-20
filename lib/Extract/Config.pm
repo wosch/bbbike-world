@@ -29,7 +29,7 @@ our $formats = {
     'garmin-leisure.zip'       => "Garmin Leisure",
     'garmin-bbbike.zip'        => "Garmin BBBike",
     'garmin-onroad.zip'        => "Garmin Onroad",
-    'garmin-openfietslite.zip' => "Garmin Openfiets Lite",
+    'garmin-openfietslite.zip' => "Garmin Openfietsmap Lite",
 
     'svg-google.zip'     => 'SVG google',
     'svg-hiking.zip'     => 'SVG hiking',
