@@ -25,7 +25,7 @@ md5sum=`which md5 md5sum false 2>/dev/null | head -n 1`
 : ${SHA="shasum -a 256"}
 
 cd $dir
-for file in $dir/*.pbf
+for file in *.pbf
 do
 
     $md5sum $file &
@@ -33,6 +33,6 @@ do
        $SHA $file &
     fi
     wait
-done | sort -k2 > CHECKSUM.tmp
+done | awk '{ print $2, $1 }' | sort > CHECKSUM.tmp
 
 mv -f CHECKSUM.tmp CHECKSUM.txt
