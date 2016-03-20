@@ -33,6 +33,6 @@ do
        $SHA $file &
     fi
     wait
-done | sort > CHECKSUM.tmp
+done | sort -k2 > CHECKSUM.tmp
 
 mv -f CHECKSUM.tmp CHECKSUM.txt
