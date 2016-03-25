@@ -17,7 +17,8 @@ set -e
 
 usage () {
    echo "$@"
-   echo "usage file [ osm | cycle | leisure | bbbike | onroad | openfietslite | srtm ] [ title ]"
+   echo "usage $0 file [ osm | osm-ascii | cycle | leisure | bbbike ] [ title ]"
+   echo "      $0 file [ onroad | onroad-ascii | openfietslite | srtm ] [ title ]"
    exit 1
 }
 
@@ -106,6 +107,13 @@ etc_dir=`dirname $0`/../etc/mkgmap
 # absolute path
 case $etc_dir in /* ) ;; *) etc_dir=$pwd/$etc_dir ;; esac
 
+# by default we generate utf-8 (unicode) maps, except for SRTM
+# and older devices
+mkgmap_codepage="--code-page=65001" # unicode
+case $ext in
+    *-ascii | srtm ) mkgmap_codepage="" ;;
+esac
+
 case $ext in
    cycle | garmin-cycle.zip )
 	ext=garmin-cycle.zip
@@ -134,6 +142,13 @@ case $ext in
 	mkgmap_map_style=onroad
 	mkgmap_map_type="" 
         ;;
+        
+   onroad-ascii | garmin-onroad.zip )
+	ext=garmin-onroad-ascii.zip
+	mkgmap_map=--style-file=$etc_dir/style/bike-onroad
+	mkgmap_map_style=onroad
+	mkgmap_map_type="" 
+        ;;
 
    openfietslite | garmin-openfietslite.zip )
 	ext=garmin-openfietslite.zip
@@ -144,6 +159,10 @@ case $ext in
 
    osm | garmin-osm.zip )
 	ext=garmin-osm.zip
+	;;
+    
+   osm-ascii )
+	ext=garmin-osm-ascii.zip
 	;;
         
    srtm | garmin-srtm.zip )
@@ -168,7 +187,7 @@ esac
 
 garmin_family_id=$(basename $file | perl -npe 's/(\.pbf|\.gz|\.bz2)?$//')
 garmin_family_id=$(echo $garmin_family_id $ext | $MD5 | perl -ne 's/[a-f]//g; print /^(\d{4})/ ? $1 : "4444"')
-mkgmap_opt="--keep-going --family-id=$garmin_family_id --product-id=$garmin_product_id --remove-short-arcs --route --add-pois-to-areas --copyright-message="$copyright" --license-file=$license --index --make-opposite-cycleways --code-page=65001"
+mkgmap_opt="--keep-going --family-id=$garmin_family_id --product-id=$garmin_product_id --remove-short-arcs --route --add-pois-to-areas --copyright-message="$copyright" --license-file=$license --index --make-opposite-cycleways"
 
 if [ -n "$mkgmap_map_type" ]; then
    test -e "$mkgmap_map_type" || usage "cannot find $mkgmap_map_type file"
@@ -254,7 +273,7 @@ fi
 # --mapname="$mapid" 
 echo ">>> Run mkgmap, map style: $mkgmap_map_style" >> $logfile
 ( set -x 
-  java $java_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_MKGMAP_VERSION/mkgmap.jar --max-jobs=$osm2xxx_max_jobs $mkgmap_opt $mkgmap_map \
+  java $java_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_MKGMAP_VERSION/mkgmap.jar --max-jobs=$osm2xxx_max_jobs $mkgmap_opt $mkgmap_codepage $mkgmap_map \
     --gmapsupp --description="$description" --family-name="$coords style=$mkgmap_map_style" $split_dir/*.pbf $mkgmap_map_type ) >> $logfile 2>&1  || error
 
 #echo ">>> Run mkgmap, create gmapsupp file" >> $logfile
