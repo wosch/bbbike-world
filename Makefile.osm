@@ -270,6 +270,8 @@ osm2garmin-bbbike:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ext=garmin-bbbike.zip ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
 osm2garmin-onroad:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ext=garmin-onroad.zip ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
+osm2garmin-openfietslite:
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ext=garmin-openfietslite.zip ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
         
 osm2png:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | BBBIKE_MAPERITIVE_MAPSTYLE=google ${XARGS} -n 1 -0 -P${MAX_OSM2PNG} ${OSM2PNG}
@@ -410,6 +412,7 @@ check:
 	http_proxy="" ${BBMAKE} test > log.check 2>&1
 	tail -n 10 log.check
 
+# travis needs output on stdout, cannot log into a file
 travis:
 	http_proxy="" ${BBMAKE} test
 
@@ -422,9 +425,9 @@ check-world check-w:
 
 check-full:
 	@echo "In case of failure run:"
-	@echo " BBBIKE_TEST_FAST=\"\" make check-failed"
+	@echo " BBBIKE_TEST_FAST=\"\" BBBIKE_TEST_LONG=1 make check-failed"
 	@echo ""
-	http_proxy="" BBBIKE_TEST_FAST="" ${BBMAKE} test > log.check-full 2>&1
+	http_proxy="" BBBIKE_TEST_FAST="" BBBIKE_TEST_LONG=1 ${BBMAKE} test > log.check-full 2>&1
 	tail -n 10 log.check-full
 
 check-devel:
@@ -721,7 +724,7 @@ rotate-data-osm:
 	#-test -e ${DATA_OSM_BBBIKE_DIR}.old && mv ${DATA_OSM_BBBIKE_DIR}.old ${DATA_OSM_BBBIKE_DIR}.old2
 	-test -e ${DATA_OSM_BBBIKE_DIR}     && mv ${DATA_OSM_BBBIKE_DIR}     ${DATA_OSM_BBBIKE_DIR}.old
 	if [ -e ${DATA_OSM_BBBIKE_DIR}.old ]; then \
-		find ${DATA_OSM_BBBIKE_DIR}.old -type f ! -name '*.gz' -print0 | ${XARGS} -0 ${GZIP} # gzip old files \
+		find ${DATA_OSM_BBBIKE_DIR}.old -type f ! -name '*.gz' -print0 | ${XARGS} -0 ${GZIP}; \
 	fi
 	mkdir -p ${DATA_OSM_DIR} ${DATA_OSM_BBBIKE_DIR}
 	touch ${DATA_OSM_DIR}/.gitkeep ${DATA_OSM_BBBIKE_DIR}/.gitkeep
