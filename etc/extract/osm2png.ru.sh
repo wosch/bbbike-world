@@ -21,6 +21,6 @@ PayPal, Flattr or bank wire transfer: http://www.BBBike.org/community.html
 thanks, Wolfram Schneider
 
 --
-http://www.BBBike.org - Your Cycle Route Planner
+Your Cycle Route Planner: http://www.BBBike.org
 BBBike Map Compare: http://bbbike.org/mc
 EOF

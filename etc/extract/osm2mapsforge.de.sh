@@ -23,6 +23,6 @@ unterstuetzen: http://www.bbbike.org/community.de.html
 Danke, Wolfram Schneider
 
 --
-http://www.BBBike.org - Dein Fahrrad-Routenplaner
+Dein Fahrrad-Routenplaner: http://www.BBBike.org
 BBBike Map Compare: http://bbbike.org/mc
 EOF
