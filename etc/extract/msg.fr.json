@@ -37,7 +37,7 @@
             "Format : %s",
             "</p>",
             "",
-            "Vous pouvez suivre l'état de votre demande sur la <a href='%s'>page d'état du serveur</a>.<br/><br/></p>",
+            "Vous pouvez suivre l'état de votre demande sur la <a href='%s target='_blank'>page d'état du serveur</a>.<br/><br/></p>",
             "<p> Appuyez sur le bouton retour pour obtenir la même zone dans un autre format, ou pour demander l'extrait sur une nouvelle zone.</p>"
         ],
 
