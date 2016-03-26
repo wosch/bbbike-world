@@ -227,7 +227,7 @@ qr"^Map data.*? OpenStreetMap contributors, https://www.openstreetmap.org",
 
     like(
         $data[1],
-        qr"^Extracts created by BBBike, http://BBBike.org",
+        qr"^Extracts created by BBBike, http://extract.bbbike.org",
         "by bbbike.org"
     );
 
