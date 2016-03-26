@@ -1368,6 +1368,10 @@ git-status: git-status-world
 git-status-world:
 	cd world; git status
 
+git-branch:
+	git branch
+	cd world; git branch
+
 mygit: git-fetch git-pull git-push
 
 
