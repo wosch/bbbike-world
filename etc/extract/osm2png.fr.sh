@@ -1,6 +1,6 @@
 cat << EOF
 Map data (c) OpenStreetMap contributors, https://www.openstreetmap.org
-Extracts created by BBBike, http://BBBike.org
+Extracts created by BBBike, http://extract.bbbike.org
 $BBBIKE_EXTRACT_MAPERITIVE_VERSION by http://maperitive.net/
 
 Please read the OSM wiki how to use PNG
