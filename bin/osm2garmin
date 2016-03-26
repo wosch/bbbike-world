@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2016 Wolfram Schneider, http://bbbike.org
 #
 # osm2garmin - convert a osm/pbf file to garmin
 #
@@ -17,7 +17,7 @@ set -e
 
 usage () {
    echo "$@"
-   echo "usage file [ osm | cycle | leisure | bbbike | onroad | srtm ] [ title ]"
+   echo "usage file [ osm | cycle | leisure | bbbike | onroad | openfietslite | srtm ] [ title ]"
    exit 1
 }
 
@@ -109,16 +109,16 @@ case $etc_dir in /* ) ;; *) etc_dir=$pwd/$etc_dir ;; esac
 case $ext in
    cycle | garmin-cycle.zip )
 	ext=garmin-cycle.zip
-	mkgmap_map=--style-file=$etc_dir/cyclemap
+	mkgmap_map=--style-file=$etc_dir/style/cyclemap
 	mkgmap_map_style=cyclemap
-	mkgmap_map_type=$etc_dir/cyclemap.TYP
+	mkgmap_map_type=$etc_dir/typ/cyclemap/cyclemap.TYP
 	;;
 
    leisure | freizeit | garmin-freizeit.zip | garmin-leisure.zip )
 	ext=garmin-leisure.zip
-	mkgmap_map=--style-file=$etc_dir/freizeit
+	mkgmap_map=--style-file=$etc_dir/style/freizeit
 	mkgmap_map_style=freizeit
-	mkgmap_map_type=$etc_dir/freizeit.TYP
+	mkgmap_map_type=$etc_dir/typ/freizeit/freizeit.TYP
 	;;
         
    bbbike | garmin-bbbike.zip )
@@ -130,11 +130,17 @@ case $ext in
 
    onroad | garmin-onroad.zip )
 	ext=garmin-onroad.zip
-	mkgmap_map=--style-file=$etc_dir/bike-onroad
+	mkgmap_map=--style-file=$etc_dir/style/bike-onroad
 	mkgmap_map_style=onroad
 	mkgmap_map_type="" 
         ;;
 
+   openfietslite | garmin-openfietslite.zip )
+	ext=garmin-openfietslite.zip
+	mkgmap_map=--style-file=$etc_dir/style/openfietsmap-lite
+	mkgmap_map_style=openfietslite
+	mkgmap_map_type=$etc_dir/typ/openfietsmap-lite/openfietsmap-lite.TYP
+        ;;
 
    osm | garmin-osm.zip )
 	ext=garmin-osm.zip
@@ -142,9 +148,9 @@ case $ext in
         
    srtm | garmin-srtm.zip )
 	ext=garmin-srtm.zip
-	mkgmap_map=--style-file=$etc_dir/srtm
+	mkgmap_map=--style-file=$etc_dir/style/srtm
 	mkgmap_map_style=srtm
-	mkgmap_map_type=$etc_dir/srtm.TYP
+	mkgmap_map_type=$etc_dir/typ/srtm/srtm.TYP
 	;;
 
    *) usage ;;
@@ -157,6 +163,7 @@ case $ext in
    *bbbike* )  garmin_product_id=4 ;;
    *srtm* )    garmin_product_id=5 ;;
    *onroad* )  garmin_product_id=6 ;;
+   *openfietslite* )  garmin_product_id=7 ;;
 esac
 
 garmin_family_id=$(basename $file | perl -npe 's/(\.pbf|\.gz|\.bz2)?$//')

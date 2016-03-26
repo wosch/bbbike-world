@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2016 Wolfram Schneider, http://bbbike.org
 #
 # extract config load
 
@@ -24,11 +24,12 @@ our $formats = {
 
     'shp.zip' => "Shapefile (Esri)",
 
-    'garmin-osm.zip'     => "Garmin OSM",
-    'garmin-cycle.zip'   => "Garmin Cycle",
-    'garmin-leisure.zip' => "Garmin Leisure",
-    'garmin-bbbike.zip'  => "Garmin BBBike",
-    'garmin-onroad.zip'  => "Garmin Onroad",
+    'garmin-osm.zip'           => "Garmin OSM",
+    'garmin-cycle.zip'         => "Garmin Cycle",
+    'garmin-leisure.zip'       => "Garmin Leisure",
+    'garmin-bbbike.zip'        => "Garmin BBBike",
+    'garmin-onroad.zip'        => "Garmin Onroad",
+    'garmin-openfietslite.zip' => "Garmin Openfietsmap Lite",
 
     'svg-google.zip'     => 'SVG google',
     'svg-hiking.zip'     => 'SVG hiking',
@@ -86,7 +87,7 @@ our $formats_menu = {
         'formats' => [
             'garmin-osm.zip',     'garmin-cycle.zip',
             'garmin-leisure.zip', 'garmin-bbbike.zip',
-            'garmin-onroad.zip'
+            'garmin-onroad.zip',  'garmin-openfietslite.zip'
         ]
     },
     'android' => {
@@ -192,11 +193,12 @@ our $tile_format = {
     "obf.zip" => "obf.zip",
     "obf"     => "obf.zip",
 
-    "garmin-cycle.zip"   => "garmin-osm.zip",
-    "garmin-osm.zip"     => "garmin-osm.zip",
-    "garmin-leisure.zip" => "garmin-osm.zip",
-    "garmin-bbbike.zip"  => "garmin-osm.zip",
-    "garmin-onroad.zip"  => "garmin-osm.zip",
+    "garmin-cycle.zip"         => "garmin-osm.zip",
+    "garmin-osm.zip"           => "garmin-osm.zip",
+    "garmin-leisure.zip"       => "garmin-osm.zip",
+    "garmin-bbbike.zip"        => "garmin-osm.zip",
+    "garmin-onroad.zip"        => "garmin-osm.zip",
+    "garmin-openfietslite.zip" => "garmin-osm.zip",
 
     "navit.zip" => "navit.zip",
     "navit"     => "navit.zip",

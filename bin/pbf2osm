@@ -1,5 +1,5 @@
 #!/usr/local/bin/bash
-# Copyright (c) 2009-2014 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2016 Wolfram Schneider, http://bbbike.org
 #
 # pbf2osm - convert PBF format to OSM XML
 
@@ -62,7 +62,7 @@ usage [ option ] file.osm.pbf
 --navit
 --mapsforge-osm
 
---garmin-osm --garmin-cycle --garmin-leisure --garmin-bbbike --garmin-onroad --garmin-srtm
+--garmin-osm --garmin-cycle --garmin-leisure --garmin-bbbike --garmin-onroad --garmin-openfietslite --garmin-srtm
 --svg-google --svg-hiking --svg-osm --svg-urbanight --svg-wireframe --svg-cadastre
 --png-google --png-hiking --png-osm --png-urbanight --png-wireframe --png-cadastre
 
@@ -110,7 +110,7 @@ case $1 in
     --osmand | --obf ) shift; compress=osmand ;;
     --navit ) shift; compress=navit ;;
 
-    --garmin-osm | --garmin-cycle | --garmin-leisure | --garmin-bbbike | --garmin-onroad | --garmin-srtm )
+    --garmin-osm | --garmin-cycle | --garmin-leisure | --garmin-bbbike | --garmin-onroad | --garmin-openfietslite | --garmin-srtm )
         garmin_style=$(echo $1 | perl -npe 's,.*-',,); shift; compress=garmin ;;
     --svg-google | --svg-hiking | --svg-osm | --svg-urbanight | --svg-wireframe | --svg-cadastre ) svg_style=$(echo $1 | perl -npe 's,.*-,,'); shift; compress=svg ;;
     --png-google | --png-hiking | --png-osm | --png-urbanight | --png-wireframe | --png-cadastre ) png_style=$(echo $1 | perl -npe 's,.*-,,'); shift; compress=png ;;
