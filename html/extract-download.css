@@ -152,7 +152,9 @@ span.format_garmin_bbbike_zip { color: #DAA520; }
 span.format_garmin_cycle_zip { color: #DAA520; }
 span.format_garmin_leisure_zip { color: #DAA520; }
 span.format_garmin_osm_zip { color: #DAA520; }
+span.format_garmin_osm_ascii_zip { color: #DAA520; }
 span.format_garmin_onroad_zip { color: #DAA520; }
+span.format_garmin_onroad_ascii_zip { color: #DAA520; }
 span.format_garmin_openfietslite_zip { color: #DAA520; }
 
 span.format_mapsforge_osm_zip { color: grey; }
