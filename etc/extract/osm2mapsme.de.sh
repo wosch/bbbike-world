@@ -25,4 +25,5 @@ Danke, Wolfram Schneider
 
 --
 http://www.BBBike.org - Dein Fahrrad-Routenplaner
+BBBike Map Compare: http://bbbike.org/mc
 EOF

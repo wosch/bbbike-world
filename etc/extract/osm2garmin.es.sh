@@ -23,5 +23,6 @@ thanks, Wolfram Schneider
 
 --
 http://www.BBBike.org - Your Cycle Route Planner
+BBBike Map Compare: http://bbbike.org/mc
 EOF
 
