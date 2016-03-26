@@ -49,6 +49,18 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
+    title   => qq{New us-ascii Garmin styles},
+    id      => 'fb7db982ca948a37feadd25d35c95955',
+    content => {
+        type => 'html',
+        content =>
+qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports Garmin styles in us-ascii for devices without unicode support, or broken DRM},
+    },
+    updated  => '2016-03-26T18:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title   => qq{New Garmin style Openfietsmap Lite},
     id      => '6f5b1fc9a70a146420758b84427c8ea7',
     content => {

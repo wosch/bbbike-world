@@ -13,6 +13,14 @@
   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af7</id>
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/" version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>New us-ascii Garmin styles</title>
+    <id>fb7db982ca948a37feadd25d35c95955</id>
+    <content type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports Garmin styles in us-ascii
+    for devices without unicode support, or broken DRM</content>
+    <updated>2016-03-26T18:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title>New Garmin style Openfietsmap Lite</title>
     <id>6f5b1fc9a70a146420758b84427c8ea7</id>
     <content type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports Garmin Openfietsmap Lite
