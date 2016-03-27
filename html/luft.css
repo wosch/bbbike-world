@@ -131,3 +131,5 @@ span#maplink { font-size: small; }
 
 p.page-index { max-width: 75em; }
 
+/* help page extract.html */
+a.small-screenshot img { max-height: 144px; }
