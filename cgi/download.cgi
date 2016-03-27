@@ -612,6 +612,12 @@ EOF
 
     my $current_date     = time2str(time);
     my $homepage_extract = $option->{'homepage_extract'};
+    my $spool_dir        = $option->{"spool_dir"};
+
+    my @extracts = &running_extract_areas(
+        'log_dir' => "$spool_dir/" . $spool->{"confirmed"},
+        'max'     => $max
+    );
 
     print <<EOF;
 
@@ -632,14 +638,6 @@ EOF
 </div> <!-- map_area -->
 <div id="nomap">
 EOF
-
-    my @extracts;
-    my $spool_dir = $option->{"spool_dir"};
-
-    @extracts = &running_extract_areas(
-        'log_dir' => "$spool_dir/" . $spool->{"confirmed"},
-        'max'     => $max
-    );
 
     result(
         'type'    => 'confirmed',
