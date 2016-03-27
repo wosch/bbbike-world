@@ -614,16 +614,22 @@ EOF
     my $homepage_extract = $option->{'homepage_extract'};
     my $spool_dir        = $option->{"spool_dir"};
 
-    my @extracts = &running_extract_areas(
-        'log_dir' => "$spool_dir/" . $spool->{"confirmed"},
-        'max'     => $max
+    my @extracts = ();
+
+    my $sort_by = $q->param('sort_by') || $q->param("sort");
+    my @extracts_trash = &extract_areas(
+        'log_dir' => "$spool_dir/" . $spool->{"trash"},
+        'max'     => $max,
+        'sort_by' => $sort_by,
+        'date'    => $date
     );
 
     print <<EOF;
 
 <table id="donate">
 <tr>
-<td>@{[ M("Newest extracts are first") ]}. @{[ M("Last update") ]}: $current_date</td>
+<td><span title='@{[ M("Number of extracts") ]}: @{[ scalar(@extracts_trash) ]}'>@{[ M("Newest extracts are first") ]}.</span>
+@{[ M("Last update") ]}: $current_date</td>
 <td><a href="$homepage_extract/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></td>
 </tr>
 </table>
@@ -638,6 +644,10 @@ EOF
 </div> <!-- map_area -->
 <div id="nomap">
 EOF
+    @extracts = &running_extract_areas(
+        'log_dir' => "$spool_dir/" . $spool->{"confirmed"},
+        'max'     => $max
+    );
 
     result(
         'type'    => 'confirmed',
@@ -658,14 +668,7 @@ EOF
         'message' => 'Will be ready in the next 5-10 minutes',
     );
 
-    my $sort_by = $q->param('sort_by') || $q->param("sort");
-    @extracts = &extract_areas(
-        'log_dir' => "$spool_dir/" . $spool->{"trash"},
-        'max'     => $max,
-        'sort_by' => $sort_by,
-        'date'    => $date
-    );
-
+    @extracts = @extracts_trash;
     result(
         'type'  => 'download',
         'name'  => 'Ready extracts',
