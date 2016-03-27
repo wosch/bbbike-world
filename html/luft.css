@@ -133,3 +133,8 @@ p.page-index { max-width: 75em; }
 
 /* help page extract.html */
 a.small-screenshot img { max-height: 144px; }
+
+.right: {
+	right: 2em;
+	position: absolute;
+}
