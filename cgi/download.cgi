@@ -635,10 +635,12 @@ EOF
 
     my @extracts;
     my $spool_dir = $option->{"spool_dir"};
+
     @extracts = &running_extract_areas(
         'log_dir' => "$spool_dir/" . $spool->{"confirmed"},
         'max'     => $max
     );
+
     result(
         'type'    => 'confirmed',
         'files'   => \@extracts,
@@ -650,6 +652,7 @@ EOF
         'log_dir' => "$spool_dir/" . $spool->{"running"},
         'max'     => $max
     );
+
     result(
         'type'    => 'running',
         'files'   => \@extracts,
@@ -664,6 +667,7 @@ EOF
         'sort_by' => $sort_by,
         'date'    => $date
     );
+
     result(
         'type'  => 'download',
         'name'  => 'Ready extracts',
