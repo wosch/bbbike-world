@@ -37,9 +37,11 @@ var config = {
 
         "garmin-bbbike.zip": 650,
         "garmin-osm.zip": 768,
+        "garmin-osm-ascii.zip": 768,
         "garmin-cycle.zip": 650,
         "garmin-leisure.zip": 650,
         "garmin-onroad.zip": 650,
+        "garmin-onroad-ascii.zip": 650,
         "garmin-openfietslite.zip": 650,
 
         "png-google.zip": 32,
@@ -80,10 +82,12 @@ var config = {
     "format_images": {
         "garmin-openfietslite.zip": "/images/garmin-openfietslite-small.png",
         "garmin-onroad.zip": "/images/garmin-onroad2-small.png",
+        "garmin-onroad-ascii.zip": "/images/garmin-onroad2-small.png",
         "garmin-bbbike.zip": "/images/garmin-bbbike-small.png",
         "garmin-cycle.zip": "/images/garmin-cycle-small.png",
         "garmin-leisure.zip": "/images/garmin-leisure-small.png",
         "garmin-osm.zip": "/images/garmin-osm-small.png",
+        "garmin-osm-ascii.zip": "/images/garmin-osm-small.png",
 
         "svg-google.zip": "/images/svg-google-small.png",
         "svg-osm.zip": "/images/svg-osm-small.png",
@@ -1325,6 +1329,10 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "size": 0.8,
             "time": 2
         },
+        "garmin-osm-ascii.zip": {
+            "size": 0.8,
+            "time": 2
+        },
         "garmin-cycle.zip": {
             "size": 0.8,
             "time": 2
@@ -1338,6 +1346,10 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "time": 2
         },
         "garmin-onroad.zip": {
+            "size": 0.1,
+            "time": 1.2
+        },
+        "garmin-onroad-ascii.zip": {
             "size": 0.1,
             "time": 1.2
         },

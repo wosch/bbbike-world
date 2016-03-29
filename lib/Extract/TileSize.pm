@@ -42,11 +42,13 @@ our $default_size = 4;
 #
 our $factor = {
     'garmin-onroad.zip'        => 0.07,
+    'garmin-onroad-ascii.zip'  => 0.071,
     'garmin-bbbike.zip'        => 0.585,
     'garmin-cycle.zip'         => 0.581,
     'garmin-openfietslite.zip' => 0.45,
     'garmin-leisure.zip'       => 0.755,
     'garmin-osm.zip'           => 0.583,
+    'garmin-osm-ascii.zip'     => 0.584,
     'garmin-srtm.zip'          => 1.3,
 
     'svg-google.zip'     => 1.68,

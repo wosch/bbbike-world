@@ -19,7 +19,8 @@ use warnings;
 my @garmin_styles = qw/cycle osm/;
 push @garmin_styles, qw/leisure/
   if !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG};
-push @garmin_styles, qw/bbbike onroad openfietslite/ if $ENV{BBBIKE_TEST_LONG};
+push @garmin_styles, qw/bbbike onroad openfietslite osm-ascii onroad-ascii/
+  if $ENV{BBBIKE_TEST_LONG};
 
 my $pbf_file = 'world/t/data-osm/tmp/Cusco.osm.pbf';
 
@@ -80,7 +81,7 @@ sub convert_format {
         is( $?, 0, "valid zip file" );
         $st = stat($out);
         my $size = $st->size;
-        my $min_size_style = $style ne 'onroad' ? $min_size : $min_size / 3;
+        my $min_size_style = $style =~ /^onroad/ ? $min_size / 3 : $min_size;
         cmp_ok( $size, '>', $min_size_style, "$out: $size > $min_size" );
 
         system(qq[world/bin/extract-disk-usage.sh $out > $tempfile]);

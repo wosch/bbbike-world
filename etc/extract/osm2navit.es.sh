@@ -1,6 +1,6 @@
 cat << EOF
 Map data (c) OpenStreetMap contributors, https://www.openstreetmap.org
-Extracts created by BBBike, http://BBBike.org
+Extracts created by BBBike, http://extract.bbbike.org
 $BBBIKE_EXTRACT_NAVIT_VERSION by http://www.navit-project.org
 
 
@@ -20,5 +20,6 @@ PayPal, Flattr or bank wire transfer: http://www.BBBike.org/community.html
 thanks, Wolfram Schneider
 
 --
-http://www.BBBike.org - Your Cycle Route Planner
+Your Cycle Route Planner: http://www.BBBike.org
+BBBike Map Compare: http://bbbike.org/mc
 EOF
