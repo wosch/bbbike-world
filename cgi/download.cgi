@@ -478,6 +478,17 @@ sub result {
     print "<hr/>\n\n";
 }
 
+sub uniqe_users {
+    my @extracts_trash = @_;
+
+    my %hash;
+    foreach my $download (@extracts_trash) {
+        $hash{ $download->{"email"} } += 1;
+    }
+
+    return scalar( keys %hash );
+}
+
 # sort table by name, size, format
 sub table_head {
     my ( $type, $sort_by, $name ) = @_;
@@ -628,8 +639,12 @@ EOF
 
 <table id="donate">
 <tr>
-<td><span title='@{[ M("Number of extracts") ]}: @{[ scalar(@extracts_trash) ]}'>@{[ M("Newest extracts are first") ]}.</span>
-@{[ M("Last update") ]}: $current_date</td>
+<td>
+ <span title='@{[ M("Number of extracts") . ': ' .  scalar(@extracts_trash) ]}, @{[ M("uniqe users") . ': ' . &uniqe_users(@extracts_trash) ]}'>
+   @{[ M("Newest extracts are first") ]}.
+ </span>
+ @{[ M("Last update") ]}: $current_date
+</td>
 <td><a href="$homepage_extract/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></td>
 </tr>
 </table>
