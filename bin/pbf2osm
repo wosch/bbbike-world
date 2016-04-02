@@ -6,6 +6,9 @@
 PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 set -e
 
+# output format
+format="$1"
+
 dirname=$(dirname $0)
 compress=""
 gzip=`which pigz gzip 2>/dev/null | head -n 1`
@@ -24,11 +27,17 @@ osm2mapsme=$dirname/osm2mapsme
 osmium_convert_opt="-f pbf -t opl"
 
 # max. file size in KB
+# larger value for special garmin format
+if [ "$format" = "--garmin-onroad" ]; then
+    : ${max_file_size_garmin=6950000}
+fi
+
 : ${max_file_size_garmin=2950000}
 : ${max_file_size_mapsforge=666000}
 : ${max_file_size_osmand=666000}
 : ${max_file_size_mapsme=666000}
 : ${max_file_size_maperitive=90000}
+
 _max_cpu_time=7200
 
 xz=`which xz 2>/dev/null | head -n 1`
@@ -74,8 +83,7 @@ EOF
    exit 1
 }
 
-
-case $1 in
+case $format in
     # default - convert to osm
     --osm)    shift; compress="";;
 
