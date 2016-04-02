@@ -49,6 +49,7 @@ OSM_CHECKSUM=	world/bin/osm-checksum
 PBF2PBF=	world/bin/pbf2pbf
 OSM2GARMIN=	world/bin/osm2garmin
 OSM2GARMIN_CYCLE=	world/bin/pbf2osm --garmin-cycle
+OSM2GARMIN_ONROAD=	world/bin/pbf2osm --garmin-onroad
 OSM2GARMIN_SRTM=        world/bin/pbf2osm --garmin-srtm
 OSM2PNG=	world/bin/wrapper-instable world/bin/bomb --timeout=1400 world/bin/osm2png
 OSM2SVG=	world/bin/wrapper-instable world/bin/bomb --timeout=1400 world/bin/osm2svg
@@ -981,7 +982,7 @@ tile-pbf2pbf:
 
 _pbf_dir=${TILES_DIR}/lnglat/
 _min_size=-size +500k
-tile-convert: tile-convert-osm tile-convert-shp tile-convert-navit tile-convert-mapsforge tile-convert-osmand tile-convert-garmin
+tile-convert: tile-convert-osm tile-convert-shp tile-convert-navit tile-convert-garmin tile-convert-garmin-onroad tile-convert-mapsforge tile-convert-osmand
 tile-convert-srtm: tile-convert-garmin-srtm tile-convert-osmand
 
 
@@ -999,6 +1000,8 @@ tile-convert-mapsme:
 
 tile-convert-garmin:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true osm2xxx_max_jobs=1 ${NICE} ${TIME} xargs -0 -n1 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
+tile-convert-garmin-onroad:
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true osm2xxx_max_jobs=1 ${NICE} ${TIME} xargs -0 -n1 -P${MAX_OSM2GARMIN} ${OSM2GARMIN_ONROAD}
 
 tile-convert-garmin-srtm:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true osm2xxx_max_jobs=1 ${NICE} ${TIME} xargs -0 -n1 -P${MAX_OSM2GARMIN} ${OSM2GARMIN_SRTM}
@@ -1036,7 +1039,7 @@ tile-csv:
 	     mv -f ${TILES_DIR}/etc/tile-$$format.csv.new ${TILES_DIR}/etc/tile-$$format.csv; \
 	done
 	pwd=`pwd`; max_cpu=${MAX_CPU}; \
-	for format in garmin-osm.zip shp.zip navit.zip obf.zip mapsforge-osm.zip; do \
+	for format in garmin-osm.zip garmin-onroad.zip shp.zip navit.zip obf.zip mapsforge-osm.zip; do \
             echo "Run format $$format"; \
 	    (( cd ${TILES_DIR}/lnglat; find . -name '*.'$$format -print0 | xargs -0 -n1 -P1 $$pwd/world/bin/extract-disk-usage.sh --du | sort -n  -k1 -k2 -k3 -k4 -k5 | \
 	     perl -npe 's,\S+/planet_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > ${TILES_DIR}/etc/tile-$$format.csv; \

@@ -9,7 +9,7 @@ use warnings;
 plan tests => 1;
 
 my $prog =
-q[ find . -type l -print0 | perl -0e 'while(<>) { if (! -e $_) { print "$_\n"; $exit=1}}; exit $exit' ];
+q[ find . -type l -print0 | perl -0e 'while(<>) { next if m,^\./tmp/,; if (! -e $_) { print "$_\n"; $exit=1}}; exit $exit' ];
 system($prog);
 is( $?, 0, "stale symlinks" );
 

@@ -478,6 +478,17 @@ sub result {
     print "<hr/>\n\n";
 }
 
+sub uniqe_users {
+    my @extracts_trash = @_;
+
+    my %hash;
+    foreach my $download (@extracts_trash) {
+        $hash{ $download->{"email"} } += 1;
+    }
+
+    return scalar( keys %hash );
+}
+
 # sort table by name, size, format
 sub table_head {
     my ( $type, $sort_by, $name ) = @_;
@@ -612,12 +623,28 @@ EOF
 
     my $current_date     = time2str(time);
     my $homepage_extract = $option->{'homepage_extract'};
+    my $spool_dir        = $option->{"spool_dir"};
+
+    my @extracts = ();
+
+    my $sort_by = $q->param('sort_by') || $q->param("sort");
+    my @extracts_trash = &extract_areas(
+        'log_dir' => "$spool_dir/" . $spool->{"trash"},
+        'max'     => $max,
+        'sort_by' => $sort_by,
+        'date'    => $date
+    );
 
     print <<EOF;
 
 <table id="donate">
 <tr>
-<td>@{[ M("Newest extracts are first") ]}. @{[ M("Last update") ]}: $current_date</td>
+<td>
+ <span title='@{[ M("Number of extracts") . ': ' .  scalar(@extracts_trash) ]}, @{[ M("uniqe users") . ': ' . &uniqe_users(@extracts_trash) ]}'>
+   @{[ M("Newest extracts are first") ]}.
+ </span>
+ @{[ M("Last update") ]}: $current_date
+</td>
 <td><a href="$homepage_extract/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></td>
 </tr>
 </table>
@@ -632,13 +659,11 @@ EOF
 </div> <!-- map_area -->
 <div id="nomap">
 EOF
-
-    my @extracts;
-    my $spool_dir = $option->{"spool_dir"};
     @extracts = &running_extract_areas(
         'log_dir' => "$spool_dir/" . $spool->{"confirmed"},
         'max'     => $max
     );
+
     result(
         'type'    => 'confirmed',
         'files'   => \@extracts,
@@ -650,6 +675,7 @@ EOF
         'log_dir' => "$spool_dir/" . $spool->{"running"},
         'max'     => $max
     );
+
     result(
         'type'    => 'running',
         'files'   => \@extracts,
@@ -657,13 +683,7 @@ EOF
         'message' => 'Will be ready in the next 5-10 minutes',
     );
 
-    my $sort_by = $q->param('sort_by') || $q->param("sort");
-    @extracts = &extract_areas(
-        'log_dir' => "$spool_dir/" . $spool->{"trash"},
-        'max'     => $max,
-        'sort_by' => $sort_by,
-        'date'    => $date
-    );
+    @extracts = @extracts_trash;
     result(
         'type'  => 'download',
         'name'  => 'Ready extracts',
