@@ -1084,6 +1084,9 @@ data-distclean distclean-data:
 	rm -rf ${TMP_DIR}
 	rm -f /bbbike/tmp/bbbike_*
 
+###############################
+# Note: you need at least 170GB free disk space to run this command!!!
+#
 # for errors look in ./tile/tmp
 tile: tile-extract tile-convert tile-csv #tile-aws-s3
 
