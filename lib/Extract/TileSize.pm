@@ -41,8 +41,8 @@ our $default_size = 4;
 #       internal file, not for the *.zip file itself
 #
 our $factor = {
-    'garmin-onroad.zip'        => 0.07,
-    'garmin-onroad-ascii.zip'  => 0.071,
+    'garmin-onroad.zip'        => 0.09,
+    'garmin-onroad-ascii.zip'  => 0.091,
     'garmin-bbbike.zip'        => 0.585,
     'garmin-cycle.zip'         => 0.581,
     'garmin-openfietslite.zip' => 0.45,
