@@ -93,6 +93,7 @@ else
   : ${splitter_resolution=13}
 fi
 
+time=time
 #case $ext in *leisure* ) java_heap=3500M ;; esac
 
 pwd=$(pwd)
@@ -223,7 +224,7 @@ mapid=${garmin_family_id}0001
 #fi
 echo ">>> Run splitter" > $logfile
 ( set -x; 
-  java $java_splitter_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar \
+  $time java $java_splitter_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar \
 	$splitter_keep_complete \
 	--resolution=$splitter_resolution \
 	--max-areas=$splitter_max_areas \
@@ -273,7 +274,7 @@ fi
 # --mapname="$mapid" 
 echo ">>> Run mkgmap, map style: $mkgmap_map_style" >> $logfile
 ( set -x 
-  java $java_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_MKGMAP_VERSION/mkgmap.jar --max-jobs=$osm2xxx_max_jobs $mkgmap_opt $mkgmap_codepage $mkgmap_map \
+  $time java $java_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_MKGMAP_VERSION/mkgmap.jar --max-jobs=$osm2xxx_max_jobs $mkgmap_opt $mkgmap_codepage $mkgmap_map \
     --gmapsupp --description="$description" --family-name="$coords style=$mkgmap_map_style" $split_dir/*.pbf $mkgmap_map_type ) >> $logfile 2>&1  || error
 
 #echo ">>> Run mkgmap, create gmapsupp file" >> $logfile
