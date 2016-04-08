@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) June 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) June 2012-2016 Wolfram Schneider, http://bbbike.org
 #
 # tile-padding.pl - guess size based on factor of known size of osm.pbf
 
@@ -33,7 +33,7 @@ sub guess_format {
 
     my $format = "";
 
-    if ( $file =~ m,[\-\.]([^/]+\.(zip|xz))\.csv$, ) {
+    if ( $file =~ m,([^/]+\.(zip|xz))\.csv$, ) {
         $format = $1;
         warn "Guessed format: $format\n" if $debug >= 1;
         return $format;
@@ -63,7 +63,7 @@ my @format =
 sub usage () {
     <<EOF;
     
-usage: $0 [options] --format=format tile-pbf.csv tile-garmin-osm.csv
+usage: $0 [options] --format=format pbf.csv garmin-osm.csv
 
 --debug=0..2      debug option
 --format=format   @{[ join " | ", @format ]}
