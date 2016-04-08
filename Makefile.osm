@@ -732,7 +732,7 @@ rotate-data-osm:
 
 rotate-osm:
 	${RM_BG} ${OSM_DIR}.old2
-	#-test -e ${OSM_DIR}.old  && mv ${OSM_DIR}.old  ${OSM_DIR}.old2
+	-test -e ${OSM_DIR}.old  && mv ${OSM_DIR}.old  ${OSM_DIR}.old2
 	-test -e ${OSM_DIR}      && mv ${OSM_DIR}      ${OSM_DIR}.old
 	mkdir -p ${OSM_DIR}
 	touch ${OSM_DIR}/.gitkeep

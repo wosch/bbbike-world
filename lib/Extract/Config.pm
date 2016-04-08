@@ -201,8 +201,6 @@ our $tile_format = {
     "garmin-osm-ascii.zip"     => "garmin-osm.zip",
     "garmin-leisure.zip"       => "garmin-osm.zip",
     "garmin-bbbike.zip"        => "garmin-osm.zip",
-    "garmin-onroad.zip"        => "garmin-osm.zip",
-    "garmin-onroad-ascii.zip"  => "garmin-osm.zip",
     "garmin-openfietslite.zip" => "garmin-osm.zip",
 
     "navit.zip" => "navit.zip",

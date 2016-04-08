@@ -1,6 +1,6 @@
 /*
  Copyright (c) by https://www.openstreetmap.org/export - OSM License, 2012
- Copyright (c) 2012-2013 Wolfram Schneider, http://bbbike.org
+ Copyright (c) 2012-2016 Wolfram Schneider, http://bbbike.org
 */
 
 // HTML5: may not work on Android devices!
@@ -1346,7 +1346,7 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "time": 2
         },
         "garmin-onroad.zip": {
-            "size": 0.1,
+            "size": 0.2,
             "time": 1.2
         },
         "garmin-onroad-ascii.zip": {
