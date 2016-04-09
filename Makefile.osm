@@ -1053,7 +1053,7 @@ tile-csv:
 	wc -lc ${TILES_DIR}/etc/tile/*.csv*
 
 tile-csv-check:
-	cd ${TILES_DIR}/lnglat/6; du -ks planet_6_51_7_52.osm*
+	cd ${TILES_DIR}/lnglat/6; du -ks planet_6_52_7_53.osm*
 	@echo ""
 	cd ${TILES_DIR}/etc/tile; egrep '6 52 7 53' *.csv
 
