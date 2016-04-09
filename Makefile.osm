@@ -1034,7 +1034,8 @@ tile-csv:
 	for format in csv.xz; do \
 	     touch ${TILES_DIR}/etc/tile/$$format.csv; \
              ./world/bin/tile-padding.pl --min-size=10 \
-		${TILES_DIR}/etc/tile/pbf.csv ${TILES_DIR}/etc/tile/$$format.csv > ${TILES_DIR}/etc/tile/$$format.csv.new; \
+		${TILES_DIR}/etc/tile/pbf.csv ${TILES_DIR}/etc/tile/$$format.csv | \
+		sort -n  -k1 -k2 -k3 -k4 -k5 > ${TILES_DIR}/etc/tile/$$format.csv.new; \
 	     mv -f ${TILES_DIR}/etc/tile/$$format.csv ${TILES_DIR}/etc/tile/$$format.csv.original; \
 	     mv -f ${TILES_DIR}/etc/tile/$$format.csv.new ${TILES_DIR}/etc/tile/$$format.csv; \
 	done
