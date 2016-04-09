@@ -33,7 +33,7 @@ sub guess_format {
 
     my $format = "";
 
-    if ( $file =~ m,([^/]+\.(zip|xz))\.csv$, ) {
+    if ( $file =~ m,([^/]+\.(zip|xz|gz))\.csv$, ) {
         $format = $1;
         warn "Guessed format: $format\n" if $debug >= 1;
         return $format;
