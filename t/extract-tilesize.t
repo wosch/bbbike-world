@@ -201,8 +201,8 @@ $tile =
   new Extract::TileSize( 'database' => "world/etc/tile/garmin-onroad.zip.csv" );
 is( int( $tile->area_size(qw/13 52 14 53/) ), 3919 );
 is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 70386 );
-is( $tile->total_tiles, 6986 );
-is( $tile->total,       4229583 );
+is( $tile->total_tiles, 7663 );
+is( $tile->total,       4254493 );
 
 $tile =
   new Extract::TileSize( 'database' => "world/etc/tile/mapsforge-osm.zip.csv" );
