@@ -35,7 +35,7 @@ sub generate_urls {
           . qq{&ne_lng=$ne_lng&ne_lat=$ne_lat}
           . ( $random ? int( rand(1_000_000) ) : "" )
           . qq{&email=Nobody&as=1.933243109431466&pg=0.9964839602712444&coords=&oi=1}
-          . qq{&city=test&lang=en&submit=extract&format=$key"\0};
+          . qq{&city=etest&lang=en&submit=extract&format=$key"\0};
     }
 }
 
