@@ -1031,7 +1031,7 @@ tile-csv:
 	       mv -f ${TILES_DIR}/etc/tile/$$format.csv.new ${TILES_DIR}/etc/tile/$$format.csv; \
 	     fi; \
 	done
-	for format in csv.xz; do \
+	for format in csv.xz osm.gz; do \
 	     touch ${TILES_DIR}/etc/tile/$$format.csv; \
              ./world/bin/tile-padding.pl --min-size=10 \
 		${TILES_DIR}/etc/tile/pbf.csv ${TILES_DIR}/etc/tile/$$format.csv | \
