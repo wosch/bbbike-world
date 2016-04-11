@@ -1018,49 +1018,55 @@ tile-convert-navit:
 tile-extract: tile-lng tile-lnglat tile-lng-run tile-lnglat-run tile-pbf2pbf
 
 tile-csv:
-	rm -f ${TILES_DIR}/etc/tile-*.csv ${TILES_DIR}/etc/tile-*.csv.original
-	mkdir -p ${TILES_DIR}/etc
+	rm -f ${TILES_DIR}/etc/tile/*.csv ${TILES_DIR}/etc/tile/*.csv.original
+	mkdir -p ${TILES_DIR}/etc/tile
 	for format in pbf osm.gz csv.xz; do \
-	   touch ${TILES_DIR}/etc/tile-$$format.csv; \
+	   touch ${TILES_DIR}/etc/tile/$$format.csv; \
   	     if [ $$(find ${TILES_DIR}/lnglat -name '*.'$$format | wc -l) -gt 0 ]; then \
 	       ( cd ${TILES_DIR}/lnglat; \
 	       find . -name '*.'$$format -print0 | xargs -0 du -k | sort -n  -k1 -k2 -k3 -k4 -k5 | \
 	       awk '{ if ($$1 > 12) { print } }' | \
 	       perl -npe 's,\S+/planet_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > \
-		 ${TILES_DIR}/etc/tile-$$format.csv.new; \
-	       mv -f ${TILES_DIR}/etc/tile-$$format.csv.new ${TILES_DIR}/etc/tile-$$format.csv; \
+		 ${TILES_DIR}/etc/tile/$$format.csv.new; \
+	       mv -f ${TILES_DIR}/etc/tile/$$format.csv.new ${TILES_DIR}/etc/tile/$$format.csv; \
 	     fi; \
 	done
-	for format in csv.xz; do \
-	     touch ${TILES_DIR}/etc/tile-$$format.csv; \
+	for format in csv.xz osm.gz; do \
+	     touch ${TILES_DIR}/etc/tile/$$format.csv; \
              ./world/bin/tile-padding.pl --min-size=10 \
-		${TILES_DIR}/etc/tile-pbf.csv ${TILES_DIR}/etc/tile-$$format.csv > ${TILES_DIR}/etc/tile-$$format.csv.new; \
-	     mv -f ${TILES_DIR}/etc/tile-$$format.csv ${TILES_DIR}/etc/tile-$$format.csv.original; \
-	     mv -f ${TILES_DIR}/etc/tile-$$format.csv.new ${TILES_DIR}/etc/tile-$$format.csv; \
+		${TILES_DIR}/etc/tile/pbf.csv ${TILES_DIR}/etc/tile/$$format.csv | \
+		sort -n  -k1 -k2 -k3 -k4 -k5 > ${TILES_DIR}/etc/tile/$$format.csv.new; \
+	     mv -f ${TILES_DIR}/etc/tile/$$format.csv ${TILES_DIR}/etc/tile/$$format.csv.original; \
+	     mv -f ${TILES_DIR}/etc/tile/$$format.csv.new ${TILES_DIR}/etc/tile/$$format.csv; \
 	done
 	pwd=`pwd`; max_cpu=${MAX_CPU}; \
 	for format in garmin-osm.zip garmin-onroad.zip shp.zip navit.zip obf.zip mapsforge-osm.zip; do \
             echo "Run format $$format"; \
 	    (( cd ${TILES_DIR}/lnglat; find . -name '*.'$$format -print0 | xargs -0 -n1 -P1 $$pwd/world/bin/extract-disk-usage.sh --du | sort -n  -k1 -k2 -k3 -k4 -k5 | \
-	     perl -npe 's,\S+/planet_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > ${TILES_DIR}/etc/tile-$$format.csv; \
-             $$pwd/world/bin/tile-padding.pl --min-size=10 ${TILES_DIR}/etc/tile-pbf.csv ${TILES_DIR}/etc/tile-$$format.csv | \
-		sort -n  -k1 -k2 -k3 -k4 -k5 | awk '{ if ($$1 > 12) { print } }' > ${TILES_DIR}/etc/tile-$$format.csv.new; \
-	   	mv -f ${TILES_DIR}/etc/tile-$$format.csv ${TILES_DIR}/etc/tile-$$format.csv.original; \
-	   	mv -f ${TILES_DIR}/etc/tile-$$format.csv.new ${TILES_DIR}/etc/tile-$$format.csv; \
+	     perl -npe 's,\S+/planet_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > ${TILES_DIR}/etc/tile/$$format.csv; \
+             $$pwd/world/bin/tile-padding.pl --min-size=10 ${TILES_DIR}/etc/tile/pbf.csv ${TILES_DIR}/etc/tile/$$format.csv | \
+		sort -n  -k1 -k2 -k3 -k4 -k5 | awk '{ if ($$1 > 12) { print } }' > ${TILES_DIR}/etc/tile/$$format.csv.new; \
+	   	mv -f ${TILES_DIR}/etc/tile/$$format.csv ${TILES_DIR}/etc/tile/$$format.csv.original; \
+	   	mv -f ${TILES_DIR}/etc/tile/$$format.csv.new ${TILES_DIR}/etc/tile/$$format.csv; \
 	    ) & \
 	done; wait
-	wc -lc ${TILES_DIR}/etc/tile-*.csv*
+	wc -lc ${TILES_DIR}/etc/tile/*.csv*
+
+tile-csv-check:
+	cd ${TILES_DIR}/lnglat/6; du -ks planet_6_52_7_53.osm*
+	@echo ""
+	cd ${TILES_DIR}/etc/tile; egrep '6 52 7 53' *.csv
 
 tile-srtm-csv: tile-csv
-	cd ${TILES_DIR}/etc/; \
+	cd ${TILES_DIR}/etc/tile; \
 	for i in garmin-srtm.zip.csv obf.zip.csv pbf.csv; do \
-	  mv -f tile-$$i tile-srtm-$$i; \
+	  mv -f $$i srtm-$$i; \
 	done
-	wc -lc ${TILES_DIR}/etc/tile-srtm-*.csv*
+	wc -lc ${TILES_DIR}/etc/tile/srtm-*.csv*
 
 tile-aws-s3:
-	cd ${TILES_DIR}/etc; \
-	  for i in tile-*.csv; do \
+	cd ${TILES_DIR}/etc/tile; \
+	  for i in *.csv; do \
 	    s3put bbbike/tile/ $$i; \
 	    echo "wget http://s3.amazonaws.com/bbbike/tile/$$i"; \
 	  done
@@ -1084,6 +1090,9 @@ data-distclean distclean-data:
 	rm -rf ${TMP_DIR}
 	rm -f /bbbike/tmp/bbbike_*
 
+###############################
+# Note: you need at least 190GB free disk space to run this command!!!
+#
 # for errors look in ./tile/tmp
 tile: tile-extract tile-convert tile-csv #tile-aws-s3
 
