@@ -35,7 +35,7 @@ fi
 : ${max_file_size_garmin=2950000}
 : ${max_file_size_mapsforge=666000}
 : ${max_file_size_osmand=666000}
-: ${max_file_size_mapsme=666000}
+: ${max_file_size_mapsme=966000}
 : ${max_file_size_maperitive=90000}
 
 _max_cpu_time=7200
