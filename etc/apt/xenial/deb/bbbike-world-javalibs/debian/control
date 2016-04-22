@@ -1,0 +1,15 @@
+Source: bbbike-world-javalibs-misc
+Section: web
+Priority: extra
+Maintainer: Wolfram Schneider <wosch@freebsd.org>
+Build-Depends: debhelper (>= 7.0.50~)
+Standards-Version: 3.8.4
+Homepage: http://bbbike.org
+
+Package: bbbike-world-javalibs-misc
+Architecture: all
+Section: web
+Depends: ${misc:Depends}
+Description: Java libs for bbbike.org
+ Java libs for bbbike.org - osmosis, splitter, osmand, mkgmap
+ 
