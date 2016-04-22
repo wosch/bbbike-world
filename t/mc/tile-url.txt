@@ -89,10 +89,10 @@ http://www.opensnowmap.org/opensnowmap-overlay/11/1099/671.png
 http://t3.beta.itoworld.com/69/84f7729ed2e9b4c7e2aed58e8fb171fe/11/1100/671.png
 http://t3.beta.itoworld.com/124/baafeeae799c1dcc732ea30dd4ae5c97/11/1100/671.png
 http://t3.beta.itoworld.com/215/3f91703263bfa5c9376e129ada11252b/11/1100/671.png
-http://c.tiles.wmflabs.org/bw-mapnik/11/1100/671.png
-http://c.tiles.wmflabs.org/hikebike/11/1100/671.png
-http://c.tiles.wmflabs.org/osm-no-labels/11/1100/671.png
-http://a.tiles.wmflabs.org/hillshading/12/2165/1488.png
+https://tiles.wmflabs.org/bw-mapnik/11/1100/671.png
+https://tiles.wmflabs.org/hikebike/11/1100/671.png
+https://tiles.wmflabs.org/osm-no-labels/11/1100/671.png
+https://tiles.wmflabs.org/hillshading/12/2165/1488.png
 http://c.tiles.openrailwaymap.org/standard/11/1100/671.png
 http://a.tiles.openrailwaymap.org/maxspeed/12/2200/1342.png
 https://d.tiles.mapbox.com/v4/matt.72ef5189/16/35206/21492@2x.png?access_token=pk.eyJ1IjoiZHVuY2FuZ3JhaGFtIiwiYSI6IlJJcWdFczQifQ.9HUpTV1es8IjaGAf_s64VQ
@@ -112,3 +112,6 @@ https://maps.wien.gv.at/basemap/geolandbasemap/normal/google3857/18/90897/142993
 https://maps.wien.gv.at/basemap/bmaphidpi/normal/google3857/18/90897/142993.jpeg
 https://maps.wien.gv.at/basemap/bmapgrau/normal/google3857/18/90897/142994.png
 https://maps.wien.gv.at/basemap/bmaporthofoto30cm/normal/google3857/18/90897/142994.jpeg
+https://ecn.t2.tiles.virtualearth.net/tiles/r1202102332220300.jpeg?g=5169&mkt=en-US&shading=hill
+https://ecn.t2.tiles.virtualearth.net/tiles/a1202102332220300.jpeg?g=5169
+https://ecn.t2.tiles.virtualearth.net/tiles/h1202102332220300.jpeg?g=5169&mkt=en-US
