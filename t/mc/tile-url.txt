@@ -112,3 +112,6 @@ https://maps.wien.gv.at/basemap/geolandbasemap/normal/google3857/18/90897/142993
 https://maps.wien.gv.at/basemap/bmaphidpi/normal/google3857/18/90897/142993.jpeg
 https://maps.wien.gv.at/basemap/bmapgrau/normal/google3857/18/90897/142994.png
 https://maps.wien.gv.at/basemap/bmaporthofoto30cm/normal/google3857/18/90897/142994.jpeg
+https://ecn.t2.tiles.virtualearth.net/tiles/r1202102332220300.jpeg?g=5169&mkt=en-US&shading=hill
+https://ecn.t2.tiles.virtualearth.net/tiles/a1202102332220300.jpeg?g=5169
+https://ecn.t2.tiles.virtualearth.net/tiles/h1202102332220300.jpeg?g=5169&mkt=en-US
