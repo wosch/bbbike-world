@@ -795,7 +795,7 @@ update-javascript bbbike-js:
 java-config:
 	test -r $$HOME/.osmosis || ln -fs $$HOME/projects/bbbike/world/etc/env/dot.osmosis $$HOME/.osmosis
 
-dist-clean devel-clean distclean: clean temp-clean clean-t data-distclean download-clean log-clean index-clean cache-clean-local deb-distclean stale-symlink-clean tilesize-clean
+dist-clean devel-clean distclean: clean temp-clean clean-t data-distclean download-clean log-clean index-clean cache-clean-local deb-distclean stale-symlink-clean
 	${MAKE} -C./world/etc/mkgmap distclean
 	${MAKE} -C./cgi/msg distclean
 
@@ -819,8 +819,10 @@ clean-t:
 temp-clean:
 	rm -rf ${TMP_DIR}
 
-cache-clean-local:
+cache-clean-local: tilesize-clean
 	rm -rf ./cache
+	rm -rf /tmp/bbbike-localhost-*
+	rm -rf /tmp/bbbike-cgicache-*
 
 log-clean:
 	rm -f log.check log.check-full log.check-world
