@@ -18,15 +18,19 @@ cpan HTML::TagCloud
 curl -sSfL https://github.com/wosch/bbbike-world/raw/world/bin/bbbike-bootstrap | /bin/sh
 
 
+
 Required debian modules
 ------------------------------------
+see also .travis.yml
 
-/etc/apt/sources.list:
-## backports
-deb	http://ftp-stud.hs-esslingen.de/debian-backports squeeze-backports main contrib non-free
+. ./world/etc/env/dot.bbbikerc 
+sudo ./world/travis/bbbike-init.sh
 
 # see world/etc/apt/equivs
 sudo apt-get install bbbike-world 
+
+sudo apt-get install -y mono-devel xvfb x11-apps
+sudo world/etc/init.d/xvfb start
 
 # reverse proxy
 sudo apt-get install varnish
