@@ -821,8 +821,8 @@ temp-clean:
 
 cache-clean-local: tilesize-clean
 	rm -rf ./cache
-	rm -rf /tmp/bbbike-localhost-*
-	rm -rf /tmp/bbbike-cgicache-*
+	rm -rf /tmp/bbbike-localhost-$$(perl -e 'print $$<')-*
+	rm -rf /tmp/bbbike-cgicache-$$(perl -e 'print $$<')-*
 
 log-clean:
 	rm -f log.check log.check-full log.check-world
