@@ -800,7 +800,7 @@ dist-clean devel-clean distclean: clean temp-clean clean-t data-distclean downlo
 	${MAKE} -C./cgi/msg distclean
 
 tilesize-clean:
-	rm -f /var/tmp/_tilesize*
+	rm -f /var/tmp/_tilesize-$$(perl -e 'print $$<')-*
 
 stale-symlink-clean:
 	find . -type l -print0 | perl -n0e 'unlink if ! -e'
