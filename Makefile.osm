@@ -799,6 +799,9 @@ dist-clean devel-clean distclean: clean temp-clean clean-t data-distclean downlo
 	${MAKE} -C./world/etc/mkgmap distclean
 	${MAKE} -C./cgi/msg distclean
 
+tilesize-clean:
+	rm -f /var/tmp/_tilesize-$$(perl -e 'print $$<')-*
+
 stale-symlink-clean:
 	find . -type l -print0 | perl -n0e 'unlink if ! -e'
 
@@ -816,8 +819,10 @@ clean-t:
 temp-clean:
 	rm -rf ${TMP_DIR}
 
-cache-clean-local:
+cache-clean-local: tilesize-clean
 	rm -rf ./cache
+	rm -rf /tmp/bbbike-localhost-$$(perl -e 'print $$<')-*
+	rm -rf /tmp/bbbike-cgicache-$$(perl -e 'print $$<')-*
 
 log-clean:
 	rm -f log.check log.check-full log.check-world

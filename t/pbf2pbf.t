@@ -17,7 +17,7 @@ use Digest::MD5 qw(md5_hex);
 use strict;
 use warnings;
 
-plan tests => 9;
+plan tests => 10;
 
 sub md5_file {
     my $file = shift;
@@ -44,9 +44,10 @@ if ( !-f $pbf_file ) {
 my $osmosis_version = `world/bin/bbbike-osmosis-version`;
 my $pbf_file2       = 'world/t/data-osm/tmp/Cusco2.osm.pbf';
 my $pbf_md5         = "6dc9df64ddc42347bbb70bc134b4feda";
-my $pbf2_md5        = "e4166713890a2000975592edf54589eb";
-my $osm_md5         = "9bc169cd61d66537c54a67f83276c9a6";
-my $tempfile        = File::Temp->new( SUFFIX => ".osm" );
+my @pbf2_md5 =
+  ( "e4166713890a2000975592edf54589eb", "760f0291f37e64900c895053679bc354" );
+my $osm_md5 = "9bc169cd61d66537c54a67f83276c9a6";
+my $tempfile = File::Temp->new( SUFFIX => ".osm" );
 
 is( $pbf_md5, md5_file($pbf_file), "md5 checksum matched: $pbf_file" );
 
@@ -62,8 +63,12 @@ is( md5_file($pbf_file2), $pbf_md5, "md5 checksum matched: $pbf_file2" );
 
 system( "world/bin/pbf2pbf", $pbf_file2 );
 is( $?, 0, "pbf2pbf $pbf_file2" );
-is( md5_file($pbf_file2), $pbf2_md5,
-    "md5 checksum matched after running pbf2pbf: $pbf_file2" );
+
+my $md5 = md5_file($pbf_file2);
+my $md5_checksum = ( grep { $md5 eq $_ } @pbf2_md5 )[0];
+
+isnt( $md5_checksum, (), "Known checksum, no data changes" );
+is( $md5, $md5_checksum, "md5 checksum" );
 
 system(
 qq[world/bin/pbf2osm --osmosis $pbf_file2 | perl -npe 's/timestamp=".*?"/timestamp="0"/' > $tempfile]
