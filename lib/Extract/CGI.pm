@@ -160,6 +160,15 @@ sub header {
                 -content => 'nofollow,noarchive,noindex'
             }
           );
+
+        push @meta,
+          $q->meta(
+            {
+                -http_equiv => 'pragma',
+                -content    => 'no-cache'
+            }
+          ),
+          ;
     }
 
     my @status = ( -status => $error ? 503 : 200 );
