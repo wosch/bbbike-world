@@ -566,9 +566,14 @@ sub _check_input {
         }
     }
 
+    if ( !$expire ) {
+        warn "No expire parameter given, bot requests?\n";
+    }
+
     if ( !exists $self->{'formats'}->{$format} ) {
         error("Unknown error format '$format'");
     }
+
     if ( $email eq '' ) {
         error(
             "Please enter a e-mail address. "
