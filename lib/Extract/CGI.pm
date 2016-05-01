@@ -557,6 +557,14 @@ sub _check_input {
     my $layers = Param( $q, "layers" );
     my $pg     = Param( $q, "pg" );
     my $as     = Param( $q, "as" );
+    my $expire = Param( $q, "expire" );
+
+    if ( $expire ne '' && $expire =~ /^\d+$/ ) {
+        my $time = time();
+        if ( $expire + 2 * 86400 < $time ) {
+            warn "Page expired: $expire, please reload\n";
+        }
+    }
 
     if ( !exists $self->{'formats'}->{$format} ) {
         error("Unknown error format '$format'");
@@ -1008,6 +1016,8 @@ qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="j
     #
     #    #-id    => 'extract'
     #);
+    print $q->hidden( "expire", time() ), "\n\n";
+
     print $q->end_form;
     print $self->export_osm;
     print qq{<hr/>\n};
