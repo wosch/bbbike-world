@@ -87,6 +87,7 @@ sub header {
     my @cookie;
     my @css     = "/html/extract.css";
     my @expires = ();
+    my @meta    = ();
 
     if ( $type eq 'homepage' ) {
         @onload = ( -onLoad, 'init();' );
@@ -132,33 +133,52 @@ sub header {
         push @cookie, -cookie => \@cookies;
     }
 
+    @meta = (
+        $q->meta(
+            {
+                -http_equiv => 'Content-Type',
+                -content    => 'text/html; charset=utf-8'
+            }
+        ),
+        $q->meta(
+            {
+                -name => 'description',
+                -content =>
+'OpenStreetMap extracts in OSM, PBF, Garmin, Osmand, mapsforge, Navit, PNG, SVG, or Esri shapefile format (as rectangle or polygon).'
+            }
+        )
+    );
+
     # do not cache requests
     if ( $type eq 'check_input' ) {
         @expires = ( -expires => "+0s" );
+
+        push @meta,
+          $q->meta(
+            {
+                -name    => 'robots',
+                -content => 'nofollow,noarchive,noindex'
+            }
+          );
+
+        push @meta,
+          $q->meta(
+            {
+                -http_equiv => 'pragma',
+                -content    => 'no-cache'
+            }
+          ),
+          ;
     }
 
     my @status = ( -status => $error ? 503 : 200 );
     my $data = "";
 
-    $data .= $q->header( @status, -charset => 'utf-8', @cookie );
+    $data .= $q->header( @status, -charset => 'utf-8', @cookie, @expires );
 
     $data .= $q->start_html(
         -title => 'Planet.osm extracts | BBBike.org',
-        -head  => [
-            $q->meta(
-                {
-                    -http_equiv => 'Content-Type',
-                    -content    => 'text/html; charset=utf-8'
-                }
-            ),
-            $q->meta(
-                {
-                    -name => 'description',
-                    -content =>
-'Extracts OpenStreetMap areas in OSM, PBF, Garmin, Osmand, mapsforge, Navit, PNG, SVG, or Esri shapefile format (as rectangle or polygon).'
-                }
-            )
-        ],
+        -head  => [@meta],
         -style => { 'src' => \@css, },
 
         # -script => [ map { { 'src' => $_ } } @javascript ],

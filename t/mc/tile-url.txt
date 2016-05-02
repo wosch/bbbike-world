@@ -115,3 +115,6 @@ https://maps.wien.gv.at/basemap/bmaporthofoto30cm/normal/google3857/18/90897/142
 https://ecn.t2.tiles.virtualearth.net/tiles/r1202102332220300.jpeg?g=5169&mkt=en-US&shading=hill
 https://ecn.t2.tiles.virtualearth.net/tiles/a1202102332220300.jpeg?g=5169
 https://ecn.t2.tiles.virtualearth.net/tiles/h1202102332220300.jpeg?g=5169&mkt=en-US
+https://cdn3.apple-mapkit.com/ti/tile?type=tile&style=0&size=1&x=4400&y=2686&z=13&scale=2&lang=en&imageFormat=jpg&v=1603142&poi=1&vendorkey=38da783db1ef0c2d9f8e783a063ffcdc6a6330fe
+https://cdn3.apple-mapkit.com/ti/tile?type=tile&style=46&size=1&x=4400&y=2686&z=13&scale=2&lang=en&imageFormat=jpg&v=1603142&poi=1&vendorkey=38da783db1ef0c2d9f8e783a063ffcdc6a6330fe
+https://sat-cdn4.apple-mapkit.com/tile?style=7&size=1&scale=1&z=17&x=70411&y=43008&v=335&vendorkey=38da783db1ef0c2d9f8e783a063ffcdc6a6330fe
