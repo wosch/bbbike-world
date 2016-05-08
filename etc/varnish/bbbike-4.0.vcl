@@ -1,3 +1,6 @@
+vcl 4.0;
+import std;
+
 # This is a basic VCL configuration file for varnish.  See the vcl(7)
 # man page for details on VCL syntax and semantics.
 # 
@@ -113,28 +116,28 @@ backend bbbike_failover {
 sub vcl_recv {
     # block rough IP addresses
     if (client.ip ~ rough_ip) {
-        error 405 "IP address blocked: " + client.ip;
+        return (synth(405, "IP address blocked: " + client.ip));
     }
 
     # allow PURGE from localhost and 192.168.55...
-    if (req.request == "PURGE") {
+    if (req.method == "PURGE") {
         if (!client.ip ~ purge) {
-            error 405 "Not allowed: " + client.ip;
+            return(synth(405, "Not allowed: " + client.ip));
         }
-        return (lookup);
+        return (purge);
     }
 
     # allow only GET, HEAD, and POST requests    
-    if (req.request != "GET" &&
-        req.request != "HEAD" &&
-        req.request != "POST") {
+    if (req.method != "GET" &&
+        req.method != "HEAD" &&
+        req.method != "POST") {
          /* Non-RFC2616 or CONNECT which is weird. */
-        error 405 "Unknown request METHOD";
+        return(synth(405, "Unknown request METHOD"));
     }
 
     # block rogue bots
     if (req.http.user-agent ~ "^facebookexternalhit") {
-        error 405 "rogue bot request";
+        return(synth(405, "rogue bot request"));
     }
 
 
@@ -144,45 +147,45 @@ sub vcl_recv {
 
     # munin statistics with lighttpd
     if (req.http.host ~ "^dev[1-4]?\.bbbike\.org$" && req.url ~ "^/munin") {
-        set req.backend = munin_localhost;
+        set req.backend_hint = munin_localhost;
     } 
 
     # tile.size with node.js daemon
     else if (req.url ~ "^/cgi/tile-size2.cgi$" && req.http.host ~ "^.*?\.bbbike\.org$" ) {
-        set req.backend = tile_size;
+        set req.backend_hint = tile_size;
     } 
 
     # other VMs
     else if (req.http.host ~ "^(m\.|api[1-4]?\.|www[1-4]?\.|dev[1-4]?\.|devel[1-4]?\.|)bbbike\.org$") {
-        set req.backend = bbbike;
+        set req.backend_hint = bbbike;
 
         # failover production @ www1 
-        if (req.restarts == 1 || !req.backend.healthy) {
-                set req.backend = bbbike_failover;
+        if (req.restarts == 1 || !std.healthy(req.backend_hint)) {
+                set req.backend_hint = bbbike_failover;
         }
     } else if (req.http.host ~ "^extract[1-4]?\.bbbike\.org$") {
-        set req.backend = bbbike;
+        set req.backend_hint = bbbike;
     } else if (req.http.host ~ "^extract-pro[1-4]?\.bbbike\.org$") {
-        set req.backend = bbbike;
+        set req.backend_hint = bbbike;
     } else if (req.http.host ~ "^download[1-4]?\.bbbike\.org$") {
-        set req.backend = bbbike;
+        set req.backend_hint = bbbike;
     } else if (req.http.host ~ "^([a-z]\.)?tile\.bbbike\.org$" || req.http.host ~ "^(mc)\.bbbike\.org$") {
-        set req.backend = tile;
+        set req.backend_hint = tile;
     } else if (req.http.host ~ "^(www2?\.)?manualpages\.de$") {
-        set req.backend = wosch;
+        set req.backend_hint = wosch;
     } else if (req.http.host ~ "^(dvh|tkb)\.bookmaps\.org$") {
-        set req.backend = wosch;
+        set req.backend_hint = wosch;
     } else if (req.http.host ~ "^eserte\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$" || req.http.host ~ "^jenkins\.bbbike\.(org|de)$") {
-        set req.backend = eserte;
+        set req.backend_hint = eserte;
     } else if (req.http.host ~ "^(www\.|)(cyclerouteplanner\.org|cyclerouteplanner\.com|bbike\.org|cycleroute\.net)$") {
-        set req.backend = bbbike;
+        set req.backend_hint = bbbike;
     } else {
-        set req.backend = default;
+        set req.backend_hint = default;
     }
 
     # dummy
     if (req.http.host ~ "foobar") {
-        set req.backend = bbbike;
+        set req.backend_hint = bbbike;
     }
 
     # log real IP address in backend
@@ -218,7 +221,7 @@ sub vcl_recv {
     if (req.http.host ~ "^(dev|devel)[1-4]?\.bbbike\.org$") 	{ return (pass); }
   
     # pipeline post requests trac #4124 
-    if (req.request == "POST") {
+    if (req.method == "POST") {
 	return (pass);
     }
         
@@ -275,7 +278,7 @@ sub vcl_recv {
         return (pass);
     }
 
-    return (lookup);
+    return (hash);
 }
 
 ############################################################
@@ -286,6 +289,7 @@ acl purge {
     "10.0.0.0"/24;
     "144.76.200.87";
     "88.198.198.75";
+    "138.201.59.14";
 }
 
 acl rough_ip {
@@ -293,16 +297,16 @@ acl rough_ip {
 }
 
 sub vcl_hit {
-    if (req.request == "PURGE") {
-        purge;
-        error 200 "Purged vcl_hit.";
+    if (req.method == "PURGE") {
+        #return(purge);
+        #return(synth(200, "Purged vcl_hit."));
     }
 }
 
 sub vcl_miss {
-    if (req.request == "PURGE") {
-        purge;
-        error 200 "Purged vcl_miss." + client.ip;
+    if (req.method == "PURGE") {
+        #return(purge);
+        #return(synth(200, "Purged vcl_miss." + client.ip));
     }
 }
 
@@ -388,10 +392,11 @@ sub normalize_user_agent {
 # }
 # 
 
-sub vcl_fetch {
-    if (req.http.host ~ "^(www)[1-4]?\.bbbike\.org$") 	{
-        unset beresp.http.set-cookie;
-    }
+sub vcl_backend_response {
+    # ???
+    #if (req.http.host ~ "^(www)[1-4]?\.bbbike\.org$") 	{
+    #    unset beresp.http.set-cookie;
+    #}
 
 #     if (beresp.ttl <= 0s ||
 #         beresp.http.Set-Cookie ||
