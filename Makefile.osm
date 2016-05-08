@@ -1265,7 +1265,7 @@ bbbike-c:
 
 
 DOWNLOAD_PREFIX=/usr/local/www/download.bbbike.org
-download-bbbike-org-install: download-srtm-bbbike-org-install
+download-bbbike-org-install: 
 	mkdir -p ${DOWNLOAD_PREFIX}
 	mkdir -p ${DOWNLOAD_PREFIX}/osm/planet
 	mkdir -p ${DOWNLOAD_PREFIX}/bbbike
@@ -1286,12 +1286,18 @@ download-bbbike-org-install: download-srtm-bbbike-org-install
 	  ln -fs $$HOME/projects/osm/download/planet-latest.osm.pbf.sha1 . ;\
 	  ln -fs $$HOME/projects/osm/download/planet-latest.osm.bz2.md5 . ;\
 	  ln -fs ../../../bbbike.org/world/download/osm/planet/HEADER.txt .
+	cd ${DOWNLOAD_PREFIX}/osm/planet; \
+	  ln -fs $$HOME/projects/osm/download/sub-planet .
 	cd ${DOWNLOAD_PREFIX}/..; mkdir -p osm; cd osm; \
 	  ln -fs ../download.bbbike.org/osm/planet download
+	${MAKE} download-srtm-bbbike-org-install
 
 # http://download.freizeitkarte-osm.de/Development/ele_25_250_500/Hoehendaten_Freizeitkarte_Europe.osm.pbf
 download-srtm-bbbike-org-install:
-	mkdir -p ../osm/download/srtm
+	cd ${DOWNLOAD_PREFIX}/osm/planet; mkdir -p srtm/e40; cd srtm/e40; \
+	  ln -fs $$HOME/projects/osm/download/srtm/planet-srtm-e40.osm.pbf .
+	cd ${DOWNLOAD_PREFIX}/osm/planet; mkdir -p sub-srtm/e40; cd sub-srtm/e40; \
+	  ln -fs $$HOME/projects/osm/download/sub-srtm/* .
 
 UPDATE_APT=deb-perl deb-equivs deb-bin deb-repo-upload
 
