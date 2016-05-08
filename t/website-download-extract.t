@@ -91,7 +91,9 @@ sub myget_headXXX {
 diag( "extract downloads URLs to check: " . scalar(@urls) ) if $debug;
 foreach my $u (@urls) {
     diag("URL: $u") if $debug >= 2;
-    $test->myget_head( $u, 1_000 );
+
+    my $size = $u =~ /\.osm\.(gz|xz)$/ ? 190 : 1_000;
+    $test->myget_head( $u, $size );
 }
 
 __END__
