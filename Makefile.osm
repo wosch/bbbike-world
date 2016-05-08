@@ -933,6 +933,7 @@ extract-install extract-bbbike-org-install:
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/failed
 	chmod -R a+rX,gu+w ${EXTRACTS_SPOOL_DIR}/
 	chown -R $$(logname):${WEB_GROUP} ${EXTRACTS_SPOOL_DIR}/
+	cp world/bin/osmconvert-wrapper /usr/local/bin
 
 bbbike-cache-install:
 	mkdir -p ${BBBIKE_PARTITION}/cache
@@ -1199,12 +1200,13 @@ deb-repo-upload:
 	ssh debian.bbbike.org 'cd ~/projects/bbbike && make DEB_VENDOR=${DEB_VENDOR} DEB_RELEASE=${DEB_RELEASE} deb-repo'
 
 deb-bootstrap debian-bootstrap: deb-bootstrap-dir
-bbbike-bootstrap: bbbike-partition debian-bootstrap deb-bootstrap-rsync update-files install-backend-lighttpd
+bbbike-bootstrap: bbbike-partition debian-bootstrap update-files install-backend-lighttpd
 	sudo ${BBMAKE} -s cache-clean
 	sudo ${BBMAKE} -s extract-bbbike-org-install
 	sudo ${BBMAKE} -s clean-cache
 	sudo ${BBMAKE} -s download-bbbike-org-install
-	sudo ${MAKE} -s -C./world/etc install-munin-bbbike install-munin-bbbike-extract crontab-root
+	sudo ${MAKE} -s -C./world/etc crontab-root
+	sudo ${MAKE} -s -C./world/etc/munin install-munin-bbbike install-munin-bbbike-extract
 	sudo update-rc.d lighttpd defaults
 	sudo /etc/init.d/lighttpd restart
 	@echo ""
