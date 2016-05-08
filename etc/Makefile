@@ -19,6 +19,13 @@ sync-frontend:
 	cp -f /etc/lighttpd/conf-available/lighttpd-munin.conf munin/lighttpd-munin.conf
 	cp -f /etc/logrotate.d/munin logrotate/logrotate.munin
 
+install-frontend-lighttpd:
+	cd /etc/lighttpd/conf-available; \
+	  ln -fs /usr/local/www/bbbike/world/etc/lighttpd/munin-fastcgi.conf;
+	cd /etc/lighttpd/conf-enabled; \
+	  ln -fs ../conf-available/munin-fastcgi.conf
+	sudo /etc/init.d/lighttpd restart
+
 sync-backend:
 	crontab -l > crontab
 	cp -f /etc/lighttpd/conf-enabled/bbbike.org.conf lighttpd
@@ -52,6 +59,7 @@ clean distclean:
 help:
 	@echo "make [ sync-backend | sync-frontend ]"
 	@echo "     [ install-backend-lighttpd ]"
+	@echo "     [ install-frontend-lighttpd ]"
 	@echo "     [ install-munin-lighttpd ]"
 	@echo "     [ crontab-root ]"
 	@echo "     [ clean ]"
