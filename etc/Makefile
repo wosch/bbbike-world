@@ -21,9 +21,9 @@ sync-frontend:
 
 install-frontend-lighttpd:
 	cd /etc/lighttpd/conf-available; \
-	  ln -fs /usr/local/www/bbbike/world/etc/lighttpd/munin-fastcgi.conf;
+	  sudo ln -fs /usr/local/www/bbbike/world/etc/lighttpd/munin-fastcgi.conf;
 	cd /etc/lighttpd/conf-enabled; \
-	  ln -fs ../conf-available/munin-fastcgi.conf
+	  sudo ln -fs ../conf-available/munin-fastcgi.conf
 	sudo /etc/init.d/lighttpd restart
 
 sync-backend:
