@@ -3,9 +3,10 @@ Required perl modules:
 
 
 # see ../bin/bbbike-build-runtime-perl.pl
+sudo apt-get install lsb-release tidy sudo git vim make iftop htop curl
+
 sudo apt-get install -y libhtml-tagcloud-perl libhtml-parser-perl \
-  libxml-atom-simplefeed-perl libinline-perl libinline-c-perl lsb-release \
-  tidy sudo git vim make iftop htop curl
+  libxml-atom-simplefeed-perl libinline-perl libinline-c-perl 
 
 # to build on a new debian/ubuntu you need these devel tools
 #sudo apt-get install equivs dh-make-perl
