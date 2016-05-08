@@ -20,6 +20,13 @@ init_apt_bbbike() {
         sudo mv -f $file.tmp $file
         sudo apt-get update -qq
     fi
+
+    # old packages from wheezy for jessie
+    wheezy=$sources_list_d/wheezy.list
+    if [ $codename = 'jessie' -a ! -e $wheezy ]; then
+	sudo cp world/etc/apt/jessie/sources.list.d/wheezy.list $wheezy
+        sudo apt-get update -qq
+    fi
 }
 
 init_apt_mono() {
