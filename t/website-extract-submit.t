@@ -9,6 +9,9 @@ BEGIN {
     if ( $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
         print "0..0 # skip some test due slow network\n";
     }
+
+    print "1..0 # not done yet\n";
+    exit 0;
 }
 
 use utf8;
