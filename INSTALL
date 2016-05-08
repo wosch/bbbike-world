@@ -4,18 +4,19 @@ Required perl modules:
 
 # see ../bin/bbbike-build-runtime-perl.pl
 sudo apt-get install -y libhtml-tagcloud-perl libhtml-parser-perl \
-  libxml-atom-simplefeed-perl libinline-perl \
+  libxml-atom-simplefeed-perl libinline-perl libinline-c-perl lsb-release \
   tidy sudo git vim make iftop htop curl
 
 # to build on a new debian/ubuntu you need these devel tools
 #sudo apt-get install equivs dh-make-perl
+#sudo apt-get install dpkg-sig
 
 # first time
 sudo ln -s /usr/bin/perl /usr/local/bin/perl
 
 # cpan
 cpan Inline::MakeMaker
-cpan HTML::TagCloud
+#cpan HTML::TagCloud
 
 # checkout sources from git
 curl -sSfL https://github.com/wosch/bbbike-world/raw/world/bin/bbbike-bootstrap | /bin/sh
