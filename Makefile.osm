@@ -1294,10 +1294,10 @@ download-bbbike-org-install:
 
 # http://download.freizeitkarte-osm.de/Development/ele_25_250_500/Hoehendaten_Freizeitkarte_Europe.osm.pbf
 download-srtm-bbbike-org-install:
-	cd ${DOWNLOAD_PREFIX}/osm/planet; mkdir -p srtm/e40; cd srtm/e40; \
+	cd ${DOWNLOAD_PREFIX}/osm/planet; mkdir -p srtm; cd srtm; \
 	  ln -fs $$HOME/projects/osm/download/srtm/planet-srtm-e40.osm.pbf .; \
 	  ln -fs $$HOME/projects/osm/download/srtm/CHECKSUM.txt .
-	cd ${DOWNLOAD_PREFIX}/osm/planet; mkdir -p sub-srtm/e40; cd sub-srtm/e40; \
+	cd ${DOWNLOAD_PREFIX}/osm/planet; mkdir -p sub-srtm; cd sub-srtm; \
 	  ln -fs $$HOME/projects/osm/download/sub-srtm/* .
 
 UPDATE_APT=deb-perl deb-equivs deb-bin deb-repo-upload
