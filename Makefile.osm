@@ -1208,7 +1208,7 @@ bbbike-bootstrap: bbbike-partition debian-bootstrap update-files install-backend
 	sudo ${BBMAKE} -s clean-cache
 	sudo ${BBMAKE} -s download-bbbike-org-install
 	sudo ${MAKE} -s -C./world/etc crontab-root
-	sudo ${MAKE} -s -C./world/etc/munin install-munin-bbbike install-munin-bbbike-extract
+	sudo ${MAKE} -s -C./world/etc/munin install-munin-bbbike
 	sudo update-rc.d lighttpd defaults
 	sudo /etc/init.d/lighttpd restart
 	@echo ""
