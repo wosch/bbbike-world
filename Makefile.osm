@@ -940,6 +940,7 @@ bbbike-cache-install:
 	mkdir -p ${BBBIKE_PARTITION}/cache
 	ln -fs ${BBBIKE_PARTITION}/cache ${BBBIKE_CACHE_DIR}; \
 	chown -R ${WEB_GROUP}:${WEB_GROUP} ${BBBIKE_PARTITION}/cache
+	chmod -R g+w ${BBBIKE_PARTITION}/cache
 
 extract-distclean:
 	find ${EXTRACTS_SPOOL_DIR}/ -type f -print0 | xargs -0 rm -f
