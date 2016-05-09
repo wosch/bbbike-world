@@ -35,7 +35,9 @@ sudo ./world/travis/bbbike-init.sh
 sudo apt-get install bbbike-world 
 
 sudo apt-get install -y mono-devel xvfb x11-apps
-sudo world/etc/init.d/xvfb start
+make install-xvfb
+#sudo world/etc/init.d/xvfb start
+#sudo /etc/init.d/xvfb start
 
 # reverse proxy
 sudo apt-get install varnish
