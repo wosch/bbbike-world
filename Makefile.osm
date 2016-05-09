@@ -1410,6 +1410,10 @@ mygit: git-fetch git-pull git-push
 bbbike-tarball bbbike-src tarball:
 	./world/bin/bbbike-tarball
 
+install-xvfb:
+	sudo cp world/etc/init.d/xvfb /etc/init.d 
+	sudo update-rc.d xvfb defaults
+
 help:
 	@echo "bbbike version: ${GIT_ID}"
 	@echo ""
@@ -1429,6 +1433,7 @@ help:
 	@echo "  [ bbbike2wgs84-mapnik | bbbike-mapnik-config ]"
 	@echo "  [ bbbike-mapnik-postgis | bbbike-tile-update ]"
 	@echo "  [ bbbike-tarball | mapnik-restart ]"
+	@echo "  [ install-xvfb ]"
 	@echo ""
 	@echo "  [ clean | dist-clean | clean-cache | clean-planet | clean-tile ]"
 	@echo ""
