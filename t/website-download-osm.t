@@ -43,12 +43,13 @@ my $urls = [
     [ "/sitemap.xml.gz",                              1_000 ],
     [ "/index.html",                                  800 ],
     [ "/osm/planet/srtm/planet-srtm-e40.osm.pbf",     14_000_000 ],
-    [ "/osm/planet/srtm/CHECKSUM.txt",                50 ],
-    [ "/osm/planet/sub-srtm/europe.osm.pbf",          1_200_000 ],
-    [ "/osm/planet/sub-srtm/CHECKSUM.txt",            50 ],
-    [ "/osm/index.html",                              1_000 ],
-    [ "/osm/extract/",                                1_000 ],
-    [ "/osm/planet/HEADER.txt",                       600 ],
+    [ "/osm/planet/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf", 1_400_000 ],
+    [ "/osm/planet/srtm/CHECKSUM.txt",                             50 ],
+    [ "/osm/planet/sub-srtm/europe.osm.pbf",                       1_200_000 ],
+    [ "/osm/planet/sub-srtm/CHECKSUM.txt",                         50 ],
+    [ "/osm/index.html",                                           1_000 ],
+    [ "/osm/extract/",                                             1_000 ],
+    [ "/osm/planet/HEADER.txt",                                    600 ],
 ];
 
 # no need for latlon SRTM data
