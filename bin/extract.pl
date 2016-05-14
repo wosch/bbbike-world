@@ -1507,7 +1507,14 @@ sub _convert_send_email {
     }
 
     # cleanup poly file after successfull convert
-    push @unlink, $poly_file if defined $poly_file;
+    if ( -f $poly_file ) {
+        push @unlink, $poly_file;
+    }
+    else {
+        warn
+"Poly file no longer exists, maybe already removed for the same area: $poly_file\n"
+          if $debug >= 2;
+    }
 
     next if $test_mode;
 
