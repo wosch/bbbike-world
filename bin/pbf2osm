@@ -49,8 +49,9 @@ xz=`which xz 2>/dev/null | head -n 1`
 xz_opt=-2
 if which pixz >/dev/null 2>&1; then
     xz="pixz -t"
+    # use max. configured CPUs
+    xz_opt="$xz_opt -p$($(dirname $0)/ncpu)"
 fi
-
 
 : ${max_cpu_time="$_max_cpu_time"}
 ulimit -t $max_cpu_time
