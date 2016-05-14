@@ -3,7 +3,8 @@ Required perl modules:
 
 
 # see ../bin/bbbike-build-runtime-perl.pl
-sudo apt-get install lsb-release tidy sudo git vim make iftop htop curl
+sudo apt-get install lsb-release tidy sudo git make curl
+sudo apt-get install perl-doc iftop htop vim
 
 sudo apt-get install -y libhtml-tagcloud-perl libhtml-parser-perl \
   libxml-atom-simplefeed-perl libinline-perl libinline-c-perl 
