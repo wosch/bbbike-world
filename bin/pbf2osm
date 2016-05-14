@@ -32,6 +32,11 @@ if [ "$format" = "--garmin-onroad" ]; then
     : ${max_file_size_garmin=6950000}
 fi
 
+# use max. configured CPUs
+if which pbzip2 >/dev/null 2>&1; then
+    bzip2="$bzip2 -p$($(dirname $0)/ncpu)"
+fi
+
 : ${max_file_size_garmin=2950000}
 : ${max_file_size_mapsforge=666000}
 : ${max_file_size_osmand=666000}
