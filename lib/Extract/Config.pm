@@ -112,7 +112,7 @@ our $formats_menu = {
         ]
     },
     'srtm' => {
-        'title'   => "Elevation (SRTM)",
+        'title'   => "Contours (SRTM)",
         'formats' => [
             'srtm-europe.osm.pbf',         'srtm-europe.osm.xz',
             'srtm-europe.garmin-srtm.zip', 'srtm-europe.obf.zip',
