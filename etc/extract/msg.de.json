@@ -52,7 +52,7 @@
     "SRTM World Garmin (40m)": "SRTM Höhenlinien Garmin (40m)",
     "SRTM World Osmand (40m)": "SRTM Höhenlinien Osmand (40m)",
 
-    "Elevation (SRTM)": "Höhenlinie (SRTM)",
+    "Contours (SRTM)": "Höhenlinie (SRTM)",
 
     "EXTRACT_CONFIRMED": [
         "<p>Danke - die Eingabedaten sind korrekt.</p><p>",

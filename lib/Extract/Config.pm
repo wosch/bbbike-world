@@ -112,7 +112,7 @@ our $formats_menu = {
         ]
     },
     'srtm' => {
-        'title'   => "Elevation (SRTM)",
+        'title'   => "Contours (SRTM)",
         'formats' => [
             'srtm-europe.osm.pbf',         'srtm-europe.osm.xz',
             'srtm-europe.garmin-srtm.zip', 'srtm-europe.obf.zip',
@@ -259,7 +259,8 @@ sub load_config {
     my $q = $self->{'q'};
     our $option = $self->{'option'};
 
-    my $debug = $q->param("debug") || $self->{'debug'} || $option->{'debug'};
+    my $debug =
+      $q->param("debug") || $self->{'debug'} || $option->{'debug'} || 0;
     $self->{'debug'} = $debug;
 
     if (   $q->param('pro')
@@ -306,10 +307,16 @@ sub config_format_menu {
     my $self = shift;
 
     our $option = $self->{'option'};
+    my $debug = $self->{'debug'};
 
     my $formats_order = $option->{'formats_order'};
     foreach my $f (@$formats_order) {
-        push @{ $option->{'formats'} }, $formats_menu->{$f};
+        if ( exists $formats_menu->{$f} ) {
+            push @{ $option->{'formats'} }, $formats_menu->{$f};
+        }
+        else {
+            warn "Unknown select menu format: $f, ignored\n" if $debug >= 1;
+        }
     }
 }
 
