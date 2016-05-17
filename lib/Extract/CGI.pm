@@ -746,11 +746,23 @@ sub _check_input {
 
     my ( $email_counter, $ip_counter ) =
       check_queue( 'obj' => $obj, 'spool_dir_confirmed' => $confirmed_dir );
-    if ( $email_counter > $option->{'scheduler'}->{'user_limit'} ) {
+
+    # a limit per user or IP address
+    # see $cgi/extract.cgi::option
+    my $email_limit =
+      defined $option->{'scheduler'}->{'user_limit_email'}->{$email}
+      ? $option->{'scheduler'}->{'user_limit_email'}->{$email}
+      : $option->{'scheduler'}->{'user_limit'};
+    my $ip_limit = $option->{'scheduler'}->{'ip_limit'};
+
+    if ( $email_counter > $email_limit ) {
         error( M("EXTRACT_LIMIT") );
+        warn "limit email counter: $email_limit > $email_counter $email\n"
+          if $debug >= 1;
     }
-    elsif ( $ip_counter > $option->{'scheduler'}->{'ip_limit'} ) {
+    elsif ( $ip_counter > $ip_limit ) {
         error( M("EXTRACT_LIMIT") );
+        warn "limit ip counter: $ip_counter > $ip_limit\n" if $debug >= 1;
     }
 
     my @data;
