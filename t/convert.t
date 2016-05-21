@@ -1,7 +1,9 @@
 #!/usr/local/bin/perl
 # Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
 
-BEGIN { }
+BEGIN {
+    $ENV{PERL_HASH_SEED} = "12345";
+}
 
 use Test::More;
 use IO::File;
