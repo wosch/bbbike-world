@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2016 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} ) {
@@ -13,17 +13,19 @@ use Data::Dumper;
 use JSON;
 use lib qw(./world/lib ../lib);
 use BBBike::Test;
+use Extract::Config;
 
 use strict;
 use warnings;
 
-my $test  = BBBike::Test->new();
+my $test           = BBBike::Test->new();
+my $extract_config = Extract::Config->new()->load_config_nocgi();
+
 my $debug = 1;
 
 my @homepages_localhost =
   ( $ENV{BBBIKE_TEST_SERVER} ? $ENV{BBBIKE_TEST_SERVER} : "http://localhost" );
-my @homepages =
-  qw[ http://www.bbbike.org http://www2.bbbike.org http://www4.bbbike.org http://dev1.bbbike.org http://dev2.bbbike.org ];
+my @homepages = $extract_config->get_server_list(qw/www dev/);
 if ( $ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
     @homepages = ();
 }

@@ -24,6 +24,7 @@ my $extract_config = Extract::Config->new()->load_config_nocgi();
 my @homepages_localhost =
   ( $ENV{BBBIKE_TEST_SERVER} ? $ENV{BBBIKE_TEST_SERVER} : "http://localhost" );
 my @homepages = $extract_config->get_server_list( 'extract', 'dev' );
+
 if ( $ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
     @homepages = ();
 }
