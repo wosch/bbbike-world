@@ -18,12 +18,12 @@ use BBBike::Test;
 use Extract::Config;
 use Extract::TileSize;
 
-my $test = BBBike::Test->new();
+my $test           = BBBike::Test->new();
+my $extract_config = Extract::Config->new()->load_config_nocgi();
 
 my @homepages_localhost =
   ( $ENV{BBBIKE_TEST_SERVER} ? $ENV{BBBIKE_TEST_SERVER} : "http://localhost" );
-my @homepages =
-  qw[ http://extract.bbbike.org http://extract2.bbbike.org http://extract4.bbbike.org http://dev1.bbbike.org http://dev2.bbbike.org];
+my @homepages = $extract_config->get_server_list( 'extract', 'dev' );
 if ( $ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
     @homepages = ();
 }
