@@ -249,6 +249,9 @@ our $server = {
     'tile' => [
         qw/a.tile.bbbike.org b.tile.bbbike.org c.tile.bbbike.org d.tile.bbbike.org/
     ],
+    'production' => [
+        qw(www.bbbike.org download.bbbike.org extract.bbbike.org mc.bbbike.org a.tile.bbbike.org b.tile.bbbike.org c.tile.bbbike.org d.tile.bbbike.org api.bbbike.org )
+    ],
 };
 
 ##########################
