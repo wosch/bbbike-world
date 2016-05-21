@@ -244,6 +244,11 @@ our $server = {
     'download' => [
         qw/download.bbbike.org download1.bbbike.org download2.bbbike.org download4.bbbike.org/
     ],
+    'api' =>
+      [qw/api.bbbike.org api1.bbbike.org api2.bbbike.org api4.bbbike.org/],
+    'tile' => [
+        qw/a.tile.bbbike.org b.tile.bbbike.org c.tile.bbbike.org d.tile.bbbike.org/
+    ],
 };
 
 ##########################
