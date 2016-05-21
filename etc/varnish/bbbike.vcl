@@ -94,7 +94,7 @@ backend munin_localhost {
 }
 
 backend bbbike_failover {
-    .host = "www2.bbbike.org";
+    .host = "www4.bbbike.org";
     .port = "80";
     .first_byte_timeout = 300s;
     .connect_timeout = 300s;
