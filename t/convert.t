@@ -1,9 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
-
-BEGIN {
-    $ENV{PERL_HASH_SEED} = "12345";
-}
+# Copyright (c) Sep 2012-2016 Wolfram Schneider, http://bbbike.org
 
 use Test::More;
 use IO::File;
@@ -156,8 +152,8 @@ sub check_files {
 }
 
 sub convert {
-    my $shell = 'world/t/data-osm/convert.sh';
-    system($shell) == 0 or die "Command '$shell' failed with status: $?\n";
+    my @shell = qw[env PERL_HASH_SEED=12345 world/t/data-osm/convert.sh];
+    system(@shell) == 0 or die "Command '@shell' failed with status: $?\n";
     is( $?, 0, "convert city" );
 }
 
@@ -173,7 +169,7 @@ sub checksum {
         "924a007f441991644b6fac90bc27611f",    # debian7
         "05dd26ac81ebbfb647b93c1bdb0d019a",    # debian7
         "b55177f7d113e2fa31b0605165033dd9",    # debian7
-        "a78803fc42d673f46a9938646bbe4867",    # debian8
+        "2d32fe2c4bcc803903769fa5e0b4682e",    # debian8
         "9225cbeba853870d5efe5d22a9e297c6",    # debian9
         "64eed98f714b5a6458048b9b88a1ac41",    # ubuntu14
         "ebd954116bcef971b0e7038a70bd8386",    # ubuntu14
