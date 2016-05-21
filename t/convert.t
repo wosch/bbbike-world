@@ -152,7 +152,7 @@ sub check_files {
 }
 
 sub convert {
-    my @shell = qw[env PERL_HASH_SEED=12345 world/t/data-osm/convert.sh];
+    my @shell = qw[world/t/data-osm/convert.sh];
     system(@shell) == 0 or die "Command '@shell' failed with status: $?\n";
     is( $?, 0, "convert city" );
 }
@@ -166,11 +166,10 @@ sub checksum {
       $^O =~ m{darwin}i
       ? ["db9f5b2cae816cf162acbe0a2a2187e5"]
       : [
-        "05dd26ac81ebbfb647b93c1bdb0d019a",    # debian7
-        "2d32fe2c4bcc803903769fa5e0b4682e",    # debian8
-        "9225cbeba853870d5efe5d22a9e297c6",    # debian9
-        "ebd954116bcef971b0e7038a70bd8386",    # ubuntu14
-        "64eed98f714b5a6458048b9b88a1ac41",    # ubuntu14
+        "b55177f7d113e2fa31b0605165033dd9",    # debian7
+        "5628a7d60b4c3b32abf7585f044da075",    # debian8
+        "5628a7d60b4c3b32abf7585f044da075",    # debian9
+        "4ddccb9ff7d1bfbfa0b16c5a49968667",    # ubuntu14
       ];
     my $md5_checksum = ( grep { $md5 eq $_ } @$md5_checksum_select )[0];
 
