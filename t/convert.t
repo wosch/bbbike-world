@@ -1,7 +1,9 @@
 #!/usr/local/bin/perl
 # Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
 
-BEGIN { }
+BEGIN {
+    $ENV{PERL_HASH_SEED} = "12345";
+}
 
 use Test::More;
 use IO::File;
@@ -169,14 +171,12 @@ sub checksum {
       ? ["db9f5b2cae816cf162acbe0a2a2187e5"]
       : [
         "924a007f441991644b6fac90bc27611f",    # debian7
-        "baa8a726415e1d261601be39dcdbdf56",    # debian7
-        "7dabf62b91e39207a38977859d200675",    # debian8
-        "b8472dff233bfe1d6f3701a913247d6d",    # debian8
-        "7d4224a73ed6019bc657566042e06007",    # debian8
-        "ad8297be26597e028866a099dae28eb9",    # debian8
-        "606eb68a137bc985378760d647da7c76",    # ubuntu14
-        "55344a4a2293abdbaab916c4ae485009",    # ubuntu14
-        "97f8dd49551da53edf0c49642c67f7b7",    # ubuntu14
+        "05dd26ac81ebbfb647b93c1bdb0d019a",    # debian7
+        "b55177f7d113e2fa31b0605165033dd9",    # debian7
+        "a78803fc42d673f46a9938646bbe4867",    # debian8
+        "9225cbeba853870d5efe5d22a9e297c6",    # debian9
+        "64eed98f714b5a6458048b9b88a1ac41",    # ubuntu14
+        "ebd954116bcef971b0e7038a70bd8386",    # ubuntu14
       ];
     my $md5_checksum = ( grep { $md5 eq $_ } @$md5_checksum_select )[0];
 
