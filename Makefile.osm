@@ -1405,6 +1405,11 @@ git-branch:
 	git branch
 	cd world; git branch
 
+git-commit: git-commit-world
+
+git-commit-world:
+	cd world; git commit .
+
 mygit: git-fetch git-pull git-push
 
 
