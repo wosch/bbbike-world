@@ -5,11 +5,10 @@
 
 set -e
 
-LANG=C 
-LC_ALL=C 
-PERL_HASH_SEED=12345
-export LANG LC_ALL PERL_HASH_SEED
-
+LANG=C; export LANG 
+LC_ALL=C; export LC_ALL
+PERL_HASH_SEED=12345; export PERL_HASH_SEED
+PERL_PERTURB_KEYS=NO; export PERL_PERTURB_KEYS
 
 dir=$(dirname $0)
 : ${city=Cusco}
