@@ -23,7 +23,6 @@ my $debug = $ENV{DEBUG} || 0;
 
 my @production = qw(
   http://download1.bbbike.org
-  http://download2.bbbike.org
   http://download4.bbbike.org
 );
 
