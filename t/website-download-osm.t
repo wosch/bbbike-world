@@ -25,7 +25,6 @@ my $test = BBBike::Test->new();
 my @homepages = qw[
   http://download.bbbike.org
   http://download1.bbbike.org
-  http://download2.bbbike.org
   http://download4.bbbike.org
 ];
 

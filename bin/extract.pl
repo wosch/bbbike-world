@@ -73,31 +73,7 @@ our $option = {
     # run with lower priority
     'nice_level' => 2,
 
-    #'nice_level_converter' => 3,
-    #'planet_osm' => "../osm/download/planet-latest.osm.pbf",
-
-    # XXX: Extract::Config
-    'planet' => {
-
-        #'planet.osm' => '../osm/download/planet-latest.osm.pbf',
-        'planet.osm' => '../osm/download/planet-latest-nometa.osm.pbf',
-
-        'srtm-europe.osm.pbf' =>
-          '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
-        'srtm-europe.garmin-srtm.zip' =>
-          '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
-        'srtm-europe.obf.zip' =>
-          '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
-        'srtm-europe.mapsforge-osm.zip' =>
-          '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
-
-        'srtm.osm.pbf' => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
-        'srtm.garmin-srtm.zip' =>
-          '../osm/download/srtm/planet-srtm-e40.osm.pbf',
-        'srtm.obf.zip' => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
-        'srtm.mapsforge-osm.zip' =>
-          '../osm/download/srtm/planet-srtm-e40.osm.pbf',
-    },
+    'planet' => $Extract::Config::planet_osm,
 
     'debug' => 0,
     'test'  => 0,

@@ -16,6 +16,9 @@ use warnings;
 # config
 #
 
+# global config object
+our $option = {};
+
 our $formats = {
     'osm.pbf' => 'Protocolbuffer (PBF)',
     'osm.gz'  => "OSM XML gzip'd",
@@ -230,6 +233,22 @@ our $tile_format = {
     "srtm.obf.zip"         => "srtm-obf.zip",
 };
 
+our $server = {
+    'dev' => [qw/dev.bbbike.org dev1.bbbike.org dev4.bbbike.org/],
+    'www' => [qw/www.bbbike.org www1.bbbike.org www4.bbbike.org/],
+    'extract' =>
+      [qw/extract.bbbike.org extract1.bbbike.org extract4.bbbike.org/],
+    'download' =>
+      [qw/download.bbbike.org download1.bbbike.org download4.bbbike.org/],
+    'api'  => [qw/api.bbbike.org api1.bbbike.org api4.bbbike.org/],
+    'tile' => [
+        qw/a.tile.bbbike.org b.tile.bbbike.org c.tile.bbbike.org d.tile.bbbike.org/
+    ],
+    'production' => [
+        qw(www.bbbike.org download.bbbike.org extract.bbbike.org mc.bbbike.org a.tile.bbbike.org b.tile.bbbike.org c.tile.bbbike.org d.tile.bbbike.org api.bbbike.org )
+    ],
+};
+
 ##########################
 # helper functions
 #
@@ -247,6 +266,35 @@ sub new {
 }
 
 #
+# get list of active servers per service
+# 'www' => (www, www1, www2, www3)
+# 'extract' => (extract, extract2)
+#
+sub get_server_list {
+    my $self = shift;
+    my @type = @_;
+
+    my $debug = $self->{'debug'};
+
+    my @list = ();
+    my $server = $option->{'server'} || $server;
+    warn Dumper($server) if $debug >= 2;
+
+    foreach my $type (@type) {
+        if ( !$type || !exists $server->{$type} ) {
+            warn "Unknown server type '$type'\n";
+            return ();
+        }
+
+        foreach my $s ( @{ $server->{$type} } ) {
+            push @list, "http://$s";
+        }
+    }
+
+    return @list;
+}
+
+#
 # Parse user config file by extract.cgi
 # This allows to override standard config values
 #
@@ -257,7 +305,7 @@ sub load_config {
     my $config_file = shift || "../.bbbike-extract.rc";
 
     my $q = $self->{'q'};
-    our $option = $self->{'option'};
+    $option = $self->{'option'};
 
     my $debug =
       $q->param("debug") || $self->{'debug'} || $option->{'debug'} || 0;
@@ -306,7 +354,7 @@ qq{did you called Extract::Config->load_config("$config_file") twice?\n};
 sub config_format_menu {
     my $self = shift;
 
-    our $option = $self->{'option'};
+    $option = $self->{'option'};
     my $debug = $self->{'debug'};
 
     my $formats_order = $option->{'formats_order'};
@@ -327,8 +375,8 @@ sub config_format_menu {
 sub load_config_nocgi {
     my $self = shift;
 
-    our $option = $self->{'option'};
-    my $debug = $self->{'debug'} || $option->{'debug'};
+    $option = $self->{'option'};
+    my $debug = $self->{'debug'} || $option->{'debug'} || 0;
 
     my $config_file = "$ENV{HOME}/.bbbike-extract.rc";
     if ( $ENV{BBBIKE_EXTRACT_PROFILE} ) {
@@ -342,6 +390,9 @@ sub load_config_nocgi {
         warn "config file: $config_file not found, ignored\n"
           if $debug >= 2;
     }
+
+    $self->{'debug'} = $debug;
+    return $self;
 }
 
 # re-set values for extract-pro service
@@ -349,7 +400,7 @@ sub check_extract_pro {
     my $self = shift;
 
     my $q = $self->{'q'};
-    our $option = $self->{'option'};
+    $option = $self->{'option'};
 
     my $url = $q->url( -full => 1 );
 

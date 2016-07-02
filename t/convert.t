@@ -1,7 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
-
-BEGIN { }
+# Copyright (c) Sep 2012-2016 Wolfram Schneider, http://bbbike.org
 
 use Test::More;
 use IO::File;
@@ -154,8 +152,8 @@ sub check_files {
 }
 
 sub convert {
-    my $shell = 'world/t/data-osm/convert.sh';
-    system($shell) == 0 or die "Command '$shell' failed with status: $?\n";
+    my @shell = qw[world/t/data-osm/convert.sh];
+    system(@shell) == 0 or die "Command '@shell' failed with status: $?\n";
     is( $?, 0, "convert city" );
 }
 
@@ -168,15 +166,10 @@ sub checksum {
       $^O =~ m{darwin}i
       ? ["db9f5b2cae816cf162acbe0a2a2187e5"]
       : [
-        "924a007f441991644b6fac90bc27611f",    # debian7
-        "baa8a726415e1d261601be39dcdbdf56",    # debian7
-        "7dabf62b91e39207a38977859d200675",    # debian8
-        "b8472dff233bfe1d6f3701a913247d6d",    # debian8
-        "7d4224a73ed6019bc657566042e06007",    # debian8
-        "ad8297be26597e028866a099dae28eb9",    # debian8
-        "606eb68a137bc985378760d647da7c76",    # ubuntu14
-        "55344a4a2293abdbaab916c4ae485009",    # ubuntu14
-        "97f8dd49551da53edf0c49642c67f7b7",    # ubuntu14
+        "b55177f7d113e2fa31b0605165033dd9",    # debian7
+        "b15f329e2538624d1f056aaa799f98f1",    # debian8
+        "e18ef0a6931e800890bb520fc143f1bb",    # debian9
+        "4ddccb9ff7d1bfbfa0b16c5a49968667",    # ubuntu14
       ];
     my $md5_checksum = ( grep { $md5 eq $_ } @$md5_checksum_select )[0];
 
