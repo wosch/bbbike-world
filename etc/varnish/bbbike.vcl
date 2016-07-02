@@ -134,7 +134,10 @@ sub vcl_recv {
 
     # block rogue bots
     if (req.http.user-agent ~ "^facebookexternalhit") {
-        error 405 "rogue bot request";
+        error 402 "rogue bot request";
+    }
+    if (req.http.referer ~ "^www\.bing\.com$") {
+        error 402 "rogue bot request";
     }
 
 
