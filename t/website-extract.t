@@ -170,7 +170,7 @@ sub garmin_check {
                 "bbbike garmin legend $tags" );
         }
     }
-    $test->myget( "$home_url/garmin/", 300 );
+    $test->myget( "$home_url/garmin/", 268 );
 
     legend( $test->myget( "$home_url/garmin/bbbike/",   18_000 ) );
     legend( $test->myget( "$home_url/garmin/leisure/",  25_000 ) );
