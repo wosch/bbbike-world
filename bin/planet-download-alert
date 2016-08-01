@@ -11,6 +11,7 @@ file=planet-latest.osm.bz2
 automatic_update="yes"
 planet_osm_server=http://planet.openstreetmap.org/planet
 bbbikerc=$HOME/.bbbikerc
+planet_osm_min_size=50000600300
 
 if [ -e "$bbbikerc" ]; then 
     . "$bbbikerc"
@@ -28,7 +29,7 @@ if [ -e $update ]; then
    fi
 fi
 
-new=`curl -sSf --head --location $planet_osm_server/$file | perl -ne 'print "$1\n" if /^Content-Length:\s+(\d+)/'`
+new=$(curl -sSf --head --location $planet_osm_server/$file | perl -ne 'print "$1\n" if /^Content-Length:\s+(\d+)/')
 
 cache_file=$dir/$file
 if [ -e  $cache_file ]; then
@@ -43,10 +44,15 @@ if test -n "$new" && test "$new" -ne "$old"; then
    touch $update
 
    if [ -n "$automatic_update" ]; then
-     echo "start updated: $(date), may run 8-12 hours"
-     logfile=tmp/log.update-database
-     make -s update-database > $logfile 2>&1 || tail -n 200 $logfile 
-     echo "done updated: $(date)"
+     if [ $new -gt $planet_osm_min_size ]; then
+       echo "start updated: $(date), may run 8-12 hours"
+       logfile=tmp/log.update-database
+       make -s update-database > $logfile 2>&1 || tail -n 200 $logfile 
+       echo "done updated: $(date)"
+     else
+       echo "planet.osm size to small: $new < $planet_osm_min_size"
+       exit 1
+     fi
    fi
 fi
 
