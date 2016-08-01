@@ -265,7 +265,7 @@ function init() {
     // map.addLayer(topomapper);
 
     function bing() {
-        var apiKey = "AnlZwa5p0zgN6mSGFEULXVJgqmUsl8K8GdC_P7MBTVUQSuDY4LR-szxGn-SdpztI";
+        var apiKey = "AimZWa4IPbKRAT2oPVpFNB_Fbu2B03vsTp87X3O_y45JB3UhXnu1DOtA-0kj-VPe";
 
         // var map = new OpenLayers.Map( 'map');
         // XXX: bing.com returns a wrong zoom level in JSON API call
