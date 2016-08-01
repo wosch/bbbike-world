@@ -1137,7 +1137,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
     var nokia_traffic_options = {
         bbbike: {
             "name": "NokiaTraffic",
-            "description": "HERE Traffic, by maps.here.com"
+            "description": "HERE WeGo Traffic, by maps.here.com"
         },
         getTileUrl: function (a, z) {
             return nokia(a, z, "newest/normal.day");
@@ -2306,7 +2306,7 @@ function translate_mapcontrol(word, lang) {
             "PanoramioLayer": "Panoramio",
             "toner": "Toner",
             "watercolor": "Watercolor",
-            "NokiaTraffic": "HERE Traffic",
+            "NokiaTraffic": "HERE WeGo Traffic",
 
             "start": "Start",
             "ziel": "Destination",
@@ -2341,7 +2341,7 @@ function translate_mapcontrol(word, lang) {
 
             "bing_birdview": "Bing Sat",
             "WeatherLayer": "Wetter",
-            "NokiaTraffic": "HERE Verkehr",
+            "NokiaTraffic": "HERE WeGo Verkehr",
 
             "Set start point": "Setze Startpunkt",
             "Set destination point": "Setze Zielpunkt",
