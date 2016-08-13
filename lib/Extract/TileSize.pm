@@ -33,6 +33,9 @@ our $use_cache = 1;
 # default size if the coordinates are not in the database
 our $default_size = 4;
 
+# if a storable cache is rotten, delete it
+our $unlink_broken_storable = 1;
+
 #
 # guess size based on factor of known size of osm.pbf
 # PS: dont forget to update tile-size.cgi code as well
@@ -228,9 +231,17 @@ sub get_cache {
     }
 
     warn "Get cache $file\n" if $debug >= 1;
-    my $size = Storable::retrieve $file;
+    my $size;
+
+    eval { $size = Storable::retrieve $file };
+
     if ( !defined $size ) {
         warn "Could not fetch storable $file\n";
+        if ($unlink_broken_storable) {
+            warn "try to unlink $file\n";
+            unlink($file);
+        }
+
         return;
     }
 
