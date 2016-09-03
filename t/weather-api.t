@@ -6,6 +6,10 @@ BEGIN {
         print "1..0 # skip due no network\n";
         exit;
     }
+    if ( $ENV{BBBIKE_TEST_NO_WEATHER} ) {
+        print "1..0 # skip due no weather\n";
+        exit;
+    }
 }
 
 use Test::More;
