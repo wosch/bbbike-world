@@ -5,10 +5,17 @@
 #
 
 file=planet-latest.osm.bz2
+file_pbf=planet-latest.osm.pbf
 
-for server1 in http://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org/planet http://ftp.ecki-netz.de/osm http://ftp.heanet.ie/mirrors/openstreetmap.org/planet http://download.bbbike.org/osm/planet http://planet.openstreetmap.org/planet
+for server1 in http://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org http://ftp.ecki-netz.de/osm http://ftp.heanet.ie/mirrors/openstreetmap.org http://download.bbbike.org/osm http://planet.openstreetmap.org
 do
-  echo ""
-  echo $server1/$file
-  curl -sSf --head --location $server1/$file | egrep '^(Last-Modified|Content-Length):'
+  url=$server1/planet/$file
+  printf "\n$url"
+
+  curl -sSf --head --location $url | egrep '^(Last-Modified|Content-Length):'
+
+  url=$server1/pbf/$file_pbf
+  printf "\n$url"
+
+  curl -sSf --head --location $url | egrep '^(Last-Modified|Content-Length):'
 done
