@@ -36,7 +36,7 @@ cd $dir
 curl -sSf -o $file.md5 $planet_osm_server/$file.md5
 
 time curl -L -sSf $planet_osm_server/$file | tee $file | mbuffer -q -m 128m | \
-  $nice omconvert --drop-author --drop-version --out-pbf - > $file_pbf.tmp
+  $nice osmconvert --drop-author --drop-version --out-pbf - > $file_pbf.tmp
 mv -f $file_pbf.tmp $file_pbf
 
 cat $file.md5
