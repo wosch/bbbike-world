@@ -1,7 +1,7 @@
 #!/bin/sh
-# Copyright (c) 2009-2010 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2016 Wolfram Schneider, http://bbbike.org
 #
-# planet-download - download the latest planet osm file
+# planet-download-test - check download of the latest planet osm file from different servers
 #
 
 file=planet-latest.osm.bz2
