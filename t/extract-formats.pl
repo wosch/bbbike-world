@@ -21,7 +21,7 @@ my $ne_lat  = -13.235;
 
 sub message {
     print
-qq{# please run now: ./world/t/extract-formats.pl | xargs -P4 -n1 -0 /bin/sh -c >/dev/null \0};
+qq{# please run now: ./world/t/extract-formats.pl | xargs -P2 -n1 -0 /bin/sh -c >/dev/null\0};
 }
 
 sub generate_urls {
