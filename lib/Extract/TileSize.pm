@@ -44,15 +44,18 @@ our $unlink_broken_storable = 1;
 #       internal file, not for the *.zip file itself
 #
 our $factor = {
-    'garmin-onroad.zip'        => 0.09,
-    'garmin-onroad-ascii.zip'  => 0.091,
-    'garmin-bbbike.zip'        => 0.585,
-    'garmin-cycle.zip'         => 0.581,
-    'garmin-openfietslite.zip' => 0.45,
-    'garmin-leisure.zip'       => 0.755,
-    'garmin-osm.zip'           => 0.583,
-    'garmin-osm-ascii.zip'     => 0.584,
-    'garmin-srtm.zip'          => 1.3,
+    'garmin-onroad.zip'              => 0.09,
+    'garmin-onroad-ascii.zip'        => 0.091,
+    'garmin-bbbike.zip'              => 0.585,
+    'garmin-cycle.zip'               => 0.581,
+    'garmin-cycle-ascii.zip'         => 0.582,
+    'garmin-openfietslite.zip'       => 0.45,
+    'garmin-openfietslite-ascii.zip' => 0.451,
+    'garmin-leisure.zip'             => 0.755,
+    'garmin-leisure-ascii.zip'       => 0.756,
+    'garmin-osm.zip'                 => 0.583,
+    'garmin-osm-ascii.zip'           => 0.584,
+    'garmin-srtm.zip'                => 1.3,
 
     'svg-google.zip'     => 1.68,
     'svg-hiking.zip'     => 3.82,

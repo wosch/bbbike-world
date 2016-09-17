@@ -39,10 +39,13 @@ var config = {
         "garmin-osm.zip": 768,
         "garmin-osm-ascii.zip": 768,
         "garmin-cycle.zip": 650,
+        "garmin-cycle-ascii.zip": 650,
         "garmin-leisure.zip": 650,
+        "garmin-leisure-ascii.zip": 650,
         "garmin-onroad.zip": 650,
         "garmin-onroad-ascii.zip": 650,
         "garmin-openfietslite.zip": 650,
+        "garmin-openfietslite-ascii.zip": 650,
 
         "png-google.zip": 32,
         "png-osm.zip": 32,
@@ -81,11 +84,14 @@ var config = {
     // help image per format
     "format_images": {
         "garmin-openfietslite.zip": "/images/garmin-openfietslite-small.png",
+        "garmin-openfietslite-ascii.zip": "/images/garmin-openfietslite-small.png",
         "garmin-onroad.zip": "/images/garmin-onroad2-small.png",
         "garmin-onroad-ascii.zip": "/images/garmin-onroad2-small.png",
         "garmin-bbbike.zip": "/images/garmin-bbbike-small.png",
         "garmin-cycle.zip": "/images/garmin-cycle-small.png",
+        "garmin-cycle-ascii.zip": "/images/garmin-cycle-small.png",
         "garmin-leisure.zip": "/images/garmin-leisure-small.png",
+        "garmin-leisure-ascii.zip": "/images/garmin-leisure-small.png",
         "garmin-osm.zip": "/images/garmin-osm-small.png",
         "garmin-osm-ascii.zip": "/images/garmin-osm-small.png",
 
@@ -1337,7 +1343,15 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "size": 0.8,
             "time": 2
         },
+        "garmin-cycle-ascii.zip": {
+            "size": 0.8,
+            "time": 2
+        },
         "garmin-leisure.zip": {
+            "size": 0.9,
+            "time": 3
+        },
+        "garmin-leisure-ascii.zip": {
             "size": 0.9,
             "time": 3
         },
@@ -1354,6 +1368,10 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "time": 1.2
         },
         "garmin-openfietslite.zip": {
+            "size": 0.6,
+            "time": 2
+        },
+        "garmin-openfietslite-ascii.zip": {
             "size": 0.6,
             "time": 2
         },
