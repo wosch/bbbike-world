@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl 
-# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2016 Wolfram Schneider, http://bbbike.org
 #
 # bbbike-db - command line tool to parse bbbike @ world city database
 
@@ -58,6 +58,19 @@ sub osm_round {
       if $debug >= 2 && $real != $round;
 
     return $round;
+}
+
+sub extract_url {
+    my ( $city, $x1, $y1, $x2, $y2 ) = @_;
+    my $dev_server = $ENV{'BBBIKE_DEV_SERVER'} || 'http://dev1.bbbike.org';
+    my $url = "$dev_server/cgi/extract.cgi?lang=en";
+
+    $url .= "&sw_lng=$x1&sw_lat=$y1&ne_lng=$x2&ne_lat=$y2";
+    $url .= "&format=osm.pbf&email=nobody&as=0.1073349609375";
+    $url .= "&city=$city";
+    $url .= "&submit=extract";    #&expire=1473945448
+
+    return "$url\n";
 }
 
 sub poly {
@@ -169,6 +182,7 @@ usage: $0 [--debug={0..2}] [options] city
 --neighbours
 --coord
 --poly
+--extract-url
 --centerdelta
 --area=area
 --city-names
@@ -191,6 +205,7 @@ my $step;
 my $population;
 my $coord;
 my $poly;
+my $extract_url;
 my $centerdelta;
 my $area;
 my $city_en;
@@ -221,6 +236,7 @@ GetOptions(
     "coord"             => \$coord,
     "startc"            => \$startc,
     "poly"              => \$poly,
+    "extract-url"       => \$extract_url,
     "centerdelta"       => \$centerdelta,
     "area=s"            => \$area,
     "city-en"           => \$city_en,
@@ -339,6 +355,11 @@ if ( exists $hash{$city} ) {
         my ( $x1, $y1, $x2, $y2 ) =
           map { &osm_round( $_, 100 ) } split( /\s+/, $hash{$city}->{coord} );
         print &poly( $city, ( $x1, $y1, $x2, $y2 ) );
+    }
+    elsif ($extract_url) {
+        my ( $x1, $y1, $x2, $y2 ) =
+          map { &osm_round( $_, 100 ) } split( /\s+/, $hash{$city}->{coord} );
+        print &extract_url( $city, ( $x1, $y1, $x2, $y2 ) );
     }
     elsif ($centerdelta) {
         my ( $x1, $y1, $x2, $y2 ) =
