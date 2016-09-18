@@ -25,7 +25,7 @@ MUNIN_PLUGINS_DIR=	/etc/munin/plugins
 all: help
 
 install-munin-xen:
-	sudo ln -fs `pwd`/../src/munin/xen_multi ${MUNIN_PLUGINS_DIR}
+	sudo ln -fs $$(pwd)/../../src/munin/xen_multi ${MUNIN_PLUGINS_DIR}
 	${MAKE} munin-restart
 	${MAKE} help-update
 
