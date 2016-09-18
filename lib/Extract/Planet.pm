@@ -133,7 +133,7 @@ sub get_smallest_planet {
     my $regions = $args{'regions'};
 
     my $poly = new Extract::Poly( 'debug' => $debug );
-    my @regions = $regions ? @$regions : $poly->list_subplanets(1);
+    my @regions = $regions ? @$regions : $poly->list_subplanets(2);
 
     my ( $data, $counter, $city_polygon ) =
       $poly->create_poly_data( 'job' => $obj );

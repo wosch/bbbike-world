@@ -9,6 +9,7 @@ use CGI qw(escapeHTML);
 use JSON;
 use Math::Polygon::Transform qw(polygon_simplify);
 use Math::Polygon::Calc qw();
+use File::stat;
 use Data::Dumper;
 
 use lib qw(world/lib);
@@ -37,6 +38,8 @@ our $area = {
     'Berlin' => { 'poly2' => [ 12.76, 52.23, 13.98, 52.82 ] },
     'Alien'  => { 'poly2' => [ 181,   91,    -300,  0 ] },
 };
+
+our $sub_planet_path = '../osm/download/sub-planet';
 
 ##########################
 # helper functions
@@ -85,14 +88,24 @@ sub list_subplanets {
     # only regions with a 'poly' field
     my @list = grep { exists $area->{$_}->{'poly'} } keys %$area;
 
-    if ($sort_by) {
+    # sort by square km size
+    if ( $sort_by == 1 ) {
         my %hash =
           map { $_ => $self->rectangle_km( @{ $area->{$_}->{'poly'} } ) } @list;
+        @list = sort { $hash{$a} <=> $hash{$b} } @list;
+    }
+
+    # sort by disk size
+    elsif ( $sort_by == 2 ) {
+        my %hash =
+          map { $_ => stat("$sub_planet_path/$_.osm.pbf")->size; } @list;
         @list = sort { $hash{$a} <=> $hash{$b} } @list;
     }
     else {
         @list = sort @list;
     }
+
+    warn Dumper( \@list ) if $debug >= 2;
 
     return @list;
 }
