@@ -19,7 +19,7 @@ OSM_TIMEOUT=	--timeout=45
 DOWNLOADOSM_URL=	--osm-api-url=http://www.informationfreeway.org/api/0.6
 DOWNLOADOSM=	${PERL} ./miscsrc/downloadosm --debug=1 ${OSM_SOCKS_PROXY} ${OSM_TIMEOUT} ${DOWNLOADOSM_URL}
 #OSM2BBD=	${PERL} ./miscsrc/osm2bbd --nodate -f --debug=0 ${OSM2BBD_MAPTYPE} -ignore-unhandled -ignore-underline -experiment add_postal_code #-experiment polar_coord_hack
-OSM2BBD_OPT=	--ignore-unhandled --ignore-underline-noname
+OSM2BBD_OPT=	--ignore-unhandled --ignore-underline-noname --granularity=100
 OSM2BBD=	./miscsrc/osm2bbd ${OSM2BBD_OPT} --nodate --no-create --git-id="${GIT_ID}" -f --debug=0 ${OSM2BBD_MAPTYPE} -experiment add_postal_code -experiment handle_relations
 
 MAX_CPU=	`world/bin/ncpu`
