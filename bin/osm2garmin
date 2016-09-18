@@ -17,8 +17,8 @@ set -e
 
 usage () {
    echo "$@"
-   echo "usage $0 file [ osm | osm-ascii | cycle | leisure | bbbike ] [ title ]"
-   echo "      $0 file [ onroad | onroad-ascii | openfietslite | srtm ] [ title ]"
+   echo "usage $0 file [ osm | osm-ascii | cycle | cycle-ascii | leisure | leisure-ascii | bbbike ] [ title ]"
+   echo "      $0 file [ onroad | onroad-ascii | openfietslite | openfietslite-ascii | srtm ] [ title ]"
    exit 1
 }
 
@@ -48,7 +48,10 @@ test -e "$file" || usage "file $file does not exists"
 template=$(dirname $0)/../etc/extract/$(basename $0).$BBBIKE_EXTRACT_LANG.sh
 case $template in /*) ;; *) template=$(pwd)/$template ;; esac
 
-test -z "$ext" && ext=${2-"osm"}
+if [ -z "$ext" ]; then
+    ext=${2-"osm"}
+fi
+
 : ${debug=false}
 
 size=$(du -ks -L "$file" | awk '{ print $1}')
@@ -116,49 +119,67 @@ case $ext in
 esac
 
 case $ext in
-   cycle | garmin-cycle.zip )
+   cycle )
 	ext=garmin-cycle.zip
 	mkgmap_map=--style-file=$etc_dir/style/cyclemap
 	mkgmap_map_style=cyclemap
 	mkgmap_map_type=$etc_dir/typ/cyclemap/cyclemap.TYP
 	;;
+   cycle-ascii )
+	ext=garmin-cycle-ascii.zip
+	mkgmap_map=--style-file=$etc_dir/style/cyclemap
+	mkgmap_map_style=cyclemap
+	mkgmap_map_type=$etc_dir/typ/cyclemap/cyclemap.TYP
+	;;
 
-   leisure | freizeit | garmin-freizeit.zip | garmin-leisure.zip )
+   leisure )
 	ext=garmin-leisure.zip
 	mkgmap_map=--style-file=$etc_dir/style/freizeit
 	mkgmap_map_style=freizeit
 	mkgmap_map_type=$etc_dir/typ/freizeit/freizeit.TYP
 	;;
-        
-   bbbike | garmin-bbbike.zip )
+   leisure-ascii )
+	ext=garmin-leisure-ascii.zip
+	mkgmap_map=--style-file=$etc_dir/style/freizeit
+	mkgmap_map_style=freizeit
+	mkgmap_map_type=$etc_dir/typ/freizeit/freizeit.TYP
+	;;
+    
+   bbbike )
 	ext=garmin-bbbike.zip
 	mkgmap_map=--style-file=$etc_dir/../../../misc/mkgmap/srt-style
 	mkgmap_map_style=bbbike
 	mkgmap_map_type=$etc_dir/../../../misc/mkgmap/typ/M000002a.TYP
         ;;
 
-   onroad | garmin-onroad.zip )
+   onroad )
 	ext=garmin-onroad.zip
 	mkgmap_map=--style-file=$etc_dir/style/bike-onroad
 	mkgmap_map_style=onroad
 	mkgmap_map_type="" 
         ;;
         
-   onroad-ascii | garmin-onroad.zip )
+   onroad-ascii )
 	ext=garmin-onroad-ascii.zip
 	mkgmap_map=--style-file=$etc_dir/style/bike-onroad
 	mkgmap_map_style=onroad
 	mkgmap_map_type="" 
         ;;
 
-   openfietslite | garmin-openfietslite.zip )
+   openfietslite )
 	ext=garmin-openfietslite.zip
 	mkgmap_map=--style-file=$etc_dir/style/openfietsmap-lite
 	mkgmap_map_style=openfietslite
 	mkgmap_map_type=$etc_dir/typ/openfietsmap-lite/openfietsmap-lite.TYP
         ;;
+   openfietslite-ascii )
+	ext=garmin-openfietslite-ascii.zip
+	mkgmap_map=--style-file=$etc_dir/style/openfietsmap-lite
+	mkgmap_map_style=openfietslite
+	mkgmap_map_type=$etc_dir/typ/openfietsmap-lite/openfietsmap-lite.TYP
+        ;;
 
-   osm | garmin-osm.zip )
+   osm )
 	ext=garmin-osm.zip
 	;;
     
@@ -166,7 +187,7 @@ case $ext in
 	ext=garmin-osm-ascii.zip
 	;;
         
-   srtm | garmin-srtm.zip )
+   srtm )
 	ext=garmin-srtm.zip
 	mkgmap_map=--style-file=$etc_dir/style/srtm
 	mkgmap_map_style=srtm
