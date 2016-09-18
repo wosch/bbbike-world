@@ -19,7 +19,8 @@ use warnings;
 my @garmin_styles = qw/cycle osm/;
 push @garmin_styles, qw/leisure/
   if !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG};
-push @garmin_styles, qw/bbbike onroad openfietslite osm-ascii onroad-ascii/
+push @garmin_styles,
+  qw/bbbike openfietslite openfietslite-ascii cycle-ascii leisure-ascii osm-ascii onroad onroad-ascii/
   if $ENV{BBBIKE_TEST_LONG};
 
 my $pbf_file = 'world/t/data-osm/tmp/Cusco.osm.pbf';
