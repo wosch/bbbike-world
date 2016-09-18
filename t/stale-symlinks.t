@@ -11,6 +11,11 @@ plan tests => 1;
 my $prog =
 q[ find . -type l -print0 | perl -0e 'while(<>) { next if m,^\./tmp/,; if (! -e $_) { print "$_\n"; $exit=1}}; exit $exit' ];
 system($prog);
-is( $?, 0, "stale symlinks" );
+is( $?, 0, "stale symlinks in ./bbbike" );
+
+$prog =
+q[ find /etc/munin/ -type l -print0 | perl -0e 'while(<>) { next if m,^\./tmp/,; if (! -e $_) { print "$_\n"; $exit=1}}; exit $exit' ];
+system($prog);
+is( $?, 0, "stale symlinks in /etc/munin" );
 
 __END__
