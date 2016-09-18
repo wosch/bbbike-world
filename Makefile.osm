@@ -673,7 +673,7 @@ mapnik-restart:
 	./world/bin/tile-cache-cleanup	
 
 planet-download:
-	download_script=`pwd`/world/bin/planet-download; cd ../osm/download && $$download_script
+	download_script=$$(pwd)/world/bin/planet-download-pbf; cd ../osm/download && $$download_script
 
 planet-nometa:
 	download_script=`pwd`/world/bin/planet-nometa; cd ../osm/download && $$download_script
