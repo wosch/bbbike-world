@@ -338,7 +338,7 @@ if ($list_by_area) {
     foreach
       my $city ( sort { $sub_planet{$a} cmp $sub_planet{$b} } keys %sub_planet )
     {
-        print "$city, $sub_planet{$city}\n";
+        print "$city\n";
     }
 
     exit 0;
