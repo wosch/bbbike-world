@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl 
-# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2016 Wolfram Schneider, http://bbbike.org
 #
 # bbbike-db - command line tool to parse bbbike @ world city database
 
@@ -12,6 +12,8 @@ use lib qw(world/lib ../lib);
 use lib qw(../bbbike ../bbbike/world/lib);
 
 use BBBike::WorldDB;
+use Extract::Config;
+use Extract::Planet;
 
 #use Strassen::Util;
 
@@ -19,11 +21,11 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = 0.1;
+$VERSION = 0.2;
 
 use Getopt::Long;
 
-my $debug = 1;    # 0: quiet, 1: normal, 2: verbose
+my $debug = 0;    # 0: quiet, 1: normal, 2: verbose
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
@@ -176,6 +178,7 @@ usage: $0 [--debug={0..2}] [options] city
 --startc
 --step
 --list
+--list-by-area
 --city-database=/path/to/etc/cities.csv
 --other_names
 --robots-local-lang cities .....
@@ -195,6 +198,7 @@ my $centerdelta;
 my $area;
 my $city_en;
 my $list;
+my $list_by_area;
 my $city_names;
 my $city_database;
 my $neighbours;
@@ -226,6 +230,7 @@ GetOptions(
     "city-en"           => \$city_en,
     "city-stat"         => \$city_stat,
     "list"              => \$list,
+    "list-by-area"      => \$list_by_area,
     "city-database=s"   => \$city_database,
 ) or die usage;
 
@@ -235,7 +240,8 @@ if ($help) {
 }
 
 my $city = shift;
-die &usage if !( $city || $area || $city_en || $list || $city_stat );
+die &usage
+  if !( $city || $area || $city_en || $list || $list_by_area || $city_stat );
 
 $city =~ s/-(convert|download)$// if $city;
 
@@ -298,6 +304,44 @@ if ($robots_local_lang) {
     }
 
     exit;
+}
+
+# sort cities by sub-planet
+if ($list_by_area) {
+    my $planet = new Extract::Planet( 'debug' => $debug );
+    my $planet_osm = $Extract::Config::planet_osm;
+
+    my %sub_planet;
+    foreach my $city ( $db->list_cities ) {
+
+        my ( $sw_lng, $sw_lat, $ne_lng, $ne_lat ) =
+          map { &osm_round( $_, 100 ) } split( /\s+/, $hash{$city}->{coord} );
+        my $obj = {
+            "format" => "pbf",
+            "sw_lng" => $sw_lng,
+            "sw_lat" => $sw_lat,
+            "ne_lng" => $ne_lng,
+            "ne_lat" => $ne_lat
+        };
+
+        my $sub_planet = $planet->get_smallest_planet(
+            'obj'        => $obj,
+            'planet_osm' => $planet_osm
+        );
+
+        #use Data::Dumper; warn Dumper($obj);
+
+        warn "city: $city, sub-planet: $sub_planet\n" if $debug >= 1;
+        $sub_planet{$city} = $sub_planet;
+    }
+
+    foreach
+      my $city ( sort { $sub_planet{$a} cmp $sub_planet{$b} } keys %sub_planet )
+    {
+        print "$city, $sub_planet{$city}\n";
+    }
+
+    exit 0;
 }
 
 if ( $list || $city_en ) {

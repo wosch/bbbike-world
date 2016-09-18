@@ -243,7 +243,7 @@ sub create_poly_data {
     my $city = $obj->{"city"};
 
     if ( !defined $city ) {
-        $city = "unknown city";
+        $city = "unknown-city";
         warn "reset undefined city to $city\n" if $debug >= 2;
     }
     $city = escapeHTML($city);
