@@ -275,6 +275,7 @@ GetOptions(
     "city-en"           => \$city_en,
     "city-stat"         => \$city_stat,
     "list"              => \$list,
+    "planet"            => \$planet,
     "list-by-area"      => \$list_by_area,
     "city-database=s"   => \$city_database,
 ) or die usage;
@@ -389,6 +390,14 @@ if ( exists $hash{$city} ) {
     elsif ($local_lang) {
         print $hash{$city}->{local_lang} ? $hash{$city}->{local_lang} : "en";
         print " ";
+    }
+    elsif ($planet) {
+        my $osm_dir = $ENV{OSM_DIR} || "./osm";
+        my $sub_planet = sub_planet( \%hash, $city );
+        print
+"osmconvert-wrapper -o $osm_dir/$city/$city.osm.pbf -B=$osm_dir/$city/$city.poly",
+          " --out-pbf --drop-broken-refs --drop-author --drop-version",
+          " ../osm/download/sub-planet/${sub_planet}.osm.pbf\0";
     }
     elsif ($city_names) {
         print $hash{$city}->{name} ? $hash{$city}->{name} : $city;

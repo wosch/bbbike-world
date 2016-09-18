@@ -77,6 +77,7 @@ DATA_DIR=	data
 BBBIKE_CACHE_DIR=	/var/cache/bbbike
 LIGHTTPD_CACHE_DIR=	/var/cache/lighttpd
 MAX_OSMOSIS=	${MAX_CPU}
+MAX_OSMCONVERT=	${MAX_CPU}
 LANGUAGES=	m de en es fr ru
 ELEVATION_SCRIPT=world/bin/elevation-database
 MAX_ELEVATION_SCRIPTS=	1
@@ -105,6 +106,7 @@ OSMOSIS_PLUGIN_DIR=$$HOME/.openstreetmap/osmosis/plugins
 PROVE_FILES=	t/*.t world/t/*.t
 
 CITIES=$(shell ${PERL} -npe 's/\#.*//' ${CITIES_FILE})
+CITIES_BY_AREA=$(shell world/bin/bbbike-db --list-by-area)
 
 TILES_DIR=	tile
 
@@ -214,8 +216,14 @@ _cities-osm: poly
 _cities-pbf: poly
 	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=${OSMOSIS_BUFFER_CAPACITY} --tee `${BBMAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} city-count` `${BBMAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} _osmosis_opt_pbf`
 	test "$$NO_PBF2PBF" = "true" || ${BBMAKE} CITIES="${CITIES}" _pbf2pbf
+    
+_cities-osmconvert: poly
+	#${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=${OSMOSIS_BUFFER_CAPACITY} --tee `${BBMAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} city-count` `${BBMAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} _osmosis_opt_pbf`
+	#test "$$NO_PBF2PBF" = "true" || ${BBMAKE} CITIES="${CITIES}" _pbf2pbf
 
-cities-pbf cities: _cities-pbf
+cities: _cities-osmconvert
+
+cities-pbf: _cities-pbf
 	${BBMAKE} _pbf2pbf-checksum
 	#${BBMAKE} pbf2osm
 
@@ -309,6 +317,8 @@ _cities-parallel:
 	@echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | env CITIES_DB=${CITIES_DB} ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} cities-pbf | ${TIME} xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
 _cities-parallel-pbf:
 	@echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | env CITIES_DB=${CITIES_DB} ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} _cities-pbf | ${TIME} xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
+_cities-parallel-osmconvert:
+	@echo ${CITIES_BY_AREA} | ${PERL} -npe 's/\s+/\n/g' | env CITIES_DB=${CITIES_DB} ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} _cities-osmconvert | ${TIME} xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
 
 cities-parallel: _cities-parallel check-osm
 
@@ -457,6 +467,7 @@ _c = ${CITIES}
 _cd = $(_c:=-download)
 _cc = $(_c:=-convert)
 _cp = $(_c:=-poly)
+_co = $(_c:=-osmconvert)
 
 
 $(_cd):
@@ -486,6 +497,9 @@ $(_cp):
 	else \
 	    c=`basename $@ -poly`; mkdir -p ${OSM_DIR}/$$c; ${DB} --poly $$c > ${OSM_DIR}/$$c/$$c.poly.tmp; mv -f ${OSM_DIR}/$$c/$$c.poly.tmp ${OSM_DIR}/$$c/$$c.poly; \
 	fi
+    
+$(_co):
+	c=`basename $@ -osmconvert`; world/bin/bbbike-db --planet $$c | xargs -0 /bin/sh -c
 
 ${CITIES}:
 	${BBMAKE} $@-download $@-convert
