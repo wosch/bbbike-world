@@ -318,9 +318,9 @@ _cities-parallel:
 _cities-parallel-pbf:
 	@echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | env CITIES_DB=${CITIES_DB} ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} _cities-pbf | ${TIME} xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
 _cities-parallel-osmconvert:
-	@echo ${CITIES_BY_AREA} | ${PERL} -npe 's/\s+/\n/g' | env CITIES_DB=${CITIES_DB} ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} _cities-osmconvert | ${TIME} xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
+	@for c in ${CITIES_BY_AREA}; do world/bin/bbbike-db --planet $$c; done | ${TIME} xargs -0 -n1 -P${MAX_OSMCONVERT} /bin/sh -c
 
-cities-parallel: _cities-parallel check-osm
+cities-parallel: _cities-parallel-osmconvert check-osm
 
 _cities:
 	@echo ${CITIES} | \
