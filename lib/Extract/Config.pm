@@ -27,14 +27,17 @@ our $formats = {
 
     'shp.zip' => "Shapefile (Esri)",
 
-    'garmin-osm.zip'           => "Garmin OSM",
-    'garmin-osm-ascii.zip'     => "Garmin OSM (ASCII)",
-    'garmin-cycle.zip'         => "Garmin Cycle",
-    'garmin-leisure.zip'       => "Garmin Leisure",
-    'garmin-bbbike.zip'        => "Garmin BBBike",
-    'garmin-onroad.zip'        => "Garmin Onroad",
-    'garmin-onroad-ascii.zip'  => "Garmin Onroad (ASCII)",
-    'garmin-openfietslite.zip' => "Garmin Openfietsmap Lite",
+    'garmin-osm.zip'                 => "Garmin OSM",
+    'garmin-osm-ascii.zip'           => "Garmin OSM (ASCII)",
+    'garmin-cycle.zip'               => "Garmin Cycle",
+    'garmin-cycle-ascii.zip'         => "Garmin Cycle (ASCII)",
+    'garmin-leisure.zip'             => "Garmin Leisure",
+    'garmin-leisure-ascii.zip'       => "Garmin Leisure (ASCII)",
+    'garmin-bbbike.zip'              => "Garmin BBBike",
+    'garmin-onroad.zip'              => "Garmin Onroad",
+    'garmin-onroad-ascii.zip'        => "Garmin Onroad (ASCII)",
+    'garmin-openfietslite.zip'       => "Garmin Openfietsmap Lite",
+    'garmin-openfietslite-ascii.zip' => "Garmin Openfietsmap Lite (ASCII)",
 
     'svg-google.zip'     => 'SVG google',
     'svg-hiking.zip'     => 'SVG hiking',
@@ -91,9 +94,11 @@ our $formats_menu = {
         'title'   => "Garmin",
         'formats' => [
             'garmin-osm.zip',          'garmin-osm-ascii.zip',
-            'garmin-cycle.zip',        'garmin-leisure.zip',
+            'garmin-cycle.zip',        'garmin-cycle-ascii.zip',
+            'garmin-leisure.zip',      'garmin-leisure-ascii.zip',
             'garmin-bbbike.zip',       'garmin-onroad.zip',
-            'garmin-onroad-ascii.zip', 'garmin-openfietslite.zip'
+            'garmin-onroad-ascii.zip', 'garmin-openfietslite.zip',
+            'garmin-openfietslite-ascii.zip'
         ]
     },
     'android' => {
@@ -199,12 +204,15 @@ our $tile_format = {
     "obf.zip" => "obf.zip",
     "obf"     => "obf.zip",
 
-    "garmin-cycle.zip"         => "garmin-osm.zip",
-    "garmin-osm.zip"           => "garmin-osm.zip",
-    "garmin-osm-ascii.zip"     => "garmin-osm.zip",
-    "garmin-leisure.zip"       => "garmin-osm.zip",
-    "garmin-bbbike.zip"        => "garmin-osm.zip",
-    "garmin-openfietslite.zip" => "garmin-osm.zip",
+    "garmin-osm.zip"                 => "garmin-osm.zip",
+    "garmin-osm-ascii.zip"           => "garmin-osm.zip",
+    "garmin-cycle.zip"               => "garmin-osm.zip",
+    "garmin-cycle-ascii.zip"         => "garmin-osm.zip",
+    "garmin-leisure.zip"             => "garmin-osm.zip",
+    "garmin-leisure-ascii.zip"       => "garmin-osm.zip",
+    "garmin-bbbike.zip"              => "garmin-osm.zip",
+    "garmin-openfietslite.zip"       => "garmin-osm.zip",
+    "garmin-openfietslite-ascii.zip" => "garmin-osm.zip",
 
     "navit.zip" => "navit.zip",
     "navit"     => "navit.zip",

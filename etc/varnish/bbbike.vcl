@@ -140,6 +140,10 @@ sub vcl_recv {
         error 402 "rogue bot request";
     }
 
+    # spyware
+    if (req.http.user-agent ~ " Hotbar ") {
+        error 402 "rogue bot request";
+    }
 
     ######################################################################
     # backend config
@@ -293,6 +297,7 @@ acl purge {
 
 acl rough_ip {
     "85.216.69.114";
+    "91.109.19.24";
 }
 
 sub vcl_hit {
