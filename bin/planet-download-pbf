@@ -57,10 +57,10 @@ if [ "$BBBIKE_PLANET_OSM_BACKUP" = "YES" ]; then
         if test -e $file${prev};     	then mv -f $file${prev}		$file.$next; fi
         if test -e $file_pbf${prev}; 	then mv -f $file_pbf${prev} 	$file_pbf.$next; fi
         if test -e $file_pbf.md5${prev}; 	then mv -f $file_pbf.md5${prev} $file_pbf.md5.$next; fi 
-        if test -e $file_pbf.sha256${prev};	then mv -f $file_pbf.sha256${prev} $file_pbf.sha256.$next; fi 
+        #if test -e $file_pbf.sha256${prev};	then mv -f $file_pbf.sha256${prev} $file_pbf.sha256.$next; fi 
     done
 fi
 
-mv -f $dir/$file $dir/$file.md5 $dir/$file_pbf $dir/$file_pbf.md5 $dir/$file_pbf.sha256 .
+mv -f $dir/$file $dir/$file.md5 $dir/$file_pbf $dir/$file_pbf.md5 . #$dir/$file_pbf.sha256 .
 rm -rf $dir
 
