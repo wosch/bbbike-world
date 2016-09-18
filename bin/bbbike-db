@@ -159,6 +159,33 @@ sub neighbours {
     return $data;
 }
 
+sub sub_planet {
+    my $hash = shift;
+    my $city = shift;
+
+    my $planet     = new Extract::Planet( 'debug' => $debug );
+    my $planet_osm = $Extract::Config::planet_osm;
+    my %hash       = %$hash;
+
+    my ( $sw_lng, $sw_lat, $ne_lng, $ne_lat ) =
+      map { &osm_round( $_, 100 ) } split( /\s+/, $hash{$city}->{coord} );
+
+    my $obj = {
+        "format" => "pbf",
+        "sw_lng" => $sw_lng,
+        "sw_lat" => $sw_lat,
+        "ne_lng" => $ne_lng,
+        "ne_lat" => $ne_lat
+    };
+
+    my $sub_planet = $planet->get_smallest_planet(
+        'obj'        => $obj,
+        'planet_osm' => $planet_osm
+    );
+
+    return $sub_planet;
+}
+
 #sub distance {
 #    my $coord = shift;
 #
@@ -196,6 +223,7 @@ usage: $0 [--debug={0..2}] [options] city
 --city-database=/path/to/etc/cities.csv
 --other_names
 --robots-local-lang cities .....
+--planet
 --help
 EOF
 }
@@ -221,6 +249,7 @@ my $other_names;
 my $city_stat;
 my $region;
 my $startc;
+my $planet;
 
 # ignore dummy entries in cities.csv (name=dummy or step=dummy)
 my $ignore_dummy = 1;
@@ -324,28 +353,9 @@ if ($robots_local_lang) {
 
 # sort cities by sub-planet
 if ($list_by_area) {
-    my $planet = new Extract::Planet( 'debug' => $debug );
-    my $planet_osm = $Extract::Config::planet_osm;
-
     my %sub_planet;
     foreach my $city ( $db->list_cities ) {
-
-        my ( $sw_lng, $sw_lat, $ne_lng, $ne_lat ) =
-          map { &osm_round( $_, 100 ) } split( /\s+/, $hash{$city}->{coord} );
-        my $obj = {
-            "format" => "pbf",
-            "sw_lng" => $sw_lng,
-            "sw_lat" => $sw_lat,
-            "ne_lng" => $ne_lng,
-            "ne_lat" => $ne_lat
-        };
-
-        my $sub_planet = $planet->get_smallest_planet(
-            'obj'        => $obj,
-            'planet_osm' => $planet_osm
-        );
-
-        #use Data::Dumper; warn Dumper($obj);
+        my $sub_planet = &sub_planet( \%hash, $city );
 
         warn "city: $city, sub-planet: $sub_planet\n" if $debug >= 1;
         $sub_planet{$city} = $sub_planet;
