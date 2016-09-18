@@ -216,16 +216,11 @@ _cities-osm: poly
 _cities-pbf: poly
 	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=${OSMOSIS_BUFFER_CAPACITY} --tee `${BBMAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} city-count` `${BBMAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} _osmosis_opt_pbf`
 	test "$$NO_PBF2PBF" = "true" || ${BBMAKE} CITIES="${CITIES}" _pbf2pbf
-    
-_cities-osmconvert: poly
-	#${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=${OSMOSIS_BUFFER_CAPACITY} --tee `${BBMAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} city-count` `${BBMAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} _osmosis_opt_pbf`
-	#test "$$NO_PBF2PBF" = "true" || ${BBMAKE} CITIES="${CITIES}" _pbf2pbf
 
-cities: _cities-osmconvert
+cities: cities-parallel
 
 cities-pbf: _cities-pbf
 	${BBMAKE} _pbf2pbf-checksum
-	#${BBMAKE} pbf2osm
 
 cities-osm: _cities-osm
 	${BBMAKE} osm2pbf
@@ -317,7 +312,7 @@ _cities-parallel:
 	@echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | env CITIES_DB=${CITIES_DB} ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} cities-pbf | ${TIME} xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
 _cities-parallel-pbf:
 	@echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | env CITIES_DB=${CITIES_DB} ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} _cities-pbf | ${TIME} xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
-_cities-parallel-osmconvert:
+_cities-parallel-osmconvert: poly
 	@for c in ${CITIES_BY_AREA}; do world/bin/bbbike-db --planet $$c; done | ${TIME} xargs -0 -n1 -P${MAX_OSMCONVERT} /bin/sh -c
 
 cities-parallel: _cities-parallel-osmconvert check-osm
