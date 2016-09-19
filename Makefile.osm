@@ -175,7 +175,7 @@ convert-bbbike-full: build-runtime-perl
 
 # convert bbbike files from wgs84, much faster
 convert-bbbike: build-runtime-perl
-	echo ${CITIES} | ${XARGS} -E " " -n4 -P${MAX_VCPU} ./world/bin/wgs84-to-bbbike
+	echo ${CITIES} | ${XARGS} -E " " -n4 -P${MAX_CPU} ./world/bin/wgs84-to-bbbike
 	tar --exclude='_*' -cf - ${DATA_DIR} | ${NICE} bzip2 > ${DATA_OSM_BBBIKE_DIR}/data.tbz.tmp
 	mv -f ${DATA_OSM_BBBIKE_DIR}/data.tbz.tmp ${DATA_OSM_BBBIKE_DIR}/data.tbz
 
@@ -325,7 +325,7 @@ _cities:
 _cities_complete:
 	${BBMAKE} OSM_TIMEOUT="--timeout=300" `echo ${CITIES} | ${PERL} -npe 's/\s+/-download /g'`
 poly:
-	${BBMAKE} -j ${MAX_VCPU} `echo ${CITIES} | ${PERL} -npe 's/\s+/-poly /g'`
+	${BBMAKE} -j ${MAX_CPU} `echo ${CITIES} | ${PERL} -npe 's/\s+/-poly /g'`
 
 city-count:
 	@echo ${CITIES}  | wc -w
@@ -389,7 +389,7 @@ cleanup-osm-error:
 	@find ${OSM_DIR} -name '*.gz' -print0 | ${XARGS} -0 -n8 -P${MAX_CPU} zegrep -l '<error>' | ${XARGS} rm -f
 
 check-data-osm:
-	echo ${CITIES} | ${XARGS} -E " " -n1 -P${MAX_VCPU} ./world/bin/check-data-osm
+	echo ${CITIES} | ${XARGS} -E " " -n1 -P${MAX_CPU} ./world/bin/check-data-osm
 
 check-routing:
 	echo ${CITIES} | ${XARGS} -E " " -n8 -P1 ./world/bin/routing-validate.pl --number=1 | \
@@ -450,7 +450,7 @@ convert-workarounds:
 
 osm2bbd-workarounds opensearch:
 	for i in ${CITIES}; do echo $$i; done | \
-	  ${XARGS} -n 1 -P ${MAX_VCPU} world/bin/osm2bbd-workarounds ${DATA_OSM_DIR}
+	  ${XARGS} -n 1 -P ${MAX_CPU} world/bin/osm2bbd-workarounds ${DATA_OSM_DIR}
 
 bbbike-osm2pbf:
 	find ${OSM_DIR} -name '*.osm.gz' -print0 | ${XARGS} -0 -n 1 -P ${MAX_CPU} ${OSM2PBF}
