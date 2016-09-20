@@ -4,8 +4,8 @@
 ##################################################################
 # Planet.osm download server
 #
-planet_osm_server=http://planet.openstreetmap.org/planet
-#planet_osm_server=http://download.bbbike.org/osm/planet
+planet_osm_server=https://planet.openstreetmap.org/pbf
+planet_osm_server_bzip2=https://planet.openstreetmap.org/planet
 
 # do not build garmin images etc., just the routing
 #bbbike_format=""
