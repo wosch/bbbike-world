@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2016 Wolfram Schneider, http://bbbike.org
 
 BEGIN { }
 
@@ -32,8 +32,8 @@ if ( !-f $pbf_file ) {
       or die "symlink failed: $?\n";
 }
 
-my $pbf_md5 = "6dc9df64ddc42347bbb70bc134b4feda";
-my $csv_md5 = "24dff23d30cf931540d585238314c7c1";
+my $pbf_md5 = "525744cddeef091874eaddc05f10f19b";
+my $csv_md5 = "06887ccb78632034bcd5241c51d39ac0";
 
 # min size of garmin zip file
 my $min_size = 200_000;

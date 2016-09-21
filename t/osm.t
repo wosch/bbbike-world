@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2016 Wolfram Schneider, http://bbbike.org
 
 BEGIN { }
 
@@ -48,7 +48,7 @@ if ( !-f $pbf_file ) {
 }
 
 my $pbf_md5 = "525744cddeef091874eaddc05f10f19b";
-my $osm_md5 = "627b0c69901bad8b12c2b20183035016";
+my $osm_md5 = "939cdc5f699298c4fac668deb75bb74f";
 
 is( $pbf_md5, md5_file($pbf_file), "md5 checksum matched" );
 
