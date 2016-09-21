@@ -809,7 +809,7 @@ dist-clean devel-clean distclean: clean temp-clean clean-t data-distclean downlo
 	${MAKE} -C./world/etc/mkgmap distclean
 	${MAKE} -C./cgi/msg distclean
 
-tilesize-clean:
+tilesize-clean clean-tilesize-db:
 	rm -f /var/tmp/_tilesize-$$(perl -e 'print $$<')-*
 
 stale-symlink-clean:
@@ -1453,6 +1453,7 @@ help:
 	@echo "  [ install-xvfb ]"
 	@echo ""
 	@echo "  [ clean | dist-clean | clean-cache | clean-planet | clean-tile ]"
+	@echo "  [ clean-tilesize-db ]"
 	@echo ""
 	@echo "  [ create-osp | bbbike2wgs84 | update-robots.txt | create-sitemap ]"
 	@echo "  [ cache-install | cache-heater | cache-heater-streets ]"
