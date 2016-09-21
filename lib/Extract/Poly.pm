@@ -39,8 +39,6 @@ our $area = {
     'Alien'  => { 'poly2' => [ 181,   91,    -300,  0 ] },
 };
 
-our $sub_planet_path = '../osm/download/sub-planet';
-
 ##########################
 # helper functions
 #
@@ -82,8 +80,11 @@ sub rectangle_km {
 }
 
 sub list_subplanets {
-    my $self    = shift;
-    my $sort_by = shift;
+    my $self = shift;
+    my %args = @_;
+
+    my $sort_by        = $args{'sort_by'};
+    my $sub_planet_dir = $args{'sub_planet_dir'};
 
     # only regions with a 'poly' field
     my @list = grep { exists $area->{$_}->{'poly'} } keys %$area;
@@ -97,9 +98,23 @@ sub list_subplanets {
 
     # sort by disk size
     elsif ( $sort_by == 2 ) {
-        my %hash =
-          map { $_ => stat("$sub_planet_path/$_.osm.pbf")->size; } @list;
-        @list = sort { $hash{$a} <=> $hash{$b} } @list;
+        my %hash;
+        foreach my $sub (@list) {
+
+            # check for valid sub planet
+            next if !defined $area->{$sub}->{'poly'};
+
+            my $file = "$sub_planet_dir/$sub.osm.pbf";
+            my $st   = stat($file);
+            if ( !$st ) {
+                warn "Stat sub planet file: $file $!\n";
+                next;
+            }
+
+            $hash{$sub} = $st->size;
+        }
+
+        @list = sort { $hash{$a} <=> $hash{$b} } keys %hash;
     }
     else {
         @list = sort @list;

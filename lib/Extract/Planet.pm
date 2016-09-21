@@ -129,11 +129,15 @@ sub get_smallest_planet {
     my $self = shift;
     my %args = @_;
 
-    my $obj     = $args{'obj'};
-    my $regions = $args{'regions'};
+    my $obj            = $args{'obj'};
+    my $regions        = $args{'regions'};
+    my $sub_planet_dir = $args{'sub_planet_dir'};
 
     my $poly = new Extract::Poly( 'debug' => $debug );
-    my @regions = $regions ? @$regions : $poly->list_subplanets(2);
+    my @regions = $regions ? @$regions : $poly->list_subplanets(
+        'sort_by'        => 2,
+        'sub_planet_dir' => $sub_planet_dir
+    );
 
     my ( $data, $counter, $city_polygon ) =
       $poly->create_poly_data( 'job' => $obj );
@@ -173,12 +177,15 @@ sub get_smallest_planet_file {
     # time in seconds after we consider a sub-planet stale
     my $stale_time = $config->{'stale_time'};
 
-    my $planet =
-      $self->get_smallest_planet( 'obj' => $obj, 'regions' => $regions );
-
     my $sub_planet_dir =
       $self->normalize_dir(
         $config->{'planet_sub_dir'}->{$planet_osm_original} );
+
+    my $planet = $self->get_smallest_planet(
+        'obj'            => $obj,
+        'regions'        => $regions,
+        'sub_planet_dir' => $sub_planet_dir
+    );
 
     if ( $planet eq 'planet' ) {
         warn "No sub-planet match, use full planet\n" if $debug >= 2;
