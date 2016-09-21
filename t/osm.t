@@ -47,7 +47,7 @@ if ( !-f $pbf_file ) {
       or die "symlink failed: $?\n";
 }
 
-my $pbf_md5 = "6dc9df64ddc42347bbb70bc134b4feda";
+my $pbf_md5 = "525744cddeef091874eaddc05f10f19b";
 my $osm_md5 = "627b0c69901bad8b12c2b20183035016";
 
 is( $pbf_md5, md5_file($pbf_file), "md5 checksum matched" );
