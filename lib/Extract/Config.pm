@@ -165,6 +165,21 @@ our $planet_osm = {
     'srtm.mapsforge-osm.zip' => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
 };
 
+# map planet file to sub-planet directory
+our $planet_sub_dir = {
+
+    # planet without meta data
+    '../osm/download/planet-latest-nometa.osm.pbf' =>
+      '../osm/download/sub-planet',
+
+    # compatibility, planet without meta data and 1.1m
+    '../osm/download/planet-latest.osm.pbf' => '../osm/download/sub-planet',
+
+    # SRTM planet
+    '../osm/download/srtm/planet-srtm-e40.osm.pbf' =>
+      '../osm/download/sub-srtm',
+};
+
 #
 # config for tile size databases
 #

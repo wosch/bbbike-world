@@ -164,7 +164,7 @@ sub sub_planet {
     my $city = shift;
 
     my $planet     = new Extract::Planet( 'debug' => $debug );
-    my $planet_osm = $Extract::Config::planet_osm;
+    my $planet_osm = $Extract::Config::planet_osm->{'planet.osm'};
     my %hash       = %$hash;
 
     my ( $sw_lng, $sw_lat, $ne_lng, $ne_lat ) =
@@ -179,6 +179,7 @@ sub sub_planet {
     };
 
     my $sub_planet = $planet->get_smallest_planet_file(
+        'expire'     => -1,
         'obj'        => $obj,
         'planet_osm' => $planet_osm
     );
