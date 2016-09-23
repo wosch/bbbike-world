@@ -398,7 +398,7 @@ if ( exists $hash{$city} ) {
         print
 "osmconvert-wrapper -o $osm_dir/$city/$city.osm.pbf -B=$osm_dir/$city/$city.poly",
           " --out-pbf --drop-broken-refs --drop-author --drop-version",
-          " ../osm/download/sub-planet/${sub_planet}.osm.pbf\0";
+          " ${sub_planet}\0";
     }
     elsif ($city_names) {
         print $hash{$city}->{name} ? $hash{$city}->{name} : $city;
