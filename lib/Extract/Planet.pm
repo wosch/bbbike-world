@@ -125,7 +125,7 @@ sub get_polygon {
 }
 
 # find the smallest matching sub-planet
-sub get_smallest_planet {
+sub _get_smallest_planet {
     my $self = shift;
     my %args = @_;
 
@@ -182,7 +182,7 @@ sub get_smallest_planet_file {
       $self->normalize_dir(
         $config->{'planet_sub_dir'}->{$planet_osm_original} );
 
-    my $planet = $self->get_smallest_planet(
+    my $planet = $self->_get_smallest_planet(
         'obj'            => $obj,
         'regions'        => $regions,
         'sub_planet_dir' => $sub_planet_dir

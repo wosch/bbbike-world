@@ -178,7 +178,7 @@ sub sub_planet {
         "ne_lat" => $ne_lat
     };
 
-    my $sub_planet = $planet->get_smallest_planet(
+    my $sub_planet = $planet->get_smallest_planet_file(
         'obj'        => $obj,
         'planet_osm' => $planet_osm
     );
