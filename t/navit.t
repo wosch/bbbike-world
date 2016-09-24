@@ -2,10 +2,7 @@
 # Copyright (c) Sep 2012-2016 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
-    if ( $ENV{BBBIKE_TEST_LONG} ) {
-        ;
-    }
-    elsif ( $ENV{BBBIKE_TEST_FAST} ) {
+    if ( $ENV{BBBIKE_TEST_FAST} && !$ENV{BBBIKE_TEST_LONG} ) {
         warn "1..0 # skip network tests due instable web site\n";
         $ENV{BBBIKE_TEST_NO_NETWORK} = 1;
     }

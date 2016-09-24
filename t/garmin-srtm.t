@@ -2,7 +2,7 @@
 # Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
-    if ( $ENV{BBBIKE_TEST_FAST} && !$ENV{BBBIKE_TEST_LONG}) {
+    if ( $ENV{BBBIKE_TEST_FAST} && !$ENV{BBBIKE_TEST_LONG} ) {
         print "1..0 # skip BBBIKE_TEST_FAST\n";
         exit;
     }
