@@ -80,6 +80,8 @@ sub convert_format {
         my $out = $test->out($style);
         unlink $out;
 
+        diag "garmin style=$style, lang=$lang";
+
         system(qq[world/bin/pbf2osm --garmin-$style $pbf_file $city]);
         is( $?, 0, "pbf2osm --garmin-$style converter" );
 
