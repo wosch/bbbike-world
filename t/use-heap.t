@@ -8,7 +8,7 @@ BEGIN { }
 use FindBin;
 use lib (
     "$FindBin::RealBin/..", "$FindBin::RealBin/../lib",
-    "$FindBin::RealBin",    "lib"
+    "$FindBin::RealBin",    "lib", "."
 );
 
 use Devel::Size qw(total_size);
