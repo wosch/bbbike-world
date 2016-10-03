@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2016 Wolfram Schneider, http://bbbike.org
 
 use Test::More;
 use Data::Dumper;
@@ -8,7 +8,7 @@ use JSON;
 use Clone qw(clone);
 use File::stat;
 
-use lib qw(world/lib);
+use lib qw(world/lib .);
 use Extract::Config;
 
 use strict;
