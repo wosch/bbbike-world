@@ -45,19 +45,20 @@ if which ionice >/dev/null 2>&1; then
 fi
 
 begin="`date`"
+
 for i in $commands
 do
-# compress old log files
-if [ -e tmp/log.$i ]; then
-	 gzip -f tmp/log.$i
-fi
+    # compress old log files
+    if [ -e tmp/log.$i ]; then
+         gzip -f tmp/log.$i
+    fi
 
-case $i in
-    # in background
-    rsync-osm | rsync-bg ) time $ionice $ionice_opt make -s $i > tmp/log.$i 2>&1 & ;;
-
-	    # foreground
-	    * )         time $ionice $ionice_opt make -s $i > tmp/log.$i 2>&1 ;;
+    case $i in
+        # in background
+        rsync-osm | rsync-bg ) time $ionice $ionice_opt make -s $i > tmp/log.$i 2>&1 & ;;
+    
+            # foreground
+            * )         time $ionice $ionice_opt make -s $i > tmp/log.$i 2>&1 ;;
 	esac
 done
 wait
