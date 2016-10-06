@@ -11,7 +11,7 @@ use warnings;
 #
 plan skip_all => ''
 
-#ok !eval { require Apache::Session }, "Apache::Session";
-#ok !eval { require Test::More }, "Test::More";
+  #ok !eval { require Apache::Session }, "Apache::Session";
+  #ok !eval { require Test::More }, "Test::More";
 
 __END__
