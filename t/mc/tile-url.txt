@@ -27,7 +27,7 @@ https://1.aerial.maps.api.here.com/maptile/2.1/maptile/newest/terrain.day/12/220
 https://mt0.googleapis.com/vt?lyrs=m@202000000&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&style=api%7Csmartmaps
 https://mt0.googleapis.com/vt?lyrs=m@202000000,bike&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&style=api%7Csmartmaps
 https://mt0.googleapis.com/vt?lyrs=h@202000000&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&style=api%7Csmartmaps
-https://khm0.googleapis.com/kh?v=138&hl=en&x=2201&y=1342&z=12&token=83911
+https://khm0.googleapis.com/kh?v=702&hl=en&x=2201&y=1342&z=12&token=83911
 https://d.tiles.mapbox.com/v3/tmcw.map-j5fsp01s/13/4400/2685.png
 https://mt0.googleapis.com/vt?lyrs=t@130,r@202000000,bike,transit:comp%7Cvm:1,traffic,weather_nolabels&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&opts=r&style=api%7Csmartmaps
 https://mt0.googleapis.com/vt?lyrs=t@130,r@202000000&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&style=api%7Csmartmaps
@@ -74,7 +74,6 @@ http://tile.waymarkedtrails.org/cycling/8/132/89.png
 http://tile.waymarkedtrails.org/mtb/8/133/90.png
 http://tile.waymarkedtrails.org/skating/8/133/89.png
 http://a.tile.osm-tools.org/osm_then/11/1617/936.png
-https://a.tiles.mapbox.com/v3/examples.bc17bb2a/15/17604/10746.png
 http://c.tile.openstreetmap.fr/openriverboatmap/17/70413/42988.png
 http://c.tile.openstreetmap.fr/hot/17/70413/42988.png
 http://c.tile.openstreetmap.fr/osmfr/17/70413/42988.png

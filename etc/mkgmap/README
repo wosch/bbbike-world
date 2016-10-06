@@ -11,3 +11,8 @@ bike-onroad - A Garmin style for older devices with less space - usually 1/10
   	      the size of Garmin OSM. See also
 	      https://github.com/raintonr/mkgmap-bike-onroad.git
 
+filesystem hierarchy
+---------------------------
+etc/mkgmap/typ/<garmin style>/		- *.TXT and *.TYP files
+etc/mkgmap/style/<garmin style>/	- garmin style files
+
