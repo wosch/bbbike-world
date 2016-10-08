@@ -1,6 +1,15 @@
 #!/usr/local/bin/perl
 # Copyright (c) Sep 2012-2016 Wolfram Schneider, http://bbbike.org
 
+BEGIN {
+    my $sub_planet = "../osm/download/sub-planet";
+
+    if ( !-e $sub_planet ) {
+        print "1..0 # skip due non-existing directory $sub_planet\n";
+        exit;
+    }
+}
+
 use Test::More;
 use Data::Dumper;
 use Digest::MD5 qw(md5_hex);
