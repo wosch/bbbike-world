@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2016 Wolfram Schneider, http://bbbike.org
 
 use Test::More;
 use Data::Dumper;
@@ -11,8 +11,11 @@ use Extract::Poly;
 use strict;
 use warnings;
 
-my $debug   = 1;
-my $poly    = new Extract::Poly( 'debug' => $debug );
+my $debug = 1;
+my $poly  = new Extract::Poly(
+    'debug'          => $debug,
+    'sub_planet_dir' => '../osm/download/sub-planet'
+);
 my @regions = $poly->list_subplanets;
 
 plan tests => scalar(@regions) * 2 + 7;
@@ -20,7 +23,8 @@ plan tests => scalar(@regions) * 2 + 7;
 ######################################################################################
 # list of regions
 #
-my @regions2 = $poly->list_subplanets(1);
+my @regions2 = $poly->list_subplanets( 'sort_by' => 2 );
+
 is( scalar(@regions), scalar(@regions2), "list of regions" );
 cmp_ok( scalar(@regions), ">", 1, "more than one region" );
 isnt( join( "|", @regions ), join( "|", @regions2 ), "sorted list of regions" );

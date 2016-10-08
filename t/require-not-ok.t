@@ -9,10 +9,9 @@ use warnings;
 ######################################################################
 # we don't want some perl modules on the machine
 #
-plan tests => 1;
+plan skip_all => ''
 
-ok !eval { require Apache::Session }, "Apache::Session";
-
-#ok !eval { require Test::More }, "Test::More";
+  #ok !eval { require Apache::Session }, "Apache::Session";
+  #ok !eval { require Test::More }, "Test::More";
 
 __END__

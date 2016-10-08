@@ -19,7 +19,7 @@ OSM_TIMEOUT=	--timeout=45
 DOWNLOADOSM_URL=	--osm-api-url=http://www.informationfreeway.org/api/0.6
 DOWNLOADOSM=	${PERL} ./miscsrc/downloadosm --debug=1 ${OSM_SOCKS_PROXY} ${OSM_TIMEOUT} ${DOWNLOADOSM_URL}
 #OSM2BBD=	${PERL} ./miscsrc/osm2bbd --nodate -f --debug=0 ${OSM2BBD_MAPTYPE} -ignore-unhandled -ignore-underline -experiment add_postal_code #-experiment polar_coord_hack
-OSM2BBD_OPT=	--ignore-unhandled --ignore-underline-noname
+OSM2BBD_OPT=	--ignore-unhandled --ignore-underline-noname --granularity=100
 OSM2BBD=	./miscsrc/osm2bbd ${OSM2BBD_OPT} --nodate --no-create --git-id="${GIT_ID}" -f --debug=0 ${OSM2BBD_MAPTYPE} -experiment add_postal_code -experiment handle_relations
 
 MAX_CPU=	`world/bin/ncpu`
@@ -77,6 +77,7 @@ DATA_DIR=	data
 BBBIKE_CACHE_DIR=	/var/cache/bbbike
 LIGHTTPD_CACHE_DIR=	/var/cache/lighttpd
 MAX_OSMOSIS=	${MAX_CPU}
+MAX_OSMCONVERT=	${MAX_CPU}
 LANGUAGES=	m de en es fr ru
 ELEVATION_SCRIPT=world/bin/elevation-database
 MAX_ELEVATION_SCRIPTS=	1
@@ -105,6 +106,7 @@ OSMOSIS_PLUGIN_DIR=$$HOME/.openstreetmap/osmosis/plugins
 PROVE_FILES=	t/*.t world/t/*.t
 
 CITIES=$(shell ${PERL} -npe 's/\#.*//' ${CITIES_FILE})
+CITIES_BY_AREA=$(shell world/bin/bbbike-db --list-by-area)
 
 TILES_DIR=	tile
 
@@ -173,7 +175,7 @@ convert-bbbike-full: build-runtime-perl
 
 # convert bbbike files from wgs84, much faster
 convert-bbbike: build-runtime-perl
-	echo ${CITIES} | ${XARGS} -E " " -n4 -P${MAX_VCPU} ./world/bin/wgs84-to-bbbike
+	echo ${CITIES} | ${XARGS} -E " " -n4 -P${MAX_CPU} ./world/bin/wgs84-to-bbbike
 	tar --exclude='_*' -cf - ${DATA_DIR} | ${NICE} bzip2 > ${DATA_OSM_BBBIKE_DIR}/data.tbz.tmp
 	mv -f ${DATA_OSM_BBBIKE_DIR}/data.tbz.tmp ${DATA_OSM_BBBIKE_DIR}/data.tbz
 
@@ -215,9 +217,10 @@ _cities-pbf: poly
 	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=${OSMOSIS_BUFFER_CAPACITY} --tee `${BBMAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} city-count` `${BBMAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} _osmosis_opt_pbf`
 	test "$$NO_PBF2PBF" = "true" || ${BBMAKE} CITIES="${CITIES}" _pbf2pbf
 
-cities-pbf cities: _cities-pbf
+cities: cities-parallel
+
+cities-pbf: _cities-pbf
 	${BBMAKE} _pbf2pbf-checksum
-	#${BBMAKE} pbf2osm
 
 cities-osm: _cities-osm
 	${BBMAKE} osm2pbf
@@ -306,11 +309,13 @@ osm-html:
         done; wait
 
 _cities-parallel:
-	@echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | env CITIES_DB=${CITIES_DB} ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} cities-pbf | ${TIME} xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
+	@echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | env CITIES_DB=${CITIES_DB} ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} cities-pbf | ${TIME} ${XARGS} -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
 _cities-parallel-pbf:
-	@echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | env CITIES_DB=${CITIES_DB} ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} _cities-pbf | ${TIME} xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
+	@echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | env CITIES_DB=${CITIES_DB} ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} _cities-pbf | ${TIME} ${XARGS} -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
+_cities-parallel-osmconvert: poly
+	@for c in ${CITIES_BY_AREA}; do world/bin/bbbike-db --planet $$c; done | ${TIME} ${XARGS} -0 -n1 -P${MAX_OSMCONVERT} /bin/sh -c
 
-cities-parallel: _cities-parallel check-osm
+cities-parallel: _cities-parallel-osmconvert check-osm
 
 _cities:
 	@echo ${CITIES} | \
@@ -320,7 +325,7 @@ _cities:
 _cities_complete:
 	${BBMAKE} OSM_TIMEOUT="--timeout=300" `echo ${CITIES} | ${PERL} -npe 's/\s+/-download /g'`
 poly:
-	${BBMAKE} -j ${MAX_VCPU} `echo ${CITIES} | ${PERL} -npe 's/\s+/-poly /g'`
+	${BBMAKE} -j ${MAX_CPU} `echo ${CITIES} | ${PERL} -npe 's/\s+/-poly /g'`
 
 city-count:
 	@echo ${CITIES}  | wc -w
@@ -384,7 +389,7 @@ cleanup-osm-error:
 	@find ${OSM_DIR} -name '*.gz' -print0 | ${XARGS} -0 -n8 -P${MAX_CPU} zegrep -l '<error>' | ${XARGS} rm -f
 
 check-data-osm:
-	echo ${CITIES} | ${XARGS} -E " " -n1 -P${MAX_VCPU} ./world/bin/check-data-osm
+	echo ${CITIES} | ${XARGS} -E " " -n1 -P${MAX_CPU} ./world/bin/check-data-osm
 
 check-routing:
 	echo ${CITIES} | ${XARGS} -E " " -n8 -P1 ./world/bin/routing-validate.pl --number=1 | \
@@ -445,7 +450,7 @@ convert-workarounds:
 
 osm2bbd-workarounds opensearch:
 	for i in ${CITIES}; do echo $$i; done | \
-	  ${XARGS} -n 1 -P ${MAX_VCPU} world/bin/osm2bbd-workarounds ${DATA_OSM_DIR}
+	  ${XARGS} -n 1 -P ${MAX_CPU} world/bin/osm2bbd-workarounds ${DATA_OSM_DIR}
 
 bbbike-osm2pbf:
 	find ${OSM_DIR} -name '*.osm.gz' -print0 | ${XARGS} -0 -n 1 -P ${MAX_CPU} ${OSM2PBF}
@@ -457,6 +462,7 @@ _c = ${CITIES}
 _cd = $(_c:=-download)
 _cc = $(_c:=-convert)
 _cp = $(_c:=-poly)
+_co = $(_c:=-osmconvert)
 
 
 $(_cd):
@@ -486,6 +492,9 @@ $(_cp):
 	else \
 	    c=`basename $@ -poly`; mkdir -p ${OSM_DIR}/$$c; ${DB} --poly $$c > ${OSM_DIR}/$$c/$$c.poly.tmp; mv -f ${OSM_DIR}/$$c/$$c.poly.tmp ${OSM_DIR}/$$c/$$c.poly; \
 	fi
+    
+$(_co):
+	c=`basename $@ -osmconvert`; world/bin/bbbike-db --planet $$c | xargs -0 /bin/sh -c
 
 ${CITIES}:
 	${BBMAKE} $@-download $@-convert
@@ -659,7 +668,7 @@ mapnik-restart:
 	./world/bin/tile-cache-cleanup	
 
 planet-download:
-	download_script=`pwd`/world/bin/planet-download; cd ../osm/download && $$download_script
+	download_script=$$(pwd)/world/bin/planet-download-pbf; cd ../osm/download && $$download_script
 
 planet-nometa:
 	download_script=`pwd`/world/bin/planet-nometa; cd ../osm/download && $$download_script
@@ -800,7 +809,7 @@ dist-clean devel-clean distclean: clean temp-clean clean-t data-distclean downlo
 	${MAKE} -C./world/etc/mkgmap distclean
 	${MAKE} -C./cgi/msg distclean
 
-tilesize-clean:
+tilesize-clean clean-tilesize-db:
 	rm -f /var/tmp/_tilesize-$$(perl -e 'print $$<')-*
 
 stale-symlink-clean:
@@ -1444,6 +1453,7 @@ help:
 	@echo "  [ install-xvfb ]"
 	@echo ""
 	@echo "  [ clean | dist-clean | clean-cache | clean-planet | clean-tile ]"
+	@echo "  [ clean-tilesize-db ]"
 	@echo ""
 	@echo "  [ create-osp | bbbike2wgs84 | update-robots.txt | create-sitemap ]"
 	@echo "  [ cache-install | cache-heater | cache-heater-streets ]"
