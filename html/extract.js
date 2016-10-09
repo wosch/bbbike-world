@@ -311,7 +311,8 @@ function init_map() {
     }));
 
     // Bing roads and Satellite/Hybrid
-    add_bing_maps(map);
+    // disabled due wrong billing
+    // add_bing_maps(map);
 
     state.map = map;
     return map;
