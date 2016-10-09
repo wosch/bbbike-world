@@ -173,6 +173,7 @@ sub checksum {
         "e18ef0a6931e800890bb520fc143f1bb",    # debian9
         "4ddccb9ff7d1bfbfa0b16c5a49968667",    # ubuntu14
         "b844998a83cf8d70387b4d891491ae24",    # ubuntu14
+        "0f8497f414bd8b43c84e167e9ef2534d",    # ubuntu14
       ];
     my $md5_checksum = ( grep { $md5 eq $_ } @$md5_checksum_select )[0];
 
