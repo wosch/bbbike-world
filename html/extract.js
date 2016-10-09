@@ -310,10 +310,18 @@ function init_map() {
         attribution: '<a href="https://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="http://www.opencyclemap.org/">(&copy) OpenCycleMap</a>'
     }));
 
+    map.addLayer(new OpenLayers.Layer.OSM("Mapbox Satellite", "https://d.tiles.mapbox.com/v3/tmcw.map-j5fsp01s/${z}/${x}/${y}.png"), {
+        attribution: '<a href="https://www.mapbox.com/">(&copy) Mapbox</a>, <a href="https://www.mapbox.com/">(&copy) Mapbox</a>',
+        tileOptions: {
+            crossOriginKeyword: null
+        },
+        numZoomLevels: 20
+    });
+
+
     // Bing roads and Satellite/Hybrid
     // disabled due wrong billing
     // add_bing_maps(map);
-
     state.map = map;
     return map;
 }
