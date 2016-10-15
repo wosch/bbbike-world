@@ -50,11 +50,11 @@ my $feed = XML::Atom::SimpleFeed->new(
 
 $feed->add_entry(
     title   => qq{New Garmin style OpenSeaMap},
-    id      => '6f5b1fc9a70a140420758b84427c8ea7',
+    id      => '5f5b1fc9a70a140420758b84427c8ea7',
     content => {
         type => 'html',
         content =>
-qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports Garmin OpenSeaMap Lite style},
+qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports Garmin OpenSeaMap style},
     },
     updated  => '2016-10-15T18:30:02Z',
     category => 'News',
