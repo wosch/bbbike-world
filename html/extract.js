@@ -96,7 +96,7 @@ var config = {
         "garmin-leisure-ascii.zip": "/images/garmin-leisure-small.png",
         "garmin-osm.zip": "/images/garmin-osm-small.png",
         "garmin-osm-ascii.zip": "/images/garmin-osm-small.png",
-        "garmin-oseam.zip": "/images/garmin-onroad2-small.png",
+        "garmin-oseam.zip": "/images/garmin-oseam2-small.png",
         "garmin-oseam-ascii.zip": "/images/garmin-onroad2-small.png",
 
         "svg-google.zip": "/images/svg-google-small.png",
