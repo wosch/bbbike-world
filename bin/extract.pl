@@ -1032,6 +1032,7 @@ sub reorder_pbf {
         'garmin-leisure.zip' => 3.5,
         'garmin-bbbike.zip'  => 3,
         'garmin-onroad.zip'  => 1.5,
+        'garmin-oseam.zip'   => 1.5,
 
         'svg-google.zip'    => 5,
         'svg-hiking.zip'    => 5,
