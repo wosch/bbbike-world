@@ -13,6 +13,14 @@
   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af7</id>
   <generator uri="http://search.cpan.org/dist/XML-Atom-SimpleFeed/" version="0.86">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>New Garmin style OpenSeaMap</title>
+    <id>6f5b1fc9a70a140420758b84427c8ea7</id>
+    <content type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports Garmin OpenSeaMap Lite
+    style</content>
+    <updated>2016-10-15T18:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title>More us-ascii Garmin styles</title>
     <id>fa7db982ca948a37feadd25d35c95955</id>
     <content type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports more Garmin styles in
