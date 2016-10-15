@@ -1109,6 +1109,7 @@ data-distclean distclean-data:
 	rm -f data/*.lock data/*.inx[456] data/*.st
 	rm -rf ${TMP_DIR}
 	rm -f /bbbike/tmp/bbbike_*
+	find . -name '*.inx*'
 
 ###############################
 # Note: you need at least 190GB free disk space to run this command!!!
