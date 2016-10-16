@@ -94,10 +94,10 @@ sub check_input {
     my $token   = $q->param("token")   || "";
     my $bcc = $option->{"bcc_rest"} || $option->{"bcc"} || "";
 
-    error("no to: to given")  if $to      eq "";
+    error("no to: to given")  if $to eq "";
     error("no subject given") if $subject eq "";
     error("no message given") if $message eq "";
-    error("no token given")   if $token   eq "";
+    error("no token given")   if $token eq "";
 
     error("wrong token '$token' given") if $token ne $option->{'email_token'};
     error( "wrong request method given: " . $q->request_method() )

@@ -7,8 +7,10 @@ DEB_VENDOR=	ubuntu
 DEB_RELEASE=	trusty
 DEB_REPO_DIR=   /usr/local/www/debian.bbbike.org/${DEB_VENDOR}
 LIB=	bbbike-world-javalibs
-COPY_DEB?=	false
-DEB_REPO?=	deb-repo
+COPY_DEB?=	true
+
+# sign the packages?
+DEB_REPO?=	#deb-repo
 _tmp=	../../../../../tmp/deb/${DEB_VENDOR}/${DEB_RELEASE}
 
 all: help
@@ -20,15 +22,15 @@ clean:
 	rm -f */debian/debhelper.log
 	rm -f */debian/substvars
 	rm -f */debian/files
-	rm -rf */debian/src
 	rm -rf */debian/tmp
 
 distclean: clean
 	rm -f *.deb
+	rm -rf */debian/src
 
 build:
 	cd ${LIB}; \
-	   dpkg-buildpackage -rfakeroot -us -uc > debian.log 2>&1
+	   dpkg-buildpackage -rfakeroot -us -uc #> debian.log 2>&1
 	@ls -l *.deb
 	if ${COPY_DEB}; then \
 	  mkdir -p ${_tmp} && cp -f *.deb ${_tmp}; \
@@ -47,12 +49,12 @@ deb-bin:
 	${MAKE} -f ../../Makefile clean
 
 deb-bin-java:
-	${MAKE} -f ../../Makefile distclean
+	#${MAKE} -f ../../Makefile distclean
 	${MAKE} -f ../../Makefile LIB=bbbike-world-javalibs clean build ${DEB_REPO}
 	${MAKE} -f ../../Makefile clean
 
 deb-bin-x86:
-	${MAKE} -f ../../Makefile distclean
+	#${MAKE} -f ../../Makefile distclean
 	${MAKE} -f ../../Makefile LIB=bbbike-world-bin clean build ${DEB_REPO}
 	${MAKE} -f ../../Makefile clean
 

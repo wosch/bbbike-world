@@ -1,4 +1,4 @@
-:###############################################################
+###############################################################
 # Copyright (c) 2008-2015 Wolfram Schneider, http://bbbike.org
 #
 # Get and convert OpenStreetMap.org data to BBBike
@@ -19,7 +19,7 @@ OSM_TIMEOUT=	--timeout=45
 DOWNLOADOSM_URL=	--osm-api-url=http://www.informationfreeway.org/api/0.6
 DOWNLOADOSM=	${PERL} ./miscsrc/downloadosm --debug=1 ${OSM_SOCKS_PROXY} ${OSM_TIMEOUT} ${DOWNLOADOSM_URL}
 #OSM2BBD=	${PERL} ./miscsrc/osm2bbd --nodate -f --debug=0 ${OSM2BBD_MAPTYPE} -ignore-unhandled -ignore-underline -experiment add_postal_code #-experiment polar_coord_hack
-OSM2BBD_OPT=	--ignore-unhandled --ignore-underline-noname
+OSM2BBD_OPT=	--ignore-unhandled --ignore-underline-noname --granularity=100
 OSM2BBD=	./miscsrc/osm2bbd ${OSM2BBD_OPT} --nodate --no-create --git-id="${GIT_ID}" -f --debug=0 ${OSM2BBD_MAPTYPE} -experiment add_postal_code -experiment handle_relations
 
 MAX_CPU=	`world/bin/ncpu`
@@ -49,6 +49,8 @@ OSM_CHECKSUM=	world/bin/osm-checksum
 PBF2PBF=	world/bin/pbf2pbf
 OSM2GARMIN=	world/bin/osm2garmin
 OSM2GARMIN_CYCLE=	world/bin/pbf2osm --garmin-cycle
+OSM2GARMIN_ONROAD=	world/bin/pbf2osm --garmin-onroad
+OSM2GARMIN_OSEAM=	world/bin/pbf2osm --garmin-oseam
 OSM2GARMIN_SRTM=        world/bin/pbf2osm --garmin-srtm
 OSM2PNG=	world/bin/wrapper-instable world/bin/bomb --timeout=1400 world/bin/osm2png
 OSM2SVG=	world/bin/wrapper-instable world/bin/bomb --timeout=1400 world/bin/osm2svg
@@ -76,6 +78,7 @@ DATA_DIR=	data
 BBBIKE_CACHE_DIR=	/var/cache/bbbike
 LIGHTTPD_CACHE_DIR=	/var/cache/lighttpd
 MAX_OSMOSIS=	${MAX_CPU}
+MAX_OSMCONVERT=	${MAX_CPU}
 LANGUAGES=	m de en es fr ru
 ELEVATION_SCRIPT=world/bin/elevation-database
 MAX_ELEVATION_SCRIPTS=	1
@@ -104,6 +107,7 @@ OSMOSIS_PLUGIN_DIR=$$HOME/.openstreetmap/osmosis/plugins
 PROVE_FILES=	t/*.t world/t/*.t
 
 CITIES=$(shell ${PERL} -npe 's/\#.*//' ${CITIES_FILE})
+CITIES_BY_AREA=$(shell world/bin/bbbike-db --list-by-area)
 
 TILES_DIR=	tile
 
@@ -172,7 +176,7 @@ convert-bbbike-full: build-runtime-perl
 
 # convert bbbike files from wgs84, much faster
 convert-bbbike: build-runtime-perl
-	echo ${CITIES} | ${XARGS} -E " " -n4 -P${MAX_VCPU} ./world/bin/wgs84-to-bbbike
+	echo ${CITIES} | ${XARGS} -E " " -n4 -P${MAX_CPU} ./world/bin/wgs84-to-bbbike
 	tar --exclude='_*' -cf - ${DATA_DIR} | ${NICE} bzip2 > ${DATA_OSM_BBBIKE_DIR}/data.tbz.tmp
 	mv -f ${DATA_OSM_BBBIKE_DIR}/data.tbz.tmp ${DATA_OSM_BBBIKE_DIR}/data.tbz
 
@@ -214,9 +218,10 @@ _cities-pbf: poly
 	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=${OSMOSIS_BUFFER_CAPACITY} --tee `${BBMAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} city-count` `${BBMAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} _osmosis_opt_pbf`
 	test "$$NO_PBF2PBF" = "true" || ${BBMAKE} CITIES="${CITIES}" _pbf2pbf
 
-cities-pbf cities: _cities-pbf
+cities: cities-parallel
+
+cities-pbf: _cities-pbf
 	${BBMAKE} _pbf2pbf-checksum
-	#${BBMAKE} pbf2osm
 
 cities-osm: _cities-osm
 	${BBMAKE} osm2pbf
@@ -242,7 +247,7 @@ pbf2osm:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${OSM_CHECKSUM}
 
 pbf2csv:
-	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n1 -0 -P${MAX_PBF2OSM} ${PBF2OSM} --csv-xz
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n1 -0 -P1 ${PBF2OSM} --csv-xz
 
 pbf2opl:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n1 -0 -P1 ${PBF2OSM} --opl-xz
@@ -257,17 +262,23 @@ _pbf2pbf:
 _pbf2pbf-checksum:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${OSM_CHECKSUM}
 
-osm2garmin: osm2garmin-osm #osm2garmin-cycle osm2garmin-leisure osm2garmin-bbbike check-zip
+osm2garmin: osm2garmin-osm osm2garmin-onroad # osm2oseam osm2garmin-cycle osm2garmin-leisure osm2garmin-bbbike check-zip
 
 osm2garmin-osm:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
 
 osm2garmin-cycle:
-	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ext=garmin-cycle.zip ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ext=cycle ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
 osm2garmin-leisure:
-	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ext=garmin-leisure.zip ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ext=leisure ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
 osm2garmin-bbbike:
-	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ext=garmin-bbbike.zip ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ext=bbbike ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
+osm2garmin-onroad:
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ext=onroad ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
+osm2garmin-openfietslite:
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ext=openfietslite ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
+osm2garmin-oseam:
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ext=oseam ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
         
 osm2png:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | BBBIKE_MAPERITIVE_MAPSTYLE=google ${XARGS} -n 1 -0 -P${MAX_OSM2PNG} ${OSM2PNG}
@@ -301,11 +312,13 @@ osm-html:
         done; wait
 
 _cities-parallel:
-	@echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | env CITIES_DB=${CITIES_DB} ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} cities-pbf | ${TIME} xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
+	@echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | env CITIES_DB=${CITIES_DB} ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} cities-pbf | ${TIME} ${XARGS} -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
 _cities-parallel-pbf:
-	@echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | env CITIES_DB=${CITIES_DB} ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} _cities-pbf | ${TIME} xargs -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
+	@echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | env CITIES_DB=${CITIES_DB} ./world/bin/cities-parallel --xargs ${MAX_OSMOSIS} _cities-pbf | ${TIME} ${XARGS} -0 -n1 -P${MAX_OSMOSIS} /bin/sh -c
+_cities-parallel-osmconvert: poly
+	@for c in ${CITIES_BY_AREA}; do world/bin/bbbike-db --planet $$c; done | ${TIME} ${XARGS} -0 -n1 -P${MAX_OSMCONVERT} /bin/sh -c
 
-cities-parallel: _cities-parallel check-osm
+cities-parallel: _cities-parallel-osmconvert check-osm
 
 _cities:
 	@echo ${CITIES} | \
@@ -315,7 +328,7 @@ _cities:
 _cities_complete:
 	${BBMAKE} OSM_TIMEOUT="--timeout=300" `echo ${CITIES} | ${PERL} -npe 's/\s+/-download /g'`
 poly:
-	${BBMAKE} -j ${MAX_VCPU} `echo ${CITIES} | ${PERL} -npe 's/\s+/-poly /g'`
+	${BBMAKE} -j ${MAX_CPU} `echo ${CITIES} | ${PERL} -npe 's/\s+/-poly /g'`
 
 city-count:
 	@echo ${CITIES}  | wc -w
@@ -379,7 +392,7 @@ cleanup-osm-error:
 	@find ${OSM_DIR} -name '*.gz' -print0 | ${XARGS} -0 -n8 -P${MAX_CPU} zegrep -l '<error>' | ${XARGS} rm -f
 
 check-data-osm:
-	echo ${CITIES} | ${XARGS} -E " " -n1 -P${MAX_VCPU} ./world/bin/check-data-osm
+	echo ${CITIES} | ${XARGS} -E " " -n1 -P${MAX_CPU} ./world/bin/check-data-osm
 
 check-routing:
 	echo ${CITIES} | ${XARGS} -E " " -n8 -P1 ./world/bin/routing-validate.pl --number=1 | \
@@ -408,6 +421,10 @@ check:
 	http_proxy="" ${BBMAKE} test > log.check 2>&1
 	tail -n 10 log.check
 
+# travis needs output on stdout, cannot log into a file
+travis:
+	http_proxy="" ${BBMAKE} test
+
 check-world check-w:
 	@echo "In case of failure run:"
 	@echo " make check-failed"
@@ -417,9 +434,9 @@ check-world check-w:
 
 check-full:
 	@echo "In case of failure run:"
-	@echo " BBBIKE_TEST_FAST=\"\" make check-failed"
+	@echo " BBBIKE_TEST_FAST=\"\" BBBIKE_TEST_LONG=1 make check-failed"
 	@echo ""
-	http_proxy="" BBBIKE_TEST_FAST="" ${BBMAKE} test > log.check-full 2>&1
+	http_proxy="" BBBIKE_TEST_FAST="" BBBIKE_TEST_LONG=1 ${BBMAKE} test > log.check-full 2>&1
 	tail -n 10 log.check-full
 
 check-devel:
@@ -436,7 +453,7 @@ convert-workarounds:
 
 osm2bbd-workarounds opensearch:
 	for i in ${CITIES}; do echo $$i; done | \
-	  ${XARGS} -n 1 -P ${MAX_VCPU} world/bin/osm2bbd-workarounds ${DATA_OSM_DIR}
+	  ${XARGS} -n 1 -P ${MAX_CPU} world/bin/osm2bbd-workarounds ${DATA_OSM_DIR}
 
 bbbike-osm2pbf:
 	find ${OSM_DIR} -name '*.osm.gz' -print0 | ${XARGS} -0 -n 1 -P ${MAX_CPU} ${OSM2PBF}
@@ -448,6 +465,7 @@ _c = ${CITIES}
 _cd = $(_c:=-download)
 _cc = $(_c:=-convert)
 _cp = $(_c:=-poly)
+_co = $(_c:=-osmconvert)
 
 
 $(_cd):
@@ -477,6 +495,9 @@ $(_cp):
 	else \
 	    c=`basename $@ -poly`; mkdir -p ${OSM_DIR}/$$c; ${DB} --poly $$c > ${OSM_DIR}/$$c/$$c.poly.tmp; mv -f ${OSM_DIR}/$$c/$$c.poly.tmp ${OSM_DIR}/$$c/$$c.poly; \
 	fi
+    
+$(_co):
+	c=`basename $@ -osmconvert`; world/bin/bbbike-db --planet $$c | xargs -0 /bin/sh -c
 
 ${CITIES}:
 	${BBMAKE} $@-download $@-convert
@@ -521,12 +542,16 @@ create-bbbike-web-symlinks-bbbike.en.cgi:
 update-feed:
 	${MAKE} -C world/web/feed
 
+create-usr-local-bin-symlink: create-perl-symlink create-bash-symlink
+
 create-perl-symlink:
 	test -e /usr/local/bin/perl || sudo ln -fs /usr/bin/perl /usr/local/bin/perl
+create-bash-symlink:
+	test -e /usr/local/bin/bash || sudo ln -fs /bin/bash /usr/local/bin/bash
 
 symlinks: create-bbbike-web-symlinks
 
-create-bbbike-web-symlinks: create-bbbike-web-symlinks-bbbike.en.cgi index update-feed bbbike-org-t create-bbbike-org-symlinks
+create-bbbike-web-symlinks: create-usr-local-bin-symlink create-bbbike-web-symlinks-bbbike.en.cgi index update-feed bbbike-org-t create-bbbike-org-symlinks
 	ln -fs world/Makefile.osm ${BBBIKE_WEB_DIR}
 	ln -fs Makefile.osm Makefile
 	cd cgi; ln -fs ../world/cgi/bbbike.cgi.config .
@@ -615,7 +640,10 @@ bbbike-tile-update:
 	fi
 
 bbbike-tile-update-real:
-	${MAKE} DATA_DIR=../bbbike-eserte/data bbbike2wgs84-mapnik  bbbike-mapnik-postgis${POSTGIS_VERSION} tile-cache-cleanup; \
+	@echo "Updating postgis database..., see tmp/log.bbbike-mapnik-postgis${POSTGIS_VERSION}"
+	${MAKE} DATA_DIR=../bbbike-eserte/data bbbike2wgs84-mapnik 
+	time ${MAKE} bbbike-mapnik-postgis${POSTGIS_VERSION} > tmp/log.bbbike-mapnik-postgis${POSTGIS_VERSION} 2>&1
+	${MAKE} tile-cache-cleanup
 	prove world/t/mc-tilecheck.t ./world/t/websites.t
 
 bbbike-mapnik-config8:
@@ -643,7 +671,7 @@ mapnik-restart:
 	./world/bin/tile-cache-cleanup	
 
 planet-download:
-	download_script=`pwd`/world/bin/planet-download; cd ../osm/download && $$download_script
+	download_script=$$(pwd)/world/bin/planet-download-pbf; cd ../osm/download && $$download_script
 
 planet-nometa:
 	download_script=`pwd`/world/bin/planet-nometa; cd ../osm/download && $$download_script
@@ -697,6 +725,7 @@ cache-clean-lighttpd:
 	  ${LIGHTTPD_CACHE_DIR}/localhost.bbbike.org \
 	  ${LIGHTTPD_CACHE_DIR}/compress
 	find /var/cache/lighttpd/ -type f -print0 | ${PERL} -n0e unlink
+	chown -R www-data:www-data ${LIGHTTPD_CACHE_DIR}
 
 cache-gc:
 	find ${BBBIKE_CACHE_DIR}/ -type f -mtime +21 -print0 | sudo ${PERL} -n0e unlink
@@ -709,14 +738,14 @@ rotate-data-osm:
 	#-test -e ${DATA_OSM_BBBIKE_DIR}.old && mv ${DATA_OSM_BBBIKE_DIR}.old ${DATA_OSM_BBBIKE_DIR}.old2
 	-test -e ${DATA_OSM_BBBIKE_DIR}     && mv ${DATA_OSM_BBBIKE_DIR}     ${DATA_OSM_BBBIKE_DIR}.old
 	if [ -e ${DATA_OSM_BBBIKE_DIR}.old ]; then \
-		find ${DATA_OSM_BBBIKE_DIR}.old -type f ! -name '*.gz' -print0 | ${XARGS} -0 ${GZIP} # gzip old files \
+		find ${DATA_OSM_BBBIKE_DIR}.old -type f ! -name '*.gz' -print0 | ${XARGS} -0 ${GZIP}; \
 	fi
 	mkdir -p ${DATA_OSM_DIR} ${DATA_OSM_BBBIKE_DIR}
 	touch ${DATA_OSM_DIR}/.gitkeep ${DATA_OSM_BBBIKE_DIR}/.gitkeep
 
 rotate-osm:
 	${RM_BG} ${OSM_DIR}.old2
-	#-test -e ${OSM_DIR}.old  && mv ${OSM_DIR}.old  ${OSM_DIR}.old2
+	-test -e ${OSM_DIR}.old  && mv ${OSM_DIR}.old  ${OSM_DIR}.old2
 	-test -e ${OSM_DIR}      && mv ${OSM_DIR}      ${OSM_DIR}.old
 	mkdir -p ${OSM_DIR}
 	touch ${OSM_DIR}/.gitkeep
@@ -770,8 +799,8 @@ garmin-legend:
 	fi
 
 extract-config:
-	test -e .bbbike-extract.rc || ln -fs $$HOME/.bbbike-extract.rc .
-	test -e .bbbike-extract-pro.rc || ln -fs $$HOME/.bbbike-extract-pro.rc .
+	if [ -e $$HOME/.bbbike-extract.rc ]; then test -e .bbbike-extract.rc || ln -fs $$HOME/.bbbike-extract.rc . ; fi
+	if [ -e $$HOME/.bbbike-extract-pro.rc ]; then test -e .bbbike-extract-pro.rc || ln -fs $$HOME/.bbbike-extract-pro.rc . ; fi
 
 update-javascript bbbike-js:
 	make -C./world/html bbbike-js
@@ -782,6 +811,9 @@ java-config:
 dist-clean devel-clean distclean: clean temp-clean clean-t data-distclean download-clean log-clean index-clean cache-clean-local deb-distclean stale-symlink-clean
 	${MAKE} -C./world/etc/mkgmap distclean
 	${MAKE} -C./cgi/msg distclean
+
+tilesize-clean clean-tilesize-db:
+	rm -f /var/tmp/_tilesize-$$(perl -e 'print $$<')-*
 
 stale-symlink-clean:
 	find . -type l -print0 | perl -n0e 'unlink if ! -e'
@@ -800,8 +832,10 @@ clean-t:
 temp-clean:
 	rm -rf ${TMP_DIR}
 
-cache-clean-local:
+cache-clean-local: tilesize-clean
 	rm -rf ./cache
+	rm -rf /tmp/bbbike-localhost-$$(perl -e 'print $$<')-*
+	rm -rf /tmp/bbbike-cgicache-$$(perl -e 'print $$<')-*
 
 log-clean:
 	rm -f log.check log.check-full log.check-world
@@ -910,13 +944,18 @@ extract-install extract-bbbike-org-install:
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/download
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/trash
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/failed
+	mkdir -p ${EXTRACTS_SPOOL_DIR}/failed2
 	chmod -R a+rX,gu+w ${EXTRACTS_SPOOL_DIR}/
 	chown -R $$(logname):${WEB_GROUP} ${EXTRACTS_SPOOL_DIR}/
+	cp world/bin/osmconvert-wrapper /usr/local/bin
+	mkdir -p /usr/local/www
+	chown -R $$(logname) /usr/local/www
 
 bbbike-cache-install:
 	mkdir -p ${BBBIKE_PARTITION}/cache
 	ln -fs ${BBBIKE_PARTITION}/cache ${BBBIKE_CACHE_DIR}; \
 	chown -R ${WEB_GROUP}:${WEB_GROUP} ${BBBIKE_PARTITION}/cache
+	chmod -R g+w ${BBBIKE_PARTITION}/cache
 
 extract-distclean:
 	find ${EXTRACTS_SPOOL_DIR}/ -type f -print0 | xargs -0 rm -f
@@ -966,7 +1005,7 @@ tile-pbf2pbf:
 
 _pbf_dir=${TILES_DIR}/lnglat/
 _min_size=-size +500k
-tile-convert: tile-convert-osm tile-convert-shp tile-convert-navit tile-convert-mapsforge tile-convert-osmand tile-convert-garmin
+tile-convert: tile-convert-osm tile-convert-shp tile-convert-navit tile-convert-garmin tile-convert-garmin-onroad tile-convert-mapsforge tile-convert-osmand
 tile-convert-srtm: tile-convert-garmin-srtm tile-convert-osmand
 
 
@@ -984,6 +1023,8 @@ tile-convert-mapsme:
 
 tile-convert-garmin:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true osm2xxx_max_jobs=1 ${NICE} ${TIME} xargs -0 -n1 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
+tile-convert-garmin-onroad:
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true osm2xxx_max_jobs=1 ${NICE} ${TIME} xargs -0 -n1 -P${MAX_OSM2GARMIN} ${OSM2GARMIN_ONROAD}
 
 tile-convert-garmin-srtm:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true osm2xxx_max_jobs=1 ${NICE} ${TIME} xargs -0 -n1 -P${MAX_OSM2GARMIN} ${OSM2GARMIN_SRTM}
@@ -1000,49 +1041,55 @@ tile-convert-navit:
 tile-extract: tile-lng tile-lnglat tile-lng-run tile-lnglat-run tile-pbf2pbf
 
 tile-csv:
-	rm -f ${TILES_DIR}/etc/tile-*.csv ${TILES_DIR}/etc/tile-*.csv.original
-	mkdir -p ${TILES_DIR}/etc
+	rm -f ${TILES_DIR}/etc/tile/*.csv ${TILES_DIR}/etc/tile/*.csv.original
+	mkdir -p ${TILES_DIR}/etc/tile
 	for format in pbf osm.gz csv.xz; do \
-	   touch ${TILES_DIR}/etc/tile-$$format.csv; \
+	   touch ${TILES_DIR}/etc/tile/$$format.csv; \
   	     if [ $$(find ${TILES_DIR}/lnglat -name '*.'$$format | wc -l) -gt 0 ]; then \
 	       ( cd ${TILES_DIR}/lnglat; \
 	       find . -name '*.'$$format -print0 | xargs -0 du -k | sort -n  -k1 -k2 -k3 -k4 -k5 | \
 	       awk '{ if ($$1 > 12) { print } }' | \
 	       perl -npe 's,\S+/planet_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > \
-		 ${TILES_DIR}/etc/tile-$$format.csv.new; \
-	       mv -f ${TILES_DIR}/etc/tile-$$format.csv.new ${TILES_DIR}/etc/tile-$$format.csv; \
+		 ${TILES_DIR}/etc/tile/$$format.csv.new; \
+	       mv -f ${TILES_DIR}/etc/tile/$$format.csv.new ${TILES_DIR}/etc/tile/$$format.csv; \
 	     fi; \
 	done
-	for format in csv.xz; do \
-	     touch ${TILES_DIR}/etc/tile-$$format.csv; \
+	for format in csv.xz osm.gz; do \
+	     touch ${TILES_DIR}/etc/tile/$$format.csv; \
              ./world/bin/tile-padding.pl --min-size=10 \
-		${TILES_DIR}/etc/tile-pbf.csv ${TILES_DIR}/etc/tile-$$format.csv > ${TILES_DIR}/etc/tile-$$format.csv.new; \
-	     mv -f ${TILES_DIR}/etc/tile-$$format.csv ${TILES_DIR}/etc/tile-$$format.csv.original; \
-	     mv -f ${TILES_DIR}/etc/tile-$$format.csv.new ${TILES_DIR}/etc/tile-$$format.csv; \
+		${TILES_DIR}/etc/tile/pbf.csv ${TILES_DIR}/etc/tile/$$format.csv | \
+		sort -n  -k1 -k2 -k3 -k4 -k5 > ${TILES_DIR}/etc/tile/$$format.csv.new; \
+	     mv -f ${TILES_DIR}/etc/tile/$$format.csv ${TILES_DIR}/etc/tile/$$format.csv.original; \
+	     mv -f ${TILES_DIR}/etc/tile/$$format.csv.new ${TILES_DIR}/etc/tile/$$format.csv; \
 	done
 	pwd=`pwd`; max_cpu=${MAX_CPU}; \
-	for format in garmin-osm.zip shp.zip navit.zip obf.zip mapsforge-osm.zip; do \
+	for format in garmin-osm.zip garmin-onroad.zip shp.zip navit.zip obf.zip mapsforge-osm.zip; do \
             echo "Run format $$format"; \
 	    (( cd ${TILES_DIR}/lnglat; find . -name '*.'$$format -print0 | xargs -0 -n1 -P1 $$pwd/world/bin/extract-disk-usage.sh --du | sort -n  -k1 -k2 -k3 -k4 -k5 | \
-	     perl -npe 's,\S+/planet_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > ${TILES_DIR}/etc/tile-$$format.csv; \
-             $$pwd/world/bin/tile-padding.pl --min-size=10 ${TILES_DIR}/etc/tile-pbf.csv ${TILES_DIR}/etc/tile-$$format.csv | \
-		sort -n  -k1 -k2 -k3 -k4 -k5 | awk '{ if ($$1 > 12) { print } }' > ${TILES_DIR}/etc/tile-$$format.csv.new; \
-	   	mv -f ${TILES_DIR}/etc/tile-$$format.csv ${TILES_DIR}/etc/tile-$$format.csv.original; \
-	   	mv -f ${TILES_DIR}/etc/tile-$$format.csv.new ${TILES_DIR}/etc/tile-$$format.csv; \
+	     perl -npe 's,\S+/planet_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > ${TILES_DIR}/etc/tile/$$format.csv; \
+             $$pwd/world/bin/tile-padding.pl --min-size=10 ${TILES_DIR}/etc/tile/pbf.csv ${TILES_DIR}/etc/tile/$$format.csv | \
+		sort -n  -k1 -k2 -k3 -k4 -k5 | awk '{ if ($$1 > 12) { print } }' > ${TILES_DIR}/etc/tile/$$format.csv.new; \
+	   	mv -f ${TILES_DIR}/etc/tile/$$format.csv ${TILES_DIR}/etc/tile/$$format.csv.original; \
+	   	mv -f ${TILES_DIR}/etc/tile/$$format.csv.new ${TILES_DIR}/etc/tile/$$format.csv; \
 	    ) & \
 	done; wait
-	wc -lc ${TILES_DIR}/etc/tile-*.csv*
+	wc -lc ${TILES_DIR}/etc/tile/*.csv*
+
+tile-csv-check:
+	cd ${TILES_DIR}/lnglat/6; du -ks planet_6_52_7_53.osm*
+	@echo ""
+	cd ${TILES_DIR}/etc/tile; egrep '6 52 7 53' *.csv
 
 tile-srtm-csv: tile-csv
-	cd ${TILES_DIR}/etc/; \
+	cd ${TILES_DIR}/etc/tile; \
 	for i in garmin-srtm.zip.csv obf.zip.csv pbf.csv; do \
-	  mv -f tile-$$i tile-srtm-$$i; \
+	  mv -f $$i srtm-$$i; \
 	done
-	wc -lc ${TILES_DIR}/etc/tile-srtm-*.csv*
+	wc -lc ${TILES_DIR}/etc/tile/srtm-*.csv*
 
 tile-aws-s3:
-	cd ${TILES_DIR}/etc; \
-	  for i in tile-*.csv; do \
+	cd ${TILES_DIR}/etc/tile; \
+	  for i in *.csv; do \
 	    s3put bbbike/tile/ $$i; \
 	    echo "wget http://s3.amazonaws.com/bbbike/tile/$$i"; \
 	  done
@@ -1065,15 +1112,19 @@ data-distclean distclean-data:
 	rm -f data/*.lock data/*.inx[456] data/*.st
 	rm -rf ${TMP_DIR}
 	rm -f /bbbike/tmp/bbbike_*
+	find . -name '*.inx*'
 
+###############################
+# Note: you need at least 190GB free disk space to run this command!!!
+#
 # for errors look in ./tile/tmp
 tile: tile-extract tile-convert tile-csv #tile-aws-s3
 
 ##############################################################################################
 # debian package rules
 #
-DEB_RELEASE=wheezy
-DEB_VENDOR=debian
+DEB_RELEASE=	$(shell lsb_release -cs)
+DEB_VENDOR=	$(shell lsb_release -is | tr  'A-Z' 'a-z')
 DEB_TMP=tmp/deb
 DEB_DIR=${DEB_TMP}/${DEB_VENDOR}/${DEB_RELEASE}
 DEB_MODULE_LIST=world/etc/apt/${DEB_RELEASE}/perl-modules.txt
@@ -1083,8 +1134,7 @@ DEB_PACKAGES_DEVEL=	$(shell ${PERL} -npe 's/\#.*//' ${DEB_MODULE_LIST_DEVEL})
 DEB_CONTROLS=	$(shell ${MAKE} -s -Cworld/etc/apt/${DEB_RELEASE}/equivs)
 DEB_REPO_DIR=	/usr/local/www/debian.bbbike.org/${DEB_VENDOR}
 DEB_OPT_DIR=	/var/lib/bbbike/opt
-DEB_REPO?= deb-repo
-COPY_DEB?= false
+COPY_DEB?= true
 
 #
 # basically, we run:
@@ -1093,10 +1143,14 @@ COPY_DEB?= false
 #
 # don't forget to run deb-clean first
 # --requiredeps
+#
+# in case of strange errors, please cleanup ~/perl5 first!
+#
 deb-perl: deb-clean perl-cpan
 	mkdir -p ${DEB_DIR}
 	set -e; cd ${DEB_DIR}; export PERL5LIB="$$HOME/perl5:$$HOME/perl5/lib/perl5"; \
 	for i in ${DEB_PACKAGES}; do \
+	    echo "dh-make: $$i"; \
 	    dh-make-perl --build --email 'wosch@freebsd.org' --cpan $$i; \
 	done
 	set -e; for i in ${DEB_DIR}/*.deb; do \
@@ -1104,12 +1158,17 @@ deb-perl: deb-clean perl-cpan
 	done
 	ls -l ${DEB_DIR}/*.deb
 	echo "Number of deps: $$(ls ${DEB_DIR} | egrep '*.deb$$' | wc -l)"
-	if test -n "${DEB_REPO}"; then ${MAKE} deb-repo; fi
 
+perl-cpan-clean:
+	rm -rf $$HOME/perl5 $$HOME/.cpan/build
+
+# build cpan modules first, and later build deb packages
 perl-cpan:
-	PERL_MB_OPT="--install_base $$HOME/perl5" PERL_MM_OPT="INSTALL_BASE=$$HOME/perl5" \
-	  PERL5LIB="$$HOME/perl5" \
-	  cpan ${DEB_PACKAGES_DEVEL} ${DEB_PACKAGES}
+	set -e; \
+	for i in ${DEB_PACKAGES_DEVEL} ${DEB_PACKAGES}; do \
+	PERL_MB_OPT="--install_base $$HOME/perl5" PERL_MM_OPT="INSTALL_BASE=$$HOME/perl5" PERL5LIB="$$HOME/perl5:$$HOME/perl5/lib/perl5" \
+	  cpan $$i; \
+	done
 
 deb-equivs: deb-clean
 	mkdir -p ${DEB_DIR}
@@ -1119,9 +1178,8 @@ deb-equivs: deb-clean
 	done
 	for i in ${DEB_DIR}/*.deb; do world/bin/deb2deb $$i; done
 	ls -l ${DEB_DIR}/*.deb
-	if test -n "${DEB_REPO}"; then ${MAKE} deb-repo; fi
 
-deb-bin deb-bin-java deb-bin-x86: deb-repo-dir
+deb-bin deb-bin-java deb-bin-x86: 
 	${MAKE} -C./world/etc/apt/${DEB_RELEASE}/deb -f ../../Makefile DEB_RELEASE=${DEB_RELEASE} DEB_VENDOR=${DEB_VENDOR} $@
 
 deb-clean:
@@ -1139,7 +1197,8 @@ deb-repo-dir:
 	if [ ! -e distributions ]; then \
 	    ln -s $$pwd/world/etc/apt/${DEB_RELEASE}/conf/distributions; \
 	fi
-	
+
+# fix & sign debian packages	
 deb-repo: deb-repo-dir
 	for i in ${DEB_DIR}/*.deb; do \
 	  world/bin/deb2deb $$i; \
@@ -1158,17 +1217,24 @@ deb-repo-upload:
 	@echo "Now run:"
 	ssh debian.bbbike.org 'cd ~/projects/bbbike && make DEB_VENDOR=${DEB_VENDOR} DEB_RELEASE=${DEB_RELEASE} deb-repo'
 
-deb-bootstrap debian-bootstrap: deb-bootstrap-rsync deb-bootstrap-dir
+deb-bootstrap debian-bootstrap: deb-bootstrap-dir
 bbbike-bootstrap: bbbike-partition debian-bootstrap update-files install-backend-lighttpd
-	sudo ${BBMAKE} -s cache-clean
-	sudo ${BBMAKE} -s extract-bbbike-org-install
-	sudo ${BBMAKE} -s clean-cache
 	sudo ${BBMAKE} -s download-bbbike-org-install
-	sudo ${MAKE} -s -C./world/etc install-munin-bbbike install-munin-bbbike-extract crontab-root
+	sudo ${BBMAKE} -s extract-bbbike-org-install
+	sudo ${BBMAKE} -s EXTRACTS_SPOOL_DIR=/var/cache/extract-pro extract-bbbike-org-install
+	sudo ${BBMAKE} -s cache-clean
+	sudo ${MAKE} -s -C./world/etc crontab-root
+	sudo ${MAKE} -s -C./world/etc/munin install-munin-bbbike
 	sudo update-rc.d lighttpd defaults
 	sudo /etc/init.d/lighttpd restart
+	rm -f ./HEADER.txt
 	@echo ""
 	@echo "You may also run: make staging"
+
+deb-opt-dir-version:
+	cd ${DEB_OPT_DIR}; \
+	  sudo ln -fs omim-1.0 omim; \
+	  sudo ln -fs Maperitive-2.3.34 Maperitive; 
 
 bbbike-partition:
 	cd ${BBBIKE_PARTITION}; mkdir -p cache extract projects tmp www
@@ -1188,7 +1254,7 @@ deb-bootstrap-rsync:
 	rsync -az ${BBBIKE_WEB_SERVER}:.gitconfig $$HOME
 
 # post debian package configuration
-deb-bootstrap-dir: osmosis-bootstrap
+deb-bootstrap-dir: osmosis-bootstrap deb-opt-dir-version
 	set -e; cd ${DEB_OPT_DIR}/bin; \
 	   for i in *; do \
 	     test -e /usr/local/bin/$$i || sudo ln -fs ${DEB_OPT_DIR}/bin/$$i /usr/local/bin/$$i; \
@@ -1216,7 +1282,7 @@ bbbike-c:
 
 
 DOWNLOAD_PREFIX=/usr/local/www/download.bbbike.org
-download-bbbike-org-install: download-srtm-bbbike-org-install
+download-bbbike-org-install: 
 	mkdir -p ${DOWNLOAD_PREFIX}
 	mkdir -p ${DOWNLOAD_PREFIX}/osm/planet
 	mkdir -p ${DOWNLOAD_PREFIX}/bbbike
@@ -1232,25 +1298,27 @@ download-bbbike-org-install: download-srtm-bbbike-org-install
 	  ln -fs ../world/download/osm/bbbike/HEADER.txt .; \
 	cd ${DOWNLOAD_PREFIX}/osm/planet; \
 	  ln -fs $$HOME/projects/osm/download/planet-latest.osm.bz2 . ;\
+	  ln -fs $$HOME/projects/osm/download/planet-latest.osm.bz2.md5 . ;\
 	  ln -fs $$HOME/projects/osm/download/planet-latest.osm.pbf . ;\
 	  ln -fs $$HOME/projects/osm/download/planet-latest.osm.pbf.md5 . ;\
-	  ln -fs $$HOME/projects/osm/download/planet-latest.osm.pbf.sha1 . ;\
-	  ln -fs $$HOME/projects/osm/download/planet-latest.osm.bz2.md5 . ;\
+	  ln -fs $$HOME/projects/osm/download/planet-latest-nometa.osm.pbf . ;\
+	  ln -fs $$HOME/projects/osm/download/planet-latest-nometa.osm.pbf.md5 . ;\
 	  ln -fs ../../../bbbike.org/world/download/osm/planet/HEADER.txt .
+	cd ${DOWNLOAD_PREFIX}/osm/planet; \
+	  ln -fs $$HOME/projects/osm/download/sub-planet .
 	cd ${DOWNLOAD_PREFIX}/..; mkdir -p osm; cd osm; \
 	  ln -fs ../download.bbbike.org/osm/planet download
+	${MAKE} download-srtm-bbbike-org-install
 
 # http://download.freizeitkarte-osm.de/Development/ele_25_250_500/Hoehendaten_Freizeitkarte_Europe.osm.pbf
 download-srtm-bbbike-org-install:
-	mkdir -p ../osm/download/srtm
+	cd ${DOWNLOAD_PREFIX}/osm/planet; mkdir -p srtm; cd srtm; \
+	  ln -fs $$HOME/projects/osm/download/srtm/planet-srtm-e40.osm.pbf .; \
+	  ln -fs $$HOME/projects/osm/download/srtm/CHECKSUM.txt .
+	cd ${DOWNLOAD_PREFIX}/osm/planet; mkdir -p sub-srtm; cd sub-srtm; \
+	  ln -fs $$HOME/projects/osm/download/sub-srtm/* .
 
 UPDATE_APT=deb-perl deb-equivs deb-bin deb-repo-upload
-update-apt: update-apt-squeeze update-apt-wheezy update-apt-jessie \
-	    update-apt-precise update-apt-trusty
-
-# debian6/squeeze
-update-apt-squeeze update-apt-debian6:
-	${MAKE} DEB_VENDOR=debian DEB_RELEASE=squeeze ${UPDATE_APT}
 
 # debian7/wheezy
 update-apt-wheezy update-apt-debian7:
@@ -1260,9 +1328,9 @@ update-apt-wheezy update-apt-debian7:
 update-apt-jessie update-apt-debian8:
 	${MAKE} DEB_VENDOR=debian DEB_RELEASE=jessie  ${UPDATE_APT}
 
-# ubuntu12
-update-apt-precise update-apt-ubuntu update-apt-ubuntu12:
-	${MAKE} DEB_VENDOR=ubuntu DEB_RELEASE=precise ${UPDATE_APT}
+# debian9/stretch
+update-apt-stretch update-apt-debian9:
+	${MAKE} DEB_VENDOR=debian DEB_RELEASE=stretch  ${UPDATE_APT}
 
 # ubuntu14
 update-apt-trusty update-apt-ubuntu14:
@@ -1348,11 +1416,24 @@ git-status: git-status-world
 git-status-world:
 	cd world; git status
 
+git-branch:
+	git branch
+	cd world; git branch
+
+git-commit: git-commit-world
+
+git-commit-world:
+	cd world; git commit .
+
 mygit: git-fetch git-pull git-push
 
 
 bbbike-tarball bbbike-src tarball:
 	./world/bin/bbbike-tarball
+
+install-xvfb:
+	sudo cp world/etc/init.d/xvfb /etc/init.d 
+	sudo update-rc.d xvfb defaults
 
 help:
 	@echo "bbbike version: ${GIT_ID}"
@@ -1373,8 +1454,10 @@ help:
 	@echo "  [ bbbike2wgs84-mapnik | bbbike-mapnik-config ]"
 	@echo "  [ bbbike-mapnik-postgis | bbbike-tile-update ]"
 	@echo "  [ bbbike-tarball | mapnik-restart ]"
+	@echo "  [ install-xvfb ]"
 	@echo ""
 	@echo "  [ clean | dist-clean | clean-cache | clean-planet | clean-tile ]"
+	@echo "  [ clean-tilesize-db ]"
 	@echo ""
 	@echo "  [ create-osp | bbbike2wgs84 | update-robots.txt | create-sitemap ]"
 	@echo "  [ cache-install | cache-heater | cache-heater-streets ]"
@@ -1402,16 +1485,16 @@ help:
 	@echo "  [ tile-convert-srtm | tile-srtm-csv ]"
 	@echo "  [ test-org | lighttpd-restart | test ]"
 	@echo "  [ jasmine-node | test-js ]"
+	@echo ""
 	@echo "  [ deb-perl | deb-equivs | deb-bin ]"
-	@echo "  [ deb-clean | deb-repo | deb-repo-upload | update-apt ]"
-	@echo "  [ DEB_VENDOR=ubuntu DEB_RELEASE=precise deb-perl deb-equivs deb-bin deb-repo-upload ]"
-	@echo "  [ DEB_REPO= make update-apt-\$$(hostname) ]"
-	@echo "  [ DEB_REPO= make UPDATE_APT='deb-perl deb-repo-upload' update-apt-\$$(hostname) ]"
-	@echo "  [ DEB_REPO= make UPDATE_APT='deb-equivs deb-repo-upload' update-apt-\$$(hostname) ]"
-	@echo "  [ DEB_REPO= make UPDATE_APT='deb-bin deb-repo-upload' update-apt-\$$(hostname) ]"
-	@echo "  [ DEB_REPO= COPY_DEB=true make UPDATE_APT=deb-bin update-apt-\$$(hostname) ]"
-	@echo "  [ DEB_REPO= COPY_DEB=true make UPDATE_APT='deb-bin-x86 deb-repo-upload' update-apt-\$$(hostname) ]"
-	@echo "  [ DEB_REPO= COPY_DEB=true make UPDATE_APT='deb-bin-java deb-repo-upload' update-apt-\$$(hostname) ]"
+	@echo "  [ deb-clean | deb-repo | deb-repo-upload | perl-cpan-clean ]"
+	@echo "  [ make deb-clean deb-perl deb-equivs deb-bin deb-repo-upload ]"
+	@echo "  [ make deb-clean deb-perl deb-repo-upload ]"
+	@echo "  [ make deb-clean deb-equivs deb-repo-upload ]"
+	@echo "  [ make deb-clean deb-bin deb-repo-upload ]"
+	@echo "  [ make deb-clean deb-bin-x86 deb-repo-upload ]"
+	@echo "  [ make deb-clean deb-bin-java deb-repo-upload ]"
+	@echo ""
 	@echo "  [ sudo apt-get clean && sudo apt-get update && sudo apt-get dist-upgrade -y ]"
 	@echo "  [ sudo apt-get install bbbike-world ]"
 	@echo ""
@@ -1419,6 +1502,7 @@ help:
 	@echo "  [ build-runtime ]"
 	@echo "  [ git-fetch | git-pull | git-push | mygit ]"
 	@echo "  [ check | check-world | check-full | check-failed ]"
+	@echo "  [ travis ]"
 	@echo ""
 	@echo "after failed install/cache update:"
 	@echo "bbbike_download= bbbike_extract= bbbike_convert= bbbike_install= make update-database"

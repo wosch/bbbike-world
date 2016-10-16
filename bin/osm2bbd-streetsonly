@@ -1095,7 +1095,7 @@ for my $osm_file (@osm_files) {
                     else {
                         $unhandled{
                             "highway=$highway_cat+construction=$construction"
-                          }++;
+                        }++;
                     }
                 }
                 elsif ( $highway_cat eq 'steps' ) {
@@ -1271,7 +1271,7 @@ for my $osm_file (@osm_files) {
                         else {
                             $unhandled{
 "boundary=administrative,admin_level=$admin_level"
-                              }++;
+                            }++;
                         }
                     }
                 }

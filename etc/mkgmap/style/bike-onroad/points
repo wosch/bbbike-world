@@ -1,0 +1,51 @@
+place=city [0x0700 resolution 18]
+place=town [0x0700 resolution 18]
+place=suburb [0x0a00 resolution 20]
+place=village [0x0900 resolution 22]
+place=hamlet [0x0b00 resolution 22]
+
+#aeroway=aerodrome [0x2d0b resolution 18]
+
+amenity=drinking_water [0x5000 resolution 22 default_name 'Water']
+amenity=fuel [0x2f01 resolution 20]
+amenity=biergarten [0x2d02 resolution 20]
+shop=bicycle [0x2d0a resolution 20 default_name 'Bicycle Shop']
+
+# 3.5% more size 
+#amenity=restaurant [0x2a00 resolution 20]
+# ???
+#amenity=cafe [0x2a0e resolution 20]
+
+amenity=hospital [0x3002 resolution 20]
+amenity=pharmacy [0x2e05 resolution 20]
+amenity=police [0x3001 resolution 21]
+amenity=post_office [0x2f05 resolution 20]
+
+historic=museum [0x2c02 resolution 20]
+historic=archaeological_site [0x2c02 resolution 21]
+
+railway=halt [0x300c resolution 21]
+railway=station [0x300c resolution 20]
+
+# 2%
+#amenity=supermarket [0x2e02 resolution 18]
+#shop=convenience [0x2e02 resolution 18]
+#shop=supermarket [0x2e02 resolution 18]
+
+# 2%
+#tourism=attraction [0x2c04 resolution 20]
+#tourism=camp_site [0x2b03 resolution 20]
+#tourism=caravan_site [0x2b03 resolution 20]
+#tourism=hostel [0x2b02 resolution 20]
+#tourism=hotel [0x2b01 resolution 20]
+#tourism=information [0x4c00 resolution 20]
+#tourism=motel [0x2b01 resolution 20]
+#tourism=museum [0x2c02 resolution 20]
+#tourism=picnic_site [0x4a00 resolution 20]
+#tourism=theme_park [0x2c01 resolution 20]
+#tourism=zoo [0x2c07 resolution 20]
+
+<finalize>
+# The finalizer section is executed for each element when a rule with an element type matches
+name=* { name '${name}' }
+

@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl 
-# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2016 Wolfram Schneider, http://bbbike.org
 #
 # bbbike-db - command line tool to parse bbbike @ world city database
 
@@ -9,9 +9,11 @@ use File::Basename;
 use lib qw(world/lib ../lib);
 
 # bbbike-macos
-use lib qw(../bbbike ../bbbike/world/lib);
+#use lib qw(../bbbike ../bbbike/world/lib);
 
 use BBBike::WorldDB;
+use Extract::Config;
+use Extract::Planet;
 
 #use Strassen::Util;
 
@@ -19,11 +21,11 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = 0.1;
+$VERSION = 0.2;
 
 use Getopt::Long;
 
-my $debug = 1;    # 0: quiet, 1: normal, 2: verbose
+my $debug = 0;    # 0: quiet, 1: normal, 2: verbose
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
@@ -58,6 +60,19 @@ sub osm_round {
       if $debug >= 2 && $real != $round;
 
     return $round;
+}
+
+sub extract_url {
+    my ( $city, $x1, $y1, $x2, $y2 ) = @_;
+    my $dev_server = $ENV{'BBBIKE_DEV_SERVER'} || 'http://dev1.bbbike.org';
+    my $url = "$dev_server/cgi/extract.cgi?lang=en";
+
+    $url .= "&sw_lng=$x1&sw_lat=$y1&ne_lng=$x2&ne_lat=$y2";
+    $url .= "&format=osm.pbf&email=nobody&as=0.1073349609375";
+    $url .= "&city=$city";
+    $url .= "&submit=extract";    #&expire=1473945448
+
+    return "$url\n";
 }
 
 sub poly {
@@ -144,6 +159,34 @@ sub neighbours {
     return $data;
 }
 
+sub sub_planet {
+    my $hash = shift;
+    my $city = shift;
+
+    my $planet     = new Extract::Planet( 'debug' => $debug );
+    my $planet_osm = $Extract::Config::planet_osm->{'planet.osm'};
+    my %hash       = %$hash;
+
+    my ( $sw_lng, $sw_lat, $ne_lng, $ne_lat ) =
+      map { &osm_round( $_, 100 ) } split( /\s+/, $hash{$city}->{coord} );
+
+    my $obj = {
+        "format" => "pbf",
+        "sw_lng" => $sw_lng,
+        "sw_lat" => $sw_lat,
+        "ne_lng" => $ne_lng,
+        "ne_lat" => $ne_lat
+    };
+
+    my $sub_planet = $planet->get_smallest_planet_file(
+        'expire'     => -1,
+        'obj'        => $obj,
+        'planet_osm' => $planet_osm
+    );
+
+    return $sub_planet;
+}
+
 #sub distance {
 #    my $coord = shift;
 #
@@ -169,6 +212,7 @@ usage: $0 [--debug={0..2}] [options] city
 --neighbours
 --coord
 --poly
+--extract-url
 --centerdelta
 --area=area
 --city-names
@@ -176,9 +220,11 @@ usage: $0 [--debug={0..2}] [options] city
 --startc
 --step
 --list
+--list-by-area
 --city-database=/path/to/etc/cities.csv
 --other_names
 --robots-local-lang cities .....
+--planet
 --help
 EOF
 }
@@ -191,10 +237,12 @@ my $step;
 my $population;
 my $coord;
 my $poly;
+my $extract_url;
 my $centerdelta;
 my $area;
 my $city_en;
 my $list;
+my $list_by_area;
 my $city_names;
 my $city_database;
 my $neighbours;
@@ -202,6 +250,7 @@ my $other_names;
 my $city_stat;
 my $region;
 my $startc;
+my $planet;
 
 # ignore dummy entries in cities.csv (name=dummy or step=dummy)
 my $ignore_dummy = 1;
@@ -221,11 +270,14 @@ GetOptions(
     "coord"             => \$coord,
     "startc"            => \$startc,
     "poly"              => \$poly,
+    "extract-url"       => \$extract_url,
     "centerdelta"       => \$centerdelta,
     "area=s"            => \$area,
     "city-en"           => \$city_en,
     "city-stat"         => \$city_stat,
     "list"              => \$list,
+    "planet"            => \$planet,
+    "list-by-area"      => \$list_by_area,
     "city-database=s"   => \$city_database,
 ) or die usage;
 
@@ -235,7 +287,8 @@ if ($help) {
 }
 
 my $city = shift;
-die &usage if !( $city || $area || $city_en || $list || $city_stat );
+die &usage
+  if !( $city || $area || $city_en || $list || $list_by_area || $city_stat );
 
 $city =~ s/-(convert|download)$// if $city;
 
@@ -300,13 +353,32 @@ if ($robots_local_lang) {
     exit;
 }
 
+# sort cities by sub-planet
+if ($list_by_area) {
+    my %sub_planet;
+    foreach my $city ( $db->list_cities ) {
+        my $sub_planet = &sub_planet( \%hash, $city );
+
+        warn "city: $city, sub-planet: $sub_planet\n" if $debug >= 1;
+        $sub_planet{$city} = $sub_planet;
+    }
+
+    foreach
+      my $city ( sort { $sub_planet{$a} cmp $sub_planet{$b} } keys %sub_planet )
+    {
+        print "$city\n";
+    }
+
+    exit 0;
+}
+
 if ( $list || $city_en ) {
     foreach my $key ( $db->list_cities ) {
         my $val = $hash{$key};
         my $local_lang = $hash{$key}->{local_lang} eq 'de' ? 'de' : "en";
         print $key, "\n"
           if $list
-              || $local_lang eq 'en';
+          || $local_lang eq 'en';
     }
     exit 0;
 }
@@ -319,6 +391,14 @@ if ( exists $hash{$city} ) {
     elsif ($local_lang) {
         print $hash{$city}->{local_lang} ? $hash{$city}->{local_lang} : "en";
         print " ";
+    }
+    elsif ($planet) {
+        my $osm_dir = $ENV{OSM_DIR} || "./osm";
+        my $sub_planet = sub_planet( \%hash, $city );
+        print
+"osmconvert-wrapper -o $osm_dir/$city/$city.osm.pbf -B=$osm_dir/$city/$city.poly",
+          " --out-pbf --drop-broken-refs --drop-author --drop-version",
+          " ${sub_planet}\0";
     }
     elsif ($city_names) {
         print $hash{$city}->{name} ? $hash{$city}->{name} : $city;
@@ -339,6 +419,11 @@ if ( exists $hash{$city} ) {
         my ( $x1, $y1, $x2, $y2 ) =
           map { &osm_round( $_, 100 ) } split( /\s+/, $hash{$city}->{coord} );
         print &poly( $city, ( $x1, $y1, $x2, $y2 ) );
+    }
+    elsif ($extract_url) {
+        my ( $x1, $y1, $x2, $y2 ) =
+          map { &osm_round( $_, 100 ) } split( /\s+/, $hash{$city}->{coord} );
+        print &extract_url( $city, ( $x1, $y1, $x2, $y2 ) );
     }
     elsif ($centerdelta) {
         my ( $x1, $y1, $x2, $y2 ) =

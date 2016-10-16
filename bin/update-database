@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2016 Wolfram Schneider, http://bbbike.org
 #
 # wrapper for Makefile
 #
@@ -12,18 +12,31 @@ if [ -e $HOME/.bbbikerc ]; then
     . $HOME/.bbbikerc
 fi
 
+available_disk_size=$(df -k . | tail -1 | awk '{ print int($4/1024/1024) }')
+min_disk_size="100"
+if [ $available_disk_size -le $min_disk_size ]; then
+    echo "Required disk space in: $available_disk_size < $min_disk_size GB"
+    echo "Sorry, give up. Please cleanup the disk, and start it again."
+    echo ""
+    df -h .
+    echo ""
+    exit 1
+fi
+
 tmp=tmp
 mkdir -p $tmp
 
 : ${bbbike_build="build-runtime update-files"}
 : ${bbbike_download="planet-download"}
-: ${bbbike_download_convert="planet-nometa sub-planet"}
+: ${bbbike_download_convert="sub-planet"}
 : ${bbbike_extract="distclean-osm distclean update-files cities-parallel"}
 : ${bbbike_convert="convert-wgs84 convert-post check-data-osm convert-bbbike update-files"}
 : ${bbbike_install="rsync-tgz _rsync cache-heater-k"}
-: ${bbbike_post="pbf2osm pbf2csv pbf2opl osm2garmin osm2shape osm2navit osm2mapsforge osm2svg osm-html rsync rsync-osm-full"}
+: ${bbbike_format="pbf2osm pbf2csv pbf2opl osm2garmin osm2shape osm2navit osm2mapsforge osm2svg"}
+: ${bbbike_post="osm-html rsync rsync-osm-full"}
+: ${bbbike_post2=""}
 
-commands="$bbbike_build $bbbike_download $bbbike_download_convert $bbbike_extract $bbbike_convert $bbbike_install $bbbike_post"
+commands="$bbbike_build $bbbike_download $bbbike_download_convert $bbbike_extract $bbbike_convert $bbbike_install $bbbike_format $bbbike_post $bbbike_post2"
 
 # lower I/O nice level on linux
 if which ionice >/dev/null 2>&1; then
@@ -32,19 +45,20 @@ if which ionice >/dev/null 2>&1; then
 fi
 
 begin="`date`"
+
 for i in $commands
 do
-	# compress old log files
-	if [ -e tmp/log.$i ]; then
-		 gzip -f tmp/log.$i
-	fi
+    # compress old log files
+    if [ -e tmp/log.$i ]; then
+         gzip -f tmp/log.$i
+    fi
 
-	case $i in
-	    # in background
-	    rsync-osm | rsync-bg ) time $ionice $ionice_opt make -s $i > tmp/log.$i 2>&1 & ;;
-
-	    # foreground
-	    * )         time $ionice $ionice_opt make -s $i > tmp/log.$i 2>&1 ;;
+    case $i in
+        # in background
+        rsync-osm | rsync-bg ) time $ionice $ionice_opt make -s $i > tmp/log.$i 2>&1 & ;;
+    
+            # foreground
+            * )         time $ionice $ionice_opt make -s $i > tmp/log.$i 2>&1 ;;
 	esac
 done
 wait

@@ -88,7 +88,8 @@ esac
 size=$(du -ks -L "$file" | awk '{ print $1}')
 
 basename=$(basename $file | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//')
-tmpdir=$(mktemp -d ${BBBIKE_TMPDIR}/osm2${type}.$map_style.XXXXXXXXXXX)/${basename}-${type}-${map_style}
+_tmpdir=$(mktemp -d ${BBBIKE_TMPDIR}/osm2${type}.$map_style.XXXXXXXXXXX)
+tmpdir=$_tmpdir/${basename}-${type}-${map_style}
 mkdir -p $tmpdir
 cd $tmpdir
 
@@ -180,6 +181,8 @@ zip -q -r - -- $(basename $tmpdir) | \
   )
 
 # cleanup except in debug mode
-$debug || rm -rf $tmpdir
+if ! $debug; then
+    rm -rf $_tmpdir
+fi
 
 # EOF

@@ -1,6 +1,6 @@
 cat << EOF
 Map data (c) OpenStreetMap contributors, https://www.openstreetmap.org
-Extracts created by BBBike, http://BBBike.org
+Extracts created by BBBike, http://extract.bbbike.org
 $BBBIKE_EXTRACT_MAPSME_VERSION by https://github.com/mapsme/omim
 
 
@@ -24,5 +24,6 @@ unterstuetzen: http://www.bbbike.org/community.de.html
 Danke, Wolfram Schneider
 
 --
-http://www.BBBike.org - Dein Fahrrad-Routenplaner
+Dein Fahrrad-Routenplaner: http://www.BBBike.org
+BBBike Map Compare: http://bbbike.org/mc
 EOF

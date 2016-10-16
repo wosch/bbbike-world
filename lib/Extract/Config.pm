@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2016 Wolfram Schneider, http://bbbike.org
 #
 # extract config load
 
@@ -16,6 +16,9 @@ use warnings;
 # config
 #
 
+# global config object
+our $option = {};
+
 our $formats = {
     'osm.pbf' => 'Protocolbuffer (PBF)',
     'osm.gz'  => "OSM XML gzip'd",
@@ -24,10 +27,19 @@ our $formats = {
 
     'shp.zip' => "Shapefile (Esri)",
 
-    'garmin-osm.zip'     => "Garmin OSM",
-    'garmin-cycle.zip'   => "Garmin Cycle",
-    'garmin-leisure.zip' => "Garmin Leisure",
-    'garmin-bbbike.zip'  => "Garmin BBBike",
+    'garmin-osm.zip'                 => "Garmin OSM",
+    'garmin-osm-ascii.zip'           => "Garmin OSM (ASCII)",
+    'garmin-cycle.zip'               => "Garmin Cycle",
+    'garmin-cycle-ascii.zip'         => "Garmin Cycle (ASCII)",
+    'garmin-leisure.zip'             => "Garmin Leisure",
+    'garmin-leisure-ascii.zip'       => "Garmin Leisure (ASCII)",
+    'garmin-bbbike.zip'              => "Garmin BBBike",
+    'garmin-onroad.zip'              => "Garmin Onroad",
+    'garmin-onroad-ascii.zip'        => "Garmin Onroad (ASCII)",
+    'garmin-openfietslite.zip'       => "Garmin Openfietsmap Lite",
+    'garmin-openfietslite-ascii.zip' => "Garmin Openfietsmap Lite (ASCII)",
+    'garmin-oseam.zip'               => "Garmin OpenSeaMap",
+    'garmin-oseam-ascii.zip'         => "Garmin OpenSeaMap (ASCII)",
 
     'svg-google.zip'     => 'SVG google',
     'svg-hiking.zip'     => 'SVG hiking',
@@ -76,15 +88,20 @@ our $formats_menu = {
     'osm' => {
         'title'   => "OSM",
         'formats' => [
-            'osm.pbf', 'osm.xz', 'osm.gz', 'osm.bz2', 'o5m.xz', 'o5m.gz',
-            'opl.xz',  'csv.xz', 'csv.gz'
+            'osm.pbf', 'osm.xz', 'osm.gz', 'osm.bz2',
+            'o5m.xz',  'opl.xz', 'csv.xz',
         ]
     },
     'garmin' => {
         'title'   => "Garmin",
         'formats' => [
-            'garmin-osm.zip',     'garmin-cycle.zip',
-            'garmin-leisure.zip', 'garmin-bbbike.zip'
+            'garmin-osm.zip',           'garmin-osm-ascii.zip',
+            'garmin-cycle.zip',         'garmin-cycle-ascii.zip',
+            'garmin-leisure.zip',       'garmin-leisure-ascii.zip',
+            'garmin-onroad.zip',        'garmin-onroad-ascii.zip',
+            'garmin-openfietslite.zip', 'garmin-openfietslite-ascii.zip',
+            'garmin-oseam.zip',         'garmin-oseam-ascii.zip',
+            'garmin-bbbike.zip',
         ]
     },
     'android' => {
@@ -106,7 +123,7 @@ our $formats_menu = {
         ]
     },
     'srtm' => {
-        'title'   => "Elevation (SRTM)",
+        'title'   => "Contours (SRTM)",
         'formats' => [
             'srtm-europe.osm.pbf',         'srtm-europe.osm.xz',
             'srtm-europe.garmin-srtm.zip', 'srtm-europe.obf.zip',
@@ -151,6 +168,21 @@ our $planet_osm = {
     'srtm.mapsforge-osm.zip' => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
 };
 
+# map planet file to sub-planet directory
+our $planet_sub_dir = {
+
+    # planet without meta data
+    '../osm/download/planet-latest-nometa.osm.pbf' =>
+      '../osm/download/sub-planet',
+
+    # compatibility, planet without meta data and 1.1m
+    '../osm/download/planet-latest.osm.pbf' => '../osm/download/sub-planet',
+
+    # SRTM planet
+    '../osm/download/srtm/planet-srtm-e40.osm.pbf' =>
+      '../osm/download/sub-srtm',
+};
+
 #
 # config for tile size databases
 #
@@ -190,10 +222,15 @@ our $tile_format = {
     "obf.zip" => "obf.zip",
     "obf"     => "obf.zip",
 
-    "garmin-cycle.zip"   => "garmin-osm.zip",
-    "garmin-osm.zip"     => "garmin-osm.zip",
-    "garmin-leisure.zip" => "garmin-osm.zip",
-    "garmin-bbbike.zip"  => "garmin-osm.zip",
+    "garmin-osm.zip"                 => "garmin-osm.zip",
+    "garmin-osm-ascii.zip"           => "garmin-osm.zip",
+    "garmin-cycle.zip"               => "garmin-osm.zip",
+    "garmin-cycle-ascii.zip"         => "garmin-osm.zip",
+    "garmin-leisure.zip"             => "garmin-osm.zip",
+    "garmin-leisure-ascii.zip"       => "garmin-osm.zip",
+    "garmin-bbbike.zip"              => "garmin-osm.zip",
+    "garmin-openfietslite.zip"       => "garmin-osm.zip",
+    "garmin-openfietslite-ascii.zip" => "garmin-osm.zip",
 
     "navit.zip" => "navit.zip",
     "navit"     => "navit.zip",
@@ -222,6 +259,22 @@ our $tile_format = {
     "srtm.obf.zip"         => "srtm-obf.zip",
 };
 
+our $server = {
+    'dev' => [qw/dev.bbbike.org dev1.bbbike.org dev4.bbbike.org/],
+    'www' => [qw/www.bbbike.org www1.bbbike.org www4.bbbike.org/],
+    'extract' =>
+      [qw/extract.bbbike.org extract1.bbbike.org extract4.bbbike.org/],
+    'download' =>
+      [qw/download.bbbike.org download1.bbbike.org download4.bbbike.org/],
+    'api'  => [qw/api.bbbike.org api1.bbbike.org api4.bbbike.org/],
+    'tile' => [
+        qw/a.tile.bbbike.org b.tile.bbbike.org c.tile.bbbike.org d.tile.bbbike.org/
+    ],
+    'production' => [
+        qw(www.bbbike.org download.bbbike.org extract.bbbike.org mc.bbbike.org a.tile.bbbike.org b.tile.bbbike.org c.tile.bbbike.org d.tile.bbbike.org api.bbbike.org )
+    ],
+};
+
 ##########################
 # helper functions
 #
@@ -239,6 +292,35 @@ sub new {
 }
 
 #
+# get list of active servers per service
+# 'www' => (www, www1, www2, www3)
+# 'extract' => (extract, extract2)
+#
+sub get_server_list {
+    my $self = shift;
+    my @type = @_;
+
+    my $debug = $self->{'debug'};
+
+    my @list = ();
+    my $server = $option->{'server'} || $server;
+    warn Dumper($server) if $debug >= 2;
+
+    foreach my $type (@type) {
+        if ( !$type || !exists $server->{$type} ) {
+            warn "Unknown server type '$type'\n";
+            return ();
+        }
+
+        foreach my $s ( @{ $server->{$type} } ) {
+            push @list, "http://$s";
+        }
+    }
+
+    return @list;
+}
+
+#
 # Parse user config file by extract.cgi
 # This allows to override standard config values
 #
@@ -249,9 +331,10 @@ sub load_config {
     my $config_file = shift || "../.bbbike-extract.rc";
 
     my $q = $self->{'q'};
-    our $option = $self->{'option'};
+    $option = $self->{'option'};
 
-    my $debug = $q->param("debug") || $self->{'debug'} || $option->{'debug'};
+    my $debug =
+      $q->param("debug") || $self->{'debug'} || $option->{'debug'} || 0;
     $self->{'debug'} = $debug;
 
     if (   $q->param('pro')
@@ -297,11 +380,17 @@ qq{did you called Extract::Config->load_config("$config_file") twice?\n};
 sub config_format_menu {
     my $self = shift;
 
-    our $option = $self->{'option'};
+    $option = $self->{'option'};
+    my $debug = $self->{'debug'};
 
     my $formats_order = $option->{'formats_order'};
     foreach my $f (@$formats_order) {
-        push @{ $option->{'formats'} }, $formats_menu->{$f};
+        if ( exists $formats_menu->{$f} ) {
+            push @{ $option->{'formats'} }, $formats_menu->{$f};
+        }
+        else {
+            warn "Unknown select menu format: $f, ignored\n" if $debug >= 1;
+        }
     }
 }
 
@@ -312,8 +401,8 @@ sub config_format_menu {
 sub load_config_nocgi {
     my $self = shift;
 
-    our $option = $self->{'option'};
-    my $debug = $self->{'debug'} || $option->{'debug'};
+    $option = $self->{'option'};
+    my $debug = $self->{'debug'} || $option->{'debug'} || 0;
 
     my $config_file = "$ENV{HOME}/.bbbike-extract.rc";
     if ( $ENV{BBBIKE_EXTRACT_PROFILE} ) {
@@ -327,6 +416,9 @@ sub load_config_nocgi {
         warn "config file: $config_file not found, ignored\n"
           if $debug >= 2;
     }
+
+    $self->{'debug'} = $debug;
+    return $self;
 }
 
 # re-set values for extract-pro service
@@ -334,7 +426,7 @@ sub check_extract_pro {
     my $self = shift;
 
     my $q = $self->{'q'};
-    our $option = $self->{'option'};
+    $option = $self->{'option'};
 
     my $url = $q->url( -full => 1 );
 

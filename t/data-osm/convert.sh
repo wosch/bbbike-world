@@ -1,9 +1,14 @@
 #!/bin/sh
-# Copyright (c) 2012 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2016 Wolfram Schneider, http://bbbike.org
 #
 # extract a city for further tests
 
 set -e
+
+LANG=C; export LANG 
+LC_ALL=C; export LC_ALL
+PERL_HASH_SEED=12345; export PERL_HASH_SEED
+PERL_PERTURB_KEYS=NO; export PERL_PERTURB_KEYS
 
 dir=$(dirname $0)
 : ${city=Cusco}

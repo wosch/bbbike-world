@@ -24,7 +24,7 @@ usage: $0 [ options ] command args ....
 
 --debug=0..3    debug option, default: $debug
 --timeout=1..N  timeout in seconds, default: $timeout
---screenshot-file=/path/to/image.png if set, does a screen shot
+--screenshot-file=/path/to/image.png if set, does a screenshot
 EOF
 }
 
@@ -59,7 +59,7 @@ $SIG{ALRM} = sub {
             warn "Screenshot file:  $screenshot_file\n";
         }
         else {
-            warn "env DISPLAY not set, cannot take a screen shot\n";
+            warn "env DISPLAY not set, cannot take a screenshot\n";
         }
 
     }

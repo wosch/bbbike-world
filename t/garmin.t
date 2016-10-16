@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2016 Wolfram Schneider, http://bbbike.org
 
 use Getopt::Long;
 use Data::Dumper qw(Dumper);
@@ -19,7 +19,14 @@ use warnings;
 my @garmin_styles = qw/cycle osm/;
 push @garmin_styles, qw/leisure/
   if !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG};
-push @garmin_styles, qw/bbbike/ if $ENV{BBBIKE_TEST_LONG};
+push @garmin_styles, qw/bbbike openfietslite onroad/ if $ENV{BBBIKE_TEST_LONG};
+
+if ( $ENV{BBBIKE_TEST_LONG} && $0 =~ /garmin-ascii.t$/ ) {
+    @garmin_styles =
+      qw/openfietslite-ascii cycle-ascii leisure-ascii osm-ascii onroad-ascii oseam oseam-ascii/;
+}
+
+#die join " ", @garmin_styles,;
 
 my $pbf_file = 'world/t/data-osm/tmp/Cusco.osm.pbf';
 
@@ -28,10 +35,10 @@ if ( !-f $pbf_file ) {
       or die "symlink failed: $?\n";
 }
 
-my $pbf_md5 = "6dc9df64ddc42347bbb70bc134b4feda";
+my $pbf_md5 = "525744cddeef091874eaddc05f10f19b";
 
 # min size of garmin zip file
-my $min_size = 200_000;
+my $min_size = 240_000;
 
 sub md5_file {
     my $file = shift;
@@ -73,6 +80,8 @@ sub convert_format {
         my $out = $test->out($style);
         unlink $out;
 
+        diag "garmin style=$style, lang=$lang";
+
         system(qq[world/bin/pbf2osm --garmin-$style $pbf_file $city]);
         is( $?, 0, "pbf2osm --garmin-$style converter" );
 
@@ -80,7 +89,8 @@ sub convert_format {
         is( $?, 0, "valid zip file" );
         $st = stat($out);
         my $size = $st->size;
-        cmp_ok( $size, '>', $min_size, "$out: $size > $min_size" );
+        my $min_size_style = $style =~ /^onroad/ ? $min_size / 3 : $min_size;
+        cmp_ok( $size, '>', $min_size_style, "$out: $size > $min_size" );
 
         system(qq[world/bin/extract-disk-usage.sh $out > $tempfile]);
         is( $?, 0, "extract disk usage check" );

@@ -221,22 +221,35 @@ sub check_readme {
 
     like(
         $data[0],
-qr"^Map data.*OpenStreetMap contributors, https://www.openstreetmap.org",
+qr"^Map data.*? OpenStreetMap contributors, https://www.openstreetmap.org",
         "map data"
     );
+
     like(
         $data[1],
-        qr"^Extracts created by BBBike, http://BBBike.org",
+        qr"^Extracts created by BBBike, http://extract.bbbike.org",
         "by bbbike.org"
     );
+
     like( $data[2], qr"^\S+\s+by\s+https?://\S+", "by software" );
+
+    $self->{'counter'} += 4;
+
+    if ( $format =~ /garmin-/ ) {
+        like(
+            $data[4],
+            qr"^Map style.*? by OpenStreetMap.org, BBBike.org, openfietsmap.nl",
+            "map style"
+        );
+        $self->{'counter'} += 1;
+    }
 
     if ( $lang eq 'de' ) {
         ok(
             (
                 grep {
                     /^Diese $format_name Karte wurde erzeugt am: \S+\s+.*UTC.+$/
-                  } @data
+                } @data
             ),
             "format_name + datum check"
         );
@@ -244,7 +257,7 @@ qr"^Map data.*OpenStreetMap contributors, https://www.openstreetmap.org",
             (
                 grep {
 /^GPS Rechteck Koordinaten \(lng,lat\): [\-0-9\.]+,.* [\-0-9\.]+,/
-                  } @data
+                } @data
             ),
             "gps"
         );
@@ -252,7 +265,7 @@ qr"^Map data.*OpenStreetMap contributors, https://www.openstreetmap.org",
             (
                 grep {
                     qr"^Script URL: http://.*bbbike.org/.*\?.*format=.+.*city="
-                  } @data
+                } @data
             ),
             "url"
         );
@@ -263,7 +276,7 @@ qr"^Map data.*OpenStreetMap contributors, https://www.openstreetmap.org",
             (
                 grep {
                     qr"unterstuetzen: http://www.bbbike.org/community.de.html"
-                  } @data
+                } @data
             ),
             "donate"
         );
@@ -283,7 +296,7 @@ qr"^Map data.*OpenStreetMap contributors, https://www.openstreetmap.org",
             (
                 grep {
 /^This $format_name (file|map) was created on: \S+\s+.*UTC.+$/
-                  } @data
+                } @data
             ),
             "format_name + date check"
         );
@@ -291,7 +304,7 @@ qr"^Map data.*OpenStreetMap contributors, https://www.openstreetmap.org",
             (
                 grep {
 /^GPS rectangle coordinates \(lng,lat\): [\-0-9\.]+,.* [\-0-9\.]+,/
-                  } @data
+                } @data
             ),
             "gps"
         );
@@ -299,7 +312,7 @@ qr"^Map data.*OpenStreetMap contributors, https://www.openstreetmap.org",
             (
                 grep {
                     qr"^Script URL: http://.*bbbike.org/.*\?.*format=.+.*city="
-                  } @data
+                } @data
             ),
             "url"
         );
@@ -310,7 +323,7 @@ qr"^Map data.*OpenStreetMap contributors, https://www.openstreetmap.org",
             (
                 grep {
 qr"^PayPal, Flattr or bank wire transfer: http://www.BBBike.org/community.html"
-                  } @data
+                } @data
             ),
             "donate"
         );
@@ -326,7 +339,6 @@ qr"^PayPal, Flattr or bank wire transfer: http://www.BBBike.org/community.html"
         $self->{'counter'} += 8;
     }
 
-    $self->{'counter'} += 4;
 }
 
 sub check_readme_html {
@@ -362,6 +374,11 @@ sub check_readme_html {
 sub validate_url {
     my $self = shift;
     my @url  = @_;
+
+    if ( $ENV{'BBBIKE_TEST_NO_NETWORK'} ) {
+        diag "Ignore URL check due no network";
+        return;
+    }
 
     my $test = BBBike::Test->new();
     my $hash = $url_hash;

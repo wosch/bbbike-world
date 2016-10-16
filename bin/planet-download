@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/local/bin/bash
 # Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
 #
 # planet-download - download the latest planet osm file

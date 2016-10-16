@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2016 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
     my $display = $ENV{BBBIKE_MAPERITIVE_DISPLAY} || $ENV{DISPLAY} || ":200";
@@ -8,6 +8,10 @@ BEGIN {
 
     my $lockfile = "/tmp/.X${display_number}-lock";
 
+    if ( $ENV{BBBIKE_MAPERITIVE_DISABLED} ) {
+        print "1..0 # skip, maperitive disabled\n";
+        exit;
+    }
     if ( !-e $lockfile ) {
         print "1..0 # skip, DISPLAY=$display xvfb not running?\n";
         exit;
@@ -46,7 +50,7 @@ if ( !-f $pbf_file ) {
       or die "symlink failed: $?\n";
 }
 
-my $pbf_md5 = "6dc9df64ddc42347bbb70bc134b4feda";
+my $pbf_md5 = "525744cddeef091874eaddc05f10f19b";
 
 # min size of garmin zip file
 my $min_size = 100_000;

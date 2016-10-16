@@ -1,6 +1,6 @@
 cat << EOF
 Map data (c) OpenStreetMap contributors, https://www.openstreetmap.org
-Extracts created by BBBike, http://BBBike.org
+Extracts created by BBBike, http://extract.bbbike.org
 $BBBIKE_EXTRACT_MAPERITIVE_VERSION by http://maperitive.net/
 
 Please read the OSM wiki how to use PNG
@@ -22,5 +22,6 @@ unterstuetzen: http://www.bbbike.org/community.de.html
 Danke, Wolfram Schneider
 
 --
-http://www.BBBike.org - Dein Fahrrad-Routenplaner
+Dein Fahrrad-Routenplaner: http://www.BBBike.org
+BBBike Map Compare: http://bbbike.org/mc
 EOF

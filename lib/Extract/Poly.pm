@@ -9,6 +9,7 @@ use CGI qw(escapeHTML);
 use JSON;
 use Math::Polygon::Transform qw(polygon_simplify);
 use Math::Polygon::Calc qw();
+use File::stat;
 use Data::Dumper;
 
 use lib qw(world/lib);
@@ -79,20 +80,47 @@ sub rectangle_km {
 }
 
 sub list_subplanets {
-    my $self    = shift;
-    my $sort_by = shift;
+    my $self = shift;
+    my %args = @_;
+
+    my $sort_by = $args{'sort_by'} || 0;             # valid values are: 0, 1, 2
+    my $sub_planet_dir = $self->{'sub_planet_dir'};
 
     # only regions with a 'poly' field
     my @list = grep { exists $area->{$_}->{'poly'} } keys %$area;
 
-    if ($sort_by) {
+    # sort by square km size
+    if ( $sort_by == 1 ) {
         my %hash =
           map { $_ => $self->rectangle_km( @{ $area->{$_}->{'poly'} } ) } @list;
         @list = sort { $hash{$a} <=> $hash{$b} } @list;
     }
+
+    # sort by disk size
+    elsif ( $sort_by == 2 ) {
+        my %hash;
+        foreach my $sub (@list) {
+
+            # check for valid sub planet
+            next if !defined $area->{$sub}->{'poly'};
+
+            my $file = "$sub_planet_dir/$sub.osm.pbf";
+            my $st   = stat($file);
+            if ( !$st ) {
+                warn "Stat sub planet file: $file $!\n";
+                next;
+            }
+
+            $hash{$sub} = $st->size;
+        }
+
+        @list = sort { $hash{$a} <=> $hash{$b} } keys %hash;
+    }
     else {
         @list = sort @list;
     }
+
+    warn Dumper( \@list ) if $debug >= 2;
 
     return @list;
 }
@@ -243,7 +271,7 @@ sub create_poly_data {
     my $city = $obj->{"city"};
 
     if ( !defined $city ) {
-        $city = "unknown city";
+        $city = "unknown-city";
         warn "reset undefined city to $city\n" if $debug >= 2;
     }
     $city = escapeHTML($city);

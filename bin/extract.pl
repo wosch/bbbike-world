@@ -73,31 +73,7 @@ our $option = {
     # run with lower priority
     'nice_level' => 2,
 
-    #'nice_level_converter' => 3,
-    #'planet_osm' => "../osm/download/planet-latest.osm.pbf",
-
-    # XXX: Extract::Config
-    'planet' => {
-
-        #'planet.osm' => '../osm/download/planet-latest.osm.pbf',
-        'planet.osm' => '../osm/download/planet-latest-nometa.osm.pbf',
-
-        'srtm-europe.osm.pbf' =>
-          '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
-        'srtm-europe.garmin-srtm.zip' =>
-          '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
-        'srtm-europe.obf.zip' =>
-          '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
-        'srtm-europe.mapsforge-osm.zip' =>
-          '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
-
-        'srtm.osm.pbf' => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
-        'srtm.garmin-srtm.zip' =>
-          '../osm/download/srtm/planet-srtm-e40.osm.pbf',
-        'srtm.obf.zip' => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
-        'srtm.mapsforge-osm.zip' =>
-          '../osm/download/srtm/planet-srtm-e40.osm.pbf',
-    },
+    'planet' => $Extract::Config::planet_osm,
 
     'debug' => 0,
     'test'  => 0,
@@ -1055,6 +1031,8 @@ sub reorder_pbf {
         'garmin-cycle.zip'   => 3,
         'garmin-leisure.zip' => 3.5,
         'garmin-bbbike.zip'  => 3,
+        'garmin-onroad.zip'  => 1.5,
+        'garmin-oseam.zip'   => 1.5,
 
         'svg-google.zip'    => 5,
         'svg-hiking.zip'    => 5,
@@ -1358,8 +1336,7 @@ sub _convert_send_email {
         }
     }
 
-    elsif ($format =~ /^garmin-(osm|cycle|leisure|bbbike).zip$/
-        || $format =~ /^[a-z\-]+\.garmin-(osm|cycle|leisure|srtm)\.zip$/ )
+    elsif ( $format =~ /garmin-([a-z\-]+)\.zip$/ && exists $formats->{$format} )
     {
         my $style      = $1;
         my $format_ext = $format;
@@ -1507,7 +1484,14 @@ sub _convert_send_email {
     }
 
     # cleanup poly file after successfull convert
-    push @unlink, $poly_file if defined $poly_file;
+    if ( -f $poly_file ) {
+        push @unlink, $poly_file;
+    }
+    else {
+        warn
+"Poly file no longer exists, maybe already removed for the same area: $poly_file\n"
+          if $debug >= 2;
+    }
 
     next if $test_mode;
 
@@ -1720,7 +1704,7 @@ sub aws_s3_path {
     my $sep = "/";
 
     my $aws_path =
-        $option->{"aws_s3"}->{"bucket"} 
+        $option->{"aws_s3"}->{"bucket"}
       . $sep
       . $option->{"aws_s3"}->{"path"}
       . $sep

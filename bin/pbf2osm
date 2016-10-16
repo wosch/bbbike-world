@@ -1,10 +1,13 @@
-#!/bin/bash
-# Copyright (c) 2009-2014 Wolfram Schneider, http://bbbike.org
+#!/usr/local/bin/bash
+# Copyright (c) 2009-2016 Wolfram Schneider, http://bbbike.org
 #
 # pbf2osm - convert PBF format to OSM XML
 
 PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 set -e
+
+# output format
+format="$1"
 
 dirname=$(dirname $0)
 compress=""
@@ -24,19 +27,34 @@ osm2mapsme=$dirname/osm2mapsme
 osmium_convert_opt="-f pbf -t opl"
 
 # max. file size in KB
+# larger value for special garmin format
+if [ "$format" = "--garmin-onroad" ]; then
+    : ${max_file_size_garmin=9950000}
+fi
+if [ "$format" = "--garmin-onroad-ascii" ]; then
+    : ${max_file_size_garmin=9950000}
+fi
+
+# use max. configured CPUs
+if which pbzip2 >/dev/null 2>&1; then
+    bzip2="$bzip2 -p$($(dirname $0)/ncpu)"
+fi
+
 : ${max_file_size_garmin=2950000}
 : ${max_file_size_mapsforge=666000}
 : ${max_file_size_osmand=666000}
-: ${max_file_size_mapsme=666000}
+: ${max_file_size_mapsme=966000}
 : ${max_file_size_maperitive=90000}
+
 _max_cpu_time=7200
 
 xz=`which xz 2>/dev/null | head -n 1`
 xz_opt=-2
 if which pixz >/dev/null 2>&1; then
     xz="pixz -t"
+    # use max. configured CPUs
+    xz_opt="$xz_opt -p$($(dirname $0)/ncpu)"
 fi
-
 
 : ${max_cpu_time="$_max_cpu_time"}
 ulimit -t $max_cpu_time
@@ -62,7 +80,10 @@ usage [ option ] file.osm.pbf
 --navit
 --mapsforge-osm
 
---garmin-osm --garmin-cycle --garmin-leisure --garmin-bbbike --garmin-srtm
+--garmin-osm --garmin-osm-ascii --garmin-cycle --garmin-cycle-ascii
+--garmin-leisure --garmin-leisure-ascii --garmin-bbbike --garmin-srtm
+--garmin-onroad --garmin-onroad-ascii --garmin-openfietslite --garmin-openfietslite-ascii
+--garmin-oseam --garmin-oseam-ascii
 --svg-google --svg-hiking --svg-osm --svg-urbanight --svg-wireframe --svg-cadastre
 --png-google --png-hiking --png-osm --png-urbanight --png-wireframe --png-cadastre
 
@@ -73,8 +94,7 @@ EOF
    exit 1
 }
 
-
-case $1 in
+case $format in
     # default - convert to osm
     --osm)    shift; compress="";;
 
@@ -110,8 +130,10 @@ case $1 in
     --osmand | --obf ) shift; compress=osmand ;;
     --navit ) shift; compress=navit ;;
 
-    --garmin-osm | --garmin-cycle | --garmin-leisure | --garmin-bbbike | --garmin-srtm )
-        garmin_style=$(echo $1 | perl -npe 's,.*-',,); shift; compress=garmin ;;
+    --garmin-osm | --garmin-osm-ascii | --garmin-cycle | --garmin-cycle-ascii | --garmin-leisure | --garmin-leisure-ascii |\
+    --garmin-bbbike | --garmin-onroad | --garmin-onroad-ascii | --garmin-openfietslite | \
+	--garmin-openfietslite-ascii | --garmin-srtm | --garmin-oseam | --garmin-oseam-ascii )
+        garmin_style=$(echo $1 | perl -npe 's,^\-+[^\-]+-',,); shift; compress=garmin ;;
     --svg-google | --svg-hiking | --svg-osm | --svg-urbanight | --svg-wireframe | --svg-cadastre ) svg_style=$(echo $1 | perl -npe 's,.*-,,'); shift; compress=svg ;;
     --png-google | --png-hiking | --png-osm | --png-urbanight | --png-wireframe | --png-cadastre ) png_style=$(echo $1 | perl -npe 's,.*-,,'); shift; compress=png ;;
 

@@ -137,8 +137,7 @@ if (   !defined $sw_lng
 $factor = 1 if $factor < 0 || $factor > 100;
 
 my $size =
-  $factor *
-  $factor_format *
+  $factor * $factor_format *
   $tile->area_size( $sw_lng, $sw_lat, $ne_lng, $ne_lat,
     Extract::TileSize::FRACTAL_REAL );
 $size = int( $size * 1000 + 0.5 ) / 1000;

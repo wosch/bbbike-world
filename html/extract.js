@@ -1,6 +1,6 @@
 /*
  Copyright (c) by https://www.openstreetmap.org/export - OSM License, 2012
- Copyright (c) 2012-2013 Wolfram Schneider, http://bbbike.org
+ Copyright (c) 2012-2016 Wolfram Schneider, http://bbbike.org
 */
 
 // HTML5: may not work on Android devices!
@@ -37,8 +37,17 @@ var config = {
 
         "garmin-bbbike.zip": 650,
         "garmin-osm.zip": 768,
+        "garmin-osm-ascii.zip": 768,
         "garmin-cycle.zip": 650,
+        "garmin-cycle-ascii.zip": 650,
         "garmin-leisure.zip": 650,
+        "garmin-leisure-ascii.zip": 650,
+        "garmin-onroad.zip": 650,
+        "garmin-onroad-ascii.zip": 650,
+        "garmin-openfietslite.zip": 650,
+        "garmin-openfietslite-ascii.zip": 650,
+        "garmin-oseam.zip": 650,
+        "garmin-oseam-ascii.zip": 650,
 
         "png-google.zip": 32,
         "png-osm.zip": 32,
@@ -76,10 +85,19 @@ var config = {
 
     // help image per format
     "format_images": {
+        "garmin-openfietslite.zip": "/images/garmin-openfietslite-small.png",
+        "garmin-openfietslite-ascii.zip": "/images/garmin-openfietslite-small.png",
+        "garmin-onroad.zip": "/images/garmin-onroad2-small.png",
+        "garmin-onroad-ascii.zip": "/images/garmin-onroad2-small.png",
         "garmin-bbbike.zip": "/images/garmin-bbbike-small.png",
         "garmin-cycle.zip": "/images/garmin-cycle-small.png",
+        "garmin-cycle-ascii.zip": "/images/garmin-cycle-small.png",
         "garmin-leisure.zip": "/images/garmin-leisure-small.png",
+        "garmin-leisure-ascii.zip": "/images/garmin-leisure-small.png",
         "garmin-osm.zip": "/images/garmin-osm-small.png",
+        "garmin-osm-ascii.zip": "/images/garmin-osm-small.png",
+        "garmin-oseam.zip": "/images/garmin-oseam2-small.png",
+        "garmin-oseam-ascii.zip": "/images/garmin-oseam2-small.png",
 
         "svg-google.zip": "/images/svg-google-small.png",
         "svg-osm.zip": "/images/svg-osm-small.png",
@@ -296,15 +314,24 @@ function init_map() {
         attribution: '<a href="https://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="http://www.opencyclemap.org/">(&copy) OpenCycleMap</a>'
     }));
 
-    // Bing roads and Satellite/Hybrid
-    add_bing_maps(map);
+    map.addLayer(new OpenLayers.Layer.OSM("Mapbox Satellite", ["https://d.tiles.mapbox.com/v3/tmcw.map-j5fsp01s/${z}/${x}/${y}.png"], {
+        attribution: '<a href="https://www.mapbox.com/">(&copy) mapbox</a>',
+        tileOptions: {
+            crossOriginKeyword: null
+        },
+        numZoomLevels: 20
+    }));
 
+
+    // Bing roads and Satellite/Hybrid
+    // disabled due wrong billing
+    // add_bing_maps(map);
     state.map = map;
     return map;
 }
 
 function add_bing_maps(map) {
-    var BingApiKey = "AnlZwa5p0zgN6mSGFEULXVJgqmUsl8K8GdC_P7MBTVUQSuDY4LR-szxGn-SdpztI";
+    var BingApiKey = "Aoz29UA0N53MbZ8SejgNnWib-_gW-JgHNwsSh77gzBZAyqEVRiJqRJ4ddJ5PXLXY";
 
     map.addLayer(new OpenLayers.Layer.Bing(
     // XXX: bing.com returns a wrong zoom level in JSON API call
@@ -1321,7 +1348,15 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "size": 0.8,
             "time": 2
         },
+        "garmin-osm-ascii.zip": {
+            "size": 0.8,
+            "time": 2
+        },
         "garmin-cycle.zip": {
+            "size": 0.8,
+            "time": 2
+        },
+        "garmin-cycle-ascii.zip": {
             "size": 0.8,
             "time": 2
         },
@@ -1329,7 +1364,35 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "size": 0.9,
             "time": 3
         },
+        "garmin-leisure-ascii.zip": {
+            "size": 0.9,
+            "time": 3
+        },
         "garmin-bbbike.zip": {
+            "size": 0.8,
+            "time": 2
+        },
+        "garmin-onroad.zip": {
+            "size": 0.2,
+            "time": 1.2
+        },
+        "garmin-onroad-ascii.zip": {
+            "size": 0.1,
+            "time": 1.2
+        },
+        "garmin-openfietslite.zip": {
+            "size": 0.6,
+            "time": 2
+        },
+        "garmin-openfietslite-ascii.zip": {
+            "size": 0.6,
+            "time": 2
+        },
+        "garmin-oseam.zip": {
+            "size": 0.8,
+            "time": 2
+        },
+        "garmin-oseam-ascii.zip": {
             "size": 0.8,
             "time": 2
         },

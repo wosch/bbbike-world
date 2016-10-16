@@ -1,10 +1,16 @@
 {
-    "SRTM Europe PBF": "SRTM Contours Europe PBF",
-    "SRTM Europe Garmin": "SRTM Contours Europe Garmin",
-    "SRTM Europe Osmand": "SRTM Contours Europe Osmand",
-    "SRTM PBF": "SRTM Contours PBF",
-    "SRTM Garmin": "SRTM Contours Garmin",
-    "SRTM Osmand": "SRTM Contours Osmand",
+    "/* see world/lib/Extract/Config.pm": "*/",
+
+    "SRTM Europe PBF (25m)": "SRTM Europe Contours PBF (25m)",
+    "SRTM Europe OSM XML 7z (25m)": "SRTM Europe Contours OSM XML 7z (25m)",
+    "SRTM Europe Garmin (25m)": "SRTM Europe Contours Garmin (25m)",
+    "SRTM Europe Osmand (25m)": "SRTM Europe Contours Osmand (25m)",
+
+    "SRTM World PBF (40m)": "SRTM World Contours PBF (40m)",
+    "SRTM World OSM XML 7z (40m)": "SRTM World Contours OSM XML 7z (40m)",
+    "SRTM World Garmin (40m)": "SRTM World Contours Garmin (40m)",
+    "SRTM World Osmand (40m)": "SRTM World Contours Osmand (40m)",
+
 
     "EXTRACT_CONFIRMED": [
         "<p>Thanks - the input data looks good.</p><p>",
@@ -18,7 +24,7 @@
         "Format: %s",
         "</p>",
         "",
-        "<p>You can monitor the status of your request on the <a href='%s'>server status</a> page.<br/><br/></p>",
+        "<p>You can monitor the status of your request on the <a href='%s' target='_blank'>server status</a> page.<br/><br/></p>",
         "",
         "<p>Press the <a href='javascript:history.back()'>back button</a> to get the same area in a different format, or to request a new area.</p>"
         ],

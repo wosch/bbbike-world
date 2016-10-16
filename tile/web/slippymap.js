@@ -184,35 +184,35 @@ function init() {
         numZoomLevels: 19
     }));
 
-    map.addLayer(new OpenLayers.Layer.Here("HERE Map", {
+    map.addLayer(new OpenLayers.Layer.Here("HERE WeGo Map", {
         type: "normal.day",
-        app_id: "SqE1xcSngCd3m4a1zEGb",
-        token: "r0sR1DzqDkS6sDnh902FWQ"
+        app_id: "g7UuRR708Tsut4YSnDLy",
+        token: "fVzaDAdRK62zo3CuNcPtDg"
     }));
-    map.addLayer(new OpenLayers.Layer.Here("HERE Terrain", {
+    map.addLayer(new OpenLayers.Layer.Here("HERE WeGo Terrain", {
         type: "terrain.day",
-        app_id: "SqE1xcSngCd3m4a1zEGb",
-        token: "r0sR1DzqDkS6sDnh902FWQ"
+        app_id: "g7UuRR708Tsut4YSnDLy",
+        token: "fVzaDAdRK62zo3CuNcPtDg"
     }));
-    map.addLayer(new OpenLayers.Layer.Here("HERE Satellite", {
+    map.addLayer(new OpenLayers.Layer.Here("HERE WeGo Satellite", {
         type: "satellite.day",
-        app_id: "SqE1xcSngCd3m4a1zEGb",
-        token: "r0sR1DzqDkS6sDnh902FWQ"
+        app_id: "g7UuRR708Tsut4YSnDLy",
+        token: "fVzaDAdRK62zo3CuNcPtDg"
     }));
-    map.addLayer(new OpenLayers.Layer.Here("HERE Hybrid", {
+    map.addLayer(new OpenLayers.Layer.Here("HERE WeGo Hybrid", {
         type: "hybrid.day",
-        app_id: "SqE1xcSngCd3m4a1zEGb",
-        token: "r0sR1DzqDkS6sDnh902FWQ"
+        app_id: "g7UuRR708Tsut4YSnDLy",
+        token: "fVzaDAdRK62zo3CuNcPtDg"
     }));
-    map.addLayer(new OpenLayers.Layer.Here("HERE Public Transit", {
+    map.addLayer(new OpenLayers.Layer.Here("HERE WeGo Public Transit", {
         type: "normal.day.transit",
-        app_id: "SqE1xcSngCd3m4a1zEGb",
-        token: "r0sR1DzqDkS6sDnh902FWQ"
+        app_id: "g7UuRR708Tsut4YSnDLy",
+        token: "fVzaDAdRK62zo3CuNcPtDg"
     }));
-    map.addLayer(new OpenLayers.Layer.Here("HERE Traffic", {
+    map.addLayer(new OpenLayers.Layer.Here("HERE WeGo Traffic", {
         type: "newest/normal.day",
-        app_id: "SqE1xcSngCd3m4a1zEGb",
-        token: "r0sR1DzqDkS6sDnh902FWQ"
+        app_id: "g7UuRR708Tsut4YSnDLy",
+        token: "fVzaDAdRK62zo3CuNcPtDg"
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM("Apple iPhoto (OSM)", ["http://gsp2.apple.com/tile?api=1&style=slideshow&layers=default&lang=de_DE&z=${z}&x=${x}&y=${y}&v=9"], {
@@ -265,7 +265,7 @@ function init() {
     // map.addLayer(topomapper);
 
     function bing() {
-        var apiKey = "AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf";
+        var apiKey = "AimZWa4IPbKRAT2oPVpFNB_Fbu2B03vsTp87X3O_y45JB3UhXnu1DOtA-0kj-VPe";
 
         // var map = new OpenLayers.Map( 'map');
         // XXX: bing.com returns a wrong zoom level in JSON API call

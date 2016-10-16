@@ -6,7 +6,7 @@ BEGIN {
         print "1..0 # skip due no network\n";
         exit;
     }
-    if ( $ENV{BBBIKE_TEST_FAST} ) {
+    if ( $ENV{BBBIKE_TEST_FAST} && !$ENV{BBBIKE_TEST_LONG} ) {
         print "1..0 # skip due fast test\n";
         exit;
     }
@@ -25,25 +25,34 @@ my $test = BBBike::Test->new();
 my @homepages = qw[
   http://download.bbbike.org
   http://download1.bbbike.org
-  http://download2.bbbike.org
+  http://download4.bbbike.org
 ];
 
 my $urls = [
-    [ "/osm/planet/planet-latest.osm.bz2.md5", 55 ],
-    [ "/osm/planet/planet-latest.osm.pbf.md5", 55 ],
-    [ "/osm/planet/planet-latest.osm.bz2",     36_000_000_000 ],
-    [ "/osm/planet/planet-latest.osm.pbf",     16_000_000_000 ],
-    [ "/bbbike/BBBike-3.18-devel-Intel.dmg",   33_000 ],
-    [ "/bbbike/data-osm/Ottawa.tbz",           32_000 ],
-    [ "/favicon.ico",                          1_000 ],
-    [ "/robots.txt",                           36 ],
-    [ "/sitemap.xml.gz",                       1_000 ],
-    [ "/index.html",                           800 ],
-    [ "/osm/srtm/e40/planet-srtm-e40.osm.pbf", 14_000_000 ],
-    [ "/osm/srtm/e40/CHECKSUM.txt",            50 ],
-    [ "/osm/index.html",                       1_000 ],
-    [ "/osm/extract/",                         1_000 ],
-    [ "/osm/planet/HEADER.txt",                600 ],
+    [ "/osm/planet/planet-latest.osm.bz2.md5",        55 ],
+    [ "/osm/planet/planet-latest.osm.pbf.md5",        55 ],
+    [ "/osm/planet/planet-latest-nometa.osm.pbf.md5", 55 ],
+
+    [ "/osm/planet/planet-latest.osm.bz2",        36_000_000_000 ],
+    [ "/osm/planet/planet-latest.osm.pbf",        19_000_000_000 ],
+    [ "/osm/planet/planet-latest-nometa.osm.pbf", 23_000_000_000 ],
+
+    [ "/bbbike/BBBike-3.18-devel-Intel.dmg", 33_000 ],
+    [ "/bbbike/data-osm/Ottawa.tbz",         32_000 ],
+    [ "/favicon.ico",                        1_000 ],
+    [ "/robots.txt",                         36 ],
+    [ "/sitemap.xml.gz",                     1_000 ],
+    [ "/index.html",                         800 ],
+
+    [ "/osm/planet/srtm/planet-srtm-e40.osm.pbf",                  14_000_000 ],
+    [ "/osm/planet/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf", 1_400_000 ],
+    [ "/osm/planet/srtm/CHECKSUM.txt",                             50 ],
+    [ "/osm/planet/sub-srtm/europe.osm.pbf",                       1_200_000 ],
+    [ "/osm/planet/sub-srtm/CHECKSUM.txt",                         50 ],
+
+    [ "/osm/index.html",        1_000 ],
+    [ "/osm/extract/",          1_000 ],
+    [ "/osm/planet/HEADER.txt", 500 ],
 ];
 
 # no need for latlon SRTM data

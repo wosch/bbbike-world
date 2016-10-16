@@ -3,7 +3,7 @@
  * See license.txt in the OpenLayers distribution or repository for the
  * full text of the license. */
 
-/* Written by Wolfram Schneider, 2012-2014
+/* Written by Wolfram Schneider, 2012-2016
  * Map Compare BBBike: http://mc.bbbike.org/mc
  *
  * based on XYZ.js and Bing.js example code
@@ -26,7 +26,7 @@
  */
 
 /**
- * Example: map = new OpenLayers.Layer.Here("Here Map", { type: "normal.day", app_id: "abcdefgh"})
+ * Example: map = new OpenLayers.Layer.Here("HERE WeGo Map", { type: "normal.day", app_id: "abcdefgh"})
  */
 
 OpenLayers.Layer.Here = OpenLayers.Class(OpenLayers.Layer.XYZ, {
@@ -52,7 +52,7 @@ OpenLayers.Layer.Here = OpenLayers.Class(OpenLayers.Layer.XYZ, {
      * Property: attributionTemplate
      * {String}
      */
-    attribution: '<span class="olHereAttribution">' + '<a target="_blank" href="https://maps.here.com/">Here.com</a>' + '</span>',
+    attribution: '<span class="olHereAttribution">' + '<a target="_blank" href="https://maps.here.com/">HERE.com</a>' + '</span>',
 
 
     /**
@@ -96,7 +96,7 @@ OpenLayers.Layer.Here = OpenLayers.Class(OpenLayers.Layer.XYZ, {
 
         var type = (options.type || this.type);
         if (!this.checkLayerType(this.layers, type)) {
-            throw "Unsupported Here map type: " + type;
+            throw "Unsupported HERE WeGo map type: " + type;
         }
 
         name = name || this.name;

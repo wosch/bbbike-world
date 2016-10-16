@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2014 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2016 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
     system(
@@ -41,8 +41,8 @@ if ( !-f $pbf_file ) {
       or die "symlink failed: $?\n";
 }
 
-my $pbf_md5 = "6dc9df64ddc42347bbb70bc134b4feda";
-my $opl_md5 = "a60fe694bd56f47267756b0ad6430981";
+my $pbf_md5 = "525744cddeef091874eaddc05f10f19b";
+my $opl_md5 = "0172722cd7627a1af827b13abf16eb00";
 
 # min size of garmin zip file
 my $min_size = 200_000;
@@ -70,7 +70,7 @@ if ( !-f $pbf_file ) {
       or die "symlink failed: $?\n";
 }
 
-is( $pbf_md5, md5_file($pbf_file), "md5 checksum matched" );
+is( md5_file($pbf_file), $pbf_md5, "md5 checksum matched" );
 
 my $tempfile = File::Temp->new( SUFFIX => ".osm" );
 
@@ -79,31 +79,31 @@ is( $?,                  0,        "pbf2osm --opl converter" );
 is( md5_file($tempfile), $opl_md5, "opl gmd5 checksum matched" );
 
 system(
-qq[world/bin/pbf2osm --opl-gzip $pbf_file; gzip -dc $osm_file_gz > $tempfile]
+qq[world/bin/pbf2osm --opl-gzip $pbf_file && gzip -dc $osm_file_gz > $tempfile]
 );
 is( $?,                  0,        "pbf2osm --opl-gzip converter" );
 is( md5_file($tempfile), $opl_md5, "opl gzip md5 checksum matched" );
 
 system(
-    qq[world/bin/pbf2osm --opl-gz $pbf_file; gzip -dc $osm_file_gz > $tempfile]
+qq[world/bin/pbf2osm --opl-gz $pbf_file && gzip -dc $osm_file_gz > $tempfile]
 );
 is( $?,                  0,        "pbf2osm --opl-gz converter" );
 is( md5_file($tempfile), $opl_md5, "opl gz md5 checksum matched" );
 
 system(
-    qq[world/bin/pbf2osm --opl-bzip2 $pbf_file; bzcat $osm_file_bz2 > $tempfile]
+qq[world/bin/pbf2osm --opl-bzip2 $pbf_file && bzcat $osm_file_bz2 > $tempfile]
 );
 is( $?,                  0,        "pbf2osm --opl-bzip2 converter" );
 is( md5_file($tempfile), $opl_md5, "opl bzip2 md5 checksum matched" );
 
 system(
-    qq[world/bin/pbf2osm --opl-bz2 $pbf_file; bzcat $osm_file_bz2 > $tempfile]
+    qq[world/bin/pbf2osm --opl-bz2 $pbf_file && bzcat $osm_file_bz2 > $tempfile]
 );
 is( $?,                  0,        "pbf2osm --opl-bz2 converter" );
 is( md5_file($tempfile), $opl_md5, "opl bz2 md5 checksum matched" );
 
 system(
-    qq[world/bin/pbf2osm --opl-xz $pbf_file; xzcat $osm_file_xz > $tempfile]);
+    qq[world/bin/pbf2osm --opl-xz $pbf_file && xzcat $osm_file_xz > $tempfile]);
 is( $?,                  0,        "pbf2osm --opl-xz converter" );
 is( md5_file($tempfile), $opl_md5, "opl xz md5 checksum matched" );
 

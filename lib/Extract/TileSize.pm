@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2009-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2016 Wolfram Schneider, http://bbbike.org
 #
 # module to guess size of a lat,lng tile
 #
@@ -33,6 +33,9 @@ our $use_cache = 1;
 # default size if the coordinates are not in the database
 our $default_size = 4;
 
+# if a storable cache is rotten, delete it
+our $unlink_broken_storable = 1;
+
 #
 # guess size based on factor of known size of osm.pbf
 # PS: dont forget to update tile-size.cgi code as well
@@ -41,11 +44,20 @@ our $default_size = 4;
 #       internal file, not for the *.zip file itself
 #
 our $factor = {
-    'garmin-bbbike.zip'  => 0.585,
-    'garmin-cycle.zip'   => 0.581,
-    'garmin-leisure.zip' => 0.755,
-    'garmin-osm.zip'     => 0.583,
-    'garmin-srtm.zip'    => 1.3,
+    'garmin-onroad.zip'              => 0.09,
+    'garmin-onroad-ascii.zip'        => 0.091,
+    'garmin-bbbike.zip'              => 0.585,
+    'garmin-cycle.zip'               => 0.581,
+    'garmin-cycle-ascii.zip'         => 0.582,
+    'garmin-openfietslite.zip'       => 0.45,
+    'garmin-openfietslite-ascii.zip' => 0.451,
+    'garmin-leisure.zip'             => 0.755,
+    'garmin-leisure-ascii.zip'       => 0.756,
+    'garmin-osm.zip'                 => 0.583,
+    'garmin-osm-ascii.zip'           => 0.584,
+    'garmin-srtm.zip'                => 1.3,
+    'garmin-oseam.zip'               => 0.591,
+    'garmin-oseam-ascii.zip'         => 0.592,
 
     'svg-google.zip'     => 1.68,
     'svg-hiking.zip'     => 3.82,
@@ -224,9 +236,17 @@ sub get_cache {
     }
 
     warn "Get cache $file\n" if $debug >= 1;
-    my $size = Storable::retrieve $file;
+    my $size;
+
+    eval { $size = Storable::retrieve $file };
+
     if ( !defined $size ) {
         warn "Could not fetch storable $file\n";
+        if ($unlink_broken_storable) {
+            warn "try to unlink $file\n";
+            unlink($file);
+        }
+
         return;
     }
 

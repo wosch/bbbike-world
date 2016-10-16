@@ -36,7 +36,8 @@ make update-apt
 # upgrade debian version numbers
 #
 perl -i.bak  -npe 's/^(Version: [\d.]+\.)(\d+)/sprintf("%s%s",$1, $2+1)/e' wheezy/equivs/bbbike-world-debian-meta
-perl -i.bak  -npe 's/^(Version: [\d.]+\.)(\d+)/sprintf("%s%s",$1, $2+1)/e' {jessie,precise,trusty,wheezy}/equivs/bbbike-world-debian-meta
+perl -i.bak  -npe 's/^(Version: [\d.]+\.)(\d+)/sprintf("%s%s",$1, $2+1)/e' {jessie,trusty,wheezy}/equivs/bbbike-world-debian-meta
+perl -i.bak  -npe 's/^(Version: [\d.]+\.)(\d+)/sprintf("%s%s",$1, $2+1)/e' ./*/equivs/bbbike-world
 
 --
-Aug 2014
+Feb 2016
