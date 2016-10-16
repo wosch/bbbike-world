@@ -1,0 +1,10 @@
+natural=coastline [0x15 resolution 12]
+
+route=ferry {add mkgmap:ferry=1} [0x1b road_class=3 road_speed=0 resolution 19]
+
+waterway=canal [0x1f resolution 16]
+waterway=drain [0x1f resolution 22]
+waterway=river [0x1f resolution 16]
+waterway=rapids|waterway=waterfall [0x1f resolution 22]
+waterway=stream [0x18 resolution 22]
+waterway=weir [0x10102 level 2]

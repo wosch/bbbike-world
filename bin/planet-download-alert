@@ -1,17 +1,17 @@
 #!/bin/sh
-# Copyright (c) 2009-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2016 Wolfram Schneider, http://bbbike.org
 #
-# planet-download-alert - alert if new planet.osm if available
+# planet-download-alert - alert if new planet.osm.pbf is available
 #
 # If a new planet.osm is available, start an update
 
 PATH=/usr/local/bin:/bin:/usr/bin; export PATH 
 
-file=planet-latest.osm.bz2
+file=planet-latest.osm.pbf
 automatic_update="yes"
-planet_osm_server=http://planet.openstreetmap.org/planet
+planet_osm_server=https://planet.openstreetmap.org/planet
 bbbikerc=$HOME/.bbbikerc
-planet_osm_min_size=50000600300
+planet_osm_min_size=33000600300
 
 if [ -e "$bbbikerc" ]; then 
     . "$bbbikerc"

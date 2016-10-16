@@ -38,6 +38,8 @@ our $formats = {
     'garmin-onroad-ascii.zip'        => "Garmin Onroad (ASCII)",
     'garmin-openfietslite.zip'       => "Garmin Openfietsmap Lite",
     'garmin-openfietslite-ascii.zip' => "Garmin Openfietsmap Lite (ASCII)",
+    'garmin-oseam.zip'               => "Garmin OpenSeaMap",
+    'garmin-oseam-ascii.zip'         => "Garmin OpenSeaMap (ASCII)",
 
     'svg-google.zip'     => 'SVG google',
     'svg-hiking.zip'     => 'SVG hiking',
@@ -93,12 +95,13 @@ our $formats_menu = {
     'garmin' => {
         'title'   => "Garmin",
         'formats' => [
-            'garmin-osm.zip',          'garmin-osm-ascii.zip',
-            'garmin-cycle.zip',        'garmin-cycle-ascii.zip',
-            'garmin-leisure.zip',      'garmin-leisure-ascii.zip',
-            'garmin-bbbike.zip',       'garmin-onroad.zip',
-            'garmin-onroad-ascii.zip', 'garmin-openfietslite.zip',
-            'garmin-openfietslite-ascii.zip'
+            'garmin-osm.zip',           'garmin-osm-ascii.zip',
+            'garmin-cycle.zip',         'garmin-cycle-ascii.zip',
+            'garmin-leisure.zip',       'garmin-leisure-ascii.zip',
+            'garmin-onroad.zip',        'garmin-onroad-ascii.zip',
+            'garmin-openfietslite.zip', 'garmin-openfietslite-ascii.zip',
+            'garmin-oseam.zip',         'garmin-oseam-ascii.zip',
+            'garmin-bbbike.zip',
         ]
     },
     'android' => {
@@ -163,6 +166,21 @@ our $planet_osm = {
     'srtm.garmin-srtm.zip'   => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
     'srtm.obf.zip'           => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
     'srtm.mapsforge-osm.zip' => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
+};
+
+# map planet file to sub-planet directory
+our $planet_sub_dir = {
+
+    # planet without meta data
+    '../osm/download/planet-latest-nometa.osm.pbf' =>
+      '../osm/download/sub-planet',
+
+    # compatibility, planet without meta data and 1.1m
+    '../osm/download/planet-latest.osm.pbf' => '../osm/download/sub-planet',
+
+    # SRTM planet
+    '../osm/download/srtm/planet-srtm-e40.osm.pbf' =>
+      '../osm/download/sub-srtm',
 };
 
 #
