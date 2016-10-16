@@ -168,6 +168,9 @@ make mapnik-restart
 cd /usr/share
 sudo ln -fs mapnik-osm-carto-data mapnik-osm-data
 
+cd /etc
+sudo ln -s mapnik-osm-carto-data mapnik-osm-data
+
 -------------------------------------------------
 
 # postgis trouble shooting
