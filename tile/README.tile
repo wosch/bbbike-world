@@ -154,10 +154,10 @@ tail -f /var/log/syslog
 LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" combined
 
 cd /etc/apache2/sites-available
-sudo ln -s ~/projects/bbbike/world/tile/etc/apache2-tile.conf .
-sudo a2ensite apache2-tile.conf
+sudo ln -s ~/projects/bbbike/world/etc/tile.conf .
+sudo a2ensite tile.conf
 sudo a2enmod tile
-sudo rm -f /etc/apache2/sites-enabled/tileserver_site 
+sudo rm -f /etc/apache2/sites-enabled/tileserver_site*
 
 sudo /etc/init.d/renderd restart
 sudo /etc/init.d/apache2 restart
