@@ -165,6 +165,9 @@ sudo /etc/init.d/apache2 restart
 cd ~/projects/bbbike
 make mapnik-restart
 
+cd /usr/share
+sudo ln -fs mapnik-osm-carto-data mapnik-osm-data
+
 -------------------------------------------------
 
 # postgis trouble shooting
