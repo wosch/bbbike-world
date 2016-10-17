@@ -3,6 +3,7 @@
 
 # wrapper to run garmin-*-ascii format tests
 use File::Basename;
+use lib '.';
 
 my $dir = dirname($0);
 require "$dir/garmin.t";
