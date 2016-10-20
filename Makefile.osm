@@ -670,8 +670,10 @@ mapnik-restart:
 	sudo /etc/init.d/renderd restart; sleep 0.5
 	./world/bin/tile-cache-cleanup	
 
-planet-download:
-	download_script=$$(pwd)/world/bin/planet-download-pbf; cd ../osm/download && $$download_script
+planet-download: planet-download-pbf
+
+planet-download-pbf planet-download-bzip2:
+	download_script=$$(pwd)/world/bin/$@; cd ../osm/download && $$download_script
 
 planet-nometa:
 	download_script=`pwd`/world/bin/planet-nometa; cd ../osm/download && $$download_script
@@ -1471,7 +1473,8 @@ help:
 	@echo ""
 	@echo "  [ elevation-fetch | elevation-update | elevation-check | elevation-repair ]"
 	@echo ""
-	@echo "  [ planet-download | planet-geofabrik-download ]"
+	@echo "  [ planet-download | planet-download-bzip2 | planet-download-pbf ]"
+	@echo "  [ planet-geofabrik-download ]"
 	@echo "  [ planet-nometa | sub-planet | sub-srtm ]"
 	@echo "  [ planet-streets | planet-places ]"
 	@echo "  [ update-database | update-files ]"
