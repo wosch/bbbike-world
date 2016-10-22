@@ -74,6 +74,12 @@ else
 fi
 #rm -f $file_fixme
 
+logfile_max_size="500k"
+if find $logfile -size +$logfile_max_size >/dev/null; then
+    echo "logfile $logfile is to big: $(ls -l $logfile)"
+    exit 2
+fi
+
 cd $shape_dir
 date=$(date -u)
 

@@ -153,6 +153,12 @@ if ! DISPLAY=$BBBIKE_MAPERITIVE_DISPLAY time $program  -exitafter $(pwd)/$config
   exit 2
 fi
 
+logfile_max_size="500k"
+if find $logfile -size +$logfile_max_size >/dev/null; then
+    echo "logfile $logfile is to big: $(ls -l $logfile)"
+    exit 2
+fi
+
 ( $MD5 $image_file; $SHA $image_file ) > .checksum.txt.tmp; mv -f .checksum.txt.tmp CHECKSUM.txt
 
 # local style

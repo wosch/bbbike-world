@@ -121,6 +121,12 @@ $text2html < README.txt > README.html
 echo ">>> Run osmosis, mapsforge writer map style: $map_style" >> $logfile
 osmosis --read-pbf-fast $file --mapfile-writer $hd_mode file=$mapsforge.map >> $logfile  2>&1 || error
 
+logfile_max_size="500k"
+if find $logfile -size +$logfile_max_size >/dev/null; then
+    echo "logfile $logfile is to big: $(ls -l $logfile)"
+    exit 2
+fi
+
 if egrep -ql '^java\.lang\.|OsmosisRuntimeException' $logfile; then
     error
 fi
