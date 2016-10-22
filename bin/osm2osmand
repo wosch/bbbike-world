@@ -160,7 +160,7 @@ else
 fi
 
 logfile_max_size="500k"
-if find $logfile -size +$logfile_max_size >/dev/null; then
+if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
     echo "logfile $logfile is to big: $(ls -l $logfile)"
     exit 2
 fi

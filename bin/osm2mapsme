@@ -70,7 +70,7 @@ LD_LIBRARY_PATH=$BBBIKE_LD_LIBRARY_PATH TMPDIR=$tmpdir \
 exit=$?
 
 logfile_max_size="500k"
-if find $logfile -size +$logfile_max_size >/dev/null; then
+if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
     echo "logfile $logfile is to big: $(ls -l $logfile)"
     exit 2
 fi
