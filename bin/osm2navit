@@ -11,6 +11,8 @@ PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmpfs"}
 
+gzip=`which pigz gzip 2>/dev/null | head -n 1`
+
 unset LC_ALL
 unset LANG
 
@@ -94,6 +96,7 @@ exit=$?
 logfile_max_size="500k"
 if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
     echo "logfile $logfile is to big: $(ls -l $logfile)"
+    $gzip $logfile
     exit 2
 fi
 
