@@ -66,7 +66,7 @@ sudo dpkg-reconfigure openstreetmap-postgis-db-setup
 # the package again
 # Note: this may download the costline data (500MB) again!
 sudo apt-get purge -y openstreetmap-mapnik-stylesheet-data </dev/null
-sudo apt-get install -y openstreetmap-mapnik-stylesheet-data </dev/null
+sudo apt-get install -y openstreetmap-mapnik-carto-stylesheet-data
 
 
 # setup your own style sheet
