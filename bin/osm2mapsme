@@ -83,7 +83,7 @@ fi
 
 if [ $exit -ne 0 ]; then
    echo "Failed to convert $file_orig / $file_symlink"
-   cat $logfile
+   tail -c 256K $logfile
    exit $exit
 fi
 

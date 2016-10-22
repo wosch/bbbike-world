@@ -28,7 +28,7 @@ error () {
 
     echo "$message"
     echo "file: $file"
-    cat $logfile
+    tail -c 256K $logfile
     exit 1
 }
 

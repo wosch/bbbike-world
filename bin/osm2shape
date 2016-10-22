@@ -69,7 +69,7 @@ if LD_LIBRARY_PATH=$BBBIKE_LD_LIBRARY_PATH osmium2shape -d $shape_dir/shape $fil
 else
    exit=$?
    echo "Failed to convert $file"
-   cat $logfile
+   tail -c 256K $logfile
    exit $exit
 fi
 #rm -f $file_fixme

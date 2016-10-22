@@ -39,7 +39,7 @@ error () {
     echo "$message"
     echo "file: $file"
     if [ -e $logfile ]; then
-        cat $logfile
+        tail -c 256K $logfile
     fi
     exit 1
 }
