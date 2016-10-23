@@ -137,5 +137,5 @@ make $make_verbose -f Makefile.osm create-bbbike-web-symlinks java-config
 wait
 
 echo "you may run as well: make -s update-files"
-echo "                     git merge eserte/master"
+#echo "                     git merge eserte/master"
 
