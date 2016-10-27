@@ -29,11 +29,9 @@ my @homepages = qw[
 ];
 
 my $urls = [
-    [ "/osm/planet/planet-latest.osm.bz2.md5",        55 ],
     [ "/osm/planet/planet-latest.osm.pbf.md5",        55 ],
     [ "/osm/planet/planet-latest-nometa.osm.pbf.md5", 55 ],
 
-    [ "/osm/planet/planet-latest.osm.bz2",        36_000_000_000 ],
     [ "/osm/planet/planet-latest.osm.pbf",        19_000_000_000 ],
     [ "/osm/planet/planet-latest-nometa.osm.pbf", 23_000_000_000 ],
 
