@@ -13,22 +13,23 @@ binmode \*STDIN,  ":bytes";
 binmode \*STDOUT, ":bytes";
 
 while (<>) {
+
     # match the magic HEADER field
     if (/GARMIN TRE....$/) {
         print;
 
-	# move forward 51 bytes
+        # move forward 51 bytes
         for ( 1 .. 51 ) {
             print getc( \*ARGV );
         }
 
-	# set the new 2 bytes
+        # set the new 2 bytes
         printf( "%c%c", 4, 23 );
 
-	# skip the old 2 bytes
-        for ( 1 .. 2 ) { 
-		getc( \*ARGV ) 
-	}
+        # skip the old 2 bytes
+        for ( 1 .. 2 ) {
+            getc( \*ARGV );
+        }
     }
 
     else {
