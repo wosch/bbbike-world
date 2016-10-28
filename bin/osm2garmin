@@ -40,14 +40,15 @@ test -z "$file" && usage
 # absolute file path
 case $file in /*) ;; *) file=$(pwd)/$file ;; esac
 
-text2html=$(dirname $0)/text2html.sh
-case $text2html in /*) ;; *) text2html=$(pwd)/$text2html ;; esac
+dirname=$(dirname $0)
+case $dirname in /*) ;; *) dirname=$(pwd)/$dirname ;; esac
+
+text2html=$dirname/text2html.sh
 
 test -e "$file" || usage "file $file does not exists"
-: ${osm_checksum=`dirname $0`/osm-checksum}
+: ${osm_checksum=$dirname/osm-checksum}
 
-template=$(dirname $0)/../etc/extract/$(basename $0).$BBBIKE_EXTRACT_LANG.sh
-case $template in /*) ;; *) template=$(pwd)/$template ;; esac
+template=$dirname/../etc/extract/$(basename $0).$BBBIKE_EXTRACT_LANG.sh
 
 if [ -z "$ext" ]; then
     ext=${2-"osm"}
@@ -108,9 +109,7 @@ java_splitter_opt=-Xmx${java_heap_splitter}
 mkgmap_map_style="osm"
 : ${osm2xxx_max_jobs="2"}
 
-etc_dir=`dirname $0`/../etc/mkgmap
-# absolute path
-case $etc_dir in /* ) ;; *) etc_dir=$pwd/$etc_dir ;; esac
+etc_dir=$dirname/../etc/mkgmap
 
 # by default we generate utf-8 (unicode) maps, except for SRTM
 # and older devices
@@ -290,8 +289,7 @@ fi
 coords=$(echo $garmin | perl -npe 's,planet_,,; s/_/ /g')
 description=$(echo $description | perl -npe '$_=substr($_,0,50)')
 
-set_typ=$(dirname $0)/freizeitkarte-set-typ.pl
-case $set_typ in /*) ;; *) set_typ=$(pwd)/$set_typ ;; esac
+set_typ=$dirname/freizeitkarte-set-typ.pl
 
 cd $garmin_dir
 echo "Map data (c) OpenStreetMap.org contributors" > $license
@@ -340,9 +338,9 @@ case $BBBIKE_EXTRACT_LANG in
 esac
 
 case $ext in
-  oseam | oseam-ascii )
+  garmin-oseam*zip )
     echo ">>> set garmin marine header <<<" >> $logfile
-    $(dirname $0)/garmin-marine-header.pl gmapsupp.img
+    $dirname/garmin-marine-header.pl gmapsupp.img
     ;;
 esac
 
