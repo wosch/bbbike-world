@@ -1,11 +1,11 @@
 #!/usr/local/bin/perl -i
-# Copyright (c) 2014-2016 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2016-2016 Wolfram Schneider, http://bbbike.org
 #
 # garmin-marine-header - set header for garmin marine devices
 #
 # 1. find the string "GARMIN TRE"
-# 2. move forward 56 characters
-# 3. replace to chracters, 0x04 and 0x17
+# 2. move forward 56 bytes
+# 3. replace to bytes, 0x04 and 0x17
 #
 # Note: the header may appears several times in the gmapsupp.img
 #
