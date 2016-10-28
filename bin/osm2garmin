@@ -339,6 +339,13 @@ case $BBBIKE_EXTRACT_LANG in
    * ) ext2=$(echo $ext | perl -npe "s/\.zip\$/.${BBBIKE_EXTRACT_LANG}.zip/") ;;
 esac
 
+case $ext in
+  oseam | oseam-ascii )
+    echo ">>> set garmin marine header <<<" >> $logfile
+    $(dirname $0)/garmin-marine-header.pl gmapsupp.img
+    ;;
+esac
+
 ( $MD5 gmapsupp.img; $SHA gmapsupp.img ) > .checksum.txt; mv -f .checksum.txt CHECKSUM.txt
 
 cd ..
