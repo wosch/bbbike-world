@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl
+#!/usr/local/bin/perl -i
 # Copyright (c) 2014-2016 Wolfram Schneider, http://bbbike.org
 #
 # garmin-marine-header - set header for garmin marine devices
@@ -15,11 +15,11 @@ binmode \*STDOUT, ":bytes";
 while (<>) {
     # match the magic HEADER field
     if (/GARMIN TRE....$/) {
-        print $_;
+        print;
 
 	# move forward 51 bytes
         for ( 1 .. 51 ) {
-            print getc( \*STDIN );
+            print getc( \*ARGV );
         }
 
 	# set the new 2 bytes
@@ -27,7 +27,7 @@ while (<>) {
 
 	# skip the old 2 bytes
         for ( 1 .. 2 ) { 
-		getc( \*STDIN ) 
+		getc( \*ARGV ) 
 	}
     }
 
@@ -36,3 +36,4 @@ while (<>) {
     }
 }
 
+# EOF
