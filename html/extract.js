@@ -32,6 +32,7 @@ var config = {
 
         "obf.zip": 250,
         "navit.zip": 512,
+        "shp.zip": 512,
         "mapsforge-osm.zip": 400,
         "mapsme-osm.zip": 500,
 
