@@ -9,17 +9,21 @@
 #
 # Note: the header may appears several times in the gmapsupp.img
 #
-# As a reference, see 
+# As a reference, see
 # https://github.com/OpenSeaMap/garmin/blob/master/gmarine/src/Gmarine.java
 #
 
-binmode \*STDIN,  ":bytes";
-binmode \*STDOUT, ":bytes";
+use strict;
+use warnings;
+
+use open IN => ":bytes", OUT => ":bytes";
 
 while (<>) {
 
     # match the magic HEADER field
     if (/GARMIN TRE....$/) {
+
+        # write out
         print;
 
         # move forward 51 bytes
@@ -36,6 +40,7 @@ while (<>) {
         }
     }
 
+    # write out
     else {
         print;
     }
