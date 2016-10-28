@@ -1,7 +1,6 @@
 planet.osm mirror @ BBBike.org
 --------------------------------
 
-planet-latest.osm.bz2	     - orignal planet.osm file, XML + bzip2
 planet-latest.osm.pbf	     - orignal planet.osm file, PBF
 planet-latest-nometa.osm.pbf - planet.osm.pbf without meta data
 
