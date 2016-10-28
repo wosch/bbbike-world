@@ -8,6 +8,10 @@
 # 3. replace to chracters, 0x04 and 0x17
 #
 # Note: the header may appears several times in the gmapsupp.img
+#
+# As a reference, see 
+# https://github.com/OpenSeaMap/garmin/blob/master/gmarine/src/Gmarine.java
+#
 
 binmode \*STDIN,  ":bytes";
 binmode \*STDOUT, ":bytes";
