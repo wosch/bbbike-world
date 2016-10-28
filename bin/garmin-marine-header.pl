@@ -3,6 +3,8 @@
 #
 # garmin-marine-header - set header for garmin marine devices
 #
+# Edit in place a garmin image:
+#
 # 1. find the string "GARMIN TRE"
 # 2. move forward 56 bytes
 # 3. replace to bytes, 0x04 and 0x17
