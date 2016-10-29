@@ -53,6 +53,7 @@ template=$dirname/../etc/extract/$(basename $0).$BBBIKE_EXTRACT_LANG.sh
 if [ -z "$ext" ]; then
     ext=${2-"osm"}
 fi
+ext_orig=$ext
 
 : ${debug=false}
 
