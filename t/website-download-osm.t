@@ -50,7 +50,7 @@ my $urls = [
 
     [ "/osm/index.html",        1_000 ],
     [ "/osm/extract/",          1_000 ],
-    [ "/osm/planet/HEADER.txt", 500 ],
+    [ "/osm/planet/HEADER.txt", 440 ],
 ];
 
 # no need for latlon SRTM data
