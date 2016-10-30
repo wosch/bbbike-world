@@ -300,7 +300,7 @@ echo "Map data (c) OpenStreetMap.org contributors" > $license_file
 cat <<EOF > $copyright_file
 GARMIN LTD
 Map data (c) OpenStreetMap.org contributors (not from Garmin Ltd.!!!)
-Garmin image created by extract.BBBike.org service.
+Garmin image created by BBBike extract service: http://extract.bbbike.org
 EOF
 
 
