@@ -99,7 +99,7 @@ sub convert_format {
         cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
 
         $counter += 5;
-        $test->validate;
+        $test->validate( 'style' => $style );
     }
 
     return $counter + $test->counter;

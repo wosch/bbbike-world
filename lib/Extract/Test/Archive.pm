@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2016 Wolfram Schneider, http://bbbike.org
 #
 # extract config and libraries
 
@@ -38,6 +38,7 @@ sub new {
         'url'                 => '',
         'coords'              => '',
         'file'                => '',
+        'style'               => '',
 
         %args
     };
@@ -155,11 +156,16 @@ sub out {
 sub validate {
     my $self = shift;
 
-    my %args = @_;
+    my %args  = @_;
+    my $style = $args{'style'};
+    if ( defined $style ) {
+        $self->{'style'} = $style;
+    }
 
     $self->check_checksum;
     $self->check_readme;
     $self->check_readme_html;
+    $self->check_logfile;
 
     return $self->{'counter'};
 }
@@ -192,6 +198,42 @@ sub counter {
     my $self = shift;
 
     return $self->{'counter'};
+}
+
+sub check_logfile {
+    my $self = shift;
+
+    return $self->check_logfile_garmin;
+}
+
+sub check_logfile_garmin {
+    my $self  = shift;
+    my $style = $self->{'style'};
+
+    my $counter = 0;
+    my @data    = $self->extract_file('logfile.txt');
+
+    my $res;
+    $res = grep { /--code-page=65001/ } @data;
+
+    if ( $style =~ /-ascii$/ ) {
+        ok( !$res, "No codepage set (us-ascii)" );
+    }
+    else {
+        ok( $res, "Unicode codepage set (utf-8)" );
+    }
+    $counter++;
+
+    $res = grep { /--add-pois-to-areas/ } @data;
+    if ( $style =~ /^oseam/ ) {
+        ok( !$res, "No --add-pois-to-areas for OpenSeaMap" );
+    }
+    else {
+        ok( $res, "Set parameter --add-pois-to-areas" );
+    }
+    $counter++;
+
+    $self->{'counter'} += $counter;
 }
 
 sub check_checksum {
