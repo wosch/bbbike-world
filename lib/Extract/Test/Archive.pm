@@ -203,7 +203,11 @@ sub counter {
 sub check_logfile {
     my $self = shift;
 
-    return $self->check_logfile_garmin;
+    my $format = $self->{'format'};
+
+    if ( $format =~ /^garmin-/ ) {
+        return $self->check_logfile_garmin;
+    }
 }
 
 sub check_logfile_garmin {
