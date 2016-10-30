@@ -103,7 +103,8 @@ time=time
 #case $ext in *leisure* ) java_heap=3500M ;; esac
 
 pwd=$(pwd)
-license="license.txt"
+license_file="license.txt"
+copyright_file="copyright.txt"
 copyright="OpenStreetMap.org"
 java_opt=-Xmx${java_heap}
 java_splitter_opt=-Xmx${java_heap_splitter}
@@ -225,7 +226,7 @@ esac
 
 garmin_family_id=$(basename $file | perl -npe 's/(\.pbf|\.gz|\.bz2)?$//')
 garmin_family_id=$(echo $garmin_family_id $ext | $MD5 | perl -ne 's/[a-f]//g; print /^(\d{4})/ ? $1 : "4444"')
-mkgmap_opt="--keep-going --family-id=$garmin_family_id --product-id=$garmin_product_id --remove-short-arcs --route --copyright-message="$copyright" --license-file=$license --index --make-opposite-cycleways"
+mkgmap_opt="--keep-going --family-id=$garmin_family_id --product-id=$garmin_product_id --remove-short-arcs --route --copyright-file="$copyright_file" --license-file=$license_file --index --make-opposite-cycleways"
 mkgmap_opt_pois="--add-pois-to-areas"
 
 if [ -n "$mkgmap_map_type" ]; then
@@ -294,7 +295,13 @@ description=$(echo $description | perl -npe '$_=substr($_,0,50)')
 set_typ=$dirname/freizeitkarte-set-typ.pl
 
 cd $garmin_dir
-echo "Map data (c) OpenStreetMap.org contributors" > $license
+echo "Map data (c) OpenStreetMap.org contributors" > $license_file
+
+cat <<EOF > $copyright_file
+GARMIN LTD
+Map data (c) OpenStreetMap.org contributors (not from Garmin Ltd.!!!)
+Garmin image created by extract.BBBike.org service.
+EOF
 
 
 BBBIKE_EXTRACT_COORDS=$BBBIKE_EXTRACT_COORDS BBBIKE_EXTRACT_URL=$BBBIKE_EXTRACT_URL \
@@ -333,7 +340,7 @@ if egrep -ql '^java\.lang\.' $logfile; then
     error
 fi
 
-rm -f $license
+rm -f $license_file $copyright_file
 rm -f map.TYP
 
 # gmapsupp.img cleanup
