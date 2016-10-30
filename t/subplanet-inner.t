@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2016 Wolfram Schneider, http://bbbike.org
 
 use Test::More;
 use Data::Dumper;
@@ -16,7 +16,7 @@ my $debug          = 1;
 my $poly           = new Extract::Poly( 'debug' => $debug );
 my $planet         = new Extract::Planet( 'debug' => $debug );
 my @regions        = $poly->list_subplanets;
-my @regions_sorted = $poly->list_subplanets(1);
+my @regions_sorted = $poly->list_subplanets( 'sort_by' => 1 );
 
 my $planet_polygon = &planet_polygon;
 cmp_ok( scalar(@$planet_polygon),
