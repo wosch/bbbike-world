@@ -16,8 +16,8 @@ use Extract::Test::Archive;
 use strict;
 use warnings;
 
-my @garmin_styles = qw/cycle osm/;
-push @garmin_styles, qw/leisure/
+my @garmin_styles = qw/osm/;
+push @garmin_styles, qw/leisure cycle/
   if !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG};
 push @garmin_styles, qw/bbbike openfietslite onroad/ if $ENV{BBBIKE_TEST_LONG};
 
