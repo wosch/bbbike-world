@@ -81,7 +81,7 @@ usage [ option ] file.osm.pbf
 --mapsforge-osm
 
 --garmin-osm --garmin-osm-ascii --garmin-cycle --garmin-cycle-ascii
---garmin-leisure --garmin-leisure-ascii --garmin-bbbike --garmin-srtm
+--garmin-leisure --garmin-leisure-ascii --garmin-bbbike --garmin-bbbike-ascii --garmin-srtm
 --garmin-onroad --garmin-onroad-ascii --garmin-openfietslite --garmin-openfietslite-ascii
 --garmin-oseam --garmin-oseam-ascii
 --svg-google --svg-hiking --svg-osm --svg-urbanight --svg-wireframe --svg-cadastre
@@ -131,7 +131,7 @@ case $format in
     --navit ) shift; compress=navit ;;
 
     --garmin-osm | --garmin-osm-ascii | --garmin-cycle | --garmin-cycle-ascii | --garmin-leisure | --garmin-leisure-ascii |\
-    --garmin-bbbike | --garmin-onroad | --garmin-onroad-ascii | --garmin-openfietslite | \
+    --garmin-bbbike | --garmin-bbbike-ascii | --garmin-onroad | --garmin-onroad-ascii | --garmin-openfietslite | \
 	--garmin-openfietslite-ascii | --garmin-srtm | --garmin-oseam | --garmin-oseam-ascii )
         garmin_style=$(echo $1 | perl -npe 's,^\-+[^\-]+-',,); shift; compress=garmin ;;
     --svg-google | --svg-hiking | --svg-osm | --svg-urbanight | --svg-wireframe | --svg-cadastre ) svg_style=$(echo $1 | perl -npe 's,.*-,,'); shift; compress=svg ;;

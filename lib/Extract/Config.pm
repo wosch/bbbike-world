@@ -34,6 +34,7 @@ our $formats = {
     'garmin-leisure.zip'             => "Garmin Leisure",
     'garmin-leisure-ascii.zip'       => "Garmin Leisure (ASCII)",
     'garmin-bbbike.zip'              => "Garmin BBBike",
+    'garmin-bbbike-ascii.zip'        => "Garmin BBBike (ASCII)",
     'garmin-onroad.zip'              => "Garmin Onroad",
     'garmin-onroad-ascii.zip'        => "Garmin Onroad (ASCII)",
     'garmin-openfietslite.zip'       => "Garmin Openfietsmap Lite",
@@ -101,7 +102,7 @@ our $formats_menu = {
             'garmin-onroad.zip',        'garmin-onroad-ascii.zip',
             'garmin-openfietslite.zip', 'garmin-openfietslite-ascii.zip',
             'garmin-oseam.zip',         'garmin-oseam-ascii.zip',
-            'garmin-bbbike.zip',
+            'garmin-bbbike.zip',        'garmin-bbbike-ascii.zip',
         ]
     },
     'android' => {
@@ -229,6 +230,7 @@ our $tile_format = {
     "garmin-leisure.zip"             => "garmin-osm.zip",
     "garmin-leisure-ascii.zip"       => "garmin-osm.zip",
     "garmin-bbbike.zip"              => "garmin-osm.zip",
+    "garmin-bbbike-ascii.zip"        => "garmin-osm.zip",
     "garmin-openfietslite.zip"       => "garmin-osm.zip",
     "garmin-openfietslite-ascii.zip" => "garmin-osm.zip",
 

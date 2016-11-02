@@ -23,7 +23,7 @@ push @garmin_styles, qw/bbbike openfietslite onroad/ if $ENV{BBBIKE_TEST_LONG};
 
 if ( $ENV{BBBIKE_TEST_LONG} && $0 =~ /garmin-ascii.t$/ ) {
     @garmin_styles =
-      qw/openfietslite-ascii cycle-ascii leisure-ascii osm-ascii onroad-ascii oseam oseam-ascii/;
+      qw/bbbike-ascii openfietslite-ascii cycle-ascii leisure-ascii osm-ascii onroad-ascii oseam oseam-ascii/;
 }
 
 #die join " ", @garmin_styles,;
