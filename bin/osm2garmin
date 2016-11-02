@@ -153,6 +153,13 @@ case $ext in
 	mkgmap_map_style=bbbike
 	mkgmap_map_type=$etc_dir/../../../misc/mkgmap/typ/M000002a.TYP
         ;;
+        
+   bbbike-ascii )
+	ext=garmin-bbbike-ascii.zip
+	mkgmap_map=--style-file=$etc_dir/../../../misc/mkgmap/srt-style
+	mkgmap_map_style=bbbike
+	mkgmap_map_type=$etc_dir/../../../misc/mkgmap/typ/M000002a.TYP
+        ;;
 
    onroad )
 	ext=garmin-onroad.zip

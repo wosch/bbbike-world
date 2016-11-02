@@ -37,6 +37,7 @@ var config = {
         "mapsme-osm.zip": 500,
 
         "garmin-bbbike.zip": 650,
+        "garmin-bbbike-ascii.zip": 650,
         "garmin-osm.zip": 768,
         "garmin-osm-ascii.zip": 768,
         "garmin-cycle.zip": 650,
@@ -91,6 +92,7 @@ var config = {
         "garmin-onroad.zip": "/images/garmin-onroad2-small.png",
         "garmin-onroad-ascii.zip": "/images/garmin-onroad2-small.png",
         "garmin-bbbike.zip": "/images/garmin-bbbike-small.png",
+        "garmin-bbbike-ascii.zip": "/images/garmin-bbbike-small.png",
         "garmin-cycle.zip": "/images/garmin-cycle-small.png",
         "garmin-cycle-ascii.zip": "/images/garmin-cycle-small.png",
         "garmin-leisure.zip": "/images/garmin-leisure-small.png",
@@ -1370,6 +1372,10 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "time": 3
         },
         "garmin-bbbike.zip": {
+            "size": 0.8,
+            "time": 2
+        },
+        "garmin-bbbike-ascii.zip": {
             "size": 0.8,
             "time": 2
         },
