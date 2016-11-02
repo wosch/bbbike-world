@@ -680,7 +680,7 @@ planet-nometa:
 
 sub-planet sub-srtm:
 	mkdir -p ../osm/download/$@
-	./world/bin/$@
+	program=$@ ./world/bin/sub-planet
 
 planet-geofabrik-download:
 	download_script=`pwd`/world/bin/planet-geofabrik-download; \
