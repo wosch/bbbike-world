@@ -16,9 +16,10 @@ cd /var/log/lighttpd || exit 2
 : ${download_log=/var/log/lighttpd/download.bbbike.log}
 
 logfile="bbbike.log"
-if [ -f $varnish_log ]; then
-    cd `dirname $varnish_log`
-    logfile=`basename $varnish_log`
+varnish_dir=$(dirname $varnish_log | head -1)
+if [ -d $varnish_dir ]; then
+    cd $varnish_dir
+    logfile=$varnish_log
 fi
 
 : ${logfiles=$logfile}
@@ -67,7 +68,7 @@ echo ""
 echo -n "location page views: "
 log $front_end/cgi/location.cgi | awk '{print $1}' | wc -l
 
-if [ -f $varnish_log ]; then
+if [ -d $varnish_dir ]; then
     echo ""
     echo -n "mc JS/CSS traffic: "
     log_full /mc/ | egrep ' (200|30[124]) ' | awk '{ s += $10 } END { print int(s/1024/1024*10 + 0.5) / 10, "MB" }' 
