@@ -19,6 +19,8 @@ use warnings;
 # global config object
 our $option = {};
 
+# keep in sync with world/etc/munin/plugins/bbbike-extract
+
 our $formats = {
     'osm.pbf' => 'Protocolbuffer (PBF)',
     'osm.gz'  => "OSM XML gzip'd",
