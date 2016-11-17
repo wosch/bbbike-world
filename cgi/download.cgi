@@ -54,9 +54,11 @@ our $option = {
     'enable_google_analytics' => 1,
 };
 
-my $q            = new CGI;
-my $max          = 2000;
-my $default_date = "36h";     # 36h: today and some hours from yesterday
+my $q   = new CGI;
+my $max = 2000;
+
+#my $default_date = "36h";     # 36h: today and some hours from yesterday
+my $default_date = "24h";    # 24h: today
 
 my $debug = $option->{'debug'};
 if ( defined $q->param('debug') ) {

@@ -91,7 +91,7 @@ our $formats_menu = {
     'osm' => {
         'title'   => "OSM",
         'formats' => [
-            'osm.pbf', 'osm.xz', 'osm.gz', 'osm.bz2',
+            'osm.pbf', 'osm.xz', 'osm.gz',    #'osm.bz2',
             'o5m.xz',  'opl.xz', 'csv.xz',
         ]
     },
