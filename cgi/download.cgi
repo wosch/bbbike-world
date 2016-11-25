@@ -58,11 +58,15 @@ my $q   = new CGI;
 my $max = 2000;
 
 #my $default_date = "36h";     # 36h: today and some hours from yesterday
-my $default_date = "24h";    # 24h: today
+my $default_date  = "24h";    # 24h: today
+my $filter_format = "";       # all formats
 
 my $debug = $option->{'debug'};
 if ( defined $q->param('debug') ) {
     $debug = int( $q->param('debug') );
+}
+if ( defined $q->param('format') ) {
+    $filter_format = $q->param('format');
 }
 
 my $extract_utils = new Extract::Utils;
@@ -83,14 +87,15 @@ sub file_size_mb { return $extract_utils->file_size_mb(@_) }
 sub extract_areas {
     my %args = @_;
 
-    my $log_dir = $args{'log_dir'};
-    my $max     = $args{'max'};
-    my $devel   = $args{'devel'} || 0;
-    my $sort_by = $args{'sort_by'} || "time";
-    my $date    = $args{'date'} || "";
+    my $log_dir       = $args{'log_dir'};
+    my $max           = $args{'max'};
+    my $devel         = $args{'devel'} || 0;
+    my $sort_by       = $args{'sort_by'} || "time";
+    my $date          = $args{'date'} || "";
+    my $filter_format = $args{'filter_format'} || "";
 
     warn
-      "download: log dir: $log_dir, max: $max, devel: $devel, date: '$date'\n"
+"download: log dir: $log_dir, max: $max, devel: $devel, date: '$date', format='$filter_format'\n"
       if $debug;
 
     my %hash;
@@ -151,6 +156,15 @@ sub extract_areas {
             my $hours = $1;
             if ( $obj->{"extract_time"} + $hours * 3600 < $time ) {
                 warn "filtered by $hours: $download_file\n" if $debug >= 2;
+                next;
+            }
+        }
+
+        if ( $filter_format ne "" ) {
+            if ( index( $obj->{"format"}, $filter_format ) == -1 ) {
+                warn
+"filtered by $format: $download_file, $obj->{'format'} != $filter_format\n"
+                  if $debug >= 2;
                 next;
             }
         }
@@ -631,10 +645,11 @@ EOF
 
     my $sort_by = $q->param('sort_by') || $q->param("sort");
     my @extracts_trash = &extract_areas(
-        'log_dir' => "$spool_dir/" . $spool->{"trash"},
-        'max'     => $max,
-        'sort_by' => $sort_by,
-        'date'    => $date
+        'log_dir'       => "$spool_dir/" . $spool->{"trash"},
+        'max'           => $max,
+        'sort_by'       => $sort_by,
+        'filter_format' => $filter_format,
+        'date'          => $date
     );
 
     print <<EOF;
