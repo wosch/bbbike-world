@@ -128,10 +128,11 @@ our $formats_menu = {
     'srtm' => {
         'title'   => "Contours (SRTM)",
         'formats' => [
-            'srtm-europe.osm.pbf',         'srtm-europe.osm.xz',
-            'srtm-europe.garmin-srtm.zip', 'srtm-europe.obf.zip',
-            'srtm.osm.pbf',                'srtm.osm.xz',
-            'srtm.garmin-srtm.zip',        'srtm.obf.zip'
+
+            #'srtm-europe.osm.pbf',         'srtm-europe.osm.xz',
+            #'srtm-europe.garmin-srtm.zip', 'srtm-europe.obf.zip',
+            'srtm.osm.pbf',         'srtm.osm.xz',
+            'srtm.garmin-srtm.zip', 'srtm.obf.zip'
         ]
     }
 };
