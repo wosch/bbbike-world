@@ -171,7 +171,7 @@ sub header {
           ;
     }
 
-    my @status = ( -status => $error ? 503 : 200 );
+    my @status = ( -status => $error ? 520 : 200 );
     my $data = "";
 
     $data .= $q->header( @status, -charset => 'utf-8', @cookie, @expires );
@@ -516,7 +516,7 @@ sub check_input {
 
 #
 # Check input values.
-# On error, return a HTTP 503 status
+# On error, return a HTTP 520 status
 # and a HTML message.
 #
 sub _check_input {
