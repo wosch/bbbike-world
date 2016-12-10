@@ -285,7 +285,7 @@ Disallow: /Stuttgart/?
 Disallow: /Sucre/?
 Disallow: /Sydney/?
 Disallow: /Szczecin/?
-Disallow: /Tallin/?
+Disallow: /Tallinn/?
 Disallow: /Tehran/?
 Disallow: /Tilburg/?
 Disallow: /Tokyo/?
@@ -433,7 +433,7 @@ Disallow: /en/Dublin/
 Disallow: /en/Ruegen/?
 Disallow: /en/Chicago/
 Disallow: /en/BuenosAires/?
-Disallow: /en/Tallin/?
+Disallow: /en/Tallinn/?
 Disallow: /en/Calgary/
 Disallow: /en/Leeds/
 Disallow: /en/Zagreb/
