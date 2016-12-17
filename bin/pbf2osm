@@ -149,6 +149,8 @@ if ! [ -f "$file" ]; then
     usage "file does not exists: $file"
 fi
 
+# bail out after n CPU seconds across all CPUs.
+# Note: this is user+sys time, not the real time
 ulimit -t $pbf2osm_max_cpu_time
 
 # run in quiet mode
