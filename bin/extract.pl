@@ -654,7 +654,7 @@ sub create_poly_files {
         my $from = "$confirmed_dir/$job->{'file'}";
         my $to   = "$job_dir/$job->{'file'}";
 
-        warn "rename $from -> $to\n" if $debug >= 2;
+        warn "rename $from -> $to\n" if $debug >= 1;
         my $json = new JSON;
         my $data = $json->pretty->encode($job);
 
