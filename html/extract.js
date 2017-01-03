@@ -28,7 +28,9 @@ var config = {
 
     // max. area size in MB
     "max_size": {
-        "default": 1536,
+        "default": 960,
+
+        "osm.pbf": 1536,
 
         "obf.zip": 250,
         "navit.zip": 512,
