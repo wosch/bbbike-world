@@ -27,7 +27,7 @@ xargs
 
 commands_bbbike="
 osmconvert
-osmconvert-wrapper 
+osmconvert-wrapper
 jsbeautifier
 jsmin
 osmosis
@@ -46,10 +46,11 @@ done
 
 for c in $commands
 do
-    if which $c >/dev/null; then :
+    if which $c >/dev/null; then
+        :
     else
-	echo "missing: $c"
-	   error=1
+        echo "missing: $c"
+        error=1
     fi
 done
 
@@ -60,9 +61,10 @@ pixz
 "
 for c in $commands_optional
 do
-    if which $c >/dev/null; then :
+    if which $c >/dev/null; then
+        :
     else
-	echo "missing optional: $c"
+        echo "missing optional: $c"
     fi
 done
 
