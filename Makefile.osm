@@ -1234,6 +1234,8 @@ deb-opt-dir-version:
 	  sudo ln -fs Maperitive-2.3.34 Maperitive; 
 
 bbbike-partition:
+	sudo mkdir -p ${BBBIKE_PARTITION}
+	sudo chown $$(logname) ${BBBIKE_PARTITION}
 	cd ${BBBIKE_PARTITION}; mkdir -p cache extract projects tmp www
 	sudo ${MAKE} bbbike-cache-install
 	
