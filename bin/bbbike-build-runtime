@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2009-2016 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2017 Wolfram Schneider, http://bbbike.org
 #
 # test if all programs are installed
 #
@@ -39,7 +39,7 @@ tmpdirs="/bbbike/tmp /tmpfs $BBBIKE_TMPDIR $BBBIKE_TMPFS"
 for c in $tmpdirs
 do
    if [ ! -d $c ]; then
-	echo "missing temp directory: $c"
+	echo "missing temp directory: $c" >&2
 	error=1
    fi
 done
@@ -49,7 +49,7 @@ do
     if which $c >/dev/null; then
         :
     else
-        echo "missing: $c"
+        echo "missing: $c" >&2 
         error=1
     fi
 done
@@ -64,16 +64,15 @@ do
     if which $c >/dev/null; then
         :
     else
-        echo "missing optional: $c"
+        echo "missing optional: $c" >&2
     fi
 done
 
 # md5
 if ( which md5 || which md5sum ) >/dev/null; then :
 else
-   echo "missing: md5"
+   echo "missing: md5" >&2
    error=1
 fi
 
 exit $error
-
