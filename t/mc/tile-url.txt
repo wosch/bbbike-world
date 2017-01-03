@@ -12,9 +12,6 @@ http://a.tile.bbbike.org/osm/bbbike-smoothness/12/2200/1342.png
 https://a.tile.thunderforest.com/cycle/12/2200/1342@2x.png
 https://a.tile.thunderforest.com/outdoors/12/2200/1342@2x.png
 https://a.tile.thunderforest.com/transport-dark/12/2200/1342@2x.png
-http://otile1.mqcdn.com/tiles/1.0.0/osm/12/2200/1342.png
-http://ttiles02.mqcdn.com/tiles/1.0.0/vy/hyb/11/1099/670.png
-http://ttiles03.mqcdn.com/tiles/1.0.0/vy/sat/13/4400/2686.png
 https://a.tile.thunderforest.com/landscape/12/2200/1342@2x.png
 http://tile.memomaps.de/tilegen/12/2200/1342.png
 http://www.openptmap.org/tiles/12/2200/1342.png
