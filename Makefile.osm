@@ -1216,9 +1216,9 @@ deb-repo-upload:
 
 deb-bootstrap debian-bootstrap: deb-bootstrap-dir
 bbbike-bootstrap: bbbike-partition debian-bootstrap update-files install-backend-lighttpd
-	${BBMAKE} -s download-bbbike-org-install
 	sudo ${BBMAKE} extract-bbbike-org-install
 	sudo ${BBMAKE} EXTRACTS_SPOOL_DIR=/var/cache/extract-pro extract-bbbike-org-install
+	${BBMAKE} download-bbbike-org-install
 	sudo ${BBMAKE} cache-clean
 	sudo ${MAKE} -C./world/etc crontab-root
 	sudo ${MAKE} -C./world/etc/munin install-munin-bbbike
