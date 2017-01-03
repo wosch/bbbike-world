@@ -49,7 +49,7 @@ do
     if which $c >/dev/null; then
         :
     else
-        echo "missing: $c" >&2 
+        echo "missing command $c" >&2 
         error=1
     fi
 done
@@ -64,14 +64,14 @@ do
     if which $c >/dev/null; then
         :
     else
-        echo "missing optional: $c" >&2
+        echo "missing optional command: $c" >&2
     fi
 done
 
 # md5
 if ( which md5 || which md5sum ) >/dev/null; then :
 else
-   echo "missing: md5" >&2
+   echo "missing command: md5" >&2
    error=1
 fi
 
