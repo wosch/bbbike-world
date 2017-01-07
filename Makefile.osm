@@ -960,6 +960,8 @@ extract-distclean:
 # garbage collection, 2 days
 extract-gc:
 	cd ${EXTRACTS_SPOOL_DIR}; find incoming confirmed running download osm -type f -mtime +4 -print0 | xargs -0 rm -f
+	# remove large files faster
+	cd ${EXTRACTS_SPOOL_DIR}; find incoming confirmed running download osm -type f -mtime +3 -size +300M -print0 | xargs -0 rm -f
 	if test -e /tmpfs; then \
 	    find /tmpfs/ -type f -mtime +1 -print0 | xargs -0 rm -f; \
 	fi
