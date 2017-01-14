@@ -41,7 +41,7 @@ if ( !-f $pbf_file ) {
       or die "symlink failed: $?\n";
 }
 
-my $pbf_md5 = "525744cddeef091874eaddc05f10f19b";
+my $pbf_md5 = "58a25e3bae9321015f2dae553672cdcf";
 my $opl_md5 = "0172722cd7627a1af827b13abf16eb00";
 
 # min size of garmin zip file

@@ -34,10 +34,10 @@ sub md5_file {
 my $prefix   = 'world/t/data-osm';
 my $pbf_file = "$prefix/Cusco.osm.pbf";
 
-my $pbf_md5 = "525744cddeef091874eaddc05f10f19b";
+my $pbf_md5 = "58a25e3bae9321015f2dae553672cdcf";
 my $osm_md5 = "658d8150fa3fbd28a172f46ea3f8cf16";
 
-is( $pbf_md5, md5_file($pbf_file), "md5 checksum matched" );
+is( md5_file($pbf_file), $pbf_md5, "md5 checksum matched" );
 
 my $tempfile = File::Temp->new( SUFFIX => ".osm" );
 

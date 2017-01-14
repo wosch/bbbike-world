@@ -161,7 +161,7 @@ sub checksum {
 
     # to sync the checksum files, run:
     # cp ./world/t/data-osm/tmp/Cusco/checksum ./world/t/data-osm/Cusco.checksum
-    
+
     my $md5_checksum_select =
       $^O =~ m{darwin}i
       ? ["db9f5b2cae816cf162acbe0a2a2187e5"]
@@ -180,8 +180,8 @@ sub checksum {
 
     my @shell =
       ( "diff", "$prefix/../Cusco.checksum", "$prefix/Cusco/checksum" );
-    is( system(@shell), 0, "no md5 checksum changes" ) or
-        diag(system(join " ", @shell, ">&2" ));
+    is( system(@shell), 0, "no md5 checksum changes" )
+      or diag( system( join " ", @shell, ">&2" ) );
 
 }
 

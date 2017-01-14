@@ -44,13 +44,13 @@ if ( !-f $pbf_file ) {
 my $osmosis_version = `world/bin/bbbike-osmosis-version`;
 my $pbf_file2       = 'world/t/data-osm/tmp/Cusco2.osm.pbf';
 
-my $pbf_md5  = "525744cddeef091874eaddc05f10f19b";
-my @pbf2_md5 = ("525744cddeef091874eaddc05f10f19b");
+my $pbf_md5  = "58a25e3bae9321015f2dae553672cdcf";
+my @pbf2_md5 = ("58a25e3bae9321015f2dae553672cdcf");
 my $osm_md5  = "94808e92c1864538916b11890d340b8d";
 
 my $tempfile = File::Temp->new( SUFFIX => ".osm" );
 
-is( $pbf_md5, md5_file($pbf_file), "md5 checksum matched: $pbf_file" );
+is( md5_file($pbf_file), $pbf_md5, "md5 checksum matched: $pbf_file" );
 
 system(
 qq[world/bin/pbf2osm --osmosis $pbf_file | perl -npe 's/timestamp=".*?"/timestamp="0"/' > $tempfile]
