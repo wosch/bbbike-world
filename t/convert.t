@@ -98,7 +98,7 @@ my @size_50k = qw/
 plan tests => scalar(@files) +
   scalar(@size_76c) +
   scalar(@size_10k) +
-  scalar(@size_50k) + 3;
+  scalar(@size_50k) + 4;
 
 sub md5_file {
     my $file = shift;
@@ -180,6 +180,11 @@ sub checksum {
 
     isnt( $md5_checksum, (), "Known checksum, no data changes" );
     is( $md5, $md5_checksum, "md5 checksum" );
+
+    my @shell =
+      ( "diff", "$prefix/../Cusco.checksum", "$prefix/Cusco/checksum" );
+    is( system(@shell), 0, "no md5 checksum changes" );
+
 }
 
 &convert;
