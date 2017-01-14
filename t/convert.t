@@ -166,7 +166,7 @@ sub checksum {
       $^O =~ m{darwin}i
       ? ["db9f5b2cae816cf162acbe0a2a2187e5"]
       : [
-        "02c17c375d37d738ee4c89af33b02cb3",    # debian8
+        "7ecc5302a8885b049245c7b99ba5efbf",    # debian8
         "e18ef0a6931e800890bb520fc143f1bb",    # debian9
         "4ddccb9ff7d1bfbfa0b16c5a49968667",    # ubuntu14
         "b844998a83cf8d70387b4d891491ae24",    # ubuntu14
