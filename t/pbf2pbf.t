@@ -45,8 +45,8 @@ my $osmosis_version = `world/bin/bbbike-osmosis-version`;
 my $pbf_file2       = 'world/t/data-osm/tmp/Cusco2.osm.pbf';
 
 my $pbf_md5  = "58a25e3bae9321015f2dae553672cdcf";
-my @pbf2_md5 = ("58a25e3bae9321015f2dae553672cdcf");
-my $osm_md5  = "94808e92c1864538916b11890d340b8d";
+my @pbf2_md5 = ("728a53423c671fe25c5dfb6eb31014d9");
+my $osm_md5  = "352bc6707ae7ee80b52ba57732ac83bb";
 
 my $tempfile = File::Temp->new( SUFFIX => ".osm" );
 

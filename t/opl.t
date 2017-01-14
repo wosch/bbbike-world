@@ -42,7 +42,7 @@ if ( !-f $pbf_file ) {
 }
 
 my $pbf_md5 = "58a25e3bae9321015f2dae553672cdcf";
-my $opl_md5 = "0172722cd7627a1af827b13abf16eb00";
+my $opl_md5 = "3846f1f9e053995ad9e804d0ff84dd2a";
 
 # min size of garmin zip file
 my $min_size = 200_000;

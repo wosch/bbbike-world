@@ -33,7 +33,7 @@ if ( !-f $pbf_file ) {
 }
 
 my $pbf_md5 = "58a25e3bae9321015f2dae553672cdcf";
-my $csv_md5 = "06887ccb78632034bcd5241c51d39ac0";
+my $csv_md5 = "d5daa8084af78671331e60041b5d8372";
 
 # min size of garmin zip file
 my $min_size = 200_000;
