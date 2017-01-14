@@ -9,6 +9,7 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 
 : ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
+: ${BBBIKE_TMPFS="/tmpfs"}
 : ${BBBIKE_EXTRACT_LANG="en"}
 
 : ${BBBIKE_MAPERITIVE_VERSION="Maperitive-2.3.34"}
@@ -88,7 +89,7 @@ esac
 size=$(du -ks -L "$file" | awk '{ print $1}')
 
 basename=$(basename $file | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//')
-_tmpdir=$(mktemp -d ${BBBIKE_TMPDIR}/osm2${type}.$map_style.XXXXXXXXXXX)
+_tmpdir=$(mktemp -d ${BBBIKE_TMPFS}/osm2${type}.$map_style.XXXXXXXXXXX)
 tmpdir=$_tmpdir/${basename}-${type}-${map_style}
 mkdir -p $tmpdir
 cd $tmpdir
