@@ -169,7 +169,7 @@ sub checksum {
         "7ecc5302a8885b049245c7b99ba5efbf",    # debian8
         "01c6661740fa771a9e16231fb825d2c0",    # debian8
         "e18ef0a6931e800890bb520fc143f1bb",    # debian9
-        "4ddccb9ff7d1bfbfa0b16c5a49968667",    # ubuntu14
+        "d46e1a2bca7534b211927e9a2be11a6c",    # ubuntu14
         "b844998a83cf8d70387b4d891491ae24",    # ubuntu14
         "0f8497f414bd8b43c84e167e9ef2534d",    # ubuntu14
         "3904b69991709bc1c866f3ab01336a9e",    # ubuntu16
