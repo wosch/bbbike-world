@@ -95,7 +95,7 @@ my @size_15k = qw/
 plan tests => scalar(@files) +
   scalar(@size_76c) +
   scalar(@size_3k) +
-  scalar(@size_15k) + 4;
+  scalar(@size_15k) + 2;
 
 sub md5_file {
     my $file = shift;
@@ -157,30 +157,15 @@ sub convert {
 sub checksum {
 
     # see world/t/data-osm/convert.sh
-    my $md5 = md5_file("$prefix/Cusco/checksum");
+    my $lsb_release = `lsb_release -cs`;
+    chomp($lsb_release);
+    my $md5 = md5_file("$prefix/Cusco/checksum.$lsb_release");
 
     # to sync the checksum files, run:
-    # cp ./world/t/data-osm/tmp/Cusco/checksum ./world/t/data-osm/Cusco.checksum
-
-    my $md5_checksum_select =
-      $^O =~ m{darwin}i
-      ? ["db9f5b2cae816cf162acbe0a2a2187e5"]
-      : [
-        "7ecc5302a8885b049245c7b99ba5efbf",    # debian8
-        "01c6661740fa771a9e16231fb825d2c0",    # debian8
-        "e18ef0a6931e800890bb520fc143f1bb",    # debian9
-        "d46e1a2bca7534b211927e9a2be11a6c",    # ubuntu14
-        "b844998a83cf8d70387b4d891491ae24",    # ubuntu14
-        "0f8497f414bd8b43c84e167e9ef2534d",    # ubuntu14
-        "3904b69991709bc1c866f3ab01336a9e",    # ubuntu16
-      ];
-    my $md5_checksum = ( grep { $md5 eq $_ } @$md5_checksum_select )[0];
-
-    isnt( $md5_checksum, (), "Known checksum, no data changes" );
-    is( $md5, $md5_checksum, "md5 checksum" );
+    # cp ./world/t/data-osm/tmp/Cusco/checksum.$(lsb_release -cs) ./world/t/data-osm/Cusco.checksum.$(lsb_release -cs)
 
     my @shell =
-      ( "diff", "$prefix/../Cusco.checksum", "$prefix/Cusco/checksum" );
+      ( "diff", "$prefix/../Cusco.checksum.$lsb_release", "$prefix/Cusco/checksum.$lsb_release" );
     is( system(@shell), 0, "no md5 checksum changes" )
       or diag( system( join " ", @shell, ">&2" ) );
 
