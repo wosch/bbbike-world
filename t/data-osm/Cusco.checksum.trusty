@@ -43,6 +43,7 @@
 4bec2b8451edd9939dcc1b0f3f4395f8  ./flaechen
 515959fd1412eb3378a906147fbf9c88  ./opensearch.streetnames
 6a2d9854333ed9d7d46a487ad9282b91  ./opensearch.street-coordinates
+6b28dd1128603ef7453eb88253fa3b74  ./meta.dd
 8c92d37183fcb390f3d757af5639e2cd  ./rbahnhof
 8ee2b31edd151c57cfec0031447eb720  ./sehenswuerdigkeit
 8f1c1bfd05e2004b38480f9ec05e55b3  ./zebrastreifen
@@ -53,7 +54,6 @@ b811dfcaee4affb1b0dd2b5585c5ac1a  ./strassen
 caa390bd46698ee5cc5d5e556d2c619d  ./ampeln
 cd761dc4fdac4ce3b8803b6cdc0e07a9  ./inaccessible_strassen
 e5a506dec94a1c72190ee2a2b4396b07  ./gesperrt
-e7a5cc8e5e2dd04fc6ff55199ba49f4b  ./meta.dd
 ea033f2efbb50d0db58fe1c58ef17b06  ./nolighting
 eaba3650ad89289fe77960e85b7ec24e  ./kinos
 ebf628d4f08ff4ca23d07159d9970e65  ./wasserstrassen
