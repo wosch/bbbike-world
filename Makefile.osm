@@ -1358,14 +1358,16 @@ osmand-devel:
 test-org:
 	TMPDIR=${TMP_DIR} ./world/bin/lighttpd-template-update
 
-lighttpd-start webserver-start: lighttpd-restart
-lighttpd-restart: temp-clean test-org
-	-killall -TERM lighttpd
-	sleep 0.5
-	-killall -SIGKILL lighttpd
+lighttpd-restart webserver-restart: lighttpd-stop temp-clean test-org lighttpd-start
+
+lighttpd-start webserver-start: 
 	mkdir -p ${TMP_DIR}
 	$$(pwd)/world/bin/lighttpd-start &
 	sleep 0.2
+
+lighttpd-stop webserver-stop:
+	@./world/bin/lighttpd-stop
+
 
 test prove: lighttpd-restart perlcheck-bbbike-cgi
 	mkdir -p ${TMP_DIR}
@@ -1373,9 +1375,6 @@ test prove: lighttpd-restart perlcheck-bbbike-cgi
 	@echo ">>> All tests are successfully done. Stop lighttpd <<<"
 	@echo ""
 	${MAKE} lighttpd-stop
-
-lighttpd-stop:
-	@./world/bin/lighttpd-stop
 
 jasmine-node test-js:
 	jasmine-node world/t/spec
