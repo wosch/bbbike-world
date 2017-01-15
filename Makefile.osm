@@ -484,7 +484,7 @@ $(_cc):
 	    ${TIME} world/bin/osm2bbd-workarounds ${DATA_OSM_DIR}/tmp $$c; \
 	  ) > ${LOG_DIR}/city.$$c.log 2>&1 ; \
 	  if [ $$? != 0 ]; then \
-	    tail ${LOG_DIR}/city.$$c.log; \
+	    tail -n 40 ${LOG_DIR}/city.$$c.log; \
 	    exit 1; \
 	  fi; \
 	  rm -rf ${DATA_OSM_DIR}/$$c; mv ${DATA_OSM_DIR}/tmp/$$c ${DATA_OSM_DIR}
