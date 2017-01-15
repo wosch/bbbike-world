@@ -161,11 +161,14 @@ sub checksum {
     chomp($lsb_release);
     my $md5 = md5_file("$prefix/Cusco/checksum.$lsb_release");
 
-    # to sync the checksum files, run:
-    # cp ./world/t/data-osm/tmp/Cusco/checksum.$(lsb_release -cs) ./world/t/data-osm/Cusco.checksum.$(lsb_release -cs)
+# to sync the checksum files, run:
+# cp ./world/t/data-osm/tmp/Cusco/checksum.$(lsb_release -cs) ./world/t/data-osm/Cusco.checksum.$(lsb_release -cs)
 
-    my @shell =
-      ( "diff", "$prefix/../Cusco.checksum.$lsb_release", "$prefix/Cusco/checksum.$lsb_release" );
+    my @shell = (
+        "diff",
+        "$prefix/../Cusco.checksum.$lsb_release",
+        "$prefix/Cusco/checksum.$lsb_release"
+    );
     is( system(@shell), 0, "no md5 checksum changes" )
       or diag( system( join " ", @shell, ">&2" ) );
 
