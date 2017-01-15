@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2016 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2017 Wolfram Schneider, http://bbbike.org
 #
 # extract a city for further tests
 
