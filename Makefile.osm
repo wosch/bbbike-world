@@ -1366,7 +1366,7 @@ lighttpd-start webserver-start:
 	sleep 0.2
 
 lighttpd-stop webserver-stop:
-	-./world/bin/lighttpd-stop
+	-./world/bin/lighttpd-stop || killall -TERM lighttpd
 
 
 test prove: lighttpd-restart perlcheck-bbbike-cgi
