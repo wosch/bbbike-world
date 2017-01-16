@@ -50,7 +50,13 @@ make -s update-files  || error "update-files"
 
 if $bbbike_test; then
     echo "running tests, will run for 2 minutes"
-    make prove > tmp/log.prove 2>&1 || error "test $(pwd); `tail -n 15 tmp/log.prove`"
+    if make prove > tmp/log.prove 2>&1; then
+	:
+    else
+    	error "test $(pwd); `tail -n 50 tmp/log.prove`"
+	echo ">>> merge failed <<<"
+	echo ""
+    fi
 fi
 
 make git-diff
