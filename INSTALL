@@ -11,8 +11,7 @@ sudo apt-get install -y libhtml-tagcloud-perl libhtml-parser-perl \
   libcgi-pm-perl libjson-perl libmath-polygon-perl
 
 # to build on a new debian/ubuntu you need these devel tools
-#sudo apt-get install equivs dh-make-perl
-#sudo apt-get install dpkg-sig
+#sudo apt-get install equivs dh-make-perl dpkg-sig
 
 # first time
 sudo ln -s /usr/bin/perl /usr/local/bin/perl
