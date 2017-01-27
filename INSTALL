@@ -18,8 +18,9 @@ sudo apt-get install -y libhtml-tagcloud-perl libhtml-parser-perl \
 sudo ln -s /usr/bin/perl /usr/local/bin/perl
 
 # cpan
-cpan Inline::MakeMaker
-#cpan HTML::TagCloud
+sudo cpan
+sudo cpan HTML::TagCloud
+#cpan Inline::MakeMaker
 
 # checkout sources from git
 curl -sSfL https://github.com/wosch/bbbike-world/raw/world/bin/bbbike-bootstrap | /bin/sh
