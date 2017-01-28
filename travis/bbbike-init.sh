@@ -24,7 +24,7 @@ init_apt_bbbike() {
     # old packages from wheezy for jessie
     wheezy=$sources_list_d/wheezy.list
     if [ $codename = 'jessie' -a ! -e $wheezy ]; then
-	sudo cp world/etc/apt/debian/wheezy/sources.list.d/wheezy.list $wheezy
+	sudo cp world/etc/apt/debian/jessie/sources.list.d/wheezy.list $wheezy
         sudo apt-get update -qq
     fi
 }
