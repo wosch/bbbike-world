@@ -15,7 +15,11 @@
 ##################################################################
 # This script is not needed anymore. Keep it if needed again
 #
-exit 0
+release=$(lsb_release -cs)
+case $release in
+  wheezy ) ;;
+       * ) exit 0;;
+esac
 
 
 set -e
