@@ -58,9 +58,17 @@ deb-bin-x86:
 	${MAKE} -f ../../../Makefile LIB=bbbike-world-bin clean build ${DEB_REPO}
 	${MAKE} -f ../../../Makefile clean
 
+upgrade-all-versions: upgrade-all-versions-changelog upgrade-all-versions-equisvs
+
+upgrade-all-versions-changelog:
+	for i in ./*/*/deb/bbbike-world-bin/debian/changelog ./*/*/deb/bbbike-world-javalibs/debian/changelog; do ../../bin/deb-changelog-upgrade $$i; done
+upgrade-all-versions-equisvs:
+	perl -i.bak  -npe 's/^(Version: [\d.]+\.)(\d+)/sprintf("%s%s",$$1, $$2+1)/e' ./*/*/equivs/bbbike-world ./*/*/equivs/bbbike-world-debian-meta ./*/*/equivs/bbbike-world-perlmodules-meta
+
 help:
 	@echo ""
 	@echo "  make [ clean | distclean | build | deb-repo ]"
+	@echo "  make [ upgrade-all-versions ]"
 	@echo ""
 	@echo "  make LIB=bbbike-world-bin distclean build deb-repo"
 	@echo "  make LIB=bbbike-world-javalibs distclean build deb-repo"
