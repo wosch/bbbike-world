@@ -1,6 +1,6 @@
 # list of self compiled perl modules for debian
 # dont' forget to update 
-#    world/etc/apt/wheezy/equivs/bbbike-world-perlmodules-meta  
+#    world/etc/apt/debian/wheezy/equivs/bbbike-world-perlmodules-meta  
 #
 Array::Heap
 GIS::Distance::Lite
