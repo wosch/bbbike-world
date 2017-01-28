@@ -1154,7 +1154,7 @@ deb-perl: deb-clean perl-cpan
 	    dh-make-perl --build --email 'wosch@freebsd.org' --cpan $$i; \
 	done
 	set -e; for i in ${DEB_DIR}/*.deb; do \
-	   ./world/bin/deb2deb $$i; \
+	   env DEB_RELEASE=${DEB_RELEASE} ./world/bin/deb2deb $$i; \
 	done
 	ls -l ${DEB_DIR}/*.deb
 	echo "Number of deps: $$(ls ${DEB_DIR} | egrep '*.deb$$' | wc -l)"
@@ -1178,7 +1178,7 @@ deb-equivs:
 	for i in ${DEB_CONTROLS}; do \
 	    equivs-build $$i; \
 	done
-	for i in ${DEB_DIR}/*.deb; do world/bin/deb2deb $$i; done
+	for i in ${DEB_DIR}/*.deb; do env DEB_RELEASE=${DEB_RELEASE} world/bin/deb2deb $$i; done
 	ls -l ${DEB_DIR}/*.deb
 
 deb-bin deb-bin-java deb-bin-x86: 
@@ -1204,7 +1204,7 @@ deb-repo-dir:
 # fix & sign debian packages	
 deb-repo: deb-repo-dir
 	for i in ${DEB_DIR}/*.deb; do \
-	  world/bin/deb2deb $$i; \
+	  env DEB_RELEASE=${DEB_RELEASE} world/bin/deb2deb $$i; \
 	done
 	dpkg-sig -k B1826CDD --sign builder ${DEB_DIR}/*.deb
 	set -e; pwd=`pwd`; cd ${DEB_REPO_DIR}/${DEB_VENDOR}/${DEB_RELEASE}; \
