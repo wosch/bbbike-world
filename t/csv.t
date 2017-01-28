@@ -32,8 +32,8 @@ if ( !-f $pbf_file ) {
       or die "symlink failed: $?\n";
 }
 
-my $pbf_md5 = "525744cddeef091874eaddc05f10f19b";
-my $csv_md5 = "06887ccb78632034bcd5241c51d39ac0";
+my $pbf_md5 = "58a25e3bae9321015f2dae553672cdcf";
+my $csv_md5 = "d5daa8084af78671331e60041b5d8372";
 
 # min size of garmin zip file
 my $min_size = 200_000;
@@ -61,7 +61,7 @@ if ( !-f $pbf_file ) {
       or die "symlink failed: $?\n";
 }
 
-is( $pbf_md5, md5_file($pbf_file), "md5 checksum matched" );
+is( md5_file($pbf_file), $pbf_md5, "md5 checksum matched" );
 
 my $tempfile = File::Temp->new( SUFFIX => ".osm" );
 

@@ -60,6 +60,11 @@ function init() {
     }));
 
     // This is the layer that uses the locally stored tiles
+    map.addLayer(new OpenLayers.Layer.OSM("BBBike.org bbbike", "/osm/bbbike/${z}/${x}/${y}.png", {
+        numZoomLevels: 19,
+        attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
+    }));
+
     map.addLayer(new OpenLayers.Layer.OSM("BBBike.org Mapnik (de)", "/osm/mapnik-german/${z}/${x}/${y}.png", {
         tileOptions: {
             crossOriginKeyword: null
@@ -72,11 +77,6 @@ function init() {
         tileOptions: {
             crossOriginKeyword: null
         },
-        numZoomLevels: 19,
-        attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
-    }));
-
-    map.addLayer(new OpenLayers.Layer.OSM("BBBike.org bbbike", "/osm/bbbike/${z}/${x}/${y}.png", {
         numZoomLevels: 19,
         attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
     }));
@@ -265,7 +265,7 @@ function init() {
     // map.addLayer(topomapper);
 
     function bing() {
-        var apiKey = "AimZWa4IPbKRAT2oPVpFNB_Fbu2B03vsTp87X3O_y45JB3UhXnu1DOtA-0kj-VPe";
+        var apiKey = "AjkRC9uldL9KVU3pa6N59e7fjpNdCzKTtMqFhdafSEQlcNGPLVEm3b3mukoZCLWr";
 
         // var map = new OpenLayers.Map( 'map');
         // XXX: bing.com returns a wrong zoom level in JSON API call

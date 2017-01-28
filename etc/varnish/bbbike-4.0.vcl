@@ -97,7 +97,7 @@ backend munin_localhost {
 }
 
 backend bbbike_failover {
-    .host = "www2.bbbike.org";
+    .host = "www1.bbbike.org";
     .port = "80";
     .first_byte_timeout = 300s;
     .connect_timeout = 300s;
@@ -175,7 +175,7 @@ sub vcl_recv {
         set req.backend_hint = wosch;
     } else if (req.http.host ~ "^(dvh|tkb)\.bookmaps\.org$") {
         set req.backend_hint = wosch;
-    } else if (req.http.host ~ "^eserte\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$" || req.http.host ~ "^jenkins\.bbbike\.(org|de)$") {
+    } else if (req.http.host ~ "^eserte\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$" || req.http.host ~ "^jenkins(-dev)?\.bbbike\.(org|de)$") {
         set req.backend_hint = eserte;
     } else if (req.http.host ~ "^(www\.|)(cyclerouteplanner\.org|cyclerouteplanner\.com|bbike\.org|cycleroute\.net)$") {
         set req.backend_hint = bbbike;

@@ -30,7 +30,7 @@ if ( !-f $pbf_file ) {
       or die "symlink failed: $?\n";
 }
 
-my $pbf_md5 = "525744cddeef091874eaddc05f10f19b";
+my $pbf_md5 = "58a25e3bae9321015f2dae553672cdcf";
 
 # min size of zip file
 my $min_size = 200_000;

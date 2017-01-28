@@ -30,7 +30,7 @@ sudo ln -sf /usr/bin/perl /usr/local/bin/perl
 
 
 # add the openstreemap repo
-# sudo cp world/etc/apt/trusty/sources.list.d/openstreetmap.list /etc/apt/sources.list.d
+# sudo cp world/etc/apt/ubuntu/trusty/sources.list.d/openstreetmap.list /etc/apt/sources.list.d
 echo "deb http://ppa.launchpad.net/kakrueger/openstreetmap/ubuntu trusty main" > /etc/apt/sources.list.d/openstreetmap.list
 
 # get key repo pgp ID
@@ -66,7 +66,7 @@ sudo dpkg-reconfigure openstreetmap-postgis-db-setup
 # the package again
 # Note: this may download the costline data (500MB) again!
 sudo apt-get purge -y openstreetmap-mapnik-stylesheet-data </dev/null
-sudo apt-get install -y openstreetmap-mapnik-stylesheet-data </dev/null
+sudo apt-get install -y openstreetmap-mapnik-carto-stylesheet-data
 
 
 # setup your own style sheet

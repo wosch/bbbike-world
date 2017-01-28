@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2016 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2017 Wolfram Schneider, http://bbbike.org
 #
 # extract a city for further tests
 
@@ -9,6 +9,7 @@ LANG=C; export LANG
 LC_ALL=C; export LC_ALL
 PERL_HASH_SEED=12345; export PERL_HASH_SEED
 PERL_PERTURB_KEYS=NO; export PERL_PERTURB_KEYS
+lsb_release=$(lsb_release -cs)
 
 dir=$(dirname $0)
 : ${city=Cusco}
@@ -27,5 +28,5 @@ world/bin/pbf2osm --gzip $osm/$city.osm.pbf
 POI_DB=poi_tmp; export POI_DB
 make -s GIT_ID=none TIME="" DATA_OSM_DIR=$data_osm OSM_DIR=$prefix CITIES="$city" convert
 
-( cd $data_osm/$city; find . ! -name '*.gz' -type f -print0 | xargs -0 $MD5 | sort ) > $osm/checksum 
+( cd $data_osm/$city; find . ! -name '*.gz' -type f -print0 | xargs -0 $MD5 | sort ) > $osm/checksum.$lsb_release
 

@@ -16,14 +16,19 @@ use Extract::Test::Archive;
 use strict;
 use warnings;
 
-my @garmin_styles = qw/cycle osm/;
-push @garmin_styles, qw/leisure/
+my @garmin_styles = qw/osm/;
+push @garmin_styles, qw/leisure cycle/
   if !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG};
 push @garmin_styles, qw/bbbike openfietslite onroad/ if $ENV{BBBIKE_TEST_LONG};
 
-if ( $ENV{BBBIKE_TEST_LONG} && $0 =~ /garmin-ascii.t$/ ) {
-    @garmin_styles =
-      qw/openfietslite-ascii cycle-ascii leisure-ascii osm-ascii onroad-ascii oseam oseam-ascii/;
+if ( $0 =~ /garmin-ascii.t$/ ) {
+    if ( $ENV{BBBIKE_TEST_LONG} ) {
+        @garmin_styles =
+          qw/bbbike-ascii openfietslite-ascii cycle-ascii leisure-ascii osm-ascii onroad-ascii oseam oseam-ascii/;
+    }
+    else {
+        @garmin_styles = ();
+    }
 }
 
 #die join " ", @garmin_styles,;
@@ -35,7 +40,7 @@ if ( !-f $pbf_file ) {
       or die "symlink failed: $?\n";
 }
 
-my $pbf_md5 = "525744cddeef091874eaddc05f10f19b";
+my $pbf_md5 = "58a25e3bae9321015f2dae553672cdcf";
 
 # min size of garmin zip file
 my $min_size = 240_000;
@@ -99,7 +104,7 @@ sub convert_format {
         cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
 
         $counter += 5;
-        $test->validate;
+        $test->validate( 'style' => $style );
     }
 
     return $counter + $test->counter;
@@ -107,7 +112,7 @@ sub convert_format {
 
 #######################################################
 #
-is( $pbf_md5, md5_file($pbf_file), "md5 checksum matched" );
+is( md5_file($pbf_file), $pbf_md5, "md5 checksum matched" );
 
 my $counter = 0;
 my @lang = ( "en", "de" );

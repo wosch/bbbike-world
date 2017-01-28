@@ -47,6 +47,7 @@ our $factor = {
     'garmin-onroad.zip'              => 0.09,
     'garmin-onroad-ascii.zip'        => 0.091,
     'garmin-bbbike.zip'              => 0.585,
+    'garmin-bbbike-ascii.zip'        => 0.586,
     'garmin-cycle.zip'               => 0.581,
     'garmin-cycle-ascii.zip'         => 0.582,
     'garmin-openfietslite.zip'       => 0.45,

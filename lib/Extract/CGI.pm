@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2011-2016 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2011-2017 Wolfram Schneider, http://bbbike.org
 #
 # helper functions for extract.cgi
 
@@ -171,7 +171,7 @@ sub header {
           ;
     }
 
-    my @status = ( -status => $error ? 503 : 200 );
+    my @status = ( -status => $error ? 520 : 200 );
     my $data = "";
 
     $data .= $q->header( @status, -charset => 'utf-8', @cookie, @expires );
@@ -368,7 +368,7 @@ qq{\n<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js
   @{[ $self->footer_top($q, 'error' => $error, 'map' => $args{'map'}, 'css' => $args{'css'} ) ]}
   <hr/>
   <div id="copyright" class="normalscreen">
-    (&copy;) 2016 <a href="http://www.bbbike.org">BBBike.org</a>
+    (&copy;) 2017 <a href="http://www.bbbike.org">BBBike.org</a>
     by <a href="http://wolfram.schneider.org">Wolfram Schneider</a><br/>
     Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
   <div id="footer_community"></div>
@@ -516,7 +516,7 @@ sub check_input {
 
 #
 # Check input values.
-# On error, return a HTTP 503 status
+# On error, return a HTTP 520 status
 # and a HTML message.
 #
 sub _check_input {
