@@ -1,5 +1,5 @@
 ############################################################################
-# Copyright (c) 2013-2016 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2013-2017 Wolfram Schneider, http://bbbike.org
 #
 # debian8 (jessie)
 #
@@ -35,9 +35,12 @@ make update-apt
 
 
 #################################################
-# upgrade debian version numbers
+# upgrade *all* debian version numbers
 #
 perl -i.bak  -npe 's/^(Version: [\d.]+\.)(\d+)/sprintf("%s%s",$1, $2+1)/e' debian/jessie/equivs/bbbike-world-debian-meta
 perl -i.bak  -npe 's/^(Version: [\d.]+\.)(\d+)/sprintf("%s%s",$1, $2+1)/e' debian/{jessie,trusty,wheezy}/equivs/bbbike-world-debian-meta
 perl -i.bak  -npe 's/^(Version: [\d.]+\.)(\d+)/sprintf("%s%s",$1, $2+1)/e' ./*/*/equivs/bbbike-world
+
+perl -i.bak  -npe 's/^(Version: [\d.]+\.)(\d+)/sprintf("%s%s",$1, $2+1)/e' ./*/*/equivs/{bbbike-world,bbbike-world-debian-meta,bbbike-world-perlmodules-meta}
+../../bin/deb-changelog-upgrade  ./*/*/deb/{bbbike-world-bin/debian,bbbike-world-javalibs/debian}/changelog
 
