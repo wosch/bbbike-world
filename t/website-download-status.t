@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2016 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} ) {
@@ -14,17 +14,20 @@ BEGIN {
 use Test::More;
 use lib qw(./world/lib ../lib);
 use BBBike::Test;
+use Extract::Config;
 
 use strict;
 use warnings;
 
-my $test  = BBBike::Test->new();
+my $test           = BBBike::Test->new();
+my $extract_config = Extract::Config->new()->load_config_nocgi();
+
 my $debug = 1;
 
 my @homepages_localhost =
   ( $ENV{BBBIKE_TEST_SERVER} ? $ENV{BBBIKE_TEST_SERVER} : "http://localhost" );
-my @homepages =
-  qw[ http://download.bbbike.org http://download1.bbbike.org http://dev1.bbbike.org http://dev2.bbbike.org ];
+my @homepages = $extract_config->get_server_list(qw/download dev/);
+
 if ( $ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
     @homepages = ();
 }
@@ -111,9 +114,9 @@ sub page_check {
         "Content-Type" );
     like( $res->decoded_content, qr|date=12h|,
         "bbbike extract download date 12h" );
-    like( $res->decoded_content, qr|date=24h|,
+    like( $res->decoded_content, qr[^24h |],
         "bbbike extract download date 24h" );
-    like( $res->decoded_content, qr[^36h |],
+    like( $res->decoded_content, qr|date=36h|,
         "bbbike extract download date 36h" );
     like( $res->decoded_content, qr|date=48h|,
         "bbbike extract download date 48h" );

@@ -82,7 +82,7 @@ if ( !-f $pbf_file ) {
       or die "touch $pbf_file failed: $?\n";
 }
 
-is( $pbf_md5, md5_file($pbf_file), "md5 checksum matched: $pbf_file" );
+is( md5_file($pbf_file), $pbf_md5, "md5 checksum matched: $pbf_file" );
 
 foreach my $format ( sort keys %formats ) {
     if ( $formats{$format} == 99 ) {

@@ -11,6 +11,7 @@ use Math::Polygon;
 use Data::Dumper;
 
 use lib qw(world/lib);
+use Extract::Config;
 use Extract::Poly;
 use Extract::Utils;
 
@@ -23,30 +24,7 @@ use warnings;
 
 our $debug = 1;
 
-#our $planet_osm     = '../osm/download/planet-latest-nometa.osm.pbf';
-
-our $config = {
-    'stale_time' => 6 * 3600,
-
-    # offset relative to the main checkout directory
-    'pwd' => '',
-
-    'planet_osm' => '../osm/download/planet-latest-nometa.osm.pbf',
-
-    'planet_sub_dir' => {
-
-        # planet without meta data
-        '../osm/download/planet-latest-nometa.osm.pbf' =>
-          '../osm/download/sub-planet',
-
-        # compatibility, planet without meta data and 1.1
-        '../osm/download/planet-latest.osm.pbf' => '../osm/download/sub-planet',
-
-        # SRTM planet
-        '../osm/download/srtm/planet-srtm-e40.osm.pbf' =>
-          '../osm/download/sub-srtm',
-    }
-};
+our $config = { 'stale_time' => 6 * 3600, };
 
 ##########################
 # helper functions
@@ -125,15 +103,20 @@ sub get_polygon {
 }
 
 # find the smallest matching sub-planet
-sub get_smallest_planet {
+sub _get_smallest_planet {
     my $self = shift;
     my %args = @_;
 
-    my $obj     = $args{'obj'};
-    my $regions = $args{'regions'};
+    my $obj            = $args{'obj'};
+    my $regions        = $args{'regions'};
+    my $sub_planet_dir = $args{'sub_planet_dir'};
 
-    my $poly = new Extract::Poly( 'debug' => $debug );
-    my @regions = $regions ? @$regions : $poly->list_subplanets(1);
+    my $poly = new Extract::Poly(
+        'debug'          => $debug,
+        'sub_planet_dir' => $sub_planet_dir
+    );
+    my @regions =
+      $regions ? @$regions : $poly->list_subplanets( 'sort_by' => 2, );
 
     my ( $data, $counter, $city_polygon ) =
       $poly->create_poly_data( 'job' => $obj );
@@ -159,9 +142,11 @@ sub get_smallest_planet_file {
     my $self = shift;
     my %args = @_;
 
-    my $obj                 = $args{'obj'};
-    my $regions             = $args{'regions'};
-    my $planet_osm          = $args{'planet_osm'};
+    my $obj        = $args{'obj'};
+    my $regions    = $args{'regions'};
+    my $planet_osm = $args{'planet_osm'};
+    my $expire     = $args{'expire'} || 1;
+
     my $planet_osm_original = $planet_osm;
     $planet_osm = $self->normalize_dir($planet_osm);
 
@@ -172,13 +157,15 @@ sub get_smallest_planet_file {
 
     # time in seconds after we consider a sub-planet stale
     my $stale_time = $config->{'stale_time'};
-
-    my $planet =
-      $self->get_smallest_planet( 'obj' => $obj, 'regions' => $regions );
-
     my $sub_planet_dir =
       $self->normalize_dir(
-        $config->{'planet_sub_dir'}->{$planet_osm_original} );
+        $Extract::Config::planet_sub_dir->{$planet_osm_original} );
+
+    my $planet = $self->_get_smallest_planet(
+        'obj'            => $obj,
+        'regions'        => $regions,
+        'sub_planet_dir' => $sub_planet_dir
+    );
 
     if ( $planet eq 'planet' ) {
         warn "No sub-planet match, use full planet\n" if $debug >= 2;
@@ -201,7 +188,7 @@ sub get_smallest_planet_file {
     my $time_diff = $self->{'utils'}->file_mtime_diff( $file, $planet_osm );
 
     # use the sub-planet if it is no older than 3 hours compared to the planet
-    if ( ( -1 * $time_diff ) > $stale_time ) {
+    if ( $expire >= 1 && ( -1 * $time_diff ) > $stale_time ) {
         warn
 "sub-planet file $file <=> $planet_osm is stale: $time_diff seconds, ignored\n"
           if $debug >= 1;

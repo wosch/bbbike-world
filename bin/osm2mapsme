@@ -69,6 +69,12 @@ LD_LIBRARY_PATH=$BBBIKE_LD_LIBRARY_PATH TMPDIR=$tmpdir \
     time $OMIM_PATH/bin/generate_mwm.sh $file_symlink > $logfile 2>&1
 exit=$?
 
+logfile_max_size="500k"
+if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
+    echo "logfile $logfile is to big: $(ls -l $logfile)"
+    exit 2
+fi
+
 # missimg *.mwm file
 if ! ls  $mapsme_dir | egrep -q '\.mwm$'; then
    echo "No *.mwm file in $mapsme_dir found for $file_orig"
@@ -77,7 +83,7 @@ fi
 
 if [ $exit -ne 0 ]; then
    echo "Failed to convert $file_orig / $file_symlink"
-   cat $logfile
+   tail -c 256K $logfile
    exit $exit
 fi
 

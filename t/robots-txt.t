@@ -15,67 +15,29 @@ use Test::More;
 use Encode;
 use lib qw(./world/lib ../lib);
 use BBBike::Test;
+use Extract::Config;
 
 use strict;
 use warnings;
 
-my $test = BBBike::Test->new();
+my $test           = BBBike::Test->new();
+my $extract_config = Extract::Config->new()->load_config_nocgi();
 
 my @list = ();
 
-my @production = qw(
-  www.bbbike.org
-  download.bbbike.org
-  extract.bbbike.org
-  mc.bbbike.org
-  a.tile.bbbike.org
-  b.tile.bbbike.org
-  c.tile.bbbike.org
-  d.tile.bbbike.org
-  api.bbbike.org
-);
+my @production = $extract_config->get_server_list('production');
+my @development =
+  $extract_config->get_server_list(qw/www dev tile extract download api/);
 
 my @aliases = qw(
-  cyclerouteplanner.org
-  cyclerouteplanner.com
-);
-
-my @development = qw(
-  www1.bbbike.org
-  www2.bbbike.org
-  dev.bbbike.org
-  dev1.bbbike.org
-  dev2.bbbike.org
-  tile.bbbike.org
-  extract1.bbbike.org
-  extract2.bbbike.org
-  download1.bbbike.org
-  download2.bbbike.org
-  api1.bbbike.org
-  api2.bbbike.org
-);
-
-my @not_used = qw(
-  dev3.bbbike.org
-  devel3.bbbike.org
-  www3.bbbike.org
-  e.tile.bbbike.org
-  f.tile.bbbike.org
-  u.tile.bbbike.org
-  v.tile.bbbike.org
-  w.tile.bbbike.org
-);
-
-my @password = qw(
-  x.tile.bbbike.org
-  y.tile.bbbike.org
-  z.tile.bbbike.org
+  http://cyclerouteplanner.org
+  http://cyclerouteplanner.com
 );
 
 foreach my $item ( @production, @aliases, @development ) {
     push @list,
       {
-        'page'      => "http://$item/robots.txt",
+        'page'      => "$item/robots.txt",
         'min_size'  => 20,
         'match'     => ["User-agent:"],
         'mime_type' => 'text/plain'

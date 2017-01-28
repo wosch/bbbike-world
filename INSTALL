@@ -3,16 +3,23 @@ Required perl modules:
 
 
 # see ../bin/bbbike-build-runtime-perl.pl
+sudo apt-get install -y lsb-release tidy sudo git make curl gcc \
+	perl-doc iftop htop vim
+
 sudo apt-get install -y libhtml-tagcloud-perl libhtml-parser-perl \
-  libxml-atom-simplefeed-perl libinline-perl \
-  tidy sudo git vim make iftop curl
+  libxml-atom-simplefeed-perl libinline-perl libinline-c-perl \
+  libcgi-pm-perl libjson-perl libmath-polygon-perl
+
+# to build on a new debian/ubuntu you need these devel tools
+#sudo apt-get install equivs dh-make-perl dpkg-sig reprepro
 
 # first time
 sudo ln -s /usr/bin/perl /usr/local/bin/perl
 
 # cpan
-cpan Inline::MakeMaker
-cpan HTML::TagCloud
+sudo cpan Inline::C
+#cpan Inline::MakeMaker
+#cpan HTML::TagCloud
 
 # checkout sources from git
 curl -sSfL https://github.com/wosch/bbbike-world/raw/world/bin/bbbike-bootstrap | /bin/sh
@@ -30,7 +37,9 @@ sudo ./world/travis/bbbike-init.sh
 sudo apt-get install bbbike-world 
 
 sudo apt-get install -y mono-devel xvfb x11-apps
-sudo world/etc/init.d/xvfb start
+make install-xvfb
+#sudo world/etc/init.d/xvfb start
+#sudo /etc/init.d/xvfb start
 
 # reverse proxy
 sudo apt-get install varnish
@@ -112,7 +121,7 @@ echo 'User wosch' > ~/.ssh/config
 ( cd ~/.ssh/ && ln -fs ../projects/wosch-ssh-config/config )
 
 ( cd ~/tmp/ && git clone ssh://git.bbbike.org/home/git/bbbike )
-( cd ~/tmp/bbbike/world/etc/apt/wheezy/gpg && sudo apt-key add bbbike.asc )
+( cd ~/tmp/bbbike/world/etc/apt/debian/wheezy/gpg && sudo apt-key add bbbike.asc )
 sudo apt-get update -qq
 sudo apt-get install -y bbbike-world </dev/null
 

@@ -18,18 +18,22 @@ MUNIN_BBBIKE_EXTRACT= 	bbbike-extract-diskusage \
 			bbbike-extract-size \
 			bbbike-extract-jobs
 
+MUNIN_VARNISH=	data_structures vcl_and_bans lru objects_per_objhead obj_sendfile_vs_write losthdr esi hcb shm shm_writes overflow session session_herd	
+
 MUNIN_PLUGINS_DIR=	/etc/munin/plugins
 
 all: help
 
 install-munin-xen:
-	sudo ln -fs `pwd`/../src/munin/xen_multi ${MUNIN_PLUGINS_DIR}
+	sudo ln -fs $$(pwd)/../../src/munin/xen_multi ${MUNIN_PLUGINS_DIR}
 	${MAKE} munin-restart
 	${MAKE} help-update
 
 help-update:
 	@echo ""
 	@echo  "don't forget to update /etc/munin/plugin-conf.d/munin-node, see ./README"
+
+install-munin-bbbike: install-munin-bbbike-system install-munin-bbbike-web install-munin-bbbike-extract
 
 install-munin-bbbike-system:
 	for i in ${MUNIN_BBBIKE_SYSTEM}; do \
@@ -39,9 +43,15 @@ install-munin-bbbike-system:
 	${MAKE} help-update
 	
 	
-install-munin-bbbike-web install-munin-bbbike:
+install-munin-bbbike-web: 
 	for i in ${MUNIN_BBBIKE_WEB}; do \
 	   sudo ln -fs `pwd`/plugins/bbbike ${MUNIN_PLUGINS_DIR}/$$i; \
+	done
+	${MAKE} munin-restart
+
+install-munin-varnish: 
+	for i in ${MUNIN_VARNISH}; do \
+	   sudo ln -fs /usr/share/munin/plugins/varnish_ ${MUNIN_PLUGINS_DIR}/varnish_$$i; \
 	done
 	${MAKE} munin-restart
 
@@ -83,10 +93,10 @@ clean distclean:
 
 	
 help:
-	@echo "make [ install-munin-xen ]"
-	@echo "     [ install-munin-bbbike-system ]"
-	@echo "     [ install-munin-bbbike-web ]"
-	@echo "     [ install-munin-bbbike-extract ]"
+	@echo "make [ install-munin-xen | install-munin-varnish ]"
+	@echo "     [ install-munin-bbbike ]"
+	@echo "     [ install-munin-bbbike-system | install-munin-bbbike-web | install-munin-bbbike-extract ]"
+	@echo ""
 	@echo "     [ munin-restart ]" 
 	@echo "     [ perltidy | distclean ]"
 	@echo ""

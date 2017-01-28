@@ -21,8 +21,11 @@ my $versions = {
         [ [qw/osmconvert --help/], qr/^osmconvert 0\.8\.4/m ],
         [ [qw/osmosis -v/], qr/^INFO: Osmosis Version (0\.40\.1|0\.43\.1)/m ],
         [ [qw/pigz --version/], qr/^pigz (2\.1\.6|2\.2\.[4-9]|2\.3\.1|2\.3)/ ],
-        [ [qw/java -version/],  qr/^java version "1\.7\.0_(75|79|85|91|95)|^openjdk version "1.8.0_03-Ubuntu"/m ],
-        [ [qw/java -version/],  qr/^OpenJDK (64-Bit )?Server VM/m ],
+        [
+            [qw/java -version/],
+qr/^java version "1\.7\.0_(75|79|85|91|95|101|111|121)|^openjdk version "1.8.0_(03|91|102|111|121)"/m
+        ],
+        [ [qw/java -version/], qr/^OpenJDK (64-Bit )?Server VM/m ],
         [
             [qw/perltidy -v/],
             qr/^This is perltidy, (v20090616|v20101217|v20140328|v20120701)/

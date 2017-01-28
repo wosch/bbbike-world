@@ -94,7 +94,7 @@ backend munin_localhost {
 }
 
 backend bbbike_failover {
-    .host = "www2.bbbike.org";
+    .host = "www4.bbbike.org";
     .port = "80";
     .first_byte_timeout = 300s;
     .connect_timeout = 300s;
@@ -134,9 +134,16 @@ sub vcl_recv {
 
     # block rogue bots
     if (req.http.user-agent ~ "^facebookexternalhit") {
-        error 405 "rogue bot request";
+        error 402 "rogue bot request";
+    }
+    if (req.http.referer ~ "^www\.bing\.com$") {
+        error 402 "rogue bot request";
     }
 
+    # spyware
+    if (req.http.user-agent ~ " Hotbar ") {
+        error 402 "rogue bot request";
+    }
 
     ######################################################################
     # backend config
@@ -290,6 +297,7 @@ acl purge {
 
 acl rough_ip {
     "85.216.69.114";
+    "91.109.19.24";
 }
 
 sub vcl_hit {

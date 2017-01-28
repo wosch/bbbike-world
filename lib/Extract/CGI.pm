@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2011-2017 Wolfram Schneider, http://bbbike.org
 #
 # helper functions for extract.cgi
 
@@ -87,6 +87,7 @@ sub header {
     my @cookie;
     my @css     = "/html/extract.css";
     my @expires = ();
+    my @meta    = ();
 
     if ( $type eq 'homepage' ) {
         @onload = ( -onLoad, 'init();' );
@@ -132,33 +133,52 @@ sub header {
         push @cookie, -cookie => \@cookies;
     }
 
+    @meta = (
+        $q->meta(
+            {
+                -http_equiv => 'Content-Type',
+                -content    => 'text/html; charset=utf-8'
+            }
+        ),
+        $q->meta(
+            {
+                -name => 'description',
+                -content =>
+'OpenStreetMap extracts in OSM, PBF, Garmin, Osmand, mapsforge, Navit, PNG, SVG, or Esri shapefile format (as rectangle or polygon).'
+            }
+        )
+    );
+
     # do not cache requests
     if ( $type eq 'check_input' ) {
         @expires = ( -expires => "+0s" );
+
+        push @meta,
+          $q->meta(
+            {
+                -name    => 'robots',
+                -content => 'nofollow,noarchive,noindex'
+            }
+          );
+
+        push @meta,
+          $q->meta(
+            {
+                -http_equiv => 'pragma',
+                -content    => 'no-cache'
+            }
+          ),
+          ;
     }
 
-    my @status = ( -status => $error ? 503 : 200 );
+    my @status = ( -status => $error ? 520 : 200 );
     my $data = "";
 
-    $data .= $q->header( @status, -charset => 'utf-8', @cookie );
+    $data .= $q->header( @status, -charset => 'utf-8', @cookie, @expires );
 
     $data .= $q->start_html(
         -title => 'Planet.osm extracts | BBBike.org',
-        -head  => [
-            $q->meta(
-                {
-                    -http_equiv => 'Content-Type',
-                    -content    => 'text/html; charset=utf-8'
-                }
-            ),
-            $q->meta(
-                {
-                    -name => 'description',
-                    -content =>
-'Extracts OpenStreetMap areas in OSM, PBF, Garmin, Osmand, mapsforge, Navit, PNG, SVG, or Esri shapefile format (as rectangle or polygon).'
-                }
-            )
-        ],
+        -head  => [@meta],
         -style => { 'src' => \@css, },
 
         # -script => [ map { { 'src' => $_ } } @javascript ],
@@ -348,7 +368,7 @@ qq{\n<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js
   @{[ $self->footer_top($q, 'error' => $error, 'map' => $args{'map'}, 'css' => $args{'css'} ) ]}
   <hr/>
   <div id="copyright" class="normalscreen">
-    (&copy;) 2015-2016 <a href="http://www.bbbike.org">BBBike.org</a>
+    (&copy;) 2017 <a href="http://www.bbbike.org">BBBike.org</a>
     by <a href="http://wolfram.schneider.org">Wolfram Schneider</a><br/>
     Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
   <div id="footer_community"></div>
@@ -496,7 +516,7 @@ sub check_input {
 
 #
 # Check input values.
-# On error, return a HTTP 503 status
+# On error, return a HTTP 520 status
 # and a HTML message.
 #
 sub _check_input {
@@ -537,10 +557,23 @@ sub _check_input {
     my $layers = Param( $q, "layers" );
     my $pg     = Param( $q, "pg" );
     my $as     = Param( $q, "as" );
+    my $expire = Param( $q, "expire" );
+
+    if ( $expire ne '' && $expire =~ /^\d+$/ ) {
+        my $time = time();
+        if ( $expire + 2 * 86400 < $time ) {
+            warn "Page expired: $expire, please reload\n";
+        }
+    }
+
+    if ( !$expire ) {
+        warn "No expire parameter given, bot requests?\n";
+    }
 
     if ( !exists $self->{'formats'}->{$format} ) {
         error("Unknown error format '$format'");
     }
+
     if ( $email eq '' ) {
         error(
             "Please enter a e-mail address. "
@@ -713,11 +746,23 @@ sub _check_input {
 
     my ( $email_counter, $ip_counter ) =
       check_queue( 'obj' => $obj, 'spool_dir_confirmed' => $confirmed_dir );
-    if ( $email_counter > $option->{'scheduler'}->{'user_limit'} ) {
+
+    # a limit per user or IP address
+    # see $cgi/extract.cgi::option
+    my $email_limit =
+      defined $option->{'scheduler'}->{'user_limit_email'}->{$email}
+      ? $option->{'scheduler'}->{'user_limit_email'}->{$email}
+      : $option->{'scheduler'}->{'user_limit'};
+    my $ip_limit = $option->{'scheduler'}->{'ip_limit'};
+
+    if ( $email_counter > $email_limit ) {
         error( M("EXTRACT_LIMIT") );
+        warn "limit email counter: $email_limit > $email_counter $email\n"
+          if $debug >= 1;
     }
-    elsif ( $ip_counter > $option->{'scheduler'}->{'ip_limit'} ) {
+    elsif ( $ip_counter > $ip_limit ) {
         error( M("EXTRACT_LIMIT") );
+        warn "limit ip counter: $ip_counter > $ip_limit\n" if $debug >= 1;
     }
 
     my @data;
@@ -988,6 +1033,8 @@ qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="j
     #
     #    #-id    => 'extract'
     #);
+    print $q->hidden( "expire", time() ), "\n\n";
+
     print $q->end_form;
     print $self->export_osm;
     print qq{<hr/>\n};

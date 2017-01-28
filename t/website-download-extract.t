@@ -21,10 +21,14 @@ use warnings;
 my $test = BBBike::Test->new();
 my $debug = $ENV{DEBUG} || 0;
 
+my @production = qw(
+  http://download1.bbbike.org
+  http://download4.bbbike.org
+);
+
 my @homepages = "http://download.bbbike.org";
 if ( !$ENV{BBBIKE_TEST_FAST} ) {
-    push @homepages,
-      qw|http://download1.bbbike.org http://download2.bbbike.org|;
+    push @homepages, @production;
 }
 
 sub get_extract_files {
@@ -86,7 +90,9 @@ sub myget_headXXX {
 diag( "extract downloads URLs to check: " . scalar(@urls) ) if $debug;
 foreach my $u (@urls) {
     diag("URL: $u") if $debug >= 2;
-    $test->myget_head( $u, 1_000 );
+
+    my $size = $u =~ /\.osm\.(gz|xz|csv\.xz|pbf)$/ ? 190 : 1_000;
+    $test->myget_head( $u, $size );
 }
 
 __END__

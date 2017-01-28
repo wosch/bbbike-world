@@ -60,6 +60,11 @@ function init() {
     }));
 
     // This is the layer that uses the locally stored tiles
+    map.addLayer(new OpenLayers.Layer.OSM("BBBike.org bbbike", "/osm/bbbike/${z}/${x}/${y}.png", {
+        numZoomLevels: 19,
+        attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
+    }));
+
     map.addLayer(new OpenLayers.Layer.OSM("BBBike.org Mapnik (de)", "/osm/mapnik-german/${z}/${x}/${y}.png", {
         tileOptions: {
             crossOriginKeyword: null
@@ -72,11 +77,6 @@ function init() {
         tileOptions: {
             crossOriginKeyword: null
         },
-        numZoomLevels: 19,
-        attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
-    }));
-
-    map.addLayer(new OpenLayers.Layer.OSM("BBBike.org bbbike", "/osm/bbbike/${z}/${x}/${y}.png", {
         numZoomLevels: 19,
         attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
     }));
@@ -184,32 +184,32 @@ function init() {
         numZoomLevels: 19
     }));
 
-    map.addLayer(new OpenLayers.Layer.Here("HERE Map", {
+    map.addLayer(new OpenLayers.Layer.Here("HERE WeGo Map", {
         type: "normal.day",
         app_id: "g7UuRR708Tsut4YSnDLy",
         token: "fVzaDAdRK62zo3CuNcPtDg"
     }));
-    map.addLayer(new OpenLayers.Layer.Here("HERE Terrain", {
+    map.addLayer(new OpenLayers.Layer.Here("HERE WeGo Terrain", {
         type: "terrain.day",
         app_id: "g7UuRR708Tsut4YSnDLy",
         token: "fVzaDAdRK62zo3CuNcPtDg"
     }));
-    map.addLayer(new OpenLayers.Layer.Here("HERE Satellite", {
+    map.addLayer(new OpenLayers.Layer.Here("HERE WeGo Satellite", {
         type: "satellite.day",
         app_id: "g7UuRR708Tsut4YSnDLy",
         token: "fVzaDAdRK62zo3CuNcPtDg"
     }));
-    map.addLayer(new OpenLayers.Layer.Here("HERE Hybrid", {
+    map.addLayer(new OpenLayers.Layer.Here("HERE WeGo Hybrid", {
         type: "hybrid.day",
         app_id: "g7UuRR708Tsut4YSnDLy",
         token: "fVzaDAdRK62zo3CuNcPtDg"
     }));
-    map.addLayer(new OpenLayers.Layer.Here("HERE Public Transit", {
+    map.addLayer(new OpenLayers.Layer.Here("HERE WeGo Public Transit", {
         type: "normal.day.transit",
         app_id: "g7UuRR708Tsut4YSnDLy",
         token: "fVzaDAdRK62zo3CuNcPtDg"
     }));
-    map.addLayer(new OpenLayers.Layer.Here("HERE Traffic", {
+    map.addLayer(new OpenLayers.Layer.Here("HERE WeGo Traffic", {
         type: "newest/normal.day",
         app_id: "g7UuRR708Tsut4YSnDLy",
         token: "fVzaDAdRK62zo3CuNcPtDg"
@@ -265,7 +265,7 @@ function init() {
     // map.addLayer(topomapper);
 
     function bing() {
-        var apiKey = "AnlZwa5p0zgN6mSGFEULXVJgqmUsl8K8GdC_P7MBTVUQSuDY4LR-szxGn-SdpztI";
+        var apiKey = "AjkRC9uldL9KVU3pa6N59e7fjpNdCzKTtMqFhdafSEQlcNGPLVEm3b3mukoZCLWr";
 
         // var map = new OpenLayers.Map( 'map');
         // XXX: bing.com returns a wrong zoom level in JSON API call

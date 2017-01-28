@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2016 Wolfram Schneider, http://bbbike.org
 
 use Getopt::Long;
 use Data::Dumper qw(Dumper);
@@ -16,11 +16,22 @@ use Extract::Test::Archive;
 use strict;
 use warnings;
 
-my @garmin_styles = qw/cycle osm/;
-push @garmin_styles, qw/leisure/
+my @garmin_styles = qw/osm/;
+push @garmin_styles, qw/leisure cycle/
   if !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG};
-push @garmin_styles, qw/bbbike onroad openfietslite osm-ascii onroad-ascii/
-  if $ENV{BBBIKE_TEST_LONG};
+push @garmin_styles, qw/bbbike openfietslite onroad/ if $ENV{BBBIKE_TEST_LONG};
+
+if ( $0 =~ /garmin-ascii.t$/ ) {
+    if ( $ENV{BBBIKE_TEST_LONG} ) {
+        @garmin_styles =
+          qw/bbbike-ascii openfietslite-ascii cycle-ascii leisure-ascii osm-ascii onroad-ascii oseam oseam-ascii/;
+    }
+    else {
+        @garmin_styles = ();
+    }
+}
+
+#die join " ", @garmin_styles,;
 
 my $pbf_file = 'world/t/data-osm/tmp/Cusco.osm.pbf';
 
@@ -29,7 +40,7 @@ if ( !-f $pbf_file ) {
       or die "symlink failed: $?\n";
 }
 
-my $pbf_md5 = "6dc9df64ddc42347bbb70bc134b4feda";
+my $pbf_md5 = "58a25e3bae9321015f2dae553672cdcf";
 
 # min size of garmin zip file
 my $min_size = 240_000;
@@ -74,6 +85,8 @@ sub convert_format {
         my $out = $test->out($style);
         unlink $out;
 
+        diag "garmin style=$style, lang=$lang";
+
         system(qq[world/bin/pbf2osm --garmin-$style $pbf_file $city]);
         is( $?, 0, "pbf2osm --garmin-$style converter" );
 
@@ -91,7 +104,7 @@ sub convert_format {
         cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
 
         $counter += 5;
-        $test->validate;
+        $test->validate( 'style' => $style );
     }
 
     return $counter + $test->counter;
@@ -99,7 +112,7 @@ sub convert_format {
 
 #######################################################
 #
-is( $pbf_md5, md5_file($pbf_file), "md5 checksum matched" );
+is( md5_file($pbf_file), $pbf_md5, "md5 checksum matched" );
 
 my $counter = 0;
 my @lang = ( "en", "de" );

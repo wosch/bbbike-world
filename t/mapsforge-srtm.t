@@ -2,7 +2,7 @@
 # Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
-    if ( $ENV{BBBIKE_TEST_FAST} ) {
+    if ( $ENV{BBBIKE_TEST_FAST} && !$ENV{BBBIKE_TEST_LONG} ) {
         print "1..0 # skip BBBIKE_TEST_FAST\n";
         exit;
     }
@@ -91,7 +91,7 @@ sub convert_format {
 }
 #######################################################
 #
-is( $pbf_md5, md5_file($pbf_file), "md5 checksum matched" );
+is( md5_file($pbf_file), $pbf_md5, "md5 checksum matched" );
 
 my $counter = 0;
 my @lang = ( "en", "de" );

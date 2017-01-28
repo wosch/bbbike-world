@@ -4,13 +4,11 @@
 ##################################################################
 # Planet.osm download server
 #
-planet_osm_server=http://planet.openstreetmap.org/planet
-#planet_osm_server=http://download.bbbike.org/osm/planet
+planet_osm_server=https://planet.openstreetmap.org/pbf
+planet_osm_server_bzip2=https://planet.openstreetmap.org/planet
 
 # do not build garmin images etc., just the routing
 #bbbike_format=""
-#bbbike_download_convert=""
-#bbbike_post2="planet-nometa sub-planet"
 
 ##################################################################
 # General
@@ -61,6 +59,7 @@ export BBBIKE_API_SERVER=api.bbbike.org
 # export BBBIKE_EXTRACT_LANG=en
 # export BBBIKE_MAPERITIVE_DISPLAY=":200"
 # export BBBIKE_PLANET_OSM_GRANULARITY="granularity=10000"
+# export BBBIKE_DEV_SERVER="http://dev1.bbbike.org"
 
 # workaround for imagemagic thread bug / busy waiting in libgomp
 export OMP_WAIT_POLICY=PASSIVE

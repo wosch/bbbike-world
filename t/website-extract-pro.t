@@ -6,7 +6,7 @@ BEGIN {
         print "1..0 # skip due slow or no network\n";
         exit;
     }
-    if ( $ENV{BBBIKE_TEST_FAST} ) {
+    if ( $ENV{BBBIKE_TEST_FAST} && !$ENV{BBBIKE_TEST_LONG} ) {
         print "1..0 # skip due fast test\n";
         exit;
     }

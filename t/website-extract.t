@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2016 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} ) {
@@ -16,13 +16,15 @@ use Test::More;
 use lib qw(./world/lib ../lib);
 use Test::More::UTF8;
 use BBBike::Test;
+use Extract::Config;
 
-my $test = BBBike::Test->new();
+my $test           = BBBike::Test->new();
+my $extract_config = Extract::Config->new()->load_config_nocgi();
 
 my @homepages_localhost =
   ( $ENV{BBBIKE_TEST_SERVER} ? $ENV{BBBIKE_TEST_SERVER} : "http://localhost" );
-my @homepages =
-  qw[ http://extract.bbbike.org http://extract2.bbbike.org http://dev1.bbbike.org http://dev2.bbbike.org ];
+my @homepages = $extract_config->get_server_list(qw/extract dev/);
+
 if ( $ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
     @homepages = ();
 }
@@ -168,7 +170,7 @@ sub garmin_check {
                 "bbbike garmin legend $tags" );
         }
     }
-    $test->myget( "$home_url/garmin/", 300 );
+    $test->myget( "$home_url/garmin/", 268 );
 
     legend( $test->myget( "$home_url/garmin/bbbike/",   18_000 ) );
     legend( $test->myget( "$home_url/garmin/leisure/",  25_000 ) );

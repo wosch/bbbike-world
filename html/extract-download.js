@@ -86,7 +86,7 @@ function download_init_map(conf) {
 }
 
 function add_bing_maps(map) {
-    var BingApiKey = "AnlZwa5p0zgN6mSGFEULXVJgqmUsl8K8GdC_P7MBTVUQSuDY4LR-szxGn-SdpztI";
+    var BingApiKey = "Aoz29UA0N53MbZ8SejgNnWib-_gW-JgHNwsSh77gzBZAyqEVRiJqRJ4ddJ5PXLXY";
 
     /* bing road */
     map.addLayer(new OpenLayers.Layer.Bing(

@@ -1,0 +1,2 @@
+seamark:type=fairway {name 'fairway'}  [0x10702 level 2]
+#seamark:type=restricted_area {name '${seamark:restricted_area:name} ${seamark:restricted_area:information}'}  [0x10702 level 2]

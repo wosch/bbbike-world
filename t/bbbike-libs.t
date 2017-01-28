@@ -4,7 +4,7 @@
 use Test::More;
 use Data::Dumper;
 
-use lib qw(world/lib);
+use lib qw(world/lib .);
 use BBBike::Ads;
 use BBBike::Analytics;
 use BBBike::Elevation;

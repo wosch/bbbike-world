@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2016 Wolfram Schneider, http://bbbike.org
 
 use Test::More;
 use Data::Dumper;
@@ -16,7 +16,7 @@ my $debug          = 1;
 my $poly           = new Extract::Poly( 'debug' => $debug );
 my $planet         = new Extract::Planet( 'debug' => $debug );
 my @regions        = $poly->list_subplanets;
-my @regions_sorted = $poly->list_subplanets(1);
+my @regions_sorted = $poly->list_subplanets( 'sort_by' => 1 );
 
 my $planet_polygon = &planet_polygon;
 cmp_ok( scalar(@$planet_polygon),
@@ -180,8 +180,8 @@ sub check_match_cities {
     }
 
     sub check_sorted_regions {
-        my $name   = shift;
-        my @cities = @_;
+        my $sub_planet = shift;
+        my @cities     = @_;
 
         my $counter = 0;
 
@@ -195,13 +195,14 @@ sub check_match_cities {
             my $city_polygon = get_polygon( $city, \@coord );
 
             foreach my $outer (@regions_sorted) {
-                my $result = $outer eq $name ? 1 : 0;
+                my $result = $outer eq $sub_planet ? 1 : 0;
 
                 my $inner = $planet->sub_polygon(
                     'inner' => $city_polygon,
                     'outer' => get_polygon($outer)
                 );
-                is( $inner, $result, "region $city is inside $outer" );
+                is( $inner, $result,
+                    "region $city is inside $sub_planet, but got $outer" );
                 $counter += 1;
 
                 # stop at first match
@@ -213,7 +214,8 @@ sub check_match_cities {
     }
 
     $counter +=
-      &check_sorted_regions( 'central-europe', qw/Berlin Hamburg Dresden/ );
+      &check_sorted_regions( 'germany-europe', qw/Berlin Hamburg Dresden/ );
+    $counter += &check_sorted_regions( 'central-europe', qw/Amsterdam/ );
     $counter += &check_sorted_regions( 'europe', qw/London Madrid Sofia/ );
     $counter +=
       &check_sorted_regions( 'north-america', qw/SanFrancisco Denver Toronto/ );

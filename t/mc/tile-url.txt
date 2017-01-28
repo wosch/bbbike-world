@@ -12,9 +12,6 @@ http://a.tile.bbbike.org/osm/bbbike-smoothness/12/2200/1342.png
 https://a.tile.thunderforest.com/cycle/12/2200/1342@2x.png
 https://a.tile.thunderforest.com/outdoors/12/2200/1342@2x.png
 https://a.tile.thunderforest.com/transport-dark/12/2200/1342@2x.png
-http://otile1.mqcdn.com/tiles/1.0.0/osm/12/2200/1342.png
-http://ttiles02.mqcdn.com/tiles/1.0.0/vy/hyb/11/1099/670.png
-http://ttiles03.mqcdn.com/tiles/1.0.0/vy/sat/13/4400/2686.png
 https://a.tile.thunderforest.com/landscape/12/2200/1342@2x.png
 http://tile.memomaps.de/tilegen/12/2200/1342.png
 http://www.openptmap.org/tiles/12/2200/1342.png
@@ -27,7 +24,7 @@ https://1.aerial.maps.api.here.com/maptile/2.1/maptile/newest/terrain.day/12/220
 https://mt0.googleapis.com/vt?lyrs=m@202000000&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&style=api%7Csmartmaps
 https://mt0.googleapis.com/vt?lyrs=m@202000000,bike&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&style=api%7Csmartmaps
 https://mt0.googleapis.com/vt?lyrs=h@202000000&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&style=api%7Csmartmaps
-https://khm0.googleapis.com/kh?v=138&hl=en&x=2201&y=1342&z=12&token=83911
+https://khm0.googleapis.com/kh?v=707&hl=en&x=2201&y=1342&z=12&token=83911
 https://d.tiles.mapbox.com/v3/tmcw.map-j5fsp01s/13/4400/2685.png
 https://mt0.googleapis.com/vt?lyrs=t@130,r@202000000,bike,transit:comp%7Cvm:1,traffic,weather_nolabels&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&opts=r&style=api%7Csmartmaps
 https://mt0.googleapis.com/vt?lyrs=t@130,r@202000000&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&style=api%7Csmartmaps
@@ -74,7 +71,6 @@ http://tile.waymarkedtrails.org/cycling/8/132/89.png
 http://tile.waymarkedtrails.org/mtb/8/133/90.png
 http://tile.waymarkedtrails.org/skating/8/133/89.png
 http://a.tile.osm-tools.org/osm_then/11/1617/936.png
-https://a.tiles.mapbox.com/v3/examples.bc17bb2a/15/17604/10746.png
 http://c.tile.openstreetmap.fr/openriverboatmap/17/70413/42988.png
 http://c.tile.openstreetmap.fr/hot/17/70413/42988.png
 http://c.tile.openstreetmap.fr/osmfr/17/70413/42988.png
@@ -115,3 +111,16 @@ https://maps.wien.gv.at/basemap/bmaporthofoto30cm/normal/google3857/18/90897/142
 https://ecn.t2.tiles.virtualearth.net/tiles/r1202102332220300.jpeg?g=5169&mkt=en-US&shading=hill
 https://ecn.t2.tiles.virtualearth.net/tiles/a1202102332220300.jpeg?g=5169
 https://ecn.t2.tiles.virtualearth.net/tiles/h1202102332220300.jpeg?g=5169&mkt=en-US
+https://cdn3.apple-mapkit.com/ti/tile?type=tile&style=0&size=1&x=4400&y=2686&z=13&scale=2&lang=en&imageFormat=jpg&v=1603142&poi=1&vendorkey=38da783db1ef0c2d9f8e783a063ffcdc6a6330fe
+https://cdn3.apple-mapkit.com/ti/tile?type=tile&style=46&size=1&x=4400&y=2686&z=13&scale=2&lang=en&imageFormat=jpg&v=1603142&poi=1&vendorkey=38da783db1ef0c2d9f8e783a063ffcdc6a6330fe
+https://sat-cdn4.apple-mapkit.com/tile?style=7&size=1&scale=1&z=17&x=70411&y=43008&v=335&vendorkey=38da783db1ef0c2d9f8e783a063ffcdc6a6330fe
+https://tiles1-bc7b4da77e971c12cb0e069bffcf2771.skobblermaps.com/TileService/tiles/2.0/01021113210/0/13/4401/2686.png@2x?traffic=false
+https://tiles2-bc7b4da77e971c12cb0e069bffcf2771.skobblermaps.com/TileService/tiles/2.0/01021113210/2/13/4401/2686.png@2x?traffic=false
+https://tiles3-bc7b4da77e971c12cb0e069bffcf2771.skobblermaps.com/TileService/tiles/2.0/01021113210/5/13/4401/2686.png@2x?traffic=false
+https://tiles4-bc7b4da77e971c12cb0e069bffcf2771.skobblermaps.com/TileService/tiles/2.0/01021113210/7/13/4401/2686.png@2x?traffic=false
+https://a.tiles.mapbox.com/v4/mapquest.streets-mb/11/1101/672@2x.png?access_token=pk.eyJ1IjoibWFwcXVlc3QiLCJhIjoiY2Q2N2RlMmNhY2NiZTRkMzlmZjJmZDk0NWU0ZGJlNTMifQ.mPRiEubbajc6a5y9ISgydg
+https://b.tiles.mapbox.com/v4/mapquest.satellite-mb/11/1101/672@2x.png?access_token=pk.eyJ1IjoibWFwcXVlc3QiLCJhIjoiY2Q2N2RlMmNhY2NiZTRkMzlmZjJmZDk0NWU0ZGJlNTMifQ.mPRiEubbajc6a5y9ISgydg
+https://c.tiles.mapbox.com/v4/mapquest.satellitenolabels/11/1101/672@2x.png?access_token=pk.eyJ1IjoibWFwcXVlc3QiLCJhIjoiY2Q2N2RlMmNhY2NiZTRkMzlmZjJmZDk0NWU0ZGJlNTMifQ.mPRiEubbajc6a5y9ISgydg
+https://d.tiles.mapbox.com/v4/mapquest.dark-mb/11/1101/672@2x.png?access_token=pk.eyJ1IjoibWFwcXVlc3QiLCJhIjoiY2Q2N2RlMmNhY2NiZTRkMzlmZjJmZDk0NWU0ZGJlNTMifQ.mPRiEubbajc6a5y9ISgydg
+https://a.tiles.mapbox.com/v4/mapquest.light-mb/11/1101/672@2x.png?access_token=pk.eyJ1IjoibWFwcXVlc3QiLCJhIjoiY2Q2N2RlMmNhY2NiZTRkMzlmZjJmZDk0NWU0ZGJlNTMifQ.mPRiEubbajc6a5y9ISgydg
+

@@ -1,0 +1,24 @@
+#!/usr/local/bin/perl -i.bak
+# Copyright (c) 2017 Wolfram Schneider, http://bbbike.org
+#
+# bumb the minor version in debian changelog
+#
+# bbbike-world-bin-misc (1.9-1) unstable; urgency=low
+#
+# 	=> (1.9-2)
+#
+# bbbike-world-bin-misc (1.9-2) unstable; urgency=low
+
+use strict;
+use warnings;
+
+my $flag = 0;
+while (<>) {
+    if ( !$flag ) {
+        if (s/\(([\d\.]+)\-(\d+)\)/sprintf("(%s-%s)",$1, $2+1)/e) {
+            $flag = 1;
+        }
+    }
+    print;
+}
+

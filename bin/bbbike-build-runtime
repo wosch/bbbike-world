@@ -1,12 +1,12 @@
 #!/bin/sh
-# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2017 Wolfram Schneider, http://bbbike.org
 #
 # test if all programs are installed
 #
 
 set -e
 
-commands="
+commands_general="
 bash
 gzip
 bzip2
@@ -16,34 +16,41 @@ curl
 git
 iconv
 java
-jsbeautifier
-jsmin
 make
-osmosis
 perltidy
 python
 rsync
 time
 wget
 xargs
-osmconvert
 "
+
+commands_bbbike="
+osmconvert
+osmconvert-wrapper
+jsbeautifier
+jsmin
+osmosis
+"
+
+commands="$commands_general $commands_bbbike"
 
 tmpdirs="/bbbike/tmp /tmpfs $BBBIKE_TMPDIR $BBBIKE_TMPFS"
 for c in $tmpdirs
 do
    if [ ! -d $c ]; then
-	echo "missing temp directory: $c"
+	echo "missing temp directory: $c" >&2
 	error=1
    fi
 done
 
 for c in $commands
 do
-    if which $c >/dev/null; then :
+    if which $c >/dev/null; then
+        :
     else
-	echo "missing: $c"
-	   error=1
+        echo "missing command $c" >&2 
+        error=1
     fi
 done
 
@@ -54,18 +61,18 @@ pixz
 "
 for c in $commands_optional
 do
-    if which $c >/dev/null; then :
+    if which $c >/dev/null; then
+        :
     else
-	echo "missing optional: $c"
+        echo "missing optional command: $c" >&2
     fi
 done
 
 # md5
 if ( which md5 || which md5sum ) >/dev/null; then :
 else
-   echo "missing: md5"
+   echo "missing command: md5" >&2
    error=1
 fi
 
 exit $error
-

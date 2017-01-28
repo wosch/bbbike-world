@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2016 Wolfram Schneider, http://bbbike.org
 
 BEGIN { }
 
@@ -32,8 +32,8 @@ if ( !-f $pbf_file ) {
       or die "symlink failed: $?\n";
 }
 
-my $pbf_md5 = "6dc9df64ddc42347bbb70bc134b4feda";
-my $csv_md5 = "24dff23d30cf931540d585238314c7c1";
+my $pbf_md5 = "58a25e3bae9321015f2dae553672cdcf";
+my $csv_md5 = "d5daa8084af78671331e60041b5d8372";
 
 # min size of garmin zip file
 my $min_size = 200_000;
@@ -61,7 +61,7 @@ if ( !-f $pbf_file ) {
       or die "symlink failed: $?\n";
 }
 
-is( $pbf_md5, md5_file($pbf_file), "md5 checksum matched" );
+is( md5_file($pbf_file), $pbf_md5, "md5 checksum matched" );
 
 my $tempfile = File::Temp->new( SUFFIX => ".osm" );
 

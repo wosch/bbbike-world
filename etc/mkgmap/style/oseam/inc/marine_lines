@@ -1,0 +1,18 @@
+man_made=groyne [0x10e03 resolution 22]
+
+man_made=pier [0x1040c resolution 22]
+man_made=breakwater [0x010400 resolution 22]
+
+leisure=marina [0x010500 resolution 20 continue]
+
+#seamark:type=fairway [0x10305 level 2]
+seamark:restricted_area:restriction=no_anchoring [0x10501 level 2]
+seamark:restricted_area:category=nature_reserve [0x10506 level 2]
+seamark:type=restricted_area {name '${seamark:restricted_area:name} ${seamark:restricted_area:information}'}  [0x10500 level 2]
+#seamark:type=cable_submarine [0x10401 level 2]
+#seamark:type=anchorage [0x10606 level 2]
+#seamark:type=berth {name '${seamark:berth:name}'} [0x10606 level 2]
+
+
+wetland=tidalflat | (wetland=saltmarsh & tidal=yes) [0x10307 level 2]
+#wetland=tidalflat [0x10307 level 2]

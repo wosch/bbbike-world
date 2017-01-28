@@ -7,7 +7,7 @@ use strict;
 use warnings;
 
 BEGIN {
-    if ( $ENV{BBBIKE_TEST_FAST} ) {
+    if ( $ENV{BBBIKE_TEST_FAST} && !$ENV{BBBIKE_TEST_LONG} ) {
         print "1..0 # skip BBBIKE_TEST_FAST\n";
         exit;
     }

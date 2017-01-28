@@ -2,10 +2,13 @@
 # 
 # m h  dom mon dow   command
 
+#####################################################
 # extract.bbbike.org 
 #*/6 * * * * cd /usr/local/www/bbbike.org/ && world/bin/extract-cron.sh --job=7
-* * * * * cd /usr/local/www/bbbike.org/ && world/bin/extract-cron.sh --job=10
-* * * * * cd /usr/local/www/bbbike.org/ && sleep 30 && world/bin/extract-cron.sh --job=10
+
+* * * * * cd /usr/local/www/bbbike.org/ && world/bin/extract-cron.sh --job=8
+* * * * * cd /usr/local/www/bbbike.org/ && sleep 25 && world/bin/extract-cron.sh --job=8
+#####################################################
 
 # extract-pro.bbbike.org 
 */2 * * * * cd /usr/local/www/bbbike.org/ && BBBIKE_EXTRACT_PROFILE=$HOME/.bbbike-extract-pro.rc world/bin/extract-cron.sh --job=3
@@ -17,14 +20,14 @@
 */15 * * * * cd /usr/local/www/bbbike.org/ && make -s extract-gc7 extract-gc && make -s EXTRACTS_SPOOL_DIR=/var/cache/extract-pro extract-gc7 extract-gc
 
 # bitrot?
-25 * * * * $HOME/projects/bbbike/world/bin/planet-checksum
+#25 * * * * $HOME/projects/bbbike/world/bin/planet-checksum
 
 # nightly extract-pro update
 30 0 * * * $HOME/projects/bbbike/world/bin/planet-download-replication
 
 MAILTO=wosch
 # m h  dom mon dow   command
-32 * * * *     cd $HOME/projects/bbbike/ && world/bin/planet-download-alert
+56 * * * *     cd $HOME/projects/bbbike/ && world/bin/planet-download-alert
 
 # stale jobs?
 49 * * * *     find /var/cache/extract/confirmed -name '*.json' -mtime +240 -ls
