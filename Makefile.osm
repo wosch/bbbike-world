@@ -1203,7 +1203,7 @@ deb-repo: deb-repo-dir
 	for i in ${DEB_DIR}/*.deb; do \
 	  world/bin/deb2deb $$i; \
 	done
-	dpkg-sig -k 3D084B60 --sign builder ${DEB_DIR}/*.deb
+	dpkg-sig -k B1826CDD --sign builder ${DEB_DIR}/*.deb
 	set -e; pwd=`pwd`; cd ${DEB_REPO_DIR}/${DEB_RELEASE}; \
 	for i in $$pwd/${DEB_DIR}/*.deb; do \
  	   package=$$(echo $$i | perl -npe 's,.*/,,; s,_[\d+\.\-]+\_(all|amd64|i386)\.deb$$,,'); \
