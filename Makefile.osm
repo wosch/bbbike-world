@@ -1434,6 +1434,11 @@ git-gc:
 	du -hs .git; git gc; du -hs .git
 	cd world; du -hs .git; git gc; du -hs .git
 
+apt-clean:
+	sudo apt-get clean
+	sudo apt-get autoremove
+	sudo apt-get install -f
+
 
 bbbike-tarball bbbike-src tarball:
 	./world/bin/bbbike-tarball
@@ -1508,6 +1513,7 @@ help:
 	@echo ""
 	@echo "  [ debian-bootstrap | bbbike-bootstrap | bbbike-c ]"
 	@echo "  [ build-runtime ]"
+	@echo "  [ apt-clean ]"
 	@echo "  [ git-fetch | git-pull | git-push | mygit | git-gc ]"
 	@echo "  [ check | check-world | check-full | check-failed ]"
 	@echo "  [ travis ]"
