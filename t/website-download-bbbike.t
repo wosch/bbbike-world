@@ -6,8 +6,6 @@ BEGIN {
         print "1..0 # skip due slow or no network\n";
         exit;
     }
-
-   #if ( $ENV{BBBIKE_TEST_FAST} ) { print "1..0 # skip due fast test\n"; exit; }
 }
 
 use utf8;

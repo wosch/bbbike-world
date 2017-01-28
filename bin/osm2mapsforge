@@ -27,7 +27,7 @@ error () {
     echo "$message"
     echo "Running $0 with input file: $file"
     echo ""
-    cat $logfile
+    tail -c 256K $logfile
     exit 1
 }
 
@@ -65,9 +65,9 @@ elif [ $size -gt 400000 ]; then
 elif [ $size -gt 250000 ]; then
   java_heap=12G
 elif [ $size -gt 150000 ]; then
-  java_heap=8G
+  java_heap=10G
 elif [ $size -gt 60000 ]; then
-  java_heap=6G
+  java_heap=8G
 fi
 
 pwd=$(pwd)
@@ -120,6 +120,12 @@ $text2html < README.txt > README.html
 
 echo ">>> Run osmosis, mapsforge writer map style: $map_style" >> $logfile
 osmosis --read-pbf-fast $file --mapfile-writer $hd_mode file=$mapsforge.map >> $logfile  2>&1 || error
+
+logfile_max_size="500k"
+if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
+    echo "logfile $logfile is to big: $(ls -l $logfile)"
+    exit 2
+fi
 
 if egrep -ql '^java\.lang\.|OsmosisRuntimeException' $logfile; then
     error

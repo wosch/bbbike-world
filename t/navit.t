@@ -2,10 +2,7 @@
 # Copyright (c) Sep 2012-2016 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
-    if ( $ENV{BBBIKE_TEST_LONG} ) {
-        ;
-    }
-    elsif ( $ENV{BBBIKE_TEST_FAST} ) {
+    if ( $ENV{BBBIKE_TEST_FAST} && !$ENV{BBBIKE_TEST_LONG} ) {
         warn "1..0 # skip network tests due instable web site\n";
         $ENV{BBBIKE_TEST_NO_NETWORK} = 1;
     }
@@ -33,7 +30,7 @@ if ( !-f $pbf_file ) {
       or die "symlink failed: $?\n";
 }
 
-my $pbf_md5 = "6dc9df64ddc42347bbb70bc134b4feda";
+my $pbf_md5 = "58a25e3bae9321015f2dae553672cdcf";
 
 # min size of zip file
 my $min_size = 200_000;
@@ -98,7 +95,7 @@ sub convert_format {
 
 #######################################################
 #
-is( $pbf_md5, md5_file($pbf_file), "md5 checksum matched" );
+is( md5_file($pbf_file), $pbf_md5, "md5 checksum matched" );
 
 my $counter = 0;
 my @lang = ( "en", "de" );

@@ -119,6 +119,6 @@ my @shell = &regions(
 
 my $script = "$sub_planet_conf_dir/$prefix.sh";
 warn "\nNow run:\nprogram=$prefix ./world/bin/$prefix_default\n" if $debug;
-store_data( $script, join "\n", @shell );
+store_data( $script, join "\n", @shell, "" );
 
 __END__

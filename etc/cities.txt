@@ -121,7 +121,7 @@ Dublin
 Ruegen
 Chicago
 BuenosAires
-Tallin
+Tallinn
 Calgary
 Leeds
 Zagreb

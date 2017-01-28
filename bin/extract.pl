@@ -654,7 +654,7 @@ sub create_poly_files {
         my $from = "$confirmed_dir/$job->{'file'}";
         my $to   = "$job_dir/$job->{'file'}";
 
-        warn "rename $from -> $to\n" if $debug >= 2;
+        warn "rename $from -> $to\n" if $debug >= 1;
         my $json = new JSON;
         my $data = $json->pretty->encode($job);
 
@@ -1027,11 +1027,18 @@ sub reorder_pbf {
         'mapsforge-osm.zip' => 15,
         'mapsme-osm.zip'    => 1.2,
 
-        'garmin-osm.zip'     => 3,
-        'garmin-cycle.zip'   => 3,
-        'garmin-leisure.zip' => 3.5,
-        'garmin-bbbike.zip'  => 3,
-        'garmin-onroad.zip'  => 1.5,
+        'garmin-osm.zip'           => 3,
+        'garmin-osm-ascii.zip'     => 3,
+        'garmin-cycle.zip'         => 3,
+        'garmin-cycle-ascii.zip'   => 3,
+        'garmin-leisure.zip'       => 3.5,
+        'garmin-leisure-ascii.zip' => 3.5,
+        'garmin-bbbike.zip'        => 3,
+        'garmin-bbbike-ascii.zip'  => 3,
+        'garmin-onroad.zip'        => 1.5,
+        'garmin-onroad-ascii.zip'  => 1.5,
+        'garmin-oseam.zip'         => 1.5,
+        'garmin-oseam-ascii.zip'   => 1.5,
 
         'svg-google.zip'    => 5,
         'svg-hiking.zip'    => 5,

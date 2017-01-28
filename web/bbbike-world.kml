@@ -2101,9 +2101,9 @@
     </Point>
   </Placemark>
   <Placemark>
-    <name>Tallin</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Tallin/">BBBike @ Tallin</a></span><p/>
-	OpenStreetMap data <a href="http://www.bbbike.org/cgi/area.cgi?city=Tallin">extract</a></span>
+    <name>Tallinn</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="http://www.bbbike.org/Tallinn/">BBBike @ Tallinn</a></span><p/>
+	OpenStreetMap data <a href="http://www.bbbike.org/cgi/area.cgi?city=Tallinn">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>

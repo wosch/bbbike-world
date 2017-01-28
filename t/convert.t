@@ -9,13 +9,14 @@ use Digest::MD5 qw(md5_hex);
 use strict;
 use warnings;
 
-my $prefix = "world/t/data-osm/tmp";
+my $prefix      = "world/t/data-osm/tmp";
+my $lsb_release = `lsb_release -cs`;
+chomp($lsb_release);
 
 my @files =
-  qw(Berlin.coords.data Potsdam.coords.data _boundary.gz _building.gz _education.gz _landuse.gz _leisure.gz _motortraffic.gz _natural.gz _oepnv.gz _power.gz _public_services.gz _shop.gz _sport.gz _tourism.gz ampeln berlin borders comments_cyclepath comments_danger comments_ferry comments_kfzverkehr comments_misc comments_mount comments_path comments_route comments_scenic comments_tram deutschland faehren flaechen fragezeichen gesperrt gesperrt_car gesperrt_r gesperrt_s gesperrt_u green handicap_l handicap_s hoehe icao inaccessible_strassen kneipen landstrassen landstrassen2 meta.dd meta.yml nolighting opensearch.crossing.10 opensearch.crossing.10.all.gz opensearch.crossing.100 opensearch.crossing.100.all.gz opensearch.street-coordinates opensearch.streetnames orte orte2 orte_city plaetze poi.gz qualitaet_l qualitaet_s radwege radwege_exact rbahn rbahnhof restaurants sbahn sbahnhof sehenswuerdigkeit strassen strassen-orig.gz strassen_bab ubahn ubahnhof wasserstrassen wasserumland wasserumland2 temp_blockings/bbbike-temp-blockings.pl);
+  qw(Berlin.coords.data Potsdam.coords.data _boundary.gz _building.gz _education.gz _landuse.gz _leisure.gz _motortraffic.gz _natural.gz _oepnv.gz _power.gz _public_services.gz _shop.gz _sport.gz _tourism.gz ampeln berlin comments_cyclepath comments_danger comments_ferry comments_kfzverkehr comments_misc comments_mount comments_path comments_route comments_scenic comments_tram deutschland faehren flaechen fragezeichen gesperrt gesperrt_car gesperrt_r gesperrt_s gesperrt_u green handicap_l handicap_s hoehe icao inaccessible_strassen kneipen landstrassen landstrassen2 meta.dd meta.yml nolighting opensearch.crossing.10 opensearch.crossing.10.all.gz opensearch.crossing.100 opensearch.crossing.100.all.gz opensearch.street-coordinates opensearch.streetnames orte orte2 orte_city plaetze poi.gz qualitaet_l qualitaet_s radwege radwege_exact rbahn rbahnhof restaurants sbahn sbahnhof sehenswuerdigkeit strassen strassen-orig.gz strassen_bab ubahn ubahnhof wasserstrassen wasserumland wasserumland2 temp_blockings/bbbike-temp-blockings.pl);
 
 my @size_76c = qw(
-  _boundary.gz
   _building.gz
   _education.gz
   _landuse.gz
@@ -29,7 +30,6 @@ my @size_76c = qw(
   _sport.gz
   _tourism.gz
   ampeln
-  borders
   flaechen
   fragezeichen
   gesperrt
@@ -61,8 +61,7 @@ my @size_76c = qw(
   wasserstrassen
 );
 
-my @size_10k = qw/
-  _boundary.gz
+my @size_3k = qw/
   flaechen
   gesperrt
   handicap_s
@@ -80,10 +79,10 @@ my @size_10k = qw/
   strassen-orig.gz
   strassen_bab
   wasserstrassen
+  _boundary.gz
   /;
 
-my @size_50k = qw/
-  _boundary.gz
+my @size_15k = qw/
   inaccessible_strassen
   opensearch.crossing.10
   opensearch.crossing.100
@@ -97,8 +96,9 @@ my @size_50k = qw/
 
 plan tests => scalar(@files) +
   scalar(@size_76c) +
-  scalar(@size_10k) +
-  scalar(@size_50k) + 3;
+  scalar(@size_3k) +
+  scalar(@size_15k) + 1 +
+  ( $lsb_release eq 'jessieXXX' || $ENV{BBBIKE_TEST_LONG} ? 1 : 0 );
 
 sub md5_file {
     my $file = shift;
@@ -134,20 +134,20 @@ sub check_files {
         cmp_ok( $st ? $st->size : 0, ">=", 76, "check size >= 76 bytes $file" );
     }
 
-    foreach my $f (@size_10k) {
+    foreach my $f (@size_3k) {
         my $file = "$dir/$f";
         my $st   = stat($file);
 
         cmp_ok( $st ? $st->size : 0,
-            ">", 1024 * 10, "check size > 10k bytes $file" );
+            ">", 3_000, "check size > 3k bytes $file" );
     }
 
-    foreach my $f (@size_50k) {
+    foreach my $f (@size_15k) {
         my $file = "$dir/$f";
         my $st   = stat($file);
 
         cmp_ok( $st ? $st->size : 0,
-            ">", 1024 * 50, "check size > 50k bytes $file" );
+            ">", 15_000, "check size > 15k bytes $file" );
     }
 }
 
@@ -160,25 +160,26 @@ sub convert {
 sub checksum {
 
     # see world/t/data-osm/convert.sh
-    my $md5 = md5_file("$prefix/Cusco/checksum");
+    #my $lsb_release = `lsb_release -cs`;
+    #chomp($lsb_release);
 
-    my $md5_checksum_select =
-      $^O =~ m{darwin}i
-      ? ["db9f5b2cae816cf162acbe0a2a2187e5"]
-      : [
-        "b55177f7d113e2fa31b0605165033dd9",    # debian7
-        "b15f329e2538624d1f056aaa799f98f1",    # debian8
-        "e18ef0a6931e800890bb520fc143f1bb",    # debian9
-        "4ddccb9ff7d1bfbfa0b16c5a49968667",    # ubuntu14
-      ];
-    my $md5_checksum = ( grep { $md5 eq $_ } @$md5_checksum_select )[0];
+    my $md5 = md5_file("$prefix/Cusco/checksum.$lsb_release");
 
-    isnt( $md5_checksum, (), "Known checksum, no data changes" );
-    is( $md5, $md5_checksum, "md5 checksum" );
+# to sync the checksum files, run:
+# cp ./world/t/data-osm/tmp/Cusco/checksum.$(lsb_release -cs) ./world/t/data-osm/Cusco.checksum.$(lsb_release -cs)
+
+    my @shell = (
+        "diff",
+        "$prefix/../Cusco.checksum.$lsb_release",
+        "$prefix/Cusco/checksum.$lsb_release"
+    );
+    is( system(@shell), 0, "no md5 checksum changes" )
+      or diag( system( join " ", @shell, ">&2" ) );
+
 }
 
 &convert;
 &check_files;
-&checksum;
+&checksum if $lsb_release eq 'jessieXXX' || $ENV{BBBIKE_TEST_LONG};
 
 __END__

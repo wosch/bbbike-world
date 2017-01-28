@@ -10,6 +10,7 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_MKGMAP_VERSION="mkgmap"}
 : ${BBBIKE_SPLITTER_VERSION="splitter"}
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
+: ${BBBIKE_TMPFS="/tmpfs"}
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
 : ${SHA="shasum -a 256"}
 
@@ -19,6 +20,7 @@ usage () {
    echo "$@"
    echo "usage $0 file [ osm | osm-ascii | cycle | cycle-ascii | leisure | leisure-ascii | bbbike ] [ title ]"
    echo "      $0 file [ onroad | onroad-ascii | openfietslite | openfietslite-ascii | srtm ] [ title ]"
+   echo "      $0 file [ oseam | oseam-ascii ]"
    exit 1
 }
 
@@ -27,7 +29,7 @@ error () {
 
     echo "$message"
     echo "file: $file"
-    cat $logfile
+    tail -c 256K $logfile
     exit 1
 }
 
@@ -39,18 +41,20 @@ test -z "$file" && usage
 # absolute file path
 case $file in /*) ;; *) file=$(pwd)/$file ;; esac
 
-text2html=$(dirname $0)/text2html.sh
-case $text2html in /*) ;; *) text2html=$(pwd)/$text2html ;; esac
+dirname=$(dirname $0)
+case $dirname in /*) ;; *) dirname=$(pwd)/$dirname ;; esac
+
+text2html=$dirname/text2html.sh
 
 test -e "$file" || usage "file $file does not exists"
-: ${osm_checksum=`dirname $0`/osm-checksum}
+: ${osm_checksum=$dirname/osm-checksum}
 
-template=$(dirname $0)/../etc/extract/$(basename $0).$BBBIKE_EXTRACT_LANG.sh
-case $template in /*) ;; *) template=$(pwd)/$template ;; esac
+template=$dirname/../etc/extract/$(basename $0).$BBBIKE_EXTRACT_LANG.sh
 
 if [ -z "$ext" ]; then
     ext=${2-"osm"}
 fi
+ext_orig=$ext
 
 : ${debug=false}
 
@@ -100,16 +104,15 @@ time=time
 #case $ext in *leisure* ) java_heap=3500M ;; esac
 
 pwd=$(pwd)
-license="license.txt"
+license_file="license.txt"
+copyright_file="copyright.txt"
 copyright="OpenStreetMap.org"
 java_opt=-Xmx${java_heap}
 java_splitter_opt=-Xmx${java_heap_splitter}
 mkgmap_map_style="osm"
 : ${osm2xxx_max_jobs="2"}
 
-etc_dir=`dirname $0`/../etc/mkgmap
-# absolute path
-case $etc_dir in /* ) ;; *) etc_dir=$pwd/$etc_dir ;; esac
+etc_dir=$dirname/../etc/mkgmap
 
 # by default we generate utf-8 (unicode) maps, except for SRTM
 # and older devices
@@ -151,6 +154,13 @@ case $ext in
 	mkgmap_map_style=bbbike
 	mkgmap_map_type=$etc_dir/../../../misc/mkgmap/typ/M000002a.TYP
         ;;
+        
+   bbbike-ascii )
+	ext=garmin-bbbike-ascii.zip
+	mkgmap_map=--style-file=$etc_dir/../../../misc/mkgmap/srt-style
+	mkgmap_map_style=bbbike
+	mkgmap_map_type=$etc_dir/../../../misc/mkgmap/typ/M000002a.TYP
+        ;;
 
    onroad )
 	ext=garmin-onroad.zip
@@ -164,6 +174,20 @@ case $ext in
 	mkgmap_map=--style-file=$etc_dir/style/bike-onroad
 	mkgmap_map_style=onroad
 	mkgmap_map_type="" 
+        ;;
+
+   oseam )
+        ext=garmin-oseam.zip
+        mkgmap_map=--style-file=$etc_dir/style/oseam
+        mkgmap_map_style=oseam
+        mkgmap_map_type=""
+        ;;
+
+   oseam-ascii )
+        ext=garmin-oseam-ascii.zip
+        mkgmap_map=--style-file=$etc_dir/style/oseam
+        mkgmap_map_style=oseam
+        mkgmap_map_type=""
         ;;
 
    openfietslite )
@@ -205,17 +229,19 @@ case $ext in
    *srtm* )    garmin_product_id=5 ;;
    *onroad* )  garmin_product_id=6 ;;
    *openfietslite* )  garmin_product_id=7 ;;
+   *oseam* )   garmin_product_id=8 ;;
 esac
 
 garmin_family_id=$(basename $file | perl -npe 's/(\.pbf|\.gz|\.bz2)?$//')
 garmin_family_id=$(echo $garmin_family_id $ext | $MD5 | perl -ne 's/[a-f]//g; print /^(\d{4})/ ? $1 : "4444"')
-mkgmap_opt="--keep-going --family-id=$garmin_family_id --product-id=$garmin_product_id --remove-short-arcs --route --add-pois-to-areas --copyright-message="$copyright" --license-file=$license --index --make-opposite-cycleways"
+mkgmap_opt="--keep-going --family-id=$garmin_family_id --product-id=$garmin_product_id --remove-short-arcs --route --copyright-file="$copyright_file" --license-file=$license_file --index --make-opposite-cycleways"
+mkgmap_opt_pois="--add-pois-to-areas"
 
 if [ -n "$mkgmap_map_type" ]; then
    test -e "$mkgmap_map_type" || usage "cannot find $mkgmap_map_type file"
 fi
 
-tmpdir=`mktemp -d ${BBBIKE_TMPDIR}/osm2garmin.$(basename $ext .zip).XXXXXXXXXXX`
+tmpdir=`mktemp -d ${BBBIKE_TMPFS}/osm2garmin.$(basename $ext .zip).XXXXXXXXXXX`
 
 # cleanup after signal, but show errors first
 trap '( sleep 1; rm -rf $tmpdir ) &' 1 2 15
@@ -274,11 +300,16 @@ fi
 coords=$(echo $garmin | perl -npe 's,planet_,,; s/_/ /g')
 description=$(echo $description | perl -npe '$_=substr($_,0,50)')
 
-set_typ=$(dirname $0)/freizeitkarte-set-typ.pl
-case $set_typ in /*) ;; *) set_typ=$(pwd)/$set_typ ;; esac
+set_typ=$dirname/freizeitkarte-set-typ.pl
 
 cd $garmin_dir
-echo "Map data (c) OpenStreetMap.org contributors" > $license
+echo "Map data (c) OpenStreetMap.org contributors" > $license_file
+
+cat <<EOF > $copyright_file
+GARMIN LTD
+Map data (c) OpenStreetMap.org contributors (not from Garmin Ltd.!!!)
+Garmin image created by BBBike extract service: http://extract.bbbike.org
+EOF
 
 
 BBBIKE_EXTRACT_COORDS=$BBBIKE_EXTRACT_COORDS BBBIKE_EXTRACT_URL=$BBBIKE_EXTRACT_URL \
@@ -292,21 +323,32 @@ if [ -n "$mkgmap_map_type" ]; then
    $set_typ $garmin_family_id $garmin_product_id $mkgmap_map_type >> $logfile 2>&1 
 fi
 
+# OpenSeaMap: avoid double ports 
+case $ext in
+  garmin-oseam*zip ) mkgmap_opt_pois="" ;;
+esac
+
 # --mapname="$mapid" 
 echo ">>> Run mkgmap, map style: $mkgmap_map_style" >> $logfile
 ( set -x 
-  $time java $java_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_MKGMAP_VERSION/mkgmap.jar --max-jobs=$osm2xxx_max_jobs $mkgmap_opt $mkgmap_codepage $mkgmap_map \
+  $time java $java_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_MKGMAP_VERSION/mkgmap.jar --max-jobs=$osm2xxx_max_jobs $mkgmap_opt $mkgmap_opt_pois $mkgmap_codepage $mkgmap_map \
     --gmapsupp --description="$description" --family-name="$coords style=$mkgmap_map_style" $split_dir/*.pbf $mkgmap_map_type ) >> $logfile 2>&1  || error
 
 #echo ">>> Run mkgmap, create gmapsupp file" >> $logfile
 #( set -x
 #  java $java_opt -jar $BBBIKE_OPT_DIR/mkgmap/mkgmap.jar --gmapsupp [0-9][0-9]*.img ) >> $logfile 2>&1  || error
 
+logfile_max_size="500k"
+if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
+    echo "logfile $logfile is to big: $(ls -l $logfile)"
+    exit 2
+fi
+
 if egrep -ql '^java\.lang\.' $logfile; then
     error
 fi
 
-rm -f $license
+rm -f $license_file $copyright_file
 rm -f map.TYP
 
 # gmapsupp.img cleanup
@@ -315,6 +357,13 @@ rm -rf osmmap.tdb osmmap.img osmmap.mdx osmmap_mdr.img [0-9][0-9]*.img ovm_*.img
 case $BBBIKE_EXTRACT_LANG in
   en ) ext2=$ext ;;
    * ) ext2=$(echo $ext | perl -npe "s/\.zip\$/.${BBBIKE_EXTRACT_LANG}.zip/") ;;
+esac
+
+case $ext in
+  garmin-oseam*zip )
+    echo ">>> set garmin marine header <<<" >> $logfile
+    $dirname/garmin-marine-header.pl gmapsupp.img
+    ;;
 esac
 
 ( $MD5 gmapsupp.img; $SHA gmapsupp.img ) > .checksum.txt; mv -f .checksum.txt CHECKSUM.txt

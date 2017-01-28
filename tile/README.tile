@@ -30,15 +30,12 @@ sudo ln -sf /usr/bin/perl /usr/local/bin/perl
 
 
 # add the openstreemap repo
-echo "deb http://ppa.launchpad.net/kakrueger/openstreetmap/ubuntu natty main" > /etc/apt/sources.list.d/openstreetmap.list
-#echo "deb http://ppa.launchpad.net/kakrueger/openstreetmap/ubuntu precise main" > /etc/apt/sources.list.d/openstreetmap.list
+# sudo cp world/etc/apt/ubuntu/trusty/sources.list.d/openstreetmap.list /etc/apt/sources.list.d
+echo "deb http://ppa.launchpad.net/kakrueger/openstreetmap/ubuntu trusty main" > /etc/apt/sources.list.d/openstreetmap.list
 
 # get key repo pgp ID
-sudo apt-get update > /dev/null  
-W: GPG error: http://ppa.launchpad.net natty Release: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY AE74800FB745A04C
+curl 'http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xAE74800FB745A04C' | sudo apt-key add -
 
-# add the key, the last value in the error message
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys AE74800FB745A04C
 
 sudo apt-get update
 sudo apt-get install -y libapache2-mod-tile
@@ -57,8 +54,8 @@ HINT:  Use the same encoding as in the template database, or use template0 as te
 
 # Trouble shooting:
 # setup a utf8 database
-sudo pg_dropcluster --stop 9.1 main
-sudo pg_createcluster --start -e UTF-8 9.1 main
+sudo pg_dropcluster --stop 9.3 main
+sudo pg_createcluster --start -e UTF-8 9.3 main
 
 sudo apt-get purge -y openstreetmap-postgis-db-setup </dev/null
 sudo apt-get install -y openstreetmap-postgis-db-setup </dev/null
@@ -69,7 +66,7 @@ sudo dpkg-reconfigure openstreetmap-postgis-db-setup
 # the package again
 # Note: this may download the costline data (500MB) again!
 sudo apt-get purge -y openstreetmap-mapnik-stylesheet-data </dev/null
-sudo apt-get install -y openstreetmap-mapnik-stylesheet-data </dev/null
+sudo apt-get install -y openstreetmap-mapnik-carto-stylesheet-data
 
 
 # setup your own style sheet
@@ -100,6 +97,9 @@ cp settings.xml.inc.template settings.xml.inc
 cd /etc
 sudo ln -fs ~/projects/bbbike-eserte bbbike
 sudo ln -fs ~/projects/mapnik-german .
+
+sudo ln -fs /home/wosch/projects/bbbike-eserte bbbike
+
 
 cd ~/projects/mapnik-bbbike
 make -C./tools setup-mapnik-on-mosor
@@ -144,8 +144,8 @@ cd /var/www/
 sudo ln -fs ~/projects/bbbike/world/tile/web/robots.txt .
 
 cd /etc/
-sudo ln -fs ~/projects/bbbike/world/tile/etc/renderd20.conf
-ln -fs renderd20.conf renderd.conf
+sudo ln -fs ~/projects/bbbike/world/tile/etc/renderd22.conf
+sudo ln -fs renderd22.conf renderd.conf
 
 # error check
 tail -f /var/log/syslog
@@ -154,16 +154,22 @@ tail -f /var/log/syslog
 LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" combined
 
 cd /etc/apache2/sites-available
-sudo ln -s ~/projects/bbbike/world/tile/etc/apache2-tile.conf .
-sudo a2ensite apache2-tile.conf
+sudo ln -s ~/projects/bbbike/world/etc/tile.conf .
+sudo a2ensite tile.conf
 sudo a2enmod tile
-sudo rm -f /etc/apache2/sites-enabled/tileserver_site 
+sudo rm -f /etc/apache2/sites-enabled/tileserver_site*
 
 sudo /etc/init.d/renderd restart
 sudo /etc/init.d/apache2 restart
 
 cd ~/projects/bbbike
 make mapnik-restart
+
+cd /usr/share
+sudo ln -fs mapnik-osm-carto-data mapnik-osm-data
+
+cd /etc
+sudo ln -s mapnik-osm-carto-data mapnik-osm-data
 
 -------------------------------------------------
 

@@ -16,9 +16,10 @@ fi
 
 nice='nice -15 ionice -c 2 -n 6' 
 time=time
+cpu=$(world/bin/ncpu -1)
 
 perl -npe 's/\n/\0/g' world/etc/$program/$program.sh | \
-	$nice $time xargs -0 -n1 -P3 /bin/sh -c
+	$nice $time xargs -0 -n1 -P$cpu /bin/sh -c
 
 $nice $time world/bin/osm-checksum-dir ../osm/download/$program 
 

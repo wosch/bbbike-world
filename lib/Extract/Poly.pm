@@ -9,6 +9,7 @@ use CGI qw(escapeHTML);
 use JSON;
 use Math::Polygon::Transform qw(polygon_simplify);
 use Math::Polygon::Calc qw();
+use File::stat;
 use Data::Dumper;
 
 use lib qw(world/lib);
@@ -25,13 +26,16 @@ use warnings;
 our $debug = 1;
 
 our $area = {
-    'north-america'  => { 'poly'  => [ -140.663, 6.783,   -45.554, 59.745 ] },
-    'south-america'  => { 'poly'  => [ -97.53,   -59.13,  -28.544, 20.217 ] },
-    'africa'         => { 'poly'  => [ -23.196,  -39.96,  61.949,  38.718 ] },
-    'europe'         => { 'poly'  => [ -27.472,  26.682,  50.032,  72.282 ] },
-    'central-europe' => { 'poly'  => [ 3.295,    42.571,  29.482,  60.992 ] },
-    'asia'           => { 'poly'  => [ 43.505,   -53.122, 179.99,  63.052 ] },
-    'planet'         => { 'poly2' => [ -180,     -90,     180,     90 ] },
+    'north-america'  => { 'poly' => [ -140.663, 6.783,   -45.554, 59.745 ] },
+    'south-america'  => { 'poly' => [ -97.53,   -59.13,  -28.544, 20.217 ] },
+    'africa'         => { 'poly' => [ -23.196,  -39.96,  61.949,  38.718 ] },
+    'europe'         => { 'poly' => [ -27.472,  26.682,  50.032,  72.282 ] },
+    'asia'           => { 'poly' => [ 43.505,   -53.122, 179.99,  63.052 ] },
+    'central-europe' => { 'poly' => [ 3.295,    42.571,  29.482,  60.992 ] },
+    'germany-europe' => { 'poly' => [ 4.892,    45.097,  17.614,  56.612 ] },
+
+    # all
+    'planet' => { 'poly2' => [ -180, -90, 180, 90 ] },
 
     # test data
     'Berlin' => { 'poly2' => [ 12.76, 52.23, 13.98, 52.82 ] },
@@ -79,20 +83,47 @@ sub rectangle_km {
 }
 
 sub list_subplanets {
-    my $self    = shift;
-    my $sort_by = shift;
+    my $self = shift;
+    my %args = @_;
+
+    my $sort_by = $args{'sort_by'} || 0;             # valid values are: 0, 1, 2
+    my $sub_planet_dir = $self->{'sub_planet_dir'};
 
     # only regions with a 'poly' field
     my @list = grep { exists $area->{$_}->{'poly'} } keys %$area;
 
-    if ($sort_by) {
+    # sort by square km size
+    if ( $sort_by == 1 ) {
         my %hash =
           map { $_ => $self->rectangle_km( @{ $area->{$_}->{'poly'} } ) } @list;
         @list = sort { $hash{$a} <=> $hash{$b} } @list;
     }
+
+    # sort by disk size
+    elsif ( $sort_by == 2 ) {
+        my %hash;
+        foreach my $sub (@list) {
+
+            # check for valid sub planet
+            next if !defined $area->{$sub}->{'poly'};
+
+            my $file = "$sub_planet_dir/$sub.osm.pbf";
+            my $st   = stat($file);
+            if ( !$st ) {
+                warn "Stat sub planet file: $file $!\n";
+                next;
+            }
+
+            $hash{$sub} = $st->size;
+        }
+
+        @list = sort { $hash{$a} <=> $hash{$b} } keys %hash;
+    }
     else {
         @list = sort @list;
     }
+
+    warn Dumper( \@list ) if $debug >= 2;
 
     return @list;
 }
@@ -243,7 +274,7 @@ sub create_poly_data {
     my $city = $obj->{"city"};
 
     if ( !defined $city ) {
-        $city = "unknown city";
+        $city = "unknown-city";
         warn "reset undefined city to $city\n" if $debug >= 2;
     }
     $city = escapeHTML($city);

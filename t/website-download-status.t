@@ -114,9 +114,9 @@ sub page_check {
         "Content-Type" );
     like( $res->decoded_content, qr|date=12h|,
         "bbbike extract download date 12h" );
-    like( $res->decoded_content, qr|date=24h|,
+    like( $res->decoded_content, qr[^24h |],
         "bbbike extract download date 24h" );
-    like( $res->decoded_content, qr[^36h |],
+    like( $res->decoded_content, qr|date=36h|,
         "bbbike extract download date 36h" );
     like( $res->decoded_content, qr|date=48h|,
         "bbbike extract download date 48h" );

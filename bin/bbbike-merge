@@ -41,16 +41,21 @@ cd bbbike
 git_opt="--no-edit"
 $verbose || git_opt="-q"
 if ! git merge $git_opt eserte/master; then
-   echo "merged failed: $dir/bbbike"
-   exit 1
+    echo "merged failed: $dir/bbbike"
+    exit 1
 fi
 
 make -s js perltidy || error "js perltidy"
 make -s update-files  || error "update-files"
 
 if $bbbike_test; then
+    echo ""
     echo "running tests, will run for 2 minutes"
-    make prove > tmp/log.prove 2>&1 || error "test $(pwd); `tail -n 15 tmp/log.prove`"
+    if make check >> $logfile 2>&1; then
+        :
+    else
+    	error "test failed: $(pwd)"
+    fi
 fi
 
 make git-diff
@@ -58,7 +63,7 @@ make git-diff
 if $verbose; then
     pwd
     if [ -n "$command" ]; then
-	$command
+        $command
     fi
     echo "please run:"
     echo ""

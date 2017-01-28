@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2009-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2016 Wolfram Schneider, http://bbbike.org
 #
 # bbbike-checkout - checkout bbbike @ world sources and setup configuration
 
@@ -71,10 +71,9 @@ if $bbbike_fast_checkout; then
 
         branch_check
 	echo "fast checkout done"
-	  if $bbbike_update_files; then
-          echo -n "Updating files..."
-	  make -C./bbbike -s update-files
-	  echo ""
+	if $bbbike_update_files; then
+	    echo "Please run: make -C./bbbike -s update-files"
+	    echo ""
 	fi
 
         # fast exit
@@ -138,6 +137,5 @@ make $make_verbose -f Makefile.osm create-bbbike-web-symlinks java-config
 wait
 
 echo "you may run as well: make -s update-files"
-#echo "                     ( cd ext; make -s all install)"
-echo "                     git merge eserte/master"
+#echo "                     git merge eserte/master"
 

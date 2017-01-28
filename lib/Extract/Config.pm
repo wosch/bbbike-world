@@ -19,6 +19,8 @@ use warnings;
 # global config object
 our $option = {};
 
+# keep in sync with world/etc/munin/plugins/bbbike-extract
+
 our $formats = {
     'osm.pbf' => 'Protocolbuffer (PBF)',
     'osm.gz'  => "OSM XML gzip'd",
@@ -27,17 +29,20 @@ our $formats = {
 
     'shp.zip' => "Shapefile (Esri)",
 
-    'garmin-osm.zip'                 => "Garmin OSM",
+    'garmin-osm.zip'                 => "Garmin OSM (UTF-8)",
     'garmin-osm-ascii.zip'           => "Garmin OSM (ASCII)",
-    'garmin-cycle.zip'               => "Garmin Cycle",
+    'garmin-cycle.zip'               => "Garmin Cycle (UTF-8)",
     'garmin-cycle-ascii.zip'         => "Garmin Cycle (ASCII)",
-    'garmin-leisure.zip'             => "Garmin Leisure",
+    'garmin-leisure.zip'             => "Garmin Leisure (UTF-8)",
     'garmin-leisure-ascii.zip'       => "Garmin Leisure (ASCII)",
-    'garmin-bbbike.zip'              => "Garmin BBBike",
-    'garmin-onroad.zip'              => "Garmin Onroad",
+    'garmin-bbbike.zip'              => "Garmin BBBike (UTF-8)",
+    'garmin-bbbike-ascii.zip'        => "Garmin BBBike (ASCII)",
+    'garmin-onroad.zip'              => "Garmin Onroad (UTF-8)",
     'garmin-onroad-ascii.zip'        => "Garmin Onroad (ASCII)",
-    'garmin-openfietslite.zip'       => "Garmin Openfietsmap Lite",
+    'garmin-openfietslite.zip'       => "Garmin Openfietsmap Lite (UTF-8)",
     'garmin-openfietslite-ascii.zip' => "Garmin Openfietsmap Lite (ASCII)",
+    'garmin-oseam.zip'               => "Garmin OpenSeaMap (UTF-8)",
+    'garmin-oseam-ascii.zip'         => "Garmin OpenSeaMap (ASCII)",
 
     'svg-google.zip'     => 'SVG google',
     'svg-hiking.zip'     => 'SVG hiking',
@@ -86,19 +91,20 @@ our $formats_menu = {
     'osm' => {
         'title'   => "OSM",
         'formats' => [
-            'osm.pbf', 'osm.xz', 'osm.gz', 'osm.bz2',
+            'osm.pbf', 'osm.xz', 'osm.gz',    #'osm.bz2',
             'o5m.xz',  'opl.xz', 'csv.xz',
         ]
     },
     'garmin' => {
         'title'   => "Garmin",
         'formats' => [
-            'garmin-osm.zip',          'garmin-osm-ascii.zip',
-            'garmin-cycle.zip',        'garmin-cycle-ascii.zip',
-            'garmin-leisure.zip',      'garmin-leisure-ascii.zip',
-            'garmin-bbbike.zip',       'garmin-onroad.zip',
-            'garmin-onroad-ascii.zip', 'garmin-openfietslite.zip',
-            'garmin-openfietslite-ascii.zip'
+            'garmin-osm.zip',           'garmin-osm-ascii.zip',
+            'garmin-cycle.zip',         'garmin-cycle-ascii.zip',
+            'garmin-leisure.zip',       'garmin-leisure-ascii.zip',
+            'garmin-onroad.zip',        'garmin-onroad-ascii.zip',
+            'garmin-openfietslite.zip', 'garmin-openfietslite-ascii.zip',
+            'garmin-oseam.zip',         'garmin-oseam-ascii.zip',
+            'garmin-bbbike.zip',        'garmin-bbbike-ascii.zip',
         ]
     },
     'android' => {
@@ -122,10 +128,11 @@ our $formats_menu = {
     'srtm' => {
         'title'   => "Contours (SRTM)",
         'formats' => [
-            'srtm-europe.osm.pbf',         'srtm-europe.osm.xz',
-            'srtm-europe.garmin-srtm.zip', 'srtm-europe.obf.zip',
-            'srtm.osm.pbf',                'srtm.osm.xz',
-            'srtm.garmin-srtm.zip',        'srtm.obf.zip'
+
+            #'srtm-europe.osm.pbf',         'srtm-europe.osm.xz',
+            #'srtm-europe.garmin-srtm.zip', 'srtm-europe.obf.zip',
+            'srtm.osm.pbf',         'srtm.osm.xz',
+            'srtm.garmin-srtm.zip', 'srtm.obf.zip'
         ]
     }
 };
@@ -163,6 +170,21 @@ our $planet_osm = {
     'srtm.garmin-srtm.zip'   => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
     'srtm.obf.zip'           => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
     'srtm.mapsforge-osm.zip' => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
+};
+
+# map planet file to sub-planet directory
+our $planet_sub_dir = {
+
+    # planet without meta data
+    '../osm/download/planet-latest-nometa.osm.pbf' =>
+      '../osm/download/sub-planet',
+
+    # compatibility, planet without meta data and 1.1m
+    '../osm/download/planet-latest.osm.pbf' => '../osm/download/sub-planet',
+
+    # SRTM planet
+    '../osm/download/srtm/planet-srtm-e40.osm.pbf' =>
+      '../osm/download/sub-srtm',
 };
 
 #
@@ -211,6 +233,7 @@ our $tile_format = {
     "garmin-leisure.zip"             => "garmin-osm.zip",
     "garmin-leisure-ascii.zip"       => "garmin-osm.zip",
     "garmin-bbbike.zip"              => "garmin-osm.zip",
+    "garmin-bbbike-ascii.zip"        => "garmin-osm.zip",
     "garmin-openfietslite.zip"       => "garmin-osm.zip",
     "garmin-openfietslite-ascii.zip" => "garmin-osm.zip",
 

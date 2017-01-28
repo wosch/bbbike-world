@@ -11,6 +11,8 @@ PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmpfs"}
 
+gzip=`which pigz gzip 2>/dev/null | head -n 1`
+
 unset LC_ALL
 unset LANG
 
@@ -24,14 +26,14 @@ usage () {
 
 error () {
     echo "Failed to convert file: $file"
-    cat $logfile
+    tail -c 256K $logfile
     rm -rf $tmpdir
     exit 1
 }
 
 warn () {
     echo "Failed to convert file: $file"
-    cat $logfile
+    tail -c 256K $logfile
 }
 
 file=$1
@@ -91,9 +93,16 @@ esac
 
 exit=$?
 
+logfile_max_size="500k"
+if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
+    echo "logfile $logfile is to big: $(ls -l $logfile)"
+    $gzip $logfile
+    exit 2
+fi
+
 if [ $exit -ne 0 ];then
    echo "Failed to convert $file"
-   cat $logfile
+   tail -c 256K $logfile
    exit $exit
 fi
 

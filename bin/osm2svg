@@ -9,6 +9,7 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 
 : ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
+: ${BBBIKE_TMPFS="/tmpfs"}
 : ${BBBIKE_EXTRACT_LANG="en"}
 
 : ${BBBIKE_MAPERITIVE_VERSION="Maperitive-2.3.34"}
@@ -39,7 +40,7 @@ error () {
     echo "$message"
     echo "file: $file"
     if [ -e $logfile ]; then
-        cat $logfile
+        tail -c 256K $logfile
     fi
     exit 1
 }
@@ -88,7 +89,7 @@ esac
 size=$(du -ks -L "$file" | awk '{ print $1}')
 
 basename=$(basename $file | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//')
-_tmpdir=$(mktemp -d ${BBBIKE_TMPDIR}/osm2${type}.$map_style.XXXXXXXXXXX)
+_tmpdir=$(mktemp -d ${BBBIKE_TMPFS}/osm2${type}.$map_style.XXXXXXXXXXX)
 tmpdir=$_tmpdir/${basename}-${type}-${map_style}
 mkdir -p $tmpdir
 cd $tmpdir
@@ -152,6 +153,12 @@ echo ">>> Run Maperitive, map style: $map_style" >> $logfile
 if ! DISPLAY=$BBBIKE_MAPERITIVE_DISPLAY time $program  -exitafter $(pwd)/$config_file >> $logfile 2>&1; then
   tail -n 20 $logfile
   exit 2
+fi
+
+logfile_max_size="500k"
+if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
+    echo "logfile $logfile is to big: $(ls -l $logfile)"
+    exit 2
 fi
 
 ( $MD5 $image_file; $SHA $image_file ) > .checksum.txt.tmp; mv -f .checksum.txt.tmp CHECKSUM.txt

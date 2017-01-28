@@ -28,14 +28,18 @@ var config = {
 
     // max. area size in MB
     "max_size": {
-        "default": 1536,
+        "default": 960,
+
+        "osm.pbf": 1536,
 
         "obf.zip": 250,
         "navit.zip": 512,
+        "shp.zip": 512,
         "mapsforge-osm.zip": 400,
         "mapsme-osm.zip": 500,
 
         "garmin-bbbike.zip": 650,
+        "garmin-bbbike-ascii.zip": 650,
         "garmin-osm.zip": 768,
         "garmin-osm-ascii.zip": 768,
         "garmin-cycle.zip": 650,
@@ -46,6 +50,8 @@ var config = {
         "garmin-onroad-ascii.zip": 650,
         "garmin-openfietslite.zip": 650,
         "garmin-openfietslite-ascii.zip": 650,
+        "garmin-oseam.zip": 650,
+        "garmin-oseam-ascii.zip": 650,
 
         "png-google.zip": 32,
         "png-osm.zip": 32,
@@ -88,12 +94,15 @@ var config = {
         "garmin-onroad.zip": "/images/garmin-onroad2-small.png",
         "garmin-onroad-ascii.zip": "/images/garmin-onroad2-small.png",
         "garmin-bbbike.zip": "/images/garmin-bbbike-small.png",
+        "garmin-bbbike-ascii.zip": "/images/garmin-bbbike-small.png",
         "garmin-cycle.zip": "/images/garmin-cycle-small.png",
         "garmin-cycle-ascii.zip": "/images/garmin-cycle-small.png",
         "garmin-leisure.zip": "/images/garmin-leisure-small.png",
         "garmin-leisure-ascii.zip": "/images/garmin-leisure-small.png",
         "garmin-osm.zip": "/images/garmin-osm-small.png",
         "garmin-osm-ascii.zip": "/images/garmin-osm-small.png",
+        "garmin-oseam.zip": "/images/garmin-oseam2-small.png",
+        "garmin-oseam-ascii.zip": "/images/garmin-oseam2-small.png",
 
         "svg-google.zip": "/images/svg-google-small.png",
         "svg-osm.zip": "/images/svg-osm-small.png",
@@ -310,9 +319,18 @@ function init_map() {
         attribution: '<a href="https://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="http://www.opencyclemap.org/">(&copy) OpenCycleMap</a>'
     }));
 
-    // Bing roads and Satellite/Hybrid
-    add_bing_maps(map);
+    map.addLayer(new OpenLayers.Layer.OSM("Mapbox Satellite", ["https://d.tiles.mapbox.com/v3/tmcw.map-j5fsp01s/${z}/${x}/${y}.png"], {
+        attribution: '<a href="https://www.mapbox.com/">(&copy) mapbox</a>',
+        tileOptions: {
+            crossOriginKeyword: null
+        },
+        numZoomLevels: 20
+    }));
 
+
+    // Bing roads and Satellite/Hybrid
+    // disabled due wrong billing
+    // add_bing_maps(map);
     state.map = map;
     return map;
 }
@@ -1359,6 +1377,10 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "size": 0.8,
             "time": 2
         },
+        "garmin-bbbike-ascii.zip": {
+            "size": 0.8,
+            "time": 2
+        },
         "garmin-onroad.zip": {
             "size": 0.2,
             "time": 1.2
@@ -1373,6 +1395,14 @@ function show_filesize(skm, real_size, sub_planet_factor) {
         },
         "garmin-openfietslite-ascii.zip": {
             "size": 0.6,
+            "time": 2
+        },
+        "garmin-oseam.zip": {
+            "size": 0.8,
+            "time": 2
+        },
+        "garmin-oseam-ascii.zip": {
+            "size": 0.8,
             "time": 2
         },
         "png-google.zip": {
