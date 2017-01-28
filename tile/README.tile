@@ -30,7 +30,7 @@ sudo ln -sf /usr/bin/perl /usr/local/bin/perl
 
 
 # add the openstreemap repo
-# sudo cp world/etc/apt/trusty/sources.list.d/openstreetmap.list /etc/apt/sources.list.d
+# sudo cp world/etc/apt/ubuntu/trusty/sources.list.d/openstreetmap.list /etc/apt/sources.list.d
 echo "deb http://ppa.launchpad.net/kakrueger/openstreetmap/ubuntu trusty main" > /etc/apt/sources.list.d/openstreetmap.list
 
 # get key repo pgp ID

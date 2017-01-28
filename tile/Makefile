@@ -32,7 +32,7 @@ perl:
 
 osm-repo:
 	if [ ! -e /etc/apt/sources.list.d/openstreetmap.list ]; then \
-	   sudo cp ${PROJECT_DIR}/bbbike/world/etc/apt/wheezy/sources.list.d/openstreetmap.list /etc/apt/sources.list.d/openstreetmap.list ;\
+	   sudo cp ${PROJECT_DIR}/bbbike/world/etc/apt/debian/wheezy/sources.list.d/openstreetmap.list /etc/apt/sources.list.d/openstreetmap.list ;\
 	   sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys AE74800FB745A04C; \
 	fi
 	sudo apt-get update

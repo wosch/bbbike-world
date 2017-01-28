@@ -1127,12 +1127,12 @@ DEB_RELEASE=	$(shell lsb_release -cs)
 DEB_VENDOR=	$(shell lsb_release -is | tr  'A-Z' 'a-z')
 DEB_TMP=tmp/deb
 DEB_DIR=${DEB_TMP}/${DEB_VENDOR}/${DEB_RELEASE}
-DEB_MODULE_LIST=world/etc/apt/${DEB_RELEASE}/perl-modules.txt
-DEB_MODULE_LIST_DEVEL=world/etc/apt/${DEB_RELEASE}/perl-modules-devel.txt
+DEB_MODULE_LIST=world/etc/apt/${DEB_VENDOR}/${DEB_RELEASE}/perl-modules.txt
+DEB_MODULE_LIST_DEVEL=world/etc/apt/${DEB_VENDOR}/${DEB_RELEASE}/perl-modules-devel.txt
 DEB_PACKAGES=	$(shell ${PERL} -npe 's/\#.*//' ${DEB_MODULE_LIST})
 DEB_PACKAGES_DEVEL=	$(shell ${PERL} -npe 's/\#.*//' ${DEB_MODULE_LIST_DEVEL})
-DEB_CONTROLS=	$(shell ${MAKE} -s -Cworld/etc/apt/${DEB_RELEASE}/equivs)
-DEB_REPO_DIR=	/usr/local/www/debian.bbbike.org/${DEB_VENDOR}
+DEB_CONTROLS=	$(shell ${MAKE} -s -C./world/etc/apt/${DEB_VENDOR}/${DEB_RELEASE}/equivs)
+DEB_REPO_DIR=	/usr/local/www/debian.bbbike.org/
 DEB_OPT_DIR=	/var/lib/bbbike/opt
 COPY_DEB?= true
 
@@ -1162,6 +1162,7 @@ deb-perl: deb-clean perl-cpan
 perl-cpan-clean:
 	rm -rf $$HOME/perl5 $$HOME/.cpan/build
 
+# XXX: should be part of world/etc/apt/Makefile
 # build cpan modules first, and later build deb packages
 perl-cpan:
 	set -e; \
@@ -1170,7 +1171,8 @@ perl-cpan:
 	  cpan $$i; \
 	done
 
-deb-equivs: deb-clean
+# XXX: should be part of world/etc/apt/Makefile
+deb-equivs:
 	mkdir -p ${DEB_DIR}
 	set -e; cd ${DEB_DIR}; \
 	for i in ${DEB_CONTROLS}; do \
@@ -1180,11 +1182,11 @@ deb-equivs: deb-clean
 	ls -l ${DEB_DIR}/*.deb
 
 deb-bin deb-bin-java deb-bin-x86: 
-	${MAKE} -C./world/etc/apt/${DEB_RELEASE}/deb -f ../../Makefile DEB_RELEASE=${DEB_RELEASE} DEB_VENDOR=${DEB_VENDOR} $@
+	${MAKE} -C./world/etc/apt/${DEB_VENDOR}/${DEB_RELEASE}/deb -f ../../../Makefile DEB_RELEASE=${DEB_RELEASE} DEB_VENDOR=${DEB_VENDOR} $@
 
 deb-clean:
 	rm -rf ${DEB_DIR}
-	${MAKE} -C./world/etc/apt/${DEB_RELEASE}/deb -f ../../Makefile DEB_RELEASE=${DEB_RELEASE} DEB_VENDOR=${DEB_VENDOR} distclean
+	${MAKE} -C./world/etc/apt/${DEB_VENDOR}/${DEB_RELEASE}/deb -f ../../../Makefile DEB_RELEASE=${DEB_RELEASE} DEB_VENDOR=${DEB_VENDOR} distclean
 
 deb-distclean: deb-clean
 	rm -rf ${DEB_TMP}
@@ -1192,21 +1194,23 @@ deb-distclean: deb-clean
 
 
 deb-repo-dir:
-	mkdir -p ${DEB_REPO_DIR}/${DEB_RELEASE}/conf
-	pwd=`pwd`; cd ${DEB_REPO_DIR}/${DEB_RELEASE}/conf; \
+	mkdir -p ${DEB_REPO_DIR}/${DEB_VENDOR}/${DEB_RELEASE}/conf
+	pwd=`pwd`; cd ${DEB_REPO_DIR}/${DEB_VENDOR}/${DEB_RELEASE}/conf; \
 	if [ ! -e distributions ]; then \
-	    ln -s $$pwd/world/etc/apt/${DEB_RELEASE}/conf/distributions; \
+	    ln -s $$pwd/world/etc/apt/${DEB_VENDOR}/${DEB_RELEASE}/conf/distributions; \
 	fi
 
+# should be part of world/etc/apt/Makefile
 # fix & sign debian packages	
 deb-repo: deb-repo-dir
 	for i in ${DEB_DIR}/*.deb; do \
 	  world/bin/deb2deb $$i; \
 	done
-	dpkg-sig -k 3D084B60 --sign builder ${DEB_DIR}/*.deb
-	set -e; pwd=`pwd`; cd ${DEB_REPO_DIR}/${DEB_RELEASE}; \
+	dpkg-sig -k B1826CDD --sign builder ${DEB_DIR}/*.deb
+	set -e; pwd=`pwd`; cd ${DEB_REPO_DIR}/${DEB_VENDOR}/${DEB_RELEASE}; \
 	for i in $$pwd/${DEB_DIR}/*.deb; do \
  	   package=$$(echo $$i | perl -npe 's,.*/,,; s,_[\d+\.\-]+\_(all|amd64|i386)\.deb$$,,'); \
+	   echo "Install package $$package"; \
  	   reprepro --ignore=undefinedtarget -Vb . removematched ${DEB_RELEASE} $$package; \
  	   reprepro --ignore=undefinedtarget -Vb . includedeb ${DEB_RELEASE} $$i; \
 	done
