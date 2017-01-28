@@ -15,7 +15,7 @@ init_apt_bbbike() {
     codename=$(lsb_release -cs)
 
     if [ ! -e $file ]; then 
-        wget -O- $apt_key | sudo apt-key add -
+        curl -sSf $apt_key | sudo apt-key add -
         sudo sh -c "echo deb $deb_url/${os}/${codename} ${codename} main > $file.tmp"
         sudo mv -f $file.tmp $file
         sudo apt-get update -qq
@@ -48,7 +48,7 @@ init_apt_mono() {
 
 # required packages for this script
 init_apt_deb() {
-    sudo apt-get install -qq -y lsb-release wget
+    sudo apt-get install -qq -y lsb-release wget curl
 }
 
 init_apt_deb
