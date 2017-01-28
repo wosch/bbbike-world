@@ -1508,7 +1508,7 @@ help:
 	@echo ""
 	@echo "  [ debian-bootstrap | bbbike-bootstrap | bbbike-c ]"
 	@echo "  [ build-runtime ]"
-	@echo "  [ git-fetch | git-pull | git-push | mygit ]"
+	@echo "  [ git-fetch | git-pull | git-push | mygit | git-gc ]"
 	@echo "  [ check | check-world | check-full | check-failed ]"
 	@echo "  [ travis ]"
 	@echo ""
