@@ -59,8 +59,9 @@ system_linux () {
 
 case $(uname) in
     Linux ) system_linux ;;
+    GNU/kFreeBSD ) system_linux ;;
     Darwin ) system_macos ;;
-    * ) echo "Unsuppored OS $(uname)"; exit 1 ;;
+    * ) echo "ncpu: unsuppored OS $(uname)"; exit 1 ;;
 esac
 
 config
