@@ -19,6 +19,7 @@ APACHE2_MODULES=	apache2-data=${APACHE2_VERSION} \
 LEGACY_MODULES= libmapnik2.2 libgdal1h libgeos-c1 gdal-bin=1.10.1+dfsg-5ubuntu1 #libgeos-c1 liblwgeom-2.1.2 gdal-bin=1.10.1+dfsg-5ubuntu1 postgresql-9.3-postgis* libgdal1h
 
 DEBIAN_MODULES_SYTEM= 	unzip bzip2 make subversion tidy gcc git
+
 DEBIAN_MODULES= 	libimager-perl imagemagick libinline-perl libhtml-tagcloud-perl \
         		libtie-ixhash-perl libhtml-parser-perl
 
@@ -32,7 +33,8 @@ DEBIAN_INSTALL_FLAGS=	-y  # -y -d
 all: help
 
 install-packages: perl
-	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES_SYTEM} ${APACHE2_MODULES}	${LEGACY_MODULES} ${DEBIAN_MODULES} ${TILE_MODULES} ${TILE_MODULES_OSM}
+	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES_SYTEM} ${APACHE2_MODULES}	
+	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${LEGACY_MODULES} ${DEBIAN_MODULES} ${TILE_MODULES} ${TILE_MODULES_OSM}
 
 perl:
 	if [ ! -e /usr/local/bin/perl ]; then \
@@ -153,7 +155,7 @@ manual:
 	@echo "make openstreetmap-postgis bbbike-mapnik mapnik-restart"
 	@echo ""
 
-install-all: symlinks install-packages osm-repo postgis-utf8 repo-checkout munin manual
+install-all: osm-repo install-packages symlinks postgis-utf8 repo-checkout munin manual
 
 distclean: clean
 	sudo rm -f /etc/mapnik-bbbike /etc/mapnik-german /etc/mapnik-osm-carto-data
