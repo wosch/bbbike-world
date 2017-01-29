@@ -98,7 +98,7 @@ plan tests => scalar(@files) +
   scalar(@size_76c) +
   scalar(@size_3k) +
   scalar(@size_15k) + 1 +
-  ( $lsb_release eq 'jessieXXX' || $ENV{BBBIKE_TEST_LONG} ? 1 : 0 );
+  ( $lsb_release eq 'jessieXXX' || $ENV{BBBIKE_TEST_LONG_XXX} ? 1 : 0 );
 
 sub md5_file {
     my $file = shift;
