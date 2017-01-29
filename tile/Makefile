@@ -154,7 +154,7 @@ help:
 	@echo ""
 	@echo "usage: make [ targets ... ]"
 	@echo ""
-	@echo "  [ install-all ]"
+	@echo "  [ osm-repo | install-all ]"
 	@echo "  [ install-packages | symlinks | bbbike-mapnik ]"
 	@echo "  [ openstreetmap-postgis | mapnik-restart ]"
 	@echo "  [ clean | distclean ]"

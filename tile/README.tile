@@ -5,6 +5,7 @@
 
 Everything runs by a make command. Try:
 
+make osm-repo
 make install-all
 make help
 
