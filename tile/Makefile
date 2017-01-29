@@ -6,7 +6,8 @@
 # For more information about BBBike, visit http://www.bbbike.org
 #
 
-POSTGRES_VERSION=9.5
+# need older versions for libapache2-mod-tile 
+POSTGRES_VERSION=9.3
 APACHE2_VERSION=2.4.7-1ubuntu4
 
 APACHE2_MODULES=	apache2-data=${APACHE2_VERSION} \
@@ -17,10 +18,10 @@ APACHE2_MODULES=	apache2-data=${APACHE2_VERSION} \
 
 DEBIAN_MODULES= unzip bzip2 make subversion tidy gcc git \
         libimager-perl imagemagick libinline-perl libhtml-tagcloud-perl \
-        libtie-ixhash-perl libhtml-parser-perl ${APACHE2_MODULES}
+        libtie-ixhash-perl libhtml-parser-perl
 
-TILE_MODULES= python-mapnik2 postgresql osm2pgsql #=0.80.0+r27899-4
-TILE_MODULES_OSM= openstreetmap-mapnik-carto-stylesheet-data postgresql-contrib postgresql-contrib-${POSTGRES_VERSION} renderd libapache2-mod-tile 
+TILE_MODULES= postgresql-${POSTGRES_VERSION} postgresql-contrib-${POSTGRES_VERSION} osm2pgsql python-mapnik2
+TILE_MODULES_OSM= openstreetmap-mapnik-carto-stylesheet-data renderd libapache2-mod-tile 
 
 
 PROJECT_DIR=	$$HOME/projects
@@ -29,6 +30,7 @@ DEBIAN_INSTALL_FLAGS=	-y  # -y -d
 all: help
 
 install-packages: perl
+	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${${APACHE2_MODULES}}	
 	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES}	
 	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES}	
 	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES_OSM}	
