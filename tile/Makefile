@@ -12,7 +12,7 @@ DEBIAN_MODULES= unzip bzip2 make subversion tidy gcc git \
         libimager-perl imagemagick libinline-perl libhtml-tagcloud-perl \
         libtie-ixhash-perl libhtml-parser-perl apache2
 
-TILE_MODULES= python-mapnik2 postgresql osm2pgsql=0.80.0+r27899-4
+TILE_MODULES= python-mapnik2 postgresql osm2pgsql #=0.80.0+r27899-4
 TILE_MODULES_OSM= openstreetmap-mapnik-stylesheet-data  postgresql-contrib postgresql-contrib-${POSTGRES_VERSION} renderd libapache2-mod-tile 
 
 
@@ -24,6 +24,7 @@ all: help
 install-packages: perl
 	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES}	
 	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES}	
+	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES_OSM}	
 
 perl:
 	if [ ! -e /usr/local/bin/perl ]; then \
@@ -32,7 +33,7 @@ perl:
 
 osm-repo:
 	if [ ! -e /etc/apt/sources.list.d/openstreetmap.list ]; then \
-	   sudo cp ${PROJECT_DIR}/bbbike/world/etc/apt/debian/wheezy/sources.list.d/openstreetmap.list /etc/apt/sources.list.d/openstreetmap.list ;\
+	   sudo cp ${PROJECT_DIR}/bbbike/world/etc/apt/ubuntu/trusty/sources.list.d/openstreetmap.list /etc/apt/sources.list.d/openstreetmap.list ;\
 	   sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys AE74800FB745A04C; \
 	fi
 	sudo apt-get -qq update
