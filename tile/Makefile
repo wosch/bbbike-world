@@ -6,14 +6,25 @@
 # For more information about BBBike, visit http://www.bbbike.org
 #
 
-POSTGRES_VERSION=9.5
+# need older versions for libapache2-mod-tile 
+POSTGRES_VERSION=9.3
+APACHE2_VERSION=2.4.7-1ubuntu4
 
-DEBIAN_MODULES= unzip bzip2 make subversion tidy gcc git \
-        libimager-perl imagemagick libinline-perl libhtml-tagcloud-perl \
-        libtie-ixhash-perl libhtml-parser-perl apache2
+APACHE2_MODULES=	apache2-data=${APACHE2_VERSION} \
+			apache2-bin=${APACHE2_VERSION} \
+			apache2-utils=${APACHE2_VERSION} \
+			apache2-mpm-event=${APACHE2_VERSION} \
+			apache2=${APACHE2_VERSION}
 
-TILE_MODULES= python-mapnik2 postgresql osm2pgsql=0.80.0+r27899-4
-TILE_MODULES_OSM= openstreetmap-mapnik-stylesheet-data  postgresql-contrib postgresql-contrib-${POSTGRES_VERSION} renderd libapache2-mod-tile 
+LEGACY_MODULES= libmapnik2.2 libgdal1h libgeos-c1 gdal-bin=1.10.1+dfsg-5ubuntu1 #libgeos-c1 liblwgeom-2.1.2 gdal-bin=1.10.1+dfsg-5ubuntu1 postgresql-9.3-postgis* libgdal1h
+
+DEBIAN_MODULES_SYTEM= 	unzip bzip2 make subversion tidy gcc git munin-node
+
+DEBIAN_MODULES= 	libimager-perl imagemagick libinline-perl libhtml-tagcloud-perl \
+        		libtie-ixhash-perl libhtml-parser-perl
+
+TILE_MODULES= postgresql-${POSTGRES_VERSION}  postgresql-client-${POSTGRES_VERSION} postgresql-contrib-${POSTGRES_VERSION} osm2pgsql python-mapnik=2.2.0+ds1-6build2
+TILE_MODULES_OSM= openstreetmap-mapnik-carto-stylesheet-data renderd libapache2-mod-tile 
 
 
 PROJECT_DIR=	$$HOME/projects
@@ -22,8 +33,8 @@ DEBIAN_INSTALL_FLAGS=	-y  # -y -d
 all: help
 
 install-packages: perl
-	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES}	
-	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES}	
+	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES_SYTEM} ${APACHE2_MODULES}	
+	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${LEGACY_MODULES} ${DEBIAN_MODULES} ${TILE_MODULES} ${TILE_MODULES_OSM}
 
 perl:
 	if [ ! -e /usr/local/bin/perl ]; then \
@@ -32,11 +43,10 @@ perl:
 
 osm-repo:
 	if [ ! -e /etc/apt/sources.list.d/openstreetmap.list ]; then \
-	   sudo cp ${PROJECT_DIR}/bbbike/world/etc/apt/debian/wheezy/sources.list.d/openstreetmap.list /etc/apt/sources.list.d/openstreetmap.list ;\
+	   sudo cp ${PROJECT_DIR}/bbbike/world/etc/apt/ubuntu/trusty/sources.list.d/openstreetmap.list /etc/apt/sources.list.d/openstreetmap.list ;\
 	   sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys AE74800FB745A04C; \
 	fi
-	sudo apt-get update
-	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES_OSM}	
+	sudo apt-get -qq update
 
 postgis-utf8:
 	-sudo /etc/init.d/renderd stop
@@ -71,8 +81,8 @@ etc-symlinks:
 	cd /etc; \
 	sudo ln -sf ${PROJECT_DIR}/mapnik-german . ;\
 	sudo ln -sf ~/projects/mapnik-bbbike . ;\
-	sudo ln -fs ~/projects/bbbike/world/tile/etc/renderd20.conf .;\
-	sudo ln -fs renderd20.conf renderd.conf
+	sudo ln -fs ~/projects/bbbike/world/tile/etc/renderd22.conf .;\
+	sudo ln -fs renderd22.conf renderd.conf
 
 etc-init-symlinks:
 	cd /etc/init.d/; sudo ln -fs ~/projects/bbbike/world/tile/etc/renderd-slowstart .;
@@ -81,8 +91,8 @@ etc-init-symlinks:
 
 apache-symlinks:
 	cd /etc/apache2/sites-available; \
-	  sudo ln -sf ~/projects/bbbike/world/tile/etc/apache2-tile.conf .
-	sudo a2ensite apache2-tile.conf
+	  sudo ln -sf ~/projects/bbbike/world/etc/apache2/tile.conf .
+	sudo a2ensite tile.conf
 	sudo a2enmod tile
 	sudo rm -f /etc/apache2/sites-enabled/tileserver_site 
 	sudo /etc/init.d/renderd restart
@@ -145,10 +155,22 @@ manual:
 	@echo "make openstreetmap-postgis bbbike-mapnik mapnik-restart"
 	@echo ""
 
-install-all: install-packages osm-repo postgis-utf8 repo-checkout symlinks munin manual
+install-all: osm-repo install-packages symlinks postgis-utf8 repo-checkout munin manual
 
 distclean: clean
+	sudo rm -f /etc/mapnik-bbbike /etc/mapnik-german /etc/mapnik-osm-carto-data
+	sudo rm -f /etc/renderd22.conf /etc/renderd.conf
+
 clean:
+
+apt-distclean apt-purge: 
+	sudo apt-get purge -y ${DEBIAN_INSTALL_FLAGS} ${APACHE2_MODULES} ${LEGACY_MODULES} ${DEBIAN_MODULES} ${TILE_MODULES} ${TILE_MODULES_OSM}
+	sudo apt-get purge -y libpq5* apache2* postgis* postgresql* 
+	sudo apt-get autoremove -y
+	make apt-distclean-carto
+
+apt-distclean-carto:
+	sudo rm -rf /etc/mapnik-osm-carto-data /usr/share/mapnik-osm-carto-data 
 
 help:
 	@echo ""
@@ -157,7 +179,7 @@ help:
 	@echo "  [ osm-repo | install-all ]"
 	@echo "  [ install-packages | symlinks | bbbike-mapnik ]"
 	@echo "  [ openstreetmap-postgis | mapnik-restart ]"
-	@echo "  [ clean | distclean ]"
+	@echo "  [ clean | distclean | apt-distclean ]"
 	@echo ""
 	@echo "see also ./world/tile/README.tile"
 
