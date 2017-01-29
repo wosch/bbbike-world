@@ -156,6 +156,8 @@ manual:
 install-all: symlinks install-packages osm-repo postgis-utf8 repo-checkout munin manual
 
 distclean: clean
+	sudo rm -f /etc/mapnik-bbbike /etc/mapnik-german /etc/mapnik-osm-carto-data
+
 clean:
 
 apt-distclean apt-purge: 
@@ -166,7 +168,6 @@ apt-distclean apt-purge:
 
 apt-distclean-carto:
 	sudo rm -rf /etc/mapnik-osm-carto-data /usr/share/mapnik-osm-carto-data 
-	sudo mkdir /etc/mapnik-osm-carto-data
 
 help:
 	@echo ""
