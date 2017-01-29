@@ -22,7 +22,7 @@ DEBIAN_MODULES_SYTEM= 	unzip bzip2 make subversion tidy gcc git munin-node time
 LEGACY_MODULES= 	libmapnik2.2 libgdal1h libgeos-c1 gdal-bin=1.10.1+dfsg-5ubuntu1 python-mapnik=2.2.0+ds1-6build2 postgis=2.1.2+dfsg-2ubuntu0.1
 
 DEBIAN_MODULES= 	libimager-perl imagemagick libinline-perl libhtml-tagcloud-perl \
-        		libtie-ixhash-perl libhtml-parser-perl
+        		libtie-ixhash-perl libhtml-parser-perl libwww-perl
 
 TILE_MODULES= postgresql-${POSTGRES_VERSION}  postgresql-client-${POSTGRES_VERSION} postgresql-contrib-${POSTGRES_VERSION} osm2pgsql
 TILE_MODULES_OSM= openstreetmap-mapnik-carto-stylesheet-data renderd libapache2-mod-tile openstreetmap-postgis-db-setup
