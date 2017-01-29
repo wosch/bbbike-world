@@ -143,10 +143,10 @@ mapnik-restart:
 	make -C ${PROJECT_DIR}/bbbike $@
 
 munin:
-	sudo apt-get install libdbd-pg-perl
-	cd /etc/munin/plugins/
-	sudo ln -fs /usr/share/munin/plugins/postgres_* .
-	for i in postgres_*_;do echo $$i;sudo mv $$i $${i}ALL;done
+	sudo apt-get install -y libdbd-pg-perl
+	cd /etc/munin/plugins/; \
+	  sudo ln -fs /usr/share/munin/plugins/postgres_* .; \
+	  for i in postgres_*_;do echo $$i;sudo mv $$i $${i}ALL;done
 	sudo /etc/init.d/munin-node restart
 
 manual:
