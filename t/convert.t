@@ -180,6 +180,6 @@ sub checksum {
 
 &convert;
 &check_files;
-#&checksum if $lsb_release eq 'jessieXXX' || $ENV{BBBIKE_TEST_LONG};
+&checksum if $lsb_release eq 'jessieXXX' || $ENV{BBBIKE_TEST_LONG_XXX};
 
 __END__
