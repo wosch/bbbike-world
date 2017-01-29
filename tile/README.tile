@@ -9,6 +9,9 @@ make osm-repo
 make install-all
 make help
 
+Note: you may have to enable repos in 
+/etc/apt/sources.list.d/openstreetmap.list 
+
 
 EOF
 ######################################################################
