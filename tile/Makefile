@@ -7,10 +7,17 @@
 #
 
 POSTGRES_VERSION=9.5
+APACHE2_VERSION=2.4.7-1ubuntu4
+
+APACHE2_MODULES=	apache2-data=${APACHE2_VERSION} \
+			apache2-bin=${APACHE2_VERSION} \
+			apache2-utils=${APACHE2_VERSION} \
+			apache2-mpm-event=${APACHE2_VERSION} \
+			apache2=${APACHE2_VERSION}
 
 DEBIAN_MODULES= unzip bzip2 make subversion tidy gcc git \
         libimager-perl imagemagick libinline-perl libhtml-tagcloud-perl \
-        libtie-ixhash-perl libhtml-parser-perl apache2
+        libtie-ixhash-perl libhtml-parser-perl ${APACHE2_MODULES}
 
 TILE_MODULES= python-mapnik2 postgresql osm2pgsql #=0.80.0+r27899-4
 TILE_MODULES_OSM= openstreetmap-mapnik-carto-stylesheet-data postgresql-contrib postgresql-contrib-${POSTGRES_VERSION} renderd libapache2-mod-tile 
