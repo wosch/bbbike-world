@@ -174,6 +174,8 @@ apt-distclean apt-purge:
 
 apt-distclean-carto:
 	sudo rm -rf /etc/mapnik-osm-carto-data /usr/share/mapnik-osm-carto-data 
+	# strange bug in dpkg, which follows symlinks on delete
+	if ! test -e etc/renderd22.conf; then git checkout etc/renderd22.conf; fi
 
 help:
 	@echo ""
