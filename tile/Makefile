@@ -48,6 +48,8 @@ osm-repo:
 	fi
 	sudo apt-get -qq update
 
+# in case of trouble run:
+# sudo dpkg-reconfigure openstreetmap-postgis-db-setup
 postgis-utf8:
 	-sudo /etc/init.d/renderd stop
 	sudo pg_dropcluster --stop ${POSTGRES_VERSION} main
