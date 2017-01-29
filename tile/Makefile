@@ -88,8 +88,8 @@ etc-init-symlinks:
 
 apache-symlinks:
 	cd /etc/apache2/sites-available; \
-	  sudo ln -sf ~/projects/bbbike/world/tile/etc/apache2-tile.conf .
-	sudo a2ensite apache2-tile.conf
+	  sudo ln -sf ~/projects/bbbike/world/tile/etc/tile.conf .
+	sudo a2ensite tile.conf
 	sudo a2enmod tile
 	sudo rm -f /etc/apache2/sites-enabled/tileserver_site 
 	sudo /etc/init.d/renderd restart
