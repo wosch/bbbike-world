@@ -16,7 +16,7 @@ BEGIN {
 use Test::More;
 use FindBin;
 use lib ( "$FindBin::RealBin/..", "$FindBin::RealBin/../lib",
-    "$FindBin::RealBin/../../lib" );
+    "$FindBin::RealBin/../../lib", "." );
 use Strassen::Core;
 use Time::HiRes qw( gettimeofday tv_interval );
 use Data::Dumper;
