@@ -18,7 +18,7 @@ APACHE2_MODULES=	apache2-data=${APACHE2_VERSION} \
 
 LEGACY_MODULES= libmapnik2.2 libgdal1h libgeos-c1 gdal-bin=1.10.1+dfsg-5ubuntu1 #libgeos-c1 liblwgeom-2.1.2 gdal-bin=1.10.1+dfsg-5ubuntu1 postgresql-9.3-postgis* libgdal1h
 
-DEBIAN_MODULES_SYTEM= 	unzip bzip2 make subversion tidy gcc git
+DEBIAN_MODULES_SYTEM= 	unzip bzip2 make subversion tidy gcc git munin-node
 
 DEBIAN_MODULES= 	libimager-perl imagemagick libinline-perl libhtml-tagcloud-perl \
         		libtie-ixhash-perl libhtml-parser-perl
