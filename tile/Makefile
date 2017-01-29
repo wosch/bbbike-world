@@ -153,15 +153,20 @@ manual:
 	@echo "make openstreetmap-postgis bbbike-mapnik mapnik-restart"
 	@echo ""
 
-install-all: install-packages osm-repo postgis-utf8 repo-checkout symlinks munin manual
+install-all: symlinks install-packages osm-repo postgis-utf8 repo-checkout munin manual
 
 distclean: clean
 clean:
 
 apt-distclean apt-purge: 
-	sudo apt-get purge ${DEBIAN_INSTALL_FLAGS} ${APACHE2_MODULES} ${LEGACY_MODULES} ${DEBIAN_MODULES} ${TILE_MODULES} ${TILE_MODULES_OSM}
-	sudo apt-get purge libpq5* apache2* postgis* postgresql* 
-	sudo apt-get install
+	sudo apt-get purge -y ${DEBIAN_INSTALL_FLAGS} ${APACHE2_MODULES} ${LEGACY_MODULES} ${DEBIAN_MODULES} ${TILE_MODULES} ${TILE_MODULES_OSM}
+	sudo apt-get purge -y libpq5* apache2* postgis* postgresql* 
+	sudo apt-get autoremove -y
+	make apt-distclean-carto
+
+apt-distclean-carto:
+	sudo rm -rf /etc/mapnik-osm-carto-data /usr/share/mapnik-osm-carto-data 
+	sudo mkdir /etc/mapnik-osm-carto-data
 
 help:
 	@echo ""
