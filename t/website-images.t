@@ -63,13 +63,13 @@ sub images {
 
     foreach my $image (@images) {
         my $res = $test->myget( "$homepage/images/$image", 60 );
-        my $mime_type = "image/"
+        my $mime_type = "^image/"
           . (
               $image =~ /\.gif$/ ? "gif"
-            : $image =~ /\.ico$/ ? "x-icon"
+            : $image =~ /\.ico$/ ? "(x-icon|vnd.microsoft.icon)"
             :                      "png"
-          );
-        is( $res->content_type, $mime_type, "$image is $mime_type" );
+          ) . '$';
+        like( $res->content_type, qr[$mime_type], "$image is $mime_type" );
     }
 }
 
