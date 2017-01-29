@@ -24,7 +24,7 @@ DEBIAN_MODULES= 	libimager-perl imagemagick libinline-perl libhtml-tagcloud-perl
         		libtie-ixhash-perl libhtml-parser-perl
 
 TILE_MODULES= postgresql-${POSTGRES_VERSION}  postgresql-client-${POSTGRES_VERSION} postgresql-contrib-${POSTGRES_VERSION} osm2pgsql python-mapnik=2.2.0+ds1-6build2
-TILE_MODULES_OSM= openstreetmap-mapnik-carto-stylesheet-data renderd libapache2-mod-tile 
+TILE_MODULES_OSM= openstreetmap-mapnik-carto-stylesheet-data renderd libapache2-mod-tile openstreetmap-postgis-db-setup postgis
 
 
 PROJECT_DIR=	$$HOME/projects
