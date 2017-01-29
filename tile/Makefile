@@ -159,6 +159,7 @@ install-all: osm-repo install-packages symlinks postgis-utf8 repo-checkout munin
 
 distclean: clean
 	sudo rm -f /etc/mapnik-bbbike /etc/mapnik-german /etc/mapnik-osm-carto-data
+	sudo rm -f /etc/renderd22.conf /etc/renderd.conf
 
 clean:
 
