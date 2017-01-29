@@ -79,8 +79,8 @@ etc-symlinks:
 	cd /etc; \
 	sudo ln -sf ${PROJECT_DIR}/mapnik-german . ;\
 	sudo ln -sf ~/projects/mapnik-bbbike . ;\
-	sudo ln -fs ~/projects/bbbike/world/tile/etc/renderd20.conf .;\
-	sudo ln -fs renderd20.conf renderd.conf
+	sudo ln -fs ~/projects/bbbike/world/tile/etc/renderd22.conf .;\
+	sudo ln -fs renderd22.conf renderd.conf
 
 etc-init-symlinks:
 	cd /etc/init.d/; sudo ln -fs ~/projects/bbbike/world/tile/etc/renderd-slowstart .;
