@@ -38,6 +38,7 @@ my @aliases = qw(
 foreach my $item ( @production, @aliases, @development, @local) {
     my @match = ("User-agent:");
     
+    # www.bbbike.org has a longer robots.txt
     if ($item =~ m,^http://(www\.|localhost:),) {
         push @match, ('Disallow: /Berlin/?', 'Disallow: /en/Berlin/?', 'Disallow: /de/');
     }
