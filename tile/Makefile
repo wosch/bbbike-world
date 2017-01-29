@@ -35,8 +35,7 @@ osm-repo:
 	   sudo cp ${PROJECT_DIR}/bbbike/world/etc/apt/debian/wheezy/sources.list.d/openstreetmap.list /etc/apt/sources.list.d/openstreetmap.list ;\
 	   sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys AE74800FB745A04C; \
 	fi
-	sudo apt-get update
-	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES_OSM}	
+	sudo apt-get -qq update
 
 postgis-utf8:
 	-sudo /etc/init.d/renderd stop
