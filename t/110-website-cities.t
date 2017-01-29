@@ -140,7 +140,7 @@ qr{type="application/atom\+xml" .*href="/feed/bbbike-world.xml| href="/feed/bbbi
 
     # only on production systems
     if ( $homepage =~ m,^http://www, ) {
-        like( $content, qr|google_ad_client|, "google_ad_client" );
+        like( $content, qr|google_ad_client|, "google_ad_client $homepage" );
     }
 
     like( $content, qr|<div id="map"></div>|,    "div#map" );
