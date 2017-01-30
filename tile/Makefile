@@ -9,22 +9,18 @@
 # need older versions for libapache2-mod-tile 
 POSTGRES_VERSION=9.3
 APACHE2_VERSION=2.4.7-1ubuntu4
-
-APACHE2_MODULES=	apache2-data=${APACHE2_VERSION} \
-			apache2-bin=${APACHE2_VERSION} \
-			apache2-utils=${APACHE2_VERSION} \
-			apache2-mpm-event=${APACHE2_VERSION} \
-			apache2=${APACHE2_VERSION}
+APACHE2_MODULES=	apache2
 
 
-DEBIAN_MODULES_SYTEM= 	unzip bzip2 make subversion tidy gcc git munin-node time
+DEBIAN_MODULES_SYTEM= 	unzip bzip2 make subversion tidy gcc git munin-node time svn
 
-LEGACY_MODULES= 	libmapnik2.2 libgdal1h libgeos-c1 gdal-bin=1.10.1+dfsg-5ubuntu1 python-mapnik=2.2.0+ds1-6build2 postgis=2.1.2+dfsg-2ubuntu0.1
+#LEGACY_MODULES= 	libmapnik2.2 libgdal1h libgeos-c1 gdal-bin=1.10.1+dfsg-5ubuntu1 python-mapnik=2.2.0+ds1-6build2 postgis=2.1.2+dfsg-2ubuntu0.1
 
 DEBIAN_MODULES= 	libimager-perl imagemagick libinline-perl libhtml-tagcloud-perl \
         		libtie-ixhash-perl libhtml-parser-perl libwww-perl
 
-TILE_MODULES= postgresql-${POSTGRES_VERSION}  postgresql-client-${POSTGRES_VERSION} postgresql-contrib-${POSTGRES_VERSION} osm2pgsql
+TILE_MODULES= postgresql-${POSTGRES_VERSION}  postgresql-client-${POSTGRES_VERSION} postgresql-contrib-${POSTGRES_VERSION} osm2pgsql \
+		python-mapnik postgis
 TILE_MODULES_OSM= openstreetmap-mapnik-carto-stylesheet-data renderd libapache2-mod-tile openstreetmap-postgis-db-setup
 
 
@@ -35,7 +31,7 @@ all: help
 
 install-packages: perl
 	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES_SYTEM} ${APACHE2_MODULES}	
-	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${LEGACY_MODULES} ${DEBIAN_MODULES} ${TILE_MODULES} ${TILE_MODULES_OSM}
+	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES} ${TILE_MODULES} ${TILE_MODULES_OSM}
 
 perl:
 	if [ ! -e /usr/local/bin/perl ]; then \
