@@ -29,8 +29,9 @@ DEBIAN_INSTALL_FLAGS=	-y  # -y -d
 
 all: help
 
-install-packages: perl
+install-packages-system: perl
 	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES_SYTEM} ${APACHE2_MODULES}	
+install-packages: 
 	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES} ${TILE_MODULES} ${TILE_MODULES_OSM}
 
 perl:
@@ -154,7 +155,7 @@ manual:
 	@echo "make openstreetmap-postgis bbbike-mapnik mapnik-restart"
 	@echo ""
 
-install-all: osm-repo install-packages symlinks repo-checkout munin manual
+install-all: osm-repo install-packages-system repo-checkout install-packages symlinks munin manual
 
 distclean: clean
 	sudo rm -f /etc/mapnik-bbbike /etc/mapnik-german /etc/mapnik-osm-carto-data
