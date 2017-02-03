@@ -1442,6 +1442,8 @@ apt-clean:
 	sudo apt-get autoremove
 	sudo apt-get install -f
 
+host-clean: git-gc apt-clean
+
 
 bbbike-tarball bbbike-src tarball:
 	./world/bin/bbbike-tarball
@@ -1516,7 +1518,7 @@ help:
 	@echo ""
 	@echo "  [ debian-bootstrap | bbbike-bootstrap | bbbike-c ]"
 	@echo "  [ build-runtime ]"
-	@echo "  [ apt-clean ]"
+	@echo "  [ apt-clean | host-clean ]"
 	@echo "  [ git-fetch | git-pull | git-push | mygit | git-gc ]"
 	@echo "  [ check | check-world | check-full | check-failed ]"
 	@echo "  [ travis ]"
