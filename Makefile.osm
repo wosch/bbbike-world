@@ -429,6 +429,7 @@ check-world check-w:
 	@echo "In case of failure run:"
 	@echo " make check-failed"
 	@echo ""
+	http_proxy="" ${BBMAKE} PROVE_FILES="world/t/runtime*.t" test
 	http_proxy="" ${BBMAKE} PROVE_FILES="world/t/*.t" test > log.check-world 2>&1
 	tail -n 10 log.check-world
 
