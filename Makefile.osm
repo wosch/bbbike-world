@@ -414,7 +414,7 @@ convert3:
 	echo ${CITIES} " " | ${PERL} -npe 's/\s+/-convert /g' | \
 	   ${XARGS} -n 1 -P ${MAX_CPU} ${TIME} ${BBMAKE}
 
-check:
+check: check-runtime
 	@echo "In case of failure run:"
 	@echo " make check-failed"
 	@echo ""
@@ -425,15 +425,17 @@ check:
 travis:
 	http_proxy="" ${BBMAKE} test
 
-check-world check-w:
+check-runtime:
+	http_proxy="" ${BBMAKE} PROVE_FILES="world/t/runtime*.t" test
+
+check-world check-w: check-runtime
 	@echo "In case of failure run:"
 	@echo " make check-failed"
 	@echo ""
-	http_proxy="" ${BBMAKE} PROVE_FILES="world/t/runtime*.t" test
 	http_proxy="" ${BBMAKE} PROVE_FILES="world/t/*.t" test > log.check-world 2>&1
 	tail -n 10 log.check-world
 
-check-full:
+check-full: check-runtime
 	@echo "In case of failure run:"
 	@echo " BBBIKE_TEST_FAST=\"\" BBBIKE_TEST_LONG=1 make check-failed"
 	@echo ""
