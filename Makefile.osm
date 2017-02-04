@@ -728,22 +728,18 @@ cache-gc:
 	find ${BBBIKE_CACHE_DIR}/ -type f -mtime +21 -print0 | sudo ${PERL} -n0e unlink
 
 rotate-data-osm:
-	${RM_BG} ${DATA_OSM_DIR}.old2
-	${RM_BG} ${DATA_OSM_BBBIKE_DIR}.old2
-	#-test -e ${DATA_OSM_DIR}.old && mv ${DATA_OSM_DIR}.old ${DATA_OSM_DIR}.old2
-	-test -e ${DATA_OSM_DIR}     && mv ${DATA_OSM_DIR}     ${DATA_OSM_DIR}.old
-	#-test -e ${DATA_OSM_BBBIKE_DIR}.old && mv ${DATA_OSM_BBBIKE_DIR}.old ${DATA_OSM_BBBIKE_DIR}.old2
-	-test -e ${DATA_OSM_BBBIKE_DIR}     && mv ${DATA_OSM_BBBIKE_DIR}     ${DATA_OSM_BBBIKE_DIR}.old
-	if [ -e ${DATA_OSM_BBBIKE_DIR}.old ]; then \
-		find ${DATA_OSM_BBBIKE_DIR}.old -type f ! -name '*.gz' -print0 | ${XARGS} -0 ${GZIP}; \
-	fi
+	rm -rf ${DATA_OSM_DIR}.old2 ${DATA_OSM_BBBIKE_DIR}.old2
+	if [ -e ${DATA_OSM_DIR}.old ]; then mv ${DATA_OSM_DIR}.old ${DATA_OSM_DIR}.old2; fi
+	if [ -e ${DATA_OSM_DIR}     ]; then mv ${DATA_OSM_DIR}     ${DATA_OSM_DIR}.old; fi
+	if [ -e ${DATA_OSM_BBBIKE_DIR}.old ]; then mv ${DATA_OSM_BBBIKE_DIR}.old ${DATA_OSM_BBBIKE_DIR}.old2; fi
+	if [ -e ${DATA_OSM_BBBIKE_DIR}     ]; then mv ${DATA_OSM_BBBIKE_DIR}     ${DATA_OSM_BBBIKE_DIR}.old; fi
 	mkdir -p ${DATA_OSM_DIR} ${DATA_OSM_BBBIKE_DIR}
 	touch ${DATA_OSM_DIR}/.gitkeep ${DATA_OSM_BBBIKE_DIR}/.gitkeep
 
 rotate-osm:
-	${RM_BG} ${OSM_DIR}.old2
-	-test -e ${OSM_DIR}.old  && mv ${OSM_DIR}.old  ${OSM_DIR}.old2
-	-test -e ${OSM_DIR}      && mv ${OSM_DIR}      ${OSM_DIR}.old
+	rm -rf ${OSM_DIR}.old2
+	if [ -e ${OSM_DIR}.old ]; then mv ${OSM_DIR}.old  ${OSM_DIR}.old2; fi
+	if [ -e ${OSM_DIR}     ]; then mv ${OSM_DIR}      ${OSM_DIR}.old; fi
 	mkdir -p ${OSM_DIR}
 	touch ${OSM_DIR}/.gitkeep
 
