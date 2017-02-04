@@ -414,7 +414,7 @@ convert3:
 	echo ${CITIES} " " | ${PERL} -npe 's/\s+/-convert /g' | \
 	   ${XARGS} -n 1 -P ${MAX_CPU} ${TIME} ${BBMAKE}
 
-check:
+check: check-runtime
 	@echo "In case of failure run:"
 	@echo " make check-failed"
 	@echo ""
@@ -425,14 +425,17 @@ check:
 travis:
 	http_proxy="" ${BBMAKE} test
 
-check-world check-w:
+check-runtime:
+	http_proxy="" ${BBMAKE} PROVE_FILES="world/t/runtime*.t" test
+
+check-world check-w: check-runtime
 	@echo "In case of failure run:"
 	@echo " make check-failed"
 	@echo ""
 	http_proxy="" ${BBMAKE} PROVE_FILES="world/t/*.t" test > log.check-world 2>&1
 	tail -n 10 log.check-world
 
-check-full:
+check-full: check-runtime
 	@echo "In case of failure run:"
 	@echo " BBBIKE_TEST_FAST=\"\" BBBIKE_TEST_LONG=1 make check-failed"
 	@echo ""
@@ -1435,6 +1438,8 @@ apt-clean:
 	sudo apt-get autoremove
 	sudo apt-get install -f
 
+host-clean: git-gc apt-clean
+
 
 bbbike-tarball bbbike-src tarball:
 	./world/bin/bbbike-tarball
@@ -1509,7 +1514,7 @@ help:
 	@echo ""
 	@echo "  [ debian-bootstrap | bbbike-bootstrap | bbbike-c ]"
 	@echo "  [ build-runtime ]"
-	@echo "  [ apt-clean ]"
+	@echo "  [ apt-clean | host-clean ]"
 	@echo "  [ git-fetch | git-pull | git-push | mygit | git-gc ]"
 	@echo "  [ check | check-world | check-full | check-failed ]"
 	@echo "  [ travis ]"
