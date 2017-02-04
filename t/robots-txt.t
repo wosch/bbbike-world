@@ -35,14 +35,15 @@ my @aliases = qw(
   http://cyclerouteplanner.com
 );
 
-foreach my $item ( @production, @aliases, @development, @local) {
+foreach my $item ( @production, @aliases, @development, @local ) {
     my @match = ("User-agent:");
-    
+
     # www.bbbike.org has a longer robots.txt
-    if ($item =~ m,^http://(www\.|localhost:),) {
-        push @match, ('Disallow: /Berlin/?', 'Disallow: /en/Berlin/?', 'Disallow: /de/');
+    if ( $item =~ m,^http://(www\.|localhost:), ) {
+        push @match,
+          ( 'Disallow: /Berlin/?', 'Disallow: /en/Berlin/?', 'Disallow: /de/' );
     }
-    
+
     push @list,
       {
         'page'      => "$item/robots.txt",

@@ -9,22 +9,19 @@
 # need older versions for libapache2-mod-tile 
 POSTGRES_VERSION=9.3
 APACHE2_VERSION=2.4.7-1ubuntu4
+APACHE2_MODULES=	apache2
 
-APACHE2_MODULES=	apache2-data=${APACHE2_VERSION} \
-			apache2-bin=${APACHE2_VERSION} \
-			apache2-utils=${APACHE2_VERSION} \
-			apache2-mpm-event=${APACHE2_VERSION} \
-			apache2=${APACHE2_VERSION}
 
-LEGACY_MODULES= libmapnik2.2 libgdal1h libgeos-c1 gdal-bin=1.10.1+dfsg-5ubuntu1 #libgeos-c1 liblwgeom-2.1.2 gdal-bin=1.10.1+dfsg-5ubuntu1 postgresql-9.3-postgis* libgdal1h
+DEBIAN_MODULES_SYTEM= 	unzip bzip2 make subversion tidy gcc git munin-node time subversion
 
-DEBIAN_MODULES_SYTEM= 	unzip bzip2 make subversion tidy gcc git munin-node
+#LEGACY_MODULES= 	libmapnik2.2 libgdal1h libgeos-c1 gdal-bin=1.10.1+dfsg-5ubuntu1 python-mapnik=2.2.0+ds1-6build2 postgis=2.1.2+dfsg-2ubuntu0.1
 
 DEBIAN_MODULES= 	libimager-perl imagemagick libinline-perl libhtml-tagcloud-perl \
-        		libtie-ixhash-perl libhtml-parser-perl
+        		libtie-ixhash-perl libhtml-parser-perl libwww-perl
 
-TILE_MODULES= postgresql-${POSTGRES_VERSION}  postgresql-client-${POSTGRES_VERSION} postgresql-contrib-${POSTGRES_VERSION} osm2pgsql python-mapnik=2.2.0+ds1-6build2
-TILE_MODULES_OSM= openstreetmap-mapnik-carto-stylesheet-data renderd libapache2-mod-tile 
+TILE_MODULES= postgresql-${POSTGRES_VERSION}  postgresql-client-${POSTGRES_VERSION} postgresql-contrib-${POSTGRES_VERSION} osm2pgsql \
+		python-mapnik postgis
+TILE_MODULES_OSM= openstreetmap-mapnik-carto-stylesheet-data renderd libapache2-mod-tile openstreetmap-postgis-db-setup
 
 
 PROJECT_DIR=	$$HOME/projects
@@ -32,9 +29,10 @@ DEBIAN_INSTALL_FLAGS=	-y  # -y -d
 
 all: help
 
-install-packages: perl
+install-packages-system: perl
 	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES_SYTEM} ${APACHE2_MODULES}	
-	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${LEGACY_MODULES} ${DEBIAN_MODULES} ${TILE_MODULES} ${TILE_MODULES_OSM}
+install-packages: 
+	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES} ${TILE_MODULES} ${TILE_MODULES_OSM}
 
 perl:
 	if [ ! -e /usr/local/bin/perl ]; then \
@@ -48,6 +46,8 @@ osm-repo:
 	fi
 	sudo apt-get -qq update
 
+# in case of trouble run:
+# sudo dpkg-reconfigure openstreetmap-postgis-db-setup
 postgis-utf8:
 	-sudo /etc/init.d/renderd stop
 	sudo pg_dropcluster --stop ${POSTGRES_VERSION} main
@@ -143,10 +143,10 @@ mapnik-restart:
 	make -C ${PROJECT_DIR}/bbbike $@
 
 munin:
-	sudo apt-get install libdbd-pg-perl
-	cd /etc/munin/plugins/
-	sudo ln -fs /usr/share/munin/plugins/postgres_* .
-	for i in postgres_*_;do echo $$i;sudo mv $$i $${i}ALL;done
+	sudo apt-get install -y libdbd-pg-perl
+	cd /etc/munin/plugins/; \
+	  sudo ln -fs /usr/share/munin/plugins/postgres_* .; \
+	  for i in postgres_*_;do echo $$i;sudo mv $$i $${i}ALL;done
 	sudo /etc/init.d/munin-node restart
 
 manual:
@@ -155,7 +155,7 @@ manual:
 	@echo "make openstreetmap-postgis bbbike-mapnik mapnik-restart"
 	@echo ""
 
-install-all: osm-repo install-packages symlinks postgis-utf8 repo-checkout munin manual
+install-all: osm-repo install-packages-system repo-checkout install-packages symlinks munin manual
 
 distclean: clean
 	sudo rm -f /etc/mapnik-bbbike /etc/mapnik-german /etc/mapnik-osm-carto-data
@@ -171,13 +171,15 @@ apt-distclean apt-purge:
 
 apt-distclean-carto:
 	sudo rm -rf /etc/mapnik-osm-carto-data /usr/share/mapnik-osm-carto-data 
+	# strange bug in dpkg, which follows symlinks on delete
+	if ! test -e etc/renderd22.conf; then git checkout etc/renderd22.conf; fi
 
 help:
 	@echo ""
 	@echo "usage: make [ targets ... ]"
 	@echo ""
-	@echo "  [ osm-repo | install-all ]"
-	@echo "  [ install-packages | symlinks | bbbike-mapnik ]"
+	@echo "  [ install-all ]"
+	@echo "  [ osm-repo | install-packages | symlinks | bbbike-mapnik ]"
 	@echo "  [ openstreetmap-postgis | mapnik-restart ]"
 	@echo "  [ clean | distclean | apt-distclean ]"
 	@echo ""

@@ -384,8 +384,9 @@ qq{did you called Extract::Config->load_config("$config_file") twice?\n};
           if $debug >= 2;
 
         if ( $q->param("pro") ) {
-	   die "Extract pro service requires a config file: $config_file, give up\n";
-	}
+            die
+"Extract pro service requires a config file: $config_file, give up\n";
+        }
     }
 
     $self->config_format_menu;

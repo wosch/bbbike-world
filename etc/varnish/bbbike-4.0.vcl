@@ -209,7 +209,7 @@ sub vcl_recv {
     }
 
     # jenkins
-    if (req.http.host ~ "^jenkins\.bbbike\.(org|de)$") {
+    if (req.http.host ~ "^jenkins(-div)?\.bbbike\.(org|de)$") {
 	return (pass);
     }
 
