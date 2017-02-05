@@ -543,14 +543,17 @@ EOF
     sub Param {
         my $q   = shift;
         my $key = shift;
-        my @val = $q->param($_) || "";
-
-        # XXX: WTF? run decode N times!!!
+        my $val = $q->param($_);
+        if (!defined $val) {
+            $val = "";
+        }
+        
         eval {
-            @val = map { Encode::decode( "utf8", $_, Encode::FB_QUIET ) } @val;
+            $val = Encode::decode( "utf8", $val, Encode::FB_QUIET );
         };
 
-        return @val;
+        warn "key='$key', val='$val'\n" if $debug >=2;
+        return $val;
     }
 
     my %hash;
@@ -578,6 +581,7 @@ EOF
         push @params, qw/startc zielc/;    # missing "area" in URL
 
         my $opt = { map { $_ => ( Param( $qq, $_ ) ) } @params };
+        #warn Dumper($opt->{'area'}, $opt->{'startc'}, $opt->{'zielc'}, $city_center->{ $opt->{'city'} }, $opt->{'city'});
 
         $city_center->{ $opt->{'city'} } = $opt->{'area'} || join( "!",
             $opt->{'startc'}, $opt->{'zielc'},
@@ -681,7 +685,7 @@ sub filter_by_client_link {
     return "" if !$filter_by_client;
 
     my $qq    = CGI->new($q);
-    my $appid = $qq->param("appid");
+    my $appid = $qq->param("appid") || "";
 
     my $message = qq{Filter by device: };
     my $data    = "";
