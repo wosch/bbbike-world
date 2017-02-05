@@ -7,18 +7,18 @@ use strict;
 use warnings;
 
 my @prod = qw(
-	/usr/local/www/debian.bbbike.org 
-	/usr/local/www/download.bbbike.org 
-	/usr/local/www/bbbike 
-	/usr/local/www/bbbike.org
-	/etc/lighttpd 
-	/var/lib/bbbike
-	/etc/munin
+  /usr/local/www/debian.bbbike.org
+  /usr/local/www/download.bbbike.org
+  /usr/local/www/bbbike
+  /usr/local/www/bbbike.org
+  /etc/lighttpd
+  /var/lib/bbbike
+  /etc/munin
 );
 my @path = qw( . $HOME/.openstreetmap );
 
 foreach my $dir (@prod) {
-   push (@path, $dir) if -d $dir;
+    push( @path, $dir ) if -d $dir;
 }
 
 plan tests => scalar(@path);
