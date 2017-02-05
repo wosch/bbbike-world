@@ -60,6 +60,10 @@ deb-bin-x86:
 
 upgrade-all-versions: upgrade-all-versions-changelog upgrade-all-versions-equisvs
 
+#
+# to increase only the build version instead minor version:
+# use the script ../../bin/deb-changelog-upgrade-build 
+#
 upgrade-all-versions-changelog-javalibs:
 	for i in ./*/*/deb/bbbike-world-javalibs/debian/changelog; do \
 	  ../../bin/deb-changelog-upgrade $$i; \
