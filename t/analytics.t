@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Feb 2015-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Feb 2015-2017 Wolfram Schneider, http://bbbike.org
 
 use CGI;
 use Test::More;
@@ -35,7 +35,7 @@ isnt( $analytics, undef, "analytics class is success" );
 cmp_ok( length($analytics), ">", 450, "analytics size" );
 like( $analytics, qr/foobar123/, "tracker id check" );
 
-$ENV{HTTP_HOST} = "dev.bbbike.org";
+$ENV{HTTP_HOST} = "dev3.bbbike.org";
 $analytics = BBBike::Analytics->new( 'q' => $q )->google_analytics;
 isnt( $analytics, undef, "analytics class is success" );
 is( $analytics, "", "no analytics on devel machines" );

@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2017 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} ) {
@@ -24,7 +24,7 @@ my $test = BBBike::Test->new();
 
 my @homepages = qw[
   http://download.bbbike.org
-  http://download1.bbbike.org
+  http://download3.bbbike.org
   http://download4.bbbike.org
 ];
 

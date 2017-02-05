@@ -1,5 +1,5 @@
 ###############################################################
-# Copyright (c) 2008-2016 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2008-2017 Wolfram Schneider, http://bbbike.org
 #
 # Get and convert OpenStreetMap.org data to BBBike
 #
@@ -718,6 +718,7 @@ clean-cache cache-clean:
 	    mv -f ${BBBIKE_CACHE_DIR}/*bbbike.org ${BBBIKE_CACHE_DIR}/localhost ${BBBIKE_CACHE_DIR}/.tmp.$$$$ || true; \
 	    rm -rf ${BBBIKE_CACHE_DIR}/.tmp.$$$$ &
 
+# XXX: we dont a caching web server
 cache-clean-lighttpd:
 	mkdir -p ${LIGHTTPD_CACHE_DIR}/${BBBIKE_WEB_SERVER} \
 	  ${LIGHTTPD_CACHE_DIR}/dev.bbbike.org \
