@@ -207,11 +207,8 @@ sub extract_route {
     my $duplication_factor = 1.5;
 
     my @data_all;
-    my @files = $file;
-    push @files,
-      $logrotate_first_uncompressed ? "$file.1" : &logfiles( $file, 1 );
-    push @files, &logfiles( $file, 2 .. 20 );
-    push @files, &logfiles( $file, 21 .. 100 ) if $max > 2_000;
+    my @files =
+      map { chomp($_); /^\S+$/ ? $_ : "" } `ls -t \$(find ${file}* -mtime -5)`;
 
     if ($date) {
         $date = &date_alias($date);
@@ -232,6 +229,14 @@ sub extract_route {
         my @data;
 
         next if !-f $file;
+
+        # perl -T
+        if ( $file =~ m/^(\S+)$/ ) {
+            $file = $1;
+        }
+        else {
+            die "Logfiles with spaces? Give up: $file\n";
+        }
 
         my $fh;
         warn "Open $file ...\n" if $debug >= 1;
