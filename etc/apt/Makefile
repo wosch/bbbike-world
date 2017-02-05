@@ -60,10 +60,17 @@ deb-bin-x86:
 
 upgrade-all-versions: upgrade-all-versions-changelog upgrade-all-versions-equisvs
 
-upgrade-all-versions-changelog:
-	for i in ./*/*/deb/bbbike-world-bin/debian/changelog ./*/*/deb/bbbike-world-javalibs/debian/changelog; do \
+upgrade-all-versions-changelog-javalibs:
+	for i in ./*/*/deb/bbbike-world-javalibs/debian/changelog; do \
 	  ../../bin/deb-changelog-upgrade $$i; \
 	done
+
+upgrade-all-versions-changelog-bin:
+	for i in ./*/*/deb/bbbike-world-bin/debian/changelog;  do \
+	  ../../bin/deb-changelog-upgrade $$i; \
+	done
+
+upgrade-all-versions-changelog: upgrade-all-versions-changelog-javalibs upgrade-all-versions-changelog-bin
 
 upgrade-all-versions-equisvs:
 	perl -i.bak  -npe 's/^(Version: [\d.]+\.)(\d+)/sprintf("%s%s",$$1, $$2+1)/e' \
