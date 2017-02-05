@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl -i.bak
 # Copyright (c) 2017 Wolfram Schneider, http://bbbike.org
 #
-# bumb the minor version in debian changelog
+# bumb the build version in debian changelog
 #
 # bbbike-world-bin-misc (1.9-1) unstable; urgency=low
 #
