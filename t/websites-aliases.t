@@ -73,6 +73,11 @@ my @list = (
         'min_size' => 10_000,
         'match'    => ["</html>"]
     },
+    {
+        'page'     => 'http://debian.bbbike.org',
+        'min_size' => 200,
+        'match'    => ["</html>"]
+    },
 );
 
 my $count = 3 * scalar(@list);
