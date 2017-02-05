@@ -14,7 +14,7 @@ export DH_OPTIONS
 # the tarballs must exists in /usr/local/www/debian.bbbike.org/src
 #
 JAVALIBS_OSMAND=	OsmAndMapCreator-2016-04-24.tar.gz
-JAVALIBS_MKGMAP=	mkgmap-r3676.tar.gz
+JAVALIBS_MKGMAP=	mkgmap-r3773.tar.gz
 JAVALIBS_OSMOSIS=	osmosis-0.43.1.tar.gz
 JAVALIBS_MAPSFORGE=	mapsforge-0.6.1.tar.gz 
 JAVALIBS_SPLITTER=	splitter-r580.tar.gz
