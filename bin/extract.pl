@@ -126,7 +126,7 @@ our $option = {
     },
 
     'pbf2osm' => {
-        'garmin_version'     => 'mkgmap-3334',
+        'garmin_version'     => 'mkgmap-r3773',
         'maperitive_version' => 'Maperitive-2.3.34',
         'osmand_version'     => 'OsmAndMapCreator-1.1.3',
         'mapsforge_version'  => 'mapsforge-0.4.3',
