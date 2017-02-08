@@ -24,7 +24,8 @@ my @homepages_localhost =
 
 my @homepages_production = qw[
   http://extract-pro.bbbike.org
-  http://extract-pro1.bbbike.org
+  http://extract-pro3.bbbike.org
+  http://extract-pro4.bbbike.org
 ];
 
 if ( $ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
