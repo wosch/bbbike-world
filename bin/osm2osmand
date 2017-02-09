@@ -109,7 +109,8 @@ split_dir=data/osm
 echo ">>> Run splitter" >> $logfile
 
 ( set -x; 
-java $java_splitter_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar \
+  java -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar --version
+  java $java_splitter_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar \
      $splitter_keep_complete \
      --resolution=$splitter_resolution \
      --max-areas=$splitter_max_areas \
