@@ -112,7 +112,7 @@ sub myget_401 {
     is(
         $res->status_line,
         "401 Unauthorized",
-        "status code 401 Unauthorized - great!"
+        "status code 401 Unauthorized - $url - great!"
     );
 
     my $content = $res->decoded_content();
