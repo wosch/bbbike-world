@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2017 Wolfram Schneider, http://bbbike.org
 #
 # osm2osmand  - convert a .pbf file to osmand .obf
 #
@@ -17,6 +17,7 @@ PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 : ${SHA="shasum -a 256"}
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmpfs"}
+osmand_version=$(ls -ld /var/lib/bbbike/opt/OsmAndMapCreator | awk '{ print $NF }')
 
 dirname=$(dirname $0)
 
@@ -141,8 +142,10 @@ $debug && ls -l $split_dir
 
 exit=0
 class_path="$osmand_home/OsmAndMapCreator.jar:$osmand_home/lib/OsmAnd-core.jar:$osmand_home/lib/*.jar"
+echo "OsmAnd version: $osmand_version" >> $logfile
+
 if [ $counter -eq 0 ]; then
-    if time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp "$class_path" net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml > $logfile 2>&1 && ln data/indexes/*.obf .; then
+    if time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp "$class_path" net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml >> $logfile 2>&1 && ln data/indexes/*.obf .; then
 	:
     else
         exit=$?

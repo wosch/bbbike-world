@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2017 Wolfram Schneider, http://bbbike.org
 #
 # osm2shape  - convert a osm/pbf file to shape
 #
@@ -12,6 +12,7 @@ PATH=/bin:/usr/bin:/usr/local/bin; export PATH
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmpfs"}
 : ${BBBIKE_LD_LIBRARY_PATH="/var/lib/bbbike/opt/lib"}
+shape_version="osmium2shape-1.0"
 
 set -e
 
@@ -63,8 +64,9 @@ text2html=$(dirname $0)/text2html.sh
 case $text2html in /*) ;; *) text2html=$(pwd)/$text2html ;; esac
 
 logfile=$shape_dir/logfile.txt
+echo "osmium2shape version $shape_version" >> $logfile
 
-if LD_LIBRARY_PATH=$BBBIKE_LD_LIBRARY_PATH osmium2shape -d $shape_dir/shape $file > $logfile 2>&1; then
+if LD_LIBRARY_PATH=$BBBIKE_LD_LIBRARY_PATH osmium2shape -d $shape_dir/shape $file >> $logfile 2>&1; then
    :
 else
    exit=$?

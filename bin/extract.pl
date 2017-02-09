@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2011-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2011-2017 Wolfram Schneider, http://bbbike.org
 #
 # extract.pl - extracts areas in a batch job
 #
@@ -126,13 +126,13 @@ our $option = {
     },
 
     'pbf2osm' => {
-        'garmin_version'     => 'mkgmap-r3773',
-        'maperitive_version' => 'Maperitive-2.3.34',
-        'osmand_version'     => 'OsmAndMapCreator-1.1.3',
-        'mapsforge_version'  => 'mapsforge-0.4.3',
-        'mapsme_version'     => 'mapsme-1.0.0',
-        'navit_version'      => 'maptool-0.5.0~svn5126',
-        'shape_version'      => 'osmium2shape-1.0',
+        'garmin_version'     => 'mkgmap',
+        'maperitive_version' => 'Maperitive',
+        'osmand_version'     => 'OsmAndMapCreator',
+        'mapsforge_version'  => 'mapsforge',
+        'mapsme_version'     => 'mapsme',
+        'navit_version'      => 'maptool',
+        'shape_version'      => 'osmium2shape',
     }
 };
 
