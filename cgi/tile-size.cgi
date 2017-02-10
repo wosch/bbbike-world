@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -T
-# Copyright (c) June 2012-2014 Wolfram Schneider, http://bbbike.org
+# Copyright (c) June 2012-2017 Wolfram Schneider, http://bbbike.org
 #
 # tile-size.cgi - compute size of an tile from planet.osm
 
@@ -17,7 +17,7 @@ use warnings;
 
 $ENV{PATH} = "/bin:/usr/bin";
 
-my $debug = 1;
+my $debug = 0;
 
 sub Param {
     my $q   = shift;
