@@ -256,10 +256,15 @@ sub mc_parameters {
     my $self = shift;
     my $q    = shift;
 
-    my $sw_lng = Param( $q, "sw_lng" ) + 0;
-    my $sw_lat = Param( $q, "sw_lat" ) + 0;
-    my $ne_lng = Param( $q, "ne_lng" ) + 0;
-    my $ne_lat = Param( $q, "ne_lat" ) + 0;
+    my $sw_lng = Param( $q, "sw_lng" );
+    my $sw_lat = Param( $q, "sw_lat" );
+    my $ne_lng = Param( $q, "ne_lng" );
+    my $ne_lat = Param( $q, "ne_lat" );
+
+    # nothing we could do
+    if ( $sw_lng eq "" || $sw_lat eq "" || $ne_lng eq "" || $ne_lat ) {
+        return "";
+    }
 
     my $lng = $sw_lng + ( $ne_lng - $sw_lng ) / 2;
     my $lat = $sw_lat + ( $ne_lat - $sw_lat ) / 2;
