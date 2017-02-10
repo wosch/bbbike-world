@@ -117,7 +117,8 @@ else {
 }
 
 my $database_file = "../world/etc/tile/$ext.csv";
-my $tile          = Extract::TileSize->new( 'database' => $database_file, 'debug' => $debug );
+my $tile =
+  Extract::TileSize->new( 'database' => $database_file, 'debug' => $debug );
 my $factor_format = $tile->factor_format( $format, $ext );
 
 # short cut "area=lat,lng,lat,lng"
