@@ -120,8 +120,9 @@ sub new {
     };
 
     bless $self, $class;
-    $self->parse_database;
     $debug = $self->{'debug'};
+
+    $self->parse_database;
 
     warn Dumper($self) if $self->{'debug'} >= 3;
     return $self;
