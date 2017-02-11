@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2017 Wolfram Schneider, http://bbbike.org
 #
 # planet helper functions
 
@@ -9,6 +9,7 @@ use JSON;
 use File::stat;
 use Math::Polygon;
 use Data::Dumper;
+use FindBin;
 
 use lib qw(world/lib);
 use Extract::Config;
@@ -47,7 +48,7 @@ sub new {
 # adjust directories, e.g. add a prefix "../" if in a sub-directory
 # this is needed for CGI scripts running outside the bbbike root directory
 #
-sub normalize_dir {
+sub _normalize_dir {
     my $self = shift;
     my $dir  = shift;
 
@@ -57,6 +58,14 @@ sub normalize_dir {
     else {
         return $dir;
     }
+}
+
+# wrapper to get absolute path
+sub normalize_dir {
+    my $self = shift;
+    my $dir  = $self->_normalize_dir(shift);
+
+    return "$FindBin::Bin/$dir";
 }
 
 sub init {

@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2017 Wolfram Schneider, http://bbbike.org
 #
 # polygon helper functions
 
@@ -11,6 +11,7 @@ use Math::Polygon::Transform qw(polygon_simplify);
 use Math::Polygon::Calc qw();
 use File::stat;
 use Data::Dumper;
+use FindBin;
 
 use lib qw(world/lib);
 use Extract::TileSize;
@@ -107,7 +108,7 @@ sub list_subplanets {
             # check for valid sub planet
             next if !defined $area->{$sub}->{'poly'};
 
-            my $file = "$sub_planet_dir/$sub.osm.pbf";
+            my $file = "$FindBin::Bin/$sub_planet_dir/$sub.osm.pbf";
             my $st   = stat($file);
             if ( !$st ) {
                 warn "Stat sub planet file: $file $!\n";
