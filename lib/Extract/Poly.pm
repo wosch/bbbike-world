@@ -298,11 +298,11 @@ sub create_poly_data {
     for ( my $i = 0 ; $i <= $#c ; $i++ ) {
         my ( $lng, $lat ) = ( $c[$i]->[0], $c[$i]->[1] );
         if ( !$self->is_lng($lng) ) {
-            warn "lng $lng is out of range -180 .. 180\n";
+            warn "lng $lng is out of range -180 .. 180\n" if $debug >= 1;
             $error++;
         }
         if ( !$self->is_lat($lat) ) {
-            warn "lat $lat is out of range -90 .. 90\n";
+            warn "lat $lat is out of range -90 .. 90\n" if $debug >= 1;
             $error++;
         }
 
