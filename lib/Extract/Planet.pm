@@ -9,7 +9,6 @@ use JSON;
 use File::stat;
 use Math::Polygon;
 use Data::Dumper;
-use FindBin;
 
 use lib qw(world/lib);
 use Extract::Config;
@@ -48,7 +47,7 @@ sub new {
 # adjust directories, e.g. add a prefix "../" if in a sub-directory
 # this is needed for CGI scripts running outside the bbbike root directory
 #
-sub _normalize_dir {
+sub normalize_dir {
     my $self = shift;
     my $dir  = shift;
 
@@ -58,21 +57,6 @@ sub _normalize_dir {
     else {
         return $dir;
     }
-}
-
-# wrapper to get absolute path
-sub normalize_dir {
-    my $self = shift;
-    my $dir  = shift;
-
-    $dir = $self->_normalize_dir($dir);
-
-    # create an absolute path
-    my $path = $dir =~ m,^/, ? $dir : "$FindBin::Bin/$dir";
-
-    warn "normalize dir: $path\n" if $debug >= 1;
-
-    return $path;
 }
 
 sub init {
