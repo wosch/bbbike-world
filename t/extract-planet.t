@@ -25,7 +25,7 @@ sub planet {
 }
 
 sub normalize_dir {
-    my $path = "../planet.osm.pbf";
+    my $path = "planet-latest.osm.pbf";
 
     my $planet = new Extract::Planet;
     is(
@@ -34,7 +34,7 @@ sub normalize_dir {
         "normalize path $path $FindBin::Bin/$path"
     );
 
-    my $dir = '..';
+    my $dir = '../../../osm/download';
     $planet = new Extract::Planet( 'pwd' => $dir );
     is(
         "$FindBin::Bin/$dir/$path",
