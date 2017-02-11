@@ -13,6 +13,7 @@ BEGIN {
 use Test::More;
 use Data::Dumper;
 use Digest::MD5 qw(md5_hex);
+use FindBin;
 
 use lib qw(world/lib);
 use Extract::Poly;
@@ -23,7 +24,7 @@ use warnings;
 my $debug = 0;
 my $poly  = new Extract::Poly(
     'debug'          => $debug,
-    'sub_planet_dir' => '../../../osm/download/sub-planet'
+    'sub_planet_dir' => "../osm/download/sub-planet"
 );
 my @regions = $poly->list_subplanets;
 

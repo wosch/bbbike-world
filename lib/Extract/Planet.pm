@@ -63,9 +63,16 @@ sub _normalize_dir {
 # wrapper to get absolute path
 sub normalize_dir {
     my $self = shift;
-    my $dir  = $self->_normalize_dir(shift);
+    my $dir  = shift;
 
-    return "$FindBin::Bin/$dir";
+    $dir = $self->_normalize_dir($dir);
+
+    # create an absolute path
+    my $path = $dir =~ m,^/, ? $dir : "$FindBin::Bin/$dir";
+
+    warn "normalize dir: $path\n" if $debug >= 1;
+
+    return $path;
 }
 
 sub init {
@@ -124,6 +131,7 @@ sub _get_smallest_planet {
         'debug'          => $debug,
         'sub_planet_dir' => $sub_planet_dir
     );
+
     my @regions =
       $regions ? @$regions : $poly->list_subplanets( 'sort_by' => 2, );
 

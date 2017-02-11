@@ -11,7 +11,6 @@ use Math::Polygon::Transform qw(polygon_simplify);
 use Math::Polygon::Calc qw();
 use File::stat;
 use Data::Dumper;
-use FindBin;
 
 use lib qw(world/lib);
 use Extract::TileSize;
@@ -108,7 +107,7 @@ sub list_subplanets {
             # check for valid sub planet
             next if !defined $area->{$sub}->{'poly'};
 
-            my $file = "$FindBin::Bin/$sub_planet_dir/$sub.osm.pbf";
+            my $file = "$sub_planet_dir/$sub.osm.pbf";
             my $st   = stat($file);
             if ( !$st ) {
                 warn "Stat sub planet file: $file $!\n";
@@ -146,8 +145,10 @@ sub subplanet_size {
     my $self   = shift;
     my $region = shift;
 
-    my $tile = new Extract::TileSize( 'database' => $self->{'database'},
-        'debug' => $debug );
+    my $tile = new Extract::TileSize(
+        'database' => $self->{'database'},
+        'debug'    => $debug
+    );
 
     if ( !$area->{$region} ) {
         warn "Area '$region' does not exists, skip\n" if $debug;
