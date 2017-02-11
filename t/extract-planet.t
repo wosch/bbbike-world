@@ -5,7 +5,6 @@
 
 use Test::More;
 use Data::Dumper;
-use FindBin;
 
 use lib qw(world/lib);
 use Extract::Planet;
@@ -28,18 +27,14 @@ sub normalize_dir {
     my $path = "planet-latest.osm.pbf";
 
     my $planet = new Extract::Planet;
-    is(
-        "$FindBin::Bin/$path",
-        $planet->normalize_dir($path),
-        "normalize path $path $FindBin::Bin/$path"
-    );
+    is( "$path", $planet->normalize_dir($path), "normalize path $path $path" );
 
     my $dir = '../../../osm/download';
     $planet = new Extract::Planet( 'pwd' => $dir );
     is(
-        "$FindBin::Bin/$dir/$path",
+        "$dir/$path",
         $planet->normalize_dir($path),
-        "normalize path $dir/$path $FindBin::Bin/$dir/$path"
+        "normalize path $dir/$path"
     );
 }
 
