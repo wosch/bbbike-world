@@ -23,7 +23,7 @@ use warnings;
 my $debug = 0;
 my $poly  = new Extract::Poly(
     'debug'          => $debug,
-    'sub_planet_dir' => '../osm/download/sub-planet'
+    'sub_planet_dir' => '../../../osm/download/sub-planet'
 );
 my @regions = $poly->list_subplanets;
 
