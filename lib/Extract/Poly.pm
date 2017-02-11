@@ -64,7 +64,7 @@ sub init {
     my $self = shift;
 
     # set global debug variable
-    if ( $self->{'debug'} ) {
+    if ( defined $self->{'debug'} ) {
         $debug = $self->{'debug'};
     }
 
@@ -146,7 +146,8 @@ sub subplanet_size {
     my $self   = shift;
     my $region = shift;
 
-    my $tile = new Extract::TileSize( 'database' => $self->{'database'} );
+    my $tile = new Extract::TileSize( 'database' => $self->{'database'},
+        'debug' => $debug );
 
     if ( !$area->{$region} ) {
         warn "Area '$region' does not exists, skip\n" if $debug;
