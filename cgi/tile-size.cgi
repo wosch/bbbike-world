@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -T
-# Copyright (c) June 2012-2014 Wolfram Schneider, http://bbbike.org
+# Copyright (c) June 2012-2017 Wolfram Schneider, http://bbbike.org
 #
 # tile-size.cgi - compute size of an tile from planet.osm
 
@@ -17,7 +17,7 @@ use warnings;
 
 $ENV{PATH} = "/bin:/usr/bin";
 
-my $debug = 1;
+my $debug = 0;
 
 sub Param {
     my $q   = shift;
@@ -117,7 +117,8 @@ else {
 }
 
 my $database_file = "../world/etc/tile/$ext.csv";
-my $tile          = Extract::TileSize->new( 'database' => $database_file );
+my $tile =
+  Extract::TileSize->new( 'database' => $database_file, 'debug' => $debug );
 my $factor_format = $tile->factor_format( $format, $ext );
 
 # short cut "area=lat,lng,lat,lng"
