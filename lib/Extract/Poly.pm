@@ -11,6 +11,7 @@ use Math::Polygon::Transform qw(polygon_simplify);
 use Math::Polygon::Calc qw();
 use File::stat;
 use Data::Dumper;
+use FindBin;
 
 use lib qw(world/lib);
 use Extract::TileSize;
@@ -110,7 +111,7 @@ sub list_subplanets {
             my $file = "$sub_planet_dir/$sub.osm.pbf";
             my $st   = stat($file);
             if ( !$st ) {
-                warn "Stat sub planet file: $file $!\n";
+                warn "Stat sub planet file pwd=$FindBin::Bin file=$file $!\n";
                 next;
             }
 

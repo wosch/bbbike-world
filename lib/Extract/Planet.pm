@@ -9,6 +9,7 @@ use JSON;
 use File::stat;
 use Math::Polygon;
 use Data::Dumper;
+use FindBin;
 
 use lib qw(world/lib);
 use Extract::Config;
@@ -209,7 +210,7 @@ sub planet_size {
     my $st = stat($planet);
 
     if ( !$st ) {
-        warn "stat $planet: $!\n";
+        warn "stat pwd=$FindBin::Bin file=$planet: $!\n";
         return 0;
     }
 
