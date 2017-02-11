@@ -11,7 +11,6 @@ use Math::Polygon::Transform qw(polygon_simplify);
 use Math::Polygon::Calc qw();
 use File::stat;
 use Data::Dumper;
-use FindBin;
 
 use lib qw(world/lib);
 use Extract::TileSize;
