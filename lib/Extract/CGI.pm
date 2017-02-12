@@ -659,7 +659,8 @@ sub _check_input {
 
     $pg = 1 if !$pg || $pg > 1 || $pg <= 0;
 
-    error("area size '$as' must be greather than zero") if $as <= 0;
+    error("area size '$as' must be greather than zero")
+      if $as eq "" || $as <= 0;
 
     if ( !$error ) {
         error("ne lng '$ne_lng' must be larger than sw lng '$sw_lng'")
