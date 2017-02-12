@@ -137,15 +137,15 @@ case $ext in
 
    leisure )
 	ext=garmin-leisure.zip
-	mkgmap_map=--style-file=$etc_dir/style/freizeit
-	mkgmap_map_style=freizeit
-	mkgmap_map_type=$etc_dir/typ/freizeit/freizeit.TYP
+	mkgmap_map=--style-file=$etc_dir/style/fzk
+	mkgmap_map_style=fzk
+	mkgmap_map_type=$etc_dir/typ/fzk/freizeit.TYP
 	;;
    leisure-ascii )
 	ext=garmin-leisure-ascii.zip
-	mkgmap_map=--style-file=$etc_dir/style/freizeit
-	mkgmap_map_style=freizeit
-	mkgmap_map_type=$etc_dir/typ/freizeit/freizeit.TYP
+	mkgmap_map=--style-file=$etc_dir/style/fzk
+	mkgmap_map_style=fzk
+	mkgmap_map_type=$etc_dir/typ/fzk/freizeit.TYP
 	;;
     
    bbbike )
