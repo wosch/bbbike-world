@@ -38,13 +38,18 @@ if you need to override the defaults below:
 
 
 PATH=/bin:/usr/bin; export PATH
-: ${extract_dir="/var/cache/extract/running"}
 
 config=$1
 
-case $extract_dir in 
-    *-pro/* ) pro="pro" ;;
+case $0 in 
+    *-pro* ) pro="pro"
+              : ${extract_dir="/var/cache/extract-pro"}
+            ;;
+    *)        : ${extract_dir="/var/cache/extract"}
+            ;;
 esac
+
+extract_dir_running=$extract_dir/running
 
 if [ "$1" = "config" ]; then
     : ${warning=40}
@@ -91,10 +96,10 @@ fi
 #############################################
 # main
 #
-echo "jobs.value" $(ls $extract_dir/*/*json 2>/dev/null | wc -l) 
+echo "jobs.value" $(ls $extract_dir_running/*/*json 2>/dev/null | wc -l) 
 
 count=0
-cd $extract_dir
+cd $extract_dir_running
 for i in *.pid.lock *.pid; do
   if [ -e "$i" ]; then 
    #if kill -0 $(cat $i); then
@@ -105,8 +110,8 @@ for i in *.pid.lock *.pid; do
 done
 echo "proc.value $count"
 
-echo "users.value" $(egrep -h '"email"' $extract_dir/*/*.json 2>/dev/null | sort -u | wc -l) 
-echo "waiting.value" $(ls $extract_dir/../confirmed/*.json 2>/dev/null | wc -l) 
-echo "users_waiting.value" $(egrep -h '"email"' $extract_dir/../confirmed/*.json 2>/dev/null | sort -u | wc -l) 
+echo "users.value" $(egrep -h '"email"' $extract_dir_running/*/*.json 2>/dev/null | sort -u | wc -l) 
+echo "waiting.value" $(ls $extract_dir_running/../confirmed/*.json 2>/dev/null | wc -l) 
+echo "users_waiting.value" $(egrep -h '"email"' $extract_dir_running/../confirmed/*.json 2>/dev/null | sort -u | wc -l) 
 
 # EOF
