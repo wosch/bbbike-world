@@ -763,7 +763,7 @@ sub _check_input {
 
     if ( $email_counter > $email_limit ) {
         error( M("EXTRACT_LIMIT") );
-        warn "limit email counter: $email_limit > $email_counter $email\n"
+        warn "limit email counter: $email_counter > email_limit $email\n"
           if $debug >= 1;
     }
     elsif ( $ip_counter > $ip_limit ) {
