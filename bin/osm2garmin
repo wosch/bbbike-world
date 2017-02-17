@@ -93,9 +93,9 @@ esac
 : ${splitter_max_areas=512}
 
 if [ $size -lt 100 ]; then
-  : ${splitter_resolution=18}
-elif [ $size -lt 2000 ]; then
   : ${splitter_resolution=16}
+elif [ $size -lt 2000 ]; then
+  : ${splitter_resolution=15}
 else
   : ${splitter_resolution=13}
 fi
@@ -137,15 +137,15 @@ case $ext in
 
    leisure )
 	ext=garmin-leisure.zip
-	mkgmap_map=--style-file=$etc_dir/style/freizeit
-	mkgmap_map_style=freizeit
-	mkgmap_map_type=$etc_dir/typ/freizeit/freizeit.TYP
+	mkgmap_map=--style-file=$etc_dir/style/fzk
+	mkgmap_map_style=fzk
+	mkgmap_map_type=$etc_dir/typ/fzk/freizeit.TYP
 	;;
    leisure-ascii )
 	ext=garmin-leisure-ascii.zip
-	mkgmap_map=--style-file=$etc_dir/style/freizeit
-	mkgmap_map_style=freizeit
-	mkgmap_map_type=$etc_dir/typ/freizeit/freizeit.TYP
+	mkgmap_map=--style-file=$etc_dir/style/fzk
+	mkgmap_map_style=fzk
+	mkgmap_map_type=$etc_dir/typ/fzk/freizeit.TYP
 	;;
     
    bbbike )
