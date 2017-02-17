@@ -659,7 +659,8 @@ sub _check_input {
 
     $pg = 1 if !$pg || $pg > 1 || $pg <= 0;
 
-    error("area size '$as' must be greather than zero") if $as <= 0;
+    error("area size '$as' must be greather than zero")
+      if $as eq "" || $as <= 0;
 
     if ( !$error ) {
         error("ne lng '$ne_lng' must be larger than sw lng '$sw_lng'")
@@ -762,7 +763,7 @@ sub _check_input {
 
     if ( $email_counter > $email_limit ) {
         error( M("EXTRACT_LIMIT") );
-        warn "limit email counter: $email_limit > $email_counter $email\n"
+        warn "limit email counter: $email_counter > email_limit $email\n"
           if $debug >= 1;
     }
     elsif ( $ip_counter > $ip_limit ) {

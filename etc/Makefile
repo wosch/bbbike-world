@@ -1,5 +1,5 @@
 ###############################################################
-# Copyright (c) 2008-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2008-2017 Wolfram Schneider, http://bbbike.org
 #
 # configurations files
 #
@@ -50,7 +50,7 @@ install-munin-lighttpd:
 	for i in ${MUNIN_LIGHTTPD}; do \
 	   sudo ln -fs `pwd`/../src/munin/munin-lighttpd ${MUNIN_PLUGINS_DIR}/$$i; \
 	done
-	${MAKE} munin-restart
+	${MAKE} -C./munin munin-restart
 
 crontab-root:
 	if [ ! -e ${CRONTAB_ROOT} ]; then \
