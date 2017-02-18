@@ -81,7 +81,7 @@ EOF
         ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
         echo "$ff.label $f"
         echo "$ff.min 0"
-        echo "$ff.warnings $warning"
+        echo "$ff.warning $warning"
         echo "$ff.critical $critical"
     done
 
