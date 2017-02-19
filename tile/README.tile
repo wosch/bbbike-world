@@ -8,3 +8,6 @@ Everything runs by a make command. Try:
 make install-all
 make help
 
+# apache config
+/etc/apache2/apache2.conf
+LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" combined
