@@ -70,7 +70,7 @@ install-munin-bbbike-extract:
 
 install-munin-lighttpd:
 	for i in ${MUNIN_LIGHTTPD}; do \
-	    sudo ln -fs `pwd`/../src/munin/munin-lighttpd ${MUNIN_PLUGINS_DIR}/$$i; \
+	    sudo ln -fs `pwd`/../../src/munin/munin-lighttpd ${MUNIN_PLUGINS_DIR}/$$i; \
 	done
 	${MAKE} munin-restart
 
