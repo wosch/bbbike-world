@@ -125,9 +125,9 @@ echo ">>> Run splitter" >> $logfile
 if [ $(ls $split_dir/*.pbf 2>/dev/null | wc -l) -eq 0 ]; then
     echo "Warning: splitter didn't created a file: $file"
     if [ $size -le 1000 ]; then
-	cp -f $file $split_dir/$mapid.osm.pbf
+        cp -f $file $split_dir/$mapid.osm.pbf
     else
-	echo "Argh, $file with size $size to big for single run"
+        echo "Argh, $file with size $size to big for single run"
     fi
 fi
 
@@ -148,17 +148,17 @@ echo "OsmAnd version: $osmand_version" >> $logfile
 
 if [ $counter -eq 0 ]; then
     if time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp "$class_path" net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml >> $logfile 2>&1 && ln data/indexes/*.obf .; then
-	:
+        :
     else
         exit=$?
     fi
 else
     for i in $(pwd)/data/_*
     do
-	printf "(cd $i; time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp \"$class_path\" net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml && ln data/indexes/*.obf ../.. ) > $i.log 2>&1 \0"
+        printf "(cd $i; time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp \"$class_path\" net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml && ln data/indexes/*.obf ../.. ) > $i.log 2>&1 \0"
     done > data/jobs.sh
     if xargs -0 -n1 -P${osm2xxx_max_jobs} sh -c < data/jobs.sh >> $logfile 2>&1; then
-	:
+        :
     else
     	exit=$?
     fi
