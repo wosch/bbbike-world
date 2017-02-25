@@ -87,8 +87,8 @@ counter=0
 # OSM
 set -o pipefail # bash only
 case $file in
-  *.pbf) $pbf2osm $file | mbuffer -q -m 64m | time maptool ${navit}.bin 2>&1 | tail -n 1024K >> $logfile ;;
-  *.gz) $gzip -dc $file | mbuffer -q -m 64m | time maptool ${navit}.bin 2>&1 | tail -n 1024K >> $logfile ;;
+  *.pbf) $pbf2osm $file | mbuffer -q -m 64m | time maptool ${navit}.bin 2>&1 | tail -c 1024K >> $logfile ;;
+  *.gz) $gzip -dc $file | mbuffer -q -m 64m | time maptool ${navit}.bin 2>&1 | tail -c 1024K >> $logfile ;;
   * ) false ;;
 esac
 
