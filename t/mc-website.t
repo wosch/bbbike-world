@@ -23,7 +23,7 @@ our $enable_devel_server = 1;    # y.tile.bbbike.org
 my @list = (
     {
         'page' =>
-'http://maps.googleapis.com/maps/api/js?v=3.9&sensor=false&language=en&libraries=weather,panoramio',
+'https://maps.googleapis.com/maps/api/js?v=3.9&sensor=false&language=en&libraries=weather,panoramio',
         'min_size'  => 1_000,
         'match'     => [],
         'mime_type' => 'text/javascript'
@@ -149,6 +149,8 @@ my $ua = $test->{'ua'};
 
 foreach my $obj (@list) {
     my $url = $obj->{'page'};
+
+    $url =~ s,^http:,https:,;
 
     my $resp = $ua->get($url);
     ok( $resp->is_success, $url );

@@ -322,10 +322,10 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
   <div id="footer_top">
     <a href="$home">home</a> |
     <a href="/extract.html">@{[ M("help") ]}</a> |
-    <a href="http://download.bbbike.org/osm/">download</a> |
+    <a href="//download.bbbike.org/osm/">download</a> |
     <a href="@{[ $option->{"homepage"} ]}" target="_blank">status</a> |
     <!-- <a href="/cgi/livesearch-extract.cgi">@{[ M("livesearch") ]}</a> | -->
-    <a href="http://mc.bbbike.org/mc/$mc_parameters" id="mc_link" target="_blank">map compare</a> |
+    <a href="//mc.bbbike.org/mc/$mc_parameters" id="mc_link" target="_blank">map compare</a> |
     <a href="/extract.html#extract-pro">pro</a> |
     <a href="$community_link#donate">@{[ M("donate") ]}</a>
     $locate
@@ -373,7 +373,7 @@ qq{\n<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js
   @{[ $self->footer_top($q, 'error' => $error, 'map' => $args{'map'}, 'css' => $args{'css'} ) ]}
   <hr/>
   <div id="copyright" class="normalscreen">
-    (&copy;) 2017 <a href="http://www.bbbike.org">BBBike.org</a>
+    (&copy;) 2017 <a href="https://www.bbbike.org">BBBike.org</a>
     by <a href="http://wolfram.schneider.org">Wolfram Schneider</a><br/>
     Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
   <div id="footer_community"></div>
@@ -405,7 +405,7 @@ sub social_links {
     <<EOF;
     <span id="social">
     <a href="https://twitter.com/BBBikeWorld" target="_new"><img class="logo" width="16" height="16" src="/images/twitter-t.png" alt="" title="Follow us on twitter.com/BBBikeWorld" /></a>
-    <a href="http://www.bbbike.org/feed/bbbike-world.xml"><img class="logo" width="14" height="14" title="What's new on BBBike.org" src="/images/rss-icon.png" alt="" /></a>
+    <a href="https://www.bbbike.org/feed/bbbike-world.xml"><img class="logo" width="14" height="14" title="What's new on BBBike.org" src="/images/rss-icon.png" alt="" /></a>
     </span>
 EOF
 }
