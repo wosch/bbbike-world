@@ -150,6 +150,8 @@ my $ua = $test->{'ua'};
 foreach my $obj (@list) {
     my $url = $obj->{'page'};
 
+    $url =~ s,^http:,https:,;
+
     my $resp = $ua->get($url);
     ok( $resp->is_success, $url );
 
