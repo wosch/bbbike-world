@@ -100,7 +100,7 @@ sub init_env {
     $ENV{'BBBIKE_EXTRACT_MAPSME_VERSION'} =
       $option->{pbf2osm}->{mapsme_version};
 
-#$ENV{BBBIKE_EXTRACT_URL}  = 'http://extract.bbbike.org/?sw_lng=-72.33&sw_lat=-13.712&ne_lng=-71.532&ne_lat=-13.217&format=png-google.zip&city=Cusco%2C%20Peru';
+#$ENV{BBBIKE_EXTRACT_URL}  = 'https://extract.bbbike.org/?sw_lng=-72.33&sw_lat=-13.712&ne_lng=-71.532&ne_lat=-13.217&format=png-google.zip&city=Cusco%2C%20Peru';
 #$ENV{BBBIKE_EXTRACT_COORDS} = '-72.33,-13.712 x -71.532,-13.217';
 }
 
@@ -112,7 +112,7 @@ sub init_cusco {
     my $lang   = $self->{'lang'};
 
     $ENV{BBBIKE_EXTRACT_URL} =
-"http://extract.bbbike.org/?sw_lng=-72.33&sw_lat=-13.712&ne_lng=-71.532&ne_lat=-13.217&format=$format.zip&city=Cusco%2C%20Peru"
+"https://extract.bbbike.org/?sw_lng=-72.33&sw_lat=-13.712&ne_lng=-71.532&ne_lat=-13.217&format=$format.zip&city=Cusco%2C%20Peru"
       . ( $lang ? "&lang=$lang" : "" );
 
     $ENV{BBBIKE_EXTRACT_COORDS} = "-72.329,-13.711 x -71.531,-13.216";
@@ -273,7 +273,7 @@ qr"^Map data.*? OpenStreetMap contributors, https://www.openstreetmap.org",
 
     like(
         $data[1],
-        qr"^Extracts created by BBBike, http://extract.bbbike.org",
+        qr"^Extracts created by BBBike, https?://extract.bbbike.org",
         "by bbbike.org"
     );
 
@@ -310,7 +310,7 @@ qr"^Map data.*? OpenStreetMap contributors, https://www.openstreetmap.org",
         ok(
             (
                 grep {
-                    qr"^Script URL: http://.*bbbike.org/.*\?.*format=.+.*city="
+                    qr"^Script URL: https?://.*bbbike.org/.*\?.*format=.+.*city="
                 } @data
             ),
             "url"
@@ -321,7 +321,7 @@ qr"^Map data.*? OpenStreetMap contributors, https://www.openstreetmap.org",
         ok(
             (
                 grep {
-                    qr"unterstuetzen: http://www.bbbike.org/community.de.html"
+                    qr"unterstuetzen: https?://www.bbbike.org/community.de.html"
                 } @data
             ),
             "donate"
@@ -329,7 +329,7 @@ qr"^Map data.*? OpenStreetMap contributors, https://www.openstreetmap.org",
         ok( ( grep { /^Danke, Wolfram Schneider/ } @data ), "thanks" );
         ok(
             (
-                grep { qr"^http://www.BBBike.org - Dein Fahrrad-Routenplaner" }
+                grep { qr"^https?://www.BBBike.org - Dein Fahrrad-Routenplaner" }
                   @data
             ),
             "footer"
@@ -357,7 +357,7 @@ qr"^Map data.*? OpenStreetMap contributors, https://www.openstreetmap.org",
         ok(
             (
                 grep {
-                    qr"^Script URL: http://.*bbbike.org/.*\?.*format=.+.*city="
+                    qr"^Script URL: https?://.*bbbike.org/.*\?.*format=.+.*city="
                 } @data
             ),
             "url"
@@ -368,7 +368,7 @@ qr"^Map data.*? OpenStreetMap contributors, https://www.openstreetmap.org",
         ok(
             (
                 grep {
-qr"^PayPal, Flattr or bank wire transfer: http://www.BBBike.org/community.html"
+qr"^PayPal, Flattr or bank wire transfer: https?://www.BBBike.org/community.html"
                 } @data
             ),
             "donate"
@@ -376,7 +376,7 @@ qr"^PayPal, Flattr or bank wire transfer: http://www.BBBike.org/community.html"
         ok( ( grep { /^thanks, Wolfram Schneider/ } @data ), "thanks" );
         ok(
             (
-                grep { qr"^http://www.BBBike.org - Your Cycle Route Planner" }
+                grep { qr"^https?://www.BBBike.org - Your Cycle Route Planner" }
                   @data
             ),
             "footer"
