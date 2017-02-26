@@ -152,14 +152,14 @@ function init() {
         },
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("Esri", "http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/${z}/${y}/${x}.png", {
+    map.addLayer(new OpenLayers.Layer.OSM("Esri", "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/${z}/${y}/${x}.png", {
         tileOptions: {
             crossOriginKeyword: null
         },
         numZoomLevels: 18
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("Esri Topographic", "http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/${z}/${y}/${x}.png", {
+    map.addLayer(new OpenLayers.Layer.OSM("Esri Topographic", "https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/${z}/${y}/${x}.png", {
         tileOptions: {
             crossOriginKeyword: null
         },
