@@ -161,6 +161,12 @@ sub vcl_recv {
     # backend config
     #
 
+    # letsencrypt
+    if (req.url ~ "^/\.well-known/") {
+        set req.backend_hint = munin_localhost;
+        return (pass);
+    }
+
     # munin statistics with lighttpd
     if (req.http.host ~ "^dev[1-4]?\.bbbike\.org$" && req.url ~ "^/munin") {
         set req.backend_hint = munin_localhost;
