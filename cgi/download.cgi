@@ -246,6 +246,7 @@ sub running_extract_areas {
         }
 
         next if !exists $obj->{'date'};
+
         my $script_url = $obj->{"script_url"};
 
         if ( $unique{$script_url} ) {
@@ -478,12 +479,17 @@ sub result {
 
         print "<td>";
         my @coords = @{ $download->{"coords"} };
+
+        # protocol independent links
+        my $script_url = $download->{"script_url"};
+        $script_url =~ s,^http:,,;
+
         print qq{<a class="polygon}
           . ( scalar(@coords) ? 1 : 0 )
           . qq{" title="}
           . ( scalar(@coords) ? "polygon" : "rectangle" )
           . qq{" href="}
-          . escapeHTML( $download->{"script_url"} )
+          . escapeHTML($script_url)
           . qq{">map</a>};
         print "</td>\n";
 

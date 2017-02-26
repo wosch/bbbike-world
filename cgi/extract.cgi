@@ -22,8 +22,8 @@ binmode \*STDERR, ":utf8";
 $ENV{PATH} = "/bin:/usr/bin";
 
 our $option = {
-    'homepage'        => 'http://download.bbbike.org/osm/extract/',
-    'script_homepage' => 'http://extract.bbbike.org',
+    'homepage'        => '//download.bbbike.org/osm/extract/',
+    'script_homepage' => '//extract.bbbike.org',
 
     'max_extracts'              => 50,
     'default_format'            => 'osm.pbf',

@@ -41,7 +41,7 @@ like(
 );
 like( $data, qr|<title>.+</title>|,     "check xml elements" );
 like( $data, qr|<content>.+</content>|, "check xml elements" );
-like( $data, qr|<icon>http://|,         "check xml elements" );
+like( $data, qr|<icon>https?://|,       "check xml elements" );
 like( $data, qr|<entry>|,               "check xml elements" );
 
 __END__

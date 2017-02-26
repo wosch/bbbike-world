@@ -119,7 +119,7 @@ function init() {
         numZoomLevels: 18
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("OSM Hike&Bike", ["http://a.tiles.wmflabs.org/hikebike/${z}/${x}/${y}.png", "http://b.tiles.wmflabs.org/hikebike/${z}/${x}/${y}.png"], {
+    map.addLayer(new OpenLayers.Layer.OSM("OSM Hike&Bike", ["https://tiles.wmflabs.org/hikebike/${z}/${x}/${y}.png"], {
         tileOptions: {
             crossOriginKeyword: null
         },

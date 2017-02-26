@@ -59,8 +59,8 @@ $ENV{BBBIKE_PLANET_OSM_GRANULARITY} = "granularity=10000"
 
 our $option = {
     'max_areas'       => 1,
-    'homepage'        => 'http://download.bbbike.org/osm/extract',
-    'script_homepage' => 'http://extract.bbbike.org',
+    'homepage'        => '//download.bbbike.org/osm/extract',
+    'script_homepage' => '//extract.bbbike.org',
     'max_jobs'        => 3,
     'bcc'             => 'bbbike@bbbike.org',
     'email_from'      => 'bbbike@bbbike.org',
@@ -103,11 +103,11 @@ our $option = {
         'bucket'      => 'bbbike',
         'path'        => 'osm/extract',
         'put_command' => 's3put',
-        'homepage'    => 'http://s3.amazonaws.com',
+        'homepage'    => 'https://s3.amazonaws.com',
     },
 
     # use web rest service for email sent out
-    'email_rest_url'     => 'http://extract.bbbike.org/cgi/extract-email.cgi',
+    'email_rest_url'     => 'https://extract.bbbike.org/cgi/extract-email.cgi',
     'email_rest_enabled' => 0,
 
     'show_image_size' => 1,
@@ -940,7 +940,7 @@ sub send_email_rest {
     my ( $to, $subject, $message, $bcc ) = @_;
 
     my $ua = LWP::UserAgent->new;
-    $ua->agent("BBBike Extract/1.0; see http://extract.bbbike.org");
+    $ua->agent("BBBike Extract/1.0; see https://extract.bbbike.org");
 
     my $url = $option->{"email_rest_url"};
     warn "Use REST email service: $url\n" if $debug >= 1;
@@ -1650,7 +1650,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
 #
 #We appreciate any feedback, suggestions and a donation!
 #You can support us via PayPal, Flattr or bank wire transfer.
-#http://www.BBBike.org/community.html
+#https://www.BBBike.org/community.html
 #
 #Sincerely, the BBBike extract Fairy
 #
