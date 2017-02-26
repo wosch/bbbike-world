@@ -13,7 +13,7 @@ my $debug  = 1;
 my $random = 1;
 
 my $formats = $Extract::Config::formats;
-my $server  = $ENV{'BBBIKE_DEV_SERVER'} || 'http://dev3.bbbike.org';
+my $server  = $ENV{'BBBIKE_DEV_SERVER'} || 'https://dev3.bbbike.org';
 my $sw_lng  = -72.211;
 my $sw_lat  = -13.807;
 my $ne_lng  = -71.732;
