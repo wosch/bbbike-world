@@ -151,8 +151,9 @@ sub vcl_recv {
     } 
 
     # letsencrypt
-    if ("^/\.well-known/acme-challenge/") {
+    if (req.url ~ "^/\.well-known/") {
         set req.backend_hint = munin_localhost;
+	return (pass);
     } 
 
     # tile.size with node.js daemon
