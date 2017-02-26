@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -T
-# Copyright (c) 2009-2014 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2014 Wolfram Schneider, https://bbbike.org
 #
 # log.cgi - logging gmaps suggestion service for street names
 #

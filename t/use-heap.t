@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) July 2014 Wolfram Schneider, http://bbbike.org
+# Copyright (c) July 2014 Wolfram Schneider, https://bbbike.org
 #
 # check if $use_heap is working
 

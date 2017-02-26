@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2014 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2014 Wolfram Schneider, https://bbbike.org
 #
 # extract-disk-usage - calculate uncompressed image size for Garmin & Osmand
 #

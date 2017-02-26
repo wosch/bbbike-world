@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Wolfram Schneider, http://bbbike.org
+/* Copyright (c) 2013 Wolfram Schneider, https://bbbike.org
  *
  * jQuery test with DOM/windows object
  *

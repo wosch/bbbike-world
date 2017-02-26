@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -T
-# Copyright (c) 2011-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2011-2013 Wolfram Schneider, https://bbbike.org
 #
 # extract-email.cgi - email REST wrapper
 #

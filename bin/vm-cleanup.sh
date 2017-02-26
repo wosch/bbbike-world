@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2014 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2014 Wolfram Schneider, https://bbbike.org
 #
 # vm-cleanup - cleanup a VirtualBox VM before running export
 #

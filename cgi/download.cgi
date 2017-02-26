@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -T
-# Copyright (c) 2012-2017 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2017 Wolfram Schneider, https://bbbike.org
 #
 # extract-download.cgi - extract.bbbike.org live extracts
 

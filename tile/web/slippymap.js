@@ -1,5 +1,5 @@
 /* Copyright (c) 2011 OpenLayers
- * Copyright (c) 2012-2014 Wolfram Schneider, http://bbbike.org
+ * Copyright (c) 2012-2014 Wolfram Schneider, https://bbbike.org
  * /
 
 /* run JavaScript code in strict mode, HTML5 */
@@ -62,7 +62,7 @@ function init() {
     // This is the layer that uses the locally stored tiles
     map.addLayer(new OpenLayers.Layer.OSM("BBBike.org bbbike", "/osm/bbbike/${z}/${x}/${y}.png", {
         numZoomLevels: 19,
-        attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
+        attribution: '<a href="https://bbbike.org/">BBBike.org</a>'
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM("BBBike.org Mapnik (de)", "/osm/mapnik-german/${z}/${x}/${y}.png", {
@@ -70,7 +70,7 @@ function init() {
             crossOriginKeyword: null
         },
         numZoomLevels: 19,
-        attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
+        attribution: '<a href="https://bbbike.org/">BBBike.org</a>'
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM("BBBike.org Mapnik", "/osm/mapnik/${z}/${x}/${y}.png", {
@@ -78,7 +78,7 @@ function init() {
             crossOriginKeyword: null
         },
         numZoomLevels: 19,
-        attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
+        attribution: '<a href="https://bbbike.org/">BBBike.org</a>'
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM.Mapnik("OSM Mapnik"));

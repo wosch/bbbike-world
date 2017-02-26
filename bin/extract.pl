@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2011-2017 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2011-2017 Wolfram Schneider, https://bbbike.org
 #
 # extract.pl - extracts areas in a batch job
 #
@@ -1655,7 +1655,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
 #Sincerely, the BBBike extract Fairy
 #
 #--
-#http://www.BBBike.org - Your Cycle Route Planner
+#https://www.BBBike.org - Your Cycle Route Planner
 #EOF
 
     my $subject =

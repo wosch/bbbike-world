@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) Sep 2011-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2011-2015 Wolfram Schneider, https://bbbike.org
 #
 # usage: /etc/munin/plugins/bbbike-processes [ config ]
 #

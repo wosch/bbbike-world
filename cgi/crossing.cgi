@@ -1,11 +1,11 @@
 #!/usr/local/bin/perl -T
-# Copyright (c) 2011-2014 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2011-2014 Wolfram Schneider, https://bbbike.org
 #
 # street-coord.cgi - plot latlng names on a map as a suggestion service
 #
 # Example:
 #
-# curl 'http://www.bbbike.org/cgi/crossing.cgi?id=suggest_ziel;ns=dbac;city=Mannheim;q=8.45186,49.47912'
+# curl 'https://www.bbbike.org/cgi/crossing.cgi?id=suggest_ziel;ns=dbac;city=Mannheim;q=8.45186,49.47912'
 #
 # {
 #    query: "8.45186,49.47912",

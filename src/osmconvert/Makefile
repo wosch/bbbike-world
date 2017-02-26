@@ -1,9 +1,9 @@
 ###############################################################
-# Copyright (c) 2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2013 Wolfram Schneider, https://bbbike.org
 #
 # Get and convert OpenStreetMap.org data to BBBike
 #
-# For more information about BBBike, visit http://www.bbbike.org
+# For more information about BBBike, visit https://www.bbbike.org
 #
 # see also
 # https://wiki.openstreetmap.org/wiki/Osmconvert#Download
