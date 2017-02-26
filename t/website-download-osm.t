@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2017 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2017 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} ) {
@@ -40,7 +40,7 @@ my $urls = [
     [ "/favicon.ico",                        1_000 ],
     [ "/robots.txt",                         36 ],
     [ "/sitemap.xml.gz",                     1_000 ],
-    [ "/index.html",                         800 ],
+    [ "/index.html",                         700 ],
 
     [ "/osm/planet/srtm/planet-srtm-e40.osm.pbf", 14_000_000 ],
 

@@ -1,5 +1,5 @@
 ###############################################################
-# Copyright (c) 2008-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2008-2015 Wolfram Schneider, https://bbbike.org
 #
 # munin setup
 #

@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Feb 2011-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Feb 2011-2013 Wolfram Schneider, https://bbbike.org
 #
 # elevation-database - fetch SRTM3 elevation data for points in planet.osm without elevation infos
 #
@@ -30,7 +30,7 @@ my $readonly_database = 0;
 my $api_url           = 'http://api.geonames.org/srtm3?username=';
 my $data_osm_dir      = "data-osm";
 my $max_points = 20;                                     # limit of geonames.org
-my $user_agent = "BBBike @ World - http://bbbike.org";
+my $user_agent = "BBBike @ World - https://bbbike.org";
 my $sleep      = 2.5;
 my $check_database;
 my $repair_database;

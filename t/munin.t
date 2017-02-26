@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2013 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     system(qq[printf "quit\n" | nc localhost 4949 >/dev/null]);

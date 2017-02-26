@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Dec 2012 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Dec 2012 Wolfram Schneider, https://bbbike.org
 #
 # bbbike-org-mc-tilecheck.t - check if all tile URL images can be viewed for map compare
 

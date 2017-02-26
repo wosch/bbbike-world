@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -T
-# Copyright (c) 2009-2017 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2017 Wolfram Schneider, https://bbbike.org
 #
 # area.cgi - which areas are covered by bbbike.org
 
@@ -23,8 +23,8 @@ $ENV{PATH} = "/bin:/usr/bin";
 
 my $debug               = 1;
 my $city_default        = "Berlin";
-my $download_bbbike_org = "http://download.bbbike.org";
-my $www_bbbike_org      = "http://www.bbbike.org";
+my $download_bbbike_org = "//download.bbbike.org";
+my $www_bbbike_org      = "//www.bbbike.org";
 my $checksum_file       = 'CHECKSUM.txt';
 
 my $q = new CGI;
@@ -54,9 +54,9 @@ sub footer {
 <hr/>
 
 <div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em;" >
-  (&copy;) 2008-2017 <a href="http://bbbike.org">BBBike.org</a> //
+  (&copy;) 2008-2017 <a href="//bbbike.org">BBBike.org</a> //
   Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors <br/>
-  <a href="http://mc.bbbike.org/mc/">map compare</a> - <a href="http://extract.bbbike.org/">osm extract service</a>
+  <a href="//mc.bbbike.org/mc/">map compare</a> - <a href="//extract.bbbike.org/">osm extract service</a>
 
   <div id="footer_community"></div>
 </div> <!-- copyright -->
@@ -167,9 +167,9 @@ EOF
 </table>
 
 <br/>
-<a href="http://extract.bbbike.org/extract.html" target="_new">help</a> |
-<a href="http://extract.bbbike.org/extract-screenshots.html" target="_new">screenshots</a> |
-<a href="http://extract.bbbike.org/" target="_new">extracts</a>
+<a href="//extract.bbbike.org/extract.html" target="_new">help</a> |
+<a href="//extract.bbbike.org/extract-screenshots.html" target="_new">screenshots</a> |
+<a href="//extract.bbbike.org/" target="_new">extracts</a>
 <hr/>
 
 <span class="city">
@@ -223,7 +223,7 @@ sub header {
             ]
         },
         -script =>
-          [ map { { 'src' => ( /^http:/ ? $_ : $base . $_ ) } } @javascript ],
+          [ map { { 'src' => ( /^https?:/ ? $_ : $base . $_ ) } } @javascript ],
     );
 }
 

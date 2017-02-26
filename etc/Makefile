@@ -1,5 +1,5 @@
 ###############################################################
-# Copyright (c) 2008-2017 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2008-2017 Wolfram Schneider, https://bbbike.org
 #
 # configurations files
 #

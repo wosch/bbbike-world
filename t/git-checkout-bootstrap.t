@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Aug 2015-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Aug 2015-2015 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     if ( !$ENV{BBBIKE_TEST_INTERACTIVE_FULL} ) {

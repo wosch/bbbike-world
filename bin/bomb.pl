@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# Copyright (c) 2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2015 Wolfram Schneider, https://bbbike.org
 #
 # bomb.pl - wrapper to stop a process after N seconds
 #

@@ -1,9 +1,9 @@
 ###############################################################
-# Copyright (c) 2008-2017 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2008-2017 Wolfram Schneider, https://bbbike.org
 #
 # Get and convert OpenStreetMap.org data to BBBike
 #
-# For more information about BBBike, visit http://www.bbbike.org
+# For more information about BBBike, visit https://www.bbbike.org
 #
 
 BBMAKE=	${MAKE} -f Makefile.osm
