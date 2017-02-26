@@ -26,8 +26,8 @@ binmode \*STDERR, ":utf8";
 $ENV{PATH} = "/bin:/usr/bin";
 
 our $option = {
-    'homepage_download' => 'http://download.bbbike.org/osm/',
-    'homepage_bbbike'   => 'http://www.bbbike.org',
+    'homepage_download' => '//download.bbbike.org/osm/',
+    'homepage_bbbike'   => '//www.bbbike.org',
 
     'message_path' => "../world/etc/extract",
     'city_default' => 'Berlin',
@@ -89,9 +89,9 @@ sub footer {
 <hr/>
 
 <div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em;" >
-  (&copy;) 2008-2017 <a href="http://bbbike.org">BBBike.org</a> //
+  (&copy;) 2008-2017 <a href="//bbbike.org">BBBike.org</a> //
   Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors <br/>
-  <a href="http://mc.bbbike.org/mc/">map compare</a> - <a href="//extract.bbbike.org/">osm extract service</a>
+  <a href="//mc.bbbike.org/mc/">map compare</a> - <a href="//extract.bbbike.org/">osm extract service</a>
 
   <div id="footer_community"></div>
 </div> <!-- copyright -->
@@ -250,7 +250,7 @@ sub header {
 
         -style => { 'src' => [ $base . "/html/bbbike.css" ] },
         -script =>
-          [ map { { 'src' => ( /^http:/ ? $_ : $base . $_ ) } } @javascript ],
+          [ map { { 'src' => ( /^https?:/ ? $_ : $base . $_ ) } } @javascript ],
     );
 }
 
