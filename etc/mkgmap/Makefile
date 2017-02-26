@@ -1,5 +1,5 @@
 ###############################################################
-# Copyright (c) 2008-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2008-2013 Wolfram Schneider, https://bbbike.org
 #
 # Get and convert OpenStreetMap.org data to BBBike
 #

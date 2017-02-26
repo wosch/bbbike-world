@@ -1,5 +1,5 @@
 ###############################################################
-# Copyright (c) 2013-2014 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2013-2014 Wolfram Schneider, https://bbbike.org
 #
 # run me from ./<deb_release>/deb/
 

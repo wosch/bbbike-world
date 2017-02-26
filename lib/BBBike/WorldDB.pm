@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2013 Wolfram Schneider, https://bbbike.org
 #
 # BBBike::WorldDB.pm - module to parse bbbike @ world city database
 

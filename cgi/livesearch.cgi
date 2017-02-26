@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -T
-# Copyright (c) 2009-2017 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2017 Wolfram Schneider, https://bbbike.org
 #
 # livesearch.cgi - bbbike.org live routing search
 

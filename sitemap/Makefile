@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2013, Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2011-2013, Wolfram Schneider, https://bbbike.org
 #
 # create google sitemap for BBBike.org web sites
 

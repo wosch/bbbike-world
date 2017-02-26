@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -T
-# Copyright (c) June 2012-2017 Wolfram Schneider, http://bbbike.org
+# Copyright (c) June 2012-2017 Wolfram Schneider, https://bbbike.org
 #
 # tile-size.cgi - compute size of an tile from planet.osm
 

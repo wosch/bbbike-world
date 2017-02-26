@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -T
-# Copyright (c) 2011-2014 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2011-2014 Wolfram Schneider, https://bbbike.org
 #
 # street-coord.cgi - plot latlng names on a map as a suggestion service
 #

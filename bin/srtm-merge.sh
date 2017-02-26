@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2014-2014 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2014-2014 Wolfram Schneider, https://bbbike.org
 #
 # srtm-merge - merge SRTM based *.osm.gz files into one big srtm.osm.pbf
 #

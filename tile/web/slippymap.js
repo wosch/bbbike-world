@@ -1,5 +1,5 @@
 /* Copyright (c) 2011 OpenLayers
- * Copyright (c) 2012-2014 Wolfram Schneider, http://bbbike.org
+ * Copyright (c) 2012-2014 Wolfram Schneider, https://bbbike.org
  * /
 
 /* run JavaScript code in strict mode, HTML5 */
