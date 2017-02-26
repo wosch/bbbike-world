@@ -38,7 +38,7 @@ my $data = `cat $tempfile`;
 
 like(
     $data,
-    qr|http://www.bbbike.org/cgi/area.cgi\?city=[A-Z][a-z]+|,
+    qr|https://www.bbbike.org/cgi/area.cgi\?city=[A-Z][a-z]+|,
     "check links in kml"
 );
 
