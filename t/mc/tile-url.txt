@@ -129,3 +129,7 @@ https://tiles.jochenklar.de/1940/16/35205/21492.png
 https://tiles.jochenklar.de/1986/16/35205/21492.png
 https://tiles.jochenklar.de/gebaeudealter/16/35205/21492.png
 https://tiles.jochenklar.de/gebschaden/16/35205/21492.png
+https://a.tile.bbbike.org/osm/mapnik-german/12/2200/1342.png
+https://b.tile.bbbike.org/osm/mapnik-german/12/2200/1342.png
+https://c.tile.bbbike.org/osm/mapnik/12/2200/1342.png
+https://d.tile.bbbike.org/osm/bbbike-smoothness/12/2200/1342.png
