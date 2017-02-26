@@ -40,7 +40,7 @@ my $urls = [
     [ "/favicon.ico",                        1_000 ],
     [ "/robots.txt",                         36 ],
     [ "/sitemap.xml.gz",                     1_000 ],
-    [ "/index.html",                         800 ],
+    [ "/index.html",                         700 ],
 
     [ "/osm/planet/srtm/planet-srtm-e40.osm.pbf", 14_000_000 ],
 
