@@ -53,7 +53,7 @@ sub bbbike2kml_header {
   <Style id="style1">
     <IconStyle>
       <Icon>
-        <href>http://maps.google.com/mapfiles/ms/micons/pink-pushpin.png</href>
+        <href>https://maps.google.com/mapfiles/ms/micons/pink-pushpin.png</href>
       </Icon>
     </IconStyle>
   </Style>

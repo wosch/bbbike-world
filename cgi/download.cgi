@@ -32,9 +32,9 @@ $ENV{PATH} = "/bin:/usr/bin";
 
 our $option = {
     'debug'                => "0",
-    'homepage_download'    => 'http://download.bbbike.org/osm/',
-    'homepage_extract'     => 'http://extract.bbbike.org',
-    'homepage_extract_pro' => 'http://extract-pro.bbbike.org',
+    'homepage_download'    => '//download.bbbike.org/osm/',
+    'homepage_extract'     => '//extract.bbbike.org',
+    'homepage_extract_pro' => '//extract-pro.bbbike.org',
 
     'message_path' => "../world/etc/extract",
     'pro'          => 0,
@@ -284,7 +284,7 @@ sub footer {
 </div> <!-- footer_top -->
 
 <div id="copyright">
-(&copy;) 2008-2017 <a href="http://bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
+(&copy;) 2008-2017 <a href="https://www.bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
 </div> <!-- copyright -->
 
 </div> <!-- footer -->
