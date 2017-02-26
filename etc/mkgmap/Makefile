@@ -3,7 +3,7 @@
 #
 # Get and convert OpenStreetMap.org data to BBBike
 #
-# For more information about BBBike, visit http://www.bbbike.org
+# For more information about BBBike, visit https://www.bbbike.org
 #
 
 MAX_CPU=	`../../bin/ncpu`
