@@ -459,7 +459,7 @@ sub statistic_maps {
             { 'src' => "https://www.google.com/jsapi?hl=en" },
             {
                 'src' =>
-"http://maps.googleapis.com/maps/api/js?v=3.9&sensor=false&language=en&libraries=weather,panoramio"
+"https://maps.googleapis.com/maps/api/js?v=3.9&sensor=false&language=en&libraries=weather,panoramio"
             },
 
             #{ 'src' => "/html/bbbike-js.js" }
