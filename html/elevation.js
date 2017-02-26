@@ -3,8 +3,8 @@
 /*
  Google Maps API v3 is required!
 
-<script type="text/javascript" src="http://www.google.com/jsapi"></script>
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
 
 //////////////////////////////////////////////////
 // external variables
@@ -96,7 +96,7 @@ function elevation_initialize(slippymap, opt) {
             mousemarker = new google.maps.Marker({
                 position: elevations[e.row].location,
                 map: map,
-                icon: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+                icon: "https://maps.google.com/mapfiles/ms/icons/green-dot.png"
             });
         } else {
             mousemarker.setPosition(elevations[e.row].location);

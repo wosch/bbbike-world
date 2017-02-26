@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Nov 2015-2017 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Nov 2015-2017 Wolfram Schneider, https://bbbike.org
 #
 # extract-formats.pl - test all extract formats
 

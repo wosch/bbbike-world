@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Oct 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Oct 2012-2015 Wolfram Schneider, https://bbbike.org
 
 use Test::More;
 use IO::Dir;

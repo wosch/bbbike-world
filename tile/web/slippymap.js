@@ -1,5 +1,5 @@
 /* Copyright (c) 2011 OpenLayers
- * Copyright (c) 2012-2014 Wolfram Schneider, http://bbbike.org
+ * Copyright (c) 2012-2014 Wolfram Schneider, https://bbbike.org
  * /
 
 /* run JavaScript code in strict mode, HTML5 */
@@ -62,7 +62,7 @@ function init() {
     // This is the layer that uses the locally stored tiles
     map.addLayer(new OpenLayers.Layer.OSM("BBBike.org bbbike", "/osm/bbbike/${z}/${x}/${y}.png", {
         numZoomLevels: 19,
-        attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
+        attribution: '<a href="https://bbbike.org/">BBBike.org</a>'
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM("BBBike.org Mapnik (de)", "/osm/mapnik-german/${z}/${x}/${y}.png", {
@@ -70,7 +70,7 @@ function init() {
             crossOriginKeyword: null
         },
         numZoomLevels: 19,
-        attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
+        attribution: '<a href="https://bbbike.org/">BBBike.org</a>'
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM("BBBike.org Mapnik", "/osm/mapnik/${z}/${x}/${y}.png", {
@@ -78,7 +78,7 @@ function init() {
             crossOriginKeyword: null
         },
         numZoomLevels: 19,
-        attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
+        attribution: '<a href="https://bbbike.org/">BBBike.org</a>'
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM.Mapnik("OSM Mapnik"));
@@ -119,7 +119,7 @@ function init() {
         numZoomLevels: 18
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("OSM Hike&Bike", ["http://a.tiles.wmflabs.org/hikebike/${z}/${x}/${y}.png", "http://b.tiles.wmflabs.org/hikebike/${z}/${x}/${y}.png"], {
+    map.addLayer(new OpenLayers.Layer.OSM("OSM Hike&Bike", ["https://tiles.wmflabs.org/hikebike/${z}/${x}/${y}.png"], {
         tileOptions: {
             crossOriginKeyword: null
         },
@@ -152,14 +152,14 @@ function init() {
         },
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("Esri", "http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/${z}/${y}/${x}.png", {
+    map.addLayer(new OpenLayers.Layer.OSM("Esri", "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/${z}/${y}/${x}.png", {
         tileOptions: {
             crossOriginKeyword: null
         },
         numZoomLevels: 18
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("Esri Topographic", "http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/${z}/${y}/${x}.png", {
+    map.addLayer(new OpenLayers.Layer.OSM("Esri Topographic", "https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/${z}/${y}/${x}.png", {
         tileOptions: {
             crossOriginKeyword: null
         },
@@ -225,28 +225,28 @@ function init() {
     map.addLayer(new OpenLayers.Layer.Google("Google Physical", {
         type: google.maps.MapTypeId.TERRAIN,
         'sphericalMercator': true,
-        attribution: ', <a href="http://maps.google.com/">Google</a>',
+        attribution: ', <a href="https://maps.google.com/">Google</a>',
         numZoomLevels: 16
     }));
 
     map.addLayer(new OpenLayers.Layer.Google("Google Roadmap", {
         type: google.maps.MapTypeId.ROADMAP,
         'sphericalMercator': true,
-        attribution: ', <a href="http://maps.google.com/">Google</a>',
+        attribution: ', <a href="https://maps.google.com/">Google</a>',
         numZoomLevels: 19
     }));
 
     map.addLayer(new OpenLayers.Layer.Google("Google Satellite", {
         type: google.maps.MapTypeId.SATELLITE,
         'sphericalMercator': true,
-        attribution: ', <a href="http://maps.google.com/">Google</a>',
+        attribution: ', <a href="https://maps.google.com/">Google</a>',
         numZoomLevels: 19
     }));
 
     map.addLayer(new OpenLayers.Layer.Google("Google Hybrid", {
         type: google.maps.MapTypeId.HYBRID,
         'sphericalMercator': true,
-        attribution: ', <a href="http://maps.google.com/">Google</a>',
+        attribution: ', <a href="https://maps.google.com/">Google</a>',
         numZoomLevels: 19
     }));
 

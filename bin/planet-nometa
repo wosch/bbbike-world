@@ -1,5 +1,5 @@
 #!/usr/local/bin/bash
-# Copyright (c) 2009-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2015 Wolfram Schneider, https://bbbike.org
 #
 # planet-nometa - convert a planet.osm to a smaller file without meta data
 #

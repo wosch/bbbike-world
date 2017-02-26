@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -T
-# Copyright (c) 2009-2017 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2017 Wolfram Schneider, https://bbbike.org
 #
 # livesearch.cgi - bbbike.org live routing search
 
@@ -361,7 +361,7 @@ $data
 
 <div id="copyright">
 <hr/>
-(&copy;) 2008-2017 <a href="http://bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
+(&copy;) 2008-2017 <a href="//bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
 <div id="footer_community">
 </div>
 </div> <!-- copyright -->
@@ -456,10 +456,10 @@ sub statistic_maps {
 
         -style  => { 'src' => ["../html/bbbike.css"], -code => &css_map },
         -script => [
-            { 'src' => "http://www.google.com/jsapi?hl=en" },
+            { 'src' => "https://www.google.com/jsapi?hl=en" },
             {
                 'src' =>
-"http://maps.googleapis.com/maps/api/js?v=3.9&sensor=false&language=en&libraries=weather,panoramio"
+"https://maps.googleapis.com/maps/api/js?v=3.9&sensor=false&language=en&libraries=weather,panoramio"
             },
 
             #{ 'src' => "/html/bbbike-js.js" }
@@ -815,8 +815,7 @@ sub statistic_basic {
     $q->param( "date", "today" );
     print qq{ | <a href="} . $q->url( -query => 1 ) . qq{">today</a>\n};
     print "<hr />\n";
-    print
-      qq{Copyright (c) 2011-2017 <a href="http://bbbike.org">BBBike.org</a>\n};
+    print qq{Copyright (c) 2011-2017 <a href="//bbbike.org">BBBike.org</a>\n};
     print "<br/>\n" . localtime() . "\n";
 }
 

@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Oct 2012-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Oct 2012-2013 Wolfram Schneider, https://bbbike.org
 
 BEGIN { }
 
