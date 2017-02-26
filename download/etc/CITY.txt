@@ -3,7 +3,7 @@ Extracted OSM area for %{city}
 
 You can see the size of the area on a map at 
 
-  http://www.bbbike.org/cgi/area.cgi?city=%{city}
+  https://www.bbbike.org/cgi/area.cgi?city=%{city}
 
 All Data from OpenStreetMap is licensed under the OpenStreetMap License
 
