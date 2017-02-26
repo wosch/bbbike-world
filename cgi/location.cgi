@@ -7,12 +7,12 @@
 #
 # 1. simple list
 #
-# curl 'http://www.bbbike.org/cgi/location.cgi?lng=13.404954&lat=52.520007'
+# curl 'https://www.bbbike.org/cgi/location.cgi?lng=13.404954&lat=52.520007'
 # ["Berlin","Oranienburg","Potsdam"]
 #
 # 2. a list with coordinates, pretty indented
 #
-# curl 'http://www.bbbike.org/cgi/location.cgi?lng=13.404954&lat=52.520007&ns=coords&pretty=1'
+# curl 'https://www.bbbike.org/cgi/location.cgi?lng=13.404954&lat=52.520007&ns=coords&pretty=1'
 # [
 #   {
 #      "coords" : [

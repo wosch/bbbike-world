@@ -5,7 +5,7 @@
 #
 # Example:
 #
-# curl 'http://www.bbbike.org/cgi/crossing.cgi?id=suggest_ziel;ns=dbac;city=Mannheim;q=8.45186,49.47912'
+# curl 'https://www.bbbike.org/cgi/crossing.cgi?id=suggest_ziel;ns=dbac;city=Mannheim;q=8.45186,49.47912'
 #
 # {
 #    query: "8.45186,49.47912",
