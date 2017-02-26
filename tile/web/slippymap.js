@@ -225,28 +225,28 @@ function init() {
     map.addLayer(new OpenLayers.Layer.Google("Google Physical", {
         type: google.maps.MapTypeId.TERRAIN,
         'sphericalMercator': true,
-        attribution: ', <a href="http://maps.google.com/">Google</a>',
+        attribution: ', <a href="https://maps.google.com/">Google</a>',
         numZoomLevels: 16
     }));
 
     map.addLayer(new OpenLayers.Layer.Google("Google Roadmap", {
         type: google.maps.MapTypeId.ROADMAP,
         'sphericalMercator': true,
-        attribution: ', <a href="http://maps.google.com/">Google</a>',
+        attribution: ', <a href="https://maps.google.com/">Google</a>',
         numZoomLevels: 19
     }));
 
     map.addLayer(new OpenLayers.Layer.Google("Google Satellite", {
         type: google.maps.MapTypeId.SATELLITE,
         'sphericalMercator': true,
-        attribution: ', <a href="http://maps.google.com/">Google</a>',
+        attribution: ', <a href="https://maps.google.com/">Google</a>',
         numZoomLevels: 19
     }));
 
     map.addLayer(new OpenLayers.Layer.Google("Google Hybrid", {
         type: google.maps.MapTypeId.HYBRID,
         'sphericalMercator': true,
-        attribution: ', <a href="http://maps.google.com/">Google</a>',
+        attribution: ', <a href="https://maps.google.com/">Google</a>',
         numZoomLevels: 19
     }));
 
