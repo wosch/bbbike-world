@@ -2,7 +2,7 @@
 <kml xmlns="http://earth.google.com/kml/2.2">
 <Document>
   <name>BBBike @ World - a Cycle Route Planner</name>
-  <description><![CDATA[List of all Cities supported by <a href="//www.bbbike.org/">BBBike @ World</a>.]]></description>
+  <description><![CDATA[List of all Cities supported by <a href="https://www.bbbike.org/">BBBike @ World</a>.]]></description>
   <Style id="style1">
     <IconStyle>
       <Icon>
@@ -12,8 +12,8 @@
   </Style>
   <Placemark>
     <name>Aachen</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Aachen/">BBBike @ Aachen</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Aachen">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Aachen/">BBBike @ Aachen</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Aachen">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -22,8 +22,8 @@
   </Placemark>
   <Placemark>
     <name>Aarhus</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Aarhus/">BBBike @ Aarhus</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Aarhus">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Aarhus/">BBBike @ Aarhus</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Aarhus">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -32,8 +32,8 @@
   </Placemark>
   <Placemark>
     <name>Adelaide</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Adelaide/">BBBike @ Adelaide</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Adelaide">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Adelaide/">BBBike @ Adelaide</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Adelaide">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -42,8 +42,8 @@
   </Placemark>
   <Placemark>
     <name>Albuquerque</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Albuquerque/">BBBike @ Albuquerque</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Albuquerque">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Albuquerque/">BBBike @ Albuquerque</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Albuquerque">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -52,8 +52,8 @@
   </Placemark>
   <Placemark>
     <name>Alexandria</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Alexandria/">BBBike @ Alexandria</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Alexandria">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Alexandria/">BBBike @ Alexandria</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Alexandria">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -62,8 +62,8 @@
   </Placemark>
   <Placemark>
     <name>Amsterdam</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Amsterdam/">BBBike @ Amsterdam</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Amsterdam">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Amsterdam/">BBBike @ Amsterdam</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Amsterdam">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -72,8 +72,8 @@
   </Placemark>
   <Placemark>
     <name>Antwerp</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Antwerpen/">BBBike @ Antwerp</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Antwerpen">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Antwerpen/">BBBike @ Antwerp</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Antwerpen">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -82,8 +82,8 @@
   </Placemark>
   <Placemark>
     <name>Arnhem</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Arnhem/">BBBike @ Arnhem</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Arnhem">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Arnhem/">BBBike @ Arnhem</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Arnhem">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -92,8 +92,8 @@
   </Placemark>
   <Placemark>
     <name>Auckland</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Auckland/">BBBike @ Auckland</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Auckland">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Auckland/">BBBike @ Auckland</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Auckland">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -102,8 +102,8 @@
   </Placemark>
   <Placemark>
     <name>Augsburg</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Augsburg/">BBBike @ Augsburg</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Augsburg">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Augsburg/">BBBike @ Augsburg</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Augsburg">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -112,8 +112,8 @@
   </Placemark>
   <Placemark>
     <name>Austin</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Austin/">BBBike @ Austin</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Austin">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Austin/">BBBike @ Austin</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Austin">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -122,8 +122,8 @@
   </Placemark>
   <Placemark>
     <name>Baghdad</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Baghdad/">BBBike @ Baghdad</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Baghdad">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Baghdad/">BBBike @ Baghdad</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Baghdad">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -132,8 +132,8 @@
   </Placemark>
   <Placemark>
     <name>Baku</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Baku/">BBBike @ Baku</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Baku">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Baku/">BBBike @ Baku</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Baku">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -142,8 +142,8 @@
   </Placemark>
   <Placemark>
     <name>Lake Balaton</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Balaton/">BBBike @ Lake Balaton</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Balaton">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Balaton/">BBBike @ Lake Balaton</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Balaton">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -152,8 +152,8 @@
   </Placemark>
   <Placemark>
     <name>Bamberg</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Bamberg/">BBBike @ Bamberg</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Bamberg">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Bamberg/">BBBike @ Bamberg</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Bamberg">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -162,8 +162,8 @@
   </Placemark>
   <Placemark>
     <name>Bangkok</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Bangkok/">BBBike @ Bangkok</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Bangkok">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Bangkok/">BBBike @ Bangkok</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Bangkok">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -172,8 +172,8 @@
   </Placemark>
   <Placemark>
     <name>Barcelona</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Barcelona/">BBBike @ Barcelona</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Barcelona">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Barcelona/">BBBike @ Barcelona</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Barcelona">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -182,8 +182,8 @@
   </Placemark>
   <Placemark>
     <name>Basel</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Basel/">BBBike @ Basel</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Basel">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Basel/">BBBike @ Basel</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Basel">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -192,8 +192,8 @@
   </Placemark>
   <Placemark>
     <name>Beijing</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Beijing/">BBBike @ Beijing</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Beijing">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Beijing/">BBBike @ Beijing</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Beijing">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -202,8 +202,8 @@
   </Placemark>
   <Placemark>
     <name>Beirut</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Beirut/">BBBike @ Beirut</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Beirut">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Beirut/">BBBike @ Beirut</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Beirut">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -212,8 +212,8 @@
   </Placemark>
   <Placemark>
     <name>Berkeley</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Berkeley/">BBBike @ Berkeley</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Berkeley">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Berkeley/">BBBike @ Berkeley</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Berkeley">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -222,8 +222,8 @@
   </Placemark>
   <Placemark>
     <name>Berlin</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Berlin/">BBBike @ Berlin</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Berlin">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Berlin/">BBBike @ Berlin</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Berlin">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -232,8 +232,8 @@
   </Placemark>
   <Placemark>
     <name>Bern</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Bern/">BBBike @ Bern</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Bern">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Bern/">BBBike @ Bern</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Bern">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -242,8 +242,8 @@
   </Placemark>
   <Placemark>
     <name>Bielefeld</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Bielefeld/">BBBike @ Bielefeld</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Bielefeld">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Bielefeld/">BBBike @ Bielefeld</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Bielefeld">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -252,8 +252,8 @@
   </Placemark>
   <Placemark>
     <name>Birmingham</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Birmingham/">BBBike @ Birmingham</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Birmingham">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Birmingham/">BBBike @ Birmingham</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Birmingham">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -262,8 +262,8 @@
   </Placemark>
   <Placemark>
     <name>Bochum</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Bochum/">BBBike @ Bochum</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Bochum">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Bochum/">BBBike @ Bochum</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Bochum">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -272,8 +272,8 @@
   </Placemark>
   <Placemark>
     <name>Bogota</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Bogota/">BBBike @ Bogota</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Bogota">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Bogota/">BBBike @ Bogota</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Bogota">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -282,8 +282,8 @@
   </Placemark>
   <Placemark>
     <name>Bombay</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Bombay/">BBBike @ Bombay</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Bombay">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Bombay/">BBBike @ Bombay</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Bombay">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -292,8 +292,8 @@
   </Placemark>
   <Placemark>
     <name>Bonn</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Bonn/">BBBike @ Bonn</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Bonn">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Bonn/">BBBike @ Bonn</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Bonn">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -302,8 +302,8 @@
   </Placemark>
   <Placemark>
     <name>Bordeaux</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Bordeaux/">BBBike @ Bordeaux</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Bordeaux">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Bordeaux/">BBBike @ Bordeaux</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Bordeaux">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -312,8 +312,8 @@
   </Placemark>
   <Placemark>
     <name>Boulder</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Boulder/">BBBike @ Boulder</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Boulder">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Boulder/">BBBike @ Boulder</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Boulder">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -322,8 +322,8 @@
   </Placemark>
   <Placemark>
     <name>Brandenburg (Havel)</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/BrandenburgHavel/">BBBike @ Brandenburg (Havel)</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=BrandenburgHavel">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/BrandenburgHavel/">BBBike @ Brandenburg (Havel)</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=BrandenburgHavel">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -332,8 +332,8 @@
   </Placemark>
   <Placemark>
     <name>Brunswick</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Braunschweig/">BBBike @ Brunswick</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Braunschweig">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Braunschweig/">BBBike @ Brunswick</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Braunschweig">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -342,8 +342,8 @@
   </Placemark>
   <Placemark>
     <name>Bremen</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Bremen/">BBBike @ Bremen</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Bremen">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Bremen/">BBBike @ Bremen</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Bremen">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -352,8 +352,8 @@
   </Placemark>
   <Placemark>
     <name>Bremerhaven</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Bremerhaven/">BBBike @ Bremerhaven</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Bremerhaven">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Bremerhaven/">BBBike @ Bremerhaven</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Bremerhaven">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -362,8 +362,8 @@
   </Placemark>
   <Placemark>
     <name>Brisbane</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Brisbane/">BBBike @ Brisbane</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Brisbane">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Brisbane/">BBBike @ Brisbane</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Brisbane">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -372,8 +372,8 @@
   </Placemark>
   <Placemark>
     <name>Bristol</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Bristol/">BBBike @ Bristol</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Bristol">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Bristol/">BBBike @ Bristol</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Bristol">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -382,8 +382,8 @@
   </Placemark>
   <Placemark>
     <name>Brno</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Brno/">BBBike @ Brno</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Brno">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Brno/">BBBike @ Brno</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Brno">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -392,8 +392,8 @@
   </Placemark>
   <Placemark>
     <name>Bruges</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Bruegge/">BBBike @ Bruges</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Bruegge">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Bruegge/">BBBike @ Bruges</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Bruegge">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -402,8 +402,8 @@
   </Placemark>
   <Placemark>
     <name>Brussel</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Bruessel/">BBBike @ Brussel</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Bruessel">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Bruessel/">BBBike @ Brussel</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Bruessel">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -412,8 +412,8 @@
   </Placemark>
   <Placemark>
     <name>Budapest</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Budapest/">BBBike @ Budapest</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Budapest">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Budapest/">BBBike @ Budapest</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Budapest">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -422,8 +422,8 @@
   </Placemark>
   <Placemark>
     <name>Buenos Aires</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/BuenosAires/">BBBike @ Buenos Aires</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=BuenosAires">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/BuenosAires/">BBBike @ Buenos Aires</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=BuenosAires">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -432,8 +432,8 @@
   </Placemark>
   <Placemark>
     <name>Cairo</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Cairo/">BBBike @ Cairo</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Cairo">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Cairo/">BBBike @ Cairo</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Cairo">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -442,8 +442,8 @@
   </Placemark>
   <Placemark>
     <name>Calgary</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Calgary/">BBBike @ Calgary</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Calgary">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Calgary/">BBBike @ Calgary</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Calgary">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -452,8 +452,8 @@
   </Placemark>
   <Placemark>
     <name>Cambridge</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Cambridge/">BBBike @ Cambridge</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Cambridge">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Cambridge/">BBBike @ Cambridge</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Cambridge">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -462,8 +462,8 @@
   </Placemark>
   <Placemark>
     <name>Cambridge (Massachusetts)</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/CambridgeMa/">BBBike @ Cambridge (Massachusetts)</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=CambridgeMa">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/CambridgeMa/">BBBike @ Cambridge (Massachusetts)</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=CambridgeMa">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -472,8 +472,8 @@
   </Placemark>
   <Placemark>
     <name>Canberra</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Canberra/">BBBike @ Canberra</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Canberra">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Canberra/">BBBike @ Canberra</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Canberra">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -482,8 +482,8 @@
   </Placemark>
   <Placemark>
     <name>Cape Town</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/CapeTown/">BBBike @ Cape Town</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=CapeTown">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/CapeTown/">BBBike @ Cape Town</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=CapeTown">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -492,8 +492,8 @@
   </Placemark>
   <Placemark>
     <name>Chemnitz</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Chemnitz/">BBBike @ Chemnitz</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Chemnitz">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Chemnitz/">BBBike @ Chemnitz</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Chemnitz">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -502,8 +502,8 @@
   </Placemark>
   <Placemark>
     <name>Chicago</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Chicago/">BBBike @ Chicago</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Chicago">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Chicago/">BBBike @ Chicago</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Chicago">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -512,8 +512,8 @@
   </Placemark>
   <Placemark>
     <name>Clermont-Ferrand</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/ClermontFerrand/">BBBike @ Clermont-Ferrand</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=ClermontFerrand">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/ClermontFerrand/">BBBike @ Clermont-Ferrand</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=ClermontFerrand">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -522,8 +522,8 @@
   </Placemark>
   <Placemark>
     <name>Colmar</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Colmar/">BBBike @ Colmar</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Colmar">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Colmar/">BBBike @ Colmar</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Colmar">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -532,8 +532,8 @@
   </Placemark>
   <Placemark>
     <name>Copenhagen</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Copenhagen/">BBBike @ Copenhagen</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Copenhagen">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Copenhagen/">BBBike @ Copenhagen</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Copenhagen">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -542,8 +542,8 @@
   </Placemark>
   <Placemark>
     <name>Cork</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Cork/">BBBike @ Cork</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Cork">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Cork/">BBBike @ Cork</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Cork">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -552,8 +552,8 @@
   </Placemark>
   <Placemark>
     <name>Corsica</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Corsica/">BBBike @ Corsica</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Corsica">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Corsica/">BBBike @ Corsica</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Corsica">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -562,8 +562,8 @@
   </Placemark>
   <Placemark>
     <name>Corvallis</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Corvallis/">BBBike @ Corvallis</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Corvallis">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Corvallis/">BBBike @ Corvallis</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Corvallis">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -572,8 +572,8 @@
   </Placemark>
   <Placemark>
     <name>Cottbus</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Cottbus/">BBBike @ Cottbus</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Cottbus">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Cottbus/">BBBike @ Cottbus</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Cottbus">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -582,8 +582,8 @@
   </Placemark>
   <Placemark>
     <name>Cracow</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Cracow/">BBBike @ Cracow</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Cracow">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Cracow/">BBBike @ Cracow</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Cracow">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -592,8 +592,8 @@
   </Placemark>
   <Placemark>
     <name>Crater Lake</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/CraterLake/">BBBike @ Crater Lake</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=CraterLake">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/CraterLake/">BBBike @ Crater Lake</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=CraterLake">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -602,8 +602,8 @@
   </Placemark>
   <Placemark>
     <name>Curitiba</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Curitiba/">BBBike @ Curitiba</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Curitiba">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Curitiba/">BBBike @ Curitiba</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Curitiba">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -612,8 +612,8 @@
   </Placemark>
   <Placemark>
     <name>Cusco</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Cusco/">BBBike @ Cusco</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Cusco">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Cusco/">BBBike @ Cusco</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Cusco">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -622,8 +622,8 @@
   </Placemark>
   <Placemark>
     <name>Dallas</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Dallas/">BBBike @ Dallas</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Dallas">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Dallas/">BBBike @ Dallas</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Dallas">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -632,8 +632,8 @@
   </Placemark>
   <Placemark>
     <name>Darmstadt</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Darmstadt/">BBBike @ Darmstadt</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Darmstadt">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Darmstadt/">BBBike @ Darmstadt</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Darmstadt">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -642,8 +642,8 @@
   </Placemark>
   <Placemark>
     <name>Davis</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Davis/">BBBike @ Davis</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Davis">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Davis/">BBBike @ Davis</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Davis">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -652,8 +652,8 @@
   </Placemark>
   <Placemark>
     <name>The Hague</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/DenHaag/">BBBike @ The Hague</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=DenHaag">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/DenHaag/">BBBike @ The Hague</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=DenHaag">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -662,8 +662,8 @@
   </Placemark>
   <Placemark>
     <name>Denver</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Denver/">BBBike @ Denver</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Denver">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Denver/">BBBike @ Denver</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Denver">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -672,8 +672,8 @@
   </Placemark>
   <Placemark>
     <name>Dessau</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Dessau/">BBBike @ Dessau</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Dessau">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Dessau/">BBBike @ Dessau</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Dessau">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -682,8 +682,8 @@
   </Placemark>
   <Placemark>
     <name>Dortmund</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Dortmund/">BBBike @ Dortmund</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Dortmund">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Dortmund/">BBBike @ Dortmund</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Dortmund">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -692,8 +692,8 @@
   </Placemark>
   <Placemark>
     <name>Dresden</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Dresden/">BBBike @ Dresden</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Dresden">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Dresden/">BBBike @ Dresden</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Dresden">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -702,8 +702,8 @@
   </Placemark>
   <Placemark>
     <name>Dublin</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Dublin/">BBBike @ Dublin</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Dublin">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Dublin/">BBBike @ Dublin</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Dublin">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -712,8 +712,8 @@
   </Placemark>
   <Placemark>
     <name>Dusseldorf</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Duesseldorf/">BBBike @ Dusseldorf</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Duesseldorf">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Duesseldorf/">BBBike @ Dusseldorf</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Duesseldorf">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -722,8 +722,8 @@
   </Placemark>
   <Placemark>
     <name>Duisburg/Essen</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Duisburg/">BBBike @ Duisburg/Essen</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Duisburg">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Duisburg/">BBBike @ Duisburg/Essen</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Duisburg">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -732,8 +732,8 @@
   </Placemark>
   <Placemark>
     <name>Edinburgh</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Edinburgh/">BBBike @ Edinburgh</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Edinburgh">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Edinburgh/">BBBike @ Edinburgh</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Edinburgh">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -742,8 +742,8 @@
   </Placemark>
   <Placemark>
     <name>Eindhoven</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Eindhoven/">BBBike @ Eindhoven</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Eindhoven">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Eindhoven/">BBBike @ Eindhoven</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Eindhoven">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -752,8 +752,8 @@
   </Placemark>
   <Placemark>
     <name>Emden</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Emden/">BBBike @ Emden</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Emden">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Emden/">BBBike @ Emden</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Emden">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -762,8 +762,8 @@
   </Placemark>
   <Placemark>
     <name>Erfurt</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Erfurt/">BBBike @ Erfurt</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Erfurt">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Erfurt/">BBBike @ Erfurt</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Erfurt">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -772,8 +772,8 @@
   </Placemark>
   <Placemark>
     <name>Erlangen</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Erlangen/">BBBike @ Erlangen</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Erlangen">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Erlangen/">BBBike @ Erlangen</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Erlangen">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -782,8 +782,8 @@
   </Placemark>
   <Placemark>
     <name>Eugene</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Eugene/">BBBike @ Eugene</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Eugene">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Eugene/">BBBike @ Eugene</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Eugene">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -792,8 +792,8 @@
   </Placemark>
   <Placemark>
     <name>Flensburg</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Flensburg/">BBBike @ Flensburg</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Flensburg">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Flensburg/">BBBike @ Flensburg</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Flensburg">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -802,8 +802,8 @@
   </Placemark>
   <Placemark>
     <name>Fort Collins</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/FortCollins/">BBBike @ Fort Collins</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=FortCollins">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/FortCollins/">BBBike @ Fort Collins</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=FortCollins">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -812,8 +812,8 @@
   </Placemark>
   <Placemark>
     <name>Frankfurt am Main</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Frankfurt/">BBBike @ Frankfurt am Main</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Frankfurt">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Frankfurt/">BBBike @ Frankfurt am Main</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Frankfurt">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -822,8 +822,8 @@
   </Placemark>
   <Placemark>
     <name>Frankfurt (Oder)</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/FrankfurtOder/">BBBike @ Frankfurt (Oder)</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=FrankfurtOder">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/FrankfurtOder/">BBBike @ Frankfurt (Oder)</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=FrankfurtOder">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -832,8 +832,8 @@
   </Placemark>
   <Placemark>
     <name>Freiburg</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Freiburg/">BBBike @ Freiburg</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Freiburg">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Freiburg/">BBBike @ Freiburg</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Freiburg">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -842,8 +842,8 @@
   </Placemark>
   <Placemark>
     <name>Gdansk</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Gdansk/">BBBike @ Gdansk</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Gdansk">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Gdansk/">BBBike @ Gdansk</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Gdansk">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -852,8 +852,8 @@
   </Placemark>
   <Placemark>
     <name>Geneva</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Genf/">BBBike @ Geneva</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Genf">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Genf/">BBBike @ Geneva</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Genf">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -862,8 +862,8 @@
   </Placemark>
   <Placemark>
     <name>Ghent</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Gent/">BBBike @ Ghent</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Gent">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Gent/">BBBike @ Ghent</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Gent">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -872,8 +872,8 @@
   </Placemark>
   <Placemark>
     <name>Gera</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Gera/">BBBike @ Gera</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Gera">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Gera/">BBBike @ Gera</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Gera">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -882,8 +882,8 @@
   </Placemark>
   <Placemark>
     <name>Glasgow</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Glasgow/">BBBike @ Glasgow</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Glasgow">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Glasgow/">BBBike @ Glasgow</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Glasgow">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -892,8 +892,8 @@
   </Placemark>
   <Placemark>
     <name>Gliwice</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Gliwice/">BBBike @ Gliwice</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Gliwice">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Gliwice/">BBBike @ Gliwice</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Gliwice">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -902,8 +902,8 @@
   </Placemark>
   <Placemark>
     <name>Görlitz</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Goerlitz/">BBBike @ Görlitz</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Goerlitz">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Goerlitz/">BBBike @ Görlitz</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Goerlitz">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -912,8 +912,8 @@
   </Placemark>
   <Placemark>
     <name>Gothenburg</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Goeteborg/">BBBike @ Gothenburg</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Goeteborg">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Goeteborg/">BBBike @ Gothenburg</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Goeteborg">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -922,8 +922,8 @@
   </Placemark>
   <Placemark>
     <name>Göttingen</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Goettingen/">BBBike @ Göttingen</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Goettingen">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Goettingen/">BBBike @ Göttingen</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Goettingen">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -932,8 +932,8 @@
   </Placemark>
   <Placemark>
     <name>Graz</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Graz/">BBBike @ Graz</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Graz">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Graz/">BBBike @ Graz</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Graz">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -942,8 +942,8 @@
   </Placemark>
   <Placemark>
     <name>Groningen</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Groningen/">BBBike @ Groningen</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Groningen">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Groningen/">BBBike @ Groningen</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Groningen">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -952,8 +952,8 @@
   </Placemark>
   <Placemark>
     <name>Halifax</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Halifax/">BBBike @ Halifax</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Halifax">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Halifax/">BBBike @ Halifax</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Halifax">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -962,8 +962,8 @@
   </Placemark>
   <Placemark>
     <name>Halle (Saale)</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Halle/">BBBike @ Halle (Saale)</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Halle">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Halle/">BBBike @ Halle (Saale)</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Halle">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -972,8 +972,8 @@
   </Placemark>
   <Placemark>
     <name>Hamburg</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Hamburg/">BBBike @ Hamburg</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Hamburg">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Hamburg/">BBBike @ Hamburg</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Hamburg">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -982,8 +982,8 @@
   </Placemark>
   <Placemark>
     <name>Hamm</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Hamm/">BBBike @ Hamm</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Hamm">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Hamm/">BBBike @ Hamm</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Hamm">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -992,8 +992,8 @@
   </Placemark>
   <Placemark>
     <name>Hanover</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Hannover/">BBBike @ Hanover</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Hannover">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Hannover/">BBBike @ Hanover</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Hannover">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1002,8 +1002,8 @@
   </Placemark>
   <Placemark>
     <name>Heilbronn</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Heilbronn/">BBBike @ Heilbronn</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Heilbronn">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Heilbronn/">BBBike @ Heilbronn</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Heilbronn">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1012,8 +1012,8 @@
   </Placemark>
   <Placemark>
     <name>Helsinki</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Helsinki/">BBBike @ Helsinki</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Helsinki">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Helsinki/">BBBike @ Helsinki</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Helsinki">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1022,8 +1022,8 @@
   </Placemark>
   <Placemark>
     <name>'s-Hertogenbosch</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Hertogenbosch/">BBBike @ 's-Hertogenbosch</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Hertogenbosch">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Hertogenbosch/">BBBike @ 's-Hertogenbosch</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Hertogenbosch">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1032,8 +1032,8 @@
   </Placemark>
   <Placemark>
     <name>Huntsville (Alabama)</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Huntsville/">BBBike @ Huntsville (Alabama)</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Huntsville">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Huntsville/">BBBike @ Huntsville (Alabama)</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Huntsville">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1042,8 +1042,8 @@
   </Placemark>
   <Placemark>
     <name>Innsbruck</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Innsbruck/">BBBike @ Innsbruck</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Innsbruck">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Innsbruck/">BBBike @ Innsbruck</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Innsbruck">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1052,8 +1052,8 @@
   </Placemark>
   <Placemark>
     <name>Istanbul</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Istanbul/">BBBike @ Istanbul</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Istanbul">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Istanbul/">BBBike @ Istanbul</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Istanbul">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1062,8 +1062,8 @@
   </Placemark>
   <Placemark>
     <name>Jena</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Jena/">BBBike @ Jena</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Jena">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Jena/">BBBike @ Jena</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Jena">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1072,8 +1072,8 @@
   </Placemark>
   <Placemark>
     <name>Jerusalem</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Jerusalem/">BBBike @ Jerusalem</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Jerusalem">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Jerusalem/">BBBike @ Jerusalem</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Jerusalem">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1082,8 +1082,8 @@
   </Placemark>
   <Placemark>
     <name>Johannesburg</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Johannesburg/">BBBike @ Johannesburg</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Johannesburg">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Johannesburg/">BBBike @ Johannesburg</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Johannesburg">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1092,8 +1092,8 @@
   </Placemark>
   <Placemark>
     <name>Kaiserslautern</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Kaiserslautern/">BBBike @ Kaiserslautern</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Kaiserslautern">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Kaiserslautern/">BBBike @ Kaiserslautern</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Kaiserslautern">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1102,8 +1102,8 @@
   </Placemark>
   <Placemark>
     <name>Karlsruhe</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Karlsruhe/">BBBike @ Karlsruhe</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Karlsruhe">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Karlsruhe/">BBBike @ Karlsruhe</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Karlsruhe">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1112,8 +1112,8 @@
   </Placemark>
   <Placemark>
     <name>Kassel</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Kassel/">BBBike @ Kassel</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Kassel">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Kassel/">BBBike @ Kassel</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Kassel">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1122,8 +1122,8 @@
   </Placemark>
   <Placemark>
     <name>Katowice</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Katowice/">BBBike @ Katowice</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Katowice">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Katowice/">BBBike @ Katowice</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Katowice">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1132,8 +1132,8 @@
   </Placemark>
   <Placemark>
     <name>Kaunas</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Kaunas/">BBBike @ Kaunas</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Kaunas">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Kaunas/">BBBike @ Kaunas</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Kaunas">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1142,8 +1142,8 @@
   </Placemark>
   <Placemark>
     <name>Kiel</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Kiel/">BBBike @ Kiel</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Kiel">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Kiel/">BBBike @ Kiel</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Kiel">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1152,8 +1152,8 @@
   </Placemark>
   <Placemark>
     <name>Kiev</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Kiew/">BBBike @ Kiev</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Kiew">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Kiew/">BBBike @ Kiev</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Kiew">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1162,8 +1162,8 @@
   </Placemark>
   <Placemark>
     <name>Koblenz</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Koblenz/">BBBike @ Koblenz</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Koblenz">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Koblenz/">BBBike @ Koblenz</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Koblenz">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1172,8 +1172,8 @@
   </Placemark>
   <Placemark>
     <name>Cologne</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Koeln/">BBBike @ Cologne</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Koeln">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Koeln/">BBBike @ Cologne</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Koeln">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1182,8 +1182,8 @@
   </Placemark>
   <Placemark>
     <name>Konstanz</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Konstanz/">BBBike @ Konstanz</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Konstanz">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Konstanz/">BBBike @ Konstanz</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Konstanz">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1192,8 +1192,8 @@
   </Placemark>
   <Placemark>
     <name>La Paz</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/LaPaz/">BBBike @ La Paz</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=LaPaz">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/LaPaz/">BBBike @ La Paz</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=LaPaz">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1202,8 +1202,8 @@
   </Placemark>
   <Placemark>
     <name>La Plata</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/LaPlata/">BBBike @ La Plata</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=LaPlata">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/LaPlata/">BBBike @ La Plata</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=LaPlata">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1212,8 +1212,8 @@
   </Placemark>
   <Placemark>
     <name>Lake Garda</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/LakeGarda/">BBBike @ Lake Garda</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=LakeGarda">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/LakeGarda/">BBBike @ Lake Garda</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=LakeGarda">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1222,8 +1222,8 @@
   </Placemark>
   <Placemark>
     <name>Lausanne</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Lausanne/">BBBike @ Lausanne</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Lausanne">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Lausanne/">BBBike @ Lausanne</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Lausanne">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1232,8 +1232,8 @@
   </Placemark>
   <Placemark>
     <name>Leeds</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Leeds/">BBBike @ Leeds</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Leeds">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Leeds/">BBBike @ Leeds</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Leeds">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1242,8 +1242,8 @@
   </Placemark>
   <Placemark>
     <name>Leipzig</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Leipzig/">BBBike @ Leipzig</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Leipzig">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Leipzig/">BBBike @ Leipzig</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Leipzig">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1252,8 +1252,8 @@
   </Placemark>
   <Placemark>
     <name>Lima</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Lima/">BBBike @ Lima</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Lima">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Lima/">BBBike @ Lima</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Lima">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1262,8 +1262,8 @@
   </Placemark>
   <Placemark>
     <name>Linz</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Linz/">BBBike @ Linz</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Linz">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Linz/">BBBike @ Linz</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Linz">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1272,8 +1272,8 @@
   </Placemark>
   <Placemark>
     <name>Lisbon</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Lissabon/">BBBike @ Lisbon</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Lissabon">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Lissabon/">BBBike @ Lisbon</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Lissabon">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1282,8 +1282,8 @@
   </Placemark>
   <Placemark>
     <name>Liverpool</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Liverpool/">BBBike @ Liverpool</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Liverpool">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Liverpool/">BBBike @ Liverpool</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Liverpool">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1292,8 +1292,8 @@
   </Placemark>
   <Placemark>
     <name>Ljubljana</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Ljubljana/">BBBike @ Ljubljana</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Ljubljana">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Ljubljana/">BBBike @ Ljubljana</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Ljubljana">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1302,8 +1302,8 @@
   </Placemark>
   <Placemark>
     <name>Lodz</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Lodz/">BBBike @ Lodz</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Lodz">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Lodz/">BBBike @ Lodz</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Lodz">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1312,8 +1312,8 @@
   </Placemark>
   <Placemark>
     <name>London</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/London/">BBBike @ London</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=London">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/London/">BBBike @ London</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=London">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1322,8 +1322,8 @@
   </Placemark>
   <Placemark>
     <name>Lübeck</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Luebeck/">BBBike @ Lübeck</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Luebeck">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Luebeck/">BBBike @ Lübeck</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Luebeck">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1332,8 +1332,8 @@
   </Placemark>
   <Placemark>
     <name>Luxenbourg</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Luxemburg/">BBBike @ Luxenbourg</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Luxemburg">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Luxemburg/">BBBike @ Luxenbourg</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Luxemburg">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1342,8 +1342,8 @@
   </Placemark>
   <Placemark>
     <name>Lyon</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Lyon/">BBBike @ Lyon</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Lyon">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Lyon/">BBBike @ Lyon</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Lyon">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1352,8 +1352,8 @@
   </Placemark>
   <Placemark>
     <name>Maastricht</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Maastricht/">BBBike @ Maastricht</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Maastricht">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Maastricht/">BBBike @ Maastricht</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Maastricht">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1362,8 +1362,8 @@
   </Placemark>
   <Placemark>
     <name>Madison</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Madison/">BBBike @ Madison</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Madison">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Madison/">BBBike @ Madison</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Madison">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1372,8 +1372,8 @@
   </Placemark>
   <Placemark>
     <name>Madrid</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Madrid/">BBBike @ Madrid</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Madrid">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Madrid/">BBBike @ Madrid</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Madrid">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1382,8 +1382,8 @@
   </Placemark>
   <Placemark>
     <name>Magdeburg</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Magdeburg/">BBBike @ Magdeburg</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Magdeburg">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Magdeburg/">BBBike @ Magdeburg</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Magdeburg">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1392,8 +1392,8 @@
   </Placemark>
   <Placemark>
     <name>Mainz/Wiesbaden</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Mainz/">BBBike @ Mainz/Wiesbaden</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Mainz">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Mainz/">BBBike @ Mainz/Wiesbaden</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Mainz">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1402,8 +1402,8 @@
   </Placemark>
   <Placemark>
     <name>Malmö</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Malmoe/">BBBike @ Malmö</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Malmoe">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Malmoe/">BBBike @ Malmö</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Malmoe">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1412,8 +1412,8 @@
   </Placemark>
   <Placemark>
     <name>Manchester</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Manchester/">BBBike @ Manchester</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Manchester">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Manchester/">BBBike @ Manchester</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Manchester">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1422,8 +1422,8 @@
   </Placemark>
   <Placemark>
     <name>Mannheim</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Mannheim/">BBBike @ Mannheim</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Mannheim">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Mannheim/">BBBike @ Mannheim</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Mannheim">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1432,8 +1432,8 @@
   </Placemark>
   <Placemark>
     <name>Marseille</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Marseille/">BBBike @ Marseille</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Marseille">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Marseille/">BBBike @ Marseille</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Marseille">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1442,8 +1442,8 @@
   </Placemark>
   <Placemark>
     <name>Melbourne</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Melbourne/">BBBike @ Melbourne</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Melbourne">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Melbourne/">BBBike @ Melbourne</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Melbourne">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1452,8 +1452,8 @@
   </Placemark>
   <Placemark>
     <name>Memphis</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Memphis/">BBBike @ Memphis</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Memphis">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Memphis/">BBBike @ Memphis</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Memphis">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1462,8 +1462,8 @@
   </Placemark>
   <Placemark>
     <name>Mexico City</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/MexicoCity/">BBBike @ Mexico City</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=MexicoCity">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/MexicoCity/">BBBike @ Mexico City</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=MexicoCity">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1472,8 +1472,8 @@
   </Placemark>
   <Placemark>
     <name>Miami</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Miami/">BBBike @ Miami</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Miami">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Miami/">BBBike @ Miami</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Miami">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1482,8 +1482,8 @@
   </Placemark>
   <Placemark>
     <name>Mönchengladbach</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Moenchengladbach/">BBBike @ Mönchengladbach</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Moenchengladbach">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Moenchengladbach/">BBBike @ Mönchengladbach</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Moenchengladbach">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1492,8 +1492,8 @@
   </Placemark>
   <Placemark>
     <name>Montevideo</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Montevideo/">BBBike @ Montevideo</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Montevideo">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Montevideo/">BBBike @ Montevideo</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Montevideo">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1502,8 +1502,8 @@
   </Placemark>
   <Placemark>
     <name>Montpellier</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Montpellier/">BBBike @ Montpellier</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Montpellier">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Montpellier/">BBBike @ Montpellier</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Montpellier">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1512,8 +1512,8 @@
   </Placemark>
   <Placemark>
     <name>Montreal</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Montreal/">BBBike @ Montreal</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Montreal">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Montreal/">BBBike @ Montreal</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Montreal">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1522,8 +1522,8 @@
   </Placemark>
   <Placemark>
     <name>Moscow</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Moscow/">BBBike @ Moscow</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Moscow">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Moscow/">BBBike @ Moscow</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Moscow">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1532,8 +1532,8 @@
   </Placemark>
   <Placemark>
     <name>Munich</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Muenchen/">BBBike @ Munich</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Muenchen">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Muenchen/">BBBike @ Munich</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Muenchen">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1542,8 +1542,8 @@
   </Placemark>
   <Placemark>
     <name>Münster</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Muenster/">BBBike @ Münster</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Muenster">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Muenster/">BBBike @ Münster</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Muenster">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1552,8 +1552,8 @@
   </Placemark>
   <Placemark>
     <name>New Delhi</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/NewDelhi/">BBBike @ New Delhi</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=NewDelhi">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/NewDelhi/">BBBike @ New Delhi</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=NewDelhi">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1562,8 +1562,8 @@
   </Placemark>
   <Placemark>
     <name>New Orleans</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/NewOrleans/">BBBike @ New Orleans</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=NewOrleans">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/NewOrleans/">BBBike @ New Orleans</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=NewOrleans">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1572,8 +1572,8 @@
   </Placemark>
   <Placemark>
     <name>New York</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/NewYork/">BBBike @ New York</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=NewYork">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/NewYork/">BBBike @ New York</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=NewYork">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1582,8 +1582,8 @@
   </Placemark>
   <Placemark>
     <name>Nuremberg</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Nuernberg/">BBBike @ Nuremberg</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Nuernberg">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Nuernberg/">BBBike @ Nuremberg</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Nuernberg">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1592,8 +1592,8 @@
   </Placemark>
   <Placemark>
     <name>Oldenburg</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Oldenburg/">BBBike @ Oldenburg</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Oldenburg">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Oldenburg/">BBBike @ Oldenburg</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Oldenburg">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1602,8 +1602,8 @@
   </Placemark>
   <Placemark>
     <name>Oranienburg</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Oranienburg/">BBBike @ Oranienburg</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Oranienburg">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Oranienburg/">BBBike @ Oranienburg</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Oranienburg">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1612,8 +1612,8 @@
   </Placemark>
   <Placemark>
     <name>Orlando</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Orlando/">BBBike @ Orlando</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Orlando">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Orlando/">BBBike @ Orlando</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Orlando">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1622,8 +1622,8 @@
   </Placemark>
   <Placemark>
     <name>Oslo</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Oslo/">BBBike @ Oslo</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Oslo">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Oslo/">BBBike @ Oslo</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Oslo">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1632,8 +1632,8 @@
   </Placemark>
   <Placemark>
     <name>Osnabrück</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Osnabrueck/">BBBike @ Osnabrück</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Osnabrueck">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Osnabrueck/">BBBike @ Osnabrück</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Osnabrueck">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1642,8 +1642,8 @@
   </Placemark>
   <Placemark>
     <name>Ostrava</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Ostrava/">BBBike @ Ostrava</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Ostrava">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Ostrava/">BBBike @ Ostrava</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Ostrava">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1652,8 +1652,8 @@
   </Placemark>
   <Placemark>
     <name>Ottawa</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Ottawa/">BBBike @ Ottawa</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Ottawa">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Ottawa/">BBBike @ Ottawa</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Ottawa">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1662,8 +1662,8 @@
   </Placemark>
   <Placemark>
     <name>Paderborn</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Paderborn/">BBBike @ Paderborn</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Paderborn">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Paderborn/">BBBike @ Paderborn</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Paderborn">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1672,8 +1672,8 @@
   </Placemark>
   <Placemark>
     <name>Palma de Majorca</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Palma/">BBBike @ Palma de Majorca</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Palma">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Palma/">BBBike @ Palma de Majorca</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Palma">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1682,8 +1682,8 @@
   </Placemark>
   <Placemark>
     <name>Palo Alto</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/PaloAlto/">BBBike @ Palo Alto</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=PaloAlto">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/PaloAlto/">BBBike @ Palo Alto</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=PaloAlto">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1692,8 +1692,8 @@
   </Placemark>
   <Placemark>
     <name>Paris</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Paris/">BBBike @ Paris</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Paris">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Paris/">BBBike @ Paris</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Paris">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1702,8 +1702,8 @@
   </Placemark>
   <Placemark>
     <name>Perth</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Perth/">BBBike @ Perth</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Perth">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Perth/">BBBike @ Perth</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Perth">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1712,8 +1712,8 @@
   </Placemark>
   <Placemark>
     <name>Philadelphia</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Philadelphia/">BBBike @ Philadelphia</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Philadelphia">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Philadelphia/">BBBike @ Philadelphia</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Philadelphia">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1722,8 +1722,8 @@
   </Placemark>
   <Placemark>
     <name>Phnom Penh</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/PhnomPenh/">BBBike @ Phnom Penh</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=PhnomPenh">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/PhnomPenh/">BBBike @ Phnom Penh</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=PhnomPenh">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1732,8 +1732,8 @@
   </Placemark>
   <Placemark>
     <name>Portland</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Portland/">BBBike @ Portland</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Portland">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Portland/">BBBike @ Portland</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Portland">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1742,8 +1742,8 @@
   </Placemark>
   <Placemark>
     <name>Portland (Maine)</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/PortlandME/">BBBike @ Portland (Maine)</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=PortlandME">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/PortlandME/">BBBike @ Portland (Maine)</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=PortlandME">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1752,8 +1752,8 @@
   </Placemark>
   <Placemark>
     <name>Porto Alegre</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/PortoAlegre/">BBBike @ Porto Alegre</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=PortoAlegre">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/PortoAlegre/">BBBike @ Porto Alegre</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=PortoAlegre">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1762,8 +1762,8 @@
   </Placemark>
   <Placemark>
     <name>Potsdam/Mittelmark</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Potsdam/">BBBike @ Potsdam/Mittelmark</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Potsdam">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Potsdam/">BBBike @ Potsdam/Mittelmark</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Potsdam">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1772,8 +1772,8 @@
   </Placemark>
   <Placemark>
     <name>Poznan</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Poznan/">BBBike @ Poznan</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Poznan">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Poznan/">BBBike @ Poznan</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Poznan">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1782,8 +1782,8 @@
   </Placemark>
   <Placemark>
     <name>Prague</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Prag/">BBBike @ Prague</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Prag">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Prag/">BBBike @ Prague</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Prag">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1792,8 +1792,8 @@
   </Placemark>
   <Placemark>
     <name>Providence</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Providence/">BBBike @ Providence</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Providence">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Providence/">BBBike @ Providence</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Providence">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1802,8 +1802,8 @@
   </Placemark>
   <Placemark>
     <name>Regensburg</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Regensburg/">BBBike @ Regensburg</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Regensburg">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Regensburg/">BBBike @ Regensburg</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Regensburg">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1812,8 +1812,8 @@
   </Placemark>
   <Placemark>
     <name>Riga</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Riga/">BBBike @ Riga</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Riga">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Riga/">BBBike @ Riga</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Riga">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1822,8 +1822,8 @@
   </Placemark>
   <Placemark>
     <name>Rio de Janeiro</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/RiodeJaneiro/">BBBike @ Rio de Janeiro</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=RiodeJaneiro">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/RiodeJaneiro/">BBBike @ Rio de Janeiro</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=RiodeJaneiro">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1832,8 +1832,8 @@
   </Placemark>
   <Placemark>
     <name>Rostock</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Rostock/">BBBike @ Rostock</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Rostock">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Rostock/">BBBike @ Rostock</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Rostock">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1842,8 +1842,8 @@
   </Placemark>
   <Placemark>
     <name>Rotterdam</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Rotterdam/">BBBike @ Rotterdam</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Rotterdam">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Rotterdam/">BBBike @ Rotterdam</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Rotterdam">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1852,8 +1852,8 @@
   </Placemark>
   <Placemark>
     <name>Rügen</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Ruegen/">BBBike @ Rügen</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Ruegen">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Ruegen/">BBBike @ Rügen</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Ruegen">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1862,8 +1862,8 @@
   </Placemark>
   <Placemark>
     <name>Saarbrücken</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Saarbruecken/">BBBike @ Saarbrücken</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Saarbruecken">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Saarbruecken/">BBBike @ Saarbrücken</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Saarbruecken">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1872,8 +1872,8 @@
   </Placemark>
   <Placemark>
     <name>Sacramento</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Sacramento/">BBBike @ Sacramento</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Sacramento">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Sacramento/">BBBike @ Sacramento</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Sacramento">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1882,8 +1882,8 @@
   </Placemark>
   <Placemark>
     <name>Saigon</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Saigon/">BBBike @ Saigon</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Saigon">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Saigon/">BBBike @ Saigon</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Saigon">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1892,8 +1892,8 @@
   </Placemark>
   <Placemark>
     <name>Salzburg</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Salzburg/">BBBike @ Salzburg</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Salzburg">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Salzburg/">BBBike @ Salzburg</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Salzburg">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1902,8 +1902,8 @@
   </Placemark>
   <Placemark>
     <name>San Francisco</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/SanFrancisco/">BBBike @ San Francisco</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=SanFrancisco">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/SanFrancisco/">BBBike @ San Francisco</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=SanFrancisco">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1912,8 +1912,8 @@
   </Placemark>
   <Placemark>
     <name>San José</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/SanJose/">BBBike @ San José</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=SanJose">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/SanJose/">BBBike @ San José</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=SanJose">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1922,8 +1922,8 @@
   </Placemark>
   <Placemark>
     <name>Saint Petersburg</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/SanktPetersburg/">BBBike @ Saint Petersburg</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=SanktPetersburg">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/SanktPetersburg/">BBBike @ Saint Petersburg</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=SanktPetersburg">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1932,8 +1932,8 @@
   </Placemark>
   <Placemark>
     <name>Santa Barbara</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/SantaBarbara/">BBBike @ Santa Barbara</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=SantaBarbara">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/SantaBarbara/">BBBike @ Santa Barbara</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=SantaBarbara">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1942,8 +1942,8 @@
   </Placemark>
   <Placemark>
     <name>Santa Cruz</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/SantaCruz/">BBBike @ Santa Cruz</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=SantaCruz">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/SantaCruz/">BBBike @ Santa Cruz</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=SantaCruz">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1952,8 +1952,8 @@
   </Placemark>
   <Placemark>
     <name>Santiago de Chile</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Santiago/">BBBike @ Santiago de Chile</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Santiago">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Santiago/">BBBike @ Santiago de Chile</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Santiago">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1962,8 +1962,8 @@
   </Placemark>
   <Placemark>
     <name>Sarajevo</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Sarajewo/">BBBike @ Sarajevo</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Sarajewo">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Sarajewo/">BBBike @ Sarajevo</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Sarajewo">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1972,8 +1972,8 @@
   </Placemark>
   <Placemark>
     <name>Schwerin</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Schwerin/">BBBike @ Schwerin</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Schwerin">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Schwerin/">BBBike @ Schwerin</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Schwerin">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1982,8 +1982,8 @@
   </Placemark>
   <Placemark>
     <name>Seattle</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Seattle/">BBBike @ Seattle</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Seattle">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Seattle/">BBBike @ Seattle</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Seattle">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1992,8 +1992,8 @@
   </Placemark>
   <Placemark>
     <name>Seoul</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Seoul/">BBBike @ Seoul</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Seoul">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Seoul/">BBBike @ Seoul</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Seoul">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2002,8 +2002,8 @@
   </Placemark>
   <Placemark>
     <name>Sheffield</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Sheffield/">BBBike @ Sheffield</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Sheffield">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Sheffield/">BBBike @ Sheffield</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Sheffield">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2012,8 +2012,8 @@
   </Placemark>
   <Placemark>
     <name>Singapore</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Singapore/">BBBike @ Singapore</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Singapore">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Singapore/">BBBike @ Singapore</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Singapore">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2022,8 +2022,8 @@
   </Placemark>
   <Placemark>
     <name>Sofia</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Sofia/">BBBike @ Sofia</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Sofia">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Sofia/">BBBike @ Sofia</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Sofia">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2032,8 +2032,8 @@
   </Placemark>
   <Placemark>
     <name>Stockholm</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Stockholm/">BBBike @ Stockholm</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Stockholm">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Stockholm/">BBBike @ Stockholm</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Stockholm">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2042,8 +2042,8 @@
   </Placemark>
   <Placemark>
     <name>Stockton</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Stockton/">BBBike @ Stockton</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Stockton">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Stockton/">BBBike @ Stockton</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Stockton">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2052,8 +2052,8 @@
   </Placemark>
   <Placemark>
     <name>Strasbourg</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Strassburg/">BBBike @ Strasbourg</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Strassburg">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Strassburg/">BBBike @ Strasbourg</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Strassburg">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2062,8 +2062,8 @@
   </Placemark>
   <Placemark>
     <name>Stuttgart</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Stuttgart/">BBBike @ Stuttgart</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Stuttgart">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Stuttgart/">BBBike @ Stuttgart</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Stuttgart">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2072,8 +2072,8 @@
   </Placemark>
   <Placemark>
     <name>Sucre</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Sucre/">BBBike @ Sucre</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Sucre">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Sucre/">BBBike @ Sucre</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Sucre">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2082,8 +2082,8 @@
   </Placemark>
   <Placemark>
     <name>Sydney</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Sydney/">BBBike @ Sydney</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Sydney">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Sydney/">BBBike @ Sydney</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Sydney">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2092,8 +2092,8 @@
   </Placemark>
   <Placemark>
     <name>Szczecin</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Szczecin/">BBBike @ Szczecin</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Szczecin">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Szczecin/">BBBike @ Szczecin</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Szczecin">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2102,8 +2102,8 @@
   </Placemark>
   <Placemark>
     <name>Tallinn</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Tallinn/">BBBike @ Tallinn</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Tallinn">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Tallinn/">BBBike @ Tallinn</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Tallinn">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2112,8 +2112,8 @@
   </Placemark>
   <Placemark>
     <name>Tehran</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Tehran/">BBBike @ Tehran</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Tehran">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Tehran/">BBBike @ Tehran</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Tehran">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2122,8 +2122,8 @@
   </Placemark>
   <Placemark>
     <name>Tilburg</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Tilburg/">BBBike @ Tilburg</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Tilburg">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Tilburg/">BBBike @ Tilburg</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Tilburg">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2132,8 +2132,8 @@
   </Placemark>
   <Placemark>
     <name>Tokyo</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Tokyo/">BBBike @ Tokyo</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Tokyo">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Tokyo/">BBBike @ Tokyo</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Tokyo">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2142,8 +2142,8 @@
   </Placemark>
   <Placemark>
     <name>Toronto</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Toronto/">BBBike @ Toronto</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Toronto">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Toronto/">BBBike @ Toronto</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Toronto">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2152,8 +2152,8 @@
   </Placemark>
   <Placemark>
     <name>Toulouse</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Toulouse/">BBBike @ Toulouse</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Toulouse">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Toulouse/">BBBike @ Toulouse</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Toulouse">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2162,8 +2162,8 @@
   </Placemark>
   <Placemark>
     <name>Trondheim</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Trondheim/">BBBike @ Trondheim</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Trondheim">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Trondheim/">BBBike @ Trondheim</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Trondheim">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2172,8 +2172,8 @@
   </Placemark>
   <Placemark>
     <name>Tucson</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Tucson/">BBBike @ Tucson</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Tucson">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Tucson/">BBBike @ Tucson</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Tucson">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2182,8 +2182,8 @@
   </Placemark>
   <Placemark>
     <name>Turin</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Turin/">BBBike @ Turin</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Turin">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Turin/">BBBike @ Turin</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Turin">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2192,8 +2192,8 @@
   </Placemark>
   <Placemark>
     <name>Ulan Bator</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/UlanBator/">BBBike @ Ulan Bator</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=UlanBator">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/UlanBator/">BBBike @ Ulan Bator</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=UlanBator">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2202,8 +2202,8 @@
   </Placemark>
   <Placemark>
     <name>Ulm</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Ulm/">BBBike @ Ulm</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Ulm">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Ulm/">BBBike @ Ulm</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Ulm">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2212,8 +2212,8 @@
   </Placemark>
   <Placemark>
     <name>Usedom</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Usedom/">BBBike @ Usedom</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Usedom">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Usedom/">BBBike @ Usedom</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Usedom">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2222,8 +2222,8 @@
   </Placemark>
   <Placemark>
     <name>Utrecht</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Utrecht/">BBBike @ Utrecht</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Utrecht">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Utrecht/">BBBike @ Utrecht</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Utrecht">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2232,8 +2232,8 @@
   </Placemark>
   <Placemark>
     <name>Vancouver</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Vancouver/">BBBike @ Vancouver</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Vancouver">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Vancouver/">BBBike @ Vancouver</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Vancouver">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2242,8 +2242,8 @@
   </Placemark>
   <Placemark>
     <name>Victoria</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Victoria/">BBBike @ Victoria</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Victoria">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Victoria/">BBBike @ Victoria</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Victoria">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2252,8 +2252,8 @@
   </Placemark>
   <Placemark>
     <name>Waren (Müritz)</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/WarenMueritz/">BBBike @ Waren (Müritz)</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=WarenMueritz">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/WarenMueritz/">BBBike @ Waren (Müritz)</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=WarenMueritz">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2262,8 +2262,8 @@
   </Placemark>
   <Placemark>
     <name>Warsaw</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Warsaw/">BBBike @ Warsaw</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Warsaw">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Warsaw/">BBBike @ Warsaw</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Warsaw">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2272,8 +2272,8 @@
   </Placemark>
   <Placemark>
     <name>Washington D.C.</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/WashingtonDC/">BBBike @ Washington D.C.</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=WashingtonDC">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/WashingtonDC/">BBBike @ Washington D.C.</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=WashingtonDC">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2282,8 +2282,8 @@
   </Placemark>
   <Placemark>
     <name>Waterloo/Kitchener</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Waterloo/">BBBike @ Waterloo/Kitchener</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Waterloo">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Waterloo/">BBBike @ Waterloo/Kitchener</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Waterloo">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2292,8 +2292,8 @@
   </Placemark>
   <Placemark>
     <name>Vienna</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Wien/">BBBike @ Vienna</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Wien">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Wien/">BBBike @ Vienna</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Wien">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2302,8 +2302,8 @@
   </Placemark>
   <Placemark>
     <name>Wroclaw</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Wroclaw/">BBBike @ Wroclaw</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Wroclaw">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Wroclaw/">BBBike @ Wroclaw</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Wroclaw">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2312,8 +2312,8 @@
   </Placemark>
   <Placemark>
     <name>Wuerzburg</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Wuerzburg/">BBBike @ Wuerzburg</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Wuerzburg">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Wuerzburg/">BBBike @ Wuerzburg</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Wuerzburg">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2322,8 +2322,8 @@
   </Placemark>
   <Placemark>
     <name>Wuppertal</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Wuppertal/">BBBike @ Wuppertal</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Wuppertal">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Wuppertal/">BBBike @ Wuppertal</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Wuppertal">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2332,8 +2332,8 @@
   </Placemark>
   <Placemark>
     <name>Zagreb</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Zagreb/">BBBike @ Zagreb</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Zagreb">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Zagreb/">BBBike @ Zagreb</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Zagreb">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -2342,8 +2342,8 @@
   </Placemark>
   <Placemark>
     <name>Zurich</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="//www.bbbike.org/Zuerich/">BBBike @ Zurich</a></span><p/>
-	OpenStreetMap data <a href="//www.bbbike.org/cgi/area.cgi?city=Zuerich">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Zuerich/">BBBike @ Zurich</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Zuerich">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
