@@ -361,7 +361,7 @@ $data
 
 <div id="copyright">
 <hr/>
-(&copy;) 2008-2017 <a href="http://bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
+(&copy;) 2008-2017 <a href="//bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
 <div id="footer_community">
 </div>
 </div> <!-- copyright -->
@@ -816,7 +816,7 @@ sub statistic_basic {
     print qq{ | <a href="} . $q->url( -query => 1 ) . qq{">today</a>\n};
     print "<hr />\n";
     print
-      qq{Copyright (c) 2011-2017 <a href="http://bbbike.org">BBBike.org</a>\n};
+      qq{Copyright (c) 2011-2017 <a href="//bbbike.org">BBBike.org</a>\n};
     print "<br/>\n" . localtime() . "\n";
 }
 
