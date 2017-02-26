@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2012-2016 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2017 Wolfram Schneider, http://bbbike.org
 #
 # extract config load
 
@@ -154,16 +154,11 @@ our $planet_osm = {
     #'planet.osm' => '../osm/download/planet-latest.osm.pbf',
     'planet.osm' => '../osm/download/planet-latest-nometa.osm.pbf',
 
-    'srtm-europe.osm.pbf' =>
-      '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
-    'srtm-europe.osm.xz' =>
-      '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
-    'srtm-europe.garmin-srtm.zip' =>
-      '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
-    'srtm-europe.obf.zip' =>
-      '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
-    'srtm-europe.mapsforge-osm.zip' =>
-      '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
+#'srtm-europe.osm.pbf' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
+#'srtm-europe.osm.xz' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
+#'srtm-europe.garmin-srtm.zip' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
+#'srtm-europe.obf.zip' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
+#'srtm-europe.mapsforge-osm.zip' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
 
     'srtm.osm.pbf'           => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
     'srtm.osm.xz'            => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
@@ -265,13 +260,13 @@ our $tile_format = {
 };
 
 our $server = {
-    'dev' => [qw/dev.bbbike.org dev1.bbbike.org dev4.bbbike.org/],
-    'www' => [qw/www.bbbike.org www1.bbbike.org www4.bbbike.org/],
+    'dev' => [qw/dev3.bbbike.org dev4.bbbike.org/],
+    'www' => [qw/www.bbbike.org www3.bbbike.org www4.bbbike.org/],
     'extract' =>
-      [qw/extract.bbbike.org extract1.bbbike.org extract4.bbbike.org/],
+      [qw/extract.bbbike.org extract3.bbbike.org extract4.bbbike.org/],
     'download' =>
-      [qw/download.bbbike.org download1.bbbike.org download4.bbbike.org/],
-    'api'  => [qw/api.bbbike.org api1.bbbike.org api4.bbbike.org/],
+      [qw/download.bbbike.org download3.bbbike.org download4.bbbike.org/],
+    'api'  => [qw/api.bbbike.org api3.bbbike.org api4.bbbike.org/],
     'tile' => [
         qw/a.tile.bbbike.org b.tile.bbbike.org c.tile.bbbike.org d.tile.bbbike.org/
     ],
@@ -298,8 +293,8 @@ sub new {
 
 #
 # get list of active servers per service
-# 'www' => (www, www1, www2, www3)
-# 'extract' => (extract, extract2)
+# 'www' => (www, www1, www2, www3, www4)
+# 'extract' => (extract, extract3)
 #
 sub get_server_list {
     my $self = shift;
@@ -377,6 +372,11 @@ qq{did you called Extract::Config->load_config("$config_file") twice?\n};
     else {
         warn "config file: $config_file not found, ignored\n"
           if $debug >= 2;
+
+        if ( $q->param("pro") ) {
+            die
+"Extract pro service requires a config file: $config_file, give up\n";
+        }
     }
 
     $self->config_format_menu;

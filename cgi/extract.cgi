@@ -39,7 +39,7 @@ our $option = {
     'email_valid_mxcheck' => 1,
     'email_allow_nobody'  => 1,
 
-    'debug'          => "2",
+    'debug'          => "1",
     'request_method' => "GET",
 
     'supported_languages' => $Extract::Locale::option->{"supported_languages"},

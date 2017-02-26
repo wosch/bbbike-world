@@ -1,5 +1,5 @@
 ###############################################################
-# Copyright (c) 2008-2016 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2008-2017 Wolfram Schneider, http://bbbike.org
 #
 # Get and convert OpenStreetMap.org data to BBBike
 #
@@ -24,6 +24,7 @@ OSM2BBD=	./miscsrc/osm2bbd ${OSM2BBD_OPT} --nodate --no-create --git-id="${GIT_I
 
 MAX_CPU=	`world/bin/ncpu`
 MAX_CPU2=	`world/bin/ncpu -1`
+MAX_CPU3=	`world/bin/ncpu / 2`
 MAX_VCPU=	`world/bin/ncpu vcpu`
 MAX_RCPU=	`world/bin/ncpu rcpu -1`
 MAX_HCPU=	`world/bin/ncpu hcpu`
@@ -32,7 +33,7 @@ MAX_OSM2SHAPE=	${MAX_CPU}
 MAX_OSM2NAVIT=	${MAX_CPU}
 MAX_PBF2OSM=	${MAX_CPU2}
 MAX_OSM2OSMAND=	${MAX_CPU2}
-MAX_OSM2GARMIN=	${MAX_CPU2}
+MAX_OSM2GARMIN=	${MAX_CPU3}
 MAX_OSM2PNG=	${MAX_CPU2}
 MAX_OSM2SVG=	${MAX_CPU}
 MAX_OSM2MAPSFORGE=2
@@ -262,7 +263,7 @@ _pbf2pbf:
 _pbf2pbf-checksum:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${OSM_CHECKSUM}
 
-osm2garmin: osm2garmin-osm osm2garmin-onroad # osm2oseam osm2garmin-cycle osm2garmin-leisure osm2garmin-bbbike check-zip
+osm2garmin: osm2garmin-osm osm2garmin-onroad #osm2garmin-oseam osm2garmin-cycle osm2garmin-leisure osm2garmin-bbbike #check-zip
 
 osm2garmin-osm:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
@@ -414,7 +415,7 @@ convert3:
 	echo ${CITIES} " " | ${PERL} -npe 's/\s+/-convert /g' | \
 	   ${XARGS} -n 1 -P ${MAX_CPU} ${TIME} ${BBMAKE}
 
-check:
+check: check-runtime
 	@echo "In case of failure run:"
 	@echo " make check-failed"
 	@echo ""
@@ -425,14 +426,17 @@ check:
 travis:
 	http_proxy="" ${BBMAKE} test
 
-check-world check-w:
+check-runtime:
+	http_proxy="" ${BBMAKE} PROVE_FILES="world/t/runtime*.t" test
+
+check-world check-w: check-runtime
 	@echo "In case of failure run:"
 	@echo " make check-failed"
 	@echo ""
 	http_proxy="" ${BBMAKE} PROVE_FILES="world/t/*.t" test > log.check-world 2>&1
 	tail -n 10 log.check-world
 
-check-full:
+check-full: check-runtime
 	@echo "In case of failure run:"
 	@echo " BBBIKE_TEST_FAST=\"\" BBBIKE_TEST_LONG=1 make check-failed"
 	@echo ""
@@ -715,6 +719,7 @@ clean-cache cache-clean:
 	    mv -f ${BBBIKE_CACHE_DIR}/*bbbike.org ${BBBIKE_CACHE_DIR}/localhost ${BBBIKE_CACHE_DIR}/.tmp.$$$$ || true; \
 	    rm -rf ${BBBIKE_CACHE_DIR}/.tmp.$$$$ &
 
+# XXX: we dont a caching web server
 cache-clean-lighttpd:
 	mkdir -p ${LIGHTTPD_CACHE_DIR}/${BBBIKE_WEB_SERVER} \
 	  ${LIGHTTPD_CACHE_DIR}/dev.bbbike.org \
@@ -728,22 +733,18 @@ cache-gc:
 	find ${BBBIKE_CACHE_DIR}/ -type f -mtime +21 -print0 | sudo ${PERL} -n0e unlink
 
 rotate-data-osm:
-	${RM_BG} ${DATA_OSM_DIR}.old2
-	${RM_BG} ${DATA_OSM_BBBIKE_DIR}.old2
-	#-test -e ${DATA_OSM_DIR}.old && mv ${DATA_OSM_DIR}.old ${DATA_OSM_DIR}.old2
-	-test -e ${DATA_OSM_DIR}     && mv ${DATA_OSM_DIR}     ${DATA_OSM_DIR}.old
-	#-test -e ${DATA_OSM_BBBIKE_DIR}.old && mv ${DATA_OSM_BBBIKE_DIR}.old ${DATA_OSM_BBBIKE_DIR}.old2
-	-test -e ${DATA_OSM_BBBIKE_DIR}     && mv ${DATA_OSM_BBBIKE_DIR}     ${DATA_OSM_BBBIKE_DIR}.old
-	if [ -e ${DATA_OSM_BBBIKE_DIR}.old ]; then \
-		find ${DATA_OSM_BBBIKE_DIR}.old -type f ! -name '*.gz' -print0 | ${XARGS} -0 ${GZIP}; \
-	fi
+	rm -rf ${DATA_OSM_DIR}.old2 ${DATA_OSM_BBBIKE_DIR}.old2
+	if [ -e ${DATA_OSM_DIR}.old ]; then mv ${DATA_OSM_DIR}.old ${DATA_OSM_DIR}.old2; fi
+	if [ -e ${DATA_OSM_DIR}     ]; then mv ${DATA_OSM_DIR}     ${DATA_OSM_DIR}.old; fi
+	if [ -e ${DATA_OSM_BBBIKE_DIR}.old ]; then mv ${DATA_OSM_BBBIKE_DIR}.old ${DATA_OSM_BBBIKE_DIR}.old2; fi
+	if [ -e ${DATA_OSM_BBBIKE_DIR}     ]; then mv ${DATA_OSM_BBBIKE_DIR}     ${DATA_OSM_BBBIKE_DIR}.old; fi
 	mkdir -p ${DATA_OSM_DIR} ${DATA_OSM_BBBIKE_DIR}
 	touch ${DATA_OSM_DIR}/.gitkeep ${DATA_OSM_BBBIKE_DIR}/.gitkeep
 
 rotate-osm:
-	${RM_BG} ${OSM_DIR}.old2
-	-test -e ${OSM_DIR}.old  && mv ${OSM_DIR}.old  ${OSM_DIR}.old2
-	-test -e ${OSM_DIR}      && mv ${OSM_DIR}      ${OSM_DIR}.old
+	rm -rf ${OSM_DIR}.old2
+	if [ -e ${OSM_DIR}.old ]; then mv ${OSM_DIR}.old  ${OSM_DIR}.old2; fi
+	if [ -e ${OSM_DIR}     ]; then mv ${OSM_DIR}      ${OSM_DIR}.old; fi
 	mkdir -p ${OSM_DIR}
 	touch ${OSM_DIR}/.gitkeep
 
@@ -1154,7 +1155,7 @@ deb-perl: deb-clean perl-cpan
 	    dh-make-perl --build --email 'wosch@freebsd.org' --cpan $$i; \
 	done
 	set -e; for i in ${DEB_DIR}/*.deb; do \
-	   ./world/bin/deb2deb $$i; \
+	   env DEB_RELEASE=${DEB_RELEASE} ./world/bin/deb2deb $$i; \
 	done
 	ls -l ${DEB_DIR}/*.deb
 	echo "Number of deps: $$(ls ${DEB_DIR} | egrep '*.deb$$' | wc -l)"
@@ -1178,7 +1179,7 @@ deb-equivs:
 	for i in ${DEB_CONTROLS}; do \
 	    equivs-build $$i; \
 	done
-	for i in ${DEB_DIR}/*.deb; do world/bin/deb2deb $$i; done
+	for i in ${DEB_DIR}/*.deb; do env DEB_RELEASE=${DEB_RELEASE} world/bin/deb2deb $$i; done
 	ls -l ${DEB_DIR}/*.deb
 
 deb-bin deb-bin-java deb-bin-x86: 
@@ -1204,7 +1205,7 @@ deb-repo-dir:
 # fix & sign debian packages	
 deb-repo: deb-repo-dir
 	for i in ${DEB_DIR}/*.deb; do \
-	  world/bin/deb2deb $$i; \
+	  env DEB_RELEASE=${DEB_RELEASE} world/bin/deb2deb $$i; \
 	done
 	dpkg-sig -k B1826CDD --sign builder ${DEB_DIR}/*.deb
 	set -e; pwd=`pwd`; cd ${DEB_REPO_DIR}/${DEB_VENDOR}/${DEB_RELEASE}; \
@@ -1430,6 +1431,17 @@ git-commit-world:
 
 mygit: git-fetch git-pull git-push
 
+git-gc:
+	du -hs .git; git gc; du -hs .git
+	cd world; du -hs .git; git gc; du -hs .git
+
+apt-clean:
+	sudo apt-get clean
+	sudo apt-get autoremove
+	sudo apt-get install -f
+
+host-clean: git-gc apt-clean
+
 
 bbbike-tarball bbbike-src tarball:
 	./world/bin/bbbike-tarball
@@ -1504,7 +1516,8 @@ help:
 	@echo ""
 	@echo "  [ debian-bootstrap | bbbike-bootstrap | bbbike-c ]"
 	@echo "  [ build-runtime ]"
-	@echo "  [ git-fetch | git-pull | git-push | mygit ]"
+	@echo "  [ apt-clean | host-clean ]"
+	@echo "  [ git-fetch | git-pull | git-push | mygit | git-gc ]"
 	@echo "  [ check | check-world | check-full | check-failed ]"
 	@echo "  [ travis ]"
 	@echo ""

@@ -8,6 +8,7 @@ PATH=/bin:/usr/bin:/sbin:/usr/sbin; export PATH
 
 
 minus=0
+div=1
 vcpu_param=0
 rcpu_param=0
 hcpu_param=0
@@ -17,12 +18,13 @@ case $1 in
 	rcpu ) rcpu_param=1; shift ;;
 	hcpu ) hcpu_param=1; shift ;;
 	ncpu | cpu ) shift ;;
-	"" | -* | +* ) ;;
+	"" | -* | +* | / ) ;;
 	*    ) echo "usage $0 [ vcpu | rcpu | hcpu ] [ -/+ number ]"; exit 1;;
 esac
 
 case $1 in
 	-1 | -2 | +1|+2|+3|+4|+6|+8 ) minus=$1 ;;
+	/ ) div=$2 ;;
 esac
 
 config () {
@@ -83,7 +85,7 @@ fi
 
 
 # +/-
-n=`perl -e "print $n + $minus"`
+n=$(perl -e "print int(($n + $minus) / $div + 0.5)")
 
 # print valid output
 if [ "$n" -ge 1 -a "$n" -le 128 ]; then

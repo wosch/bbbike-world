@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2016 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2017 Wolfram Schneider, http://bbbike.org
 
 BEGIN {
     my $sub_planet = "../osm/download/sub-planet";
@@ -13,6 +13,7 @@ BEGIN {
 use Test::More;
 use Data::Dumper;
 use Digest::MD5 qw(md5_hex);
+use FindBin;
 
 use lib qw(world/lib);
 use Extract::Poly;
@@ -20,10 +21,10 @@ use Extract::Poly;
 use strict;
 use warnings;
 
-my $debug = 1;
+my $debug = 0;
 my $poly  = new Extract::Poly(
     'debug'          => $debug,
-    'sub_planet_dir' => '../osm/download/sub-planet'
+    'sub_planet_dir' => "../osm/download/sub-planet"
 );
 my @regions = $poly->list_subplanets;
 

@@ -79,7 +79,7 @@ var bbbike = {
 
     // default map
     mapDefault: "mapnik",
-    mapDefaultDE: "mapnik_de",
+    mapDefaultDE: "mapnik",
 
     //mapDefault: "terrain",
     // visible controls

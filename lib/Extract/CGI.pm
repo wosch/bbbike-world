@@ -256,10 +256,15 @@ sub mc_parameters {
     my $self = shift;
     my $q    = shift;
 
-    my $sw_lng = Param( $q, "sw_lng" ) + 0;
-    my $sw_lat = Param( $q, "sw_lat" ) + 0;
-    my $ne_lng = Param( $q, "ne_lng" ) + 0;
-    my $ne_lat = Param( $q, "ne_lat" ) + 0;
+    my $sw_lng = Param( $q, "sw_lng" );
+    my $sw_lat = Param( $q, "sw_lat" );
+    my $ne_lng = Param( $q, "ne_lng" );
+    my $ne_lat = Param( $q, "ne_lat" );
+
+    # nothing we could do
+    if ( $sw_lng eq "" || $sw_lat eq "" || $ne_lng eq "" || $ne_lat ) {
+        return "";
+    }
 
     my $lng = $sw_lng + ( $ne_lng - $sw_lng ) / 2;
     my $lat = $sw_lat + ( $ne_lat - $sw_lat ) / 2;
@@ -654,7 +659,8 @@ sub _check_input {
 
     $pg = 1 if !$pg || $pg > 1 || $pg <= 0;
 
-    error("area size '$as' must be greather than zero") if $as <= 0;
+    error("area size '$as' must be greather than zero")
+      if $as eq "" || $as <= 0;
 
     if ( !$error ) {
         error("ne lng '$ne_lng' must be larger than sw lng '$sw_lng'")
@@ -757,7 +763,7 @@ sub _check_input {
 
     if ( $email_counter > $email_limit ) {
         error( M("EXTRACT_LIMIT") );
-        warn "limit email counter: $email_limit > $email_counter $email\n"
+        warn "limit email counter: $email_counter > email_limit $email\n"
           if $debug >= 1;
     }
     elsif ( $ip_counter > $ip_limit ) {

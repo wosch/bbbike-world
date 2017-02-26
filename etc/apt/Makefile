@@ -60,10 +60,27 @@ deb-bin-x86:
 
 upgrade-all-versions: upgrade-all-versions-changelog upgrade-all-versions-equisvs
 
-upgrade-all-versions-changelog:
-	for i in ./*/*/deb/bbbike-world-bin/debian/changelog ./*/*/deb/bbbike-world-javalibs/debian/changelog; do ../../bin/deb-changelog-upgrade $$i; done
+#
+# to increase only the build version instead minor version:
+# use the script ../../bin/deb-changelog-upgrade-build 
+#
+upgrade-all-versions-changelog-javalibs:
+	for i in ./*/*/deb/bbbike-world-javalibs/debian/changelog; do \
+	  ../../bin/deb-changelog-upgrade $$i; \
+	done
+
+upgrade-all-versions-changelog-bin:
+	for i in ./*/*/deb/bbbike-world-bin/debian/changelog;  do \
+	  ../../bin/deb-changelog-upgrade $$i; \
+	done
+
+upgrade-all-versions-changelog: upgrade-all-versions-changelog-javalibs upgrade-all-versions-changelog-bin
+
 upgrade-all-versions-equisvs:
-	perl -i.bak  -npe 's/^(Version: [\d.]+\.)(\d+)/sprintf("%s%s",$$1, $$2+1)/e' ./*/*/equivs/bbbike-world ./*/*/equivs/bbbike-world-debian-meta ./*/*/equivs/bbbike-world-perlmodules-meta
+	perl -i.bak  -npe 's/^(Version: [\d.]+\.)(\d+)/sprintf("%s%s",$$1, $$2+1)/e' \
+	  ./*/*/equivs/bbbike-world \
+	  ./*/*/equivs/bbbike-world-debian-meta \
+	  ./*/*/equivs/bbbike-world-perlmodules-meta
 
 help:
 	@echo ""

@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2017 Wolfram Schneider, http://bbbike.org
 #
 # planet helper functions
 
@@ -9,6 +9,7 @@ use JSON;
 use File::stat;
 use Math::Polygon;
 use Data::Dumper;
+use FindBin;
 
 use lib qw(world/lib);
 use Extract::Config;
@@ -115,6 +116,7 @@ sub _get_smallest_planet {
         'debug'          => $debug,
         'sub_planet_dir' => $sub_planet_dir
     );
+
     my @regions =
       $regions ? @$regions : $poly->list_subplanets( 'sort_by' => 2, );
 
@@ -208,7 +210,7 @@ sub planet_size {
     my $st = stat($planet);
 
     if ( !$st ) {
-        warn "stat $planet: $!\n";
+        warn "stat pwd=$FindBin::Bin file=$planet: $!\n";
         return 0;
     }
 

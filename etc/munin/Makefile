@@ -21,6 +21,8 @@ MUNIN_BBBIKE_EXTRACT= 	bbbike-extract-diskusage \
 MUNIN_VARNISH=	data_structures vcl_and_bans lru objects_per_objhead obj_sendfile_vs_write losthdr esi hcb shm shm_writes overflow session session_herd	
 
 MUNIN_PLUGINS_DIR=	/etc/munin/plugins
+MUNIN_LIGHTTPD= lighttpd_accesses lighttpd_busyservers lighttpd_idleservers lighttpd_kbytes lighttpd_uptime     
+
 
 all: help
 
@@ -66,6 +68,12 @@ install-munin-bbbike-extract:
 	sudo ln -fs ${MUNIN_PLUGINS_DIR}/bbbike-extract-jobs ${MUNIN_PLUGINS_DIR}/bbbike-extract-pro-jobs
 	${MAKE} munin-restart
 
+install-munin-lighttpd:
+	for i in ${MUNIN_LIGHTTPD}; do \
+	    sudo ln -fs `pwd`/../../src/munin/munin-lighttpd ${MUNIN_PLUGINS_DIR}/$$i; \
+	done
+	${MAKE} munin-restart
+
 munin-restart:
 	sudo /etc/init.d/munin-node stop
 	sleep 0.2
@@ -96,6 +104,7 @@ help:
 	@echo "make [ install-munin-xen | install-munin-varnish ]"
 	@echo "     [ install-munin-bbbike ]"
 	@echo "     [ install-munin-bbbike-system | install-munin-bbbike-web | install-munin-bbbike-extract ]"
+	@echo "     [ install-munin-lighttpd ]"
 	@echo ""
 	@echo "     [ munin-restart ]" 
 	@echo "     [ perltidy | distclean ]"

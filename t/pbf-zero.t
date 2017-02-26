@@ -29,11 +29,11 @@ my %formats = (
 
     "--navit"          => 99,
     "--shape"          => 0,
-    "--osmand"         => 0,
-    "--garmin-osm"     => 0,
-    "--garmin-cycle"   => 0,
-    "--garmin-leisure" => 0,
-    "--garmin-bbbike"  => 0,
+    "--osmand"         => 99,
+    "--garmin-osm"     => 99,
+    "--garmin-cycle"   => 99,
+    "--garmin-leisure" => 99,
+    "--garmin-bbbike"  => 99,
     "--mapsforge-osm"  => 1
 );
 
@@ -94,7 +94,7 @@ foreach my $format ( sort keys %formats ) {
     diag(qq[world/bin/pbf2osm $format $pbf_file > $tempfile]) if $debug;
 
     system(qq[world/bin/pbf2osm $format $pbf_file > $tempfile]);
-    is( $? == 0 ? 0 : 1, $formats{$format}, "pbf2osm $format" );
+    is( $? == 0 ? 0 : 1, $formats{$format}, "pbf2osm '$format' failed: $?" );
 }
 
 1;

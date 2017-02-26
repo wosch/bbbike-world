@@ -207,11 +207,8 @@ sub extract_route {
     my $duplication_factor = 1.5;
 
     my @data_all;
-    my @files = $file;
-    push @files,
-      $logrotate_first_uncompressed ? "$file.1" : &logfiles( $file, 1 );
-    push @files, &logfiles( $file, 2 .. 20 );
-    push @files, &logfiles( $file, 21 .. 100 ) if $max > 2_000;
+    my @files =
+      map { chomp($_); /^\S+$/ ? $_ : "" } `ls -t \$(find ${file}* -mtime -5)`;
 
     if ($date) {
         $date = &date_alias($date);
@@ -232,6 +229,14 @@ sub extract_route {
         my @data;
 
         next if !-f $file;
+
+        # perl -T
+        if ( $file =~ m/^(\S+)$/ ) {
+            $file = $1;
+        }
+        else {
+            die "Logfiles with spaces? Give up: $file\n";
+        }
 
         my $fh;
         warn "Open $file ...\n" if $debug >= 1;
@@ -538,14 +543,15 @@ EOF
     sub Param {
         my $q   = shift;
         my $key = shift;
-        my @val = $q->param($_) || "";
+        my $val = $q->param($_);
+        if ( !defined $val ) {
+            $val = "";
+        }
 
-        # XXX: WTF? run decode N times!!!
-        eval {
-            @val = map { Encode::decode( "utf8", $_, Encode::FB_QUIET ) } @val;
-        };
+        eval { $val = Encode::decode( "utf8", $val, Encode::FB_QUIET ); };
 
-        return @val;
+        warn "key='$key', val='$val'\n" if $debug >= 2;
+        return $val;
     }
 
     my %hash;
@@ -573,6 +579,8 @@ EOF
         push @params, qw/startc zielc/;    # missing "area" in URL
 
         my $opt = { map { $_ => ( Param( $qq, $_ ) ) } @params };
+
+#warn Dumper($opt->{'area'}, $opt->{'startc'}, $opt->{'zielc'}, $city_center->{ $opt->{'city'} }, $opt->{'city'});
 
         $city_center->{ $opt->{'city'} } = $opt->{'area'} || join( "!",
             $opt->{'startc'}, $opt->{'zielc'},
@@ -675,8 +683,8 @@ sub filter_by_client_link {
 
     return "" if !$filter_by_client;
 
-    my $qq    = CGI->new($q);
-    my $appid = $qq->param("appid");
+    my $qq = CGI->new($q);
+    my $appid = $qq->param("appid") || "";
 
     my $message = qq{Filter by device: };
     my $data    = "";

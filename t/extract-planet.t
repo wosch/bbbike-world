@@ -24,12 +24,12 @@ sub planet {
 }
 
 sub normalize_dir {
-    my $path = "../planet.osm.pbf";
+    my $path = "planet-latest.osm.pbf";
 
     my $planet = new Extract::Planet;
-    is( $path, $planet->normalize_dir($path), "normalize path $path" );
+    is( "$path", $planet->normalize_dir($path), "normalize path $path $path" );
 
-    my $dir = '..';
+    my $dir = '../../../osm/download';
     $planet = new Extract::Planet( 'pwd' => $dir );
     is(
         "$dir/$path",
