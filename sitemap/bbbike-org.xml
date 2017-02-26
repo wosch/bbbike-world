@@ -32,7 +32,7 @@
                  file paths.  (Example: "UTF-8")
 -->
 <site
-  base_url="http://www.bbbike.org/"
+  base_url="https://www.bbbike.org/"
   store_into="../web/sitemap.xml.gz"
   verbose="1"
   >
