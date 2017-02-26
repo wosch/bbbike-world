@@ -196,7 +196,7 @@ sub header {
     my @javascript = (
         "/html/jquery/jquery-1.4.2.min.js",
         "/html/devbridge-jquery-autocomplete-1.1.2/jquery.autocomplete-min.js",
-"http://maps.googleapis.com/maps/api/js?v=3.9&sensor=false&language=en&libraries=weather,panoramio",
+"https://maps.googleapis.com/maps/api/js?v=3.9&sensor=false&language=en&libraries=weather,panoramio",
         "/html/bbbike.js",
         "/html/maps3.js"
     );
@@ -426,7 +426,7 @@ foreach my $c (@city_list) {
       . qq{">$c</a>\n};
 }
 print
-qq{\n| <span id="maplink"><a href="http://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=http:%2F%2Fwww.bbbike.org%2Fbbbike-world.kml&amp;ie=UTF8&amp;t=p&amp;ll=52.961875,12.128906&amp;spn=22.334434,47.460938&amp;z=4" >View on a Map</a></span>\n};
+qq{\n| <span id="maplink"><a href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=http:%2F%2Fwww.bbbike.org%2Fbbbike-world.kml&amp;ie=UTF8&amp;t=p&amp;ll=52.961875,12.128906&amp;spn=22.334434,47.460938&amp;z=4" >View on a Map</a></span>\n};
 print qq{</div><!-- more cities inner -->\n};
 print qq{</div><!-- more cities -->\n};
 

@@ -160,7 +160,7 @@ function bbbike_maps_init(maptype, marker_list, lang) {
 
         new GKeyboardHandler(map);
     } else {
-        document.getElementById("map").innerHTML = '<p class="large-error">Sorry, your browser is not supported by <a href="http://maps.google.com/support">Google Maps</a></p>';
+        document.getElementById("map").innerHTML = '<p class="large-error">Sorry, your browser is not supported by <a href="https://maps.google.com/support">Google Maps</a></p>';
     }
 
     var copyright = new GCopyright(1, new GLatLngBounds(new GLatLng(-90, -180), new GLatLng(90, 180)), 0, '(<a rel="license" target="_ccbysa" href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>)');
