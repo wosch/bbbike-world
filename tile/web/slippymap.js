@@ -510,16 +510,6 @@ function init() {
     map.addControl(new OpenLayers.Control.LayerSwitcher());
     map.addControl(new OpenLayers.Control.Permalink());
     // switcherControl.maximizeControl();
-    // ADFC
-
-    function get_mm_bikeTracks(bounds) {
-        var llbounds = new OpenLayers.Bounds();
-        llbounds.extend(OpenLayers.Layer.SphericalMercator.inverseMercator(bounds.left, bounds.bottom));
-        llbounds.extend(OpenLayers.Layer.SphericalMercator.inverseMercator(bounds.right, bounds.top));
-        var url = "http://mm-lbserver.dnsalias.com/mm-mapserver_v2/wms/wms.php?REQUEST=GetMap&SERVICE=WMS&VERSION=1.1.1&LAYERS=MM_BIKETRACKS&STYLES=&FORMAT=image/png&BGCOLOR=0xFFFFFF&TRANSPARENT=TRUE&SRS=EPSG:4326&BBOX="
-        url = url + llbounds.toBBOX() + "&WIDTH=256&HEIGHT=256"
-        return url
-    }
 
     // bbbike?
 
