@@ -463,18 +463,6 @@ function init() {
         noOpaq: true
     }));
 
-    map.addLayer(new OpenLayers.Layer.TMS("ADFC Radwegenetz", "", {
-        type: 'png',
-        getURL: get_mm_bikeTracks,
-        displayOutsideMaxExtent: true,
-        attribution: '<a href="http://www.adfc.de/">ADFC</a>',
-        opacity: 1,
-        isBaseLayer: false,
-        visibility: false,
-        numZoomLevels: 17,
-        noOpaq: true
-    }));
-
     map.addLayer(new OpenLayers.Layer.XYZ("Max Speed", "http://wince.dentro.info/koord/osm/tiles/${z}/${x}/${y}.png", {
         attribution: '<a href="http://wince.dentro.info/koord/osm/KosmosMap.htm">MaxSpeedMap</a>',
         opacity: 1,

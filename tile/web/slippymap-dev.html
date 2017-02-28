@@ -74,16 +74,6 @@
 	    map.addLayer( new OpenLayers.Layer.Google( "Google Hybrid", { type: google.maps.MapTypeId.HYBRID, 'sphericalMercator': true, attribution: ', <a href="https://maps.google.com/">Google</a>', numZoomLevels:19 } ));
 
 
-
-// This is the end of the layer
-	// ADFC : http://sautter.com/map/
-            var newLayer = new OpenLayers.Layer.TMS( "ADFC Radwegenetz", "",
-            { type: 'png', getURL: get_mm_bikeTracks, // "/osm/mapnik/${z}/${x}/${y}.png", 
-		displayOutsideMaxExtent: true, attribution: '<a href="http://www.adfc.de/">ADFC</a>',
-              opacity: 1, isBaseLayer: false, visibility: false, numZoomLevels: 17, noOpaq: true } );
-            map.addLayer(newLayer);
-
- 
             var switcherControl = new OpenLayers.Control.LayerSwitcher();
             map.addControl(switcherControl);
 
