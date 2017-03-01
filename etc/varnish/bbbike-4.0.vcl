@@ -151,7 +151,7 @@ sub vcl_recv {
     } 
 
     # letsencrypt
-    if (req.url ~ "^/\.well-known/") {
+    if (req.url ~ "^/\.well-known/acme-challenge/") {
         set req.backend_hint = munin_localhost;
 	return (pass);
     } 
