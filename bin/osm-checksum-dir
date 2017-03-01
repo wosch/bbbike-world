@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2016 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2016 Wolfram Schneider, https://bbbike.org
 #
 # osm-checksum-dir - compute checksum in a given directory
 #

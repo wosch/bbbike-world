@@ -1,5 +1,5 @@
 /* Copyright (c) 2011 OpenLayers
- * Copyright (c) 2012-2014 Wolfram Schneider, http://bbbike.org
+ * Copyright (c) 2012-2014 Wolfram Schneider, https://bbbike.org
  * /
 
 /* run JavaScript code in strict mode, HTML5 */
@@ -62,7 +62,7 @@ function init() {
     // This is the layer that uses the locally stored tiles
     map.addLayer(new OpenLayers.Layer.OSM("BBBike.org bbbike", "/osm/bbbike/${z}/${x}/${y}.png", {
         numZoomLevels: 19,
-        attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
+        attribution: '<a href="https://bbbike.org/">BBBike.org</a>'
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM("BBBike.org Mapnik (de)", "/osm/mapnik-german/${z}/${x}/${y}.png", {
@@ -70,7 +70,7 @@ function init() {
             crossOriginKeyword: null
         },
         numZoomLevels: 19,
-        attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
+        attribution: '<a href="https://bbbike.org/">BBBike.org</a>'
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM("BBBike.org Mapnik", "/osm/mapnik/${z}/${x}/${y}.png", {
@@ -78,7 +78,7 @@ function init() {
             crossOriginKeyword: null
         },
         numZoomLevels: 19,
-        attribution: '<a href="http://bbbike.org/">BBBike.org</a>'
+        attribution: '<a href="https://bbbike.org/">BBBike.org</a>'
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM.Mapnik("OSM Mapnik"));
@@ -152,14 +152,14 @@ function init() {
         },
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("Esri", "http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/${z}/${y}/${x}.png", {
+    map.addLayer(new OpenLayers.Layer.OSM("Esri", "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/${z}/${y}/${x}.png", {
         tileOptions: {
             crossOriginKeyword: null
         },
         numZoomLevels: 18
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("Esri Topographic", "http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/${z}/${y}/${x}.png", {
+    map.addLayer(new OpenLayers.Layer.OSM("Esri Topographic", "https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/${z}/${y}/${x}.png", {
         tileOptions: {
             crossOriginKeyword: null
         },
@@ -463,18 +463,6 @@ function init() {
         noOpaq: true
     }));
 
-    map.addLayer(new OpenLayers.Layer.TMS("ADFC Radwegenetz", "", {
-        type: 'png',
-        getURL: get_mm_bikeTracks,
-        displayOutsideMaxExtent: true,
-        attribution: '<a href="http://www.adfc.de/">ADFC</a>',
-        opacity: 1,
-        isBaseLayer: false,
-        visibility: false,
-        numZoomLevels: 17,
-        noOpaq: true
-    }));
-
     map.addLayer(new OpenLayers.Layer.XYZ("Max Speed", "http://wince.dentro.info/koord/osm/tiles/${z}/${x}/${y}.png", {
         attribution: '<a href="http://wince.dentro.info/koord/osm/KosmosMap.htm">MaxSpeedMap</a>',
         opacity: 1,
@@ -522,16 +510,6 @@ function init() {
     map.addControl(new OpenLayers.Control.LayerSwitcher());
     map.addControl(new OpenLayers.Control.Permalink());
     // switcherControl.maximizeControl();
-    // ADFC
-
-    function get_mm_bikeTracks(bounds) {
-        var llbounds = new OpenLayers.Bounds();
-        llbounds.extend(OpenLayers.Layer.SphericalMercator.inverseMercator(bounds.left, bounds.bottom));
-        llbounds.extend(OpenLayers.Layer.SphericalMercator.inverseMercator(bounds.right, bounds.top));
-        var url = "http://mm-lbserver.dnsalias.com/mm-mapserver_v2/wms/wms.php?REQUEST=GetMap&SERVICE=WMS&VERSION=1.1.1&LAYERS=MM_BIKETRACKS&STYLES=&FORMAT=image/png&BGCOLOR=0xFFFFFF&TRANSPARENT=TRUE&SRS=EPSG:4326&BBOX="
-        url = url + llbounds.toBBOX() + "&WIDTH=256&HEIGHT=256"
-        return url
-    }
 
     // bbbike?
 

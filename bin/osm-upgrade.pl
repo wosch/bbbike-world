@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) April 2014-2014 Wolfram Schneider, http://bbbike.org
+# Copyright (c) April 2014-2014 Wolfram Schneider, https://bbbike.org
 #
 # osm-upgrade - upgrade osm 0.5 to osm 0.6 with osmconvert
 #               create unique IDs across all input files

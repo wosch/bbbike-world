@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2012-2016 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2016 Wolfram Schneider, https://bbbike.org
 #
 # extract config and libraries
 
@@ -310,7 +310,7 @@ qr"^Map data.*? OpenStreetMap contributors, https://www.openstreetmap.org",
         ok(
             (
                 grep {
-                    qr"^Script URL: https?://.*bbbike.org/.*\?.*format=.+.*city="
+qr"^Script URL: https?://.*bbbike.org/.*\?.*format=.+.*city="
                 } @data
             ),
             "url"
@@ -329,8 +329,9 @@ qr"^Map data.*? OpenStreetMap contributors, https://www.openstreetmap.org",
         ok( ( grep { /^Danke, Wolfram Schneider/ } @data ), "thanks" );
         ok(
             (
-                grep { qr"^https?://www.BBBike.org - Dein Fahrrad-Routenplaner" }
-                  @data
+                grep {
+                    qr"^https?://www.BBBike.org - Dein Fahrrad-Routenplaner"
+                } @data
             ),
             "footer"
         );
@@ -357,7 +358,7 @@ qr"^Map data.*? OpenStreetMap contributors, https://www.openstreetmap.org",
         ok(
             (
                 grep {
-                    qr"^Script URL: https?://.*bbbike.org/.*\?.*format=.+.*city="
+qr"^Script URL: https?://.*bbbike.org/.*\?.*format=.+.*city="
                 } @data
             ),
             "url"

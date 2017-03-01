@@ -10,7 +10,7 @@
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&amp;language=de"></script>
 
     <!-- <script src="http://openlayers.org/api/OpenLayers.js"></script> -->
-    <script src="http://www.bbbike.org/html/OpenLayers-2.11/OpenLayers.js"></script>
+    <script src="https://www.bbbike.org/html/OpenLayers-2.11/OpenLayers.js"></script>
  
     <!-- bring in the OpenStreetMap OpenLayers layers.
          Using this hosted file will make sure we are kept up
@@ -74,16 +74,6 @@
 	    map.addLayer( new OpenLayers.Layer.Google( "Google Hybrid", { type: google.maps.MapTypeId.HYBRID, 'sphericalMercator': true, attribution: ', <a href="https://maps.google.com/">Google</a>', numZoomLevels:19 } ));
 
 
-
-// This is the end of the layer
-	// ADFC : http://sautter.com/map/
-            var newLayer = new OpenLayers.Layer.TMS( "ADFC Radwegenetz", "",
-            { type: 'png', getURL: get_mm_bikeTracks, // "/osm/mapnik/${z}/${x}/${y}.png", 
-		displayOutsideMaxExtent: true, attribution: '<a href="http://www.adfc.de/">ADFC</a>',
-              opacity: 1, isBaseLayer: false, visibility: false, numZoomLevels: 17, noOpaq: true } );
-            map.addLayer(newLayer);
-
- 
             var switcherControl = new OpenLayers.Control.LayerSwitcher();
             map.addControl(switcherControl);
 
@@ -91,16 +81,6 @@
 
             map.addControl(new OpenLayers.Control.LayerSwitcher());
             map.addControl(new OpenLayers.Control.Permalink());
-
-      function get_mm_bikeTracks(bounds) {
-
-        llbounds = new OpenLayers.Bounds();
-        llbounds.extend(OpenLayers.Layer.SphericalMercator.inverseMercator(bounds.left,bounds.bottom));
-        llbounds.extend(OpenLayers.Layer.SphericalMercator.inverseMercator(bounds.right,bounds.top));
-        url = "http://mm-lbserver.dnsalias.com/mm-mapserver_v2/wms/wms.php?REQUEST=GetMap&SERVICE=WMS&VERSION=1.1.1&LAYERS=MM_BIKETRACKS&STYLES=&FORMAT=image/png&BGCOLOR=0xFFFFFF&TRANSPARENT=TRUE&SRS=EPSG:4326&BBOX="
-        url = url + llbounds.toBBOX() + "&WIDTH=256&HEIGHT=256"
-        return url
-      }
 
       function osm_getTileURL(bounds) {
         var res = this.map.getResolution();

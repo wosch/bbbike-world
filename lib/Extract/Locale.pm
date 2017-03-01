@@ -1,6 +1,6 @@
 #!/usr/local/bin/perl
 #
-# Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2015 Wolfram Schneider, https://bbbike.org
 #
 # Extract::Locale.pm - translations
 

@@ -1,6 +1,6 @@
 /*
  Copyright (c) by https://www.openstreetmap.org/export - OSM License, 2012
- Copyright (c) 2012-2016 Wolfram Schneider, http://bbbike.org
+ Copyright (c) 2012-2016 Wolfram Schneider, https://bbbike.org
 */
 
 // HTML5: may not work on Android devices!

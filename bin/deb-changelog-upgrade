@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -i.bak
-# Copyright (c) 2017 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2017 Wolfram Schneider, https://bbbike.org
 #
 # bumb the minor version in debian changelog
 #

@@ -648,7 +648,7 @@ $feed->add_entry(
     content => {
         type => 'text',
         content =>
-          qq{Added OpenCycleMaps Landscape and Transport for https://bbbike.org},
+qq{Added OpenCycleMaps Landscape and Transport for https://bbbike.org},
     },
     updated  => '2012-02-17T12:30:02Z',
     category => 'News',
@@ -736,7 +736,7 @@ $feed->add_entry(
     content => {
         type => 'text',
         content =>
-          qq{New: cycle routing for Heilbronn: https://www.bbbike.org/Heilbronn},
+qq{New: cycle routing for Heilbronn: https://www.bbbike.org/Heilbronn},
     },
     updated  => '2011-09-11T12:30:02Z',
     category => 'News',
