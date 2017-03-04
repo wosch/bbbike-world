@@ -278,7 +278,7 @@ echo ">>> Run splitter" > $logfile
 	--max-areas=$splitter_max_areas \
 	--max-nodes=$splitter_max_nodes \
 	--mapid="$mapid" \
-	--output-dir=$split_dir $file ) >> $logfile 2>&1 || error
+	--output-dir=$split_dir $file ) 2>&1 | tail -c 1024K >> $logfile || error
 
 if [ $(ls $split_dir/*.pbf 2>/dev/null | wc -l) -eq 0 ]; then
     echo "Warning: splitter didn't created a file: $file"
@@ -334,7 +334,7 @@ echo ">>> Run mkgmap, map style: $mkgmap_map_style" >> $logfile
 ( set -x 
   java -jar $BBBIKE_OPT_DIR/$BBBIKE_MKGMAP_VERSION/mkgmap.jar --version
   $time java $java_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_MKGMAP_VERSION/mkgmap.jar --max-jobs=$osm2xxx_max_jobs $mkgmap_opt $mkgmap_opt_pois $mkgmap_codepage $mkgmap_map \
-    --gmapsupp --description="$description" --family-name="$coords style=$mkgmap_map_style" $split_dir/*.pbf $mkgmap_map_type ) >> $logfile 2>&1  || error
+    --gmapsupp --description="$description" --family-name="$coords style=$mkgmap_map_style" $split_dir/*.pbf $mkgmap_map_type ) 2>&1 | tail -c 1024K >> $logfile || error
 
 #echo ">>> Run mkgmap, create gmapsupp file" >> $logfile
 #( set -x
@@ -343,7 +343,8 @@ echo ">>> Run mkgmap, map style: $mkgmap_map_style" >> $logfile
 logfile_max_size="500k"
 if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
     echo "logfile $logfile is to big: $(ls -l $logfile)"
-    exit 2
+    $gzip $logfile
+    #exit 2
 fi
 
 if egrep -ql '^java\.lang\.' $logfile; then
