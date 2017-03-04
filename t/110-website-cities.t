@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2016 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2016 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
@@ -24,7 +24,7 @@ use warnings;
 my $test           = BBBike::Test->new();
 my $extract_config = Extract::Config->new()->load_config_nocgi();
 
-my @homepages = "http://www.bbbike.org";
+my @homepages = "https://www.bbbike.org";
 
 my @cities = map { chomp; $_ } (`./world/bin/bbbike-db --list`);
 
@@ -68,7 +68,7 @@ if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
     # ads only on production system
     foreach my $homepage (@homepages) {
         $counter_ads +=
-          scalar( grep { $_ !~ m,^http://www, } $homepage ) *
+          scalar( grep { $_ !~ m,^https?://www, } $homepage ) *
           ( scalar(@cities) * ( scalar(@lang) + 1 ) );
     }
 
@@ -105,7 +105,7 @@ sub _cities {
     my $url  = shift;
 
     my $homepage = $url;
-    $homepage =~ s,(^http://[^/]+).*,$1,;
+    $homepage =~ s,(^https?://[^/]+).*,$1,;
 
     my $res     = $test->myget($url);
     my $content = $res->decoded_content();
@@ -139,8 +139,8 @@ qr{type="application/atom\+xml" .*href="/feed/bbbike-world.xml| href="/feed/bbbi
     like( $content, qr|"/images/spinning_wheel32.gif"|,  "spinning wheel" );
 
     # only on production systems
-    if ( $homepage =~ m,^http://www, ) {
-        like( $content, qr|google_ad_client|, "google_ad_client" );
+    if ( $homepage =~ m,^https?://www, ) {
+        like( $content, qr|google_ad_client|, "google_ad_client $homepage" );
     }
 
     like( $content, qr|<div id="map"></div>|,    "div#map" );
@@ -165,12 +165,12 @@ qr{type="application/atom\+xml" .*href="/feed/bbbike-world.xml| href="/feed/bbbi
     );
     like(
         $content,
-        qr|template="http://www.bbbike.org/cgi/api.cgi\?sourceid=|,
+        qr|template="https?://www.bbbike.org/cgi/api.cgi\?sourceid=|,
         "opensearch template"
     );
     like(
         $content,
-        qr|http://www.bbbike.org/images/srtbike16.gif</Image>|,
+        qr|https?://www.bbbike.org/images/srtbike16.gif</Image>|,
         "opensearch icon"
     );
 

@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -i
-# Copyright (c) 2016-2016 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2016-2016 Wolfram Schneider, https://bbbike.org
 #
 # garmin-marine-header - set header for garmin marine devices
 #

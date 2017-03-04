@@ -1,6 +1,6 @@
 #!/usr/local/bin/perl
 #
-# Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2015 Wolfram Schneider, https://bbbike.org
 #
 # BBBike::Test.pm - helper function for ./world/t
 #
@@ -112,7 +112,7 @@ sub myget_401 {
     is(
         $res->status_line,
         "401 Unauthorized",
-        "status code 401 Unauthorized - great!"
+        "status code 401 Unauthorized - $url - great!"
     );
 
     my $content = $res->decoded_content();

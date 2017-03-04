@@ -1,10 +1,12 @@
-#!/bin/sh
-# Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
+#!/bin/bash
+# Copyright (c) 2012-2017 Wolfram Schneider, https://bbbike.org
 #
 # osm2osmand  - convert a .pbf file to osmand .obf
 #
 
 set -e
+set -o pipefail # bash only
+
 PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 
 : ${osm2xxx_max_jobs=2}
@@ -17,6 +19,7 @@ PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 : ${SHA="shasum -a 256"}
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmpfs"}
+osmand_version=$(ls -ld /var/lib/bbbike/opt/OsmAndMapCreator | awk '{ print $NF }')
 
 dirname=$(dirname $0)
 
@@ -109,21 +112,22 @@ split_dir=data/osm
 echo ">>> Run splitter" >> $logfile
 
 ( set -x; 
-java $java_splitter_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar \
+  java -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar --version
+  java $java_splitter_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar \
      $splitter_keep_complete \
      --resolution=$splitter_resolution \
      --max-areas=$splitter_max_areas \
      --max-nodes=$splitter_max_nodes \
      --mapid="$mapid" \
-     --output-dir=$split_dir $file ) >> $logfile 2>&1 || error
+     --output-dir=$split_dir $file ) 2>&1 | tail -c 1024K  || error
 
 #java $java_opt -jar $BBBIKE_OPT_DIR/splitter/splitter.jar --output-dir=$split_dir  --max-nodes=4000000 --mapid=$mapid $file >> $logfile 2>&1 || error
 if [ $(ls $split_dir/*.pbf 2>/dev/null | wc -l) -eq 0 ]; then
     echo "Warning: splitter didn't created a file: $file"
     if [ $size -le 1000 ]; then
-	cp -f $file $split_dir/$mapid.osm.pbf
+        cp -f $file $split_dir/$mapid.osm.pbf
     else
-	echo "Argh, $file with size $size to big for single run"
+        echo "Argh, $file with size $size to big for single run"
     fi
 fi
 
@@ -140,29 +144,31 @@ $debug && ls -l $split_dir
 
 exit=0
 class_path="$osmand_home/OsmAndMapCreator.jar:$osmand_home/lib/OsmAnd-core.jar:$osmand_home/lib/*.jar"
+echo "OsmAnd version: $osmand_version" >> $logfile
+
 if [ $counter -eq 0 ]; then
-    if time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp "$class_path" net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml > $logfile 2>&1 && ln data/indexes/*.obf .; then
-	:
+    if time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp "$class_path" net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml >> $logfile 2>&1 && ln data/indexes/*.obf .; then
+        :
     else
         exit=$?
     fi
 else
     for i in $(pwd)/data/_*
     do
-	printf "(cd $i; time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp \"$class_path\" net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml && ln data/indexes/*.obf ../.. ) > $i.log 2>&1 \0"
+        printf "(cd $i; time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp \"$class_path\" net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml && ln data/indexes/*.obf ../.. ) > $i.log 2>&1 \0"
     done > data/jobs.sh
     if xargs -0 -n1 -P${osm2xxx_max_jobs} sh -c < data/jobs.sh >> $logfile 2>&1; then
-	:
+        :
     else
     	exit=$?
     fi
-    cat data/_*.log >> $logfile
+    cat data/_*.log | tail -c 1024K  >> $logfile
 fi
 
 logfile_max_size="500k"
 if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
     echo "logfile $logfile is to big: $(ls -l $logfile)"
-    exit 2
+    #exit 2
 fi
 
 if [ $exit -ne 0 ];then

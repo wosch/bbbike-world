@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2016 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2016 Wolfram Schneider, https://bbbike.org
 
 use Test::More;
 use IO::File;
@@ -98,7 +98,7 @@ plan tests => scalar(@files) +
   scalar(@size_76c) +
   scalar(@size_3k) +
   scalar(@size_15k) + 1 +
-  ( $lsb_release eq 'jessieXXX' || $ENV{BBBIKE_TEST_LONG} ? 1 : 0 );
+  ( $lsb_release eq 'jessieXXX' || $ENV{BBBIKE_TEST_LONG_XXX} ? 1 : 0 );
 
 sub md5_file {
     my $file = shift;
@@ -180,6 +180,6 @@ sub checksum {
 
 &convert;
 &check_files;
-&checksum if $lsb_release eq 'jessieXXX' || $ENV{BBBIKE_TEST_LONG};
+&checksum if $lsb_release eq 'jessieXXX' || $ENV{BBBIKE_TEST_LONG_XXX};
 
 __END__

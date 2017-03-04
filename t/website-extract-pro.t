@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2015 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} ) {
@@ -24,7 +24,8 @@ my @homepages_localhost =
 
 my @homepages_production = qw[
   http://extract-pro.bbbike.org
-  http://extract-pro1.bbbike.org
+  http://extract-pro3.bbbike.org
+  http://extract-pro4.bbbike.org
 ];
 
 if ( $ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {

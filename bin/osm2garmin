@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2016 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2017 Wolfram Schneider, https://bbbike.org
 #
 # osm2garmin - convert a osm/pbf file to garmin
 #
@@ -93,9 +93,9 @@ esac
 : ${splitter_max_areas=512}
 
 if [ $size -lt 100 ]; then
-  : ${splitter_resolution=18}
-elif [ $size -lt 2000 ]; then
   : ${splitter_resolution=16}
+elif [ $size -lt 2000 ]; then
+  : ${splitter_resolution=15}
 else
   : ${splitter_resolution=13}
 fi
@@ -137,15 +137,15 @@ case $ext in
 
    leisure )
 	ext=garmin-leisure.zip
-	mkgmap_map=--style-file=$etc_dir/style/freizeit
-	mkgmap_map_style=freizeit
-	mkgmap_map_type=$etc_dir/typ/freizeit/freizeit.TYP
+	mkgmap_map=--style-file=$etc_dir/style/fzk
+	mkgmap_map_style=fzk
+	mkgmap_map_type=$etc_dir/typ/fzk/freizeit.TYP
 	;;
    leisure-ascii )
 	ext=garmin-leisure-ascii.zip
-	mkgmap_map=--style-file=$etc_dir/style/freizeit
-	mkgmap_map_style=freizeit
-	mkgmap_map_type=$etc_dir/typ/freizeit/freizeit.TYP
+	mkgmap_map=--style-file=$etc_dir/style/fzk
+	mkgmap_map_style=fzk
+	mkgmap_map_type=$etc_dir/typ/fzk/freizeit.TYP
 	;;
     
    bbbike )
@@ -271,13 +271,14 @@ mapid=${garmin_family_id}0001
 #fi
 echo ">>> Run splitter" > $logfile
 ( set -x; 
+  java -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar --version
   $time java $java_splitter_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar \
 	$splitter_keep_complete \
 	--resolution=$splitter_resolution \
 	--max-areas=$splitter_max_areas \
 	--max-nodes=$splitter_max_nodes \
 	--mapid="$mapid" \
-	--output-dir=$split_dir $file ) >> $logfile 2>&1 || error
+	--output-dir=$split_dir $file ) 2>&1 | tail -c 1024K >> $logfile || error
 
 if [ $(ls $split_dir/*.pbf 2>/dev/null | wc -l) -eq 0 ]; then
     echo "Warning: splitter didn't created a file: $file"
@@ -331,8 +332,9 @@ esac
 # --mapname="$mapid" 
 echo ">>> Run mkgmap, map style: $mkgmap_map_style" >> $logfile
 ( set -x 
+  java -jar $BBBIKE_OPT_DIR/$BBBIKE_MKGMAP_VERSION/mkgmap.jar --version
   $time java $java_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_MKGMAP_VERSION/mkgmap.jar --max-jobs=$osm2xxx_max_jobs $mkgmap_opt $mkgmap_opt_pois $mkgmap_codepage $mkgmap_map \
-    --gmapsupp --description="$description" --family-name="$coords style=$mkgmap_map_style" $split_dir/*.pbf $mkgmap_map_type ) >> $logfile 2>&1  || error
+    --gmapsupp --description="$description" --family-name="$coords style=$mkgmap_map_style" $split_dir/*.pbf $mkgmap_map_type ) 2>&1 | tail -c 1024K >> $logfile || error
 
 #echo ">>> Run mkgmap, create gmapsupp file" >> $logfile
 #( set -x
@@ -341,7 +343,8 @@ echo ">>> Run mkgmap, map style: $mkgmap_map_style" >> $logfile
 logfile_max_size="500k"
 if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
     echo "logfile $logfile is to big: $(ls -l $logfile)"
-    exit 2
+    $gzip $logfile
+    #exit 2
 fi
 
 if egrep -ql '^java\.lang\.' $logfile; then

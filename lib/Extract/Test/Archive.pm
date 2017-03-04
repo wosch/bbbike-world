@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2012-2016 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2016 Wolfram Schneider, https://bbbike.org
 #
 # extract config and libraries
 
@@ -77,13 +77,13 @@ sub init_env {
 
     my $option = {
         'pbf2osm' => {
-            'garmin_version'     => 'mkgmap-3334',
-            'maperitive_version' => 'Maperitive-2.3.34',
-            'osmand_version'     => 'OsmAndMapCreator-1.1.3',
-            'mapsforge_version'  => 'mapsforge-0.4.3',
-            'navit_version'      => 'maptool-0.5.0~svn5126',
-            'shape_version'      => 'osmium2shape-1.0',
-            'mapsme_version'     => 'mapsme-1.0',
+            'garmin_version'     => 'mkgmap',
+            'maperitive_version' => 'Maperitive',
+            'osmand_version'     => 'OsmAndMapCreator',
+            'mapsforge_version'  => 'mapsforge',
+            'navit_version'      => 'maptool',
+            'shape_version'      => 'osmium2shape',
+            'mapsme_version'     => 'mapsme',
         }
     };
 
@@ -100,7 +100,7 @@ sub init_env {
     $ENV{'BBBIKE_EXTRACT_MAPSME_VERSION'} =
       $option->{pbf2osm}->{mapsme_version};
 
-#$ENV{BBBIKE_EXTRACT_URL}  = 'http://extract.bbbike.org/?sw_lng=-72.33&sw_lat=-13.712&ne_lng=-71.532&ne_lat=-13.217&format=png-google.zip&city=Cusco%2C%20Peru';
+#$ENV{BBBIKE_EXTRACT_URL}  = 'https://extract.bbbike.org/?sw_lng=-72.33&sw_lat=-13.712&ne_lng=-71.532&ne_lat=-13.217&format=png-google.zip&city=Cusco%2C%20Peru';
 #$ENV{BBBIKE_EXTRACT_COORDS} = '-72.33,-13.712 x -71.532,-13.217';
 }
 
@@ -112,7 +112,7 @@ sub init_cusco {
     my $lang   = $self->{'lang'};
 
     $ENV{BBBIKE_EXTRACT_URL} =
-"http://extract.bbbike.org/?sw_lng=-72.33&sw_lat=-13.712&ne_lng=-71.532&ne_lat=-13.217&format=$format.zip&city=Cusco%2C%20Peru"
+"https://extract.bbbike.org/?sw_lng=-72.33&sw_lat=-13.712&ne_lng=-71.532&ne_lat=-13.217&format=$format.zip&city=Cusco%2C%20Peru"
       . ( $lang ? "&lang=$lang" : "" );
 
     $ENV{BBBIKE_EXTRACT_COORDS} = "-72.329,-13.711 x -71.531,-13.216";
@@ -273,7 +273,7 @@ qr"^Map data.*? OpenStreetMap contributors, https://www.openstreetmap.org",
 
     like(
         $data[1],
-        qr"^Extracts created by BBBike, http://extract.bbbike.org",
+        qr"^Extracts created by BBBike, https?://extract.bbbike.org",
         "by bbbike.org"
     );
 
@@ -310,7 +310,7 @@ qr"^Map data.*? OpenStreetMap contributors, https://www.openstreetmap.org",
         ok(
             (
                 grep {
-                    qr"^Script URL: http://.*bbbike.org/.*\?.*format=.+.*city="
+qr"^Script URL: https?://.*bbbike.org/.*\?.*format=.+.*city="
                 } @data
             ),
             "url"
@@ -321,7 +321,7 @@ qr"^Map data.*? OpenStreetMap contributors, https://www.openstreetmap.org",
         ok(
             (
                 grep {
-                    qr"unterstuetzen: http://www.bbbike.org/community.de.html"
+                    qr"unterstuetzen: https?://www.bbbike.org/community.de.html"
                 } @data
             ),
             "donate"
@@ -329,8 +329,9 @@ qr"^Map data.*? OpenStreetMap contributors, https://www.openstreetmap.org",
         ok( ( grep { /^Danke, Wolfram Schneider/ } @data ), "thanks" );
         ok(
             (
-                grep { qr"^http://www.BBBike.org - Dein Fahrrad-Routenplaner" }
-                  @data
+                grep {
+                    qr"^https?://www.BBBike.org - Dein Fahrrad-Routenplaner"
+                } @data
             ),
             "footer"
         );
@@ -357,7 +358,7 @@ qr"^Map data.*? OpenStreetMap contributors, https://www.openstreetmap.org",
         ok(
             (
                 grep {
-                    qr"^Script URL: http://.*bbbike.org/.*\?.*format=.+.*city="
+qr"^Script URL: https?://.*bbbike.org/.*\?.*format=.+.*city="
                 } @data
             ),
             "url"
@@ -368,7 +369,7 @@ qr"^Map data.*? OpenStreetMap contributors, https://www.openstreetmap.org",
         ok(
             (
                 grep {
-qr"^PayPal, Flattr or bank wire transfer: http://www.BBBike.org/community.html"
+qr"^PayPal, Flattr or bank wire transfer: https?://www.BBBike.org/community.html"
                 } @data
             ),
             "donate"
@@ -376,7 +377,7 @@ qr"^PayPal, Flattr or bank wire transfer: http://www.BBBike.org/community.html"
         ok( ( grep { /^thanks, Wolfram Schneider/ } @data ), "thanks" );
         ok(
             (
-                grep { qr"^http://www.BBBike.org - Your Cycle Route Planner" }
+                grep { qr"^https?://www.BBBike.org - Your Cycle Route Planner" }
                   @data
             ),
             "footer"

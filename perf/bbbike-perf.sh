@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2011-2014 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2011-2014 Wolfram Schneider, https://bbbike.org
 #
 # bbbike-memory - check perl memory usage of a city
 

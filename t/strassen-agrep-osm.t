@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2013 Wolfram Schneider, https://bbbike.org
 
 # Author: Slaven Rezic
 
@@ -15,8 +15,10 @@ BEGIN {
 
 use Test::More;
 use FindBin;
-use lib ( "$FindBin::RealBin/..", "$FindBin::RealBin/../lib",
-    "$FindBin::RealBin/../../lib" );
+use lib (
+    "$FindBin::RealBin/..",        "$FindBin::RealBin/../lib",
+    "$FindBin::RealBin/../../lib", "."
+);
 use Strassen::Core;
 use Time::HiRes qw( gettimeofday tv_interval );
 use Data::Dumper;

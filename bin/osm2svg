@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2017 Wolfram Schneider, https://bbbike.org
 #
 # osm2svg - convert a osm/pbf file to svg/png
 #
@@ -27,6 +27,7 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 : ${osm_checksum=$(dirname $0)/osm-checksum}
 
 pwd=$(pwd)
+maperitive_version=$(ls -ld /var/lib/bbbike/opt/Maperitive | awk '{ print $NF }')
 
 usage () {
    echo "$@"
@@ -99,6 +100,7 @@ trap '( sleep 1; rm -rf $tmpdir ) &' 1 2 15
 
 logfile=$tmpdir/logfile.txt
 touch $logfile
+echo "Maperitive version: $maperitive_version" >> $logfile
 
 config_file=config.mscript
 image_file=$(basename $file | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//')-${map_style}.${type}

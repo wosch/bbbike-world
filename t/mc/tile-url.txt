@@ -98,7 +98,6 @@ http://a.tile.stamen.com/toner/17/70408/42972@2x.png
 http://online4.map.bdimg.com/tile/?qt=tile&styles=sl&x=396&y=145&z=11&scaler=1
 http://online1.map.bdimg.com/tile/?qt=tile&styles=pl&x=396&y=149&z=11&scaler=2
 http://shangetu4.map.bdimg.com/it/?u=x=396;y=149;z=11;v=009;type=sate&fm=46
-http://mm-lbserver.dnsalias.com/wms/wms.php?REQUEST=GetMap&SERVICE=WMS&VERSION=1.1.1&LAYERS=MM_SEGMENT&STYLES=&FORMAT=image/gif&BGCOLOR=0xFFFFFF&TRANSPARENT=TRUE&SRS=EPSG:4326&BBOX=13.18359425,52.48278,13.359375,52.589701&WIDTH=256&HEIGHT=256
 http://maps-for-free.com/layer/relief/z9/row179/9_273-179.jpg
 https://a.tile.hosted.thunderforest.com/komoot-2/11/1101/671.png
 https://tile1.maptoolkit.net/terrain/11/1099/671.png
@@ -123,4 +122,13 @@ https://b.tiles.mapbox.com/v4/mapquest.satellite-mb/11/1101/672@2x.png?access_to
 https://c.tiles.mapbox.com/v4/mapquest.satellitenolabels/11/1101/672@2x.png?access_token=pk.eyJ1IjoibWFwcXVlc3QiLCJhIjoiY2Q2N2RlMmNhY2NiZTRkMzlmZjJmZDk0NWU0ZGJlNTMifQ.mPRiEubbajc6a5y9ISgydg
 https://d.tiles.mapbox.com/v4/mapquest.dark-mb/11/1101/672@2x.png?access_token=pk.eyJ1IjoibWFwcXVlc3QiLCJhIjoiY2Q2N2RlMmNhY2NiZTRkMzlmZjJmZDk0NWU0ZGJlNTMifQ.mPRiEubbajc6a5y9ISgydg
 https://a.tiles.mapbox.com/v4/mapquest.light-mb/11/1101/672@2x.png?access_token=pk.eyJ1IjoibWFwcXVlc3QiLCJhIjoiY2Q2N2RlMmNhY2NiZTRkMzlmZjJmZDk0NWU0ZGJlNTMifQ.mPRiEubbajc6a5y9ISgydg
-
+https://tiles.jochenklar.de/2016/16/35205/21492.png
+https://tiles.jochenklar.de/1928/16/35205/21492.png
+https://tiles.jochenklar.de/1940/16/35205/21492.png
+https://tiles.jochenklar.de/1986/16/35205/21492.png
+https://tiles.jochenklar.de/gebaeudealter/16/35205/21492.png
+https://tiles.jochenklar.de/gebschaden/16/35205/21492.png
+https://a.tile.bbbike.org/osm/mapnik-german/12/2200/1342.png
+https://b.tile.bbbike.org/osm/mapnik-german/12/2200/1342.png
+https://c.tile.bbbike.org/osm/mapnik/12/2200/1342.png
+https://d.tile.bbbike.org/osm/bbbike-smoothness/12/2200/1342.png

@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) Sep 2011-2016 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2011-2016 Wolfram Schneider, https://bbbike.org
 #
 # usage: /etc/munin/plugins/bbbike-extract-diskusage [ config ]
 #
@@ -38,7 +38,7 @@ formats="csv.gz csv.xz garmin-bbbike-ascii.zip garmin-bbbike.zip garmin-cycle-as
 config=$1
 
 if [ "$1" = "config" ]; then
-    : ${warning=160000000000}
+    : ${warning=180000000000}
     : ${critical=240000000000}
      
     cat <<EOF
@@ -76,7 +76,7 @@ EOF
         ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
         echo "$ff.label $f"
         echo "$ff.min 0"
-        echo "$ff.warnings $warning"
+        echo "$ff.warning $warning"
         echo "$ff.critical $critical"
     done
 
@@ -92,6 +92,6 @@ echo "multigraph disksize_other"
 for f in $formats
 do
     ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
-    echo "$ff.value"     `( cd $extract_dir/download; du -k * | egrep "${f}$" | awk '{ s += $1 * 1024 } END { if (NR==0) { print 0} else { print s } }' )`
+    echo "$ff.value"     `( cd $extract_dir/download; du -k * 2>/dev/null | egrep "${f}$" | awk '{ s += $1 * 1024 } END { if (NR==0) { print 0} else { print s } }' )`
 done
 

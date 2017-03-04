@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -T
-# Copyright (c) 2009-2017 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2017 Wolfram Schneider, https://bbbike.org
 #
 # livesearch.cgi - bbbike.org live routing search
 
@@ -207,11 +207,8 @@ sub extract_route {
     my $duplication_factor = 1.5;
 
     my @data_all;
-    my @files = $file;
-    push @files,
-      $logrotate_first_uncompressed ? "$file.1" : &logfiles( $file, 1 );
-    push @files, &logfiles( $file, 2 .. 20 );
-    push @files, &logfiles( $file, 21 .. 100 ) if $max > 2_000;
+    my @files =
+      map { chomp($_); /^\S+$/ ? $_ : "" } `ls -t \$(find ${file}* -mtime -5)`;
 
     if ($date) {
         $date = &date_alias($date);
@@ -232,6 +229,14 @@ sub extract_route {
         my @data;
 
         next if !-f $file;
+
+        # perl -T
+        if ( $file =~ m/^(\S+)$/ ) {
+            $file = $1;
+        }
+        else {
+            die "Logfiles with spaces? Give up: $file\n";
+        }
 
         my $fh;
         warn "Open $file ...\n" if $debug >= 1;
@@ -356,7 +361,7 @@ $data
 
 <div id="copyright">
 <hr/>
-(&copy;) 2008-2017 <a href="http://bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
+(&copy;) 2008-2017 <a href="//bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
 <div id="footer_community">
 </div>
 </div> <!-- copyright -->
@@ -451,10 +456,10 @@ sub statistic_maps {
 
         -style  => { 'src' => ["../html/bbbike.css"], -code => &css_map },
         -script => [
-            { 'src' => "http://www.google.com/jsapi?hl=en" },
+            { 'src' => "https://www.google.com/jsapi?hl=en" },
             {
                 'src' =>
-"http://maps.googleapis.com/maps/api/js?v=3.9&sensor=false&language=en&libraries=weather,panoramio"
+"https://maps.googleapis.com/maps/api/js?v=3.9&sensor=false&language=en&libraries=weather,panoramio"
             },
 
             #{ 'src' => "/html/bbbike-js.js" }
@@ -538,14 +543,15 @@ EOF
     sub Param {
         my $q   = shift;
         my $key = shift;
-        my @val = $q->param($_) || "";
+        my $val = $q->param($_);
+        if ( !defined $val ) {
+            $val = "";
+        }
 
-        # XXX: WTF? run decode N times!!!
-        eval {
-            @val = map { Encode::decode( "utf8", $_, Encode::FB_QUIET ) } @val;
-        };
+        eval { $val = Encode::decode( "utf8", $val, Encode::FB_QUIET ); };
 
-        return @val;
+        warn "key='$key', val='$val'\n" if $debug >= 2;
+        return $val;
     }
 
     my %hash;
@@ -573,6 +579,8 @@ EOF
         push @params, qw/startc zielc/;    # missing "area" in URL
 
         my $opt = { map { $_ => ( Param( $qq, $_ ) ) } @params };
+
+#warn Dumper($opt->{'area'}, $opt->{'startc'}, $opt->{'zielc'}, $city_center->{ $opt->{'city'} }, $opt->{'city'});
 
         $city_center->{ $opt->{'city'} } = $opt->{'area'} || join( "!",
             $opt->{'startc'}, $opt->{'zielc'},
@@ -675,8 +683,8 @@ sub filter_by_client_link {
 
     return "" if !$filter_by_client;
 
-    my $qq    = CGI->new($q);
-    my $appid = $qq->param("appid");
+    my $qq = CGI->new($q);
+    my $appid = $qq->param("appid") || "";
 
     my $message = qq{Filter by device: };
     my $data    = "";
@@ -807,8 +815,7 @@ sub statistic_basic {
     $q->param( "date", "today" );
     print qq{ | <a href="} . $q->url( -query => 1 ) . qq{">today</a>\n};
     print "<hr />\n";
-    print
-      qq{Copyright (c) 2011-2017 <a href="http://bbbike.org">BBBike.org</a>\n};
+    print qq{Copyright (c) 2011-2017 <a href="//bbbike.org">BBBike.org</a>\n};
     print "<br/>\n" . localtime() . "\n";
 }
 

@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Feb 2015-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Feb 2015-2015 Wolfram Schneider, https://bbbike.org
 
 use CGI;
 use Test::More;

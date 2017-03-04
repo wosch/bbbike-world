@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2013 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     system( "which", "xmllint" );
@@ -41,7 +41,7 @@ like(
 );
 like( $data, qr|<title>.+</title>|,     "check xml elements" );
 like( $data, qr|<content>.+</content>|, "check xml elements" );
-like( $data, qr|<icon>http://|,         "check xml elements" );
+like( $data, qr|<icon>https?://|,       "check xml elements" );
 like( $data, qr|<entry>|,               "check xml elements" );
 
 __END__

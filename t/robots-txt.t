@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2015 Wolfram Schneider, https://bbbike.org
 #
 # check map compare JS/images and external libs
 #
@@ -28,19 +28,28 @@ my @list = ();
 my @production = $extract_config->get_server_list('production');
 my @development =
   $extract_config->get_server_list(qw/www dev tile extract download api/);
+my @local = $ENV{"BBBIKE_TEST_SERVER"};
 
 my @aliases = qw(
   http://cyclerouteplanner.org
   http://cyclerouteplanner.com
 );
 
-foreach my $item ( @production, @aliases, @development ) {
+foreach my $item ( @production, @aliases, @development, @local ) {
+    my @match = ("User-agent:");
+
+    # www.bbbike.org has a longer robots.txt
+    if ( $item =~ m,^http://(www\.|localhost:), ) {
+        push @match,
+          ( 'Disallow: /Berlin/?', 'Disallow: /en/Berlin/?', 'Disallow: /de/' );
+    }
+
     push @list,
       {
         'page'      => "$item/robots.txt",
         'min_size'  => 20,
-        'match'     => ["User-agent:"],
-        'mime_type' => 'text/plain'
+        'match'     => \@match,
+        'mime_type' => 'text/plain',
       };
 }
 
@@ -70,7 +79,7 @@ foreach my $obj (@list) {
 
     next if !exists $obj->{'match'};
     foreach my $match ( @{ $obj->{'match'} } ) {
-        like $content, qr{$match}, qq{Found string '$match'};
+        like $content, qr{$match}, qq{Found string '$match' in $url};
     }
 }
 

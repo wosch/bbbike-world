@@ -1,5 +1,5 @@
 #!/usr/local/bin/bash
-# Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2017 Wolfram Schneider, https://bbbike.org
 #
 # osm2navit  - convert a .pbf file to navit .bin
 #
@@ -10,6 +10,9 @@ PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 : ${SHA="shasum -a 256"}
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmpfs"}
+
+#dpkg -l|grep maptool
+maptool_version="0.5.0~svn5900+dfsg.1-1"
 
 gzip=`which pigz gzip 2>/dev/null | head -n 1`
 
@@ -75,6 +78,7 @@ text2html=$(dirname $0)/text2html.sh
 case $text2html in /*) ;; *) text2html=$(pwd)/$text2html ;; esac
 
 logfile=$navit_dir/logfile.txt
+echo "maptool version $maptool_version" > $logfile
 
 
 cd $navit_dir
@@ -83,8 +87,8 @@ counter=0
 # OSM
 set -o pipefail # bash only
 case $file in
-  *.pbf) $pbf2osm $file | time maptool ${navit}.bin > $logfile 2>&1 ;;
-  *.gz) $gzip -dc $file | time maptool ${navit}.bin > $logfile 2>&1 ;;
+  *.pbf) $pbf2osm $file | mbuffer -q -m 64m | time maptool ${navit}.bin 2>&1 | tail -c 1024K >> $logfile ;;
+  *.gz) $gzip -dc $file | mbuffer -q -m 64m | time maptool ${navit}.bin 2>&1 | tail -c 1024K >> $logfile ;;
   * ) false ;;
 esac
 
@@ -97,7 +101,7 @@ logfile_max_size="500k"
 if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
     echo "logfile $logfile is to big: $(ls -l $logfile)"
     $gzip $logfile
-    exit 2
+    #exit 2
 fi
 
 if [ $exit -ne 0 ];then

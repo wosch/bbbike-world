@@ -79,7 +79,7 @@ var bbbike = {
 
     // default map
     mapDefault: "mapnik",
-    mapDefaultDE: "mapnik_de",
+    mapDefaultDE: "mapnik",
 
     //mapDefault: "terrain",
     // visible controls
@@ -872,7 +872,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "Hike&Bike, by OpenStreetMap.org and wikimedia.org"
         },
         getTileUrl: function (a, z) {
-            return "http://" + randomServerOSM() + ".tiles.wmflabs.org/hikebike/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "https://tiles.wmflabs.org/hikebike/" + z + "/" + a.x + "/" + a.y + ".png";
         },
         isPng: true,
         opacity: 1.0,

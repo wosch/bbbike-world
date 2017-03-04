@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Aug 2013-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Aug 2013-2013 Wolfram Schneider, https://bbbike.org
 #
 # bbbike-org-runtime-version.t - check if we are using the right command versions
 #
@@ -23,7 +23,7 @@ my $versions = {
         [ [qw/pigz --version/], qr/^pigz (2\.1\.6|2\.2\.[4-9]|2\.3\.1|2\.3)/ ],
         [
             [qw/java -version/],
-qr/^java version "1\.7\.0_(75|79|85|91|95|101|111|121)|^openjdk version "1.8.0_(03|91|102|111|121)"/m
+            qr/^openjdk version "1.8.0_(03|91|102|111|121|03-Ubuntu)"/m
         ],
         [ [qw/java -version/], qr/^OpenJDK (64-Bit )?Server VM/m ],
         [

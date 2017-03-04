@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) June 2012-2016 Wolfram Schneider, http://bbbike.org
+# Copyright (c) June 2012-2016 Wolfram Schneider, https://bbbike.org
 #
 # tile-padding.pl - guess size based on factor of known size of osm.pbf
 

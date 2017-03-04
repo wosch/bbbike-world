@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
+ * Copyright (c) 2012-2015 Wolfram Schneider, https://bbbike.org
  */
 
 /* global variables */
@@ -70,9 +70,18 @@ function download_init_map(conf) {
         attribution: '<a href="https://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="http://www.opencyclemap.org/">(&copy) OpenCycleMap</a>'
     }));
 
-    // Bing roads and Satellite/Hybrid
-    add_bing_maps(map);
+    map.addLayer(new OpenLayers.Layer.OSM("Mapbox Satellite", ["https://d.tiles.mapbox.com/v3/tmcw.map-j5fsp01s/${z}/${x}/${y}.png"], {
+        attribution: '<a href="https://www.mapbox.com/">(&copy) mapbox</a>',
+        tileOptions: {
+            crossOriginKeyword: null
+        },
+        numZoomLevels: 20
+    }));
 
+    // Bing roads and Satellite/Hybrid
+    // disabled due wrong billing
+    // Bing roads and Satellite/Hybrid
+    // add_bing_maps(map);
     download_init_vectors(map, conf);
 
     // by default we center the world map, otherwise use {nocenter: true}

@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2010-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2010-2013 Wolfram Schneider, https://bbbike.org
 #
 # feed.pl - generate RSS/Atom feed
 
@@ -9,7 +9,7 @@ use File::stat;
 use strict;
 use warnings;
 
-my $homepage = $ENV{'BBBIKE_HOMEPAGE'} || 'http://www.bbbike.org';
+my $homepage = $ENV{'BBBIKE_HOMEPAGE'} || 'https://www.bbbike.org';
 
 sub self_mod_time {
     my $file = $0;
@@ -54,7 +54,7 @@ $feed->add_entry(
     content => {
         type => 'html',
         content =>
-qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports Garmin OpenSeaMap style},
+qq{The <a href="https://extract.bbbike.org/">BBBike extract service</a> supports Garmin OpenSeaMap style},
     },
     updated  => '2016-10-15T18:30:02Z',
     category => 'News',
@@ -66,7 +66,7 @@ $feed->add_entry(
     content => {
         type => 'html',
         content =>
-qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports more Garmin styles in us-ascii for devices without unicode support, or broken DRM},
+qq{The <a href="https://extract.bbbike.org/">BBBike extract service</a> supports more Garmin styles in us-ascii for devices without unicode support, or broken DRM},
     },
     updated  => '2016-09-17T18:30:02Z',
     category => 'News',
@@ -78,7 +78,7 @@ $feed->add_entry(
     content => {
         type => 'html',
         content =>
-qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports Garmin styles in us-ascii for devices without unicode support, or broken DRM},
+qq{The <a href="https://extract.bbbike.org/">BBBike extract service</a> supports Garmin styles in us-ascii for devices without unicode support, or broken DRM},
     },
     updated  => '2016-03-26T18:30:02Z',
     category => 'News',
@@ -90,7 +90,7 @@ $feed->add_entry(
     content => {
         type => 'html',
         content =>
-qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports Garmin Openfietsmap Lite style},
+qq{The <a href="https://extract.bbbike.org/">BBBike extract service</a> supports Garmin Openfietsmap Lite style},
     },
     updated  => '2016-03-19T18:30:02Z',
     category => 'News',
@@ -103,7 +103,7 @@ qq{New Garmin style "Onroad" for older devices with less space - usually 1/10 th
     content => {
         type => 'html',
         content =>
-qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports Garmin Onroad style for older devices with less space},
+qq{The <a href="https://extract.bbbike.org/">BBBike extract service</a> supports Garmin Onroad style for older devices with less space},
     },
     updated  => '2016-03-19T13:30:02Z',
     category => 'News',
@@ -116,7 +116,7 @@ $feed->add_entry(
     content => {
         type => 'html',
         content =>
-qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now MAPSE.ME format for Android and iOS},
+qq{The <a href="https://extract.bbbike.org/">BBBike extract service</a> supports now MAPSE.ME format for Android and iOS},
     },
     updated  => '2015-11-24T13:30:02Z',
     category => 'News',
@@ -124,12 +124,12 @@ qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports 
 
 $feed->add_entry(
     title =>
-      qq{Map Compare now supports up to 140 maps: http://mc.bbbike.org/mc/},
+      qq{Map Compare now supports up to 140 maps: https://mc.bbbike.org/mc/},
     id      => '8f26db14e49f2e3a1c6e3e46f6fe5d83',
     content => {
         type => 'html',
         content =>
-qq{Map Compare now supports up to 140 maps: <a href="http://mc.bbbike.org/mc/">bbbike.org/mc</a>},
+qq{Map Compare now supports up to 140 maps: <a href="https://mc.bbbike.org/mc/">bbbike.org/mc</a>},
     },
     updated  => '2015-10-06T13:30:02Z',
     category => 'News',
@@ -141,7 +141,7 @@ $feed->add_entry(
     content => {
         type => 'html',
         content =>
-qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now SVG format and PNG images},
+qq{The <a href="https://extract.bbbike.org/">BBBike extract service</a> supports now SVG format and PNG images},
     },
     updated  => '2015-09-13T13:30:02Z',
     category => 'News',
@@ -154,7 +154,7 @@ qq{The extract service is now 5 times faster. It takes between 2-7 minutes to ex
     content => {
         type => 'html',
         content =>
-qq{The <a href="http://extract.bbbike.org/">extract service</a> is now 5 times faster. It takes between 2-7 minutes to extract an area from planet.osm},
+qq{The <a href="https://extract.bbbike.org/">extract service</a> is now 5 times faster. It takes between 2-7 minutes to extract an area from planet.osm},
     },
     updated  => '2015-05-24T13:30:02Z',
     category => 'News',
@@ -162,12 +162,12 @@ qq{The <a href="http://extract.bbbike.org/">extract service</a> is now 5 times f
 
 $feed->add_entry(
     title =>
-      qq{Map Compare now supports up to 108 maps: http://mc.bbbike.org/mc/},
+      qq{Map Compare now supports up to 108 maps: https://mc.bbbike.org/mc/},
     id      => '51d474fb21860b0629bfe8467ee42c0d',
     content => {
         type => 'html',
         content =>
-qq{Map Compare now supports up to 108 maps: <a href="http://mc.bbbike.org/mc/">bbbike.org/mc</a>},
+qq{Map Compare now supports up to 108 maps: <a href="https://mc.bbbike.org/mc/">bbbike.org/mc</a>},
     },
     updated  => '2014-12-06T13:30:02Z',
     category => 'News',
@@ -179,7 +179,7 @@ $feed->add_entry(
     content => {
         type => 'html',
         content =>
-qq{A free <a href="http://www.windowsphone.com/s?appid=6cc2f571-7c0e-414c-9e71-806162601d7a">BBBike Windows Phone app</a>
+qq{A free <a href="https://www.windowsphone.com/s?appid=6cc2f571-7c0e-414c-9e71-806162601d7a">BBBike Windows Phone app</a>
 	is availble in the Windows Phone store. The city Berlin use the original BBBike data, the other cities are OSM based.}
     },
     updated  => '2014-08-22T13:30:02Z',
@@ -188,12 +188,12 @@ qq{A free <a href="http://www.windowsphone.com/s?appid=6cc2f571-7c0e-414c-9e71-8
 
 $feed->add_entry(
     title =>
-qq{<a href="http://www.bbbike.org/">BBBike cycle route searches</a> are now 2-3 times faster},
+qq{<a href="https://www.bbbike.org/">BBBike cycle route searches</a> are now 2-3 times faster},
     id      => 'd41d8cd98f00b204e9800998ecf8437e',
     content => {
         type => 'html',
         content =>
-qq{<a href="http://www.bbbike.org/">BBBike cycle route searches</a> are now 2-3 times faster}
+qq{<a href="https://www.bbbike.org/">BBBike cycle route searches</a> are now 2-3 times faster}
     },
     updated  => '2014-07-22T13:30:02Z',
     category => 'News',
@@ -201,12 +201,12 @@ qq{<a href="http://www.bbbike.org/">BBBike cycle route searches</a> are now 2-3 
 
 $feed->add_entry(
     title =>
-qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now libosmium OPL format},
+qq{The <a href="https://extract.bbbike.org/">BBBike extract service</a> supports now libosmium OPL format},
     id      => 'd41d8cd98f00b204e9800998ecf8437e',
     content => {
         type => 'html',
         content =>
-qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now libosmium OPL format},
+qq{The <a href="https://extract.bbbike.org/">BBBike extract service</a> supports now libosmium OPL format},
     },
     updated  => '2014-05-27T13:30:02Z',
     category => 'News',
@@ -214,12 +214,12 @@ qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports 
 
 $feed->add_entry(
     title =>
-qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now Contours (SRTM) extracts for PBF, Garmin, and Osmand},
+qq{The <a href="https://extract.bbbike.org/">BBBike extract service</a> supports now Contours (SRTM) extracts for PBF, Garmin, and Osmand},
     id      => '21de8970bd81fb04b751c1935e023e0d',
     content => {
         type => 'html',
         content =>
-qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now SRTM extracts for PBF, Garmin, and Osmand},
+qq{The <a href="https://extract.bbbike.org/">BBBike extract service</a> supports now SRTM extracts for PBF, Garmin, and Osmand},
     },
     updated  => '2014-04-15T13:30:02Z',
     category => 'News',
@@ -227,12 +227,12 @@ qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports 
 
 $feed->add_entry(
     title =>
-qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now CSV format},
+qq{The <a href="https://extract.bbbike.org/">BBBike extract service</a> supports now CSV format},
     id      => 'd41d8cd98f00b204e9800998ecf8427e',
     content => {
         type => 'html',
         content =>
-qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now CSV format},
+qq{The <a href="https://extract.bbbike.org/">BBBike extract service</a> supports now CSV format},
     },
     updated  => '2013-08-17T13:30:02Z',
     category => 'News',
@@ -266,12 +266,12 @@ qq{The new iPhone app for BBBike is available. It's free, try it <a href="https:
 
 $feed->add_entry(
     title =>
-qq{<a href="http://extract.bbbike.org/?lang=ru">BBBike extract service</a> now in Russian.},
+qq{<a href="https://extract.bbbike.org/?lang=ru">BBBike extract service</a> now in Russian.},
     id      => 'd6f59d1bb8315958eb25b197de28d25c',
     content => {
         type => 'html',
         content =>
-qq{<a href="http://extract.bbbike.org/?lang=ru">BBBike extract service</a> now in Russian.},
+qq{<a href="https://extract.bbbike.org/?lang=ru">BBBike extract service</a> now in Russian.},
     },
     updated  => '2013-03-31T13:30:02Z',
     category => 'News',
@@ -279,12 +279,12 @@ qq{<a href="http://extract.bbbike.org/?lang=ru">BBBike extract service</a> now i
 
 $feed->add_entry(
     title =>
-qq{<a href="http://extract.bbbike.org/?lang=fr">BBBike extract service</a> now in French.},
+qq{<a href="https://extract.bbbike.org/?lang=fr">BBBike extract service</a> now in French.},
     id      => 'd6f59d1bb8315958eb25b187de28d25c',
     content => {
         type => 'html',
         content =>
-qq{<a href="http://extract.bbbike.org/?lang=fr">BBBike extract service</a> now in French.},
+qq{<a href="https://extract.bbbike.org/?lang=fr">BBBike extract service</a> now in French.},
     },
     updated  => '2013-03-26T13:30:02Z',
     category => 'News',
@@ -292,12 +292,12 @@ qq{<a href="http://extract.bbbike.org/?lang=fr">BBBike extract service</a> now i
 
 $feed->add_entry(
     title =>
-qq{<a href="http://extract.bbbike.org/?lang=es">BBBike extract service</a> now in Spanish.},
+qq{<a href="https://extract.bbbike.org/?lang=es">BBBike extract service</a> now in Spanish.},
     id      => 'd6f59d1bb8315958eb25b187de28d25d',
     content => {
         type => 'html',
         content =>
-qq{<a href="http://extract.bbbike.org/?lang=es">BBBike extract service</a> now in Spanish.},
+qq{<a href="https://extract.bbbike.org/?lang=es">BBBike extract service</a> now in Spanish.},
     },
     updated  => '2013-03-26T13:30:02Z',
     category => 'News',
@@ -305,12 +305,12 @@ qq{<a href="http://extract.bbbike.org/?lang=es">BBBike extract service</a> now i
 
 $feed->add_entry(
     title =>
-qq{Den <a href="http://extract.bbbike.org/?lang=de">BBBike extract service</a> gibt es jetzt auch auf deutsch.},
+qq{Den <a href="https://extract.bbbike.org/?lang=de">BBBike extract service</a> gibt es jetzt auch auf deutsch.},
     id      => 'd6f59d1bb8315958eb25b187de28d25b',
     content => {
         type => 'html',
         content =>
-qq{Den <a href="http://extract.bbbike.org/?lang=de">BBBike extract service</a> gibt es jetzt auch auf deutsch.},
+qq{Den <a href="https://extract.bbbike.org/?lang=de">BBBike extract service</a> gibt es jetzt auch auf deutsch.},
     },
     updated  => '2013-03-17T13:30:02Z',
     category => 'News',
@@ -318,12 +318,12 @@ qq{Den <a href="http://extract.bbbike.org/?lang=de">BBBike extract service</a> g
 
 $feed->add_entry(
     title =>
-qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now mapsforge format},
+qq{The <a href="https://extract.bbbike.org/">BBBike extract service</a> supports now mapsforge format},
     id      => 'd6f59d1bb8315958eb25b187de28d25b',
     content => {
         type => 'html',
         content =>
-qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now mapsforge format for Android devices},
+qq{The <a href="https://extract.bbbike.org/">BBBike extract service</a> supports now mapsforge format for Android devices},
     },
     updated  => '2013-02-10T13:30:02Z',
     category => 'News',
@@ -344,12 +344,12 @@ $feed->add_entry(
 
 $feed->add_entry(
     title =>
-qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now .o5m format},
+qq{The <a href="https://extract.bbbike.org/">BBBike extract service</a> supports now .o5m format},
     id      => 'd6f59d1bb8315958eb25b187de28d25a',
     content => {
         type => 'html',
         content =>
-qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now .o5m format},
+qq{The <a href="https://extract.bbbike.org/">BBBike extract service</a> supports now .o5m format},
     },
     updated  => '2012-11-17T13:30:02Z',
     category => 'News',
@@ -357,12 +357,12 @@ qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports 
 
 $feed->add_entry(
     title =>
-qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now polygons},
+qq{The <a href="https://extract.bbbike.org/">BBBike extract service</a> supports now polygons},
     id      => '51d474fb21861b0629bfe8467ee42c0f',
     content => {
         type => 'html',
         content =>
-qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now polygons},
+qq{The <a href="https://extract.bbbike.org/">BBBike extract service</a> supports now polygons},
     },
     updated  => '2012-10-28T13:30:02Z',
     category => 'News',
@@ -370,12 +370,12 @@ qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports 
 
 $feed->add_entry(
     title =>
-qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now the Navit format},
+qq{The <a href="https://extract.bbbike.org/">BBBike extract service</a> supports now the Navit format},
     id      => '51d474fb21860b0629bfe8467ee42c0f',
     content => {
         type => 'html',
         content =>
-qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports now the Navit format},
+qq{The <a href="https://extract.bbbike.org/">BBBike extract service</a> supports now the Navit format},
     },
     updated  => '2012-10-18T13:30:02Z',
     category => 'News',
@@ -383,7 +383,7 @@ qq{The <a href="http://extract.bbbike.org/">BBBike extract service</a> supports 
 
 $feed->add_entry(
     title =>
-qq{A new <a href="http://bbbike.jochen-pfeiffer.com/en/">BBBike iPhone app</a> is availble in the iTune store.},
+qq{A new <a href="https://bbbike.jochen-pfeiffer.com/en/">BBBike iPhone app</a> is availble in the iTune store.},
     id      => '51d474fb21860b0629bfe8467ee42c0d',
     content => {
         type => 'html',
@@ -396,12 +396,12 @@ qq{A new <a href="http://bbbike.jochen-pfeiffer.com/en/">BBBike iPhone app</a> i
 
 $feed->add_entry(
     title =>
-qq{Map Compare with new maps: Nokia Map, Terrain, Satellite, Hybrid, Public Transit, Traffic. Map Compare now supports up to 52 maps: http://mc.bbbike.org/mc/},
+qq{Map Compare with new maps: Nokia Map, Terrain, Satellite, Hybrid, Public Transit, Traffic. Map Compare now supports up to 52 maps: https://mc.bbbike.org/mc/},
     id      => '51d474fb21860b0629bfe8467ee42c0c',
     content => {
         type => 'text',
         content =>
-qq{Map Compare with new maps: Nokia Map, Terrain, Satellite, Hybrid, Public Transit, Traffic. Map Compare now supports up to 52 maps: http://mc.bbbike.org/mc/},
+qq{Map Compare with new maps: Nokia Map, Terrain, Satellite, Hybrid, Public Transit, Traffic. Map Compare now supports up to 52 maps: https://mc.bbbike.org/mc/},
     },
     updated  => '2012-08-06T13:30:02Z',
     category => 'News',
@@ -422,12 +422,12 @@ qq{New feature: BBBike extract service with Osmand map format #osm #android},
 
 $feed->add_entry(
     title =>
-qq{New feature: Map Compare supports up to 32 maps on the screen and a fullscreen mode: http://mc.bbbike.org/mc/},
+qq{New feature: Map Compare supports up to 32 maps on the screen and a fullscreen mode: https://mc.bbbike.org/mc/},
     id      => '51d474fb21860b0629bfe8467ee42c0b',
     content => {
         type => 'text',
         content =>
-qq{Map Compare supports up to 32 maps on the screen and a fullscreen mode: http://mc.bbbike.org/mc/},
+qq{Map Compare supports up to 32 maps on the screen and a fullscreen mode: https://mc.bbbike.org/mc/},
     },
     updated  => '2012-06-08T13:30:02Z',
     category => 'News',
@@ -484,11 +484,11 @@ $feed->add_entry(
 );
 
 $feed->add_entry(
-    title   => qq{Added Toner and Watercolor maps for http://bbbike.org},
+    title   => qq{Added Toner and Watercolor maps for https://bbbike.org},
     id      => 'd94a133044bb2da6cc7177e80e24c750',
     content => {
         type    => 'text',
-        content => qq{Added Toner and Watercolor maps for http://bbbike.org},
+        content => qq{Added Toner and Watercolor maps for https://bbbike.org},
     },
     updated  => '2012-04-10T12:30:02Z',
     category => 'News',
@@ -602,7 +602,7 @@ $feed->add_entry(
     content => {
         type => 'text',
         content =>
-qq{New extract service for OSM data, select your individual area up to 400km x 600km large, http://extract.bbbike.org},
+qq{New extract service for OSM data, select your individual area up to 400km x 600km large, https://extract.bbbike.org},
     },
     updated  => '2012-03-01T13:30:02Z',
     category => 'News',
@@ -643,12 +643,12 @@ $feed->add_entry(
 
 $feed->add_entry(
     title =>
-      qq{Added OpenCycleMaps Landscape and Transport for http://bbbike.org},
+      qq{Added OpenCycleMaps Landscape and Transport for https://bbbike.org},
     id      => '4953cbf8a82f394f88ec2e49898c5e0e',
     content => {
         type => 'text',
         content =>
-          qq{Added OpenCycleMaps Landscape and Transport for http://bbbike.org},
+qq{Added OpenCycleMaps Landscape and Transport for https://bbbike.org},
     },
     updated  => '2012-02-17T12:30:02Z',
     category => 'News',
@@ -712,7 +712,7 @@ $feed->add_entry(
     content => {
         type => 'text',
         content =>
-qq{New: cycle routing for Emden/Ostfriesland: http://www.bbbike.org/Emden},
+qq{New: cycle routing for Emden/Ostfriesland: https://www.bbbike.org/Emden},
     },
     updated  => '2011-09-11T12:30:02Z',
     category => 'News',
@@ -724,7 +724,7 @@ $feed->add_entry(
     content => {
         type => 'text',
         content =>
-qq{New: cycle routing for Bremerhaven: http://www.bbbike.org/Bremerhaven},
+qq{New: cycle routing for Bremerhaven: https://www.bbbike.org/Bremerhaven},
     },
     updated  => '2011-09-11T12:30:02Z',
     category => 'News',
@@ -736,7 +736,7 @@ $feed->add_entry(
     content => {
         type => 'text',
         content =>
-          qq{New: cycle routing for Heilbronn: http://www.bbbike.org/Heilbronn},
+qq{New: cycle routing for Heilbronn: https://www.bbbike.org/Heilbronn},
     },
     updated  => '2011-09-11T12:30:02Z',
     category => 'News',
@@ -748,7 +748,7 @@ $feed->add_entry(
     content => {
         type => 'text',
         content =>
-          qq{New: cycle routing for Madrid: http://www.bbbike.org/Madrid},
+          qq{New: cycle routing for Madrid: https://www.bbbike.org/Madrid},
     },
     updated  => '2011-09-08T12:30:02Z',
     category => 'News',
@@ -760,18 +760,18 @@ $feed->add_entry(
     content => {
         type => 'text',
         content =>
-qq{New: cycle routing for Alexandria: http://www.bbbike.org/Alexandria},
+qq{New: cycle routing for Alexandria: https://www.bbbike.org/Alexandria},
     },
     updated  => '2011-09-04T12:30:02Z',
     category => 'News',
 );
 
 $feed->add_entry(
-    title   => qq{http://BBBike.org moved to a faster machine. Have fun!},
+    title   => qq{https://BBBike.org moved to a faster machine. Have fun!},
     id      => '1ac05653bda68ca1346b5cbf083f3c87',
     content => {
         type    => 'text',
-        content => qq{http://BBBike.org moved to a faster machine. Have fun!},
+        content => qq{https://BBBike.org moved to a faster machine. Have fun!},
     },
     updated  => '2011-08-03T12:30:02Z',
     category => 'News',
@@ -783,7 +783,7 @@ $feed->add_entry(
     content => {
         type => 'text',
         content =>
-          qq{New: cycle routing for Memphis: http://www.bbbike.org/Memphis},
+          qq{New: cycle routing for Memphis: https://www.bbbike.org/Memphis},
     },
     updated  => '2011-06-07T12:30:02Z',
     category => 'News',
@@ -826,33 +826,33 @@ qq{Support route search for Point of Interest (POI), for train stations, schools
 
 $feed->add_entry(
     title =>
-qq{Added a Map Slide Show for all 7 #osm maps and 11 non-osm maps on http://bbbike.org},
+qq{Added a Map Slide Show for all 7 #osm maps and 11 non-osm maps on https://bbbike.org},
     id      => '17fe6ae451ab0eb00b25f59a0cb7b75c',
     content => {
         type    => 'text',
-        content => qq{Added map slide show for http://bbbike.org},
+        content => qq{Added map slide show for https://bbbike.org},
     },
     updated  => '2011-05-02T12:30:03Z',
     category => 'News',
 );
 
 $feed->add_entry(
-    title   => qq{Added Full Screen View for http://bbbike.org},
+    title   => qq{Added Full Screen View for https://bbbike.org},
     id      => '15c559e7c35a7dac75a141c92877dabd',
     content => {
         type    => 'text',
-        content => qq{Added Added Full Screen View for http://bbbike.org},
+        content => qq{Added Added Full Screen View for https://bbbike.org},
     },
     updated  => '2011-05-01T12:30:03Z',
     category => 'News',
 );
 
 $feed->add_entry(
-    title   => qq{Added black/white Mapnik map for http://bbbike.org},
+    title   => qq{Added black/white Mapnik map for https://bbbike.org},
     id      => '8180c31f8c34e75058495ff6a1bf7f8d',
     content => {
         type    => 'text',
-        content => qq{Added black/white Mapnik map for http://bbbike.org},
+        content => qq{Added black/white Mapnik map for https://bbbike.org},
     },
     updated  => '2011-05-01T12:30:02Z',
     category => 'News',
@@ -860,19 +860,19 @@ $feed->add_entry(
 
 $feed->add_entry(
     title =>
-qq{Added Yahoo and Bing maps (satellite, hybrid, map) for http://bbbike.org},
+qq{Added Yahoo and Bing maps (satellite, hybrid, map) for https://bbbike.org},
     id      => '9de8ff38b08a07a69968512b8def69ec',
     content => {
         type => 'text',
         content =>
-qq{Added Yahoo and Bing maps (satellite, hybrid, map) for http://bbbike.org}
+qq{Added Yahoo and Bing maps (satellite, hybrid, map) for https://bbbike.org}
     },
     updated  => '2011-04-24T12:30:02Z',
     category => 'News',
 );
 
 $feed->add_entry(
-    title   => qq{Added OpenStreetMaps map Hike&Bike for http://bbbike.org},
+    title   => qq{Added OpenStreetMaps map Hike&Bike for https://bbbike.org},
     id      => '112d59fb9de68297123558b6c7d278e5',
     content => {
         type => 'text',
@@ -898,7 +898,7 @@ qq{New: suport google maps v3 layers bicycling, traffic and panoramio},
 
 $feed->add_entry(
     title =>
-qq{Added google maps v3 layers bicycling, traffic and panoramio for http://bbbike.org},
+qq{Added google maps v3 layers bicycling, traffic and panoramio for https://bbbike.org},
     id      => 'f66f22b31bb6aa46ee0b71f25c31a694',
     content => {
         type => 'text',
@@ -948,7 +948,7 @@ $feed->add_entry(
     content => {
         type => 'text',
         content =>
-qq{New: cycle routing for Waterloo and Kitchener, Ontario: http://www.bbbike.org/Waterloo},
+qq{New: cycle routing for Waterloo and Kitchener, Ontario: https://www.bbbike.org/Waterloo},
     },
     updated  => '2011-04-02T12:30:02Z',
     category => 'News',
@@ -1059,7 +1059,7 @@ $feed->add_entry(
     content => {
         type => 'text',
         content =>
-qq{New: cycle routing for Malmoe and Gothenburg: http://www.bbbike.org/Malmoe http://www.bbbike.org/Goetheburg}
+qq{New: cycle routing for Malmoe and Gothenburg: https://www.bbbike.org/Malmoe https://www.bbbike.org/Goetheburg}
     },
     updated  => '2011-03-08T12:30:02Z',
     category => 'News',
@@ -1071,7 +1071,7 @@ $feed->add_entry(
     content => {
         type => 'text',
         content =>
-          qq{New: cycle routing for Stuttgart: http://www.bbbike.org/Stuttgart}
+          qq{New: cycle routing for Stuttgart: https://www.bbbike.org/Stuttgart}
     },
     updated  => '2011-03-07T12:30:02Z',
     category => 'News',
@@ -1083,7 +1083,7 @@ $feed->add_entry(
     content => {
         type => 'text',
         content =>
-qq{New: cycle routing for Berkeley, East Bay (San Francisco Bay Area): http://www.bbbike.org/Berkeley}
+qq{New: cycle routing for Berkeley, East Bay (San Francisco Bay Area): https://www.bbbike.org/Berkeley}
     },
     updated  => '2011-02-22T12:30:02Z',
     category => 'News',
@@ -1095,7 +1095,7 @@ $feed->add_entry(
     content => {
         type => 'text',
         content =>
-qq{Fully use google maps version 3 for all maps on http://bbbike.org which enable new features like elevation charts and better support for mobile devices.},
+qq{Fully use google maps version 3 for all maps on https://bbbike.org which enable new features like elevation charts and better support for mobile devices.},
     },
     updated  => '2011-02-07T12:30:02Z',
     category => 'News',
@@ -1107,7 +1107,7 @@ $feed->add_entry(
     content => {
         type => 'text',
         content =>
-qq{New: cycle routing for New Dehli and Bombay: http://www.bbbike.org/Bombay and http://www.bbbike.org/NewDehli}
+qq{New: cycle routing for New Dehli and Bombay: https://www.bbbike.org/Bombay and https://www.bbbike.org/NewDehli}
     },
     updated  => '2011-02-05T12:30:02Z',
     category => 'News',
@@ -1120,7 +1120,7 @@ $feed->add_entry(
     content => {
         type => 'text',
         content =>
-qq{New: cycle routing for Brazilian cities Curitiba and Porto Alegre: http://www.bbbike.org/Curitiba and http://www.bbbike.org/PortoAlegre},
+qq{New: cycle routing for Brazilian cities Curitiba and Porto Alegre: https://www.bbbike.org/Curitiba and https://www.bbbike.org/PortoAlegre},
     },
     updated  => '2011-02-05T12:30:09Z',
     category => 'News',
@@ -1132,7 +1132,7 @@ $feed->add_entry(
     content => {
         type => 'text',
         content =>
-qq{New: cycle routing for Potsdam and Oranienburg: http://www.bbbike.org/Potsdam and http://www.bbbike.org/Oranienburg}
+qq{New: cycle routing for Potsdam and Oranienburg: https://www.bbbike.org/Potsdam and https://www.bbbike.org/Oranienburg}
     },
     updated  => '2011-02-01T12:30:02Z',
     category => 'News',
@@ -1144,7 +1144,7 @@ $feed->add_entry(
     content => {
         type => 'text',
         content =>
-qq{New: cycle routing for South America: http://www.bbbike.org/Montevideo and http://www.bbbike.org/Lima},
+qq{New: cycle routing for South America: https://www.bbbike.org/Montevideo and https://www.bbbike.org/Lima},
     },
     updated  => '2011-01-31T12:30:12Z',
     category => 'News',
@@ -1157,7 +1157,7 @@ $feed->add_entry(
     content => {
         type => 'text',
         content =>
-qq{Now available - cycle routing for Palma and the island Majorca: http://www.bbbike.org/Palma/},
+qq{Now available - cycle routing for Palma and the island Majorca: https://www.bbbike.org/Palma/},
     },
 
     updated  => '2011-01-31T12:30:02Z',
@@ -1185,7 +1185,7 @@ $feed->add_entry(
     content => {
         type => 'text',
         content =>
-qq{BBBike.org has now a new directory layout with a sub-directory for each city, e.g. the new home page for London is http://www.bbbike.org/London},
+qq{BBBike.org has now a new directory layout with a sub-directory for each city, e.g. the new home page for London is https://www.bbbike.org/London},
     },
 
     updated  => '2011-01-29T12:30:02Z',
@@ -1293,7 +1293,7 @@ $feed->add_entry(
     content => {
         type => 'text',
         content =>
-          qq{We accecpt donations! ;-) http://bbbike.org/community.html},
+          qq{We accecpt donations! ;-) https://bbbike.org/community.html},
     },
 
     updated  => '2010-08-15T18:30:02Z',
@@ -1451,7 +1451,7 @@ $feed->add_entry(
 
 $feed->add_entry(
     title => 'Updated BBBike\@Berlin packages for MacOS',
-    link  => 'http://bbbike.sourceforge.net/downloads.en.html',
+    link  => 'https://bbbike.sourceforge.net/downloads.en.html',
     id    => '81ebeaf0506f9d6a518be2ab38ec243e',
 
     content => {

@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2014-2017 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2014-2017 Wolfram Schneider, https://bbbike.org
 #
 # deb2deb - fix debian perl pages
 #
@@ -15,12 +15,11 @@
 ##################################################################
 # This script is not needed anymore. Keep it if needed again
 #
-release=$(lsb_release -cs)
+release=$DEB_RELEASE
 case $release in
   wheezy ) ;;
        * ) exit 0;;
 esac
-
 
 set -e
 which xz >/dev/null

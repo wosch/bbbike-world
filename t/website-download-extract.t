@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2017 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
@@ -22,7 +22,7 @@ my $test = BBBike::Test->new();
 my $debug = $ENV{DEBUG} || 0;
 
 my @production = qw(
-  http://download1.bbbike.org
+  http://download3.bbbike.org
   http://download4.bbbike.org
 );
 
