@@ -59,7 +59,7 @@ sub cities {
 
         like(
             $content,
-qr|Start bicycle routing for .*?href="http://www.bbbike.org/$city/">|,
+qr|Start bicycle routing for .*?href="//www.bbbike.org/$city/">|,
             "routing link"
         );
 
