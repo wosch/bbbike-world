@@ -140,6 +140,12 @@ sub vcl_recv {
         return(synth(405, "rogue bot request"));
     }
 
+    # Redirect to HTTPS, aka "Enforcing SSL behind an SSL termination point"
+    if (client.ip != "127.0.0.1" && client.ip != "88.99.71.92" && std.port(server.ip) == 80 && req.http.host ~ "^mc\.bbbike\.org$") {
+        set req.http.x-redir = "https://" + req.http.host + req.url;
+        return(synth(850, "Moved permanently"));
+    }
+
 
     ######################################################################
     # backend config
@@ -285,6 +291,14 @@ sub vcl_recv {
     }
 
     return (hash);
+}
+
+sub vcl_synth {
+    if (resp.status == 850) {
+        set resp.http.Location = req.http.x-redir;
+        set resp.status = 302;
+        return (deliver);
+    }
 }
 
 ############################################################
