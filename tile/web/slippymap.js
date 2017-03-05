@@ -510,7 +510,6 @@ function init() {
     map.addControl(new OpenLayers.Control.LayerSwitcher());
     map.addControl(new OpenLayers.Control.Permalink());
     // switcherControl.maximizeControl();
-
     // bbbike?
 
     function osm_getTileURL(bounds) {
