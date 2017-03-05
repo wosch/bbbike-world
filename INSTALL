@@ -110,7 +110,7 @@ $ egrep  -h ^use ./world/bin/bbbike-build-runtime-perl*.pl |perl -npe 's,use,\$c
 su -
 apt-get install -y git-core sudo </dev/null
 echo 'indexdata   ALL=NOPASSWD: ALL' >> /etc/sudoers
-echo 'deb http://debian.bbbike.org/debian/wheezy wheezy main' > /etc/apt/sources.list.d/bbbike.list 
+echo 'deb https://debian.bbbike.org/debian/wheezy wheezy main' > /etc/apt/sources.list.d/bbbike.list 
 echo 'StrictHostKeyChecking=no' >> /etc/ssh/ssh_config 
 mkdir -p /usr/local/bin
 
