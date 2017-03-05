@@ -1,4 +1,5 @@
 #!/bin/sh
+# Copyright (c) 2016-2017 Wolfram Schneider, https://bbbike.org
 #
 # init bbbike.org ubuntu deb repository
 
@@ -18,6 +19,7 @@ init_apt_bbbike() {
         curl -sSf $apt_key | sudo apt-key add -
         sudo sh -c "echo deb $deb_url/${os}/${codename} ${codename} main > $file.tmp"
         sudo mv -f $file.tmp $file
+	sudo apt-get install -y apt-transport-https
         sudo apt-get update -qq
     fi
 
