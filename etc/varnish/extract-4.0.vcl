@@ -172,11 +172,6 @@ sub vcl_recv {
         return (pass);
     }
 
-    # munin statistics with lighttpd
-    if (req.http.host ~ "^dev[1-4]?\.bbbike\.org$" && req.url ~ "^/munin") {
-        set req.backend_hint = munin_localhost;
-    } 
-
     # tile.size with node.js daemon
     else if (req.url ~ "^/cgi/tile-size2.cgi$" && req.http.host ~ "^.*?\.bbbike\.org$" ) {
         set req.backend_hint = tile_size;
