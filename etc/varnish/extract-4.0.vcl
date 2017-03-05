@@ -206,7 +206,7 @@ sub vcl_recv {
     } else if (req.http.host ~ "^(www\.|)(cyclerouteplanner\.org|cyclerouteplanner\.com|bbike\.org|cycleroute\.net)$") {
         set req.backend_hint = bbbike;
     } else {
-        set req.backend_hint = default;
+        set req.backend_hint = bbbike;
     }
 
     # dummy
