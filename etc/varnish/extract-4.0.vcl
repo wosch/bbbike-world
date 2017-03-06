@@ -156,6 +156,11 @@ sub vcl_recv {
         return(synth(405, "rogue bot request"));
     }
 
+    # Redirect to HTTPS, aka "Enforcing SSL behind an SSL termination point"
+    if (client.ip != "127.0.0.1" && client.ip != "138.201.59.14" && std.port(server.ip) == 80 && req.http.host ~ "^(munin|dev4|grafana|extract-pro|eserte)\.bbbike\.org$") {
+        set req.http.x-redir = "https://" + req.http.host + req.url;
+        return(synth(850, "Moved permanently"));
+    }
 
     ######################################################################
     # backend config
@@ -166,11 +171,6 @@ sub vcl_recv {
         set req.backend_hint = munin_localhost;
         return (pass);
     }
-
-    # munin statistics with lighttpd
-    if (req.http.host ~ "^dev[1-4]?\.bbbike\.org$" && req.url ~ "^/munin") {
-        set req.backend_hint = munin_localhost;
-    } 
 
     # tile.size with node.js daemon
     else if (req.url ~ "^/cgi/tile-size2.cgi$" && req.http.host ~ "^.*?\.bbbike\.org$" ) {
@@ -206,7 +206,7 @@ sub vcl_recv {
     } else if (req.http.host ~ "^(www\.|)(cyclerouteplanner\.org|cyclerouteplanner\.com|bbike\.org|cycleroute\.net)$") {
         set req.backend_hint = bbbike;
     } else {
-        set req.backend_hint = default;
+        set req.backend_hint = bbbike;
     }
 
     # dummy
@@ -307,6 +307,14 @@ sub vcl_recv {
     }
 
     return (hash);
+}
+
+sub vcl_synth {
+    if (resp.status == 850) {
+        set resp.http.Location = req.http.x-redir;
+        set resp.status = 302;
+        return (deliver);
+    }
 }
 
 ############################################################
