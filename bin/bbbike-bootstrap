@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2009-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2015 Wolfram Schneider, https://bbbike.org
 #
 # bbbike-bootstrap - initial bbbike checkout from github in current
 #                    working directory

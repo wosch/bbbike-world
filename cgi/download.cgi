@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -T
-# Copyright (c) 2012-2017 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2017 Wolfram Schneider, https://bbbike.org
 #
 # extract-download.cgi - extract.bbbike.org live extracts
 
@@ -32,9 +32,9 @@ $ENV{PATH} = "/bin:/usr/bin";
 
 our $option = {
     'debug'                => "0",
-    'homepage_download'    => 'http://download.bbbike.org/osm/',
-    'homepage_extract'     => 'http://extract.bbbike.org',
-    'homepage_extract_pro' => 'http://extract-pro.bbbike.org',
+    'homepage_download'    => '//download.bbbike.org/osm/',
+    'homepage_extract'     => '//extract.bbbike.org',
+    'homepage_extract_pro' => '//extract-pro.bbbike.org',
 
     'message_path' => "../world/etc/extract",
     'pro'          => 0,
@@ -246,6 +246,7 @@ sub running_extract_areas {
         }
 
         next if !exists $obj->{'date'};
+
         my $script_url = $obj->{"script_url"};
 
         if ( $unique{$script_url} ) {
@@ -284,7 +285,7 @@ sub footer {
 </div> <!-- footer_top -->
 
 <div id="copyright">
-(&copy;) 2008-2017 <a href="http://bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
+(&copy;) 2008-2017 <a href="https://www.bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
 </div> <!-- copyright -->
 
 </div> <!-- footer -->
@@ -478,12 +479,17 @@ sub result {
 
         print "<td>";
         my @coords = @{ $download->{"coords"} };
+
+        # protocol independent links
+        my $script_url = $download->{"script_url"};
+        $script_url =~ s,^http:,,;
+
         print qq{<a class="polygon}
           . ( scalar(@coords) ? 1 : 0 )
           . qq{" title="}
           . ( scalar(@coords) ? "polygon" : "rectangle" )
           . qq{" href="}
-          . escapeHTML( $download->{"script_url"} )
+          . escapeHTML($script_url)
           . qq{">map</a>};
         print "</td>\n";
 

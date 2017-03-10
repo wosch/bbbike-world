@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2017 Wolfram Schneider, https://bbbike.org
 #
 # polygon helper functions
 
@@ -11,6 +11,7 @@ use Math::Polygon::Transform qw(polygon_simplify);
 use Math::Polygon::Calc qw();
 use File::stat;
 use Data::Dumper;
+use FindBin;
 
 use lib qw(world/lib);
 use Extract::TileSize;
@@ -63,7 +64,7 @@ sub init {
     my $self = shift;
 
     # set global debug variable
-    if ( $self->{'debug'} ) {
+    if ( defined $self->{'debug'} ) {
         $debug = $self->{'debug'};
     }
 
@@ -110,7 +111,7 @@ sub list_subplanets {
             my $file = "$sub_planet_dir/$sub.osm.pbf";
             my $st   = stat($file);
             if ( !$st ) {
-                warn "Stat sub planet file: $file $!\n";
+                warn "Stat sub planet file pwd=$FindBin::Bin file=$file $!\n";
                 next;
             }
 
@@ -145,7 +146,10 @@ sub subplanet_size {
     my $self   = shift;
     my $region = shift;
 
-    my $tile = new Extract::TileSize( 'database' => $self->{'database'} );
+    my $tile = new Extract::TileSize(
+        'database' => $self->{'database'},
+        'debug'    => $debug
+    );
 
     if ( !$area->{$region} ) {
         warn "Area '$region' does not exists, skip\n" if $debug;
@@ -296,11 +300,11 @@ sub create_poly_data {
     for ( my $i = 0 ; $i <= $#c ; $i++ ) {
         my ( $lng, $lat ) = ( $c[$i]->[0], $c[$i]->[1] );
         if ( !$self->is_lng($lng) ) {
-            warn "lng $lng is out of range -180 .. 180\n";
+            warn "lng $lng is out of range -180 .. 180\n" if $debug >= 1;
             $error++;
         }
         if ( !$self->is_lat($lat) ) {
-            warn "lat $lat is out of range -90 .. 90\n";
+            warn "lat $lat is out of range -90 .. 90\n" if $debug >= 1;
             $error++;
         }
 
@@ -314,7 +318,7 @@ sub create_poly_data {
     $counter += $#c;
 
     if ($error) {
-        warn "Poly file is currupt, no valid coordinates are given\n";
+        warn "Poly file is corrupt, no valid coordinates are given\n";
         return ( "", 0 );
     }
     else {
@@ -326,7 +330,7 @@ sub create_poly_data {
 # upload poly file to extract an area:
 #
 # curl -sSf -F "submit=extract" -F "email=nobody@gmail.com" -F "city=Karlsruhe" -F "format=osm.pbf" \
-#   -F "coords=@karlsruhe.poly" http://extract.bbbike.org | lynx -nolist -dump -stdin
+#   -F "coords=@karlsruhe.poly" https://extract.bbbike.org | lynx -nolist -dump -stdin
 #
 sub parse_coords {
     my $self = shift;

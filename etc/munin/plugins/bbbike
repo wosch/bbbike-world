@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2011-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2011-2015 Wolfram Schneider, https://bbbike.org
 #
 # munin-bbbike - munin statistics for BBBike, searches per interval
 
@@ -27,7 +27,7 @@ my $ignore_localrequests = 1;
 # standard munin interval of 5 minutes
 my $interval = 1;    # 5
 
-# run as frontend proxy, with full hostname requests: GET http://www.bbbike.org/Foo
+# run as frontend proxy, with full hostname requests: GET https://www.bbbike.org/Foo
 my $frontend_proxy = 0;
 
 # munin-bbbike config file
@@ -408,7 +408,7 @@ sub count_routes {
         next if !/" 200 /;    # successfull requests only
 
         # proxy request with hostname
-        s,"GET http://.*?/,"GET /, if $frontend_proxy;
+        s,"GET https?://.*?/,"GET /, if $frontend_proxy;
 
         next if $ignore_localrequests && localrequest($_);
 
@@ -442,7 +442,7 @@ sub count_pref {
         next if !/" 200 /;    # successfull requests only
 
         # proxy request with hostname
-        s,"GET http://.*?/,"GET /, if $frontend_proxy;
+        s,"GET https://.*?/,"GET /, if $frontend_proxy;
 
         next if $ignore_localrequests && localrequest($_);
 
@@ -502,7 +502,7 @@ sub count_ajax {
         next if !/" 200 /;    # successfull requests only
 
         # proxy request with hostname
-        s,"GET http://.*?/,"GET /, if $frontend_proxy;
+        s,"GET https?://.*?/,"GET /, if $frontend_proxy;
 
         next if $ignore_localrequests && localrequest($_);
 
@@ -535,7 +535,7 @@ sub count_maptype {
         next if !/" 200 /;    # successfull requests only
 
         # proxy request with hostname
-        s,"GET http://.*?/,"GET /, if $frontend_proxy;
+        s,"GET https?://.*?/,"GET /, if $frontend_proxy;
 
         next if $ignore_localrequests && localrequest($_);
 
@@ -572,7 +572,7 @@ sub count_appid {
         #next if !/" 200 /;    # successfull requests only
 
         # proxy request with hostname
-        s,"GET http://.*?/,"GET /, if $frontend_proxy;
+        s,"GET https?://.*?/,"GET /, if $frontend_proxy;
 
         next if $ignore_localrequests && localrequest($_);
 
@@ -614,7 +614,7 @@ sub count_output {
         next if !/" 200 /;    # successfull requests only
 
         # proxy request with hostname
-        s,"GET http://.*?/,"GET /, if $frontend_proxy;
+        s,"GET https?://.*?/,"GET /, if $frontend_proxy;
 
         next if $ignore_localrequests && localrequest($_);
 
@@ -646,7 +646,7 @@ sub count_output {
         elsif (m,"POST ,) {
 
             # proxy request with hostname
-            s,"POST http://.*?/,"POST /, if $frontend_proxy;
+            s,"POST https?://.*?/,"POST /, if $frontend_proxy;
 
             if (   m,"POST /[A-Z][a-z]+\S+/ ,
                 || m,"POST /[A-Z][a-z]+\S+/\?[a-z]+, )

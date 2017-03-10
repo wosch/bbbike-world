@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2013-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2013-2015 Wolfram Schneider, https://bbbike.org
 #
 # extract-cron.sh - wrapper for extract.pl script 
 #

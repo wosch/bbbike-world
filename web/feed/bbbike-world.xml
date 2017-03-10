@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>BBBike@World - a Cycle Route Planner</title>
-  <link href="http://www.bbbike.org" />
-  <link href="http://www.bbbike.org/feed/bbbike-world.xml" rel="self" />
-  <icon>http://www.bbbike.org/images/srtbike.ico</icon>
-  <updated>Sat Oct 15 15:53:55 2016 +0000</updated>
+  <link href="https://www.bbbike.org" />
+  <link href="https://www.bbbike.org/feed/bbbike-world.xml" rel="self" />
+  <icon>https://www.bbbike.org/images/srtbike.ico</icon>
+  <updated>Sun Feb 26 18:02:47 2017 +0000</updated>
   <author>
     <name>Wolfram Schneider</name>
   </author>
@@ -15,7 +15,7 @@
   <entry>
     <title>New Garmin style OpenSeaMap</title>
     <id>5f5b1fc9a70a140420758b84427c8ea7</id>
-    <content type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports Garmin OpenSeaMap
+    <content type="html">The &lt;a href="https://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports Garmin OpenSeaMap
     style</content>
     <updated>2016-10-15T18:30:02Z</updated>
     <category term="News" />
@@ -23,7 +23,7 @@
   <entry>
     <title>More us-ascii Garmin styles</title>
     <id>fa7db982ca948a37feadd25d35c95955</id>
-    <content type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports more Garmin styles in
+    <content type="html">The &lt;a href="https://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports more Garmin styles in
     us-ascii for devices without unicode support, or broken DRM</content>
     <updated>2016-09-17T18:30:02Z</updated>
     <category term="News" />
@@ -31,15 +31,15 @@
   <entry>
     <title>New us-ascii Garmin styles</title>
     <id>fb7db982ca948a37feadd25d35c95955</id>
-    <content type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports Garmin styles in us-ascii
-    for devices without unicode support, or broken DRM</content>
+    <content type="html">The &lt;a href="https://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports Garmin styles in
+    us-ascii for devices without unicode support, or broken DRM</content>
     <updated>2016-03-26T18:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>New Garmin style Openfietsmap Lite</title>
     <id>6f5b1fc9a70a146420758b84427c8ea7</id>
-    <content type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports Garmin Openfietsmap Lite
+    <content type="html">The &lt;a href="https://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports Garmin Openfietsmap Lite
     style</content>
     <updated>2016-03-19T18:30:02Z</updated>
     <category term="News" />
@@ -47,7 +47,7 @@
   <entry>
     <title type="html">New Garmin style "Onroad" for older devices with less space - usually 1/10 the size of Garmin OSM</title>
     <id>5f5b1fc9a70a146420758b84427c8ea7</id>
-    <content type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports Garmin Onroad style for
+    <content type="html">The &lt;a href="https://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports Garmin Onroad style for
     older devices with less space</content>
     <updated>2016-03-19T13:30:02Z</updated>
     <category term="News" />
@@ -55,23 +55,23 @@
   <entry>
     <title>The extract service supports now MAPSE.ME format for Android and iOS</title>
     <id>5f5b1fc9a70a146420758b84227c8ea7</id>
-    <content type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now MAPSE.ME format for
+    <content type="html">The &lt;a href="https://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now MAPSE.ME format for
     Android and iOS</content>
     <updated>2015-11-24T13:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>Map Compare now supports up to 140 maps: http://mc.bbbike.org/mc/</title>
+    <title>Map Compare now supports up to 140 maps: https://mc.bbbike.org/mc/</title>
     <id>8f26db14e49f2e3a1c6e3e46f6fe5d83</id>
     <content type="html">Map Compare now supports up to 140 maps: &lt;a
-    href="http://mc.bbbike.org/mc/"&gt;bbbike.org/mc&lt;/a&gt;</content>
+    href="https://mc.bbbike.org/mc/"&gt;bbbike.org/mc&lt;/a&gt;</content>
     <updated>2015-10-06T13:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>The extract service supports now SVG format and PNG images</title>
     <id>5f5b1fc9a70af4642e758b84227c8ea7</id>
-    <content type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now SVG format and PNG
+    <content type="html">The &lt;a href="https://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now SVG format and PNG
     images</content>
     <updated>2015-09-13T13:30:02Z</updated>
     <category term="News" />
@@ -79,57 +79,57 @@
   <entry>
     <title>The extract service is now 5 times faster. It takes between 2-7 minutes to extract an area from planet.osm</title>
     <id>5f5b1fc9a70af4642e758b84227c8ea6</id>
-    <content type="html">The &lt;a href="http://extract.bbbike.org/"&gt;extract service&lt;/a&gt; is now 5 times faster. It takes between
+    <content type="html">The &lt;a href="https://extract.bbbike.org/"&gt;extract service&lt;/a&gt; is now 5 times faster. It takes between
     2-7 minutes to extract an area from planet.osm</content>
     <updated>2015-05-24T13:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>Map Compare now supports up to 108 maps: http://mc.bbbike.org/mc/</title>
+    <title>Map Compare now supports up to 108 maps: https://mc.bbbike.org/mc/</title>
     <id>51d474fb21860b0629bfe8467ee42c0d</id>
     <content type="html">Map Compare now supports up to 108 maps: &lt;a
-    href="http://mc.bbbike.org/mc/"&gt;bbbike.org/mc&lt;/a&gt;</content>
+    href="https://mc.bbbike.org/mc/"&gt;bbbike.org/mc&lt;/a&gt;</content>
     <updated>2014-12-06T13:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>BBBike Windows Phone app</title>
     <id>dda2b9aa0307ba9a55d2dd15a93dcbd2</id>
-    <content type="html">A free &lt;a href="http://www.windowsphone.com/s?appid=6cc2f571-7c0e-414c-9e71-806162601d7a"&gt;BBBike Windows
+    <content type="html">A free &lt;a href="https://www.windowsphone.com/s?appid=6cc2f571-7c0e-414c-9e71-806162601d7a"&gt;BBBike Windows
     Phone app&lt;/a&gt; is availble in the Windows Phone store. The city Berlin use the original BBBike data, the other cities are OSM
     based.</content>
     <updated>2014-08-22T13:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title type="html">&lt;a href="http://www.bbbike.org/"&gt;BBBike cycle route searches&lt;/a&gt; are now 2-3 times faster</title>
+    <title type="html">&lt;a href="https://www.bbbike.org/"&gt;BBBike cycle route searches&lt;/a&gt; are now 2-3 times faster</title>
     <id>d41d8cd98f00b204e9800998ecf8437e</id>
-    <content type="html">&lt;a href="http://www.bbbike.org/"&gt;BBBike cycle route searches&lt;/a&gt; are now 2-3 times faster</content>
+    <content type="html">&lt;a href="https://www.bbbike.org/"&gt;BBBike cycle route searches&lt;/a&gt; are now 2-3 times faster</content>
     <updated>2014-07-22T13:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now libosmium OPL
+    <title type="html">The &lt;a href="https://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now libosmium OPL
     format</title>
     <id>d41d8cd98f00b204e9800998ecf8437e</id>
-    <content type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now libosmium OPL
+    <content type="html">The &lt;a href="https://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now libosmium OPL
     format</content>
     <updated>2014-05-27T13:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now Contours (SRTM)
+    <title type="html">The &lt;a href="https://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now Contours (SRTM)
     extracts for PBF, Garmin, and Osmand</title>
     <id>21de8970bd81fb04b751c1935e023e0d</id>
-    <content type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now SRTM extracts for
+    <content type="html">The &lt;a href="https://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now SRTM extracts for
     PBF, Garmin, and Osmand</content>
     <updated>2014-04-15T13:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now CSV format</title>
+    <title type="html">The &lt;a href="https://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now CSV format</title>
     <id>d41d8cd98f00b204e9800998ecf8427e</id>
-    <content type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now CSV format</content>
+    <content type="html">The &lt;a href="https://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now CSV format</content>
     <updated>2013-08-17T13:30:02Z</updated>
     <category term="News" />
   </entry>
@@ -152,40 +152,40 @@
     <category term="News" />
   </entry>
   <entry>
-    <title type="html">&lt;a href="http://extract.bbbike.org/?lang=ru"&gt;BBBike extract service&lt;/a&gt; now in Russian.</title>
+    <title type="html">&lt;a href="https://extract.bbbike.org/?lang=ru"&gt;BBBike extract service&lt;/a&gt; now in Russian.</title>
     <id>d6f59d1bb8315958eb25b197de28d25c</id>
-    <content type="html">&lt;a href="http://extract.bbbike.org/?lang=ru"&gt;BBBike extract service&lt;/a&gt; now in Russian.</content>
+    <content type="html">&lt;a href="https://extract.bbbike.org/?lang=ru"&gt;BBBike extract service&lt;/a&gt; now in Russian.</content>
     <updated>2013-03-31T13:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title type="html">&lt;a href="http://extract.bbbike.org/?lang=fr"&gt;BBBike extract service&lt;/a&gt; now in French.</title>
+    <title type="html">&lt;a href="https://extract.bbbike.org/?lang=fr"&gt;BBBike extract service&lt;/a&gt; now in French.</title>
     <id>d6f59d1bb8315958eb25b187de28d25c</id>
-    <content type="html">&lt;a href="http://extract.bbbike.org/?lang=fr"&gt;BBBike extract service&lt;/a&gt; now in French.</content>
+    <content type="html">&lt;a href="https://extract.bbbike.org/?lang=fr"&gt;BBBike extract service&lt;/a&gt; now in French.</content>
     <updated>2013-03-26T13:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title type="html">&lt;a href="http://extract.bbbike.org/?lang=es"&gt;BBBike extract service&lt;/a&gt; now in Spanish.</title>
+    <title type="html">&lt;a href="https://extract.bbbike.org/?lang=es"&gt;BBBike extract service&lt;/a&gt; now in Spanish.</title>
     <id>d6f59d1bb8315958eb25b187de28d25d</id>
-    <content type="html">&lt;a href="http://extract.bbbike.org/?lang=es"&gt;BBBike extract service&lt;/a&gt; now in Spanish.</content>
+    <content type="html">&lt;a href="https://extract.bbbike.org/?lang=es"&gt;BBBike extract service&lt;/a&gt; now in Spanish.</content>
     <updated>2013-03-26T13:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title type="html">Den &lt;a href="http://extract.bbbike.org/?lang=de"&gt;BBBike extract service&lt;/a&gt; gibt es jetzt auch auf
+    <title type="html">Den &lt;a href="https://extract.bbbike.org/?lang=de"&gt;BBBike extract service&lt;/a&gt; gibt es jetzt auch auf
     deutsch.</title>
     <id>d6f59d1bb8315958eb25b187de28d25b</id>
-    <content type="html">Den &lt;a href="http://extract.bbbike.org/?lang=de"&gt;BBBike extract service&lt;/a&gt; gibt es jetzt auch auf
+    <content type="html">Den &lt;a href="https://extract.bbbike.org/?lang=de"&gt;BBBike extract service&lt;/a&gt; gibt es jetzt auch auf
     deutsch.</content>
     <updated>2013-03-17T13:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now mapsforge
+    <title type="html">The &lt;a href="https://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now mapsforge
     format</title>
     <id>d6f59d1bb8315958eb25b187de28d25b</id>
-    <content type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now mapsforge format for
+    <content type="html">The &lt;a href="https://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now mapsforge format for
     Android devices</content>
     <updated>2013-02-10T13:30:02Z</updated>
     <category term="News" />
@@ -198,30 +198,31 @@
     <category term="News" />
   </entry>
   <entry>
-    <title type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now .o5m format</title>
+    <title type="html">The &lt;a href="https://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now .o5m format</title>
     <id>d6f59d1bb8315958eb25b187de28d25a</id>
-    <content type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now .o5m format</content>
+    <content type="html">The &lt;a href="https://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now .o5m
+    format</content>
     <updated>2012-11-17T13:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now polygons</title>
+    <title type="html">The &lt;a href="https://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now polygons</title>
     <id>51d474fb21861b0629bfe8467ee42c0f</id>
-    <content type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now polygons</content>
+    <content type="html">The &lt;a href="https://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now polygons</content>
     <updated>2012-10-28T13:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now the Navit
+    <title type="html">The &lt;a href="https://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now the Navit
     format</title>
     <id>51d474fb21860b0629bfe8467ee42c0f</id>
-    <content type="html">The &lt;a href="http://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now the Navit
+    <content type="html">The &lt;a href="https://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports now the Navit
     format</content>
     <updated>2012-10-18T13:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title type="html">A new &lt;a href="http://bbbike.jochen-pfeiffer.com/en/"&gt;BBBike iPhone app&lt;/a&gt; is availble in the iTune
+    <title type="html">A new &lt;a href="https://bbbike.jochen-pfeiffer.com/en/"&gt;BBBike iPhone app&lt;/a&gt; is availble in the iTune
     store.</title>
     <id>51d474fb21860b0629bfe8467ee42c0d</id>
     <content type="html">A new &lt;a href="http://bbbike.jochen-pfeiffer.com/en/"&gt;BBBike iPhone app&lt;/a&gt; is availble in the iTune
@@ -231,10 +232,10 @@
   </entry>
   <entry>
     <title>Map Compare with new maps: Nokia Map, Terrain, Satellite, Hybrid, Public Transit, Traffic. Map Compare now supports up to 52
-    maps: http://mc.bbbike.org/mc/</title>
+    maps: https://mc.bbbike.org/mc/</title>
     <id>51d474fb21860b0629bfe8467ee42c0c</id>
     <content>Map Compare with new maps: Nokia Map, Terrain, Satellite, Hybrid, Public Transit, Traffic. Map Compare now supports up to 52
-    maps: http://mc.bbbike.org/mc/</content>
+    maps: https://mc.bbbike.org/mc/</content>
     <updated>2012-08-06T13:30:02Z</updated>
     <category term="News" />
   </entry>
@@ -246,9 +247,9 @@
     <category term="News" />
   </entry>
   <entry>
-    <title>New feature: Map Compare supports up to 32 maps on the screen and a fullscreen mode: http://mc.bbbike.org/mc/</title>
+    <title>New feature: Map Compare supports up to 32 maps on the screen and a fullscreen mode: https://mc.bbbike.org/mc/</title>
     <id>51d474fb21860b0629bfe8467ee42c0b</id>
-    <content>Map Compare supports up to 32 maps on the screen and a fullscreen mode: http://mc.bbbike.org/mc/</content>
+    <content>Map Compare supports up to 32 maps on the screen and a fullscreen mode: https://mc.bbbike.org/mc/</content>
     <updated>2012-06-08T13:30:02Z</updated>
     <category term="News" />
   </entry>
@@ -283,9 +284,9 @@
     <category term="News" />
   </entry>
   <entry>
-    <title>Added Toner and Watercolor maps for http://bbbike.org</title>
+    <title>Added Toner and Watercolor maps for https://bbbike.org</title>
     <id>d94a133044bb2da6cc7177e80e24c750</id>
-    <content>Added Toner and Watercolor maps for http://bbbike.org</content>
+    <content>Added Toner and Watercolor maps for https://bbbike.org</content>
     <updated>2012-04-10T12:30:02Z</updated>
     <category term="News" />
   </entry>
@@ -355,7 +356,7 @@
   <entry>
     <title>New service: extract service for OSM data</title>
     <id>ceb834ea55261da7259fd57c8760d80e</id>
-    <content>New extract service for OSM data, select your individual area up to 400km x 600km large, http://extract.bbbike.org</content>
+    <content>New extract service for OSM data, select your individual area up to 400km x 600km large, https://extract.bbbike.org</content>
     <updated>2012-03-01T13:30:02Z</updated>
     <category term="News" />
   </entry>
@@ -381,9 +382,9 @@
     <category term="News" />
   </entry>
   <entry>
-    <title>Added OpenCycleMaps Landscape and Transport for http://bbbike.org</title>
+    <title>Added OpenCycleMaps Landscape and Transport for https://bbbike.org</title>
     <id>4953cbf8a82f394f88ec2e49898c5e0e</id>
-    <content>Added OpenCycleMaps Landscape and Transport for http://bbbike.org</content>
+    <content>Added OpenCycleMaps Landscape and Transport for https://bbbike.org</content>
     <updated>2012-02-17T12:30:02Z</updated>
     <category term="News" />
   </entry>
@@ -418,49 +419,49 @@
   <entry>
     <title>New: cycle routing for Emden/Ostfriesland</title>
     <id>171f3263a6e73b3bf6e3256c6cb094f6</id>
-    <content>New: cycle routing for Emden/Ostfriesland: http://www.bbbike.org/Emden</content>
+    <content>New: cycle routing for Emden/Ostfriesland: https://www.bbbike.org/Emden</content>
     <updated>2011-09-11T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Bremerhaven</title>
     <id>171f3263a6e73b3bf6e3256c6cb094f7</id>
-    <content>New: cycle routing for Bremerhaven: http://www.bbbike.org/Bremerhaven</content>
+    <content>New: cycle routing for Bremerhaven: https://www.bbbike.org/Bremerhaven</content>
     <updated>2011-09-11T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Heilbronn</title>
     <id>7b2006882ab330199ea21240ce787723</id>
-    <content>New: cycle routing for Heilbronn: http://www.bbbike.org/Heilbronn</content>
+    <content>New: cycle routing for Heilbronn: https://www.bbbike.org/Heilbronn</content>
     <updated>2011-09-11T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Madrid</title>
     <id>a440093ff2ecb6ffe9e5646b49a1d501</id>
-    <content>New: cycle routing for Madrid: http://www.bbbike.org/Madrid</content>
+    <content>New: cycle routing for Madrid: https://www.bbbike.org/Madrid</content>
     <updated>2011-09-08T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Alexandria</title>
     <id>1ac05653bda68ca1346b5cbf083f3c88</id>
-    <content>New: cycle routing for Alexandria: http://www.bbbike.org/Alexandria</content>
+    <content>New: cycle routing for Alexandria: https://www.bbbike.org/Alexandria</content>
     <updated>2011-09-04T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>http://BBBike.org moved to a faster machine. Have fun!</title>
+    <title>https://BBBike.org moved to a faster machine. Have fun!</title>
     <id>1ac05653bda68ca1346b5cbf083f3c87</id>
-    <content>http://BBBike.org moved to a faster machine. Have fun!</content>
+    <content>https://BBBike.org moved to a faster machine. Have fun!</content>
     <updated>2011-08-03T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Memphis</title>
     <id>1f1405ff29bce1549e0a7c0269d15467</id>
-    <content>New: cycle routing for Memphis: http://www.bbbike.org/Memphis</content>
+    <content>New: cycle routing for Memphis: https://www.bbbike.org/Memphis</content>
     <updated>2011-06-07T12:30:02Z</updated>
     <category term="News" />
   </entry>
@@ -486,35 +487,35 @@
     <category term="News" />
   </entry>
   <entry>
-    <title>Added a Map Slide Show for all 7 #osm maps and 11 non-osm maps on http://bbbike.org</title>
+    <title>Added a Map Slide Show for all 7 #osm maps and 11 non-osm maps on https://bbbike.org</title>
     <id>17fe6ae451ab0eb00b25f59a0cb7b75c</id>
-    <content>Added map slide show for http://bbbike.org</content>
+    <content>Added map slide show for https://bbbike.org</content>
     <updated>2011-05-02T12:30:03Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>Added Full Screen View for http://bbbike.org</title>
+    <title>Added Full Screen View for https://bbbike.org</title>
     <id>15c559e7c35a7dac75a141c92877dabd</id>
-    <content>Added Added Full Screen View for http://bbbike.org</content>
+    <content>Added Added Full Screen View for https://bbbike.org</content>
     <updated>2011-05-01T12:30:03Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>Added black/white Mapnik map for http://bbbike.org</title>
+    <title>Added black/white Mapnik map for https://bbbike.org</title>
     <id>8180c31f8c34e75058495ff6a1bf7f8d</id>
-    <content>Added black/white Mapnik map for http://bbbike.org</content>
+    <content>Added black/white Mapnik map for https://bbbike.org</content>
     <updated>2011-05-01T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title>Added Yahoo and Bing maps (satellite, hybrid, map) for http://bbbike.org</title>
+    <title>Added Yahoo and Bing maps (satellite, hybrid, map) for https://bbbike.org</title>
     <id>9de8ff38b08a07a69968512b8def69ec</id>
-    <content>Added Yahoo and Bing maps (satellite, hybrid, map) for http://bbbike.org</content>
+    <content>Added Yahoo and Bing maps (satellite, hybrid, map) for https://bbbike.org</content>
     <updated>2011-04-24T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
-    <title type="html">Added OpenStreetMaps map Hike&amp;Bike for http://bbbike.org</title>
+    <title type="html">Added OpenStreetMaps map Hike&amp;Bike for https://bbbike.org</title>
     <id>112d59fb9de68297123558b6c7d278e5</id>
     <content>New: suport google maps v3 layers bicycling, traffic and panoramio</content>
     <updated>2011-04-23T12:30:02Z</updated>
@@ -528,7 +529,7 @@
     <category term="News" />
   </entry>
   <entry>
-    <title>Added google maps v3 layers bicycling, traffic and panoramio for http://bbbike.org</title>
+    <title>Added google maps v3 layers bicycling, traffic and panoramio for https://bbbike.org</title>
     <id>f66f22b31bb6aa46ee0b71f25c31a694</id>
     <content>New: suport google maps v3 layers bicycling, traffic and panoramio</content>
     <updated>2011-04-23T12:30:02Z</updated>
@@ -558,7 +559,7 @@
   <entry>
     <title>New: cycle routing for Waterloo and Kitchener, Ontario</title>
     <id>1f1405ff29bce1549e0a7c0269d15466</id>
-    <content>New: cycle routing for Waterloo and Kitchener, Ontario: http://www.bbbike.org/Waterloo</content>
+    <content>New: cycle routing for Waterloo and Kitchener, Ontario: https://www.bbbike.org/Waterloo</content>
     <updated>2011-04-02T12:30:02Z</updated>
     <category term="News" />
   </entry>
@@ -623,28 +624,28 @@
   <entry>
     <title>New: cycle routing for Malmoe and Gothenburg</title>
     <id>c8149d780c2dff3451db938c7b282264</id>
-    <content>New: cycle routing for Malmoe and Gothenburg: http://www.bbbike.org/Malmoe http://www.bbbike.org/Goetheburg</content>
+    <content>New: cycle routing for Malmoe and Gothenburg: https://www.bbbike.org/Malmoe https://www.bbbike.org/Goetheburg</content>
     <updated>2011-03-08T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Stuttgart</title>
     <id>86ae45c86b9d90f50feed5c321dd61a5</id>
-    <content>New: cycle routing for Stuttgart: http://www.bbbike.org/Stuttgart</content>
+    <content>New: cycle routing for Stuttgart: https://www.bbbike.org/Stuttgart</content>
     <updated>2011-03-07T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Berkeley</title>
     <id>df1301be6fe83a6731d7840ee3408efa</id>
-    <content>New: cycle routing for Berkeley, East Bay (San Francisco Bay Area): http://www.bbbike.org/Berkeley</content>
+    <content>New: cycle routing for Berkeley, East Bay (San Francisco Bay Area): https://www.bbbike.org/Berkeley</content>
     <updated>2011-02-22T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>google maps version 3</title>
     <id>6ce8624af05b0596f0c39e53b7b0987c</id>
-    <content>Fully use google maps version 3 for all maps on http://bbbike.org which enable new features like elevation charts and better
+    <content>Fully use google maps version 3 for all maps on https://bbbike.org which enable new features like elevation charts and better
     support for mobile devices.</content>
     <updated>2011-02-07T12:30:02Z</updated>
     <category term="News" />
@@ -652,36 +653,37 @@
   <entry>
     <title>New: cycle routing for New Dehli and Bombay</title>
     <id>e14f7b9315ebcbfeaf184a589400181b</id>
-    <content>New: cycle routing for New Dehli and Bombay: http://www.bbbike.org/Bombay and http://www.bbbike.org/NewDehli</content>
+    <content>New: cycle routing for New Dehli and Bombay: https://www.bbbike.org/Bombay and https://www.bbbike.org/NewDehli</content>
     <updated>2011-02-05T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Brazilian cities Curitiba and Porto Alegre</title>
     <id>e14f7b9315ebcbfeaf184a589400181c</id>
-    <content>New: cycle routing for Brazilian cities Curitiba and Porto Alegre: http://www.bbbike.org/Curitiba and
-    http://www.bbbike.org/PortoAlegre</content>
+    <content>New: cycle routing for Brazilian cities Curitiba and Porto Alegre: https://www.bbbike.org/Curitiba and
+    https://www.bbbike.org/PortoAlegre</content>
     <updated>2011-02-05T12:30:09Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Potsdam and Oranienburg</title>
     <id>3f1d0cba91c29c0e684bab966472936e</id>
-    <content>New: cycle routing for Potsdam and Oranienburg: http://www.bbbike.org/Potsdam and http://www.bbbike.org/Oranienburg</content>
+    <content>New: cycle routing for Potsdam and Oranienburg: https://www.bbbike.org/Potsdam and
+    https://www.bbbike.org/Oranienburg</content>
     <updated>2011-02-01T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Lima and Montevideo</title>
     <id>113b60839c9aafd096b0cfa8ac1e4235</id>
-    <content>New: cycle routing for South America: http://www.bbbike.org/Montevideo and http://www.bbbike.org/Lima</content>
+    <content>New: cycle routing for South America: https://www.bbbike.org/Montevideo and https://www.bbbike.org/Lima</content>
     <updated>2011-01-31T12:30:12Z</updated>
     <category term="News" />
   </entry>
   <entry>
     <title>New: cycle routing for Palma de Majorca</title>
     <id>0b29f549319e283e04bb67e2808a3d96</id>
-    <content>Now available - cycle routing for Palma and the island Majorca: http://www.bbbike.org/Palma/</content>
+    <content>Now available - cycle routing for Palma and the island Majorca: https://www.bbbike.org/Palma/</content>
     <updated>2011-01-31T12:30:02Z</updated>
     <category term="News" />
   </entry>
@@ -697,7 +699,7 @@
     <title>New directory layout with shorter URLs</title>
     <id>5569e78510bee2720280ed5cd3afee08</id>
     <content>BBBike.org has now a new directory layout with a sub-directory for each city, e.g. the new home page for London is
-    http://www.bbbike.org/London</content>
+    https://www.bbbike.org/London</content>
     <updated>2011-01-29T12:30:02Z</updated>
     <category term="News" />
   </entry>
@@ -753,7 +755,7 @@
   <entry>
     <title>Donatations</title>
     <id>e86b828855a4103bfe73aa02fef7fa3a</id>
-    <content>We accecpt donations! ;-) http://bbbike.org/community.html</content>
+    <content>We accecpt donations! ;-) https://bbbike.org/community.html</content>
     <updated>2010-08-15T18:30:02Z</updated>
     <category term="News" />
   </entry>
@@ -808,7 +810,7 @@
   </entry>
   <entry>
     <title>Elevation chart</title>
-    <link href="http://www.bbbike.org" />
+    <link href="https://www.bbbike.org" />
     <id>81ebeaf0506f9d6a518be2ab38ec243f</id>
     <content>BBBike@World displays the elevation chart for the route.</content>
     <updated>2010-04-11T18:30:03Z</updated>
@@ -824,7 +826,7 @@
   </entry>
   <entry>
     <title>New design for BBBike\@world search</title>
-    <link href="http://www.bbbike.org" />
+    <link href="https://www.bbbike.org" />
     <id>3954a6fca12368526e8c790e38bcb743</id>
     <content>New design for BBBike@world search</content>
     <updated>2010-03-06T18:30:02Z</updated>
@@ -832,7 +834,7 @@
   </entry>
   <entry>
     <title>New cities for BBBike\@world</title>
-    <link href="http://www.bbbike.org" />
+    <link href="https://www.bbbike.org" />
     <id>81ebeaf0506f9d6a518be2ab38ec243d</id>
     <content>BBBike@World supports now 125 cities world wide.</content>
     <updated>2010-03-06T18:30:03Z</updated>
@@ -840,7 +842,7 @@
   </entry>
   <entry>
     <title>Updated BBBike\@Berlin packages for MacOS</title>
-    <link href="http://bbbike.sourceforge.net/downloads.en.html" />
+    <link href="https://bbbike.sourceforge.net/downloads.en.html" />
     <id>81ebeaf0506f9d6a518be2ab38ec243e</id>
     <content>The BBBike@Berlin package for MacOS are updated.</content>
     <updated>2010-03-06T18:30:04Z</updated>

@@ -1,10 +1,9 @@
 ###############################################################
-# Copyright (c) 2008-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2008-2017 Wolfram Schneider, https://bbbike.org
 #
 # configurations files
 #
 
-MUNIN_LIGHTTPD=	lighttpd_accesses lighttpd_busyservers lighttpd_idleservers lighttpd_kbytes lighttpd_uptime	
 MUNIN_PLUGINS_DIR=	/etc/munin/plugins
 
 CRONTAB_ROOT=/etc/cron.d/bbbike.root
@@ -45,12 +44,6 @@ install-backend-lighttpd:
 	sudo cp -f lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf 
 	cd /etc/lighttpd/conf-enabled; sudo ln -fs ../conf-available/bbbike.org.conf
 	sudo /etc/init.d/lighttpd restart
-
-install-munin-lighttpd:
-	for i in ${MUNIN_LIGHTTPD}; do \
-	   sudo ln -fs `pwd`/../src/munin/munin-lighttpd ${MUNIN_PLUGINS_DIR}/$$i; \
-	done
-	${MAKE} munin-restart
 
 crontab-root:
 	if [ ! -e ${CRONTAB_ROOT} ]; then \

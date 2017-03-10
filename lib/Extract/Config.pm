@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2012-2017 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2017 Wolfram Schneider, https://bbbike.org
 #
 # extract config load
 
@@ -154,16 +154,11 @@ our $planet_osm = {
     #'planet.osm' => '../osm/download/planet-latest.osm.pbf',
     'planet.osm' => '../osm/download/planet-latest-nometa.osm.pbf',
 
-    'srtm-europe.osm.pbf' =>
-      '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
-    'srtm-europe.osm.xz' =>
-      '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
-    'srtm-europe.garmin-srtm.zip' =>
-      '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
-    'srtm-europe.obf.zip' =>
-      '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
-    'srtm-europe.mapsforge-osm.zip' =>
-      '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
+#'srtm-europe.osm.pbf' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
+#'srtm-europe.osm.xz' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
+#'srtm-europe.garmin-srtm.zip' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
+#'srtm-europe.obf.zip' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
+#'srtm-europe.mapsforge-osm.zip' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
 
     'srtm.osm.pbf'           => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
     'srtm.osm.xz'            => '../osm/download/srtm/planet-srtm-e40.osm.pbf',

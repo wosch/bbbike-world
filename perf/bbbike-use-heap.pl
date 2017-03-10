@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2011-2014 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2011-2014 Wolfram Schneider, https://bbbike.org
 #
 # bbbike-perf.pl - check perl memory / cpu usage of a city
 

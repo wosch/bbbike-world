@@ -1,6 +1,6 @@
 cat << EOF
 Map data (c) OpenStreetMap contributors, https://www.openstreetmap.org
-Extracts created by BBBike, http://extract.bbbike.org
+Extracts created by BBBike, https://extract.bbbike.org
 $BBBIKE_EXTRACT_NAVIT_VERSION by http://www.navit-project.org
 
 
@@ -15,11 +15,11 @@ Script URL: $BBBIKE_EXTRACT_URL
 Name of area: $city
 
 We appreciate any feedback, suggestions and a donation! You can support us via
-PayPal, Flattr or bank wire transfer: http://www.BBBike.org/community.html
+PayPal, Flattr or bank wire transfer: https://www.BBBike.org/community.html
 
 thanks, Wolfram Schneider
 
 --
-Your Cycle Route Planner: http://www.BBBike.org
-BBBike Map Compare: http://bbbike.org/mc
+Your Cycle Route Planner: https://www.BBBike.org
+BBBike Map Compare: https://bbbike.org/mc
 EOF

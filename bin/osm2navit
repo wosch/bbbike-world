@@ -1,5 +1,5 @@
 #!/usr/local/bin/bash
-# Copyright (c) 2012-2017 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2017 Wolfram Schneider, https://bbbike.org
 #
 # osm2navit  - convert a .pbf file to navit .bin
 #
@@ -87,8 +87,8 @@ counter=0
 # OSM
 set -o pipefail # bash only
 case $file in
-  *.pbf) $pbf2osm $file | time maptool ${navit}.bin >> $logfile 2>&1 ;;
-  *.gz) $gzip -dc $file | time maptool ${navit}.bin >> $logfile 2>&1 ;;
+  *.pbf) $pbf2osm $file | mbuffer -q -m 64m | time maptool ${navit}.bin 2>&1 | tail -c 1024K >> $logfile ;;
+  *.gz) $gzip -dc $file | mbuffer -q -m 64m | time maptool ${navit}.bin 2>&1 | tail -c 1024K >> $logfile ;;
   * ) false ;;
 esac
 
@@ -101,7 +101,7 @@ logfile_max_size="500k"
 if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
     echo "logfile $logfile is to big: $(ls -l $logfile)"
     $gzip $logfile
-    exit 2
+    #exit 2
 fi
 
 if [ $exit -ne 0 ];then

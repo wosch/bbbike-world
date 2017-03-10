@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -T
-# Copyright (c) 2011-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2011-2013 Wolfram Schneider, https://bbbike.org
 #
 # extract-email.cgi - email REST wrapper
 #
@@ -26,7 +26,7 @@ binmode \*STDERR, ":utf8";
 $ENV{PATH} = "/bin:/usr/bin";
 
 our $option = {
-    'script_homepage' => 'http://extract.bbbike.org',
+    'script_homepage' => '//extract.bbbike.org',
     'request_method'  => 'POST',
     'debug'           => 1,
     'bcc'             => 'bbbike@bbbike.org',

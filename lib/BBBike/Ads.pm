@@ -1,4 +1,4 @@
-# Copyright (c) 2012-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2012-2015 Wolfram Schneider, https://bbbike.org
 #
 # BBBikeAds.pm - advertising module
 

@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2011-2017 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2011-2017 Wolfram Schneider, https://bbbike.org
 #
 # helper functions for extract.cgi
 
@@ -256,10 +256,15 @@ sub mc_parameters {
     my $self = shift;
     my $q    = shift;
 
-    my $sw_lng = Param( $q, "sw_lng" ) + 0;
-    my $sw_lat = Param( $q, "sw_lat" ) + 0;
-    my $ne_lng = Param( $q, "ne_lng" ) + 0;
-    my $ne_lat = Param( $q, "ne_lat" ) + 0;
+    my $sw_lng = Param( $q, "sw_lng" );
+    my $sw_lat = Param( $q, "sw_lat" );
+    my $ne_lng = Param( $q, "ne_lng" );
+    my $ne_lat = Param( $q, "ne_lat" );
+
+    # nothing we could do
+    if ( $sw_lng eq "" || $sw_lat eq "" || $ne_lng eq "" || $ne_lat ) {
+        return "";
+    }
 
     my $lng = $sw_lng + ( $ne_lng - $sw_lng ) / 2;
     my $lat = $sw_lat + ( $ne_lat - $sw_lat ) / 2;
@@ -317,10 +322,10 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
   <div id="footer_top">
     <a href="$home">home</a> |
     <a href="/extract.html">@{[ M("help") ]}</a> |
-    <a href="http://download.bbbike.org/osm/">download</a> |
+    <a href="//download.bbbike.org/osm/">download</a> |
     <a href="@{[ $option->{"homepage"} ]}" target="_blank">status</a> |
     <!-- <a href="/cgi/livesearch-extract.cgi">@{[ M("livesearch") ]}</a> | -->
-    <a href="http://mc.bbbike.org/mc/$mc_parameters" id="mc_link" target="_blank">map compare</a> |
+    <a href="//mc.bbbike.org/mc/$mc_parameters" id="mc_link" target="_blank">map compare</a> |
     <a href="/extract.html#extract-pro">pro</a> |
     <a href="$community_link#donate">@{[ M("donate") ]}</a>
     $locate
@@ -368,7 +373,7 @@ qq{\n<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js
   @{[ $self->footer_top($q, 'error' => $error, 'map' => $args{'map'}, 'css' => $args{'css'} ) ]}
   <hr/>
   <div id="copyright" class="normalscreen">
-    (&copy;) 2017 <a href="http://www.bbbike.org">BBBike.org</a>
+    (&copy;) 2017 <a href="https://www.bbbike.org">BBBike.org</a>
     by <a href="http://wolfram.schneider.org">Wolfram Schneider</a><br/>
     Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
   <div id="footer_community"></div>
@@ -400,7 +405,7 @@ sub social_links {
     <<EOF;
     <span id="social">
     <a href="https://twitter.com/BBBikeWorld" target="_new"><img class="logo" width="16" height="16" src="/images/twitter-t.png" alt="" title="Follow us on twitter.com/BBBikeWorld" /></a>
-    <a href="http://www.bbbike.org/feed/bbbike-world.xml"><img class="logo" width="14" height="14" title="What's new on BBBike.org" src="/images/rss-icon.png" alt="" /></a>
+    <a href="https://www.bbbike.org/feed/bbbike-world.xml"><img class="logo" width="14" height="14" title="What's new on BBBike.org" src="/images/rss-icon.png" alt="" /></a>
     </span>
 EOF
 }
@@ -654,7 +659,8 @@ sub _check_input {
 
     $pg = 1 if !$pg || $pg > 1 || $pg <= 0;
 
-    error("area size '$as' must be greather than zero") if $as <= 0;
+    error("area size '$as' must be greather than zero")
+      if $as eq "" || $as <= 0;
 
     if ( !$error ) {
         error("ne lng '$ne_lng' must be larger than sw lng '$sw_lng'")
@@ -757,7 +763,7 @@ sub _check_input {
 
     if ( $email_counter > $email_limit ) {
         error( M("EXTRACT_LIMIT") );
-        warn "limit email counter: $email_limit > $email_counter $email\n"
+        warn "limit email counter: $email_counter > email_limit $email\n"
           if $debug >= 1;
     }
     elsif ( $ip_counter > $ip_limit ) {

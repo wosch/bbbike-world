@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) Aug 2015-2015 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Aug 2015-2015 Wolfram Schneider, https://bbbike.org
 #
 # check if git checkout bootstrapping is working
 

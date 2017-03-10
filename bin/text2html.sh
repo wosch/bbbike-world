@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2013 Wolfram Schneider, https://bbbike.org
 #
 # text2html - convert a README.txt to README.html
 #

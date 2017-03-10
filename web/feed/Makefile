@@ -1,4 +1,4 @@
-# Copyright (c) Mar 2010-2014, http://BBBike.org
+# Copyright (c) Mar 2010-2017, https://BBBike.org
 #
 # create an atom based RSS feed for BBBike @ World
 

@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) April 2014-2014 Wolfram Schneider, http://bbbike.org
+# Copyright (c) April 2014-2014 Wolfram Schneider, https://bbbike.org
 #
 # pbf-merge - merge N number of *.pbf files into one big
 #

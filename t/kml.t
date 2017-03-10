@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) Sep 2012-2013 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     system( "which", "xmllint" );
@@ -38,7 +38,7 @@ my $data = `cat $tempfile`;
 
 like(
     $data,
-    qr|http://www.bbbike.org/cgi/area.cgi\?city=[A-Z][a-z]+|,
+    qr|https://www.bbbike.org/cgi/area.cgi\?city=[A-Z][a-z]+|,
     "check links in kml"
 );
 

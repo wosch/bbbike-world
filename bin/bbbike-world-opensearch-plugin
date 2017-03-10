@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2009-2013 Wolfram Schneider, http://bbbike.org
+# Copyright (c) 2009-2013 Wolfram Schneider, https://bbbike.org
 #
 # bbbike-world-opensearch-plugin - create an opensearch plugin for  BBBike @ World cities
 #
@@ -17,7 +17,7 @@ binmode \*STDIN,  ":utf8";
 binmode \*STDOUT, ":utf8";
 
 my $debug = $ENV{DEBUG};
-my $homepage = $ENV{BBBIKE_HOMEPAGE} || 'http://www.bbbike.org';
+my $homepage = $ENV{BBBIKE_HOMEPAGE} || 'https://www.bbbike.org';
 
 sub extract_coords {
     my $db = shift;
@@ -76,7 +76,7 @@ sub create_opensearch_file {
   <Url template="$homepage/$lang_prefix$city/?sourceid=opensearch&amp;$queryparam={searchTerms}" type="text/html" />
   <Url type="application/x-suggestions+json" template="$homepage/cgi/api.cgi?sourceid=opensearch&amp;action=opensearch&amp;city=$city&amp;namespace=0&amp;search={searchTerms}"/>
   <Developer>Wolfram Schneider, Slaven Rezi&#x0107;</Developer>
-  <Contact>http://www.bbbike.org/</Contact>
+  <Contact>https://www.bbbike.org/</Contact>
   <Image height="16" type="image/png" width="16">$homepage/images/srtbike16.gif</Image>
   <Language>$lang</Language>
 </OpenSearchDescription>
