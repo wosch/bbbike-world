@@ -34,7 +34,10 @@ if you need to override the defaults below:
 
 PATH=/bin:/usr/bin; export PATH
 
-: ${process_names="lighttpd exim4 sshd ntpd"}
+: ${process_names="lighttpd exim4 apache2 varnishncsa"}
+
+# daemons with 'd' prefix, e.g: ssh -> sshd
+: ${process_names_d="ssh varnish ntp"}
 
 config=$1
 
@@ -55,12 +58,14 @@ graph_info BBBike Processes
 graph_period minute
 EOF
 
-    for pp in $process_names
+    for pp in $process_names $process_names_d
     do
-	p=$(pname $pp)
-        echo "$p.label $p"
-        echo "$p.warning $warning"
-        echo "$p.critical $critical"
+	if [ -e /etc/init.d/$pp ]; then
+	   p=$(pname $pp)
+           echo "$p.label $p"
+           echo "$p.warning $warning"
+           echo "$p.critical $critical"
+	fi
     done
 
     exit 0
@@ -68,7 +73,17 @@ fi
 
 for pp in $process_names
 do
-    p=$(pname $pp)
-    echo "$p.value" $(egrep "^${pp}$" /proc/*/comm | wc -l)
+    if [ -e /etc/init.d/$pp ]; then
+    	p=$(pname $pp)
+    	echo "$p.value" $(egrep "^${pp}$" /proc/*/comm | wc -l)
+    fi
+done
+
+for pp in $process_names_d
+do
+    if [ -e /etc/init.d/$pp ]; then
+    	p=$(pname $pp)
+    	echo "$p.value" $(egrep "^${pp}d$" /proc/*/comm | wc -l)
+    fi
 done
 
