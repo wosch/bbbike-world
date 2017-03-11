@@ -13,7 +13,7 @@ my @prod = qw(
   /var/lib/bbbike
   /etc/munin
 );
-my @path = qw( . $HOME/.openstreetmap );
+my @path = qw( $HOME/.openstreetmap );
 
 foreach my $dir (@prod) {
     push( @path, $dir ) if -d $dir;
