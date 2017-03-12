@@ -169,6 +169,11 @@ sub vcl_recv {
     ######################################################################
     # backends without caching, pipe/pass
 
+    # don't cache tests
+    if (req.url ~ "^/test\.txt$" ) {
+       return (pass);
+    }
+
     # do not cache OSM files
     if (req.http.host ~ "^(download[1-4]?)\.bbbike\.org$") {
          return (pipe);
