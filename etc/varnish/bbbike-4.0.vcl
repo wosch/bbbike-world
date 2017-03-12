@@ -43,22 +43,6 @@ backend bbbike {
     }
 }
 
-backend tile_size {
-    .host = "bbbike";
-    .port = "7070";
-    .first_byte_timeout = 300s;
-    .connect_timeout = 300s;
-    .between_bytes_timeout = 300s;
-
-    .probe = {
-        .url = "/test.txt";
-        .timeout =  1s;
-        .interval = 300s;
-        .window = 1;
-        .threshold = 1;
-    }
-}
-
 backend eserte {
     .host = "eserte";
     .port = "80";
@@ -134,11 +118,6 @@ sub vcl_recv {
     if (req.url ~ "^/\.well-known/acme-challenge/") {
         set req.backend_hint = localhost;
 	return (pass);
-    } 
-
-    # tile.size with node.js daemon
-    else if (req.url ~ "^/cgi/tile-size2.cgi$" && req.http.host ~ "^.*?\.bbbike\.org$" ) {
-        set req.backend_hint = tile_size;
     } 
 
     # other VMs
