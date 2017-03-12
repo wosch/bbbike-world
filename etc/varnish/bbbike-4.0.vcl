@@ -143,7 +143,7 @@ sub vcl_recv {
 
     # log real IP address in backend
     if (req.http.x-forwarded-for) {
-	set req.http.X-Forwarded-For = req.http.X-Forwarded-For + ", " + client.ip;
+	set req.http.X-Forwarded-For = req.http.X-Forwarded-For + "," + client.ip;
     } else {
        set req.http.X-Forwarded-For = client.ip;
     }
