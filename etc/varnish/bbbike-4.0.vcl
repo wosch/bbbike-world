@@ -43,7 +43,7 @@ backend bbbike {
 
     .probe = {
         .url = "/test.txt";
-        .timeout =  1s;
+        .timeout =  2s;
         .interval = 10s;
         .window = 4;
         .threshold = 3;
@@ -162,6 +162,11 @@ sub vcl_recv {
 
     ######################################################################
     # backends without caching, pipe/pass
+
+    # don't cache tests
+    if (req.url ~ "^/test\.txt$" ) {
+	return (pass);
+    }
 
     # do not cache OSM files
     if (req.http.host ~ "^(download[1-4]?)\.bbbike\.org$") {
