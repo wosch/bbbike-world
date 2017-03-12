@@ -12,6 +12,11 @@ backend default {
     .port = "8080";
 }
 
+backend localhost {
+    .host = "127.0.0.1";
+    .port = "8080";
+}
+
 backend tile {
     .host = "tile";
     #.host = "y.tile.bbbike.org";
