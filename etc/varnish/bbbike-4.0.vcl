@@ -75,12 +75,6 @@ backend wosch {
     .between_bytes_timeout = 300s;
 }
 
-# munin
-backend munin_localhost {
-    .host = "localhost";
-    .port = "8080";
-}
-
 backend bbbike_failover {
     .host = "www3.bbbike.org";
     .port = "80";
@@ -138,7 +132,7 @@ sub vcl_recv {
 
     # letsencrypt
     if (req.url ~ "^/\.well-known/acme-challenge/") {
-        set req.backend_hint = munin_localhost;
+        set req.backend_hint = localhost;
 	return (pass);
     } 
 
