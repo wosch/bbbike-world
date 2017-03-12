@@ -118,7 +118,7 @@ sub vcl_recv {
 
         # failover production @ www1 
         if (req.restarts == 1 || !std.healthy(req.backend_hint)) {
-                set req.backend_hint = bbbike_failover;
+            set req.backend_hint = bbbike_failover;
         }
     } else if (req.http.host ~ "^extract[1-4]?\.bbbike\.org$") {
         set req.backend_hint = bbbike;
@@ -128,10 +128,6 @@ sub vcl_recv {
         set req.backend_hint = bbbike;
     } else if (req.http.host ~ "^([a-z]\.)?tile\.bbbike\.org$" || req.http.host ~ "^(mc)\.bbbike\.org$") {
         set req.backend_hint = tile;
-    } else if (req.http.host ~ "^(www2?\.)?manualpages\.de$") {
-        set req.backend_hint = wosch;
-    } else if (req.http.host ~ "^(dvh|tkb)\.bookmaps\.org$") {
-        set req.backend_hint = wosch;
     } else if (req.http.host ~ "^eserte\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$" || req.http.host ~ "^jenkins(-dev)?\.bbbike\.(org|de)$") {
         set req.backend_hint = eserte;
     } else if (req.http.host ~ "^(www\.|)(cyclerouteplanner\.org|cyclerouteplanner\.com|bbike\.org|cycleroute\.net)$") {
