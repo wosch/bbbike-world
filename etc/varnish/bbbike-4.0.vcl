@@ -19,12 +19,19 @@ backend localhost {
 
 backend tile {
     .host = "tile";
-    #.host = "y.tile.bbbike.org";
     .port = "80";
 
     .first_byte_timeout = 600s;
     .connect_timeout = 600s;
     .between_bytes_timeout = 600s;
+
+    .probe = { 
+        .url = "/test.txt";
+        .timeout = 2s;
+        .interval = 10s;
+        .window = 4; 
+        .threshold = 3;
+    }
 }
 
 backend bbbike {
@@ -37,9 +44,9 @@ backend bbbike {
     .probe = {
         .url = "/test.txt";
         .timeout =  1s;
-        .interval = 30s;
-        .window = 1;
-        .threshold = 1;
+        .interval = 10s;
+        .window = 4;
+        .threshold = 3;
     }
 }
 
@@ -52,19 +59,19 @@ backend eserte {
 }
 
 backend bbbike_failover {
-    .host = "www3.bbbike.org";
+    .host = "www4.bbbike.org";
     .port = "80";
     .first_byte_timeout = 300s;
     .connect_timeout = 300s;
     .between_bytes_timeout = 300s;
+}
 
-    .probe = {
-        .url = "/test.txt";
-        .timeout = 2s;
-        .interval = 30s;
-        .window = 1;
-        .threshold = 1;
-    }
+backend tile_failover {
+    .host = "y.tile.bbbike.org";
+    .port = "80";
+    .first_byte_timeout = 300s;
+    .connect_timeout = 300s; 
+    .between_bytes_timeout = 300s;
 }
 
 
@@ -74,7 +81,7 @@ sub vcl_recv {
         return (synth(405, "IP address blocked: " + client.ip));
     }
 
-    # allow PURGE from localhost and 192.168.55...
+    # allow PURGE from localhost and 10.0.0.x
     if (req.method == "PURGE") {
         if (!client.ip ~ purge) {
             return(synth(405, "Not allowed: " + client.ip));
@@ -116,7 +123,7 @@ sub vcl_recv {
     else if (req.http.host ~ "^(m\.|api[1-4]?\.|www[1-4]?\.|dev[1-4]?\.|devel[1-4]?\.|)bbbike\.org$") {
         set req.backend_hint = bbbike;
 
-        # failover production @ www1 
+        # failover production @ www4 
         if (req.restarts == 1 || !std.healthy(req.backend_hint)) {
             set req.backend_hint = bbbike_failover;
         }
@@ -128,6 +135,11 @@ sub vcl_recv {
         set req.backend_hint = bbbike;
     } else if (req.http.host ~ "^([a-z]\.)?tile\.bbbike\.org$" || req.http.host ~ "^(mc)\.bbbike\.org$") {
         set req.backend_hint = tile;
+
+        # failover production @ www4 
+        if (req.restarts == 1 || !std.healthy(req.backend_hint)) {
+            set req.backend_hint = tile_failover;
+        }
     } else if (req.http.host ~ "^eserte\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$" || req.http.host ~ "^jenkins(-dev)?\.bbbike\.(org|de)$") {
         set req.backend_hint = eserte;
     } else if (req.http.host ~ "^(www\.|)(cyclerouteplanner\.org|cyclerouteplanner\.com|bbike\.org|cycleroute\.net)$") {
@@ -167,7 +179,6 @@ sub vcl_recv {
     }
 
     # no caching
-    if (req.http.host ~ "^(www2?\.)manualpages\.de$$")		{ return (pass); }
     if (req.http.host ~ "^extract[1-4]?\.bbbike\.org") 		{ return (pass); }
     if (req.http.host ~ "^([a-z]\.)?tile\.bbbike\.org") 	{ return (pass); }
     if (req.http.host ~ "^extract-pro[1-4]?\.bbbike\.org") 	{ return (pass); }
@@ -235,6 +246,7 @@ sub vcl_recv {
 }
 
 sub vcl_synth {
+    # special redirects
     if (resp.status == 850) {
         set resp.http.Location = req.http.x-redir;
         set resp.status = 302;
