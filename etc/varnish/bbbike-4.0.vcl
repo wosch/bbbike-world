@@ -51,14 +51,6 @@ backend eserte {
     .between_bytes_timeout = 300s;
 }
 
-backend wosch {
-    .host = "wosch";
-    .port = "80";
-    .first_byte_timeout = 300s;
-    .connect_timeout = 300s;
-    .between_bytes_timeout = 300s;
-}
-
 backend bbbike_failover {
     .host = "www3.bbbike.org";
     .port = "80";
