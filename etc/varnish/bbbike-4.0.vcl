@@ -12,26 +12,6 @@ backend default {
     .port = "8080";
 }
 
-/*
-#backend tile2 {
-#    #.host = "10.0.0.5";
-#    .host = "tile";
-#    .port = "80";
-#
-#    .first_byte_timeout = 600s;
-#    .connect_timeout = 600s;
-#    .between_bytes_timeout = 600s;
-#
-#    #.probe = {
-#    #    .url = "/test.txt";
-#    #    .timeout = 2s;
-#    #    .interval = 10s;
-#    #    .window = 1;
-#    #    .threshold = 1;
-#    #}
-#}
-*/
-
 backend tile {
     .host = "tile";
     #.host = "y.tile.bbbike.org";
