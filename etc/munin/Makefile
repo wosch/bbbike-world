@@ -16,7 +16,8 @@ MUNIN_BBBIKE_WEB=	bbbike-ajax \
 MUNIN_BBBIKE_EXTRACT= 	bbbike-extract-diskusage \
 			bbbike-extract-files \
 			bbbike-extract-size \
-			bbbike-extract-jobs
+			bbbike-extract-jobs \
+			bbbike-extract-stale
 
 MUNIN_VARNISH=	data_structures vcl_and_bans lru objects_per_objhead obj_sendfile_vs_write losthdr esi hcb shm shm_writes overflow session session_herd	
 
