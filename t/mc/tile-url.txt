@@ -132,3 +132,10 @@ https://a.tile.bbbike.org/osm/mapnik-german/12/2200/1342.png
 https://b.tile.bbbike.org/osm/mapnik-german/12/2200/1342.png
 https://c.tile.bbbike.org/osm/mapnik/12/2200/1342.png
 https://d.tile.bbbike.org/osm/bbbike-smoothness/12/2200/1342.png
+https://d-mydrive.api-system.tomtom.com/map/1/tile/basic/main/16/35206/21492.png?key=sATA9OwG11zrMKQcCxR3eSEjj2n8Jsrg
+https://c-mydrive.api-system.tomtom.com/map/1/tile/basic/night/16/35206/21492.png?key=sATA9OwG11zrMKQcCxR3eSEjj2n8Jsrg
+https://b-mydrive.api-system.tomtom.com/map/1/tile/hybrid/main/16/35206/21492.png?key=sATA9OwG11zrMKQcCxR3eSEjj2n8Jsrg
+https://a-mydrive.api-system.tomtom.com/map/1/tile/hybrid/night/16/35206/21492.png?key=sATA9OwG11zrMKQcCxR3eSEjj2n8Jsrg
+https://d-mydrive.api-system.tomtom.com/map/1/tile/labels/main/16/35206/21492.png?key=sATA9OwG11zrMKQcCxR3eSEjj2n8Jsrg
+https://a-mydrive.api-system.tomtom.com/map/1/tile/labels/night/16/35206/21492.png?key=sATA9OwG11zrMKQcCxR3eSEjj2n8Jsrg
+https://tiles3.lbsarea.com/tilegenerator/tile.ashx/?&x=1502&y=2229&zoom=12&tileCacheControlVersion=17&internalTileDataset=lbslocal
