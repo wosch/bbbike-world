@@ -342,8 +342,9 @@ echo ">>> Run mkgmap, map style: $mkgmap_map_style" >> $logfile
 
 logfile_max_size="2000k"
 if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
-    echo "logfile $logfile is to big: $(ls -l $logfile)"
-    $gzip $logfile
+    echo "Warning: logfile $logfile is to big"
+    ls -l $logfile
+    gzip $logfile
     #exit 2
 fi
 
