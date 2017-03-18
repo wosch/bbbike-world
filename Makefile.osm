@@ -630,9 +630,9 @@ bbbike2wgs84-mapnik:
 bbbike-tile-update:
 	cd ../bbbike-eserte; \
 	  git fetch origin; \
-	  git status -u no | wc -l > .bbbike_status_git; \
+	  git status -u no | wc -l > .git_fetch_status; \
 	  git pull -q
-	if [ $$(cat ../bbbike-eserte/.bbbike_status_git) -eq 2 ]; then \
+	if [ $$(cat ../bbbike-eserte/.git_fetch_status) -eq 2 ]; then \
 	  true; \
 	else \
 	  ${MAKE} bbbike-tile-update-real; \
