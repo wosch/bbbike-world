@@ -340,10 +340,11 @@ echo ">>> Run mkgmap, map style: $mkgmap_map_style" >> $logfile
 #( set -x
 #  java $java_opt -jar $BBBIKE_OPT_DIR/mkgmap/mkgmap.jar --gmapsupp [0-9][0-9]*.img ) >> $logfile 2>&1  || error
 
-logfile_max_size="500k"
+logfile_max_size="2000k"
 if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
-    echo "logfile $logfile is to big: $(ls -l $logfile)"
-    $gzip $logfile
+    echo "Warning: logfile $logfile is to big"
+    ls -l $logfile
+    gzip $logfile
     #exit 2
 fi
 
