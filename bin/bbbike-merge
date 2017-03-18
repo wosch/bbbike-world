@@ -49,7 +49,11 @@ make -s js perltidy || error "js perltidy"
 make -s update-files  || error "update-files"
 
 fetch_status=$(cat .git-getch-status-eserte | wc -l)
-if [ $bbbike_test -a $fetch_status -ne 2 ]; then
+if [ $(cat $fetch_status) -eq 0 ]; then
+    echo "No updates..."
+fi
+
+if [ $bbbike_test -a $fetch_status -ne 0 ]; then
     echo ""
     echo "running tests, will run for 2 minutes"
     if make check >> $logfile 2>&1; then
@@ -61,7 +65,7 @@ fi
 
 make git-diff
 
-if [ $verbose -a $fetch_status -ne 2 ]; then
+if [ $verbose -a $fetch_status -ne 0 ]; then
     pwd
     if [ -n "$command" ]; then
         $command
