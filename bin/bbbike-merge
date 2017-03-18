@@ -48,7 +48,7 @@ fi
 make -s js perltidy || error "js perltidy"
 make -s update-files  || error "update-files"
 
-fetch_status=$(cat .git-getch-status-eserte | wc -l)
+fetch_status=$(cat .git-fetch-status-eserte | wc -l)
 if [ $(cat $fetch_status) -eq 0 ]; then
     echo "No updates..."
 fi
