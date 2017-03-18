@@ -1387,6 +1387,7 @@ jasmine-node test-js:
 # run a git fetch on all remote git repos
 git-fetch: git-fetch-world
 	git fetch eserte
+    git status -u no > .git-getch-status-eserte
 	git fetch origin
 	git fetch github
 
