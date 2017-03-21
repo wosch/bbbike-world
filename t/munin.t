@@ -6,7 +6,7 @@ BEGIN {
         print "1..0 # skip due travis-ci.org test\n";
         exit;
     }
-        
+
     system(qq[printf "quit\n" | nc localhost 4949 >/dev/null]);
     if ($?) {
         print "1..0 # no running munin daemon found, skip tests\n";
