@@ -1,6 +1,6 @@
 /*
  Copyright (c) by https://www.openstreetmap.org/export - OSM License, 2012
- Copyright (c) 2012-2016 Wolfram Schneider, https://bbbike.org
+ Copyright (c) 2012-2017 Wolfram Schneider, https://bbbike.org
 */
 
 // HTML5: may not work on Android devices!
@@ -303,7 +303,7 @@ function init_map() {
     });
 
 
-    map.addLayer(new OpenLayers.Layer.OSM("OSM Landscape", ["https://a.tile.thunderforest.com/landscape/${z}/${x}/${y}.png", "https://b.tile.thunderforest.com/landscape/${z}/${x}/${y}.png"], {
+    map.addLayer(new OpenLayers.Layer.OSM("OSM Landscape", ["https://a.tile.thunderforest.com/landscape/${z}/${x}/${y}.png?apikey=6170aad10dfd42a38d4d8c709a536f38", "https://b.tile.thunderforest.com/landscape/${z}/${x}/${y}.png?apikey=6170aad10dfd42a38d4d8c709a536f38"], {
         tileOptions: {
             crossOriginKeyword: null
         },
