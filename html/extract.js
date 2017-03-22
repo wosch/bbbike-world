@@ -303,7 +303,7 @@ function init_map() {
     });
 
 
-    map.addLayer(new OpenLayers.Layer.OSM("OSM Landscape", ["https://a.tile.thunderforest.com/landscape/${z}/${x}/${y}.png?apikey=6170aad10dfd42a38d4d8c709a536f38", "https://b.tile.thunderforest.com/landscape/${z}/${x}/${y}.png?apikey=6170aad10dfd42a38d4d8c709a536f38"], {
+    map.addLayer(new OpenLayers.Layer.OSM("OSM Landscape", ["https://a.tile.thunderforest.com/landscape/${z}/${x}/${y}@2x.png?apikey=6170aad10dfd42a38d4d8c709a536f38", "https://b.tile.thunderforest.com/landscape/${z}/${x}/${y}@2x.png?apikey=6170aad10dfd42a38d4d8c709a536f38"], {
         tileOptions: {
             crossOriginKeyword: null
         },
