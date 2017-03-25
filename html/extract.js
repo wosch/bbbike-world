@@ -307,7 +307,7 @@ function init_map() {
         tileOptions: {
             crossOriginKeyword: null
         },
-        attribution: '<a href="https://www.OpenStreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="http://www.opencyclemap.org/">(&copy) OpenCycleMap</a>',
+        attribution: '<a href="https://www.OpenStreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="https://www.opencyclemap.org/">(&copy) OpenCycleMap</a>',
         numZoomLevels: 18
     }));
 
@@ -315,8 +315,12 @@ function init_map() {
         attribution: '<a href="https://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>'
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM.CycleMap("OSM CycleMap", {
-        attribution: '<a href="https://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="http://www.opencyclemap.org/">(&copy) OpenCycleMap</a>'
+    map.addLayer(new OpenLayers.Layer.OSM("OSM CycleMap", ["https://a.tile.thunderforest.com/cycle/${z}/${x}/${y}@2x.png?apikey=6170aad10dfd42a38d4d8c709a536f38", "https://b.tile.thunderforest.com/cycle/${z}/${x}/${y}@2x.png?apikey=6170aad10dfd42a38d4d8c709a536f38"], {
+        tileOptions: {
+            crossOriginKeyword: null
+        },
+        attribution: '<a href="https://www.OpenStreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="https://www.opencyclemap.org/">(&copy) OpenCycleMap</a>',
+        numZoomLevels: 18
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM("Mapbox Satellite", ["https://d.tiles.mapbox.com/v3/tmcw.map-j5fsp01s/${z}/${x}/${y}.png"], {
