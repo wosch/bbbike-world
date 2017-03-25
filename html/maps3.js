@@ -888,7 +888,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "Cycle, by OpenStreetMap"
         },
         getTileUrl: function (a, z) {
-            return "https://" + randomServerOSM() + ".tile.thunderforest.com/cycle/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "https://" + randomServerOSM() + ".tile.thunderforest.com/cycle/" + z + "/" + a.x + "/" + a.y + "@2x.png?apikey=6170aad10dfd42a38d4d8c709a536f38";
         },
         isPng: true,
         opacity: 1.0,
@@ -904,7 +904,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "Transport, by OpenCycleMap.org"
         },
         getTileUrl: function (a, z) {
-            return "https://" + randomServerOSM() + ".tile.thunderforest.com/transport/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "https://" + randomServerOSM() + ".tile.thunderforest.com/transport/" + z + "/" + a.x + "/" + a.y + "@2x.png?apikey=6170aad10dfd42a38d4d8c709a536f38";
         },
         isPng: true,
         opacity: 1.0,
@@ -920,7 +920,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "Landscape, by OpenCycleMap.org"
         },
         getTileUrl: function (a, z) {
-            return "https://" + randomServerOSM() + ".tile.thunderforest.com/landscape/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "https://" + randomServerOSM() + ".tile.thunderforest.com/landscape/" + z + "/" + a.x + "/" + a.y + "@2x.png?apikey=6170aad10dfd42a38d4d8c709a536f38";
         },
         isPng: true,
         opacity: 1.0,
