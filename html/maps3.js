@@ -2778,23 +2778,27 @@ function elevation_initialize(slippymap, opt) {
         map = new google.maps.Map(document.getElementById("map")); //, myOptions);
     }
 
-    chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-
     geocoderService = new google.maps.Geocoder();
     elevationService = new google.maps.ElevationService();
     directionsService = new google.maps.DirectionsService();
 
-    google.visualization.events.addListener(chart, 'onmouseover', function (e) {
-        if (mousemarker == null) {
-            mousemarker = new google.maps.Marker({
-                position: elevations[e.row].location,
-                map: map,
-                icon: bbbike.icons.purple_dot
-            });
-        } else {
-            mousemarker.setPosition(elevations[e.row].location);
-        }
-    });
+    try {
+        chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        google.visualization.events.addListener(chart, 'onmouseover', function (e) {
+            if (mousemarker == null) {
+                mousemarker = new google.maps.Marker({
+                    position: elevations[e.row].location,
+                    map: map,
+                    icon: bbbike.icons.purple_dot
+                });
+            } else {
+                mousemarker.setPosition(elevations[e.row].location);
+            }
+        });
+
+    } catch (e) {
+        debug("Cannot load elevation chart lib: " + e);
+    }
 
     loadRoute(opt);
 }

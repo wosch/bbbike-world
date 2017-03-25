@@ -151,7 +151,8 @@ var chart=null;var geocoderService=null;var elevationService=null;var directions
 function elevation_initialize(slippymap,opt){var myLatlng=new google.maps.LatLng(15,0);var myOptions={zoom:1,center:myLatlng,}
 var maptype=slippymap.maptype;if(is_supported_map(maptype)){setCustomBold(maptype);}
 if(slippymap){map=slippymap;}else{map=new google.maps.Map(document.getElementById("map"));}
-chart=new google.visualization.ColumnChart(document.getElementById('chart_div'));geocoderService=new google.maps.Geocoder();elevationService=new google.maps.ElevationService();directionsService=new google.maps.DirectionsService();google.visualization.events.addListener(chart,'onmouseover',function(e){if(mousemarker==null){mousemarker=new google.maps.Marker({position:elevations[e.row].location,map:map,icon:bbbike.icons.purple_dot});}else{mousemarker.setPosition(elevations[e.row].location);}});loadRoute(opt);}
+geocoderService=new google.maps.Geocoder();elevationService=new google.maps.ElevationService();directionsService=new google.maps.DirectionsService();try{chart=new google.visualization.ColumnChart(document.getElementById('chart_div'));google.visualization.events.addListener(chart,'onmouseover',function(e){if(mousemarker==null){mousemarker=new google.maps.Marker({position:elevations[e.row].location,map:map,icon:bbbike.icons.purple_dot});}else{mousemarker.setPosition(elevations[e.row].location);}});}catch(e){debug("Cannot load elevation chart lib: "+e);}
+loadRoute(opt);}
 function plotElevation(results){if(results==null){alert("Sorry, no elevation results are available. Plot the route only.");return plotRouteOnly();}
 elevations=results;var path=[];for(var i=0;i<results.length;i++){path.push(elevations[i].location);}
 if(polyline){polyline.setMap(null);}
