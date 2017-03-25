@@ -48,10 +48,10 @@ esac
 extract_dir_running=$extract_dir/running
 
 if [ "$1" = "config" ]; then
-    : ${warning=1}
-    : ${critical=3}
-    : ${stale_warning=1}
-    : ${stale_critical=3}
+    : ${warning=0:0}
+    : ${critical=0:2}
+    : ${stale_warning=0:0}
+    : ${stale_critical=0:2}
      
     cat <<EOF
 graph_title Extracts crashed $pro

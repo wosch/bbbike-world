@@ -23,9 +23,12 @@ my $versions = {
         [ [qw/pigz --version/], qr/^pigz (2\.1\.6|2\.2\.[4-9]|2\.3\.1|2\.3)/ ],
         [
             [qw/java -version/],
-            qr/^openjdk version "1.8.0_(03|91|102|111|121|03-Ubuntu)"/m
+            qr/^(openjdk|java) version "1.8.0_(03|91|102|111|121|03-Ubuntu)"/m
         ],
-        [ [qw/java -version/], qr/^OpenJDK (64-Bit )?Server VM/m ],
+        [
+            [qw/java -version/],
+            qr/^(OpenJDK|Java HotSpot\(TM\)) (64-Bit )?Server VM/m
+        ],
         [
             [qw/perltidy -v/],
             qr/^This is perltidy, (v20090616|v20101217|v20140328|v20120701)/
