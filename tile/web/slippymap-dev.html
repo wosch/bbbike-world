@@ -60,7 +60,7 @@
 
             var layerMapnik = new OpenLayers.Layer.OSM.Mapnik("OSM Mapnik"); map.addLayer(layerMapnik);
 
-            map.addLayer( new OpenLayers.Layer.OSM("OSM Mapnik (DE)", "http://a.tile.openstreetmap.de/tiles/osmde/${z}/${x}/${y}.png", {numZoomLevels: 18}));
+            map.addLayer( new OpenLayers.Layer.OSM("OSM Mapnik (DE)", "https://a.tile.openstreetmap.de/tiles/osmde/${z}/${x}/${y}.png", {numZoomLevels: 18}));
             map.addLayer( new OpenLayers.Layer.OSM("OSM Mapnik B/W", "http://a.tiles.wmflabs.org/bw-mapnik/${z}/${x}/${y}.png", {numZoomLevels: 18}));
 
             var layerCycleMap = new OpenLayers.Layer.OSM.CycleMap("OSM CycleMap");

@@ -713,14 +713,14 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         maxZoom: 18
     };
 
-    // http://openstreetmap.de/
+    // https://openstreetmap.de/
     var mapnik_de_options = {
         bbbike: {
             "name": "Mapnik (de)",
             "description": "German Mapnik, by OpenStreetMap.de"
         },
         getTileUrl: function (a, z) {
-            return "http://" + randomServerOSM(4) + ".tile.openstreetmap.de/tiles/osmde/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "https://" + randomServerOSM(4) + ".tile.openstreetmap.de/tiles/osmde/" + z + "/" + a.x + "/" + a.y + ".png";
         },
         isPng: true,
         opacity: 1.0,
@@ -737,7 +737,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "BBBike Mapnik, by bbbike.de"
         },
         getTileUrl: function (a, z) {
-            return "http://" + randomServerOSM(3) + ".tile.bbbike.org/osm/mapnik/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "https://" + randomServerOSM(3) + ".tile.bbbike.org/osm/mapnik/" + z + "/" + a.x + "/" + a.y + ".png";
         },
         isPng: true,
         opacity: 1.0,
@@ -754,7 +754,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "BBBike Smoothness, by bbbike.de"
         },
         getTileUrl: function (a, z) {
-            return "http://" + randomServerOSM(3) + ".tile.bbbike.org/osm/bbbike-smoothness/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "https://" + randomServerOSM(3) + ".tile.bbbike.org/osm/bbbike-smoothness/" + z + "/" + a.x + "/" + a.y + ".png";
         },
         isPng: true,
         opacity: 1.0,
@@ -820,7 +820,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "BBBike Mapnik German, by bbbike.de"
         },
         getTileUrl: function (a, z) {
-            return "http://" + randomServerOSM(3) + ".tile.bbbike.org/osm/mapnik-german/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "https://" + randomServerOSM(3) + ".tile.bbbike.org/osm/mapnik-german/" + z + "/" + a.x + "/" + a.y + ".png";
         },
         isPng: true,
         opacity: 1.0,

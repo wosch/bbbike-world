@@ -83,7 +83,7 @@ function init() {
 
     map.addLayer(new OpenLayers.Layer.OSM.Mapnik("OSM Mapnik"));
 
-    map.addLayer(new OpenLayers.Layer.OSM("OSM Mapnik (de)", "http://a.tile.openstreetmap.de/tiles/osmde/${z}/${x}/${y}.png", {
+    map.addLayer(new OpenLayers.Layer.OSM("OSM Mapnik (de)", "https://a.tile.openstreetmap.de/tiles/osmde/${z}/${x}/${y}.png", {
         tileOptions: {
             crossOriginKeyword: null
         },

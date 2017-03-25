@@ -32,50 +32,50 @@ my @cities_utf8 = (
 
 my @list = (
     {
-        'page'     => 'http://www.bbbike.org',
+        'page'     => 'https://www.bbbike.org',
         'min_size' => 10_000,
         'match'    => [ "</html>", @cities, @cities_utf8 ]
     },
     {
-        'page'     => 'http://m.bbbike.org',
+        'page'     => 'https://m.bbbike.org',
         'min_size' => 1_000,
         'match'    => [ "</html>", @cities ]
     },
     {
-        'page'     => 'http://www.bbbike.org/en/',
+        'page'     => 'https://www.bbbike.org/en/',
         'min_size' => 10_000,
         'match'    => [ "</html>", @cities ]
     },
     {
-        'page'     => 'http://www.bbbike.org/de/',
+        'page'     => 'https://www.bbbike.org/de/',
         'min_size' => 10_000,
         'match'    => [ "</html>", @cities ]
     },
     {
-        'page'     => 'http://extract.bbbike.org',
+        'page'     => 'https://extract.bbbike.org',
         'min_size' => 5_000,
         'match'    => [ "</html>", "about" ]
     },
     {
-        'page'     => 'http://download.bbbike.org/osm/',
+        'page'     => 'https://download.bbbike.org/osm/',
         'min_size' => 2_000,
         'match' =>
           [ "</html>", "Select your own region", "offers a database dump" ]
     },
     {
-        'page'     => 'http://mc.bbbike.org/osm/',
+        'page'     => 'https://mc.bbbike.org/osm/',
         'min_size' => 1_500,
         'match'    => [ "</html>", qq/ id="map">/ ]
     },
     {
-        'page'     => 'http://mc.bbbike.org/mc/',
+        'page'     => 'https://mc.bbbike.org/mc/',
         'min_size' => 5_000,
         'match' =>
           [ "</html>", "Choose map type", ' src="js/mc.js(\?version=\d+)?"' ]
     },
     {
         'page' =>
-          'http://a.tile.bbbike.org/osm/mapnik-german/15/17602/10746.png',
+          'https://a.tile.bbbike.org/osm/mapnik-german/15/17602/10746.png',
         'min_size'  => 10_000,
         'match'     => [],
         'mime_type' => 'image/png'
