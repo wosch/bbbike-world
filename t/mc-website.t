@@ -134,8 +134,8 @@ foreach my $obj (@list) {
 
 #
 # both production and devel server:
-# http://mc.bbbike.org
-# http://y.tile.bbbike.org
+# https://mc.bbbike.org
+# https://y.tile.bbbike.org
 #
 if ($enable_devel_server) {
     push @list, map { s,mc.bbbike.org,y.tile.bbbike.org,; $_ } @list;
