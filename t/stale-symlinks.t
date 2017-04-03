@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2016 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2017 Wolfram Schneider, https://bbbike.org
 
 use Test::More;
 
@@ -8,13 +8,17 @@ use warnings;
 
 my @prod = qw(
   /usr/local/www/debian.bbbike.org
-  /usr/local/www/download.bbbike.org
   /usr/local/www/bbbike
   /usr/local/www/bbbike.org
   /etc/lighttpd
   /var/lib/bbbike
   /etc/munin
 );
+
+if ( !$ENV{BBBIKE_TEST_TRAVIS} ) {
+    push @prod, qw(/usr/local/www/download.bbbike.org);
+}
+
 my @path = qw( . $HOME/.openstreetmap );
 
 foreach my $dir (@prod) {
