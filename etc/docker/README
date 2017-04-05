@@ -1,0 +1,6 @@
+# socker on linux
+# sudo apt-get install docker.io 
+
+# cd bbbike
+sudo docker build -f world/etc/docker/tile-ubuntu14 -t bbbike/tile .
+
