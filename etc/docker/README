@@ -1,7 +1,10 @@
-# socker on linux
+# Docker on linux
 # sudo apt-get install docker.io 
 
+###########################################################################
 # build docker images for bbbike tile server
+#
+
 # cd bbbike
 sudo docker build -f world/etc/docker/tile-ubuntu14 -t bbbike/tile .
 
