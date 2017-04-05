@@ -29,4 +29,6 @@ RUN sudo apt-get clean
 
 EXPOSE 80
 
+CMD ["/bin/sh", "-c", "make mapnik-restart && bash"]
+
 # see ./README

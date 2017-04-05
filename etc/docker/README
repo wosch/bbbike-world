@@ -6,8 +6,9 @@
 sudo docker build -f world/etc/docker/tile-ubuntu14 -t bbbike/tile .
 
 # run the instance
-sudo docker run -it -p 8080:80 bbbike/tile /bin/bash
-  make mapnik-restart
+sudo docker run -it -p 8080:80 bbbike/tile
+
+# request a tile
 curl http://localhost:8080/osm/bbbike/11/1100/671.png | wc -c
 
 
