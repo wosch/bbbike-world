@@ -6,7 +6,7 @@ RUN apt-get update -q && apt-get upgrade -y && \
 
 RUN mkdir -p /bbbike/projects
 WORKDIR /bbbike/projects
-ENV HOME /bbbike/
+ENV HOME /bbbike
 RUN useradd -ms /bin/bash tile && \
   echo 'tile   ALL=NOPASSWD: ALL' >> /etc/sudoers
 RUN chown -R tile:tile /bbbike/projects
