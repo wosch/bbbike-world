@@ -1,0 +1,33 @@
+FROM ubuntu:14.04
+MAINTAINER Wolfram Schneider <wosch@FreeBSD.org>
+
+RUN apt-get update -q && apt-get upgrade -y && \
+  apt-get install -y git make
+
+RUN mkdir -p /bbbike/projects
+WORKDIR /bbbike/projects
+ENV HOME /bbbike/
+RUN useradd -ms /bin/bash tile && \
+  echo 'tile   ALL=NOPASSWD: ALL' >> /etc/sudoers
+RUN chown -R tile:tile /bbbike/projects
+USER tile
+
+#ADD . bbbike
+RUN pwd && git clone  https://github.com/wosch/bbbike.git && \
+  cd bbbike && git clone https://github.com/wosch/bbbike-world.git world && \
+  ln -fs world/Makefile.osm create-bbbike-web-symlinks
+
+WORKDIR /bbbike/projects/bbbike
+
+RUN mkdir -p ../mc && \
+ make -C./world/tile install-all && \
+ make -C./world/tile openstreetmap-postgis && \
+ sudo /usr/bin/install-postgis-osm-user.sh gis "www-data $(whoami) tile"
+
+RUN sudo chown -R tile /bbbike/projects 
+RUN make -C./world/tile mapnik-restart bbbike-mapnik
+RUN sudo apt-get clean
+
+EXPOSE 80
+
+# see ./README
