@@ -15,7 +15,7 @@ USER tile
 #ADD . bbbike
 RUN pwd && git clone  https://github.com/wosch/bbbike.git && \
   cd bbbike && git clone https://github.com/wosch/bbbike-world.git world && \
-  ln -fs world/Makefile.osm create-bbbike-web-symlinks
+  make create-makefile-symlinks
 
 WORKDIR /bbbike/projects/bbbike
 
