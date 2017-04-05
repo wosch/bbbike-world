@@ -13,6 +13,7 @@ NICE5=		nice -n 9
 PERL=		perl
 GIT_ID=		$(shell git show | head -n1 | awk '{ print $$2 }')
 TMP_DIR=	/tmp/bbbike-$(shell whoami)
+LOGNAME=         $(shell logname | whoami)
 OSM2BBD_MAPTYPE=	#-map bbbike	
 OSM_SOCKS_PROXY=	--socksproxy=socks://localhost:1080
 OSM_TIMEOUT=	--timeout=45
@@ -926,7 +927,7 @@ cache-install:
 extract-install extract-bbbike-org-install:
 	mkdir -p /tmpfs
 	mkdir -p ${BBBIKE_PARTITION}/$$(basename ${EXTRACTS_SPOOL_DIR})
-	chown -R $$(logname) ${BBBIKE_PARTITION}/
+	chown -R ${LOGNAME} ${BBBIKE_PARTITION}/
 	if [ ! -e ${EXTRACTS_SPOOL_DIR} ]; then \
 	   ln -fs ${BBBIKE_PARTITION}/$$(basename ${EXTRACTS_SPOOL_DIR}) ${EXTRACTS_SPOOL_DIR}; \
 	fi
@@ -946,10 +947,10 @@ extract-install extract-bbbike-org-install:
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/failed
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/failed2
 	chmod -R a+rX,gu+w ${EXTRACTS_SPOOL_DIR}/
-	chown -R $$(logname):${WEB_GROUP} ${EXTRACTS_SPOOL_DIR}/
+	chown -R ${LOGNAME}:${WEB_GROUP} ${EXTRACTS_SPOOL_DIR}/
 	cp world/bin/osmconvert-wrapper /usr/local/bin
 	mkdir -p /usr/local/www
-	chown -R $$(logname) /usr/local/www
+	chown -R ${LOGNAME} /usr/local/www
 
 bbbike-cache-install:
 	mkdir -p ${BBBIKE_PARTITION}/cache
@@ -1245,7 +1246,7 @@ deb-opt-dir-version:
 
 bbbike-partition:
 	sudo mkdir -p ${BBBIKE_PARTITION}
-	sudo chown $$(logname) ${BBBIKE_PARTITION}
+	sudo chown ${LOGNAME} ${BBBIKE_PARTITION}
 	cd ${BBBIKE_PARTITION}; mkdir -p cache extract projects tmp www
 	sudo ${MAKE} bbbike-cache-install
 	
