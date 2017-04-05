@@ -13,7 +13,7 @@ NICE5=		nice -n 9
 PERL=		perl
 GIT_ID=		$(shell git show | head -n1 | awk '{ print $$2 }')
 TMP_DIR=	/tmp/bbbike-$(shell whoami)
-LOGNAME=         $(shell logname 2>/dev/null | whoami)
+LOGNAME=         $(shell logname 2>/dev/null || whoami)
 OSM2BBD_MAPTYPE=	#-map bbbike	
 OSM_SOCKS_PROXY=	--socksproxy=socks://localhost:1080
 OSM_TIMEOUT=	--timeout=45
