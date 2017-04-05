@@ -6,7 +6,7 @@ RUN apt-get update -q && apt-get upgrade -y && \
 
 RUN mkdir -p /bbbike/projects
 WORKDIR /bbbike/projects
-ENV HOME /bbbike/
+ENV HOME /bbbike
 RUN useradd -ms /bin/bash bbbike && \
   echo 'bbbike   ALL=NOPASSWD: ALL' >> /etc/sudoers
 RUN chown -R bbbike:bbbike /bbbike/projects
@@ -30,10 +30,12 @@ RUN echo 'deb http://httpredir.debian.org/debian jessie-backports main contrib n
 
 RUN make -f world/Makefile.osm create-bbbike-web-symlinks
 RUN cd world && git pull
+RUN sudo cp world/etc/env/dot.bbbikerc ~/.bbbikerc
 RUN sudo make bbbike-bootstrap || true
-RUN sudo make update-files
+RUN sudo chown -R bbbike:bbbike /bbbike/projects
+RUN make update-files
 
-EXPOSE 80
+#EXPOSE 80
 
 CMD ["bash"]
 
