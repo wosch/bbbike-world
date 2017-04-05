@@ -18,3 +18,8 @@ curl http://localhost:8080/osm/bbbike/11/1100/671.png | wc -c
 open http://localhost:8080/osm/
 
 
+###########################################################################
+# build docker images for bbbike extract server
+#
+sudo docker build -f world/etc/docker/bbbike-debian8 -t bbbike/extract .
+
