@@ -20,10 +20,12 @@ RUN pwd && git clone  https://github.com/wosch/bbbike.git && \
 WORKDIR /bbbike/projects/bbbike
 
 RUN mkdir -p ../mc && \
- make -C./world/tile install-all && \
- make -C./world/tile openstreetmap-postgis && \
+ make -C./world/tile install-all
+
+RUN make -C./world/tile openstreetmap-postgis && \
  sudo /usr/bin/install-postgis-osm-user.sh gis "www-data $(whoami) tile"
 
+RUN make create-bbbike-web-symlinks
 RUN make -C./world/tile mapnik-restart bbbike-mapnik
 RUN sudo apt-get clean
 
