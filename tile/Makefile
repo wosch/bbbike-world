@@ -175,8 +175,8 @@ apt-distclean-carto:
 	if ! test -e etc/renderd22.conf; then git checkout etc/renderd22.conf; fi
 
 carto-distclean:
-	rm -f /usr/share/mapnik-osm-carto-data/*.zip
-	rm -f /usr/share/mapnik-osm-carto-data/*.tgz
+	sudo rm -f /usr/share/mapnik-osm-carto-data/*.zip
+	sudo rm -f /usr/share/mapnik-osm-carto-data/*.tgz
 
 help:
 	@echo ""
