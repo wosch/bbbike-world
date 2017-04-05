@@ -32,8 +32,7 @@ RUN make -f world/Makefile.osm create-bbbike-web-symlinks
 RUN cd world && git pull
 RUN sudo cp world/etc/env/dot.bbbikerc ~/.bbbikerc
 RUN sudo make bbbike-bootstrap || true
-RUN sudo chown -R bbbike:bbbike /bbbike/projects
-RUN make update-files
+RUN sudo make update-files
 
 #EXPOSE 80
 
