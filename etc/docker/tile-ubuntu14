@@ -24,7 +24,6 @@ RUN mkdir -p ../mc && \
  make -C./world/tile openstreetmap-postgis && \
  sudo /usr/bin/install-postgis-osm-user.sh gis "www-data $(whoami) tile"
 
-RUN sudo chown -R tile /bbbike/projects 
 RUN make -C./world/tile mapnik-restart bbbike-mapnik
 RUN sudo apt-get clean
 
