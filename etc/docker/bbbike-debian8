@@ -9,8 +9,6 @@ WORKDIR /bbbike/projects
 ENV HOME /bbbike
 RUN useradd -ms /bin/bash bbbike && \
   echo 'bbbike   ALL=NOPASSWD: ALL' >> /etc/sudoers
-RUN chown -R bbbike:bbbike /bbbike/projects
-USER bbbike
 
 #ADD . bbbike
 RUN pwd && git clone --depth=200 https://github.com/wosch/bbbike.git && \
@@ -29,10 +27,13 @@ RUN echo 'deb http://httpredir.debian.org/debian jessie-backports main contrib n
   sudo apt-get install -y bbbike-world
 
 RUN make -f world/Makefile.osm create-bbbike-web-symlinks
-RUN cd world && git pull
-RUN sudo cp world/etc/env/dot.bbbikerc ~/.bbbikerc
-RUN sudo make bbbike-bootstrap || true
-RUN sudo make update-files
+#RUN cd world && git pull
+RUN sudo cp world/etc/env/dot.bbbikerc $HOME/.bbbikerc
+RUN make bbbike-bootstrap || true
+RUN make update-files
+
+RUN chown -R bbbike:bbbike /bbbike/projects
+USER bbbike
 
 #EXPOSE 80
 

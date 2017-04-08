@@ -5,10 +5,14 @@
 # build docker images for bbbike tile server
 #
 
-# cd bbbike
-sudo docker build -f world/etc/docker/tile-ubuntu14 -t bbbike/tile .
+# cd mc
+make docker-build
 
 # run the instance
+make docker-shell
+make docker-check
+
+or:
 sudo docker run -it -p 8080:80 bbbike/tile
 
 # request a tile
@@ -21,5 +25,9 @@ open http://localhost:8080/osm/
 ###########################################################################
 # build docker images for bbbike extract server
 #
+cd bbbike
+make docker-build
+
+or:
 sudo docker build -f world/etc/docker/bbbike-debian8 -t bbbike/extract .
 

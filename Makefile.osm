@@ -23,6 +23,10 @@ DOWNLOADOSM=	${PERL} ./miscsrc/downloadosm --debug=1 ${OSM_SOCKS_PROXY} ${OSM_TI
 OSM2BBD_OPT=	--ignore-unhandled --ignore-underline-noname --granularity=100
 OSM2BBD=	./miscsrc/osm2bbd ${OSM2BBD_OPT} --nodate --no-create --git-id="${GIT_ID}" -f --debug=0 ${OSM2BBD_MAPTYPE} -experiment add_postal_code -experiment handle_relations
 
+DOCKER_SUDO?= 			sudo
+DOCKER_IMAGE_FILE?=		bbbike-debian8
+DOCKER_BBBIKE_TAG?=		bbbike/extract
+
 MAX_CPU=	`world/bin/ncpu`
 MAX_CPU2=	`world/bin/ncpu -1`
 MAX_CPU3=	`world/bin/ncpu / 2`
@@ -1234,7 +1238,9 @@ bbbike-bootstrap: bbbike-partition debian-bootstrap update-files install-backend
 	sudo ${MAKE} -C./world/etc crontab-root
 	sudo ${MAKE} -C./world/etc/munin install-munin-bbbike
 	sudo update-rc.d lighttpd defaults
-	sudo /etc/init.d/lighttpd restart
+	-sudo /etc/init.d/lighttpd stop
+	sleep 0.5
+	sudo /etc/init.d/lighttpd start
 	rm -f ./HEADER.txt
 	@echo ""
 	@echo "You may also run: make staging"
@@ -1454,6 +1460,13 @@ install-xvfb:
 	sudo cp world/etc/init.d/xvfb /etc/init.d 
 	sudo update-rc.d xvfb defaults
 
+docker-build:
+	${DOCKER_SUDO} docker build -f world/etc/docker/${DOCKER_IMAGE_FILE} -t ${DOCKER_BBBIKE_TAG} .
+docker-check:
+	${DOCKER_SUDO} docker run -it -p 8000:80 bbbike/extract make check
+docker-shell:
+	${DOCKER_SUDO} docker run -it -p 8000:80 bbbike/extract
+
 help:
 	@echo "bbbike version: ${GIT_ID}"
 	@echo ""
@@ -1523,6 +1536,7 @@ help:
 	@echo "  [ apt-clean | host-clean ]"
 	@echo "  [ git-fetch | git-pull | git-push | mygit | git-gc ]"
 	@echo "  [ check | check-world | check-full | check-failed ]"
+	@echo "  [ docker-build | docker-check | docker-shell ]"
 	@echo "  [ travis ]"
 	@echo ""
 	@echo "after failed install/cache update:"
