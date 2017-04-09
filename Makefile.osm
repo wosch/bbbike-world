@@ -636,10 +636,10 @@ bbbike2wgs84-mapnik:
 
 bbbike-tile-update:
 	cd ../bbbike-eserte; \
-	  git fetch origin; \
-	  git status -b -s -u no | egrep -w behind | wc -l > .git-fetch-status; \
-	  git pull -q
-	if [ $$(cat ../bbbike-eserte/.git-fetch-status) -eq 0 ]; then \
+	  git pull -q; \
+	  git log --format=oneline | head -1 | awk '{ print $$1 }' > .tile-status.new
+	# skip update if there are no new git commits
+	if cmp ../bbbike-eserte/.tile-status ../bbbike-eserte/.tile-status.new; then \
 	  true; \
 	else \
 	  ${MAKE} bbbike-tile-update-real; \
@@ -649,6 +649,7 @@ bbbike-tile-update-real:
 	@echo "Updating postgis database..., see tmp/log.bbbike-mapnik-postgis${POSTGIS_VERSION}"
 	${MAKE} DATA_DIR=../bbbike-eserte/data bbbike2wgs84-mapnik 
 	time ${MAKE} bbbike-mapnik-postgis${POSTGIS_VERSION} > tmp/log.bbbike-mapnik-postgis${POSTGIS_VERSION} 2>&1
+	cd ../bbbike-eserte; git log --format=oneline | head -1 | awk '{ print $$1 }' > .tile-status
 	${MAKE} tile-cache-cleanup
 	prove world/t/mc-tilecheck.t ./world/t/websites.t
 
