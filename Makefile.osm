@@ -672,8 +672,8 @@ bbbike-mapnik-postgis bbbike-mapnik-postgis9:
 	osm2pgsql --cache-strategy sparse --cache=100 --slim -S ${POSTGIS_STYLE9} -c ${LOG_DIR}/bbbike-mapnik.osm.gz
 
 mapnik-restart:
-	sudo /etc/init.d/postgresql restart; sleep 0.5
-	sudo /etc/init.d/apache2 restart; sleep 0.5
+	sudo /etc/init.d/postgresql restart; sleep 2.5
+	sudo /etc/init.d/apache2 restart; sleep 1.0
 	sudo /etc/init.d/renderd restart; sleep 0.5
 	./world/bin/tile-cache-cleanup	
 
