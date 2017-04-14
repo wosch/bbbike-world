@@ -1464,9 +1464,14 @@ install-xvfb:
 docker-build:
 	${DOCKER_SUDO} docker build -f world/etc/docker/${DOCKER_IMAGE_FILE} -t ${DOCKER_BBBIKE_TAG} .
 docker-check:
-	${DOCKER_SUDO} docker run -it -p 8000:80 bbbike/extract make check
+	${DOCKER_SUDO} docker run -it -p 8000:80 ${DOCKER_BBBIKE_TAG} make check
 docker-shell:
-	${DOCKER_SUDO} docker run -it -p 8000:80 bbbike/extract
+	${DOCKER_SUDO} docker run -it -p 8000:80 ${DOCKER_BBBIKE_TAG}
+
+docker-build-tile:
+	${BBMAKE} DOCKER_IMAGE_FILE=tile-ubuntu14 DOCKER_BBBIKE_TAG=bbbike/tile docker-build
+docker-shell-tile:
+	${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/tile docker-shell
 
 help:
 	@echo "bbbike version: ${GIT_ID}"
@@ -1538,6 +1543,7 @@ help:
 	@echo "  [ git-fetch | git-pull | git-push | mygit | git-gc ]"
 	@echo "  [ check | check-world | check-full | check-failed ]"
 	@echo "  [ docker-build | docker-check | docker-shell ]"
+	@echo "  [ docker-build-tile | docker-shell-tile ]"
 	@echo "  [ travis ]"
 	@echo ""
 	@echo "after failed install/cache update:"
