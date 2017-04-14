@@ -1468,6 +1468,7 @@ docker-check:
 docker-shell:
 	${DOCKER_SUDO} docker run -it -p 8000:80 ${DOCKER_BBBIKE_TAG}
 
+# see world/etc/docker/README 
 docker-build-tile:
 	${BBMAKE} DOCKER_IMAGE_FILE=tile-ubuntu14 DOCKER_BBBIKE_TAG=bbbike/tile docker-build
 docker-shell-tile:
