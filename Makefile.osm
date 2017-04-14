@@ -1474,6 +1474,10 @@ docker-build-tile:
 docker-shell-tile:
 	${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/tile docker-shell
 
+check-tileserver:
+	curl -sf http://localhost:80/osm/bbbike/11/1100/671.png > /dev/null
+	curl -sf http://localhost:80/osm/bbbike/11/1100/671.png | wc -c
+
 help:
 	@echo "bbbike version: ${GIT_ID}"
 	@echo ""
@@ -1543,6 +1547,7 @@ help:
 	@echo "  [ apt-clean | host-clean ]"
 	@echo "  [ git-fetch | git-pull | git-push | mygit | git-gc ]"
 	@echo "  [ check | check-world | check-full | check-failed ]"
+	@echo "  [ check-tileserver ]"
 	@echo "  [ docker-build | docker-check | docker-shell ]"
 	@echo "  [ docker-build-tile | docker-shell-tile ]"
 	@echo "  [ travis ]"
