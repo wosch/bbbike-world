@@ -1464,9 +1464,9 @@ install-xvfb:
 docker-build:
 	${DOCKER_SUDO} docker build -f world/etc/docker/${DOCKER_IMAGE_FILE} -t ${DOCKER_BBBIKE_TAG} .
 docker-check:
-	${DOCKER_SUDO} docker run -it -p 8000:80 ${DOCKER_BBBIKE_TAG} make check
+	${DOCKER_SUDO} docker run -it --rm -p 8000:80 ${DOCKER_BBBIKE_TAG} make check
 docker-shell:
-	${DOCKER_SUDO} docker run -it -p 8000:80 ${DOCKER_BBBIKE_TAG}
+	${DOCKER_SUDO} docker run -it --rm -p 8000:80 ${DOCKER_BBBIKE_TAG}
 
 # see world/etc/docker/README 
 docker-build-tile:
