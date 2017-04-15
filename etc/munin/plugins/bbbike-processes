@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) Sep 2011-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2011-2017 Wolfram Schneider, https://bbbike.org
 #
 # usage: /etc/munin/plugins/bbbike-processes [ config ]
 #
@@ -35,10 +35,16 @@ if you need to override the defaults below:
 PATH=/bin:/usr/bin; export PATH
 
 # the file must exists in /etc/init.d or a dummy file in /etc/init.d/.<name>
-: ${process_names="lighttpd exim4 apache2 varnishncsa renderd munin-node postgres Xvfb memcached z3950proxy.pl java munin-cgi-graph"}
+# optional
+: ${process_names_opt="lighttpd apache2 varnishncsa renderd postgres Xvfb memcached z3950proxy.pl java munin-cgi-graph"}
+# required
+: ${process_names="exim4 munin-node"}
 
 # daemons with 'd' prefix, e.g: ssh -> sshd
-: ${process_names_d="ssh varnish ntp"}
+# optional
+: ${process_names_opt_d="varnish"}
+# required
+: ${process_names_d="ssh vntp"}
 
 config=$1
 
@@ -61,18 +67,31 @@ EOF
 
     for pp in $process_names $process_names_d
     do
-	if [ -e /etc/init.d/$pp -o -e /etc/init.d/.$pp ]; then
 	   p=$(pname $pp)
            echo "$p.label $p"
            echo "$p.warning $warning"
            echo "$p.critical $critical"
-	fi
+    done
+    
+    for pp in $process_names_opt $process_names_opt_d
+    do
+        if [ -e /etc/init.d/$pp -o -e /etc/init.d/.$pp ]; then
+           p=$(pname $pp)
+               echo "$p.label $p"
+               echo "$p.warning $warning"
+               echo "$p.critical $critical"
+        fi
     done
 
     exit 0
 fi
 
 for pp in $process_names
+do
+  	p=$(pname $pp)
+   	echo "$p.value" $(egrep "^${pp}$" /proc/*/comm | wc -l)
+done
+for pp in $process_names_opt
 do
     if [ -e /etc/init.d/$pp -o -e /etc/init.d/.$pp ]; then
     	p=$(pname $pp)
@@ -81,6 +100,11 @@ do
 done
 
 for pp in $process_names_d
+do
+   	p=$(pname $pp)
+   	echo "$p.value" $(egrep "^${pp}d$" /proc/*/comm | wc -l)
+done
+for pp in $process_names_opt_d
 do
     if [ -e /etc/init.d/$pp ]; then
     	p=$(pname $pp)
