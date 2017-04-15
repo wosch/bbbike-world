@@ -48,6 +48,8 @@ var config = {
         "garmin-leisure-ascii.zip": 650,
         "garmin-onroad.zip": 650,
         "garmin-onroad-ascii.zip": 650,
+        "garmin-opentopo.zip": 650,
+        "garmin-opentopo-ascii.zip": 650,
         "garmin-openfietslite.zip": 650,
         "garmin-openfietslite-ascii.zip": 650,
         "garmin-oseam.zip": 650,
@@ -93,6 +95,8 @@ var config = {
         "garmin-openfietslite-ascii.zip": "/images/garmin-openfietslite-small.png",
         "garmin-onroad.zip": "/images/garmin-onroad2-small.png",
         "garmin-onroad-ascii.zip": "/images/garmin-onroad2-small.png",
+        "garmin-opentopo.zip": "/images/garmin-onroad2-small.png",
+        "garmin-opentopo-ascii.zip": "/images/garmin-onroad2-small.png",
         "garmin-bbbike.zip": "/images/garmin-bbbike-small.png",
         "garmin-bbbike-ascii.zip": "/images/garmin-bbbike-small.png",
         "garmin-cycle.zip": "/images/garmin-cycle-small.png",
@@ -1392,6 +1396,14 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "time": 8
         },
         "garmin-onroad-ascii.zip": {
+            "size": 0.2,
+            "time": 8
+        },
+        "garmin-opentopo.zip": {
+            "size": 0.2,
+            "time": 8
+        },
+        "garmin-opentopo-ascii.zip": {
             "size": 0.2,
             "time": 8
         },

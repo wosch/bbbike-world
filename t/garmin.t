@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2016 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2017 Wolfram Schneider, https://bbbike.org
 
 use Getopt::Long;
 use Data::Dumper qw(Dumper);
@@ -24,7 +24,7 @@ push @garmin_styles, qw/bbbike openfietslite onroad/ if $ENV{BBBIKE_TEST_LONG};
 if ( $0 =~ /garmin-ascii.t$/ ) {
     if ( $ENV{BBBIKE_TEST_LONG} ) {
         @garmin_styles =
-          qw/bbbike-ascii openfietslite-ascii cycle-ascii leisure-ascii osm-ascii onroad-ascii oseam oseam-ascii/;
+          qw/bbbike-ascii openfietslite-ascii cycle-ascii leisure-ascii osm-ascii onroad-ascii oseam oseam-ascii opentopo opentopo-ascii/;
     }
     else {
         @garmin_styles = ();

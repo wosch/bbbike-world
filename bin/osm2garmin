@@ -20,7 +20,7 @@ usage () {
    echo "$@"
    echo "usage $0 file [ osm | osm-ascii | cycle | cycle-ascii | leisure | leisure-ascii | bbbike ] [ title ]"
    echo "      $0 file [ onroad | onroad-ascii | openfietslite | openfietslite-ascii | srtm ] [ title ]"
-   echo "      $0 file [ oseam | oseam-ascii ]"
+   echo "      $0 file [ oseam | oseam-ascii | opentopo | opentopo-ascii ]"
    exit 1
 }
 
@@ -176,6 +176,22 @@ case $ext in
 	mkgmap_map_type="" 
         ;;
 
+
+   opentopo )
+        ext=garmin-opentopo.zip
+        mkgmap_map=--style-file=$etc_dir/style/opentopo
+        mkgmap_map_style=opentopo
+	mkgmap_map_type=$etc_dir/typ/opentopo/OpenTopoMap.typ
+        ;;
+
+   opentopo-ascii )
+        ext=garmin-opentopo-ascii.zip
+        mkgmap_map=--style-file=$etc_dir/style/opentopo
+        mkgmap_map_style=opentopo
+	mkgmap_map_type=$etc_dir/typ/opentopo/OpenTopoMap.typ
+        ;;
+
+
    oseam )
         ext=garmin-oseam.zip
         mkgmap_map=--style-file=$etc_dir/style/oseam
@@ -230,6 +246,7 @@ case $ext in
    *onroad* )  garmin_product_id=6 ;;
    *openfietslite* )  garmin_product_id=7 ;;
    *oseam* )   garmin_product_id=8 ;;
+   *opentopo* )garmin_product_id=9 ;;
 esac
 
 garmin_family_id=$(basename $file | perl -npe 's/(\.pbf|\.gz|\.bz2)?$//')

@@ -1039,6 +1039,8 @@ sub reorder_pbf {
         'garmin-onroad-ascii.zip'  => 1.5,
         'garmin-oseam.zip'         => 1.5,
         'garmin-oseam-ascii.zip'   => 1.5,
+        'garmin-onroad.zip'        => 1.6,
+        'garmin-onroad-ascii.zip'  => 1.6,
 
         'svg-google.zip'    => 5,
         'svg-hiking.zip'    => 5,
