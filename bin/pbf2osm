@@ -43,6 +43,7 @@ fi
 : ${max_file_size_garmin=2950000}
 : ${max_file_size_mapsforge=666000}
 : ${max_file_size_osmand=666000}
+: ${max_file_size_shape=866000}
 : ${max_file_size_mapsme=966000}
 : ${max_file_size_maperitive=90000}
 
@@ -189,7 +190,7 @@ osm2osm () {
 
 size=$(du -ks -L "$file" | awk '{ print $1}')
 case $compress in
-    garmin | navit | shape )
+    garmin | navit )
 	if [ $size -gt $max_file_size_garmin ]; then
 	  usage "file '$file' size to big: $size > $max_file_size_garmin"
 	fi
@@ -212,6 +213,11 @@ case $compress in
     mapsme )
 	if [ $size -gt $max_file_size_mapsme ]; then
 	  usage "file '$file' size to big: $size > $max_file_size_mapsme"
+	fi
+	;;
+    shape)
+	if [ $size -gt $max_file_size_shape ]; then
+	  usage "file '$file' size to big: $size > $max_file_size_shape"
 	fi
 	;;
     * ) ;;
