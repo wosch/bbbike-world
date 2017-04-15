@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2009-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2017 Wolfram Schneider, https://bbbike.org
 #
 # bbbike-merge - git merge from bbbike.de / master branch
 
@@ -48,7 +48,12 @@ fi
 make -s js perltidy || error "js perltidy"
 make -s update-files  || error "update-files"
 
-if $bbbike_test; then
+fetch_status=$(cat .git-fetch-status-eserte)
+if [ $fetch_status -eq 0 ]; then
+    echo "No updates..."
+fi
+
+if [ $bbbike_test -a $fetch_status -ne 0 ]; then
     echo ""
     echo "running tests, will run for 2 minutes"
     if make check >> $logfile 2>&1; then
@@ -60,7 +65,7 @@ fi
 
 make git-diff
 
-if $verbose; then
+if [ $verbose -a $fetch_status -ne 0 ]; then
     pwd
     if [ -n "$command" ]; then
         $command

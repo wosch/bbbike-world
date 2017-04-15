@@ -29,7 +29,7 @@ function init() {
     // create the custom layer for toolserver.org
     OpenLayers.Layer.OSM.Toolserver = OpenLayers.Class(OpenLayers.Layer.OSM, {
         initialize: function (name, path, options) {
-            var url = ["http://a.tiles.wmflabs.org/" + path + "/${z}/${x}/${y}.png", "http://b.tiles.wmflabs.org/" + path + "/${z}/${x}/${y}.png", "http://c.tiles.wmflabs.org/" + path + "/${z}/${x}/${y}.png"];
+            var url = ["https://tiles.wmflabs.org/" + path + "/${z}/${x}/${y}.png", "http://b.tiles.wmflabs.org/" + path + "/${z}/${x}/${y}.png", "http://c.tiles.wmflabs.org/" + path + "/${z}/${x}/${y}.png"];
 
             options = OpenLayers.Util.extend({
                 tileOptions: {
@@ -83,7 +83,7 @@ function init() {
 
     map.addLayer(new OpenLayers.Layer.OSM.Mapnik("OSM Mapnik"));
 
-    map.addLayer(new OpenLayers.Layer.OSM("OSM Mapnik (de)", "http://a.tile.openstreetmap.de/tiles/osmde/${z}/${x}/${y}.png", {
+    map.addLayer(new OpenLayers.Layer.OSM("OSM Mapnik (de)", "https://a.tile.openstreetmap.de/tiles/osmde/${z}/${x}/${y}.png", {
         tileOptions: {
             crossOriginKeyword: null
         },

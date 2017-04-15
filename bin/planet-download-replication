@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) Mar 2013 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Mar 2013-2017 Wolfram Schneider, https://bbbike.org
 #
 # planet-download-replication - replicate daily planet.osm.pbf
 #
@@ -18,7 +18,7 @@ if which ionice >/dev/null 2>&1; then
 fi
 
 file=planet-latest.osm.bz2
-planet_osm_replication_server=http://planet.openstreetmap.org
+planet_osm_replication_server=https://planet.openstreetmap.org
 file_daily=planet.daily
 
 if [ -e $HOME/.bbbikerc ]; then 

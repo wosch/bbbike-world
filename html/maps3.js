@@ -713,14 +713,14 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         maxZoom: 18
     };
 
-    // http://openstreetmap.de/
+    // https://openstreetmap.de/
     var mapnik_de_options = {
         bbbike: {
             "name": "Mapnik (de)",
             "description": "German Mapnik, by OpenStreetMap.de"
         },
         getTileUrl: function (a, z) {
-            return "http://" + randomServerOSM(4) + ".tile.openstreetmap.de/tiles/osmde/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "https://" + randomServerOSM(4) + ".tile.openstreetmap.de/tiles/osmde/" + z + "/" + a.x + "/" + a.y + ".png";
         },
         isPng: true,
         opacity: 1.0,
@@ -737,7 +737,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "BBBike Mapnik, by bbbike.de"
         },
         getTileUrl: function (a, z) {
-            return "http://" + randomServerOSM(3) + ".tile.bbbike.org/osm/mapnik/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "https://" + randomServerOSM(3) + ".tile.bbbike.org/osm/mapnik/" + z + "/" + a.x + "/" + a.y + ".png";
         },
         isPng: true,
         opacity: 1.0,
@@ -754,7 +754,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "BBBike Smoothness, by bbbike.de"
         },
         getTileUrl: function (a, z) {
-            return "http://" + randomServerOSM(3) + ".tile.bbbike.org/osm/bbbike-smoothness/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "https://" + randomServerOSM(3) + ".tile.bbbike.org/osm/bbbike-smoothness/" + z + "/" + a.x + "/" + a.y + ".png";
         },
         isPng: true,
         opacity: 1.0,
@@ -820,7 +820,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "BBBike Mapnik German, by bbbike.de"
         },
         getTileUrl: function (a, z) {
-            return "http://" + randomServerOSM(3) + ".tile.bbbike.org/osm/mapnik-german/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "https://" + randomServerOSM(3) + ".tile.bbbike.org/osm/mapnik-german/" + z + "/" + a.x + "/" + a.y + ".png";
         },
         isPng: true,
         opacity: 1.0,
@@ -888,7 +888,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "Cycle, by OpenStreetMap"
         },
         getTileUrl: function (a, z) {
-            return "https://" + randomServerOSM() + ".tile.thunderforest.com/cycle/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "https://" + randomServerOSM() + ".tile.thunderforest.com/cycle/" + z + "/" + a.x + "/" + a.y + "@2x.png?apikey=6170aad10dfd42a38d4d8c709a536f38";
         },
         isPng: true,
         opacity: 1.0,
@@ -904,7 +904,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "Transport, by OpenCycleMap.org"
         },
         getTileUrl: function (a, z) {
-            return "https://" + randomServerOSM() + ".tile.thunderforest.com/transport/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "https://" + randomServerOSM() + ".tile.thunderforest.com/transport/" + z + "/" + a.x + "/" + a.y + "@2x.png?apikey=6170aad10dfd42a38d4d8c709a536f38";
         },
         isPng: true,
         opacity: 1.0,
@@ -920,7 +920,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "Landscape, by OpenCycleMap.org"
         },
         getTileUrl: function (a, z) {
-            return "https://" + randomServerOSM() + ".tile.thunderforest.com/landscape/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "https://" + randomServerOSM() + ".tile.thunderforest.com/landscape/" + z + "/" + a.x + "/" + a.y + "@2x.png?apikey=6170aad10dfd42a38d4d8c709a536f38";
         },
         isPng: true,
         opacity: 1.0,
@@ -2778,23 +2778,27 @@ function elevation_initialize(slippymap, opt) {
         map = new google.maps.Map(document.getElementById("map")); //, myOptions);
     }
 
-    chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-
     geocoderService = new google.maps.Geocoder();
     elevationService = new google.maps.ElevationService();
     directionsService = new google.maps.DirectionsService();
 
-    google.visualization.events.addListener(chart, 'onmouseover', function (e) {
-        if (mousemarker == null) {
-            mousemarker = new google.maps.Marker({
-                position: elevations[e.row].location,
-                map: map,
-                icon: bbbike.icons.purple_dot
-            });
-        } else {
-            mousemarker.setPosition(elevations[e.row].location);
-        }
-    });
+    try {
+        chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        google.visualization.events.addListener(chart, 'onmouseover', function (e) {
+            if (mousemarker == null) {
+                mousemarker = new google.maps.Marker({
+                    position: elevations[e.row].location,
+                    map: map,
+                    icon: bbbike.icons.purple_dot
+                });
+            } else {
+                mousemarker.setPosition(elevations[e.row].location);
+            }
+        });
+
+    } catch (e) {
+        debug("Cannot load elevation chart lib: " + e);
+    }
 
     loadRoute(opt);
 }
