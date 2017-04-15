@@ -153,7 +153,8 @@ var config = {
     display_format_time: 7,
 
     // standard extract time in seconds for PBF
-    extract_time: 400,
+    // for a full planet.osm.pbf without metadata (29GB), it takes ca. 10min
+    extract_time: 60 * 10,
 
     // display messages in browser console
     debug: 1,
@@ -1337,6 +1338,7 @@ function show_filesize(skm, real_size, sub_planet_factor) {
     debug("show filesize skm: " + parseInt(skm) + " size: " + Math.round(size) + "MB " + format + " sub planet factor: " + sub_planet_factor);
 
     // all formats *must* be configured
+    // Note: the size is based on the created output format, and *not* of the input *.pbf
     var filesize = {
         "osm.pbf": {
             "size": 1,
@@ -1387,11 +1389,11 @@ function show_filesize(skm, real_size, sub_planet_factor) {
         },
         "garmin-onroad.zip": {
             "size": 0.2,
-            "time": 1.2
+            "time": 8
         },
         "garmin-onroad-ascii.zip": {
-            "size": 0.1,
-            "time": 1.2
+            "size": 0.2,
+            "time": 8
         },
         "garmin-openfietslite.zip": {
             "size": 0.6,
