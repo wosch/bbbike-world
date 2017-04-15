@@ -44,7 +44,7 @@ PATH=/bin:/usr/bin; export PATH
 # optional
 : ${process_names_opt_d="varnish"}
 # required
-: ${process_names_d="ssh vntp"}
+: ${process_names_d="ssh ntp"}
 
 config=$1
 
