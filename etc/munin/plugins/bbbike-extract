@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2011-2016 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2011-2017 Wolfram Schneider, https://bbbike.org
 #
 # munin-bbbike-extract - munin statistics for BBBike extract service
 
@@ -52,6 +52,8 @@ my $config = {
           garmin-leisure.zip
           garmin-onroad-ascii.zip
           garmin-onroad.zip
+          garmin-opentopo-ascii.zip
+          garmin-opentopo.zip
           garmin-openfietslite-ascii.zip
           garmin-openfietslite.zip
           garmin-oseam-ascii.zip

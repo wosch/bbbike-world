@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2009-2016 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2017 Wolfram Schneider, https://bbbike.org
 #
 # module to guess size of a lat,lng tile
 #
@@ -59,6 +59,8 @@ our $factor = {
     'garmin-srtm.zip'                => 1.3,
     'garmin-oseam.zip'               => 0.591,
     'garmin-oseam-ascii.zip'         => 0.592,
+    'garmin-opentopo.zip'            => 0.587,
+    'garmin-opentopo-ascii.zip'      => 0.588,
 
     'svg-google.zip'     => 1.68,
     'svg-hiking.zip'     => 3.82,
