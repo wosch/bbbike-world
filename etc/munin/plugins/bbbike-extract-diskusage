@@ -84,14 +84,14 @@ EOF
 fi
 
 echo "multigraph disksize_pbf"
-echo "osm.value" 	`( cd $extract_dir/; du -ks osm | awk '{ print $1 * 1024 }' )`
-echo "download.value" 	`( cd $extract_dir/; du -ks download | awk '{ print $1 * 1024 }' )`
+echo "osm.value" 	`( cd $extract_dir/ &&  du -ks osm | awk '{ print $1 * 1024 }' )`
+echo "download.value" 	`( cd $extract_dir/ && du -ks download | awk '{ print $1 * 1024 }' )`
 
 echo ""
 echo "multigraph disksize_other"
 for f in $formats
 do
     ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
-    echo "$ff.value"     `( cd $extract_dir/download; du -k * 2>/dev/null | egrep "${f}$" | awk '{ s += $1 * 1024 } END { if (NR==0) { print 0} else { print s } }' )`
+    echo "$ff.value"     `( cd $extract_dir/download && du -k * 2>/dev/null | egrep "${f}$" | awk '{ s += $1 * 1024 } END { if (NR==0) { print 0} else { print s } }' )`
 done
 
