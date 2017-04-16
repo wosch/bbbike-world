@@ -1810,7 +1810,7 @@ sub create_lock {
     my %args     = @_;
     my $lockfile = $args{'lockfile'};
 
-    warn "create lockfile: $lockfile, value: $$\n" if $debug >= 2;
+    warn "Create lockfile: $lockfile, value: $$\n" if $debug >= 1;
 
     my $lockmgr = LockFile::Simple->make(
         -autoclean => 1,
@@ -1824,7 +1824,8 @@ sub create_lock {
 
     # return undefined for failure
     else {
-        warn "Cannot get lockfile: $lockfile\n" if $debug >= 2;
+        warn "Cannot get lockfile, apparently in use: $lockfile\n"
+          if $debug >= 1;
         return;
     }
 }
@@ -1835,7 +1836,7 @@ sub remove_lock {
     my $lockfile = $args{'lockfile'};
     my $lockmgr  = $args{'lockmgr'};
 
-    warn "remove lockfile: $lockfile\n" if $debug >= 2;
+    warn "Remove lockfile: $lockfile\n" if $debug >= 1;
     $lockmgr->unlock($lockfile);
 
     #unlink($lockfile) or die "unlink $lockfile: $!\n";
@@ -1964,12 +1965,6 @@ sub run_jobs {
     my $lockfile_extract = $spool->{'running'} . "/extract.pid";
     my $lockmgr_extract = &create_lock( 'lockfile' => $lockfile_extract )
       or die "Cannot get lockfile $lockfile_extract, give up\n";
-    warn "Use lockfile $lockfile_extract\n" if $debug >= 1;
-
-    &remove_lock(
-        'lockfile' => $lockfile_extract,
-        'lockmgr'  => $lockmgr_extract
-    );
 
     # find a free job
     my $job_number;
