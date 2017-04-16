@@ -17,6 +17,9 @@ openfietsmap-lite - OpenFietsMap is a free routable cycling map for Garmin, Mar 
 oseam    - OpenSeaMap style (Oct 2016), see
 	   https://github.com/OpenSeaMap/garmin.git
 
+opentopo - OpenTopoMap style (Apr 2017), see
+	   https://github.com/der-stefan/OpenTopoMap
+
 srtm     - SRTM elevation contour lines
 
 filesystem hierarchy

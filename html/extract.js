@@ -48,6 +48,8 @@ var config = {
         "garmin-leisure-ascii.zip": 650,
         "garmin-onroad.zip": 650,
         "garmin-onroad-ascii.zip": 650,
+        "garmin-opentopo.zip": 650,
+        "garmin-opentopo-ascii.zip": 650,
         "garmin-openfietslite.zip": 650,
         "garmin-openfietslite-ascii.zip": 650,
         "garmin-oseam.zip": 650,
@@ -93,6 +95,8 @@ var config = {
         "garmin-openfietslite-ascii.zip": "/images/garmin-openfietslite-small.png",
         "garmin-onroad.zip": "/images/garmin-onroad2-small.png",
         "garmin-onroad-ascii.zip": "/images/garmin-onroad2-small.png",
+        "garmin-opentopo.zip": "/images/garmin-opentopo-berlin-120.png",
+        "garmin-opentopo-ascii.zip": "/images/garmin-opentopo-berlin-120.png",
         "garmin-bbbike.zip": "/images/garmin-bbbike-small.png",
         "garmin-bbbike-ascii.zip": "/images/garmin-bbbike-small.png",
         "garmin-cycle.zip": "/images/garmin-cycle-small.png",
@@ -153,7 +157,8 @@ var config = {
     display_format_time: 7,
 
     // standard extract time in seconds for PBF
-    extract_time: 400,
+    // for a full planet.osm.pbf without metadata (29GB), it takes ca. 10min
+    extract_time: 60 * 10,
 
     // display messages in browser console
     debug: 1,
@@ -1337,6 +1342,7 @@ function show_filesize(skm, real_size, sub_planet_factor) {
     debug("show filesize skm: " + parseInt(skm) + " size: " + Math.round(size) + "MB " + format + " sub planet factor: " + sub_planet_factor);
 
     // all formats *must* be configured
+    // Note: the size is based on the created output format, and *not* of the input *.pbf
     var filesize = {
         "osm.pbf": {
             "size": 1,
@@ -1387,11 +1393,19 @@ function show_filesize(skm, real_size, sub_planet_factor) {
         },
         "garmin-onroad.zip": {
             "size": 0.2,
-            "time": 1.2
+            "time": 8
         },
         "garmin-onroad-ascii.zip": {
-            "size": 0.1,
-            "time": 1.2
+            "size": 0.2,
+            "time": 8
+        },
+        "garmin-opentopo.zip": {
+            "size": 0.2,
+            "time": 8
+        },
+        "garmin-opentopo-ascii.zip": {
+            "size": 0.2,
+            "time": 8
         },
         "garmin-openfietslite.zip": {
             "size": 0.6,

@@ -43,6 +43,8 @@ our $formats = {
     'garmin-openfietslite-ascii.zip' => "Garmin Openfietsmap Lite (ASCII)",
     'garmin-oseam.zip'               => "Garmin OpenSeaMap (UTF-8)",
     'garmin-oseam-ascii.zip'         => "Garmin OpenSeaMap (ASCII)",
+    'garmin-opentopo.zip'            => "Garmin OpenTopoMap (UTF-8)",
+    'garmin-opentopo-ascii.zip'      => "Garmin OpenTopoMap (ASCII)",
 
     'svg-google.zip'     => 'SVG google',
     'svg-hiking.zip'     => 'SVG hiking',
@@ -104,6 +106,7 @@ our $formats_menu = {
             'garmin-onroad.zip',        'garmin-onroad-ascii.zip',
             'garmin-openfietslite.zip', 'garmin-openfietslite-ascii.zip',
             'garmin-oseam.zip',         'garmin-oseam-ascii.zip',
+            'garmin-opentopo.zip',      'garmin-opentopo-ascii.zip',
             'garmin-bbbike.zip',        'garmin-bbbike-ascii.zip',
         ]
     },
