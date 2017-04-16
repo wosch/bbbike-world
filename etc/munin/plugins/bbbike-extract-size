@@ -87,7 +87,7 @@ for f in $formats
 do
     ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
     f=$(echo $f | perl -npe 's/(srtm(-europe)?)/${1}.*/g')
-    echo "$ff.value"     `( cd $extract_dir/download; du -k * | egrep "${f}$" | awk '{ s += $1 } END { printf("%d", NR ? s * 1024 / NR : 0)  }' )`
+    echo "$ff.value"     `( cd $extract_dir/download && du -k * | egrep "${f}$" | awk '{ s += $1 } END { printf("%d", NR ? s * 1024 / NR : 0)  }' )`
 done
 
 echo ""
@@ -96,7 +96,7 @@ for f in $formats
 do
     ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
     f=$(echo $f | perl -npe 's/(srtm(-europe)?)/${1}.*/g')
-    echo "$ff.value"     `( cd $extract_dir/download; du -k * | egrep "${f}$" | sort -n |
+    echo "$ff.value"     `( cd $extract_dir/download && du -k * | egrep "${f}$" | sort -n |
         awk '{
             count[NR] = $1;
         } END {
