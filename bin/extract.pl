@@ -1810,7 +1810,7 @@ sub create_lock {
     my %args     = @_;
     my $lockfile = $args{'lockfile'};
 
-    warn "Create lockfile: $lockfile, value: $$\n" if $debug >= 1;
+    warn "Try to create lockfile: $lockfile, value: $$\n" if $debug >= 1;
 
     my $lockmgr = LockFile::Simple->make(
         -autoclean => 1,
