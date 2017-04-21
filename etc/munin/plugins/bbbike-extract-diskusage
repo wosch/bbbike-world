@@ -38,8 +38,8 @@ formats="csv.gz csv.xz garmin-bbbike-ascii.zip garmin-bbbike.zip garmin-cycle-as
 config=$1
 
 if [ "$1" = "config" ]; then
-    : ${warning=180000000000}
-    : ${critical=240000000000}
+    : ${warning=240000000000}
+    : ${critical=290000000000}
      
     cat <<EOF
 multigraph disksize_pbf
