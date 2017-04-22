@@ -1997,15 +1997,21 @@ sub run_jobs {
         'max'        => $max_areas,
         'job_number' => $job_number,
     );
+
     my @list = @$list;
     print "job list: @{[ scalar(@list) ]}\n" if $debug >= 2;
 
     if ( !@list ) {
         print "Nothing to do for users\n" if $debug >= 2;
+
+        # unlock jobN pid
+        &remove_lock( 'lockfile' => $lockfile, 'lockmgr' => $lockmgr );
+
         &remove_lock(
             'lockfile' => $lockfile_extract,
             'lockmgr'  => $lockmgr_extract
         );
+
         exit 0;
     }
 
