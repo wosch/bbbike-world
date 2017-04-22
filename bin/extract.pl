@@ -2020,7 +2020,7 @@ sub run_jobs {
         'spool'   => $spool,
     );
 
-    # EOF semaphone block
+    # EOF semaphone lock /extract.pid (cron job)
     &remove_lock(
         'lockfile' => $lockfile_extract,
         'lockmgr'  => $lockmgr_extract
@@ -2081,7 +2081,7 @@ sub run_jobs {
       if $debug >= 1;
     warn "Number of errors: $errors\n" if $errors;
 
-    # unlock pid
+    # unlock jobN pid
     &remove_lock( 'lockfile' => $lockfile, 'lockmgr' => $lockmgr );
 
     &cleanup_jobdir(
