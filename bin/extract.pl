@@ -1837,7 +1837,9 @@ sub remove_lock {
     my $lockfile = $args{'lockfile'};
     my $lockmgr  = $args{'lockmgr'};
 
-    warn "Remove lockfile: $lockfile\n" if $debug >= 1;
+    my $pid = read_data("$lockfile.lock");    # xxx
+    warn "Remove lockfile: $lockfile, pid $pid\n" if $debug >= 1;
+
     $lockmgr->unlock($lockfile);
 
     #unlink($lockfile) or die "unlink $lockfile: $!\n";
