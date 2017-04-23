@@ -1976,20 +1976,6 @@ sub run_jobs {
     #
     my $lockfile_extract = $spool->{'running'} . "/extract.pid";
 
-    # XXX
-    if ( -e "$lockfile_extract.lock" ) {
-        my $pid = read_data("$lockfile_extract.lock");
-        chomp($pid);
-        warn "Global lockfile $lockfile_extract already exists, pid $pid\n";
-        my $data = `ps  -up $pid`;
-        warn "Global: $data";
-    }
-    if ( -e "$lockfile_extract.lock" ) {
-        my $pid = read_data("$lockfile_extract.lock");
-        chomp($pid);
-        warn "Global lockfile2 $lockfile_extract already exists, pid $pid\n";
-    }
-
     my $lockmgr_extract = &create_lock( 'lockfile' => $lockfile_extract )
       or die "Cannot get lockfile $lockfile_extract, give up\n";
 
