@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) Sep 2011-2016 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2011-2017 Wolfram Schneider, https://bbbike.org
 #
 # usage: /etc/munin/plugins/bbbike-extract-size [ config ]
 #
@@ -33,7 +33,7 @@ if you need to override the defaults below:
 
 PATH=/bin:/usr/bin; export PATH
 extract_dir=/var/cache/extract
-formats="csv.gz csv.xz garmin-bbbike-ascii.zip garmin-bbbike.zip garmin-cycle-ascii.zip garmin-cycle.zip garmin-leisure-ascii.zip garmin-leisure.zip garmin-onroad-ascii.zip garmin-onroad.zip garmin-openfietslite-ascii.zip garmin-openfietslite.zip garmin-oseam-ascii.zip garmin-oseam.zip garmin-osm-ascii.zip garmin-osm.zip mapsforge-osm.zip mapsme-osm.zip navit.zip o5m.gz o5m.xz obf.zip opl.xz osm.bz2 osm.gz osm.pbf osm.xz png-cadastre.zip png-google.zip png-hiking.zip png-osm.zip png-urbanight.zip png-wireframe.zip shp.zip srtm-europe.garmin-srtm.zip srtm-europe.obf.zip srtm-europe.osm.pbf srtm-europe.osm.xz srtm.garmin-srtm.zip srtm.obf.zip srtm.osm.pbf srtm.osm.xz svg-cadastre.zip svg-google.zip svg-hiking.zip svg-osm.zip svg-urbanight.zip svg-wireframe.zip"
+formats="csv.gz csv.xz garmin-bbbike-ascii.zip garmin-bbbike.zip garmin-cycle-ascii.zip garmin-cycle.zip garmin-leisure-ascii.zip garmin-leisure.zip garmin-onroad-ascii.zip garmin-onroad.zip garmin-opentopo-ascii.zip garmin-opentopo.zip garmin-openfietslite-ascii.zip garmin-openfietslite.zip garmin-oseam-ascii.zip garmin-oseam.zip garmin-osm-ascii.zip garmin-osm.zip mapsforge-osm.zip mapsme-osm.zip navit.zip o5m.gz o5m.xz obf.zip opl.xz osm.bz2 osm.gz osm.pbf osm.xz png-cadastre.zip png-google.zip png-hiking.zip png-osm.zip png-urbanight.zip png-wireframe.zip shp.zip srtm-europe.garmin-srtm.zip srtm-europe.obf.zip srtm-europe.osm.pbf srtm-europe.osm.xz srtm.garmin-srtm.zip srtm.obf.zip srtm.osm.pbf srtm.osm.xz svg-cadastre.zip svg-google.zip svg-hiking.zip svg-osm.zip svg-urbanight.zip svg-wireframe.zip"
 
 config=$1
 
@@ -87,7 +87,7 @@ for f in $formats
 do
     ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
     f=$(echo $f | perl -npe 's/(srtm(-europe)?)/${1}.*/g')
-    echo "$ff.value"     `( cd $extract_dir/download; du -k * | egrep "${f}$" | awk '{ s += $1 } END { printf("%d", NR ? s * 1024 / NR : 0)  }' )`
+    echo "$ff.value"     `( cd $extract_dir/download && du -k * | egrep "${f}$" | awk '{ s += $1 } END { printf("%d", NR ? s * 1024 / NR : 0)  }' )`
 done
 
 echo ""
@@ -96,7 +96,7 @@ for f in $formats
 do
     ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
     f=$(echo $f | perl -npe 's/(srtm(-europe)?)/${1}.*/g')
-    echo "$ff.value"     `( cd $extract_dir/download; du -k * | egrep "${f}$" | sort -n |
+    echo "$ff.value"     `( cd $extract_dir/download && du -k * | egrep "${f}$" | sort -n |
         awk '{
             count[NR] = $1;
         } END {

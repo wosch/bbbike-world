@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) Sep 2011-2016 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2011-2017 Wolfram Schneider, https://bbbike.org
 #
 # usage: /etc/munin/plugins/bbbike-extract-diskusage [ config ]
 #
@@ -33,13 +33,13 @@ if you need to override the defaults below:
 
 PATH=/bin:/usr/bin; export PATH
 extract_dir=/var/cache/extract
-formats="csv.gz csv.xz garmin-bbbike-ascii.zip garmin-bbbike.zip garmin-cycle-ascii.zip garmin-cycle.zip garmin-leisure-ascii.zip garmin-leisure.zip garmin-onroad-ascii.zip garmin-onroad.zip garmin-openfietslite-ascii.zip garmin-openfietslite.zip garmin-oseam-ascii.zip garmin-oseam.zip garmin-osm-ascii.zip garmin-osm.zip mapsforge-osm.zip mapsme-osm.zip navit.zip o5m.gz o5m.xz obf.zip opl.xz osm.bz2 osm.gz osm.pbf osm.xz png-cadastre.zip png-google.zip png-hiking.zip png-osm.zip png-urbanight.zip png-wireframe.zip shp.zip srtm-europe.garmin-srtm.zip srtm-europe.obf.zip srtm-europe.osm.pbf srtm-europe.osm.xz srtm.garmin-srtm.zip srtm.obf.zip srtm.osm.pbf srtm.osm.xz svg-cadastre.zip svg-google.zip svg-hiking.zip svg-osm.zip svg-urbanight.zip svg-wireframe.zip"
+formats="csv.gz csv.xz garmin-bbbike-ascii.zip garmin-bbbike.zip garmin-cycle-ascii.zip garmin-cycle.zip garmin-leisure-ascii.zip garmin-leisure.zip garmin-onroad-ascii.zip garmin-onroad.zip garmin-opentopo-ascii.zip garmin-opentopo.zip garmin-openfietslite-ascii.zip garmin-openfietslite.zip garmin-oseam-ascii.zip garmin-oseam.zip garmin-osm-ascii.zip garmin-osm.zip mapsforge-osm.zip mapsme-osm.zip navit.zip o5m.gz o5m.xz obf.zip opl.xz osm.bz2 osm.gz osm.pbf osm.xz png-cadastre.zip png-google.zip png-hiking.zip png-osm.zip png-urbanight.zip png-wireframe.zip shp.zip srtm-europe.garmin-srtm.zip srtm-europe.obf.zip srtm-europe.osm.pbf srtm-europe.osm.xz srtm.garmin-srtm.zip srtm.obf.zip srtm.osm.pbf srtm.osm.xz svg-cadastre.zip svg-google.zip svg-hiking.zip svg-osm.zip svg-urbanight.zip svg-wireframe.zip"
 
 config=$1
 
 if [ "$1" = "config" ]; then
-    : ${warning=180000000000}
-    : ${critical=240000000000}
+    : ${warning=240000000000}
+    : ${critical=290000000000}
      
     cat <<EOF
 multigraph disksize_pbf
@@ -84,14 +84,14 @@ EOF
 fi
 
 echo "multigraph disksize_pbf"
-echo "osm.value" 	`( cd $extract_dir/; du -ks osm | awk '{ print $1 * 1024 }' )`
-echo "download.value" 	`( cd $extract_dir/; du -ks download | awk '{ print $1 * 1024 }' )`
+echo "osm.value" 	`( cd $extract_dir/ &&  du -ks osm | awk '{ print $1 * 1024 }' )`
+echo "download.value" 	`( cd $extract_dir/ && du -ks download | awk '{ print $1 * 1024 }' )`
 
 echo ""
 echo "multigraph disksize_other"
 for f in $formats
 do
     ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
-    echo "$ff.value"     `( cd $extract_dir/download; du -k * 2>/dev/null | egrep "${f}$" | awk '{ s += $1 * 1024 } END { if (NR==0) { print 0} else { print s } }' )`
+    echo "$ff.value"     `( cd $extract_dir/download && du -k * 2>/dev/null | egrep "${f}$" | awk '{ s += $1 * 1024 } END { if (NR==0) { print 0} else { print s } }' )`
 done
 

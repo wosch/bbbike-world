@@ -250,13 +250,24 @@ osm2pbf:
 
 pbf2osm:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n1 -0 -P${MAX_PBF2OSM} ${PBF2OSM} --pgzip
+	${BBMAKE} _pbf2osm-checksum
+
+_pbf2osm-checksum:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${OSM_CHECKSUM}
 
 pbf2csv:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n1 -0 -P1 ${PBF2OSM} --csv-xz
+	${BBMAKE} _pbf2csv-checksum
+
+_pbf2csv-checksum:
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.csv.xz\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${OSM_CHECKSUM}
 
 pbf2opl:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n1 -0 -P1 ${PBF2OSM} --opl-xz
+	${BBMAKE} _pbf2opl-checksum
+
+_pbf2opl-checksum:
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.opl.xz\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${OSM_CHECKSUM}
 
 _pbf2pbf:
 	if [ "$$OSM_DIR_NOSUBDIR" = "true" ]; then \
@@ -268,7 +279,7 @@ _pbf2pbf:
 _pbf2pbf-checksum:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${OSM_CHECKSUM}
 
-osm2garmin: osm2garmin-osm osm2garmin-onroad #osm2garmin-oseam osm2garmin-cycle osm2garmin-leisure osm2garmin-bbbike #check-zip
+osm2garmin: osm2garmin-osm osm2garmin-onroad osm2garmin-opentopo #osm2garmin-oseam osm2garmin-cycle osm2garmin-leisure osm2garmin-bbbike #check-zip
 
 osm2garmin-osm:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
@@ -281,6 +292,8 @@ osm2garmin-bbbike:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ext=bbbike ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
 osm2garmin-onroad:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ext=onroad ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
+osm2garmin-opentopo:
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ext=opentopo ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
 osm2garmin-openfietslite:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ext=openfietslite ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
 osm2garmin-oseam:
@@ -672,8 +685,8 @@ bbbike-mapnik-postgis bbbike-mapnik-postgis9:
 	osm2pgsql --cache-strategy sparse --cache=100 --slim -S ${POSTGIS_STYLE9} -c ${LOG_DIR}/bbbike-mapnik.osm.gz
 
 mapnik-restart:
-	sudo /etc/init.d/postgresql restart; sleep 0.5
-	sudo /etc/init.d/apache2 restart; sleep 0.5
+	sudo /etc/init.d/postgresql restart; sleep 1.5
+	sudo /etc/init.d/apache2 restart; sleep 1.0
 	sudo /etc/init.d/renderd restart; sleep 0.5
 	./world/bin/tile-cache-cleanup	
 
@@ -1464,9 +1477,19 @@ install-xvfb:
 docker-build:
 	${DOCKER_SUDO} docker build -f world/etc/docker/${DOCKER_IMAGE_FILE} -t ${DOCKER_BBBIKE_TAG} .
 docker-check:
-	${DOCKER_SUDO} docker run -it -p 8000:80 bbbike/extract make check
+	${DOCKER_SUDO} docker run -it --rm -p 8000:80 ${DOCKER_BBBIKE_TAG} make check
 docker-shell:
-	${DOCKER_SUDO} docker run -it -p 8000:80 bbbike/extract
+	${DOCKER_SUDO} docker run -it --rm -p 8000:80 ${DOCKER_BBBIKE_TAG}
+
+# see world/etc/docker/README 
+docker-build-tile:
+	${BBMAKE} DOCKER_IMAGE_FILE=tile-ubuntu14 DOCKER_BBBIKE_TAG=bbbike/tile docker-build
+docker-shell-tile:
+	${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/tile docker-shell
+
+check-tileserver:
+	curl -sf http://localhost:80/osm/bbbike/11/1100/671.png > /dev/null
+	curl -sf http://localhost:80/osm/bbbike/11/1100/671.png | wc -c
 
 help:
 	@echo "bbbike version: ${GIT_ID}"
@@ -1537,7 +1560,9 @@ help:
 	@echo "  [ apt-clean | host-clean ]"
 	@echo "  [ git-fetch | git-pull | git-push | mygit | git-gc ]"
 	@echo "  [ check | check-world | check-full | check-failed ]"
+	@echo "  [ check-tileserver ]"
 	@echo "  [ docker-build | docker-check | docker-shell ]"
+	@echo "  [ docker-build-tile | docker-shell-tile ]"
 	@echo "  [ travis ]"
 	@echo ""
 	@echo "after failed install/cache update:"

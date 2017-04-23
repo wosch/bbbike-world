@@ -1027,18 +1027,20 @@ sub reorder_pbf {
         'mapsforge-osm.zip' => 15,
         'mapsme-osm.zip'    => 1.2,
 
-        'garmin-osm.zip'           => 3,
-        'garmin-osm-ascii.zip'     => 3,
-        'garmin-cycle.zip'         => 3,
-        'garmin-cycle-ascii.zip'   => 3,
-        'garmin-leisure.zip'       => 3.5,
-        'garmin-leisure-ascii.zip' => 3.5,
-        'garmin-bbbike.zip'        => 3,
-        'garmin-bbbike-ascii.zip'  => 3,
-        'garmin-onroad.zip'        => 1.5,
-        'garmin-onroad-ascii.zip'  => 1.5,
-        'garmin-oseam.zip'         => 1.5,
-        'garmin-oseam-ascii.zip'   => 1.5,
+        'garmin-osm.zip'            => 3,
+        'garmin-osm-ascii.zip'      => 3,
+        'garmin-cycle.zip'          => 3,
+        'garmin-cycle-ascii.zip'    => 3,
+        'garmin-leisure.zip'        => 3.5,
+        'garmin-leisure-ascii.zip'  => 3.5,
+        'garmin-bbbike.zip'         => 3,
+        'garmin-bbbike-ascii.zip'   => 3,
+        'garmin-onroad.zip'         => 1.5,
+        'garmin-onroad-ascii.zip'   => 1.5,
+        'garmin-oseam.zip'          => 1.5,
+        'garmin-oseam-ascii.zip'    => 1.5,
+        'garmin-opentopo.zip'       => 1.6,
+        'garmin-opentopo-ascii.zip' => 1.6,
 
         'svg-google.zip'    => 5,
         'svg-hiking.zip'    => 5,
@@ -1808,9 +1810,10 @@ sub create_lock {
     my %args     = @_;
     my $lockfile = $args{'lockfile'};
 
-    warn "create lockfile: $lockfile, value: $$\n" if $debug >= 2;
+    warn "Try to create lockfile: $lockfile, value: $$\n" if $debug >= 1;
 
     my $lockmgr = LockFile::Simple->make(
+        -hold      => 7200,
         -autoclean => 1,
         -max       => 5,
         -stale     => 1,
@@ -1822,7 +1825,8 @@ sub create_lock {
 
     # return undefined for failure
     else {
-        warn "Cannot get lockfile: $lockfile\n" if $debug >= 2;
+        warn "Cannot get lockfile, apparently in use: $lockfile\n"
+          if $debug >= 1;
         return;
     }
 }
@@ -1833,7 +1837,11 @@ sub remove_lock {
     my $lockfile = $args{'lockfile'};
     my $lockmgr  = $args{'lockmgr'};
 
-    warn "remove lockfile: $lockfile\n" if $debug >= 2;
+    my $pid = read_data("$lockfile.lock");    # xxx
+    chomp($pid);
+
+    warn "Remove lockfile: $lockfile, pid $pid\n" if $debug >= 1;
+
     $lockmgr->unlock($lockfile);
 
     #unlink($lockfile) or die "unlink $lockfile: $!\n";
@@ -1962,12 +1970,6 @@ sub run_jobs {
     my $lockfile_extract = $spool->{'running'} . "/extract.pid";
     my $lockmgr_extract = &create_lock( 'lockfile' => $lockfile_extract )
       or die "Cannot get lockfile $lockfile_extract, give up\n";
-    warn "Use lockfile $lockfile_extract\n" if $debug >= 1;
-
-    &remove_lock(
-        'lockfile' => $lockfile_extract,
-        'lockmgr'  => $lockmgr_extract
-    );
 
     # find a free job
     my $job_number;
@@ -1999,15 +2001,21 @@ sub run_jobs {
         'max'        => $max_areas,
         'job_number' => $job_number,
     );
+
     my @list = @$list;
     print "job list: @{[ scalar(@list) ]}\n" if $debug >= 2;
 
     if ( !@list ) {
         print "Nothing to do for users\n" if $debug >= 2;
+
+        # unlock jobN pid
+        &remove_lock( 'lockfile' => $lockfile, 'lockmgr' => $lockmgr );
+
         &remove_lock(
             'lockfile' => $lockfile_extract,
             'lockmgr'  => $lockmgr_extract
         );
+
         exit 0;
     }
 
@@ -2022,7 +2030,7 @@ sub run_jobs {
         'spool'   => $spool,
     );
 
-    # EOF semaphone block
+    # EOF semaphone lock /extract.pid (cron job)
     &remove_lock(
         'lockfile' => $lockfile_extract,
         'lockmgr'  => $lockmgr_extract
@@ -2083,7 +2091,7 @@ sub run_jobs {
       if $debug >= 1;
     warn "Number of errors: $errors\n" if $errors;
 
-    # unlock pid
+    # unlock jobN pid
     &remove_lock( 'lockfile' => $lockfile, 'lockmgr' => $lockmgr );
 
     &cleanup_jobdir(

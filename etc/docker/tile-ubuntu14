@@ -32,6 +32,6 @@ RUN make -C./world/tile carto-distclean
 
 EXPOSE 80
 
-CMD ["/bin/sh", "-c", "make mapnik-restart && bash"]
+CMD ["/bin/sh", "-c", "sudo /etc/init.d/rsyslog start && make mapnik-restart && bash"]
 
 # see ./README
