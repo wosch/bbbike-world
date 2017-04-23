@@ -470,7 +470,14 @@ sub parse_jobs_planet {
     foreach my $f (@files) {
         my $file = "$dir/$f";
 
-        my $json_text = read_data($file);
+        my $json_text;
+        if ( -e $file ) {
+            $json_text = read_data($file);
+        }
+        else {
+            warn "Race condition: $file\n";
+            next;
+        }
 
         my $json = new JSON;
         my $json_perl = eval { $json->decode($json_text) };
@@ -1968,6 +1975,21 @@ sub run_jobs {
     # run only one extract.pl script at once while parsing
     #
     my $lockfile_extract = $spool->{'running'} . "/extract.pid";
+
+    # XXX
+    if ( -e "$lockfile_extract.lock" ) {
+        my $pid = read_data("$lockfile_extract.lock");
+        chomp($pid);
+        warn "Global lockfile $lockfile_extract already exists, pid $pid\n";
+        my $data = `ps  -up $pid`;
+        warn "Global: $data";
+    }
+    if ( -e "$lockfile_extract.lock" ) {
+        my $pid = read_data("$lockfile_extract.lock");
+        chomp($pid);
+        warn "Global lockfile2 $lockfile_extract already exists, pid $pid\n";
+    }
+
     my $lockmgr_extract = &create_lock( 'lockfile' => $lockfile_extract )
       or die "Cannot get lockfile $lockfile_extract, give up\n";
 
@@ -1984,7 +2006,7 @@ sub run_jobs {
         }
     }
 
-    # Oops, are jobs are in use, give up
+    # Oops, all jobs are in use, give up
     if ( !$lockfile ) {
         &remove_lock(
             'lockfile' => $lockfile_extract,
@@ -2000,6 +2022,7 @@ sub run_jobs {
         'dir'        => $spool->{'confirmed'},
         'max'        => $max_areas,
         'job_number' => $job_number,
+        'lockfile'   => $lockfile_extract,
     );
 
     my @list = @$list;
