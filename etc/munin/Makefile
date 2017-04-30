@@ -102,6 +102,7 @@ clean distclean:
 
 clean-install:
 	rm -f ${MUNIN_PLUGINS_DIR}/bbbike-*
+	rm -f ${MUNIN_PLUGINS_DIR}/extract-*
 
 	
 help:
