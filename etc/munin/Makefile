@@ -6,12 +6,12 @@
 
 MUNIN_BBBIKE_SYSTEM= 	bbbike-processes
 
-MUNIN_BBBIKE_WEB=	bbbike-servies-ajax \
-			bbbike-servies-output \
-			bbbike-servies-pref \
-			bbbike-servies-maptype \
-			bbbike-servies-route \
-			bbbike-servies-appid
+MUNIN_BBBIKE_WEB=	bbbike-services-ajax \
+			bbbike-services-output \
+			bbbike-services-pref \
+			bbbike-services-maptype \
+			bbbike-services-route \
+			bbbike-services-appid
 
 MUNIN_BBBIKE_EXTRACT= 	extract-diskusage \
 			extract-files \
