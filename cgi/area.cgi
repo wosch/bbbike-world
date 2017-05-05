@@ -214,6 +214,7 @@ sub header {
                     -description => $description . ". Service by BBBike.org",
                 }
             ),
+            $q->meta( { -name => 'robots', -content => 'nofollow' } ),
         ],
 
         -style => {
