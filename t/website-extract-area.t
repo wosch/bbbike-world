@@ -30,7 +30,7 @@ if ( $ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
 unshift @homepages, @homepages_localhost;
 
 # ads only on production system
-plan tests => scalar(@homepages) * ( $test->myget_counter + 18 );
+plan tests => scalar(@homepages) * ( $test->myget_counter + 18 ) -1;
 
 sub livesearch_extract {
     my $url = shift;
@@ -63,7 +63,12 @@ qr[<meta content="nofollow" name="robots" />|<meta name="robots" content="nofoll
     like( $content, qr|plotRoute|,        "plotRoute" );
 
     like( $content, qr|plotRoute|,   "plotRoute" );
-    like( $content, qr|\.osm\.pbf<|, ".osm.pbf" );
+   
+    # on a local instance, don't expect extracted files 
+    if ($url !~ /localhost/) {
+        like( $content, qr|\.osm\.pbf<|, ".osm.pbf" );
+    }
+    
     like( $content, qr|www.bbbike.org/community.html">donate</a>|, ">donate<" );
     like( $content, qr|OSM extracts for |, "OSM extracts for" );
     like( $content, qr|>help<|,            ">help<" );
