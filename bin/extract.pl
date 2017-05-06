@@ -1713,6 +1713,40 @@ sub cleanup_jobdir {
     }
 }
 
+sub set_alarm {
+    my $time = shift;
+    my $message = shift || "";
+
+    $time = $alarm if !defined $time;
+
+    $SIG{ALRM} = sub {
+        my $pgid = getpgrp();
+
+        warn "Time out alarm $time\n";
+
+        # sends a hang-up signal to all processes in the current process group
+        # and kill running java processes
+        local $SIG{HUP} = "IGNORE";
+        kill "HUP", -$pgid;
+        sleep 0.5;
+
+        local $SIG{TERM} = "IGNORE";
+        kill "TERM", -$pgid;
+        sleep 0.5;
+
+        local $SIG{INT} = "IGNORE";
+        kill "INT", -$pgid;
+        sleep 0.5;
+
+        warn "Send a hang-up to all childs.\n";
+
+        #exit 1;
+    };
+
+    warn "set alarm time to: $time seconds $message\n" if $debug >= 1;
+    alarm($time);
+}
+
 sub usage () {
     <<EOF;
 usage: $0 [ options ]
