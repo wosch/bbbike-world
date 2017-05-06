@@ -42,6 +42,9 @@ sub init {
     if ( defined $self->{'debug'} ) {
         $debug = $self->{'debug'};
     }
+    if ( defined $self->{'option'} ) {
+        $option = $self->{'option'};
+    }
 }
 
 sub create_lock {
