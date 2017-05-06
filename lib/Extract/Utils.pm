@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2012-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2017 Wolfram Schneider, https://bbbike.org
 #
 # extract config and libraries
 
@@ -15,8 +15,8 @@ use Data::Dumper;
 
 require Exporter;
 use base qw/Exporter/;
-our @EXPORT =
-  qw(save_request complete_save_request check_queue Param large_int square_km);
+our @EXPORT = qw(save_request complete_save_request check_queue
+                 Param large_int square_km read_data);
 
 use strict;
 use warnings;
@@ -269,6 +269,24 @@ sub large_int {
     my $text = reverse shift;
     $text =~ s/(\d\d\d)(?=\d)(?!\d*\.)/$1,/g;
     return scalar reverse $text;
+}
+
+# cat file
+sub read_data {
+    my $file = shift;
+
+    warn "open file '$file'\n" if $debug >= 3;
+
+    my $fh = new IO::File $file, "r" or die "open $file: $!\n";
+    binmode $fh, ":utf8";
+    my $data;
+
+    while (<$fh>) {
+        $data .= $_;
+    }
+
+    $fh->close;
+    return $data;
 }
 
 1;
