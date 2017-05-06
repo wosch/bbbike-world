@@ -1,60 +1,45 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2017 Wolfram Schneider, https://bbbike.org
 
 use Test::More;
 use Data::Dumper;
-use CGI;
-use JSON;
 
 use lib qw(world/lib);
-use Extract::Utils;
+use Extract::Config;
+use Extract::Scheduler;
 
 use strict;
 use warnings;
 
-my $debug = 0;
+my $debug = 1;
+plan tests => 4 + 2;
 
-sub perl2string {
-    my $perl = shift;
+$Extract::Config::spool_dir = '../extract';
 
-    return encode_json($perl);
+my $expected_result = {
+    'nobody@mailinator.com' => 1,
+    'nobody@googlemail.com' => 14,
+    'nobody@gmail.com'      => 9
+};
+
+###########################################################################
+# test success
+my $scheduler = new Extract::Scheduler( 'debug' => $debug );
+my $hash = $scheduler->running_users;
+
+foreach my $key ( keys %$hash ) {
+    is( $hash->{$key}, $expected_result->{$key}, "$key => $hash->{$key}" );
 }
 
-######################################################################################
-# wrapper functions
-#
-# TODO:
-#  save_request
-#  complete_save_request
-#
-#  normalize_polygon
-#  check_queue
-#  polygon_bbox;
+is( scalar( keys %$hash ), scalar( keys %$expected_result ), "number of keys" );
 
-diag("large_int()") if $debug;
-is( large_int(0),           0,             "check zero" );
-is( large_int(10),          10,            "check 10" );
-is( large_int(10.5),        "10.5",        "check 10.5" );
-is( large_int(100),         100,           "check 100" );
-is( large_int(1_000),       "1,000",       "check 1,000" );
-is( large_int(10_000),      "10,000",      "check 10,000" );
-is( large_int(12_345.6789), "12,345.6789", "check 12,345.6789" );
-is( large_int(100_000),     "100,000",     "check 100,000" );
-is( large_int(1_000_000),   "1,000,000",   "check 1,000,000" );
-is( large_int(10_000_000),  "10,000,000",  "check 10,000,000" );
+###########################################################################
+# test failures
+$hash = $scheduler->running_users( ["/foobar/x.json"] );
+is( scalar( keys %$hash ), 0, "no files" );
 
-diag("square_km()") if $debug;
-is( square_km( 52.23, 12.76, 52.82, 13.98 ), 5452,  "5452 square km" );
-is( square_km( 0,     0,     1,     1 ),     12366, "12366 square km" );
-is( square_km( 0,     0,     0,     0 ),     0,     "0 square km" );
-is( square_km( 3,     3,     3,     3 ),     0,     "0 square km" );
-is( square_km( -3,    -3,    -3,    -3 ),    0,     "0 square km" );
-is( square_km( -3,    -3,    -3,    3 ),     0,     "0 square km" );
-
-diag("file_mtime_diff()") if $debug;
-my $utils = new Extract::Utils;
-is( $utils->file_mtime_diff( $0, $0 ), 0, "file mtime diff" );
-
-plan tests => 17;
+$Extract::Config::spool_dir = '../extractXXX';
+$hash                       = $scheduler->running_users();
+is( scalar( keys %$hash ), 0, "no directory for glob" );
 
 __END__
