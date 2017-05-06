@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl
 # Copyright (c) 2012-2017 Wolfram Schneider, https://bbbike.org
 #
-# extract config and libraries
+# extract helper functions
 
 package Extract::Utils;
 
@@ -18,7 +18,7 @@ use base qw/Exporter/;
 our @EXPORT = qw(save_request complete_save_request check_queue
   Param large_int square_km read_data file_mtime_diff
   file_size file_size_mb kb_to_mb get_json
-  set_alarm get_loadavg program_output random_user get_jobs
+  get_loadavg program_output random_user get_jobs
   json_compat touch_file store_data store_json checksum);
 
 use strict;
