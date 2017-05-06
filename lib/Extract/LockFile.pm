@@ -8,6 +8,8 @@ package Extract::LockFile;
 use LockFile::Simple;
 use Data::Dumper;
 
+use Extract::Utils;
+
 require Exporter;
 use base qw/Exporter/;
 our @EXPORT = qw(create_lock remove_lock);
