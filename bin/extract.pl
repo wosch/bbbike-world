@@ -31,13 +31,13 @@ use GIS::Distance::Lite;
 use LWP;
 use LWP::UserAgent;
 use Time::gmtime;
-use LockFile::Simple;
 
 use lib qw(world/lib ../lib);
 use Extract::Config;
-use Extract::Utils; 
+use Extract::Utils;
 use Extract::Poly;
 use Extract::Planet;
+use Extract::LockFile;
 
 use strict;
 use warnings;
@@ -173,8 +173,6 @@ $planet_osm =
 #
 #
 
-
-
 # returns 1 if we want to ignore a bot, otherwise 0
 sub ignore_bot {
     my %args = @_;
@@ -212,8 +210,6 @@ sub ignore_bot {
 
     return 0;
 }
-
-
 
 sub get_sub_planet {
     my $obj = shift;
@@ -444,7 +440,6 @@ sub is_bot {
     return ( grep { $user_agent =~ /$_/ } @bots ) ? 1 : 0;
 }
 
-
 # create a unique job id for each extract request
 sub get_job_id {
     my @list = @_;
@@ -585,7 +580,6 @@ sub create_poly_files {
 
     return ( \@poly, \@json );
 }
-
 
 # create a poly file which will be read by osmosis(1) to extract
 # an area from planet.osm
@@ -751,7 +745,6 @@ sub run_extracts_osmconvert {
     warn "Run extracts: " . join( " ", @data ), "\n" if $debug >= 2;
     return ( \@data, \@fixme );
 }
-
 
 # SMTP wrapper
 sub send_email_smtp {
@@ -1027,7 +1020,6 @@ sub convert_send_email {
 
     return $error_counter;
 }
-
 
 # mkgmap.jar description limit of 50 bytes
 sub mkgmap_description {
@@ -1583,47 +1575,6 @@ sub fix_pbf {
               or die "system @system failed: $?";
         }
     }
-}
-
-sub create_lock {
-    my %args     = @_;
-    my $lockfile = $args{'lockfile'};
-
-    warn "Try to create lockfile: $lockfile, value: $$\n" if $debug >= 1;
-
-    my $lockmgr = LockFile::Simple->make(
-        -hold      => 7200,
-        -autoclean => 1,
-        -max       => 5,
-        -stale     => 1,
-        -delay     => 1
-    );
-    if ( $lockmgr->trylock($lockfile) ) {
-        return $lockmgr;
-    }
-
-    # return undefined for failure
-    else {
-        warn "Cannot get lockfile, apparently in use: $lockfile\n"
-          if $debug >= 1;
-        return;
-    }
-}
-
-sub remove_lock {
-    my %args = @_;
-
-    my $lockfile = $args{'lockfile'};
-    my $lockmgr  = $args{'lockmgr'};
-
-    my $pid = read_data("$lockfile.lock");    # xxx
-    chomp($pid);
-
-    warn "Remove lockfile: $lockfile, pid $pid\n" if $debug >= 1;
-
-    $lockmgr->unlock($lockfile);
-
-    #unlink($lockfile) or die "unlink $lockfile: $!\n";
 }
 
 sub get_msg {
