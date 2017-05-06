@@ -38,6 +38,8 @@ use Extract::Utils;
 use Extract::Poly;
 use Extract::Planet;
 use Extract::LockFile;
+use Extract::AWS;
+use Extract::Scheduler;
 
 use strict;
 use warnings;
@@ -171,45 +173,6 @@ $planet_osm =
 
 ######################################################################
 #
-#
-
-# returns 1 if we want to ignore a bot, otherwise 0
-sub ignore_bot {
-    my %args = @_;
-
-    my $loadavg    = $args{'loadavg'};
-    my $city       = $args{'city'};
-    my $obj        = $args{'obj'};
-    my $job_number = $args{'job_number'};
-
-    warn
-      "detect bot for area '$city', user agent: '@{[ $obj->{'user_agent'} ]}'\n"
-      if $debug >= 1;
-
-    if (   $option->{'bots'}{'detecation'}
-        && $loadavg >= $option->{'bots'}{'max_loadavg'} )
-    {
-
-        # soft bot handle
-        if (   $option->{'bots'}{'scheduler'} == 1
-            && $job_number == 1 )
-        {
-            warn
-"accepts bot request for area '$city' for first job queue: $loadavg\n"
-              if $debug >= 1;
-        }
-
-        # hard ignore
-        else {
-            warn
-"ignore bot request for area '$city' due high load average: $loadavg\n"
-              if $debug >= 1;
-            return 1;
-        }
-    }
-
-    return 0;
-}
 
 sub get_sub_planet {
     my $obj = shift;
@@ -264,6 +227,8 @@ sub parse_jobs {
 
     my %duplicated_poly = ();
     my $poly = new Extract::Poly( 'debug' => 1 );
+    my $scheduler =
+      new Extract::Scheduler( 'debug' => $debug, 'option' => $option );
 
     while ( $counter-- > 0 ) {
         foreach my $email ( &random_user( keys %$hash ) ) {
@@ -286,9 +251,9 @@ sub parse_jobs {
                     next;
                 }
 
-                if ( is_bot($obj) ) {
+                if ( $scheduler->is_bot($obj) ) {
                     next
-                      if ignore_bot(
+                      if $scheduler->ignore_bot(
                         'loadavg'    => $loadavg,
                         'job_number' => $job_number,
                         'obj'        => $obj,
@@ -423,21 +388,6 @@ sub parse_jobs_planet {
     }
 
     return ( $hash, $default_planet_osm, $counter );
-}
-
-# detect bots by user agent, or other meta data
-sub is_bot {
-    my $obj = shift;
-
-    my @bots       = @{ $option->{'bots'}{'names'} };
-    my $user_agent = $obj->{'user_agent'};
-
-    # legacy config jobs
-    if ( !defined $user_agent ) {
-        $user_agent = "";
-    }
-
-    return ( grep { $user_agent =~ /$_/ } @bots ) ? 1 : 0;
 }
 
 # create a unique job id for each extract request
@@ -1342,7 +1292,9 @@ sub _convert_send_email {
     unlink($to);
     warn "link $pbf_file => $to\n" if $debug >= 2;
     link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
-    aws_s3_put( 'file' => $to );
+
+    my $aws = Extract::AWS->new( 'option' => $option, 'debug' => $debug );
+    $aws->aws_s3_put( 'file' => $to );
 
     my $file_size = file_size_mb($to) . " MB";
     warn "generated file size $to: $file_size\n" if $debug >= 1;
@@ -1361,7 +1313,7 @@ sub _convert_send_email {
         unlink($to);
 
         link( $file, $to ) or die "link $file => $to: $!\n";
-        aws_s3_put( 'file' => $file );
+        $aws->aws_s3_put( 'file' => $file );
 
         $file_size = file_size_mb($to) . " MB";
         warn "file size $to: $file_size\n" if $debug >= 1;
@@ -1371,7 +1323,7 @@ sub _convert_send_email {
 
     my $url = $option->{'homepage'} . "/" . basename($to);
     if ( $option->{"aws_s3_enabled"} ) {
-        $url = $option->{"aws_s3"}->{"homepage"} . "/" . aws_s3_path($to);
+        $url = $option->{"aws_s3"}->{"homepage"} . "/" . $aws->aws_s3_path($to);
     }
 
     my $checksum_sha256 = checksum( $to, "sha256" );
@@ -1506,47 +1458,6 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
     }
 
     store_json( $json_file, $obj );
-}
-
-sub aws_s3_put {
-    my %args = @_;
-    my $file = $args{'file'};
-
-    if ( !$option->{"aws_s3_enabled"} ) {
-        warn "AWS S3 upload disabled\n" if $debug >= 3;
-        return;
-    }
-
-    if ( !defined $file || !-e $file ) {
-        warn "No file '$file' given or exists for AWS S3 upload\n";
-        return;
-    }
-
-    my $file_size = file_size_mb($file) . " MB";
-    warn "Upload $file with size $file_size to AWS S3\n" if $debug >= 1;
-
-    my $sep = "/";
-    my @system =
-      ( $option->{"aws_s3"}->{"put_command"}, aws_s3_path($file), $file );
-    warn join( " ", @system, "\n" ) if $debug >= 2;
-
-    system(@system) == 0
-      or die "system @system failed: $?";
-}
-
-sub aws_s3_path {
-    my $file = shift;
-
-    my $sep = "/";
-
-    my $aws_path =
-        $option->{"aws_s3"}->{"bucket"}
-      . $sep
-      . $option->{"aws_s3"}->{"path"}
-      . $sep
-      . basename($file);
-
-    return $aws_path;
 }
 
 #

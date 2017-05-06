@@ -12,10 +12,6 @@ use lib qw(world/lib);
 use Extract::Config;
 use Extract::Utils qw(read_data);
 
-#require Exporter;
-#use base qw/Exporter/;
-#our @EXPORT = qw(save_request complete_save_request check_queue Param large_int square_km);
-
 use strict;
 use warnings;
 
@@ -23,7 +19,8 @@ use warnings;
 # helper functions
 #
 
-our $debug = 0;
+our $debug  = 0;
+our $option = {};
 
 # Extract::Scheduler::new->('q'=> $q, 'option' => $option)
 sub new {
@@ -107,8 +104,60 @@ sub _running_users {
     return $hash;
 }
 
-#my $hash = &running_users( \@files );
-#print Dumper($hash);
+# detect bots by user agent, or other meta data
+sub is_bot {
+    my $self = shift;
+    my $obj  = shift;
+
+    my @bots       = @{ $option->{'bots'}{'names'} };
+    my $user_agent = $obj->{'user_agent'};
+
+    # legacy config jobs
+    if ( !defined $user_agent ) {
+        $user_agent = "";
+    }
+
+    return ( grep { $user_agent =~ /$_/ } @bots ) ? 1 : 0;
+}
+
+# returns 1 if we want to ignore a bot, otherwise 0
+sub ignore_bot {
+    my $self = shift;
+    my %args = @_;
+
+    my $loadavg    = $args{'loadavg'};
+    my $city       = $args{'city'};
+    my $obj        = $args{'obj'};
+    my $job_number = $args{'job_number'};
+
+    warn
+      "detect bot for area '$city', user agent: '@{[ $obj->{'user_agent'} ]}'\n"
+      if $debug >= 1;
+
+    if (   $option->{'bots'}{'detecation'}
+        && $loadavg >= $option->{'bots'}{'max_loadavg'} )
+    {
+
+        # soft bot handle
+        if (   $option->{'bots'}{'scheduler'} == 1
+            && $job_number == 1 )
+        {
+            warn
+"accepts bot request for area '$city' for first job queue: $loadavg\n"
+              if $debug >= 1;
+        }
+
+        # hard ignore
+        else {
+            warn
+"ignore bot request for area '$city' due high load average: $loadavg\n"
+              if $debug >= 1;
+            return 1;
+        }
+    }
+
+    return 0;
+}
 
 1;
 
