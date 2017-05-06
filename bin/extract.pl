@@ -35,7 +35,7 @@ use LockFile::Simple;
 
 use lib qw(world/lib ../lib);
 use Extract::Config;
-use Extract::Utils;
+use Extract::Utils qw(read_data);
 use Extract::Poly;
 use Extract::Planet;
 
@@ -1793,24 +1793,6 @@ sub kb_to_mb {
     }
 
     return "0.0";
-}
-
-# cat file
-sub read_data {
-    my $file = shift;
-
-    warn "open file '$file'\n" if $debug >= 3;
-
-    my $fh = new IO::File $file, "r" or die "open $file: $!\n";
-    binmode $fh, ":utf8";
-    my $data;
-
-    while (<$fh>) {
-        $data .= $_;
-    }
-
-    $fh->close;
-    return $data;
 }
 
 sub create_lock {
