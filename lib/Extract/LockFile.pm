@@ -21,7 +21,8 @@ use warnings;
 # helper functions
 #
 
-our $debug = 0;
+our $debug  = 0;
+our $option = {};
 
 # Extract::LockFile::new->('debug' => 2)
 sub new {
