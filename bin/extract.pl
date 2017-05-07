@@ -171,6 +171,8 @@ $planet_osm =
   "../osm/download/geofabrik/europe/germany/brandenburg-latest.osm.pbf"
   if $test;
 
+my $utils = new Extract::Utils;
+
 ######################################################################
 #
 
@@ -583,7 +585,7 @@ sub run_extracts_osmosis {
 
         my $osm = $spool->{'osm'} . "/" . basename($out);
         if ( -e $osm ) {
-            my $newer = file_mtime_diff( $osm, $planet_osm );
+            my $newer = $utils->file_mtime_diff( $osm, $planet_osm );
             if ( $newer > 0 ) {
                 warn "File $osm already exists, skip\n" if $debug >= 1;
                 link( $osm, $out ) or die "link $osm => $out: $!\n";
@@ -646,7 +648,7 @@ sub run_extracts_osmconvert {
 
         my $osm = $spool->{'osm'} . "/" . basename($out);
         if ( -e $osm ) {
-            my $newer = file_mtime_diff( $osm, $planet_osm );
+            my $newer = $utils->file_mtime_diff( $osm, $planet_osm );
             if ( $newer > 0 ) {
                 warn "File $osm already exists, skip\n" if $debug >= 1;
                 link( $osm, $out ) or die "link $osm => $out: $!\n";
@@ -778,7 +780,7 @@ sub cached_format {
 
         # re-generate garmin if there is a newer PBF file
         if ( $pbf_file && -e $pbf_file ) {
-            my $newer = file_mtime_diff( $to, $pbf_file );
+            my $newer = $utils->file_mtime_diff( $to, $pbf_file );
             if ( $newer < 0 ) {
                 warn "file $to already exists, ",
                   "but a new $pbf_file is here since ", abs($newer),
