@@ -120,11 +120,11 @@ our $option = {
 
     'bots' => {
         'names'       => [qw/curl Wget Zend python-requests/],
-        'detecation'  => 1,              # 0, 1
-        'max_loadavg' => 3,              # 3 .. 6
-                                         # 1: only one bot queue (soft blocking)
-                                         # 2: ignore bots (hard blocking)
-        'scheduler'   => 1,
+        'detecation'  => 1,                                      # 0, 1
+        'max_loadavg' => 3,                                      # 3 .. 6
+             # 1: only one bot queue (soft blocking)
+             # 2: ignore bots (hard blocking)
+        'scheduler' => 1,
     },
 
     'pbf2osm' => {
@@ -1811,7 +1811,7 @@ GetOptions(
 ) or die usage;
 
 # we have to set the debug level late, after GetOptions()
-$Extract::Utils::debug=$debug;
+$Extract::Utils::debug = $debug;
 
 die usage if $help;
 die "Max jobs: $max_jobs out of range!\n" . &usage
@@ -1825,7 +1825,6 @@ if ( $option->{"osmconvert_enabled"} && $max_areas != 1 ) {
     warn "Reset max_areas to 1 for osmconvert\n" if $debug >= 1;
     $max_areas = 1;
 }
-
 
 # full path for spool directories
 while ( my ( $key, $val ) = each %$spool ) {
@@ -1871,6 +1870,8 @@ my $errors = &run_jobs(
     'files'      => \@files
 );
 
+# load average when the job is done
+my $loadavg = &get_loadavg;
 exit($errors);
 
 1;
