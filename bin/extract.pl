@@ -1637,7 +1637,7 @@ sub run_jobs {
     my @files = @$files;
     my $lockfile;
     my $lockmgr;
-    my $e_lock = Extract::LockFile->new('debug'=>$debug);
+    my $e_lock = Extract::LockFile->new( 'debug' => $debug );
 
     warn "Start job at: @{[ gmctime() ]} UTC\n" if $debug >= 1;
 
@@ -1647,7 +1647,8 @@ sub run_jobs {
     #
     my $lockfile_extract = $spool->{'running'} . "/extract.pid";
 
-    my $lockmgr_extract = $e_lock->create_lock( 'lockfile' => $lockfile_extract )
+    my $lockmgr_extract =
+      $e_lock->create_lock( 'lockfile' => $lockfile_extract )
       or die "Cannot get lockfile $lockfile_extract, give up\n";
 
     # find a free job
