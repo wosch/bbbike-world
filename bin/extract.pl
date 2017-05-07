@@ -1637,6 +1637,7 @@ sub run_jobs {
     my @files = @$files;
     my $lockfile;
     my $lockmgr;
+    my $e_lock = Extract::LockFile->new('debug'=>$debug);
 
     warn "Start job at: @{[ gmctime() ]} UTC\n" if $debug >= 1;
 
@@ -1646,7 +1647,7 @@ sub run_jobs {
     #
     my $lockfile_extract = $spool->{'running'} . "/extract.pid";
 
-    my $lockmgr_extract = &create_lock( 'lockfile' => $lockfile_extract )
+    my $lockmgr_extract = $e_lock->create_lock( 'lockfile' => $lockfile_extract )
       or die "Cannot get lockfile $lockfile_extract, give up\n";
 
     # find a free job
@@ -1656,7 +1657,7 @@ sub run_jobs {
         $job_number = $number;
 
         # lock pid
-        if ( $lockmgr = &create_lock( 'lockfile' => $file ) ) {
+        if ( $lockmgr = $e_lock->create_lock( 'lockfile' => $file ) ) {
             $lockfile = $file;
             last;
         }
@@ -1664,14 +1665,14 @@ sub run_jobs {
 
     # Oops, all jobs are in use, give up
     if ( !$lockfile ) {
-        &remove_lock(
+        $e_lock->remove_lock(
             'lockfile' => $lockfile_extract,
             'lockmgr'  => $lockmgr_extract
         );
         die "Cannot get lock for jobs 1..$max_jobs\n" . qx(uptime);
     }
 
-    warn "Use lockfile $lockfile\n" if $debug >= 1;
+    warn "Use lockfile $lockfile for extract\n" if $debug >= 1;
 
     my ( $list, $planet_osm ) = parse_jobs(
         'files'      => \@files,
@@ -1688,9 +1689,9 @@ sub run_jobs {
         print "Nothing to do for users\n" if $debug >= 2;
 
         # unlock jobN pid
-        &remove_lock( 'lockfile' => $lockfile, 'lockmgr' => $lockmgr );
+        $e_lock->remove_lock( 'lockfile' => $lockfile, 'lockmgr' => $lockmgr );
 
-        &remove_lock(
+        $e_lock->remove_lock(
             'lockfile' => $lockfile_extract,
             'lockmgr'  => $lockmgr_extract
         );
@@ -1710,7 +1711,7 @@ sub run_jobs {
     );
 
     # EOF semaphone lock /extract.pid (cron job)
-    &remove_lock(
+    $e_lock->remove_lock(
         'lockfile' => $lockfile_extract,
         'lockmgr'  => $lockmgr_extract
     );
@@ -1771,7 +1772,7 @@ sub run_jobs {
     warn "Number of errors: $errors\n" if $errors;
 
     # unlock jobN pid
-    &remove_lock( 'lockfile' => $lockfile, 'lockmgr' => $lockmgr );
+    $e_lock->remove_lock( 'lockfile' => $lockfile, 'lockmgr' => $lockmgr );
 
     &cleanup_jobdir(
         'job_dir' => $job_dir,
@@ -1871,7 +1872,7 @@ my $errors = &run_jobs(
 );
 
 # load average when the job is done
-my $loadavg = &get_loadavg;
+&get_loadavg;
 exit($errors);
 
 1;
