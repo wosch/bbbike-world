@@ -12,26 +12,45 @@ use strict;
 use warnings;
 
 my $debug = 1;
-plan tests => 4 + 2;
+plan tests => 4 + 4 + 2;
 
-$Extract::Config::spool_dir = '../extract';
+$Extract::Config::spool_dir = 'world/t/extract';
 
-my $expected_result = {
+my $expected_result_confirmed = {
     'nobody@mailinator.com' => 1,
     'nobody@googlemail.com' => 14,
     'nobody@gmail.com'      => 9
 };
 
+my $expected_result_running = {
+    'nobody@mailinator.com' => 1,
+    'nobody@googlemail.com' => 14,
+    'nobody@gmail.com'      => 9
+};
+
+
 ###########################################################################
 # test success
 my $scheduler = new Extract::Scheduler( 'debug' => $debug );
-my $hash = $scheduler->running_users;
+my @files = glob('world/t/extract/confirmed/[0-9a-f]*[0-9-a-f].json');
 
-foreach my $key ( keys %$hash ) {
-    is( $hash->{$key}, $expected_result->{$key}, "$key => $hash->{$key}" );
+# test with explicit list of files
+my $hash = $scheduler->running_users(\@files);
+
+foreach my $key ( keys %$expected_result_confirmed ) {
+    is( $hash->{$key}, $expected_result_confirmed->{$key}, "$key => $hash->{$key}" );
 }
 
-is( scalar( keys %$hash ), scalar( keys %$expected_result ), "number of keys" );
+is( scalar( keys %$hash ), scalar( keys %$expected_result_confirmed ), "number of keys" );
+
+# test without explicit list of files
+$hash = $scheduler->running_users;
+
+foreach my $key ( keys %$expected_result_running ) {
+    is( $hash->{$key}, $expected_result_running->{$key}, "$key => $hash->{$key}" );
+}
+
+is( scalar( keys %$hash ), scalar( keys %$expected_result_running ), "number of keys" );
 
 ###########################################################################
 # test failures
