@@ -1810,6 +1810,8 @@ GetOptions(
     "test-mode!"   => \$test_mode,
 ) or die usage;
 
+$Extract::Utils::debug=$debug;
+
 die usage if $help;
 die "Max jobs: $max_jobs out of range!\n" . &usage
   if $max_jobs < 1 || $max_jobs > 12;
@@ -1822,6 +1824,7 @@ if ( $option->{"osmconvert_enabled"} && $max_areas != 1 ) {
     warn "Reset max_areas to 1 for osmconvert\n" if $debug >= 1;
     $max_areas = 1;
 }
+
 
 # full path for spool directories
 while ( my ( $key, $val ) = each %$spool ) {
