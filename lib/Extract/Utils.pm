@@ -30,7 +30,7 @@ use warnings;
 
 our $debug = 0;
 
-# Extract::Utils::new->('q'=> $q, 'option' => $option)
+# Extract::Utils::new->('q'=> $q, 'debug' => $debug)
 sub new {
     my $class = shift;
     my %args  = @_;

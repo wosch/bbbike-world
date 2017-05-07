@@ -1810,6 +1810,7 @@ GetOptions(
     "test-mode!"   => \$test_mode,
 ) or die usage;
 
+# we have to set the debug level late, after GetOptions()
 $Extract::Utils::debug=$debug;
 
 die usage if $help;
