@@ -119,7 +119,7 @@ our $option = {
     'osmconvert_options'  => ["--drop-broken-refs"],
 
     'bots' => {
-        'names'       => [qw/curl Wget/],
+        'names'       => [qw/curl Wget Zend python-requests/],
         'detecation'  => 1,              # 0, 1
         'max_loadavg' => 3,              # 3 .. 6
                                          # 1: only one bot queue (soft blocking)
