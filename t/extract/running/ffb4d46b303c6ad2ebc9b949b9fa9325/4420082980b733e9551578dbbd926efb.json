@@ -1,0 +1,14 @@
+{
+   "poly_file" : "/var/tmp/bbbike/extract/running/bf2b5ed073aa6d2cd70781a968dfc50f/51.35,13.65-52.00,15.10.poly",
+   "time" : 1323617656,
+   "file" : "4420082980b733e9551578dbbd926efb.json",
+   "ne_lat" : "52.00",
+   "skm" : 9997,
+   "email" : "nobody@mailinator.com",
+   "sw_lat" : "51.35",
+   "city" : "cottbus",
+   "format" : "pbf",
+   "pbf_file" : "/var/tmp/bbbike/extract/running/bf2b5ed073aa6d2cd70781a968dfc50f/51.35,13.65-52.00,15.10.pbf",
+   "sw_lng" : "13.65",
+   "ne_lng" : "15.10"
+}

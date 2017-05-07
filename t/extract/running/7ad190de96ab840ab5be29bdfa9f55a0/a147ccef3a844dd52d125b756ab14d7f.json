@@ -1,0 +1,14 @@
+{
+   "poly_file" : "/var/tmp/bbbike/extract/running/7c1f7fff5df93cf340b0999fa9372cc5/52.7378,13.5426-52.8787,13.8591.poly",
+   "time" : 1323687602,
+   "file" : "a147ccef3a844dd52d125b756ab14d7f.json",
+   "ne_lat" : "52.8787",
+   "skm" : 452,
+   "email" : "nobody@gmail.com",
+   "sw_lat" : "52.7378",
+   "city" : "finowfurt",
+   "format" : "osm.bz2",
+   "pbf_file" : "/var/tmp/bbbike/extract/running/7c1f7fff5df93cf340b0999fa9372cc5/52.7378,13.5426-52.8787,13.8591.pbf",
+   "sw_lng" : "13.5426",
+   "ne_lng" : "13.8591"
+}
