@@ -41,6 +41,9 @@ sub init {
     if ( defined $self->{'debug'} ) {
         $debug = $self->{'debug'};
     }
+    if ( defined $self->{'option'} ) {
+        $option = $self->{'option'};
+    }
 
     my $utils = Extract::Utils->new( 'debug' => $debug );
 }
