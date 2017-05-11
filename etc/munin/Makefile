@@ -100,6 +100,9 @@ clean distclean:
 	rm -f *.bak *.tdy *.ERR
 	rm -f plugins/*.bak plugins/*.tdy
 
+clean-install:
+	rm -f ${MUNIN_PLUGINS_DIR}/bbbike-*
+
 	
 help:
 	@echo "make [ install-munin-xen | install-munin-varnish ]"
@@ -108,7 +111,7 @@ help:
 	@echo "     [ install-munin-lighttpd ]"
 	@echo ""
 	@echo "     [ munin-restart ]" 
-	@echo "     [ perltidy | distclean ]"
+	@echo "     [ perltidy | distclean | clean-install ]"
 	@echo ""
 	@echo "for bbbike.de: "
 	@echo "make MUNIN_BBBIKE=\"bbbike-output bbbike-pref bbbike-route bbbike-appid\" install-munin-bbbike"
