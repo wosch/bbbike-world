@@ -703,7 +703,7 @@ EOF
         'type'    => 'running',
         'files'   => \@extracts,
         'name'    => 'Running extracts',
-        'message' => 'Will be ready in the next 5-10 minutes',
+        'message' => 'Will be ready in the next 3-10 minutes',
     );
 
     @extracts = @extracts_trash;
