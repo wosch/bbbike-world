@@ -48,7 +48,7 @@ install-munin-bbbike-system:
 	
 install-munin-bbbike-web: 
 	for i in ${MUNIN_BBBIKE_WEB}; do \
-	   sudo ln -fs `pwd`/plugins/bbbike ${MUNIN_PLUGINS_DIR}/$$i; \
+	   sudo ln -fs `pwd`/plugins/bbbike-services ${MUNIN_PLUGINS_DIR}/$$i; \
 	done
 	${MAKE} munin-restart
 
