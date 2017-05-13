@@ -9,7 +9,7 @@
 
 =head1 NAME
 
-munin-bbbike-extract-files  - Plugin to monitor number of files
+extract-files  - Plugin to monitor number of files
 
 =head1 ABOUT
 
