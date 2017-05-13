@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2011-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2011-2017 Wolfram Schneider, https://bbbike.org
 #
-# munin-bbbike - munin statistics for BBBike, searches per interval
+# bbbike-services - munin statistics for BBBike, searches per interval
 
 use Getopt::Long;
 use Data::Dumper;
@@ -31,7 +31,7 @@ my $interval = 1;    # 5
 my $frontend_proxy = 0;
 
 # munin-bbbike config file
-my $munin_config_file = "/etc/munin/munin-bbbike.conf";
+my $munin_config_file = "/etc/munin/bbbike.conf";
 
 # {fieldname}.min?
 # should be 0 or 1
@@ -661,7 +661,7 @@ sub count_output {
 
 #
 # detect type by program path
-# ./munin-bbbike-ajax => ./munin-bbbike --type=ajax
+# ./bbbike-services-ajax => ./bbbike-services --type=ajax
 #
 sub detect_type {
     my $program = basename($0);

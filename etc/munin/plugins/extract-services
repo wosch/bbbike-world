@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl
 # Copyright (c) Sep 2011-2017 Wolfram Schneider, https://bbbike.org
 #
-# munin-bbbike-extract - munin statistics for BBBike extract service
+# extract-services - munin statistics for BBBike extract service
 
 use Getopt::Long;
 use Data::Dumper;
@@ -20,7 +20,7 @@ my $database = '/var/tmp/munin-bbbike-extract';
 my $logfile  = '/var/log/lighttpd/extract.bbbike.log';
 
 # munin-bbbike config file
-my $munin_config_file = "/etc/munin/munin-bbbike-extract.conf";
+my $munin_config_file = "/etc/munin/extract.conf";
 
 # {fieldname}.min?
 # should be 0 or 1
@@ -417,7 +417,7 @@ sub count_extract {
 
 #
 # detect type by program path
-# ./munin-bbbike-tilesize => ./munin-bbbike --type=tilesize
+# ./extract-services-tilesize => ./extract-services --type=tilesize
 #
 sub detect_type {
     my $program = basename($0);
