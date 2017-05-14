@@ -3,7 +3,13 @@
 #
 # init bbbike.org ubuntu deb repository
 
+: ${DEBUG=false}
+
+if $DEBUG; then
+  set -x
+fi
 set -e
+
 sources_list_d=/etc/apt/sources.list.d
 
 init_apt_bbbike() {
