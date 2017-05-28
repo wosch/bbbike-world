@@ -28,10 +28,7 @@ osmium_convert_opt="-f pbf -t opl"
 
 # max. file size in KB
 # larger value for special garmin format
-if [ "$format" = "--garmin-onroad" ]; then
-    : ${max_file_size_garmin=9950000}
-fi
-if [ "$format" = "--garmin-onroad-ascii" ]; then
+if [ "$format" = "--garmin-onroad" -o "$format" = "--garmin-onroad-ascii" ]; then
     : ${max_file_size_garmin=9950000}
 fi
 
