@@ -29,10 +29,16 @@ init_apt_bbbike() {
         sudo apt-get update -qq
     fi
 
-    # old packages from wheezy for jessie
+    # old packages from wheezy/trusty
     legacy=$sources_list_d/bbbike-legacy.list
     if [ ! -e $legacy ]; then
-	sudo cp world/etc/apt/$os/wheezy-legacy/sources.list.d/$(basename $legacy) $legacy
+	codename_old=""
+	case $codename in
+	  debian ) codename_old="wheezy" ;;
+	  ubuntu ) codename_old="trusty" ;;
+        esac
+
+	sudo cp world/etc/apt/$os/${codename_old}-legacy/sources.list.d/$(basename $legacy) $legacy
         sudo apt-get update -qq
     fi
 }
