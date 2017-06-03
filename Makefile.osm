@@ -1253,10 +1253,10 @@ bbbike-bootstrap: bbbike-partition debian-bootstrap update-files install-backend
 	sudo ${MAKE} -C./world/etc crontab-root
 	sudo ${MAKE} -C./world/etc/munin install-munin-bbbike
 	sudo update-rc.d lighttpd defaults
+	rm -f ./HEADER.txt
 	-sudo /etc/init.d/lighttpd stop
 	sleep 0.5
 	sudo /etc/init.d/lighttpd start
-	rm -f ./HEADER.txt
 	@echo ""
 	@echo "You may also run: make staging"
 
