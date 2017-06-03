@@ -33,7 +33,7 @@ init_apt_bbbike() {
     legacy=$sources_list_d/bbbike-legacy.list
     if [ ! -e $legacy ]; then
 	codename_old=""
-	case $codename in
+	case $os in
 	  debian ) codename_old="wheezy" ;;
 	  ubuntu ) codename_old="trusty" ;;
         esac
