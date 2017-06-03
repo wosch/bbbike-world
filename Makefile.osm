@@ -1482,6 +1482,19 @@ docker-check:
 docker-shell:
 	${DOCKER_SUDO} docker run -it --rm -p 8000:80 ${DOCKER_BBBIKE_TAG}
 
+docker-build-all: docker-build-tile \
+			docker-build-extract-debian8 docker-build-extract-debian9 \
+			docker-build-extract-ubuntu14 docker-build-extract-ubuntu16 
+
+docker-build-extract-debian8:
+	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-debian8 DOCKER_BBBIKE_TAG=bbbike/extract-debian8 docker-build
+docker-build-extract-debian9:
+	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-debian9 DOCKER_BBBIKE_TAG=bbbike/extract-debian9 docker-build
+docker-build-extract-ubunut14:
+	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-ubuntu14 DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu14 docker-build
+docker-build-extract-ubuntu16:
+	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-ubuntu16 DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu16 docker-build
+
 # see world/etc/docker/README 
 docker-build-tile:
 	${BBMAKE} DOCKER_IMAGE_FILE=tile-ubuntu14 DOCKER_BBBIKE_TAG=bbbike/tile docker-build
@@ -1564,6 +1577,8 @@ help:
 	@echo "  [ check-tileserver ]"
 	@echo "  [ docker-build | docker-check | docker-shell ]"
 	@echo "  [ docker-build-tile | docker-shell-tile ]"
+	@echo "  [ docker-build-extract-debian9 | docker-build-extract-ubuntu16 ]"
+	@echo "  [ docker-build-all ]"
 	@echo "  [ travis ]"
 	@echo ""
 	@echo "after failed install/cache update:"
