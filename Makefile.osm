@@ -26,6 +26,7 @@ OSM2BBD=	./miscsrc/osm2bbd ${OSM2BBD_OPT} --nodate --no-create --git-id="${GIT_I
 DOCKER_SUDO?= 			$(shell if test `uname` = "Linux"; then echo "sudo"; fi)
 DOCKER_IMAGE_FILE?=		bbbike-debian8
 DOCKER_BBBIKE_TAG?=		bbbike/extract
+DOCKER= 			${DOCKER_SUDO} docker
 
 MAX_CPU=	`world/bin/ncpu`
 MAX_CPU2=	`world/bin/ncpu -1`
@@ -1476,11 +1477,11 @@ install-xvfb:
 	sudo update-rc.d xvfb defaults
 
 docker-build:
-	${DOCKER_SUDO} docker build -f world/etc/docker/${DOCKER_IMAGE_FILE} -t ${DOCKER_BBBIKE_TAG} .
+	${DOCKER} build -f world/etc/docker/${DOCKER_IMAGE_FILE} -t ${DOCKER_BBBIKE_TAG} .
 docker-check:
-	${DOCKER_SUDO} docker run -it --rm -p 8000:80 ${DOCKER_BBBIKE_TAG} make check
+	${DOCKER} run -it --rm -p 8000:80 ${DOCKER_BBBIKE_TAG} make check
 docker-shell:
-	${DOCKER_SUDO} docker run -it --rm -p 8000:80 ${DOCKER_BBBIKE_TAG}
+	${DOCKER} run -it --rm -p 8000:80 ${DOCKER_BBBIKE_TAG}
 
 docker-build-all: docker-build-tile \
 			docker-build-extract-debian8 docker-build-extract-debian9 \
@@ -1500,6 +1501,11 @@ docker-build-tile:
 	${BBMAKE} DOCKER_IMAGE_FILE=tile-ubuntu14 DOCKER_BBBIKE_TAG=bbbike/tile docker-build
 docker-shell-tile:
 	${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/tile docker-shell
+
+docker-distclean:
+	if ${DOCKER} images | egrep '^<none>'; then \
+	  ${DOCKER} rmi -f $$(docker  images |egrep '^<none>' | awk '{ print $$3 }'); \
+	fi
 
 check-tileserver:
 	curl -sf http://localhost:80/osm/bbbike/11/1100/671.png > /dev/null
@@ -1578,7 +1584,7 @@ help:
 	@echo "  [ docker-build | docker-check | docker-shell ]"
 	@echo "  [ docker-build-tile | docker-shell-tile ]"
 	@echo "  [ docker-build-extract-debian9 | docker-build-extract-ubuntu16 ]"
-	@echo "  [ docker-build-all ]"
+	@echo "  [ docker-build-all | docker-distclean ]"
 	@echo "  [ travis ]"
 	@echo ""
 	@echo "after failed install/cache update:"
