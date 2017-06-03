@@ -1,17 +1,14 @@
-FROM ubuntu:14.04
+FROM ubuntu:trusty
 MAINTAINER Wolfram Schneider <wosch@FreeBSD.org>
 
-# jessie-backports
-RUN gpg --keyserver pgpkeys.mit.edu --recv-key 8B48AD6246925553 && \
-    gpg -a --export 8B48AD6246925553| apt-key add - && \
-    gpg --keyserver pgpkeys.mit.edu --recv-key 7638D0442B90D010 && \
-    gpg -a --export 7638D0442B90D010| apt-key add - && \
-    echo 'deb http://httpredir.debian.org/debian jessie-backports main contrib non-free' | \
-    tee /etc/apt/sources.list.d/jessie-backports.list 
 
 RUN apt-get update -q && \
   apt-get upgrade -y && \
-  apt-get install -y git make sudo gpgv apt-transport-https
+  apt-get install -y git make sudo gpgv apt-transport-https && \
+  apt-get install -q -y exim4 software-properties-common
+
+# backports
+RUN add-apt-repository ppa:openjdk-r/ppa 
 
 RUN mkdir -p /bbbike/projects
 WORKDIR /bbbike/projects
@@ -25,11 +22,8 @@ RUN git clone --depth=200 https://github.com/wosch/bbbike.git && \
   make -f world/Makefile.osm create-makefile-symlinks
 
 WORKDIR /bbbike/projects/bbbike
-
 RUN ./world/travis/bbbike-init.sh
-
-RUN apt-get -t jessie-backports install -y openjdk-8-jdk && \
-  apt-get install -y bbbike-world
+RUN apt-get install -y -q libdata-random-perl bbbike-world
 
 RUN make -f world/Makefile.osm create-bbbike-web-symlinks
 #RUN cd world && git pull
