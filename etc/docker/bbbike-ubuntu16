@@ -20,10 +20,7 @@ WORKDIR /bbbike/projects/bbbike
 RUN . ./world/etc/env/dot.bbbikerc 
 RUN ./world/travis/bbbike-init.sh
 
-RUN echo 'deb http://httpredir.debian.org/debian jessie-backports main contrib non-free' | \
-    sudo tee /etc/apt/sources.list.d/jessie-backports.list && \
-  sudo apt-get update -q && \
-  sudo apt-get -t jessie-backports install -y openjdk-8-jdk && \
+RUN sudo apt-get update -q && \
   sudo apt-get install -y bbbike-world
 
 RUN make -f world/Makefile.osm create-bbbike-web-symlinks
