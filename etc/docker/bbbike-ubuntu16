@@ -3,8 +3,8 @@ MAINTAINER Wolfram Schneider <wosch@FreeBSD.org>
 
 RUN apt-get update -q && \
   apt-get upgrade -q -y && \
-  apt-get install -qq -y git make sudo gpgv apt-transport-https && \
-  apt-get install -qq -y exim4 
+  apt-get install -q -y git make sudo gpgv apt-transport-https && \
+  apt-get install -q -y exim4 
 
 RUN mkdir -p /bbbike/projects
 WORKDIR /bbbike/projects
