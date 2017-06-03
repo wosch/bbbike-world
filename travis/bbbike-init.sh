@@ -32,7 +32,7 @@ init_apt_bbbike() {
     # old packages from wheezy for jessie
     legacy=$sources_list_d/bbbike-legacy.list
     if [ ! -e $legacy ]; then
-	sudo cp world/etc/apt/$os/$codename/sources.list.d/$(basename $legacy) $legacy
+	sudo cp world/etc/apt/$os/wheezy-legacy/sources.list.d/$(basename $legacy) $legacy
         sudo apt-get update -qq
     fi
 }
