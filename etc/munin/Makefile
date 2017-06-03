@@ -6,18 +6,18 @@
 
 MUNIN_BBBIKE_SYSTEM= 	bbbike-processes
 
-MUNIN_BBBIKE_WEB=	bbbike-ajax \
-			bbbike-output \
-			bbbike-pref \
-			bbbike-maptype \
-			bbbike-route \
-			bbbike-appid
+MUNIN_BBBIKE_WEB=	bbbike-services-ajax \
+			bbbike-services-output \
+			bbbike-services-pref \
+			bbbike-services-maptype \
+			bbbike-services-route \
+			bbbike-services-appid
 
-MUNIN_BBBIKE_EXTRACT= 	bbbike-extract-diskusage \
-			bbbike-extract-files \
-			bbbike-extract-size \
-			bbbike-extract-jobs \
-			bbbike-extract-stale
+MUNIN_BBBIKE_EXTRACT= 	extract-diskusage \
+			extract-files \
+			extract-size \
+			extract-jobs \
+			extract-stale
 
 MUNIN_VARNISH=	data_structures vcl_and_bans lru objects_per_objhead obj_sendfile_vs_write losthdr esi hcb shm shm_writes overflow session session_herd	
 
@@ -48,7 +48,7 @@ install-munin-bbbike-system:
 	
 install-munin-bbbike-web: 
 	for i in ${MUNIN_BBBIKE_WEB}; do \
-	   sudo ln -fs `pwd`/plugins/bbbike ${MUNIN_PLUGINS_DIR}/$$i; \
+	   sudo ln -fs `pwd`/plugins/bbbike-services ${MUNIN_PLUGINS_DIR}/$$i; \
 	done
 	${MAKE} munin-restart
 
@@ -59,14 +59,14 @@ install-munin-varnish:
 	${MAKE} munin-restart
 
 install-munin-bbbike-extract:
-	sudo ln -fs `pwd`/plugins/bbbike-extract ${MUNIN_PLUGINS_DIR}/bbbike-extract; \
-	sudo ln -fs `pwd`/plugins/bbbike-extract ${MUNIN_PLUGINS_DIR}/bbbike-extract-tilesize; \
-	sudo ln -fs `pwd`/plugins/bbbike-extract ${MUNIN_PLUGINS_DIR}/bbbike-extract-format; \
+	sudo ln -fs `pwd`/plugins/extract-services ${MUNIN_PLUGINS_DIR}/extract-services; \
+	sudo ln -fs `pwd`/plugins/extract-services ${MUNIN_PLUGINS_DIR}/extract-tilesize-services; \
+	sudo ln -fs `pwd`/plugins/extract-services ${MUNIN_PLUGINS_DIR}/extract-format-services; \
 	for i in ${MUNIN_BBBIKE_EXTRACT}; do \
 	   to=`echo $$i | perl -npe 's,munin-,,'`; \
 	   sudo ln -fs `pwd`/plugins/$$i ${MUNIN_PLUGINS_DIR}/$$to; \
 	done
-	sudo ln -fs ${MUNIN_PLUGINS_DIR}/bbbike-extract-jobs ${MUNIN_PLUGINS_DIR}/bbbike-extract-pro-jobs
+	sudo ln -fs ${MUNIN_PLUGINS_DIR}/extract-jobs ${MUNIN_PLUGINS_DIR}/extract-pro-jobs
 	${MAKE} munin-restart
 
 install-munin-lighttpd:
@@ -102,6 +102,7 @@ clean distclean:
 
 clean-install:
 	rm -f ${MUNIN_PLUGINS_DIR}/bbbike-*
+	rm -f ${MUNIN_PLUGINS_DIR}/extract-*
 
 	
 help:

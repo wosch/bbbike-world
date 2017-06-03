@@ -118,11 +118,11 @@ our $option = {
 
     'bots' => {
         'names'       => [qw/curl Wget Zend python-requests/],
-        'detecation'  => 1,              # 0, 1
-        'max_loadavg' => 3,              # 3 .. 6
-                                         # 1: only one bot queue (soft blocking)
-                                         # 2: ignore bots (hard blocking)
-        'scheduler'   => 1,
+        'detecation'  => 1,                                      # 0, 1
+        'max_loadavg' => 3,                                      # 3 .. 6
+             # 1: only one bot queue (soft blocking)
+             # 2: ignore bots (hard blocking)
+        'scheduler' => 1,
     },
 
     'pbf2osm' => {
