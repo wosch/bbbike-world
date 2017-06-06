@@ -62,7 +62,7 @@ init_apt_mono() {
 
 # required packages for this script
 init_apt_deb() {
-    sudo apt-get install -qq -y lsb-release wget curl
+    sudo apt-get install -qq -y lsb-release wget curl gnupg dirmngr
 }
 
 init_apt_deb
