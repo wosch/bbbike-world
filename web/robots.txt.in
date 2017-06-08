@@ -18,6 +18,7 @@ User-agent: Linguee
 User-agent: discobot
 User-agent: ip-web-crawler.com
 User-agent: AppEngine-Google
+User-agent: BLEXBot
 Disallow: /
 
 # people search engines
