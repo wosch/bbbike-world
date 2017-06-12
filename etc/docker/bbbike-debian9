@@ -1,12 +1,8 @@
-FROM debian:jessie
+FROM debian:stretch
 MAINTAINER Wolfram Schneider <wosch@FreeBSD.org>
 
-# backports
-RUN echo 'deb http://httpredir.debian.org/debian jessie-backports main contrib non-free' | \
-    tee /etc/apt/sources.list.d/jessie-backports.list 
-
 RUN apt-get update -q && apt-get upgrade -y && \
-  apt-get install -y git make sudo
+  apt-get install -y git make sudo gnupg
 
 RUN mkdir -p /bbbike/projects
 WORKDIR /bbbike/projects
@@ -23,12 +19,13 @@ WORKDIR /bbbike/projects/bbbike
 
 RUN . ./world/etc/env/dot.bbbikerc 
 RUN ./world/travis/bbbike-init.sh
-RUN apt-get -t jessie-backports install -y openjdk-8-jdk && \
-  apt-get install -y bbbike-world
+
+RUN sudo apt-get update -q && \
+  sudo apt-get install -y bbbike-world
 
 RUN make -f world/Makefile.osm create-bbbike-web-symlinks
 #RUN cd world && git pull
-RUN cp world/etc/env/dot.bbbikerc $HOME/.bbbikerc
+RUN sudo cp world/etc/env/dot.bbbikerc $HOME/.bbbikerc
 RUN make bbbike-bootstrap || true
 RUN make update-files
 
