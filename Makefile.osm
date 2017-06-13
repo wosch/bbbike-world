@@ -1488,8 +1488,11 @@ docker-shell:
 	${DOCKER} run -it --rm -p 8000:80 ${DOCKER_BBBIKE_TAG}
 
 docker-build-all: docker-build-tile \
-			docker-build-extract-debian8 docker-build-extract-debian9 \
-			docker-build-extract-ubuntu14 docker-build-extract-ubuntu16 
+		docker-build-extract-debian8 \
+		docker-build-extract-debian9 \
+		docker-build-extract-ubuntu14 \
+		docker-build-extract-ubuntu16 \
+		docker-build-extract-ubuntu17
 
 docker-build-extract-debian8:
 	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-debian8 DOCKER_BBBIKE_TAG=bbbike/extract-debian8 docker-build
@@ -1499,6 +1502,8 @@ docker-build-extract-ubuntu14:
 	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-ubuntu14 DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu14 docker-build
 docker-build-extract-ubuntu16:
 	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-ubuntu16 DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu16 docker-build
+docker-build-extract-ubuntu17:
+	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-ubuntu17 DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu17 docker-build
 
 # see world/etc/docker/README 
 docker-build-tile:
@@ -1587,7 +1592,7 @@ help:
 	@echo "  [ check-tileserver ]"
 	@echo "  [ docker-build | docker-check | docker-shell ]"
 	@echo "  [ docker-build-tile | docker-shell-tile ]"
-	@echo "  [ docker-build-extract-debian9 | docker-build-extract-ubuntu16 ]"
+	@echo "  [ docker-build-extract-debian9 | docker-build-extract-ubuntu16 | docker-build-extract-ubuntu17 ]"
 	@echo "  [ docker-build-all | docker-distclean ]"
 	@echo "  [ travis ]"
 	@echo ""
