@@ -1238,6 +1238,10 @@ deb-repo: deb-repo-dir
  	   reprepro --ignore=undefinedtarget -Vb . includedeb ${DEB_RELEASE} $$i; \
 	done
 
+# XXX: update legacy repo
+# cp /usr/local/www/debian.bbbike.org/src/legacy/ubuntu/trusty/*deb tmp/deb/ubuntu/trusty-legacy
+# make DEB_RELEASE=trusty-legacy deb-repo-upload
+
 deb-repo-upload:
 	find ${DEB_TMP}/ ! -name '*.deb' -type f| xargs rm -f
 	rsync -m -azv ${DEB_TMP} debian.bbbike.org:projects/bbbike/tmp	
