@@ -1496,10 +1496,13 @@ docker-build-all: docker-build-tile \
 		docker-build-extract-ubuntu16 \
 		docker-build-extract-ubuntu17
 
+# debian
 docker-build-extract-debian8:
 	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-debian8 DOCKER_BBBIKE_TAG=bbbike/extract-debian8 docker-build
 docker-build-extract-debian9:
 	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-debian9 DOCKER_BBBIKE_TAG=bbbike/extract-debian9 docker-build
+
+# ubuntu
 docker-build-extract-ubuntu14:
 	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-ubuntu14 DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu14 docker-build
 docker-build-extract-ubuntu16:
