@@ -1485,9 +1485,9 @@ docker-build:
 docker-shell:
 	${DOCKER} run -it --rm -p 8000:80 ${DOCKER_BBBIKE_TAG}
 docker-check:
-	${DOCKER} run -it --rm ${DOCKER_BBBIKE_TAG} /bin/bash -ic 'echo 3 | sudo tee $$HOME/.ncpu.ncpu; BBBIKE_TEST_NO_NETWORK=1 make check || cat log.check*'
+	${DOCKER} run -it --rm ${DOCKER_BBBIKE_TAG} /bin/bash -ic 'echo 3 | sudo tee $$HOME/.ncpu.ncpu; make git-pull; BBBIKE_TEST_NO_NETWORK=1 make check || cat log.check*'
 docker-check-w:
-	${DOCKER} run -it --rm ${DOCKER_BBBIKE_TAG} /bin/bash -ic 'echo 3 | sudo tee $$HOME/.ncpu.ncpu; BBBIKE_TEST_NO_NETWORK=1 make check-w || cat log.check*'
+	${DOCKER} run -it --rm ${DOCKER_BBBIKE_TAG} /bin/bash -ic 'echo 3 | sudo tee $$HOME/.ncpu.ncpu; make git-pull; BBBIKE_TEST_NO_NETWORK=1 make check-w || cat log.check*'
 
 docker-build-all: docker-build-tile \
 		docker-build-extract-debian8 \
