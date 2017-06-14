@@ -1520,8 +1520,8 @@ docker-shell-tile:
 	${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/tile docker-shell
 
 docker-distclean:
-	if ${DOCKER} images | egrep '^<none>'; then \
-	  ${DOCKER} rmi -f $$(docker  images | egrep '^<none>' | awk '{ print $$3 }'); \
+	if ${DOCKER} images | egrep -q '^<none>'; then \
+	  ${DOCKER} rmi -f $$(${DOCKER} images | egrep '^<none>' | awk '{ print $$3 }'); \
 	fi
 
 check-tileserver:
