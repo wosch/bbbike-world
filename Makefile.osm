@@ -1521,7 +1521,7 @@ docker-shell-tile:
 
 docker-distclean:
 	if ${DOCKER} images | egrep '^<none>'; then \
-	  ${DOCKER} rmi -f $$(docker  images |egrep '^<none>' | awk '{ print $$3 }'); \
+	  ${DOCKER} rmi -f $$(docker  images | egrep '^<none>' | awk '{ print $$3 }'); \
 	fi
 
 check-tileserver:
