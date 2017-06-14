@@ -1482,10 +1482,10 @@ install-xvfb:
 
 docker-build:
 	${DOCKER} build -f world/etc/docker/${DOCKER_IMAGE_FILE} -t ${DOCKER_BBBIKE_TAG} .
-docker-check:
-	${DOCKER} run -it --rm -p 8000:80 ${DOCKER_BBBIKE_TAG} make check
 docker-shell:
 	${DOCKER} run -it --rm -p 8000:80 ${DOCKER_BBBIKE_TAG}
+docker-check:
+	${DOCKER} run -it --rm ${DOCKER_BBBIKE_TAG} /bin/bash -ic 'echo 3 | sudo tee $$HOME/.ncpu.ncpu; BBBIKE_TEST_NO_NETWORK=1 make check || cat log.check*'
 
 docker-build-all: docker-build-tile \
 		docker-build-extract-debian8 \
