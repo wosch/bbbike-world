@@ -1486,6 +1486,8 @@ docker-shell:
 	${DOCKER} run -it --rm -p 8000:80 ${DOCKER_BBBIKE_TAG}
 docker-check:
 	${DOCKER} run -it --rm ${DOCKER_BBBIKE_TAG} /bin/bash -ic 'echo 3 | sudo tee $$HOME/.ncpu.ncpu; BBBIKE_TEST_NO_NETWORK=1 make check || cat log.check*'
+docker-check-w:
+	${DOCKER} run -it --rm ${DOCKER_BBBIKE_TAG} /bin/bash -ic 'echo 3 | sudo tee $$HOME/.ncpu.ncpu; BBBIKE_TEST_NO_NETWORK=1 make check-w || cat log.check*'
 
 docker-build-all: docker-build-tile \
 		docker-build-extract-debian8 \
@@ -1590,7 +1592,9 @@ help:
 	@echo "  [ git-fetch | git-pull | git-push | mygit | git-gc ]"
 	@echo "  [ check | check-world | check-full | check-failed ]"
 	@echo "  [ check-tileserver ]"
-	@echo "  [ docker-build | docker-check | docker-shell ]"
+	@echo "  [ docker-build | docker-shell ]"
+	@echo "  [ docker-check | docker-check-w ]"
+	@echo "  [ DOCKER_BBBIKE_TAG=bbbike/extract-debian9  docker-check-w ]"
 	@echo "  [ docker-build-tile | docker-shell-tile ]"
 	@echo "  [ docker-build-extract-debian9 | docker-build-extract-ubuntu16 | docker-build-extract-ubuntu17 ]"
 	@echo "  [ docker-build-all | docker-distclean ]"
