@@ -1,6 +1,13 @@
 #!/usr/local/bin/perl
 # Copyright (c) Sep 2012-2016 Wolfram Schneider, https://bbbike.org
 
+BEGIN {
+    if ( $ENV{BBBIKE_TEST_MAPSFORGE_DISABLED} || $ENV{BBBIKE_TEST_DOCKER} ) {
+        print "1..0 # skip, mapsforge disabled\n";
+        exit;
+    }
+}
+
 use Getopt::Long;
 use Data::Dumper qw(Dumper);
 use Test::More;

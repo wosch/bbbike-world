@@ -15,7 +15,7 @@ my @prod = qw(
   /etc/munin
 );
 
-if ( !$ENV{BBBIKE_TEST_TRAVIS} ) {
+if ( !$ENV{BBBIKE_TEST_TRAVIS} && !$ENV{BBBIKE_TEST_DOCKER} ) {
     push @prod, qw(/usr/local/www/download.bbbike.org);
 }
 

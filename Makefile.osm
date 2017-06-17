@@ -26,6 +26,7 @@ OSM2BBD=	./miscsrc/osm2bbd ${OSM2BBD_OPT} --nodate --no-create --git-id="${GIT_I
 DOCKER_SUDO?= 			$(shell if test `uname` = "Linux"; then echo "sudo"; fi)
 DOCKER_IMAGE_FILE?=		bbbike-debian8
 DOCKER_BBBIKE_TAG?=		bbbike/extract
+DOCKER= 			${DOCKER_SUDO} docker
 
 MAX_CPU=	`world/bin/ncpu`
 MAX_CPU2=	`world/bin/ncpu -1`
@@ -945,7 +946,7 @@ cache-install:
 extract-install extract-bbbike-org-install:
 	mkdir -p /tmpfs
 	mkdir -p ${BBBIKE_PARTITION}/$$(basename ${EXTRACTS_SPOOL_DIR})
-	chown -R ${LOGNAME} ${BBBIKE_PARTITION}/
+	#chown -R ${LOGNAME} ${BBBIKE_PARTITION}/
 	if [ ! -e ${EXTRACTS_SPOOL_DIR} ]; then \
 	   ln -fs ${BBBIKE_PARTITION}/$$(basename ${EXTRACTS_SPOOL_DIR}) ${EXTRACTS_SPOOL_DIR}; \
 	fi
@@ -1237,6 +1238,10 @@ deb-repo: deb-repo-dir
  	   reprepro --ignore=undefinedtarget -Vb . includedeb ${DEB_RELEASE} $$i; \
 	done
 
+# XXX: update legacy repo
+# cp /usr/local/www/debian.bbbike.org/src/legacy/ubuntu/trusty/*deb tmp/deb/ubuntu/trusty-legacy
+# make DEB_RELEASE=trusty-legacy deb-repo-upload
+
 deb-repo-upload:
 	find ${DEB_TMP}/ ! -name '*.deb' -type f| xargs rm -f
 	rsync -m -azv ${DEB_TMP} debian.bbbike.org:projects/bbbike/tmp	
@@ -1252,10 +1257,10 @@ bbbike-bootstrap: bbbike-partition debian-bootstrap update-files install-backend
 	sudo ${MAKE} -C./world/etc crontab-root
 	sudo ${MAKE} -C./world/etc/munin install-munin-bbbike
 	sudo update-rc.d lighttpd defaults
+	rm -f ./HEADER.txt
 	-sudo /etc/init.d/lighttpd stop
 	sleep 0.5
 	sudo /etc/init.d/lighttpd start
-	rm -f ./HEADER.txt
 	@echo ""
 	@echo "You may also run: make staging"
 
@@ -1292,9 +1297,10 @@ deb-bootstrap-dir: osmosis-bootstrap deb-opt-dir-version
 	test -e /usr/local/bin/perl || sudo ln -fs /usr/bin/perl /usr/local/bin/perl
 	test -e /usr/lib/libprotobuf-lite.so.6.0.0 || sudo ln -fs ${DEB_OPT_DIR}/lib/libprotobuf-lite.so.6.0.0 /usr/lib/libprotobuf-lite.so.6.0.0
 	test -e /usr/lib/libprotobuf-lite.so.6     || sudo ln -fs ${DEB_OPT_DIR}/lib/libprotobuf-lite.so.6     /usr/lib/libprotobuf-lite.so.6
-	cd /usr/lib; \
+	lib=$$(dpkg -S 'libgeos-3*.so' | awk '{ print $$2 }'); dir=$$(dirname $$lib); \
+	cd $$dir;  \
 	if [ ! -e libgeos-3.2.2.so ]; then \
-	    sudo ln -fs libgeos-3.*.so libgeos-3.2.2.so; \
+	    sudo ln -fs $$(basename $$lib) libgeos-3.2.2.so; \
 	fi
 	test -e /usr/local/bin/osmosis || sudo ln -sf ${DEB_OPT_DIR}/osmosis/bin/osmosis /usr/local/bin/osmosis
 	sudo mkdir -p /bbbike/tmp /tmpfs
@@ -1475,17 +1481,48 @@ install-xvfb:
 	sudo update-rc.d xvfb defaults
 
 docker-build:
-	${DOCKER_SUDO} docker build -f world/etc/docker/${DOCKER_IMAGE_FILE} -t ${DOCKER_BBBIKE_TAG} .
-docker-check:
-	${DOCKER_SUDO} docker run -it --rm -p 8000:80 ${DOCKER_BBBIKE_TAG} make check
+	${DOCKER} build -f world/etc/docker/${DOCKER_IMAGE_FILE} -t ${DOCKER_BBBIKE_TAG} .
 docker-shell:
-	${DOCKER_SUDO} docker run -it --rm -p 8000:80 ${DOCKER_BBBIKE_TAG}
+	${DOCKER} run -it --rm -p 8000:80 ${DOCKER_BBBIKE_TAG}
+docker-check:
+	${DOCKER} run -it --rm ${DOCKER_BBBIKE_TAG} /bin/bash -ic 'echo 3 | sudo tee $$HOME/.ncpu.ncpu; make git-pull; BBBIKE_TEST_NO_NETWORK=1 make check || cat log.check*'
+docker-check-w:
+	${DOCKER} run -it --rm ${DOCKER_BBBIKE_TAG} /bin/bash -ic 'echo 3 | sudo tee $$HOME/.ncpu.ncpu; make git-pull; BBBIKE_TEST_NO_NETWORK=1 make check-w || cat log.check*'
+
+docker-build-all: docker-build-tile \
+		docker-build-extract-debian8 \
+		docker-build-extract-debian9 \
+		docker-build-extract-debian10 \
+		docker-build-extract-ubuntu14 \
+		docker-build-extract-ubuntu16 \
+		docker-build-extract-ubuntu17
+
+# debian
+docker-build-extract-debian8:
+	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-debian8 DOCKER_BBBIKE_TAG=bbbike/extract-debian8 docker-build
+docker-build-extract-debian9:
+	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-debian9 DOCKER_BBBIKE_TAG=bbbike/extract-debian9 docker-build
+docker-build-extract-debian10:
+	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-debian10 DOCKER_BBBIKE_TAG=bbbike/extract-debian10 docker-build
+
+# ubuntu
+docker-build-extract-ubuntu14:
+	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-ubuntu14 DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu14 docker-build
+docker-build-extract-ubuntu16:
+	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-ubuntu16 DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu16 docker-build
+docker-build-extract-ubuntu17:
+	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-ubuntu17 DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu17 docker-build
 
 # see world/etc/docker/README 
 docker-build-tile:
 	${BBMAKE} DOCKER_IMAGE_FILE=tile-ubuntu14 DOCKER_BBBIKE_TAG=bbbike/tile docker-build
 docker-shell-tile:
 	${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/tile docker-shell
+
+docker-distclean:
+	if ${DOCKER} images | egrep -q '^<none>'; then \
+	  ${DOCKER} rmi -f $$(${DOCKER} images | egrep '^<none>' | awk '{ print $$3 }'); \
+	fi
 
 check-tileserver:
 	curl -sf http://localhost:80/osm/bbbike/11/1100/671.png > /dev/null
@@ -1561,8 +1598,13 @@ help:
 	@echo "  [ git-fetch | git-pull | git-push | mygit | git-gc ]"
 	@echo "  [ check | check-world | check-full | check-failed ]"
 	@echo "  [ check-tileserver ]"
-	@echo "  [ docker-build | docker-check | docker-shell ]"
+	@echo "  [ docker-build | docker-shell ]"
+	@echo "  [ docker-check | docker-check-w ]"
+	@echo "  [ DOCKER_BBBIKE_TAG=bbbike/extract-debian9  docker-check-w ]"
 	@echo "  [ docker-build-tile | docker-shell-tile ]"
+	@echo "  [ docker-build-extract-debian8 | docker-build-extract-debian9 | docker-build-extract-debian10 ]"
+	@echo "  [ docker-build-extract-ubuntu14 | docker-build-extract-ubuntu16 | docker-build-extract-ubuntu17 ]"
+	@echo "  [ docker-build-all | docker-distclean ]"
 	@echo "  [ travis ]"
 	@echo ""
 	@echo "after failed install/cache update:"
