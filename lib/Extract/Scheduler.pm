@@ -54,13 +54,12 @@ sub running_users {
 
     my @files = $files ? @$files : ();
 
-    my $spool_dir       = $Extract::Config::spool_dir;
-    my $extract_running = "$spool_dir/" . $Extract::Config::spool->{'running'};
+    my $extract_running = $Extract::Config::spool->{'running'};
 
     # without arguments, get the files from the running directory
     if ( !@files ) {
         my $pattern = "$extract_running/[0-9a-f]*[0-9-a-f]/*json";
-        warn "Glob $pattern\n" if $debug >= 2;
+        warn "Glob jobs path $pattern debug=$debug\n" if $debug >= 2;
 
         @files = glob($pattern);
     }
