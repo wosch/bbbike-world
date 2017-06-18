@@ -127,6 +127,11 @@ our $option = {
         'scheduler' => 1,
     },
 
+    # see also cgi/extract.cgi
+    'scheduler' => {
+        'user_limit_jobs' => 2
+    },
+
     'pbf2osm' => {
         'garmin_version'     => 'mkgmap',
         'maperitive_version' => 'Maperitive',
@@ -228,7 +233,7 @@ sub parse_jobs {
     my $loadavg = &get_loadavg;
 
     my %duplicated_poly = ();
-    my $poly = new Extract::Poly( 'debug' => 1 );
+    my $poly = new Extract::Poly( 'debug' => $debug );
     my $scheduler =
       new Extract::Scheduler( 'debug' => $debug, 'option' => $option );
 
@@ -261,6 +266,24 @@ sub parse_jobs {
                         'obj'        => $obj,
                         'city'       => $city
                       );
+                }
+
+                # rate limit per user
+                my $running_users = $scheduler->running_users;
+
+                my $running_users_jobs = $running_users->{$email} || 0;
+                my $user_limit_jobs =
+                  $option->{'scheduler'}->{'user_limit_jobs'};
+
+                warn
+"Running jobs for user $email: $running_users_jobs, max: $user_limit_jobs\n"
+                  if $debug >= 1;
+
+                if ( $running_users_jobs >= $user_limit_jobs ) {
+                    warn
+"Skip user $email due high number of running jobs: $running_users_jobs >= $user_limit_jobs\n"
+                      if $debug >= 1;
+                    next;
                 }
 
                 my $obj_sub_planet_file = get_sub_planet($obj);
