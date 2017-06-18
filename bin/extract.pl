@@ -273,7 +273,7 @@ sub parse_jobs {
 
                 my $running_users_jobs = $running_users->{$email} || 0;
                 my $total_jobs =
-                  $running_users->total_jobs( 'email' => $running_users );
+                  $scheduler->total_jobs( 'email' => $running_users );
 
                 my $user_limit_jobs =
                   $option->{'scheduler'}->{'user_limit_jobs'};
