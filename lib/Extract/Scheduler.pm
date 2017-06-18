@@ -54,7 +54,13 @@ sub running_users {
 
     my @files = $files ? @$files : ();
 
+    my $spool_dir       = $Extract::Config::spool_dir;
     my $extract_running = $Extract::Config::spool->{'running'};
+
+    # check for absolute path, and prefix it if necessary
+    if ( $extract_running !~ m,^/, ) {
+        $extract_running = "$spool_dir/$extract_running";
+    }
 
     # without arguments, get the files from the running directory
     if ( !@files ) {
