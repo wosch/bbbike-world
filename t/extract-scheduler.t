@@ -14,6 +14,7 @@ use warnings;
 my $debug = 1;
 plan tests => 4 + 4 + 2;
 
+# test data
 $Extract::Config::spool_dir = 'world/t/extract';
 
 my $expected_result_confirmed = {
