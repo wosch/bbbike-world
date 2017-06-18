@@ -50,8 +50,8 @@ sub init {
 
 sub create_lock {
     my $self = shift;
-    my %args     = @_;
-    
+    my %args = @_;
+
     my $lockfile = $args{'lockfile'};
 
     warn "Try to create lockfile: $lockfile, value: $$\n" if $debug >= 1;

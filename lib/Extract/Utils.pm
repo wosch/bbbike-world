@@ -282,7 +282,7 @@ sub read_data {
 # compare 2 files and return the modification diff time in seconds
 sub file_mtime_diff {
     my $self = shift;
-    
+
     my $file1 = shift;
     my $file2 = shift;
 
