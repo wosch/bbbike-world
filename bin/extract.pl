@@ -272,11 +272,14 @@ sub parse_jobs {
                 my $running_users = $scheduler->running_users;
 
                 my $running_users_jobs = $running_users->{$email} || 0;
+                my $total_jobs =
+                  $running_users->total_jobs( 'email' => $running_users );
+
                 my $user_limit_jobs =
                   $option->{'scheduler'}->{'user_limit_jobs'};
 
-                warn
-"Running jobs for user $email: $running_users_jobs, max: $user_limit_jobs\n"
+                warn "Running jobs for user $email: $running_users_jobs, ",
+                  "max: $user_limit_jobs, total: $total_jobs\n"
                   if $debug >= 1;
 
                 if ( $running_users_jobs >= $user_limit_jobs ) {

@@ -161,6 +161,21 @@ sub ignore_bot {
     return 0;
 }
 
+# returns number of total running jobs (all users)
+sub total_jobs {
+    my $self = shift;
+    my %args = @_;
+
+    my $hash    = $args{'email'};
+    my $counter = 0;
+
+    foreach my $key ( keys %$hash ) {
+        $counter += $hash->{$key};
+    }
+
+    return $counter;
+}
+
 1;
 
 __DATA__;
