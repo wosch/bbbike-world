@@ -51,20 +51,6 @@ sub init {
     }
 }
 
-# scale file size in x.y MB
-sub XXXfile_size_mb {
-    my $self = shift;
-
-    my $size = shift;
-
-    foreach my $scale ( 10, 100, 1000, 10_000 ) {
-        my $result = int( $scale * $size / 1024 / 1024 ) / $scale;
-        return $result if $result > 0;
-    }
-
-    return "0.0";
-}
-
 sub parse_json_file {
     my $self = shift;
 
