@@ -29,29 +29,44 @@ my $expected_result_running = {
     'nobody@gmail.com'      => 9
 };
 
-
 ###########################################################################
 # test success
 my $scheduler = new Extract::Scheduler( 'debug' => $debug );
 my @files = glob('world/t/extract/confirmed/[0-9a-f]*[0-9-a-f].json');
 
 # test with explicit list of files
-my $hash = $scheduler->running_users(\@files);
+my $hash = $scheduler->running_users( \@files );
 
 foreach my $key ( keys %$expected_result_confirmed ) {
-    is( $hash->{$key}, $expected_result_confirmed->{$key}, "$key => $hash->{$key}" );
+    is(
+        $hash->{$key},
+        $expected_result_confirmed->{$key},
+        "$key => $hash->{$key}"
+    );
 }
 
-is( scalar( keys %$hash ), scalar( keys %$expected_result_confirmed ), "number of keys" );
+is(
+    scalar( keys %$hash ),
+    scalar( keys %$expected_result_confirmed ),
+    "number of keys"
+);
 
 # test without explicit list of files
 $hash = $scheduler->running_users;
 
 foreach my $key ( keys %$expected_result_running ) {
-    is( $hash->{$key}, $expected_result_running->{$key}, "$key => $hash->{$key}" );
+    is(
+        $hash->{$key},
+        $expected_result_running->{$key},
+        "$key => $hash->{$key}"
+    );
 }
 
-is( scalar( keys %$hash ), scalar( keys %$expected_result_running ), "number of keys" );
+is(
+    scalar( keys %$hash ),
+    scalar( keys %$expected_result_running ),
+    "number of keys"
+);
 
 ###########################################################################
 # test failures
