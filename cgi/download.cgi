@@ -455,8 +455,7 @@ sub result {
         # size (in MB)
         print "<td>";
         if ( $download->{"extract_size"} ) {
-            print $extract_utils->file_size_mb( $download->{"extract_size"} )
-              . " MB";
+            print kb_to_mb( $download->{"extract_size"} ) . " MB";
         }
         else {
             print "-";
