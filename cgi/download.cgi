@@ -80,8 +80,7 @@ my $spool   = $Extract::Config::spool;
 # EOF config
 ###########################################################################
 
-sub M            { return Extract::Locale::M(@_); };           # wrapper
-sub file_size_mb { return $extract_utils->file_size_mb(@_) }
+sub M { return Extract::Locale::M(@_); };    # wrapper
 
 # extract areas from trash can
 sub extract_areas {
