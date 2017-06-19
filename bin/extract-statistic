@@ -8,7 +8,7 @@ PATH=$HOME/bin:$PATH; export PATH
 LANG=C; export LANG
 
 set -e
-trash_dir=$HOME/projects/extract/trash
+: ${trash_dir=$HOME/projects/extract/trash}
 : ${days=30}
 : ${head=10}
 
