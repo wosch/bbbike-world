@@ -302,9 +302,9 @@ EOF
 
 sub load_javascript_libs {
     my @js = qw(
+      jquery/jquery-1.8.3.min.js
       OpenLayers/2.12/OpenLayers-min.js
       OpenLayers/2.12/OpenStreetMap.js
-      jquery/jquery-1.8.3.min.js
       extract-download.js
     );
 
@@ -315,8 +315,11 @@ sub load_javascript_libs {
 
 <script type="text/javascript">
 $(document).ready(function () {
-download_init_map();
-parse_areas_from_links();
+    download_init_map();
+    parse_areas_from_links();
+    if (_auto_refresh_start) {
+        auto_refresh();
+    }
 });
 </script>
 EOF
@@ -779,7 +782,7 @@ function auto_refresh (flag) {
     }
 }
 
-setTimeout(function () { if ($count) { auto_refresh(); } }, 1000);
+var _auto_refresh_start = $count;
 </script>
 EOF
     return ( $count, $max, $time );
