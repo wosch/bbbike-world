@@ -779,7 +779,7 @@ function auto_refresh (flag) {
     }
 }
 
-setTimeout(function () { if ($count) { auto_refresh(); } }, 300);
+setTimeout(function () { if ($count) { auto_refresh(); } }, 1000);
 </script>
 EOF
     return ( $count, $max, $time );
