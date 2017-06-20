@@ -346,6 +346,19 @@ function setMapHeight() {
     }
 };
 
+var auto_refresh_timer;
+
+function _auto_refresh(count, max, time, url) {
+    // be fast on first click
+    if (count == 0) {
+        document.location.href = url;
+    } else if (count < max) {
+        auto_refresh_timer = setTimeout(function () {
+            document.location.href = url;
+        }, time * 1000);
+    }
+}
+
 /* main
 $(document).ready(function () {
     download_init_map();
