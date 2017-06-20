@@ -671,15 +671,22 @@ EOF
 <tr>
 <td>
  <span title='@{[ M("Number of extracts") . ': ' .  scalar(@extracts_trash) ]}, @{[ M("uniqe users") . ': ' . &uniqe_users(@extracts_trash) ]}'>
-   @{[ M("Newest extracts are first") ]}.
+   @{[ M("Newest extracts are first") ]}
  </span>
- @{[ M("Last update") ]}: $current_date
+ -
+ <span>@{[ M("Last update") ]}: $current_date</span>
+EOF
 
+    if ( $option->{'auto_refresh'}->{'enabled'} ) {
+        print <<EOF;
  - 
 <a title="enable/disable auto refresh every $time seconds" onclick="javascript:auto_refresh($count);"
 style="display: inline;">
 @{[ $count == 0 || $count >= $max ? M("Enable auto refresh") : M("Disable auto refresh") ]}</a>
+EOF
+    }
 
+    print <<EOF;
 </td>
 <td><a href="$homepage_extract/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></td>
 </tr>
