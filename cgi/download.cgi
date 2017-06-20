@@ -747,8 +747,8 @@ EOF
 sub activate_auto_refresh {
     my $q = shift;
 
-    my $max  = 20;
-    my $time = 20;
+    my $max  = $option->{'auto_refresh'}->{'max'};
+    my $time = $option->{'auto_refresh'}->{'delay_seconds'};
 
     my $count = $q->param("count") || 0;
     $count = int($count);
