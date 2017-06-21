@@ -3,8 +3,7 @@
 #
 # for the copyright, just look inside the scripts
 
+/etc/munin/plugin-conf.d/<...>
 /etc/munin/plugin-conf.d/munin-node
 
-[xen_multi]
-user root
 
