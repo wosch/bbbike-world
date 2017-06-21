@@ -22,6 +22,7 @@ MUNIN_BBBIKE_EXTRACT= 	extract-diskusage \
 MUNIN_VARNISH=	data_structures vcl_and_bans lru objects_per_objhead obj_sendfile_vs_write losthdr esi hcb shm shm_writes overflow session session_herd	
 
 MUNIN_PLUGINS_DIR=	/etc/munin/plugins
+MUNIN_PLUGIN_CONF_DIR=	/etc/munin/plugin-conf.d/
 MUNIN_LIGHTTPD= lighttpd_accesses lighttpd_busyservers lighttpd_idleservers lighttpd_kbytes lighttpd_uptime     
 
 
@@ -31,6 +32,15 @@ install-munin-xen:
 	sudo ln -fs $$(pwd)/../../src/munin/xen_multi ${MUNIN_PLUGINS_DIR}
 	${MAKE} munin-restart
 	${MAKE} help-update
+
+install-munin-jenkins:
+	sudo ln -fs $$(pwd)/../../src/munin/jenkins ${MUNIN_PLUGINS_DIR}/jenkins_queue
+	sudo ln -fs $$(pwd)/../../src/munin/jenkins ${MUNIN_PLUGINS_DIR}/jenkins_results
+	sudo ln -fs $$(pwd)/../../src/munin/jenkins ${MUNIN_PLUGINS_DIR}/jenkins_running
+	sudo ln -fs $$(pwd)/plugin-conf.d/jenkins   ${MUNIN_PLUGIN_CONF_DIR}
+	${MAKE} munin-restart
+	${MAKE} help-update
+
 
 help-update:
 	@echo ""
@@ -106,7 +116,7 @@ clean-install:
 
 	
 help:
-	@echo "make [ install-munin-xen | install-munin-varnish ]"
+	@echo "make [ install-munin-xen | install-munin-jenkins | install-munin-varnish ]"
 	@echo "     [ install-munin-bbbike ]"
 	@echo "     [ install-munin-bbbike-system | install-munin-bbbike-web | install-munin-bbbike-extract ]"
 	@echo "     [ install-munin-lighttpd ]"
