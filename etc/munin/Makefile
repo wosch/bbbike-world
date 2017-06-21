@@ -41,6 +41,11 @@ install-munin-jenkins:
 	${MAKE} munin-restart
 	${MAKE} help-update
 
+install-munin-apt:
+	sudo ln -fs $$(pwd)/../../src/munin/deb_packages ${MUNIN_PLUGINS_DIR}/deb_packages
+	${MAKE} munin-restart
+	${MAKE} help-update
+
 
 help-update:
 	@echo ""
@@ -117,6 +122,7 @@ clean-install:
 	
 help:
 	@echo "make [ install-munin-xen | install-munin-jenkins | install-munin-varnish ]"
+	@echo "     [ install-munin-apt ]"
 	@echo "     [ install-munin-bbbike ]"
 	@echo "     [ install-munin-bbbike-system | install-munin-bbbike-web | install-munin-bbbike-extract ]"
 	@echo "     [ install-munin-lighttpd ]"
