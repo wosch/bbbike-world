@@ -52,6 +52,12 @@ our $option = {
     'show_heading' => 0,
 
     'enable_google_analytics' => 1,
+
+    'auto_refresh' => {
+        'enabled'       => 1,
+        'max'           => 20,
+        'delay_seconds' => 30,
+    },
 };
 
 my $q   = new CGI;
@@ -657,15 +663,30 @@ EOF
         'date'          => $date
     );
 
+    my ( $count, $max, $time ) = activate_auto_refresh($q);
+
     print <<EOF;
 
 <table id="donate">
 <tr>
 <td>
  <span title='@{[ M("Number of extracts") . ': ' .  scalar(@extracts_trash) ]}, @{[ M("uniqe users") . ': ' . &uniqe_users(@extracts_trash) ]}'>
-   @{[ M("Newest extracts are first") ]}.
+   @{[ M("Newest extracts are first") ]}
  </span>
- @{[ M("Last update") ]}: $current_date
+ -
+ <span>@{[ M("Last update") ]}: $current_date</span>
+EOF
+
+    if ( $option->{'auto_refresh'}->{'enabled'} ) {
+        print <<EOF;
+ - 
+<a title="enable/disable auto refresh every $time seconds" onclick="javascript:auto_refresh($count);"
+style="display: inline;">
+@{[ $count == 0 || $count >= $max ? M("Enable auto refresh") : M("Disable auto refresh") ]}</a>
+EOF
+    }
+
+    print <<EOF;
 </td>
 <td><a href="$homepage_extract/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></td>
 </tr>
@@ -728,6 +749,40 @@ EOF
       : "";
 
     print $q->end_html;
+}
+
+sub activate_auto_refresh {
+    my $q = shift;
+
+    my $max  = $option->{'auto_refresh'}->{'max'};
+    my $time = $option->{'auto_refresh'}->{'delay_seconds'};
+
+    my $count = $q->param("count") || 0;
+    $count = int($count);
+    if ( $count >= $max ) {
+        $count = 0;
+    }
+
+    my $qq = CGI->new($q);
+    $qq->param( "count", $count + 1 );
+    my $url = $qq->url( -query => 1, -path => 1 );
+    my $url2 = $q->url( -query => 0, -path => 1 );
+
+    print <<EOF;
+<script type="text/javascript">
+function auto_refresh (flag) {
+    if (flag) {
+        clearTimeout(auto_refresh_timer)
+        _auto_refresh (0, $max, $time, "$url2");
+    } else {
+        _auto_refresh ($count, $max, $time, "$url");
+    }
+}
+
+setTimeout(function () { if ($count) { auto_refresh(); } }, 300);
+</script>
+EOF
+    return ( $count, $max, $time );
 }
 
 ##############################################################################################
