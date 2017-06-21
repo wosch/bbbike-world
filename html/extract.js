@@ -1416,11 +1416,11 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "time": 3
         },
         "garmin-oseam.zip": {
-            "size": 0.8,
+            "size": 0.64,
             "time": 3
         },
         "garmin-oseam-ascii.zip": {
-            "size": 0.8,
+            "size": 0.64,
             "time": 3
         },
         "png-google.zip": {

@@ -57,8 +57,8 @@ our $factor = {
     'garmin-osm.zip'                 => 0.683,
     'garmin-osm-ascii.zip'           => 0.684,
     'garmin-srtm.zip'                => 1.3,
-    'garmin-oseam.zip'               => 0.591,
-    'garmin-oseam-ascii.zip'         => 0.592,
+    'garmin-oseam.zip'               => 0.641,
+    'garmin-oseam-ascii.zip'         => 0.642,
     'garmin-opentopo.zip'            => 0.707,
     'garmin-opentopo-ascii.zip'      => 0.708,
 
