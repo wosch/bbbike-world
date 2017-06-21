@@ -48,6 +48,19 @@ make install-xvfb
 # reverse proxy
 sudo apt-get install varnish
 
+#################################################################
+# if the dom0 runs a different OS than the guest, we may have to
+# configure a local kernel + grub
+#
+
+# xen/linux debian guest
+sudo apt-get install linux-image-amd64  grub2-common
+# xen/linux ubuntu guest
+sudo apt-get install linux-image-virtual grub2-common 
+
+sudo mkdir /boot/grub
+sudo /usr/sbin/update-grub2
+
 Required homebrew
 --------------------
 
