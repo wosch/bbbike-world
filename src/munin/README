@@ -6,4 +6,9 @@
 /etc/munin/plugin-conf.d/<...>
 /etc/munin/plugin-conf.d/munin-node
 
+Note: you may need to install
+
+sudo apt-get install python-apt
+
+
 

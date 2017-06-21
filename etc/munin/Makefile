@@ -42,7 +42,8 @@ install-munin-jenkins:
 	${MAKE} help-update
 
 install-munin-apt:
-	sudo ln -fs $$(pwd)/../../src/munin/deb_packages ${MUNIN_PLUGINS_DIR}/deb_packages
+	sudo ln -fs $$(pwd)/../../src/munin/deb_packages ${MUNIN_PLUGINS_DIR}
+	sudo ln -fs $$(pwd)/plugin-conf.d/deb_packages   ${MUNIN_PLUGIN_CONF_DIR}
 	${MAKE} munin-restart
 	${MAKE} help-update
 
