@@ -1364,47 +1364,47 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "time": 3
         },
         "garmin-osm-ascii.zip": {
-            "size": 0.8,
+            "size": 0.67,
             "time": 3
         },
         "garmin-cycle.zip": {
-            "size": 0.8,
+            "size": 0.4,
             "time": 3
         },
         "garmin-cycle-ascii.zip": {
-            "size": 0.8,
+            "size": 0.4,
             "time": 3
         },
         "garmin-leisure.zip": {
-            "size": 0.9,
+            "size": 0.85,
             "time": 4
         },
         "garmin-leisure-ascii.zip": {
-            "size": 0.9,
+            "size": 0.85,
             "time": 4
         },
         "garmin-bbbike.zip": {
-            "size": 0.8,
+            "size": 0.65,
             "time": 3
         },
         "garmin-bbbike-ascii.zip": {
-            "size": 0.8,
+            "size": 0.65,
             "time": 3
         },
         "garmin-onroad.zip": {
-            "size": 0.2,
+            "size": 0.1,
             "time": 12
         },
         "garmin-onroad-ascii.zip": {
-            "size": 0.2,
+            "size": 0.1,
             "time": 12
         },
         "garmin-opentopo.zip": {
-            "size": 0.2,
+            "size": 0.7,
             "time": 3
         },
         "garmin-opentopo-ascii.zip": {
-            "size": 0.2,
+            "size": 0.7,
             "time": 3
         },
         "garmin-openfietslite.zip": {
@@ -1416,11 +1416,11 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "time": 3
         },
         "garmin-oseam.zip": {
-            "size": 0.8,
+            "size": 0.64,
             "time": 3
         },
         "garmin-oseam-ascii.zip": {
-            "size": 0.8,
+            "size": 0.64,
             "time": 3
         },
         "png-google.zip": {
