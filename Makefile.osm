@@ -1054,7 +1054,7 @@ tile-convert-garmin-srtm:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true osm2xxx_max_jobs=1 ${NICE} ${TIME} xargs -0 -n1 -P${MAX_OSM2GARMIN} ${OSM2GARMIN_SRTM}
 
 tile-convert-osmand:
-	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true osm2xxx_max_jobs=1 java_heap=2200M ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2OSMAND}
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true osm2xxx_max_jobs=1 java_heap=3200M ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2OSMAND}
 
 tile-convert-mapsforge:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true osm2xxx_max_jobs=1 ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2MAPSFORGE}
