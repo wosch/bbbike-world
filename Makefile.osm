@@ -1099,6 +1099,12 @@ tile-csv:
 	done; wait
 	wc -lc ${TILES_DIR}/etc/tile/*.csv*
 
+tile-csv-stat:
+	@for i in ${TILES_DIR}/etc/tile/*.csv world/etc/tile/*.csv; do \
+	  echo -n "$$i "; \
+	  awk '{ s+= $$1 } END { print s/1024/1024, "GB" }' $$i; \
+	done
+
 tile-csv-check:
 	cd ${TILES_DIR}/lnglat/6; du -ks planet_6_52_7_53.osm*
 	@echo ""
