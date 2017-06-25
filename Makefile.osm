@@ -1508,13 +1508,16 @@ docker-build-all: docker-build-tile \
 		docker-build-extract-ubuntu16 \
 		docker-build-extract-ubuntu17
 
-docker-check-all: docker-check-w-all
+DOCKER_CHECK_ALL_COMMAND=docker-check
+docker-check-all: 
+		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian8  ${DOCKER_CHECK_ALL_COMMAND}
+		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian9  ${DOCKER_CHECK_ALL_COMMAND}
+		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian10 ${DOCKER_CHECK_ALL_COMMAND}
+		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu14 ${DOCKER_CHECK_ALL_COMMAND}
+		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu16 ${DOCKER_CHECK_ALL_COMMAND}
+
 docker-check-w-all: 
-		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian8  docker-check-w 
-		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian9  docker-check-w 
-		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian10 docker-check-w 
-		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu14 docker-check-w 
-		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu16 docker-check-w 
+		${BBMAKE} DOCKER_CHECK_ALL_COMMAND=docker-check-w docker-check-all
 
 
 # debian
