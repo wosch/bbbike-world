@@ -1508,6 +1508,15 @@ docker-build-all: docker-build-tile \
 		docker-build-extract-ubuntu16 \
 		docker-build-extract-ubuntu17
 
+docker-check-all: docker-check-w-all
+docker-check-w-all: 
+		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian8  docker-check-w 
+		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian9  docker-check-w 
+		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian10 docker-check-w 
+		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu14 docker-check-w 
+		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu16 docker-check-w 
+
+
 # debian
 docker-build-extract-debian8:
 	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-debian8 DOCKER_BBBIKE_TAG=bbbike/extract-debian8 docker-build
@@ -1610,7 +1619,7 @@ help:
 	@echo "  [ check | check-world | check-full | check-failed ]"
 	@echo "  [ check-tileserver ]"
 	@echo "  [ docker-build | docker-shell ]"
-	@echo "  [ docker-check | docker-check-w ]"
+	@echo "  [ docker-check | docker-check-w | docker-check-all ]"
 	@echo "  [ DOCKER_BBBIKE_TAG=bbbike/extract-debian9  docker-check-w ]"
 	@echo "  [ docker-build-tile | docker-shell-tile ]"
 	@echo "  [ docker-build-extract-debian8 | docker-build-extract-debian9 | docker-build-extract-debian10 ]"
