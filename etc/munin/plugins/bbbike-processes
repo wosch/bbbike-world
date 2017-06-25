@@ -27,7 +27,10 @@ if you need to override the defaults below:
  [bbbike-processes]
    env.warning   - Generate a warning if disk usage goes above this level
    env.critical  - Generate a critical if disk usage goes above this level
-   env.process_names      - List of processes to monitor, separated by spaces
+   env.process_names       - List of processes to monitor, separated by spaces
+   env.process_names_d     - List of processes with trailing *d to monitor (e.g. ssh)
+   env.process_names_opt   - List of optional processes to monitor
+   env.process_names_opt_d - List of optional processes with trailing *d to monitor (e.g. varnish)
 
 =cut
 
