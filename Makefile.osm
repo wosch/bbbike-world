@@ -25,7 +25,7 @@ OSM2BBD=	./miscsrc/osm2bbd ${OSM2BBD_OPT} --nodate --no-create --git-id="${GIT_I
 
 DOCKER_SUDO?= 			$(shell if test `uname` = "Linux"; then echo "sudo"; fi)
 DOCKER_IMAGE_FILE?=		bbbike-debian8
-DOCKER_BBBIKE_TAG?=		bbbike/extract
+DOCKER_BBBIKE_TAG?=		bbbike/extract-debian8
 DOCKER= 			${DOCKER_SUDO} docker
 
 MAX_CPU=	`world/bin/ncpu`
