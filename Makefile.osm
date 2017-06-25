@@ -1370,6 +1370,9 @@ update-apt-stretch update-apt-debian9:
 update-apt-trusty update-apt-ubuntu14:
 	${MAKE} DEB_VENDOR=ubuntu DEB_RELEASE=trusty  ${UPDATE_APT}
 
+# ubuntu12
+update-apt-precise update-apt-ubuntu update-apt-ubuntu12:
+	${MAKE} DEB_VENDOR=ubuntu DEB_RELEASE=precise ${UPDATE_APT}
 
 #
 # build Osmand.net devel java libs
