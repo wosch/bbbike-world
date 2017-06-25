@@ -47,7 +47,7 @@ fi
 : ${pbf2osm_max_cpu_time=7200}
 
 xz=`which xz 2>/dev/null | head -n 1`
-xz_opt=-2
+xz_opt=-1
 if which pixz >/dev/null 2>&1; then
     xz="pixz -t"
     # use max. configured CPUs

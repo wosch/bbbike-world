@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2012-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2017 Wolfram Schneider, https://bbbike.org
 #
-# extract config and libraries
+# extract helper functions
 
 package Extract::Utils;
 
@@ -15,8 +15,11 @@ use Data::Dumper;
 
 require Exporter;
 use base qw/Exporter/;
-our @EXPORT =
-  qw(save_request complete_save_request check_queue Param large_int square_km);
+our @EXPORT = qw(save_request complete_save_request check_queue
+  Param large_int square_km read_data file_mtime_diff
+  file_size file_size_mb kb_to_mb get_json
+  get_loadavg program_output random_user get_jobs
+  json_compat touch_file store_data store_json checksum);
 
 use strict;
 use warnings;
@@ -27,7 +30,7 @@ use warnings;
 
 our $debug = 0;
 
-# Extract::Utils::new->('q'=> $q, 'option' => $option)
+# Extract::Utils::new->('q'=> $q, 'debug' => $debug)
 sub new {
     my $class = shift;
     my %args  = @_;
@@ -46,20 +49,6 @@ sub init {
     if ( defined $self->{'debug'} ) {
         $debug = $self->{'debug'};
     }
-}
-
-# scale file size in x.y MB
-sub file_size_mb {
-    my $self = shift;
-
-    my $size = shift;
-
-    foreach my $scale ( 10, 100, 1000, 10_000 ) {
-        my $result = int( $scale * $size / 1024 / 1024 ) / $scale;
-        return $result if $result > 0;
-    }
-
-    return "0.0";
 }
 
 sub parse_json_file {
@@ -105,19 +94,6 @@ sub random_sort {
     my %hash = map { $_ => rand() } @files;
 
     return sort { $hash{$a} <=> $hash{$b} } keys %hash;
-}
-
-# compare 2 files and return the modification diff time in seconds
-sub file_mtime_diff {
-    my $self = shift;
-
-    my $file1 = shift;
-    my $file2 = shift;
-
-    my $st1 = stat($file1) or die "stat $file1: $!\n";
-    my $st2 = stat($file2) or die "stat $file2: $!\n";
-
-    return $st1->mtime - $st2->mtime;
 }
 
 ###########################################################################
@@ -269,6 +245,210 @@ sub large_int {
     my $text = reverse shift;
     $text =~ s/(\d\d\d)(?=\d)(?!\d*\.)/$1,/g;
     return scalar reverse $text;
+}
+
+# cat file
+sub read_data {
+    my $file = shift;
+
+    warn "open file '$file'\n" if $debug >= 3;
+
+    my $fh = new IO::File $file, "r" or die "open $file: $!\n";
+    binmode $fh, ":utf8";
+    my $data;
+
+    while (<$fh>) {
+        $data .= $_;
+    }
+
+    $fh->close;
+    return $data;
+}
+
+# compare 2 files and return the modification diff time in seconds
+sub file_mtime_diff {
+    my $self = shift;
+
+    my $file1 = shift;
+    my $file2 = shift;
+
+    my $st1 = stat($file1) or die "stat $file1: $!\n";
+    my $st2 = stat($file2) or die "stat $file2: $!\n";
+
+    return $st1->mtime - $st2->mtime;
+}
+
+# file size in KB
+sub file_size {
+    my $file = shift;
+
+    my $st = stat($file) or die "stat $file: $!\n";
+
+    return $st->size;
+}
+
+# file size in x.y MB
+sub file_size_mb {
+    my $file = shift;
+
+    return kb_to_mb( file_size($file) );
+}
+
+# scale file size in x.y MB
+sub kb_to_mb {
+    my $size = shift;
+
+    foreach my $scale ( 10, 100, 1000, 10_000 ) {
+        my $result = int( $scale * $size / 1024 / 1024 ) / $scale;
+        return $result if $result > 0;
+    }
+
+    return "0.0";
+}
+
+sub get_json {
+    my $json_file = shift;
+    my $json_text = read_data($json_file);
+    my $json      = new JSON;
+    my $obj       = $json->decode($json_text);
+    json_compat($obj);
+
+    warn "json: $json_file\n" if $debug >= 3;
+    warn "json: $json_text\n" if $debug >= 3;
+
+    return $obj;
+}
+
+sub get_loadavg {
+    my @loadavg = ( qx(uptime) =~ /([\.\d]+),?\s+([\.\d]+),?\s+([\.\d]+)/ );
+
+    warn "Current load average is: $loadavg[0]\n" if $debug >= 1;
+    return $loadavg[0];
+}
+
+# display output of a program to STDERR
+sub program_output {
+    my $program = shift;
+    my $fh = shift || \*STDERR;
+
+    if ( -e $program && -x $program ) {
+        open( OUT, "$program |" ) or die "$program: $!\n";
+        print $fh "$program:\n";
+        while (<OUT>) {
+            print $fh $_;
+        }
+        close OUT;
+    }
+}
+
+# get a list of email addresses, and return a random list
+sub random_user {
+    my @list = @_;
+
+    my %hash = map { $_ => rand() } @list;
+
+    @list = sort { $hash{$a} <=> $hash{$b} } keys %hash;
+
+    if ( $debug >= 2 ) {
+        warn join " ", @list, "\n";
+    }
+
+    return @list;
+}
+
+# get a list of json config files from a directory
+sub get_jobs {
+    my $dir = shift;
+
+    my $d = IO::Dir->new($dir);
+    if ( !defined $d ) {
+        warn "error directory $dir: $!\n";
+        return ();
+    }
+
+    my @data;
+    while ( defined( $_ = $d->read ) ) {
+        next if !/\.json$/;
+        push @data, $_;
+    }
+    undef $d;
+
+    return @data;
+}
+
+# legacy
+sub json_compat {
+    my $obj = shift;
+
+    # be backward compatible with old *.json files
+    if ( !( exists $obj->{'coords'} && ref $obj->{'coords'} eq 'ARRAY' ) ) {
+        $obj->{'coords'} = [];
+    }
+    return $obj;
+}
+
+# refresh mod time of file, to keep files in cache
+sub touch_file {
+    my $file      = shift;
+    my $test_mode = shift;
+
+    my @system = ( "touch", $file );
+
+    warn "touch $file\n" if $debug >= 1;
+    @system = 'true' if $test_mode;
+
+    system(@system) == 0
+      or die "system @system failed: $?";
+}
+
+# store a blob of data in a file
+sub store_data {
+    my ( $file, $data ) = @_;
+
+    my $fh = new IO::File $file, "w" or die "open $file: $!\n";
+    binmode $fh, ":utf8";
+
+    print $fh $data;
+    $fh->close;
+}
+
+sub store_json {
+    my ( $file, $obj ) = @_;
+
+    my $file_tmp = "$file.tmp";
+    my $json     = new JSON;
+    my $data     = $json->pretty->encode($obj);
+
+    store_data( $file_tmp, $data );
+    rename( $file_tmp, $file ) or die "rename $file: $!\n";
+}
+
+# compute SHA2 checksum for extract file
+sub checksum {
+    my $file = shift;
+    my $type = shift || 'sha256';
+
+    die "file $file does not exists\n" if !-f $file;
+
+    my @checksum_command = $type eq 'md5' ? qw/md5sum/ : qw/shasum -a 256/;
+
+    if ( my $pid = open( C, "-|" ) ) {
+    }
+
+    # child
+    else {
+        exec( @checksum_command, $file ) or die "Alert! Cannot fork: $!\n";
+    }
+
+    my $data;
+    while (<C>) {
+        my @a = split;
+        $data = shift @a;
+        last;
+    }
+    close C;
+
+    return $data;
 }
 
 1;

@@ -140,6 +140,8 @@ our $formats_menu = {
     }
 };
 
+# Note: may be later this will be expanded to a full path
+# 'confirmed' => '/var/cache/extract/confirmed',
 our $spool = {
     'incoming'  => "incoming",     # incoming request, not confirmed yet
     'confirmed' => "confirmed",    # ready to run
