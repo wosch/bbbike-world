@@ -25,7 +25,7 @@ OSM2BBD=	./miscsrc/osm2bbd ${OSM2BBD_OPT} --nodate --no-create --git-id="${GIT_I
 
 DOCKER_SUDO?= 			$(shell if test `uname` = "Linux"; then echo "sudo"; fi)
 DOCKER_IMAGE_FILE?=		bbbike-debian8
-DOCKER_BBBIKE_TAG?=		bbbike/extract
+DOCKER_BBBIKE_TAG?=		bbbike/extract-debian8
 DOCKER= 			${DOCKER_SUDO} docker
 
 MAX_CPU=	`world/bin/ncpu`
@@ -1378,6 +1378,9 @@ update-apt-stretch update-apt-debian9:
 update-apt-trusty update-apt-ubuntu14:
 	${MAKE} DEB_VENDOR=ubuntu DEB_RELEASE=trusty  ${UPDATE_APT}
 
+# ubuntu12
+update-apt-precise update-apt-ubuntu update-apt-ubuntu12:
+	${MAKE} DEB_VENDOR=ubuntu DEB_RELEASE=precise ${UPDATE_APT}
 
 #
 # build Osmand.net devel java libs
@@ -1505,6 +1508,18 @@ docker-build-all: docker-build-tile \
 		docker-build-extract-ubuntu16 \
 		docker-build-extract-ubuntu17
 
+DOCKER_CHECK_ALL_COMMAND=docker-check
+docker-check-all: 
+		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian8  ${DOCKER_CHECK_ALL_COMMAND}
+		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian9  ${DOCKER_CHECK_ALL_COMMAND}
+		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian10 ${DOCKER_CHECK_ALL_COMMAND}
+		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu14 ${DOCKER_CHECK_ALL_COMMAND}
+		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu16 ${DOCKER_CHECK_ALL_COMMAND}
+
+docker-check-w-all: 
+		${BBMAKE} DOCKER_CHECK_ALL_COMMAND=docker-check-w docker-check-all
+
+
 # debian
 docker-build-extract-debian8:
 	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-debian8 DOCKER_BBBIKE_TAG=bbbike/extract-debian8 docker-build
@@ -1607,7 +1622,7 @@ help:
 	@echo "  [ check | check-world | check-full | check-failed ]"
 	@echo "  [ check-tileserver ]"
 	@echo "  [ docker-build | docker-shell ]"
-	@echo "  [ docker-check | docker-check-w ]"
+	@echo "  [ docker-check | docker-check-w | docker-check-all ]"
 	@echo "  [ DOCKER_BBBIKE_TAG=bbbike/extract-debian9  docker-check-w ]"
 	@echo "  [ docker-build-tile | docker-shell-tile ]"
 	@echo "  [ docker-build-extract-debian8 | docker-build-extract-debian9 | docker-build-extract-debian10 ]"
