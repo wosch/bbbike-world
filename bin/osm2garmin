@@ -118,7 +118,8 @@ etc_dir=$dirname/../etc/mkgmap
 # and older devices
 mkgmap_codepage="--code-page=65001" # unicode
 case $ext in
-    *-ascii | srtm ) mkgmap_codepage="" ;;
+    *-ascii | srtm ) mkgmap_codepage=""; garmin_charset="ASCII" ;;
+    * ) garmin_charset="UTF-8" ;;
 esac
 
 case $ext in
@@ -306,12 +307,13 @@ if [ $(ls $split_dir/*.pbf 2>/dev/null | wc -l) -eq 0 ]; then
     fi
 fi
 
+mkgmap_map_style_charset="$mkgmap_map_style ($garmin_charset)"
 date=$(date -u)
-date_short=$(date -u '+%d-%b-%Y %H:%M:%S')
+date_short=$(date -u '+%d-%b-%Y')
 if [ -z "$city" ]; then
-   description="$garmin, BBBike.org $date_short"
+   description="$garmin $mkgmap_map_style/$garmin_charset BBBike.org $date_short"
 else
-   description="$city, BBBike.org $date_short"
+   description="$city $mkgmap_map_style/$garmin_charset BBBike.org $date_short"
 fi
 
 # the limit for description field is 50 bytes
@@ -329,9 +331,8 @@ Map data (c) OpenStreetMap.org contributors (not from Garmin Ltd.!!!)
 Garmin image created by BBBike extract service: http://extract.bbbike.org
 EOF
 
-
 BBBIKE_EXTRACT_COORDS=$BBBIKE_EXTRACT_COORDS BBBIKE_EXTRACT_URL=$BBBIKE_EXTRACT_URL \
-  date=$date city=$city mkgmap_map_style=$mkgmap_map_style sh $template > README.txt
+  date=$date city=$city mkgmap_map_style="$mkgmap_map_style_charset" sh $template > README.txt
 
 $text2html < README.txt > README.html
 
@@ -347,7 +348,7 @@ case $ext in
 esac
 
 # --mapname="$mapid" 
-echo ">>> Run mkgmap, map style: $mkgmap_map_style" >> $logfile
+echo ">>> Run mkgmap, map style: $mkgmap_map_style_charset" >> $logfile
 ( set -x 
   java -jar $BBBIKE_OPT_DIR/$BBBIKE_MKGMAP_VERSION/mkgmap.jar --version
   $time java $java_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_MKGMAP_VERSION/mkgmap.jar --max-jobs=$osm2xxx_max_jobs $mkgmap_opt $mkgmap_opt_pois $mkgmap_codepage $mkgmap_map \
