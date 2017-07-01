@@ -1542,10 +1542,16 @@ docker-build-tile:
 docker-shell-tile:
 	${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/tile docker-shell
 
-docker-distclean:
+docker-clean:
 	if ${DOCKER} images | egrep -q '^<none>'; then \
 	  ${DOCKER} rmi -f $$(${DOCKER} images | egrep '^<none>' | awk '{ print $$3 }'); \
 	fi
+
+docker-distclean:
+	if ${DOCKER} images | egrep -q '^bbbike/'; then \
+	  ${DOCKER} rmi -f $$(${DOCKER} images | egrep '^bbbike/' | awk '{ print $$3 }'); \
+	fi
+
 
 check-tileserver:
 	curl -sf http://localhost:80/osm/bbbike/11/1100/671.png > /dev/null
@@ -1627,7 +1633,7 @@ help:
 	@echo "  [ docker-build-tile | docker-shell-tile ]"
 	@echo "  [ docker-build-extract-debian8 | docker-build-extract-debian9 | docker-build-extract-debian10 ]"
 	@echo "  [ docker-build-extract-ubuntu14 | docker-build-extract-ubuntu16 | docker-build-extract-ubuntu17 ]"
-	@echo "  [ docker-build-all | docker-distclean ]"
+	@echo "  [ docker-build-all | docker-clean | docker-distclean ]"
 	@echo "  [ travis ]"
 	@echo ""
 	@echo "after failed install/cache update:"
