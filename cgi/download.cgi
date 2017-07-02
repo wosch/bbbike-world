@@ -668,7 +668,7 @@ EOF
         'date'          => $date
     );
 
-    my ( $count, $max, $time ) = activate_auto_refresh($q);
+    my ( $count, $max_count, $time ) = activate_auto_refresh($q);
 
     print <<EOF;
 
@@ -687,7 +687,7 @@ EOF
  - 
 <a title="enable/disable auto refresh every $time seconds" onclick="javascript:auto_refresh($count);"
 style="display: inline;">
-@{[ $count == 0 || $count >= $max ? M("Enable auto refresh") : M("Disable auto refresh") ]}</a>
+@{[ $count == 0 || $count >= $max_count ? M("Enable auto refresh") : M("Disable auto refresh") ]}</a>
 EOF
     }
 
