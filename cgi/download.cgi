@@ -60,8 +60,9 @@ our $option = {
     },
 };
 
-my $q   = new CGI;
-my $max = 2000;
+###########################################################################
+my $q            = new CGI;
+my $max_extracts = 2000;
 
 #my $default_date = "36h";     # 36h: today and some hours from yesterday
 my $default_date  = "24h";    # 24h: today
@@ -618,8 +619,9 @@ sub filter_date {
 ###########################################################################
 #
 sub download {
-    my $q = shift;
+    my $q      = shift;
     my $locale = Extract::Locale->new( 'q' => $q );
+    my $max    = $max_extracts;
 
     download_header($q);
     my @filter_date = qw/1h 3h 6h 12h 24h 36h 48h 72h all/;
