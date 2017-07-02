@@ -60,8 +60,9 @@ our $option = {
     },
 };
 
-my $q   = new CGI;
-my $max = 2000;
+###########################################################################
+my $q            = new CGI;
+my $max_extracts = 2000;
 
 #my $default_date = "36h";     # 36h: today and some hours from yesterday
 my $default_date  = "24h";    # 24h: today
@@ -130,8 +131,10 @@ sub extract_areas {
         my $download_file = $pbf_file;
         $download_file =~ s/\.pbf$//;
         my $format_display = $format;
-        $format_display =~ s/^(osm|srtm|srtm-europe)\.//;
 
+        # handle osm.pbf and srtm.osm.pbf etc.
+        $format_display =~
+          s/^(osm|srtm\.osm|srtm-europe\.osm|srtm|srtm-europe)\.//;
         $download_file .= "." . $format_display;
 
         # other languages ?
@@ -141,7 +144,8 @@ sub extract_areas {
         }
 
         if ( !-e $download_file ) {
-            warn "ignore missing $download_file\n" if $debug >= 2;
+            warn "ignore missing $download_file format=$format\n"
+              if $debug >= 2;
             next;
         }
 
@@ -618,8 +622,9 @@ sub filter_date {
 ###########################################################################
 #
 sub download {
-    my $q = shift;
+    my $q      = shift;
     my $locale = Extract::Locale->new( 'q' => $q );
+    my $max    = $max_extracts;
 
     download_header($q);
     my @filter_date = qw/1h 3h 6h 12h 24h 36h 48h 72h all/;
@@ -666,7 +671,7 @@ EOF
         'date'          => $date
     );
 
-    my ( $count, $max, $time ) = activate_auto_refresh($q);
+    my ( $count, $max_count, $time ) = activate_auto_refresh($q);
 
     print <<EOF;
 
@@ -685,7 +690,7 @@ EOF
  - 
 <a title="enable/disable auto refresh every $time seconds" onclick="javascript:auto_refresh($count);"
 style="display: inline;">
-@{[ $count == 0 || $count >= $max ? M("Enable auto refresh") : M("Disable auto refresh") ]}</a>
+@{[ $count == 0 || $count >= $max_count ? M("Enable auto refresh") : M("Disable auto refresh") ]}</a>
 EOF
     }
 
