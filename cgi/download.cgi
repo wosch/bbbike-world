@@ -131,8 +131,10 @@ sub extract_areas {
         my $download_file = $pbf_file;
         $download_file =~ s/\.pbf$//;
         my $format_display = $format;
-        $format_display =~ s/^(osm|srtm|srtm-europe)\.//;
 
+        # handle osm.pbf and srtm.osm.pbf etc.
+        $format_display =~
+          s/^(osm|srtm\.osm|srtm-europe\.osm|srtm|srtm-europe)\.//;
         $download_file .= "." . $format_display;
 
         # other languages ?
@@ -142,7 +144,8 @@ sub extract_areas {
         }
 
         if ( !-e $download_file ) {
-            warn "ignore missing $download_file\n" if $debug >= 2;
+            warn "ignore missing $download_file format=$format\n"
+              if $debug >= 2;
             next;
         }
 
