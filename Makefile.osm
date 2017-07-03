@@ -1515,6 +1515,7 @@ docker-check-all:
 		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian10 ${DOCKER_CHECK_ALL_COMMAND}
 		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu14 ${DOCKER_CHECK_ALL_COMMAND}
 		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu16 ${DOCKER_CHECK_ALL_COMMAND}
+		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu17 ${DOCKER_CHECK_ALL_COMMAND}
 
 docker-check-w-all: 
 		${BBMAKE} DOCKER_CHECK_ALL_COMMAND=docker-check-w docker-check-all
