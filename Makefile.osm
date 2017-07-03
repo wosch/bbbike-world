@@ -24,8 +24,8 @@ OSM2BBD_OPT=	--ignore-unhandled --ignore-underline-noname --granularity=100
 OSM2BBD=	./miscsrc/osm2bbd ${OSM2BBD_OPT} --nodate --no-create --git-id="${GIT_ID}" -f --debug=0 ${OSM2BBD_MAPTYPE} -experiment add_postal_code -experiment handle_relations
 
 DOCKER_SUDO?= 			$(shell if test `uname` = "Linux"; then echo "sudo"; fi)
-DOCKER_IMAGE_FILE?=		bbbike-debian8
-DOCKER_BBBIKE_TAG?=		bbbike/extract
+DOCKER_IMAGE_FILE?=		bbbike-debian9
+DOCKER_BBBIKE_TAG?=		bbbike/extract-debian9
 DOCKER= 			${DOCKER_SUDO} docker
 
 MAX_CPU=	`world/bin/ncpu`
@@ -124,8 +124,9 @@ TILES_DIR=	tile
 #
 OSM_AREAS_OPENSEARCH=data-opensearch-places
 OSM_PLANET=	../osm/download/planet-latest.osm.bz2
-OSM_PLANET_PBF=	../osm/download/planet-latest.osm.pbf
-#OSM_PLANET_PBF=	../osm/download/planet-latest-nometa.osm.pbf
+OSM_PLANET_PBF=	../osm/download/planet-latest-nometa.osm.pbf
+
+#OSM_PLANET_PBF=	../osm/download/planet-latest.osm.pbf
 #OSM_PLANET_PBF=	../osm/download/geofabrik/europe/germany/brandenburg.osm.pbf
 #OSM_PLANET_PBF=	../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf
 #OSM_PLANET_PBF=/usr/local/www/download.bbbike.org/osm/srtm/e40/planet-srtm-e40.osm.pbf
@@ -1053,7 +1054,7 @@ tile-convert-garmin-srtm:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true osm2xxx_max_jobs=1 ${NICE} ${TIME} xargs -0 -n1 -P${MAX_OSM2GARMIN} ${OSM2GARMIN_SRTM}
 
 tile-convert-osmand:
-	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true osm2xxx_max_jobs=1 java_heap=2200M ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2OSMAND}
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true osm2xxx_max_jobs=1 java_heap=3200M ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2OSMAND}
 
 tile-convert-mapsforge:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true osm2xxx_max_jobs=1 ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2MAPSFORGE}
@@ -1098,6 +1099,12 @@ tile-csv:
 	done; wait
 	wc -lc ${TILES_DIR}/etc/tile/*.csv*
 
+tile-csv-stat:
+	@for i in ${TILES_DIR}/etc/tile/*.csv world/etc/tile/*.csv; do \
+	  echo -n "$$i "; \
+	  awk '{ s+= $$1 } END { print s/1024/1024, "GB" }' $$i; \
+	done
+
 tile-csv-check:
 	cd ${TILES_DIR}/lnglat/6; du -ks planet_6_52_7_53.osm*
 	@echo ""
@@ -1138,7 +1145,8 @@ data-distclean distclean-data:
 	find . -name '*.inx*'
 
 ###############################
-# Note: you need at least 190GB free disk space to run this command!!!
+# Note: you need at least 250GB free disk space to run this command!!!
+#       this may run 48 hours on a quad core machine
 #
 # for errors look in ./tile/tmp
 tile: tile-extract tile-convert tile-csv #tile-aws-s3
@@ -1237,6 +1245,10 @@ deb-repo: deb-repo-dir
  	   reprepro --ignore=undefinedtarget -Vb . removematched ${DEB_RELEASE} $$package; \
  	   reprepro --ignore=undefinedtarget -Vb . includedeb ${DEB_RELEASE} $$i; \
 	done
+
+# XXX: update legacy repo
+# cp /usr/local/www/debian.bbbike.org/src/legacy/ubuntu/trusty/*deb tmp/deb/ubuntu/trusty-legacy
+# make DEB_RELEASE=trusty-legacy deb-repo-upload
 
 deb-repo-upload:
 	find ${DEB_TMP}/ ! -name '*.deb' -type f| xargs rm -f
@@ -1366,6 +1378,9 @@ update-apt-stretch update-apt-debian9:
 update-apt-trusty update-apt-ubuntu14:
 	${MAKE} DEB_VENDOR=ubuntu DEB_RELEASE=trusty  ${UPDATE_APT}
 
+# ubuntu12
+update-apt-precise update-apt-ubuntu update-apt-ubuntu12:
+	${MAKE} DEB_VENDOR=ubuntu DEB_RELEASE=precise ${UPDATE_APT}
 
 #
 # build Osmand.net devel java libs
@@ -1478,23 +1493,49 @@ install-xvfb:
 
 docker-build:
 	${DOCKER} build -f world/etc/docker/${DOCKER_IMAGE_FILE} -t ${DOCKER_BBBIKE_TAG} .
-docker-check:
-	${DOCKER} run -it --rm -p 8000:80 ${DOCKER_BBBIKE_TAG} make check
 docker-shell:
 	${DOCKER} run -it --rm -p 8000:80 ${DOCKER_BBBIKE_TAG}
+docker-check:
+	${DOCKER} run -it --rm ${DOCKER_BBBIKE_TAG} /bin/bash -ic 'echo 3 | sudo tee $$HOME/.ncpu.ncpu; make git-pull; BBBIKE_TEST_NO_NETWORK=1 make check || cat log.check*'
+docker-check-w:
+	${DOCKER} run -it --rm ${DOCKER_BBBIKE_TAG} /bin/bash -ic 'echo 3 | sudo tee $$HOME/.ncpu.ncpu; make git-pull; BBBIKE_TEST_NO_NETWORK=1 make check-w || cat log.check*'
 
 docker-build-all: docker-build-tile \
-			docker-build-extract-debian8 docker-build-extract-debian9 \
-			docker-build-extract-ubuntu14 docker-build-extract-ubuntu16 
+		docker-build-extract-debian8 \
+		docker-build-extract-debian9 \
+		docker-build-extract-debian10 \
+		docker-build-extract-ubuntu14 \
+		docker-build-extract-ubuntu16 \
+		docker-build-extract-ubuntu17
 
+DOCKER_CHECK_ALL_COMMAND=docker-check
+docker-check-all: 
+		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian8  ${DOCKER_CHECK_ALL_COMMAND}
+		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian9  ${DOCKER_CHECK_ALL_COMMAND}
+		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian10 ${DOCKER_CHECK_ALL_COMMAND}
+		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu14 ${DOCKER_CHECK_ALL_COMMAND}
+		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu16 ${DOCKER_CHECK_ALL_COMMAND}
+		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu17 ${DOCKER_CHECK_ALL_COMMAND}
+
+docker-check-w-all: 
+		${BBMAKE} DOCKER_CHECK_ALL_COMMAND=docker-check-w docker-check-all
+
+
+# debian
 docker-build-extract-debian8:
 	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-debian8 DOCKER_BBBIKE_TAG=bbbike/extract-debian8 docker-build
 docker-build-extract-debian9:
 	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-debian9 DOCKER_BBBIKE_TAG=bbbike/extract-debian9 docker-build
+docker-build-extract-debian10:
+	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-debian10 DOCKER_BBBIKE_TAG=bbbike/extract-debian10 docker-build
+
+# ubuntu
 docker-build-extract-ubuntu14:
 	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-ubuntu14 DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu14 docker-build
 docker-build-extract-ubuntu16:
 	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-ubuntu16 DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu16 docker-build
+docker-build-extract-ubuntu17:
+	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-ubuntu17 DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu17 docker-build
 
 # see world/etc/docker/README 
 docker-build-tile:
@@ -1502,10 +1543,16 @@ docker-build-tile:
 docker-shell-tile:
 	${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/tile docker-shell
 
-docker-distclean:
-	if ${DOCKER} images | egrep '^<none>'; then \
-	  ${DOCKER} rmi -f $$(docker  images |egrep '^<none>' | awk '{ print $$3 }'); \
+docker-clean:
+	if ${DOCKER} images | egrep -q '^<none>'; then \
+	  ${DOCKER} rmi -f $$(${DOCKER} images | egrep '^<none>' | awk '{ print $$3 }'); \
 	fi
+
+docker-distclean:
+	if ${DOCKER} images | egrep -q '^bbbike/'; then \
+	  ${DOCKER} rmi -f $$(${DOCKER} images | egrep '^bbbike/' | awk '{ print $$3 }'); \
+	fi
+
 
 check-tileserver:
 	curl -sf http://localhost:80/osm/bbbike/11/1100/671.png > /dev/null
@@ -1581,10 +1628,13 @@ help:
 	@echo "  [ git-fetch | git-pull | git-push | mygit | git-gc ]"
 	@echo "  [ check | check-world | check-full | check-failed ]"
 	@echo "  [ check-tileserver ]"
-	@echo "  [ docker-build | docker-check | docker-shell ]"
+	@echo "  [ docker-build | docker-shell ]"
+	@echo "  [ docker-check | docker-check-w | docker-check-all ]"
+	@echo "  [ DOCKER_BBBIKE_TAG=bbbike/extract-debian9  docker-check-w ]"
 	@echo "  [ docker-build-tile | docker-shell-tile ]"
-	@echo "  [ docker-build-extract-debian9 | docker-build-extract-ubuntu16 ]"
-	@echo "  [ docker-build-all | docker-distclean ]"
+	@echo "  [ docker-build-extract-debian8 | docker-build-extract-debian9 | docker-build-extract-debian10 ]"
+	@echo "  [ docker-build-extract-ubuntu14 | docker-build-extract-ubuntu16 | docker-build-extract-ubuntu17 ]"
+	@echo "  [ docker-build-all | docker-clean | docker-distclean ]"
 	@echo "  [ travis ]"
 	@echo ""
 	@echo "after failed install/cache update:"

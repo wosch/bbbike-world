@@ -1,5 +1,9 @@
+##########################################################################
 # Docker on linux
+#
 # sudo apt-get install docker.io 
+# sudo apt-get install apparmor # debian8?
+#
 
 ###########################################################################
 # build docker images for bbbike tile server

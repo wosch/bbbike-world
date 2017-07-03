@@ -31,13 +31,15 @@ use GIS::Distance::Lite;
 use LWP;
 use LWP::UserAgent;
 use Time::gmtime;
-use LockFile::Simple;
 
 use lib qw(world/lib ../lib);
 use Extract::Config;
 use Extract::Utils;
 use Extract::Poly;
 use Extract::Planet;
+use Extract::LockFile;
+use Extract::AWS;
+use Extract::Scheduler;
 
 use strict;
 use warnings;
@@ -125,6 +127,11 @@ our $option = {
         'scheduler' => 1,
     },
 
+    # see also cgi/extract.cgi
+    'scheduler' => {
+        'user_limit_jobs' => 2
+    },
+
     'pbf2osm' => {
         'garmin_version'     => 'mkgmap',
         'maperitive_version' => 'Maperitive',
@@ -169,139 +176,10 @@ $planet_osm =
   "../osm/download/geofabrik/europe/germany/brandenburg-latest.osm.pbf"
   if $test;
 
+my $utils = new Extract::Utils;
+
 ######################################################################
 #
-#
-
-# timeout handler
-sub set_alarm {
-    my $time = shift;
-    my $message = shift || "";
-
-    $time = $alarm if !defined $time;
-
-    $SIG{ALRM} = sub {
-        my $pgid = getpgrp();
-
-        warn "Time out alarm $time\n";
-
-        # sends a hang-up signal to all processes in the current process group
-        # and kill running java processes
-        local $SIG{HUP} = "IGNORE";
-        kill "HUP", -$pgid;
-        sleep 0.5;
-
-        local $SIG{TERM} = "IGNORE";
-        kill "TERM", -$pgid;
-        sleep 0.5;
-
-        local $SIG{INT} = "IGNORE";
-        kill "INT", -$pgid;
-        sleep 0.5;
-
-        warn "Send a hang-up to all childs.\n";
-
-        #exit 1;
-    };
-
-    warn "set alarm time to: $time seconds $message\n" if $debug >= 1;
-    alarm($time);
-}
-
-sub get_loadavg {
-    my @loadavg = ( qx(uptime) =~ /([\.\d]+),?\s+([\.\d]+),?\s+([\.\d]+)/ );
-
-    warn "Current load average is: $loadavg[0]\n" if $debug >= 1;
-    return $loadavg[0];
-}
-
-# get a list of json config files from a directory
-sub get_jobs {
-    my $dir = shift;
-
-    my $d = IO::Dir->new($dir);
-    if ( !defined $d ) {
-        warn "error directory $dir: $!\n";
-        return ();
-    }
-
-    my @data;
-    while ( defined( $_ = $d->read ) ) {
-        next if !/\.json$/;
-        push @data, $_;
-    }
-    undef $d;
-
-    return @data;
-}
-
-# display output of a program to STDERR
-sub program_output {
-    my $program = shift;
-    my $fh = shift || \*STDERR;
-
-    if ( -e $program && -x $program ) {
-        open( OUT, "$program |" ) or die "$program: $!\n";
-        print $fh "$program:\n";
-        while (<OUT>) {
-            print $fh $_;
-        }
-        close OUT;
-    }
-}
-
-# returns 1 if we want to ignore a bot, otherwise 0
-sub ignore_bot {
-    my %args = @_;
-
-    my $loadavg    = $args{'loadavg'};
-    my $city       = $args{'city'};
-    my $obj        = $args{'obj'};
-    my $job_number = $args{'job_number'};
-
-    warn
-      "detect bot for area '$city', user agent: '@{[ $obj->{'user_agent'} ]}'\n"
-      if $debug >= 1;
-
-    if (   $option->{'bots'}{'detecation'}
-        && $loadavg >= $option->{'bots'}{'max_loadavg'} )
-    {
-
-        # soft bot handle
-        if (   $option->{'bots'}{'scheduler'} == 1
-            && $job_number == 1 )
-        {
-            warn
-"accepts bot request for area '$city' for first job queue: $loadavg\n"
-              if $debug >= 1;
-        }
-
-        # hard ignore
-        else {
-            warn
-"ignore bot request for area '$city' due high load average: $loadavg\n"
-              if $debug >= 1;
-            return 1;
-        }
-    }
-
-    return 0;
-}
-
-# get a list of email addresses, and return a random list
-sub random_user {
-    my @list = @_;
-
-    my %hash = map { $_ => rand() } @list;
-
-    @list = sort { $hash{$a} <=> $hash{$b} } keys %hash;
-
-    if ( $debug >= 2 ) {
-        warn join " ", @list, "\n";
-    }
-
-    return @list;
-}
 
 sub get_sub_planet {
     my $obj = shift;
@@ -355,7 +233,9 @@ sub parse_jobs {
     my $loadavg = &get_loadavg;
 
     my %duplicated_poly = ();
-    my $poly = new Extract::Poly( 'debug' => 1 );
+    my $poly = new Extract::Poly( 'debug' => $debug );
+    my $scheduler =
+      new Extract::Scheduler( 'debug' => $debug, 'option' => $option );
 
     while ( $counter-- > 0 ) {
         foreach my $email ( &random_user( keys %$hash ) ) {
@@ -378,14 +258,35 @@ sub parse_jobs {
                     next;
                 }
 
-                if ( is_bot($obj) ) {
+                if ( $scheduler->is_bot($obj) ) {
                     next
-                      if ignore_bot(
+                      if $scheduler->ignore_bot(
                         'loadavg'    => $loadavg,
                         'job_number' => $job_number,
                         'obj'        => $obj,
                         'city'       => $city
                       );
+                }
+
+                # rate limit per user
+                my $running_users = $scheduler->running_users;
+
+                my $running_users_jobs = $running_users->{$email} || 0;
+                my $total_jobs =
+                  $scheduler->total_jobs( 'email' => $running_users );
+
+                my $user_limit_jobs =
+                  $option->{'scheduler'}->{'user_limit_jobs'};
+
+                warn "Running jobs for user $email: $running_users_jobs, ",
+"max per user: $user_limit_jobs, number of running jobs: $total_jobs\n"
+                  if $debug >= 1;
+
+                if ( $running_users_jobs >= $user_limit_jobs ) {
+                    warn
+"Skip user $email due high number of running jobs: $running_users_jobs >= $user_limit_jobs\n"
+                      if $debug >= 1;
+                    next;
                 }
 
                 my $obj_sub_planet_file = get_sub_planet($obj);
@@ -515,31 +416,6 @@ sub parse_jobs_planet {
     }
 
     return ( $hash, $default_planet_osm, $counter );
-}
-
-# detect bots by user agent, or other meta data
-sub is_bot {
-    my $obj = shift;
-
-    my @bots       = @{ $option->{'bots'}{'names'} };
-    my $user_agent = $obj->{'user_agent'};
-
-    # legacy config jobs
-    if ( !defined $user_agent ) {
-        $user_agent = "";
-    }
-
-    return ( grep { $user_agent =~ /$_/ } @bots ) ? 1 : 0;
-}
-
-sub json_compat {
-    my $obj = shift;
-
-    # be backward compatible with old *.json files
-    if ( !( exists $obj->{'coords'} && ref $obj->{'coords'} eq 'ARRAY' ) ) {
-        $obj->{'coords'} = [];
-    }
-    return $obj;
 }
 
 # create a unique job id for each extract request
@@ -683,42 +559,6 @@ sub create_poly_files {
     return ( \@poly, \@json );
 }
 
-# refresh mod time of file, to keep files in cache
-sub touch_file {
-    my $file      = shift;
-    my $test_mode = shift;
-
-    my @system = ( "touch", $file );
-
-    warn "touch $file\n" if $debug >= 1;
-    @system = 'true' if $test_mode;
-
-    system(@system) == 0
-      or die "system @system failed: $?";
-}
-
-# store a blob of data in a file
-sub store_data {
-    my ( $file, $data ) = @_;
-
-    my $fh = new IO::File $file, "w" or die "open $file: $!\n";
-    binmode $fh, ":utf8";
-
-    print $fh $data;
-    $fh->close;
-}
-
-sub store_json {
-    my ( $file, $obj ) = @_;
-
-    my $file_tmp = "$file.tmp";
-    my $json     = new JSON;
-    my $data     = $json->pretty->encode($obj);
-
-    store_data( $file_tmp, $data );
-    rename( $file_tmp, $file ) or die "rename $file: $!\n";
-}
-
 # create a poly file which will be read by osmosis(1) to extract
 # an area from planet.osm
 sub create_poly_file {
@@ -744,7 +584,7 @@ sub run_extracts {
       : &run_extracts_osmosis(@_);
 }
 
-#
+# Legacy
 # extract area(s) from planet.osm with osmosis tool
 #
 sub run_extracts_osmosis {
@@ -771,7 +611,7 @@ sub run_extracts_osmosis {
 
         my $osm = $spool->{'osm'} . "/" . basename($out);
         if ( -e $osm ) {
-            my $newer = file_mtime_diff( $osm, $planet_osm );
+            my $newer = $utils->file_mtime_diff( $osm, $planet_osm );
             if ( $newer > 0 ) {
                 warn "File $osm already exists, skip\n" if $debug >= 1;
                 link( $osm, $out ) or die "link $osm => $out: $!\n";
@@ -834,7 +674,7 @@ sub run_extracts_osmconvert {
 
         my $osm = $spool->{'osm'} . "/" . basename($out);
         if ( -e $osm ) {
-            my $newer = file_mtime_diff( $osm, $planet_osm );
+            my $newer = $utils->file_mtime_diff( $osm, $planet_osm );
             if ( $newer > 0 ) {
                 warn "File $osm already exists, skip\n" if $debug >= 1;
                 link( $osm, $out ) or die "link $osm => $out: $!\n";
@@ -882,34 +722,6 @@ sub run_extracts_osmconvert {
       if $debug >= 1;
     warn "Run extracts: " . join( " ", @data ), "\n" if $debug >= 2;
     return ( \@data, \@fixme );
-}
-
-# compute SHA2 checksum for extract file
-sub checksum {
-    my $file = shift;
-    my $type = shift || 'sha256';
-
-    die "file $file does not exists\n" if !-f $file;
-
-    my @checksum_command = $type eq 'md5' ? qw/md5sum/ : qw/shasum -a 256/;
-
-    if ( my $pid = open( C, "-|" ) ) {
-    }
-
-    # child
-    else {
-        exec( @checksum_command, $file ) or die "Alert! Cannot fork: $!\n";
-    }
-
-    my $data;
-    while (<C>) {
-        my @a = split;
-        $data = shift @a;
-        last;
-    }
-    close C;
-
-    return $data;
 }
 
 # SMTP wrapper
@@ -994,7 +806,7 @@ sub cached_format {
 
         # re-generate garmin if there is a newer PBF file
         if ( $pbf_file && -e $pbf_file ) {
-            my $newer = file_mtime_diff( $to, $pbf_file );
+            my $newer = $utils->file_mtime_diff( $to, $pbf_file );
             if ( $newer < 0 ) {
                 warn "file $to already exists, ",
                   "but a new $pbf_file is here since ", abs($newer),
@@ -1185,19 +997,6 @@ sub convert_send_email {
       if $send_email && $debug >= 1;
 
     return $error_counter;
-}
-
-sub get_json {
-    my $json_file = shift;
-    my $json_text = read_data($json_file);
-    my $json      = new JSON;
-    my $obj       = $json->decode($json_text);
-    json_compat($obj);
-
-    warn "json: $json_file\n" if $debug >= 3;
-    warn "json: $json_text\n" if $debug >= 3;
-
-    return $obj;
 }
 
 # mkgmap.jar description limit of 50 bytes
@@ -1521,7 +1320,9 @@ sub _convert_send_email {
     unlink($to);
     warn "link $pbf_file => $to\n" if $debug >= 2;
     link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
-    aws_s3_put( 'file' => $to );
+
+    my $aws = Extract::AWS->new( 'option' => $option, 'debug' => $debug );
+    $aws->aws_s3_put( 'file' => $to );
 
     my $file_size = file_size_mb($to) . " MB";
     warn "generated file size $to: $file_size\n" if $debug >= 1;
@@ -1540,7 +1341,7 @@ sub _convert_send_email {
         unlink($to);
 
         link( $file, $to ) or die "link $file => $to: $!\n";
-        aws_s3_put( 'file' => $file );
+        $aws->aws_s3_put( 'file' => $file );
 
         $file_size = file_size_mb($to) . " MB";
         warn "file size $to: $file_size\n" if $debug >= 1;
@@ -1550,7 +1351,7 @@ sub _convert_send_email {
 
     my $url = $option->{'homepage'} . "/" . basename($to);
     if ( $option->{"aws_s3_enabled"} ) {
-        $url = $option->{"aws_s3"}->{"homepage"} . "/" . aws_s3_path($to);
+        $url = $option->{"aws_s3"}->{"homepage"} . "/" . $aws->aws_s3_path($to);
     }
 
     my $checksum_sha256 = checksum( $to, "sha256" );
@@ -1687,47 +1488,6 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
     store_json( $json_file, $obj );
 }
 
-sub aws_s3_put {
-    my %args = @_;
-    my $file = $args{'file'};
-
-    if ( !$option->{"aws_s3_enabled"} ) {
-        warn "AWS S3 upload disabled\n" if $debug >= 3;
-        return;
-    }
-
-    if ( !defined $file || !-e $file ) {
-        warn "No file '$file' given or exists for AWS S3 upload\n";
-        return;
-    }
-
-    my $file_size = file_size_mb($file) . " MB";
-    warn "Upload $file with size $file_size to AWS S3\n" if $debug >= 1;
-
-    my $sep = "/";
-    my @system =
-      ( $option->{"aws_s3"}->{"put_command"}, aws_s3_path($file), $file );
-    warn join( " ", @system, "\n" ) if $debug >= 2;
-
-    system(@system) == 0
-      or die "system @system failed: $?";
-}
-
-sub aws_s3_path {
-    my $file = shift;
-
-    my $sep = "/";
-
-    my $aws_path =
-        $option->{"aws_s3"}->{"bucket"}
-      . $sep
-      . $option->{"aws_s3"}->{"path"}
-      . $sep
-      . basename($file);
-
-    return $aws_path;
-}
-
 #
 # pbf2pbf postprocess
 # e.g. make sure that lat,lon are in valid range -180 .. +180
@@ -1754,104 +1514,6 @@ sub fix_pbf {
               or die "system @system failed: $?";
         }
     }
-}
-
-# compare 2 files and return the modification diff time in seconds
-sub file_mtime_diff {
-    my $file1 = shift;
-    my $file2 = shift;
-
-    my $st1 = stat($file1) or die "stat $file1: $!\n";
-    my $st2 = stat($file2) or die "stat $file2: $!\n";
-
-    return $st1->mtime - $st2->mtime;
-}
-
-# file size in KB
-sub file_size {
-    my $file = shift;
-
-    my $st = stat($file) or die "stat $file: $!\n";
-
-    return $st->size;
-}
-
-# file size in x.y MB
-sub file_size_mb {
-    my $file = shift;
-
-    return kb_to_mb( file_size($file) );
-}
-
-# sacle file size in x.y MB
-sub kb_to_mb {
-    my $size = shift;
-
-    foreach my $scale ( 10, 100, 1000, 10_000 ) {
-        my $result = int( $scale * $size / 1024 / 1024 ) / $scale;
-        return $result if $result > 0;
-    }
-
-    return "0.0";
-}
-
-# cat file
-sub read_data {
-    my $file = shift;
-
-    warn "open file '$file'\n" if $debug >= 3;
-
-    my $fh = new IO::File $file, "r" or die "open $file: $!\n";
-    binmode $fh, ":utf8";
-    my $data;
-
-    while (<$fh>) {
-        $data .= $_;
-    }
-
-    $fh->close;
-    return $data;
-}
-
-sub create_lock {
-    my %args     = @_;
-    my $lockfile = $args{'lockfile'};
-
-    warn "Try to create lockfile: $lockfile, value: $$\n" if $debug >= 1;
-
-    my $lockmgr = LockFile::Simple->make(
-        -hold      => 7200,
-        -autoclean => 1,
-        -max       => 5,
-        -stale     => 1,
-        -delay     => 1
-    );
-    if ( $lockmgr->trylock($lockfile) ) {
-        return $lockmgr;
-    }
-
-    # return undefined for failure
-    else {
-        warn "Cannot get lockfile, apparently in use: $lockfile\n"
-          if $debug >= 1;
-        return;
-    }
-}
-
-sub remove_lock {
-    my %args = @_;
-
-    my $lockfile = $args{'lockfile'};
-    my $lockmgr  = $args{'lockmgr'};
-
-    my $pid = read_data("$lockfile.lock");    # xxx
-    chomp($pid);
-
-    warn "Remove lockfile: $lockfile, pid $pid\n" if $debug >= 1;
-
-    $lockmgr->unlock($lockfile);
-
-    #unlink($lockfile) or die "unlink $lockfile: $!\n";
 }
 
 sub get_msg {
@@ -1941,6 +1603,40 @@ sub cleanup_jobdir {
     }
 }
 
+sub set_alarm {
+    my $time = shift;
+    my $message = shift || "";
+
+    $time = $alarm if !defined $time;
+
+    $SIG{ALRM} = sub {
+        my $pgid = getpgrp();
+
+        warn "Time out alarm $time\n";
+
+        # sends a hang-up signal to all processes in the current process group
+        # and kill running java processes
+        local $SIG{HUP} = "IGNORE";
+        kill "HUP", -$pgid;
+        sleep 0.5;
+
+        local $SIG{TERM} = "IGNORE";
+        kill "TERM", -$pgid;
+        sleep 0.5;
+
+        local $SIG{INT} = "IGNORE";
+        kill "INT", -$pgid;
+        sleep 0.5;
+
+        warn "Send a hang-up to all childs.\n";
+
+        #exit 1;
+    };
+
+    warn "set alarm time to: $time seconds $message\n" if $debug >= 1;
+    alarm($time);
+}
+
 sub usage () {
     <<EOF;
 usage: $0 [ options ]
@@ -1967,6 +1663,7 @@ sub run_jobs {
     my @files = @$files;
     my $lockfile;
     my $lockmgr;
+    my $e_lock = Extract::LockFile->new( 'debug' => $debug );
 
     warn "Start job at: @{[ gmctime() ]} UTC\n" if $debug >= 1;
 
@@ -1976,7 +1673,8 @@ sub run_jobs {
     #
     my $lockfile_extract = $spool->{'running'} . "/extract.pid";
 
-    my $lockmgr_extract = &create_lock( 'lockfile' => $lockfile_extract )
+    my $lockmgr_extract =
+      $e_lock->create_lock( 'lockfile' => $lockfile_extract )
       or die "Cannot get lockfile $lockfile_extract, give up\n";
 
     # find a free job
@@ -1986,7 +1684,7 @@ sub run_jobs {
         $job_number = $number;
 
         # lock pid
-        if ( $lockmgr = &create_lock( 'lockfile' => $file ) ) {
+        if ( $lockmgr = $e_lock->create_lock( 'lockfile' => $file ) ) {
             $lockfile = $file;
             last;
         }
@@ -1994,14 +1692,14 @@ sub run_jobs {
 
     # Oops, all jobs are in use, give up
     if ( !$lockfile ) {
-        &remove_lock(
+        $e_lock->remove_lock(
             'lockfile' => $lockfile_extract,
             'lockmgr'  => $lockmgr_extract
         );
         die "Cannot get lock for jobs 1..$max_jobs\n" . qx(uptime);
     }
 
-    warn "Use lockfile $lockfile\n" if $debug >= 1;
+    warn "Use lockfile $lockfile for extract\n" if $debug >= 1;
 
     my ( $list, $planet_osm ) = parse_jobs(
         'files'      => \@files,
@@ -2018,9 +1716,9 @@ sub run_jobs {
         print "Nothing to do for users\n" if $debug >= 2;
 
         # unlock jobN pid
-        &remove_lock( 'lockfile' => $lockfile, 'lockmgr' => $lockmgr );
+        $e_lock->remove_lock( 'lockfile' => $lockfile, 'lockmgr' => $lockmgr );
 
-        &remove_lock(
+        $e_lock->remove_lock(
             'lockfile' => $lockfile_extract,
             'lockmgr'  => $lockmgr_extract
         );
@@ -2040,7 +1738,7 @@ sub run_jobs {
     );
 
     # EOF semaphone lock /extract.pid (cron job)
-    &remove_lock(
+    $e_lock->remove_lock(
         'lockfile' => $lockfile_extract,
         'lockmgr'  => $lockmgr_extract
     );
@@ -2101,7 +1799,7 @@ sub run_jobs {
     warn "Number of errors: $errors\n" if $errors;
 
     # unlock jobN pid
-    &remove_lock( 'lockfile' => $lockfile, 'lockmgr' => $lockmgr );
+    $e_lock->remove_lock( 'lockfile' => $lockfile, 'lockmgr' => $lockmgr );
 
     &cleanup_jobdir(
         'job_dir' => $job_dir,
@@ -2139,6 +1837,9 @@ GetOptions(
     "help"         => \$help,
     "test-mode!"   => \$test_mode,
 ) or die usage;
+
+# we have to set the debug level late, after GetOptions()
+$Extract::Utils::debug = $debug;
 
 die usage if $help;
 die "Max jobs: $max_jobs out of range!\n" . &usage
@@ -2197,6 +1898,8 @@ my $errors = &run_jobs(
     'files'      => \@files
 );
 
+# load average when the job is done
+&get_loadavg;
 exit($errors);
 
 1;

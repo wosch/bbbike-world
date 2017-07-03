@@ -1,0 +1,47 @@
+#!/bin/sh
+# Copyright (c) 2009-2017 Wolfram Schneider, https://bbbike.org
+#
+# extract-statistic - usage statistics
+
+
+PATH=$HOME/bin:$PATH; export PATH
+LANG=C; export LANG
+
+set -e
+: ${trash_dir=$HOME/projects/extract/trash}
+: ${days=30}
+: ${head=10}
+
+cd $trash_dir
+
+
+search () {
+    day=${1-"30"}
+    key=${2-"user_agent"}
+    find . -name '*.json' -type f -mtime -"$day" | xargs egrep -h $key |
+        sort | uniq -c | sort -nr | head -n $head
+}
+
+https_usage () {
+    key=script_url
+    find . -name '*.json' -type f -mtime -"$day" | xargs egrep -h $key |
+        perl -npe 's/\?.*//' |
+        sort | uniq -c | sort -nr | head -n $head
+}
+
+echo ""
+echo "user agent for $days days"
+search $days "user_agent"
+
+echo "email for $days days"
+search $days "email"
+
+echo ""
+echo "ip address for $days days"
+search $days "ip_address"
+
+#echo ""
+#echo "HTTPS usage"
+#https_usage
+
+

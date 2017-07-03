@@ -13,7 +13,7 @@ RUN chown -R tile:tile /bbbike/projects
 USER tile
 
 #ADD . bbbike
-RUN pwd && git clone --depth=200 https://github.com/wosch/bbbike.git && \
+RUN git clone --depth=200 https://github.com/wosch/bbbike.git && \
   cd bbbike && git clone --depth=200 https://github.com/wosch/bbbike-world.git world && \
   make -f world/Makefile.osm create-makefile-symlinks
 

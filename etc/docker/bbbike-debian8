@@ -15,7 +15,7 @@ RUN useradd -ms /bin/bash bbbike && \
   echo 'bbbike   ALL=NOPASSWD: ALL' >> /etc/sudoers
 
 #ADD . bbbike
-RUN pwd && git clone --depth=200 https://github.com/wosch/bbbike.git && \
+RUN git clone --depth=200 https://github.com/wosch/bbbike.git && \
   cd bbbike && git clone --depth=200 https://github.com/wosch/bbbike-world.git world && \
   make -f world/Makefile.osm create-makefile-symlinks
 

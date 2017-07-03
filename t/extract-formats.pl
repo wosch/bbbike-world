@@ -14,6 +14,7 @@ my $random = 1;
 
 my $formats = $Extract::Config::formats;
 my $server  = $ENV{'BBBIKE_DEV_SERVER'} || 'https://dev3.bbbike.org';
+my $email   = $ENV{'BBBIKE_TEST_EMAIL'} || 'Nobody';
 my $sw_lng  = -72.211;
 my $sw_lat  = -13.807;
 my $ne_lng  = -71.732;
@@ -34,7 +35,7 @@ sub generate_urls {
           . ( $random ? int( rand(1_000_000) ) : "" )
           . qq{&ne_lng=$ne_lng&ne_lat=$ne_lat}
           . ( $random ? int( rand(1_000_000) ) : "" )
-          . qq{&email=Nobody&as=1.933243109431466&pg=0.9964839602712444&coords=&oi=1}
+          . qq{&email=$email&as=1.933243109431466&pg=0.9964839602712444&coords=&oi=1}
           . qq{&city=etest&lang=en&submit=extract&format=$key"\0};
     }
 }

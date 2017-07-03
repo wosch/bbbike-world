@@ -29,7 +29,7 @@ fi
 # man perlrun
 perl_utf8="-CIOEio"
 
-front_end='(http://www.bbbike.org)?'
+front_end='(https?://www.bbbike.org)?'
 url_match="$front_end(/cgi/[A-Zb]|/[A-Z][a-z][A-Za-z]+/|/berlin/|/[a-z][a-z]/[A-Z][a-z][A-Za-z]+/)"
 
 log_all () {
@@ -46,10 +46,10 @@ log () {
 }
 log_post () {
     match=${1-"."}
-    log_full "$match" | perl -npe 's,"(POST|GET) http://www.bbbike.org,"$1 ,'
+    log_full "$match" | perl -npe 's,"(POST|GET) https?://www.bbbike.org,"$1 ,'
 }
 
-#log "(http://www.bbbike.org|/)" | egrep -v '/streets.html ' | awk '{print $11 }' | egrep -vi '\.google\.[a-z]|http://(www\.)?bbbike.org' | sort | uniq -c | sort -nr
+#log "(http://www.bbbike.org|/)" | egrep -v '/streets.html ' | awk '{print $11 }' | egrep -vi '\.google\.[a-z]|https?://(www\.)?bbbike.org' | sort | uniq -c | sort -nr
 
 echo -n "bbbike.org page views: "
 log $url_match | awk '{print $1}' | wc -l
@@ -93,11 +93,11 @@ if [ -d $varnish_dir ]; then
 
     echo ""
     echo "map compare referer"
-    log_full 'GET http://mc.bbbike.org/mc/' | awk '{ print $11 }' | egrep -v http://mc.bbbike.org/ | sort | uniq -c | sort -nr
+    log_full 'GET https?://mc.bbbike.org/mc/' | awk '{ print $11 }' | egrep -v https?://mc.bbbike.org/ | sort | uniq -c | sort -nr
 
     echo ""
     echo "extract referer"
-    log_full http://extract.bbbike.org/ | awk '{ print $11 }' | egrep -v http://extract.bbbike.org/ | sort | uniq -c | sort -nr
+    log_full https?://extract.bbbike.org/ | awk '{ print $11 }' | egrep -v https?://extract.bbbike.org/ | sort | uniq -c | sort -nr
 
     echo ""
     echo -n "OSM map log hosts mc.bbbike.org/osm/: "
@@ -152,7 +152,7 @@ echo "api.bbbike.org hosts: "
 log_full 'api.bbbike.org/api/[0-9]+\.[0-9]+/[A-Z][a-z]' | egrep 'HTTP/1.1" 200 ' |
         awk '{print $1, $7 }' | egrep -v '/location.cgi' |
 	perl $perl_utf8 -npe 's/\?.*?(appid=[^ ;&]+).*/ $1/; s,/cgi/,,; s,(\.en)?\.cgi,,;' |
-	perl -npe 's,http://api.bbbike.org/api/0.2,,' |
+	perl -npe 's,https?://api.bbbike.org/api/0.2,,' |
         sort | uniq -c | sort -nr | head -40 | $dns
 echo ""
 
@@ -161,7 +161,7 @@ echo "api.bbbike.org hosts/appid: "
 log_full 'api.bbbike.org/api/[0-9]+\.[0-9]+/[A-Z][a-z]' | egrep 'HTTP/1.1" 200 ' |
         awk '{print $1, $7 }' | egrep -v '/location.cgi' |
 	perl $perl_utf8 -npe 's/\?.*?(appid=[^ ;&]+).*/ $1/; s,/cgi/,,; s,(\.en)?\.cgi,,;' |
-	perl -npe 's,http://api.bbbike.org/api/0.2,,' |
+	perl -npe 's,https?://api.bbbike.org/api/0.2,,' |
         sort | uniq -c | sort -nr |  awk '{print $4}' | sort | uniq -c | sort -nr 
 
 echo ""
@@ -182,7 +182,7 @@ echo ""
 echo "Bots www.bbbike.org hosts: "
 log_full 'BBBike/[0-9]+ CFNetwork' | egrep 'HTTP/1.1" 200 ' |
         awk '{print $1, $7 }' | perl $perl_utf8 -npe 's/\?.*//; s,/cgi/,,; s,(\.en)?\.cgi,,;' |
-        perl -npe 's,http://www.bbbike.org/,,' |
+        perl -npe 's,https?://www.bbbike.org/,,' |
         sort | uniq -c | sort -nr | head -40 | $dns
 echo ""
 
@@ -196,8 +196,8 @@ log "$url_match" |
 
 echo ""
 echo -n "bbbike references: "
-log "(http://www.bbbike.org|/ )" | egrep -v '/streets.html ' | awk '{ print $11 }' | egrep -vi '\.google\.[a-z]|http://(www\.)?bbbike.org' | sort | uniq -c | sort -nr | wc -l
-log "(http://www.bbbike.org|/ )" | egrep -v '/streets.html ' | awk '{ print $11 }' | egrep -v '\.google\.[a-z]|http://(www\.)?bbbike.org' | sort | uniq -c | sort -nr 
+log "(https?://www.bbbike.org|/ )" | egrep -v '/streets.html ' | awk '{ print $11 }' | egrep -vi '\.google\.[a-z]|https?://(www\.)?bbbike.org' | sort | uniq -c | sort -nr | wc -l
+log "(https?://www.bbbike.org|/ )" | egrep -v '/streets.html ' | awk '{ print $11 }' | egrep -v '\.google\.[a-z]|https?://(www\.)?bbbike.org' | sort | uniq -c | sort -nr 
 
 echo ""
 echo -n "google references: "
@@ -205,7 +205,7 @@ log "$url_match.*" | egrep -v '/streets.html ' | egrep -i '\.google\.' | wc -l
 
 log "(/ |$url_match.*)" | egrep -v '/streets.html ' | egrep -i '\.google\.' |
 	egrep -v '/streets.html" ' | awk '{ print $11 }' | 
-	perl $perl_utf8 -npe "s,.?http://(www\.)?bbbike.org$url_match\?.*\n,$1,g" |
+	perl $perl_utf8 -npe "s,.?https?://(www\.)?bbbike.org$url_match\?.*\n,$1,g" |
 	sort | uniq -c | sort -nr |
 	perl $perl_utf8 -MCGI -npe '$_ = CGI::unescape($_)'
 
@@ -315,8 +315,8 @@ log_full / | egrep '188.40.84.75' | awk '{ print $7 }' | sort -u
 echo ""
 echo "Street click"
 echo -n "streets.html: "
-log_post ' (http://www.bbbike.org)?/[A-Z][^ ]*/streets.html' | awk '{ if ($11 != "\"-\"") { print $7, $11 } else { print $11 } }'| sort -u | wc -l
-log_post ' (http://www.bbbike.org)?/[A-Z][^ ]*/streets.html' | awk '{ if ($12 != "\"-\"") { print $7 } }'| sort | uniq -c | sort -nr | head -50
+log_post ' (https?://www.bbbike.org)?/[A-Z][^ ]*/streets.html' | awk '{ if ($11 != "\"-\"") { print $7, $11 } else { print $11 } }'| sort -u | wc -l
+log_post ' (https?://www.bbbike.org)?/[A-Z][^ ]*/streets.html' | awk '{ if ($12 != "\"-\"") { print $7 } }'| sort | uniq -c | sort -nr | head -50
 
 echo ""
 echo -n "Street route search: "
@@ -343,7 +343,7 @@ log_full '" 500 ' | awk '{ print $1 }'| sort | uniq -c | sort -nr | $dns
 if [ -s $extract_log ]; then
     echo ""
     echo "extract referer"
-    $zcat $extract_log | egrep '"GET /' | awk '{ print $11 }' | egrep -v 'http://extract.bbbike.org/' | sort | uniq -c | sort -nr
+    $zcat $extract_log | egrep '"GET /' | awk '{ print $11 }' | egrep -v 'https?://extract.bbbike.org/' | sort | uniq -c | sort -nr
     
     echo ""
     echo -n "extract stat: "
@@ -394,13 +394,13 @@ echo -n "http stat: "
 log_full / | awk '{ s+=$10 } END { print int(s/1024/1024), "MB" }'
 
 
-log_full 'GET http://.* 200 ' | awk '{ print $7, $10 }' | 
-  perl -e 'while(<>) {s,http://,,; s,/.*? , ,; @a=split; $b{$a[0]} += $a[1]}; while(($key,$val) = each %b) { print $key, " ", int($val/1024/102.4)/10, " MB\n"}'|
+log_full 'GET https?://.* 200 ' | awk '{ print $7, $10 }' | 
+  perl -e 'while(<>) {s,https?://,,; s,/.*? , ,; @a=split; $b{$a[0]} += $a[1]}; while(($key,$val) = each %b) { print $key, " ", int($val/1024/102.4)/10, " MB\n"}'|
   sort -k2 -nr
 
 echo ""
 echo -n "streets stat: "
-log_full 'GET http://[^ ]*/streets.html ' | awk '{ s+=$10 } END { print s/1024/1024, "MB" }'
+log_full 'GET https?://[^ ]*/streets.html ' | awk '{ s+=$10 } END { print s/1024/1024, "MB" }'
 
 echo ""
 echo -n "CPU total: "
