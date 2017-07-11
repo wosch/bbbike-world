@@ -1,4 +1,4 @@
-FROM debian:testing
+FROM debian:buster
 MAINTAINER Wolfram Schneider <wosch@FreeBSD.org>
 
 RUN apt-get update -q && apt-get upgrade -y && \
