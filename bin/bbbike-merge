@@ -39,8 +39,8 @@ bbbike-checkout >&2 || error "checkout failed: $dir"
 cd bbbike
 
 git_opt="--no-edit"
-$verbose || git_opt="-q"
-if ! git merge $git_opt eserte/master; then
+#$verbose || git_opt="-q"
+if ! git merge $git_opt eserte/master > log.git-merge; then
     echo "merged failed: $dir/bbbike"
     exit 1
 fi
@@ -48,7 +48,12 @@ fi
 make -s js perltidy || error "js perltidy"
 make -s update-files  || error "update-files"
 
-fetch_status=$(cat .git-fetch-status-eserte)
+if egrep -q '^Already up-to-date.$' log.git-merge; then
+    fetch_status=0
+else
+    fetch_status=1
+fi
+
 if [ $fetch_status -eq 0 ]; then
     echo "No updates..."
 fi
