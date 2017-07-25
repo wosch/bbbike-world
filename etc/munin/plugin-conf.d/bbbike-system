@@ -1,0 +1,14 @@
+[df*]
+env.warning 85
+env.critical 96
+
+[load]
+env.load_warning 10
+env.load_critical 20
+
+[memory]
+env.swap_warning  20%
+env.swap_critical 50%
+env.apps_warning  60%
+env.apps_critical 80%
+
