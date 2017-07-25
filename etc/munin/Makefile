@@ -52,7 +52,8 @@ help-update:
 	@echo ""
 	@echo  "don't forget to update /etc/munin/plugin-conf.d/munin-node, see ./README"
 
-install-munin-bbbike: install-munin-bbbike-system install-munin-bbbike-web install-munin-bbbike-extract
+install-munin-bbbike: install-munin-bbbike-system install-munin-bbbike-web \
+			install-munin-bbbike-extract install-munin-apt
 
 install-munin-bbbike-system:
 	for i in ${MUNIN_BBBIKE_SYSTEM}; do \
