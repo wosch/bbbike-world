@@ -1,6 +1,7 @@
 [df*]
 env.warning 85
 env.critical 96
+env.exclude_re ^/run/user
 
 [load]
 env.load_warning 10
