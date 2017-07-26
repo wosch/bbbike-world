@@ -23,7 +23,7 @@ my $versions = {
         [ [qw/pigz --version/], qr/^pigz (2\.1\.6|2\.2\.[4-9]|2\.3\.1|2\.3)/ ],
         [
             [qw/java -version/],
-qr/^(openjdk|java) version "1.8.0_(131|141|03-Ubuntu)"/m
+            qr/^(openjdk|java) version "1.8.0_(131|141|03-Ubuntu)"/m
         ],
         [
             [qw/java -version/],
