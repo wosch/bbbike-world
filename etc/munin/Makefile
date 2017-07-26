@@ -52,12 +52,14 @@ help-update:
 	@echo ""
 	@echo  "don't forget to update /etc/munin/plugin-conf.d/munin-node, see ./README"
 
-install-munin-bbbike: install-munin-bbbike-system install-munin-bbbike-web install-munin-bbbike-extract
+install-munin-bbbike: install-munin-bbbike-system install-munin-bbbike-web \
+			install-munin-bbbike-extract install-munin-apt
 
 install-munin-bbbike-system:
 	for i in ${MUNIN_BBBIKE_SYSTEM}; do \
 	   sudo ln -fs `pwd`/plugins/$$i ${MUNIN_PLUGINS_DIR}/$$i; \
 	done
+	sudo ln -fs $$(pwd)/plugin-conf.d/bbbike-system   ${MUNIN_PLUGIN_CONF_DIR}
 	${MAKE} munin-restart
 	${MAKE} help-update
 	
