@@ -1,0 +1,4 @@
+[acpi]
+env.warning 65
+env.critical 74
+
