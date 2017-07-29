@@ -1432,6 +1432,9 @@ git-fetch: git-fetch-world
 	git fetch origin
 	git fetch github
 
+download-symlink-distclean:
+	find /usr/local/www/download.bbbike.org -type l -print0 | perl -0e 'while(<>) { next if m,^\./tmp/,; if (! -e $$_) { unlink } }'
+
 git-fetch-world:
 	cd world; git fetch origin
 	cd world; git fetch github
@@ -1581,7 +1584,7 @@ help:
 	@echo "  [ install-xvfb ]"
 	@echo ""
 	@echo "  [ clean | dist-clean | clean-cache | clean-planet | clean-tile ]"
-	@echo "  [ clean-tilesize-db ]"
+	@echo "  [ clean-tilesize-db | download-symlink-distclean ]"
 	@echo ""
 	@echo "  [ create-osp | bbbike2wgs84 | update-robots.txt | create-sitemap ]"
 	@echo "  [ cache-install | cache-heater | cache-heater-streets ]"
