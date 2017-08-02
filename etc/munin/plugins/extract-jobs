@@ -54,14 +54,17 @@ extract_dir_running=$extract_dir/running
 if [ "$1" = "config" ]; then
     : ${warning=40}
     : ${critical=80}
+
     : ${jobs_warning=40}
     : ${jobs_critical=80}
     : ${proc_warning=6}
     : ${proc_critical=8}
     : ${waiting_warning=40}
     : ${waiting_critical=80}
-    : ${users_warning=10}
-    : ${users_critical=20}
+    : ${users_warning=6}
+    : ${users_critical=10}
+    : ${users_waiting_warning=10}
+    : ${users_waiting_critical=20}
      
     cat <<EOF
 graph_title Extracts queue $pro
