@@ -1274,6 +1274,7 @@ bbbike-bootstrap: bbbike-partition debian-bootstrap update-files install-backend
 
 deb-opt-dir-version:
 	cd ${DEB_OPT_DIR}; \
+	  sudo rm -f omim Maperitive; \
 	  sudo ln -fs omim-1.0 omim; \
 	  sudo ln -fs Maperitive-2.3.34 Maperitive; 
 
@@ -1431,6 +1432,9 @@ git-fetch: git-fetch-world
 	git fetch origin
 	git fetch github
 
+download-symlink-distclean:
+	find /usr/local/www/download.bbbike.org -type l -print0 | perl -0e 'while(<>) { next if m,^\./tmp/,; if (! -e $$_) { unlink } }'
+
 git-fetch-world:
 	cd world; git fetch origin
 	cd world; git fetch github
@@ -1580,7 +1584,7 @@ help:
 	@echo "  [ install-xvfb ]"
 	@echo ""
 	@echo "  [ clean | dist-clean | clean-cache | clean-planet | clean-tile ]"
-	@echo "  [ clean-tilesize-db ]"
+	@echo "  [ clean-tilesize-db | download-symlink-distclean ]"
 	@echo ""
 	@echo "  [ create-osp | bbbike2wgs84 | update-robots.txt | create-sitemap ]"
 	@echo "  [ cache-install | cache-heater | cache-heater-streets ]"
@@ -1601,12 +1605,14 @@ help:
 	@echo "  [ update-database | update-files ]"
 	@echo "  [ download-bbbike-org-install ]"
 	@echo ""
-	@echo "  [ staging | extract-bbbike-org-install | extract-distclean ]"
+	@echo "  [ staging | extract-bbbike-org-install | garmin-legend ]"
 	@echo "  [ extract-gc | extract-gc7 | extract-gc-osm ]"
-	@echo "  [ garmin-legend ]"
+	@echo "  [ extract-distclean ]"
+	@echo ""
 	@echo "  [ tile | tile-extract | tile-convert | tile-csv | tile-checksum ]"
 	@echo "  [ tile-distclean | tile-rsync | tile-aws-s3"
 	@echo "  [ tile-convert-srtm | tile-srtm-csv ]"
+	@echo ""
 	@echo "  [ test-org | lighttpd-restart | test ]"
 	@echo "  [ jasmine-node | test-js ]"
 	@echo ""
@@ -1626,8 +1632,10 @@ help:
 	@echo "  [ build-runtime ]"
 	@echo "  [ apt-clean | host-clean ]"
 	@echo "  [ git-fetch | git-pull | git-push | mygit | git-gc ]"
+	@echo ""
 	@echo "  [ check | check-world | check-full | check-failed ]"
 	@echo "  [ check-tileserver ]"
+	@echo ""
 	@echo "  [ docker-build | docker-shell ]"
 	@echo "  [ docker-check | docker-check-w | docker-check-all ]"
 	@echo "  [ DOCKER_BBBIKE_TAG=bbbike/extract-debian9  docker-check-w ]"
