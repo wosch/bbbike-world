@@ -24,15 +24,17 @@
         "Format: %s",
         "</p>",
         "",
-        "<p>You can monitor the status of your request on the <a href='%s' target='_blank'>server status</a> page.<br/><br/></p>",
+        "<p>You can monitor the status of your request on the <a href='%s' target='_blank'>server status</a> page.<br/></p>",
         "",
         "<p>Press the <a href='javascript:history.back()'>back button</a> to get the same area in a different format, or to request a new area.</p>"
         ],
 
     "EXTRACT_DONATION": [
-        "<p>We appreciate any feedback, suggestions ",
-        "and a <a href='../community.html#donate'>donation</a>!",
-        "You can support us via PayPal, Flattr or bank wire transfer."
+        "<span class='donate_request'><hr/>",
+        "Your support keeps the BBBike extract service on the air!",
+        "Please make a <a href='../community.html#donate'>donation</a> with PayPal or bank wire transfer.",
+        "We need to raise 10 Euro (12 USD) by the end of the day, or 300 Euro (350USD) per month to cover the server costs.",
+        "</span>"
         ],
 
     "EXTRACT_EMAIL": [
