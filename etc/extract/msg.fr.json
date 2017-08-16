@@ -42,11 +42,12 @@
         ],
 
     "EXTRACT_DONATION": [
-        "Nous apprécions tous les commentaires et suggestions,",
-           "ainsi que les <a href='../community.html#donate'>dons</a>!",
-           "Vous pouvez nous soutenir via PayPal, Flattr ou virement bancaire."
-             ],
-
+        "<span class='donate_request'><hr/>",
+        "Your support keeps the BBBike extract service on the air!",
+        "Please make a <a href='../community.html#donate'>donation</a> with PayPal or bank wire transfer.",
+        "We need to raise 10 Euro (12 USD) by the end of the day, or 300 Euro (350USD) per month to cover the server costs.",
+        "</span>"
+        ],
 
     "EXTRACT_EMAIL": [
         "Bonjour,",
