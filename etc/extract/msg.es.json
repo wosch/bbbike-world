@@ -37,7 +37,7 @@
     "EXTRACT_DONATION": [
         "<p> Agradecemos cualquier comentario, sugerencia",
         "Y una donación <a href='../community.html#donate'> </ a>!",
-        "Nos pueden apoyar a través de PayPal, Flattr o transferencia bancaria."
+        "Nos pueden apoyar a través de PayPal o transferencia bancaria."
         ],
 
     "EXTRACT_EMAIL": [
@@ -65,7 +65,7 @@
         "Licencia: Licencia de OpenStreetMap",
         "",
         "Apreciamos cualquier comentario, sugerencia y una donación!",
-        "Nos pueden apoyar a través de PayPal, Flattr o transferencia bancaria.",
+        "Nos pueden apoyar a través de PayPal o transferencia bancaria.",
         "https://www.BBBike.org/community.html",
         "",
         "Sinceramente, el Hada extracto BBBike",
