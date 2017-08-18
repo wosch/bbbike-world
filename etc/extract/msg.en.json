@@ -31,10 +31,10 @@
 
     "EXTRACT_DONATION": [
         "<span class='donate_request'><hr/>",
-        "Your support keeps the BBBike extract service on the air!",
-        "Please make a <a href='../community.html#donate'>donation</a> with PayPal or bank wire transfer.",
+        "<a href='../community.html#donate'>Your support keeps the BBBike extract service on the air!",
+        "Please make a donation with PayPal or bank wire transfer.",
         "We need to raise 10 Euro (12 USD) by the end of the day, or 300 Euro (350USD) per month to cover the server costs.",
-        "</span>"
+        "</a></span>"
         ],
 
     "EXTRACT_EMAIL": [
