@@ -358,5 +358,7 @@ select optgroup option {
     color: black;
 }
 
+span.donate_request { font-size:large; color:blue }
+
 /* EOF */
 
