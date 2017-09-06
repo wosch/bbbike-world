@@ -207,6 +207,7 @@ Adelaide
 Kaunas
 Waterloo
 PortoAlegre
+Porto
 Innsbruck
 Jerusalem
 Corvallis
