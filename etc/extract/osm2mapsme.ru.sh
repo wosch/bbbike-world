@@ -6,8 +6,8 @@ $BBBIKE_EXTRACT_MAPSME_VERSION by https://github.com/mapsme/omim
 
 Please read the maps.me homepage how to use mwm files:
 
-  https://maps.me/en/home
-  https://maps.me/en/help
+  https://maps.me
+  https://support.maps.me
   https://wiki.openstreetmap.org/wiki/Maps.Me
 
 Note: Routing in this extract is not support yet! Sorry.
