@@ -122,7 +122,7 @@ Lima:::es:other:-77.263 -12.417 -76.556 -11.7:6500000::
 LaPaz:La Paz::es:other:-68.436 -16.698 -67.857 -16.297:2500000::
 Cusco:::es:other:-72.33 -13.712 -71.532 -13.217:450000::
 Sucre:::es:other:-65.424 -19.167 -65.069 -18.921:250000::
-Lissabon:de!Lissabon,pt!Lisboa,en!Lisbon::en:eu:-9.535 38.384 -8.65 39.004:2800000::
+Lisbon:de!Lissabon,pt!Lisboa,en!Lisbon::en:eu:-9.535 38.384 -8.65 39.004:2800000::
 Liverpool::en::eu:-3.208 53.263 -2.442 53.575:816000::
 Ljubljana:de!Laibach,en!Ljubljana::sl:eu:14.267 45.904 14.771 46.25:278638::
 London::en::eu:-0.597 51.278 0.423 51.703:7556900::
@@ -174,6 +174,7 @@ PhnomPenh:Phnom Penh,km!Phnum Pénh::km:other:104.8238 11.4895 105.0164 11.6295:
 Portland::en::other:-122.965 45.334 -122.362 45.675:2100000::
 Memphis::en::other:-90.361 34.91 -89.653 35.324:1300000::
 PortoAlegre:Porto Alegre::en:other:-51.28 -30.141 -51.054 -29.94:1436000::
+Porto:en!Oporto::en:eu:-8.82 40.90 -8.20 41.42:2400000::
 Potsdam:Potsdam/Mittelmark::de::12.50 51.83 13.51 52.54:155000::Luckenwalde;Jüterbog;Fläming
 Poznan:de!Posen,en!Poznan,pl!Poznań::en:eu:16.617 52.236 17.257 52.537:680000::
 Lodz:de!Lodz,en!Lodz,pl!Łódz::en:eu:19.182 51.598 19.757 51.908:740000::

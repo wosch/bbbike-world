@@ -207,6 +207,7 @@ Adelaide
 Kaunas
 Waterloo
 PortoAlegre
+Porto
 Innsbruck
 Jerusalem
 Corvallis
@@ -214,7 +215,7 @@ Paderborn
 Tehran
 Kiew
 Eugene
-Lissabon
+Lisbon
 Sarajewo
 SanFrancisco
 Curitiba
