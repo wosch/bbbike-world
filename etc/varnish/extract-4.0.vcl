@@ -50,13 +50,13 @@ backend eserte {
     .between_bytes_timeout = 300s;
 }
 
-backend debian9g {
-    .host = "debian9";
-    .port = "3000";
-    .first_byte_timeout = 300s;
-    .connect_timeout = 300s;
-    .between_bytes_timeout = 300s;
-}
+#backend debian9g {
+#    .host = "debian9";
+#    .port = "3000";
+#    .first_byte_timeout = 300s;
+#    .connect_timeout = 300s;
+#    .between_bytes_timeout = 300s;
+#}
 
 backend debian9 {
     .host = "debian9";
@@ -145,7 +145,7 @@ sub vcl_recv {
     } else if (req.http.host ~ "^eserte\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$" || req.http.host ~ "^jenkins(-dev)?\.bbbike\.(org|de)$") {
         set req.backend_hint = eserte;
     } else if (req.http.host ~ "^grafana\.bbbike\.org$") {
-        set req.backend_hint = debian9g;
+        set req.backend_hint = debian9;
     } else if (req.http.host ~ "^munin\.bbbike\.org$") {
         set req.backend_hint = debian9;
     } else if (req.http.host ~ "^(www\.|)(cyclerouteplanner\.org|cyclerouteplanner\.com|bbike\.org|cycleroute\.net)$") {
