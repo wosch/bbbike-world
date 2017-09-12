@@ -162,6 +162,8 @@ span.format_garmin_oseam_zip { color: #DAA520; }
 span.format_garmin_oseam_ascii_zip { color: #DAA520; }
 span.format_garmin_openfietslite_zip { color: #DAA520; }
 span.format_garmin_openfietslite_ascii_zip { color: #DAA520; }
+span.format_garmin_opentopo_zip { color: #DAA520; }
+span.format_garmin_opentopo_ascii_zip { color: #DAA520; }
 
 span.format_mapsforge_osm_zip { color: grey; }
 span.format_shp_zip { color: orange; }
@@ -182,4 +184,4 @@ span.format_srtm_europe_osm_pbf { color: brown; }
 span.format_srtm_garmin_srtm_zip { color: brown; }
 span.format_srtm_obf_zip { color: brown; }
 span.format_srtm_osm_pbf { color: brown; }
-
+span.format_srtm_osm_xz { color: brown; }

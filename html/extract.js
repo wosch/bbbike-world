@@ -46,8 +46,10 @@ var config = {
         "garmin-cycle-ascii.zip": 650,
         "garmin-leisure.zip": 650,
         "garmin-leisure-ascii.zip": 650,
-        "garmin-onroad.zip": 650,
-        "garmin-onroad-ascii.zip": 650,
+        "garmin-onroad.zip": 450,
+        "garmin-onroad-ascii.zip": 450,
+        "garmin-opentopo.zip": 650,
+        "garmin-opentopo-ascii.zip": 650,
         "garmin-openfietslite.zip": 650,
         "garmin-openfietslite-ascii.zip": 650,
         "garmin-oseam.zip": 650,
@@ -93,6 +95,8 @@ var config = {
         "garmin-openfietslite-ascii.zip": "/images/garmin-openfietslite-small.png",
         "garmin-onroad.zip": "/images/garmin-onroad2-small.png",
         "garmin-onroad-ascii.zip": "/images/garmin-onroad2-small.png",
+        "garmin-opentopo.zip": "/images/garmin-opentopo-berlin-120.png",
+        "garmin-opentopo-ascii.zip": "/images/garmin-opentopo-berlin-120.png",
         "garmin-bbbike.zip": "/images/garmin-bbbike-small.png",
         "garmin-bbbike-ascii.zip": "/images/garmin-bbbike-small.png",
         "garmin-cycle.zip": "/images/garmin-cycle-small.png",
@@ -153,7 +157,8 @@ var config = {
     display_format_time: 7,
 
     // standard extract time in seconds for PBF
-    extract_time: 400,
+    // for a full planet.osm.pbf without metadata (29GB), it takes ca. 10min
+    extract_time: 60 * 10,
 
     // display messages in browser console
     debug: 1,
@@ -1337,6 +1342,7 @@ function show_filesize(skm, real_size, sub_planet_factor) {
     debug("show filesize skm: " + parseInt(skm) + " size: " + Math.round(size) + "MB " + format + " sub planet factor: " + sub_planet_factor);
 
     // all formats *must* be configured
+    // Note: the size is based on the created output format, and *not* of the input *.pbf
     var filesize = {
         "osm.pbf": {
             "size": 1,
@@ -1355,59 +1361,67 @@ function show_filesize(skm, real_size, sub_planet_factor) {
         },
         "garmin-osm.zip": {
             "size": 0.8,
-            "time": 2
+            "time": 3
         },
         "garmin-osm-ascii.zip": {
-            "size": 0.8,
-            "time": 2
+            "size": 0.67,
+            "time": 3
         },
         "garmin-cycle.zip": {
-            "size": 0.8,
-            "time": 2
+            "size": 0.4,
+            "time": 3
         },
         "garmin-cycle-ascii.zip": {
-            "size": 0.8,
-            "time": 2
+            "size": 0.4,
+            "time": 3
         },
         "garmin-leisure.zip": {
-            "size": 0.9,
-            "time": 3
+            "size": 0.85,
+            "time": 4
         },
         "garmin-leisure-ascii.zip": {
-            "size": 0.9,
-            "time": 3
+            "size": 0.85,
+            "time": 4
         },
         "garmin-bbbike.zip": {
-            "size": 0.8,
-            "time": 2
+            "size": 0.65,
+            "time": 3
         },
         "garmin-bbbike-ascii.zip": {
-            "size": 0.8,
-            "time": 2
+            "size": 0.65,
+            "time": 3
         },
         "garmin-onroad.zip": {
-            "size": 0.2,
-            "time": 1.2
+            "size": 0.1,
+            "time": 12
         },
         "garmin-onroad-ascii.zip": {
             "size": 0.1,
-            "time": 1.2
+            "time": 12
+        },
+        "garmin-opentopo.zip": {
+            "size": 0.7,
+            "time": 3
+        },
+        "garmin-opentopo-ascii.zip": {
+            "size": 0.7,
+            "time": 3
         },
         "garmin-openfietslite.zip": {
             "size": 0.6,
-            "time": 2
+            "time": 3
         },
         "garmin-openfietslite-ascii.zip": {
             "size": 0.6,
-            "time": 2
+            "time": 3
         },
         "garmin-oseam.zip": {
-            "size": 0.8,
-            "time": 2
+            "size": 0.64,
+            "time": 3
         },
         "garmin-oseam-ascii.zip": {
-            "size": 0.8,
-            "time": 2
+            "size": 0.64,
+            "time": 3
         },
         "png-google.zip": {
             "size": 1,

@@ -1272,8 +1272,8 @@
   </Placemark>
   <Placemark>
     <name>Lisbon</name>
-    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Lissabon/">BBBike @ Lisbon</a></span><p/>
-	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Lissabon">extract</a></span>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Lisbon/">BBBike @ Lisbon</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Lisbon">extract</a></span>
 	]]></description>
     <styleUrl>#style1</styleUrl>
     <Point>
@@ -1748,6 +1748,16 @@
     <styleUrl>#style1</styleUrl>
     <Point>
       <coordinates>-70.3505,43.6435,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Oporto</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Porto/">BBBike @ Oporto</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Porto">extract</a></span>
+	]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-8.51,41.16,0.000000</coordinates>
     </Point>
   </Placemark>
   <Placemark>

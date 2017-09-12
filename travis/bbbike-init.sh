@@ -3,7 +3,13 @@
 #
 # init bbbike.org ubuntu deb repository
 
+: ${DEBUG=false}
+
+if $DEBUG; then
+  set -x
+fi
 set -e
+
 sources_list_d=/etc/apt/sources.list.d
 
 init_apt_bbbike() {
@@ -23,10 +29,16 @@ init_apt_bbbike() {
         sudo apt-get update -qq
     fi
 
-    # old packages from wheezy for jessie
-    wheezy=$sources_list_d/wheezy.list
-    if [ $codename = 'jessie' -a ! -e $wheezy ]; then
-	sudo cp world/etc/apt/debian/jessie/sources.list.d/wheezy.list $wheezy
+    # old packages from wheezy/trusty
+    legacy=$sources_list_d/bbbike-legacy.list
+    if [ ! -e $legacy ]; then
+	codename_old=""
+	case $os in
+	  debian ) codename_old="wheezy" ;;
+	  ubuntu ) codename_old="trusty" ;;
+        esac
+
+	sudo cp world/etc/apt/$os/${codename_old}-legacy/sources.list.d/$(basename $legacy) $legacy
         sudo apt-get update -qq
     fi
 }
@@ -37,7 +49,7 @@ init_apt_mono() {
 
     file="$sources_list_d/$mono_list"
     os=debian
-    codename=wheezy
+    codename=jessie
 
     if [ ! -e $file ]; then 
         sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
@@ -50,7 +62,7 @@ init_apt_mono() {
 
 # required packages for this script
 init_apt_deb() {
-    sudo apt-get install -qq -y lsb-release wget curl
+    sudo apt-get install -qq -y lsb-release wget curl gnupg dirmngr
 }
 
 init_apt_deb

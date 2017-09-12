@@ -47,6 +47,17 @@ my $feed = XML::Atom::SimpleFeed->new(
 # TODO
 # - larger area for most cities, up top 30 km radius the centr of the city
 #
+$feed->add_entry(
+    title   => qq{New Garmin style OpenTopoMap},
+    id      => '5f5b1fc9a70a140420758b84427c7ea7',
+    content => {
+        type => 'html',
+        content =>
+qq{The <a href="https://extract.bbbike.org/">BBBike extract service</a> supports Garmin OpenTopoMap style},
+    },
+    updated  => '2017-04-15T18:30:02Z',
+    category => 'News',
+);
 
 $feed->add_entry(
     title   => qq{New Garmin style OpenSeaMap},

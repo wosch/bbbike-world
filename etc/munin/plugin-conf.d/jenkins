@@ -1,0 +1,4 @@
+[jenkins_*]
+env.url localhost
+env.port 9080
+

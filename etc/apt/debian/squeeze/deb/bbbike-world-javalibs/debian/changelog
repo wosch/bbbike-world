@@ -1,0 +1,24 @@
+bbbike-world-javalibs-misc (1.2-4) unstable; urgency=low
+
+  * symlink bugfixes
+  * downgrade osmand
+
+ -- Wolfram Schneider <wosch@freebsd.org>  Fri, 29 Mar 2013 14:48:00 +0000
+
+bbbike-world-javalibs-misc (1.2-1) unstable; urgency=low
+
+  * upgrade mkgmap, splitter, osmand libs
+
+ -- Wolfram Schneider <wosch@freebsd.org>  Fri, 29 Mar 2013 14:48:00 +0000
+
+bbbike-world-javalibs-misc (1.1-2) unstable; urgency=low
+
+  * mapsforge
+
+ -- Wolfram Schneider <wosch@freebsd.org>  Fri, 29 Mar 2013 14:48:00 +0000
+
+bbbike-world-javalibs (1.0-1) unstable; urgency=low
+
+  * Initial release 
+
+ -- Wolfram Schneider <wosch@freebsd.org>  Fri, 29 Mar 2013 14:48:00 +0000

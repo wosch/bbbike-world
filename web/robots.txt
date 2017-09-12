@@ -4,7 +4,7 @@ Sitemap: https://www.bbbike.org/sitemap.xml.gz
 User-agent: Googlebot-Image
 Disallow: /images
 
-# rough bots
+# rough bots & seo
 User-agent: Ezooms
 User-agent: Purebot
 User-agent: Java
@@ -18,6 +18,8 @@ User-agent: Linguee
 User-agent: discobot
 User-agent: ip-web-crawler.com
 User-agent: AppEngine-Google
+User-agent: BLEXBot
+User-agent: spbot
 Disallow: /
 
 # people search engines
@@ -203,7 +205,7 @@ Disallow: /Leeds/?
 Disallow: /Leipzig/?
 Disallow: /Lima/?
 Disallow: /Linz/?
-Disallow: /Lissabon/?
+Disallow: /Lisbon/?
 Disallow: /Liverpool/?
 Disallow: /Ljubljana/?
 Disallow: /Lodz/?
@@ -251,6 +253,7 @@ Disallow: /Philadelphia/?
 Disallow: /PhnomPenh/?
 Disallow: /Portland/?
 Disallow: /PortlandME/?
+Disallow: /Porto/?
 Disallow: /PortoAlegre/?
 Disallow: /Potsdam/?
 Disallow: /Poznan/?
@@ -520,6 +523,7 @@ Disallow: /en/Adelaide/
 Disallow: /en/Kaunas/?
 Disallow: /en/Waterloo/
 Disallow: /en/PortoAlegre/
+Disallow: /en/Porto/
 Disallow: /en/Innsbruck/?
 Disallow: /en/Jerusalem/?
 Disallow: /en/Corvallis/
@@ -527,7 +531,7 @@ Disallow: /en/Paderborn/?
 Disallow: /en/Tehran/?
 Disallow: /en/Kiew/?
 Disallow: /en/Eugene/
-Disallow: /en/Lissabon/
+Disallow: /en/Lisbon/
 Disallow: /en/Sarajewo/
 Disallow: /en/SanFrancisco/
 Disallow: /en/Curitiba/

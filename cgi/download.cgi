@@ -52,10 +52,17 @@ our $option = {
     'show_heading' => 0,
 
     'enable_google_analytics' => 1,
+
+    'auto_refresh' => {
+        'enabled'       => 1,
+        'max'           => 20,
+        'delay_seconds' => 30,
+    },
 };
 
-my $q   = new CGI;
-my $max = 2000;
+###########################################################################
+my $q            = new CGI;
+my $max_extracts = 2000;
 
 #my $default_date = "36h";     # 36h: today and some hours from yesterday
 my $default_date  = "24h";    # 24h: today
@@ -80,8 +87,7 @@ my $spool   = $Extract::Config::spool;
 # EOF config
 ###########################################################################
 
-sub M            { return Extract::Locale::M(@_); };           # wrapper
-sub file_size_mb { return $extract_utils->file_size_mb(@_) }
+sub M { return Extract::Locale::M(@_); };    # wrapper
 
 # extract areas from trash can
 sub extract_areas {
@@ -125,8 +131,10 @@ sub extract_areas {
         my $download_file = $pbf_file;
         $download_file =~ s/\.pbf$//;
         my $format_display = $format;
-        $format_display =~ s/^(osm|srtm|srtm-europe)\.//;
 
+        # handle osm.pbf and srtm.osm.pbf etc.
+        $format_display =~
+          s/^(osm|srtm\.osm|srtm-europe\.osm|srtm|srtm-europe)\.//;
         $download_file .= "." . $format_display;
 
         # other languages ?
@@ -136,7 +144,8 @@ sub extract_areas {
         }
 
         if ( !-e $download_file ) {
-            warn "ignore missing $download_file\n" if $debug >= 2;
+            warn "ignore missing $download_file format=$format\n"
+              if $debug >= 2;
             next;
         }
 
@@ -297,9 +306,9 @@ EOF
 
 sub load_javascript_libs {
     my @js = qw(
+      jquery/jquery-1.8.3.min.js
       OpenLayers/2.12/OpenLayers-min.js
       OpenLayers/2.12/OpenStreetMap.js
-      jquery/jquery-1.8.3.min.js
       extract-download.js
     );
 
@@ -310,8 +319,11 @@ sub load_javascript_libs {
 
 <script type="text/javascript">
 $(document).ready(function () {
-download_init_map();
-parse_areas_from_links();
+    download_init_map();
+    parse_areas_from_links();
+    if (_auto_refresh_start) {
+        auto_refresh();
+    }
 });
 </script>
 EOF
@@ -456,7 +468,7 @@ sub result {
         # size (in MB)
         print "<td>";
         if ( $download->{"extract_size"} ) {
-            print file_size_mb( $download->{"extract_size"} ) . " MB";
+            print kb_to_mb( $download->{"extract_size"} ) . " MB";
         }
         else {
             print "-";
@@ -610,8 +622,9 @@ sub filter_date {
 ###########################################################################
 #
 sub download {
-    my $q = shift;
+    my $q      = shift;
     my $locale = Extract::Locale->new( 'q' => $q );
+    my $max    = $max_extracts;
 
     download_header($q);
     my @filter_date = qw/1h 3h 6h 12h 24h 36h 48h 72h all/;
@@ -658,15 +671,30 @@ EOF
         'date'          => $date
     );
 
+    my ( $count, $max_count, $time ) = activate_auto_refresh($q);
+
     print <<EOF;
 
 <table id="donate">
 <tr>
 <td>
  <span title='@{[ M("Number of extracts") . ': ' .  scalar(@extracts_trash) ]}, @{[ M("uniqe users") . ': ' . &uniqe_users(@extracts_trash) ]}'>
-   @{[ M("Newest extracts are first") ]}.
+   @{[ M("Newest extracts are first") ]}
  </span>
- @{[ M("Last update") ]}: $current_date
+ -
+ <span>@{[ M("Last update") ]}: $current_date</span>
+EOF
+
+    if ( $option->{'auto_refresh'}->{'enabled'} ) {
+        print <<EOF;
+ - 
+<a title="enable/disable auto refresh every $time seconds" onclick="javascript:auto_refresh($count);"
+style="display: inline;">
+@{[ $count == 0 || $count >= $max_count ? M("Enable auto refresh") : M("Disable auto refresh") ]}</a>
+EOF
+    }
+
+    print <<EOF;
 </td>
 <td><a href="$homepage_extract/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></td>
 </tr>
@@ -703,7 +731,7 @@ EOF
         'type'    => 'running',
         'files'   => \@extracts,
         'name'    => 'Running extracts',
-        'message' => 'Will be ready in the next 5-10 minutes',
+        'message' => 'Will be ready in the next 3-10 minutes',
     );
 
     @extracts = @extracts_trash;
@@ -729,6 +757,40 @@ EOF
       : "";
 
     print $q->end_html;
+}
+
+sub activate_auto_refresh {
+    my $q = shift;
+
+    my $max  = $option->{'auto_refresh'}->{'max'};
+    my $time = $option->{'auto_refresh'}->{'delay_seconds'};
+
+    my $count = $q->param("count") || 0;
+    $count = int($count);
+    if ( $count >= $max ) {
+        $count = 0;
+    }
+
+    my $qq = CGI->new($q);
+    $qq->param( "count", $count + 1 );
+    my $url = $qq->url( -query => 1, -path => 1 );
+    my $url2 = $q->url( -query => 0, -path => 1 );
+
+    print <<EOF;
+<script type="text/javascript">
+function auto_refresh (flag) {
+    if (flag) {
+        clearTimeout(auto_refresh_timer)
+        _auto_refresh (0, $max, $time, "$url2");
+    } else {
+        _auto_refresh ($count, $max, $time, "$url");
+    }
+}
+
+var _auto_refresh_start = $count;
+</script>
+EOF
+    return ( $count, $max, $time );
 }
 
 ##############################################################################################
