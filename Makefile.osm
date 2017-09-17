@@ -237,16 +237,17 @@ cities-osm: _cities-osm
 # if an extract does not exists localy, try to fetch it from the web
 fetch-extracts fetch:
 	set -e; \
+	tmpfile=$$(mktemp); \
 	for i in ${CITIES}; do \
 	   if [ ! -e ${OSM_DIR}/$$i/$$i.osm.pbf ]; then \
-	      mkdir -p ${OSM_DIR}/$$i; \
-	      url=https://download.bbbike.org; \
-	      echo "fetch from $$url/osm/bbbike/$$i/$$i.osm.pbf"; \
-	      curl -sSf ${CURL_USER_AGENT} -o ${OSM_DIR}/$$i/$$i.osm.pbf $$url/osm/bbbike/$$i/$$i.osm.pbf; \
-	      ( ./world/bin/pbf2osm ${OSM_DIR}/$$i/$$i.osm.pbf | ${GZIP} > ${OSM_DIR}/$$i/$$i.osm.gz.tmp; \
-	         mv -f ${OSM_DIR}/$$i/$$i.osm.gz.tmp ${OSM_DIR}/$$i/$$i.osm.gz ) & \
+	      url=http://download.bbbike.org; \
+	      printf "set -e; mkdir -p ${OSM_DIR}/$$i; \
+	        curl -sSf -A BBBike.org/fetch-extracts -o ${OSM_DIR}/$$i/$$i.osm.pbf $$url/osm/bbbike/$$i/$$i.osm.pbf; \
+	      	./world/bin/pbf2osm ${OSM_DIR}/$$i/$$i.osm.pbf | ${GZIP} > ${OSM_DIR}/$$i/$$i.osm.gz.tmp; \
+	         mv -f ${OSM_DIR}/$$i/$$i.osm.gz.tmp ${OSM_DIR}/$$i/$$i.osm.gz\0" >> $$tmpfile; \
 	   fi; \
-	done; wait
+	done; \
+	time ${XARGS} -n1 -0 -P${MAX_HCPU} /bin/sh -c < $$tmpfile; rm -f $$tmpfile;
 
 osm2pbf:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2PBF} ${OSM2PBF}
