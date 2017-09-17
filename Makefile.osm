@@ -240,8 +240,9 @@ fetch-extracts fetch:
 	for i in ${CITIES}; do \
 	   if [ ! -e ${OSM_DIR}/$$i/$$i.osm.pbf ]; then \
 	      mkdir -p ${OSM_DIR}/$$i; \
-	      echo "fetch from http://download.bbbike.org/osm/bbbike/$$i/$$i.osm.pbf"; \
-	      curl -sSf ${CURL_USER_AGENT} -o ${OSM_DIR}/$$i/$$i.osm.pbf http://download.bbbike.org/osm/bbbike/$$i/$$i.osm.pbf; \
+	      url=https://download.bbbike.org; \
+	      echo "fetch from $$url/osm/bbbike/$$i/$$i.osm.pbf"; \
+	      curl -sSf ${CURL_USER_AGENT} -o ${OSM_DIR}/$$i/$$i.osm.pbf $$url/osm/bbbike/$$i/$$i.osm.pbf; \
 	      ( ./world/bin/pbf2osm ${OSM_DIR}/$$i/$$i.osm.pbf | ${GZIP} > ${OSM_DIR}/$$i/$$i.osm.gz.tmp; \
 	         mv -f ${OSM_DIR}/$$i/$$i.osm.gz.tmp ${OSM_DIR}/$$i/$$i.osm.gz ) & \
 	   fi; \
