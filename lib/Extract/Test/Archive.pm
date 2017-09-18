@@ -316,7 +316,7 @@ qr"^Map data.*? OpenStreetMap contributors, https://www.openstreetmap.org",
                     /^Diese $format_name Karte wurde erzeugt am: \S+\s+.*UTC.+$/
                 } @data
             ),
-            "format_name + datum check"
+            "format_name + datum check: '$format_name'"
         );
         ok(
             (
@@ -364,7 +364,7 @@ qr"^Script URL: https?://.*bbbike.org/.*\?.*format=.+.*city="
 /^This $format_name (file|map) was created on: \S+\s+.*UTC.+$/
                 } @data
             ),
-            "format_name + date check"
+            "format_name + date check: '$format_name'"
         );
         ok(
             (
