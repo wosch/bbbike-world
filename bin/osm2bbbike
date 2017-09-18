@@ -1,0 +1,120 @@
+#!/bin/sh
+# Copyright (c) 2012-2017 Wolfram Schneider, https://bbbike.org
+#
+# osm2bbbike - convert a osm/pbf file to perl/tk bbbike data
+#
+
+PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
+: ${BBBIKE_EXTRACT_LANG=en}
+: ${BBBIKE_TMPDIR="/bbbike/tmp"}
+: ${BBBIKE_TMPFS="/tmpfs"}
+: ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
+: ${SHA="shasum -a 256"}
+: ${GIT_ID=$(git show | head -n1 | awk '{ print $2 }')}
+
+set -e
+
+usage () {
+   echo "$@"
+   echo "usage $0 file [ perltk ]"
+   exit 1
+}
+
+error () {
+    message="$@"
+
+    echo "$message"
+    echo "file: $file"
+    tail -c 256K $logfile
+    exit 1
+}
+
+file=$1
+city=$3
+
+test -z "$file" && usage
+
+# absolute file path
+case $file in /*) ;; *) file=$(pwd)/$file ;; esac
+
+dirname=$(dirname $0)
+case $dirname in /*) ;; *) dirname=$(pwd)/$dirname ;; esac
+
+text2html=$dirname/text2html.sh
+
+test -e "$file" || usage "file $file does not exists"
+: ${osm_checksum=$dirname/osm-checksum}
+
+template=$dirname/../etc/extract/$(basename $0).$BBBIKE_EXTRACT_LANG.sh
+
+if [ -z "$ext" ]; then
+    ext=${2-"perltk"}
+fi
+ext_orig=$ext
+
+: ${debug=false}
+
+size=$(du -ks -L "$file" | awk '{ print $1}')
+
+time=time
+
+pwd=$(pwd)
+license_file="license.txt"
+
+tmpdir=`mktemp -d ${BBBIKE_TMPFS}/osm2bbbike.$(basename $ext .zip).XXXXXXXXXXX`
+
+case $ext in
+   perltk ) ext=bbbike-perltk.zip ;;
+esac
+
+# cleanup after signal, but show errors first
+trap '( sleep 1; rm -rf $tmpdir ) &' 1 2 15
+
+bbbike=`basename $file | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//'`
+bbbike_dir=$tmpdir/$bbbike-`basename $ext .zip`
+mkdir -p $bbbike_dir
+
+logfile=$bbbike_dir/logfile.txt
+touch $logfile
+
+mkgmap_map_style_charset="$mkgmap_map_style ($garmin_charset)"
+date=$(date -u)
+date_short=$(date -u '+%d-%b-%Y')
+if [ -z "$city" ]; then
+   description="$garmin $mkgmap_map_style/$garmin_charset BBBike.org $date_short"
+else
+   description="$city $mkgmap_map_style/$garmin_charset BBBike.org $date_short"
+fi
+
+# the limit for description field is 50 bytes
+coords=$(echo $garmin | perl -npe 's,planet_,,; s/_/ /g')
+
+cd $bbbike_dir
+echo "Map data (c) OpenStreetMap.org contributors" > $license_file
+
+BBBIKE_EXTRACT_COORDS=$BBBIKE_EXTRACT_COORDS BBBIKE_EXTRACT_URL=$BBBIKE_EXTRACT_URL \
+  date=$date city=$city mkgmap_map_style="$mkgmap_map_style_charset" sh $template > README.txt
+
+$text2html < README.txt > README.html
+
+OSM2BBD_OPT="--ignore-unhandled --ignore-underline-noname --granularity=100"
+OSM2BBD_MAPTYPE="-map bbbike"
+$pwd/miscsrc/osm2bbd ${OSM2BBD_OPT} --nodate --no-create --git-id="${GIT_ID}" \
+    -f --debug=0 ${OSM2BBD_MAPTYPE} \
+    -experiment add_postal_code -experiment handle_relations \
+    -lang $BBBIKE_EXTRACT_LANG -o bbbike-data $file >> $logfile 2>&1
+
+case $BBBIKE_EXTRACT_LANG in
+  en ) ext2=$ext ;;
+   * ) ext2=$(echo $ext | perl -npe "s/\.zip\$/.${BBBIKE_EXTRACT_LANG}.zip/") ;;
+esac
+
+cd ..
+bbbike_zip=`dirname $file`/$bbbike.osm.$ext2
+zip -q -r - -- `basename $bbbike_dir` | \
+  ( cd $pwd;
+    cat > $bbbike_zip.tmp && mv $bbbike_zip.tmp $bbbike_zip
+    $osm_checksum $bbbike_zip
+  )
+
+$debug || rm -rf $tmpdir
