@@ -523,7 +523,7 @@ Disallow: /en/Adelaide/
 Disallow: /en/Kaunas/?
 Disallow: /en/Waterloo/
 Disallow: /en/PortoAlegre/
-Disallow: /en/Porto/
+Disallow: /en/Porto/?
 Disallow: /en/Innsbruck/?
 Disallow: /en/Jerusalem/?
 Disallow: /en/Corvallis/
