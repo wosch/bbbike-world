@@ -269,7 +269,7 @@ sub check_checksum_multi {
 
     cmp_ok( scalar(@data), '>=', 2, "more than two checksums" );
 
-    $self->{'counter'} += 3;
+    $self->{'counter'} += 1;
 }
 
 sub check_readme {
