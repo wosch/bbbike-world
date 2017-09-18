@@ -60,7 +60,8 @@ our $formats = {
     'png-wireframe.zip'  => 'PNG wireframe',
     'png-cadastre.zip'   => 'PNG cadastre',
 
-    'navit.zip' => "Navit",
+    'navit.zip'         => "Navit",
+    'bbbike-perltk.zip' => "BBBike Perl/Tk",
 
     'obf.zip' => "Osmand (OBF)",
 
@@ -127,6 +128,10 @@ our $formats_menu = {
         'formats' => [
             qw/png-google.zip png-hiking.zip png-osm.zip png-urbanight.zip png-wireframe.zip png-cadastre.zip/
         ]
+    },
+    'bbbike' => {
+        'title'   => "BBBike",
+        'formats' => ['bbbike-perltk.zip']
     },
     'srtm' => {
         'title'   => "Contours (SRTM)",
@@ -242,6 +247,7 @@ our $tile_format = {
 
     "mapsforge-osm.zip" => "mapsforge-osm.zip",
     "mapsme-osm.zip"    => "pbf",
+    "bbbike-perltk.zip" => "garmin-osm.zip",
 
     "o5m.gz"  => "pbf",
     "o5m.bz2" => "pbf",

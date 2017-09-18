@@ -78,6 +78,7 @@ our $factor = {
 
     'mapsforge-osm.zip' => 0.80,
     'mapsme-osm.zip'    => 0.85,
+    'bbbike-perltk.zip' => 0.40,
 
     'navit.zip' => 0.75,
 

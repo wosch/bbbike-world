@@ -134,7 +134,7 @@ case $format in
 	--garmin-openfietslite-ascii | --garmin-srtm | --garmin-oseam | --garmin-oseam-ascii | \
 	--garmin-opentopo | --garmin-opentopo-ascii )
         garmin_style=$(echo $1 | perl -npe 's,^\-+[^\-]+-',,); shift; compress=garmin ;;
-	--bbbike-perltk ) garmin_style=perltk; shift; compress=bbbike ;;
+	--bbbike-perltk ) bbbike_style=perltk; shift; compress=bbbike ;;
     --svg-google | --svg-hiking | --svg-osm | --svg-urbanight | --svg-wireframe | --svg-cadastre ) svg_style=$(echo $1 | perl -npe 's,.*-,,'); shift; compress=svg ;;
     --png-google | --png-hiking | --png-osm | --png-urbanight | --png-wireframe | --png-cadastre ) png_style=$(echo $1 | perl -npe 's,.*-,,'); shift; compress=png ;;
 

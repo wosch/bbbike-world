@@ -34,6 +34,7 @@ var config = {
 
         "obf.zip": 250,
         "navit.zip": 512,
+        "bbbike-perltk.zip": 50,
         "shp.zip": 512,
         "mapsforge-osm.zip": 400,
         "mapsme-osm.zip": 500,
@@ -145,6 +146,7 @@ var config = {
         "mapsforge-osm.zip": "/images/mapsforge-small.png",
         "mapsme-osm.zip": "/images/mapsme-small.png",
         "navit.zip": "/images/navit-small.png",
+        "bbbike-perltk.zip": "/images/navit-small.png",
         "obf.zip": "/images/osmand-small.png",
 
         "srtm-europe.garmin-srtm.zip": "/images/garmin-srtm-800.png",
@@ -1511,6 +1513,10 @@ function show_filesize(skm, real_size, sub_planet_factor) {
         },
         "navit.zip": {
             "size": 0.8
+        },
+        "bbbike-perltk.zip": {
+            "time": 50,
+            "size": 1.0
         },
         "srtm-europe.osm.pbf": {
             "planet": 0.3,
