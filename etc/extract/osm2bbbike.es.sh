@@ -1,6 +1,7 @@
 cat << EOF
 Map data (c) OpenStreetMap contributors, https://www.openstreetmap.org
 Extracts created by BBBike, https://extract.bbbike.org
+$BBBIKE_EXTRACT_BBBIKE_VERSION by http://bbbike.de
 
 Please read the BBBike.de documentation how to install the maps
 on your computer
