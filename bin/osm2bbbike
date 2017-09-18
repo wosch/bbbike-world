@@ -109,6 +109,8 @@ case $BBBIKE_EXTRACT_LANG in
    * ) ext2=$(echo $ext | perl -npe "s/\.zip\$/.${BBBIKE_EXTRACT_LANG}.zip/") ;;
 esac
 
+( $MD5 bbbike-data/*; $SHA shape/* ) > .checksum.txt; mv -f .checksum.txt CHECKSUM.txt
+
 cd ..
 bbbike_zip=`dirname $file`/$bbbike.osm.$ext2
 zip -q -r - -- `basename $bbbike_dir` | \
