@@ -165,7 +165,13 @@ sub validate {
         $self->{'style'} = $style;
     }
 
-    $self->check_checksum;
+    if ( $self->{format} =~ /shp|perltk/ ) {
+        $self->check_checksum_multi;
+    }
+    else {
+        $self->check_checksum;
+    }
+
     $self->check_readme;
     $self->check_readme_html;
     $self->check_logfile;
@@ -252,6 +258,16 @@ sub check_checksum {
     cmp_ok( length( $data[0] ), ">", 34, "md5 + text is larger than 32 bytes" );
     cmp_ok( length( $data[1] ),
         ">", 66, "sha256 + text is larger than 64 bytes" );
+
+    $self->{'counter'} += 3;
+}
+
+sub check_checksum_multi {
+    my $self = shift;
+
+    my @data = $self->extract_file('CHECKSUM.txt');
+
+    cmp_ok( scalar(@data), '>=', 2, "more than two checksums" );
 
     $self->{'counter'} += 3;
 }
