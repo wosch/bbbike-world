@@ -374,7 +374,7 @@ qq{\n<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js
   <hr/>
   <div id="copyright" class="normalscreen">
     (&copy;) 2017 <a href="https://www.bbbike.org">BBBike.org</a>
-    by <a href="http://wolfram.schneider.org">Wolfram Schneider</a><br/>
+    by <a href="https://wolfram.schneider.org">Wolfram Schneider</a><br/>
     Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
   <div id="footer_community"></div>
   </div> <!-- copyright -->

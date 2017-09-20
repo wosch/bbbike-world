@@ -237,10 +237,10 @@ cities-osm: _cities-osm
 # if an extract does not exists localy, try to fetch it from the web
 fetch-extracts fetch:
 	set -e; \
-	tmpfile=$$(mktemp); \
+	tmpfile=$$(mktemp); echo '# dummy' > $$tmpfile; \
 	for i in ${CITIES}; do \
 	   if [ ! -e ${OSM_DIR}/$$i/$$i.osm.pbf ]; then \
-	      url=http://download.bbbike.org; \
+	      url=https://download.bbbike.org; \
 	      printf "set -e; mkdir -p ${OSM_DIR}/$$i; \
 	        curl -sSf -A BBBike.org/fetch-extracts -o ${OSM_DIR}/$$i/$$i.osm.pbf $$url/osm/bbbike/$$i/$$i.osm.pbf; \
 	      	./world/bin/pbf2osm ${OSM_DIR}/$$i/$$i.osm.pbf | ${GZIP} > ${OSM_DIR}/$$i/$$i.osm.gz.tmp; \
