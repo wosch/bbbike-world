@@ -1515,8 +1515,8 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "size": 0.8
         },
         "bbbike-perltk.zip": {
-            "time": 50,
-            "size": 1.0
+            "time": 90,
+            "size": 2.2
         },
         "srtm-europe.osm.pbf": {
             "planet": 0.3,
