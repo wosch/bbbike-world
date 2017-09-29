@@ -92,9 +92,9 @@ is( md5_file($pbf_file), $pbf_md5, "md5 checksum matched" );
 my $counter = 0;
 my @lang = ( "en", "de" );
 
-if ( !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG} ) {
-    push @lang, ( "en", "de", "fr", "es", "ru", "" );
-}
+#if ( !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG} ) {
+#    push @lang, ( "fr", "es", "ru", "" );
+#}
 
 foreach my $lang (@lang) {
     $counter += &convert_format( $lang, 'bbbike-perltk', 'bbbike' );
