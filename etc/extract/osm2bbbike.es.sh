@@ -10,7 +10,6 @@ on your computer
 
 
 This bbbike map was created on: $date
-BBBike map style: $mkgmap_map_style
 GPS rectangle coordinates (lng,lat): $BBBIKE_EXTRACT_COORDS
 Script URL: $BBBIKE_EXTRACT_URL
 Name of area: $city

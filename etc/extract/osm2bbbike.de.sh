@@ -10,7 +10,6 @@ on your computer
 
 
 Diese bbbike Karte wurde erzeugt am: $date
-BBBike Kartenstil: $mkgmap_map_style
 GPS Rechteck Koordinaten (lng,lat): $BBBIKE_EXTRACT_COORDS
 Script URL: $BBBIKE_EXTRACT_URL
 Name des Gebietes: $city
