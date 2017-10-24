@@ -35,7 +35,7 @@ my @images =
   dest.gif purple-dot.png mm_20_white.png ubahn.gif mm_20_red.png sbahn.gif
   printer.gif printer_narrow.gif ziel.gif mm_20_green.png yellow-dot.png
   dd-end.png dd-start.png phone.png via.gif start.gif twitter-t.png spinning_wheel32.gif
-  srtbike.gif srtbike1.ico rss-icon.png flattr-compact.png
+  srtbike.gif srtbike1.ico rss-icon.png
   twitter-b.png donate.png/;
 
 my @screenshot_images =
