@@ -100,12 +100,14 @@ sub extract_areas {
     my $date          = $args{'date'} || "";
     my $filter_format = $args{'filter_format'} || "";
 
+    my $max_days = 6;
+
     warn
-"download: log dir: $log_dir, max: $max, devel: $devel, date: '$date', format='$filter_format'\n"
+"download: log dir: $log_dir, max: $max, devel: $devel, date: '$date', format='$filter_format', max days=$max_days\n"
       if $debug;
 
     my %hash;
-    foreach my $f (`find $log_dir/ -name '*.json' -mtime -6 -print`) {
+    foreach my $f (`find $log_dir/ -name '*.json' -mtime -${max_days} -print`) {
         chomp $f;
         my $st = stat($f) or die "stat $f: $!\n";
         $hash{$f} = $st->mtime;
@@ -113,6 +115,8 @@ sub extract_areas {
 
     # newest first
     my @list = reverse sort { $hash{$a} <=> $hash{$b} } keys %hash;
+
+    warn "download number of objects: @{[ scalar(@list) ]}\n" if $debug;
 
     my @area;
     my $download_dir = $option->{"spool_dir"} . "/" . $spool->{"download"};

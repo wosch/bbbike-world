@@ -15,7 +15,7 @@ Script URL: $BBBIKE_EXTRACT_URL
 Name des Gebietes: $city
 
 
-Spenden sind willkommen! Du kannst uns via PayPal, Flattr oder Bankueberweisung
+Spenden sind willkommen! Du kannst uns via PayPal oder Bankueberweisung
 unterstuetzen: https://www.bbbike.org/community.de.html
 
 Danke, Wolfram Schneider

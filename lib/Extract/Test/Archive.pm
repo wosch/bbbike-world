@@ -388,7 +388,7 @@ qr"^Script URL: https?://.*bbbike.org/.*\?.*format=.+.*city="
         ok(
             (
                 grep {
-qr"^PayPal, Flattr or bank wire transfer: https?://www.BBBike.org/community.html"
+qr"^PayPal or bank wire transfer: https?://www.BBBike.org/community.html"
                 } @data
             ),
             "donate"
