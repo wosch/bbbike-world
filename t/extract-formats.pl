@@ -60,7 +60,6 @@ sub generate_urls {
                 $city .= "+" . escape( get_random_element( \@words ) );
                 $lang = "&lang=$lang";
             }
-            warn "yy: $lang $city\n";
         }
 
         print qq{curl -sSf "$server/cgi/extract.cgi}
