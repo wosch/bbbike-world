@@ -740,7 +740,7 @@ sub send_email_smtp {
       "From: $from\nTo: $to\nSubject: $subject\n" . "$content_type\n\n$text";
     warn "send email to $to\nbcc: $bcc\n$subject\n" if $debug >= 1;
     warn "$text\n"                                  if $debug >= 2;
-
+    
     my $smtp = new Net::SMTP( $mail_server, Hello => "localhost" )
       or die "can't make SMTP object";
 
@@ -749,7 +749,7 @@ sub send_email_smtp {
     if ($bcc) {
         $smtp->bcc(@bcc) or die "can't use SMTP recipient '$bcc'";
     }
-    $smtp->data($data) or die "can't email data to '$to'";
+    $smtp->data(encode_utf8($data)) or die "can't email data to '$to'";
     $smtp->quit() or die "can't send email to '$to'";
 
     warn "\n$data\n" if $debug >= 3;
