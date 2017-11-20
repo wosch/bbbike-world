@@ -2,7 +2,6 @@ https://b.tile.bbbike.org/osm/mapnik-german/12/2200/1342.png
 https://a.tile.openstreetmap.org/12/2200/1342.png
 http://a.tile.stamen.com/toner/12/2200/1342.png
 https://a.tile.thunderforest.com/transport/12/2200/1342@2x.png
-http://tiles1.skobbler.net/osm_tiles2/12/2200/1342.png
 https://a.tile.bbbike.org/osm/mapnik-german/12/2200/1342.png
 http://a.tile.stamen.com/watercolor/12/2200/1342.png
 https://a.tile.openstreetmap.de/tiles/osmde/12/2200/1342.png
