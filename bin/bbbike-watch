@@ -1,0 +1,25 @@
+#!/bin/sh
+# Copyright (c) 2017-2017 Wolfram Schneider, https://bbbike.org
+#
+# bbbike-watch - live statistics
+#
+
+uptime
+/etc/munin/plugins/extract-jobs
+
+echo; echo 'running: '
+
+running-extract email | sort | uniq -c | sort -nr
+
+echo 'waiting: '
+egrep -h @ /var/cache/extract/confirmed/*.json 2>/dev/null | perl -npe 's/,//' | sort | uniq -c |sort -nr
+
+echo 'running city: '
+running-extract city | sort | uniq -c | sort -nr
+
+echo 'running format: '
+running-extract format | sort | uniq -c | sort -nr
+
+echo 'planet: '
+ps xuawww | egrep 'osmconvert-wrapper .*/osm/download' | egrep -v grep | awk '{print $NF}' | sort | uniq -c| sort -nr
+

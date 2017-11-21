@@ -749,7 +749,7 @@ sub send_email_smtp {
     if ($bcc) {
         $smtp->bcc(@bcc) or die "can't use SMTP recipient '$bcc'";
     }
-    $smtp->data($data) or die "can't email data to '$to'";
+    $smtp->data( encode_utf8($data) ) or die "can't email data to '$to'";
     $smtp->quit() or die "can't send email to '$to'";
 
     warn "\n$data\n" if $debug >= 3;
