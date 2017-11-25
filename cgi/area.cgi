@@ -48,7 +48,7 @@ sub footer {
     <a href="/">home</a> |
     <a href="$www_bbbike_org/community.html">donate</a> |
     <a href="$www_bbbike_org/$city/" title="start bicycle routing for $city area">$city</a> |
-    <a href="/extract.html#extract-pro">commercial support</a> |
+    <a href="$www_bbbike_org/extract.html#extract-pro">commercial support</a> |
     <a href="javascript:resizeOtherCities(more_cities);">more cities</a>
   </div>
 </div> <!-- footer -->
@@ -171,7 +171,7 @@ EOF
 <a href="//extract.bbbike.org/extract.html" target="_new">help</a> |
 <a href="//extract.bbbike.org/extract-screenshots.html" target="_new">screenshots</a> |
 <a href="//extract.bbbike.org/" target="_new">extracts</a> |
-<a href="/extract.html#extract-pro">commercial support</a>
+<a href="//extract.bbbike.org/extract.html#extract-pro">commercial support</a>
 <hr/>
 
 <span class="city">
