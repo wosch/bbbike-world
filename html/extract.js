@@ -34,6 +34,7 @@ var config = {
 
         "obf.zip": 250,
         "navit.zip": 512,
+        "bbbike-perltk.zip": 90,
         "shp.zip": 512,
         "mapsforge-osm.zip": 400,
         "mapsme-osm.zip": 500,
@@ -46,8 +47,8 @@ var config = {
         "garmin-cycle-ascii.zip": 650,
         "garmin-leisure.zip": 650,
         "garmin-leisure-ascii.zip": 650,
-        "garmin-onroad.zip": 650,
-        "garmin-onroad-ascii.zip": 650,
+        "garmin-onroad.zip": 450,
+        "garmin-onroad-ascii.zip": 450,
         "garmin-opentopo.zip": 650,
         "garmin-opentopo-ascii.zip": 650,
         "garmin-openfietslite.zip": 650,
@@ -145,6 +146,7 @@ var config = {
         "mapsforge-osm.zip": "/images/mapsforge-small.png",
         "mapsme-osm.zip": "/images/mapsme-small.png",
         "navit.zip": "/images/navit-small.png",
+        "bbbike-perltk.zip": "/images/navit-small.png",
         "obf.zip": "/images/osmand-small.png",
 
         "srtm-europe.garmin-srtm.zip": "/images/garmin-srtm-800.png",
@@ -1147,11 +1149,12 @@ function updatePermalink() {
 
 function updateMClink() {
     var mc_link = $('#mc_link');
-    var url = getMCLink(mc_link.attr("href"));
 
+    // no map compare link in HTML?    
     if (!mc_link || mc_link.length == 0) {
         return;
     }
+    var url = getMCLink(mc_link.attr("href"));
 
     mc_link.attr("href", url);
 
@@ -1361,67 +1364,67 @@ function show_filesize(skm, real_size, sub_planet_factor) {
         },
         "garmin-osm.zip": {
             "size": 0.8,
-            "time": 2
+            "time": 3
         },
         "garmin-osm-ascii.zip": {
-            "size": 0.8,
-            "time": 2
+            "size": 0.67,
+            "time": 3
         },
         "garmin-cycle.zip": {
-            "size": 0.8,
-            "time": 2
+            "size": 0.4,
+            "time": 3
         },
         "garmin-cycle-ascii.zip": {
-            "size": 0.8,
-            "time": 2
+            "size": 0.4,
+            "time": 3
         },
         "garmin-leisure.zip": {
-            "size": 0.9,
-            "time": 3
+            "size": 0.85,
+            "time": 4
         },
         "garmin-leisure-ascii.zip": {
-            "size": 0.9,
-            "time": 3
+            "size": 0.85,
+            "time": 4
         },
         "garmin-bbbike.zip": {
-            "size": 0.8,
-            "time": 2
+            "size": 0.65,
+            "time": 3
         },
         "garmin-bbbike-ascii.zip": {
-            "size": 0.8,
-            "time": 2
+            "size": 0.65,
+            "time": 3
         },
         "garmin-onroad.zip": {
-            "size": 0.2,
-            "time": 8
+            "size": 0.1,
+            "time": 12
         },
         "garmin-onroad-ascii.zip": {
-            "size": 0.2,
-            "time": 8
+            "size": 0.1,
+            "time": 12
         },
         "garmin-opentopo.zip": {
-            "size": 0.2,
-            "time": 8
+            "size": 0.7,
+            "time": 3
         },
         "garmin-opentopo-ascii.zip": {
-            "size": 0.2,
-            "time": 8
+            "size": 0.7,
+            "time": 3
         },
         "garmin-openfietslite.zip": {
             "size": 0.6,
-            "time": 2
+            "time": 3
         },
         "garmin-openfietslite-ascii.zip": {
             "size": 0.6,
-            "time": 2
+            "time": 3
         },
         "garmin-oseam.zip": {
-            "size": 0.8,
-            "time": 2
+            "size": 0.64,
+            "time": 3
         },
         "garmin-oseam-ascii.zip": {
-            "size": 0.8,
-            "time": 2
+            "size": 0.64,
+            "time": 3
         },
         "png-google.zip": {
             "size": 1,
@@ -1511,6 +1514,10 @@ function show_filesize(skm, real_size, sub_planet_factor) {
         },
         "navit.zip": {
             "size": 0.8
+        },
+        "bbbike-perltk.zip": {
+            "time": 90,
+            "size": 2.2
         },
         "srtm-europe.osm.pbf": {
             "planet": 0.3,

@@ -168,6 +168,7 @@ span.format_garmin_opentopo_ascii_zip { color: #DAA520; }
 span.format_mapsforge_osm_zip { color: grey; }
 span.format_shp_zip { color: orange; }
 span.format_navit_zip { color: lightblue; }
+span.format_bbbike_perltk_zip { color: black; }
 
 span.format_o5m_gz { color: #B22222; }
 span.format_o5m_xz { color: #B22222; }
@@ -184,4 +185,4 @@ span.format_srtm_europe_osm_pbf { color: brown; }
 span.format_srtm_garmin_srtm_zip { color: brown; }
 span.format_srtm_obf_zip { color: brown; }
 span.format_srtm_osm_pbf { color: brown; }
-
+span.format_srtm_osm_xz { color: brown; }

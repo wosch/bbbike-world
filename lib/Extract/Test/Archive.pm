@@ -82,6 +82,7 @@ sub init_env {
             'osmand_version'     => 'OsmAndMapCreator',
             'mapsforge_version'  => 'mapsforge',
             'navit_version'      => 'maptool',
+            'bbbike_version'     => 'bbbike',
             'shape_version'      => 'osmium2shape',
             'mapsme_version'     => 'mapsme',
         }
@@ -96,6 +97,8 @@ sub init_env {
     $ENV{'BBBIKE_EXTRACT_MAPSFORGE_VERSION'} =
       $option->{pbf2osm}->{mapsforge_version};
     $ENV{'BBBIKE_EXTRACT_NAVIT_VERSION'} = $option->{pbf2osm}->{navit_version};
+    $ENV{'BBBIKE_EXTRACT_BBBIKE_VERSION'} =
+      $option->{pbf2osm}->{bbbike_version};
     $ENV{'BBBIKE_EXTRACT_SHAPE_VERSION'} = $option->{pbf2osm}->{shape_version};
     $ENV{'BBBIKE_EXTRACT_MAPSME_VERSION'} =
       $option->{pbf2osm}->{mapsme_version};
@@ -162,7 +165,13 @@ sub validate {
         $self->{'style'} = $style;
     }
 
-    $self->check_checksum;
+    if ( $self->{format} =~ /shp|perltk/ ) {
+        $self->check_checksum_multi;
+    }
+    else {
+        $self->check_checksum;
+    }
+
     $self->check_readme;
     $self->check_readme_html;
     $self->check_logfile;
@@ -253,6 +262,16 @@ sub check_checksum {
     $self->{'counter'} += 3;
 }
 
+sub check_checksum_multi {
+    my $self = shift;
+
+    my @data = $self->extract_file('CHECKSUM.txt');
+
+    cmp_ok( scalar(@data), '>=', 2, "more than two checksums" );
+
+    $self->{'counter'} += 1;
+}
+
 sub check_readme {
     my $self = shift;
 
@@ -297,7 +316,7 @@ qr"^Map data.*? OpenStreetMap contributors, https://www.openstreetmap.org",
                     /^Diese $format_name Karte wurde erzeugt am: \S+\s+.*UTC.+$/
                 } @data
             ),
-            "format_name + datum check"
+            "format_name + datum check: '$format_name'"
         );
         ok(
             (
@@ -345,7 +364,7 @@ qr"^Script URL: https?://.*bbbike.org/.*\?.*format=.+.*city="
 /^This $format_name (file|map) was created on: \S+\s+.*UTC.+$/
                 } @data
             ),
-            "format_name + date check"
+            "format_name + date check: '$format_name'"
         );
         ok(
             (
@@ -369,7 +388,7 @@ qr"^Script URL: https?://.*bbbike.org/.*\?.*format=.+.*city="
         ok(
             (
                 grep {
-qr"^PayPal, Flattr or bank wire transfer: https?://www.BBBike.org/community.html"
+qr"^PayPal or bank wire transfer: https?://www.BBBike.org/community.html"
                 } @data
             ),
             "donate"

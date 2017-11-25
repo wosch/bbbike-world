@@ -322,12 +322,10 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
   <div id="footer_top">
     <a href="$home">home</a> |
     <a href="/extract.html">@{[ M("help") ]}</a> |
-    <a href="//download.bbbike.org/osm/">download</a> |
     <a href="@{[ $option->{"homepage"} ]}" target="_blank">status</a> |
-    <!-- <a href="/cgi/livesearch-extract.cgi">@{[ M("livesearch") ]}</a> | -->
-    <a href="//mc.bbbike.org/mc/$mc_parameters" id="mc_link" target="_blank">map compare</a> |
-    <a href="/extract.html#extract-pro">pro</a> |
-    <a href="$community_link#donate">@{[ M("donate") ]}</a>
+    <!-- <a href="//mc.bbbike.org/mc/$mc_parameters" id="mc_link" target="_blank">map compare</a> | -->
+    <a href="//download.bbbike.org/osm/">download</a> |
+    <a href="/extract.html#extract-pro">@{[ M("commercial support") ]}</a>
     $locate
   </div>
 EOF
@@ -374,7 +372,7 @@ qq{\n<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js
   <hr/>
   <div id="copyright" class="normalscreen">
     (&copy;) 2017 <a href="https://www.bbbike.org">BBBike.org</a>
-    by <a href="http://wolfram.schneider.org">Wolfram Schneider</a><br/>
+    by <a href="https://wolfram.schneider.org">Wolfram Schneider</a><br/>
     Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
   <div id="footer_community"></div>
   </div> <!-- copyright -->

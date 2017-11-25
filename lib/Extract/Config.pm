@@ -60,7 +60,8 @@ our $formats = {
     'png-wireframe.zip'  => 'PNG wireframe',
     'png-cadastre.zip'   => 'PNG cadastre',
 
-    'navit.zip' => "Navit",
+    'navit.zip'         => "Navit",
+    'bbbike-perltk.zip' => "BBBike Perl/Tk",
 
     'obf.zip' => "Osmand (OBF)",
 
@@ -74,10 +75,10 @@ our $formats = {
     'mapsforge-osm.zip' => "Mapsforge OSM",
     'mapsme-osm.zip'    => "maps.me OSM",
 
-    'srtm-europe.osm.pbf'         => 'SRTM Europe PBF (25m)',
-    'srtm-europe.osm.xz'          => 'SRTM Europe OSM XML 7z (25m)',
-    'srtm-europe.garmin-srtm.zip' => 'SRTM Europe Garmin (25m)',
-    'srtm-europe.obf.zip'         => 'SRTM Europe Osmand (25m)',
+    #'srtm-europe.osm.pbf'         => 'SRTM Europe PBF (25m)',
+    #'srtm-europe.osm.xz'          => 'SRTM Europe OSM XML 7z (25m)',
+    #'srtm-europe.garmin-srtm.zip' => 'SRTM Europe Garmin (25m)',
+    #'srtm-europe.obf.zip'         => 'SRTM Europe Osmand (25m)',
 
     'srtm.osm.pbf'         => 'SRTM World PBF (40m)',
     'srtm.osm.xz'          => 'SRTM World OSM XML 7z (40m)',
@@ -128,6 +129,10 @@ our $formats_menu = {
             qw/png-google.zip png-hiking.zip png-osm.zip png-urbanight.zip png-wireframe.zip png-cadastre.zip/
         ]
     },
+    'bbbike' => {
+        'title'   => "BBBike",
+        'formats' => ['bbbike-perltk.zip']
+    },
     'srtm' => {
         'title'   => "Contours (SRTM)",
         'formats' => [
@@ -140,6 +145,8 @@ our $formats_menu = {
     }
 };
 
+# Note: may be later this will be expanded to a full path
+# 'confirmed' => '/var/cache/extract/confirmed',
 our $spool = {
     'incoming'  => "incoming",     # incoming request, not confirmed yet
     'confirmed' => "confirmed",    # ready to run
@@ -240,6 +247,7 @@ our $tile_format = {
 
     "mapsforge-osm.zip" => "mapsforge-osm.zip",
     "mapsme-osm.zip"    => "pbf",
+    "bbbike-perltk.zip" => "garmin-osm.zip",
 
     "o5m.gz"  => "pbf",
     "o5m.bz2" => "pbf",

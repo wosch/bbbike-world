@@ -13,6 +13,7 @@ dirname=$(dirname $0)
 compress=""
 gzip=`which pigz gzip 2>/dev/null | head -n 1`
 bzip2=`which pbzip2 bzip2 2>/dev/null | head -n 1`
+osm2bbbike=$dirname/osm2bbbike
 osm2garmin=$dirname/osm2garmin
 osm2png=$dirname/osm2png
 osm2svg=$dirname/osm2svg
@@ -28,10 +29,7 @@ osmium_convert_opt="-f pbf -t opl"
 
 # max. file size in KB
 # larger value for special garmin format
-if [ "$format" = "--garmin-onroad" ]; then
-    : ${max_file_size_garmin=9950000}
-fi
-if [ "$format" = "--garmin-onroad-ascii" ]; then
+if [ "$format" = "--garmin-onroad" -o "$format" = "--garmin-onroad-ascii" ]; then
     : ${max_file_size_garmin=9950000}
 fi
 
@@ -40,6 +38,7 @@ if which pbzip2 >/dev/null 2>&1; then
     bzip2="$bzip2 -p$($(dirname $0)/ncpu)"
 fi
 
+: ${max_file_size_bbbike=90000}
 : ${max_file_size_garmin=2950000}
 : ${max_file_size_mapsforge=666000}
 : ${max_file_size_osmand=666000}
@@ -50,7 +49,7 @@ fi
 : ${pbf2osm_max_cpu_time=7200}
 
 xz=`which xz 2>/dev/null | head -n 1`
-xz_opt=-2
+xz_opt=-1
 if which pixz >/dev/null 2>&1; then
     xz="pixz -t"
     # use max. configured CPUs
@@ -78,6 +77,7 @@ usage [ option ] file.osm.pbf
 --osmand
 --navit
 --mapsforge-osm
+--bbbike-perltk
 
 --garmin-osm --garmin-osm-ascii --garmin-cycle --garmin-cycle-ascii
 --garmin-leisure --garmin-leisure-ascii --garmin-bbbike --garmin-bbbike-ascii --garmin-srtm
@@ -134,6 +134,7 @@ case $format in
 	--garmin-openfietslite-ascii | --garmin-srtm | --garmin-oseam | --garmin-oseam-ascii | \
 	--garmin-opentopo | --garmin-opentopo-ascii )
         garmin_style=$(echo $1 | perl -npe 's,^\-+[^\-]+-',,); shift; compress=garmin ;;
+	--bbbike-perltk ) bbbike_style=perltk; shift; compress=bbbike ;;
     --svg-google | --svg-hiking | --svg-osm | --svg-urbanight | --svg-wireframe | --svg-cadastre ) svg_style=$(echo $1 | perl -npe 's,.*-,,'); shift; compress=svg ;;
     --png-google | --png-hiking | --png-osm | --png-urbanight | --png-wireframe | --png-cadastre ) png_style=$(echo $1 | perl -npe 's,.*-,,'); shift; compress=png ;;
 
@@ -191,6 +192,11 @@ osm2osm () {
 
 size=$(du -ks -L "$file" | awk '{ print $1}')
 case $compress in
+    bbbike )
+	if [ $size -gt $max_file_size_bbbike ]; then
+	  usage "file '$file' size to big: $size > $max_file_size_bbbike"
+	fi
+	;;
     garmin | navit )
 	if [ $size -gt $max_file_size_garmin ]; then
 	  usage "file '$file' size to big: $size > $max_file_size_garmin"
@@ -276,6 +282,7 @@ case $compress in
     opl-xz )              $osmium_convert $osmium_convert_opt "$file" | $xz -1 > $tmp && mv -f $tmp $dir/$f.opl.xz ;;
 
     # other formats
+    bbbike ) $osm2bbbike "$file" "$bbbike_style" "$city" ;;
     garmin ) $osm2garmin "$file" "$garmin_style" "$city" ;;
     png )    $osm2png    "$file" "$png_style" "$city" ;;
     svg )    $osm2svg    "$file" "$svg_style" "$city" ;;

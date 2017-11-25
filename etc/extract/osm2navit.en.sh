@@ -15,7 +15,7 @@ Script URL: $BBBIKE_EXTRACT_URL
 Name of area: $city
 
 We appreciate any feedback, suggestions and a donation! You can support us via
-PayPal, Flattr or bank wire transfer: https://www.BBBike.org/community.html
+PayPal or bank wire transfer: https://www.BBBike.org/community.html
 
 thanks, Wolfram Schneider
 

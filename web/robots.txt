@@ -4,7 +4,7 @@ Sitemap: https://www.bbbike.org/sitemap.xml.gz
 User-agent: Googlebot-Image
 Disallow: /images
 
-# rough bots
+# rough bots & seo
 User-agent: Ezooms
 User-agent: Purebot
 User-agent: Java
@@ -18,6 +18,8 @@ User-agent: Linguee
 User-agent: discobot
 User-agent: ip-web-crawler.com
 User-agent: AppEngine-Google
+User-agent: BLEXBot
+User-agent: spbot
 Disallow: /
 
 # people search engines
@@ -203,7 +205,7 @@ Disallow: /Leeds/?
 Disallow: /Leipzig/?
 Disallow: /Lima/?
 Disallow: /Linz/?
-Disallow: /Lissabon/?
+Disallow: /Lisbon/?
 Disallow: /Liverpool/?
 Disallow: /Ljubljana/?
 Disallow: /Lodz/?
@@ -251,6 +253,7 @@ Disallow: /Philadelphia/?
 Disallow: /PhnomPenh/?
 Disallow: /Portland/?
 Disallow: /PortlandME/?
+Disallow: /Porto/?
 Disallow: /PortoAlegre/?
 Disallow: /Potsdam/?
 Disallow: /Poznan/?
@@ -327,12 +330,12 @@ Disallow: /en/Muenchen/?
 Disallow: /en/Hannover/?
 Disallow: /en/Stuttgart/?
 Disallow: /en/Stockholm/?
-Disallow: /en/Arnhem/
+Disallow: /en/Arnhem/?
 Disallow: /en/Corsica/?
 Disallow: /en/London/
 Disallow: /en/Rostock/?
 Disallow: /en/Berlin/?
-Disallow: /en/Antwerpen/
+Disallow: /en/Antwerpen/?
 Disallow: /en/Hamburg/?
 Disallow: /en/Maastricht/
 Disallow: /en/Nuernberg/?
@@ -343,12 +346,12 @@ Disallow: /en/Eindhoven/
 Disallow: /en/Bonn/?
 Disallow: /en/Montpellier/?
 Disallow: /en/NewYork/
-Disallow: /en/Hertogenbosch/
+Disallow: /en/Hertogenbosch/?
 Disallow: /en/Tilburg/
 Disallow: /en/Saarbruecken/?
 Disallow: /en/Melbourne/
 Disallow: /en/NewOrleans/
-Disallow: /en/Copenhagen/
+Disallow: /en/Copenhagen/?
 Disallow: /en/Duesseldorf/?
 Disallow: /en/CambridgeMa/
 Disallow: /en/Groningen/
@@ -365,7 +368,7 @@ Disallow: /en/Konstanz/?
 Disallow: /en/Bordeaux/?
 Disallow: /en/WashingtonDC/
 Disallow: /en/Bern/?
-Disallow: /en/Wroclaw/
+Disallow: /en/Wroclaw/?
 Disallow: /en/SanktPetersburg/?
 Disallow: /en/Frankfurt/?
 Disallow: /en/Graz/?
@@ -380,12 +383,12 @@ Disallow: /en/Brisbane/
 Disallow: /en/Aachen/?
 Disallow: /en/Orlando/
 Disallow: /en/Mannheim/?
-Disallow: /en/Bruessel/
+Disallow: /en/Bruessel/?
 Disallow: /en/Dortmund/?
 Disallow: /en/Oslo/?
 Disallow: /en/Marseille/?
 Disallow: /en/Montevideo/?
-Disallow: /en/DenHaag/
+Disallow: /en/DenHaag/?
 Disallow: /en/Portland/
 Disallow: /en/Rotterdam/
 Disallow: /en/Madrid/?
@@ -417,7 +420,7 @@ Disallow: /en/Manchester/
 Disallow: /en/Birmingham/
 Disallow: /en/Augsburg/?
 Disallow: /en/Luxemburg/?
-Disallow: /en/Szczecin/
+Disallow: /en/Szczecin/?
 Disallow: /en/Toronto/
 Disallow: /en/Liverpool/
 Disallow: /en/Linz/?
@@ -438,7 +441,7 @@ Disallow: /en/Tallinn/?
 Disallow: /en/Calgary/
 Disallow: /en/Leeds/
 Disallow: /en/Zagreb/
-Disallow: /en/Aarhus/
+Disallow: /en/Aarhus/?
 Disallow: /en/Trondheim/?
 Disallow: /en/Darmstadt/?
 Disallow: /en/Huntsville/
@@ -446,14 +449,14 @@ Disallow: /en/Schwerin/?
 Disallow: /en/Canberra/
 Disallow: /en/Halle/?
 Disallow: /en/Memphis/
-Disallow: /en/Warsaw/
+Disallow: /en/Warsaw/?
 Disallow: /en/Seoul/?
 Disallow: /en/Malmoe/?
-Disallow: /en/Lodz/
+Disallow: /en/Lodz/?
 Disallow: /en/Seattle/
 Disallow: /en/Lima/?
 Disallow: /en/BrandenburgHavel/?
-Disallow: /en/Cracow/
+Disallow: /en/Cracow/?
 Disallow: /en/Tokyo/?
 Disallow: /en/Turin/?
 Disallow: /en/Denver/
@@ -469,9 +472,9 @@ Disallow: /en/Ljubljana/?
 Disallow: /en/Usedom/?
 Disallow: /en/Bangkok/?
 Disallow: /en/Riga/?
-Disallow: /en/Katowice/
+Disallow: /en/Katowice/?
 Disallow: /en/Colmar/?
-Disallow: /en/Gent/
+Disallow: /en/Gent/?
 Disallow: /en/Ulm/?
 Disallow: /en/Balaton/?
 Disallow: /en/Regensburg/?
@@ -479,15 +482,15 @@ Disallow: /en/Cambridge/
 Disallow: /en/Palma/?
 Disallow: /en/Sofia/?
 Disallow: /en/RiodeJaneiro/
-Disallow: /en/Poznan/
+Disallow: /en/Poznan/?
 Disallow: /en/SanJose/
 Disallow: /en/Victoria/
 Disallow: /en/PaloAlto/
-Disallow: /en/Beijing/
+Disallow: /en/Beijing/?
 Disallow: /en/Magdeburg/?
 Disallow: /en/PortlandME/
 Disallow: /en/Glasgow/
-Disallow: /en/Bruegge/
+Disallow: /en/Bruegge/?
 Disallow: /en/SantaCruz/
 Disallow: /en/MexicoCity/?
 Disallow: /en/Dessau/?
@@ -505,7 +508,7 @@ Disallow: /en/Providence/
 Disallow: /en/Muenster/?
 Disallow: /en/Halifax/
 Disallow: /en/Oldenburg/?
-Disallow: /en/Gliwice/
+Disallow: /en/Gliwice/?
 Disallow: /en/Erfurt/?
 Disallow: /en/Cairo/?
 Disallow: /en/Osnabrueck/?
@@ -520,6 +523,7 @@ Disallow: /en/Adelaide/
 Disallow: /en/Kaunas/?
 Disallow: /en/Waterloo/
 Disallow: /en/PortoAlegre/
+Disallow: /en/Porto/?
 Disallow: /en/Innsbruck/?
 Disallow: /en/Jerusalem/?
 Disallow: /en/Corvallis/
@@ -527,13 +531,13 @@ Disallow: /en/Paderborn/?
 Disallow: /en/Tehran/?
 Disallow: /en/Kiew/?
 Disallow: /en/Eugene/
-Disallow: /en/Lissabon/
+Disallow: /en/Lisbon/?
 Disallow: /en/Sarajewo/
 Disallow: /en/SanFrancisco/
 Disallow: /en/Curitiba/
 Disallow: /en/CapeTown/
 Disallow: /en/Davis/
-Disallow: /en/Gdansk/
+Disallow: /en/Gdansk/?
 Disallow: /en/Beirut/?
 Disallow: /en/Johannesburg/
 Disallow: /en/Alexandria/?

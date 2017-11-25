@@ -46,7 +46,7 @@ my $msg = {
       [ "Thanks - the input data looks good", "We appreciate any feedback" ],
     "de" => [
         "Danke - die Eingabedaten sind korrekt",
-        "Du kannst uns via PayPal, Flattr oder Banküberweisung unterstützen"
+        "Du kannst uns via PayPal oder Banküberweisung unterstützen"
     ],
     "fr" => [
         "Merci - les paramètres saisis semblent corrects",

@@ -57,6 +57,8 @@
 
     "Contours (SRTM)": "Höhenlinie (SRTM)",
 
+    "commercial support": "kommerzieller support",
+
     "EXTRACT_CONFIRMED": [
         "<p>Danke - die Eingabedaten sind korrekt.</p><p>",
         "Es dauert ca. 2-7 Minuten um eine Region aus der Planet.osm Datei auszuschneiden - ",
@@ -69,14 +71,18 @@
         "Format: %s",
         "</p>",
         "",
-        "<p>Du kannst den aktuellen Status des Extrakts auf der <a href='%s' target='_blank'>Server Status</a> Seite sehen.<br/></br></p>",
+        "<p>Du kannst den aktuellen Status des Extrakts auf der <a href='%s' target='_blank'>Server Status</a> Seite sehen.<br/></p>",
         "",
         "<p>Dr&uuml;cke die <a href='javascript:history.back()'>Back-Taste</a> um die gleiche Region in einem anderen Format zu extrahieren, oder um eine neue Region auszuw&auml;hlen.</p>"
         ],
 
     "EXTRACT_DONATION": [
-        "<p><a href='../community.de.html#donate'>Spenden</a> sind willkommen! ",
-        "Du kannst uns via PayPal, Flattr oder Bank&uuml;berweisung unterst&uuml;tzen."
+        "<span class='donate_request'><hr/>",
+        "<a href='../community.de.html#donate'>",
+        "Deine Unterst&uuml;tzung h&auml;lt den  BBBike Extract Service am Laufen!",
+        "Bitte spende mit PayPal oder Bank&uuml;berweisung.",
+        "Wir brauche 10 Euro am Tag bzw. 300 Euro im Monat um die Serverkosten zu decken. Vielen Dank!",
+        "</a></span>"
         ],
 
     "EXTRACT_EMAIL": [
@@ -106,7 +112,7 @@
         "https://extract.bbbike.org/extract.html",
         "",
         "Spenden sind willkommen! ",
-        "Du kannst uns via PayPal, Flattr oder Banküberweisung unterstützen",
+        "Du kannst uns via PayPal oder Banküberweisung unterstützen",
         "https://www.BBBike.org/community.de.html",
         "",
         "Danke, die BBBike Extrakt Fee",

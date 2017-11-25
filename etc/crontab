@@ -4,10 +4,14 @@
 
 #####################################################
 # extract.bbbike.org 
+LANG=en_US.UTF-8
+
 #*/6 * * * * cd /usr/local/www/bbbike.org/ && world/bin/extract-cron.sh --job=7
 
-* * * * * cd /usr/local/www/bbbike.org/ && world/bin/extract-cron.sh --job=8
-* * * * * cd /usr/local/www/bbbike.org/ && sleep 25 && world/bin/extract-cron.sh --job=8
+##* * * * * cd /usr/local/www/bbbike.org/ && world/bin/extract-cron.sh --job=8
+* * * * * cd /usr/local/www/bbbike.org/ && ( for i in 1 2 3;do world/bin/extract-cron.sh --job=9; sleep 15.77; done )
+* * * * * cd /usr/local/www/bbbike.org/ && sleep 27.3 && ( for i in 1 2 3;do world/bin/extract-cron.sh --job=9; sleep 19.22; done )
+
 #####################################################
 
 # extract-pro.bbbike.org 
@@ -27,7 +31,8 @@
 
 MAILTO=wosch
 # m h  dom mon dow   command
-56 * * * *     cd $HOME/projects/bbbike/ && world/bin/planet-download-alert
+#4 17-2 * * *     cd $HOME/projects/bbbike/ && world/bin/planet-download-alert
+43 9-23,0-3 * * *     cd $HOME/projects/bbbike/ && world/bin/planet-download-alert
 
 # stale jobs?
 49 * * * *     find /var/cache/extract/confirmed -name '*.json' -mtime +240 -ls

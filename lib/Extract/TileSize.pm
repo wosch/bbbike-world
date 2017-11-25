@@ -44,23 +44,23 @@ our $unlink_broken_storable = 1;
 #       internal file, not for the *.zip file itself
 #
 our $factor = {
-    'garmin-onroad.zip'              => 0.09,
-    'garmin-onroad-ascii.zip'        => 0.091,
+    'garmin-onroad.zip'              => 0.07,
+    'garmin-onroad-ascii.zip'        => 0.071,
     'garmin-bbbike.zip'              => 0.585,
     'garmin-bbbike-ascii.zip'        => 0.586,
     'garmin-cycle.zip'               => 0.581,
     'garmin-cycle-ascii.zip'         => 0.582,
-    'garmin-openfietslite.zip'       => 0.45,
-    'garmin-openfietslite-ascii.zip' => 0.451,
-    'garmin-leisure.zip'             => 0.755,
-    'garmin-leisure-ascii.zip'       => 0.756,
-    'garmin-osm.zip'                 => 0.583,
-    'garmin-osm-ascii.zip'           => 0.584,
+    'garmin-openfietslite.zip'       => 0.55,
+    'garmin-openfietslite-ascii.zip' => 0.551,
+    'garmin-leisure.zip'             => 0.855,
+    'garmin-leisure-ascii.zip'       => 0.856,
+    'garmin-osm.zip'                 => 0.683,
+    'garmin-osm-ascii.zip'           => 0.684,
     'garmin-srtm.zip'                => 1.3,
-    'garmin-oseam.zip'               => 0.591,
-    'garmin-oseam-ascii.zip'         => 0.592,
-    'garmin-opentopo.zip'            => 0.587,
-    'garmin-opentopo-ascii.zip'      => 0.588,
+    'garmin-oseam.zip'               => 0.641,
+    'garmin-oseam-ascii.zip'         => 0.642,
+    'garmin-opentopo.zip'            => 0.707,
+    'garmin-opentopo-ascii.zip'      => 0.708,
 
     'svg-google.zip'     => 1.68,
     'svg-hiking.zip'     => 3.82,
@@ -78,6 +78,7 @@ our $factor = {
 
     'mapsforge-osm.zip' => 0.80,
     'mapsme-osm.zip'    => 0.85,
+    'bbbike-perltk.zip' => 2.20,
 
     'navit.zip' => 0.75,
 
