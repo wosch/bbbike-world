@@ -57,6 +57,8 @@
 
     "Contours (SRTM)": "Höhenlinie (SRTM)",
 
+    "commercial support": "kommerzieller support",
+
     "EXTRACT_CONFIRMED": [
         "<p>Danke - die Eingabedaten sind korrekt.</p><p>",
         "Es dauert ca. 2-7 Minuten um eine Region aus der Planet.osm Datei auszuschneiden - ",

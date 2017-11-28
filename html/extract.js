@@ -1149,11 +1149,12 @@ function updatePermalink() {
 
 function updateMClink() {
     var mc_link = $('#mc_link');
-    var url = getMCLink(mc_link.attr("href"));
 
+    // no map compare link in HTML?    
     if (!mc_link || mc_link.length == 0) {
         return;
     }
+    var url = getMCLink(mc_link.attr("href"));
 
     mc_link.attr("href", url);
 
