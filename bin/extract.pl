@@ -280,7 +280,7 @@ sub parse_jobs {
                 my $user_limit_jobs =
                   $option->{'scheduler'}->{'user_limit_jobs'};
                 my $user_max_loadavg =
-                  $option->{'scheduler'}->{'$user_max_loadavg'};
+                  $option->{'scheduler'}->{'user_max_loadavg'};
 
                 if ( $loadavg >= $user_max_loadavg ) {
                     warn
