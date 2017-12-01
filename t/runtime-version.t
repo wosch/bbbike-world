@@ -31,7 +31,7 @@ my $versions = {
         ],
         [
             [qw/perltidy -v/],
-            qr/^This is perltidy, (v20090616|v20101217|v20140328|v20120701)/
+            qr/^This is perltidy, (v20090616|v20101217|v20140328|v20120701|v20170521)/
         ],
     ]
 };
