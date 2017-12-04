@@ -28,9 +28,9 @@ var config = {
 
     // max. area size in MB
     "max_size": {
-        "default": 960,
+        "default": 512,
 
-        "osm.pbf": 1536,
+        "osm.pbf": 1537,
 
         "obf.zip": 250,
         "navit.zip": 512,
@@ -39,22 +39,22 @@ var config = {
         "mapsforge-osm.zip": 400,
         "mapsme-osm.zip": 500,
 
-        "garmin-bbbike.zip": 650,
-        "garmin-bbbike-ascii.zip": 650,
-        "garmin-osm.zip": 768,
-        "garmin-osm-ascii.zip": 768,
-        "garmin-cycle.zip": 650,
-        "garmin-cycle-ascii.zip": 650,
-        "garmin-leisure.zip": 650,
-        "garmin-leisure-ascii.zip": 650,
+        "garmin-bbbike.zip": 512,
+        "garmin-bbbike-ascii.zip": 512,
+        "garmin-osm.zip": 512,
+        "garmin-osm-ascii.zip": 512,
+        "garmin-cycle.zip": 512,
+        "garmin-cycle-ascii.zip": 512,
+        "garmin-leisure.zip": 512,
+        "garmin-leisure-ascii.zip": 512,
         "garmin-onroad.zip": 450,
         "garmin-onroad-ascii.zip": 450,
-        "garmin-opentopo.zip": 650,
-        "garmin-opentopo-ascii.zip": 650,
-        "garmin-openfietslite.zip": 650,
-        "garmin-openfietslite-ascii.zip": 650,
-        "garmin-oseam.zip": 650,
-        "garmin-oseam-ascii.zip": 650,
+        "garmin-opentopo.zip": 512,
+        "garmin-opentopo-ascii.zip": 512,
+        "garmin-openfietslite.zip": 512,
+        "garmin-openfietslite-ascii.zip": 512,
+        "garmin-oseam.zip": 512,
+        "garmin-oseam-ascii.zip": 512,
 
         "png-google.zip": 32,
         "png-osm.zip": 32,
