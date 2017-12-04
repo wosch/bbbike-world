@@ -28,7 +28,7 @@ var config = {
 
     // max. area size in MB
     "max_size": {
-        "default": 512,
+        "default": 514,
 
         "osm.pbf": 1537,
 
