@@ -24,6 +24,7 @@ var config = {
     "box_on_map": true,
 
     // limit are size to max. square kilometers
+    // keep in sync with lib/Extract/Config.pm !!!
     "max_skm": 24000000,
 
     // max. area size in MB
