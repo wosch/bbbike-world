@@ -150,7 +150,7 @@ sub vcl_recv {
     #
 
     # munin statistics with lighttpd
-    if (req.http.host ~ "^dev[1-4]?\.bbbike\.org$" && req.url ~ "^/munin") {
+    if (req.http.host ~ "^dev[1-9]?\.bbbike\.org$" && req.url ~ "^/munin") {
         set req.backend = munin_localhost;
     } 
 
@@ -160,18 +160,18 @@ sub vcl_recv {
     } 
 
     # other VMs
-    else if (req.http.host ~ "^(m\.|api[1-4]?\.|www[1-4]?\.|dev[1-4]?\.|devel[1-4]?\.|)bbbike\.org$") {
+    else if (req.http.host ~ "^(m\.|api[1-9]?\.|www[1-9]?\.|dev[1-9]?\.|devel[1-9]?\.|)bbbike\.org$") {
         set req.backend = bbbike;
 
         # failover production @ www1 
         if (req.restarts == 1 || !req.backend.healthy) {
                 set req.backend = bbbike_failover;
         }
-    } else if (req.http.host ~ "^extract[1-4]?\.bbbike\.org$") {
+    } else if (req.http.host ~ "^extract[1-9]?\.bbbike\.org$") {
         set req.backend = bbbike;
-    } else if (req.http.host ~ "^extract-pro[1-4]?\.bbbike\.org$") {
+    } else if (req.http.host ~ "^extract-pro[1-9]?\.bbbike\.org$") {
         set req.backend = bbbike;
-    } else if (req.http.host ~ "^download[1-4]?\.bbbike\.org$") {
+    } else if (req.http.host ~ "^download[1-9]?\.bbbike\.org$") {
         set req.backend = bbbike;
     } else if (req.http.host ~ "^([a-z]\.)?tile\.bbbike\.org$" || req.http.host ~ "^(mc)\.bbbike\.org$") {
         set req.backend = tile;
@@ -203,7 +203,7 @@ sub vcl_recv {
     # backends without caching, pipe/pass
 
     # do not cache OSM files
-    if (req.http.host ~ "^(download[1-4]?)\.bbbike\.org$") {
+    if (req.http.host ~ "^(download[1-9]?)\.bbbike\.org$") {
          return (pipe);
     }
 
@@ -219,10 +219,10 @@ sub vcl_recv {
 
     # no caching
     if (req.http.host ~ "^(www2?\.)manualpages\.de$$")		{ return (pass); }
-    if (req.http.host ~ "^extract[1-4]?\.bbbike\.org") 		{ return (pass); }
+    if (req.http.host ~ "^extract[1-9]?\.bbbike\.org") 		{ return (pass); }
     if (req.http.host ~ "^([a-z]\.)?tile\.bbbike\.org") 	{ return (pass); }
-    if (req.http.host ~ "^extract-pro[1-4]?\.bbbike\.org") 	{ return (pass); }
-    if (req.http.host ~ "^(dev|devel)[1-4]?\.bbbike\.org$") 	{ return (pass); }
+    if (req.http.host ~ "^extract-pro[1-9]?\.bbbike\.org") 	{ return (pass); }
+    if (req.http.host ~ "^(dev|devel)[1-9]?\.bbbike\.org$") 	{ return (pass); }
   
     # pipeline post requests trac #4124 
     if (req.request == "POST") {
@@ -236,7 +236,7 @@ sub vcl_recv {
     
     ######################################################################
     # force caching of images and CSS/JS files
-    if (req.url ~ "^/html|^/images|^/feed/|^/osp/|^/cgi/[acdf-z]|.*\.html$|.+/$|^/osm/" || req.http.host ~ "^api[1-4]?.bbbike\.org$" ) {
+    if (req.url ~ "^/html|^/images|^/feed/|^/osp/|^/cgi/[acdf-z]|.*\.html$|.+/$|^/osm/" || req.http.host ~ "^api[1-9]?.bbbike\.org$" ) {
        unset req.http.cookie;
        unset req.http.User-Agent;
        unset req.http.referer;
@@ -252,7 +252,7 @@ sub vcl_recv {
       #unset req.http.Expires;
     }
 
-    if (req.http.host ~ "^(www)[1-4]?\.bbbike\.org$") 	{
+    if (req.http.host ~ "^(www)[1-9]?\.bbbike\.org$") 	{
        unset req.http.cookie;
 
        # cache just by major browser type
@@ -397,7 +397,7 @@ sub normalize_user_agent {
 # 
 
 sub vcl_fetch {
-    if (req.http.host ~ "^(www)[1-4]?\.bbbike\.org$") 	{
+    if (req.http.host ~ "^(www)[1-9]?\.bbbike\.org$") 	{
         unset beresp.http.set-cookie;
     }
 
