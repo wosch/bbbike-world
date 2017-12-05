@@ -129,7 +129,8 @@ our $option = {
 
     # see also cgi/extract.cgi
     'scheduler' => {
-        'user_limit_jobs' => 2
+        'user_max_loadavg' => 8,
+        'user_limit_jobs'  => 2
     },
 
     'pbf2osm' => {
@@ -278,6 +279,16 @@ sub parse_jobs {
 
                 my $user_limit_jobs =
                   $option->{'scheduler'}->{'user_limit_jobs'};
+                my $user_max_loadavg =
+                  $option->{'scheduler'}->{'user_max_loadavg'};
+
+                if ( $loadavg >= $user_max_loadavg ) {
+                    warn
+                      "Set number of running jobs from $user_limit_jobs to 1 ",
+                      "due high load of $loadavg >= $user_max_loadavg\n"
+                      if $debug >= 1;
+                    $user_limit_jobs = 1;
+                }
 
                 warn "Running jobs for user $email: $running_users_jobs, ",
 "max per user: $user_limit_jobs, number of running jobs: $total_jobs\n"

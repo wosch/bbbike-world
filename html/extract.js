@@ -24,13 +24,14 @@ var config = {
     "box_on_map": true,
 
     // limit are size to max. square kilometers
+    // keep in sync with lib/Extract/Config.pm !!!
     "max_skm": 24000000,
 
     // max. area size in MB
     "max_size": {
-        "default": 960,
+        "default": 512,
 
-        "osm.pbf": 1536,
+        "osm.pbf": 514,
 
         "obf.zip": 250,
         "navit.zip": 512,
@@ -39,22 +40,22 @@ var config = {
         "mapsforge-osm.zip": 400,
         "mapsme-osm.zip": 500,
 
-        "garmin-bbbike.zip": 650,
-        "garmin-bbbike-ascii.zip": 650,
-        "garmin-osm.zip": 768,
-        "garmin-osm-ascii.zip": 768,
-        "garmin-cycle.zip": 650,
-        "garmin-cycle-ascii.zip": 650,
-        "garmin-leisure.zip": 650,
-        "garmin-leisure-ascii.zip": 650,
+        "garmin-bbbike.zip": 512,
+        "garmin-bbbike-ascii.zip": 512,
+        "garmin-osm.zip": 512,
+        "garmin-osm-ascii.zip": 512,
+        "garmin-cycle.zip": 512,
+        "garmin-cycle-ascii.zip": 512,
+        "garmin-leisure.zip": 512,
+        "garmin-leisure-ascii.zip": 512,
         "garmin-onroad.zip": 450,
         "garmin-onroad-ascii.zip": 450,
-        "garmin-opentopo.zip": 650,
-        "garmin-opentopo-ascii.zip": 650,
-        "garmin-openfietslite.zip": 650,
-        "garmin-openfietslite-ascii.zip": 650,
-        "garmin-oseam.zip": 650,
-        "garmin-oseam-ascii.zip": 650,
+        "garmin-opentopo.zip": 512,
+        "garmin-opentopo-ascii.zip": 512,
+        "garmin-openfietslite.zip": 512,
+        "garmin-openfietslite-ascii.zip": 512,
+        "garmin-oseam.zip": 512,
+        "garmin-oseam-ascii.zip": 512,
 
         "png-google.zip": 32,
         "png-osm.zip": 32,
@@ -707,9 +708,14 @@ function setBounds(bounds) {
 
 function extract_init_pro(opt) {
     var hostname = $(location).attr('hostname');
-    if (hostname.match(/^(extract-pro|devX)[2-4]?\.bbbike\.org/i)) {
-        config.max_size["default"] *= 2;
+    if (hostname.match(/^extract-pro[1-9]?\.bbbike\.org/i) || $(location).attr('search').match(/[\?&;]pro=[\w]+/)) {
+        debug("enable BBBike Pro service");
+
+        config.max_size["default"] *= 1.7;
+        config.max_size["osm.pbf"] *= 3;
         config.max_skm *= 2;
+
+        config.extract_pro = 1;
     }
 }
 
@@ -875,6 +881,8 @@ function checkform() {
         if (e.name == "as") {
             var format = $("select[name=format] option:selected").val();
             var max_size = config.max_size[format] ? config.max_size[format] : config.max_size["default"];
+
+            debug("selected format: " + format + " max_size: " + max_size);
             if (e.value < 0 || e.value > max_size) {
                 ret = 2;
             }
@@ -1205,20 +1213,23 @@ function show_skm(skm, filesize) {
         area_size.attr("value", filesize.size);
     }
 
+    // by default, assume everything is inside the limit
+    $("#export_osm_too_large").hide();
+
     if (skm > max_skm) {
         $("#size").html("Max area size: " + max_skm + "skm.");
         $("#export_osm_too_large").show();
     }
 
     // Osmand etc. works only for small areas less than 200MB
-    else if (config.max_size[format] && filesize.size > config.max_size[format]) {
-        $("#size").html("Max " + format + " file size: " + config.max_size[format] + " MB.");
-        $("#export_osm_too_large").show();
+    if (config.max_size[format]) {
+        if (filesize.size > config.max_size[format]) {
+            $("#size").html("Max " + format + " file size: " + config.max_size[format] + " MB.");
+            $("#export_osm_too_large").show();
+        }
     } else if (filesize.size > config.max_size["default"]) {
         $("#size").html("Max default file size: " + config.max_size["default"] + " MB.");
         $("#export_osm_too_large").show();
-    } else {
-        $("#export_osm_too_large").hide();
     }
 
     updatePermalink();

@@ -28,7 +28,7 @@ sub google_analytics {
 
     my $url = $q->url( -base => 1 );
 
-    if ( $url !~ m,^http://(www|extract|download)[1-4]?\., ) {
+    if ( $url !~ m,^http://(www|extract|download)[1-9]?\., ) {
         return "";    # devel installation
     }
 
