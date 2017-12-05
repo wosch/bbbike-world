@@ -28,9 +28,9 @@ var config = {
 
     // max. area size in MB
     "max_size": {
-        "default": 514,
+        "default": 512,
 
-        "osm.pbf": 1537,
+        "osm.pbf": 514,
 
         "obf.zip": 250,
         "navit.zip": 512,
@@ -707,9 +707,14 @@ function setBounds(bounds) {
 
 function extract_init_pro(opt) {
     var hostname = $(location).attr('hostname');
-    if (hostname.match(/^(extract-pro|devX)[2-4]?\.bbbike\.org/i)) {
-        config.max_size["default"] *= 2;
+    if (hostname.match(/^extract-pro[1-9]?\.bbbike\.org/i) || $(location).attr('search').match(/[\?&;]pro=[\w]+/)) {
+        debug("enable BBBike Pro service");
+
+        config.max_size["default"] *= 1.7;
+        config.max_size["osm.pbf"] *= 3;
         config.max_skm *= 2;
+
+        config.extract_pro = 1;
     }
 }
 
@@ -875,6 +880,8 @@ function checkform() {
         if (e.name == "as") {
             var format = $("select[name=format] option:selected").val();
             var max_size = config.max_size[format] ? config.max_size[format] : config.max_size["default"];
+
+            debug("selected format: " + format + " max_size: " + max_size);
             if (e.value < 0 || e.value > max_size) {
                 ret = 2;
             }
@@ -1205,20 +1212,23 @@ function show_skm(skm, filesize) {
         area_size.attr("value", filesize.size);
     }
 
+    // by default, assume everything is inside the limit
+    $("#export_osm_too_large").hide();
+
     if (skm > max_skm) {
         $("#size").html("Max area size: " + max_skm + "skm.");
         $("#export_osm_too_large").show();
     }
 
     // Osmand etc. works only for small areas less than 200MB
-    else if (config.max_size[format] && filesize.size > config.max_size[format]) {
-        $("#size").html("Max " + format + " file size: " + config.max_size[format] + " MB.");
-        $("#export_osm_too_large").show();
+    if (config.max_size[format]) {
+        if (filesize.size > config.max_size[format]) {
+            $("#size").html("Max " + format + " file size: " + config.max_size[format] + " MB.");
+            $("#export_osm_too_large").show();
+        }
     } else if (filesize.size > config.max_size["default"]) {
         $("#size").html("Max default file size: " + config.max_size["default"] + " MB.");
         $("#export_osm_too_large").show();
-    } else {
-        $("#export_osm_too_large").hide();
     }
 
     updatePermalink();
