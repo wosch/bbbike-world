@@ -127,18 +127,18 @@ sub vcl_recv {
     }
 
     # other VMs
-    else if (req.http.host ~ "^(m\.|api[1-4]?\.|www[1-4]?\.|dev[1-4]?\.|devel[1-4]?\.|)bbbike\.org$") {
+    else if (req.http.host ~ "^(m\.|api[1-9]?\.|www[1-9]?\.|dev[1-9]?\.|devel[1-9]?\.|)bbbike\.org$") {
         set req.backend_hint = bbbike;
 
         # failover production @ www1 
         if (req.restarts == 1 || !std.healthy(req.backend_hint)) {
                 set req.backend_hint = bbbike_failover;
         }
-    } else if (req.http.host ~ "^extract[1-4]?\.bbbike\.org$") {
+    } else if (req.http.host ~ "^extract[1-9]?\.bbbike\.org$") {
         set req.backend_hint = bbbike;
-    } else if (req.http.host ~ "^extract-pro[1-4]?\.bbbike\.org$") {
+    } else if (req.http.host ~ "^extract-pro[1-9]?\.bbbike\.org$") {
         set req.backend_hint = bbbike;
-    } else if (req.http.host ~ "^download[1-4]?\.bbbike\.org$") {
+    } else if (req.http.host ~ "^download[1-9]?\.bbbike\.org$") {
         set req.backend_hint = bbbike;
     } else if (req.http.host ~ "^([a-z]\.)?tile\.bbbike\.org$" || req.http.host ~ "^(mc)\.bbbike\.org$") {
         set req.backend_hint = tile;
@@ -175,7 +175,7 @@ sub vcl_recv {
     }
 
     # do not cache OSM files
-    if (req.http.host ~ "^(download[1-4]?)\.bbbike\.org$") {
+    if (req.http.host ~ "^(download[1-9]?)\.bbbike\.org$") {
          return (pipe);
     }
 
@@ -190,10 +190,10 @@ sub vcl_recv {
     }
 
     # no caching
-    if (req.http.host ~ "^extract[1-4]?\.bbbike\.org") 		{ return (pass); }
+    if (req.http.host ~ "^extract[1-9]?\.bbbike\.org") 		{ return (pass); }
     if (req.http.host ~ "^([a-z]\.)?tile\.bbbike\.org") 	{ return (pass); }
-    if (req.http.host ~ "^extract-pro[1-4]?\.bbbike\.org") 	{ return (pass); }
-    if (req.http.host ~ "^(dev|devel)[1-4]?\.bbbike\.org$") 	{ return (pass); }
+    if (req.http.host ~ "^extract-pro[1-9]?\.bbbike\.org") 	{ return (pass); }
+    if (req.http.host ~ "^(dev|devel)[1-9]?\.bbbike\.org$") 	{ return (pass); }
     if (req.http.host ~ "^grafana\.bbbike\.org$") 		{ return (pass); }
     if (req.http.host ~ "^munin\.bbbike\.org$") 		{ return (pass); }
   
@@ -209,7 +209,7 @@ sub vcl_recv {
     
     ######################################################################
     # force caching of images and CSS/JS files
-    if (req.url ~ "^/html|^/images|^/feed/|^/osp/|^/cgi/[acdf-z]|.*\.html$|.+/$|^/osm/" || req.http.host ~ "^api[1-4]?.bbbike\.org$" ) {
+    if (req.url ~ "^/html|^/images|^/feed/|^/osp/|^/cgi/[acdf-z]|.*\.html$|.+/$|^/osm/" || req.http.host ~ "^api[1-9]?.bbbike\.org$" ) {
        unset req.http.cookie;
        unset req.http.User-Agent;
        unset req.http.referer;
@@ -225,7 +225,7 @@ sub vcl_recv {
       #unset req.http.Expires;
     }
 
-    if (req.http.host ~ "^(www)[1-4]?\.bbbike\.org$") 	{
+    if (req.http.host ~ "^(www)[1-9]?\.bbbike\.org$") 	{
        unset req.http.cookie;
 
        # cache just by major browser type
@@ -363,7 +363,7 @@ sub normalize_user_agent {
 
 sub vcl_backend_response {
     # ???
-    #if (req.http.host ~ "^(www)[1-4]?\.bbbike\.org$") 	{
+    #if (req.http.host ~ "^(www)[1-9]?\.bbbike\.org$") 	{
     #    unset beresp.http.set-cookie;
     #}
 

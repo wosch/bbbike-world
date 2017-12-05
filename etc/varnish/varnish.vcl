@@ -106,11 +106,11 @@ sub vcl_recv {
     #
 
     # munin statistics
-    if (req.http.host ~ "^dev[1-4]?\.bbbike\.org$" && req.url ~ "^/munin") {
+    if (req.http.host ~ "^dev[1-9]?\.bbbike\.org$" && req.url ~ "^/munin") {
         set req.backend = localhost;
-    } else if (req.http.host ~ "^download[1-4]?\.bbbike\.org$") {
+    } else if (req.http.host ~ "^download[1-9]?\.bbbike\.org$") {
         set req.backend = bbbike;
-    } else if (req.http.host ~ "^(m\.|api[1-4]?|www[1-4]?\.|dev[1-4]?\.|devel[1-4]?\.|)bbbike\.org$") {
+    } else if (req.http.host ~ "^(m\.|api[1-9]?|www[1-9]?\.|dev[1-9]?\.|devel[1-9]?\.|)bbbike\.org$") {
         set req.backend = bbbike;
 
         # failover production @ www3 
@@ -131,7 +131,7 @@ sub vcl_recv {
         set req.backend = wosch;
     } else if (req.http.host ~ "^(dvh|tkb)\.bookmaps\.org$") {
         set req.backend = wosch;
-    } else if (req.http.host ~ "^extract[1-4]?\.bbbike\.org$") {
+    } else if (req.http.host ~ "^extract[1-9]?\.bbbike\.org$") {
         set req.backend = bbbike;
     } else {
         set req.backend = bbbike;
@@ -153,7 +153,7 @@ sub vcl_recv {
     # backends without caching, pipe/pass
 
     # do not cache OSM files
-    if (req.http.host ~ "^(download[1-4]?)\.bbbike\.org$") {
+    if (req.http.host ~ "^(download[1-9]?)\.bbbike\.org$") {
          return (pipe);
     }
 
@@ -171,7 +171,7 @@ sub vcl_recv {
 
     ######################################################################
     # force caching of images and CSS/JS files
-    if (req.url ~ "^/html|^/images|^/feed/|^/osp/|^/cgi/[acdf-z]|.*\.html$|.+/$|^/osm/" || req.http.host ~ "^api[1-4]?.bbbike\.org$" ) {
+    if (req.url ~ "^/html|^/images|^/feed/|^/osp/|^/cgi/[acdf-z]|.*\.html$|.+/$|^/osm/" || req.http.host ~ "^api[1-9]?.bbbike\.org$" ) {
        unset req.http.cookie;
        #unset req.http.Accept-Encoding;
        unset req.http.User-Agent;
@@ -209,10 +209,10 @@ sub vcl_recv {
 
 
     # test & development, no caching
-    if (req.http.host ~ "^(dev|devel)[1-4]?\.bbbike\.org$") {
+    if (req.http.host ~ "^(dev|devel)[1-9]?\.bbbike\.org$") {
 	return (pass);
     }
-    if (req.http.host ~ "^extract[1-4]?\.bbbike\.org") { return (pass); } # no cache
+    if (req.http.host ~ "^extract[1-9]?\.bbbike\.org") { return (pass); } # no cache
 
     # cache just by major browser type
     call normalize_user_agent;
