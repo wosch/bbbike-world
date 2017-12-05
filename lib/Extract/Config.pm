@@ -438,6 +438,10 @@ sub load_config_nocgi {
 }
 
 # re-set values for extract-pro service
+#
+# The pro service is activated by the CGI parameter pro= or
+# the hostname extract-pro
+#
 sub check_extract_pro {
     my $self = shift;
 
@@ -446,8 +450,10 @@ sub check_extract_pro {
 
     my $url = $q->url( -full => 1 );
 
-    # basic version, skip
-    return if !( $q->param("pro") || $url =~ m,/extract-pro/, );
+    # public version, skip
+    if ( !$q->param("pro") && $url !~ m,^https?://extract-pro[1-9]?\., ) {
+        return;
+    }
 
     foreach my $key (qw/homepage_extract spool_dir download/) {
         my $key_pro = $key . "_pro";
