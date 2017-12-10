@@ -306,7 +306,8 @@ sub footer_top {
 
     if ( $option->{'pro'} ) {
         $donate =
-qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro service">extract pro</p>\n};
+qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro service">}
+          . qq{<a href="/extract.html#extract-pro">extract pro</a></p>\n};
     }
     elsif ( !$error ) {
         $donate = qq{<p class="normalscreen" id="big_donate_image">}
@@ -798,7 +799,8 @@ sub _check_input {
       &save_request( $obj, $self->get_spool_dir,
         $Extract::Config::spool->{"confirmed"} );
     if ( &complete_save_request($json_file) ) {
-        push @data, M("EXTRACT_DONATION");
+        push @data, M("EXTRACT_DONATION") if !$option->{'pro'};
+
         push @data, qq{<br/>} x 4, "</p>\n";
     }
 
