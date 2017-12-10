@@ -252,7 +252,7 @@ sub extract_route {
         while (<$fh>) {
             next if !/;pref_seen=[12]/;
 
-            if (   !m, (bbbike|[A-Z][a-zA-Z]+)\.cgi: (URL:)?http://,
+            if (   !m, (bbbike|[A-Z][a-zA-Z]+)\.cgi: (URL:)?https?://,
                 && !/ slippymap\.cgi: / )
             {
                 next;
@@ -260,7 +260,7 @@ sub extract_route {
 
             next
               if $only_production_statistic
-              && !m, ([a-zA-Z]+)\.cgi: (URL:)?http://$host.bbbike.org/,;
+              && !m, ([a-zA-Z]+)\.cgi: (URL:)?https?://$host.bbbike.org/,;
             next if !/coords/;
             next if $date && !/$date/;
 
