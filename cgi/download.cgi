@@ -220,10 +220,11 @@ sub sort_extracts {
 sub running_extract_areas {
     my %args = @_;
 
-    my $log_dir = $args{'log_dir'};
-    my $max     = $args{'max'};
-    my $devel   = $args{'devel'} || 0;
-    my $sort_by = $args{'sort_by'} || "time";
+    my $log_dir       = $args{'log_dir'};
+    my $max           = $args{'max'};
+    my $devel         = $args{'devel'} || 0;
+    my $sort_by       = $args{'sort_by'} || "time";
+    my $filter_format = $args{'filter_format'} || "";
 
     warn "download: log dir: $log_dir, max: $max, devel: $devel\n" if $debug;
 
@@ -259,6 +260,15 @@ sub running_extract_areas {
         }
 
         next if !exists $obj->{'date'};
+
+        if ( $filter_format ne "" ) {
+            if ( index( $obj->{"format"}, $filter_format ) == -1 ) {
+                warn
+"filtered by format: $file, $obj->{'format'} != $filter_format\n"
+                  if $debug >= 2;
+                next;
+            }
+        }
 
         my $script_url = $obj->{"script_url"};
 
@@ -716,8 +726,9 @@ EOF
 <div id="nomap">
 EOF
     @extracts = &running_extract_areas(
-        'log_dir' => "$spool_dir/" . $spool->{"confirmed"},
-        'max'     => $max
+        'log_dir'       => "$spool_dir/" . $spool->{"confirmed"},
+        'filter_format' => $filter_format,
+        'max'           => $max
     );
 
     result(
@@ -728,8 +739,9 @@ EOF
     );
 
     @extracts = &running_extract_areas(
-        'log_dir' => "$spool_dir/" . $spool->{"running"},
-        'max'     => $max
+        'log_dir'       => "$spool_dir/" . $spool->{"running"},
+        'filter_format' => $filter_format,
+        'max'           => $max
     );
 
     result(
