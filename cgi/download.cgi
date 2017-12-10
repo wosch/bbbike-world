@@ -174,7 +174,7 @@ sub extract_areas {
         }
 
         if ( $filter_format ne "" ) {
-            if ( index( $obj->{"format"}, $filter_format ) == -1 ) {
+            if ( index( $obj->{"format"}, $filter_format ) != 0 ) {
                 warn
 "filtered by $format: $download_file, $obj->{'format'} != $filter_format\n"
                   if $debug >= 2;
@@ -262,7 +262,7 @@ sub running_extract_areas {
         next if !exists $obj->{'date'};
 
         if ( $filter_format ne "" ) {
-            if ( index( $obj->{"format"}, $filter_format ) == -1 ) {
+            if ( index( $obj->{"format"}, $filter_format ) != 0 ) {
                 warn
 "filtered by format: $file, $obj->{'format'} != $filter_format\n"
                   if $debug >= 2;
@@ -414,9 +414,14 @@ sub statistic {
         keys %format_counter_all
       )
     {
+        # filter results by format
+        my $q = new CGI;
+        $q->param( "format", $f );
+        my $url = $q->url( -query => 1, -relative => 1 );
+
         print qq{<span title="} . $format_counter_all{$f} . qq{">};
-        printf( "%s (%2.2f%%)",
-            $f, $format_counter_all{$f} * 100 / scalar(@downloads) );
+        printf( "<a href='%s'>%s</a> (%2.2f%%)",
+            $url, $f, $format_counter_all{$f} * 100 / scalar(@downloads) );
         print "</span><br/>\n";
     }
     print "<hr/>\n\n";
