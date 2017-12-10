@@ -349,7 +349,7 @@ sub load_config {
     $self->{'debug'} = $debug;
 
     if (   $q->param('pro')
-        || $q->url( -full => 1 ) =~ m,^http://extract-pro[1-9]?\., )
+        || $q->url( -full => 1 ) =~ m,^https?://extract-pro[1-9]?\., )
     {
         $option->{'pro'} = 1;
 
