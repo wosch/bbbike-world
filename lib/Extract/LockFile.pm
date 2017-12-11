@@ -53,12 +53,13 @@ sub create_lock {
     my %args = @_;
 
     my $lockfile = $args{'lockfile'};
+    my $delay    = $self->{'delay'} || 5;
+    my $wait     = $self->{'wait'};
+    my $max      = 19;
 
-    warn "Try to create lockfile: $lockfile, value: $$\n" if $debug >= 1;
-    my $delay = $self->{'delay'} || 2;
-    my $wait = $self->{'wait'};
-
-    my $max = 19;
+    warn
+"Try to create lockfile: $lockfile, value: $$, wait: $wait, delay: $delay, max: $max\n"
+      if $debug >= 1;
 
     my $lockmgr = LockFile::Simple->make(
         -hold      => 7200,
