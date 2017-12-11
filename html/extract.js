@@ -31,13 +31,13 @@ var config = {
     "max_size": {
         "default": 512,
 
-        "osm.pbf": 514,
+        "osm.pbf": 520,
 
-        "obf.zip": 250,
+        "obf.zip": 256,
         "navit.zip": 512,
         "bbbike-perltk.zip": 90,
         "shp.zip": 128,
-        "mapsforge-osm.zip": 400,
+        "mapsforge-osm.zip": 320,
         "mapsme-osm.zip": 500,
 
         "garmin-bbbike.zip": 512,
