@@ -71,7 +71,8 @@ sub create_lock {
 
     # return undefined for failure
     else {
-        warn "Cannot get lockfile, apparently in use: $lockfile\n"
+        warn
+          "Cannot get lockfile, apparently in use: $lockfile, delay: $delay\n"
           if $debug >= 1;
         return;
     }
