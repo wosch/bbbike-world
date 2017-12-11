@@ -55,13 +55,14 @@ sub create_lock {
     my $lockfile = $args{'lockfile'};
 
     warn "Try to create lockfile: $lockfile, value: $$\n" if $debug >= 1;
+    my $delay = $self->{delay} || 1;
 
     my $lockmgr = LockFile::Simple->make(
         -hold      => 7200,
         -autoclean => 1,
         -max       => 5,
         -stale     => 1,
-        -delay     => 1
+        -delay     => $delay
     );
 
     if ( $lockmgr->trylock($lockfile) ) {

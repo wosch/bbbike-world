@@ -1704,7 +1704,7 @@ sub run_jobs {
     my $lockfile_extract = $spool->{'running'} . "/extract.pid";
 
     my $lockmgr_extract =
-      $e_lock->create_lock( 'lockfile' => $lockfile_extract )
+      $e_lock->create_lock( 'lockfile' => $lockfile_extract, 'delay' => 5 )
       or die "Cannot get lockfile $lockfile_extract, give up\n";
 
     # find a free job
