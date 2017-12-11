@@ -60,7 +60,7 @@ sub create_lock {
     my $lockmgr = LockFile::Simple->make(
         -hold      => 7200,
         -autoclean => 1,
-        -max       => 5,
+        -max       => 17,
         -stale     => 1,
         -delay     => $delay
     );
