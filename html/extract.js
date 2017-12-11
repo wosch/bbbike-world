@@ -1319,8 +1319,8 @@ function validateControls() {
         // adjust polygon size for huge data, the area size is usually not normal (e.g. sea coast)
         if (size > 50000) {
             // min. size factor 0.3 or 0.5 for very large areas
-            var p = polygon + (1 - polygon) * (size > 300000 ? 0.5 : 0.3);
-            debug("reset polygon of size: " + size + " from polygon: " + polygon + " to: " + p);
+            var p = polygon + (1 - polygon) * (size > 200000 ? 0.7 : 0.3);
+            debug("reset polygon of size: " + size + "skm to: " + (size * p) + " skm from polygon: " + polygon + " to: " + p);
             polygon = p;
         }
 
