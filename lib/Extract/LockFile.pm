@@ -58,7 +58,7 @@ sub create_lock {
     my $delay = $self->{'delay'} || 2;
     my $wait = $args{'wait'};
 
-    my $max = 17;
+    my $max = 19;
 
     my $lockmgr = LockFile::Simple->make(
         -hold      => 7200,
@@ -77,7 +77,7 @@ sub create_lock {
     # return undefined for failure
     else {
         warn "Cannot get lockfile, apparently in use: "
-          . "$lockfile, delay: $delay seconds, max: $max\n"
+          . "$lockfile, delay: $delay seconds, max: $max, wait: $wait\n"
           if $debug >= 1;
         return;
     }
