@@ -56,11 +56,12 @@ sub create_lock {
 
     warn "Try to create lockfile: $lockfile, value: $$\n" if $debug >= 1;
     my $delay = $self->{'delay'} || 2;
+    my $max = 17;
 
     my $lockmgr = LockFile::Simple->make(
         -hold      => 7200,
         -autoclean => 1,
-        -max       => 17,
+        -max       => $max,
         -stale     => 1,
         -delay     => $delay
     );
@@ -72,7 +73,8 @@ sub create_lock {
     # return undefined for failure
     else {
         warn
-          "Cannot get lockfile, apparently in use: $lockfile, delay: $delay\n"
+          "Cannot get lockfile, apparently in use: $lockfile, ",
+          "delay: $delay, max: $max\n"
           if $debug >= 1;
         return;
     }
