@@ -56,7 +56,7 @@ sub create_lock {
 
     warn "Try to create lockfile: $lockfile, value: $$\n" if $debug >= 1;
     my $delay = $self->{'delay'} || 2;
-    my $wait = $args{'wait'};
+    my $wait = $self->{'wait'};
 
     my $max = 19;
 
