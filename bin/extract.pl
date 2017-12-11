@@ -1693,7 +1693,7 @@ sub run_jobs {
     my @files = @$files;
     my $lockfile;
     my $lockmgr;
-    my $e_lock = Extract::LockFile->new( 'debug' => $debug, 'delay' => 5 );
+    my $e_lock = Extract::LockFile->new( 'debug' => $debug, 'delay' => 9 );
 
     warn "Start job at: @{[ gmctime() ]} UTC\n" if $debug >= 1;
 
