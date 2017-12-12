@@ -1112,6 +1112,12 @@ sub _convert_send_email {
         $nice_level_converter =
           $option->{"nice_level_converter_format"}{$format};
     }
+    elsif ( $format =~ /^garmin-/
+        && exists $option->{"nice_level_converter_format"}{"garmin"} )
+    {
+        $nice_level_converter =
+          $option->{"nice_level_converter_format"}{"garmin"};
+    }
     elsif ( exists $option->{"nice_level_converter"} ) {
         $nice_level_converter = $option->{"nice_level_converter"};
     }
@@ -1701,7 +1707,7 @@ sub run_jobs {
     my @files = @$files;
     my $lockfile;
     my $lockmgr;
-    my $e_lock = Extract::LockFile->new( 'debug' => $debug, 'wait' => 1 );
+    my $e_lock = Extract::LockFile->new( 'debug' => $debug, 'wait' => 0 );
 
     warn "Start job at: @{[ gmctime() ]} UTC\n" if $debug >= 1;
 
