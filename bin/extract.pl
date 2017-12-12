@@ -168,11 +168,6 @@ if ( $option->{"pro"} ) {
 }
 my $osmosis_options = join( " ", @{ $option->{"osmosis_options"} } );
 
-my $nice_level_converter =
-  exists $option->{"nice_level_converter"}
-  ? $option->{"nice_level_converter"}
-  : $nice_level + 3;
-
 # test & debug
 $planet_osm =
   "../osm/download/geofabrik/europe/germany/brandenburg-latest.osm.pbf"
@@ -1110,6 +1105,19 @@ sub _convert_send_email {
     warn "pbf file size $pbf_file: @{[ file_size_mb($pbf_file) ]} MB\n"
       if $debug >= 1;
     $obj->{"pbf_file_size"} = file_size($pbf_file);
+
+    # run converter as mapsforge with lower priority
+    my $nice_level_converter = 0;
+    if ( exists $option->{"nice_level_converter_format"}{$format} ) {
+        $nice_level_converter =
+          $option->{"nice_level_converter_format"}{$format};
+    }
+    elsif ( exists $option->{"nice_level_converter"} ) {
+        $nice_level_converter = $option->{"nice_level_converter"};
+    }
+    else {
+        $nice_level_converter = $nice_level + 3;
+    }
 
     # convert .pbf to .osm if requested
     my @nice = ( "nice", "-n", $nice_level_converter );
