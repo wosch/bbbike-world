@@ -55,7 +55,7 @@ sub create_lock {
     my $lockfile = $args{'lockfile'};
     my $delay    = $self->{'delay'} || 5;
     my $wait     = $self->{'wait'};
-    my $max      = 19;
+    my $max      = 32;
 
     warn
 "Try to create lockfile: $lockfile, value: $$, wait: $wait, delay: $delay, max: $max\n"
@@ -66,10 +66,33 @@ sub create_lock {
         -autoclean => 1,
         -max       => $max,
         -stale     => 1,
+        -ext       => ".lock",
         -delay     => $delay
     );
 
-    my $res = $wait ? $lockmgr->lock($lockfile) : $lockmgr->trylock($lockfile);
+    my $res;
+
+    if ( !$wait ) {
+        $res = $lockmgr->trylock($lockfile);
+    }
+    else {
+        #
+        # We have to implement our own wait for a lock
+        # We need to wait a random value, not a fixed time in seconds to
+        # avoid a clash with other scripts
+        #
+        foreach my $i ( 1 .. $max ) {
+            $res = $lockmgr->trylock($lockfile);
+            if ($res) {
+                last;
+            }
+            else {
+                my $random = rand();
+                warn "sleep random to get lockfile: $random\n" if $debug >= 3;
+                select( undef, undef, undef, $random );
+            }
+        }
+    }
 
     if ($res) {
         return $lockmgr;
@@ -91,7 +114,7 @@ sub remove_lock {
     my $lockfile = $args{'lockfile'};
     my $lockmgr  = $args{'lockmgr'};
 
-    my $pid = read_data("$lockfile.lock");    # xxx
+    my $pid = read_data("$lockfile.lock");    # -ext => ".lock"
     chomp($pid);
 
     warn "Remove lockfile: $lockfile, pid $pid\n" if $debug >= 1;
