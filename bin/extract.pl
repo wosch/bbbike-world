@@ -142,6 +142,14 @@ our $option = {
         'navit_version'      => 'maptool',
         'bbbike_version'     => 'bbbike',
         'shape_version'      => 'osmium2shape',
+    },
+
+    'nice_level_converter_format' => {
+        'mapsforge' => 15,
+        'obf'       => 12,
+        'svg'       => 5,
+        'xz'        => 4,
+        'garmin'    => 9
     }
 };
 
@@ -1052,6 +1060,60 @@ sub script_url {
     return $script_url;
 }
 
+sub get_nice_level_converter {
+    my %args = @_;
+
+    my $format     = $args{'format'};
+    my $nice_level = $args{'nice_level'};
+
+    # run converter as mapsforge with lower priority
+    my $nice_level_converter = 0;
+
+    if ( exists $option->{"nice_level_converter_format"}{$format} ) {
+        $nice_level_converter =
+          $option->{"nice_level_converter_format"}{$format};
+    }
+
+    # garmin catch all
+    elsif ( $format =~ /garmin-/
+        && exists $option->{"nice_level_converter_format"}{"garmin"} )
+    {
+        $nice_level_converter =
+          $option->{"nice_level_converter_format"}{"garmin"};
+    }
+
+    # mapsforge catch all
+    elsif ( $format =~ /mapsforge-/
+        && exists $option->{"nice_level_converter_format"}{"mapsforge"} )
+    {
+        $nice_level_converter =
+          $option->{"nice_level_converter_format"}{"mapsforge"};
+    }
+
+    # osmand catch all
+    elsif ( $format =~ /obf/
+        && exists $option->{"nice_level_converter_format"}{"obf"} )
+    {
+        $nice_level_converter = $option->{"nice_level_converter_format"}{"obf"};
+    }
+
+    # xz catch all
+    elsif ( $format =~ /\.xz$/
+        && exists $option->{"nice_level_converter_format"}{"xz"} )
+    {
+        $nice_level_converter = $option->{"nice_level_converter_format"}{"xz"};
+    }
+
+    elsif ( exists $option->{"nice_level_converter"} ) {
+        $nice_level_converter = $option->{"nice_level_converter"};
+    }
+    else {
+        $nice_level_converter = $nice_level + 3;
+    }
+
+    return $nice_level_converter;
+}
+
 sub _convert_send_email {
     my %args             = @_;
     my $json_file        = $args{'json_file'};
@@ -1107,23 +1169,10 @@ sub _convert_send_email {
     $obj->{"pbf_file_size"} = file_size($pbf_file);
 
     # run converter as mapsforge with lower priority
-    my $nice_level_converter = 0;
-    if ( exists $option->{"nice_level_converter_format"}{$format} ) {
-        $nice_level_converter =
-          $option->{"nice_level_converter_format"}{$format};
-    }
-    elsif ( $format =~ /^garmin-/
-        && exists $option->{"nice_level_converter_format"}{"garmin"} )
-    {
-        $nice_level_converter =
-          $option->{"nice_level_converter_format"}{"garmin"};
-    }
-    elsif ( exists $option->{"nice_level_converter"} ) {
-        $nice_level_converter = $option->{"nice_level_converter"};
-    }
-    else {
-        $nice_level_converter = $nice_level + 3;
-    }
+    my $nice_level_converter = get_nice_level_converter(
+        'format'     => $format,
+        'nice_level' => $nice_level
+    );
 
     # convert .pbf to .osm if requested
     my @nice = ( "nice", "-n", $nice_level_converter );
