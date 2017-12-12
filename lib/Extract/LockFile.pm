@@ -53,12 +53,11 @@ sub create_lock {
     my %args = @_;
 
     my $lockfile = $args{'lockfile'};
-    my $delay    = $self->{'delay'} || 5;
-    my $wait     = $self->{'wait'};
-    my $max      = 32;
+    my $wait     = defined $args{'wait'} ? $args{'wait'} : $self->{'wait'};
+    my $max      = 48;
 
     warn
-"Try to create lockfile: $lockfile, value: $$, wait: $wait, delay: $delay, max: $max\n"
+      "Try to create lockfile: $lockfile, value: $$, wait: $wait, max: $max\n"
       if $debug >= 1;
 
     my $lockmgr = LockFile::Simple->make(
@@ -67,7 +66,6 @@ sub create_lock {
         -max       => $max,
         -stale     => 1,
         -ext       => ".lock",
-        -delay     => $delay
     );
 
     my $res;
@@ -101,8 +99,9 @@ sub create_lock {
     # return undefined for failure
     else {
         warn "Cannot get lockfile, apparently in use: "
-          . "$lockfile, delay: $delay seconds, max: $max, wait: $wait\n"
+          . "$lockfile, max: $max, wait: $wait\n"
           if $debug >= 1;
+        warn `ls -l $lockfile*`;
         return;
     }
 }
