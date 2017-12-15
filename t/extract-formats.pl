@@ -25,9 +25,13 @@ my $ne_lat  = -13.235;
 # list of supported languages
 my @lang = ( "en", "de", "fr", "" );
 my @words = (
-    "Saarbrücken",                            "Berlin",
-    "北京市",                               "Москва",
-    "กรุงเทพมหานคร", "Łódz", "北京市 กรุงเทพมหานคร Москва Łódz 北京市"
+    "Saarbrücken",
+    "Berlin",
+    "北京市",
+    "Москва",
+    "กรุงเทพมหานคร",
+    "Łódz",
+"北京市 กรุงเทพมหานคร Москва Łódz 北京市"
 );
 
 sub message {
