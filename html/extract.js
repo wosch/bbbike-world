@@ -31,13 +31,13 @@ var config = {
     "max_size": {
         "default": 512,
 
-        "osm.pbf": 514,
+        "osm.pbf": 520,
 
-        "obf.zip": 250,
+        "obf.zip": 256,
         "navit.zip": 512,
         "bbbike-perltk.zip": 90,
-        "shp.zip": 512,
-        "mapsforge-osm.zip": 400,
+        "shp.zip": 128,
+        "mapsforge-osm.zip": 320,
         "mapsme-osm.zip": 500,
 
         "garmin-bbbike.zip": 512,
@@ -712,7 +712,8 @@ function extract_init_pro(opt) {
         debug("enable BBBike Pro service");
 
         config.max_size["default"] *= 1.7;
-        config.max_size["osm.pbf"] *= 3;
+        config.max_size["osm.pbf"] *= 6;
+        config.max_size["shp.zip"] *= 4;
         config.max_skm *= 2;
 
         config.extract_pro = 1;
@@ -1318,8 +1319,8 @@ function validateControls() {
         // adjust polygon size for huge data, the area size is usually not normal (e.g. sea coast)
         if (size > 50000) {
             // min. size factor 0.3 or 0.5 for very large areas
-            var p = polygon + (1 - polygon) * (size > 300000 ? 0.5 : 0.3);
-            debug("reset polygon of size: " + size + " from polygon: " + polygon + " to: " + p);
+            var p = polygon + (1 - polygon) * (size > 200000 ? 0.7 : 0.3);
+            debug("reset polygon of size: " + size + "skm to: " + (size * p) + " skm from polygon: " + polygon + " to: " + p);
             polygon = p;
         }
 

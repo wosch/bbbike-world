@@ -57,7 +57,7 @@ sub parse_json_file {
     my $file      = shift;
     my $non_fatal = shift;
 
-    warn "Open file '$file'\n" if $debug >= 2;
+    warn "Open json file '$file'\n" if $debug >= 2;
 
     my $fh = new IO::File $file, "r" or die "open '$file': $!\n";
     binmode $fh, ":utf8";

@@ -166,7 +166,7 @@ sub valid_hostname {
     my $hostname = shift || $ENV{HTTP_HOST} || "localhost";
     $hostname =~ s/:.*//;
 
-    if ( $hostname =~ /^([a-zA-Z0-9\.]+)$/ ) {
+    if ( $hostname =~ /^([a-zA-Z0-9\.\-]+)$/ ) {
         return $1;
     }
     else {
