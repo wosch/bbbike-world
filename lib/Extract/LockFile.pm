@@ -101,7 +101,8 @@ sub create_lock {
         warn "Cannot get lockfile, apparently in use: "
           . "$lockfile, max: $max, wait: $wait\n"
           if $debug >= 1;
-        warn `ls -l $lockfile*`;
+        warn `ls -l $lockfile*` if $debug >= 2;
+
         return;
     }
 }
