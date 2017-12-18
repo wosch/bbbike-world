@@ -29,7 +29,7 @@ sub new {
     my $class = shift;
     my %args  = @_;
 
-    my $self = {%args};
+    my $self = { 'wait' => 0, %args };
 
     bless $self, $class;
     $self->init;
