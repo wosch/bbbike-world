@@ -457,7 +457,12 @@ sub check_extract_pro {
 
     foreach my $key (qw/homepage_extract spool_dir download/) {
         my $key_pro = $key . "_pro";
-        $option->{$key} = $option->{$key_pro};
+        if ( !defined $option->{$key_pro} ) {
+            warn "Config $key_pro is not set, ignored. FIXME!\n";
+        }
+        else {
+            $option->{$key} = $option->{$key_pro};
+        }
     }
 
     $option->{"pro"} = 1;

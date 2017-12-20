@@ -22,7 +22,16 @@ binmode \*STDERR, ":utf8";
 $ENV{PATH} = "/bin:/usr/bin";
 
 our $option = {
-    'homepage'        => '//download.bbbike.org/osm/extract/',
+    'homepage'             => '//download.bbbike.org/osm/extract/',
+    'homepage_extract_pro' => '//extract-pro.bbbike.org',
+
+    # spool directory. Should be at least 100GB large
+    'spool_dir'     => '/var/cache/extract',
+    'spool_dir_pro' => '/var/cache/extract-pro',
+
+    'download'     => '/osm/extract/',
+    'download_pro' => '/osm/extract-pro/',
+
     'script_homepage' => '//extract.bbbike.org',
 
     'max_extracts'              => 50,
