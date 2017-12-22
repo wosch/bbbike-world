@@ -56,7 +56,7 @@ system_linux () {
   
   ncpu=$(egrep -c '^processor' $cpuinfo)
   vcpu=$ncpu
-  hcpu=$(perl -e 'print int ( '$ncpu' / 2 + 0.5)')
+  hcpu=$(($ncpu / 2))
 }
 
 case $(uname) in
