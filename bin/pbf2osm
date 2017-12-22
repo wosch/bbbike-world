@@ -71,7 +71,7 @@ usage [ option ] file.osm.pbf
 --osmosis --osmosis-gzip --osmosis-bzip2 --osmosis-pgzip --osmosis-pbzip2 --osmosis-xz
 --o5m --o5m-gzip --o5m-bzip2 --o5m-xz
 --csv --csv-gzip --csv-bzip2 --csv-xz
---opl --opl-gzip --opl-bzip2 --opl-xz
+--opl --opl-gzip --opl-bzip2 --opl-xz --opl-xz1
 
 --shape
 --osmand
@@ -124,6 +124,7 @@ case $format in
     --opl-gzip | --opl-gz ) shift; compress=opl-gzip ;;
     --opl-bzip2 | --opl-bz2 ) shift; compress=opl-bzip2 ;;
     --opl-xz ) shift; compress=opl-xz ;;
+    --opl-xz1 ) shift; compress=opl-xz1 ;;
 
     --shape | --shp | --shapefile ) shift; compress=shape ;;
     --osmand | --obf ) shift; compress=osmand ;;
@@ -280,6 +281,7 @@ case $compress in
     opl-gzip | opl-gz )   $osmium_convert $osmium_convert_opt "$file" | $gzip  > $tmp && mv -f $tmp $dir/$f.opl.gz ;;
     opl-bzip2 | opl-bz2 ) $osmium_convert $osmium_convert_opt "$file" | $bzip2 > $tmp && mv -f $tmp $dir/$f.opl.bz2 ;;
     opl-xz )              $osmium_convert $osmium_convert_opt "$file" | $xz -1 > $tmp && mv -f $tmp $dir/$f.opl.xz ;;
+    opl-xz1 )             $osmium_convert $osmium_convert_opt "$file" | xz -1  > $tmp && mv -f $tmp $dir/$f.opl.xz ;;
 
     # other formats
     bbbike ) $osm2bbbike "$file" "$bbbike_style" "$city" ;;
