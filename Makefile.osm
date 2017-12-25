@@ -1033,8 +1033,10 @@ tile-lng-run:
 	   CITIES_FILE=${TILES_DIR}/cities/cities2.txt CITIES_DB=${TILES_DIR}/cities/cities2.csv \
 	   MAX_CPU=${MAX_CPU_80} JAVACMD_OPTIONS2= OSM_DIR=${TILES_DIR}/lng _cities-parallel-pbf
 
-tile-pbf2pbf:
+tile-pbf2pbf: tile-pbf2pbf-lt500k tile-pbf2pbf-ge500k
+tile-pbf2pbf-lt500k:
 	find ${_pbf_dir} -name '*.pbf' -size -500k -print0 | ${NICE} ${TIME} xargs -0 -n36 -P${MAX_CPU2} ${PBF2PBF}
+tile-pbf2pbf-ge500k:
 	find ${_pbf_dir} -name '*.pbf' ! -size -500k -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${PBF2PBF}
 
 _pbf_dir=${TILES_DIR}/lnglat/
