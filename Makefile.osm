@@ -46,6 +46,10 @@ MAX_OSM2PNG=	${MAX_CPU2}
 MAX_OSM2SVG=	${MAX_CPU}
 MAX_OSM2MAPSFORGE= $$(( ${MAX_CPU} / 4 + 1 ))
 MAX_OSM2MAPSME=	${MAX_CPU2}
+MAX_CPU_33=	$$(( ${MAX_CPU} / 3 + 1 ))
+MAX_CPU_40=	$$(( ${MAX_CPU} * 4 / 10 + 1 ))
+MAX_CPU_50=	$$(( ${MAX_CPU} * 5 / 10 + 1 ))
+MAX_CPU_80=	$$(( ${MAX_CPU} * 8 / 10 + 1 ))
 
 CURL_USER_AGENT=	-A "BBBike.org-CacheHeater/1.0"
 
@@ -1021,12 +1025,12 @@ tile-lnglat:
 	./world/bin/tile-lnglat.pl > ${TILES_DIR}/lnglat.sh
 
 tile-lnglat-run:
-	${TIME} env NO_PBF2PBF=true OSM_DIR_NOSUBDIR=true ${XARGS5} -0 -n1 -P${MAX_CPU} /bin/sh -c < ${TILES_DIR}/lnglat.sh
+	${TIME} env NO_PBF2PBF=true OSM_DIR_NOSUBDIR=true ${XARGS5} -0 -n1 -P${MAX_CPU_50} /bin/sh -c < ${TILES_DIR}/lnglat.sh
 
 tile-lng-run:
 	env OSM_DIR_NOSUBDIR=true NO_PBF2PBF=true LOG_DIR=${TILES_DIR}/tmp ${BBMAKE} -s LOG_DIR=${TILES_DIR}/tmp \
 	   CITIES_FILE=${TILES_DIR}/cities/cities2.txt CITIES_DB=${TILES_DIR}/cities/cities2.csv \
-	   MAX_CPU=${MAX_CPU} JAVACMD_OPTIONS2= OSM_DIR=${TILES_DIR}/lng _cities-parallel-pbf
+	   MAX_CPU=${MAX_CPU_80} JAVACMD_OPTIONS2= OSM_DIR=${TILES_DIR}/lng _cities-parallel-pbf
 
 tile-pbf2pbf:
 	find ${_pbf_dir} -name '*.pbf' -size -500k -print0 | ${NICE} ${TIME} xargs -0 -n36 -P${MAX_CPU2} ${PBF2PBF}
