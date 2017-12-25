@@ -1035,9 +1035,9 @@ tile-lng-run:
 
 tile-pbf2pbf: tile-pbf2pbf-lt500k tile-pbf2pbf-ge500k
 tile-pbf2pbf-lt500k:
-	find ${_pbf_dir} -name '*.pbf' -size -500k -print0 | ${NICE} ${TIME} xargs -0 -n36 -P${MAX_CPU2} ${PBF2PBF}
+	find ${_pbf_dir} -name '*.pbf' -size -500k -print0 | ${NICE} ${TIME} xargs -0 -n36 -P${MAX_CPU_40} ${PBF2PBF}
 tile-pbf2pbf-ge500k:
-	find ${_pbf_dir} -name '*.pbf' ! -size -500k -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${PBF2PBF}
+	find ${_pbf_dir} -name '*.pbf' ! -size -500k -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_40} ${PBF2PBF}
 
 _pbf_dir=${TILES_DIR}/lnglat/
 _min_size=-size +500k
