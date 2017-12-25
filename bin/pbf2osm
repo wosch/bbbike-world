@@ -6,13 +6,12 @@
 PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 set -e
 
+: ${MULTI_CPU="YES"}
 # output format
 format="$1"
 
 dirname=$(dirname $0)
 compress=""
-gzip=`which pigz gzip 2>/dev/null | head -n 1`
-bzip2=`which pbzip2 bzip2 2>/dev/null | head -n 1`
 osm2bbbike=$dirname/osm2bbbike
 osm2garmin=$dirname/osm2garmin
 osm2png=$dirname/osm2png
@@ -50,10 +49,19 @@ fi
 
 xz=`which xz 2>/dev/null | head -n 1`
 xz_opt=-1
-if which pixz >/dev/null 2>&1; then
-    xz="pixz -t"
-    # use max. configured CPUs
-    xz_opt="$xz_opt -p$($(dirname $0)/ncpu)"
+gzip=gzip
+bzip2=bzip2
+
+# run on hardware with more than one CPU
+if [ "$MULTI_CPU" = "YES" ]; then
+     gzip=`which pigz gzip 2>/dev/null | head -n 1`
+     bzip2=`which pbzip2 bzip2 2>/dev/null | head -n 1`
+
+    if which pixz >/dev/null 2>&1; then
+       xz="pixz -t"
+       # use max. configured CPUs
+       xz_opt="$xz_opt -p$($(dirname $0)/ncpu)"
+    fi
 fi
 
 
