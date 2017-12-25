@@ -1044,7 +1044,7 @@ tile-convert-srtm: tile-convert-garmin-srtm tile-convert-osmand
 
 
 tile-convert-osm:
-	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_PBF2OSM} ${PBF2OSM} --pgzip
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_PBF2OSM} ${PBF2OSM} --gzip
 
 tile-convert-csv:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_PBF2OSM} ${PBF2OSM} --csv-xz
