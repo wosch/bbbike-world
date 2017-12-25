@@ -18,7 +18,7 @@ use File::stat;
 use strict;
 use warnings;
 
-plan tests => 11;
+plan tests => 7;
 
 my $prefix       = 'world/t/data-osm/tmp';
 my $pbf_file     = 'world/t/data-osm/tmp/Cusco.osm.pbf';
@@ -72,22 +72,10 @@ is( $?,                  0,        "pbf2osm --csv-gzip converter" );
 is( md5_file($tempfile), $csv_md5, "csv gzip md5 checksum matched" );
 
 system(
-qq[world/bin/pbf2osm --csv-gz $pbf_file && gzip -dc $osm_file_gz > $tempfile]
-);
-is( $?,                  0,        "pbf2osm --csv-gz converter" );
-is( md5_file($tempfile), $csv_md5, "csv gz md5 checksum matched" );
-
-system(
 qq[world/bin/pbf2osm --csv-bzip2 $pbf_file && bzcat $osm_file_bz2 > $tempfile]
 );
 is( $?,                  0,        "pbf2osm --csv-bzip2 converter" );
 is( md5_file($tempfile), $csv_md5, "csv bzip2 md5 checksum matched" );
-
-system(
-    qq[world/bin/pbf2osm --csv-bz2 $pbf_file && bzcat $osm_file_bz2 > $tempfile]
-);
-is( $?,                  0,        "pbf2osm --csv-bz2 converter" );
-is( md5_file($tempfile), $csv_md5, "csv bz2 md5 checksum matched" );
 
 system(
     qq[world/bin/pbf2osm --csv-xz $pbf_file && xzcat $osm_file_xz > $tempfile]);
