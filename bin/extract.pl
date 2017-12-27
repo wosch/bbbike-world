@@ -56,7 +56,7 @@ binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
 # backward compatible
-$ENV{BBBIKE_PLANET_OSM_GRANULARITY} = "granularity=10000"
+$ENV{BBBIKE_PLANET_OSM_GRANULARITY} = "granularity=100"
   if !defined $ENV{BBBIKE_PLANET_OSM_GRANULARITY};
 
 our $option = {
