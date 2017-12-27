@@ -1087,7 +1087,7 @@ tile-convert-garmin-srtm:
 
 tile-convert-osmand:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
-	  env osm_checksum=true java_heap=3200M ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_40} ${OSM2OSMAND} > ${TILES_TMP}/log.$@ 2>&1
+	  env MULTI_CPU=NO osm_checksum=true java_heap=3200M ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_30} ${OSM2OSMAND} > ${TILES_TMP}/log.$@ 2>&1
 
 tile-convert-mapsforge:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
