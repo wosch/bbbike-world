@@ -1047,8 +1047,8 @@ tile-pbf2pbf-gt10m:
 tile-pbf2pbf-ge500k:
 	find ${_pbf_dir} -name '*.pbf' -size +500k -size -10M -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_40} ${PBF2PBF} > ${TILES_TMP}/log.$@ 2>&1
 tile-pbf2pbf-lt500k:
-	find ${_pbf_dir} -name '*.pbf' -size  500k -print0 | ${NICE} ${TIME} xargs -0 -n16 -P${MAX_CPU_30} ${PBF2PBF} > ${TILES_TMP}/log.$@ 2>&1
-	find ${_pbf_dir} -name '*.pbf' -size -500k -print0 | ${NICE} ${TIME} xargs -0 -n16 -P${MAX_CPU_30} ${PBF2PBF} >> ${TILES_TMP}/log.$@ 2>&1
+	find ${_pbf_dir} -name '*.pbf' -size  500k -print0 | ${NICE} ${TIME} xargs -0 -n16 -P${MAX_CPU_40} ${PBF2PBF} > ${TILES_TMP}/log.$@ 2>&1
+	find ${_pbf_dir} -name '*.pbf' -size -500k -print0 | ${NICE} ${TIME} xargs -0 -n16 -P${MAX_CPU_40} ${PBF2PBF} >> ${TILES_TMP}/log.$@ 2>&1
 
 tile-pbf-check: 
 	@echo "Number of *.pbf files: $$(find ${TILES_DIR}/lnglat -name '*.pbf' -type f | wc -l)"
