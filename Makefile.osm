@@ -1015,7 +1015,11 @@ staging:
 	${BBMAKE} -C/usr/local/www/bbbike.org git-diff
 	${BBMAKE} -s purge-cache-js >/dev/null
 
+
 TILES_TMP=${TILES_DIR}/tmp
+_pbf_dir=${TILES_DIR}/lnglat/
+_min_size=-size +2000k
+
 # extract 180x360 data tiles from planet.osm
 tile-lng:
 	mkdir -p ${TILES_DIR}/tmp ${TILES_DIR}/cities tmp
@@ -1045,8 +1049,6 @@ tile-pbf2pbf-lt500k:
 	find ${_pbf_dir} -name '*.pbf' -size  500k -print0 | ${NICE} ${TIME} xargs -0 -n16 -P${MAX_CPU_30} ${PBF2PBF} > ${TILES_TMP}/log.$@ 2>&1
 	find ${_pbf_dir} -name '*.pbf' -size -500k -print0 | ${NICE} ${TIME} xargs -0 -n16 -P${MAX_CPU_30} ${PBF2PBF} >> ${TILES_TMP}/log.$@ 2>&1
 
-_pbf_dir=${TILES_DIR}/lnglat/
-_min_size=-size +500k
 tile-convert: tile-convert-osm tile-convert-shp tile-convert-navit tile-convert-garmin tile-convert-garmin-onroad tile-convert-mapsforge tile-convert-osmand
 tile-convert-srtm: tile-convert-garmin-srtm tile-convert-osmand
 
