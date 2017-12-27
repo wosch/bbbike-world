@@ -1028,22 +1028,22 @@ tile-lnglat:
 	./world/bin/tile-lnglat.pl > ${TILES_DIR}/lnglat.sh
 
 tile-lnglat-run:
-	${TIME} env NO_PBF2PBF=true OSM_DIR_NOSUBDIR=true ${XARGS5} -0 -n1 -P${MAX_CPU_50} /bin/sh -c < ${TILES_DIR}/lnglat.sh
+	${TIME} env NO_PBF2PBF=true OSM_DIR_NOSUBDIR=true ${XARGS5} -0 -n1 -P${MAX_CPU_80} /bin/sh -c < ${TILES_DIR}/lnglat.sh > tmp/log.$@ 2>&1
 
 tile-lng-run:
 	env OSM_DIR_NOSUBDIR=true NO_PBF2PBF=true LOG_DIR=${TILES_DIR}/tmp ${BBMAKE} -s LOG_DIR=${TILES_DIR}/tmp \
 	   CITIES_FILE=${TILES_DIR}/cities/cities2.txt CITIES_DB=${TILES_DIR}/cities/cities2.csv \
-	   MAX_CPU=${MAX_CPU_80} JAVACMD_OPTIONS2= OSM_DIR=${TILES_DIR}/lng _cities-parallel-pbf
+	   MAX_CPU=${MAX_CPU_40} JAVACMD_OPTIONS2= OSM_DIR=${TILES_DIR}/lng _cities-parallel-pbf > tmp/log.$@ 2>&1
 
 tile-pbf2pbf: tile-pbf2pbf-gt10m tile-pbf2pbf-ge500k tile-pbf2pbf-lt500k
 tile-pbf2pbf-gt10m:
-	find ${_pbf_dir} -name '*.pbf'  -size 10M -print0  | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_50} ${PBF2PBF}
-	find ${_pbf_dir} -name '*.pbf'  -size +10M -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_50} ${PBF2PBF}
+	find ${_pbf_dir} -name '*.pbf'  -size 10M -print0  | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_50} ${PBF2PBF} > tmp/log.$@ 2>&1
+	find ${_pbf_dir} -name '*.pbf'  -size +10M -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_50} ${PBF2PBF} >> tmp/log.$@ 2>&1
 tile-pbf2pbf-ge500k:
-	find ${_pbf_dir} -name '*.pbf' -size +500k -size -size -10M -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_40} ${PBF2PBF}
+	find ${_pbf_dir} -name '*.pbf' -size +500k -size -size -10M -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_40} ${PBF2PBF} > tmp/log.$@ 2>&1
 tile-pbf2pbf-lt500k:
-	find ${_pbf_dir} -name '*.pbf' -size  500k -print0 | ${NICE} ${TIME} xargs -0 -n16 -P${MAX_CPU_30} ${PBF2PBF}
-	find ${_pbf_dir} -name '*.pbf' -size -500k -print0 | ${NICE} ${TIME} xargs -0 -n16 -P${MAX_CPU_30} ${PBF2PBF}
+	find ${_pbf_dir} -name '*.pbf' -size  500k -print0 | ${NICE} ${TIME} xargs -0 -n16 -P${MAX_CPU_30} ${PBF2PBF} > tmp/log.$@ 2>&1
+	find ${_pbf_dir} -name '*.pbf' -size -500k -print0 | ${NICE} ${TIME} xargs -0 -n16 -P${MAX_CPU_30} ${PBF2PBF} >> tmp/log.$@ 2>&1
 
 _pbf_dir=${TILES_DIR}/lnglat/
 _min_size=-size +500k
@@ -1052,33 +1052,43 @@ tile-convert-srtm: tile-convert-garmin-srtm tile-convert-osmand
 
 
 tile-convert-osm:
-	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env MULTI_CPU=NO ${NICE} ${TIME} xargs -0 -n1 -P${MAX_PBF2OSM} ${PBF2OSM} --gzip
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
+	  env MULTI_CPU=NO ${NICE} ${TIME} xargs -0 -n1 -P${MAX_PBF2OSM} ${PBF2OSM} --gzip > tmp/log.$@ 2>&1
 
 tile-convert-csv:
-	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env MULTI_CPU=NO ${NICE} ${TIME} xargs -0 -n1 -P${MAX_PBF2OSM} ${PBF2OSM} --csv-xz
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
+	  env MULTI_CPU=NO ${NICE} ${TIME} xargs -0 -n1 -P${MAX_PBF2OSM} ${PBF2OSM} --csv-xz > tmp/log.$@ 2>&1
 
 tile-convert-shp:
-	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true MULTI_CPU=NO ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2SHAPE}
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
+	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2SHAPE} > tmp/log.$@ 2>&1
         
 tile-convert-mapsme:
-	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true MULTI_CPU=NO ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2MAPSME}
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
+	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2MAPSME} > tmp/log.$@ 2>&1
 
 tile-convert-garmin:
-	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true MULTI_CPU=NO osm2xxx_max_jobs=1 ${NICE} ${TIME} xargs -0 -n1 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
+	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_OSM2GARMIN} ${OSM2GARMIN} > tmp/log.$@ 2>&1
 tile-convert-garmin-onroad:
-	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true MULTI_CPU=NO osm2xxx_max_jobs=1 ${NICE} ${TIME} xargs -0 -n1 -P${MAX_OSM2GARMIN} ${OSM2GARMIN_ONROAD}
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
+	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_OSM2GARMIN} ${OSM2GARMIN_ONROAD} > tmp/log.$@ 2>&1
 
 tile-convert-garmin-srtm:
-	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true MULTI_CPU=NO osm2xxx_max_jobs=1 ${NICE} ${TIME} xargs -0 -n1 -P${MAX_OSM2GARMIN} ${OSM2GARMIN_SRTM}
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
+	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_OSM2GARMIN} ${OSM2GARMIN_SRTM} > tmp/log.$@ 2>&1
 
 tile-convert-osmand:
-	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true MULTI_CPU=NO osm2xxx_max_jobs=1 java_heap=3200M ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_40} ${OSM2OSMAND}
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
+	  env osm_checksum=true java_heap=3200M ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_40} ${OSM2OSMAND} > tmp/log.$@ 2>&1
 
 tile-convert-mapsforge:
-	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true MULTI_CPU=NO osm2xxx_max_jobs=1 ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_30} ${OSM2MAPSFORGE}
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
+	  env osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_30} ${OSM2MAPSFORGE} > tmp/log.$@ 2>&1
 
 tile-convert-navit:
-	find ${_pbf_dir} -name '*.osm.gz' ${_min_size} -print0 | env osm_checksum=true MULTI_CPU=NO ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2NAVIT}
+	find ${_pbf_dir} -name '*.osm.gz' ${_min_size} -print0 | \
+	  env osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2NAVIT} > tmp/log.$@ 2>&1
 
 tile-extract: tile-lng tile-lnglat tile-lng-run tile-lnglat-run tile-pbf2pbf
 
