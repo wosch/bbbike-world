@@ -62,6 +62,10 @@ if [ "$MULTI_CPU" = "YES" ]; then
        # use max. configured CPUs
        xz_opt="$xz_opt -p$($(dirname $0)/ncpu)"
     fi
+
+else
+    # garmin
+    : ${osm2xxx_max_jobs="1"}
 fi
 
 
