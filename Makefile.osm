@@ -1040,6 +1040,7 @@ tile-lng-run:
 
 tile-pbf2pbf: tile-pbf2pbf-gt10m tile-pbf2pbf-ge500k tile-pbf2pbf-lt500k tile-pbf-check
 
+# cleanup errors in PBF files
 tile-pbf2pbf-gt10m:
 	find ${_pbf_dir} -name '*.pbf'  -size 10M -print0  | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_50} ${PBF2PBF} > ${TILES_TMP}/log.$@ 2>&1
 	find ${_pbf_dir} -name '*.pbf'  -size +10M -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_50} ${PBF2PBF} >> ${TILES_TMP}/log.$@ 2>&1
