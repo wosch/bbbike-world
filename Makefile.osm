@@ -58,20 +58,21 @@ XARGS=		${NICE} `which gxargs xargs | head -1`
 XARGS5=		`which gxargs xargs | head -1`
 TIME=		time
 OSM2PBF=	world/bin/osm2pbf
+
 PBF2OSM=	world/bin/pbf2osm
 OSM_CHECKSUM=	world/bin/osm-checksum
 PBF2PBF=	world/bin/pbf2pbf
-OSM2GARMIN=	world/bin/osm2garmin
+OSM2GARMIN=		world/bin/pbf2osm --garmin-osm
 OSM2GARMIN_CYCLE=	world/bin/pbf2osm --garmin-cycle
 OSM2GARMIN_ONROAD=	world/bin/pbf2osm --garmin-onroad
 OSM2GARMIN_OSEAM=	world/bin/pbf2osm --garmin-oseam
 OSM2GARMIN_SRTM=        world/bin/pbf2osm --garmin-srtm
-OSM2PNG=	world/bin/wrapper-instable world/bin/bomb --timeout=1400 world/bin/osm2png
-OSM2SVG=	world/bin/wrapper-instable world/bin/bomb --timeout=1400 world/bin/osm2svg
-OSM2SHAPE=	world/bin/osm2shape
-OSM2OSMAND=	world/bin/osm2osmand
-OSM2NAVIT=	world/bin/osm2navit
-OSM2MAPSFORGE=	world/bin/osm2mapsforge
+OSM2PNG=	world/bin/wrapper-instable world/bin/bomb --timeout=1400 world/bin/pbf2osm --png-osm
+OSM2SVG=	world/bin/wrapper-instable world/bin/bomb --timeout=1400 world/bin/pbf2osm --svg-osm
+OSM2SHAPE=	world/bin/pbf2osm --shape
+OSM2OSMAND=	world/bin/pbf2osm --osmand
+OSM2NAVIT=	world/bin/pbf2osm --navit
+OSM2MAPSFORGE=	world/bin/pbf2osm --mapsforge-osm
 OSM2MAPSME=	world/bin/pbf2osm --mapsme-osm
 
 CITIES_DB=	world/etc/cities.csv
