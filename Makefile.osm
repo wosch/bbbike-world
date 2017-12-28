@@ -1310,7 +1310,7 @@ bbbike-bootstrap: bbbike-partition debian-bootstrap update-files install-backend
 MAPERITIVE_LOGDIR=/var/log/maperitive
 deb-opt-dir-version:
 	sudo mkdir -p ${MAPERITIVE_LOGDIR}
-	sudo chown -R $$(logname) ${MAPERITIVE_LOGDIR}
+	sudo chown -R ${LOGNAME} ${MAPERITIVE_LOGDIR}
 	cd ${DEB_OPT_DIR}; \
 	  sudo rm -f osmosis splitter mkgmap OsmAndMapCreator mapsforge omim Maperitive; \
 	  sudo ln -fs osmosis-0.46 osmosis; \
