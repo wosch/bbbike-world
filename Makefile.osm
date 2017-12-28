@@ -1312,7 +1312,8 @@ deb-opt-dir-version:
 	sudo mkdir -p ${MAPERITIVE_LOGDIR}
 	sudo chown -R $$(logname) ${MAPERITIVE_LOGDIR}
 	cd ${DEB_OPT_DIR}; \
-	  sudo rm -f splitter mkgmap OsmAndMapCreator mapsforge omim Maperitive; \
+	  sudo rm -f osmosis splitter mkgmap OsmAndMapCreator mapsforge omim Maperitive; \
+	  sudo ln -fs osmosis-0.46 osmosis; \
 	  sudo ln -fs splitter-r584 splitter; \
 	  sudo ln -fs mkgmap-r4000 mkgmap; \
 	  sudo ln -fs OsmAndMapCreator-2017-12-28 OsmAndMapCreator; \
