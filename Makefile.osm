@@ -1315,7 +1315,7 @@ deb-opt-dir-version:
 	  sudo rm -f splitter mkgmap OsmAndMapCreator mapsforge omim Maperitive; \
 	  sudo ln -fs splitter-r584 splitter; \
 	  sudo ln -fs mkgmap-r4000 mkgmap; \
-	  sudo ln -fs OsmAndMapCreator-2016-04-24 OsmAndMapCreator; \
+	  sudo ln -fs OsmAndMapCreator-2017-12-28 OsmAndMapCreator; \
 	  sudo ln -fs mapsforge-0.9.0 mapsforge; \
 	  sudo ln -fs omim-1.0 omim; \
 	  sudo ln -fs Maperitive-2.4.1 Maperitive
