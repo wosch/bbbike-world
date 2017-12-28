@@ -1307,11 +1307,17 @@ bbbike-bootstrap: bbbike-partition debian-bootstrap update-files install-backend
 	@echo ""
 	@echo "You may also run: make staging"
 
+MAPERITIVE_LOGDIR=/var/log/maperitive
 deb-opt-dir-version:
+	sudo mkdir -p ${MAPERITIVE_LOGDIR}
+	sudo chown -R $$(logname) ${MAPERITIVE_LOGDIR}
 	cd ${DEB_OPT_DIR}; \
-	  sudo rm -f omim Maperitive; \
+	  sudo rm -f splitter mkgmap OsmAndMapCreator omim Maperitive; \
+	  sudo ln -fs splitter-r584 splitter; \
+	  sudo ln -fs mkgmap-r4000 mkgmap; \
+	  sudo ln -fs OsmAndMapCreator-2016-04-24 OsmAndMapCreator; \
 	  sudo ln -fs omim-1.0 omim; \
-	  sudo ln -fs Maperitive-2.3.34 Maperitive; 
+	  sudo ln -fs Maperitive-2.4.1 Maperitive; \
 
 bbbike-partition:
 	sudo mkdir -p ${BBBIKE_PARTITION}
