@@ -1320,6 +1320,8 @@ deb-opt-dir-version:
 	  sudo ln -fs mapsforge-0.9.0 mapsforge; \
 	  sudo ln -fs omim-1.0 omim; \
 	  sudo ln -fs Maperitive-2.4.1 Maperitive
+	${BBMAKE} maperitive-bootstrap
+	${BBMAKE} osmosis-bootstrap
 
 bbbike-partition:
 	sudo mkdir -p ${BBBIKE_PARTITION}
@@ -1364,6 +1366,11 @@ osmosis-bootstrap:
 	cd ${OSMOSIS_PLUGIN_DIR}; \
 	  rm -f mapsforge-map-writer-*.jar; \
 	  ln -fs ${DEB_OPT_DIR}/mapsforge/mapsforge-map-writer-*.jar .
+
+maperitive-bootstrap:
+	cd ${DEB_OPT_DIR}/Maperitive; \
+          sudo chown -R ${LOGNAME} . ; \
+	  perl -i.bak -npe 's,<file value="logs/,<file value="/var/log/maperitive/,g' Maperitive.exe.config
 
 bbbike-c:
 	${MAKE} -s -C./ext all install >/dev/null 2>&1
