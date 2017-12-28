@@ -1182,8 +1182,6 @@ sub _convert_send_email {
         my $ext = $2;
         $file =~ s/\.pbf$/.$ext/;
         if ( !cached_format( $file, $pbf_file ) ) {
-
-            # use parallel gzip/bzip2/xz if possible
             @system = ( @nice, "$dirname/pbf2osm", "--$ext", $pbf_file );
 
             warn "@system\n" if $debug >= 2;
