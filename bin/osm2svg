@@ -12,7 +12,7 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_TMPFS="/tmpfs"}
 : ${BBBIKE_EXTRACT_LANG="en"}
 
-: ${BBBIKE_MAPERITIVE_VERSION="Maperitive-2.3.34"}
+: ${BBBIKE_MAPERITIVE_VERSION="Maperitive-2.4.1"}
 : ${BBBIKE_MAPERITIVE_ZOOM="15"}
 : ${BBBIKE_MAPERITIVE_SCALE="1"}
 : ${BBBIKE_MAPERITIVE_MAPSTYLE="osm"}
