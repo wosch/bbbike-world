@@ -25,6 +25,9 @@ our $option = {
     'homepage'             => '//download.bbbike.org/osm/extract/',
     'homepage_extract_pro' => '//extract-pro.bbbike.org',
 
+    'server_status'     => '//download.bbbike.org/osm/extract/',
+    'server_status_pro' => '//download.bbbike.org/osm/extract-pro/',
+
     # spool directory. Should be at least 100GB large
     'spool_dir'     => '/var/cache/extract',
     'spool_dir_pro' => '/var/cache/extract-pro',
@@ -32,7 +35,8 @@ our $option = {
     'download'     => '/osm/extract/',
     'download_pro' => '/osm/extract-pro/',
 
-    'script_homepage' => '//extract.bbbike.org',
+    'script_homepage'     => '//extract.bbbike.org',
+    'script_homepage_pro' => '//extract-pro.bbbike.org',
 
     'max_extracts'              => 50,
     'default_format'            => 'osm.pbf',

@@ -471,7 +471,12 @@ sub script_url {
         $coords = join '|', ( map { "$_->[0],$_->[1]" } @{ $obj->{'coords'} } );
     }
 
-    my $script_url = $option->{script_homepage} . "/?";
+    my $script_homepage =
+        $option->{'pro'}
+      ? $option->{'script_homepage_pro'}
+      : $option->{'script_homepage'};
+
+    my $script_url = "$script_homepage/?";
     $script_url .=
 "sw_lng=$obj->{sw_lng}&sw_lat=$obj->{sw_lat}&ne_lng=$obj->{ne_lng}&ne_lat=$obj->{ne_lat}";
     $script_url .= "&format=$obj->{'format'}";
@@ -789,11 +794,15 @@ sub _check_input {
         $text = $1;
     }
 
+    my $server_status =
+        $option->{'pro'}
+      ? $option->{'server_status_pro'}
+      : $option->{'server_status'};
     push @data,
       sprintf( $text,
         escapeHTML($city), large_int($skm), $coordinates,
         $self->{'formats'}->{$format},
-        $option->{'homepage'}, );
+        $server_status );
 
     my ( $key, $json_file ) =
       &save_request( $obj, $self->get_spool_dir,
