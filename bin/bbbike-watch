@@ -5,14 +5,20 @@
 #
 
 uptime
-/etc/munin/plugins/extract-jobs
+
+extract=extract
+case $0 in 
+	*-pro ) extract=extract-pro;;
+esac
+
+/etc/munin/plugins/${extract}-jobs
 
 echo; echo 'running: '
 
 running-extract email | sort | uniq -c | sort -nr
 
 echo 'waiting: '
-egrep -h @ /var/cache/extract/confirmed/*.json 2>/dev/null | perl -npe 's/,//' | sort | uniq -c |sort -nr
+egrep -h @ /var/cache/${extract}/confirmed/*.json 2>/dev/null | perl -npe 's/,//' | sort | uniq -c |sort -nr
 
 echo 'running city: '
 running-extract city | sort | uniq -c | sort -nr

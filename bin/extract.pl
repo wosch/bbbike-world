@@ -81,7 +81,8 @@ our $option = {
     'test'  => 0,
 
     # spool directory. Should be at least 100GB large
-    'spool_dir' => '/var/cache/extract',
+    'spool_dir'     => '/var/cache/extract',
+    'spool_dir_pro' => '/var/cache/extract-pro',
 
     'file_prefix' => 'planet_',
 
@@ -1913,8 +1914,9 @@ my $help;
 my $timeout;
 my $max_areas  = $option->{'max_areas'};
 my $send_email = $option->{'send_email'};
-my $spool_dir  = $option->{'spool_dir'};
-my $test_mode  = 0;
+my $spool_dir =
+  $option->{'pro'} ? $option->{'spool_dir_pro'} : $option->{'spool_dir'};
+my $test_mode = 0;
 
 GetOptions(
     "debug=i"      => \$debug,
@@ -1952,7 +1954,7 @@ while ( my ( $key, $val ) = each %$spool ) {
 
 my @files = get_jobs( $spool->{'confirmed'} );
 if ( !scalar(@files) ) {
-    print "Nothing to do\n" if $debug >= 2;
+    print "Nothing to do in $spool->{'confirmed'}\n" if $debug >= 2;
     exit 0;
 }
 

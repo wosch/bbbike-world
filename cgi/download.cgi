@@ -31,8 +31,9 @@ binmode \*STDERR, ":utf8";
 $ENV{PATH} = "/bin:/usr/bin";
 
 our $option = {
-    'debug'                => "0",
-    'homepage_download'    => '//download.bbbike.org/osm/',
+    'debug'             => "0",
+    'homepage_download' => '//download.bbbike.org/osm/',
+
     'homepage_extract'     => '//extract.bbbike.org',
     'homepage_extract_pro' => '//extract-pro.bbbike.org',
 
@@ -83,6 +84,8 @@ $extract->load_config;
 $extract->check_extract_pro;
 my $formats = $Extract::Config::formats;
 my $spool   = $Extract::Config::spool;
+my $spool_dir =
+  $option->{'pro'} ? $option->{'spool_dir_pro'} : $option->{'spool_dir'};
 
 # EOF config
 ###########################################################################
@@ -119,7 +122,7 @@ sub extract_areas {
     warn "download number of objects: @{[ scalar(@list) ]}\n" if $debug;
 
     my @area;
-    my $download_dir = $option->{"spool_dir"} . "/" . $spool->{"download"};
+    my $download_dir = "$spool_dir/" . $spool->{"download"};
     my $time         = time();
 
     my %unique;
@@ -239,7 +242,7 @@ sub running_extract_areas {
 
     my @area;
     my $json         = new JSON;
-    my $download_dir = $option->{"spool_dir"} . "/" . $spool->{"download"};
+    my $download_dir = "$spool_dir/" . $spool->{"download"};
 
     my %unique;
     for ( my $i = 0 ; $i < scalar(@list) && $i < $max ; $i++ ) {
@@ -302,7 +305,7 @@ sub footer {
 <div id="footer">
 <div id="footer_top">
 <a href="@{[ $option->{'homepage_download'} ]}">home</a> |
-<a href="$homepage_extract/extract.html">@{[ M("help") ]}</a> |
+<a href="/extract.html">@{[ M("help") ]}</a> |
 <a href="$homepage_extract/community.html">@{[ M("donate") ]}</a> |
 <a href="$homepage_extract/extract.html#extract-pro">commercial support</a>
 <hr/>
@@ -498,7 +501,10 @@ sub result {
         # download link if available
         print "<td>";
         if ( $download->{"download_file"} ) {
-            my $prefix = $option->{"download"};
+            my $prefix =
+                $option->{'pro'}
+              ? $option->{"download_pro"}
+              : $option->{"download"};
 
             print qq{<a title="$date" href="$prefix}
               . escapeHTML( $download->{"download_file"} )
@@ -514,7 +520,7 @@ sub result {
 
         # protocol independent links
         my $script_url = $download->{"script_url"};
-        $script_url =~ s,^http:,,;
+        $script_url =~ s,^https?:,,;
 
         print qq{<a class="polygon}
           . ( scalar(@coords) ? 1 : 0 )
@@ -678,7 +684,6 @@ EOF
 
     my $current_date     = time2str(time);
     my $homepage_extract = $option->{'homepage_extract'};
-    my $spool_dir        = $option->{"spool_dir"};
 
     my @extracts = ();
 
