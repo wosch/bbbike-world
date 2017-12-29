@@ -1048,9 +1048,13 @@ sub script_url {
     my $city   = $obj->{'city'}   || "";
     my $lang   = $obj->{'lang'}   || "";
 
-    my $script_url = $option->{script_homepage} . "/?";
+    my $script_url =
+        $option->{'pro'}
+      ? $option->{"script_homepage_pro"}
+      : $option->{"script_homepage"};
+
     $script_url .=
-"sw_lng=$obj->{sw_lng}&sw_lat=$obj->{sw_lat}&ne_lng=$obj->{ne_lng}&ne_lat=$obj->{ne_lat}";
+"/?sw_lng=$obj->{sw_lng}&sw_lat=$obj->{sw_lat}&ne_lng=$obj->{ne_lng}&ne_lat=$obj->{ne_lat}";
     $script_url .= "&format=$obj->{'format'}";
     $script_url .= "&coords=" . CGI::escape($coords) if $coords ne "";
     $script_url .= "&layers=" . CGI::escape($layers)
@@ -1441,7 +1445,12 @@ sub _convert_send_email {
         push @unlink, $file;
     }
 
-    my $url = $option->{'homepage'} . "/" . basename($to);
+    my $server_status =
+        $option->{'pro'}
+      ? $option->{"server_status_pro"}
+      : $option->{"server_status"};
+
+    my $url = $server_status . "/" . basename($to);
     if ( $option->{"aws_s3_enabled"} ) {
         $url = $option->{"aws_s3"}->{"homepage"} . "/" . $aws->aws_s3_path($to);
     }

@@ -807,6 +807,7 @@ sub _check_input {
         $option->{'pro'}
       ? $option->{'server_status_pro'}
       : $option->{'server_status'};
+
     push @data,
       sprintf( $text,
         escapeHTML($city), large_int($skm), $coordinates,
