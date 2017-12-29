@@ -65,7 +65,7 @@ if [ "$MULTI_CPU" = "YES" ]; then
 
 else
     # garmin
-    : ${osm2xxx_max_jobs="1"}
+    : ${osm2xxx_max_jobs="1"}; export osm2xxx_max_jobs
 fi
 
 
