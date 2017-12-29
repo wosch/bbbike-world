@@ -351,7 +351,7 @@ sub load_config {
     if (   $q->param('pro')
         || $q->url( -full => 1 ) =~ m,^https?://extract-pro[1-9]?\.,
         || $q->url( -full => 1 ) =~
-        m,^https?://download[1-9]\.bbbike\.org/osm/extract-pro/, )
+        m,^https?://download[1-9]?\.bbbike\.org/osm/extract-pro/, )
     {
         $option->{'pro'} = 1;
 
