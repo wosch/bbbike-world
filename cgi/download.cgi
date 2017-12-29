@@ -502,7 +502,10 @@ sub result {
         # download link if available
         print "<td>";
         if ( $download->{"download_file"} ) {
-            my $prefix = $option->{"download"};
+            my $prefix =
+                $option->{'pro'}
+              ? $option->{"download_pro"}
+              : $option->{"download"};
 
             print qq{<a title="$date" href="$prefix}
               . escapeHTML( $download->{"download_file"} )
