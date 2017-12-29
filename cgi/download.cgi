@@ -87,8 +87,6 @@ my $spool   = $Extract::Config::spool;
 my $spool_dir =
   $option->{'pro'} ? $option->{'spool_dir_pro'} : $option->{'spool_dir'};
 
-warn "xxx: $spool_dir $option->{'pro'}\n";
-
 # EOF config
 ###########################################################################
 
