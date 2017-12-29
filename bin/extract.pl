@@ -60,13 +60,21 @@ $ENV{BBBIKE_PLANET_OSM_GRANULARITY} = "granularity=100"
   if !defined $ENV{BBBIKE_PLANET_OSM_GRANULARITY};
 
 our $option = {
-    'max_areas'       => 1,
-    'homepage'        => '//download.bbbike.org/osm/extract',
-    'script_homepage' => '//extract.bbbike.org',
-    'max_jobs'        => 3,
-    'bcc'             => 'bbbike@bbbike.org',
-    'email_from'      => 'bbbike@bbbike.org',
-    'send_email'      => 1,
+    'max_areas' => 1,
+
+    # XXX?
+    'homepage' => '//download.bbbike.org/osm/extract',
+
+    'script_homepage'     => '//extract.bbbike.org',
+    'script_homepage_pro' => '//extract-pro.bbbike.org',
+
+    'server_status'     => '//download.bbbike.org/osm/extract',
+    'server_status_pro' => '//download.bbbike.org/osm/extract-pro',
+
+    'max_jobs'   => 3,
+    'bcc'        => 'bbbike@bbbike.org',
+    'email_from' => 'bbbike@bbbike.org',
+    'send_email' => 1,
 
     # timeout handling
     'alarm'         => 210 * 60,    # extract
