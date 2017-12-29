@@ -83,6 +83,10 @@ $extract->load_config;
 $extract->check_extract_pro;
 my $formats = $Extract::Config::formats;
 my $spool   = $Extract::Config::spool;
+my $spool_dir =
+  $option->{'pro'} ? $option->{'spool_dir_pro'} : $option->{'spool_dir'};
+
+warn "xxx: $spool_dir $option->{'pro'}\n";
 
 # EOF config
 ###########################################################################
@@ -119,7 +123,7 @@ sub extract_areas {
     warn "download number of objects: @{[ scalar(@list) ]}\n" if $debug;
 
     my @area;
-    my $download_dir = $option->{"spool_dir"} . "/" . $spool->{"download"};
+    my $download_dir = "$spool_dir/" . $spool->{"download"};
     my $time         = time();
 
     my %unique;
@@ -239,7 +243,7 @@ sub running_extract_areas {
 
     my @area;
     my $json         = new JSON;
-    my $download_dir = $option->{"spool_dir"} . "/" . $spool->{"download"};
+    my $download_dir = "$spool_dir/" . $spool->{"download"};
 
     my %unique;
     for ( my $i = 0 ; $i < scalar(@list) && $i < $max ; $i++ ) {
@@ -678,7 +682,6 @@ EOF
 
     my $current_date     = time2str(time);
     my $homepage_extract = $option->{'homepage_extract'};
-    my $spool_dir        = $option->{"spool_dir"};
 
     my @extracts = ();
 
