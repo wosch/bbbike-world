@@ -31,8 +31,9 @@ binmode \*STDERR, ":utf8";
 $ENV{PATH} = "/bin:/usr/bin";
 
 our $option = {
-    'debug'                => "0",
-    'homepage_download'    => '//download.bbbike.org/osm/',
+    'debug'             => "0",
+    'homepage_download' => '//download.bbbike.org/osm/',
+
     'homepage_extract'     => '//extract.bbbike.org',
     'homepage_extract_pro' => '//extract-pro.bbbike.org',
 
@@ -521,7 +522,7 @@ sub result {
 
         # protocol independent links
         my $script_url = $download->{"script_url"};
-        $script_url =~ s,^http:,,;
+        $script_url =~ s,^https?:,,;
 
         print qq{<a class="polygon}
           . ( scalar(@coords) ? 1 : 0 )
