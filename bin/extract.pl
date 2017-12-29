@@ -1952,7 +1952,7 @@ while ( my ( $key, $val ) = each %$spool ) {
 
 my @files = get_jobs( $spool->{'confirmed'} );
 if ( !scalar(@files) ) {
-    print "Nothing to do\n" if $debug >= 2;
+    print "Nothing to do in $spool->{'confirmed'}\n" if $debug >= 2;
     exit 0;
 }
 
