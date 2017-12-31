@@ -60,13 +60,21 @@ $ENV{BBBIKE_PLANET_OSM_GRANULARITY} = "granularity=100"
   if !defined $ENV{BBBIKE_PLANET_OSM_GRANULARITY};
 
 our $option = {
-    'max_areas'       => 1,
-    'homepage'        => '//download.bbbike.org/osm/extract',
-    'script_homepage' => '//extract.bbbike.org',
-    'max_jobs'        => 3,
-    'bcc'             => 'bbbike@bbbike.org',
-    'email_from'      => 'bbbike@bbbike.org',
-    'send_email'      => 1,
+    'max_areas' => 1,
+
+    # XXX?
+    'homepage' => '//download.bbbike.org/osm/extract',
+
+    'script_homepage'     => '//extract.bbbike.org',
+    'script_homepage_pro' => '//extract-pro.bbbike.org',
+
+    'server_status'     => '//download.bbbike.org/osm/extract',
+    'server_status_pro' => '//download.bbbike.org/osm/extract-pro',
+
+    'max_jobs'   => 3,
+    'bcc'        => 'bbbike@bbbike.org',
+    'email_from' => 'bbbike@bbbike.org',
+    'send_email' => 1,
 
     # timeout handling
     'alarm'         => 210 * 60,    # extract
@@ -1048,9 +1056,13 @@ sub script_url {
     my $city   = $obj->{'city'}   || "";
     my $lang   = $obj->{'lang'}   || "";
 
-    my $script_url = $option->{script_homepage} . "/?";
+    my $script_url =
+        $option->{'pro'}
+      ? $option->{"script_homepage_pro"}
+      : $option->{"script_homepage"};
+
     $script_url .=
-"sw_lng=$obj->{sw_lng}&sw_lat=$obj->{sw_lat}&ne_lng=$obj->{ne_lng}&ne_lat=$obj->{ne_lat}";
+"/?sw_lng=$obj->{sw_lng}&sw_lat=$obj->{sw_lat}&ne_lng=$obj->{ne_lng}&ne_lat=$obj->{ne_lat}";
     $script_url .= "&format=$obj->{'format'}";
     $script_url .= "&coords=" . CGI::escape($coords) if $coords ne "";
     $script_url .= "&layers=" . CGI::escape($layers)
@@ -1441,7 +1453,12 @@ sub _convert_send_email {
         push @unlink, $file;
     }
 
-    my $url = $option->{'homepage'} . "/" . basename($to);
+    my $server_status =
+        $option->{'pro'}
+      ? $option->{"server_status_pro"}
+      : $option->{"server_status"};
+
+    my $url = $server_status . "/" . basename($to);
     if ( $option->{"aws_s3_enabled"} ) {
         $url = $option->{"aws_s3"}->{"homepage"} . "/" . $aws->aws_s3_path($to);
     }
