@@ -1,4 +1,4 @@
-bbbike-world-javalibs-misc (1.2-4) unstable; urgency=low
+bbbike-world-javalibs-misc (1.5-1) unstable; urgency=low
 
   * symlink bugfixes
   * downgrade osmand

@@ -349,7 +349,9 @@ sub load_config {
     $self->{'debug'} = $debug;
 
     if (   $q->param('pro')
-        || $q->url( -full => 1 ) =~ m,^https?://extract-pro[1-9]?\., )
+        || $q->url( -full => 1 ) =~ m,^https?://extract-pro[1-9]?\.,
+        || $q->url( -full => 1 ) =~
+        m,^https?://download[1-9]?\.bbbike\.org/osm/extract-pro/, )
     {
         $option->{'pro'} = 1;
 
@@ -418,19 +420,31 @@ sub load_config_nocgi {
     my $self = shift;
 
     $option = $self->{'option'};
-    my $debug = $self->{'debug'} || $option->{'debug'} || 0;
+    my $debug =
+        defined $self->{'debug'}   ? $self->{'debug'}
+      : defined $ENV{DEBUG}        ? $ENV{DEBUG}
+      : defined $option->{'debug'} ? $option->{'debug'}
+      :                              0;
 
     my $config_file = "$ENV{HOME}/.bbbike-extract.rc";
     if ( $ENV{BBBIKE_EXTRACT_PROFILE} ) {
         $config_file = $ENV{BBBIKE_EXTRACT_PROFILE};
     }
+
+    if ( $config_file =~ /-pro/ ) {
+        warn
+          "detect extract pro config file=$config_file, set option->{'pro'}=1\n"
+          if $debug >= 1;
+        $option->{'pro'} = 1;
+    }
+
     if ( -e $config_file ) {
-        warn "Load config file nocgi: $config_file\n" if $debug >= 2;
+        warn "Load config file nocgi: $config_file\n" if $debug >= 1;
         require $config_file;
     }
     else {
         warn "config file: $config_file not found, ignored\n"
-          if $debug >= 2;
+          if $debug >= 1;
     }
 
     $self->{'debug'} = $debug;
@@ -457,7 +471,12 @@ sub check_extract_pro {
 
     foreach my $key (qw/homepage_extract spool_dir download/) {
         my $key_pro = $key . "_pro";
-        $option->{$key} = $option->{$key_pro};
+        if ( !defined $option->{$key_pro} ) {
+            warn "Config $key_pro is not set, ignored. FIXME!\n";
+        }
+        else {
+            $option->{$key} = $option->{$key_pro};
+        }
     }
 
     $option->{"pro"} = 1;

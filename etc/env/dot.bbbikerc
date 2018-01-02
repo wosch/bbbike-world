@@ -14,7 +14,7 @@ planet_osm_server_bzip2=https://planet.openstreetmap.org/planet
 # General
 #
 export BBBIKE_TMPDIR=/bbbike/tmp
-export BBBIKE_TMPFS=/tmpfs
+export BBBIKE_TMPFS=/tmp
 
 ###################################################################
 # Testing
@@ -58,7 +58,7 @@ export BBBIKE_API_SERVER=api.bbbike.org
 #
 # export BBBIKE_EXTRACT_LANG=en
 # export BBBIKE_MAPERITIVE_DISPLAY=":200"
-# export BBBIKE_PLANET_OSM_GRANULARITY="granularity=10000"
+# export BBBIKE_PLANET_OSM_GRANULARITY="granularity=100"
 # export BBBIKE_DEV_SERVER="http://dev3.bbbike.org"
 
 # workaround for imagemagic thread bug / busy waiting in libgomp

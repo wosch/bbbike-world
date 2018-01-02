@@ -38,12 +38,19 @@ MAX_OSM2PBF=	1
 MAX_OSM2SHAPE=	${MAX_CPU}
 MAX_OSM2NAVIT=	${MAX_CPU}
 MAX_PBF2OSM=	${MAX_CPU2}
-MAX_OSM2OSMAND=	${MAX_CPU2}
-MAX_OSM2GARMIN=	${MAX_CPU3}
+MAX_PBF2OPL=	$$(( ${MAX_CPU} * 2 / 3 + 1 ))
+#MAX_OSM2OSMAND=	${MAX_HCPU}
+MAX_OSM2OSMAND=	$$(( ${MAX_CPU} * 3 / 5 + 1 ))
+MAX_OSM2GARMIN=	$$(( ${MAX_CPU} / 4 + 1 ))
 MAX_OSM2PNG=	${MAX_CPU2}
 MAX_OSM2SVG=	${MAX_CPU}
-MAX_OSM2MAPSFORGE=1
+MAX_OSM2MAPSFORGE= $$(( ${MAX_CPU} / 4 + 1 ))
 MAX_OSM2MAPSME=	${MAX_CPU2}
+MAX_CPU_20=	$$(( ${MAX_CPU} * 2 / 10 + 1 ))
+MAX_CPU_30=	$$(( ${MAX_CPU} * 3 / 10 + 1 ))
+MAX_CPU_40=	$$(( ${MAX_CPU} * 4 / 10 + 1 ))
+MAX_CPU_50=	$$(( ${MAX_CPU} * 5 / 10 + 1 ))
+MAX_CPU_80=	$$(( ${MAX_CPU} * 8 / 10 + 1 ))
 
 CURL_USER_AGENT=	-A "BBBike.org-CacheHeater/1.0"
 
@@ -51,20 +58,21 @@ XARGS=		${NICE} `which gxargs xargs | head -1`
 XARGS5=		`which gxargs xargs | head -1`
 TIME=		time
 OSM2PBF=	world/bin/osm2pbf
+
 PBF2OSM=	world/bin/pbf2osm
 OSM_CHECKSUM=	world/bin/osm-checksum
 PBF2PBF=	world/bin/pbf2pbf
-OSM2GARMIN=	world/bin/osm2garmin
+OSM2GARMIN=		world/bin/pbf2osm --garmin-osm
 OSM2GARMIN_CYCLE=	world/bin/pbf2osm --garmin-cycle
 OSM2GARMIN_ONROAD=	world/bin/pbf2osm --garmin-onroad
 OSM2GARMIN_OSEAM=	world/bin/pbf2osm --garmin-oseam
 OSM2GARMIN_SRTM=        world/bin/pbf2osm --garmin-srtm
-OSM2PNG=	world/bin/wrapper-instable world/bin/bomb --timeout=1400 world/bin/osm2png
-OSM2SVG=	world/bin/wrapper-instable world/bin/bomb --timeout=1400 world/bin/osm2svg
-OSM2SHAPE=	world/bin/osm2shape
-OSM2OSMAND=	world/bin/osm2osmand
-OSM2NAVIT=	world/bin/osm2navit
-OSM2MAPSFORGE=	world/bin/osm2mapsforge
+OSM2PNG=	world/bin/wrapper-instable world/bin/bomb --timeout=1400 world/bin/pbf2osm --png-osm
+OSM2SVG=	world/bin/wrapper-instable world/bin/bomb --timeout=1400 world/bin/pbf2osm --svg-osm
+OSM2SHAPE=	world/bin/pbf2osm --shape
+OSM2OSMAND=	world/bin/pbf2osm --osmand
+OSM2NAVIT=	world/bin/pbf2osm --navit
+OSM2MAPSFORGE=	world/bin/pbf2osm --mapsforge-osm
 OSM2MAPSME=	world/bin/pbf2osm --mapsme-osm
 
 CITIES_DB=	world/etc/cities.csv
@@ -256,18 +264,19 @@ pbf2osm:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n1 -0 -P${MAX_PBF2OSM} ${PBF2OSM} --pgzip
 	${BBMAKE} _pbf2osm-checksum
 
+
 _pbf2osm-checksum:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${OSM_CHECKSUM}
 
 pbf2csv:
-	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n1 -0 -P1 ${PBF2OSM} --csv-xz
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n1 -0 -P${MAX_HCPU} ${PBF2OSM} --csv-xz
 	${BBMAKE} _pbf2csv-checksum
 
 _pbf2csv-checksum:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.csv.xz\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${OSM_CHECKSUM}
 
 pbf2opl:
-	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n1 -0 -P1 ${PBF2OSM} --opl-xz
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n1 -0 -P${MAX_PBF2OPL} ${PBF2OSM} --opl-xz
 	${BBMAKE} _pbf2opl-checksum
 
 _pbf2opl-checksum:
@@ -1007,6 +1016,9 @@ staging:
 	${BBMAKE} -s purge-cache-js >/dev/null
 
 
+TILES_TMP=${TILES_DIR}/tmp
+_pbf_dir=${TILES_DIR}/lnglat/
+_min_size=-size +2000k
 # extract 180x360 data tiles from planet.osm
 tile-lng:
 	mkdir -p ${TILES_DIR}/tmp ${TILES_DIR}/cities tmp
@@ -1019,51 +1031,71 @@ tile-lnglat:
 	./world/bin/tile-lnglat.pl > ${TILES_DIR}/lnglat.sh
 
 tile-lnglat-run:
-	${TIME} env NO_PBF2PBF=true OSM_DIR_NOSUBDIR=true ${XARGS5} -0 -n1 -P${MAX_CPU} /bin/sh -c < ${TILES_DIR}/lnglat.sh
+	${TIME} env NO_PBF2PBF=true OSM_DIR_NOSUBDIR=true ${XARGS5} -0 -n1 -P${MAX_CPU_80} /bin/sh -c < ${TILES_DIR}/lnglat.sh > ${TILES_TMP}/log.$@ 2>&1
 
 tile-lng-run:
-	env OSM_DIR_NOSUBDIR=true NO_PBF2PBF=true LOG_DIR=${TILES_DIR}/tmp ${BBMAKE} -s LOG_DIR=${TILES_DIR}/tmp \
+	env OSM_DIR_NOSUBDIR=true NO_PBF2PBF=true LOG_DIR=${TILES_TMP} ${BBMAKE} -s LOG_DIR=${TILES_TMP} \
 	   CITIES_FILE=${TILES_DIR}/cities/cities2.txt CITIES_DB=${TILES_DIR}/cities/cities2.csv \
-	   MAX_CPU=${MAX_CPU} JAVACMD_OPTIONS2= OSM_DIR=${TILES_DIR}/lng _cities-parallel-pbf
+	   MAX_CPU=${MAX_CPU_40} JAVACMD_OPTIONS2= OSM_DIR=${TILES_DIR}/lng _cities-parallel-pbf > ${TILES_TMP}/log.$@ 2>&1
 
-tile-pbf2pbf:
-	find ${_pbf_dir} -name '*.pbf' -size -500k -print0 | ${NICE} ${TIME} xargs -0 -n36 -P${MAX_CPU2} ${PBF2PBF}
-	find ${_pbf_dir} -name '*.pbf' ! -size -500k -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${PBF2PBF}
+tile-pbf2pbf: tile-pbf2pbf-gt10m tile-pbf2pbf-ge500k tile-pbf2pbf-lt500k tile-pbf-check
 
-_pbf_dir=${TILES_DIR}/lnglat/
-_min_size=-size +500k
+# cleanup errors in PBF files
+tile-pbf2pbf-gt10m:
+	find ${_pbf_dir} -name '*.pbf'  -size 10M -print0  | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_50} ${PBF2PBF} > ${TILES_TMP}/log.$@ 2>&1
+	find ${_pbf_dir} -name '*.pbf'  -size +10M -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_50} ${PBF2PBF} >> ${TILES_TMP}/log.$@ 2>&1
+tile-pbf2pbf-ge500k:
+	find ${_pbf_dir} -name '*.pbf' -size +500k -size -10M -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_40} ${PBF2PBF} > ${TILES_TMP}/log.$@ 2>&1
+tile-pbf2pbf-lt500k:
+	find ${_pbf_dir} -name '*.pbf' -size  500k -print0 | ${NICE} ${TIME} xargs -0 -n16 -P${MAX_CPU_40} ${PBF2PBF} > ${TILES_TMP}/log.$@ 2>&1
+	find ${_pbf_dir} -name '*.pbf' -size -500k -print0 | ${NICE} ${TIME} xargs -0 -n16 -P${MAX_CPU_40} ${PBF2PBF} >> ${TILES_TMP}/log.$@ 2>&1
+
+tile-pbf-check: 
+	@echo "Number of *.pbf files: $$(find ${TILES_DIR}/lnglat -name '*.pbf' -type f | wc -l)"
+	@echo "Number of *.pbf file with min ${_min_size}: $$(find ${TILES_DIR}/lnglat -name '*.pbf' ${_min_size} | wc -l)"
+
 tile-convert: tile-convert-osm tile-convert-shp tile-convert-navit tile-convert-garmin tile-convert-garmin-onroad tile-convert-mapsforge tile-convert-osmand
 tile-convert-srtm: tile-convert-garmin-srtm tile-convert-osmand
 
 
 tile-convert-osm:
-	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_PBF2OSM} ${PBF2OSM} --pgzip
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
+	  env MULTI_CPU=NO ${NICE} ${TIME} xargs -0 -n1 -P${MAX_PBF2OSM} ${PBF2OSM} --gzip > ${TILES_TMP}/log.$@ 2>&1
 
 tile-convert-csv:
-	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | ${NICE} ${TIME} xargs -0 -n1 -P${MAX_PBF2OSM} ${PBF2OSM} --csv-xz
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
+	  env MULTI_CPU=NO ${NICE} ${TIME} xargs -0 -n1 -P${MAX_PBF2OSM} ${PBF2OSM} --csv-xz > ${TILES_TMP}/log.$@ 2>&1
 
 tile-convert-shp:
-	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2SHAPE}
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
+	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2SHAPE} > ${TILES_TMP}/log.$@ 2>&1
         
 tile-convert-mapsme:
-	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2MAPSME}
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
+	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2MAPSME} > ${TILES_TMP}/log.$@ 2>&1
 
 tile-convert-garmin:
-	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true osm2xxx_max_jobs=1 ${NICE} ${TIME} xargs -0 -n1 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
+	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_OSM2GARMIN} ${OSM2GARMIN} > ${TILES_TMP}/log.$@ 2>&1
 tile-convert-garmin-onroad:
-	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true osm2xxx_max_jobs=1 ${NICE} ${TIME} xargs -0 -n1 -P${MAX_OSM2GARMIN} ${OSM2GARMIN_ONROAD}
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
+	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_50} ${OSM2GARMIN_ONROAD} > ${TILES_TMP}/log.$@ 2>&1
 
 tile-convert-garmin-srtm:
-	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true osm2xxx_max_jobs=1 ${NICE} ${TIME} xargs -0 -n1 -P${MAX_OSM2GARMIN} ${OSM2GARMIN_SRTM}
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
+	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_OSM2GARMIN} ${OSM2GARMIN_SRTM} > ${TILES_TMP}/log.$@ 2>&1
 
 tile-convert-osmand:
-	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true osm2xxx_max_jobs=1 java_heap=3200M ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2OSMAND}
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
+	  env MULTI_CPU=NO osm_checksum=true java_heap=3200M ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_50} ${OSM2OSMAND} > ${TILES_TMP}/log.$@ 2>&1
 
 tile-convert-mapsforge:
-	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | env osm_checksum=true osm2xxx_max_jobs=1 ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2MAPSFORGE}
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
+	  env osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_30} ${OSM2MAPSFORGE} > ${TILES_TMP}/log.$@ 2>&1
 
 tile-convert-navit:
-	find ${_pbf_dir} -name '*.osm.gz' ${_min_size} -print0 | env osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2NAVIT}
+	find ${_pbf_dir} -name '*.osm.gz' ${_min_size} -print0 | \
+	  env osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2NAVIT} > ${TILES_TMP}/log.$@ 2>&1
 
 tile-extract: tile-lng tile-lnglat tile-lng-run tile-lnglat-run tile-pbf2pbf
 
@@ -1275,11 +1307,21 @@ bbbike-bootstrap: bbbike-partition debian-bootstrap update-files install-backend
 	@echo ""
 	@echo "You may also run: make staging"
 
+MAPERITIVE_LOGDIR=/var/log/maperitive
 deb-opt-dir-version:
+	sudo mkdir -p ${MAPERITIVE_LOGDIR}
+	sudo chown -R ${LOGNAME} ${MAPERITIVE_LOGDIR}
 	cd ${DEB_OPT_DIR}; \
-	  sudo rm -f omim Maperitive; \
+	  sudo rm -f osmosis splitter mkgmap OsmAndMapCreator mapsforge omim Maperitive; \
+	  sudo ln -fs osmosis-0.46 osmosis; \
+	  sudo ln -fs splitter-r584 splitter; \
+	  sudo ln -fs mkgmap-r4000 mkgmap; \
+	  sudo ln -fs OsmAndMapCreator-2017-12-28 OsmAndMapCreator; \
+	  sudo ln -fs mapsforge-0.9.0 mapsforge; \
 	  sudo ln -fs omim-1.0 omim; \
-	  sudo ln -fs Maperitive-2.3.34 Maperitive; 
+	  sudo ln -fs Maperitive-2.4.1 Maperitive
+	${BBMAKE} maperitive-bootstrap
+	${BBMAKE} osmosis-bootstrap
 
 bbbike-partition:
 	sudo mkdir -p ${BBBIKE_PARTITION}
@@ -1324,6 +1366,11 @@ osmosis-bootstrap:
 	cd ${OSMOSIS_PLUGIN_DIR}; \
 	  rm -f mapsforge-map-writer-*.jar; \
 	  ln -fs ${DEB_OPT_DIR}/mapsforge/mapsforge-map-writer-*.jar .
+
+maperitive-bootstrap:
+	cd ${DEB_OPT_DIR}/Maperitive; \
+          sudo chown -R ${LOGNAME} . ; \
+	  perl -i.bak -npe 's,<file value="logs/,<file value="/var/log/maperitive/,g' Maperitive.exe.config
 
 bbbike-c:
 	${MAKE} -s -C./ext all install >/dev/null 2>&1

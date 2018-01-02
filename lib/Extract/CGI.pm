@@ -317,13 +317,22 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
     my $home = $q->url( -query => 0, -relative => 1 ) || "/";
     my $mc_parameters = $self->mc_parameters($q);
 
+    my $homepage =
+        $option->{'pro'}
+      ? $option->{"script_homepage_pro"}
+      : $option->{"script_homepage"};
+    my $server_status =
+        $option->{'pro'}
+      ? $option->{"server_status_pro"}
+      : $option->{"server_status"};
+
     return <<EOF;
   $donate
   $css
   <div id="footer_top">
-    <a href="$home">home</a> |
+    <a href="$homepage">home</a> |
     <a href="/extract.html">@{[ M("help") ]}</a> |
-    <a href="@{[ $option->{"homepage"} ]}" target="_blank">status</a> |
+    <a href="$server_status" target="_blank">status</a> |
     <!-- <a href="//mc.bbbike.org/mc/$mc_parameters" id="mc_link" target="_blank">map compare</a> | -->
     <a href="//download.bbbike.org/osm/">download</a> |
     <a href="/extract.html#extract-pro">@{[ M("commercial support") ]}</a>
@@ -471,7 +480,12 @@ sub script_url {
         $coords = join '|', ( map { "$_->[0],$_->[1]" } @{ $obj->{'coords'} } );
     }
 
-    my $script_url = $option->{script_homepage} . "/?";
+    my $script_homepage =
+        $option->{'pro'}
+      ? $option->{'script_homepage_pro'}
+      : $option->{'script_homepage'};
+
+    my $script_url = "$script_homepage/?";
     $script_url .=
 "sw_lng=$obj->{sw_lng}&sw_lat=$obj->{sw_lat}&ne_lng=$obj->{ne_lng}&ne_lat=$obj->{ne_lat}";
     $script_url .= "&format=$obj->{'format'}";
@@ -789,11 +803,16 @@ sub _check_input {
         $text = $1;
     }
 
+    my $server_status =
+        $option->{'pro'}
+      ? $option->{'server_status_pro'}
+      : $option->{'server_status'};
+
     push @data,
       sprintf( $text,
         escapeHTML($city), large_int($skm), $coordinates,
         $self->{'formats'}->{$format},
-        $option->{'homepage'}, );
+        $server_status );
 
     my ( $key, $json_file ) =
       &save_request( $obj, $self->get_spool_dir,

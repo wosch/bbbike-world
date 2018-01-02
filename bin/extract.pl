@@ -56,17 +56,25 @@ binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
 # backward compatible
-$ENV{BBBIKE_PLANET_OSM_GRANULARITY} = "granularity=10000"
+$ENV{BBBIKE_PLANET_OSM_GRANULARITY} = "granularity=100"
   if !defined $ENV{BBBIKE_PLANET_OSM_GRANULARITY};
 
 our $option = {
-    'max_areas'       => 1,
-    'homepage'        => '//download.bbbike.org/osm/extract',
-    'script_homepage' => '//extract.bbbike.org',
-    'max_jobs'        => 3,
-    'bcc'             => 'bbbike@bbbike.org',
-    'email_from'      => 'bbbike@bbbike.org',
-    'send_email'      => 1,
+    'max_areas' => 1,
+
+    # XXX?
+    'homepage' => '//download.bbbike.org/osm/extract',
+
+    'script_homepage'     => '//extract.bbbike.org',
+    'script_homepage_pro' => '//extract-pro.bbbike.org',
+
+    'server_status'     => '//download.bbbike.org/osm/extract',
+    'server_status_pro' => '//download.bbbike.org/osm/extract-pro',
+
+    'max_jobs'   => 3,
+    'bcc'        => 'bbbike@bbbike.org',
+    'email_from' => 'bbbike@bbbike.org',
+    'send_email' => 1,
 
     # timeout handling
     'alarm'         => 210 * 60,    # extract
@@ -81,7 +89,8 @@ our $option = {
     'test'  => 0,
 
     # spool directory. Should be at least 100GB large
-    'spool_dir' => '/var/cache/extract',
+    'spool_dir'     => '/var/cache/extract',
+    'spool_dir_pro' => '/var/cache/extract-pro',
 
     'file_prefix' => 'planet_',
 
@@ -1047,9 +1056,13 @@ sub script_url {
     my $city   = $obj->{'city'}   || "";
     my $lang   = $obj->{'lang'}   || "";
 
-    my $script_url = $option->{script_homepage} . "/?";
+    my $script_url =
+        $option->{'pro'}
+      ? $option->{"script_homepage_pro"}
+      : $option->{"script_homepage"};
+
     $script_url .=
-"sw_lng=$obj->{sw_lng}&sw_lat=$obj->{sw_lat}&ne_lng=$obj->{ne_lng}&ne_lat=$obj->{ne_lat}";
+"/?sw_lng=$obj->{sw_lng}&sw_lat=$obj->{sw_lat}&ne_lng=$obj->{ne_lng}&ne_lat=$obj->{ne_lat}";
     $script_url .= "&format=$obj->{'format'}";
     $script_url .= "&coords=" . CGI::escape($coords) if $coords ne "";
     $script_url .= "&layers=" . CGI::escape($layers)
@@ -1182,9 +1195,7 @@ sub _convert_send_email {
         my $ext = $2;
         $file =~ s/\.pbf$/.$ext/;
         if ( !cached_format( $file, $pbf_file ) ) {
-
-            # use parallel gzip/bzip2/xz
-            @system = ( @nice, "$dirname/pbf2osm", "--p$ext", $pbf_file );
+            @system = ( @nice, "$dirname/pbf2osm", "--$ext", $pbf_file );
 
             warn "@system\n" if $debug >= 2;
             @system = 'true' if $test_mode;
@@ -1442,7 +1453,12 @@ sub _convert_send_email {
         push @unlink, $file;
     }
 
-    my $url = $option->{'homepage'} . "/" . basename($to);
+    my $server_status =
+        $option->{'pro'}
+      ? $option->{"server_status_pro"}
+      : $option->{"server_status"};
+
+    my $url = $server_status . "/" . basename($to);
     if ( $option->{"aws_s3_enabled"} ) {
         $url = $option->{"aws_s3"}->{"homepage"} . "/" . $aws->aws_s3_path($to);
     }
@@ -1915,8 +1931,9 @@ my $help;
 my $timeout;
 my $max_areas  = $option->{'max_areas'};
 my $send_email = $option->{'send_email'};
-my $spool_dir  = $option->{'spool_dir'};
-my $test_mode  = 0;
+my $spool_dir =
+  $option->{'pro'} ? $option->{'spool_dir_pro'} : $option->{'spool_dir'};
+my $test_mode = 0;
 
 GetOptions(
     "debug=i"      => \$debug,
@@ -1936,7 +1953,7 @@ $Extract::Utils::debug = $debug;
 
 die usage if $help;
 die "Max jobs: $max_jobs out of range!\n" . &usage
-  if $max_jobs < 1 || $max_jobs > 12;
+  if $max_jobs < 1 || $max_jobs > 32;
 die "Max areas: $max_areas out of range 1..64!\n" . &usage
   if $max_areas < 1 || $max_areas > 64;
 
@@ -1954,7 +1971,7 @@ while ( my ( $key, $val ) = each %$spool ) {
 
 my @files = get_jobs( $spool->{'confirmed'} );
 if ( !scalar(@files) ) {
-    print "Nothing to do\n" if $debug >= 2;
+    print "Nothing to do in $spool->{'confirmed'}\n" if $debug >= 2;
     exit 0;
 }
 
