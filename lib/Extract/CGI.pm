@@ -775,12 +775,12 @@ sub _check_input {
     my $ip_limit = $option->{'scheduler'}->{'ip_limit'};
 
     if ( $email_counter > $email_limit ) {
-        error( M("EXTRACT_LIMIT") );
+        error( M("EXTRACT_LIMIT"), 1 );
         warn "limit email counter: $email_counter > email_limit $email\n"
           if $debug >= 1;
     }
     elsif ( $ip_counter > $ip_limit ) {
-        error( M("EXTRACT_LIMIT") );
+        error( M("EXTRACT_LIMIT"), 1 );
         warn "limit ip counter: $ip_counter > $ip_limit\n" if $debug >= 1;
     }
 
