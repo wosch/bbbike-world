@@ -96,7 +96,8 @@
         ],
 
     "EXTRACT_LIMIT": [
-        "Too many requests. Please try again later in 15min. Thanks!"
+        "Too many requests. Please try again later in 15min. Thanks!<br/>",
+        "If you are a commerical customer, you may try out the <a href='/extract.html#extract-pro'>extract pro service</a>."
         ],
 
     "EXTRACT_VALID": [
