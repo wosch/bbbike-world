@@ -13,5 +13,5 @@ All Data from OpenStreetMap is licensed under the
 OpenStreetMap License: https://wiki.openstreetmap.org/wiki/OpenStreetMap_License
 
 --
-Copyright (c) 2011-2017 https://bbbike.org
+Copyright (c) 2011-2018 https://bbbike.org
 https://www.BBBike.org/community.html - We appreciate any feedback, suggestions and a donation!

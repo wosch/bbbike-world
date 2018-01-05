@@ -55,7 +55,7 @@ case $file in
         : ${splitter_keep_complete="--keep-complete=false"}
         ;;
     *)         
-        : ${java_heap=2G}
+        : ${java_heap=2600M}
         ;;
 esac
 

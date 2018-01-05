@@ -118,8 +118,9 @@ our $option = {
     },
 
     # use web rest service for email sent out
-    'email_rest_url'     => 'https://extract.bbbike.org/cgi/extract-email.cgi',
-    'email_rest_enabled' => 0,
+    'email_rest_url'      => 'https://extract.bbbike.org/cgi/extract-email.cgi',
+    'email_rest_enabled'  => 0,
+    'email_failure_fatal' => 0,
 
     'show_image_size' => 1,
 
@@ -1587,11 +1588,18 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
 
     my $email_rest_enabled = $option->{"email_rest_enabled"};
     warn "email_rest_enabled: $email_rest_enabled\n" if $debug >= 2;
+
     if ($email_rest_enabled) {
-        send_email_rest(@args);
+        eval { send_email_rest(@args); };
+        if ($@) {
+            $option->{'email_failure_fatal'} ? die "$@" : warn "$@";
+        }
     }
     else {
-        send_email_smtp(@args);
+        eval { send_email_smtp(@args); };
+        if ($@) {
+            $option->{'email_failure_fatal'} ? die "$@" : warn "$@";
+        }
     }
 
     store_json( $json_file, $obj );
