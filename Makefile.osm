@@ -37,7 +37,7 @@ MAX_HCPU=	`world/bin/ncpu hcpu`
 MAX_OSM2PBF=	1
 MAX_OSM2SHAPE=	${MAX_CPU}
 MAX_OSM2NAVIT=	${MAX_CPU}
-MAX_PBF2OSM=	${MAX_CPU2}
+MAX_PBF2OSM=	${MAX_CPU}
 MAX_PBF2OPL=	$$(( ${MAX_CPU} * 2 / 3 + 1 ))
 #MAX_OSM2OSMAND=	${MAX_HCPU}
 MAX_OSM2OSMAND=	$$(( ${MAX_CPU} * 3 / 5 + 1 ))
@@ -261,7 +261,8 @@ osm2pbf:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.gz\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2PBF} ${OSM2PBF}
 
 pbf2osm:
-	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n1 -0 -P${MAX_PBF2OSM} ${PBF2OSM} --pgzip
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | \
+	  env MULTI_CPU=NO ${XARGS} -n1 -0 -P${MAX_PBF2OSM} ${PBF2OSM} --gzip
 	${BBMAKE} _pbf2osm-checksum
 
 
