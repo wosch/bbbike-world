@@ -38,6 +38,7 @@ my @tags =
   ( '</html>', '<head>', '<body[ >]', '</body>', '</head>', '<html[ >]' );
 my @elements = qw[
   /community.html
+  /support.html
   /extract.html
   /html/extract-download.css
   /html/extract-download.js
