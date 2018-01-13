@@ -323,8 +323,8 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
       : $option->{"script_homepage"};
     my $server_status =
         $option->{'pro'}
-      ? $option->{"server_status_pro"}
-      : $option->{"server_status"};
+      ? $option->{"server_status_url_pro"}
+      : $option->{"server_status_url"};
 
     return <<EOF;
   $donate
@@ -805,8 +805,8 @@ sub _check_input {
 
     my $server_status =
         $option->{'pro'}
-      ? $option->{'server_status_pro'}
-      : $option->{'server_status'};
+      ? $option->{'server_status_url_pro'}
+      : $option->{'server_status_url'};
 
     push @data,
       sprintf( $text,

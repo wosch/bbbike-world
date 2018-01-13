@@ -68,8 +68,8 @@ our $option = {
     'script_homepage'     => 'https://extract.bbbike.org',
     'script_homepage_pro' => 'https://extract-pro.bbbike.org',
 
-    'server_status'     => 'https://download.bbbike.org/osm/extract',
-    'server_status_pro' => 'https://download.bbbike.org/osm/extract-pro',
+    'server_status_url'     => 'https://download.bbbike.org/osm/extract',
+    'server_status_url_pro' => 'https://download.bbbike.org/osm/extract-pro',
 
     'max_jobs'   => 3,
     'bcc'        => 'bbbike@bbbike.org',
@@ -1456,8 +1456,8 @@ sub _convert_send_email {
 
     my $server_status =
         $option->{'pro'}
-      ? $option->{"server_status_pro"}
-      : $option->{"server_status"};
+      ? $option->{"server_status_url_pro"}
+      : $option->{"server_status_url"};
 
     my $url = $server_status . "/" . basename($to);
     if ( $option->{"aws_s3_enabled"} ) {
