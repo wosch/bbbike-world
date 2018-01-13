@@ -67,8 +67,8 @@ OSM2GARMIN_CYCLE=	world/bin/pbf2osm --garmin-cycle
 OSM2GARMIN_ONROAD=	world/bin/pbf2osm --garmin-onroad
 OSM2GARMIN_OSEAM=	world/bin/pbf2osm --garmin-oseam
 OSM2GARMIN_SRTM=        world/bin/pbf2osm --garmin-srtm
-OSM2PNG=	world/bin/wrapper-instable world/bin/bomb --timeout=1400 env max_file_size_maperitive=200000 world/bin/pbf2osm -- --png-osm
-OSM2SVG=	world/bin/wrapper-instable world/bin/bomb --timeout=1400 env max_file_size_maperitive=200000 world/bin/pbf2osm -- --svg-osm
+OSM2PNG=	world/bin/wrapper-instable world/bin/bomb --timeout=1400 -- env max_file_size_maperitive=200000 world/bin/pbf2osm --png-osm
+OSM2SVG=	world/bin/wrapper-instable world/bin/bomb --timeout=1400 -- env max_file_size_maperitive=200000 world/bin/pbf2osm --svg-osm
 OSM2SHAPE=	world/bin/pbf2osm --shape
 OSM2OSMAND=	world/bin/pbf2osm --osmand
 OSM2NAVIT=	world/bin/pbf2osm --navit
