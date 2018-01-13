@@ -308,7 +308,7 @@ sub footer {
 <a href="@{[ $option->{'homepage_download'} ]}">home</a> |
 <a href="/extract.html">@{[ M("help") ]}</a> |
 <a href="$homepage_extract/community.html">@{[ M("donate") ]}</a> |
-<a href="$homepage_extract/extract.html#extract-pro">commercial support</a>
+<a href="$homepage_extract/support.html">commercial support</a>
 <hr/>
 </div> <!-- footer_top -->
 
