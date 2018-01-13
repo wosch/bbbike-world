@@ -21,6 +21,6 @@ thanks, Wolfram Schneider
 
 --
 Your Cycle Route Planner: https://www.bbbike.org
-BBBike Map Compare: https://bbbike.org/mc
+BBBike Map Compare: https://mc.bbbike.org
 EOF
 
