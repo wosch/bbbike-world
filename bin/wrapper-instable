@@ -4,10 +4,12 @@
 # wrapper-instable - run an instable script several times until it succeeds
 
 command="$@"
+try=0
 
 run () 
 {
-  echo "Start $command"  
+  try=$(($try + 1))
+  echo "Start $try: $command"  
   if $command; then
     :
   else
@@ -20,6 +22,6 @@ run ()
 if run || run || run; then
   :
 else
-  echo "failed 3 times, give up"
+  echo "failed $try times, give up: $command"
 fi
 
