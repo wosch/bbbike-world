@@ -24,11 +24,11 @@ $ENV{PATH} = "/bin:/usr/bin";
 our $option = {
 
     # XXX?
-    'homepage'             => '//download.bbbike.org/osm/extract/',
-    'homepage_extract_pro' => '//extract-pro.bbbike.org',
+    'homepage'             => 'https://download.bbbike.org/osm/extract/',
+    'homepage_extract_pro' => 'https://extract-pro.bbbike.org',
 
-    'server_status'     => '//download.bbbike.org/osm/extract',
-    'server_status_pro' => '//download.bbbike.org/osm/extract-pro',
+    'server_status'     => 'https://download.bbbike.org/osm/extract',
+    'server_status_pro' => 'https://download.bbbike.org/osm/extract-pro',
 
     # spool directory. Should be at least 100GB large
     'spool_dir'     => '/var/cache/extract',
@@ -37,8 +37,8 @@ our $option = {
     'download'     => '/osm/extract/',
     'download_pro' => '/osm/extract-pro/',
 
-    'script_homepage'     => '//extract.bbbike.org',
-    'script_homepage_pro' => '//extract-pro.bbbike.org',
+    'script_homepage'     => 'https://extract.bbbike.org',
+    'script_homepage_pro' => 'https://extract-pro.bbbike.org',
 
     'max_extracts'              => 50,
     'default_format'            => 'osm.pbf',

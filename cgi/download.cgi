@@ -31,11 +31,12 @@ binmode \*STDERR, ":utf8";
 $ENV{PATH} = "/bin:/usr/bin";
 
 our $option = {
-    'debug'             => "0",
-    'homepage_download' => '//download.bbbike.org/osm/',
+    'debug' => "0",
 
-    'homepage_extract'     => '//extract.bbbike.org',
-    'homepage_extract_pro' => '//extract-pro.bbbike.org',
+    'homepage_download' => 'https://download.bbbike.org/osm/',
+
+    'homepage_extract'     => 'https://extract.bbbike.org',
+    'homepage_extract_pro' => 'https://extract-pro.bbbike.org',
 
     'message_path' => "../world/etc/extract",
     'pro'          => 0,

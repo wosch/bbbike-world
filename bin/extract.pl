@@ -63,13 +63,13 @@ our $option = {
     'max_areas' => 1,
 
     # XXX?
-    'homepage' => '//download.bbbike.org/osm/extract',
+    'homepage' => 'https://download.bbbike.org/osm/extract',
 
-    'script_homepage'     => '//extract.bbbike.org',
-    'script_homepage_pro' => '//extract-pro.bbbike.org',
+    'script_homepage'     => 'https://extract.bbbike.org',
+    'script_homepage_pro' => 'https://extract-pro.bbbike.org',
 
-    'server_status'     => '//download.bbbike.org/osm/extract',
-    'server_status_pro' => '//download.bbbike.org/osm/extract-pro',
+    'server_status'     => 'https://download.bbbike.org/osm/extract',
+    'server_status_pro' => 'https://download.bbbike.org/osm/extract-pro',
 
     'max_jobs'   => 3,
     'bcc'        => 'bbbike@bbbike.org',
