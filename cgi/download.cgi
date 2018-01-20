@@ -31,11 +31,12 @@ binmode \*STDERR, ":utf8";
 $ENV{PATH} = "/bin:/usr/bin";
 
 our $option = {
-    'debug'             => "0",
-    'homepage_download' => '//download.bbbike.org/osm/',
+    'debug' => "0",
 
-    'homepage_extract'     => '//extract.bbbike.org',
-    'homepage_extract_pro' => '//extract-pro.bbbike.org',
+    'homepage_download' => 'https://download.bbbike.org/osm/',
+
+    'homepage_extract'     => 'https://extract.bbbike.org',
+    'homepage_extract_pro' => 'https://extract-pro.bbbike.org',
 
     'message_path' => "../world/etc/extract",
     'pro'          => 0,
@@ -307,7 +308,7 @@ sub footer {
 <a href="@{[ $option->{'homepage_download'} ]}">home</a> |
 <a href="/extract.html">@{[ M("help") ]}</a> |
 <a href="$homepage_extract/community.html">@{[ M("donate") ]}</a> |
-<a href="$homepage_extract/extract.html#extract-pro">commercial support</a>
+<a href="$homepage_extract/support.html">commercial support</a>
 <hr/>
 </div> <!-- footer_top -->
 

@@ -3,6 +3,25 @@
 #
 # wrapper-instable - run an instable script several times until it succeeds
 
+command="$@"
+try=0
+
+run () 
+{
+  try=$(($try + 1))
+  echo "Start $try: $command"  
+  if $command; then
+    :
+  else
+    echo "failed with status: $?"
+    return 1
+  fi
+}
+
 # runs a command 3 times
-$@ || $@ || $@
+if run || run || run; then
+  :
+else
+  echo "failed $try times, give up: $command"
+fi
 

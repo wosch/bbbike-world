@@ -307,7 +307,7 @@ sub footer_top {
     if ( $option->{'pro'} ) {
         $donate =
 qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro service">}
-          . qq{<a href="/extract.html#extract-pro">extract pro</a></p>\n};
+          . qq{<a href="/support.html">extract pro</a></p>\n};
     }
     elsif ( !$error ) {
         $donate = qq{<p class="normalscreen" id="big_donate_image">}
@@ -323,8 +323,8 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
       : $option->{"script_homepage"};
     my $server_status =
         $option->{'pro'}
-      ? $option->{"server_status_pro"}
-      : $option->{"server_status"};
+      ? $option->{"server_status_url_pro"}
+      : $option->{"server_status_url"};
 
     return <<EOF;
   $donate
@@ -335,7 +335,7 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
     <a href="$server_status" target="_blank">status</a> |
     <!-- <a href="//mc.bbbike.org/mc/$mc_parameters" id="mc_link" target="_blank">map compare</a> | -->
     <a href="//download.bbbike.org/osm/">download</a> |
-    <a href="/extract.html#extract-pro">@{[ M("commercial support") ]}</a>
+    <a href="/support.html">@{[ M("commercial support") ]}</a>
     $locate
   </div>
 EOF
@@ -805,8 +805,8 @@ sub _check_input {
 
     my $server_status =
         $option->{'pro'}
-      ? $option->{'server_status_pro'}
-      : $option->{'server_status'};
+      ? $option->{'server_status_url_pro'}
+      : $option->{'server_status_url'};
 
     push @data,
       sprintf( $text,
@@ -1092,7 +1092,7 @@ sub export_osm {
       Please zoom in!
       You may also download <a target="_help" href="/extract.html#other_extract_services">pre-extracted areas</a>
       from other services or try out the
-      <a href="/extract.html#extract-pro">extract pro service</a>
+      <a href="/support.html">extract pro service</a>
       </span>
       <div class="export_details"></div>
     </div>
