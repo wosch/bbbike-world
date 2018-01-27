@@ -191,7 +191,7 @@ foreach my $home_url (
     &page_check_unicode( $home_url, $unicode );
 }
 
-# check garmin legend: http://extract.bbbike.org/garmin/bbbike/
+# check garmin legend: https://extract.bbbike.org/garmin/bbbike/
 &garmin_check( $homepages_localhost[0] );
 
 done_testing;
