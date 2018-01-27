@@ -29,8 +29,10 @@ my @list = (
         'match'    => ["</html>"]
     },
 
+  
     {
-        'page'     => 'https://mc.bbike.org/mc/',
+	# no HTTPS yet
+        'page'     => 'http://mc.bbike.org/mc/',
         'min_size' => 300,
         'match'    => [ "</html>", ">Map Compare<" ]
     },
@@ -69,7 +71,8 @@ my @list = (
     },
 
     {
-        'page'     => 'https://extract.bbike.org',
+	# no HTTPS yet
+        'page'     => 'http://extract.bbike.org',
         'min_size' => 10_000,
         'match'    => ["</html>"]
     },
