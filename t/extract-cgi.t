@@ -15,8 +15,8 @@ use warnings;
 my $debug   = 1;
 my $counter = 0;
 our $option = {
-    'homepage'            => 'http://download.bbbike.org/osm/extract/',
-    'script_homepage'     => 'http://extract.bbbike.org',
+    'homepage'            => 'https://download.bbbike.org/osm/extract/',
+    'script_homepage'     => 'https://extract.bbbike.org',
     'max_extracts'        => 50,
     'default_format'      => 'osm.pbf',
     'enable_polygon'      => 1,

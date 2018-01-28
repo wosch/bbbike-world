@@ -3,8 +3,8 @@
  * See license.txt in the OpenLayers distribution or repository for the
  * full text of the license. */
 
-/* Written by Wolfram Schneider, 2012-2016
- * Map Compare BBBike: http://mc.bbbike.org/mc
+/* Written by Wolfram Schneider, 2012-2017
+ * Map Compare BBBike: https://mc.bbbike.org/mc
  *
  * based on XYZ.js and Bing.js example code
  */

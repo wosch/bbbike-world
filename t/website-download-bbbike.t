@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
@@ -19,7 +19,7 @@ use warnings;
 my $test  = BBBike::Test->new();
 my $debug = 0;
 
-my @homepages = "http://download.bbbike.org";
+my @homepages = "https://download.bbbike.org";
 
 my @cities = map { chomp; $_ } (`./world/bin/bbbike-db --list`);
 
