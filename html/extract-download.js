@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2017 Wolfram Schneider, https://bbbike.org
+ * Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
  */
 
 /* global variables */
@@ -11,6 +11,8 @@ var map;
 
 var config = {
     minZoomLevel: 10,
+    map_height_factor: 0.4,
+    /* hight of map, relative to window height: 0 .. 1 */
     debug: 1
 };
 
@@ -21,6 +23,10 @@ var state = {
     },
     epsg4326: new OpenLayers.Projection("EPSG:4326"),
     vectors: {},
+
+    map_height_factor: config.map_height_factor,
+    /* to reset full screen */
+
     // polygon 
     box: 0
 }; /* end of global variables */
@@ -337,7 +343,7 @@ function setMapHeight() {
     map_height = Math.floor(map_height);
 
     if (map_height * 2 >= height || map_height <= map_height_default) {
-        map_height_new = Math.floor(height * 0.4);
+        map_height_new = Math.floor(height * state.map_height_factor);
 
         debug("setMapHeight: map: " + map_height_new + "px, total height: " + height + "px");
         $('#map').height(map_height_new);
@@ -345,6 +351,18 @@ function setMapHeight() {
         $('div#nomap').css('padding-top', map_height_new + 55);
     }
 };
+
+function toggle_fullscreen(args) {
+    debug("toggle fullscreen, current state: " + state.map_height_factor);
+    if (state.map_height_factor == config.map_height_factor) {
+        state.map_height_factor = 1;
+    } else {
+        state.map_height_factor = config.map_height_factor;
+    }
+
+    setMapHeight();
+    return state.map_height_factor;
+}
 
 var auto_refresh_timer;
 
