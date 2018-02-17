@@ -680,8 +680,13 @@ sub download {
 <span id="debug"></span>
 
 EOF
+    my $fullscreen =
+      qq{ | <a href="#" onclick="toggle_fullscreen()">fullscreen</a>\n};
 
-    print $locale->language_links( 'with_separator' => 1 );
+    print $locale->language_links(
+        'with_separator' => 1,
+        'postfix'        => $fullscreen
+    );
 
     my $current_date     = time2str(time);
     my $homepage_extract = $option->{'homepage_extract'};

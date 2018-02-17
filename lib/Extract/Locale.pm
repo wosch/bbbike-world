@@ -159,10 +159,17 @@ sub language_links {
     my $q    = $self->{'q'};
 
     my $with_separator = $args{'with_separator'};
-    my $sep            = ' | ';
+    my $prefix         = $args{'prefix'};
+    my $postfix        = $args{'postfix'};
+
+    my $sep = ' | ';
 
     my $qq   = CGI->new($q);
     my $data = qq{<span id="language">\n};
+
+    if ( defined $prefix ) {
+        $data .= $prefix;
+    }
 
     my $cookie_lang =
          $q->cookie( -name => "lang" )
@@ -189,6 +196,11 @@ qq{<span id="active_language">$l</span> <!-- active language -->\n};
         }
 
     }
+
+    if ( defined $postfix ) {
+        $data .= $postfix;
+    }
+
     $data .= qq{</span> <!-- language -->\n};
 
     return $data;
