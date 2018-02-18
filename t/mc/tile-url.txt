@@ -139,3 +139,11 @@ https://a-mydrive.api-system.tomtom.com/map/1/tile/hybrid/night/16/35206/21492.p
 https://d-mydrive.api-system.tomtom.com/map/1/tile/labels/main/16/35206/21492.png?key=sATA9OwG11zrMKQcCxR3eSEjj2n8Jsrg
 https://a-mydrive.api-system.tomtom.com/map/1/tile/labels/night/16/35206/21492.png?key=sATA9OwG11zrMKQcCxR3eSEjj2n8Jsrg
 https://tiles3.lbsarea.com/tilegenerator/tile.ashx/?&x=1502&y=2229&zoom=12&tileCacheControlVersion=17&internalTileDataset=lbslocal
+https://b.tiles.mapbox.com/v4/digitalglobe.nal0g75k/11/1100/670.png?access_token=pk.eyJ1IjoiZGlnaXRhbGdsb2JlIiwiYSI6ImNpeWczNGdoOTAyZHIzMnM1dTBncGMzM3oifQ.8Ss2VnUMVu7pFUuAhsDYZw
+https://map.tual.fr/osm/11/1100/671.png
+https://tile.openstreetmap.ie/ga/11/988/663.png
+https://www.kartogiraffe.de/tiles/map/14/7906/5310.png
+https://c.tile.thunderforest.com/mobile-atlas/15/15814/10621@2x.png?apikey=6170aad10dfd42a38d4d8c709a536f38
+https://maps.bergfex.at/osm/512px/15/17874/11362.jpg
+https://maps.bergfex.at/oek/512px/15/17874/11362.jpg
+
