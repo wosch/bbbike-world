@@ -585,7 +585,7 @@ sub download_header {
     print $q->header( -charset => 'utf-8', -expires => '+0s' );
 
     print $q->start_html(
-        -title => 'Extracts ready to download | BBBike.org',
+        -title => 'OpenStreetMap extracts ready to download | BBBike.org',
         -head  => [
             $q->meta(
                 {
@@ -670,7 +670,7 @@ sub download {
     print qq{<div id="map_area">\n};
     print $q->h2( qq{<a href="}
           . $q->url( -relative => 1 )
-          . qq{">Extracts ready to download</a>} )
+          . qq{">OpenStreetMap extracts ready to download</a>} )
       if $option->{'show_heading'};
 
     print <<EOF;
