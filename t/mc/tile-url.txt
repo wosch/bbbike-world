@@ -52,7 +52,7 @@ https://korona.geog.uni-heidelberg.de/tiles/hybrid/x=4399&y=2688&z=13
 https://korona.geog.uni-heidelberg.de/tiles/asterh/x=4399&y=2688&z=13
 https://korona.geog.uni-heidelberg.de/tiles/asterc/x=4399&y=2688&z=13
 https://korona.geog.uni-heidelberg.de/tiles/adminb/x=4399&y=2688&z=13
-https://korona.geog.uni-heidelberg.de:8005/tms_lt.ashx?x=4399&y=2688&z=13
+http://korona.geog.uni-heidelberg.de:8005/tms_lt.ashx?x=4399&y=2688&z=13
 https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/8/85/137.jpg
 https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/8/86/137.jpg
 https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/12/1342/2200.jpg

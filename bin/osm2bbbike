@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
 #
 # osm2bbbike - convert a osm/pbf file to perl/tk bbbike data
 #
@@ -99,7 +99,7 @@ $text2html < README.txt > README.html
 
 OSM2BBD_OPT="--ignore-unhandled --ignore-underline-noname --granularity=100"
 OSM2BBD_MAPTYPE="-map bbbike"
-$pwd/miscsrc/osm2bbd ${OSM2BBD_OPT} --nodate --no-create --git-id="${GIT_ID}" \
+$dirname/../../miscsrc/osm2bbd ${OSM2BBD_OPT} --nodate --no-create --git-id="${GIT_ID}" \
     -f --debug=0 ${OSM2BBD_MAPTYPE} \
     -experiment add_postal_code -experiment handle_relations \
     -lang $BBBIKE_EXTRACT_LANG -o bbbike-data $file >> $logfile 2>&1
