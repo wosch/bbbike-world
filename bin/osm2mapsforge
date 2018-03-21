@@ -61,9 +61,9 @@ if [ $size -gt 666000 ]; then
   hd_mode="type=hd"
   java_heap=6G
 elif [ $size -gt 400000 ]; then
-  java_heap=16G
+  java_heap=24G
 elif [ $size -gt 250000 ]; then
-  java_heap=12G
+  java_heap=19G
 elif [ $size -gt 150000 ]; then
   java_heap=10G
 elif [ $size -gt 60000 ]; then
