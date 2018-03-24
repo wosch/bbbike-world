@@ -53,6 +53,12 @@ sub convert_format {
     my $tempfile = File::Temp->new( SUFFIX => ".osm" );
     my $st       = 0;
 
+    my $lang_real = $lang;
+    if ( $lang !~ /^(en|de)/ ) {
+        diag "test for unknown lang='$lang'";
+        $lang = 'en';
+    }
+
     my $test = Extract::Test::Archive->new(
         'lang'        => $lang,
         'pbf_file'    => $pbf_file,
@@ -92,9 +98,9 @@ is( md5_file($pbf_file), $pbf_md5, "md5 checksum matched" );
 my $counter = 0;
 my @lang = ( "en", "de" );
 
-#if ( !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG} ) {
-#    push @lang, ( "fr", "" );
-#}
+if ( !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG} ) {
+    push @lang, ( "fr", "" );
+}
 
 foreach my $lang (@lang) {
     $counter += &convert_format( $lang, 'bbbike-perltk', 'bbbike' );
