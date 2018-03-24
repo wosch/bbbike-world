@@ -148,7 +148,13 @@ sub extract_areas {
         # other languages ?
         my $lang = $obj->{"lang"};
         if ( $lang ne "en" && $lang ne "" ) {
-            $download_file =~ s/\.zip$/.${lang}.zip/;
+            if ( $format eq 'bbbike-perltk.zip' && $lang ne 'de' ) {
+
+                # only "de" and "en" is supported for perltk
+            }
+            else {
+                $download_file =~ s/\.zip$/.${lang}.zip/;
+            }
         }
 
         if ( !-e $download_file ) {
