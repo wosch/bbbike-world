@@ -63,7 +63,7 @@ sub convert_format {
     my $out  = $test->out;
     unlink $out;
 
-    system(qq[set; world/bin/pbf2osm --bbbike-perltk $pbf_file $city]);
+    system(qq[world/bin/pbf2osm --bbbike-perltk $pbf_file $city]);
     is( $?, 0, "pbf2osm --bbbike-perltk $pbf_file $city lang=$lang" );
     $st = stat($out) or die "Cannot stat $out\n";
 
@@ -93,7 +93,7 @@ my $counter = 0;
 my @lang = ( "en", "de" );
 
 #if ( !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG} ) {
-#    push @lang, ( "fr", "es", "ru", "" );
+#    push @lang, ( "fr", "" );
 #}
 
 foreach my $lang (@lang) {
