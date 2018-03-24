@@ -49,6 +49,7 @@ sub get_random_element {
 }
 
 sub generate_urls {
+    my $expire = time;
 
     foreach my $key ( keys %$formats ) {
         next if $key =~ /^png-/;
@@ -74,7 +75,7 @@ sub generate_urls {
           . ( $random ? int( rand(1_000_000) ) : "" )
           . $lang
           . qq{&email=$email&as=1.933243109431466&pg=0.9964839602712444&coords=&oi=1}
-          . qq{&city=$city&submit=extract&format=$key"}
+          . qq{&city=$city&submit=extract&expire=$expire&format=$key"}
           . qq{ -A "$user_agent"} . qq{\0};
     }
 }
