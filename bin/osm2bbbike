@@ -34,6 +34,14 @@ city=$3
 
 test -z "$file" && usage
 
+# miscsrc/osm2bbd supports less languages than the extract service
+case $BBBIKE_EXTRACT_LANG in
+  en | de ) ;;
+   * ) echo "language '$BBBIKE_EXTRACT_LANG' not supported, fall back to 'en'"
+       BBBIKE_EXTRACT_LANG=en
+       ;;
+esac
+
 # absolute file path
 case $file in /*) ;; *) file=$(pwd)/$file ;; esac
 
