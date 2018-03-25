@@ -15,11 +15,11 @@ Script URL: $BBBIKE_EXTRACT_URL
 Name of area: $city
 
 We appreciate any feedback, suggestions and a donation! You can support us via
-PayPal or bank wire transfer: https://www.BBBike.org/community.html
+PayPal or bank wire transfer: https://www.bbbike.org/community.html
 
 thanks, Wolfram Schneider
 
 --
-Your Cycle Route Planner: https://www.BBBike.org
-BBBike Map Compare: https://bbbike.org/mc
+Your Cycle Route Planner: https://www.bbbike.org
+BBBike Map Compare: https://mc.bbbike.org
 EOF

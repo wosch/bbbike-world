@@ -63,13 +63,13 @@ our $option = {
     'max_areas' => 1,
 
     # XXX?
-    'homepage' => '//download.bbbike.org/osm/extract',
+    'homepage' => 'https://download.bbbike.org/osm/extract',
 
-    'script_homepage'     => '//extract.bbbike.org',
-    'script_homepage_pro' => '//extract-pro.bbbike.org',
+    'script_homepage'     => 'https://extract.bbbike.org',
+    'script_homepage_pro' => 'https://extract-pro.bbbike.org',
 
-    'server_status'     => '//download.bbbike.org/osm/extract',
-    'server_status_pro' => '//download.bbbike.org/osm/extract-pro',
+    'server_status_url'     => 'https://download.bbbike.org/osm/extract',
+    'server_status_url_pro' => 'https://download.bbbike.org/osm/extract-pro',
 
     'max_jobs'   => 3,
     'bcc'        => 'bbbike@bbbike.org',
@@ -118,8 +118,9 @@ our $option = {
     },
 
     # use web rest service for email sent out
-    'email_rest_url'     => 'https://extract.bbbike.org/cgi/extract-email.cgi',
-    'email_rest_enabled' => 0,
+    'email_rest_url'      => 'https://extract.bbbike.org/cgi/extract-email.cgi',
+    'email_rest_enabled'  => 0,
+    'email_failure_fatal' => 0,
 
     'show_image_size' => 1,
 
@@ -1345,7 +1346,7 @@ sub _convert_send_email {
     }
     elsif ( $format eq 'bbbike-perltk.zip' ) {
         $file =~ s/\.pbf$/.$format/;
-        $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
+        $file =~ s/.zip$/.$lang.zip/ if $lang =~ /^(de)$/;
 
         if ( !cached_format( $file, $pbf_file ) ) {
             @system =
@@ -1455,8 +1456,8 @@ sub _convert_send_email {
 
     my $server_status =
         $option->{'pro'}
-      ? $option->{"server_status_pro"}
-      : $option->{"server_status"};
+      ? $option->{"server_status_url_pro"}
+      : $option->{"server_status_url"};
 
     my $url = $server_status . "/" . basename($to);
     if ( $option->{"aws_s3_enabled"} ) {
@@ -1587,11 +1588,18 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
 
     my $email_rest_enabled = $option->{"email_rest_enabled"};
     warn "email_rest_enabled: $email_rest_enabled\n" if $debug >= 2;
+
     if ($email_rest_enabled) {
-        send_email_rest(@args);
+        eval { send_email_rest(@args); };
+        if ($@) {
+            $option->{'email_failure_fatal'} ? die "$@" : warn "$@";
+        }
     }
     else {
-        send_email_smtp(@args);
+        eval { send_email_smtp(@args); };
+        if ($@) {
+            $option->{'email_failure_fatal'} ? die "$@" : warn "$@";
+        }
     }
 
     store_json( $json_file, $obj );

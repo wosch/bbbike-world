@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2011-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2011-2018 Wolfram Schneider, https://bbbike.org
 #
 # helper functions for extract.cgi
 
@@ -144,7 +144,7 @@ sub header {
             {
                 -name => 'description',
                 -content =>
-'OpenStreetMap extracts in OSM, PBF, Garmin, Osmand, mapsforge, Navit, PNG, SVG, or Esri shapefile format (as rectangle or polygon).'
+'OpenStreetMap extracts from Planet.osm in OSM, PBF, Garmin, Osmand, mapsforge, Navit, PNG, SVG, or Esri shapefile format (as rectangle or polygon).'
             }
         )
     );
@@ -177,7 +177,7 @@ sub header {
     $data .= $q->header( @status, -charset => 'utf-8', @cookie, @expires );
 
     $data .= $q->start_html(
-        -title => 'Planet.osm extracts | BBBike.org',
+        -title => 'OpenStreetMap extracts | BBBike.org',
         -head  => [@meta],
         -style => { 'src' => \@css, },
 
@@ -307,7 +307,7 @@ sub footer_top {
     if ( $option->{'pro'} ) {
         $donate =
 qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro service">}
-          . qq{<a href="/extract.html#extract-pro">extract pro</a></p>\n};
+          . qq{<a href="/support.html">extract pro</a></p>\n};
     }
     elsif ( !$error ) {
         $donate = qq{<p class="normalscreen" id="big_donate_image">}
@@ -323,8 +323,8 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
       : $option->{"script_homepage"};
     my $server_status =
         $option->{'pro'}
-      ? $option->{"server_status_pro"}
-      : $option->{"server_status"};
+      ? $option->{"server_status_url_pro"}
+      : $option->{"server_status_url"};
 
     return <<EOF;
   $donate
@@ -335,7 +335,7 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
     <a href="$server_status" target="_blank">status</a> |
     <!-- <a href="//mc.bbbike.org/mc/$mc_parameters" id="mc_link" target="_blank">map compare</a> | -->
     <a href="//download.bbbike.org/osm/">download</a> |
-    <a href="/extract.html#extract-pro">@{[ M("commercial support") ]}</a>
+    <a href="/support.html">@{[ M("commercial support") ]}</a>
     $locate
   </div>
 EOF
@@ -381,7 +381,7 @@ qq{\n<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js
   @{[ $self->footer_top($q, 'error' => $error, 'map' => $args{'map'}, 'css' => $args{'css'} ) ]}
   <hr/>
   <div id="copyright" class="normalscreen">
-    (&copy;) 2017 <a href="https://www.bbbike.org">BBBike.org</a>
+    (&copy;) 2018 <a href="https://www.bbbike.org">BBBike.org</a>
     by <a href="https://wolfram.schneider.org">Wolfram Schneider</a><br/>
     Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
   <div id="footer_community"></div>
@@ -775,12 +775,12 @@ sub _check_input {
     my $ip_limit = $option->{'scheduler'}->{'ip_limit'};
 
     if ( $email_counter > $email_limit ) {
-        error( M("EXTRACT_LIMIT") );
+        error( M("EXTRACT_LIMIT"), 1 );
         warn "limit email counter: $email_counter > email_limit $email\n"
           if $debug >= 1;
     }
     elsif ( $ip_counter > $ip_limit ) {
-        error( M("EXTRACT_LIMIT") );
+        error( M("EXTRACT_LIMIT"), 1 );
         warn "limit ip counter: $ip_counter > $ip_limit\n" if $debug >= 1;
     }
 
@@ -805,8 +805,8 @@ sub _check_input {
 
     my $server_status =
         $option->{'pro'}
-      ? $option->{'server_status_pro'}
-      : $option->{'server_status'};
+      ? $option->{'server_status_url_pro'}
+      : $option->{'server_status_url'};
 
     push @data,
       sprintf( $text,
@@ -1092,7 +1092,7 @@ sub export_osm {
       Please zoom in!
       You may also download <a target="_help" href="/extract.html#other_extract_services">pre-extracted areas</a>
       from other services or try out the
-      <a href="/extract.html#extract-pro">extract pro service</a>
+      <a href="/support.html">extract pro service</a>
       </span>
       <div class="export_details"></div>
     </div>

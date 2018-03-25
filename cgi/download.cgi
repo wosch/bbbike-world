@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -T
-# Copyright (c) 2012-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
 #
 # extract-download.cgi - extract.bbbike.org live extracts
 
@@ -31,11 +31,12 @@ binmode \*STDERR, ":utf8";
 $ENV{PATH} = "/bin:/usr/bin";
 
 our $option = {
-    'debug'             => "0",
-    'homepage_download' => '//download.bbbike.org/osm/',
+    'debug' => "0",
 
-    'homepage_extract'     => '//extract.bbbike.org',
-    'homepage_extract_pro' => '//extract-pro.bbbike.org',
+    'homepage_download' => 'https://download.bbbike.org/osm/',
+
+    'homepage_extract'     => 'https://extract.bbbike.org',
+    'homepage_extract_pro' => 'https://extract-pro.bbbike.org',
 
     'message_path' => "../world/etc/extract",
     'pro'          => 0,
@@ -147,7 +148,13 @@ sub extract_areas {
         # other languages ?
         my $lang = $obj->{"lang"};
         if ( $lang ne "en" && $lang ne "" ) {
-            $download_file =~ s/\.zip$/.${lang}.zip/;
+            if ( $format eq 'bbbike-perltk.zip' && $lang ne 'de' ) {
+
+                # only "de" and "en" is supported for perltk
+            }
+            else {
+                $download_file =~ s/\.zip$/.${lang}.zip/;
+            }
         }
 
         if ( !-e $download_file ) {
@@ -307,12 +314,12 @@ sub footer {
 <a href="@{[ $option->{'homepage_download'} ]}">home</a> |
 <a href="/extract.html">@{[ M("help") ]}</a> |
 <a href="$homepage_extract/community.html">@{[ M("donate") ]}</a> |
-<a href="$homepage_extract/extract.html#extract-pro">commercial support</a>
+<a href="$homepage_extract/support.html">commercial support</a>
 <hr/>
 </div> <!-- footer_top -->
 
 <div id="copyright">
-(&copy;) 2008-2017 <a href="https://www.bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
+(&copy;) 2008-2018 <a href="https://www.bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
 </div> <!-- copyright -->
 
 </div> <!-- footer -->
@@ -584,7 +591,7 @@ sub download_header {
     print $q->header( -charset => 'utf-8', -expires => '+0s' );
 
     print $q->start_html(
-        -title => 'Extracts ready to download | BBBike.org',
+        -title => 'OpenStreetMap extracts ready to download | BBBike.org',
         -head  => [
             $q->meta(
                 {
@@ -669,7 +676,7 @@ sub download {
     print qq{<div id="map_area">\n};
     print $q->h2( qq{<a href="}
           . $q->url( -relative => 1 )
-          . qq{">Extracts ready to download</a>} )
+          . qq{">OpenStreetMap extracts ready to download</a>} )
       if $option->{'show_heading'};
 
     print <<EOF;
@@ -679,8 +686,13 @@ sub download {
 <span id="debug"></span>
 
 EOF
+    my $fullscreen =
+      qq{ | <a href="#" onclick="toggle_fullscreen()">fullscreen</a>\n};
 
-    print $locale->language_links( 'with_separator' => 1 );
+    print $locale->language_links(
+        'with_separator' => 1,
+        'postfix'        => $fullscreen
+    );
 
     my $current_date     = time2str(time);
     my $homepage_extract = $option->{'homepage_extract'};

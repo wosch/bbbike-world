@@ -10,9 +10,10 @@ use CGI qw(escape);
 use strict;
 use warnings;
 
-my $debug     = 1;
-my $random    = 1;
-my $with_lang = 1;    # test with random lang
+my $debug      = 1;
+my $random     = 1;
+my $with_lang  = 1;                     # test with random lang
+my $user_agent = "BBBike-Test/1.0.0";
 
 my $formats = $Extract::Config::formats;
 my $server  = $ENV{'BBBIKE_DEV_SERVER'} || 'https://dev3.bbbike.org';
@@ -36,7 +37,7 @@ my @words = (
 
 sub message {
     print
-qq{# please run now: ./world/t/extract-formats.pl | xargs -P2 -n1 -0 /bin/sh -c >/dev/null\0};
+qq{# please run now: env BBBIKE_DEV_SERVER="$server" ./world/t/extract-formats.pl | xargs -P2 -n1 -0 /bin/sh -c >/dev/null\0};
 }
 
 sub get_random_element {
@@ -48,6 +49,7 @@ sub get_random_element {
 }
 
 sub generate_urls {
+    my $expire = time;
 
     foreach my $key ( keys %$formats ) {
         next if $key =~ /^png-/;
@@ -73,7 +75,8 @@ sub generate_urls {
           . ( $random ? int( rand(1_000_000) ) : "" )
           . $lang
           . qq{&email=$email&as=1.933243109431466&pg=0.9964839602712444&coords=&oi=1}
-          . qq{&city=$city&submit=extract&format=$key"\0};
+          . qq{&city=$city&submit=extract&expire=$expire&format=$key"}
+          . qq{ -A "$user_agent"} . qq{\0};
     }
 }
 

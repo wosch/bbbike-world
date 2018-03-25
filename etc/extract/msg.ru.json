@@ -67,13 +67,14 @@
         "",
         "Мы высоко ценим любые отзывы, предложения и пожертвования!",
         "Вы можете поддержать нас через PayPal или банковским переводом.",
-        "https://www.BBBike.org/community.html",
+        "https://extract.bbbike.org/community.html",
         "",
         "С уважением, Fairy BBBike экстракт",
         "",
         "-",
+        "BBBike professional plans: https://extract.bbbike.org/support.html",
         "Planet.osm extracts: https://extract.bbbike.org",
-        "BBBike Map Compare: https://bbbike.org/mc"
+        "BBBike Map Compare: https://mc.bbbike.org"
         ],
 
     "EXTRACT_USAGE": [

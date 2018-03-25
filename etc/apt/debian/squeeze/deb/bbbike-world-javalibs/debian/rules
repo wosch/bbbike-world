@@ -22,7 +22,7 @@ JAVALIBS_SPLITTER=	splitter-r306.tar.gz
 JAVALIBS_TARBALL=	${JAVALIBS_OSMAND} ${JAVALIBS_MKGMAP} ${JAVALIBS_OSMOSIS} ${JAVALIBS_MAPSFORGE} ${JAVALIBS_SPLITTER}
 			
 
-HOMEPAGE_TARBALL=	http://debian.bbbike.org
+HOMEPAGE_TARBALL=	https://debian.bbbike.org
 JAVALIBS_DIR=	/var/lib/bbbike/opt
 
 clean: 
