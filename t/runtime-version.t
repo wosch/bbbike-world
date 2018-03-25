@@ -23,7 +23,7 @@ my $versions = {
             [qw/osmosis -v/],
             qr/^INFO: Osmosis Version (0\.40\.1|0\.43\.1|0\.46)/m
         ],
-        [ [qw/pigz --version/], qr/^pigz (2\.1\.6|2\.2\.[4-9]|2\.3\.1|2\.3)/ ],
+        [ [qw/pigz --version/], qr/^pigz (2\.1\.6|2\.2\.[4-9]|2\.3\.1|2\.3)|2\.4/ ],
         [
             [qw/java -version/],
             qr/^(openjdk|java) version "1.8.0_(131|141|144|151|03-Ubuntu)"/m
