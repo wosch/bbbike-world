@@ -1346,7 +1346,7 @@ sub _convert_send_email {
     }
     elsif ( $format eq 'bbbike-perltk.zip' ) {
         $file =~ s/\.pbf$/.$format/;
-        $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
+        $file =~ s/.zip$/.$lang.zip/ if $lang =~ /^(de)$/;
 
         if ( !cached_format( $file, $pbf_file ) ) {
             @system =

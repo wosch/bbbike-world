@@ -20,6 +20,7 @@ User-agent: ip-web-crawler.com
 User-agent: AppEngine-Google
 User-agent: BLEXBot
 User-agent: spbot
+User-agent: BUbiNG
 Disallow: /
 
 # people search engines
