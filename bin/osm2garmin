@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
 #
 # osm2garmin - convert a osm/pbf file to garmin
 #
@@ -252,7 +252,9 @@ esac
 
 garmin_family_id=$(basename $file | perl -npe 's/(\.pbf|\.gz|\.bz2)?$//')
 garmin_family_id=$(echo $garmin_family_id $ext | $MD5 | perl -ne 's/[a-f]//g; print /^(\d{4})/ ? $1 : "4444"')
-mkgmap_opt="--keep-going --family-id=$garmin_family_id --product-id=$garmin_product_id --remove-short-arcs --route --copyright-file="$copyright_file" --license-file=$license_file --index --make-opposite-cycleways"
+mkgmap_opt="--keep-going --family-id=$garmin_family_id --product-id=$garmin_product_id \
+            --remove-short-arcs --route --copyright-file="$copyright_file" --license-file=$license_file \
+            --index --tdbfile --show-profiles=1 --make-opposite-cycleways"
 mkgmap_opt_pois="--add-pois-to-areas"
 
 if [ -n "$mkgmap_map_type" ]; then
