@@ -8,6 +8,8 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_EXTRACT_LANG=en}
 : ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
 : ${BBBIKE_MKGMAP_VERSION="mkgmap"}
+: ${BBBIKE_MKGMAP_SEA_DIR="../osm/download/garmin/sea"}
+: ${BBBIKE_MKGMAP_BOUNDS_DIR="../osm/download/garmin/bounds"}
 : ${BBBIKE_SPLITTER_VERSION="splitter"}
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmpfs"}
@@ -256,6 +258,15 @@ mkgmap_opt="--keep-going --family-id=$garmin_family_id --product-id=$garmin_prod
             --remove-short-arcs --route --copyright-file="$copyright_file" --license-file=$license_file \
             --index --tdbfile --show-profiles=1 --make-opposite-cycleways"
 mkgmap_opt_pois="--add-pois-to-areas"
+mkgmap_opt_sea=""
+mkgmap_opt_bounds=""
+
+if [ -n "$BBBIKE_MKGMAP_SEA_DIR" -a -d $BBBIKE_MKGMAP_SEA_DIR ]; then
+  mkgmap_opt_sea="--precomp-sea=$BBBIKE_MKGMAP_SEA_DIR --generate-sea=land-tag=natural=land"
+fi
+if [ -n "$BBBIKE_MKGMAP_BOUNDS_DIR" -a -d $BBBIKE_MKGMAP_BOUNDS_DIR ]; then
+  mkgmap_opt_bounds="--bounds=$BBBIKE_MKGMAP_BOUNDS_DIR"
+fi
 
 if [ -n "$mkgmap_map_type" ]; then
    test -e "$mkgmap_map_type" || usage "cannot find $mkgmap_map_type file"
@@ -353,8 +364,12 @@ esac
 echo ">>> Run mkgmap, map style: $mkgmap_map_style_charset" >> $logfile
 ( set -x 
   java -jar $BBBIKE_OPT_DIR/$BBBIKE_MKGMAP_VERSION/mkgmap.jar --version
-  $time java $java_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_MKGMAP_VERSION/mkgmap.jar --max-jobs=$osm2xxx_max_jobs $mkgmap_opt $mkgmap_opt_pois $mkgmap_codepage $mkgmap_map \
-    --gmapsupp --description="$description" --family-name="$coords style=$mkgmap_map_style" $split_dir/*.pbf $mkgmap_map_type ) 2>&1 | tail -c 1024K >> $logfile || error
+  $time java $java_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_MKGMAP_VERSION/mkgmap.jar \
+    --max-jobs=$osm2xxx_max_jobs \
+    $mkgmap_opt $mkgmap_opt_pois $mkgmap_opt_sea $mkgmap_opt_bounds \
+    $mkgmap_codepage $mkgmap_map \
+    --gmapsupp --description="$description" --family-name="$coords style=$mkgmap_map_style" \
+    $split_dir/*.pbf $mkgmap_map_type ) 2>&1 | tail -c 1024K >> $logfile || error
 
 #echo ">>> Run mkgmap, create gmapsupp file" >> $logfile
 #( set -x
