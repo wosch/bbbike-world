@@ -263,14 +263,16 @@ mkgmap_opt_sea=""
 mkgmap_opt_bounds=""
 
 if [ -n "$BBBIKE_MKGMAP_SEA_DIR" -a -d $BBBIKE_MKGMAP_SEA_DIR ]; then
-  mkgmap_opt_sea="--precomp-sea=$BBBIKE_MKGMAP_SEA_DIR --generate-sea=land-tag=natural=land"
+    mkgmap_opt_sea="--precomp-sea=$BBBIKE_MKGMAP_SEA_DIR --generate-sea=land-tag=natural=land"
+else
+    echo "did not found sea border, ignored: '$BBBIKE_MKGMAP_SEA_DIR'"
 fi
 if [ -n "$BBBIKE_MKGMAP_BOUNDS_DIR" -a -d $BBBIKE_MKGMAP_BOUNDS_DIR ]; then
-  mkgmap_opt_bounds="--bounds=$BBBIKE_MKGMAP_BOUNDS_DIR"
+    mkgmap_opt_bounds="--bounds=$BBBIKE_MKGMAP_BOUNDS_DIR"
 fi
 
 if [ -n "$mkgmap_map_type" ]; then
-   test -e "$mkgmap_map_type" || usage "cannot find $mkgmap_map_type file"
+    test -e "$mkgmap_map_type" || usage "cannot find $mkgmap_map_type file"
 fi
 
 tmpdir=`mktemp -d ${BBBIKE_TMPFS}/osm2garmin.$(basename $ext .zip).XXXXXXXXXXX`
@@ -301,6 +303,7 @@ mapid=${garmin_family_id}0001
 #   ln -s $file $split_dir/63240001.osm.pbf
 #else
 #fi
+
 echo ">>> Run splitter" > $logfile
 ( set -x; 
   java -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar --version
