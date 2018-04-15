@@ -1,2 +1,0 @@
-# list of self compiled perl modules for debian development
-Module::Build
