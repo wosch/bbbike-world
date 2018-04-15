@@ -1563,7 +1563,7 @@ docker-build-all: docker-build-tile \
 		docker-build-extract-debian10 \
 		docker-build-extract-ubuntu14 \
 		docker-build-extract-ubuntu16 \
-		docker-build-extract-ubuntu17
+		docker-build-extract-ubuntu18
 
 DOCKER_CHECK_ALL_COMMAND=docker-check
 docker-check-all: 
@@ -1572,7 +1572,7 @@ docker-check-all:
 		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian10 ${DOCKER_CHECK_ALL_COMMAND}
 		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu14 ${DOCKER_CHECK_ALL_COMMAND}
 		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu16 ${DOCKER_CHECK_ALL_COMMAND}
-		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu17 ${DOCKER_CHECK_ALL_COMMAND}
+		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu18 ${DOCKER_CHECK_ALL_COMMAND}
 
 docker-check-w-all: 
 		${BBMAKE} DOCKER_CHECK_ALL_COMMAND=docker-check-w docker-check-all
@@ -1594,8 +1594,8 @@ docker-build-extract-ubuntu14:
 	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-ubuntu14 DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu14 docker-build
 docker-build-extract-ubuntu16:
 	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-ubuntu16 DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu16 docker-build
-docker-build-extract-ubuntu17:
-	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-ubuntu17 DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu17 docker-build
+docker-build-extract-ubuntu18:
+	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-ubuntu18 DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu18 docker-build
 
 # see world/etc/docker/README 
 docker-build-tile:
@@ -1697,7 +1697,7 @@ help:
 	@echo "  [ DOCKER_BBBIKE_TAG=bbbike/extract-debian9  docker-check-w ]"
 	@echo "  [ docker-build-tile | docker-shell-tile ]"
 	@echo "  [ docker-build-extract-debian8 | docker-build-extract-debian9 | docker-build-extract-debian10 ]"
-	@echo "  [ docker-build-extract-ubuntu14 | docker-build-extract-ubuntu16 | docker-build-extract-ubuntu17 ]"
+	@echo "  [ docker-build-extract-ubuntu14 | docker-build-extract-ubuntu16 | docker-build-extract-ubuntu18 ]"
 	@echo "  [ docker-build-libosmium-debian9 ]"
 	@echo "  [ docker-build-all | docker-clean | docker-distclean ]"
 	@echo "  [ travis ]"
