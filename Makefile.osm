@@ -1714,7 +1714,7 @@ help:
 	@echo "  [ docker-build-extract-ubuntu14 | docker-build-extract-ubuntu16 | docker-build-extract-ubuntu18 ]"
 	@echo "  [ docker-build-libosmium-debian9 | docker-build-libosmium-debian10 ]"
 	@echo "  [ docker-build-libosmium-ubuntu16 | docker-build-libosmium-ubuntu18 ]"
-	@echo "  [ docker-build-all | docker-build-all-libosmium | docker-clean | docker-distclean ]"
+	@echo "  [ docker-build-all | docker-build-libosmium-all | docker-clean | docker-distclean ]"
 	@echo "  [ travis ]"
 	@echo ""
 	@echo "after failed install/cache update:"
