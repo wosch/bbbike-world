@@ -10,4 +10,4 @@ Depends: libkwalify-perl,
  libobject-iterate-perl, libmath-matrixreal-perl,
  libgeo-distance-perl, libgeo-distance-xs-perl, libarray-heap-perl
 Description: BBBike @ World perl modules
- perl modules which are not part of ubuntu zesty
+ perl modules which are not part of ubuntu bionic
