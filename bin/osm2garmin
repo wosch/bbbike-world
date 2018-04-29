@@ -4,7 +4,9 @@
 # osm2garmin - convert a osm/pbf file to garmin
 #
 
+set -e
 PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
+
 : ${BBBIKE_EXTRACT_LANG=en}
 : ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
 : ${BBBIKE_MKGMAP_VERSION="mkgmap"}
@@ -16,14 +18,15 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
 : ${SHA="shasum -a 256"}
 
-set -e
 
 usage () {
-   echo "$@"
-   echo "usage $0 file [ osm | osm-ascii | cycle | cycle-ascii | leisure | leisure-ascii | bbbike ] [ title ]"
-   echo "      $0 file [ onroad | onroad-ascii | openfietslite | openfietslite-ascii | srtm ] [ title ]"
-   echo "      $0 file [ oseam | oseam-ascii | opentopo | opentopo-ascii ]"
-   exit 1
+    echo "$@"
+    echo "usage $0 file [ format ] [ title ]"
+    echo ""
+    echo "   osm | osm-ascii | cycle | cycle-ascii | leisure | leisure-ascii | bbbike"
+    echo "   onroad | onroad-ascii | openfietslite | openfietslite-ascii | srtm"
+    echo "   oseam | oseam-ascii | opentopo | opentopo-ascii"
+    exit 1
 }
 
 error () {
@@ -159,7 +162,6 @@ case $ext in
 	mkgmap_map_style=bbbike
 	mkgmap_map_type=$etc_dir/../../../misc/mkgmap/typ/M000002a.TYP
         ;;
-        
    bbbike-ascii )
 	ext=garmin-bbbike-ascii.zip
 	mkgmap_map=--style-file=$etc_dir/../../../misc/mkgmap/srt-style
@@ -173,22 +175,19 @@ case $ext in
 	mkgmap_map_style=onroad
 	mkgmap_map_type="" 
         ;;
-        
    onroad-ascii )
 	ext=garmin-onroad-ascii.zip
 	mkgmap_map=--style-file=$etc_dir/style/bike-onroad
 	mkgmap_map_style=onroad
 	mkgmap_map_type="" 
         ;;
-
-
+        
    opentopo )
         ext=garmin-opentopo.zip
         mkgmap_map=--style-file=$etc_dir/style/opentopo
         mkgmap_map_style=opentopo
 	mkgmap_map_type=$etc_dir/typ/opentopo/OpenTopoMap.typ
         ;;
-
    opentopo-ascii )
         ext=garmin-opentopo-ascii.zip
         mkgmap_map=--style-file=$etc_dir/style/opentopo
@@ -196,14 +195,12 @@ case $ext in
 	mkgmap_map_type=$etc_dir/typ/opentopo/OpenTopoMap.typ
         ;;
 
-
    oseam )
         ext=garmin-oseam.zip
         mkgmap_map=--style-file=$etc_dir/style/oseam
         mkgmap_map_style=oseam
         mkgmap_map_type=""
         ;;
-
    oseam-ascii )
         ext=garmin-oseam-ascii.zip
         mkgmap_map=--style-file=$etc_dir/style/oseam
@@ -227,7 +224,6 @@ case $ext in
    osm )
 	ext=garmin-osm.zip
 	;;
-    
    osm-ascii )
 	ext=garmin-osm-ascii.zip
 	;;
@@ -320,9 +316,9 @@ echo ">>> Run splitter" > $logfile
 if [ $(ls $split_dir/*.pbf 2>/dev/null | wc -l) -eq 0 ]; then
     echo "Warning: splitter didn't created a file: $file"
     if [ $size -le 1000 ]; then
-	cp -f $file $split_dir/$mapid.osm.pbf
+        cp -f $file $split_dir/$mapid.osm.pbf
     else
-	echo "Argh, $file with size $size to big for single run"
+        echo "Argh, $file with size $size to big for single run"
     fi
 fi
 
