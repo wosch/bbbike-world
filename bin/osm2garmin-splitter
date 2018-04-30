@@ -225,7 +225,8 @@ case $ext in
 	mkgmap_map_type=$etc_dir/typ/srtm/srtm.TYP
 	;;
 
-   *) usage ;;
+   *) usage "unknown format: '$ext'"
+	;;
 esac
 
 garmin_product_id=1
