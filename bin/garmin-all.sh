@@ -5,7 +5,7 @@
 #
 
 : ${DOWNLOAD_URL_PREFIX="https://download.geofabrik.de"}
-: ${garmin_formats="cycle-ascii leisure-ascii onroad-ascii openfietslite-ascii opentopo-ascii oseam-ascii osm-ascii"}
+: ${garmin_formats="onroad-ascii cycle-ascii leisure-ascii openfietslite-ascii opentopo-ascii oseam-ascii osm-ascii"}
 
 #: ${garmin_regions="antarctica-latest.osm.pbf australia-oceania-latest.osm.pbf"}
 : ${garmin_regions="antarctica-latest.osm.pbf australia-oceania-latest.osm.pbf africa-latest.osm.pbf central-america-latest.osm.pbf south-america-latest.osm.pbf asia-latest.osm.pbf north-america-latest.osm.pbf europe-latest.osm.pbf"}
