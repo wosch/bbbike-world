@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 
 use Getopt::Long;
 use Data::Dumper qw(Dumper);
@@ -16,27 +16,14 @@ use Extract::Test::Archive;
 use strict;
 use warnings;
 
-my @garmin_styles = qw/osm/;
-push @garmin_styles, qw/leisure cycle/
+my @garmin_styles = qw/osm onroad-ascii/;
+push @garmin_styles, qw/leisure cycle-ascii/
   if !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG};
-push @garmin_styles, qw/bbbike openfietslite onroad/ if $ENV{BBBIKE_TEST_LONG};
 
-if ( $0 =~ /garmin-ascii.t$/ ) {
-    if ( $ENV{BBBIKE_TEST_LONG} ) {
-        @garmin_styles =
-          qw/bbbike-ascii openfietslite-ascii cycle-ascii leisure-ascii osm-ascii onroad-ascii oseam oseam-ascii opentopo opentopo-ascii/;
-    }
-    else {
-        @garmin_styles = ();
-    }
-}
-
-#die join " ", @garmin_styles,;
-
-my $pbf_file = 'world/t/data-osm/tmp/Cusco.osm.pbf';
+my $pbf_file = 'world/t/data-osm/tmp/Cusco-multi.osm.pbf';
 
 if ( !-f $pbf_file ) {
-    system(qw(ln -sf ../Cusco.osm.pbf world/t/data-osm/tmp)) == 0
+    system( qw(ln -sf ../Cusco.osm.pbf), $pbf_file ) == 0
       or die "symlink failed: $?\n";
 }
 
@@ -80,18 +67,19 @@ sub convert_format {
     );
     my $city = $test->init_cusco;
 
+    my $styles = join( ":", @garmin_styles );
+
+    diag "garmin style=$styles, lang=$lang";
+    system(qq[world/bin/osm2garmin $pbf_file $styles $city]);
+    is( $?, 0, "world/bin/osm2garmin $pbf_file $styles $city" );
+    $counter++;
+
     # known styles
     foreach my $style (@garmin_styles) {
         my $out = $test->out($style);
-        unlink $out;
-
-        diag "garmin style=$style, lang=$lang";
-
-        system(qq[world/bin/pbf2osm --garmin-$style $pbf_file $city]);
-        is( $?, 0, "pbf2osm --garmin-$style converter" );
 
         system(qq[unzip -tqq $out]);
-        is( $?, 0, "valid zip file" );
+        is( $?, 0, "valid zip file: $out" );
         $st = stat($out);
         my $size = $st->size;
         my $min_size_style = $style =~ /^onroad/ ? $min_size / 3 : $min_size;
@@ -103,11 +91,17 @@ sub convert_format {
         my $image_size = `cat $tempfile` * 1024;
         cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
 
-        $counter += 5;
+        $counter += 4;
         $test->validate( 'style' => $style );
+
+        unlink( $out, "$out.md5", "$out.sha256" );
     }
 
     return $counter + $test->counter;
+}
+
+sub cleanup {
+    unlink $pbf_file;
 }
 
 #######################################################
@@ -115,15 +109,17 @@ sub convert_format {
 is( md5_file($pbf_file), $pbf_md5, "md5 checksum matched" );
 
 my $counter = 0;
-my @lang = ( "en", "de" );
+my @lang    = ("en");
 
-if ( !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG} ) {
-    push @lang, ( "fr", "es", "ru", "" );
+if ( $ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG} ) {
+    push @lang, ("de");
 }
 
 foreach my $lang (@lang) {
     $counter += &convert_format( $lang, 'garmin', 'Garmin' );
 }
 
+&cleanup;
 plan tests => 1 + $counter;
+
 __END__
