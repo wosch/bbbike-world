@@ -40,8 +40,6 @@ use Extract::Test::Archive;
 use strict;
 use warnings;
 
-plan tests => 6;
-
 my $prefix   = 'world/t/data-osm/tmp';
 my $pbf_file = "$prefix/Cusco-shp.osm.pbf";
 
