@@ -91,7 +91,7 @@ sub convert_format {
 
     $counter += $test->validate;
 
-    unlink $out;
+    unlink( $out, "$out.md5", "$out.sha256" );
     return $counter;
 }
 

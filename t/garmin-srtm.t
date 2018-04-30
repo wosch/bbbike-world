@@ -25,10 +25,10 @@ use warnings;
 
 my @garmin_styles = qw/osm/;
 
-my $pbf_file = 'world/t/data-osm/tmp/Cusco-SRTM.osm.pbf';
+my $pbf_file = 'world/t/data-osm/tmp/Cusco-SRTM-garmin.osm.pbf';
 
 if ( !-f $pbf_file ) {
-    system(qw(ln -sf ../Cusco-SRTM.osm.pbf world/t/data-osm/tmp)) == 0
+    system( qw(ln -sf ../Cusco-SRTM.osm.pbf), $pbf_file ) == 0
       or die "symlink failed: $?\n";
 }
 
