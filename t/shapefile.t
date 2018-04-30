@@ -129,7 +129,7 @@ if ( !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG} ) {
 }
 
 foreach my $lang (@lang) {
-    $counter += &convert_format( $lang, 'shp', 'Shape' );
+    $counter += &convert_format( $lang, 'shp', 'shape' );
 }
 
 &cleanup;
