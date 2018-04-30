@@ -94,9 +94,15 @@ sub convert_format {
 
         $counter += 5;
         $test->validate;
+
+        unlink( $out, "$out.md5", "$out.sha256" );
     }
 
     return $counter + $test->counter;
+}
+
+sub cleanup {
+    unlink $pbf_file;
 }
 
 #######################################################
@@ -114,6 +120,7 @@ foreach my $lang (@lang) {
     $counter += &convert_format( $lang, 'garmin', 'Garmin' );
 }
 
+&cleanup;
 plan tests => 1 + $counter;
 
 __END__
