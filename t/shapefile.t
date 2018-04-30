@@ -39,11 +39,11 @@ use warnings;
 plan tests => 6;
 
 my $prefix   = 'world/t/data-osm/tmp';
-my $pbf_file = "$prefix/Cusco.osm.pbf";
+my $pbf_file = "$prefix/Cusco-shp.osm.pbf";
 
 if ( !-f $pbf_file ) {
     die "Directory '$prefix' does not exits\n" if !-d $prefix;
-    system(qw(ln -sf ../Cusco.osm.pbf world/t/data-osm/tmp)) == 0
+    system( qw(ln -sf ../Cusco.osm.pbf), $pbf_file ) == 0
       or die "symlink failed: $?\n";
 }
 
@@ -66,6 +66,10 @@ sub md5_file {
 
     my $md5 = md5_hex($data);
     return $md5;
+}
+
+sub cleanup {
+    unlink $pbf_file;
 }
 
 ######################################################################
@@ -94,5 +98,7 @@ is( $?, 0, "extract disk usage check" );
 
 my $image_size = `cat $tempfile` * 1024;
 cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
+
+&cleanup;
 
 __END__

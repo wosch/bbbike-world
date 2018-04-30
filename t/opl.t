@@ -30,14 +30,14 @@ use warnings;
 plan tests => 9;
 
 my $prefix       = 'world/t/data-osm/tmp';
-my $pbf_file     = 'world/t/data-osm/tmp/Cusco.osm.pbf';
-my $osm_file_gz  = "$prefix/Cusco.osm.opl.gz";
-my $osm_file_bz2 = "$prefix/Cusco.osm.opl.bz2";
-my $osm_file_xz  = "$prefix/Cusco.osm.opl.xz";
+my $pbf_file     = "$prefix/Cusco-opl.osm.pbf";
+my $osm_file_gz  = "$prefix/Cusco-opl.osm.opl.gz";
+my $osm_file_bz2 = "$prefix/Cusco-opl.osm.opl.bz2";
+my $osm_file_xz  = "$prefix/Cusco-opl.osm.opl.xz";
 
 if ( !-f $pbf_file ) {
     die "Directory '$prefix' does not exits\n" if !-d $prefix;
-    system(qw(ln -sf ../Cusco.osm.pbf world/t/data-osm/tmp)) == 0
+    system( qw(ln -sf ../Cusco.osm.pbf), $pbf_file ) == 0
       or die "symlink failed: $?\n";
 }
 
@@ -63,10 +63,14 @@ sub md5_file {
     return $md5;
 }
 
+sub cleanup {
+    unlink $pbf_file;
+}
+
 ######################################################################
 
 if ( !-f $pbf_file ) {
-    system(qw(ln -sf ../Cusco.osm.pbf world/t/data-osm/tmp)) == 0
+    system( qw(ln -sf ../Cusco.osm.pbf), $pbf_file ) == 0
       or die "symlink failed: $?\n";
 }
 
@@ -94,5 +98,7 @@ system(
     qq[world/bin/pbf2osm --opl-xz $pbf_file && xzcat $osm_file_xz > $tempfile]);
 is( $?,                  0,        "pbf2osm --opl-xz converter" );
 is( md5_file($tempfile), $opl_md5, "opl xz md5 checksum matched" );
+
+&cleanup;
 
 __END__
