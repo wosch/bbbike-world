@@ -97,6 +97,8 @@ foreach my $format ( sort keys %formats ) {
     is( $? == 0 ? 0 : 1, $formats{$format}, "pbf2osm '$format' failed: $?" );
 }
 
+unlink $pbf_file;
+
 1;
 
 __END__

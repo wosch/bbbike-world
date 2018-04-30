@@ -38,7 +38,7 @@ if ( !-f $pbf_file ) {
 }
 
 my $osmosis_version = `world/bin/bbbike-osmosis-version`;
-my $pbf_file2       = 'world/t/data-osm/tmp/Cusco2.osm.pbf';
+my $pbf_file2       = 'world/t/data-osm/tmp/Cusco-pbf2.osm.pbf';
 
 my $pbf_md5 = "58a25e3bae9321015f2dae553672cdcf";
 my $osm_md5 = "015c1ac714d9a85170f4b16ba2c78746";
@@ -49,7 +49,7 @@ my $osm2_md5 = "c9f6abb87a02deb1ea9d6d18b5233664";
 my $tempfile = File::Temp->new( SUFFIX => ".osm" );
 
 sub cleanup {
-    unlink $pbf_file;
+    unlink( $pbf_file, $pbf_file2 );
 }
 
 ###############################################################################
