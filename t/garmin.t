@@ -31,12 +31,13 @@ if ( $0 =~ /garmin-ascii.t$/ ) {
     }
 }
 
-#die join " ", @garmin_styles,;
-
-my $pbf_file = 'world/t/data-osm/tmp/Cusco.osm.pbf';
+my $pbf_file =
+  $0 =~ /ascii/
+  ? 'world/t/data-osm/tmp/Cusco-ascii.osm.pbf'
+  : 'world/t/data-osm/tmp/Cusco.osm.pbf';
 
 if ( !-f $pbf_file ) {
-    system(qw(ln -sf ../Cusco.osm.pbf world/t/data-osm/tmp)) == 0
+    system( qw(ln -sf ../Cusco.osm.pbf), $pbf_file ) == 0
       or die "symlink failed: $?\n";
 }
 
