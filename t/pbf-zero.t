@@ -28,7 +28,7 @@ my %formats = (
     "--osmosis" => 0,
 
     "--navit"          => 99,
-    "--shape"          => 0,
+    "--shape"          => 99,
     "--osmand"         => 99,
     "--garmin-osm"     => 99,
     "--garmin-cycle"   => 99,
