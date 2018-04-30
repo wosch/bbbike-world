@@ -12,7 +12,6 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_MKGMAP_VERSION="mkgmap"}
 : ${BBBIKE_MKGMAP_SEA_DIR="/var/lib/bbbike/opt/share/garmin/sea"}
 : ${BBBIKE_MKGMAP_BOUNDS_DIR="/var/lib/bbbike/opt/share/garmin/bounds"}
-: ${BBBIKE_SPLITTER_VERSION="splitter"}
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmpfs"}
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
@@ -68,12 +67,7 @@ size=$(du -ks -L "$file" | awk '{ print $1}')
 # lower defaults for SRTM
 case $ext in
    srtm | garmin-srtm.zip )
-        : ${java_heap_splitter=16G}
         : ${java_heap=6G}
-        : ${splitter_max_nodes=200000}
-        : ${splitter_max_areas=200}
-        : ${splitter_resolution=13}
-        : ${splitter_keep_complete="--keep-complete=false"}
         ;;
     *)         
         : ${java_heap=3G}
@@ -95,17 +89,6 @@ case $ext in
         ;;
 esac
 
-: ${java_heap_splitter=$java_heap}
-: ${splitter_max_nodes=1000000}
-: ${splitter_max_areas=512}
-
-if [ $size -lt 100 ]; then
-  : ${splitter_resolution=16}
-elif [ $size -lt 2000 ]; then
-  : ${splitter_resolution=15}
-else
-  : ${splitter_resolution=13}
-fi
 
 time=time
 #case $ext in *leisure* ) java_heap=3500M ;; esac
@@ -115,7 +98,6 @@ license_file="license.txt"
 copyright_file="copyright.txt"
 copyright="OpenStreetMap.org"
 java_opt=-Xmx${java_heap}
-java_splitter_opt=-Xmx${java_heap_splitter}
 mkgmap_map_style="osm"
 : ${osm2xxx_max_jobs="2"}
 
@@ -295,32 +277,8 @@ fi
 
 #mapid=63240001
 mapid=${garmin_family_id}0001
-      
-#if [ $size -lt 10000 ]; then
-#   echo "PBF file size $size KB, run without splitter" > $logfile
-#   ln -s $file $split_dir/63240001.osm.pbf
-#else
-#fi
 
-echo ">>> Run splitter" > $logfile
-( set -x; 
-  java -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar --version
-  $time nice -n1 java $java_splitter_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar \
-	$splitter_keep_complete \
-	--resolution=$splitter_resolution \
-	--max-areas=$splitter_max_areas \
-	--max-nodes=$splitter_max_nodes \
-	--mapid="$mapid" \
-	--output-dir=$split_dir $file ) 2>&1 | tail -c 1024K >> $logfile || error
-
-if [ $(ls $split_dir/*.pbf 2>/dev/null | wc -l) -eq 0 ]; then
-    echo "Warning: splitter didn't created a file: $file"
-    if [ $size -le 1000 ]; then
-        cp -f $file $split_dir/$mapid.osm.pbf
-    else
-        echo "Argh, $file with size $size to big for single run"
-    fi
-fi
+split_dir=$($dirname/pbf-splitter $file $format)
 
 mkgmap_map_style_charset="$mkgmap_map_style ($garmin_charset)"
 date=$(date -u)
