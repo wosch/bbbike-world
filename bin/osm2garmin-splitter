@@ -20,11 +20,19 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 
 usage () {
     echo "$@"
-    echo "usage $0 file [ format ] [ title ]"
-    echo ""
-    echo "   osm | osm-ascii | cycle | cycle-ascii | leisure | leisure-ascii | bbbike"
-    echo "   onroad | onroad-ascii | openfietslite | openfietslite-ascii | srtm"
-    echo "   oseam | oseam-ascii | opentopo | opentopo-ascii"
+cat <<EOF
+usage $0 file [ format ] [ title ]
+
+  bbbike
+  cycle cycle-ascii
+  leisure leisure-ascii
+  onroad onroad-ascii
+  openfietslite openfietslite-ascii
+  opentopo opentopo-ascii
+  oseam oseam-ascii
+  osm osm-ascii
+  srtm
+EOF
     exit 1
 }
 
@@ -53,7 +61,7 @@ text2html=$dirname/text2html.sh
 test -e "$file" || usage "file $file does not exists"
 : ${osm_checksum=$dirname/osm-checksum}
 
-template=$dirname/../etc/extract/$(basename $0).$BBBIKE_EXTRACT_LANG.sh
+template=$dirname/../etc/extract/$(basename $0 -splitter).$BBBIKE_EXTRACT_LANG.sh
 
 if [ -z "$ext" ]; then
     ext=${2-"osm"}
@@ -260,9 +268,6 @@ tmpdir=`mktemp -d ${BBBIKE_TMPFS}/osm2garmin.$(basename $ext .zip).XXXXXXXXXXX`
 # cleanup after signal, but show errors first
 trap '( sleep 1; rm -rf $tmpdir ) &' 1 2 15
 
-split_dir=$tmpdir/split
-mkdir -p $split_dir
-
 garmin=`basename $file | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//'`
 garmin_dir=$tmpdir/$garmin-`basename $ext .zip`
 mkdir -p $garmin_dir
@@ -278,7 +283,12 @@ fi
 #mapid=63240001
 mapid=${garmin_family_id}0001
 
-split_dir=$($dirname/pbf-splitter $file $format)
+# split huge planet.pbf files into smaller pieces and put them in $split_dir
+#split_dir=$($dirname/pbf-splitter $file $format)/split
+if [ -z "$BBBIKE_SPLIT_DIR" -o ! -e "$BBBIKE_SPLIT_DIR" ]; then
+    error "BBBIKE_SPLIT_DIR=$BBBIKE_SPLIT_DIR not set or exists"
+fi
+split_dir=$BBBIKE_SPLIT_DIR/split
 
 mkgmap_map_style_charset="$mkgmap_map_style ($garmin_charset)"
 date=$(date -u)
@@ -330,10 +340,6 @@ echo ">>> Run mkgmap, map style: $mkgmap_map_style_charset" >> $logfile
     $mkgmap_codepage $mkgmap_map \
     --gmapsupp --description="$description" --family-name="$coords style=$mkgmap_map_style" \
     $split_dir/*.pbf $mkgmap_map_type ) 2>&1 | tail -c 1024K >> $logfile || error
-
-#echo ">>> Run mkgmap, create gmapsupp file" >> $logfile
-#( set -x
-#  java $java_opt -jar $BBBIKE_OPT_DIR/mkgmap/mkgmap.jar --gmapsupp [0-9][0-9]*.img ) >> $logfile 2>&1  || error
 
 logfile_max_size="2000k"
 if test -n "$(find $logfile -size +$logfile_max_size -print)"; then

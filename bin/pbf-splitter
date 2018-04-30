@@ -127,6 +127,6 @@ fi
 init_splitter $file $format
 run_splitter $file $split_dir $logfile $size
 
-# return the directory which contains the splitted *.pbf files
-echo $split_dir
+# return the directory which contains the splitted ./split/*.pbf files
+echo $tmpdir
 
