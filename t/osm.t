@@ -36,10 +36,10 @@ sub md5_file {
 }
 
 my $prefix       = 'world/t/data-osm/tmp';
-my $pbf_file     = "$prefix/Cusco.osm.pbf";
-my $osm_file_gz  = "$prefix/Cusco.osm.gz";
-my $osm_file_bz2 = "$prefix/Cusco.osm.bz2";
-my $osm_file_xz  = "$prefix/Cusco.osm.xz";
+my $pbf_file     = "$prefix/Cusco-osm.osm.pbf";
+my $osm_file_gz  = "$prefix/Cusco-osm.osm.gz";
+my $osm_file_bz2 = "$prefix/Cusco-osm.osm.bz2";
+my $osm_file_xz  = "$prefix/Cusco-osm.osm.xz";
 
 if ( !-f $pbf_file ) {
     die "Directory '$prefix' does not exits\n" if !-d $prefix;
