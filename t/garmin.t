@@ -33,8 +33,8 @@ if ( $0 =~ /garmin-ascii.t$/ ) {
 
 my $pbf_file =
   $0 =~ /ascii/
-  ? 'world/t/data-osm/tmp/Cusco-ascii.osm.pbf'
-  : 'world/t/data-osm/tmp/Cusco.osm.pbf';
+  ? 'world/t/data-osm/tmp/Cusco-garmin-ascii.osm.pbf'
+  : 'world/t/data-osm/tmp/Cusco-garmin.osm.pbf';
 
 if ( !-f $pbf_file ) {
     system( qw(ln -sf ../Cusco.osm.pbf), $pbf_file ) == 0
