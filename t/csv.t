@@ -55,7 +55,7 @@ sub md5_file {
 }
 
 sub cleanup {
-    unlink $pbf_file;
+    unlink( $pbf_file, $osm_file_gz, $osm_file_bz2, $osm_file_xz );
 }
 
 ######################################################################
