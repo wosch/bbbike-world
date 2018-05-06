@@ -74,8 +74,8 @@ EOF
 sub config_wait {
 
     <<EOF;
-graph_title Extracts wait time $pro
-graph_vlabel Extracts wait time $pro
+graph_title Extracts wait time in seconds $pro
+graph_vlabel Extracts wait time in seconds $pro
 graph_category extract
 graph_info Waiting extract time $pro
 graph_period minute
