@@ -108,7 +108,7 @@ sub wait_time {
     my %args = @_;
 
     my $extract_dir           = $args{'extract_dir'};
-    my $extract_dir_confirmed = "$extract_dir/confirmed2";
+    my $extract_dir_confirmed = "$extract_dir/confirmed";
 
     my $time  = time();
     my @files = glob("$extract_dir_confirmed/*.json");
