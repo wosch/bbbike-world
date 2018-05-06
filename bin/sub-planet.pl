@@ -78,7 +78,7 @@ sub regions {
         &store_data( $file, $data );
 
         my @sh = (
-            "nice",           "-n15",
+            "nice",           "-n7",
             "time",           "osmconvert-wrapper",
             "-o",             "$sub_planet_dir/$region.osm.pbf",
             "-B=$file",       "--drop-author",
