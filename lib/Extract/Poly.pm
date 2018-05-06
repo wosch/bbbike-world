@@ -95,14 +95,14 @@ sub list_subplanets {
     # only regions with a 'poly' field
     my @list = grep { exists $area->{$_}->{'poly'} } keys %$area;
 
-    # sort by square km size
+    # sort by square km size, smallest first
     if ( $sort_by == 1 ) {
         my %hash =
           map { $_ => $self->rectangle_km( @{ $area->{$_}->{'poly'} } ) } @list;
         @list = sort { $hash{$a} <=> $hash{$b} } @list;
     }
 
-    # sort by disk size
+    # sort by disk size, smallest first
     elsif ( $sort_by == 2 ) {
         my %hash;
         foreach my $sub (@list) {
@@ -120,8 +120,10 @@ sub list_subplanets {
             $hash{$sub} = $st->size;
         }
 
-        @list = reverse sort { $hash{$a} <=> $hash{$b} } keys %hash;
+        @list = sort { $hash{$a} <=> $hash{$b} } keys %hash;
     }
+
+    # sort alphabetically
     else {
         @list = sort @list;
     }

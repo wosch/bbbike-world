@@ -60,7 +60,7 @@ sub regions {
     my $osmconvert_factor = 1.2;    # full Granularity
 
     my $poly = new Extract::Poly( 'debug' => $debug );
-    my @regions = $poly->list_subplanets(
+    my @regions = reverse $poly->list_subplanets(
         'sort_by'        => 2,
         'sub_planet_dir' => '../osm/download/sub-planet'
     );
