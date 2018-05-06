@@ -40,26 +40,26 @@ if you need to override the defaults below:
 # init
 #
 my $debug = 0;
-my $help = 0;
+my $help  = 0;
 
 my $extract_dir;
 my $pro = "";
-my ($wait_warning, $wait_critical);
+my ( $wait_warning, $wait_critical );
 
 sub init {
     my $arg = shift;
-    
-    $ENV{PATH}='/bin:/usr/bin';
 
-    if ($0 =~ /-pro$/) {
-      $extract_dir="/var/cache/extract-pro";
-    } else {
-      $extract_dir="/var/cache/extract";
+    $ENV{PATH} = '/bin:/usr/bin';
+
+    if ( $0 =~ /-pro$/ ) {
+        $extract_dir = "/var/cache/extract-pro";
     }
-        
-    
-    $wait_warning=40;
-    $wait_critical=360;
+    else {
+        $extract_dir = "/var/cache/extract";
+    }
+
+    $wait_warning  = 40;
+    $wait_critical = 360;
 }
 
 sub usage {
@@ -71,9 +71,8 @@ usage: $0 [ options ] config
 EOF
 }
 
-
 sub config_wait {
-    
+
     <<EOF;
 graph_title Extracts wait time $pro
 graph_vlabel Extracts wait time $pro
@@ -87,7 +86,7 @@ wait.critical $wait_critical
 EOF
 }
 
-#echo "wait.value" $(ls $extract_dir_confirmed/*json 2>/dev/null | wc -l) 
+#echo "wait.value" $(ls $extract_dir_confirmed/*json 2>/dev/null | wc -l)
 # wait_min
 # wait_max
 # wait_average
@@ -95,11 +94,11 @@ EOF
 
 sub wait_time {
     my %args = @_;
-    
-    my $extract_dir = $args{'extract_dir'};
-    my $extract_dir_confirmed="$extract_dir/confirmed2";
 
-    print "wait.value 1";    
+    my $extract_dir           = $args{'extract_dir'};
+    my $extract_dir_confirmed = "$extract_dir/confirmed2";
+
+    print "wait.value 1";
 }
 #############################################
 # main
@@ -107,20 +106,18 @@ sub wait_time {
 
 &init;
 GetOptions(
-    "debug=i"    => \$debug,
-    "extract-dir=s"     => \$extract_dir,
-    "help"       => \$help,
+    "debug=i"       => \$debug,
+    "extract-dir=s" => \$extract_dir,
+    "help"          => \$help,
 ) or die usage;
 
 die usage if $help;
 
 if ( defined $ARGV[0] && $ARGV[0] eq 'config' ) {
     print &config_wait;
-} else {
-    &wait_time('extract_dir'=>$extract_dir);
 }
-        
-        
-
+else {
+    &wait_time( 'extract_dir' => $extract_dir );
+}
 
 # EOF
