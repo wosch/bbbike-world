@@ -12,7 +12,7 @@ use BBBike::WorldDB;
 use strict;
 use warnings;
 
-my $debug          = 1;
+my $debug          = 0;
 my $poly           = new Extract::Poly( 'debug' => $debug );
 my $planet         = new Extract::Planet( 'debug' => $debug );
 my @regions        = $poly->list_subplanets;
@@ -185,6 +185,9 @@ sub check_match_cities {
 
         my $counter = 0;
 
+        diag "Regions sorted by skm size: " . Dumper( \@regions_sorted )
+          if $debug >= 1;
+
         foreach my $city (@cities) {
             get_part("area");
 
@@ -201,18 +204,26 @@ sub check_match_cities {
                     'inner' => $city_polygon,
                     'outer' => get_polygon($outer)
                 );
-                is( $inner, $result,
-                    "region $city is inside $sub_planet, but got $outer" );
+
                 $counter += 1;
 
-                # stop at first match
-                last if $result == 1;
+                # got the right match
+                if ($result) {
+                    is( $inner, $result, "region $city is inside $sub_planet" );
+                    last;
+                }
+
+                # not done yet
+                else {
+                    is( $inner, $result, "region $city is not inside $outer" );
+                }
             }
         }
 
         return $counter;
     }
 
+    # check if the cities are in the right sub-planet
     $counter +=
       &check_sorted_regions( 'germany-europe', qw/Berlin Hamburg Dresden/ );
     $counter += &check_sorted_regions( 'central-europe', qw/Amsterdam/ );
@@ -221,10 +232,11 @@ sub check_match_cities {
       &check_sorted_regions( 'north-america', qw/SanFrancisco Denver/ );
     $counter += &check_sorted_regions( 'north-america-east', qw/Toronto/ );
     $counter += &check_sorted_regions( 'south-america',
-        qw/LaPlata BuenosAires RiodeJaneiro/ );
+        qw/LaPlata Cusco BuenosAires RiodeJaneiro/ );
     $counter += &check_sorted_regions( 'africa', qw/Johannesburg CapeTown/ );
     $counter += &check_sorted_regions( 'asia',   qw/Melbourne/ );
-    $counter += &check_sorted_regions( 'asia-south', qw/Seoul Singapore/ );
+    $counter +=
+      &check_sorted_regions( 'asia-south', qw/Seoul Singapore Bangkok/ );
 
     return $counter;
 }
