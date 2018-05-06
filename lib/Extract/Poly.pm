@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2012-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
 #
 # polygon helper functions
 
@@ -27,13 +27,15 @@ use warnings;
 our $debug = 1;
 
 our $area = {
-    'north-america'  => { 'poly' => [ -140.663, 6.783,   -45.554, 59.745 ] },
-    'south-america'  => { 'poly' => [ -97.53,   -59.13,  -28.544, 20.217 ] },
-    'africa'         => { 'poly' => [ -23.196,  -39.96,  61.949,  38.718 ] },
-    'europe'         => { 'poly' => [ -27.472,  26.682,  50.032,  72.282 ] },
-    'asia'           => { 'poly' => [ 43.505,   -53.122, 179.99,  63.052 ] },
-    'central-europe' => { 'poly' => [ 3.295,    42.571,  29.482,  60.992 ] },
-    'germany-europe' => { 'poly' => [ 4.892,    45.097,  17.614,  56.612 ] },
+    'north-america'      => { 'poly' => [ -140.663, 6.783,  -45.554, 59.745 ] },
+    'north-america-east' => { 'poly' => [ -94.5,    23.5,   -51.0,   56.0 ] },
+    'south-america'      => { 'poly' => [ -97.53,   -59.13, -28.544, 20.217 ] },
+    'africa'             => { 'poly' => [ -23.196,  -39.96, 61.949,  38.718 ] },
+    'europe'             => { 'poly' => [ -27.472,  26.682, 50.032,  72.282 ] },
+    'asia'           => { 'poly' => [ 43.505, -53.122, 179.99, 63.052 ] },
+    'asia-south'     => { 'poly' => [ 60.0,   -12.0,   131,    56 ] },
+    'central-europe' => { 'poly' => [ 3.295,  42.571,  29.482, 60.992 ] },
+    'germany-europe' => { 'poly' => [ 4.892,  45.097,  17.614, 56.612 ] },
 
     # all
     'planet' => { 'poly2' => [ -180, -90, 180, 90 ] },
