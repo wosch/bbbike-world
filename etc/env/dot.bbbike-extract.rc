@@ -1,11 +1,14 @@
-# Copyright (c) 2009-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2018 Wolfram Schneider, https://bbbike.org
 #
 # example config file for cron job bbbike/world/bin/extract.pl
 # 
 # put it in $HOME/.bbbike-extract.rc
 
-$option->{'homepage'} = '//download.bbbike.org/osm/extract';
-$option->{'script_homepage'} = '//extract.bbbike.org';
+$option->{'homepage'} = 'https://download.bbbike.org/osm/extract';
+$option->{'download_homepage'} = 'https://download.bbbike.org/osm/';
+$option->{'script_homepage'} = 'https://extract.bbbike.org';
+$option->{'server_status_url'} = 'https://download.bbbike.org/osm/extract/';
+
 $option->{'test'} = 0; 
 $option->{'debug'} = 1; 
 $option->{'email_valid_mxcheck'} = 1; 
