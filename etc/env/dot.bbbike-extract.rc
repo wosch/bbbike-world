@@ -7,6 +7,7 @@
 $option->{'homepage'} = 'https://download.bbbike.org/osm/extract';
 $option->{'download_homepage'} = 'https://download.bbbike.org/osm/';
 $option->{'script_homepage'} = 'https://extract.bbbike.org';
+$option->{'extract_homepage'} = 'https://extract.bbbike.org';
 $option->{'server_status_url'} = 'https://download.bbbike.org/osm/extract/';
 
 $option->{'test'} = 0; 

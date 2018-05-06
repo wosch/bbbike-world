@@ -33,10 +33,10 @@ $ENV{PATH} = "/bin:/usr/bin";
 our $option = {
     'debug' => "0",
 
-    'homepage_download' => 'https://download.bbbike.org/osm/',
+    'download_homepage' => 'https://download.bbbike.org/osm/',
 
-    'homepage_extract'     => 'https://extract.bbbike.org',
-    'homepage_extract_pro' => 'https://extract-pro.bbbike.org',
+    'extract_homepage'     => 'https://extract.bbbike.org',
+    'extract_homepage_pro' => 'https://extract-pro.bbbike.org',
 
     'message_path' => "../world/etc/extract",
     'pro'          => 0,
@@ -299,10 +299,10 @@ sub footer {
     my %args = @_;
     my $date = $args{'date'};
 
-    my $homepage_extract = $option->{'homepage_extract'};
+    my $extract_homepage = $option->{'extract_homepage'};
     return <<EOF;
 
-<p align="center"><a href="$homepage_extract/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></p>
+<p align="center"><a href="$extract_homepage/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></p>
 
 <div id="bottom">
 <p>
@@ -311,10 +311,10 @@ sub footer {
 
 <div id="footer">
 <div id="footer_top">
-<a href="@{[ $option->{'homepage_download'} ]}">home</a> |
+<a href="@{[ $option->{'download_homepage'} ]}">home</a> |
 <a href="/extract.html">@{[ M("help") ]}</a> |
-<a href="$homepage_extract/community.html">@{[ M("donate") ]}</a> |
-<a href="$homepage_extract/support.html">commercial support</a>
+<a href="$extract_homepage/community.html">@{[ M("donate") ]}</a> |
+<a href="$extract_homepage/support.html">commercial support</a>
 <hr/>
 </div> <!-- footer_top -->
 
@@ -695,7 +695,7 @@ EOF
     );
 
     my $current_date     = time2str(time);
-    my $homepage_extract = $option->{'homepage_extract'};
+    my $extract_homepage = $option->{'extract_homepage'};
 
     my @extracts = ();
 
@@ -733,7 +733,7 @@ EOF
 
     print <<EOF;
 </td>
-<td><a href="$homepage_extract/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></td>
+<td><a href="$extract_homepage/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></td>
 </tr>
 </table>
 
