@@ -89,21 +89,21 @@ sub list_subplanets {
     my $self = shift;
     my %args = @_;
 
-    my $sort_by = $args{'sort_by'} || 0;    # valid values are: 0, 1, 2
+    my $sort_by = $args{'sort_by'} // "";    # valid values are: skm, disk
     my $sub_planet_dir = $args{'sub_planet_dir'} // $self->{'sub_planet_dir'};
 
     # only regions with a 'poly' field
     my @list = grep { exists $area->{$_}->{'poly'} } keys %$area;
 
     # sort by square km size, smallest first
-    if ( $sort_by == 1 ) {
+    if ( $sort_by eq 'skm' ) {
         my %hash =
           map { $_ => $self->rectangle_km( @{ $area->{$_}->{'poly'} } ) } @list;
         @list = sort { $hash{$a} <=> $hash{$b} } @list;
     }
 
     # sort by disk size, smallest first
-    elsif ( $sort_by == 2 ) {
+    elsif ( $sort_by eq 'disk' ) {
         my %hash;
         foreach my $sub (@list) {
 
@@ -125,6 +125,12 @@ sub list_subplanets {
 
     # sort alphabetically
     else {
+        if ( $sort_by ne "" ) {
+            warn
+"Unknown sort_by='$sort_by' value, only skm and disk are allowed\n"
+              if $debug >= 0;
+        }
+
         @list = sort @list;
     }
 

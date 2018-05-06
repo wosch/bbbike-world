@@ -119,7 +119,7 @@ sub _get_smallest_planet {
 
     # smallest regions first
     my @regions =
-      $regions ? @$regions : $poly->list_subplanets( 'sort_by' => 1, );
+      $regions ? @$regions : $poly->list_subplanets( 'sort_by' => 'skm', );
 
     my ( $data, $counter, $city_polygon ) =
       $poly->create_poly_data( 'job' => $obj );

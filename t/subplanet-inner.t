@@ -16,7 +16,7 @@ my $debug          = 0;
 my $poly           = new Extract::Poly( 'debug' => $debug );
 my $planet         = new Extract::Planet( 'debug' => $debug );
 my @regions        = $poly->list_subplanets;
-my @regions_sorted = $poly->list_subplanets( 'sort_by' => 1 );
+my @regions_sorted = $poly->list_subplanets( 'sort_by' => 'skm' );
 
 my $planet_polygon = &planet_polygon;
 cmp_ok( scalar(@$planet_polygon),
