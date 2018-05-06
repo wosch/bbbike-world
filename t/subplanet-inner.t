@@ -218,11 +218,13 @@ sub check_match_cities {
     $counter += &check_sorted_regions( 'central-europe', qw/Amsterdam/ );
     $counter += &check_sorted_regions( 'europe', qw/London Madrid Sofia/ );
     $counter +=
-      &check_sorted_regions( 'north-america', qw/SanFrancisco Denver Toronto/ );
+      &check_sorted_regions( 'north-america', qw/SanFrancisco Denver/ );
+    $counter += &check_sorted_regions( 'north-america-east', qw/Toronto/ );
     $counter += &check_sorted_regions( 'south-america',
         qw/LaPlata BuenosAires RiodeJaneiro/ );
     $counter += &check_sorted_regions( 'africa', qw/Johannesburg CapeTown/ );
-    $counter += &check_sorted_regions( 'asia', qw/Seoul Singapore Melbourne/ );
+    $counter += &check_sorted_regions( 'asia',   qw/Melbourne/ );
+    $counter += &check_sorted_regions( 'asia-south', qw/Seoul Singapore/ );
 
     return $counter;
 }
