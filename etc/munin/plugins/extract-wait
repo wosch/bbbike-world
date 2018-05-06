@@ -1,11 +1,17 @@
-#!/bin/sh
+#!/usr/local/bin/perl
 # Copyright (c) May 2018 Wolfram Schneider, https://bbbike.org
 #
 # usage: /etc/munin/plugins/extract-wait [ config ]
 #
 # get documentation with: perldoc /path/to/script
 
-: << =cut
+use Getopt::Long;
+use Data::Dumper;
+use File::stat;
+use IO::File;
+
+use strict;
+use warnings;
 
 =head1 NAME
 
@@ -30,27 +36,45 @@ if you need to override the defaults below:
 
 =cut
 
+########################################################################
+# init
+#
+my $debug = 0;
+my $help = 0;
 
-PATH=/bin:/usr/bin; export PATH
+my $extract_dir;
+my $pro = "";
+my ($wait_warning, $wait_critical);
 
-config=$1
+sub init {
+    my $arg = shift;
+    
+    $ENV{PATH}='/bin:/usr/bin';
 
-case $0 in 
-    *-pro* ) pro="pro"
-              : ${extract_dir="/var/cache/extract-pro"}
-            ;;
-    *)        : ${extract_dir="/var/cache/extract"}
-            ;;
-esac
+    if ($0 =~ /-pro$/) {
+      $extract_dir="/var/cache/extract-pro";
+    } else {
+      $extract_dir="/var/cache/extract";
+    }
+        
+    
+    $wait_warning=40;
+    $wait_critical=360;
+}
 
-extract_dir_confirmed=$extract_dir/confirmed2
+sub usage {
+    <<EOF;
+usage: $0 [ options ] config
 
-if [ "$1" = "config" ]; then
-    : ${wait_warning=40}
-    : ${wait_critical=360}
+--debug=0..2                    default: $debug
+--extract_dir=/path/to/dir      default: $extract_dir
+EOF
+}
 
-     
-    cat <<EOF
+
+sub config_wait {
+    
+    <<EOF;
 graph_title Extracts wait time $pro
 graph_vlabel Extracts wait time $pro
 graph_category extract
@@ -58,22 +82,45 @@ graph_info Waiting extract time $pro
 graph_period minute
 wait.label Waiting time $pro
 wait.min 0
+wait.warning $wait_warning
+wait.critical $wait_critical
 EOF
+}
 
-echo "wait.warning $wait_warning"
-echo "wait.critical $wait_critical"
-
-
-    exit 0
-fi
-
-#############################################
-# main
-#
-echo "wait.value" $(ls $extract_dir_confirmed/*json 2>/dev/null | wc -l) 
+#echo "wait.value" $(ls $extract_dir_confirmed/*json 2>/dev/null | wc -l) 
 # wait_min
 # wait_max
 # wait_average
 # wait_median
+
+sub wait_time {
+    my %args = @_;
+    
+    my $extract_dir = $args{'extract_dir'};
+    my $extract_dir_confirmed="$extract_dir/confirmed2";
+
+    print "wait.value 1";    
+}
+#############################################
+# main
+#
+
+&init;
+GetOptions(
+    "debug=i"    => \$debug,
+    "extract-dir=s"     => \$extract_dir,
+    "help"       => \$help,
+) or die usage;
+
+die usage if $help;
+
+if ( defined $ARGV[0] && $ARGV[0] eq 'config' ) {
+    print &config_wait;
+} else {
+    &wait_time('extract_dir'=>$extract_dir);
+}
+        
+        
+
 
 # EOF
