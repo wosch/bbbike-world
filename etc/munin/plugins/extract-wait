@@ -58,8 +58,8 @@ sub init {
         $extract_dir = "/var/cache/extract";
     }
 
-    $wait_warning  = 40;
-    $wait_critical = 360;
+    $wait_warning  = 400;
+    $wait_critical = 3600;
 }
 
 sub usage {
@@ -79,10 +79,22 @@ graph_vlabel Extracts wait time $pro
 graph_category extract
 graph_info Waiting extract time $pro
 graph_period minute
-wait.label Waiting time $pro
-wait.min 0
-wait.warning $wait_warning
-wait.critical $wait_critical
+wait_average.label Waiting average time $pro
+wait_average.min 0
+wait_average.warning $wait_warning
+wait_average.critical $wait_critical
+wait_min.label Waiting min time $pro
+wait_min.min 0
+wait_min.warning $wait_warning
+wait_min.critical $wait_critical
+wait_max.label Waiting max time $pro
+wait_max.min 0
+wait_max.warning $wait_warning
+wait_max.critical $wait_critical
+wait_median.label Waiting median time $pro
+wait_median.min 0
+wait_median.warning $wait_warning
+wait_median.critical $wait_critical
 EOF
 }
 
@@ -98,8 +110,82 @@ sub wait_time {
     my $extract_dir           = $args{'extract_dir'};
     my $extract_dir_confirmed = "$extract_dir/confirmed2";
 
-    print "wait.value 1";
+    my $time  = time();
+    my @files = glob("$extract_dir_confirmed/*.json");
+    my @mtime = ();
+
+    foreach my $file (@files) {
+        my $st = stat($file);
+        if ( !$st ) {
+            warn "ignore $file, gone\n" if $debug >= 1;
+            next;
+        }
+
+        push @mtime, $st->mtime;
+    }
+
+    print "wait_average.value @{[ wait_average($time, @mtime) ]}\n";
+    print "wait_min.value @{[ wait_min($time, @mtime) ]}\n";
+    print "wait_max.value @{[ wait_max($time, @mtime) ]}\n";
+    print "wait_median.value @{[ wait_median($time, @mtime) ]}\n";
 }
+
+sub wait_average {
+    my $time  = shift;
+    my @mtime = @_;
+
+    # nothing to do
+    if ( !@mtime ) {
+        return 0;
+    }
+
+    my $res;
+    foreach my $m (@mtime) {
+        $res += ( $time - $m );
+    }
+
+    return int( $res / ( scalar @mtime ) );
+}
+
+sub wait_min {
+    my $time  = shift;
+    my @mtime = @_;
+
+    # nothing to do
+    if ( !@mtime ) {
+        return 0;
+    }
+
+    my @res = reverse sort { $a <=> $b } @mtime;
+    return ( $time - $res[0] );
+}
+
+sub wait_max {
+    my $time  = shift;
+    my @mtime = @_;
+
+    # nothing to do
+    if ( !@mtime ) {
+        return 0;
+    }
+
+    my @res = reverse sort { $a <=> $b } @mtime;
+    return ( $time - $res[-1] );
+}
+
+sub wait_median {
+    my $time  = shift;
+    my @mtime = @_;
+
+    # nothing to do
+    if ( !@mtime ) {
+        return 0;
+    }
+
+    my @res = reverse sort { $a <=> $b } @mtime;
+    return ( $time - $res[ ( ( scalar @mtime ) + 1 ) / 2 - 1 ] );
+}
+
 #############################################
 # main
 #
