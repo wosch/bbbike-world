@@ -1,0 +1,11 @@
+Setup
+----------
+for the configuration see world/lib/Extract/Poly.pm
+
+Updates
+-------
+
+$ make update
+
+
+
