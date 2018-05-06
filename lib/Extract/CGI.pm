@@ -321,10 +321,14 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
         $option->{'pro'}
       ? $option->{"script_homepage_pro"}
       : $option->{"script_homepage"};
-    my $server_status =
+    my $server_status_url =
         $option->{'pro'}
       ? $option->{"server_status_url_pro"}
       : $option->{"server_status_url"};
+    my $download_homepage =
+        $option->{'pro'}
+      ? $option->{'download_homepage_pro'}
+      : $option->{'download_homepage'};
 
     return <<EOF;
   $donate
@@ -332,9 +336,9 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
   <div id="footer_top">
     <a href="$homepage">home</a> |
     <a href="/extract.html">@{[ M("help") ]}</a> |
-    <a href="$server_status" target="_blank">status</a> |
+    <a href="$server_status_url" target="_blank">status</a> |
     <!-- <a href="//mc.bbbike.org/mc/$mc_parameters" id="mc_link" target="_blank">map compare</a> | -->
-    <a href="//download.bbbike.org/osm/">download</a> |
+    <a href="$download_homepage">download</a> |
     <a href="/support.html">@{[ M("commercial support") ]}</a>
     $locate
   </div>
@@ -803,7 +807,7 @@ sub _check_input {
         $text = $1;
     }
 
-    my $server_status =
+    my $server_status_url =
         $option->{'pro'}
       ? $option->{'server_status_url_pro'}
       : $option->{'server_status_url'};
@@ -812,7 +816,7 @@ sub _check_input {
       sprintf( $text,
         escapeHTML($city), large_int($skm), $coordinates,
         $self->{'formats'}->{$format},
-        $server_status );
+        $server_status_url );
 
     my ( $key, $json_file ) =
       &save_request( $obj, $self->get_spool_dir,
