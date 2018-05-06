@@ -1,0 +1,123 @@
+#!/bin/sh
+# Copyright (c) Sep 2011-2017 Wolfram Schneider, https://bbbike.org
+#
+# usage: /etc/munin/plugins/bbbike-extract-jobs [ config ]
+#
+# get documentation with: perldoc /path/to/script
+
+: << =cut
+
+=head1 NAME
+
+extract-jobs  - Plugin to monitor running extract jobs
+
+=head1 ABOUT
+
+[...]
+
+=head1 USAGE
+
+[...]
+
+=head1 CONFIGURATION
+
+Configuration parameters for /etc/munin/plugin-conf.d/munin-node
+if you need to override the defaults below:
+
+ [bbbike-extract-jobs]
+   env.warning   - Generate a warning if number of jobs goes above this level
+   env.critical  - Generate a critical if number of jobs goes above this level
+   env.jobs_warnings - [...]
+   env.jobs_critical - [...]
+   env.proc_warnings - [...]
+   env.proc_critical - [...]
+   env.waiting_warnings - [...]
+   env.waiting_critical - [...]
+
+=cut
+
+
+PATH=/bin:/usr/bin; export PATH
+
+config=$1
+
+case $0 in 
+    *-pro* ) pro="pro"
+              : ${extract_dir="/var/cache/extract-pro"}
+            ;;
+    *)        : ${extract_dir="/var/cache/extract"}
+            ;;
+esac
+
+extract_dir_running=$extract_dir/running
+
+if [ "$1" = "config" ]; then
+    : ${warning=40}
+    : ${critical=80}
+
+    : ${jobs_warning=10}
+    : ${jobs_critical=20}
+    : ${proc_warning=6}
+    : ${proc_critical=8}
+    : ${waiting_warning=20}
+    : ${waiting_critical=60}
+    : ${users_warning=6}
+    : ${users_critical=10}
+    : ${users_waiting_warning=10}
+    : ${users_waiting_critical=20}
+     
+    cat <<EOF
+graph_title Extracts queue $pro
+graph_vlabel Extracts queue $pro
+graph_category extract
+graph_info Running extract jobs $pro
+graph_period minute
+jobs.label Running jobs $pro
+jobs.min 0
+waiting.label Waiting jobs $pro
+waiting.min 0
+proc.label Running proc $pro
+proc.min 0
+users.label Active Users $pro
+users.min 0
+users_waiting.label Waitung Users $pro
+users_waiting.min 0
+EOF
+
+echo "jobs.warning $jobs_warning"
+echo "jobs.critical $jobs_critical"
+echo "proc.warning $proc_warning"
+echo "proc.critical $proc_critical"
+echo "waiting.warning $waiting_warning"
+echo "waiting.critical $waiting_critical"
+echo "users.warning $users_warning"
+echo "users.critical $users_critical"
+echo "users_waiting.warning $users_waiting_warning"
+echo "users_waiting.critical $users_waiting_critical"
+
+
+    exit 0
+fi
+
+#############################################
+# main
+#
+echo "jobs.value" $(ls $extract_dir_running/*/*json 2>/dev/null | wc -l) 
+
+count=0
+cd $extract_dir_running
+for i in *.pid.lock *.pid; do
+  if [ -e "$i" ]; then 
+   #if kill -0 $(cat $i); then
+   if test -e /proc/$(cat $i); then
+      count=$(expr $count + 1)
+    fi
+  fi
+done
+echo "proc.value $count"
+
+echo "users.value" $(egrep -h '"email"' $extract_dir_running/*/*.json 2>/dev/null | sed 's/,$//' | sort -u | wc -l) 
+echo "waiting.value" $(ls $extract_dir_running/../confirmed/*.json 2>/dev/null | wc -l) 
+echo "users_waiting.value" $(egrep -h '"email"' $extract_dir_running/../confirmed/*.json 2>/dev/null | sed 's/,$//' | sort -u | wc -l) 
+
+# EOF
