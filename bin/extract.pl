@@ -1429,6 +1429,7 @@ sub _convert_send_email {
     $obj->{"convert_time"} = $convert_time;
     $obj->{"extract_time"} = $extract_time;
     $obj->{"wait_time"}    = $wait_time;
+    $obj->{"load_average"} = &get_loadavg;
 
     ###################################################################
     # keep a copy of .pbf in ./osm for further usage
