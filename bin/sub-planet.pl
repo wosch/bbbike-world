@@ -46,7 +46,7 @@ sub store_data {
     print $fh $data;
     $fh->close;
 
-    warn "Rename $file $file_real\n" if $debug >= 2;
+    warn "Rename $file $file_real\n" if $debug >= 1;
     rename( $file, $file_real ) or die "Rename $file -> $file_real: $!\n";
 }
 
@@ -60,7 +60,10 @@ sub regions {
     my $osmconvert_factor = 1.2;    # full Granularity
 
     my $poly = new Extract::Poly( 'debug' => $debug );
-    my @regions = $poly->list_subplanets;
+    my @regions = $poly->list_subplanets(
+        'sort_by'        => 2,
+        'sub_planet_dir' => '../osm/download/sub-planet'
+    );
 
     my @shell;
     foreach my $region (@regions) {

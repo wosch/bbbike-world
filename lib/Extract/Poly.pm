@@ -89,8 +89,8 @@ sub list_subplanets {
     my $self = shift;
     my %args = @_;
 
-    my $sort_by = $args{'sort_by'} || 0;             # valid values are: 0, 1, 2
-    my $sub_planet_dir = $self->{'sub_planet_dir'};
+    my $sort_by = $args{'sort_by'} || 0;    # valid values are: 0, 1, 2
+    my $sub_planet_dir = $args{'sub_planet_dir'} // $self->{'sub_planet_dir'};
 
     # only regions with a 'poly' field
     my @list = grep { exists $area->{$_}->{'poly'} } keys %$area;
@@ -120,7 +120,7 @@ sub list_subplanets {
             $hash{$sub} = $st->size;
         }
 
-        @list = sort { $hash{$a} <=> $hash{$b} } keys %hash;
+        @list = reverse sort { $hash{$a} <=> $hash{$b} } keys %hash;
     }
     else {
         @list = sort @list;
