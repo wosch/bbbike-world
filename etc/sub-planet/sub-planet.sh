@@ -2,6 +2,7 @@ nice -n7 time osmconvert-wrapper -o ../osm/download/sub-planet/south-america.osm
 nice -n7 time osmconvert-wrapper -o ../osm/download/sub-planet/north-america-east.osm.pbf -B=world/etc/sub-planet/north-america-east.poly --drop-author --drop-version --out-pbf ../osm/download/planet-latest-nometa.osm.pbf
 nice -n7 time osmconvert-wrapper -o ../osm/download/sub-planet/north-america.osm.pbf -B=world/etc/sub-planet/north-america.poly --drop-author --drop-version --out-pbf ../osm/download/planet-latest-nometa.osm.pbf
 nice -n7 time osmconvert-wrapper -o ../osm/download/sub-planet/germany-europe.osm.pbf -B=world/etc/sub-planet/germany-europe.poly --drop-author --drop-version --out-pbf ../osm/download/planet-latest-nometa.osm.pbf
+nice -n7 time osmconvert-wrapper -o ../osm/download/sub-planet/europe-south.osm.pbf -B=world/etc/sub-planet/europe-south.poly --drop-author --drop-version --out-pbf ../osm/download/planet-latest-nometa.osm.pbf
 nice -n7 time osmconvert-wrapper -o ../osm/download/sub-planet/europe.osm.pbf -B=world/etc/sub-planet/europe.poly --drop-author --drop-version --out-pbf ../osm/download/planet-latest-nometa.osm.pbf
 nice -n7 time osmconvert-wrapper -o ../osm/download/sub-planet/central-europe.osm.pbf -B=world/etc/sub-planet/central-europe.poly --drop-author --drop-version --out-pbf ../osm/download/planet-latest-nometa.osm.pbf
 nice -n7 time osmconvert-wrapper -o ../osm/download/sub-planet/asia-south.osm.pbf -B=world/etc/sub-planet/asia-south.poly --drop-author --drop-version --out-pbf ../osm/download/planet-latest-nometa.osm.pbf
