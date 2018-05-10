@@ -724,6 +724,7 @@ planet-nometa:
 
 sub-planet sub-srtm:
 	mkdir -p ../osm/download/$@
+	make -C world/etc/$@
 	program=$@ ./world/bin/sub-planet
 
 planet-geofabrik-download:
