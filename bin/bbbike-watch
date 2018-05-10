@@ -19,7 +19,7 @@ echo; echo 'running: '
 $running_extract email | sort | uniq -c | sort -nr
 
 echo 'waiting: '
-egrep -h @ /var/cache/${extract}/confirmed/*.json 2>/dev/null | perl -npe 's/,//' | sort | uniq -c |sort -nr
+egrep -h @ /var/cache/${extract}/confirmed/*.json 2>/dev/null | perl -npe 's/,//' | sort | uniq -c | sort -nr -k1 -k3
 
 echo 'running city: '
 $running_extract city | sort | uniq -c | sort -nr
