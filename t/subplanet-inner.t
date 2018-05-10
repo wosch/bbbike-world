@@ -227,7 +227,8 @@ sub check_match_cities {
     $counter +=
       &check_sorted_regions( 'germany-europe', qw/Berlin Hamburg Dresden/ );
     $counter += &check_sorted_regions( 'central-europe', qw/Amsterdam/ );
-    $counter += &check_sorted_regions( 'europe', qw/London Madrid Sofia/ );
+    $counter += &check_sorted_regions( 'europe',         qw/London Paris/ );
+    $counter += &check_sorted_regions( 'europe-south',   qw/Madrid Sofia/ );
     $counter +=
       &check_sorted_regions( 'north-america', qw/SanFrancisco Denver/ );
     $counter += &check_sorted_regions( 'north-america-east', qw/Toronto/ );
