@@ -1,7 +1,7 @@
 #!/bin/sh
 # Copyright (c) Sep 2011-2017 Wolfram Schneider, https://bbbike.org
 #
-# usage: /etc/munin/plugins/bbbike-extract-diskusage [ config ]
+# usage: /etc/munin/plugins/extract-diskusage [ config ]
 #
 # get documentation with: perldoc /path/to/script
 
