@@ -7,15 +7,20 @@
 
 set -e
 : ${osmconvert_program="osmconvert"}
+PATH=/usr/local/bin:/bin:/usr/bin
 
+tmpfile=""
 case $1 in
-  -o | --o ) out=$2; exec > $out.$$; shift; shift;;
+  -o | --o ) out=$2
+             tmpfile=$(mktemp $out.XXXXXXXX.tmp)
+	     exec > $tmpfile
+	     shift; shift
+	     ;;
   *  ) ;;
 esac
 
-dirname=$(dirname $0)
-$dirname/$osmconvert_program $@
+$osmconvert_program $@
 
 # create real output file on success
-mv -f $out.$$ $out
+mv -f $tmpfile $out
 
