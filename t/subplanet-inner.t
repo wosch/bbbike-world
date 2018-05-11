@@ -66,7 +66,7 @@ sub check_regions {
 }
 
 sub check_cities {
-    my $obj    = $poly->get_job_obj('central-europe');
+    my $obj    = $poly->get_job_obj('europe-central');
     my $region = 'Berlin';
 
     my $berlin_polygon = get_polygon( $region, [ 12.76, 52.23, 13.98, 52.82 ] );
@@ -77,7 +77,7 @@ sub check_cities {
     );
     is( $inner, 1, "region $region is inside planet" );
 
-    my $outer = 'central-europe';
+    my $outer = 'europe-central';
     $inner = $planet->sub_polygon(
         'inner' => $berlin_polygon,
         'outer' => get_polygon($outer)
@@ -225,10 +225,10 @@ sub check_match_cities {
 
     # check if the cities are in the right sub-planet
     $counter +=
-      &check_sorted_regions( 'germany-europe', qw/Berlin Hamburg Dresden/ );
-    $counter += &check_sorted_regions( 'central-europe', qw/Amsterdam/ );
-    $counter += &check_sorted_regions( 'europe',         qw/London Paris/ );
+      &check_sorted_regions( 'europe-germany', qw/Berlin Hamburg Dresden/ );
+    $counter += &check_sorted_regions( 'europe-central', qw/Amsterdam/ );
     $counter += &check_sorted_regions( 'europe-south',   qw/Madrid Sofia/ );
+    $counter += &check_sorted_regions( 'europe',         qw/London Paris/ );
     $counter +=
       &check_sorted_regions( 'north-america', qw/SanFrancisco Denver/ );
     $counter += &check_sorted_regions( 'north-america-east', qw/Toronto/ );
