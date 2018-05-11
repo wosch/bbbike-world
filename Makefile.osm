@@ -1189,6 +1189,7 @@ data-distclean distclean-data:
 	rm -f misc/*.lock misc/*.inx[456]
 	rm -rf ${TMP_DIR}
 	rm -f /bbbike/tmp/bbbike_*
+	rm -f ../osm/download/sub-*/*.tmp
 	find . -name '*.inx*'
 	find . -name '*.lock'
 
