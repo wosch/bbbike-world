@@ -1,26 +1,30 @@
-#!/bin/sh
-# Copyright (c) 2015 Wolfram Schneider, https://bbbike.org
+#!/bin/bash
+# Copyright (c) 2015-2018 Wolfram Schneider, https://bbbike.org
 #
 # a wrapper to sent osmconvert output to a file
 #
 # usage: ./osmconvert_wrapper -o outfile.pbf [ osmconvert parameters ]
 
 set -e
-: ${osmconvert_program="osmconvert"}
 PATH=/usr/local/bin:/bin:/usr/bin
+: ${osmconvert_program="osmconvert"}
 
 tmpfile=""
+
+# cleanup after signal, but show errors first
+trap 'rm -f "$tmpfile"' INT QUIT USR1 
+
 case $1 in
   -o | --o ) out=$2
-             tmpfile=$(mktemp $out.XXXXXXXX.tmp)
-	     exec > $tmpfile
+             tmpfile=$(mktemp "$out.XXXXXXXX.tmp")
 	     shift; shift
 	     ;;
   *  ) ;;
 esac
 
-$osmconvert_program $@
+$osmconvert_program $@ > "$tmpfile"
 
 # create real output file on success
-mv -f $tmpfile $out
+mv -f "$tmpfile" "$out"
+
 
