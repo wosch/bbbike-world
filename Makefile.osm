@@ -1186,9 +1186,11 @@ tile-rsync:
 
 data-distclean distclean-data:
 	rm -f data/*.lock data/*.inx[456] data/*.st
+	rm -f misc/*.lock misc/*.inx[456]
 	rm -rf ${TMP_DIR}
 	rm -f /bbbike/tmp/bbbike_*
 	find . -name '*.inx*'
+	find . -name '*.lock'
 
 ###############################
 # Note: you need at least 280GB free disk space to run this command!!!
