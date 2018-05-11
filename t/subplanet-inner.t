@@ -215,7 +215,8 @@ sub check_match_cities {
 
                 # not done yet
                 else {
-                    is( $inner, $result, "region $city is not inside $outer" );
+                    is( $inner, $result,
+                        "region $city is not inside $sub_planet, but $outer" );
                 }
             }
         }
@@ -228,7 +229,10 @@ sub check_match_cities {
       &check_sorted_regions( 'europe-germany', qw/Berlin Hamburg Dresden/ );
     $counter += &check_sorted_regions( 'europe-central', qw/Amsterdam/ );
     $counter += &check_sorted_regions( 'europe-south',   qw/Madrid Sofia/ );
-    $counter += &check_sorted_regions( 'europe',         qw/London Paris/ );
+    $counter += &check_sorted_regions( 'europe',         qw/Trondheim/ );
+    $counter +=
+      &check_sorted_regions( 'europe-northwest', qw/Paris London Dublin/ );
+    $counter += &check_sorted_regions( 'europe-east', qw/Moscow/ );
     $counter +=
       &check_sorted_regions( 'north-america', qw/SanFrancisco Denver/ );
     $counter += &check_sorted_regions( 'north-america-east', qw/Toronto/ );
