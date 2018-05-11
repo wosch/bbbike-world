@@ -42,7 +42,7 @@ SKIP: {
     my $st = stat($tmpfile);
 
     isnt( $st, undef, "tmpfile $tmpfile exists" );
-    my $size;
+    my $size = -1;
 
     # for whatever reasons stat() in perl return zero bytes, while other
     # tools like ls or wc works fine
@@ -52,7 +52,7 @@ SKIP: {
     else {
 
         $size = `wc -c $tmpfile`;
-        $size =~ s/\s+.*//;
+        $size =~ s/\s+.*\n//;
     }
 
     my $min_size = 9_300_000;
