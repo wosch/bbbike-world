@@ -3,8 +3,15 @@
 #
 # test script to check which sub-planets can be used
 #
-# /this/script ./extract/trash/*.json
+# ./world/bin/sub-planet-statistic.pl ../extract/trash/*.json
 #
+# or sort by region:
+#
+# find ../extract/trash -mtime -10 -type f -name '*json' | \
+#   xargs ./world/bin/sub-planet-statistic.pl | \
+#   awk '{ print $2 }' | sort | uniq -c | sort -nr
+#
+
 use JSON;
 use Getopt::Long;
 use Data::Dumper;
