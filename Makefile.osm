@@ -1631,16 +1631,19 @@ docker-build-tile:
 docker-shell-tile:
 	${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/tile docker-shell
 
+# remove temp images
 docker-clean:
 	if ${DOCKER} images | egrep -q '^<none>'; then \
+	  sudo /etc/init.d/docker restart; \
 	  ${DOCKER} rmi -f $$(${DOCKER} images | egrep '^<none>' | awk '{ print $$3 }'); \
 	fi
 
+# remove all available images
 docker-distclean:
-	if ${DOCKER} images | egrep -q '^bbbike/'; then \
-	  ${DOCKER} rmi -f $$(${DOCKER} images | egrep '^bbbike/' | awk '{ print $$3 }'); \
+	if ${DOCKER} images | egrep -q -v '^REPOSITORY'; then \
+	  sudo /etc/init.d/docker restart; \
+	  ${DOCKER} rmi -f $$(${DOCKER} images | egrep -v '^REPOSITORY' | awk '{ print $$3 }'); \
 	fi
-
 
 check-tileserver:
 	curl -sf http://localhost:80/osm/bbbike/11/1100/671.png > /dev/null
