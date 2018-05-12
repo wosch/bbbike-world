@@ -1640,8 +1640,10 @@ docker-clean:
 
 # remove all available images
 docker-distclean:
-	sudo /etc/init.d/docker restart
-	${DOCKER} rmi -f $$(${DOCKER} images | egrep -v '^REPOSITORY' | awk '{ print $$3 }')
+	if ${DOCKER} images | egrep -q -v '^REPOSITORY'; then \
+	  sudo /etc/init.d/docker restart; \
+	  ${DOCKER} rmi -f $$(${DOCKER} images | egrep -v '^REPOSITORY' | awk '{ print $$3 }'); \
+	fi
 
 check-tileserver:
 	curl -sf http://localhost:80/osm/bbbike/11/1100/671.png > /dev/null
