@@ -1571,19 +1571,22 @@ docker-check:
 docker-check-w:
 	${DOCKER} run -it --rm ${DOCKER_BBBIKE_TAG} /bin/bash -ic 'echo 3 | sudo tee $$HOME/.ncpu.ncpu; make git-pull; BBBIKE_TEST_NO_NETWORK=1 make check-w || cat log.check*'
 
-docker-build-all: docker-build-tile \
-		docker-build-extract-debian8 \
-		docker-build-extract-debian9 \
-		docker-build-extract-debian10 \
-		docker-build-extract-ubuntu14 \
-		docker-build-extract-ubuntu16 \
-		docker-build-extract-ubuntu18
+docker-build-all: 
+	${MAKE} -j${MAX_CPU} \
+	  docker-build-tile \
+	  docker-build-extract-debian8 \
+	  docker-build-extract-debian9 \
+	  docker-build-extract-debian10 \
+	  docker-build-extract-ubuntu14 \
+	  docker-build-extract-ubuntu16 \
+	  #docker-build-extract-ubuntu18
 
-docker-build-libosmium-all: \
-		docker-build-libosmium-debian9 \
-		docker-build-libosmium-debian10 \
-		docker-build-libosmium-ubuntu16 \
-		docker-build-libosmium-ubuntu18
+docker-build-libosmium-all:
+	${MAKE} -j${MAX_CPU3} \
+	  docker-build-libosmium-debian9 \
+	  docker-build-libosmium-ubuntu16 \
+	  docker-build-libosmium-debian10 \
+	  docker-build-libosmium-ubuntu18
 
 
 DOCKER_CHECK_ALL_COMMAND=docker-check
