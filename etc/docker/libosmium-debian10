@@ -5,9 +5,9 @@ RUN apt-get update -q && apt-get upgrade -y
 RUN apt-get install -y apt-transport-https apt-utils 
 
 RUN apt-get install -y git make sudo vim wget curl \
-  clang clang-tidy cmake cppcheck doxygen iwyu gdb
+  clang clang-tidy cmake cppcheck doxygen iwyu gdb pandoc
 
-RUN apt-get install -y libboost-all-dev protobuf-compiler \
+RUN apt-get install -y libboost-all-dev protobuf-compiler libutfcpp-dev \
   libgdal-dev libsparsehash-dev spatialite-bin libgeos++-dev libproj-dev libbz2-dev
 
 RUN useradd -ms /bin/bash libosmium && \
@@ -18,8 +18,10 @@ WORKDIR /home/libosmium
 
 RUN git clone https://github.com/mapbox/protozero
 RUN git clone https://github.com/osmcode/libosmium
+RUN git clone https://github.com/osmcode/osmium-tool
 
-RUN cd protozero && mkdir build && cd build && cmake .. && make -j4 && make test && sudo make install
-RUN cd libosmium && mkdir build && cd build && cmake .. && make -j4 && make test && sudo make install
+RUN cd protozero   && mkdir build && cd build && cmake .. && make -j4 && make test && sudo make install
+RUN cd libosmium   && mkdir build && cd build && cmake .. && make -j4 && make test && sudo make install
+RUN cd osmium-tool && mkdir build && cd build && cmake .. && make -j4 && make test && sudo make install
 
 CMD ["bash"]
