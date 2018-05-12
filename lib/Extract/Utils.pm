@@ -361,7 +361,11 @@ sub get_jobs {
     my $dir = shift;
 
     # does not make sense to parse all files, the first $max is good enough
-    my $max = shift // 1024;
+    my $max = shift;
+    if ( !defined $max || $max <= 0 || $max > 10_000 ) {
+        $max = 1024;
+        warn "Reset max. json file parsing to $max\n" if $debug >= 2;
+    }
 
     my $d = IO::Dir->new($dir);
     if ( !defined $d ) {
@@ -372,11 +376,15 @@ sub get_jobs {
     my @data;
     while ( defined( $_ = $d->read ) ) {
         next if !/\.json$/;
-        next if !-r $_;
+
+        if ( !-r "$dir/$_" ) {
+            warn "Cannot read file $dir/$_: $!\n";
+            next;
+        }
         push @data, $_;
 
         if ( scalar(@data) >= $max ) {
-            warn "Found $max jobs, stop parsing\n" if $debug >= 1;
+            warn "Found $max waiting jobs, stop parsing\n" if $debug >= 1;
             last;
         }
     }
