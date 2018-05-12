@@ -227,6 +227,9 @@ sub parse_jobs {
 
     warn "job number is: $job_number\n" if $debug >= 1;
 
+    #####################################
+    # get a list of waiting jobs
+    #
     my ( $hash, $default_planet_osm, $counter ) = parse_jobs_planet(%args);
 
     my $sub_planet_file = "";
@@ -1991,6 +1994,7 @@ while ( my ( $key, $val ) = each %$spool ) {
     $spool->{$key} = "$spool_dir/$val";
 }
 
+# get a list of waiting jobs Extract::Utils::get_jobs
 my @files = get_jobs( $spool->{'confirmed'} );
 if ( !scalar(@files) ) {
     print "Nothing to do in $spool->{'confirmed'}\n" if $debug >= 2;
