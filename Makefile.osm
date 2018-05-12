@@ -1634,11 +1634,13 @@ docker-shell-tile:
 # remove temp images
 docker-clean:
 	if ${DOCKER} images | egrep -q '^<none>'; then \
+	  sudo /etc/init.d/docker restart; \
 	  ${DOCKER} rmi -f $$(${DOCKER} images | egrep '^<none>' | awk '{ print $$3 }'); \
 	fi
 
 # remove all available images
 docker-distclean:
+	sudo /etc/init.d/docker restart
 	${DOCKER} rmi -f $$(${DOCKER} images | egrep -v '^REPOSITORY' | awk '{ print $$3 }')
 
 check-tileserver:
