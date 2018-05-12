@@ -17,6 +17,7 @@ MUNIN_BBBIKE_EXTRACT= 	extract-diskusage \
 			extract-files \
 			extract-size \
 			extract-jobs \
+			extract-wait \
 			extract-stale
 
 MUNIN_VARNISH=	data_structures vcl_and_bans lru objects_per_objhead obj_sendfile_vs_write losthdr esi hcb shm shm_writes overflow session session_herd	

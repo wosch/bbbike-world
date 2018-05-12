@@ -1,10 +1,17 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 #
 # test script to check which sub-planets can be used
 #
-# /this/script ./extract/trash/*.json
+# ./world/bin/sub-planet-statistic.pl ../extract/trash/*.json
 #
+# or sort by region:
+#
+# find ../extract/trash -mtime -10 -type f -name '*json' | \
+#   xargs ./world/bin/sub-planet-statistic.pl | \
+#   awk '{ print $2 }' | sort | uniq -c | sort -nr
+#
+
 use JSON;
 use Getopt::Long;
 use Data::Dumper;
@@ -55,15 +62,15 @@ foreach my $file (@ARGV) {
     my $obj = $extract_utils->parse_json_file($file);
     next if !exists $obj->{"coords"} or ref $obj->{"coords"} ne 'ARRAY';
 
-    printf(
-        "%s\t%s\t%s\n",
-        $file,
-        $obj->{"city"},
-        $planet->get_smallest_planet_file(
-            'obj'        => $obj,
-            'planet_osm' => $obj->{"planet_osm"} || $planet_osm
-        )
+    my $sub_planet = $planet->get_smallest_planet_file(
+        'obj'        => $obj,
+        'planet_osm' => $obj->{"planet_osm"} || $planet_osm
     );
+
+    # no sub_planet, assume full planet
+    $sub_planet = $obj->{"planet_osm"} if !$sub_planet;
+
+    printf( "%s\t%s\t%s\n", $file, $sub_planet, $obj->{"city"} );
 }
 
 __END__

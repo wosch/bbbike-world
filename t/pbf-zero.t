@@ -28,7 +28,7 @@ my %formats = (
     "--osmosis" => 0,
 
     "--navit"          => 99,
-    "--shape"          => 0,
+    "--shape"          => 99,
     "--osmand"         => 99,
     "--garmin-osm"     => 99,
     "--garmin-cycle"   => 99,
@@ -96,6 +96,8 @@ foreach my $format ( sort keys %formats ) {
     system(qq[world/bin/pbf2osm $format $pbf_file > $tempfile]);
     is( $? == 0 ? 0 : 1, $formats{$format}, "pbf2osm '$format' failed: $?" );
 }
+
+unlink $pbf_file;
 
 1;
 

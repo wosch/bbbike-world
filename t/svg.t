@@ -43,10 +43,10 @@ push @svg_styles, qw/osm/ if !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG};
 push @svg_styles, qw/hiking urbanight wireframe cadastre/
   if $ENV{BBBIKE_TEST_LONG};
 
-my $pbf_file = 'world/t/data-osm/tmp/Cusco.osm.pbf';
+my $pbf_file = 'world/t/data-osm/tmp/Cusco-svg.osm.pbf';
 
 if ( !-f $pbf_file ) {
-    system(qw(ln -sf ../Cusco.osm.pbf world/t/data-osm/tmp)) == 0
+    system( qw(ln -sf ../Cusco.osm.pbf), $pbf_file ) == 0
       or die "symlink failed: $?\n";
 }
 
@@ -115,9 +115,14 @@ qq[world/bin/bomb --timeout=$timeout --screenshot-file=$pbf_file.png -- world/bi
 
         $counter += 5;
         $test->validate;
+        unlink( $out, "$out.md5", "$out.sha256" );
     }
 
     return $counter + $test->counter;
+}
+
+sub cleanup {
+    unlink $pbf_file;
 }
 
 #######################################################
@@ -134,6 +139,7 @@ foreach my $lang (@lang) {
       &convert_format( $lang, $type, ( $type eq 'svg' ? 'SVG' : 'PNG' ) );
 }
 
+&cleanup;
 plan tests => 1 + $counter;
 
 __END__

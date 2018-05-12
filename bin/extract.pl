@@ -227,6 +227,9 @@ sub parse_jobs {
 
     warn "job number is: $job_number\n" if $debug >= 1;
 
+    #####################################
+    # get a list of waiting jobs
+    #
     my ( $hash, $default_planet_osm, $counter ) = parse_jobs_planet(%args);
 
     my $sub_planet_file = "";
@@ -558,9 +561,17 @@ sub create_poly_files {
     }
 
     my @json;
+    my $wait_time = 0;
     foreach my $job (@list) {
         my $from = "$confirmed_dir/$job->{'file'}";
         my $to   = "$job_dir/$job->{'file'}";
+
+        my $st = stat($from) or die "cannot stat $from\n";
+
+        # always keep the latest wait time
+        if ( $wait_time < $st->mtime ) {
+            $wait_time = $st->mtime;
+        }
 
         warn "rename $from -> $to\n" if $debug >= 1;
         my $json = new JSON;
@@ -581,7 +592,7 @@ sub create_poly_files {
           ", number of json files: ", scalar(@json), "\n";
     }
 
-    return ( \@poly, \@json );
+    return ( \@poly, \@json, ( time() - $wait_time ) );
 }
 
 # create a poly file which will be read by osmosis(1) to extract
@@ -970,6 +981,7 @@ sub convert_send_email {
     my $planet_osm       = $args{'planet_osm'};
     my $planet_osm_mtime = $args{'planet_osm_mtime'};
     my $extract_time     = $args{'extract_time'};
+    my $wait_time        = $args{'wait_time'};
 
     # all scripts are in these directory
     my $dirname = dirname($0);
@@ -990,6 +1002,7 @@ sub convert_send_email {
                 'planet_osm'       => $planet_osm,
                 'planet_osm_mtime' => $planet_osm_mtime,
                 'extract_time'     => $extract_time,
+                'wait_time'        => $wait_time,
                 'alarm'            => $alarm
             );
         };
@@ -1136,6 +1149,7 @@ sub _convert_send_email {
     my $test_mode        = $args{'test_mode'};
     my $planet_osm       = $args{'planet_osm'};
     my $extract_time     = $args{'extract_time'};
+    my $wait_time        = $args{'wait_time'};
     my $planet_osm_mtime = $args{'planet_osm_mtime'};
 
     my $obj2 = get_json($json_file);
@@ -1417,6 +1431,8 @@ sub _convert_send_email {
     my $convert_time = time() - $time;
     $obj->{"convert_time"} = $convert_time;
     $obj->{"extract_time"} = $extract_time;
+    $obj->{"wait_time"}    = $wait_time;
+    $obj->{"load_average"} = &get_loadavg;
 
     ###################################################################
     # keep a copy of .pbf in ./osm for further usage
@@ -1848,7 +1864,7 @@ sub run_jobs {
     my $key     = get_job_id(@list);
     my $job_dir = $spool->{'running'} . "/$key";
 
-    my ( $poly, $json ) = create_poly_files(
+    my ( $poly, $json, $wait_time ) = create_poly_files(
         'job_dir' => $job_dir,
         'list'    => \@list,
         'spool'   => $spool,
@@ -1904,6 +1920,7 @@ sub run_jobs {
         'planet_osm'       => $planet_osm,
         'planet_osm_mtime' => $stat->mtime,
         'extract_time'     => $extract_time,
+        'wait_time'        => $wait_time,
         'keep'             => 1
     );
 
@@ -1977,7 +1994,9 @@ while ( my ( $key, $val ) = each %$spool ) {
     $spool->{$key} = "$spool_dir/$val";
 }
 
-my @files = get_jobs( $spool->{'confirmed'} );
+# get a list of waiting jobs Extract::Utils::get_jobs
+my @files = get_jobs( $spool->{'confirmed'}, 256 );
+
 if ( !scalar(@files) ) {
     print "Nothing to do in $spool->{'confirmed'}\n" if $debug >= 2;
     exit 0;

@@ -28,16 +28,43 @@ my $poly  = new Extract::Poly(
 );
 my @regions = $poly->list_subplanets;
 
-plan tests => scalar(@regions) * 2 + 7;
+plan tests => scalar(@regions) * 2 + 11;
 
 ######################################################################################
 # list of regions
 #
-my @regions2 = $poly->list_subplanets( 'sort_by' => 2 );
 
-is( scalar(@regions), scalar(@regions2), "list of regions" );
-cmp_ok( scalar(@regions), ">", 1, "more than one region" );
-isnt( join( "|", @regions ), join( "|", @regions2 ), "sorted list of regions" );
+is( scalar(@regions), 12, "12 regions" );
+
+is(
+    scalar(@regions),
+    scalar( $poly->list_subplanets( 'sort_by' => 'skm' ) ),
+    "list of regions"
+);
+
+# by default, sub-planets are sorted by sqm
+isnt(
+    join( "|", @regions ),
+    join( "|", $poly->list_subplanets( 'sort_by' => 'disk' ) ),
+    "sorted list of regions"
+);
+isnt(
+    join( "|", @regions ),
+    join( "|", $poly->list_subplanets( 'sort_by' => 'skm' ) ),
+    "sorted list of regions"
+);
+
+isnt(
+    join( "|", $poly->list_subplanets( 'sort_by' => 'disk' ) ),
+    join( "|", $poly->list_subplanets( 'sort_by' => 'skm' ) ),
+    "sorted list of regions"
+);
+
+{
+    my @r = $poly->list_subplanets( 'sort_by' => 'disk' );
+    is( 'south-america', shift @r, "smalles size for south-america" );
+    is( 'europe',        pop @r,   "largest size for europe" );
+}
 
 foreach my $region (@regions) {
     my $size    = $poly->subplanet_size($region);

@@ -36,14 +36,14 @@ sub md5_file {
 }
 
 my $prefix       = 'world/t/data-osm/tmp';
-my $pbf_file     = "$prefix/Cusco.osm.pbf";
-my $osm_file_gz  = "$prefix/Cusco.osm.gz";
-my $osm_file_bz2 = "$prefix/Cusco.osm.bz2";
-my $osm_file_xz  = "$prefix/Cusco.osm.xz";
+my $pbf_file     = "$prefix/Cusco-osm.osm.pbf";
+my $osm_file_gz  = "$prefix/Cusco-osm.osm.gz";
+my $osm_file_bz2 = "$prefix/Cusco-osm.osm.bz2";
+my $osm_file_xz  = "$prefix/Cusco-osm.osm.xz";
 
 if ( !-f $pbf_file ) {
     die "Directory '$prefix' does not exits\n" if !-d $prefix;
-    system(qw(ln -sf ../Cusco.osm.pbf world/t/data-osm/tmp)) == 0
+    system( qw(ln -sf ../Cusco.osm.pbf), $pbf_file ) == 0
       or die "symlink failed: $?\n";
 }
 
@@ -90,4 +90,5 @@ qq[world/bin/pbf2osm --xz $pbf_file && xzcat $osm_file_xz | perl -npe 's/timesta
 is( $?,                  0,        "pbf2osm --xz converter" );
 is( md5_file($tempfile), $osm_md5, "osm xz md5 checksum matched" );
 
+unlink( $pbf_file, $osm_file_gz, $osm_file_bz2, $osm_file_xz );
 __END__

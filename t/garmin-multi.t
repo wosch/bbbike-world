@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2016 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 
 use Getopt::Long;
 use Data::Dumper qw(Dumper);
@@ -16,7 +16,11 @@ use Extract::Test::Archive;
 use strict;
 use warnings;
 
-my $pbf_file = 'world/t/data-osm/tmp/Cusco-osmand.osm.pbf';
+my @garmin_styles = qw/osm onroad-ascii/;
+push @garmin_styles, qw/leisure cycle-ascii/
+  if !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG};
+
+my $pbf_file = 'world/t/data-osm/tmp/Cusco-multi.osm.pbf';
 
 if ( !-f $pbf_file ) {
     system( qw(ln -sf ../Cusco.osm.pbf), $pbf_file ) == 0
@@ -25,8 +29,8 @@ if ( !-f $pbf_file ) {
 
 my $pbf_md5 = "58a25e3bae9321015f2dae553672cdcf";
 
-# min size of zip file
-my $min_size = 200_000;
+# min size of garmin zip file
+my $min_size = 240_000;
 
 sub md5_file {
     my $file = shift;
@@ -63,31 +67,36 @@ sub convert_format {
     );
     my $city = $test->init_cusco;
 
-    my $style = "osm";
+    my $styles = join( ":", @garmin_styles );
 
-    my $out = $test->out();
-    unlink $out;
+    diag "garmin style=$styles, lang=$lang";
+    system(qq[world/bin/osm2garmin $pbf_file $styles $city]);
+    is( $?, 0, "world/bin/osm2garmin $pbf_file $styles $city" );
+    $counter++;
 
-    system(qq[world/bin/pbf2osm --osmand $pbf_file $city]);
-    is( $?, 0, "pbf2osm --osmand converter" );
-    $st = stat($out) or die "Cannot stat $out\n";
+    # known styles
+    foreach my $style (@garmin_styles) {
+        my $out = $test->out($style);
 
-    system(qq[unzip -t $out]);
-    is( $?, 0, "valid zip file" );
+        system(qq[unzip -tqq $out]);
+        is( $?, 0, "valid zip file: $out" );
+        $st = stat($out);
+        my $size = $st->size;
+        my $min_size_style = $style =~ /^onroad/ ? $min_size / 3 : $min_size;
+        cmp_ok( $size, '>', $min_size_style, "$out: $size > $min_size" );
 
-    my $size = $st->size;
-    cmp_ok( $size, '>', $min_size, "$out: $size > $min_size" );
+        system(qq[world/bin/extract-disk-usage.sh $out > $tempfile]);
+        is( $?, 0, "extract disk usage check" );
 
-    system(qq[world/bin/extract-disk-usage.sh $out > $tempfile]);
-    is( $?, 0, "extract disk usage check" );
+        my $image_size = `cat $tempfile` * 1024;
+        cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
 
-    my $image_size = `cat $tempfile` * 1024;
-    cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
+        $counter += 4;
+        $test->validate( 'style' => $style );
 
-    $counter += 5;
-    $test->validate;
+        unlink( $out, "$out.md5", "$out.sha256" );
+    }
 
-    unlink( $out, "$out.md5", "$out.sha256" );
     return $counter + $test->counter;
 }
 
@@ -100,14 +109,14 @@ sub cleanup {
 is( md5_file($pbf_file), $pbf_md5, "md5 checksum matched" );
 
 my $counter = 0;
-my @lang = ( "en", "de" );
+my @lang    = ("en");
 
-if ( !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG} ) {
-    push @lang, ( "fr", "es", "ru", "" );
+if ( $ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG} ) {
+    push @lang, ("de");
 }
 
 foreach my $lang (@lang) {
-    $counter += &convert_format( $lang, 'obf', 'Osmand' );
+    $counter += &convert_format( $lang, 'garmin', 'Garmin' );
 }
 
 &cleanup;

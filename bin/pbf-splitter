@@ -1,0 +1,132 @@
+#!/bin/sh
+# Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
+#
+# pbf-splitter - split a PBF file into smaller pieces for mkgmap 
+#
+
+set -e
+PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
+
+
+
+usage () {
+    echo "$@"
+    echo "usage $0 file format"
+    exit 1
+}
+
+error () {
+    message="$@"
+
+    echo "$message"
+    echo "file: $file"
+    tail -c 256K $logfile
+    exit 1
+}
+
+init_splitter () {
+    file=$1
+    format=$2
+    
+    : ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
+    : ${BBBIKE_SPLITTER_VERSION="splitter"}
+    : ${BBBIKE_TMPDIR="/bbbike/tmp"}
+    : ${BBBIKE_TMPFS="/tmpfs"}
+    
+    : ${debug=false}
+        
+    # lower defaults for SRTM
+    case $format in
+       srtm | garmin-srtm.zip )
+            : ${java_heap_splitter=16G}
+            : ${java_heap=6G}
+            : ${splitter_max_nodes=200000}
+            : ${splitter_max_areas=200}
+            : ${splitter_resolution=13}
+            : ${splitter_keep_complete="--keep-complete=false"}
+            ;;
+        *)         
+            : ${java_heap=3G}
+            ;;
+    esac
+    
+    : ${java_heap_splitter=$java_heap}
+    : ${splitter_max_nodes=1000000}
+    : ${splitter_max_areas=512}
+    
+    size=$(du -ks -L "$file" | awk '{ print $1}')
+    
+    if [ $size -lt 100 ]; then
+      : ${splitter_resolution=16}
+    elif [ $size -lt 2000 ]; then
+      : ${splitter_resolution=15}
+    else
+      : ${splitter_resolution=13}
+    fi
+    
+    java_splitter_opt=-Xmx${java_heap_splitter}
+
+    tmpdir=`mktemp -d ${BBBIKE_TMPFS}/pbf-splitter.XXXXXXXXXXX`
+    logfile=$tmpdir/logfile.txt
+    split_dir=$tmpdir/split
+    mkdir $split_dir
+    nice_level=1
+    time=time
+
+    mapid=63240001
+
+    # cleanup after signal, but show errors first
+    trap '( sleep 1; rm -rf $tmpdir ) &' 1 2 15
+}
+
+run_splitter () {
+    file=$1
+    split_dir=$2
+    logfile=$3
+    size=$4
+
+    echo ">>> Run splitter" > $logfile
+    ( set -x; 
+      java -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar --version
+      $time nice -n${nice_level} java $java_splitter_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar \
+        $splitter_keep_complete \
+        --resolution=$splitter_resolution \
+        --max-areas=$splitter_max_areas \
+        --max-nodes=$splitter_max_nodes \
+        --mapid="$mapid" \
+        --output-dir=$split_dir $file \
+    ) 2>&1 | tail -c 1024K >> $logfile || error
+    
+    if [ $(ls $split_dir/*.pbf 2>/dev/null | wc -l) -eq 0 ]; then
+        echo "Warning: splitter didn't created a file, maybe to small?: $file"
+        if [ $size -le 1000 ]; then
+            cp -f $file $split_dir/$mapid.osm.pbf
+        else
+            error "Argh, $file with size $size to big for single run: $split_dir"
+        fi
+    fi
+}
+
+
+####################################################################
+#
+# main
+#
+
+file=$1
+format=$2
+
+if [ -z "$file" ]; then
+    usage
+fi
+
+if [ ! -e "$file" ]; then
+    usage "file $file does not exists"
+fi
+
+init_splitter $file $format
+run_splitter $file $split_dir $logfile $size
+
+# return the directory which contains the splitted ./split/*.pbf files
+echo $tmpdir
+

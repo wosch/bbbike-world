@@ -299,7 +299,10 @@ _pbf2pbf-checksum:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${OSM_CHECKSUM}
 
 
-osm2garmin: osm2garmin-osm osm2garmin-onroad osm2garmin-opentopo # osm2garmin-oseam osm2garmin-cycle osm2garmin-leisure osm2garmin-bbbike osm2garmin-openfietslite check-zip
+osm2garmin: osm2garmin-multi
+osm2garmin-single: osm2garmin-osm osm2garmin-onroad osm2garmin-opentopo # osm2garmin-oseam osm2garmin-cycle osm2garmin-leisure osm2garmin-bbbike osm2garmin-openfietslite check-zip
+osm2garmin-multi:
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,world/bin/osm2garmin '${OSM_DIR}'/$$_/$$_.osm.pbf onroad:osm:opentopo\0, ' | env osm2xxx_max_jobs=${MAX_RCPU} ${XARGS} -n 1 -0 -P1 /bin/sh -c
 
 osm2garmin-osm:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
@@ -721,7 +724,11 @@ planet-nometa:
 
 sub-planet sub-srtm:
 	mkdir -p ../osm/download/$@
+	make -C world/etc/$@
 	program=$@ ./world/bin/sub-planet
+
+sub-planet-statistic:
+	find ../extract/trash -mtime -7 -type f  | xargs ./world/bin/sub-planet-statistic.pl | awk '{ print $$2 }' | sort | uniq -c | sort -nr
 
 planet-geofabrik-download:
 	download_script=`pwd`/world/bin/planet-geofabrik-download; \
@@ -1182,9 +1189,12 @@ tile-rsync:
 
 data-distclean distclean-data:
 	rm -f data/*.lock data/*.inx[456] data/*.st
+	rm -f misc/*.lock misc/*.inx[456]
 	rm -rf ${TMP_DIR}
 	rm -f /bbbike/tmp/bbbike_*
+	rm -f ../osm/download/sub-*/*.tmp
 	find . -name '*.inx*'
+	find . -name '*.lock'
 
 ###############################
 # Note: you need at least 280GB free disk space to run this command!!!
@@ -1674,7 +1684,7 @@ help:
 	@echo ""
 	@echo "  [ planet-download | planet-download-bzip2 | planet-download-pbf ]"
 	@echo "  [ planet-geofabrik-download ]"
-	@echo "  [ planet-nometa | sub-planet | sub-srtm ]"
+	@echo "  [ planet-nometa | sub-planet | sub-srtm | sub-planet-statistic ]"
 	@echo "  [ planet-streets | planet-places ]"
 	@echo "  [ update-database | update-files ]"
 	@echo "  [ download-bbbike-org-install ]"

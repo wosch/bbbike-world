@@ -31,12 +31,13 @@ if ( $0 =~ /garmin-ascii.t$/ ) {
     }
 }
 
-#die join " ", @garmin_styles,;
-
-my $pbf_file = 'world/t/data-osm/tmp/Cusco.osm.pbf';
+my $pbf_file =
+  $0 =~ /ascii/
+  ? 'world/t/data-osm/tmp/Cusco-garmin-ascii.osm.pbf'
+  : 'world/t/data-osm/tmp/Cusco-garmin.osm.pbf';
 
 if ( !-f $pbf_file ) {
-    system(qw(ln -sf ../Cusco.osm.pbf world/t/data-osm/tmp)) == 0
+    system( qw(ln -sf ../Cusco.osm.pbf), $pbf_file ) == 0
       or die "symlink failed: $?\n";
 }
 
@@ -88,7 +89,7 @@ sub convert_format {
         diag "garmin style=$style, lang=$lang";
 
         system(qq[world/bin/pbf2osm --garmin-$style $pbf_file $city]);
-        is( $?, 0, "pbf2osm --garmin-$style converter" );
+        is( $?, 0, "pbf2osm --garmin-$style $pbf_file" );
 
         system(qq[unzip -tqq $out]);
         is( $?, 0, "valid zip file" );
@@ -105,9 +106,15 @@ sub convert_format {
 
         $counter += 5;
         $test->validate( 'style' => $style );
+
+        unlink( $out, "$out.md5", "$out.sha256" );
     }
 
     return $counter + $test->counter;
+}
+
+sub cleanup {
+    unlink $pbf_file;
 }
 
 #######################################################
@@ -124,6 +131,8 @@ if ( !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG} ) {
 foreach my $lang (@lang) {
     $counter += &convert_format( $lang, 'garmin', 'Garmin' );
 }
+
+&cleanup;
 
 plan tests => 1 + $counter;
 __END__

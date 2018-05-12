@@ -1,40 +1,40 @@
-# Copyright (c) 2009-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2018 Wolfram Schneider, https://bbbike.org
 #
 # example config file for cron job bbbike/world/bin/extract.pl
-# 
+#
 # put it in $HOME/.bbbike-extract.rc
 
-$option->{'homepage'} = '//download.bbbike.org/osm/extract';
-$option->{'script_homepage'} = '//extract.bbbike.org';
-$option->{'test'} = 0; 
-$option->{'debug'} = 1; 
-$option->{'email_valid_mxcheck'} = 1; 
+$option->{'homepage'}          = 'https://download.bbbike.org/osm/extract';
+$option->{'download_homepage'} = 'https://download.bbbike.org/osm/';
+$option->{'script_homepage'}   = 'https://extract.bbbike.org';
+$option->{'extract_homepage'}  = 'https://extract.bbbike.org';
+$option->{'server_status_url'} = 'https://download.bbbike.org/osm/extract/';
+
+$option->{'test'}                = 0;
+$option->{'debug'}               = 1;
+$option->{'email_valid_mxcheck'} = 1;
+
 #$option->{'planet_osm'} = '../osm-streetnames/download/geofabrik/europe.osm.pbf';
 #$option->{'planet_osm'} = '../osm/download/pbf/planet.new.pbf';
 #$option->{'planet_osm'} = '../osm/download/geofabrik/europe/germany/brandenburg.osm.pbf';
 
 $option->{'email_token'} = "secret";
-$option->{'bcc'} = 'nobody@gmail.com';
+$option->{'bcc'}         = 'nobody@gmail.com';
 
-$option->{'aws_s3_enabled'} = 0;
+$option->{'aws_s3_enabled'}     = 0;
 $option->{'email_allow_nobody'} = 1;
 $option->{'email_rest_enabled'} = 0;
-$option->{'email_rest_url'} = 'https://extract.bbbike.org/cgi/extract-email.cgi';
+$option->{'email_rest_url'} =
+  'https://extract.bbbike.org/cgi/extract-email.cgi';
 $option->{'max_areas'} = 10;
 
 $option->{'pro'} = 0;
 
 $option->{'server'} = {
-    'dev' =>
-      [qw/dev3.bbbike.org dev4.bbbike.org/],
-    'www' =>
-      [qw/www.bbbike.org www4.bbbike.org/],
-    'extract' => [
-        qw/extract.bbbike.org extract4.bbbike.org/
-    ],
-    'download' => [
-        qw/download.bbbike.org download4.bbbike.org/
-    ],
+    'dev'      => [qw/dev3.bbbike.org dev4.bbbike.org/],
+    'www'      => [qw/www.bbbike.org www4.bbbike.org/],
+    'extract'  => [ qw/extract.bbbike.org extract4.bbbike.org/ ],
+    'download' => [ qw/download.bbbike.org download4.bbbike.org/ ],
 };
 
 1;

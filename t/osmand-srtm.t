@@ -23,10 +23,10 @@ use Extract::Test::Archive;
 use strict;
 use warnings;
 
-my $pbf_file = 'world/t/data-osm/tmp/Cusco-SRTM.osm.pbf';
+my $pbf_file = 'world/t/data-osm/tmp/Cusco-SRTM-osmand.osm.pbf';
 
 if ( !-f $pbf_file ) {
-    system(qw(ln -sf ../Cusco-SRTM.osm.pbf world/t/data-osm/tmp)) == 0
+    system( qw(ln -sf ../Cusco-SRTM.osm.pbf), $pbf_file ) == 0
       or die "symlink failed: $?\n";
 }
 
@@ -93,7 +93,13 @@ sub convert_format {
 
     $counter += 5;
     $test->validate;
+    unlink( $out, "$out.md5", "$out.sha256" );
+
     return $counter + $test->counter;
+}
+
+sub cleanup {
+    unlink $pbf_file;
 }
 
 #######################################################
@@ -111,6 +117,7 @@ foreach my $lang (@lang) {
     $counter += &convert_format( $lang, 'obf', 'Osmand' );
 }
 
+&cleanup;
 plan tests => 1 + $counter;
 
 __END__

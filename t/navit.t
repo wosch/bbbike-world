@@ -23,10 +23,10 @@ use Extract::Test::Archive;
 use strict;
 use warnings;
 
-my $pbf_file = 'world/t/data-osm/tmp/Cusco.osm.pbf';
+my $pbf_file = 'world/t/data-osm/tmp/Cusco-navit.osm.pbf';
 
 if ( !-f $pbf_file ) {
-    system(qw(ln -sf ../Cusco.osm.pbf world/t/data-osm/tmp)) == 0
+    system( qw(ln -sf ../Cusco.osm.pbf), $pbf_file ) == 0
       or die "symlink failed: $?\n";
 }
 
@@ -90,7 +90,13 @@ sub convert_format {
     cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
 
     $counter += $test->validate;
+
+    unlink( $out, "$out.md5", "$out.sha256" );
     return $counter;
+}
+
+sub cleanup {
+    unlink $pbf_file;
 }
 
 #######################################################
@@ -108,6 +114,7 @@ foreach my $lang (@lang) {
     $counter += &convert_format( $lang, 'navit', 'Navit' );
 }
 
+&cleanup;
 plan tests => 1 + $counter;
 
 __END__
