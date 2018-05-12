@@ -727,6 +727,9 @@ sub-planet sub-srtm:
 	make -C world/etc/$@
 	program=$@ ./world/bin/sub-planet
 
+sub-planet-statistic:
+	find ../extract/trash -mtime -7 -type f  | xargs ./world/bin/sub-planet-statistic.pl | awk '{ print $$2 }' | sort | uniq -c | sort -nr
+
 planet-geofabrik-download:
 	download_script=`pwd`/world/bin/planet-geofabrik-download; \
 		cd ../osm/download && $$download_script
@@ -1681,7 +1684,7 @@ help:
 	@echo ""
 	@echo "  [ planet-download | planet-download-bzip2 | planet-download-pbf ]"
 	@echo "  [ planet-geofabrik-download ]"
-	@echo "  [ planet-nometa | sub-planet | sub-srtm ]"
+	@echo "  [ planet-nometa | sub-planet | sub-srtm | sub-planet-statistic ]"
 	@echo "  [ planet-streets | planet-places ]"
 	@echo "  [ update-database | update-files ]"
 	@echo "  [ download-bbbike-org-install ]"
