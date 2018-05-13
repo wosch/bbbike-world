@@ -916,7 +916,10 @@ sub reorder_pbf {
         'o5m.xz'  => 0.9,
         'o5m.bz2' => 1.2,
 
-        'opl.xz' => 1.3,
+        'opl.xz'        => 1.3,
+        'geojson.xz'    => 1.31,
+        'geojsonseq.xz' => 1.32,
+        'text.xz'       => 1.33,
 
         'csv.gz'  => 0.42,
         'csv.xz'  => 0.2,
@@ -1206,6 +1209,7 @@ sub _convert_send_email {
     my @nice = ( "nice", "-n", $nice_level_converter );
     my $time = time();
 
+    # OSM XML extracts
     if ( $format =~ /^(srtm\.|srtm-europe\.)?osm\.(xz|gz|bz2)$/ ) {
         my $ext = $2;
         $file =~ s/\.pbf$/.$ext/;
@@ -1218,35 +1222,14 @@ sub _convert_send_email {
             system(@system) == 0 or die "system @system failed: $?";
         }
     }
-    elsif ( $format =~ /^o5m\.(xz|gz|bz2)$/ ) {
-        my $ext = $1;
-        $file =~ s/\.pbf$/.o5m.$ext/;
+
+    # OSM extracts as csv, text, json etc.
+    elsif ( $format =~ /^(o5m|opl|csv)\.(xz|gz|bz2)$/ ) {
+        my $type = $1;
+        my $ext  = $2;
+        $file =~ s/\.pbf$/.$type.$ext/;
         if ( !cached_format( $file, $pbf_file ) ) {
-            @system = ( @nice, "$dirname/pbf2osm", "--o5m-$ext", $pbf_file );
-            warn "@system\n" if $debug >= 2;
-            @system = 'true' if $test_mode;
-
-            system(@system) == 0 or die "system @system failed: $?";
-        }
-    }
-    elsif ( $format =~ /^opl\.(xz|gz|bz2)$/ ) {
-        my $ext = $1;
-        $file =~ s/\.pbf$/.opl.$ext/;
-        if ( !cached_format( $file, $pbf_file ) ) {
-            @system = ( @nice, "$dirname/pbf2osm", "--opl-$ext", $pbf_file );
-
-            warn "@system\n" if $debug >= 2;
-            @system = 'true' if $test_mode;
-
-            system(@system) == 0 or die "system @system failed: $?";
-        }
-    }
-    elsif ( $format =~ /^csv\.(xz|gz|bz2)$/ ) {
-        my $ext = $1;
-        $file =~ s/\.pbf$/.csv.$ext/;
-        if ( !cached_format( $file, $pbf_file ) ) {
-            @system = ( @nice, "$dirname/pbf2osm", "--csv-$ext", $pbf_file );
-
+            @system = ( @nice, "$dirname/pbf2osm", "--$type-$ext", $pbf_file );
             warn "@system\n" if $debug >= 2;
             @system = 'true' if $test_mode;
 
@@ -1254,6 +1237,7 @@ sub _convert_send_email {
         }
     }
 
+    # Garmin
     elsif ( $format =~ /garmin-([a-z\-]+)\.zip$/ && exists $formats->{$format} )
     {
         my $style      = $1;
@@ -1273,19 +1257,21 @@ sub _convert_send_email {
         }
     }
 
+    # SVG / PNG
     elsif ( $format =~
-        /^svg-(google|hiking|osm|urbanight|wireframe|cadastre).zip$/ )
+        /^(svg|png)-(google|hiking|osm|urbanight|wireframe|cadastre).zip$/ )
     {
-        my $style      = $1;
+        my $type       = $1;
+        my $style      = $2;
         my $format_ext = $format;
-        $format_ext =~ s/^[a-z\-]+\.svg/svg/;
+        $format_ext =~ s/^[a-z\-]+\.$type/$type/;
 
         $file =~ s/\.pbf$/.$format_ext/;
         $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
 
         if ( !cached_format( $file, $pbf_file ) ) {
             @system =
-              ( @nice, "$dirname/pbf2osm", "--svg-$style", $pbf_file, $city );
+              ( @nice, "$dirname/pbf2osm", "--$type-$style", $pbf_file, $city );
             warn "@system\n" if $debug >= 2;
             @system = 'true' if $test_mode;
 
@@ -1293,26 +1279,7 @@ sub _convert_send_email {
         }
     }
 
-    elsif ( $format =~
-        /^png-(google|osm|hiking|urbanight|wireframe|cadastre).zip$/ )
-    {
-        my $style      = $1;
-        my $format_ext = $format;
-        $format_ext =~ s/^[a-z\-]+\.png/png/;
-
-        $file =~ s/\.pbf$/.$format_ext/;
-        $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
-
-        if ( !cached_format( $file, $pbf_file ) ) {
-            @system =
-              ( @nice, "$dirname/pbf2osm", "--png-$style", $pbf_file, $city );
-            warn "@system\n" if $debug >= 2;
-            @system = 'true' if $test_mode;
-
-            system(@system) == 0 or die "system @system failed: $?";
-        }
-    }
-
+    # Shapefiles
     elsif ( $format eq 'shp.zip' ) {
         $file =~ s/\.pbf$/.$format/;
         $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
@@ -1327,6 +1294,8 @@ sub _convert_send_email {
             system(@system) == 0 or die "system @system failed: $?";
         }
     }
+
+    # Osmand
     elsif ( $format eq 'obf.zip' || $format =~ /^[a-z\-]+\.obf.zip$/ ) {
         my $format_ext = $format;
         $format_ext =~ s/^[a-z\-]+\.obf/obf/;
@@ -1344,6 +1313,8 @@ sub _convert_send_email {
             system(@system) == 0 or die "system @system failed: $?";
         }
     }
+
+    # Navit
     elsif ( $format eq 'navit.zip' ) {
         $file =~ s/\.pbf$/.$format/;
         $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
@@ -1358,6 +1329,8 @@ sub _convert_send_email {
             system(@system) == 0 or die "system @system failed: $?";
         }
     }
+
+    # BBBike perl/tk program
     elsif ( $format eq 'bbbike-perltk.zip' ) {
         $file =~ s/\.pbf$/.$format/;
         $file =~ s/.zip$/.$lang.zip/ if $lang =~ /^(de)$/;
@@ -1373,6 +1346,8 @@ sub _convert_send_email {
             system(@system) == 0 or die "system @system failed: $?";
         }
     }
+
+    # Mapsforge
     elsif ($format =~ /^mapsforge-(osm)\.zip$/
         || $format =~ /^[a-z\-]+\.mapsforge-(osm)\.zip$/ )
     {
@@ -1395,6 +1370,8 @@ sub _convert_send_email {
             system(@system) == 0 or die "system @system failed: $?";
         }
     }
+
+    # Maps.me mobile app
     elsif ($format =~ /^mapsme-(osm)\.zip$/
         || $format =~ /^[a-z\-]+\.mapsme-(osm)\.zip$/ )
     {
