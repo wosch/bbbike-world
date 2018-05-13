@@ -98,9 +98,9 @@ our $factor = {
     'csv.bz2' => 0.80,
 
     'opl.xz'        => 1.30,
-    'geojson.xz'    => 1.31,
-    'geojsonseq.xz' => 1.32,
-    'text.xz'       => 1.33,
+    'geojson.xz'    => 1.98,
+    'geojsonseq.xz' => 1.97,
+    'text.xz'       => 1.60,
 
     # pseudo extension
     'pbf'             => 1,
