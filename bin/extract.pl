@@ -1224,7 +1224,8 @@ sub _convert_send_email {
     }
 
     # OSM extracts as csv, text, json etc.
-    elsif ( $format =~ /^(o5m|opl|csv)\.(xz|gz|bz2)$/ ) {
+    elsif ( $format =~ /^(o5m|opl|csv|geojsonseq|geojson|text)\.(xz|gz|bz2)$/ )
+    {
         my $type = $1;
         my $ext  = $2;
         $file =~ s/\.pbf$/.$type.$ext/;
