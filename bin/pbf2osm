@@ -49,7 +49,9 @@ fi
 : ${pbf2osm_max_cpu_time=7200}
 
 xz=`which xz 2>/dev/null | head -n 1`
+# xz -1 is twice as fast as  xz -2, with a similar compression rate
 xz_opt=-1
+
 gzip=gzip
 bzip2=bzip2
 
