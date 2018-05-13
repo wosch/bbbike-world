@@ -68,10 +68,10 @@ our $formats = {
     'o5m.gz' => "o5m gzip'd",
     'o5m.xz' => "o5m 7z (xz)",
 
-    'opl.xz'     => "Osmium opl 7z (xz)",
-    'geojson.xz' => "Osmium geojson 7z (xz)",
-    'geojson.xz' => "Osmium geojson 7z (xz)",
-    'text.xz'    => "Osmium text 7z (xz)",
+    'opl.xz'        => "Osmium opl 7z (xz)",
+    'geojson.xz'    => "Osmium geojson 7z (xz)",
+    'geojsonseq.xz' => "Osmium geojsonseq 7z (xz)",
+    'text.xz'       => "Osmium text 7z (xz)",
 
     'csv.gz' => "csv gzip'd",
     'csv.xz' => "csv 7z (xz)",
@@ -100,7 +100,7 @@ our $formats_menu = {
         'formats' => [
             'osm.pbf', 'osm.xz', 'osm.gz',    #'osm.bz2',
             'csv.xz', 'o5m.xz',
-            'opl.xz', 'geojson.xz', 'geojson.xz', 'text.xz',
+            'opl.xz', 'geojson.xz', 'geojsonseq.xz', 'text.xz',
         ]
     },
     'garmin' => {
