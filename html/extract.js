@@ -125,6 +125,10 @@ var config = {
         "png-cadastre.zip": "/images/svg-cadastre-small.png",
 
         "opl.xz": "/images/opl.png",
+        "geojson.xz": "/images/opl.png",
+        "geojsonseq.xz": "/images/opl.png",
+        "text.xz": "/images/opl.png",
+
         "csv.xz": "/images/csv.png",
         "csv.gz": "/images/csv.png",
         "shp.zip": "/images/shp-small.png",
@@ -1514,6 +1518,15 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "time": 1.2
         },
         "opl.xz": {
+            "size": 1.30
+        },
+        "geojson.xz": {
+            "size": 1.30
+        },
+        "geojsonseq.xz": {
+            "size": 1.30
+        },
+        "text.xz": {
             "size": 1.30
         },
         "mapsforge-osm.zip": {

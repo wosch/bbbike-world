@@ -285,6 +285,20 @@ pbf2opl:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | \
 	  env MULTI_CPU=NO ${XARGS} -n1 -0 -P${MAX_PBF2OPL} ${PBF2OSM} --opl-xz
 	${BBMAKE} _pbf2opl-checksum
+
+pbf2geojson:
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | \
+	  env MULTI_CPU=NO ${XARGS} -n1 -0 -P${MAX_PBF2OPL} ${PBF2OSM} --geojson-xz
+
+pbf2geojsonseq:
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | \
+	  env MULTI_CPU=NO ${XARGS} -n1 -0 -P${MAX_PBF2OPL} ${PBF2OSM} --geojsonseq-xz
+
+pbf2text:
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | \
+	  env MULTI_CPU=NO ${XARGS} -n1 -0 -P${MAX_PBF2OPL} ${PBF2OSM} --text-xz
+
+
 _pbf2opl-checksum:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.opl.xz\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${OSM_CHECKSUM}
 
@@ -1666,6 +1680,7 @@ help:
 	@echo "  [ distclean-data ]"
 	@echo ""
 	@echo "  [ bbbike-osm2pbf | osm2pbf | pbf2osm | pbf2csv | pbf2opl ]"
+	@echo "  [ pbf2geojson | pbf2geojsonseq | pbf2text ]"
 	@echo "  [ osm2garmin | osm2shape | osm2osmand | osm2navit | osm2mapsforge ]"
 	@echo "  [ osm2png | osm2svg | osm2mapsme ]"
 	@echo "  [ bbbike2wgs84-mapnik | bbbike-mapnik-config ]"
