@@ -68,10 +68,10 @@ our $formats = {
     'o5m.gz' => "o5m gzip'd",
     'o5m.xz' => "o5m 7z (xz)",
 
-    'opl.xz'        => "Osmium opl 7z (xz)",
-    'geojson.xz'    => "Osmium geojson 7z (xz)",
-    'geojsonseq.xz' => "Osmium geojsonseq 7z (xz)",
-    'text.xz'       => "Osmium text 7z (xz)",
+    'opl.xz'        => "Osmium OPL 7z (xz)",
+    'geojson.xz'    => "Osmium GeoJSON 7z (xz)",
+    'geojsonseq.xz' => "Osmium GeoJSONseq 7z (xz)",
+    'text.xz'       => "Osmium Text 7z (xz)",
 
     'csv.gz' => "csv gzip'd",
     'csv.xz' => "csv 7z (xz)",
