@@ -1522,7 +1522,7 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "time": 1.2
         },
         "opl.xz": {
-            "size": 1.30
+            "size": 1.70
         },
         "geojson.xz": {
             "size": 1.98
@@ -1531,7 +1531,7 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "size": 1.97
         },
         "text.xz": {
-            "size": 1.60
+            "size": 1.80
         },
         "mapsforge-osm.zip": {
             "size": 0.8,
