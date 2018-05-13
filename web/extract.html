@@ -29,8 +29,8 @@
 	<span title="Osmand Android devices">Osmand</span>,
 	<span title="Esri shapefile">Esri shapefile</span>,
 	<span title="mapsforge">mapsforge</span>,
-	<span title="csv">CSV</span> or
-	<span title="opl">OPL</span>
+	<span title="osmium">OPL, GeoJSON, text</span> or
+	<span title="csv">CSV</span>
 	format.
 
 	The maximum area size is 24,000,000 square km, or 512MB file size.
@@ -72,7 +72,7 @@
           <li>supports <a href="https://github.com/mapsforge/mapsforge/">mapsforge (map)</a> format for Android devices</li>
           <li>supports <a href="https://maps.me/en/home">maps.me (omim)</a> format for Android and iOS devices</li>
           <li>supports <a href="http://www.navit-project.org">Navit</a> format for Linux, Windows, Android, OpenMoko Freerunner, Wince, Nokia n800 Internet tables, iPhone, Zaurus</li>
-          <li>supports libosmium <a href="https://github.com/osmcode/libosmium/">OPL</a> format</li>
+          <li>supports libosmium <a href="https://github.com/osmcode/libosmium/">OPL, GeoJSON, Text</a> format</li>
           <li>supports BBBike <a href="http://bbbike.de/">bbd</a> format for the Perl/Tk app</li>
 	  <li>planet.osm data updated every week</li>
         </ul>
@@ -340,12 +340,18 @@
 
 	<table border="1">
 	  <tr><td>Format</td><td>Factor</td></tr>
+	  
 	  <tr><td>PBF</td><td>1</td></tr>
 	  <tr><td>OSM XML gzip'd</td><td>2</td></tr>
 	  <tr><td>OSM XML bzip'd</td><td>1.5</td></tr>
 	  <tr><td>OSM XML 7-zip</td><td>1.6</td></tr>
 	  <tr><td>o5m gzip'd</td><td>1.04</td></tr>
 	  <tr><td>o5m bzip'd</td><td>0.88</td></tr>
+	  
+	  <tr><td>Osmium OPL xz</td><td>1.3</td></tr>
+	  <tr><td>Osmium GeoJSON xz</td><td>1.8</td></tr>
+	  <tr><td>Osmium Text xz</td><td>1.4</td></tr>
+	  
 	  <tr><td>Navit zip'd</td><td>0.8</td></tr>
 	  <tr><td>maps.me zip'd</td><td>0.85</td></tr>
 	  <tr><td>mapsforge</td><td>0.8</td></tr>
