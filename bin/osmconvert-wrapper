@@ -24,6 +24,9 @@ esac
 
 $osmconvert_program $@ > "$tmpfile"
 
+# mktemp creates not world readable files
+chmod 644 "$tmpfile"
+
 # create real output file on success
 mv -f "$tmpfile" "$out"
 
