@@ -1,5 +1,5 @@
 #!/usr/local/bin/bash
-# Copyright (c) 2009-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2018 Wolfram Schneider, https://bbbike.org
 #
 # pbf2osm - convert PBF format to OSM XML
 
@@ -23,9 +23,7 @@ osm2mapsforge=$dirname/osm2mapsforge
 osm2mapsme=$dirname/osm2mapsme
 : ${osm2o5m="osmconvert"}
 : ${osm2o5m_opt="--fake-version"}
-: ${osmium_convert="osmium_convert"}
-: ${osmium_export="osmium"}
-osmium_convert_opt="-f pbf -t opl"
+: ${osmium="osmium"}
 
 # max. file size in KB
 # larger value for special garmin format
@@ -288,18 +286,18 @@ case $compress in
     csv-xz )    $osm2o5m $osm2o5m_opt --out-csv "$file" | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.csv.xz ;;
 
     # OPL format
-    opl )       $osmium_convert $osmium_convert_opt "$file" ;;
-    opl-gzip )  $osmium_convert $osmium_convert_opt "$file" | $gzip  > $tmp && mv -f $tmp $dir/$f.opl.gz ;;
-    opl-bzip2 ) $osmium_convert $osmium_convert_opt "$file" | $bzip2 > $tmp && mv -f $tmp $dir/$f.opl.bz2 ;;
-    opl-xz )    $osmium_convert $osmium_convert_opt "$file" | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.opl.xz ;;
+    opl )       $osmium cat -f opl "$file" ;;
+    opl-gzip )  $osmium cat -f opl "$file" | $gzip  > $tmp && mv -f $tmp $dir/$f.opl.gz ;;
+    opl-bzip2 ) $osmium cat -f opl "$file" | $bzip2 > $tmp && mv -f $tmp $dir/$f.opl.bz2 ;;
+    opl-xz )    $osmium cat -f opl "$file" | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.opl.xz ;;
 
     # osmimum     
-    geojson )       $osmium_export export -f geojson    "$file" ;;
-    geojson-xz )    $osmium_export export -f geojson    "$file" | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.geojson.xz ;;
-    geojsonseq )    $osmium_export export -f geojsonseq "$file" ;;
-    geojsonseq-xz ) $osmium_export export -f geojsonseq "$file" | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.geojsonseq.xz ;;
-    text )          $osmium_export export -f text       "$file" ;;
-    text-xz )       $osmium_export export -f text       "$file" | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.text.xz ;;
+    geojson )       $osmium export -f geojson    "$file" ;;
+    geojson-xz )    $osmium export -f geojson    "$file" | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.geojson.xz ;;
+    geojsonseq )    $osmium export -f geojsonseq "$file" ;;
+    geojsonseq-xz ) $osmium export -f geojsonseq "$file" | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.geojsonseq.xz ;;
+    text )          $osmium export -f text       "$file" ;;
+    text-xz )       $osmium export -f text       "$file" | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.text.xz ;;
 
     # other formats
     bbbike ) $osm2bbbike "$file" "$bbbike_style" "$city" ;;
