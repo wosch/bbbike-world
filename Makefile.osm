@@ -1204,6 +1204,7 @@ tile-rsync:
 data-distclean distclean-data:
 	rm -f data/*.lock data/*.inx[456] data/*.st
 	rm -f misc/*.lock misc/*.inx[456]
+	find ext -name .lock -type f -print0 | xargs -0 rm -f
 	rm -rf ${TMP_DIR}
 	rm -f /bbbike/tmp/bbbike_*
 	rm -f ../osm/download/sub-*/*.tmp
