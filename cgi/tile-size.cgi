@@ -46,8 +46,8 @@ sub sub_planet {
       ? $planet_osm->{$format}
       : $planet_osm->{$planet_type_default};
 
-    if ( !-r $planet_osm ) {
-        warn "fatal: cannot find planet.osm file $planet_osm, give up!\n";
+    if ( !-r "../$planet_osm" ) {
+        warn "fatal: cannot find planet.osm file ../$planet_osm, give up!\n";
         return {};
     }
 
