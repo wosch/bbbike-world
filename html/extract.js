@@ -1416,11 +1416,11 @@ function show_filesize(skm, real_size, sub_planet_factor) {
         },
         "garmin-onroad.zip": {
             "size": 0.1,
-            "time": 22
+            "time": 32
         },
         "garmin-onroad-ascii.zip": {
             "size": 0.1,
-            "time": 22
+            "time": 32
         },
         "garmin-opentopo.zip": {
             "size": 0.7,
