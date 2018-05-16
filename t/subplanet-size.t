@@ -34,7 +34,7 @@ plan tests => scalar(@regions) * 2 + 11;
 # list of regions
 #
 
-is( scalar(@regions), 12, "12 regions" );
+is( scalar(@regions), 13, "13 regions" );
 
 is(
     scalar(@regions),
