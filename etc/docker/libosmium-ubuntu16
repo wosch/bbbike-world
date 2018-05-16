@@ -4,7 +4,7 @@ MAINTAINER Wolfram Schneider <wosch@FreeBSD.org>
 RUN apt-get update -q && apt-get upgrade -y 
 RUN apt-get install -y apt-transport-https apt-utils 
 
-RUN apt-get install -y git make sudo vim wget curl pixz \
+RUN apt-get install -y git make sudo vim wget curl pixz rsync \
   clang clang-tidy cmake cppcheck doxygen iwyu gdb pandoc man
 
 RUN apt-get install -y libboost-all-dev protobuf-compiler \
