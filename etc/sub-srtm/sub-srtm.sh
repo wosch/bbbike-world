@@ -1,4 +1,5 @@
 nice -n7 time osmconvert-wrapper -o ../osm/download/sub-srtm/south-america.osm.pbf -B=world/etc/sub-srtm/south-america.poly --drop-author --drop-version --out-pbf ../osm/download/srtm/planet-srtm-e40.osm.pbf
+nice -n7 time osmconvert-wrapper -o ../osm/download/sub-srtm/north-america-west.osm.pbf -B=world/etc/sub-srtm/north-america-west.poly --drop-author --drop-version --out-pbf ../osm/download/srtm/planet-srtm-e40.osm.pbf
 nice -n7 time osmconvert-wrapper -o ../osm/download/sub-srtm/north-america-east.osm.pbf -B=world/etc/sub-srtm/north-america-east.poly --drop-author --drop-version --out-pbf ../osm/download/srtm/planet-srtm-e40.osm.pbf
 nice -n7 time osmconvert-wrapper -o ../osm/download/sub-srtm/north-america.osm.pbf -B=world/etc/sub-srtm/north-america.poly --drop-author --drop-version --out-pbf ../osm/download/srtm/planet-srtm-e40.osm.pbf
 nice -n7 time osmconvert-wrapper -o ../osm/download/sub-srtm/europe-south.osm.pbf -B=world/etc/sub-srtm/europe-south.poly --drop-author --drop-version --out-pbf ../osm/download/srtm/planet-srtm-e40.osm.pbf
