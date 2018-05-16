@@ -1597,7 +1597,8 @@ docker-build-all:
 	  #docker-build-extract-ubuntu18
 
 docker-build-libosmium-all:
-	${MAKE} -j${MAX_CPU3} \
+	cd world; rm -f world; ln -s . world
+	${BBMAKE} -C./world -j${MAX_CPU3} \
 	  docker-build-libosmium-debian9 \
 	  docker-build-libosmium-ubuntu16 \
 	  docker-build-libosmium-debian10 \
