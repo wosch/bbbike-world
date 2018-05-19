@@ -1,9 +1,11 @@
 #!/usr/local/bin/perl
-# Copyright (c) Nov 2015-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Nov 2015-2018 Wolfram Schneider, https://bbbike.org
 #
 # extract-formats.pl - test all extract formats
 
-use lib qw(world/lib);
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
+
 use Extract::Config;
 use CGI qw(escape);
 use Getopt::Long;

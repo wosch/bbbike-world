@@ -1,12 +1,14 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2015-2018 Wolfram Schneider, https://bbbike.org
+
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
 
 use Test::More;
 use Data::Dumper;
 use CGI;
 use JSON;
 
-use lib qw(world/lib);
 use Extract::Poly;
 
 use strict;

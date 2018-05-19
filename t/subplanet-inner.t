@@ -1,10 +1,12 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2016 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
+
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
 
 use Test::More;
 use Data::Dumper;
 
-use lib qw(world/lib);
 use Extract::Poly;
 use Extract::Planet;
 use BBBike::WorldDB;

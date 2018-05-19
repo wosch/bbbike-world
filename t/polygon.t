@@ -1,5 +1,8 @@
 #!/usr/local/bin/perl
-# Copyright (c) Oct 2012-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Oct 2012-2018 Wolfram Schneider, https://bbbike.org
+
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
 
 use Test::More;
 use IO::Dir;
@@ -8,7 +11,6 @@ use JSON;
 use Math::Polygon::Calc;
 use Math::Polygon::Transform;
 
-use lib qw(world/lib);
 use Extract::Poly;
 use Extract::Utils;
 

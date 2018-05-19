@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     my $sub_planet = "../osm/download/sub-planet";
@@ -10,12 +10,14 @@ BEGIN {
     }
 }
 
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
+
 use Test::More;
 use Data::Dumper;
 use Digest::MD5 qw(md5_hex);
 use FindBin;
 
-use lib qw(world/lib);
 use Extract::Poly;
 
 use strict;
