@@ -36,7 +36,7 @@ sub get_bbbike_files {
     my @ext = qw/osm.csv.xz
       osm.garmin-osm.zip
       osm.gz
-      osm.opl.xz
+      osm.geojson.xz
       osm.navit.zip
       osm.pbf
       osm.shp.zip
