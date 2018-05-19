@@ -1,6 +1,6 @@
 # broken bots
 User-agent: Googlebot-Image
-Disallow: /images
+Disallow: /
 
 # general
 User-agent: *
