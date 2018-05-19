@@ -25,6 +25,9 @@ use Extract::Test::Archive;
 use strict;
 use warnings;
 
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
+
 my $pbf_file = 'world/t/data-osm/tmp/Cusco-SRTM-mapsforge.osm.pbf';
 
 if ( !-f $pbf_file ) {

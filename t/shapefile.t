@@ -42,6 +42,9 @@ use Extract::Test::Archive;
 use strict;
 use warnings;
 
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
+
 my $prefix   = 'world/t/data-osm/tmp';
 my $pbf_file = "$prefix/Cusco-shp.osm.pbf";
 

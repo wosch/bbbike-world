@@ -13,6 +13,9 @@ use Extract::Scheduler;
 use strict;
 use warnings;
 
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
+
 my $debug = 1;
 plan tests => 4 + 4 + 2;
 

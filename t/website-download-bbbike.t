@@ -18,6 +18,9 @@ use BBBike::Test;
 use strict;
 use warnings;
 
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
+
 my $test  = BBBike::Test->new();
 my $debug = 0;
 

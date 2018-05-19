@@ -14,6 +14,9 @@ use Test::More;
 use strict;
 use warnings;
 
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
+
 my $prog           = './world/bin/bbbike-db';
 my $min_city_count = 234;
 

@@ -17,6 +17,9 @@ use Extract::Utils;
 use strict;
 use warnings;
 
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
+
 my $debug = 1;
 
 my $json_dir       = "world/t/extract/json";

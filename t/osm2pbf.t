@@ -15,6 +15,9 @@ use Extract::Test::Archive;
 use strict;
 use warnings;
 
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
+
 plan tests => 5;
 
 sub md5_file {

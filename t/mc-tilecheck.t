@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Dec 2012 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Dec 2012-2018 Wolfram Schneider, https://bbbike.org
 #
 # bbbike-org-mc-tilecheck.t - check if all tile URL images can be viewed for map compare
 
@@ -16,6 +16,9 @@ BEGIN {
     }
 }
 
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
+
 use Test::More;
 use File::stat;
 use Encode;
@@ -23,6 +26,9 @@ use File::Temp qw(tempfile);
 
 use strict;
 use warnings;
+
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
 
 plan tests => 2;
 my $url_file = 'world/t/mc/tile-url.txt';

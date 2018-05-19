@@ -38,6 +38,9 @@ use Extract::Test::Archive;
 use strict;
 use warnings;
 
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
+
 my $type = basename( $0, ".t" );    #"svg";
 
 my @svg_styles = qw/google/;

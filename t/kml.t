@@ -9,6 +9,9 @@ BEGIN {
     }
 }
 
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
+
 use Getopt::Long;
 use Test::More;
 use File::Temp qw(tempfile);
@@ -16,6 +19,9 @@ use File::stat;
 
 use strict;
 use warnings;
+
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
 
 plan tests => 4;
 

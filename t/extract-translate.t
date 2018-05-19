@@ -12,6 +12,9 @@ use Test::More::UTF8;
 use Extract::Locale;
 use File::stat;
 
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
+
 #our $option = {
 #    'language'            => "en",
 #    'supported_languages' => [qw/en de fr/],

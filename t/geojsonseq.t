@@ -24,6 +24,9 @@ use File::stat;
 use strict;
 use warnings;
 
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
+
 plan tests => 5;
 
 my $prefix      = 'world/t/data-osm/tmp';

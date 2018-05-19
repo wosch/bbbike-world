@@ -17,6 +17,9 @@ use Extract::TileSize;
 use strict;
 use warnings;
 
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
+
 # reset default debug value
 $Extract::TileSize::debug     = 0;
 $Extract::TileSize::use_cache = 0;
