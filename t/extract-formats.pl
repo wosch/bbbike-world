@@ -6,6 +6,7 @@
 use lib qw(world/lib);
 use Extract::Config;
 use CGI qw(escape);
+use Getopt::Long;
 
 use strict;
 use warnings;
@@ -14,6 +15,7 @@ my $debug      = 1;
 my $random     = 1;
 my $with_lang  = 1;                     # test with random lang
 my $user_agent = "BBBike-Test/1.0.0";
+my $help;
 
 my $formats = $Extract::Config::formats;
 my $server  = $ENV{'BBBIKE_DEV_SERVER'} || 'https://dev3.bbbike.org';
@@ -80,9 +82,33 @@ sub generate_urls {
     }
 }
 
+sub usage () {
+    <<EOF;
+    
+usage: $0 [options]
+
+--debug=0..2        debug option, default: $debug
+--random=0..1       random coordinate, default: $random
+--with-lang=0..1    test with random language, default: $with_lang
+
+EOF
+}
+
 ######################################################################
 # main
 #
+GetOptions(
+    "debug=i"     => \$debug,
+    "random=i"    => \$random,
+    "with-lang=i" => \$with_lang,
+    "help"        => \$help,
+) or die usage;
+
+if ($help) {
+    print usage;
+    exit 0;
+}
+
 &message;
 &generate_urls;
 
