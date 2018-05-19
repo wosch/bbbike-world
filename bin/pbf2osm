@@ -1,5 +1,5 @@
 #!/usr/local/bin/bash
-# Copyright (c) 2009-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2018 Wolfram Schneider, https://bbbike.org
 #
 # pbf2osm - convert PBF format to OSM XML
 
@@ -23,8 +23,7 @@ osm2mapsforge=$dirname/osm2mapsforge
 osm2mapsme=$dirname/osm2mapsme
 : ${osm2o5m="osmconvert"}
 : ${osm2o5m_opt="--fake-version"}
-: ${osmium_convert="osmium_convert"}
-osmium_convert_opt="-f pbf -t opl"
+: ${osmium="osmium"}
 
 # max. file size in KB
 # larger value for special garmin format
@@ -48,7 +47,9 @@ fi
 : ${pbf2osm_max_cpu_time=7200}
 
 xz=`which xz 2>/dev/null | head -n 1`
+# xz -1 is twice as fast as  xz -2, with a similar compression rate
 xz_opt=-1
+
 gzip=gzip
 bzip2=bzip2
 
@@ -69,6 +70,10 @@ else
 fi
 
 
+# fail if the pipe failed, bash only
+# set after we called which(1) in a pipe, which may fail
+set -o pipefail
+
 usage () {
    echo "$@"
    cat <<EOF
@@ -80,6 +85,9 @@ usage [ option ] file.osm.pbf
 --o5m --o5m-gzip --o5m-bzip2 --o5m-xz
 --csv --csv-gzip --csv-bzip2 --csv-xz
 --opl --opl-gzip --opl-bzip2 --opl-xz
+--geojson --geojson-xz
+--geojsonseq --geojsonseq-xz
+--text --text-xz
 
 --shape
 --osmand
@@ -127,7 +135,14 @@ case $format in
     --opl-gzip | --opl-gz )  shift; compress=opl-gzip ;;
     --opl-bzip2 | --opl-bz2) shift; compress=opl-bzip2 ;;
     --opl-xz )    	     shift; compress=opl-xz ;;
-
+    
+    --geojson )       	 shift; compress=geojson ;;
+    --geojson-xz )    	 shift; compress=geojson-xz ;;
+    --geojsonseq )       shift; compress=geojsonseq ;;
+    --geojsonseq-xz )    shift; compress=geojsonseq-xz ;;
+    --text )       	     shift; compress=text ;;
+    --text-xz )    	     shift; compress=text-xz ;;
+    
     --shape | --shp | --shapefile ) shift; compress=shape ;;
     --osmand | --obf ) 		    shift; compress=osmand ;;
     --navit ) 			    shift; compress=navit ;;
@@ -234,16 +249,12 @@ case $compress in
 esac
 
 
-# fail if the pipe failed, bash only
-case $compress in
-    osmosis-* | *gzip | *bzip2 | xz | o5m-* | csv-* | opl-* ) set -o pipefail ;;
-esac
-
 
 f=`basename $file .pbf`
 dir=`dirname $file`
 tmp=$(mktemp $file.XXXXXXXX.tmp)
 chmod 644 $tmp
+
 
 # cleanup after signal
 trap 'rm -f $tmp' 0 1 2 15
@@ -264,9 +275,9 @@ case $compress in
 
     # o5m format
     o5m )       $osm2o5m $osm2o5m_opt --out-o5m "$file" ;;
-    o5m-gzip )  $osm2o5m $osm2o5m_opt --out-o5m "$file" | $gzip  > $tmp && mv -f $tmp $dir/$f.o5m.gz ;;
-    o5m-bzip2 ) $osm2o5m $osm2o5m_opt --out-o5m "$file" | $bzip2 > $tmp && mv -f $tmp $dir/$f.o5m.bz2 ;;
-    o5m-xz )    $osm2o5m  $osm2o5m_opt --out-o5m "$file"     | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.o5m.xz ;;
+    o5m-gzip )  $osm2o5m $osm2o5m_opt --out-o5m "$file"  | $gzip  > $tmp && mv -f $tmp $dir/$f.o5m.gz ;;
+    o5m-bzip2 ) $osm2o5m $osm2o5m_opt --out-o5m "$file"  | $bzip2 > $tmp && mv -f $tmp $dir/$f.o5m.bz2 ;;
+    o5m-xz )    $osm2o5m  $osm2o5m_opt --out-o5m "$file" | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.o5m.xz ;;
 
     # CSV format
     csv )       $osm2o5m $osm2o5m_opt --out-csv "$file" ;;
@@ -275,10 +286,18 @@ case $compress in
     csv-xz )    $osm2o5m $osm2o5m_opt --out-csv "$file" | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.csv.xz ;;
 
     # OPL format
-    opl )       $osmium_convert $osmium_convert_opt "$file" ;;
-    opl-gzip )  $osmium_convert $osmium_convert_opt "$file" | $gzip  > $tmp && mv -f $tmp $dir/$f.opl.gz ;;
-    opl-bzip2 ) $osmium_convert $osmium_convert_opt "$file" | $bzip2 > $tmp && mv -f $tmp $dir/$f.opl.bz2 ;;
-    opl-xz )    $osmium_convert $osmium_convert_opt "$file" | $xz -1 > $tmp && mv -f $tmp $dir/$f.opl.xz ;;
+    opl )       $osmium cat -f opl "$file" ;;
+    opl-gzip )  $osmium cat -f opl "$file" | $gzip  > $tmp && mv -f $tmp $dir/$f.opl.gz ;;
+    opl-bzip2 ) $osmium cat -f opl "$file" | $bzip2 > $tmp && mv -f $tmp $dir/$f.opl.bz2 ;;
+    opl-xz )    $osmium cat -f opl "$file" | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.opl.xz ;;
+
+    # osmimum     
+    geojson )       $osmium export -f geojson    "$file" ;;
+    geojson-xz )    $osmium export -f geojson    "$file" | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.geojson.xz ;;
+    geojsonseq )    $osmium export -f geojsonseq "$file" ;;
+    geojsonseq-xz ) $osmium export -f geojsonseq "$file" | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.geojsonseq.xz ;;
+    text )          $osmium export -f text       "$file" ;;
+    text-xz )       $osmium export -f text       "$file" | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.text.xz ;;
 
     # other formats
     bbbike ) $osm2bbbike "$file" "$bbbike_style" "$city" ;;
@@ -287,7 +306,7 @@ case $compress in
     svg )    $osm2svg    "$file" "$svg_style" "$city" ;;
     shape )  $osm2shape  "$file" "$city" ;;
     osmand ) $osm2osmand "$file" "$city" ;;
-    mapsme ) $osm2mapsme   "$file" "$mapsme_style" "$city" ;;
+    mapsme ) $osm2mapsme "$file" "$mapsme_style" "$city" ;;
     navit )  $osm2navit  "$file" "$city" ;;
     mapsforge ) $osm2mapsforge "$file" "$mapsforge_style" "$city" ;;
 

@@ -68,7 +68,11 @@ our $formats = {
     'o5m.gz' => "o5m gzip'd",
     'o5m.xz' => "o5m 7z (xz)",
 
-    'opl.xz' => "OPL 7z (xz)",
+    'opl.xz'        => "Osmium OPL 7z (xz)",
+    'geojson.xz'    => "Osmium GeoJSON 7z (xz)",
+    'geojsonseq.xz' => "Osmium GeoJSONseq 7z (xz)",
+    'text.xz'       => "Osmium Text 7z (xz)",
+
     'csv.gz' => "csv gzip'd",
     'csv.xz' => "csv 7z (xz)",
 
@@ -95,7 +99,8 @@ our $formats_menu = {
         'title'   => "OSM",
         'formats' => [
             'osm.pbf', 'osm.xz', 'osm.gz',    #'osm.bz2',
-            'o5m.xz',  'opl.xz', 'csv.xz',
+            'csv.xz', 'o5m.xz',
+            'opl.xz', 'geojson.xz', 'geojsonseq.xz', 'text.xz',
         ]
     },
     'garmin' => {
@@ -257,7 +262,10 @@ our $tile_format = {
     "csv.gz"  => "pbf",
     "csv.bz2" => "pbf",
 
-    "opl.xz" => "pbf",
+    "opl.xz"        => "pbf",
+    "geojson.xz"    => "pbf",
+    "geojsonseq.xz" => "pbf",
+    "text.xz"       => "pbf",
 
     "srtm-europe.osm.pbf"         => "srtm-europe-pbf",
     "srtm-europe.osm.xz"          => "srtm-europe-pbf",

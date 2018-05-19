@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -T
-# Copyright (c) 2009-2014 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2018 Wolfram Schneider, https://bbbike.org
 #
 # weather.cgi - get weather data for a cit
 #
@@ -137,7 +137,7 @@ Fatal(
     "Missing parameters: lat: '$lat', lng: '$lng', lang: '$lang', city: '$city'"
 ) if !( $lat && $lng && $lang && $city && $city_script );
 
-my $url = 'http://ws.geonames.org/findNearByWeatherJSON?username=foobar&lat=';
+my $url = 'http://api.geonames.org/findNearByWeatherJSON?username=foobar&lat=';
 
 my $wettermeldung_file      = &cache_file($q);
 my $wettermeldung_file_json = "$wettermeldung_file.$lang.json";

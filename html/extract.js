@@ -33,6 +33,10 @@ var config = {
 
         "osm.pbf": 520,
 
+        "text.xz": 496,
+        "geojson.xz": 496,
+        "geojsonseq.xz": 496,
+
         "obf.zip": 256,
         "navit.zip": 512,
         "bbbike-perltk.zip": 90,
@@ -48,8 +52,8 @@ var config = {
         "garmin-cycle-ascii.zip": 512,
         "garmin-leisure.zip": 512,
         "garmin-leisure-ascii.zip": 512,
-        "garmin-onroad.zip": 450,
-        "garmin-onroad-ascii.zip": 450,
+        "garmin-onroad.zip": 250,
+        "garmin-onroad-ascii.zip": 250,
         "garmin-opentopo.zip": 512,
         "garmin-opentopo-ascii.zip": 512,
         "garmin-openfietslite.zip": 512,
@@ -125,6 +129,10 @@ var config = {
         "png-cadastre.zip": "/images/svg-cadastre-small.png",
 
         "opl.xz": "/images/opl.png",
+        "geojson.xz": "/images/opl.png",
+        "geojsonseq.xz": "/images/opl.png",
+        "text.xz": "/images/opl.png",
+
         "csv.xz": "/images/csv.png",
         "csv.gz": "/images/csv.png",
         "shp.zip": "/images/shp-small.png",
@@ -1408,11 +1416,11 @@ function show_filesize(skm, real_size, sub_planet_factor) {
         },
         "garmin-onroad.zip": {
             "size": 0.1,
-            "time": 12
+            "time": 32
         },
         "garmin-onroad-ascii.zip": {
             "size": 0.1,
-            "time": 12
+            "time": 32
         },
         "garmin-opentopo.zip": {
             "size": 0.7,
@@ -1514,7 +1522,16 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "time": 1.2
         },
         "opl.xz": {
-            "size": 1.30
+            "size": 1.70
+        },
+        "geojson.xz": {
+            "size": 1.98
+        },
+        "geojsonseq.xz": {
+            "size": 1.97
+        },
+        "text.xz": {
+            "size": 1.80
         },
         "mapsforge-osm.zip": {
             "size": 0.8,

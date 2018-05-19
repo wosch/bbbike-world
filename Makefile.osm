@@ -285,6 +285,20 @@ pbf2opl:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | \
 	  env MULTI_CPU=NO ${XARGS} -n1 -0 -P${MAX_PBF2OPL} ${PBF2OSM} --opl-xz
 	${BBMAKE} _pbf2opl-checksum
+
+pbf2geojson:
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | \
+	  env MULTI_CPU=NO ${XARGS} -n1 -0 -P${MAX_PBF2OPL} ${PBF2OSM} --geojson-xz
+
+pbf2geojsonseq:
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | \
+	  env MULTI_CPU=NO ${XARGS} -n1 -0 -P${MAX_PBF2OPL} ${PBF2OSM} --geojsonseq-xz
+
+pbf2text:
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | \
+	  env MULTI_CPU=NO ${XARGS} -n1 -0 -P${MAX_PBF2OPL} ${PBF2OSM} --text-xz
+
+
 _pbf2opl-checksum:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.opl.xz\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${OSM_CHECKSUM}
 
@@ -1190,6 +1204,7 @@ tile-rsync:
 data-distclean distclean-data:
 	rm -f data/*.lock data/*.inx[456] data/*.st
 	rm -f misc/*.lock misc/*.inx[456]
+	find ext -name .lock -type f -print0 | xargs -0 rm -f
 	rm -rf ${TMP_DIR}
 	rm -f /bbbike/tmp/bbbike_*
 	rm -f ../osm/download/sub-*/*.tmp
@@ -1571,19 +1586,23 @@ docker-check:
 docker-check-w:
 	${DOCKER} run -it --rm ${DOCKER_BBBIKE_TAG} /bin/bash -ic 'echo 3 | sudo tee $$HOME/.ncpu.ncpu; make git-pull; BBBIKE_TEST_NO_NETWORK=1 make check-w || cat log.check*'
 
-docker-build-all: docker-build-tile \
-		docker-build-extract-debian8 \
-		docker-build-extract-debian9 \
-		docker-build-extract-debian10 \
-		docker-build-extract-ubuntu14 \
-		docker-build-extract-ubuntu16 \
-		docker-build-extract-ubuntu18
+docker-build-all: 
+	${MAKE} -j${MAX_CPU} \
+	  docker-build-tile \
+	  docker-build-extract-debian8 \
+	  docker-build-extract-debian9 \
+	  docker-build-extract-debian10 \
+	  docker-build-extract-ubuntu14 \
+	  docker-build-extract-ubuntu16 \
+	  #docker-build-extract-ubuntu18
 
-docker-build-libosmium-all: \
-		docker-build-libosmium-debian9 \
-		docker-build-libosmium-debian10 \
-		docker-build-libosmium-ubuntu16 \
-		docker-build-libosmium-ubuntu18
+docker-build-libosmium-all:
+	cd world; rm -f world; ln -s . world
+	${BBMAKE} -C./world -j${MAX_CPU3} \
+	  docker-build-libosmium-debian9 \
+	  docker-build-libosmium-ubuntu16 \
+	  docker-build-libosmium-debian10 \
+	  docker-build-libosmium-ubuntu18
 
 
 DOCKER_CHECK_ALL_COMMAND=docker-check
@@ -1631,16 +1650,19 @@ docker-build-tile:
 docker-shell-tile:
 	${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/tile docker-shell
 
+# remove temp images
 docker-clean:
 	if ${DOCKER} images | egrep -q '^<none>'; then \
+	  sudo /etc/init.d/docker restart; \
 	  ${DOCKER} rmi -f $$(${DOCKER} images | egrep '^<none>' | awk '{ print $$3 }'); \
 	fi
 
+# remove all available images
 docker-distclean:
-	if ${DOCKER} images | egrep -q '^bbbike/'; then \
-	  ${DOCKER} rmi -f $$(${DOCKER} images | egrep '^bbbike/' | awk '{ print $$3 }'); \
+	if ${DOCKER} images | egrep -q -v '^REPOSITORY'; then \
+	  sudo /etc/init.d/docker restart; \
+	  ${DOCKER} rmi -f $$(${DOCKER} images | egrep -v '^REPOSITORY' | awk '{ print $$3 }'); \
 	fi
-
 
 check-tileserver:
 	curl -sf http://localhost:80/osm/bbbike/11/1100/671.png > /dev/null
@@ -1660,6 +1682,7 @@ help:
 	@echo "  [ distclean-data ]"
 	@echo ""
 	@echo "  [ bbbike-osm2pbf | osm2pbf | pbf2osm | pbf2csv | pbf2opl ]"
+	@echo "  [ pbf2geojson | pbf2geojsonseq | pbf2text ]"
 	@echo "  [ osm2garmin | osm2shape | osm2osmand | osm2navit | osm2mapsforge ]"
 	@echo "  [ osm2png | osm2svg | osm2mapsme ]"
 	@echo "  [ bbbike2wgs84-mapnik | bbbike-mapnik-config ]"
