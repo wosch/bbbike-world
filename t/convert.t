@@ -1,5 +1,8 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2016 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
+
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
 
 use Test::More;
 use IO::File;
@@ -8,6 +11,9 @@ use Digest::MD5 qw(md5_hex);
 
 use strict;
 use warnings;
+
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
 
 my $prefix      = "world/t/data-osm/tmp";
 my $lsb_release = `lsb_release -cs`;

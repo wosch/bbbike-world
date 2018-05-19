@@ -1,14 +1,19 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
+
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
 
 use utf8;
 use Test::More;
-use lib qw(./world/lib ../lib);
 use Test::More::UTF8;
 
 #use BBBike::Test;
 use Extract::Locale;
 use File::stat;
+
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
 
 #our $option = {
 #    'language'            => "en",

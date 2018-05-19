@@ -17,6 +17,9 @@ use Digest::MD5 qw(md5_hex);
 use strict;
 use warnings;
 
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
+
 plan tests => 13;
 
 sub md5_file {

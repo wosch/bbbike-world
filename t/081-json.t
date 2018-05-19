@@ -15,6 +15,9 @@ use JSON;
 use strict;
 use warnings;
 
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
+
 my $debug = 1;
 
 my @json_dirs = qw(ext/BBBikeXS ext/Strassen-Inline ext/Strassen-Inline2

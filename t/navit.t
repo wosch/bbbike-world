@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2016 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_FAST} && !$ENV{BBBIKE_TEST_LONG} ) {
@@ -7,6 +7,9 @@ BEGIN {
         $ENV{BBBIKE_TEST_NO_NETWORK} = 1;
     }
 }
+
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
 
 use Getopt::Long;
 use Data::Dumper qw(Dumper);
@@ -16,12 +19,14 @@ use IO::File;
 use Digest::MD5 qw(md5_hex);
 use File::stat;
 
-use lib qw(./world/lib ../lib);
 use Test::More::UTF8;
 use Extract::Test::Archive;
 
 use strict;
 use warnings;
+
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
 
 my $pbf_file = 'world/t/data-osm/tmp/Cusco-navit.osm.pbf';
 

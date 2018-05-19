@@ -1,16 +1,19 @@
 #!/usr/local/bin/perl
-# Copyright (c) July 2014 Wolfram Schneider, https://bbbike.org
+# Copyright (c) July 2014-2018 Wolfram Schneider, https://bbbike.org
 #
 # check if $use_heap is working
 
-BEGIN { }
+BEGIN {
+    use FindBin;
+    use lib (
+        "$FindBin::RealBin/..", "$FindBin::RealBin/../lib",
+        "$FindBin::RealBin",    "lib",
+        "."
+    );
 
-use FindBin;
-use lib (
-    "$FindBin::RealBin/..", "$FindBin::RealBin/../lib",
-    "$FindBin::RealBin",    "lib",
-    "."
-);
+    chdir("$FindBin::RealBin/../..")
+      or die "Cannot find bbbike world root directory\n";
+}
 
 use Devel::Size qw(total_size);
 use List::Util qw(sum);

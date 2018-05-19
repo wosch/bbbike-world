@@ -1,10 +1,11 @@
 #!/usr/local/bin/perl
-# Copyright (c) Feb 2015-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Feb 2015-2018 Wolfram Schneider, https://bbbike.org
+
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
 
 use CGI;
 use Test::More;
-
-use lib './world/lib';
 use BBBike::Analytics;
 
 use strict;

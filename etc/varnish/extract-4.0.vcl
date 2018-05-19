@@ -106,7 +106,7 @@ sub vcl_recv {
     }
 
     # block rogue bots
-    if (req.http.user-agent ~ "^facebookexternalhit") {
+    if (req.http.user-agent ~ "^(facebookexternalhit|Google Web Preview)") {
         return(synth(405, "rogue bot request"));
     }
 

@@ -12,6 +12,9 @@ use Test::More;
 use strict;
 use warnings;
 
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
+
 my @program = qw(world/bin/bbbike-build-runtime
   world/bin/bbbike-build-runtime-perl.pl
   world/bin/bbbike-build-runtime-perl-devel.pl

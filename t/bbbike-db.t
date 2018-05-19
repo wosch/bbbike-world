@@ -1,16 +1,21 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 
 BEGIN { }
 
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
+
 use utf8;
 use Test::More;
-use lib qw(world/lib ../lib);
 
 #use BBBike::Test;
 
 use strict;
 use warnings;
+
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
 
 my $prog           = './world/bin/bbbike-db';
 my $min_city_count = 234;
