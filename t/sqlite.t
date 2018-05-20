@@ -81,7 +81,7 @@ is( $?, 0, "pbf2osm --sqlite converter" );
 cmp_ok( -s $osm_file, ">=", 2_000_000, "sqlite output size large enough" );
 cmp_ok( -s $osm_file, "<=", 3_000_000, "sqlite output size small enough" );
 
-system( qq[world/bin/pbf2osm --sqlite-xz $pbf_file] );
+system(qq[world/bin/pbf2osm --sqlite-xz $pbf_file]);
 is( $?, 0, "pbf2osm --sqlite-xz converter" );
 cmp_ok( -s $osm_file_xz, ">=", 700_000, "sqlite output size large enough" );
 cmp_ok( -s $osm_file_xz, "<=", 990_000, "sqlite output size small enough" );

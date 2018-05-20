@@ -111,9 +111,7 @@ our $option = {
     'language'     => "en",
     'message_path' => "world/etc/extract",
 
-    'osmosis_options' =>
-      [ "omitmetadata=true", $ENV{BBBIKE_PLANET_OSM_GRANULARITY} ],
-    'osmosis_options_bounding_polygon' => ["clipIncompleteEntities=true"],
+    'osmosis_options' => [ $ENV{BBBIKE_PLANET_OSM_GRANULARITY} ],
 
     'aws_s3_enabled' => 0,
     'aws_s3'         => {
@@ -601,7 +599,7 @@ sub create_poly_files {
     return ( \@poly, \@json, ( time() - $wait_time ) );
 }
 
-# create a poly file which will be read by osmosis(1) to extract
+# create a poly file which will be read by osmconvert to extract
 # an area from planet.osm
 sub create_poly_file {
     my %args = @_;
@@ -620,14 +618,8 @@ sub create_poly_file {
     store_data( $file, $data );
 }
 
-sub run_extracts {
-    return $option->{'osmconvert_enabled'}
-      ? &run_extracts_osmconvert(@_)
-      : &run_extracts_osmosis(@_);
-}
-
 # extract area(s) from planet.osm with osmconvert tool
-sub run_extracts_osmconvert {
+sub run_extracts {
     my %args       = @_;
     my $spool      = $args{'spool'};
     my $poly       = $args{'poly'};
@@ -1723,7 +1715,7 @@ sub usage () {
 usage: $0 [ options ]
 
 --debug={0..2}		debug level, default: $debug
---nice-level={0..20}	nice level for osmosis, default: $option->{nice_level}
+--nice-level={0..20}	nice level for osmconvert, default: $option->{nice_level}
 --job={1..4}		job number for parallels runs, default: $option->{max_jobs}
 --timeout=1..86400	time out, default $option->{"alarm"}
 --send-email={0,1}	send out email, default: $option->{"send_email"}
@@ -1828,7 +1820,7 @@ sub run_jobs {
     my $stat = stat($planet_osm) or die "cannot stat $planet_osm: $!\n";
 
     # be paranoid, give up after N hours (java bugs?)
-    &set_alarm( $alarm, "osmosis" );
+    &set_alarm( $alarm, "osmconvert" );
 
     ###########################################################
     # main
