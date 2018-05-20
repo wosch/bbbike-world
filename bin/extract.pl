@@ -974,6 +974,29 @@ sub copy_to_trash {
     link( $file, $to ) or die "link $file => $to: $!\n";
 }
 
+#
+# check if we override a fresh file
+# this is a harmless race condition (waste of CPU time)
+#
+sub check_download_cache {
+    my $file = shift;
+
+    return 0 if !-e $file;
+    my $st = stat($file) or return 0;
+
+    my $time   = time;
+    my $expire = 30 * 60;    # N minutes
+
+    if ( $st->mtime > ( $time - $expire ) ) {
+        warn
+"Oops, override a cache file which is younger than $expire seconds: $file\n"
+          if $debug >= 1;
+        return 1;
+    }
+
+    return 0;
+}
+
 # prepare to sent mail about extracted area
 sub convert_send_email {
     my %args             = @_;
@@ -1418,6 +1441,7 @@ sub _convert_send_email {
     # keep a copy of .pbf in ./osm for further usage
     my $to = $spool->{'osm'} . "/" . basename($pbf_file);
 
+    &check_download_cache($to);
     unlink($to);
     warn "link $pbf_file => $to\n" if $debug >= 2;
     link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
@@ -1431,6 +1455,7 @@ sub _convert_send_email {
     ###################################################################
     # copy for downloading in /download
     $to = $spool->{'download'} . "/" . basename($pbf_file);
+    &check_download_cache($to);
     unlink($to);
     warn "link $pbf_file => $to\n" if $debug >= 1;
     link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
@@ -1439,6 +1464,7 @@ sub _convert_send_email {
     # .osm.gz or .osm.bzip2 files?
     if ( $file ne $pbf_file ) {
         $to = $spool->{'download'} . "/" . basename($file);
+        &check_download_cache($to);
         unlink($to);
 
         link( $file, $to ) or die "link $file => $to: $!\n";
