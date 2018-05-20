@@ -78,7 +78,7 @@ my $tempfile = File::Temp->new( SUFFIX => ".osm" );
 
 system(qq[world/bin/pbf2osm --text $pbf_file > $tempfile]);
 is( $?,                  0,           "pbf2osm --text converter" );
-is( md5_file($tempfile), $osmium_md5, "text gmd5 checksum matched" );
+is( md5_file($tempfile), $osmium_md5, "text md5 checksum matched" );
 
 system(
     qq[world/bin/pbf2osm --text-xz $pbf_file && xzcat $osm_file_xz > $tempfile]
