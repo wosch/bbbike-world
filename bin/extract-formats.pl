@@ -41,7 +41,7 @@ my @words = (
 
 sub message {
     print
-qq{# please run now: env BBBIKE_DEV_SERVER="$server" ./world/t/extract-formats.pl | xargs -P2 -n1 -0 /bin/sh -c >/dev/null\0};
+qq{# please run now: env BBBIKE_DEV_SERVER="$server" $0 | xargs -P2 -n1 -0 /bin/sh -c >/dev/null\0};
 }
 
 sub get_random_element {
