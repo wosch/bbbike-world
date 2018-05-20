@@ -986,13 +986,14 @@ sub copy_to_trash {
 #
 sub check_download_cache {
     my $file = shift;
+    my $time = shift;    # time when the script started
 
     return 0 if !-e $file;
     my $st = stat($file) or return 0;
 
     my $expire = 30 * 60;    # N minutes
 
-    my $diff_time = time() - $st->mtime;
+    my $diff_time = $time - $st->mtime;
     if ( $diff_time > $expire ) {
         warn "Oops, override a cache file which is "
           . "$diff_time seconds old (limit $expire): $file\n"
@@ -1015,6 +1016,7 @@ sub convert_send_email {
     my $planet_osm_mtime = $args{'planet_osm_mtime'};
     my $extract_time     = $args{'extract_time'};
     my $wait_time        = $args{'wait_time'};
+    my $start_time       = $args{'starttime'};
 
     # all scripts are in these directory
     my $dirname = dirname($0);
@@ -1036,6 +1038,7 @@ sub convert_send_email {
                 'planet_osm_mtime' => $planet_osm_mtime,
                 'extract_time'     => $extract_time,
                 'wait_time'        => $wait_time,
+                'start_time'       => $start_time,
                 'alarm'            => $alarm
             );
         };
@@ -1183,6 +1186,7 @@ sub _convert_send_email {
     my $planet_osm       = $args{'planet_osm'};
     my $extract_time     = $args{'extract_time'};
     my $wait_time        = $args{'wait_time'};
+    my $start_time       = $args{'start_time'};
     my $planet_osm_mtime = $args{'planet_osm_mtime'};
 
     my $obj2 = get_json($json_file);
@@ -1447,7 +1451,7 @@ sub _convert_send_email {
     # keep a copy of .pbf in ./osm for further usage
     my $to = $spool->{'osm'} . "/" . basename($pbf_file);
 
-    &check_download_cache($to);
+    &check_download_cache( $to, $start_time );
     unlink($to);
     warn "link $pbf_file => $to\n" if $debug >= 2;
     link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
@@ -1461,7 +1465,7 @@ sub _convert_send_email {
     ###################################################################
     # copy for downloading in /download
     $to = $spool->{'download'} . "/" . basename($pbf_file);
-    &check_download_cache($to);
+    &check_download_cache( $to, $start_time );
     unlink($to);
     warn "link $pbf_file => $to\n" if $debug >= 1;
     link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
@@ -1470,7 +1474,7 @@ sub _convert_send_email {
     # .osm.gz or .osm.bzip2 files?
     if ( $file ne $pbf_file ) {
         $to = $spool->{'download'} . "/" . basename($file);
-        &check_download_cache($to);
+        &check_download_cache( $to, $start_time );
         unlink($to);
 
         link( $file, $to ) or die "link $file => $to: $!\n";
@@ -1933,6 +1937,7 @@ sub run_jobs {
         'planet_osm_mtime' => $stat->mtime,
         'extract_time'     => $extract_time,
         'wait_time'        => $wait_time,
+        'start_time'       => $starttime,
         'keep'             => 1
     );
 
