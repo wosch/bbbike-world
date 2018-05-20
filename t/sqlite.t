@@ -35,7 +35,7 @@ plan tests => 7;
 my $prefix      = 'world/t/data-osm/tmp';
 my $pbf_file    = "$prefix/Cusco-sqlite.osm.pbf";
 my $osm_file_xz = "$prefix/Cusco-sqlite.osm.sqlite.xz";
-my $osm_file = "$prefix/Cusco-sqlite.osm.sqlite";
+my $osm_file    = "$prefix/Cusco-sqlite.osm.sqlite";
 
 if ( !-f $pbf_file ) {
     die "Directory '$prefix' does not exits\n" if !-d $prefix;
@@ -43,7 +43,7 @@ if ( !-f $pbf_file ) {
       or die "symlink failed: $?\n";
 }
 
-my $pbf_md5    = "58a25e3bae9321015f2dae553672cdcf";
+my $pbf_md5 = "58a25e3bae9321015f2dae553672cdcf";
 
 sub md5_file {
     my $file = shift;
@@ -77,14 +77,12 @@ my $tempfile = File::Temp->new( SUFFIX => ".osm" );
 is( md5_file($pbf_file), $pbf_md5, "md5 checksum matched" );
 
 system(qq[world/bin/pbf2osm --sqlite $pbf_file]);
-is( $?,                     0,           "pbf2osm --sqlite converter" );
+is( $?, 0, "pbf2osm --sqlite converter" );
 cmp_ok( -s $osm_file, ">=", 2_000_000, "sqlite output size large enough" );
 cmp_ok( -s $osm_file, "<=", 3_000_000, "sqlite output size small enough" );
 
-system(
-qq[world/bin/pbf2osm --sqlite-xz $pbf_file]
-);
-is( $?,                  0,           "pbf2osm --sqlite-xz converter" );
+system( qq[world/bin/pbf2osm --sqlite-xz $pbf_file] );
+is( $?, 0, "pbf2osm --sqlite-xz converter" );
 cmp_ok( -s $osm_file_xz, ">=", 700_000, "sqlite output size large enough" );
 cmp_ok( -s $osm_file_xz, "<=", 990_000, "sqlite output size small enough" );
 
