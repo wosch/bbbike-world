@@ -626,75 +626,7 @@ sub run_extracts {
       : &run_extracts_osmosis(@_);
 }
 
-# Legacy
-# extract area(s) from planet.osm with osmosis tool
-#
-sub run_extracts_osmosis {
-    my %args       = @_;
-    my $spool      = $args{'spool'};
-    my $poly       = $args{'poly'};
-    my $planet_osm = $args{'planet_osm'};
-
-    my $osm = $spool->{'osm'};
-
-    warn "Poly: " . Dumper($poly) if $debug >= 3;
-    return () if !defined $poly || scalar(@$poly) <= 0;
-
-    my @data = ( "nice", "-n", $nice_level, "osmosis", "-q" );
-    push @data,
-      ( "--read-pbf", $planet_osm, "--buffer", "bufferCapacity=2000" );
-
-    my @pbf;
-    my $tee = 0;
-    my @fixme;
-    foreach my $p (@$poly) {
-        my $out = $p;
-        $out =~ s/\.poly$/.osm.pbf/;
-
-        my $osm = $spool->{'osm'} . "/" . basename($out);
-        if ( -e $osm ) {
-            my $newer = $utils->file_mtime_diff( $osm, $planet_osm );
-            if ( $newer > 0 ) {
-                warn "File $osm already exists, skip\n" if $debug >= 1;
-                link( $osm, $out ) or die "link $osm => $out: $!\n";
-
-                #&touch_file($osm);
-                next;
-            }
-            else {
-                warn "file $osm already exists, ",
-                  "but a new planet.osm is here since ", abs($newer),
-                  " seconds. Rebuild.\n";
-            }
-        }
-
-        push @pbf, "--bounding-polygon", "file=$p",
-          @{ $option->{"osmosis_options_bounding_polygon"} };
-        push @pbf, "--write-pbf", "file=$out",
-          @{ $option->{"osmosis_options"} };
-
-        $tee++;
-        push @fixme, $out;
-    }
-
-    if (@pbf) {
-        push @data, "--tee", $tee;
-        push @data, @pbf;
-    }
-    else {
-
-        # nothing to do
-        @data = "true";
-    }
-
-    warn "Use planet.osm file $planet_osm\n" if $debug >= 1;
-    warn "Run extracts: " . join( " ", @data ), "\n" if $debug >= 2;
-    return ( \@data, \@fixme );
-}
-
-#
-# extract area(s) from planet.osm with osmosis tool
-#
+# extract area(s) from planet.osm with osmconvert tool
 sub run_extracts_osmconvert {
     my %args       = @_;
     my $spool      = $args{'spool'};
