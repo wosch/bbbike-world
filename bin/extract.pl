@@ -66,6 +66,8 @@ $ENV{BBBIKE_PLANET_OSM_GRANULARITY} = "granularity=100"
   if !defined $ENV{BBBIKE_PLANET_OSM_GRANULARITY};
 
 our $option = {
+
+    # max. different polygon per extract
     'max_areas' => 1,
 
     # XXX?
@@ -260,6 +262,8 @@ sub parse_jobs {
       new Extract::Scheduler( 'debug' => $debug, 'option' => $option );
 
     while ( $counter-- > 0 ) {
+
+        # pick a random user
         foreach my $email ( &random_user( keys %$hash ) ) {
             if ( scalar( @{ $hash->{$email} } ) ) {
                 my $obj  = shift @{ $hash->{$email} };
@@ -280,6 +284,7 @@ sub parse_jobs {
                     next;
                 }
 
+                # rate limit for bots, based on load average
                 if ( $scheduler->is_bot($obj) ) {
                     next
                       if $scheduler->ignore_bot(
