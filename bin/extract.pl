@@ -265,7 +265,11 @@ sub parse_jobs {
 
         # pick a random user
         foreach my $email ( &random_user( keys %$hash ) ) {
-            if ( scalar( @{ $hash->{$email} } ) ) {
+            my $waiting_jobs = scalar( @{ $hash->{$email} } );
+            if ($waiting_jobs) {
+                warn "User $email has $waiting_jobs jobs waiting\n"
+                  if $debug >= 1;
+
                 my $obj  = shift @{ $hash->{$email} };
                 my $city = $obj->{'city'};
 
@@ -945,7 +949,7 @@ sub convert_send_email {
     my $planet_osm_mtime = $args{'planet_osm_mtime'};
     my $extract_time     = $args{'extract_time'};
     my $wait_time        = $args{'wait_time'};
-    my $start_time       = $args{'starttime'};
+    my $start_time       = $args{'start_time'};
 
     # all scripts are in these directory
     my $dirname = dirname($0);
@@ -1788,7 +1792,7 @@ sub run_jobs {
     );
 
     my @list = @$list;
-    print "job list: @{[ scalar(@list) ]}\n" if $debug >= 2;
+    warn "job list: @{[ scalar(@list) ]}\n" if $debug >= 1;
 
     if ( !@list ) {
         print "Nothing to do for users\n" if $debug >= 2;
