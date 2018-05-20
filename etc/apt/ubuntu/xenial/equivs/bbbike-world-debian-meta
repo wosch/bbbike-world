@@ -3,7 +3,7 @@ Priority: optional
 Standards-Version: 3.6.2
 
 Package: bbbike-world-debian-meta
-Version: 1.1.34
+Version: 1.1.35
 Maintainer: Wolfram Schneider <wosch@freebsd.org>
 Depends: pbzip2, bzip2, xz-utils, pixz, git-core, screen, curl, wget, time,
  lsof, whois, pigz, make, acct, dnsutils, sysstat, buffer, mbuffer,
@@ -40,6 +40,7 @@ Depends: pbzip2, bzip2, xz-utils, pixz, git-core, screen, curl, wget, time,
  libwww-mechanize-formfiller-perl, libaccessors-perl, libxml-atom-simplefeed-perl,
  libdevel-nytprof-perl, libtest-most-perl, libmodule-build-perl,
  libtest-fatal-perl, liblockfile-simple-perl, mosh, libcgi-fast-perl, 
- libjpeg-progs, libplack-perl, libimager-qrcode-perl
+ libjpeg-progs, libplack-perl, libimager-qrcode-perl,
+ libboost-program-options1.58.0
 Description: BBBike @ World standard debian packages
  BBBike @ World standard debian packages
