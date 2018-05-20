@@ -188,14 +188,14 @@ sub footer {
 <div id="footer">
 <div id="footer_top">
 <a href="../">home</a> |
-<a href="//download.bbbike.org/osm/extract/">download</a>
+<a href="https://download.bbbike.org/osm/extract/">download</a>
 $data
 </div>
 </div>
 
 <div id="copyright">
 <hr/>
-(&copy;) 2008-2017 <a href="//bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
+(&copy;) 2008-2017 <a href="https://bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
 <div id="footer_community">
 </div>
 </div> <!-- footer -->

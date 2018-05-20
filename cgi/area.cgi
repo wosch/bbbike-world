@@ -55,9 +55,9 @@ sub footer {
 <hr/>
 
 <div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em;" >
-  (&copy;) 2008-2018 <a href="//bbbike.org">BBBike.org</a> //
+  (&copy;) 2008-2018 <a href="https://bbbike.org">BBBike.org</a> //
   Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors <br/>
-  <a href="//mc.bbbike.org/mc/">map compare</a> - <a href="//extract.bbbike.org/">osm extract service</a>
+  <a href="https://mc.bbbike.org/mc/">map compare</a> - <a href="https://extract.bbbike.org/">osm extract service</a>
 
   <div id="footer_community"></div>
 </div> <!-- copyright -->
@@ -168,10 +168,10 @@ EOF
 </table>
 
 <br/>
-<a href="//extract.bbbike.org/extract.html" target="_new">help</a> |
-<a href="//extract.bbbike.org/extract-screenshots.html" target="_new">screenshots</a> |
-<a href="//extract.bbbike.org/" target="_new">extracts</a> |
-<a href="//extract.bbbike.org/extract.html#extract-pro">commercial support</a>
+<a href="https://extract.bbbike.org/extract.html" target="_new">help</a> |
+<a href="https://extract.bbbike.org/extract-screenshots.html" target="_new">screenshots</a> |
+<a href="https://extract.bbbike.org/" target="_new">extracts</a> |
+<a href="https://extract.bbbike.org/extract.html#extract-pro">commercial support</a>
 <hr/>
 
 <span class="city">
