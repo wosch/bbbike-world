@@ -36,13 +36,14 @@ fi
 
 
 # use RAM disk
-tmpfile=$(mktemp ${BBBIKE_TMPFS}/osm2sqlite.XXXXXXXXXXX).sqlite
-logfile=$(mktemp ${BBBIKE_TMPFS}/osm2sqlite.XXXXXXXXXXX).log
+tmpfile=$(mktemp ${BBBIKE_TMPFS}/osm2sqlite.XXXXXXXXXXX)
+outfile=${tmpfile}.sqlite
+logfile=${tmpfile}.log
 
 # cleanup after signal, but show errors first
-trap 'rm -rf $tmpfile $logfile' 1 2 15
+trap 'rm -f $tmpfile $outfile $logfile' 0 1 2 15
 
-if $osmium_toogr2 $file $tmpfile 2> $logfile; then
+if $osmium_toogr2 $file $outfile 2> $logfile; then
   :
 else
   echo "$osmium_toogr2 failed: $!"
@@ -51,11 +52,8 @@ else
 fi
 
 if [ "$COMPRESS" = "NO" ]; then
-  mv -f $tmpfile $sqlite
+  mv -f $outfile $sqlite
 else
-  $xz $xz_opt -1 < $tmpfile > $sqlite.tmp && mv -f $sqlite.tmp $sqlite.xz
+  $xz $xz_opt -1 < $outfile > $sqlite.tmp && mv -f $sqlite.tmp $sqlite.xz
 fi
-
-rm -f $tmpfile
-rm -f $logfile
 
