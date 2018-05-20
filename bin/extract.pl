@@ -992,11 +992,8 @@ sub check_download_cache {
 
     my $expire = 30 * 60;    # N minutes
 
-    my $diff_time = $st->mtime - ( time() - $expire );
-    if ( $diff_time > 0 ) {
-        warn scalar localtime(time), "\n";
-        warn localtime( $st->mtime ), "\n";
-
+    my $diff_time = time() - $st->mtime;
+    if ( $diff_time > $expire ) {
         warn "Oops, override a cache file which is "
           . "$diff_time seconds old (limit $expire): $file\n"
           if $debug >= 1;
