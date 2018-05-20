@@ -33,6 +33,9 @@ use LWP::UserAgent;
 use Time::gmtime;
 
 use lib qw(world/lib ../lib);
+
+use FindBin;
+use lib ("$FindBin::RealBin/..");
 use Extract::Config;
 use Extract::Utils;
 use Extract::Poly;
@@ -43,6 +46,9 @@ use Extract::Scheduler;
 
 use strict;
 use warnings;
+
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
 
 $ENV{'PATH'} = "/usr/local/bin:/bin:/usr/bin";
 $ENV{'OSM_CHECKSUM'} = 'false';    # disable md5 checksum files
@@ -984,12 +990,15 @@ sub check_download_cache {
     return 0 if !-e $file;
     my $st = stat($file) or return 0;
 
-    my $time   = time;
     my $expire = 30 * 60;    # N minutes
 
-    if ( $st->mtime > ( $time - $expire ) ) {
-        warn
-"Oops, override a cache file which is younger than $expire seconds: $file\n"
+    my $diff_time = $st->mtime - ( time() - $expire );
+    if ( $diff_time > 0 ) {
+        warn scalar localtime(time), "\n";
+        warn localtime( $st->mtime ), "\n";
+
+        warn "Oops, override a cache file which is "
+          . "$diff_time seconds old (limit $expire): $file\n"
           if $debug >= 1;
         return 1;
     }
