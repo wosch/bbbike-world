@@ -920,6 +920,7 @@ sub reorder_pbf {
         'geojson.xz'    => 1.31,
         'geojsonseq.xz' => 1.32,
         'text.xz'       => 1.33,
+        'sqlite.xz'     => 1.34,
 
         'csv.gz'  => 0.42,
         'csv.xz'  => 0.2,
@@ -1224,7 +1225,8 @@ sub _convert_send_email {
     }
 
     # OSM extracts as csv, text, json etc.
-    elsif ( $format =~ /^(o5m|opl|csv|geojsonseq|geojson|text)\.(xz|gz|bz2)$/ )
+    elsif ( $format =~
+        /^(o5m|opl|csv|geojsonseq|geojson|text|sqlite)\.(xz|gz|bz2)$/ )
     {
         my $type = $1;
         my $ext  = $2;

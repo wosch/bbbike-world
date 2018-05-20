@@ -36,6 +36,7 @@ var config = {
         "text.xz": 496,
         "geojson.xz": 496,
         "geojsonseq.xz": 496,
+        "sqlite.xz": 256,
 
         "obf.zip": 256,
         "navit.zip": 512,
@@ -132,6 +133,7 @@ var config = {
         "geojson.xz": "/images/opl.png",
         "geojsonseq.xz": "/images/opl.png",
         "text.xz": "/images/opl.png",
+        "sqlite.xz": "/images/opl.png",
 
         "csv.xz": "/images/csv.png",
         "csv.gz": "/images/csv.png",
@@ -1532,6 +1534,9 @@ function show_filesize(skm, real_size, sub_planet_factor) {
         },
         "text.xz": {
             "size": 1.80
+        },
+        "sqlite.xz": {
+            "size": 1.50
         },
         "mapsforge-osm.zip": {
             "size": 0.8,

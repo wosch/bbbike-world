@@ -815,7 +815,8 @@ sub statistic_basic {
     $q->param( "date", "today" );
     print qq{ | <a href="} . $q->url( -query => 1 ) . qq{">today</a>\n};
     print "<hr />\n";
-    print qq{Copyright (c) 2011-2017 <a href="https://bbbike.org">BBBike.org</a>\n};
+    print
+      qq{Copyright (c) 2011-2017 <a href="https://bbbike.org">BBBike.org</a>\n};
     print "<br/>\n" . localtime() . "\n";
 }
 

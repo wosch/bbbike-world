@@ -101,6 +101,7 @@ our $factor = {
     'geojson.xz'    => 1.98,
     'geojsonseq.xz' => 1.97,
     'text.xz'       => 1.80,
+    'sqlite.xz'     => 1.51,
 
     # pseudo extension
     'pbf'             => 1,

@@ -24,6 +24,7 @@ osm2mapsme=$dirname/osm2mapsme
 : ${osm2o5m="osmconvert"}
 : ${osm2o5m_opt="--fake-version"}
 : ${osmium="osmium"}
+: ${osm2sqlite="$dirname/osm2sqlite"}
 
 # max. file size in KB
 # larger value for special garmin format
@@ -88,6 +89,7 @@ usage [ option ] file.osm.pbf
 --geojson --geojson-xz
 --geojsonseq --geojsonseq-xz
 --text --text-xz
+--sqlite --sqlite-xz
 
 --shape
 --osmand
@@ -142,6 +144,8 @@ case $format in
     --geojsonseq-xz )    shift; compress=geojsonseq-xz ;;
     --text )       	     shift; compress=text ;;
     --text-xz )    	     shift; compress=text-xz ;;
+    --sqlite )       	     shift; compress=sqlite ;;
+    --sqlite-xz )    	     shift; compress=sqlite-xz ;;
     
     --shape | --shp | --shapefile ) shift; compress=shape ;;
     --osmand | --obf ) 		    shift; compress=osmand ;;
@@ -298,6 +302,8 @@ case $compress in
     geojsonseq-xz ) $osmium export -f geojsonseq "$file" | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.geojsonseq.xz ;;
     text )          $osmium export -f text       "$file" ;;
     text-xz )       $osmium export -f text       "$file" | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.text.xz ;;
+    sqlite )        env COMPRESS=NO $osm2sqlite "$file" ;;
+    sqlite-xz )     $osm2sqlite "$file" ;;
 
     # other formats
     bbbike ) $osm2bbbike "$file" "$bbbike_style" "$city" ;;
