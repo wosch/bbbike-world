@@ -182,6 +182,7 @@ span.format_osm_xz { color: #B22222; }
 span.format_geojsonseq_xz { color: blue; }
 span.format_geojson_xz { color: blue; }
 span.format_text_xz { color: blue; }
+span.format_sqlite_xz { color: blue; }
 
 span.format_srtm_europe_garmin_srtm_zip { color: brown; }
 span.format_srtm_europe_obf_zip { color: brown; }
