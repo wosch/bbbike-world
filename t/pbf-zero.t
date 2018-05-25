@@ -4,6 +4,9 @@
 # check pbf2osm results for a *.pbf with zero file size
 #
 
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
+
 use Getopt::Long;
 use Data::Dumper qw(Dumper);
 use Test::More;
@@ -13,6 +16,9 @@ use Digest::MD5 qw(md5_hex);
 
 use strict;
 use warnings;
+
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
 
 my $debug = 0;
 

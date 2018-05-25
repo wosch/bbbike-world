@@ -10,9 +10,11 @@ BEGIN {
     if ( $ENV{BBBIKE_TEST_FAST} ) { print "1..0 # skip due fast test\n"; exit; }
 }
 
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
+
 use utf8;
 use Test::More;
-use lib qw(./world/lib ../lib);
 use BBBike::Test;
 
 use strict;

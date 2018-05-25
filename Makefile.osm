@@ -298,6 +298,10 @@ pbf2text:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | \
 	  env MULTI_CPU=NO ${XARGS} -n1 -0 -P${MAX_PBF2OPL} ${PBF2OSM} --text-xz
 
+pbf2sqlite:
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | \
+	  env MULTI_CPU=NO ${XARGS} -n1 -0 -P${MAX_CPU} ${PBF2OSM} --sqlite-xz
+
 
 _pbf2opl-checksum:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.opl.xz\0, ' | ${XARGS} -n 1 -0 -P${MAX_PBF2OSM} ${OSM_CHECKSUM}
@@ -991,11 +995,7 @@ extract-install extract-bbbike-org-install:
 	if [ ! -e ${EXTRACTS_SPOOL_DIR} ]; then \
 	   ln -fs ${BBBIKE_PARTITION}/$$(basename ${EXTRACTS_SPOOL_DIR}) ${EXTRACTS_SPOOL_DIR}; \
 	fi
-	if [ -e /planet/osm ]; then \
-	   ln -fs /planet/osm /var/cache/osm; \
-	else \
-	   ln -fs ${BBBIKE_PARTITION}/projects/osm /var/cache/osm; \
-	fi
+	ln -fs ${BBBIKE_PARTITION}/projects/osm /var/cache/osm; \
 	mkdir -p /usr/local/www/osm
 	ln -fs /var/cache/osm /usr/local/www/osm
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/incoming
@@ -1431,8 +1431,8 @@ download-bbbike-org-install:
 	  ln -fs ../../../bbbike.org/world/download/osm/planet/HEADER.txt .
 	cd ${DOWNLOAD_PREFIX}/osm/planet; \
 	  ln -fs $$HOME/projects/osm/download/sub-planet .
-	cd ${DOWNLOAD_PREFIX}/..; mkdir -p osm; cd osm; \
-	  ln -fs ../download.bbbike.org/osm/planet download
+	#cd ${DOWNLOAD_PREFIX}/..; mkdir -p osm; cd osm; \
+	#  ln -fs ../download.bbbike.org/osm/planet download
 	${MAKE} download-srtm-bbbike-org-install
 
 # http://download.freizeitkarte-osm.de/Development/ele_25_250_500/Hoehendaten_Freizeitkarte_Europe.osm.pbf
@@ -1682,7 +1682,7 @@ help:
 	@echo "  [ distclean-data ]"
 	@echo ""
 	@echo "  [ bbbike-osm2pbf | osm2pbf | pbf2osm | pbf2csv | pbf2opl ]"
-	@echo "  [ pbf2geojson | pbf2geojsonseq | pbf2text ]"
+	@echo "  [ pbf2geojson | pbf2geojsonseq | pbf2text | pbf2sqlite ]"
 	@echo "  [ osm2garmin | osm2shape | osm2osmand | osm2navit | osm2mapsforge ]"
 	@echo "  [ osm2png | osm2svg | osm2mapsme ]"
 	@echo "  [ bbbike2wgs84-mapnik | bbbike-mapnik-config ]"

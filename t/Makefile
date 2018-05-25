@@ -12,7 +12,7 @@ _perlcheck:
 	cd ../../; ls world/t/*.t world/t/*.pl | xargs -n1 -P${NCPU} perl -I. -cw
 
 perltidy: perlcheck
-	cd ../../; ls world/t/*.t world/t/*.pl | xargs -n4 -P${NCPU} perltidy -b
+	cd ../../; ls world/t/*.t | xargs -n4 -P${NCPU} perltidy -b
 
 clean:
 	rm -f *.bak *.tdy *.ERR

@@ -4,7 +4,7 @@
   <link href="https://www.bbbike.org" />
   <link href="https://www.bbbike.org/feed/bbbike-world.xml" rel="self" />
   <icon>https://www.bbbike.org/images/srtbike.ico</icon>
-  <updated>Sun May 13 17:34:59 2018 +0000</updated>
+  <updated>Sun May 20 10:03:33 2018 +0000</updated>
   <author>
     <name>Wolfram Schneider</name>
   </author>
@@ -12,6 +12,13 @@
   OpenStreetMap project!</subtitle>
   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af7</id>
   <generator uri="https://metacpan.org/pod/XML::Atom::SimpleFeed" version="0.900">XML::Atom::SimpleFeed</generator>
+  <entry>
+    <title>New OSM export format SQLite</title>
+    <id>396b20cf70a9aec7c349db9fcf9723a3</id>
+    <content type="html">The &lt;a href="https://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports SQLite format</content>
+    <updated>2018-05-20T18:30:02Z</updated>
+    <category term="News" />
+  </entry>
   <entry>
     <title>New OSM export format GeoJSON</title>
     <id>396b20cf70aaaec7c349db9fcf9723a3</id>

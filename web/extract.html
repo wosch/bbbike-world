@@ -30,7 +30,7 @@
 	<span title="Osmand Android devices">Osmand</span>,
 	<span title="Esri shapefile">Esri shapefile</span>,
 	<span title="mapsforge">mapsforge</span>,
-	<span title="osmium">OPL, GeoJSON, text</span> or
+	<span title="osmium">OPL, GeoJSON, SQLite, text</span> or
 	<span title="csv">CSV</span>
 	format.
 
@@ -73,7 +73,7 @@
           <li>supports <a href="https://github.com/mapsforge/mapsforge/">mapsforge (map)</a> format for Android devices</li>
           <li>supports <a href="https://maps.me/en/home">maps.me (omim)</a> format for Android and iOS devices</li>
           <li>supports <a href="http://www.navit-project.org">Navit</a> format for Linux, Windows, Android, OpenMoko Freerunner, Wince, Nokia n800 Internet tables, iPhone, Zaurus</li>
-          <li>supports libosmium <a href="https://github.com/osmcode/libosmium/">OPL, GeoJSON, Text</a> format</li>
+          <li>supports libosmium <a href="https://github.com/osmcode/libosmium/">OPL, GeoJSON, SQLite, Text</a> format</li>
           <li>supports BBBike <a href="http://bbbike.de/">bbd</a> format for the Perl/Tk app</li>
 	  <li>planet.osm data updated every week</li>
         </ul>
@@ -351,6 +351,7 @@
 	  
 	  <tr><td>Osmium OPL xz</td><td>1.7</td></tr>
 	  <tr><td>Osmium GeoJSON xz</td><td>2.0</td></tr>
+	  <tr><td>Osmium SQLite xz</td><td>1.5</td></tr>
 	  <tr><td>Osmium Text xz</td><td>1.8</td></tr>
 	  
 	  <tr><td>Navit zip'd</td><td>0.8</td></tr>
@@ -434,19 +435,19 @@
 	<ol>
 	  <li>Valid values for longitude are -180 .. 180, and for latitude -90 .. 90.</li>
 	  <li>The e-mail field is required, you will be notified by e-mail if your extract is ready
-	  for <a href="//download.bbbike.org/osm/extract/">download</a>.
+	  for <a href="https://download.bbbike.org/osm/extract/">download</a>.
     Don't have a working e-mail, or cannot access your e-mail now (internet cafe)? - then please use
     <b>nobody</b> as e-mail address.
 	  </li>
 	  <li>Please us meaningfull name for the extract, to find it later on your inbox or computer</li>
 	  <li>Didn't get an email in a reasonable time? Please check your SPAM folder first. You can see the status
-	    of your extract requests <a href="//download.bbbike.org/osm/extract/">here</a>.
+	    of your extract requests <a href="https://download.bbbike.org/osm/extract/">here</a>.
 	  </li>
 	  <li>The extract system runs in a shared batch mode. If there are too many request, it may take longer to process your requests. Be patient!</li>
 	  <li>The extracts don't contain metadata as version number, author, timestamp etc. If you need to edit OSM data, please
-	  go to the <a href="//OpenStreetMap.org">OpenStreetMap.org</a> web site.</li>
+	  go to the <a href="https://OpenStreetMap.org">OpenStreetMap.org</a> web site.</li>
 	  <li>The planet.osm database will be updated every week.
-	      For details look at the BBBike <a href="//download.bbbike.org/osm/planet/">planet.osm</a> mirror.</li>
+	      For details look at the BBBike <a href="https://download.bbbike.org/osm/planet/">planet.osm</a> mirror.</li>
 	</ol>
 
 
@@ -489,14 +490,14 @@
         <div id="footer">
           <div id="footer_top">
             <a href="/">home</a> |
-			<a href="//download.bbbike.org/">download</a> |
-			<a href="//download.bbbike.org/osm/extract/">server status</a> |
+			<a href="https://download.bbbike.org/">download</a> |
+			<a href="https://download.bbbike.org/osm/extract/">server status</a> |
 			<a href="/support.html">commercial support</a> |
 			<a href="/community.html">donate</a>
 		
 			<span id="social" class="right">
 			  <a href="https://twitter.com/BBBikeWorld" target="_new"><img class="logo" width="16" height="16" src="/images/twitter-t.png" alt="" title="Follow us on twitter.com/BBBikeWorld" /></a>
-			  <a href="//www.bbbike.org/feed/bbbike-world.xml"><img class="logo" width="14" height="14" title="What's new on BBBike.org" src="/images/rss-icon.png" alt="" /></a>
+			  <a href="https://www.bbbike.org/feed/bbbike-world.xml"><img class="logo" width="14" height="14" title="What's new on BBBike.org" src="/images/rss-icon.png" alt="" /></a>
 			</span>
           </div>
 
@@ -504,9 +505,9 @@
           (&copy;) 2011-2018 <a href="https://bbbike.org">BBBike.org</a>
 		  by <a href="https://wolfram.schneider.org">Wolfram Schneider</a> -
 		  Map data (&copy;) <a href="https://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap.org</a> contributors<br/>
-		  <a href="//www.bbbike.org/">cycle route planner</a> -
-		  <a href="//extract.bbbike.org/">osm extract service</a> -
-		  <a href="//mc.bbbike.org/mc/">map compare</a>
+		  <a href="https://www.bbbike.org/">cycle route planner</a> -
+		  <a href="https://extract.bbbike.org/">osm extract service</a> -
+		  <a href="https://mc.bbbike.org/mc/">map compare</a>
 		</div>
       </div>
 	  

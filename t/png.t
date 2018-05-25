@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2016 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     print "1..0 # skip due problems with Maperitive\n";
@@ -21,6 +21,9 @@ BEGIN {
     $ENV{DISPLAY} = $display;
 }
 
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
+
 use Getopt::Long;
 use Data::Dumper qw(Dumper);
 use Test::More;
@@ -30,12 +33,14 @@ use Digest::MD5 qw(md5_hex);
 use File::stat;
 use File::Basename;
 
-use lib qw(./world/lib ../lib);
 use Test::More::UTF8;
 use Extract::Test::Archive;
 
 use strict;
 use warnings;
+
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
 
 my $type = basename( $0, ".t" );    #"svg";
 

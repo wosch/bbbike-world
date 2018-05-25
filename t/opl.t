@@ -27,6 +27,9 @@ use File::stat;
 use strict;
 use warnings;
 
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
+
 plan tests => 9;
 
 my $prefix       = 'world/t/data-osm/tmp';
@@ -80,7 +83,7 @@ my $tempfile = File::Temp->new( SUFFIX => ".osm" );
 
 system(qq[world/bin/pbf2osm --opl $pbf_file > $tempfile]);
 is( $?,                  0,        "pbf2osm --opl converter" );
-is( md5_file($tempfile), $opl_md5, "opl gmd5 checksum matched" );
+is( md5_file($tempfile), $opl_md5, "opl md5 checksum matched" );
 
 system(
 qq[world/bin/pbf2osm --opl-gzip $pbf_file && gzip -dc $osm_file_gz > $tempfile]

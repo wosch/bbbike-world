@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2016 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} ) {
@@ -11,9 +11,11 @@ BEGIN {
     }
 }
 
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
+
 use Test::More;
 use JSON;
-use lib qw(./world/lib ../lib);
 use BBBike::Test;
 use Extract::Config;
 use Extract::TileSize;
@@ -33,12 +35,7 @@ unshift @homepages, @homepages_localhost;
 my $formats          = $Extract::Config::formats;
 my $factor_tile_size = $Extract::TileSize::factor;
 
-plan tests => scalar( keys %$formats ) *
-  scalar(@homepages) *
-  ( $test->myget_counter + 2 ) +
-  ( ( scalar( keys %$factor_tile_size ) - 3 ) * 2 );
-
-#plan 'no_plan';
+plan 'no_plan';
 
 # check the formats configuration in lib/Extract/TileSize.pm
 sub factor_check {
@@ -91,17 +88,35 @@ sub page_check {
     }
 }
 
+sub planet_file_is_available {
+    my $planet_osm = $Extract::Config::planet_osm;
+
+    foreach my $planet ( keys %$planet_osm ) {
+        my $file = $planet_osm->{$planet};
+        if ( !-r $file ) {
+            diag
+              "planet file '$planet' -> '$file' does not exists, skip tests\n";
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
 #############################################################################
 # main
 #
 
 &factor_check;
 
-# check a bunch of homepages
-foreach my $home_url (
-    $ENV{BBBIKE_TEST_SLOW_NETWORK} ? @homepages_localhost : @homepages )
-{
-    &page_check($home_url);
+if (&planet_file_is_available) {
+
+    # check a bunch of homepages
+    foreach my $home_url (
+        $ENV{BBBIKE_TEST_SLOW_NETWORK} ? @homepages_localhost : @homepages )
+    {
+        &page_check($home_url);
+    }
 }
 
 __END__

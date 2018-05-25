@@ -1,5 +1,8 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2016 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
+
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
 
 use Test::More;
 use Data::Dumper;
@@ -13,6 +16,9 @@ use Extract::Config;
 
 use strict;
 use warnings;
+
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
 
 my $debug = 1;
 

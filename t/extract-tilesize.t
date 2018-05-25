@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 #
 # update with:
 #
@@ -8,12 +8,17 @@
 #   perl -npe 's,/(\d+)/(\d+)/,/$2/$1/,' > .perl
 #
 
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
+
 use Test::More;
-use lib qw(world/lib);
 use Extract::TileSize;
 
 use strict;
 use warnings;
+
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
 
 # reset default debug value
 $Extract::TileSize::debug     = 0;

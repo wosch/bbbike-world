@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_FAST} && !$ENV{BBBIKE_TEST_LONG} ) {
@@ -7,6 +7,9 @@ BEGIN {
         exit;
     }
 }
+
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
 
 use Getopt::Long;
 use Data::Dumper qw(Dumper);
@@ -16,7 +19,6 @@ use IO::File;
 use Digest::MD5 qw(md5_hex);
 use File::stat;
 
-use lib qw(./world/lib ../lib);
 use Test::More::UTF8;
 use Extract::Test::Archive;
 

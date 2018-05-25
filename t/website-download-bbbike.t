@@ -8,13 +8,18 @@ BEGIN {
     }
 }
 
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
+
 use utf8;
 use Test::More;
-use lib qw(world/lib ../lib);
 use BBBike::Test;
 
 use strict;
 use warnings;
+
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
 
 my $test  = BBBike::Test->new();
 my $debug = 0;
