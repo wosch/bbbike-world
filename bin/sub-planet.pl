@@ -127,6 +127,11 @@ my @shell = &regions(
 
 my $script = "$sub_planet_conf_dir/$prefix.sh";
 warn "\nNow run:\nprogram=$prefix ./world/bin/$prefix_default\n" if $debug;
-store_data( $script, join "\n", @shell, "" );
+if (@shell) {
+    store_data( $script, join "\n", @shell, "" );
+}
+else {
+    die "No data to write to $script, give up\n";
+}
 
 __END__
