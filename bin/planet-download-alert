@@ -45,7 +45,7 @@ if test -n "$new" && test "$new" -ne "$old"; then
 
    if [ -n "$automatic_update" ]; then
      if [ $new -gt $planet_osm_min_size ]; then
-       echo "start updated: $(date), may run 8-12 hours"
+       echo "start updated: $(date), may run 8-21 hours"
        logfile=tmp/log.update-database
        make -s update-database > $logfile 2>&1 || tail -n 200 $logfile 
        echo "done updated: $(date)"
