@@ -1,12 +1,14 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 #
 # create poly sub-planet files
+
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
 
 use IO::File;
 use Getopt::Long;
 
-use lib qw(world/lib ../lib);
 use Extract::Poly;
 
 use strict;
