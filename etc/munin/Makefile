@@ -4,7 +4,8 @@
 # munin setup
 #
 
-MUNIN_BBBIKE_SYSTEM= 	bbbike-processes
+MUNIN_BBBIKE_SYSTEM= 	bbbike-processes \
+			bbbike-git-status
 
 MUNIN_BBBIKE_WEB=	bbbike-services-ajax \
 			bbbike-services-output \
