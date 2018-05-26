@@ -69,7 +69,7 @@ graph_title BBBike git status time
 graph_vlabel BBBike git status time
 graph_category bbbikesystem
 graph_info BBBike git status time
-graph_period days
+graph_period hour
 bbbike_git_status_time.label BBBike git status time
 bbbike_git_status_time.min 0
 bbbike_git_status_time.warning $wait_warning
