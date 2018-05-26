@@ -14,6 +14,9 @@ use Extract::Poly;
 use strict;
 use warnings;
 
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
+
 my $debug           = 1;
 my $prefix_default  = 'sub-planet';
 my $prefix          = $prefix_default;
