@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl
 # Copyright (c) May 2018 Wolfram Schneider, https://bbbike.org
 #
-# usage: /etc/munin/plugins/extract-git-status [ config ]
+# usage: /etc/munin/plugins/bbbike-git-status [ config ]
 #
 # get documentation with: perldoc /path/to/script
 
@@ -14,7 +14,7 @@ use warnings;
 
 =head1 NAME
 
-extract-wait  - Plugin to monitor running extract wait time in seconds
+bbbike-git-status - Plugin to monitor running extract wait time in seconds
 
 =head1 ABOUT
 
