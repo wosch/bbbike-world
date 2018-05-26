@@ -70,7 +70,7 @@ sub config_wait {
     <<EOF;
 graph_title BBBike git status time
 graph_vlabel BBBike git status time
-graph_category bbbike
+graph_category bbbikesystem
 graph_info BBBike git status time
 graph_period days
 bbbike_git_status_time.label BBBike git status time
