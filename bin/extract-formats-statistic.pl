@@ -58,31 +58,30 @@ sub statistic {
     my $hash = shift;
 
     foreach my $format ( sort keys %$hash ) {
-        my $counter = $hash->{$format}->{"counter"};
+        my $counter     = $hash->{$format}->{"counter"};
+        my $format_size = $hash->{$format}->{"format_size"}
+          // $hash->{$format}->{"image_size_zip"};
+        my $pbf_file_size = $hash->{$format}->{"pbf_file_size"};
+        my $convert_time  = $hash->{$format}->{"convert_time"};
 
         printf(
             "format=%s\tpbf=%2.1f MB, image=%2.1f MB, ",
             $format,
-            $hash->{$format}->{"pbf_file_size"} / $counter / 1024 / 1024,
-            $hash->{$format}->{"image_size_zip"} / $counter / 1024 / 1024
+            $pbf_file_size / $counter / 1024 / 1024,
+            $format_size / $counter / 1024 / 1024
         );
         printf(
             "scale=%2.2f, %d sec, ",
-            $hash->{$format}->{"image_size_zip"} /
-              $hash->{$format}->{"pbf_file_size"},
-            $hash->{$format}->{"convert_time"} / $counter
+            $format_size / $pbf_file_size,
+            $convert_time / $counter
         );
 
-        my $image_factor =
-          $hash->{$format}->{"image_size_zip"} /
-          $hash->{$format}->{"convert_time"} / 1024 / 1024;
+        my $image_factor = $format_size / $convert_time / 1024 / 1024;
 
         printf(
             "PBF MB/s=%2.2f, Image factor MB/s=%2.2f counter=%d\n",
-            $hash->{$format}->{"pbf_file_size"} /
-              $hash->{$format}->{"convert_time"} / 1024 / 1024,
-            ( $image_factor != 0 ? 1 / $image_factor : 0 ),
-            $counter
+            $pbf_file_size / $convert_time / 1024 / 1024,
+            ( $image_factor != 0 ? 1 / $image_factor : 0 ), $counter
         );
 
         print Dumper( $hash->{$format} ) if $debug >= 2;
