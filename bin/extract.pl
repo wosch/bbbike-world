@@ -1444,12 +1444,11 @@ sub _convert_send_email {
 
     # record the file size of the format
     $obj->{"format_size"} = file_size($to);
-
+    
     ###################################################################
     # display uncompressed image file size
     if ( $option->{show_image_size} && $to =~ /\.zip$/ ) {
         $file_size .= " " . M("zip archive") . ", ";
-        $obj->{"image_size_zip"} = file_size($to);
 
         my $prog = dirname($0) . "/extract-disk-usage.sh";
         open my $fh, "$prog $to |" or die open "open $prog $to";
