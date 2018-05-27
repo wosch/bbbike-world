@@ -63,6 +63,7 @@ sub statistic {
           // $hash->{$format}->{"format_size"};
         my $pbf_file_size = $hash->{$format}->{"pbf_file_size"};
         my $convert_time  = $hash->{$format}->{"convert_time"};
+        my $image_factor  = $size / $convert_time / 1024 / 1024;
 
         printf(
             "format=%s\tpbf=%2.1f MB, image=%2.1f MB, ",
@@ -70,13 +71,12 @@ sub statistic {
             $pbf_file_size / $counter / 1024 / 1024,
             $size / $counter / 1024 / 1024
         );
+
         printf(
             "scale=%2.2f, %d sec, ",
             $size / $pbf_file_size,
             $convert_time / $counter
         );
-
-        my $image_factor = $size / $convert_time / 1024 / 1024;
 
         printf(
             "PBF MB/s=%2.2f, Image factor MB/s=%2.2f counter=%d\n",
