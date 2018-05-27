@@ -170,8 +170,8 @@ var config = {
     display_format_time: 7,
 
     // standard extract time in seconds for PBF
-    // for a full planet.osm.pbf without metadata (29GB), it takes ca. 10min
-    extract_time: 60 * 10,
+    // for a full planet.osm.pbf without metadata (33GB), it takes ca. 13min
+    extract_time: 60 * 13,
 
     // display messages in browser console
     debug: 1,
