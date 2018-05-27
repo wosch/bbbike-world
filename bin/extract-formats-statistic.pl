@@ -58,9 +58,9 @@ sub statistic {
     my $hash = shift;
 
     foreach my $format ( sort keys %$hash ) {
-        my $counter     = $hash->{$format}->{"counter"};
-        my $format_size = $hash->{$format}->{"format_size"}
-          // $hash->{$format}->{"image_size_zip"};
+        my $counter = $hash->{$format}->{"counter"};
+        my $size    = $hash->{$format}->{"image_size_zip"}
+          // $hash->{$format}->{"format_size"};
         my $pbf_file_size = $hash->{$format}->{"pbf_file_size"};
         my $convert_time  = $hash->{$format}->{"convert_time"};
 
@@ -68,15 +68,15 @@ sub statistic {
             "format=%s\tpbf=%2.1f MB, image=%2.1f MB, ",
             $format,
             $pbf_file_size / $counter / 1024 / 1024,
-            $format_size / $counter / 1024 / 1024
+            $size / $counter / 1024 / 1024
         );
         printf(
             "scale=%2.2f, %d sec, ",
-            $format_size / $pbf_file_size,
+            $size / $pbf_file_size,
             $convert_time / $counter
         );
 
-        my $image_factor = $format_size / $convert_time / 1024 / 1024;
+        my $image_factor = $size / $convert_time / 1024 / 1024;
 
         printf(
             "PBF MB/s=%2.2f, Image factor MB/s=%2.2f counter=%d\n",
