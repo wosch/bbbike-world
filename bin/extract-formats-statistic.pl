@@ -59,7 +59,7 @@ sub statistic {
 
     foreach my $format ( sort keys %$hash ) {
         my $counter = $hash->{$format}->{"counter"};
-        my $size    = $hash->{$format}->{"image_size_zip"}
+        my $size    = $hash->{$format}->{"image_size_du"}
           // $hash->{$format}->{"format_size"};
         my $pbf_file_size = $hash->{$format}->{"pbf_file_size"};
         my $convert_time  = $hash->{$format}->{"convert_time"};
