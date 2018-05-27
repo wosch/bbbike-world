@@ -3,12 +3,12 @@
 #
 # test script to check how long it takes to convert PBF to an other format (e.g. garmin)
 #
-# ./world/bin/extract-formats-statistic.pl ../extract/trash/*.json
+# ./world/bin/extract-formats-statistic.pl  $(find ../extract/trash -mtime -30 -type f)
 #
-# or sort by region:
+# or as CSV:
 #
 # find ../extract/trash -mtime -7 -type f | \
-#   xargs ./world/bin/extract-formats-statistic.pl | \
+#   xargs ./world/bin/extract-formats-statistic.pl --dump | \
 #   egrep  -v '\s0$' | grep garmin-onroad | \
 #   awk '{ a+=$2; b+=$3; c+=$4}END { print b/a, "factor",  a/1024/1024/NR, "MB", a/1024/1024/NR/ (c/NR), "MB per sec", c/NR}'
 #
@@ -73,10 +73,15 @@ sub statistic {
             $hash->{$format}->{"convert_time"} / $counter
         );
 
+        my $image_factor =
+          $hash->{$format}->{"image_size_zip"} /
+          $hash->{$format}->{"convert_time"} / 1024 / 1024;
+
         printf(
-            "MB/s=%2.2f counter=%d\n",
+            "PBF MB/s=%2.2f, Image factor MB/s=%2.2f counter=%d\n",
             $hash->{$format}->{"pbf_file_size"} /
               $hash->{$format}->{"convert_time"} / 1024 / 1024,
+            ( $image_factor != 0 ? 1 / $image_factor : 0 ),
             $counter
         );
 
