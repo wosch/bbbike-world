@@ -100,9 +100,18 @@ our $formats_menu = {
         'title'   => "OSM",
         'formats' => [
             'osm.pbf', 'osm.xz', 'osm.gz',    #'osm.bz2',
-            'csv.xz', 'o5m.xz',
-            'opl.xz', 'geojson.xz', 'geojsonseq.xz', 'sqlite.xz', 'text.xz',
+            'csv.xz',  'o5m.xz',
+            'opl.xz',  'text.xz',
         ]
+    },
+    'geojson' => {
+        'title'   => "GeoJSON",
+        'formats' => [ 'geojson.xz', 'geojsonseq.xz' ]
+
+    },
+    'sql' => {
+        'title'   => "SQL",
+        'formats' => [ 'sqlite.xz' ]
     },
     'garmin' => {
         'title'   => "Garmin",
