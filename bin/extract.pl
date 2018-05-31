@@ -1444,7 +1444,7 @@ sub _convert_send_email {
 
     # record the file size of the format
     $obj->{"format_size"} = file_size($to);
-    
+
     ###################################################################
     # display uncompressed image file size
     if ( $option->{show_image_size} && $to =~ /\.zip$/ ) {
