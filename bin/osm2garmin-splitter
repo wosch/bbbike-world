@@ -246,7 +246,7 @@ garmin_family_id=$(echo $garmin_family_id $ext | $MD5 | perl -ne 's/[a-f]//g; pr
 mkgmap_opt="--keep-going --family-id=$garmin_family_id --product-id=$garmin_product_id \
             --remove-short-arcs --route --copyright-file="$copyright_file" --license-file=$license_file \
             --location-autofill=is_in,nearest --housenumbers 
-            --index --tdbfile --show-profiles=1 --make-opposite-cycleways"
+            --index --show-profiles=1 --make-opposite-cycleways"
 mkgmap_opt_pois="--add-pois-to-areas"
 mkgmap_opt_sea=""
 mkgmap_opt_bounds=""
