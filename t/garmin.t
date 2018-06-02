@@ -45,10 +45,16 @@ if ( $0 =~ /garmin-(ascii|latin1).t$/ ) {
     }
 }
 
-my $pbf_file =
-  $0 =~ /ascii/
-  ? 'world/t/data-osm/tmp/Cusco-garmin-ascii.osm.pbf'
-  : 'world/t/data-osm/tmp/Cusco-garmin.osm.pbf';
+my $pbf_file;
+if ( $0 =~ /ascii/ ) {
+    $pbf_file = 'world/t/data-osm/tmp/Cusco-garmin-ascii.osm.pbf';
+}
+elsif ( $0 =~ /latin1/ ) {
+    $pbf_file = 'world/t/data-osm/tmp/Cusco-garmin-latin1.osm.pbf';
+}
+else {
+    $pbf_file = 'world/t/data-osm/tmp/Cusco-garmin.osm.pbf';
+}
 
 if ( !-f $pbf_file ) {
     system( qw(ln -sf ../Cusco.osm.pbf), $pbf_file ) == 0
