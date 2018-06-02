@@ -1,0 +1,120 @@
+#!/usr/local/bin/perl
+# Copyright (c) May 2018 Wolfram Schneider, https://bbbike.org
+#
+# usage: /etc/munin/plugins/bbbike-git-status [ config ]
+#
+# get documentation with: perldoc /path/to/script
+
+use Getopt::Long;
+use File::stat;
+use IO::File;
+
+use strict;
+use warnings;
+
+=head1 NAME
+
+bbbike-git-status - Plugin to monitor running extract wait time in seconds
+
+=head1 ABOUT
+
+[...]
+
+=head1 USAGE
+
+[...]
+
+=head1 CONFIGURATION
+
+Configuration parameters for /etc/munin/plugin-conf.d/munin-node
+if you need to override the defaults below:
+
+ [extract-wait]
+   env.wait_warnings - Generate a warning if average last checkout time goes above this level 
+   env.wait_critical - Generate a critical if average last checkout time goes above this level
+
+=cut
+
+########################################################################
+# init
+#
+my $debug = 0;
+my $help  = 0;
+
+my $bbbike_dir    = "/usr/local/www/bbbike.org";
+my $wait_warning  = 7;                             # in days
+my $wait_critical = 16;                            # in #days
+$ENV{PATH} = '/bin:/usr/bin';
+
+sub usage {
+    <<EOF;
+usage: $0 [ options ] config
+
+--debug=0..2               default: $debug
+--bbbike-dir=/path/to/dir  default: $bbbike_dir
+EOF
+}
+
+sub config_wait {
+
+    <<EOF;
+graph_title BBBike git status time
+graph_vlabel BBBike git status time
+graph_category bbbikesystem
+graph_info BBBike git status time
+graph_period hour
+bbbike_git_status_time.label BBBike git status time
+bbbike_git_status_time.min 0
+bbbike_git_status_time.warning $wait_warning
+bbbike_git_status_time.critical $wait_critical
+world_git_status_time.label BBBike git status time
+world_git_status_time.min 0
+world_git_status_time.warning $wait_warning
+world_git_status_time.critical $wait_critical
+EOF
+}
+
+sub status {
+    my $mtime = shift;
+    my $time  = time;
+
+    return ( $time - $mtime ) / ( 24 * 60 * 60 );
+}
+
+sub git_status_time {
+    my %args = @_;
+
+    my $bbbike_dir = $args{'bbbike_dir'};
+
+    my $time = time();
+    my $file = "$bbbike_dir/.git/FETCH_HEAD";
+    my $st   = stat($file) or die "stat $file: $!\n";
+
+    print "bbbike_git_status_time.value @{[ status($st->mtime) ]}\n";
+
+    $file = "$bbbike_dir/world/.git/FETCH_HEAD";
+    $st = stat($file) or die "stat $file: $!\n";
+
+    print "world_git_status_time.value @{[ status($st->mtime) ]}\n";
+}
+
+#############################################
+# main
+#
+
+GetOptions(
+    "debug=i"      => \$debug,
+    "bbbike-dir=s" => \$bbbike_dir,
+    "help"         => \$help,
+) or die usage;
+
+die usage if $help;
+
+if ( defined $ARGV[0] && $ARGV[0] eq 'config' ) {
+    print &config_wait;
+}
+else {
+    &git_status_time( 'bbbike_dir' => $bbbike_dir );
+}
+
+# EOF

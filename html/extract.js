@@ -170,8 +170,8 @@ var config = {
     display_format_time: 7,
 
     // standard extract time in seconds for PBF
-    // for a full planet.osm.pbf without metadata (29GB), it takes ca. 10min
-    extract_time: 60 * 10,
+    // for a full planet.osm.pbf without metadata (33GB), it takes ca. 13min
+    extract_time: 60 * 13,
 
     // display messages in browser console
     debug: 1,
@@ -1401,104 +1401,105 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "time": 3
         },
         "garmin-leisure.zip": {
-            "size": 0.85,
+            "size": 0.75,
             "time": 4
         },
         "garmin-leisure-ascii.zip": {
-            "size": 0.85,
+            "size": 0.75,
             "time": 4
         },
         "garmin-bbbike.zip": {
-            "size": 0.65,
-            "time": 3
+            "size": 0.55,
+            "time": 4
         },
         "garmin-bbbike-ascii.zip": {
-            "size": 0.65,
-            "time": 3
+            "size": 0.55,
+            "time": 4
         },
         "garmin-onroad.zip": {
-            "size": 0.1,
-            "time": 32
+            "size": 0.07,
+            "time": 22
         },
         "garmin-onroad-ascii.zip": {
-            "size": 0.1,
-            "time": 32
+            "size": 0.07,
+            "time": 22
         },
         "garmin-opentopo.zip": {
             "size": 0.7,
-            "time": 3
+            "time": 3.5
         },
         "garmin-opentopo-ascii.zip": {
             "size": 0.7,
-            "time": 3
+            "time": 3.5
         },
         "garmin-openfietslite.zip": {
             "size": 0.6,
-            "time": 3
+            "time": 4.5
         },
         "garmin-openfietslite-ascii.zip": {
             "size": 0.6,
-            "time": 3
+            "time": 4.5
         },
         "garmin-oseam.zip": {
             "size": 0.64,
-            "time": 3
+            "time": 4
         },
         "garmin-oseam-ascii.zip": {
             "size": 0.64,
-            "time": 3
+            "time": 4
         },
         "png-google.zip": {
-            "size": 1,
-            "time": 2
+            "size": 0.7,
+            "time": 10
         },
         "png-osm.zip": {
-            "size": 1,
-            "time": 2
+            "size": 0.7,
+            "time": 10
         },
         "png-hiking.zip": {
-            "size": 1,
-            "time": 2
+            "size": 0.7,
+            "time": 10
         },
         "png-urbanight.zip": {
-            "size": 1,
-            "time": 2
+            "size": 0.7,
+            "time": 10
         },
         "png-wireframe.zip": {
-            "size": 1,
-            "time": 2
+            "size": 0.7,
+            "time": 10
         },
         "png-cadastre.zip": {
-            "size": 1,
-            "time": 2
+            "size": 0.7,
+            "time": 10
         },
         "svg-google.zip": {
-            "size": 1,
-            "time": 2
+            "size": 0.7,
+            "time": 10
         },
         "svg-osm.zip": {
-            "size": 1,
-            "time": 2
+            "size": 0.7,
+            "time": 10
         },
         "svg-hiking.zip": {
-            "size": 1,
-            "time": 2
+            "size": 0.7,
+            "time": 10
         },
         "svg-urbanight.zip": {
-            "size": 1,
-            "time": 2
+            "size": 0.7,
+            "time": 10
         },
         "svg-wireframe.zip": {
-            "size": 1,
-            "time": 2
+            "size": 0.7,
+            "time": 10
         },
         "svg-cadastre.zip": {
-            "size": 1,
-            "time": 2
+            "size": 0.7,
+            "time": 10
         },
 
         "shp.zip": {
-            "size": 1.5
+            "size": 2,
+            "time": 1
         },
         "obf.zip": {
             "size": 1.4,
@@ -1539,15 +1540,16 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "size": 1.50
         },
         "mapsforge-osm.zip": {
-            "size": 0.8,
-            "time": 3
+            "size": 0.7,
+            "time": 8
         },
         "mapsme-osm.zip": {
             "size": 0.85,
-            "time": 1
+            "time": 2
         },
         "navit.zip": {
-            "size": 0.8
+            "size": 0.8,
+            "time": 1.5
         },
         "bbbike-perltk.zip": {
             "time": 90,

@@ -1,18 +1,23 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 #
 # create poly sub-planet files
+
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
 
 use IO::File;
 use Getopt::Long;
 
-use lib qw(world/lib ../lib);
 use Extract::Poly;
 
 use strict;
 use warnings;
 
-my $debug           = 1;
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
+
+my $debug           = 0;
 my $prefix_default  = 'sub-planet';
 my $prefix          = $prefix_default;
 my $planet_osm      = "../osm/download/planet-latest-nometa.osm.pbf";
@@ -61,7 +66,7 @@ sub regions {
 
     my $poly = new Extract::Poly( 'debug' => $debug );
     my @regions = reverse $poly->list_subplanets(
-        'sort_by'        => 2,                             # by size
+        'sort_by'        => 'disk',                        # by size
         'sub_planet_dir' => '../osm/download/sub-planet'
     );
 
@@ -122,6 +127,11 @@ my @shell = &regions(
 
 my $script = "$sub_planet_conf_dir/$prefix.sh";
 warn "\nNow run:\nprogram=$prefix ./world/bin/$prefix_default\n" if $debug;
-store_data( $script, join "\n", @shell, "" );
+if (@shell) {
+    store_data( $script, join "\n", @shell, "" );
+}
+else {
+    die "No data to write to $script, give up\n";
+}
 
 __END__
