@@ -40,5 +40,8 @@ RUN mkdir imposm && cd imposm && export GOPATH=`pwd` && \
   go get github.com/omniscale/imposm3 && \
   go install github.com/omniscale/imposm3/cmd/imposm
 
+# converter tools
+RUN apt-get install -y osm2pgsql gdal-bin
+
 CMD ["bash"]
 
