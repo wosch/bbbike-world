@@ -26,10 +26,19 @@ push @garmin_styles, qw/leisure cycle/
   if !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG};
 push @garmin_styles, qw/bbbike openfietslite onroad/ if $ENV{BBBIKE_TEST_LONG};
 
-if ( $0 =~ /garmin-ascii.t$/ ) {
+if ( $0 =~ /garmin-(ascii|latin1).t$/ ) {
     if ( $ENV{BBBIKE_TEST_LONG} ) {
-        @garmin_styles =
-          qw/bbbike-ascii openfietslite-ascii cycle-ascii leisure-ascii osm-ascii onroad-ascii oseam oseam-ascii opentopo opentopo-ascii/;
+        if ( $0 =~ /garmin-ascii.t$/ ) {
+            @garmin_styles =
+              qw/bbbike-ascii openfietslite-ascii cycle-ascii leisure-ascii osm-ascii onroad-ascii oseam-ascii opentopo-ascii/;
+        }
+        else {
+            @garmin_styles =
+              qw/bbbike-latin1 openfietslite-latin1 cycle-latin1 leisure-latin1 osm-latin1 onroad-latin1 oseam-latin1 opentopo-latin1/;
+        }
+
+        # not tested styles yet
+        push @garmin_styles, qw/oseam opentopo/;
     }
     else {
         @garmin_styles = ();
