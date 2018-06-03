@@ -393,6 +393,10 @@ sub statistic {
         my $f = shift;
         $f =~ s/\-.*//;
         $f =~ s/\..*//;
+
+        # osmium
+        $f =~ s/geojsonseq/geojson/;
+        $f =~ s/sqlite/sql/;
         return $f;
     }
 
