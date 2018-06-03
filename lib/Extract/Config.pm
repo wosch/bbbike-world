@@ -124,14 +124,14 @@ our $formats_menu = {
     'garmin' => {
         'title'   => "Garmin",
         'formats' => [
-            'garmin-osm-ascii.zip',           'garmin-osm.zip',
-            'garmin-cycle-ascii.zip',         'garmin-cycle.zip',
-            'garmin-leisure-ascii.zip',       'garmin-leisure.zip',
-            'garmin-onroad-ascii.zip',        'garmin-onroad.zip',
-            'garmin-openfietslite-ascii.zip', 'garmin-openfietslite.zip',
-            'garmin-oseam-ascii.zip',         'garmin-oseam.zip',
-            'garmin-opentopo-ascii.zip',      'garmin-opentopo.zip',
-            'garmin-bbbike-ascii.zip',        'garmin-bbbike.zip',
+            'garmin-osm-latin1.zip',           'garmin-osm.zip',
+            'garmin-cycle-latin1.zip',         'garmin-cycle.zip',
+            'garmin-leisure-latin1.zip',       'garmin-leisure.zip',
+            'garmin-onroad-latin1.zip',        'garmin-onroad.zip',
+            'garmin-openfietslite-latin1.zip', 'garmin-openfietslite.zip',
+            'garmin-oseam-latin1.zip',         'garmin-oseam.zip',
+            'garmin-opentopo-latin1.zip',      'garmin-opentopo.zip',
+            'garmin-bbbike-latin1.zip',        'garmin-bbbike.zip',
         ]
     },
     'android' => {
