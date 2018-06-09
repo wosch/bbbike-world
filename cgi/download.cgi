@@ -393,6 +393,10 @@ sub statistic {
         my $f = shift;
         $f =~ s/\-.*//;
         $f =~ s/\..*//;
+
+        # osmium
+        $f =~ s/geojsonseq/geojson/;
+        $f =~ s/sqlite/sql/;
         return $f;
     }
 
@@ -440,10 +444,11 @@ sub statistic {
 sub result {
     my %args = @_;
 
-    my $type    = $args{'type'};
-    my $name    = $args{'name'};
-    my $files   = $args{'files'};
-    my $message = $args{'message'};
+    my $type     = $args{'type'};
+    my $name     = $args{'name'};
+    my $files    = $args{'files'};
+    my $message  = $args{'message'};
+    my $callback = $args{'callback'};
 
     my @downloads = @$files;
 
@@ -459,6 +464,11 @@ sub result {
     print qq{<h4 title="}
       . scalar(@downloads)
       . qq{ extracts">@{[ M($name) ]}$sub_title</h4>\n\n};
+
+    if ( defined $callback ) {
+        &$callback;
+        print "<hr/>\n";
+    }
 
     # no waiting or running extracts - done
     return if !@downloads;
@@ -747,6 +757,7 @@ EOF
 </div> <!-- map_area -->
 <div id="nomap">
 EOF
+
     @extracts = &running_extract_areas(
         'log_dir'       => "$spool_dir/" . $spool->{"confirmed"},
         'filter_format' => $filter_format,
@@ -775,6 +786,9 @@ EOF
 
     @extracts = @extracts_trash;
     result(
+        'callback' => sub {
+            filter_date( 'filter_date' => \@filter_date, 'date' => $date );
+        },
         'type'  => 'download',
         'name'  => 'Ready extracts',
         'files' => \@extracts

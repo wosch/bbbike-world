@@ -23,14 +23,14 @@ usage () {
 cat <<EOF
 usage $0 file [ format ] [ title ]
 
-  bbbike
-  cycle cycle-ascii
-  leisure leisure-ascii
-  onroad onroad-ascii
-  openfietslite openfietslite-ascii
-  opentopo opentopo-ascii
-  oseam oseam-ascii
-  osm osm-ascii
+  bbbike bbbike-ascii bbbike-latin1
+  cycle cycle-ascii cycle-latin1
+  leisure leisure-ascii leisure-latin1
+  onroad onroad-ascii onroad-latin1
+  openfietslite openfietslite-ascii openfietslite-latin1
+  opentopo opentopo-ascii opentopo-latin1
+  oseam oseam-ascii oseam-latin1
+  osm osm-ascii osm-latin1
   srtm
 EOF
     exit 1
@@ -116,73 +116,104 @@ etc_dir=$dirname/../etc/mkgmap
 mkgmap_codepage="--code-page=65001" # unicode
 case $ext in
     *-ascii | srtm ) mkgmap_codepage=""; garmin_charset="ASCII" ;;
+    *-latin1       ) mkgmap_codepage="--code-page=1252"; garmin_charset="latin1" ;;
     * ) garmin_charset="UTF-8" ;;
 esac
 
 case $ext in
    cycle )
-	ext=garmin-cycle.zip
-	mkgmap_map=--style-file=$etc_dir/style/cyclemap
-	mkgmap_map_style=cyclemap
-	mkgmap_map_type=$etc_dir/typ/cyclemap/cyclemap.TYP
-	;;
+        ext=garmin-cycle.zip
+        mkgmap_map=--style-file=$etc_dir/style/cyclemap
+        mkgmap_map_style=cyclemap
+        mkgmap_map_type=$etc_dir/typ/cyclemap/cyclemap.TYP
+        ;;
    cycle-ascii )
-	ext=garmin-cycle-ascii.zip
-	mkgmap_map=--style-file=$etc_dir/style/cyclemap
-	mkgmap_map_style=cyclemap
-	mkgmap_map_type=$etc_dir/typ/cyclemap/cyclemap.TYP
-	;;
+	    ext=garmin-cycle-ascii.zip
+        mkgmap_map=--style-file=$etc_dir/style/cyclemap
+        mkgmap_map_style=cyclemap
+        mkgmap_map_type=$etc_dir/typ/cyclemap/cyclemap.TYP
+        ;;
+   cycle-latin1 )
+        ext=garmin-cycle-latin1.zip
+        mkgmap_map=--style-file=$etc_dir/style/cyclemap
+        mkgmap_map_style=cyclemap
+        mkgmap_map_type=$etc_dir/typ/cyclemap/cyclemap.TYP
+        ;;
 
    leisure )
-	ext=garmin-leisure.zip
-	mkgmap_map=--style-file=$etc_dir/style/fzk
-	mkgmap_map_style=fzk
-	mkgmap_map_type=$etc_dir/typ/fzk/freizeit.TYP
-	;;
+        ext=garmin-leisure.zip
+    	mkgmap_map=--style-file=$etc_dir/style/fzk
+        mkgmap_map_style=fzk
+        mkgmap_map_type=$etc_dir/typ/fzk/freizeit.TYP
+        ;;
    leisure-ascii )
-	ext=garmin-leisure-ascii.zip
-	mkgmap_map=--style-file=$etc_dir/style/fzk
-	mkgmap_map_style=fzk
-	mkgmap_map_type=$etc_dir/typ/fzk/freizeit.TYP
-	;;
+    	ext=garmin-leisure-ascii.zip
+    	mkgmap_map=--style-file=$etc_dir/style/fzk
+    	mkgmap_map_style=fzk
+    	mkgmap_map_type=$etc_dir/typ/fzk/freizeit.TYP
+        ;;
+   leisure-latin1 )
+    	ext=garmin-leisure-latin1.zip
+    	mkgmap_map=--style-file=$etc_dir/style/fzk
+    	mkgmap_map_style=fzk
+    	mkgmap_map_type=$etc_dir/typ/fzk/freizeit.TYP
+        ;;
     
    bbbike )
-	ext=garmin-bbbike.zip
-	mkgmap_map=--style-file=$etc_dir/../../../misc/mkgmap/srt-style
-	mkgmap_map_style=bbbike
-	mkgmap_map_type=$etc_dir/../../../misc/mkgmap/typ/M000002a.TYP
+    	ext=garmin-bbbike.zip
+    	mkgmap_map=--style-file=$etc_dir/../../../misc/mkgmap/srt-style
+    	mkgmap_map_style=bbbike
+    	mkgmap_map_type=$etc_dir/../../../misc/mkgmap/typ/M000002a.TYP
         ;;
    bbbike-ascii )
-	ext=garmin-bbbike-ascii.zip
-	mkgmap_map=--style-file=$etc_dir/../../../misc/mkgmap/srt-style
-	mkgmap_map_style=bbbike
-	mkgmap_map_type=$etc_dir/../../../misc/mkgmap/typ/M000002a.TYP
+    	ext=garmin-bbbike-ascii.zip
+    	mkgmap_map=--style-file=$etc_dir/../../../misc/mkgmap/srt-style
+    	mkgmap_map_style=bbbike
+    	mkgmap_map_type=$etc_dir/../../../misc/mkgmap/typ/M000002a.TYP
+        ;;
+   bbbike-latin1 )
+    	ext=garmin-bbbike-latin1.zip
+    	mkgmap_map=--style-file=$etc_dir/../../../misc/mkgmap/srt-style
+    	mkgmap_map_style=bbbike
+    	mkgmap_map_type=$etc_dir/../../../misc/mkgmap/typ/M000002a.TYP
         ;;
 
    onroad )
-	ext=garmin-onroad.zip
-	mkgmap_map=--style-file=$etc_dir/style/bike-onroad
-	mkgmap_map_style=onroad
-	mkgmap_map_type="" 
+    	ext=garmin-onroad.zip
+    	mkgmap_map=--style-file=$etc_dir/style/bike-onroad
+    	mkgmap_map_style=onroad
+    	mkgmap_map_type="" 
         ;;
    onroad-ascii )
-	ext=garmin-onroad-ascii.zip
-	mkgmap_map=--style-file=$etc_dir/style/bike-onroad
-	mkgmap_map_style=onroad
-	mkgmap_map_type="" 
+        ext=garmin-onroad-ascii.zip
+        mkgmap_map=--style-file=$etc_dir/style/bike-onroad
+        mkgmap_map_style=onroad
+        mkgmap_map_type="" 
+        ;;
+   onroad-latin1 )
+        ext=garmin-onroad-latin1.zip
+        mkgmap_map=--style-file=$etc_dir/style/bike-onroad
+        mkgmap_map_style=onroad
+        mkgmap_map_type="" 
         ;;
         
    opentopo )
         ext=garmin-opentopo.zip
         mkgmap_map=--style-file=$etc_dir/style/opentopo
         mkgmap_map_style=opentopo
-	mkgmap_map_type=$etc_dir/typ/opentopo/OpenTopoMap.typ
+        mkgmap_map_type=$etc_dir/typ/opentopo/OpenTopoMap.typ
         ;;
    opentopo-ascii )
         ext=garmin-opentopo-ascii.zip
         mkgmap_map=--style-file=$etc_dir/style/opentopo
         mkgmap_map_style=opentopo
-	mkgmap_map_type=$etc_dir/typ/opentopo/OpenTopoMap.typ
+        mkgmap_map_type=$etc_dir/typ/opentopo/OpenTopoMap.typ
+        ;;
+   opentopo-latin1 )
+        ext=garmin-opentopo-latin1.zip
+        mkgmap_map=--style-file=$etc_dir/style/opentopo
+        mkgmap_map_style=opentopo
+        mkgmap_map_type=$etc_dir/typ/opentopo/OpenTopoMap.typ
         ;;
 
    oseam )
@@ -197,32 +228,47 @@ case $ext in
         mkgmap_map_style=oseam
         mkgmap_map_type=""
         ;;
+   oseam-latin1 )
+        ext=garmin-oseam-latin1.zip
+        mkgmap_map=--style-file=$etc_dir/style/oseam
+        mkgmap_map_style=oseam
+        mkgmap_map_type=""
+        ;;
 
    openfietslite )
-	ext=garmin-openfietslite.zip
-	mkgmap_map=--style-file=$etc_dir/style/openfietsmap-lite
-	mkgmap_map_style=openfietslite
-	mkgmap_map_type=$etc_dir/typ/openfietsmap-lite/openfietsmap-lite.TYP
+        ext=garmin-openfietslite.zip
+        mkgmap_map=--style-file=$etc_dir/style/openfietsmap-lite
+        mkgmap_map_style=openfietslite
+        mkgmap_map_type=$etc_dir/typ/openfietsmap-lite/openfietsmap-lite.TYP
         ;;
    openfietslite-ascii )
-	ext=garmin-openfietslite-ascii.zip
-	mkgmap_map=--style-file=$etc_dir/style/openfietsmap-lite
-	mkgmap_map_style=openfietslite
-	mkgmap_map_type=$etc_dir/typ/openfietsmap-lite/openfietsmap-lite.TYP
+        ext=garmin-openfietslite-ascii.zip
+        mkgmap_map=--style-file=$etc_dir/style/openfietsmap-lite
+        mkgmap_map_style=openfietslite
+        mkgmap_map_type=$etc_dir/typ/openfietsmap-lite/openfietsmap-lite.TYP
+        ;;
+   openfietslite-latin1 )
+        ext=garmin-openfietslite-latin1.zip
+        mkgmap_map=--style-file=$etc_dir/style/openfietsmap-lite
+        mkgmap_map_style=openfietslite
+        mkgmap_map_type=$etc_dir/typ/openfietsmap-lite/openfietsmap-lite.TYP
         ;;
 
    osm )
-	ext=garmin-osm.zip
-	;;
+        ext=garmin-osm.zip
+        ;;
    osm-ascii )
-	ext=garmin-osm-ascii.zip
-	;;
+        ext=garmin-osm-ascii.zip
+        ;;
+   osm-latin1 )
+        ext=garmin-osm-latin1.zip
+        ;;
         
    srtm )
-	ext=garmin-srtm.zip
-	mkgmap_map=--style-file=$etc_dir/style/srtm
-	mkgmap_map_style=srtm
-	mkgmap_map_type=$etc_dir/typ/srtm/srtm.TYP
+        ext=garmin-srtm.zip
+        mkgmap_map=--style-file=$etc_dir/style/srtm
+        mkgmap_map_style=srtm
+        mkgmap_map_type=$etc_dir/typ/srtm/srtm.TYP
 	;;
 
    *) usage "unknown format: '$ext'"
@@ -246,7 +292,7 @@ garmin_family_id=$(echo $garmin_family_id $ext | $MD5 | perl -ne 's/[a-f]//g; pr
 mkgmap_opt="--keep-going --family-id=$garmin_family_id --product-id=$garmin_product_id \
             --remove-short-arcs --route --copyright-file="$copyright_file" --license-file=$license_file \
             --location-autofill=is_in,nearest --housenumbers 
-            --index --tdbfile --show-profiles=1 --make-opposite-cycleways"
+            --index --show-profiles=1 --make-opposite-cycleways"
 mkgmap_opt_pois="--add-pois-to-areas"
 mkgmap_opt_sea=""
 mkgmap_opt_bounds=""

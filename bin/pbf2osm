@@ -97,10 +97,15 @@ usage [ option ] file.osm.pbf
 --mapsforge-osm
 --bbbike-perltk
 
---garmin-osm --garmin-osm-ascii --garmin-cycle --garmin-cycle-ascii
---garmin-leisure --garmin-leisure-ascii --garmin-bbbike --garmin-bbbike-ascii --garmin-srtm
---garmin-onroad --garmin-onroad-ascii --garmin-openfietslite --garmin-openfietslite-ascii
---garmin-oseam --garmin-oseam-ascii --garmin-opentopo --garmin-opentopo-ascii
+--garmin-osm --garmin-osm-ascii --garmin-osm-latin1
+--garmin-cycle --garmin-cycle-ascii --garmin-cycle-latin1 
+--garmin-leisure --garmin-leisure-ascii --garmin-leisure-latin1
+--garmin-bbbike --garmin-bbbike-ascii --garmin-bbbike-latin1 
+--garmin-srtm
+--garmin-onroad --garmin-onroad-ascii --garmin-onroad-latin1
+--garmin-openfietslite --garmin-openfietslite-ascii --garmin-openfietslite-latin1
+--garmin-oseam --garmin-oseam-ascii --garmin-oseam-latin1
+--garmin-opentopo --garmin-opentopo-ascii --garmin-opentopo-latin1
 --svg-google --svg-hiking --svg-osm --svg-urbanight --svg-wireframe --svg-cadastre
 --png-google --png-hiking --png-osm --png-urbanight --png-wireframe --png-cadastre
 
@@ -151,13 +156,21 @@ case $format in
     --osmand | --obf ) 		    shift; compress=osmand ;;
     --navit ) 			    shift; compress=navit ;;
 
-    --garmin-osm | --garmin-osm-ascii | --garmin-cycle | --garmin-cycle-ascii | --garmin-leisure | --garmin-leisure-ascii |\
-    --garmin-bbbike | --garmin-bbbike-ascii | --garmin-onroad | --garmin-onroad-ascii | --garmin-openfietslite | \
-	--garmin-openfietslite-ascii | --garmin-srtm | --garmin-oseam | --garmin-oseam-ascii | \
-	--garmin-opentopo | --garmin-opentopo-ascii )
+    --garmin-osm | --garmin-osm-ascii | --garmin-osm-latin1 | \
+    --garmin-cycle | --garmin-cycle-ascii | --garmin-cycle-latin1 | \
+    --garmin-leisure | --garmin-leisure-ascii | --garmin-leisure-latin1 | \
+    --garmin-bbbike | --garmin-bbbike-ascii | --garmin-bbbike-latin1 | \
+    --garmin-onroad | --garmin-onroad-ascii | --garmin-onroad-latin1 | \
+    --garmin-openfietslite | --garmin-openfietslite-ascii | --garmin-openfietslite-latin1 | \
+    --garmin-srtm | \
+    --garmin-oseam | --garmin-oseam-ascii | --garmin-oseam-latin1 | \
+	--garmin-opentopo | --garmin-opentopo-ascii | --garmin-opentopo-latin1 )
         garmin_style=$(echo $1 | perl -npe 's,^\-+[^\-]+-',,); shift; compress=garmin ;;
+        
 	--bbbike-perltk ) bbbike_style=perltk; shift; compress=bbbike ;;
+    
     --svg-google | --svg-hiking | --svg-osm | --svg-urbanight | --svg-wireframe | --svg-cadastre ) svg_style=$(echo $1 | perl -npe 's,.*-,,'); shift; compress=svg ;;
+    
     --png-google | --png-hiking | --png-osm | --png-urbanight | --png-wireframe | --png-cadastre ) png_style=$(echo $1 | perl -npe 's,.*-,,'); shift; compress=png ;;
 
     --mapsforge-osm | --mapsforge ) shift; compress=mapsforge; mapsforge_style=osm; pbf2osm_max_cpu_time=28000 ;;

@@ -150,20 +150,35 @@ span.format_csv_xz { color: yellow; }
 
 span.format_garmin_bbbike_zip { color: #DAA520; }
 span.format_garmin_bbbike_ascii_zip { color: #DAA520; }
+span.format_garmin_bbbike_latin1_zip { color: #DAA520; }
+
 span.format_garmin_cycle_zip { color: #DAA520; }
 span.format_garmin_cycle_ascii_zip { color: #DAA520; }
+span.format_garmin_cycle_latin1_zip { color: #DAA520; }
+
 span.format_garmin_leisure_zip { color: #DAA520; }
 span.format_garmin_leisure_ascii_zip { color: #DAA520; }
+span.format_garmin_leisure_latin1_zip { color: #DAA520; }
+
 span.format_garmin_osm_zip { color: #DAA520; }
 span.format_garmin_osm_ascii_zip { color: #DAA520; }
+span.format_garmin_osm_latin1_zip { color: #DAA520; }
+
 span.format_garmin_onroad_zip { color: #DAA520; }
 span.format_garmin_onroad_ascii_zip { color: #DAA520; }
+span.format_garmin_onroad_latin1_zip { color: #DAA520; }
+
 span.format_garmin_oseam_zip { color: #DAA520; }
 span.format_garmin_oseam_ascii_zip { color: #DAA520; }
+span.format_garmin_oseam_latin1_zip { color: #DAA520; }
+
 span.format_garmin_openfietslite_zip { color: #DAA520; }
 span.format_garmin_openfietslite_ascii_zip { color: #DAA520; }
+span.format_garmin_openfietslite_latin1_zip { color: #DAA520; }
+
 span.format_garmin_opentopo_zip { color: #DAA520; }
 span.format_garmin_opentopo_ascii_zip { color: #DAA520; }
+span.format_garmin_opentopo_latin1_zip { color: #DAA520; }
 
 span.format_mapsforge_osm_zip { color: grey; }
 span.format_shp_zip { color: orange; }
@@ -172,8 +187,10 @@ span.format_bbbike_perltk_zip { color: black; }
 
 span.format_o5m_gz { color: #B22222; }
 span.format_o5m_xz { color: #B22222; }
+
 span.format_obf_zip { color: #B22222; }
 span.format_opl_xz { color: #B22222; }
+
 span.format_osm_bz2 { color: #B22222; }
 span.format_osm_gz { color: #B22222; }
 span.format_osm_pbf { color: #B22222; }
