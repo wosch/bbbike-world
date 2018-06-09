@@ -56,8 +56,8 @@ ALL.label All
 ALL.min 0
 
 multigraph pbf_pbf_day
-graph_title Extracts files PBF/Other day
-graph_vlabel Extracts files PBF/Other day
+graph_title Extracts files PBF/other 24h
+graph_vlabel Extracts files PBF/other 24h
 graph_category extractsize
 graph_info Number of Files
 graph_period minute
