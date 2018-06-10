@@ -1,5 +1,5 @@
 ###############################################################
-# Copyright (c) 2008-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2008-2018 Wolfram Schneider, https://bbbike.org
 #
 # munin setup
 #
@@ -14,12 +14,16 @@ MUNIN_BBBIKE_WEB=	bbbike-services-ajax \
 			bbbike-services-route \
 			bbbike-services-appid
 
-MUNIN_BBBIKE_EXTRACT= 	extract-diskusage \
+MUNIN_EXTRACT= 		extract-diskusage \
 			extract-files \
 			extract-size \
 			extract-jobs \
 			extract-wait \
 			extract-stale
+
+MUNIN_EXTRACT_WEB= 	extract-services-format \
+			extract-services-tilesize
+
 
 MUNIN_VARNISH=	data_structures vcl_and_bans lru objects_per_objhead obj_sendfile_vs_write losthdr esi hcb shm shm_writes overflow session session_herd	
 
@@ -55,7 +59,7 @@ help-update:
 	@echo  "don't forget to update /etc/munin/plugin-conf.d/munin-node, see ./README"
 
 install-munin-bbbike: install-munin-bbbike-system install-munin-bbbike-web \
-			install-munin-bbbike-extract install-munin-apt
+			install-munin-extract install-munin-apt
 
 install-munin-bbbike-system:
 	for i in ${MUNIN_BBBIKE_SYSTEM}; do \
@@ -72,22 +76,26 @@ install-munin-bbbike-web:
 	done
 	${MAKE} munin-restart
 
+install-munin-extract-web: 
+	for i in ${MUNIN_EXTRACT_WEB}; do \
+	   sudo ln -fs `pwd`/plugins/extract-services ${MUNIN_PLUGINS_DIR}/$$i; \
+	done
+	${MAKE} munin-restart
+
+
 install-munin-varnish: 
 	for i in ${MUNIN_VARNISH}; do \
 	   sudo ln -fs /usr/share/munin/plugins/varnish_ ${MUNIN_PLUGINS_DIR}/varnish_$$i; \
 	done
 	${MAKE} munin-restart
 
-install-munin-bbbike-extract:
+install-munin-extract: 
 	sudo ln -fs `pwd`/plugins/extract-services ${MUNIN_PLUGINS_DIR}/extract-services; \
-	sudo ln -fs `pwd`/plugins/extract-services ${MUNIN_PLUGINS_DIR}/extract-tilesize-services; \
-	sudo ln -fs `pwd`/plugins/extract-services ${MUNIN_PLUGINS_DIR}/extract-format-services; \
-	for i in ${MUNIN_BBBIKE_EXTRACT}; do \
-	   to=`echo $$i | perl -npe 's,munin-,,'`; \
-	   sudo ln -fs `pwd`/plugins/$$i ${MUNIN_PLUGINS_DIR}/$$to; \
+	for i in ${MUNIN_EXTRACT}; do \
+	   sudo ln -fs `pwd`/plugins/$$i ${MUNIN_PLUGINS_DIR}/$$i; \
 	done
 	sudo ln -fs ${MUNIN_PLUGINS_DIR}/extract-jobs ${MUNIN_PLUGINS_DIR}/extract-pro-jobs
-	${MAKE} munin-restart
+	${MAKE} install-munin-extract-web
 
 install-munin-lighttpd:
 	for i in ${MUNIN_LIGHTTPD}; do \
@@ -129,7 +137,8 @@ help:
 	@echo "make [ install-munin-xen | install-munin-jenkins | install-munin-varnish ]"
 	@echo "     [ install-munin-apt ]"
 	@echo "     [ install-munin-bbbike ]"
-	@echo "     [ install-munin-bbbike-system | install-munin-bbbike-web | install-munin-bbbike-extract ]"
+	@echo "     [ install-munin-bbbike-system | install-munin-bbbike-web ]"
+	@echo "     [ install-munin-extract | install-munin-extract-web ]"
 	@echo "     [ install-munin-lighttpd ]"
 	@echo ""
 	@echo "     [ munin-restart ]" 
