@@ -291,8 +291,7 @@ garmin_family_id=$(basename $file | perl -npe 's/(\.pbf|\.gz|\.bz2)?$//')
 garmin_family_id=$(echo $garmin_family_id $ext | $MD5 | perl -ne 's/[a-f]//g; print /^(\d{4})/ ? $1 : "4444"')
 mkgmap_opt="--keep-going --family-id=$garmin_family_id --product-id=$garmin_product_id \
             --remove-short-arcs --route --copyright-file="$copyright_file" --license-file=$license_file \
-            --location-autofill=is_in,nearest --housenumbers 
-            --index --show-profiles=1 --make-opposite-cycleways"
+            --location-autofill=is_in,nearest --index --show-profiles=1 --make-opposite-cycleways"
 mkgmap_opt_pois="--add-pois-to-areas"
 mkgmap_opt_sea=""
 mkgmap_opt_bounds=""
@@ -309,6 +308,17 @@ fi
 if [ -n "$mkgmap_map_type" ]; then
     test -e "$mkgmap_map_type" || usage "cannot find $mkgmap_map_type file"
 fi
+
+# options for a specific map type
+mkgmap_opt_style=""
+case $ext in
+   *oseam* ) mkgmap_opt_style="–custom"
+             # OpenSeaMap: avoid double ports 
+             mkgmap_opt_pois=""
+             ;;
+   * )       mkgmap_opt_style="--housenumbers"
+            ;;
+esac
 
 tmpdir=`mktemp -d ${BBBIKE_TMPFS}/osm2garmin.$(basename $ext .zip).XXXXXXXXXXX`
 
@@ -372,20 +382,23 @@ if [ -n "$mkgmap_map_type" ]; then
    $set_typ $garmin_family_id $garmin_product_id $mkgmap_map_type >> $logfile 2>&1 
 fi
 
-# OpenSeaMap: avoid double ports 
-case $ext in
-  garmin-oseam*zip ) mkgmap_opt_pois="" ;;
-esac
-
 # --mapname="$mapid" 
 echo ">>> Run mkgmap, map style: $mkgmap_map_style_charset" >> $logfile
 ( set -x 
   java -jar $BBBIKE_OPT_DIR/$BBBIKE_MKGMAP_VERSION/mkgmap.jar --version
   $time java $java_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_MKGMAP_VERSION/mkgmap.jar \
     --max-jobs=$osm2xxx_max_jobs \
-    $mkgmap_opt $mkgmap_opt_pois $mkgmap_opt_sea $mkgmap_opt_bounds \
-    $mkgmap_codepage $mkgmap_map \
-    --gmapsupp --description="$description" --family-name="$coords style=$mkgmap_map_style" \
+    $mkgmap_opt \
+    $mkgmap_opt_style \
+    $mkgmap_opt_pois \
+    $mkgmap_opt_sea \
+    $mkgmap_opt_bounds \
+    $mkgmap_codepage \
+    $mkgmap_map \
+    --gmapsupp \
+    --description="$description" \
+    --family-name="$coords \
+    style=$mkgmap_map_style" \
     $split_dir/*.pbf $mkgmap_map_type ) 2>&1 | tail -c 1024K >> $logfile || error
 
 logfile_max_size="2000k"
