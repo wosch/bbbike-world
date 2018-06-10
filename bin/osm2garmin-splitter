@@ -312,7 +312,7 @@ fi
 # options for a specific map type
 mkgmap_opt_style=""
 case $ext in
-   *oseam* ) mkgmap_opt_style="–custom"
+   *oseam* ) mkgmap_opt_style="--custom"
              # OpenSeaMap: avoid double ports 
              mkgmap_opt_pois=""
              ;;
