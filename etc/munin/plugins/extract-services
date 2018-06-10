@@ -131,7 +131,7 @@ sub config_extract () {
     <<EOF;
 graph_title Extract Requests
 graph_vlabel Extracts
-graph_category extractweb
+graph_category extract
 graph_info Number of extracts
 graph_period minute
 graph_scale no
@@ -148,7 +148,7 @@ sub config_tilesize () {
     my $data = <<EOF;
 graph_title Extract Tile Size
 graph_vlabel Format
-graph_category extractweb
+graph_category extract
 graph_info Number of Tile Size Requests by Format
 graph_period minute
 graph_scale no
@@ -167,7 +167,7 @@ sub config_format () {
     my $data = <<EOF;
 graph_title Extract formats
 graph_vlabel Format
-graph_category extractweb
+graph_category extract
 graph_info Number Requests by Format
 graph_period minute
 graph_scale no
