@@ -456,7 +456,10 @@ sub parse_config {
 my $help;
 
 # read parameters from script path name
-$type = &detect_type if &detect_type;
+if (&detect_type) {
+    $type = &detect_type;
+    warn "re-set type=$type due script path name\n" if $debug >= 2;
+}
 
 # read parameters from munin-bbbike config file
 my @config = parse_config($munin_config_file);
