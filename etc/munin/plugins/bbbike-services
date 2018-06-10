@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2011-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2011-2018 Wolfram Schneider, https://bbbike.org
 #
 # bbbike-services - munin statistics for BBBike, searches per interval
 
@@ -109,7 +109,7 @@ sub config_routes () {
     <<EOF;
 graph_title Route Searches
 graph_vlabel Searches
-graph_category extractweb
+graph_category bbbike
 graph_info Number of Route Searches
 graph_period minute
 graph_scale no
@@ -123,7 +123,7 @@ sub config_appid () {
     my $data = <<EOF;
 graph_title Route Searches by Apps
 graph_vlabel Searches
-graph_category extractweb
+graph_category bbbike
 graph_info Number of Route Searches by Apps
 graph_period minute
 graph_scale no
@@ -142,7 +142,7 @@ sub config_pref () {
     my $data = <<EOF;
 graph_title Route Preferences
 graph_vlabel Preferences
-graph_category extractweb
+graph_category bbbike
 graph_info Prefernces
 graph_period minute
 graph_scale no
@@ -162,7 +162,7 @@ sub config_ajax () {
     my $data = <<EOF;
 graph_title Ajax
 graph_vlabel Ajax Requests
-graph_category extractweb
+graph_category bbbike
 graph_info Number of Ajax Requests
 graph_period minute
 graph_scale no
@@ -181,7 +181,7 @@ sub config_output () {
     my $data = <<EOF;
 graph_title Output Formats
 graph_vlabel Output Formats
-graph_category extractweb
+graph_category bbbike
 graph_info Number of Output Formats
 graph_period minute
 graph_scale no
@@ -200,7 +200,7 @@ sub config_maptype () {
     my $data = <<EOF;
 graph_title Maptype
 graph_vlabel Maptype Requests
-graph_category extractweb
+graph_category bbbike
 graph_info Number of Maptype Requests
 graph_period minute
 graph_scale no
