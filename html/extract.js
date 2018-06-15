@@ -146,10 +146,10 @@ var config = {
         "png-cadastre.zip": "/images/svg-cadastre-small.png",
 
         "opl.xz": "/images/opl.png",
-        "geojson.xz": "/images/opl.png",
-        "geojsonseq.xz": "/images/opl.png",
-        "text.xz": "/images/opl.png",
-        "sqlite.xz": "/images/opl.png",
+        "geojson.xz": "/images/geojson.png",
+        "geojsonseq.xz": "/images/geojson.png",
+        "text.xz": "/images/text.png",
+        "sqlite.xz": "/images/sqlite.png",
 
         "csv.xz": "/images/csv.png",
         "csv.gz": "/images/csv.png",

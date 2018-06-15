@@ -1214,7 +1214,8 @@ sub _convert_send_email {
     }
 
     # Garmin
-    elsif ( $format =~ /garmin-([a-z\-]+)\.zip$/ && exists $formats->{$format} )
+    elsif ( $format =~ /garmin-([a-z0-9\-]+)\.zip$/
+        && exists $formats->{$format} )
     {
         my $style      = $1;
         my $format_ext = $format;
