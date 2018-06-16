@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2009-2016 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2018 Wolfram Schneider, https://bbbike.org
 #
 # planet-download-test - check download of the latest planet osm file from different servers
 #
@@ -7,15 +7,15 @@
 file=planet-latest.osm.bz2
 file_pbf=planet-latest.osm.pbf
 
-for server1 in http://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org http://ftp.ecki-netz.de/osm http://ftp.heanet.ie/mirrors/openstreetmap.org http://download.bbbike.org/osm http://planet.openstreetmap.org
+for server1 in http://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org http://ftp.ecki-netz.de/osm http://ftp.heanet.ie/mirrors/openstreetmap.org http://download.bbbike.org/osm https://planet.openstreetmap.org
 do
   url=$server1/planet/$file
   printf "\n$url"
 
-  curl -sSf --head --location $url | egrep '^(Last-Modified|Content-Length):'
+  curl -L -sSf --head --location $url | egrep '^(Last-Modified|Content-Length):'
 
   url=$server1/pbf/$file_pbf
   printf "\n$url"
 
-  curl -sSf --head --location $url | egrep '^(Last-Modified|Content-Length):'
+  curl -L -sSf --head --location $url | egrep '^(Last-Modified|Content-Length):'
 done

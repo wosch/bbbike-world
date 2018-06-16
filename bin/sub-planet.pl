@@ -1,18 +1,23 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 #
 # create poly sub-planet files
+
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
 
 use IO::File;
 use Getopt::Long;
 
-use lib qw(world/lib ../lib);
 use Extract::Poly;
 
 use strict;
 use warnings;
 
-my $debug           = 1;
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
+
+my $debug           = 0;
 my $prefix_default  = 'sub-planet';
 my $prefix          = $prefix_default;
 my $planet_osm      = "../osm/download/planet-latest-nometa.osm.pbf";
@@ -46,7 +51,7 @@ sub store_data {
     print $fh $data;
     $fh->close;
 
-    warn "Rename $file $file_real\n" if $debug >= 2;
+    warn "Rename $file $file_real\n" if $debug >= 1;
     rename( $file, $file_real ) or die "Rename $file -> $file_real: $!\n";
 }
 
@@ -60,7 +65,10 @@ sub regions {
     my $osmconvert_factor = 1.2;    # full Granularity
 
     my $poly = new Extract::Poly( 'debug' => $debug );
-    my @regions = $poly->list_subplanets;
+    my @regions = reverse $poly->list_subplanets(
+        'sort_by'        => 'disk',                        # by size
+        'sub_planet_dir' => '../osm/download/sub-planet'
+    );
 
     my @shell;
     foreach my $region (@regions) {
@@ -75,7 +83,7 @@ sub regions {
         &store_data( $file, $data );
 
         my @sh = (
-            "nice",           "-n15",
+            "nice",           "-n7",
             "time",           "osmconvert-wrapper",
             "-o",             "$sub_planet_dir/$region.osm.pbf",
             "-B=$file",       "--drop-author",
@@ -119,6 +127,11 @@ my @shell = &regions(
 
 my $script = "$sub_planet_conf_dir/$prefix.sh";
 warn "\nNow run:\nprogram=$prefix ./world/bin/$prefix_default\n" if $debug;
-store_data( $script, join "\n", @shell, "" );
+if (@shell) {
+    store_data( $script, join "\n", @shell, "" );
+}
+else {
+    die "No data to write to $script, give up\n";
+}
 
 __END__

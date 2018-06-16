@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2016 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_FAST} && !$ENV{BBBIKE_TEST_LONG} ) {
@@ -7,6 +7,9 @@ BEGIN {
         $ENV{BBBIKE_TEST_NO_NETWORK} = 1;
     }
 }
+
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
 
 use Getopt::Long;
 use Data::Dumper qw(Dumper);
@@ -16,17 +19,19 @@ use IO::File;
 use Digest::MD5 qw(md5_hex);
 use File::stat;
 
-use lib qw(./world/lib ../lib);
 use Test::More::UTF8;
 use Extract::Test::Archive;
 
 use strict;
 use warnings;
 
-my $pbf_file = 'world/t/data-osm/tmp/Cusco.osm.pbf';
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
+
+my $pbf_file = 'world/t/data-osm/tmp/Cusco-navit.osm.pbf';
 
 if ( !-f $pbf_file ) {
-    system(qw(ln -sf ../Cusco.osm.pbf world/t/data-osm/tmp)) == 0
+    system( qw(ln -sf ../Cusco.osm.pbf), $pbf_file ) == 0
       or die "symlink failed: $?\n";
 }
 
@@ -90,7 +95,13 @@ sub convert_format {
     cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
 
     $counter += $test->validate;
+
+    unlink( $out, "$out.md5", "$out.sha256" );
     return $counter;
+}
+
+sub cleanup {
+    unlink $pbf_file;
 }
 
 #######################################################
@@ -108,6 +119,7 @@ foreach my $lang (@lang) {
     $counter += &convert_format( $lang, 'navit', 'Navit' );
 }
 
+&cleanup;
 plan tests => 1 + $counter;
 
 __END__

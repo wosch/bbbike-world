@@ -1,11 +1,11 @@
 #!/bin/sh
-# Copyright (c) 2012-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
 #
 # osm2bbbike - convert a osm/pbf file to perl/tk bbbike data
 #
 
 PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
-: ${BBBIKE_EXTRACT_LANG=en}
+: ${BBBIKE_EXTRACT_LANG="en"}
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmpfs"}
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
@@ -33,6 +33,14 @@ file=$1
 city=$3
 
 test -z "$file" && usage
+
+# miscsrc/osm2bbd supports less languages than the extract service
+case $BBBIKE_EXTRACT_LANG in
+  en | de ) ;;
+   * ) echo "language '$BBBIKE_EXTRACT_LANG' not supported, fall back to 'en'"
+       BBBIKE_EXTRACT_LANG="en"
+       ;;
+esac
 
 # absolute file path
 case $file in /*) ;; *) file=$(pwd)/$file ;; esac
@@ -77,32 +85,28 @@ mkdir -p $bbbike_dir
 logfile=$bbbike_dir/logfile.txt
 touch $logfile
 
-mkgmap_map_style_charset="$mkgmap_map_style ($garmin_charset)"
 date=$(date -u)
-date_short=$(date -u '+%d-%b-%Y')
-if [ -z "$city" ]; then
-   description="$garmin $mkgmap_map_style/$garmin_charset BBBike.org $date_short"
-else
-   description="$city $mkgmap_map_style/$garmin_charset BBBike.org $date_short"
-fi
 
-# the limit for description field is 50 bytes
-coords=$(echo $garmin | perl -npe 's,planet_,,; s/_/ /g')
 
 cd $bbbike_dir
 echo "Map data (c) OpenStreetMap.org contributors" > $license_file
 
 BBBIKE_EXTRACT_COORDS=$BBBIKE_EXTRACT_COORDS BBBIKE_EXTRACT_URL=$BBBIKE_EXTRACT_URL \
-  date=$date city=$city mkgmap_map_style="$mkgmap_map_style_charset" sh $template > README.txt
+  date=$date city=$city sh $template > README.txt
 
 $text2html < README.txt > README.html
 
 OSM2BBD_OPT="--ignore-unhandled --ignore-underline-noname --granularity=100"
 OSM2BBD_MAPTYPE="-map bbbike"
-$pwd/miscsrc/osm2bbd ${OSM2BBD_OPT} --nodate --no-create --git-id="${GIT_ID}" \
+
+if $dirname/../../miscsrc/osm2bbd ${OSM2BBD_OPT} --nodate --no-create --git-id="${GIT_ID}" \
     -f --debug=0 ${OSM2BBD_MAPTYPE} \
     -experiment add_postal_code -experiment handle_relations \
-    -lang $BBBIKE_EXTRACT_LANG -o bbbike-data $file >> $logfile 2>&1
+    -lang $BBBIKE_EXTRACT_LANG -o bbbike-data $file >> $logfile 2>&1; then
+    :
+else
+    error "osm2bbd failed with exit status: $?"
+fi
 
 case $BBBIKE_EXTRACT_LANG in
   en ) ext2=$ext ;;

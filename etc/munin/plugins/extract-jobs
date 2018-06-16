@@ -1,7 +1,7 @@
 #!/bin/sh
 # Copyright (c) Sep 2011-2017 Wolfram Schneider, https://bbbike.org
 #
-# usage: /etc/munin/plugins/bbbike-extract-jobs [ config ]
+# usage: /etc/munin/plugins/extract-jobs [ config ]
 #
 # get documentation with: perldoc /path/to/script
 
@@ -61,6 +61,8 @@ if [ "$1" = "config" ]; then
     : ${proc_critical=8}
     : ${waiting_warning=20}
     : ${waiting_critical=60}
+    : ${waiting_max_per_user_warning=10}
+    : ${waiting_max_per_user_critical=30}
     : ${users_warning=6}
     : ${users_critical=10}
     : ${users_waiting_warning=10}
@@ -76,6 +78,8 @@ jobs.label Running jobs $pro
 jobs.min 0
 waiting.label Waiting jobs $pro
 waiting.min 0
+waiting_max_per_user.label Max waitung jobs per user $pro
+waiting_max_per_user.min 0
 proc.label Running proc $pro
 proc.min 0
 users.label Active Users $pro
@@ -90,6 +94,8 @@ echo "proc.warning $proc_warning"
 echo "proc.critical $proc_critical"
 echo "waiting.warning $waiting_warning"
 echo "waiting.critical $waiting_critical"
+echo "waiting_max_per_user.warning $waiting_max_per_user_warning"
+echo "waiting_max_per_user.critical $waiting_max_per_user_critical"
 echo "users.warning $users_warning"
 echo "users.critical $users_critical"
 echo "users_waiting.warning $users_waiting_warning"
@@ -116,8 +122,14 @@ for i in *.pid.lock *.pid; do
 done
 echo "proc.value $count"
 
-echo "users.value" $(egrep -h '"email"' $extract_dir_running/*/*.json 2>/dev/null | sed 's/,$//' | sort -u | wc -l) 
-echo "waiting.value" $(ls $extract_dir_running/../confirmed/*.json 2>/dev/null | wc -l) 
-echo "users_waiting.value" $(egrep -h '"email"' $extract_dir_running/../confirmed/*.json 2>/dev/null | sed 's/,$//' | sort -u | wc -l) 
+echo "users.value" \
+  $(egrep -h '"email"' $extract_dir_running/*/*.json 2>/dev/null | sed 's/,$//' | sort -u | wc -l) 
+echo "waiting.value" \
+  $(ls $extract_dir_running/../confirmed/*.json 2>/dev/null | wc -l) 
+echo "waiting_max_per_user.value" \
+  $(egrep -h '"email"' $extract_dir_running/../confirmed/*.json 2>/dev/null |\
+  sed 's/,$//' | sort | uniq -c | sort -nr | awk '{ print $1 } END { if ($NR==0) { print "0" } }' | head -n 1)
+echo "users_waiting.value" \
+  $(egrep -h '"email"' $extract_dir_running/../confirmed/*.json 2>/dev/null | sed 's/,$//' | sort -u | wc -l) 
 
 # EOF

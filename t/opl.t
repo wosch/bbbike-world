@@ -4,10 +4,10 @@
 BEGIN {
     system(
         "env",   "PATH=/bin:/usr/bin:/usr/local/bin",
-        "which", "osmium_convert"
+        "which", "osmium"
     );
     if ($?) {
-        print "1..0 # skip no osmium_convert found, skip tests\n";
+        print "1..0 # skip no osmium found, skip tests\n";
         exit;
     }
 }
@@ -27,22 +27,25 @@ use File::stat;
 use strict;
 use warnings;
 
-plan tests => 13;
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
+
+plan tests => 9;
 
 my $prefix       = 'world/t/data-osm/tmp';
-my $pbf_file     = 'world/t/data-osm/tmp/Cusco.osm.pbf';
-my $osm_file_gz  = "$prefix/Cusco.osm.opl.gz";
-my $osm_file_bz2 = "$prefix/Cusco.osm.opl.bz2";
-my $osm_file_xz  = "$prefix/Cusco.osm.opl.xz";
+my $pbf_file     = "$prefix/Cusco-opl.osm.pbf";
+my $osm_file_gz  = "$prefix/Cusco-opl.osm.opl.gz";
+my $osm_file_bz2 = "$prefix/Cusco-opl.osm.opl.bz2";
+my $osm_file_xz  = "$prefix/Cusco-opl.osm.opl.xz";
 
 if ( !-f $pbf_file ) {
     die "Directory '$prefix' does not exits\n" if !-d $prefix;
-    system(qw(ln -sf ../Cusco.osm.pbf world/t/data-osm/tmp)) == 0
+    system( qw(ln -sf ../Cusco.osm.pbf), $pbf_file ) == 0
       or die "symlink failed: $?\n";
 }
 
 my $pbf_md5 = "58a25e3bae9321015f2dae553672cdcf";
-my $opl_md5 = "3846f1f9e053995ad9e804d0ff84dd2a";
+my $opl_md5 = "545cf8b6fda852534f56111f5c0ac006";
 
 # min size of garmin zip file
 my $min_size = 200_000;
@@ -63,10 +66,14 @@ sub md5_file {
     return $md5;
 }
 
+sub cleanup {
+    unlink( $pbf_file, $osm_file_gz, $osm_file_bz2, $osm_file_xz );
+}
+
 ######################################################################
 
 if ( !-f $pbf_file ) {
-    system(qw(ln -sf ../Cusco.osm.pbf world/t/data-osm/tmp)) == 0
+    system( qw(ln -sf ../Cusco.osm.pbf), $pbf_file ) == 0
       or die "symlink failed: $?\n";
 }
 
@@ -76,7 +83,7 @@ my $tempfile = File::Temp->new( SUFFIX => ".osm" );
 
 system(qq[world/bin/pbf2osm --opl $pbf_file > $tempfile]);
 is( $?,                  0,        "pbf2osm --opl converter" );
-is( md5_file($tempfile), $opl_md5, "opl gmd5 checksum matched" );
+is( md5_file($tempfile), $opl_md5, "opl md5 checksum matched" );
 
 system(
 qq[world/bin/pbf2osm --opl-gzip $pbf_file && gzip -dc $osm_file_gz > $tempfile]
@@ -85,26 +92,16 @@ is( $?,                  0,        "pbf2osm --opl-gzip converter" );
 is( md5_file($tempfile), $opl_md5, "opl gzip md5 checksum matched" );
 
 system(
-qq[world/bin/pbf2osm --opl-gz $pbf_file && gzip -dc $osm_file_gz > $tempfile]
-);
-is( $?,                  0,        "pbf2osm --opl-gz converter" );
-is( md5_file($tempfile), $opl_md5, "opl gz md5 checksum matched" );
-
-system(
 qq[world/bin/pbf2osm --opl-bzip2 $pbf_file && bzcat $osm_file_bz2 > $tempfile]
 );
 is( $?,                  0,        "pbf2osm --opl-bzip2 converter" );
 is( md5_file($tempfile), $opl_md5, "opl bzip2 md5 checksum matched" );
 
 system(
-    qq[world/bin/pbf2osm --opl-bz2 $pbf_file && bzcat $osm_file_bz2 > $tempfile]
-);
-is( $?,                  0,        "pbf2osm --opl-bz2 converter" );
-is( md5_file($tempfile), $opl_md5, "opl bz2 md5 checksum matched" );
-
-system(
     qq[world/bin/pbf2osm --opl-xz $pbf_file && xzcat $osm_file_xz > $tempfile]);
 is( $?,                  0,        "pbf2osm --opl-xz converter" );
 is( md5_file($tempfile), $opl_md5, "opl xz md5 checksum matched" );
+
+&cleanup;
 
 __END__

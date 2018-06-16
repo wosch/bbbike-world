@@ -4,6 +4,9 @@
 # check pbf2osm results for a *.pbf with zero file size
 #
 
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
+
 use Getopt::Long;
 use Data::Dumper qw(Dumper);
 use Test::More;
@@ -13,6 +16,9 @@ use Digest::MD5 qw(md5_hex);
 
 use strict;
 use warnings;
+
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
 
 my $debug = 0;
 
@@ -28,7 +34,7 @@ my %formats = (
     "--osmosis" => 0,
 
     "--navit"          => 99,
-    "--shape"          => 0,
+    "--shape"          => 99,
     "--osmand"         => 99,
     "--garmin-osm"     => 99,
     "--garmin-cycle"   => 99,
@@ -96,6 +102,8 @@ foreach my $format ( sort keys %formats ) {
     system(qq[world/bin/pbf2osm $format $pbf_file > $tempfile]);
     is( $? == 0 ? 0 : 1, $formats{$format}, "pbf2osm '$format' failed: $?" );
 }
+
+unlink $pbf_file;
 
 1;
 

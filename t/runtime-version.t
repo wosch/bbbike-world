@@ -19,11 +19,17 @@ my $versions = {
         # version commands, regex to match
         [ [qw/pbzip2 --version/],  qr/ BZIP2 v1.1.[1-9] /m ],
         [ [qw/osmconvert --help/], qr/^osmconvert 0\.8\.4/m ],
-        [ [qw/osmosis -v/], qr/^INFO: Osmosis Version (0\.40\.1|0\.43\.1)/m ],
-        [ [qw/pigz --version/], qr/^pigz (2\.1\.6|2\.2\.[4-9]|2\.3\.1|2\.3)/ ],
+        [
+            [qw/osmosis -v/],
+            qr/^INFO: Osmosis Version (0\.40\.1|0\.43\.1|0\.46)/m
+        ],
+        [
+            [qw/pigz --version/],
+            qr/^pigz (2\.1\.6|2\.2\.[4-9]|2\.3\.1|2\.3)|2\.4/
+        ],
         [
             [qw/java -version/],
-            qr/^(openjdk|java) version "1.8.0_(131|141|144|151|03-Ubuntu)"/m
+qr/^(openjdk|java) version "(1\.8\.0_(131|141|144|151|162|171|03-Ubuntu)|9\.0\.4|10\.0\.1)"/m
         ],
         [
             [qw/java -version/],
@@ -31,7 +37,7 @@ my $versions = {
         ],
         [
             [qw/perltidy -v/],
-            qr/^This is perltidy, (v20090616|v20101217|v20140328|v20120701|v20170521)/
+qr/^This is perltidy, (v20090616|v20101217|v20140328|v20120701|v20170521)/
         ],
     ]
 };

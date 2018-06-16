@@ -49,7 +49,7 @@ log_post () {
     log_full "$match" | perl -npe 's,"(POST|GET) https?://www.bbbike.org,"$1 ,'
 }
 
-#log "(http://www.bbbike.org|/)" | egrep -v '/streets.html ' | awk '{print $11 }' | egrep -vi '\.google\.[a-z]|https?://(www\.)?bbbike.org' | sort | uniq -c | sort -nr
+#log "(https://www.bbbike.org|/)" | egrep -v '/streets.html ' | awk '{print $11 }' | egrep -vi '\.google\.[a-z]|https?://(www\.)?bbbike.org' | sort | uniq -c | sort -nr
 
 echo -n "bbbike.org page views: "
 log $url_match | awk '{print $1}' | wc -l

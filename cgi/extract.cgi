@@ -22,8 +22,24 @@ binmode \*STDERR, ":utf8";
 $ENV{PATH} = "/bin:/usr/bin";
 
 our $option = {
-    'homepage'        => '//download.bbbike.org/osm/extract/',
-    'script_homepage' => '//extract.bbbike.org',
+
+    # XXX?
+    'homepage'             => 'https://download.bbbike.org/osm/extract/',
+    'homepage_extract_pro' => 'https://extract-pro.bbbike.org',
+    'download_homepage'    => 'https://download.bbbike.org/osm/',
+
+    'server_status_url'     => 'https://download.bbbike.org/osm/extract/',
+    'server_status_url_pro' => 'https://download.bbbike.org/osm/extract-pro/',
+
+    # spool directory. Should be at least 100GB large
+    'spool_dir'     => '/var/cache/extract',
+    'spool_dir_pro' => '/var/cache/extract-pro',
+
+    'download'     => '/osm/extract/',
+    'download_pro' => '/osm/extract-pro/',
+
+    'script_homepage'     => 'https://extract.bbbike.org',
+    'script_homepage_pro' => 'https://extract-pro.bbbike.org',
 
     'max_extracts'              => 50,
     'default_format'            => 'osm.pbf',
@@ -60,7 +76,8 @@ our $option = {
     },
 
     # configure order of formats in menu
-    'formats_order' => [qw/osm shape garmin android svg bbbike srtm/],
+    'formats_order' =>
+      [qw/osm shape geojson sql garmin android svg bbbike srtm/],
 };
 
 ##########################################################################

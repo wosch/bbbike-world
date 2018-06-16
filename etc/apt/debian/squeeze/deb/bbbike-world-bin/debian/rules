@@ -12,7 +12,7 @@ export DH_OPTIONS
 
 
 JAVALIBS_TARBALL=	bbbike-world-bin-1.3.tar.gz
-HOMEPAGE_TARBALL=	http://debian.bbbike.org
+HOMEPAGE_TARBALL=	https://debian.bbbike.org
 JAVALIBS_DIR=	/var/lib/bbbike/opt
 
 clean: 

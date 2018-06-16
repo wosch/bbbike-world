@@ -57,7 +57,7 @@ sub parse_json_file {
     my $file      = shift;
     my $non_fatal = shift;
 
-    warn "Open file '$file'\n" if $debug >= 2;
+    warn "Open json file '$file'\n" if $debug >= 2;
 
     my $fh = new IO::File $file, "r" or die "open '$file': $!\n";
     binmode $fh, ":utf8";
@@ -360,6 +360,13 @@ sub random_user {
 sub get_jobs {
     my $dir = shift;
 
+    # does not make sense to parse all files, the first $max is good enough
+    my $max = shift;
+    if ( !defined $max || $max <= 0 || $max > 10_000 ) {
+        $max = 1024;
+        warn "Reset max. json file parsing to $max\n" if $debug >= 2;
+    }
+
     my $d = IO::Dir->new($dir);
     if ( !defined $d ) {
         warn "error directory $dir: $!\n";
@@ -369,7 +376,17 @@ sub get_jobs {
     my @data;
     while ( defined( $_ = $d->read ) ) {
         next if !/\.json$/;
+
+        if ( !-r "$dir/$_" ) {
+            warn "Cannot read file $dir/$_: $!\n";
+            next;
+        }
         push @data, $_;
+
+        if ( scalar(@data) >= $max ) {
+            warn "Found $max waiting jobs, stop parsing\n" if $debug >= 1;
+            last;
+        }
     }
     undef $d;
 

@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 #
 # check map compare JS/images and external libs
 #
@@ -11,9 +11,11 @@ BEGIN {
     }
 }
 
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
+
 use Test::More;
 use Encode;
-use lib qw(./world/lib ../lib);
 use BBBike::Test;
 use Extract::Config;
 

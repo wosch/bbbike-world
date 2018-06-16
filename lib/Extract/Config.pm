@@ -29,22 +29,30 @@ our $formats = {
 
     'shp.zip' => "Shapefile (Esri)",
 
-    'garmin-osm.zip'                 => "Garmin OSM (UTF-8)",
-    'garmin-osm-ascii.zip'           => "Garmin OSM (ASCII)",
-    'garmin-cycle.zip'               => "Garmin Cycle (UTF-8)",
-    'garmin-cycle-ascii.zip'         => "Garmin Cycle (ASCII)",
-    'garmin-leisure.zip'             => "Garmin Leisure (UTF-8)",
-    'garmin-leisure-ascii.zip'       => "Garmin Leisure (ASCII)",
-    'garmin-bbbike.zip'              => "Garmin BBBike (UTF-8)",
-    'garmin-bbbike-ascii.zip'        => "Garmin BBBike (ASCII)",
-    'garmin-onroad.zip'              => "Garmin Onroad (UTF-8)",
-    'garmin-onroad-ascii.zip'        => "Garmin Onroad (ASCII)",
-    'garmin-openfietslite.zip'       => "Garmin Openfietsmap Lite (UTF-8)",
-    'garmin-openfietslite-ascii.zip' => "Garmin Openfietsmap Lite (ASCII)",
-    'garmin-oseam.zip'               => "Garmin OpenSeaMap (UTF-8)",
-    'garmin-oseam-ascii.zip'         => "Garmin OpenSeaMap (ASCII)",
-    'garmin-opentopo.zip'            => "Garmin OpenTopoMap (UTF-8)",
-    'garmin-opentopo-ascii.zip'      => "Garmin OpenTopoMap (ASCII)",
+    'garmin-osm.zip'                  => "Garmin OSM (UTF-8)",
+    'garmin-osm-ascii.zip'            => "Garmin OSM (ASCII)",
+    'garmin-osm-latin1.zip'           => "Garmin OSM (latin1)",
+    'garmin-cycle.zip'                => "Garmin Cycle (UTF-8)",
+    'garmin-cycle-ascii.zip'          => "Garmin Cycle (ASCII)",
+    'garmin-cycle-latin1.zip'         => "Garmin Cycle (latin1)",
+    'garmin-leisure.zip'              => "Garmin Leisure (UTF-8)",
+    'garmin-leisure-ascii.zip'        => "Garmin Leisure (ASCII)",
+    'garmin-leisure-latin1.zip'       => "Garmin Leisure (latin1)",
+    'garmin-bbbike.zip'               => "Garmin BBBike (UTF-8)",
+    'garmin-bbbike-ascii.zip'         => "Garmin BBBike (ASCII)",
+    'garmin-bbbike-latin1.zip'        => "Garmin BBBike (latin1)",
+    'garmin-onroad.zip'               => "Garmin Onroad (UTF-8)",
+    'garmin-onroad-ascii.zip'         => "Garmin Onroad (ASCII)",
+    'garmin-onroad-latin1.zip'        => "Garmin Onroad (latin1)",
+    'garmin-openfietslite.zip'        => "Garmin Openfietsmap Lite (UTF-8)",
+    'garmin-openfietslite-ascii.zip'  => "Garmin Openfietsmap Lite (ASCII)",
+    'garmin-openfietslite-latin1.zip' => "Garmin Openfietsmap Lite (latin1)",
+    'garmin-oseam.zip'                => "Garmin OpenSeaMap (UTF-8)",
+    'garmin-oseam-ascii.zip'          => "Garmin OpenSeaMap (ASCII)",
+    'garmin-oseam-latin1.zip'         => "Garmin OpenSeaMap (latin1)",
+    'garmin-opentopo.zip'             => "Garmin OpenTopoMap (UTF-8)",
+    'garmin-opentopo-ascii.zip'       => "Garmin OpenTopoMap (ASCII)",
+    'garmin-opentopo-latin1.zip'      => "Garmin OpenTopoMap (latin1)",
 
     'svg-google.zip'     => 'SVG google',
     'svg-hiking.zip'     => 'SVG hiking',
@@ -68,7 +76,12 @@ our $formats = {
     'o5m.gz' => "o5m gzip'd",
     'o5m.xz' => "o5m 7z (xz)",
 
-    'opl.xz' => "OPL 7z (xz)",
+    'opl.xz'        => "Osmium OPL 7z (xz)",
+    'geojson.xz'    => "Osmium GeoJSON 7z (xz)",
+    'geojsonseq.xz' => "Osmium GeoJSONseq 7z (xz)",
+    'text.xz'       => "Osmium Text 7z (xz)",
+    'sqlite.xz'     => "Osmium SQLite 7z (xz)",
+
     'csv.gz' => "csv gzip'd",
     'csv.xz' => "csv 7z (xz)",
 
@@ -95,20 +108,30 @@ our $formats_menu = {
         'title'   => "OSM",
         'formats' => [
             'osm.pbf', 'osm.xz', 'osm.gz',    #'osm.bz2',
-            'o5m.xz',  'opl.xz', 'csv.xz',
+            'csv.xz',  'o5m.xz',
+            'opl.xz',  'text.xz',
         ]
+    },
+    'geojson' => {
+        'title'   => "GeoJSON",
+        'formats' => [ 'geojson.xz', 'geojsonseq.xz' ]
+
+    },
+    'sql' => {
+        'title'   => "SQL",
+        'formats' => ['sqlite.xz']
     },
     'garmin' => {
         'title'   => "Garmin",
         'formats' => [
-            'garmin-osm.zip',           'garmin-osm-ascii.zip',
-            'garmin-cycle.zip',         'garmin-cycle-ascii.zip',
-            'garmin-leisure.zip',       'garmin-leisure-ascii.zip',
-            'garmin-onroad.zip',        'garmin-onroad-ascii.zip',
-            'garmin-openfietslite.zip', 'garmin-openfietslite-ascii.zip',
-            'garmin-oseam.zip',         'garmin-oseam-ascii.zip',
-            'garmin-opentopo.zip',      'garmin-opentopo-ascii.zip',
-            'garmin-bbbike.zip',        'garmin-bbbike-ascii.zip',
+            'garmin-osm-latin1.zip',           'garmin-osm.zip',
+            'garmin-cycle-latin1.zip',         'garmin-cycle.zip',
+            'garmin-leisure-latin1.zip',       'garmin-leisure.zip',
+            'garmin-onroad-latin1.zip',        'garmin-onroad.zip',
+            'garmin-openfietslite-latin1.zip', 'garmin-openfietslite.zip',
+            'garmin-oseam-latin1.zip',         'garmin-oseam.zip',
+            'garmin-opentopo-latin1.zip',      'garmin-opentopo.zip',
+            'garmin-bbbike-latin1.zip',        'garmin-bbbike.zip',
         ]
     },
     'android' => {
@@ -231,16 +254,21 @@ our $tile_format = {
     "obf.zip" => "obf.zip",
     "obf"     => "obf.zip",
 
-    "garmin-osm.zip"                 => "garmin-osm.zip",
-    "garmin-osm-ascii.zip"           => "garmin-osm.zip",
-    "garmin-cycle.zip"               => "garmin-osm.zip",
-    "garmin-cycle-ascii.zip"         => "garmin-osm.zip",
-    "garmin-leisure.zip"             => "garmin-osm.zip",
-    "garmin-leisure-ascii.zip"       => "garmin-osm.zip",
-    "garmin-bbbike.zip"              => "garmin-osm.zip",
-    "garmin-bbbike-ascii.zip"        => "garmin-osm.zip",
-    "garmin-openfietslite.zip"       => "garmin-osm.zip",
-    "garmin-openfietslite-ascii.zip" => "garmin-osm.zip",
+    "garmin-osm.zip"                  => "garmin-osm.zip",
+    "garmin-osm-ascii.zip"            => "garmin-osm.zip",
+    "garmin-osm-latin1.zip"           => "garmin-osm.zip",
+    "garmin-cycle.zip"                => "garmin-osm.zip",
+    "garmin-cycle-ascii.zip"          => "garmin-osm.zip",
+    "garmin-cycle-latin1.zip"         => "garmin-osm.zip",
+    "garmin-leisure.zip"              => "garmin-osm.zip",
+    "garmin-leisure-ascii.zip"        => "garmin-osm.zip",
+    "garmin-leisure-latin1.zip"       => "garmin-osm.zip",
+    "garmin-bbbike.zip"               => "garmin-osm.zip",
+    "garmin-bbbike-ascii.zip"         => "garmin-osm.zip",
+    "garmin-bbbike-latin1.zip"        => "garmin-osm.zip",
+    "garmin-openfietslite.zip"        => "garmin-osm.zip",
+    "garmin-openfietslite-ascii.zip"  => "garmin-osm.zip",
+    "garmin-openfietslite-latin1.zip" => "garmin-osm.zip",
 
     "navit.zip" => "navit.zip",
     "navit"     => "navit.zip",
@@ -257,7 +285,10 @@ our $tile_format = {
     "csv.gz"  => "pbf",
     "csv.bz2" => "pbf",
 
-    "opl.xz" => "pbf",
+    "opl.xz"        => "pbf",
+    "geojson.xz"    => "pbf",
+    "geojsonseq.xz" => "pbf",
+    "text.xz"       => "pbf",
 
     "srtm-europe.osm.pbf"         => "srtm-europe-pbf",
     "srtm-europe.osm.xz"          => "srtm-europe-pbf",
@@ -349,7 +380,9 @@ sub load_config {
     $self->{'debug'} = $debug;
 
     if (   $q->param('pro')
-        || $q->url( -full => 1 ) =~ m,^http://extract-pro[1-9]?\., )
+        || $q->url( -full => 1 ) =~ m,^https?://extract-pro[1-9]?\.,
+        || $q->url( -full => 1 ) =~
+        m,^https?://download[1-9]?\.bbbike\.org/osm/extract-pro/, )
     {
         $option->{'pro'} = 1;
 
@@ -418,19 +451,31 @@ sub load_config_nocgi {
     my $self = shift;
 
     $option = $self->{'option'};
-    my $debug = $self->{'debug'} || $option->{'debug'} || 0;
+    my $debug =
+        defined $self->{'debug'}   ? $self->{'debug'}
+      : defined $ENV{DEBUG}        ? $ENV{DEBUG}
+      : defined $option->{'debug'} ? $option->{'debug'}
+      :                              0;
 
     my $config_file = "$ENV{HOME}/.bbbike-extract.rc";
     if ( $ENV{BBBIKE_EXTRACT_PROFILE} ) {
         $config_file = $ENV{BBBIKE_EXTRACT_PROFILE};
     }
+
+    if ( $config_file =~ /-pro/ ) {
+        warn
+          "detect extract pro config file=$config_file, set option->{'pro'}=1\n"
+          if $debug >= 1;
+        $option->{'pro'} = 1;
+    }
+
     if ( -e $config_file ) {
-        warn "Load config file nocgi: $config_file\n" if $debug >= 2;
+        warn "Load config file nocgi: $config_file\n" if $debug >= 1;
         require $config_file;
     }
     else {
         warn "config file: $config_file not found, ignored\n"
-          if $debug >= 2;
+          if $debug >= 1;
     }
 
     $self->{'debug'} = $debug;
@@ -438,6 +483,10 @@ sub load_config_nocgi {
 }
 
 # re-set values for extract-pro service
+#
+# The pro service is activated by the CGI parameter pro= or
+# the hostname extract-pro
+#
 sub check_extract_pro {
     my $self = shift;
 
@@ -446,12 +495,19 @@ sub check_extract_pro {
 
     my $url = $q->url( -full => 1 );
 
-    # basic version, skip
-    return if !( $q->param("pro") || $url =~ m,/extract-pro/, );
+    # public version, skip
+    if ( !$q->param("pro") && $url !~ m,^https?://extract-pro[1-9]?\., ) {
+        return;
+    }
 
     foreach my $key (qw/homepage_extract spool_dir download/) {
         my $key_pro = $key . "_pro";
-        $option->{$key} = $option->{$key_pro};
+        if ( !defined $option->{$key_pro} ) {
+            warn "Config $key_pro is not set, ignored. FIXME!\n";
+        }
+        else {
+            $option->{$key} = $option->{$key_pro};
+        }
     }
 
     $option->{"pro"} = 1;

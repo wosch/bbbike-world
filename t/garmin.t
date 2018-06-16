@@ -1,5 +1,8 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
+
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
 
 use Getopt::Long;
 use Data::Dumper qw(Dumper);
@@ -9,34 +12,51 @@ use IO::File;
 use Digest::MD5 qw(md5_hex);
 use File::stat;
 
-use lib qw(./world/lib ../lib);
 use Test::More::UTF8;
 use Extract::Test::Archive;
 
 use strict;
 use warnings;
 
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
+
 my @garmin_styles = qw/osm/;
 push @garmin_styles, qw/leisure cycle/
   if !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG};
-push @garmin_styles, qw/bbbike openfietslite onroad/ if $ENV{BBBIKE_TEST_LONG};
 
-if ( $0 =~ /garmin-ascii.t$/ ) {
+push @garmin_styles, qw/bbbike openfietslite onroad oseam opentopo/
+  if $ENV{BBBIKE_TEST_LONG};
+
+if ( $0 =~ /garmin-(ascii|latin1).t$/ ) {
     if ( $ENV{BBBIKE_TEST_LONG} ) {
-        @garmin_styles =
-          qw/bbbike-ascii openfietslite-ascii cycle-ascii leisure-ascii osm-ascii onroad-ascii oseam oseam-ascii opentopo opentopo-ascii/;
+        if ( $0 =~ /garmin-ascii.t$/ ) {
+            @garmin_styles =
+              qw/bbbike-ascii openfietslite-ascii cycle-ascii leisure-ascii osm-ascii onroad-ascii oseam-ascii opentopo-ascii/;
+        }
+        else {
+            @garmin_styles =
+              qw/bbbike-latin1 openfietslite-latin1 cycle-latin1 leisure-latin1 osm-latin1 onroad-latin1 oseam-latin1 opentopo-latin1/;
+        }
     }
     else {
         @garmin_styles = ();
     }
 }
 
-#die join " ", @garmin_styles,;
-
-my $pbf_file = 'world/t/data-osm/tmp/Cusco.osm.pbf';
+my $pbf_file;
+if ( $0 =~ /ascii/ ) {
+    $pbf_file = 'world/t/data-osm/tmp/Cusco-garmin-ascii.osm.pbf';
+}
+elsif ( $0 =~ /latin1/ ) {
+    $pbf_file = 'world/t/data-osm/tmp/Cusco-garmin-latin1.osm.pbf';
+}
+else {
+    $pbf_file = 'world/t/data-osm/tmp/Cusco-garmin.osm.pbf';
+}
 
 if ( !-f $pbf_file ) {
-    system(qw(ln -sf ../Cusco.osm.pbf world/t/data-osm/tmp)) == 0
+    system( qw(ln -sf ../Cusco.osm.pbf), $pbf_file ) == 0
       or die "symlink failed: $?\n";
 }
 
@@ -88,7 +108,7 @@ sub convert_format {
         diag "garmin style=$style, lang=$lang";
 
         system(qq[world/bin/pbf2osm --garmin-$style $pbf_file $city]);
-        is( $?, 0, "pbf2osm --garmin-$style converter" );
+        is( $?, 0, "pbf2osm --garmin-$style $pbf_file" );
 
         system(qq[unzip -tqq $out]);
         is( $?, 0, "valid zip file" );
@@ -105,9 +125,15 @@ sub convert_format {
 
         $counter += 5;
         $test->validate( 'style' => $style );
+
+        unlink( $out, "$out.md5", "$out.sha256" );
     }
 
     return $counter + $test->counter;
+}
+
+sub cleanup {
+    unlink $pbf_file;
 }
 
 #######################################################
@@ -124,6 +150,8 @@ if ( !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG} ) {
 foreach my $lang (@lang) {
     $counter += &convert_format( $lang, 'garmin', 'Garmin' );
 }
+
+&cleanup;
 
 plan tests => 1 + $counter;
 __END__

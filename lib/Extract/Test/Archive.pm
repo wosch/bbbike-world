@@ -296,7 +296,7 @@ qr"^Map data.*? OpenStreetMap contributors, https://www.openstreetmap.org",
         "by bbbike.org"
     );
 
-    like( $data[2], qr"^\S+\s+by\s+https?://\S+", "by software" );
+    like( $data[2], qr"^\S+\s+by(\s\w+,)?\s+https?://\S+", "by software" );
 
     $self->{'counter'} += 4;
 
@@ -313,11 +313,12 @@ qr"^Map data.*? OpenStreetMap contributors, https://www.openstreetmap.org",
         ok(
             (
                 grep {
-                    /^Diese $format_name Karte wurde erzeugt am: \S+\s+.*UTC.+$/
+/^Dieses? $format_name (Karte|Datei|file) wurde erzeugt am: \S+\s+.*UTC.+$/
                 } @data
             ),
             "format_name + datum check: '$format_name'"
         );
+
         ok(
             (
                 grep {

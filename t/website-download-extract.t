@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
@@ -10,9 +10,11 @@ BEGIN {
     if ( $ENV{BBBIKE_TEST_FAST} ) { print "1..0 # skip due fast test\n"; exit; }
 }
 
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
+
 use utf8;
 use Test::More;
-use lib qw(./world/lib ../lib);
 use BBBike::Test;
 
 use strict;
@@ -22,11 +24,11 @@ my $test = BBBike::Test->new();
 my $debug = $ENV{DEBUG} || 0;
 
 my @production = qw(
-  http://download3.bbbike.org
-  http://download4.bbbike.org
+  https://download3.bbbike.org
+  https://download4.bbbike.org
 );
 
-my @homepages = "http://download.bbbike.org";
+my @homepages = "https://download.bbbike.org";
 if ( !$ENV{BBBIKE_TEST_FAST} ) {
     push @homepages, @production;
 }
@@ -38,7 +40,7 @@ sub get_extract_files {
 
     my @data = split $", $data;
     foreach my $line (@data) {
-        if ( $line =~ m,(http://download[0-9]\.bbbike.org/osm/extract/\S+), ) {
+        if ( $line =~ m,(https://download[0-9]\.bbbike.org/osm/extract/\S+), ) {
             my $url = $1;
             next if $url =~ /\?/;
 
@@ -91,7 +93,7 @@ diag( "extract downloads URLs to check: " . scalar(@urls) ) if $debug;
 foreach my $u (@urls) {
     diag("URL: $u") if $debug >= 2;
 
-    my $size = $u =~ /\.osm\.(gz|xz|csv\.xz|pbf)$/ ? 190 : 1_000;
+    my $size = $u =~ /\.osm\.(gz|xz|csv\.xz|pbf)$/ ? 150 : 1_000;
     $test->myget_head( $u, $size );
 }
 

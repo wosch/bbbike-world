@@ -1,7 +1,10 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 #
 # test osmosis, legacy
+
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
 
 use Getopt::Long;
 use Data::Dumper qw(Dumper);
@@ -12,6 +15,9 @@ use Digest::MD5 qw(md5_hex);
 
 use strict;
 use warnings;
+
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
 
 plan tests => 9;
 
@@ -31,22 +37,26 @@ sub md5_file {
     return $md5;
 }
 
-my $pbf_file = 'world/t/data-osm/tmp/Cusco.osm.pbf';
+my $pbf_file = 'world/t/data-osm/tmp/Cusco-pbf.osm.pbf';
 if ( !-f $pbf_file ) {
-    system(qw(ln -sf ../Cusco.osm.pbf world/t/data-osm/tmp)) == 0
+    system( qw(ln -sf ../Cusco.osm.pbf), $pbf_file ) == 0
       or die "symlink failed: $?\n";
 }
 
 my $osmosis_version = `world/bin/bbbike-osmosis-version`;
-my $pbf_file2       = 'world/t/data-osm/tmp/Cusco2.osm.pbf';
+my $pbf_file2       = 'world/t/data-osm/tmp/Cusco-pbf2.osm.pbf';
 
 my $pbf_md5 = "58a25e3bae9321015f2dae553672cdcf";
-my $osm_md5 = "1022aa279eaed3d6bf85a7da1d42ac74";
+my $osm_md5 = "015c1ac714d9a85170f4b16ba2c78746";
 
 my $pbf2_md5 = "728a53423c671fe25c5dfb6eb31014d9";
-my $osm2_md5 = "352bc6707ae7ee80b52ba57732ac83bb";
+my $osm2_md5 = "c9f6abb87a02deb1ea9d6d18b5233664";
 
 my $tempfile = File::Temp->new( SUFFIX => ".osm" );
+
+sub cleanup {
+    unlink( $pbf_file, $pbf_file2 );
+}
 
 ###############################################################################
 # test pbf2osm
@@ -80,4 +90,5 @@ qq[world/bin/pbf2osm --osmosis $pbf_file2 | perl -npe 's/timestamp=".*?"/timesta
 is( $?,                  0,         "pbf2osm converter" );
 is( md5_file($tempfile), $osm2_md5, "osm md5 checksum matched" );
 
+&cleanup;
 __END__

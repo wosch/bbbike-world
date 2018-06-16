@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2012-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
 #
 # polygon helper functions
 
@@ -27,13 +27,19 @@ use warnings;
 our $debug = 1;
 
 our $area = {
-    'north-america'  => { 'poly' => [ -140.663, 6.783,   -45.554, 59.745 ] },
-    'south-america'  => { 'poly' => [ -97.53,   -59.13,  -28.544, 20.217 ] },
-    'africa'         => { 'poly' => [ -23.196,  -39.96,  61.949,  38.718 ] },
-    'europe'         => { 'poly' => [ -27.472,  26.682,  50.032,  72.282 ] },
-    'asia'           => { 'poly' => [ 43.505,   -53.122, 179.99,  63.052 ] },
-    'central-europe' => { 'poly' => [ 3.295,    42.571,  29.482,  60.992 ] },
-    'germany-europe' => { 'poly' => [ 4.892,    45.097,  17.614,  56.612 ] },
+    'north-america'      => { 'poly' => [ -140.663, 6.783,  -45.554, 59.745 ] },
+    'north-america-east' => { 'poly' => [ -94.5,    23.5,   -51.0,   56.0 ] },
+    'north-america-west' => { 'poly' => [ -138.7,   23.5,   -92.2,   61 ] },
+    'south-america'      => { 'poly' => [ -97.53,   -59.13, -28.544, 20.217 ] },
+    'africa'             => { 'poly' => [ -23.196,  -39.96, 61.949,  38.718 ] },
+    'asia'             => { 'poly' => [ 43.505,  -53.122, 179.99, 63.052 ] },
+    'asia-south'       => { 'poly' => [ 60.0,    -12.0,   131,    56 ] },
+    'europe'           => { 'poly' => [ -27.472, 26.682,  50.032, 72.282 ] },
+    'europe-central'   => { 'poly' => [ 3.295,   45.3,    29.482, 63 ] },
+    'europe-germany'   => { 'poly' => [ 4.892,   45.097,  17.614, 56.612 ] },
+    'europe-south'     => { 'poly' => [ -11.86,  28.29,   51.0,   46.7 ] },
+    'europe-northwest' => { 'poly' => [ -26.60,  45.2,    8.3,    67.9 ] },
+    'europe-east'      => { 'poly' => [ 13.15,   44.0,    42.58,  61.7 ] },
 
     # all
     'planet' => { 'poly2' => [ -180, -90, 180, 90 ] },
@@ -87,21 +93,21 @@ sub list_subplanets {
     my $self = shift;
     my %args = @_;
 
-    my $sort_by = $args{'sort_by'} || 0;             # valid values are: 0, 1, 2
-    my $sub_planet_dir = $self->{'sub_planet_dir'};
+    my $sort_by = $args{'sort_by'} // "";    # valid values are: skm, disk
+    my $sub_planet_dir = $args{'sub_planet_dir'} // $self->{'sub_planet_dir'};
 
     # only regions with a 'poly' field
     my @list = grep { exists $area->{$_}->{'poly'} } keys %$area;
 
-    # sort by square km size
-    if ( $sort_by == 1 ) {
+    # sort by square km size, smallest first
+    if ( $sort_by eq 'skm' ) {
         my %hash =
           map { $_ => $self->rectangle_km( @{ $area->{$_}->{'poly'} } ) } @list;
         @list = sort { $hash{$a} <=> $hash{$b} } @list;
     }
 
-    # sort by disk size
-    elsif ( $sort_by == 2 ) {
+    # sort by disk size, smallest first
+    elsif ( $sort_by eq 'disk' ) {
         my %hash;
         foreach my $sub (@list) {
 
@@ -120,7 +126,15 @@ sub list_subplanets {
 
         @list = sort { $hash{$a} <=> $hash{$b} } keys %hash;
     }
+
+    # sort alphabetically
     else {
+        if ( $sort_by ne "" ) {
+            warn
+"Unknown sort_by='$sort_by' value, only skm and disk are allowed\n"
+              if $debug >= 0;
+        }
+
         @list = sort @list;
     }
 

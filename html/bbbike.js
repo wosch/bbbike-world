@@ -76,7 +76,7 @@ function downloadUrl(url, callback) {
  */
 
 function display_current_weather(weather) {
-    // var url = 'http://ws.geonames.org/findNearByWeatherJSON?lat=' + lat + '&lng=' + lng;
+    // var url = 'http://api.geonames.org/findNearByWeatherJSON?lat=' + lat + '&lng=' + lng;
     var url = '/cgi/weather.cgi?lat=' + weather.lat + '&lng=' + weather.lng + '&city=' + weather.city + '&city_script=' + weather.city_script;
 
     if (weather.lang && weather.lang != "") {

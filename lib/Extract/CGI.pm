@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2011-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2011-2018 Wolfram Schneider, https://bbbike.org
 #
 # helper functions for extract.cgi
 
@@ -144,7 +144,7 @@ sub header {
             {
                 -name => 'description',
                 -content =>
-'OpenStreetMap extracts in OSM, PBF, Garmin, Osmand, mapsforge, Navit, PNG, SVG, or Esri shapefile format (as rectangle or polygon).'
+'OpenStreetMap extracts from Planet.osm in OSM, PBF, Garmin, Osmand, mapsforge, Navit, PNG, SVG, or Esri shapefile format (as rectangle or polygon).'
             }
         )
     );
@@ -177,7 +177,7 @@ sub header {
     $data .= $q->header( @status, -charset => 'utf-8', @cookie, @expires );
 
     $data .= $q->start_html(
-        -title => 'Planet.osm extracts | BBBike.org',
+        -title => 'OpenStreetMap extracts | BBBike.org',
         -head  => [@meta],
         -style => { 'src' => \@css, },
 
@@ -306,7 +306,8 @@ sub footer_top {
 
     if ( $option->{'pro'} ) {
         $donate =
-qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro service">extract pro</p>\n};
+qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro service">}
+          . qq{<a href="/support.html">extract pro</a></p>\n};
     }
     elsif ( !$error ) {
         $donate = qq{<p class="normalscreen" id="big_donate_image">}
@@ -316,16 +317,29 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
     my $home = $q->url( -query => 0, -relative => 1 ) || "/";
     my $mc_parameters = $self->mc_parameters($q);
 
+    my $homepage =
+        $option->{'pro'}
+      ? $option->{"script_homepage_pro"}
+      : $option->{"script_homepage"};
+    my $server_status_url =
+        $option->{'pro'}
+      ? $option->{"server_status_url_pro"}
+      : $option->{"server_status_url"};
+    my $download_homepage =
+        $option->{'pro'}
+      ? $option->{'download_homepage_pro'}
+      : $option->{'download_homepage'};
+
     return <<EOF;
   $donate
   $css
   <div id="footer_top">
-    <a href="$home">home</a> |
+    <a href="$homepage">home</a> |
     <a href="/extract.html">@{[ M("help") ]}</a> |
-    <a href="@{[ $option->{"homepage"} ]}" target="_blank">status</a> |
+    <a href="$server_status_url" target="_blank">status</a> |
     <!-- <a href="//mc.bbbike.org/mc/$mc_parameters" id="mc_link" target="_blank">map compare</a> | -->
-    <a href="//download.bbbike.org/osm/">download</a> |
-    <a href="/extract.html#extract-pro">@{[ M("commercial support") ]}</a>
+    <a href="$download_homepage">download</a> |
+    <a href="/support.html">@{[ M("commercial support") ]}</a>
     $locate
   </div>
 EOF
@@ -371,7 +385,7 @@ qq{\n<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js
   @{[ $self->footer_top($q, 'error' => $error, 'map' => $args{'map'}, 'css' => $args{'css'} ) ]}
   <hr/>
   <div id="copyright" class="normalscreen">
-    (&copy;) 2017 <a href="https://www.bbbike.org">BBBike.org</a>
+    (&copy;) 2018 <a href="https://www.bbbike.org">BBBike.org</a>
     by <a href="https://wolfram.schneider.org">Wolfram Schneider</a><br/>
     Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
   <div id="footer_community"></div>
@@ -470,7 +484,12 @@ sub script_url {
         $coords = join '|', ( map { "$_->[0],$_->[1]" } @{ $obj->{'coords'} } );
     }
 
-    my $script_url = $option->{script_homepage} . "/?";
+    my $script_homepage =
+        $option->{'pro'}
+      ? $option->{'script_homepage_pro'}
+      : $option->{'script_homepage'};
+
+    my $script_url = "$script_homepage/?";
     $script_url .=
 "sw_lng=$obj->{sw_lng}&sw_lat=$obj->{sw_lat}&ne_lng=$obj->{ne_lng}&ne_lat=$obj->{ne_lat}";
     $script_url .= "&format=$obj->{'format'}";
@@ -760,12 +779,12 @@ sub _check_input {
     my $ip_limit = $option->{'scheduler'}->{'ip_limit'};
 
     if ( $email_counter > $email_limit ) {
-        error( M("EXTRACT_LIMIT") );
+        error( M("EXTRACT_LIMIT"), 1 );
         warn "limit email counter: $email_counter > email_limit $email\n"
           if $debug >= 1;
     }
     elsif ( $ip_counter > $ip_limit ) {
-        error( M("EXTRACT_LIMIT") );
+        error( M("EXTRACT_LIMIT"), 1 );
         warn "limit ip counter: $ip_counter > $ip_limit\n" if $debug >= 1;
     }
 
@@ -788,17 +807,23 @@ sub _check_input {
         $text = $1;
     }
 
+    my $server_status_url =
+        $option->{'pro'}
+      ? $option->{'server_status_url_pro'}
+      : $option->{'server_status_url'};
+
     push @data,
       sprintf( $text,
         escapeHTML($city), large_int($skm), $coordinates,
         $self->{'formats'}->{$format},
-        $option->{'homepage'}, );
+        $server_status_url );
 
     my ( $key, $json_file ) =
       &save_request( $obj, $self->get_spool_dir,
         $Extract::Config::spool->{"confirmed"} );
     if ( &complete_save_request($json_file) ) {
-        push @data, M("EXTRACT_DONATION");
+        push @data, M("EXTRACT_DONATION") if !$option->{'pro'};
+
         push @data, qq{<br/>} x 4, "</p>\n";
     }
 
@@ -1069,7 +1094,10 @@ sub export_osm {
     <div id="export_osm_too_large" style="display:none">
       <span class="export_heading error">Area too large. <span id="size"></span>
       Please zoom in!
-      You may also download <a target="_help" href="/extract.html#other_extract_services">pre-extracted areas</a> from other services</span>
+      You may also download <a target="_help" href="/extract.html#other_extract_services">pre-extracted areas</a>
+      from other services or try out the
+      <a href="/support.html">extract pro service</a>
+      </span>
       <div class="export_details"></div>
     </div>
   </div> <!-- export_osm -->

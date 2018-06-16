@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} ) {
@@ -12,8 +12,10 @@ BEGIN {
     }
 }
 
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
+
 use Test::More;
-use lib qw(./world/lib ../lib);
 use BBBike::Test;
 
 use strict;
@@ -23,9 +25,9 @@ my @homepages_localhost =
   ( $ENV{BBBIKE_TEST_SERVER} ? $ENV{BBBIKE_TEST_SERVER} : "http://localhost" );
 
 my @homepages_production = qw[
-  http://extract-pro.bbbike.org
-  http://extract-pro3.bbbike.org
-  http://extract-pro4.bbbike.org
+  https://extract-pro.bbbike.org
+  https://extract-pro3.bbbike.org
+  https://extract-pro4.bbbike.org
 ];
 
 if ( $ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {

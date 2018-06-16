@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -T
-# Copyright (c) 2012-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
 #
 # extract-download.cgi - extract.bbbike.org live extracts
 
@@ -31,10 +31,12 @@ binmode \*STDERR, ":utf8";
 $ENV{PATH} = "/bin:/usr/bin";
 
 our $option = {
-    'debug'                => "0",
-    'homepage_download'    => '//download.bbbike.org/osm/',
-    'homepage_extract'     => '//extract.bbbike.org',
-    'homepage_extract_pro' => '//extract-pro.bbbike.org',
+    'debug' => "0",
+
+    'download_homepage' => 'https://download.bbbike.org/osm/',
+
+    'extract_homepage'     => 'https://extract.bbbike.org',
+    'extract_homepage_pro' => 'https://extract-pro.bbbike.org',
 
     'message_path' => "../world/etc/extract",
     'pro'          => 0,
@@ -83,6 +85,8 @@ $extract->load_config;
 $extract->check_extract_pro;
 my $formats = $Extract::Config::formats;
 my $spool   = $Extract::Config::spool;
+my $spool_dir =
+  $option->{'pro'} ? $option->{'spool_dir_pro'} : $option->{'spool_dir'};
 
 # EOF config
 ###########################################################################
@@ -119,7 +123,7 @@ sub extract_areas {
     warn "download number of objects: @{[ scalar(@list) ]}\n" if $debug;
 
     my @area;
-    my $download_dir = $option->{"spool_dir"} . "/" . $spool->{"download"};
+    my $download_dir = "$spool_dir/" . $spool->{"download"};
     my $time         = time();
 
     my %unique;
@@ -144,7 +148,13 @@ sub extract_areas {
         # other languages ?
         my $lang = $obj->{"lang"};
         if ( $lang ne "en" && $lang ne "" ) {
-            $download_file =~ s/\.zip$/.${lang}.zip/;
+            if ( $format eq 'bbbike-perltk.zip' && $lang ne 'de' ) {
+
+                # only "de" and "en" is supported for perltk
+            }
+            else {
+                $download_file =~ s/\.zip$/.${lang}.zip/;
+            }
         }
 
         if ( !-e $download_file ) {
@@ -174,7 +184,7 @@ sub extract_areas {
         }
 
         if ( $filter_format ne "" ) {
-            if ( index( $obj->{"format"}, $filter_format ) == -1 ) {
+            if ( index( $obj->{"format"}, $filter_format ) != 0 ) {
                 warn
 "filtered by $format: $download_file, $obj->{'format'} != $filter_format\n"
                   if $debug >= 2;
@@ -220,10 +230,11 @@ sub sort_extracts {
 sub running_extract_areas {
     my %args = @_;
 
-    my $log_dir = $args{'log_dir'};
-    my $max     = $args{'max'};
-    my $devel   = $args{'devel'} || 0;
-    my $sort_by = $args{'sort_by'} || "time";
+    my $log_dir       = $args{'log_dir'};
+    my $max           = $args{'max'};
+    my $devel         = $args{'devel'} || 0;
+    my $sort_by       = $args{'sort_by'} || "time";
+    my $filter_format = $args{'filter_format'} || "";
 
     warn "download: log dir: $log_dir, max: $max, devel: $devel\n" if $debug;
 
@@ -238,7 +249,7 @@ sub running_extract_areas {
 
     my @area;
     my $json         = new JSON;
-    my $download_dir = $option->{"spool_dir"} . "/" . $spool->{"download"};
+    my $download_dir = "$spool_dir/" . $spool->{"download"};
 
     my %unique;
     for ( my $i = 0 ; $i < scalar(@list) && $i < $max ; $i++ ) {
@@ -260,6 +271,15 @@ sub running_extract_areas {
 
         next if !exists $obj->{'date'};
 
+        if ( $filter_format ne "" ) {
+            if ( index( $obj->{"format"}, $filter_format ) != 0 ) {
+                warn
+"filtered by format: $file, $obj->{'format'} != $filter_format\n"
+                  if $debug >= 2;
+                next;
+            }
+        }
+
         my $script_url = $obj->{"script_url"};
 
         if ( $unique{$script_url} ) {
@@ -279,10 +299,10 @@ sub footer {
     my %args = @_;
     my $date = $args{'date'};
 
-    my $homepage_extract = $option->{'homepage_extract'};
+    my $extract_homepage = $option->{'extract_homepage'};
     return <<EOF;
 
-<p align="center"><a href="$homepage_extract/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></p>
+<p align="center"><a href="$extract_homepage/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></p>
 
 <div id="bottom">
 <p>
@@ -291,15 +311,15 @@ sub footer {
 
 <div id="footer">
 <div id="footer_top">
-<a href="@{[ $option->{'homepage_download'} ]}">home</a> |
-<a href="$homepage_extract/extract.html">@{[ M("help") ]}</a> |
-<a href="$homepage_extract/community.html">@{[ M("donate") ]}</a> |
-<a href="$homepage_extract/extract.html#extract-pro">commercial support</a>
+<a href="@{[ $option->{'download_homepage'} ]}">home</a> |
+<a href="/extract.html">@{[ M("help") ]}</a> |
+<a href="$extract_homepage/community.html">@{[ M("donate") ]}</a> |
+<a href="$extract_homepage/support.html">commercial support</a>
 <hr/>
 </div> <!-- footer_top -->
 
 <div id="copyright">
-(&copy;) 2008-2017 <a href="https://www.bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
+(&copy;) 2008-2018 <a href="https://www.bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
 </div> <!-- copyright -->
 
 </div> <!-- footer -->
@@ -373,6 +393,10 @@ sub statistic {
         my $f = shift;
         $f =~ s/\-.*//;
         $f =~ s/\..*//;
+
+        # osmium
+        $f =~ s/geojsonseq/geojson/;
+        $f =~ s/sqlite/sql/;
         return $f;
     }
 
@@ -404,9 +428,14 @@ sub statistic {
         keys %format_counter_all
       )
     {
+        # filter results by format
+        my $q = new CGI;
+        $q->param( "format", $f );
+        my $url = $q->url( -query => 1, -relative => 1 );
+
         print qq{<span title="} . $format_counter_all{$f} . qq{">};
-        printf( "%s (%2.2f%%)",
-            $f, $format_counter_all{$f} * 100 / scalar(@downloads) );
+        printf( "<a href='%s'>%s</a> (%2.2f%%)",
+            $url, $f, $format_counter_all{$f} * 100 / scalar(@downloads) );
         print "</span><br/>\n";
     }
     print "<hr/>\n\n";
@@ -415,10 +444,11 @@ sub statistic {
 sub result {
     my %args = @_;
 
-    my $type    = $args{'type'};
-    my $name    = $args{'name'};
-    my $files   = $args{'files'};
-    my $message = $args{'message'};
+    my $type     = $args{'type'};
+    my $name     = $args{'name'};
+    my $files    = $args{'files'};
+    my $message  = $args{'message'};
+    my $callback = $args{'callback'};
 
     my @downloads = @$files;
 
@@ -434,6 +464,11 @@ sub result {
     print qq{<h4 title="}
       . scalar(@downloads)
       . qq{ extracts">@{[ M($name) ]}$sub_title</h4>\n\n};
+
+    if ( defined $callback ) {
+        &$callback;
+        print "<hr/>\n";
+    }
 
     # no waiting or running extracts - done
     return if !@downloads;
@@ -483,7 +518,10 @@ sub result {
         # download link if available
         print "<td>";
         if ( $download->{"download_file"} ) {
-            my $prefix = $option->{"download"};
+            my $prefix =
+                $option->{'pro'}
+              ? $option->{"download_pro"}
+              : $option->{"download"};
 
             print qq{<a title="$date" href="$prefix}
               . escapeHTML( $download->{"download_file"} )
@@ -499,7 +537,7 @@ sub result {
 
         # protocol independent links
         my $script_url = $download->{"script_url"};
-        $script_url =~ s,^http:,,;
+        $script_url =~ s,^https?:,,;
 
         print qq{<a class="polygon}
           . ( scalar(@coords) ? 1 : 0 )
@@ -563,7 +601,7 @@ sub download_header {
     print $q->header( -charset => 'utf-8', -expires => '+0s' );
 
     print $q->start_html(
-        -title => 'Extracts ready to download | BBBike.org',
+        -title => 'OpenStreetMap extracts ready to download | BBBike.org',
         -head  => [
             $q->meta(
                 {
@@ -648,7 +686,7 @@ sub download {
     print qq{<div id="map_area">\n};
     print $q->h2( qq{<a href="}
           . $q->url( -relative => 1 )
-          . qq{">Extracts ready to download</a>} )
+          . qq{">OpenStreetMap extracts ready to download</a>} )
       if $option->{'show_heading'};
 
     print <<EOF;
@@ -658,12 +696,16 @@ sub download {
 <span id="debug"></span>
 
 EOF
+    my $fullscreen =
+      qq{ | <a href="#" onclick="toggle_fullscreen()">fullscreen</a>\n};
 
-    print $locale->language_links( 'with_separator' => 1 );
+    print $locale->language_links(
+        'with_separator' => 1,
+        'postfix'        => $fullscreen
+    );
 
     my $current_date     = time2str(time);
-    my $homepage_extract = $option->{'homepage_extract'};
-    my $spool_dir        = $option->{"spool_dir"};
+    my $extract_homepage = $option->{'extract_homepage'};
 
     my @extracts = ();
 
@@ -701,7 +743,7 @@ EOF
 
     print <<EOF;
 </td>
-<td><a href="$homepage_extract/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></td>
+<td><a href="$extract_homepage/community.html"><img src="/images/btn_donateCC_LG.gif" alt="donate" /></a></td>
 </tr>
 </table>
 
@@ -715,9 +757,11 @@ EOF
 </div> <!-- map_area -->
 <div id="nomap">
 EOF
+
     @extracts = &running_extract_areas(
-        'log_dir' => "$spool_dir/" . $spool->{"confirmed"},
-        'max'     => $max
+        'log_dir'       => "$spool_dir/" . $spool->{"confirmed"},
+        'filter_format' => $filter_format,
+        'max'           => $max
     );
 
     result(
@@ -728,19 +772,23 @@ EOF
     );
 
     @extracts = &running_extract_areas(
-        'log_dir' => "$spool_dir/" . $spool->{"running"},
-        'max'     => $max
+        'log_dir'       => "$spool_dir/" . $spool->{"running"},
+        'filter_format' => $filter_format,
+        'max'           => $max
     );
 
     result(
         'type'    => 'running',
         'files'   => \@extracts,
         'name'    => 'Running extracts',
-        'message' => 'Will be ready in the next 3-10 minutes',
+        'message' => 'Will be ready in the next 2-7 minutes',
     );
 
     @extracts = @extracts_trash;
     result(
+        'callback' => sub {
+            filter_date( 'filter_date' => \@filter_date, 'date' => $date );
+        },
         'type'  => 'download',
         'name'  => 'Ready extracts',
         'files' => \@extracts

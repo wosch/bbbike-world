@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2010-2013 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2010-2018 Wolfram Schneider, https://bbbike.org
 #
 # feed.pl - generate RSS/Atom feed
 
@@ -47,6 +47,31 @@ my $feed = XML::Atom::SimpleFeed->new(
 # TODO
 # - larger area for most cities, up top 30 km radius the centr of the city
 #
+
+$feed->add_entry(
+    title   => qq{New OSM export format SQLite},
+    id      => '396b20cf70a9aec7c349db9fcf9723a3',
+    content => {
+        type => 'html',
+        content =>
+qq{The <a href="https://extract.bbbike.org/">BBBike extract service</a> supports SQLite format},
+    },
+    updated  => '2018-05-20T18:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
+    title   => qq{New OSM export format GeoJSON},
+    id      => '396b20cf70aaaec7c349db9fcf9723a3',
+    content => {
+        type => 'html',
+        content =>
+qq{The <a href="https://extract.bbbike.org/">BBBike extract service</a> supports GeoJSON format},
+    },
+    updated  => '2018-05-13T18:30:02Z',
+    category => 'News',
+);
+
 $feed->add_entry(
     title   => qq{Perl/Tk extracts for the BBBike App},
     id      => '396b20cf70aaaec7c379db9fcf9723a3',

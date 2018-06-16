@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2009-2013 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2018 Wolfram Schneider, https://bbbike.org
 #
 # routing-validate - test routing of a city
 
@@ -208,7 +208,7 @@ foreach my $query (@data) {
         my $url =
           qq{$homepage/$city/?renice=10&start=} . $c->[0] . "&ziel=" . $c->[1];
         print
-qq{curl -sSf "$url" | egrep -q '"route_length"' || echo "fail $url"\0};
+qq{curl -L -sSf "$url" | egrep -q '"route_length"' || echo "fail $url"\0};
     }
 }
 

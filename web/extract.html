@@ -17,6 +17,7 @@
       <div id="main">
         <h2>Help BBBike extracts</h2>
 
+	<!-- keep in sync with ./web/extract-dialog/en/format.html and web/extract-dialog/en/about.html  --> 
 	<p>
 	BBBike extracts allows you to extracts areas from
 	<a href="https://wiki.openstreetmap.org/wiki/Planet.osm">Planet.osm</a>
@@ -29,8 +30,8 @@
 	<span title="Osmand Android devices">Osmand</span>,
 	<span title="Esri shapefile">Esri shapefile</span>,
 	<span title="mapsforge">mapsforge</span>,
-	<span title="csv">CSV</span> or
-	<span title="opl">OPL</span>
+	<span title="osmium">OPL, GeoJSON, SQLite, text</span> or
+	<span title="csv">CSV</span>
 	format.
 
 	The maximum area size is 24,000,000 square km, or 512MB file size.
@@ -72,7 +73,7 @@
           <li>supports <a href="https://github.com/mapsforge/mapsforge/">mapsforge (map)</a> format for Android devices</li>
           <li>supports <a href="https://maps.me/en/home">maps.me (omim)</a> format for Android and iOS devices</li>
           <li>supports <a href="http://www.navit-project.org">Navit</a> format for Linux, Windows, Android, OpenMoko Freerunner, Wince, Nokia n800 Internet tables, iPhone, Zaurus</li>
-          <li>supports libosmium <a href="https://github.com/osmcode/libosmium/">OPL</a> format</li>
+          <li>supports libosmium <a href="https://github.com/osmcode/libosmium/">OPL, GeoJSON, SQLite, Text</a> format</li>
           <li>supports BBBike <a href="http://bbbike.de/">bbd</a> format for the Perl/Tk app</li>
 	  <li>planet.osm data updated every week</li>
         </ul>
@@ -108,6 +109,9 @@
       <img src="/images/csv-micro.png" alt="" title="csv" />
       <img src="/images/opl-micro.png" alt="" title="opl" />
       <img src="/images/osm-micro.png" alt="" title="osm" />
+      <img src="/images/geojson-micro.png" alt="" title="geojson" />
+      <img src="/images/sqlite-micro.png" alt="" title="sqlite" />
+      <img src="/images/text-micro.png" alt="" title="text" />
 	</a>
 
 	<hr/>
@@ -145,35 +149,62 @@
 	</p>
 	
     <h3 id="youtube">YouTube tutorials</h3>
-	<p>There are several YouTube tutorials available how to use the BBBike extract service.
+	<p>There are several YouTube tutorials available how to use the BBBike extract service for shapefiles, Garmin, PDF/OSM and SVG.
 	The videos are available in different languages, in English, German, French, Russian, and Portuguese.
 	</p>
 	
-	<h4>World2Xplane Tutorial - How to build amazing overlays for X-Plane, 8min (English)</h4>
-	<iframe width="560" height="315" src="https://www.youtube.com/embed/UkEkxL1Zp9s?start=57" frameborder="0" allowfullscreen></iframe>
-
+	<h4>How To Download free shapefile maps by region, 1min (English)</h4>
+	<iframe width="560" height="315" src="https://www.youtube.com/embed/sozIFGCIVU0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+	<hr/>
+	
 	<h4>Download Shapefiles of Vector Data from OpenStreetMap, 1min (English)</h4>
 	<iframe width="560" height="315" src="https://www.youtube.com/embed/HqDSgdSd-do" frameborder="0" allowfullscreen></iframe>
+	<hr/>
+	
+	<h4>Download Shapefiles from which area of ​​the world / Arcgis tutorial, 1min (English/French)</h4>
+	<iframe width="560" height="315" src="https://www.youtube.com/embed/uOK9uBmWrSI" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+	<hr/>
 	
 	<h4>How to Download Shapefile from OpenStreetMap, 2min (English)</h4>
 	<iframe width="560" height="315" src="https://www.youtube.com/embed/zYEp_bngfsI" frameborder="0" allowfullscreen></iframe>
+	<hr/>
 	
 	<h4>Eine bessere Karte für das eTrex® 10 installieren, 9min (German)</h4>
 	<iframe width="560" height="315" src="https://www.youtube.com/embed/_mrO26EFvnM" frameborder="0" allowfullscreen></iframe>
-	
+	<hr/>
+
+	<h4>Garmin Etrex 10 Karte aufspielen/ Erklärung für Angler Deutsch, 5min (German)</h4>
+	<iframe width="560" height="315" src="https://www.youtube.com/embed/Oq03fUeMiy4?start=444" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+	<hr/>
+
 	<h4>Tutoriel Impuls'Map Utiliser des données OpenStreetMap OSM dans QGIS, 6min (French)</h4>
 	<iframe width="560" height="315" src="https://www.youtube.com/embed/VWvZFfee_d8?start=161" frameborder="0" allowfullscreen></iframe>
+	<hr/>
+
+	<h4>Adobe Illustrator tutorial | Road infographic template design, SVG, 3min (English)</h4>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/Dk7jS5ETjPw?start=1259" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+	<hr/>
+
+	<h4>Import Streets from OpenStreetMaps, 12min (Russian)</h4>
+	<iframe width="560" height="315" src="https://www.youtube.com/embed/Oz62UxCEwec" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+	<hr/>
 	
+	<h4>World2Xplane Tutorial - How to build amazing overlays for X-Plane, 8min (English)</h4>
+	<iframe width="560" height="315" src="https://www.youtube.com/embed/UkEkxL1Zp9s?start=57" frameborder="0" allowfullscreen></iframe>
+	<hr/>
+
 	<h4>X-plane/World2Xplane OpenStreetMap, 6min (Russian)</h4>
 	<iframe width="560" height="315" src="https://www.youtube.com/embed/20VmxB503UM?start=387" frameborder="0" allowfullscreen></iframe>
+	<hr/>
 	  
 	<h4>Ortho4xp o melhor Tutorial+ World2xp e HD mesh V3, 5min (Portuguese)</h4>
 	<iframe width="560" height="315" src="https://www.youtube.com/embed/dkZsw0AMrLw?start=401" frameborder="0" allowfullscreen></iframe>
+	<hr/>
 	
-	<h4>Other videos</h4>
-	<ul>
-	  <li><a href="https://www.youtube.com/watch?v=Xu7wh2nHtVc">Garmin echoMAP 52dv CHIRP - OpenSeaMap installation</a>, 5min (English)</li>
-	</ul>
+	<h3>Other related videos</h3>
+	<h4>Garmin echoMAP 52dv CHIRP - OpenSeaMap installation, 5min (English)</h4>
+	<iframe width="560" height="315" src="https://www.youtube.com/embed/Xu7wh2nHtVc" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+	<hr/>
 
         <h3>Garmin OSM documentation</h3>
 	Please read the OSM wiki how to install the maps on your GPS device:
@@ -211,7 +242,7 @@
 	 By default all generated Garmin maps from OpenStreetMap data will use the code page Unicode (UTF-8).
 	 However, some older devices don't support Unicode and some new devices have a broken DRM firmware
 	 (<i>"can not unlock map"</i>).
-	 In this special case please use the <i>ASCII</i> style.
+	 In this special case please use the <i>latin1</i> style.
 	 Garmin SRTM extracts use always the ASCII character set.
 	</p>
 
@@ -313,12 +344,19 @@
 
 	<table border="1">
 	  <tr><td>Format</td><td>Factor</td></tr>
+	  
 	  <tr><td>PBF</td><td>1</td></tr>
 	  <tr><td>OSM XML gzip'd</td><td>2</td></tr>
 	  <tr><td>OSM XML bzip'd</td><td>1.5</td></tr>
 	  <tr><td>OSM XML 7-zip</td><td>1.6</td></tr>
 	  <tr><td>o5m gzip'd</td><td>1.04</td></tr>
 	  <tr><td>o5m bzip'd</td><td>0.88</td></tr>
+	  
+	  <tr><td>Osmium OPL xz</td><td>1.7</td></tr>
+	  <tr><td>Osmium GeoJSON xz</td><td>2.0</td></tr>
+	  <tr><td>Osmium SQLite xz</td><td>1.5</td></tr>
+	  <tr><td>Osmium Text xz</td><td>1.8</td></tr>
+	  
 	  <tr><td>Navit zip'd</td><td>0.8</td></tr>
 	  <tr><td>maps.me zip'd</td><td>0.85</td></tr>
 	  <tr><td>mapsforge</td><td>0.8</td></tr>
@@ -400,29 +438,31 @@
 	<ol>
 	  <li>Valid values for longitude are -180 .. 180, and for latitude -90 .. 90.</li>
 	  <li>The e-mail field is required, you will be notified by e-mail if your extract is ready
-	  for <a href="//download.bbbike.org/osm/extract/">download</a>.
+	  for <a href="https://download.bbbike.org/osm/extract/">download</a>.
     Don't have a working e-mail, or cannot access your e-mail now (internet cafe)? - then please use
     <b>nobody</b> as e-mail address.
 	  </li>
 	  <li>Please us meaningfull name for the extract, to find it later on your inbox or computer</li>
 	  <li>Didn't get an email in a reasonable time? Please check your SPAM folder first. You can see the status
-	    of your extract requests <a href="//download.bbbike.org/osm/extract/">here</a>.
+	    of your extract requests <a href="https://download.bbbike.org/osm/extract/">here</a>.
 	  </li>
 	  <li>The extract system runs in a shared batch mode. If there are too many request, it may take longer to process your requests. Be patient!</li>
 	  <li>The extracts don't contain metadata as version number, author, timestamp etc. If you need to edit OSM data, please
-	  go to the <a href="//OpenStreetMap.org">OpenStreetMap.org</a> web site.</li>
+	  go to the <a href="https://OpenStreetMap.org">OpenStreetMap.org</a> web site.</li>
 	  <li>The planet.osm database will be updated every week.
-	      For details look at the BBBike <a href="//download.bbbike.org/osm/planet/">planet.osm</a> mirror.</li>
+	      For details look at the BBBike <a href="https://download.bbbike.org/osm/planet/">planet.osm</a> mirror.</li>
 	</ol>
 
 
 	<a name="extract-pro"></a>
 	<h3>Extract Pro, Commercial Support and daily data updates</h3>
 	<p>
-	The <a href="https://extract-pro.bbbike.org/">extract pro</a> service offers extracts with full meta data and a
+	The <a href="https://extract-pro.bbbike.org/">extract pro service</a> offers extracts with full meta data and a
 	daily update of the database (0:00 UTC). Due the higher system load, we cannot offer
 	this service for free.
 	</p>
+	<p>The pro service also allows you to extract larger areas up to 48,000,000 square km and
+	bigger files up to 1.5GB.</p>
 
 	<p>
 	The Extract Pro service starts at 99 Euro/month, depending on the number of extracts, bandwidth usage and support level.
@@ -439,9 +479,13 @@
 	A fair usage policy applies. If you want use the service commercially, you may consider to use the Extract Pro service.
 	</p>
 
-	<p>
-        We accecpt <a href="community.html">donations</a>! ;-) You can support us via PayPal or bank wire transfer
-	</p>
+	<span class='donate_request'>
+	  <a href='./community.html#donate'>Your support keeps the BBBike extract service on the air!
+	  Please make a donation with PayPal or bank wire transfer.
+	  We need to raise 10 Euro (12 USD) by the end of the day, or 300 Euro (350USD) per month to cover the server costs. Many thanks!
+	  </a>
+	</span>
+	
 	<p align="center"><a href="community.html"><img src="images/btn_donateCC_LG.gif" alt="donate" /></a>
 
 	</p>
@@ -449,23 +493,24 @@
         <div id="footer">
           <div id="footer_top">
             <a href="/">home</a> |
-			<a href="//download.bbbike.org/">download</a> |
-			<a href="//download.bbbike.org/osm/extract/">server status</a> |
+			<a href="https://download.bbbike.org/">download</a> |
+			<a href="https://download.bbbike.org/osm/extract/">server status</a> |
+			<a href="/support.html">commercial support</a> |
 			<a href="/community.html">donate</a>
 		
 			<span id="social" class="right">
 			  <a href="https://twitter.com/BBBikeWorld" target="_new"><img class="logo" width="16" height="16" src="/images/twitter-t.png" alt="" title="Follow us on twitter.com/BBBikeWorld" /></a>
-			  <a href="//www.bbbike.org/feed/bbbike-world.xml"><img class="logo" width="14" height="14" title="What's new on BBBike.org" src="/images/rss-icon.png" alt="" /></a>
+			  <a href="https://www.bbbike.org/feed/bbbike-world.xml"><img class="logo" width="14" height="14" title="What's new on BBBike.org" src="/images/rss-icon.png" alt="" /></a>
 			</span>
           </div>
 
           <hr />
-          (&copy;) 2011-2017 <a href="https://bbbike.org">BBBike.org</a>
+          (&copy;) 2011-2018 <a href="https://bbbike.org">BBBike.org</a>
 		  by <a href="https://wolfram.schneider.org">Wolfram Schneider</a> -
 		  Map data (&copy;) <a href="https://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap.org</a> contributors<br/>
-		  <a href="//www.bbbike.org/">cycle route planner</a> -
-		  <a href="//extract.bbbike.org/">osm extract service</a> -
-		  <a href="//mc.bbbike.org/mc/">map compare</a>
+		  <a href="https://www.bbbike.org/">cycle route planner</a> -
+		  <a href="https://extract.bbbike.org/">osm extract service</a> -
+		  <a href="https://mc.bbbike.org/mc/">map compare</a>
 		</div>
       </div>
 	  

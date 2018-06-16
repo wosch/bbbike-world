@@ -1,7 +1,7 @@
 #!/bin/sh
 # Copyright (c) Sep 2011-2017 Wolfram Schneider, https://bbbike.org
 #
-# usage: /etc/munin/plugins/bbbike-extract-files [ config ]
+# usage: /etc/munin/plugins/extract-files [ config ]
 #
 # get documentation with: perldoc /path/to/script
 
@@ -56,8 +56,8 @@ ALL.label All
 ALL.min 0
 
 multigraph pbf_pbf_day
-graph_title Extracts files PBF/Other day
-graph_vlabel Extracts files PBF/Other day
+graph_title Extracts files PBF/other 24h
+graph_vlabel Extracts files PBF/other 24h
 graph_category extractsize
 graph_info Number of Files
 graph_period minute

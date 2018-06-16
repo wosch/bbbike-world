@@ -16,7 +16,7 @@
 #############################################
 # Strassburg
 #
-# http://www.bbbike.org/Strassburg/?start=Rue+de+la+Tour%2FRue+du+Muhlbruchel+%5B7.71584%2C48.57808%2C0%5D&via=&ziel=Pont+de+la+Dinsenm%C3%BChle%2FRue+des+Moulins+%5B7.74175%2C48.58069%2C0%5D&scope=
+# https://www.bbbike.org/Strassburg/?start=Rue+de+la+Tour%2FRue+du+Muhlbruchel+%5B7.71584%2C48.57808%2C0%5D&via=&ziel=Pont+de+la+Dinsenm%C3%BChle%2FRue+des+Moulins+%5B7.74175%2C48.58069%2C0%5D&scope=
 #
 # "7.71584,48.57808"
 # "7.74175,48.58069"

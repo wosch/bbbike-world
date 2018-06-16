@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2013 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     system( "which", "xmllint" );
@@ -9,6 +9,7 @@ BEGIN {
     }
 }
 
+use FindBin;
 use utf8;
 use Getopt::Long;
 use Test::More;
@@ -17,6 +18,9 @@ use Encode;
 
 use strict;
 use warnings;
+
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
 
 my @files = qw[index.m.html index.de.html index.en.html index.html];
 

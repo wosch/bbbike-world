@@ -1,4 +1,12 @@
-bbbike-world-bin-misc (1.9-2) unstable; urgency=low
+bbbike-world-bin-misc (1.13-1) unstable; urgency=low
+
+  * supports osmium with SQLlite
+
+bbbike-world-bin-misc (1.12-2) unstable; urgency=low
+
+  * supports osmium with GeoJSON
+
+bbbike-world-bin-misc (1.11-1) unstable; urgency=low
 
   * supports Maperitive
 

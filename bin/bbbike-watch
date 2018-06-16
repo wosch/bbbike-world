@@ -5,21 +5,28 @@
 #
 
 uptime
-/etc/munin/plugins/extract-jobs
+
+extract=extract
+case $0 in 
+	*-pro ) extract=extract-pro;;
+esac
+
+/etc/munin/plugins/${extract}-jobs
+running_extract=running-${extract}
 
 echo; echo 'running: '
 
-running-extract email | sort | uniq -c | sort -nr
+$running_extract email | sort | uniq -c | sort -nr
 
 echo 'waiting: '
-egrep -h @ /var/cache/extract/confirmed/*.json 2>/dev/null | perl -npe 's/,//' | sort | uniq -c |sort -nr
+egrep -h @ /var/cache/${extract}/confirmed/*.json 2>/dev/null | perl -npe 's/,//' | sort | uniq -c | sort -nr -k1 -k3
 
 echo 'running city: '
-running-extract city | sort | uniq -c | sort -nr
+$running_extract city | sort | uniq -c | sort -nr
 
 echo 'running format: '
-running-extract format | sort | uniq -c | sort -nr
+$running_extract format | sort | uniq -c | sort -nr
 
 echo 'planet: '
-ps xuawww | egrep 'osmconvert-wrapper .*/osm/download' | egrep -v grep | awk '{print $NF}' | sort | uniq -c| sort -nr
+ps xuawww | egrep 'osmconvert-wrapper .*extract/running' | egrep -v 'grep' | awk '{print $NF}' | sort | uniq -c| sort -nr
 

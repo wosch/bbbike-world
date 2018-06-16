@@ -2,7 +2,7 @@
 Sitemap: https://www.bbbike.org/sitemap.xml.gz
 
 User-agent: Googlebot-Image
-Disallow: /images
+Disallow: /
 
 # rough bots & seo
 User-agent: Ezooms
@@ -20,6 +20,7 @@ User-agent: ip-web-crawler.com
 User-agent: AppEngine-Google
 User-agent: BLEXBot
 User-agent: spbot
+User-agent: BUbiNG
 Disallow: /
 
 # people search engines

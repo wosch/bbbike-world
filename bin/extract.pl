@@ -33,6 +33,9 @@ use LWP::UserAgent;
 use Time::gmtime;
 
 use lib qw(world/lib ../lib);
+
+use FindBin;
+use lib ("$FindBin::RealBin/..");
 use Extract::Config;
 use Extract::Utils;
 use Extract::Poly;
@@ -43,6 +46,9 @@ use Extract::Scheduler;
 
 use strict;
 use warnings;
+
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
 
 $ENV{'PATH'} = "/usr/local/bin:/bin:/usr/bin";
 $ENV{'OSM_CHECKSUM'} = 'false';    # disable md5 checksum files
@@ -56,17 +62,27 @@ binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
 # backward compatible
-$ENV{BBBIKE_PLANET_OSM_GRANULARITY} = "granularity=10000"
+$ENV{BBBIKE_PLANET_OSM_GRANULARITY} = "granularity=100"
   if !defined $ENV{BBBIKE_PLANET_OSM_GRANULARITY};
 
 our $option = {
-    'max_areas'       => 1,
-    'homepage'        => '//download.bbbike.org/osm/extract',
-    'script_homepage' => '//extract.bbbike.org',
-    'max_jobs'        => 3,
-    'bcc'             => 'bbbike@bbbike.org',
-    'email_from'      => 'bbbike@bbbike.org',
-    'send_email'      => 1,
+
+    # max. different polygon per extract
+    'max_areas' => 1,
+
+    # XXX?
+    'homepage' => 'https://download.bbbike.org/osm/extract',
+
+    'script_homepage'     => 'https://extract.bbbike.org',
+    'script_homepage_pro' => 'https://extract-pro.bbbike.org',
+
+    'server_status_url'     => 'https://download.bbbike.org/osm/extract',
+    'server_status_url_pro' => 'https://download.bbbike.org/osm/extract-pro',
+
+    'max_jobs'   => 3,
+    'bcc'        => 'bbbike@bbbike.org',
+    'email_from' => 'bbbike@bbbike.org',
+    'send_email' => 1,
 
     # timeout handling
     'alarm'         => 210 * 60,    # extract
@@ -81,7 +97,8 @@ our $option = {
     'test'  => 0,
 
     # spool directory. Should be at least 100GB large
-    'spool_dir' => '/var/cache/extract',
+    'spool_dir'     => '/var/cache/extract',
+    'spool_dir_pro' => '/var/cache/extract-pro',
 
     'file_prefix' => 'planet_',
 
@@ -96,9 +113,7 @@ our $option = {
     'language'     => "en",
     'message_path' => "world/etc/extract",
 
-    'osmosis_options' =>
-      [ "omitmetadata=true", $ENV{BBBIKE_PLANET_OSM_GRANULARITY} ],
-    'osmosis_options_bounding_polygon' => ["clipIncompleteEntities=true"],
+    'osmosis_options' => [ $ENV{BBBIKE_PLANET_OSM_GRANULARITY} ],
 
     'aws_s3_enabled' => 0,
     'aws_s3'         => {
@@ -109,8 +124,9 @@ our $option = {
     },
 
     # use web rest service for email sent out
-    'email_rest_url'     => 'https://extract.bbbike.org/cgi/extract-email.cgi',
-    'email_rest_enabled' => 0,
+    'email_rest_url'      => 'https://extract.bbbike.org/cgi/extract-email.cgi',
+    'email_rest_enabled'  => 0,
+    'email_failure_fatal' => 0,
 
     'show_image_size' => 1,
 
@@ -142,6 +158,14 @@ our $option = {
         'navit_version'      => 'maptool',
         'bbbike_version'     => 'bbbike',
         'shape_version'      => 'osmium2shape',
+    },
+
+    'nice_level_converter_format' => {
+        'mapsforge' => 15,
+        'obf'       => 12,
+        'svg'       => 5,
+        'xz'        => 4,
+        'garmin'    => 9
     }
 };
 
@@ -167,11 +191,6 @@ if ( $option->{"pro"} ) {
     $option->{"osmosis_options"} = [];
 }
 my $osmosis_options = join( " ", @{ $option->{"osmosis_options"} } );
-
-my $nice_level_converter =
-  exists $option->{"nice_level_converter"}
-  ? $option->{"nice_level_converter"}
-  : $nice_level + 3;
 
 # test & debug
 $planet_osm =
@@ -214,6 +233,9 @@ sub parse_jobs {
 
     warn "job number is: $job_number\n" if $debug >= 1;
 
+    #####################################
+    # get a list of waiting jobs
+    #
     my ( $hash, $default_planet_osm, $counter ) = parse_jobs_planet(%args);
 
     my $sub_planet_file = "";
@@ -240,8 +262,14 @@ sub parse_jobs {
       new Extract::Scheduler( 'debug' => $debug, 'option' => $option );
 
     while ( $counter-- > 0 ) {
+
+        # pick a random user
         foreach my $email ( &random_user( keys %$hash ) ) {
-            if ( scalar( @{ $hash->{$email} } ) ) {
+            my $waiting_jobs = scalar( @{ $hash->{$email} } );
+            if ($waiting_jobs) {
+                warn "User $email has $waiting_jobs jobs waiting\n"
+                  if $debug >= 1;
+
                 my $obj  = shift @{ $hash->{$email} };
                 my $city = $obj->{'city'};
 
@@ -260,6 +288,7 @@ sub parse_jobs {
                     next;
                 }
 
+                # rate limit for bots, based on load average
                 if ( $scheduler->is_bot($obj) ) {
                     next
                       if $scheduler->ignore_bot(
@@ -545,9 +574,17 @@ sub create_poly_files {
     }
 
     my @json;
+    my $wait_time = 0;
     foreach my $job (@list) {
         my $from = "$confirmed_dir/$job->{'file'}";
         my $to   = "$job_dir/$job->{'file'}";
+
+        my $st = stat($from) or die "cannot stat $from\n";
+
+        # always keep the latest wait time
+        if ( $wait_time < $st->mtime ) {
+            $wait_time = $st->mtime;
+        }
 
         warn "rename $from -> $to\n" if $debug >= 1;
         my $json = new JSON;
@@ -568,10 +605,10 @@ sub create_poly_files {
           ", number of json files: ", scalar(@json), "\n";
     }
 
-    return ( \@poly, \@json );
+    return ( \@poly, \@json, ( time() - $wait_time ) );
 }
 
-# create a poly file which will be read by osmosis(1) to extract
+# create a poly file which will be read by osmconvert to extract
 # an area from planet.osm
 sub create_poly_file {
     my %args = @_;
@@ -590,82 +627,8 @@ sub create_poly_file {
     store_data( $file, $data );
 }
 
+# extract area(s) from planet.osm with osmconvert tool
 sub run_extracts {
-    return $option->{'osmconvert_enabled'}
-      ? &run_extracts_osmconvert(@_)
-      : &run_extracts_osmosis(@_);
-}
-
-# Legacy
-# extract area(s) from planet.osm with osmosis tool
-#
-sub run_extracts_osmosis {
-    my %args       = @_;
-    my $spool      = $args{'spool'};
-    my $poly       = $args{'poly'};
-    my $planet_osm = $args{'planet_osm'};
-
-    my $osm = $spool->{'osm'};
-
-    warn "Poly: " . Dumper($poly) if $debug >= 3;
-    return () if !defined $poly || scalar(@$poly) <= 0;
-
-    my @data = ( "nice", "-n", $nice_level, "osmosis", "-q" );
-    push @data,
-      ( "--read-pbf", $planet_osm, "--buffer", "bufferCapacity=2000" );
-
-    my @pbf;
-    my $tee = 0;
-    my @fixme;
-    foreach my $p (@$poly) {
-        my $out = $p;
-        $out =~ s/\.poly$/.osm.pbf/;
-
-        my $osm = $spool->{'osm'} . "/" . basename($out);
-        if ( -e $osm ) {
-            my $newer = $utils->file_mtime_diff( $osm, $planet_osm );
-            if ( $newer > 0 ) {
-                warn "File $osm already exists, skip\n" if $debug >= 1;
-                link( $osm, $out ) or die "link $osm => $out: $!\n";
-
-                #&touch_file($osm);
-                next;
-            }
-            else {
-                warn "file $osm already exists, ",
-                  "but a new planet.osm is here since ", abs($newer),
-                  " seconds. Rebuild.\n";
-            }
-        }
-
-        push @pbf, "--bounding-polygon", "file=$p",
-          @{ $option->{"osmosis_options_bounding_polygon"} };
-        push @pbf, "--write-pbf", "file=$out",
-          @{ $option->{"osmosis_options"} };
-
-        $tee++;
-        push @fixme, $out;
-    }
-
-    if (@pbf) {
-        push @data, "--tee", $tee;
-        push @data, @pbf;
-    }
-    else {
-
-        # nothing to do
-        @data = "true";
-    }
-
-    warn "Use planet.osm file $planet_osm\n" if $debug >= 1;
-    warn "Run extracts: " . join( " ", @data ), "\n" if $debug >= 2;
-    return ( \@data, \@fixme );
-}
-
-#
-# extract area(s) from planet.osm with osmosis tool
-#
-sub run_extracts_osmconvert {
     my %args       = @_;
     my $spool      = $args{'spool'};
     my $poly       = $args{'poly'};
@@ -859,20 +822,27 @@ sub reorder_pbf {
         'mapsforge-osm.zip' => 15,
         'mapsme-osm.zip'    => 1.2,
 
-        'garmin-osm.zip'            => 3,
-        'garmin-osm-ascii.zip'      => 3,
-        'garmin-cycle.zip'          => 3,
-        'garmin-cycle-ascii.zip'    => 3,
-        'garmin-leisure.zip'        => 3.5,
-        'garmin-leisure-ascii.zip'  => 3.5,
-        'garmin-bbbike.zip'         => 3,
-        'garmin-bbbike-ascii.zip'   => 3,
-        'garmin-onroad.zip'         => 1.5,
-        'garmin-onroad-ascii.zip'   => 1.5,
-        'garmin-oseam.zip'          => 1.5,
-        'garmin-oseam-ascii.zip'    => 1.5,
-        'garmin-opentopo.zip'       => 1.6,
-        'garmin-opentopo-ascii.zip' => 1.6,
+        'garmin-osm.zip'             => 3,
+        'garmin-osm-ascii.zip'       => 3,
+        'garmin-osm-latin1.zip'      => 3,
+        'garmin-cycle.zip'           => 3,
+        'garmin-cycle-ascii.zip'     => 3,
+        'garmin-cycle-latin1.zip'    => 3,
+        'garmin-leisure.zip'         => 3.5,
+        'garmin-leisure-ascii.zip'   => 3.5,
+        'garmin-leisure-latin1.zip'  => 3.5,
+        'garmin-bbbike.zip'          => 3,
+        'garmin-bbbike-ascii.zip'    => 3,
+        'garmin-bbbike-latin1.zip'   => 3,
+        'garmin-onroad.zip'          => 1.5,
+        'garmin-onroad-ascii.zip'    => 1.5,
+        'garmin-onroad-latin1.zip'   => 1.5,
+        'garmin-oseam.zip'           => 1.5,
+        'garmin-oseam-ascii.zip'     => 1.5,
+        'garmin-oseam-latin1.zip'    => 1.5,
+        'garmin-opentopo.zip'        => 1.6,
+        'garmin-opentopo-ascii.zip'  => 1.6,
+        'garmin-opentopo-latin1.zip' => 1.6,
 
         'svg-google.zip'    => 5,
         'svg-hiking.zip'    => 5,
@@ -892,7 +862,11 @@ sub reorder_pbf {
         'o5m.xz'  => 0.9,
         'o5m.bz2' => 1.2,
 
-        'opl.xz' => 1.3,
+        'opl.xz'        => 1.3,
+        'geojson.xz'    => 1.31,
+        'geojsonseq.xz' => 1.32,
+        'text.xz'       => 1.33,
+        'sqlite.xz'     => 1.34,
 
         'csv.gz'  => 0.42,
         'csv.xz'  => 0.2,
@@ -946,6 +920,30 @@ sub copy_to_trash {
     link( $file, $to ) or die "link $file => $to: $!\n";
 }
 
+#
+# check if we override a fresh file
+# this is a harmless race condition (waste of CPU time)
+#
+sub check_download_cache {
+    my $file = shift;
+    my $time = shift;    # time when the script started
+
+    return 0 if !-e $file;
+    my $st = stat($file) or return 0;
+
+    my $expire = 30 * 60;    # N minutes
+
+    my $diff_time = $time - $st->mtime;
+    if ( $diff_time > $expire ) {
+        warn "Oops, override a cache file which is "
+          . "$diff_time seconds old (limit $expire): $file\n"
+          if $debug >= 1;
+        return 1;
+    }
+
+    return 0;
+}
+
 # prepare to sent mail about extracted area
 sub convert_send_email {
     my %args             = @_;
@@ -957,6 +955,8 @@ sub convert_send_email {
     my $planet_osm       = $args{'planet_osm'};
     my $planet_osm_mtime = $args{'planet_osm_mtime'};
     my $extract_time     = $args{'extract_time'};
+    my $wait_time        = $args{'wait_time'};
+    my $start_time       = $args{'start_time'};
 
     # all scripts are in these directory
     my $dirname = dirname($0);
@@ -977,6 +977,8 @@ sub convert_send_email {
                 'planet_osm'       => $planet_osm,
                 'planet_osm_mtime' => $planet_osm_mtime,
                 'extract_time'     => $extract_time,
+                'wait_time'        => $wait_time,
+                'start_time'       => $start_time,
                 'alarm'            => $alarm
             );
         };
@@ -1044,9 +1046,13 @@ sub script_url {
     my $city   = $obj->{'city'}   || "";
     my $lang   = $obj->{'lang'}   || "";
 
-    my $script_url = $option->{script_homepage} . "/?";
+    my $script_url =
+        $option->{'pro'}
+      ? $option->{"script_homepage_pro"}
+      : $option->{"script_homepage"};
+
     $script_url .=
-"sw_lng=$obj->{sw_lng}&sw_lat=$obj->{sw_lat}&ne_lng=$obj->{ne_lng}&ne_lat=$obj->{ne_lat}";
+"/?sw_lng=$obj->{sw_lng}&sw_lat=$obj->{sw_lat}&ne_lng=$obj->{ne_lng}&ne_lat=$obj->{ne_lat}";
     $script_url .= "&format=$obj->{'format'}";
     $script_url .= "&coords=" . CGI::escape($coords) if $coords ne "";
     $script_url .= "&layers=" . CGI::escape($layers)
@@ -1057,6 +1063,60 @@ sub script_url {
     return $script_url;
 }
 
+sub get_nice_level_converter {
+    my %args = @_;
+
+    my $format     = $args{'format'};
+    my $nice_level = $args{'nice_level'};
+
+    # run converter as mapsforge with lower priority
+    my $nice_level_converter = 0;
+
+    if ( exists $option->{"nice_level_converter_format"}{$format} ) {
+        $nice_level_converter =
+          $option->{"nice_level_converter_format"}{$format};
+    }
+
+    # garmin catch all
+    elsif ( $format =~ /garmin-/
+        && exists $option->{"nice_level_converter_format"}{"garmin"} )
+    {
+        $nice_level_converter =
+          $option->{"nice_level_converter_format"}{"garmin"};
+    }
+
+    # mapsforge catch all
+    elsif ( $format =~ /mapsforge-/
+        && exists $option->{"nice_level_converter_format"}{"mapsforge"} )
+    {
+        $nice_level_converter =
+          $option->{"nice_level_converter_format"}{"mapsforge"};
+    }
+
+    # osmand catch all
+    elsif ( $format =~ /obf/
+        && exists $option->{"nice_level_converter_format"}{"obf"} )
+    {
+        $nice_level_converter = $option->{"nice_level_converter_format"}{"obf"};
+    }
+
+    # xz catch all
+    elsif ( $format =~ /\.xz$/
+        && exists $option->{"nice_level_converter_format"}{"xz"} )
+    {
+        $nice_level_converter = $option->{"nice_level_converter_format"}{"xz"};
+    }
+
+    elsif ( exists $option->{"nice_level_converter"} ) {
+        $nice_level_converter = $option->{"nice_level_converter"};
+    }
+    else {
+        $nice_level_converter = $nice_level + 3;
+    }
+
+    return $nice_level_converter;
+}
+
 sub _convert_send_email {
     my %args             = @_;
     my $json_file        = $args{'json_file'};
@@ -1065,6 +1125,8 @@ sub _convert_send_email {
     my $test_mode        = $args{'test_mode'};
     my $planet_osm       = $args{'planet_osm'};
     my $extract_time     = $args{'extract_time'};
+    my $wait_time        = $args{'wait_time'};
+    my $start_time       = $args{'start_time'};
     my $planet_osm_mtime = $args{'planet_osm_mtime'};
 
     my $obj2 = get_json($json_file);
@@ -1111,17 +1173,22 @@ sub _convert_send_email {
       if $debug >= 1;
     $obj->{"pbf_file_size"} = file_size($pbf_file);
 
+    # run converter as mapsforge with lower priority
+    my $nice_level_converter = get_nice_level_converter(
+        'format'     => $format,
+        'nice_level' => $nice_level
+    );
+
     # convert .pbf to .osm if requested
     my @nice = ( "nice", "-n", $nice_level_converter );
     my $time = time();
 
+    # OSM XML extracts
     if ( $format =~ /^(srtm\.|srtm-europe\.)?osm\.(xz|gz|bz2)$/ ) {
         my $ext = $2;
         $file =~ s/\.pbf$/.$ext/;
         if ( !cached_format( $file, $pbf_file ) ) {
-
-            # use parallel gzip/bzip2/xz
-            @system = ( @nice, "$dirname/pbf2osm", "--p$ext", $pbf_file );
+            @system = ( @nice, "$dirname/pbf2osm", "--$ext", $pbf_file );
 
             warn "@system\n" if $debug >= 2;
             @system = 'true' if $test_mode;
@@ -1129,35 +1196,16 @@ sub _convert_send_email {
             system(@system) == 0 or die "system @system failed: $?";
         }
     }
-    elsif ( $format =~ /^o5m\.(xz|gz|bz2)$/ ) {
-        my $ext = $1;
-        $file =~ s/\.pbf$/.o5m.$ext/;
+
+    # OSM extracts as csv, text, json etc.
+    elsif ( $format =~
+        /^(o5m|opl|csv|geojsonseq|geojson|text|sqlite)\.(xz|gz|bz2)$/ )
+    {
+        my $type = $1;
+        my $ext  = $2;
+        $file =~ s/\.pbf$/.$type.$ext/;
         if ( !cached_format( $file, $pbf_file ) ) {
-            @system = ( @nice, "$dirname/pbf2osm", "--o5m-$ext", $pbf_file );
-            warn "@system\n" if $debug >= 2;
-            @system = 'true' if $test_mode;
-
-            system(@system) == 0 or die "system @system failed: $?";
-        }
-    }
-    elsif ( $format =~ /^opl\.(xz|gz|bz2)$/ ) {
-        my $ext = $1;
-        $file =~ s/\.pbf$/.opl.$ext/;
-        if ( !cached_format( $file, $pbf_file ) ) {
-            @system = ( @nice, "$dirname/pbf2osm", "--opl-$ext", $pbf_file );
-
-            warn "@system\n" if $debug >= 2;
-            @system = 'true' if $test_mode;
-
-            system(@system) == 0 or die "system @system failed: $?";
-        }
-    }
-    elsif ( $format =~ /^csv\.(xz|gz|bz2)$/ ) {
-        my $ext = $1;
-        $file =~ s/\.pbf$/.csv.$ext/;
-        if ( !cached_format( $file, $pbf_file ) ) {
-            @system = ( @nice, "$dirname/pbf2osm", "--csv-$ext", $pbf_file );
-
+            @system = ( @nice, "$dirname/pbf2osm", "--$type-$ext", $pbf_file );
             warn "@system\n" if $debug >= 2;
             @system = 'true' if $test_mode;
 
@@ -1165,7 +1213,9 @@ sub _convert_send_email {
         }
     }
 
-    elsif ( $format =~ /garmin-([a-z\-]+)\.zip$/ && exists $formats->{$format} )
+    # Garmin
+    elsif ( $format =~ /garmin-([a-z0-9\-]+)\.zip$/
+        && exists $formats->{$format} )
     {
         my $style      = $1;
         my $format_ext = $format;
@@ -1184,19 +1234,21 @@ sub _convert_send_email {
         }
     }
 
+    # SVG / PNG
     elsif ( $format =~
-        /^svg-(google|hiking|osm|urbanight|wireframe|cadastre).zip$/ )
+        /^(svg|png)-(google|hiking|osm|urbanight|wireframe|cadastre).zip$/ )
     {
-        my $style      = $1;
+        my $type       = $1;
+        my $style      = $2;
         my $format_ext = $format;
-        $format_ext =~ s/^[a-z\-]+\.svg/svg/;
+        $format_ext =~ s/^[a-z\-]+\.$type/$type/;
 
         $file =~ s/\.pbf$/.$format_ext/;
         $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
 
         if ( !cached_format( $file, $pbf_file ) ) {
             @system =
-              ( @nice, "$dirname/pbf2osm", "--svg-$style", $pbf_file, $city );
+              ( @nice, "$dirname/pbf2osm", "--$type-$style", $pbf_file, $city );
             warn "@system\n" if $debug >= 2;
             @system = 'true' if $test_mode;
 
@@ -1204,26 +1256,7 @@ sub _convert_send_email {
         }
     }
 
-    elsif ( $format =~
-        /^png-(google|osm|hiking|urbanight|wireframe|cadastre).zip$/ )
-    {
-        my $style      = $1;
-        my $format_ext = $format;
-        $format_ext =~ s/^[a-z\-]+\.png/png/;
-
-        $file =~ s/\.pbf$/.$format_ext/;
-        $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
-
-        if ( !cached_format( $file, $pbf_file ) ) {
-            @system =
-              ( @nice, "$dirname/pbf2osm", "--png-$style", $pbf_file, $city );
-            warn "@system\n" if $debug >= 2;
-            @system = 'true' if $test_mode;
-
-            system(@system) == 0 or die "system @system failed: $?";
-        }
-    }
-
+    # Shapefiles
     elsif ( $format eq 'shp.zip' ) {
         $file =~ s/\.pbf$/.$format/;
         $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
@@ -1238,6 +1271,8 @@ sub _convert_send_email {
             system(@system) == 0 or die "system @system failed: $?";
         }
     }
+
+    # Osmand
     elsif ( $format eq 'obf.zip' || $format =~ /^[a-z\-]+\.obf.zip$/ ) {
         my $format_ext = $format;
         $format_ext =~ s/^[a-z\-]+\.obf/obf/;
@@ -1255,6 +1290,8 @@ sub _convert_send_email {
             system(@system) == 0 or die "system @system failed: $?";
         }
     }
+
+    # Navit
     elsif ( $format eq 'navit.zip' ) {
         $file =~ s/\.pbf$/.$format/;
         $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
@@ -1269,9 +1306,11 @@ sub _convert_send_email {
             system(@system) == 0 or die "system @system failed: $?";
         }
     }
+
+    # BBBike perl/tk program
     elsif ( $format eq 'bbbike-perltk.zip' ) {
         $file =~ s/\.pbf$/.$format/;
-        $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
+        $file =~ s/.zip$/.$lang.zip/ if $lang =~ /^(de)$/;
 
         if ( !cached_format( $file, $pbf_file ) ) {
             @system =
@@ -1284,6 +1323,8 @@ sub _convert_send_email {
             system(@system) == 0 or die "system @system failed: $?";
         }
     }
+
+    # Mapsforge
     elsif ($format =~ /^mapsforge-(osm)\.zip$/
         || $format =~ /^[a-z\-]+\.mapsforge-(osm)\.zip$/ )
     {
@@ -1306,6 +1347,8 @@ sub _convert_send_email {
             system(@system) == 0 or die "system @system failed: $?";
         }
     }
+
+    # Maps.me mobile app
     elsif ($format =~ /^mapsme-(osm)\.zip$/
         || $format =~ /^[a-z\-]+\.mapsme-(osm)\.zip$/ )
     {
@@ -1342,11 +1385,14 @@ sub _convert_send_email {
     my $convert_time = time() - $time;
     $obj->{"convert_time"} = $convert_time;
     $obj->{"extract_time"} = $extract_time;
+    $obj->{"wait_time"}    = $wait_time;
+    $obj->{"load_average"} = &get_loadavg;
 
     ###################################################################
     # keep a copy of .pbf in ./osm for further usage
     my $to = $spool->{'osm'} . "/" . basename($pbf_file);
 
+    &check_download_cache( $to, $start_time );
     unlink($to);
     warn "link $pbf_file => $to\n" if $debug >= 2;
     link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
@@ -1360,6 +1406,7 @@ sub _convert_send_email {
     ###################################################################
     # copy for downloading in /download
     $to = $spool->{'download'} . "/" . basename($pbf_file);
+    &check_download_cache( $to, $start_time );
     unlink($to);
     warn "link $pbf_file => $to\n" if $debug >= 1;
     link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
@@ -1368,6 +1415,7 @@ sub _convert_send_email {
     # .osm.gz or .osm.bzip2 files?
     if ( $file ne $pbf_file ) {
         $to = $spool->{'download'} . "/" . basename($file);
+        &check_download_cache( $to, $start_time );
         unlink($to);
 
         link( $file, $to ) or die "link $file => $to: $!\n";
@@ -1379,7 +1427,12 @@ sub _convert_send_email {
         push @unlink, $file;
     }
 
-    my $url = $option->{'homepage'} . "/" . basename($to);
+    my $server_status =
+        $option->{'pro'}
+      ? $option->{"server_status_url_pro"}
+      : $option->{"server_status_url"};
+
+    my $url = $server_status . "/" . basename($to);
     if ( $option->{"aws_s3_enabled"} ) {
         $url = $option->{"aws_s3"}->{"homepage"} . "/" . $aws->aws_s3_path($to);
     }
@@ -1397,11 +1450,13 @@ sub _convert_send_email {
 
     $msg = get_msg( $obj->{"lang"} || "en" );
 
+    # record the file size of the format
+    $obj->{"format_size"} = file_size($to);
+
     ###################################################################
     # display uncompressed image file size
     if ( $option->{show_image_size} && $to =~ /\.zip$/ ) {
         $file_size .= " " . M("zip archive") . ", ";
-        $obj->{"image_size_zip"} = file_size($to);
 
         my $prog = dirname($0) . "/extract-disk-usage.sh";
         open my $fh, "$prog $to |" or die open "open $prog $to";
@@ -1508,11 +1563,18 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
 
     my $email_rest_enabled = $option->{"email_rest_enabled"};
     warn "email_rest_enabled: $email_rest_enabled\n" if $debug >= 2;
+
     if ($email_rest_enabled) {
-        send_email_rest(@args);
+        eval { send_email_rest(@args); };
+        if ($@) {
+            $option->{'email_failure_fatal'} ? die "$@" : warn "$@";
+        }
     }
     else {
-        send_email_smtp(@args);
+        eval { send_email_smtp(@args); };
+        if ($@) {
+            $option->{'email_failure_fatal'} ? die "$@" : warn "$@";
+        }
     }
 
     store_json( $json_file, $obj );
@@ -1672,7 +1734,7 @@ sub usage () {
 usage: $0 [ options ]
 
 --debug={0..2}		debug level, default: $debug
---nice-level={0..20}	nice level for osmosis, default: $option->{nice_level}
+--nice-level={0..20}	nice level for osmconvert, default: $option->{nice_level}
 --job={1..4}		job number for parallels runs, default: $option->{max_jobs}
 --timeout=1..86400	time out, default $option->{"alarm"}
 --send-email={0,1}	send out email, default: $option->{"send_email"}
@@ -1704,7 +1766,7 @@ sub run_jobs {
     my $lockfile_extract = $spool->{'running'} . "/extract.pid";
 
     my $lockmgr_extract =
-      $e_lock->create_lock( 'lockfile' => $lockfile_extract )
+      $e_lock->create_lock( 'lockfile' => $lockfile_extract, 'wait' => 1 )
       or die "Cannot get lockfile $lockfile_extract, give up\n";
 
     # find a free job
@@ -1740,7 +1802,7 @@ sub run_jobs {
     );
 
     my @list = @$list;
-    print "job list: @{[ scalar(@list) ]}\n" if $debug >= 2;
+    warn "job list: @{[ scalar(@list) ]}\n" if $debug >= 1;
 
     if ( !@list ) {
         print "Nothing to do for users\n" if $debug >= 2;
@@ -1761,7 +1823,7 @@ sub run_jobs {
     my $key     = get_job_id(@list);
     my $job_dir = $spool->{'running'} . "/$key";
 
-    my ( $poly, $json ) = create_poly_files(
+    my ( $poly, $json, $wait_time ) = create_poly_files(
         'job_dir' => $job_dir,
         'list'    => \@list,
         'spool'   => $spool,
@@ -1777,7 +1839,7 @@ sub run_jobs {
     my $stat = stat($planet_osm) or die "cannot stat $planet_osm: $!\n";
 
     # be paranoid, give up after N hours (java bugs?)
-    &set_alarm( $alarm, "osmosis" );
+    &set_alarm( $alarm, "osmconvert" );
 
     ###########################################################
     # main
@@ -1817,6 +1879,8 @@ sub run_jobs {
         'planet_osm'       => $planet_osm,
         'planet_osm_mtime' => $stat->mtime,
         'extract_time'     => $extract_time,
+        'wait_time'        => $wait_time,
+        'start_time'       => $starttime,
         'keep'             => 1
     );
 
@@ -1852,8 +1916,9 @@ my $help;
 my $timeout;
 my $max_areas  = $option->{'max_areas'};
 my $send_email = $option->{'send_email'};
-my $spool_dir  = $option->{'spool_dir'};
-my $test_mode  = 0;
+my $spool_dir =
+  $option->{'pro'} ? $option->{'spool_dir_pro'} : $option->{'spool_dir'};
+my $test_mode = 0;
 
 GetOptions(
     "debug=i"      => \$debug,
@@ -1873,7 +1938,7 @@ $Extract::Utils::debug = $debug;
 
 die usage if $help;
 die "Max jobs: $max_jobs out of range!\n" . &usage
-  if $max_jobs < 1 || $max_jobs > 12;
+  if $max_jobs < 1 || $max_jobs > 32;
 die "Max areas: $max_areas out of range 1..64!\n" . &usage
   if $max_areas < 1 || $max_areas > 64;
 
@@ -1889,9 +1954,11 @@ while ( my ( $key, $val ) = each %$spool ) {
     $spool->{$key} = "$spool_dir/$val";
 }
 
-my @files = get_jobs( $spool->{'confirmed'} );
+# get a list of waiting jobs Extract::Utils::get_jobs
+my @files = get_jobs( $spool->{'confirmed'}, 256 );
+
 if ( !scalar(@files) ) {
-    print "Nothing to do\n" if $debug >= 2;
+    print "Nothing to do in $spool->{'confirmed'}\n" if $debug >= 2;
     exit 0;
 }
 

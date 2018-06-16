@@ -64,7 +64,7 @@ sub osm_round {
 
 sub extract_url {
     my ( $city, $x1, $y1, $x2, $y2 ) = @_;
-    my $dev_server = $ENV{'BBBIKE_DEV_SERVER'} || 'http://dev3.bbbike.org';
+    my $dev_server = $ENV{'BBBIKE_DEV_SERVER'} || 'https://dev3.bbbike.org';
     my $url = "$dev_server/cgi/extract.cgi?lang=en";
 
     $url .= "&sw_lng=$x1&sw_lat=$y1&ne_lng=$x2&ne_lat=$y2";

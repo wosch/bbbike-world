@@ -113,13 +113,14 @@
         "",
         "Spenden sind willkommen! ",
         "Du kannst uns via PayPal oder Banküberweisung unterstützen",
-        "https://www.BBBike.org/community.de.html",
+        "https://extract.bbbike.org/community.de.html",
         "",
         "Danke, die BBBike Extrakt Fee",
         "",
         "-- ",
+        "BBBike professional plans: https://extract.bbbike.org/support.html",
         "Planet.osm extracts: https://extract.bbbike.org",
-        "BBBike Map Compare: https://bbbike.org/mc"
+        "BBBike Map Compare: https://mc.bbbike.org"
         ],
 
     "EXTRACT_USAGE": [
@@ -137,7 +138,8 @@
         ],
 
     "EXTRACT_LIMIT": [
-        "Zu viele Anfragen. Bitte versuchen Sie es in 15min noch einmal. Danke!"
+        "Zu viele Anfragen. Bitte versuchen Sie es in 15min noch einmal. Danke!<br/>",
+        "Sie sind ein kommerzieller Kunde? Dann probieren Sie doch mal den <a href='/extract.html#extract-pro'>extract pro service</a> aus."
         ],
 
     "EXTRACT_VALID": [

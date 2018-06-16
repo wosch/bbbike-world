@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2016 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
@@ -8,8 +8,10 @@ BEGIN {
     }
 }
 
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
+
 use Test::More;
-use lib qw(./world/lib ../lib);
 use BBBike::Test;
 use Extract::Config;
 
@@ -19,7 +21,7 @@ use warnings;
 my $test           = BBBike::Test->new();
 my $extract_config = Extract::Config->new()->load_config_nocgi();
 
-my $homepage = 'http://www.bbbike.org';
+my $homepage = 'https://www.bbbike.org';
 
 my @homepages_localhost =
   ( $ENV{BBBIKE_TEST_SERVER} ? $ENV{BBBIKE_TEST_SERVER} : "http://localhost" );

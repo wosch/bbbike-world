@@ -40,10 +40,16 @@ sub sub_planet {
     my $format              = $obj->{"format"};
     my $planet_osm          = $Extract::Config::planet_osm;
 
+    # a hash of planet files per format (e.g. OSM, SRTM)
     $planet_osm =
       exists $planet_osm->{$format}
       ? $planet_osm->{$format}
       : $planet_osm->{$planet_type_default};
+
+    if ( !-r "../$planet_osm" ) {
+        warn "fatal: cannot find planet.osm file ../$planet_osm, give up!\n";
+        return {};
+    }
 
     my $planet = new Extract::Planet( 'debug' => $debug, 'pwd' => '..' );
 
@@ -152,6 +158,12 @@ my $sub_planet = sub_planet(
         "ne_lat" => $ne_lat
     }
 );
+
+# fatal error, give up
+if ( !exists $sub_planet->{"planet_size"} ) {
+    print "{}\n";
+    exit 1;
+}
 
 my $sub_planet_path = $sub_planet->{'sub_planet_path'};
 

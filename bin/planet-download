@@ -1,5 +1,5 @@
 #!/usr/local/bin/bash
-# Copyright (c) 2009-2013 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2018 Wolfram Schneider, https://bbbike.org
 #
 # planet-download - download the latest planet osm file
 #
@@ -19,7 +19,7 @@ fi
 nice="nice -n 9"
 
 file=planet-latest.osm.bz2
-planet_osm_server=http://planet.openstreetmap.org/planet
+planet_osm_server=https://planet.openstreetmap.org/planet
 : ${BBBIKE_PLANET_OSM_GRANULARITY="granularity=10000"}
 
 if [ -e $HOME/.bbbikerc ]; then 
@@ -35,7 +35,7 @@ pwd=`pwd`
 cd $dir
 
 # get md5 checksum first
-curl -sSf -o $file.md5 $planet_osm_server/$file.md5
+curl -L -sSf -o $file.md5 $planet_osm_server/$file.md5
 
 time curl -L -sSf $planet_osm_server/$file | tee $file | $nice $bzip2 -dc | mbuffer -q -m 512m | \
   $nice time osmosis --fast-read-xml enableDateParsing=no /dev/stdin --buffer bufferCapacity=2000 \

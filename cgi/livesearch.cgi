@@ -252,7 +252,7 @@ sub extract_route {
         while (<$fh>) {
             next if !/;pref_seen=[12]/;
 
-            if (   !m, (bbbike|[A-Z][a-zA-Z]+)\.cgi: (URL:)?http://,
+            if (   !m, (bbbike|[A-Z][a-zA-Z]+)\.cgi: (URL:)?https?://,
                 && !/ slippymap\.cgi: / )
             {
                 next;
@@ -260,7 +260,7 @@ sub extract_route {
 
             next
               if $only_production_statistic
-              && !m, ([a-zA-Z]+)\.cgi: (URL:)?http://$host.bbbike.org/,;
+              && !m, ([a-zA-Z]+)\.cgi: (URL:)?https?://$host.bbbike.org/,;
             next if !/coords/;
             next if $date && !/$date/;
 
@@ -361,7 +361,7 @@ $data
 
 <div id="copyright">
 <hr/>
-(&copy;) 2008-2017 <a href="//bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
+(&copy;) 2008-2017 <a href="https://bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
 <div id="footer_community">
 </div>
 </div> <!-- copyright -->
@@ -815,7 +815,8 @@ sub statistic_basic {
     $q->param( "date", "today" );
     print qq{ | <a href="} . $q->url( -query => 1 ) . qq{">today</a>\n};
     print "<hr />\n";
-    print qq{Copyright (c) 2011-2017 <a href="//bbbike.org">BBBike.org</a>\n};
+    print
+      qq{Copyright (c) 2011-2017 <a href="https://bbbike.org">BBBike.org</a>\n};
     print "<br/>\n" . localtime() . "\n";
 }
 

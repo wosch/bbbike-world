@@ -24,37 +24,51 @@ var config = {
     "box_on_map": true,
 
     // limit are size to max. square kilometers
+    // keep in sync with lib/Extract/Config.pm !!!
     "max_skm": 24000000,
 
     // max. area size in MB
     "max_size": {
-        "default": 514,
+        "default": 512,
 
-        "osm.pbf": 1537,
+        "osm.pbf": 520,
 
-        "obf.zip": 250,
+        "text.xz": 496,
+        "geojson.xz": 496,
+        "geojsonseq.xz": 496,
+        "sqlite.xz": 256,
+
+        "obf.zip": 256,
         "navit.zip": 512,
         "bbbike-perltk.zip": 90,
-        "shp.zip": 512,
-        "mapsforge-osm.zip": 400,
+        "shp.zip": 128,
+        "mapsforge-osm.zip": 320,
         "mapsme-osm.zip": 500,
 
         "garmin-bbbike.zip": 512,
         "garmin-bbbike-ascii.zip": 512,
+        "garmin-bbbike-latin1.zip": 512,
         "garmin-osm.zip": 512,
         "garmin-osm-ascii.zip": 512,
+        "garmin-osm-latin1.zip": 512,
         "garmin-cycle.zip": 512,
         "garmin-cycle-ascii.zip": 512,
+        "garmin-cycle-latin1.zip": 512,
         "garmin-leisure.zip": 512,
         "garmin-leisure-ascii.zip": 512,
-        "garmin-onroad.zip": 450,
-        "garmin-onroad-ascii.zip": 450,
+        "garmin-leisure-latin1.zip": 512,
+        "garmin-onroad.zip": 250,
+        "garmin-onroad-ascii.zip": 250,
+        "garmin-onroad-latin1.zip": 250,
         "garmin-opentopo.zip": 512,
         "garmin-opentopo-ascii.zip": 512,
+        "garmin-opentopo-latin1.zip": 512,
         "garmin-openfietslite.zip": 512,
         "garmin-openfietslite-ascii.zip": 512,
+        "garmin-openfietslite-latin1.zip": 512,
         "garmin-oseam.zip": 512,
         "garmin-oseam-ascii.zip": 512,
+        "garmin-oseam-latin1.zip": 512,
 
         "png-google.zip": 32,
         "png-osm.zip": 32,
@@ -94,20 +108,28 @@ var config = {
     "format_images": {
         "garmin-openfietslite.zip": "/images/garmin-openfietslite-small.png",
         "garmin-openfietslite-ascii.zip": "/images/garmin-openfietslite-small.png",
+        "garmin-openfietslite-latin1.zip": "/images/garmin-openfietslite-small.png",
         "garmin-onroad.zip": "/images/garmin-onroad2-small.png",
         "garmin-onroad-ascii.zip": "/images/garmin-onroad2-small.png",
+        "garmin-onroad-latin1.zip": "/images/garmin-onroad2-small.png",
         "garmin-opentopo.zip": "/images/garmin-opentopo-berlin-120.png",
         "garmin-opentopo-ascii.zip": "/images/garmin-opentopo-berlin-120.png",
+        "garmin-opentopo-latin1.zip": "/images/garmin-opentopo-berlin-120.png",
         "garmin-bbbike.zip": "/images/garmin-bbbike-small.png",
         "garmin-bbbike-ascii.zip": "/images/garmin-bbbike-small.png",
+        "garmin-bbbike-latin1.zip": "/images/garmin-bbbike-small.png",
         "garmin-cycle.zip": "/images/garmin-cycle-small.png",
         "garmin-cycle-ascii.zip": "/images/garmin-cycle-small.png",
+        "garmin-cycle-latin1.zip": "/images/garmin-cycle-small.png",
         "garmin-leisure.zip": "/images/garmin-leisure-small.png",
         "garmin-leisure-ascii.zip": "/images/garmin-leisure-small.png",
+        "garmin-leisure-latin1.zip": "/images/garmin-leisure-small.png",
         "garmin-osm.zip": "/images/garmin-osm-small.png",
         "garmin-osm-ascii.zip": "/images/garmin-osm-small.png",
+        "garmin-osm-latin1.zip": "/images/garmin-osm-small.png",
         "garmin-oseam.zip": "/images/garmin-oseam2-small.png",
         "garmin-oseam-ascii.zip": "/images/garmin-oseam2-small.png",
+        "garmin-oseam-latin1.zip": "/images/garmin-oseam2-small.png",
 
         "svg-google.zip": "/images/svg-google-small.png",
         "svg-osm.zip": "/images/svg-osm-small.png",
@@ -124,6 +146,11 @@ var config = {
         "png-cadastre.zip": "/images/svg-cadastre-small.png",
 
         "opl.xz": "/images/opl.png",
+        "geojson.xz": "/images/geojson.png",
+        "geojsonseq.xz": "/images/geojson.png",
+        "text.xz": "/images/text.png",
+        "sqlite.xz": "/images/sqlite.png",
+
         "csv.xz": "/images/csv.png",
         "csv.gz": "/images/csv.png",
         "shp.zip": "/images/shp-small.png",
@@ -159,8 +186,8 @@ var config = {
     display_format_time: 7,
 
     // standard extract time in seconds for PBF
-    // for a full planet.osm.pbf without metadata (29GB), it takes ca. 10min
-    extract_time: 60 * 10,
+    // for a full planet.osm.pbf without metadata (33GB), it takes ca. 13min
+    extract_time: 60 * 13,
 
     // display messages in browser console
     debug: 1,
@@ -707,9 +734,15 @@ function setBounds(bounds) {
 
 function extract_init_pro(opt) {
     var hostname = $(location).attr('hostname');
-    if (hostname.match(/^(extract-pro|devX)[2-4]?\.bbbike\.org/i)) {
-        config.max_size["default"] *= 2;
+    if (hostname.match(/^extract-pro[1-9]?\.bbbike\.org/i) || $(location).attr('search').match(/[\?&;]pro=[\w]+/)) {
+        debug("enable BBBike Pro service");
+
+        config.max_size["default"] *= 1.7;
+        config.max_size["osm.pbf"] *= 6;
+        config.max_size["shp.zip"] *= 4;
         config.max_skm *= 2;
+
+        config.extract_pro = 1;
     }
 }
 
@@ -875,6 +908,8 @@ function checkform() {
         if (e.name == "as") {
             var format = $("select[name=format] option:selected").val();
             var max_size = config.max_size[format] ? config.max_size[format] : config.max_size["default"];
+
+            debug("selected format: " + format + " max_size: " + max_size);
             if (e.value < 0 || e.value > max_size) {
                 ret = 2;
             }
@@ -1205,20 +1240,23 @@ function show_skm(skm, filesize) {
         area_size.attr("value", filesize.size);
     }
 
+    // by default, assume everything is inside the limit
+    $("#export_osm_too_large").hide();
+
     if (skm > max_skm) {
         $("#size").html("Max area size: " + max_skm + "skm.");
         $("#export_osm_too_large").show();
     }
 
     // Osmand etc. works only for small areas less than 200MB
-    else if (config.max_size[format] && filesize.size > config.max_size[format]) {
-        $("#size").html("Max " + format + " file size: " + config.max_size[format] + " MB.");
-        $("#export_osm_too_large").show();
+    if (config.max_size[format]) {
+        if (filesize.size > config.max_size[format]) {
+            $("#size").html("Max " + format + " file size: " + config.max_size[format] + " MB.");
+            $("#export_osm_too_large").show();
+        }
     } else if (filesize.size > config.max_size["default"]) {
         $("#size").html("Max default file size: " + config.max_size["default"] + " MB.");
         $("#export_osm_too_large").show();
-    } else {
-        $("#export_osm_too_large").hide();
     }
 
     updatePermalink();
@@ -1307,8 +1345,8 @@ function validateControls() {
         // adjust polygon size for huge data, the area size is usually not normal (e.g. sea coast)
         if (size > 50000) {
             // min. size factor 0.3 or 0.5 for very large areas
-            var p = polygon + (1 - polygon) * (size > 300000 ? 0.5 : 0.3);
-            debug("reset polygon of size: " + size + " from polygon: " + polygon + " to: " + p);
+            var p = polygon + (1 - polygon) * (size > 200000 ? 0.7 : 0.3);
+            debug("reset polygon of size: " + size + "skm to: " + (size * p) + " skm from polygon: " + polygon + " to: " + p);
             polygon = p;
         }
 
@@ -1370,6 +1408,10 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "size": 0.67,
             "time": 3
         },
+        "garmin-osm-latin1.zip": {
+            "size": 0.67,
+            "time": 3
+        },
         "garmin-cycle.zip": {
             "size": 0.4,
             "time": 3
@@ -1378,105 +1420,134 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "size": 0.4,
             "time": 3
         },
+        "garmin-cycle-latin1.zip": {
+            "size": 0.4,
+            "time": 3
+        },
         "garmin-leisure.zip": {
-            "size": 0.85,
+            "size": 0.75,
             "time": 4
         },
         "garmin-leisure-ascii.zip": {
-            "size": 0.85,
+            "size": 0.75,
+            "time": 4
+        },
+        "garmin-leisure-latin1.zip": {
+            "size": 0.75,
             "time": 4
         },
         "garmin-bbbike.zip": {
-            "size": 0.65,
-            "time": 3
+            "size": 0.55,
+            "time": 4
         },
         "garmin-bbbike-ascii.zip": {
-            "size": 0.65,
-            "time": 3
+            "size": 0.55,
+            "time": 4
+        },
+        "garmin-bbbike-latin1.zip": {
+            "size": 0.55,
+            "time": 4
         },
         "garmin-onroad.zip": {
-            "size": 0.1,
-            "time": 12
+            "size": 0.07,
+            "time": 22
         },
         "garmin-onroad-ascii.zip": {
-            "size": 0.1,
-            "time": 12
+            "size": 0.07,
+            "time": 22
+        },
+        "garmin-onroad-latin1.zip": {
+            "size": 0.07,
+            "time": 22
         },
         "garmin-opentopo.zip": {
             "size": 0.7,
-            "time": 3
+            "time": 3.5
         },
         "garmin-opentopo-ascii.zip": {
             "size": 0.7,
-            "time": 3
+            "time": 3.5
+        },
+        "garmin-opentopo-latin1.zip": {
+            "size": 0.7,
+            "time": 3.5
         },
         "garmin-openfietslite.zip": {
             "size": 0.6,
-            "time": 3
+            "time": 4.5
         },
         "garmin-openfietslite-ascii.zip": {
             "size": 0.6,
-            "time": 3
+            "time": 4.5
+        },
+        "garmin-openfietslite-latin1.zip": {
+            "size": 0.6,
+            "time": 4.5
         },
         "garmin-oseam.zip": {
             "size": 0.64,
-            "time": 3
+            "time": 4
         },
         "garmin-oseam-ascii.zip": {
             "size": 0.64,
-            "time": 3
+            "time": 4
+        },
+        "garmin-oseam-latin1.zip": {
+            "size": 0.64,
+            "time": 4
         },
         "png-google.zip": {
-            "size": 1,
-            "time": 2
+            "size": 0.7,
+            "time": 10
         },
         "png-osm.zip": {
-            "size": 1,
-            "time": 2
+            "size": 0.7,
+            "time": 10
         },
         "png-hiking.zip": {
-            "size": 1,
-            "time": 2
+            "size": 0.7,
+            "time": 10
         },
         "png-urbanight.zip": {
-            "size": 1,
-            "time": 2
+            "size": 0.7,
+            "time": 10
         },
         "png-wireframe.zip": {
-            "size": 1,
-            "time": 2
+            "size": 0.7,
+            "time": 10
         },
         "png-cadastre.zip": {
-            "size": 1,
-            "time": 2
+            "size": 0.7,
+            "time": 10
         },
         "svg-google.zip": {
-            "size": 1,
-            "time": 2
+            "size": 0.7,
+            "time": 10
         },
         "svg-osm.zip": {
-            "size": 1,
-            "time": 2
+            "size": 0.7,
+            "time": 10
         },
         "svg-hiking.zip": {
-            "size": 1,
-            "time": 2
+            "size": 0.7,
+            "time": 10
         },
         "svg-urbanight.zip": {
-            "size": 1,
-            "time": 2
+            "size": 0.7,
+            "time": 10
         },
         "svg-wireframe.zip": {
-            "size": 1,
-            "time": 2
+            "size": 0.7,
+            "time": 10
         },
         "svg-cadastre.zip": {
-            "size": 1,
-            "time": 2
+            "size": 0.7,
+            "time": 10
         },
 
         "shp.zip": {
-            "size": 1.5
+            "size": 2,
+            "time": 1
         },
         "obf.zip": {
             "size": 1.4,
@@ -1502,18 +1573,31 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "time": 1.2
         },
         "opl.xz": {
-            "size": 1.30
+            "size": 1.70
+        },
+        "geojson.xz": {
+            "size": 1.98
+        },
+        "geojsonseq.xz": {
+            "size": 1.97
+        },
+        "text.xz": {
+            "size": 1.80
+        },
+        "sqlite.xz": {
+            "size": 1.50
         },
         "mapsforge-osm.zip": {
-            "size": 0.8,
-            "time": 3
+            "size": 0.7,
+            "time": 8
         },
         "mapsme-osm.zip": {
             "size": 0.85,
-            "time": 1
+            "time": 2
         },
         "navit.zip": {
-            "size": 0.8
+            "size": 0.8,
+            "time": 1.5
         },
         "bbbike-perltk.zip": {
             "time": 90,

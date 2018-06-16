@@ -55,7 +55,7 @@ case $file in
         : ${splitter_keep_complete="--keep-complete=false"}
         ;;
     *)         
-        : ${java_heap=2G}
+        : ${java_heap=2600M}
         ;;
 esac
 
@@ -113,13 +113,13 @@ echo ">>> Run splitter" >> $logfile
 
 ( set -x; 
   java -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar --version
-  java $java_splitter_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar \
+  nice -n1 java $java_splitter_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar \
      $splitter_keep_complete \
      --resolution=$splitter_resolution \
      --max-areas=$splitter_max_areas \
      --max-nodes=$splitter_max_nodes \
      --mapid="$mapid" \
-     --output-dir=$split_dir $file ) 2>&1 | tail -c 1024K  || error
+     --output-dir=$split_dir $file ) 2>&1 | tail -c 1024K >> $logfile || error
 
 #java $java_opt -jar $BBBIKE_OPT_DIR/splitter/splitter.jar --output-dir=$split_dir  --max-nodes=4000000 --mapid=$mapid $file >> $logfile 2>&1 || error
 if [ $(ls $split_dir/*.pbf 2>/dev/null | wc -l) -eq 0 ]; then

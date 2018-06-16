@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} ) {
@@ -8,8 +8,10 @@ BEGIN {
     }
 }
 
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
+
 use Test::More;
-use lib qw(./world/lib ../lib);
 use BBBike::Test;
 
 use strict;
@@ -19,62 +21,64 @@ my $test = BBBike::Test->new();
 
 my @list = (
     {
-        'page'     => 'http://www.bbike.org',
+        'page'     => 'https://www.bbike.org',
         'min_size' => 10_000,
         'match'    => ["</html>"]
     },
     {
-        'page'     => 'http://bbike.org',
+        'page'     => 'https://bbike.org',
         'min_size' => 10_000,
         'match'    => ["</html>"]
     },
 
     {
+        # no HTTPS yet
         'page'     => 'http://mc.bbike.org/mc/',
         'min_size' => 300,
         'match'    => [ "</html>", ">Map Compare<" ]
     },
 
     {
-        'page'     => 'http://www.cyclerouteplanner.org',
+        'page'     => 'https://www.cyclerouteplanner.org',
         'min_size' => 10_000,
         'match'    => ["</html>"]
     },
     {
-        'page'     => 'http://cyclerouteplanner.org',
-        'min_size' => 10_000,
-        'match'    => ["</html>"]
-    },
-
-    {
-        'page'     => 'http://www.cyclerouteplanner.com',
-        'min_size' => 10_000,
-        'match'    => ["</html>"]
-    },
-    {
-        'page'     => 'http://cyclerouteplanner.com',
+        'page'     => 'https://cyclerouteplanner.org',
         'min_size' => 10_000,
         'match'    => ["</html>"]
     },
 
     {
-        'page'     => 'http://www.cycleroute.net',
+        'page'     => 'https://www.cyclerouteplanner.com',
         'min_size' => 10_000,
         'match'    => ["</html>"]
     },
     {
-        'page'     => 'http://cycleroute.net',
+        'page'     => 'https://cyclerouteplanner.com',
         'min_size' => 10_000,
         'match'    => ["</html>"]
     },
 
     {
+        'page'     => 'https://www.cycleroute.net',
+        'min_size' => 10_000,
+        'match'    => ["</html>"]
+    },
+    {
+        'page'     => 'https://cycleroute.net',
+        'min_size' => 10_000,
+        'match'    => ["</html>"]
+    },
+
+    {
+        # no HTTPS yet
         'page'     => 'http://extract.bbike.org',
         'min_size' => 10_000,
         'match'    => ["</html>"]
     },
     {
-        'page'     => 'http://debian.bbbike.org',
+        'page'     => 'https://debian.bbbike.org',
         'min_size' => 200,
         'match'    => ["</html>"]
     },

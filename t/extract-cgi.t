@@ -1,10 +1,12 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
+
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
 
 use Test::More;
 use Data::Dumper;
 
-use lib qw(world/lib);
 use Extract::Locale;
 use Extract::Config;
 use Extract::CGI;
@@ -15,8 +17,8 @@ use warnings;
 my $debug   = 1;
 my $counter = 0;
 our $option = {
-    'homepage'            => 'http://download.bbbike.org/osm/extract/',
-    'script_homepage'     => 'http://extract.bbbike.org',
+    'homepage'            => 'https://download.bbbike.org/osm/extract/',
+    'script_homepage'     => 'https://extract.bbbike.org',
     'max_extracts'        => 50,
     'default_format'      => 'osm.pbf',
     'enable_polygon'      => 1,

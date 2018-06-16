@@ -18,17 +18,20 @@ use File::stat;
 use strict;
 use warnings;
 
-plan tests => 11;
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
+
+plan tests => 7;
 
 my $prefix       = 'world/t/data-osm/tmp';
-my $pbf_file     = 'world/t/data-osm/tmp/Cusco.osm.pbf';
-my $osm_file_gz  = "$prefix/Cusco.osm.csv.gz";
-my $osm_file_bz2 = "$prefix/Cusco.osm.csv.bz2";
-my $osm_file_xz  = "$prefix/Cusco.osm.csv.xz";
+my $pbf_file     = "$prefix/Cusco-csv.osm.pbf";
+my $osm_file_gz  = "$prefix/Cusco-csv.osm.csv.gz";
+my $osm_file_bz2 = "$prefix/Cusco-csv.osm.csv.bz2";
+my $osm_file_xz  = "$prefix/Cusco-csv.osm.csv.xz";
 
 if ( !-f $pbf_file ) {
     die "Directory '$prefix' does not exits\n" if !-d $prefix;
-    system(qw(ln -sf ../Cusco.osm.pbf world/t/data-osm/tmp)) == 0
+    system( qw(ln -sf ../Cusco.osm.pbf), $pbf_file ) == 0
       or die "symlink failed: $?\n";
 }
 
@@ -54,10 +57,14 @@ sub md5_file {
     return $md5;
 }
 
+sub cleanup {
+    unlink( $pbf_file, $osm_file_gz, $osm_file_bz2, $osm_file_xz );
+}
+
 ######################################################################
 
 if ( !-f $pbf_file ) {
-    system(qw(ln -sf ../Cusco.osm.pbf world/t/data-osm/tmp)) == 0
+    system( qw(ln -sf ../Cusco.osm.pbf), $pbf_file ) == 0
       or die "symlink failed: $?\n";
 }
 
@@ -72,26 +79,16 @@ is( $?,                  0,        "pbf2osm --csv-gzip converter" );
 is( md5_file($tempfile), $csv_md5, "csv gzip md5 checksum matched" );
 
 system(
-qq[world/bin/pbf2osm --csv-gz $pbf_file && gzip -dc $osm_file_gz > $tempfile]
-);
-is( $?,                  0,        "pbf2osm --csv-gz converter" );
-is( md5_file($tempfile), $csv_md5, "csv gz md5 checksum matched" );
-
-system(
 qq[world/bin/pbf2osm --csv-bzip2 $pbf_file && bzcat $osm_file_bz2 > $tempfile]
 );
 is( $?,                  0,        "pbf2osm --csv-bzip2 converter" );
 is( md5_file($tempfile), $csv_md5, "csv bzip2 md5 checksum matched" );
 
 system(
-    qq[world/bin/pbf2osm --csv-bz2 $pbf_file && bzcat $osm_file_bz2 > $tempfile]
-);
-is( $?,                  0,        "pbf2osm --csv-bz2 converter" );
-is( md5_file($tempfile), $csv_md5, "csv bz2 md5 checksum matched" );
-
-system(
     qq[world/bin/pbf2osm --csv-xz $pbf_file && xzcat $osm_file_xz > $tempfile]);
 is( $?,                  0,        "pbf2osm --csv-xz converter" );
 is( md5_file($tempfile), $csv_md5, "csv xz md5 checksum matched" );
+
+&cleanup;
 
 __END__

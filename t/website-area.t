@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} ) {
@@ -11,8 +11,10 @@ BEGIN {
     }
 }
 
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
+
 use Test::More;
-use lib qw(./world/lib ../lib);
 use BBBike::Test;
 
 use strict;
@@ -20,7 +22,7 @@ use warnings;
 
 my $test = BBBike::Test->new();
 
-my $homepage = 'http://download.bbbike.org/osm/bbbike';
+my $homepage = 'https://download.bbbike.org/osm/bbbike';
 my @cities   = qw/Berlin Zuerich Toronto Moscow/;
 
 my $garmin = 1;    # 0, 1
@@ -39,7 +41,7 @@ sub cities {
         my $res = $test->myget($url);
 
         my $path = $homepage;
-        $path =~ s,http://.*?/,/,;
+        $path =~ s,https://.*?/,/,;
 
         my $content = $res->decoded_content();
 

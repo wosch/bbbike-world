@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_NO_NETWORK} ) {
@@ -12,9 +12,11 @@ BEGIN {
     }
 }
 
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
+
 use utf8;
 use Test::More;
-use lib qw(./world/lib ../lib);
 use BBBike::Test;
 
 use strict;
@@ -23,9 +25,9 @@ use warnings;
 my $test = BBBike::Test->new();
 
 my @homepages = qw[
-  http://download.bbbike.org
-  http://download3.bbbike.org
-  http://download4.bbbike.org
+  https://download.bbbike.org
+  https://download3.bbbike.org
+  https://download4.bbbike.org
 ];
 
 my $urls = [

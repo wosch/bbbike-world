@@ -1,0 +1,59 @@
+#!/usr/local/bin/bash
+# Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
+#
+# osm2sqlite  - convert a .pbf file to SQLite
+
+: ${BBBIKE_TMPDIR="/bbbike/tmp"}
+: ${BBBIKE_TMPFS="/tmpfs"}
+: ${osmium_toogr2="osmium_toogr2"}
+
+xz=`which pixz xz 2>/dev/null | head -n 1`
+case $xz in *pixz ) xz_opt="-t" ;; esac
+
+if ! which $osmium_toogr2 > /dev/null; then
+   echo "cannot find $osmium_toogr2, give up"
+   exit 2
+fi
+
+set -e
+
+usage () {
+   echo "$@"
+   echo "usage: $0 file.pbf"
+   exit 1
+}
+
+file=$1
+sqlite=$(echo $file | perl -npe 's,\.pbf$,.sqlite,')
+
+if [ -z "$file" ]; then
+  usage "missing file"
+fi
+
+if [ ! -e "$file" ]; then
+  usage "file '$file' does not exists"
+fi
+
+
+# use RAM disk
+tmpfile=$(mktemp ${BBBIKE_TMPFS}/osm2sqlite.XXXXXXXXXXX)
+outfile=${tmpfile}.sqlite
+logfile=${tmpfile}.log
+
+# cleanup after signal, but show errors first
+trap 'rm -f $tmpfile $outfile $logfile' 0 1 2 15
+
+if $osmium_toogr2 $file $outfile 2> $logfile; then
+  :
+else
+  echo "$osmium_toogr2 failed: $!"
+  tail -100 $logfile
+  exit 1
+fi
+
+if [ "$COMPRESS" = "NO" ]; then
+  mv -f $outfile $sqlite
+else
+  $xz $xz_opt -1 < $outfile > $sqlite.tmp && mv -f $sqlite.tmp $sqlite.xz
+fi
+

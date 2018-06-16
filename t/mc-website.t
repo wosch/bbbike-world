@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 #
 # check map compare JS/images and external libs
 #
@@ -11,9 +11,11 @@ BEGIN {
     }
 }
 
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
+
 use Encode;
 use Test::More;
-use lib qw(./world/lib ../lib);
 use BBBike::Test;
 
 my $test = BBBike::Test->new();
@@ -31,50 +33,50 @@ my @list = (
 );
 
 my @javascript = qw(
-  http://mc.bbbike.org/mc/js/OpenLayers/2.12/OpenLayers.min.js
-  http://mc.bbbike.org/mc/js/OpenLayers/2.12/OpenStreetMap.js
-  http://mc.bbbike.org/mc/js/OpenLayers/2.12/Here.js
-  http://mc.bbbike.org/mc/js/jqModal/jqModal-1.1.0.js
-  http://mc.bbbike.org/mc/js/jquery/jquery-1.8.3.min.js
-  http://mc.bbbike.org/mc/js/jquery/jquery-ui-1.7.2.custom.min.js
-  http://mc.bbbike.org/mc/js/jquery/jquery.cookie.js
-  http://mc.bbbike.org/mc/js/jquery/jquery.iecors.js
-  http://mc.bbbike.org/mc/js/mc.js
+  https://mc.bbbike.org/mc/js/OpenLayers/2.12/OpenLayers.min.js
+  https://mc.bbbike.org/mc/js/OpenLayers/2.12/OpenStreetMap.js
+  https://mc.bbbike.org/mc/js/OpenLayers/2.12/Here.js
+  https://mc.bbbike.org/mc/js/jqModal/jqModal-1.1.0.js
+  https://mc.bbbike.org/mc/js/jquery/jquery-1.8.3.min.js
+  https://mc.bbbike.org/mc/js/jquery/jquery-ui-1.7.2.custom.min.js
+  https://mc.bbbike.org/mc/js/jquery/jquery.cookie.js
+  https://mc.bbbike.org/mc/js/jquery/jquery.iecors.js
+  https://mc.bbbike.org/mc/js/mc.js
 );
 
 my @gif = qw(
-  http://mc.bbbike.org/mc/img/bg-right.gif
-  http://mc.bbbike.org/mc/img/help.gif
-  http://mc.bbbike.org/mc/img/close.gif
-  http://mc.bbbike.org/mc/img/indicator.gif
+  https://mc.bbbike.org/mc/img/bg-right.gif
+  https://mc.bbbike.org/mc/img/help.gif
+  https://mc.bbbike.org/mc/img/close.gif
+  https://mc.bbbike.org/mc/img/indicator.gif
 );
 
 my @png = qw(
-  http://mc.bbbike.org/mc/img/bg-bottom.png
-  http://mc.bbbike.org/mc/img/bg-top.png
-  http://mc.bbbike.org/mc/img/cross.png
-  http://mc.bbbike.org/mc/img/location-icon.png
-  http://mc.bbbike.org/mc/img/social/rss-icon.png
-  http://mc.bbbike.org/mc/img/social/twitter-t.png
-  http://mc.bbbike.org/mc/img/theme/geofabrik/img/east-mini.png
-  http://mc.bbbike.org/mc/img/theme/geofabrik/img/north-mini.png
-  http://mc.bbbike.org/mc/img/theme/geofabrik/img/slider.png
-  http://mc.bbbike.org/mc/img/theme/geofabrik/img/south-mini.png
-  http://mc.bbbike.org/mc/img/theme/geofabrik/img/west-mini.png
-  http://mc.bbbike.org/mc/img/theme/geofabrik/img/zoom-minus-mini.png
-  http://mc.bbbike.org/mc/img/theme/geofabrik/img/zoom-plus-mini.png
-  http://mc.bbbike.org/mc/img/theme/geofabrik/img/zoombar.png
-  http://mc.bbbike.org/mc/img/theme/geofabrik/img/cloud-popup-relative.png
+  https://mc.bbbike.org/mc/img/bg-bottom.png
+  https://mc.bbbike.org/mc/img/bg-top.png
+  https://mc.bbbike.org/mc/img/cross.png
+  https://mc.bbbike.org/mc/img/location-icon.png
+  https://mc.bbbike.org/mc/img/social/rss-icon.png
+  https://mc.bbbike.org/mc/img/social/twitter-t.png
+  https://mc.bbbike.org/mc/img/theme/geofabrik/img/east-mini.png
+  https://mc.bbbike.org/mc/img/theme/geofabrik/img/north-mini.png
+  https://mc.bbbike.org/mc/img/theme/geofabrik/img/slider.png
+  https://mc.bbbike.org/mc/img/theme/geofabrik/img/south-mini.png
+  https://mc.bbbike.org/mc/img/theme/geofabrik/img/west-mini.png
+  https://mc.bbbike.org/mc/img/theme/geofabrik/img/zoom-minus-mini.png
+  https://mc.bbbike.org/mc/img/theme/geofabrik/img/zoom-plus-mini.png
+  https://mc.bbbike.org/mc/img/theme/geofabrik/img/zoombar.png
+  https://mc.bbbike.org/mc/img/theme/geofabrik/img/cloud-popup-relative.png
 );
 
 my @css = qw(
-  http://mc.bbbike.org/mc/css/common.css
-  http://mc.bbbike.org/mc/css/mc.css
-  http://mc.bbbike.org/mc/css/OpenLayers/style.css
+  https://mc.bbbike.org/mc/css/common.css
+  https://mc.bbbike.org/mc/css/mc.css
+  https://mc.bbbike.org/mc/css/OpenLayers/style.css
 );
 
 my @html = qw(
-  http://mc.bbbike.org/mc/
+  https://mc.bbbike.org/mc/
 );
 
 foreach my $item (@png) {

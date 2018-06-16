@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) Mar 2013-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Mar 2013-2018 Wolfram Schneider, https://bbbike.org
 #
 # planet-download-replication - replicate daily planet.osm.pbf
 #
@@ -39,7 +39,7 @@ else
 fi
 
 tmp=$(mktemp)
-curl -sSf $planet_osm_replication_server/replication/day/state.txt > $tmp
+curl -L -sSf $planet_osm_replication_server/replication/day/state.txt > $tmp
 sequence_number=$(perl -ne 'print "$1\n" if /sequenceNumber=(\d+)/' $tmp)
 
 if [ -z $sequence_number ]; then

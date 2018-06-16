@@ -44,23 +44,31 @@ our $unlink_broken_storable = 1;
 #       internal file, not for the *.zip file itself
 #
 our $factor = {
-    'garmin-onroad.zip'              => 0.07,
-    'garmin-onroad-ascii.zip'        => 0.071,
-    'garmin-bbbike.zip'              => 0.585,
-    'garmin-bbbike-ascii.zip'        => 0.586,
-    'garmin-cycle.zip'               => 0.581,
-    'garmin-cycle-ascii.zip'         => 0.582,
-    'garmin-openfietslite.zip'       => 0.55,
-    'garmin-openfietslite-ascii.zip' => 0.551,
-    'garmin-leisure.zip'             => 0.855,
-    'garmin-leisure-ascii.zip'       => 0.856,
-    'garmin-osm.zip'                 => 0.683,
-    'garmin-osm-ascii.zip'           => 0.684,
-    'garmin-srtm.zip'                => 1.3,
-    'garmin-oseam.zip'               => 0.641,
-    'garmin-oseam-ascii.zip'         => 0.642,
-    'garmin-opentopo.zip'            => 0.707,
-    'garmin-opentopo-ascii.zip'      => 0.708,
+    'garmin-onroad.zip'               => 0.07,
+    'garmin-onroad-ascii.zip'         => 0.071,
+    'garmin-onroad-latin1.zip'        => 0.072,
+    'garmin-bbbike.zip'               => 0.585,
+    'garmin-bbbike-ascii.zip'         => 0.586,
+    'garmin-bbbike-latin1.zip'        => 0.587,
+    'garmin-cycle.zip'                => 0.581,
+    'garmin-cycle-ascii.zip'          => 0.582,
+    'garmin-cycle-latin1.zip'         => 0.583,
+    'garmin-openfietslite.zip'        => 0.55,
+    'garmin-openfietslite-ascii.zip'  => 0.551,
+    'garmin-openfietslite-latin1.zip' => 0.552,
+    'garmin-leisure.zip'              => 0.855,
+    'garmin-leisure-ascii.zip'        => 0.856,
+    'garmin-leisure-latin1.zip'       => 0.857,
+    'garmin-osm.zip'                  => 0.683,
+    'garmin-osm-ascii.zip'            => 0.684,
+    'garmin-osm-latin1.zip'           => 0.685,
+    'garmin-srtm.zip'                 => 1.3,
+    'garmin-oseam.zip'                => 0.641,
+    'garmin-oseam-ascii.zip'          => 0.642,
+    'garmin-oseam-latin1.zip'         => 0.643,
+    'garmin-opentopo.zip'             => 0.707,
+    'garmin-opentopo-ascii.zip'       => 0.708,
+    'garmin-opentopo-latin1.zip'      => 0.709,
 
     'svg-google.zip'     => 1.68,
     'svg-hiking.zip'     => 3.82,
@@ -97,7 +105,11 @@ our $factor = {
     'csv.gz'  => 1.01,
     'csv.bz2' => 0.80,
 
-    'opl.xz' => 1.30,
+    'opl.xz'        => 1.70,
+    'geojson.xz'    => 1.98,
+    'geojsonseq.xz' => 1.97,
+    'text.xz'       => 1.80,
+    'sqlite.xz'     => 1.51,
 
     # pseudo extension
     'pbf'             => 1,
@@ -166,7 +178,7 @@ sub valid_hostname {
     my $hostname = shift || $ENV{HTTP_HOST} || "localhost";
     $hostname =~ s/:.*//;
 
-    if ( $hostname =~ /^([a-zA-Z0-9\.]+)$/ ) {
+    if ( $hostname =~ /^([a-zA-Z0-9\.\-]+)$/ ) {
         return $1;
     }
     else {

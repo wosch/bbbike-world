@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2016 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     system("which osmium2shape >/dev/null");
@@ -25,6 +25,9 @@ q[egrep '^MemTotal: ' /proc/meminfo | awk '{ if ($2 > 1.8 * 1000000) { exit 0 } 
     }
 }
 
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
+
 use Getopt::Long;
 use Data::Dumper qw(Dumper);
 use Test::More;
@@ -33,17 +36,21 @@ use IO::File;
 use Digest::MD5 qw(md5_hex);
 use File::stat;
 
+use Test::More::UTF8;
+use Extract::Test::Archive;
+
 use strict;
 use warnings;
 
-plan tests => 6;
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
 
 my $prefix   = 'world/t/data-osm/tmp';
-my $pbf_file = "$prefix/Cusco.osm.pbf";
+my $pbf_file = "$prefix/Cusco-shp.osm.pbf";
 
 if ( !-f $pbf_file ) {
     die "Directory '$prefix' does not exits\n" if !-d $prefix;
-    system(qw(ln -sf ../Cusco.osm.pbf world/t/data-osm/tmp)) == 0
+    system( qw(ln -sf ../Cusco.osm.pbf), $pbf_file ) == 0
       or die "symlink failed: $?\n";
 }
 
@@ -68,31 +75,67 @@ sub md5_file {
     return $md5;
 }
 
+sub convert_format {
+    my $lang        = shift;
+    my $format      = shift;
+    my $format_name = shift;
+
+    my $counter  = 5;
+    my $tempfile = File::Temp->new( SUFFIX => ".osm" );
+    my $st       = 0;
+
+    my $test = Extract::Test::Archive->new(
+        'lang'        => $lang,
+        'pbf_file'    => $pbf_file,
+        'format'      => $format,
+        'format_name' => $format_name
+    );
+    my $city = $test->init_cusco;
+    my $out  = $test->out;
+    unlink $out;
+
+    system(qq[world/bin/pbf2osm --shp $pbf_file $city]);
+    is( $?, 0, "pbf2osm --shp $pbf_file" );
+    $st = stat($out) or die "Cannot stat $out\n";
+
+    system(qq[unzip -t $out]);
+    is( $?, 0, "valid zip file" );
+
+    my $size = $st->size;
+    cmp_ok( $size, '>', $min_size, "$out: $size > $min_size" );
+
+    system(qq[world/bin/extract-disk-usage.sh $out > $tempfile]);
+    is( $?, 0, "extract disk usage check" );
+
+    my $image_size = `cat $tempfile` * 1024;
+
+    cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
+
+    $counter += $test->validate;
+
+    unlink( $out, "$out.md5", "$out.sha256" );
+    return $counter;
+}
+
+sub cleanup {
+    unlink $pbf_file;
+}
+
 ######################################################################
 is( md5_file($pbf_file), $pbf_md5, "md5 checksum matched" );
 
-my $tempfile = File::Temp->new( SUFFIX => ".osm" );
-$prefix = $pbf_file;
-$prefix =~ s/\.pbf$//;
-my $st = 0;
+my $counter = 0;
+my @lang = ( "en", "de" );
 
-my $out = "$prefix.shp.zip";
-unlink $out;
+if ( !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG} ) {
+    push @lang, ( "fr", "es", "ru", "" );
+}
 
-system(qq[world/bin/pbf2osm --shape $pbf_file]);
-is( $?, 0, "pbf2osm --shape converter" );
-$st = stat($out) or die "Cannot stat $out\n";
+foreach my $lang (@lang) {
+    $counter += &convert_format( $lang, 'shp', 'shape' );
+}
 
-system(qq[unzip -t $out]);
-is( $?, 0, "valid zip file" );
-
-my $size = $st->size;
-cmp_ok( $size, '>', $min_size, "$out: $size > $min_size" );
-
-system(qq[world/bin/extract-disk-usage.sh $out > $tempfile]);
-is( $?, 0, "extract disk usage check" );
-
-my $image_size = `cat $tempfile` * 1024;
-cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
+&cleanup;
+plan tests => 1 + $counter;
 
 __END__

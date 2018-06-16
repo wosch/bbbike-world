@@ -1,10 +1,12 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2016 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
+
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
 
 use Test::More;
 use Data::Dumper;
 
-use lib qw(world/lib);
 use Extract::Poly;
 use Extract::Planet;
 use BBBike::WorldDB;
@@ -12,11 +14,14 @@ use BBBike::WorldDB;
 use strict;
 use warnings;
 
-my $debug          = 1;
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
+
+my $debug          = 0;
 my $poly           = new Extract::Poly( 'debug' => $debug );
 my $planet         = new Extract::Planet( 'debug' => $debug );
 my @regions        = $poly->list_subplanets;
-my @regions_sorted = $poly->list_subplanets( 'sort_by' => 1 );
+my @regions_sorted = $poly->list_subplanets( 'sort_by' => 'skm' );
 
 my $planet_polygon = &planet_polygon;
 cmp_ok( scalar(@$planet_polygon),
@@ -66,7 +71,7 @@ sub check_regions {
 }
 
 sub check_cities {
-    my $obj    = $poly->get_job_obj('central-europe');
+    my $obj    = $poly->get_job_obj('europe-central');
     my $region = 'Berlin';
 
     my $berlin_polygon = get_polygon( $region, [ 12.76, 52.23, 13.98, 52.82 ] );
@@ -77,7 +82,7 @@ sub check_cities {
     );
     is( $inner, 1, "region $region is inside planet" );
 
-    my $outer = 'central-europe';
+    my $outer = 'europe-central';
     $inner = $planet->sub_polygon(
         'inner' => $berlin_polygon,
         'outer' => get_polygon($outer)
@@ -185,6 +190,9 @@ sub check_match_cities {
 
         my $counter = 0;
 
+        diag "Regions sorted by skm size: " . Dumper( \@regions_sorted )
+          if $debug >= 1;
+
         foreach my $city (@cities) {
             get_part("area");
 
@@ -201,28 +209,44 @@ sub check_match_cities {
                     'inner' => $city_polygon,
                     'outer' => get_polygon($outer)
                 );
-                is( $inner, $result,
-                    "region $city is inside $sub_planet, but got $outer" );
+
                 $counter += 1;
 
-                # stop at first match
-                last if $result == 1;
+                # got the right match
+                if ($result) {
+                    is( $inner, $result, "region $city is inside $sub_planet" );
+                    last;
+                }
+
+                # not done yet
+                else {
+                    is( $inner, $result,
+                        "region $city is not inside $sub_planet, but $outer" );
+                }
             }
         }
 
         return $counter;
     }
 
+    # check if the cities are in the right sub-planet
     $counter +=
-      &check_sorted_regions( 'germany-europe', qw/Berlin Hamburg Dresden/ );
-    $counter += &check_sorted_regions( 'central-europe', qw/Amsterdam/ );
-    $counter += &check_sorted_regions( 'europe', qw/London Madrid Sofia/ );
+      &check_sorted_regions( 'europe-germany', qw/Berlin Hamburg Dresden/ );
+    $counter += &check_sorted_regions( 'europe-central', qw/Amsterdam/ );
+    $counter += &check_sorted_regions( 'europe-south',   qw/Madrid Sofia/ );
+    $counter += &check_sorted_regions( 'europe',         qw/Trondheim/ );
     $counter +=
-      &check_sorted_regions( 'north-america', qw/SanFrancisco Denver Toronto/ );
+      &check_sorted_regions( 'europe-northwest', qw/Paris London Dublin/ );
+    $counter += &check_sorted_regions( 'europe-east', qw/Moscow/ );
+    $counter +=
+      &check_sorted_regions( 'north-america-west', qw/SanFrancisco Denver/ );
+    $counter += &check_sorted_regions( 'north-america-east', qw/Toronto/ );
     $counter += &check_sorted_regions( 'south-america',
-        qw/LaPlata BuenosAires RiodeJaneiro/ );
+        qw/LaPlata Cusco BuenosAires RiodeJaneiro/ );
     $counter += &check_sorted_regions( 'africa', qw/Johannesburg CapeTown/ );
-    $counter += &check_sorted_regions( 'asia', qw/Seoul Singapore Melbourne/ );
+    $counter += &check_sorted_regions( 'asia',   qw/Melbourne/ );
+    $counter +=
+      &check_sorted_regions( 'asia-south', qw/Seoul Singapore Bangkok/ );
 
     return $counter;
 }

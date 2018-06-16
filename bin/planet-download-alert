@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2009-2016 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2018 Wolfram Schneider, https://bbbike.org
 #
 # planet-download-alert - alert if new planet.osm.pbf is available
 #
@@ -29,7 +29,7 @@ if [ -e $update ]; then
    fi
 fi
 
-new=$(curl -sSf --head --location $planet_osm_server/$file | perl -ne 'print "$1\n" if /^Content-Length:\s+(\d+)/')
+new=$(curl -L -sSf --head --location $planet_osm_server/$file | perl -ne 'print "$1\n" if /^Content-Length:\s+(\d+)/')
 
 cache_file=$dir/$file
 if [ -e  $cache_file ]; then
@@ -40,12 +40,12 @@ if test -n "$new" && test "$new" -ne "$old"; then
    echo "please update me: $old $new"
    echo "$planet_osm_server/$file"
    echo ""
-   curl -sSf --head --location $planet_osm_server/$file | egrep "^(Content-Length:|Last-|Location:)"
+   curl -L -sSf --head --location $planet_osm_server/$file | egrep "^(Content-Length:|Last-|Location:)"
    touch $update
 
    if [ -n "$automatic_update" ]; then
      if [ $new -gt $planet_osm_min_size ]; then
-       echo "start updated: $(date), may run 8-12 hours"
+       echo "start updated: $(date), may run 8-21 hours"
        logfile=tmp/log.update-database
        make -s update-database > $logfile 2>&1 || tail -n 200 $logfile 
        echo "done updated: $(date)"

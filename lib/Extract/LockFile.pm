@@ -29,7 +29,7 @@ sub new {
     my $class = shift;
     my %args  = @_;
 
-    my $self = {%args};
+    my $self = { 'wait' => 0, %args };
 
     bless $self, $class;
     $self->init;
@@ -53,25 +53,56 @@ sub create_lock {
     my %args = @_;
 
     my $lockfile = $args{'lockfile'};
+    my $wait     = defined $args{'wait'} ? $args{'wait'} : $self->{'wait'};
+    my $max      = 48;
 
-    warn "Try to create lockfile: $lockfile, value: $$\n" if $debug >= 1;
+    warn
+      "Try to create lockfile: $lockfile, value: $$, wait: $wait, max: $max\n"
+      if $debug >= 1;
 
     my $lockmgr = LockFile::Simple->make(
         -hold      => 7200,
         -autoclean => 1,
-        -max       => 5,
+        -max       => $max,
         -stale     => 1,
-        -delay     => 1
+        -ext       => ".lock",
     );
 
-    if ( $lockmgr->trylock($lockfile) ) {
+    my $res;
+
+    if ( !$wait ) {
+        $res = $lockmgr->trylock($lockfile);
+    }
+    else {
+        #
+        # We have to implement our own wait for a lock
+        # We need to wait a random value, not a fixed time in seconds to
+        # avoid a clash with other scripts
+        #
+        foreach my $i ( 1 .. $max ) {
+            $res = $lockmgr->trylock($lockfile);
+            if ($res) {
+                last;
+            }
+            else {
+                my $random = rand();
+                warn "sleep random to get lockfile: $random\n" if $debug >= 3;
+                select( undef, undef, undef, $random );
+            }
+        }
+    }
+
+    if ($res) {
         return $lockmgr;
     }
 
     # return undefined for failure
     else {
-        warn "Cannot get lockfile, apparently in use: $lockfile\n"
+        warn "Cannot get lockfile, apparently in use: "
+          . "$lockfile, max: $max, wait: $wait\n"
           if $debug >= 1;
+        warn `ls -l $lockfile*` if $debug >= 2;
+
         return;
     }
 }
@@ -83,7 +114,7 @@ sub remove_lock {
     my $lockfile = $args{'lockfile'};
     my $lockmgr  = $args{'lockmgr'};
 
-    my $pid = read_data("$lockfile.lock");    # xxx
+    my $pid = read_data("$lockfile.lock");    # -ext => ".lock"
     chomp($pid);
 
     warn "Remove lockfile: $lockfile, pid $pid\n" if $debug >= 1;

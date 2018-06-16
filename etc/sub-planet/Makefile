@@ -7,7 +7,11 @@
 all: update
 
 update update-poly:
-	cd ../../.. && ./world/bin/sub-planet.pl 
+	@if [ -e ../../../../osm/download/sub-planet/europe.osm.pbf ]; then \
+	   cd ../../.. && ./world/bin/sub-planet.pl; \
+	else \
+	   echo "there are no sub-planet files, cannot update config"; \
+	fi
 	@git diff .
 
 help:
