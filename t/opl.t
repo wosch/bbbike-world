@@ -4,10 +4,10 @@
 BEGIN {
     system(
         "env",   "PATH=/bin:/usr/bin:/usr/local/bin",
-        "which", "osmium_convert"
+        "which", "osmium"
     );
     if ($?) {
-        print "1..0 # skip no osmium_convert found, skip tests\n";
+        print "1..0 # skip no osmium found, skip tests\n";
         exit;
     }
 }
