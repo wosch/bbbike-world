@@ -20,8 +20,8 @@ chdir("$FindBin::RealBin/../..")
 my $debug   = 1;
 my $counter = 0;
 our $option = {
-    'server_status_url' => 'http://download.bbbike.org/osm/extract/',
-    'download_homepage' => 'http://download.bbbike.org/osm/',
+    'server_status_url' => 'https://download.bbbike.org/osm/extract/',
+    'download_homepage' => 'https://download.bbbike.org/osm/',
 
     'homepage'            => 'https://download.bbbike.org/osm/extract/',
     'script_homepage'     => 'https://extract.bbbike.org',

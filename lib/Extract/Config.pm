@@ -355,7 +355,8 @@ sub get_server_list {
         }
 
         foreach my $s ( @{ $server->{$type} } ) {
-            push @list, "http://$s";
+            my $protocol = $s =~ m,^localhost$, ? 'http' : 'https';
+            push @list, "$protocol://$s";
         }
     }
 
@@ -496,7 +497,7 @@ sub check_extract_pro {
     my $url = $q->url( -full => 1 );
 
     # public version, skip
-    if ( !$q->param("pro") && $url !~ m,^https?://extract-pro[1-9]?\., ) {
+    if ( !$q->param("pro") && $url !~ m,^https://extract-pro[1-9]?\., ) {
         return;
     }
 
