@@ -30,7 +30,7 @@ use strict;
 use warnings;
 
 my $file = $ENV{BBBIKE_START_DEST_POINTS} || 'world/t/start-dest-points.txt';
-my $debug = 1;
+my $debug = 0;
 my $WideSearch = 0;
 my $max = $ENV{BBBIKE_TEST_LONG} ? 100 : $ENV{BBBIKE_TEST_FAST} ? 5 : 20;
 
@@ -127,14 +127,14 @@ sub init {
 
     cmp_ok( $size, '>', 10, "network size $size > 10" );
 
-    diag "memory usage: $size MB\n";
+    diag "memory usage: $size MB\n" if $debug >= 1;
 }
 
 sub heap_test {
     my $c1 = shift;
     my $c2 = shift;
 
-    warn "Start: $c1, Dest: $c2\n" if $debug >= 2;
+    diag "Start: $c1, Dest: $c2\n" if $debug >= 2;
 
     my @result;
     foreach my $heap ( 0, 1 ) {
@@ -146,7 +146,7 @@ sub heap_test {
         for ( $c1, $c2 ) {
             if ( !$net->reachable($_) ) {
                 my $new = $net->fix_coords($_);
-                diag "correct coords $file: $_ => $new";
+                diag "correct coords $file: $_ => $new" if $debug >= 1;
                 $_ = $new;
                 next;
             }
@@ -164,7 +164,7 @@ sub heap_test {
 
         push @result, \@route;
 
-        warn Dumper( \@route ) if $debug >= 3;
+        diag Dumper( \@route ) if $debug >= 3;
     }
 
     is_deeply( $result[0], $result[1] );
