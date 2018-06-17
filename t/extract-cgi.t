@@ -14,9 +14,15 @@ use Extract::CGI;
 use strict;
 use warnings;
 
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
+
 my $debug   = 1;
 my $counter = 0;
 our $option = {
+    'server_status_url' => 'http://download.bbbike.org/osm/extract/',
+    'download_homepage' => 'http://download.bbbike.org/osm/',
+
     'homepage'            => 'https://download.bbbike.org/osm/extract/',
     'script_homepage'     => 'https://extract.bbbike.org',
     'max_extracts'        => 50,
