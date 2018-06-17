@@ -44,7 +44,8 @@ sub md5_file {
 my $tempfile = File::Temp->new( SUFFIX => ".str" );
 my $st = 0;
 
-system(qq[world/bin/strasse-str < $strassen > $tempfile]);
+system(qq[cp $strassen $tempfile]);
+system(qq[world/bin/strasse-str $tempfile]);
 is( $?, 0, "strassen-str converter" );
 is( md5_file($str), md5_file($tempfile), "compare output" );
 
@@ -52,5 +53,7 @@ $st = stat($tempfile);
 my $size     = $st->size;
 my $min_size = 12_000;
 cmp_ok( $size, '>', $min_size, "$tempfile: $size > $min_size" );
+
+unlink "$tempfile.bak";
 
 __END__
