@@ -2,10 +2,7 @@
 # Copyright (c) Sep 2012-2016 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
-    system(
-        "env",   "PATH=/bin:/usr/bin:/usr/local/bin",
-        "which", "osmium"
-    );
+    system( "env", "PATH=/bin:/usr/bin:/usr/local/bin", "which", "osmium" );
     if ($?) {
         print "1..0 # skip no osmium found, skip tests\n";
         exit;
