@@ -26,8 +26,8 @@ binmode \*STDERR, ":utf8";
 $ENV{PATH} = "/bin:/usr/bin";
 
 our $option = {
-    'homepage_download' => '//download.bbbike.org/osm/',
-    'homepage_bbbike'   => '//www.bbbike.org',
+    'homepage_download' => 'https://download.bbbike.org/osm/',
+    'homepage_bbbike'   => 'https://www.bbbike.org',
 
     'message_path' => "../world/etc/extract",
     'city_default' => 'Berlin',
