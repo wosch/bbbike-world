@@ -144,7 +144,7 @@ sub header {
             {
                 -name => 'description',
                 -content =>
-'OpenStreetMap extracts from Planet.osm in OSM, PBF, Garmin, Osmand, mapsforge, Navit, SVG, GeoJSON, SQLite or Esri shapefile format (as rectangle or polygon).'
+'OpenStreetMap exports from Planet.osm in OSM, PBF, Garmin, Osmand, mapsforge, Navit, SVG, GeoJSON, SQLite or Esri shapefile format (as rectangle or polygon).'
             }
         )
     );
