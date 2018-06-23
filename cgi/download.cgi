@@ -601,7 +601,7 @@ sub download_header {
     print $q->header( -charset => 'utf-8', -expires => '+0s' );
 
     print $q->start_html(
-        -title => 'OpenStreetMap extracts ready to download | BBBike.org',
+        -title => 'BBBike extracts ready to download',
         -head  => [
             $q->meta(
                 {
@@ -609,9 +609,7 @@ sub download_header {
                     -content    => 'text/html; charset=utf-8'
                 }
             ),
-            $q->meta(
-                { -name => "robots", -content => "nofollow,noindex,noarchive" }
-            ),
+            $q->meta( { -name => "robots", -content => "nofollow,noarchive" } ),
             $q->Link(
                 { -rel => "shortcut icon", -href => "/images/srtbike16.gif" }
             )
