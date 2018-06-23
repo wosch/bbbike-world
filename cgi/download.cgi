@@ -601,7 +601,7 @@ sub download_header {
     print $q->header( -charset => 'utf-8', -expires => '+0s' );
 
     print $q->start_html(
-        -title => 'OpenStreetMap extracts ready to download | BBBike.org',
+        -title => 'BBBike extracts ready to download',
         -head  => [
             $q->meta(
                 {
