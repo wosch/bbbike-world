@@ -610,7 +610,7 @@ sub download_header {
                 }
             ),
             $q->meta(
-                { -name => "robots", -content => "nofollow,noindex,noarchive" }
+                { -name => "robots", -content => "nofollow,noarchive" }
             ),
             $q->Link(
                 { -rel => "shortcut icon", -href => "/images/srtbike16.gif" }
