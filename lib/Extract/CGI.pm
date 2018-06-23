@@ -177,7 +177,7 @@ sub header {
     $data .= $q->header( @status, -charset => 'utf-8', @cookie, @expires );
 
     $data .= $q->start_html(
-        -title => 'OpenStreetMap extracts | BBBike.org',
+        -title => 'BBBike extracts OpenStreetMap',
         -head  => [@meta],
         -style => { 'src' => \@css, },
 
