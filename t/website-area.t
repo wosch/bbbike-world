@@ -59,9 +59,11 @@ sub cities {
         like( $content, qr|id="more_cities"|,     "more cities" );
         like( $content, qr|</html>|,              "closing </html>" );
 
-        like( $content,
-            qr|Start bicycle routing for .*?href="//www.bbbike.org/$city/">|,
-            "routing link" );
+        like(
+            $content,
+qr|Start bicycle routing for .*?href="https://www.bbbike.org/$city/">|,
+            "routing link"
+        );
 
         foreach my $ext (qw/gz pbf/) {
             like( $content, qr|($path/$city)?/$city.osm.$ext"|,

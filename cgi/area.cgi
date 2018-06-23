@@ -23,8 +23,8 @@ $ENV{PATH} = "/bin:/usr/bin";
 
 my $debug               = 1;
 my $city_default        = "Berlin";
-my $download_bbbike_org = "//download.bbbike.org";
-my $www_bbbike_org      = "//www.bbbike.org";
+my $download_bbbike_org = "https://download.bbbike.org";
+my $www_bbbike_org      = "https://www.bbbike.org";
 my $checksum_file       = 'CHECKSUM.txt';
 
 my $q = new CGI;

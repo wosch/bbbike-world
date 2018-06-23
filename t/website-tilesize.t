@@ -20,6 +20,9 @@ use BBBike::Test;
 use Extract::Config;
 use Extract::TileSize;
 
+chdir("$FindBin::RealBin/../..")
+  or die "Cannot find bbbike world root directory\n";
+
 my $test           = BBBike::Test->new();
 my $extract_config = Extract::Config->new()->load_config_nocgi();
 

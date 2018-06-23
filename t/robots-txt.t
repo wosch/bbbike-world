@@ -33,15 +33,15 @@ my @development =
 my @local = $ENV{"BBBIKE_TEST_SERVER"};
 
 my @aliases = qw(
-  http://cyclerouteplanner.org
-  http://cyclerouteplanner.com
+  https://cyclerouteplanner.org
+  https://cyclerouteplanner.com
 );
 
 foreach my $item ( @production, @aliases, @development, @local ) {
     my @match = ("User-agent:");
 
     # www.bbbike.org has a longer robots.txt
-    if ( $item =~ m,^http://(www\.|localhost:), ) {
+    if ( $item =~ m,^https?://(www\.|localhost), ) {
         push @match,
           ( 'Disallow: /Berlin/?', 'Disallow: /en/Berlin/?', 'Disallow: /de/' );
     }

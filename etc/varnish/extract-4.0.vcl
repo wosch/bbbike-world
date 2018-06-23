@@ -111,7 +111,7 @@ sub vcl_recv {
     }
 
     # Redirect to HTTPS, aka "Enforcing SSL behind an SSL termination point"
-    if (client.ip != "127.0.0.1" && client.ip != "138.201.59.14" && std.port(server.ip) == 80 && req.http.host ~ "^(munin|dev4|grafana|extract-pro|eserte)\.bbbike\.org$") {
+    if (client.ip != "127.0.0.1" && client.ip != "138.201.59.14" && std.port(server.ip) == 80 && req.http.host ~ "^(munin|dev[1-9]|grafana|extract[1-9]?|extract-pro[1-9]?|eserte|www[1-9]?)\.bbbike\.org$") {
         set req.http.x-redir = "https://" + req.http.host + req.url;
         return(synth(850, "Moved permanently"));
     }

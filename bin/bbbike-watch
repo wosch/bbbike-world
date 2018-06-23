@@ -28,5 +28,5 @@ echo 'running format: '
 $running_extract format | sort | uniq -c | sort -nr
 
 echo 'planet: '
-ps xuawww | egrep 'osmconvert-wrapper .*/osm/download' | egrep -v grep | awk '{print $NF}' | sort | uniq -c| sort -nr
+ps xuawww | egrep 'osmconvert-wrapper .*extract/running' | egrep -v 'grep' | awk '{print $NF}' | sort | uniq -c| sort -nr
 

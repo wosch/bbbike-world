@@ -4,8 +4,8 @@
 # 
 # put it in $HOME/.bbbike-extract.rc
 
-$option->{'homepage'} = '//download.bbbike.org/osm/extract';
-$option->{'script_homepage'} = '//extract.bbbike.org';
+$option->{'homepage'} = 'https://download.bbbike.org/osm/extract';
+$option->{'script_homepage'} = 'https://extract.bbbike.org';
 $option->{'test'} = 0; 
 $option->{'debug'} = 1; 
 $option->{'email_valid_mxcheck'} = 1; 
