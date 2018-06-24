@@ -96,7 +96,16 @@ sub download_area {
     my $dir = "$osm_dir/$city/";
 
     my $data = <<EOF;
-<h3>OSM extracts for $city</h3>
+<h3 style="text-align:center">OSM extracts for $city</h3>
+
+<p>
+Welcome to BBBike's free download server!
+This server has data extracts from the OpenStreetMap project
+for $city in differents
+<a href="https://extract.bbbike.org/extract-screenshots.html">formats</a>.
+</p>
+<hr/>
+
 <table>
 
 EOF
