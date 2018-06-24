@@ -168,10 +168,12 @@ EOF
 </table>
 
 <br/>
-<a href="https://extract.bbbike.org/extract.html" target="_new">help</a> |
-<a href="https://extract.bbbike.org/extract-screenshots.html" target="_new">screenshots</a> |
-<a href="https://extract.bbbike.org/" target="_new">extracts</a> |
-<a href="https://extract.bbbike.org/extract.html#extract-pro">commercial support</a>
+<span style="font-size:small">
+  <a href="https://extract.bbbike.org/extract.html" target="_new">help</a> |
+  <a href="https://extract.bbbike.org/extract-screenshots.html" target="_new">screenshots</a> |
+  <a href="https://extract.bbbike.org/" target="_new">extracts</a> |
+  <a href="https://extract.bbbike.org/extract.html#extract-pro">commercial support</a>
+</span>
 <hr/>
 
 <span class="city">
