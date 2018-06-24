@@ -205,17 +205,15 @@ sub header {
         "/html/maps3.js"
     );
 
-    my $description =
-"OSM extracts for $city in OSM, PBF, Garmin cycle map, Osmand, mapsforge, Navit and Esri shapefile format";
     return $q->start_html(
-        -title => $description
-        ,    #"BBBike @ World covered areas - osm extracts for $city",
-        -head => [
+        -title => "OSM exports for $city by BBBike.org",
+        -head  => [
             $q->meta(
                 {
-                    -http_equiv  => 'Content-Type',
-                    -content     => 'text/html; charset=utf-8',
-                    -description => $description . ". Service by BBBike.org",
+                    -http_equiv => 'Content-Type',
+                    -content    => 'text/html; charset=utf-8',
+                    -description =>
+"OSM extracts for $city in OSM, PBF, Garmin, Osmand, mapsforge, Navit, GeoJSON, SQLite and Esri shapefile format"
                 }
             ),
             $q->meta( { -name => 'robots', -content => 'nofollow' } ),
