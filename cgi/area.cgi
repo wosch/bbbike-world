@@ -102,7 +102,7 @@ sub download_area {
 Welcome to BBBike's free download server!
 This server has data extracts from the OpenStreetMap project
 for $city in differents
-<a href="https://extract.bbbike.org/extract-screenshots.html">formats</a>.
+<a href="https://extract.bbbike.org/extract-screenshots.html">formats and styles</a>:
 </p>
 <hr/>
 
