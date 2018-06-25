@@ -176,7 +176,11 @@ EOF
     $data .= <<EOF;
 </table>
 
-<br/>
+<p>Didn't find the area you want?
+<a href="https://extract.bbbike.org/">Select your own region</a>
+- a rectangle or polygon up to 6000x4000km large, or 512MB file size.
+</p>
+
 <span style="font-size:small">
   <a href="https://extract.bbbike.org/extract.html" target="_new">help</a> |
   <a href="https://extract.bbbike.org/extract-screenshots.html" target="_new">screenshots</a> |
