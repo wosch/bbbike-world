@@ -61,8 +61,7 @@ my @list = (
     {
         'page'     => 'https://download.bbbike.org/osm/',
         'min_size' => 2_000,
-        'match' =>
-          [ "</html>", "Select your own region", "offers a database dump" ]
+        'match' => [ "</html>", "Select your own region", "For experts only" ]
     },
     {
         'page'     => 'https://mc.bbbike.org/osm/',

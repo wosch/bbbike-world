@@ -100,6 +100,10 @@ if [ -d $varnish_dir ]; then
     log_full https?://extract.bbbike.org/ | awk '{ print $11 }' | egrep -v https?://extract.bbbike.org/ | sort | uniq -c | sort -nr
 
     echo ""
+    echo "download referer"
+    log_full https?://download.bbbike.org/ | awk '{ print $11 }' | egrep -v 'bbbike.org/' | sort | uniq -c | sort -nr
+
+    echo ""
     echo -n "OSM map log hosts mc.bbbike.org/osm/: "
     log_full "mc.bbbike.org/osm/ " | awk '{ print $1 }' | sort -u | wc -l
 fi
