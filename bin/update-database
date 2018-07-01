@@ -65,7 +65,7 @@ do
         rsync-osm | rsync-bg ) time $ionice $ionice_opt make -s $i > tmp/log.$i 2>&1 & ;;
     
             # foreground
-            * )         time $ionice $ionice_opt make -s $i > tmp/log.$i 2>&1 ;;
+            * )         ( date; time $ionice $ionice_opt make -s $i; date ) > tmp/log.$i 2>&1 ;;
 	esac
 done
 wait
