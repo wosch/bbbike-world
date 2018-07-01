@@ -144,7 +144,7 @@ sub header {
             {
                 -name => 'description',
                 -content =>
-'OpenStreetMap extracts from Planet.osm in OSM, PBF, Garmin, Osmand, mapsforge, Navit, PNG, SVG, or Esri shapefile format (as rectangle or polygon).'
+'Free OpenStreetMap exports from Planet.osm in OSM, PBF, Garmin, Osmand, mapsforge, Navit, SVG, GeoJSON, SQLite or Esri shapefile format (as rectangle or polygon)'
             }
         )
     );
@@ -177,7 +177,7 @@ sub header {
     $data .= $q->header( @status, -charset => 'utf-8', @cookie, @expires );
 
     $data .= $q->start_html(
-        -title => 'OpenStreetMap extracts | BBBike.org',
+        -title => 'BBBike extracts OpenStreetMap',
         -head  => [@meta],
         -style => { 'src' => \@css, },
 
