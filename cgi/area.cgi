@@ -96,7 +96,16 @@ sub download_area {
     my $dir = "$osm_dir/$city/";
 
     my $data = <<EOF;
-<h3>OSM extracts for $city</h3>
+<h3 style="text-align:center">OSM extracts for $city</h3>
+
+<p>
+Welcome to BBBike's free download server!
+This server has data extracts from the OpenStreetMap project
+for $city in differents
+<a href="https://extract.bbbike.org/extract-screenshots.html">formats and styles</a>:
+</p>
+<hr/>
+
 <table>
 
 EOF
@@ -167,11 +176,17 @@ EOF
     $data .= <<EOF;
 </table>
 
-<br/>
-<a href="https://extract.bbbike.org/extract.html" target="_new">help</a> |
-<a href="https://extract.bbbike.org/extract-screenshots.html" target="_new">screenshots</a> |
-<a href="https://extract.bbbike.org/" target="_new">extracts</a> |
-<a href="https://extract.bbbike.org/extract.html#extract-pro">commercial support</a>
+<p>Didn't find the area you want?
+<a href="https://extract.bbbike.org/">Select your own region</a>
+- a rectangle or polygon up to 6000x4000km large, or 512MB file size.
+</p>
+
+<span style="font-size:small">
+  <a href="https://extract.bbbike.org/extract.html" target="_new">help</a> |
+  <a href="https://extract.bbbike.org/extract-screenshots.html" target="_new">screenshots</a> |
+  <a href="https://extract.bbbike.org/" target="_new">extracts</a> |
+  <a href="https://extract.bbbike.org/extract.html#extract-pro">commercial support</a>
+</span>
 <hr/>
 
 <span class="city">
@@ -203,17 +218,15 @@ sub header {
         "/html/maps3.js"
     );
 
-    my $description =
-"OSM extracts for $city in OSM, PBF, Garmin cycle map, Osmand, mapsforge, Navit and Esri shapefile format";
     return $q->start_html(
-        -title => $description
-        ,    #"BBBike @ World covered areas - osm extracts for $city",
-        -head => [
+        -title => "OSM exports for $city by BBBike.org",
+        -head  => [
             $q->meta(
                 {
-                    -http_equiv  => 'Content-Type',
-                    -content     => 'text/html; charset=utf-8',
-                    -description => $description . ". Service by BBBike.org",
+                    -http_equiv => 'Content-Type',
+                    -content    => 'text/html; charset=utf-8',
+                    -description =>
+"OSM extracts for $city in OSM, PBF, Garmin, Osmand, mapsforge, Navit, GeoJSON, SQLite and Esri shapefile format"
                 }
             ),
             $q->meta( { -name => 'robots', -content => 'nofollow' } ),
