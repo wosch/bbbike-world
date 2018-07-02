@@ -104,7 +104,6 @@ This server has data extracts from the OpenStreetMap project
 for $city in differents
 <a href="https://extract.bbbike.org/extract-screenshots.html">formats and styles</a>:
 </p>
-<hr/>
 
 <table>
 
@@ -165,22 +164,35 @@ EOF
                   . file_size("$dir/$file")
                   . qq{</td></tr>\n};
             }
+            else {
+                $data .= qq{</td></tr>\n};
+            }
         }
         if ($has_checksum_file) {
             my $date = localtime( &mtime("$dir/$checksum_file") );
-            $data .= qq{<tr><td>}
-              . qq{<a href="$prefix/$checksum_file" title="$date">$checksum_file</a></td></tr>\n};
+            $data .=
+                qq{<tr><td>}
+              . qq{<a href="$prefix/$checksum_file" title="$date">$checksum_file</a></td>}
+              . qq{</tr>\n};
         }
     }
 
     $data .= <<EOF;
 </table>
 
-<p>Didn't find the area you want?
+<p>
+Didn't find the area you want?
 <a href="https://extract.bbbike.org/">Select your own region</a>
 - a rectangle or polygon up to 6000x4000km large, or 512MB file size.
 </p>
 
+<span id="big_donate_image">
+<center>
+<a href="$www_bbbike_org/community.html"><img class="logo" height="47" width="126" src="/images/btn_donateCC_LG.gif"/></a>
+</center>
+</span>
+
+<br/>
 <span style="font-size:small">
   <a href="https://extract.bbbike.org/extract.html" target="_new">help</a> |
   <a href="https://extract.bbbike.org/extract-screenshots.html" target="_new">screenshots</a> |
@@ -193,10 +205,6 @@ EOF
 Start bicycle routing for <a style="font-size:x-large" href="$www_bbbike_org/$city/">$city</a>
 </span>
 EOF
-
-    my $donate = qq{<p class="normalscreen" id="big_donate_image"><br/>}
-      . qq{<a href="$www_bbbike_org/community.html"><img class="logo" height="47" width="126" src="/images/btn_donateCC_LG.gif"/></a>};
-    $data .= $donate;
 
     $data .= qq{<div id="debug"></div>\n} if $debug >= 2;
     return $data;
@@ -225,11 +233,16 @@ sub header {
                 {
                     -http_equiv => 'Content-Type',
                     -content    => 'text/html; charset=utf-8',
-                    -description =>
-"OSM extracts for $city in OSM, PBF, Garmin, Osmand, mapsforge, Navit, GeoJSON, SQLite and Esri shapefile format"
                 }
             ),
             $q->meta( { -name => 'robots', -content => 'nofollow' } ),
+            $q->meta(
+                {
+                    -name => 'description',
+                    -content =>
+"OSM extracts for $city in OSM, PBF, Garmin, Osmand, mapsforge, Navit, GeoJSON, SQLite and Esri shapefile format"
+                }
+            ),
         ],
 
         -style => {
