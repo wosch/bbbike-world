@@ -164,6 +164,9 @@ EOF
                   . file_size("$dir/$file")
                   . qq{</td></tr>\n};
             }
+            else {
+                $data .= qq{</td></tr>\n};
+            }
         }
         if ($has_checksum_file) {
             my $date = localtime( &mtime("$dir/$checksum_file") );
@@ -189,8 +192,7 @@ Didn't find the area you want?
 </center>
 </span>
 
-</p>
-
+<br/>
 <span style="font-size:small">
   <a href="https://extract.bbbike.org/extract.html" target="_new">help</a> |
   <a href="https://extract.bbbike.org/extract-screenshots.html" target="_new">screenshots</a> |
@@ -231,11 +233,16 @@ sub header {
                 {
                     -http_equiv => 'Content-Type',
                     -content    => 'text/html; charset=utf-8',
-                    -description =>
-"OSM extracts for $city in OSM, PBF, Garmin, Osmand, mapsforge, Navit, GeoJSON, SQLite and Esri shapefile format"
                 }
             ),
             $q->meta( { -name => 'robots', -content => 'nofollow' } ),
+            $q->meta(
+                {
+                    -name => 'description',
+                    -content =>
+"OSM extracts for $city in OSM, PBF, Garmin, Osmand, mapsforge, Navit, GeoJSON, SQLite and Esri shapefile format"
+                }
+            ),
         ],
 
         -style => {
