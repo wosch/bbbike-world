@@ -342,11 +342,10 @@ EOF
 #
 sub css_map {
     return <<EOF;
+<!--
 <style type="text/css">
-div#BBBikeGooglemap { left:  24em; }
-div#sidebar         { width: 24em; height: auto; }
 </style>
-
+-->
 EOF
 }
 

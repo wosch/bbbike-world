@@ -14,5 +14,12 @@ span.size {
     font-size: small;
 }
 
+/* override */
+div#BBBikeGooglemap { left:  24em; }
+div#sidebar         {
+    width: 24em;
+    height: auto;
+}
+
 
 
