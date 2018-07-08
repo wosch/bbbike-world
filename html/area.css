@@ -1,3 +1,18 @@
 
 a.small { font-size: small; }
 
+a.download_link {
+  border: 1px solid #ddd;
+  display: inline-block;
+  padding: 4px 9px;
+  margin: 0 8px 8px 0;
+  /* text-transform: uppercase; */
+}
+
+span.size {
+    color: black;
+    font-size: small;
+}
+
+
+

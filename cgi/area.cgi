@@ -108,7 +108,7 @@ a variety of
 for you to use:
 </p>
 
-<table>
+<!-- <table> -->
 
 EOF
 
@@ -144,9 +144,8 @@ EOF
             my $date = localtime( &mtime("$dir/$file") );
 
             $data .=
-                qq{<tr><td><a href="$prefix/$file" title="$date">}
-              . &human_redable_file_format( $city, $file )
-              . qq{</a>};
+              qq{<a class="download_link" href="$prefix/$file" title="$date"> }
+              . &human_redable_file_format( $city, $file ) . qq{ };
 
             # ???
             my $data_checksum;
@@ -166,27 +165,23 @@ EOF
             }
 
             $data .=
-                qq{</td>}
-              . qq{<td align="right">}
-              . file_size("$dir/$file")
-              . qq{</td></tr>\n};
+              qq{<span class="size">} . file_size("$dir/$file") . "</span>\n";
+            $data .= "</a>\n";
         }
 
         if ($has_checksum_file) {
             my $date = localtime( &mtime("$dir/$checksum_file") );
-            $data .= qq{<tr>};
             if ( -e "$dir/$city.poly" ) {
                 $data .=
-qq{<td><a class="small" href="$prefix/$city.poly">Poly</a></td>};
+qq{<br/><a class="small" href="$prefix/$city.poly">Poly</a>\n};
             }
             $data .=
-qq{<td><a class="small" href="$prefix/$checksum_file" title="$date">$checksum_file</a></td>};
-            $data .= qq{</tr>\n};
+qq{<a class="small" href="$prefix/$checksum_file" title="$date">$checksum_file</a>\n};
         }
     }
 
     $data .= <<EOF;
-</table>
+<!-- </table> -->
 
 <p>
 Didn't find the area you want?<br/>
@@ -196,7 +191,7 @@ Didn't find the area you want?<br/>
 
 <span id="big_donate_image">
 <center>
-<a href="$www_bbbike_org/community.html"><img class="logo" height="47" width="126" src="/images/btn_donateCC_LG.gif"/></a>
+<a href="$www_bbbike_org/community.html"><img class="logo" alt="donate" height="47" width="126" src="/images/btn_donateCC_LG.gif"/></a>
 </center>
 </span>
 
