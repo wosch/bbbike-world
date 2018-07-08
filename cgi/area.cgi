@@ -14,6 +14,7 @@ use Getopt::Long;
 
 use lib qw(world/lib ../world/lib ../lib);
 use BBBike::WorldDB;
+use Extract::Config;
 
 use strict;
 use warnings;
@@ -137,12 +138,17 @@ EOF
 
         my $prefix = $offline ? "." : "$download_bbbike_org/osm/bbbike/$city";
         foreach my $file ( sort @list ) {
-            my $date = localtime( &mtime("$dir/$file") );
+            next if $file =~ /\.poly$/;
             next if $file =~ /\.(md5|sha256|txt)$/;
 
-            $data .=
-              qq{<tr><td><a href="$prefix/$file" title="$date">$file</a>};
+            my $date = localtime( &mtime("$dir/$file") );
 
+            $data .=
+                qq{<tr><td><a href="$prefix/$file" title="$date">}
+              . &human_redable_file_format( $city, $file )
+              . qq{</a>};
+
+            # ???
             my $data_checksum;
             if ( !$has_checksum_file ) {
                 for my $ext ( "md5", "sha256" ) {
@@ -159,23 +165,23 @@ EOF
 
             }
 
-            if ( $file !~ /\.poly$/ ) {
-                $data .=
-                    qq{</td>}
-                  . qq{<td align="right">}
-                  . file_size("$dir/$file")
-                  . qq{</td></tr>\n};
-            }
-            else {
-                $data .= qq{</td></tr>\n};
-            }
+            $data .=
+                qq{</td>}
+              . qq{<td align="right">}
+              . file_size("$dir/$file")
+              . qq{</td></tr>\n};
         }
+
         if ($has_checksum_file) {
             my $date = localtime( &mtime("$dir/$checksum_file") );
+            $data .= qq{<tr>};
+            if ( -e "$dir/$city.poly" ) {
+                $data .=
+qq{<td><a class="small" href="$prefix/$city.poly">Poly</a></td>};
+            }
             $data .=
-                qq{<tr><td>}
-              . qq{<a href="$prefix/$checksum_file" title="$date">$checksum_file</a></td>}
-              . qq{</tr>\n};
+qq{<td><a class="small" href="$prefix/$checksum_file" title="$date">$checksum_file</a></td>};
+            $data .= qq{</tr>\n};
         }
     }
 
@@ -210,6 +216,25 @@ EOF
 
     $data .= qq{<div id="debug"></div>\n} if $debug >= 2;
     return $data;
+}
+
+sub human_redable_file_format {
+    my ( $city, $file ) = @_;
+
+    $file =~ s/^$city\.//;
+
+    my $formats = $Extract::Config::formats;
+
+    # osm.pbf
+    if ( exists $formats->{$file} ) {
+        return $formats->{$file};
+    }
+
+    # garmin-osm.zip
+    else {
+        $file =~ s/osm\.//;
+        return exists $formats->{$file} ? $formats->{$file} : $file;
+    }
 }
 
 sub header {
@@ -250,7 +275,8 @@ sub header {
         -style => {
             'src' => [
                 $base . "/html/devbridge-jquery-autocomplete-1.1.2/styles.css",
-                $base . "/html/bbbike.css"
+                $base . "/html/bbbike.css",
+                $base . "/html/area.css"
             ]
         },
         -script =>
