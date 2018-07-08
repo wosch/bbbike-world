@@ -805,15 +805,14 @@ rotate-data-osm:
 	if [ -e ${DATA_OSM_DIR}     ]; then mv ${DATA_OSM_DIR}     ${DATA_OSM_DIR}.old; fi
 	if [ -e ${DATA_OSM_BBBIKE_DIR}.old ]; then mv ${DATA_OSM_BBBIKE_DIR}.old ${DATA_OSM_BBBIKE_DIR}.old2; fi
 	if [ -e ${DATA_OSM_BBBIKE_DIR}     ]; then mv ${DATA_OSM_BBBIKE_DIR}     ${DATA_OSM_BBBIKE_DIR}.old; fi
-	mkdir -p ${DATA_OSM_DIR} ${DATA_OSM_BBBIKE_DIR}
-	touch ${DATA_OSM_DIR}/.gitkeep ${DATA_OSM_BBBIKE_DIR}/.gitkeep
+	mkdir -p ${DATA_OSM_BBBIKE_DIR}
+	git checkout ${DATA_OSM_DIR}
 
 rotate-osm:
 	rm -rf ${OSM_DIR}.old2
 	if [ -e ${OSM_DIR}.old ]; then mv ${OSM_DIR}.old  ${OSM_DIR}.old2; fi
 	if [ -e ${OSM_DIR}     ]; then mv ${OSM_DIR}      ${OSM_DIR}.old; fi
-	mkdir -p ${OSM_DIR}
-	touch ${OSM_DIR}/.gitkeep
+	git checkout ${OSM_DIR}
 
 update-database: build-runtime
 	@${BBMAKE} -s opensearch-bbbike
