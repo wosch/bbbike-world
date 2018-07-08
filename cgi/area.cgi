@@ -72,8 +72,16 @@ sub file_size {
 
     my $st = stat($file) or die "stat $file: $!\n";
 
-    foreach my $scale ( 10, 100, 1000, 10_000 ) {
-        my $result = int( $scale * $st->size / 1024 / 1024 ) / $scale;
+    my $result = 0;
+    foreach my $scale ( 10, 100, 1_000, 10_000 ) {
+        $result = int( $scale * $st->size / 1024 / 1024 ) / $scale;
+
+        # for files larger than 10MB, we don't display 10.x numbers
+        # 10.1 -> 10
+        if ( $result > 10 ) {
+            $result = int( $result + 0.5 );
+        }
+
         return $result . "M" if $result > 0;
     }
 
