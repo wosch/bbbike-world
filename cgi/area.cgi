@@ -181,8 +181,8 @@ EOF
 </table>
 
 <p>
-Didn't find the area you want?
-<a href="https://extract.bbbike.org/">Select your own region</a>
+Didn't find the area you want?<br/>
+<a href="https://extract.bbbike.org/">Select your custom region</a>
 - a rectangle or polygon up to 6000x4000km large, or 512MB file size.
 </p>
 
