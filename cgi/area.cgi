@@ -101,8 +101,10 @@ sub download_area {
 <p>
 Welcome to BBBike's free download server!
 This server has data extracts from the OpenStreetMap project
-for $city in differents
-<a href="https://extract.bbbike.org/extract-screenshots.html">formats and styles</a>:
+for the area $city in
+a variety of 
+<a href="https://extract.bbbike.org/extract-screenshots.html">formats and styles</a>
+for you to use:
 </p>
 
 <table>
