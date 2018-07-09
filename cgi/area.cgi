@@ -14,6 +14,7 @@ use Getopt::Long;
 
 use lib qw(world/lib ../world/lib ../lib);
 use BBBike::WorldDB;
+use Extract::Config;
 
 use strict;
 use warnings;
@@ -28,6 +29,29 @@ my $www_bbbike_org      = "https://www.bbbike.org";
 my $checksum_file       = 'CHECKSUM.txt';
 
 my $q = new CGI;
+
+# sort priority for formats
+my %prio = (
+    'pbf'                 => -100,
+    'gz'                  => -90,
+    'csv.xz'              => 10,
+    'shp.zip'             => -80,
+    'garmin-onroad.zip'   => -70,
+    'garmin-opentopo.zip' => -70,
+    'garmin-osm.zip'      => -70,
+    'mapsorge-osm.ip'     => -40,
+    'navit'               => -40,
+);
+
+sub sort_by_format {
+    my $aa = $a;
+    my $bb = $b;
+    $aa =~ s/^[^\.]+\.osm\.//;
+    $bb =~ s/^[^\.]+\.osm\.//;
+
+    # by priority, or by name
+    return ( $prio{$aa} <=> $prio{$bb} || $a cmp $b );
+}
 
 sub footer {
     my %args   = @_;
@@ -71,8 +95,16 @@ sub file_size {
 
     my $st = stat($file) or die "stat $file: $!\n";
 
-    foreach my $scale ( 10, 100, 1000, 10_000 ) {
-        my $result = int( $scale * $st->size / 1024 / 1024 ) / $scale;
+    my $result = 0;
+    foreach my $scale ( 10, 100, 1_000, 10_000 ) {
+        $result = int( $scale * $st->size / 1024 / 1024 ) / $scale;
+
+        # for files larger than 10MB, we don't display 10.x numbers
+        # 10.1 -> 10
+        if ( $result > 10 ) {
+            $result = int( $result + 0.5 );
+        }
+
         return $result . "M" if $result > 0;
     }
 
@@ -101,11 +133,13 @@ sub download_area {
 <p>
 Welcome to BBBike's free download server!
 This server has data extracts from the OpenStreetMap project
-for $city in differents
-<a href="https://extract.bbbike.org/extract-screenshots.html">formats and styles</a>:
+for the area $city in
+a variety of 
+<a href="https://extract.bbbike.org/extract-screenshots.html">formats and styles</a>
+for you to use:
 </p>
 
-<table>
+<!-- <table> -->
 
 EOF
 
@@ -134,13 +168,17 @@ EOF
         my %ext_name = ( "md5" => "MD5", "sha256" => "SHA" );
 
         my $prefix = $offline ? "." : "$download_bbbike_org/osm/bbbike/$city";
-        foreach my $file ( sort @list ) {
-            my $date = localtime( &mtime("$dir/$file") );
+        foreach my $file ( sort sort_by_format @list ) {
+            next if $file =~ /\.poly$/;
             next if $file =~ /\.(md5|sha256|txt)$/;
 
-            $data .=
-              qq{<tr><td><a href="$prefix/$file" title="$date">$file</a>};
+            my $date = localtime( &mtime("$dir/$file") );
 
+            $data .=
+              qq{<a class="download_link" href="$prefix/$file" title="$date"> }
+              . &human_redable_file_format( $city, $file ) . qq{ };
+
+            # ???
             my $data_checksum;
             if ( !$has_checksum_file ) {
                 for my $ext ( "md5", "sha256" ) {
@@ -157,38 +195,34 @@ EOF
 
             }
 
-            if ( $file !~ /\.poly$/ ) {
-                $data .=
-                    qq{</td>}
-                  . qq{<td align="right">}
-                  . file_size("$dir/$file")
-                  . qq{</td></tr>\n};
-            }
-            else {
-                $data .= qq{</td></tr>\n};
-            }
+            $data .=
+              qq{<span class="size">} . file_size("$dir/$file") . "</span>\n";
+            $data .= "</a>\n";
         }
+
         if ($has_checksum_file) {
             my $date = localtime( &mtime("$dir/$checksum_file") );
+            if ( -e "$dir/$city.poly" ) {
+                $data .=
+qq{<br/><a class="small" href="$prefix/$city.poly">Poly</a>\n};
+            }
             $data .=
-                qq{<tr><td>}
-              . qq{<a href="$prefix/$checksum_file" title="$date">$checksum_file</a></td>}
-              . qq{</tr>\n};
+qq{<a class="small" href="$prefix/$checksum_file" title="$date">$checksum_file</a>\n};
         }
     }
 
     $data .= <<EOF;
-</table>
+<!-- </table> -->
 
 <p>
-Didn't find the area you want?
-<a href="https://extract.bbbike.org/">Select your own region</a>
+Didn't find the area you want?<br/>
+<a href="https://extract.bbbike.org/">Select your custom region</a>
 - a rectangle or polygon up to 6000x4000km large, or 512MB file size.
 </p>
 
 <span id="big_donate_image">
 <center>
-<a href="$www_bbbike_org/community.html"><img class="logo" height="47" width="126" src="/images/btn_donateCC_LG.gif"/></a>
+<a href="$www_bbbike_org/community.html"><img class="logo" alt="donate" height="47" width="126" src="/images/btn_donateCC_LG.gif"/></a>
 </center>
 </span>
 
@@ -208,6 +242,25 @@ EOF
 
     $data .= qq{<div id="debug"></div>\n} if $debug >= 2;
     return $data;
+}
+
+sub human_redable_file_format {
+    my ( $city, $file ) = @_;
+
+    $file =~ s/^$city\.//;
+
+    my $formats = $Extract::Config::formats;
+
+    # osm.pbf
+    if ( exists $formats->{$file} ) {
+        return $formats->{$file};
+    }
+
+    # garmin-osm.zip
+    else {
+        $file =~ s/osm\.//;
+        return exists $formats->{$file} ? $formats->{$file} : $file;
+    }
 }
 
 sub header {
@@ -248,7 +301,8 @@ sub header {
         -style => {
             'src' => [
                 $base . "/html/devbridge-jquery-autocomplete-1.1.2/styles.css",
-                $base . "/html/bbbike.css"
+                $base . "/html/bbbike.css",
+                $base . "/html/area.css"
             ]
         },
         -script =>
@@ -319,11 +373,10 @@ EOF
 #
 sub css_map {
     return <<EOF;
+<!--
 <style type="text/css">
-div#BBBikeGooglemap { left:  24em; }
-div#sidebar         { width: 24em; height: auto; }
 </style>
-
+-->
 EOF
 }
 
