@@ -805,19 +805,19 @@ rotate-data-osm:
 	if [ -e ${DATA_OSM_DIR}     ]; then mv ${DATA_OSM_DIR}     ${DATA_OSM_DIR}.old; fi
 	if [ -e ${DATA_OSM_BBBIKE_DIR}.old ]; then mv ${DATA_OSM_BBBIKE_DIR}.old ${DATA_OSM_BBBIKE_DIR}.old2; fi
 	if [ -e ${DATA_OSM_BBBIKE_DIR}     ]; then mv ${DATA_OSM_BBBIKE_DIR}     ${DATA_OSM_BBBIKE_DIR}.old; fi
-	mkdir -p ${DATA_OSM_DIR} ${DATA_OSM_BBBIKE_DIR}
-	touch ${DATA_OSM_DIR}/.gitkeep ${DATA_OSM_BBBIKE_DIR}/.gitkeep
+	mkdir -p ${DATA_OSM_BBBIKE_DIR}
+	git checkout ${DATA_OSM_DIR}
 
 rotate-osm:
 	rm -rf ${OSM_DIR}.old2
 	if [ -e ${OSM_DIR}.old ]; then mv ${OSM_DIR}.old  ${OSM_DIR}.old2; fi
 	if [ -e ${OSM_DIR}     ]; then mv ${OSM_DIR}      ${OSM_DIR}.old; fi
-	mkdir -p ${OSM_DIR}
-	touch ${OSM_DIR}/.gitkeep
+	git checkout ${OSM_DIR}
 
 update-database: build-runtime
 	@${BBMAKE} -s opensearch-bbbike
 	${TIME} ./world/bin/update-database
+	@${BBMAKE} -s rotate-clean
 
 perlcheck-bbbike-cgi:
 	perl -I world/lib -c cgi/bbbike.cgi
@@ -873,9 +873,16 @@ update-javascript bbbike-js:
 java-config:
 	test -r $$HOME/.osmosis || ln -fs $$HOME/projects/bbbike/world/etc/env/dot.osmosis $$HOME/.osmosis
 
-dist-clean devel-clean distclean: clean temp-clean clean-t data-distclean download-clean log-clean index-clean cache-clean-local deb-distclean stale-symlink-clean
+dist-clean devel-clean distclean: clean temp-clean clean-t data-distclean download-clean \
+				  log-clean index-clean cache-clean-local deb-distclean stale-symlink-clean \
+				  rotate-clean
 	${MAKE} -C./world/etc/mkgmap distclean
 	${MAKE} -C./cgi/msg distclean
+
+rotate-clean:
+	rm -rf rm -rf ${DATA_OSM_DIR}.old rm -rf ${DATA_OSM_DIR}.old2
+	rm -rf rm -rf ${OSM_DIR}.old rm -rf ${OSM_DIR}.old2
+	rm -rf rm -rf ${DATA_OSM_BBBIKE_DIR}.old rm -rf ${DATA_OSM_BBBIKE_DIR}.old2
 
 tilesize-clean clean-tilesize-db:
 	rm -f /var/tmp/_tilesize-$$(perl -e 'print $$<')-*
