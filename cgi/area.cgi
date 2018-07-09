@@ -30,6 +30,29 @@ my $checksum_file       = 'CHECKSUM.txt';
 
 my $q = new CGI;
 
+# sort priority for formats
+my %prio = (
+    'pbf'                 => -100,
+    'gz'                  => -90,
+    'csv.xz'              => 10,
+    'shp.zip'             => -80,
+    'garmin-onroad.zip'   => -70,
+    'garmin-opentopo.zip' => -70,
+    'garmin-osm.zip'      => -70,
+    'mapsorge-osm.ip'     => -40,
+    'navit'               => -40,
+);
+
+sub sort_by_format {
+    my $aa = $a;
+    my $bb = $b;
+    $aa =~ s/^[^\.]+\.osm\.//;
+    $bb =~ s/^[^\.]+\.osm\.//;
+
+    # by priority, or by name
+    return ( $prio{$aa} <=> $prio{$bb} || $a cmp $b );
+}
+
 sub footer {
     my %args   = @_;
     my $q      = new CGI;
@@ -145,7 +168,7 @@ EOF
         my %ext_name = ( "md5" => "MD5", "sha256" => "SHA" );
 
         my $prefix = $offline ? "." : "$download_bbbike_org/osm/bbbike/$city";
-        foreach my $file ( sort @list ) {
+        foreach my $file ( sort sort_by_format @list ) {
             next if $file =~ /\.poly$/;
             next if $file =~ /\.(md5|sha256|txt)$/;
 
