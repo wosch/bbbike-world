@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2012-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
 #
 # planet helper functions
 
@@ -190,10 +190,24 @@ sub get_smallest_planet_file {
     # a negative value means that the sub-planet is older than the planet
     my $time_diff = $self->{'utils'}->file_mtime_diff( $file, $planet_osm );
 
-    # use the sub-planet if it is no older than 3 hours compared to the planet
-    if ( $expire >= 1 && ( -1 * $time_diff ) > $stale_time ) {
-        warn
-"sub-planet file $file <=> $planet_osm is stale: $time_diff seconds, ignored\n"
+    my $st = stat($planet_osm);
+
+    if ( !$st ) {
+        warn "stat pwd=$FindBin::Bin file=$planet_osm: $!\n";
+        return;
+    }
+
+    my $planet_osm_age = time - $st->mtime;
+
+    # use the sub-planet if it is no older than 3 hours compared to the planet,
+    # and the planet is not older than 3 hours. This gives us a time window
+    # of 3 hours to create the sub-planet files
+    if (   $expire >= 1
+        && $planet_osm_age > $stale_time
+        && ( -1 * $time_diff ) > $stale_time )
+    {
+        warn "sub-planet file $file <=> $planet_osm is stale: $time_diff sec,"
+          . " planet.osm age: $planet_osm_age sec, ignored\n"
           if $debug >= 1;
         return "";
     }
