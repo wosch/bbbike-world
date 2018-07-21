@@ -1134,7 +1134,7 @@ tile-convert-navit:
 
 tile-extract: tile-lng tile-lnglat tile-lng-run tile-lnglat-run #tile-pbf2pbf
 
-tile-csv:
+tile-csv tile-database:
 	rm -f ${TILES_DIR}/etc/tile/*.csv ${TILES_DIR}/etc/tile/*.csv.original
 	mkdir -p ${TILES_DIR}/etc/tile
 	for format in pbf osm.gz csv.xz; do \
@@ -1169,7 +1169,7 @@ tile-csv:
 	done; wait
 	wc -lc ${TILES_DIR}/etc/tile/*.csv*
 
-tile-csv-stat:
+tile-database-stat:
 	@for i in ${TILES_DIR}/etc/tile/*.csv world/etc/tile/*.csv; do \
 	  echo -n "$$i "; \
 	  awk '{ s+= $$1 } END { print s/1024/1024, "GB" }' $$i; \
@@ -1227,7 +1227,7 @@ data-distclean distclean-data:
 # sys     727m39.908s
 #
 # for errors look in ./tile/tmp
-tile: tile-extract tile-convert tile-csv #tile-aws-s3
+tile: tile-extract tile-convert tile-database #tile-aws-s3
 
 ##############################################################################################
 # debian package rules
@@ -1727,7 +1727,7 @@ help:
 	@echo "  [ extract-gc | extract-gc7 | extract-gc-osm ]"
 	@echo "  [ extract-distclean ]"
 	@echo ""
-	@echo "  [ tile | tile-extract | tile-convert | tile-csv | tile-checksum ]"
+	@echo "  [ tile | tile-extract | tile-convert | tile-database | tile-checksum ]"
 	@echo "  [ tile-distclean | tile-rsync | tile-aws-s3"
 	@echo "  [ tile-convert-srtm | tile-srtm-csv ]"
 	@echo ""
