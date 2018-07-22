@@ -39,8 +39,10 @@ my %prio = (
     'garmin-onroad.zip'   => -70,
     'garmin-opentopo.zip' => -70,
     'garmin-osm.zip'      => -70,
-    'mapsorge-osm.ip'     => -40,
-    'navit'               => -40,
+    'geojson.xz'          => -50,
+    'mapsforge-osm.zip'   => -40,
+    'svg-osm.zip'         => -45,
+    'navit.zip'           => -40,
 );
 
 sub sort_by_format {
@@ -48,6 +50,10 @@ sub sort_by_format {
     my $bb = $b;
     $aa =~ s/^[^\.]+\.osm\.//;
     $bb =~ s/^[^\.]+\.osm\.//;
+
+    if ( !exists $prio{$aa} ) {
+        warn "unknonw priority: $aa\n" if $debug >= 1;
+    }
 
     # by priority, or by name
     return ( $prio{$aa} <=> $prio{$bb} || $a cmp $b );
@@ -168,9 +174,9 @@ EOF
         my %ext_name = ( "md5" => "MD5", "sha256" => "SHA" );
 
         my $prefix = $offline ? "." : "$download_bbbike_org/osm/bbbike/$city";
-        foreach my $file ( sort sort_by_format @list ) {
-            next if $file =~ /\.poly$/;
-            next if $file =~ /\.(md5|sha256|txt)$/;
+        my @list_format = grep { !/\.(poly|md5|sha256|txt)$/ } @list;
+
+        foreach my $file ( sort sort_by_format @list_format ) {
 
             my $date = localtime( &mtime("$dir/$file") );
 

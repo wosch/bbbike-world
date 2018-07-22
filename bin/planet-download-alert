@@ -29,7 +29,7 @@ if [ -e $update ]; then
    fi
 fi
 
-new=$(curl -L -sSf --head --location $planet_osm_server/$file | perl -ne 'print "$1\n" if /^Content-Length:\s+(\d+)/')
+new=$(curl -L -sSf --head --location $planet_osm_server/$file | perl -ne 'print "$1\n" if /^Content-Length:\s+(\d+)/i')
 
 cache_file=$dir/$file
 if [ -e  $cache_file ]; then
@@ -40,7 +40,7 @@ if test -n "$new" && test "$new" -ne "$old"; then
    echo "please update me: $old $new"
    echo "$planet_osm_server/$file"
    echo ""
-   curl -L -sSf --head --location $planet_osm_server/$file | egrep "^(Content-Length:|Last-|Location:)"
+   curl -L -sSf --head --location $planet_osm_server/$file | egrep -i "^(Content-Length:|Last-|Location:)"
    touch $update
 
    if [ -n "$automatic_update" ]; then
@@ -49,6 +49,7 @@ if test -n "$new" && test "$new" -ne "$old"; then
        logfile=tmp/log.update-database
        make -s update-database > $logfile 2>&1 || tail -n 200 $logfile 
        echo "done updated: $(date)"
+       echo "hostname: $(hostname), IP: $(egrep $(hostname) /etc/hosts)"
      else
        echo "planet.osm size to small: $new < $planet_osm_min_size"
        exit 1

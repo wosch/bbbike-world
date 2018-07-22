@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2009-2016 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2018 Wolfram Schneider, https://bbbike.org
 #
 # wrapper for Makefile
 #
@@ -51,7 +51,7 @@ if which ionice >/dev/null 2>&1; then
    ionice_opt="-c 2 -n 6"
 fi
 
-begin="`date`"
+begin="$(date)"
 
 for i in $commands
 do
@@ -72,8 +72,8 @@ wait
 
 # set an notice
 (  
-   echo "hostname: `hostname`, IP: `egrep $(hostname) /etc/hosts`"
+   echo "hostname: $(hostname), IP: $(egrep $(hostname) /etc/hosts)"
    echo "begin: $begin"
-   echo "end:   `date`" 
-) | mail -s "$0/done" `whoami`
+   echo "end:   $(date)" 
+) | mail -s "$0/done" $(whoami)
 
