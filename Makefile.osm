@@ -320,7 +320,7 @@ _pbf2pbf-checksum:
 osm2garmin: osm2garmin-multi
 osm2garmin-single: osm2garmin-osm osm2garmin-onroad osm2garmin-opentopo # osm2garmin-oseam osm2garmin-cycle osm2garmin-leisure osm2garmin-bbbike osm2garmin-openfietslite check-zip
 osm2garmin-multi:
-	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,world/bin/osm2garmin '${OSM_DIR}'/$$_/$$_.osm.pbf onroad:osm:opentopo\0, ' | env osm2xxx_max_jobs=${MAX_RCPU} ${XARGS} -n 1 -0 -P1 /bin/sh -c
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,world/bin/osm2garmin '${OSM_DIR}'/$$_/$$_.osm.pbf onroad:osm:opentopo\0, ' | env osm2xxx_max_jobs=${MAX_CPU3} ${XARGS} -n 1 -0 -P2 /bin/sh -c
 
 osm2garmin-osm:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
