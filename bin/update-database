@@ -26,6 +26,16 @@ available_disk_size ()
         exit 1
     fi
 }
+#########################################################################
+# we need ca. 100GB free disk space to update bbbike
+# we need ca. 220GB free disk space for a fresh installation
+#
+# du -hs bbbike osm/download/planet-latest*pbf osm/download/sub-planet
+# 67G     bbbike
+# 33G     osm/download/planet-latest-nometa.osm.pbf
+# 41G     osm/download/planet-latest.osm.pbf
+# 72G     osm/download/sub-planet
+#
 
 available_disk_size . 100
 available_disk_size /usr/local/www/bbbike.org/ 50
