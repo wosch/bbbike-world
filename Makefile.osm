@@ -1126,7 +1126,7 @@ tile-convert-osmand:
 
 tile-convert-mapsforge:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
-	  env osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_30} ${OSM2MAPSFORGE} > ${TILES_TMP}/log.$@ 2>&1
+	  env osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU3} ${OSM2MAPSFORGE} > ${TILES_TMP}/log.$@ 2>&1
 
 tile-convert-navit:
 	find ${_pbf_dir} -name '*.osm.gz' ${_min_size} -print0 | \
