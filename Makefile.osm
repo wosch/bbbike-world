@@ -1132,7 +1132,7 @@ tile-convert-navit:
 	find ${_pbf_dir} -name '*.osm.gz' ${_min_size} -print0 | \
 	  env osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2NAVIT} > ${TILES_TMP}/log.$@ 2>&1
 
-tile-extract: tile-lng tile-lnglat tile-lng-run tile-lnglat-run #tile-pbf2pbf
+tile-extract: tile-lng tile-lnglat tile-lng-run tile-lnglat-run tile-lng-clean #tile-pbf2pbf
 
 tile-csv tile-database:
 	rm -f ${TILES_DIR}/etc/tile/*.csv ${TILES_DIR}/etc/tile/*.csv.original
@@ -1202,6 +1202,10 @@ tile-checksum:
 
 tile-db-clean:
 	rm -rf /var/tmp/_tilesize-*-localhost-*
+
+tile-lng-clean: 
+	rm -rf ${TILES_DIR}/lng
+
 tile-distclean: tile-db-clean
 	rm -rf ${TILES_DIR}
 
