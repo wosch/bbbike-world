@@ -1224,11 +1224,11 @@ data-distclean distclean-data:
 
 ###############################
 # Note: you need at least 280GB free disk space to run this command!!!
-#       this may run 72 hours on a quad core machine
+#       this may run 60 hours on a quad core machine
 #
-# real    3967m56.304s
-# user    19899m54.492s
-# sys     727m39.908s
+# real    3570m39.458s
+# user    25849m45.852s
+# sys     870m48.760s
 #
 # for errors look in ./tile/tmp
 tile: tile-extract tile-convert tile-database #tile-aws-s3
