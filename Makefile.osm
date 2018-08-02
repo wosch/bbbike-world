@@ -1222,13 +1222,44 @@ data-distclean distclean-data:
 	find . -name '*.inx*'
 	find . -name '*.lock'
 
-###############################
+#########################################################################
 # Note: you need at least 280GB free disk space to run this command!!!
-#       this may run 72 hours on a quad core machine
+#       this may run 60 hours on a quad core machine
 #
-# real    3967m56.304s
-# user    19899m54.492s
-# sys     727m39.908s
+# real    3570m39.458s
+# user    25849m45.852s
+# sys     870m48.760s
+#
+# tail -n2 *run | grep -v swap
+# ==> log.tile-lng-run <==
+# 118651.85user 270.53system 4:31:47elapsed 729%CPU (0avgtext+0avgdata 4487732maxresident)k
+# 
+# ==> log.tile-lnglat-run <==
+# 270131.80user 2225.13system 10:28:15elapsed 722%CPU (0avgtext+0avgdata 2448768maxresident)k
+#
+#
+# tail -n2 log.tile-convert-* | grep -v swaps
+# ==> log.tile-convert-osmand <==
+# 478053.52user 17962.09system 18:42:39elapsed 736%CPU (0avgtext+0avgdata 3470212maxresident)k
+#
+# ==> log.tile-convert-garmin <==
+# 263711.54user 7440.43system 9:35:07elapsed 785%CPU (0avgtext+0avgdata 2761256maxresident)k
+#
+# ==> log.tile-convert-mapsforge <==
+# 184392.70user 6650.27system 7:07:21elapsed 745%CPU (0avgtext+0avgdata 8157268maxresident)k
+#
+# ==> log.tile-convert-garmin-onroad <==
+# 174377.54user 6966.74system 6:25:58elapsed 783%CPU (0avgtext+0avgdata 2367180maxresident)k
+#
+# ==> log.tile-convert-navit <==
+# 29831.88user 3040.74system 1:13:23elapsed 746%CPU (0avgtext+0avgdata 1270932maxresident)k
+#
+# ==> log.tile-convert-shp <==
+# 15353.14user 7242.06system 48:50.42elapsed 771%CPU (0avgtext+0avgdata 1655804maxresident)k
+#
+# ==> log.tile-convert-osm <==
+# 16477.70user 441.64system 36:40.86elapsed 768%CPU (0avgtext+0avgdata 198320maxresident)k
+
 #
 # for errors look in ./tile/tmp
 tile: tile-extract tile-convert tile-database #tile-aws-s3
