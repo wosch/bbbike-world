@@ -61,6 +61,9 @@ function init() {
 
     // This is the layer that uses the locally stored tiles
     map.addLayer(new OpenLayers.Layer.OSM("BBBike.org bbbike", "https://d.tile.bbbike.org/osm/bbbike/${z}/${x}/${y}.png", {
+        tileOptions: {
+            crossOriginKeyword: null
+        },
         numZoomLevels: 19,
         attribution: '<a href="https://bbbike.org/">BBBike.org</a>'
     }));
