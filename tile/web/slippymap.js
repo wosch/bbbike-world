@@ -1,5 +1,5 @@
 /* Copyright (c) 2011 OpenLayers
- * Copyright (c) 2012-2014 Wolfram Schneider, https://bbbike.org
+ * Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
  * /
 
 /* run JavaScript code in strict mode, HTML5 */
@@ -60,12 +60,7 @@ function init() {
     }));
 
     // This is the layer that uses the locally stored tiles
-    map.addLayer(new OpenLayers.Layer.OSM("BBBike.org bbbike", "/osm/bbbike/${z}/${x}/${y}.png", {
-        numZoomLevels: 19,
-        attribution: '<a href="https://bbbike.org/">BBBike.org</a>'
-    }));
-
-    map.addLayer(new OpenLayers.Layer.OSM("BBBike.org Mapnik (de)", "/osm/mapnik-german/${z}/${x}/${y}.png", {
+    map.addLayer(new OpenLayers.Layer.OSM("BBBike.org bbbike", "https://d.tile.bbbike.org/osm/bbbike/${z}/${x}/${y}.png", {
         tileOptions: {
             crossOriginKeyword: null
         },
@@ -73,7 +68,15 @@ function init() {
         attribution: '<a href="https://bbbike.org/">BBBike.org</a>'
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("BBBike.org Mapnik", "/osm/mapnik/${z}/${x}/${y}.png", {
+    map.addLayer(new OpenLayers.Layer.OSM("BBBike.org Mapnik (de)", "https://d.tile.bbbike.org/osm/mapnik-german/${z}/${x}/${y}.png", {
+        tileOptions: {
+            crossOriginKeyword: null
+        },
+        numZoomLevels: 19,
+        attribution: '<a href="https://bbbike.org/">BBBike.org</a>'
+    }));
+
+    map.addLayer(new OpenLayers.Layer.OSM("BBBike.org Mapnik", "https://d.tile.bbbike.org/osm/mapnik/${z}/${x}/${y}.png", {
         tileOptions: {
             crossOriginKeyword: null
         },
@@ -365,7 +368,7 @@ function init() {
 
     // This is the end of the layer
     // Begin of overlay
-    map.addLayer(new OpenLayers.Layer.TMS("BBBike Fahrbahnqualit&auml;t", "/osm/bbbike-smoothness/", {
+    map.addLayer(new OpenLayers.Layer.TMS("BBBike Fahrbahnqualit&auml;t", "https://d.tile.bbbike.org/osm/bbbike-smoothness/", {
         type: 'png',
         getURL: osm_getTileURL,
         displayOutsideMaxExtent: true,
@@ -378,7 +381,7 @@ function init() {
     }));
 
 /*
-    map.addLayer(new OpenLayers.Layer.TMS("BBBike Fahrbahnqu. (solid)", "/osm/bbbike-smoothness-solid/", {
+    map.addLayer(new OpenLayers.Layer.TMS("BBBike Fahrbahnqu. (solid)", "https://d.tile.bbbike.org/osm/bbbike-smoothness-solid/", {
         type: 'png',
         getURL: osm_getTileURL,
         displayOutsideMaxExtent: true,
@@ -391,7 +394,7 @@ function init() {
     }));
     */
 
-    map.addLayer(new OpenLayers.Layer.TMS("BBBike handicap", "/osm/bbbike-handicap/", {
+    map.addLayer(new OpenLayers.Layer.TMS("BBBike handicap", "https://d.tile.bbbike.org/osm/bbbike-handicap/", {
         type: 'png',
         getURL: osm_getTileURL,
         displayOutsideMaxExtent: true,
@@ -403,7 +406,7 @@ function init() {
         noOpaq: true
     }));
 
-    map.addLayer(new OpenLayers.Layer.TMS("BBBike cycle routes", "/osm/bbbike-cycle-routes/", {
+    map.addLayer(new OpenLayers.Layer.TMS("BBBike cycle routes", "https://d.tile.bbbike.org/osm/bbbike-cycle-routes/", {
         type: 'png',
         getURL: osm_getTileURL,
         displayOutsideMaxExtent: true,
@@ -415,7 +418,7 @@ function init() {
         noOpaq: true
     }));
 
-    map.addLayer(new OpenLayers.Layer.TMS("BBBike cycleway", "/osm/bbbike-cycleway/", {
+    map.addLayer(new OpenLayers.Layer.TMS("BBBike cycleway", "https://d.tile.bbbike.org/osm/bbbike-cycleway/", {
         type: 'png',
         getURL: osm_getTileURL,
         displayOutsideMaxExtent: true,
@@ -427,7 +430,7 @@ function init() {
         noOpaq: true
     }));
 
-    map.addLayer(new OpenLayers.Layer.TMS("BBBike green", "/osm/bbbike-green/", {
+    map.addLayer(new OpenLayers.Layer.TMS("BBBike green", "https://d.tile.bbbike.org/osm/bbbike-green/", {
         type: 'png',
         getURL: osm_getTileURL,
         displayOutsideMaxExtent: true,
@@ -439,7 +442,7 @@ function init() {
         noOpaq: true
     }));
 
-    map.addLayer(new OpenLayers.Layer.TMS("BBBike unknown", "/osm/bbbike-unknown/", {
+    map.addLayer(new OpenLayers.Layer.TMS("BBBike unknown", "https://d.tile.bbbike.org/osm/bbbike-unknown/", {
         type: 'png',
         getURL: osm_getTileURL,
         displayOutsideMaxExtent: true,
@@ -451,7 +454,7 @@ function init() {
         noOpaq: true
     }));
 
-    map.addLayer(new OpenLayers.Layer.TMS("BBBike unlit", "/osm/bbbike-unlit/", {
+    map.addLayer(new OpenLayers.Layer.TMS("BBBike unlit", "https://d.tile.bbbike.org/osm/bbbike-unlit/", {
         type: 'png',
         getURL: osm_getTileURL,
         displayOutsideMaxExtent: true,
