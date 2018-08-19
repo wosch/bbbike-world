@@ -103,7 +103,7 @@ sub vcl_recv {
     }
 
     # Redirect to HTTPS, aka "Enforcing SSL behind an SSL termination point"
-    if (client.ip != "127.0.0.1" && client.ip != "88.99.71.92" && std.port(server.ip) == 80 && req.http.host ~ "^(mc|[a-dyz]\.tile|tile|jenkins|dev[1-9]|extract[1-9]?|m|extract-pro[1-9]?|www[0-9]?)\.bbbike\.org$") {
+    if (client.ip != "127.0.0.1" && client.ip != "88.99.71.92" && std.port(server.ip) == 80 && req.http.host ~ "^(mc|maps|[a-dyz]\.tile|tile|jenkins|dev[1-9]|extract[1-9]?|m|extract-pro[1-9]?|www[0-9]?)\.bbbike\.org$") {
         set req.http.x-redir = "https://" + req.http.host + req.url;
         return(synth(850, "Moved permanently"));
     }
@@ -133,7 +133,7 @@ sub vcl_recv {
         set req.backend_hint = bbbike;
     } else if (req.http.host ~ "^download[1-9]?\.bbbike\.org$") {
         set req.backend_hint = bbbike;
-    } else if (req.http.host ~ "^([a-z]\.)?tile\.bbbike\.org$" || req.http.host ~ "^(mc)\.bbbike\.org$") {
+    } else if (req.http.host ~ "^([a-z]\.)?tile\.bbbike\.org$" || req.http.host ~ "^(mc|maps)\.bbbike\.org$") {
         set req.backend_hint = tile;
 
         # failover production @ www4 
