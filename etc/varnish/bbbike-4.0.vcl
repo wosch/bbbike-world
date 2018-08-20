@@ -137,7 +137,7 @@ sub vcl_recv {
         set req.backend_hint = bbbike;
     } else if (req.http.host ~ "^download[1-9]?\.bbbike\.org$") {
         set req.backend_hint = bbbike;
-    } else if (req.http.host ~ "^([a-z]\.)?tile\.bbbike\.org$" || req.http.host ~ "^(mc|maps)\.bbbike\.org$") {
+    } else if (req.http.host ~ "^([a-dyz]\.)?tile\.bbbike\.org$" || req.http.host ~ "^(mc|maps)\.b?bbike\.org$") {
         set req.backend_hint = tile;
 
         # failover production @ www4 
