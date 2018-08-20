@@ -102,8 +102,18 @@ sub vcl_recv {
         return(synth(405, "rogue bot request"));
     }
 
+    # letsencrypt
+    if (req.url ~ "^/\.well-known/acme-challenge/") {
+        set req.backend_hint = localhost;
+	return (pass);
+    } 
+
     # Redirect to HTTPS, aka "Enforcing SSL behind an SSL termination point"
-    if (client.ip != "127.0.0.1" && client.ip != "88.99.71.92" && std.port(server.ip) == 80 && req.http.host ~ "^(mc|[a-dyz]\.tile|tile|jenkins|dev[1-9]|extract[1-9]?|m|extract-pro[1-9]?|www[0-9]?)\.bbbike\.org$") {
+    if (client.ip != "127.0.0.1" && client.ip != "88.99.71.92" && std.port(server.ip) == 80 && req.http.host ~ "^(mc|maps|[a-dyz]\.tile|tile|jenkins|dev[1-9]|extract[1-9]?|m|extract-pro[1-9]?|www[0-9]?)\.bbbike\.org$") {
+        set req.http.x-redir = "https://" + req.http.host + req.url;
+        return(synth(850, "Moved permanently"));
+    }
+    if (client.ip != "127.0.0.1" && client.ip != "88.99.71.92" && std.port(server.ip) == 80 && req.http.host ~ "^(mc|maps)\.bbike\.org$") {
         set req.http.x-redir = "https://" + req.http.host + req.url;
         return(synth(850, "Moved permanently"));
     }
@@ -113,14 +123,8 @@ sub vcl_recv {
     # backend config
     #
 
-    # letsencrypt
-    if (req.url ~ "^/\.well-known/acme-challenge/") {
-        set req.backend_hint = localhost;
-	return (pass);
-    } 
-
     # other VMs
-    else if (req.http.host ~ "^(m\.|api[1-9]?\.|www[1-9]?\.|dev[1-9]?\.|devel[1-9]?\.|)bbbike\.org$") {
+    if (req.http.host ~ "^(m\.|api[1-9]?\.|www[1-9]?\.|dev[1-9]?\.|devel[1-9]?\.|)bbbike\.org$") {
         set req.backend_hint = bbbike;
 
         # failover production @ www4 
@@ -133,7 +137,7 @@ sub vcl_recv {
         set req.backend_hint = bbbike;
     } else if (req.http.host ~ "^download[1-9]?\.bbbike\.org$") {
         set req.backend_hint = bbbike;
-    } else if (req.http.host ~ "^([a-z]\.)?tile\.bbbike\.org$" || req.http.host ~ "^(mc)\.bbbike\.org$") {
+    } else if (req.http.host ~ "^([a-dyz]\.)?tile\.bbbike\.org$" || req.http.host ~ "^(mc|maps)\.b?bbike\.org$") {
         set req.backend_hint = tile;
 
         # failover production @ www4 
