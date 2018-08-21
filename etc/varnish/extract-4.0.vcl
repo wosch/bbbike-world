@@ -75,7 +75,7 @@ backend bbbike_failover {
 
     .probe = {
         .url = "/test.txt";
-        .timeout = 2s;
+        .timeout = 5s;
         .interval = 30s;
         .window = 1;
         .threshold = 1;
@@ -111,7 +111,7 @@ sub vcl_recv {
     }
 
     # Redirect to HTTPS, aka "Enforcing SSL behind an SSL termination point"
-    if (client.ip != "127.0.0.1" && client.ip != "138.201.59.14" && std.port(server.ip) == 80 && req.http.host ~ "^(munin|dev[1-9]|grafana|extract[1-9]?|extract-pro[1-9]?|eserte|www[1-9]?)\.bbbike\.org$") {
+    if (client.ip != "127.0.0.1" && client.ip != "138.201.59.14" && std.port(server.ip) == 80 && req.http.host ~ "^(munin|dev[1-9]|grafana|extract[1-9]?|extract-pro[1-9]?|eserte|www[1-9]?)\.bbb?ike\.org$") {
         set req.http.x-redir = "https://" + req.http.host + req.url;
         return(synth(850, "Moved permanently"));
     }
@@ -134,13 +134,13 @@ sub vcl_recv {
         if (req.restarts == 1 || !std.healthy(req.backend_hint)) {
                 set req.backend_hint = bbbike_failover;
         }
-    } else if (req.http.host ~ "^extract[1-9]?\.bbbike\.org$") {
+    } else if (req.http.host ~ "^extract[1-9]?\.bbb?ike\.org$") {
         set req.backend_hint = bbbike;
     } else if (req.http.host ~ "^extract-pro[1-9]?\.bbbike\.org$") {
         set req.backend_hint = bbbike;
-    } else if (req.http.host ~ "^download[1-9]?\.bbbike\.org$") {
+    } else if (req.http.host ~ "^download[1-9]?\.bbb?ike\.org$") {
         set req.backend_hint = bbbike;
-    } else if (req.http.host ~ "^([a-z]\.)?tile\.bbbike\.org$" || req.http.host ~ "^(mc)\.bbbike\.org$") {
+    } else if (req.http.host ~ "^([a-z]\.)?tile\.bbbike\.org$" || req.http.host ~ "^(mc|maps)\.bbb?ike\.org$") {
         set req.backend_hint = tile;
     } else if (req.http.host ~ "^eserte\.bbbike\.org$" || req.http.host ~ "^.*bbbike\.de$" || req.http.host ~ "^jenkins(-dev)?\.bbbike\.(org|de)$") {
         set req.backend_hint = eserte;
