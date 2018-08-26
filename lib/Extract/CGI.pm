@@ -454,6 +454,7 @@ sub message {
 <span id="tools-titlebar">
  @{[ $locale->language_links ]}
  @{[ $self->social_links ]} -
+ <span class="extract-introjs"><a href="javascript:void(0);" onclick="javascript:introjs_start(); ">intro</a> -</span>
  <span id="tools-help"><a class='tools-helptrigger' href='$extract_dialog/$language/about.html' title='info'><span>@{[ M("about") ]} extracts</span></a> - </span>
  <span id="pageload-indicator">&nbsp;<img src="/html/indicator.gif" width="14" height="14" alt="" title="Loading JavaScript libraries" /> Loading JavaScript</span>
  <span class="jqmWindow jqmWindowLarge" id="tools-helpwin"></span>
