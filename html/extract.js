@@ -812,7 +812,7 @@ function introjs_start() {
 
     // fire intro.js    
     introJs().setOption('showProgress', true).start();
-    dialog_close();
+    //dialog_close();
 }
 
 // hide the help popup if open
