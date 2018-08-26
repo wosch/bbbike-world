@@ -220,7 +220,7 @@ sub manual_area {
             <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>
             <p></p>
         </span>
-        <span id="drag_box_default">
+        <span id="drag_box_default" data-step="4" data-intro="Please click on the button above. You can then move or resize the box, and then click on the extract button to start the extract job" data-position='left' data-tooltipClass="extract-intro">
             @{[ M("Move the map to your desired location") ]}. <br/>
             @{[ M("Then click") ]} <button class="link">@{[ M("here") ]}</button> @{[ M("to create the bounding box") ]}.
             <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>
@@ -979,10 +979,18 @@ qq{<span title="hide longitude,latitude box" class="lnglatbox" onclick="javascri
                           . "<a class='tools-helptrigger' href='$extract_dialog/$language/format.html'><img src='/html/help-16px.png' alt=''/></a>"
                           . "<br/></span>\n\n"
                           . $q->popup_menu(
-                            -name    => 'format',
-                            -id      => 'format',
-                            -values  => \@values,
-                            -labels  => $formats_locale,
+                            -name   => 'format',
+                            -id     => 'format',
+                            -values => \@values,
+                            -labels => $formats_locale,
+
+                            # intro.js
+                            -data_step => 1,
+                            -data_intro =>
+"Please select a format (OSM, PBF, Garmin, Shapefile, mapsforge, OsmAand, SVG, GeoJSON, SQL etc.",
+                            -data_position     => 'auto',
+                            -data_tooltipClass => "extract-introjs",
+
                             -default => $default_format
                           )
                           . "\n\n",
@@ -1009,7 +1017,13 @@ qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="j
                             -id   => 'email',
 
                             #-size  => 22,
-                            -value => $default_email
+
+                            # intro.js
+                            -data_step  => 2,
+                            -data_intro => "Please insert your email address",
+                            -data_position     => 'auto',
+                            -data_tooltipClass => "extract-introjs",
+                            -value             => $default_email
                           )
                           . "\n"
                           . $q->hidden(
@@ -1061,6 +1075,13 @@ qq{<span class='' title='Give the city or area to extract a name. }
                           . $q->textfield(
                             -name => 'city',
                             -id   => 'city',
+
+                            # intro.js
+                            -data_step => 3,
+                            -data_intro =>
+"Please use meaningfull name for the extract to find it later",
+                            -data_position     => 'auto',
+                            -data_tooltipClass => "extract-introjs",
 
                             #-size => 18
                           )
