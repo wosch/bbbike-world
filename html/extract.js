@@ -817,7 +817,6 @@ function introjs_start() {
 
 // hide the help popup if open
 
-
 function dialog_close() {
     if ($(".dialog-close")) {
         $(".dialog-close").click();
