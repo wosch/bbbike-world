@@ -909,7 +909,9 @@ sub homepage {
             [
                 $q->td(
                     [
-"<span class='lnglatbox' title='South West, valid values: lng -180 .. 180, lat -90 .. 90'>@{[ M('Left lower corner (South-West)') ]}<br/>"
+                        "\n"
+                          . qq{<span class='lnglatbox' title='South West, valid values: lng -180 .. 180, lat -90 .. 90'>}
+                          . M('Left lower corner (South-West)') . "<br/>"
                           . "&nbsp;&nbsp; $lng: "
                           . $q->textfield(
                             -name => 'sw_lng',
@@ -922,14 +924,17 @@ sub homepage {
                             -id   => 'sw_lat',
                             -size => 8
                           )
-                          . '</span>',
-qq{<span title="hide longitude,latitude box" class="lnglatbox" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" />@{[ M("hide") ]} lnglat</span>}
+                          . "</span>\n",
+qq{<span title="hide longitude,latitude box" class="lnglatbox" onclick="javascript:toggle_lnglatbox ();">}
+                          . qq{<input class="uncheck" type="radio" />@{[ M("hide") ]} lnglat</span>\n}
                     ]
                 ),
 
                 $q->td(
                     [
-"<span class='lnglatbox' title='North East, valid values: lng -180 .. 180, lat -90 .. 90'>@{[ M('Right top corner (North-East)') ]}<br/>"
+                            "\n"
+                          . qq{<span class='lnglatbox' title='North East, valid values: lng -180 .. 180, lat -90 .. 90'>}
+                          . M('Right top corner (North-East)') . "<br/>"
                           . "&nbsp;&nbsp; $lng: "
                           . $q->textfield(
                             -name => 'ne_lng',
@@ -942,39 +947,44 @@ qq{<span title="hide longitude,latitude box" class="lnglatbox" onclick="javascri
                             -id   => 'ne_lat',
                             -size => 8
                           )
-                          . '</span>'
+                          . "</span>\n"
                     ]
                 ),
 
                 $q->td(
                     [
-"<span class='' title='PBF: fast and compact data, OSM XML gzip: standard OSM format, "
+                            "\n"
+                          . qq{<span class='' title='PBF: fast and compact data, OSM XML gzip: standard OSM format, }
                           . "twice as large, Garmin format in different styles, Esri shapefile format, "
                           . "Osmand for Androids'>@{[ M('Format') ]} "
                           . "<a class='tools-helptrigger' href='$extract_dialog/$language/format.html'><img src='/html/help-16px.png' alt=''/></a>"
-                          . "<br/></span>"
+                          . "<br/></span>\n\n"
                           . $q->popup_menu(
                             -name    => 'format',
                             -id      => 'format',
                             -values  => \@values,
                             -labels  => $formats_locale,
                             -default => $default_format
-                          ),
+                          )
+                          . "\n\n",
                     ]
                   )
                   . $q->td(
                     { "class" => "center" },
                     [
-qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="javascript:toggle_lnglatbox ();"><input class="uncheck" type="radio" />@{[ M("show") ]} lnglat</span><br/>\n}
-                          . '<span class="center" id="square_km_small" title="area covers N square kilometers"></span>'
+qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="javascript:toggle_lnglatbox ();">}
+                          . qq{<input class="uncheck" type="radio" />@{[ M("show") ]} lnglat</span><br/>\n}
+                          . qq{<span class="center" id="square_km_small" title="area covers N square kilometers"></span>\n}
                     ]
                   ),
 
                 $q->td(
                     [
-"<span title='Required, you will be notified by e-mail if your extract is ready for download.'>"
+                            "\n"
+                          . qq{<span title='Required, you will be notified by e-mail if your extract is ready for download.'>}
                           . M("Your email address")
-                          . " <a class='tools-helptrigger-small' href='$extract_dialog/$language/email.html'><img src='/html/help-16px.png' alt=''/></a><br/></span>"
+                          . qq{ <a class='tools-helptrigger-small' href='$extract_dialog/$language/email.html'>}
+                          . qq{<img src='/html/help-16px.png' alt=''/></a><br/></span>\n}
                           . $q->textfield(
                             -name => 'email',
                             -id   => 'email',
@@ -982,59 +992,66 @@ qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="j
                             #-size  => 22,
                             -value => $default_email
                           )
+                          . "\n"
                           . $q->hidden(
                             -name  => 'as',
                             -value => "-1",
                             -id    => 'as'
                           )
+                          . "\n"
                           . $q->hidden(
                             -name  => 'pg',
                             -value => "0",
                             -id    => 'pg'
                           )
+                          . "\n"
                           . $q->hidden(
                             -name  => 'coords',
                             -value => "",
                             -id    => 'coords'
                           )
+                          . "\n"
                           . $q->hidden(
                             -name  => 'oi',
                             -value => "0",
                             -id    => 'oi'
                           )
+                          . "\n"
                           . $q->hidden(
                             -name  => 'layers',
                             -value => "",
                             -id    => 'layers'
-                          ),
+                          )
+                          . "\n",
                     ]
                   )
                   . $q->td(
                     { "class" => "center" },
                     [
-'<span class="center" title="file data size approx." id="size_small"></span>'
+qq{<span class="center" title="file data size approx." id="size_small"></span>\n}
                     ]
                   ),
                 $q->td(
                     [
-"<span class='' title='Give the city or area to extract a name. "
+qq{<span class='' title='Give the city or area to extract a name. }
                           . "The name is optional, but better fill it out to find it later again.'>"
                           . "@{[ M('Name of area to extract') ]} "
                           . "<a class='tools-helptrigger-small' href='$extract_dialog/$language/name.html'><img src='/html/help-16px.png' alt='' /></a>"
                           . "<a class='tools-helptrigger-small' href='$extract_dialog/$language/search.html'> @{[ M('or search') ]}</a>"
-                          . "<br/></span>"
+                          . "<br/></span>\n"
                           . $q->textfield(
                             -name => 'city',
                             -id   => 'city',
 
                             #-size => 18
-                          ),
+                          )
+                          . "\n",
                     ]
                   )
                   . $q->td(
                     { "class" => "center" },
                     [
-'<span id="time_small" class="center" title="approx. extract time in minutes"></span>'
+qq{<span id="time_small" class="center" title="approx. extract time in minutes"></span>\n}
                     ]
                   ),
 
@@ -1045,26 +1062,21 @@ qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="j
                             -name  => 'submit',
                             -value => M('extract'),
                             -id    => 'submit'
-                        )
+                          )
+                          . "\n"
                     ]
                 )
             ]
         )
     );
 
-    print "\n</div>\n";
+    print "\n";
+    print $q->hidden( "expire", time() ), "\n";
 
-    #print "<br/>\n";
-    #print $q->submit(
-    #    -title => 'start extract',
-    #    -name  => 'submit',
-    #    -value => 'extract',
-    #
-    #    #-id    => 'extract'
-    #);
-    print $q->hidden( "expire", time() ), "\n\n";
-
+    print "</div>\n";
     print $q->end_form;
+    print "\n\n";
+
     print $self->export_osm;
     print qq{<hr/>\n};
     print $self->manual_area;
