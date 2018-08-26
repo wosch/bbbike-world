@@ -217,7 +217,7 @@ var config = {
         user_agent: "extract.bbbike.org",
         paging: 5
     },
-    
+
     // enable intro.js
     introjs: true,
 
@@ -804,6 +804,26 @@ function plot_default_box() {
     // setBounds(map.getExtent());
 }
 
+function introjs_start() {
+    if (!config.introjs) {
+        debug("introjs is disabled");
+        return;
+    }
+
+    // fire intro.js    
+    introJs().setOption('showProgress', true).start();
+    dialog_close();
+}
+
+// hide the help popup if open
+
+
+function dialog_close() {
+    if ($(".dialog-close")) {
+        $(".dialog-close").click();
+    }
+}
+
 function plot_default_box_menu_on() {
     polygon_menu(true); // display poygon menu
     polygon_update();
@@ -811,15 +831,13 @@ function plot_default_box_menu_on() {
     $("#drag_box_default").hide();
     $("#drag_box_select").show();
     $("#start_default_box").attr('checked', false);
-    
+
     if (config.introjs) {
         if ($(".introjs-donebutton")) {
             $(".introjs-donebutton").click();
         }
-        // hide the help popup if open
-        if ($(".dialog-close")) {
-            $(".dialog-close").click();
-        }
+
+        dialog_close();
     }
 }
 
