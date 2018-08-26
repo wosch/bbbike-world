@@ -217,6 +217,9 @@ var config = {
         user_agent: "extract.bbbike.org",
         paging: 5
     },
+    
+    // enable intro.js
+    introjs: true,
 
     // not used yet
     "dummy": ""
@@ -808,6 +811,16 @@ function plot_default_box_menu_on() {
     $("#drag_box_default").hide();
     $("#drag_box_select").show();
     $("#start_default_box").attr('checked', false);
+    
+    if (config.introjs) {
+        if ($(".introjs-donebutton")) {
+            $(".introjs-donebutton").click();
+        }
+        // hide the help popup if open
+        if ($(".dialog-close")) {
+            $(".dialog-close").click();
+        }
+    }
 }
 
 // remove default box from map
