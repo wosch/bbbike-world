@@ -361,6 +361,11 @@ sub footer {
     my $locate =
       $args{'map'} ? ' | <a href="javascript:locateMe()">where am I?</a>' : "";
 
+    my @css = ();
+    if ( $option->{'enable_introjs'} ) {
+        push @css, qw(introjs/2.9.3/introjs.css);
+    }
+
     my @js = qw(
       OpenLayers/2.12/OpenLayers-min.js
       OpenLayers/2.12/OpenStreetMap.js
@@ -369,11 +374,22 @@ sub footer {
       jquery/jquery-ui-1.9.1.custom.min.js
       jquery/jquery.cookie-1.3.1.js
       jquery/jquery.iecors.js
-      extract.js
     );
 
+    if ( $option->{'enable_introjs'} ) {
+        push @js, qw(introjs/2.9.3/intro.min.js);
+    }
+
+    # finally, our JS
+    push @js, "extract.js";
+
+    # load CSS before JS due possible dependencies
+    my $css = join "\n",
+      map { qq[<link  href="/html/$_" rel="stylesheet" type="text/css" />] }
+      @css;
+
     my $javascript = join "\n",
-      map { qq{<script src="/html/$_" type="text/javascript"></script>} } @js;
+      map { qq[<script src="/html/$_" type="text/javascript"></script>] } @js;
 
     $javascript .=
 qq{\n<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.9&amp;sensor=false&amp;language=en&amp;libraries=weather,panoramio"></script>}
@@ -393,6 +409,8 @@ qq{\n<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js
 </div>
 
 </div></div></div> <!-- layout -->
+
+$css
 
 $javascript
 $analytics

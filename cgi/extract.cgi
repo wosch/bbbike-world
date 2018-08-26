@@ -69,6 +69,9 @@ our $option = {
     # scheduler with priorities (by IP or user agent)
     'enable_priority' => 1,
 
+    # with intro.js guide
+    'enable_introjs' => 1,
+
     # scheduler limits
     'scheduler' => {
         'user_limit' => 25,
