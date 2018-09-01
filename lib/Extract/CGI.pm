@@ -214,6 +214,7 @@ sub manual_area {
  <div id="manual_area">
   <div id="sidebar_content">
     <span class="export_hint">
+      <br/>
       <span id="drag_box">
         <span id="drag_box_select" style="display:none">
             <button class="link">@{[ M("Select a different area") ]}</button>
@@ -221,7 +222,7 @@ sub manual_area {
             <p></p>
         </span>
         <span id="drag_box_default" data-step="4" data-intro="Please click on the button above. You can then move or resize the box, and then click on the extract button to start the extract job" data-position='left' data-tooltipClass="extract-intro">
-            @{[ M("Move the map to your desired location") ]}. <br/>
+            @{[ M("Now move the map to your desired location") ]}. <br/>
             @{[ M("Then click") ]} <button class="link">@{[ M("here") ]}</button> @{[ M("to create the bounding box") ]}.
             <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>
             <br/>
