@@ -335,7 +335,7 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
   $css
   <div id="footer_top">
     <a href="$homepage">home</a> |
-    <a href="/extract.html">@{[ M("help") ]}</a> |
+    <a target="_help" href="/extract.html">@{[ M("help") ]}</a> |
     <span class="extract-introjs"><a href="javascript:void(0);" onclick="javascript:introjs_start(); ">intro</a></span> |
     <a href="$server_status_url" target="_blank">status</a> |
     <!-- <a href="//mc.bbbike.org/mc/$mc_parameters" id="mc_link" target="_blank">map compare</a> | -->
