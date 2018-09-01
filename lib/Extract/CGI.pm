@@ -243,7 +243,7 @@ sub manual_area {
 	<img src="$img_prefix/move_feature_on.png" alt="move feature"/>
 	</label>
 
-        <span>@{[ M("EXTRACT_USAGE2") ]}</span>
+        <!-- <span>@{[ M("EXTRACT_USAGE2") ]}</span> -->
     </div>
 
     <div id="format_image"></div>
