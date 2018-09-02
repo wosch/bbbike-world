@@ -1120,7 +1120,8 @@ qq{<span id="time_small" class="center" title="approx. extract time in minutes">
     print "\n\n";
 
     print $self->export_osm;
-    print qq{<hr/>\n};
+    
+    #print qq{<hr/>\n};
     print $self->manual_area;
     print "</div>\n";
 
