@@ -219,7 +219,6 @@ sub manual_area {
         <span id="drag_box_select" style="display:none">
             <button class="link">@{[ M("Select a different area") ]}</button>
             <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>
-            <input type="submit" name="submit" value="extract" id="submit" title="start extract">
             <p></p>
         </span>
         <span id="drag_box_default" data-step="4" data-intro="Please click on the button above. You can then move or resize the box, and then click on the extract button to start the extract job" data-position='left' data-tooltipClass="extract-intro">
@@ -250,7 +249,6 @@ sub manual_area {
 
   </div> <!-- sidebar_content -->
  </div><!-- manual_area -->
- </form>
 EOF
 }
 
@@ -1099,17 +1097,17 @@ qq{<span id="time_small" class="center" title="approx. extract time in minutes">
                     ]
                   ),
 
-                #$q->td(
-                #    [
-                #        $q->submit(
-                #            -title => 'start extract',
-                #            -name  => 'submit',
-                #            -value => M('extract'),
-                #            -id    => 'submit'
-                #          )
-                #          . "\n"
-                #    ]
-                #)
+                $q->td(
+                    [
+                        $q->submit(
+                            -title => 'start extract',
+                            -name  => 'submit',
+                            -value => M('extract'),
+                            -id    => 'submit'
+                          )
+                          . "\n"
+                    ]
+                )
             ]
         )
     );
@@ -1118,13 +1116,11 @@ qq{<span id="time_small" class="center" title="approx. extract time in minutes">
     print $q->hidden( "expire", time() ), "\n";
 
     print "</div>\n";
-
-    #print $q->end_form;
+    print $q->end_form;
     print "\n\n";
 
     print $self->export_osm;
-
-    #print qq{<hr/>\n};
+    print qq{<hr/>\n};
     print $self->manual_area;
     print "</div>\n";
 
