@@ -248,6 +248,9 @@ var console;
 function init() {
     var opt = {};
 
+    // submit button is by default off until we created the boundary box
+    $("input#submit").hide();
+
     initKeyPress();
     init_map_resize();
     map = init_map();
@@ -264,7 +267,7 @@ function init() {
         move_map_to_city();
     }
 
-    // plot_default_box();
+    // show either 'Select a different area' or the 'click here' message
     $("#drag_box_default").click(plot_default_box);
     $("#drag_box_select").click(plot_default_box_menu_off);
 
@@ -759,6 +762,7 @@ function cf(name) {
 function plot_default_box() {
     debug("plot default box");
 
+
     // reset to full map
     setBounds(map.getExtent());
     validateControls();
@@ -802,6 +806,7 @@ function plot_default_box() {
     setBounds(feature.geometry.bounds);
     plot_default_box_menu_on();
     // setBounds(map.getExtent());
+    $("input#submit").show();
 }
 
 function introjs_start() {
@@ -824,6 +829,8 @@ function dialog_close() {
 }
 
 function plot_default_box_menu_on() {
+    $("input#submit").show();
+
     polygon_menu(true); // display poygon menu
     polygon_update();
     // switch menu
@@ -843,6 +850,9 @@ function plot_default_box_menu_on() {
 // remove default box from map
 
 function plot_default_box_menu_off() {
+    // no submit button before we created a bounding box with click 'here'
+    $("input#submit").hide();
+
     // $("#drag_box_select_reset").attr('checked', false);
     $("#drag_box_default").show();
     $("#drag_box_select").hide();
