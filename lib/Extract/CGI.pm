@@ -221,7 +221,7 @@ sub manual_area {
             <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>
             <p></p>
         </span>
-        <span id="drag_box_default" data-step="4" data-intro="Please click on the button above. You can then move or resize the box, and then click on the extract button to start the extract job" data-position='left' data-tooltipClass="extract-intro">
+        <span id="drag_box_default" data-step="4" data-intro="<h3>Click & move or resize</h3><p>Please click on the button above. You can then move or resize the box, and then click on the extract button to start the extract job.</p>" data-position='auto' data-tooltipClass="extract-intro">
             @{[ M("Now move the map to your desired location") ]}. <br/>
             @{[ M("Then click") ]} <button class="link">@{[ M("here") ]}</button> @{[ M("to create the bounding box") ]}.
             <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>
@@ -989,7 +989,7 @@ qq{<span title="hide longitude,latitude box" class="lnglatbox" onclick="javascri
                             # intro.js
                             -data_step => 1,
                             -data_intro =>
-"Please select a format (OSM, PBF, Garmin, Shapefile, mapsforge, OsmAand, SVG, GeoJSON, SQL etc.",
+"<h3>How does it work?</h3><p>These instructions will show you how to extract OpenStreetMap data in your favourite format.</p><p>Please select a format (OSM, PBF, Garmin, Shapefile, mapsforge, OsmAand, SVG, GeoJSON, SQL etc.</p>",
                             -data_position     => 'auto',
                             -data_tooltipClass => "extract-introjs",
 
@@ -1022,7 +1022,7 @@ qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="j
 
                             # intro.js
                             -data_step  => 2,
-                            -data_intro => "Please insert your email address",
+                            -data_intro => "<h3>email address</h3><p>Please insert your email address. The email field is required, you will be notified by email if your extract is ready for download.",
                             -data_position     => 'auto',
                             -data_tooltipClass => "extract-introjs",
                             -value             => $default_email
@@ -1081,7 +1081,7 @@ qq{<span class='' title='Give the city or area to extract a name. }
                             # intro.js
                             -data_step => 3,
                             -data_intro =>
-"Please use meaningfull name for the extract to find it later",
+"<h3>Name of extract</h3><p>Please use meaningfull name for the extract to find it later.</p>",
                             -data_position     => 'auto',
                             -data_tooltipClass => "extract-introjs",
 
