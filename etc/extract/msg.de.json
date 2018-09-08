@@ -161,25 +161,25 @@
 
     "EXTRACT_INTRO_FORMAT": [
         "<h3>Wie funktioniert es?</h3>",
-        "<p>Diese Anleitung zeigt Ihnen, wie Sie OpenStreetMap-Daten in Ihrem Lieblingsformat extrahieren können.</p>",
-        "<p>Bitte wählen Sie ein Format aus (OSM, PBF, Garmin, Shapefile, mapsforge, OsmAand, SVG, GeoJSON, SQL etc.)</p>"
+        "<p>Diese Anleitung zeigt Dir, wie Du OpenStreetMap-Daten in Deinem Lieblingsformat extrahieren kannst.</p>",
+        "<p>Bitte wähle ein Format aus (OSM, PBF, Garmin, Shapefile, mapsforge, OsmAand, SVG, GeoJSON, SQL etc.)</p>"
         ],
 
     "EXTRACT_INTRO_EMAIL": [
         "<h3>E-Mail-Adresse</h3>",
-        "<p>Bitte geben Sie Ihre E-Mail-Adresse ein. ",
-        "Das E-Mail Feld ist erforderlich, Sie werden per E-Mail benachrichtigt, wenn Ihr Extrakt zum Download bereit ist."
+        "<p>Bitte gebe Deine E-Mail-Adresse ein. ",
+        "Das E-Mail Feld ist erforderlich, Du wirst per E-Mail benachrichtigt, wenn Dein Extrakt zum Download bereit ist."
         ],
 
     "EXTRACT_INTRO_NAME": [
         "<h3>Name des Extrakts</h3>",
-         "<p>Bitte verwenden Sie einen aussagekräftigen Namen für den Extrakt, um es später zu finden. </p>"
+         "<p>Bitte verwenden einen aussagekräftigen Namen für den Extrakt, um es später wieder zu finden. </p>"
          ],
 
     "EXTRACT_INTRO_CLICK": [
         "<h3>Klicken & Bewegen oder Größe ändern</h3>",
-        "<p>Bitte klicken Sie auf die Schaltfläche oben. ",
-        "Sie können dann die Box verschieben oder in der Größe ändern, und dann auf die Extrakt Button klicken, um den Extraktionsauftrag zu starten."
+        "<p>Bitte klicken auf die Schaltfläche oben. ",
+        "Du kannst dann die Box verschieben oder in der Größe ändern. Klicke dann auf den Extrakt Button, um den Extrakt-Auftrag zu starten."
         ],
 
     "dummy": "dummy"
