@@ -136,10 +136,10 @@
         ],
 
     "EXTRACT_USAGE2": [
-       "<p>Um das Polygon zu ändern, musst du zuerst darauf klicken und dann kannst du es verschieben, skalieren oder erweitern.",
-        "Bitte drücke den Extraktionsknopf, nachdem Du mit der Polygonerstellung fertig bist.</p>"
-        ],
-            
+        "<p>Um das Polygon zu ändern, musst du zuerst darauf klicken und dann kannst du es verschieben, skalieren oder erweitern.",
+         "Bitte drücke den Extraktionsknopf, nachdem Du mit der Polygonerstellung fertig bist.</p>"
+         ],
+
     "EXTRACT_USAGE2_OLD": [
         "<ol>",
         "<li>W&auml;hle ein <b>Format</b>, gib <b>Deine E-Mail Adresse</b> ein und <b>Name der extrahierten Region</b>.</li>",
