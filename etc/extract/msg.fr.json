@@ -103,6 +103,11 @@
         ],
 
     "EXTRACT_USAGE2": [
+        "<p>Pour changer le polygone, il faut d'abord cliquer dessus et ensuite le déplacer, le redimensionner ou l'étendre",
+        "Veuillez appuyer sur le bouton d'extraction après avoir terminé la création du polygone. </p>"
+        ],
+        
+    "EXTRACT_USAGE2_OLD": [
         "<ol>",
         "<li>Sélectionnez un <b>Format</b>, entrez votre <b>adresse électronique</b> et <b>le nom de la zone à extraire</b>.</li>",
         "<li>Cliquez sur le bouton <b>extraire</b>. Attendez la notification dans votre messagerie électronique et téléchargez alors la carte. C'est prêt !</li>",

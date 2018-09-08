@@ -90,6 +90,11 @@
         ],
 
     "EXTRACT_USAGE2": [
+        "<p>To change the polygone, you have to first click on it  and then you can move, resize or extend it.",
+        "Please press the extract button after you are done with polygone creation.</p>"
+        ],
+    
+    "EXTRACT_USAGE2_OLD": [
         "<ol>",
         "<li>Select a <b>Format</b>, enter <b>Your email address</b> and <b>Name of area to extract</b>.</li>",
         "<li>Click the <b>extract</b> button. Wait for email notification and download the map. Done!</li>",
