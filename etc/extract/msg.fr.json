@@ -124,6 +124,28 @@
         "<br/><br/><br/><br/>"
         ],
 
+    "EXTRACT_INTRO_FORMAT": [
+        "<h3>Comment ça marche?</h3>",
+        "<p>Ces instructions vous montreront comment extraire les données OpenStreetMap dans votre format préféré</p>",
+        "<p>Veuillez choisir un format (OSM, PBF, Garmin, Shapefile, mapsforge, OsmAand, SVG, GeoJSON, SQL etc.</p>"
+        ],
+
+    "EXTRACT_INTRO_EMAIL": [
+        "<h3>adresse e-mail</h3>",
+        "<p>Veuillez insérer votre adresse email. ",
+        "Le champ email est obligatoire, vous serez averti par email si votre extrait est prêt à être téléchargé."
+        ],
+
+    "EXTRACT_INTRO_NAME": [
+        "<h3>Nom de l'extrait</h3>",
+               "<p>Veuillez utiliser le nom complet de l'extrait pour le retrouver plus tard. </p>"
+        ],
+
+    "EXTRACT_INTRO_CLICK": [
+        "<h3>Cliquez et déplacez ou redimensionnez </h3>",
+        "<p>Veuillez cliquer sur le bouton ci-dessus. ",
+        "Vous pouvez alors déplacer ou redimensionner la boîte, puis cliquer sur le bouton d'extraction pour lancer le travail d'extraction.</p>".
+        ],
 
     "dummy": "dummy"
 }

@@ -108,5 +108,28 @@
         "<br/><br/><br/><br/>"
         ],
 
+    "EXTRACT_INTRO_FORMAT": [
+        "<h3>How does it work?</h3>",
+        "<p>These instructions will show you how to extract OpenStreetMap data in your favourite format.</p>",
+        "<p>Please select a format (OSM, PBF, Garmin, Shapefile, mapsforge, OsmAand, SVG, GeoJSON, SQL etc.</p>"
+        ],
+
+    "EXTRACT_INTRO_EMAIL": [
+        "<h3>email address</h3>",
+        "<p>Please insert your email address. ",
+        "The email field is required, you will be notified by email if your extract is ready for download."
+        ],
+
+    "EXTRACT_INTRO_NAME": [
+        "<h3>Name of extract</h3>",
+        "<p>Please use meaningfull name for the extract to find it later.</p>"
+        ],
+
+    "EXTRACT_INTRO_CLICK": [
+        "<h3>Click & move or resize</h3>",
+        "<p>Please click on the button above. ",
+        "You can then move or resize the box, and then click on the extract button to start the extract job.</p>"
+        ],
+
     "dummy": "dummy"
 }

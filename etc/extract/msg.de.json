@@ -16,7 +16,7 @@
     "zip archive": "zip Archiv",
     "uncompressed": "unkomprimiert",
     "Now move the map to your desired location": "Verschiebe die Karte zur gew&uuml;nschten Position",
-    "Then click": "Dann clicke",
+    "Then click": "Dann klicke",
     "here": "hier",
     "to create the bounding box": "um die Bounding-Box zu erzeugen",
     "show": "zeige",
@@ -152,6 +152,29 @@
         "Bitte benutze den <a href='javascript:history.back()'>back button</a>",
         "im Browser and korrigiere die Eingabewerte!</p>",
         "<br/><br/><br/><br/>"
+        ],
+
+    "EXTRACT_INTRO_FORMAT": [
+        "<h3>Wie funktioniert es?</h3>",
+        "<p>Diese Anleitung zeigt Ihnen, wie Sie OpenStreetMap-Daten in Ihrem Lieblingsformat extrahieren können.</p>",
+        "<p>Bitte wählen Sie ein Format aus (OSM, PBF, Garmin, Shapefile, mapsforge, OsmAand, SVG, GeoJSON, SQL etc.)</p>"
+        ],
+
+    "EXTRACT_INTRO_EMAIL": [
+        "<h3>E-Mail-Adresse</h3>",
+        "<p>Bitte geben Sie Ihre E-Mail-Adresse ein. ",
+        "Das E-Mail Feld ist erforderlich, Sie werden per E-Mail benachrichtigt, wenn Ihr Extrakt zum Download bereit ist."
+        ],
+
+    "EXTRACT_INTRO_NAME": [
+        "<h3>Name des Extrakts</h3>",
+         "<p>Bitte verwenden Sie einen aussagekräftigen Namen für den Extrakt, um es später zu finden. </p>"
+         ],
+
+    "EXTRACT_INTRO_CLICK": [
+        "<h3>Klicken & Bewegen oder Größe ändern</h3>",
+        "<p>Bitte klicken Sie auf die Schaltfläche oben. ",
+        "Sie können dann die Box verschieben oder in der Größe ändern, und dann auf die Extrakt Button klicken, um den Extraktionsauftrag zu starten."
         ],
 
     "dummy": "dummy"
