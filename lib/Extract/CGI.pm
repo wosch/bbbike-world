@@ -1021,8 +1021,9 @@ qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="j
                             #-size  => 22,
 
                             # intro.js
-                            -data_step  => 2,
-                            -data_intro => "<h3>email address</h3><p>Please insert your email address. The email field is required, you will be notified by email if your extract is ready for download.",
+                            -data_step => 2,
+                            -data_intro =>
+"<h3>email address</h3><p>Please insert your email address. The email field is required, you will be notified by email if your extract is ready for download.",
                             -data_position     => 'auto',
                             -data_tooltipClass => "extract-introjs",
                             -value             => $default_email
