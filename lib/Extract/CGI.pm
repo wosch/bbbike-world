@@ -331,13 +331,18 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
       ? $option->{'download_homepage_pro'}
       : $option->{'download_homepage'};
 
+    my $intro_link =
+      $option->{'enable_introjs'}
+      ? qq[<span class="extract-introjs"><a href="javascript:void(0);" onclick="javascript:introjs_start(); ">intro</a></span> |]
+      : "";
+
     return <<EOF;
   $donate
   $css
   <div id="footer_top">
     <a href="$homepage">home</a> |
     <a target="_help" href="/extract.html">@{[ M("help") ]}</a> |
-    <span class="extract-introjs"><a href="javascript:void(0);" onclick="javascript:introjs_start(); ">intro</a></span> |
+    $intro_link
     <a href="$server_status_url" target="_blank">status</a> |
     <!-- <a href="//mc.bbbike.org/mc/$mc_parameters" id="mc_link" target="_blank">map compare</a> | -->
     <a href="$download_homepage">download</a> |
@@ -397,6 +402,9 @@ sub footer {
 qq{\n<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.9&amp;sensor=false&amp;language=en&amp;libraries=weather,panoramio"></script>}
       if $option->{"with_google_maps"};
 
+    my $disable_intro =
+      $option->{'enable_introjs'} ? "" : '$(".extract-introjs").hide();';
+
     return <<EOF;
 
 <div id="footer">
@@ -418,6 +426,7 @@ $javascript
 $analytics
 <script type="text/javascript">
   jQuery('#pageload-indicator').hide();
+  $disable_intro
 </script>
 
   <!-- pre-load some images for slow mobile networks -->
@@ -449,6 +458,11 @@ sub message {
     my $language = shift;
     my $locale   = shift || $self->{'locale'};
 
+    my $intro_link =
+      $option->{'enable_introjs'}
+      ? qq[<span class="extract-introjs"><a href="javascript:void(0);" onclick="javascript:introjs_start(); ">intro</a> - </span>]
+      : "";
+
     return <<EOF;
 <span id="noscript"><noscript>Please enable JavaScript in your browser. Thanks!</noscript></span>
 <span id="toolbar"></span>
@@ -456,7 +470,7 @@ sub message {
 <span id="tools-titlebar">
  @{[ $locale->language_links ]}
  @{[ $self->social_links ]} -
- <span class="extract-introjs"><a href="javascript:void(0);" onclick="javascript:introjs_start(); ">intro</a> - </span>
+ $intro_link
  <span id="tools-help"><a class='tools-helptrigger' href='$extract_dialog/$language/about.html' title='info'><span>@{[ M("about") ]} extracts</span></a></span>
  <span id="pageload-indicator">&nbsp;<img src="/html/indicator.gif" width="14" height="14" alt="" title="Loading JavaScript libraries" /> Loading JavaScript</span>
  <span class="jqmWindow jqmWindowLarge" id="tools-helpwin"></span>
