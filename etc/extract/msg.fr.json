@@ -84,7 +84,7 @@
         "Vous pouvez donner n'importe quel montant que vous voulez. Nous sommes heureux pour chaque don,",
         "pour 5, 10, 20 ou 50 euros. Peu importe ce que vous pensez que le service vaut pour vous,",
         "ou vous pouvez vous le permettre. Nous devons collecter 10 euros (12 USD) d'ici la fin de la journée ou",
-        "300 euros par mois pour couvrir les frais du serveur."
+        "300 euros par mois pour couvrir les frais du serveur.",
         "Votre don aide à payer l'hébergement du service. Merci beaucoup !",
         "",
         "Sincèrement, la fée des extraits BBBike",
@@ -95,14 +95,12 @@
         "Comparatif de cartes BBBike: https://mc.bbbike.org"
         ],
 
-
     "EXTRACT_USAGE": [
         "<ol>",
         "<li>Déplacez la carte dans la région souhaitée.</li>",
         "<li>Cliquez et maintenez le bouton gauche de la souris, dessinez le cadre de sélection, puis relâchez le bouton gauche de la souris.</li>",
         "</ol>"
         ],
-
 
     "EXTRACT_USAGE2": [
         "<ol>",
@@ -111,11 +109,9 @@
         "</ol>"
         ],
 
-
     "EXTRACT_LIMIT": [
         "Trop de requêtes. veuillez réessayer dans 15 minutes. Merci !"
         ],
-
 
     "EXTRACT_VALID": [
         "<p class='error'>Les données d’entrée ne sont pas valides.",
@@ -138,13 +134,13 @@
 
     "EXTRACT_INTRO_NAME": [
         "<h3>Nom de l'extrait</h3>",
-               "<p>Veuillez utiliser le nom complet de l'extrait pour le retrouver plus tard. </p>"
+        "<p>Veuillez utiliser le nom complet de l'extrait pour le retrouver plus tard. </p>"
         ],
 
     "EXTRACT_INTRO_CLICK": [
         "<h3>Cliquez et déplacez ou redimensionnez </h3>",
         "<p>Veuillez cliquer sur le bouton ci-dessus. ",
-        "Vous pouvez alors déplacer ou redimensionner la boîte, puis cliquer sur le bouton d'extraction pour lancer le travail d'extraction.</p>".
+        "Vous pouvez alors déplacer ou redimensionner la boîte, puis cliquer sur le bouton d'extraction pour lancer le travail d'extraction.</p>"
         ],
 
     "dummy": "dummy"
