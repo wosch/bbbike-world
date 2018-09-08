@@ -131,7 +131,7 @@
         ],
 
     "EXTRACT_INTRO_EMAIL": [
-        "<h3>adresse e-mail</h3>",
+        "<h3>adresse email</h3>",
         "<p>Veuillez insérer votre adresse email. ",
         "Le champ email est obligatoire, vous serez averti par email si votre extrait est prêt à être téléchargé."
         ],

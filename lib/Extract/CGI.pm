@@ -619,9 +619,9 @@ sub _check_input {
 
     if ( $email eq '' ) {
         error(
-            "Please enter a e-mail address. "
-              . "We need an e-mail address to notify you if your extract is ready for download. "
-              . "If you don't have an e-mail address, you can get a temporary from "
+            "Please enter a email address. "
+              . "We need an email address to notify you if your extract is ready for download. "
+              . "If you don't have an email address, you can get a temporary from "
               . "<a href='https://mailinator.com/'>mailinator.com</a>",
             1
         );
@@ -1009,7 +1009,7 @@ qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="j
                 $q->td(
                     [
                             "\n"
-                          . qq{<span title='Required, you will be notified by e-mail if your extract is ready for download.'>}
+                          . qq{<span title='Required, you will be notified by email if your extract is ready for download.'>}
                           . M("Your email address")
                           . qq{ <a class='tools-helptrigger-small' href='$extract_dialog/$language/email.html'>}
                           . qq{<img src='/html/help-16px.png' alt=''/></a><br/></span>\n}
