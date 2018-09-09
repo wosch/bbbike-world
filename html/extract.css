@@ -92,9 +92,9 @@ form input[type=submit] {
     margin-top: 0.3em;
     margin-bottom: 0.2em;
     
-    right: 20px;
+    right: 10px;
     position: absolute;
-    top: 7.5em;
+    top: 6.4em;
 }
 
 div#export_osm_too_large {
