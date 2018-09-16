@@ -64,5 +64,14 @@ export BBBIKE_API_SERVER=api.bbbike.org
 # workaround for imagemagic thread bug / busy waiting in libgomp
 export OMP_WAIT_POLICY=PASSIVE
 
+# version for offline format conversion
+export BBBIKE_EXTRACT_GARMIN_VERSION="mkgmap"
+export BBBIKE_EXTRACT_MAPERITIVE_VERSION="Maperitive"
+export BBBIKE_EXTRACT_OSMAND_VERSION="OsmAndMapCreator"
+export BBBIKE_EXTRACT_MAPSFORGE_VERSION="mapsforge"
+export BBBIKE_EXTRACT_NAVIT_VERSION="maptool"
+export BBBIKE_EXTRACT_BBBIKE_VERSION="bbbike"
+export BBBIKE_EXTRACT_SHAPE_VERSION="osmium2shape"
+export BBBIKE_EXTRACT_MAPSME_VERSION="mapsme"
 
 #EOF
