@@ -1843,7 +1843,6 @@ function add_land_shading_layer(map, enable) {
 }
 
 // add traffic to map, by google maps
-
 //
 // guess if a streetname is from the OSM database
 // false: 123,456
@@ -3037,12 +3036,12 @@ function _init_markers(opt) {
     var lang = opt.lang || "en";
 
     var zoom = map.getZoom();
-    
+
     if (!map.getBounds()) {
         debug("argh! no bounds, give up!");
         return;
     }
-    
+
     var ne = map.getBounds().getNorthEast();
     var sw = map.getBounds().getSouthWest();
 
