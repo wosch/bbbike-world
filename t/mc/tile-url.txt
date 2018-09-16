@@ -31,7 +31,6 @@ https://mt0.googleapis.com/vt?lyrs=t@130,r@202000000&src=apiv3&hl=en&x=2200&y=13
 https://mt0.googleapis.com/vt?lyrs=m@202000000,traffic&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&style=api%7Csmartmaps
 https://mt0.googleapis.com/vt?lyrs=m@202000000,transit:comp%7Cvm:1&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&opts=r&style=api%7Csmartmaps
 https://mt0.googleapis.com/mapslt?hl=en&lyrs=weather_c_ms%7Cinvert%3A1&x=2200&y=1342&z=12&w=256&h=256&source=apiv3&token=23052
-https://mt0.googleapis.com/mapslt?hl=en&lyrs=com.panoramio.all&x=2200&y=1342&z=12&w=256&h=256&source=apiv3&token=125138
 https://mt0.googleapis.com/mapslt?hl=en&lyrs=weather_c_ms%7Cinvert%3A0&x=2200&y=1342&z=12&w=256&h=256&source=apiv3&token=122309
 https://mt0.googleapis.com/vt?lyrs=m@202221627&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&style=api%7Csmartmaps
 https://mt0.googleapis.com/vt?lyrs=m@202221627,bike&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&style=api%7Csmartmaps
