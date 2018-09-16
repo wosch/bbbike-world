@@ -21,6 +21,7 @@ unterstuetzen: https://www.bbbike.org/community.de.html
 Danke, Wolfram Schneider
 
 --
-Dein Fahrrad-Routenplaner: https://www.bbbike.org
+BBBike professional plans: https://extract.bbbike.org/support.html
+Planet.osm extracts: https://extract.bbbike.org
 BBBike Map Compare: https://mc.bbbike.org
 EOF
