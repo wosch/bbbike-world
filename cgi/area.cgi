@@ -161,6 +161,7 @@ EOF
             next if $filename eq '.' || $filename eq '..';
             next if $filename eq 'HEADER.txt';
             next if $filename eq 'index.html';
+            next if $filename =~ /\.tmp$/;
             if ( $filename eq $checksum_file ) {
                 $has_checksum_file = 1;
                 next;
