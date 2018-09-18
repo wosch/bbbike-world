@@ -399,7 +399,7 @@ sub footer {
       map { qq[<script src="/html/$_" type="text/javascript"></script>] } @js;
 
     $javascript .=
-qq{\n<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.9&amp;sensor=false&amp;language=en&amp;libraries=weather,panoramio"></script>}
+qq{\n<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.9&amp;sensor=false&amp;language=en&amp;libraries=weather"></script>}
       if $option->{"with_google_maps"};
 
     my $disable_intro =
