@@ -74,7 +74,6 @@ fi
 # main
 #
 
-echo "users.value" \
-  $(egrep -h email $(find $extract_dir/trash -type f -mtime -1 ) | sed 's/,$//' | sort -u | wc -l)
+echo "users.value" $(find $extract_dir/trash -type f -mtime -1 -print0 | xargs -0 egrep -h email | sed 's/,$//' | sort -u | wc -l)
 
 # EOF
