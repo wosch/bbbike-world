@@ -214,14 +214,15 @@ sub manual_area {
  <div id="manual_area">
   <div id="sidebar_content">
     <span class="export_hint">
+      <br/>
       <span id="drag_box">
         <span id="drag_box_select" style="display:none">
             <button class="link">@{[ M("Select a different area") ]}</button>
             <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>
             <p></p>
         </span>
-        <span id="drag_box_default">
-            @{[ M("Move the map to your desired location") ]}. <br/>
+        <span id="drag_box_default" data-step="4" data-intro="@{[ M('EXTRACT_INTRO_CLICK') ]}" data-position='auto' data-tooltipClass="extract-intro">
+            @{[ M("Now move the map to your desired location") ]}. <br/>
             @{[ M("Then click") ]} <button class="link">@{[ M("here") ]}</button> @{[ M("to create the bounding box") ]}.
             <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>
             <br/>
@@ -241,7 +242,7 @@ sub manual_area {
 	<img src="$img_prefix/move_feature_on.png" alt="move feature"/>
 	</label>
 
-        <span>@{[ M("EXTRACT_USAGE2") ]}</span>
+    <span>@{[ M("EXTRACT_USAGE2") ]}</span>
     </div>
 
     <div id="format_image"></div>
@@ -330,12 +331,18 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
       ? $option->{'download_homepage_pro'}
       : $option->{'download_homepage'};
 
+    my $intro_link =
+      $option->{'enable_introjs'}
+      ? qq[<span class="extract-introjs"><a href="javascript:void(0);" onclick="javascript:introjs_start(); ">intro</a></span> |]
+      : "";
+
     return <<EOF;
   $donate
   $css
   <div id="footer_top">
     <a href="$homepage">home</a> |
-    <a href="/extract.html">@{[ M("help") ]}</a> |
+    <a target="_help" href="/extract.html">@{[ M("help") ]}</a> |
+    $intro_link
     <a href="$server_status_url" target="_blank">status</a> |
     <!-- <a href="//mc.bbbike.org/mc/$mc_parameters" id="mc_link" target="_blank">map compare</a> | -->
     <a href="$download_homepage">download</a> |
@@ -361,6 +368,11 @@ sub footer {
     my $locate =
       $args{'map'} ? ' | <a href="javascript:locateMe()">where am I?</a>' : "";
 
+    my @css = ();
+    if ( $option->{'enable_introjs'} ) {
+        push @css, qw(introjs/2.9.3/introjs.css);
+    }
+
     my @js = qw(
       OpenLayers/2.12/OpenLayers-min.js
       OpenLayers/2.12/OpenStreetMap.js
@@ -369,15 +381,29 @@ sub footer {
       jquery/jquery-ui-1.9.1.custom.min.js
       jquery/jquery.cookie-1.3.1.js
       jquery/jquery.iecors.js
-      extract.js
     );
 
+    if ( $option->{'enable_introjs'} ) {
+        push @js, qw(introjs/2.9.3/intro.min.js);
+    }
+
+    # finally, our JS
+    push @js, "extract.js";
+
+    # load CSS before JS due possible dependencies
+    my $css = join "\n",
+      map { qq[<link  href="/html/$_" rel="stylesheet" type="text/css" />] }
+      @css;
+
     my $javascript = join "\n",
-      map { qq{<script src="/html/$_" type="text/javascript"></script>} } @js;
+      map { qq[<script src="/html/$_" type="text/javascript"></script>] } @js;
 
     $javascript .=
 qq{\n<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.9&amp;sensor=false&amp;language=en&amp;libraries=weather"></script>}
       if $option->{"with_google_maps"};
+
+    my $disable_intro =
+      $option->{'enable_introjs'} ? "" : '$(".extract-introjs").hide();';
 
     return <<EOF;
 
@@ -394,10 +420,13 @@ qq{\n<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js
 
 </div></div></div> <!-- layout -->
 
+$css
+
 $javascript
 $analytics
 <script type="text/javascript">
   jQuery('#pageload-indicator').hide();
+  $disable_intro
 </script>
 
   <!-- pre-load some images for slow mobile networks -->
@@ -429,6 +458,11 @@ sub message {
     my $language = shift;
     my $locale   = shift || $self->{'locale'};
 
+    my $intro_link =
+      $option->{'enable_introjs'}
+      ? qq[<span class="extract-introjs"><a href="javascript:void(0);" onclick="javascript:introjs_start(); ">intro</a> - </span>]
+      : "";
+
     return <<EOF;
 <span id="noscript"><noscript>Please enable JavaScript in your browser. Thanks!</noscript></span>
 <span id="toolbar"></span>
@@ -436,7 +470,8 @@ sub message {
 <span id="tools-titlebar">
  @{[ $locale->language_links ]}
  @{[ $self->social_links ]} -
- <span id="tools-help"><a class='tools-helptrigger' href='$extract_dialog/$language/about.html' title='info'><span>@{[ M("about") ]} extracts</span></a> - </span>
+ $intro_link
+ <span id="tools-help"><a class='tools-helptrigger' href='$extract_dialog/$language/about.html' title='info'><span>@{[ M("about") ]} extracts</span></a></span>
  <span id="pageload-indicator">&nbsp;<img src="/html/indicator.gif" width="14" height="14" alt="" title="Loading JavaScript libraries" /> Loading JavaScript</span>
  <span class="jqmWindow jqmWindowLarge" id="tools-helpwin"></span>
 </span>
@@ -598,9 +633,9 @@ sub _check_input {
 
     if ( $email eq '' ) {
         error(
-            "Please enter a e-mail address. "
-              . "We need an e-mail address to notify you if your extract is ready for download. "
-              . "If you don't have an e-mail address, you can get a temporary from "
+            "Please enter a email address. "
+              . "We need an email address to notify you if your extract is ready for download. "
+              . "If you don't have an email address, you can get a temporary from "
               . "<a href='https://mailinator.com/'>mailinator.com</a>",
             1
         );
@@ -960,10 +995,17 @@ qq{<span title="hide longitude,latitude box" class="lnglatbox" onclick="javascri
                           . "<a class='tools-helptrigger' href='$extract_dialog/$language/format.html'><img src='/html/help-16px.png' alt=''/></a>"
                           . "<br/></span>\n\n"
                           . $q->popup_menu(
-                            -name    => 'format',
-                            -id      => 'format',
-                            -values  => \@values,
-                            -labels  => $formats_locale,
+                            -name   => 'format',
+                            -id     => 'format',
+                            -values => \@values,
+                            -labels => $formats_locale,
+
+                            # intro.js
+                            -data_step         => 1,
+                            -data_intro        => M("EXTRACT_INTRO_FORMAT"),
+                            -data_position     => 'auto',
+                            -data_tooltipClass => "extract-introjs",
+
                             -default => $default_format
                           )
                           . "\n\n",
@@ -981,7 +1023,7 @@ qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="j
                 $q->td(
                     [
                             "\n"
-                          . qq{<span title='Required, you will be notified by e-mail if your extract is ready for download.'>}
+                          . qq{<span title='Required, you will be notified by email if your extract is ready for download.'>}
                           . M("Your email address")
                           . qq{ <a class='tools-helptrigger-small' href='$extract_dialog/$language/email.html'>}
                           . qq{<img src='/html/help-16px.png' alt=''/></a><br/></span>\n}
@@ -990,7 +1032,13 @@ qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="j
                             -id   => 'email',
 
                             #-size  => 22,
-                            -value => $default_email
+
+                            # intro.js
+                            -data_step         => 2,
+                            -data_intro        => M("EXTRACT_INTRO_EMAIL"),
+                            -data_position     => 'auto',
+                            -data_tooltipClass => "extract-introjs",
+                            -value             => $default_email
                           )
                           . "\n"
                           . $q->hidden(
@@ -1043,6 +1091,12 @@ qq{<span class='' title='Give the city or area to extract a name. }
                             -name => 'city',
                             -id   => 'city',
 
+                            # intro.js
+                            -data_step         => 3,
+                            -data_intro        => M("EXTRACT_INTRO_NAME"),
+                            -data_position     => 'auto',
+                            -data_tooltipClass => "extract-introjs",
+
                             #-size => 18
                           )
                           . "\n",
@@ -1078,7 +1132,8 @@ qq{<span id="time_small" class="center" title="approx. extract time in minutes">
     print "\n\n";
 
     print $self->export_osm;
-    print qq{<hr/>\n};
+
+    #print qq{<hr/>\n};
     print $self->manual_area;
     print "</div>\n";
 

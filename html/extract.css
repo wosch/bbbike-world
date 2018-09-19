@@ -88,9 +88,13 @@ table tr td {
 /* large green submit button, to focus user actions */
 form input[type=submit] {
     color: green;
-    font-size: large;
+    font-size: x-large !important;
     margin-top: 0.3em;
     margin-bottom: 0.2em;
+    
+    right: 10px;
+    position: absolute;
+    top: 6.4em;
 }
 
 div#export_osm_too_large {
@@ -292,7 +296,10 @@ div.dialog-title img {
 }
 
 div.dialog-msg {
-    padding: 12px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 6px;
+    padding-top: -2px;
     /* height: 600px; */
     overflow: auto;
     font-size: 100%;

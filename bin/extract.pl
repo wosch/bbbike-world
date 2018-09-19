@@ -1884,7 +1884,7 @@ sub run_jobs {
         'keep'             => 1
     );
 
-    warn "Total format convert and e-mail check time: ", time() - $time,
+    warn "Total format convert and email check time: ", time() - $time,
       " seconds\n"
       if $debug >= 1;
     warn "Total time: ", time() - $starttime,
