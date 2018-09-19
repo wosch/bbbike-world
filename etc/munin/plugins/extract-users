@@ -62,10 +62,18 @@ graph_info Running extract users $pro
 graph_period minute
 users.label Running users $pro
 users.min 0
+users6.label Running users 6h $pro
+users6.min 0
+users12.label Running users 12h $pro
+users12.min 0
 EOF
 
 echo "users.warning $users_warning"
 echo "users.critical $users_critical"
+echo "users6.warning $users_warning"
+echo "users6.critical $users_critical"
+echo "users12.warning $users_warning"
+echo "users12.critical $users_critical"
 
     exit 0
 fi
@@ -74,6 +82,8 @@ fi
 # main
 #
 
-echo "users.value" $(find $extract_dir/trash -type f -mtime -1 -print0 | xargs -0 egrep -h email | sed 's/,$//' | sort -u | wc -l)
+echo "users.value" $(find $extract_dir/trash   -type f -mtime -1 -print0 | xargs -0 egrep -h email | sed 's/,$//' | sort -u | wc -l)
+echo "users6.value" $(find $extract_dir/trash  -type f -mmin -360 -print0 | xargs -0 egrep -h email | sed 's/,$//' | sort -u | wc -l)
+echo "users12.value" $(find $extract_dir/trash -type f -mmin -720 -print0 | xargs -0 egrep -h email | sed 's/,$//' | sort -u | wc -l)
 
 # EOF
