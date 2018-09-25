@@ -14,7 +14,7 @@
     "Drag a box on the map to select an area": "Dessinez un rectangle pour sélectionner une zone sur la carte",
     "add points to polygon": "Ajoutez des points au polygone",
     "resize or drag polygon": "Redimensionnez ou déplacez le polygone",
-    "help": "Aide",
+    "help": "aide",
     "livesearch": "Recherche en ligne ",
     "donate": "Faire un don",
     "Left lower corner (South-West)": "Angle inférieur gauche (Sud-Ouest)",
@@ -25,6 +25,9 @@
     "to create the bounding box": "pour créer un rectangle de sélection",
     "show": "afficher",
     "hide": "masquer",
+    "download": "téléchargement",
+    "commercial support": "support commercial",
+    "status": "statut",
 
     "EXTRACT_CONFIRMED": [
         "<p>Merci - les paramètres saisis semblent corrects.</p><p>",
