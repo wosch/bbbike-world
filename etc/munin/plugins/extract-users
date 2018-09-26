@@ -48,11 +48,11 @@ esac
 extract_dir_running=$extract_dir/running
 
 if [ "$1" = "config" ]; then
-    : ${warning=240}
-    : ${critical=400}
+    : ${warning=300}
+    : ${critical=500}
 
-    : ${users_warning=240}
-    : ${users_critical=400}
+    : ${users_warning=300}
+    : ${users_critical=500}
      
     cat <<EOF
 graph_title Extracts users $pro
