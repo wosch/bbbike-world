@@ -1,6 +1,6 @@
 {
     "Your email address": "Deine E-Mail Adresse",
-    "about": "info",
+    "about": "über",
     "extract": "extrakt",
     "Format": "Format",
     "Name of area to extract": "Name der extrahierten Region",
@@ -15,8 +15,8 @@
     "Right top corner (North-East)": "Ecke oben rechts (Nord-Ost)",
     "zip archive": "zip Archiv",
     "uncompressed": "unkomprimiert",
-    "Move the map to your desired location": "Verschiebe die Karte zur gew&uuml;nschten Position",
-    "Then click": "Dann clicke",
+    "Now move the map to your desired location": "Verschiebe die Karte zur gew&uuml;nschten Position",
+    "Then click": "Dann klicke",
     "here": "hier",
     "to create the bounding box": "um die Bounding-Box zu erzeugen",
     "show": "zeige",
@@ -39,7 +39,7 @@
     "Will start in the next 1-5 minutes": "Startet in den n&auml;chsten 1-5 Minuten",
     "Will be ready in the next 5-10 minutes": "Fertig in 5-10 Minuten",
 
-    "Please do not use an e-mail address as name, it will be public": "Bitte keine E-Mail Adresses als Name eingeben, der Name ist öffentlich!",
+    "Please do not use an email address as name, it will be public": "Bitte keine E-Mail Adresses als Name eingeben, der Name ist öffentlich!",
     "Please fill out all fields!": "Bitte alle Felder ausfüllen!",
 
     "Garmin Cycle": "Garmin Fahrrad",
@@ -136,6 +136,11 @@
         ],
 
     "EXTRACT_USAGE2": [
+        "<p>Um das Polygon zu ändern, musst du zuerst darauf klicken und dann kannst du es verschieben, skalieren oder erweitern.",
+         "Bitte drücke den Extraktionsknopf, nachdem Du mit der Polygonerstellung fertig bist.</p>"
+         ],
+
+    "EXTRACT_USAGE2_OLD": [
         "<ol>",
         "<li>W&auml;hle ein <b>Format</b>, gib <b>Deine E-Mail Adresse</b> ein und <b>Name der extrahierten Region</b>.</li>",
         "<li>Klicke auf den <b>extrakt</b> Button. Warte auf die E-Mail Best&auml;tigung und lade die Karte runter. Fertig!</li>",
@@ -152,6 +157,29 @@
         "Bitte benutze den <a href='javascript:history.back()'>back button</a>",
         "im Browser and korrigiere die Eingabewerte!</p>",
         "<br/><br/><br/><br/>"
+        ],
+
+    "EXTRACT_INTRO_FORMAT": [
+        "<h3>Wie funktioniert es?</h3>",
+        "<p>Diese Anleitung zeigt Dir, wie Du OpenStreetMap-Daten in Deinem Lieblingsformat extrahieren kannst.</p>",
+        "<p>Bitte wähle ein Format aus (OSM, PBF, Garmin, Shapefile, mapsforge, OsmAand, SVG, GeoJSON, SQL etc.)</p>"
+        ],
+
+    "EXTRACT_INTRO_EMAIL": [
+        "<h3>E-Mail-Adresse</h3>",
+        "<p>Bitte gebe Deine E-Mail-Adresse ein. ",
+        "Das E-Mail Feld ist erforderlich, Du wirst per E-Mail benachrichtigt, wenn Dein Extrakt zum Download bereit ist."
+        ],
+
+    "EXTRACT_INTRO_NAME": [
+        "<h3>Name des Extrakts</h3>",
+         "<p>Bitte verwenden einen aussagekräftigen Namen für den Extrakt, um es später wieder zu finden. </p>"
+         ],
+
+    "EXTRACT_INTRO_CLICK": [
+        "<h3>Klicken & Bewegen oder Größe ändern</h3>",
+        "<p>Bitte klicken auf die Schaltfläche oben. ",
+        "Du kannst dann die Box verschieben oder in der Größe ändern. Klicke dann auf den Extrakt Button, um den Extrakt-Auftrag zu starten."
         ],
 
     "dummy": "dummy"

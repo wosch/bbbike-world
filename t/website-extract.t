@@ -40,15 +40,15 @@ my @extract_dialog =
   qw/about.html email.html format.html name.html polygon.html search.html select-area.html/;
 
 my $msg = {
-    "en" => [ "Wait for email notification", "Name of area to extract" ],
-    "de" => [ "Deine E-Mail Adresse", "Punkte zum Polygon hinzuf&uuml;gen" ],
-    "fr" => [ "Votre adresse électronique", "Nom de la zone à extraire" ],
+    "en" => [ "To change the polygone",   "done with polygone creation" ],
+    "de" => [ "Um das Polygon zu",        "Polygonerstellung" ],
+    "fr" => [ "Pour changer le polygone", "création du polygone" ],
 
     # rest
-    "ru"  => [ "Wait for email notification", "Name of area to extract" ],
-    "es"  => [ "Wait for email notification", "Name of area to extract" ],
-    "XYZ" => [ "Wait for email notification", "Name of area to extract" ],
-    ""    => [ "Wait for email notification", "Name of area to extract" ],
+    "ru"  => [ "To change the polygone", "done with polygone creation" ],
+    "es"  => [ "To change the polygone", "done with polygone creation" ],
+    "XYZ" => [ "To change the polygone", "done with polygone creation" ],
+    ""    => [ "To change the polygone", "done with polygone creation" ]
 };
 
 my $unicode = [

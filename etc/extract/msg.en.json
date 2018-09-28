@@ -16,7 +16,7 @@
         "<p>Thanks - the input data looks good.</p><p>",
         "It takes between 2-7 minutes to extract an area from planet.osm,",
         "depending on the size of the area and the system load.",
-        "You will be notified by e-mail if your extract is ready for download.",
+        "You will be notified by email if your extract is ready for download.",
         "Please follow the instruction in the email to proceed your request.",
         "",
         "<p align='left'>Area: '%s' covers %s square km <br/>",
@@ -84,12 +84,17 @@
 
     "EXTRACT_USAGE": [
         "<ol>",
-        "<li>Move the map to your desired location.</li>",
+        "<li>Now move the map to your desired location.</li>",
         "<li>Click and hold the left mouse button, draw the bounding box, release the left mouse button.</li>",
         "</ol>"
         ],
 
     "EXTRACT_USAGE2": [
+        "<p>To change the polygone, you have to first click on it  and then you can move, resize or extend it.",
+        "Please press the extract button after you are done with polygone creation.</p>"
+        ],
+
+    "EXTRACT_USAGE2_OLD": [
         "<ol>",
         "<li>Select a <b>Format</b>, enter <b>Your email address</b> and <b>Name of area to extract</b>.</li>",
         "<li>Click the <b>extract</b> button. Wait for email notification and download the map. Done!</li>",
@@ -106,6 +111,29 @@
         "Please click on the <a href='javascript:history.back()'>back button</a>",
         "of your browser and correct the values!</p>",
         "<br/><br/><br/><br/>"
+        ],
+
+    "EXTRACT_INTRO_FORMAT": [
+        "<h3>How does it work?</h3>",
+        "<p>These instructions will show you how to extract OpenStreetMap data in your favourite format.</p>",
+        "<p>Please select a format (OSM, PBF, Garmin, Shapefile, mapsforge, OsmAand, SVG, GeoJSON, SQL etc.</p>"
+        ],
+
+    "EXTRACT_INTRO_EMAIL": [
+        "<h3>email address</h3>",
+        "<p>Please insert your email address. ",
+        "The email field is required, you will be notified by email if your extract is ready for download."
+        ],
+
+    "EXTRACT_INTRO_NAME": [
+        "<h3>Name of extract</h3>",
+        "<p>Please use meaningfull name for the extract to find it later.</p>"
+        ],
+
+    "EXTRACT_INTRO_CLICK": [
+        "<h3>Click & move or resize</h3>",
+        "<p>Please click on the button above. ",
+        "You can then move or resize the box, and then click on the extract button to start the extract job.</p>"
         ],
 
     "dummy": "dummy"

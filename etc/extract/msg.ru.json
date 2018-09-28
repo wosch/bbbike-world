@@ -14,7 +14,7 @@
     "Right top corner (North-East)": "Правый верхний угол (Северо-Восток)",
     "extract": "экстракт",
 
-    "Move the map to your desired location": "Move the map to your desired location",
+    "Now move the map to your desired location": "Now move the map to your desired location",
     "Then click here": "Then click here",
     "to create the bounding box": "to create the bounding box",
     "show": "show",
@@ -86,7 +86,7 @@
 
     "EXTRACT_USAGE": [
         "<ol>",
-        "<li>Move the map to your desired location.</li>",
+        "<li>Now move the map to your desired location.</li>",
         "<li>Click and hold the left mouse button, draw the bounding box, release the left mouse button.</li>",
         "</ol>"
         ],

@@ -161,6 +161,7 @@ EOF
             next if $filename eq '.' || $filename eq '..';
             next if $filename eq 'HEADER.txt';
             next if $filename eq 'index.html';
+            next if $filename =~ /\.tmp$/;
             if ( $filename eq $checksum_file ) {
                 $has_checksum_file = 1;
                 next;
@@ -280,7 +281,7 @@ sub header {
     my @javascript = (
         "/html/jquery/jquery-1.4.2.min.js",
         "/html/devbridge-jquery-autocomplete-1.1.2/jquery.autocomplete-min.js",
-"https://maps.googleapis.com/maps/api/js?v=3.9&sensor=false&language=en&libraries=weather,panoramio",
+"https://maps.googleapis.com/maps/api/js?v=3.9&sensor=false&language=en&libraries=weather",
         "/html/bbbike.js",
         "/html/maps3.js"
     );

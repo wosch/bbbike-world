@@ -64,7 +64,6 @@ var bbbike = {
     mapLayers: {
         TrafficLayer: true,
         BicyclingLayer: true,
-        PanoramioLayer: true,
         WeatherLayer: true,
 
         // enable full screen mode
@@ -1569,17 +1568,6 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         "lang": lang
     });
 
-
-
-    custom_layer(map, {
-        "id": "google_PanoramioLayer",
-        "layer": "PanoramioLayer",
-        "enabled": bbbike.mapLayers.PanoramioLayer,
-        "active": layer == "panoramio" ? true : false,
-        "callback": add_panoramio_layer,
-        "lang": lang
-    });
-
     custom_layer(map, {
         "id": "google_WeatherLayer",
         "layer": "WeatherLayer",
@@ -1747,8 +1735,6 @@ function init_google_layers() {
         layers.weatherLayer = new google.maps.weather.WeatherLayer();
     } catch (e) {}
 
-    // need to download library first
-    layers.panoramioLayer = false;
 }
 
 // custom layers
@@ -1857,19 +1843,6 @@ function add_land_shading_layer(map, enable) {
 }
 
 // add traffic to map, by google maps
-
-function add_panoramio_layer(map, enable) {
-    // ignore if nothing to display
-    if (!layers.panoramioLayer && !enable) return;
-
-    //  activate library for panoramio
-    if (!layers.panoramioLayer) {
-        layers.panoramioLayer = new google.maps.panoramio.PanoramioLayer();
-    }
-
-    layers.panoramioLayer.setMap(enable ? map : null);
-}
-
 //
 // guess if a streetname is from the OSM database
 // false: 123,456
@@ -2303,7 +2276,6 @@ function translate_mapcontrol(word, lang) {
             "WeatherLayer": "Weather",
             "BicyclingLayer": "Google Bicyling",
             "TrafficLayer": "Google Traffic",
-            "PanoramioLayer": "Panoramio",
             "toner": "Toner",
             "watercolor": "Watercolor",
             "NokiaTraffic": "HERE WeGo Traffic",
@@ -2323,7 +2295,6 @@ function translate_mapcontrol(word, lang) {
             "Mapnik": "Mapnik",
             "Cycle": "Fahrrad",
             "traffic layer": "Google Verkehr",
-            "Panoramio": "Panoramio Fotos",
             "cycle layer": "Google Fahrrad",
             "Hike&Bike": "Wandern",
             "Landscape": "Landschaft",
@@ -2545,7 +2516,6 @@ var layerControl = {
 /*
     TrafficLayer: false,
     BicyclingLayer: false,
-    PanoramioLayer: false,
     Smoothness: true,
     VeloLayer: true,
     MaxSpeed: true,
@@ -3066,6 +3036,12 @@ function _init_markers(opt) {
     var lang = opt.lang || "en";
 
     var zoom = map.getZoom();
+
+    if (!map.getBounds()) {
+        debug("argh! no bounds, give up!");
+        return;
+    }
+
     var ne = map.getBounds().getNorthEast();
     var sw = map.getBounds().getSouthWest();
 
