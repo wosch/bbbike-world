@@ -535,7 +535,6 @@ print <<EOF;
 </script>
 EOF
 
-
 print $q->end_html;
 
 1;
