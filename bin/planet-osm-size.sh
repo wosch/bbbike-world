@@ -10,13 +10,17 @@
 
 pbf_size ()
 {
-    size=$(curl -D /dev/stdout -sSf -X HEAD https://planet.openstreetmap.org/pbf/planet-latest.osm.pbf 2>/dev/null | egrep Content-Length: | awk '{ print $2/1024/1024/1024 }')
+    size=$(curl -D /dev/stdout -sSfL -X HEAD \
+	https://planet.openstreetmap.org/pbf/planet-latest.osm.pbf 2>/dev/null | \
+	egrep -i Content-Length: | awk '{ print $2/1024/1024/1024 }')
     echo "PBF size: $size GB"
 }
 
 osm_size ()
 {
-    size=$(curl -D /dev/stdout -sSfL -X HEAD https://planet.openstreetmap.org/planet/planet-latest.osm.bz2 2>/dev/null | egrep Content-Length: | awk '{ print $2/1024/1024/1024 }')
+    size=$(curl -D /dev/stdout -sSfL -X HEAD \
+	https://planet.openstreetmap.org/planet/planet-latest.osm.bz2 2>/dev/null | \
+	egrep -i Content-Length: | awk '{ print $2/1024/1024/1024 }')
     echo "OSM size: $size GB"
 }
 
@@ -29,4 +33,6 @@ xml_size ()
 
 pbf_size
 osm_size
+xml_size
+
 
