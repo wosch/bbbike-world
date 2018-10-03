@@ -1644,7 +1644,7 @@ docker-build-all:
 
 docker-build-libosmium-all:
 	cd world; rm -f world; ln -s . world
-	${BBMAKE} -C./world -j${MAX_CPU3} \
+	nice -10 ${BBMAKE} -C./world -j${MAX_CPU3} \
 	  docker-build-libosmium-debian9 \
 	  docker-build-libosmium-ubuntu16 \
 	  docker-build-libosmium-debian10 \
