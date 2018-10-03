@@ -1643,8 +1643,7 @@ docker-build-all:
 	  docker-build-extract-ubuntu18
 
 docker-build-libosmium-all:
-	cd world; rm -f world; ln -s . world
-	${NICE} ${BBMAKE} -C./world -j2 \
+	${NICE} ${BBMAKE} -j1 \
 	  docker-build-libosmium-debian9 \
 	  docker-build-libosmium-ubuntu16 \
 	  docker-build-libosmium-debian10 \
