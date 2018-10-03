@@ -1,6 +1,8 @@
 FROM debian:jessie
 MAINTAINER Wolfram Schneider <wosch@FreeBSD.org>
 
+ENV DEBIAN_FRONTEND noninteractive
+
 # backports
 RUN echo 'deb http://httpredir.debian.org/debian jessie-backports main contrib non-free' | \
     tee /etc/apt/sources.list.d/jessie-backports.list 
