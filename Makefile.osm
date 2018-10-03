@@ -1633,7 +1633,7 @@ docker-check-w:
 	${DOCKER} run -it --rm ${DOCKER_BBBIKE_TAG} /bin/bash -ic 'echo 3 | sudo tee $$HOME/.ncpu.ncpu; make git-pull; BBBIKE_TEST_NO_NETWORK=1 make check-w || cat log.check*'
 
 docker-build-all: 
-	${MAKE} -j${MAX_CPU} \
+	${NICE} ${MAKE} -j${MAX_CPU} \
 	  docker-build-tile \
 	  docker-build-extract-debian8 \
 	  docker-build-extract-debian9 \
@@ -1644,7 +1644,7 @@ docker-build-all:
 
 docker-build-libosmium-all:
 	cd world; rm -f world; ln -s . world
-	nice -10 ${BBMAKE} -C./world -j${MAX_CPU3} \
+	${NICE} ${BBMAKE} -C./world -j2 \
 	  docker-build-libosmium-debian9 \
 	  docker-build-libosmium-ubuntu16 \
 	  docker-build-libosmium-debian10 \
