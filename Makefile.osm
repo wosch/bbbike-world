@@ -1633,7 +1633,7 @@ docker-check-w:
 	${DOCKER} run -it --rm ${DOCKER_BBBIKE_TAG} /bin/bash -ic 'echo 3 | sudo tee $$HOME/.ncpu.ncpu; make git-pull; BBBIKE_TEST_NO_NETWORK=1 make check-w || cat log.check*'
 
 docker-build-all: 
-	${NICE} ${BMAKE} -j${MAX_CPU} \
+	${NICE} ${BBMAKE} -j${MAX_CPU} \
 	  docker-build-tile \
 	  docker-build-extract-debian8 \
 	  docker-build-extract-debian9 \
