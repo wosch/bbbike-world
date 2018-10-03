@@ -1640,7 +1640,7 @@ docker-build-all:
 	  docker-build-extract-debian10 \
 	  docker-build-extract-ubuntu14 \
 	  docker-build-extract-ubuntu16 \
-	  #docker-build-extract-ubuntu18
+	  docker-build-extract-ubuntu18
 
 docker-build-libosmium-all:
 	cd world; rm -f world; ln -s . world
