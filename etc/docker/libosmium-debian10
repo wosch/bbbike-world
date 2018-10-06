@@ -1,6 +1,8 @@
 FROM debian:buster
 MAINTAINER Wolfram Schneider <wosch@FreeBSD.org>
 
+ENV DEBIAN_FRONTEND noninteractive
+
 RUN apt-get update -q && apt-get upgrade -y 
 RUN apt-get install -y apt-transport-https apt-utils 
 

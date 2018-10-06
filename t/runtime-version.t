@@ -29,7 +29,7 @@ my $versions = {
         ],
         [
             [qw/java -version/],
-qr/^(openjdk|java) version "(1\.8\.0_(131|141|144|151|162|171|181|03-Ubuntu)|9\.0\.4|10\.0\.1)"/m
+qr/^(openjdk|java) version "(1\.8\.0_(131|141|144|151|162|171|181|03-Ubuntu)|9\.0\.4|10\.0\.[12])"/m
         ],
         [
             [qw/java -version/],

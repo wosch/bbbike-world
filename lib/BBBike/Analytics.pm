@@ -1,6 +1,6 @@
 #!/usr/local/bin/perl
 #
-# Copyright (C) 2008-2015 Wolfram Schneider. All rights reserved.
+# Copyright (C) 2008-2018 Wolfram Schneider. All rights reserved.
 #
 # BBBikeAnalytics - analytics code
 
@@ -24,11 +24,13 @@ sub new {
 
 sub google_analytics {
     my $self = shift;
-    my $q    = $self->{'q'};
+    my $devel = shift // 0;
+
+    my $q = $self->{'q'};
 
     my $url = $q->url( -base => 1 );
 
-    if ( $url !~ m,^https?://(www|extract|download)[1-9]?\., ) {
+    if ( !$devel && $url !~ m,^https?://(www|extract|download)[1-9]?\., ) {
         return "";    # devel installation
     }
 

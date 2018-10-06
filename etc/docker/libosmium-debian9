@@ -1,6 +1,8 @@
 FROM debian:stretch
 MAINTAINER Wolfram Schneider <wosch@FreeBSD.org>
 
+ENV DEBIAN_FRONTEND noninteractive
+
 RUN apt-get update -q && apt-get upgrade -y 
 RUN apt-get install -y apt-transport-https apt-utils 
 
@@ -41,7 +43,7 @@ RUN mkdir imposm && cd imposm && export GOPATH=`pwd` && \
   go install github.com/omniscale/imposm3/cmd/imposm
 
 # converter tools
-RUN apt-get install -y osm2pgsql gdal-bin
+RUN sudo apt-get install -y osm2pgsql gdal-bin
 
 CMD ["bash"]
 

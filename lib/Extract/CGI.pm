@@ -360,7 +360,8 @@ sub footer {
 
     my $analytics =
       $option->{"enable_google_analytics"}
-      ? BBBike::Analytics->new( 'q' => $q )->google_analytics
+      ? BBBike::Analytics->new( 'q' => $q, 'tracker_id' => "UA-286675-21" )
+      ->google_analytics
       : "";
     my $url = $q->url( -relative => 1 );
     my $error = $args{'error'} || 0;
@@ -423,7 +424,6 @@ qq{\n<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js
 $css
 
 $javascript
-$analytics
 <script type="text/javascript">
   jQuery('#pageload-indicator').hide();
   $disable_intro
@@ -435,6 +435,7 @@ $analytics
   </div>
 
 <!-- bbbike_extract_status: $error, pro version: @{[ $option->{'pro'} ]} -->
+$analytics
 </body>
 </html>
 EOF

@@ -3,7 +3,6 @@ GIS::Distance::Lite
 Geo::Distance::XS
 Math::MatrixReal
 Geo::Google::PolylineEncoder
-Kwalify
 Object::Iterate
 Array::Heap
 Image::Info
