@@ -218,13 +218,13 @@ sub manual_area {
       <span id="drag_box">
         <span id="drag_box_select" style="display:none">
             <button class="link">@{[ M("Select a different area") ]}</button>
-            <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>
+            <a class='tools-helptrigger' rel='nofollow' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>
             <p></p>
         </span>
         <span id="drag_box_default" data-step="4" data-intro="@{[ M('EXTRACT_INTRO_CLICK') ]}" data-position='auto' data-tooltipClass="extract-intro">
             @{[ M("Now move the map to your desired location") ]}. <br/>
             @{[ M("Then click") ]} <button class="link">@{[ M("here") ]}</button> @{[ M("to create the bounding box") ]}.
-            <a class='tools-helptrigger' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>
+            <a class='tools-helptrigger' rel='nofollow' href='$extract_dialog/$language/select-area.html'><img src='/html/help-16px.png' alt="" /></a>
             <br/>
         </span>
       </span>
@@ -234,7 +234,7 @@ sub manual_area {
     <div id="polygon_controls" style="display:none">
 	<input id="createVertices" type="radio" name="type" onclick="polygon_update()" />
 	<label class="link" for="createVertices">@{[ M("add points to polygon") ]}
-	<img src="$img_prefix/add_point_on.png" alt=""/>  <a class='tools-helptrigger' href='$extract_dialog/$language/polygon.html'><img src='/html/help-16px.png' alt="" /></a><br/>
+	<img src="$img_prefix/add_point_on.png" alt=""/>  <a class='tools-helptrigger' rel='nofollow' href='$extract_dialog/$language/polygon.html'><img src='/html/help-16px.png' alt="" /></a><br/>
 	</label>
 
 	<input id="rotate" type="radio" name="type" onclick="polygon_update()" />
@@ -472,7 +472,7 @@ sub message {
  @{[ $locale->language_links ]}
  @{[ $self->social_links ]} -
  $intro_link
- <span id="tools-help"><a class='tools-helptrigger' href='$extract_dialog/$language/about.html' title='info'><span>@{[ M("about") ]} extracts</span></a></span>
+ <span id="tools-help"><a class='tools-helptrigger' rel='nofollow' href='$extract_dialog/$language/about.html' title='info'><span>@{[ M("about") ]} extracts</span></a></span>
  <span id="pageload-indicator">&nbsp;<img src="/html/indicator.gif" width="14" height="14" alt="" title="Loading JavaScript libraries" /> Loading JavaScript</span>
  <span class="jqmWindow jqmWindowLarge" id="tools-helpwin"></span>
 </span>
@@ -993,7 +993,7 @@ qq{<span title="hide longitude,latitude box" class="lnglatbox" onclick="javascri
                           . qq{<span class='' title='PBF: fast and compact data, OSM XML gzip: standard OSM format, }
                           . "twice as large, Garmin format in different styles, Esri shapefile format, "
                           . "Osmand for Androids'>@{[ M('Format') ]} "
-                          . "<a class='tools-helptrigger' href='$extract_dialog/$language/format.html'><img src='/html/help-16px.png' alt=''/></a>"
+                          . "<a class='tools-helptrigger' rel='nofollow' href='$extract_dialog/$language/format.html'><img src='/html/help-16px.png' alt=''/></a>"
                           . "<br/></span>\n\n"
                           . $q->popup_menu(
                             -name   => 'format',
@@ -1026,7 +1026,7 @@ qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="j
                             "\n"
                           . qq{<span title='Required, you will be notified by email if your extract is ready for download.'>}
                           . M("Your email address")
-                          . qq{ <a class='tools-helptrigger-small' href='$extract_dialog/$language/email.html'>}
+                          . qq{ <a class='tools-helptrigger-small' rel='nofollow' href='$extract_dialog/$language/email.html'>}
                           . qq{<img src='/html/help-16px.png' alt=''/></a><br/></span>\n}
                           . $q->textfield(
                             -name => 'email',
@@ -1085,8 +1085,8 @@ qq{<span class="center" title="file data size approx." id="size_small"></span>\n
 qq{<span class='' title='Give the city or area to extract a name. }
                           . "The name is optional, but better fill it out to find it later again.'>"
                           . "@{[ M('Name of area to extract') ]} "
-                          . "<a class='tools-helptrigger-small' href='$extract_dialog/$language/name.html'><img src='/html/help-16px.png' alt='' /></a>"
-                          . "<a class='tools-helptrigger-small' href='$extract_dialog/$language/search.html'> @{[ M('or search') ]}</a>"
+                          . "<a class='tools-helptrigger-small' rel='nofollow' href='$extract_dialog/$language/name.html'><img src='/html/help-16px.png' alt='' /></a>"
+                          . "<a class='tools-helptrigger-small' rel='nofollow' href='$extract_dialog/$language/search.html'> @{[ M('or search') ]}</a>"
                           . "<br/></span>\n"
                           . $q->textfield(
                             -name => 'city',
