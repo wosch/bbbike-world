@@ -4,6 +4,7 @@ Disallow: /
 
 # general
 User-agent: *
+Disallow: /extract-dialog/
 Disallow: /?
 Disallow: /cgi
 Disallow: /m/
