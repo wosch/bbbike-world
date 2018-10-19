@@ -1,15 +1,12 @@
 #!/usr/local/bin/perl 
-# Copyright (c) 2009-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2018 Wolfram Schneider, https://bbbike.org
 #
 # bbbike-db - command line tool to parse bbbike @ world city database
+#
 
 use File::Basename;
-
-#use Data::Dumper;
-use lib qw(world/lib ../lib .);
-
-# bbbike-macos
-#use lib qw(../bbbike ../bbbike/world/lib);
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
 
 use BBBike::WorldDB;
 use Extract::Config;
@@ -293,7 +290,7 @@ die &usage
 $city =~ s/-(convert|download)$// if $city;
 
 my $database =
-  $city_database ? $city_database : dirname( dirname($0) ) . "/etc/cities.csv";
+  $city_database ? $city_database : "$FindBin::RealBin/../etc/cities.csv";
 
 my %hash;
 
