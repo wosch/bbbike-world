@@ -6,7 +6,7 @@
 
 use File::Basename;
 use FindBin;
-use lib "$FindBin::RealBin/../lib";
+use lib ( "$FindBin::RealBin/../lib", "$FindBin::RealBin/../.." );
 
 use BBBike::WorldDB;
 use Extract::Config;
@@ -93,6 +93,7 @@ sub poly {
 sub distance {
     my $a = shift;
     my $b = shift;
+
     require Strassen::Util;
 
     my ( $x1, $y1, @rest )  = split( $", $a );
