@@ -1,16 +1,21 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2011-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2018-2018 Wolfram Schneider, https://bbbike.org
 #
 # helper functions for route.cgi
 
 package Extract::Route;
 
-use HTTP::Date;
+use LWP;
+use LWP::UserAgent;
+
 use CGI qw(escapeHTML);
 use URI;
 use Data::Dumper;
 use JSON;
-use Email::Valid;
+
+use HTTP::Date;
+
+#use Email::Valid;
 
 use lib qw(world/lib);
 use Extract::Locale;
@@ -79,8 +84,57 @@ sub init {
 
 sub is_valid {
     my $self = shift;
+    my $q    = $self->{'q'};
+
+    my $route = Param( $q, "route" );
+
+    return 0 if !$self->valid_route($route);
 
     return 1;
+}
+
+sub valid_route {
+    my $self  = shift;
+    my $route = shift;
+
+    if ( $route !~ m/^[a-z]{4,15}$/ ) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
+}
+
+sub fetch_route {
+    my $self  = shift;
+    my $route = shift;
+
+    my $file = "$ENV{HOME}/tmp/$route.js";
+    my $data = "";
+
+    if ( -e $file ) {
+        $data = `cat $file`;
+    }
+    else {
+        $data = "xxx";
+    }
+
+    return $data;
+}
+
+sub create_fetch_url {
+    my $self  = shift;
+    my $route = shift;
+
+    return "" if !$self->valid_route($route);
+
+    my $prefix = "https://www.gpsies.com/files/geojson/";
+    if (m,(.)(.)(.)(.+),) {
+        return "$prefix/$1/$2/$3/$4";
+    }
+
+    # error?
+    return "";
 }
 
 sub error_message {
