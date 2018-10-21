@@ -1,4 +1,5 @@
-#!/usr/local/bin/perl -T
+#!/usr/local/bin/perl
+# -T
 # Copyright (c) 2011-2018 Wolfram Schneider, https://bbbike.org
 #
 # route.cgi - redirect to extract.cgi based on GPX file
@@ -70,7 +71,7 @@ my $route_cgi = Extract::Route->new(
     'debug'  => $debug
 );
 
-# valid request
+# valid request, we got all data successfully
 if ( $route_cgi->is_valid ) {
     $route_cgi->redirect;
 }
@@ -82,5 +83,4 @@ else {
 
 __END__;
 https://dev3.bbbike.org/cgi/route.cgi?route=htvrzxsdzbhhinis
-
 https://www.gpsies.com/files/geojson/f/j/u/fjurfvdctnlcmqtu.js

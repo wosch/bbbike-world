@@ -88,7 +88,22 @@ sub is_valid {
 
     my $route = Param( $q, "route" );
 
+    $route ||= "fjurfvdctnlcmqtu";
+
     return 0 if !$self->valid_route($route);
+    my $perl = $self->fetch_route($route);
+    $self->{"route"} = $perl;
+
+    $self->{"bbox"} = $perl->{"features"}[0]{"geometry"}{"bbox"};
+
+    if ( ref $self->{"bbox"} ne 'ARRAY' ) {
+        warn "bbox array does not exists, give up\n";
+        return 0;
+    }
+    if ( scalar @{ $self->{"bbox"} } != 4 ) {
+        warn "bbox array does not contain 4 elements, give up\n";
+        return 0;
+    }
 
     return 1;
 }
@@ -109,17 +124,31 @@ sub fetch_route {
     my $self  = shift;
     my $route = shift;
 
-    my $file = "$ENV{HOME}/tmp/$route.js";
+    my $file = "/home/wosch/tmp/$route.js";
     my $data = "";
 
     if ( -e $file ) {
         $data = `cat $file`;
+        chomp($data);
     }
     else {
         $data = "xxx";
     }
 
-    return $data;
+    my $json = new JSON;
+    my $perl = {};
+
+    eval { $perl = $json->decode($data); };
+
+    if ($@) {
+        warn "Failed to parse json, give up: $file $@\n";
+
+        #warn $data;
+
+        return {};
+    }
+
+    return $perl;
 }
 
 sub create_fetch_url {
@@ -152,11 +181,14 @@ sub redirect {
 
     my $q   = $self->{'q'};
     my $uri = URI->new( $self->{'option'}->{'script_homepage'} );
+
+    my $bbox = $self->{"bbox"};
     $uri->query_form(
-        "sw_lng" => 118,
-        "sw_lat" => 32,
-        "ne_lng" => 119,
-        "ne_lat" => 33,
+        "ne_lng" => $bbox->[0],
+        "ne_lat" => $bbox->[1],
+        "sw_lng" => $bbox->[2],
+        "sw_lat" => $bbox->[3],
+
         "format" => "garmin-cycle-latin1.zip",
         "city"   => "gspies map",
         "email"  => "nobody"
