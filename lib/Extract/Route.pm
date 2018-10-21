@@ -1,12 +1,13 @@
 #!/usr/local/bin/perl
 # Copyright (c) 2011-2018 Wolfram Schneider, https://bbbike.org
 #
-# helper functions for extract.cgi
+# helper functions for route.cgi
 
-package Extract::CGI;
+package Extract::Route;
 
 use HTTP::Date;
 use CGI qw(escapeHTML);
+use URI;
 use Data::Dumper;
 use JSON;
 use Email::Valid;
@@ -31,9 +32,10 @@ $ENV{PATH} = "/bin:/usr/bin";
 # config
 #
 
-our $debug          = 1;
-our $extract_dialog = '/extract-dialog';
+our $debug = 1;
 our $option;
+
+our $extract_dialog = '/extract-dialog';
 
 ##########################
 # helper functions
@@ -72,8 +74,44 @@ sub init {
 }
 
 ######################################################################
-# helper functions
+# Route functions
 #
+
+sub is_valid {
+    my $self = shift;
+
+    return 1;
+}
+
+sub error_message {
+    my $self = shift;
+
+    my $q   = $self->{'q'};
+    my $url = $self->{'option'}->{'script_homepage'};
+
+    print $q->redirect($url);
+}
+
+# https://extract.bbbike.org/?sw_lng=-118.679&sw_lat=32.797&ne_lng=-118.237&ne_lat=33.041&format=osm.pbf&city=san%20clemente%20island&lang=en
+sub redirect {
+    my $self = shift;
+
+    my $q   = $self->{'q'};
+    my $uri = URI->new( $self->{'option'}->{'script_homepage'} );
+    $uri->query_form(
+        "sw_lng" => 118,
+        "sw_lat" => 32,
+        "ne_lng" => 119,
+        "ne_lat" => 33,
+        "format" => "garmin-cycle-latin1.zip",
+        "city"   => "gspies map",
+        "email"  => "nobody"
+    );
+
+    print $q->redirect( $uri->as_string );
+}
+
+######################################################################
 
 sub header {
     my $self = shift;

@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl -T
-# Copyright (c) 2011-2016 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2011-2018 Wolfram Schneider, https://bbbike.org
 #
-# extract.cgi - extracts areas in a batch job
+# route.cgi - redirect to extract.cgi based on GPX file
 #
 
 # CGI.pm treat all parameters as UTF-8 strings
@@ -9,6 +9,7 @@ use CGI qw(-utf8);
 
 use lib qw[../world/lib ../lib];
 use Extract::Config;
+use Extract::Route;
 use Extract::CGI;
 
 use strict;
@@ -31,29 +32,15 @@ our $option = {
     'server_status_url'     => 'https://download.bbbike.org/osm/extract/',
     'server_status_url_pro' => 'https://download.bbbike.org/osm/extract-pro/',
 
-    # spool directory. Should be at least 100GB large
-    'spool_dir'     => '/var/cache/extract',
-    'spool_dir_pro' => '/var/cache/extract-pro',
-
-    'download'     => '/osm/extract/',
-    'download_pro' => '/osm/extract-pro/',
-
     'script_homepage'     => 'https://extract.bbbike.org',
     'script_homepage_pro' => 'https://extract-pro.bbbike.org',
 
-    'max_extracts'              => 50,
-    'default_format'            => 'osm.pbf',
-    'city_name_optional'        => 0,
-    'city_name_optional_coords' => 1,
-    'max_skm'                   => 24_000_000,    # max. area in square km
-    'max_size'                  => 768_000,       # max area in KB size
+    'default_format' => 'garmin-cycle.zip',
 
     # max count of gps points for a polygon
     'max_coords' => 256 * 256,
 
-    'enable_polygon'      => 1,
-    'email_valid_mxcheck' => 1,
-    'email_allow_nobody'  => 1,
+    'enable_polygon' => 1,
 
     'debug'          => "1",
     'request_method' => "GET",
@@ -62,25 +49,6 @@ our $option = {
     'language'            => $Extract::Locale::option->{"language"},
 
     'pro' => 0,
-
-    'with_google_maps'        => 0,
-    'enable_google_analytics' => 1,
-
-    # scheduler with priorities (by IP or user agent)
-    'enable_priority' => 1,
-
-    # with intro.js guide
-    'enable_introjs' => 1,
-
-    # scheduler limits
-    'scheduler' => {
-        'user_limit' => 25,
-        'ip_limit'   => 50
-    },
-
-    # configure order of formats in menu
-    'formats_order' =>
-      [qw/osm shape geojson sql garmin android svg bbbike srtm/],
 };
 
 ##########################################################################
@@ -96,20 +64,23 @@ my $extract_config = Extract::Config->new( 'q' => $q, 'option' => $option );
 $extract_config->load_config;
 $extract_config->check_extract_pro;
 
-my $extract_cgi = Extract::CGI->new(
+my $route_cgi = Extract::Route->new(
     'q'      => $q,
     'option' => $option,
     'debug'  => $debug
 );
 
-# second page
-if ( $q->param("submit") ) {
-    $extract_cgi->check_input;
+# valid request
+if ( $route_cgi->is_valid ) {
+    $route_cgi->redirect;
 }
 
-# first page, homee page
+# else throw error page in HTML
 else {
-    $extract_cgi->homepage;
+    $route_cgi->error_message;
 }
 
 __END__;
+https://dev3.bbbike.org/cgi/route.cgi?route=htvrzxsdzbhhinis
+
+https://www.gpsies.com/files/geojson/f/j/u/fjurfvdctnlcmqtu.js
