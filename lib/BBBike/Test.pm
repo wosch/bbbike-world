@@ -97,7 +97,7 @@ sub myget_head {
     return $res;
 }
 
-# GET request with HTTP 401 result
+# GET request with HTTP 401 UNAUTHORIZED
 sub myget_401 {
     my $self = shift;
     my $url  = shift;
@@ -121,7 +121,31 @@ sub myget_401 {
     return $res;
 }
 
-# GET request with HTTP 500 result
+# GET request with HTTP 302 REDIRECTION FOUND
+sub myget_302 {
+    my $self = shift;
+    my $url  = shift;
+
+    my $req = HTTP::Request->new( GET => $url );
+    my $ua = $self->{'ua'};
+
+    # do not follow redirects
+    my $max_redirect = $ua->max_redirect;
+    $ua->max_redirect(0);
+
+    my $res = $ua->request($req);
+
+    is( $res->is_redirect, 1, "$url is success" );
+
+    is( $res->status_line, "302 Found", "status code 302 - $url - great!" );
+
+    # reset value for further usage
+    $ua->max_redirect($max_redirect);
+
+    return $res;
+}
+
+# GET request with HTTP 500 INTERNAL SERVER ERROR
 sub myget_500 {
     my $self = shift;
     my $url  = shift;
