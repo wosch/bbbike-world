@@ -125,14 +125,19 @@ sub fetch_route {
     my $route = shift;
 
     my $file = "../world/t/data-gpsies/$route.js";
+    my $url  = $self->create_fetch_url($route);
+
     my $data = "";
 
     if ( -e $file ) {
         $data = `cat $file`;
         chomp($data);
     }
+    elsif ( $data = $self->fetch_url($url) ) {
+
+    }
     else {
-        $data = "xxx";
+        $data = "{}";
     }
 
     my $json = new JSON;
@@ -149,6 +154,24 @@ sub fetch_route {
     }
 
     return $perl;
+}
+
+sub fetch_url {
+    my $self = shift;
+    my $url  = shift;
+
+    my $ua = LWP::UserAgent->new;
+    $ua->agent("BBBike.org-Extract/1.0");
+
+    my $req = HTTP::Request->new( GET => $url );
+    my $res = $ua->request($req);
+
+    if ( $res->is_success ) {
+        return $res->decoded_content();
+    }
+    else {
+        return;
+    }
 }
 
 sub create_fetch_url {

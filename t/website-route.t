@@ -34,13 +34,22 @@ unshift @homepages, @homepages_localhost;
 
 sub route_check {
     my $home_url = shift;
-    my $script_url = shift || "$home_url/cgi/route.cgi";
+    my $route    = shift // "";
+    my $fail     = shift // 0;
+
+    my $script_url = "$home_url/cgi/route.cgi";
+
+    if ( $route ne "" ) {
+        $script_url .= "?route=" . $route;
+    }
 
     my $res = $test->myget_302($script_url);
 
     my $location = $res->header("Location");
 
-    like(
+    my $command = $fail ? "unlike" : "like";
+
+    &$command(
         $location,
         qr[https://extract[0-9]?\.bbbike\.org\?],
         "redirect to extract.cgi"
@@ -56,6 +65,9 @@ foreach my $home_url (
     $ENV{BBBIKE_TEST_SLOW_NETWORK} ? @homepages_localhost : @homepages )
 {
     &route_check($home_url);
+    &route_check( $home_url, "fjurfvdctnlcmqtu" );
+    &route_check( $home_url, "XXXfjurfvdctnlcmqtu", 1 );
+    &route_check( $home_url, "XXX", 1 );
 }
 
 done_testing;
