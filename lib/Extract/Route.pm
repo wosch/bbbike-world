@@ -124,7 +124,7 @@ sub fetch_route {
     my $self  = shift;
     my $route = shift;
 
-    my $file = "/home/wosch/tmp/$route.js";
+    my $file = "../world/t/data-gpsies2/$route.js";
     my $data = "";
 
     if ( -e $file ) {
