@@ -263,7 +263,7 @@ sub mc_parameters {
     my $ne_lat = Param( $q, "ne_lat" );
 
     # nothing we could do
-    if ( $sw_lng eq "" || $sw_lat eq "" || $ne_lng eq "" || $ne_lat ) {
+    if ( $sw_lng eq "" || $sw_lat eq "" || $ne_lng eq "" || $ne_lat eq "" ) {
         return "";
     }
 
