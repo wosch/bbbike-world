@@ -84,3 +84,12 @@ function init_map_resize() {
         }, 0);
     });
 }
+
+function debug(text) {
+    // log to JavaScript console
+    if (typeof console === "undefined" || typeof console.log === "undefined") { /* ARGH!!! old IE */
+    } else {
+       console.log("area.js: " + text);
+    }
+}
+
