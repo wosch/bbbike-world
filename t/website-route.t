@@ -47,12 +47,14 @@ sub route_check {
 
     my $location = $res->header("Location");
 
+    #diag "location: $location $script_url";
+
     my $command = $fail ? "unlike" : "like";
 
     &$command(
         $location,
         qr[https://extract[0-9]?\.bbbike\.org\?],
-        "redirect to extract.cgi"
+        "redirect to extract.cgi: $script_url"
     );
 }
 
@@ -64,10 +66,16 @@ sub route_check {
 foreach my $home_url (
     $ENV{BBBIKE_TEST_SLOW_NETWORK} ? @homepages_localhost : @homepages )
 {
+    # local cache
     &route_check($home_url);
     &route_check( $home_url, "fjurfvdctnlcmqtu" );
+
+    # fake
     &route_check( $home_url, "XXXfjurfvdctnlcmqtu", 1 );
     &route_check( $home_url, "XXX", 1 );
+
+    # web fetch
+    &route_check( $home_url, "uuwfflkzmvudvzgs" );
 }
 
 done_testing;
