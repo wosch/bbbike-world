@@ -88,19 +88,20 @@ sub is_valid {
 
     my $route = Param( $q, "route" );
 
-    $route ||= "fjurfvdctnlcmqtu";
-
+    $route = "fjurfvdctnlcmqtu" if $route eq "";
     return 0 if !$self->valid_route($route);
+
     my $perl = $self->fetch_route($route);
     $self->{"route"} = $perl;
 
-    $self->{"bbox"} = $perl->{"features"}[0]{"geometry"}{"bbox"};
+    my $bbox = $self->{"bbox"} = $perl->{"features"}[0]{"geometry"}{"bbox"};
 
-    if ( ref $self->{"bbox"} ne 'ARRAY' ) {
+    if ( ref $bbox ne 'ARRAY' ) {
         warn "bbox array does not exists, give up\n";
         return 0;
     }
-    if ( scalar @{ $self->{"bbox"} } != 4 ) {
+
+    if ( scalar @$bbox != 4 ) {
         warn "bbox array does not contain 4 elements, give up\n";
         return 0;
     }
@@ -133,9 +134,10 @@ sub fetch_route {
         $data = `cat $file`;
         chomp($data);
     }
-    elsif ( $data = $self->fetch_url($url) ) {
 
+    elsif ( $data = $self->fetch_url($url) ) {
     }
+
     else {
         $data = "{}";
     }
@@ -166,6 +168,8 @@ sub fetch_url {
     my $req = HTTP::Request->new( GET => $url );
     my $res = $ua->request($req);
 
+    warn "fetch URL: $url\n";
+
     if ( $res->is_success ) {
         return $res->decoded_content();
     }
@@ -175,14 +179,14 @@ sub fetch_url {
 }
 
 sub create_fetch_url {
-    my $self  = shift;
-    my $route = shift;
+    my $self = shift;
+    my $route = shift // "";
 
     return "" if !$self->valid_route($route);
 
     my $prefix = "https://www.gpsies.com/files/geojson/";
-    if (m,(.)(.)(.)(.+),) {
-        return "$prefix/$1/$2/$3/$4";
+    if ( $route =~ m,(.)(.)(.)(.+), ) {
+        return "$prefix/$1/$2/$3/$1$2$3$4";
     }
 
     # error?
