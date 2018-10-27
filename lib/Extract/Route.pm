@@ -217,7 +217,9 @@ sub redirect {
         "sw_lat" => $bbox->[3],
 
         "format" => "garmin-cycle-latin1.zip",
-        "city"   => "gspies map",
+        "city"   => "gpsies map",
+        "appid"  => "gpsies1",
+        "ref"    => "gpsies.com",
         "email"  => "nobody"
     );
 
