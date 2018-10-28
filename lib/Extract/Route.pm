@@ -214,6 +214,42 @@ sub error_message {
     print $q->redirect($url);
 }
 
+# scale the bbox 10km around
+sub increase_bbox {
+    my $self  = shift;
+    my $bbox  = shift;
+    my $scale = shift // $self->{'option'}->{'increase_bbox'} // 10;
+
+    my $b = {
+        "ne_lng" => $bbox->[0],
+        "ne_lat" => $bbox->[1],
+        "sw_lng" => $bbox->[2],
+        "sw_lat" => $bbox->[3],
+    };
+
+    # to fare north or south, ignore
+    if ( $b->{"ne_lat"} > 80 || $b->{"ne_lat"} < -80 ) {
+        warn qq[ne_lat out of range +/- 80: $b->{"ne_lat"}, ignore\n];
+        return $bbox;
+    }
+    if ( $b->{"sw_lat"} > 80 || $b->{"sw_lat"} < -80 ) {
+        warn qq[sw_lat out of range +/- 80: $b->{"sw_lat"}, ignore\n];
+        return $bbox;
+    }
+
+    # out of range
+    if ( $b->{"ne_lng"} > 180 || $b->{"ne_lng"} < -180 ) {
+        warn qq[ne_lng out of range +/- 180: $b->{"ne_lng"}, ignore\n];
+        return $bbox;
+    }
+    if ( $b->{"sw_lng"} > 180 || $b->{"sw_lng"} < -180 ) {
+        warn qq[sw_lng out of range +/- 180: $b->{"sw_lng"}, ignore\n];
+        return $bbox;
+    }
+
+    return $bbox;
+}
+
 #
 # on success, we does a redirect to /cgi/extract.cgi
 #
@@ -228,6 +264,10 @@ sub redirect {
     my $uri = URI->new( $self->{'option'}->{'script_homepage'} );
 
     my $bbox = $self->{"bbox"};
+
+    # scale the bbox 10km around
+    $bbox = $self->increase_bbox($bbox);
+
     $uri->query_form(
         "ne_lng" => $bbox->[0],
         "ne_lat" => $bbox->[1],
