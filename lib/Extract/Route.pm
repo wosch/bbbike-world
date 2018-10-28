@@ -205,13 +205,23 @@ sub create_fetch_url {
 
 sub error_message {
     my $self = shift;
+    my $error = shift // 500;
 
-    my $q   = $self->{'q'};
-    my $url = $self->{'option'}->{'script_homepage'};
+    my $q               = $self->{'q'};
+    my $script_homepage = $self->{'option'}->{'script_homepage'};
+
+    my $appid = $q->param("appid") // "gpsies1";
+    my $ref   = $q->param("ref")   // "gpsies.com";
+
+    my $uri = URI->new($script_homepage);
+    $uri->query_form( "error" => $error, "appid" => $appid, "ref" => $ref );
+
+    my $u = $uri->as_string;
+    warn "Error, redirect to: $u\n";
 
     # for now we just redirect to the homepage
     # TODO: write a error message to the user
-    print $q->redirect($url);
+    print $q->redirect($u);
 }
 
 # scale the bbox 10km around

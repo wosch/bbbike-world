@@ -63,13 +63,26 @@ sub route_check {
 
     diag "location: $location $script_url" if $debug >= 1;
 
-    my $command = $fail ? "unlike" : "like";
-    {
-        no strict 'refs';
+    like(
+        $location,
+        qr[https://extract[0-9]?\.bbbike\.org\?.*appid=.+],
+        "redirect to extract.cgi: $script_url"
+    );
+    if ($fail) {
 
-        &$command(
+        # check for error parameter
+        like(
             $location,
-            qr[https://extract[0-9]?\.bbbike\.org\?],
+            qr[https://extract[0-9]?\.bbbike\.org\?.*error=],
+            "redirect to extract.cgi: $script_url"
+        );
+    }
+    else {
+
+        # check for error parameter
+        unlike(
+            $location,
+            qr[https://extract[0-9]?\.bbbike\.org\?.*error=],
             "redirect to extract.cgi: $script_url"
         );
     }
