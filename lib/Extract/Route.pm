@@ -218,7 +218,20 @@ sub error_message {
 sub increase_bbox {
     my $self  = shift;
     my $bbox  = shift;
-    my $scale = shift // $self->{'option'}->{'increase_bbox'} // 10;
+    my $scale = shift // $self->{"q"}->param("scale")
+      // $self->{'option'}->{'increase_bbox'} // 10;
+
+    $scale = abs( int($scale) );
+
+    # do nothing for scale=0
+    if ( $scale == 0 ) {
+        return $bbox;
+    }
+
+    if ( $scale > 50 || $scale <= 0 ) {
+        warn "scale=$scale is out of range, ignore\n";
+        return $bbox;
+    }
 
     my $b = {
         "ne_lng" => $bbox->[0],
@@ -227,27 +240,49 @@ sub increase_bbox {
         "sw_lat" => $bbox->[3],
     };
 
+    if ( !$self->validate_bbox_coordinates($b) ) {
+        return $bbox;
+    }
+
+    # make the rectangle bigger
+    my $s           = $scale / 100;
+    my $bigger_bbox = [
+        $b->{"ne_lng"} + $s,
+        $b->{"ne_lat"} + $s,
+        $b->{"sw_lng"} - $s,
+        $b->{"sw_lat"} - $s
+    ];
+
+    warn "scale up bbox: $s\n" if $debug >= 1;
+
+    return $bigger_bbox;
+}
+
+sub validate_bbox_coordinates {
+    my $self = shift;
+    my $b    = shift;
+
     # to fare north or south, ignore
     if ( $b->{"ne_lat"} > 80 || $b->{"ne_lat"} < -80 ) {
         warn qq[ne_lat out of range +/- 80: $b->{"ne_lat"}, ignore\n];
-        return $bbox;
+        return;
     }
     if ( $b->{"sw_lat"} > 80 || $b->{"sw_lat"} < -80 ) {
         warn qq[sw_lat out of range +/- 80: $b->{"sw_lat"}, ignore\n];
-        return $bbox;
+        return;
     }
 
     # out of range
     if ( $b->{"ne_lng"} > 180 || $b->{"ne_lng"} < -180 ) {
         warn qq[ne_lng out of range +/- 180: $b->{"ne_lng"}, ignore\n];
-        return $bbox;
+        return;
     }
     if ( $b->{"sw_lng"} > 180 || $b->{"sw_lng"} < -180 ) {
         warn qq[sw_lng out of range +/- 180: $b->{"sw_lng"}, ignore\n];
-        return $bbox;
+        return;
     }
 
-    return $bbox;
+    return 1;
 }
 
 #

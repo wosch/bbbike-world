@@ -45,11 +45,15 @@ sub route_check {
     my $route    = $args{"route"} // "";
     my $fail     = $args{"fail"} // 0;
     my $bbox     = $args{"bbox"};
+    my $scale    = $args{"scale"};
 
     my $script_url = "$home_url/cgi/route.cgi";
 
     if ( $route ne "" ) {
-        $script_url .= "?route=" . $route;
+        $script_url .= "?route=$route";
+        if ( defined $scale ) {
+            $script_url .= "&scale=$scale";
+        }
     }
 
     my $res      = $test->myget_302($script_url);
@@ -103,10 +107,12 @@ sub route_check {
 foreach my $home_url (
     $ENV{BBBIKE_TEST_SLOW_NETWORK} ? @homepages_localhost : @homepages )
 {
+
     # local cache
     &route_check( "home_url" => $home_url );
 
     # "bbox": [10.92079, 51.83964, 10.7935, 51.78166]
+    # no scale
     &route_check(
         "home_url" => $home_url,
         "route"    => "fjurfvdctnlcmqtu",
@@ -115,7 +121,33 @@ foreach my $home_url (
             "ne_lat" => 51.83964,
             "sw_lng" => 10.7935,
             "sw_lat" => 51.78166
-        }
+        },
+        "scale" => 0,
+    );
+
+    # scale 20km around the bbox
+    &route_check(
+        "home_url" => $home_url,
+        "route"    => "fjurfvdctnlcmqtu",
+        "bbox"     => {
+            "ne_lng" => 11.12079,
+            "ne_lat" => 52.03964,
+            "sw_lng" => 10.5935,
+            "sw_lat" => 51.58166
+        },
+        "scale" => 20,
+    );
+
+    # no scale parameter, defaults to 10
+    &route_check(
+        "home_url" => $home_url,
+        "route"    => "fjurfvdctnlcmqtu",
+        "bbox"     => {
+            "ne_lng" => 11.02079,
+            "ne_lat" => 51.93964,
+            "sw_lng" => 10.6935,
+            "sw_lat" => 51.68166
+        },
     );
 
     # fake route id, to long
@@ -147,7 +179,8 @@ foreach my $home_url (
             "ne_lat" => 50.67381,
             "sw_lng" => 12.62077,
             "sw_lat" => 50.45206
-        }
+        },
+        "scale" => 0,
     );
 }
 
