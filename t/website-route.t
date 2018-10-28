@@ -63,6 +63,17 @@ sub route_check {
 
     diag "location: $location $script_url" if $debug >= 1;
 
+    my $uri   = URI->new($location);
+    my $query = $uri->query;
+
+    my $q = CGI->new($query);
+    if ( !$fail ) {
+        is( $q->param("email"),  "nobody",                  "default email" );
+        is( $q->param("format"), "garmin-cycle-latin1.zip", "default format" );
+        is( $q->param("appid"),  "gpsies1",                 "default appid " );
+        is( $q->param("ref"),    "gpsies.com",              "default ref" );
+    }
+
     like(
         $location,
         qr[https://extract[0-9]?\.bbbike\.org\?.*appid=.+],
