@@ -312,6 +312,8 @@ sub redirect {
 
     # scale the bbox 10km around
     $bbox = $self->increase_bbox($bbox);
+    my $city = $self->{"route"}{"features"}[0]{"properties"}{"name"}
+      // "gpsies map";
 
     $uri->query_form(
         "ne_lng" => $bbox->[0],
@@ -320,7 +322,7 @@ sub redirect {
         "sw_lat" => $bbox->[3],
 
         "format" => "garmin-cycle-latin1.zip",
-        "city"   => "gpsies map",
+        "city"   => $city,
         "appid"  => "gpsies1",
         "ref"    => "gpsies.com",
         "email"  => "nobody"
