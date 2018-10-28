@@ -110,6 +110,7 @@ sub is_valid {
     return 1;
 }
 
+# check if the route id is correct
 sub valid_route {
     my $self  = shift;
     my $route = shift;
@@ -122,6 +123,7 @@ sub valid_route {
     }
 }
 
+# fetch the data from the internet
 sub fetch_route {
     my $self  = shift;
     my $route = shift;
@@ -131,14 +133,17 @@ sub fetch_route {
 
     my $data = "";
 
+    # local file, for testing
     if ( -e $file ) {
         $data = `cat $file`;
         chomp($data);
     }
 
+    # fetch from the internet
     elsif ( $data = $self->fetch_url($url) ) {
     }
 
+    # error
     else {
         $data = "{}";
     }
@@ -146,6 +151,7 @@ sub fetch_route {
     my $json = new JSON;
     my $perl = {};
 
+    # we return the results as perl hash
     eval { $perl = $json->decode($data); };
 
     if ($@) {
@@ -169,7 +175,7 @@ sub fetch_url {
     my $req = HTTP::Request->new( GET => $url );
     my $res = $ua->request($req);
 
-    warn "fetch URL: $url\n";
+    warn "fetch URL: $url\n" if $debug >= 1;
 
     if ( $res->is_success ) {
         return $res->decoded_content();
@@ -203,6 +209,8 @@ sub error_message {
     my $q   = $self->{'q'};
     my $url = $self->{'option'}->{'script_homepage'};
 
+    # for now we just redirect to the homepage
+    # TODO: write a error message to the user
     print $q->redirect($url);
 }
 
@@ -236,6 +244,7 @@ sub redirect {
     print $q->redirect( $uri->as_string );
 }
 
+# EOF
 ######################################################################
 
 sub header {
