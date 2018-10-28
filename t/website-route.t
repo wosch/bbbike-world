@@ -54,6 +54,10 @@ sub route_check {
     $query_form{"route"} = $route if $route ne "";
     $query_form{"scale"} = $scale if $route ne "" && defined $scale;
 
+    foreach my $arg (qw/email format appid ref/) {
+        $query_form{$arg} = $args{$arg} if defined $args{$arg};
+    }
+
     $script_url->query_form(%query_form);
 
     my $res      = $test->myget_302($script_url);
@@ -66,10 +70,14 @@ sub route_check {
 
     my $q = CGI->new($query);
     if ( !$fail ) {
-        is( $q->param("email"),  "nobody",                  "default email" );
-        is( $q->param("format"), "garmin-cycle-latin1.zip", "default format" );
-        is( $q->param("appid"),  "gpsies1",                 "default appid " );
-        is( $q->param("ref"),    "gpsies.com",              "default ref" );
+        is( $q->param("email"), $args{"email"} // "nobody", "default email" );
+        is(
+            $q->param("format"),
+            $args{"format"} // "garmin-cycle-latin1.zip",
+            "default format"
+        );
+        is( $q->param("appid"), $args{"appid"} // "gpsies1", "default appid " );
+        is( $q->param("ref"), $args{"ref"} // "gpsies.com", "default ref" );
     }
 
     like(
@@ -164,6 +172,25 @@ foreach my $home_url (
         },
         "scale"    => 0,
         "distance" => 15,
+    );
+
+    # check format parameters etc.
+    &route_check(
+        "home_url" => $home_url,
+        "route"    => "fjurfvdctnlcmqtu",
+        "bbox"     => {
+            "ne_lng" => 10.92079,
+            "ne_lat" => 51.83964,
+            "sw_lng" => 10.7935,
+            "sw_lat" => 51.78166
+        },
+        "scale"    => 0,
+        "distance" => 15,
+
+        "format" => "garmin-cycle.zip",
+        "email"  => q[nobody@bbbike.org],
+        "appid"  => "gpsies1",
+        "ref"    => "ref",
     );
 
     # scale 20km around the bbox
