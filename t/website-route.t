@@ -33,9 +33,12 @@ if ( $ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
 unshift @homepages, @homepages_localhost;
 
 sub route_check {
-    my $home_url = shift;
-    my $route    = shift // "";
-    my $fail     = shift // 0;
+    my %args = @_;
+
+    my $home_url = $args{"home_url"};
+    my $route    = $args{"route"} // "";
+    my $fail     = $args{"fail"} // 0;
+    my $bbox     = $args{"bbox"};
 
     my $script_url = "$home_url/cgi/route.cgi";
 
@@ -67,15 +70,21 @@ foreach my $home_url (
     $ENV{BBBIKE_TEST_SLOW_NETWORK} ? @homepages_localhost : @homepages )
 {
     # local cache
-    &route_check($home_url);
-    &route_check( $home_url, "fjurfvdctnlcmqtu" );
+    &route_check( "home_url" => $home_url );
+    &route_check( "home_url" => $home_url, "route" => "fjurfvdctnlcmqtu" );
 
     # fake
-    &route_check( $home_url, "XXXfjurfvdctnlcmqtu", 1 );
-    &route_check( $home_url, "XXX", 1 );
+    &route_check(
+        "home_url" => $home_url,
+        "route"    => "XXXfjurfvdctnlcmqtu",
+        "fail"     => 1
+    );
+
+    # to short id
+    &route_check( "home_url" => $home_url, "route" => "XXX", "fail" => 1 );
 
     # web fetch
-    &route_check( $home_url, "uuwfflkzmvudvzgs" );
+    &route_check( "home_url" => $home_url, "route" => "uuwfflkzmvudvzgs" );
 }
 
 done_testing;
