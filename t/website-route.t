@@ -85,6 +85,13 @@ sub route_check {
             "validate sw_lng parameter" );
         is( $q->param("sw_lat"), $bbox->{"sw_lat"},
             "validate sw_lat parameter" );
+
+        # check other parameters as well
+        ok( $q->param("appid"),  "appid is set" );
+        ok( $q->param("ref"),    "ref is set" );
+        ok( $q->param("email"),  "email is set" );
+        ok( $q->param("appid"),  "appid is set" );
+        ok( $q->param("format"), "format is set" );
     }
 }
 
