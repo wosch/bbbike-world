@@ -46,7 +46,7 @@ our $extract_dialog = '/extract-dialog';
 # helper functions
 #
 
-# Extract::Poly::new->('debug'=> 2, 'option' => $option)
+# Extract::Route::new->('debug'=> 2, 'option' => $option)
 sub new {
     my $class = shift;
     my %args  = @_;
@@ -82,6 +82,7 @@ sub init {
 # Route functions
 #
 
+# validate the JSON file which we downloaded from GPSies.com
 sub is_valid {
     my $self = shift;
     my $q    = $self->{'q'};
@@ -178,6 +179,7 @@ sub fetch_url {
     }
 }
 
+# fjurfvdctnlcmqtu -> https://www.gpsies.com/files/geojson/f/j/u/fjurfvdctnlcmqtu.js
 sub create_fetch_url {
     my $self = shift;
     my $route = shift // "";
@@ -185,6 +187,8 @@ sub create_fetch_url {
     return "" if !$self->valid_route($route);
 
     my $prefix = "https://www.gpsies.com/files/geojson/";
+
+    # fjurfvdctnlcmqtu -> f/j/u/fjurfvdctnlcmqtu
     if ( $route =~ m,(.)(.)(.)(.+), ) {
         return "$prefix/$1/$2/$3/$1$2$3$4";
     }
@@ -202,7 +206,13 @@ sub error_message {
     print $q->redirect($url);
 }
 
+#
+# on success, we does a redirect to /cgi/extract.cgi
+#
+# https://extract.bbbike.org/cgi/route.cgi?route=fjurfvdctnlcmqtu ->
+#
 # https://extract.bbbike.org/?sw_lng=-118.679&sw_lat=32.797&ne_lng=-118.237&ne_lat=33.041&format=osm.pbf&city=san%20clemente%20island&lang=en
+#
 sub redirect {
     my $self = shift;
 
