@@ -40,9 +40,9 @@ sub new {
 }
 
 #
-## City : Real Name : pref. language : local language : area : coord : population : step?
-#Berlin:::::13.0109 52.3376 13.7613 52.6753:4500000:
-#CambridgeMa:Cambridge (Massachusetts):en::other:-71.1986 42.3265 -71.0036 42.4285:1264990:
+## City : Real Name : pref. language : local language : country : area : coord : population : step?
+#Berlin::::::13.0109 52.3376 13.7613 52.6753:4500000:
+#CambridgeMa:Cambridge (Massachusetts):en::US:other:-71.1986 42.3265 -71.0036 42.4285:1264990:
 #
 
 sub parse_database {
@@ -62,9 +62,8 @@ sub parse_database {
         next if /^#/ || $_ eq "";
 
         my (
-            $city,       $name, $lang,
-            $local_lang, $area, $coord,
-            $population, $step, $other_names
+            $city, $name,  $lang,       $local_lang, $country,
+            $area, $coord, $population, $step,       $other_names
         ) = split(/:/);
 
         next if $city eq '';
@@ -75,6 +74,7 @@ sub parse_database {
             name        => $name,
             lang        => $lang || "en",
             local_lang  => $local_lang || "",
+            country     => $country,
             step        => $step || "0.02",
             area        => $area || "de",
             coord       => $coord,
@@ -84,9 +84,8 @@ sub parse_database {
         };
 
         $raw{$city} = [
-            $city,       $name, $lang,
-            $local_lang, $area, $coord,
-            $population, $step, $other_names
+            $city, $name,  $lang,       $local_lang, $country,
+            $area, $coord, $population, $step,       $other_names
         ];
     }
     close $fh;
