@@ -123,11 +123,11 @@ sub route_check {
             "validate sw_lat parameter" );
 
         # check other parameters as well
-        ok( $q->param("appid"),  "appid is set" );
-        ok( $q->param("ref"),    "ref is set" );
-        ok( $q->param("email"),  "email is set" );
-        ok( $q->param("appid"),  "appid is set" );
-        ok( $q->param("format"), "format is set" );
+        ok( defined $q->param("appid"),  "appid is set" );
+        ok( defined $q->param("ref"),    "ref is set" );
+        ok( defined $q->param("email"),  "email is set" );
+        ok( defined $q->param("appid"),  "appid is set" );
+        ok( defined $q->param("format"), "format is set" );
 
         # compare distance in rounded integers
         if ( defined $distance ) {
@@ -191,6 +191,25 @@ foreach my $home_url (
         "email"  => q[nobody@bbbike.org],
         "appid"  => "gpsies1",
         "ref"    => "ref",
+    );
+
+    # check format parameters etc.
+    &route_check(
+        "home_url" => $home_url,
+        "route"    => "fjurfvdctnlcmqtu",
+        "bbox"     => {
+            "ne_lng" => 10.92079,
+            "ne_lat" => 51.83964,
+            "sw_lng" => 10.7935,
+            "sw_lat" => 51.78166
+        },
+        "scale"    => 0,
+        "distance" => 15,
+
+        "format" => "",
+        "email"  => "",
+        "appid"  => "",
+        "ref"    => "",
     );
 
     # scale 20km around the bbox
