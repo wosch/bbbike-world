@@ -196,7 +196,7 @@ sub create_fetch_url {
 
     # fjurfvdctnlcmqtu -> f/j/u/fjurfvdctnlcmqtu
     if ( $route =~ m,(.)(.)(.)(.+), ) {
-        return "$prefix/$1/$2/$3/$1$2$3$4";
+        return "$prefix/$1/$2/$3/$1$2$3$4.js";
     }
 
     # error?
