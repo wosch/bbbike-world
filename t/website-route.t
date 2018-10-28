@@ -21,6 +21,7 @@ use Test::More;
 use Test::More::UTF8;
 use BBBike::Test;
 use Extract::Config;
+use GIS::Distance::Lite;
 
 use strict;
 use warnings;
@@ -46,6 +47,7 @@ sub route_check {
     my $fail     = $args{"fail"} // 0;
     my $bbox     = $args{"bbox"};
     my $scale    = $args{"scale"};
+    my $distance = $args{"distance"};
 
     my $script_url = "$home_url/cgi/route.cgi";
 
@@ -96,12 +98,28 @@ sub route_check {
         ok( $q->param("email"),  "email is set" );
         ok( $q->param("appid"),  "appid is set" );
         ok( $q->param("format"), "format is set" );
+
+        # compare distance in rounded integers
+        if ( defined $distance ) {
+            my @b = (
+                scalar $q->param("sw_lng"),
+                scalar $q->param("sw_lat"),
+                scalar $q->param("ne_lng"),
+                scalar $q->param("ne_lat")
+            );
+            my $d = GIS::Distance::Lite::distance(@b) / 1000;
+            is( int($d), $distance, "test distance=$distance" );
+        }
     }
 }
 
 #############################################################################
 # main
 #
+
+my $bbox = [ 10.92079, 51.83964, 10.7935, 51.78166 ];
+my $distance = GIS::Distance::Lite::distance(@$bbox) / 1000;
+is( $distance, 15.507231100269823, "test distance" );
 
 # check a bunch of homepages
 foreach my $home_url (
@@ -122,7 +140,8 @@ foreach my $home_url (
             "sw_lng" => 10.7935,
             "sw_lat" => 51.78166
         },
-        "scale" => 0,
+        "scale"    => 0,
+        "distance" => 15,
     );
 
     # scale 20km around the bbox
@@ -135,7 +154,8 @@ foreach my $home_url (
             "sw_lng" => 10.5935,
             "sw_lat" => 51.58166
         },
-        "scale" => 20,
+        "scale"    => 20,
+        "distance" => 77,
     );
 
     # no scale parameter, defaults to 10
@@ -148,6 +168,7 @@ foreach my $home_url (
             "sw_lng" => 10.6935,
             "sw_lat" => 51.68166
         },
+        "distance" => 46,
     );
 
     # fake route id, to long
@@ -180,7 +201,8 @@ foreach my $home_url (
             "sw_lng" => 12.62077,
             "sw_lat" => 50.45206
         },
-        "scale" => 0,
+        "scale"    => 0,
+        "distance" => 40,
     );
 }
 
