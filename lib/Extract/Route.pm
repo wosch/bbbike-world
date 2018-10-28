@@ -192,7 +192,7 @@ sub create_fetch_url {
 
     return "" if !$self->valid_route($route);
 
-    my $prefix = "https://www.gpsies.com/files/geojson/";
+    my $prefix = "https://www.gpsies.com/files/geojson";
 
     # fjurfvdctnlcmqtu -> f/j/u/fjurfvdctnlcmqtu
     if ( $route =~ m,(.)(.)(.)(.+), ) {
