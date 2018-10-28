@@ -49,14 +49,12 @@ sub route_check {
     my $scale    = $args{"scale"};
     my $distance = $args{"distance"};
 
-    my $script_url = "$home_url/cgi/route.cgi";
+    my $script_url = URI->new("$home_url/cgi/route.cgi");
+    my %query_form;
+    $query_form{"route"} = $route if $route ne "";
+    $query_form{"scale"} = $scale if $route ne "" && defined $scale;
 
-    if ( $route ne "" ) {
-        $script_url .= "?route=$route";
-        if ( defined $scale ) {
-            $script_url .= "&scale=$scale";
-        }
-    }
+    $script_url->query_form(%query_form);
 
     my $res      = $test->myget_302($script_url);
     my $location = $res->header("Location");
