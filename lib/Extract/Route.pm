@@ -319,6 +319,7 @@ sub redirect {
     my $format = $q->param("format") // "garmin-cycle-latin1.zip";
     my $appid  = $q->param("appid")  // "gpsies1";
     my $ref    = $q->param("ref")    // "gpsies.com";
+    my $route  = $q->param("route")  // "";
 
     $uri->query_form(
         "ne_lng" => $bbox->[0],
@@ -331,6 +332,7 @@ sub redirect {
         "email"  => $email,
         "appid"  => $appid,
         "ref"    => $ref,
+        "route"  => $route,
     );
 
     print $q->redirect( $uri->as_string );

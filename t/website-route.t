@@ -191,6 +191,7 @@ foreach my $home_url (
         "email"  => q[nobody@bbbike.org],
         "appid"  => "gpsies1",
         "ref"    => "ref",
+        "route"  => "fjurfvdctnlcmqtu"
     );
 
     # check format parameters etc.
