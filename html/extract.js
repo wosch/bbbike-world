@@ -2183,6 +2183,12 @@ function plot_line(coords) {
     var line_string = new OpenLayers.Geometry.LineString(points);
     var lineFeature = new OpenLayers.Feature.Vector(line_string);
 
+    var style = {
+        strokeColor: '#000',
+        strokeWidth: 5
+    };
+    lineFeature.style = style;
+
     vectors.addFeatures(lineFeature);
 }
 
