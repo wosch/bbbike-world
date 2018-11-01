@@ -511,6 +511,7 @@ sub script_url {
     my $coords = "";
     my $city   = $obj->{'city'} || "";
     my $lang   = $obj->{'lang'} || "";
+    my $ref    = $obj->{'ref'} || "";
 
     if ( scalar( @{ $obj->{'coords'} } ) > 100 ) {
         $coords = "0,0,0";
@@ -532,6 +533,7 @@ sub script_url {
     $script_url .= "&coords=" . CGI::escape($coords) if $coords ne "";
     $script_url .= "&city=" . CGI::escape($city) if $city ne "";
     $script_url .= "&lang=" . CGI::escape($lang) if $lang ne "";
+    $script_url .= "&ref=" . CGI::escape($ref) if $ref ne "";
 
     return $script_url;
 }
