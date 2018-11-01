@@ -616,6 +616,9 @@ sub _check_input {
     my $pg     = Param( $q, "pg" );
     my $as     = Param( $q, "as" );
     my $expire = Param( $q, "expire" );
+    my $appid  = Param( $q, "appid" );
+    my $ref    = Param( $q, "ref" );
+    my $route  = Param( $q, "route" );
 
     if ( $expire ne '' && $expire =~ /^\d+$/ ) {
         my $time = time();
@@ -791,6 +794,9 @@ sub _check_input {
         'lang'            => $lang,
         'as'              => $as,
         'pg'              => $pg,
+        'appid'           => $appid,
+        'ref'             => $ref,
+        'route'           => $route,
     };
 
     if ( $option->{enable_priority} ) {
