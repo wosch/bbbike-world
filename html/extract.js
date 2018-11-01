@@ -2149,4 +2149,42 @@ function mc_search_nominatim(query, offset, paging) {
     });
 }
 
+/* /cgi/route.cgi */
+
+function gpsies_route(route) {
+    debug("start route search: " + route);
+
+    // async request for download json files, to bypass Access-Control-Allow-Origin check
+    var url = '/cgi/route.cgi?output=json&route=' + route;
+
+    // https://www.gpsies.com/files/geojson/t/q/w/tqwfwdjuhcjuzjzp.js
+    $.getJSON(url, function (data) {
+        state.gpsies_data = data; // data.features[0].geometry.coordinates[0];
+        plot_line(state.gpsies_data.features[0].geometry.coordinates[0]);
+    })
+
+    .fail(function (data, textStatus, error) {
+        debug("error route json: " + url);
+        debug("error route json: data: " + data + ", textStatus: " + textStatus + ", error: " + error);
+    });
+}
+
+function plot_line(coords) {
+    debug("plot line, length: " + coords.length);
+
+    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
+    var points = [];
+    for (var i = 0; i < coords.length; i++) {
+        var point = new OpenLayers.Geometry.Point(coords[i][0], coords[i][1]);
+        point.transform(epsg4326, map.getProjectionObject());
+        points.push(point);
+    }
+
+    var line_string = new OpenLayers.Geometry.LineString(points);
+    var lineFeature = new OpenLayers.Feature.Vector(line_string);
+
+    vectors.addFeatures(lineFeature);
+}
+
+
 // EOF

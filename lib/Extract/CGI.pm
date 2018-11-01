@@ -406,6 +406,13 @@ qq{\n<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js
     my $disable_intro =
       $option->{'enable_introjs'} ? "" : '$(".extract-introjs").hide();';
 
+    my $route = Param( $q, "route" );
+    my $route_js = escapeHTML($route);
+    if ( $route_js ne "" ) {
+        $route_js =
+          qq[ jQuery(document).ready(function () { gpsies_route("$route"); }) ];
+    }
+
     return <<EOF;
 
 <div id="footer">
@@ -427,6 +434,7 @@ $javascript
 <script type="text/javascript">
   jQuery('#pageload-indicator').hide();
   $disable_intro
+  $route_js
 </script>
 
   <!-- pre-load some images for slow mobile networks -->
