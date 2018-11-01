@@ -73,7 +73,16 @@ my $route_cgi = Extract::Route->new(
 
 # valid request, we got all data successfully
 if ( $route_cgi->is_valid ) {
-    $route_cgi->redirect;
+
+    # workaround for Access-Control-Allow-Origin
+    if ( $route_cgi->want_json_output ) {
+        $route_cgi->json_output;
+    }
+
+    # redirect to /cgi/extract.cgi
+    else {
+        $route_cgi->redirect;
+    }
 }
 
 # else throw error page in HTML

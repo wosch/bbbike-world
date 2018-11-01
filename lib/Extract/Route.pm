@@ -110,6 +110,24 @@ sub is_valid {
     return 1;
 }
 
+sub want_json_output {
+    my $self = shift;
+    my $q    = $self->{'q'};
+
+    my $output = Param( $q, "output" );
+    return $output eq 'json' ? 1 : 0;
+}
+
+sub json_output {
+    my $self = shift;
+    my $q    = $self->{'q'};
+
+    print $q->header("application/json");
+
+    # print raw JSON data (unparsed)
+    print $self->{"json_data"};
+}
+
 # check if the route id is correct
 sub valid_route {
     my $self  = shift;
@@ -147,6 +165,8 @@ sub fetch_route {
     else {
         $data = "{}";
     }
+
+    $self->{"json_data"} = $data;
 
     my $json = new JSON;
     my $perl = {};
