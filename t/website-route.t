@@ -46,13 +46,13 @@ sub route_check {
     my $route    = $args{"route"} // "";
     my $fail     = $args{"fail"} // 0;
     my $bbox     = $args{"bbox"};
-    my $scale    = $args{"scale"};
+    my $padding  = $args{"padding"};
     my $distance = $args{"distance"};
 
     my $script_url = URI->new("$home_url/cgi/route.cgi");
     my %query_form;
     $query_form{"route"} = $route if $route ne "";
-    $query_form{"scale"} = $scale if $route ne "" && defined $scale;
+    $query_form{"padding"} = $padding if $route ne "" && defined $padding;
 
     foreach my $arg (qw/email format appid ref/) {
         $query_form{$arg} = $args{$arg} if defined $args{$arg};
@@ -160,7 +160,7 @@ foreach my $home_url (
     &route_check( "home_url" => $home_url );
 
     # "bbox": [10.92079, 51.83964, 10.7935, 51.78166]
-    # no scale
+    # no padding
     &route_check(
         "home_url" => $home_url,
         "route"    => "fjurfvdctnlcmqtu",
@@ -170,7 +170,7 @@ foreach my $home_url (
             "sw_lng" => 10.7935,
             "sw_lat" => 51.78166
         },
-        "scale"    => 0,
+        "padding"  => 0,
         "distance" => 15,
     );
 
@@ -184,7 +184,7 @@ foreach my $home_url (
             "sw_lng" => 10.7935,
             "sw_lat" => 51.78166
         },
-        "scale"    => 0,
+        "padding"  => 0,
         "distance" => 15,
 
         "format" => "garmin-cycle.zip",
@@ -204,7 +204,7 @@ foreach my $home_url (
             "sw_lng" => 10.7935,
             "sw_lat" => 51.78166
         },
-        "scale"    => 0,
+        "padding"  => 0,
         "distance" => 15,
 
         "format" => "",
@@ -213,7 +213,7 @@ foreach my $home_url (
         "ref"    => "",
     );
 
-    # scale 20km around the bbox
+    # padding 20km around the bbox
     &route_check(
         "home_url" => $home_url,
         "route"    => "fjurfvdctnlcmqtu",
@@ -223,11 +223,11 @@ foreach my $home_url (
             "sw_lng" => 10.5935,
             "sw_lat" => 51.58166
         },
-        "scale"    => 20,
+        "padding"  => 20,
         "distance" => 77,
     );
 
-    # no scale parameter, defaults to 10
+    # no padding parameter, defaults to 10
     &route_check(
         "home_url" => $home_url,
         "route"    => "fjurfvdctnlcmqtu",
@@ -270,7 +270,7 @@ foreach my $home_url (
             "sw_lng" => 12.62077,
             "sw_lat" => 50.45206
         },
-        "scale"    => 0,
+        "padding"  => 0,
         "distance" => 40,
     );
 }

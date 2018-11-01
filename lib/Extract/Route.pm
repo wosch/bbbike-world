@@ -244,23 +244,24 @@ sub error_message {
     print $q->redirect($u);
 }
 
-# scale the bbox 10km around
+# padding the bbox 10km around
 sub increase_bbox {
-    my $self  = shift;
-    my $bbox  = shift;
-    my $scale = shift // $self->{"q"}->param("scale")
+    my $self    = shift;
+    my $bbox    = shift;
+    my $padding = shift // $self->{"q"}->param("padding")
       // $self->{'option'}->{'increase_bbox'} // 10;
+    my $max_padding = 50;
 
-    $scale = abs( int($scale) );
+    $padding = abs( int($padding) );
 
-    # do nothing for scale=0
-    if ( $scale == 0 ) {
+    # do nothing for padding=0
+    if ( $padding == 0 ) {
         return $bbox;
     }
 
-    if ( $scale > 50 || $scale <= 0 ) {
-        warn "scale=$scale is out of range, ignore\n";
-        return $bbox;
+    if ( $padding > $max_padding || $padding <= 0 ) {
+        warn "padding=$padding is out of range, reset to $max_padding\n";
+        $padding = $max_padding;
     }
 
     my $b = {
@@ -275,7 +276,7 @@ sub increase_bbox {
     }
 
     # make the rectangle bigger
-    my $s           = $scale / 100;
+    my $s           = $padding / 100;
     my $bigger_bbox = [
         $b->{"ne_lng"} + $s,
         $b->{"ne_lat"} + $s,
@@ -283,7 +284,7 @@ sub increase_bbox {
         $b->{"sw_lat"} - $s
     ];
 
-    warn "scale up bbox: $s\n" if $debug >= 1;
+    warn "padding up bbox: $s\n" if $debug >= 1;
 
     return $bigger_bbox;
 }
