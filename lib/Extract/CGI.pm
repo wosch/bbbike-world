@@ -1134,6 +1134,13 @@ qq{<span id="time_small" class="center" title="approx. extract time in minutes">
     print "\n";
     print $q->hidden( "expire", time() ), "\n";
 
+    foreach my $keyword (qw/appid ref route/) {
+        if ( Param( $q, $keyword ) ne "" ) {
+            print $q->hidden( $keyword, escapeHTML( Param( $q, $keyword ) ) ),
+              "\n";
+        }
+    }
+
     print "</div>\n";
     print $q->end_form;
     print "\n\n";
