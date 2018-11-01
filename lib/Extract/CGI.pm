@@ -773,7 +773,7 @@ sub _check_input {
             'coords' => \@coords,
             'city'   => $city,
             'lang'   => $lang,
-            'ref'    => $ref || "extract",
+            'ref'    => $ref ne "" ? $ref : "extract",
         }
     );
 
