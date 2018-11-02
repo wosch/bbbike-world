@@ -539,6 +539,9 @@ sub result {
         my $script_url = $download->{"script_url"};
         $script_url =~ s,^https?:,,;
 
+        # referer is now "download"
+        $script_url =~ s,&ref=extract,&ref=download,;
+
         print qq{<a class="polygon}
           . ( scalar(@coords) ? 1 : 0 )
           . qq{" title="}
