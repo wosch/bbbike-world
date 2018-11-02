@@ -136,5 +136,10 @@
         "You can then move or resize the box, and then click on the extract button to start the extract job.</p>"
         ],
 
+    "EXTRACT_INTRO_SUBMIT": [
+        "<h3>Start Extract</h3>",
+        "<p>You already choose the area - great! Please click on this extract button to start the extract. Thanks and enjoy!</p>"
+        ],
+
     "dummy": "dummy"
 }
