@@ -1116,7 +1116,14 @@ qq{<span id="time_small" class="center" title="approx. extract time in minutes">
                             -title => 'start extract',
                             -name  => 'submit',
                             -value => M('extract'),
-                            -id    => 'submit'
+
+                            # intro.js
+                            -data_step         => 4,
+                            -data_intro        => M('EXTRACT_INTRO_SUBMIT'),
+                            -data_position     => "auto",
+                            -data_tooltipClass => "extract-intro",
+
+                            -id => 'submit'
                           )
                           . "\n"
                     ]
