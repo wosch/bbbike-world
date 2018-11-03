@@ -82,7 +82,7 @@ sub route_check {
 
     like(
         $location,
-        qr[https://extract[0-9]?\.bbbike\.org\?.*appid=.+],
+qr[https://(extract|dev)[0-9]?\.bbbike\.org(/cgi/extract\.cgi)?\?.*appid=.+],
         "redirect to extract.cgi: $script_url"
     );
     if ($fail) {
@@ -90,7 +90,7 @@ sub route_check {
         # check for error parameter
         like(
             $location,
-            qr[https://extract[0-9]?\.bbbike\.org\?.*error=],
+qr[https://(dev|extract)[0-9]?\.bbbike\.org(/cgi/extract\.cgi)?\?.*error=],
             "redirect to extract.cgi: $script_url"
         );
     }
@@ -99,7 +99,7 @@ sub route_check {
         # check for error parameter
         unlike(
             $location,
-            qr[https://extract[0-9]?\.bbbike\.org\?.*error=],
+qr[https://(dev|extract)[0-9]?\.bbbike\.org(/cgi/extract\.cgi)?\?.*error=],
             "redirect to extract.cgi: $script_url"
         );
     }
