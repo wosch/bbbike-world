@@ -75,6 +75,7 @@
         "MD5 : %s",
         "Dernière mise à jour de la base de données planet.osm: %s",
         "Licence : Licence OpenStreetMap",
+        "%s",
         "",
         "Consultez l’aide d’extraction en ligne pour plus d‘information",
         "https://extract.bbbike.org/extract.html",

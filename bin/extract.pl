@@ -1505,6 +1505,16 @@ sub _convert_send_email {
         $granularity = "full";
     }
 
+    # here we can put any optional messages, at once
+    my $optional_message = "";
+
+    if ( $obj->{"route"} ne "" && $obj->{"appid"} eq "gpsies1" ) {
+        $optional_message =
+            " Route: "
+          . "https://www.gpsies.com/map.do?fileId="
+          . $obj->{"route"};
+    }
+
     my $message = sprintf(
         $text,
         $obj->{'city'},
@@ -1518,7 +1528,8 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
         $file_size,
         $checksum_sha256,
         $checksum_md5,
-        $database_update
+        $database_update,
+        $optional_message
     );
 
 #        my $message = <<EOF;
