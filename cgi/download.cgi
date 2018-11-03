@@ -540,7 +540,8 @@ sub result {
         $script_url =~ s,^https?:,,;
 
         # referer is now "download"
-        $script_url =~ s,&ref=extract,&ref=download,;
+        # XXX: use URI/CGI
+        $script_url =~ s,&ref=(extract|gpsies.com),&ref=download,;
 
         print qq{<a class="polygon}
           . ( scalar(@coords) ? 1 : 0 )
