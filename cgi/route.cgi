@@ -74,7 +74,11 @@ my $route_cgi = Extract::Route->new(
 # valid request, we got all data successfully
 if ( $route_cgi->is_valid ) {
 
-    # workaround for Access-Control-Allow-Origin
+    #
+    # Workaround for Access-Control-Allow-Origin:
+    # the browser cannot fetch the JSON file itself from gpsies.com,
+    # so we will fetch it for a browser with a cgi script
+    #
     if ( $route_cgi->want_json_output ) {
         $route_cgi->json_output;
     }
@@ -91,5 +95,5 @@ else {
 }
 
 __END__;
-https://dev3.bbbike.org/cgi/route.cgi?route=htvrzxsdzbhhinis
+https://extract.bbbike.org/cgi/route.cgi?route=htvrzxsdzbhhinis
 https://www.gpsies.com/files/geojson/f/j/u/fjurfvdctnlcmqtu.js
