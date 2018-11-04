@@ -7,6 +7,8 @@ package Extract::CGI;
 
 use HTTP::Date;
 use CGI qw(escapeHTML);
+use URI;
+use URI::QueryParam;
 use Data::Dumper;
 use JSON;
 use Email::Valid;
