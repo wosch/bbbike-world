@@ -89,6 +89,7 @@ sub generate_urls {
             "city"   => $city,
             "submit" => "extract",
             "expire" => $expire,
+            "ref"    => "test",
             "format" => $key
         );
 
