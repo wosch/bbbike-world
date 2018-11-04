@@ -5,7 +5,8 @@
 
 use CGI qw/-utf-8 unescape escapeHTML/;
 use CGI::Carp;
-
+use URI;
+use URI::QueryParam;
 use IO::File;
 use JSON;
 use Data::Dumper;
@@ -537,11 +538,10 @@ sub result {
 
         # protocol independent links
         my $script_url = $download->{"script_url"};
+        my $uri = URI->new($script_url);
+        $uri->query_param("ref", "download");
+        $script_url = $uri->as_string;
         $script_url =~ s,^https?:,,;
-
-        # referer is now "download"
-        # XXX: use URI/CGI
-        $script_url =~ s,&ref=(extract|gpsies.com),&ref=download,;
 
         print qq{<a class="polygon}
           . ( scalar(@coords) ? 1 : 0 )
