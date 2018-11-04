@@ -538,8 +538,8 @@ sub result {
 
         # protocol independent links
         my $script_url = $download->{"script_url"};
-        my $uri = URI->new($script_url);
-        $uri->query_param("ref", "download");
+        my $uri        = URI->new($script_url);
+        $uri->query_param( "ref", "download" );
         $script_url = $uri->as_string;
         $script_url =~ s,^https?:,,;
 
