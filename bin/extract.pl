@@ -1054,7 +1054,8 @@ sub script_url {
       ? $option->{"script_homepage_pro"}
       : $option->{"script_homepage"};
 
-    my $uri = URI->new(
+    my $uri = URI->new($script_url);
+    $uri->query_form(
         "sw_lng" => $obj->{"sw_lng"},
         "sw_lat" => $obj->{"sw_lat"},
         "ne_lng" => $obj->{"ne_lng"},

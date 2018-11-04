@@ -531,21 +531,29 @@ sub script_url {
         $coords = join '|', ( map { "$_->[0],$_->[1]" } @{ $obj->{'coords'} } );
     }
 
-    my $script_homepage =
+    my $script_url =
         $option->{'pro'}
-      ? $option->{'script_homepage_pro'}
-      : $option->{'script_homepage'};
+      ? $option->{"script_homepage_pro"}
+      : $option->{"script_homepage"};
 
-    my $script_url = "$script_homepage/?";
-    $script_url .=
-"sw_lng=$obj->{sw_lng}&sw_lat=$obj->{sw_lat}&ne_lng=$obj->{ne_lng}&ne_lat=$obj->{ne_lat}";
-    $script_url .= "&format=$obj->{'format'}";
-    $script_url .= "&coords=" . CGI::escape($coords) if $coords ne "";
-    $script_url .= "&city=" . CGI::escape($city) if $city ne "";
-    $script_url .= "&lang=" . CGI::escape($lang) if $lang ne "";
-    $script_url .= "&ref=" . CGI::escape($ref) if $ref ne "";
+    my $uri = URI->new($script_url);
+    $uri->query_form(
+        "sw_lng" => $obj->{"sw_lng"},
+        "sw_lat" => $obj->{"sw_lat"},
+        "ne_lng" => $obj->{"ne_lng"},
+        "ne_lat" => $obj->{"ne_lat"},
+        "format" => $obj->{"format"}
+    );
 
-    return $script_url;
+    $uri->query_param( "coords", $coords ) if $coords ne "";
+
+    # see ../bin/extract.pl
+    #$uri->query_param( "layers", $layers ) if $layers && $layers !~ /^B/;
+    $uri->query_param( "city",   $city )   if $city ne "";
+    $uri->query_param( "coords", $coords ) if $coords ne "";
+    $uri->query_param( "lang",   $lang )   if $lang ne "";
+
+    return $uri->as_string;
 }
 
 sub get_spool_dir {
