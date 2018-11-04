@@ -16,7 +16,7 @@ use lib "$FindBin::RealBin/../lib";
 
 use utf8;
 use URI;
-use CGI;
+use URI::QueryParam;
 use Test::More;
 use Test::More::UTF8;
 use BBBike::Test;
@@ -64,20 +64,29 @@ sub route_check {
     my $location = $res->header("Location");
 
     diag "location: $location $script_url" if $debug >= 1;
+    my $uri = URI->new($location);
 
-    my $uri   = URI->new($location);
-    my $query = $uri->query;
-
-    my $q = CGI->new($query);
     if ( !$fail ) {
-        is( $q->param("email"), $args{"email"} // "nobody", "default email" );
         is(
-            $q->param("format"),
+            $uri->query_param("email"),
+            $args{"email"} // "nobody",
+            "default email"
+        );
+        is(
+            $uri->query_param("format"),
             $args{"format"} // "garmin-cycle-latin1.zip",
             "default format"
         );
-        is( $q->param("appid"), $args{"appid"} // "gpsies1", "default appid " );
-        is( $q->param("ref"), $args{"ref"} // "gpsies.com", "default ref" );
+        is(
+            $uri->query_param("appid"),
+            $args{"appid"} // "gpsies1",
+            "default appid "
+        );
+        is(
+            $uri->query_param("ref"),
+            $args{"ref"} // "gpsies.com",
+            "default ref"
+        );
     }
 
     like(
@@ -110,32 +119,29 @@ qr[https?://(dev|extract)[0-9]?\.bbbike\.org(/cgi/extract\.cgi)?\?.*error=],
         my $uri = URI->new($location);
         ok($uri);
 
-        my $q = CGI->new( $uri->query );
-        ok($q);
-
-        is( $q->param("ne_lng"), $bbox->{"ne_lng"},
-            "validate ne_lng parameter" );
-        is( $q->param("ne_lat"), $bbox->{"ne_lat"},
-            "validate ne_lat parameter" );
-        is( $q->param("sw_lng"), $bbox->{"sw_lng"},
-            "validate sw_lng parameter" );
-        is( $q->param("sw_lat"), $bbox->{"sw_lat"},
-            "validate sw_lat parameter" );
+        is( $uri->query_param("ne_lng"),
+            $bbox->{"ne_lng"}, "validate ne_lng parameter" );
+        is( $uri->query_param("ne_lat"),
+            $bbox->{"ne_lat"}, "validate ne_lat parameter" );
+        is( $uri->query_param("sw_lng"),
+            $bbox->{"sw_lng"}, "validate sw_lng parameter" );
+        is( $uri->query_param("sw_lat"),
+            $bbox->{"sw_lat"}, "validate sw_lat parameter" );
 
         # check other parameters as well
-        ok( defined $q->param("appid"),  "appid is set" );
-        ok( defined $q->param("ref"),    "ref is set" );
-        ok( defined $q->param("email"),  "email is set" );
-        ok( defined $q->param("appid"),  "appid is set" );
-        ok( defined $q->param("format"), "format is set" );
+        ok( defined $uri->query_param("appid"),  "appid is set" );
+        ok( defined $uri->query_param("ref"),    "ref is set" );
+        ok( defined $uri->query_param("email"),  "email is set" );
+        ok( defined $uri->query_param("appid"),  "appid is set" );
+        ok( defined $uri->query_param("format"), "format is set" );
 
         # compare distance in rounded integers
         if ( defined $distance ) {
             my @b = (
-                scalar $q->param("sw_lng"),
-                scalar $q->param("sw_lat"),
-                scalar $q->param("ne_lng"),
-                scalar $q->param("ne_lat")
+                scalar $uri->query_param("sw_lng"),
+                scalar $uri->query_param("sw_lat"),
+                scalar $uri->query_param("ne_lng"),
+                scalar $uri->query_param("ne_lat")
             );
             my $d = GIS::Distance::Lite::distance(@b) / 1000;
             is( int($d), $distance, "test distance=$distance" );
