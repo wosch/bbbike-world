@@ -1,6 +1,8 @@
 FROM ubuntu:xenial
 MAINTAINER Wolfram Schneider <wosch@FreeBSD.org>
 
+ENV DEBIAN_FRONTEND noninteractive
+
 RUN apt-get update -q && \
   apt-get upgrade -q -y && \
   apt-get install -q -y git make sudo gpgv apt-transport-https && \

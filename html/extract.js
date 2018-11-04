@@ -218,6 +218,9 @@ var config = {
         paging: 5
     },
 
+    // enable intro.js
+    introjs: true,
+
     // not used yet
     "dummy": ""
 };
@@ -245,6 +248,9 @@ var console;
 function init() {
     var opt = {};
 
+    // submit button is by default off until we created the boundary box
+    $("input#submit").hide();
+
     initKeyPress();
     init_map_resize();
     map = init_map();
@@ -261,7 +267,7 @@ function init() {
         move_map_to_city();
     }
 
-    // plot_default_box();
+    // show either 'Select a different area' or the 'click here' message
     $("#drag_box_default").click(plot_default_box);
     $("#drag_box_select").click(plot_default_box_menu_off);
 
@@ -756,6 +762,7 @@ function cf(name) {
 function plot_default_box() {
     debug("plot default box");
 
+
     // reset to full map
     setBounds(map.getExtent());
     validateControls();
@@ -799,20 +806,53 @@ function plot_default_box() {
     setBounds(feature.geometry.bounds);
     plot_default_box_menu_on();
     // setBounds(map.getExtent());
+    $("input#submit").show();
+}
+
+function introjs_start() {
+    if (!config.introjs) {
+        debug("introjs is disabled");
+        return;
+    }
+
+    // fire intro.js    
+    introJs().setOption('showProgress', true).start();
+    //dialog_close();
+}
+
+// hide the help popup if open
+
+function dialog_close() {
+    if ($(".dialog-close")) {
+        $(".dialog-close").click();
+    }
 }
 
 function plot_default_box_menu_on() {
+    $("input#submit").show();
+
     polygon_menu(true); // display poygon menu
     polygon_update();
     // switch menu
     $("#drag_box_default").hide();
     $("#drag_box_select").show();
     $("#start_default_box").attr('checked', false);
+
+    if (config.introjs) {
+        if ($(".introjs-donebutton")) {
+            $(".introjs-donebutton").click();
+        }
+
+        dialog_close();
+    }
 }
 
 // remove default box from map
 
 function plot_default_box_menu_off() {
+    // no submit button before we created a bounding box with click 'here'
+    $("input#submit").hide();
+
     // $("#drag_box_select_reset").attr('checked', false);
     $("#drag_box_default").show();
     $("#drag_box_select").hide();
@@ -923,7 +963,7 @@ function checkform() {
         alert(M("Please create a bounding box first!"));
         ret = 3;
     } else if (ret > 0) {
-        alert(ret == 1 ? M("Please fill out all fields!") : ret == 5 ? M("Please do not use an e-mail address as name, it will be public") : M("Please use a smaller area! Max size: ") + max_size + "MB");
+        alert(ret == 1 ? M("Please fill out all fields!") : ret == 5 ? M("Please do not use an email address as name, it will be public") : M("Please use a smaller area! Max size: ") + max_size + "MB");
     } else if (config.box_on_map) {
         if (!validate_box_on_map()) {
             alert(M("The bounding box is outside of the map. Please move back to the box, or >>Select a different<< area on the map"));

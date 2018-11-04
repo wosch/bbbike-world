@@ -161,6 +161,7 @@ EOF
             next if $filename eq '.' || $filename eq '..';
             next if $filename eq 'HEADER.txt';
             next if $filename eq 'index.html';
+            next if $filename =~ /\.tmp$/;
             if ( $filename eq $checksum_file ) {
                 $has_checksum_file = 1;
                 next;
@@ -280,7 +281,7 @@ sub header {
     my @javascript = (
         "/html/jquery/jquery-1.4.2.min.js",
         "/html/devbridge-jquery-autocomplete-1.1.2/jquery.autocomplete-min.js",
-"https://maps.googleapis.com/maps/api/js?v=3.9&sensor=false&language=en&libraries=weather,panoramio",
+"https://maps.googleapis.com/maps/api/js?v=3.9&sensor=false&language=en&libraries=weather",
         "/html/bbbike.js",
         "/html/maps3.js"
     );
@@ -519,7 +520,21 @@ print qq{</div><!-- more cities inner -->\n};
 print qq{</div><!-- more cities -->\n};
 
 print &footer( "cities" => \@city_list, 'city' => $city );
-print "</div> <!-- bottom -->\n";
+
+print "</div> <!-- bottom x -->\n";
+
+print <<EOF;
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-286675-22"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-286675-22');
+</script>
+EOF
+
 print $q->end_html;
 
 1;

@@ -18,6 +18,7 @@ MUNIN_EXTRACT= 		extract-diskusage \
 			extract-files \
 			extract-size \
 			extract-jobs \
+			extract-users \
 			extract-wait \
 			extract-stale
 
@@ -95,6 +96,7 @@ install-munin-extract:
 	   sudo ln -fs `pwd`/plugins/$$i ${MUNIN_PLUGINS_DIR}/$$i; \
 	done
 	sudo ln -fs ${MUNIN_PLUGINS_DIR}/extract-jobs ${MUNIN_PLUGINS_DIR}/extract-pro-jobs
+	sudo ln -fs ${MUNIN_PLUGINS_DIR}/extract-users ${MUNIN_PLUGINS_DIR}/extract-pro-users
 	${MAKE} install-munin-extract-web
 
 install-munin-lighttpd:

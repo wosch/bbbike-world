@@ -241,7 +241,7 @@ sub statistic {
             { 'src' => "https://www.google.com/jsapi?hl=en" },
             {
                 'src' =>
-"https://maps.googleapis.com/maps/api/js?v=3.9&sensor=false&language=en&libraries=weather,panoramio"
+"https://maps.googleapis.com/maps/api/js?v=3.9&sensor=false&language=en&libraries=weather"
             },
 
             #{ 'src' => "../html/bbbike-js.js" }

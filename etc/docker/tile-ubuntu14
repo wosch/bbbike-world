@@ -1,6 +1,8 @@
 FROM ubuntu:trusty
 MAINTAINER Wolfram Schneider <wosch@FreeBSD.org>
 
+ENV DEBIAN_FRONTEND noninteractive
+
 RUN apt-get update -q && apt-get upgrade -y && \
   apt-get install -y git make
 
