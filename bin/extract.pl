@@ -1048,6 +1048,7 @@ sub script_url {
     my $layers = $obj->{'layers'} || "";
     my $city   = $obj->{'city'}   || "";
     my $lang   = $obj->{'lang'}   || "";
+    my $ref    = $obj->{'ref'}    || "";
 
     my $script_url =
         $option->{'pro'}
@@ -1067,6 +1068,7 @@ sub script_url {
     $uri->query_param( "layers", $layers ) if $layers && $layers !~ /^B/;
     $uri->query_param( "city",   $city )   if $city ne "";
     $uri->query_param( "coords", $coords ) if $coords ne "";
+    $uri->query_param( "ref",    $ref )    if $lang ne "";
     $uri->query_param( "lang",   $lang )   if $lang ne "";
 
     return $uri->as_string;
