@@ -9,6 +9,8 @@ use lib "$FindBin::RealBin/../lib";
 use Extract::Config;
 use CGI qw(escape);
 use Getopt::Long;
+use URI;
+use URI::QueryParam;
 
 use strict;
 use warnings;
@@ -70,25 +72,34 @@ sub generate_urls {
 
                 # put some random words into the city
                 $city .= "+" . escape( get_random_element( \@words ) );
-                $lang = "&lang=$lang";
             }
         }
 
-        my $gpsies = "";
-        $gpsies .= "&route=$route" if $route ne "";
-        $gpsies .= "&appid=$appid" if $appid ne "";
+        my $uri = URI->new("$server/cgi/extract.cgi");
+        $uri->query_form(
+            "sw_lng" => $sw_lng,
+            "sw_lat" => $sw_lat . ( $random ? int( rand(1_000_000) ) : "" ),
+            "ne_lng" => $ne_lng,
+            "ne_lat" => $ne_lat . ( $random ? int( rand(1_000_000) ) : "" ),
+            "email"  => $email,
+            "as"     => "1.933243109431466",
+            "pg"     => "0.9964839602712444",
+            "coords" => "",
+            "oi"     => "1",
+            "city"   => $city,
+            "submit" => "extract",
+            "expire" => $expire,
+            "format" => $key
+        );
 
-        # XXX: URI->new(...)
-        print qq{curl -sSf "$server/cgi/extract.cgi}
-          . qq{?sw_lng=$sw_lng&sw_lat=$sw_lat}
-          . ( $random ? int( rand(1_000_000) ) : "" )
-          . qq{&ne_lng=$ne_lng&ne_lat=$ne_lat}
-          . ( $random ? int( rand(1_000_000) ) : "" )
-          . $lang
-          . qq{&email=$email&as=1.933243109431466&pg=0.9964839602712444&coords=&oi=1}
-          . qq{&city=$city&submit=extract&expire=$expire&format=$key}
-          . $gpsies
-          . qq{" -A "$user_agent"} . qq{\0};
+        # optional parameters
+        $uri->query_param( "lang",  $lang )  if $lang ne "";
+        $uri->query_param( "route", $route ) if $route ne "";
+        $uri->query_param( "appid", $appid ) if $appid ne "";
+
+        my $url = $uri->as_string;
+
+        print qq{curl -sSf "$url" -A "$user_agent"\0};
     }
 }
 
