@@ -1031,6 +1031,7 @@ sub mkgmap_description {
     return $city;
 }
 
+# XXX: see ../lib/Extract/CGI.pm
 # call back URL
 sub script_url {
     my $option = shift;
