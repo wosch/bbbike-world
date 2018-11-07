@@ -59,6 +59,7 @@
         " MD5 checksum: %s",
         " Last planet.osm database update: %s",
         " License: OpenStreetMap License",
+        " %s",
         "",
         "Please read the extract online help for more informations:",
         "https://extract.bbbike.org/extract.html",

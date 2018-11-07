@@ -618,7 +618,7 @@ sub count_output {
 
         next if $ignore_localrequests && localrequest($_);
 
-        # gspies.com
+        # gpsies.com
         if ( /^188\.40\.84\.75 / && /Jakarta Commons-HttpClient/ ) {
             $counter->{"gpsies"}++;
         }

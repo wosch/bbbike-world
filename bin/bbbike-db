@@ -4,6 +4,8 @@
 # bbbike-db - command line tool to parse bbbike @ world city database
 #
 
+use URI;
+use URI::QueryParam;
 use File::Basename;
 use FindBin;
 use lib ( "$FindBin::RealBin/../lib", "$FindBin::RealBin/../.." );
@@ -62,14 +64,23 @@ sub osm_round {
 sub extract_url {
     my ( $city, $x1, $y1, $x2, $y2 ) = @_;
     my $dev_server = $ENV{'BBBIKE_DEV_SERVER'} || 'https://dev3.bbbike.org';
-    my $url = "$dev_server/cgi/extract.cgi?lang=en";
 
-    $url .= "&sw_lng=$x1&sw_lat=$y1&ne_lng=$x2&ne_lat=$y2";
-    $url .= "&format=osm.pbf&email=nobody&as=0.1073349609375";
-    $url .= "&city=$city";
-    $url .= "&submit=extract";    #&expire=1473945448
+    my $uri = URI->new("$dev_server/cgi/extract.cgi");
 
-    return "$url\n";
+    $uri->query_form(
+        "lang"   => "en",
+        "sw_lng" => $x1,
+        "sw_lat" => $y1,
+        "ne_lng" => $x2,
+        "ne_lat" => $y2,
+        "format" => "osm.pbf",
+        "email"  => "nobody",
+        "as"     => "0.1073349609375",
+        "city"   => $city,
+        "submit" => "extract"            #&expire=1473945448
+    );
+
+    return $uri->as_string . "\n";
 }
 
 sub poly {

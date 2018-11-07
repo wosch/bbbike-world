@@ -107,6 +107,7 @@
         " MD5 checksum: %s",
         " Letzte planet.osm Datenbank update: %s",
         " Lizenz: OpenStreetMap License",
+        " %s",
         "",
         "Weitere Informationen gibt es in der Extrakt Online-Hilfe",
         "https://extract.bbbike.org/extract.html",
@@ -184,7 +185,7 @@
 
     "EXTRACT_INTRO_SUBMIT": [
         "<h3>Starte den Extrakt</h3>",
-        "<p>Du hast bereits ein Gebiet ausgew&aehlt - gut!. Bitte klicke auf diesen extrakt button um den Extract zu starten. Vielen Dank und viel Spass!</p>"
+        "<p>Du hast bereits ein Gebiet ausgewählt - gut!. Bitte klicke auf diesen extrakt button um den Extract zu starten. Vielen Dank und viel Spass!</p>"
         ],
 
     "dummy": "dummy"
