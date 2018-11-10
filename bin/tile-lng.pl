@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2012-2013 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
 #
 # tile-lng.pl - split the planet.osm into 360 lng data tiles
 #
@@ -19,6 +19,6 @@ foreach my $x ( -180 .. 179 ) {
     next if $x % $step != 0;
 
     #print "$x,$y 1,$y1\n";
-    print "planet_${x}_${y}_${x1}_${y1}:::en:other:$x $y $x1 $y1:294951::\n";
+    print "planet_${x}_${y}_${x1}_${y1}:::en::other:$x $y $x1 $y1:294951::\n";
 }
 
