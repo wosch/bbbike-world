@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
 #
 # osm2mapsforge - convert a osm/pbf file to mapsforge
 #
@@ -10,6 +10,7 @@ PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 : ${SHA="shasum -a 256"}
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmpfs"}
+: ${logfile_max_size="3000k"}
 
 set -e
 
@@ -121,7 +122,6 @@ $text2html < README.txt > README.html
 echo ">>> Run osmosis, mapsforge writer map style: $map_style" >> $logfile
 osmosis --read-pbf-fast $file --mapfile-writer $hd_mode file=$mapsforge.map >> $logfile  2>&1 || error
 
-logfile_max_size="500k"
 if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
     echo "logfile $logfile is to big: $(ls -l $logfile)"
     exit 2

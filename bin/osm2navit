@@ -1,5 +1,5 @@
 #!/usr/local/bin/bash
-# Copyright (c) 2012-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
 #
 # osm2navit  - convert a .pbf file to navit .bin
 #
@@ -10,6 +10,7 @@ PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 : ${SHA="shasum -a 256"}
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmpfs"}
+: ${logfile_max_size="3000k"}
 
 #dpkg -l|grep maptool
 maptool_version="0.5.0~svn5900+dfsg.1-1"
@@ -97,7 +98,6 @@ esac
 
 exit=$?
 
-logfile_max_size="500k"
 if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
     echo "logfile $logfile is to big: $(ls -l $logfile)"
     $gzip $logfile

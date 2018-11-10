@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
 #
 # osm2shape  - convert a osm/pbf file to shape
 #
@@ -12,6 +12,7 @@ PATH=/bin:/usr/bin:/usr/local/bin; export PATH
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmpfs"}
 : ${BBBIKE_LD_LIBRARY_PATH="/var/lib/bbbike/opt/lib"}
+: ${logfile_max_size="3000k"}
 shape_version="osmium2shape-1.0"
 
 set -e
@@ -76,7 +77,6 @@ else
 fi
 #rm -f $file_fixme
 
-logfile_max_size="500k"
 if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
     echo "logfile $logfile is to big: $(ls -l $logfile)"
     exit 2
