@@ -993,7 +993,7 @@ sub homepage {
                           )
                           . "</span>\n",
 qq{<span title="hide longitude,latitude box" class="lnglatbox" onclick="javascript:toggle_lnglatbox ();">}
-                          . qq{<input class="uncheck" type="radio" />@{[ M("hide") ]} lnglat</span>\n}
+                          . qq{<input class="uncheck" type="radio" />@{[ M("hide") ]} @{[ M("lng/lat") ]}</span>\n}
                     ]
                 ),
 
@@ -1047,7 +1047,7 @@ qq{<span title="hide longitude,latitude box" class="lnglatbox" onclick="javascri
                     { "class" => "center" },
                     [
 qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="javascript:toggle_lnglatbox ();">}
-                          . qq{<input class="uncheck" type="radio" />@{[ M("show") ]} lnglat</span><br/>\n}
+                          . qq{<input class="uncheck" type="radio" />@{[ M("show") ]} @{[ M("lng/lat") ]}</span><br/>\n}
                           . qq{<span class="center" id="square_km_small" title="area covers N square kilometers"></span>\n}
                     ]
                   ),
