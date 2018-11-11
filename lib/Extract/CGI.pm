@@ -486,7 +486,7 @@ sub message {
  @{[ $self->social_links ]} -
  $intro_link
  <span id="tools-help"><a class='tools-helptrigger' rel='nofollow' href='$extract_dialog/$language/about.html' title='info'><span>@{[ M("about") ]}</span></a></span>
- <span id="pageload-indicator">&nbsp;<img src="/html/indicator.gif" width="14" height="14" alt="" title="Loading JavaScript libraries" /> Loading JavaScript</span>
+ <span id="pageload-indicator">&nbsp;<img src="/html/indicator.gif" width="14" height="14" alt="" title="@{[ M('Loading JavaScript libraries') ]}" /> @{[ M("Loading JavaScript") ]}</span>
  <span class="jqmWindow jqmWindowLarge" id="tools-helpwin"></span>
 </span>
 
