@@ -292,7 +292,7 @@ sub increase_bbox {
         $b->{"sw_lat"} - $s
     ];
 
-    warn "padding up bbox: $s\n" if $debug >= 1;
+    warn "padding up bbox: $s\n" if $debug >= 2;
 
     return $bigger_bbox;
 }
