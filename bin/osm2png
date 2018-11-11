@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
 #
 # osm2svg - convert a osm/pbf file to svg/png
 #
@@ -16,6 +16,7 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_MAPERITIVE_SCALE="1"}
 : ${BBBIKE_MAPERITIVE_MAPSTYLE="osm"}
 : ${BBBIKE_MAPERITIVE_DISPLAY=":200"}
+: ${logfile_max_size="3000k"}
 
 : ${debug=false}
 
@@ -153,7 +154,6 @@ if ! DISPLAY=$BBBIKE_MAPERITIVE_DISPLAY time $program  -exitafter $(pwd)/$config
   exit 2
 fi
 
-logfile_max_size="500k"
 if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
     echo "logfile $logfile is to big: $(ls -l $logfile)"
     exit 2
