@@ -342,7 +342,7 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
   $donate
   $css
   <div id="footer_top">
-    <a href="$homepage">home</a> |
+    <a href="$homepage">@{[ M("home") ]}</a> |
     <a target="_help" href="/extract.html">@{[ M("help") ]}</a> |
     $intro_link
     <a href="$server_status_url" target="_blank">@{[ M("status") ]}</a> |

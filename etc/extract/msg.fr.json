@@ -29,6 +29,7 @@
     "commercial support": "support commercial",
     "status": "statut",
     "by": "par",
+    "home": "accueil",
 
     "EXTRACT_CONFIRMED": [
         "<p>Merci - les paramètres saisis semblent corrects.</p><p>",
