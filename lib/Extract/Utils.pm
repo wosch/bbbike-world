@@ -434,7 +434,7 @@ sub store_json {
 
     my $file_tmp = "$file.tmp";
     my $json     = new JSON;
-    my $data     = $json->pretty->encode($obj);
+    my $data     = $json->canonical->pretty->encode($obj);
 
     store_data( $file_tmp, $data );
     rename( $file_tmp, $file ) or die "rename $file: $!\n";

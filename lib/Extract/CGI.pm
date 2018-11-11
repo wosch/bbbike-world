@@ -7,6 +7,8 @@ package Extract::CGI;
 
 use HTTP::Date;
 use CGI qw(escapeHTML);
+use URI;
+use URI::QueryParam;
 use Data::Dumper;
 use JSON;
 use Email::Valid;
@@ -406,6 +408,13 @@ qq{\n<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js
     my $disable_intro =
       $option->{'enable_introjs'} ? "" : '$(".extract-introjs").hide();';
 
+    my $route = Param( $q, "route" );
+    my $route_js = escapeHTML($route);
+    if ( $route_js ne "" ) {
+        $route_js =
+          qq[ jQuery(document).ready(function () { gpsies_route("$route"); }) ];
+    }
+
     return <<EOF;
 
 <div id="footer">
@@ -427,6 +436,7 @@ $javascript
 <script type="text/javascript">
   jQuery('#pageload-indicator').hide();
   $disable_intro
+  $route_js
 </script>
 
   <!-- pre-load some images for slow mobile networks -->
@@ -511,6 +521,7 @@ sub script_url {
     my $coords = "";
     my $city   = $obj->{'city'} || "";
     my $lang   = $obj->{'lang'} || "";
+    my $ref    = $obj->{'ref'} || "";
 
     if ( scalar( @{ $obj->{'coords'} } ) > 100 ) {
         $coords = "0,0,0";
@@ -520,20 +531,30 @@ sub script_url {
         $coords = join '|', ( map { "$_->[0],$_->[1]" } @{ $obj->{'coords'} } );
     }
 
-    my $script_homepage =
+    my $script_url =
         $option->{'pro'}
-      ? $option->{'script_homepage_pro'}
-      : $option->{'script_homepage'};
+      ? $option->{"script_homepage_pro"}
+      : $option->{"script_homepage"};
 
-    my $script_url = "$script_homepage/?";
-    $script_url .=
-"sw_lng=$obj->{sw_lng}&sw_lat=$obj->{sw_lat}&ne_lng=$obj->{ne_lng}&ne_lat=$obj->{ne_lat}";
-    $script_url .= "&format=$obj->{'format'}";
-    $script_url .= "&coords=" . CGI::escape($coords) if $coords ne "";
-    $script_url .= "&city=" . CGI::escape($city) if $city ne "";
-    $script_url .= "&lang=" . CGI::escape($lang) if $lang ne "";
+    my $uri = URI->new($script_url);
+    $uri->query_form(
+        "sw_lng" => $obj->{"sw_lng"},
+        "sw_lat" => $obj->{"sw_lat"},
+        "ne_lng" => $obj->{"ne_lng"},
+        "ne_lat" => $obj->{"ne_lat"},
+        "format" => $obj->{"format"}
+    );
 
-    return $script_url;
+    $uri->query_param( "coords", $coords ) if $coords ne "";
+
+    # see ../bin/extract.pl
+    #$uri->query_param( "layers", $layers ) if $layers && $layers !~ /^B/;
+    $uri->query_param( "city",   $city )   if $city ne "";
+    $uri->query_param( "coords", $coords ) if $coords ne "";
+    $uri->query_param( "ref",    $ref )    if $ref ne "";
+    $uri->query_param( "lang",   $lang )   if $lang ne "";
+
+    return $uri->as_string;
 }
 
 sub get_spool_dir {
@@ -616,6 +637,9 @@ sub _check_input {
     my $pg     = Param( $q, "pg" );
     my $as     = Param( $q, "as" );
     my $expire = Param( $q, "expire" );
+    my $appid  = Param( $q, "appid" );
+    my $ref    = Param( $q, "ref" );
+    my $route  = Param( $q, "route" );
 
     if ( $expire ne '' && $expire =~ /^\d+$/ ) {
         my $time = time();
@@ -770,6 +794,7 @@ sub _check_input {
             'coords' => \@coords,
             'city'   => $city,
             'lang'   => $lang,
+            'ref'    => $ref ne "" ? $ref : "extract",
         }
     );
 
@@ -791,6 +816,9 @@ sub _check_input {
         'lang'            => $lang,
         'as'              => $as,
         'pg'              => $pg,
+        'appid'           => $appid,
+        'ref'             => $ref,
+        'route'           => $route,
     };
 
     if ( $option->{enable_priority} ) {
@@ -1116,7 +1144,14 @@ qq{<span id="time_small" class="center" title="approx. extract time in minutes">
                             -title => 'start extract',
                             -name  => 'submit',
                             -value => M('extract'),
-                            -id    => 'submit'
+
+                            # intro.js
+                            -data_step         => 4,
+                            -data_intro        => M('EXTRACT_INTRO_SUBMIT'),
+                            -data_position     => "auto",
+                            -data_tooltipClass => "extract-intro",
+
+                            -id => 'submit'
                           )
                           . "\n"
                     ]
@@ -1127,6 +1162,13 @@ qq{<span id="time_small" class="center" title="approx. extract time in minutes">
 
     print "\n";
     print $q->hidden( "expire", time() ), "\n";
+
+    foreach my $keyword (qw/appid ref route/) {
+        if ( Param( $q, $keyword ) ne "" ) {
+            print $q->hidden( $keyword, escapeHTML( Param( $q, $keyword ) ) ),
+              "\n";
+        }
+    }
 
     print "</div>\n";
     print $q->end_form;

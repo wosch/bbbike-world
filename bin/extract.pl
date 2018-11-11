@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2011-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2011-2018 Wolfram Schneider, https://bbbike.org
 #
 # extract.pl - extracts areas in a batch job
 #
@@ -24,6 +24,8 @@ use Email::Valid;
 use Digest::MD5 qw(md5_hex);
 use Net::SMTP;
 use CGI qw(escapeHTML);
+use URI;
+use URI::QueryParam;
 use Getopt::Long;
 use File::Basename;
 use File::stat;
@@ -1029,6 +1031,7 @@ sub mkgmap_description {
     return $city;
 }
 
+# XXX: see ../lib/Extract/CGI.pm
 # call back URL
 sub script_url {
     my $option = shift;
@@ -1045,22 +1048,30 @@ sub script_url {
     my $layers = $obj->{'layers'} || "";
     my $city   = $obj->{'city'}   || "";
     my $lang   = $obj->{'lang'}   || "";
+    my $ref    = $obj->{'ref'}    || "";
 
     my $script_url =
         $option->{'pro'}
       ? $option->{"script_homepage_pro"}
       : $option->{"script_homepage"};
 
-    $script_url .=
-"/?sw_lng=$obj->{sw_lng}&sw_lat=$obj->{sw_lat}&ne_lng=$obj->{ne_lng}&ne_lat=$obj->{ne_lat}";
-    $script_url .= "&format=$obj->{'format'}";
-    $script_url .= "&coords=" . CGI::escape($coords) if $coords ne "";
-    $script_url .= "&layers=" . CGI::escape($layers)
-      if $layers && $layers !~ /^B/;
-    $script_url .= "&city=" . CGI::escape($city) if $city ne "";
-    $script_url .= "&lang=" . CGI::escape($lang) if $lang ne "en" && $lang;
+    my $uri = URI->new($script_url);
+    $uri->query_form(
+        "sw_lng" => $obj->{"sw_lng"},
+        "sw_lat" => $obj->{"sw_lat"},
+        "ne_lng" => $obj->{"ne_lng"},
+        "ne_lat" => $obj->{"ne_lat"},
+        "format" => $obj->{"format"}
+    );
 
-    return $script_url;
+    $uri->query_param( "coords", $coords ) if $coords ne "";
+    $uri->query_param( "layers", $layers ) if $layers && $layers !~ /^B/;
+    $uri->query_param( "city",   $city )   if $city ne "";
+    $uri->query_param( "coords", $coords ) if $coords ne "";
+    $uri->query_param( "ref",    $ref )    if $ref ne "";
+    $uri->query_param( "lang",   $lang )   if $lang ne "";
+
+    return $uri->as_string;
 }
 
 sub get_nice_level_converter {
@@ -1505,6 +1516,14 @@ sub _convert_send_email {
         $granularity = "full";
     }
 
+    # here we can put any optional messages, at once
+    my $optional_message = "";
+
+    if ( $obj->{"route"} ne "" && $obj->{"appid"} eq "gpsies1" ) {
+        $optional_message =
+          "Route: " . "https://www.gpsies.com/map.do?fileId=" . $obj->{"route"};
+    }
+
     my $message = sprintf(
         $text,
         $obj->{'city'},
@@ -1518,7 +1537,8 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
         $file_size,
         $checksum_sha256,
         $checksum_md5,
-        $database_update
+        $database_update,
+        $optional_message
     );
 
 #        my $message = <<EOF;

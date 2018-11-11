@@ -14,6 +14,8 @@ BEGIN {
 use FindBin;
 use lib "$FindBin::RealBin/../lib";
 
+use URI;
+use URI::QueryParam;
 use Test::More;
 use JSON;
 use BBBike::Test;
@@ -69,8 +71,10 @@ sub page_check {
 
     my %size;
     foreach my $f ( keys %$formats ) {
-        my $url = "$script_url&format=$f";
-        my $res = $test->myget( $url, 11 );
+        my $uri = URI->new($script_url);
+        $uri->query_param( "format", $f );
+
+        my $res = $test->myget( $uri->as_string, 11 );
 
         # {"size": 65667.599 }
         # {"size": 0 }

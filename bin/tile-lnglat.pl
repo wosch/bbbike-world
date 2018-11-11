@@ -1,11 +1,11 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2012-2013 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
 #
 # tile-lnglat.pl - split the planet.osm into 360x180 lng,lat data tiles
 #
 # usage: tile-lng-lat.pl > shell.sh
 
-# Aachen:::de::5.88 50.60 6.58 50.99:294951::
+# Aachen:::de:::5.88 50.60 6.58 50.99:294951::
 
 my $heatmap = $ENV{TILES_DIR} || "tile";
 my $step = 4;
