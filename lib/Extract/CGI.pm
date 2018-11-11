@@ -345,7 +345,7 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
     <a href="$homepage">home</a> |
     <a target="_help" href="/extract.html">@{[ M("help") ]}</a> |
     $intro_link
-    <a href="$server_status_url" target="_blank">status</a> |
+    <a href="$server_status_url" target="_blank">@{[ M("status") ]}</a> |
     <!-- <a href="//mc.bbbike.org/mc/$mc_parameters" id="mc_link" target="_blank">map compare</a> | -->
     <a href="$download_homepage">@{[ M("download") ]}</a> |
     <a href="/support.html">@{[ M("commercial support") ]}</a>
