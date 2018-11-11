@@ -313,8 +313,11 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
           . qq{<a href="/support.html">extract pro</a></p>\n};
     }
     elsif ( !$error ) {
-        $donate = qq{<p class="normalscreen" id="big_donate_image">}
-          . qq{<a href="$community_link#donate"><img class="logo" height="47" width="126" src="/images/btn_donateCC_LG.gif" alt="donate"/></a></p>};
+        $donate =
+            qq{<p class="normalscreen" id="big_donate_image">}
+          . qq{<a href="$community_link#donate"><img class="logo" height="47" width="126" src="/images/btn_donateCC_LG.gif" alt="}
+          . M("donate")
+          . qq{"/></a></p>};
     }
 
     my $home = $q->url( -query => 0, -relative => 1 ) || "/";
