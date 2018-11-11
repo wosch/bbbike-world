@@ -90,8 +90,15 @@ sub is_valid {
 
     my $route = Param( $q, "route" );
 
-    $route = "fjurfvdctnlcmqtu" if $route eq "";
-    return 0 if !$self->valid_route($route);
+    if ( $route eq "" ) {
+        warn "No route parameter given, give up\n";
+        return 0;
+    }
+
+    if ( !$self->valid_route($route) ) {
+        warn "Route parameter invalid, give up\n";
+        return 0;
+    }
 
     my $perl = $self->fetch_route($route);
     $self->{"route"} = $perl;
@@ -134,7 +141,7 @@ sub valid_route {
     my $self  = shift;
     my $route = shift;
 
-    if ( $route !~ m/^[a-z]{4,15}$/ ) {
+    if ( $route =~ m/^[a-z]{16}$/ ) {
         return 1;
     }
     else {
