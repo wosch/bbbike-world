@@ -1334,7 +1334,7 @@ function display_format_image() {
     if (!image) {
         $("#format_image").html("");
     } else {
-        var text = '<div><p/><i>Extract format is: ' + format_text + '</i></div>';
+        var text = '<div><p/><i>' + M('Extract format is') + ': ' + format_text + '</i></div>';
         $("#format_image").html('<div align="center">' + text + '<a target="_new" href="/extract-screenshots.html">' + '<img src="' + image + '"/>' + '</a></div>');
 
         // clear previous timeouts, always display images for 5 seconds
