@@ -7,7 +7,7 @@
     "SRTM Osmand": "SRTM Contours Osmand",
 
     "Your email address": "Votre adresse électronique",
-    "about": "À propos",
+    "about": "à propos",
     "Format": "Format",
     "Name of area to extract": "Nom de la zone à extraire",
     "Select a different area": "Sélectionnez une zone différente",
@@ -19,15 +19,22 @@
     "donate": "Faire un don",
     "Left lower corner (South-West)": "Angle inférieur gauche (Sud-Ouest)",
     "Right top corner (North-East)": "Angle supérieur droit (Nord-Est)",
+    "Loading JavaScript libraries": "Chargement en cours",
+    "Loading JavaScript": "Chargement en cours",
+    "or search": "ou rechercher",
 
-    "Now move the map to your desired location": "Déplacez la carte dans la zone souhaitée ",
-    "Then click here": "Puis cliquez ici",
+    "Now move the map to your desired location": "Déplacez la carte dans la zone souhaitée",
+    "Then click here": "Cliquez ensuite ici",
+    "here": "ici",
+    "Then click": "Cliquez ensuite",
     "to create the bounding box": "pour créer un rectangle de sélection",
     "show": "afficher",
     "hide": "masquer",
     "download": "téléchargement",
     "commercial support": "support commercial",
     "status": "statut",
+    "by": "par",
+    "home": "accueil",
 
     "EXTRACT_CONFIRMED": [
         "<p>Merci - les paramètres saisis semblent corrects.</p><p>",

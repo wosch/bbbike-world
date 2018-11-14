@@ -162,8 +162,8 @@ foreach my $home_url (
     $ENV{BBBIKE_TEST_SLOW_NETWORK} ? @homepages_localhost : @homepages )
 {
 
-    # local cache
-    &route_check( "home_url" => $home_url );
+    # no parameters
+    &route_check( "home_url" => $home_url, "fail" => 1 );
 
     # "bbox": [10.92079, 51.83964, 10.7935, 51.78166]
     # no padding
