@@ -313,8 +313,11 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
           . qq{<a href="/support.html">extract pro</a></p>\n};
     }
     elsif ( !$error ) {
-        $donate = qq{<p class="normalscreen" id="big_donate_image">}
-          . qq{<a href="$community_link#donate"><img class="logo" height="47" width="126" src="/images/btn_donateCC_LG.gif" alt="donate"/></a></p>};
+        $donate =
+            qq{<p class="normalscreen" id="big_donate_image">}
+          . qq{<a href="$community_link#donate"><img class="logo" height="47" width="126" src="/images/btn_donateCC_LG.gif" alt="}
+          . M("donate")
+          . qq{"/></a></p>};
     }
 
     my $home = $q->url( -query => 0, -relative => 1 ) || "/";
@@ -342,10 +345,10 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
   $donate
   $css
   <div id="footer_top">
-    <a href="$homepage">home</a> |
+    <a href="$homepage">@{[ M("home") ]}</a> |
     <a target="_help" href="/extract.html">@{[ M("help") ]}</a> |
     $intro_link
-    <a href="$server_status_url" target="_blank">status</a> |
+    <a href="$server_status_url" target="_blank">@{[ M("status") ]}</a> |
     <!-- <a href="//mc.bbbike.org/mc/$mc_parameters" id="mc_link" target="_blank">map compare</a> | -->
     <a href="$download_homepage">@{[ M("download") ]}</a> |
     <a href="/support.html">@{[ M("commercial support") ]}</a>
@@ -422,7 +425,7 @@ qq{\n<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js
   <hr/>
   <div id="copyright" class="normalscreen">
     (&copy;) 2018 <a href="https://www.bbbike.org">BBBike.org</a>
-    by <a href="https://wolfram.schneider.org">Wolfram Schneider</a><br/>
+    @{[ M("by") ]} <a href="https://wolfram.schneider.org">Wolfram Schneider</a><br/>
     Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
   <div id="footer_community"></div>
   </div> <!-- copyright -->
@@ -482,8 +485,8 @@ sub message {
  @{[ $locale->language_links ]}
  @{[ $self->social_links ]} -
  $intro_link
- <span id="tools-help"><a class='tools-helptrigger' rel='nofollow' href='$extract_dialog/$language/about.html' title='info'><span>@{[ M("about") ]} extracts</span></a></span>
- <span id="pageload-indicator">&nbsp;<img src="/html/indicator.gif" width="14" height="14" alt="" title="Loading JavaScript libraries" /> Loading JavaScript</span>
+ <span id="tools-help"><a class='tools-helptrigger' rel='nofollow' href='$extract_dialog/$language/about.html' title='info'><span>@{[ M("about") ]}</span></a></span>
+ <span id="pageload-indicator">&nbsp;<img src="/html/indicator.gif" width="14" height="14" alt="" title="@{[ M('Loading JavaScript libraries') ]}" /> @{[ M("Loading JavaScript") ]}</span>
  <span class="jqmWindow jqmWindowLarge" id="tools-helpwin"></span>
 </span>
 
@@ -990,7 +993,7 @@ sub homepage {
                           )
                           . "</span>\n",
 qq{<span title="hide longitude,latitude box" class="lnglatbox" onclick="javascript:toggle_lnglatbox ();">}
-                          . qq{<input class="uncheck" type="radio" />@{[ M("hide") ]} lnglat</span>\n}
+                          . qq{<input class="uncheck" type="radio" />@{[ M("hide") ]} @{[ M("lng/lat") ]}</span>\n}
                     ]
                 ),
 
@@ -1044,7 +1047,7 @@ qq{<span title="hide longitude,latitude box" class="lnglatbox" onclick="javascri
                     { "class" => "center" },
                     [
 qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="javascript:toggle_lnglatbox ();">}
-                          . qq{<input class="uncheck" type="radio" />@{[ M("show") ]} lnglat</span><br/>\n}
+                          . qq{<input class="uncheck" type="radio" />@{[ M("show") ]} @{[ M("lng/lat") ]}</span><br/>\n}
                           . qq{<span class="center" id="square_km_small" title="area covers N square kilometers"></span>\n}
                     ]
                   ),

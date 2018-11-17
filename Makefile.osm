@@ -850,7 +850,7 @@ sync-sitemap: create-sitemap
 update-files: update-files-fast
 update-files-slow: kml create-osp index update-robots.txt create-bbbike-web-symlinks java-config test-org extract-config #create-sitemap
 
-update-files-fast:
+update-files-fast: create-bbbike-web-symlinks
 	for i in update-robots.txt create-bbbike-web-symlinks garmin-legend update-javascript; do \
 	   LC_ALL=C LANG=C ${BBMAKE} $$i & \
 	done; wait
@@ -1111,14 +1111,14 @@ tile-convert-mapsme:
 
 tile-convert-garmin:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
-	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_OSM2GARMIN} ${OSM2GARMIN} > ${TILES_TMP}/log.$@ 2>&1
+	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_50} ${OSM2GARMIN} > ${TILES_TMP}/log.$@ 2>&1
 tile-convert-garmin-onroad:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
 	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_50} ${OSM2GARMIN_ONROAD} > ${TILES_TMP}/log.$@ 2>&1
 
 tile-convert-garmin-srtm:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
-	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_OSM2GARMIN} ${OSM2GARMIN_SRTM} > ${TILES_TMP}/log.$@ 2>&1
+	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_50} ${OSM2GARMIN_SRTM} > ${TILES_TMP}/log.$@ 2>&1
 
 tile-convert-osmand:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
@@ -1126,7 +1126,7 @@ tile-convert-osmand:
 
 tile-convert-mapsforge:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
-	  env osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU3} ${OSM2MAPSFORGE} > ${TILES_TMP}/log.$@ 2>&1
+	  env osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_50} ${OSM2MAPSFORGE} > ${TILES_TMP}/log.$@ 2>&1
 
 tile-convert-navit:
 	find ${_pbf_dir} -name '*.osm.gz' ${_min_size} -print0 | \

@@ -31,7 +31,7 @@ div#all {
  */
 div#map {
     position: relative;
-    left: 24.5em; /* must be exact the same as sidebar left, see setMapHeight() in extract.js */
+    left: 25.5em; /* must be exact the same as sidebar left, see setMapHeight() in extract.js */
     width: 100%;
     height: 100%;
 }
@@ -41,7 +41,7 @@ div#map {
  *
  */
 #sidebar_left, #footer {
-    width: 24.5em;
+    width: 25.5em;
     position: absolute;
     /* border-right-color: red; border-right-style: dashed; border-right-width: 1px; */
 }
