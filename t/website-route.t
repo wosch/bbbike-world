@@ -69,7 +69,7 @@ sub route_check {
     if ( !$fail ) {
         is(
             $uri->query_param("email"),
-            $args{"email"} // "nobody",
+            $args{"email"} // "",
             "default email"
         );
         is(
