@@ -67,11 +67,7 @@ sub route_check {
     my $uri = URI->new($location);
 
     if ( !$fail ) {
-        is(
-            $uri->query_param("email"),
-            $args{"email"} // "",
-            "default email"
-        );
+        is( $uri->query_param("email"), $args{"email"} // "", "default email" );
         is(
             $uri->query_param("format"),
             $args{"format"} // "garmin-cycle-latin1.zip",
