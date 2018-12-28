@@ -68,7 +68,7 @@ qr[<meta content="nofollow" name="robots" />|<meta name="robots" content="nofoll
 
     # on a local instance, don't expect extracted files
     if ( $url !~ /localhost/ ) {
-        like( $content, qr|\.osm\.pbf<|, ".osm.pbf" );
+        like( $content, qr|/[A-Z[A-Za-z]+\.osm\.pbf"|, ".osm.pbf" );
     }
 
     like( $content, qr|www.bbbike.org/community.html">donate</a>|, ">donate<" );
