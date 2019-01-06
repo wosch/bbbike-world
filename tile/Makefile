@@ -117,8 +117,9 @@ mapnik-german:
 	  
 www-symlinks:
 	cd /var/www; \
-	  sudo ln -fs ~/projects/mc .;\
+	  sudo ln -fs ~/projects/mc .; \
 	  sudo ln -fs ~/projects/bbbike/world/tile/web/robots.txt .; \
+	  sudo ln -fs ~/projects/bbbike/world/web/test.txt .; \
 	  sudo ln -fs ~/projects/bbbike/images/favicon.ico ; \
 	  sudo ln -fs ~/projects/bbbike/world/tile/web/index.html 
 	cd /var/www/osm; \
