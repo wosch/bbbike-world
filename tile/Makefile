@@ -147,7 +147,9 @@ munin:
 	cd /etc/munin/plugins/; \
 	  sudo ln -fs /usr/share/munin/plugins/postgres_* .; \
 	  for i in postgres_*_;do echo $$i;sudo mv $$i $${i}ALL;done
-	sudo /etc/init.d/munin-node restart
+	sudo /etc/init.d/munin-node stop
+	sleep 1
+	sudo /etc/init.d/munin-node start
 
 manual:
 	@echo ""
