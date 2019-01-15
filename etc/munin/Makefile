@@ -48,6 +48,7 @@ install-munin-jenkins:
 	${MAKE} munin-restart
 	${MAKE} help-update
 
+# sudo apt-get install python-apt
 install-munin-apt:
 	sudo ln -fs $$(pwd)/../../src/munin/deb_packages ${MUNIN_PLUGINS_DIR}
 	sudo ln -fs $$(pwd)/plugin-conf.d/deb_packages   ${MUNIN_PLUGIN_CONF_DIR}
