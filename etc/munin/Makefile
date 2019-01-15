@@ -59,6 +59,12 @@ install-munin-stats:
 	cd ${MUNIN_PLUGINS_DIR} && sudo ln -fs /usr/share/munin/plugins/munin_stats .
 	${MAKE} munin-restart
 
+# sensors
+install-munin-acpi:
+	cd ${MUNIN_PLUGINS_DIR} && sudo ln -fs /usr/local/www/bbbike/world/src/munin/acpi .
+	${MAKE} munin-restart
+
+
 
 help-update:
 	@echo ""
@@ -145,6 +151,7 @@ help:
 	@echo "     [ install-munin-apt ]"
 	@echo "     [ install-munin-bbbike ]"
 	@echo "     [ install-munin-stats ]"
+	@echo "     [ install-munin-acpi ]"
 	@echo "     [ install-munin-bbbike-system | install-munin-bbbike-web ]"
 	@echo "     [ install-munin-extract | install-munin-extract-web ]"
 	@echo "     [ install-munin-lighttpd ]"
