@@ -56,6 +56,7 @@ install-munin-apt:
 
 install-munin-stats:
 	cd ${MUNIN_PLUGINS_DIR} && sudo ln -fs /usr/share/munin/plugins/munin_stats .
+	${MAKE} munin-restart
 
 
 help-update:
