@@ -54,6 +54,9 @@ install-munin-apt:
 	${MAKE} munin-restart
 	${MAKE} help-update
 
+install-munin-stats:
+	cd ${MUNIN_PLUGINS_DIR} && sudo ln -fs /usr/share/munin/plugins/munin_stats .
+
 
 help-update:
 	@echo ""
@@ -139,6 +142,7 @@ help:
 	@echo "make [ install-munin-xen | install-munin-jenkins | install-munin-varnish ]"
 	@echo "     [ install-munin-apt ]"
 	@echo "     [ install-munin-bbbike ]"
+	@echo "     [ install-munin-stats ]"
 	@echo "     [ install-munin-bbbike-system | install-munin-bbbike-web ]"
 	@echo "     [ install-munin-extract | install-munin-extract-web ]"
 	@echo "     [ install-munin-lighttpd ]"
