@@ -39,7 +39,7 @@ PATH=/bin:/usr/bin; export PATH
 
 # the file must exists in /etc/init.d or a dummy file in /etc/init.d/.<name>
 # optional
-: ${process_names_opt="lighttpd apache2 varnishncsa renderd postgres Xvfb memcached z3950proxy.pl java munin-cgi-graph"}
+: ${process_names_opt="lighttpd apache2 varnishncsa renderd postgres Xvfb memcached z3950proxy.pl java munin-cgi-graph hitch"}
 # required
 : ${process_names="exim4 munin-node"}
 
