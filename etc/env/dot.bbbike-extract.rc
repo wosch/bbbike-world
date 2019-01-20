@@ -1,6 +1,10 @@
-# Copyright (c) 2009-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2019 Wolfram Schneider, https://bbbike.org
 #
-# example config file for cron job bbbike/world/bin/extract.pl
+# example config file for bbbike extract service
+# for documentation, see
+#
+#  bin/extract.pl
+#  cgi/extract.cgi
 #
 # put it in $HOME/.bbbike-extract.rc
 
