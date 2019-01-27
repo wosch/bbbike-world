@@ -26,7 +26,7 @@ our $option;
 
 my $test_option = {
     'debug'                     => 2,
-    'homepage'                  => 'https://download3.bbbike.org/osm/extract/',
+    'homepage'                  => 'https://download2.bbbike.org/osm/extract/',
     'max_extracts'              => 50,
     'default_format'            => 'osm.pbf',
     'city_name_optional_coords' => 1,
@@ -43,7 +43,7 @@ my $test_option = {
 
 my $test_option2 = {
     'debug'           => 2,
-    'homepage'        => 'https://download4.bbbike.org/osm/extract/',
+    'homepage'        => 'https://download1.bbbike.org/osm/extract/',
     'script_homepage' => 'https://extract.bbbike.org',
     'max_extracts'    => 5,
 };
