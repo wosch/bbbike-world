@@ -3,7 +3,7 @@ Priority: optional
 Standards-Version: 3.6.2
 
 Package: bbbike-world-perlmodules-meta
-Version: 1.1.8
+Version: 1.1.9
 Maintainer: Wolfram Schneider <wosch@freebsd.org>
 Depends: libgis-distance-lite-perl, libgeo-google-polylineencoder-perl,
  libobject-iterate-perl, libmath-matrixreal-perl,
