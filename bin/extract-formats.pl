@@ -24,7 +24,7 @@ my $user_agent = "BBBike-Test/1.0.0";
 my $help;
 
 my $formats = $Extract::Config::formats;
-my $server  = $ENV{'BBBIKE_DEV_SERVER'} || 'https://dev3.bbbike.org';
+my $server  = $ENV{'BBBIKE_DEV_SERVER'} || 'https://dev1.bbbike.org';
 my $email   = $ENV{'BBBIKE_TEST_EMAIL'} || 'Nobody';
 my $sw_lng  = -72.211;
 my $sw_lat  = -13.807;

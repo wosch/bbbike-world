@@ -18,7 +18,7 @@ binmode \*STDOUT, ":bytes";
 my $debug    = 1;                             # 0: quiet, 1: normal, 2: verbose
 my $data_osm = 'data-osm';
 my $number   = 3;
-my $homepage = 'http://dev4.bbbike.org/en';
+my $homepage = 'http://dev1.bbbike.org/en';
 my $ignore_errors = 0;
 
 my $exit = 0;
