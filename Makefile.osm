@@ -946,18 +946,18 @@ cache-du:
 
 cache-heater-streets:
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
-		${PERL} -e 'while(<>) { chomp; push @a, "http://'${BBBIKE_WEB_SERVER}'/$$_/streets.html"; push @b, "http://'${BBBIKE_WEB_SERVER}'/en/$$_/streets.html" } print join "\0", @a, ""' | \
+		${PERL} -e 'while(<>) { chomp; push @a, "https://'${BBBIKE_WEB_SERVER}'/$$_/streets.html"; push @b, "https://'${BBBIKE_WEB_SERVER}'/en/$$_/streets.html" } print join "\0", @a, ""' | \
                 cat > tmp/$@.txt
 		${XARGS} -0 -n8 -P2 curl -sS ${CURL_USER_AGENT} -X PURGE < tmp/$@.txt >/dev/null
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf ${CURL_USER_AGENT} < tmp/$@.txt >/dev/null
 
 purge-cache-js:
-		find html \( -name '*.js' -or -name '*.css' \) -print0 | perl -0npe 's,^,http://'${BBBIKE_WEB_SERVER}'/,g' | ${XARGS} -0 -n1 -P1 curl -sS ${CURL_USER_AGENT} -X PURGE 
+		find html \( -name '*.js' -or -name '*.css' \) -print0 | perl -0npe 's,^,https://'${BBBIKE_WEB_SERVER}'/,g' | ${XARGS} -0 -n1 -P1 curl -sS ${CURL_USER_AGENT} -X PURGE 
 
 cache-heater-searches:
 	random=$$(bash -c 'echo $$RANDOM'); \
 	for city in ${CITIES}; do \
-            perl -e 'print qq{curl -sSf -A "BBBike.org-CacheHeater/1.0" "http://'${BBBIKE_WEB_SERVER}/$$city/?$$(./world/bin/bbbike-db --startc $$city)'&pref_cat=N1&pref_quality=Q2&cache='$$random'" | egrep real_time\0}'; \
+            perl -e 'print qq{curl -sSf -A "BBBike.org-CacheHeater/1.0" "https://'${BBBIKE_WEB_SERVER}/$$city/?$$(./world/bin/bbbike-db --startc $$city)'&pref_cat=N1&pref_quality=Q2&cache='$$random'" | egrep real_time\0}'; \
 	done > tmp/$@.txt.tmp
 	mv -f tmp/$@.txt.tmp tmp/$@.txt
 	${XARGS} -0 -n1 -P${MAX_CPU} /bin/bash -c < tmp/$@.txt > tmp/$@.log
@@ -965,14 +965,14 @@ cache-heater-searches:
 
 cache-heater-homepage: cache-heater-osp
 	echo ${CITIES} | ${PERL} -npe 's/ /\n/g' | \
-		${PERL} -e 'while(<>) { chomp; push @a, "http://'${BBBIKE_WEB_SERVER}'/$$_/"; push @b, "http://'${BBBIKE_WEB_SERVER}'/en/$$_/"; push @c, "http://'${BBBIKE_WEB_SERVER}'/m/$$_/" } print join "\0", @a, ""' | \
+		${PERL} -e 'while(<>) { chomp; push @a, "https://'${BBBIKE_WEB_SERVER}'/$$_/"; push @b, "https://'${BBBIKE_WEB_SERVER}'/en/$$_/"; push @c, "https://'${BBBIKE_WEB_SERVER}'/m/$$_/" } print join "\0", @a, ""' | \
                 cat > tmp/$@.txt
 		${XARGS} -0 -n8 -P2 curl -sS ${CURL_USER_AGENT} -X PURGE < tmp/$@.txt >/dev/null
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf ${CURL_USER_AGENT} < tmp/$@.txt >/dev/null
 
 
 cache-heater-osp:
-	find osp -name '*.xml' -print0 | perl -n0e 'print qq{http://'${BBBIKE_WEB_SERVER}'/$$_}' | \
+	find osp -name '*.xml' -print0 | perl -n0e 'print qq{https://'${BBBIKE_WEB_SERVER}'/$$_}' | \
                 cat > tmp/$@.txt
 		${XARGS} -0 -n8 -P2 curl -sS ${CURL_USER_AGENT} -X PURGE < tmp/$@.txt >/dev/null
 		${XARGS} -0 -n8 -P${MAX_CPU} curl -sSf ${CURL_USER_AGENT} < tmp/$@.txt >/dev/null
