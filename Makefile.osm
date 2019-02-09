@@ -1545,7 +1545,7 @@ lighttpd-stop webserver-stop:
 
 test prove: lighttpd-restart perlcheck-bbbike-cgi
 	mkdir -p ${TMP_DIR}
-	TMPDIR=${TMP_DIR} LANG=C LC_ALL=C time prove ${prove_opt} -j${MAX_CPU} $$(./world/bin/random-files.pl ${PROVE_FILES})
+	TMPDIR=${TMP_DIR} LANG=C LC_ALL=C time prove ${prove_opt} -j${MAX_CPU} -s ${PROVE_FILES}
 	@echo ">>> All tests are successfully done. Stop lighttpd <<<"
 	@echo ""
 	${MAKE} lighttpd-stop
