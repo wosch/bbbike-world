@@ -17,6 +17,13 @@ pid_file=$(egrep ^server.pid-file $BBBIKE_LIGHTTPD_FILE | perl -npe 's,.*=.*?"(.
 
 if [ ! -f "$pid_file" ]; then
     echo "pid file \"$pid_file\" does not exists anymore"
+
+    user=$(whoami)
+    if killall -0 --user=$user lighttpd 2> /dev/null; then
+       echo "there is an other instance running, kill"
+       killall -TERM --user=$user lighttpd
+    fi
+
     exit 0
 fi
 
