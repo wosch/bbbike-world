@@ -1,10 +1,9 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2011-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2011-2019 Wolfram Schneider, https://bbbike.org
 #
 # extract.pl - extracts areas in a batch job
 #
 # spool area
-#   /incoming	- request to extract an area, email sent out to user
 #   /confirmed	- user confirmed request by clicking on a link in the email
 #   /running    - the request is running
 #   /osm	- the request is done, files are saved for further usage
@@ -33,6 +32,7 @@ use GIS::Distance::Lite;
 use LWP;
 use LWP::UserAgent;
 use Time::gmtime;
+use File::Temp;
 
 use lib qw(world/lib ../lib);
 
@@ -528,7 +528,6 @@ sub create_poly_files {
     my $list    = $args{'list'};
 
     my $spool         = $args{'spool'};
-    my $osm_dir       = $spool->{'osm'};
     my $confirmed_dir = $spool->{'confirmed'};
 
     my @list = @$list;
@@ -593,7 +592,7 @@ sub create_poly_files {
         my $data = $json->pretty->encode($job);
 
         store_data( $to, $data );
-        unlink($from) or die "unlink $from: $!\n";
+        unlink($from) or die "unlink from=$from: $!\n";
         push @json, $to;
 
         if ( $debug >= 1 ) {
@@ -636,7 +635,7 @@ sub run_extracts {
     my $poly       = $args{'poly'};
     my $planet_osm = $args{'planet_osm'};
 
-    my $osm = $spool->{'osm'};
+    my $use_tempfiles = 1;
 
     warn "Poly: " . Dumper($poly) if $debug >= 3;
     return () if !defined $poly || scalar(@$poly) <= 0;
@@ -645,11 +644,13 @@ sub run_extracts {
 
     my @pbf;
     my @fixme;
+    my @tempfiles;
+
     foreach my $p ( shift @$poly ) {
         my $out = $p;
         $out =~ s/\.poly$/.osm.pbf/;
 
-        my $osm = $spool->{'osm'} . "/" . basename($out);
+        my $osm = $spool->{'download'} . "/" . basename($out);
         if ( -e $osm ) {
             my $newer = $utils->file_mtime_diff( $osm, $planet_osm );
             if ( $newer > 0 ) {
@@ -666,7 +667,19 @@ sub run_extracts {
             }
         }
 
-        push @pbf, "-o", $out;
+        if ($use_tempfiles) {
+            my $tempfile = File::Temp->new( SUFFIX => ".osm.pbf" );
+
+            symlink( $tempfile, $out )
+              or die "cannot symlink $tempfile => $out\n";
+            push @pbf, "-o", $tempfile;
+            push @tempfiles, $tempfile;
+
+        }
+        else {
+            push @pbf, "-o", $out;
+        }
+
         push @pbf, "-B=$p";
     }
 
@@ -698,7 +711,7 @@ sub run_extracts {
 "Use planet.osm file $planet_osm, size: @{[ file_size_mb($planet_osm) ]} MB\n"
       if $debug >= 1;
     warn "Run extracts: " . join( " ", @data ), "\n" if $debug >= 2;
-    return ( \@data, \@fixme );
+    return ( \@data, \@fixme, \@tempfiles );
 }
 
 # SMTP wrapper
@@ -922,6 +935,24 @@ sub copy_to_trash {
     link( $file, $to ) or die "link $file => $to: $!\n";
 }
 
+# move file from one partion to another
+sub move {
+    my ( $from, $to ) = @_;
+
+    my $tempfile = File::Temp->new( "template" => "$to.XXXXXXXXXX" );
+    my $real_from = -l $from ? readlink($from) : $from;
+
+    warn "from=$from real_from to=$to\n";
+
+    my @system = ( "/bin/mv", "-f", $real_from, $tempfile );
+    system(@system) == 0
+      or die "system failed @{[ join(' ', @system) ]}: $!\n";
+
+    rename( $tempfile, $to ) or die "rename $tempfile => $to: $!\n";
+
+    unlink($from) if $from ne $real_from;
+}
+
 #
 # check if we override a fresh file
 # this is a harmless race condition (waste of CPU time)
@@ -998,7 +1029,7 @@ sub convert_send_email {
             copy_to_trash($json_file) if $keep;
 
             # unlink json file if done right now
-            unlink($json_file) or die "unlink: $json_file: $!\n";
+            unlink($json_file) or die "unlink json_file=$json_file: $!\n";
         }
 
         warn "Running convert and email time: ", time() - $time, " seconds\n"
@@ -1006,8 +1037,10 @@ sub convert_send_email {
     }
 
     # unlink temporary .pbf files after all files are proceeds
-    if (@unlink) {
-        unlink(@unlink) or die "unlink: @unlink: $!\n";
+    foreach my $file (@unlink) {
+        if ( -e $file ) {
+            unlink($file) or die "unlink pbf file=$file: $!\n";
+        }
     }
 
     warn "number of email sent: $job_counter\n"
@@ -1400,13 +1433,12 @@ sub _convert_send_email {
     $obj->{"load_average"} = &get_loadavg;
 
     ###################################################################
-    # keep a copy of .pbf in ./osm for further usage
-    my $to = $spool->{'osm'} . "/" . basename($pbf_file);
+    # copy for downloading in /download
+    my $to = $spool->{'download'} . "/" . basename($pbf_file);
 
     &check_download_cache( $to, $start_time );
-    unlink($to);
-    warn "link $pbf_file => $to\n" if $debug >= 2;
-    link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
+    warn "move $pbf_file => $to\n" if $debug >= 2;
+    &move( $pbf_file, $to );
 
     my $aws = Extract::AWS->new( 'option' => $option, 'debug' => $debug );
     $aws->aws_s3_put( 'file' => $to );
@@ -1415,27 +1447,16 @@ sub _convert_send_email {
     warn "generated file size $to: $file_size\n" if $debug >= 1;
 
     ###################################################################
-    # copy for downloading in /download
-    $to = $spool->{'download'} . "/" . basename($pbf_file);
-    &check_download_cache( $to, $start_time );
-    unlink($to);
-    warn "link $pbf_file => $to\n" if $debug >= 1;
-    link( $pbf_file, $to ) or die "link $pbf_file => $to: $!\n";
-
-    ###################################################################
     # .osm.gz or .osm.bzip2 files?
     if ( $file ne $pbf_file ) {
         $to = $spool->{'download'} . "/" . basename($file);
         &check_download_cache( $to, $start_time );
-        unlink($to);
 
-        link( $file, $to ) or die "link $file => $to: $!\n";
         $aws->aws_s3_put( 'file' => $file );
+        move( $file, $to );
 
         $file_size = file_size_mb($to) . " MB";
         warn "file size $to: $file_size\n" if $debug >= 1;
-
-        push @unlink, $file;
     }
 
     my $server_status =
@@ -1456,7 +1477,7 @@ sub _convert_send_email {
     if (@unlink) {
         warn "Unlink temp files: " . join( "", @unlink ) . "\n"
           if $debug >= 2;
-        unlink(@unlink) or die "unlink: @unlink: $!\n";
+        unlink(@unlink) or die "unlink temp files: @unlink: $!\n";
     }
 
     $msg = get_msg( $obj->{"lang"} || "en" );
@@ -1863,7 +1884,7 @@ sub run_jobs {
 
     ###########################################################
     # main
-    my ( $system, $new_pbf_files ) = run_extracts(
+    my ( $system, $new_pbf_files, $tempfiles ) = run_extracts(
         'spool'      => $spool,
         'poly'       => $poly,
         'planet_osm' => $planet_osm
@@ -1922,6 +1943,10 @@ sub run_jobs {
         'keep'    => 1,
         'errors'  => $errors
     );
+
+    if ( scalar @$tempfiles ) {
+        unlink(@$tempfiles);
+    }
 
     return $errors;
 }

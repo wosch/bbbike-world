@@ -1,5 +1,5 @@
 ###############################################################
-# Copyright (c) 2008-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2008-2019 Wolfram Schneider, https://bbbike.org
 #
 # Get and convert OpenStreetMap.org data to BBBike
 #
@@ -1005,7 +1005,6 @@ extract-install extract-bbbike-org-install:
 	ln -fs ${BBBIKE_PARTITION}/projects/osm /var/cache/osm; \
 	mkdir -p /usr/local/www/osm
 	ln -fs /var/cache/osm /usr/local/www/osm
-	mkdir -p ${EXTRACTS_SPOOL_DIR}/incoming
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/confirmed
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/running
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/osm
@@ -1030,10 +1029,10 @@ extract-distclean:
 
 # garbage collection, 2 days
 extract-gc:
-	cd ${EXTRACTS_SPOOL_DIR}; find incoming confirmed running download osm -type f -mtime +3 -print0 | xargs -0 rm -f
+	cd ${EXTRACTS_SPOOL_DIR}; find confirmed running download -type f -mtime +3 -print0 | xargs -0 rm -f
 	# remove large files earlier
-	cd ${EXTRACTS_SPOOL_DIR}; find incoming confirmed running download osm -type f -mtime +1 -size +400M -print0 | xargs -0 rm -f
-	cd ${EXTRACTS_SPOOL_DIR}; find incoming confirmed running download osm -type f -mtime +2 -size +250M -print0 | xargs -0 rm -f
+	cd ${EXTRACTS_SPOOL_DIR}; find confirmed running download -type f -mtime +1 -size +400M -print0 | xargs -0 rm -f
+	cd ${EXTRACTS_SPOOL_DIR}; find confirmed running download -type f -mtime +2 -size +250M -print0 | xargs -0 rm -f
 	if test -e /tmpfs; then \
 	    find /tmpfs/ -type f -mtime +1 -print0 | xargs -0 rm -f; \
 	fi

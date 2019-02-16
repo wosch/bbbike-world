@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2012-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2019 Wolfram Schneider, https://bbbike.org
 #
 # extract config load
 
@@ -171,10 +171,8 @@ our $formats_menu = {
 # Note: may be later this will be expanded to a full path
 # 'confirmed' => '/var/cache/extract/confirmed',
 our $spool = {
-    'incoming'  => "incoming",     # incoming request, not confirmed yet
     'confirmed' => "confirmed",    # ready to run
     'running'   => "running",      # currently running job
-    'osm'       => "osm",          # cache older runs
     'download'  => "download",     # final directory for download
     'trash'     => "trash",        # keep a copy of the config for debugging
     'failed'    => "failed",       # keep record of failed runs
