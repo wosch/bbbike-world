@@ -1029,10 +1029,10 @@ extract-distclean:
 
 # garbage collection, 2 days
 extract-gc:
-	cd ${EXTRACTS_SPOOL_DIR}; find confirmed running download -type f -mtime +3 -print0 | xargs -0 rm -f
+	cd ${EXTRACTS_SPOOL_DIR}; find confirmed running download -type f -mtime +40 -print0 | xargs -0 rm -f
 	# remove large files earlier
-	cd ${EXTRACTS_SPOOL_DIR}; find confirmed running download -type f -mtime +1 -size +400M -print0 | xargs -0 rm -f
-	cd ${EXTRACTS_SPOOL_DIR}; find confirmed running download -type f -mtime +2 -size +250M -print0 | xargs -0 rm -f
+	cd ${EXTRACTS_SPOOL_DIR}; find confirmed running download -type f -mtime +31 -size +400M -print0 | xargs -0 rm -f
+	cd ${EXTRACTS_SPOOL_DIR}; find confirmed running download -type f -mtime +32 -size +250M -print0 | xargs -0 rm -f
 	if test -e /tmpfs; then \
 	    find /tmpfs/ -type f -mtime +1 -print0 | xargs -0 rm -f; \
 	fi
