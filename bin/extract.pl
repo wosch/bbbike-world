@@ -656,8 +656,6 @@ sub run_extracts {
             if ( $newer > 0 ) {
                 warn "File $osm already exists, skip\n" if $debug >= 1;
                 symlink( $osm, $out ) or die "symllink $osm => $out: $!\n";
-
-                #&touch_file($osm);
                 next;
             }
             else {
@@ -807,8 +805,8 @@ sub cached_format {
         }
         warn "Converted file $to already exists, skip...\n" if $debug >= 1;
 
-        warn "link $file => $to\n" if $debug >= 2;
-        link( $to, $file ) or die "link $to -> $file: $!\n";
+        warn "symlink $file => $to\n" if $debug >= 2;
+        symlink( $to, $file ) or die "symlink $to -> $file: $!\n";
 
         return 1;
     }
@@ -950,7 +948,8 @@ sub move {
 
     rename( $tempfile, $to ) or die "rename $tempfile => $to: $!\n";
 
-    unlink($from) if $from ne $real_from;
+    unlink($from) or die "unlink from=$from: $!\n";
+    symlink( $to, $from ) or die "symlink $to -> $from: $!\n";
 }
 
 #
