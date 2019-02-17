@@ -940,7 +940,7 @@ sub move {
     my $tempfile = File::Temp->new( "template" => "$to.XXXXXXXXXX" );
     my $real_from = -l $from ? readlink($from) : $from;
 
-    warn "from=$from real_from to=$to\n";
+    warn "from=$from real_from to=$to\n" if $debug >= 1;
 
     my @system = ( "/bin/mv", "-f", $real_from, $tempfile );
     system(@system) == 0
@@ -948,8 +948,8 @@ sub move {
 
     rename( $tempfile, $to ) or die "rename $tempfile => $to: $!\n";
 
-    unlink($from) or die "unlink from=$from: $!\n";
-    symlink( $to, $from ) or die "symlink $to -> $from: $!\n";
+    unlink($from);
+    symlink($to, $from) or die "symlink $to -> $from: $!\n";
 }
 
 #
