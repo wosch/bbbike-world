@@ -655,7 +655,7 @@ sub run_extracts {
             my $newer = $utils->file_mtime_diff( $osm, $planet_osm );
             if ( $newer > 0 ) {
                 warn "File $osm already exists, skip\n" if $debug >= 1;
-                link( $osm, $out ) or die "link $osm => $out: $!\n";
+                symlink( $osm, $out ) or die "symllink $osm => $out: $!\n";
 
                 #&touch_file($osm);
                 next;
