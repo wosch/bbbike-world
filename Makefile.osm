@@ -572,18 +572,18 @@ rsync: sync-sitemap osm-header _rsync rsync-osm
 rsync-bg: _rsync
 
 _rsync:
-	rsync -a --delay-updates --exclude='*.bak' --exclude='*.gz' --exclude=${LOG_DIR} --delete-excluded --delete --max-delete=512 ${DATA_OSM_DIR} ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}
+	rsync -a --delay-updates --exclude='*.bak' --exclude='*.tmp' --exclude='*.gz' --exclude=${LOG_DIR} --delete-excluded --delete --max-delete=512 ${DATA_OSM_DIR} ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}
 	-rsync -av --exclude='*.bak' data/opensearch.streetnames ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}/data
 	@echo ""
 	@echo "don't forget to cleanup the data cache in ${BBBIKE_CACHE_DIR}, run:"
 	@echo "$$ sudo make clean-cache; make cache-heater"
 
 rsync-osm:
-	rsync -a --delay-updates --exclude='*.bak' ${OSM_DIR} ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}
+	rsync -a --delay-updates --exclude='*.bak' --exclude='*.tmp' ${OSM_DIR} ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}
 
 # delete old files
 rsync-osm-full:
-	rsync -a --delay-updates --exclude='*.bak' --delete-excluded --delete --max-delete=512 ${OSM_DIR} ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}
+	rsync -a --delay-updates --exclude='*.bak' --exclude='*.tmp' --delete-excluded --delete --max-delete=512 ${OSM_DIR} ${BBBIKE_SERVER}${BBBIKE_WEBSERVER_DIR}
 
 
 osm-header:
