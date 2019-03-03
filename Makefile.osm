@@ -6,7 +6,7 @@
 # For more information about BBBike, visit https://www.bbbike.org
 #
 
-BBMAKE=	${MAKE} -f Makefile.osm
+BBMAKE=	${MAKE} -f world/Makefile.osm
 MAX_PARALLELS_OSM_DOWNLOADS=	2
 NICE=		nice -n 10
 NICE5=		nice -n 9
@@ -879,6 +879,11 @@ dist-clean devel-clean distclean: clean temp-clean clean-t data-distclean downlo
 	${MAKE} -C./world/etc/mkgmap distclean
 	${MAKE} -C./cgi/msg distclean
 
+distclean-real:
+	cd world; git clean -fdx
+	git clean -fdx
+	${BBMAKE} update-files bbbike-c
+
 rotate-clean:
 	rm -rf rm -rf ${DATA_OSM_DIR}.old rm -rf ${DATA_OSM_DIR}.old2
 	rm -rf rm -rf ${OSM_DIR}.old rm -rf ${OSM_DIR}.old2
@@ -1723,7 +1728,7 @@ help:
 	@echo "  [ rsync | rsync-tgz | rsync-osm | rsync-osm-dev ]"
 	@echo "  [ symlink-download ]"
 	@echo "  [ jsbeautifier | perltidy | tidy ]"
-	@echo "  [ distclean-data ]"
+	@echo "  [ distclean-data | distclean | distclean-real ]"
 	@echo ""
 	@echo "  [ bbbike-osm2pbf | osm2pbf | pbf2osm | pbf2csv | pbf2opl ]"
 	@echo "  [ pbf2geojson | pbf2geojsonseq | pbf2text | pbf2sqlite ]"
