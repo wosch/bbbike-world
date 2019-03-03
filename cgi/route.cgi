@@ -53,7 +53,7 @@ our $option = {
 
     'route_cgi' => {
         'email'  => 'nobody',
-        'format' => 'garmin-cycle.zip'
+        'format' => 'garmin-cycle-latin1.zip'
     },
 };
 
