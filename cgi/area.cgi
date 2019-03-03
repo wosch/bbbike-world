@@ -175,7 +175,7 @@ EOF
         my %ext_name = ( "md5" => "MD5", "sha256" => "SHA" );
 
         my $prefix = $offline ? "." : "$download_bbbike_org/osm/bbbike/$city";
-        my @list_format = grep { !/\.(poly|md5|sha256|txt)$/ } @list;
+        my @list_format = grep { /\.(pbf|gz|xz|zip)$/ } @list;
 
         foreach my $file ( sort sort_by_format @list_format ) {
 
