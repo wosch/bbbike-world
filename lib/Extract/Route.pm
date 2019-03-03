@@ -344,7 +344,7 @@ sub redirect {
 
     my $city = $self->{"route"}{"features"}[0]{"properties"}{"name"}
       // "gpsies map";
-    my $email  = $q->param("email")  // "";
+    my $email  = $q->param("email")  // "nobody";
     my $format = $q->param("format") // "garmin-cycle-latin1.zip";
     my $appid  = $q->param("appid")  // "gpsies1";
     my $ref    = $q->param("ref")    // "gpsies.com";
