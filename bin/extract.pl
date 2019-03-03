@@ -949,7 +949,7 @@ sub move {
     rename( $tempfile, $to ) or die "rename $tempfile => $to: $!\n";
 
     unlink($from);
-    symlink($to, $from) or die "symlink $to -> $from: $!\n";
+    symlink( $to, $from ) or die "symlink $to -> $from: $!\n";
 }
 
 #
