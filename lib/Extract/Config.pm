@@ -16,7 +16,13 @@ use warnings;
 # config
 #
 
-# global config object
+#
+# global config object, it will be filled by
+#
+# 1. this config module
+# 2. overriden by a config from an other module
+# 3. overriden by a user config file ~/.bbbike-extract.rc
+#
 our $option = {};
 
 # keep in sync with world/etc/munin/plugins/bbbike-extract
