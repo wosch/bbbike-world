@@ -41,5 +41,10 @@ $option->{'server'} = {
     'download' => [qw/download.bbbike.org download1.bbbike.org/],
 };
 
+$option->{'route_cgi'} = {
+    'email'  => 'nobody',
+    'format' => 'garmin-cycle-latin1.zip'
+};
+
 1;
 
