@@ -15,6 +15,9 @@ fi
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
 : ${SHA="shasum -a 256"}
 
+# true or false. If false, we do not keep the 47GB original planet
+: ${keep_original_planet="true"}
+
 nice="nice -n 9"
 
 file_latest=planet-latest.osm.pbf
@@ -34,12 +37,20 @@ cd $dir
 # get md5 checksum first
 curl -L -sSf -o $file_latest.md5 $planet_osm_server/$file_latest.md5
 
-time curl -L -sSf $planet_osm_server/$file_latest | tee $file_latest | mbuffer -q -m 128m | \
+if $keep_original_planet; then
+  tee_output=$file_latest
+else
+  tee_output=/dev/null
+fi
+
+time curl -L -sSf $planet_osm_server/$file_latest | tee $tee_output | mbuffer -q -m 128m | \
   $nice osmconvert --drop-author --drop-version --out-pbf - > $file_nometa.tmp
 mv -f $file_nometa.tmp $file_nometa
 
-cat $file_latest.md5
-$MD5 $file_latest | tee $file_latest.md5
+if $keep_original_planet; then
+  cat $file_latest.md5
+  $MD5 $file_latest | tee $file_latest.md5
+fi
 $MD5 $file_nometa | tee $file_nometa.md5
 
 cd $pwd
@@ -51,13 +62,21 @@ if [ "$BBBIKE_PLANET_OSM_BACKUP" = "YES" ]; then
             "")      next=0; prev="";;
         esac
     
-        if test -e $file_latest.md5${prev}; 	then mv -f $file_latest.md5${prev} 	$file_latest.md5.$next; fi
-        if test -e $file_latest${prev};     	then mv -f $file_latest${prev}		$file_latest.$next; fi
+        if $keep_original_planet; then
+          if test -e $file_latest.md5${prev}; 	then mv -f $file_latest.md5${prev} 	$file_latest.md5.$next; fi
+          if test -e $file_latest${prev};     	then mv -f $file_latest${prev}		$file_latest.$next; fi
+        fi
         if test -e $file_nometa${prev}; 	then mv -f $file_nometa${prev} 	$file_nometa.$next; fi
         if test -e $file_nometa.md5${prev}; 	then mv -f $file_nometa.md5${prev} $file_nometa.md5.$next; fi 
     done
 fi
 
-mv -f $dir/$file_latest $dir/$file_latest.md5 $dir/$file_nometa $dir/$file_nometa.md5 . 
+if $keep_original_planet; then
+  mv -f $dir/$file_latest $dir/$file_latest.md5 .
+fi
+mv -f $dir/$file_nometa $dir/$file_nometa.md5 . 
+
+# cleanup temp directory
 rm -rf $dir
 
+#EOF
