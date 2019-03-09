@@ -18,14 +18,13 @@ fi
 nice="nice -n 9"
 
 file=planet-latest.osm.pbf
+file_pbf=planet-latest-nometa.osm.pbf
 planet_osm_server=https://planet.openstreetmap.org/pbf
 
 if [ -e $HOME/.bbbikerc ]; then 
     . $HOME/.bbbikerc
 fi
 
-
-file_pbf=planet-latest-nometa.osm.pbf
 dir="tmp.$$.new"
 
 mkdir -p $dir
@@ -42,7 +41,6 @@ mv -f $file_pbf.tmp $file_pbf
 cat $file.md5
 $MD5 $file | tee $file.md5
 $MD5 $file_pbf | tee $file_pbf.md5
-#$SHA $file_pbf | tee $file_pbf.sha256
 
 cd $pwd
 if [ "$BBBIKE_PLANET_OSM_BACKUP" = "YES" ]; then
@@ -61,6 +59,6 @@ if [ "$BBBIKE_PLANET_OSM_BACKUP" = "YES" ]; then
     done
 fi
 
-mv -f $dir/$file $dir/$file.md5 $dir/$file_pbf $dir/$file_pbf.md5 . #$dir/$file_pbf.sha256 .
+mv -f $dir/$file $dir/$file.md5 $dir/$file_pbf $dir/$file_pbf.md5 . 
 rm -rf $dir
 
