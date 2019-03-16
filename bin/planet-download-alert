@@ -1,11 +1,15 @@
-#!/bin/sh
-# Copyright (c) 2009-2018 Wolfram Schneider, https://bbbike.org
+#!/bin/bash
+# Copyright (c) 2009-2019 Wolfram Schneider, https://bbbike.org
 #
 # planet-download-alert - alert if new planet.osm.pbf is available
 #
 # If a new planet.osm is available, start an update
 
+set -e
+set -o pipefail
+
 PATH=/usr/local/bin:/bin:/usr/bin; export PATH 
+
 
 file=planet-latest.osm.pbf
 automatic_update="yes"
@@ -21,27 +25,29 @@ old="0"
 new="1"
 dir=../osm/download
 update=$dir/.update
+update_new=$dir/.update.new
 
+#
 # don't run again if already run in the last 48 hours
+# This should avoid DoS and too many updates
+#
 if [ -e $update ]; then
    if [ `find $update -mmin -2900 | wc -l` -gt 0 ]; then
 	exit 0
    fi
 fi
 
-new=$(curl -L -sSf --head --location $planet_osm_server/$file | perl -ne 'print "$1\n" if /^Content-Length:\s+(\d+)/i')
+curl -L -sSf -v $planet_osm_server/$file.md5 > $update_new 2> $update_new.head
 
-cache_file=$dir/$file
-if [ -e  $cache_file ]; then
-   old=`ls -l $cache_file | awk '{ print $5 }'`
-fi
-
-if test -n "$new" && test "$new" -ne "$old"; then
-   echo "please update me: $old $new"
-   echo "$planet_osm_server/$file"
+if test -e $update && cmp $update $update_new 2>/dev/null ; then
+   # no updates....
+   exit 0
+else
+   new=$(curl -L -sSf --head --location $planet_osm_server/$file | perl -ne 'print "$1\n" if /^Content-Length:\s+(\d+)/i')
+   echo "please update me: $planet_osm_server/$file"
    echo ""
    curl -L -sSf --head --location $planet_osm_server/$file | egrep -i "^(Content-Length:|Last-|Location:)"
-   touch $update
+   cp -f $update_new $update
 
    if [ -n "$automatic_update" ]; then
      if [ $new -gt $planet_osm_min_size ]; then
@@ -56,4 +62,6 @@ if test -n "$new" && test "$new" -ne "$old"; then
      fi
    fi
 fi
+
+#EOF
 
