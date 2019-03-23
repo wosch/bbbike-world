@@ -135,6 +135,8 @@ var bbbike = {
     // change input color to dark green/red/yellow if marker was moved
     dark_icon_colors: 1,
 
+    enable_google_elevation_chart: false,
+
     // IE bugs
     dummy: 0
 };
@@ -2777,6 +2779,10 @@ function elevation_initialize(slippymap, opt) {
 // and plots the elevation profile on a GViz ColumnChart
 
 function plotElevation(results) {
+    if (!bbbike.enable_google_elevation_chart) {
+        return plotRouteOnly();
+    }
+
     if (results == null) {
         alert("Sorry, no elevation results are available. Plot the route only.");
         return plotRouteOnly();
