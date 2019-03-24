@@ -1270,8 +1270,8 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
 
     function nokia(a, z, name, servers) {
         // [http://4.maptile.lbs.ovi.com/maptiler/v2/maptile/a2e328a0c5/normal.day/${z}/${x}/${y}/256/png8?app_id=g7UuRR708Tsut4YSnDLy&token=fVzaDAdRK62zo3CuNcPtDg&lg=ENG"]
-        var app_id = "g7UuRR708Tsut4YSnDLy";
-        var token = "fVzaDAdRK62zo3CuNcPtDg&lg";
+        var app_id = "xWVIueSv6JL0aJ5xqTxb";
+        var token = "djPZyynKsbTjIUDOBcHZ2g" + "&lg";
         var tile_style_version = "newest";
 
         if (!servers || servers.length == 0) {
@@ -1505,7 +1505,6 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
     // mapControls.esri();
     // mapControls.esri_topo();
     // mapControls.apple();
-
     // bottom postion
     mapControls.mapnik_bw();
     mapControls.toner();
@@ -1518,7 +1517,6 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
     mapControls.bing_satellite();
     // mapControls.bing_birdview();
     // mapControls.bing_hybrid();
-
     map.setMapTypeId(maptype);
     if (is_supported_maptype(maptype, bbbike.available_custom_maps)) {
         setCustomBold(maptype);
