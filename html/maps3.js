@@ -62,9 +62,9 @@ var bbbike = {
 
     // optinal layers in google maps or all maps
     mapLayers: {
-        TrafficLayer: true,
-        BicyclingLayer: true,
-        WeatherLayer: true,
+        TrafficLayer: false,
+        BicyclingLayer: false,
+        WeatherLayer: false,
 
         // enable full screen mode
         SlideShow: true,
@@ -72,7 +72,7 @@ var bbbike = {
         Smoothness: true,
         VeloLayer: false,
         MaxSpeed: true,
-        Replay: true,
+        Replay: false,
         LandShading: true
     },
 
