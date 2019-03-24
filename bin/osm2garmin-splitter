@@ -330,6 +330,10 @@ garmin_dir=$tmpdir/$garmin-`basename $ext .zip`
 mkdir -p $garmin_dir
 
 logfile=$garmin_dir/logfile.txt
+if [ -e $BBBIKE_SPLIT_DIR/logfile.txt ]; then
+  cat $BBBIKE_SPLIT_DIR/logfile.txt >> $logfile
+  echo "" >> $logfile
+fi
 touch $logfile
 
 # mkgmap bug
