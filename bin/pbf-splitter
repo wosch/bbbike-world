@@ -53,6 +53,9 @@ init_splitter () {
     : ${java_heap_splitter=$java_heap}
     : ${splitter_max_nodes=1000000}
     : ${splitter_max_areas=512}
+
+    : ${osm2xxx_max_jobs="2"}
+    splitter_max_threads=$osm2xxx_max_jobs
     
     size=$(du -ks -L "$file" | awk '{ print $1}')
     
@@ -94,6 +97,7 @@ run_splitter () {
         --max-areas=$splitter_max_areas \
         --max-nodes=$splitter_max_nodes \
         --mapid="$mapid" \
+	--max-threads=$splitter_max_threads \
         --output-dir=$split_dir $file \
     ) 2>&1 | tail -c 1024K >> $logfile || error
     
