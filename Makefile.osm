@@ -1034,17 +1034,16 @@ extract-distclean:
 
 # garbage collection, 2 days
 extract-gc:
-	cd ${EXTRACTS_SPOOL_DIR}; find confirmed running download -type f -mtime +40 -print0 | xargs -0 rm -f
+	cd ${EXTRACTS_SPOOL_DIR}; find confirmed running download/ -type f -mtime +30 -print0 | xargs -0 rm -f
 	# remove large files earlier
-	cd ${EXTRACTS_SPOOL_DIR}; find confirmed running download -type f -mtime +31 -size +400M -print0 | xargs -0 rm -f
-	cd ${EXTRACTS_SPOOL_DIR}; find confirmed running download -type f -mtime +32 -size +250M -print0 | xargs -0 rm -f
+	cd ${EXTRACTS_SPOOL_DIR}; find confirmed running download/ -type f -mtime +10 -size +400M -print0 | xargs -0 rm -f
+	cd ${EXTRACTS_SPOOL_DIR}; find confirmed running download/ -type f -mtime +14 -size +250M -print0 | xargs -0 rm -f
 	if test -e /tmpfs; then \
 	    find /tmpfs/ -type f -mtime +1 -print0 | xargs -0 rm -f; \
 	fi
 
-# garbage collection, 7 days, all files
 extract-gc7:
-	find ${EXTRACTS_SPOOL_DIR} -type f -mtime +14  -print0 | xargs -0 rm -f
+	@true
 	
 staging:
 	${BBMAKE} -s perlcheck 2>/dev/null
@@ -1762,7 +1761,7 @@ help:
 	@echo "  [ download-bbbike-org-install ]"
 	@echo ""
 	@echo "  [ staging | extract-bbbike-org-install | garmin-legend ]"
-	@echo "  [ extract-gc | extract-gc7 | extract-gc-osm ]"
+	@echo "  [ extract-gc ]"
 	@echo "  [ extract-distclean ]"
 	@echo ""
 	@echo "  [ tile | tile-extract | tile-convert | tile-database | tile-checksum ]"
