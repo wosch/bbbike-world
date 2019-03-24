@@ -47,14 +47,14 @@ var bbbike = {
 
     mapPosition: {
         "default": "TOP_RIGHT",
-        "mapnik_bw": "BOTTOM_RIGHT",
-        "toner": "BOTTOM_RIGHT",
-        "nokia_traffic": "BOTTOM_RIGHT",
+        "mapnik_bw": "TOP_RIGHT",
+        "toner": "TOP_RIGHT",
+        "nokia_traffic": "TOP_RIGHT",
         "watercolor": "BOTTOM_RIGHT",
-        "bing_map": "BOTTOM_RIGHT",
+        "bing_map": "TOP_RIGHT",
         "bing_map_old": "BOTTOM_RIGHT",
         "bing_hybrid": "BOTTOM_RIGHT",
-        "bing_satellite": "BOTTOM_RIGHT",
+        "bing_satellite": "TOP_RIGHT",
         "bing_birdview": "BOTTOM_RIGHT",
         "mapquest": "BOTTOM_RIGHT",
         "mapquest_satellite": "BOTTOM_RIGHT",
@@ -1494,30 +1494,30 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
     // keep in order for slide show
     // top postion
     mapControls.bbbike_mapnik();
-    mapControls.bbbike_mapnik_german();
+    // mapControls.bbbike_mapnik_german();
     mapControls.mapnik();
     mapControls.mapnik_de();
     mapControls.cycle();
-    mapControls.hike_bike();
+    // mapControls.hike_bike();
     mapControls.public_transport();
     mapControls.ocm_transport();
     mapControls.ocm_landscape();
-    mapControls.esri();
-    mapControls.esri_topo();
-    mapControls.apple();
+    // mapControls.esri();
+    // mapControls.esri_topo();
+    // mapControls.apple();
 
     // bottom postion
     mapControls.mapnik_bw();
     mapControls.toner();
-    mapControls.watercolor();
+    // mapControls.watercolor();
     mapControls.nokia_traffic();
     mapControls.bing_map();
-    mapControls.bing_map_old();
-    mapControls.mapquest();
-    mapControls.mapquest_satellite();
+    // mapControls.bing_map_old();
+    // mapControls.mapquest();
+    // mapControls.mapquest_satellite();
     mapControls.bing_satellite();
-    mapControls.bing_birdview();
-    mapControls.bing_hybrid();
+    // mapControls.bing_birdview();
+    // mapControls.bing_hybrid();
 
     map.setMapTypeId(maptype);
     if (is_supported_maptype(maptype, bbbike.available_custom_maps)) {
