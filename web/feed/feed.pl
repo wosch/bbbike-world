@@ -49,6 +49,22 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
+    title =>
+      qq{The BBBike Map Compare service supports now historic maps of Berlin},
+    id      => 'a41861d665e7302109a74327df5cbe5d',
+    content => {
+        type => 'html',
+        content =>
+qq{<a href="https://mc.bbbike.org/mc/?profile=historicmaps-berlin-1698-1871">1698-1871</a>
+<a href="https://mc.bbbike.org/mc/?profile=historicmaps-berlin-1874-1900">1874-1900</a>
+<a href="https://mc.bbbike.org/mc/?profile=historicmaps-berlin-1903-1913">1903-1913</a>
+<a href="https://mc.bbbike.org/mc/?profile=historicmaps-berlin-1914-1928">1914-1928</a>},
+    },
+    updated  => '2019-04-14T13:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title   => qq{New OSM export format SQLite},
     id      => '396b20cf70a9aec7c349db9fcf9723a3',
     content => {
