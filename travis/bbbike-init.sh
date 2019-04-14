@@ -45,7 +45,7 @@ init_apt_bbbike() {
 
 init_apt_mono() {
     mono_list=mono-xamarin.list
-    mono_deb_url=http://download.mono-project.com/repo
+    mono_deb_url=https://download.mono-project.com/repo
 
     file="$sources_list_d/$mono_list"
     os=debian

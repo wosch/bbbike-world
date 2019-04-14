@@ -47,14 +47,14 @@ var bbbike = {
 
     mapPosition: {
         "default": "TOP_RIGHT",
-        "mapnik_bw": "BOTTOM_RIGHT",
-        "toner": "BOTTOM_RIGHT",
-        "nokia_traffic": "BOTTOM_RIGHT",
+        "mapnik_bw": "TOP_RIGHT",
+        "toner": "TOP_RIGHT",
+        "nokia_traffic": "TOP_RIGHT",
         "watercolor": "BOTTOM_RIGHT",
-        "bing_map": "BOTTOM_RIGHT",
+        "bing_map": "TOP_RIGHT",
         "bing_map_old": "BOTTOM_RIGHT",
         "bing_hybrid": "BOTTOM_RIGHT",
-        "bing_satellite": "BOTTOM_RIGHT",
+        "bing_satellite": "TOP_RIGHT",
         "bing_birdview": "BOTTOM_RIGHT",
         "mapquest": "BOTTOM_RIGHT",
         "mapquest_satellite": "BOTTOM_RIGHT",
@@ -62,9 +62,9 @@ var bbbike = {
 
     // optinal layers in google maps or all maps
     mapLayers: {
-        TrafficLayer: true,
-        BicyclingLayer: true,
-        WeatherLayer: true,
+        TrafficLayer: false,
+        BicyclingLayer: false,
+        WeatherLayer: false,
 
         // enable full screen mode
         SlideShow: true,
@@ -72,7 +72,7 @@ var bbbike = {
         Smoothness: true,
         VeloLayer: false,
         MaxSpeed: true,
-        Replay: true,
+        Replay: false,
         LandShading: true
     },
 
@@ -134,6 +134,8 @@ var bbbike = {
 
     // change input color to dark green/red/yellow if marker was moved
     dark_icon_colors: 1,
+
+    enable_google_elevation_chart: false,
 
     // IE bugs
     dummy: 0
@@ -1268,8 +1270,8 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
 
     function nokia(a, z, name, servers) {
         // [http://4.maptile.lbs.ovi.com/maptiler/v2/maptile/a2e328a0c5/normal.day/${z}/${x}/${y}/256/png8?app_id=g7UuRR708Tsut4YSnDLy&token=fVzaDAdRK62zo3CuNcPtDg&lg=ENG"]
-        var app_id = "g7UuRR708Tsut4YSnDLy";
-        var token = "fVzaDAdRK62zo3CuNcPtDg&lg";
+        var app_id = "xWVIueSv6JL0aJ5xqTxb";
+        var token = "djPZyynKsbTjIUDOBcHZ2g" + "&lg";
         var tile_style_version = "newest";
 
         if (!servers || servers.length == 0) {
@@ -1492,31 +1494,29 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
     // keep in order for slide show
     // top postion
     mapControls.bbbike_mapnik();
-    mapControls.bbbike_mapnik_german();
+    // mapControls.bbbike_mapnik_german();
     mapControls.mapnik();
     mapControls.mapnik_de();
     mapControls.cycle();
-    mapControls.hike_bike();
+    // mapControls.hike_bike();
     mapControls.public_transport();
     mapControls.ocm_transport();
     mapControls.ocm_landscape();
-    mapControls.esri();
-    mapControls.esri_topo();
-    mapControls.apple();
-
+    // mapControls.esri();
+    // mapControls.esri_topo();
+    // mapControls.apple();
     // bottom postion
     mapControls.mapnik_bw();
     mapControls.toner();
-    mapControls.watercolor();
+    // mapControls.watercolor();
     mapControls.nokia_traffic();
     mapControls.bing_map();
-    mapControls.bing_map_old();
-    mapControls.mapquest();
-    mapControls.mapquest_satellite();
+    // mapControls.bing_map_old();
+    // mapControls.mapquest();
+    // mapControls.mapquest_satellite();
     mapControls.bing_satellite();
-    mapControls.bing_birdview();
-    mapControls.bing_hybrid();
-
+    // mapControls.bing_birdview();
+    // mapControls.bing_hybrid();
     map.setMapTypeId(maptype);
     if (is_supported_maptype(maptype, bbbike.available_custom_maps)) {
         setCustomBold(maptype);
@@ -2777,6 +2777,10 @@ function elevation_initialize(slippymap, opt) {
 // and plots the elevation profile on a GViz ColumnChart
 
 function plotElevation(results) {
+    if (!bbbike.enable_google_elevation_chart) {
+        return plotRouteOnly();
+    }
+
     if (results == null) {
         alert("Sorry, no elevation results are available. Plot the route only.");
         return plotRouteOnly();

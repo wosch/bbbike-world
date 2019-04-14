@@ -166,7 +166,7 @@ ls `python -c "import mapnik;print mapnik.fontscollectionpath"`-->
       <MaxScaleDenominator>25000</MaxScaleDenominator>
       <MinScaleDenominator>12500</MinScaleDenominator>
       <Filter>[int_tc_type]='living_street'</Filter>
-      <PointSymbolizer file="symbols/turning_circle-livs-fill.14.png" allow-overlap="true"/>
+      <PointSymbolizer file="symbols/turning_circle-livs-casing.14.png" allow-overlap="true"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>12500</MaxScaleDenominator>
@@ -184,7 +184,7 @@ ls `python -c "import mapnik;print mapnik.fontscollectionpath"`-->
       <MaxScaleDenominator>12500</MaxScaleDenominator>
       <MinScaleDenominator>5000</MinScaleDenominator>
       <Filter>[int_tc_type]='living_street'</Filter>
-      <PointSymbolizer file="symbols/turning_circle-livs-fill.16.png" allow-overlap="true"/>
+      <PointSymbolizer file="symbols/turning_circle-livs-casing.16.png" allow-overlap="true"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>5000</MaxScaleDenominator>
@@ -204,7 +204,7 @@ ls `python -c "import mapnik;print mapnik.fontscollectionpath"`-->
     <Rule>
       <MaxScaleDenominator>5000</MaxScaleDenominator>
       <Filter>[int_tc_type]='living_street'</Filter>
-      <PointSymbolizer file="symbols/turning_circle-livs-fill.22.png" allow-overlap="true"/>
+      <PointSymbolizer file="symbols/turning_circle-livs-casing.24.png" allow-overlap="true"/>
     </Rule>
 </Style>
 <Style name="highway-area-casing">

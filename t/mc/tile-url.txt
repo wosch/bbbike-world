@@ -8,6 +8,9 @@ https://a.tile.openstreetmap.de/tiles/osmde/12/2200/1342.png
 https://d.tile.openstreetmap.de/tiles/osmde/12/2200/1342.png
 https://a.tile.bbbike.org/osm/mapnik/12/2200/1342.png
 http://gsp2.apple.com/tile?api=1&style=slideshow&layers=default&lang=de_DE&z=12&x=2200&y=1342&v=9
+https://cdn4.apple-mapkit.com/ti/tile?type=tile&style=0&size=1&x=1100&y=671&z=11&scale=2&lang=en&v=1903084&poi=0&accessKey=1552122222_715189020662096599_%2F_oe2S%2F8J3ny2UxIbVWQIJIcTPZhT5UaGLDxyET5EiEm8%3D&labels=0&tint=light&emphasis=standard
+https://cdn1.apple-mapkit.com/ti/tile?type=tile&style=46&size=1&x=1100&y=672&z=11&scale=2&lang=en&v=1903084&poi=0&accessKey=1552122222_715189020662096599_%2F_oe2S%2F8J3ny2UxIbVWQIJIcTPZhT5UaGLDxyET5EiEm8%3D&labels=0&tint=light&emphasis=standard
+https://sat-cdn4.apple-mapkit.com/tile?type=tile&style=7&size=1&x=1100&y=671&z=11&scale=2&lang=en&v=4031&poi=0&accessKey=1552122222_715189020662096599_%2F_oe2S%2F8J3ny2UxIbVWQIJIcTPZhT5UaGLDxyET5EiEm8%3D
 https://a.tile.bbbike.org/osm/bbbike-smoothness/12/2200/1342.png
 https://a.tile.thunderforest.com/cycle/12/2200/1342@2x.png
 https://a.tile.thunderforest.com/outdoors/12/2200/1342@2x.png

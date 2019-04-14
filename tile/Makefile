@@ -46,6 +46,13 @@ osm-repo:
 	fi
 	sudo apt-get -qq update
 
+nodejs-repo:
+	if [ ! -e /etc/apt/sources.list.d/nodejs.list ]; then \
+	   sudo cp ${PROJECT_DIR}/bbbike/world/etc/apt/tile/ubuntu14/sources.list.d/nodejs.list /etc/apt/sources.list.d/nodejs.list ;\
+	   curl -sSf https://deb.nodesource.com/gpgkey/nodesource.gpg.key | sudo apt-key add -; \
+	fi
+	sudo apt-get -qq update
+
 # in case of trouble run:
 # sudo dpkg-reconfigure openstreetmap-postgis-db-setup
 postgis-utf8:
@@ -104,7 +111,7 @@ mapnik-symlinks:
 
 mapnik-german:
 	cd /etc/mapnik-german; \
-	  ln -sf /usr/share/mapnik-osm-data/world_boundaries .
+	  ln -sf /usr/share/mapnik-osm-carto-data/world_boundaries .
 	cd /etc/mapnik-german/inc-de; \
 	  cp datasource-settings.xml.inc.template datasource-settings.xml.inc; \
 	  perl -i.bak -npe 's,%\(password\)s,gis,; s,.*"(host|port|extent)".*,,; s,%\(user\)s,www-data,; s,%\(dbname\)s,gis,; s,%\(estimate_extent\)s,true,;' datasource-settings.xml.inc
@@ -158,7 +165,7 @@ manual:
 	@echo "make openstreetmap-postgis bbbike-mapnik mapnik-restart"
 	@echo ""
 
-install-all: osm-repo install-packages-system repo-checkout install-packages symlinks munin manual
+install-all: osm-repo nodejs-repo install-packages-system repo-checkout install-packages symlinks munin manual
 
 distclean: clean
 	sudo rm -f /etc/mapnik-bbbike /etc/mapnik-german /etc/mapnik-osm-carto-data
@@ -186,7 +193,8 @@ help:
 	@echo "usage: make [ targets ... ]"
 	@echo ""
 	@echo "  [ install-all ]"
-	@echo "  [ osm-repo | install-packages | symlinks | bbbike-mapnik ]"
+	@echo "  [ osm-repo | nodejs-repo ]"
+	@echo "  [ install-packages | symlinks | bbbike-mapnik ]"
 	@echo "  [ openstreetmap-postgis | mapnik-restart ]"
 	@echo "  [ clean | distclean | apt-distclean ]"
 	@echo ""
