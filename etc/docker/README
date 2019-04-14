@@ -1,8 +1,13 @@
 ##########################################################################
 # Docker on linux
 #
-# sudo apt-get install docker.io 
-# sudo apt-get install apparmor # debian8?
+# curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+#
+# cat /etc/apt/sources.list.d/docker.list 
+#  deb [arch=amd64] https://download.docker.com/linux/debian stretch stable 
+#
+# sudo apt-get update
+# sudo apt-get install docker-ce
 #
 
 ###########################################################################
