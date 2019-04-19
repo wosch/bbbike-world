@@ -562,10 +562,6 @@ sub result {
 sub result_json {
     my %args = @_;
 
-    #my $type     = $args{'type'};
-    #my $name     = $args{'name'};
-    #my $message  = $args{'message'};
-    #my $callback = $args{'callback'};
     my $files = $args{'files'};
     my $appid = $args{'appid'} // "";
 
@@ -575,6 +571,9 @@ sub result_json {
     return if !@downloads;
 
     my @data;
+    my $homepage = $option->{download_homepage};
+    $homepage =~ s,/osm/$,,;
+
     foreach my $download (@downloads) {
         my $obj = {
             "time" => $download->{"extract_time"},
@@ -589,10 +588,7 @@ sub result_json {
               ? $option->{"download_pro"}
               : $option->{"download"};
 
-            $obj->{"url"} =
-                $option->{download_homepage}
-              . $prefix
-              . $download->{"download_file"};
+            $obj->{"url"} = $homepage . $prefix . $download->{"download_file"};
         }
 
         # ignore all which are not matching the appid
