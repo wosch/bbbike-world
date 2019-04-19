@@ -1042,6 +1042,7 @@ extract-gc:
 	    find /tmpfs/ -type f -mtime +1 -print0 | xargs -0 rm -f; \
 	fi
 
+# tidy up to speedup download.cgi script
 extract-trash-gc:
 	trash=../extract/trash; year=$$(date '+%Y'); mkdir -p $$trash-$$year; \
 	  if [ $$(find $$trash -name '*.json' -mtime +8 -type f | wc -l ) -gt 0 ]; then \
