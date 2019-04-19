@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl -T
 # Copyright (c) 2012-2019 Wolfram Schneider, https://bbbike.org
 #
-# extract-download.cgi - extract.bbbike.org live extracts
+# download.cgi - extract.bbbike.org live extracts
 
 use CGI qw/-utf-8 unescape escapeHTML/;
 use CGI::Carp;
@@ -559,6 +559,54 @@ sub result {
     print "<hr/>\n\n";
 }
 
+sub result_json {
+    my %args = @_;
+
+    #my $type     = $args{'type'};
+    #my $name     = $args{'name'};
+    #my $message  = $args{'message'};
+    #my $callback = $args{'callback'};
+    my $files = $args{'files'};
+    my $appid = $args{'appid'} // "";
+
+    my @downloads = @$files;
+
+    # no waiting or running extracts - done
+    return if !@downloads;
+
+    my @data;
+    foreach my $download (@downloads) {
+        my $obj = {
+            "time" => $download->{"extract_time"},
+            "size" => $download->{"extract_size"},
+            "name" => $download->{"city"},
+        };
+
+        # download link if available
+        if ( $download->{"download_file"} ) {
+            my $prefix =
+                $option->{'pro'}
+              ? $option->{"download_pro"}
+              : $option->{"download"};
+
+            $obj->{"url"} =
+                $option->{download_homepage}
+              . $prefix
+              . $download->{"download_file"};
+        }
+
+        # ignore all which are not matching the appid
+        if ( $appid ne "" ) {
+            if ( $download->{"appid"} ne $appid ) {
+                next;
+            }
+        }
+
+        push @data, $obj;
+    }
+    return \@data;
+}
+
 sub uniqe_users {
     my @extracts_trash = @_;
 
@@ -599,9 +647,6 @@ sub table_head {
 sub download_header {
     my $q = shift;
 
-    my $ns = $q->param("namespace") || $q->param("ns") || "";
-    $ns = "text" if $ns =~ /^(text|ascii|plain)$/;
-
     print $q->header( -charset => 'utf-8', -expires => '+0s' );
 
     print $q->start_html(
@@ -632,9 +677,6 @@ sub download_header {
 
 # print qq{<noscript><p>}, qq{You must enable JavaScript and CSS to run this application!}, qq{</p>\n</noscript>\n};
     print qq{<div id="all">\n};
-
-    #print qq{  <div id="border">\n};
-    #print qq{    <div id="main">\n};
 }
 
 sub filter_date {
@@ -666,7 +708,85 @@ sub filter_date {
 
 ###########################################################################
 #
-sub download {
+sub download_json {
+    my $q      = shift;
+    my $locale = Extract::Locale->new( 'q' => $q );
+    my $max    = $max_extracts;
+
+    my @filter_date = qw/1h 3h 6h 12h 24h 36h 48h 72h all/;
+    print $q->header(
+        -charset => 'utf-8',
+        -expires => '+0s',
+        -type    => 'application/json',
+    );
+
+    if ( $q->param('max') ) {
+        my $m = $q->param('max');
+        $max = $m if $m > 0 && $m <= 5_000;
+    }
+
+    my $date = $q->param('date') || "6h";    #$default_date;
+    if ( $date ne "" && !grep { $date eq $_ } @filter_date ) {
+        warn "Reset date: '$date'\n" if $debug;
+        $date = "";
+    }
+
+    my $current_date     = time2str(time);
+    my $extract_homepage = $option->{'extract_homepage'};
+
+    my @extracts = ();
+
+    my $sort_by = $q->param('sort_by') || $q->param("sort");
+    my @extracts_trash = &extract_areas(
+        'log_dir'       => "$spool_dir/" . $spool->{"trash"},
+        'max'           => $max,
+        'sort_by'       => $sort_by,
+        'filter_format' => $filter_format,
+        'date'          => $date
+    );
+
+    #@extracts = &running_extract_areas(
+    #    'log_dir'       => "$spool_dir/" . $spool->{"confirmed"},
+    #    'filter_format' => $filter_format,
+    #    'max'           => $max
+    #);
+    #
+    #result(
+    #    'type'    => 'confirmed',
+    #    'files'   => \@extracts,
+    #    'name'    => 'Waiting extracts',
+    #    'message' => 'Will start in the next 1-5 minutes',
+    #);
+    #
+    #@extracts = &running_extract_areas(
+    #    'log_dir'       => "$spool_dir/" . $spool->{"running"},
+    #    'filter_format' => $filter_format,
+    #    'max'           => $max
+    #);
+    #
+    #result(
+    #    'type'    => 'running',
+    #    'files'   => \@extracts,
+    #    'name'    => 'Running extracts',
+    #    'message' => 'Will be ready in the next 2-7 minutes',
+    #);
+
+    @extracts = @extracts_trash;
+    my $appid = $q->param('appid') // "";
+    my $trash_perl = result_json(
+        'appid' => $appid,
+        'files' => \@extracts
+    );
+    my $perl = {
+        "copyright" =>
+          "Copyright (c) 2019 Wolfram Schneider, https://extract.bbbike.org",
+        "ready" => $trash_perl
+    };
+
+    print JSON->new->utf8(0)->pretty(1)->encode($perl);
+}
+
+sub download_html {
     my $q      = shift;
     my $locale = Extract::Locale->new( 'q' => $q );
     my $max    = $max_extracts;
@@ -852,4 +972,10 @@ EOF
 #
 # main
 #
-&download($q);
+my $ns = $q->param("ns") // "";
+if ( $ns eq 'json' ) {
+    &download_json($q);
+}
+else {
+    &download_html($q);
+}
