@@ -1042,6 +1042,12 @@ extract-gc:
 	    find /tmpfs/ -type f -mtime +1 -print0 | xargs -0 rm -f; \
 	fi
 
+extract-trash-gc:
+	trash=../extract/trash; year=$$(date '+%Y'); mkdir -p $$trash-$$year; \
+	  if [ $$(find $$trash -name '*.json' -mtime +8 -type f | wc -l ) -gt 0 ]; then \
+	    mv $$(find $$trash -name '*.json' -mtime +8 -type f) $$trash-$$year; \
+	  fi
+
 extract-gc7:
 	@true
 	
@@ -1768,7 +1774,7 @@ help:
 	@echo "  [ download-bbbike-org-install ]"
 	@echo ""
 	@echo "  [ staging | extract-bbbike-org-install | garmin-legend ]"
-	@echo "  [ extract-gc ]"
+	@echo "  [ extract-gc | extract-trash-gc ]"
 	@echo "  [ extract-distclean ]"
 	@echo ""
 	@echo "  [ tile | tile-extract | tile-convert | tile-database | tile-checksum ]"
