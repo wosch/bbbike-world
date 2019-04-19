@@ -67,9 +67,9 @@ our $option = {
 my $q            = new CGI;
 my $max_extracts = 2000;
 
-#my $default_date = "36h";     # 36h: today and some hours from yesterday
-my $default_date  = "24h";    # 24h: today
-my $filter_format = "";       # all formats
+my $default_date      = "24h";    # 24h: today
+my $default_date_json = "3h";     # less data for json output
+my $filter_format     = "";       # all formats
 
 my $debug = $option->{'debug'};
 if ( defined $q->param('debug') ) {
@@ -709,9 +709,8 @@ sub filter_date {
 ###########################################################################
 #
 sub download_json {
-    my $q      = shift;
-    my $locale = Extract::Locale->new( 'q' => $q );
-    my $max    = $max_extracts;
+    my $q   = shift;
+    my $max = $max_extracts;
 
     my @filter_date = qw/1h 3h 6h 12h 24h 36h 48h 72h all/;
     print $q->header(
@@ -725,7 +724,7 @@ sub download_json {
         $max = $m if $m > 0 && $m <= 5_000;
     }
 
-    my $date = $q->param('date') || "6h";    #$default_date;
+    my $date = $q->param('date') || $default_date_json;
     if ( $date ne "" && !grep { $date eq $_ } @filter_date ) {
         warn "Reset date: '$date'\n" if $debug;
         $date = "";
