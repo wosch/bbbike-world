@@ -64,7 +64,7 @@ function download_init_map(conf) {
         tileOptions: {
             crossOriginKeyword: null
         },
-        attribution: '<a href="https://www.OpenStreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="http://www.opencyclemap.org/">(&copy) OpenCycleMap</a>',
+        attribution: '<a href="https://www.OpenStreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="https://www.opencyclemap.org/">(&copy) OpenCycleMap</a>',
         numZoomLevels: 18
     }));
 
@@ -73,7 +73,7 @@ function download_init_map(conf) {
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM.CycleMap("OSM CycleMap", {
-        attribution: '<a href="https://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="http://www.opencyclemap.org/">(&copy) OpenCycleMap</a>'
+        attribution: '<a href="https://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="https://www.opencyclemap.org/">(&copy) OpenCycleMap</a>'
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM("Mapbox Satellite", ["https://d.tiles.mapbox.com/v3/tmcw.map-j5fsp01s/${z}/${x}/${y}.png"], {

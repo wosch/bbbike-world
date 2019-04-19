@@ -37,8 +37,13 @@ $option->{'pro'} = 0;
 $option->{'server'} = {
     'dev'      => [qw/dev1.bbbike.org dev2.bbbike.org/],
     'www'      => [qw/www.bbbike.org www2.bbbike.org/],
-    'extract'  => [ qw/extract.bbbike.org extract1.bbbike.org/ ],
-    'download' => [ qw/download.bbbike.org download1.bbbike.org/ ],
+    'extract'  => [qw/extract.bbbike.org extract1.bbbike.org/],
+    'download' => [qw/download.bbbike.org download1.bbbike.org/],
+};
+
+$option->{'route_cgi'} = {
+    'email'  => 'nobody',
+    'format' => 'garmin-cycle-latin1.zip'
 };
 
 1;

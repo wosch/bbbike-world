@@ -16,7 +16,13 @@ use warnings;
 # config
 #
 
-# global config object
+#
+# global config object, it will be filled by
+#
+# 1. this config module
+# 2. overriden by a config from an other module
+# 3. overriden by a user config file ~/.bbbike-extract.rc
+#
 our $option = {};
 
 # keep in sync with world/etc/munin/plugins/bbbike-extract
@@ -315,6 +321,12 @@ our $server = {
     ],
 };
 
+# setup for /cgi/route.cgi
+our $route_cgi = {
+    'email'  => 'nobody',                   # ""
+    'format' => 'garmin-cycle-latin1.zip'
+};
+
 ##########################
 # helper functions
 #
@@ -423,6 +435,7 @@ qq{did you called Extract::Config->load_config("$config_file") twice?\n};
     }
 
     $self->config_format_menu;
+    $self->config_route_cgi;
 }
 
 sub config_format_menu {
@@ -433,11 +446,26 @@ sub config_format_menu {
 
     my $formats_order = $option->{'formats_order'};
     foreach my $f (@$formats_order) {
+
+        # use defaults if not set in Extract::Route or ~/.bbbike-extract.rc
         if ( exists $formats_menu->{$f} ) {
             push @{ $option->{'formats'} }, $formats_menu->{$f};
         }
         else {
             warn "Unknown select menu format: $f, ignored\n" if $debug >= 1;
+        }
+    }
+}
+
+sub config_route_cgi {
+    my $self = shift;
+
+    $option = $self->{'option'};
+    my $debug = $self->{'debug'};
+
+    foreach my $key ( keys %$route_cgi ) {
+        if ( !exists $option->{"route_cgi"}->{$key} ) {
+            $option->{"route_cgi"}->{$key} = $route_cgi->{$key};
         }
     }
 }

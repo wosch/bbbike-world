@@ -50,6 +50,11 @@ our $option = {
     'language'            => $Extract::Locale::option->{"language"},
 
     'pro' => 0,
+
+    'route_cgi' => {
+        'email'  => 'nobody',
+        'format' => 'garmin-cycle-latin1.zip'
+    },
 };
 
 ##########################################################################

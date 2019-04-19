@@ -1,5 +1,5 @@
 #!/usr/local/bin/bash
-# Copyright (c) 2009-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2019 Wolfram Schneider, https://bbbike.org
 #
 # planet-download - download the latest planet.osm.pbf file
 #                   create a copy without meta data too
@@ -15,17 +15,19 @@ fi
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
 : ${SHA="shasum -a 256"}
 
+# true or false. If false, we do not keep the 47GB original planet
+: ${keep_original_planet="true"}
+
 nice="nice -n 9"
 
-file=planet-latest.osm.pbf
+file_latest=planet-latest.osm.pbf
+file_nometa=planet-latest-nometa.osm.pbf
 planet_osm_server=https://planet.openstreetmap.org/pbf
 
 if [ -e $HOME/.bbbikerc ]; then 
     . $HOME/.bbbikerc
 fi
 
-
-file_pbf=planet-latest-nometa.osm.pbf
 dir="tmp.$$.new"
 
 mkdir -p $dir
@@ -33,16 +35,23 @@ pwd=`pwd`
 cd $dir
 
 # get md5 checksum first
-curl -L -sSf -o $file.md5 $planet_osm_server/$file.md5
+curl -L -sSf -o $file_latest.md5 $planet_osm_server/$file_latest.md5
 
-time curl -L -sSf $planet_osm_server/$file | tee $file | mbuffer -q -m 128m | \
-  $nice osmconvert --drop-author --drop-version --out-pbf - > $file_pbf.tmp
-mv -f $file_pbf.tmp $file_pbf
+if $keep_original_planet; then
+  tee_output=$file_latest
+else
+  tee_output=/dev/null
+fi
 
-cat $file.md5
-$MD5 $file | tee $file.md5
-$MD5 $file_pbf | tee $file_pbf.md5
-#$SHA $file_pbf | tee $file_pbf.sha256
+time curl -L -sSf $planet_osm_server/$file_latest | tee $tee_output | mbuffer -q -m 128m | \
+  $nice osmconvert --drop-author --drop-version --out-pbf - > $file_nometa.tmp
+mv -f $file_nometa.tmp $file_nometa
+
+if $keep_original_planet; then
+  cat $file_latest.md5
+  $MD5 $file_latest | tee $file_latest.md5
+fi
+$MD5 $file_nometa | tee $file_nometa.md5
 
 cd $pwd
 if [ "$BBBIKE_PLANET_OSM_BACKUP" = "YES" ]; then
@@ -53,14 +62,21 @@ if [ "$BBBIKE_PLANET_OSM_BACKUP" = "YES" ]; then
             "")      next=0; prev="";;
         esac
     
-        if test -e $file.md5${prev}; 	then mv -f $file.md5${prev} 	$file.md5.$next; fi
-        if test -e $file${prev};     	then mv -f $file${prev}		$file.$next; fi
-        if test -e $file_pbf${prev}; 	then mv -f $file_pbf${prev} 	$file_pbf.$next; fi
-        if test -e $file_pbf.md5${prev}; 	then mv -f $file_pbf.md5${prev} $file_pbf.md5.$next; fi 
-        #if test -e $file_pbf.sha256${prev};	then mv -f $file_pbf.sha256${prev} $file_pbf.sha256.$next; fi 
+        if $keep_original_planet; then
+          if test -e $file_latest.md5${prev}; 	then mv -f $file_latest.md5${prev} 	$file_latest.md5.$next; fi
+          if test -e $file_latest${prev};     	then mv -f $file_latest${prev}		$file_latest.$next; fi
+        fi
+        if test -e $file_nometa${prev}; 	then mv -f $file_nometa${prev} 	$file_nometa.$next; fi
+        if test -e $file_nometa.md5${prev}; 	then mv -f $file_nometa.md5${prev} $file_nometa.md5.$next; fi 
     done
 fi
 
-mv -f $dir/$file $dir/$file.md5 $dir/$file_pbf $dir/$file_pbf.md5 . #$dir/$file_pbf.sha256 .
+if $keep_original_planet; then
+  mv -f $dir/$file_latest $dir/$file_latest.md5 .
+fi
+mv -f $dir/$file_nometa $dir/$file_nometa.md5 . 
+
+# cleanup temp directory
 rm -rf $dir
 
+#EOF
