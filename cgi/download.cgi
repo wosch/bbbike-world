@@ -778,7 +778,7 @@ sub download_json {
         "ready" => $trash_perl
     };
 
-    print JSON->new->utf8(0)->pretty(1)->canonical->encode($perl);
+    print JSON->new->pretty(1)->canonical->encode($perl);
 }
 
 sub download_html {
