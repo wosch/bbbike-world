@@ -560,7 +560,8 @@ sub script_url {
 
     # utf8 bug in URI, do it the hard way
     if ( $city ne "" ) {
-        $url .= "&city=" . escapeHTML($city);
+        $url .=
+          "&city=" . CGI::Util::escape( Encode::encode( 'UTF-8', $city ) );
     }
 
     return $url;
