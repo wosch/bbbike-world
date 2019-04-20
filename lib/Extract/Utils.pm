@@ -109,7 +109,7 @@ sub save_request {
     my $spool_dir_confirmed = "$spool_dir/$confirmed";
 
     my $json      = new JSON;
-    my $json_text = $json->pretty->encode($obj);
+    my $json_text = $json->pretty->canonical->encode($obj);
 
     my $key = md5_hex( encode_utf8($json_text) . rand() );
     my $job = "$spool_dir_confirmed/$key.json.tmp";
