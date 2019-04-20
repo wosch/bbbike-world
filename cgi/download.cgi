@@ -643,7 +643,7 @@ sub table_head {
 sub download_header {
     my $q = shift;
 
-    print $q->header( -charset => 'utf-8', -expires => '+0s' );
+    print $q->header( -charset => 'UTF-8', -expires => '+0s' );
 
     print $q->start_html(
         -title => 'BBBike extracts ready to download',
@@ -651,7 +651,7 @@ sub download_header {
             $q->meta(
                 {
                     -http_equiv => 'Content-Type',
-                    -content    => 'text/html; charset=utf-8'
+                    -content    => 'text/html; charset=UTF-8'
                 }
             ),
             $q->meta( { -name => "robots", -content => "nofollow,noarchive" } ),
@@ -710,7 +710,7 @@ sub download_json {
 
     my @filter_date = qw/1h 3h 6h 12h 24h 36h 48h 72h all/;
     print $q->header(
-        -charset => 'utf-8',
+        -charset => 'UTF-8',
         -expires => '+0s',
         -type    => 'application/json',
     );
