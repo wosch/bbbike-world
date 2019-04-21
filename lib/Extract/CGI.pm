@@ -552,12 +552,19 @@ sub script_url {
 
     # see ../bin/extract.pl
     #$uri->query_param( "layers", $layers ) if $layers && $layers !~ /^B/;
-    $uri->query_param( "city",   $city )   if $city ne "";
     $uri->query_param( "coords", $coords ) if $coords ne "";
     $uri->query_param( "ref",    $ref )    if $ref ne "";
     $uri->query_param( "lang",   $lang )   if $lang ne "";
 
-    return $uri->as_string;
+    my $url = $uri->as_string;
+
+    # utf8 bug in URI, do it the hard way
+    if ( $city ne "" ) {
+        $url .=
+          "&city=" . CGI::Util::escape( Encode::encode( 'UTF-8', $city ) );
+    }
+
+    return $url;
 }
 
 sub get_spool_dir {

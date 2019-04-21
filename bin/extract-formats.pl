@@ -71,7 +71,7 @@ sub generate_urls {
             if ($lang) {
 
                 # put some random words into the city
-                $city .= "+" . escape( get_random_element( \@words ) );
+                $city .= " " . get_random_element( \@words );
             }
         }
 
