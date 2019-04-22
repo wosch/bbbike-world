@@ -153,6 +153,7 @@ our $option = {
 
     'pbf2osm' => {
         'garmin_version'     => 'mkgmap',
+        'mbtiles_version'    => 'mbtiles',
         'maperitive_version' => 'Maperitive',
         'osmand_version'     => 'OsmAndMapCreator',
         'mapsforge_version'  => 'mapsforge',
