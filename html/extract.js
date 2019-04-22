@@ -1635,11 +1635,11 @@ function show_filesize(skm, real_size, sub_planet_factor) {
         },
         "mbtiles-basic.zip": {
             "size": 0.48,
-            "time": 20
+            "time": 300
         },
         "mbtiles-openmaptiles.zip": {
             "size": 0.48,
-            "time": 20
+            "time": 300
         },
         "mapsforge-osm.zip": {
             "size": 0.7,
@@ -1700,6 +1700,7 @@ function show_filesize(skm, real_size, sub_planet_factor) {
     }
 
     var factor = filesize[format].size ? filesize[format].size : 1;
+
     var factor_time = filesize[format].time ? filesize[format].time : 1;
     var extract_time_min = extract_time * (filesize[format].planet ? filesize[format].planet : 1);
 
