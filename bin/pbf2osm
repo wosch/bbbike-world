@@ -21,6 +21,7 @@ osm2osmand=$dirname/osm2osmand
 osm2navit=$dirname/osm2navit
 osm2mapsforge=$dirname/osm2mapsforge
 osm2mapsme=$dirname/osm2mapsme
+osm2mbtiles=$dirname/osm2mbtiles
 : ${osm2o5m="osmconvert"}
 : ${osm2o5m_opt="--fake-version"}
 : ${osmium="osmium"}
@@ -44,6 +45,7 @@ fi
 : ${max_file_size_shape=866000}
 : ${max_file_size_mapsme=966000}
 : ${max_file_size_maperitive=90000}
+: ${max_file_size_mbtiles=20000}
 
 : ${pbf2osm_max_cpu_time=7200}
 
@@ -110,6 +112,7 @@ usage [ option ] file.osm.pbf
 --png-google --png-hiking --png-osm --png-urbanight --png-wireframe --png-cadastre
 
 --mapsme-osm
+--mbtiles-basic --mbtiles-openmaptiles
 
 EOF
 
@@ -176,6 +179,9 @@ case $format in
     --mapsforge-osm | --mapsforge ) shift; compress=mapsforge; mapsforge_style=osm; pbf2osm_max_cpu_time=28000 ;;
     
     --mapsme-osm ) shift; compress=mapsme; mapsme_style=osm ;;
+    
+    --mbtiles-basic ) shift; compress=mbtiles; mbtiles_style=basic ;;
+    --mbtiles-openmaptiles ) shift; compress=mbtiles; mbtiles_style=openmaptiles ;;
 
     -* ) usage "unknown option '$1'" ;;
 esac
@@ -257,6 +263,11 @@ case $compress in
 	  usage "file '$file' size to big: $size > $max_file_size_mapsme"
 	fi
 	;;
+    mbtiles )
+	if [ $size -gt $max_file_size_mbtiles ]; then
+	  usage "file '$file' size to big: $size > $max_file_size_mbtiles"
+	fi
+	;;
     shape)
 	if [ $size -gt $max_file_size_shape ]; then
 	  usage "file '$file' size to big: $size > $max_file_size_shape"
@@ -326,6 +337,7 @@ case $compress in
     shape )  $osm2shape  "$file" "$city" ;;
     osmand ) $osm2osmand "$file" "$city" ;;
     mapsme ) $osm2mapsme "$file" "$mapsme_style" "$city" ;;
+    mbtiles )$osm2mbtiles "$file" "$mbtiles_style" "$city" ;;
     navit )  $osm2navit  "$file" "$city" ;;
     mapsforge ) $osm2mapsforge "$file" "$mapsforge_style" "$city" ;;
 
