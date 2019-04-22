@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2014 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2019 Wolfram Schneider, https://bbbike.org
 #
 # extract-disk-usage - calculate uncompressed image size for Garmin & Osmand
 #
@@ -45,7 +45,7 @@ perl -e '
     my $counter = 0;
     while(<>) {
         chomp;
-        if (m, (planet_|Cusco-|srtm[_\-]).*?/(gmapsupp\.img|bbbike-data/.*|shape/.*|.*\.(map|obf|bin|svg|png|mwm))$, ) {
+        if (m, (planet_|Cusco-|srtm[_\-]).*?/(gmapsupp\.img|bbbike-data/.*|shape/.*|.*\.(map|obf|bin|svg|png|mwm|mbtiles))$, ) {
             if (/^\s*(\d+)/) {
                 $counter += $1;
             }
