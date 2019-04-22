@@ -1,0 +1,441 @@
+#!/bin/sh
+# Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
+#
+# osm2garmin - convert a osm/pbf file to garmin
+#
+
+set -e
+PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
+
+: ${BBBIKE_EXTRACT_LANG=en}
+: ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
+: ${BBBIKE_MKGMAP_VERSION="mkgmap"}
+: ${BBBIKE_MKGMAP_SEA_DIR="/var/lib/bbbike/opt/share/garmin/sea"}
+: ${BBBIKE_MKGMAP_BOUNDS_DIR="/var/lib/bbbike/opt/share/garmin/bounds"}
+: ${BBBIKE_TMPDIR="/bbbike/tmp"}
+: ${BBBIKE_TMPFS="/tmpfs"}
+: ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
+: ${SHA="shasum -a 256"}
+
+
+usage () {
+    echo "$@"
+cat <<EOF
+usage $0 file [ format ] [ title ]
+
+  bbbike bbbike-ascii bbbike-latin1
+  cycle cycle-ascii cycle-latin1
+  leisure leisure-ascii leisure-latin1
+  onroad onroad-ascii onroad-latin1
+  openfietslite openfietslite-ascii openfietslite-latin1
+  opentopo opentopo-ascii opentopo-latin1
+  oseam oseam-ascii oseam-latin1
+  osm osm-ascii osm-latin1
+  srtm
+EOF
+    exit 1
+}
+
+error () {
+    message="$@"
+
+    echo "$message"
+    echo "file: $file"
+    tail -c 256K $logfile
+    exit 1
+}
+
+file=$1
+city=$3
+
+test -z "$file" && usage
+
+# absolute file path
+case $file in /*) ;; *) file=$(pwd)/$file ;; esac
+
+dirname=$(dirname $0)
+case $dirname in /*) ;; *) dirname=$(pwd)/$dirname ;; esac
+
+text2html=$dirname/text2html.sh
+
+test -e "$file" || usage "file $file does not exists"
+: ${osm_checksum=$dirname/osm-checksum}
+
+template=$dirname/../etc/extract/$(basename $0 -splitter).$BBBIKE_EXTRACT_LANG.sh
+
+if [ -z "$ext" ]; then
+    ext=${2-"osm"}
+fi
+ext_orig=$ext
+
+: ${debug=false}
+
+size=$(du -ks -L "$file" | awk '{ print $1}')
+
+# lower defaults for SRTM
+case $ext in
+   srtm | garmin-srtm.zip )
+        : ${java_heap=6G}
+        ;;
+    *)         
+        : ${java_heap=3G}
+        if [ $size -gt 6000000 ]; then
+           java_heap=30G
+        elif [ $size -gt 3000000 ]; then
+           java_heap=24G
+        elif [ $size -gt 1500000 ]; then
+           java_heap=16G
+        elif [ $size -gt 500000 ]; then
+           java_heap=10G
+        elif [ $size -gt 250000 ]; then
+           java_heap=6G
+        elif [ $size -gt 150000 ]; then
+           java_heap=5G
+        elif [ $size -gt 100000 ]; then
+           java_heap=4G
+        fi
+        ;;
+esac
+
+
+time=time
+#case $ext in *leisure* ) java_heap=3500M ;; esac
+
+pwd=$(pwd)
+license_file="license.txt"
+copyright_file="copyright.txt"
+copyright="OpenStreetMap.org"
+java_opt=-Xmx${java_heap}
+mkgmap_map_style="osm"
+: ${osm2xxx_max_jobs="2"}
+
+etc_dir=$dirname/../etc/mkgmap
+
+# by default we generate utf-8 (unicode) maps, except for SRTM
+# and older devices
+mkgmap_codepage="--code-page=65001" # unicode
+case $ext in
+    *-ascii | srtm ) mkgmap_codepage=""; garmin_charset="ASCII" ;;
+    *-latin1       ) mkgmap_codepage="--code-page=1252"; garmin_charset="latin1" ;;
+    * ) garmin_charset="UTF-8" ;;
+esac
+
+case $ext in
+   cycle )
+        ext=garmin-cycle.zip
+        mkgmap_map=--style-file=$etc_dir/style/cyclemap
+        mkgmap_map_style=cyclemap
+        mkgmap_map_type=$etc_dir/typ/cyclemap/cyclemap.TYP
+        ;;
+   cycle-ascii )
+	    ext=garmin-cycle-ascii.zip
+        mkgmap_map=--style-file=$etc_dir/style/cyclemap
+        mkgmap_map_style=cyclemap
+        mkgmap_map_type=$etc_dir/typ/cyclemap/cyclemap.TYP
+        ;;
+   cycle-latin1 )
+        ext=garmin-cycle-latin1.zip
+        mkgmap_map=--style-file=$etc_dir/style/cyclemap
+        mkgmap_map_style=cyclemap
+        mkgmap_map_type=$etc_dir/typ/cyclemap/cyclemap.TYP
+        ;;
+
+   leisure )
+        ext=garmin-leisure.zip
+    	mkgmap_map=--style-file=$etc_dir/style/fzk
+        mkgmap_map_style=fzk
+        mkgmap_map_type=$etc_dir/typ/fzk/freizeit.TYP
+        ;;
+   leisure-ascii )
+    	ext=garmin-leisure-ascii.zip
+    	mkgmap_map=--style-file=$etc_dir/style/fzk
+    	mkgmap_map_style=fzk
+    	mkgmap_map_type=$etc_dir/typ/fzk/freizeit.TYP
+        ;;
+   leisure-latin1 )
+    	ext=garmin-leisure-latin1.zip
+    	mkgmap_map=--style-file=$etc_dir/style/fzk
+    	mkgmap_map_style=fzk
+    	mkgmap_map_type=$etc_dir/typ/fzk/freizeit.TYP
+        ;;
+    
+   bbbike )
+    	ext=garmin-bbbike.zip
+    	mkgmap_map=--style-file=$etc_dir/../../../misc/mkgmap/srt-style
+    	mkgmap_map_style=bbbike
+    	mkgmap_map_type=$etc_dir/../../../misc/mkgmap/typ/M000002a.TYP
+        ;;
+   bbbike-ascii )
+    	ext=garmin-bbbike-ascii.zip
+    	mkgmap_map=--style-file=$etc_dir/../../../misc/mkgmap/srt-style
+    	mkgmap_map_style=bbbike
+    	mkgmap_map_type=$etc_dir/../../../misc/mkgmap/typ/M000002a.TYP
+        ;;
+   bbbike-latin1 )
+    	ext=garmin-bbbike-latin1.zip
+    	mkgmap_map=--style-file=$etc_dir/../../../misc/mkgmap/srt-style
+    	mkgmap_map_style=bbbike
+    	mkgmap_map_type=$etc_dir/../../../misc/mkgmap/typ/M000002a.TYP
+        ;;
+
+   onroad )
+    	ext=garmin-onroad.zip
+    	mkgmap_map=--style-file=$etc_dir/style/bike-onroad
+    	mkgmap_map_style=onroad
+    	mkgmap_map_type="" 
+        ;;
+   onroad-ascii )
+        ext=garmin-onroad-ascii.zip
+        mkgmap_map=--style-file=$etc_dir/style/bike-onroad
+        mkgmap_map_style=onroad
+        mkgmap_map_type="" 
+        ;;
+   onroad-latin1 )
+        ext=garmin-onroad-latin1.zip
+        mkgmap_map=--style-file=$etc_dir/style/bike-onroad
+        mkgmap_map_style=onroad
+        mkgmap_map_type="" 
+        ;;
+        
+   opentopo )
+        ext=garmin-opentopo.zip
+        mkgmap_map=--style-file=$etc_dir/style/opentopo
+        mkgmap_map_style=opentopo
+        mkgmap_map_type=$etc_dir/typ/opentopo/OpenTopoMap.typ
+        ;;
+   opentopo-ascii )
+        ext=garmin-opentopo-ascii.zip
+        mkgmap_map=--style-file=$etc_dir/style/opentopo
+        mkgmap_map_style=opentopo
+        mkgmap_map_type=$etc_dir/typ/opentopo/OpenTopoMap.typ
+        ;;
+   opentopo-latin1 )
+        ext=garmin-opentopo-latin1.zip
+        mkgmap_map=--style-file=$etc_dir/style/opentopo
+        mkgmap_map_style=opentopo
+        mkgmap_map_type=$etc_dir/typ/opentopo/OpenTopoMap.typ
+        ;;
+
+   oseam )
+        ext=garmin-oseam.zip
+        mkgmap_map=--style-file=$etc_dir/style/oseam
+        mkgmap_map_style=oseam
+        mkgmap_map_type=""
+        ;;
+   oseam-ascii )
+        ext=garmin-oseam-ascii.zip
+        mkgmap_map=--style-file=$etc_dir/style/oseam
+        mkgmap_map_style=oseam
+        mkgmap_map_type=""
+        ;;
+   oseam-latin1 )
+        ext=garmin-oseam-latin1.zip
+        mkgmap_map=--style-file=$etc_dir/style/oseam
+        mkgmap_map_style=oseam
+        mkgmap_map_type=""
+        ;;
+
+   openfietslite )
+        ext=garmin-openfietslite.zip
+        mkgmap_map=--style-file=$etc_dir/style/openfietsmap-lite
+        mkgmap_map_style=openfietslite
+        mkgmap_map_type=$etc_dir/typ/openfietsmap-lite/openfietsmap-lite.TYP
+        ;;
+   openfietslite-ascii )
+        ext=garmin-openfietslite-ascii.zip
+        mkgmap_map=--style-file=$etc_dir/style/openfietsmap-lite
+        mkgmap_map_style=openfietslite
+        mkgmap_map_type=$etc_dir/typ/openfietsmap-lite/openfietsmap-lite.TYP
+        ;;
+   openfietslite-latin1 )
+        ext=garmin-openfietslite-latin1.zip
+        mkgmap_map=--style-file=$etc_dir/style/openfietsmap-lite
+        mkgmap_map_style=openfietslite
+        mkgmap_map_type=$etc_dir/typ/openfietsmap-lite/openfietsmap-lite.TYP
+        ;;
+
+   osm )
+        ext=garmin-osm.zip
+        ;;
+   osm-ascii )
+        ext=garmin-osm-ascii.zip
+        ;;
+   osm-latin1 )
+        ext=garmin-osm-latin1.zip
+        ;;
+        
+   srtm )
+        ext=garmin-srtm.zip
+        mkgmap_map=--style-file=$etc_dir/style/srtm
+        mkgmap_map_style=srtm
+        mkgmap_map_type=$etc_dir/typ/srtm/srtm.TYP
+	;;
+
+   *) usage "unknown format: '$ext'"
+	;;
+esac
+
+garmin_product_id=1
+case $ext in
+   *cycle* )   garmin_product_id=2 ;;
+   *leisure* ) garmin_product_id=3 ;;
+   *bbbike* )  garmin_product_id=4 ;;
+   *srtm* )    garmin_product_id=5 ;;
+   *onroad* )  garmin_product_id=6 ;;
+   *openfietslite* )  garmin_product_id=7 ;;
+   *oseam* )   garmin_product_id=8 ;;
+   *opentopo* )garmin_product_id=9 ;;
+esac
+
+garmin_family_id=$(basename $file | perl -npe 's/(\.pbf|\.gz|\.bz2)?$//')
+garmin_family_id=$(echo $garmin_family_id $ext | $MD5 | perl -ne 's/[a-f]//g; print /^(\d{4})/ ? $1 : "4444"')
+mkgmap_opt="--keep-going --family-id=$garmin_family_id --product-id=$garmin_product_id \
+            --remove-short-arcs --route --copyright-file="$copyright_file" --license-file=$license_file \
+            --location-autofill=is_in,nearest --index --show-profiles=1 --make-opposite-cycleways"
+mkgmap_opt_pois="--add-pois-to-areas"
+mkgmap_opt_sea=""
+mkgmap_opt_bounds=""
+
+if [ -n "$BBBIKE_MKGMAP_SEA_DIR" -a -d $BBBIKE_MKGMAP_SEA_DIR ]; then
+    mkgmap_opt_sea="--precomp-sea=$BBBIKE_MKGMAP_SEA_DIR --generate-sea=land-tag=natural=land"
+else
+    echo "did not found sea border, ignored: '$BBBIKE_MKGMAP_SEA_DIR'"
+fi
+if [ -n "$BBBIKE_MKGMAP_BOUNDS_DIR" -a -d $BBBIKE_MKGMAP_BOUNDS_DIR ]; then
+    mkgmap_opt_bounds="--bounds=$BBBIKE_MKGMAP_BOUNDS_DIR"
+fi
+
+if [ -n "$mkgmap_map_type" ]; then
+    test -e "$mkgmap_map_type" || usage "cannot find $mkgmap_map_type file"
+fi
+
+# options for a specific map type
+mkgmap_opt_style=""
+case $ext in
+   *oseam* ) mkgmap_opt_style="--custom"
+             # OpenSeaMap: avoid double ports 
+             mkgmap_opt_pois=""
+             ;;
+   * )       mkgmap_opt_style="--housenumbers"
+            ;;
+esac
+
+tmpdir=`mktemp -d ${BBBIKE_TMPFS}/osm2garmin.$(basename $ext .zip).XXXXXXXXXXX`
+
+# cleanup after signal, but show errors first
+trap '( sleep 1; rm -rf $tmpdir ) &' 1 2 15
+
+garmin=`basename $file | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//'`
+garmin_dir=$tmpdir/$garmin-`basename $ext .zip`
+mkdir -p $garmin_dir
+
+logfile=$garmin_dir/logfile.txt
+if [ -e $BBBIKE_SPLIT_DIR/logfile.txt ]; then
+  cat $BBBIKE_SPLIT_DIR/logfile.txt >> $logfile
+  echo "" >> $logfile
+fi
+touch $logfile
+
+# mkgmap bug
+if [ ! -s $file ]; then
+    : #error "file size is zero, give up!"
+fi
+
+#mapid=63240001
+mapid=${garmin_family_id}0001
+
+# split huge planet.pbf files into smaller pieces and put them in $split_dir
+#split_dir=$($dirname/pbf-splitter $file $format)/split
+if [ -z "$BBBIKE_SPLIT_DIR" -o ! -e "$BBBIKE_SPLIT_DIR" ]; then
+    error "BBBIKE_SPLIT_DIR=$BBBIKE_SPLIT_DIR not set or exists"
+fi
+split_dir=$BBBIKE_SPLIT_DIR/split
+
+mkgmap_map_style_charset="$mkgmap_map_style ($garmin_charset)"
+date=$(date -u)
+date_short=$(date -u '+%d-%b-%Y')
+if [ -z "$city" ]; then
+   description="$garmin $mkgmap_map_style/$garmin_charset BBBike.org $date_short"
+else
+   description="$city $mkgmap_map_style/$garmin_charset BBBike.org $date_short"
+fi
+
+# the limit for description field is 50 bytes
+coords=$(echo $garmin | perl -npe 's,planet_,,; s/_/ /g')
+description=$(echo $description | perl -npe '$_ = substr($_, 0, 49)')
+
+set_typ=$dirname/freizeitkarte-set-typ.pl
+
+cd $garmin_dir
+echo "Map data (c) OpenStreetMap.org contributors" > $license_file
+
+cat <<EOF > $copyright_file
+GARMIN LTD
+Map data (c) OpenStreetMap.org contributors (not from Garmin Ltd.!!!)
+Garmin image created by BBBike extract service: https://extract.bbbike.org
+EOF
+
+BBBIKE_EXTRACT_COORDS=$BBBIKE_EXTRACT_COORDS BBBIKE_EXTRACT_URL=$BBBIKE_EXTRACT_URL \
+  date=$date city=$city mkgmap_map_style="$mkgmap_map_style_charset" sh $template > README.txt
+
+$text2html < README.txt > README.html
+
+if [ -n "$mkgmap_map_type" ]; then
+   cp $mkgmap_map_type map.TYP
+   mkgmap_map_type=map.TYP
+   $set_typ $garmin_family_id $garmin_product_id $mkgmap_map_type >> $logfile 2>&1 
+fi
+
+# --mapname="$mapid" 
+echo ">>> Run mkgmap, map style: $mkgmap_map_style_charset" >> $logfile
+( set -x 
+  java -jar $BBBIKE_OPT_DIR/$BBBIKE_MKGMAP_VERSION/mkgmap.jar --version
+  $time java $java_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_MKGMAP_VERSION/mkgmap.jar \
+    --max-jobs=$osm2xxx_max_jobs \
+    $mkgmap_opt \
+    $mkgmap_opt_style \
+    $mkgmap_opt_pois \
+    $mkgmap_opt_sea \
+    $mkgmap_opt_bounds \
+    $mkgmap_codepage \
+    $mkgmap_map \
+    --gmapsupp \
+    --description="$description" \
+    --family-name="$coords \
+    style=$mkgmap_map_style" \
+    $split_dir/*.pbf $mkgmap_map_type ) 2>&1 | tail -c 1024K >> $logfile || error
+
+logfile_max_size="2000k"
+if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
+    echo "Warning: logfile $logfile is to big"
+    ls -l $logfile
+    gzip $logfile
+    #exit 2
+fi
+
+if egrep -ql '^java\.lang\.' $logfile; then
+    error
+fi
+
+rm -f $license_file $copyright_file
+rm -f map.TYP
+
+# gmapsupp.img cleanup
+rm -rf osmmap.tdb osmmap.img osmmap.mdx osmmap_mdr.img [0-9][0-9]*.img ovm_*.img
+
+case $BBBIKE_EXTRACT_LANG in
+  en ) ext2=$ext ;;
+   * ) ext2=$(echo $ext | perl -npe "s/\.zip\$/.${BBBIKE_EXTRACT_LANG}.zip/") ;;
+esac
+
+( $MD5 gmapsupp.img; $SHA gmapsupp.img ) > .checksum.txt; mv -f .checksum.txt CHECKSUM.txt
+
+cd ..
+garmin_zip=`dirname $file`/$garmin.osm.$ext2
+zip -q -r - -- `basename $garmin_dir` | \
+  ( cd $pwd;
+    cat > $garmin_zip.tmp && mv $garmin_zip.tmp $garmin_zip
+    $osm_checksum $garmin_zip
+  )
+
+$debug || rm -rf $tmpdir
