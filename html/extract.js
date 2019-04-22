@@ -38,6 +38,9 @@ var config = {
         "geojsonseq.xz": 496,
         "sqlite.xz": 256,
 
+        "mbtiles-openmaptiles.zip": 15,
+        "mbtiles-basic.zip": 15,
+
         "obf.zip": 256,
         "navit.zip": 512,
         "bbbike-perltk.zip": 90,
@@ -150,6 +153,9 @@ var config = {
         "geojsonseq.xz": "/images/geojson.png",
         "text.xz": "/images/text.png",
         "sqlite.xz": "/images/sqlite.png",
+
+        "mbtiles-basic.zip": "/images/svg-google-small.png",
+        "mbtiles-openmaptiles.zip": "/images/svg-google-small.png",
 
         "csv.xz": "/images/csv.png",
         "csv.gz": "/images/csv.png",
@@ -1626,6 +1632,14 @@ function show_filesize(skm, real_size, sub_planet_factor) {
         },
         "sqlite.xz": {
             "size": 1.50
+        },
+        "mbtiles-basic.zip": {
+            "size": 0.48,
+            "time": 20
+        },
+        "mbtiles-openmaptiles.zip": {
+            "size": 0.48,
+            "time": 20
         },
         "mapsforge-osm.zip": {
             "size": 0.7,
