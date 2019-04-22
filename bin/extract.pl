@@ -1196,6 +1196,8 @@ sub _convert_send_email {
 
     $ENV{'BBBIKE_EXTRACT_GARMIN_VERSION'} =
       $option->{pbf2osm}->{garmin_version};
+    $ENV{'BBBIKE_EXTRACT_MBTILES_VERSION'} =
+      $option->{pbf2osm}->{mbtiles_version};
     $ENV{'BBBIKE_EXTRACT_MAPERITIVE_VERSION'} =
       $option->{pbf2osm}->{maperitive_version};
     $ENV{'BBBIKE_EXTRACT_OSMAND_VERSION'} =
