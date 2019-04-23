@@ -1639,7 +1639,7 @@ function show_filesize(skm, real_size, sub_planet_factor) {
         },
         "mbtiles-openmaptiles.zip": {
             "size": 0.48,
-            "time": 300
+            "time": 1200
         },
         "mapsforge-osm.zip": {
             "size": 0.7,

@@ -132,7 +132,7 @@ our $formats_menu = {
     },
     'mbtiles' => {
         'title'   => "MBTiles",
-        'formats' => [ 'mbtiles-basic.zip', 'mbtiles-openmaptiles.zip' ]
+        'formats' => ['mbtiles-basic.zip']    #, 'mbtiles-openmaptiles.zip' ]
     },
     'garmin' => {
         'title'   => "Garmin",
