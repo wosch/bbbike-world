@@ -1706,6 +1706,9 @@ docker-build-libosmium-ubuntu16:
 docker-build-libosmium-ubuntu18:
 	${BBMAKE} DOCKER_IMAGE_FILE=libosmium-ubuntu18 DOCKER_BBBIKE_TAG=bbbike/libosmium-ubuntu18 docker-build
 
+docker-build-tilemaker-ubuntu16:
+	${BBMAKE} DOCKER_IMAGE_FILE=tilemaker-ubuntu16 DOCKER_BBBIKE_TAG=bbbike/tilemaker-ubuntu16 docker-build
+
 # see world/etc/docker/README 
 docker-build-tile:
 	${BBMAKE} DOCKER_IMAGE_FILE=tile-ubuntu14 DOCKER_BBBIKE_TAG=bbbike/tile docker-build
@@ -1813,6 +1816,7 @@ help:
 	@echo "  [ docker-build-extract-ubuntu14 | docker-build-extract-ubuntu16 | docker-build-extract-ubuntu18 ]"
 	@echo "  [ docker-build-libosmium-debian9 | docker-build-libosmium-debian10 ]"
 	@echo "  [ docker-build-libosmium-ubuntu16 | docker-build-libosmium-ubuntu18 ]"
+	@echo "  [ docker-build-tilemaker-ubuntu16 ]"
 	@echo "  [ docker-build-all | docker-build-libosmium-all | docker-clean | docker-distclean ]"
 	@echo "  [ travis ]"
 	@echo ""
