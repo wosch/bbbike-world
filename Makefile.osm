@@ -1714,6 +1714,8 @@ docker-build-tile:
 	${BBMAKE} DOCKER_IMAGE_FILE=tile-ubuntu14 DOCKER_BBBIKE_TAG=bbbike/tile docker-build
 docker-shell-tile:
 	${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/tile docker-shell
+docker-shell-tilemaker:
+	${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/tilemaker-ubuntu16 docker-shell
 
 # remove temp images
 docker-clean:
