@@ -6,7 +6,7 @@ $BBBIKE_EXTRACT_OSMAND_VERSION by https://github.com/osmandapp/Osmand
 
 Please read the OsmAnd homepage how to use obf files:
 
-  http://osmand.net
+  https://osmand.net
 
 
 Diese Osmand Karte wurde erzeugt am: $date
