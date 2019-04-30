@@ -96,7 +96,7 @@ date_short=$(date -u '+%d-%b-%Y')
 cd $mbtiles_dir
 
 BBBIKE_EXTRACT_COORDS=$BBBIKE_EXTRACT_COORDS BBBIKE_EXTRACT_URL=$BBBIKE_EXTRACT_URL \
-  date=$date city=$city mbtiles_style="$mbtiles_style" sh $template > README.txt
+  date=$date city=$city mbtiles_style="$style" sh $template > README.txt
 
 $text2html < README.txt > README.html
 
