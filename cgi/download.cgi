@@ -346,7 +346,10 @@ sub load_javascript_libs {
 <script type="text/javascript">
 $(document).ready(function () {
     download_init_map();
-    parse_areas_from_links();
+
+    // non-blocking delay
+    setTimeout(function() { parse_areas_from_links(); }, 10);
+
     if (_auto_refresh_start) {
         auto_refresh();
     }

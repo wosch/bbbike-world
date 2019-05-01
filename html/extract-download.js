@@ -186,19 +186,22 @@ function get_download_area(url) {
 
 function parse_areas_from_links() {
     $("td > a.polygon0, td > a.polygon1").each(function (i, n) {
-        var url = $(n).attr("href");
-        var obj = get_download_area(url);
+        setTimeout(function () {
+            var url = $(n).attr("href");
+            var obj = get_download_area(url);
 
-        // get class format from the <td> before
-        obj.class_format = $($(n).parent().parent().find("td > span")[1]).attr("class");
+            // get class format from the <td> before
+            obj.class_format = $($(n).parent().parent().find("td > span")[1]).attr("class");
 
-        // display *all* polygons first, looks nicer
-        download_plot_polygon(obj);
+            // display *all* polygons first, looks nicer
+            download_plot_polygon(obj);
 
-        // on mouseover, move to the polygon and center
-        $(n).on("mouseover", "", function () {
-            download_center_polygon(obj);
-        });
+            // on mouseover, move to the polygon and center
+            $(n).on("mouseover", "", function () {
+                download_center_polygon(obj);
+            });
+
+        }, 0 * i);
     });
 }
 
