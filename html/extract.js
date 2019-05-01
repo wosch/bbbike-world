@@ -38,8 +38,8 @@ var config = {
         "geojsonseq.xz": 496,
         "sqlite.xz": 256,
 
-        "mbtiles-openmaptiles.zip": 15,
-        "mbtiles-basic.zip": 15,
+        "mbtiles-openmaptiles.zip": 12,
+        "mbtiles-basic.zip": 12,
 
         "obf.zip": 256,
         "navit.zip": 512,
