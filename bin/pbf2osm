@@ -28,9 +28,9 @@ osm2mapsme=$dirname/osm2mapsme
 
 # max. file size in KB
 # larger value for special garmin format
-if [ "$format" = "--garmin-onroad" -o "$format" = "--garmin-onroad-ascii" ]; then
-    : ${max_file_size_garmin=9950000}
-fi
+case $format in
+  --garmin-onroad* ) : ${max_file_size_garmin=6950000} ;;
+esac
 
 # use max. configured CPUs
 if which pbzip2 >/dev/null 2>&1; then
