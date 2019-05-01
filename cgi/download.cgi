@@ -67,7 +67,7 @@ our $option = {
 my $q            = new CGI;
 my $max_extracts = 2000;
 
-my $default_date      = "24h";    # 24h: today
+my $default_date      = "12h";    # 24h: today
 my $default_date_json = "3h";     # less data for json output
 my $filter_format     = "";       # all formats
 
