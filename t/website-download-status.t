@@ -115,9 +115,9 @@ sub page_check {
         "charset" );
     like( $res->decoded_content, qr| http-equiv="Content-Type"|,
         "Content-Type" );
-    like( $res->decoded_content, qr|date=12h|,
-        "bbbike extract download date 12h" );
-    like( $res->decoded_content, qr[^24h |],
+    like( $res->decoded_content, qr|date=6h|,
+        "bbbike extract download date 6h" );
+    like( $res->decoded_content, qr[date=24h |],
         "bbbike extract download date 24h" );
     like( $res->decoded_content, qr|date=36h|,
         "bbbike extract download date 36h" );
