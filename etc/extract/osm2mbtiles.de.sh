@@ -7,6 +7,7 @@ Map style (c) by systemed, BBBike.org
 Please read the OSM wiki how to install the mbtiles on your computer or GPS device:
 
   https://wiki.openstreetmap.org/wiki/MBTiles
+  https://github.com/mapbox/mbtiles-spec/wiki/Implementations
 
 Diese mbtiles Karte wurde erzeugt am: $date
 mbtiles Kartenstil: $mkgmap_map_style
