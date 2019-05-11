@@ -1,2 +1,2 @@
 ## backports
-deb     http://httpredir.debian.org/debian     jessie-backports main contrib non-free
+#deb     http://httpredir.debian.org/debian     jessie-backports main contrib non-free
