@@ -1512,10 +1512,6 @@ UPDATE_APT=deb-perl deb-equivs deb-bin deb-repo-upload
 update-apt-wheezy update-apt-debian7:
 	${MAKE} DEB_VENDOR=debian DEB_RELEASE=wheezy  ${UPDATE_APT}
 
-# debian8/jessie
-update-apt-jessie update-apt-debian8:
-	${MAKE} DEB_VENDOR=debian DEB_RELEASE=jessie  ${UPDATE_APT}
-
 # debian9/stretch
 update-apt-stretch update-apt-debian9:
 	${MAKE} DEB_VENDOR=debian DEB_RELEASE=stretch  ${UPDATE_APT}
@@ -1652,7 +1648,6 @@ docker-check-w:
 docker-build-all: 
 	${NICE} ${BBMAKE} -j${MAX_CPU} \
 	  docker-build-tile \
-	  docker-build-extract-debian8 \
 	  docker-build-extract-debian9 \
 	  docker-build-extract-debian10 \
 	  docker-build-extract-ubuntu14 \
@@ -1669,7 +1664,6 @@ docker-build-libosmium-all:
 
 DOCKER_CHECK_ALL_COMMAND=docker-check
 docker-check-all: 
-		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian8  ${DOCKER_CHECK_ALL_COMMAND}
 		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian9  ${DOCKER_CHECK_ALL_COMMAND}
 		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian10 ${DOCKER_CHECK_ALL_COMMAND}
 		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu14 ${DOCKER_CHECK_ALL_COMMAND}
@@ -1681,8 +1675,6 @@ docker-check-w-all:
 
 
 # debian
-docker-build-extract-debian8:
-	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-debian8 DOCKER_BBBIKE_TAG=bbbike/extract-debian8 docker-build
 docker-build-extract-debian9:
 	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-debian9 DOCKER_BBBIKE_TAG=bbbike/extract-debian9 docker-build
 docker-build-extract-debian10:
@@ -1809,7 +1801,7 @@ help:
 	@echo "  [ docker-check | docker-check-w | docker-check-all ]"
 	@echo "  [ DOCKER_BBBIKE_TAG=bbbike/extract-debian9  docker-check-w ]"
 	@echo "  [ docker-build-tile | docker-shell-tile ]"
-	@echo "  [ docker-build-extract-debian8 | docker-build-extract-debian9 | docker-build-extract-debian10 ]"
+	@echo "  [ docker-build-extract-debian9 | docker-build-extract-debian10 ]"
 	@echo "  [ docker-build-extract-ubuntu14 | docker-build-extract-ubuntu16 | docker-build-extract-ubuntu18 ]"
 	@echo "  [ docker-build-libosmium-debian9 | docker-build-libosmium-debian10 ]"
 	@echo "  [ docker-build-libosmium-ubuntu16 | docker-build-libosmium-ubuntu18 ]"
