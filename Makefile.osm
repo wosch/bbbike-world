@@ -1508,10 +1508,6 @@ download-srtm-bbbike-org-install:
 
 UPDATE_APT=deb-perl deb-equivs deb-bin deb-repo-upload
 
-# debian7/wheezy
-update-apt-wheezy update-apt-debian7:
-	${MAKE} DEB_VENDOR=debian DEB_RELEASE=wheezy  ${UPDATE_APT}
-
 # debian9/stretch
 update-apt-stretch update-apt-debian9:
 	${MAKE} DEB_VENDOR=debian DEB_RELEASE=stretch  ${UPDATE_APT}
