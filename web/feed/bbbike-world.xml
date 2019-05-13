@@ -4,7 +4,7 @@
   <link href="https://www.bbbike.org" />
   <link href="https://www.bbbike.org/feed/bbbike-world.xml" rel="self" />
   <icon>https://www.bbbike.org/images/srtbike.ico</icon>
-  <updated>Sun Apr 14 16:22:56 2019 +0000</updated>
+  <updated>Mon Apr 22 17:43:41 2019 +0000</updated>
   <author>
     <name>Wolfram Schneider</name>
   </author>
@@ -12,6 +12,13 @@
   OpenStreetMap project!</subtitle>
   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af7</id>
   <generator uri="https://metacpan.org/pod/XML::Atom::SimpleFeed" version="0.900">XML::Atom::SimpleFeed</generator>
+  <entry>
+    <title>New OSM export format MBTiles</title>
+    <id>396b20cf70a9aec7c349db9fcf9723a2</id>
+    <content type="html">The &lt;a href="https://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports MBTiles format</content>
+    <updated>2019-04-22T18:30:02Z</updated>
+    <category term="News" />
+  </entry>
   <entry>
     <title>The BBBike Map Compare service supports now historic maps of Berlin</title>
     <id>a41861d665e7302109a74327df5cbe5d</id>
