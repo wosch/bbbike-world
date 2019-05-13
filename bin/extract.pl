@@ -153,6 +153,7 @@ our $option = {
 
     'pbf2osm' => {
         'garmin_version'     => 'mkgmap',
+        'mbtiles_version'    => 'mbtiles',
         'maperitive_version' => 'Maperitive',
         'osmand_version'     => 'OsmAndMapCreator',
         'mapsforge_version'  => 'mapsforge',
@@ -881,6 +882,9 @@ sub reorder_pbf {
         'text.xz'       => 1.33,
         'sqlite.xz'     => 1.34,
 
+        'mbtiles-basic.zip'        => 10,
+        'mbtiles-openmaptiles.zip' => 10,
+
         'csv.gz'  => 0.42,
         'csv.xz'  => 0.2,
         'csv.bz2' => 0.45,
@@ -1196,6 +1200,8 @@ sub _convert_send_email {
 
     $ENV{'BBBIKE_EXTRACT_GARMIN_VERSION'} =
       $option->{pbf2osm}->{garmin_version};
+    $ENV{'BBBIKE_EXTRACT_MBTILES_VERSION'} =
+      $option->{pbf2osm}->{mbtiles_version};
     $ENV{'BBBIKE_EXTRACT_MAPERITIVE_VERSION'} =
       $option->{pbf2osm}->{maperitive_version};
     $ENV{'BBBIKE_EXTRACT_OSMAND_VERSION'} =
@@ -1270,6 +1276,28 @@ sub _convert_send_email {
         if ( !cached_format( $file, $pbf_file ) ) {
             @system = ( @nice, "$dirname/pbf2osm", "--garmin-$style", $pbf_file,
                 $city );
+            warn "@system\n" if $debug >= 2;
+            @system = 'true' if $test_mode;
+
+            system(@system) == 0 or die "system @system failed: $?";
+        }
+    }
+
+    # MBTiles
+    elsif ( $format =~ /mbtiles-([a-z0-9\-]+)\.zip$/
+        && exists $formats->{$format} )
+    {
+        my $style      = $1;
+        my $format_ext = $format;
+        $format_ext =~ s/^[a-z\-]+\.mbtiles/mbtiles/;
+
+        $file =~ s/\.pbf$/.$format_ext/;
+        $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
+
+        if ( !cached_format( $file, $pbf_file ) ) {
+            @system = (
+                @nice, "$dirname/pbf2osm", "--mbtiles-$style", $pbf_file, $city
+            );
             warn "@system\n" if $debug >= 2;
             @system = 'true' if $test_mode;
 

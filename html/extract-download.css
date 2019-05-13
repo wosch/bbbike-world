@@ -201,6 +201,9 @@ span.format_geojson_xz { color: blue; }
 span.format_text_xz { color: blue; }
 span.format_sqlite_xz { color: blue; }
 
+span.format_mbtiles_basic_zip { color: #3498DB  ; }
+span.format_mbtiles_openmaptiles_zip { color: #3498DB  ; }
+
 span.format_srtm_europe_garmin_srtm_zip { color: brown; }
 span.format_srtm_europe_obf_zip { color: brown; }
 span.format_srtm_europe_osm_pbf { color: brown; }

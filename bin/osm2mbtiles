@@ -1,0 +1,130 @@
+#!/bin/sh
+# Copyright (c) 2012-2019 Wolfram Schneider, https://bbbike.org
+#
+# osm2mbtiles - convert a osm/pbf file to mbtiles
+#
+
+set -e
+PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
+
+: ${BBBIKE_EXTRACT_LANG=en}
+: ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
+: ${BBBIKE_TMPDIR="/bbbike/tmp"}
+: ${BBBIKE_TMPFS="/tmp"}
+: ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
+: ${SHA="shasum -a 256"}
+: ${debug=false}
+
+
+usage () {
+    echo "$@"
+cat <<EOF
+usage $0 file [ style ] [ title ]
+
+  basic openmaptiles
+EOF
+    exit 1
+}
+
+error () {
+    message="$@"
+
+    echo "$message"
+    echo "file: $file"
+    tail -c 256K $logfile
+    exit 1
+}
+
+file=$1
+style=$2
+city=$3
+
+test -z "$file" && usage
+
+if [ -z "$style" ]; then
+  style="basic"
+fi
+ext=$style
+
+case $style in
+   basic ) ext=mbtiles-basic.zip ;;
+   openmaptiles ) ext=mbtiles-openmaptiles.zip ;;
+   *) usage ;;
+esac
+
+
+time=time
+
+# absolute file path
+case $file in /*) ;; *) file=$(pwd)/$file ;; esac
+
+dirname=$(dirname $0)
+case $dirname in /*) ;; *) dirname=$(pwd)/$dirname ;; esac
+
+text2html=$dirname/text2html.sh
+
+test -e "$file" || usage "file $file does not exists"
+: ${osm_checksum=$dirname/osm-checksum}
+
+template=$dirname/../etc/extract/$(basename $0).$BBBIKE_EXTRACT_LANG.sh
+size=$(du -ks -L "$file" | awk '{ print $1}')
+
+pwd=$(pwd)
+etc_dir=$dirname/../etc/tilemaker
+config_file=$etc_dir/$style.json
+
+
+if [ -n "$config_file" ]; then
+    test -e "$config_file" || usage "cannot find $config_file file"
+fi
+
+tmpdir=`mktemp -d ${BBBIKE_TMPFS}/osm2mbtiles.$(basename $ext .zip).XXXXXXXXXXX`
+
+# cleanup after signal, but show errors first
+trap '( sleep 1; rm -rf $tmpdir ) &' 1 2 15
+
+mbtiles=`basename $file | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//'`
+mbtiles_dir=$tmpdir/$mbtiles-`basename $ext .zip`
+mkdir -p $mbtiles_dir
+
+logfile=$mbtiles_dir/logfile.txt
+touch $logfile
+
+date=$(date -u)
+date_short=$(date -u '+%d-%b-%Y')
+
+cd $mbtiles_dir
+
+BBBIKE_EXTRACT_COORDS=$BBBIKE_EXTRACT_COORDS BBBIKE_EXTRACT_URL=$BBBIKE_EXTRACT_URL \
+  date=$date city=$city mbtiles_style="$style" sh $template > README.txt
+
+$text2html < README.txt > README.html
+
+echo ">>> Run tilemaker, config style: $style" >> $logfile
+( set -x
+  tilemaker --config $config_file --process $etc_dir/process.lua --input $file --output $mbtiles.mbtiles --threads 3
+) 2>&1 | tail -c 1024K >> $logfile || error
+
+logfile_max_size="2000k"
+if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
+    echo "Warning: logfile $logfile is to big"
+    ls -l $logfile
+    gzip $logfile
+fi
+
+case $BBBIKE_EXTRACT_LANG in
+  en ) ext2=$ext ;;
+   * ) ext2=$(echo $ext | perl -npe "s/\.zip\$/.${BBBIKE_EXTRACT_LANG}.zip/") ;;
+esac
+
+( $MD5 $mbtiles.mbtiles; $SHA $mbtiles.mbtiles ) > .checksum.txt; mv -f .checksum.txt CHECKSUM.txt
+
+cd ..
+mbtiles_zip=`dirname $file`/$mbtiles.osm.$ext2
+zip -q -r - -- `basename $mbtiles_dir` | \
+  ( cd $pwd;
+    cat > $mbtiles_zip.tmp && mv $mbtiles_zip.tmp $mbtiles_zip
+    $osm_checksum $mbtiles_zip
+  )
+
+$debug || rm -rf $tmpdir

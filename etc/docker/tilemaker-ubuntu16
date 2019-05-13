@@ -1,0 +1,24 @@
+FROM ubuntu:16.04
+LABEL Description="Tilemaker" Version="1.4.0"
+
+# INSTALL DEPENDENCIES
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get -q update -q && apt-get -q upgrade -y 
+RUN apt-get -q install -y apt-transport-https apt-utils 
+RUN apt-get -q install -y build-essential liblua5.1-0 liblua5.1-0-dev \
+	libprotobuf-dev libsqlite3-dev protobuf-compiler shapelib \
+	libshp-dev libboost-all-dev
+RUN apt-get -q install -y git make sudo vim wget curl pixz rsync clang man
+
+RUN useradd -ms /bin/bash tilemaker && \
+  echo 'tilemaker ALL=NOPASSWD: ALL' >> /etc/sudoers
+
+USER tilemaker
+WORKDIR /home/tilemaker
+
+RUN git clone -q https://github.com/wosch/tilemaker
+RUN cd tilemaker && make -j6 && sudo make install
+
+CMD ["bash"]
+

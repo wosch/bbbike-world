@@ -49,6 +49,18 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
+    title   => qq{New OSM export format MBTiles},
+    id      => '396b20cf70a9aec7c349db9fcf9723a2',
+    content => {
+        type => 'html',
+        content =>
+qq{The <a href="https://extract.bbbike.org/">BBBike extract service</a> supports MBTiles format},
+    },
+    updated  => '2019-04-22T18:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title =>
       qq{The BBBike Map Compare service supports now historic maps of Berlin},
     id      => 'a41861d665e7302109a74327df5cbe5d',

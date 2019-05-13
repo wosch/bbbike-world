@@ -1,15 +1,16 @@
 cat << EOF
 Map data (c) OpenStreetMap contributors, https://www.openstreetmap.org
 Extracts created by BBBike, https://extract.bbbike.org
-$BBBIKE_EXTRACT_OSMAND_VERSION by https://github.com/osmandapp/Osmand
+$BBBIKE_EXTRACT_MBTILES_VERSION by https://github.com/systemed/tilemaker
+Map style (c) by systemed, BBBike.org
 
+Please read the OSM wiki how to install the mbtiles on your computer or GPS device:
 
-Please read the OsmAnd homepage how to use obf files:
+  https://wiki.openstreetmap.org/wiki/MBTiles
+  https://github.com/mapbox/mbtiles-spec/wiki/Implementations
 
-  https://osmand.net
-
-
-Diese Osmand Karte wurde erzeugt am: $date
+Diese mbtiles Karte wurde erzeugt am: $date
+mbtiles Kartenstil: $mkgmap_map_style
 GPS Rechteck Koordinaten (lng,lat): $BBBIKE_EXTRACT_COORDS
 Script URL: $BBBIKE_EXTRACT_URL
 Name des Gebietes: $city

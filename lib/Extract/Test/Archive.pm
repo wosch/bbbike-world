@@ -78,6 +78,7 @@ sub init_env {
     my $option = {
         'pbf2osm' => {
             'garmin_version'     => 'mkgmap',
+            'mbtiles_version'    => 'mbtiles',
             'maperitive_version' => 'Maperitive',
             'osmand_version'     => 'OsmAndMapCreator',
             'mapsforge_version'  => 'mapsforge',
@@ -90,6 +91,8 @@ sub init_env {
 
     $ENV{'BBBIKE_EXTRACT_GARMIN_VERSION'} =
       $option->{pbf2osm}->{garmin_version};
+    $ENV{'BBBIKE_EXTRACT_MBTILES_VERSION'} =
+      $option->{pbf2osm}->{mbtiles_version};
     $ENV{'BBBIKE_EXTRACT_MAPERITIVE_VERSION'} =
       $option->{pbf2osm}->{maperitive_version};
     $ENV{'BBBIKE_EXTRACT_OSMAND_VERSION'} =
