@@ -1,5 +1,13 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2019 Wolfram Schneider, https://bbbike.org
+
+BEGIN {
+    system( "env", "PATH=/bin:/usr/bin:/usr/local/bin", "which", "tilemaker" );
+    if ($?) {
+        print "1..0 # skip no 'tilemaker' found, skip mbtiles tests\n";
+        exit;
+    }
+}
 
 use FindBin;
 use lib "$FindBin::RealBin/../lib";
