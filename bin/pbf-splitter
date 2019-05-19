@@ -1,13 +1,11 @@
 #!/bin/sh
-# Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2019 Wolfram Schneider, https://bbbike.org
 #
 # pbf-splitter - split a PBF file into smaller pieces for mkgmap 
 #
 
 set -e
 PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
-
-
 
 usage () {
     echo "$@"
@@ -18,9 +16,11 @@ usage () {
 error () {
     message="$@"
 
+    (
     echo "$message"
     echo "file: $file"
     tail -c 256K $logfile
+    ) >&2
     exit 1
 }
 
@@ -102,9 +102,10 @@ run_splitter () {
     ) 2>&1 | tail -c 1024K >> $logfile || error
     
     if [ $(ls $split_dir/*.pbf 2>/dev/null | wc -l) -eq 0 ]; then
-        echo "Warning: splitter didn't created a file, maybe to small?: $file"
+        echo "Warning: splitter didn't created a file, maybe to small?: $file" >&2
         if [ $size -le 1000 ]; then
             cp -f $file $split_dir/$mapid.osm.pbf
+            echo "Use the original small file '$file' instead." >&2
         else
             error "Argh, $file with size $size to big for single run: $split_dir"
         fi
