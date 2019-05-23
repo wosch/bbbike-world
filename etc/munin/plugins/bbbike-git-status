@@ -14,7 +14,7 @@ use warnings;
 
 =head1 NAME
 
-bbbike-git-status - Plugin to monitor running extract wait time in seconds
+bbbike-git-status - Plugin to monitor when was the last update via git pull
 
 =head1 ABOUT
 
