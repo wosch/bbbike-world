@@ -48,7 +48,7 @@ osm-repo:
 
 nodejs-repo:
 	if [ ! -e /etc/apt/sources.list.d/nodejs.list ]; then \
-	   sudo cp ${PROJECT_DIR}/bbbike/world/etc/apt/tile/ubuntu14/sources.list.d/nodejs.list /etc/apt/sources.list.d/nodejs.list ;\
+	   sudo cp ${PROJECT_DIR}/bbbike/world/etc/apt/ubuntu/trusty/sources.list.d/nodejs.list /etc/apt/sources.list.d/nodejs.list ;\
 	   curl -sSf https://deb.nodesource.com/gpgkey/nodesource.gpg.key | sudo apt-key add -; \
 	fi
 	sudo apt-get -qq update
