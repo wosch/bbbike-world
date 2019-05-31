@@ -4,7 +4,7 @@ MAINTAINER Wolfram Schneider <wosch@FreeBSD.org>
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update -q && apt-get upgrade -y && \
-  apt-get install -y git make
+  apt-get install -y git make curl
 
 RUN mkdir -p /bbbike/projects
 WORKDIR /bbbike/projects
