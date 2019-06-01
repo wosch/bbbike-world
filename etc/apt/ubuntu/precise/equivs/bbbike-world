@@ -3,7 +3,7 @@ Priority: optional
 Standards-Version: 3.6.2
 
 Package: bbbike-world
-Version: 1.4
+Version: 1.5
 Maintainer: Wolfram Schneider <wosch@freebsd.org>
 # Pre-Depends: <comma-separated list of packages>
 Depends: bbbike-world-debian-meta, bbbike-world-perlmodules-meta, bbbike-world-javalibs-misc, bbbike-world-bin-misc
