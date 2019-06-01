@@ -85,7 +85,7 @@ upgrade-all-versions-equisvs:
 help:
 	@echo ""
 	@echo "  make [ clean | distclean | build | deb-repo ]"
-	@echo "  make [ upgrade-all-versions ]"
+	@echo "  make [ upgrade-all-versions-equisvs | upgrade-all-versions ]"
 	@echo ""
 	@echo "  make LIB=bbbike-world-bin distclean build deb-repo"
 	@echo "  make LIB=bbbike-world-javalibs distclean build deb-repo"

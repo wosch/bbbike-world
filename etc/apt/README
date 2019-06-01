@@ -41,5 +41,6 @@ perl -i.bak  -npe 's/^(Version: [\d.]+\.)(\d+)/sprintf("%s%s",$1, $2+1)/e' debia
 perl -i.bak  -npe 's/^(Version: [\d.]+\.)(\d+)/sprintf("%s%s",$1, $2+1)/e' debian/{jessie,trusty,wheezy}/equivs/bbbike-world-debian-meta
 
 see also:
-make upgrade-all-versions
+ make upgrade-all-versions-equisvs
+ make upgrade-all-versions
 
