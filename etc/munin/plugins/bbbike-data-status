@@ -82,7 +82,6 @@ sub data_status_time {
 
     my $bbbike_dir = $args{'bbbike_dir'};
     my $city = $args{'city'} // "Hamburg";
-   
 
     my $time = time();
     my $file = "$bbbike_dir/data-osm/$city/strassen";
