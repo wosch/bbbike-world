@@ -1061,6 +1061,36 @@ qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="j
 
                 $q->td(
                     [
+qq{<span class='' title='Give the city or area to extract a name. }
+                          . "The name is optional, but better fill it out to find it later again.'>"
+                          . "@{[ M('Name of area to extract') ]} "
+                          . "<a class='tools-helptrigger-small' rel='nofollow' href='$extract_dialog/$language/name.html'><img src='/html/help-16px.png' alt='' /></a>"
+                          . "<a class='tools-helptrigger-small' rel='nofollow' href='$extract_dialog/$language/search.html'> @{[ M('or search') ]}</a>"
+                          . "<br/></span>\n"
+                          . $q->textfield(
+                            -name => 'city',
+                            -id   => 'city',
+
+                            # intro.js
+                            -data_step         => 3,
+                            -data_intro        => M("EXTRACT_INTRO_NAME"),
+                            -data_position     => 'auto',
+                            -data_tooltipClass => "extract-introjs",
+
+                            #-size => 18
+                          )
+                          . "\n",
+                    ]
+                  )
+                
+                  . $q->td(
+                    { "class" => "center" },
+                    [
+qq{<span class="center" title="file data size approx." id="size_small"></span>\n}
+                    ]
+                  ),
+                                $q->td(
+                    [
                             "\n"
                           . qq{<span title='Required, you will be notified by email if your extract is ready for download.'>}
                           . M("Your email address")
@@ -1112,35 +1142,7 @@ qq{<span title="show longitude,latitude box" class="lnglatbox_toggle" onclick="j
                           . "\n",
                     ]
                   )
-                  . $q->td(
-                    { "class" => "center" },
-                    [
-qq{<span class="center" title="file data size approx." id="size_small"></span>\n}
-                    ]
-                  ),
-                $q->td(
-                    [
-qq{<span class='' title='Give the city or area to extract a name. }
-                          . "The name is optional, but better fill it out to find it later again.'>"
-                          . "@{[ M('Name of area to extract') ]} "
-                          . "<a class='tools-helptrigger-small' rel='nofollow' href='$extract_dialog/$language/name.html'><img src='/html/help-16px.png' alt='' /></a>"
-                          . "<a class='tools-helptrigger-small' rel='nofollow' href='$extract_dialog/$language/search.html'> @{[ M('or search') ]}</a>"
-                          . "<br/></span>\n"
-                          . $q->textfield(
-                            -name => 'city',
-                            -id   => 'city',
 
-                            # intro.js
-                            -data_step         => 3,
-                            -data_intro        => M("EXTRACT_INTRO_NAME"),
-                            -data_position     => 'auto',
-                            -data_tooltipClass => "extract-introjs",
-
-                            #-size => 18
-                          )
-                          . "\n",
-                    ]
-                  )
                   . $q->td(
                     { "class" => "center" },
                     [
