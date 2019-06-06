@@ -1072,7 +1072,7 @@ qq{<span class='' title='Give the city or area to extract a name. }
                             -id   => 'city',
 
                             # intro.js
-                            -data_step         => 3,
+                            -data_step         => 2,
                             -data_intro        => M("EXTRACT_INTRO_NAME"),
                             -data_position     => 'auto',
                             -data_tooltipClass => "extract-introjs",
@@ -1103,7 +1103,7 @@ qq{<span class="center" title="file data size approx." id="size_small"></span>\n
                             #-size  => 22,
 
                             # intro.js
-                            -data_step         => 2,
+                            -data_step         => 3,
                             -data_intro        => M("EXTRACT_INTRO_EMAIL"),
                             -data_position     => 'auto',
                             -data_tooltipClass => "extract-introjs",
