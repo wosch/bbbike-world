@@ -1082,14 +1082,14 @@ qq{<span class='' title='Give the city or area to extract a name. }
                           . "\n",
                     ]
                   )
-                
+
                   . $q->td(
                     { "class" => "center" },
                     [
 qq{<span class="center" title="file data size approx." id="size_small"></span>\n}
                     ]
                   ),
-                                $q->td(
+                $q->td(
                     [
                             "\n"
                           . qq{<span title='Required, you will be notified by email if your extract is ready for download.'>}
