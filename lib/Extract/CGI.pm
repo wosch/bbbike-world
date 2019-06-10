@@ -444,10 +444,10 @@ $javascript
   $route_js
 </script>
 
-  <!-- pre-load some images for slow mobile networks -->
-  <div id="slow-network" style="display:none">
-    <img src="/html/close.png" alt="close button" />
-  </div>
+<!-- pre-load some images for slow mobile networks -->
+<div id="slow-network" style="display:none">
+  <img src="/html/close.png" alt="close button" />
+</div>
 
 $html
 <!-- bbbike_extract_status: $error, pro version: @{[ $option->{'pro'} ]} -->
