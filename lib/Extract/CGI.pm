@@ -363,6 +363,8 @@ sub footer {
     my $q    = shift;
     my %args = @_;
 
+    my $html = $args{'html'} // "";
+
     my $analytics =
       $option->{"enable_google_analytics"}
       ? BBBike::Analytics->new( 'q' => $q, 'tracker_id' => "UA-286675-21" )
@@ -447,6 +449,7 @@ $javascript
     <img src="/html/close.png" alt="close button" />
   </div>
 
+$html
 <!-- bbbike_extract_status: $error, pro version: @{[ $option->{'pro'} ]} -->
 $analytics
 </body>
@@ -1194,7 +1197,33 @@ qq{<span id="time_small" class="center" title="approx. extract time in minutes">
 
     print $self->map;
 
-    print $self->footer( $q, 'map' => 1 );
+    # GPSies
+    my $html = Dumper( $option->{route_cgi} );
+    if ( $option->{'route_cgi'}->{'auto_submit'} && $q->param("route") ) {
+        $html = &submit_url($q);
+    }
+
+    print $self->footer( $q, 'map' => 1, 'html' => $html );
+}
+
+sub submit_url {
+    my $self = shift;
+    my $q    = shift;
+
+    my $qq = CGI->new($q);
+
+    # submit parameters
+    $qq->param( "as",     1 );
+    $qq->param( "email",  "nobody" );
+    $qq->param( "submit", "extract" );
+    $qq->param( "expire", time );
+
+    my $script_homepage_api = $option->{'script_homepage_api'} // "";
+    my $url = $qq->url( -query => 1, -absolute => 1 );
+
+    my $html =
+qq[<!-- <img hight="0" width="0" src="$script_homepage_api$url"></img> -->\n];
+    return $html;
 }
 
 sub locate_message {

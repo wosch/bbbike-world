@@ -23,10 +23,11 @@ $ENV{PATH} = "/bin:/usr/bin";
 
 our $option = {
 
-    # XXX?
+    # legacy
     'homepage'             => 'https://download.bbbike.org/osm/extract/',
     'homepage_extract_pro' => 'https://extract-pro.bbbike.org',
-    'download_homepage'    => 'https://download.bbbike.org/osm/',
+
+    'download_homepage' => 'https://download.bbbike.org/osm/',
 
     'server_status_url'     => 'https://download.bbbike.org/osm/extract/',
     'server_status_url_pro' => 'https://download.bbbike.org/osm/extract-pro/',
@@ -40,6 +41,8 @@ our $option = {
 
     'script_homepage'     => 'https://extract.bbbike.org',
     'script_homepage_pro' => 'https://extract-pro.bbbike.org',
+
+    'script_homepage_api' => 'https://extract2.bbbike.org',
 
     'max_extracts'              => 50,
     'default_format'            => 'osm.pbf',
@@ -81,6 +84,9 @@ our $option = {
     # configure order of formats in menu
     'formats_order' =>
       [qw/osm shape geojson sql mbtiles garmin android svg bbbike srtm/],
+
+    # start extracts in background for referer customers
+    'route_cgi' => { 'auto_submit' => 0 },
 };
 
 ##########################################################################
