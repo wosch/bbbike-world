@@ -1198,7 +1198,7 @@ qq{<span id="time_small" class="center" title="approx. extract time in minutes">
     print $self->map;
 
     # GPSies
-    my $html = Dumper( $option->{route_cgi} );
+    my $html = "";
     if ( $option->{'route_cgi'}->{'auto_submit'} && $q->param("route") ) {
         $html = &submit_url($q);
     }
@@ -1222,7 +1222,7 @@ sub submit_url {
     my $url = $qq->url( -query => 1, -absolute => 1 );
 
     my $html =
-qq[<!-- <img hight="0" width="0" src="$script_homepage_api$url"></img> -->\n];
+      qq[<img hight="0" width="0" src="$script_homepage_api$url"></img>\n];
     return $html;
 }
 
