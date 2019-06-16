@@ -14,6 +14,7 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
 : ${SHA="shasum -a 256"}
 : ${debug=false}
+: ${tilemaker=tilemaker}
 
 
 usage () {
@@ -102,7 +103,7 @@ $text2html < README.txt > README.html
 
 echo ">>> Run tilemaker, config style: $style" >> $logfile
 ( set -x
-  tilemaker --config $config_file --process $etc_dir/process.lua --input $file --output $mbtiles.mbtiles --threads 3
+  $tilemaker --config $config_file --process $etc_dir/process.lua --input $file --output $mbtiles.mbtiles --threads 3
 ) 2>&1 | tail -c 1024K >> $logfile || error
 
 logfile_max_size="2000k"
