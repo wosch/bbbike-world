@@ -5,6 +5,8 @@
 #
 
 set -e
+set -o pipefail # bash only
+
 PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 
 : ${BBBIKE_EXTRACT_LANG=en}
