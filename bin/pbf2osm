@@ -33,11 +33,6 @@ case $format in
   --garmin-onroad* ) : ${max_file_size_garmin=6950000} ;;
 esac
 
-# use max. configured CPUs
-if which pbzip2 >/dev/null 2>&1; then
-    bzip2="$bzip2 -p$($(dirname $0)/ncpu)"
-fi
-
 : ${max_file_size_bbbike=90000}
 : ${max_file_size_garmin=2950000}
 : ${max_file_size_mapsforge=666000}
@@ -48,6 +43,11 @@ fi
 : ${max_file_size_mbtiles=40000}
 
 : ${pbf2osm_max_cpu_time=7200}
+
+# use max. configured CPUs
+if which pbzip2 >/dev/null 2>&1; then
+    bzip2="$bzip2 -p$($(dirname $0)/ncpu)"
+fi
 
 xz=`which xz 2>/dev/null | head -n 1`
 # xz -1 is twice as fast as  xz -2, with a similar compression rate
