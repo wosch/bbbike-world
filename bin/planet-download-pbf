@@ -43,7 +43,7 @@ else
   tee_output=/dev/null
 fi
 
-time curl -L -sSf $planet_osm_server/$file_latest | tee $tee_output | mbuffer -q -m 128m | \
+time curl --http1.1 --ipv4 -L -sSf $planet_osm_server/$file_latest | tee $tee_output | mbuffer -q -m 128m | \
   $nice osmconvert --drop-author --drop-version --out-pbf - > $file_nometa.tmp
 mv -f $file_nometa.tmp $file_nometa
 
