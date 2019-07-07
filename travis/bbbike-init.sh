@@ -26,11 +26,17 @@ init_apt_bbbike() {
     # install all given *.list files which are not
     # already installed in /etc/apt/sources.list.d
     #
-    list_d=world/etc/apt/$os/$codename/sources.list.d
+    list_d="world/etc/apt/$os/$codename/sources.list.d"
     flag=0
 
     for file in $list_d/*.list
     do
+      # should never happens
+      if [ ! -e "$file" ]; then
+        echo "file '$file' does not exist, give up. Wrong cwd?"
+        exit 2
+      fi
+
       f=$sources_list_d/$(basename $file)
       if [ ! -e $f ]; then 
         sudo cp $file $f
