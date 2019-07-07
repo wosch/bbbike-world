@@ -1708,15 +1708,18 @@ docker-shell-tilemaker:
 # remove temp images
 docker-clean:
 	if ${DOCKER} images | egrep -q '^<none>'; then \
-	  sudo /etc/init.d/docker restart; \
+	  sudo /etc/init.d/docker stop; \
 	  ${DOCKER} rmi -f $$(${DOCKER} images | egrep '^<none>' | awk '{ print $$3 }'); \
+	  ${DOCKER} rmi -f $$(${DOCKER} images | egrep '^<none>' | awk '{ print $$3 }'); \
+	  sudo /etc/init.d/docker start; \
 	fi
 
 # remove all available images
 docker-distclean:
 	if ${DOCKER} images | egrep -q -v '^REPOSITORY'; then \
-	  sudo /etc/init.d/docker restart; \
+	  sudo /etc/init.d/docker stop; \
 	  ${DOCKER} rmi -f $$(${DOCKER} images | egrep -v '^REPOSITORY' | awk '{ print $$3 }'); \
+	  sudo /etc/init.d/docker start; \
 	fi
 
 check-tileserver:
