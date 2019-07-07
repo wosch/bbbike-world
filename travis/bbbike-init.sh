@@ -22,24 +22,25 @@ init_apt_bbbike() {
     os=$(lsb_release -i | perl -npe 's,^Distributor ID:\s+,,; $_=lc($_)')
     codename=$(lsb_release -cs)
 
-    if [ ! -e $file ]; then 
+    #
+    # install all given *.list files which are not
+    # already installed in /etc/apt/sources.list.d
+    #
+    list_d=world/etc/apt/$os/$codename/sources.list.d
+    flag=0
+
+    for file in $list_d/*.list
+    do
+      f=$sources_list_d/$(basename $file)
+      if [ ! -e $f ]; then 
+        sudo cp $file $f
+      fi
+      flag=1
+    done
+
+    if [ $flag = "1" ]; then
         curl -sSf $apt_key | sudo apt-key add -
-        sudo sh -c "echo deb $deb_url/${os}/${codename} ${codename} main > $file.tmp"
-        sudo mv -f $file.tmp $file
 	sudo apt-get install -y apt-transport-https
-        sudo apt-get update -qq
-    fi
-
-    # old packages from wheezy/trusty
-    legacy=$sources_list_d/bbbike-legacy.list
-    if [ "$enable_wheezy_legacy" = "YES" -a ! -e $legacy ]; then
-	codename_old=""
-	case $os in
-	  debian ) codename_old="wheezy" ;;
-	  ubuntu ) codename_old="trusty" ;;
-        esac
-
-	sudo cp world/etc/apt/$os/${codename_old}-legacy/sources.list.d/$(basename $legacy) $legacy
         sudo apt-get update -qq
     fi
 }
