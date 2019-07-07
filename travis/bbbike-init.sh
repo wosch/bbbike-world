@@ -4,6 +4,7 @@
 # init bbbike.org ubuntu deb repository
 
 : ${DEBUG=false}
+enable_wheezy_legacy="NO"
 
 if $DEBUG; then
   set -x
@@ -31,7 +32,7 @@ init_apt_bbbike() {
 
     # old packages from wheezy/trusty
     legacy=$sources_list_d/bbbike-legacy.list
-    if [ ! -e $legacy ]; then
+    if [ "$enable_wheezy_legacy" = "YES" -a ! -e $legacy ]; then
 	codename_old=""
 	case $os in
 	  debian ) codename_old="wheezy" ;;
