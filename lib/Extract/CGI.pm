@@ -841,6 +841,8 @@ sub _check_input {
 
     ###############################################################################
     # bots?
+    my $ip_address = $obj->{'ip_address'} // $q->remote_host();
+
     my $confirmed_dir =
       $self->get_spool_dir() . "/" . $Extract::Config::spool->{"confirmed"};
 
@@ -857,12 +859,15 @@ sub _check_input {
 
     if ( $email_counter > $email_limit ) {
         error( M("EXTRACT_LIMIT"), 1 );
-        warn "limit email counter: $email_counter > email_limit $email\n"
+        warn
+"limit email counter: $email_counter > email_limit $email for ip address $ip_address\n"
           if $debug >= 1;
     }
     elsif ( $ip_counter > $ip_limit ) {
         error( M("EXTRACT_LIMIT"), 1 );
-        warn "limit ip counter: $ip_counter > $ip_limit\n" if $debug >= 1;
+        warn
+"limit ip counter: $ip_counter > $ip_limit for ip address $ip_address\n"
+          if $debug >= 1;
     }
 
     my @data;
@@ -872,7 +877,8 @@ sub _check_input {
         error( M("EXTRACT_VALID"), 1 );
 
         if ($debug) {
-            warn join "\n", "==> User input errors, stop: "
+            warn join "\n",
+              "==> User input errors ip address=$ip_address, stop: "
               . $q->url( -full => 1, -query => 1 ), @error;
         }
 
