@@ -861,13 +861,13 @@ sub _check_input {
     if ( $email_counter >= $email_limit ) {
         error( M("EXTRACT_LIMIT"), 1 );
         warn
-"limit email counter: $email_counter > email_limit $email for ip address $ip_address\n"
+"limit email counter confirmed: $email_counter >= email_limit $email for ip address $ip_address\n"
           if $debug >= 1;
     }
     elsif ( $ip_counter >= $ip_limit ) {
         error( M("EXTRACT_LIMIT"), 1 );
         warn
-"limit ip counter: $ip_counter > $ip_limit for ip address $ip_address\n"
+"limit ip counter confirmed: $ip_counter >= $ip_limit for ip address $ip_address\n"
           if $debug >= 1;
     }
 
