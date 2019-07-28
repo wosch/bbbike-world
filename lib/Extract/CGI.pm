@@ -851,10 +851,8 @@ sub _check_input {
       // $option->{'scheduler'}->{'ip_limit'};
 
     # a limit per user, see $cgi/extract.cgi::option
-    my $email_limit =
-      defined $option->{'scheduler'}->{'user_limit_email'}->{$email}
-      ? $option->{'scheduler'}->{'user_limit_email'}->{$email}
-      : $option->{'scheduler'}->{'user_limit'};
+    my $email_limit = $option->{'scheduler'}->{'user_limit_email'}->{$email}
+      // $option->{'scheduler'}->{'user_limit'};
 
     my ( $email_counter, $ip_counter ) =
       check_queue( 'obj' => $obj, 'spool_dir_confirmed' => $confirmed_dir );
