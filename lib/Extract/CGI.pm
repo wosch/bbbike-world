@@ -858,13 +858,13 @@ sub _check_input {
     my ( $email_counter, $ip_counter ) =
       check_queue( 'obj' => $obj, 'spool_dir_confirmed' => $confirmed_dir );
 
-    if ( $email_counter > $email_limit ) {
+    if ( $email_counter >= $email_limit ) {
         error( M("EXTRACT_LIMIT"), 1 );
         warn
 "limit email counter: $email_counter > email_limit $email for ip address $ip_address\n"
           if $debug >= 1;
     }
-    elsif ( $ip_counter > $ip_limit ) {
+    elsif ( $ip_counter >= $ip_limit ) {
         error( M("EXTRACT_LIMIT"), 1 );
         warn
 "limit ip counter: $ip_counter > $ip_limit for ip address $ip_address\n"
