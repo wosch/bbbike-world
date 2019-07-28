@@ -841,14 +841,14 @@ sub _check_input {
 
     ###############################################################################
     # bots?
-    my $ip_address = $obj->{'ip_address'} // $q->remote_host();
+    my $ip_address = $obj->{'ip_address'} // $q->remote_host() // "";
 
     my $confirmed_dir =
       $self->get_spool_dir() . "/" . $Extract::Config::spool->{"confirmed"};
 
     # limit per ip address, or for a given ip address
-    my $ip_limit = $option->{'scheduler'}->{'ip_limit'}->{$ip_address}
-      // $option->{'scheduler'}->{'ip_limit'};
+    my $ip_limit = $option->{'scheduler'}->{'ip_limit_address'}->{$ip_address} // 
+		$option->{'scheduler'}->{'ip_limit'};
 
     # a limit per user, see $cgi/extract.cgi::option
     my $email_limit = $option->{'scheduler'}->{'user_limit_email'}->{$email}
