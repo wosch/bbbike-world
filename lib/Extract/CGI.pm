@@ -840,7 +840,8 @@ sub _check_input {
     }
 
     ###############################################################################
-    # bots?
+    # detect bots, based on the confirmed jobs
+    #
     my $ip_address = $obj->{'ip_address'} // $q->remote_host() // "";
 
     my $confirmed_dir =
