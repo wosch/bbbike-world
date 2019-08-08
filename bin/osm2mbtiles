@@ -13,6 +13,7 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmp"}
+: ${BBBIKE_NO_ZIP=""}
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
 : ${SHA="shasum -a 256"}
 : ${debug=false}
@@ -109,6 +110,12 @@ echo ">>> Run tilemaker, config style: $style" >> $logfile
   $tilemaker --config $config_file --process $etc_dir/process.lua --input $file --output $mbtiles.mbtiles --threads $osm2xxx_max_jobs
 ) 2>&1 | tail -c 1024K >> $logfile || error
 
+if [ $BBBIKE_NO_ZIP = "YES" ]; then
+  mbtiles_zip=$(dirname $file)/$(basename $mbtiles.osm.mbtiles)
+  mv -f $mbtiles.mbtiles ${mbtiles_zip}.tmp
+  mv -f ${mbtiles_zip}.tmp $mbtiles_zip
+else
+
 logfile_max_size="2000k"
 if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
     echo "Warning: logfile $logfile is to big"
@@ -130,5 +137,7 @@ zip -q -r - -- `basename $mbtiles_dir` | \
     cat > $mbtiles_zip.tmp && mv $mbtiles_zip.tmp $mbtiles_zip
     $osm_checksum $mbtiles_zip
   )
+
+fi # zip
 
 $debug || rm -rf $tmpdir

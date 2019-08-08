@@ -840,29 +840,35 @@ sub _check_input {
     }
 
     ###############################################################################
-    # bots?
+    # detect bots, based on the confirmed jobs
+    #
+    my $ip_address = $obj->{'ip_address'} // $q->remote_host() // "";
+
     my $confirmed_dir =
       $self->get_spool_dir() . "/" . $Extract::Config::spool->{"confirmed"};
+
+    # limit per ip address, or for a given ip address
+    my $ip_limit = $option->{'scheduler'}->{'ip_limit_address'}->{$ip_address}
+      // $option->{'scheduler'}->{'ip_limit'};
+
+    # a limit per user, see $cgi/extract.cgi::option
+    my $email_limit = $option->{'scheduler'}->{'user_limit_email'}->{$email}
+      // $option->{'scheduler'}->{'user_limit'};
 
     my ( $email_counter, $ip_counter ) =
       check_queue( 'obj' => $obj, 'spool_dir_confirmed' => $confirmed_dir );
 
-    # a limit per user or IP address
-    # see $cgi/extract.cgi::option
-    my $email_limit =
-      defined $option->{'scheduler'}->{'user_limit_email'}->{$email}
-      ? $option->{'scheduler'}->{'user_limit_email'}->{$email}
-      : $option->{'scheduler'}->{'user_limit'};
-    my $ip_limit = $option->{'scheduler'}->{'ip_limit'};
-
-    if ( $email_counter > $email_limit ) {
+    if ( $email_counter >= $email_limit ) {
         error( M("EXTRACT_LIMIT"), 1 );
-        warn "limit email counter: $email_counter > email_limit $email\n"
+        warn
+"limit email counter confirmed: $email_counter >= email_limit $email for ip address $ip_address\n"
           if $debug >= 1;
     }
-    elsif ( $ip_counter > $ip_limit ) {
+    elsif ( $ip_counter >= $ip_limit ) {
         error( M("EXTRACT_LIMIT"), 1 );
-        warn "limit ip counter: $ip_counter > $ip_limit\n" if $debug >= 1;
+        warn
+"limit ip counter confirmed: $ip_counter >= $ip_limit for ip address $ip_address\n"
+          if $debug >= 1;
     }
 
     my @data;
@@ -872,7 +878,8 @@ sub _check_input {
         error( M("EXTRACT_VALID"), 1 );
 
         if ($debug) {
-            warn join "\n", "==> User input errors, stop: "
+            warn join "\n",
+              "==> User input errors ip address=$ip_address, stop: "
               . $q->url( -full => 1, -query => 1 ), @error;
         }
 

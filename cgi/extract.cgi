@@ -77,8 +77,15 @@ our $option = {
 
     # scheduler limits
     'scheduler' => {
+
+        # per user
         'user_limit' => 25,
-        'ip_limit'   => 50
+
+        # per ip address
+        'ip_limit_adress' => {},
+
+        # general ip address limit if ip_limit_adress{ip address} is not set
+        'ip_limit' => 50
     },
 
     # configure order of formats in menu
