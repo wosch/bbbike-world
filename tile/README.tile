@@ -11,3 +11,8 @@ make help
 # apache config
 /etc/apache2/apache2.conf
 LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" combined
+
+# on success, this should return an PNG tile
+curl http://localhost/osm/bbbike/12/2200/1342.png | wc
+curl http://localhost/osm/mapnik-german/12/2200/1342.png | wc
+
