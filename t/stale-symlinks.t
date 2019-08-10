@@ -38,7 +38,7 @@ sub stale_symlinks {
     my $prog =
         q[ find ]
       . $path
-      . q[ -type l -print0 | perl -0e 'while(<>) { next if m,^\./tmp/,; if (! -e $_) { print "$_\n"; $exit=1}}; exit $exit' ];
+      . q[ -type l -print0 | perl -0e 'while(<>) { chomp; next if m,^\./tmp/,; if (! -e $_) { print "$_\n"; $exit=1}}; exit $exit' ];
     system($prog);
     is( $?, 0, "stale symlinks in $path" );
 }
