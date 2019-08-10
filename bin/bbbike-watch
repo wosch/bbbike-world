@@ -19,7 +19,7 @@ echo; echo 'running: '
 $running_extract email | sort | uniq -c | sort -nr
 
 echo 'waiting: '
-egrep -h @ /var/cache/${extract}/confirmed/*.json 2>/dev/null | perl -npe 's/,//' | sort | uniq -c | sort -nr -k1 -k3
+egrep -h '"email" : ".*@' /var/cache/${extract}/confirmed/*.json 2>/dev/null | perl -npe 's/,//' | sort | uniq -c | sort -nr -k1 -k3
 
 echo 'running ip address: '
 $running_extract ip_address | sort | uniq -c | sort -nr
