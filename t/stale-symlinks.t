@@ -10,11 +10,14 @@ use Test::More;
 use strict;
 use warnings;
 
+my $debug = 1;
+
 my @prod = qw(
   /usr/local/www/debian.bbbike.org
   /usr/local/www/bbbike
   /usr/local/www/bbbike.org
   /etc/lighttpd
+  /var/cache/bbbike
   /var/lib/bbbike
   /etc/munin
 );
@@ -26,7 +29,12 @@ if ( !$ENV{BBBIKE_TEST_TRAVIS} && !$ENV{BBBIKE_TEST_DOCKER} ) {
 my @path = qw( . $HOME/.openstreetmap );
 
 foreach my $dir (@prod) {
-    push( @path, $dir ) if -d $dir;
+    if ( -d $dir ) {
+        push( @path, $dir );
+    }
+    else {
+        diag "ignore non-existing directory $dir\n" if $debug >= 1;
+    }
 }
 
 plan tests => scalar(@path);
