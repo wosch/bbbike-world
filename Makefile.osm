@@ -875,7 +875,7 @@ java-config:
 
 dist-clean devel-clean distclean: clean temp-clean clean-t data-distclean download-clean \
 				  log-clean index-clean cache-clean-local deb-distclean stale-symlink-clean \
-				  rotate-clean
+				  rotate-clean bootstrap-clean
 	${MAKE} -C./world/etc/mkgmap distclean
 	${MAKE} -C./cgi/msg distclean
 
@@ -883,6 +883,9 @@ distclean-real:
 	cd world; git clean -fdx
 	git clean -fdx
 	${BBMAKE} update-files bbbike-c
+
+bootstrap-clean:
+	rm -rf ${BBBIKE_PARTITION}/tmp/bbbike-bootstrap.*
 
 rotate-clean:
 	rm -rf rm -rf ${DATA_OSM_DIR}.old rm -rf ${DATA_OSM_DIR}.old2
