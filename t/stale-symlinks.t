@@ -1,5 +1,9 @@
 #!/usr/local/bin/perl
 # Copyright (c) Sep 2012-2017 Wolfram Schneider, https://bbbike.org
+#
+# check for stale symlinks in given directories, e.g.
+#
+# sudo find /var -type l -print0 | perl -0e 'while(<>) { next if m,^\./tmp/,; if (! -e $_) { print; $exit=1}}; exit $exit' | xargs -0 ls -ld
 
 use Test::More;
 
