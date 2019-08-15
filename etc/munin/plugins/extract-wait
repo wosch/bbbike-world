@@ -148,6 +148,8 @@ sub filter_top_user {
         next if scalar(@top_users) <= 0;
 
         my $user = shift @top_users;
+        warn "ignore user '$user'\n" if $debug >= 1;
+
         delete $hash_email->{$user};
     }
 
@@ -174,9 +176,8 @@ sub get_json_file {
         while (<$fh>) {
             $text .= $_;
         }
-        undef $fh;    # automatically closes the file
+        undef $fh;
 
-        #warn "xxx $text xxx\n";
         return decode_json($text);
     }
     else {
@@ -191,8 +192,11 @@ sub wait_time {
     my $extract_dir           = $args{'extract_dir'};
     my $extract_dir_confirmed = "$extract_dir/confirmed";
 
-    my $time  = time();
+    my $time = time();
     my @files = get_json_files( $extract_dir_confirmed, $skip_top_users );
+
+    warn "got @{[ scalar(@files) ]} json files\n" if $debug >= 1;
+
     my @mtime = ();
 
     foreach my $file (@files) {
