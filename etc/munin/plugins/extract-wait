@@ -10,9 +10,13 @@ use Data::Dumper;
 use File::stat;
 use IO::File;
 use JSON;
+use Encode;
 
 use strict;
 use warnings;
+
+binmode( \*STDOUT, ":utf8" );
+binmode( \*STDERR, ":utf8" );
 
 =head1 NAME
 
@@ -171,13 +175,15 @@ sub get_json_file {
     my $fh = IO::File->new( $file, "r" );
 
     if ( defined $fh ) {
-        binmode( $fh, ":utf8" );
+        binmode( $fh, ":bytes" );
+
         my $text = "";
         while (<$fh>) {
-            $text .= $_;
+            $text .= $_;    #decode_utf8( $_, Encode::FB_QUIET );
         }
         undef $fh;
 
+        warn $text;
         return decode_json($text);
     }
     else {
