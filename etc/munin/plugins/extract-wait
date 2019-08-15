@@ -116,7 +116,67 @@ sub get_json_files {
 
     my @files = glob("$extract_dir_confirmed/*.json");
 
-    return @files;
+    if ( !$skip ) {
+        return @files;
+    }
+    else {
+        return filter_top_user( $skip, @files );
+    }
+}
+
+sub filter_top_user {
+    my ( $skip, @files ) = @_;
+
+    my $hash;
+    my $hash_file;
+    foreach my $file (@files) {
+        my $json = get_json_file($file);
+
+        push @{ $hash->{ $json->{"email"} } }, $file;
+
+        $hash_file->{$file} = $json->{"email"};
+    }
+
+    # must heavy users first
+    my @top_users =
+      reverse sort { @{ $hash->{$a} } <=> @{ $hash->{$b} } } keys %$hash;
+    foreach ( 1 .. $skip ) {
+        my $user = shift @top_users;
+        delete $hash->{$user};
+    }
+
+    #print join "\n", @top_users;
+
+    # skip heavy users
+    my @bottom_files;
+    foreach my $file (@files) {
+        my $email = $hash_file->{$file};
+        push @bottom_files, $file if exists $hash->{$email};
+    }
+
+    return @bottom_files;
+}
+
+sub get_json_file {
+    my $file = shift;
+
+    my $fh = IO::File->new( $file, "r" );
+
+    if ( defined $fh ) {
+        binmode( $fh, ":utf8" );
+        my $text = "";
+        while (<$fh>) {
+            $text .= $_;
+        }
+        undef $fh;    # automatically closes the file
+
+        #warn "xxx $text xxx\n";
+        return decode_json($text);
+    }
+    else {
+        warn "Cannot parse json file '$file'\n";
+        return;
+    }
 }
 
 sub wait_time {
