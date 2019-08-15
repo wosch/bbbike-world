@@ -183,7 +183,7 @@ sub get_json_file {
         }
         undef $fh;
 
-        warn $text;
+        warn $text if $debug >= 3;
         return decode_json($text);
     }
     else {
