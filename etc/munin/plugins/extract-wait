@@ -121,10 +121,10 @@ sub wait_time {
         push @mtime, $st->mtime;
     }
 
-    print "wait_average.value @{[ wait_average($time, @mtime) ]}\n";
-    print "wait_min.value @{[ wait_min($time, @mtime) ]}\n";
-    print "wait_max.value @{[ wait_max($time, @mtime) ]}\n";
-    print "wait_median.value @{[ wait_median($time, @mtime) ]}\n";
+    printf( "wait_average.value %2.2f\n", wait_average( $time, @mtime ) );
+    printf( "wait_min.value %2.2f\n", wait_min( $time, @mtime ) );
+    printf( "wait_max.value %2.2f\n", wait_max( $time, @mtime ) );
+    printf( "wait_median.value %2.2f\n", wait_median( $time, @mtime ) );
 }
 
 sub wait_average {
