@@ -145,6 +145,8 @@ sub filter_top_user {
 
     # remove top users
     foreach ( 1 .. $skip ) {
+        next if scalar(@top_users) <= 0;
+
         my $user = shift @top_users;
         delete $hash_email->{$user};
     }
