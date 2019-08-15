@@ -127,22 +127,26 @@ sub get_json_files {
 sub filter_top_user {
     my ( $skip, @files ) = @_;
 
-    my $hash;
+    my $hash_email;
     my $hash_file;
+
     foreach my $file (@files) {
         my $json = get_json_file($file);
 
-        push @{ $hash->{ $json->{"email"} } }, $file;
+        push @{ $hash_email->{ $json->{"email"} } }, $file;
 
         $hash_file->{$file} = $json->{"email"};
     }
 
     # must heavy users first
     my @top_users =
-      reverse sort { @{ $hash->{$a} } <=> @{ $hash->{$b} } } keys %$hash;
+      reverse sort { @{ $hash_email->{$a} } <=> @{ $hash_email->{$b} } }
+      keys %$hash_email;
+
+    # remove top users
     foreach ( 1 .. $skip ) {
         my $user = shift @top_users;
-        delete $hash->{$user};
+        delete $hash_email->{$user};
     }
 
     #print join "\n", @top_users;
@@ -151,7 +155,7 @@ sub filter_top_user {
     my @bottom_files;
     foreach my $file (@files) {
         my $email = $hash_file->{$file};
-        push @bottom_files, $file if exists $hash->{$email};
+        push @bottom_files, $file if exists $hash_email->{$email};
     }
 
     return @bottom_files;
