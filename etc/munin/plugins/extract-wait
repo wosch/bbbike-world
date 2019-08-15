@@ -9,6 +9,7 @@ use Getopt::Long;
 use Data::Dumper;
 use File::stat;
 use IO::File;
+use JSON;
 
 use strict;
 use warnings;
@@ -42,6 +43,9 @@ if you need to override the defaults below:
 my $debug = 0;
 my $help  = 0;
 
+# if we ignore the top users by email
+my $skip_top_users = 0;
+
 # time in minutes instead seconds: 60 -> 1min
 my $minutes = 60;
 
@@ -71,6 +75,7 @@ usage: $0 [ options ] config
 
 --debug=0..2                    default: $debug
 --extract_dir=/path/to/dir      default: $extract_dir
+--skip-top-users=0..2           default: $skip_top_users
 EOF
 }
 
@@ -101,6 +106,19 @@ wait_median.critical $wait_critical
 EOF
 }
 
+#
+# get all json files from a given directory.
+# We may skip the top user (bot?) by email
+#
+sub get_json_files {
+    my $extract_dir_confirmed = shift;
+    my $skip = shift // 0;
+
+    my @files = glob("$extract_dir_confirmed/*.json");
+
+    return @files;
+}
+
 sub wait_time {
     my %args = @_;
 
@@ -108,7 +126,7 @@ sub wait_time {
     my $extract_dir_confirmed = "$extract_dir/confirmed";
 
     my $time  = time();
-    my @files = glob("$extract_dir_confirmed/*.json");
+    my @files = get_json_files( $extract_dir_confirmed, $skip_top_users );
     my @mtime = ();
 
     foreach my $file (@files) {
@@ -189,9 +207,10 @@ sub wait_median {
 
 &init;
 GetOptions(
-    "debug=i"       => \$debug,
-    "extract-dir=s" => \$extract_dir,
-    "help"          => \$help,
+    "debug=i"          => \$debug,
+    "extract-dir=s"    => \$extract_dir,
+    "skip-top-users=i" => \$skip_top_users,
+    "help"             => \$help,
 ) or die usage;
 
 die usage if $help;
