@@ -1648,7 +1648,6 @@ docker-check-w:
 
 docker-build-all: 
 	${NICE} ${BBMAKE} -j${MAX_CPU} \
-	  docker-build-tile \
 	  docker-build-extract-debian9 \
 	  docker-build-extract-debian10 \
 	  docker-build-extract-ubuntu14 \
