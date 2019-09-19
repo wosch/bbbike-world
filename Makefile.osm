@@ -1656,7 +1656,7 @@ docker-build-all:
 	  docker-build-extract-ubuntu18
 
 docker-build-libosmium-all:
-	${NICE} ${BBMAKE} -j1 \
+	${NICE} ${BBMAKE} -j${MAX_CPU} \
 	  docker-build-libosmium-debian9 \
 	  docker-build-libosmium-ubuntu16 \
 	  docker-build-libosmium-debian10 \
