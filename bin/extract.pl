@@ -1569,7 +1569,9 @@ sub _convert_send_email {
 
     if ( $obj->{"route"} ne "" && $obj->{"appid"} eq "gpsies1" ) {
         $optional_message =
-          " Route: " . "https://www.gpsies.com/map.do?fileId=" . $obj->{"route"};
+            " Route: "
+          . "https://www.gpsies.com/map.do?fileId="
+          . $obj->{"route"};
     }
 
     my $message = sprintf(
