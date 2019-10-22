@@ -37,18 +37,17 @@
     "home": "accueil",
 
     "EXTRACT_CONFIRMED": [
-        "<p>Merci - les paramètres saisis semblent corrects.</p><p>",
-           "Il faut entre 2 et 7 minutes pour extraire une zone depuis planet.osm,",
-         "en fonction de la taille de la zone et la charge du système.",
-            "Un courrier électronique vous sera envoyé lorsque votre extrait sera prêt pour le téléchargement.",
-            "Veuillez suivre les instructions dans le courriel pour récupérer votre extrait.</p>",
-            "<p align='left'> Superficie : '%s' couvre %s kilomètres carrés <br/>",
-            "Coordonnées : %s <br/>",
-            "Format : %s",
-            "</p>",
-            "",
-            "Vous pouvez suivre l'état de votre demande sur la <a href='%s' target='_blank'>page d'état du serveur</a>.<br/><br/></p>",
-            "<p> Appuyez sur le bouton retour pour obtenir la même zone dans un autre format, ou pour demander l'extrait sur une nouvelle zone.</p>"
+        "Il faut entre 2 et 7 minutes pour extraire une zone depuis planet.osm,",
+        "en fonction de la taille de la zone et la charge du système.",
+        "Un courrier électronique vous sera envoyé lorsque votre extrait sera prêt pour le téléchargement.",
+        "Veuillez suivre les instructions dans le courriel pour récupérer votre extrait.</p>",
+        "<p align='left'> Superficie : '%s' couvre %s kilomètres carrés <br/>",
+        "Coordonnées : %s <br/>",
+        "Format : %s",
+        "</p>",
+        "",
+        "Vous pouvez suivre l'état de votre demande sur la <a href='%s' target='_blank'>page d'état du serveur</a>.<br/><br/></p>",
+        "<p> Appuyez sur le bouton retour pour obtenir la même zone dans un autre format, ou pour demander l'extrait sur une nouvelle zone.</p>"
         ],
 
     "EXTRACT_DONATION": [
