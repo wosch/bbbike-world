@@ -114,7 +114,7 @@
         " MD5 checksum: %s",
         " Letzte planet.osm Datenbank update: %s",
         " Lizenz: OpenStreetMap License",
-        " %s",
+        "%s",
         "",
         "Die Datei ist für die nächsten 48h verfügbar.",
         "Bitte downloade die Datei umgehend.",

@@ -72,6 +72,7 @@
         "MD5 checksum: %s",
         "Ultima actualización de base de datos planet.osm: %s",
         "Licencia: Licencia de OpenStreetMap",
+        "%s",
         "",
         "El archivo estará disponible para las próximas 48 horas. Descargue el",
         "Archivo tan pronto como sea posible.",
