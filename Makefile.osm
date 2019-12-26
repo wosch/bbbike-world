@@ -1232,6 +1232,9 @@ tile-distclean: tile-db-clean
 tile-rsync:
 	rsync -av ${TILES_DIR}/lnglat/ ${BBBIKE_WEBSERVER_DOWNLOAD_DIR}/osm/planet/${TILES_DIR}/lnglat/
 
+tile-info:
+	@echo "Please do not forget to disable the planet.osm update cron job while updating the tile database"
+
 data-distclean distclean-data:
 	rm -f data/*.lock data/*.inx[456] data/*.st
 	rm -f misc/*.lock misc/*.inx[456]
@@ -1284,7 +1287,7 @@ data-distclean distclean-data:
 
 #
 # for errors look in ./tile/tmp
-tile: tile-extract tile-convert tile-database #tile-aws-s3
+tile: tile-info tile-extract tile-convert tile-database #tile-aws-s3
 
 ##############################################################################################
 # debian package rules
