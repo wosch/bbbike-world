@@ -38,8 +38,10 @@ if [ -e $update ]; then
 fi
 
 if [ -e $update_lock ]; then
-  # still running
-  exit 0
+  if [ `find $update_lock -mmin -1100 | wc -l` -gt 0 ]; then
+    # still running, for less than 16 hours
+    exit 0
+  fi
 fi
 
 curl -L -sSf -v $planet_osm_server/$file.md5 > $update_new 2> $update_new.head
