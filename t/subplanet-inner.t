@@ -231,7 +231,9 @@ sub check_match_cities {
 
     # check if the cities are in the right sub-planet
     $counter +=
-      &check_sorted_regions( 'europe-germany', qw/Berlin Hamburg Dresden/ );
+      &check_sorted_regions( 'europe-germany', qw/Hannover Hamburg Dresden/ );
+    $counter +=
+      &check_sorted_regions( 'europe-germany-brandenburg', qw/Berlin Cottbus/ );
     $counter += &check_sorted_regions( 'europe-central', qw/Amsterdam/ );
     $counter += &check_sorted_regions( 'europe-south',   qw/Madrid Sofia/ );
     $counter += &check_sorted_regions( 'europe',         qw/Trondheim/ );

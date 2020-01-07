@@ -32,14 +32,16 @@ our $area = {
     'north-america-west' => { 'poly' => [ -138.7,   23.5,   -92.2,   61 ] },
     'south-america'      => { 'poly' => [ -97.53,   -59.13, -28.544, 20.217 ] },
     'africa'             => { 'poly' => [ -23.196,  -39.96, 61.949,  38.718 ] },
-    'asia'             => { 'poly' => [ 43.505,  -53.122, 179.99, 63.052 ] },
-    'asia-south'       => { 'poly' => [ 60.0,    -12.0,   131,    56 ] },
-    'europe'           => { 'poly' => [ -27.472, 26.682,  50.032, 72.282 ] },
-    'europe-central'   => { 'poly' => [ 3.295,   45.3,    29.482, 63 ] },
-    'europe-germany'   => { 'poly' => [ 4.892,   45.097,  17.614, 56.612 ] },
-    'europe-south'     => { 'poly' => [ -11.86,  28.29,   51.0,   46.7 ] },
-    'europe-northwest' => { 'poly' => [ -26.60,  45.2,    8.3,    67.9 ] },
-    'europe-east'      => { 'poly' => [ 13.15,   44.0,    42.58,  61.7 ] },
+    'asia'           => { 'poly' => [ 43.505,  -53.122, 179.99, 63.052 ] },
+    'asia-south'     => { 'poly' => [ 60.0,    -12.0,   131,    56 ] },
+    'europe'         => { 'poly' => [ -27.472, 26.682,  50.032, 72.282 ] },
+    'europe-central' => { 'poly' => [ 3.295,   45.3,    29.482, 63 ] },
+    'europe-germany' => { 'poly' => [ 4.892,   45.097,  17.614, 56.612 ] },
+    'europe-germany-brandenburg' =>
+      { 'poly' => [ 11.64, 51.58, 15.07, 53.31 ] },
+    'europe-south'     => { 'poly' => [ -11.86, 28.29, 51.0,  46.7 ] },
+    'europe-northwest' => { 'poly' => [ -26.60, 45.2,  8.3,   67.9 ] },
+    'europe-east'      => { 'poly' => [ 13.15,  44.0,  42.58, 61.7 ] },
 
     # all
     'planet' => { 'poly2' => [ -180, -90, 180, 90 ] },
@@ -117,11 +119,13 @@ sub list_subplanets {
             my $file = "$sub_planet_dir/$sub.osm.pbf";
             my $st   = stat($file);
             if ( !$st ) {
-                warn "Stat sub planet file pwd=$FindBin::Bin file=$file $!\n";
-                next;
+                warn
+"Stat sub planet file pwd=$FindBin::Bin file=$file, assume size zero: $!\n";
+                $hash{$sub} = 0;
             }
-
-            $hash{$sub} = $st->size;
+            else {
+                $hash{$sub} = $st->size;
+            }
         }
 
         @list = sort { $hash{$a} <=> $hash{$b} } keys %hash;
