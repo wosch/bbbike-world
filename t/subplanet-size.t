@@ -36,7 +36,7 @@ plan tests => scalar(@regions) * 2 + 11;
 # list of regions
 #
 
-is( scalar(@regions), 13, "13 regions" );
+is( scalar(@regions), 14, "14 regions" );
 
 is(
     scalar(@regions),
@@ -64,8 +64,9 @@ isnt(
 
 {
     my @r = $poly->list_subplanets( 'sort_by' => 'disk' );
-    is( 'south-america', shift @r, "smalles size for south-america" );
-    is( 'europe',        pop @r,   "largest size for europe" );
+    is( shift @r, 'europe-germany-brandenburg',
+        "smalles size for europe-germany-brandenburg" );
+    is( pop @r, 'europe', "largest size for europe" );
 }
 
 foreach my $region (@regions) {
