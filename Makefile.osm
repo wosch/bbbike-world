@@ -748,6 +748,10 @@ sub-planet sub-srtm:
 sub-planet-statistic:
 	find ../extract/trash -mtime -7 -type f  | xargs ./world/bin/sub-planet-statistic.pl | awk '{ print $$2 }' | sort | uniq -c | sort -nr
 
+sub-planet-clean:
+	rm -f ../osm/download/sub-planet/*.tmp
+	rm -f ../osm/download/sub-srtm/*.tmp
+
 planet-geofabrik-download:
 	download_script=`pwd`/world/bin/planet-geofabrik-download; \
 		cd ../osm/download && $$download_script
@@ -875,7 +879,7 @@ java-config:
 
 dist-clean devel-clean distclean: clean temp-clean clean-t data-distclean download-clean \
 				  log-clean index-clean cache-clean-local deb-distclean stale-symlink-clean \
-				  rotate-clean bootstrap-clean
+				  rotate-clean bootstrap-clean sub-planet-clean
 	${MAKE} -C./world/etc/mkgmap distclean
 	${MAKE} -C./cgi/msg distclean
 
