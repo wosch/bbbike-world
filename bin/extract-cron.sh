@@ -27,7 +27,7 @@ tmp=$(mktemp ${BBBIKE_TMPDIR}/extract.XXXXXXXXXXX)
 ##############################################################
 # run the real script
 #
-$prog --debug=1 $@ > $tmp 2>&1
+$prog --debug=1 "$@" > $tmp 2>&1
 error=$?
 
 # it run
