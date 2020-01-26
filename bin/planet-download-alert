@@ -38,8 +38,8 @@ if [ -e $update ]; then
 fi
 
 if [ -e $update_lock ]; then
-  if [ `find $update_lock -mmin -1100 | wc -l` -gt 0 ]; then
-    # still running, for less than 16 hours
+  if [ `find $update_lock -mmin -2400 | wc -l` -gt 0 ]; then
+    # still running, for less than 36 hours
     exit 0
   fi
 fi

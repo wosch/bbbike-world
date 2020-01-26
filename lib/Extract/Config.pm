@@ -554,7 +554,7 @@ sub is_production {
 
     return 1 if -e "/tmp/is_production";
 
-    return $q->virtual_host() =~ /^extract\.bbbike\.org$/i ? 1 : 0;
+    return $q->virtual_host() =~ /^extract[0-9]?\.bbbike\.org$/i ? 1 : 0;
 }
 
 1;

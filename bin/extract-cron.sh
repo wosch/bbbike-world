@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2013-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2013-2020 Wolfram Schneider, https://bbbike.org
 #
 # extract-cron.sh - wrapper for extract.pl script 
 #
@@ -24,7 +24,10 @@ esac
 
 tmp=$(mktemp ${BBBIKE_TMPDIR}/extract.XXXXXXXXXXX)
 
-$prog --debug=1 $@ > $tmp 2>&1
+##############################################################
+# run the real script
+#
+$prog --debug=1 "$@" > $tmp 2>&1
 error=$?
 
 # it run
