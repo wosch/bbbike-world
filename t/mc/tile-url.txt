@@ -157,16 +157,12 @@ https://a-mydrive.api-system.tomtom.com/map/1/tile/hybrid/night/16/35206/21492.p
 https://d-mydrive.api-system.tomtom.com/map/1/tile/labels/main/16/35206/21492.png?key=sATA9OwG11zrMKQcCxR3eSEjj2n8Jsrg
 https://a-mydrive.api-system.tomtom.com/map/1/tile/labels/night/16/35206/21492.png?key=sATA9OwG11zrMKQcCxR3eSEjj2n8Jsrg
 https://tiles3.lbsarea.com/tilegenerator/tile.ashx/?&x=1502&y=2229&zoom=12&tileCacheControlVersion=17&internalTileDataset=lbslocal
-#https://b.tiles.mapbox.com/v4/digitalglobe.nal0g75k/11/1100/670.png?access_token=pk.eyJ1IjoiZGlnaXRhbGdsb2JlIiwiYSI6ImNpeWczNGdoOTAyZHIzMnM1dTBncGMzM3oifQ.90uebT4-ow1uqZKTUrf6RQ
 https://map.tual.fr/osm/11/1100/671.png
 https://tile.openstreetmap.ie/ga/11/988/663.png
 https://www.kartogiraffe.de/tiles/map/14/7906/5310.png
 https://c.tile.thunderforest.com/mobile-atlas/15/15814/10621@2x.png?apikey=6170aad10dfd42a38d4d8c709a536f38
 https://maps.bergfex.at/osm/512px/15/17874/11362.jpg
 https://maps.bergfex.at/oek/512px/15/17874/11362.jpg
-#https://c.tiles.mapbox.com/v4/digitalglobe.nal0g75k/18/140813/85976.png?access_token=pk.eyJ1IjoiZGlnaXRhbGdsb2JlIiwiYSI6ImNpeWczNGdoOTAyZHIzMnM1dTBncGMzM3oifQ.90uebT4-ow1uqZKTUrf6RQ
-#https://b.tiles.mapbox.com/v4/digitalglobe.nako1fhg/15/5244/11457@2x.png?access_token=pk.eyJ1IjoiZGlnaXRhbGdsb2JlIiwiYSI6ImNpeWczNGdoOTAyZHIzMnM1dTBncGMzM3oifQ.90uebT4-ow1uqZKTUrf6RQ
-#https://c.tiles.mapbox.com/v4/digitalglobe.nako6329/11/1100/671@2x.jpg?access_token=pk.eyJ1IjoiZGlnaXRhbGdsb2JlIiwiYSI6ImNpeWczNGdoOTAyZHIzMnM1dTBncGMzM3oifQ.90uebT4-ow1uqZKTUrf6RQ
 https://b.tile.opentopomap.org/10/547/336.png
 https://m2.mapserver.mapy.cz/base-m/16-35412-22211
 https://m2.mapserver.mapy.cz/turist-m/16-35412-22212
@@ -176,7 +172,3 @@ https://m2.mapserver.mapy.cz/base-m/16-35412-22211?s=0.2&dm=Luminosity
 https://m4.mapserver.mapy.cz/zemepis-m/16-35411-22211
 https://m1.mapserver.mapy.cz/army2-m/15-17705-11105
 https://a.freemap.sk/A/14/8971/5683.png
-
-https://a.tiles.mapbox.com/v4/digitalglobe.0a8e44ba/15/17602/10748.png?access_token=pk.eyJ1IjoiZGlnaXRhbGdsb2JlIiwiYSI6ImNqZGFrZ3pjczNpaHYycXFyMGo0djY3N2IifQ.90uebT4-ow1uqZKTUrf6RQ
-https://a.tiles.mapbox.com/v4/digitalglobe.316c9a2e/16/35203/21493.png?access_token=pk.eyJ1IjoiZGlnaXRhbGdsb2JlIiwiYSI6ImNqZGFrZ2c2dzFlMWgyd2x0ZHdmMDB6NzYifQ.9Pl3XOO82ArX94fHV289Pg
-
