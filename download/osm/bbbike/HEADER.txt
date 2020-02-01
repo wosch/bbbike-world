@@ -9,10 +9,10 @@ Are you missing a city or region? Please go to
 
 and select your own a region!
 
-All Data from OpenStreetMap is licensed under the 
-OpenStreetMap License: https://wiki.openstreetmap.org/wiki/OpenStreetMap_License
+A CVS file with all coordinates for the cities is available here:
+https://raw.githubusercontent.com/wosch/bbbike-world/world/etc/cities.csv
 
-
+------------------------------------------------------------
 You can support us via PayPal or bank wire transfer.
 
   https://extract.bbbike.org/community.html
@@ -28,3 +28,7 @@ Sincerely, the BBBike extract Fairy
 --
 Copyright (c) 2011-2020 https://bbbike.org
 https://www.BBBike.org/community.html - We appreciate any feedback, suggestions and a donation!
+
+All Data from OpenStreetMap is licensed under the 
+OpenStreetMap License: https://wiki.openstreetmap.org/wiki/OpenStreetMap_License
+
