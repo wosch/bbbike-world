@@ -71,7 +71,7 @@ OSM2PNG=	world/bin/wrapper-instable world/bin/bomb --timeout=1400 -- env max_fil
 OSM2SVG=	world/bin/wrapper-instable world/bin/bomb --timeout=1400 -- env max_file_size_maperitive=200000 world/bin/pbf2osm --svg-osm
 OSM2SHAPE=	world/bin/pbf2osm --shape
 OSM2OSMAND=	world/bin/pbf2osm --osmand
-OSM2NAVIT=	world/bin/pbf2osm --navit
+OSM2NAVIT=	world/bin/wrapper-instable world/bin/pbf2osm --navit
 OSM2MAPSFORGE=	world/bin/pbf2osm --mapsforge-osm
 OSM2MAPSME=	world/bin/pbf2osm --mapsme-osm
 
