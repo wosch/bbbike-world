@@ -33,7 +33,7 @@ fi
 
 touch $update_lock
 if rsync -aL rsync://${planet_osm_server_rsync}/pbf/planet-latest.osm.pbf rsync://${planet_osm_server_rsync}/pbf/planet-latest.osm.pbf.md5 .; then
-   echo "Successfully synced: $(date)"
+   : #echo "Successfully synced: $(date)"
 else
    echo "Failed synced: $(date)"
 fi
