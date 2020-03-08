@@ -386,7 +386,7 @@ if [ -s $download_log ]; then
 
     echo ""
     echo "download stat by IP address: "
-    $zcat $download_log | awk '{ print $1 }' | egrep -v '\.(sha256|md5) ' | sort | uniq -c | sort -nr | head -20
+    $zcat $download_log | egrep -v ' "HEAD /' | awk '{ print $1 }' | egrep -v '\.(sha256|md5) ' | sort | uniq -c | sort -nr | head -20
 
     echo ""
     $zcat $download_log | egrep '\.osm\.[^ ]+ ' | egrep 'GET ' | egrep -v '\.(sha256|md5) |/tile/' |
