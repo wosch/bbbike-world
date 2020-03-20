@@ -1,0 +1,45 @@
+#!/bin/bash
+# Copyright (c) 2009-2020 Wolfram Schneider, https://bbbike.org
+#
+# planet-download-alert-rsync - fetch planet with rsync instead HTTPS
+
+set -e
+set -o pipefail
+
+PATH=/usr/local/bin:/bin:/usr/bin; export PATH 
+
+file=planet-latest.osm.bz2
+planet_osm_server_rsync=planet.openstreetmap.org/planet
+
+automatic_update="yes"
+bbbikerc=$HOME/.bbbikerc
+planet_osm_min_size=33000600300
+
+if [ -e "$bbbikerc" ]; then 
+    . "$bbbikerc"
+fi
+
+#dir=/usr/local/www/download.bbbike.org/tmp/bz2
+dir=$HOME/projects/osm/download/
+cd $dir
+
+update_lock=$dir/.update-bz2.lock
+
+if [ -e $update_lock ]; then
+  if [ `find $update_lock -mmin -600 | wc -l` -gt 0 ]; then
+    # still running, for less than 10 hours
+    exit 0
+  fi
+fi
+
+touch $update_lock
+if rsync -a -L -W rsync://${planet_osm_server_rsync}/planet/planet-latest.osm.bz2 rsync://${planet_osm_server_rsync}/planet/planet-latest.osm.bz2.md5 .; then
+   : #echo "Successfully synced: $(date)"
+else
+   echo "Failed synced: $(date)"
+fi
+
+rm -f $update_lock
+
+#EOF
+
