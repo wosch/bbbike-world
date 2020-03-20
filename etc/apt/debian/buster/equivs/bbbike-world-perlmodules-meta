@@ -3,10 +3,10 @@ Priority: optional
 Standards-Version: 3.6.2
 
 Package: bbbike-world-perlmodules-meta
-Version: 1.1.10
+Version: 1.1.11
 Maintainer: Wolfram Schneider <wosch@freebsd.org>
 Depends: libgis-distance-lite-perl, libgeo-google-polylineencoder-perl,
  libobject-iterate-perl, libmath-matrixreal-perl,
- libgeo-distance-perl, libgeo-distance-xs-perl, libarray-heap-perl
+ libgeo-distance-perl, libarray-heap-perl
 Description: BBBike @ World perl modules
  perl modules which are not part of debian buster
