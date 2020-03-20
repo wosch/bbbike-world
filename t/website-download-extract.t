@@ -25,7 +25,7 @@ my $debug = $ENV{DEBUG} || 0;
 
 my @production = qw(
   https://download1.bbbike.org
-  https://download2.bbbike.org
+  https://download4.bbbike.org
 );
 
 my @homepages = "https://download.bbbike.org";

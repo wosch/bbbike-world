@@ -35,14 +35,16 @@ $option->{'max_areas'} = 10;
 $option->{'pro'} = 0;
 
 $option->{'server'} = {
-    'dev'      => [qw/dev1.bbbike.org dev2.bbbike.org/],
-    'www'      => [qw/www.bbbike.org www2.bbbike.org/],
+    'dev'      => [qw/dev1.bbbike.org dev4.bbbike.org/],
+    'www'      => [qw/www.bbbike.org www4.bbbike.org/],
     'extract'  => [qw/extract.bbbike.org extract1.bbbike.org/],
     'download' => [qw/download.bbbike.org download1.bbbike.org/],
 };
 
+# gspies.com automatic extracts
 $option->{'route_cgi'} = {
     'email'  => 'nobody',
+    'auto_submit' => 0,
     'format' => 'garmin-cycle-latin1.zip'
 };
 

@@ -7,7 +7,7 @@
 #
 # SCRIPT_FILENAME=/home/wosch/projects/bbbike/world/web/Strassburg/index.cgi
 # REQUEST_URI=/Strassburg/?start=Rue+du+Charron+%5B7.7485%2C48.56803%2C0%5D&via=&ziel=Rue+de+la+Somme%2F+%5B7.77475%2C48.583%2C0%5D&scope=
-# HTTP_REFERER=http://dev2.bbbike.org/Strassburg/
+# HTTP_REFERER=http://dev4.bbbike.org/Strassburg/
 # PWD=/bbbike/projects/bbbike/world/web/Strassburg
 # SCRIPT_NAME=/Strassburg/index.cgi
 # REQUEST_METHOD="GET"
