@@ -20,10 +20,10 @@ if [ -e "$bbbikerc" ]; then
 fi
 
 #dir=/usr/local/www/download.bbbike.org/tmp/bz2
-dir=$HOME/projects/osm/download/
-cd $dir
+: ${osm_download_dir="$HOME/projects/osm/download"}
+cd $osm_download_dir
 
-update_lock=$dir/.update-bz2.lock
+update_lock=$osm_download_dir/.update-bz2.lock
 
 if [ -e $update_lock ]; then
   if [ `find $update_lock -mmin -600 | wc -l` -gt 0 ]; then
