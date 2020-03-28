@@ -1110,8 +1110,7 @@ tile-pbf-check:
 tile-convert: \
 		tile-convert-shp \
 		tile-convert-navit \
-		tile-convert-garmin \
-		tile-convert-garmin-onroad \
+		tile-convert-garmin-all \
 		tile-convert-mapsforge \
 		tile-convert-osmand \
 		tile-convert-osm 
