@@ -65,6 +65,7 @@ PBF2PBF=	world/bin/pbf2pbf
 OSM2GARMIN=		world/bin/pbf2osm --garmin-osm
 OSM2GARMIN_CYCLE=	world/bin/pbf2osm --garmin-cycle
 OSM2GARMIN_ONROAD=	world/bin/pbf2osm --garmin-onroad
+OSM2GARMIN_ALL=		world/bin/pbf2osm --garmin-osm:onroad
 OSM2GARMIN_OSEAM=	world/bin/pbf2osm --garmin-oseam
 OSM2GARMIN_SRTM=        world/bin/pbf2osm --garmin-srtm
 OSM2PNG=	world/bin/wrapper-instable world/bin/bomb --timeout=1400 -- env max_file_size_maperitive=200000 world/bin/pbf2osm --png-osm
@@ -1109,7 +1110,7 @@ tile-pbf-check:
 tile-convert: \
 		tile-convert-shp \
 		tile-convert-navit \
-		tile-convert-garmin tile-convert-garmin-onroad \
+		tile-convert-garmin-all \
 		tile-convert-mapsforge \
 		tile-convert-osmand \
 		tile-convert-osm 
@@ -1139,6 +1140,9 @@ tile-convert-garmin:
 tile-convert-garmin-onroad:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
 	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_50} ${OSM2GARMIN_ONROAD} > ${TILES_TMP}/log.$@ 2>&1
+tile-convert-garmin-all:
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
+	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_50} ${OSM2GARMIN_ALL} > ${TILES_TMP}/log.$@ 2>&1
 
 tile-convert-garmin-srtm:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
