@@ -44,8 +44,8 @@ my $msg = {
     "de" => [ "Um das Polygon zu",        "Polygonerstellung" ],
     "fr" => [ "Pour changer le polygone", "création du polygone" ],
 
-    # rest
-    "ru"  => [ "To change the polygone", "done with polygone creation" ],
+# rest
+#"ru"  => [ "добавить указывает на полигоне", "изменить размер или перетащите многоугольник" ],
     "es"  => [ "To change the polygone", "done with polygone creation" ],
     "XYZ" => [ "To change the polygone", "done with polygone creation" ],
     ""    => [ "To change the polygone", "done with polygone creation" ]
