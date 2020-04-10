@@ -22,6 +22,7 @@ PayPal or bank wire transfer: https://www.bbbike.org/community.html
 thanks, Wolfram Schneider
 
 --
-Your Cycle Route Planner: https://www.bbbike.org
+BBBike professional plans: https://extract.bbbike.org/support.html
+Planet.osm extracts: https://extract.bbbike.org
 BBBike Map Compare: https://mc.bbbike.org
 EOF
