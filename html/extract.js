@@ -8,7 +8,7 @@
 // central config
 var config = {
     // open help page at start up
-    "open_infopage": true,
+    "open_infopage": false,
 
     // run locate me function at startup
     "locate_me": false,
