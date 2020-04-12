@@ -189,6 +189,15 @@ a {
     display: inline;
 }
 
+/***********************************************
+/* disable lnglat box at all 
+ *
+ */
+.lnglatbox, .lnglatbox_toggle  {
+    display: none !important;
+}
+
+
 td {
     white-space: nowrap;
 }

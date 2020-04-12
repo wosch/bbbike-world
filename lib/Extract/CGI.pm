@@ -990,6 +990,7 @@ sub homepage {
         $q->Tr(
             {},
             [
+                # maybe disabled in /html/extract.css
                 $q->td(
                     [
                         "\n"
