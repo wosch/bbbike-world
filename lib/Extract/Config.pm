@@ -130,10 +130,11 @@ our $formats_menu = {
         'title'   => "SQL",
         'formats' => ['sqlite.xz']
     },
-    'mbtiles' => {
-        'title'   => "MBTiles",
-        'formats' => ['mbtiles-basic.zip']    #, 'mbtiles-openmaptiles.zip' ]
-    },
+
+    #'mbtiles' => {
+    #    'title'   => "MBTiles",
+    #    'formats' => ['mbtiles-basic.zip']    #, 'mbtiles-openmaptiles.zip' ]
+    #},
     'garmin' => {
         'title'   => "Garmin",
         'formats' => [
