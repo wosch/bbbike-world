@@ -70,7 +70,7 @@
         "Format: %s",
         "</p>",
         "",
-        "<p>Du kannst den aktuellen Status des Extrakts auf der <a href='%s' target='_blank'>Server Status</a> Seite sehen.<br/></p>",
+        "<p>Du kannst den aktuellen Status des Extrakts auf der <a href='%s' target='_blank'>Service Status</a> Seite sehen.<br/></p>",
         "",
         "<p>Dr&uuml;cke die <a href='javascript:history.back()'>Back-Taste</a> um die gleiche Region in einem anderen Format zu extrahieren, oder um eine neue Region auszuw&auml;hlen.</p>"
         ],

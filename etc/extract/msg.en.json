@@ -23,7 +23,7 @@
         "Format: %s",
         "</p>",
         "",
-        "<p>You can monitor the status of your request on the <a href='%s' target='_blank'>server status</a> page.<br/></p>",
+        "<p>You can monitor the status of your request on the <a href='%s' target='_blank'>service status</a> page.<br/></p>",
         "",
         "<p>Press the <a href='javascript:history.back()'>back button</a> to get the same area in a different format, or to request a new area.</p>"
         ],
