@@ -149,9 +149,8 @@ our $formats_menu = {
         ]
     },
     'android' => {
-        'title' => "Android",
-        'formats' =>
-          [ 'obf.zip', 'mapsforge-osm.zip', 'navit.zip' ]
+        'title'   => "Android",
+        'formats' => [ 'obf.zip', 'mapsforge-osm.zip', 'navit.zip' ]
     },
     'shape' => { 'title' => "Shapefile", 'formats' => ['shp.zip'] },
     'svg'   => {
