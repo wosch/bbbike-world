@@ -18,7 +18,7 @@ my $versions = {
 
         # version commands, regex to match
         [ [qw/pbzip2 --version/],  qr/ BZIP2 v1.1.[1-9] /m ],
-        [ [qw/osmconvert --help/], qr/^osmconvert 0\.8\.4/m ],
+        [ [qw/osmconvert --help/], qr/^osmconvert 0\.8\.11$/m ],
         [
             [qw/osmosis -v/],
             qr/^INFO: Osmosis Version (0\.40\.1|0\.43\.1|0\.46)/m
