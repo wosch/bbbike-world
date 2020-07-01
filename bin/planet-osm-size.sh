@@ -32,9 +32,13 @@ xml_size ()
     echo "XML size: $size GB"
 }
 
+##############################################################################
+#
+echo "Please update me: https://wiki.openstreetmap.org/wiki/Planet.osm"
+echo ""
 
 pbf_size
 osm_size
 xml_size
 
-
+#EOF
