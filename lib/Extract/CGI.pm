@@ -578,6 +578,19 @@ sub get_spool_dir {
     return $spool_dir;
 }
 
+sub email_undeliverable {
+    my $domains = shift;
+    my $email   = shift;
+
+    # misconfiguration?
+    return if ref $domains ne 'ARRAY';
+
+    my $domain = lc($email);
+    $domain =~ s/.*?\@//;
+
+    return grep { $domain eq lc($_) } @$domains;
+}
+
 #
 # validate user input
 # reject wrong values
@@ -681,7 +694,16 @@ sub _check_input {
     # accecpt "nobody" as email address
     elsif ( $option->{'email_allow_nobody'} && lc($email) eq 'nobody' ) {
         $email .= '@bbbike.org';
-        warn "Reset E-Mail addresse to $email\n" if $debug >= 1;
+        warn "Reset E-Mail address to $email\n" if $debug >= 1;
+    }
+
+    # ignore some domains. Generate the extracts, but don't sent an email out
+    elsif ( defined $option->{'email_undeliverable'}
+        && &email_undeliverable( $option->{'email_undeliverable'}, $email ) )
+    {
+        warn "Reset undeliverable E-Mail address $email to nobody\n"
+          if $debug >= 1;
+        $email = 'nobody@bbbike.org';
     }
 
     elsif (
