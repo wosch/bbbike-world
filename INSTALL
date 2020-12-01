@@ -5,7 +5,7 @@ Required perl modules:
 # see ../bin/bbbike-build-runtime-perl.pl
 sudo apt-get install -y lsb-release tidy sudo git make curl gcc \
 	perl-doc iftop htop vim iotop apt-transport-https \
-	lynx exim4 screen file man time
+	lynx exim4 screen file man time zsh bash
 
 sudo apt-get install -y libhtml-tagcloud-perl libhtml-parser-perl \
   libxml-atom-simplefeed-perl libinline-perl \
