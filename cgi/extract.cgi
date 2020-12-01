@@ -90,7 +90,7 @@ our $option = {
 
     # configure order of formats in menu
     'formats_order' =>
-      [qw/osm shape geojson sql mbtiles garmin android svg bbbike srtm/],
+      [qw/osm shape geojson sql garmin android svg bbbike srtm/],
 
     # start extracts in background for referer customers
     'route_cgi' => { 'auto_submit' => 0 },
