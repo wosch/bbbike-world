@@ -193,8 +193,8 @@ a {
 /* disable lnglat box at all 
  *
  */
-.lnglatbox, .lnglatbox_toggle  {
-    display: none !important;
+.lnglatbox_toggle  {
+    display: none;
 }
 
 

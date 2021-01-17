@@ -419,6 +419,10 @@ qq{\n<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js
           qq[ jQuery(document).ready(function () { gpsies_route("$route"); }) ];
     }
 
+    my $extract_pro = $option->{'pro'} // 0;
+    my $extract_pro_js =
+      $extract_pro ? '$(".lnglatbox_toggle").css("display", "inline")' : "";
+
     return <<EOF;
 
 <div id="footer">
@@ -441,6 +445,7 @@ $javascript
   jQuery('#pageload-indicator').hide();
   $disable_intro
   $route_js
+  $extract_pro_js
 </script>
 
 <!-- pre-load some images for slow mobile networks -->
@@ -449,7 +454,7 @@ $javascript
 </div>
 
 $html
-<!-- bbbike_extract_status: $error, pro version: @{[ $option->{'pro'} ]} -->
+<!-- bbbike_extract_status: $error, pro version: $extract_pro -->
 $analytics
 </body>
 </html>
