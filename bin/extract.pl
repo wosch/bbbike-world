@@ -504,7 +504,7 @@ sub create_poly_files {
     my %hash;
     my @poly;
     foreach my $job (@list) {
-        my $file      = &file_lnglat($job, $option);
+        my $file      = &file_lnglat( $job, $option );
         my $poly_file = "$job_dir/$file.poly";
         my $pbf_file  = "$job_dir/$file.osm.pbf";
 
