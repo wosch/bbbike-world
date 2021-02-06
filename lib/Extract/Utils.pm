@@ -523,8 +523,7 @@ sub download_url {
     my $option = shift;
 
     my $url =
-        $option->{'download_homepage'}
-      . "extract/"
+        $option->{'homepage'} . "/"
       . &file_lnglat( $obj, $option ) . "."
       . $obj->{'format'};
     warn "download_url=$url\n" if $debug >= 2;
