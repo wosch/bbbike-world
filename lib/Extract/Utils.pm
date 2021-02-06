@@ -19,7 +19,8 @@ our @EXPORT = qw(save_request complete_save_request check_queue
   Param large_int square_km read_data file_mtime_diff
   file_size file_size_mb kb_to_mb get_json
   get_loadavg program_output random_user get_jobs
-  json_compat touch_file store_data store_json checksum);
+  json_compat touch_file store_data store_json checksum
+  file_lnglat download_url);
 
 use strict;
 use warnings;
@@ -473,12 +474,13 @@ sub checksum {
 
 # file prefix depending on input PBF file, e.g. "planet_"
 sub get_file_prefix {
-    my $obj = shift;
+    my $obj    = shift;
     my $option = shift;
 
-    my $file_prefix = $option->{'file_prefix'};
-    my $format      = $obj->{'format'};
+    my $file_prefix = $option->{'file_prefix'} // 'planet_';
+    my $format = $obj->{'format'};
 
+    # depending on the format (e.g. SRTM data) we may use a different planet
     if ( exists $option->{'planet'}->{$format} ) {
         $format =~ s/\..*/_/;
         $file_prefix = $format if $format;
@@ -492,7 +494,8 @@ sub get_file_prefix {
 sub file_lnglat {
     my $obj    = shift;
     my $option = shift;
-    my $file   = get_file_prefix($obj);
+
+    my $file = get_file_prefix($obj);
     my $coords = $obj->{coords} || [];
 
     # rectangle
@@ -512,6 +515,21 @@ sub file_lnglat {
     }
 
     return $file;
+}
+
+# store lng,lat in file name
+sub download_url {
+    my $obj    = shift;
+    my $option = shift;
+
+    my $url =
+        $option->{'download_homepage'}
+      . "extract/"
+      . &file_lnglat( $obj, $option ) . "."
+      . $obj->{'format'};
+    warn "download_url=$url\n" if $debug >= 2;
+
+    return $url;
 }
 
 1;

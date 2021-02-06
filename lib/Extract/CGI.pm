@@ -423,6 +423,8 @@ qq{\n<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js
     my $extract_pro_js =
       $extract_pro ? '$(".lnglatbox_toggle").css("display", "inline")' : "";
 
+    my $download_url = $args{'download_url'} // "";
+
     return <<EOF;
 
 <div id="footer">
@@ -455,6 +457,7 @@ $javascript
 
 $html
 <!-- bbbike_extract_status: $error, pro version: $extract_pro -->
+<!-- bbbike_extract_download_url: $download_url -->
 $analytics
 </body>
 </html>
@@ -606,10 +609,7 @@ sub check_input {
     my %args = @_;
     my $q = $args{'q'} || $self->{'q'};
 
-    my $error;
-    my $data;
-
-    ( $error, $data ) = $self->_check_input(@_);
+    my ( $error, $data, $download_url ) = $self->_check_input(@_);
 
     print $self->header( $q, -type => 'check_input', -error => $error );
     print $self->layout( $q, 'check_input' => 1 );
@@ -618,8 +618,9 @@ sub check_input {
 
     print $self->footer(
         $q,
-        'error' => $error,
-        'css'   => '#footer { width: 90%; padding-bottom: 20px; }'
+        'error'        => $error,
+        'download_url' => $download_url,
+        'css'          => '#footer { width: 90%; padding-bottom: 20px; }'
     );
 }
 
@@ -945,7 +946,12 @@ sub _check_input {
         $error++;
     }
 
-    return ( $error, join "\n", @error, @data );
+    # a reference to the expected download link at create time
+    my $download_url = download_url( $obj, $option );
+
+    my $data = join "\n", @error, @data;
+
+    return ( $error, $data, $download_url );
 }
 
 # ($lat1, $lon1 => $lat2, $lon2);
