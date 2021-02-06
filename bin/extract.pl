@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2011-2019 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2011-2021 Wolfram Schneider, https://bbbike.org
 #
 # extract.pl - extracts areas in a batch job
 #
@@ -476,47 +476,6 @@ sub get_job_id {
     return $key;
 }
 
-# file prefix depending on input PBF file, e.g. "planet_"
-sub get_file_prefix {
-    my $obj = shift;
-
-    my $file_prefix = $option->{'file_prefix'};
-    my $format      = $obj->{'format'};
-
-    if ( exists $option->{'planet'}->{$format} ) {
-        $format =~ s/\..*/_/;
-        $file_prefix = $format if $format;
-    }
-
-    warn "Use file prefix: '$file_prefix'\n" if $debug >= 2;
-    return $file_prefix;
-}
-
-# store lng,lat in file name
-sub file_lnglat {
-    my $obj    = shift;
-    my $file   = get_file_prefix($obj);
-    my $coords = $obj->{coords} || [];
-
-    # rectangle
-    if ( !scalar(@$coords) ) {
-        $file .= "$obj->{sw_lng},$obj->{sw_lat}_$obj->{ne_lng},$obj->{ne_lat}";
-    }
-
-    # polygon
-    else {
-        my $c = join '|', ( map { "$_->[0],$_->[1]" } @$coords );
-        my $first = $coords->[0];
-
-        my $md5 =
-          substr( md5_hex($c), 0, 8 )
-          ;    # first 8 characters of a md5 sum is enough
-        $file .= join "_", ( $first->[0], $first->[1], $md5 );
-    }
-
-    return $file;
-}
-
 #
 # Create poly files based on a given list of json config files.
 #
@@ -545,7 +504,7 @@ sub create_poly_files {
     my %hash;
     my @poly;
     foreach my $job (@list) {
-        my $file      = &file_lnglat($job);
+        my $file      = &file_lnglat($job, $option);
         my $poly_file = "$job_dir/$file.poly";
         my $pbf_file  = "$job_dir/$file.osm.pbf";
 

@@ -468,6 +468,52 @@ sub checksum {
     return $data;
 }
 
+##################################
+# storage
+
+# file prefix depending on input PBF file, e.g. "planet_"
+sub get_file_prefix {
+    my $obj = shift;
+    my $option = shift;
+
+    my $file_prefix = $option->{'file_prefix'};
+    my $format      = $obj->{'format'};
+
+    if ( exists $option->{'planet'}->{$format} ) {
+        $format =~ s/\..*/_/;
+        $file_prefix = $format if $format;
+    }
+
+    warn "Use file prefix: '$file_prefix'\n" if $debug >= 2;
+    return $file_prefix;
+}
+
+# store lng,lat in file name
+sub file_lnglat {
+    my $obj    = shift;
+    my $option = shift;
+    my $file   = get_file_prefix($obj);
+    my $coords = $obj->{coords} || [];
+
+    # rectangle
+    if ( !scalar(@$coords) ) {
+        $file .= "$obj->{sw_lng},$obj->{sw_lat}_$obj->{ne_lng},$obj->{ne_lat}";
+    }
+
+    # polygon
+    else {
+        my $c = join '|', ( map { "$_->[0],$_->[1]" } @$coords );
+        my $first = $coords->[0];
+
+        my $md5 =
+          substr( md5_hex($c), 0, 8 )
+          ;    # first 8 characters of a md5 sum is enough
+        $file .= join "_", ( $first->[0], $first->[1], $md5 );
+    }
+
+    return $file;
+}
+
 1;
 
 __DATA__;
