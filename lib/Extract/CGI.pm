@@ -671,6 +671,7 @@ sub _check_input {
     my $appid  = Param( $q, "appid" );
     my $ref    = Param( $q, "ref" );
     my $route  = Param( $q, "route" );
+    my $cb_id  = Param( $q, "cb_id" );
 
     if ( $expire ne '' && $expire =~ /^\d+$/ ) {
         my $time = time();
@@ -811,6 +812,15 @@ sub _check_input {
         error("layers '$layers' is out of range");
     }
 
+    # store only validated call back URLs
+    if ( $cb_id ne "" ) {
+        if ( !( $cb_id =~ m,^[a-z0-9\-]+$, && $option->{'cb_id'}->{$cb_id} ) ) {
+            error(  "The callback parameter '"
+                  . escapeHTML($cb_id)
+                  . "' does not match configuration" );
+        }
+    }
+
     ###############################################################################
     # display coordinates, but not more than 32
     my $coordinates =
@@ -859,6 +869,7 @@ sub _check_input {
         'appid'           => $appid,
         'ref'             => $ref,
         'route'           => $route,
+        'cb_id'           => $cb_id,
     };
 
     if ( $option->{enable_priority} ) {

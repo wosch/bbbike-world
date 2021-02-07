@@ -169,6 +169,11 @@ our $option = {
         'svg'       => 5,
         'xz'        => 4,
         'garmin'    => 9
+    },
+
+    'lwp' => {
+        'timeout' => 5,
+        'agent'   => 'BBBike Extract/1.0; https://extract.bbbike.org'
     }
 };
 
@@ -706,8 +711,11 @@ sub send_email_smtp {
 sub send_email_rest {
     my ( $to, $subject, $message, $bcc ) = @_;
 
-    my $ua = LWP::UserAgent->new;
-    $ua->agent("BBBike Extract/1.0; see https://extract.bbbike.org");
+    my $ua      = LWP::UserAgent->new;
+    my $timeout = $option->{'lwp'}->{'timeout'} // 5;
+    my $agent   = $option->{'lwp'}->{'agent'};
+    $ua->agent($agent) if defined $agent;
+    $ua->timeout($timeout);
 
     my $url = $option->{"email_rest_url"};
     warn "Use REST email service: $url\n" if $debug >= 1;
@@ -737,6 +745,46 @@ sub send_email_rest {
     warn "$content" if $debug >= 1;
     if ( $obj->{'status'} ) {
         die $obj->{'message'} . "\n";
+    }
+}
+
+#
+# run call back request
+# Note: the callback function must be run async and response
+# in less than 5 seconds - we don't wait until the file
+# was downloaded from the remote service
+#
+sub run_callback {
+    my ( $cb_id, $download_url ) = @_;
+
+    my $ua      = LWP::UserAgent->new;
+    my $timeout = $option->{'lwp'}->{'timeout'} // 5;
+    my $agent   = $option->{'lwp'}->{'agent'};
+    $ua->agent($agent) if defined $agent;
+    $ua->timeout($timeout);
+
+    #
+    # every callback id is mapped to an URL as
+    # 'customer1' => 'http://api.customer.com/cb?url='
+    #
+    my $callback_url = $option->{"cb_id"}->{$cb_id};
+    if ( !defined $callback_url ) {
+        die "callback id=$cb_id is not configured, give up";
+    }
+    elsif ( $callback_url !~ m,^https?://[a-z0-9\_\-\.]+\.[a-z]+/,i ) {
+        die "callback id '$callback_url' does not look like an URL, give up";
+    }
+
+    my $url = $callback_url . $download_url;
+
+    my $res = $ua->get($url);
+    warn "run callback service: $url\n" if $debug >= 1;
+
+    # Check the outcome of the response
+    if ( !$res->is_success ) {
+        my $err = "HTTP error: " . $res->status_line . "\n";
+        $err .= $res->content . "\n" if $debug >= 1;
+        die $err;
     }
 }
 
@@ -1005,7 +1053,7 @@ sub convert_send_email {
         }
     }
 
-    warn "number of email sent: $job_counter\n"
+    warn "number of email/callback sent: $job_counter\n"
       if $send_email && $debug >= 1;
 
     return $error_counter;
@@ -1591,14 +1639,27 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
     my @args = ( $obj->{'email'}, $subject, $message, $option->{'bcc'} );
 
     my $email_rest_enabled = $option->{"email_rest_enabled"};
+    my $callback_enabled   = $option->{"callback_enabled"};
     warn "email_rest_enabled: $email_rest_enabled\n" if $debug >= 2;
+    warn "callback_enabled: $callback_enabled\n"     if $debug >= 2;
 
-    if ($email_rest_enabled) {
+    # callback URL
+    if ($callback_enabled) {
+        eval { run_callback( $obj->{'cb_id'}, $url ) };
+        if ($@) {
+            $option->{'email_failure_fatal'} ? die "$@" : warn "$@";
+        }
+    }
+
+    # email via REST service
+    elsif ($email_rest_enabled) {
         eval { send_email_rest(@args); };
         if ($@) {
             $option->{'email_failure_fatal'} ? die "$@" : warn "$@";
         }
     }
+
+    # sent email locally with smtp
     else {
         eval { send_email_smtp(@args); };
         if ($@) {
@@ -1606,6 +1667,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
         }
     }
 
+    $obj->{'download_url'} = $url;
     store_json( $json_file, $obj );
 }
 
