@@ -124,9 +124,11 @@ my $extract_cgi = Extract::CGI->new(
 );
 
 if ( defined $config_error ) {
+    warn "Internal config error: $config_error\n";
+
     $extract_cgi->check_input(
         'error' => '520',
-        'data'  => "Internal config error: $config_error"
+        'data'  => "Internal config error. Please contact the site maintainer!"
     );
 }
 
