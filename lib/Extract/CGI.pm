@@ -814,7 +814,15 @@ sub _check_input {
 
     # store only validated call back URLs
     if ( $cb_id ne "" ) {
-        if ( !( $cb_id =~ m,^[a-z0-9\-]+$, && $option->{'cb_id'}->{$cb_id} ) ) {
+        if ( !$option->{'pro'} ) {
+            error(
+                "Async callback requests are supported only for pro customers. "
+                  . "Please login first." );
+        }
+
+        elsif (
+            !( $cb_id =~ m,^[a-z0-9\-]+$, && $option->{'cb_id'}->{$cb_id} ) )
+        {
             error(  "The callback parameter '"
                   . escapeHTML($cb_id)
                   . "' does not match configuration" );
