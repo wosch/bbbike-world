@@ -606,10 +606,19 @@ sub email_undeliverable {
 sub check_input {
     my $self = shift;
 
-    my %args = @_;
-    my $q = $args{'q'} || $self->{'q'};
+    my %args  = @_;
+    my $q     = $args{'q'} || $self->{'q'};
+    my $error = $args{'error'};
+    my $data  = $args{'data'};
+    my $download_url;
 
-    my ( $error, $data, $download_url ) = $self->_check_input(@_);
+    # we know that something is wrong, skip input checks
+    if ( defined $error ) {
+        $data = "<p>$data</p><br/><br/><br/><br/>";
+    }
+    else {
+        ( $error, $data, $download_url ) = $self->_check_input(@_);
+    }
 
     print $self->header( $q, -type => 'check_input', -error => $error );
     print $self->layout( $q, 'check_input' => 1 );

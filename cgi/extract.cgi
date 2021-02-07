@@ -106,8 +106,16 @@ if ( defined $q->param('debug') ) {
 }
 
 my $extract_config = Extract::Config->new( 'q' => $q, 'option' => $option );
-$extract_config->load_config;
-$extract_config->check_extract_pro;
+
+my $config_error;
+eval {
+    $extract_config->load_config;
+    $extract_config->check_extract_pro;
+};
+
+if ($@) {
+    $config_error = "$@";
+}
 
 my $extract_cgi = Extract::CGI->new(
     'q'      => $q,
@@ -115,8 +123,15 @@ my $extract_cgi = Extract::CGI->new(
     'debug'  => $debug
 );
 
+if ( defined $config_error ) {
+    $extract_cgi->check_input(
+        'error' => '520',
+        'data'  => "Internal config error: $config_error"
+    );
+}
+
 # second page
-if ( $q->param("submit") ) {
+elsif ( $q->param("submit") ) {
     $extract_cgi->check_input;
 }
 

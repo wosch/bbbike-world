@@ -426,6 +426,8 @@ qq{did you called Extract::Config->load_config("$config_file") twice?\n};
             my $token = $option->{'email_token'} || "";
             if ( $token ne $q->param('pro') ) {
                 warn Dumper($option) if $debug;
+
+               # need to stop here because we already loaded the pro config file
                 die "Pro parameter does not match token\n";
             }
         }
