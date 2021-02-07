@@ -926,7 +926,7 @@ sub reorder_pbf {
     my @json = sort { $hash{$a} <=> $hash{$b} } keys %hash;
     if ( $debug >= 2 ) {
         warn "Number of json files: " . scalar(@$json) . "\n";
-        warn join "\n", ( map { "$_ $hash{$_}" } @$json ), "\n";
+        warn join "\n", ( map { "$_ $hash{$_}" } @$json ), "";
     }
 
     return @json;
