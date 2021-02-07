@@ -624,6 +624,13 @@ sub check_input {
     }
     $download_url //= "";
 
+    if ( $json_output && !$option->{'pro'} ) {
+        $data =
+q[<p>ERROR: JSON output disabled. Please sign up for the BBBike <a href="https://extract.bbbike.org/support.html">professional plan</a>!</p>]
+          . $data;
+        $json_output = 0;
+    }
+
     if ($json_output) {
         return $self->output_json( $error, $data, $download_url );
     }
@@ -641,6 +648,12 @@ sub output_json {
     my $q = $self->{'q'};
 
     my $status = $error ? 520 : 200;
+
+    # better readability
+    $data =~ s/\n/ /g;
+    $data =~ s/<.*?>/ /g;
+    $data =~ s/\s+/ /g;
+    $data =~ s/\s$//;
 
     my $json = new JSON;
     my $obj  = {
@@ -663,8 +676,8 @@ sub output_json {
     my $json_text = $json->pretty->canonical->encode($obj);
 
     print $q->header(
-        -charset => 'application/json; charset=UTF-8',
-        -status  => $status
+        -content_type => 'application/json; charset=UTF-8',
+        -status       => $status
     );
     print $json_text;
 }
