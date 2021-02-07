@@ -1529,7 +1529,6 @@ sub _convert_send_email {
 
         my $du = -1;
         while (<$fh>) {
-            warn $_;
             chomp;
             $du = $_;
         }
