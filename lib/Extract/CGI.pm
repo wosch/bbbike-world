@@ -612,19 +612,73 @@ sub check_input {
     my $data  = $args{'data'};
     my $download_url;
 
+    my $json_output = Param( $q, "json" );
+
     # we know that something is wrong, skip input checks
     if ( defined $error ) {
-        $data = "<p>$data</p><br/><br/><br/><br/>";
+        warn "$data\n" if $debug >= 1;
+        $data = "<p>$data</p><br/><br/><br/><br/>" if !$json_output;
     }
     else {
         ( $error, $data, $download_url ) = $self->_check_input(@_);
     }
+    $download_url //= "";
+
+    if ($json_output) {
+        return $self->output_json( $error, $data, $download_url );
+    }
+    else {
+        return $self->output_html( $error, $data, $download_url );
+    }
+}
+
+# API usage: display a JSON object without any HTML
+# if the CGI parameter json=1
+sub output_json {
+    my $self = shift;
+    my ( $error, $data, $download_url ) = @_;
+
+    my $q = $self->{'q'};
+
+    my $status = $error ? 520 : 200;
+
+    my $json = new JSON;
+    my $obj  = {
+        'error'        => $error,
+        'status'       => $status,
+        'download_url' => $download_url,
+        'message'      => $data
+    };
+
+    my $cb_id = Param( $q, "cb_id" );
+    if ($cb_id) {
+        my $callback_url =
+          defined $option->{"cb_id"} && defined $option->{"cb_id"}->{$cb_id}
+          ? $option->{"cb_id"}->{$cb_id}
+          : "";
+        $obj->{'cb_id'}        = $cb_id;
+        $obj->{'callback_url'} = $callback_url;
+    }
+
+    my $json_text = $json->pretty->canonical->encode($obj);
+
+    print $q->header(
+        -charset => 'application/json; charset=UTF-8',
+        -status  => $status
+    );
+    print $json_text;
+}
+
+# HTML output for interactive usage
+sub output_html {
+    my $self = shift;
+    my ( $error, $data, $download_url ) = @_;
+
+    my $q = $self->{'q'};
 
     print $self->header( $q, -type => 'check_input', -error => $error );
     print $self->layout( $q, 'check_input' => 1 );
-
     print $data;
-
     print $self->footer(
         $q,
         'error'        => $error,
