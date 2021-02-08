@@ -1,6 +1,13 @@
 #!/usr/local/bin/perl
 # Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 
+BEGIN {
+    if ( $ENV{BBBIKE_TEST_FAST} && !$ENV{BBBIKE_TEST_LONG} ) {
+        print "1..0 # skip due fast test\n";
+        exit;
+    }
+}
+
 use FindBin;
 use lib "$FindBin::RealBin/../lib";
 
