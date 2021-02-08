@@ -956,6 +956,7 @@ sub _check_input {
         'cb_id'           => $cb_id,
         'ip_address'      => $q->remote_host,
         'user_agent'      => $q->user_agent,
+        'pro'             => $option->{'pro'},
     };
 
     ###############################################################################
