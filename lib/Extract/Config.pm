@@ -402,11 +402,11 @@ sub load_config {
         || $q->url( -full => 1 ) =~
         m,^https?://download[1-9]?\.bbbike\.org/osm/extract-pro/, )
     {
-        $option->{'pro'} = 1;
 
         $config_file = '../.bbbike-extract-pro.rc';
         warn "Use extract pro config file $config_file\n"
           if $debug >= 2;
+
     }
 
     # you can run "require" in perl only once
@@ -420,6 +420,9 @@ qq{did you called Extract::Config->load_config("$config_file") twice?\n};
     if ( -e $config_file ) {
         warn "Load config file: $config_file\n" if $debug >= 2;
         require $config_file;
+
+        # by token (2) or auth (1)
+        $option->{'pro'} = $q->param('pro') ? 2 : 1;
 
         # double-check
         if ( $q->param("pro") ) {
@@ -502,7 +505,7 @@ sub load_config_nocgi {
         warn
           "detect extract pro config file=$config_file, set option->{'pro'}=1\n"
           if $debug >= 1;
-        $option->{'pro'} = 1;
+        $option->{'pro'} = 3;
     }
 
     if ( -e $config_file ) {
@@ -546,7 +549,8 @@ sub check_extract_pro {
         }
     }
 
-    $option->{"pro"} = 1;
+    # should never happens
+    $option->{"pro"} = 99 if !$option->{"pro"};
 }
 
 sub is_production {

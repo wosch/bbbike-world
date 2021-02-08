@@ -6,6 +6,7 @@
 
 # CGI.pm treat all parameters as UTF-8 strings
 use CGI qw(-utf8);
+use Data::Dumper;
 
 use lib qw[../world/lib ../lib];
 use Extract::Config;
@@ -27,7 +28,8 @@ our $option = {
     'homepage'             => 'https://download.bbbike.org/osm/extract/',
     'homepage_extract_pro' => 'https://extract-pro.bbbike.org',
 
-    'download_homepage' => 'https://download.bbbike.org/osm/',
+    'download_homepage'     => 'https://download.bbbike.org/osm/',
+    'download_homepage_pro' => 'https://download.bbbike.org/osm/',
 
     'server_status_url'     => 'https://download.bbbike.org/osm/extract/',
     'server_status_url_pro' => 'https://download.bbbike.org/osm/extract-pro/',
@@ -108,6 +110,7 @@ if ( defined $q->param('debug') ) {
 my $extract_config = Extract::Config->new( 'q' => $q, 'option' => $option );
 
 my $config_error;
+
 eval {
     $extract_config->load_config;
     $extract_config->check_extract_pro;
@@ -122,6 +125,8 @@ my $extract_cgi = Extract::CGI->new(
     'option' => $option,
     'debug'  => $debug
 );
+
+warn Dumper($option) if $debug >= 2;
 
 if ( defined $config_error ) {
     warn "Internal config error: $config_error\n";
