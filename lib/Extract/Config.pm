@@ -408,7 +408,7 @@ sub load_config {
         warn "Use extract pro config file $config_file\n"
           if $debug >= 2;
         $pro = 1;
-          
+
     }
 
     # you can run "require" in perl only once
@@ -422,14 +422,15 @@ qq{did you called Extract::Config->load_config("$config_file") twice?\n};
     if ( -e $config_file ) {
         warn "Load config file: $config_file\n" if $debug >= 2;
         require $config_file;
-        
+
         # pro by token (2) or auth (1)
         if ($pro) {
             $option->{'pro'} = $q->param('pro') ? 2 : 1;
-        } else {
+        }
+        else {
             $option->{'pro'} = 0;
         }
-        
+
         # double-check
         if ( $q->param("pro") ) {
             my $token = $option->{'email_token'} || "";
