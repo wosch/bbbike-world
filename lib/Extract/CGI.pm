@@ -954,10 +954,9 @@ sub _check_input {
         'ref'             => $ref,
         'route'           => $route,
         'cb_id'           => $cb_id,
+        'ip_address'      => $q->remote_host,
+        'user_agent'      => $q->user_agent,
     };
-
-    $obj->{'ip_address'} = $q->remote_host();
-    $obj->{'user_agent'} = $q->user_agent();
 
     ###############################################################################
     # detect bots, based on the confirmed jobs
