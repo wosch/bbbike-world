@@ -522,10 +522,13 @@ sub download_url {
     my $obj    = shift;
     my $option = shift;
 
+    my $ext = $obj->{'format'};
+
+# Note: we skip double ".osm.osm.pbf" in file names, and use a single ".osm.pbf"
+    $ext = "osm.$ext" if $ext !~ /^osm\./;
+
     my $url =
-        $option->{'homepage'} . "/"
-      . &file_lnglat( $obj, $option ) . "."
-      . $obj->{'format'};
+      $option->{'homepage'} . "/" . &file_lnglat( $obj, $option ) . "." . $ext;
     warn "download_url=$url\n" if $debug >= 2;
 
     return $url;

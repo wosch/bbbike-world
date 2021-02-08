@@ -1239,7 +1239,8 @@ sub _convert_send_email {
     my @nice = ( "nice", "-n", $nice_level_converter );
     my $time = time();
 
-    # OSM XML extracts
+# OSM XML extracts
+# Note: we skip double ".osm.osm.pbf" in file names, and use a single ".osm.pbf"
     if ( $format =~ /^(srtm\.|srtm-europe\.)?osm\.(xz|gz|bz2)$/ ) {
         my $ext = $2;
         $file =~ s/\.pbf$/.$ext/;
