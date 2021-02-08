@@ -397,6 +397,7 @@ sub load_config {
       $q->param("debug") || $self->{'debug'} || $option->{'debug'} || 0;
     $self->{'debug'} = $debug;
 
+    my $pro = 0;
     if (   $q->param('pro')
         || $q->url( -full => 1 ) =~ m,^https?://extract-pro[1-9]?\.,
         || $q->url( -full => 1 ) =~
@@ -406,7 +407,8 @@ sub load_config {
         $config_file = '../.bbbike-extract-pro.rc';
         warn "Use extract pro config file $config_file\n"
           if $debug >= 2;
-
+        $pro = 1;
+          
     }
 
     # you can run "require" in perl only once
@@ -420,10 +422,14 @@ qq{did you called Extract::Config->load_config("$config_file") twice?\n};
     if ( -e $config_file ) {
         warn "Load config file: $config_file\n" if $debug >= 2;
         require $config_file;
-
-        # by token (2) or auth (1)
-        $option->{'pro'} = $q->param('pro') ? 2 : 1;
-
+        
+        # pro by token (2) or auth (1)
+        if ($pro) {
+            $option->{'pro'} = $q->param('pro') ? 2 : 1;
+        } else {
+            $option->{'pro'} = 0;
+        }
+        
         # double-check
         if ( $q->param("pro") ) {
             my $token = $option->{'email_token'} || "";
