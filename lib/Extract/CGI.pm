@@ -956,10 +956,8 @@ sub _check_input {
         'cb_id'           => $cb_id,
     };
 
-    if ( $option->{enable_priority} ) {
-        $obj->{'ip_address'} = $q->remote_host();
-        $obj->{'user_agent'} = $q->user_agent();
-    }
+    $obj->{'ip_address'} = $q->remote_host();
+    $obj->{'user_agent'} = $q->user_agent();
 
     ###############################################################################
     # detect bots, based on the confirmed jobs
