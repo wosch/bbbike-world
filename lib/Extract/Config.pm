@@ -553,7 +553,7 @@ sub check_extract_pro {
         }
         else {
             warn "Reset config for pro users $key=$option->{$key_pro}\n"
-              if $self->{'debug'} >= 1;
+              if $self->{'debug'} >= 2;
             $option->{$key} = $option->{$key_pro};
         }
     }
