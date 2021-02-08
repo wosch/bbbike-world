@@ -28,10 +28,10 @@ my $server  = $ENV{'BBBIKE_DEV_SERVER'} || 'https://dev1.bbbike.org';
 my $email   = $ENV{'BBBIKE_TEST_EMAIL'} || 'Nobody';
 
 # city of Bernau
-my $sw_lng  = 13.4592;
-my $sw_lat  = 52.6216;
-my $ne_lng  = 13.6763;
-my $ne_lat  = 52.744;
+my $sw_lng = 13.4592;
+my $sw_lat = 52.6216;
+my $ne_lng = 13.6763;
+my $ne_lat = 52.744;
 
 # list of supported languages
 my @lang = ( "en", "de", "fr", "" );

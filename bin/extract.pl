@@ -1644,7 +1644,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
     warn "callback_enabled: $callback_enabled\n"     if $debug >= 2;
 
     # callback URL
-    if ($callback_enabled && $obj->{'cb_id'}) {
+    if ( $callback_enabled && $obj->{'cb_id'} ) {
         eval { run_callback( $obj->{'cb_id'}, $url ) };
         if ($@) {
             $option->{'email_failure_fatal'} ? die "$@" : warn "$@";
