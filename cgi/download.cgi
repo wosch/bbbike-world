@@ -44,10 +44,10 @@ our $option = {
 
     # spool directory. Should be at least 100GB large
     'spool_dir'     => '/var/cache/extract',
-    'spool_dir_pro' => '/var/cache/extract-pro',
+    'spool_dir_pro' => '/var/cache/extract',
 
     'download'     => '/osm/extract/',
-    'download_pro' => '/osm/extract-pro/',
+    'download_pro' => '/osm/extract/',
 
     # cut to long city names
     'max_city_length' => 38,

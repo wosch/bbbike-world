@@ -542,7 +542,7 @@ sub check_extract_pro {
     my $url = $q->url( -full => 1 );
 
     # public version, skip
-    if ( !$q->param("pro") && $url !~ m,^https://extract-pro[1-9]?\., ) {
+    if ( !( $q->param("pro") || $url !~ m,^https://extract-pro[1-9]?\., ) ) {
         return;
     }
 
@@ -552,6 +552,8 @@ sub check_extract_pro {
             warn "Config $key_pro is not set, ignored. FIXME!\n";
         }
         else {
+            warn "Reset config for pro users $key=$option->{$key_pro}\n"
+              if $self->{'debug'} >= 1;
             $option->{$key} = $option->{$key_pro};
         }
     }

@@ -79,7 +79,7 @@ our $option = {
     'script_homepage_pro' => 'https://extract-pro.bbbike.org',
 
     'server_status_url'     => 'https://download.bbbike.org/osm/extract',
-    'server_status_url_pro' => 'https://download.bbbike.org/osm/extract-pro',
+    'server_status_url_pro' => 'https://download.bbbike.org/osm/extract',
 
     'max_jobs'   => 3,
     'bcc'        => 'bbbike@bbbike.org',
@@ -100,7 +100,7 @@ our $option = {
 
     # spool directory. Should be at least 100GB large
     'spool_dir'     => '/var/cache/extract',
-    'spool_dir_pro' => '/var/cache/extract-pro',
+    'spool_dir_pro' => '/var/cache/extract',
 
     'file_prefix' => 'planet_',
 
