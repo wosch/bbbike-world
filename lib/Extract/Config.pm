@@ -559,7 +559,7 @@ sub check_extract_pro {
     }
 
     # should never happens
-    $option->{"pro"} = 99 if !$option->{"pro"};
+    $option->{"pro"} = 0 if !$option->{"pro"};
 }
 
 sub is_production {
