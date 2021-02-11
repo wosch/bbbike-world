@@ -542,7 +542,7 @@ sub check_extract_pro {
     my $url = $q->url( -full => 1 );
 
     # public version, skip
-    if ( !( $q->param("pro") || $url !~ m,^https://extract-pro[1-9]?\., ) ) {
+    if ( !( $q->param("pro") || $url =~ m,^https://extract-pro[1-9]?\., ) ) {
         return;
     }
 
