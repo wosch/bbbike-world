@@ -49,13 +49,6 @@ https://vec02.maps.yandex.net/tiles?l=map&v=2.2.3&x=2200&y=1346&z=12
 https://worldtiles2.waze.com/tiles/13/4400/2688.png
 https://livemap-tiles3.waze.com/tiles/12/1176/1560.png
 #http://www.topomapper.com/cgi-bin/tilecache-2.11b/tilecache.py?LAYERS=topomapper_gmerc&FORMAT=image%2Fjpeg&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&SRS=EPSG%3A900913&BBOX=1487158.8221094,6907461.3711133,1506726.7013477,6927029.2503516&WIDTH=256&HEIGHT=256
-https://korona.geog.uni-heidelberg.de/tiles/roads/x=4399&y=2688&z=13
-https://korona.geog.uni-heidelberg.de/tiles/roadsg/x=4399&y=2688&z=13
-https://korona.geog.uni-heidelberg.de/tiles/hybrid/x=4399&y=2688&z=13
-https://korona.geog.uni-heidelberg.de/tiles/asterh/x=4399&y=2688&z=13
-https://korona.geog.uni-heidelberg.de/tiles/asterc/x=4399&y=2688&z=13
-https://korona.geog.uni-heidelberg.de/tiles/adminb/x=4399&y=2688&z=13
-http://korona.geog.uni-heidelberg.de:8005/tms_lt.ashx?x=4399&y=2688&z=13
 https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/8/85/137.jpg
 https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/8/86/137.jpg
 https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/12/1342/2200.jpg
