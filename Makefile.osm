@@ -483,10 +483,6 @@ check: check-runtime
 	http_proxy="" ${BBMAKE} test > log.check 2>&1
 	tail -n 10 log.check
 
-# travis needs output on stdout, cannot log into a file
-travis:
-	http_proxy="" ${BBMAKE} test
-
 check-runtime:
 	http_proxy="" ${BBMAKE} PROVE_FILES="world/t/runtime*.t" test
 
@@ -1829,7 +1825,6 @@ help:
 	@echo "  [ docker-build-libosmium-ubuntu16 | docker-build-libosmium-ubuntu18 ]"
 	@echo "  [ docker-build-tilemaker-ubuntu16 ]"
 	@echo "  [ docker-build-all | docker-build-libosmium-all | docker-clean | docker-distclean ]"
-	@echo "  [ travis ]"
 	@echo ""
 	@echo "after failed install/cache update:"
 	@echo "bbbike_download= bbbike_extract= bbbike_convert= bbbike_install= make update-database"
