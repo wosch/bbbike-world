@@ -490,15 +490,13 @@ check-world check-w: check-runtime
 	@echo "In case of failure run:"
 	@echo " make check-failed"
 	@echo ""
-	${BBMAKE} PROVE_FILES="world/t/*.t" test > log.check-world 2>&1
-	tail -n 10 log.check-world
+	${BBMAKE} PROVE_FILES="world/t/*.t" test
 
 check-full: check-runtime
 	@echo "In case of failure run:"
 	@echo " BBBIKE_TEST_FAST=\"\" BBBIKE_TEST_LONG=1 make check-failed"
 	@echo ""
-	BBBIKE_TEST_FAST="" BBBIKE_TEST_LONG=1 ${BBMAKE} test > log.check-full 2>&1
-	tail -n 10 log.check-full
+	BBBIKE_TEST_FAST="" BBBIKE_TEST_LONG=1 ${BBMAKE} test
 
 check-devel:
 	prove world/t/website-images.t  ./world/t/080-perlcheck.t
