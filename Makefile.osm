@@ -500,7 +500,7 @@ check-full: check-runtime
 check-devel:
 	prove world/t/website-images.t  ./world/t/080-perlcheck.t
 
-check-failed:
+check-failed: check-runtime
 	TMPDIR=${TMP_DIR} LANG=C LC_ALL=C time prove --state=failed
 
 check-bbd:
