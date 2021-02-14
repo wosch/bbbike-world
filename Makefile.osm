@@ -480,8 +480,7 @@ check: check-runtime
 	@echo "In case of failure run:"
 	@echo " make check-failed"
 	@echo ""
-	${BBMAKE} test > log.check 2>&1
-	tail -n 10 log.check
+	${BBMAKE} test
 
 check-runtime:
 	${BBMAKE} PROVE_FILES="world/t/runtime*.t" test
