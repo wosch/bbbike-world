@@ -12,6 +12,10 @@ BEGIN {
         print "1..0 # skip, maperitive disabled\n";
         exit;
     }
+    if ( !$ENV{BBBIKE_TEST_LONG} ) {
+        print "1..0 # skip, maperitive disabled due not setting BBBIKE_TEST_LONG\n";
+        exit;
+    }
     if ( !-e $lockfile ) {
         print "1..0 # skip, DISPLAY=$display xvfb not running?\n";
         exit;
