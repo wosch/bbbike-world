@@ -463,7 +463,7 @@ sub validate_url {
         }
 
         # check external links only in long runs
-        elsif ($ENV{"BBBIKE_TEST_LONG"} || $url =~ /bbbike\.org/i) {
+        elsif ( $ENV{"BBBIKE_TEST_LONG"} || $url =~ /bbbike\.org/i ) {
             my $res = $test->myget_head($url);
             $hash->{$url} = $res;
             $self->{'counter'} += 3;
