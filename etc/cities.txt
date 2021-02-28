@@ -233,3 +233,4 @@ LaPaz
 Sucre
 Cusco
 LaPlata
+Minsk
