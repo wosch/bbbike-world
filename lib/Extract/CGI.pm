@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2011-2020 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2011-2021 Wolfram Schneider, https://bbbike.org
 #
 # helper functions for extract.cgi
 
@@ -419,13 +419,19 @@ qq{\n<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js
           qq[ jQuery(document).ready(function () { gpsies_route("$route"); }) ];
     }
 
+    my $extract_pro = $option->{'pro'} // 0;
+    my $extract_pro_js =
+      $extract_pro ? '$(".lnglatbox_toggle").css("display", "inline")' : "";
+
+    my $download_url = $args{'download_url'} // "";
+
     return <<EOF;
 
 <div id="footer">
   @{[ $self->footer_top($q, 'error' => $error, 'map' => $args{'map'}, 'css' => $args{'css'} ) ]}
   <hr/>
   <div id="copyright" class="normalscreen">
-    (&copy;) 2020 <a href="https://www.bbbike.org">BBBike.org</a>
+    (&copy;) 2021 <a href="https://www.bbbike.org">BBBike.org</a>
     @{[ M("by") ]} <a href="https://wolfram.schneider.org">Wolfram Schneider</a><br/>
     Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
   <div id="footer_community"></div>
@@ -441,6 +447,7 @@ $javascript
   jQuery('#pageload-indicator').hide();
   $disable_intro
   $route_js
+  $extract_pro_js
 </script>
 
 <!-- pre-load some images for slow mobile networks -->
@@ -449,7 +456,8 @@ $javascript
 </div>
 
 $html
-<!-- bbbike_extract_status: $error, pro version: @{[ $option->{'pro'} ]} -->
+<!-- bbbike_extract_status: $error, pro version: $extract_pro -->
+<!-- bbbike_extract_download_url: $download_url -->
 $analytics
 </body>
 </html>
@@ -578,6 +586,19 @@ sub get_spool_dir {
     return $spool_dir;
 }
 
+sub email_undeliverable {
+    my $domains = shift;
+    my $email   = shift;
+
+    # misconfiguration?
+    return if ref $domains ne 'ARRAY';
+
+    my $domain = lc($email);
+    $domain =~ s/.*?\@//;
+
+    return grep { $domain eq lc($_) } @$domains;
+}
+
 #
 # validate user input
 # reject wrong values
@@ -585,23 +606,97 @@ sub get_spool_dir {
 sub check_input {
     my $self = shift;
 
-    my %args = @_;
-    my $q = $args{'q'} || $self->{'q'};
+    my %args  = @_;
+    my $q     = $args{'q'} || $self->{'q'};
+    my $error = $args{'error'};
+    my $data  = $args{'data'};
+    my $download_url;
 
-    my $error;
-    my $data;
+    my $json_output = Param( $q, "json" );
 
-    ( $error, $data ) = $self->_check_input(@_);
+    # we know that something is wrong, skip input checks
+    if ( defined $error ) {
+        warn "$data\n" if $debug >= 1;
+        $data = "<p>$data</p><br/><br/><br/><br/>" if !$json_output;
+    }
+    else {
+        ( $error, $data, $download_url ) = $self->_check_input(@_);
+    }
+    $download_url //= "";
+
+    if ( $json_output && !$option->{'pro'} ) {
+        $data =
+q[<p>ERROR: JSON output disabled. Please sign up for the BBBike <a href="https://extract.bbbike.org/support.html">professional plan</a>!</p>]
+          . $data;
+        $json_output = 0;
+    }
+
+    if ($json_output) {
+        return $self->output_json( $error, $data, $download_url );
+    }
+    else {
+        return $self->output_html( $error, $data, $download_url );
+    }
+}
+
+# API usage: display a JSON object without any HTML
+# if the CGI parameter json=1
+sub output_json {
+    my $self = shift;
+    my ( $error, $data, $download_url ) = @_;
+
+    my $q = $self->{'q'};
+
+    my $status = $error ? 520 : 200;
+
+    # better readability
+    $data =~ s/\n/ /g;
+    $data =~ s/<.*?>/ /g;
+    $data =~ s/\s+/ /g;
+    $data =~ s/\s$//;
+
+    my $json = new JSON;
+    my $obj  = {
+        'error'        => $error,
+        'status'       => $status,
+        'download_url' => $download_url,
+        'message'      => $data
+    };
+
+    my $cb_id = Param( $q, "cb_id" );
+    if ($cb_id) {
+        my $callback_url =
+          defined $option->{"cb_id"} && defined $option->{"cb_id"}->{$cb_id}
+          ? $option->{"cb_id"}->{$cb_id}
+          : "";
+        $obj->{'cb_id'}        = $cb_id;
+        $obj->{'callback_url'} = $callback_url;
+    }
+
+    my $json_text = $json->pretty->canonical->encode($obj);
+
+    print $q->header(
+        -content_type => 'application/json; charset=UTF-8',
+        -status       => $status
+    );
+    print $json_text;
+}
+
+# HTML output for interactive usage
+sub output_html {
+    my $self = shift;
+    my ( $error, $data, $download_url ) = @_;
+
+    my $q = $self->{'q'};
 
     print $self->header( $q, -type => 'check_input', -error => $error );
     print $self->layout( $q, 'check_input' => 1 );
-
     print $data;
-
     print $self->footer(
         $q,
-        'error' => $error,
-        'css'   => '#footer { width: 90%; padding-bottom: 20px; }'
+        'error'        => $error,
+        'download_url' => $download_url,
+        'css'          => '#footer { width: 90%; padding-bottom: 20px; }'
     );
 }
 
@@ -652,6 +747,7 @@ sub _check_input {
     my $appid  = Param( $q, "appid" );
     my $ref    = Param( $q, "ref" );
     my $route  = Param( $q, "route" );
+    my $cb_id  = Param( $q, "cb_id" );
 
     if ( $expire ne '' && $expire =~ /^\d+$/ ) {
         my $time = time();
@@ -681,7 +777,16 @@ sub _check_input {
     # accecpt "nobody" as email address
     elsif ( $option->{'email_allow_nobody'} && lc($email) eq 'nobody' ) {
         $email .= '@bbbike.org';
-        warn "Reset E-Mail addresse to $email\n" if $debug >= 1;
+        warn "Reset E-Mail address to $email\n" if $debug >= 1;
+    }
+
+    # ignore some domains. Generate the extracts, but don't sent an email out
+    elsif ( defined $option->{'email_undeliverable'}
+        && &email_undeliverable( $option->{'email_undeliverable'}, $email ) )
+    {
+        warn "Reset undeliverable E-Mail address $email to nobody\n"
+          if $debug >= 1;
+        $email = 'nobody@bbbike.org';
     }
 
     elsif (
@@ -783,6 +888,23 @@ sub _check_input {
         error("layers '$layers' is out of range");
     }
 
+    # store only validated call back URLs
+    if ( $cb_id ne "" ) {
+        if ( !$option->{'pro'} ) {
+            error(
+                "Async callback requests are supported only for pro customers. "
+                  . "Please login first." );
+        }
+
+        elsif (
+            !( $cb_id =~ m,^[a-z0-9\-]+$, && $option->{'cb_id'}->{$cb_id} ) )
+        {
+            error(  "The callback parameter '"
+                  . escapeHTML($cb_id)
+                  . "' does not match configuration" );
+        }
+    }
+
     ###############################################################################
     # display coordinates, but not more than 32
     my $coordinates =
@@ -831,12 +953,11 @@ sub _check_input {
         'appid'           => $appid,
         'ref'             => $ref,
         'route'           => $route,
+        'cb_id'           => $cb_id,
+        'ip_address'      => $q->remote_host,
+        'user_agent'      => $q->user_agent,
+        'pro'             => $option->{'pro'},
     };
-
-    if ( $option->{enable_priority} ) {
-        $obj->{'ip_address'} = $q->remote_host();
-        $obj->{'user_agent'} = $q->user_agent();
-    }
 
     ###############################################################################
     # detect bots, based on the confirmed jobs
@@ -918,7 +1039,12 @@ sub _check_input {
         $error++;
     }
 
-    return ( $error, join "\n", @error, @data );
+    # a reference to the expected download link at create time
+    my $download_url = download_url( $obj, $option );
+
+    my $data = join "\n", @error, @data;
+
+    return ( $error, $data, $download_url );
 }
 
 # ($lat1, $lon1 => $lat2, $lon2);

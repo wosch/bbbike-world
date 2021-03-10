@@ -147,8 +147,10 @@ sub myget_302 {
 
 # GET request with HTTP 500 INTERNAL SERVER ERROR
 sub myget_500 {
-    my $self = shift;
-    my $url  = shift;
+    my $self   = shift;
+    my $url    = shift;
+    my $status = shift // "500 Internal Server Error";
+
     my $size = shift || $self->{'size'};
 
     $size = 200 if !defined $size;
@@ -157,8 +159,7 @@ sub myget_500 {
     my $res = $self->{'ua'}->request($req);
 
     isnt( $res->is_success, undef, "$url is success $url" );
-    is( $res->status_line, "500 Internal Server Error",
-        "status code 500 $url" );
+    is( $res->status_line, $status, "status code 5XX $url" );
 
     my $content = $res->decoded_content();
     cmp_ok( length($content), ">", $size, "greather than $size for URL $url" );

@@ -6,6 +6,7 @@
 
 # CGI.pm treat all parameters as UTF-8 strings
 use CGI qw(-utf8);
+use Data::Dumper;
 
 use lib qw[../world/lib ../lib];
 use Extract::Config;
@@ -27,17 +28,21 @@ our $option = {
     'homepage'             => 'https://download.bbbike.org/osm/extract/',
     'homepage_extract_pro' => 'https://extract-pro.bbbike.org',
 
-    'download_homepage' => 'https://download.bbbike.org/osm/',
+    'download_homepage'     => 'https://download.bbbike.org/osm/',
+    'download_homepage_pro' => 'https://download.bbbike.org/osm/',
 
     'server_status_url'     => 'https://download.bbbike.org/osm/extract/',
-    'server_status_url_pro' => 'https://download.bbbike.org/osm/extract-pro/',
+    'server_status_url_pro' => 'https://download.bbbike.org/osm/extract/',
 
     # spool directory. Should be at least 100GB large
-    'spool_dir'     => '/var/cache/extract',
-    'spool_dir_pro' => '/var/cache/extract-pro',
+    'spool_dir' => '/var/cache/extract',
+
+    # A seperate spool directory for pro users.
+    # Currently not activated, all users share the same spool directory
+    'spool_dir_pro' => '/var/cache/extract',
 
     'download'     => '/osm/extract/',
-    'download_pro' => '/osm/extract-pro/',
+    'download_pro' => '/osm/extract/',
 
     'script_homepage'     => 'https://extract.bbbike.org',
     'script_homepage_pro' => 'https://extract-pro.bbbike.org',
@@ -90,7 +95,7 @@ our $option = {
 
     # configure order of formats in menu
     'formats_order' =>
-      [qw/osm shape geojson sql mbtiles garmin android svg bbbike srtm/],
+      [qw/osm shape geojson sql garmin android svg bbbike srtm/],
 
     # start extracts in background for referer customers
     'route_cgi' => { 'auto_submit' => 0 },
@@ -106,8 +111,17 @@ if ( defined $q->param('debug') ) {
 }
 
 my $extract_config = Extract::Config->new( 'q' => $q, 'option' => $option );
-$extract_config->load_config;
-$extract_config->check_extract_pro;
+
+my $config_error;
+
+eval {
+    $extract_config->load_config;
+    $extract_config->check_extract_pro;
+};
+
+if ($@) {
+    $config_error = "$@";
+}
 
 my $extract_cgi = Extract::CGI->new(
     'q'      => $q,
@@ -115,8 +129,19 @@ my $extract_cgi = Extract::CGI->new(
     'debug'  => $debug
 );
 
+warn Dumper($option) if $debug >= 2;
+
+if ( defined $config_error ) {
+    warn "Internal config error: $config_error\n";
+
+    $extract_cgi->check_input(
+        'error' => '520',
+        'data'  => "Internal config error. Please contact the site maintainer!"
+    );
+}
+
 # second page
-if ( $q->param("submit") ) {
+elsif ( $q->param("submit") ) {
     $extract_cgi->check_input;
 }
 

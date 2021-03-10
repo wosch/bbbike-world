@@ -19,7 +19,8 @@ our @EXPORT = qw(save_request complete_save_request check_queue
   Param large_int square_km read_data file_mtime_diff
   file_size file_size_mb kb_to_mb get_json
   get_loadavg program_output random_user get_jobs
-  json_compat touch_file store_data store_json checksum);
+  json_compat touch_file store_data store_json checksum
+  file_lnglat download_url);
 
 use strict;
 use warnings;
@@ -466,6 +467,71 @@ sub checksum {
     close C;
 
     return $data;
+}
+
+##################################
+# storage
+
+# file prefix depending on input PBF file, e.g. "planet_"
+sub get_file_prefix {
+    my $obj    = shift;
+    my $option = shift;
+
+    my $file_prefix = $option->{'file_prefix'} // 'planet_';
+    my $format = $obj->{'format'};
+
+    # depending on the format (e.g. SRTM data) we may use a different planet
+    if ( exists $option->{'planet'}->{$format} ) {
+        $format =~ s/\..*/_/;
+        $file_prefix = $format if $format;
+    }
+
+    warn "Use file prefix: '$file_prefix'\n" if $debug >= 2;
+    return $file_prefix;
+}
+
+# store lng,lat in file name
+sub file_lnglat {
+    my $obj    = shift;
+    my $option = shift;
+
+    my $file = get_file_prefix($obj);
+    my $coords = $obj->{coords} || [];
+
+    # rectangle
+    if ( !scalar(@$coords) ) {
+        $file .= "$obj->{sw_lng},$obj->{sw_lat}_$obj->{ne_lng},$obj->{ne_lat}";
+    }
+
+    # polygon
+    else {
+        my $c = join '|', ( map { "$_->[0],$_->[1]" } @$coords );
+        my $first = $coords->[0];
+
+        my $md5 =
+          substr( md5_hex($c), 0, 8 )
+          ;    # first 8 characters of a md5 sum is enough
+        $file .= join "_", ( $first->[0], $first->[1], $md5 );
+    }
+
+    return $file;
+}
+
+# store lng,lat in file name
+sub download_url {
+    my $obj    = shift;
+    my $option = shift;
+
+    my $ext = $obj->{'format'};
+
+# Note: we skip double ".osm.osm.pbf" in file names, and use a single ".osm.pbf"
+    $ext = "osm.$ext" if $ext !~ /^osm\./;
+
+    my $url =
+      $option->{'homepage'} . "/" . &file_lnglat( $obj, $option ) . "." . $ext;
+    warn "download_url=$url\n" if $debug >= 2;
+
+    return $url;
 }
 
 1;

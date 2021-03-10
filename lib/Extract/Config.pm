@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2012-2019 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2021 Wolfram Schneider, https://bbbike.org
 #
 # extract config load
 
@@ -397,16 +397,18 @@ sub load_config {
       $q->param("debug") || $self->{'debug'} || $option->{'debug'} || 0;
     $self->{'debug'} = $debug;
 
+    my $pro = 0;
     if (   $q->param('pro')
         || $q->url( -full => 1 ) =~ m,^https?://extract-pro[1-9]?\.,
         || $q->url( -full => 1 ) =~
         m,^https?://download[1-9]?\.bbbike\.org/osm/extract-pro/, )
     {
-        $option->{'pro'} = 1;
 
         $config_file = '../.bbbike-extract-pro.rc';
         warn "Use extract pro config file $config_file\n"
           if $debug >= 2;
+        $pro = 1;
+
     }
 
     # you can run "require" in perl only once
@@ -421,11 +423,21 @@ qq{did you called Extract::Config->load_config("$config_file") twice?\n};
         warn "Load config file: $config_file\n" if $debug >= 2;
         require $config_file;
 
+        # pro by token (2) or auth (1)
+        if ($pro) {
+            $option->{'pro'} = $q->param('pro') ? 2 : 1;
+        }
+        else {
+            $option->{'pro'} = 0;
+        }
+
         # double-check
         if ( $q->param("pro") ) {
             my $token = $option->{'email_token'} || "";
             if ( $token ne $q->param('pro') ) {
                 warn Dumper($option) if $debug;
+
+               # need to stop here because we already loaded the pro config file
                 die "Pro parameter does not match token\n";
             }
         }
@@ -500,7 +512,7 @@ sub load_config_nocgi {
         warn
           "detect extract pro config file=$config_file, set option->{'pro'}=1\n"
           if $debug >= 1;
-        $option->{'pro'} = 1;
+        $option->{'pro'} = 3;
     }
 
     if ( -e $config_file ) {
@@ -530,7 +542,7 @@ sub check_extract_pro {
     my $url = $q->url( -full => 1 );
 
     # public version, skip
-    if ( !$q->param("pro") && $url !~ m,^https://extract-pro[1-9]?\., ) {
+    if ( !( $q->param("pro") || $url =~ m,^https://extract-pro[1-9]?\., ) ) {
         return;
     }
 
@@ -540,11 +552,14 @@ sub check_extract_pro {
             warn "Config $key_pro is not set, ignored. FIXME!\n";
         }
         else {
+            warn "Reset config for pro users $key=$option->{$key_pro}\n"
+              if $self->{'debug'} >= 2;
             $option->{$key} = $option->{$key_pro};
         }
     }
 
-    $option->{"pro"} = 1;
+    # should never happens
+    $option->{"pro"} = 0 if !$option->{"pro"};
 }
 
 sub is_production {

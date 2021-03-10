@@ -77,9 +77,8 @@ if [ $verbose -a $fetch_status -ne 0 ]; then
     fi
     echo "please run:"
     echo ""
-    echo "#( cd $dir/bbbike && make check-full )"
-    echo "( cd $dir/bbbike && make git-push )"
-    echo "rm -rf $dir"
+    #echo "#( cd $dir/bbbike && make check-full )"
+    echo "( cd $dir/bbbike && make git-push && rm -rf $dir )"
 else
     rm -rf $dir
 fi

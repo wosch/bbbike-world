@@ -55,7 +55,8 @@ sub page_check_500 {
 
     $test->myget_head("$home_url/cgi/extract.cgi?pro=");
     $test->myget_head("$home_url/cgi/extract.cgi?proXXX=");
-    $test->myget_500("$home_url/cgi/extract.cgi?pro=foobar");
+    $test->myget_500( "$home_url/cgi/extract.cgi?pro=foobar",
+        "520 Unknown code" );
 }
 
 #############################################################################

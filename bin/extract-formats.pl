@@ -26,10 +26,12 @@ my $help;
 my $formats = $Extract::Config::formats;
 my $server  = $ENV{'BBBIKE_DEV_SERVER'} || 'https://dev1.bbbike.org';
 my $email   = $ENV{'BBBIKE_TEST_EMAIL'} || 'Nobody';
-my $sw_lng  = -72.211;
-my $sw_lat  = -13.807;
-my $ne_lng  = -71.732;
-my $ne_lat  = -13.235;
+
+# city of Bernau
+my $sw_lng = 13.4592;
+my $sw_lat = 52.6216;
+my $ne_lng = 13.6763;
+my $ne_lat = 52.744;
 
 # list of supported languages
 my @lang = ( "en", "de", "fr", "" );

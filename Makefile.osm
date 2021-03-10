@@ -1,5 +1,5 @@
 ###############################################################
-# Copyright (c) 2008-2019 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2008-2011 Wolfram Schneider, https://bbbike.org
 #
 # Get and convert OpenStreetMap.org data to BBBike
 #
@@ -321,7 +321,7 @@ _pbf2pbf-checksum:
 osm2garmin: osm2garmin-multi
 osm2garmin-single: osm2garmin-osm osm2garmin-onroad osm2garmin-opentopo # osm2garmin-oseam osm2garmin-cycle osm2garmin-leisure osm2garmin-bbbike osm2garmin-openfietslite check-zip
 osm2garmin-multi:
-	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,world/bin/osm2garmin '${OSM_DIR}'/$$_/$$_.osm.pbf onroad:onroad-latin1:osm:opentopo\0, ' | env osm2xxx_max_jobs=${MAX_CPU3} java_heap=5G ${XARGS} -n 1 -0 -P2 /bin/sh -c
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,world/bin/osm2garmin '${OSM_DIR}'/$$_/$$_.osm.pbf onroad:onroad-latin1:osm:opentopo\0, ' | env osm2xxx_max_jobs=2 java_heap=5G ${XARGS} -n 1 -0 -P${MAX_CPU3} /bin/sh -c
 
 osm2garmin-osm:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
@@ -340,7 +340,7 @@ osm2garmin-openfietslite:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ext=openfietslite ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
 osm2garmin-oseam:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ext=oseam ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
-        
+
 osm2png:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | BBBIKE_MAPERITIVE_MAPSTYLE=google ${XARGS} -n 1 -0 -P${MAX_OSM2PNG} ${OSM2PNG}
 osm2svg:
@@ -355,7 +355,7 @@ osm2navit:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2NAVIT} ${OSM2NAVIT}
 osm2shape osm2shp:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2SHAPE} ${OSM2SHAPE}
-        
+
 osm2omim osm2mapsme:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2MAPSME} ${OSM2MAPSME}
 
@@ -480,34 +480,27 @@ check: check-runtime
 	@echo "In case of failure run:"
 	@echo " make check-failed"
 	@echo ""
-	http_proxy="" ${BBMAKE} test > log.check 2>&1
-	tail -n 10 log.check
-
-# travis needs output on stdout, cannot log into a file
-travis:
-	http_proxy="" ${BBMAKE} test
+	${BBMAKE} test
 
 check-runtime:
-	http_proxy="" ${BBMAKE} PROVE_FILES="world/t/runtime*.t" test
+	${BBMAKE} PROVE_FILES="world/t/runtime*.t" test
 
 check-world check-w: check-runtime
 	@echo "In case of failure run:"
 	@echo " make check-failed"
 	@echo ""
-	http_proxy="" ${BBMAKE} PROVE_FILES="world/t/*.t" test > log.check-world 2>&1
-	tail -n 10 log.check-world
+	${BBMAKE} PROVE_FILES="world/t/*.t" test
 
 check-full: check-runtime
 	@echo "In case of failure run:"
 	@echo " BBBIKE_TEST_FAST=\"\" BBBIKE_TEST_LONG=1 make check-failed"
 	@echo ""
-	http_proxy="" BBBIKE_TEST_FAST="" BBBIKE_TEST_LONG=1 ${BBMAKE} test > log.check-full 2>&1
-	tail -n 10 log.check-full
+	BBBIKE_TEST_FAST="" BBBIKE_TEST_LONG=1 ${BBMAKE} test
 
 check-devel:
 	prove world/t/website-images.t  ./world/t/080-perlcheck.t
 
-check-failed:
+check-failed: check-runtime
 	TMPDIR=${TMP_DIR} LANG=C LC_ALL=C time prove --state=failed
 
 check-bbd:
@@ -560,7 +553,7 @@ $(_cp):
 	else \
 	    c=`basename $@ -poly`; mkdir -p ${OSM_DIR}/$$c; ${DB} --poly $$c > ${OSM_DIR}/$$c/$$c.poly.tmp; mv -f ${OSM_DIR}/$$c/$$c.poly.tmp ${OSM_DIR}/$$c/$$c.poly; \
 	fi
-    
+
 $(_co):
 	c=`basename $@ -osmconvert`; world/bin/bbbike-db --planet $$c | xargs -0 /bin/sh -c
 
@@ -703,7 +696,7 @@ bbbike-tile-update:
 
 bbbike-tile-update-real:
 	@echo "Updating postgis database..., see tmp/log.bbbike-mapnik-postgis${POSTGIS_VERSION}"
-	${MAKE} DATA_DIR=../bbbike-eserte/data bbbike2wgs84-mapnik 
+	${MAKE} DATA_DIR=../bbbike-eserte/data bbbike2wgs84-mapnik
 	time ${MAKE} bbbike-mapnik-postgis${POSTGIS_VERSION} > tmp/log.bbbike-mapnik-postgis${POSTGIS_VERSION} 2>&1
 	cd ../bbbike-eserte; git log --format=oneline | head -1 | awk '{ print $$1 }' > .tile-status
 	${MAKE} tile-cache-cleanup
@@ -965,7 +958,7 @@ cache-heater-streets:
 		${XARGS} -0 -n1 -P${MAX_CPU} curl -sSf ${CURL_USER_AGENT} < tmp/$@.txt >/dev/null
 
 purge-cache-js:
-		find html \( -name '*.js' -or -name '*.css' \) -print0 | perl -0npe 's,^,https://'${BBBIKE_WEB_SERVER}'/,g' | ${XARGS} -0 -n1 -P1 curl -sS ${CURL_USER_AGENT} -X PURGE 
+		find html \( -name '*.js' -or -name '*.css' \) -print0 | perl -0npe 's,^,https://'${BBBIKE_WEB_SERVER}'/,g' | ${XARGS} -0 -n1 -P1 curl -sS ${CURL_USER_AGENT} -X PURGE
 
 cache-heater-searches:
 	random=$$(bash -c 'echo $$RANDOM'); \
@@ -1103,7 +1096,7 @@ tile-pbf2pbf-lt500k:
 	find ${_pbf_dir} -name '*.pbf' -size  500k -print0 | ${NICE} ${TIME} xargs -0 -n16 -P${MAX_CPU_40} ${PBF2PBF} > ${TILES_TMP}/log.$@ 2>&1
 	find ${_pbf_dir} -name '*.pbf' -size -500k -print0 | ${NICE} ${TIME} xargs -0 -n16 -P${MAX_CPU_40} ${PBF2PBF} >> ${TILES_TMP}/log.$@ 2>&1
 
-tile-pbf-check: 
+tile-pbf-check:
 	@echo "Number of *.pbf files: $$(find ${TILES_DIR}/lnglat -name '*.pbf' -type f | wc -l)"
 	@echo "Number of *.pbf file with min ${_min_size}: $$(find ${TILES_DIR}/lnglat -name '*.pbf' ${_min_size} | wc -l)"
 
@@ -1113,7 +1106,7 @@ tile-convert: \
 		tile-convert-garmin-all \
 		tile-convert-mapsforge \
 		tile-convert-osmand \
-		tile-convert-osm 
+		tile-convert-osm
 
 tile-convert-srtm: tile-convert-garmin-srtm tile-convert-osmand
 
@@ -1129,7 +1122,7 @@ tile-convert-csv:
 tile-convert-shp:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
 	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2SHAPE} > ${TILES_TMP}/log.$@ 2>&1
-        
+
 tile-convert-mapsme:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
 	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2MAPSME} > ${TILES_TMP}/log.$@ 2>&1
@@ -1231,7 +1224,7 @@ tile-checksum:
 tile-db-clean:
 	rm -rf /var/tmp/_tilesize-*-localhost-*
 
-tile-lng-clean: 
+tile-lng-clean:
 	rm -rf ${TILES_DIR}/lng
 
 tile-distclean: tile-db-clean
@@ -1266,7 +1259,7 @@ data-distclean distclean-data:
 # tail -n2 *run | grep -v swap
 # ==> log.tile-lng-run <==
 # 118651.85user 270.53system 4:31:47elapsed 729%CPU (0avgtext+0avgdata 4487732maxresident)k
-# 
+#
 # ==> log.tile-lnglat-run <==
 # 270131.80user 2225.13system 10:28:15elapsed 722%CPU (0avgtext+0avgdata 2448768maxresident)k
 #
@@ -1358,7 +1351,7 @@ deb-equivs:
 	for i in ${DEB_DIR}/*.deb; do env DEB_RELEASE=${DEB_RELEASE} world/bin/deb2deb $$i; done
 	ls -l ${DEB_DIR}/*.deb
 
-deb-bin deb-bin-java deb-bin-x86: 
+deb-bin deb-bin-java deb-bin-x86:
 	${MAKE} -C./world/etc/apt/${DEB_VENDOR}/${DEB_RELEASE}/deb -f ../../../Makefile DEB_RELEASE=${DEB_RELEASE} DEB_VENDOR=${DEB_VENDOR} $@
 
 deb-clean:
@@ -1488,7 +1481,7 @@ bbbike-c:
 
 
 DOWNLOAD_PREFIX=/usr/local/www/download.bbbike.org
-download-bbbike-org-install: 
+download-bbbike-org-install:
 	mkdir -p ${DOWNLOAD_PREFIX}
 	mkdir -p ${DOWNLOAD_PREFIX}/osm/planet
 	mkdir -p ${DOWNLOAD_PREFIX}/bbbike
@@ -1559,7 +1552,7 @@ test-org:
 
 lighttpd-restart webserver-restart: lighttpd-stop temp-clean test-org lighttpd-start
 
-lighttpd-start webserver-start: 
+lighttpd-start webserver-start:
 	mkdir -p ${TMP_DIR}
 	$$(pwd)/world/bin/lighttpd-start &
 	sleep 0.2
@@ -1570,7 +1563,7 @@ lighttpd-stop webserver-stop:
 
 test prove: lighttpd-restart perlcheck-bbbike-cgi
 	mkdir -p ${TMP_DIR}
-	TMPDIR=${TMP_DIR} LANG=C LC_ALL=C time prove ${prove_opt} -j${MAX_CPU} -s ${PROVE_FILES}
+	TMPDIR=${TMP_DIR} LANG=C LC_ALL=C time prove ${prove_opt} -j${MAX_CPU} --shuffle --timer --state=save ${PROVE_FILES}
 	@echo ">>> All tests are successfully done. Stop lighttpd <<<"
 	@echo ""
 	${MAKE} lighttpd-stop
@@ -1645,7 +1638,7 @@ bbbike-tarball bbbike-src tarball:
 	./world/bin/bbbike-tarball
 
 install-xvfb:
-	sudo cp world/etc/init.d/xvfb /etc/init.d 
+	sudo cp world/etc/init.d/xvfb /etc/init.d
 	sudo update-rc.d xvfb defaults
 
 docker-build:
@@ -1657,7 +1650,7 @@ docker-check:
 docker-check-w:
 	${DOCKER} run -it --rm ${DOCKER_BBBIKE_TAG} /bin/bash -ic 'echo 3 | sudo tee $$HOME/.ncpu.ncpu; make git-pull; BBBIKE_TEST_NO_NETWORK=1 make check-w || cat log.check*'
 
-docker-build-all: 
+docker-build-all:
 	${NICE} ${BBMAKE} -j${MAX_CPU} \
 	  docker-build-extract-debian9 \
 	  docker-build-extract-debian10 \
@@ -1674,14 +1667,14 @@ docker-build-libosmium-all:
 
 
 DOCKER_CHECK_ALL_COMMAND=docker-check
-docker-check-all: 
+docker-check-all:
 		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian9  ${DOCKER_CHECK_ALL_COMMAND}
 		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian10 ${DOCKER_CHECK_ALL_COMMAND}
 		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu14 ${DOCKER_CHECK_ALL_COMMAND}
 		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu16 ${DOCKER_CHECK_ALL_COMMAND}
 		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu18 ${DOCKER_CHECK_ALL_COMMAND}
 
-docker-check-w-all: 
+docker-check-w-all:
 		${BBMAKE} DOCKER_CHECK_ALL_COMMAND=docker-check-w docker-check-all
 
 
@@ -1712,7 +1705,7 @@ docker-build-libosmium-ubuntu18:
 docker-build-tilemaker-ubuntu16:
 	${BBMAKE} DOCKER_IMAGE_FILE=tilemaker-ubuntu16 DOCKER_BBBIKE_TAG=bbbike/tilemaker-ubuntu16 docker-build
 
-# see world/etc/docker/README 
+# see world/etc/docker/README
 docker-build-tile:
 	${BBMAKE} DOCKER_IMAGE_FILE=tile-ubuntu14 DOCKER_BBBIKE_TAG=bbbike/tile docker-build
 docker-shell-tile:
@@ -1829,7 +1822,6 @@ help:
 	@echo "  [ docker-build-libosmium-ubuntu16 | docker-build-libosmium-ubuntu18 ]"
 	@echo "  [ docker-build-tilemaker-ubuntu16 ]"
 	@echo "  [ docker-build-all | docker-build-libosmium-all | docker-clean | docker-distclean ]"
-	@echo "  [ travis ]"
 	@echo ""
 	@echo "after failed install/cache update:"
 	@echo "bbbike_download= bbbike_extract= bbbike_convert= bbbike_install= make update-database"
