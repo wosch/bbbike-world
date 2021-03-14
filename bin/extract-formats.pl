@@ -62,7 +62,8 @@ sub generate_urls {
     my $expire = time;
 
     foreach my $key ( keys %$formats ) {
-        next if $key =~ /^png-/;
+        # currently disabled formats
+        next if $key =~ /^(png|mbtiles)-/;
 
         my $city = "etest";
         my $lang = "";
