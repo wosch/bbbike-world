@@ -63,7 +63,7 @@ sub generate_urls {
 
     foreach my $key ( keys %$formats ) {
         # currently disabled formats
-        next if $key =~ /^(png|mbtiles)-/;
+        next if $key =~ /^(png|mbtiles|navit)-/;
 
         my $city = "etest";
         my $lang = "";
