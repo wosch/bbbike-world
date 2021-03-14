@@ -1520,14 +1520,6 @@ UPDATE_APT=deb-perl deb-equivs deb-bin deb-repo-upload
 update-apt-stretch update-apt-debian9:
 	${MAKE} DEB_VENDOR=debian DEB_RELEASE=stretch  ${UPDATE_APT}
 
-# ubuntu14
-update-apt-trusty update-apt-ubuntu14:
-	${MAKE} DEB_VENDOR=ubuntu DEB_RELEASE=trusty  ${UPDATE_APT}
-
-# ubuntu12
-update-apt-precise update-apt-ubuntu update-apt-ubuntu12:
-	${MAKE} DEB_VENDOR=ubuntu DEB_RELEASE=precise ${UPDATE_APT}
-
 #
 # build Osmand.net devel java libs
 # start this command in the top-level directory of
@@ -1653,25 +1645,23 @@ docker-build-all:
 	${NICE} ${BBMAKE} -j${MAX_CPU} \
 	  docker-build-extract-debian9 \
 	  docker-build-extract-debian10 \
-	  docker-build-extract-ubuntu14 \
-	  docker-build-extract-ubuntu16 \
 	  docker-build-extract-ubuntu18
+	  #docker-build-extract-ubuntu20
 
 docker-build-libosmium-all:
 	${NICE} ${BBMAKE} -j${MAX_CPU} \
 	  docker-build-libosmium-debian9 \
-	  docker-build-libosmium-ubuntu16 \
 	  docker-build-libosmium-debian10 \
 	  docker-build-libosmium-ubuntu18
+	  #docker-build-libosmium-ubuntu20
 
 
 DOCKER_CHECK_ALL_COMMAND=docker-check
 docker-check-all:
 		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian9  ${DOCKER_CHECK_ALL_COMMAND}
 		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian10 ${DOCKER_CHECK_ALL_COMMAND}
-		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu14 ${DOCKER_CHECK_ALL_COMMAND}
-		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu16 ${DOCKER_CHECK_ALL_COMMAND}
 		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu18 ${DOCKER_CHECK_ALL_COMMAND}
+		#${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu20 ${DOCKER_CHECK_ALL_COMMAND}
 
 docker-check-w-all:
 		${BBMAKE} DOCKER_CHECK_ALL_COMMAND=docker-check-w docker-check-all
@@ -1689,15 +1679,13 @@ docker-build-libosmium-debian10:
 	${BBMAKE} DOCKER_IMAGE_FILE=libosmium-debian10 DOCKER_BBBIKE_TAG=bbbike/libosmium-debian10 docker-build
 
 # ubuntu
-docker-build-extract-ubuntu14:
-	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-ubuntu14 DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu14 docker-build
-docker-build-extract-ubuntu16:
-	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-ubuntu16 DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu16 docker-build
+docker-build-extract-ubuntu20:
+	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-ubuntu20 DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu20 docker-build
 docker-build-extract-ubuntu18:
 	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-ubuntu18 DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu18 docker-build
 
-docker-build-libosmium-ubuntu16:
-	${BBMAKE} DOCKER_IMAGE_FILE=libosmium-ubuntu16 DOCKER_BBBIKE_TAG=bbbike/libosmium-ubuntu16 docker-build
+docker-build-libosmium-ubuntu20:
+	${BBMAKE} DOCKER_IMAGE_FILE=libosmium-ubuntu20 DOCKER_BBBIKE_TAG=bbbike/libosmium-ubuntu20 docker-build
 docker-build-libosmium-ubuntu18:
 	${BBMAKE} DOCKER_IMAGE_FILE=libosmium-ubuntu18 DOCKER_BBBIKE_TAG=bbbike/libosmium-ubuntu18 docker-build
 
@@ -1816,9 +1804,9 @@ help:
 	@echo "  [ DOCKER_BBBIKE_TAG=bbbike/extract-debian9  docker-check-w ]"
 	@echo "  [ docker-build-tile | docker-shell-tile ]"
 	@echo "  [ docker-build-extract-debian9 | docker-build-extract-debian10 ]"
-	@echo "  [ docker-build-extract-ubuntu14 | docker-build-extract-ubuntu16 | docker-build-extract-ubuntu18 ]"
+	@echo "  [ docker-build-extract-ubuntu18 | docker-build-extract-ubuntu20 ]"
 	@echo "  [ docker-build-libosmium-debian9 | docker-build-libosmium-debian10 ]"
-	@echo "  [ docker-build-libosmium-ubuntu16 | docker-build-libosmium-ubuntu18 ]"
+	@echo "  [ docker-build-libosmium-ubuntu18 | docker-build-libosmium-ubuntu20 ]"
 	@echo "  [ docker-build-tilemaker-ubuntu16 ]"
 	@echo "  [ docker-build-all | docker-build-libosmium-all | docker-clean | docker-distclean ]"
 	@echo ""
