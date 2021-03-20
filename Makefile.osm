@@ -1040,7 +1040,7 @@ extract-gc:
 	cd ${EXTRACTS_SPOOL_DIR}; find confirmed running download/ -type f -mtime +10 -size +400M -print0 | xargs -0 rm -f
 	cd ${EXTRACTS_SPOOL_DIR}; find confirmed running download/ -type f -mtime +14 -size +250M -print0 | xargs -0 rm -f
 	if test -e /tmpfs; then \
-	    find /tmpfs/ -type f -mtime +1 -print0 | xargs -0 rm -f; \
+	    find /tmpfs/ -type f -mtime +1 -user $$(whoami) -print0 | xargs -0 rm -f; \
 	fi
 
 # tidy up to speedup download.cgi script
