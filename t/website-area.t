@@ -29,7 +29,7 @@ my $garmin = 1;    # 0, 1
 
 if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
     plan tests => scalar(@cities) *
-      ( $test->myget_counter * 4 + 5 + 3 * $garmin );
+      ( $test->myget_counter * 4 + 5 + 2 * $garmin );
 }
 else {
     plan 'no_plan';
@@ -72,7 +72,7 @@ qr|Start bicycle routing for .*?href="https://www.bbbike.org/$city/">|,
 
         if ($garmin) {
             foreach
-              my $ext (qw/osm.garmin-osm.zip osm.shp.zip osm.navit.zip poly/)
+              my $ext (qw/osm.garmin-osm.zip osm.shp.zip poly/)
             {
                 like( $content, qr|($path/$city)?/$city.$ext"|,
                     "$path/$city/$city.$ext" );
