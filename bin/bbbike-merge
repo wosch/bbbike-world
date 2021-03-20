@@ -68,7 +68,7 @@ if [ $bbbike_test -a $fetch_status -ne 0 ]; then
     fi
 fi
 
-make git-diff
+make git-diff | cat
 
 if [ $verbose -a $fetch_status -ne 0 ]; then
     pwd
