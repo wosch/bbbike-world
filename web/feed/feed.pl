@@ -49,6 +49,18 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
+    title   => qq{New: cycle routing for Minsk},
+    id      => 'a6c93ea134649e789eae9f353e6d9a0b',
+    content => {
+        type => 'text',
+        content =>
+qq{New: cycle routing for Minsk: https://www.bbbike.org/Minsk/},
+    },
+    updated  => '2021-03-21T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title   => qq{New OSM export format MBTiles},
     id      => '396b20cf70a9aec7c349db9fcf9723a2',
     content => {

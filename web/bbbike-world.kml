@@ -1481,6 +1481,16 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Minsk</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Minsk/">BBBike @ Minsk</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Minsk">extract</a></span>
+	]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>27.6055,53.894,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Mönchengladbach</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Moenchengladbach/">BBBike @ Mönchengladbach</a></span><p/>
 	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Moenchengladbach">extract</a></span>
