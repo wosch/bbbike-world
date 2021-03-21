@@ -4,7 +4,7 @@
   <link href="https://www.bbbike.org" />
   <link href="https://www.bbbike.org/feed/bbbike-world.xml" rel="self" />
   <icon>https://www.bbbike.org/images/srtbike.ico</icon>
-  <updated>Mon Apr 22 17:43:41 2019 +0000</updated>
+  <updated>Sun Mar 21 09:39:45 2021 +0000</updated>
   <author>
     <name>Wolfram Schneider</name>
   </author>
@@ -56,6 +56,13 @@
     <content type="html">The &lt;a href="https://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports the Perl/Tk
     App</content>
     <updated>2017-09-29T18:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
+    <title>New: cycle routing for Porto</title>
+    <id>a6c93ea134649e789eae9f353e6d9a0c</id>
+    <content>New: cycle routing for Porto: https://www.bbbike.org/Porto/</content>
+    <updated>2017-09-06T12:30:02Z</updated>
     <category term="News" />
   </entry>
   <entry>

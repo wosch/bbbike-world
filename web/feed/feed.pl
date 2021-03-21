@@ -125,6 +125,18 @@ qq{The <a href="https://extract.bbbike.org/">BBBike extract service</a> supports
 );
 
 $feed->add_entry(
+    title   => qq{New: cycle routing for Porto},
+    id      => 'a6c93ea134649e789eae9f353e6d9a0c',
+    content => {
+        type => 'text',
+        content =>
+qq{New: cycle routing for Porto: https://www.bbbike.org/Porto/},
+    },
+    updated  => '2017-09-06T12:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title   => qq{New Garmin style OpenTopoMap},
     id      => '5f5b1fc9a70a140420758b84427c7ea7',
     content => {
