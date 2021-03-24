@@ -2,7 +2,7 @@
 # Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
-    if ( 1 ) {
+    if (1) {
         print "1..0 # skip test due mapsme no longer supported\n";
         exit;
     }

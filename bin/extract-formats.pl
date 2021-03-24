@@ -62,6 +62,7 @@ sub generate_urls {
     my $expire = time;
 
     foreach my $key ( keys %$formats ) {
+
         # currently disabled formats
         next if $key =~ /^(png|mbtiles|navit)-/;
 

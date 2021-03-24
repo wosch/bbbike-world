@@ -54,7 +54,7 @@ $feed->add_entry(
     content => {
         type => 'text',
         content =>
-qq{New: cycle routing for Minsk: https://www.bbbike.org/Minsk/},
+          qq{New: cycle routing for Minsk: https://www.bbbike.org/Minsk/},
     },
     updated  => '2021-03-21T12:30:02Z',
     category => 'News',
@@ -130,7 +130,7 @@ $feed->add_entry(
     content => {
         type => 'text',
         content =>
-qq{New: cycle routing for Porto: https://www.bbbike.org/Porto/},
+          qq{New: cycle routing for Porto: https://www.bbbike.org/Porto/},
     },
     updated  => '2017-09-06T12:30:02Z',
     category => 'News',
