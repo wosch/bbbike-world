@@ -1752,7 +1752,7 @@ help:
 	@echo "  [ create-osp | bbbike2wgs84 | update-robots.txt | create-sitemap ]"
 	@echo "  [ cache-install | cache-heater | cache-heater-streets ]"
 	@echo "  [ purge-cache-js ]"
-	@echo "  [ create-bbbike-web-symlinks | kml | create-osp | index ]"
+	@echo "  [ create-bbbike-web-symlinks | kml | index ]"
 	@echo "  [ convert-wgs84 | convert-bbbike | convert-bbbike-full ]"
 	@echo "  [ city-count | city-reorder | city-file | check-osm | cleanup-osm-error ]"
 	@echo "  [ check-routing | check-routing-fast | perlcheck ]"
