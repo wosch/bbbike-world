@@ -76,7 +76,7 @@ my @list = (
     },
     {
         'page' =>
-          'https://a.tile.bbbike.org/osm/mapnik-german/15/17602/10746.png',
+          'https://a.tile.bbbike.org/osm/bbbike/15/17602/10746.png',
         'min_size'  => 10_000,
         'match'     => [],
         'mime_type' => 'image/png'
