@@ -480,7 +480,7 @@ check: check-runtime
 	@echo "In case of failure run:"
 	@echo " make check-failed"
 	@echo ""
-	${BBMAKE} test
+	time ${BBMAKE} test
 
 check-runtime:
 	${BBMAKE} PROVE_FILES="world/t/runtime*.t" test
@@ -489,13 +489,13 @@ check-world check-w: check-runtime
 	@echo "In case of failure run:"
 	@echo " make check-failed"
 	@echo ""
-	${BBMAKE} PROVE_FILES="world/t/*.t" test
+	time ${BBMAKE} PROVE_FILES="world/t/*.t" test
 
 check-full: check-runtime
 	@echo "In case of failure run:"
 	@echo " BBBIKE_TEST_FAST=\"\" BBBIKE_TEST_LONG=1 make check-failed"
 	@echo ""
-	BBBIKE_TEST_FAST="" BBBIKE_TEST_LONG=1 ${BBMAKE} test
+	BBBIKE_TEST_FAST="" BBBIKE_TEST_LONG=1 time ${BBMAKE} test
 
 check-devel:
 	prove world/t/website-images.t  ./world/t/080-perlcheck.t
