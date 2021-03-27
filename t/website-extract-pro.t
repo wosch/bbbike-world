@@ -26,7 +26,7 @@ my @homepages_localhost =
 
 my @homepages_production = qw[
   https://extract-pro.bbbike.org
-  https://extract-pro1.bbbike.org
+  https://extract-pro2.bbbike.org
   https://extract-pro4.bbbike.org
 ];
 
