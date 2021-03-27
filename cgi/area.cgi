@@ -301,7 +301,7 @@ sub header {
                 {
                     -name => 'description',
                     -content =>
-"OSM extracts for $city in OSM, PBF, Garmin, Osmand, mapsforge, Navit, GeoJSON, SQLite and Esri shapefile format"
+"OSM extracts for $city in OSM, PBF, Garmin, Osmand, mapsforge, GeoJSON, SQLite and Esri shapefile format"
                 }
             ),
         ],

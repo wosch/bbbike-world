@@ -2,8 +2,8 @@
 # Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
-    if ( $ENV{BBBIKE_TEST_FAST} && !$ENV{BBBIKE_TEST_LONG} ) {
-        print "1..0 # skip due fast test\n";
+    if (1) {
+        print "1..0 # skip test due mapsme no longer supported\n";
         exit;
     }
 }

@@ -35,7 +35,7 @@ osmosis
 
 commands="$commands_general $commands_bbbike"
 
-tmpdirs="/bbbike/tmp /tmpfs $BBBIKE_TMPDIR $BBBIKE_TMPFS"
+tmpdirs="/bbbike/tmp /tmp $BBBIKE_TMPDIR $BBBIKE_TMPFS"
 for c in $tmpdirs
 do
    if [ ! -d $c ]; then

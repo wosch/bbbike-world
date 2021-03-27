@@ -75,10 +75,9 @@ my @list = (
           [ "</html>", "Choose map type", ' src="js/mc.js(\?version=\d+)?"' ]
     },
     {
-        'page' =>
-          'https://a.tile.bbbike.org/osm/mapnik-german/15/17602/10746.png',
-        'min_size'  => 10_000,
-        'match'     => [],
+        'page'     => 'https://a.tile.bbbike.org/osm/bbbike/15/17602/10746.png',
+        'min_size' => 10_000,
+        'match'    => [],
         'mime_type' => 'image/png'
     },
 );

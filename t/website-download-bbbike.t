@@ -42,7 +42,6 @@ sub get_bbbike_files {
       osm.garmin-osm.zip
       osm.gz
       osm.geojson.xz
-      osm.navit.zip
       osm.pbf
       osm.shp.zip
       poly/;

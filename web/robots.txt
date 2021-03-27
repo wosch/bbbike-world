@@ -227,6 +227,7 @@ Disallow: /Melbourne/?
 Disallow: /Memphis/?
 Disallow: /MexicoCity/?
 Disallow: /Miami/?
+Disallow: /Minsk/?
 Disallow: /Moenchengladbach/?
 Disallow: /Montevideo/?
 Disallow: /Montpellier/?
@@ -531,6 +532,7 @@ Disallow: /en/Corvallis/
 Disallow: /en/Paderborn/?
 Disallow: /en/Tehran/?
 Disallow: /en/Kiew/?
+Disallow: /en/Minsk/?
 Disallow: /en/Eugene/
 Disallow: /en/Lisbon/?
 Disallow: /en/Sarajewo/
