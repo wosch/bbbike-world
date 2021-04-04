@@ -73,53 +73,53 @@ is(
     int(
         $tile->area_size( 0.1, 0.1, 2.9, 2.9, Extract::TileSize::FRACTAL_REAL )
           * 10
-      ) / 10,
+    ) / 10,
     7.8
 );
 is(
     int(
         $tile->area_size( 0.8, 0.8, 2.2, 2.2, Extract::TileSize::FRACTAL_REAL )
           * 10
-      ) / 10,
+    ) / 10,
     1.9
 );
 is(
     int(
         $tile->area_size( 1.0, 1.0, 2, 2, Extract::TileSize::FRACTAL_REAL ) * 10
-      ) / 10,
+    ) / 10,
     1
 );
 is(
     int(
         $tile->area_size( 10.1, 50.1, 12.9, 52.9,
             Extract::TileSize::FRACTAL_REAL ) * 10
-      ) / 10,
+    ) / 10,
     7.8
 );
 is(
     int(
         $tile->area_size( 15.1, 55.1, 17.9, 57.5,
             Extract::TileSize::FRACTAL_REAL ) * 10
-      ) / 10,
+    ) / 10,
     6.7
 );
 is(
     int(
         $tile->area_size( 1.1, 1.0, 2, 2, Extract::TileSize::FRACTAL_REAL ) * 10
-      ) / 10,
+    ) / 10,
     0.9
 );
 is(
     int(
         $tile->area_size( 1.5, 1.0, 2, 2, Extract::TileSize::FRACTAL_REAL ) * 10
-      ) / 10,
+    ) / 10,
     0.5
 );
 is(
     int(
         $tile->area_size( 1.5, 1.5, 2, 2, Extract::TileSize::FRACTAL_REAL ) *
           100 + 0.5
-      ) / 100,
+    ) / 100,
     0.25
 );
 

@@ -112,7 +112,7 @@ foreach my $file (@ARGV) {
 
     push @data,
       [
-        $obj->{"format"}, $obj->{"pbf_file_size"},
+        $obj->{"format"},              $obj->{"pbf_file_size"},
         $obj->{"image_size_zip"} // 0, $obj->{"convert_time"}
       ];
 

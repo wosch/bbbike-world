@@ -770,7 +770,7 @@ sub download_json {
     #);
 
     @extracts = @extracts_trash;
-    my $appid = $q->param('appid') // "";
+    my $appid      = $q->param('appid') // "";
     my $trash_perl = result_json(
         'appid' => $appid,
         'files' => \@extracts

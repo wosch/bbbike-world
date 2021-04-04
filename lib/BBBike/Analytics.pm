@@ -23,7 +23,7 @@ sub new {
 }
 
 sub google_analytics {
-    my $self = shift;
+    my $self  = shift;
     my $devel = shift // 0;
 
     my $q = $self->{'q'};
