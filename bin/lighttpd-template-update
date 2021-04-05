@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2009-2013 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2021 Wolfram Schneider, https://bbbike.org
 #
 # generate temp config file for testing
 #
@@ -16,6 +16,12 @@ export PWD USER
 
 : ${BBBIKE_LIGHTTPD_TEMPLATE=world/etc/lighttpd/test-more.conf.template}
 : ${BBBIKE_LIGHTTPD_FILE=world/etc/lighttpd/test-more.conf}
+
+# perl returns wrong exit code if the template does not exists
+if [ ! -f "$BBBIKE_LIGHTTPD_TEMPLATE" ]; then
+  echo "template $BBBIKE_LIGHTTPD_TEMPLATE not found, give up!"
+  exit 1
+fi
 
 perl -npe 's,%(.*?)%,$ENV{$1},g; ' $BBBIKE_LIGHTTPD_TEMPLATE > $BBBIKE_LIGHTTPD_FILE.tmp
 mv -f $BBBIKE_LIGHTTPD_FILE.tmp $BBBIKE_LIGHTTPD_FILE
