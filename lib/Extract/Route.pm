@@ -215,7 +215,7 @@ sub fetch_url {
 
 # fjurfvdctnlcmqtu -> https://www.gpsies.com/files/geojson/f/j/u/fjurfvdctnlcmqtu.js
 sub create_fetch_url {
-    my $self = shift;
+    my $self  = shift;
     my $route = shift // "";
 
     return "" if !$self->valid_route($route);
@@ -232,14 +232,14 @@ sub create_fetch_url {
 }
 
 sub error_message {
-    my $self = shift;
+    my $self  = shift;
     my $error = shift // 500;
 
     my $q               = $self->{'q'};
     my $script_homepage = $self->{'option'}->{'script_homepage'};
 
     my $appid = $q->param("appid") // "gpsies1";
-    my $ref   = $q->param("ref")   // "gpsies.com";
+    my $ref   = $q->param("ref") // "gpsies.com";
 
     my $uri = URI->new($script_homepage);
     $uri->query_form( "error" => $error, "appid" => $appid, "ref" => $ref );
@@ -350,7 +350,7 @@ sub redirect {
       // $self->{'option'}->{'route_cgi'}->{'format'}
       ;    # "garmin-cycle-latin1.zip";
     my $appid = $q->param("appid") // "gpsies1";
-    my $ref   = $q->param("ref")   // "gpsies.com";
+    my $ref   = $q->param("ref") // "gpsies.com";
     my $route = $q->param("route") // "";
 
     $uri->query_form(

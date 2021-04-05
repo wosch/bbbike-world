@@ -116,7 +116,7 @@ EOF
 #
 sub get_json_files {
     my $extract_dir_confirmed = shift;
-    my $skip = shift // 0;
+    my $skip                  = shift // 0;
 
     my @files = glob("$extract_dir_confirmed/*.json");
 

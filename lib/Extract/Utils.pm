@@ -478,7 +478,7 @@ sub get_file_prefix {
     my $option = shift;
 
     my $file_prefix = $option->{'file_prefix'} // 'planet_';
-    my $format = $obj->{'format'};
+    my $format      = $obj->{'format'};
 
     # depending on the format (e.g. SRTM data) we may use a different planet
     if ( exists $option->{'planet'}->{$format} ) {
