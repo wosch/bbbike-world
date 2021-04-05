@@ -44,7 +44,7 @@ Depends: pbzip2, bzip2, xz-utils, pixz, ncdu, git-core, screen, curl, wget, time
  libtest-fatal-perl, liblockfile-simple-perl, mosh, libcgi-fast-perl,
  libjpeg-progs, libplack-perl, libimager-qrcode-perl,
  libcompress-raw-bzip2-perl, libcompress-raw-zlib-perl, libio-compress-perl,
- libcanary-stability-perl, pkwalify, libinline-c-perl,
+ libcanary-stability-perl, pkwalify, libinline-c-perl, libclone-perl,
  libboost-program-options1.62.0
 Description: BBBike @ World standard debian packages
  BBBike @ World standard debian packages
