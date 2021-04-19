@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2011-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2011-2021 Wolfram Schneider, https://bbbike.org
 #
 # extract-services - munin statistics for BBBike extract service
 
@@ -56,6 +56,8 @@ my $config = {
           garmin-opentopo.zip
           garmin-openfietslite-ascii.zip
           garmin-openfietslite.zip
+          garmin-openfietsfull-ascii.zip
+          garmin-openfietsfull.zip
           garmin-oseam-ascii.zip
           garmin-oseam.zip
           garmin-osm-ascii.zip

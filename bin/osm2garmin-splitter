@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2021 Wolfram Schneider, https://bbbike.org
 #
 # osm2garmin - convert a osm/pbf file to garmin
 #
@@ -30,6 +30,7 @@ usage $0 file [ format ] [ title ]
   leisure leisure-ascii leisure-latin1
   onroad onroad-ascii onroad-latin1
   openfietslite openfietslite-ascii openfietslite-latin1
+  openfietsfull openfietsfull-ascii openfietsfull-latin1
   opentopo opentopo-ascii opentopo-latin1
   oseam oseam-ascii oseam-latin1
   osm osm-ascii osm-latin1
@@ -256,6 +257,26 @@ case $ext in
         mkgmap_map_type=$etc_dir/typ/openfietsmap-lite/openfietsmap-lite.TYP
         ;;
 
+   openfietsfull )
+        ext=garmin-openfietsfull.zip
+        mkgmap_map=--style-file=$etc_dir/style/openfietsmap-full
+        mkgmap_map_style=openfietsfull
+        mkgmap_map_type=$etc_dir/typ/openfietsmap-full/openfietsmap-full.TYP
+        ;;
+   openfietsfull-ascii )
+        ext=garmin-openfietsfull-ascii.zip
+        mkgmap_map=--style-file=$etc_dir/style/openfietsmap-full
+        mkgmap_map_style=openfietsfull
+        mkgmap_map_type=$etc_dir/typ/openfietsmap-full/openfietsmap-full.TYP
+        ;;
+   openfietsfull-latin1 )
+        ext=garmin-openfietsfull-latin1.zip
+        mkgmap_map=--style-file=$etc_dir/style/openfietsmap-full
+        mkgmap_map_style=openfietsfull
+        mkgmap_map_type=$etc_dir/typ/openfietsmap-full/openfietsmap-full.TYP
+        ;;
+
+
    osm )
         ext=garmin-osm.zip
         ;;
@@ -287,6 +308,7 @@ case $ext in
    *openfietslite* )  garmin_product_id=7 ;;
    *oseam* )   garmin_product_id=8 ;;
    *opentopo* )garmin_product_id=9 ;;
+   *openfietsfull* )  garmin_product_id=10 ;;
 esac
 
 garmin_family_id=$(basename $file | perl -npe 's/(\.pbf|\.gz|\.bz2)?$//')

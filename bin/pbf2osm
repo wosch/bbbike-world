@@ -1,5 +1,5 @@
 #!/usr/local/bin/bash
-# Copyright (c) 2009-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2021 Wolfram Schneider, https://bbbike.org
 #
 # pbf2osm - convert PBF format to OSM XML
 
@@ -106,6 +106,7 @@ usage [ option ] file.osm.pbf
 --garmin-srtm
 --garmin-onroad --garmin-onroad-ascii --garmin-onroad-latin1
 --garmin-openfietslite --garmin-openfietslite-ascii --garmin-openfietslite-latin1
+--garmin-openfietsfull --garmin-openfietsfull-ascii --garmin-openfietsfull-latin1
 --garmin-oseam --garmin-oseam-ascii --garmin-oseam-latin1
 --garmin-opentopo --garmin-opentopo-ascii --garmin-opentopo-latin1
 --svg-google --svg-hiking --svg-osm --svg-urbanight --svg-wireframe --svg-cadastre
@@ -165,6 +166,7 @@ case $format in
     --garmin-bbbike | --garmin-bbbike-ascii | --garmin-bbbike-latin1 | \
     --garmin-onroad | --garmin-onroad-ascii | --garmin-onroad-latin1 | \
     --garmin-openfietslite | --garmin-openfietslite-ascii | --garmin-openfietslite-latin1 | \
+    --garmin-openfietsfull | --garmin-openfietsfull-ascii | --garmin-openfietsfull-latin1 | \
     --garmin-srtm | \
     --garmin-oseam | --garmin-oseam-ascii | --garmin-oseam-latin1 | \
     --garmin-osm:onroad | \

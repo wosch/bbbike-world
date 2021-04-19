@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2021 Wolfram Schneider, https://bbbike.org
 
 use FindBin;
 use lib "$FindBin::RealBin/../lib";
@@ -25,18 +25,18 @@ my @garmin_styles = qw/osm/;
 push @garmin_styles, qw/leisure cycle/
   if !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG};
 
-push @garmin_styles, qw/bbbike openfietslite onroad oseam opentopo/
+push @garmin_styles, qw/bbbike openfietslite openfietsfull onroad oseam opentopo/
   if $ENV{BBBIKE_TEST_LONG};
 
 if ( $0 =~ /garmin-(ascii|latin1).t$/ ) {
     if ( $ENV{BBBIKE_TEST_LONG} ) {
         if ( $0 =~ /garmin-ascii.t$/ ) {
             @garmin_styles =
-              qw/bbbike-ascii openfietslite-ascii cycle-ascii leisure-ascii osm-ascii onroad-ascii oseam-ascii opentopo-ascii/;
+              qw/bbbike-ascii openfietslite-ascii openfietsfull-ascii cycle-ascii leisure-ascii osm-ascii onroad-ascii oseam-ascii opentopo-ascii/;
         }
         else {
             @garmin_styles =
-              qw/bbbike-latin1 openfietslite-latin1 cycle-latin1 leisure-latin1 osm-latin1 onroad-latin1 oseam-latin1 opentopo-latin1/;
+              qw/bbbike-latin1 openfietslite-latin1 openfietsfull-latin1 cycle-latin1 leisure-latin1 osm-latin1 onroad-latin1 oseam-latin1 opentopo-latin1/;
         }
     }
     else {

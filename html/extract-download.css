@@ -176,6 +176,10 @@ span.format_garmin_openfietslite_zip { color: #DAA520; }
 span.format_garmin_openfietslite_ascii_zip { color: #DAA520; }
 span.format_garmin_openfietslite_latin1_zip { color: #DAA520; }
 
+span.format_garmin_openfietsfull_zip { color: #DAA520; }
+span.format_garmin_openfietsfull_ascii_zip { color: #DAA520; }
+span.format_garmin_openfietsfull_latin1_zip { color: #DAA520; }
+
 span.format_garmin_opentopo_zip { color: #DAA520; }
 span.format_garmin_opentopo_ascii_zip { color: #DAA520; }
 span.format_garmin_opentopo_latin1_zip { color: #DAA520; }

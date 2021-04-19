@@ -1,6 +1,6 @@
 /*
  Copyright (c) by https://www.openstreetmap.org/export - OSM License, 2012
- Copyright (c) 2012-2017 Wolfram Schneider, https://bbbike.org
+ Copyright (c) 2012-2021 Wolfram Schneider, https://bbbike.org
 */
 
 // HTML5: may not work on Android devices!
@@ -69,6 +69,9 @@ var config = {
         "garmin-openfietslite.zip": 512,
         "garmin-openfietslite-ascii.zip": 512,
         "garmin-openfietslite-latin1.zip": 512,
+        "garmin-openfietsfull.zip": 512,
+        "garmin-openfietsfull-ascii.zip": 512,
+        "garmin-openfietsfull-latin1.zip": 512,
         "garmin-oseam.zip": 512,
         "garmin-oseam-ascii.zip": 512,
         "garmin-oseam-latin1.zip": 512,
@@ -112,6 +115,9 @@ var config = {
         "garmin-openfietslite.zip": "/images/garmin-openfietslite-small.png",
         "garmin-openfietslite-ascii.zip": "/images/garmin-openfietslite-small.png",
         "garmin-openfietslite-latin1.zip": "/images/garmin-openfietslite-small.png",
+        "garmin-openfietsfull.zip": "/images/garmin-openfietsfull-small.png",
+        "garmin-openfietsfull-ascii.zip": "/images/garmin-openfietsfull-small.png",
+        "garmin-openfietsfull-latin1.zip": "/images/garmin-openfietsfull-small.png",
         "garmin-onroad.zip": "/images/garmin-onroad2-small.png",
         "garmin-onroad-ascii.zip": "/images/garmin-onroad2-small.png",
         "garmin-onroad-latin1.zip": "/images/garmin-onroad2-small.png",
@@ -1528,7 +1534,19 @@ function show_filesize(skm, real_size, sub_planet_factor) {
         },
         "garmin-openfietslite-latin1.zip": {
             "size": 0.6,
+            "time": 5.5
+        },
+        "garmin-openfietsfull.zip": {
+            "size": 0.8,
+            "time": 5.5
+        },
+        "garmin-openfietsfull-ascii.zip": {
+            "size": 0.8,
             "time": 4.5
+        },
+        "garmin-openfietsfull-latin1.zip": {
+            "size": 0.8,
+            "time": 5.5
         },
         "garmin-oseam.zip": {
             "size": 0.64,

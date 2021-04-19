@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2009-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2021 Wolfram Schneider, https://bbbike.org
 #
 # module to guess size of a lat,lng tile
 #
@@ -56,6 +56,9 @@ our $factor = {
     'garmin-openfietslite.zip'        => 0.55,
     'garmin-openfietslite-ascii.zip'  => 0.551,
     'garmin-openfietslite-latin1.zip' => 0.552,
+    'garmin-openfietsfull.zip'        => 0.65,
+    'garmin-openfietsfull-ascii.zip'  => 0.651,
+    'garmin-openfietsfull-latin1.zip' => 0.652,
     'garmin-leisure.zip'              => 0.855,
     'garmin-leisure-ascii.zip'        => 0.856,
     'garmin-leisure-latin1.zip'       => 0.857,

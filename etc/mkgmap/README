@@ -14,6 +14,10 @@ fzk	 - Freizeitkarte (new, Feb 2017), http://freizeitkarte-osm.de/
 openfietsmap-lite - OpenFietsMap is a free routable cycling map for Garmin, Mar 2016
 	   http://www.openfietsmap.nl/
 
+openfietsmap-full - OpenFietsMap is a free routable cycling map for Garmin, Apr 2021
+	   http://www.openfietsmap.nl/
+	   https://github.com/ligfietser/mkgmap-style-sheets.git
+
 oseam    - OpenSeaMap style (Oct 2016), see
 	   https://github.com/OpenSeaMap/garmin.git
 
@@ -26,4 +30,7 @@ filesystem hierarchy
 ---------------------------
 etc/mkgmap/typ/<garmin style>/		- *.TXT and *.TYP files
 etc/mkgmap/style/<garmin style>/	- garmin style files
+
+--
+Apr 2021
 
