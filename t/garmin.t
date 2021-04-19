@@ -25,7 +25,8 @@ my @garmin_styles = qw/osm/;
 push @garmin_styles, qw/leisure cycle/
   if !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG};
 
-push @garmin_styles, qw/bbbike openfietslite openfietsfull onroad oseam opentopo/
+push @garmin_styles,
+  qw/bbbike openfietslite openfietsfull onroad oseam opentopo/
   if $ENV{BBBIKE_TEST_LONG};
 
 if ( $0 =~ /garmin-(ascii|latin1).t$/ ) {
