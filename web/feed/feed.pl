@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2010-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2010-2021 Wolfram Schneider, https://bbbike.org
 #
 # feed.pl - generate RSS/Atom feed
 
@@ -47,6 +47,18 @@ my $feed = XML::Atom::SimpleFeed->new(
 # TODO
 # - larger area for most cities, up top 30 km radius the centr of the city
 #
+
+$feed->add_entry(
+    title   => qq{New Garmin style Openfietsmap Full},
+    id      => '6f5b1fc9a70a146420758b84427c8ea8',
+    content => {
+        type => 'html',
+        content =>
+qq{The <a href="https://extract.bbbike.org/">BBBike extract service</a> supports Garmin Openfietsmap Full style},
+    },
+    updated  => '2021-04-21T18:30:02Z',
+    category => 'News',
+);
 
 $feed->add_entry(
     title   => qq{New: cycle routing for Minsk},
