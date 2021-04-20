@@ -88,7 +88,7 @@ sub page_check {
         is(
             $size{ $obj->{'size'} },
             undef,
-"format: $f match size $obj->{'size'} of $size{$obj->{'size'}}, did you forgot to configure format $f? url: $url"
+"format: $f match size $obj->{'size'} of $size{$obj->{'size'}}, did you forgot to configure format $f? url: $uri"
         );
 
         $size{ $obj->{'size'} } = $f;
