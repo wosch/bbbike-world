@@ -23,10 +23,9 @@ DOWNLOADOSM=	${PERL} ./miscsrc/downloadosm --debug=1 ${OSM_SOCKS_PROXY} ${OSM_TI
 OSM2BBD_OPT=	--ignore-unhandled --ignore-underline-noname --granularity=100
 OSM2BBD=	./miscsrc/osm2bbd ${OSM2BBD_OPT} --nodate --no-create --git-id="${GIT_ID}" -f --debug=0 ${OSM2BBD_MAPTYPE} -experiment add_postal_code -experiment handle_relations
 
-DOCKER_SUDO?= 			$(shell if test `uname` = "Linux"; then echo "sudo"; fi)
 DOCKER_IMAGE_FILE?=		bbbike-debian9
 DOCKER_BBBIKE_TAG?=		bbbike/extract-debian9
-DOCKER= 			${DOCKER_SUDO} docker
+DOCKER= 			docker
 
 MAX_CPU=	`world/bin/ncpu`
 MAX_CPU2=	`world/bin/ncpu -1`
