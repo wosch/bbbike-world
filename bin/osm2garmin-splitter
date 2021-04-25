@@ -110,7 +110,7 @@ copyright_file="copyright.txt"
 copyright="OpenStreetMap.org"
 java_opt=-Xmx${java_heap}
 mkgmap_map_style="osm"
-: ${osm2xxx_max_jobs="2"}
+: ${osm2xxx_max_jobs="3"}
 
 etc_dir=$dirname/../etc/mkgmap
 
