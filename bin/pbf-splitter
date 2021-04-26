@@ -76,7 +76,8 @@ init_splitter () {
     nice_level=1
     time=time
 
-    mapid=63240001
+    # dynamic map id instead default 63240001
+    mapid="$(garmin_family_id $file $format)0001"
 
     # cleanup after signal, but show errors first
     trap '( sleep 1; rm -rf $tmpdir ) &' 1 2 15
@@ -112,6 +113,13 @@ run_splitter () {
     fi
 }
 
+garmin_family_id () {
+    file=$1
+    ext=$2
+
+    _garmin_family_id=$(basename $file | perl -npe 's/(\.pbf|\.gz|\.bz2)?$//')
+    echo $garmin_family_id $ext | $MD5 | perl -ne 's/[a-f]//g; print /^(\d{4})/ && $1 > 0 ? $1 : "4444"'
+}
 
 ####################################################################
 #
