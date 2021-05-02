@@ -63,6 +63,9 @@ var config = {
         "garmin-onroad.zip": 250,
         "garmin-onroad-ascii.zip": 250,
         "garmin-onroad-latin1.zip": 250,
+        "garmin-ontrail.zip": 200,
+        "garmin-ontrail-ascii.zip": 200,
+        "garmin-ontrail-latin1.zip": 200,
         "garmin-opentopo.zip": 512,
         "garmin-opentopo-ascii.zip": 512,
         "garmin-opentopo-latin1.zip": 512,
@@ -121,6 +124,9 @@ var config = {
         "garmin-onroad.zip": "/images/garmin-onroad2-small.png",
         "garmin-onroad-ascii.zip": "/images/garmin-onroad2-small.png",
         "garmin-onroad-latin1.zip": "/images/garmin-onroad2-small.png",
+        "garmin-ontrail.zip": "/images/garmin-ontrail2-small.png",
+        "garmin-ontrail-ascii.zip": "/images/garmin-ontrail2-small.png",
+        "garmin-ontrail-latin1.zip": "/images/garmin-ontrail2-small.png",
         "garmin-opentopo.zip": "/images/garmin-opentopo-berlin-120.png",
         "garmin-opentopo-ascii.zip": "/images/garmin-opentopo-berlin-120.png",
         "garmin-opentopo-latin1.zip": "/images/garmin-opentopo-berlin-120.png",
@@ -1511,6 +1517,18 @@ function show_filesize(skm, real_size, sub_planet_factor) {
         "garmin-onroad-latin1.zip": {
             "size": 0.07,
             "time": 22
+        },
+        "garmin-ontrail.zip": {
+            "size": 0.09,
+            "time": 20
+        },
+        "garmin-ontrail-ascii.zip": {
+            "size": 0.09,
+            "time": 20
+        },
+        "garmin-ontrail-latin1.zip": {
+            "size": 0.09,
+            "time": 20
         },
         "garmin-opentopo.zip": {
             "size": 0.7,

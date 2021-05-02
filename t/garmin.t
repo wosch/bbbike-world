@@ -26,18 +26,18 @@ push @garmin_styles, qw/leisure cycle/
   if !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG};
 
 push @garmin_styles,
-  qw/bbbike openfietslite openfietsfull onroad oseam opentopo/
+  qw/bbbike openfietslite openfietsfull onroad ontrail oseam opentopo/
   if $ENV{BBBIKE_TEST_LONG};
 
 if ( $0 =~ /garmin-(ascii|latin1).t$/ ) {
     if ( $ENV{BBBIKE_TEST_LONG} ) {
         if ( $0 =~ /garmin-ascii.t$/ ) {
             @garmin_styles =
-              qw/bbbike-ascii openfietslite-ascii openfietsfull-ascii cycle-ascii leisure-ascii osm-ascii onroad-ascii oseam-ascii opentopo-ascii/;
+              qw/bbbike-ascii openfietslite-ascii openfietsfull-ascii cycle-ascii leisure-ascii osm-ascii onroad-ascii ontrail-ascii oseam-ascii opentopo-ascii/;
         }
         else {
             @garmin_styles =
-              qw/bbbike-latin1 openfietslite-latin1 openfietsfull-latin1 cycle-latin1 leisure-latin1 osm-latin1 onroad-latin1 oseam-latin1 opentopo-latin1/;
+              qw/bbbike-latin1 openfietslite-latin1 openfietsfull-latin1 cycle-latin1 leisure-latin1 osm-latin1 onroad-latin1 ontrail-latin1 oseam-latin1 opentopo-latin1/;
         }
     }
     else {
@@ -115,7 +115,8 @@ sub convert_format {
         is( $?, 0, "valid zip file" );
         $st = stat($out);
         my $size = $st->size;
-        my $min_size_style = $style =~ /^onroad/ ? $min_size / 3 : $min_size;
+        my $min_size_style =
+          $style =~ /^on(road|trail)/ ? $min_size / 3 : $min_size;
         cmp_ok( $size, '>', $min_size_style, "$out: $size > $min_size" );
 
         system(qq[world/bin/extract-disk-usage.sh $out > $tempfile]);

@@ -31,6 +31,7 @@ osm2mbtiles=$dirname/osm2mbtiles
 # larger value for special garmin format
 case $format in
   --garmin-onroad* ) : ${max_file_size_garmin=6950000} ;;
+  --garmin-ontrail* ) : ${max_file_size_garmin=5950000} ;;
 esac
 
 : ${max_file_size_bbbike=90000}
@@ -105,6 +106,7 @@ usage [ option ] file.osm.pbf
 --garmin-bbbike --garmin-bbbike-ascii --garmin-bbbike-latin1 
 --garmin-srtm
 --garmin-onroad --garmin-onroad-ascii --garmin-onroad-latin1
+--garmin-ontrail --garmin-ontrail-ascii --garmin-ontrail-latin1
 --garmin-openfietslite --garmin-openfietslite-ascii --garmin-openfietslite-latin1
 --garmin-openfietsfull --garmin-openfietsfull-ascii --garmin-openfietsfull-latin1
 --garmin-oseam --garmin-oseam-ascii --garmin-oseam-latin1
@@ -165,6 +167,7 @@ case $format in
     --garmin-leisure | --garmin-leisure-ascii | --garmin-leisure-latin1 | \
     --garmin-bbbike | --garmin-bbbike-ascii | --garmin-bbbike-latin1 | \
     --garmin-onroad | --garmin-onroad-ascii | --garmin-onroad-latin1 | \
+    --garmin-ontrail | --garmin-ontrail-ascii | --garmin-ontrail-latin1 | \
     --garmin-openfietslite | --garmin-openfietslite-ascii | --garmin-openfietslite-latin1 | \
     --garmin-openfietsfull | --garmin-openfietsfull-ascii | --garmin-openfietsfull-latin1 | \
     --garmin-srtm | \

@@ -22,7 +22,7 @@ chdir("$FindBin::RealBin/../..")
   or die "Cannot find bbbike world root directory\n";
 
 my @garmin_styles = qw/osm onroad-ascii/;
-push @garmin_styles, qw/leisure cycle-ascii/
+push @garmin_styles, qw/leisure cycle-ascii ontrail/
   if !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG};
 
 my $pbf_file = 'world/t/data-osm/tmp/Cusco-multi.osm.pbf';
@@ -87,7 +87,8 @@ sub convert_format {
         is( $?, 0, "valid zip file: $out" );
         $st = stat($out);
         my $size = $st->size;
-        my $min_size_style = $style =~ /^onroad/ ? $min_size / 3 : $min_size;
+        my $min_size_style =
+          $style =~ /^on(road|trail)/ ? $min_size / 3 : $min_size;
         cmp_ok( $size, '>', $min_size_style, "$out: $size > $min_size" );
 
         system(qq[world/bin/extract-disk-usage.sh $out > $tempfile]);

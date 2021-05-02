@@ -4,6 +4,12 @@ OSM based Styles for garmin
 bike-onroad - A Garmin style for older devices with less space - usually 1/10 
   	      the size of Garmin OSM (Mar 2016). See also
 	      https://github.com/raintonr/mkgmap-bike-onroad.git
+	      Optimized for racing bikes.
+
+bike-ontrail - A Garmin style for older devices with less space - usually 1/7 
+  	      the size of Garmin OSM (Mar 2016). See also
+	      https://github.com/raintonr/mkgmap-bike-onroad.git
+	      Optimized for hike & bike.
 
 cyclemap - Cycle Map, May 2012,
 	   https://wiki.openstreetmap.org/wiki/OSM_Map_On_Garmin/Cycle_map

@@ -95,7 +95,8 @@ sub convert_format {
         is( $?, 0, "valid zip file" );
         $st = stat($out);
         my $size = $st->size;
-        my $min_size_style = $style =~ /^onroad/ ? $min_size / 3 : $min_size;
+        my $min_size_style =
+          $style =~ /^on(road|trail)/ ? $min_size / 3 : $min_size;
         cmp_ok( $size, '>', $min_size_style, "$out: $size > $min_size" );
 
         system(qq[world/bin/extract-disk-usage.sh $out > $tempfile]);

@@ -216,6 +216,15 @@ is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 76913 );
 is( $tile->total_tiles, 10234 );
 is( $tile->total,       6269146 );
 
+# should we do this or guess?
+#$tile =
+#  new Extract::TileSize(
+#    'database' => "world/etc/tile/garmin-ontrail.zip.csv" );
+#is( int( $tile->area_size(qw/13 52 14 53/) ), 4630 );
+#is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 76913 );
+#is( $tile->total_tiles, 10234 );
+#is( $tile->total,       6269146 );
+
 $tile =
   new Extract::TileSize( 'database' => "world/etc/tile/mapsforge-osm.zip.csv" );
 is( int( $tile->area_size(qw/13 52 14 53/) ), 65710 );

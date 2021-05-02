@@ -64,6 +64,7 @@ PBF2PBF=	world/bin/pbf2pbf
 OSM2GARMIN=		world/bin/pbf2osm --garmin-osm
 OSM2GARMIN_CYCLE=	world/bin/pbf2osm --garmin-cycle
 OSM2GARMIN_ONROAD=	world/bin/pbf2osm --garmin-onroad
+OSM2GARMIN_ONTRAIL=	world/bin/pbf2osm --garmin-ontrail
 OSM2GARMIN_ALL=		world/bin/pbf2osm --garmin-osm:onroad
 OSM2GARMIN_OSEAM=	world/bin/pbf2osm --garmin-oseam
 OSM2GARMIN_SRTM=        world/bin/pbf2osm --garmin-srtm
@@ -318,7 +319,7 @@ _pbf2pbf-checksum:
 
 
 osm2garmin: osm2garmin-multi
-osm2garmin-single: osm2garmin-osm osm2garmin-onroad osm2garmin-opentopo # osm2garmin-oseam osm2garmin-cycle osm2garmin-leisure osm2garmin-bbbike osm2garmin-openfietslite osm2garmin-openfietsfull check-zip
+osm2garmin-single: osm2garmin-osm osm2garmin-onroad osm2garmin-opentopo # osm2garmin-ontrail osm2garmin-oseam osm2garmin-cycle osm2garmin-leisure osm2garmin-bbbike osm2garmin-openfietslite osm2garmin-openfietsfull check-zip
 osm2garmin-multi:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,world/bin/osm2garmin '${OSM_DIR}'/$$_/$$_.osm.pbf onroad:onroad-latin1:osm:opentopo\0, ' | env osm2xxx_max_jobs=1 java_heap=5G ${XARGS} -n 1 -0 -P${MAX_CPU3} /bin/sh -c
 
@@ -333,6 +334,8 @@ osm2garmin-bbbike:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ext=bbbike ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
 osm2garmin-onroad:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ext=onroad ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
+osm2garmin-ontrail:
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ext=ontrail ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
 osm2garmin-opentopo:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ext=opentopo ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
 osm2garmin-openfietslite:
@@ -1133,6 +1136,9 @@ tile-convert-garmin:
 tile-convert-garmin-onroad:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
 	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_50} ${OSM2GARMIN_ONROAD} > ${TILES_TMP}/log.$@ 2>&1
+tile-convert-garmin-ontrail:
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
+	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_50} ${OSM2GARMIN_ONTRAIL} > ${TILES_TMP}/log.$@ 2>&1
 tile-convert-garmin-all:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
 	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_50} ${OSM2GARMIN_ALL} > ${TILES_TMP}/log.$@ 2>&1
