@@ -13,6 +13,14 @@
   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af7</id>
   <generator uri="https://metacpan.org/pod/XML::Atom::SimpleFeed" version="0.902">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>New Garmin style Ontrail</title>
+    <id>6f5b1fc9a70a146420758b84427c82a8</id>
+    <content type="html">The &lt;a href="https://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports Garmin Ontrail style,
+    for Hike &amp;amp; Bike</content>
+    <updated>2021-05-02T18:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title>New Garmin style Openfietsmap Full</title>
     <id>6f5b1fc9a70a146420758b84427c8ea8</id>
     <content type="html">The &lt;a href="https://extract.bbbike.org/"&gt;BBBike extract service&lt;/a&gt; supports Garmin Openfietsmap Full

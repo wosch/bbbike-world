@@ -49,6 +49,18 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
+    title   => qq{New Garmin style Ontrail},
+    id      => '6f5b1fc9a70a146420758b84427c82a8',
+    content => {
+        type => 'html',
+        content =>
+qq{The <a href="https://extract.bbbike.org/">BBBike extract service</a> supports Garmin Ontrail style, for Hike &amp; Bike},
+    },
+    updated  => '2021-05-02T18:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title   => qq{New Garmin style Openfietsmap Full},
     id      => '6f5b1fc9a70a146420758b84427c8ea8',
     content => {
