@@ -1519,15 +1519,15 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "time": 22
         },
         "garmin-ontrail.zip": {
-            "size": 0.09,
+            "size": 0.14,
             "time": 20
         },
         "garmin-ontrail-ascii.zip": {
-            "size": 0.09,
+            "size": 0.14,
             "time": 20
         },
         "garmin-ontrail-latin1.zip": {
-            "size": 0.09,
+            "size": 0.14,
             "time": 20
         },
         "garmin-opentopo.zip": {
