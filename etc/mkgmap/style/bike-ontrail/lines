@@ -24,9 +24,8 @@ highway=path & bicycle=designated [ 0x07 road_class=0 resolution 22]
 highway=cycleway [ 0x07 road_class=0 resolution 22]
 
 # hike & bike
-highway=bridleway [ 0x08 road_class=0 resolution 22]
-highway=path & !(bicycle=designated) [ 0x08 road_class=0 resolution 22]
-highway=track [ 0x08 road_class=0 resolution 22]
+highway=path & !(bicycle=designated) [ 0x0b road_class=0 resolution 22]
+highway=track [ 0x0b road_class=0 resolution 22]
 
 # coastline
 natural=coastline [0x15 resolution 18]
