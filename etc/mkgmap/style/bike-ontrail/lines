@@ -5,6 +5,9 @@
 # 1 Roundabout / Collector
 # 0 Residential Street / Unpaved road / Trail
 
+# streets and paths
+highway=* & highway ~ '(fiets|Fiets|mtb|Mtb|bike|Bike|rad|Rad|cycleway;|;cycleway)' {set highway=cycleway}
+
 highway=motorway [0x01 road_class=4 resolution 16]
 highway=motorway_link [0x01 road_class=4 resolution 16]
 highway=trunk [ 0x01 road_class=4 resolution 18]
@@ -20,12 +23,20 @@ highway=unclassified & surface=unpaved [ 0x0a road_class=0 resolution 22]
 highway=path & bicycle=designated [ 0x07 road_class=0 resolution 22]
 highway=cycleway [ 0x07 road_class=0 resolution 22]
 
+# hike & bike
+highway=bridleway [ 0x08 road_class=0 resolution 22]
+highway=path & !(bicycle=designated) [ 0x08 road_class=0 resolution 22]
+highway=track [ 0x08 road_class=0 resolution 22]
+
+# coastline
 natural=coastline [0x15 resolution 18]
 
+# railways
 railway=abandoned [0x0a road_class=0 road_speed=1 resolution 22]
 railway=platform [0x16 road_class=0 road_speed=0 resolution 22]
 (railway=rail | railway=tram | railway=disused | railway=subway | railway=narrow_gauge | railway=light_rail | railway=preserved) & !(tunnel=yes) [0x14 resolution 18]
 
+# rivers
 waterway=canal [0x1f resolution 18]
 waterway=river [0x1f resolution 18]
 
