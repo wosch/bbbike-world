@@ -172,9 +172,9 @@ case $format in
     --garmin-openfietsfull | --garmin-openfietsfull-ascii | --garmin-openfietsfull-latin1 | \
     --garmin-srtm | \
     --garmin-oseam | --garmin-oseam-ascii | --garmin-oseam-latin1 | \
-    --garmin-osm:onroad | \
-    --garmin-opentopo | --garmin-opentopo-ascii | --garmin-opentopo-latin1 )
-        garmin_style=$(echo $1 | perl -npe 's,^\-+[^\-]+-',,); shift; compress=garmin ;;
+    --garmin-*:* | \
+    --garmin-opentopo | --garmin-opentopo-ascii | --garmin-opentopo-latin1 \
+      ) garmin_style=$(echo $1 | perl -npe 's,^\-+[^\-]+-',,); shift; compress=garmin ;;
         
 	--bbbike-perltk ) bbbike_style=perltk; shift; compress=bbbike ;;
     
