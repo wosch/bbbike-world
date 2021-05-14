@@ -27,6 +27,10 @@ if [ $(ls $failed | wc -l) -gt 0 ]; then
     fi
 fi
 
+if [ $(ls /var/cache/extract/confirmed/| wc -l) -gt 30 ]; then
+    echo "many waitung jobs: $(ls /var/cache/extract/confirmed/| wc -l)"
+fi
+
 # checked for failed running processes in run queue
 # should not happens in production
 # only during development/tests
