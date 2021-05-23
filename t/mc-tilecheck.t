@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Dec 2012-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Dec 2012-2021 Wolfram Schneider, https://bbbike.org
 #
 # bbbike-org-mc-tilecheck.t - check if all tile URL images can be viewed for map compare
 
@@ -37,7 +37,7 @@ my $url_file = 'world/t/mc/tile-url.txt';
 my ( $fh, $tempfile ) = tempfile();
 
 my $data =
-q[perl -ne 'chomp; print qq{curl -A "Mozilla/5.0 (Macintosh)" --connect-timeout 8 --max-time 14 -sSf "$_" || echo "$_" >&2 \0} if !/^\s*($|#)/' ]
+q[perl -ne 'chomp; print qq{curl -A "Mozilla/5.0 (Macintosh)" --connect-timeout 8 --max-time 21 -sSf "$_" || echo "$_" >&2 \0} if !/^\s*($|#)/' ]
   . qq[$url_file | xargs -0 -n1 -P3 /bin/sh -c > $tempfile];
 system($data);
 is( $?, 0, "Map Compare: tested all tile images" );
