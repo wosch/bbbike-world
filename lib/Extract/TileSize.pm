@@ -77,7 +77,7 @@ our $factor = {
     'garmin-opentopo-latin1.zip'      => 0.709,
 
     'mbtiles-basic.zip'        => 0.48,
-    'mbtiles-openmaptiles.zip' => 0.481,
+    'mbtiles-openmaptiles.zip' => 0.781,
 
     'svg-google.zip'     => 1.68,
     'svg-hiking.zip'     => 3.82,
