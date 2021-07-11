@@ -66,8 +66,8 @@ our $formats = {
     'garmin-opentopo-ascii.zip'       => "Garmin OpenTopoMap (ASCII)",
     'garmin-opentopo-latin1.zip'      => "Garmin OpenTopoMap (latin1)",
 
-    'mbtiles-basic.zip'        => "MBtiles basic",
-    'mbtiles-openmaptiles.zip' => "MBtiles openmaptiles",
+    'mbtiles-basic.zip'        => "MB vector tiles basic",
+    'mbtiles-openmaptiles.zip' => "MB vector tiles openmaptiles",
 
     'svg-google.zip'     => 'SVG google',
     'svg-hiking.zip'     => 'SVG hiking',
@@ -137,10 +137,10 @@ our $formats_menu = {
         'formats' => ['sqlite.xz']
     },
 
-    #'mbtiles' => {
-    #    'title'   => "MBTiles",
-    #    'formats' => ['mbtiles-basic.zip']    #, 'mbtiles-openmaptiles.zip' ]
-    #},
+    'mbtiles' => {
+        'title'   => "Vector Tiles",
+        'formats' => ['mbtiles-basic.zip', 'mbtiles-openmaptiles.zip' ]
+    },
     'garmin' => {
         'title'   => "Garmin",
         'formats' => [
