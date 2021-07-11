@@ -139,7 +139,7 @@ our $formats_menu = {
 
     'mbtiles' => {
         'title'   => "Vector Tiles",
-        'formats' => ['mbtiles-basic.zip', 'mbtiles-openmaptiles.zip' ]
+        'formats' => ['mbtiles-openmaptiles.zip' ] # ['mbtiles-basic.zip', 'mbtiles-openmaptiles.zip' ]
     },
     'garmin' => {
         'title'   => "Garmin",
