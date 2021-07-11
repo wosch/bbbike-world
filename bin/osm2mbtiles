@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2012-2019 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2021 Wolfram Schneider, https://bbbike.org
 #
 # osm2mbtiles - convert a osm/pbf file to mbtiles
 #
@@ -75,12 +75,16 @@ template=$dirname/../etc/extract/$(basename $0).$BBBIKE_EXTRACT_LANG.sh
 size=$(du -ks -L "$file" | awk '{ print $1}')
 
 pwd=$(pwd)
-etc_dir=$dirname/../etc/tilemaker
-config_file=$etc_dir/$style.json
+etc_dir="$dirname/../etc/tilemaker"
+config_file="$etc_dir/config-$style.json"
+process_file="$etc_dir/process-$style.lua"
 
 
 if [ -n "$config_file" ]; then
     test -e "$config_file" || usage "cannot find $config_file file"
+fi
+if [ -n "$process_file" ]; then
+    test -e "$process_file" || usage "cannot find $process_file file"
 fi
 
 tmpdir=`mktemp -d ${BBBIKE_TMPFS}/osm2mbtiles.$(basename $ext .zip).XXXXXXXXXXX`
@@ -107,7 +111,7 @@ $text2html < README.txt > README.html
 
 echo ">>> Run tilemaker, config style: $style" >> $logfile
 ( set -x
-  $tilemaker --config $config_file --process $etc_dir/process.lua --input $file --output $mbtiles.mbtiles --threads $osm2xxx_max_jobs
+  $tilemaker --config $config_file --process $process_file --input $file --output $mbtiles.mbtiles --threads $osm2xxx_max_jobs
 ) 2>&1 | tail -c 1024K >> $logfile || error
 
 if [ "$BBBIKE_NO_ZIP" = "YES" ]; then
