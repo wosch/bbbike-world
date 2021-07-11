@@ -110,7 +110,7 @@ echo ">>> Run tilemaker, config style: $style" >> $logfile
   $tilemaker --config $config_file --process $etc_dir/process.lua --input $file --output $mbtiles.mbtiles --threads $osm2xxx_max_jobs
 ) 2>&1 | tail -c 1024K >> $logfile || error
 
-if [ $BBBIKE_NO_ZIP = "YES" ]; then
+if [ "$BBBIKE_NO_ZIP" = "YES" ]; then
   mbtiles_zip=$(dirname $file)/$(basename $mbtiles.osm.mbtiles)
   mv -f $mbtiles.mbtiles ${mbtiles_zip}.tmp
   mv -f ${mbtiles_zip}.tmp $mbtiles_zip
