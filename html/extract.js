@@ -38,8 +38,8 @@ var config = {
         "geojsonseq.xz": 496,
         "sqlite.xz": 256,
 
-        "mbtiles-openmaptiles.zip": 12,
-        "mbtiles-basic.zip": 12,
+        "mbtiles-openmaptiles.zip": 48,
+        "mbtiles-basic.zip": 48,
 
         "obf.zip": 256,
         "navit.zip": 512,
@@ -1671,11 +1671,11 @@ function show_filesize(skm, real_size, sub_planet_factor) {
         },
         "mbtiles-basic.zip": {
             "size": 0.48,
-            "time": 300
+            "time": 1.5
         },
         "mbtiles-openmaptiles.zip": {
-            "size": 0.48,
-            "time": 1200
+            "size": 0.75,
+            "time": 2
         },
         "mapsforge-osm.zip": {
             "size": 0.7,
