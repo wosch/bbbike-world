@@ -49,6 +49,18 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
+    title   => qq{Mapbox Vector Tiles},
+    id      => 'c12fd6236b867ea5f795c6602ea7e147',
+    content => {
+        type => 'html',
+        content =>
+qq{The <a href="https://extract.bbbike.org/?format=mbtiles-openmaptiles.zip">BBBike extract service</a> supports Mapbox Vector Tiles},
+    },
+    updated  => '2021-07-12T18:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title   => qq{New Garmin style Ontrail},
     id      => '6f5b1fc9a70a146420758b84427c82a8',
     content => {
