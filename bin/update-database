@@ -49,7 +49,7 @@ mkdir -p $tmp
 : ${bbbike_extract="distclean-osm distclean update-files cities-parallel"}
 : ${bbbike_convert="convert-wgs84 convert-post check-data-osm convert-bbbike update-files"}
 : ${bbbike_install="rsync-tgz _rsync cache-heater-k"}
-: ${bbbike_format="pbf2osm pbf2csv pbf2geojson osm2shape osm2garmin osm2mapsforge osm2svg"}
+: ${bbbike_format="pbf2osm pbf2csv pbf2geojson osm2shape osm2garmin osm2mbtiles osm2mapsforge osm2svg"}
 : ${bbbike_post="osm-html rsync rsync-osm-full"}
 : ${bbbike_post2=""}
 
