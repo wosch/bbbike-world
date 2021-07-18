@@ -1,0 +1,70 @@
+#!/bin/sh
+# Copyright (c) Mar 2013-2021 Wolfram Schneider, https://bbbike.org
+#
+# planet-update - daily updates of planet-latest.osm.pbf
+#
+
+PATH=/usr/local/bin:/bin:/usr/bin; export PATH 
+set -e
+
+nice="nice -n 9"
+: ${debug=false}
+: ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
+
+# need 4GB per 7 days of OSM updates
+program="time pyosmium-up-to-date -s 12000 -v -v"
+umask 002
+
+download_dir=$HOME/projects/osm/download
+planet_latest=$download_dir/planet-latest.osm.pbf
+planet_daily=$download_dir/planet-daily.osm.pbf
+
+create_daily_planet ()
+{
+   $program -o $planet_daily $planet_latest
+   update_md5 $planet_daily
+}
+
+update_daily_planet ()
+{
+   $program $planet_daily
+   update_md5 $planet_daily
+}
+
+rebuild_daily_planet ()
+{
+   $program -o $planet_daily.tmp $planet_latest
+   mv -f $planet_daily.tmp $planet_daily
+   update_md5 $planet_daily
+}
+
+update_md5 ()
+{
+  file=$1
+
+  # atomar md5 checksum - the file exists and has correct values, or we delete it
+  rm -f $file.md5
+  md5 $file > $file.md5.tmp && mv -f $file.md5.tmp $file.md5
+}
+
+#######################################################################################
+# main
+#
+if [ ! -e $planet_latest ]; then
+  echo "no latest planet.osm found: $planet_latest, give up"
+  exit 1
+fi
+
+# create from scratch
+if [ ! -e $planet_daily ]; then
+  create_daily_planet
+
+# start with a fresh latest planet
+elif [ $planet_latest -nt $planet_daily ]; then
+  rebuild_daily_planet
+
+# update an (updated) daily planet
+else
+  update_daily_planet
+fi
+
