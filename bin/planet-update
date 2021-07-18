@@ -23,9 +23,9 @@ planet_daily=$download_dir/planet-daily.osm.pbf
 
 create_daily_planet ()
 {
-   rm -f $planet_daily.tmp
-   $program -o $planet_daily.tmp $planet_latest
-   mv -f $planet_daily.tmp $planet_daily
+   tmpfile=$(mktemp tmp.XXXXXXXX.$(basename $planet_daily))
+   $program -o $tmpfile $planet_latest
+   mv -f $tmpfile $planet_daily
    update_md5 $planet_daily
 }
 
@@ -37,8 +37,9 @@ update_daily_planet ()
 
 rebuild_daily_planet ()
 {
-   $program -o $planet_daily.tmp $planet_latest
-   mv -f $planet_daily.tmp $planet_daily
+   tmpfile=$(mktemp tmp.XXXXXXXX.$(basename $planet_daily))
+   $program -o $tmpfile $planet_latest
+   mv -f $tmpfile$planet_daily
    update_md5 $planet_daily
 }
 
