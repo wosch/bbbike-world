@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2021 Wolfram Schneider, https://bbbike.org
 #
 # create poly sub-planet files
 
@@ -17,12 +17,12 @@ use warnings;
 chdir("$FindBin::RealBin/../..")
   or die "Cannot find bbbike world root directory\n";
 
-my $debug           = 0;
-my $prefix_default  = 'sub-planet';
-my $prefix          = $prefix_default;
-my $planet_osm      = "../osm/download/planet-latest-nometa.osm.pbf";
-my $planet_osm_full = "../osm/download/pbf/planet.daily.osm.pbf";
-my $planet_srtm     = "../osm/download/srtm/planet-srtm-e40.osm.pbf";
+my $debug            = 0;
+my $prefix_default   = 'sub-planet';
+my $prefix           = $prefix_default;
+my $planet_osm       = "../osm/download/planet-latest-nometa.osm.pbf";
+my $planet_osm_daily = "../osm/download/planet-daily.osm.pbf";
+my $planet_srtm      = "../osm/download/srtm/planet-srtm-e40.osm.pbf";
 
 sub usage () {
     <<EOF;
@@ -30,7 +30,7 @@ sub usage () {
 usage: $0 [options]
 
 --debug=0..2            debug option
---prefix= { sup-planet | sub-srtm | sub-planet-full } default: $prefix
+--prefix= { sup-planet | sub-planet-daily | sub-srtm } default: $prefix
 --planet=planet.osm.pbf default: $planet_osm
 
 EOF
@@ -111,8 +111,8 @@ if ( $prefix eq 'sub-srtm' && !grep { /--planet=/ } @args ) {
     $planet_osm = $planet_srtm;
     warn "Reset planet_osm to $planet_osm\n" if $debug;
 }
-elsif ( $prefix eq 'sub-planet-full' && !grep { /--planet=/ } @args ) {
-    $planet_osm = $planet_osm_full;
+elsif ( $prefix eq 'sub-planet-daily' && !grep { /--planet=/ } @args ) {
+    $planet_osm = $planet_osm_daily;
     warn "Reset planet_osm to $planet_osm\n" if $debug;
 }
 
