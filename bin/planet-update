@@ -23,7 +23,9 @@ planet_daily=$download_dir/planet-daily.osm.pbf
 
 create_daily_planet ()
 {
-   $program -o $planet_daily $planet_latest
+   rm -f $planet_daily.tmp
+   $program -o $planet_daily.tmp $planet_latest
+   mv -f $planet_daily.tmp $planet_daily
    update_md5 $planet_daily
 }
 
