@@ -1114,6 +1114,7 @@ tile-convert: \
 		tile-convert-garmin-all \
 		tile-convert-mapsforge \
 		tile-convert-osmand \
+		tile-convert-mbtiles \
 		tile-convert-osm
 
 tile-convert-srtm: tile-convert-garmin-srtm tile-convert-osmand
@@ -1158,11 +1159,16 @@ tile-convert-osmand:
 
 tile-convert-mapsforge:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
-	  env osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_50} ${OSM2MAPSFORGE} > ${TILES_TMP}/log.$@ 2>&1
+	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_50} ${OSM2MAPSFORGE} > ${TILES_TMP}/log.$@ 2>&1
 
 tile-convert-navit:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
 	  env osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2NAVIT} > ${TILES_TMP}/log.$@ 2>&1
+
+tile-convert-mbtiles:
+	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
+	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2MBTILES} > ${TILES_TMP}/log.$@ 2>&1
+
 
 tile-extract: tile-lng tile-lnglat tile-lng-run tile-lnglat-run tile-lng-clean #tile-pbf2pbf
 
