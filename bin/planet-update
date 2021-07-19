@@ -24,7 +24,7 @@ planet_daily=$download_dir/planet-daily.osm.pbf
 create_daily_planet ()
 {
    tmpfile=$(mktemp tmp.XXXXXXXX.$(basename $planet_daily))
-   $program -outfile $tmpfile $planet_latest
+   $program --outfile $tmpfile $planet_latest
    mv -f $tmpfile $planet_daily
    update_md5 $planet_daily
 }
