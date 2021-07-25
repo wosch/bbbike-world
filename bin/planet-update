@@ -23,7 +23,8 @@ planet_daily=$download_dir/planet-daily.osm.pbf
 
 create_daily_planet ()
 {
-   tmpfile=$(mktemp tmp.XXXXXXXX.$(basename $planet_daily))
+   tmpfile=$(mktemp $download_dir/tmp.XXXXXXXX.$(basename $planet_daily))
+   rm -f $tmpfile # we need the filename, not a file for pyosmium-up-to-date
    $program --outfile $tmpfile $planet_latest
    mv -f $tmpfile $planet_daily
    update_md5 $planet_daily
@@ -37,9 +38,10 @@ update_daily_planet ()
 
 rebuild_daily_planet ()
 {
-   tmpfile=$(mktemp tmp.XXXXXXXX.$(basename $planet_daily))
+   tmpfile=$(mktemp $download_dir/tmp.XXXXXXXX.$(basename $planet_daily))
+   rm -f $tmpfile # we need the filename, not a file for pyosmium-up-to-date
    $program --outfile $tmpfile $planet_latest
-   mv -f $tmpfile$planet_daily
+   mv -f $tmpfile $planet_daily
    update_md5 $planet_daily
 }
 

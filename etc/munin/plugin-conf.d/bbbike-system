@@ -8,8 +8,8 @@ env.load_warning 0:24
 env.load_critical 0:50
 
 [memory]
-env.swap_warning  20%
-env.swap_critical 50%
+env.swap_warning  50%
+env.swap_critical 70%
 env.apps_warning  60%
 env.apps_critical 80%
 
