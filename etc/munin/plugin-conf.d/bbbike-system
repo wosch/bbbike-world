@@ -4,8 +4,8 @@ env.critical 96
 env.exclude_re ^/run/user
 
 [load]
-env.load_warning 0:10
-env.load_critical 0:20
+env.load_warning 0:24
+env.load_critical 0:50
 
 [memory]
 env.swap_warning  20%
