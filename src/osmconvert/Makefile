@@ -12,14 +12,15 @@
 PROG=osmconvert
 DATE := $(shell date '+%Y-%m-%d')
 VERSION := $(shell egrep '^.define VERSION' ${PROG}.c  | perl -npe 's,.*?",,; s,".*,,')
+CC_OPT= -O3
 
 all: ${PROG}
 
 ${PROG}.o: ${PROG}.c
-	cc -c $< 
+	${CC} ${CC_OPT} -c $< 
 
 ${PROG}: ${PROG}.o
-	cc $< -lz -O3 -o ${PROG}-${VERSION}
+	${CC} ${CC_OPT} $< -lz -o ${PROG}-${VERSION}
 	ls -l ${PROG}-${VERSION}
 	ldd ${PROG}-${VERSION}
 
