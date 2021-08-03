@@ -9,5 +9,5 @@ set -e
 
 cd $HOME/projects/bbbike
 
-time nice -n 10 make planet-update sub-planet-daily > tmp/log.planet-update 2>&1 || cat tmp/log.planet-update
+time nice -n 6 make planet-update sub-planet-daily > tmp/log.planet-update 2>&1 || cat tmp/log.planet-update
 
