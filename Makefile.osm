@@ -35,7 +35,6 @@ MAX_RCPU=	`world/bin/ncpu rcpu -1`
 MAX_HCPU=	`world/bin/ncpu hcpu`
 MAX_OSM2PBF=	1
 MAX_OSM2SHAPE=	${MAX_CPU}
-MAX_OSM2NAVIT=	${MAX_CPU}
 MAX_PBF2OSM=	${MAX_CPU}
 MAX_PBF2OPL=	$$(( ${MAX_CPU} * 2 / 3 + 1 ))
 #MAX_OSM2OSMAND=	${MAX_HCPU}
@@ -73,7 +72,6 @@ OSM2PNG=	world/bin/wrapper-instable world/bin/bomb --timeout=1400 -- env max_fil
 OSM2SVG=	world/bin/wrapper-instable world/bin/bomb --timeout=1400 -- env max_file_size_maperitive=200000 world/bin/pbf2osm --svg-osm
 OSM2SHAPE=	world/bin/pbf2osm --shape
 OSM2OSMAND=	world/bin/pbf2osm --osmand
-OSM2NAVIT=	world/bin/wrapper-instable world/bin/pbf2osm --navit
 OSM2MAPSFORGE=	world/bin/pbf2osm --mapsforge-osm
 OSM2MAPSME=	world/bin/pbf2osm --mapsme-osm
 OSM2MBTILES=	world/bin/pbf2osm --mbtiles-openmaptiles
@@ -357,8 +355,6 @@ osm2obf osm2osmand:
 osm2mapsforge:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ${XARGS} -n 1 -0 -P${MAX_OSM2MAPSFORGE} ${OSM2MAPSFORGE}
 
-osm2navit:
-	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2NAVIT} ${OSM2NAVIT}
 osm2shape osm2shp:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2SHAPE} ${OSM2SHAPE}
 
@@ -1164,10 +1160,6 @@ tile-convert-mapsforge:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
 	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU_50} ${OSM2MAPSFORGE} > ${TILES_TMP}/log.$@ 2>&1
 
-tile-convert-navit:
-	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
-	  env osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2NAVIT} > ${TILES_TMP}/log.$@ 2>&1
-
 tile-convert-mbtiles:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
 	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2MBTILES} > ${TILES_TMP}/log.$@ 2>&1
@@ -1198,7 +1190,7 @@ tile-csv tile-database:
 	     mv -f ${TILES_DIR}/etc/tile/$$format.csv.new ${TILES_DIR}/etc/tile/$$format.csv; \
 	done
 	pwd=`pwd`; max_cpu=${MAX_CPU}; \
-	for format in garmin-osm.zip garmin-onroad.zip shp.zip navit.zip obf.zip mapsforge-osm.zip mbtiles-openmaptiles.zip; do \
+	for format in garmin-osm.zip garmin-onroad.zip shp.zip obf.zip mapsforge-osm.zip mbtiles-openmaptiles.zip; do \
             echo "Run format $$format"; \
 	    (( cd ${TILES_DIR}/lnglat; find . -name '*.'$$format -print0 | xargs -0 -n1 -P1 $$pwd/world/bin/extract-disk-usage.sh --du | sort -n  -k1 -k2 -k3 -k4 -k5 | \
 	     perl -npe 's,\S+/planet_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > ${TILES_DIR}/etc/tile/$$format.csv; \
@@ -1297,11 +1289,11 @@ data-distclean distclean-data:
 # ==> log.tile-convert-garmin-onroad <==
 # 174377.54user 6966.74system 6:25:58elapsed 783%CPU (0avgtext+0avgdata 2367180maxresident)k
 #
-# ==> log.tile-convert-navit <==
-# 29831.88user 3040.74system 1:13:23elapsed 746%CPU (0avgtext+0avgdata 1270932maxresident)k
-#
 # ==> log.tile-convert-shp <==
 # 15353.14user 7242.06system 48:50.42elapsed 771%CPU (0avgtext+0avgdata 1655804maxresident)k
+#
+# ==> log.tile-convert-mbtiles <== 
+# 149723.33user 6004.79system 5:33:07elapsed 779%CPU (0avgtext+0avgdata 2666748maxresident)k
 #
 # ==> log.tile-convert-osm <==
 # 16477.70user 441.64system 36:40.86elapsed 768%CPU (0avgtext+0avgdata 198320maxresident)k
@@ -1760,7 +1752,7 @@ help:
 	@echo ""
 	@echo "  [ bbbike-osm2pbf | osm2pbf | pbf2osm | pbf2csv | pbf2opl ]"
 	@echo "  [ pbf2geojson | pbf2geojsonseq | pbf2text | pbf2sqlite ]"
-	@echo "  [ osm2garmin | osm2shape | osm2osmand | osm2navit | osm2mapsforge ]"
+	@echo "  [ osm2garmin | osm2shape | osm2osmand | osm2mapsforge ]"
 	@echo "  [ osm2png | osm2svg | osm2mapsme | osm2mbtiles ]"
 	@echo "  [ bbbike2wgs84-mapnik | bbbike-mapnik-config ]"
 	@echo "  [ bbbike-mapnik-postgis | bbbike-tile-update ]"
