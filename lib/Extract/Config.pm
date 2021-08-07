@@ -83,7 +83,6 @@ our $formats = {
     'png-wireframe.zip'  => 'PNG wireframe',
     'png-cadastre.zip'   => 'PNG cadastre',
 
-    'navit.zip'         => "Navit",
     'bbbike-perltk.zip' => "BBBike Perl/Tk",
 
     'obf.zip' => "Osmand (OBF)",
@@ -242,11 +241,11 @@ our $planet_sub_dir = {
 # world/etc/tile/csv.xz.csv
 # world/etc/tile/garmin-osm.zip.csv
 # world/etc/tile/mapsforge-osm.zip.csv
-# world/etc/tile/navit.zip.csv
 # world/etc/tile/obf.zip.csv
 # world/etc/tile/osm.gz.csv
 # world/etc/tile/pbf.csv
 # world/etc/tile/shp.zip.csv
+# world/etc/tile/mbtiles-openmaptiles.zip.csv
 # world/etc/tile/srtm-europe.garmin-srtm.zip.csv
 # world/etc/tile/srtm-europe.obf.zip.csv
 # world/etc/tile/srtm-europe.pbf.csv
@@ -291,9 +290,6 @@ our $tile_format = {
     "garmin-openfietsfull.zip"        => "garmin-osm.zip",
     "garmin-openfietsfull-ascii.zip"  => "garmin-osm.zip",
     "garmin-openfietsfull-latin1.zip" => "garmin-osm.zip",
-
-    "navit.zip" => "navit.zip",
-    "navit"     => "navit.zip",
 
     "mapsforge-osm.zip" => "mapsforge-osm.zip",
     "mapsme-osm.zip"    => "pbf",

@@ -158,7 +158,6 @@ our $option = {
         'osmand_version'     => 'OsmAndMapCreator',
         'mapsforge_version'  => 'mapsforge',
         'mapsme_version'     => 'mapsme',
-        'navit_version'      => 'maptool',
         'bbbike_version'     => 'bbbike',
         'shape_version'      => 'osmium2shape',
     },
@@ -838,7 +837,6 @@ sub reorder_pbf {
 
         'shp.zip'           => 1.3,
         'obf.zip'           => 10,
-        'navit.zip'         => 1.1,
         'bbbike-perltk.zip' => 1.2,
         'mapsforge-osm.zip' => 15,
         'mapsme-osm.zip'    => 1.2,
@@ -1218,7 +1216,6 @@ sub _convert_send_email {
       $option->{pbf2osm}->{osmand_version};
     $ENV{'BBBIKE_EXTRACT_MAPSFORGE_VERSION'} =
       $option->{pbf2osm}->{mapsforge_version};
-    $ENV{'BBBIKE_EXTRACT_NAVIT_VERSION'} = $option->{pbf2osm}->{navit_version};
     $ENV{'BBBIKE_EXTRACT_BBBIKE_VERSION'} =
       $option->{pbf2osm}->{bbbike_version};
     $ENV{'BBBIKE_EXTRACT_SHAPE_VERSION'} = $option->{pbf2osm}->{shape_version};
@@ -1365,22 +1362,6 @@ sub _convert_send_email {
         if ( !cached_format( $file, $pbf_file ) ) {
             @system =
               ( @nice, "$dirname/pbf2osm", "--osmand", $pbf_file, $city );
-
-            warn "@system\n" if $debug >= 2;
-            @system = 'true' if $test_mode;
-
-            system(@system) == 0 or die "system @system failed: $?";
-        }
-    }
-
-    # Navit
-    elsif ( $format eq 'navit.zip' ) {
-        $file =~ s/\.pbf$/.$format/;
-        $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
-
-        if ( !cached_format( $file, $pbf_file ) ) {
-            @system =
-              ( @nice, "$dirname/pbf2osm", "--navit", $pbf_file, $city );
 
             warn "@system\n" if $debug >= 2;
             @system = 'true' if $test_mode;

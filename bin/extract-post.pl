@@ -101,7 +101,7 @@ sub get_extract_from_file {
     $args->{'format'} = $obj->{'format'} if $obj->{'format'};
 
     # backward compatible
-    $args->{'format'} =~ s/^osm\.(navit.zip|shp.zip|obf.zip)/$1/;
+    $args->{'format'} =~ s/^osm\.(shp.zip|obf.zip)/$1/;
 
     my $coords = $obj->{'coords'};
 

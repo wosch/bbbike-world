@@ -42,7 +42,6 @@ var config = {
         "mbtiles-basic.zip": 48,
 
         "obf.zip": 256,
-        "navit.zip": 512,
         "bbbike-perltk.zip": 90,
         "shp.zip": 128,
         "mapsforge-osm.zip": 320,
@@ -190,8 +189,7 @@ var config = {
 
         "mapsforge-osm.zip": "/images/mapsforge-small.png",
         "mapsme-osm.zip": "/images/mapsme-small.png",
-        "navit.zip": "/images/navit-small.png",
-        "bbbike-perltk.zip": "/images/navit-small.png",
+        "bbbike-perltk.zip": "/images/osmand-small.png",
         "obf.zip": "/images/osmand-small.png",
 
         "srtm-europe.garmin-srtm.zip": "/images/garmin-srtm-800.png",
@@ -1684,10 +1682,6 @@ function show_filesize(skm, real_size, sub_planet_factor) {
         "mapsme-osm.zip": {
             "size": 0.85,
             "time": 2
-        },
-        "navit.zip": {
-            "size": 0.8,
-            "time": 1.5
         },
         "bbbike-perltk.zip": {
             "time": 90,

@@ -18,7 +18,6 @@ osm2png=$dirname/osm2png
 osm2svg=$dirname/osm2svg
 osm2shape=$dirname/osm2shape
 osm2osmand=$dirname/osm2osmand
-osm2navit=$dirname/osm2navit
 osm2mapsforge=$dirname/osm2mapsforge
 osm2mapsme=$dirname/osm2mapsme
 osm2mbtiles=$dirname/osm2mbtiles
@@ -96,7 +95,6 @@ usage [ option ] file.osm.pbf
 
 --shape
 --osmand
---navit
 --mapsforge-osm
 --bbbike-perltk
 
@@ -160,7 +158,6 @@ case $format in
     
     --shape | --shp | --shapefile ) shift; compress=shape ;;
     --osmand | --obf ) 		    shift; compress=osmand ;;
-    --navit ) 			    shift; compress=navit ;;
 
     --garmin-osm | --garmin-osm-ascii | --garmin-osm-latin1 | \
     --garmin-cycle | --garmin-cycle-ascii | --garmin-cycle-latin1 | \
@@ -244,7 +241,7 @@ case $compress in
 	  usage "file '$file' size to big: $size > $max_file_size_bbbike"
 	fi
 	;;
-    garmin | navit )
+    garmin )
 	if [ $size -gt $max_file_size_garmin ]; then
 	  usage "file '$file' size to big: $size > $max_file_size_garmin"
 	fi
@@ -344,7 +341,6 @@ case $compress in
     osmand ) $osm2osmand "$file" "$city" ;;
     mapsme ) $osm2mapsme "$file" "$mapsme_style" "$city" ;;
     mbtiles )$osm2mbtiles "$file" "$mbtiles_style" "$city" ;;
-    navit )  $osm2navit  "$file" "$city" ;;
     mapsforge ) $osm2mapsforge "$file" "$mapsforge_style" "$city" ;;
 
     * ) echo >& 2 "Oops, unknown '$compress'"; exit 2 ;;

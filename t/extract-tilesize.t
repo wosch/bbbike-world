@@ -232,7 +232,8 @@ is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 479094 );
 is( $tile->total_tiles, 17346 );
 is( $tile->total,       38209305 );
 
-$tile = new Extract::TileSize( 'database' => "world/etc/tile/navit.zip.csv" );
+$tile = new Extract::TileSize(
+    'database' => "world/etc/tile/mbtiles-openmaptiles.zip.csv" );
 is( int( $tile->area_size(qw/13 52 14 53/) ), 67821 );
 is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 476292 );
 is( $tile->total_tiles, 16571 );

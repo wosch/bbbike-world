@@ -82,7 +82,6 @@ sub init_env {
             'maperitive_version' => 'Maperitive',
             'osmand_version'     => 'OsmAndMapCreator',
             'mapsforge_version'  => 'mapsforge',
-            'navit_version'      => 'maptool',
             'bbbike_version'     => 'bbbike',
             'shape_version'      => 'osmium2shape',
             'mapsme_version'     => 'mapsme',
@@ -99,7 +98,6 @@ sub init_env {
       $option->{pbf2osm}->{osmand_version};
     $ENV{'BBBIKE_EXTRACT_MAPSFORGE_VERSION'} =
       $option->{pbf2osm}->{mapsforge_version};
-    $ENV{'BBBIKE_EXTRACT_NAVIT_VERSION'} = $option->{pbf2osm}->{navit_version};
     $ENV{'BBBIKE_EXTRACT_BBBIKE_VERSION'} =
       $option->{pbf2osm}->{bbbike_version};
     $ENV{'BBBIKE_EXTRACT_SHAPE_VERSION'} = $option->{pbf2osm}->{shape_version};

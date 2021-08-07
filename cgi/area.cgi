@@ -45,7 +45,6 @@ my %prio = (
     'geojson.xz'                => -50,
     'mapsforge-osm.zip'         => -40,
     'svg-osm.zip'               => -45,
-    'navit.zip'                 => -40,
 );
 
 sub sort_by_format {

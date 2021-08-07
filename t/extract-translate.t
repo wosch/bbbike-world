@@ -28,12 +28,12 @@ $message_path =~ s,^\.\./,,;
 # formats with a *.zip tarball
 #world/etc/extract/osm2garmin.de.sh
 #world/etc/extract/osm2mapsforge.de.sh
-#world/etc/extract/osm2navit.de.sh
+#world/etc/extract/osm2mbtiles.de.sh
 #world/etc/extract/osm2osmand.de.sh
 #world/etc/extract/osm2png.de.sh
 #world/etc/extract/osm2shape.de.sh
 #world/etc/extract/osm2svg.de.sh
-my @formats = qw/garmin mapsforge navit osmand png shape svg/;
+my @formats = qw/garmin mapsforge mbtiles osmand png shape svg/;
 
 #############################################################################
 # main

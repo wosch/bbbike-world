@@ -97,8 +97,6 @@ our $factor = {
     'mapsme-osm.zip'    => 0.85,
     'bbbike-perltk.zip' => 2.20,
 
-    'navit.zip' => 0.75,
-
     'o5m.bz2' => 0.88,
     'o5m.gz'  => 1.04,
     'o5m.xz'  => 0.80,

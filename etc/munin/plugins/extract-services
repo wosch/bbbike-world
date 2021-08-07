@@ -64,7 +64,6 @@ my $config = {
           garmin-osm.zip
           mapsforge-osm.zip
           mapsme-osm.zip
-          navit.zip
           o5m.gz
           o5m.xz
           obf.zip
@@ -94,6 +93,7 @@ my $config = {
           svg-osm.zip
           svg-urbanight.zip
           svg-wireframe.zip
+          mbtiles-openmaptiles.zip
           /
     ]
 };
