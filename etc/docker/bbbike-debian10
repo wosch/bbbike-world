@@ -20,7 +20,7 @@ RUN git clone --depth=200 https://github.com/wosch/bbbike.git && \
 WORKDIR /bbbike/projects/bbbike
 
 RUN . ./world/etc/env/dot.bbbikerc 
-RUN ./world/travis/bbbike-init.sh
+RUN ./world/bin/bbbike-deb-repository-setup.sh
 
 RUN sudo apt-get update -q && \
   sudo apt-get install -y bbbike-world

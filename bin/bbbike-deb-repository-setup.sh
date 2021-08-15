@@ -1,10 +1,10 @@
 #!/bin/sh
-# Copyright (c) 2016-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2016-2021 Wolfram Schneider, https://bbbike.org
 #
 # init bbbike.org ubuntu deb repository
 
 : ${DEBUG=false}
-enable_wheezy_legacy="NO"
+enable_legacy="YES"
 
 if $DEBUG; then
   set -x
@@ -43,6 +43,15 @@ init_apt_bbbike() {
       fi
       flag=1
     done
+
+    if [ $enable_legacy = "YES" ]; then
+      file="world/etc/apt/ubuntu/trusty-legacy/sources.list.d/bbbike-legacy.list"
+      f=$sources_list_d/$(basename $file)
+      if [ ! -e $f ]; then 
+        sudo cp $file $f
+      fi
+      flag=1
+    fi
 
     if [ $flag = "1" ]; then
         curl -sSf $apt_key | sudo apt-key add -

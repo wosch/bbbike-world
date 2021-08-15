@@ -38,7 +38,7 @@ Required debian modules
 see also .travis.yml
 
 . ./world/etc/env/dot.bbbikerc 
-sudo ./world/travis/bbbike-init.sh
+sudo ./world/bin/bbbike-deb-repository-setup.sh
 
 # see world/etc/apt/equivs
 sudo apt-get install bbbike-world 

@@ -23,7 +23,7 @@ RUN git clone --depth=200 https://github.com/wosch/bbbike.git && \
   make -f world/Makefile.osm create-makefile-symlinks
 
 WORKDIR /bbbike/projects/bbbike
-RUN ./world/travis/bbbike-init.sh
+RUN ./world/bin/bbbike-deb-repository-setup.sh
 RUN apt-get install -y -q libdata-random-perl bbbike-world
 
 RUN make -f world/Makefile.osm create-bbbike-web-symlinks
