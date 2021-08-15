@@ -1344,7 +1344,7 @@ deb-perl: deb-clean perl-cpan
 	echo "Number of deps: $$(ls ${DEB_DIR} | egrep '*.deb$$' | wc -l)"
 
 perl-cpan-clean:
-	rm -rf $$HOME/perl5 $$HOME/.cpan/build
+	rm -rf $$HOME/perl5 $$HOME/.cpan/build $$HOME/.local/share/.cpan/build
 perl-cpan-init:
 	echo | cpan
 
