@@ -17,7 +17,7 @@ my $versions = {
     'debian6' => [
 
         # version commands, regex to match
-        [ [qw/pbzip2 --version/],  qr/ BZIP2 v1.1.[1-9] /m ],
+        [ [qw/pbzip2 --version/],  qr/ BZIP2 v1.1.[1-9]+ /m ],
         [ [qw/osmconvert --help/], qr/^osmconvert 0\.8\.11$/m ],
         [
             [qw/osmosis -v/],
@@ -25,7 +25,7 @@ my $versions = {
         ],
         [
             [qw/pigz --version/],
-            qr/^pigz (2\.1\.6|2\.2\.[4-9]|2\.3\.1|2\.3)|2\.4/
+            qr/^pigz (2\.1\.6|2\.2\.[4-9]|2\.3\.1|2\.[346])/
         ],
         [
             [qw/java -version/],
@@ -37,7 +37,7 @@ qr/^(openjdk|java) version "11.0.(12|39)|(1\.8\.0_(212|252|265|272|275|282|292|0
         ],
         [
             [qw/perltidy -v/],
-qr/^This is perltidy, (v20090616|v20101217|v20140328|v20120701|v20170521|v20180220)/
+qr/^This is perltidy, (v20090616|v20101217|v20140328|v20120701|v20170521|v20180220|v20200110)/
         ],
     ]
 };
