@@ -1333,7 +1333,8 @@ deb-perl: deb-clean perl-cpan
 	set -e; cd ${DEB_DIR}; export PERL5LIB="$$HOME/perl5:$$HOME/perl5/lib/perl5"; \
 	for i in ${DEB_PACKAGES}; do \
 	    echo "dh-make-perl: $$i"; \
-	    dh-make-perl --build --email 'wosch@freebsd.org' --cpan $$i; \
+	    cpan_version=$$(echo $$i | perl -npe 's/=/ --version /'); \
+	    dh-make-perl --build --email 'wosch@freebsd.org' --cpan $$cpan_version; \
 	done
 	set -e; for i in ${DEB_DIR}/*.deb; do \
 	   env DEB_RELEASE=${DEB_RELEASE} ./world/bin/deb2deb $$i; \
@@ -1343,6 +1344,8 @@ deb-perl: deb-clean perl-cpan
 
 perl-cpan-clean:
 	rm -rf $$HOME/perl5 $$HOME/.cpan/build
+perl-cpan-init:
+	echo | cpan
 
 # XXX: should be part of world/etc/apt/Makefile
 # build cpan modules first, and later build deb packages
@@ -1370,7 +1373,7 @@ deb-clean:
 	rm -rf ${DEB_DIR}
 	${MAKE} -C./world/etc/apt/${DEB_VENDOR}/${DEB_RELEASE}/deb -f ../../../Makefile DEB_RELEASE=${DEB_RELEASE} DEB_VENDOR=${DEB_VENDOR} distclean
 
-deb-distclean: deb-clean
+deb-distclean: deb-clean perl-cpan-init perl-cpan-clean 
 	rm -rf ${DEB_TMP}
 	mkdir -p ${DEB_TMP}
 
@@ -1802,9 +1805,9 @@ help:
 	@echo "  [ jasmine-node | test-js ]"
 	@echo ""
 	@echo "  [ deb-perl | deb-equivs | deb-bin ]"
-	@echo "  [ deb-clean | deb-repo | deb-repo-upload | perl-cpan-clean ]"
-	@echo "  [ make deb-clean deb-perl deb-equivs deb-bin deb-repo-upload ]"
-	@echo "  [ make deb-clean deb-perl deb-repo-upload ]"
+	@echo "  [ deb-clean | deb-distclean | deb-repo | deb-repo-upload ]"
+	@echo "  [ make deb-distclean deb-perl deb-equivs deb-bin deb-repo-upload ]"
+	@echo "  [ make deb-distclean deb-perl deb-repo-upload ]"
 	@echo "  [ make deb-clean deb-equivs deb-repo-upload ]"
 	@echo "  [ make deb-clean deb-bin deb-repo-upload ]"
 	@echo "  [ make deb-clean deb-bin-x86 deb-repo-upload ]"
