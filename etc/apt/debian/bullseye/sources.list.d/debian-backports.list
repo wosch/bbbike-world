@@ -1,0 +1,3 @@
+## backports
+deb http://httpredir.debian.org/debian stretch main
+deb https://debian.bbbike.org/debian/wheezy-legacy wheezy-legacy main
