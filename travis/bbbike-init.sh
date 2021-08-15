@@ -15,7 +15,7 @@ sources_list_d=/etc/apt/sources.list.d
 
 init_apt_bbbike() {
     bbbike_list=bbbike.list
-    apt_key=https://raw.githubusercontent.com/wosch/bbbike-world/world/etc/apt/debian/stretch/gpg/bbbike.asc
+    apt_key=https://raw.githubusercontent.com/wosch/bbbike-world/world/etc/apt/debian/buster/gpg/bbbike.asc
     deb_url=https://debian.bbbike.org
 
     file="$sources_list_d/$bbbike_list"
@@ -57,7 +57,7 @@ init_apt_mono() {
 
     file="$sources_list_d/$mono_list"
     os=debian
-    codename=stretch
+    codename=buster
 
     if [ ! -e $file ]; then 
         sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
