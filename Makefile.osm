@@ -23,8 +23,8 @@ DOWNLOADOSM=	${PERL} ./miscsrc/downloadosm --debug=1 ${OSM_SOCKS_PROXY} ${OSM_TI
 OSM2BBD_OPT=	--ignore-unhandled --ignore-underline-noname --granularity=100
 OSM2BBD=	./miscsrc/osm2bbd ${OSM2BBD_OPT} --nodate --no-create --git-id="${GIT_ID}" -f --debug=0 ${OSM2BBD_MAPTYPE} -experiment add_postal_code -experiment handle_relations
 
-DOCKER_IMAGE_FILE?=		bbbike-debian9
-DOCKER_BBBIKE_TAG?=		bbbike/extract-debian9
+DOCKER_IMAGE_FILE?=		bbbike-debian10
+DOCKER_BBBIKE_TAG?=		bbbike/extract-debian10
 DOCKER= 			docker
 
 MAX_CPU=	`world/bin/ncpu`
