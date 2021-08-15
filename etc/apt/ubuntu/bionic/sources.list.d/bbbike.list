@@ -1,2 +1,2 @@
 # bbbike.org own stuff
-deb https://debian.bbbike.org/ubuntu/bionic bionic main
+deb [arch=amd64] https://debian.bbbike.org/ubuntu/bionic bionic main
