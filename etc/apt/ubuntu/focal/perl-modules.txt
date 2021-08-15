@@ -1,0 +1,8 @@
+# list of self compiled perl modules for debian
+GIS::Distance::Lite
+Math::MatrixReal
+Geo::Google::PolylineEncoder
+Kwalify
+#Object::Iterate
+Array::Heap
+Image::Info
