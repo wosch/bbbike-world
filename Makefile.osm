@@ -1028,9 +1028,10 @@ extract-install extract-bbbike-org-install:
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/failed2
 	chmod -R a+rX,gu+w ${EXTRACTS_SPOOL_DIR}/
 	chown -R ${LOGNAME}:${WEB_GROUP} ${EXTRACTS_SPOOL_DIR}/
-	cp world/bin/osmconvert-wrapper /usr/local/bin
+	sudo cp -f world/bin/osmconvert-wrapper /usr/local/bin
 	mkdir -p /usr/local/www
-	chown -R ${LOGNAME} /usr/local/www
+	sudo chown -R ${LOGNAME} /usr/local/www
+	${MAKE} -C world/src/osmconvert install
 
 bbbike-cache-install:
 	mkdir -p ${BBBIKE_PARTITION}/cache
