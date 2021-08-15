@@ -1375,7 +1375,9 @@ deb-clean:
 	rm -rf ${DEB_DIR}
 	${MAKE} -C./world/etc/apt/${DEB_VENDOR}/${DEB_RELEASE}/deb -f ../../../Makefile DEB_RELEASE=${DEB_RELEASE} DEB_VENDOR=${DEB_VENDOR} distclean
 
-deb-distclean: deb-clean perl-cpan-clean perl-cpan-init
+deb-distclean: deb-clean deb-clean-tmp perl-cpan-clean perl-cpan-init
+
+deb-clean-tmp:
 	rm -rf ${DEB_TMP}
 	mkdir -p ${DEB_TMP}
 
