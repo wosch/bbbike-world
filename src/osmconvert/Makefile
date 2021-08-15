@@ -33,3 +33,7 @@ distclean: clean
 clean:
 	rm -f ${PROG} ${PROG}-${DATE} ${PROG}-${VERSION} ${PROG}.o
 
+install: all
+	sudo cp -f ${PROG}-${VERSION} /usr/local/bin
+	cd /usr/local/bin && sudo ln -fs ${PROG}-${VERSION} ${PROG}
+
