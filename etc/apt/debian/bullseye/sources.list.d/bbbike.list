@@ -1,2 +1,2 @@
 # bbbike.org own stuff
-deb https://debian.bbbike.org/debian/buster buster main
+deb https://debian.bbbike.org/debian/bullseye bullseye main

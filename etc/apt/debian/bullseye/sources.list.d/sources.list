@@ -1,7 +1,7 @@
 #
-# all you neeed for debian10 (buster)
+# all you neeed for debian11 (bullseye)
 #
 
-#deb     http://cdn.debian.net/debian/     buster main contrib non-free
-#deb http://security.debian.org/ buster/updates main
+#deb     http://cdn.debian.net/debian/     bullseye main contrib non-free
+#deb http://security.debian.org/ bullseye/updates main
 
