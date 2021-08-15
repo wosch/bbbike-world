@@ -1332,7 +1332,7 @@ deb-perl: deb-clean perl-cpan
 	mkdir -p ${DEB_DIR}
 	set -e; cd ${DEB_DIR}; export PERL5LIB="$$HOME/perl5:$$HOME/perl5/lib/perl5"; \
 	for i in ${DEB_PACKAGES}; do \
-	    echo "dh-make: $$i"; \
+	    echo "dh-make-perl: $$i"; \
 	    dh-make-perl --build --email 'wosch@freebsd.org' --cpan $$i; \
 	done
 	set -e; for i in ${DEB_DIR}/*.deb; do \
