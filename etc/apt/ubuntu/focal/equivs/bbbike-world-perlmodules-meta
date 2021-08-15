@@ -9,4 +9,4 @@ Depends: libgis-distance-lite-perl, libgeo-google-polylineencoder-perl,
  libobject-iterate-perl, libmath-matrixreal-perl,
  libgeo-distance-perl, libarray-heap-perl
 Description: BBBike @ World perl modules
- perl modules which are not part of ubuntu bionic
+ perl modules which are not part of ubuntu focal
