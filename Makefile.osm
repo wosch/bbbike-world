@@ -1361,6 +1361,7 @@ perl-cpan:
 deb-equivs:
 	mkdir -p ${DEB_DIR}
 	set -e; cd ${DEB_DIR}; \
+	unset TMPDIR; \
 	for i in ${DEB_CONTROLS}; do \
 	    equivs-build $$i; \
 	done
