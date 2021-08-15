@@ -33,7 +33,7 @@ RUN make update-files
 
 RUN echo '. $HOME/.bbbikerc' >> $HOME/.bashrc && \
     echo 'export BBBIKE_TEST_DOCKER=1' >> $HOME/.bashrc
-RUN chown -R bbbike:bbbike /bbbike/projects
+RUN chown -R bbbike:bbbike /bbbike/
 USER bbbike
 
 #EXPOSE 80
