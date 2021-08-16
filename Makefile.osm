@@ -1415,7 +1415,7 @@ deb-repo-upload:
 	ssh debian.bbbike.org 'cd ~/projects/bbbike && make DEB_VENDOR=${DEB_VENDOR} DEB_RELEASE=${DEB_RELEASE} deb-repo'
 
 deb-bootstrap debian-bootstrap: deb-bootstrap-dir
-bbbike-bootstrap: bbbike-partition debian-bootstrap update-files install-backend-lighttpd
+bbbike-bootstrap: bbbike-partition debian-bootstrap update-files #install-backend-lighttpd
 	sudo ${BBMAKE} extract-bbbike-org-install
 	sudo ${BBMAKE} EXTRACTS_SPOOL_DIR=/var/cache/extract-pro extract-bbbike-org-install
 	${BBMAKE} download-bbbike-org-install
