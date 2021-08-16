@@ -1,2 +1,6 @@
 # bbbike.org legacy stuff
 deb [arch=amd64] https://debian.bbbike.org/debian/wheezy-legacy wheezy-legacy main
+
+# freebsd-buildutils etc. are missing in debian11, fall back to debian10
+deb [arch=amd64] https://deb.debian.org/debian buster main
+
