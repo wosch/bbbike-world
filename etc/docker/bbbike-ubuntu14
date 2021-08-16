@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update -q && \
   apt-get upgrade -y && \
   apt-get install -y git make sudo gpgv apt-transport-https && \
-  apt-get install -q -y exim4 software-properties-common
+  apt-get install -q -y exim4 software-properties-common vim
 
 # backports
 RUN add-apt-repository ppa:openjdk-r/ppa 
