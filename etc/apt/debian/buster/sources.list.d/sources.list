@@ -2,6 +2,6 @@
 # all you neeed for debian10 (buster)
 #
 
-#deb     http://cdn.debian.net/debian/     buster main contrib non-free
-#deb http://security.debian.org/ buster/updates main
+#deb [arch=amd64] http://cdn.debian.net/debian/     buster main contrib non-free
+#deb [arch=amd64] http://security.debian.org/ buster/updates main
 
