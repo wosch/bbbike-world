@@ -21,7 +21,7 @@ RUN git clone --depth=200 https://github.com/wosch/bbbike.git && \
 
 WORKDIR /bbbike/projects/bbbike
 
-RUN ./world/travis/bbbike-init.sh
+RUN ./world/bin/bbbike-deb-repository-setup.sh
 
 RUN apt-get install -q -y bbbike-world
 
