@@ -1346,7 +1346,7 @@ deb-perl: deb-clean perl-cpan
 perl-cpan-clean:
 	rm -rf $$HOME/perl5 $$HOME/.cpan/build $$HOME/.local/share/.cpan/build
 perl-cpan-init:
-	echo | cpan
+	echo | cpan || true
 
 # XXX: should be part of world/etc/apt/Makefile
 # build cpan modules first, and later build deb packages
