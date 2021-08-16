@@ -1671,8 +1671,8 @@ docker-build-all:
 	  docker-build-extract-debian9 \
 	  docker-build-extract-debian10 \
 	  docker-build-extract-ubuntu18 \
-	  #docker-build-extract-debian11 \
-	  #docker-build-extract-ubuntu20 \
+	  docker-build-extract-debian11 \
+	  docker-build-extract-ubuntu20 \
 
 docker-build-libosmium-all:
 	${NICE} ${BBMAKE} -j${MAX_CPU} \
