@@ -1,3 +1,3 @@
 ## backports
-deb http://httpredir.debian.org/debian stretch main
-deb https://debian.bbbike.org/debian/wheezy-legacy wheezy-legacy main
+#deb [arch=amd64] http://httpredir.debian.org/debian stretch main
+#deb [arch=amd64] https://debian.bbbike.org/debian/wheezy-legacy wheezy-legacy main
