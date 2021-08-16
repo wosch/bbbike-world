@@ -3,12 +3,12 @@ Priority: optional
 Standards-Version: 3.6.2
 
 Package: bbbike-world-debian-meta
-Version: 1.1.45
+Version: 1.1.46
 Maintainer: Wolfram Schneider <wosch@freebsd.org>
 Depends: pbzip2, bzip2, xz-utils, pixz, ncdu, git-core, screen, curl, wget, time,
  lsof, whois, pigz, make, acct, dnsutils, sysstat, buffer, mbuffer,
  pktstat, unzip, gcc, zlib1g-dev, perltidy, tidy, bsd-mailx,
- perl-doc, zip, sudo, munin-node, htop, strace, python, openjdk-8-jdk,
+ perl-doc, zip, sudo, munin-node, htop, strace, python, openjdk-11-jdk,
  python-apt, rsync,
  libhtml-tagcloud-perl, libtext-unidecode-perl, 
  g++, sockstat, libhtml-tagcloud-perl, libtext-unidecode-perl, 
@@ -45,6 +45,6 @@ Depends: pbzip2, bzip2, xz-utils, pixz, ncdu, git-core, screen, curl, wget, time
  libjpeg-progs, libplack-perl, libimager-qrcode-perl,
  libcompress-raw-bzip2-perl, libcompress-raw-zlib-perl, libio-compress-perl,
  libcanary-stability-perl, pkwalify, libinline-c-perl, libclone-perl,
- libboost-program-options1.62.0, pyosmium
+ libboost-program-options1.67.0, pyosmium
 Description: BBBike @ World standard debian packages
  BBBike @ World standard debian packages
