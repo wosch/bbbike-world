@@ -41,6 +41,6 @@ Depends: pbzip2, bzip2, xz-utils, pixz, ncdu, git-core, screen, curl, wget, time
  libdevel-nytprof-perl, libtest-most-perl, libmodule-build-perl,
  libtest-fatal-perl, liblockfile-simple-perl, mosh, libcgi-fast-perl, 
  libjpeg-progs, libplack-perl, libimager-qrcode-perl, libclone-perl,
- libboost-program-options1.62.0
+ libboost-program-options1.65.1
 Description: BBBike @ World standard debian packages
  BBBike @ World standard debian packages
