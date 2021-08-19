@@ -68,11 +68,11 @@ repo-checkout: git-checkout svn-checkout
 	
 git-checkout:
 	mkdir -p ${PROJECT_DIR}
-	cd ${PROJECT_DIR}; if [ ! -e mc ]; then git clone ssh://git.bbbike.org/home/wosch/git/mc; fi
-	cd ${PROJECT_DIR}; if [ ! -e mapnik-bbbike ]; then git clone https://github.com/eserte/mapnik-bbbike; fi
+	cd ${PROJECT_DIR}; if [ ! -e mc ]; then git clone --depth=1 ssh://git.bbbike.org/home/wosch/git/mc; fi
+	cd ${PROJECT_DIR}; if [ ! -e mapnik-bbbike ]; then git clone --depth=1 https://github.com/eserte/mapnik-bbbike; fi
 	cd ${PROJECT_DIR}; \
 	  if [ ! -e bbbike-eserte ]; then \
-	    git clone bbbike bbbike-eserte; \
+	    git clone --depth=1 bbbike bbbike-eserte; \
 	    cd bbbike-eserte; \
 	    git remote add eserte git://github.com/eserte/bbbike.git; \
 	    git fetch eserte; \
