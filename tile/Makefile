@@ -81,8 +81,9 @@ git-checkout:
 
 svn-checkout:
 	mkdir -p ${PROJECT_DIR}
-	cd ${PROJECT_DIR}; if [ ! -e mapnik ]; then svn checkout http://svn.openstreetmap.org/applications/rendering/mapnik; fi
-	cd ${PROJECT_DIR}; if [ ! -e mapnik-german ]; then svn checkout http://svn.openstreetmap.org/applications/rendering/mapnik-german; fi
+	cd ${PROJECT_DIR}; if [ ! -e mapnik ]; then             git clone --depth=1 https://github.com/mapnik/mapnik; fi
+	cd ${PROJECT_DIR}; if [ ! -e mapnik-german-l10n ]; then git clone --depth=1 https://github.com/giggls/mapnik-german-l10n; fi
+	cd ${PROJECT_DIR}; ln -fs mapnik-german-l10n mapnik-german
 
 etc-symlinks:
 	cd /etc; \
