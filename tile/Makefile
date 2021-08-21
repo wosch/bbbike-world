@@ -129,9 +129,6 @@ bbbike-mapnik:
 	  make bbbike2wgs84-mapnik; \
 	  make bbbike-mapnik-postgis 
 
-mod-tile:
-	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} libapache2-mod-tile
-
 mapnik-restart:
 	make -C ${PROJECT_DIR}/bbbike $@
 
