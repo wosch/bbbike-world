@@ -1657,7 +1657,7 @@ install-xvfb:
 # docker note: the images are build from a local ./Dockerfile in world/etc/docker - however
 #              the rest will be checked out from github.com inside the image
 #
-DOCKER_BUILD_FLAGS=	--no-cache 
+DOCKER_BUILD_FLAGS?=	--no-cache 
 
 docker-build:
 	${DOCKER} build ${DOCKER_BUILD_FLAGS} -f world/etc/docker/${DOCKER_IMAGE_FILE} -t ${DOCKER_BBBIKE_TAG} .
