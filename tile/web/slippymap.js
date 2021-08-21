@@ -68,15 +68,7 @@ function init() {
         attribution: '<a href="https://bbbike.org/">BBBike.org</a>'
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("BBBike.org Mapnik (de)", "https://d.tile.bbbike.org/osm/mapnik-german/${z}/${x}/${y}.png", {
-        tileOptions: {
-            crossOriginKeyword: null
-        },
-        numZoomLevels: 19,
-        attribution: '<a href="https://bbbike.org/">BBBike.org</a>'
-    }));
-
-    map.addLayer(new OpenLayers.Layer.OSM("BBBike.org Mapnik", "https://d.tile.bbbike.org/osm/mapnik/${z}/${x}/${y}.png", {
+    map.addLayer(new OpenLayers.Layer.OSM("BBBike.org bbbike local", "/osm/bbbike/${z}/${x}/${y}.png", {
         tileOptions: {
             crossOriginKeyword: null
         },
@@ -169,103 +161,12 @@ function init() {
         numZoomLevels: 18
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("Mapquest EU (OSM)", ["http://otile1.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png", "http://otile2.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png"], {
-        numZoomLevels: 19
-    }));
-
-    map.addLayer(new OpenLayers.Layer.OSM("Mapquest Satellite", ["http://ttiles01.mqcdn.com/tiles/1.0.0/vy/sat/${z}/${x}/${y}.png", "http://ttiles02.mqcdn.com/tiles/1.0.0/vy/sat/${z}/${x}/${y}.png"], {
-        tileOptions: {
-            crossOriginKeyword: null
-        },
-        numZoomLevels: 19
-    }));
-
     map.addLayer(new OpenLayers.Layer.OSM("Skobbler (OSM)", ["http://tiles1.skobbler.net/osm_tiles2/${z}/${x}/${y}.png", "http://tiles2.skobbler.net/osm_tiles2/${z}/${x}/${y}.png"], {
         tileOptions: {
             crossOriginKeyword: null
         },
         numZoomLevels: 19
     }));
-
-    map.addLayer(new OpenLayers.Layer.Here("HERE WeGo Map", {
-        type: "normal.day",
-        app_id: "g7UuRR708Tsut4YSnDLy",
-        token: "fVzaDAdRK62zo3CuNcPtDg"
-    }));
-    map.addLayer(new OpenLayers.Layer.Here("HERE WeGo Terrain", {
-        type: "terrain.day",
-        app_id: "g7UuRR708Tsut4YSnDLy",
-        token: "fVzaDAdRK62zo3CuNcPtDg"
-    }));
-    map.addLayer(new OpenLayers.Layer.Here("HERE WeGo Satellite", {
-        type: "satellite.day",
-        app_id: "g7UuRR708Tsut4YSnDLy",
-        token: "fVzaDAdRK62zo3CuNcPtDg"
-    }));
-    map.addLayer(new OpenLayers.Layer.Here("HERE WeGo Hybrid", {
-        type: "hybrid.day",
-        app_id: "g7UuRR708Tsut4YSnDLy",
-        token: "fVzaDAdRK62zo3CuNcPtDg"
-    }));
-    map.addLayer(new OpenLayers.Layer.Here("HERE WeGo Public Transit", {
-        type: "normal.day.transit",
-        app_id: "g7UuRR708Tsut4YSnDLy",
-        token: "fVzaDAdRK62zo3CuNcPtDg"
-    }));
-    map.addLayer(new OpenLayers.Layer.Here("HERE WeGo Traffic", {
-        type: "newest/normal.day",
-        app_id: "g7UuRR708Tsut4YSnDLy",
-        token: "fVzaDAdRK62zo3CuNcPtDg"
-    }));
-
-    map.addLayer(new OpenLayers.Layer.OSM("Apple iPhoto (OSM)", ["http://gsp2.apple.com/tile?api=1&style=slideshow&layers=default&lang=de_DE&z=${z}&x=${x}&y=${y}&v=9"], {
-        tileOptions: {
-            crossOriginKeyword: null
-        },
-        numZoomLevels: 15
-    }));
-
-    map.addLayer(new OpenLayers.Layer.Google("Google Physical", {
-        type: google.maps.MapTypeId.TERRAIN,
-        'sphericalMercator': true,
-        attribution: ', <a href="https://maps.google.com/">Google</a>',
-        numZoomLevels: 16
-    }));
-
-    map.addLayer(new OpenLayers.Layer.Google("Google Roadmap", {
-        type: google.maps.MapTypeId.ROADMAP,
-        'sphericalMercator': true,
-        attribution: ', <a href="https://maps.google.com/">Google</a>',
-        numZoomLevels: 19
-    }));
-
-    map.addLayer(new OpenLayers.Layer.Google("Google Satellite", {
-        type: google.maps.MapTypeId.SATELLITE,
-        'sphericalMercator': true,
-        attribution: ', <a href="https://maps.google.com/">Google</a>',
-        numZoomLevels: 19
-    }));
-
-    map.addLayer(new OpenLayers.Layer.Google("Google Hybrid", {
-        type: google.maps.MapTypeId.HYBRID,
-        'sphericalMercator': true,
-        attribution: ', <a href="https://maps.google.com/">Google</a>',
-        numZoomLevels: 19
-    }));
-
-    map.addLayer(new OpenLayers.Layer.WMS("Soviet Military Topo", "http://www.topomapper.com/cgi-bin/tilecache-2.11b/tilecache.py", {
-        layers: "topomapper_gmerc",
-        format: 'image/jpeg'
-    }, {
-        'buffer': 1,
-        srs: 'EPSG:900913',
-        'numZoomLevels': 14,
-        wrapDateLine: true,
-        transparent: false,
-        'attribution': 'Map data hosted by <a href="http://www.atlogis.com/">Atlogis</a>'
-    }));
-    // topomapper.setTileSize(new OpenLayers.Size(256, 256));
-    // map.addLayer(topomapper);
 
     function bing() {
         var apiKey = "AjkRC9uldL9KVU3pa6N59e7fjpNdCzKTtMqFhdafSEQlcNGPLVEm3b3mukoZCLWr";
@@ -380,20 +281,6 @@ function init() {
         noOpaq: true
     }));
 
-/*
-    map.addLayer(new OpenLayers.Layer.TMS("BBBike Fahrbahnqu. (solid)", "https://d.tile.bbbike.org/osm/bbbike-smoothness-solid/", {
-        type: 'png',
-        getURL: osm_getTileURL,
-        displayOutsideMaxExtent: true,
-        attribution: '<a href="http://bbbike.de/">BBBike</a>',
-        opacity: 1,
-        isBaseLayer: false,
-        visibility: false,
-        numZoomLevels: 19,
-        noOpaq: true
-    }));
-    */
-
     map.addLayer(new OpenLayers.Layer.TMS("BBBike handicap", "https://d.tile.bbbike.org/osm/bbbike-handicap/", {
         type: 'png',
         getURL: osm_getTileURL,
@@ -464,36 +351,6 @@ function init() {
         visibility: false,
         numZoomLevels: 19,
         noOpaq: true
-    }));
-
-    map.addLayer(new OpenLayers.Layer.XYZ("Max Speed", "http://wince.dentro.info/koord/osm/tiles/${z}/${x}/${y}.png", {
-        attribution: '<a href="http://wince.dentro.info/koord/osm/KosmosMap.htm">MaxSpeedMap</a>',
-        opacity: 1,
-        isBaseLayer: false,
-        visibility: false,
-        numZoomLevels: 15,
-        noOpaq: true
-    }));
-
-    map.addLayer(new OpenLayers.Layer.OSM("OSM Public Transport Lines", "http://www.openptmap.org/tiles/${z}/${x}/${y}.png", {
-        tileOptions: {
-            crossOriginKeyword: null
-        },
-        maxZoomLevel: 17,
-        numZoomLevels: 18,
-        alpha: true,
-        isBaseLayer: false,
-        visibility: false
-    }));
-
-    map.addLayer(new OpenLayers.Layer.TMS("Yandex Hybrid", "", {
-        maxExtent: YaBounds,
-        href: "http://vec01.maps.yandex.net/tiles?l=skl",
-        getURL: yandex_getTileURL,
-        numZoomLevels: 14,
-        isBaseLayer: false,
-        visibility: false,
-        attribution: '<a href="http://beta-maps.yandex.ru/">Яндекс.Карты</a>'
     }));
 
     map.addLayer(new OpenLayers.Layer.TMS("Land Shading", "http://tiles2.openpistemap.org/landshaded/", {
