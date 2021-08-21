@@ -30,7 +30,6 @@ RUN make -C./world/tile openstreetmap-postgis && \
 RUN make create-bbbike-web-symlinks
 RUN make -C./world/tile mapnik-restart bbbike-mapnik
 RUN sudo apt-get clean
-RUN make -C./world/tile carto-distclean
 
 EXPOSE 80
 
