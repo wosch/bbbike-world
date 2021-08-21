@@ -1,49 +1,30 @@
 <html>
 <head>
-    <title>BBBike Tile Server</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link type="image/ico" rel="shortcut icon" href="favicon.ico" />
+    <title>OSM Local Tiles</title>
     <link rel="stylesheet" href="style.css" type="text/css" />
-    
     <!-- bring in the OpenLayers javascript library
          (here we bring it from the remote site, but you could
          easily serve up this javascript yourself) -->
 
-    <!-- <script type="text/javascript" src="https://www.google.com/jsapi?hl=de"></script> -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.9&sensor=false&language=en&libraries=weather"></script>
-
-    <!-- <script src="https://openlayers.org/api/OpenLayers.js"></script> -->
-    <script src="OpenLayers/2.12/OpenLayers-min.js"></script>
+    <!-- <script src="http://openlayers.org/api/OpenLayers.js"></script> -->
+    <script src="https://www.bbbike.org/html/OpenLayers/2.12/OpenLayers-min.js"></script>
  
     <!-- bring in the OpenStreetMap OpenLayers layers.
          Using this hosted file will make sure we are kept up
          to date with any necessary changes -->
     <!-- <script src="https://www.openstreetmap.org/openlayers/OpenStreetMap.js"></script> -->
-    <script src="OpenLayers/2.12/OpenStreetMap.js"></script>
-    <script src="OpenLayers/2.12/Here.js"></script>
-   
-   <!-- /osm javascript lib --> 
-    <script src="slippymap.js"></script>
-    
-    <style type="text/css">
-    /* list of maps gets to large */    
-    .baseLayersDiv {
-        max-height: 30em;
-        margin-right: 1em;
-        overflow: auto;
-    }
-    .dataLayersDiv {
-        max-height: 20em;
-        margin-right: 1em;
-        overflow: auto;
-        background-color: blue;
-    }
-</style>
+    <script src="//www.bbbike.org/html/OpenLayers/2.12/OpenStreetMap.js"></script>
+
+    <script src="slippymap-dev.js"></script>
+
 </head>
  
 <!-- body.onload is called once the page is loaded (call the 'init' function) -->
 <body onload="init();">
+ 
     <!-- define a DIV into which the map will appear. Make it take up the whole window -->
     <div style="width:100%; height:100%" id="map"></div>
+ 
 </body>
+ 
 </html>
