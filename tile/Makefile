@@ -12,7 +12,7 @@ APACHE2_VERSION=	2.4.7-1ubuntu4.22
 APACHE2_MODULES=	apache2=${APACHE2_VERSION} apache2-bin=${APACHE2_VERSION} apache2-data=${APACHE2_VERSION} apache2-mpm-event=${APACHE2_VERSION} 
 
 
-DEBIAN_MODULES_SYTEM= 	unzip bzip2 make subversion tidy gcc git munin-node time 
+DEBIAN_MODULES_SYTEM= 	unzip bzip2 make subversion tidy gcc git munin-node time sudo gnupg
 
 #LEGACY_MODULES= 	libmapnik2.2 libgdal1h libgeos-c1 gdal-bin=1.10.1+dfsg-5ubuntu1 python-mapnik=2.2.0+ds1-6build2 postgis=2.1.2+dfsg-2ubuntu0.1
 
