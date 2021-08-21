@@ -19,7 +19,7 @@ DEBIAN_MODULES_SYTEM= 	unzip bzip2 make subversion tidy gcc git munin-node time
 DEBIAN_MODULES= 	libimager-perl imagemagick libinline-perl libhtml-tagcloud-perl \
         		libtie-ixhash-perl libhtml-parser-perl libwww-perl
 
-TILE_MODULES= 	postgresql-${POSTGRES_VERSION}  postgresql-client-${POSTGRES_VERSION} postgresql-contrib-${POSTGRES_VERSION} osm2pgsql \
+TILE_MODULES= 	postgresql-${POSTGRES_VERSION}  postgresql-client-${POSTGRES_VERSION} postgresql-contrib-${POSTGRES_VERSION} osm2pgsql=0.88.1-1 \
 		python-mapnik=2.2.0+ds1-6build2 postgresql-9.3-postgis-2.1=2.1.2+dfsg-2ubuntu0.2
 
 TILE_MODULES_OSM= renderd libapache2-mod-tile=0.4-27~trusty1 openstreetmap-postgis-db-setup
