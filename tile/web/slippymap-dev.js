@@ -31,6 +31,14 @@ function init() {
         numZoomLevels: 18
     }));
 
+    map.addLayer(new OpenLayers.Layer.OSM("BBBike.org bbbike", "https://d.tile.bbbike.org/osm/bbbike/${z}/${x}/${y}.png", {
+        tileOptions: {
+            crossOriginKeyword: null
+        },
+        numZoomLevels: 19,
+        attribution: '<a href="https://bbbike.org/">BBBike.org</a>'
+    }));
+
 
     var switcherControl = new OpenLayers.Control.LayerSwitcher();
     map.addControl(switcherControl);
