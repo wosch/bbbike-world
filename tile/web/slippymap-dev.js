@@ -21,6 +21,14 @@ function init() {
         displayProjection: new OpenLayers.Projection("EPSG:4326")
     });
 
+    map.addLayer(new OpenLayers.Layer.OSM("BBBike.org bbbike", "https://d.tile.bbbike.org/osm/bbbike/${z}/${x}/${y}.png", {
+        tileOptions: {
+            crossOriginKeyword: null
+        },
+        numZoomLevels: 19,
+        attribution: '<a href="https://bbbike.org/">BBBike.org</a>'
+    }));
+
     var layerMapnik = new OpenLayers.Layer.OSM.Mapnik("OSM Mapnik");
     map.addLayer(layerMapnik);
 
@@ -30,15 +38,6 @@ function init() {
     map.addLayer(new OpenLayers.Layer.OSM("OSM Toner", ["http://a.tile.stamen.com/toner/${z}/${x}/${y}.png", "http://b.tile.stamen.com/toner/${z}/${x}/${y}.png"], {
         numZoomLevels: 18
     }));
-
-    map.addLayer(new OpenLayers.Layer.OSM("BBBike.org bbbike", "https://d.tile.bbbike.org/osm/bbbike/${z}/${x}/${y}.png", {
-        tileOptions: {
-            crossOriginKeyword: null
-        },
-        numZoomLevels: 19,
-        attribution: '<a href="https://bbbike.org/">BBBike.org</a>'
-    }));
-
 
     var switcherControl = new OpenLayers.Control.LayerSwitcher();
     map.addControl(switcherControl);
