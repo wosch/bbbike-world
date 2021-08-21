@@ -47,6 +47,9 @@ osm-repo:
 	   sudo cp ${PROJECT_DIR}/bbbike/world/etc/apt/ubuntu/trusty/sources.list.d/openstreetmap.list /etc/apt/sources.list.d/openstreetmap.list ;\
 	   sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys AE74800FB745A04C; \
 	fi
+	if [ ! -e /etc/apt/sources.list.d/tile-legacy.list ]; then \
+	   sudo cp ${PROJECT_DIR}/bbbike/world/etc/apt/ubuntu/trusty-legacy/sources.list.d/tile-legacy.list /etc/apt/sources.list.d/tile-legacy.list ;\
+	fi
 	sudo apt-get -qq update
 
 nodejs-repo:
@@ -75,11 +78,7 @@ git-checkout:
 	cd ${PROJECT_DIR}; if [ ! -e mapnik-bbbike ]; then git clone --depth=1 https://github.com/eserte/mapnik-bbbike; fi
 	cd ${PROJECT_DIR}; \
 	  if [ ! -e bbbike-eserte ]; then \
-	    git clone --depth=1 bbbike bbbike-eserte; \
-	    cd bbbike-eserte; \
-	    git remote add eserte git://github.com/eserte/bbbike.git; \
-	    git fetch eserte; \
-	    git checkout -b eserte_master eserte/master; \
+	    git clone --depth=1 git://github.com/eserte/bbbike.git bbbike-eserte; \
 	  fi
 
 etc-symlinks:
