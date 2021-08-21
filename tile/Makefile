@@ -7,21 +7,22 @@
 #
 
 # need older versions for libapache2-mod-tile 
-POSTGRES_VERSION=9.3
-APACHE2_VERSION=2.4.7-1ubuntu4
-APACHE2_MODULES=	apache2
+POSTGRES_VERSION=	9.3
+APACHE2_VERSION=	2.4.7-1ubuntu4.22
+APACHE2_MODULES=	apache2=${APACHE2_VERSION}
 
 
-DEBIAN_MODULES_SYTEM= 	unzip bzip2 make subversion tidy gcc git munin-node time subversion
+DEBIAN_MODULES_SYTEM= 	unzip bzip2 make subversion tidy gcc git munin-node time 
 
 #LEGACY_MODULES= 	libmapnik2.2 libgdal1h libgeos-c1 gdal-bin=1.10.1+dfsg-5ubuntu1 python-mapnik=2.2.0+ds1-6build2 postgis=2.1.2+dfsg-2ubuntu0.1
 
 DEBIAN_MODULES= 	libimager-perl imagemagick libinline-perl libhtml-tagcloud-perl \
         		libtie-ixhash-perl libhtml-parser-perl libwww-perl
 
-TILE_MODULES= postgresql-${POSTGRES_VERSION}  postgresql-client-${POSTGRES_VERSION} postgresql-contrib-${POSTGRES_VERSION} osm2pgsql \
-		python-mapnik postgis
-TILE_MODULES_OSM= renderd libapache2-mod-tile openstreetmap-postgis-db-setup
+TILE_MODULES= 	postgresql-${POSTGRES_VERSION}  postgresql-client-${POSTGRES_VERSION} postgresql-contrib-${POSTGRES_VERSION} osm2pgsql \
+		python-mapnik=2.2.0+ds1-6build2 postgis=2.1.2+dfsg-2ubuntu0.2
+
+TILE_MODULES_OSM= renderd libapache2-mod-tile=0.4-27~trusty1 openstreetmap-postgis-db-setup
 
 
 PROJECT_DIR=	$$HOME/projects
@@ -32,7 +33,9 @@ all: help
 install-packages-system: perl
 	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES_SYTEM} ${APACHE2_MODULES}	
 install-packages: 
-	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES} ${TILE_MODULES} ${TILE_MODULES_OSM}
+	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES} 
+	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES}
+	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES_OSM}
 
 perl:
 	if [ ! -e /usr/local/bin/perl ]; then \
