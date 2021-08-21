@@ -21,7 +21,7 @@ DEBIAN_MODULES= 	libimager-perl imagemagick libinline-perl libhtml-tagcloud-perl
 
 TILE_MODULES= postgresql-${POSTGRES_VERSION}  postgresql-client-${POSTGRES_VERSION} postgresql-contrib-${POSTGRES_VERSION} osm2pgsql \
 		python-mapnik postgis
-TILE_MODULES_OSM= openstreetmap-mapnik-carto-stylesheet-data renderd libapache2-mod-tile openstreetmap-postgis-db-setup
+TILE_MODULES_OSM= renderd libapache2-mod-tile openstreetmap-postgis-db-setup
 
 
 PROJECT_DIR=	$$HOME/projects
@@ -82,12 +82,9 @@ git-checkout:
 svn-checkout:
 	mkdir -p ${PROJECT_DIR}
 	cd ${PROJECT_DIR}; if [ ! -e mapnik ]; then             git clone --depth=1 https://github.com/mapnik/mapnik; fi
-	cd ${PROJECT_DIR}; if [ ! -e mapnik-german-l10n ]; then git clone --depth=1 https://github.com/giggls/mapnik-german-l10n; fi
-	cd ${PROJECT_DIR}; ln -fs mapnik-german-l10n mapnik-german
 
 etc-symlinks:
 	cd /etc; \
-	sudo ln -sf ${PROJECT_DIR}/mapnik-german . ;\
 	sudo ln -sf ~/projects/mapnik-bbbike . ;\
 	sudo ln -fs ~/projects/bbbike/world/tile/etc/renderd22.conf .;\
 	sudo ln -fs renderd22.conf renderd.conf
@@ -110,19 +107,6 @@ mapnik-symlinks:
 	cd ~/projects/mapnik-bbbike; \
 	  make -C./tools setup-mapnik-on-mosor
 
-mapnik-german:
-	cd /etc/mapnik-german; \
-	  ln -sf /usr/share/mapnik-osm-carto-data/world_boundaries .
-	cd /etc/mapnik-german/inc-de; \
-	  cp datasource-settings.xml.inc.template datasource-settings.xml.inc; \
-	  perl -i.bak -npe 's,%\(password\)s,gis,; s,.*"(host|port|extent)".*,,; s,%\(user\)s,www-data,; s,%\(dbname\)s,gis,; s,%\(estimate_extent\)s,true,;' datasource-settings.xml.inc
-	cd /etc/mapnik-german/inc-de; cp fontset-settings.xml.inc.template fontset-settings.xml.inc   
-	cd /etc/mapnik-german/inc-de; \
-          cp settings.xml.inc.template settings.xml.inc; \
-	  perl -i.bak -npe 's,%\(epsg\)s,900913;,; s,%\(world_boundaries\)s,world_boundaries,; s,%\(prefix\)s,planet_osm,; ' settings.xml.inc
-	cd /etc/mapnik-german/; if [ ! -e osm-de2.xml ]; then ln -fs ${PROJECT_DIR}/bbbike/world/tile/etc/osm-de2.xml .; fi 
-
-	  
 www-symlinks:
 	cd /var/www; \
 	  sudo ln -fs ~/projects/mc/www mc; \
@@ -136,9 +120,10 @@ www-symlinks:
 	  sudo ln -fs ~/projects/bbbike/world/tile/web/slippymap.js; \
 	  sudo ln -fs ~/projects/bbbike/world/tile/web/slippymap-dev.js; \
 	  sudo ln -fs ~/projects/bbbike/world/tile/web/slippymap-dev.html; \
+	  sudo ln -fs ~/projects/bbbike/world/tile/web/slippymap.html; \
 	  sudo ln -fs ~/projects/bbbike/world/tile/web/slippymap.html index.html
 
-symlinks: etc-symlinks etc-init-symlinks apache-symlinks mapnik-symlinks www-symlinks mapnik-german
+symlinks: etc-symlinks etc-init-symlinks apache-symlinks mapnik-symlinks www-symlinks 
 	
 bbbike-mapnik:
 	cd ${PROJECT_DIR}/bbbike; \
