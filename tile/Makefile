@@ -9,7 +9,7 @@
 # need older versions for libapache2-mod-tile 
 POSTGRES_VERSION=	9.3
 APACHE2_VERSION=	2.4.7-1ubuntu4.22
-APACHE2_MODULES=	apache2=${APACHE2_VERSION}
+APACHE2_MODULES=	apache2=${APACHE2_VERSION} apache2-bin=${APACHE2_VERSION} apache2-data=${APACHE2_VERSION}
 
 
 DEBIAN_MODULES_SYTEM= 	unzip bzip2 make subversion tidy gcc git munin-node time 
