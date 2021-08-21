@@ -64,7 +64,7 @@ openstreetmap-postgis: postgis-utf8
 	sudo apt-get purge -y openstreetmap-postgis-db-setup </dev/null
 	sudo apt-get install -y openstreetmap-postgis-db-setup </dev/null
 
-repo-checkout: git-checkout svn-checkout
+repo-checkout: git-checkout
 	
 git-checkout:
 	mkdir -p ${PROJECT_DIR}
@@ -78,10 +78,6 @@ git-checkout:
 	    git fetch eserte; \
 	    git checkout -b eserte_master eserte/master; \
 	  fi
-
-svn-checkout:
-	mkdir -p ${PROJECT_DIR}
-	cd ${PROJECT_DIR}; if [ ! -e mapnik ]; then             git clone --depth=1 https://github.com/mapnik/mapnik; fi
 
 etc-symlinks:
 	cd /etc; \
@@ -155,7 +151,7 @@ manual:
 install-all: osm-repo nodejs-repo install-packages-system repo-checkout install-packages symlinks munin manual
 
 distclean: clean
-	sudo rm -f /etc/mapnik-bbbike /etc/mapnik-german /etc/mapnik-osm-carto-data
+	sudo rm -f /etc/mapnik-bbbike
 	sudo rm -f /etc/renderd22.conf /etc/renderd.conf
 
 clean:
@@ -167,13 +163,8 @@ apt-distclean apt-purge:
 	make apt-distclean-carto
 
 apt-distclean-carto:
-	sudo rm -rf /etc/mapnik-osm-carto-data /usr/share/mapnik-osm-carto-data 
 	# strange bug in dpkg, which follows symlinks on delete
 	if ! test -e etc/renderd22.conf; then git checkout etc/renderd22.conf; fi
-
-carto-distclean:
-	sudo rm -f /usr/share/mapnik-osm-carto-data/*.zip
-	sudo rm -f /usr/share/mapnik-osm-carto-data/*.tgz
 
 help:
 	@echo ""
