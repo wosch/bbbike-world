@@ -1,0 +1,38 @@
+FROM ubuntu:bionic
+MAINTAINER Wolfram Schneider <wosch@FreeBSD.org>
+
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get update -q && apt-get upgrade -y 
+RUN apt-get install -y git make curl apt-transport-https sudo
+
+RUN mkdir -p /bbbike/projects
+WORKDIR /bbbike/projects
+ENV HOME /bbbike
+RUN useradd -ms /bin/bash tile && \
+  echo 'tile   ALL=NOPASSWD: ALL' >> /etc/sudoers
+RUN chown -R tile:tile /bbbike/projects
+USER tile
+
+#ADD . bbbike
+RUN git clone --depth=1 https://github.com/wosch/bbbike.git && \
+  cd bbbike && git clone --depth=1 https://github.com/wosch/bbbike-world.git world && \
+  make -f world/Makefile.osm create-makefile-symlinks
+
+WORKDIR /bbbike/projects/bbbike
+
+RUN mkdir -p ../mc && \
+ make -C./world/tile install-all
+
+RUN make -C./world/tile openstreetmap-postgis && \
+ sudo /usr/bin/install-postgis-osm-user.sh gis "www-data $(whoami) tile"
+
+RUN make create-bbbike-web-symlinks
+RUN make -C./world/tile mapnik-restart bbbike-mapnik
+RUN sudo apt-get clean
+
+EXPOSE 80
+
+CMD ["/bin/sh", "-c", "sudo /etc/init.d/rsyslog start && make mapnik-restart && bash"]
+
+# see ./README
