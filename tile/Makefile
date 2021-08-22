@@ -8,7 +8,7 @@
 
 # need older versions for libapache2-mod-tile 
 POSTGRES_VERSION=	9.3
-POSTGRES_VERSION_UBUNTU=9.3=9.3.24-0ubuntu0.14.04
+POSTGRES_VERSION_UBUNTU=9.3.24-0ubuntu0.14.04
 POSTGIS_VERSION=	2.1.2+dfsg-2ubuntu0.2
 APACHE2_VERSION=	2.4.7-1ubuntu4.22
 APACHE2_MODULES=	apache2=${APACHE2_VERSION} apache2-bin=${APACHE2_VERSION} apache2-data=${APACHE2_VERSION} apache2-mpm-event=${APACHE2_VERSION} 
