@@ -1405,7 +1405,7 @@ deb-repo: deb-repo-dir
 	done
 
 # XXX: update legacy repo
-# cp /usr/local/www/debian.bbbike.org/src/legacy/ubuntu/trusty/*deb tmp/deb/ubuntu/trusty-legacy
+# cp /usr/local/www/debian.bbbike.org/src/legacy/ubuntu/trusty/*deb ./tmp/deb/ubuntu/trusty-legacy
 # make DEB_RELEASE=trusty-legacy deb-repo-upload
 
 deb-repo-upload:
