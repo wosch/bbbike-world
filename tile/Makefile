@@ -46,8 +46,7 @@ install-packages-system: perl
 	sudo apt-get install -y ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES_SYTEM} ${APACHE2_MODULES}	
 install-packages: 
 	sudo apt-get install -y ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES} ${LEGACY_MODULES} 
-	sudo apt-get install -y ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES}
-	sudo apt-get install -y ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES_OSM} ${LEGACY_MODULES}
+	sudo apt-get install -y --force-yes ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES} ${TILE_MODULES_OSM}
 
 perl:
 	if [ ! -e /usr/local/bin/perl ]; then \
