@@ -102,7 +102,7 @@ etc-init-symlinks:
 	cd /etc/init.d/; sudo ln -fs ~/projects/bbbike/world/tile/etc/renderd-slowstart .;
 	sudo update-rc.d renderd-slowstart  defaults 30
 	-sudo update-rc.d renderd disable
-	-sudo update-rc.d renderd lighttpd
+	-sudo update-rc.d lighttpd disable
 	-sudo /etc/init.d/lighttpd stop
 
 apache-symlinks:
