@@ -7,7 +7,8 @@
 #
 
 # need older versions for libapache2-mod-tile 
-POSTGRES_VERSION=	9.3=9.3.24-0ubuntu0.14.04
+POSTGRES_VERSION=	9.3
+POSTGRES_VERSION_UBUNTU=9.3=9.3.24-0ubuntu0.14.04
 POSTGIS_VERSION=	2.1.2+dfsg-2ubuntu0.2
 APACHE2_VERSION=	2.4.7-1ubuntu4.22
 APACHE2_MODULES=	apache2=${APACHE2_VERSION} apache2-bin=${APACHE2_VERSION} apache2-data=${APACHE2_VERSION} apache2-mpm-event=${APACHE2_VERSION} 
@@ -18,9 +19,9 @@ DEBIAN_MODULES_SYTEM= 	unzip bzip2 make subversion tidy gcc git munin-node time
 DEBIAN_MODULES= 	libimager-perl imagemagick libinline-perl libhtml-tagcloud-perl \
         		libtie-ixhash-perl libhtml-parser-perl libwww-perl
 
-TILE_MODULES= 	postgresql-${POSTGRES_VERSION}  postgresql-client-${POSTGRES_VERSION} postgresql-contrib-${POSTGRES_VERSION} \
-		postgresql-9.3-postgis-2.1=${POSTGIS_VERSION} \
-		python-mapnik=2.2.0+ds1-6build2 postgis=${POSTGIS_VERSION} libmapnik2.2=2.2.0+ds1-6build2 \
+TILE_MODULES= 	postgresql-${POSTGRES_VERSION_UBUNTU}  postgresql-client-${POSTGRES_VERSION_UBUNTU} postgresql-contrib-${POSTGRES_VERSION_UBUNTU} \
+		postgresql-9.3-postgis-2.1=${POSTGRES_VERSION_UBUNTU} \
+		python-mapnik=2.2.0+ds1-6build2 postgis=${POSTGRES_VERSION_UBUNTU} libmapnik2.2=2.2.0+ds1-6build2 \
 
 # for whatever reasons ubuntu needs these explicitly installed
 LEGACY_MODULES= 	libgdal1h libgeos-c1 libspatialite5	
