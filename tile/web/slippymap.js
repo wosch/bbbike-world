@@ -29,13 +29,13 @@ function init() {
         attribution: '<a href="https://bbbike.org/">BBBike.org</a>'
     }));
 
-    map.addLayer(new OpenLayers.Layer.TMS("BBBike map", "/osm/bbbike/", {
+    map.addLayer(new OpenLayers.Layer.TMS("BBBike map (local)", "/osm/bbbike/", {
         type: 'png',
         getURL: osm_getTileURL,
         displayOutsideMaxExtent: true,
         attribution: '<a href="http://bbbike.de/">BBBike</a>',
         opacity: 1,
-        isBaseLayer: false,
+        isBaseLayer: true,
         visibility: false,
         numZoomLevels: 19,
         noOpaq: true
