@@ -159,11 +159,8 @@ apt-distclean apt-purge:
 	sudo apt-get purge -y ${DEBIAN_INSTALL_FLAGS} ${APACHE2_MODULES} ${LEGACY_MODULES} ${DEBIAN_MODULES} ${TILE_MODULES} ${TILE_MODULES_OSM}
 	sudo apt-get purge -y libpq5* apache2* postgis* postgresql* 
 	sudo apt-get autoremove -y
-	make apt-distclean-carto
-
-apt-distclean-carto:
-	# strange bug in dpkg, which follows symlinks on delete
-	if ! test -e etc/renderd22.conf; then git checkout etc/renderd22.conf; fi
+	sudo rm -f /etc/apt/sources.list.d/tile-legacy.list
+	sudo apt-get -qq update
 
 help:
 	@echo ""
