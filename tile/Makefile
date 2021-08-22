@@ -162,11 +162,9 @@ manual:
 
 install-all: osm-repo nodejs-repo install-packages-system repo-checkout install-packages symlinks munin bbbike-mapnik mapnik-restart
 
-distclean: clean
+distclean:
 	sudo rm -f /etc/mapnik-bbbike
 	sudo rm -f /etc/renderd22.conf /etc/renderd.conf
-
-clean:
 
 apt-distclean apt-purge: 
 	sudo rm -rf /usr/share/osm2pgsq
@@ -180,11 +178,12 @@ help:
 	@echo ""
 	@echo "usage: make [ targets ... ]"
 	@echo ""
-	@echo "  [ install-all ]"
-	@echo "  [ osm-repo | nodejs-repo ]"
-	@echo "  [ install-packages | symlinks | bbbike-mapnik ]"
-	@echo "  [ openstreetmap-postgis | mapnik-restart ]"
-	@echo "  [ clean | distclean | apt-distclean ]"
+	@echo "make install-all"
+	@echo "make distclean apt-distclean"
+	@echo "make bbbike-mapnik mapnik-restart"
+	@echo ""
+	@echo "  [ osm-repo | nodejs-repo | install-packages | symlinks ]"
+	@echo "  [ openstreetmap-postgis ]"
 	@echo ""
 	@echo "see also ./world/tile/README.tile"
 
