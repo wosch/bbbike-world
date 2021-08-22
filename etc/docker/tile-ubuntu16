@@ -21,6 +21,7 @@ RUN git clone --depth=1 https://github.com/wosch/bbbike.git
 WORKDIR /bbbike/projects/bbbike
 RUN git clone --depth=1 https://github.com/wosch/bbbike-world.git world
 RUN make -f world/Makefile.osm create-makefile-symlinks
+RUN ./world/bin/bbbike-deb-repository-setup.sh
 
 # install tile software
 RUN make -C./world/tile install-stage1
