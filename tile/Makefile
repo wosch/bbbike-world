@@ -14,7 +14,8 @@ APACHE2_VERSION=	2.4.7-1ubuntu4.22
 APACHE2_MODULES=	apache2=${APACHE2_VERSION} apache2-bin=${APACHE2_VERSION} apache2-data=${APACHE2_VERSION} apache2-mpm-event=${APACHE2_VERSION} 
 
 
-DEBIAN_MODULES_SYTEM= 	unzip bzip2 make subversion tidy gcc git munin-node time
+
+DEBIAN_MODULES_SYTEM= 	unzip bzip2 make tidy gcc git munin-node time
 
 DEBIAN_MODULES= 	libimager-perl imagemagick libinline-perl libhtml-tagcloud-perl \
         		libtie-ixhash-perl libhtml-parser-perl libwww-perl
@@ -38,16 +39,17 @@ TILE_MODULES_OSM= renderd libapache2-mod-tile=0.4-27~trusty1 osm2pgsql=0.88.1-1
 
 
 PROJECT_DIR=	$$HOME/projects
-DEBIAN_INSTALL_FLAGS=	-y -qq --allow-downgrades # -y -d
+APT_INSTALL=	sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y -q
 
 all: help
 
 install-packages-system: perl
-	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES_SYTEM} ${APACHE2_MODULES}	
+	${APT_INSTALL} ${DEBIAN_MODULES_SYTEM} ${APACHE2_MODULES}	
+
 install-packages: 
-	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES} ${LEGACY_MODULES} 
-	sudo env DEBIAN_FRONTEND=noninteractive apt-get install ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES} ${TILE_MODULES_OSM}
-	sudo env DEBIAN_FRONTEND=noninteractive apt-get install ${DEBIAN_INSTALL_FLAGS} openstreetmap-postgis-db-setup
+	${APT_INSTALL} ${DEBIAN_MODULES} ${LEGACY_MODULES} 
+	${APT_INSTALL} ${TILE_MODULES} ${TILE_MODULES_OSM}
+	${APT_INSTALL} openstreetmap-postgis-db-setup
 
 perl:
 	if [ ! -e /usr/local/bin/perl ]; then \
@@ -79,7 +81,7 @@ postgis-utf8:
 
 openstreetmap-postgis: postgis-utf8
 	sudo apt-get purge -y openstreetmap-postgis-db-setup </dev/null
-	sudo env DEBIAN_FRONTEND=noninteractive apt-get install ${DEBIAN_INSTALL_FLAGS} openstreetmap-postgis-db-setup
+	${APT_INSTALL} openstreetmap-postgis-db-setup
 
 repo-checkout: git-checkout
 	
@@ -146,7 +148,7 @@ mapnik-restart:
 	make -C ${PROJECT_DIR}/bbbike $@
 
 munin:
-	sudo apt-get install -y libdbd-pg-perl
+	${APT_INSTALL} libdbd-pg-perl
 	cd /etc/munin/plugins/; \
 	  sudo ln -fs /usr/share/munin/plugins/postgres_* .; \
 	  for i in postgres_*_;do echo $$i;sudo mv $$i $${i}ALL;done
