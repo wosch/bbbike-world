@@ -46,7 +46,7 @@ install-packages-system: perl
 	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES_SYTEM} ${APACHE2_MODULES}	
 install-packages: 
 	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES} ${LEGACY_MODULES} 
-	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES} ${TILE_MODULES_OSM}
+	sudo env DEBIAN_FRONTEND=noninteractive apt-get install ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES} ${TILE_MODULES_OSM}
 	sudo env DEBIAN_FRONTEND=noninteractive apt-get install ${DEBIAN_INSTALL_FLAGS} openstreetmap-postgis-db-setup
 
 perl:
