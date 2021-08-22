@@ -21,12 +21,24 @@ function init() {
         displayProjection: new OpenLayers.Projection("EPSG:4326")
     });
 
-    map.addLayer(new OpenLayers.Layer.OSM("BBBike.org bbbike", "https://d.tile.bbbike.org/osm/bbbike/${z}/${x}/${y}.png", {
+    map.addLayer(new OpenLayers.Layer.OSM("BBBike.org bbbike (prod)", "https://d.tile.bbbike.org/osm/bbbike/${z}/${x}/${y}.png", {
         tileOptions: {
             crossOriginKeyword: null
         },
         numZoomLevels: 19,
         attribution: '<a href="https://bbbike.org/">BBBike.org</a>'
+    }));
+
+    map.addLayer(new OpenLayers.Layer.TMS("BBBike map", "/osm/bbbike/", {
+        type: 'png',
+        getURL: osm_getTileURL,
+        displayOutsideMaxExtent: true,
+        attribution: '<a href="http://bbbike.de/">BBBike</a>',
+        opacity: 1,
+        isBaseLayer: false,
+        visibility: false,
+        numZoomLevels: 19,
+        noOpaq: true
     }));
 
     var layerMapnik = new OpenLayers.Layer.OSM.Mapnik("OSM Mapnik");
