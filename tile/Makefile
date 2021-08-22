@@ -24,7 +24,7 @@ TILE_MODULES= 	postgresql-${POSTGRES_VERSION_UBUNTU}  postgresql-client-${POSTGR
 		python-mapnik=2.2.0+ds1-6build2 postgis=${POSTGIS_VERSION} libmapnik2.2=2.2.0+ds1-6build2 \
 
 # for whatever reasons ubuntu needs these explicitly installed
-LEGACY_MODULES= 	libgdal1i libgeos-c1 libspatialite5	
+LEGACY_MODULES= 	libgdal1i libgeos-c1v5 libspatialite5	
 
 
 # self hostet deb modules
