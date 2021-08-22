@@ -43,11 +43,11 @@ DEBIAN_INSTALL_FLAGS=	-y  --allow-downgrades # -y -d
 all: help
 
 install-packages-system: perl
-	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES_SYTEM} ${APACHE2_MODULES}	
+	sudo apt-get install -y ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES_SYTEM} ${APACHE2_MODULES}	
 install-packages: 
-	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES} ${LEGACY_MODULES} 
-	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES}
-	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES_OSM} ${LEGACY_MODULES}
+	sudo apt-get install -y ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES} ${LEGACY_MODULES} 
+	sudo apt-get install -y ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES}
+	sudo apt-get install -y ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES_OSM} ${LEGACY_MODULES}
 
 perl:
 	if [ ! -e /usr/local/bin/perl ]; then \
