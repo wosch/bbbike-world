@@ -18,12 +18,11 @@ USER tile
 # git checkout
 RUN mkdir mc
 RUN git clone --depth=1 https://github.com/wosch/bbbike.git
-RUN cd bbbike && git clone --depth=1 https://github.com/wosch/bbbike-world.git world
-RUN make -f bbbike/world/Makefile.osm create-makefile-symlinks
+WORKDIR /bbbike/projects/bbbike
+RUN git clone --depth=1 https://github.com/wosch/bbbike-world.git world
+RUN make -f world/Makefile.osm create-makefile-symlinks
 
 # install tile software
-WORKDIR /bbbike/projects/bbbike
-RUN make git-pull
 RUN make -C./world/tile install-stage1
 RUN make -C./world/tile install-stage2
 
