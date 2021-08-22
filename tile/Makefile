@@ -8,7 +8,7 @@
 
 # need older versions for libapache2-mod-tile 
 POSTGRES_VERSION=	9.3
-POSTGRES_VERSION_UBUNTU=9.3=9.3.24-0ubuntu0.14.04
+POSTGRES_VERSION_UBUNTU=9.3.24-0ubuntu0.14.04
 POSTGIS_VERSION=	2.1.2+dfsg-2ubuntu0.2
 APACHE2_VERSION=	2.4.7-1ubuntu4.22
 APACHE2_MODULES=	apache2=${APACHE2_VERSION} apache2-bin=${APACHE2_VERSION} apache2-data=${APACHE2_VERSION} apache2-mpm-event=${APACHE2_VERSION} 
@@ -19,11 +19,17 @@ DEBIAN_MODULES_SYTEM= 	unzip bzip2 make subversion tidy gcc git munin-node time
 DEBIAN_MODULES= 	libimager-perl imagemagick libinline-perl libhtml-tagcloud-perl \
         		libtie-ixhash-perl libhtml-parser-perl libwww-perl
 
-TILE_MODULES= 	postgresql-${POSTGRES_VERSION_UBUNTU}  postgresql-client-${POSTGRES_VERSION_UBUNTU} postgresql-contrib-${POSTGRES_VERSION_UBUNTU} \
-		postgresql-9.3-postgis-2.1=${POSTGIS_VERSION} \
-		python-mapnik=2.2.0+ds1-6build2 postgis=${POSTGIS_VERSION} libmapnik2.2=2.2.0+ds1-6build2 \
+TILE_MODULES= 	postgresql-${POSTGRES_VERSION}-postgis-2.1=${POSTGIS_VERSION} \
+		postgis=${POSTGIS_VERSION} \
+		libpq5=${POSTGRES_VERSION_UBUNTU} \
+		postgresql-${POSTGRES_VERSION}=${POSTGRES_VERSION_UBUNTU} \
+		postgresql-client-${POSTGRES_VERSION}=${POSTGRES_VERSION_UBUNTU} \
+		postgresql-contrib-${POSTGRES_VERSION}=${POSTGRES_VERSION_UBUNTU} \
+		python-mapnik=2.2.0+ds1-6build2 \
+		libmapnik2.2=2.2.0+ds1-6build2 \
 
 # for whatever reasons ubuntu needs these explicitly installed
+#LEGACY_MODULES= 	libgdal1i libgeos-c1v5 libspatialite5	
 LEGACY_MODULES= 	libgdal1h libgeos-c1 libspatialite5	
 
 
@@ -39,8 +45,9 @@ all: help
 install-packages-system: perl
 	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES_SYTEM} ${APACHE2_MODULES}	
 install-packages: 
-	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES} 
-	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES} ${TILE_MODULES_OSM} ${LEGACY_MODULES}
+	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES} ${LEGACY_MODULES} 
+	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES}
+	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES_OSM} ${LEGACY_MODULES}
 
 perl:
 	if [ ! -e /usr/local/bin/perl ]; then \
@@ -95,6 +102,8 @@ etc-init-symlinks:
 	cd /etc/init.d/; sudo ln -fs ~/projects/bbbike/world/tile/etc/renderd-slowstart .;
 	sudo update-rc.d renderd-slowstart  defaults 30
 	-sudo update-rc.d renderd disable
+	-sudo update-rc.d renderd lighttpd
+	-sudo /etc/init.d/lighttpd stop
 
 apache-symlinks:
 	cd /etc/apache2/sites-available; \
@@ -151,7 +160,7 @@ manual:
 	@echo "make openstreetmap-postgis bbbike-mapnik mapnik-restart"
 	@echo ""
 
-install-all: osm-repo nodejs-repo install-packages-system repo-checkout install-packages symlinks munin manual
+install-all: osm-repo nodejs-repo install-packages-system repo-checkout install-packages symlinks munin bbbike-mapnik mapnik-restart
 
 distclean: clean
 	sudo rm -f /etc/mapnik-bbbike
