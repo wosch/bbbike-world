@@ -176,8 +176,8 @@ distclean:
 
 apt-distclean apt-purge: 
 	sudo rm -rf /usr/share/osm2pgsq
-	-sudo apt-get purge -y ${DEBIAN_INSTALL_FLAGS} ${APACHE2_MODULES} ${LEGACY_MODULES} ${DEBIAN_MODULES} ${TILE_MODULES} ${TILE_MODULES_OSM}
-	sudo apt-get purge -y libpq5* apache2* postgis* postgresql* 
+	-sudo env DEBIAN_FRONTEND=noninteractive apt-get purge -y ${DEBIAN_INSTALL_FLAGS} ${APACHE2_MODULES} ${LEGACY_MODULES} ${DEBIAN_MODULES} ${TILE_MODULES} ${TILE_MODULES_OSM}
+	-sudo env DEBIAN_FRONTEND=noninteractive apt-get purge -y libpq5* apache2* postgis* postgresql* 
 	sudo apt-get autoremove -y
 	sudo rm -f /etc/apt/sources.list.d/tile-legacy.list
 	sudo apt-get -qq update
