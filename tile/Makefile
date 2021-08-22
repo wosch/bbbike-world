@@ -142,6 +142,9 @@ bbbike-mapnik:
 	  make bbbike2wgs84-mapnik; \
 	  make bbbike-mapnik-postgis 
 
+postgis-user:
+	sudo /usr/bin/install-postgis-osm-user.sh gis "www-data $(whoami) tile"
+
 mapnik-restart:
 	make -C ${PROJECT_DIR}/bbbike $@
 
@@ -162,7 +165,7 @@ manual:
 
 install-stage1: osm-repo nodejs-repo install-packages-system
 install-stage2: repo-checkout install-packages
-install-stage3: symlinks munin bbbike-mapnik mapnik-restart
+install-stage3: symlinks munin postgis-user bbbike-mapnik mapnik-restart
 install-all: install-stage1 install-stage2 install-stage3
 
 distclean:
