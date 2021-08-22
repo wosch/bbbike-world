@@ -39,7 +39,7 @@ TILE_MODULES_OSM= renderd libapache2-mod-tile=0.4-27~trusty1 osm2pgsql=0.82.0-1g
 
 
 PROJECT_DIR=	$$HOME/projects
-APT_INSTALL=	sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y -q
+APT_INSTALL=	sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y -q --allow-downgrades
 
 all: help
 
@@ -48,7 +48,7 @@ install-packages-system: perl
 
 install-packages: 
 	${APT_INSTALL} ${DEBIAN_MODULES} ${LEGACY_MODULES} 
-	${APT_INSTALL} --allow-downgrades ${TILE_MODULES} ${TILE_MODULES_OSM}
+	${APT_INSTALL} ${TILE_MODULES} ${TILE_MODULES_OSM}
 	${APT_INSTALL} openstreetmap-postgis-db-setup
 
 perl:
