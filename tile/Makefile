@@ -31,7 +31,7 @@ TILE_MODULES_OSM= renderd libapache2-mod-tile=0.4-27~trusty1 openstreetmap-postg
 
 
 PROJECT_DIR=	$$HOME/projects
-DEBIAN_INSTALL_FLAGS=	-y  # -y -d
+DEBIAN_INSTALL_FLAGS=	-y  --allow-downgrades # -y -d
 
 all: help
 
