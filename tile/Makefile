@@ -160,9 +160,9 @@ manual:
 	@echo "make openstreetmap-postgis bbbike-mapnik mapnik-restart"
 	@echo ""
 
-install-pre: osm-repo nodejs-repo install-packages-system
-install-all: install-pre
-	repo-checkout install-packages symlinks munin bbbike-mapnik mapnik-restart
+install-tage1: osm-repo nodejs-repo install-packages-system
+install-tage2: repo-checkout install-packages symlinks munin bbbike-mapnik mapnik-restart
+install-all: install-stage1 install-stage2
 
 distclean:
 	sudo rm -f /etc/mapnik-bbbike
