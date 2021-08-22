@@ -34,7 +34,7 @@ LEGACY_MODULES= 	libgdal1h libgeos-c1 libspatialite5
 
 
 # self hostet deb modules
-TILE_MODULES_OSM= renderd libapache2-mod-tile=0.4-27~trusty1 openstreetmap-postgis-db-setup osm2pgsql=0.88.1-1
+TILE_MODULES_OSM= renderd libapache2-mod-tile=0.4-27~trusty1 osm2pgsql=0.88.1-1 openstreetmap-postgis-db-setup
 
 
 PROJECT_DIR=	$$HOME/projects
