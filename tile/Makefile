@@ -34,19 +34,20 @@ LEGACY_MODULES= 	libgdal1h libgeos-c1 libspatialite5
 
 
 # self hostet deb modules
-TILE_MODULES_OSM= renderd libapache2-mod-tile=0.4-27~trusty1 osm2pgsql=0.88.1-1 openstreetmap-postgis-db-setup
+TILE_MODULES_OSM= renderd libapache2-mod-tile=0.4-27~trusty1 osm2pgsql=0.88.1-1
 
 
 PROJECT_DIR=	$$HOME/projects
-DEBIAN_INSTALL_FLAGS=	-y  --allow-downgrades # -y -d
+DEBIAN_INSTALL_FLAGS=	-y -qq --allow-downgrades # -y -d
 
 all: help
 
 install-packages-system: perl
-	sudo apt-get install -y ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES_SYTEM} ${APACHE2_MODULES}	
+	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES_SYTEM} ${APACHE2_MODULES}	
 install-packages: 
-	sudo apt-get install -y ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES} ${LEGACY_MODULES} 
-	sudo apt-get install -y --force-yes ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES} ${TILE_MODULES_OSM}
+	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES} ${LEGACY_MODULES} 
+	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES} ${TILE_MODULES_OSM}
+	sudo env DEBIAN_FRONTEND=noninteractive apt-get install ${DEBIAN_INSTALL_FLAGS} openstreetmap-postgis-db-setup
 
 perl:
 	if [ ! -e /usr/local/bin/perl ]; then \
@@ -78,7 +79,7 @@ postgis-utf8:
 
 openstreetmap-postgis: postgis-utf8
 	sudo apt-get purge -y openstreetmap-postgis-db-setup </dev/null
-	sudo apt-get install -y openstreetmap-postgis-db-setup </dev/null
+	sudo env DEBIAN_FRONTEND=noninteractive apt-get install ${DEBIAN_INSTALL_FLAGS} openstreetmap-postgis-db-setup
 
 repo-checkout: git-checkout
 	
