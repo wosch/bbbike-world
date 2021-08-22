@@ -162,7 +162,7 @@ manual:
 install-stage1: osm-repo nodejs-repo install-packages-system
 install-stage2: repo-checkout install-packages
 install-stage3: symlinks munin bbbike-mapnik mapnik-restart
-install-all: install-stage1 install-stage2 install-instage2
+install-all: install-stage1 install-stage2 install-stage3
 
 distclean:
 	sudo rm -f /etc/mapnik-bbbike
