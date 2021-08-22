@@ -15,15 +15,19 @@ APACHE2_MODULES=	apache2=${APACHE2_VERSION} apache2-bin=${APACHE2_VERSION} apach
 
 DEBIAN_MODULES_SYTEM= 	unzip bzip2 make subversion tidy gcc git munin-node time
 
-#LEGACY_MODULES= 	libmapnik2.2 libgdal1h libgeos-c1 gdal-bin=1.10.1+dfsg-5ubuntu1 python-mapnik=2.2.0+ds1-6build2 postgis=2.1.2+dfsg-2ubuntu0.1
-
 DEBIAN_MODULES= 	libimager-perl imagemagick libinline-perl libhtml-tagcloud-perl \
         		libtie-ixhash-perl libhtml-parser-perl libwww-perl
 
-TILE_MODULES= 	postgresql-${POSTGRES_VERSION}  postgresql-client-${POSTGRES_VERSION} postgresql-contrib-${POSTGRES_VERSION} osm2pgsql=0.88.1-1 \
-		python-mapnik=2.2.0+ds1-6build2 postgis=${POSTGIS_VERSION} postgresql-9.3-postgis-2.1=${POSTGIS_VERSION}
+TILE_MODULES= 	postgresql-${POSTGRES_VERSION}  postgresql-client-${POSTGRES_VERSION} postgresql-contrib-${POSTGRES_VERSION} \
+		postgresql-9.3-postgis-2.1=${POSTGIS_VERSION} \
+		python-mapnik=2.2.0+ds1-6build2 postgis=${POSTGIS_VERSION} libmapnik2.2=2.2.0+ds1-6build2 \
 
-TILE_MODULES_OSM= renderd libapache2-mod-tile=0.4-27~trusty1 openstreetmap-postgis-db-setup
+# for whatever reasons ubuntu needs these explicitly installed
+LEGACY_MODULES= 	libgdal1h libgeos-c1 libspatialite5	
+
+
+# self hostet deb modules
+TILE_MODULES_OSM= renderd libapache2-mod-tile=0.4-27~trusty1 openstreetmap-postgis-db-setup osm2pgsql=0.88.1-1
 
 
 PROJECT_DIR=	$$HOME/projects
@@ -35,8 +39,7 @@ install-packages-system: perl
 	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES_SYTEM} ${APACHE2_MODULES}	
 install-packages: 
 	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${DEBIAN_MODULES} 
-	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES}
-	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES_OSM}
+	sudo apt-get install ${DEBIAN_INSTALL_FLAGS} ${TILE_MODULES} ${TILE_MODULES_OSM} ${LEGACY_MODULES}
 
 perl:
 	if [ ! -e /usr/local/bin/perl ]; then \
@@ -44,10 +47,6 @@ perl:
 	fi
 
 osm-repo:
-	if [ ! -e /etc/apt/sources.list.d/openstreetmap.list ]; then \
-	   sudo cp ${PROJECT_DIR}/bbbike/world/etc/apt/ubuntu/trusty/sources.list.d/openstreetmap.list /etc/apt/sources.list.d/openstreetmap.list ;\
-	   sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys AE74800FB745A04C; \
-	fi
 	if [ ! -e /etc/apt/sources.list.d/tile-legacy.list ]; then \
 	   sudo cp ${PROJECT_DIR}/bbbike/world/etc/apt/ubuntu/trusty-legacy/sources.list.d/tile-legacy.list /etc/apt/sources.list.d/tile-legacy.list ;\
 	fi
