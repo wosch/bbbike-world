@@ -4,6 +4,7 @@
 # init bbbike.org ubuntu deb repository
 
 : ${DEBUG=false}
+: ${enable_mono="YES"}
 enable_legacy="YES"
 
 if $DEBUG; then
@@ -84,5 +85,8 @@ init_apt_deb() {
 
 init_apt_deb
 init_apt_bbbike
-init_apt_mono
+
+if [ $enable_mono = "YES" ]; then
+  init_apt_mono
+fi
 
