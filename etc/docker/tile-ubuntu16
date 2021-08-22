@@ -32,7 +32,7 @@ RUN make -C./world/tile install-stage3
 RUN make -C./world/tile openstreetmap-postgis
 RUN sudo /usr/bin/install-postgis-osm-user.sh gis "www-data $(whoami) tile"
 RUN make create-bbbike-web-symlinks
-RUN make -C./world/tile mapnik-restart bbbike-mapnik
+RUN make -C./world/tile bbbike-mapnik mapnik-restart
 
 # package cleanup
 RUN sudo apt-get autoremove
