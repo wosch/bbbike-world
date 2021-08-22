@@ -50,6 +50,9 @@ osm-repo:
 	if [ ! -e /etc/apt/sources.list.d/tile-legacy.list ]; then \
 	   sudo cp ${PROJECT_DIR}/bbbike/world/etc/apt/ubuntu/trusty-legacy/sources.list.d/tile-legacy.list /etc/apt/sources.list.d/tile-legacy.list ;\
 	fi
+	if [ ! -e /etc/apt/sources.list.d/bbbike-legacy.list ]; then \
+	   sudo cp ${PROJECT_DIR}/bbbike/world/etc/apt/ubuntu/trusty-legacy/sources.list.d/bbbike-legacy.list /etc/apt/sources.list.d/bbbike-legacy.list ;\
+	fi
 	sudo apt-get -qq update
 
 nodejs-repo:
