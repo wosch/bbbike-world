@@ -1404,9 +1404,12 @@ deb-repo: deb-repo-dir
  	   reprepro --ignore=undefinedtarget -Vb . includedeb ${DEB_RELEASE} $$i; \
 	done
 
-# XXX: update legacy repo
+########################################################################################################
+# XXX: update legacy repo trusty (ubuntu14)
+#
 # cp /usr/local/www/debian.bbbike.org/src/legacy/ubuntu/trusty/*deb ./tmp/deb/ubuntu/trusty-legacy
-# make DEB_RELEASE=trusty-legacy deb-repo-upload
+# make DEB_RELEASE=trusty-legacy DEB_VENDOR=ubuntu deb-repo-upload
+########################################################################################################
 
 deb-repo-upload:
 	find ${DEB_TMP}/ ! -name '*.deb' -type f| xargs rm -f
