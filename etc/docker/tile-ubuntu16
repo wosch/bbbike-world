@@ -25,6 +25,7 @@ RUN make -f world/Makefile.osm create-makefile-symlinks
 # install tile software
 RUN make -C./world/tile install-stage1
 RUN make -C./world/tile install-stage2
+RUN make -C./world/tile install-stage3
 
 # post install
 RUN make -C./world/tile openstreetmap-postgis
