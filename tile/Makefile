@@ -48,7 +48,7 @@ install-packages-system: perl
 
 install-packages: 
 	${APT_INSTALL} ${DEBIAN_MODULES} ${LEGACY_MODULES} 
-	${APT_INSTALL} ${TILE_MODULES} ${TILE_MODULES_OSM}
+	${APT_INSTALL} --allow-downgrades ${TILE_MODULES} ${TILE_MODULES_OSM}
 	${APT_INSTALL} openstreetmap-postgis-db-setup
 
 perl:
@@ -145,7 +145,7 @@ bbbike-mapnik:
 	  make bbbike-mapnik-postgis 
 
 postgis-user:
-	sudo /usr/bin/install-postgis-osm-user.sh gis "www-data $(whoami) tile"
+	sudo /usr/bin/install-postgis-osm-user.sh gis "www-data $$(whoami) tile"
 
 mapnik-restart:
 	make -C ${PROJECT_DIR}/bbbike $@
