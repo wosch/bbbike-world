@@ -13,20 +13,10 @@ sudo apt-get install -y libhtml-tagcloud-perl libhtml-parser-perl \
   libcgi-pm-perl libjson-perl libmath-polygon-perl \
   libhtml-format-perl libjson-xs-perl \
 
-sudo cpan
-
-# not on ubuntu14
-sudo apt-get install -y libinline-c-perl 
-#sudo cpan Inline::C
-
-# to build on a new debian/ubuntu you need these devel tools
-#sudo apt-get install equivs dh-make-perl dpkg-sig reprepro
+cpan
 
 # first time
 sudo ln -s /usr/bin/perl /usr/local/bin/perl
-
-#cpan Inline::MakeMaker
-#cpan HTML::TagCloud
 
 # checkout sources from git
 curl -sSfL https://github.com/wosch/bbbike-world/raw/world/bin/bbbike-bootstrap | /bin/sh
@@ -40,6 +30,10 @@ sudo ./world/bin/bbbike-deb-repository-setup.sh
 
 # see world/etc/apt/equivs
 sudo apt-get install bbbike-world 
+
+make -f world/Makefile.osm bbbike-bootstrap
+make -f world/Makefile.osm distclean-real
+
 
 sudo apt-get install -y mono-devel xvfb x11-apps
 make install-xvfb
