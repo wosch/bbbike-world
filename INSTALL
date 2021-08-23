@@ -35,8 +35,6 @@ curl -sSfL https://github.com/wosch/bbbike-world/raw/world/bin/bbbike-bootstrap 
 
 Required debian modules
 ------------------------------------
-see also .travis.yml
-
 . ./world/etc/env/dot.bbbikerc 
 sudo ./world/bin/bbbike-deb-repository-setup.sh
 

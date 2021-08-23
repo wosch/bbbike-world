@@ -1,12 +1,7 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2021 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
-    if ( $ENV{BBBIKE_TEST_TRAVIS} ) {
-        print "1..0 # skip due travis-ci.org test\n";
-        exit;
-    }
-
     system(qq[printf "quit\n" | nc localhost 4949 >/dev/null]);
     if ($?) {
         print "1..0 # no running munin daemon found, skip tests\n";
