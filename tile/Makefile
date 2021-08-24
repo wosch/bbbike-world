@@ -170,7 +170,7 @@ manual:
 install-stage1: osm-repo nodejs-repo install-packages-system
 install-stage2: repo-checkout install-packages
 install-stage3: symlinks munin postgis-user bbbike-mapnik mapnik-restart
-install-all: git-pull install-stage1 install-stage2 install-stage3 apt-hold
+install-all: git-pull install-stage1 install-stage2 install-stage3 apt-hold check
 
 # stop upgrades to newer versions
 apt-hold:
@@ -193,6 +193,9 @@ apt-distclean apt-purge: apt-unhold
 	sudo rm -f /etc/apt/sources.list.d/tile-legacy.list
 	sudo apt-get -qq update
 
+check:
+	curl -sf http://localhost/osm/bbbike/13/4401/2686.png > /dev/null
+
 help:
 	@echo ""
 	@echo "usage: make [ targets ... ]"
@@ -203,7 +206,7 @@ help:
 	@echo "make bbbike-mapnik mapnik-restart"
 	@echo ""
 	@echo "  [ osm-repo | nodejs-repo | install-packages | symlinks ]"
-	@echo "  [ openstreetmap-postgis ]"
+	@echo "  [ openstreetmap-postgis | check ]"
 	@echo ""
 	@echo "see also ./world/tile/README.tile"
 
