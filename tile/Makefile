@@ -29,6 +29,8 @@ TILE_MODULES= 	postgresql-${POSTGRES_VERSION}-postgis-2.1=${POSTGIS_VERSION} \
 		python-mapnik=2.2.0+ds1-6build2 \
 		libmapnik2.2=2.2.0+ds1-6build2 \
 
+APT_HOLD=	libpq5 postgis osm2pgsql apache2 apache2-bin apache2-data
+
 # for whatever reasons ubuntu needs these explicitly installed
 #LEGACY_MODULES= 	libgdal1i libgeos-c1v5 libspatialite5	
 LEGACY_MODULES= 	libgdal1h libgeos-c1 libspatialite5	
@@ -168,7 +170,13 @@ manual:
 install-stage1: osm-repo nodejs-repo install-packages-system
 install-stage2: repo-checkout install-packages
 install-stage3: symlinks munin postgis-user bbbike-mapnik mapnik-restart
-install-all: git-pull install-stage1 install-stage2 install-stage3
+install-all: git-pull install-stage1 install-stage2 install-stage3 apt-hold
+
+# stop upgrades to newer versions
+apt-hold:
+	sudo apt-mark hold ${APT_HOLD}
+apt-unhold:
+	sudo apt-mark unhold ${APT_HOLD}
 
 git-pull:
 	git pull
@@ -177,7 +185,7 @@ distclean:
 	sudo rm -f /etc/mapnik-bbbike
 	sudo rm -f /etc/renderd22.conf /etc/renderd.conf
 
-apt-distclean apt-purge: 
+apt-distclean apt-purge: apt-unhold
 	sudo rm -rf /usr/share/osm2pgsq
 	-sudo env DEBIAN_FRONTEND=noninteractive apt-get purge -y ${DEBIAN_INSTALL_FLAGS} ${APACHE2_MODULES} ${LEGACY_MODULES} ${DEBIAN_MODULES} ${TILE_MODULES} ${TILE_MODULES_OSM}
 	-sudo env DEBIAN_FRONTEND=noninteractive apt-get purge -y libpq5* apache2* postgis* postgresql* 
