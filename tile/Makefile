@@ -152,7 +152,7 @@ postgis-user:
 mapnik-restart:
 	make -C ${PROJECT_DIR}/bbbike $@
 
-munin:
+munin: munin-allow
 	${APT_INSTALL} libdbd-pg-perl
 	cd /etc/munin/plugins/; \
 	  sudo ln -fs /usr/share/munin/plugins/postgres_* .; \
@@ -160,6 +160,11 @@ munin:
 	sudo /etc/init.d/munin-node stop
 	sleep 1
 	sudo /etc/init.d/munin-node start
+
+munin-allow:
+	@if ! egrep 157 /etc/munin/munin-node.conf; then \
+	  echo 'allow ^157\.90\.244\.128$$' | sudo tee -a /etc/munin/munin-node.conf; \
+	fi
 
 manual:
 	@echo ""
