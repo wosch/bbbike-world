@@ -196,12 +196,20 @@ apt-distclean apt-purge: apt-unhold
 check:
 	curl -sf http://localhost/osm/bbbike/13/4401/2686.png > /dev/null
 
+apt-autoremove:
+	sudo apt-get autoremove -y
+bbbike-world:
+	sudo apt-get install -y bbbike-world
+
+reinstall: distclean apt-distclean bbbike-world install-all apt-autoremove
+
 help:
 	@echo ""
 	@echo "usage: make [ targets ... ]"
 	@echo ""
 	@echo "make distclean apt-distclean"
 	@echo "make install-all"
+	@echo "make reinstall"
 	@echo ""
 	@echo "make bbbike-mapnik mapnik-restart"
 	@echo ""
