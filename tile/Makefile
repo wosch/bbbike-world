@@ -109,7 +109,7 @@ etc-init-symlinks:
 	-sudo update-rc.d lighttpd disable
 	-sudo /etc/init.d/lighttpd stop
 
-apache-symlinks:
+apache-symlinks: apache-port
 	cd /etc/apache2/sites-available; \
 	  sudo ln -sf ~/projects/bbbike/world/etc/apache2/tile.conf .
 	sudo a2ensite tile.conf
@@ -147,7 +147,7 @@ www-symlinks:
 	  sudo ln -fs ~/projects/bbbike/world/tile/web/slippymap.html; \
 	  sudo ln -fs ~/projects/bbbike/world/tile/web/slippymap.html index.html
 
-symlinks: etc-symlinks etc-init-symlinks apache-symlinks apache-port mapnik-symlinks www-symlinks 
+symlinks: etc-symlinks etc-init-symlinks apache-symlinks mapnik-symlinks www-symlinks 
 	
 bbbike-mapnik:
 	cd ${PROJECT_DIR}/bbbike; \
