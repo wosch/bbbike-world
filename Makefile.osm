@@ -1825,7 +1825,7 @@ help:
 	@echo "  [ jasmine-node | test-js ]"
 	@echo ""
 	@echo "  [ deb-perl | deb-equivs | deb-bin ]"
-	@echo "  [ deb-clean | deb-distclean | deb-repo | deb-repo-upload ]"
+	@echo "  [ deb-clean | deb-distclean | deb-repo | deb-repo-upload | deb-legacy ]"
 	@echo "  [ make deb-distclean deb-perl deb-equivs deb-bin deb-repo-upload ]"
 	@echo "  [ make deb-distclean deb-perl deb-repo-upload ]"
 	@echo "  [ make deb-clean deb-equivs deb-repo-upload ]"
