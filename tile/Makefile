@@ -120,8 +120,7 @@ apache-symlinks: apache-port
 	sudo update-rc.d lighttpd enable
 	sudo update-rc.d apache2 defaults
 	sudo update-rc.d apache2 enable
-	sudo /etc/init.d/renderd restart
-	sudo /etc/init.d/apache2 restart
+	${MAKE} mapnik-restart
 
 apache-port:
 	sudo perl -i.bak -npe 's,^Listen 80\s*$$,Listen 8080,' /etc/apache2/ports.conf
@@ -155,7 +154,8 @@ bbbike-mapnik:
 	  make bbbike2wgs84-mapnik; \
 	  make bbbike-mapnik-postgis 
 
-postgis-user:
+postgis:
+	-sudo /usr/bin/install-postgis-osm-db.sh 
 	sudo /usr/bin/install-postgis-osm-user.sh gis "www-data $$(whoami) tile"
 
 mapnik-restart:
@@ -182,8 +182,8 @@ manual:
 	@echo ""
 
 install-stage1: osm-repo nodejs-repo install-packages-system
-install-stage2: repo-checkout install-packages
-install-stage3: symlinks munin postgis-user bbbike-mapnik mapnik-restart
+install-stage2: repo-checkout bbbike-world install-packages
+install-stage3: symlinks munin postgis bbbike-mapnik mapnik-restart
 install-all: git-pull install-stage1 install-stage2 install-stage3 apt-hold check
 
 # stop upgrades to newer versions
@@ -208,12 +208,12 @@ apt-distclean apt-purge: apt-unhold
 	sudo apt-get -qq update
 
 check:
-	curl -sf http://localhost:8080/osm/bbbike/13/4401/2686.png > /dev/null
+	@curl -sf http://localhost:8080/osm/bbbike/13/4401/2686.png > /dev/null && echo "tile server is up and running"
 
 apt-autoremove:
 	sudo apt-get autoremove -y
 bbbike-world:
-	sudo apt-get install -y bbbike-world
+	${APT_INSTALL} bbbike-world
 
 reinstall: distclean apt-distclean bbbike-world install-all apt-autoremove
 
