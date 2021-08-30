@@ -213,7 +213,7 @@ check:
 apt-autoremove:
 	sudo apt-get autoremove -y
 bbbike-world:
-	sudo apt-get install -y bbbike-world
+	${APT_INSTALL} bbbike-world
 
 reinstall: distclean apt-distclean bbbike-world install-all apt-autoremove
 
