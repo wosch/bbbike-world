@@ -43,6 +43,9 @@ make install-xvfb
 # reverse proxy
 sudo apt-get install varnish
 
+# to build on a new debian/ubuntu you need these devel tools
+sudo apt-get install equivs dh-make-perl dpkg-sig reprepro
+
 #################################################################
 # if the dom0 runs a different OS than the guest, we may have to
 # configure a local kernel + grub

@@ -114,7 +114,10 @@ apache-symlinks:
 	  sudo ln -sf ~/projects/bbbike/world/etc/apache2/tile.conf .
 	sudo a2ensite tile.conf
 	sudo a2enmod tile
+	sudo a2dismod status
 	sudo rm -f /etc/apache2/sites-enabled/tileserver_site.conf
+	sudo systemctl enable lighttpd
+	sudo systemctl enable apache2
 	sudo /etc/init.d/renderd restart
 	sudo /etc/init.d/apache2 restart
 
@@ -126,6 +129,7 @@ www-symlinks:
 	cd /var/www; \
 	  sudo ln -fs ~/projects/mc/www mc; \
 	  sudo ln -fs ~/projects/bbbike/world/tile/web/robots.txt .; \
+	  sudo ln -fs ~/projects/bbbike/world/web/robots-dev.txt .; \
 	  sudo ln -fs ~/projects/bbbike/world/web/test.txt .; \
 	  sudo ln -fs ~/projects/bbbike/images/favicon.ico ; \
 	  sudo ln -fs ~/projects/bbbike/world/tile/web/index.html 
@@ -152,7 +156,7 @@ postgis-user:
 mapnik-restart:
 	make -C ${PROJECT_DIR}/bbbike $@
 
-munin:
+munin: munin-allow
 	${APT_INSTALL} libdbd-pg-perl
 	cd /etc/munin/plugins/; \
 	  sudo ln -fs /usr/share/munin/plugins/postgres_* .; \
@@ -160,6 +164,11 @@ munin:
 	sudo /etc/init.d/munin-node stop
 	sleep 1
 	sudo /etc/init.d/munin-node start
+
+munin-allow:
+	@if ! egrep 157 /etc/munin/munin-node.conf; then \
+	  echo 'allow ^157\.90\.244\.128$$' | sudo tee -a /etc/munin/munin-node.conf; \
+	fi
 
 manual:
 	@echo ""
@@ -170,7 +179,7 @@ manual:
 install-stage1: osm-repo nodejs-repo install-packages-system
 install-stage2: repo-checkout install-packages
 install-stage3: symlinks munin postgis-user bbbike-mapnik mapnik-restart
-install-all: git-pull install-stage1 install-stage2 install-stage3 apt-hold
+install-all: git-pull install-stage1 install-stage2 install-stage3 apt-hold check
 
 # stop upgrades to newer versions
 apt-hold:
@@ -193,16 +202,28 @@ apt-distclean apt-purge: apt-unhold
 	sudo rm -f /etc/apt/sources.list.d/tile-legacy.list
 	sudo apt-get -qq update
 
+check:
+	curl -sf http://localhost/osm/bbbike/13/4401/2686.png > /dev/null
+
+apt-autoremove:
+	sudo apt-get autoremove -y
+bbbike-world:
+	sudo apt-get install -y bbbike-world
+
+reinstall: distclean apt-distclean bbbike-world install-all apt-autoremove
+
 help:
 	@echo ""
 	@echo "usage: make [ targets ... ]"
 	@echo ""
-	@echo "make install-all"
 	@echo "make distclean apt-distclean"
+	@echo "make install-all"
+	@echo "make reinstall"
+	@echo ""
 	@echo "make bbbike-mapnik mapnik-restart"
 	@echo ""
 	@echo "  [ osm-repo | nodejs-repo | install-packages | symlinks ]"
-	@echo "  [ openstreetmap-postgis ]"
+	@echo "  [ openstreetmap-postgis | check ]"
 	@echo ""
 	@echo "see also ./world/tile/README.tile"
 
