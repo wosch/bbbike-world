@@ -155,7 +155,7 @@ bbbike-mapnik:
 	  make bbbike-mapnik-postgis 
 
 postgis:
-	sudo /usr/bin/install-postgis-osm-db.sh 
+	-sudo /usr/bin/install-postgis-osm-db.sh 
 	sudo /usr/bin/install-postgis-osm-user.sh gis "www-data $$(whoami) tile"
 
 mapnik-restart:
