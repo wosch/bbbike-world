@@ -116,8 +116,8 @@ apache-symlinks:
 	sudo a2enmod tile
 	sudo a2dismod status
 	sudo rm -f /etc/apache2/sites-enabled/tileserver_site.conf
-	sudo systemctl enable lighttpd
-	sudo systemctl enable apache2
+	sudo update-rc.d lighttpd enable
+	sudo update-rc.d apache2 enable
 	sudo /etc/init.d/renderd restart
 	sudo /etc/init.d/apache2 restart
 
