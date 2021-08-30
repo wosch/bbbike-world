@@ -44,3 +44,9 @@ see also:
  make upgrade-all-versions-equisvs
  make upgrade-all-versions
 
+##################################################################################
+# hints
+#
+# list contents of data.tar
+# dpkg --fsys-tarfile libpng12-0_1.2.50-1ubuntu2.14.04.3_amd64.deb  | tar tvf -
+
