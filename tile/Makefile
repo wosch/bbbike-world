@@ -114,6 +114,7 @@ apache-symlinks:
 	  sudo ln -sf ~/projects/bbbike/world/etc/apache2/tile.conf .
 	sudo a2ensite tile.conf
 	sudo a2enmod tile
+	sudo a2dismod status
 	sudo rm -f /etc/apache2/sites-enabled/tileserver_site.conf
 	sudo /etc/init.d/renderd restart
 	sudo /etc/init.d/apache2 restart
