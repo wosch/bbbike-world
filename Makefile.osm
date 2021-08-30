@@ -1753,6 +1753,11 @@ docker-clean:
 	fi
 	${DOCKER} images
 
+docker-distclean-real:
+	-sudo /etc/init.d/docker stop
+	cd /var/lib/docker && sudo rm -rf builder buildkit containers image network overlay2 plugins runtimes swarm tmp trust volumes
+	sudo /etc/init.d/docker start
+
 # remove all available images
 docker-distclean:
 	if ${DOCKER} images | egrep -q -v '^REPOSITORY'; then \
@@ -1853,7 +1858,8 @@ help:
 	@echo "  [ docker-build-libosmium-debian11 | docker-build-libosmium-debian10 ]"
 	@echo "  [ docker-build-libosmium-ubuntu18 | docker-build-libosmium-ubuntu20 ]"
 	@echo "  [ docker-build-tilemaker-ubuntu16 ]"
-	@echo "  [ docker-build-all | docker-build-libosmium-all | docker-clean | docker-distclean ]"
+	@echo "  [ docker-build-all | docker-build-libosmium-all ]"
+	@echo "  [ docker-clean | docker-distclean | docker-distclean-real ]"
 	@echo ""
 	@echo "after failed install/cache update:"
 	@echo "bbbike_download= bbbike_extract= bbbike_convert= bbbike_install= make update-database"
