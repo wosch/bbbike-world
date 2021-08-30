@@ -123,6 +123,9 @@ apache-symlinks:
 	sudo /etc/init.d/renderd restart
 	sudo /etc/init.d/apache2 restart
 
+apache-port:
+	sudo perl -i.bak -npe 's,^Listen 80\s*$$,Listen 8080,' /etc/apache2/ports.conf
+
 mapnik-symlinks:
 	cd ~/projects/mapnik-bbbike; \
 	  make -C./tools setup-mapnik-on-mosor
@@ -144,7 +147,7 @@ www-symlinks:
 	  sudo ln -fs ~/projects/bbbike/world/tile/web/slippymap.html; \
 	  sudo ln -fs ~/projects/bbbike/world/tile/web/slippymap.html index.html
 
-symlinks: etc-symlinks etc-init-symlinks apache-symlinks mapnik-symlinks www-symlinks 
+symlinks: etc-symlinks etc-init-symlinks apache-symlinks apache-port mapnik-symlinks www-symlinks 
 	
 bbbike-mapnik:
 	cd ${PROJECT_DIR}/bbbike; \
@@ -205,7 +208,7 @@ apt-distclean apt-purge: apt-unhold
 	sudo apt-get -qq update
 
 check:
-	curl -sf http://localhost/osm/bbbike/13/4401/2686.png > /dev/null
+	curl -sf http://localhost:8080/osm/bbbike/13/4401/2686.png > /dev/null
 
 apt-autoremove:
 	sudo apt-get autoremove -y
