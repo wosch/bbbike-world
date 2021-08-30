@@ -208,7 +208,7 @@ apt-distclean apt-purge: apt-unhold
 	sudo apt-get -qq update
 
 check:
-	curl -sf http://localhost:8080/osm/bbbike/13/4401/2686.png > /dev/null
+	@curl -sf http://localhost:8080/osm/bbbike/13/4401/2686.png > /dev/null && echo "tile server is up and running"
 
 apt-autoremove:
 	sudo apt-get autoremove -y
