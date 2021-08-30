@@ -1405,10 +1405,14 @@ deb-repo: deb-repo-dir
 	done
 
 ########################################################################################################
-# XXX: update legacy repo trusty (ubuntu14)
-#
-# cp /usr/local/www/debian.bbbike.org/src/legacy/ubuntu/trusty/*deb ./tmp/deb/ubuntu/trusty-legacy
-# make DEB_RELEASE=trusty-legacy DEB_VENDOR=ubuntu deb-repo-upload
+#  update legacy repo trusty (ubuntu14)
+deb-legacy:
+	rm -rf tmp/deb/ubuntu/trusty-legacy
+	mkdir -p tmp/deb/ubuntu/trusty-legacy
+	cp /usr/local/www/debian.bbbike.org/archive/ubuntu/trusty/*.deb tmp/deb/ubuntu/trusty-legacy
+	find /usr/local/www/debian.bbbike.org/ubuntu/trusty-legacy/db/ -type f -print0 | xargs -0 rm -f
+	${BBMAKE} DEB_RELEASE=trusty-legacy DEB_VENDOR=ubuntu deb-repo-upload
+	
 ########################################################################################################
 
 deb-repo-upload:
@@ -1821,7 +1825,7 @@ help:
 	@echo "  [ jasmine-node | test-js ]"
 	@echo ""
 	@echo "  [ deb-perl | deb-equivs | deb-bin ]"
-	@echo "  [ deb-clean | deb-distclean | deb-repo | deb-repo-upload ]"
+	@echo "  [ deb-clean | deb-distclean | deb-repo | deb-repo-upload | deb-legacy ]"
 	@echo "  [ make deb-distclean deb-perl deb-equivs deb-bin deb-repo-upload ]"
 	@echo "  [ make deb-distclean deb-perl deb-repo-upload ]"
 	@echo "  [ make deb-clean deb-equivs deb-repo-upload ]"
