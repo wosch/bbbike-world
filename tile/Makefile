@@ -120,8 +120,7 @@ apache-symlinks: apache-port
 	sudo update-rc.d lighttpd enable
 	sudo update-rc.d apache2 defaults
 	sudo update-rc.d apache2 enable
-	sudo /etc/init.d/renderd restart
-	sudo /etc/init.d/apache2 restart
+	${MAKE}} mapnik-restart
 
 apache-port:
 	sudo perl -i.bak -npe 's,^Listen 80\s*$$,Listen 8080,' /etc/apache2/ports.conf
