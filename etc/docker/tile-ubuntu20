@@ -39,7 +39,7 @@ RUN sudo apt-get autoremove
 RUN sudo apt-get autoclean
 RUN sudo apt-get clean
 
-EXPOSE 80
+EXPOSE 8080
 
 CMD ["/bin/sh", "-c", "sudo /etc/init.d/rsyslog start && make mapnik-restart && bash"]
 
