@@ -65,7 +65,7 @@ my @list = (
     },
     {
         'page'     => 'https://mc.bbbike.org/osm/',
-        'min_size' => 1_500,
+        'min_size' => 1_100,
         'match'    => [ "</html>", qq/ id="map">/ ]
     },
     {
