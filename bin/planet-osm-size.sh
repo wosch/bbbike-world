@@ -11,7 +11,7 @@
 
 pbf_size ()
 {
-    size=$(curl -D /dev/stdout -sSfL -X HEAD \
+    size=$(curl -D /dev/stdout -sSfL --head \
 	https://planet.openstreetmap.org/pbf/planet-latest.osm.pbf 2>/dev/null | \
 	egrep -i Content-Length: | awk '{ printf("%.1f\n", $2/1024/1024/1024) }' )
     echo "PBF size: $size GB"
@@ -19,7 +19,7 @@ pbf_size ()
 
 osm_size ()
 {
-    size=$(curl -D /dev/stdout -sSfL -X HEAD \
+    size=$(curl -D /dev/stdout -sSfL --head \
 	https://planet.openstreetmap.org/planet/planet-latest.osm.bz2 2>/dev/null | \
 	egrep -i Content-Length: | awk '{ printf("%.1f\n", $2/1024/1024/1024) }' )
     echo "OSM size: $size GB"
