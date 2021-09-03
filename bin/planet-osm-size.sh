@@ -27,8 +27,7 @@ osm_size ()
 
 xml_size ()
 {
-    #size=$(curl -L -sSf https://planet.osm.org/planet/planet-latest.osm.bz2 | \
-    size=$(curl -L -sSf https://download2.bbbike.org/osm/planet/planet-latest.osm.bz2 | \
+    size=$(curl -L -sSf https://planet.osm.org/planet/planet-latest.osm.bz2 | \
 	nice -n 15 pbzip2 -d | wc -c | awk '{ printf("%.1f\n", $1/1024/1024/1024) }' )
     echo "XML size: $size GB"
 }
