@@ -35,10 +35,10 @@ $option->{'max_areas'} = 10;
 $option->{'pro'} = 0;
 
 $option->{'server'} = {
-    'dev'      => [qw/dev2.bbbike.org dev4.bbbike.org/],
-    'www'      => [qw/www.bbbike.org www4.bbbike.org/],
-    'extract'  => [qw/extract.bbbike.org extract4.bbbike.org/],
-    'download' => [qw/download.bbbike.org download4.bbbike.org/],
+    'dev'      => [qw/dev2.bbbike.org/],
+    'www'      => [qw/www.bbbike.org/],
+    'extract'  => [qw/extract.bbbike.org extract2.bbbike.org/],
+    'download' => [qw/download.bbbike.org download2.bbbike.org/],
 };
 
 # gspies.com automatic extracts

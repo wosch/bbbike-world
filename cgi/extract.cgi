@@ -47,7 +47,7 @@ our $option = {
     'script_homepage'     => 'https://extract.bbbike.org',
     'script_homepage_pro' => 'https://extract-pro.bbbike.org',
 
-    'script_homepage_api' => 'https://extract4.bbbike.org',
+    'script_homepage_api' => 'https://extract2.bbbike.org',
 
     'max_extracts'              => 50,
     'default_format'            => 'osm.pbf',

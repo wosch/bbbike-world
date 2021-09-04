@@ -5,7 +5,7 @@
 # 2 diagonal searches, and 4 around the rectangle
 
 P=6
-host=dev4.bbbike.org
+host=dev2.bbbike.org
 
 for city in $(./world/bin/bbbike-db --list)
 do
