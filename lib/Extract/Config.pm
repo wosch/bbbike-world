@@ -320,14 +320,12 @@ our $tile_format = {
 };
 
 our $server = {
-    'dev' => [qw/dev2.bbbike.org/],
-    'www' => [qw/www.bbbike.org www2.bbbike.org/],
-    'extract' =>
-      [qw/extract.bbbike.org extract2.bbbike.org/],
-    'download' =>
-      [qw/download.bbbike.org download2.bbbike.org/],
-    'api'  => [qw/api.bbbike.org api2.bbbike.org/],
-    'tile' => [
+    'dev'      => [qw/dev2.bbbike.org/],
+    'www'      => [qw/www.bbbike.org www2.bbbike.org/],
+    'extract'  => [qw/extract.bbbike.org extract2.bbbike.org/],
+    'download' => [qw/download.bbbike.org download2.bbbike.org/],
+    'api'      => [qw/api.bbbike.org api2.bbbike.org/],
+    'tile'     => [
         qw/a.tile.bbbike.org b.tile.bbbike.org c.tile.bbbike.org d.tile.bbbike.org/
     ],
     'production' => [
