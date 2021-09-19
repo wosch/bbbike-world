@@ -9,5 +9,12 @@ set -e
 
 cd $HOME/projects/bbbike
 
-time nice -n 6 make planet-update sub-planet-daily > tmp/log.planet-update 2>&1 || cat tmp/log.planet-update
+if time nice -n 6 make planet-update sub-planet-daily > tmp/log.planet-update 2>&1; then
+  exit 0
+else
+  echo "planet update failed: $?"
+  echo ""
+  cat tmp/log.planet-update
+  exit 1
+fi
 
