@@ -30,15 +30,15 @@ RUN git clone https://github.com/osmcode/osmium-tool
 RUN git clone https://github.com/osmcode/osm-gis-export
 
 
-RUN cd protozero   && mkdir build && cd build && cmake .. && make -j4 && make test && sudo make install
+RUN cd protozero   && mkdir build && cd build && cmake .. && make -j$(cat /var/run/ncpu) && make test && sudo make install
 
-RUN cd libosmium   && mkdir build && cd build && cmake .. && make -j4 && make test && sudo make install
+RUN cd libosmium   && mkdir build && cd build && cmake .. && make -j$(cat /var/run/ncpu) && make test && sudo make install
 RUN ls -l libosmium/include/gdalcpp.hpp
 RUN sudo rsync -a libosmium/include/* /usr/local/include
 
-RUN cd osmium-tool && mkdir build && cd build && cmake .. && make -j4 && make test && sudo make install
+RUN cd osmium-tool && mkdir build && cd build && cmake .. && make -j$(cat /var/run/ncpu) && make test && sudo make install
 
-RUN cd osm-gis-export && mkdir build && cd build && cmake .. && make -j4 && sudo make install
+RUN cd osm-gis-export && mkdir build && cd build && cmake .. && make -j$(cat /var/run/ncpu) && sudo make install
 
 RUN mkdir imposm && cd imposm && export GOPATH=`pwd` && \
   /usr/lib/go-1.11/bin/go get github.com/omniscale/imposm3 && \
