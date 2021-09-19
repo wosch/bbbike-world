@@ -1667,7 +1667,7 @@ install-xvfb:
 DOCKER_BUILD_FLAGS?=	--no-cache 
 
 docker-build:
-	${DOCKER} build ${DOCKER_BUILD_FLAGS} -f world/etc/docker/${DOCKER_IMAGE_FILE} -t ${DOCKER_BBBIKE_TAG} .
+	cd world/etc/docker && ${DOCKER} build ${DOCKER_BUILD_FLAGS} -f ${DOCKER_IMAGE_FILE} -t ${DOCKER_BBBIKE_TAG} .
 
 docker-shell:
 	${DOCKER} run -it --rm ${DOCKER_BBBIKE_TAG}
