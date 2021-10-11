@@ -89,9 +89,15 @@ echo "download.value" 	`( cd $extract_dir/ && du -ks download | awk '{ print $1 
 
 echo ""
 echo "multigraph disksize_other"
+
+du_k=$(mktemp /tmp/munin-bbbike.XXXXXXXXX)
+( cd $extract_dir/download && du -k * 2>/dev/null > $du_k )
+
 for f in $formats
 do
     ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
-    echo "$ff.value"     `( cd $extract_dir/download && du -k * 2>/dev/null | egrep "${f}$" | awk '{ s += $1 * 1024 } END { if (NR==0) { print 0} else { print s } }' )`
+    echo "$ff.value"     $( egrep "${f}$" < $du_k | awk '{ s += $1 * 1024 } END { if (NR==0) { print 0} else { print s } }' )
 done
+
+rm -f $du_k
 
