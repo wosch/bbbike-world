@@ -82,12 +82,15 @@ EOF
 fi
 
 ###########################################################
+du_k=$(mktemp /tmp/munin-bbbike.XXXXXXXXX)
+( cd $extract_dir/download && du -k * ) > $du_k
+
 echo "multigraph pbf_size_average"
 for f in $formats
 do
     ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
     f=$(echo $f | perl -npe 's/(srtm(-europe)?)/${1}.*/g')
-    echo "$ff.value"     `( cd $extract_dir/download && du -k * | egrep "${f}$" | awk '{ s += $1 } END { printf("%d", NR ? s * 1024 / NR : 0)  }' )`
+    echo "$ff.value"     $( egrep "${f}$" < $du_k | awk '{ s += $1 } END { printf("%d", NR ? s * 1024 / NR : 0)  }' )
 done
 
 echo ""
@@ -96,7 +99,7 @@ for f in $formats
 do
     ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
     f=$(echo $f | perl -npe 's/(srtm(-europe)?)/${1}.*/g')
-    echo "$ff.value"     `( cd $extract_dir/download && du -k * | egrep "${f}$" | sort -n |
+    echo "$ff.value"     $( egrep "${f}$" < $du_k | sort -n |
         awk '{
             count[NR] = $1;
         } END {
@@ -106,5 +109,8 @@ do
                 print 1024 * (count[(NR / 2)] + count[(NR / 2) + 1]) / 2.0;
             }
         }'
-    )`
+    )
 done
+
+rm -f $du_k
+
