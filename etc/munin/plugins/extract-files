@@ -88,16 +88,21 @@ EOF
     exit 0
 fi
 
+ls_download=$(mktemp /tmp/munin-bbbike.XXXXXXXXX)
+find_download=$(mktemp /tmp/munin-bbbike.XXXXXXXXX)
+( cd $extract_dir/; ls download ) > $ls_download
+( cd $extract_dir/; find download -type f -mtime -1 -print ) > $find_download
+
 echo "multigraph pbf_pbf"
-echo "ALL.value" 	`( cd $extract_dir/; ls download | wc -l )`
-echo "osm_pbf.value" 	`( cd $extract_dir/; ls download | egrep "\.osm\.pbf$" | wc -l )`
-echo "other.value" 	`( cd $extract_dir/; ls download | egrep -v "\.osm\.pbf$" | wc -l )`
+echo "ALL.value" 	$( wc -l < $ls_download )
+echo "osm_pbf.value" 	$( egrep "\.osm\.pbf$" < $ls_download | wc -l )
+echo "other.value" 	$( egrep -v "\.osm\.pbf$" < $ls_download | wc -l )
 
 echo ""
 echo "multigraph pbf_pbf_day"
-echo "ALL.value" 	`( cd $extract_dir/; find download -type f -mtime -1 -print | wc -l )`
-echo "osm_pbf.value" 	`( cd $extract_dir/; find download -type f -mtime -1 -print | egrep "\.osm\.pbf$" | wc -l )`
-echo "other.value" 	`( cd $extract_dir/; find download -type f -mtime -1 -print | egrep -v "\.osm\.pbf$" | wc -l )`
+echo "ALL.value" 	$( wc -l < $find_download )
+echo "osm_pbf.value" 	$( egrep "\.osm\.pbf$" < $find_download | wc -l )
+echo "other.value" 	$( egrep -v "\.osm\.pbf$" < $find_download | wc -l )
 
 echo ""
 echo "multigraph pbf_other"
@@ -106,5 +111,6 @@ for f in $formats
 do
     ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
     f=$(echo $f | perl -npe 's/(srtm(-europe)?)/${1}.*/g')
-    echo "$ff.value"     `( cd $extract_dir/; ls download | egrep "${f}$" | wc -l )`
+    echo "$ff.value"     $( egrep "${f}$" < $ls_download | wc -l )
 done
+
