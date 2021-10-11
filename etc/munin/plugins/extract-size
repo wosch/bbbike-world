@@ -52,7 +52,7 @@ graph_period minute
 EOF
     for f in $formats
     do
-        ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
+        ff=$(echo $f | sed -e 's/[\.\-]/_/g')
         echo "$ff.label $f"
         echo "$ff.min 0"
         echo "$ff.warning $warning"
@@ -71,7 +71,7 @@ graph_period minute
 EOF
     for f in $formats
     do
-        ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
+        ff=$(echo $f | sed -e 's/[\.\-]/_/g')
         echo "$ff.label $f"
         echo "$ff.min 0"
         echo "$ff.warning $warning"
@@ -88,8 +88,7 @@ du_k=$(mktemp /tmp/munin-bbbike.XXXXXXXXX)
 echo "multigraph pbf_size_average"
 for f in $formats
 do
-    ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
-    f=$(echo $f | perl -npe 's/(srtm(-europe)?)/${1}.*/g')
+    ff=$(echo $f | sed -e 's/[\.\-]/_/g')
     echo "$ff.value"     $( egrep "${f}$" < $du_k | awk '{ s += $1 } END { printf("%d", NR ? s * 1024 / NR : 0)  }' )
 done
 
@@ -97,8 +96,7 @@ echo ""
 echo "multigraph pbf_size_median"
 for f in $formats
 do
-    ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
-    f=$(echo $f | perl -npe 's/(srtm(-europe)?)/${1}.*/g')
+    ff=$(echo $f | sed -e 's/[\.\-]/_/g')
     echo "$ff.value"     $( egrep "${f}$" < $du_k | sort -n |
         awk '{
             count[NR] = $1;
