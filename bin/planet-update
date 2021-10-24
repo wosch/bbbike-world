@@ -52,6 +52,9 @@ update_md5 ()
   # atomar md5 checksum - the file exists and has correct values, or we delete it
   rm -f $file.md5
   $md5sum $file > $file.md5.tmp && mv -f $file.md5.tmp $file.md5
+
+  # timestamp of planet
+  osmconvert --out-timestamp $file > $file.timestamp
 }
 
 #######################################################################################
