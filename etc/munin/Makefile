@@ -21,6 +21,7 @@ MUNIN_EXTRACT= 		extract-diskusage \
 			extract-jobs \
 			extract-users \
 			extract-wait \
+			extract-download \
 			extract-stale
 
 MUNIN_EXTRACT_WEB= 	extract-services-format \
