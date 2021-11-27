@@ -114,3 +114,6 @@ do
     echo "$ff.value"     $( egrep "${f}$" < $ls_download | wc -l )
 done
 
+rm -f $ls_download $find_download
+
+#EOF
