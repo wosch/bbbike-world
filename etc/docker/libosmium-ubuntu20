@@ -10,7 +10,8 @@ RUN apt-get install -y git make sudo vim wget curl pixz rsync \
   clang clang-tidy cmake cppcheck doxygen iwyu gdb pandoc man
 
 RUN apt-get install -y libboost-all-dev protobuf-compiler \
-  libgdal-dev libsparsehash-dev spatialite-bin libgeos++-dev libproj-dev libbz2-dev
+  libgdal-dev libsparsehash-dev spatialite-bin libgeos++-dev \
+  libproj-dev libbz2-dev liblz4-dev 
 
 RUN useradd -ms /bin/bash libosmium && \
   echo 'libosmium ALL=NOPASSWD: ALL' >> /etc/sudoers
