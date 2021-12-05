@@ -165,3 +165,6 @@ https://m2.mapserver.mapy.cz/base-m/16-35412-22211?s=0.2&dm=Luminosity
 https://m4.mapserver.mapy.cz/zemepis-m/16-35411-22211
 https://m1.mapserver.mapy.cz/army2-m/15-17705-11105
 https://a.freemap.sk/A/14/8971/5683.png
+https://a.tiles.tracestrack.com/base/15/17603/10746.png?key=710cc921fda7d757cc9b0aecd40ad3be
+https://b.tiles.tracestrack.com/bus-route/15/17603/10746.png?key=710cc921fda7d757cc9b0aecd40ad3be
+
