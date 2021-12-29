@@ -1,6 +1,6 @@
 /*
  Copyright (c) by https://www.openstreetmap.org/export - OSM License, 2012
- Copyright (c) 2012-2021 Wolfram Schneider, https://bbbike.org
+ Copyright (c) 2012-2022 Wolfram Schneider, https://bbbike.org
 */
 
 // HTML5: may not work on Android devices!
@@ -379,7 +379,7 @@ function init_map() {
         numZoomLevels: 18
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("Mapbox Satellite", ["https://d.tiles.mapbox.com/v3/tmcw.map-j5fsp01s/${z}/${x}/${y}.png"], {
+    map.addLayer(new OpenLayers.Layer.OSM("Mapbox Satellite", ["https://api.mapbox.com/v4/mapbox.satellite/${z}/${x}/${y}@2x.jpg90?access_token=pk.eyJ1IjoibWFwcXVlc3QiLCJhIjoiY2Q2N2RlMmNhY2NiZTRkMzlmZjJmZDk0NWU0ZGJlNTMifQ.mPRiEubbajc6a5y9ISgydg"], {
         attribution: '<a href="https://www.mapbox.com/">(&copy) mapbox</a>',
         tileOptions: {
             crossOriginKeyword: null

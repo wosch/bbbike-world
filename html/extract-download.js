@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
+ * Copyright (c) 2012-2022 Wolfram Schneider, https://bbbike.org
  */
 
 /* global variables */
@@ -76,7 +76,7 @@ function download_init_map(conf) {
         attribution: '<a href="https://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="https://www.opencyclemap.org/">(&copy) OpenCycleMap</a>'
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("Mapbox Satellite", ["https://d.tiles.mapbox.com/v3/tmcw.map-j5fsp01s/${z}/${x}/${y}.png"], {
+    map.addLayer(new OpenLayers.Layer.OSM("Mapbox Satellite", ["https://api.mapbox.com/v4/mapbox.satellite/${z}/${x}/${y}@2x.jpg90?access_token=pk.eyJ1IjoibWFwcXVlc3QiLCJhIjoiY2Q2N2RlMmNhY2NiZTRkMzlmZjJmZDk0NWU0ZGJlNTMifQ.mPRiEubbajc6a5y9ISgydg"], {
         attribution: '<a href="https://www.mapbox.com/">(&copy) mapbox</a>',
         tileOptions: {
             crossOriginKeyword: null
