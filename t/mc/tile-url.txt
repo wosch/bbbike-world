@@ -58,7 +58,7 @@ https://tile.waymarkedtrails.org/hiking/8/132/89.png
 https://tile.waymarkedtrails.org/cycling/8/132/89.png
 https://tile.waymarkedtrails.org/mtb/8/133/90.png
 https://tile.waymarkedtrails.org/skating/8/133/89.png
-http://a.tile.osm-tools.org/osm_then/11/1617/936.png
+https://a.tile.osm-tools.org/osm/11/1617/936.png
 https://a.tile.openstreetmap.fr/openriverboatmap/17/70413/42988.png
 https://b.tile.openstreetmap.fr/hot/17/70413/42988.png
 https://c.tile.openstreetmap.fr/osmfr/17/70413/42988.png
@@ -127,7 +127,7 @@ https://b-mydrive.api-system.tomtom.com/map/1/tile/hybrid/main/16/35206/21492.pn
 https://a-mydrive.api-system.tomtom.com/map/1/tile/hybrid/night/16/35206/21492.png?key=sATA9OwG11zrMKQcCxR3eSEjj2n8Jsrg
 https://d-mydrive.api-system.tomtom.com/map/1/tile/labels/main/16/35206/21492.png?key=sATA9OwG11zrMKQcCxR3eSEjj2n8Jsrg
 https://a-mydrive.api-system.tomtom.com/map/1/tile/labels/night/16/35206/21492.png?key=sATA9OwG11zrMKQcCxR3eSEjj2n8Jsrg
-https://tiles3.lbsarea.com/tilegenerator/tile.ashx/?&x=1502&y=2229&zoom=12&tileCacheControlVersion=17&internalTileDataset=lbslocal
+#https://tiles3.lbsarea.com/tilegenerator/tile.ashx/?&x=1502&y=2229&zoom=12&tileCacheControlVersion=17&internalTileDataset=lbslocal
 #https://map.tual.fr/osm/11/1100/671.png
 #https://tile.openstreetmap.ie/ga/11/988/663.png
 https://www.kartogiraffe.de/tiles/map/14/7906/5310.png
