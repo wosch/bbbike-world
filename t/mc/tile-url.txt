@@ -14,7 +14,6 @@ https://a.tile.thunderforest.com/outdoors/12/2200/1342@2x.png
 https://a.tile.thunderforest.com/transport-dark/12/2200/1342@2x.png
 https://a.tile.thunderforest.com/landscape/12/2200/1342@2x.png
 http://tile.memomaps.de/tilegen/12/2200/1342.png
-http://www.openptmap.org/tiles/12/2200/1342.png
 https://1.traffic.maps.api.here.com/maptile/2.1/traffictile/newest/normal.day/12/2200/1342/256/png8?app_id=xWVIueSv6JL0aJ5xqTxb&token=djPZyynKsbTjIUDOBcHZ2g&lglg=ENG
 https://1.aerial.maps.api.here.com/maptile/2.1/maptile/newest/hybrid.day/12/2200/1342/256/png8?app_id=xWVIueSv6JL0aJ5xqTxb&token=djPZyynKsbTjIUDOBcHZ2g&lglg=ENG
 https://1.base.maps.api.here.com/maptile/2.1/maptile/newest/normal.day/12/2200/1342/256/png8?app_id=xWVIueSv6JL0aJ5xqTxb&token=djPZyynKsbTjIUDOBcHZ2g&lglg=ENG
@@ -26,7 +25,6 @@ https://mt0.googleapis.com/vt?lyrs=m@202000000,bike&src=apiv3&hl=en&x=2200&y=134
 https://mt0.googleapis.com/vt?lyrs=h@202000000&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&style=api%7Csmartmaps
 # not the version number may expire: v=815
 https://khm0.googleapis.com/kh?v=815&hl=en&x=2201&y=1342&z=12&token=83911
-https://d.tiles.mapbox.com/v3/tmcw.map-j5fsp01s/13/4400/2685.png
 https://mt0.googleapis.com/vt?lyrs=t@130,r@202000000,bike,transit:comp%7Cvm:1,traffic,weather_nolabels&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&opts=r&style=api%7Csmartmaps
 https://mt0.googleapis.com/vt?lyrs=t@130,r@202000000&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&style=api%7Csmartmaps
 https://mt0.googleapis.com/vt?lyrs=m@202000000,traffic&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&style=api%7Csmartmaps
@@ -79,7 +77,6 @@ https://tiles.wmflabs.org/osm-no-labels/11/1100/671.png
 https://tiles.wmflabs.org/hillshading/12/2165/1488.png
 https://c.tiles.openrailwaymap.org/standard/11/1100/671.png
 https://a.tiles.openrailwaymap.org/maxspeed/12/2200/1342.png
-https://a.tiles.mapbox.com/v4/heyitsgarrett.kf2a2nb1/12/2200/1343.png?access_token=pk.eyJ1IjoiaGV5aXRzZ2FycmV0dCIsImEiOiIwdWt5ZlpjIn0.73b7Y47rgFnSD7QCNeS-zA
 http://a.tile.stamen.com/toner/17/70408/42972@2x.png
 http://online4.map.bdimg.com/tile/?qt=tile&styles=sl&x=396&y=145&z=11&scaler=1
 http://online1.map.bdimg.com/tile/?qt=tile&styles=pl&x=396&y=149&z=11&scaler=2
@@ -100,11 +97,6 @@ https://tiles1-bc7b4da77e971c12cb0e069bffcf2771.skobblermaps.com/TileService/til
 https://tiles2-bc7b4da77e971c12cb0e069bffcf2771.skobblermaps.com/TileService/tiles/2.0/01021113210/2/13/4401/2686.png@2x?traffic=false
 https://tiles3-bc7b4da77e971c12cb0e069bffcf2771.skobblermaps.com/TileService/tiles/2.0/01021113210/5/13/4401/2686.png@2x?traffic=false
 https://tiles4-bc7b4da77e971c12cb0e069bffcf2771.skobblermaps.com/TileService/tiles/2.0/01021113210/7/13/4401/2686.png@2x?traffic=false
-https://a.tiles.mapbox.com/v4/mapquest.streets-mb/11/1101/672@2x.png?access_token=pk.eyJ1IjoibWFwcXVlc3QiLCJhIjoiY2Q2N2RlMmNhY2NiZTRkMzlmZjJmZDk0NWU0ZGJlNTMifQ.mPRiEubbajc6a5y9ISgydg
-https://b.tiles.mapbox.com/v4/mapquest.satellite-mb/11/1101/672@2x.png?access_token=pk.eyJ1IjoibWFwcXVlc3QiLCJhIjoiY2Q2N2RlMmNhY2NiZTRkMzlmZjJmZDk0NWU0ZGJlNTMifQ.mPRiEubbajc6a5y9ISgydg
-https://c.tiles.mapbox.com/v4/mapquest.satellitenolabels/11/1101/672@2x.png?access_token=pk.eyJ1IjoibWFwcXVlc3QiLCJhIjoiY2Q2N2RlMmNhY2NiZTRkMzlmZjJmZDk0NWU0ZGJlNTMifQ.mPRiEubbajc6a5y9ISgydg
-https://d.tiles.mapbox.com/v4/mapquest.dark-mb/11/1101/672@2x.png?access_token=pk.eyJ1IjoibWFwcXVlc3QiLCJhIjoiY2Q2N2RlMmNhY2NiZTRkMzlmZjJmZDk0NWU0ZGJlNTMifQ.mPRiEubbajc6a5y9ISgydg
-https://a.tiles.mapbox.com/v4/mapquest.light-mb/11/1101/672@2x.png?access_token=pk.eyJ1IjoibWFwcXVlc3QiLCJhIjoiY2Q2N2RlMmNhY2NiZTRkMzlmZjJmZDk0NWU0ZGJlNTMifQ.mPRiEubbajc6a5y9ISgydg
 https://tiles.codefor.de/berlin-2019/16/35205/21492.png
 https://tiles.codefor.de/berlin-2018/16/35205/21492.png
 https://tiles.codefor.de/berlin-2017/16/35205/21492.png
@@ -155,4 +147,7 @@ https://m1.mapserver.mapy.cz/army2-m/15-17705-11105
 https://a.freemap.sk/A/14/8971/5683.png
 https://a.tiles.tracestrack.com/base/15/17603/10746.png?key=710cc921fda7d757cc9b0aecd40ad3be
 https://b.tiles.tracestrack.com/bus-route/15/17603/10746.png?key=710cc921fda7d757cc9b0aecd40ad3be
+https://api.mapbox.com/v4/mapbox.satellite/9/276/167@2x.jpg90?access_token=pk.eyJ1IjoibWFwcXVlc3QiLCJhIjoiY2Q2N2RlMmNhY2NiZTRkMzlmZjJmZDk0NWU0ZGJlNTMifQ.mPRiEubbajc6a5y9ISgydg
+https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/9/276/167@2x.jpg90?access_token=pk.eyJ1IjoibWFwcXVlc3QiLCJhIjoiY2Q2N2RlMmNhY2NiZTRkMzlmZjJmZDk0NWU0ZGJlNTMifQ.mPRiEubbajc6a5y9ISgydg
+https://api.mapbox.com/v4/mapbox.mapbox-streets-v8/9/276/165@2x.jpg?access_token=pk.eyJ1IjoibWFwcXVlc3QiLCJhIjoiY2Q2N2RlMmNhY2NiZTRkMzlmZjJmZDk0NWU0ZGJlNTMifQ.mPRiEubbajc6a5y9ISgydg
 
