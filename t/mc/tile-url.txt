@@ -21,7 +21,8 @@ https://mt0.googleapis.com/vt?lyrs=m@202000000&src=apiv3&hl=en&x=2200&y=1342&z=1
 https://mt0.googleapis.com/vt?lyrs=m@202000000,bike&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&style=api%7Csmartmaps
 https://mt0.googleapis.com/vt?lyrs=h@202000000&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&style=api%7Csmartmaps
 # not the version number may expire: v=815
-https://khm0.googleapis.com/kh?v=815&hl=en&x=2201&y=1342&z=12&token=83911
+https://khms1.googleapis.com/kh?v=908&hl=en&x=35203&y=21605&z=16
+https://maps.googleapis.com/maps/vt?pb=!1m5!1m4!1i13!2i4399!3i2700!4i256!2m3!1e0!2sm!3i585313274!2m6!1e2!2straffic!4m2!1st!2s2734631!5i1!2m3!1e2!6m1!3e5!3m17!2sen!3sUS!5e18!12m4!1e68!2m2!1sset!2sRoadmap!12m3!1e37!2m1!1ssmartmaps!12m4!1e26!2m2!1sstyles!2zcC5zOi02MHxwLmw6LTYw!4e0!5m1!5f2&token=50535
 https://mt0.googleapis.com/vt?lyrs=t@130,r@202000000,bike,transit:comp%7Cvm:1,traffic,weather_nolabels&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&opts=r&style=api%7Csmartmaps
 https://mt0.googleapis.com/vt?lyrs=t@130,r@202000000&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&style=api%7Csmartmaps
 https://mt0.googleapis.com/vt?lyrs=m@202000000,traffic&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&style=api%7Csmartmaps
@@ -63,7 +64,7 @@ https://b.tile.openstreetmap.fr/hot/17/70413/42988.png
 https://c.tile.openstreetmap.fr/osmfr/17/70413/42988.png
 https://b.basemaps.cartocdn.com/light_all/11/1099/670.png
 https://a.basemaps.cartocdn.com/dark_all/6/18/24.png
-http://tiles.maps.sputnik.ru/tiles/kmt2/12/2197/1344.png
+#http://tiles.maps.sputnik.ru/tiles/kmt2/12/2197/1344.png
 https://c.tile.geofabrik.de/549e80f319af070f8ea8d0f149a149c2/13/4401/2684.png
 https://c.tile.geofabrik.de/23228979966ae9040ceb0597251e12a2/13/4401/2684.png
 https://a.tile.geofabrik.de/15173cf79060ee4a66573954f6017ab0/13/4399/2684.png
@@ -127,8 +128,8 @@ https://a-mydrive.api-system.tomtom.com/map/1/tile/hybrid/night/16/35206/21492.p
 https://d-mydrive.api-system.tomtom.com/map/1/tile/labels/main/16/35206/21492.png?key=sATA9OwG11zrMKQcCxR3eSEjj2n8Jsrg
 https://a-mydrive.api-system.tomtom.com/map/1/tile/labels/night/16/35206/21492.png?key=sATA9OwG11zrMKQcCxR3eSEjj2n8Jsrg
 https://tiles3.lbsarea.com/tilegenerator/tile.ashx/?&x=1502&y=2229&zoom=12&tileCacheControlVersion=17&internalTileDataset=lbslocal
-https://map.tual.fr/osm/11/1100/671.png
-https://tile.openstreetmap.ie/ga/11/988/663.png
+#https://map.tual.fr/osm/11/1100/671.png
+#https://tile.openstreetmap.ie/ga/11/988/663.png
 https://www.kartogiraffe.de/tiles/map/14/7906/5310.png
 https://c.tile.thunderforest.com/mobile-atlas/15/15814/10621@2x.png?apikey=6170aad10dfd42a38d4d8c709a536f38
 https://maps.bergfex.at/osm/512px/15/17874/11362.jpg
