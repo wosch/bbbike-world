@@ -1,12 +1,9 @@
-https://b.tile.bbbike.org/osm/mapnik-german/12/2200/1342.png
 https://a.tile.openstreetmap.org/12/2200/1342.png
 http://a.tile.stamen.com/toner/12/2200/1342.png
 https://a.tile.thunderforest.com/transport/12/2200/1342@2x.png
-https://a.tile.bbbike.org/osm/mapnik-german/12/2200/1342.png
 http://a.tile.stamen.com/watercolor/12/2200/1342.png
 https://a.tile.openstreetmap.de/tiles/osmde/12/2200/1342.png
 https://d.tile.openstreetmap.de/tiles/osmde/12/2200/1342.png
-https://a.tile.bbbike.org/osm/mapnik/12/2200/1342.png
 http://gsp2.apple.com/tile?api=1&style=slideshow&layers=default&lang=de_DE&z=12&x=2200&y=1342&v=9
 https://cdn4.apple-mapkit.com/ti/tile?type=tile&style=0&size=1&x=1100&y=671&z=11&scale=2&lang=en&v=1903084&poi=0&accessKey=1552122222_715189020662096599_%2F_oe2S%2F8J3ny2UxIbVWQIJIcTPZhT5UaGLDxyET5EiEm8%3D&labels=0&tint=light&emphasis=standard
 https://cdn1.apple-mapkit.com/ti/tile?type=tile&style=46&size=1&x=1100&y=672&z=11&scale=2&lang=en&v=1903084&poi=0&accessKey=1552122222_715189020662096599_%2F_oe2S%2F8J3ny2UxIbVWQIJIcTPZhT5UaGLDxyET5EiEm8%3D&labels=0&tint=light&emphasis=standard
@@ -45,7 +42,6 @@ https://mt0.googleapis.com/vt?lyrs=m@202221627,traffic&src=apiv3&hl=en&x=2200&y=
 https://mt0.googleapis.com/vt?lyrs=m@202221627,transit:comp%7Cvm:1&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&opts=r&style=api%7Csmartmaps
 https://mt0.googleapis.com/vt?lyrs=t@130,r@202221627,bike,transit:comp%7Cvm:1,traffic&src=apiv3&hl=en&x=2200&y=1342&z=12&s=Galile&opts=r&style=api%7Csmartmaps
 https://sat01.maps.yandex.net/tiles?l=sat&v=1.35.0&x=2200&y=1346&z=12
-https://vec02.maps.yandex.net/tiles?l=map&v=2.2.3&x=2200&y=1346&z=12
 https://worldtiles2.waze.com/tiles/13/4400/2688.png
 https://livemap-tiles3.waze.com/tiles/12/1176/1560.png
 #http://www.topomapper.com/cgi-bin/tilecache-2.11b/tilecache.py?LAYERS=topomapper_gmerc&FORMAT=image%2Fjpeg&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&SRS=EPSG%3A900913&BBOX=1487158.8221094,6907461.3711133,1506726.7013477,6927029.2503516&WIDTH=256&HEIGHT=256
@@ -70,7 +66,6 @@ http://a.tile.osm-tools.org/osm_then/11/1617/936.png
 https://a.tile.openstreetmap.fr/openriverboatmap/17/70413/42988.png
 https://b.tile.openstreetmap.fr/hot/17/70413/42988.png
 https://c.tile.openstreetmap.fr/osmfr/17/70413/42988.png
-https://mobil.bvg.de/tiles/base/15/17601/22023.png
 https://b.basemaps.cartocdn.com/light_all/11/1099/670.png
 https://a.basemaps.cartocdn.com/dark_all/6/18/24.png
 http://tiles.maps.sputnik.ru/tiles/kmt2/12/2197/1344.png
@@ -78,9 +73,6 @@ https://c.tile.geofabrik.de/549e80f319af070f8ea8d0f149a149c2/13/4401/2684.png
 https://c.tile.geofabrik.de/23228979966ae9040ceb0597251e12a2/13/4401/2684.png
 https://a.tile.geofabrik.de/15173cf79060ee4a66573954f6017ab0/13/4399/2684.png
 https://www.opensnowmap.org/opensnowmap-overlay/11/1099/671.png
-http://t3.beta.itoworld.com/69/84f7729ed2e9b4c7e2aed58e8fb171fe/11/1100/671.png
-http://t3.beta.itoworld.com/124/baafeeae799c1dcc732ea30dd4ae5c97/11/1100/671.png
-http://t3.beta.itoworld.com/215/3f91703263bfa5c9376e129ada11252b/11/1100/671.png
 https://tiles.wmflabs.org/bw-mapnik/11/1100/671.png
 https://tiles.wmflabs.org/hikebike/11/1100/671.png
 https://tiles.wmflabs.org/osm-no-labels/11/1100/671.png
@@ -138,10 +130,6 @@ https://tiles.codefor.de/berlin-1910/16/35205/21492.png
 https://tiles.codefor.de/berlin-1940/16/35205/21492.png
 https://tiles.codefor.de/berlin-gebaeudealter/16/35205/21492.png
 https://tiles.codefor.de/berlin-gebschaden/16/35205/21492.png
-https://tiles.jochenklar.de/geo/16/35205/21492.png
-https://a.tile.bbbike.org/osm/mapnik-german/12/2200/1342.png
-https://b.tile.bbbike.org/osm/mapnik-german/12/2200/1342.png
-https://c.tile.bbbike.org/osm/mapnik/12/2200/1342.png
 https://d.tile.bbbike.org/osm/bbbike-smoothness/12/2200/1342.png
 https://d-mydrive.api-system.tomtom.com/map/1/tile/basic/main/16/35206/21492.png?key=sATA9OwG11zrMKQcCxR3eSEjj2n8Jsrg
 https://c-mydrive.api-system.tomtom.com/map/1/tile/basic/night/16/35206/21492.png?key=sATA9OwG11zrMKQcCxR3eSEjj2n8Jsrg
