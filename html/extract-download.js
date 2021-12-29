@@ -72,8 +72,12 @@ function download_init_map(conf) {
         attribution: '<a href="https://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>'
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM.CycleMap("OSM CycleMap", {
-        attribution: '<a href="https://www.openstreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="https://www.opencyclemap.org/">(&copy) OpenCycleMap</a>'
+    map.addLayer(new OpenLayers.Layer.OSM("OSM CycleMap", ["https://a.tile.thunderforest.com/cycle/${z}/${x}/${y}@2x.png?apikey=6170aad10dfd42a38d4d8c709a536f38", "https://b.tile.thunderforest.com/cycle/${z}/${x}/${y}@2x.png?apikey=6170aad10dfd42a38d4d8c709a536f38"], {
+        tileOptions: {
+            crossOriginKeyword: null
+        },
+        attribution: '<a href="https://www.OpenStreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="https://www.opencyclemap.org/">(&copy) OpenCycleMap</a>',
+        numZoomLevels: 18
     }));
 
     map.addLayer(new OpenLayers.Layer.OSM("Mapbox Satellite", ["https://api.mapbox.com/v4/mapbox.satellite/${z}/${x}/${y}@2x.jpg90?access_token=pk.eyJ1IjoibWFwcXVlc3QiLCJhIjoiY2Q2N2RlMmNhY2NiZTRkMzlmZjJmZDk0NWU0ZGJlNTMifQ.mPRiEubbajc6a5y9ISgydg"], {
