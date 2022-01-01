@@ -4,32 +4,32 @@
 # planet-osm-size - display size of planet.osm for PBF and OSM formats
 #
 # ./planet-osm-size.sh 
-# PBF size: 51.6499 GB
-# OSM size: 90.7572 GB
-# XML size: 1256.26 GB
+# PBF size:   51.6 GB
+# OSM size:   90.7 GB
+# XML size: 1256.2 GB
 #
 
 pbf_size ()
 {
-    size=$(curl -D /dev/stdout -sSfL --head \
+    curl -D /dev/stdout -sSfL --head \
 	https://planet.openstreetmap.org/pbf/planet-latest.osm.pbf 2>/dev/null | \
-	egrep -i Content-Length: | awk '{ printf("%.1f\n", $2/1024/1024/1024) }' )
-    echo "PBF size: $size GB"
+	egrep -i '^Content-Length: ' | head -n 1 | \
+        awk '{ printf("PBF size: %6.1f GB\n", $2 / 1024 /1024 / 1024) }'
 }
 
 osm_size ()
 {
-    size=$(curl -D /dev/stdout -sSfL --head \
+    curl -D /dev/stdout -sSfL --head \
 	https://planet.openstreetmap.org/planet/planet-latest.osm.bz2 2>/dev/null | \
-	egrep -i Content-Length: | awk '{ printf("%.1f\n", $2/1024/1024/1024) }' )
-    echo "OSM size: $size GB"
+	egrep -i '^Content-Length: ' | head -n 1 | \
+	awk '{ printf("OSM size: %6.1f GB\n", $2 / 1024 /1024 / 1024) }'
 }
 
 xml_size ()
 {
-    size=$(curl -L -sSf https://planet.osm.org/planet/planet-latest.osm.bz2 | \
-	nice -n 15 pbzip2 -d | wc -c | awk '{ printf("%.1f\n", $1/1024/1024/1024) }' )
-    echo "XML size: $size GB"
+    curl -L -sSf https://planet.osm.org/planet/planet-latest.osm.bz2 | \
+	nice -n 15 pbzip2 -d | wc -c | \
+        awk '{ printf("XML size: %6.1f\n", $1 / 1024 / 1024 / 1024) }'
 }
 
 ##############################################################################
