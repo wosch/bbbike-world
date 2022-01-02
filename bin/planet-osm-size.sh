@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2018-2021 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2018-2022 Wolfram Schneider, https://bbbike.org
 #
 # planet-osm-size - display size of planet.osm for PBF and OSM formats
 #
@@ -29,7 +29,7 @@ xml_size ()
 {
     curl -L -sSf https://planet.osm.org/planet/planet-latest.osm.bz2 | \
 	nice -n 15 pbzip2 -d | wc -c | \
-        awk '{ printf("XML size: %6.1f\n", $1 / 1024 / 1024 / 1024) }'
+        awk '{ printf("XML size: %6.1f GB\n", $1 / 1024 / 1024 / 1024) }'
 }
 
 ##############################################################################
