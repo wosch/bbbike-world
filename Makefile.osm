@@ -822,8 +822,8 @@ update-database: build-runtime
 	${TIME} ./world/bin/update-database
 	@${BBMAKE} -s rotate-clean
 
-planet-update:
-	./world/bin/planet-update
+planet-update planet-daily-update:
+	./world/bin/planet-daily-update
 
 perlcheck-bbbike-cgi:
 	perl -I world/lib -c cgi/bbbike.cgi
@@ -1805,7 +1805,7 @@ help:
 	@echo "  [ sub-srtm | sub-planet-statistic ]"
 	@echo "  [ planet-streets | planet-places ]"
 	@echo "  [ update-database | update-files ]"
-	@echo "  [ planet-update ]"
+	@echo "  [ planet-daily-update ]"
 	@echo "  [ download-bbbike-org-install ]"
 	@echo ""
 	@echo "  [ staging | extract-bbbike-org-install | garmin-legend ]"
