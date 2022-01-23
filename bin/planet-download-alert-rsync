@@ -1,15 +1,16 @@
 #!/bin/bash
-# Copyright (c) 2009-2020 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2022 Wolfram Schneider, https://bbbike.org
 #
-# planet-download-alert-rsync - fetch planet with rsync instead HTTPS
+# planet-download-alert-rsync - fetch latest planet.osm file with rsync instead HTTPS
+#
 
 set -e
 set -o pipefail
 
 PATH=/usr/local/bin:/bin:/usr/bin; export PATH 
 
-file=planet-latest.osm.pbf
 planet_osm_server_rsync=planet.openstreetmap.org/planet
+planet_file=planet-latest.osm.pbf
 
 automatic_update="yes"
 bbbikerc=$HOME/.bbbikerc
@@ -32,8 +33,12 @@ if [ -e $update_lock ]; then
 fi
 
 touch $update_lock
-if rsync -aL rsync://${planet_osm_server_rsync}/pbf/planet-latest.osm.pbf rsync://${planet_osm_server_rsync}/pbf/planet-latest.osm.pbf.md5 .; then
-   : #echo "Successfully synced: $(date)"
+
+if rsync -aL rsync://${planet_osm_server_rsync}/pbf/$planet_file rsync://${planet_osm_server_rsync}/pbf/$planet_file.md5 .; then
+   if [ $planet_file -nt $planet_file.timestamp ]; then
+      osmconvert --out-timestamp $planet_file > $planet_file.timestamp.tmp
+      mv -f $planet_file.timestamp.tmp $planet_file.timestamp
+   fi
 else
    echo "Failed synced: $(date)"
 fi
@@ -41,4 +46,3 @@ fi
 rm -f $update_lock
 
 #EOF
-
