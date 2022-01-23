@@ -75,4 +75,8 @@ export BBBIKE_EXTRACT_SHAPE_VERSION="osmium2shape"
 export BBBIKE_EXTRACT_MAPSME_VERSION="mapsme"
 export BBBIKE_EXTRACT_MBTILES_VERSION="tilemaker"
 
+if [ -e /var/lib/jenkins/dot.bbbikerc-phantomjs ]; then
+  . /var/lib/jenkins/dot.bbbikerc-phantomjs
+fi
+
 #EOF
