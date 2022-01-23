@@ -1,5 +1,5 @@
 #!/usr/local/bin/bash
-# Copyright (c) 2009-2019 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2022 Wolfram Schneider, https://bbbike.org
 #
 # planet-download - download the latest planet.osm.pbf file
 #                   create a copy without meta data too
@@ -34,8 +34,6 @@ mkdir -p $dir
 pwd=`pwd`
 cd $dir
 
-# get md5 checksum first
-curl -L -sSf -o $file_latest.md5 $planet_osm_server/$file_latest.md5
 
 if $keep_original_planet; then
   tee_output=$file_latest
@@ -43,9 +41,24 @@ else
   tee_output=/dev/null
 fi
 
+# get md5 checksum
+curl -L -sSf -o $file_latest.md5 $planet_osm_server/$file_latest.md5
+
+# download planet.osm and create the planet without meta data on the fly
 time curl --http1.1 --ipv4 -L -sSf $planet_osm_server/$file_latest | tee $tee_output | mbuffer -q -m 128m | \
   $nice osmconvert --drop-author --drop-version --out-pbf - > $file_nometa.tmp
 mv -f $file_nometa.tmp $file_nometa
+
+# create timestamp file / nometa
+osmconvert --out-timestamp $file_nometa > $file_nometa.timestamp.tmp
+mv -f $file_nometa.timestamp.tmp $file_nometa.timestamp
+
+# create timestamp file / original planet
+if $keep_original_planet; then
+  osmconvert --out-timestamp $file_latest > $file_latest.timestamp.tmp
+  mv -f $file_latest.timestamp.tmp $file_latest.timestamp
+fi
+
 
 if $keep_original_planet; then
   cat $file_latest.md5
