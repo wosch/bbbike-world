@@ -920,8 +920,10 @@ temp-clean:
 
 cache-clean-local: tilesize-clean
 	rm -rf ./cache
-	rm -rf /tmp/bbbike-localhost-$$(perl -e 'print $$<')-*
-	rm -rf /tmp/bbbike-cgicache-$$(perl -e 'print $$<')-*
+	rm -rf /tmp/bbbike-localhost-$$(perl -e 'print $$<')
+	rm -rf /tmp/bbbike-localhost-$$(whoami)
+	rm -rf /tmp/bbbike-cgicache-$$(perl -e 'print $$<')
+	rm -rf /tmp/bbbike-cgicache-$$(whoami)
 
 log-clean:
 	rm -f log.check log.check-full log.check-world
@@ -1249,7 +1251,7 @@ tile-rsync:
 tile-info:
 	@echo "Please do not forget to disable the planet.osm update cron job while updating the tile database"
 
-data-distclean distclean-data:
+data-distclean distclean-data: cache-clean-local
 	rm -f data/*.lock data/*.inx[456] data/*.st
 	rm -f misc/*.lock misc/*.inx[456]
 	rm -f data-osm/bbbike/*.inx[456] data-osm/bbbike/*.st data-osm/bbbike/*.lock
