@@ -1252,12 +1252,14 @@ tile-info:
 data-distclean distclean-data:
 	rm -f data/*.lock data/*.inx[456] data/*.st
 	rm -f misc/*.lock misc/*.inx[456]
+	rm -f data-osm/bbbike/*.inx[456] data-osm/bbbike/*.st data-osm/bbbike/*.lock
 	find ext -name .lock -type f -print0 | xargs -0 rm -f
 	rm -rf ${TMP_DIR}
 	rm -f /bbbike/tmp/bbbike_*
 	rm -f ../osm/download/sub-*/*.tmp
-	find . -name '*.inx*'
-	find . -name '*.lock'
+	find . -name '*.inx*' -print
+	find . -name '*.lock' -print
+	find . -name '*.st' ! -name httpd.conf.st -print
 
 #########################################################################
 # Note: you need at least 280GB free disk space to run this command!!!
