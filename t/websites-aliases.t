@@ -31,12 +31,11 @@ my @list = (
         'match'    => ["</html>"]
     },
 
-    #{
-    #    # no HTTPS yet
-    #    'page'     => 'http://mc.bbike.org/mc/',
-    #    'min_size' => 300,
-    #    'match'    => [ "</html>", ">Map Compare<" ]
-    #},
+    {
+        'page'     => 'http://mc.bbike.org/mc/',
+        'min_size' => 300,
+        'match'    => [ "</html>", ">Map Compare<" ]
+    },
 
     {
         'page'     => 'https://www.cyclerouteplanner.org',
