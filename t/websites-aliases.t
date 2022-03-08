@@ -60,11 +60,11 @@ my @list = (
         'match'    => ["</html>"]
     },
 
-    {
-        'page'     => 'https://www.cycleroute.net',
-        'min_size' => 10_000,
-        'match'    => ["</html>"]
-    },
+    #{
+    #    'page'     => 'https://www.cycleroute.net',
+    #    'min_size' => 10_000,
+    #    'match'    => ["</html>"]
+    #},
     {
         'page'     => 'https://cycleroute.net',
         'min_size' => 10_000,
