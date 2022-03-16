@@ -117,6 +117,7 @@ our $formats = {
 
 };
 
+# configure which formats are in the scroll down menu, and in which order
 our $formats_menu = {
     'osm' => {
         'title'   => "OSM",
