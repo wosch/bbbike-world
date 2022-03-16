@@ -144,16 +144,30 @@ our $formats_menu = {
     'garmin' => {
         'title'   => "Garmin",
         'formats' => [
-            'garmin-osm-latin1.zip',           'garmin-osm.zip',
-            'garmin-cycle-latin1.zip',         'garmin-cycle.zip',
-            'garmin-leisure-latin1.zip',       'garmin-leisure.zip',
-            'garmin-onroad-latin1.zip',        'garmin-onroad.zip',
-            'garmin-ontrail-latin1.zip',       'garmin-ontrail.zip',
-            'garmin-openfietslite-latin1.zip', 'garmin-openfietslite.zip',
-            'garmin-openfietsfull-latin1.zip', 'garmin-openfietsfull.zip',
-            'garmin-oseam-latin1.zip',         'garmin-oseam.zip',
-            'garmin-opentopo-latin1.zip',      'garmin-opentopo.zip',
-            'garmin-bbbike-latin1.zip',        'garmin-bbbike.zip',
+
+            # latin1
+            'garmin-osm-latin1.zip',
+            'garmin-cycle-latin1.zip',
+            'garmin-leisure-latin1.zip',
+            'garmin-onroad-latin1.zip',
+            'garmin-ontrail-latin1.zip',
+            'garmin-openfietslite-latin1.zip',
+            'garmin-openfietsfull-latin1.zip',
+            'garmin-oseam-latin1.zip',
+            'garmin-opentopo-latin1.zip',
+            'garmin-bbbike-latin1.zip',
+
+            # utf-8
+            'garmin-osm.zip',
+            'garmin-cycle.zip',
+            'garmin-leisure.zip',
+            'garmin-onroad.zip',
+            'garmin-ontrail.zip',
+            'garmin-openfietslite.zip',
+            'garmin-openfietsfull.zip',
+            'garmin-oseam.zip',
+            'garmin-opentopo.zip',
+            'garmin-bbbike.zip',
         ]
     },
     'android' => {
