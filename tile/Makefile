@@ -93,7 +93,7 @@ git-checkout:
 	cd ${PROJECT_DIR}; if [ ! -e mapnik-bbbike ]; then git clone --depth=1 https://github.com/eserte/mapnik-bbbike; fi
 	cd ${PROJECT_DIR}; \
 	  if [ ! -e bbbike-eserte ]; then \
-	    git clone --depth=1 git://github.com/eserte/bbbike.git bbbike-eserte; \
+	    git clone --depth=1 https://github.com/eserte/bbbike.git bbbike-eserte; \
 	  fi
 
 etc-symlinks:
