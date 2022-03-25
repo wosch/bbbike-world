@@ -731,14 +731,14 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         maxZoom: 18
     };
 
-    // BBBike data in mapnik
+    // BBBike data 
     var bbbike_mapnik_options = {
         bbbike: {
             "name": "BBBike",
             "description": "BBBike Mapnik, by bbbike.de"
         },
         getTileUrl: function (a, z) {
-            return "https://" + randomServerOSM(3) + ".tile.bbbike.org/osm/mapnik/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "https://" + randomServerOSM(3) + ".tile.bbbike.org/osm/bbbike/" + z + "/" + a.x + "/" + a.y + ".png";
         },
         isPng: true,
         opacity: 1.0,
