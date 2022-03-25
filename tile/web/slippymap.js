@@ -47,7 +47,7 @@ function init() {
     var layerCycleMap = new OpenLayers.Layer.OSM.CycleMap("OSM CycleMap");
     map.addLayer(layerCycleMap);
 
-    map.addLayer(new OpenLayers.Layer.OSM("OSM Toner", ["http://a.tile.stamen.com/toner/${z}/${x}/${y}.png", "http://b.tile.stamen.com/toner/${z}/${x}/${y}.png"], {
+    map.addLayer(new OpenLayers.Layer.OSM("OSM Toner", ["https://stamen-tiles-c.a.ssl.fastly.net/toner/${z}/${x}/${y}.png"], {
         numZoomLevels: 18
     }));
 

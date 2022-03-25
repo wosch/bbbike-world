@@ -89,10 +89,10 @@ function init() {
 
     map.addLayer(new OpenLayers.Layer.OSM.Toolserver("OSM no labels", 'osm-no-labels'));
 
-    map.addLayer(new OpenLayers.Layer.OSM("OSM Toner", ["http://a.tile.stamen.com/toner/${z}/${x}/${y}.png", "http://b.tile.stamen.com/toner/${z}/${x}/${y}.png"], {
+    map.addLayer(new OpenLayers.Layer.OSM("OSM Toner", ["https://stamen-tiles-c.a.ssl.fastly.net/toner/${z}/${x}/${y}.png"], {
         numZoomLevels: 18
     }));
-    map.addLayer(new OpenLayers.Layer.OSM("OSM Watercolor", ["http://a.tile.stamen.com/watercolor/${z}/${x}/${y}.png", "http://b.tile.stamen.com/watercolor/${z}/${x}/${y}.png"], {
+    map.addLayer(new OpenLayers.Layer.OSM("OSM Watercolor", ["https://stamen-tiles-c.a.ssl.fastly.net/watercolor/${z}/${x}/${y}.png"], {
         tileOptions: {
             crossOriginKeyword: null
         },

@@ -1109,7 +1109,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "Toner, by maps.stamen.com"
         },
         getTileUrl: function (a, z) {
-            return "http://" + randomServerOSM(4) + ".tile.stamen.com/toner/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "https://stamen-tiles-c.a.ssl.fastly.net/toner/" + z + "/" + a.x + "/" + a.y + ".png";
         },
         isPng: true,
         opacity: 1.0,
@@ -1125,12 +1125,12 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "Watercolor, by maps.stamen.com"
         },
         getTileUrl: function (a, z) {
-            return "http://" + randomServerOSM(4) + ".tile.stamen.com/watercolor/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "https://stamen-tiles-c.a.ssl.fastly.net/watercolor/" + z + "/" + a.x + "/" + a.y + ".png";
         },
         isPng: true,
         opacity: 1.0,
         tileSize: new google.maps.Size(256, 256),
-        name: "toner",
+        name: "watercolor",
         minZoom: 1,
         maxZoom: 19
     };
