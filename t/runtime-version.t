@@ -28,7 +28,8 @@ my $versions = {
             qr/^pigz (2\.1\.6|2\.2\.[4-9]|2\.3\.1|2\.[346])/
         ],
         [
-            [qw/java -version/], qr/^(openjdk|java) version "17\.0\.2|11.0.(14)/m
+            [qw/java -version/],
+            qr/^(openjdk|java) version "17\.0\.2|11.0.(14)/m
         ],
         [
             [qw/java -version/],
