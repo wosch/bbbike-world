@@ -9,13 +9,13 @@ Depends: pbzip2, bzip2, xz-utils, pixz, ncdu, git-core, screen, curl, wget, time
  lsof, whois, pigz, make, acct, dnsutils, sysstat, buffer, mbuffer,
  pktstat, unzip, gcc, zlib1g-dev, perltidy, tidy, bsd-mailx,
  perl-doc, zip, sudo, munin-node, htop, strace, python3, openjdk-11-jdk,
- g++, sockstat, kwalify, libhtml-tagcloud-perl, libtext-unidecode-perl, 
+ g++, sockstat, kwalify, libhtml-tagcloud-perl, libtext-unidecode-perl,
  python3-apt, python-is-python3, rsync,
  libxml-atom-simplefeed-perl, libjson-perl, liburi-perl, libxml-libxml-perl,
  libyaml-perl, libyaml-syck-perl, libxml-simple-perl, libdevel-size-perl,
  libtie-ixhash-perl, libdevel-size-perl, libbsd-resource-perl,
  libobject-realize-later-perl, libemail-valid-perl, libcairo-perl,
- libpango-perl, libinline-perl, libpdf-create-perl, libgd-gd2-perl, 
+ libpango-perl, libinline-perl, libpdf-create-perl, libgd-gd2-perl,
  libprotobuf-lite23, libshp1, libxml2-dev,
  libxml-twig-perl, libipc-run-perl, libimage-info-perl, libwww-mechanize-perl,
  libemail-mime-perl, libdbi-perl, libobject-realize-later-perl, libmldbm-perl,
@@ -24,7 +24,7 @@ Depends: pbzip2, bzip2, xz-utils, pixz, ncdu, git-core, screen, curl, wget, time
  ttf-bitstream-vera, libtext-table-perl, libpdf-create-perl,
  libcairo-perl, libpango-perl, libfont-afm-perl, libtest-number-delta-perl,
  libimager-perl, netpbm, libgd-gd2-perl, ttf-bitstream-vera, ttf-dejavu,
- libyaml-tiny-perl, libcompress-zlib-perl, liblzma-dev, 
+ libyaml-tiny-perl, libcompress-zlib-perl, liblzma-dev,
  libclass-accessor-children-perl, subversion, libimage-size-perl,
  libmime-tools-perl, libcdb-file-perl, libdate-calc-perl,
  libimage-exiftool-perl, libstatistics-descriptive-perl, libsvg-perl,
@@ -39,7 +39,7 @@ Depends: pbzip2, bzip2, xz-utils, pixz, ncdu, git-core, screen, curl, wget, time
  libdata-random-perl, libtest-data-perl, libimage-info-perl, libmath-polygon-perl,
  libwww-mechanize-formfiller-perl, libaccessors-perl, libxml-atom-simplefeed-perl,
  libdevel-nytprof-perl, libtest-most-perl, libmodule-build-perl,
- libtest-fatal-perl, liblockfile-simple-perl, mosh, libcgi-fast-perl, 
+ libtest-fatal-perl, liblockfile-simple-perl, mosh, libcgi-fast-perl,
  libjpeg-progs, libplack-perl, libimager-qrcode-perl, libclone-perl,
  libinline-c-perl, libhtml-format-perl, libcanary-stability-perl,
  libboost-program-options1.74.0
@@ -47,4 +47,4 @@ Description: BBBike @ World standard debian packages
  BBBike @ World standard debian packages
 
 # legacy
-# freebsd-buildutils, ttf-dejavu, 
+# freebsd-buildutils, ttf-dejavu,
