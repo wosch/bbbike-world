@@ -1341,11 +1341,6 @@ deb-perl: deb-clean perl-cpan
 	    cpan_version=$$(echo $$i | perl -npe 's/=/ --version /'); \
 	    dh-make-perl --build --email 'wosch@freebsd.org' --cpan $$cpan_version; \
 	done
-	set -e; for i in ${DEB_DIR}/*.deb; do \
-	   env DEB_RELEASE=${DEB_RELEASE} ./world/bin/deb2deb $$i; \
-	done
-	ls -l ${DEB_DIR}/*.deb
-	echo "Number of deps: $$(ls ${DEB_DIR} | egrep '*.deb$$' | wc -l)"
 
 perl-cpan-clean:
 	rm -rf $$HOME/perl5 $$HOME/.cpan/build $$HOME/.local/share/.cpan/build
@@ -1369,8 +1364,11 @@ deb-equivs:
 	for i in ${DEB_CONTROLS}; do \
 	    equivs-build $$i; \
 	done
-	for i in ${DEB_DIR}/*.deb; do env DEB_RELEASE=${DEB_RELEASE} world/bin/deb2deb $$i; done
+
+deb2deb:
+	set -e; for i in ${DEB_DIR}/*.deb; do env DEB_RELEASE=${DEB_RELEASE} world/bin/deb2deb $$i; done
 	ls -l ${DEB_DIR}/*.deb
+	echo "Number of deps: $$(ls ${DEB_DIR} | egrep '*.deb$$' | wc -l)"
 
 deb-bin deb-bin-java deb-bin-x86:
 	${MAKE} -C./world/etc/apt/${DEB_VENDOR}/${DEB_RELEASE}/deb -f ../../../Makefile DEB_RELEASE=${DEB_RELEASE} DEB_VENDOR=${DEB_VENDOR} $@
@@ -1396,9 +1394,6 @@ deb-repo-dir:
 # should be part of world/etc/apt/Makefile
 # fix & sign debian packages	
 deb-repo: deb-repo-dir
-	for i in ${DEB_DIR}/*.deb; do \
-	  env DEB_RELEASE=${DEB_RELEASE} world/bin/deb2deb $$i; \
-	done
 	dpkg-sig -k B1826CDD --sign builder ${DEB_DIR}/*.deb
 	set -e; pwd=`pwd`; cd ${DEB_REPO_DIR}/${DEB_VENDOR}/${DEB_RELEASE}; \
 	for i in $$pwd/${DEB_DIR}/*.deb; do \
@@ -1419,7 +1414,7 @@ deb-legacy:
 	
 ########################################################################################################
 
-deb-repo-upload:
+deb-repo-upload: deb2deb
 	find ${DEB_TMP}/ ! -name '*.deb' -type f| xargs rm -f
 	rsync -m -azv ${DEB_TMP} debian.bbbike.org:projects/bbbike/tmp	
 	@echo "Now run:"
