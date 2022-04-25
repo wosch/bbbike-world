@@ -3,14 +3,14 @@ Priority: optional
 Standards-Version: 3.6.2
 
 Package: bbbike-world-debian-meta
-Version: 1.1.52
+Version: 1.1.53
 Maintainer: Wolfram Schneider <wosch@freebsd.org>
 Depends: pbzip2, bzip2, xz-utils, pixz, ncdu, git-core, screen, curl, wget, time,
  lsof, whois, pigz, make, acct, dnsutils, sysstat, buffer, mbuffer,
  pktstat, unzip, gcc, zlib1g-dev, perltidy, tidy, bsd-mailx,
  perl-doc, zip, sudo, munin-node, htop, strace, python3, openjdk-11-jdk,
  g++, sockstat, kwalify, libhtml-tagcloud-perl, libtext-unidecode-perl, 
- python3-apt, rsync,
+ python3-apt, python-is-python3, rsync,
  libxml-atom-simplefeed-perl, libjson-perl, liburi-perl, libxml-libxml-perl,
  libyaml-perl, libyaml-syck-perl, libxml-simple-perl, libdevel-size-perl,
  libtie-ixhash-perl, libdevel-size-perl, libbsd-resource-perl,
