@@ -72,7 +72,7 @@ init_apt_mono() {
     if [ ! -e $file ]; then 
         sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
 
-        sudo sh -c "echo deb $mono_deb_url/${os} ${codename} main > $file.tmp"
+        sudo sh -c "echo \"deb [arch=amd64] $mono_deb_url/${os} ${codename} main\" > $file.tmp"
         sudo mv -f $file.tmp $file
         sudo apt-get update -qq
     fi
