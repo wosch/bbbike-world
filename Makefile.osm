@@ -1,5 +1,5 @@
 ###############################################################
-# Copyright (c) 2008-2021 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2008-2022 Wolfram Schneider, https://bbbike.org
 #
 # Get and convert OpenStreetMap.org data to BBBike
 #
@@ -1687,6 +1687,7 @@ docker-build-all:
 	  docker-build-extract-debian11 \
 	  docker-build-extract-ubuntu18 \
 	  docker-build-extract-ubuntu20 \
+	  docker-build-extract-ubuntu22 \
 
 docker-build-libosmium-all:
 	${NICE} ${BBMAKE} -j${MAX_CPU} \
@@ -1694,6 +1695,7 @@ docker-build-libosmium-all:
 	  docker-build-libosmium-debian11 \
 	  docker-build-libosmium-ubuntu18 \
 	  docker-build-libosmium-ubuntu20 \
+	  docker-build-libosmium-ubuntu22 \
 
 
 DOCKER_CHECK_ALL_COMMAND=docker-check
@@ -1703,6 +1705,7 @@ docker-check-all:
 		#${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian11 ${DOCKER_CHECK_ALL_COMMAND}
 		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu18 ${DOCKER_CHECK_ALL_COMMAND}
 		#${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu20 ${DOCKER_CHECK_ALL_COMMAND}
+		#${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu22 ${DOCKER_CHECK_ALL_COMMAND}
 
 docker-check-w-all:
 		${BBMAKE} DOCKER_CHECK_ALL_COMMAND=docker-check-w docker-check-all
@@ -1724,11 +1727,15 @@ docker-build-libosmium-debian11:
 	${BBMAKE} DOCKER_IMAGE_FILE=libosmium-debian11 DOCKER_BBBIKE_TAG=bbbike/libosmium-debian11 docker-build
 
 # ubuntu
+docker-build-extract-ubuntu22:
+	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-ubuntu22 DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu22 docker-build
 docker-build-extract-ubuntu20:
 	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-ubuntu20 DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu20 docker-build
 docker-build-extract-ubuntu18:
 	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-ubuntu18 DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu18 docker-build
 
+docker-build-libosmium-ubuntu22:
+	${BBMAKE} DOCKER_IMAGE_FILE=libosmium-ubuntu22 DOCKER_BBBIKE_TAG=bbbike/libosmium-ubuntu22 docker-build
 docker-build-libosmium-ubuntu20:
 	${BBMAKE} DOCKER_IMAGE_FILE=libosmium-ubuntu20 DOCKER_BBBIKE_TAG=bbbike/libosmium-ubuntu20 docker-build
 docker-build-libosmium-ubuntu18:
@@ -1849,8 +1856,10 @@ help:
 	@echo "  [ docker-build-tile | docker-shell-tile ]"
 	@echo "  [ docker-build-extract-debian11 | docker-build-extract-debian10 ]"
 	@echo "  [ docker-build-extract-ubuntu18 | docker-build-extract-ubuntu20 ]"
+	@echo "  [ docker-build-extract-ubuntu22 ]"
 	@echo "  [ docker-build-libosmium-debian11 | docker-build-libosmium-debian10 ]"
 	@echo "  [ docker-build-libosmium-ubuntu18 | docker-build-libosmium-ubuntu20 ]"
+	@echo "  [ docker-build-libosmium-ubuntu22 ]"
 	@echo "  [ docker-build-tilemaker-ubuntu16 ]"
 	@echo "  [ docker-build-all | docker-build-libosmium-all ]"
 	@echo "  [ docker-clean | docker-distclean | docker-distclean-real ]"
