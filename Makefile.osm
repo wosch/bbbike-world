@@ -1367,7 +1367,7 @@ deb-equivs:
 
 deb2deb:
 	set -e; for i in ${DEB_DIR}/*.deb; do env DEB_RELEASE=${DEB_RELEASE} world/bin/deb2deb $$i; done
-	ls -l ${DEB_DIR}/*.deb
+	ls -ltr ${DEB_DIR}/*.deb
 	echo "Number of deps: $$(ls ${DEB_DIR} | egrep '*.deb$$' | wc -l)"
 
 deb-bin deb-bin-java deb-bin-x86:
