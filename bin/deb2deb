@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2014-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2014-2022 Wolfram Schneider, https://bbbike.org
 #
 # deb2deb - fix debian perl pages
 #
@@ -18,6 +18,10 @@
 release=$DEB_RELEASE
 case $release in
   wheezy ) ;;
+
+  # zst -> gz workaround
+  jammy ) exec $0-gz "$@";;
+
        * ) exit 0;;
 esac
 

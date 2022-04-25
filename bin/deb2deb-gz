@@ -1,0 +1,35 @@
+#!/bin/sh
+# Copyright (c) 2014-2022 Wolfram Schneider, https://bbbike.org
+#
+# deb2deb-gz - convert deb archive from .zst to .gz files
+#
+#
+
+set -e
+which zstd >/dev/null
+which gzip >/dev/null
+
+deb="$1"
+if ! [ -n "$deb" -a -e $deb ]; then
+    echo "Deb file '$deb' does not exists"
+    exit 2
+fi
+
+tmp_dir=$(mktemp -d -t "deb.XXXXXXXXXXX")
+
+# .zst -> .gz
+for file in $(ar t "$deb")
+do
+  case $file in
+	  *.zst ) ar p "$deb" $file | zstd -d | gzip > $tmp_dir/$(basename $file .zst).gz ;;
+	  * )     ar p "$deb" $file > $tmp_dir/$file ;;
+  esac
+done
+
+files=$(ar t "$deb" | sed 's/\.zst/\.gz/')
+( cd $tmp_dir && ar -rc $(basename $deb) $files)
+cp $tmp_dir/$(basename $deb) $deb.tmp
+
+mv -f $deb.tmp $deb
+rm -rf $tmp_dir
+
