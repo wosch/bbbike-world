@@ -167,7 +167,7 @@ our $option = {
         'obf'       => 12,
         'svg'       => 5,
         'xz'        => 4,
-        'garmin'    => 9
+        'garmin'    => 16 
     },
 
     'lwp' => {
