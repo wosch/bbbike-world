@@ -435,6 +435,7 @@ function open_infopage() {
     if (oi_html == 0 && !oi_cookie) {
         debug("will open info page at startup");
 
+	// the user saw it, do not show it every time
         jQuery.cookie("oi", 1, {
             expires: 7
         });
