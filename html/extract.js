@@ -7,8 +7,8 @@
 //"use strict"
 // central config
 var config = {
-    // open help page at start up
-    "open_infopage": false,
+    // open help page about.html at start up
+    "open_infopage": true,
 
     // run locate me function at startup
     "locate_me": false,
