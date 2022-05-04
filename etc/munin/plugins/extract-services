@@ -44,23 +44,25 @@ my $config = {
         qw/
           csv.gz
           csv.xz
-          garmin-bbbike-ascii.zip
+          garmin-bbbike-latin1.zip
           garmin-bbbike.zip
-          garmin-cycle-ascii.zip
+          garmin-cycle-latin1.zip
           garmin-cycle.zip
-          garmin-leisure-ascii.zip
+          garmin-leisure-latin1.zip
           garmin-leisure.zip
-          garmin-onroad-ascii.zip
+          garmin-onroad-latin1.zip
           garmin-onroad.zip
-          garmin-opentopo-ascii.zip
+          garmin-ontrail-latin1.zip
+          garmin-ontrail.zip
+          garmin-opentopo-latin1.zip
           garmin-opentopo.zip
-          garmin-openfietslite-ascii.zip
+          garmin-openfietslite-latin1.zip
           garmin-openfietslite.zip
-          garmin-openfietsfull-ascii.zip
+          garmin-openfietsfull-latin1.zip
           garmin-openfietsfull.zip
-          garmin-oseam-ascii.zip
+          garmin-oseam-latin1.zip
           garmin-oseam.zip
-          garmin-osm-ascii.zip
+          garmin-osm-latin1.zip
           garmin-osm.zip
           mapsforge-osm.zip
           mapsme-osm.zip
