@@ -1683,7 +1683,7 @@ docker-build-all:
 	  docker-build-extract-debian11 \
 	  docker-build-extract-ubuntu18 \
 	  docker-build-extract-ubuntu20 \
-	  docker-build-extract-ubuntu22 \
+	  #docker-build-extract-ubuntu22 \
 
 docker-build-libosmium-all:
 	${NICE} ${BBMAKE} -j${MAX_CPU} \
@@ -1691,7 +1691,7 @@ docker-build-libosmium-all:
 	  docker-build-libosmium-debian11 \
 	  docker-build-libosmium-ubuntu18 \
 	  docker-build-libosmium-ubuntu20 \
-	  docker-build-libosmium-ubuntu22 \
+	  #docker-build-libosmium-ubuntu22 \
 
 
 DOCKER_CHECK_ALL_COMMAND=docker-check
