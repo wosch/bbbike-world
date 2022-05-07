@@ -24,7 +24,7 @@ extract-jobs  - Plugin to monitor running extract jobs
 Configuration parameters for /etc/munin/plugin-conf.d/munin-node
 if you need to override the defaults below:
 
- [bbbike-extract-jobs]
+ [extract-jobs]
    env.warning   - Generate a warning if number of jobs goes above this level
    env.critical  - Generate a critical if number of jobs goes above this level
    env.jobs_warnings - [...]
@@ -57,8 +57,8 @@ if [ "$1" = "config" ]; then
 
     : ${jobs_warning=10}
     : ${jobs_critical=20}
-    : ${proc_warning=6}
-    : ${proc_critical=8}
+    : ${proc_warning=8}
+    : ${proc_critical=12}
     : ${waiting_warning=20}
     : ${waiting_critical=60}
     : ${waiting_max_per_user_warning=10}
