@@ -16,20 +16,20 @@ running_extract=running-${extract}
 
 echo; echo 'running: '
 
-$running_extract email | sort | uniq -c | sort -nr
+$running_extract email | sort | uniq -c | sort -r
 
 echo 'waiting: '
 egrep -h '"email" : ".*@' /var/cache/${extract}/confirmed/*.json 2>/dev/null | perl -npe 's/,//' | sort | uniq -c | sort -nr -k1 -k3
 
 echo 'running ip address: '
-$running_extract ip_address | sort | uniq -c | sort -nr
+$running_extract ip_address | sort | uniq -c | sort -r
 
 echo 'running city: '
-$running_extract city | sort | uniq -c | sort -nr
+$running_extract city | sort | uniq -c | sort -r
 
 echo 'running format: '
-$running_extract format | sort | uniq -c | sort -nr
+$running_extract format | sort | uniq -c | sort -r
 
 echo 'planet: '
-ps xuawww | egrep 'osmconvert-wrapper .*extract/running' | egrep -v 'grep' | awk '{print $NF}' | sort | uniq -c| sort -nr
+ps xuawww | egrep 'osmconvert-wrapper .*extract/running' | egrep -v 'grep' | awk '{print $NF}' | sort | uniq -c| sort -r
 
