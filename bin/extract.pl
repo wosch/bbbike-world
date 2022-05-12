@@ -1852,7 +1852,7 @@ sub run_jobs {
 
         # lock pid
         if ( $lockmgr =
-            $e_lock->create_lock( 'lockfile' => $file, maxs => $max_jobs ) )
+            $e_lock->create_lock( 'lockfile' => $file, max => $max_jobs ) )
         {
             $lockfile = $file;
             last;
