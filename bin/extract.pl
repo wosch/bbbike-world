@@ -1851,7 +1851,9 @@ sub run_jobs {
         $job_number = $number;
 
         # lock pid
-        if ( $lockmgr = $e_lock->create_lock( 'lockfile' => $file ) ) {
+        if ( $lockmgr =
+            $e_lock->create_lock( 'lockfile' => $file, maxs => $max_jobs ) )
+        {
             $lockfile = $file;
             last;
         }
