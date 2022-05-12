@@ -44,8 +44,9 @@ if you need to override the defaults below:
 ########################################################################
 # init
 #
-my $debug = 0;
-my $help  = 0;
+my $debug    = 0;
+my $help     = 0;
+my $new_user = 1;
 
 # if we ignore the top users by email
 my $skip_top_users = 0;
@@ -60,7 +61,7 @@ my ( $wait_warning, $wait_critical );
 sub init {
     my $arg = shift;
 
-    $ENV{PATH} = '/bin:/usr/bin';
+    $ENV{PATH} = '/bin:/usr/bin:/usr/local/www/bbbike.org/world/bin';
 
     if ( $0 =~ /-pro$/ ) {
         $extract_dir = "/var/cache/extract-pro";
@@ -80,6 +81,7 @@ usage: $0 [ options ] config
 --debug=0..2                    default: $debug
 --extract_dir=/path/to/dir      default: $extract_dir
 --skip-top-users=0..2           default: $skip_top_users
+--new-user=0..1                 default: $new_user
 EOF
 }
 
@@ -117,8 +119,12 @@ EOF
 sub get_json_files {
     my $extract_dir_confirmed = shift;
     my $skip                  = shift // 0;
+    my $new_user              = shift // 0;
 
     my @files = glob("$extract_dir_confirmed/*.json");
+    if ($new_user) {
+        @files = &exclude_new_user(@files);
+    }
 
     if ( !$skip ) {
         return @files;
@@ -126,6 +132,30 @@ sub get_json_files {
     else {
         return filter_top_user( $skip, @files );
     }
+}
+
+# ignore users which already have a running job
+sub exclude_new_user {
+    my @files = @_;
+
+    my %hash;
+    open( EMAIL, "running-extract email |" )
+      or die "open running-extract email: $!";
+
+    while (<EMAIL>) {
+        chomp;
+        my ( $e, $c, $email ) = split;
+        $email =~ s/"//g;
+        $hash{$email} = 1;
+    }
+    close EMAIL;
+
+    my @list;
+    foreach my $email (@files) {
+        push( @list, $email ) if !exists $hash{$email};
+    }
+
+    return @list;
 }
 
 sub filter_top_user {
@@ -199,7 +229,8 @@ sub wait_time {
     my $extract_dir_confirmed = "$extract_dir/confirmed";
 
     my $time = time();
-    my @files = get_json_files( $extract_dir_confirmed, $skip_top_users );
+    my @files =
+      get_json_files( $extract_dir_confirmed, $skip_top_users, $new_user );
 
     warn "got @{[ scalar(@files) ]} json files\n" if $debug >= 1;
 
@@ -286,6 +317,7 @@ GetOptions(
     "debug=i"          => \$debug,
     "extract-dir=s"    => \$extract_dir,
     "skip-top-users=i" => \$skip_top_users,
+    "new-user=i"       => \$new_user,
     "help"             => \$help,
 ) or die usage;
 
