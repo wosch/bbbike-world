@@ -54,7 +54,7 @@ sub create_lock {
 
     my $lockfile = $args{'lockfile'};
     my $wait     = defined $args{'wait'} ? $args{'wait'} : $self->{'wait'};
-    my $max      = $args{'max'};
+    my $max      = $args{'max'} // 11;
 
     warn
       "Try to create lockfile: $lockfile, value: $$, wait: $wait, max: $max\n"
