@@ -25,8 +25,8 @@ Du kannst uns via PayPal oder Banküberweisung unterstützen
   https://extract.bbbike.org/community.de.html
 
 Deine Unterstützung hält den BBBike Extract Service am Laufen!
-Bitte spende mit PayPal oder Banküberweisung. Wir brauche 10 Euro am Tag bzw.
-300 Euro im Monat um die Serverkosten zu decken. Vielen Dank!
+Bitte spende mit PayPal oder Banküberweisung. Wir brauche 20 Euro am Tag bzw.
+600 Euro im Monat um die Serverkosten zu decken. Vielen Dank!
 
 Danke, Wolfram Schneider
 
