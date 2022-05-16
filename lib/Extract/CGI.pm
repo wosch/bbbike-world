@@ -750,9 +750,12 @@ sub _check_input {
     my $cb_id  = Param( $q, "cb_id" );
 
     if ( $expire ne '' && $expire =~ /^\d+$/ ) {
-        my $time = time();
-        if ( $expire + 2 * 86400 < $time ) {
-            warn "Page expired: $expire, please reload\n";
+        my $time     = time();
+        my $max_time = 2 * 3600;
+        if ( $expire + $max_time < $time ) {
+
+#error( "Link expired after $max_time seconds ", qq{<a href="}, $q->url(-query=>1), qq{">please reload</a>\n}, 0);
+            error("Link expired after $max_time seconds.");
         }
     }
 
