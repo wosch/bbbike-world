@@ -754,8 +754,15 @@ sub _check_input {
         my $max_time = 2 * 3600;
         if ( $expire + $max_time < $time ) {
 
-#error( "Link expired after $max_time seconds ", qq{<a href="}, $q->url(-query=>1), qq{">please reload</a>\n}, 0);
-            error("Link expired after $max_time seconds.");
+            # reset parameters and redirect users to startpage
+            $q->param( "submit", "" );
+            $q->param( "expire", "" );
+            my $redirect_url = $q->url( -query => 1 );
+            warn "Page expired: ", time() - $expire,
+              " seconds ago: $redirect_url\n";
+            print $q->redirect($redirect_url);
+
+            exit(0);
         }
     }
 
