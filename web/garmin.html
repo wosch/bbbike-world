@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Help | BBBike garmin custom maps extracts</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link type="image/ico" rel="shortcut icon" href="images/srtbike1.ico" />
+  
+  <!-- legacy, should be extract.css -->
+  <link rel="stylesheet" type="text/css" href="/html/luft.css" />
+<style>
+a.x-large {
+    font-size: x-large;
+}
+</style>
+</head>
+
+<body>
+  <div id="all">
+    <div id="border">
+      <div id="main">
+        <h2><a href="/">BBBike garmin custom maps extracts</a></h2>
+
+	<h3>Install a custom Garmin maps on your device</h3>
+
+	Installing a custom Garmin image on your device is easy:
+
+	<ol>
+	<li>connect your Garmin with a USB cable to your computer (or your SD
+	card). You will see the Garmin device as a disk/storage in the explorer
+
+	<li>download the zip file and open it.  There is a gmapsupp.img file inside
+
+	<li>copy the gmapsupp.img file to your Garmin device in the folder
+	/Garmin with the  explorer (Windows) or finder (MacOS). You can do
+	this also on the command line on Linux/FreeBSD.
+	</ol>
+
+	<p>That's all. You are done! 
+	See also <a href="https://wiki.openstreetmap.org/wiki/OSM_Map_On_Garmin#Installing_the_map_onto_your_GPS">Installing_the_map_onto_your_GPS</a>
+	</p>
+
+	<p>
+	The BBBike extract service is platform independent - for Windows,
+	MacOS, Linux, FreeBSD etc. There is no windows .exe installer, and
+	there are no other special tools required.
+	</p>
+
+	<h3>View a custom Garmin maps on your PC</h3>
+	<p>
+	You can open the custom Garmin image on your computer with <a href="https://wiki.openstreetmap.org/wiki/QMapShack">QMapShack</a> and view
+	the map.</p>
+	<p>It should be possible with Garmin BaseCamp too if you connect your device.</p>
+
+
+	<h3>Misc</h3>
+	<ul>
+	  <li>There are several <a href="#youtube">YouTube tutorials</a> available how to use the BBBike extract service
+	  <li>A lot of <a href="extract-screenshots.html">Screenshots</a> of Garmin map styles are available
+	  <li>Please read the general <a href="extract.html">extract help page</a>
+	</ul>
+
+	<h3>Garmin internals</h3>
+	<p>
+	  Routing is enabled for the Garmin maps. Depending on your device, it is possible to store more than one Garmin map (or with different styles) on your Garmin.
+	</p>
+	<p>
+	 By default all generated Garmin maps from OpenStreetMap data will use the code page Unicode (UTF-8).
+	 However, some older devices don't support Unicode and some new devices have a broken DRM firmware
+	 (<i>"can not unlock map"</i>).
+	 In this special case please use the <i>latin1</i> style.
+	 Garmin SRTM extracts use always the ASCII character set.
+	</p>
+
+	<h3>Garmin Styles</h3>
+	<p/>
+	<table border="1" align="center">
+	  <tr><td>osm</td><td>standard <a target="_new" href="https://www.openstreetmap.org">OpenStreetMap style</a></td></tr>
+	  <tr><td>cycle</td><td>map style similar to <a target="_new" href="https://www.opencyclemap.org">opencyclemap.org</a></td></tr>
+	  <tr><td>leisure</td><td>map style from <a target="_new" href="http://www.freizeitkarte-osm.de">freizeitkarte-osm.de</a>, for outdoor activities. The .img file is ~30% larger than the osm/cycle file</td></tr>
+	  <tr><td>bbbike</td><td>map style from <a target="_new" href="http://www.bbbike.de/">bbbike.de</a>, for outdoor activities.</td></tr>
+	  <tr><td>onroad</td><td>A Garmin style for older devices with less space - usually 1/10 the size of Garmin OSM, see <a target="_new" href="https://github.com/raintonr/mkgmap-bike-onroad">github.com/raintonr/mkgmap-bike-onroad</a>, for outdoor activities / racing bikes.</td></tr>
+	  <tr><td>ontrail</td><td>A Garmin style for older devices with less space - usually 1/5 the size of Garmin OSM, see <a target="_new" href="https://github.com/raintonr/mkgmap-bike-onroad">github.com/raintonr/mkgmap-bike-onroad</a>, for outdoor activities / hike & bike.</td></tr>
+	  <tr><td>openfietslite</td><td>map style from <a target="_new" href="http://www.openfietsmap.nl/">OpenFietsMap.nl</a>, for outdoor activities. Lite version</td></tr>
+	  <tr><td>openfietsfull</td><td>map style from <a target="_new" href="http://www.openfietsmap.nl/">OpenFietsMap.nl</a>, for outdoor activities. Full version</td></tr>
+	  <tr><td>opentopo</td><td>map style from <a target="_new" href="https://opentopomap.org/">OpenTopoMap.org</a></td></tr>
+	  <tr><td>oseam</td><td>map style from <a target="_new" href="http://openseamap.org/">OpenSeaMap.org</a>, the free nautical chart</td></tr>
+	</table>
+
+	<h3>Terms of Service / Copyright</h3>
+	<ul>
+	  <li>Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors.
+	  <li>Shuttle Radar Topography Mission (<a href="https://wiki.openstreetmap.org/wiki/SRTM">SRTM</a>), by NASA, public domain.
+	</ul>
+
+	<h3>Support the BBBike extract service</h3>
+
+	<span class='donate_request'>
+	  <a href='./community.html#donate'>Your support keeps the BBBike extract service on the air!
+	  Please make a donation with PayPal or bank wire transfer.
+	  We need to raise 20 Euro (25 USD) by the end of the day, or 600 Euro (750 USD) per month to cover the server costs. Many thanks!
+	  </a>
+	</span>
+	
+	<p align="center"><a href="community.html"><img src="images/btn_donateCC_LG.gif" alt="donate" /></a>
+
+	</p>
+
+        <div id="footer">
+          <div id="footer_top">
+            <a href="/">home</a> |
+			<a href="https://download.bbbike.org/">download</a> |
+			<a href="https://download.bbbike.org/osm/extract/">service status</a> |
+			<a href="/support.html">commercial support</a> |
+			<a href="/community.html">donate</a>
+		
+			<span id="social" class="right">
+			  <a href="https://twitter.com/BBBikeWorld" target="_new"><img class="logo" width="16" height="16" src="/images/twitter-t.png" alt="" title="Follow us on twitter.com/BBBikeWorld" /></a>
+			  <a href="https://www.bbbike.org/feed/bbbike-world.xml"><img class="logo" width="14" height="14" title="What's new on BBBike.org" src="/images/rss-icon.png" alt="" /></a>
+			</span>
+          </div>
+
+          <hr />
+          (&copy;) 2011-2022 <a href="https://bbbike.org">BBBike.org</a>
+		  by <a href="https://wolfram.schneider.org">Wolfram Schneider</a> -
+		  Map data (&copy;) <a href="https://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap.org</a> contributors<br/>
+		  <a href="https://www.bbbike.org/">cycle route planner</a> -
+		  <a href="https://extract.bbbike.org/">osm extract service</a> -
+		  <a href="https://mc.bbbike.org/mc/">map compare</a>
+		</div>
+      </div>
+	  
+    </div>
+  </div><script type="text/javascript">
+//<![CDATA[
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+  //]]>
+  </script><script type="text/javascript">
+//<![CDATA[
+  try {
+  var pageTracker = _gat._getTracker("UA-286675-19");
+  pageTracker._trackPageview();
+  } catch(err) {}
+  //]]>
+  </script>
+</body>
+</html>
