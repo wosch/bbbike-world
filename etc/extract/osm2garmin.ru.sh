@@ -6,6 +6,7 @@ Map style (c) by OpenStreetMap.org, BBBike.org, OpenFietsMap.nl, OpenSeaMap.org,
 
 Please read the OSM wiki how to install the maps on your GPS device:
 
+  https://extract.bbbike.org/garmin.html
   https://wiki.openstreetmap.org/wiki/OSM_Map_On_Garmin#Installing_the_map_onto_your_GPS
   https://wiki.openstreetmap.org/wiki/OSM_Map_On_Garmin/Download
 
