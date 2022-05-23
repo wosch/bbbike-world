@@ -314,6 +314,7 @@ sub footer {
 <div id="footer_top">
 <a href="@{[ $option->{'download_homepage'} ]}">home</a> |
 <a href="/extract.html">@{[ M("help") ]}</a> |
+<a href="/garmin.html">@{[ M("garmin") ]}</a> |
 <a href="$extract_homepage/community.html">@{[ M("donate") ]}</a> |
 <a href="$extract_homepage/support.html">commercial support</a>
 <hr/>

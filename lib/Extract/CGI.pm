@@ -347,6 +347,7 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
   <div id="footer_top">
     <a href="$homepage">@{[ M("home") ]}</a> |
     <a target="_help" href="/extract.html">@{[ M("help") ]}</a> |
+    <a target="_garmin" href="/garmin.html">@{[ M("garmin") ]}</a> |
     <a href="$server_status_url" target="_blank">@{[ M("status") ]}</a> |
     <!-- <a href="//mc.bbbike.org/mc/$mc_parameters" id="mc_link" target="_blank">map compare</a> | -->
     <a href="$download_homepage">@{[ M("download") ]}</a> |
