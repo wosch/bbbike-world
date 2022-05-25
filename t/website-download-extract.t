@@ -24,7 +24,9 @@ my $test = BBBike::Test->new();
 my $debug = $ENV{DEBUG} || 0;
 
 my @production = qw(
+  https://download1.bbbike.org
   https://download2.bbbike.org
+  https://download3.bbbike.org
 );
 
 my @homepages = "https://download.bbbike.org";
@@ -92,7 +94,7 @@ diag( "extract downloads URLs to check: " . scalar(@urls) ) if $debug;
 foreach my $u (@urls) {
     diag("URL: $u") if $debug >= 2;
 
-    my $size = $u =~ /\.osm\.(gz|xz|csv\.xz|pbf)$/ ? 150 : 1_000;
+    my $size = $u =~ /\.(gz|xz|pbf)$/ ? 150 : 1_000;
     $test->myget_head( $u, $size );
 }
 
