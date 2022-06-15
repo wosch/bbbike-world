@@ -98,6 +98,7 @@ usage [ option ] file.osm.pbf
 --mapsforge-osm
 --bbbike-perltk
 
+--garmin-all --garmin-all-latin1
 --garmin-osm --garmin-osm-ascii --garmin-osm-latin1
 --garmin-cycle --garmin-cycle-ascii --garmin-cycle-latin1 
 --garmin-leisure --garmin-leisure-ascii --garmin-leisure-latin1
@@ -109,6 +110,7 @@ usage [ option ] file.osm.pbf
 --garmin-openfietsfull --garmin-openfietsfull-ascii --garmin-openfietsfull-latin1
 --garmin-oseam --garmin-oseam-ascii --garmin-oseam-latin1
 --garmin-opentopo --garmin-opentopo-ascii --garmin-opentopo-latin1
+
 --svg-google --svg-hiking --svg-osm --svg-urbanight --svg-wireframe --svg-cadastre
 --png-google --png-hiking --png-osm --png-urbanight --png-wireframe --png-cadastre
 
@@ -158,6 +160,9 @@ case $format in
     
     --shape | --shp | --shapefile ) shift; compress=shape ;;
     --osmand | --obf ) 		    shift; compress=osmand ;;
+
+    --garmin-all) garmin_style="osm:cycle:leisure:bbbike:onroad:ontrail:openfietslite:openfietsfull:oseam:opentopo"; shift; compress=garmin ;;
+    --garmin-all-latin1) garmin_style="osm-latin1:cycle-latin1:leisure-latin1:bbbike-latin1:onroad-latin1:ontrail-latin1:openfietslite-latin1:openfietsfull-latin1:oseam-latin1:opentopo-latin1"; shift; compress=garmin ;;
 
     --garmin-osm | --garmin-osm-ascii | --garmin-osm-latin1 | \
     --garmin-cycle | --garmin-cycle-ascii | --garmin-cycle-latin1 | \
