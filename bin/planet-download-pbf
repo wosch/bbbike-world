@@ -28,8 +28,8 @@ if [ -e $HOME/.bbbikerc ]; then
     . $HOME/.bbbikerc
 fi
 
+# run in temporary directory
 dir="tmp.$$.new"
-
 mkdir -p $dir
 pwd=`pwd`
 cd $dir
@@ -86,8 +86,10 @@ fi
 
 if $keep_original_planet; then
   mv -f $dir/$file_latest $dir/$file_latest.md5 .
+  mv -f $dir/$file_latest.timestamp .
 fi
 mv -f $dir/$file_nometa $dir/$file_nometa.md5 . 
+mv -f $dir/$file_nometa.timestamp . 
 
 # cleanup temp directory
 rm -rf $dir
