@@ -67,22 +67,6 @@ fi
 $MD5 $file_nometa | tee $file_nometa.md5
 
 cd $pwd
-if [ "$BBBIKE_PLANET_OSM_BACKUP" = "YES" ]; then
-    for i in ""
-    do
-        case $i in 
-            [01234]) next=`expr $i + 1`; prev=".$i";;
-            "")      next=0; prev="";;
-        esac
-    
-        if $keep_original_planet; then
-          if test -e $file_latest.md5${prev}; 	then mv -f $file_latest.md5${prev} 	$file_latest.md5.$next; fi
-          if test -e $file_latest${prev};     	then mv -f $file_latest${prev}		$file_latest.$next; fi
-        fi
-        if test -e $file_nometa${prev}; 	then mv -f $file_nometa${prev} 	$file_nometa.$next; fi
-        if test -e $file_nometa.md5${prev}; 	then mv -f $file_nometa.md5${prev} $file_nometa.md5.$next; fi 
-    done
-fi
 
 if $keep_original_planet; then
   mv -f $dir/$file_latest $dir/$file_latest.md5 .

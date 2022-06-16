@@ -50,9 +50,6 @@ export BBBIKE_WEB_SERVER=www.bbbike.org
 export BBBIKE_API_SERVER=api.bbbike.org
 
 
-# keep a backup of the planet file as planet-latest-nometa.osm.pbf.0
-# export BBBIKE_PLANET_OSM_BACKUP="YES"
-
 ###################################################################
 # Extract service
 #
