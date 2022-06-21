@@ -1525,8 +1525,13 @@ download-bbbike-org-install:
 	cd ${DOWNLOAD_PREFIX}/osm/planet; \
 	  ln -fs $$HOME/projects/osm/download/planet-latest.osm.pbf . ;\
 	  ln -fs $$HOME/projects/osm/download/planet-latest.osm.pbf.md5 . ;\
+	  ln -fs $$HOME/projects/osm/download/planet-latest.osm.pbf.timestamp . ;\
 	  ln -fs $$HOME/projects/osm/download/planet-latest-nometa.osm.pbf . ;\
 	  ln -fs $$HOME/projects/osm/download/planet-latest-nometa.osm.pbf.md5 . ;\
+	  ln -fs $$HOME/projects/osm/download/planet-latest-nometa.osm.pbf.timestamp . ;\
+	  ln -fs $$HOME/projects/osm/download/planet-daily.osm.pbf . ;\
+	  ln -fs $$HOME/projects/osm/download/planet-daily.osm.pbf.md5 . ;\
+	  ln -fs $$HOME/projects/osm/download/planet-daily.osm.pbf.timestamp . ;\
 	  ln -fs ../../../bbbike.org/world/download/osm/planet/HEADER.txt .
 	cd ${DOWNLOAD_PREFIX}/osm/planet; \
 	  ln -fs $$HOME/projects/osm/download/sub-planet .
