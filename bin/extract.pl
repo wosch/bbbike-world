@@ -1624,8 +1624,26 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
 
     my $email_rest_enabled = $option->{"email_rest_enabled"};
     my $callback_enabled   = $option->{"callback_enabled"};
+
     warn "email_rest_enabled: $email_rest_enabled\n" if $debug >= 2;
     warn "callback_enabled: $callback_enabled\n"     if $debug >= 2;
+
+    # use the email rest service only for domains which match a configured list
+    # e.g. outlook.com
+    if ( $email_rest_enabled && exists $option->{"email_rest_domain_only"} ) {
+        my $domain_only = $option->{"email_rest_domain_only"};
+        if ( ref $domain_only eq 'ARRAY' && scalar(@$domain_only) > 0 ) {
+
+            my @res = &check_domain_only( $obj->{'email'}, $domain_only );
+
+            if (@res) {
+                warn
+"email_rest_domain_only matched: $obj->{'email'}: @{[ join(',', @res) ]} - ignore\n"
+                  if $debug >= 2;
+                $email_rest_enabled = 0;
+            }
+        }
+    }
 
     # callback URL
     if ( $callback_enabled && $obj->{'cb_id'} ) {
@@ -1653,6 +1671,27 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
 
     $obj->{'download_url'} = $url;
     store_json( $json_file, $obj );
+}
+
+# check if an email address match a keyword
+sub check_domain_only {
+    my $to          = shift;
+    my $domain_only = shift;
+
+    # domains only
+    $to =~ s/.*?\@//;
+
+    return if !defined $domain_only || ref $domain_only ne 'ARRAY';
+    my @domain_only = @$domain_only;
+
+    return if scalar(@domain_only) <= 0;
+
+    my @list;
+    foreach my $k (@domain_only) {
+        push @list, $k if $to =~ /$k/;
+    }
+
+    return @list;
 }
 
 #
