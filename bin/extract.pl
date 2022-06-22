@@ -1637,9 +1637,14 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
             my @res = &check_domain_only( $obj->{'email'}, $domain_only );
 
             if (@res) {
-                warn
-"email_rest_domain_only matched: $obj->{'email'}: @{[ join(',', @res) ]} - ignore\n"
-                  if $debug >= 2;
+                warn "email_rest_domain_only matched: $obj->{'email'}: ",
+                  join( ',', @res ), "\n"
+                  if $debug >= 1;
+            }
+            else {
+                warn "email_rest disabled by domain: $obj->{'email'}: ",
+                  join( ',', @res ), "\n"
+                  if $debug >= 1;
                 $email_rest_enabled = 0;
             }
         }
