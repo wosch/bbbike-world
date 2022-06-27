@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) Apr 2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Apr 2018-2022 Wolfram Schneider, https://bbbike.org
 #
 # garmin-all - convert the planet to garmin styles
 #
@@ -18,7 +18,7 @@ download_region ()
   region="$1"
   url="$DOWNLOAD_URL_PREFIX/$region"
   if [ ! -e $region ]; then
-    curl -sSf -L "$url" | osmconvert --drop-author --drop-version --out-pbf - > $region.tmp
+    curl --connect-timeout 10 -sSf -L "$url" | osmconvert --drop-author --drop-version --out-pbf - > $region.tmp
     mv -f $region.tmp $region
   fi
 }
