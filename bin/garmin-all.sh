@@ -26,7 +26,7 @@ for region in $garmin_regions
 do
   echo "region=$region format=$garmin_formats"
   download_region $region
-  env osm2xxx_max_jobs="8" pbf2osm_max_cpu_time=72000 max_file_size_garmin=59950000 \
+  env osm2xxx_max_jobs="8" OSM_CHECKSUM=false pbf2osm_max_cpu_time=72000 max_file_size_garmin=59950000 \
     BBBIKE_TMPFS=/tmp \
       nice -15 $time $HOME/projects/bbbike/world/bin/pbf2osm --garmin-${garmin_formats} $region.osm.pbf $region
   rm -f $region.osm.pbf
