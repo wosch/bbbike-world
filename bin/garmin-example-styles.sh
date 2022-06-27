@@ -9,7 +9,8 @@ set -o pipefail
 
 DOWNLOAD_URL_PREFIX="https://download.geofabrik.de"
 countries="europe/luxembourg-latest.osm.pbf asia/jordan-latest.osm.pbf asia/cambodia-latest.osm.pbf"
-: ${time=time}
+: ${debug=false}
+$debug && time=time
 
 download_region ()
 {
@@ -26,7 +27,7 @@ download_region ()
 for region in $countries
 do
 (
-  echo "region=$region"
+  $debug && echo "region=$region"
   name=$(basename $region -latest.osm.pbf)
   dir=$(mktemp -d $name.XXXXXXXX)
   cd $dir
