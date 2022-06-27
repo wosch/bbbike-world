@@ -9,11 +9,10 @@
 
 #: ${garmin_regions="antarctica australia-oceania"}
 : ${garmin_regions="antarctica australia-oceania africa central-america south-america asia north-america europe"}
-: ${time="time"}
 : ${nice_level="12"}
 
 : ${debug=false}
-$debug || time=""
+$debug && time="time"
 
 set -e
 set -o pipefail # bash only
