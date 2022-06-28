@@ -4,6 +4,8 @@
 # garmin-example-styles - convert some example countries to all garmin styles
 #
 
+PATH=/bin:/usr/bin:/usr/local/bin; export PATH
+
 set -e
 set -o pipefail
 
@@ -33,9 +35,9 @@ do
   cd $dir
 
   out=$(download_region $region)
-  env osm2xxx_max_jobs="8" OSM_CHECKSUM=false \
+  env osm2xxx_max_jobs="8" OSM_CHECKSUM=false BBBIKE_TMPFS=/tmp \
       nice -11 $time $HOME/projects/bbbike/world/bin/pbf2osm --garmin-all $out $name
-  env osm2xxx_max_jobs="8" OSM_CHECKSUM=false \
+  env osm2xxx_max_jobs="8" OSM_CHECKSUM=false BBBIKE_TMPFS=/tmp \
       nice -12 $time $HOME/projects/bbbike/world/bin/pbf2osm --garmin-all-latin1 $out $name
   rm -f $out
 
