@@ -452,16 +452,16 @@ echo ">>> Run mkgmap, map style: $mkgmap_map_style_charset" >> $logfile
     style=$mkgmap_map_style" \
     $split_dir/*.pbf $mkgmap_map_type ) 2>&1 | tail -c 1024K >> $logfile || error
 
+if egrep -ql '^java\.lang\.' $logfile; then
+    error
+fi
+
 logfile_max_size="2000k"
 if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
     echo "Warning: logfile $logfile is to big"
     ls -l $logfile
     gzip $logfile
     #exit 2
-fi
-
-if egrep -ql '^java\.lang\.' $logfile; then
-    error
 fi
 
 rm -f $license_file $copyright_file
