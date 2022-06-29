@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2019 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2022 Wolfram Schneider, https://bbbike.org
 #
 # pbf-splitter - split a PBF file into smaller pieces for mkgmap 
 #
@@ -50,7 +50,7 @@ init_splitter () {
         *)         
             : ${java_heap_splitter=3G}
             if [ $size -gt 6000000 ]; then
-           	java_heap_splitter=12G
+           	java_heap_splitter=16G
             elif [ $size -gt 3000000 ]; then
            	java_heap_splitter=6G
 	    fi
