@@ -110,6 +110,7 @@ install-munin-extract:
 	done
 	sudo ln -fs ${MUNIN_PLUGINS_DIR}/extract-jobs ${MUNIN_PLUGINS_DIR}/extract-pro-jobs
 	sudo ln -fs ${MUNIN_PLUGINS_DIR}/extract-users ${MUNIN_PLUGINS_DIR}/extract-pro-users
+	sudo ln -fs ${MUNIN_PLUGINS_DIR}/extract-wait ${MUNIN_PLUGINS_DIR}/extract-wait-new
 	${MAKE} install-munin-extract-web
 
 install-munin-lighttpd:
