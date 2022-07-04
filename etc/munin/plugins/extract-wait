@@ -46,7 +46,7 @@ if you need to override the defaults below:
 #
 my $debug    = 0;
 my $help     = 0;
-my $new_user = 1;
+my $new_user = 0;
 
 # if we ignore the top users by email
 my $skip_top_users = 0;
@@ -56,6 +56,7 @@ my $minutes = 60;
 
 my $extract_dir;
 my $pro = "";
+my $new = "";
 my ( $wait_warning, $wait_critical );
 
 sub init {
@@ -65,6 +66,13 @@ sub init {
 
     if ( $0 =~ /-pro$/ ) {
         $extract_dir = "/var/cache/extract-pro";
+    }
+    else {
+        $extract_dir = "/var/cache/extract";
+    }
+    if ( $0 =~ /-new$/ ) {
+        $new      = "new";
+        $new_user = 1;
     }
     else {
         $extract_dir = "/var/cache/extract";
@@ -88,12 +96,12 @@ EOF
 sub config_wait {
 
     <<EOF;
-graph_title Extracts wait time $pro
-graph_vlabel Extracts wait time $pro
+graph_title Extracts wait time $pro $new
+graph_vlabel Extracts wait time $pro $new
 graph_category extract
-graph_info Waiting extract time $pro
+graph_info Waiting extract time $pro $new
 graph_period minute
-wait_average.label Waiting average time $pro
+wait_average.label Waiting average time $pro $new
 wait_average.min 0
 wait_average.warning $wait_warning
 wait_average.critical $wait_critical
@@ -105,7 +113,7 @@ wait_max.label Waiting max time $pro
 wait_max.min 0
 wait_max.warning $wait_warning
 wait_max.critical $wait_critical
-wait_median.label Waiting median time $pro
+wait_median.label Waiting median time $pro $new
 wait_median.min 0
 wait_median.warning $wait_warning
 wait_median.critical $wait_critical
@@ -150,9 +158,15 @@ sub exclude_new_user {
     }
     close EMAIL;
 
+    warn Dumper( \%hash ) if $debug >= 2;
+
     my @list;
-    foreach my $email (@files) {
+    foreach my $file (@files) {
+        my $json  = get_json_file($file);
+        my $email = $json->{"email"};
+
         push( @list, $email ) if !exists $hash{$email};
+        warn "ignore old user $email $hash{$email}\n" if $debug >= 1;
     }
 
     return @list;
