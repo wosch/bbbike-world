@@ -20,10 +20,12 @@ set -o pipefail # bash only
 download_region ()
 {
   region="$1"
+  tmp=$(mktemp $region.XXXXXXXX.tmp)
   url="$DOWNLOAD_URL_PREFIX/$region-latest.osm.pbf"
   curl --connect-timeout 10 -sSf -L "$url" | \
-    nice -n $nice_level osmconvert --drop-author --drop-version --out-pbf - > $region.tmp
-  mv -f $region.tmp $region.osm.pbf
+    nice -n $nice_level osmconvert --drop-author --drop-version --out-pbf - > $tmp
+  chmod a+r $tmp
+  mv -f $tmp $region.osm.pbf
 }
 
 for region in $garmin_regions
