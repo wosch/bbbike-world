@@ -165,8 +165,12 @@ sub exclude_new_user {
         my $json  = get_json_file($file);
         my $email = $json->{"email"};
 
-        push( @list, $email ) if !exists $hash{$email};
-        warn "ignore old user $email $hash{$email}\n" if $debug >= 1;
+        if ( !exists $hash{$email} ) {
+            push( @list, $email );
+        }
+        else {
+            warn "ignore old user $email $hash{$email}\n" if $debug >= 1;
+        }
     }
 
     return @list;
@@ -253,7 +257,7 @@ sub wait_time {
     foreach my $file (@files) {
         my $st = stat($file);
         if ( !$st ) {
-            warn "ignore $file, gone\n" if $debug >= 1;
+            warn "ignore file $file - no stat, gone\n" if $debug >= 1;
             next;
         }
 
