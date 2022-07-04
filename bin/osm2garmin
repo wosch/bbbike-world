@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2022 Wolfram Schneider, https://bbbike.org
 #
 # osm2garmin - wrapper to convert a osm/pbf file to garmin
 #
@@ -10,6 +10,7 @@
 
 set -e
 PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
+: ${BBBIKE_TMPDIR=/tmp}
 : ${debug=false}
 
 # ./osm2garmin-splitter
@@ -27,7 +28,12 @@ fi
 
 formats=$(echo $format | perl -npe 's/:/ /g')
 
-split_dir=$($dirname/pbf-splitter $file $format)
+# splitter.jar runs faster with osmium based pbf files, factor 3
+file_fast=$(mktemp $BBBIKE_TMPDIR/osm2garmin-splitter.XXXXXXXX.osm.pbf)
+osmium cat --overwrite --no-progress -o $file_fast $file
+
+split_dir=$($dirname/pbf-splitter $file_fast $format)
+rm -f $file_fast
 
 for f in $formats
 do
