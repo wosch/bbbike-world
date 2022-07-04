@@ -161,17 +161,21 @@ sub exclude_new_user {
     warn Dumper( \%hash ) if $debug >= 2;
 
     my @list;
+    my @email;
     foreach my $file (@files) {
         my $json  = get_json_file($file);
         my $email = $json->{"email"};
 
         if ( !exists $hash{$email} ) {
-            push( @list, $email );
+            push( @list,  $file );
+            push( @email, $email );
         }
         else {
             warn "ignore old user $email $hash{$email}\n" if $debug >= 1;
         }
     }
+
+    warn Dumper( \@email ) if $debug >= 2;
 
     return @list;
 }
