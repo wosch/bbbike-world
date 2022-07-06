@@ -23,7 +23,7 @@ download_region ()
   tmp=$(mktemp $region.XXXXXXXX.tmp)
   url="$DOWNLOAD_URL_PREFIX/$region-latest.osm.pbf"
   curl --connect-timeout 10 -sSf -L "$url" | \
-    nice -n $nice_level osmconvert --drop-author --drop-version --out-pbf - > $tmp
+    nice -n $nice_level osmium cat --overwrite -o $tmp -Fpbf -fpbf,add_metadata=false
   chmod a+r $tmp
   mv -f $tmp $region.osm.pbf
 }
