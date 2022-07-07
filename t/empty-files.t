@@ -26,7 +26,7 @@ sub empty_files {
     my $prog =
         q[ find ]
       . $path
-      . q[ -type f -print0 | perl -0e 'while(<>) { next if m,/(tmp|doc)|\.gitkeep$/,; if (-z $_) { print "$_\n"; $exit=1}}; exit $exit' ];
+      . q[ -type f -size 0 -mmin +400 -print0 | perl -0e 'while(<>) { next if m,/(tmp|doc)|\.gitkeep$/,; if (-z $_) { print "$_\n"; $exit=1}}; exit $exit' ];
 
     system($prog);
     is( $?, 0, "empty files in $path" );
