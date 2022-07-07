@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2012-2021 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2022 Wolfram Schneider, https://bbbike.org
 #
 # osm2garmin - convert a osm/pbf file to garmin
 #
@@ -481,8 +481,12 @@ cd ..
 garmin_zip=`dirname $file`/$garmin.osm.$ext2
 zip -q -r - -- `basename $garmin_dir` | \
   ( cd $pwd;
-    cat > $garmin_zip.tmp && mv $garmin_zip.tmp $garmin_zip
+    garmin_zip_tmp=$(mktemp $garmin_zip.XXXXXXXXXX.tmp)
+    cat > $garmin_zip_tmp && mv $garmin_zip_tmp $garmin_zip
+    chmod 644 $garmin_zip
     $osm_checksum $garmin_zip
   )
 
 $debug || rm -rf $tmpdir
+
+#EOF
