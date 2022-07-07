@@ -75,7 +75,7 @@ init_splitter () {
     
     java_splitter_opt=-Xmx${java_heap_splitter}
 
-    tmpdir=`mktemp -d ${BBBIKE_TMPFS}/pbf-splitter.XXXXXXXXXXX`
+    tmpdir=`mktemp -d ${BBBIKE_TMPDIR}/pbf-splitter.XXXXXXXXXXX`
     logfile=$tmpdir/logfile.txt
     split_dir=$tmpdir/split
     mkdir $split_dir
@@ -100,7 +100,6 @@ run_splitter () {
       java -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar --version
       $time nice -n${nice_level} java $java_splitter_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar \
         $splitter_keep_complete \
-        --resolution=$splitter_resolution \
         --max-areas=$splitter_max_areas \
         --max-nodes=$splitter_max_nodes \
         --mapid="$mapid" \
