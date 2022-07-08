@@ -219,6 +219,7 @@ our $planet_osm = {
 
     #'planet.osm' => '../osm/download/planet-latest.osm.pbf',
     'planet.osm' => '../osm/download/planet-latest-nometa.osm.pbf',
+    'planet-daily.osm' => '../osm/download/planet-daily.osm.pbf',
 
 #'srtm-europe.osm.pbf' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
 #'srtm-europe.osm.xz' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
