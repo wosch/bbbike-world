@@ -376,5 +376,14 @@ select optgroup option {
 
 span.donate_request { font-size:large; color:blue }
 
+span#timestamp {
+    position: fixed;
+    bottom: 2px;
+    right: 12em;
+    z-index: 1000000000;
+    font-size: small;
+    // color: green;
+}
+
 /* EOF */
 

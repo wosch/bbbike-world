@@ -289,6 +289,8 @@ function init() {
 
     permalink_init();
     if (config.open_infopage) open_infopage();
+
+    last_database_update();
 }
 
 function move_map_to_city() {
@@ -2195,6 +2197,52 @@ function mc_search_nominatim(query, offset, paging) {
     });
 }
 
+function last_database_update(database) {
+    var url = '/cgi/timestamp.cgi';
+
+    if (database) {
+        url += '?ns=' + database;
+    }
+
+    $.getJSON(url, function (data) {
+        if (data && data.timestamp) {
+            $("#timestamp").text("last database update: " + data.timestamp)
+        } else {
+            debug("error last database update - missing timestamp" + url);
+        }
+    })
+
+    .fail(function (data, textStatus, error) {
+        debug("error last database update: " + url);
+        debug("error last database update: data: " + data + ", textStatus: " + textStatus + ", error: " + error);
+    });
+}
+
+function plot_line(coords) {
+    debug("plot line, length: " + coords.length);
+
+    var epsg4326 = new OpenLayers.Projection("EPSG:4326");
+    var points = [];
+    for (var i = 0; i < coords.length; i++) {
+        var point = new OpenLayers.Geometry.Point(coords[i][0], coords[i][1]);
+        point.transform(epsg4326, map.getProjectionObject());
+        points.push(point);
+    }
+
+    var line_string = new OpenLayers.Geometry.LineString(points);
+    var lineFeature = new OpenLayers.Feature.Vector(line_string);
+
+    var style = {
+        strokeColor: '#000',
+        strokeWidth: 5
+    };
+    lineFeature.style = style;
+
+    vectors.addFeatures(lineFeature);
+}
+
+
+// EOF
 /* /cgi/route.cgi */
 
 function gpsies_route(route) {

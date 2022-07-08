@@ -200,6 +200,7 @@ sub map {
 <div id="content" class="site_index">
     <!-- define a DIV into which the map will appear. Make it take up the whole window -->
      <div id="map"></div>
+     <span id="timestamp"></span>
 </div><!-- content -->
 
 EOF
