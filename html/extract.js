@@ -615,6 +615,8 @@ function extract_init(opt) {
         $("select#format").change(function () {
             validateControls();
             updatePermalink();
+            last_database_update();
+
             if (config.display_format_image) display_format_image();
         });
 
@@ -2200,8 +2202,12 @@ function mc_search_nominatim(query, offset, paging) {
 function last_database_update(database) {
     var url = '/cgi/timestamp.cgi';
 
+    var format = $("select[name=format] option:selected").val();
+
     if (database) {
         url += '?ns=' + database;
+    } else if (format.indexOf("srtm") >= 0) {
+        url += '?ns=srtm';
     }
 
     $.getJSON(url, function (data) {
