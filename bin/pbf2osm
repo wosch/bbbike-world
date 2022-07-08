@@ -1,7 +1,8 @@
 #!/usr/local/bin/bash
-# Copyright (c) 2009-2021 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2022 Wolfram Schneider, https://bbbike.org
 #
-# pbf2osm - convert PBF format to OSM XML
+# pbf2osm - convert PBF format to OSM XML / Garmin / Shape
+#
 
 PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 set -e
@@ -338,15 +339,17 @@ case $compress in
     sqlite-xz )     $osm2sqlite "$file" ;;
 
     # other formats
-    bbbike ) $osm2bbbike "$file" "$bbbike_style" "$city" ;;
-    garmin ) $osm2garmin "$file" "$garmin_style" "$city" ;;
-    png )    $osm2png    "$file" "$png_style" "$city" ;;
-    svg )    $osm2svg    "$file" "$svg_style" "$city" ;;
-    shape )  $osm2shape  "$file" "$city" ;;
-    osmand ) $osm2osmand "$file" "$city" ;;
-    mapsme ) $osm2mapsme "$file" "$mapsme_style" "$city" ;;
-    mbtiles )$osm2mbtiles "$file" "$mbtiles_style" "$city" ;;
-    mapsforge ) $osm2mapsforge "$file" "$mapsforge_style" "$city" ;;
+    bbbike )    rm -f $tmp; $osm2bbbike    "$file" "$bbbike_style" "$city" ;;
+    garmin )    rm -f $tmp; $osm2garmin    "$file" "$garmin_style" "$city" ;;
+    png )       rm -f $tmp; $osm2png       "$file" "$png_style" "$city" ;;
+    svg )       rm -f $tmp; $osm2svg       "$file" "$svg_style" "$city" ;;
+    shape )     rm -f $tmp; $osm2shape     "$file" "$city" ;;
+    osmand )    rm -f $tmp; $osm2osmand    "$file" "$city" ;;
+    mapsme )    rm -f $tmp; $osm2mapsme    "$file" "$mapsme_style" "$city" ;;
+    mbtiles )   rm -f $tmp; $osm2mbtiles   "$file" "$mbtiles_style" "$city" ;;
+    mapsforge ) rm -f $tmp; $osm2mapsforge "$file" "$mapsforge_style" "$city" ;;
 
     * ) echo >& 2 "Oops, unknown '$compress'"; exit 2 ;;
 esac
+
+#EOF
