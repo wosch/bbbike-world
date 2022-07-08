@@ -62,7 +62,12 @@ sub get_timestamp {
     my $timestamp = &get_file_content($timestamp_file);
     chomp($timestamp);
 
-    return qq|{ "timestamp" => "$timestamp" }\n|;
+    return <<EOF;
+{ 
+  "database":  "$namespace",
+  "timestamp": "$timestamp" 
+}
+EOF
 }
 
 ######################################################################
