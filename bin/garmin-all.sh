@@ -5,11 +5,11 @@
 #
 
 : ${DOWNLOAD_URL_PREFIX="https://download.geofabrik.de"}
-: ${garmin_formats="ontrail-latin1"}
+: ${garmin_formats="ontrail-latin1:bbbike-latin1:openfietslite-latin1"}
 
 #: ${garmin_regions="antarctica australia-oceania"}
 : ${garmin_regions="antarctica australia-oceania africa central-america south-america asia north-america europe"}
-: ${nice_level="12"}
+: ${nice_level="17"}
 
 : ${debug=false}
 $debug && time="time"
