@@ -1543,6 +1543,7 @@ download-bbbike-org-install:
 download-srtm-bbbike-org-install:
 	cd ${DOWNLOAD_PREFIX}/osm/planet; mkdir -p srtm; cd srtm; \
 	  ln -fs $$HOME/projects/osm/download/srtm/planet-srtm-e40.osm.pbf .; \
+	  ln -fs $$HOME/projects/osm/download/srtm/planet-srtm-e40.osm.pbf.timestamp .; \
 	  ln -fs $$HOME/projects/osm/download/srtm/CHECKSUM.txt .
 	cd ${DOWNLOAD_PREFIX}/osm/planet; mkdir -p sub-srtm; cd sub-srtm; \
 	  ln -fs $$HOME/projects/osm/download/sub-srtm/* .
