@@ -30,7 +30,7 @@ sub usage {
 
     <<EOF;
 @{[$message]}
-    
+
 usage: $0 [options] file1.pbf file2.pbf ....
 
 --debug=0..2              debug option
@@ -189,3 +189,4 @@ if ($random) {
     'max_files' => $max_files
 );
 
+#EOF

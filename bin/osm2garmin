@@ -37,7 +37,9 @@ rm -f $file_fast
 
 for f in $formats
 do
-    env BBBIKE_SPLIT_DIR=$split_dir $program $file $f $city    
+    env BBBIKE_SPLIT_DIR=$split_dir $program $file $f $city
 done
 
 $debug || rm -rf $split_dir
+
+#EOF

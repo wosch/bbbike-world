@@ -26,7 +26,7 @@ my $planet_srtm      = "../osm/download/srtm/planet-srtm-e40.osm.pbf";
 
 sub usage () {
     <<EOF;
-    
+
 usage: $0 [options]
 
 --debug=0..2            debug option

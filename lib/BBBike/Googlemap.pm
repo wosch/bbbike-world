@@ -346,7 +346,7 @@ qq{<script type="text/javascript"> google.load("maps", $gmap_api_version); </scr
     var marker_list_points = [ $route_points ];
 
     city = "$city";
-    
+
     \$(document).ready(function() {
         setMapHeight();
         bbbike_maps_init("$m", $marker_list, "$lang", false, "$region", "$zoom_param", "$layer", $is_route, @{[ $is_route ? "false" : "true" ]} );
@@ -362,7 +362,7 @@ EOF
     <script type="text/javascript">
     //<![CDATA[
     state.marker_list = $marker_list;
-     
+
 EOF
     }
 
@@ -380,8 +380,8 @@ EOF
 	"vianame":  "@{[ CGI::escapeHTML($vianame) ]}",
 	"maptype":"cycle"
     };
-    
-    
+
+
     \$(document).ready(function() {
         elevation_initialize(map, elevation_obj);
     });
@@ -389,7 +389,7 @@ EOF
     }
 
     $html .= <<EOF;
-   
+
     //]]>
     </script>
     <noscript>

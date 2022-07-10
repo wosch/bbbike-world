@@ -6,10 +6,10 @@
 command="$@"
 try=0
 
-run () 
+run ()
 {
   try=$(($try + 1))
-  echo "Start $try: $command"  
+  echo "Start $try: $command"
   if $command; then
     :
   else
@@ -25,3 +25,4 @@ else
   echo "failed $try times, give up: $command"
 fi
 
+#EOF

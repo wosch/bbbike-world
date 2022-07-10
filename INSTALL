@@ -25,11 +25,11 @@ curl -sSfL https://github.com/wosch/bbbike-world/raw/world/bin/bbbike-bootstrap 
 
 Required debian modules
 ------------------------------------
-. ./world/etc/env/dot.bbbikerc 
+. ./world/etc/env/dot.bbbikerc
 sudo ./world/bin/bbbike-deb-repository-setup.sh
 
 # see world/etc/apt/equivs
-sudo apt-get install bbbike-world 
+sudo apt-get install bbbike-world
 
 make -f world/Makefile.osm bbbike-bootstrap
 make -f world/Makefile.osm distclean-real
@@ -54,7 +54,7 @@ sudo apt-get install equivs dh-make-perl dpkg-sig reprepro
 # xen/linux debian guest
 sudo apt-get install linux-image-amd64  grub2-common
 # xen/linux ubuntu guest
-sudo apt-get install linux-image-virtual grub2-common 
+sudo apt-get install linux-image-virtual grub2-common
 
 sudo mkdir /boot/grub
 sudo /usr/sbin/update-grub2
@@ -121,8 +121,8 @@ $ egrep  -h ^use ./world/bin/bbbike-build-runtime-perl*.pl |perl -npe 's,use,\$c
 su -
 apt-get install -y git-core sudo </dev/null
 echo 'indexdata   ALL=NOPASSWD: ALL' >> /etc/sudoers
-echo 'deb https://debian.bbbike.org/debian/wheezy wheezy main' > /etc/apt/sources.list.d/bbbike.list 
-echo 'StrictHostKeyChecking=no' >> /etc/ssh/ssh_config 
+echo 'deb https://debian.bbbike.org/debian/wheezy wheezy main' > /etc/apt/sources.list.d/bbbike.list
+echo 'StrictHostKeyChecking=no' >> /etc/ssh/ssh_config
 mkdir -p /usr/local/bin
 
 mkdir -p ~/.ssh
@@ -146,7 +146,7 @@ sudo apt-get install -y bbbike-world </dev/null
 ( cd /usr/local/www && sudo chown $(logname) . &&  ~/tmp/bbbike/world/bin/bbbike-checkout )
 ( cd /usr/local/www && ln -sf bbbike bbbike.org )
 ( cd ~/tmp/bbbike; make -s bbbike-bootstrap )
-. ~/.bashrc 
+. ~/.bashrc
 ( cd ~/projects/; ~/tmp/bbbike/world/bin/bbbike-checkout )
 ( cd ~/projects/bbbike; make -s update-files )
 ( cd ~/projects/bbbike; make -s staging )

@@ -11,7 +11,7 @@ outdir=$1
 shift
 infile=$@
 
-if test -z "outdir"; then 
+if test -z "outdir"; then
 	outdir=./
 fi
 mkdir -p $outdir || exit 2
@@ -25,10 +25,11 @@ fi
 
 if !  opensearch-suggestion < $file.places > $file.suggestions; then
     exit 1
-fi 
+fi
 
 mv -f $file.suggestions $outdir/opensearch.streetnames
 $gzip <  $file.places > $outdir/places.gz
 $gzip <  $file.err > $outdir/error.log.gz
 rm -f $file.err $file.places
 
+#EOF

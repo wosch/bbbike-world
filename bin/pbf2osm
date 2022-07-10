@@ -101,9 +101,9 @@ usage [ option ] file.osm.pbf
 
 --garmin-all --garmin-all-latin1
 --garmin-osm --garmin-osm-ascii --garmin-osm-latin1
---garmin-cycle --garmin-cycle-ascii --garmin-cycle-latin1 
+--garmin-cycle --garmin-cycle-ascii --garmin-cycle-latin1
 --garmin-leisure --garmin-leisure-ascii --garmin-leisure-latin1
---garmin-bbbike --garmin-bbbike-ascii --garmin-bbbike-latin1 
+--garmin-bbbike --garmin-bbbike-ascii --garmin-bbbike-latin1
 --garmin-srtm
 --garmin-onroad --garmin-onroad-ascii --garmin-onroad-latin1
 --garmin-ontrail --garmin-ontrail-ascii --garmin-ontrail-latin1
@@ -149,7 +149,7 @@ case $format in
     --opl-gzip | --opl-gz )  shift; compress=opl-gzip ;;
     --opl-bzip2 | --opl-bz2) shift; compress=opl-bzip2 ;;
     --opl-xz )    	     shift; compress=opl-xz ;;
-    
+
     --geojson )       	 shift; compress=geojson ;;
     --geojson-xz )    	 shift; compress=geojson-xz ;;
     --geojsonseq )       shift; compress=geojsonseq ;;
@@ -158,7 +158,7 @@ case $format in
     --text-xz )    	     shift; compress=text-xz ;;
     --sqlite )       	     shift; compress=sqlite ;;
     --sqlite-xz )    	     shift; compress=sqlite-xz ;;
-    
+
     --shape | --shp | --shapefile ) shift; compress=shape ;;
     --osmand | --obf ) 		    shift; compress=osmand ;;
 
@@ -178,17 +178,17 @@ case $format in
     --garmin-*:* | \
     --garmin-opentopo | --garmin-opentopo-ascii | --garmin-opentopo-latin1 \
       ) garmin_style=$(echo $1 | perl -npe 's,^\-+[^\-]+-',,); shift; compress=garmin ;;
-        
+
 	--bbbike-perltk ) bbbike_style=perltk; shift; compress=bbbike ;;
-    
+
     --svg-google | --svg-hiking | --svg-osm | --svg-urbanight | --svg-wireframe | --svg-cadastre ) svg_style=$(echo $1 | perl -npe 's,.*-,,'); shift; compress=svg ;;
-    
+
     --png-google | --png-hiking | --png-osm | --png-urbanight | --png-wireframe | --png-cadastre ) png_style=$(echo $1 | perl -npe 's,.*-,,'); shift; compress=png ;;
 
     --mapsforge-osm | --mapsforge ) shift; compress=mapsforge; mapsforge_style=osm; pbf2osm_max_cpu_time=28000 ;;
-    
+
     --mapsme-osm ) shift; compress=mapsme; mapsme_style=osm ;;
-    
+
     --mbtiles-basic ) shift; compress=mbtiles; mbtiles_style=basic ;;
     --mbtiles-openmaptiles ) shift; compress=mbtiles; mbtiles_style=openmaptiles ;;
 
@@ -328,7 +328,7 @@ case $compress in
     opl-bzip2 ) $osmium cat -f opl "$file" | $bzip2 > $tmp && mv -f $tmp $dir/$f.opl.bz2 ;;
     opl-xz )    $osmium cat -f opl "$file" | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.opl.xz ;;
 
-    # osmimum     
+    # osmimum
     geojson )       $osmium export -f geojson    "$file" ;;
     geojson-xz )    $osmium export -f geojson    "$file" | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.geojson.xz ;;
     geojsonseq )    $osmium export -f geojsonseq "$file" ;;

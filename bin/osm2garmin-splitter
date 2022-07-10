@@ -81,7 +81,7 @@ case $ext in
    srtm | garmin-srtm.zip )
         : ${java_heap=6G}
         ;;
-    *)         
+    *)
         : ${java_heap=3G}
         if [ $size -gt 6000000 ]; then
            java_heap=30G
@@ -164,7 +164,7 @@ case $ext in
     	mkgmap_map_style=fzk
     	mkgmap_map_type=$etc_dir/typ/fzk/freizeit.TYP
         ;;
-    
+
    bbbike )
     	ext=garmin-bbbike.zip
     	mkgmap_map=--style-file=$etc_dir/../../../misc/mkgmap/srt-style
@@ -188,40 +188,40 @@ case $ext in
     	ext=garmin-onroad.zip
     	mkgmap_map=--style-file=$etc_dir/style/bike-onroad
     	mkgmap_map_style=onroad
-    	mkgmap_map_type="" 
+    	mkgmap_map_type=""
         ;;
    onroad-ascii )
         ext=garmin-onroad-ascii.zip
         mkgmap_map=--style-file=$etc_dir/style/bike-onroad
         mkgmap_map_style=onroad
-        mkgmap_map_type="" 
+        mkgmap_map_type=""
         ;;
    onroad-latin1 )
         ext=garmin-onroad-latin1.zip
         mkgmap_map=--style-file=$etc_dir/style/bike-onroad
         mkgmap_map_style=onroad
-        mkgmap_map_type="" 
+        mkgmap_map_type=""
         ;;
 
    ontrail )
     	ext=garmin-ontrail.zip
     	mkgmap_map=--style-file=$etc_dir/style/bike-ontrail
     	mkgmap_map_style=ontrail
-    	mkgmap_map_type="" 
+    	mkgmap_map_type=""
         ;;
    ontrail-ascii )
         ext=garmin-ontrail-ascii.zip
         mkgmap_map=--style-file=$etc_dir/style/bike-ontrail
         mkgmap_map_style=ontrail
-        mkgmap_map_type="" 
+        mkgmap_map_type=""
         ;;
    ontrail-latin1 )
         ext=garmin-ontrail-latin1.zip
         mkgmap_map=--style-file=$etc_dir/style/bike-ontrail
         mkgmap_map_style=ontrail
-        mkgmap_map_type="" 
+        mkgmap_map_type=""
         ;;
-        
+
    opentopo )
         ext=garmin-opentopo.zip
         mkgmap_map=--style-file=$etc_dir/style/opentopo
@@ -308,7 +308,7 @@ case $ext in
    osm-latin1 )
         ext=garmin-osm-latin1.zip
         ;;
-        
+
    srtm )
         ext=garmin-srtm.zip
         mkgmap_map=--style-file=$etc_dir/style/srtm
@@ -360,7 +360,7 @@ fi
 mkgmap_opt_style=""
 case $ext in
    *oseam* ) mkgmap_opt_style="--custom"
-             # OpenSeaMap: avoid double ports 
+             # OpenSeaMap: avoid double ports
              mkgmap_opt_pois=""
              ;;
    * )       mkgmap_opt_style="--housenumbers"
@@ -430,12 +430,12 @@ $text2html < README.txt > README.html
 if [ -n "$mkgmap_map_type" ]; then
    cp $mkgmap_map_type map.TYP
    mkgmap_map_type=map.TYP
-   $set_typ $garmin_family_id $garmin_product_id $mkgmap_map_type >> $logfile 2>&1 
+   $set_typ $garmin_family_id $garmin_product_id $mkgmap_map_type >> $logfile 2>&1
 fi
 
-# --mapname="$mapid" 
+# --mapname="$mapid"
 echo ">>> Run mkgmap, map style: $mkgmap_map_style_charset" >> $logfile
-( set -x 
+( set -x
   java -jar $BBBIKE_OPT_DIR/$BBBIKE_MKGMAP_VERSION/mkgmap.jar --version
   $time java $java_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_MKGMAP_VERSION/mkgmap.jar \
     --max-jobs=$osm2xxx_max_jobs \

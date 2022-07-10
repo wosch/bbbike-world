@@ -6,7 +6,7 @@
 
 set -e
 
-if [ -e $HOME/.bbbikerc ]; then 
+if [ -e $HOME/.bbbikerc ]; then
     . $HOME/.bbbikerc
 fi
 
@@ -26,3 +26,4 @@ fi
 perl -npe 's,%(.*?)%,$ENV{$1},g; ' $BBBIKE_LIGHTTPD_TEMPLATE > $BBBIKE_LIGHTTPD_FILE.tmp
 mv -f $BBBIKE_LIGHTTPD_FILE.tmp $BBBIKE_LIGHTTPD_FILE
 
+#EOF

@@ -8,7 +8,7 @@
 set -e
 set -o pipefail
 
-PATH=/usr/local/bin:/bin:/usr/bin; export PATH 
+PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 
 file=planet-latest.osm.pbf
 planet_osm_server=https://planet.openstreetmap.org/planet
@@ -17,7 +17,7 @@ automatic_update="yes"
 bbbikerc=$HOME/.bbbikerc
 planet_osm_min_size=33000600300
 
-if [ -e "$bbbikerc" ]; then 
+if [ -e "$bbbikerc" ]; then
     . "$bbbikerc"
 fi
 
@@ -70,8 +70,8 @@ else
 
 	 # cleanup lock file on success
 	 rm -f $update_lock
-       else 
-	 tail -n 200 $logfile 
+       else
+	 tail -n 200 $logfile
          echo "failed: $(date)"
          exit 1
        fi

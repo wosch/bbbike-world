@@ -20,7 +20,7 @@ JAVACMD_OPTIONS=-Xmx${java_heap}; export JAVACMD_OPTIONS
 
 # support more than one file
 args=""
-for f 
+for f
 do
    pbf=$(echo $f | perl -npe 's/\.poly$/.pbf/')
    args="$args --bp file=$f --write-pbf omitmetadata=true $pbf.tmp"
@@ -28,7 +28,7 @@ done
 
 if osmosis --read-pbf-fast ${OSM_PLANET_PBF} $buffer --tee $# $args > $logfile 2>&1
 then
-    for f 
+    for f
     do
         pbf=$(echo $f | perl -npe 's/\.poly$/.pbf/')
 	mv -f $pbf.tmp $pbf
@@ -40,5 +40,7 @@ else
     echo "cat $logfile"
     cat $logfile
     exit 2
-fi 
+fi
+
+#EOF
 

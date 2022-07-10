@@ -1299,7 +1299,7 @@ data-distclean distclean-data: cache-clean-local
 # ==> log.tile-convert-shp <==
 # 15353.14user 7242.06system 48:50.42elapsed 771%CPU (0avgtext+0avgdata 1655804maxresident)k
 #
-# ==> log.tile-convert-mbtiles <== 
+# ==> log.tile-convert-mbtiles <==
 # 149723.33user 6004.79system 5:33:07elapsed 779%CPU (0avgtext+0avgdata 2666748maxresident)k
 #
 # ==> log.tile-convert-osm <==
@@ -1671,7 +1671,7 @@ install-xvfb:
 # docker note: the images are build from a local ./Dockerfile in world/etc/docker - however
 #              the rest will be checked out from github.com inside the image
 #
-DOCKER_BUILD_FLAGS?=	--no-cache 
+DOCKER_BUILD_FLAGS?=	--no-cache
 
 docker-build:
 	cd world/etc/docker && ${DOCKER} build ${DOCKER_BUILD_FLAGS} -f ${DOCKER_IMAGE_FILE} -t ${DOCKER_BBBIKE_TAG} .

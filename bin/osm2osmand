@@ -55,7 +55,7 @@ case $file in
         : ${splitter_max_areas=100}
         : ${splitter_keep_complete="--keep-complete=false"}
         ;;
-    *)         
+    *)
         : ${java_heap=2600M}
         ;;
 esac
@@ -66,7 +66,7 @@ esac
 splitter_resolution=13
 
 java_opt=-Xmx${java_heap}
-java_splitter_opt=-Xmx${java_heap_splitter}    
+java_splitter_opt=-Xmx${java_heap_splitter}
 
 template=$dirname/../etc/extract/$(basename $0).$BBBIKE_EXTRACT_LANG.sh
 case $template in /*) ;; *) template=$(pwd)/$template ;; esac
@@ -112,7 +112,7 @@ mapid=93240001
 split_dir=data/osm
 echo ">>> Run splitter" >> $logfile
 
-( set -x; 
+( set -x;
   java -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar --version
   nice -n1 java $java_splitter_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar \
      $splitter_keep_complete \
@@ -213,3 +213,5 @@ zip -q -r - -- $(basename $obf_dir) | \
   )
 
 $debug || rm -rf $tmpdir
+
+#EOF

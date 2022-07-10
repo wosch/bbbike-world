@@ -10,7 +10,7 @@ export BBBIKE_TEST_NO_CGI_TESTS=1 BBBIKE_TEST_NO_MAPSERVER=1
 set -e
 tmp_dir=$(mktemp -d -t bbbike-test.XXXXXXXX)
 
-test -z $tmp_dir && exit 2 
+test -z $tmp_dir && exit 2
 
 cd $tmp_dir
 bbbike-checkout > log.checkout 2>&1
@@ -24,3 +24,4 @@ else
    tail -30 log
 fi
 
+#EOF

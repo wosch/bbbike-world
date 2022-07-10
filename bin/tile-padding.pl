@@ -62,7 +62,7 @@ my @format =
 
 sub usage () {
     <<EOF;
-    
+
 usage: $0 [options] --format=format pbf.csv garmin-osm.csv
 
 --debug=0..2      debug option

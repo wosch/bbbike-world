@@ -7,7 +7,7 @@
 PATH=/usr/local/bin:/usr/local/sbin:/opt/local/sbin:/usr/sbin:/bin:/usr/bin; export PATH
 set -e
 
-if [ -e $HOME/.bbbikerc ]; then 
+if [ -e $HOME/.bbbikerc ]; then
     . $HOME/.bbbikerc
 fi
 
@@ -32,7 +32,8 @@ kill -TERM $(cat $pid_file)
 sleep 0.3
 
 # second kill, die hard
-if [ -f "$pid_file" ]; then 
+if [ -f "$pid_file" ]; then
     kill -9 $(cat $pid_file)
 fi
 
+#EOF

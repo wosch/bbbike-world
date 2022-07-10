@@ -11,7 +11,7 @@ set -e
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
 
 dir=`dirname $0`
-PATH=$PATH:$dir; export PATH 
+PATH=$PATH:$dir; export PATH
 
 command="$@"
 export bbbike_fast_checkout
@@ -83,3 +83,4 @@ else
     rm -rf $dir
 fi
 
+#EOF

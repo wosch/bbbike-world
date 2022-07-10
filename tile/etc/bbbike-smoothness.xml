@@ -12,7 +12,7 @@
   &fontset-settings;
 
 <Style name="minor-roads-fill">
-  
+
   <!--
    <Rule>
       <Filter>[highway] = 'residential' and not [bbbike:quality]</Filter>
@@ -25,7 +25,7 @@
         <CssParameter name="stroke-linecap">round</CssParameter>
       </LineSymbolizer>
     </Rule>
-   
+
    <Rule>
     <Filter>[highway] = '' and not [bbbike:quality]</Filter>
       &maxscale_zoom15;
@@ -83,8 +83,8 @@
         <CssParameter name="stroke-linecap">round</CssParameter>
       </LineSymbolizer>
     </Rule>
-   
-   
+
+
     <Rule>
       <Filter>[highway] = 'residential' and [bbbike:quality] = 'Q0'</Filter>
       &maxscale_zoom12;
@@ -129,7 +129,7 @@
         <CssParameter name="stroke-linecap">round</CssParameter>
       </LineSymbolizer>
     </Rule>
-    
+
     <Rule>
       <Filter>[highway] = 'residential' and [bbbike:quality] = 'Q0'</Filter>
       &maxscale_zoom1;
@@ -173,8 +173,8 @@
         <CssParameter name="stroke-linejoin">round</CssParameter>
         <CssParameter name="stroke-linecap">round</CssParameter>
       </LineSymbolizer>
-    </Rule> 
-    
+    </Rule>
+
 </Style>
 
 <!-- -->

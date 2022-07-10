@@ -27,7 +27,7 @@ pwd=$(pwd)
 # use original "strassen" data
 if [ -e $prefix/$city/strassen-orig.gz ]; then
     gzip -dc $prefix/$city/strassen-orig.gz > $prefix/$city/strassen
-else 
+else
     cp -f $prefix/$city/strassen $prefix/$city/strassen-orig
 fi
 
@@ -59,7 +59,7 @@ do
    mv -f $prefix/$city/$file.tmp $prefix/$city/$file
 
    # XXX: filter lines without geo coordinates (WTF?)
-   #perl -i -ne 'if (/^\s*#/ || /\d+$/ ) { print  }' $prefix/$city/$file 
+   #perl -i -ne 'if (/^\s*#/ || /\d+$/ ) { print  }' $prefix/$city/$file
 done
 
 echo "Run search_inaccessible_points"
@@ -102,7 +102,7 @@ perl -ne 'print if !/^\s+|^\s*#|^$/' strassen | sort -uf > opensearch.street-coo
 
 
 # green ways
-# perl -npe 's/^\s/XYZ\t/; s/RW1/green2/g' radwege_exact > green 
+# perl -npe 's/^\s/XYZ\t/; s/RW1/green2/g' radwege_exact > green
 
 # cooked streets
 echo "Run cookied streets"
@@ -130,3 +130,4 @@ ls | egrep -v '\.gz' | egrep "^_|^poi$|^strassen-orig|opensearch.crossing.*all$"
 
 rm -rf $tmpdir
 
+#EOF

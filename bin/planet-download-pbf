@@ -24,7 +24,7 @@ file_latest=planet-latest.osm.pbf
 file_nometa=planet-latest-nometa.osm.pbf
 planet_osm_server=https://planet.openstreetmap.org/pbf
 
-if [ -e $HOME/.bbbikerc ]; then 
+if [ -e $HOME/.bbbikerc ]; then
     . $HOME/.bbbikerc
 fi
 
@@ -72,8 +72,8 @@ if $keep_original_planet; then
   mv -f $dir/$file_latest $dir/$file_latest.md5 .
   mv -f $dir/$file_latest.timestamp .
 fi
-mv -f $dir/$file_nometa $dir/$file_nometa.md5 . 
-mv -f $dir/$file_nometa.timestamp . 
+mv -f $dir/$file_nometa $dir/$file_nometa.md5 .
+mv -f $dir/$file_nometa.timestamp .
 
 # cleanup temp directory
 rm -rf $dir

@@ -72,6 +72,6 @@ __END__
 foreach my $image (@images) {
    my $res = $test->myget("$homepage/images/$image");
    my $image = "image/png";
-   is( $res->content_type, $mime_type, "$image is $mime_type" ); 
+   is( $res->content_type, $mime_type, "$image is $mime_type" );
 }
 

@@ -14,7 +14,7 @@ nice="nice -n 10"
 
 file=planet-latest.osm.bz2
 
-if [ -e $HOME/.bbbikerc ]; then 
+if [ -e $HOME/.bbbikerc ]; then
     . $HOME/.bbbikerc
 fi
 
@@ -26,3 +26,4 @@ $nice $bzip2 -dc $file |  mbuffer -q -m 256m | \
 mv -f ${file_pbf}.tmp $file_pbf
 $MD5 $file_pbf > ${file_pbf}.md5
 
+#EOF

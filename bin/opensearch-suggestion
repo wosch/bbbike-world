@@ -506,7 +506,7 @@ sub wordlist {
 
 sub usage {
     warn <<EOF;
-usage: 
+usage:
   $0 [options] < strassen > opensearch.streetnames
 
 --input-charset=charset input character set, default: $icharset
@@ -626,3 +626,4 @@ while ( my ( $street, $val ) = each %s ) {
 select STDOUT;
 
 exit 0;
+#EOF

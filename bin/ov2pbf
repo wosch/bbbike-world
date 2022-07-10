@@ -39,5 +39,7 @@ else
     echo "File $@ failed"
     cat $logfile
     exit 2
-fi 
+fi
+
+#EOF
 

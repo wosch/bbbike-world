@@ -22,7 +22,7 @@ install-frontend-lighttpd:
 	cd /etc/lighttpd/conf-available; \
 	  sudo ln -fs /usr/local/www/bbbike/world/etc/lighttpd/munin-fastcgi.conf;
 	cd /etc/lighttpd/conf-available; \
-	  sudo ln -fs /usr/local/www/bbbike/world/etc/lighttpd/lighttpd-frontend.conf 
+	  sudo ln -fs /usr/local/www/bbbike/world/etc/lighttpd/lighttpd-frontend.conf
 	cd /etc/lighttpd/conf-enabled; \
 	  sudo ln -fs ../conf-available/munin-fastcgi.conf
 	cd /etc/lighttpd; \
@@ -39,9 +39,9 @@ sync-backend:
 	cp -f /etc/logrotate.d/lighttpd logrotate/lighttpd.logrotate
 
 install-backend-lighttpd:
-	sudo cp -f logrotate/lighttpd.logrotate /etc/logrotate.d/lighttpd 
+	sudo cp -f logrotate/lighttpd.logrotate /etc/logrotate.d/lighttpd
 	sudo cp -f lighttpd/bbbike.org.conf /etc/lighttpd/conf-available
-	sudo cp -f lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf 
+	sudo cp -f lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf
 	cd /etc/lighttpd/conf-enabled; sudo ln -fs ../conf-available/bbbike.org.conf
 	sudo /etc/init.d/lighttpd restart
 

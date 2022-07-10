@@ -10,7 +10,7 @@ file=$1
 # /dev/stdin
 if [ "$file" = '-' -o "$file" = "/dev/stdin" ]; then
     osm_checksum=true
-else 
+else
     if [ ! -f "$file" ]; then
     	echo "$file does not exists"
     	exit 2
@@ -22,7 +22,7 @@ bzip2=`which pbzip2 bzip2 2>/dev/null | head -n 1`
 
 file_pbf=`echo "$file" | perl -npe 's/\.[^\.]+$/.pbf/'`
 
-case $file in 
+case $file in
 	*.gz )  uncompress="$gzip -dc" ;;
 	*.bz2 ) uncompress="$bzip2 -dc" ;;
 	*.zip | *.ZIP ) uncompress="unzip -p" ;;
@@ -43,7 +43,7 @@ else
     echo "File $file failed"
     $uncompress -t $file
     exit 2
-fi 
+fi
 
 $osm_checksum $file_pbf
 $osm_checksum $file
@@ -56,3 +56,4 @@ do
    fi
 done
 
+#EOF

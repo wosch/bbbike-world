@@ -37,12 +37,12 @@ branch_check () {
 }
 
 submodule_world () {
-    ( 
+    (
 	cd bbbike
     	if [ ! -e world ]; then
     	    git clone $git_clone_opt ssh://git.bbbike.org/home/git/bbbike-world world
-	    ( cd world 
-	   	git_config 
+	    ( cd world
+	   	git_config
 		#git remote add github ssh://github.com/wosch/bbbike-world.git
 		git remote add github https://github.com/wosch/bbbike-world.git
 	    )
@@ -79,14 +79,14 @@ if $bbbike_fast_checkout; then
         # fast exit
 	exit 0
 
-    else 
-        # local clone 
+    else
+        # local clone
 	if [ -e $HOME/projects/bbbike ]; then
 	    echo "Checkout from $HOME/projects/bbbike"
     	    git clone $git_clone_opt $HOME/projects/bbbike
     	    ( cd bbbike && git remote add bbbike ssh://git.bbbike.org/home/git/bbbike )
 	    submodule_world
-        else 
+        else
     	    git clone $git_clone_opt ssh://git.bbbike.org/home/git/bbbike
 	    submodule_world
 	fi
@@ -139,3 +139,4 @@ wait
 echo "you may run as well: make -s update-files"
 #echo "                     git merge eserte/master"
 
+#EOF

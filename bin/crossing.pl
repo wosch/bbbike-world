@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl 
+#!/usr/local/bin/perl
 # Copyright (c) 2009-2013 Wolfram Schneider, https://bbbike.org
 #
 # crossing.pl - extract list of crossings
@@ -128,3 +128,4 @@ foreach my $city (@cities) {
     );
 }
 
+#EOF

@@ -142,7 +142,7 @@ sub download_area {
 Welcome to BBBike's free download server!
 This server has data extracts from the OpenStreetMap project
 for the area $city in
-a variety of 
+a variety of
 <a href="https://extract.bbbike.org/extract-screenshots.html">formats and styles</a>
 for you to use:
 </p>
@@ -348,20 +348,20 @@ sub js_jump {
     function resizeOtherCities(toogle) {
 	var tag = document.getElementById("BBBikeGooglemap");
 	var tag_more_cities = document.getElementById("more_cities");
-    
+
 	if (!tag) return;
 	if (!tag_more_cities) return;
-    
+
 	if (!toogle) {
 	    // tag.style.height = "75%";
 	    // tag_more_cities.style.fontSize = "85%";
 	    tag_more_cities.style.display = "block";
-    
+
 	} else {
 	    tag_more_cities.style.display = "none";
 	    // tag.style.height = "90%";
 	}
-    
+
 	more_cities = toogle ? false : true;
 	// google.maps.event.trigger(map, 'resize');
 	setMapHeight();

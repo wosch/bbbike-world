@@ -4,7 +4,7 @@
 # planet-daily-update-cron - wrapper for planet-daily-update called by a cron job
 #
 
-PATH="/usr/local/bin:/bin:/usr/bin"; export PATH 
+PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
 set -e
 
 cd $HOME/projects/bbbike
@@ -20,3 +20,4 @@ else
   exit 1
 fi
 
+#EOF

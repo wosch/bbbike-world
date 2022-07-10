@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl 
+#!/usr/local/bin/perl
 # Copyright (c) 2009-2013 Wolfram Schneider, https://bbbike.org
 #
 # planet-ext-places - extract street names from an OpenStreetMap
@@ -173,3 +173,4 @@ for my $osm_file (@osm_files) {
     extract_places($reader);
 }
 
+#EOF

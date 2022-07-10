@@ -9,9 +9,10 @@ for file
 do
    pid=$$
    rm -rf $file.$pid
-   if [ -e $file ]; then 
+   if [ -e $file ]; then
 	mv -f $file $file.$pid
    	rm -rf $file.$pid &
    fi
 done
 
+#EOF

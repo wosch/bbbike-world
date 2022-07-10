@@ -10,10 +10,12 @@
 set -e
 
 city=$1
-if ! find $DATA_OSM_DIR/$city -type f -print | egrep -v '\.(gz|bak|dd|yml|pl|data)$$' | 
-	 egrep -v 'opensearch\.' | sort -r | xargs -n1 -P$MAX_CPU  ./miscsrc/grepstrassen -name Kreuzbergstr. >/dev/null; 
-then 
-     echo "Failed city: $city"
-     exit 1
+if ! find $DATA_OSM_DIR/$city -type f -print | egrep -v '\.(gz|bak|dd|yml|pl|data)$$' |
+  egrep -v 'opensearch\.' | sort -r | xargs -n1 -P$MAX_CPU  ./miscsrc/grepstrassen -name Kreuzbergstr. >/dev/null
+then
+  echo "Failed city: $city"
+  exit 1
 fi
+
+#EOF
 

@@ -7,7 +7,7 @@
 PATH=/usr/local/bin:/usr/local/sbin:/opt/local/sbin:/usr/sbin:/bin:/usr/bin; export PATH
 
 
-if [ -e $HOME/.bbbikerc ]; then 
+if [ -e $HOME/.bbbikerc ]; then
     . $HOME/.bbbikerc
 fi
 
@@ -28,3 +28,4 @@ fi
 
 $lighttpd -D -f $BBBIKE_LIGHTTPD_FILE
 
+#EOF

@@ -36,8 +36,9 @@ else
 
    # check again
    $nice $MD5 $file
-   cat $file.md5 
+   cat $file.md5
 fi
 
 rm -f $tmp
 
+#EOF

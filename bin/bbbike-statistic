@@ -71,9 +71,9 @@ log $front_end/cgi/location.cgi | awk '{print $1}' | wc -l
 if [ -d $varnish_dir ]; then
     echo ""
     echo -n "mc JS/CSS traffic: "
-    log_full /mc/ | egrep ' (200|30[124]) ' | awk '{ s += $10 } END { print int(s/1024/1024*10 + 0.5) / 10, "MB" }' 
+    log_full /mc/ | egrep ' (200|30[124]) ' | awk '{ s += $10 } END { print int(s/1024/1024*10 + 0.5) / 10, "MB" }'
     echo -n "tile traffic: "
-    log_full tile.bbbike.org/osm/ | egrep ' (200|30[124]) ' | awk '{ s += $10 } END { print int(s/1024/1024*10 + 0.5) / 10, "MB" }' 
+    log_full tile.bbbike.org/osm/ | egrep ' (200|30[124]) ' | awk '{ s += $10 } END { print int(s/1024/1024*10 + 0.5) / 10, "MB" }'
 
     echo ""
     echo -n "map compare log hosts: "
@@ -136,9 +136,9 @@ echo ""
 echo -n "BBBike api city searches: "
 log_full 'api.bbbike.org/api/[0-9]+\.[0-9]+/[A-Z][a-z]' | egrep 'HTTP/1.1" 200 ' | wc -l
 echo -n "BBBike api city count: "
-log_full 'api.bbbike.org/api/[0-9]+\.[0-9]+/[A-Z][a-z]' | egrep 'HTTP/1.1" 200 ' | 
+log_full 'api.bbbike.org/api/[0-9]+\.[0-9]+/[A-Z][a-z]' | egrep 'HTTP/1.1" 200 ' |
 	awk '{ print $7 }' | perl -npe 's,/\?.*,,; s,.*/,,' | sort -u | wc -l
-log_full 'api.bbbike.org/api/[0-9]+\.[0-9]+/[A-Z][a-z]' | egrep 'HTTP/1.1" 200 ' | 
+log_full 'api.bbbike.org/api/[0-9]+\.[0-9]+/[A-Z][a-z]' | egrep 'HTTP/1.1" 200 ' |
 	awk '{ print $7 }' | perl -npe 's,/\?.*,,; s,.*/,,' | sort | uniq -c | sort -nr
 
 echo ""
@@ -148,7 +148,7 @@ log_full 'api.bbbike.org/api/[0-9]+\.[0-9]+/[A-Z][a-z]' | egrep 'HTTP/1.1" 200 '
 
 echo ""
 echo "api.bbbike.org format: "
-log_full 'api.bbbike.org/api/[0-9]+\.[0-9]+/[A-Z][a-z]' | egrep 'HTTP/1.1" 200 ' | 
+log_full 'api.bbbike.org/api/[0-9]+\.[0-9]+/[A-Z][a-z]' | egrep 'HTTP/1.1" 200 ' |
   awk '{ print $7 }' | perl -ne 'print "$1\n" if /output_as=(.*?)[&;]/' | sort | uniq -c | sort -nr
 
 echo ""
@@ -166,7 +166,7 @@ log_full 'api.bbbike.org/api/[0-9]+\.[0-9]+/[A-Z][a-z]' | egrep 'HTTP/1.1" 200 '
         awk '{print $1, $7 }' | egrep -v '/location.cgi' |
 	perl $perl_utf8 -npe 's/\?.*?(appid=[^ ;&]+).*/ $1/; s,/cgi/,,; s,(\.en)?\.cgi,,;' |
 	perl -npe 's,https?://api.bbbike.org/api/0.2,,' |
-        sort | uniq -c | sort -nr |  awk '{print $4}' | sort | uniq -c | sort -nr 
+        sort | uniq -c | sort -nr |  awk '{print $4}' | sort | uniq -c | sort -nr
 
 echo ""
 echo -n "Bots www.bbbike.org city: "
@@ -201,14 +201,14 @@ log "$url_match" |
 echo ""
 echo -n "bbbike references: "
 log "(https?://www.bbbike.org|/ )" | egrep -v '/streets.html ' | awk '{ print $11 }' | egrep -vi '\.google\.[a-z]|https?://(www\.)?bbbike.org' | sort | uniq -c | sort -nr | wc -l
-log "(https?://www.bbbike.org|/ )" | egrep -v '/streets.html ' | awk '{ print $11 }' | egrep -v '\.google\.[a-z]|https?://(www\.)?bbbike.org' | sort | uniq -c | sort -nr 
+log "(https?://www.bbbike.org|/ )" | egrep -v '/streets.html ' | awk '{ print $11 }' | egrep -v '\.google\.[a-z]|https?://(www\.)?bbbike.org' | sort | uniq -c | sort -nr
 
 echo ""
 echo -n "google references: "
 log "$url_match.*" | egrep -v '/streets.html ' | egrep -i '\.google\.' | wc -l
 
 log "(/ |$url_match.*)" | egrep -v '/streets.html ' | egrep -i '\.google\.' |
-	egrep -v '/streets.html" ' | awk '{ print $11 }' | 
+	egrep -v '/streets.html" ' | awk '{ print $11 }' |
 	perl $perl_utf8 -npe "s,.?https?://(www\.)?bbbike.org$url_match\?.*\n,$1,g" |
 	sort | uniq -c | sort -nr |
 	perl $perl_utf8 -MCGI -npe '$_ = CGI::unescape($_)'
@@ -348,7 +348,7 @@ if [ -s $extract_log ]; then
     echo ""
     echo "extract referer"
     $zcat $extract_log | egrep '"GET /' | awk '{ print $11 }' | egrep -v 'https?://extract.bbbike.org/' | sort | uniq -c | sort -nr
-    
+
     echo ""
     echo -n "extract stat: "
     $zcat $extract_log | egrep 'GET /\?.*?submit=extract' | egrep 'city=.+' | wc -l
@@ -398,7 +398,7 @@ echo -n "http stat: "
 log_full / | awk '{ s+=$10 } END { print int(s/1024/1024), "MB" }'
 
 
-log_full 'GET https?://.* 200 ' | awk '{ print $7, $10 }' | 
+log_full 'GET https?://.* 200 ' | awk '{ print $7, $10 }' |
   perl -e 'while(<>) {s,https?://,,; s,/.*? , ,; @a=split; $b{$a[0]} += $a[1]}; while(($key,$val) = each %b) { print $key, " ", int($val/1024/102.4)/10, " MB\n"}'|
   sort -k2 -nr
 
@@ -414,3 +414,4 @@ echo ""
 echo "CPU by process:"
 lastcomm | perl -e 'while(<>) { @a= split; $time= $a[3]+$a[4]; $program{$a[0]}+=$time; }; foreach (keys %program) { print "$_\t", int($program{$_}/6+0.5)/10, " minutes\n"}' | sort -k2 -nr | head -20
 
+#EOF

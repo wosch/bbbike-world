@@ -275,7 +275,7 @@ EOF
 
 sub noscript {
     return <<'EOF';
-    
+
 <noscript>
   <p>You must enable JavaScript and CSS to run this application!</p>
 </noscript>
@@ -380,13 +380,13 @@ foreach my $city ( sort keys %hash ) {
 
 print <<EOF;
     ]; // var bbbike_db = [ ... ];
-    
+
     set_map_height(); // called early for OpenLayers....
     download_init_map({"nocenter": true, "fillOpacity": 0.3});
     plot_bbbike_areas(bbbike_db, {"offline": $offline, "city": "$city"});
     jump_to_city(bbbike_db, city);
     init_map_resize();
-    
+
 });    // \$(document).ready();
 
 </script>

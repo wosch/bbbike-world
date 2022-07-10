@@ -7,7 +7,7 @@
 uptime
 
 extract=extract
-case $0 in 
+case $0 in
 	*-pro ) extract=extract-pro;;
 esac
 
@@ -39,3 +39,4 @@ $running_extract format | sort | uniq -c | sort -r
 echo 'planet: '
 ps xuawww | egrep 'osmconvert-wrapper .*extract/running' | egrep -v 'grep' | awk '{print $NF}' | sort | uniq -c| sort -r
 
+#EOF

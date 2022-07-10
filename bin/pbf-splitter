@@ -1,7 +1,7 @@
 #!/bin/sh
 # Copyright (c) 2012-2022 Wolfram Schneider, https://bbbike.org
 #
-# pbf-splitter - split a PBF file into smaller pieces for mkgmap 
+# pbf-splitter - split a PBF file into smaller pieces for mkgmap
 #
 
 set -e
@@ -28,14 +28,14 @@ error () {
 init_splitter () {
     file=$1
     format=$2
-    
+
     : ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
     : ${BBBIKE_SPLITTER_VERSION="splitter"}
     : ${BBBIKE_TMPDIR="/bbbike/tmp"}
     : ${BBBIKE_TMPFS="/tmpfs"}
-    
+
     : ${debug=false}
-        
+
     size=$(du -ks -L "$file" | awk '{ print $1}')
 
     # lower defaults for SRTM
@@ -47,7 +47,7 @@ init_splitter () {
             : ${splitter_resolution=13}
             : ${splitter_keep_complete="--keep-complete=false"}
             ;;
-        *)         
+        *)
             : ${java_heap_splitter=3G}
             if [ $size -gt 6000000 ]; then
            	java_heap_splitter=16G
@@ -56,15 +56,15 @@ init_splitter () {
 	    fi
             ;;
     esac
-    
+
     : ${java_heap_splitter=$java_heap}
     : ${splitter_max_nodes=1000000}
     : ${splitter_max_areas=512}
 
     : ${osm2xxx_max_jobs="2"}
     splitter_max_threads=$osm2xxx_max_jobs
-    
-    
+
+
     if [ $size -lt 100 ]; then
       : ${splitter_resolution=16}
     elif [ $size -lt 2000 ]; then
@@ -72,7 +72,7 @@ init_splitter () {
     else
       : ${splitter_resolution=13}
     fi
-    
+
     java_splitter_opt=-Xmx${java_heap_splitter}
 
     tmpdir=`mktemp -d ${BBBIKE_TMPDIR}/pbf-splitter.XXXXXXXXXXX`
@@ -96,7 +96,7 @@ run_splitter () {
     size=$4
 
     echo ">>> Run splitter" > $logfile
-    ( set -x; 
+    ( set -x;
       java -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar --version
       $time nice -n${nice_level} java $java_splitter_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar \
         $splitter_keep_complete \
@@ -106,7 +106,7 @@ run_splitter () {
 	--max-threads=$splitter_max_threads \
         --output-dir=$split_dir $file \
     ) 2>&1 | tail -c 1024K >> $logfile || error
-    
+
     if [ $(ls $split_dir/*.pbf 2>/dev/null | wc -l) -eq 0 ]; then
         echo "Warning: splitter didn't created a file, maybe to small?: $file" >&2
         if [ $size -le 1000 ]; then
@@ -148,3 +148,4 @@ run_splitter $file $split_dir $logfile $size
 # return the directory which contains the splitted ./split/*.pbf files
 echo $tmpdir
 
+#EOF

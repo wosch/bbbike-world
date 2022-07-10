@@ -5,7 +5,7 @@
 #
 # If a new planet.osm is available, start an update
 
-PATH=/usr/local/bin:/bin:/usr/bin; export PATH 
+PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 
 set -e
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
@@ -16,7 +16,7 @@ automatic_update="yes"
 planet_osm_server=http://planet.openstreetmap.org/planet
 bbbikerc=$HOME/.bbbikerc
 
-if [ -e "$bbbikerc" ]; then 
+if [ -e "$bbbikerc" ]; then
     . "$bbbikerc"
 fi
 
@@ -50,7 +50,7 @@ echo "please update me: old: $old, new: $new"
 echo "$planet_osm_server/$file"
 echo "In directory: $download_dir"
 echo ""
-   
+
 curl -L -sSf --head --location $planet_osm_server/$file | egrep "^(Content-Length:|Last-|Location:)"
 
 cd $download_dir
@@ -60,7 +60,7 @@ tmpdir="tmp.$$.new"
 mkdir -p $tmpdir
 pwd=$(pwd)
 cd $tmpdir
-   
+
 # get md5 checksum first
 curl -L -sSf -o $file.md5 $planet_osm_server/$file.md5
 

@@ -110,7 +110,7 @@ sub generate_urls {
 
 sub usage () {
     <<EOF;
-    
+
 usage: $0 [options]
 
 --debug=0..2        debug option, default: $debug

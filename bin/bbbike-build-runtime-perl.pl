@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl 
+#!/usr/local/bin/perl
 # Copyright (c) 2009-2013 Wolfram Schneider, https://bbbike.org
 #
 # test if all perl modules are installed

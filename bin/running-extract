@@ -8,14 +8,14 @@ set -e
 dir=extract
 : ${extract_type="running"}
 
-case $0 in 
+case $0 in
     *pro ) dir="extract-pro";;
 esac
 
 : ${extract_dir=/var/cache/$dir/$extract_type}
 
 term="$1"
-case $term in 
+case $term in
       "" ) term="." ;;
    proc* ) term="\"processes\"" ;;
        * ) term="\"$term\"" ;;
@@ -27,8 +27,9 @@ case $extract_type in
 esac
 
 if [ $(ls $extract_dir/$sub_dir/*.json 2>/dev/null | wc -l ) -gt 0 ]; then
-    ( cat $extract_dir/$sub_dir/*.json 
+    ( cat $extract_dir/$sub_dir/*.json
       echo '    "processes": "'$(ls $extract_dir/*.pid.lock 2>/dev/null | wc -l)'"' ) |
 	egrep $term | sed 's/,$//'
 fi
 
+#EOF

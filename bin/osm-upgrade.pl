@@ -25,7 +25,7 @@ sub usage {
 
     <<EOF;
 @{[$message]}
-    
+
 usage: $0 [options] file1.osm.zip file2.osm.gz ....
 
 --debug=0..2              debug option
@@ -107,3 +107,4 @@ die usage("No files given") if !@files;
     'max_nodes' => $max_nodes
 );
 
+#EOF

@@ -5,7 +5,7 @@
 
 set -e
 
-LANG=C; export LANG 
+LANG=C; export LANG
 LC_ALL=C; export LC_ALL
 PERL_HASH_SEED=12345; export PERL_HASH_SEED
 PERL_PERTURB_KEYS=NO; export PERL_PERTURB_KEYS
@@ -30,3 +30,4 @@ make -s GIT_ID=none TIME="" DATA_OSM_DIR=$data_osm OSM_DIR=$prefix CITIES="$city
 
 ( cd $data_osm/$city; find . ! -name '*.gz' -type f -print0 | xargs -0 $MD5 | sort ) > $osm/checksum.$lsb_release
 
+#EOF

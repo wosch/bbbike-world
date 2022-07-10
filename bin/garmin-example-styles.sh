@@ -43,7 +43,7 @@ do
 
   # rename directory
   cd ..
-  if [ -e $name ]; then 
+  if [ -e $name ]; then
     mv $name $dir.old
   fi
   mv $dir $name
@@ -52,3 +52,4 @@ do
 )
 done
 
+#EOF

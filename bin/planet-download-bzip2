@@ -23,7 +23,7 @@ fi
 file=planet-latest.osm.bz2
 planet_osm_server_bzip2=https://planet.openstreetmap.org/planet
 
-if [ -e $HOME/.bbbikerc ]; then 
+if [ -e $HOME/.bbbikerc ]; then
     . $HOME/.bbbikerc
 fi
 
@@ -46,6 +46,6 @@ $MD5 $file | tee $file.md5
 
 cd $pwd
 
-mv -f $dir/$file $dir/$file.md5 . 
+mv -f $dir/$file $dir/$file.md5 .
 rm -rf $dir
 

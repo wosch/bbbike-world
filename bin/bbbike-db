@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl 
+#!/usr/local/bin/perl
 # Copyright (c) 2009-2018 Wolfram Schneider, https://bbbike.org
 #
 # bbbike-db - command line tool to parse bbbike @ world city database
@@ -460,3 +460,5 @@ if ( exists $hash{$city} ) {
 else {
     die "Unknown city: $city\n" . &usage;
 }
+
+#EOF

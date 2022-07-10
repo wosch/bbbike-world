@@ -8,7 +8,7 @@
 
 set -e
 
-if [ -e $HOME/.bbbikerc ]; then 
+if [ -e $HOME/.bbbikerc ]; then
     . $HOME/.bbbikerc
 fi
 
@@ -73,7 +73,7 @@ do
     case $i in
         # in background
         rsync-osm | rsync-bg ) time $ionice $ionice_opt make -s $i > tmp/log.$i 2>&1 & ;;
-    
+
             # foreground
             * )         ( date; time $ionice $ionice_opt make -s $i; date ) > tmp/log.$i 2>&1 ;;
 	esac
@@ -81,9 +81,10 @@ done
 wait
 
 # set an notice
-(  
+(
    echo "hostname: $(hostname), IP: $(egrep $(hostname) /etc/hosts)"
    echo "begin: $begin"
-   echo "end:   $(date '+%F %T %Z')" 
+   echo "end:   $(date '+%F %T %Z')"
 ) | mail -s "$0/done" $(whoami)
 
+#EOF

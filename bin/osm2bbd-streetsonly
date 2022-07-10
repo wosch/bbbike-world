@@ -1678,7 +1678,7 @@ EOF
     print $ofh <<EOF;
 #:
 #
-# OpenStreetMap data can be used freely under the terms of the 
+# OpenStreetMap data can be used freely under the terms of the
 # Creative Commons Attribution-ShareAlike 2.0 license.
 # https://wiki.openstreetmap.org/index.php/OpenStreetMap_License
 #
@@ -1991,7 +1991,7 @@ BBBike (in the Settings menu if bbbike was started with -advanced, orr
 hit just Shift-P) and the type in:
 
     @corners = $c->get_corners;
-    join(",", $Karte::Polar::obj->standard2map(anti_transpose(@corners[0,1])), 
+    join(",", $Karte::Polar::obj->standard2map(anti_transpose(@corners[0,1])),
               $Karte::Polar::obj->standard2map(anti_transpose(@corners[2,3])));
 
 =head1 EXAMPLES

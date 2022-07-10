@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl 
+#!/usr/local/bin/perl
 # Copyright (c) 2011-2013 Wolfram Schneider, https://bbbike.org
 #
 # wgs84-to-bbbike-meta -  convert polar data to bbbike internal format, for the perl/tk version
@@ -75,3 +75,4 @@ $yaml_file =~ s/\.dd/\.yml/;
 
 DumpFile( $yaml_file, $meta );
 
+#EOF

@@ -12,7 +12,7 @@ PATH=/usr/local/bin:/bin:/usr/bin
 tmpfile=""
 
 # cleanup after signal, but show errors first
-trap 'rm -f "$tmpfile"' INT QUIT USR1 
+trap 'rm -f "$tmpfile"' INT QUIT USR1
 
 case $1 in
   -o | --o ) out=$2
@@ -30,4 +30,4 @@ chmod 644 "$tmpfile"
 # create real output file on success
 mv -f "$tmpfile" "$out"
 
-
+#EOF

@@ -10,7 +10,7 @@
   &fontset-settings;
 
 <Style name="minor-roads-fill">
-  
+
   <!--
    <Rule>
       <Filter>not [surface]</Filter>
@@ -23,7 +23,7 @@
         <CssParameter name="stroke-linecap">round</CssParameter>
       </LineSymbolizer>
     </Rule>
-   
+
    <Rule>
     <Filter>[highway] = '' and not [surface]</Filter>
       &maxscale_zoom15;
@@ -38,7 +38,7 @@
   -->
 
 <!-- Q0 -->
-    <Rule> 
+    <Rule>
       <Filter>([surface] = 'paved' or [surface] = 'asphalt' or [surface] = 'concrete' or [smoothness] = 'excellent')</Filter>
       &maxscale_zoom15;
       &minscale_zoom19;
@@ -92,7 +92,7 @@
 
 
 <!-- Q0 -->
-   <Rule> 
+   <Rule>
       <Filter>([surface] = 'paved' or [surface] = 'asphalt' or [surface] = 'concrete' or [smoothness] = 'excellent')</Filter>
       &maxscale_zoom12;
       &minscale_zoom14;
@@ -142,10 +142,10 @@
         <CssParameter name="stroke-linecap">round</CssParameter>
       </LineSymbolizer>
     </Rule>
-    
-    
+
+
 <!-- Q0 -->
-   <Rule> 
+   <Rule>
       <Filter>([surface] = 'paved' or [surface] = 'asphalt' or [surface] = 'concrete' or [smoothness] = 'excellent')</Filter>
       &maxscale_zoom1;
       &minscale_zoom11;
@@ -195,7 +195,7 @@
         <CssParameter name="stroke-linecap">round</CssParameter>
       </LineSymbolizer>
     </Rule>
-    
+
 </Style>
 
 <!-- -->

@@ -13,7 +13,7 @@ if [ ! -d ${BBBIKE_TMPDIR} ]; then
 fi
 
 dirname=`dirname $0`
-case $dirname in 
+case $dirname in
   /* ) ;;
    * ) dirname=$(pwd)/$dirname;;
 esac
@@ -48,3 +48,4 @@ $gzip -t ${bbbike_src}
 
 rm -rf $dir
 
+#EOF

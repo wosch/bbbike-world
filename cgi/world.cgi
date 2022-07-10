@@ -16,7 +16,7 @@ max_loadavg=24
 
 if perl -e 'exit $ARGV[1] > $ARGV[2] ? 0 : 1 ' "$loadavg" $max_loadavg; then
 	( echo "load average to high, above $max_loadavg: `cat /proc/loadavg`"
-	  ps xuawww 
+	  ps xuawww
 	) 1>&2
 	exit 2
 fi
@@ -27,7 +27,7 @@ dirname_original=$dirname
 
 # new directory layout
 case "$name" in
-	index | index.?? ) 
+	index | index.?? )
 		name=`basename $dirname`
 		dirname="../../../cgi"
 		;;
@@ -37,8 +37,8 @@ export LANG="C"
 export PATH="/opt/local/bin:/bin:/usr/bin:/usr/local/bin"
 
 # English Version
-case $name in 
-	*.en) 
+case $name in
+	*.en)
 		name=`basename $name .en`
 		;;
 esac
@@ -65,11 +65,11 @@ mkdir -p $cache_dir
 #trap 'rm -rf "$cache_dir"' 0
 
 # set CPU time and memory limits
-# max. 2min 
+# max. 2min
 ulimit -t 150
 
 # max. RAM
-ulimit -v 5500000 
+ulimit -v 5500000
 
 
 # export NYTPROF=trace=2:start=init:file=/tmp/nytprof.out
@@ -83,5 +83,6 @@ fi
 
 #printenv > /tmp/printenv
 time env TMPDIR=$cache_dir DATA_DIR="$data" BBBIKE_DATADIR="$data" \
-	$dirname_original/$name.cgi 
+	$dirname_original/$name.cgi
 
+#EOF

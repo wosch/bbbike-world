@@ -63,9 +63,9 @@ sub get_timestamp {
     chomp($timestamp);
 
     return <<EOF;
-{ 
+{
   "database":  "$namespace",
-  "timestamp": "$timestamp" 
+  "timestamp": "$timestamp"
 }
 EOF
 }

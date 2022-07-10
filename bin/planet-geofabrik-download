@@ -6,7 +6,7 @@
 url=http://download.geofabrik.de/osm/
 dir=geofabrik
 
-download () 
+download ()
 {
 	subdir=$1
 	path=$subdir
@@ -19,7 +19,7 @@ download ()
 		egrep http://download.geofabrik.de/osm/ | \
 		egrep pbf$ | \
 		egrep -v 'alps.osm' | \
-		perl -npe 's/^\s*\d+\.\s+/wget -nv /' 
+		perl -npe 's/^\s*\d+\.\s+/wget -nv /'
 	echo ")"
 }
 
@@ -36,3 +36,4 @@ download europe/germany | $shell
 download europe/great_britain | $shell
 download europe/france | $shell
 
+#EOF

@@ -3,7 +3,7 @@
 #
 # planet-osm-size - display size of planet.osm for PBF and OSM formats
 #
-# ./planet-osm-size.sh 
+# ./planet-osm-size.sh
 # PBF size:   51.6 GB
 # OSM size:   90.7 GB
 # XML size: 1256.2 GB

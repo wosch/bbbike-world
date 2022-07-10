@@ -18,7 +18,7 @@ cd data
 for i in `ls -d [a-z]* Berlin* Potsdam*| egrep -v '^opensearch|-orig$'`
 do
     if [ -f $i ]; then
-	iconv -f iso8859-1 -t utf-8  $i | 
+	iconv -f iso8859-1 -t utf-8  $i |
 	  perl -npe '
 	        $. == 1 && print "#:encoding: utf-8\n";
 		s,-\*- coding: iso-8859-1 -,-\*- coding: utf-8 -,;
@@ -37,3 +37,4 @@ cp ${data_osm}/Berlin/meta.dd ${data_osm}/$city
 # use standard conversion tools for suggestion service
 ./world/bin/osm2bbd-workarounds $data_osm $city
 
+#EOF

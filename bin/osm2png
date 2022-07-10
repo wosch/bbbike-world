@@ -121,7 +121,7 @@ case $alias in
           if [ ! -f "$alias_file" ]; then
               usage "cannot file rule file $alias_file"
           fi
-          
+
           echo "use-ruleset location=$etc_dir/$alias.mrules as-alias=$(basename $alias)" >> $config_file
           ;;
     * )   echo "use-ruleset alias=$alias" >> $config_file ;;
@@ -136,7 +136,7 @@ case $type in
     svg ) export="export-svg" ;;
     png ) export="export-bitmap" ;;
 esac
-    
+
 echo "$export zoom=$zoom file=$image_file scale=$scale" >> $config_file
 
 date=$(date -u)

@@ -6,12 +6,12 @@
 # For more information about BBBike, visit https://www.bbbike.org
 #
 
-# need older versions for libapache2-mod-tile 
+# need older versions for libapache2-mod-tile
 POSTGRES_VERSION=	9.3
 POSTGRES_VERSION_UBUNTU=9.3.24-0ubuntu0.14.04
 POSTGIS_VERSION=	2.1.2+dfsg-2ubuntu0.2
 APACHE2_VERSION=	2.4.7-1ubuntu4.22
-APACHE2_MODULES=	apache2=${APACHE2_VERSION} apache2-bin=${APACHE2_VERSION} apache2-data=${APACHE2_VERSION} apache2-mpm-event=${APACHE2_VERSION} 
+APACHE2_MODULES=	apache2=${APACHE2_VERSION} apache2-bin=${APACHE2_VERSION} apache2-data=${APACHE2_VERSION} apache2-mpm-event=${APACHE2_VERSION}
 
 
 
@@ -48,8 +48,8 @@ all: help
 install-packages-system: perl
 	${APT_INSTALL} ${DEBIAN_MODULES_SYTEM} ${APACHE2_MODULES}	
 
-install-packages: 
-	${APT_INSTALL} ${DEBIAN_MODULES} ${LEGACY_MODULES} 
+install-packages:
+	${APT_INSTALL} ${DEBIAN_MODULES} ${LEGACY_MODULES}
 	${APT_INSTALL} ${TILE_MODULES} ${TILE_MODULES_OSM}
 	${APT_INSTALL} openstreetmap-postgis-db-setup
 
@@ -136,7 +136,7 @@ www-symlinks:
 	  sudo ln -fs ~/projects/bbbike/world/web/robots-dev.txt .; \
 	  sudo ln -fs ~/projects/bbbike/world/web/test.txt .; \
 	  sudo ln -fs ~/projects/bbbike/images/favicon.ico ; \
-	  sudo ln -fs ~/projects/bbbike/world/tile/web/index.html 
+	  sudo ln -fs ~/projects/bbbike/world/tile/web/index.html
 	cd /var/www/osm; \
 	  sudo ln -fs ~/projects/bbbike/html/OpenLayers; \
 	  sudo ln -fs ~/projects/bbbike/world/tile/web/style.css; \
@@ -146,16 +146,16 @@ www-symlinks:
 	  sudo ln -fs ~/projects/bbbike/world/tile/web/slippymap.html; \
 	  sudo ln -fs ~/projects/bbbike/world/tile/web/slippymap.html index.html
 
-symlinks: etc-symlinks etc-init-symlinks apache-symlinks mapnik-symlinks www-symlinks 
+symlinks: etc-symlinks etc-init-symlinks apache-symlinks mapnik-symlinks www-symlinks
 	
 bbbike-mapnik:
 	cd ${PROJECT_DIR}/bbbike; \
 	  sudo make bbbike-mapnik-config; \
 	  make bbbike2wgs84-mapnik; \
-	  make bbbike-mapnik-postgis 
+	  make bbbike-mapnik-postgis
 
 postgis:
-	-sudo /usr/bin/install-postgis-osm-db.sh 
+	-sudo /usr/bin/install-postgis-osm-db.sh
 	sudo /usr/bin/install-postgis-osm-user.sh gis "www-data $$(whoami) tile"
 
 mapnik-restart:
@@ -202,7 +202,7 @@ distclean:
 apt-distclean apt-purge: apt-unhold
 	sudo rm -rf /usr/share/osm2pgsq
 	-sudo env DEBIAN_FRONTEND=noninteractive apt-get purge -y ${DEBIAN_INSTALL_FLAGS} ${APACHE2_MODULES} ${LEGACY_MODULES} ${DEBIAN_MODULES} ${TILE_MODULES} ${TILE_MODULES_OSM}
-	-sudo env DEBIAN_FRONTEND=noninteractive apt-get purge -y libpq5* apache2* postgis* postgresql* 
+	-sudo env DEBIAN_FRONTEND=noninteractive apt-get purge -y libpq5* apache2* postgis* postgresql*
 	sudo apt-get autoremove -y
 	sudo rm -f /etc/apt/sources.list.d/tile-legacy.list
 	sudo apt-get -qq update

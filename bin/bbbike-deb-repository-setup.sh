@@ -39,7 +39,7 @@ init_apt_bbbike() {
       fi
 
       f=$sources_list_d/$(basename $file)
-      if [ ! -e $f ]; then 
+      if [ ! -e $f ]; then
         sudo cp $file $f
       fi
       flag=1
@@ -48,7 +48,7 @@ init_apt_bbbike() {
     if [ $enable_legacy = "YES" ]; then
       file="world/etc/apt/ubuntu/trusty-legacy/sources.list.d/bbbike-legacy.list"
       f=$sources_list_d/$(basename $file)
-      if [ ! -e $f ]; then 
+      if [ ! -e $f ]; then
         sudo cp $file $f
       fi
       flag=1
@@ -69,7 +69,7 @@ init_apt_mono() {
     os=debian
     codename=buster
 
-    if [ ! -e $file ]; then 
+    if [ ! -e $file ]; then
         sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
 
         sudo sh -c "echo \"deb [arch=amd64] $mono_deb_url/${os} ${codename} main\" > $file.tmp"
@@ -90,3 +90,4 @@ if [ $enable_mono = "YES" ]; then
   init_apt_mono
 fi
 
+#EOF

@@ -1,7 +1,7 @@
 #!/bin/sh
 # Copyright (c) 2013-2020 Wolfram Schneider, https://bbbike.org
 #
-# extract-cron.sh - wrapper for extract.pl script 
+# extract-cron.sh - wrapper for extract.pl script
 #
 # the subject line contains the exit status
 
@@ -45,3 +45,4 @@ fi
 
 rm -f $tmp
 
+#EOF
