@@ -843,6 +843,9 @@ jsbeautifier js jsb:
 	${MAKE} -C world/tile/web $@
 	${MAKE} -C world/etc/extract $@
 
+spaces:
+	cd world && git grep -I ' $$' ./bin ./cgi ./web || true
+
 tidy:
 	tidy -i -m -w 128 world/web/help.html
 
@@ -1786,7 +1789,7 @@ help:
 	@echo "  [ help | cities | cities-parallel | fetch-extracts | fetch-extracts-pbf ]"
 	@echo "  [ rsync | rsync-tgz | rsync-osm | rsync-osm-dev ]"
 	@echo "  [ symlink-download ]"
-	@echo "  [ jsbeautifier | perltidy | tidy ]"
+	@echo "  [ jsbeautifier | perltidy | tidy | spaces ]"
 	@echo "  [ distclean-data | distclean | distclean-real ]"
 	@echo ""
 	@echo "  [ bbbike-osm2pbf | osm2pbf | pbf2osm | pbf2csv | pbf2opl ]"
