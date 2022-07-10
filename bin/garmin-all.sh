@@ -4,6 +4,11 @@
 # garmin-all - convert the planet to garmin styles
 #
 
+set -e
+set -o pipefail # bash only
+
+PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
+
 : ${DOWNLOAD_URL_PREFIX="https://download.geofabrik.de"}
 : ${garmin_formats="ontrail-latin1:bbbike-latin1:openfietslite-latin1"}
 
@@ -13,9 +18,6 @@
 
 : ${debug=false}
 $debug && time="time"
-
-set -e
-set -o pipefail # bash only
 
 download_region ()
 {
