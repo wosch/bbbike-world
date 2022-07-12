@@ -118,12 +118,13 @@ run_splitter () {
     fi
 }
 
+# generate a unique 4 digit id based on the filename and format
 garmin_family_id () {
     file=$1
     ext=$2
 
-    _garmin_family_id=$(basename $file | perl -npe 's/(\.pbf|\.gz|\.bz2)?$//')
-    echo $garmin_family_id $ext | $MD5 | perl -ne 's/[a-f]//g; print /^(\d{4})/ && $1 > 0 ? $1 : "4444"'
+    echo $(basename $file | perl -npe 's/(\.pbf|\.gz|\.bz2)?$//') $ext | $MD5 | 
+      perl -ne 's/[a-f]//g; print /^(\d{4})/ && $1 > 0 ? $1 : "4444"'
 }
 
 ####################################################################
