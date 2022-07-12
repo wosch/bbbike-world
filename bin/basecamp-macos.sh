@@ -1,13 +1,18 @@
 #!/bin/sh
+# Copyright (c) 2022 Wolfram Schneider, https://extract.bbbike.org
 #
 # basecamp-macos.sh - installer on MacOS for Garmin Basecamp
 #
-# The script converts a gmapsupp.img file into a disk image which will
-# be automatically recognised by Garmin Basecamp. This allows to use
-# Basecamp on MacOS without a connected Garmin device / SD card.
+# The script converts a gmapsupp.img file into a MacOS disk image which
+# will be automatically recognised by Garmin Basecamp. This allows you
+# to use Basecamp on MacOS without a connected Garmin device or SD card.
 #
 # Please open this script with the "Terminal.app" or inside an open
-# Terminal in the unzip'd extract folder with ./basecamp-macos.sh
+# Terminal in the unzip'd extract folder with 
+#
+# $ ./basecamp-macos.sh
+#
+# see also https://extract.bbbike.org/garmin.html
 
 set -e
 
@@ -38,10 +43,10 @@ and allow to access the new /Volumes/BBBike${id}
 Garmin Basecamp will automatically recognise the map. Select the
 map and zoom in.
 
-Have fun and thanks for using https://extract.bbbike.org
+Have fun and thanks for using https://extract.bbbike.org !
 EOF
 
-# show the message for some seconds
+# show the message for some seconds in a non-interactive terminal
 $called_from_finder && sleep 20
 
 #EOF
