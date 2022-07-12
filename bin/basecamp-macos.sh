@@ -45,7 +45,8 @@ and allow to access the new /Volumes/BBBike${id}
 Garmin Basecamp will automatically recognise the map. Select the
 map and zoom in.
 
-Have fun and thanks for using https://extract.bbbike.org !
+Have fun and thanks for using https://extract.bbbike.org 
+
 EOF
 
 # show the message for some seconds in a non-interactive terminal
