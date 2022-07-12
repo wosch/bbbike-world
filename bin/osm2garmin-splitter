@@ -84,9 +84,9 @@ case $ext in
     *)
         : ${java_heap=3G}
         if [ $size -gt 6000000 ]; then
-           java_heap=30G
-        elif [ $size -gt 3000000 ]; then
            java_heap=24G
+        elif [ $size -gt 3000000 ]; then
+           java_heap=20G
         elif [ $size -gt 2000000 ]; then
            java_heap=16G
         elif [ $size -gt 1000000 ]; then
