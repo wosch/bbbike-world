@@ -7,10 +7,10 @@
 # will be automatically recognised by Garmin Basecamp. This allows you
 # to use Basecamp on MacOS without a connected Garmin device or SD card.
 #
-# Please open this script with the "Terminal.app" (Finder -> Open With ->
-# Other -> Enable=All Applications -> Terminal -> open )
+# Please open this script with the MacOS Terminal App
+#   Finder -> Open With ->  Other -> Enable=All Applications -> Terminal -> open 
 #
-# or inside an open Terminal in the unzip'd extract folder with 
+# or inside an open Terminal in this unzip'd extract folder with 
 #
 # $ ./basecamp-macos.sh
 #
