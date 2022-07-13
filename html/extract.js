@@ -32,6 +32,8 @@ var config = {
         "default": 512,
 
         "osm.pbf": 520,
+        "osm.xz": 520,
+        "osm.gz": 520,
 
         "text.xz": 496,
         "geojson.xz": 496,
@@ -764,7 +766,7 @@ function extract_init_pro(opt) {
     if (hostname.match(/^extract-pro[1-9]?\.bbbike\.org/i) || $(location).attr('search').match(/[\?&;]pro=[\w]+/)) {
         debug("enable BBBike Pro service");
 
-        config.max_size["default"] *= 1.7;
+        config.max_size["default"] *= 1.9;
         config.max_size["osm.pbf"] *= 6;
         config.max_size["osm.xz"] *= 6;
         config.max_size["osm.gz"] *= 6;
