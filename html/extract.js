@@ -766,6 +766,8 @@ function extract_init_pro(opt) {
 
         config.max_size["default"] *= 1.7;
         config.max_size["osm.pbf"] *= 6;
+        config.max_size["osm.xz"] *= 6;
+        config.max_size["osm.gz"] *= 6;
         config.max_size["shp.zip"] *= 4;
         config.max_skm *= 2;
 
