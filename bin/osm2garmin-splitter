@@ -18,6 +18,7 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_TMPFS="/tmpfs"}
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
 : ${SHA="shasum -a 256"}
+: ${BBBIKE_BASECAMP_MACOS="true"}
 
 
 usage () {
@@ -476,6 +477,9 @@ case $BBBIKE_EXTRACT_LANG in
 esac
 
 ( $MD5 gmapsupp.img; $SHA gmapsupp.img ) > .checksum.txt; mv -f .checksum.txt CHECKSUM.txt
+
+# support Garmin Basecamp installation
+$BBBIKE_BASECAMP_MACOS && cp $dirname/basecamp-macos.sh .
 
 cd ..
 garmin_zip=`dirname $file`/$garmin.osm.$ext2
