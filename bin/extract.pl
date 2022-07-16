@@ -436,7 +436,11 @@ sub parse_jobs_planet {
 
         my $json = new JSON;
         my $json_perl = eval { $json->decode($json_text) };
-        die "json $file $@" if $@;
+        if ($@) {
+            warn "cannot parse json $file $@";
+            rename( $file, "$file.parse" );
+            next;
+        }
         json_compat($json_perl);
 
         $json_perl->{"file"} = $f;
