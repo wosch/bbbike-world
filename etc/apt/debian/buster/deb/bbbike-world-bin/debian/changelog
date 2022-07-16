@@ -8,9 +8,13 @@ bbbike-world-bin-misc (1.14-1) unstable; urgency=low
 
   * supports osmium with SQLlite
 
+ -- Wolfram Schneider <wosch@freebsd.org>  Fri, 29 Mar 2013 14:48:00 +0000
+
 bbbike-world-bin-misc (1.12-2) unstable; urgency=low
 
   * supports osmium with GeoJSON
+
+ -- Wolfram Schneider <wosch@freebsd.org>  Fri, 29 Mar 2013 14:48:00 +0000
 
 bbbike-world-bin-misc (1.11-1) unstable; urgency=low
 
