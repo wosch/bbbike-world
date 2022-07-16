@@ -1,3 +1,9 @@
+bbbike-world-javalibs-misc (1.10-1) unstable; urgency=low
+
+  * upgrade java libs mkgmap, splliter to latest version
+
+ -- Wolfram Schneider <wosch@freebsd.org>  Fri, 16 Jul 2022 14:48:00 +0000
+
 bbbike-world-javalibs-misc (1.9-1) unstable; urgency=low
 
   * upgrade java libs mkgmap, splliter,  osmand to latest version
