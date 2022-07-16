@@ -1,6 +1,6 @@
 bbbike-world-javalibs-misc (1.10-1) unstable; urgency=low
 
-  * upgrade java libs mkgmap, splliter to latest version
+  * upgrade java libs mkgmap, splitter to latest version
 
  -- Wolfram Schneider <wosch@freebsd.org>  Fri, 16 Jul 2022 14:48:00 +0000
 
