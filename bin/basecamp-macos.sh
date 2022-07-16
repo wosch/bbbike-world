@@ -29,7 +29,14 @@ image=BBBikeBaseCamp${id}.dmg
 
 rm -rf $image garmin
 
-echo "This script may run some seconds or minutes depending on the image size"
+if du -ks gmapsupp.img | awk '{ if ($1 >= 4*1024*1024) { exit(1) }}'; then
+  echo "This script may run some seconds or minutes depending on the image size"
+else
+  echo "The Garmin image gmapsupp.img is larger than 4GB which is not supported by Garmin Basecamp."
+  echo "Please connect your Garmin device or use an SD card. Sorry!"
+  exit 1
+fi
+
 mkdir garmin
 ( cd garmin && ln -s ../gmapsupp.img .)
 
