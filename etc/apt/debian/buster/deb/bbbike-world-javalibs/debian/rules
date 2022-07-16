@@ -15,7 +15,7 @@ export DH_OPTIONS
 #
 JAVALIBS_OSMAND=	OsmAndMapCreator-2022-07-16.tar.gz	
 JAVALIBS_MKGMAP=	mkgmap-r4905.tar.gz
-JAVALIBS_OSMOSIS=	osmosis-0.48.3.tgz
+JAVALIBS_OSMOSIS=	osmosis-0.48.3.tar.gz
 JAVALIBS_MAPSFORGE=	mapsforge-0.18.0.tar.gz
 JAVALIBS_SPLITTER=	splitter-r652.tar.gz
 
