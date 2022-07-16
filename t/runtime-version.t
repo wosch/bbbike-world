@@ -21,7 +21,7 @@ my $versions = {
         [ [qw/osmconvert --help/], qr/^osmconvert 0\.8\.11$/m ],
         [
             [qw/osmosis -v/],
-            qr/^INFO: Osmosis Version (0\.40\.1|0\.43\.1|0\.46)/m
+            qr/^INFO: Osmosis Version (0\.46|0\.48\.3)/m
         ],
         [
             [qw/pigz --version/],
