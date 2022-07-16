@@ -420,6 +420,12 @@ sub parse_jobs_planet {
         my $file = "$dir/$f";
 
         my $json_text;
+        if ( -z $file ) {
+            warn "empty json job file: $file\n";
+            rename( $file, "$file.zero" );
+            next;
+        }
+
         if ( -e $file ) {
             $json_text = read_data($file);
         }
