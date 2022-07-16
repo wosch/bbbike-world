@@ -28,6 +28,8 @@ id=$(sed -E -n -e 's/.* --mapid=([0-9][0-9][0-9][0-9]).*/\1/p' logfile.txt)
 image=BBBikeBaseCamp${id}.dmg
 
 rm -rf $image garmin
+
+echo "This script may run some seconds or minutes depending on the image size"
 mkdir garmin
 ( cd garmin && ln -s ../gmapsupp.img .)
 
