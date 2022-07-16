@@ -33,7 +33,7 @@ if du -ks gmapsupp.img | awk '{ if ($1 >= 4*1024*1024) { exit(1) }}'; then
   echo "This script may run some seconds or minutes depending on the image size"
 else
   echo "The Garmin image gmapsupp.img is larger than 4GB which is not supported by Garmin Basecamp."
-  echo "Please connect your Garmin device / SD card. Sorry!"
+  echo "Please connect your Garmin device / SD card with an ExFAT filesystem. Sorry!"
   exit 1
 fi
 
