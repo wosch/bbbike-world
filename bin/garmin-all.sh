@@ -22,21 +22,24 @@ $debug && time="time"
 download_region ()
 {
   region="$1"
-  tmp=$(mktemp $region.XXXXXXXX.tmp)
+  sub_region="$2"
+
+  tmp=$(mktemp $sub_region.XXXXXXXX.tmp)
   url="$DOWNLOAD_URL_PREFIX/$region-latest.osm.pbf"
   curl --connect-timeout 10 -sSf -L "$url" | \
     nice -n $nice_level osmium cat --overwrite -o $tmp -Fpbf -fpbf,add_metadata=false
   chmod a+r $tmp
-  mv -f $tmp $region.osm.pbf
+  mv -f $tmp $sub_region.osm.pbf
 }
 
 for region in $garmin_regions
 do
   $debug && echo "region=$region format=$garmin_formats"
-  download_region $region
+  sub_region=$(basename $region)
+  download_region $region $sub_region
   env osm2xxx_max_jobs="8" OSM_CHECKSUM=false pbf2osm_max_cpu_time=72000 max_file_size_garmin=59950000 \
     BBBIKE_TMPFS=/tmp \
-      nice -n $nice_level $time $HOME/projects/bbbike/world/bin/pbf2osm --garmin-${garmin_formats} $region.osm.pbf $region
-  rm -f $region.osm.pbf
+      nice -n $nice_level $time $HOME/projects/bbbike/world/bin/pbf2osm --garmin-${garmin_formats} $sub_region.osm.pbf $region
+  rm -f $sub_region.osm.pbf
 done
 
