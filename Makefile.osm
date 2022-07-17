@@ -1447,13 +1447,12 @@ deb-opt-dir-version:
 	sudo chown -R ${LOGNAME} ${MAPERITIVE_LOGDIR}
 	cd ${DEB_OPT_DIR}; \
 	  sudo rm -f osmosis splitter mkgmap OsmAndMapCreator mapsforge omim Maperitive; \
-	  sudo ln -fs osmosis-0.46 osmosis; \
-	  sudo ln -fs splitter-r584 splitter; \
-	  sudo ln -fs mkgmap-r4000 mkgmap; \
+	  sudo ln -fs osmosis-0.48.3 osmosis; \
+	  sudo ln -fs splitter-r652 splitter; \
+	  sudo ln -fs mkgmap-r4905 mkgmap; \
 	  sudo ln -fs OsmAndMapCreator-2017-12-28 OsmAndMapCreator; \
-	  sudo ln -fs mapsforge-0.9.0 mapsforge; \
-	  sudo ln -fs omim-1.0 omim; \
-	  sudo ln -fs Maperitive-2.4.1 Maperitive
+	  sudo ln -fs mapsforge-0.18.0 mapsforge; \
+	  sudo ln -fs Maperitive-2.4.3 Maperitive
 	${BBMAKE} maperitive-bootstrap
 	${BBMAKE} osmosis-bootstrap
 
