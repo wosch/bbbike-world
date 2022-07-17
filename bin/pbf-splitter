@@ -60,9 +60,7 @@ init_splitter () {
     : ${java_heap_splitter=$java_heap}
     : ${splitter_max_nodes=1000000}
     : ${splitter_max_areas=512}
-
-    : ${osm2xxx_max_jobs="2"}
-    splitter_max_threads=$osm2xxx_max_jobs
+    : ${splitter_max_threads="3"}
 
 
     if [ $size -lt 100 ]; then
