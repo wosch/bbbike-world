@@ -1778,6 +1778,27 @@ check-tileserver:
 	curl -sf http://localhost:80/osm/bbbike/11/1100/671.png > /dev/null
 	curl -sf http://localhost:80/osm/bbbike/11/1100/671.png | wc -c
 
+# install Boundary and Sea files for Garmin extracts
+garmin-borders:
+	set -e; \
+	mkdir -p /var/lib/bbbike/opt/share/garmin; \
+	cd /var/lib/bbbike/opt/share/garmin; \
+	if [ ! -d sea ]; then \
+	  curl -sSf -O https://download.bbbike.org/osm/mkgmap/sea-latest.zip; \
+	  unzip -t -q sea-latest.zip; \
+	  unzip -q sea-latest.zip; \
+	  rm -f sea-latest.zip; \
+	fi; \
+	if [ ! -d bounds ]; then \
+	  mkdir bounds; \
+	  cd bounds; \
+	  curl -sSf -O https://download.bbbike.org/osm/mkgmap/bounds-latest.zip; \
+	  unzip -t -q bounds-latest.zip ; \
+	  unzip -q bounds-latest.zip; \
+	  rm -f bounds-latest.zip; \
+	fi
+	
+
 help:
 	@echo "bbbike version: ${GIT_ID}"
 	@echo ""
@@ -1843,6 +1864,8 @@ help:
 	@echo "  [ make deb-clean deb-bin deb-repo-upload ]"
 	@echo "  [ make deb-clean deb-bin-x86 deb-repo-upload ]"
 	@echo "  [ make deb-clean deb-bin-java deb-repo-upload ]"
+	@echo ""
+	@echo "  [ make garmin-borders ]"
 	@echo ""
 	@echo "  [ sudo apt-get clean && sudo apt-get update && sudo apt-get dist-upgrade -y ]"
 	@echo "  [ sudo apt-get install bbbike-world ]"
