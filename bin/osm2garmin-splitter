@@ -19,6 +19,9 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
 : ${SHA="shasum -a 256"}
 : ${BBBIKE_BASECAMP_MACOS="true"}
+: ${BBBIKE_EXTRACT_GARMIN_VERSION="mkgmap"}
+
+export BBBIKE_EXTRACT_GARMIN_VERSION
 
 
 usage () {
