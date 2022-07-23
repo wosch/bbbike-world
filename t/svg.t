@@ -135,8 +135,26 @@ sub cleanup {
     unlink $pbf_file;
 }
 
+sub check_permissions {
+    ok( &writable_directory("/var/log/maperitive/permissions.txt") );
+    ok( &writable_directory("/var/lib/bbbike/opt/Maperitive/permissions.txt") );
+
+}
+
+sub writable_directory {
+    my $file = shift;
+    my $fh = IO::File->new( $file, "w" )
+      or die "cannot create file '$file': $!\n";
+    $fh->close;
+    unlink($file) or die "unlink '$file': $!\n";
+
+    return 1;
+}
+
 #######################################################
 #
+&check_permissions;
+
 is( md5_file($pbf_file), $pbf_md5, "md5 checksum matched" );
 
 my $counter = 0;
