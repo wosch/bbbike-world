@@ -28,7 +28,6 @@ download_region ()
   url="$DOWNLOAD_URL_PREFIX/$region-latest.osm.pbf"
   curl --connect-timeout 10 -sSf -L "$url" | \
     nice -n $nice_level osmium cat --overwrite -o $tmp -Fpbf -fpbf,add_metadata=false
-  chmod a+r $tmp
   mv -f $tmp $sub_region.osm.pbf
 }
 
