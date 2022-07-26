@@ -12,9 +12,9 @@ BEGIN {
         print "1..0 # skip, maperitive disabled\n";
         exit;
     }
-    if ( !$ENV{BBBIKE_TEST_LONG} ) {
+    if ( $ENV{BBBIKE_TEST_FAST} ) {
         print
-          "1..0 # skip, maperitive disabled due not setting BBBIKE_TEST_LONG\n";
+          "1..0 # skip, maperitive disabled due not setting BBBIKE_TEST_FAST\n";
         exit;
     }
     if ( !-e $lockfile ) {
@@ -49,8 +49,7 @@ chdir("$FindBin::RealBin/../..")
 my $type = basename( $0, ".t" );    #"svg";
 
 my @svg_styles = qw/google/;
-push @svg_styles, qw/osm/ if !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG};
-push @svg_styles, qw/hiking urbanight wireframe cadastre/
+push @svg_styles, qw/osm hiking urbanight wireframe cadastre/
   if $ENV{BBBIKE_TEST_LONG};
 
 my $pbf_file = 'world/t/data-osm/tmp/Cusco-svg.osm.pbf';
@@ -168,6 +167,6 @@ foreach my $lang (@lang) {
 }
 
 &cleanup;
-plan tests => 1 + $counter;
+plan tests => 1 + 2 + $counter;
 
 __END__
