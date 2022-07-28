@@ -19,6 +19,15 @@ PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
 : ${debug=false}
 $debug && time="time"
 
+download_file ()
+{
+  url=$1
+  tmp=$2
+
+  curl --connect-timeout 10 -sSf -L "$url" | \
+    nice -n $nice_level osmium cat --overwrite -o $tmp -Fpbf -fpbf,add_metadata=false
+}
+
 download_region ()
 {
   region="$1"
@@ -26,8 +35,13 @@ download_region ()
 
   tmp=$(mktemp $sub_region.XXXXXXXX.tmp)
   url="$DOWNLOAD_URL_PREFIX/$region-latest.osm.pbf"
-  curl --connect-timeout 10 -sSf -L "$url" | \
-    nice -n $nice_level osmium cat --overwrite -o $tmp -Fpbf -fpbf,add_metadata=false
+
+  if ! download_file $url $tmp; then
+    # try it again some seconds later in case of network errors
+    sleep 60
+    download_file $url $tmp
+  fi
+
   mv -f $tmp $sub_region.osm.pbf
 }
 
