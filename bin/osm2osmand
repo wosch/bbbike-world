@@ -12,8 +12,8 @@ PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_EXTRACT_LANG=en}
 : ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
 : ${BBBIKE_SPLITTER_VERSION="splitter"}
-: ${BBBIKE_OSMAND_VERSION="OsmAndMapCreator"}
-: ${osmand_home="$BBBIKE_OPT_DIR/$BBBIKE_OSMAND_VERSION"}
+: ${BBBIKE_EXTRACT_OSMAND_VERSION="OsmAndMapCreator"}
+: ${osmand_home="$BBBIKE_OPT_DIR/$BBBIKE_EXTRACT_OSMAND_VERSION"}
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
 : ${SHA="shasum -a 256"}
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
@@ -21,7 +21,9 @@ PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 : ${logfile_max_size="3000k"}
 : ${java_heap="4G"}
 
-osmand_version=$( (cd $osmand_home && basename $(pwd)) )
+export BBBIKE_EXTRACT_OSMAND_VERSION
+
+osmand_version=$( (cd $osmand_home && basename $(/bin/pwd)) )
 status=0
 
 dirname=$(dirname $0)
@@ -89,18 +91,13 @@ logfile=$obf_dir/logfile.txt
 cd $obf_dir
 counter=0
 
-# magic 8-byte filename long
-mapid=93240001
-
-split_dir=data/osm
-echo ">>> Run splitter" >> $logfile
-
 class_path="$osmand_home/OsmAndMapCreator.jar:$osmand_home/lib/OsmAnd-core.jar:$osmand_home/lib/*.jar"
 echo "OsmAnd version: $osmand_version" >> $logfile
 
 ( 
   mkdir tmp
   cd tmp
+  mkdir data
   time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp "$class_path" net.osmand.MainUtilities generate-obf $file >> $logfile 2>&1 || status=1
   mv *.obf ..
   cd ..
