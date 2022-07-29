@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2022 Wolfram Schneider, https://bbbike.org
 #
 # osm2osmand  - convert a .pbf file to osmand .obf
 #
@@ -9,7 +9,6 @@ set -o pipefail # bash only
 
 PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 
-: ${osm2xxx_max_jobs=2}
 : ${BBBIKE_EXTRACT_LANG=en}
 : ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
 : ${BBBIKE_SPLITTER_VERSION="splitter"}
@@ -20,7 +19,10 @@ PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmpfs"}
 : ${logfile_max_size="3000k"}
-osmand_version=$(ls -ld /var/lib/bbbike/opt/OsmAndMapCreator | awk '{ print $NF }')
+: ${java_heap="4G"}
+
+osmand_version=$( (cd $osmand_home && basename $(pwd)) )
+status=0
 
 dirname=$(dirname $0)
 
@@ -47,28 +49,9 @@ city="$2"
 test -e "$file" || usage "file $file does not exists"
 : ${osm_checksum=$dirname/osm-checksum}
 
-case $file in
-    *srtm* )
-        : ${java_heap_splitter=12G}
-        : ${java_heap=6G}
-        : ${splitter_max_nodes=50000}
-        : ${splitter_max_areas=100}
-        : ${splitter_keep_complete="--keep-complete=false"}
-        ;;
-    *)
-        : ${java_heap=2600M}
-        ;;
-esac
-
-: ${java_heap_splitter=$java_heap}
-: ${splitter_max_nodes=20000000}
-: ${splitter_max_areas=512}
-splitter_resolution=13
-
 java_opt=-Xmx${java_heap}
-java_splitter_opt=-Xmx${java_heap_splitter}
 
-template=$dirname/../etc/extract/$(basename $0).$BBBIKE_EXTRACT_LANG.sh
+template=$dirname/../etc/extract/$(basename $0 -simple).$BBBIKE_EXTRACT_LANG.sh
 case $template in /*) ;; *) template=$(pwd)/$template ;; esac
 
 : ${debug=false}
@@ -112,85 +95,18 @@ mapid=93240001
 split_dir=data/osm
 echo ">>> Run splitter" >> $logfile
 
-( set -x;
-  java -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar --version
-  nice -n1 java $java_splitter_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar \
-     $splitter_keep_complete \
-     --resolution=$splitter_resolution \
-     --max-areas=$splitter_max_areas \
-     --max-nodes=$splitter_max_nodes \
-     --mapid="$mapid" \
-     --output-dir=$split_dir $file ) 2>&1 | tail -c 1024K >> $logfile || error
-
-#java $java_opt -jar $BBBIKE_OPT_DIR/splitter/splitter.jar --output-dir=$split_dir  --max-nodes=4000000 --mapid=$mapid $file >> $logfile 2>&1 || error
-if [ $(ls $split_dir/*.pbf 2>/dev/null | wc -l) -eq 0 ]; then
-    echo "Warning: splitter didn't created a file: $file"
-    if [ $size -le 1000 ]; then
-        cp -f $file $split_dir/$mapid.osm.pbf
-    else
-        echo "Argh, $file with size $size to big for single run"
-    fi
-fi
-
-prefix=`basename $file .osm.pbf`
-for i in $split_dir/*.osm.pbf
-do
-   mkdir -p data/_$counter/data/osm data/_$counter/data/indexes
-   new=$i
-   ln $new data/_$counter/data/osm
-
-   counter=`expr $counter + 1`
-done
-$debug && ls -l $split_dir
-
-exit=0
 class_path="$osmand_home/OsmAndMapCreator.jar:$osmand_home/lib/OsmAnd-core.jar:$osmand_home/lib/*.jar"
 echo "OsmAnd version: $osmand_version" >> $logfile
 
-if [ $counter -eq 0 ]; then
-    if time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp "$class_path" net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml >> $logfile 2>&1 && ln data/indexes/*.obf .; then
-        :
-    else
-        exit=$?
-    fi
-else
-    for i in $(pwd)/data/_*
-    do
-        printf "(cd $i; time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp \"$class_path\" net.osmand.data.index.IndexBatchCreator $etc_dir/osm2obf.xml && ln data/indexes/*.obf ../.. ) > $i.log 2>&1 \0"
-    done > data/jobs.sh
-    if xargs -0 -n1 -P${osm2xxx_max_jobs} sh -c < data/jobs.sh >> $logfile 2>&1; then
-        :
-    else
-    	exit=$?
-    fi
-    cat data/_*.log | tail -c 1024K  >> $logfile
-fi
+time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp "$class_path" net.osmand.MainUtilities generate-obf $file >> $logfile 2>&1 || status=1
 
-if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
-    echo "logfile $logfile is to big: $(ls -l $logfile)"
-    #exit 2
-fi
-
-if [ $exit -ne 0 ];then
+if [ $status -ne 0 ];then
    echo "Failed to convert $file"
    tail -c 256K $logfile
    exit $exit
 fi
 
-rm -rf data
-cp $etc_dir/osm2obf.xml batch.xml
 date=$(date -u)
-
-# rename files to longer names
-for i in *.obf
-do
-    new=$(echo $obf | perl -npe 's/\./,/g;')$(echo $i | perl -npe 's,.*/,,; s/.{4}/-/; s/_2\.obf/.obf/; s/\.obf$//')
-    if [ -z "$city_ascii" ]; then
-    	mv -f $i "$new.obf"
-    else
-    	mv -f $i "${new}_${city_ascii}.obf"
-    fi
-done
 
 BBBIKE_EXTRACT_COORDS=$BBBIKE_EXTRACT_COORDS BBBIKE_EXTRACT_URL=$BBBIKE_EXTRACT_URL \
   date=$date city=$city sh $template > README.txt
