@@ -84,7 +84,7 @@ case $text2html in /*) ;; *) text2html=$(pwd)/$text2html ;; esac
 
 logfile=$obf_dir/logfile.txt
 
-mkdir $obf_dir/data $obf_dir/data/osm $obf_dir/data/indexes
+#mkdir $obf_dir/data $obf_dir/data/osm $obf_dir/data/indexes
 
 cd $obf_dir
 counter=0
@@ -98,7 +98,14 @@ echo ">>> Run splitter" >> $logfile
 class_path="$osmand_home/OsmAndMapCreator.jar:$osmand_home/lib/OsmAnd-core.jar:$osmand_home/lib/*.jar"
 echo "OsmAnd version: $osmand_version" >> $logfile
 
-time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp "$class_path" net.osmand.MainUtilities generate-obf $file >> $logfile 2>&1 || status=1
+( 
+  mkdir tmp
+  cd tmp
+  time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp "$class_path" net.osmand.MainUtilities generate-obf $file >> $logfile 2>&1 || status=1
+  mv *.obf ..
+  cd ..
+  rm -rf tmp
+)
 
 if [ $status -ne 0 ];then
    echo "Failed to convert $file"
