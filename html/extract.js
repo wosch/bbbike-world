@@ -43,7 +43,7 @@ var config = {
         "mbtiles-openmaptiles.zip": 48,
         "mbtiles-basic.zip": 48,
 
-        "obf.zip": 256,
+        "obf.zip": 510,
         "bbbike-perltk.zip": 90,
         "shp.zip": 128,
         "mapsforge-osm.zip": 320,
