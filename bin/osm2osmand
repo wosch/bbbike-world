@@ -97,7 +97,9 @@ echo "OsmAnd version: $osmand_version" >> $logfile
   mkdir tmp
   cd tmp
   mkdir data
-  time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp "$class_path" net.osmand.MainUtilities generate-obf $file >> $logfile 2>&1 || status=1
+  file2=$(basename $file | perl -npe 's/\./=/')
+  ln -s $file $file2
+  time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp "$class_path" net.osmand.MainUtilities generate-obf $file2 >> $logfile 2>&1 || status=1
   mv *.obf ..
   cd ..
   rm -rf tmp
