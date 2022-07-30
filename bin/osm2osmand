@@ -106,7 +106,7 @@ echo "OsmAnd version: $osmand_version" >> $logfile
 if [ $status -ne 0 ];then
    echo "Failed to convert $file"
    tail -c 256K $logfile
-   exit $exit
+   exit $status
 fi
 
 date=$(date -u)
