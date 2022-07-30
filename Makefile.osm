@@ -1449,7 +1449,7 @@ deb-opt-dir-version:
 	  sudo ln -fs osmosis-0.48.3 osmosis; \
 	  sudo ln -fs splitter-r652 splitter; \
 	  sudo ln -fs mkgmap-r4905 mkgmap; \
-	  sudo ln -fs OsmAndMapCreator-2017-12-28 OsmAndMapCreator; \
+	  sudo ln -fs OsmAndMapCreator-2022-07-26 OsmAndMapCreator; \
 	  sudo ln -fs mapsforge-0.18.0 mapsforge; \
 	  sudo ln -fs Maperitive-2.4.3 Maperitive
 	${BBMAKE} maperitive-bootstrap
