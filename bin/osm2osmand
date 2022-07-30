@@ -63,16 +63,16 @@ city_ascii=$(perl -e 'use Text::Unidecode; $a = shift; $a = substr(unidecode($a)
 test -z "$file" && usage
 size=$(du -ks -L "$file" | awk '{ print $1}')
 
-if [   $size -gt 1000000 ]; then
-   java_heap=24G
+if [  $size -gt 1000000 ]; then
+   java_heap="24G"
 elif [ $size -gt 500000 ]; then
-   java_heap=16G
+   java_heap="16G"
 elif [ $size -gt 250000 ]; then
-   java_heap=12G
-elif [ $size -gt 150000 ]; then
-   java_heap=6G
+   java_heap="12G"
 elif [ $size -gt 100000 ]; then
-   java_heap=4G
+   java_heap="6G"
+elif [ $size -gt  50000 ]; then
+   java_heap="4G"
 fi
 
 java_opt=-Xmx${java_heap}
