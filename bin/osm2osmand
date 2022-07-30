@@ -7,9 +7,9 @@
 set -e
 set -o pipefail # bash only
 
-PATH=/usr/local/bin:/bin:/usr/bin; export PATH
+PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
 
-: ${BBBIKE_EXTRACT_LANG=en}
+: ${BBBIKE_EXTRACT_LANG="en"}
 : ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
 : ${BBBIKE_SPLITTER_VERSION="splitter"}
 : ${BBBIKE_EXTRACT_OSMAND_VERSION="OsmAndMapCreator"}
@@ -17,16 +17,15 @@ PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
 : ${SHA="shasum -a 256"}
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
-: ${BBBIKE_TMPFS="/tmpfs"}
+: ${BBBIKE_TMPFS="/tmp"}
 : ${logfile_max_size="3000k"}
 : ${java_heap="4G"}
 
 export BBBIKE_EXTRACT_OSMAND_VERSION
 
 osmand_version=$( (cd $osmand_home && basename $(/bin/pwd)) )
-status=0
-
 dirname=$(dirname $0)
+status=0
 
 usage () {
    echo "$@"
