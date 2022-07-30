@@ -19,7 +19,7 @@ PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmp"}
 : ${logfile_max_size="3000k"}
-: ${java_heap="4G"}
+: ${java_heap="3G"}
 
 export BBBIKE_EXTRACT_OSMAND_VERSION
 
@@ -50,7 +50,6 @@ city="$2"
 test -e "$file" || usage "file $file does not exists"
 : ${osm_checksum=$dirname/osm-checksum}
 
-java_opt=-Xmx${java_heap}
 
 template=$dirname/../etc/extract/$(basename $0 -simple).$BBBIKE_EXTRACT_LANG.sh
 case $template in /*) ;; *) template=$(pwd)/$template ;; esac
@@ -63,6 +62,20 @@ city_ascii=$(perl -e 'use Text::Unidecode; $a = shift; $a = substr(unidecode($a)
 
 test -z "$file" && usage
 size=$(du -ks -L "$file" | awk '{ print $1}')
+
+if [   $size -gt 1000000 ]; then
+   java_heap=24G
+elif [ $size -gt 500000 ]; then
+   java_heap=16G
+elif [ $size -gt 250000 ]; then
+   java_heap=12G
+elif [ $size -gt 150000 ]; then
+   java_heap=6G
+elif [ $size -gt 100000 ]; then
+   java_heap=4G
+fi
+
+java_opt=-Xmx${java_heap}
 
 # use RAM disk
 tmpdir=`mktemp -d ${BBBIKE_TMPFS}/osm2osmand.XXXXXXXXXXX`
@@ -99,7 +112,7 @@ echo "OsmAnd version: $osmand_version" >> $logfile
   mkdir data
   file2=$(basename $file | perl -npe 's/\./=/')
   ln -s $file $file2
-  time java $java_opt -Xmn256M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp "$class_path" net.osmand.MainUtilities generate-obf $file2 >> $logfile 2>&1 || status=1
+  time java $java_opt -Xmn512M -Djava.util.logging.config.file=$etc_dir/osm2obf-logging.properties -cp "$class_path" net.osmand.MainUtilities generate-obf $file2 >> $logfile 2>&1 || status=1
   mv *.obf ..
   cd ..
   rm -rf tmp
