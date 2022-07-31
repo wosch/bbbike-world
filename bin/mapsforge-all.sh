@@ -1,0 +1,64 @@
+#!/bin/bash
+# Copyright (c) Apr 2018-2022 Wolfram Schneider, https://bbbike.org
+#
+# garmin-all - convert the planet to garmin styles
+#
+
+set -e
+set -o pipefail # bash only
+
+PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
+
+: ${DOWNLOAD_URL_PREFIX="https://download.geofabrik.de"}
+
+: ${mapsforge_regions="antarctica"}
+: ${nice_level="13"}
+
+: ${debug=false}
+$debug && time="time"
+
+download_file ()
+{
+  url=$1
+  tmp=$2
+
+  curl --connect-timeout 10 -sSf -L "$url" | \
+    nice -n $nice_level osmium cat --overwrite -o $tmp -Fpbf -fpbf,add_metadata=false
+}
+
+download_region ()
+{
+  region="$1"
+  sub_region="$2"
+
+  tmp=$(mktemp $sub_region.XXXXXXXX.tmp)
+  url="$DOWNLOAD_URL_PREFIX/$region-latest.osm.pbf"
+
+  if ! download_file $url $tmp; then
+    # try it again some seconds later in case of network errors
+    sleep 60
+    download_file $url $tmp
+  fi
+
+  mv -f $tmp $sub_region.osm.pbf
+}
+
+exit_status=0
+for region in $mapsforge_regions
+do
+  $debug && echo "region=$region format=$garmin_formats"
+  sub_region=$(basename $region)
+  continent=$(dirname $region)
+  (
+    mkdir -p $continent
+    cd $continent
+    download_region $region $sub_region
+    env OSM_CHECKSUM=false pbf2osm_max_cpu_time=14400 \
+      nice -n $nice_level $time $HOME/projects/bbbike/world/bin/pbf2osm --mapsforge-osm $sub_region.osm.pbf $region || exit_status=1
+    rm -f $sub_region.osm.pbf
+  )
+done
+
+exit $exit_status
+
+#EOF
