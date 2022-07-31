@@ -8,6 +8,8 @@ set -e
 set -o pipefail # bash only
 
 PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
+: ${BBBIKE_TMPDIR="/bbbike/tmp"}
+: ${BBBIKE_TMPFS="/tmp"}
 
 : ${DOWNLOAD_URL_PREFIX="https://download.geofabrik.de"}
 : ${garmin_formats="ontrail-latin1:bbbike-latin1:openfietslite-latin1"}

@@ -10,6 +10,8 @@ set -o pipefail # bash only
 PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
 
 : ${DOWNLOAD_URL_PREFIX="https://download.geofabrik.de"}
+: ${BBBIKE_TMPDIR="/bbbike/tmp"}
+: ${BBBIKE_TMPFS="/tmp"}
 
 : ${mapsforge_regions="antarctica"}
 : ${nice_level="13"}
