@@ -11,6 +11,7 @@ PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmp"}
 : ${logfile_max_size="3000k"}
+: ${osm2xxx_max_jobs="3"}
 
 set -e
 
@@ -121,7 +122,7 @@ BBBIKE_EXTRACT_COORDS=$BBBIKE_EXTRACT_COORDS BBBIKE_EXTRACT_URL=$BBBIKE_EXTRACT_
 $text2html < README.txt > README.html
 
 echo ">>> Run osmosis, mapsforge writer map style: $map_style" >> $logfile
-osmosis --read-pbf-fast $file --mapfile-writer $hd_mode file=$mapsforge.map >> $logfile  2>&1 || error
+osmosis --read-pbf-fast $file --mapfile-writer $hd_mode file=$mapsforge.map threads=$osm2xxx_max_jobs>> $logfile  2>&1 || error
 
 if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
     echo "logfile $logfile is to big: $(ls -l $logfile)"
