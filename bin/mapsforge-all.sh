@@ -52,13 +52,18 @@ do
   $debug && echo "region=$region format=$garmin_formats"
   sub_region=$(basename $region)
   continent=$(dirname $region)
+
   (
     mkdir -p $continent
     cd $continent
-    download_region $region $sub_region
-    env OSM_CHECKSUM=false pbf2osm_max_cpu_time=14400 \
-      nice -n $nice_level $time $HOME/projects/bbbike/world/bin/pbf2osm --mapsforge-osm $sub_region.osm.pbf $region || exit_status=1
-    rm -f $sub_region.osm.pbf
+    if download_region $region $sub_region; then
+      env OSM_CHECKSUM=false pbf2osm_max_cpu_time=14400 \
+        nice -n $nice_level $time $HOME/projects/bbbike/world/bin/pbf2osm --mapsforge-osm $sub_region.osm.pbf $region || exit_status=1
+      rm -f $sub_region.osm.pbf
+    else
+      echo "could not download $url - skip"
+      exit_status=2
+    fi
   )
 done
 
