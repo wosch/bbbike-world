@@ -51,7 +51,7 @@ download_region ()
 exit_status=0
 for region in $mapsforge_regions
 do
-  $debug && echo "region=$region format=$garmin_formats"
+  $debug && echo "region=$region"
   sub_region=$(basename $region)
   continent=$(dirname $region)
 
