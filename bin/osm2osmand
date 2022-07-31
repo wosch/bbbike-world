@@ -64,9 +64,9 @@ test -z "$file" && usage
 size=$(du -ks -L "$file" | awk '{ print $1}')
 
 if [  $size -gt 1000000 ]; then
-   java_heap="24G"
+   java_heap="60G"
 elif [ $size -gt 500000 ]; then
-   java_heap="20G"
+   java_heap="24G"
 elif [ $size -gt 250000 ]; then
    java_heap="16G"
 elif [ $size -gt 100000 ]; then
