@@ -38,8 +38,11 @@ download_region ()
 
   if ! download_file $url $tmp; then
     # try it again some seconds later in case of network errors
-    sleep 60
-    download_file $url $tmp
+    sleep 61
+    if ! download_file $url $tmp; then
+      sleep 181
+      download_file $url $tmp
+    fi
   fi
 
   mv -f $tmp $sub_region.osm.pbf
