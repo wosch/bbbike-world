@@ -18,6 +18,7 @@ PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
 : ${regions="antarctica australia-oceania africa central-america south-america asia north-america europe"}
 : ${max_days="8"}
 : ${nice_level="17"}
+: ${curl_opt=""}
 
 : ${debug=false}
 $debug && time="time"
@@ -27,7 +28,7 @@ download_file ()
   url=$1
   tmp=$2
 
-  curl --connect-timeout 10 -sSf -L "$url" | \
+  curl --connect-timeout 5 --retry 10 --max-time 200 $curl_opt -sSf -L "$url" | \
     nice -n $nice_level osmium cat --overwrite -o $tmp -Fpbf -fpbf,add_metadata=false
 }
 
@@ -62,7 +63,7 @@ do
     mkdir -p $continent
     cd $continent
 
-    if [ $(ls $sub_region.osm.garmin-*.zip 2>/dev/null | wc -l) -gt 0 -a $(find $sub_region.osm.garmin-*.zip -mtime +${max_days} 2>/dev/null | wc -l) -gt 0 ]; then
+    if [ $(ls $sub_region.osm.garmin-*.zip 2>/dev/null | wc -l) -gt 0 -a $(find $sub_region.osm.garmin-*.zip -mtime -${max_days} 2>/dev/null | wc -l) -gt 0 ]; then
       $debug && echo "already exists '$region'"
     elif download_region $region $sub_region; then
       env osm2xxx_max_jobs="8" OSM_CHECKSUM=false pbf2osm_max_cpu_time=72000 max_file_size_garmin=59950000 \
