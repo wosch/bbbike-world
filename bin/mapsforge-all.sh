@@ -13,6 +13,7 @@ PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmp"}
 
+: ${curl_opt=""}
 : ${regions="antarctica"}
 : ${max_days="8"}
 : ${nice_level="13"}
@@ -25,7 +26,7 @@ download_file ()
   url=$1
   tmp=$2
 
-  curl --connect-timeout 10 -sSf -L "$url" | \
+  curl --connect-timeout 5 --retry 10 --max-time 200 $curl_opt -sSf -L "$url" | \
     nice -n $nice_level osmium cat --overwrite -o $tmp -Fpbf -fpbf,add_metadata=false
 }
 
