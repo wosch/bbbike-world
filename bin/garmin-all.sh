@@ -16,6 +16,7 @@ PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
 
 #: ${regions="antarctica australia-oceania"}
 : ${regions="antarctica australia-oceania africa central-america south-america asia north-america europe"}
+: ${max_days="8"}
 : ${nice_level="17"}
 
 : ${debug=false}
@@ -60,13 +61,16 @@ do
   (
     mkdir -p $continent
     cd $continent
-    if download_region $region $sub_region; then
+
+    if [ $(ls $sub_region.osm.garmin-*.zip 2>/dev/null | wc -l) -gt 0 -a $(find $sub_region.osm.garmin-*.zip -mtime +${max_days} 2>/dev/null | wc -l) -gt 0 ]; then
+      $debug && echo "already exists '$region'"
+    elif download_region $region $sub_region; then
       env osm2xxx_max_jobs="8" OSM_CHECKSUM=false pbf2osm_max_cpu_time=72000 max_file_size_garmin=59950000 \
         BBBIKE_TMPFS=/tmp \
           nice -n $nice_level $time $HOME/projects/bbbike/world/bin/pbf2osm --garmin-${garmin_formats} $sub_region.osm.pbf $region || exit_status=1
       rm -f $sub_region.osm.pbf
     else
-      echo "could not download $url - skip"
+      echo "could not download $region - skip"
       exit_status=2
     fi
   )

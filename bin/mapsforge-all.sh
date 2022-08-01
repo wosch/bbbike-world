@@ -14,6 +14,7 @@ PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
 : ${BBBIKE_TMPFS="/tmp"}
 
 : ${regions="antarctica"}
+: ${max_days="8"}
 : ${nice_level="13"}
 
 : ${debug=false}
@@ -58,7 +59,10 @@ do
   (
     mkdir -p $continent
     cd $continent
-    if download_region $region $sub_region; then
+
+    if [ $(ls $sub_region.osm.mapsforge-*.zip 2>/dev/null | wc -l) -gt 0 -a $(find $sub_region.osm.mapsforge-*.zip -mtime -${max_days} 2>/dev/null | wc -l) -gt 0 ]; then
+      $debug && echo "already exists '$region'"
+    elif download_region $region $sub_region; then
       env OSM_CHECKSUM=false pbf2osm_max_cpu_time=14400 \
         nice -n $nice_level $time $HOME/projects/bbbike/world/bin/pbf2osm --mapsforge-osm $sub_region.osm.pbf $region || exit_status=1
       rm -f $sub_region.osm.pbf
