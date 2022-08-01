@@ -38,15 +38,7 @@ download_region ()
   tmp=$(mktemp $sub_region.XXXXXXXX.tmp)
   url="$DOWNLOAD_URL_PREFIX/$region-latest.osm.pbf"
 
-  if ! download_file $url $tmp; then
-    # try it again some seconds later in case of network errors
-    sleep 61
-    if ! download_file $url $tmp; then
-      sleep 181
-      download_file $url $tmp
-    fi
-  fi
-
+  download_file $url $tmp
   mv -f $tmp $sub_region.osm.pbf
 }
 
