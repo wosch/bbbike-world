@@ -66,8 +66,10 @@ if [ $size -gt $max_file_size_mapsforge_ram ]; then
   java_heap="6G"
 elif [ $size -gt 1200000 ]; then
   java_heap="64G"
+  osm2xxx_max_jobs="2"
 elif [ $size -gt 700000 ]; then
   java_heap="32G"
+  osm2xxx_max_jobs="2"
 elif [ $size -gt 400000 ]; then
   java_heap="24G"
 elif [ $size -gt 250000 ]; then
