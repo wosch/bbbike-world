@@ -12,7 +12,7 @@ PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
 : ${BBBIKE_TMPFS="/tmp"}
 : ${logfile_max_size="3000k"}
 : ${osm2xxx_max_jobs="3"}
-: ${max_file_size_mapsforge_ram="660000"}
+: ${max_file_size_mapsforge_ram="1200000"}
 
 set -e
 
@@ -65,7 +65,7 @@ if [ $size -gt $max_file_size_mapsforge_ram ]; then
   hd_mode="type=hd"
   java_heap="6G"
 elif [ $size -gt 1200000 ]; then
-  java_heap="48G"
+  java_heap="64G"
 elif [ $size -gt 700000 ]; then
   java_heap="32G"
 elif [ $size -gt 400000 ]; then
