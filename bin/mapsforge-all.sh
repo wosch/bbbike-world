@@ -13,7 +13,7 @@ PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmp"}
 
-: ${mapsforge_regions="antarctica"}
+: ${regions="antarctica"}
 : ${nice_level="13"}
 
 : ${debug=false}
@@ -49,7 +49,7 @@ download_region ()
 }
 
 exit_status=0
-for region in $mapsforge_regions
+for region in $regions
 do
   $debug && echo "region=$region"
   sub_region=$(basename $region)

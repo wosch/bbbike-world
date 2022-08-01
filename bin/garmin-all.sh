@@ -14,8 +14,8 @@ PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
 : ${DOWNLOAD_URL_PREFIX="https://download.geofabrik.de"}
 : ${garmin_formats="ontrail-latin1:bbbike-latin1:openfietslite-latin1"}
 
-#: ${garmin_regions="antarctica australia-oceania"}
-: ${garmin_regions="antarctica australia-oceania africa central-america south-america asia north-america europe"}
+#: ${regions="antarctica australia-oceania"}
+: ${regions="antarctica australia-oceania africa central-america south-america asia north-america europe"}
 : ${nice_level="17"}
 
 : ${debug=false}
@@ -51,7 +51,7 @@ download_region ()
 }
 
 exit_status=0
-for region in $garmin_regions
+for region in $regions
 do
   $debug && echo "region=$region format=$garmin_formats"
   sub_region=$(basename $region)

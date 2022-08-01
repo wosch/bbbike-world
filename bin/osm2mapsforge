@@ -12,6 +12,7 @@ PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
 : ${BBBIKE_TMPFS="/tmp"}
 : ${logfile_max_size="3000k"}
 : ${osm2xxx_max_jobs="3"}
+: ${max_file_size_mapsforge_ram="660000"}
 
 set -e
 
@@ -59,15 +60,17 @@ hd_mode="type=ram"
 size=$(du -ks -L "$file" | awk '{ print $1}')
 : ${java_heap="5G"}
 
-if [ $size -gt 666000 ]; then
+if [ $size -gt max_file_size_mapsforge_ram ]; then
   # switch to disk mode if larger than 600MB, maybe 10 times slower
   hd_mode="type=hd"
   java_heap="6G"
+elif [ $size -gt 700000 ]; then
+  java_heap="32G"
 elif [ $size -gt 400000 ]; then
   java_heap="24G"
 elif [ $size -gt 250000 ]; then
   java_heap="18G"
-elif [ $size -gt 150000 ]; then
+elif [ $size -gt 160000 ]; then
   java_heap="10G"
 elif [ $size -gt  60000 ]; then
   java_heap="8G"
