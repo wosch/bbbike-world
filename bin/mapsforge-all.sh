@@ -18,6 +18,9 @@ PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
 : ${max_days="8"}
 : ${nice_level="13"}
 
+# small size but big area needs more memory
+: ${java_heap="12G"}
+
 : ${debug=false}
 $debug && time="time"
 
