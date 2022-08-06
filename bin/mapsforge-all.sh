@@ -16,7 +16,7 @@ PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
 : ${curl_opt=""}
 : ${regions="antarctica"}
 : ${max_days="8"}
-: ${nice_level="13"}
+: ${nice_level="14"}
 
 # small size but big area needs more memory
 : ${java_heap="12G"}
@@ -59,6 +59,7 @@ do
     if [ $(ls $sub_region.osm.mapsforge-*.zip 2>/dev/null | wc -l) -gt 0 -a $(find $sub_region.osm.mapsforge-*.zip -mtime -${max_days} 2>/dev/null | wc -l) -gt 0 ]; then
       $debug && echo "already exists '$region'"
     elif download_region $region $sub_region; then
+      $debug && echo "area size: $(du -hs $sub_region.osm.pbf)"
       env OSM_CHECKSUM=false pbf2osm_max_cpu_time=14400 \
         nice -n $nice_level $time $HOME/projects/bbbike/world/bin/pbf2osm --mapsforge-osm $sub_region.osm.pbf $region || exit_status=1
       rm -f $sub_region.osm.pbf
