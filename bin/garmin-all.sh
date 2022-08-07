@@ -19,6 +19,8 @@ PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
 : ${max_days="8"}
 : ${nice_level="17"}
 : ${curl_opt=""}
+: ${pbf2osm_max_cpu_time="14400"}
+: ${osm2xxx_max_jobs="8"}
 
 : ${debug=false}
 $debug && time="time"
@@ -58,8 +60,8 @@ do
     if [ $(ls $sub_region.osm.garmin-*.zip 2>/dev/null | wc -l) -gt 0 -a $(find $sub_region.osm.garmin-*.zip -mtime -${max_days} 2>/dev/null | wc -l) -gt 0 ]; then
       $debug && echo "already exists '$region'"
     elif download_region $region $sub_region; then
-      $debug && echo "area size: $(du -hs $sub_region.osm.pbf)"
-      env osm2xxx_max_jobs="8" OSM_CHECKSUM=false pbf2osm_max_cpu_time=72000 max_file_size_garmin=59950000 \
+      $debug && echo "osm2xxx_max_jobs=$osm2xxx_max_jobs pbf2osm_max_cpu_time=$pbf2osm_max_cpu_time area size: $(du -hs $sub_region.osm.pbf)"
+      env osm2xxx_max_jobs=$osm2xxx_max_jobs OSM_CHECKSUM=false pbf2osm_max_cpu_time=$pbf2osm_max_cpu_time max_file_size_garmin=59950000 \
         BBBIKE_TMPFS=/tmp \
           nice -n $nice_level $time $HOME/projects/bbbike/world/bin/pbf2osm --garmin-${garmin_formats} $sub_region.osm.pbf $region || exit_status=1
       rm -f $sub_region.osm.pbf
