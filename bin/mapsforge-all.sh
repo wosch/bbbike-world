@@ -57,7 +57,7 @@ do
   (
     mkdir -p $continent
     cd $continent
-    tmpdir=$(mktemp -d $BBBIKE_TMPDIR/mapsforge-all-$sub_region.XXXXXXXXXX).tmp
+    tmpdir=$(mktemp -d $BBBIKE_TMPDIR/mapsforge-all-$sub_region.XXXXXXXXXX.tmp)
 
     if [ $(ls $sub_region.osm.mapsforge-*.zip 2>/dev/null | wc -l) -gt 0 -a $(find $sub_region.osm.mapsforge-*.zip -mtime -${max_days} 2>/dev/null | wc -l) -gt 0 ]; then
       $debug && echo "already exists '$region'"
