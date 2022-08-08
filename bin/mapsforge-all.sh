@@ -38,12 +38,13 @@ download_region ()
 {
   region="$1"
   sub_region="$2"
+  tmpdir=$3
 
-  tmp=$(mktemp $sub_region.XXXXXXXX.tmp)
+  tmp=$(mktemp $tmpdir/$sub_region.XXXXXXXX.tmp)
   url="$DOWNLOAD_URL_PREFIX/$region-latest.osm.pbf"
 
   download_file $url $tmp
-  mv -f $tmp $sub_region.osm.pbf
+  mv -f $tmp $tmpdir/$sub_region.osm.pbf
 }
 
 exit_status=0
@@ -56,13 +57,18 @@ do
   (
     mkdir -p $continent
     cd $continent
+    tmpdir=$(mktemp -d $BBBIKE_TMPDIR/mapsforge-all-$sub_region.XXXXXXXXXX).tmp
 
     if [ $(ls $sub_region.osm.mapsforge-*.zip 2>/dev/null | wc -l) -gt 0 -a $(find $sub_region.osm.mapsforge-*.zip -mtime -${max_days} 2>/dev/null | wc -l) -gt 0 ]; then
       $debug && echo "already exists '$region'"
-    elif download_region $region $sub_region; then
+    elif download_region $region $sub_region $tmpdir; then
       $debug && echo "pbf2osm_max_cpu_time=$pbf2osm_max_cpu_time area size: $(du -hs $sub_region.osm.pbf)"
-      env debug=$debug OSM_CHECKSUM=false pbf2osm_max_cpu_time=$pbf2osm_max_cpu_time java_heap=$java_heap \
-        nice -n $nice_level $time $HOME/projects/bbbike/world/bin/pbf2osm --mapsforge-osm $sub_region.osm.pbf $region || exit_status=1
+      if env debug=$debug OSM_CHECKSUM=false pbf2osm_max_cpu_time=$pbf2osm_max_cpu_time java_heap=$java_heap \
+        nice -n $nice_level $time $HOME/projects/bbbike/world/bin/pbf2osm --mapsforge-osm $tmpdir/$sub_region.osm.pbf $region; then
+        mv -f $tmpdir/$sub_region.*zip .
+      else
+         exit_status=1
+      fi 
       rm -f $sub_region.osm.pbf
     else
       echo "could not download $url - skip"
