@@ -162,5 +162,5 @@ zip -q -r - -- $(basename $mapsforge_dir) | \
     $osm_checksum $mapsforge_zip
   )
 
-#$debug || rm -rf $tmpdir
+rm -rf $tmpdir
 #EOF
