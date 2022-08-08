@@ -133,6 +133,8 @@ BBBIKE_EXTRACT_COORDS=$BBBIKE_EXTRACT_COORDS BBBIKE_EXTRACT_URL=$BBBIKE_EXTRACT_
 
 $text2html < README.txt > README.html
 
+$debug && echo "hd_mode=$hd_mode java_heap=$java_heap BBBIKE_TMPFS=$BBBIKE_TMPFS osm2xxx_max_jobs=$osm2xxx_max_jobs"
+
 echo ">>> Run osmosis, mapsforge writer map style: $map_style" >> $logfile
 osmosis --read-pbf-fast $file --mapfile-writer $hd_mode file=$mapsforge.map threads=$osm2xxx_max_jobs>> $logfile  2>&1 || error
 
@@ -160,4 +162,5 @@ zip -q -r - -- $(basename $mapsforge_dir) | \
     $osm_checksum $mapsforge_zip
   )
 
-$debug || rm -rf $tmpdir
+#$debug || rm -rf $tmpdir
+#EOF
