@@ -69,11 +69,12 @@ do
       else
          exit_status=1
       fi 
-      rm -f $sub_region.osm.pbf
     else
       echo "could not download $url - skip"
       exit_status=2
     fi
+
+    rm -rf $tmpdir
   )
 done
 
