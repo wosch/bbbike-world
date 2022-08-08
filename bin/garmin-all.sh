@@ -63,7 +63,7 @@ do
     if [ $(ls $sub_region.osm.garmin-*.zip 2>/dev/null | wc -l) -gt 0 -a $(find $sub_region.osm.garmin-*.zip -mtime -${max_days} 2>/dev/null | wc -l) -gt 0 ]; then
       $debug && echo "already exists '$region'"
     elif download_region $region $sub_region $tmpdir; then
-      $debug && echo "osm2xxx_max_jobs=$osm2xxx_max_jobs pbf2osm_max_cpu_time=$pbf2osm_max_cpu_time area size: $(du -hs $sub_region.osm.pbf)"
+      $debug && echo "osm2xxx_max_jobs=$osm2xxx_max_jobs pbf2osm_max_cpu_time=$pbf2osm_max_cpu_time area size: $(cd $tmpdir && du -hs $sub_region.osm.pbf)"
       if env osm2xxx_max_jobs=$osm2xxx_max_jobs OSM_CHECKSUM=false pbf2osm_max_cpu_time=$pbf2osm_max_cpu_time max_file_size_garmin=$max_file_size_garmin BBBIKE_TMPFS=/tmp \
          nice -n $nice_level $time $HOME/projects/bbbike/world/bin/pbf2osm --garmin-${garmin_formats} $tmpdir/$sub_region.osm.pbf $region
       then

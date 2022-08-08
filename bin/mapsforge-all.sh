@@ -62,7 +62,7 @@ do
     if [ $(ls $sub_region.osm.mapsforge-*.zip 2>/dev/null | wc -l) -gt 0 -a $(find $sub_region.osm.mapsforge-*.zip -mtime -${max_days} 2>/dev/null | wc -l) -gt 0 ]; then
       $debug && echo "already exists '$region'"
     elif download_region $region $sub_region $tmpdir; then
-      $debug && echo "pbf2osm_max_cpu_time=$pbf2osm_max_cpu_time area size: $(du -hs $sub_region.osm.pbf)"
+      $debug && echo "pbf2osm_max_cpu_time=$pbf2osm_max_cpu_time area size: $(cd $tmpdir && du -hs $sub_region.osm.pbf)"
       if env debug=$debug OSM_CHECKSUM=false pbf2osm_max_cpu_time=$pbf2osm_max_cpu_time java_heap=$java_heap \
         nice -n $nice_level $time $HOME/projects/bbbike/world/bin/pbf2osm --mapsforge-osm $tmpdir/$sub_region.osm.pbf $region; then
         mv -f $tmpdir/$sub_region.*zip .
