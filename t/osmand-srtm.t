@@ -35,7 +35,7 @@ if ( !-f $pbf_file ) {
 my $pbf_md5 = "d05de959d17e6685e17684a480ec8d98";
 
 # min size of zip file
-my $min_size = 530_000;
+my $min_size = 501_000;
 
 sub md5_file {
     my $file = shift;
