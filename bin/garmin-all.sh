@@ -19,7 +19,7 @@ PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
 : ${max_days="8"}
 : ${nice_level="17"}
 : ${curl_opt=""}
-: ${pbf2osm_max_cpu_time="14400"}
+: ${pbf2osm_max_cpu_time="28800"}
 : ${osm2xxx_max_jobs="8"}
 
 : ${debug=false}
