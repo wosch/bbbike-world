@@ -30,7 +30,8 @@ sub google_analytics {
 
     my $url = $q->url( -base => 1 );
 
-    if ( !$devel && $url !~ m,^https?://(www|extract|download|garmin)[1-9]?\., ) {
+    if ( !$devel && $url !~ m,^https?://(www|extract|download|garmin)[1-9]?\., )
+    {
         return "";    # devel installation
     }
 
