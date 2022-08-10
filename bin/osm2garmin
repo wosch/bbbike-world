@@ -40,6 +40,6 @@ do
     env BBBIKE_SPLIT_DIR=$split_dir $program $file $f $city
 done
 
-$debug || rm -rf $split_dir
+rm -rf $split_dir
 
 #EOF

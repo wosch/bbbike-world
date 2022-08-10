@@ -494,6 +494,6 @@ zip -q -r - -- `basename $garmin_dir` | \
     $osm_checksum $garmin_zip
   )
 
-$debug || rm -rf $tmpdir
+rm -rf $tmpdir
 
 #EOF

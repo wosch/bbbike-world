@@ -17,10 +17,11 @@ PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
 #: ${regions="antarctica australia-oceania"}
 : ${regions="antarctica australia-oceania africa central-america south-america asia north-america europe"}
 : ${max_days="8"}
-: ${nice_level="17"}
+: ${nice_level="13"}
 : ${curl_opt=""}
-: ${pbf2osm_max_cpu_time="14400"}
+: ${pbf2osm_max_cpu_time="28800"}
 : ${osm2xxx_max_jobs="8"}
+: ${max_file_size_garmin="59950000"}
 
 : ${debug=false}
 $debug && time="time"
@@ -38,12 +39,13 @@ download_region ()
 {
   region="$1"
   sub_region="$2"
+  tmpdir=$3
 
-  tmp=$(mktemp $sub_region.XXXXXXXX.tmp)
+  tmp=$(mktemp $tmpdir/$sub_region.XXXXXXXX.tmp)
   url="$DOWNLOAD_URL_PREFIX/$region-latest.osm.pbf"
 
   download_file $url $tmp
-  mv -f $tmp $sub_region.osm.pbf
+  mv -f $tmp $tmpdir/$sub_region.osm.pbf
 }
 
 exit_status=0
@@ -56,19 +58,25 @@ do
   (
     mkdir -p $continent
     cd $continent
+    tmpdir=$(mktemp -d $BBBIKE_TMPDIR/garmin-all-$sub_region.XXXXXXXXXX.tmp)
 
     if [ $(ls $sub_region.osm.garmin-*.zip 2>/dev/null | wc -l) -gt 0 -a $(find $sub_region.osm.garmin-*.zip -mtime -${max_days} 2>/dev/null | wc -l) -gt 0 ]; then
       $debug && echo "already exists '$region'"
-    elif download_region $region $sub_region; then
-      $debug && echo "osm2xxx_max_jobs=$osm2xxx_max_jobs pbf2osm_max_cpu_time=$pbf2osm_max_cpu_time area size: $(du -hs $sub_region.osm.pbf)"
-      env osm2xxx_max_jobs=$osm2xxx_max_jobs OSM_CHECKSUM=false pbf2osm_max_cpu_time=$pbf2osm_max_cpu_time max_file_size_garmin=59950000 \
-        BBBIKE_TMPFS=/tmp \
-          nice -n $nice_level $time $HOME/projects/bbbike/world/bin/pbf2osm --garmin-${garmin_formats} $sub_region.osm.pbf $region || exit_status=1
-      rm -f $sub_region.osm.pbf
+    elif download_region $region $sub_region $tmpdir; then
+      $debug && echo "osm2xxx_max_jobs=$osm2xxx_max_jobs pbf2osm_max_cpu_time=$pbf2osm_max_cpu_time area size: $(cd $tmpdir && du -hs $sub_region.osm.pbf)"
+      if env osm2xxx_max_jobs=$osm2xxx_max_jobs OSM_CHECKSUM=false pbf2osm_max_cpu_time=$pbf2osm_max_cpu_time max_file_size_garmin=$max_file_size_garmin BBBIKE_TMPFS=/tmp \
+         nice -n $nice_level $time $HOME/projects/bbbike/world/bin/pbf2osm --garmin-${garmin_formats} $tmpdir/$sub_region.osm.pbf $region
+      then
+        mv -f $tmpdir/$sub_region.*zip .
+      else
+        exit_status=1
+      fi
     else
       echo "could not download $region - skip"
       exit_status=2
     fi
+
+    rm -rf $tmpdir
   )
 done
 
