@@ -24,6 +24,7 @@ osm2mapsme=$dirname/osm2mapsme
 osm2mbtiles=$dirname/osm2mbtiles
 : ${osm2o5m="osmconvert"}
 : ${osm2o5m_opt="--fake-version"}
+: ${csv_opt="--csv=@oname @id name description"}
 : ${osmium="osmium"}
 : ${osm2sqlite="$dirname/osm2sqlite"}
 
@@ -317,10 +318,10 @@ case $compress in
     o5m-xz )    $osm2o5m  $osm2o5m_opt --out-o5m "$file" | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.o5m.xz ;;
 
     # CSV format
-    csv )       $osm2o5m $osm2o5m_opt --out-csv "$file" ;;
-    csv-gzip )  $osm2o5m $osm2o5m_opt --out-csv "$file" | $gzip  > $tmp && mv -f $tmp $dir/$f.csv.gz ;;
-    csv-bzip2 ) $osm2o5m $osm2o5m_opt --out-csv "$file" | $bzip2 > $tmp && mv -f $tmp $dir/$f.csv.bz2 ;;
-    csv-xz )    $osm2o5m $osm2o5m_opt --out-csv "$file" | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.csv.xz ;;
+    csv )       $osm2o5m $osm2o5m_opt "$csv_opt" --out-csv "$file" ;;
+    csv-gzip )  $osm2o5m $osm2o5m_opt "$csv_opt" --out-csv "$file" | $gzip  > $tmp && mv -f $tmp $dir/$f.csv.gz ;;
+    csv-bzip2 ) $osm2o5m $osm2o5m_opt "$csv_opt" --out-csv "$file" | $bzip2 > $tmp && mv -f $tmp $dir/$f.csv.bz2 ;;
+    csv-xz )    $osm2o5m $osm2o5m_opt "$csv_opt" --out-csv "$file" | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.csv.xz ;;
 
     # OPL format
     opl )       $osmium cat -f opl "$file" ;;
