@@ -20,7 +20,8 @@ download_region ()
   url="$DOWNLOAD_URL_PREFIX/$region"
   out=$(basename $url -latest.osm.pbf).osm.pbf
 
-  curl --connect-timeout 10 -sSf -L "$url" | osmconvert --drop-author --drop-version --out-pbf - > $out.tmp
+  curl --connect-timeout 10 --retry 10 --max-time 200 -sSf -L "$url" | \
+    osmconvert --drop-author --drop-version --out-pbf - > $out.tmp
   mv -f $out.tmp $out
 
   echo $out
