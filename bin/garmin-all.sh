@@ -16,7 +16,7 @@ PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
 
 #: ${regions="antarctica australia-oceania"}
 : ${regions="antarctica australia-oceania africa central-america south-america asia north-america europe"}
-: ${max_days="8"}
+: ${max_days="5"}
 : ${nice_level="13"}
 : ${curl_opt=""}
 : ${pbf2osm_max_cpu_time="28800"}

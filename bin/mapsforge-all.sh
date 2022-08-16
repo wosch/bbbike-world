@@ -15,7 +15,7 @@ PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
 
 : ${curl_opt=""}
 : ${regions="antarctica"}
-: ${max_days="8"}
+: ${max_days="5"}
 : ${nice_level="14"}
 
 # small size but big area needs more memory
