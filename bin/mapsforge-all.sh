@@ -70,7 +70,7 @@ do
          exit_status=1
       fi 
     else
-      echo "could not download $url - skip"
+      echo "could not download $region - skip"
       exit_status=2
     fi
 
