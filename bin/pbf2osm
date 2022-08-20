@@ -186,7 +186,7 @@ case $format in
 
     --png-google | --png-hiking | --png-osm | --png-urbanight | --png-wireframe | --png-cadastre ) png_style=$(echo $1 | perl -npe 's,.*-,,'); shift; compress=png ;;
 
-    --mapsforge-osm | --mapsforge ) shift; compress=mapsforge; mapsforge_style=osm; pbf2osm_max_cpu_time=28000 ;;
+    --mapsforge-osm | --mapsforge ) shift; compress=mapsforge; mapsforge_style=osm; ;;
 
     --mapsme-osm ) shift; compress=mapsme; mapsme_style=osm ;;
 
