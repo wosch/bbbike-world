@@ -205,6 +205,7 @@ fi
 
 # bail out after n CPU seconds across all CPUs.
 # Note: this is user+sys time, not the real time
+$debug && echo "max. cpu time $(ulimit -t) seconds"
 ulimit -t $pbf2osm_max_cpu_time
 
 # run in quiet mode
