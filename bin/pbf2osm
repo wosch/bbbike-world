@@ -8,6 +8,7 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 set -e
 
 : ${MULTI_CPU="YES"}
+: ${debug="false"}
 # output format
 format="$1"
 
@@ -206,7 +207,7 @@ fi
 # bail out after n CPU seconds across all CPUs.
 # Note: this is user+sys time, not the real time
 ulimit -t $pbf2osm_max_cpu_time
-$debug && echo "max. cpu time '$(ulimit -t)' seconds"
+$debug && echo "max. cpu time '$(ulimit -t)' seconds" >&2
 
 # run in quiet mode
 global_opt=-q
