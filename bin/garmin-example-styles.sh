@@ -10,6 +10,7 @@ set -e
 set -o pipefail
 
 : ${debug=false}
+: ${max_days="3"}
 countries="europe/luxembourg asia/jordan asia/cambodia"
 example_dir="/usr/local/www/download.bbbike.org/osm/garmin/example"
 
@@ -17,7 +18,7 @@ $debug && time=time
 mkdir -p $example_dir
 
 cd $example_dir
-env debug=$debug osm2xxx_max_jobs="8" regions="$countries" garmin_formats="all-latin1" max_days="3" \
+env debug=$debug osm2xxx_max_jobs="8" regions="$countries" garmin_formats="all-latin1" max_days=$max_days \
   time $HOME/projects/bbbike-download/bin/garmin-all.sh > /var/tmp/garmin-$(basename $0).log 2>&1
 
 #EOF
