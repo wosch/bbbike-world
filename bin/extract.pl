@@ -157,7 +157,7 @@ our $option = {
         'maperitive_version' => 'Maperitive',
         'osmand_version'     => 'OsmAndMapCreator',
         'mapsforge_version'  => 'mapsforge',
-        'mapsme_version'     => 'mapsme',
+        'organicmaps_version'     => 'organicmaps',
         'bbbike_version'     => 'bbbike',
         'shape_version'      => 'osmium2shape',
     },
@@ -849,7 +849,7 @@ sub reorder_pbf {
         'obf.zip'           => 10,
         'bbbike-perltk.zip' => 1.2,
         'mapsforge-osm.zip' => 15,
-        'mapsme-osm.zip'    => 1.2,
+        'organicmaps-osm.zip'    => 1.2,
 
         'garmin-osm.zip'             => 3,
         'garmin-osm-ascii.zip'       => 3,
@@ -1229,8 +1229,8 @@ sub _convert_send_email {
     $ENV{'BBBIKE_EXTRACT_BBBIKE_VERSION'} =
       $option->{pbf2osm}->{bbbike_version};
     $ENV{'BBBIKE_EXTRACT_SHAPE_VERSION'} = $option->{pbf2osm}->{shape_version};
-    $ENV{'BBBIKE_EXTRACT_MAPSME_VERSION'} =
-      $option->{pbf2osm}->{mapsme_version};
+    $ENV{'BBBIKE_EXTRACT_ORGANICMAPS_VERSION'} =
+      $option->{pbf2osm}->{organicmaps_version};
 
     ###################################################################
     # converted file name
@@ -1421,19 +1421,19 @@ sub _convert_send_email {
         }
     }
 
-    # Maps.me mobile app
-    elsif ($format =~ /^mapsme-(osm)\.zip$/
-        || $format =~ /^[a-z\-]+\.mapsme-(osm)\.zip$/ )
+    # organicmaps mobile app
+    elsif ($format =~ /^organicmaps-(osm)\.zip$/
+        || $format =~ /^[a-z\-]+\.organicmaps-(osm)\.zip$/ )
     {
         my $style      = $1;
         my $format_ext = $format;
-        $format_ext =~ s/^[a-z\-]+\.mapsme/mapsme/;
+        $format_ext =~ s/^[a-z\-]+\.organicmaps/organicmaps/;
 
         $file =~ s/\.pbf$/.$format_ext/;
         $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
 
         if ( !cached_format( $file, $pbf_file ) ) {
-            @system = ( @nice, "$dirname/pbf2osm", "--mapsme-$style", $pbf_file,
+            @system = ( @nice, "$dirname/pbf2osm", "--organicmaps-$style", $pbf_file,
                 $city );
 
             warn "@system\n" if $debug >= 2;

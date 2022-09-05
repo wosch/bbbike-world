@@ -65,7 +65,7 @@ my $config = {
           garmin-osm-latin1.zip
           garmin-osm.zip
           mapsforge-osm.zip
-          mapsme-osm.zip
+          organicmaps-osm.zip
           o5m.gz
           o5m.xz
           obf.zip

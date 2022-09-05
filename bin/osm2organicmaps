@@ -1,21 +1,20 @@
 #!/bin/sh
-# Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2022 Wolfram Schneider, https://bbbike.org
 #
-# osm2mapsme  - convert a osm/pbf file to maps.me (omim)
+# osm2organicmaps  - convert a pbf file to organicmaps
 #
 
-PATH=/bin:/usr/bin:/usr/local/bin; export PATH
+set -e
+
+PATH="/bin:/usr/bin:/usr/local/bin"; export PATH
 : ${OMIM_PATH=/var/lib/bbbike/opt/omim}
 : ${BBBIKE_EXTRACT_LANG=en}
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
-: ${BBBIKE_TMPFS="/tmpfs"}
-: ${BBBIKE_LD_LIBRARY_PATH="$OMIM_PATH/lib"}
+: ${BBBIKE_TMPFS="/tmp"}
 : ${MD5=$(which md5 md5sum false 2>/dev/null | head -1)}
 : ${SHA="shasum -a 256"}
 : ${logfile_max_size="3000k"}
-mapsme_version=$(ls -ld /var/lib/bbbike/opt/omim | awk '{ print $NF }')
 
-set -e
 
 usage () {
    echo "$@"
@@ -42,7 +41,7 @@ test -z "$file" && usage
 : ${osm_checksum=$(dirname $0)/osm-checksum}
 
 # use RAM disk
-tmpdir=$(mktemp -d ${BBBIKE_TMPFS}/osm2mapsme.XXXXXXXXXXX)
+tmpdir=$(mktemp -d ${BBBIKE_TMPFS}/osm2organicmaps.XXXXXXXXXXX)
 tmpfile=$tmpdir_pbf/$(basename $file)
 
 # keep old name for results
@@ -54,22 +53,19 @@ case $file in /*) ;; *) file=$(pwd)/$file ;; esac
 # cleanup after signal, but show errors first
 trap '( sleep 1; rm -rf $tmpdir $tmpfile) &' 1 2 15
 
-mapsme=$(basename "$file" | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//')
-mapsme_dir=$tmpdir/${mapsme}-mapsme-${map_style}
-mkdir -p $mapsme_dir
-( cd $mapsme_dir; ln -s $file . )
-file_symlink=$mapsme_dir/$(basename $file)
+organicmaps=$(basename "$file" | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//')
+organicmaps_dir=$tmpdir/${organicmaps}-organicmaps-${map_style}
+mkdir -p $organicmaps_dir
+( cd $organicmaps_dir; ln -s $file . )
+file_symlink=$organicmaps_dir/$(basename $file)
 
 text2html=$(dirname $0)/text2html.sh
 case $text2html in /*) ;; *) text2html=$(pwd)/$text2html ;; esac
 
-logfile=$mapsme_dir/logfile.txt
-echo "mapsme version $mapsme_version" > $logfile
+logfile=$organicmaps_dir/logfile.txt
+echo "organicmaps version $organicmaps_version" > $logfile
 
-LD_LIBRARY_PATH=$BBBIKE_LD_LIBRARY_PATH TMPDIR=$tmpdir \
-    GENERATOR_TOOL=$OMIM_PATH/bin/generator_tool OSMCONVERT=$(which osmconvert) \
-    OMIM_PATH=$OMIM_PATH \
-    time $OMIM_PATH/bin/generate_mwm.sh $file_symlink >> $logfile 2>&1
+time $(dirname $0)/organicmaps.sh $file_symlink >> $logfile 2>&1
 exit=$?
 
 if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
@@ -78,8 +74,8 @@ if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
 fi
 
 # missimg *.mwm file
-if ! ls  $mapsme_dir | egrep -q '\.mwm$'; then
-   echo "No *.mwm file in $mapsme_dir found for $file_orig"
+if ! ls  $organicmaps_dir | egrep -q '\.mwm$'; then
+   echo "No *.mwm file in $organicmaps_dir found for $file_orig"
    exit=99
 fi
 
@@ -89,7 +85,7 @@ if [ $exit -ne 0 ]; then
    exit $exit
 fi
 
-cd $mapsme_dir
+cd $organicmaps_dir
 date=$(date -u)
 
 BBBIKE_EXTRACT_COORDS=$BBBIKE_EXTRACT_COORDS BBBIKE_EXTRACT_URL=$BBBIKE_EXTRACT_URL \
@@ -106,12 +102,13 @@ esac
 rm -f $file_symlink
 
 cd ..
-mapsme_zip=$(dirname $file_orig)/$mapsme.osm.mapsme-${map_style}${ext2}.zip
-zip -q -r - -- $(basename $mapsme_dir) | \
+organicmaps_zip=$(dirname $file_orig)/$organicmaps.osm.organicmaps-${map_style}${ext2}.zip
+zip -q -r - -- $(basename $organicmaps_dir) | \
   ( cd $pwd;
-    cat > $mapsme_zip.tmp && mv $mapsme_zip.tmp $mapsme_zip
-    $osm_checksum $mapsme_zip
+    cat > $organicmaps_zip.tmp && mv $organicmaps_zip.tmp $organicmaps_zip
+    $osm_checksum $organicmaps_zip
   )
 
-$debug || rm -rf $tmpdir $tmpdir_pbf
+rm -rf $tmpdir $tmpdir_pbf
 
+#EOF

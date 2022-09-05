@@ -47,7 +47,7 @@ var config = {
         "bbbike-perltk.zip": 90,
         "shp.zip": 128,
         "mapsforge-osm.zip": 640,
-        "mapsme-osm.zip": 500,
+        "organicmaps-osm.zip": 500,
 
         "garmin-bbbike.zip": 1440,
         "garmin-bbbike-ascii.zip": 1440,
@@ -190,7 +190,7 @@ var config = {
         "srtm.osm.xz": "/images/osm.png",
 
         "mapsforge-osm.zip": "/images/mapsforge-small.png",
-        "mapsme-osm.zip": "/images/mapsme-small.png",
+        "organicmaps-osm.zip": "/images/organicmaps-small.png",
         "bbbike-perltk.zip": "/images/osmand-small.png",
         "obf.zip": "/images/osmand-small.png",
 
@@ -1688,7 +1688,7 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "size": 0.7,
             "time": 8
         },
-        "mapsme-osm.zip": {
+        "organicmaps-osm.zip": {
             "size": 0.85,
             "time": 2
         },

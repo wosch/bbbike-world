@@ -100,7 +100,7 @@ our $formats = {
     'csv.xz' => "csv 7z (xz)",
 
     'mapsforge-osm.zip' => "Mapsforge OSM",
-    'mapsme-osm.zip'    => "maps.me OSM",
+    'organicmaps-osm.zip'    => "organicmaps OSM",
 
     #'srtm-europe.osm.pbf'         => 'SRTM Europe PBF (25m)',
     #'srtm-europe.osm.xz'          => 'SRTM Europe OSM XML 7z (25m)',
@@ -308,7 +308,7 @@ our $tile_format = {
     "garmin-openfietsfull-latin1.zip" => "garmin-osm.zip",
 
     "mapsforge-osm.zip" => "mapsforge-osm.zip",
-    "mapsme-osm.zip"    => "pbf",
+    "organicmaps-osm.zip"    => "pbf",
     "bbbike-perltk.zip" => "garmin-osm.zip",
 
     "o5m.gz"  => "pbf",

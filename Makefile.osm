@@ -42,7 +42,7 @@ MAX_OSM2GARMIN=	$$(( ${MAX_CPU} / 4 + 1 ))
 MAX_OSM2PNG=	${MAX_CPU2}
 MAX_OSM2SVG=	${MAX_CPU}
 MAX_OSM2MAPSFORGE= $$(( ${MAX_CPU} / 3 + 1 ))
-MAX_OSM2MAPSME=	${MAX_CPU2}
+MAX_OSM2ORGANICMAPS=	${MAX_CPU2}
 MAX_OSM2MBTILES=${MAX_CPU}
 MAX_CPU_20=	$$(( ${MAX_CPU} * 2 / 10 + 1 ))
 MAX_CPU_30=	$$(( ${MAX_CPU} * 3 / 10 + 1 ))
@@ -72,7 +72,7 @@ OSM2SVG=	world/bin/wrapper-instable world/bin/bomb --timeout=1400 -- env max_fil
 OSM2SHAPE=	world/bin/pbf2osm --shape
 OSM2OSMAND=	world/bin/pbf2osm --osmand
 OSM2MAPSFORGE=	world/bin/pbf2osm --mapsforge-osm
-OSM2MAPSME=	world/bin/pbf2osm --mapsme-osm
+OSM2ORGANICMAPS=world/bin/pbf2osm --organicmaps-osm
 OSM2MBTILES=	world/bin/pbf2osm --mbtiles-openmaptiles
 
 CITIES_DB=	world/etc/cities.csv
@@ -357,8 +357,8 @@ osm2mapsforge:
 osm2shape osm2shp:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2SHAPE} ${OSM2SHAPE}
 
-osm2omim osm2mapsme:
-	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2MAPSME} ${OSM2MAPSME}
+osm2organicmaps:
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2ORGANICMAPS} ${OSM2ORGANICMAPS}
 
 osm2mbtiles:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2MBTILES} ${OSM2MBTILES}
@@ -1138,9 +1138,9 @@ tile-convert-shp:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
 	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2SHAPE} > ${TILES_TMP}/log.$@ 2>&1
 
-tile-convert-mapsme:
+tile-convert-organicmaps:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
-	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2MAPSME} > ${TILES_TMP}/log.$@ 2>&1
+	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2RGANICMAPS} > ${TILES_TMP}/log.$@ 2>&1
 
 tile-convert-garmin:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
@@ -1814,7 +1814,7 @@ help:
 	@echo "  [ bbbike-osm2pbf | osm2pbf | pbf2osm | pbf2csv | pbf2opl ]"
 	@echo "  [ pbf2geojson | pbf2geojsonseq | pbf2text | pbf2sqlite ]"
 	@echo "  [ osm2garmin | osm2shape | osm2osmand | osm2mapsforge ]"
-	@echo "  [ osm2png | osm2svg | osm2mapsme | osm2mbtiles ]"
+	@echo "  [ osm2png | osm2svg | osm2organicmaps | osm2mbtiles ]"
 	@echo "  [ bbbike2wgs84-mapnik | bbbike-mapnik-config ]"
 	@echo "  [ bbbike-mapnik-postgis | bbbike-tile-update ]"
 	@echo "  [ bbbike-tarball | mapnik-restart ]"
