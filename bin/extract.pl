@@ -152,14 +152,14 @@ our $option = {
     },
 
     'pbf2osm' => {
-        'garmin_version'     => 'mkgmap',
-        'mbtiles_version'    => 'mbtiles',
-        'maperitive_version' => 'Maperitive',
-        'osmand_version'     => 'OsmAndMapCreator',
-        'mapsforge_version'  => 'mapsforge',
-        'organicmaps_version'     => 'organicmaps',
-        'bbbike_version'     => 'bbbike',
-        'shape_version'      => 'osmium2shape',
+        'garmin_version'      => 'mkgmap',
+        'mbtiles_version'     => 'mbtiles',
+        'maperitive_version'  => 'Maperitive',
+        'osmand_version'      => 'OsmAndMapCreator',
+        'mapsforge_version'   => 'mapsforge',
+        'organicmaps_version' => 'organicmaps',
+        'bbbike_version'      => 'bbbike',
+        'shape_version'       => 'osmium2shape',
     },
 
     'nice_level_converter_format' => {
@@ -845,11 +845,11 @@ sub reorder_pbf {
         'osm.bz2' => 1.2,
         'osm.xz'  => 2.5,
 
-        'shp.zip'           => 1.3,
-        'obf.zip'           => 10,
-        'bbbike-perltk.zip' => 1.2,
-        'mapsforge-osm.zip' => 15,
-        'organicmaps-osm.zip'    => 1.2,
+        'shp.zip'             => 1.3,
+        'obf.zip'             => 10,
+        'bbbike-perltk.zip'   => 1.2,
+        'mapsforge-osm.zip'   => 15,
+        'organicmaps-osm.zip' => 1.2,
 
         'garmin-osm.zip'             => 3,
         'garmin-osm-ascii.zip'       => 3,
@@ -1433,8 +1433,10 @@ sub _convert_send_email {
         $file =~ s/.zip$/.$lang.zip/ if $lang ne "en";
 
         if ( !cached_format( $file, $pbf_file ) ) {
-            @system = ( @nice, "$dirname/pbf2osm", "--organicmaps-$style", $pbf_file,
-                $city );
+            @system = (
+                @nice, "$dirname/pbf2osm", "--organicmaps-$style", $pbf_file,
+                $city
+            );
 
             warn "@system\n" if $debug >= 2;
             @system = 'true' if $test_mode;
