@@ -9,8 +9,6 @@ Please read the organicmaps.app homepage how to use mwm files:
   https://organicmaps.app
   https://wiki.openstreetmap.org/wiki/Organic_Maps
   
-Note: Routing in this extract is not support yet! Sorry.
-
 
 Diese organicmaps Karte wurde erzeugt am: $date
 GPS Rechteck Koordinaten (lng,lat): $BBBIKE_EXTRACT_COORDS
