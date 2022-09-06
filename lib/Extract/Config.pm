@@ -172,7 +172,7 @@ our $formats_menu = {
     },
     'android' => {
         'title'   => "Android",
-        'formats' => [ 'obf.zip', 'mapsforge-osm.zip' ]
+        'formats' => [ 'obf.zip', 'mapsforge-osm.zip', 'organicmaps-osm.zip' ]
     },
     'shape' => { 'title' => "Shapefile", 'formats' => ['shp.zip'] },
     'svg'   => {
