@@ -297,7 +297,12 @@ qr"^Map data.*? OpenStreetMap contributors, https://www.openstreetmap.org",
         "by bbbike.org"
     );
 
-    like( $data[2], qr"^\S+\s+by(\s\w+,)?\s+https?://\S+", "by software" );
+    # organicmaps by https://github.com/organicmaps/organicmaps
+    like(
+        $data[2],
+        qr"^\S+\s+by(\s\w+,)?\s+https?://\S+",
+        "program version by URL"
+    );
 
     $self->{'counter'} += 4;
 
