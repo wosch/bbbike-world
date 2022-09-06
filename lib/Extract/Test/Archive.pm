@@ -77,14 +77,14 @@ sub init_env {
 
     my $option = {
         'pbf2osm' => {
-            'garmin_version'     => 'mkgmap',
-            'mbtiles_version'    => 'mbtiles',
-            'maperitive_version' => 'Maperitive',
-            'osmand_version'     => 'OsmAndMapCreator',
-            'mapsforge_version'  => 'mapsforge',
-            'bbbike_version'     => 'bbbike',
-            'shape_version'      => 'osmium2shape',
-            'mapsme_version'     => 'mapsme',
+            'garmin_version'      => 'mkgmap',
+            'mbtiles_version'     => 'mbtiles',
+            'maperitive_version'  => 'Maperitive',
+            'osmand_version'      => 'OsmAndMapCreator',
+            'mapsforge_version'   => 'mapsforge',
+            'bbbike_version'      => 'bbbike',
+            'shape_version'       => 'osmium2shape',
+            'organicmaps_version' => 'organicmaps',
         }
     };
 
