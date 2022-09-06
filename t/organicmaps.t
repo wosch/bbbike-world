@@ -99,10 +99,10 @@ sub cleanup {
 is( md5_file($pbf_file), $pbf_md5, "md5 checksum matched" );
 
 my $counter = 0;
-my @lang = ( "en", "de" );
+my @lang = ( "en" );
 
 if ( !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG} ) {
-    push @lang, ( "fr", "es", "ru", "" );
+    push @lang, ( "de", "fr", "es", "ru", "" );
 }
 
 foreach my $lang (@lang) {
