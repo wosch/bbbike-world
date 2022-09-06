@@ -7,8 +7,7 @@
 set -e
 PATH=/bin:/usr/bin:/usr/local/bin; export PATH
 
-#: ${OMIM_PATH=/var/lib/bbbike/opt/omim}
-: ${OMIM_PATH="$HOME/projects/organicmaps"}
+: ${OMIM_PATH="/var/lib/bbbike/opt/organicmaps"}
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmp"}
 : ${debug=false}
