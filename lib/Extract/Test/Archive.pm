@@ -101,8 +101,8 @@ sub init_env {
     $ENV{'BBBIKE_EXTRACT_BBBIKE_VERSION'} =
       $option->{pbf2osm}->{bbbike_version};
     $ENV{'BBBIKE_EXTRACT_SHAPE_VERSION'} = $option->{pbf2osm}->{shape_version};
-    $ENV{'BBBIKE_EXTRACT_MAPSME_VERSION'} =
-      $option->{pbf2osm}->{mapsme_version};
+    $ENV{'BBBIKE_EXTRACT_ORGANICMAPS_VERSION'} =
+      $option->{pbf2osm}->{organicmaps_version};
 
 #$ENV{BBBIKE_EXTRACT_URL}  = 'https://extract.bbbike.org/?sw_lng=-72.33&sw_lat=-13.712&ne_lng=-71.532&ne_lat=-13.217&format=png-google.zip&city=Cusco%2C%20Peru';
 #$ENV{BBBIKE_EXTRACT_COORDS} = '-72.33,-13.712 x -71.532,-13.217';
