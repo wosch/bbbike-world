@@ -25,6 +25,7 @@ usage () {
 }
 
 file="$1"
+style="$2"
 city="$3"
 
 test -e "$file" || usage "file $file does not exists"
