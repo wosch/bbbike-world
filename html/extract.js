@@ -47,7 +47,7 @@ var config = {
         "bbbike-perltk.zip": 90,
         "shp.zip": 128,
         "mapsforge-osm.zip": 640,
-        "organicmaps-osm.zip": 500,
+        "organicmaps-osm.zip": 768,
 
         "garmin-bbbike.zip": 1440,
         "garmin-bbbike-ascii.zip": 1440,
