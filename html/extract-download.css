@@ -189,6 +189,7 @@ span.format_garmin_opentopo_ascii_zip { color: #DAA520; }
 span.format_garmin_opentopo_latin1_zip { color: #DAA520; }
 
 span.format_mapsforge_osm_zip { color: grey; }
+span.format_organicmapse_osm_zip { color: blue; }
 span.format_shp_zip { color: #FF4F00; }
 span.format_bbbike_perltk_zip { color: black; }
 

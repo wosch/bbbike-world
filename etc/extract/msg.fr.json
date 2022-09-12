@@ -140,7 +140,7 @@
     "EXTRACT_INTRO_FORMAT": [
         "<h3>Comment ça marche?</h3>",
         "<p>Ces instructions vous montreront comment extraire les données OpenStreetMap dans votre format préféré</p>",
-        "<p>Veuillez choisir un format (OSM, PBF, Garmin, Shapefile, mapsforge, OsmAand, SVG, GeoJSON, SQL etc.</p>"
+        "<p>Veuillez choisir un format (OSM, PBF, Garmin, Shapefile, mapsforge, Organic Maps, OsmAand, SVG, GeoJSON, SQL etc.</p>"
         ],
 
     "EXTRACT_INTRO_EMAIL": [

@@ -442,7 +442,7 @@ sub header {
             {
                 -name => 'description',
                 -content =>
-'Free OpenStreetMap exports from Planet.osm in OSM, PBF, Garmin, Osmand, mapsforge, SVG, GeoJSON, SQLite, Esri shapefile or mbtiles format as rectangle or polygon'
+'Free OpenStreetMap exports from Planet.osm in OSM, PBF, Garmin, Osmand, mapsforge, Organic Maps, SVG, GeoJSON, SQLite, Esri shapefile or mbtiles format as rectangle or polygon'
             }
         )
     );

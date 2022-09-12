@@ -44,6 +44,7 @@ my %prio = (
     'garmin-osm.zip'            => -70,
     'geojson.xz'                => -50,
     'mapsforge-osm.zip'         => -40,
+    'organicmaps-osm.zip'       => -30,
     'svg-osm.zip'               => -45,
 );
 
@@ -302,7 +303,7 @@ sub header {
                 {
                     -name => 'description',
                     -content =>
-"OSM extracts for $city in OSM, PBF, Garmin, Osmand, mapsforge, GeoJSON, SQLite and Esri shapefile format"
+"OSM extracts for $city in OSM, PBF, Garmin, Osmand, mapsforge, Organic Maps, GeoJSON, SQLite and Esri shapefile format"
                 }
             ),
         ],
