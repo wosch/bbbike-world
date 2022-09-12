@@ -1490,7 +1490,7 @@ deb-bootstrap-dir: osmosis-bootstrap deb-opt-dir-version
 	    sudo ln -fs $$(basename $$lib) libgeos-3.2.2.so; \
 	fi
 	test -e /usr/local/bin/osmosis || sudo ln -sf ${DEB_OPT_DIR}/osmosis/bin/osmosis /usr/local/bin/osmosis
-	test -e /usr/local/bin/generator_tool || sudo ln -sf ${DEB_OPT_DIR}/organicmaps/bin/generator_tool /usr/local/bin/generator_tool
+	test -e /usr/local/bin/generator_tool || sudo ln -sf ${DEB_OPT_DIR}/bin/generator_tool /usr/local/bin/generator_tool
 	sudo mkdir -p /bbbike/tmp /tmpfs
 	sudo chmod 7777 /bbbike/tmp /tmpfs
 	${MAKE} -f world/Makefile.osm bbbike-c
