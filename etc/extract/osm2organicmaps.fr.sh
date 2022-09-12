@@ -4,7 +4,7 @@ Extracts created by BBBike, https://extract.bbbike.org
 $BBBIKE_EXTRACT_ORGANICMAPS_VERSION by https://github.com/organicmaps/organicmaps
 
 
-Please read the organicmaps.app homepage how to use mwm files:
+Please read the Organic Maps homepage how to use mwm files:
 
   https://organicmaps.app
   https://wiki.openstreetmap.org/wiki/Organic_Maps
