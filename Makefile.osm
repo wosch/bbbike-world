@@ -1445,12 +1445,13 @@ deb-opt-dir-version:
 	sudo mkdir -p ${MAPERITIVE_LOGDIR}
 	sudo chown -R ${LOGNAME} ${MAPERITIVE_LOGDIR}
 	cd ${DEB_OPT_DIR}; \
-	  sudo rm -f osmosis splitter mkgmap OsmAndMapCreator mapsforge omim Maperitive; \
+	  sudo rm -f osmosis splitter mkgmap OsmAndMapCreator mapsforge organicmaps Maperitive; \
 	  sudo ln -fs osmosis-0.48.3 osmosis; \
 	  sudo ln -fs splitter-r652 splitter; \
 	  sudo ln -fs mkgmap-r4905 mkgmap; \
 	  sudo ln -fs OsmAndMapCreator-2022-07-26 OsmAndMapCreator; \
 	  sudo ln -fs mapsforge-0.18.0 mapsforge; \
+	  sudo ln -fs organicmaps-1.0 organicmaps; \
 	  sudo ln -fs Maperitive-2.4.3 Maperitive
 	${BBMAKE} maperitive-bootstrap
 	${BBMAKE} osmosis-bootstrap
@@ -1489,6 +1490,7 @@ deb-bootstrap-dir: osmosis-bootstrap deb-opt-dir-version
 	    sudo ln -fs $$(basename $$lib) libgeos-3.2.2.so; \
 	fi
 	test -e /usr/local/bin/osmosis || sudo ln -sf ${DEB_OPT_DIR}/osmosis/bin/osmosis /usr/local/bin/osmosis
+	test -e /usr/local/bin/generator_tool || sudo ln -sf ${DEB_OPT_DIR}/organicmaps/bin/generator_tool /usr/local/bin/generator_tool
 	sudo mkdir -p /bbbike/tmp /tmpfs
 	sudo chmod 7777 /bbbike/tmp /tmpfs
 	${MAKE} -f world/Makefile.osm bbbike-c
