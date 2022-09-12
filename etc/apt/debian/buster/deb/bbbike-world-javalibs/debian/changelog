@@ -1,3 +1,9 @@
+bbbike-world-javalibs-misc (1.11-3) unstable; urgency=low
+
+  * upgrade java libs OsmAndMapCreator-2022-07-26.tar.gz
+
+ -- Wolfram Schneider <wosch@freebsd.org>  Fri, 12 Sep 2022 15:48:00 +0000
+
 bbbike-world-javalibs-misc (1.11-2) unstable; urgency=low
 
   * upgrade java libs mapsforge-0.18.0.tar.gz and OsmAndMapCreator-2022-07-16.tar.gz
