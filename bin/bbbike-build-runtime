@@ -31,6 +31,7 @@ osmconvert-wrapper
 jsbeautifier
 jsmin
 osmosis
+generator_tool
 "
 
 commands="$commands_general $commands_bbbike"
