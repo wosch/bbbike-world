@@ -69,7 +69,7 @@ export BBBIKE_EXTRACT_MAPSFORGE_VERSION="mapsforge"
 export BBBIKE_EXTRACT_NAVIT_VERSION="maptool"
 export BBBIKE_EXTRACT_BBBIKE_VERSION="bbbike"
 export BBBIKE_EXTRACT_SHAPE_VERSION="osmium2shape"
-export BBBIKE_EXTRACT_MAPSME_VERSION="mapsme"
+export BBBIKE_EXTRACT_ORGANICMAPS_VERSION="organicmaps"
 export BBBIKE_EXTRACT_MBTILES_VERSION="tilemaker"
 
 if [ -e /var/lib/jenkins/dot.bbbikerc-phantomjs ]; then

@@ -49,6 +49,18 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
+    title   => qq{organicmaps},
+    id      => '32377b4212bfade5c7074f6ebb801acd',
+    content => {
+        type => 'html',
+        content =>
+qq{The <a href="https://extract.bbbike.org/?format=organicmaps-osm.zip">BBBike extract service</a> supports organicmaps for Android and iOS},
+    },
+    updated  => '2022-09-12T18:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title   => qq{Mapbox Vector Tiles},
     id      => 'c12fd6236b867ea5f795c6602ea7e147',
     content => {

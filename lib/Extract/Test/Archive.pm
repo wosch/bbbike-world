@@ -77,14 +77,14 @@ sub init_env {
 
     my $option = {
         'pbf2osm' => {
-            'garmin_version'     => 'mkgmap',
-            'mbtiles_version'    => 'mbtiles',
-            'maperitive_version' => 'Maperitive',
-            'osmand_version'     => 'OsmAndMapCreator',
-            'mapsforge_version'  => 'mapsforge',
-            'bbbike_version'     => 'bbbike',
-            'shape_version'      => 'osmium2shape',
-            'mapsme_version'     => 'mapsme',
+            'garmin_version'      => 'mkgmap',
+            'mbtiles_version'     => 'mbtiles',
+            'maperitive_version'  => 'Maperitive',
+            'osmand_version'      => 'OsmAndMapCreator',
+            'mapsforge_version'   => 'mapsforge',
+            'bbbike_version'      => 'bbbike',
+            'shape_version'       => 'osmium2shape',
+            'organicmaps_version' => 'organicmaps',
         }
     };
 
@@ -101,8 +101,8 @@ sub init_env {
     $ENV{'BBBIKE_EXTRACT_BBBIKE_VERSION'} =
       $option->{pbf2osm}->{bbbike_version};
     $ENV{'BBBIKE_EXTRACT_SHAPE_VERSION'} = $option->{pbf2osm}->{shape_version};
-    $ENV{'BBBIKE_EXTRACT_MAPSME_VERSION'} =
-      $option->{pbf2osm}->{mapsme_version};
+    $ENV{'BBBIKE_EXTRACT_ORGANICMAPS_VERSION'} =
+      $option->{pbf2osm}->{organicmaps_version};
 
 #$ENV{BBBIKE_EXTRACT_URL}  = 'https://extract.bbbike.org/?sw_lng=-72.33&sw_lat=-13.712&ne_lng=-71.532&ne_lat=-13.217&format=png-google.zip&city=Cusco%2C%20Peru';
 #$ENV{BBBIKE_EXTRACT_COORDS} = '-72.33,-13.712 x -71.532,-13.217';
@@ -297,7 +297,12 @@ qr"^Map data.*? OpenStreetMap contributors, https://www.openstreetmap.org",
         "by bbbike.org"
     );
 
-    like( $data[2], qr"^\S+\s+by(\s\w+,)?\s+https?://\S+", "by software" );
+    # organicmaps by https://github.com/organicmaps/organicmaps
+    like(
+        $data[2],
+        qr"^\S+\s+by(\s\w+,)?\s+https?://\S+",
+        "program version by URL"
+    );
 
     $self->{'counter'} += 4;
 

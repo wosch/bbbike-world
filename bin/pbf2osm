@@ -8,6 +8,7 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 set -e
 
 : ${MULTI_CPU="YES"}
+: ${debug="false"}
 # output format
 format="$1"
 
@@ -20,10 +21,11 @@ osm2svg=$dirname/osm2svg
 osm2shape=$dirname/osm2shape
 osm2osmand=$dirname/osm2osmand
 osm2mapsforge=$dirname/osm2mapsforge
-osm2mapsme=$dirname/osm2mapsme
+osm2organicmaps=$dirname/osm2organicmaps
 osm2mbtiles=$dirname/osm2mbtiles
 : ${osm2o5m="osmconvert"}
 : ${osm2o5m_opt="--fake-version"}
+: ${csv_opt="--csv=@oname @id name description"}
 : ${osmium="osmium"}
 : ${osm2sqlite="$dirname/osm2sqlite"}
 
@@ -37,9 +39,9 @@ esac
 : ${max_file_size_bbbike=90000}
 : ${max_file_size_garmin=3950000}
 : ${max_file_size_mapsforge=666000}
-: ${max_file_size_osmand=666000}
+: ${max_file_size_osmand=500000}
 : ${max_file_size_shape=866000}
-: ${max_file_size_mapsme=966000}
+: ${max_file_size_organicmaps=966000}
 : ${max_file_size_maperitive=90000}
 : ${max_file_size_mbtiles=280000}
 
@@ -115,7 +117,7 @@ usage [ option ] file.osm.pbf
 --svg-google --svg-hiking --svg-osm --svg-urbanight --svg-wireframe --svg-cadastre
 --png-google --png-hiking --png-osm --png-urbanight --png-wireframe --png-cadastre
 
---mapsme-osm
+--organicmaps-osm
 --mbtiles-basic --mbtiles-openmaptiles
 
 EOF
@@ -185,9 +187,9 @@ case $format in
 
     --png-google | --png-hiking | --png-osm | --png-urbanight | --png-wireframe | --png-cadastre ) png_style=$(echo $1 | perl -npe 's,.*-,,'); shift; compress=png ;;
 
-    --mapsforge-osm | --mapsforge ) shift; compress=mapsforge; mapsforge_style=osm; pbf2osm_max_cpu_time=28000 ;;
+    --mapsforge-osm | --mapsforge ) shift; compress=mapsforge; mapsforge_style=osm; ;;
 
-    --mapsme-osm ) shift; compress=mapsme; mapsme_style=osm ;;
+    --organicmaps-osm ) shift; compress=organicmaps; organicmaps_style=osm ;;
 
     --mbtiles-basic ) shift; compress=mbtiles; mbtiles_style=basic ;;
     --mbtiles-openmaptiles ) shift; compress=mbtiles; mbtiles_style=openmaptiles ;;
@@ -205,6 +207,7 @@ fi
 # bail out after n CPU seconds across all CPUs.
 # Note: this is user+sys time, not the real time
 ulimit -t $pbf2osm_max_cpu_time
+$debug && echo "$(date) - max. cpu time '$(ulimit -t)' seconds" >&2
 
 # run in quiet mode
 global_opt=-q
@@ -267,9 +270,9 @@ case $compress in
 	  usage "file '$file' size to big: $size > $max_file_size_mapsforge"
 	fi
 	;;
-    mapsme )
-	if [ $size -gt $max_file_size_mapsme ]; then
-	  usage "file '$file' size to big: $size > $max_file_size_mapsme"
+    organicmaps )
+	if [ $size -gt $max_file_size_organicmaps ]; then
+	  usage "file '$file' size to big: $size > $max_file_size_organicmaps"
 	fi
 	;;
     mbtiles )
@@ -317,10 +320,10 @@ case $compress in
     o5m-xz )    $osm2o5m  $osm2o5m_opt --out-o5m "$file" | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.o5m.xz ;;
 
     # CSV format
-    csv )       $osm2o5m $osm2o5m_opt --out-csv "$file" ;;
-    csv-gzip )  $osm2o5m $osm2o5m_opt --out-csv "$file" | $gzip  > $tmp && mv -f $tmp $dir/$f.csv.gz ;;
-    csv-bzip2 ) $osm2o5m $osm2o5m_opt --out-csv "$file" | $bzip2 > $tmp && mv -f $tmp $dir/$f.csv.bz2 ;;
-    csv-xz )    $osm2o5m $osm2o5m_opt --out-csv "$file" | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.csv.xz ;;
+    csv )       $osm2o5m $osm2o5m_opt "$csv_opt" --out-csv "$file" ;;
+    csv-gzip )  $osm2o5m $osm2o5m_opt "$csv_opt" --out-csv "$file" | $gzip  > $tmp && mv -f $tmp $dir/$f.csv.gz ;;
+    csv-bzip2 ) $osm2o5m $osm2o5m_opt "$csv_opt" --out-csv "$file" | $bzip2 > $tmp && mv -f $tmp $dir/$f.csv.bz2 ;;
+    csv-xz )    $osm2o5m $osm2o5m_opt "$csv_opt" --out-csv "$file" | $xz $xz_opt > $tmp && mv -f $tmp $dir/$f.csv.xz ;;
 
     # OPL format
     opl )       $osmium cat -f opl "$file" ;;
@@ -345,7 +348,7 @@ case $compress in
     svg )       rm -f $tmp; $osm2svg       "$file" "$svg_style" "$city" ;;
     shape )     rm -f $tmp; $osm2shape     "$file" "$city" ;;
     osmand )    rm -f $tmp; $osm2osmand    "$file" "$city" ;;
-    mapsme )    rm -f $tmp; $osm2mapsme    "$file" "$mapsme_style" "$city" ;;
+    organicmaps ) rm -f $tmp; $osm2organicmaps    "$file" "$organicmaps_style" "$city" ;;
     mbtiles )   rm -f $tmp; $osm2mbtiles   "$file" "$mbtiles_style" "$city" ;;
     mapsforge ) rm -f $tmp; $osm2mapsforge "$file" "$mapsforge_style" "$city" ;;
 

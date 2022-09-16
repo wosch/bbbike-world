@@ -60,9 +60,7 @@ init_splitter () {
     : ${java_heap_splitter=$java_heap}
     : ${splitter_max_nodes=1000000}
     : ${splitter_max_areas=512}
-
-    : ${osm2xxx_max_jobs="2"}
-    splitter_max_threads=$osm2xxx_max_jobs
+    : ${splitter_max_threads="3"}
 
 
     if [ $size -lt 100 ]; then
@@ -118,12 +116,13 @@ run_splitter () {
     fi
 }
 
+# generate a unique 4 digit id based on the filename and format
 garmin_family_id () {
     file=$1
     ext=$2
 
-    _garmin_family_id=$(basename $file | perl -npe 's/(\.pbf|\.gz|\.bz2)?$//')
-    echo $garmin_family_id $ext | $MD5 | perl -ne 's/[a-f]//g; print /^(\d{4})/ && $1 > 0 ? $1 : "4444"'
+    echo $(basename $file | perl -npe 's/(\.pbf|\.gz|\.bz2)?$//') $ext | $MD5 | 
+      perl -ne 's/[a-f]//g; print /^(\d{4})/ && $1 > 0 ? $1 : "4444"'
 }
 
 ####################################################################

@@ -23,12 +23,13 @@ use Extract::Config;
 use strict;
 use warnings;
 
-my $test           = BBBike::Test->new();
-my $extract_config = Extract::Config->new()->load_config_nocgi();
+my $test                  = BBBike::Test->new();
+my $extract_config        = Extract::Config->new()->load_config_nocgi();
+my $enable_google_adsense = 0;
 
 my @homepages = "https://www.bbbike.org";
 
-my @cities = map { chomp; $_ } (`./world/bin/bbbike-db --list`);
+my @cities = map { chomp; $_ } (`$FindBin::RealBin/../bin/bbbike-db --list`);
 
 my @lang = qw/de en/;
 if ( $ENV{BBBIKE_TEST_LONG} ) {
@@ -70,8 +71,8 @@ if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
     # ads only on production system
     foreach my $homepage (@homepages) {
         $counter_ads +=
-          scalar( grep { $_ !~ m,^https?://www, } $homepage ) *
-          ( scalar(@cities) * ( scalar(@lang) + 1 ) );
+          scalar( grep { !$enable_google_adsense || $_ !~ m,^https?://www, }
+              $homepage ) * ( scalar(@cities) * ( scalar(@lang) + 1 ) );
     }
 
     plan tests => scalar(@homepages) *
@@ -141,7 +142,7 @@ qr{type="application/atom\+xml" .*href="/feed/bbbike-world.xml| href="/feed/bbbi
     like( $content, qr|"/images/spinning_wheel32.gif"|,  "spinning wheel" );
 
     # only on production systems
-    if ( $homepage =~ m,^https?://www, ) {
+    if ( $enable_google_adsense && $homepage =~ m,^https?://www, ) {
         like( $content, qr|google_ad_client|,
             "url:$url contains google_ad_client" );
     }

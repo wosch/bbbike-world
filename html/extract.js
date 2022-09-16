@@ -32,6 +32,8 @@ var config = {
         "default": 512,
 
         "osm.pbf": 520,
+        "osm.xz": 520,
+        "osm.gz": 520,
 
         "text.xz": 496,
         "geojson.xz": 496,
@@ -41,11 +43,11 @@ var config = {
         "mbtiles-openmaptiles.zip": 48,
         "mbtiles-basic.zip": 48,
 
-        "obf.zip": 256,
+        "obf.zip": 510,
         "bbbike-perltk.zip": 90,
         "shp.zip": 128,
-        "mapsforge-osm.zip": 320,
-        "mapsme-osm.zip": 500,
+        "mapsforge-osm.zip": 640,
+        "organicmaps-osm.zip": 768,
 
         "garmin-bbbike.zip": 1440,
         "garmin-bbbike-ascii.zip": 1440,
@@ -188,7 +190,7 @@ var config = {
         "srtm.osm.xz": "/images/osm.png",
 
         "mapsforge-osm.zip": "/images/mapsforge-small.png",
-        "mapsme-osm.zip": "/images/mapsme-small.png",
+        "organicmaps-osm.zip": "/images/organicmaps-small.png",
         "bbbike-perltk.zip": "/images/osmand-small.png",
         "obf.zip": "/images/osmand-small.png",
 
@@ -764,8 +766,10 @@ function extract_init_pro(opt) {
     if (hostname.match(/^extract-pro[1-9]?\.bbbike\.org/i) || $(location).attr('search').match(/[\?&;]pro=[\w]+/)) {
         debug("enable BBBike Pro service");
 
-        config.max_size["default"] *= 1.7;
+        config.max_size["default"] *= 1.9;
         config.max_size["osm.pbf"] *= 6;
+        config.max_size["osm.xz"] *= 6;
+        config.max_size["osm.gz"] *= 6;
         config.max_size["shp.zip"] *= 4;
         config.max_skm *= 2;
 
@@ -1684,7 +1688,7 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "size": 0.7,
             "time": 8
         },
-        "mapsme-osm.zip": {
+        "organicmaps-osm.zip": {
             "size": 0.85,
             "time": 2
         },

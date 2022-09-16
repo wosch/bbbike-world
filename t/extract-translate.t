@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2022 Wolfram Schneider, https://bbbike.org
 
 use FindBin;
 use lib "$FindBin::RealBin/../lib";
@@ -28,12 +28,13 @@ $message_path =~ s,^\.\./,,;
 # formats with a *.zip tarball
 #world/etc/extract/osm2garmin.de.sh
 #world/etc/extract/osm2mapsforge.de.sh
+#world/etc/extract/osm2organicmaps.de.sh
 #world/etc/extract/osm2mbtiles.de.sh
 #world/etc/extract/osm2osmand.de.sh
 #world/etc/extract/osm2png.de.sh
 #world/etc/extract/osm2shape.de.sh
 #world/etc/extract/osm2svg.de.sh
-my @formats = qw/garmin mapsforge mbtiles osmand png shape svg/;
+my @formats = qw/garmin mapsforge organicmaps mbtiles osmand png shape svg/;
 
 #############################################################################
 # main

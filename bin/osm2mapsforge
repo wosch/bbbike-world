@@ -1,16 +1,18 @@
 #!/bin/sh
-# Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2022 Wolfram Schneider, https://bbbike.org
 #
 # osm2mapsforge - convert a osm/pbf file to mapsforge
 #
 
-PATH=/usr/local/bin:/bin:/usr/bin; export PATH
-: ${BBBIKE_EXTRACT_LANG=en}
-: ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
+PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
+: ${BBBIKE_EXTRACT_LANG="en"}
+: ${MD5=$(which md5 md5sum false 2>/dev/null | head -1)}
 : ${SHA="shasum -a 256"}
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
-: ${BBBIKE_TMPFS="/tmpfs"}
+: ${BBBIKE_TMPFS="/tmp"}
 : ${logfile_max_size="3000k"}
+: ${osm2xxx_max_jobs="3"}
+: ${max_file_size_mapsforge_ram="900000"}
 
 set -e
 
@@ -49,32 +51,44 @@ template=$(dirname $0)/../etc/extract/$(basename $0).$BBBIKE_EXTRACT_LANG.sh
 case $template in /*) ;; *) template=$(pwd)/$template ;; esac
 
 test -e "$file" || usage "file $file does not exists"
-: ${osm_checksum=`dirname $0`/osm-checksum}
+: ${osm_checksum=$(dirname $0)/osm-checksum}
 
 test -z "$ext" && ext=${2-"osm"}
 : ${debug=false}
 
 hd_mode="type=ram"
 size=$(du -ks -L "$file" | awk '{ print $1}')
-: ${java_heap=5G}
-if [ $size -gt 666000 ]; then
-  # switch to disk mode if larger than 600MB, maybe 10 times slower
+: ${java_heap="5G"}
+
+if [ $size -gt $max_file_size_mapsforge_ram ]; then
+  # switch to disk mode if larger than 600MB,
+  # maybe 8 times slower, 3 times more cpu time
   hd_mode="type=hd"
-  java_heap=6G
+  java_heap="32G"
+  BBBIKE_TMPFS=$BBBIKE_TMPDIR
+  osm2xxx_max_jobs="1"
+elif [ $size -gt 1200000 ]; then
+  java_heap="64G"
+  osm2xxx_max_jobs="1"
+elif [ $size -gt 600000 ]; then
+  java_heap="48G"
+  osm2xxx_max_jobs="1"
 elif [ $size -gt 400000 ]; then
-  java_heap=24G
+  java_heap="32G"
+  osm2xxx_max_jobs="2"
 elif [ $size -gt 250000 ]; then
-  java_heap=19G
-elif [ $size -gt 150000 ]; then
-  java_heap=10G
-elif [ $size -gt 60000 ]; then
-  java_heap=8G
+  java_heap="24G"
+  osm2xxx_max_jobs="2"
+elif [ $size -gt 100000 ]; then
+  java_heap="16G"
+elif [ $size -gt  50000 ]; then
+  java_heap="8G"
 fi
 
 pwd=$(pwd)
 JAVACMD_OPTIONS=-Xmx${java_heap}; export JAVACMD_OPTIONS
 
-etc_dir=`dirname $0`/../etc/mkgmap
+etc_dir=$(dirname $0)/../etc/mkgmap
 # absolute path
 case $etc_dir in /* ) ;; *) etc_dir=$pwd/$etc_dir ;; esac
 
@@ -89,15 +103,15 @@ esac
 test -z "$file" && usage
 
 # use RAM disk
-tmpdir=`mktemp -d ${BBBIKE_TMPFS}/osm2mapsforge.$(basename $ext .zip).XXXXXXXXXXX`
+tmpdir=$(mktemp -d ${BBBIKE_TMPFS}/osm2mapsforge.$(basename $ext .zip).XXXXXXXXXXX)
 TMPDIR=$tmpdir; export TMPDIR
 OSMOSIS_TMPDIR="-Djava.io.tmpdir=${TMPDIR}"; export OSMOSIS_TMPDIR
 
 # cleanup after signal, but show errors first
 trap '( sleep 1; rm -rf $tmpdir ) &' 1 2 15
 
-mapsforge=`basename $file | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//'`
-mapsforge_dir=$tmpdir/$mapsforge-`basename $ext .zip`
+mapsforge=$(basename $file | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//')
+mapsforge_dir=$tmpdir/$mapsforge-$(basename $ext .zip)
 mkdir -p $mapsforge_dir
 
 logfile=$mapsforge_dir/logfile.txt
@@ -119,8 +133,10 @@ BBBIKE_EXTRACT_COORDS=$BBBIKE_EXTRACT_COORDS BBBIKE_EXTRACT_URL=$BBBIKE_EXTRACT_
 
 $text2html < README.txt > README.html
 
+$debug && echo "hd_mode=$hd_mode java_heap=$java_heap BBBIKE_TMPFS=$BBBIKE_TMPFS osm2xxx_max_jobs=$osm2xxx_max_jobs"
+
 echo ">>> Run osmosis, mapsforge writer map style: $map_style" >> $logfile
-osmosis --read-pbf-fast $file --mapfile-writer $hd_mode file=$mapsforge.map >> $logfile  2>&1 || error
+osmosis --read-pbf-fast $file --mapfile-writer $hd_mode file=$mapsforge.map threads=$osm2xxx_max_jobs>> $logfile  2>&1 || error
 
 if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
     echo "logfile $logfile is to big: $(ls -l $logfile)"
@@ -139,11 +155,12 @@ esac
 ( $MD5 *.map; $SHA *.map ) > .checksum.txt; mv -f .checksum.txt CHECKSUM.txt
 
 cd ..
-mapsforge_zip=`dirname $file`/$mapsforge.osm.${ext2}
-zip -q -r - -- `basename $mapsforge_dir` | \
+mapsforge_zip=$(dirname $file)/$mapsforge.osm.${ext2}
+zip -q -r - -- $(basename $mapsforge_dir) | \
   ( cd $pwd;
     cat > $mapsforge_zip.tmp && mv $mapsforge_zip.tmp $mapsforge_zip
     $osm_checksum $mapsforge_zip
   )
 
-$debug || rm -rf $tmpdir
+rm -rf $tmpdir
+#EOF

@@ -18,6 +18,10 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_TMPFS="/tmpfs"}
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
 : ${SHA="shasum -a 256"}
+: ${BBBIKE_BASECAMP_MACOS="true"}
+: ${BBBIKE_EXTRACT_GARMIN_VERSION="mkgmap"}
+
+export BBBIKE_EXTRACT_GARMIN_VERSION
 
 
 usage () {
@@ -84,9 +88,9 @@ case $ext in
     *)
         : ${java_heap=3G}
         if [ $size -gt 6000000 ]; then
-           java_heap=30G
-        elif [ $size -gt 3000000 ]; then
            java_heap=24G
+        elif [ $size -gt 3000000 ]; then
+           java_heap=20G
         elif [ $size -gt 2000000 ]; then
            java_heap=16G
         elif [ $size -gt 1000000 ]; then
@@ -477,6 +481,9 @@ esac
 
 ( $MD5 gmapsupp.img; $SHA gmapsupp.img ) > .checksum.txt; mv -f .checksum.txt CHECKSUM.txt
 
+# support Garmin Basecamp installation
+$BBBIKE_BASECAMP_MACOS && cp $dirname/basecamp-macos.sh .
+
 cd ..
 garmin_zip=`dirname $file`/$garmin.osm.$ext2
 zip -q -r - -- `basename $garmin_dir` | \
@@ -487,6 +494,6 @@ zip -q -r - -- `basename $garmin_dir` | \
     $osm_checksum $garmin_zip
   )
 
-$debug || rm -rf $tmpdir
+rm -rf $tmpdir
 
 #EOF

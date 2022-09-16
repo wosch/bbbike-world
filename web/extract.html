@@ -30,8 +30,7 @@ a.x-large {
 	<span title="Protocolbuffer Binary Format">PBF</span>,
 	<span title="o5m">o5m</span>,
 	<span title="Garmin GPS devices">Garmin</span>,
-	<span title="mobile devices">Navit</span>,
-	<span title="mobile devices">maps.me</span>,
+	<span title="mobile devices">Organic Maps</span>,
 	<span title="mobile devices">mbtiles</span>,
 	<span title="OsmAnd Android devices">OsmAnd</span>,
 	<span title="Esri shapefile">Esri shapefile</span>,
@@ -81,7 +80,7 @@ a.x-large {
           <li>supports <a href="https://osmand.net">OsmAnd (OBF)</a> format for Android devices</li>
           <li>supports <a href="https://github.com/mapsforge/mapsforge/">mapsforge (map)</a> format for Android devices</li>
           <li>supports <a href="https://wiki.openstreetmap.org/wiki/MBTiles">mbtiles</a> for storing map tiles (Android, iOS, tile server)</li>
-          <li>supports <a href="https://maps.me/en/home">maps.me (omim)</a> format for Android and iOS devices</li>
+          <li>supports <a href="https://organicmaps.app">Organic Maps</a> format for Android, iOS and Desktop</li>
           <li>supports libosmium <a href="https://github.com/osmcode/libosmium/">OPL, GeoJSON, SQLite, Text</a> format</li>
           <li>supports BBBike <a href="http://bbbike.de/">bbd</a> format for the Perl/Tk app</li>
 	  <li>planet.osm data updated every week</li>
@@ -103,7 +102,7 @@ a.x-large {
       <img src="/images/garmin-srtm-500.png" alt="" title="garmin-srtm-500" />
 
       <img src="/images/mapsforge-micro.png" alt="" title="mapsforge" />
-      <img src="/images/mapsme-micro.png" alt="" title="mapsme" />
+      <img src="/images/organicmaps-micro.png" alt="" title="Organic Maps" />
       <img src="/images/osmand-micro.png" alt="" title="osmand" />
       <img src="/images/osmand-osm-contours-micro.png" alt="" title="osmand-osm-contours" />
 
@@ -292,30 +291,32 @@ a.x-large {
 	
 	<p>Recommended tools to view: mapsforge (Android, java desktop)</p>
 	
-        <h3>maps.me documentation</h3>
+        <h3>Organic Maps documentation</h3>
 	<ul>
-	<li><a href="https://maps.me/en/home">maps.me</a></li>
-	<li><a href="https://maps.me/en/help">maps.me/en/help</a></li>
-	<li><a href="https://wiki.openstreetmap.org/wiki/Maps.Me">wiki.openstreetmap.org/wiki/Maps.Me</a></li>
+	<li><a href="https://organicmaps.app">Organic Maps</a></li>
+	<li><a href="https://wiki.openstreetmap.org/wiki/Organic_Maps">wiki.openstreetmap.org/wiki/Organic_Maps</a></li>
 	</ul>
 	
-	<p>Recommended tools to view: maps.me (iOS, Android)</p>
+	<p>Recommended tools to view: Organic Maps (iOS, Android, MacOS, Linux/FreeBSD)</p>
 	
-	<p><a href="extract-screenshots.html#mapsme"><img src="/images/mapsme-tiny.png" alt="" title="mapsme"/></a></p>
+	<p><a href="extract-screenshots.html#organicmaps"><img src="/images/organicmaps-tiny.png" alt="" title="organicmaps"/></a></p>
 	
-	<p>
-	  Note: Routing in this extract is not support yet! Sorry.
-	</p>
 	<p>
 	  For iOS: you need to connect your device to your computer, start iTunes, select your device. In the left
 	  sidebar select <i>Apps</i> and scroll down to the the very end in iTunes until the section <i>File Sharing</i>
-	  appears. Select <i>maps.me</i> in the left side bar.
+	  appears. Select <i>organicmaps</i> in the left side bar.
 	  Now you can add the *.mwm file on the right side, or just drop it here.
 	</p>
 	<p>
 	 For Android: copy the *.mwm file to the MapsWithMe folder. Depending on your device setup, the folder
 	 can be on the system partion or on an SD card.
 	</p>
+
+	<p>
+	 For MacOS/Linux/FreeBSD: copy the *.mwm file to the organicmaps/data/<date>/ folder.
+	 You may need to rename the filename to match a known border poly file.
+	</p>
+
 	After installing the map, you have to restart the app to see the new map.
 	
         <h3>mbtiles documentation</h3>
@@ -397,8 +398,7 @@ a.x-large {
 	  <tr><td>Osmium SQLite xz</td><td>1.5</td></tr>
 	  <tr><td>Osmium Text xz</td><td>1.8</td></tr>
 
-	  <tr><td>Navit zip'd</td><td>0.8</td></tr>
-	  <tr><td>maps.me zip'd</td><td>0.85</td></tr>
+	  <tr><td>Organic Maps zip'd</td><td>0.85</td></tr>
 	  <tr><td>mapsforge</td><td>0.8</td></tr>
 	  <tr><td>Shapefile (Esri)</td><td>1.5</td></tr>
 	  <tr><td>OsmAnd (OBF)</td><td>1.4</td></tr>
@@ -432,15 +432,22 @@ a.x-large {
 	  <tr><td>BBBike Perl/Tk</td><td>2.2</td></tr>
 	</table>
 
-        <a name="other_extract_services"></a><h3>Other extract services</h3>
+        <a name="other_extract_services"></a>
+	<h3>Other extract services</h3>
 
+	<h4>BBBike extracts by region or sub-regions</h4>
+	<ul>
+	  <li><a href="https://download3.bbbike.org/osm/garmin/region/">Garmin regions/countries</a>, updated weekly</li>
+	  <li><a href="https://download3.bbbike.org/osm/mapsforge/region/">Mapsforge regions/countries</a>, updated weekly</li>
+	</ul>
+
+	<h4>Other</h4>
 	<ul>
 	  <li><a href="http://www.freizeitkarte-osm.de">www.freizeitkarte-osm.de</a> for Garmin and Android</li>
 	  <li><a href="https://wiki.openstreetmap.org/wiki/User:Computerteddy">wiki.openstreetmap.org/wiki/User:Computerteddy</a> for free Garmin maps, Europe + World</li>
 	  <li><a href="https://wiki.openstreetmap.org/wiki/Planet.osm#Downloading">wiki.openstreetmap.org/wiki/Planet.osm#Downloading</a> for all formats</li>
-	  <li><a href="http://garmin.openstreetmap.nl/">Free maps for Garmin brand GPS devices from OpenStreetMap</a> by garmin.openstreetmap.nl</li>
 	  <li><a href="https://download.geofabrik.de/openstreetmap/">download.geofabrik.de/openstreetmap</a> for OSM, PBF, shape, daily updates</li>
-	  <li><a href="http://download.osmand.net/rawindexes/">download.osmand.net/rawindexes</a> for osmand</li>
+	  <li><a href="https://download.osmand.net/list.php">download.osmand.net/rawindexes</a> for osmand</li>
 	</ul>
 
         <h3>Misc</h3>

@@ -1,3 +1,21 @@
+bbbike-world-javalibs-misc (1.14-1) unstable; urgency=low
+
+  * upgrade java libs OsmAndMapCreator-2022-07-26.tar.gz
+
+ -- Wolfram Schneider <wosch@freebsd.org>  Fri, 12 Sep 2022 15:48:00 +0000
+
+bbbike-world-javalibs-misc (1.11-2) unstable; urgency=low
+
+  * upgrade java libs mapsforge-0.18.0.tar.gz and OsmAndMapCreator-2022-07-16.tar.gz
+
+ -- Wolfram Schneider <wosch@freebsd.org>  Fri, 16 Jul 2022 15:48:00 +0000
+
+bbbike-world-javalibs-misc (1.10-1) unstable; urgency=low
+
+  * upgrade java libs mkgmap, splitter to latest version
+
+ -- Wolfram Schneider <wosch@freebsd.org>  Fri, 16 Jul 2022 14:48:00 +0000
+
 bbbike-world-javalibs-misc (1.9-1) unstable; urgency=low
 
   * upgrade java libs mkgmap, splliter,  osmand to latest version

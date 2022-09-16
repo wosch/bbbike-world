@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) June 2012-2016 Wolfram Schneider, https://bbbike.org
+# Copyright (c) June 2012-2022 Wolfram Schneider, https://bbbike.org
 #
 # tile-padding.pl - guess size based on factor of known size of osm.pbf
 
@@ -58,7 +58,7 @@ my $format;
 my $min_size = 0;
 
 my @format =
-  qw/garmin-cycle.zip garmin-srtm.zip garmin-osm.zip garmin-leisure.zip mapsforge-osm.zip obf.zip osm.gz shp.zip csv.xz mbtiles-openmaptiles.zip/;
+  qw/garmin-cycle.zip garmin-srtm.zip garmin-osm.zip garmin-leisure.zip mapsforge-osm.zip organicmaps-osm.zip obf.zip osm.gz shp.zip csv.xz mbtiles-openmaptiles.zip/;
 
 sub usage () {
     <<EOF;

@@ -4,7 +4,7 @@
   <link href="https://www.bbbike.org" />
   <link href="https://www.bbbike.org/feed/bbbike-world.xml" rel="self" />
   <icon>https://www.bbbike.org/images/srtbike.ico</icon>
-  <updated>Mon Jul 12 08:33:56 2021 +0000</updated>
+  <updated>Tue Sep 6 17:14:09 2022 +0000</updated>
   <author>
     <name>Wolfram Schneider</name>
   </author>
@@ -12,6 +12,14 @@
   OpenStreetMap project!</subtitle>
   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af7</id>
   <generator uri="https://metacpan.org/pod/XML::Atom::SimpleFeed" version="0.902">XML::Atom::SimpleFeed</generator>
+  <entry>
+    <title>organicmaps</title>
+    <id>32377b4212bfade5c7074f6ebb801acd</id>
+    <content type="html">The &lt;a href="https://extract.bbbike.org/?format=organicmaps-osm.zip"&gt;BBBike extract service&lt;/a&gt;
+    supports organicmaps for Android and iOS</content>
+    <updated>2022-09-12T18:30:02Z</updated>
+    <category term="News" />
+  </entry>
   <entry>
     <title>Mapbox Vector Tiles</title>
     <id>c12fd6236b867ea5f795c6602ea7e147</id>

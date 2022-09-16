@@ -12,9 +12,9 @@ BEGIN {
         print "1..0 # skip, maperitive disabled\n";
         exit;
     }
-    if ( !$ENV{BBBIKE_TEST_LONG} ) {
+    if ( $ENV{BBBIKE_TEST_FAST} ) {
         print
-          "1..0 # skip, maperitive disabled due not setting BBBIKE_TEST_LONG\n";
+          "1..0 # skip, maperitive disabled due not setting BBBIKE_TEST_FAST\n";
         exit;
     }
     if ( !-e $lockfile ) {
@@ -49,8 +49,7 @@ chdir("$FindBin::RealBin/../..")
 my $type = basename( $0, ".t" );    #"svg";
 
 my @svg_styles = qw/google/;
-push @svg_styles, qw/osm/ if !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG};
-push @svg_styles, qw/hiking urbanight wireframe cadastre/
+push @svg_styles, qw/osm hiking urbanight wireframe cadastre/
   if $ENV{BBBIKE_TEST_LONG};
 
 my $pbf_file = 'world/t/data-osm/tmp/Cusco-svg.osm.pbf';
@@ -135,8 +134,26 @@ sub cleanup {
     unlink $pbf_file;
 }
 
+sub check_permissions {
+    ok( &writable_directory("/var/log/maperitive/permissions.txt") );
+    ok( &writable_directory("/var/lib/bbbike/opt/Maperitive/permissions.txt") );
+
+}
+
+sub writable_directory {
+    my $file = shift;
+    my $fh = IO::File->new( $file, "w" )
+      or die "cannot create file '$file': $!\n";
+    $fh->close;
+    unlink($file) or die "unlink '$file': $!\n";
+
+    return 1;
+}
+
 #######################################################
 #
+&check_permissions;
+
 is( md5_file($pbf_file), $pbf_md5, "md5 checksum matched" );
 
 my $counter = 0;
@@ -150,6 +167,6 @@ foreach my $lang (@lang) {
 }
 
 &cleanup;
-plan tests => 1 + $counter;
+plan tests => 1 + 2 + $counter;
 
 __END__

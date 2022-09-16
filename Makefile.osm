@@ -37,19 +37,18 @@ MAX_OSM2PBF=	1
 MAX_OSM2SHAPE=	${MAX_CPU}
 MAX_PBF2OSM=	${MAX_CPU}
 MAX_PBF2OPL=	$$(( ${MAX_CPU} * 2 / 3 + 1 ))
-#MAX_OSM2OSMAND=	${MAX_HCPU}
-MAX_OSM2OSMAND=	$$(( ${MAX_CPU} * 3 / 5 + 1 ))
+MAX_OSM2OSMAND=	${MAX_CPU3}
 MAX_OSM2GARMIN=	$$(( ${MAX_CPU} / 4 + 1 ))
 MAX_OSM2PNG=	${MAX_CPU2}
 MAX_OSM2SVG=	${MAX_CPU}
 MAX_OSM2MAPSFORGE= $$(( ${MAX_CPU} / 3 + 1 ))
-MAX_OSM2MAPSME=	${MAX_CPU2}
 MAX_OSM2MBTILES=${MAX_CPU}
 MAX_CPU_20=	$$(( ${MAX_CPU} * 2 / 10 + 1 ))
 MAX_CPU_30=	$$(( ${MAX_CPU} * 3 / 10 + 1 ))
 MAX_CPU_40=	$$(( ${MAX_CPU} * 4 / 10 + 1 ))
 MAX_CPU_50=	$$(( ${MAX_CPU} * 5 / 10 + 1 ))
 MAX_CPU_80=	$$(( ${MAX_CPU} * 8 / 10 + 1 ))
+MAX_OSM2ORGANICMAPS=${MAX_CPU_50}
 
 CURL_USER_AGENT=	-A "BBBike.org-CacheHeater/1.0"
 
@@ -73,7 +72,7 @@ OSM2SVG=	world/bin/wrapper-instable world/bin/bomb --timeout=1400 -- env max_fil
 OSM2SHAPE=	world/bin/pbf2osm --shape
 OSM2OSMAND=	world/bin/pbf2osm --osmand
 OSM2MAPSFORGE=	world/bin/pbf2osm --mapsforge-osm
-OSM2MAPSME=	world/bin/pbf2osm --mapsme-osm
+OSM2ORGANICMAPS=world/bin/pbf2osm --organicmaps-osm
 OSM2MBTILES=	world/bin/pbf2osm --mbtiles-openmaptiles
 
 CITIES_DB=	world/etc/cities.csv
@@ -358,8 +357,8 @@ osm2mapsforge:
 osm2shape osm2shp:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2SHAPE} ${OSM2SHAPE}
 
-osm2omim osm2mapsme:
-	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2MAPSME} ${OSM2MAPSME}
+osm2organicmaps:
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2ORGANICMAPS} ${OSM2ORGANICMAPS}
 
 osm2mbtiles:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | ${XARGS} -n 1 -0 -P${MAX_OSM2MBTILES} ${OSM2MBTILES}
@@ -1139,9 +1138,9 @@ tile-convert-shp:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
 	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2SHAPE} > ${TILES_TMP}/log.$@ 2>&1
 
-tile-convert-mapsme:
+tile-convert-organicmaps:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
-	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2MAPSME} > ${TILES_TMP}/log.$@ 2>&1
+	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2RGANICMAPS} > ${TILES_TMP}/log.$@ 2>&1
 
 tile-convert-garmin:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
@@ -1446,14 +1445,14 @@ deb-opt-dir-version:
 	sudo mkdir -p ${MAPERITIVE_LOGDIR}
 	sudo chown -R ${LOGNAME} ${MAPERITIVE_LOGDIR}
 	cd ${DEB_OPT_DIR}; \
-	  sudo rm -f osmosis splitter mkgmap OsmAndMapCreator mapsforge omim Maperitive; \
-	  sudo ln -fs osmosis-0.46 osmosis; \
-	  sudo ln -fs splitter-r584 splitter; \
-	  sudo ln -fs mkgmap-r4000 mkgmap; \
-	  sudo ln -fs OsmAndMapCreator-2017-12-28 OsmAndMapCreator; \
-	  sudo ln -fs mapsforge-0.9.0 mapsforge; \
-	  sudo ln -fs omim-1.0 omim; \
-	  sudo ln -fs Maperitive-2.4.1 Maperitive
+	  sudo rm -f osmosis splitter mkgmap OsmAndMapCreator mapsforge organicmaps Maperitive; \
+	  sudo ln -fs osmosis-0.48.3 osmosis; \
+	  sudo ln -fs splitter-r652 splitter; \
+	  sudo ln -fs mkgmap-r4905 mkgmap; \
+	  sudo ln -fs OsmAndMapCreator-2022-07-26 OsmAndMapCreator; \
+	  sudo ln -fs mapsforge-0.18.0 mapsforge; \
+	  sudo ln -fs organicmaps-1.0 organicmaps; \
+	  sudo ln -fs Maperitive-2.4.3 Maperitive
 	${BBMAKE} maperitive-bootstrap
 	${BBMAKE} osmosis-bootstrap
 
@@ -1491,6 +1490,7 @@ deb-bootstrap-dir: osmosis-bootstrap deb-opt-dir-version
 	    sudo ln -fs $$(basename $$lib) libgeos-3.2.2.so; \
 	fi
 	test -e /usr/local/bin/osmosis || sudo ln -sf ${DEB_OPT_DIR}/osmosis/bin/osmosis /usr/local/bin/osmosis
+	test -e /usr/local/bin/generator_tool || sudo ln -sf ${DEB_OPT_DIR}/bin/generator_tool /usr/local/bin/generator_tool
 	sudo mkdir -p /bbbike/tmp /tmpfs
 	sudo chmod 7777 /bbbike/tmp /tmpfs
 	${MAKE} -f world/Makefile.osm bbbike-c
@@ -1779,6 +1779,27 @@ check-tileserver:
 	curl -sf http://localhost:80/osm/bbbike/11/1100/671.png > /dev/null
 	curl -sf http://localhost:80/osm/bbbike/11/1100/671.png | wc -c
 
+# install Boundary and Sea files for Garmin extracts
+garmin-borders:
+	set -e; \
+	mkdir -p /var/lib/bbbike/opt/share/garmin; \
+	cd /var/lib/bbbike/opt/share/garmin; \
+	if [ ! -d sea ]; then \
+	  curl -sSf -O https://download.bbbike.org/osm/mkgmap/sea-latest.zip; \
+	  unzip -t -q sea-latest.zip; \
+	  unzip -q sea-latest.zip; \
+	  rm -f sea-latest.zip; \
+	fi; \
+	if [ ! -d bounds ]; then \
+	  mkdir bounds; \
+	  cd bounds; \
+	  curl -sSf -O https://download.bbbike.org/osm/mkgmap/bounds-latest.zip; \
+	  unzip -t -q bounds-latest.zip ; \
+	  unzip -q bounds-latest.zip; \
+	  rm -f bounds-latest.zip; \
+	fi
+	
+
 help:
 	@echo "bbbike version: ${GIT_ID}"
 	@echo ""
@@ -1795,7 +1816,7 @@ help:
 	@echo "  [ bbbike-osm2pbf | osm2pbf | pbf2osm | pbf2csv | pbf2opl ]"
 	@echo "  [ pbf2geojson | pbf2geojsonseq | pbf2text | pbf2sqlite ]"
 	@echo "  [ osm2garmin | osm2shape | osm2osmand | osm2mapsforge ]"
-	@echo "  [ osm2png | osm2svg | osm2mapsme | osm2mbtiles ]"
+	@echo "  [ osm2png | osm2svg | osm2organicmaps | osm2mbtiles ]"
 	@echo "  [ bbbike2wgs84-mapnik | bbbike-mapnik-config ]"
 	@echo "  [ bbbike-mapnik-postgis | bbbike-tile-update ]"
 	@echo "  [ bbbike-tarball | mapnik-restart ]"
@@ -1844,6 +1865,8 @@ help:
 	@echo "  [ make deb-clean deb-bin deb-repo-upload ]"
 	@echo "  [ make deb-clean deb-bin-x86 deb-repo-upload ]"
 	@echo "  [ make deb-clean deb-bin-java deb-repo-upload ]"
+	@echo ""
+	@echo "  [ make garmin-borders ]"
 	@echo ""
 	@echo "  [ sudo apt-get clean && sudo apt-get update && sudo apt-get dist-upgrade -y ]"
 	@echo "  [ sudo apt-get install bbbike-world ]"

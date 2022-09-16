@@ -93,9 +93,9 @@ our $factor = {
     'png-wireframe.zip'  => 4.28,
     'png-cadastre.zip'   => 2.85,
 
-    'mapsforge-osm.zip' => 0.80,
-    'mapsme-osm.zip'    => 0.85,
-    'bbbike-perltk.zip' => 2.20,
+    'mapsforge-osm.zip'   => 0.80,
+    'organicmaps-osm.zip' => 0.85,
+    'bbbike-perltk.zip'   => 2.20,
 
     'o5m.bz2' => 0.88,
     'o5m.gz'  => 1.04,

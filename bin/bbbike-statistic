@@ -408,10 +408,10 @@ log_full 'GET https?://[^ ]*/streets.html ' | awk '{ s+=$10 } END { print s/1024
 
 echo ""
 echo -n "CPU total: "
-lastcomm | awk '{ s+=$4 + $5 } END { print int(s/60), " minutes" }'
+lastcomm | awk '{ s += $(NF-5) } END { print int(s/60), " minutes" }'
 
 echo ""
 echo "CPU by process:"
-lastcomm | perl -e 'while(<>) { @a= split; $time= $a[3]+$a[4]; $program{$a[0]}+=$time; }; foreach (keys %program) { print "$_\t", int($program{$_}/6+0.5)/10, " minutes\n"}' | sort -k2 -nr | head -20
+lastcomm | perl -e 'while(<>) { @a = split; $time= $a[$#a-5]; $program{$a[0]}+=$time; }; foreach (keys %program) { print "$_\t", int($program{$_}/6+0.5)/10, " minutes\n"}' | sort -k2 -nr | head -20
 
 #EOF

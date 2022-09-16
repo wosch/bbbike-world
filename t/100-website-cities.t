@@ -23,9 +23,10 @@ use Extract::Config;
 use strict;
 use warnings;
 
-my $test           = BBBike::Test->new();
-my $extract_config = Extract::Config->new()->load_config_nocgi();
-my $debug          = 1;
+my $test                  = BBBike::Test->new();
+my $extract_config        = Extract::Config->new()->load_config_nocgi();
+my $debug                 = 1;
+my $enable_google_adsense = 0;
 
 my @homepages_localhost =
   ( $ENV{BBBIKE_TEST_SERVER} ? $ENV{BBBIKE_TEST_SERVER} : "http://localhost" );
@@ -74,12 +75,14 @@ if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
     # ads only on production system
     foreach my $homepage (@homepages) {
         $counter_ads +=
-          scalar( grep { $_ !~ m,^https?://www, } $homepage ) *
-          ( scalar(@cities) * ( scalar(@lang) + 1 ) );
+          scalar( grep { !$enable_google_adsense || $_ !~ m,^https?://www, }
+              $homepage ) * ( scalar(@cities) * ( scalar(@lang) + 1 ) );
     }
 
-    plan tests => scalar(@homepages) *
-      ( $counter_html + $counter_cities + $counter_text ) - $counter_ads;
+    my $plan_counter =
+      scalar(@homepages) * ( $counter_html + $counter_cities + $counter_text )
+      - $counter_ads;
+    plan tests => $plan_counter;
 }
 else {
     plan 'no_plan';
@@ -147,7 +150,7 @@ qr{type="application/atom\+xml" .*href="/feed/bbbike-world.xml| href="/feed/bbbi
     like( $content, qr|"/images/spinning_wheel32.gif"|,  "spinning wheel" );
 
     # only on production systems
-    if ( $homepage =~ m,^https?://www, ) {
+    if ( $enable_google_adsense && $homepage =~ m,^https?://www, ) {
         like( $content, qr|google_ad_client|, "google_ad_client: $homepage" );
     }
 

@@ -40,7 +40,7 @@ my $prefix   = 'world/t/data-osm';
 my $pbf_file = "$prefix/Cusco.osm.pbf";
 
 my $pbf_md5 = "58a25e3bae9321015f2dae553672cdcf";
-my $osm_md5 = "259f57887b04bf80a919ca2ad4d4d7ac";
+my $osm_md5 = "b2111f374a5e2179c40790ef502ff920";
 
 is( md5_file($pbf_file), $pbf_md5, "md5 checksum matched" );
 

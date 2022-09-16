@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -T
-# Copyright (c) 2009-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2022 Wolfram Schneider, https://bbbike.org
 #
 # area.cgi - which areas are covered by bbbike.org
 
@@ -234,7 +234,7 @@ sub header {
     my @javascript = qw(/html/jquery/jquery-1.8.3.min.js);
 
     my $description =
-"OSM extracts for $city in OSM, PBF, Garmin cycle map, Osmand, mapsforge, Navit and Esri shapefile format";
+"OSM extracts for $city in OSM, PBF, Garmin cycle map, Osmand, mapsforge, Organic Maps and Esri shapefile format";
     return $q->start_html(
         -title => $description
         ,    #"BBBike @ World covered areas - osm extracts for $city",

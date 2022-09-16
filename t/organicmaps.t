@@ -1,12 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
-
-BEGIN {
-    if (1) {
-        print "1..0 # skip test due mapsme no longer supported\n";
-        exit;
-    }
-}
+# Copyright (c) Sep 2012-2022 Wolfram Schneider, https://bbbike.org
 
 use FindBin;
 use lib "$FindBin::RealBin/../lib";
@@ -28,7 +21,7 @@ use warnings;
 chdir("$FindBin::RealBin/../..")
   or die "Cannot find bbbike world root directory\n";
 
-my $pbf_file = 'world/t/data-osm/tmp/Cusco-mapsme.osm.pbf';
+my $pbf_file = 'world/t/data-osm/tmp/Cusco-organicmaps.osm.pbf';
 
 if ( !-f $pbf_file ) {
     system( qw(ln -sf ../Cusco.osm.pbf), $pbf_file ) == 0
@@ -80,8 +73,8 @@ sub convert_format {
     my $out = $test->out($style);
     unlink $out;
 
-    system(qq[world/bin/pbf2osm --mapsme-$style $pbf_file $city]);
-    is( $?, 0, "pbf2osm --mapsme-osm converter" );
+    system(qq[world/bin/pbf2osm --organicmaps-$style $pbf_file $city]);
+    is( $?, 0, "pbf2osm --organicmaps-osm converter" );
     $st = stat($out) or die "Cannot stat $out\n";
 
     system(qq[unzip -t $out]);
@@ -106,14 +99,14 @@ sub cleanup {
 is( md5_file($pbf_file), $pbf_md5, "md5 checksum matched" );
 
 my $counter = 0;
-my @lang = ( "en", "de" );
+my @lang    = ("en");
 
 if ( !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG} ) {
-    push @lang, ( "fr", "es", "ru", "" );
+    push @lang, ( "de", "fr", "es", "ru", "" );
 }
 
 foreach my $lang (@lang) {
-    $counter += &convert_format( $lang, 'mapsme', 'maps.me' );
+    $counter += &convert_format( $lang, 'organicmaps', 'organicmaps' );
 }
 
 &cleanup;

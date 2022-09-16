@@ -24,7 +24,7 @@ chdir("$FindBin::RealBin/../..")
 $Extract::TileSize::debug     = 0;
 $Extract::TileSize::use_cache = 0;
 
-plan tests => 113;
+plan tests => 117;
 
 my $tile = new Extract::TileSize( 'debug' => -1 );
 
@@ -227,6 +227,14 @@ is( $tile->total,       6936089 );
 
 $tile =
   new Extract::TileSize( 'database' => "world/etc/tile/mapsforge-osm.zip.csv" );
+is( int( $tile->area_size(qw/13 52 14 53/) ), 71641 );
+is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 562823 );
+is( $tile->total_tiles, 17627 );
+is( $tile->total,       42224333 );
+
+$tile =
+  new Extract::TileSize(
+    'database' => "world/etc/tile/organicmaps-osm.zip.csv" );
 is( int( $tile->area_size(qw/13 52 14 53/) ), 71641 );
 is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 562823 );
 is( $tile->total_tiles, 17627 );
