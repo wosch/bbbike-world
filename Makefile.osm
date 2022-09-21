@@ -1140,7 +1140,7 @@ tile-convert-shp:
 
 tile-convert-organicmaps:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
-	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2RGANICMAPS} > ${TILES_TMP}/log.$@ 2>&1
+	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2ORGANICMAPS} > ${TILES_TMP}/log.$@ 2>&1
 
 tile-convert-garmin:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
