@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2022 Wolfram Schneider, https://extract.bbbike.org
+# Copyright (c) Sep 2022 Wolfram Schneider, https://extract.bbbike.org
 #
 # tag-name-db.sh - create a database of OSM tag name / description
 
@@ -18,6 +18,9 @@ osmconvert --out-csv --csv="name description @oname @id" $planet_osm |
 
   # node -> n, way -> w, relation -> r
   perl -npe 's/(\tn)ode\t(\d+)$/$1$2/ || s/(\tw)ay\t(\d+)$/$1$2/ || s/(\tr)elation\t(\d+)$/$1$2/' |
+
+  # sort by description, not by node id
+  sort |
 
   # high compression
   pixz -9 > tmp/$database_name.tmp
