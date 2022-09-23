@@ -19,6 +19,9 @@ pwd=$(pwd)
 # use RAM disk
 tmpdir=$(mktemp -d ${BBBIKE_TMPFS}/organicmaps.XXXXXXXXXXX)
 
+# cleanup after at exit
+trap 'rm -rf $tmpdir' 0
+
 usage () {
    echo "$@"
    echo "usage file.pbf file.poly [style]"
@@ -82,7 +85,6 @@ cat $intermediate_data_path/$city.stats
 cp -f $tmpdir/data/$city.mwm $output_file.tmp
 mv -f $output_file.tmp $output_file
 
-# final cleanup
-rm -rf $tmpdir
+# final cleanup, see trap call
 
 #EOF
