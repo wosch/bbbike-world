@@ -1121,7 +1121,8 @@ tile-convert: \
 		tile-convert-mapsforge \
 		tile-convert-osmand \
 		tile-convert-osm \
-		tile-convert-mbtiles
+		tile-convert-mbtiles \
+		tile-convert-organicmaps
 
 tile-convert-srtm: tile-convert-garmin-srtm tile-convert-osmand
 
