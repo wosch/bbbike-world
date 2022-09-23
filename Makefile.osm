@@ -1269,9 +1269,8 @@ data-distclean distclean-data: cache-clean-local
 	find . -name '*.st' ! -name httpd.conf.st -print
 
 #########################################################################
-# Note: you need at least 280GB free disk space to run this command!!!
-#       this may run 3 days on a quad core machine, or 42 hours on
-#       an octacore machine.
+# Note: you need at least 620GB free disk space to run this command!!!
+#       this may run 2 days on a 12 core machine
 #
 # quad core:
 # real    3570m39.458s
