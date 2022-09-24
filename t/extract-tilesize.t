@@ -242,10 +242,10 @@ is( $tile->total,       36415052 );
 
 $tile = new Extract::TileSize(
     'database' => "world/etc/tile/mbtiles-openmaptiles.zip.csv" );
-is( int( $tile->area_size(qw/13 52 14 53/) ), 79959 );
-is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 574876 );
+is( int( $tile->area_size(qw/13 52 14 53/) ), 69376 );
+is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 619776 );
 is( $tile->total_tiles, 16941 );
-is( $tile->total,       48580166 );
+is( $tile->total,       56816873 );
 
 $tile = new Extract::TileSize( 'database' => "world/etc/tile/obf.zip.csv" );
 is( int( $tile->area_size(qw/13 52 14 53/) ), 263782 );
