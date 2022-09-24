@@ -107,8 +107,8 @@ tmpdir=$(mktemp -d ${BBBIKE_TMPFS}/osm2mapsforge.$(basename $ext .zip).XXXXXXXXX
 TMPDIR=$tmpdir; export TMPDIR
 OSMOSIS_TMPDIR="-Djava.io.tmpdir=${TMPDIR}"; export OSMOSIS_TMPDIR
 
-# cleanup after signal, but show errors first
-trap '( sleep 1; rm -rf $tmpdir ) &' 1 2 15
+# cleanup at exit
+trap 'rm -rf $tmpdir' 0
 
 mapsforge=$(basename $file | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//')
 mapsforge_dir=$tmpdir/$mapsforge-$(basename $ext .zip)
