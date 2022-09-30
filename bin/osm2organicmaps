@@ -54,8 +54,8 @@ file_orig=$file
 # absolute path
 case $file in /*) ;; *) file=$(pwd)/$file ;; esac
 
-# cleanup after signal, but show errors first
-trap '( sleep 1; rm -rf $tmpdir $tmpfile) &' 1 2 15
+# cleanup at exit
+trap 'rm -rf $tmpdir $tmpfile' 0
 
 organicmaps=$(basename "$file" | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//')
 organicmaps_dir=$tmpdir/${organicmaps}-organicmaps-${map_style}
