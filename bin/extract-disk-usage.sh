@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2019 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2022 Wolfram Schneider, https://bbbike.org
 #
 # extract-disk-usage - calculate uncompressed image size for Garmin & Osmand
 #
@@ -9,7 +9,8 @@
 PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 
 tempfile=$(mktemp);
-trap 'rm -f $tempfile' 0 1 2 15
+trap 'rm -f $tempfile' 0
+
 with_path=""; export with_path
 
 set -e
@@ -58,3 +59,5 @@ if [ -n "$with_path" ]; then
     printf "\t$file"
 fi
 echo ""
+
+#EOF

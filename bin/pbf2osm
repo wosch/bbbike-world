@@ -296,8 +296,8 @@ tmp=$(mktemp $file.XXXXXXXX.tmp)
 chmod 644 $tmp
 
 
-# cleanup after signal
-trap 'rm -f $tmp' 0 1 2 15
+# cleanup at exit
+trap 'rm -f $tmp' 0
 
 case $compress in
       "") $osm2o5m $osm2o5m_opt "$file" ;;

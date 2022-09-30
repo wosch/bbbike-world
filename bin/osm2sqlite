@@ -1,5 +1,5 @@
 #!/usr/local/bin/bash
-# Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2022 Wolfram Schneider, https://bbbike.org
 #
 # osm2sqlite  - convert a .pbf file to SQLite
 
@@ -40,8 +40,8 @@ tmpfile=$(mktemp ${BBBIKE_TMPFS}/osm2sqlite.XXXXXXXXXXX)
 outfile=${tmpfile}.sqlite
 logfile=${tmpfile}.log
 
-# cleanup after signal, but show errors first
-trap 'rm -f $tmpfile $outfile $logfile' 0 1 2 15
+# cleanup at exit
+trap 'rm -f $tmpfile $outfile $logfile' 0
 
 if $osmium_toogr2 $file $outfile 2> $logfile; then
   :
@@ -57,3 +57,4 @@ else
   $xz $xz_opt -1 < $outfile > $sqlite.tmp && mv -f $sqlite.tmp $sqlite.xz
 fi
 
+#EOF

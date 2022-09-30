@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2022 Wolfram Schneider, https://bbbike.org
 #
 # osm2svg - convert a osm/pbf file to svg/png
 #
@@ -96,8 +96,8 @@ tmpdir=$_tmpdir/${basename}-${type}-${map_style}
 mkdir -p $tmpdir
 cd $tmpdir
 
-# cleanup after signal, but show errors first
-trap '( sleep 1; rm -rf $tmpdir ) &' 1 2 15
+# cleanup at exit
+trap 'rm -rf $tmpdir $tmpfile' 0
 
 logfile=$tmpdir/logfile.txt
 touch $logfile
