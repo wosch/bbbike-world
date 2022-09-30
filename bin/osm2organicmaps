@@ -70,8 +70,11 @@ logfile=$organicmaps_dir/logfile.txt
 echo "organicmaps version: $BBBIKE_EXTRACT_ORGANICMAPS_VERSION" > $logfile
 
 # main
-time $(dirname $0)/organicmaps.sh $file_symlink >> $logfile 2>&1
+time $(dirname $0)/organicmaps.sh $file_symlink > $tmpfile 2>&1
 exit=$?
+
+# skip some log messages
+egrep -v 'Can.t find offset in file |Skip feature with empty geometry Osm Way' $tmpfile >> $logfile
 
 if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
     echo "logfile $logfile is to big: $(ls -l $logfile)"
