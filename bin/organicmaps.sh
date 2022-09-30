@@ -85,6 +85,4 @@ cat $intermediate_data_path/$city.stats
 cp -f $tmpdir/data/$city.mwm $output_file.tmp
 mv -f $output_file.tmp $output_file
 
-# final cleanup, see trap call
-
 #EOF
