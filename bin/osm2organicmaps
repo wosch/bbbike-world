@@ -46,7 +46,7 @@ test -z "$file" && usage
 
 # use RAM disk
 tmpdir=$(mktemp -d ${BBBIKE_TMPFS}/osm2organicmaps.XXXXXXXXXXX)
-tmpfile=$tmpdir_pbf/$(basename $file)
+tmpfile=$tmpdir/$(basename $file)
 
 # keep old name for results
 file_orig=$file
@@ -116,7 +116,5 @@ zip -q -r - -- $(basename $organicmaps_dir) | \
     cat > $organicmaps_zip.tmp && mv $organicmaps_zip.tmp $organicmaps_zip
     $osm_checksum $organicmaps_zip
   )
-
-rm -rf $tmpdir $tmpdir_pbf
 
 #EOF
