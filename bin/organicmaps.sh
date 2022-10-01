@@ -11,6 +11,7 @@ PATH=/bin:/usr/bin:/usr/local/bin; export PATH
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmp"}
 : ${debug=false}
+: ${osm2xxx_max_jobs="3"}
 
 # avoid locale warnings
 unset LANGUAGE LOCALE LANG
@@ -73,10 +74,10 @@ osmconvert --out-o5m $file > $input_file
 cd $tmpdir
 
 # pre-processing
-generator_tool $file_type --preprocess=true  --intermediate_data_path=$intermediate_data_path  --osm_file_name=$input_file --data-path=$tmpdir/data
+generator_tool --threads_count $osm2xxx_max_jobs $file_type --preprocess=true  --intermediate_data_path=$intermediate_data_path  --osm_file_name=$input_file --data-path=$tmpdir/data
 
 # main
-generator_tool $file_type $basic $routing --intermediate_data_path=$intermediate_data_path --osm_file_name=$input_file --data-path=$tmpdir/data --output=$city --stats_general
+generator_tool --threads_count $osm2xxx_max_jobs $file_type $basic $routing --intermediate_data_path=$intermediate_data_path --osm_file_name=$input_file --data-path=$tmpdir/data --output=$city --stats_general
 )
 
 # show mwm statistics
