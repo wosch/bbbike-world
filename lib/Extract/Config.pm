@@ -218,23 +218,41 @@ our $spool_dir = '/var/cache/extract';
 our $planet_osm = {
 
     #'planet.osm' => '../osm/download/planet-latest.osm.pbf',
-    'planet.osm'       => '../osm/download/planet-latest-nometa.osm.pbf',
-    'planet-daily.osm' => '../osm/download/planet-daily.osm.pbf',
-
-#'srtm-europe.osm.pbf' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
-#'srtm-europe.osm.xz' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
-#'srtm-europe.garmin-srtm.zip' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
-#'srtm-europe.obf.zip' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
-#'srtm-europe.mapsforge-osm.zip' => '../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf',
+    # weekly planet without metadata, smaller file
+    'planet.osm' => '../osm/download/planet-latest-nometa.osm.pbf',
+    'osm.pbf'    => '../osm/download/planet-latest-nometa.osm.pbf',
 
     'srtm.osm.pbf'           => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
     'srtm.osm.xz'            => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
     'srtm.garmin-srtm.zip'   => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
     'srtm.obf.zip'           => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
     'srtm.mapsforge-osm.zip' => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
+
+  # daily updates: 'planet-daily.osm' => '../osm/download/planet-daily.osm.pbf',
+    'garmin-osm-latin1.zip'           => '../osm/download/planet-daily.osm.pbf',
+    'garmin-cycle-latin1.zip'         => '../osm/download/planet-daily.osm.pbf',
+    'garmin-leisure-latin1.zip'       => '../osm/download/planet-daily.osm.pbf',
+    'garmin-onroad-latin1.zip'        => '../osm/download/planet-daily.osm.pbf',
+    'garmin-ontrail-latin1.zip'       => '../osm/download/planet-daily.osm.pbf',
+    'garmin-bbbike-latin1.zip'        => '../osm/download/planet-daily.osm.pbf',
+    'garmin-openfietslite-latin1.zip' => '../osm/download/planet-daily.osm.pbf',
+    'garmin-openfietsfull-latin1.zip' => '../osm/download/planet-daily.osm.pbf',
+    'garmin-oseam-latin1.zip'         => '../osm/download/planet-daily.osm.pbf',
+    'garmin-opentopo-latin1.zip'      => '../osm/download/planet-daily.osm.pbf',
+    'garmin-osm.zip'                  => '../osm/download/planet-daily.osm.pbf',
+    'garmin-cycle.zip'                => '../osm/download/planet-daily.osm.pbf',
+    'garmin-leisure.zip'              => '../osm/download/planet-daily.osm.pbf',
+    'garmin-onroad.zip'               => '../osm/download/planet-daily.osm.pbf',
+    'garmin-ontrail.zip'              => '../osm/download/planet-daily.osm.pbf',
+    'garmin-bbbike.zip'               => '../osm/download/planet-daily.osm.pbf',
+    'garmin-openfietslite.zip'        => '../osm/download/planet-daily.osm.pbf',
+    'garmin-openfietsfull.zip'        => '../osm/download/planet-daily.osm.pbf',
+    'garmin-oseam.zip'                => '../osm/download/planet-daily.osm.pbf',
+    'garmin-opentopo.zip'             => '../osm/download/planet-daily.osm.pbf',
+
 };
 
-# map planet file to sub-planet directory
+# map planet file to sub-planet directory for better performance
 our $planet_sub_dir = {
 
     # planet without meta data
@@ -245,7 +263,8 @@ our $planet_sub_dir = {
     '../osm/download/planet-latest.osm.pbf' => '../osm/download/sub-planet',
 
     # daily updates
-    '../osm/download/planet-daily.osm.pbf' => '../osm/download/sub-planet-daily',
+    '../osm/download/planet-daily.osm.pbf' =>
+      '../osm/download/sub-planet-daily',
 
     # SRTM planet
     '../osm/download/srtm/planet-srtm-e40.osm.pbf' =>
