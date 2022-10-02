@@ -2207,12 +2207,7 @@ function last_database_update(database) {
     var url = '/cgi/timestamp.cgi';
 
     var format = $("select[name=format] option:selected").val();
-
-    if (database) {
-        url += '?ns=' + database;
-    } else if (format.indexOf("srtm") >= 0) {
-        url += '?ns=srtm';
-    }
+    url += '?format=' + encodeURI(format);
 
     $.getJSON(url, function (data) {
         if (data && data.timestamp) {

@@ -9,6 +9,7 @@ use File::stat;
 use IO::File;
 use lib qw(../world/lib ../lib);
 use Extract::Config;
+use File::Basename;
 
 use strict;
 use warnings;
@@ -37,25 +38,20 @@ sub get_file_content {
 sub get_timestamp {
     my $q = shift;
 
-    my $namespace = $q->param('ns') // 'planet-latest';
+    my $format = $q->param('format') // 'planet.osm';
 
     my $planet_osm = $Extract::Config::planet_osm;
-    my $planet     = {
-        'planet-latest' => 'planet.osm',
-        'planet-daily'  => 'planet-daily.osm',
-        'srtm'          => 'srtm.osm.pbf'
-    };
 
-    die "unknown namespace parameter '$namespace'\n"
-      if !exists $planet->{$namespace};
-    die "planet not configured '$namespace'\n"
-      if !exists $planet_osm->{ $planet->{$namespace} };
+    my $file =
+      exists $planet_osm->{$format}
+      ? $planet_osm->{$format}
+      : $planet_osm->{'planet.osm'};
+    my $namespace = basename( $file, ".osm.pbf" );
 
     # this scripts runs in ./cgi
     my $pwd = "../";
 
-    my $timestamp_file =
-      $pwd . $planet_osm->{ $planet->{$namespace} } . ".timestamp";
+    my $timestamp_file = "${pwd}${file}.timestamp";
     die "timestamp file $timestamp_file does not exists\n"
       if !-e $timestamp_file;
 
@@ -64,6 +60,7 @@ sub get_timestamp {
 
     return <<EOF;
 {
+  "format":    "$format",
   "database":  "$namespace",
   "timestamp": "$timestamp"
 }
