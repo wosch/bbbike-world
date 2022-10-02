@@ -244,6 +244,9 @@ our $planet_sub_dir = {
     # compatibility, planet without meta data and 1.1m
     '../osm/download/planet-latest.osm.pbf' => '../osm/download/sub-planet',
 
+    # daily updates
+    '../osm/download/planet-daily.osm.pbf' => '../osm/download/sub-planet-daily',
+
     # SRTM planet
     '../osm/download/srtm/planet-srtm-e40.osm.pbf' =>
       '../osm/download/sub-srtm',

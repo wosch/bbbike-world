@@ -1538,8 +1538,10 @@ download-bbbike-org-install:
 	  ln -fs ../../../bbbike.org/world/download/osm/planet/HEADER.txt .
 	cd ${DOWNLOAD_PREFIX}/osm/planet; \
 	  ln -fs $$HOME/projects/osm/download/sub-planet .
-	#cd ${DOWNLOAD_PREFIX}/..; mkdir -p osm; cd osm; \
-	#  ln -fs ../download.bbbike.org/osm/planet download
+	cd ${DOWNLOAD_PREFIX}/osm/planet; \
+	if [ -e $$HOME/projects/osm/download/sub-planet-daily ]; then \
+	  ln -fs $$HOME/projects/osm/download/sub-planet-daily .; \
+	fi
 	${MAKE} download-srtm-bbbike-org-install
 
 # http://download.freizeitkarte-osm.de/Development/ele_25_250_500/Hoehendaten_Freizeitkarte_Europe.osm.pbf
