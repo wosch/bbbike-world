@@ -13,7 +13,7 @@ cd $HOME/projects/osm/download
 mkdir -p tmp
 
 osmconvert --out-csv --csv="name description @oname @id" $planet_osm |
-  # filter out objects without description
+  # filter out objects without description, GNU grep
   egrep -v  '^[[:space:]]+[a-z]+[[:space:]][0-9]+$' | 
 
   # node -> n, way -> w, relation -> r
