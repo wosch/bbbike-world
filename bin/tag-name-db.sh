@@ -7,12 +7,15 @@ set -e
 
 PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
 database_name="tag-name.csv.xz"
-: ${planet_osm="planet-latest-nometa.osm.pbf"}
+: ${planet_osm="planet-daily.osm.pbf"}
 
 cd $HOME/projects/osm/download
 mkdir -p tmp
 
 osmconvert --out-csv --csv="name description @oname @id" $planet_osm |
+  # faster pipe on linux
+  mbuffer -q -m 128m |
+
   # filter out objects without description, GNU grep
   egrep -v  '^[[:space:]]+[a-z]+[[:space:]][0-9]+$' | 
 
