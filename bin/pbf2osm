@@ -43,7 +43,7 @@ esac
 : ${max_file_size_shape=866000}
 : ${max_file_size_organicmaps=966000}
 : ${max_file_size_maperitive=90000}
-: ${max_file_size_mbtiles=280000}
+: ${max_file_size_mbtiles=980000}
 
 : ${pbf2osm_max_cpu_time=7200}
 
@@ -296,8 +296,8 @@ tmp=$(mktemp $file.XXXXXXXX.tmp)
 chmod 644 $tmp
 
 
-# cleanup after signal
-trap 'rm -f $tmp' 0 1 2 15
+# cleanup at exit
+trap 'rm -f $tmp' 0
 
 case $compress in
       "") $osm2o5m $osm2o5m_opt "$file" ;;

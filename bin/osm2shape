@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2022 Wolfram Schneider, https://bbbike.org
 #
 # osm2shape  - convert a osm/pbf file to shape
 #
@@ -54,8 +54,8 @@ if $fixpbf; then
     file=$tmpfile	
 fi
 
-# cleanup after signal, but show errors first
-trap '( sleep 1; rm -rf $tmpdir $tmpfile) &' 1 2 15
+# cleanup at exit
+trap 'rm -rf $tmpdir $tmpfile tmpdir_pbf' 0
 
 shape=`basename "$file" | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//'`
 shape_dir=$tmpdir/${shape}-shp
@@ -105,5 +105,4 @@ zip -q -r - -- `basename $shape_dir` | \
     $osm_checksum $shape_zip
   )
 
-$debug || rm -rf $tmpdir $tmpdir_pbf
-
+#EOF

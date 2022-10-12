@@ -46,7 +46,7 @@ test -z "$file" && usage
 
 # use RAM disk
 tmpdir=$(mktemp -d ${BBBIKE_TMPFS}/osm2organicmaps.XXXXXXXXXXX)
-tmpfile=$tmpdir_pbf/$(basename $file)
+tmpfile=$tmpdir/$(basename $file)
 
 # keep old name for results
 file_orig=$file
@@ -54,8 +54,8 @@ file_orig=$file
 # absolute path
 case $file in /*) ;; *) file=$(pwd)/$file ;; esac
 
-# cleanup after signal, but show errors first
-trap '( sleep 1; rm -rf $tmpdir $tmpfile) &' 1 2 15
+# cleanup at exit
+trap 'rm -rf $tmpdir $tmpfile' 0
 
 organicmaps=$(basename "$file" | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//')
 organicmaps_dir=$tmpdir/${organicmaps}-organicmaps-${map_style}
@@ -70,8 +70,11 @@ logfile=$organicmaps_dir/logfile.txt
 echo "organicmaps version: $BBBIKE_EXTRACT_ORGANICMAPS_VERSION" > $logfile
 
 # main
-time $(dirname $0)/organicmaps.sh $file_symlink >> $logfile 2>&1
+time $(dirname $0)/organicmaps.sh $file_symlink > $tmpfile 2>&1
 exit=$?
+
+# skip some log messages
+egrep -v 'Can.t find offset in file |Skip feature with empty geometry Osm Way' $tmpfile >> $logfile
 
 if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
     echo "logfile $logfile is to big: $(ls -l $logfile)"
@@ -113,7 +116,5 @@ zip -q -r - -- $(basename $organicmaps_dir) | \
     cat > $organicmaps_zip.tmp && mv $organicmaps_zip.tmp $organicmaps_zip
     $osm_checksum $organicmaps_zip
   )
-
-rm -rf $tmpdir $tmpdir_pbf
 
 #EOF

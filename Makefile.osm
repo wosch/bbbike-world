@@ -1121,7 +1121,8 @@ tile-convert: \
 		tile-convert-mapsforge \
 		tile-convert-osmand \
 		tile-convert-osm \
-		tile-convert-mbtiles
+		tile-convert-mbtiles \
+		tile-convert-organicmaps
 
 tile-convert-srtm: tile-convert-garmin-srtm tile-convert-osmand
 
@@ -1140,7 +1141,7 @@ tile-convert-shp:
 
 tile-convert-organicmaps:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
-	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_CPU} ${OSM2RGANICMAPS} > ${TILES_TMP}/log.$@ 2>&1
+	  env MULTI_CPU=NO osm_checksum=true ${NICE} ${TIME} xargs -0 -n1 -P${MAX_OSM2ORGANICMAPS} ${OSM2ORGANICMAPS} > ${TILES_TMP}/log.$@ 2>&1
 
 tile-convert-garmin:
 	find ${_pbf_dir} -name '*.pbf' ${_min_size} -print0 | \
@@ -1197,7 +1198,7 @@ tile-csv tile-database:
 	     mv -f ${TILES_DIR}/etc/tile/$$format.csv.new ${TILES_DIR}/etc/tile/$$format.csv; \
 	done
 	pwd=`pwd`; max_cpu=${MAX_CPU}; \
-	for format in garmin-osm.zip garmin-onroad.zip shp.zip obf.zip mapsforge-osm.zip mbtiles-openmaptiles.zip; do \
+	for format in garmin-osm.zip garmin-onroad.zip shp.zip obf.zip mapsforge-osm.zip organicmaps-osm.zip mbtiles-openmaptiles.zip; do \
             echo "Run format $$format"; \
 	    (( cd ${TILES_DIR}/lnglat; find . -name '*.'$$format -print0 | xargs -0 -n1 -P1 $$pwd/world/bin/extract-disk-usage.sh --du | sort -n  -k1 -k2 -k3 -k4 -k5 | \
 	     perl -npe 's,\S+/planet_(.*?)\.osm\.\S+,\1,; s,_, ,g' ) > ${TILES_DIR}/etc/tile/$$format.csv; \
@@ -1268,9 +1269,8 @@ data-distclean distclean-data: cache-clean-local
 	find . -name '*.st' ! -name httpd.conf.st -print
 
 #########################################################################
-# Note: you need at least 280GB free disk space to run this command!!!
-#       this may run 3 days on a quad core machine, or 42 hours on
-#       an octacore machine.
+# Note: you need at least 620GB free disk space to run this command!!!
+#       this may run 2 days on a 12 core machine
 #
 # quad core:
 # real    3570m39.458s
@@ -1538,8 +1538,10 @@ download-bbbike-org-install:
 	  ln -fs ../../../bbbike.org/world/download/osm/planet/HEADER.txt .
 	cd ${DOWNLOAD_PREFIX}/osm/planet; \
 	  ln -fs $$HOME/projects/osm/download/sub-planet .
-	#cd ${DOWNLOAD_PREFIX}/..; mkdir -p osm; cd osm; \
-	#  ln -fs ../download.bbbike.org/osm/planet download
+	cd ${DOWNLOAD_PREFIX}/osm/planet; \
+	if [ -e $$HOME/projects/osm/download/sub-planet-daily ]; then \
+	  ln -fs $$HOME/projects/osm/download/sub-planet-daily .; \
+	fi
 	${MAKE} download-srtm-bbbike-org-install
 
 # http://download.freizeitkarte-osm.de/Development/ele_25_250_500/Hoehendaten_Freizeitkarte_Europe.osm.pbf

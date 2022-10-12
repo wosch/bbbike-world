@@ -89,8 +89,8 @@ fi
 
 tmpdir=`mktemp -d ${BBBIKE_TMPFS}/osm2mbtiles.$(basename $ext .zip).XXXXXXXXXXX`
 
-# cleanup after signal, but show errors first
-trap '( sleep 1; rm -rf $tmpdir ) &' 1 2 15
+# cleanup at exit
+trap 'rm -rf $tmpdir' 0
 
 mbtiles=`basename $file | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//'`
 mbtiles_dir=$tmpdir/$mbtiles-`basename $ext .zip`
@@ -144,4 +144,4 @@ zip -q -r - -- `basename $mbtiles_dir` | \
 
 fi # zip
 
-$debug || rm -rf $tmpdir
+#EOF
