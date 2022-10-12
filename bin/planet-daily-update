@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) Mar 2013-2021 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Mar 2013-2022 Wolfram Schneider, https://bbbike.org
 #
 # planet-update - daily updates of planet-latest.osm.pbf
 #
@@ -51,7 +51,9 @@ update_md5 ()
 
   # atomar md5 checksum - the file exists and has correct values, or we delete it
   rm -f $file.md5
-  $md5sum $file > $file.md5.tmp && mv -f $file.md5.tmp $file.md5
+  $md5sum $file > $file.md5.tmp 
+  perl -npe 's,/.*/,,' $file.md5.tmp > $file.md5
+  rm -f $file.md5.tmp
 
   # timestamp of planet
   osmconvert --out-timestamp $file > $file.timestamp.tmp && mv -f $file.timestamp.tmp $file.timestamp
