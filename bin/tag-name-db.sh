@@ -11,6 +11,7 @@ database_name="tag-name.csv.xz"
 
 cd $HOME/projects/osm/download
 mkdir -p tmp
+tmpfile=$(mktemp tmp/.${database_name}.XXXXXXXXXX)
 
 osmconvert --out-csv --csv="name description @oname @id" $planet_osm |
   # faster pipe on linux
@@ -26,9 +27,9 @@ osmconvert --out-csv --csv="name description @oname @id" $planet_osm |
   sort |
 
   # high compression
-  pixz -9 > tmp/$database_name.tmp
+  pixz -9 > $tmpfile
 
-mv -f tmp/$database_name.tmp tmp/$database_name
+mv -f $tmpfile $database_name
 
 #EOF
 
