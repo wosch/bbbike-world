@@ -25,8 +25,8 @@ osmconvert --out-csv --csv="name description @oname @id" $planet_osm |
   # sort by description, not by node id
   sort |
 
-  # high compression
-  pixz -9 > tmp/$database_name.tmp
+  # high (?) compression
+  pixz > tmp/$database_name.tmp
 
 mv -f tmp/$database_name.tmp tmp/$database_name
 
