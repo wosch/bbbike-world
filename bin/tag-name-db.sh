@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) Sep 2022 Wolfram Schneider, https://extract.bbbike.org
+# Copyright (c) Sep 2022-2022 Wolfram Schneider, https://extract.bbbike.org
 #
 # tag-name-db.sh - create a database of OSM tag name / description
 
@@ -11,6 +11,7 @@ database_name="tag-name.csv.xz"
 
 cd $HOME/projects/osm/download
 mkdir -p tmp
+tmpfile=$(mktemp tmp/.${database_name}.XXXXXXXXXX)
 
 osmconvert --out-csv --csv="name description @oname @id" $planet_osm |
   # faster pipe on linux
@@ -26,9 +27,9 @@ osmconvert --out-csv --csv="name description @oname @id" $planet_osm |
   sort |
 
   # high (?) compression
-  pixz > tmp/$database_name.tmp
+  pixz > $tmpfile
 
-mv -f tmp/$database_name.tmp tmp/$database_name
+mv -f $tmpfile $database_name
 
 #EOF
 
