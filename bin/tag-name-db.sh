@@ -30,6 +30,7 @@ osmconvert --out-csv --csv="name description @oname @id" $planet_osm |
   pixz > $tmpfile
 
 mv -f $tmpfile $database_name
+md5sum $database_name > $database_name.md5
 
 #EOF
 
