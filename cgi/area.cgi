@@ -32,20 +32,20 @@ my $q = new CGI;
 
 # sort priority for formats
 my %prio = (
-    'pbf'                       => -100,
-    'gz'                        => -90,
-    'csv.xz'                    => 10,
-    'shp.zip'                   => -80,
-    'garmin-onroad.zip'         => -70,
-    'garmin-onroad-latin1.zip'  => -70,
-    'garmin-ontrail.zip'        => -50,
-    'garmin-ontrail-latin1.zip' => -50,
-    'garmin-opentopo.zip'       => -70,
-    'garmin-osm.zip'            => -70,
-    'geojson.xz'                => -50,
-    'mapsforge-osm.zip'         => -40,
-    'organicmaps-osm.zip'       => -30,
-    'svg-osm.zip'               => -45,
+    'pbf'                        => -100,
+    'gz'                         => -90,
+    'csv.xz'                     => 10,
+    'shp.zip'                    => -80,
+    'garmin-onroad.zip'          => -70,
+    'garmin-onroad-latin1.zip'   => -70,
+    'garmin-ontrail.zip'         => -75,
+    'garmin-ontrail-latin1.zip'  => -75,
+    'garmin-opentopo-latin1.zip' => -70,
+    'garmin-osm.zip'             => -70,
+    'geojson.xz'                 => -50,
+    'mapsforge-osm.zip'          => -40,
+    'organicmaps-osm.zip'        => -30,
+    'svg-osm.zip'                => -45,
 );
 
 sub sort_by_format {
