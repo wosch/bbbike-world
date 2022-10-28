@@ -1801,8 +1801,8 @@ garmin-borders:
 	  rm -f bounds-latest.zip; \
 	fi
 
-tag-name-db:
-	download_script=$$(pwd)/world/bin/$@.sh; cd ../osm/download && nice -5 $$download_script
+build-tag-name-db:
+	nice -n5 ../tag-name/bin/build-tag-name-db.sh
 		
 
 help:
@@ -1873,7 +1873,7 @@ help:
 	@echo ""
 	@echo "  [ make garmin-borders ]"
 	@echo ""
-	@echo "  [ make tag-name-db ]"
+	@echo "  make build-tag-name-db"
 	@echo ""
 	@echo "  [ sudo apt-get clean && sudo apt-get update && sudo apt-get dist-upgrade -y ]"
 	@echo "  [ sudo apt-get install bbbike-world ]"
