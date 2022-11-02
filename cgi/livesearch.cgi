@@ -465,7 +465,7 @@ sub statistic_maps {
             #{ 'src' => "/html/bbbike-js.js" }
             { 'src' => "/html/maps3.js" },
             { 'src' => "/html/bbbike.js" },
-            { 'src' => "/html/jquery/jquery-1.4.2.min.js" }
+            { 'src' => "/html/jquery/jquery-1.6.3.min.js" }
         ],
     );
 

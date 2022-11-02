@@ -282,7 +282,7 @@ sub header {
     my $base   = "";
 
     my @javascript = (
-        "/html/jquery/jquery-1.4.2.min.js",
+        "/html/jquery/jquery-1.6.3.min.js",
         "/html/devbridge-jquery-autocomplete-1.1.2/jquery.autocomplete-min.js",
 "https://maps.googleapis.com/maps/api/js?v=3.9&sensor=false&language=en&libraries=weather",
         "/html/bbbike.js",
