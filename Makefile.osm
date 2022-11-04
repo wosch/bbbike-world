@@ -1802,8 +1802,7 @@ garmin-borders:
 	fi
 
 build-tag-name-db build-tag-name-db-geofabrik:
-	nice -n5 ../tag-name/bin/$@
-		
+	nice -10 {MAKE} -C ../tag-name $@
 
 help:
 	@echo "bbbike version: ${GIT_ID}"
