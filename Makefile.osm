@@ -1801,8 +1801,8 @@ garmin-borders:
 	  rm -f bounds-latest.zip; \
 	fi
 
-build-tag-name-db:
-	nice -n5 ../tag-name/bin/build-tag-name-db.sh
+build-tag-name-db build-tag-name-db-geofabrik:
+	nice -n5 ../tag-name/bin/$@
 		
 
 help:
