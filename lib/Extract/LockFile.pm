@@ -56,9 +56,10 @@ sub create_lock {
     my $wait     = defined $args{'wait'} ? $args{'wait'} : $self->{'wait'};
     my $max      = $args{'max'} // 11;
 
-    if ( -z $lockfile ) {
-        warn "Empty lockfile $lockfile - maybe the filesystem is broken\n";
-        unlink($lockfile);
+    my $lockfile_ext = "$lockfile.lock";
+    if ( -z $lockfile_ext ) {
+        warn "Empty lockfile $lockfile_ext - maybe the filesystem is broken\n";
+        unlink($lockfile_ext);
     }
 
     warn
