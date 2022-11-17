@@ -87,7 +87,12 @@ sub _running_users {
         warn "parse file $file\n" if $debug >= 2;
 
         my $json_text;
-        if ( -f $file ) {
+        if ( -z $file ) {
+            warn "Warning: File is empty, ignore: $file\n";
+            unlink($file);
+            next;
+        }
+        elsif ( -f $file ) {
             eval { $json_text = read_data($file) };
             if ($@) {
                 warn "Race condition, job already done (?): $file\n";
