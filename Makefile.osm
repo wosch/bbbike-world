@@ -1801,8 +1801,10 @@ garmin-borders:
 	  rm -f bounds-latest.zip; \
 	fi
 
-build-tag-name-db build-tag-name-db-geofabrik:
+build-tag-name-db:
 	nice -10 ${MAKE} -C ../tag-name $@
+build-tag-name-db-geofabrik:
+	-nice -10 ${MAKE} -C ../tag-name $@ || nice -10 ${MAKE} -C ../tag-name $@ 
 
 help:
 	@echo "bbbike version: ${GIT_ID}"
