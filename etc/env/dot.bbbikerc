@@ -76,4 +76,7 @@ if [ -e /var/lib/jenkins/dot.bbbikerc-phantomjs ]; then
   . /var/lib/jenkins/dot.bbbikerc-phantomjs
 fi
 
+# regression tests
+export NO_PROXY=locahost
+
 #EOF
