@@ -11,7 +11,7 @@ cd $HOME/projects/bbbike
 logfile="tmp/log.planet-daily-update"
 touch $logfile
 
-if ( time nice -n 6 make planet-daily-update && time make -j2 sub-planet-daily build-tag-name-db build-tag-name-db-geofabrik ) > $logfile 2>&1; then
+if ( time nice -n 6 make planet-daily-update && time make sub-planet-daily build-tag-name-db build-tag-name-db-geofabrik ) > $logfile 2>&1; then
   exit 0
 else
   echo "planet update failed: $?"
