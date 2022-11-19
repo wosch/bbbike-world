@@ -7,6 +7,11 @@
 PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
 set -e
 
+# load standard BBBike extract config
+if [ -f $HOME/.bbbikerc ]; then
+    . $HOME/.bbbikerc
+fi
+
 cd $HOME/projects/bbbike
 logfile="tmp/log.planet-daily-update"
 touch $logfile
