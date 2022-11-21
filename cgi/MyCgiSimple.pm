@@ -44,7 +44,26 @@ sub new {
     $self->_initialize_globals;
     $self->_store_globals;
     $self->_initialize($init);
+
     return $self;
+}
+
+sub path_info {
+    my ( $self, $info ) = @_;
+    if ( defined $info ) {
+        $info = "/$info" if $info !~ m|^/|;
+        $self->{'.path_info'} = $info;
+    }
+    elsif ( !defined( $self->{'.path_info'} ) ) {
+        $self->{'.path_info'} =
+          defined( $ENV{'PATH_INFO'} ) ? $ENV{'PATH_INFO'} : '';
+
+        # hack to fix broken path info in IIS source CGI.pm
+        $self->{'.path_info'} =~ s/^\Q$ENV{'SCRIPT_NAME'}\E//
+          if defined( $ENV{'SERVER_SOFTWARE'} )
+          && $ENV{'SERVER_SOFTWARE'} =~ /IIS/;
+    }
+    return $self->{'.path_info'};
 }
 
 sub _initialize {
@@ -408,5 +427,9 @@ sub _add_param {
     }
     return scalar @values;    # for compatibility with CGI.pm request.t
 }
+
+# from CGI::Simple 1.115
+sub script_name { $ENV{'SCRIPT_NAME'} || $0 || '' }
+sub server_name { $ENV{'SERVER_NAME'} || 'localhost' }
 
 1;
