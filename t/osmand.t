@@ -74,7 +74,7 @@ sub convert_format {
     unlink $out;
 
     system(qq[world/bin/pbf2osm --osmand $pbf_file $city]);
-    is( $?, 0, "pbf2osm --osmand converter" );
+    is( $?, 0, "world/bin/pbf2osm --osmand $pbf_file $city" );
     $st = stat($out) or die "Cannot stat $out\n";
 
     system(qq[unzip -t $out]);
