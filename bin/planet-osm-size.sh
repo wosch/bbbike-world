@@ -36,6 +36,8 @@ xml_size ()
 #
 echo "Please update me: https://wiki.openstreetmap.org/wiki/Planet.osm"
 echo ""
+echo "date: $(date '+%Y-%m-%d')"
+echo ""
 
 pbf_size
 osm_size
