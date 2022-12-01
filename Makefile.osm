@@ -1460,7 +1460,7 @@ bbbike-partition:
 	sudo mkdir -p ${BBBIKE_PARTITION}
 	sudo chown ${LOGNAME} ${BBBIKE_PARTITION}
 	cd ${BBBIKE_PARTITION}; mkdir -p cache extract projects tmp www
-	sudo ${MAKE} bbbike-cache-install
+	sudo ${BBMAKE} bbbike-cache-install
 	
 install-backend-lighttpd:
 	${MAKE} -C./world/etc install-backend-lighttpd
