@@ -200,7 +200,7 @@ $tile = new Extract::TileSize( 'database' => "world/etc/tile/pbf.csv" );
 is( int( $tile->area_size(qw/13 52 14 53/) ), 104204 );
 is( int( $tile->area_size( -77.36, 39.92, -70.54, 41.27 ) ), 801452 );
 is( $tile->total_tiles, 17701 );
-is( $tile->total,       52767100);
+is( $tile->total,       52767100 );
 
 $tile =
   new Extract::TileSize( 'database' => "world/etc/tile/garmin-osm.zip.csv" );
