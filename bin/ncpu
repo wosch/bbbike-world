@@ -51,6 +51,7 @@ system_macos () {
     test -z "$vcpu" && vcpu=$ncpu
 }
 
+# lscpu | grep -m1 ^Core | awk '{ print $NF }'
 system_linux () {
   cpuinfo=/proc/cpuinfo
 
