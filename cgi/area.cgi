@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -T
-# Copyright (c) 2009-2022 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2023 Wolfram Schneider, https://bbbike.org
 #
 # area.cgi - which areas are covered by bbbike.org
 
@@ -88,7 +88,7 @@ sub footer {
 <hr/>
 
 <div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em;" >
-  (&copy;) 2008-2022 <a href="https://bbbike.org">BBBike.org</a> //
+  (&copy;) 2008-2023 <a href="https://bbbike.org">BBBike.org</a> //
   Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors <br/>
   <a href="https://mc.bbbike.org/mc/">map compare</a> - <a href="https://extract.bbbike.org/">osm extract service</a>
 
