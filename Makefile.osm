@@ -1076,6 +1076,8 @@ staging:
 	${BBMAKE} -C/usr/local/www/bbbike.org git-diff
 	${BBMAKE} -s purge-cache-js >/dev/null
 
+deploy: mygit data-distclean check staging
+
 
 TILES_TMP=${TILES_DIR}/tmp
 _pbf_dir=${TILES_DIR}/lnglat/
@@ -1852,7 +1854,7 @@ help:
 	@echo "  [ planet-daily-update ]"
 	@echo "  [ download-bbbike-org-install ]"
 	@echo ""
-	@echo "  [ staging | extract-bbbike-org-install | garmin-legend ]"
+	@echo "  [ deploy | staging | extract-bbbike-org-install | garmin-legend ]"
 	@echo "  [ extract-gc | extract-trash-gc ]"
 	@echo "  [ extract-distclean ]"
 	@echo ""
