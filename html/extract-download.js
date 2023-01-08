@@ -80,7 +80,7 @@ function download_init_map(conf) {
         numZoomLevels: 18
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("Mapbox Satellite", ["https://api.mapbox.com/v4/mapbox.satellite/${z}/${x}/${y}@2x.jpg90?access_token=pk.eyJ1IjoibWFwcXVlc3QiLCJhIjoiY2Q2N2RlMmNhY2NiZTRkMzlmZjJmZDk0NWU0ZGJlNTMifQ.mPRiEubbajc6a5y9ISgydg"], {
+    map.addLayer(new OpenLayers.Layer.OSM("Mapbox Satellite", ["https://api.mapbox.com/v4/mapbox.satellite/${z}/${x}/${y}@2x.jpg90?access_token=pk.eyJ1IjoiYmJiaWtlIiwiYSI6ImNsY25mYWFybzFudW4zcXA2aHo1cHZsMHMifQ.bkyf1qvuzLExR06NKWWgHg"], {
         attribution: '<a href="https://www.mapbox.com/">(&copy) mapbox</a>',
         tileOptions: {
             crossOriginKeyword: null
