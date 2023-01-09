@@ -383,7 +383,7 @@ function init_map() {
         numZoomLevels: 18
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("Mapbox Satellite", ["https://api.mapbox.com/v4/mapbox.satellite/${z}/${x}/${y}@2x.jpg90?access_token=pk.eyJ1IjoiYmJiaWtlIiwiYSI6ImNsY25mYWFybzFudW4zcXA2aHo1cHZsMHMifQ.bkyf1qvuzLExR06NKWWgHg"], {
+    map.addLayer(new OpenLayers.Layer.OSM("Mapbox Satellite", ["https://api.mapbox.com/v4/mapbox.satellite/${z}/${x}/${y}@2x.jpg90?access_token=pk.eyJ1IjoiYmJiaWtlIiwiYSI6ImNsY3A2eDZqejAxZG8zbm9qbnVveTVpOGkifQ.bV3CkxLR63mtBDagVEeEgg"], {
         attribution: '<a href="https://www.mapbox.com/">(&copy) mapbox</a>',
         tileOptions: {
             crossOriginKeyword: null

@@ -134,7 +134,7 @@ function init() {
 
     map.addLayer(new OpenLayers.Layer.OSM('Lyrk Retina (OSM)', "https://tiles.lyrk.org/lr/${z}/${x}/${y}?apikey=e9f8eb3824344d18a5b4b657773caf30", layer_options)),
 
-    map.addLayer(new OpenLayers.Layer.OSM("MapBox Satellite", ["https://api.mapbox.com/v4/mapbox.satellite/${z}/${x}/${y}@2x.jpg90?access_token=pk.eyJ1IjoiYmJiaWtlIiwiYSI6ImNsY25mYWFybzFudW4zcXA2aHo1cHZsMHMifQ.bkyf1qvuzLExR06NKWWgHg"], {
+    map.addLayer(new OpenLayers.Layer.OSM("MapBox Satellite", ["https://api.mapbox.com/v4/mapbox.satellite/${z}/${x}/${y}@2x.jpg90?access_token=pk.eyJ1IjoiYmJiaWtlIiwiYSI6ImNsY3A2eDZqejAxZG8zbm9qbnVveTVpOGkifQ.bV3CkxLR63mtBDagVEeEgg"], {
         numZoomLevels:20
     }));
 
