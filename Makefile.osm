@@ -1803,10 +1803,10 @@ garmin-borders:
 	  rm -f bounds-latest.zip; \
 	fi
 
-build-tag-name-db:
-	nice -10 ${MAKE} -C ../tag-name $@
-build-tag-name-db-geofabrik:
-	-nice -10 ${MAKE} -C ../tag-name $@ || nice -10 ${MAKE} -C ../tag-name $@ 
+build-tagname-db:
+	nice -10 ${MAKE} -C ../tagname $@
+build-tagname-db-geofabrik:
+	-nice -10 ${MAKE} -C ../tagname $@ || nice -10 ${MAKE} -C ../tagname $@ 
 
 help:
 	@echo "bbbike version: ${GIT_ID}"
@@ -1876,7 +1876,7 @@ help:
 	@echo ""
 	@echo "  [ make garmin-borders ]"
 	@echo ""
-	@echo "  make build-tag-name-db"
+	@echo "  make build-tagname-db"
 	@echo ""
 	@echo "  [ sudo apt-get clean && sudo apt-get update && sudo apt-get dist-upgrade -y ]"
 	@echo "  [ sudo apt-get install bbbike-world ]"
