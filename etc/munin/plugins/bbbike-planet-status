@@ -104,7 +104,7 @@ sub planet_status_time {
 
     my $file = "$planet_dir/$planet_file";
 
-    # /etc/systemd/system/multi-user.target.wants/munin-node.service 
+    # /etc/systemd/system/multi-user.target.wants/munin-node.service
     # ProtectHome=read-only
     #
     my $st = stat($file) or die "stat $file: $!\n";
