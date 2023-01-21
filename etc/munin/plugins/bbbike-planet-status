@@ -69,8 +69,7 @@ EOF
         $days_daily_critical );
 
     $data .=
-      &config_planet_file( 'sub_latest_europe', $days_daily_warning,
-        $days_critical );
+      &config_planet_file( 'sub_latest_europe', $days_warning, $days_critical );
     $data .=
       &config_planet_file( 'sub_latest_daily_europe', $days_daily_warning,
         $days_daily_critical );
