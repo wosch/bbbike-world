@@ -67,9 +67,10 @@ EOF
     $data .=
       &config_planet_file( 'planet_daily', $days_daily_warning,
         $days_daily_critical );
+
     $data .=
       &config_planet_file( 'sub_latest_europe', $days_daily_warning,
-        $days_daily_critical );
+        $days_critical );
     $data .=
       &config_planet_file( 'sub_latest_daily_europe', $days_daily_warning,
         $days_daily_critical );
@@ -81,7 +82,7 @@ sub config_planet_file {
     my ( $name, $warning, $critical ) = @_;
 
     <<EOF;
-bbbike_${name}_status_time.label BBBike planet status time
+bbbike_${name}_status_time.label BBBike ${name} status time
 bbbike_${name}_status_time.min 0
 bbbike_${name}_status_time.warning $warning
 bbbike_${name}_status_time.critical $critical
