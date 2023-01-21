@@ -6,6 +6,8 @@
 
 MUNIN_BBBIKE_SYSTEM= 	bbbike-processes \
 			bbbike-data-status \
+			bbbike-planet-status \
+			bbbike-tagname-status \
 			bbbike-git-status
 
 MUNIN_BBBIKE_WEB=	bbbike-services-ajax \
