@@ -74,7 +74,7 @@ help-update:
 	@echo ""
 	@echo  "don't forget to update /etc/munin/plugin-conf.d/munin-node, see ./README"
 
-install-munin-bbbike: install-munin-bbbike-system install-munin-bbbike-web \
+install-munin-bbbike: clean-install install-munin-bbbike-system install-munin-bbbike-web \
 			install-munin-extract install-munin-apt
 
 install-munin-bbbike-system:
@@ -147,9 +147,7 @@ clean distclean:
 	rm -f plugins/*.bak plugins/*.tdy
 
 clean-install:
-	rm -f ${MUNIN_PLUGINS_DIR}/bbbike-*
-	rm -f ${MUNIN_PLUGINS_DIR}/extract-*
-
+	sudo rm -f ${MUNIN_PLUGINS_DIR}/bbbike-* ${MUNIN_PLUGINS_DIR}/extract-*
 	
 help:
 	@echo "make install-munin-bbbike"
