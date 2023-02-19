@@ -74,7 +74,8 @@
 	  <a href="/help.html#android">android</a> -
 	  <a href="/tools.html">desktop</a> -
 	  <a href="https://mc.bbbike.org/mc/">map compare</a> -
-	  <a href="https://extract.bbbike.org/">osm extract service</a>
+	  <a href="https://extract.bbbike.org/">osm extract service</a> -
+	  <a href="https://search.bbbike.org/">tag name search</a>
 
 	<div id="footer_community">
 	  <a href="/community.html"><img class="logo" height="19" width="64" src="/images/donate.png" alt="Donate" title="Donate to bbbike.org" /></a>
