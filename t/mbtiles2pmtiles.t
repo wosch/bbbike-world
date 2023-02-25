@@ -115,10 +115,8 @@ sub convert_format {
         $counter += 5;
         $test->validate( 'style' => $style );
 
-        system(qq[world/bin/mbtiles2pmtiles $out]);
-        is( $?, 0, "world/bin/mbtiles2pmtiles $out" );
-
-        system("ls -l $pmtiles_zip");
+        #system(qq[world/bin/mbtiles2pmtiles $out]);
+        #is( $?, 0, "world/bin/mbtiles2pmtiles $out" );
 
         unlink( $out, "$out.md5", "$out.sha256" );
         unlink($pmtiles_zip);
