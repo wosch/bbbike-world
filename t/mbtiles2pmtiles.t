@@ -90,6 +90,9 @@ sub convert_format {
         my $out = $test->out($style);
         unlink $out;
 
+        my $pmtiles_zip = $out;
+        $pmtiles_zip =~ s/\.mbtiles-/.pmtiles-/;
+
         diag "mbtiles style=$style, lang=$lang";
 
         system(qq[world/bin/pbf2osm --mbtiles-$style $pbf_file $city]);
@@ -112,7 +115,13 @@ sub convert_format {
         $counter += 5;
         $test->validate( 'style' => $style );
 
+        system(qq[world/bin/mbtiles2pmtiles $out]);
+        is( $?, 0, "world/bin/mbtiles2pmtiles $out" );
+
+        system("ls -l $pmtiles_zip");
+
         unlink( $out, "$out.md5", "$out.sha256" );
+        unlink($pmtiles_zip);
     }
 
     return $counter + $test->counter;
