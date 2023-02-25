@@ -35,12 +35,10 @@ use warnings;
 chdir("$FindBin::RealBin/../..")
   or die "Cannot find bbbike world root directory\n";
 
-my @mbtiles_styles = qw/basic/;
-push @mbtiles_styles, qw/openmaptiles/
-  if !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG};
+my @mbtiles_styles = qw/openmaptiles/;
 
 my $pbf_file;
-$pbf_file = 'world/t/data-osm/tmp/Cusco-mbtiles.osm.pbf';
+$pbf_file = 'world/t/data-osm/tmp/Cusco-pmtiles.osm.pbf';
 
 if ( !-f $pbf_file ) {
     system( qw(ln -sf ../Cusco.osm.pbf), $pbf_file ) == 0
