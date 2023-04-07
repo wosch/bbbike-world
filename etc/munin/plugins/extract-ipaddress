@@ -1,0 +1,77 @@
+#!/bin/sh
+# Copyright (c) Sep 2011-2023 Wolfram Schneider, https://bbbike.org
+#
+# usage: /etc/munin/plugins/extract-ipaddress [ config ]
+#
+# get documentation with: perldoc /path/to/script
+
+: << =cut
+
+=head1 NAME
+
+extract-ipaddress  - Plugin to monitor running extract users by max requests per ip address per day
+
+=head1 ABOUT
+
+[...]
+
+=head1 USAGE
+
+[...]
+
+=head1 CONFIGURATION
+
+Configuration parameters for /etc/munin/plugin-conf.d/munin-node
+if you need to override the defaults below:
+
+ [extract-ipaddress]
+   env.warning   - Generate a warning if number of requests per IP address goes above this level
+   env.critical  - Generate a critical if number of requests per IP address goes above this level
+
+=cut
+
+
+PATH="/bin:/usr/bin"; export PATH
+
+config=$1
+
+case $0 in 
+    *-pro* ) pro="pro"
+              : ${extract_dir="/var/cache/extract-pro"}
+            ;;
+    *)        : ${extract_dir="/var/cache/extract"}
+            ;;
+esac
+
+extract_dir_running=$extract_dir/running
+
+if [ "$1" = "config" ]; then
+    : ${warning=20}
+    : ${critical=50}
+
+    cat <<EOF
+graph_title Extracts ip address $pro
+graph_vlabel Extracts ip address $pro
+graph_category extract
+graph_info Running extract ip address $pro
+graph_period minute
+users.label Running ip address 24h $pro
+users.min 0
+EOF
+
+echo "warning $warning"
+echo "critical $critical"
+
+    exit 0
+fi
+
+#############################################
+# main
+#
+
+printf "users.value " 
+find $extract_dir/trash -type f -mtime  -1 -print0 | \
+  xargs -0 egrep -h ip_address | sed 's/,$//' | \
+  sort | uniq -c |sort -nr | head -1 | awk '{ print $1 }'
+
+# EOF
