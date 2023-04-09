@@ -35,7 +35,7 @@ if [ "$1" = "config" ]; then
   : ${critical="600"}
      
   cat <<EOF
-multigraph HTTP 404
+multigraph HTTP_404
 graph_title HTTP 404
 graph_vlabel HTTP 404
 graph_category extractadmin
@@ -54,7 +54,7 @@ fi
 
 cd $log_dir
 
-echo "multigraph HTTP 404"
+echo "multigraph HTTP_404"
 
 for file in $log_files
 do
