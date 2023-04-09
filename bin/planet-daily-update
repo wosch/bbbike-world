@@ -21,24 +21,18 @@ download_dir=$HOME/projects/osm/download
 planet_latest=$download_dir/planet-latest.osm.pbf
 planet_daily=$download_dir/planet-daily.osm.pbf
 
+# always delete the possible huge (> 70GB) tempfile
+tmpfile=$(mktemp $download_dir/.tmp.$(basename $planet_daily).XXXXXXXX)
+trap 'rm -f $tmpfile' 0
+
 create_daily_planet ()
 {
-   tmpfile=$(mktemp $download_dir/.tmp.$(basename $planet_daily).XXXXXXXX)
-   rm -f $tmpfile # we need the filename, not a file for pyosmium-up-to-date
+   # we need the filename, not a file for pyosmium-up-to-date
+   rm -f $tmpfile 
+
    $program --outfile $tmpfile $planet_latest
    mv -f $tmpfile $planet_daily
    update_md5 $planet_daily
-}
-
-update_daily_planet ()
-{
-   $program $planet_daily
-   update_md5 $planet_daily
-}
-
-rebuild_daily_planet ()
-{
-   create_daily_planet
 }
 
 update_md5 ()
@@ -65,15 +59,15 @@ fi
 
 # create from scratch
 if [ ! -e $planet_daily ]; then
-  create_daily_planet
+  create_daily_planet $planet_latest
 
 # start with a fresh latest planet
 elif [ $planet_latest -nt $planet_daily ]; then
-  rebuild_daily_planet
+  create_daily_planet $planet_latest
 
 # update an (updated) daily planet
 else
-  update_daily_planet
+  create_daily_planet $planet_daily
 fi
 
 #EOF
