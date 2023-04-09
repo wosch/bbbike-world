@@ -44,7 +44,7 @@ EOF
 
   for file in $log_files
   do
-    item=$(basename $file | sed 's/\./_/g')
+    item=$(basename $file .log | sed 's/\./_/g')
     echo "$item.label $item"
     echo "$item.min 0"
   done
@@ -58,7 +58,7 @@ echo "multigraph download"
 
 for file in $log_files
 do
-  item=$(basename $file | sed 's/\./_/g')
+  item=$(basename $file .log | sed 's/\./_/g')
   echo -n "$item.value "
   grep ' 404 ' $file | grep -c -E -v 'bot|/apple|cyberscan' 
 done
