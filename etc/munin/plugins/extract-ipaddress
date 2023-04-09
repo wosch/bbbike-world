@@ -1,7 +1,7 @@
 #!/bin/sh
 # Copyright (c) Sep 2011-2023 Wolfram Schneider, https://bbbike.org
 #
-# usage: /etc/munin/plugins/extract-ipaddress [ config ]
+# usage: /path/to/script [ config ]
 #
 # get documentation with: perldoc /path/to/script
 
@@ -10,14 +10,6 @@
 =head1 NAME
 
 extract-ipaddress  - Plugin to monitor running extract users by max requests per ip address per day
-
-=head1 ABOUT
-
-[...]
-
-=head1 USAGE
-
-[...]
 
 =head1 CONFIGURATION
 
@@ -55,7 +47,7 @@ graph_vlabel Extracts ip address $pro
 graph_category extractadmin
 graph_info Running extract ip address $pro
 graph_period minute
-users.label Running ip address 24h $pro
+users.label Running ip address 12h $pro
 users.min 0
 EOF
 
@@ -70,7 +62,7 @@ fi
 #
 
 printf "users.value " 
-find $extract_dir/trash -type f -mtime  -1 -print0 | \
+find $extract_dir/trash -type f -mmin  -720 -print0 | \
   xargs -0 egrep -h ip_address | sed 's/,$//' | \
   sort | uniq -c |sort -nr | head -1 | awk '{ print $1 }'
 
