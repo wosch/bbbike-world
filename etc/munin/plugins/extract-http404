@@ -38,7 +38,7 @@ if [ "$1" = "config" ]; then
 multigraph 
 graph_title HTTP 404
 graph_vlabel HTTP 404
-graph_category extract
+graph_category extractadmin
 graph_period minute
 EOF
 

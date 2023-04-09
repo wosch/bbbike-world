@@ -46,7 +46,7 @@ multigraph pbf_size_average
 graph_args --base 1024 --lower-limit 0
 graph_title Extracts size - average
 graph_vlabel Extracts size - average
-graph_category extractsize
+graph_category extractadmin
 graph_info File size
 graph_period minute
 EOF
@@ -65,7 +65,7 @@ multigraph pbf_size_median
 graph_args --base 1024 --lower-limit 0
 graph_title Extracts size - median
 graph_vlabel Extracts size - median
-graph_category extractsize
+graph_category extractadmin
 graph_info File size
 graph_period minute
 EOF

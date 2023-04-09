@@ -45,7 +45,7 @@ if [ "$1" = "config" ]; then
 multigraph download
 graph_title download traffic
 graph_vlabel download traffic out
-graph_category extractsize
+graph_category extractadmin
 graph_period minute
 planet_latest.label planet-latest
 planet_latest.min 0

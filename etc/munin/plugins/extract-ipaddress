@@ -52,7 +52,7 @@ if [ "$1" = "config" ]; then
     cat <<EOF
 graph_title Extracts ip address $pro
 graph_vlabel Extracts ip address $pro
-graph_category extract
+graph_category extractadmin
 graph_info Running extract ip address $pro
 graph_period minute
 users.label Running ip address 24h $pro

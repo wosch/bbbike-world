@@ -45,7 +45,7 @@ if [ "$1" = "config" ]; then
 multigraph pbf_pbf
 graph_title Extracts files PBF/Other
 graph_vlabel Extracts files PBF/Other
-graph_category extractsize
+graph_category extractadmin
 graph_info Number of Files
 graph_period minute
 osm_pbf.label osm.pbf
@@ -58,7 +58,7 @@ ALL.min 0
 multigraph pbf_pbf_day
 graph_title Extracts files PBF/other 24h
 graph_vlabel Extracts files PBF/other 24h
-graph_category extractsize
+graph_category extractadmin
 graph_info Number of Files
 graph_period minute
 osm_pbf.label osm.pbf
@@ -71,7 +71,7 @@ ALL.min 0
 multigraph pbf_other
 graph_title Extracts files by format
 graph_vlabel Extracts files by format
-graph_category extractsize
+graph_category extractadmin
 graph_info Number of Files
 graph_period minute
 EOF
