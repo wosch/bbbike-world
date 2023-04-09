@@ -63,4 +63,6 @@ do
   grep ' 404 ' $file | grep -c -E -v 'bot|/apple|cyberscan' 
 done
 
+exit 0
+
 #EOF
