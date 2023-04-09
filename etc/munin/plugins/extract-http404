@@ -54,7 +54,7 @@ fi
 
 cd $log_dir
 
-echo "multigraph download"
+echo "multigraph HTTP 404"
 
 for file in $log_files
 do
