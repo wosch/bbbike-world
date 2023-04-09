@@ -35,7 +35,7 @@ if [ "$1" = "config" ]; then
   : ${critical="600"}
      
   cat <<EOF
-multigraph 
+multigraph HTTP 404
 graph_title HTTP 404
 graph_vlabel HTTP 404
 graph_category extractadmin
