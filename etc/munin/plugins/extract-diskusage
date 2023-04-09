@@ -54,7 +54,6 @@ EOF
     echo "download.critical $critical"
 
     cat <<EOF
-    
 multigraph disksize_other
 graph_args --base 1024 --lower-limit 0
 graph_title Extracts disk usage formats
