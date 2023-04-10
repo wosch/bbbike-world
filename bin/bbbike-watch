@@ -18,10 +18,13 @@ echo ""
 echo 'running format: '
 $running_extract format | sort | uniq -c | sort -r
 
+echo 'waitung format: '
+egrep -h '"format"' /var/cache/${extract}/confirmed/*.json 2>/dev/null | awk '{ print $3 }' | sed 's/,//g' | sort | uniq -c | sort -nr 
+
 echo 'planet: '
 ps xuawww | egrep 'osmconvert-wrapper .*extract/running' | egrep -v 'grep' | awk '{print $NF}' | sort | uniq -c| sort -r
-echo; echo 'running: '
 
+echo 'running: '
 $running_extract email | sort | uniq -c | sort -r
 
 tmp=$(mktemp)
