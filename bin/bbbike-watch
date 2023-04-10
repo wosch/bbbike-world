@@ -14,6 +14,12 @@ esac
 /etc/munin/plugins/${extract}-jobs
 running_extract=running-${extract}
 
+echo ""
+echo 'running format: '
+$running_extract format | sort | uniq -c | sort -r
+
+echo 'planet: '
+ps xuawww | egrep 'osmconvert-wrapper .*extract/running' | egrep -v 'grep' | awk '{print $NF}' | sort | uniq -c| sort -r
 echo; echo 'running: '
 
 $running_extract email | sort | uniq -c | sort -r
@@ -32,11 +38,5 @@ $running_extract ip_address | sort | uniq -c | sort -r
 
 echo 'running city: '
 $running_extract city | sort | uniq -c | sort -r
-
-echo 'running format: '
-$running_extract format | sort | uniq -c | sort -r
-
-echo 'planet: '
-ps xuawww | egrep 'osmconvert-wrapper .*extract/running' | egrep -v 'grep' | awk '{print $NF}' | sort | uniq -c| sort -r
 
 #EOF
