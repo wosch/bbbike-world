@@ -91,7 +91,7 @@ fi
 ls_download=$(mktemp /tmp/munin-bbbike.XXXXXXXXX)
 find_download=$(mktemp /tmp/munin-bbbike.XXXXXXXXX)
 ( cd $extract_dir/; ls download ) > $ls_download
-( cd $extract_dir/; find download -type f -mtime -1 -print ) > $find_download
+( cd $extract_dir/; find download/ -type f -mtime -1 -print ) > $find_download
 
 echo "multigraph pbf_pbf"
 echo "ALL.value" 	$( wc -l < $ls_download )
