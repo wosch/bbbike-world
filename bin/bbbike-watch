@@ -24,14 +24,15 @@ echo; echo 'running: '
 
 $running_extract email | sort | uniq -c | sort -r
 
-echo 'waiting: '
-egrep -h '"email" : ".*@' /var/cache/${extract}/confirmed/*.json 2>/dev/null | perl -npe 's/,//' | sort | uniq -c | sort -nr -k1 -k3
-
 tmp=$(mktemp)
 $running_extract email | awk '{ print $3 }' | sort -u > $tmp
 echo 'waiting new: '
 egrep -h '"email" : ".*@' /var/cache/${extract}/confirmed/*.json 2>/dev/null | perl -npe 's/,//' | sort | uniq -c | sort -nr -k1 -k3 | fgrep -v -F -f $tmp
 rm -f $tmp
+
+echo 'waiting: '
+egrep -h '"email" : ".*@' /var/cache/${extract}/confirmed/*.json 2>/dev/null | perl -npe 's/,//' | sort | uniq -c | sort -nr -k1 -k3
+
 
 echo 'running ip address: '
 $running_extract ip_address | sort | uniq -c | sort -r
