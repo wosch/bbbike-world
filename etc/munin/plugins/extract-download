@@ -68,8 +68,8 @@ zcat -f $(ls -tr download* | tail -n $days) > $log_file
 
 echo "multigraph download"
 echo "ALL.value" 		$( awk '{ a+=$10 } END { print a }' $log_file )
-echo "planet_latest.value" 	$( egrep '/planet-latest'  	     $log_file | awk '{ a+=$10 } END { print a }' )
-echo "planet_daily.value" 	$( egrep '/planet-daily'  	     $log_file | awk '{ a+=$10 } END { print a }' )
+echo "planet_latest.value" 	$( egrep ' /osm/planet/planet-latest'  	     $log_file | awk '{ a+=$10 } END { print a }' )
+echo "planet_daily.value" 	$( egrep ' /osm/planet/planet-daily'  	     $log_file | awk '{ a+=$10 } END { print a }' )
 echo "other.value" 		$( egrep -v '/planet-(daily|latest)' $log_file | awk '{ a+=$10 } END { print a }' )
 
 rm -f $log_file
