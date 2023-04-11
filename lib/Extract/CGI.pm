@@ -179,7 +179,7 @@ sub header {
     $data .= $q->header( @status, -charset => 'utf-8', @cookie, @expires );
 
     $data .= $q->start_html(
-        -title => 'BBBike extracts OpenStreetMap',
+        -title => 'BBBike extracts OpenStreetMap (OSM, Garmin, Shapefile etc.)',
         -head  => [@meta],
         -style => { 'src' => \@css, },
 

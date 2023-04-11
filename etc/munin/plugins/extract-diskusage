@@ -77,7 +77,7 @@ fi
 
 echo "multigraph disksize_pbf"
 echo "osm.value" 	`( cd $extract_dir/ &&  du -ks osm | awk '{ print $1 * 1024 }' )`
-echo "download.value" 	`( cd $extract_dir/ && du -ks download | awk '{ print $1 * 1024 }' )`
+echo "download.value" 	`( cd $extract_dir/ && du -ks -D download | awk '{ print $1 * 1024 }' )`
 
 echo ""
 echo "multigraph disksize_other"
