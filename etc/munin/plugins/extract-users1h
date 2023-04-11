@@ -1,0 +1,69 @@
+#!/bin/sh
+# Copyright (c) Sep 2011-2023 Wolfram Schneider, https://bbbike.org
+#
+# usage: /path/to/script [ config ]
+#
+# get documentation with: perldoc /path/to/script
+
+: << =cut
+
+=head1 NAME
+
+extract-users  - Plugin to monitor running extract users per hour
+
+=head1 CONFIGURATION
+
+Configuration parameters for /etc/munin/plugin-conf.d/bbbike-local
+if you need to override the defaults below:
+
+ [bbbike-extract-users]
+   env.warning   - Generate a warning if number of users goes above this level
+   env.critical  - Generate a critical if number of users goes above this level
+
+=cut
+
+
+PATH="/bin:/usr/bin"; export PATH
+
+config=$1
+
+case $0 in 
+    *-pro* ) pro="pro"
+              : ${extract_dir="/var/cache/extract-pro"}
+            ;;
+    *)        : ${extract_dir="/var/cache/extract"}
+            ;;
+esac
+
+extract_dir_running=$extract_dir/running
+
+if [ "$1" = "config" ]; then
+    : ${warning=300}
+    : ${critical=500}
+
+    : ${users_warning=300}
+    : ${users_critical=500}
+     
+    cat <<EOF
+graph_title Extracts users 1h $pro
+graph_vlabel Extracts users 1h $pro
+graph_category extract
+graph_info Running extract users $pro
+graph_period minute
+users1.label Running users 1h $pro
+users1.min 0
+EOF
+
+echo "users1.warning $users_warning"
+echo "users1.critical $users_critical"
+
+    exit 0
+fi
+
+#############################################
+# main
+#
+
+echo "users1.value" $(find $extract_dir/trash  -type f -mmin  -60 -print0 | xargs -0 egrep -h email | sed 's/,$//' | sort -u | wc -l)
+
+# EOF
