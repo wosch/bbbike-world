@@ -22,6 +22,7 @@ MUNIN_EXTRACT= 		extract-diskusage \
 			extract-size \
 			extract-jobs \
 			extract-users \
+			extract-users1h \
 			extract-ipaddress \
 			extract-http404 \
 			extract-wait \
