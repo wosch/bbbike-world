@@ -14,3 +14,4 @@ nice -n7 time osmconvert-wrapper -o ../osm/download/sub-planet/south-america.osm
 nice -n7 time osmconvert-wrapper -o ../osm/download/sub-planet/asia-south-india.osm.pbf -B=world/etc/sub-planet/asia-south-india.poly --drop-author --drop-version --out-pbf ../osm/download/planet-latest-nometa.osm.pbf
 nice -n7 time osmconvert-wrapper -o ../osm/download/sub-planet/asia-south-china.osm.pbf -B=world/etc/sub-planet/asia-south-china.poly --drop-author --drop-version --out-pbf ../osm/download/planet-latest-nometa.osm.pbf
 nice -n7 time osmconvert-wrapper -o ../osm/download/sub-planet/europe-germany-brandenburg.osm.pbf -B=world/etc/sub-planet/europe-germany-brandenburg.poly --drop-author --drop-version --out-pbf ../osm/download/planet-latest-nometa.osm.pbf
+nice -n7 time osmconvert-wrapper -o ../osm/download/sub-planet/africa-equatorial.osm.pbf -B=world/etc/sub-planet/africa-equatorial.poly --drop-author --drop-version --out-pbf ../osm/download/planet-latest-nometa.osm.pbf
