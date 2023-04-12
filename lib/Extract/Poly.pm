@@ -43,6 +43,8 @@ our $area = {
     'europe-germany-brandenburg' =>
       { 'poly' => [ 11.64, 51.58, 15.07, 53.31 ] },
     'europe-south'     => { 'poly' => [ -11.86, 28.29, 51.0,  46.7 ] },
+    'europe-southwest' => { 'poly' => [ -11,    33,    19,    46 ] },
+    'europe-southeast' => { 'poly' => [ 16,     25,    51.0,  48 ] },
     'europe-northwest' => { 'poly' => [ -26.60, 45.2,  8.3,   67.9 ] },
     'europe-east'      => { 'poly' => [ 13.15,  44.0,  42.58, 61.7 ] },
 
