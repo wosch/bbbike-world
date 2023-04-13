@@ -78,7 +78,7 @@ sub init {
         $extract_dir = "/var/cache/extract";
     }
 
-    $wait_warning  = int( 400 / $minutes );
+    $wait_warning  = int( 1200 / $minutes );
     $wait_critical = int( 3600 / $minutes );
 }
 
