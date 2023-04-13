@@ -341,7 +341,8 @@ sub create_poly_data {
     $counter += $#c;
 
     if ($error) {
-        warn "Poly file is corrupt, no valid coordinates are given\n";
+        warn
+"Poly file is corrupt, no valid coordinates are given for city '$city'\n";
         return ( "", 0 );
     }
     else {
