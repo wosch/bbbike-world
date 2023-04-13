@@ -747,8 +747,7 @@ sub-planet-statistic:
 	find ../extract/trash -mtime -7 -type f  | xargs ./world/bin/sub-planet-statistic.pl | awk '{ print $$2 }' | sort | uniq -c | sort -nr
 
 sub-planet-clean:
-	rm -f ../osm/download/sub-planet/*.tmp
-	rm -f ../osm/download/sub-srtm/*.tmp
+	find ../osm/download/sub-* -name '*.tmp' -mmin +240 -print0 | xargs -0 rm -f
 
 planet-geofabrik-download:
 	download_script=`pwd`/world/bin/planet-geofabrik-download; \
