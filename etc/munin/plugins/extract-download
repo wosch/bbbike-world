@@ -1,7 +1,7 @@
 #!/bin/sh
-# Copyright (c) Sep 2011-2021 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2011-2023 Wolfram Schneider, https://bbbike.org
 #
-# usage: /etc/munin/plugins/extract-files [ config ]
+# usage: /path/to/script [ config ]
 #
 # get documentation with: perldoc /path/to/script
 
@@ -11,35 +11,27 @@
 
 extract-download  - Plugin to monitor number download traffic
 
-=head1 ABOUT
-
-[...]
-
-=head1 USAGE
-
-[...]
-
 =head1 CONFIGURATION
 
 Configuration parameters for /etc/munin/plugin-conf.d/munin-node
 if you need to override the defaults below:
 
  [bbbike-extract-files]
-   env.warning   - Generate a warning if number of files goes above this level
-   env.critical  - Generate a critical if number of files goes above this level
+   env.warning   - Generate a warning if traffic goes above this level
+   env.critical  - Generate a critical if traffic goes above this level
 
 =cut
 
 
-PATH=/bin:/usr/bin; export PATH
-LANG=C
-log_dir=/var/log/lighttpd
+PATH="/bin:/usr/bin"; export PATH
+LANG="C"
+log_dir="/var/log/lighttpd"
 
 config=$1
 
 if [ "$1" = "config" ]; then
-    : ${warning=2500}
-    : ${critical=3500}
+    : ${warning="2500"}
+    : ${critical="3500"}
      
     cat <<EOF
 multigraph download
@@ -67,7 +59,7 @@ log_file=$(mktemp /tmp/munin-extract-download.XXXXXXXX)
 zcat -f $(ls -tr download* | tail -n $days) > $log_file
 
 echo "multigraph download"
-echo "ALL.value" 		$( awk '{ a+=$10 } END { print a }' $log_file )
+echo "ALL.value" 		$( egrep -v /tmp/ $log_file | awk '{ a+=$10 } END { print a }' )
 echo "planet_latest.value" 	$( egrep ' /osm/planet/planet-latest'  	     $log_file | awk '{ a+=$10 } END { print a }' )
 echo "planet_daily.value" 	$( egrep ' /osm/planet/planet-daily'  	     $log_file | awk '{ a+=$10 } END { print a }' )
 echo "other.value" 		$( egrep -v '/planet-(daily|latest)' $log_file | awk '{ a+=$10 } END { print a }' )
