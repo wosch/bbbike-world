@@ -49,6 +49,18 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
+    title   => qq{larger Garmin extracts},
+    id      => '32377b4212bfade6c7074f6ebb801acd',
+    content => {
+        type => 'html',
+        content =>
+qq{Allow larger Garmin extracts up to 1500 GB},
+    },
+    updated  => '2023-04-16T18:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title   => qq{organicmaps},
     id      => '32377b4212bfade5c7074f6ebb801acd',
     content => {
