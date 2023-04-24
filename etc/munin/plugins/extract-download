@@ -73,15 +73,15 @@ log_file=$(mktemp /tmp/munin-extract-download.XXXXXXXX)
 zcat -f $(ls -tr download* | tail -n $days) > $log_file
 
 echo "multigraph download"
-echo "ALL.value" 		$( egrep -v /tmp/ $log_file | awk '{ a+=$10 } END { print a }' )
-echo "planet_latest.value" 	$( egrep ' /osm/planet/planet-latest'  	     $log_file | awk '{ a+=$10 } END { print a }' )
-echo "planet_daily.value" 	$( egrep ' /osm/planet/planet-daily'  	     $log_file | awk '{ a+=$10 } END { print a }' )
-echo "other.value" 		$( egrep -v '/planet-(daily|latest)' $log_file | awk '{ a+=$10 } END { print a }' )
+echo "ALL.value" 		$( egrep -v /tmp/ $log_file |                     awk 'BEGIN { a = 0 } { a += $10 } END { print a }' )
+echo "planet_latest.value" 	$( egrep ' /osm/planet/planet-latest' $log_file | awk 'BEGIN { a = 0 } { a += $10 } END { print a }' )
+echo "planet_daily.value" 	$( egrep ' /osm/planet/planet-daily'  $log_file | awk 'BEGIN { a = 0 } { a += $10 } END { print a }' )
+echo "other.value" 		$( egrep -v '/planet-(daily|latest)'  $log_file | awk 'BEGIN { a = 0 } { a += $10 } END { print a }' )
 
 echo "multigraph precompute"
 for i in $formats
 do
-    echo "$i.value" $( egrep "GET /osm/$i/[^ ]+.zip " $log_file | awk 'BEGIN { a = 0 } { a+=$10 } END { print a }' )
+    echo "$i.value" $( egrep "GET /osm/$i/[^ ]+.zip " $log_file | awk 'BEGIN { a = 0 } { a += $10 } END { print a }' )
 done
 
 rm -f $log_file
