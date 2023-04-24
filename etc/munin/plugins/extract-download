@@ -26,7 +26,7 @@ if you need to override the defaults below:
 PATH="/bin:/usr/bin"; export PATH
 LANG="C"
 log_dir="/var/log/lighttpd"
-formats="garmin mapsforge mbtiles pmtiles organicmaps"
+formats="bbbike garmin mapsforge mbtiles pmtiles organicmaps"
 
 config=$1
 
@@ -44,6 +44,8 @@ planet_latest.label planet-latest
 planet_latest.min 0
 planet_daily.label planet-daily
 planet_daily.min 0
+extract.label other
+extract.min 0
 other.label other
 other.min 0
 ALL.label All
@@ -73,9 +75,10 @@ log_file=$(mktemp /tmp/munin-extract-download.XXXXXXXX)
 zcat -f $(ls -tr download* | tail -n $days) > $log_file
 
 echo "multigraph download"
-echo "ALL.value" 		$( egrep -v /tmp/ $log_file |                     awk 'BEGIN { a = 0 } { a += $10 } END { print a }' )
+echo "ALL.value" 		$( egrep -v /tmp/ $log_file                     | awk 'BEGIN { a = 0 } { a += $10 } END { print a }' )
 echo "planet_latest.value" 	$( egrep ' /osm/planet/planet-latest' $log_file | awk 'BEGIN { a = 0 } { a += $10 } END { print a }' )
-echo "planet_daily.value" 	$( egrep ' /osm/planet/planet-daily'  $log_file | awk 'BEGIN { a = 0 } { a += $10 } END { print a }' )
+echo "planet_daily.value" 	$( egrep ' /osm/planet/planet-daily' $log_file  | awk 'BEGIN { a = 0 } { a += $10 } END { print a }' )
+echo "extract.value" 		$( egrep -v '/osm/extract/)' $log_file          | awk 'BEGIN { a = 0 } { a += $10 } END { print a }' )
 echo "other.value" 		$( egrep -v '/planet-(daily|latest)'  $log_file | awk 'BEGIN { a = 0 } { a += $10 } END { print a }' )
 
 echo ""
