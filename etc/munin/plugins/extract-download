@@ -26,6 +26,7 @@ if you need to override the defaults below:
 PATH="/bin:/usr/bin"; export PATH
 LANG="C"
 log_dir="/var/log/lighttpd"
+formats="garmin mapsforge mbtiles pmtiles organicmaps"
 
 config=$1
 
@@ -49,6 +50,19 @@ ALL.label All
 ALL.min 0
 EOF
 
+    cat <<EOF
+multigraph precompute
+graph_title precompute traffic
+graph_vlabel precompute traffic out
+graph_category extractadmin
+graph_period minute
+EOF
+    for i in $formats
+    do
+        echo "$i.label $i"
+        echo "$i.min 0"
+    done
+
     exit 0
 fi
 
@@ -63,6 +77,12 @@ echo "ALL.value" 		$( egrep -v /tmp/ $log_file | awk '{ a+=$10 } END { print a }
 echo "planet_latest.value" 	$( egrep ' /osm/planet/planet-latest'  	     $log_file | awk '{ a+=$10 } END { print a }' )
 echo "planet_daily.value" 	$( egrep ' /osm/planet/planet-daily'  	     $log_file | awk '{ a+=$10 } END { print a }' )
 echo "other.value" 		$( egrep -v '/planet-(daily|latest)' $log_file | awk '{ a+=$10 } END { print a }' )
+
+echo "multigraph precompute"
+for i in $formats
+do
+    echo "$i.value" $( egrep "GET /osm/$i/[^ ]+.zip " $log_file | awk 'BEGIN { a = 0 } { a+=$10 } END { print a }' )
+done
 
 rm -f $log_file
 
