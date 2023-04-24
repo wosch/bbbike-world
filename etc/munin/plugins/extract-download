@@ -78,6 +78,8 @@ echo "planet_latest.value" 	$( egrep ' /osm/planet/planet-latest' $log_file | aw
 echo "planet_daily.value" 	$( egrep ' /osm/planet/planet-daily'  $log_file | awk 'BEGIN { a = 0 } { a += $10 } END { print a }' )
 echo "other.value" 		$( egrep -v '/planet-(daily|latest)'  $log_file | awk 'BEGIN { a = 0 } { a += $10 } END { print a }' )
 
+echo ""
+
 echo "multigraph precompute"
 for i in $formats
 do
