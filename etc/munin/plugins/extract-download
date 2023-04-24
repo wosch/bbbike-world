@@ -27,6 +27,7 @@ PATH="/bin:/usr/bin"; export PATH
 LANG="C"
 log_dir="/var/log/lighttpd"
 formats="bbbike garmin mapsforge mbtiles pmtiles organicmaps"
+download="planet_latest planet_daily extract other ALL"
 
 config=$1
 
@@ -40,17 +41,13 @@ graph_title download traffic
 graph_vlabel download traffic out
 graph_category extractadmin
 graph_period minute
-planet_latest.label planet-latest
-planet_latest.min 0
-planet_daily.label planet-daily
-planet_daily.min 0
-extract.label other
-extract.min 0
-other.label other
-other.min 0
-ALL.label All
-ALL.min 0
 EOF
+    for i in $download
+    do
+        echo "$i.label $i"
+        echo "$i.min 0"
+    done
+
 
     cat <<EOF
 multigraph precompute
