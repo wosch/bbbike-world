@@ -60,7 +60,7 @@ graph_category extractadmin
 graph_period minute
 EOF
 
-  find $home/world/etc/sub-planet-daily -name '*.poly' | perl -npe 's,.*/,,; s/\.poly//; s/-/_/g' | sort
+  find $home/world/etc/sub-planet-daily -name '*.poly' | perl -npe 's,.*/,,; s/\.poly//; s/-/_/g' | sort |
     awk '{ print $1 ".label " $1; print $1 ".min 0" }'
 
   cat <<EOF
