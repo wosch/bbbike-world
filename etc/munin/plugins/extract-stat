@@ -81,7 +81,7 @@ EOF
 fi
 
 tmpfile=$(mktemp)
-find $extract_dir -mtime -1 -name '*.json' | xargs egrep -h '"(lang|planet_osm_sub|convert_time|extract_time)" : ' > $tmpfile
+find $extract_dir/trash -mtime -1 -name '*.json' | xargs egrep -h '"(lang|planet_osm_sub|convert_time|extract_time)" : ' > $tmpfile
 
 echo "multigraph language"
 egrep '"lang" : ' $tmpfile | sort | uniq -c | perl -npe 's/[",]//g' |
