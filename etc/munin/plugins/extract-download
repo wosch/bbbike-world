@@ -5,6 +5,7 @@
 #
 # get documentation with: perldoc /path/to/script
 
+
 : << =cut
 
 =head1 NAME
@@ -23,6 +24,7 @@ if you need to override the defaults below:
 =cut
 
 
+set -e
 PATH="/bin:/usr/bin"; export PATH
 LANG="C"
 log_dir="/var/log/lighttpd"
@@ -69,7 +71,7 @@ cd $log_dir
 
 days=30
 log_file=$(mktemp /tmp/munin-extract-download.XXXXXXXX)
-zcat -f $(ls -tr download* | tail -n $days) > $log_file
+zcat -f $(ls -tr $log_dir/download* | tail -n $days) /dev/null > $log_file
 
 echo "multigraph download"
 echo "ALL.value" 		$( egrep -v /tmp/ $log_file                     | awk 'BEGIN { a = 0 } { a += $10 } END { print a }' )
