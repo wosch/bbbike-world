@@ -47,7 +47,7 @@ graph_vlabel Extracts ip address $pro
 graph_category extractadmin
 graph_info Running extract ip address $pro
 graph_period minute
-users.label Running ip address 6h $pro
+users.label Running ip address 2h $pro
 users.min 0
 EOF
 
@@ -62,7 +62,7 @@ fi
 #
 
 printf "users.value " 
-find $extract_dir/trash -type f -mmin  -360 -print0 | \
+find $extract_dir/trash -type f -mmin  -120 -print0 | \
   xargs -0 egrep -h ip_address | sed 's/,$//' | \
   sort | uniq -c |sort -nr | head -1 | awk '{ print $1 }'
 
