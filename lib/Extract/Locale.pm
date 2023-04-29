@@ -141,7 +141,9 @@ sub http_accept_language {
     return "" if !$requested_language;
 
     my @lang = Locale::Util::parse_http_accept_language($requested_language);
-    warn "Accept-language: " . join( ", ", @lang ) if $debug >= 2;
+    warn "Accept-language: $requested_language\n" if $debug >= 2;
+    warn "User prefered languages: " . join( ", ", @lang ) . "\n"
+      if $debug >= 2;
 
     foreach my $l (@lang) {
         if ( grep { $l eq $_ } @{ $option->{supported_languages} } ) {
