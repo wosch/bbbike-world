@@ -74,11 +74,11 @@ log_file=$(mktemp /tmp/munin-extract-download.XXXXXXXX)
 zcat -f $(ls -tr download* | tail -n $days) /dev/null | egrep -v '/html/|\?' | awk '{ print $7, $10 }' > $log_file
 
 echo "multigraph download"
-echo "ALL.value" 		$( egrep -v '^/tmp/' $log_file                  | awk 'BEGIN { a = 0 } { a += $2 } END { print a }' )
-echo "planet_latest.value" 	$( egrep '^/osm/planet/planet-latest' $log_file | awk 'BEGIN { a = 0 } { a += $2 } END { print a }' )
-echo "planet_daily.value" 	$( egrep '^/osm/planet/planet-daily' $log_file  | awk 'BEGIN { a = 0 } { a += $2 } END { print a }' )
-echo "extract.value" 		$( egrep '/osm/extract/' $log_file            | awk 'BEGIN { a = 0 } { a += $2 } END { print a }' )
-echo "other.value" 		$( egrep -v '/planet-(daily|latest)' $log_file  | awk 'BEGIN { a = 0 } { a += $2 } END { print a }' )
+echo "planet_latest.value" 	$( egrep '^/osm/planet/planet-latest' $log_file  | awk 'BEGIN { a = 0 } { a += $2 } END { print a }' )
+echo "planet_daily.value" 	$( egrep '^/osm/planet/planet-daily' $log_file   | awk 'BEGIN { a = 0 } { a += $2 } END { print a }' )
+echo "extract.value" 		$( egrep '^/osm/extract/' $log_file              | awk 'BEGIN { a = 0 } { a += $2 } END { print a }' )
+echo "other.value" 		$( egrep -v '^/osm/(extract|planet)/)' $log_file | awk 'BEGIN { a = 0 } { a += $2 } END { print a }' )
+echo "ALL.value" 		$( egrep -v '^/tmp/' $log_file                   | awk 'BEGIN { a = 0 } { a += $2 } END { print a }' )
 
 echo ""
 
