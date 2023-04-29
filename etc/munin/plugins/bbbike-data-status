@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) May 2018-2019 Wolfram Schneider, https://bbbike.org
+# Copyright (c) May 2018-2022 Wolfram Schneider, https://bbbike.org
 #
 # usage: /etc/munin/plugins/bbbike-data-status [ config ]
 #
@@ -14,24 +14,16 @@ use warnings;
 
 =head1 NAME
 
-bbbike-data-status - Plugin to monitor when ./data-osm was last time updated
-
-=head1 ABOUT
-
-[...]
-
-=head1 USAGE
-
-[...]
+bbbike-data-status - monitor time ./data-osm was last updated
 
 =head1 CONFIGURATION
 
-Configuration parameters for /etc/munin/plugin-conf.d/munin-node
+Configuration parameters for /etc/munin/plugin-conf.d/bbbike-local
 if you need to override the defaults below:
 
- [extract-wait]
-   env.wait_warnings - Generate a warning if average last checkout time goes above this level 
-   env.wait_critical - Generate a critical if average last checkout time goes above this level
+ [bbbike-data-status]
+   env.wait_warnings NN - Generate a warning if ./data-osm is out of date
+   env.wait_critical NN - Generate a critical if ./data-osm is really out of date
 
 =cut
 
@@ -42,8 +34,8 @@ my $debug = 0;
 my $help  = 0;
 
 my $bbbike_dir    = "/usr/local/www/bbbike.org";
-my $wait_warning  = 8;                             # in days
-my $wait_critical = 16;                            # in #days
+my $wait_warning  = $ENV{"warning"} // 8;          # in days
+my $wait_critical = $ENV{"critical"} // 16;        # in days
 $ENV{PATH} = '/bin:/usr/bin';
 
 sub usage {

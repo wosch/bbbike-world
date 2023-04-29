@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -T
-# Copyright (c) 2009-2022 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2023 Wolfram Schneider, https://bbbike.org
 #
 # area.cgi - which areas are covered by bbbike.org
 
@@ -32,20 +32,20 @@ my $q = new CGI;
 
 # sort priority for formats
 my %prio = (
-    'pbf'                       => -100,
-    'gz'                        => -90,
-    'csv.xz'                    => 10,
-    'shp.zip'                   => -80,
-    'garmin-onroad.zip'         => -70,
-    'garmin-onroad-latin1.zip'  => -70,
-    'garmin-ontrail.zip'        => -50,
-    'garmin-ontrail-latin1.zip' => -50,
-    'garmin-opentopo.zip'       => -70,
-    'garmin-osm.zip'            => -70,
-    'geojson.xz'                => -50,
-    'mapsforge-osm.zip'         => -40,
-    'organicmaps-osm.zip'       => -30,
-    'svg-osm.zip'               => -45,
+    'pbf'                        => -100,
+    'gz'                         => -90,
+    'csv.xz'                     => 10,
+    'shp.zip'                    => -80,
+    'garmin-onroad.zip'          => -70,
+    'garmin-onroad-latin1.zip'   => -70,
+    'garmin-ontrail.zip'         => -75,
+    'garmin-ontrail-latin1.zip'  => -75,
+    'garmin-opentopo-latin1.zip' => -70,
+    'garmin-osm.zip'             => -70,
+    'geojson.xz'                 => -50,
+    'mapsforge-osm.zip'          => -40,
+    'organicmaps-osm.zip'        => -30,
+    'svg-osm.zip'                => -45,
 );
 
 sub sort_by_format {
@@ -88,7 +88,7 @@ sub footer {
 <hr/>
 
 <div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em;" >
-  (&copy;) 2008-2022 <a href="https://bbbike.org">BBBike.org</a> //
+  (&copy;) 2008-2023 <a href="https://bbbike.org">BBBike.org</a> //
   Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors <br/>
   <a href="https://mc.bbbike.org/mc/">map compare</a> - <a href="https://extract.bbbike.org/">osm extract service</a>
 
@@ -282,7 +282,7 @@ sub header {
     my $base   = "";
 
     my @javascript = (
-        "/html/jquery/jquery-1.4.2.min.js",
+        "/html/jquery/jquery-1.6.3.min.js",
         "/html/devbridge-jquery-autocomplete-1.1.2/jquery.autocomplete-min.js",
 "https://maps.googleapis.com/maps/api/js?v=3.9&sensor=false&language=en&libraries=weather",
         "/html/bbbike.js",

@@ -7,11 +7,16 @@
 PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
 set -e
 
+# load standard BBBike extract config
+if [ -f $HOME/.bbbikerc ]; then
+    . $HOME/.bbbikerc
+fi
+
 cd $HOME/projects/bbbike
 logfile="tmp/log.planet-daily-update"
 touch $logfile
 
-if time nice -n 6 make planet-daily-update sub-planet-daily > $logfile 2>&1; then
+if ( time nice -n 6 make planet-daily-update && time make sub-planet-daily build-tagname-db build-tagname-db-geofabrik ) > $logfile 2>&1; then
   exit 0
 else
   echo "planet update failed: $?"

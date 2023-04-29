@@ -1,10 +1,10 @@
 #!/bin/sh
-# Copyright (c) Mar 2013-2021 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Mar 2013-2022 Wolfram Schneider, https://bbbike.org
 #
 # planet-update - daily updates of planet-latest.osm.pbf
 #
 
-PATH=/usr/local/bin:/bin:/usr/bin; export PATH
+PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
 set -e
 
 nice="nice -n 9"
@@ -12,7 +12,7 @@ nice="nice -n 9"
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
 
 # need 4GB per 7 days of OSM updates
-program="time pyosmium-up-to-date --size 12000 -v -v"
+program="time pyosmium-up-to-date --socket-timeout 30 --size 12000 -v -v --format pbf"
 umask 002
 
 md5sum=$(which md5 md5sum false 2>/dev/null | head -n 1)
@@ -21,25 +21,15 @@ download_dir=$HOME/projects/osm/download
 planet_latest=$download_dir/planet-latest.osm.pbf
 planet_daily=$download_dir/planet-daily.osm.pbf
 
+# always delete the possible huge (> 70GB) tempfile
+tmpfile=$(mktemp $download_dir/.tmp.$(basename $planet_daily).XXXXXXXX)
+trap 'rm -f $tmpfile' 0
+
 create_daily_planet ()
 {
-   tmpfile=$(mktemp $download_dir/.$(basename $planet_daily).XXXXXXXX.tmp)
-   rm -f $tmpfile # we need the filename, not a file for pyosmium-up-to-date
-   $program --outfile $tmpfile $planet_latest
-   mv -f $tmpfile $planet_daily
-   update_md5 $planet_daily
-}
+   # we need the filename, not a file for pyosmium-up-to-date
+   rm -f $tmpfile 
 
-update_daily_planet ()
-{
-   $program $planet_daily
-   update_md5 $planet_daily
-}
-
-rebuild_daily_planet ()
-{
-   tmpfile=$(mktemp $download_dir/tmp.XXXXXXXX.$(basename $planet_daily))
-   rm -f $tmpfile # we need the filename, not a file for pyosmium-up-to-date
    $program --outfile $tmpfile $planet_latest
    mv -f $tmpfile $planet_daily
    update_md5 $planet_daily
@@ -51,7 +41,9 @@ update_md5 ()
 
   # atomar md5 checksum - the file exists and has correct values, or we delete it
   rm -f $file.md5
-  $md5sum $file > $file.md5.tmp && mv -f $file.md5.tmp $file.md5
+  $md5sum $file > $file.md5.tmp 
+  perl -npe 's,/.*/,,' $file.md5.tmp > $file.md5
+  rm -f $file.md5.tmp
 
   # timestamp of planet
   osmconvert --out-timestamp $file > $file.timestamp.tmp && mv -f $file.timestamp.tmp $file.timestamp
@@ -67,15 +59,15 @@ fi
 
 # create from scratch
 if [ ! -e $planet_daily ]; then
-  create_daily_planet
+  create_daily_planet $planet_latest
 
 # start with a fresh latest planet
 elif [ $planet_latest -nt $planet_daily ]; then
-  rebuild_daily_planet
+  create_daily_planet $planet_latest
 
 # update an (updated) daily planet
 else
-  update_daily_planet
+  create_daily_planet $planet_daily
 fi
 
 #EOF

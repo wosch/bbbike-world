@@ -747,8 +747,7 @@ sub-planet-statistic:
 	find ../extract/trash -mtime -7 -type f  | xargs ./world/bin/sub-planet-statistic.pl | awk '{ print $$2 }' | sort | uniq -c | sort -nr
 
 sub-planet-clean:
-	rm -f ../osm/download/sub-planet/*.tmp
-	rm -f ../osm/download/sub-srtm/*.tmp
+	find ../osm/download/sub-* -name '*.tmp' -mmin +240 -print0 | xargs -0 rm -f
 
 planet-geofabrik-download:
 	download_script=`pwd`/world/bin/planet-geofabrik-download; \
@@ -1075,6 +1074,8 @@ staging:
 	${BBMAKE} -C/usr/local/www/bbbike.org -s update-files
 	${BBMAKE} -C/usr/local/www/bbbike.org git-diff
 	${BBMAKE} -s purge-cache-js >/dev/null
+
+deploy: mygit data-distclean check staging
 
 
 TILES_TMP=${TILES_DIR}/tmp
@@ -1460,7 +1461,7 @@ bbbike-partition:
 	sudo mkdir -p ${BBBIKE_PARTITION}
 	sudo chown ${LOGNAME} ${BBBIKE_PARTITION}
 	cd ${BBBIKE_PARTITION}; mkdir -p cache extract projects tmp www
-	sudo ${MAKE} bbbike-cache-install
+	sudo ${BBMAKE} bbbike-cache-install
 	
 install-backend-lighttpd:
 	${MAKE} -C./world/etc install-backend-lighttpd
@@ -1593,7 +1594,7 @@ lighttpd-stop webserver-stop:
 
 test prove: lighttpd-restart perlcheck-bbbike-cgi
 	mkdir -p ${TMP_DIR}
-	TMPDIR=${TMP_DIR} LANG=C LC_ALL=C time prove ${prove_opt} -j${MAX_CPU} --shuffle --timer --state=save ${PROVE_FILES}
+	env http_proxy="" TMPDIR=${TMP_DIR} LANG=C LC_ALL=C time prove ${prove_opt} -j${MAX_CPU} --shuffle --timer --state=save ${PROVE_FILES}
 	@echo ">>> All tests are successfully done. Stop lighttpd <<<"
 	@echo ""
 	${MAKE} lighttpd-stop
@@ -1800,7 +1801,11 @@ garmin-borders:
 	  unzip -q bounds-latest.zip; \
 	  rm -f bounds-latest.zip; \
 	fi
-	
+
+build-tagname-db:
+	nice -10 ${MAKE} -C ../tagname $@
+build-tagname-db-geofabrik:
+	-nice -10 ${MAKE} -C ../tagname $@ || nice -10 ${MAKE} -C ../tagname $@ 
 
 help:
 	@echo "bbbike version: ${GIT_ID}"
@@ -1848,7 +1853,7 @@ help:
 	@echo "  [ planet-daily-update ]"
 	@echo "  [ download-bbbike-org-install ]"
 	@echo ""
-	@echo "  [ staging | extract-bbbike-org-install | garmin-legend ]"
+	@echo "  [ deploy | staging | extract-bbbike-org-install | garmin-legend ]"
 	@echo "  [ extract-gc | extract-trash-gc ]"
 	@echo "  [ extract-distclean ]"
 	@echo ""
@@ -1869,6 +1874,8 @@ help:
 	@echo "  [ make deb-clean deb-bin-java deb-repo-upload ]"
 	@echo ""
 	@echo "  [ make garmin-borders ]"
+	@echo ""
+	@echo "  make build-tagname-db"
 	@echo ""
 	@echo "  [ sudo apt-get clean && sudo apt-get update && sudo apt-get dist-upgrade -y ]"
 	@echo "  [ sudo apt-get install bbbike-world ]"

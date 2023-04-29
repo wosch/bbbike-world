@@ -6,6 +6,8 @@
 
 MUNIN_BBBIKE_SYSTEM= 	bbbike-processes \
 			bbbike-data-status \
+			bbbike-planet-status \
+			bbbike-tagname-status \
 			bbbike-git-status
 
 MUNIN_BBBIKE_WEB=	bbbike-services-ajax \
@@ -20,6 +22,10 @@ MUNIN_EXTRACT= 		extract-diskusage \
 			extract-size \
 			extract-jobs \
 			extract-users \
+			extract-users1h \
+			extract-stat \
+			extract-ipaddress \
+			extract-http404 \
 			extract-wait \
 			extract-download \
 			extract-stale
@@ -72,7 +78,7 @@ help-update:
 	@echo ""
 	@echo  "don't forget to update /etc/munin/plugin-conf.d/munin-node, see ./README"
 
-install-munin-bbbike: install-munin-bbbike-system install-munin-bbbike-web \
+install-munin-bbbike: clean-install install-munin-bbbike-system install-munin-bbbike-web \
 			install-munin-extract install-munin-apt
 
 install-munin-bbbike-system:
@@ -145,29 +151,29 @@ clean distclean:
 	rm -f plugins/*.bak plugins/*.tdy
 
 clean-install:
-	rm -f ${MUNIN_PLUGINS_DIR}/bbbike-*
-	rm -f ${MUNIN_PLUGINS_DIR}/extract-*
-
+	sudo rm -f ${MUNIN_PLUGINS_DIR}/bbbike-* ${MUNIN_PLUGINS_DIR}/extract-*
 	
 help:
-	@echo "make [ install-munin-bbbike ]"
-	@echo "     [ install-munin-xen ]"
-	@echo "     [ install-munin-jenkins ]"
+	@echo "make install-munin-bbbike"
+	@echo "make install-munin-xen"
+	@echo "make install-munin-jenkins"
 	@echo ""
-	@echo "     [ install-munin-apt ]"
-	@echo "     [ install-munin-acpi ]"
-	@echo "     [ install-munin-stats ]"
+	@echo "make install-munin-apt"
+	@echo "make install-munin-acpi"
+	@echo "make install-munin-stats"
 	@echo ""
-	@echo "     [ install-munin-bbbike-system ]"
-	@echo "     [ install-munin-bbbike-web ]"
-	@echo "     [ install-munin-extract ]"
-	@echo "     [ install-munin-extract-web ]"
+	@echo "make install-munin-bbbike-system"
+	@echo "make install-munin-bbbike-web"
+	@echo "make install-munin-extract"
+	@echo "make install-munin-extract-web"
 	@echo ""
-	@echo "     [ install-munin-lighttpd ]"
-	@echo "     [ install-munin-varnish ]"
+	@echo "make install-munin-lighttpd"
+	@echo "make install-munin-varnish"
 	@echo ""
-	@echo "     [ munin-restart ]" 
-	@echo "     [ perltidy | distclean | clean-install ]"
+	@echo "make munin-restart" 
+	@echo "make perltidy"
+	@echo "make distclean"
+	@echo "make clean-install"
 	@echo ""
 	@echo "for bbbike.de: "
 	@echo "make MUNIN_BBBIKE=\"bbbike-output bbbike-pref bbbike-route bbbike-appid\" install-munin-bbbike"

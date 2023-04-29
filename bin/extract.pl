@@ -86,6 +86,10 @@ our $option = {
     'email_from' => 'bbbike@bbbike.org',
     'send_email' => 1,
 
+    # do not run for N seconds if the file /tmp/extract-pause exists
+    'pause_seconds' => 3600,
+    'pause_file'    => '/tmp/extract-pause',
+
     # timeout handling
     'alarm'         => 210 * 60,    # extract
     'alarm_convert' => 90 * 60,     # convert
@@ -1872,6 +1876,8 @@ usage: $0 [ options ]
 --planet-osm=/path/to/planet.osm.pbf  default: $option->{"planet"}->{"planet.osm"}
 --spool-dir=/path/to/spool 	      default: $option->{spool_dir}
 --test-mode		do not execude commands
+
+pause file: $option->{"pause_file"} for $option->{"pause_seconds"} seconds
 EOF
 }
 
@@ -2043,6 +2049,23 @@ sub run_jobs {
     return $errors;
 }
 
+sub pause_mode {
+    my $seconds = $option->{'pause_seconds'};
+    my $file    = $option->{'pause_file'};
+
+    return 0 if !-e $file;
+
+    my $st = stat($file) or return 0;
+
+    if ( time - $st->mtime < $seconds ) {
+        warn "pause due $file is less than $seconds sec old\n";
+        return 1;
+    }
+
+    unlink($file);
+    return 0;
+}
+
 ######################################################################
 # main
 #
@@ -2074,6 +2097,9 @@ GetOptions(
 $Extract::Utils::debug = $debug;
 
 die usage if $help;
+
+exit(0) if &pause_mode;
+
 die "Max jobs: $max_jobs out of range!\n" . &usage
   if $max_jobs < 1 || $max_jobs > 32;
 die "Max areas: $max_areas out of range 1..64!\n" . &usage

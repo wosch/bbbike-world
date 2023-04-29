@@ -39,7 +39,7 @@ our $option = {
 };
 
 # global variables
-our $debug = 0;
+our $debug = 1;
 my $msg;    # translations
 my $language;
 
@@ -141,7 +141,10 @@ sub http_accept_language {
     return "" if !$requested_language;
 
     my @lang = Locale::Util::parse_http_accept_language($requested_language);
-    warn "Accept-language: " . join( ", ", @lang ) if $debug >= 2;
+    if ( $debug >= 1 ) {
+        warn "Accept-language: $requested_language\n";
+        warn "User prefered languages: " . join( ", ", @lang ) . "\n";
+    }
 
     foreach my $l (@lang) {
         if ( grep { $l eq $_ } @{ $option->{supported_languages} } ) {

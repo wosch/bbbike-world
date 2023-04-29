@@ -56,7 +56,7 @@ if [ "$1" = "config" ]; then
     cat <<EOF
 graph_title Extracts crashed $pro
 graph_vlabel Extracts crashed $pro
-graph_category extract
+graph_category extractadmin
 graph_info Stale extract jobs $pro
 graph_period minute
 stale.label Stale jobs $pro

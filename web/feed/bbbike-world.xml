@@ -4,7 +4,7 @@
   <link href="https://www.bbbike.org" />
   <link href="https://www.bbbike.org/feed/bbbike-world.xml" rel="self" />
   <icon>https://www.bbbike.org/images/srtbike.ico</icon>
-  <updated>Tue Sep 6 17:14:09 2022 +0000</updated>
+  <updated>Thu Apr 27 17:38:27 2023 +0000</updated>
   <author>
     <name>Wolfram Schneider</name>
   </author>
@@ -12,6 +12,13 @@
   OpenStreetMap project!</subtitle>
   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af7</id>
   <generator uri="https://metacpan.org/pod/XML::Atom::SimpleFeed" version="0.902">XML::Atom::SimpleFeed</generator>
+  <entry>
+    <title>larger Garmin extracts</title>
+    <id>32377b4212bfade6c7074f6ebb801acd</id>
+    <content>Allow larger Garmin extracts up to 1500 GB</content>
+    <updated>2023-04-16T18:30:02Z</updated>
+    <category term="News" />
+  </entry>
   <entry>
     <title>organicmaps</title>
     <id>32377b4212bfade5c7074f6ebb801acd</id>

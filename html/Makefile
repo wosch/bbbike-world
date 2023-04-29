@@ -14,7 +14,7 @@ BBBIKE_WORLD_JAVASCRIPT_FILES=\
 JAVASCRIPT_FILES= ${BBBIKE_WORLD_JAVASCRIPT_FILES}
 
 bbbike-js: bbbike-js.js
-bbbike-js.js: maps3.js bbbike.js jquery/jquery-1.4.2.min.js devbridge-jquery-autocomplete-1.1.2/jquery.autocomplete.js
+bbbike-js.js: maps3.js bbbike.js jquery/jquery-1.6.3.min.js devbridge-jquery-autocomplete-1.1.2/jquery.autocomplete.js
 	for i in $^ ; do \
 	    ${JSMIN} < $$i; \
 	done > $@.tmp

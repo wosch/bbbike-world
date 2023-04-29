@@ -1,0 +1,157 @@
+#!/usr/local/bin/perl
+# Copyright (c) May 2018-2023 Wolfram Schneider, https://bbbike.org
+#
+# usage: /etc/munin/plugins/bbbike-planet-status [ config ]
+#
+# get documentation with: perldoc /path/to/script
+
+use Getopt::Long;
+use File::stat;
+use IO::File;
+
+use strict;
+use warnings;
+
+=head1 NAME
+
+bbbike-planet-status - monitor time planet was last updated
+
+=head1 CONFIGURATION
+
+Configuration parameters for /etc/munin/plugin-conf.d/bbbike-local
+if you need to override the defaults below:
+
+ [bbbike-planet-status]
+   env.days_warnings NN - Generate a warning if planet-latest is out of date
+   env.days_critical NN - Generate a critical if planet-latest is really out of date
+   env.days_daily_warnings NN - Generate a warning if planet-daily is out of date
+   env.days_daily_critical NN - Generate a critical if planet-daily is really out of date
+
+=cut
+
+########################################################################
+# init
+#
+my $debug = 0;
+my $help  = 0;
+
+my $planet_dir    = "/usr/local/www/download.bbbike.org/osm/planet";
+my $days_warning  = $ENV{"days_warning"} // 8;                         # in days
+my $days_critical = $ENV{"days_critical"} // 16;                       # in days
+my $days_daily_warning  = $ENV{"days_daily_warnings"} // 2;            # in days
+my $days_daily_critical = $ENV{"days_daily_critical"} // 5;            # in days
+
+$ENV{PATH} = '/bin:/usr/bin';
+
+sub usage {
+    <<EOF;
+usage: $0 [ options ] config
+
+--debug=0..2               default: $debug
+--bbbike-dir=/path/to/dir  default: $planet_dir
+EOF
+}
+
+sub config_planet {
+
+    my $data = <<EOF;
+graph_title BBBike planet status time
+graph_vlabel BBBike planet status time
+graph_category bbbikesystem
+graph_info BBBike planet status time
+graph_period hour
+EOF
+
+    $data .=
+      &config_planet_file( 'planet_latest', $days_warning, $days_critical );
+    $data .=
+      &config_planet_file( 'planet_daily', $days_daily_warning,
+        $days_daily_critical );
+
+    $data .=
+      &config_planet_file( 'sub_latest_europe', $days_warning, $days_critical );
+    $data .=
+      &config_planet_file( 'sub_latest_daily_europe', $days_daily_warning,
+        $days_daily_critical );
+
+    return $data;
+}
+
+sub config_planet_file {
+    my ( $name, $warning, $critical ) = @_;
+
+    <<EOF;
+bbbike_${name}_status_time.label BBBike ${name} status time
+bbbike_${name}_status_time.min 0
+bbbike_${name}_status_time.warning $warning
+bbbike_${name}_status_time.critical $critical
+EOF
+}
+
+sub status {
+    my $mtime = shift;
+    my $time  = time;
+
+    return ( $time - $mtime ) / ( 24 * 60 * 60 );
+}
+
+sub planet_status_time {
+    my %args = @_;
+
+    my $planet_dir  = $args{'planet_dir'};
+    my $planet_file = $args{'planet_file'};
+    my $tag         = $args{'tag'};
+
+    my $file = "$planet_dir/$planet_file";
+
+    # /etc/systemd/system/multi-user.target.wants/munin-node.service
+    # ProtectHome=read-only
+    #
+    my $st = stat($file) or die "stat $file: $!\n";
+
+    print "bbbike_${tag}_status_time.value @{[ status($st->mtime) ]}\n";
+}
+
+sub planet_status_time_all {
+    &planet_status_time(
+        'planet_dir'  => $planet_dir,
+        'planet_file' => 'planet-latest.osm.pbf',
+        'tag'         => 'planet_latest'
+    );
+    &planet_status_time(
+        'planet_dir'  => $planet_dir,
+        'planet_file' => 'planet-daily.osm.pbf',
+        'tag'         => 'planet_daily'
+    );
+    &planet_status_time(
+        'planet_dir'  => $planet_dir,
+        'planet_file' => 'sub-planet/europe.osm.pbf',
+        'tag'         => 'sub_latest_europe'
+    );
+    &planet_status_time(
+        'planet_dir'  => $planet_dir,
+        'planet_file' => 'sub-planet-daily/europe.osm.pbf',
+        'tag'         => 'sub_latest_daily_europe'
+    );
+}
+
+#############################################
+# main
+#
+
+GetOptions(
+    "debug=i"      => \$debug,
+    "bbbike-dir=s" => \$planet_dir,
+    "help"         => \$help,
+) or die usage;
+
+die usage if $help;
+
+if ( defined $ARGV[0] && $ARGV[0] eq 'config' ) {
+    print &config_planet;
+}
+else {
+    &planet_status_time_all;
+}
+
+# EOF
