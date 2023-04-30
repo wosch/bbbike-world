@@ -69,6 +69,7 @@ fi
 
 cd $log_dir
 
+trap 'rm -f $log_file' 0
 days=30
 log_file=$(mktemp /tmp/munin-extract-download.XXXXXXXX)
 zcat -f $(ls -tr download* | tail -n $days) /dev/null | egrep -v '/html/|\?' | awk '{ print $7, $10 }' > $log_file
@@ -87,7 +88,5 @@ for i in $formats
 do
     echo "$i.value" $( egrep "/osm/$i/[^ ]+.zip " $log_file | awk 'BEGIN { a = 0 } { a += $2 } END { print a }' )
 done
-
-rm -f $log_file
 
 #EOF
