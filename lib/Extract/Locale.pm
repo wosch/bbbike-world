@@ -136,7 +136,7 @@ sub http_accept_language {
     my $self = shift;
     my $q    = $self->{'q'};
 
-    my $requested_language = $q->http('Accept-language') || "";
+    my $requested_language = $q->http('Accept-language') // "";
 
     return "" if !$requested_language;
 
@@ -153,6 +153,7 @@ sub http_accept_language {
         }
     }
 
+    warn "No supported language found: $requested_language\n" if $debug >= 1;
     return "";
 }
 
