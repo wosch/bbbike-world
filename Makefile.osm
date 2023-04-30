@@ -104,7 +104,6 @@ BBBIKE_WEBSERVER_DIR=/usr/local/www/bbbike.org
 BBBIKE_WEB_DIR= ./
 CACHE_HEATER_MAX=50
 TMP=world/tmp
-RM_BG=	world/bin/rm-bg
 WEB_GROUP=	www-data
 EXTRACTS_SPOOL_DIR=/var/cache/extract
 POSTGIS_STYLE=/usr/share/osm2pgsql/osm2pgsql/bbbike.style
@@ -131,8 +130,7 @@ TILES_DIR=	tile
 # the world:
 #
 OSM_AREAS_OPENSEARCH=data-opensearch-places
-OSM_PLANET=	../osm/download/planet-latest.osm.bz2
-OSM_PLANET_PBF=	../osm/download/planet-latest-nometa.osm.pbf
+OSM_PLANET_PBF=	../osm/download/planet-daily.osm.pbf
 
 #OSM_PLANET_PBF=	../osm/download/planet-latest.osm.pbf
 #OSM_PLANET_PBF=	../osm/download/geofabrik/europe/germany/brandenburg.osm.pbf
@@ -223,9 +221,6 @@ _osmosis_opt_pbf:
 	else \
 	  for i in ${CITIES}; do printf " --bounding-polygon file=${OSM_DIR}/$$i/$$i.poly ${OSMOSIS_BOUNDING_OPT} --write-pbf file=${OSM_DIR}/$$i/$$i.osm.pbf omitmetadata=true"; done; \
 	fi
-
-cities-poly: poly
-	${NICE5} ${BZIP2} -dc ${OSM_PLANET} | ${NICE5} ${OSMOSIS} --fast-read-xml enableDateParsing=no /dev/stdin --buffer bufferCapacity=${OSMOSIS_BUFFER_CAPACITY} --tee `${BBMAKE} CITIES_DB=${CITIES_DB} CITIES="${CITIES}" -s city-count` `${BBMAKE} CITIES_DB=${CITIES_DB} CITIES="${CITIES}" -s _osmosis_opt`
 
 _cities-osm: poly
 	${NICE5} ${OSMOSIS} --read-pbf ${OSM_PLANET_PBF} --buffer bufferCapacity=${OSMOSIS_BUFFER_CAPACITY} --tee `${BBMAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} city-count` `${BBMAKE} -s CITIES="${CITIES}" CITIES_DB=${CITIES_DB} _osmosis_opt`
@@ -931,10 +926,10 @@ log-clean:
 	rm -f tmp/*.log
 
 download-clean:
-	rm -rf ../osm/download/tmp.[0-9]*
+	rm -rf ../osm/download/.tmp.[0-9]*
 
 clean-planet:
-	${RM_BG} ../osm/download/*.old.*
+	rm -f ../osm/download/*.old.*
 
 elevation-check:
 	${NICE} ${ELEVATION_SCRIPT} --database=../osm/srtm/elevation.db --check
@@ -1530,9 +1525,6 @@ download-bbbike-org-install:
 	  ln -fs $$HOME/projects/osm/download/planet-latest.osm.pbf . ;\
 	  ln -fs $$HOME/projects/osm/download/planet-latest.osm.pbf.md5 . ;\
 	  ln -fs $$HOME/projects/osm/download/planet-latest.osm.pbf.timestamp . ;\
-	  ln -fs $$HOME/projects/osm/download/planet-latest-nometa.osm.pbf . ;\
-	  ln -fs $$HOME/projects/osm/download/planet-latest-nometa.osm.pbf.md5 . ;\
-	  ln -fs $$HOME/projects/osm/download/planet-latest-nometa.osm.pbf.timestamp . ;\
 	  ln -fs $$HOME/projects/osm/download/planet-daily.osm.pbf . ;\
 	  ln -fs $$HOME/projects/osm/download/planet-daily.osm.pbf.md5 . ;\
 	  ln -fs $$HOME/projects/osm/download/planet-daily.osm.pbf.timestamp . ;\
@@ -1846,7 +1838,7 @@ help:
 	@echo ""
 	@echo "  [ planet-download | planet-download-bzip2 | planet-download-pbf ]"
 	@echo "  [ planet-geofabrik-download ]"
-	@echo "  [ planet-nometa | sub-planet | sub-planet-daily ]"
+	@echo "  [ sub-planet | sub-planet-daily ]"
 	@echo "  [ sub-srtm | sub-planet-statistic ]"
 	@echo "  [ planet-streets | planet-places ]"
 	@echo "  [ update-database | update-files ]"

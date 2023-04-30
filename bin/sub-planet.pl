@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2021 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2023 Wolfram Schneider, https://bbbike.org
 #
 # create poly sub-planet files
 
@@ -20,7 +20,7 @@ chdir("$FindBin::RealBin/../..")
 my $debug            = 0;
 my $prefix_default   = 'sub-planet';
 my $prefix           = $prefix_default;
-my $planet_osm       = "../osm/download/planet-latest-nometa.osm.pbf";
+my $planet_osm       = "../osm/download/planet-latest.osm.pbf";
 my $planet_osm_daily = "../osm/download/planet-daily.osm.pbf";
 my $planet_srtm      = "../osm/download/srtm/planet-srtm-e40.osm.pbf";
 

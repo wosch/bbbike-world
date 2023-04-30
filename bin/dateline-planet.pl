@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2023 Wolfram Schneider, https://bbbike.org
 #
 # create poly files for the date line
 
@@ -15,7 +15,7 @@ use warnings;
 my $debug               = 0;
 my $sub_planet_dir      = 'tmp/dateline-planet';
 my $sub_planet_conf_dir = 'world/etc/dateline-planet';
-my $planet_osm          = "../osm/download/planet-latest-nometa.osm.pbf";
+my $planet_osm          = "../osm/download/planet-daily.osm.pbf";
 my $planet_osm_original = "../osm/download/pbf/planet-latest.osm.pbf";
 
 my $osmconvert_factor = 1.2;    # full Granularity
