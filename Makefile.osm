@@ -131,13 +131,6 @@ TILES_DIR=	tile
 #
 OSM_AREAS_OPENSEARCH=data-opensearch-places
 OSM_PLANET_PBF=	../osm/download/planet-daily.osm.pbf
-
-#OSM_PLANET_PBF=	../osm/download/planet-latest.osm.pbf
-#OSM_PLANET_PBF=	../osm/download/geofabrik/europe/germany/brandenburg.osm.pbf
-#OSM_PLANET_PBF=	../osm/download/srtm/Hoehendaten_Freizeitkarte_Europe.osm.pbf
-#OSM_PLANET_PBF=/usr/local/www/download.bbbike.org/osm/srtm/e40/planet-srtm-e40.osm.pbf
-#OSM_PLANET_PBF=        ../osm/download/geofabrik/europe/germany-latest.osm.pbf
-
 OSM_AREAS_LARGE=	${OSM_PLANET_PBF}
 
 OSM_AREAS= \
