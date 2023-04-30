@@ -52,20 +52,23 @@ if test -e $update && cmp $update $update_new 2>/dev/null ; then
    exit 0
 
 else
+   logfile=tmp/log.planet-download-pbf
    new=$(curl -L -sSf --head --location $planet_osm_server/$file | perl -ne 'print "$1\n" if /^Content-Length:\s+(\d+)/i')
-   echo "please update me: $planet_osm_server/$file"
-   echo ""
-   curl -L -sSf --head --location $planet_osm_server/$file | egrep -i "^(Content-Length:|Last-|Location:)"
+   curl -L -sSf --head --location $planet_osm_server/$file | egrep -i "^(Content-Length:|Last-|Location:)" >> $logfile
 
    if [ -n "$automatic_update" ]; then
      if [ $new -gt $planet_osm_min_size ]; then
        touch $update_lock
+
+       (
+       echo "please update me: $planet_osm_server/$file"
        echo "start updated: $(date), may run 10-20 minutes"
        echo "hostname: $(hostname), IP: $(egrep $(hostname) /etc/hosts)"
-       logfile=tmp/log.update-database
+       ) >> $logfile
+      
 
-       if time make planet-download-pbf > $logfile 2>&1; then
-         echo "done updated: $(date)"
+       if time make planet-download-pbf >> $logfile 2>&1; then
+         echo "done updated: $(date)" >> $logfile
          cp -f $update_new $update
 
 	 # cleanup lock file on success
