@@ -378,22 +378,6 @@ update-robots.txt:
           ${DB} --robots-local-lang ${CITIES}; \
 	) > world/web/robots.txt
 
-
-# faster than planet-streets
-planet-places:
-	@mkdir -p ${OSM_AREAS_OPENSEARCH}
-	@PATH=$$PATH:`pwd`/world/bin; \
-	for i in ${OSM_AREAS}; do \
-		printf "./world/bin/planet-places-suggestions ${OSM_AREAS_OPENSEARCH}/`basename $$i .osm.pbf`-places $$i\0"; \
-	done | ${XARGS} -0 -n1 -P${MAX_CPU2} sh -c
-
-planet-streets:
-	@mkdir -p ${OSM_AREAS_OPENSEARCH}
-	@PATH=$$PATH:`pwd`/world/bin; \
-	for i in ${OSM_AREAS}; do \
-		printf "./world/bin/planet-streets-suggestions ${OSM_AREAS_OPENSEARCH}/`basename $$i .osm.pbf` $$i\0"; \
-	done | ${XARGS} -0 -n1 -P${MAX_CPU2} sh -c
-
 ##########################################################################################
 # check if the downloaded OSM files are valid
 #
@@ -1799,7 +1783,6 @@ help:
 	@echo "  [ planet-download | planet-download-bzip2 | planet-download-pbf ]"
 	@echo "  [ sub-planet | sub-planet-daily ]"
 	@echo "  [ sub-srtm | sub-planet-statistic ]"
-	@echo "  [ planet-streets | planet-places ]"
 	@echo "  [ update-database | update-files ]"
 	@echo "  [ planet-daily-update ]"
 	@echo "  [ download-bbbike-org-install ]"
