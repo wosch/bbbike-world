@@ -77,7 +77,7 @@ echo "multigraph download"
 echo "planet_latest.value" 	$( egrep '^/osm/planet/planet-latest' $log_file  | awk 'BEGIN { a = 0 } { a += $2 } END { print a }' )
 echo "planet_daily.value" 	$( egrep '^/osm/planet/planet-daily' $log_file   | awk 'BEGIN { a = 0 } { a += $2 } END { print a }' )
 echo "extract.value" 		$( egrep '^/osm/extract/' $log_file              | awk 'BEGIN { a = 0 } { a += $2 } END { print a }' )
-echo "other.value" 		$( egrep -v '^/osm/(extract|planet)/)' $log_file | awk 'BEGIN { a = 0 } { a += $2 } END { print a }' )
+echo "other.value" 		$( egrep -v '^/osm/(extract|planet)/' $log_file  | awk 'BEGIN { a = 0 } { a += $2 } END { print a }' )
 echo "ALL.value" 		$( egrep -v '^/tmp/' $log_file                   | awk 'BEGIN { a = 0 } { a += $2 } END { print a }' )
 
 echo ""
