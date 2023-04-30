@@ -72,7 +72,7 @@ cd $log_dir
 trap 'rm -f $log_file' 0
 days=30
 log_file=$(mktemp /tmp/munin-extract-download.XXXXXXXX)
-zcat -f $(ls -tr download* | tail -n $days) /dev/null | egrep -v '/html/|\?|/tmp/' | awk '{ print $7, $10 }' > $log_file
+zcat -f $(ls -tr download* | tail -n $days) /dev/null | egrep -v '/html/|\?|/tmp/' | awk '{ if ($10 > 50*1024) { print $7, $10 } }' > $log_file
 
 echo "multigraph download"
 echo "planet_latest.value" 	$( egrep '^/osm/planet/planet-latest' $log_file  | awk 'BEGIN { a = 0 } { a += $2 } END { print a }' )
