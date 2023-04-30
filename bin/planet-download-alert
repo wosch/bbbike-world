@@ -64,7 +64,7 @@ else
        echo "hostname: $(hostname), IP: $(egrep $(hostname) /etc/hosts)"
        logfile=tmp/log.update-database
 
-       if make -s update-database > $logfile 2>&1; then
+       if time make planet-download-pbf > $logfile 2>&1; then
          echo "done updated: $(date)"
          cp -f $update_new $update
 
