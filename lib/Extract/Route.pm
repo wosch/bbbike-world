@@ -239,7 +239,7 @@ sub error_message {
     my $script_homepage = $self->{'option'}->{'script_homepage'};
 
     my $appid = $q->param("appid") // "gpsies1";
-    my $ref   = $q->param("ref") // "gpsies.com";
+    my $ref   = $q->param("ref")   // "gpsies.com";
 
     my $uri = URI->new($script_homepage);
     $uri->query_form( "error" => $error, "appid" => $appid, "ref" => $ref );
@@ -350,7 +350,7 @@ sub redirect {
       // $self->{'option'}->{'route_cgi'}->{'format'}
       ;    # "garmin-cycle-latin1.zip";
     my $appid = $q->param("appid") // "gpsies1";
-    my $ref   = $q->param("ref") // "gpsies.com";
+    my $ref   = $q->param("ref")   // "gpsies.com";
     my $route = $q->param("route") // "";
 
     $uri->query_form(
@@ -470,7 +470,7 @@ sub header {
     }
 
     my @status = ( -status => $error ? 520 : 200 );
-    my $data = "";
+    my $data   = "";
 
     $data .= $q->header( @status, -charset => 'utf-8', @cookie, @expires );
 

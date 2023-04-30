@@ -244,7 +244,7 @@ sub get_html {
 
     my $full = URI->new( BBBikeCGI::Util::my_url( CGI->new($q), -full => 1 ) );
     my $fallback_host = "bbbike.de";
-    my $host = eval { $full->host } || $fallback_host;
+    my $host          = eval { $full->host } || $fallback_host;
 
     # warn "Google maps API: host: $host, full: $full\n";
 
@@ -281,7 +281,7 @@ sub get_html {
         $slippymap_size = qq{ style="display:none"};
     }
 
-    my $city = $q->param('city') || "";
+    my $city             = $q->param('city') || "";
     my $gmap_api_version = $self->{gmap_api_version};
 
     $lang = "en" if !$lang;

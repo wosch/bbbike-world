@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -T
-# Copyright (c) 2009-2022 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2023 Wolfram Schneider, https://bbbike.org
 #
 # area.cgi - which areas are covered by bbbike.org
 
@@ -159,20 +159,20 @@ EOF
         }
         $dh->close;
 
-        my %hash = map { $_ => 1 } @list;
-        my %ext_name = ( "md5" => "MD5", "sha256" => "SHA" );
+        my %hash     = map { $_ => 1 } @list;
+        my %ext_name = ( "md5" => "MD5" );
 
         my $prefix = $offline ? "." : "$download_bbbike_org/osm/bbbike/$city";
         foreach my $file ( sort @list ) {
             my $date = localtime( &mtime("$dir/$file") );
-            next if $file =~ /\.(md5|sha256|txt)$/;
+            next if $file =~ /\.(md5|txt)$/;
 
             $data .=
               qq{<tr><td><a href="$prefix/$file" title="$date">$file</a>};
 
             my $data_checksum;
             if ( !$has_checksum_file ) {
-                for my $ext ( "md5", "sha256" ) {
+                for my $ext ("md5") {
                     my $file_ext = "$file.$ext";
                     if ( exists $hash{$file_ext} ) {
                         $data_checksum .= ", " if $data_checksum;
@@ -321,7 +321,7 @@ my $db = BBBike::WorldDB->new( 'database' => $database, 'debug' => 0 );
 print $q->header( -charset => 'utf-8', -expires => '+30m' ) if !$offline;
 
 my $city_area = $q->param('city') || "";
-my $city = $q->param('city') || $offline_city || $city_default;
+my $city      = $q->param('city') || $offline_city || $city_default;
 
 print &header( $q, $offline, $city );
 print &css_map;

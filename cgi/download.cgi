@@ -80,7 +80,7 @@ if ( defined $q->param('format') ) {
 }
 
 my $extract_utils = new Extract::Utils;
-my $extract = Extract::Config->new( 'q' => $q, 'option' => $option );
+my $extract       = Extract::Config->new( 'q' => $q, 'option' => $option );
 
 $extract->load_config;
 $extract->check_extract_pro;
@@ -130,7 +130,7 @@ sub extract_areas {
     my %unique;
     for ( my $i = 0 ; $i < scalar(@list) && $i < $max ; $i++ ) {
         my $file = $list[$i];
-        my $obj = $extract_utils->parse_json_file( $file, 1 );
+        my $obj  = $extract_utils->parse_json_file( $file, 1 );
 
         next if !exists $obj->{'date'};
 
@@ -255,7 +255,7 @@ sub running_extract_areas {
     my %unique;
     for ( my $i = 0 ; $i < scalar(@list) && $i < $max ; $i++ ) {
         my $file = $list[$i];
-        my $fh = new IO::File $file, "r" or die "open $file: $!\n";
+        my $fh   = new IO::File $file, "r" or die "open $file: $!\n";
         binmode $fh, ":utf8";
 
         my $data = "";
@@ -735,7 +735,7 @@ sub download_json {
 
     my @extracts = ();
 
-    my $sort_by = $q->param('sort_by') || $q->param("sort");
+    my $sort_by        = $q->param('sort_by') || $q->param("sort");
     my @extracts_trash = &extract_areas(
         'log_dir'       => "$spool_dir/" . $spool->{"trash"},
         'max'           => $max,
@@ -830,7 +830,7 @@ EOF
 
     my @extracts = ();
 
-    my $sort_by = $q->param('sort_by') || $q->param("sort");
+    my $sort_by        = $q->param('sort_by') || $q->param("sort");
     my @extracts_trash = &extract_areas(
         'log_dir'       => "$spool_dir/" . $spool->{"trash"},
         'max'           => $max,
@@ -947,7 +947,7 @@ sub activate_auto_refresh {
 
     my $qq = CGI->new($q);
     $qq->param( "count", $count + 1 );
-    my $url = $qq->url( -query => 1, -path => 1 );
+    my $url  = $qq->url( -query => 1, -path => 1 );
     my $url2 = $q->url( -query => 0, -path => 1 );
 
     print <<EOF;

@@ -29,10 +29,10 @@ use Strassen::StrassenNetz;
 use strict;
 use warnings;
 
-my $file = $ENV{BBBIKE_START_DEST_POINTS} || 'world/t/start-dest-points.txt';
+my $file  = $ENV{BBBIKE_START_DEST_POINTS} || 'world/t/start-dest-points.txt';
 my $debug = 0;
 my $WideSearch = 0;
-my $max = $ENV{BBBIKE_TEST_LONG} ? 100 : $ENV{BBBIKE_TEST_FAST} ? 5 : 20;
+my $max        = $ENV{BBBIKE_TEST_LONG} ? 100 : $ENV{BBBIKE_TEST_FAST} ? 5 : 20;
 
 my $net;
 my %time;
@@ -172,7 +172,7 @@ sub heap_test {
 
 sub run_searches {
     my $counter = 0;
-    my $fh = new IO::File $file, "r";
+    my $fh      = new IO::File $file, "r";
     while (<$fh>) {
         chomp;
         next if /^\s*#/;

@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2023 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_MAPSFORGE_DISABLED} || $ENV{BBBIKE_TEST_DOCKER} ) {
@@ -42,7 +42,7 @@ my $min_size = 180_000;
 
 sub md5_file {
     my $file = shift;
-    my $fh = new IO::File $file, "r";
+    my $fh   = new IO::File $file, "r";
     die "open file $file: $!\n" if !defined $fh;
 
     my $data;
@@ -95,10 +95,10 @@ sub convert_format {
     my $size = $st->size;
     cmp_ok( $size, '>', $min_size, "$out: $size > $min_size" );
 
-    $counter += 3;
+    $counter += 2;
     $test->validate;
 
-    unlink( $out, "$out.md5", "$out.sha256" );
+    unlink( $out, "$out.md5" );
     return $counter + $test->counter;
 }
 #######################################################
@@ -106,7 +106,7 @@ sub convert_format {
 is( md5_file($pbf_file), $pbf_md5, "md5 checksum matched" );
 
 my $counter = 0;
-my @lang = ( "en", "de" );
+my @lang    = ( "en", "de" );
 
 if ( !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG} ) {
     push @lang, ( "fr", "es", "ru", "" );

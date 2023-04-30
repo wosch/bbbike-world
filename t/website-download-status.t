@@ -77,7 +77,7 @@ my $msg = {
 plan 'no_plan';
 
 sub page_check {
-    my $home_url = shift;
+    my $home_url   = shift;
     my $script_url = shift || "$home_url/cgi/download.cgi";
 
     # check for known languages

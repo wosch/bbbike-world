@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2013 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2023 Wolfram Schneider, https://bbbike.org
 #
 # osm2pbf - convert OSM XML to PBF format
 
@@ -49,7 +49,7 @@ $osm_checksum $file_pbf
 $osm_checksum $file
 
 # relative path names in *.md5 files
-for i in $file_pbf.md5 $file.md5 $file_pbf.sha256 $file.sha256
+for i in $file_pbf.md5 $file.md5
 do
    if [ -e $i ]; then
 	perl -i -npe 's,(\s+).+/,$1,g' $i

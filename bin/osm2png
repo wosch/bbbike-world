@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2022 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2023 Wolfram Schneider, https://bbbike.org
 #
 # osm2svg - convert a osm/pbf file to svg/png
 #
@@ -23,7 +23,6 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 #: ${BBBIKE_MAPERITIVE_WIDTH="1200"}
 #: ${BBBIKE_MAPERITIVE_HEIGHT="900"}
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
-: ${SHA="shasum -a 256"}
 : ${osm_checksum=$(dirname $0)/osm-checksum}
 
 pwd=$(pwd)
@@ -159,7 +158,8 @@ if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
     exit 2
 fi
 
-( $MD5 $image_file; $SHA $image_file ) > .checksum.txt.tmp; mv -f .checksum.txt.tmp CHECKSUM.txt
+$MD5 $image_file > .checksum.txt.tmp
+mv -f .checksum.txt.tmp CHECKSUM.txt
 
 # local style
 if [ -n "$alias_file" -a -f "$alias_file" ]; then

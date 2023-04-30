@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2013 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2023 Wolfram Schneider, https://bbbike.org
 #
 # osm-checksum - compute checksum
 #
@@ -19,16 +19,14 @@ $OSM_CHECKSUM || exit 0
 
 file="$1"
 test -e "$file" || usage "file $file does not exists"
-: ${enable_sha=true}
 
 dirname=$(dirname $file)
 basename=$(basename $file)
 
 md5sum=`which md5 md5sum false 2>/dev/null | head -n 1`
-: ${SHA="shasum -a 256"}
 
-( cd $dirname; $md5sum $basename ) > $file.md5
-if $enable_sha; then
-   ( cd $dirname; $SHA $basename ) > $file.sha256
-fi
+( cd $dirname && $md5sum $basename ) > $file.md5.tmp
+mv -f $file.md5.tmp $file.md5
+
+#EOF
 

@@ -383,7 +383,7 @@ if ($list_by_area) {
 
 if ( $list || $city_en ) {
     foreach my $key ( $db->list_cities ) {
-        my $val = $hash{$key};
+        my $val        = $hash{$key};
         my $local_lang = $hash{$key}->{local_lang} eq 'de' ? 'de' : "en";
         print $key, "\n"
           if $list
@@ -402,7 +402,7 @@ if ( exists $hash{$city} ) {
         print " ";
     }
     elsif ($planet) {
-        my $osm_dir = $ENV{OSM_DIR} || "./osm";
+        my $osm_dir    = $ENV{OSM_DIR} || "./osm";
         my $sub_planet = sub_planet( \%hash, $city );
         print
 "osmconvert-wrapper -o $osm_dir/$city/$city.osm.pbf -B=$osm_dir/$city/$city.poly",

@@ -57,7 +57,7 @@ my $s_utf8 = Strassen->new($strassen);
 
 sub elapsed {
     my $time_start = shift;
-    my $elapsed = tv_interval( $time_start, [gettimeofday] );
+    my $elapsed    = tv_interval( $time_start, [gettimeofday] );
     return int( $elapsed * 100 ) / 100;
 }
 

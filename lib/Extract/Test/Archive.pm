@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2012-2016 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2023 Wolfram Schneider, https://bbbike.org
 #
 # extract config and libraries
 
@@ -255,10 +255,8 @@ sub check_checksum {
 
     my @data = $self->extract_file('CHECKSUM.txt');
 
-    is( scalar(@data), 2, "two checksums" );
+    is( scalar(@data), 1, "one checksums" );
     cmp_ok( length( $data[0] ), ">", 34, "md5 + text is larger than 32 bytes" );
-    cmp_ok( length( $data[1] ),
-        ">", 66, "sha256 + text is larger than 64 bytes" );
 
     $self->{'counter'} += 3;
 }
@@ -367,6 +365,9 @@ qr"^Script URL: https?://.*bbbike.org/.*\?.*format=.+.*city="
     else {
         ok(
             (
+                # env LANG=en_US.UTF-8 date
+                # Sun 30 Apr 2023 08:00:08 PM UTC
+                # Note: PM UTC will fail
                 grep {
 /^This $format_name (file|map) was created on: \S+\s+.*UTC.+$/
                 } @data

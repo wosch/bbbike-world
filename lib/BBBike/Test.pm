@@ -127,7 +127,7 @@ sub myget_302 {
     my $url  = shift;
 
     my $req = HTTP::Request->new( GET => $url );
-    my $ua = $self->{'ua'};
+    my $ua  = $self->{'ua'};
 
     # do not follow redirects
     my $max_redirect = $ua->max_redirect;

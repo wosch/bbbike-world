@@ -1,5 +1,5 @@
 ###############################################################
-# Copyright (c) 2008-2022 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2008-2023 Wolfram Schneider, https://bbbike.org
 #
 # Get and convert OpenStreetMap.org data to BBBike
 #
@@ -332,7 +332,7 @@ osm-html:
 	cd cgi; \
 	for i in ${CITIES}; do \
 	  ./area.cgi --offline --city=$$i > ../${OSM_DIR}/$$i/index.html & \
-	  ( cd ../${OSM_DIR}/$$i; sort -k2 $$i.osm.*.md5 ; sort -k2 $$i.osm*.sha256 ) > ../${OSM_DIR}/$$i/CHECKSUM.txt; \
+	  ( cd ../${OSM_DIR}/$$i; sort -k2 $$i.osm.*.md5 ) > ../${OSM_DIR}/$$i/CHECKSUM.txt; \
         done; wait
 
 _cities-parallel:
@@ -1178,7 +1178,7 @@ tile-aws-s3:
 tile-checksum:
 	cd ${_pbf_dir}; pwd=`pwd`; \
 	for i in *; do \
-	   cd $$pwd/$$i && ( md5sum `ls -v planet*.*` > CHECKSUM.md5; shasum -a 256 `ls -v planet*.*` > CHECKSUM.sha256 & );  \
+	   cd $$pwd/$$i && ( md5sum `ls -v planet*.*` > CHECKSUM.md5 & );  \
 	done; wait
 
 tile-db-clean:

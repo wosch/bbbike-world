@@ -40,7 +40,7 @@ $active_speed_power{"Index"} = 0;
 my @speed = 20;
 
 my $verbose = 1;
-my @power = ( 50, 100 );
+my @power   = ( 50, 100 );
 
 sub new {
     my $class = shift;

@@ -20,7 +20,7 @@ use BBBike::Test;
 use strict;
 use warnings;
 
-my $test = BBBike::Test->new();
+my $test  = BBBike::Test->new();
 my $debug = $ENV{DEBUG} || 0;
 
 my @production = qw(

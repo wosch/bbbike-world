@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2012-2022 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2023 Wolfram Schneider, https://bbbike.org
 #
 # osm2garmin - convert a osm/pbf file to garmin
 #
@@ -17,7 +17,6 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmpfs"}
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
-: ${SHA="shasum -a 256"}
 : ${BBBIKE_BASECAMP_MACOS="true"}
 : ${BBBIKE_EXTRACT_GARMIN_VERSION="mkgmap"}
 
@@ -479,7 +478,8 @@ case $BBBIKE_EXTRACT_LANG in
    * ) ext2=$(echo $ext | perl -npe "s/\.zip\$/.${BBBIKE_EXTRACT_LANG}.zip/") ;;
 esac
 
-( $MD5 gmapsupp.img; $SHA gmapsupp.img ) > .checksum.txt; mv -f .checksum.txt CHECKSUM.txt
+$MD5 gmapsupp.img > .checksum.txt
+mv -f .checksum.txt CHECKSUM.txt
 
 # support Garmin Basecamp installation
 $BBBIKE_BASECAMP_MACOS && cp $dirname/basecamp-macos.sh .

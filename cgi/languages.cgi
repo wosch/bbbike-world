@@ -144,7 +144,7 @@ print $q->start_html(
 );
 
 my @languages = &get_languages_list($dir);
-my $lang = $q->param('lang') || "";
+my $lang      = $q->param('lang') || "";
 if ( $lang =~ /^([a-z]+$)/ ) {
     $lang = $1;
 }

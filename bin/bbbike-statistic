@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2009-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2023 Wolfram Schneider, https://bbbike.org
 #
 # bbbike-statistic - command line bbbike @ world statistic
 
@@ -386,10 +386,10 @@ if [ -s $download_log ]; then
 
     echo ""
     echo "download stat by IP address: "
-    $zcat $download_log | egrep -v ' "HEAD /' | awk '{ print $1 }' | egrep -v '\.(sha256|md5) ' | sort | uniq -c | sort -nr | head -20
+    $zcat $download_log | egrep -v ' "HEAD /' | awk '{ print $1 }' | egrep -v '\.(md5) ' | sort | uniq -c | sort -nr | head -20
 
     echo ""
-    $zcat $download_log | egrep '\.osm\.[^ ]+ ' | egrep 'GET ' | egrep -v '\.(sha256|md5) |/tile/' |
+    $zcat $download_log | egrep '\.osm\.[^ ]+ ' | egrep 'GET ' | egrep -v '\.(md5) |/tile/' |
 	awk '{print $7, int($10/1024/1024), "MB"}' | sort
 fi
 
