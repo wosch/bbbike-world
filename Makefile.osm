@@ -125,35 +125,6 @@ CITIES_BY_AREA=$(shell world/bin/bbbike-db --list-by-area)
 
 TILES_DIR=	tile
 
-#
-# opensearch suggestion service for
-# the world:
-#
-OSM_AREAS_OPENSEARCH=data-opensearch-places
-OSM_PLANET_PBF=	../osm/download/planet-daily.osm.pbf
-OSM_AREAS_LARGE=	${OSM_PLANET_PBF}
-
-OSM_AREAS= \
-	../osm/download/geofabrik/europe/germany.osm.pbf \
-	${OSM_AREAS_LARGE} \
-	../osm/download/geofabrik/australia-oceania.osm.pbf \
-	../osm/download/geofabrik/south-america.osm.pbf \
-	../osm/download/geofabrik/africa.osm.pbf \
-	../osm/download/geofabrik/central-america.osm.pbf \
-	../osm/download/geofabrik/europe.osm.pbf \
-
-# for tests only
-OSM_AREAS2= \
-	../osm/download/geofabrik/europe/germany/baden-wuerttemberg.osm.pbf \
-	../osm/download/geofabrik/europe/germany/bayern.osm.pbf \
-	../osm/download/geofabrik/europe/germany/berlin.osm.pbf \
-	../osm/download/geofabrik/europe/germany/brandenburg.osm.pbf \
-	../osm/download/geofabrik/europe/germany/bremen.osm.pbf
-
-OSM_AREAS3= \
-	${OSM_AREAS_LARGE} \
-
-
 all: help
 
 build-runtime-perl:
@@ -736,10 +707,6 @@ sub-planet-statistic:
 
 sub-planet-clean:
 	find ../osm/download/sub-* -name '*.tmp' -mmin +240 -print0 | xargs -0 rm -f
-
-planet-geofabrik-download:
-	download_script=`pwd`/world/bin/planet-geofabrik-download; \
-		cd ../osm/download && $$download_script
 
 create-osp:
 	rm -rf ${OSP_DIR}
@@ -1830,7 +1797,6 @@ help:
 	@echo "  [ elevation-fetch | elevation-update | elevation-check | elevation-repair ]"
 	@echo ""
 	@echo "  [ planet-download | planet-download-bzip2 | planet-download-pbf ]"
-	@echo "  [ planet-geofabrik-download ]"
 	@echo "  [ sub-planet | sub-planet-daily ]"
 	@echo "  [ sub-srtm | sub-planet-statistic ]"
 	@echo "  [ planet-streets | planet-places ]"
