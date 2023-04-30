@@ -42,7 +42,7 @@ available_disk_size /usr/local/www/bbbike.org/ 50
 tmp=tmp
 mkdir -p $tmp
 
-: ${bbbike_build="build-runtime update-files"}
+: ${bbbike_build="build-runtime"}
 : ${bbbike_extract="distclean-osm distclean update-files cities-parallel"}
 : ${bbbike_convert="convert-wgs84 convert-post check-data-osm convert-bbbike update-files"}
 : ${bbbike_install="rsync-tgz _rsync cache-heater-k"}
