@@ -32,6 +32,6 @@ curl -o $file_latest --http1.1 --ipv4 -L -sSf $planet_osm_server/$file_latest
 # create timestamp file / nometa
 osmconvert --out-timestamp $file_latest > $file_latest.timestamp
 
-mv -f $file_latest.* ..
+mv -f $file_latest $file_latest.md5 $file_latest.timestamp ..
 
 #EOF
