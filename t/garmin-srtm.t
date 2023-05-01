@@ -94,7 +94,7 @@ sub convert_format {
         my $image_size = `cat $tempfile` * 1024;
         cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
 
-        $counter += 5;
+        $counter += 4;
         $test->validate;
 
         unlink( $out, "$out.md5" );

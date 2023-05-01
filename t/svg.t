@@ -122,7 +122,7 @@ qq[world/bin/bomb --timeout=$timeout --screenshot-file=$pbf_file.png -- world/bi
         my $image_size = `cat $tempfile` * 1024;
         cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
 
-        $counter += 5;
+        $counter += 4;
         $test->validate;
         unlink( $out, "$out.md5" );
     }

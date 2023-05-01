@@ -90,7 +90,7 @@ sub convert_format {
     my $size = $st->size;
     cmp_ok( $size, '>', $min_size, "$out: $size > $min_size" );
 
-    $counter += 3;
+    $counter += 2;
     $test->validate;
     unlink( $out, "$out.md5" );
 
