@@ -675,11 +675,8 @@ mapnik-restart:
 
 planet-download: planet-download-pbf
 
-planet-download-pbf planet-download-bzip2:
+planet-download-pbf:
 	download_script=$$(pwd)/world/bin/$@; cd ../osm/download && $$download_script
-
-planet-nometa:
-	download_script=`pwd`/world/bin/planet-nometa; cd ../osm/download && $$download_script
 
 sub-planet sub-planet-daily sub-srtm: sub-planet-clean
 	mkdir -p ../osm/download/$@
@@ -1780,7 +1777,7 @@ help:
 	@echo ""
 	@echo "  [ elevation-fetch | elevation-update | elevation-check | elevation-repair ]"
 	@echo ""
-	@echo "  [ planet-download | planet-download-bzip2 | planet-download-pbf ]"
+	@echo "  [ planet-download ]"
 	@echo "  [ sub-planet | sub-planet-daily ]"
 	@echo "  [ sub-srtm | sub-planet-statistic ]"
 	@echo "  [ update-database | update-files ]"
