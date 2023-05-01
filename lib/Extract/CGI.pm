@@ -421,9 +421,12 @@ qq{\n<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js
           qq[ jQuery(document).ready(function () { gpsies_route("$route"); }) ];
     }
 
-    my $extract_pro = $option->{'pro'} // 0;
+    my $extract_pro      = $option->{'pro'} // 0;
+    my $enable_lnglatbox = $option->{'enable_lnglatbox'} // 0;
     my $extract_pro_js =
-      $extract_pro ? '$(".lnglatbox_toggle").css("display", "inline")' : "";
+      $enable_lnglatbox
+      ? '$(".lnglatbox_toggle").css("display", "inline")'
+      : "";
 
     my $download_url = $args{'download_url'} // "";
 
