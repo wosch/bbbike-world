@@ -13,6 +13,13 @@
   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af7</id>
   <generator uri="https://metacpan.org/pod/XML::Atom::SimpleFeed" version="0.902">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>enable lng/lat box for everybody</title>
+    <id>32377b4213bfade6c7074f6ebb801acd</id>
+    <content>enable lng/lat box for everybody</content>
+    <updated>2023-05-00T18:30:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title>larger Garmin extracts</title>
     <id>32377b4212bfade6c7074f6ebb801acd</id>
     <content>Allow larger Garmin extracts up to 1500 GB</content>
