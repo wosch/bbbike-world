@@ -1917,6 +1917,17 @@ function toggle_lnglatbox() {
     $('.lnglatbox_toggle').toggle();
 
     $('.uncheck').attr('checked', false);
+
+    // log lnglatbox usage
+    if ($('.lnglatbox').is(":visible")) {
+        var sw_lng = $("#sw_lng").val();
+        var sw_lat = $("#sw_lat").val();
+        var ne_lng = $("#ne_lng").val();
+        var ne_lat = $("#ne_lat").val();
+        var url = '/cgi/log.cgi?lnglatbox=1&sw_lng=' + sw_lng + '&sw_lat=' + sw_lat + '&ne_lng=' + ne_lng + '&ne_lat=' + ne_lat;
+
+        $.getJSON(url, function (data) {});
+    }
 }
 
 // check if we have an active forms
