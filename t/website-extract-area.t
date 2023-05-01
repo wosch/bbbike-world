@@ -37,7 +37,7 @@ plan tests => scalar(@homepages) * ( $test->myget_counter + 18 ) - 1;
 sub livesearch_extract {
     my $url = shift;
 
-    my $res = $test->myget( $url, 4_600 );
+    my $res     = $test->myget( $url, 4_600 );
     my $content = $res->decoded_content();
 
     diag "url: $url";

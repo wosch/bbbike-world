@@ -44,14 +44,14 @@ sub cgi {
 
     isnt( $obj, undef, "cgi" );
 
-    cmp_ok( length( $obj->header($q) ),       ">", 600, "header" );
-    cmp_ok( length( $obj->footer($q) ),       ">", 600, "footer" );
-    cmp_ok( length( $obj->map() ),            ">", 200, "map" );
-    cmp_ok( length( $obj->social_links() ),   ">", 350, "social_links" );
-    cmp_ok( length( $obj->locate_message() ), ">", 230, "locate_message" );
-    cmp_ok( length( $obj->export_osm() ),     ">", 400, "export_osm" );
+    cmp_ok( length( $obj->header($q) ),          ">", 600,  "header" );
+    cmp_ok( length( $obj->footer($q) ),          ">", 600,  "footer" );
+    cmp_ok( length( $obj->map() ),               ">", 200,  "map" );
+    cmp_ok( length( $obj->social_links() ),      ">", 350,  "social_links" );
+    cmp_ok( length( $obj->locate_message() ),    ">", 230,  "locate_message" );
+    cmp_ok( length( $obj->export_osm() ),        ">", 400,  "export_osm" );
     cmp_ok( length( $obj->message( $q, "de" ) ), ">", 1000, "message" );
-    cmp_ok( length( $obj->layout($q) ), ">", 120, "layout" );
+    cmp_ok( length( $obj->layout($q) ),          ">", 120,  "layout" );
 
     #cmp_ok(length($obj->script_url($q)), ">", 600, "header");
     return 9;

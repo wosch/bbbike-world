@@ -99,7 +99,7 @@ $s_net->make_net();    # UseCache => 1 );
             $c = $net->fix_coords($c);
         }
 
-        my ($path) = $net->search( $c1, $c2, %$args );
+        my ($path)  = $net->search( $c1, $c2, %$args );
         my (@route) = $net->route_to_name($path);
 
         if ($enable_dist) {

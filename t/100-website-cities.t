@@ -143,7 +143,7 @@ qr{type="application/atom\+xml" .*href="/feed/bbbike-world.xml| href="/feed/bbbi
     like( $content, qr|href="/html/bbbike.css"|,     "bbbike.css" );
     like( $content, qr|<span id="language_switch">|, "language switch" );
     like( $content, qr|href="https://twitter.com/BBBikeWorld"|, "twitter" );
-    like( $content, qr|class="mobile_link|, "mobile link" );
+    like( $content, qr|class="mobile_link|,                     "mobile link" );
     like( $content, qr|#suggest_start\'\).autocomplete|, "autocomplete start" );
     like( $content, qr|#suggest_via\'\).autocomplete|,   "autocomplete via" );
     like( $content, qr|#suggest_ziel\'\).autocomplete|,  "autocomplete ziel" );
@@ -166,7 +166,7 @@ qr{type="application/atom\+xml" .*href="/feed/bbbike-world.xml| href="/feed/bbbi
     # skip other tests on slow networks (e.g. on mobile phone links)
     return $data if $ENV{BBBIKE_TEST_SLOW_NETWORK};
 
-    $res = $test->myget( "$homepage/osp/$city.xml", 100 );
+    $res     = $test->myget( "$homepage/osp/$city.xml", 100 );
     $content = $res->decoded_content();
 
     like(
@@ -202,7 +202,7 @@ sub html {
         1_000 );
 
     if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
-        my $res = $test->myget( "$homepage/html/bbbike-js.js", 100_000 );
+        my $res     = $test->myget( "$homepage/html/bbbike-js.js", 100_000 );
         my $content = $res->decoded_content;
 
         like( $content, qr|#BBBikeGooglemap|, "bbbike js" );

@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2021 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2023 Wolfram Schneider, https://bbbike.org
 
 use FindBin;
 use lib "$FindBin::RealBin/../lib";
@@ -39,7 +39,7 @@ my $min_size = 240_000;
 
 sub md5_file {
     my $file = shift;
-    my $fh = new IO::File $file, "r";
+    my $fh   = new IO::File $file, "r";
     die "open file $file: $!\n" if !defined $fh;
 
     my $data;
@@ -97,10 +97,10 @@ sub convert_format {
         my $image_size = `cat $tempfile` * 1024;
         cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
 
-        $counter += 4;
+        $counter += 3;
         $test->validate( 'style' => $style );
 
-        unlink( $out, "$out.md5", "$out.sha256" );
+        unlink( $out, "$out.md5" );
     }
 
     return $counter + $test->counter;

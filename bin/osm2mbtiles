@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2012-2021 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2023 Wolfram Schneider, https://bbbike.org
 #
 # osm2mbtiles - convert a osm/pbf file to mbtiles
 #
@@ -15,7 +15,6 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_TMPFS="/tmp"}
 : ${BBBIKE_NO_ZIP=""}
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
-: ${SHA="shasum -a 256"}
 : ${debug=false}
 : ${tilemaker=tilemaker}
 : ${osm2xxx_max_jobs=3}
@@ -132,7 +131,8 @@ case $BBBIKE_EXTRACT_LANG in
    * ) ext2=$(echo $ext | perl -npe "s/\.zip\$/.${BBBIKE_EXTRACT_LANG}.zip/") ;;
 esac
 
-( $MD5 $mbtiles.mbtiles; $SHA $mbtiles.mbtiles ) > .checksum.txt; mv -f .checksum.txt CHECKSUM.txt
+$MD5 $mbtiles.mbtiles > .checksum.txt
+mv -f .checksum.txt CHECKSUM.txt
 
 cd ..
 mbtiles_zip=`dirname $file`/$mbtiles.osm.$ext2

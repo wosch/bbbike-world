@@ -25,7 +25,7 @@ my $str      = 'world/t/data-osm/Berlin/str';
 
 sub md5_file {
     my $file = shift;
-    my $fh = new IO::File $file, "r";
+    my $fh   = new IO::File $file, "r";
     die "open file $file: $!\n" if !defined $fh;
 
     my $data;
@@ -42,11 +42,11 @@ sub md5_file {
 ######################################################################
 
 my $tempfile = File::Temp->new( SUFFIX => ".str" );
-my $st = 0;
+my $st       = 0;
 
 system(qq[cp $strassen $tempfile]);
 system(qq[world/bin/strasse-str $tempfile]);
-is( $?, 0, "strassen-str converter" );
+is( $?,             0,                   "strassen-str converter" );
 is( md5_file($str), md5_file($tempfile), "compare output" );
 
 $st = stat($tempfile);

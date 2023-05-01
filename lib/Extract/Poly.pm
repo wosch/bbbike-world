@@ -430,7 +430,7 @@ sub normalize_polygon {
     my $self = shift;
 
     my $poly = shift;
-    my $max = shift || 1024;
+    my $max  = shift || 1024;
 
     my $same = '0.001';
     warn "Polygon input: " . Dumper($poly) if $debug >= 3;

@@ -216,6 +216,7 @@ our $spool = {
 our $spool_dir = '/var/cache/extract';
 
 our $planet_osm = {
+
     #'planet.osm' => '../osm/download/planet-latest.osm.pbf',
     'planet.osm' => '../osm/download/planet-daily.osm.pbf',
 
@@ -225,11 +226,12 @@ our $planet_osm = {
     'srtm.obf.zip'           => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
     'srtm.mapsforge-osm.zip' => '../osm/download/srtm/planet-srtm-e40.osm.pbf',
 
-    #'garmin-osm-latin1.zip'           => '../osm/download/planet-daily.osm.pbf',
+   #'garmin-osm-latin1.zip'           => '../osm/download/planet-daily.osm.pbf',
 };
 
 # map planet file to sub-planet directory for better performance
 our $planet_sub_dir = {
+
     # compatibility, planet without meta data and 1.1m
     '../osm/download/planet-latest.osm.pbf' => '../osm/download/sub-planet',
 
@@ -375,7 +377,7 @@ sub get_server_list {
 
     my $debug = $self->{'debug'};
 
-    my @list = ();
+    my @list   = ();
     my $server = $option->{'server'} || $server;
     warn Dumper($server) if $debug >= 2;
 

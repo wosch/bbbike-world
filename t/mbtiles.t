@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2021 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2023 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     system( "env", "PATH=/bin:/usr/bin:/usr/local/bin", "which", "tilemaker" );
@@ -48,7 +48,7 @@ my $min_size = 240_000;
 
 sub md5_file {
     my $file = shift;
-    my $fh = new IO::File $file, "r";
+    my $fh   = new IO::File $file, "r";
     die "open file $file: $!\n" if !defined $fh;
 
     my $data;
@@ -105,10 +105,10 @@ sub convert_format {
         my $image_size = `cat $tempfile` * 1024;
         cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
 
-        $counter += 5;
+        $counter += 4;
         $test->validate( 'style' => $style );
 
-        unlink( $out, "$out.md5", "$out.sha256" );
+        unlink( $out, "$out.md5" );
     }
 
     return $counter + $test->counter;
@@ -123,7 +123,7 @@ sub cleanup {
 is( md5_file($pbf_file), $pbf_md5, "md5 checksum matched" );
 
 my $counter = 0;
-my @lang = ( "en", "de" );
+my @lang    = ( "en", "de" );
 
 if ( !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG} ) {
     push @lang, ( "fr", "es", "ru", "" );

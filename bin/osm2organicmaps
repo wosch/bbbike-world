@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2022 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2023 Wolfram Schneider, https://bbbike.org
 #
 # osm2organicmaps  - convert a pbf file to organicmaps
 #
@@ -13,7 +13,6 @@ PATH="/bin:/usr/bin:/usr/local/bin"; export PATH
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmp"}
 : ${MD5=$(which md5 md5sum false 2>/dev/null | head -1)}
-: ${SHA="shasum -a 256"}
 : ${logfile_max_size="3000k"}
 
 export BBBIKE_EXTRACT_ORGANICMAPS_VERSION
@@ -106,7 +105,8 @@ case $BBBIKE_EXTRACT_LANG in
    * ) ext2=".$BBBIKE_EXTRACT_LANG" ;;
 esac
 
-( $MD5 *.mwm; $SHA *.mwm ) > .checksum.txt; mv -f .checksum.txt CHECKSUM.txt
+$MD5 *.mwm > .checksum.txt
+mv -f .checksum.txt CHECKSUM.txt
 rm -f $file_symlink
 
 cd ..

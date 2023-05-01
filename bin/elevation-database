@@ -104,7 +104,7 @@ sub Die {
 sub retrieve_csv {
     my $database = shift;
 
-    my $program = 'gzip';
+    my $program     = 'gzip';
     my @program_opt = ( '-dc', '-f' );
 
     if ( !open( CSV, '-|' ) ) {
@@ -471,7 +471,7 @@ sub update_hoehe {
     my $hash   = $args{'database'};
 
     my $tmp = "$file.new";
-    my $fd = new IO::File $tmp, "w" or die "open '$tmp': $!\n";
+    my $fd  = new IO::File $tmp, "w" or die "open '$tmp': $!\n";
     binmode $fd, ":raw";
 
     print $fd &hoehe_header;

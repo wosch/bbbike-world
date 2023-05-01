@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2023 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     my $display = $ENV{BBBIKE_MAPERITIVE_DISPLAY} || $ENV{DISPLAY} || ":200";
@@ -66,7 +66,7 @@ my $min_size = 100_000;
 
 sub md5_file {
     my $file = shift;
-    my $fh = new IO::File $file, "r";
+    my $fh   = new IO::File $file, "r";
     die "open file $file: $!\n" if !defined $fh;
 
     my $data;
@@ -124,7 +124,7 @@ qq[world/bin/bomb --timeout=$timeout --screenshot-file=$pbf_file.png -- world/bi
 
         $counter += 5;
         $test->validate;
-        unlink( $out, "$out.md5", "$out.sha256" );
+        unlink( $out, "$out.md5" );
     }
 
     return $counter + $test->counter;
@@ -142,7 +142,7 @@ sub check_permissions {
 
 sub writable_directory {
     my $file = shift;
-    my $fh = IO::File->new( $file, "w" )
+    my $fh   = IO::File->new( $file, "w" )
       or die "cannot create file '$file': $!\n";
     $fh->close;
     unlink($file) or die "unlink '$file': $!\n";
