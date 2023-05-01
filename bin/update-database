@@ -8,6 +8,7 @@
 #   env bbbike_extract="" /path/to/this/file
 
 set -e
+PATH="/usr/local/bin:/bin:/bin:/usr/bin"; export PATH
 
 if [ -e $HOME/.bbbikerc ]; then
     . $HOME/.bbbikerc
