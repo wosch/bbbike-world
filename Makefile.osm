@@ -678,6 +678,9 @@ planet-download: planet-download-pbf
 planet-download-pbf:
 	download_script=$$(pwd)/world/bin/$@; cd ../osm/download && $$download_script
 
+planet-download-alert:
+	@./world/bin/planet-download-alert
+
 sub-planet sub-planet-daily sub-srtm: sub-planet-clean
 	mkdir -p ../osm/download/$@
 	make -C world/etc/$@
@@ -1777,7 +1780,7 @@ help:
 	@echo ""
 	@echo "  [ elevation-fetch | elevation-update | elevation-check | elevation-repair ]"
 	@echo ""
-	@echo "  [ planet-download ]"
+	@echo "  [ planet-download | planet-download-alert ]"
 	@echo "  [ sub-planet | sub-planet-daily ]"
 	@echo "  [ sub-srtm | sub-planet-statistic ]"
 	@echo "  [ update-database | update-files ]"
