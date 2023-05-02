@@ -39,7 +39,7 @@ our $option = {
 };
 
 # global variables
-our $debug = 1;
+our $debug = 0;
 my $msg;    # translations
 my $language;
 
