@@ -97,7 +97,7 @@ GetOptions(
 ) or die usage;
 
 my @files = @ARGV;
-die &usage                  if $help;
+die &usage if $help;
 die usage("No files given") if !@files;
 
 &check_out_dir($out_dir);

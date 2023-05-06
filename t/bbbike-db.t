@@ -43,7 +43,7 @@ is(
 
 # compare variables
 my $city_string = join ",", sort @cities;
-my $city_area   = join ",", sort ( @cities_de, @cities_eu, @cities_other );
+my $city_area = join ",", sort ( @cities_de, @cities_eu, @cities_other );
 is( $city_string, $city_area, "cities are unique" );
 
 cmp_ok( scalar(@cities), ">=", $min_city_count,

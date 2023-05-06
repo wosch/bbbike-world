@@ -216,7 +216,7 @@ my $utils = new Extract::Utils;
 sub get_sub_planet {
     my $obj = shift;
 
-    my $planet          = new Extract::Planet( 'debug' => $debug );
+    my $planet = new Extract::Planet( 'debug' => $debug );
     my $sub_planet_file = $planet->get_smallest_planet_file(
         'obj'        => $obj,
         'planet_osm' => $obj->{'planet_osm'}
@@ -268,7 +268,7 @@ sub parse_jobs {
     my $loadavg = &get_loadavg;
 
     my %duplicated_poly = ();
-    my $poly            = new Extract::Poly( 'debug' => $debug );
+    my $poly = new Extract::Poly( 'debug' => $debug );
     my $scheduler =
       new Extract::Scheduler( 'debug' => $debug, 'option' => $option );
 
@@ -438,7 +438,7 @@ sub parse_jobs_planet {
             next;
         }
 
-        my $json      = new JSON;
+        my $json = new JSON;
         my $json_perl = eval { $json->decode($json_text) };
         if ($@) {
             warn "cannot parse json $file $@";
@@ -616,7 +616,7 @@ sub run_extracts {
     my $use_tempfiles = 1;
 
     warn "Poly: " . Dumper($poly) if $debug >= 3;
-    return ()                     if !defined $poly || scalar(@$poly) <= 0;
+    return () if !defined $poly || scalar(@$poly) <= 0;
 
     my @data = ( "nice", "-n", $nice_level, "osmconvert-wrapper" );
 
@@ -694,7 +694,7 @@ sub run_extracts {
 sub send_email_smtp {
     my ( $to, $subject, $text, $bcc ) = @_;
     my $mail_server = "localhost";
-    my @to          = split /,/, $to;
+    my @to = split /,/, $to;
 
     my $from         = $email_from;
     my @bcc          = split /,/, $bcc;
@@ -715,7 +715,7 @@ sub send_email_smtp {
         $smtp->bcc(@bcc) or die "can't use SMTP recipient '$bcc'";
     }
     $smtp->data( encode_utf8($data) ) or die "can't email data to '$to'";
-    $smtp->quit()                     or die "can't send email to '$to'";
+    $smtp->quit() or die "can't send email to '$to'";
 
     warn "\n$data\n" if $debug >= 3;
 }
@@ -932,7 +932,7 @@ sub reorder_pbf {
         my $pbf_file = $obj->{'pbf_file'};
         my $format   = $obj->{'format'};
 
-        my $st   = stat($pbf_file) or die "stat $pbf_file: $!\n";
+        my $st = stat($pbf_file) or die "stat $pbf_file: $!\n";
         my $size = $st->size * $format{$format};
 
         $hash{$json_file} = $size;
@@ -963,7 +963,7 @@ sub copy_to_trash {
 sub move {
     my ( $from, $to ) = @_;
 
-    my $tempfile  = File::Temp->new( "template" => "$to.XXXXXXXXXX" );
+    my $tempfile = File::Temp->new( "template" => "$to.XXXXXXXXXX" );
     my $real_from = -l $from ? readlink($from) : $from;
 
     warn "from=$from real_from to=$to\n" if $debug >= 1;
@@ -1552,7 +1552,7 @@ sub _convert_send_email {
 
     next if !$send_email;
 
-    my $script_url      = &script_url( $option, $obj );
+    my $script_url = &script_url( $option, $obj );
     my $database_update = gmctime($planet_osm_mtime) . " UTC";
 
     my $text = M("EXTRACT_EMAIL");
@@ -1753,7 +1753,7 @@ sub get_msg {
     warn "Open message file $file for language $language\n" if $debug >= 1;
     my $json_text = read_data($file);
 
-    my $json      = new JSON;
+    my $json = new JSON;
     my $json_perl = eval { $json->decode($json_text) };
     die "json $file $@" if $@;
 
@@ -1829,7 +1829,7 @@ sub cleanup_jobdir {
 }
 
 sub set_alarm {
-    my $time    = shift;
+    my $time = shift;
     my $message = shift || "";
 
     $time = $alarm if !defined $time;

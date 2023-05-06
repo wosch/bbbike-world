@@ -139,7 +139,7 @@ sub create_merge {
 sub random_files {
     my @files = @_;
 
-    my %hash = map  { $_ => md5_hex($_) } @files;
+    my %hash = map { $_ => md5_hex($_) } @files;
     my @list = sort { $hash{$a} cmp $hash{$b} } @files;
 
     return @list;
@@ -171,7 +171,7 @@ GetOptions(
 ) or die usage;
 
 my @files = @ARGV;
-die &usage                  if $help;
+die &usage if $help;
 die usage("No files given") if !@files;
 
 if ($random) {

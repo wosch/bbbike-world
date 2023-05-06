@@ -269,9 +269,9 @@ sub wait_time {
     }
 
     printf( "wait_average.value %2.2f\n", wait_average( $time, @mtime ) );
-    printf( "wait_min.value %2.2f\n",     wait_min( $time, @mtime ) );
-    printf( "wait_max.value %2.2f\n",     wait_max( $time, @mtime ) );
-    printf( "wait_median.value %2.2f\n",  wait_median( $time, @mtime ) );
+    printf( "wait_min.value %2.2f\n", wait_min( $time, @mtime ) );
+    printf( "wait_max.value %2.2f\n", wait_max( $time, @mtime ) );
+    printf( "wait_median.value %2.2f\n", wait_median( $time, @mtime ) );
 }
 
 sub wait_average {

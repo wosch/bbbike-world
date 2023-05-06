@@ -57,7 +57,7 @@ sub get_bbbike_db {
 }
 
 sub cities_by_area {
-    my %args   = @_;
+    my %args = @_;
     my $cities = $args{'cities'} or die "no cities argument given\n";
 
     my $db = &get_bbbike_db()->city;
@@ -683,7 +683,7 @@ sub filter_by_client_link {
 
     return "" if !$filter_by_client;
 
-    my $qq    = CGI->new($q);
+    my $qq = CGI->new($q);
     my $appid = $qq->param("appid") || "";
 
     my $message = qq{Filter by device: };
@@ -824,7 +824,7 @@ sub dump_url_list {
     my $q = shift;
 
     my $max = 1000;
-    my @d   = &extract_route( 'file' => $logfile, 'max' => $max, devel => 0 );
+    my @d = &extract_route( 'file' => $logfile, 'max' => $max, devel => 0 );
 
     my $cities;
     my %hash;

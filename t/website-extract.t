@@ -81,7 +81,7 @@ sub page_check_unicode {
 }
 
 sub page_check {
-    my $home_url   = shift;
+    my $home_url = shift;
     my $script_url = shift || "$home_url/cgi/extract.cgi";
 
     # check for known languages

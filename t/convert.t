@@ -108,7 +108,7 @@ plan tests => scalar(@files) +
 
 sub md5_file {
     my $file = shift;
-    my $fh   = new IO::File $file, "r";
+    my $fh = new IO::File $file, "r";
     die "open file $file: $!\n" if !defined $fh;
 
     my $data;
@@ -124,7 +124,7 @@ sub md5_file {
 
 sub check_files {
     my $city = shift || 'Cusco';
-    my $dir  = "$prefix/${city}-data-osm/$city";
+    my $dir = "$prefix/${city}-data-osm/$city";
 
     foreach my $f (@files) {
         my $file = "$dir/$f";

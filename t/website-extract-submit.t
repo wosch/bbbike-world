@@ -87,7 +87,7 @@ sub page_check_unicode {
 sub page_check {
     my $home_url = shift;
 
-    my $path       = $submit_path->{'path'};
+    my $path = $submit_path->{'path'};
     my $script_url = shift || "$home_url$path";
 
     if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {

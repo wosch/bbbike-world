@@ -181,7 +181,7 @@ sub factor_format {
 }
 
 sub valid_hostname {
-    my $self     = shift;
+    my $self = shift;
     my $hostname = shift || $ENV{HTTP_HOST} || "localhost";
     $hostname =~ s/:.*//;
 

@@ -137,7 +137,7 @@ sub create_shell_commands {
     my $cities     = shift;
     my $planet_osm = shift;
 
-    my $prefix  = basename( $planet_osm, ".osm.pbf" );
+    my $prefix = basename( $planet_osm, ".osm.pbf" );
     my @regions = $poly->list_subplanets;
     my ( $osmconvert_sh, $osmosis_sh, $overpass_sh ) =
       output( $poly, \@regions, $planet_osm );
@@ -173,7 +173,7 @@ my $poly = new Extract::Poly( 'debug' => $debug );
 
 # cities / islands
 $Extract::Poly::area = $city_area;
-$poly                = new Extract::Poly( 'debug' => $debug );
+$poly = new Extract::Poly( 'debug' => $debug );
 
 &create_shell_commands( $poly, 'cities', $planet_osm );
 &create_shell_commands( $poly, 'cities', $planet_osm_original );

@@ -47,7 +47,7 @@ my $min_size = 600;
 foreach my $format (@formats) {
     foreach my $lang (@lang) {
         my $file = "$message_path/osm2$format.$lang.sh";
-        my $st   = stat($file) or warn "stat: $file\n";
+        my $st = stat($file) or warn "stat: $file\n";
 
         ok( $st, "file: $file" );
 

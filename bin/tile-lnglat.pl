@@ -8,12 +8,12 @@
 # Aachen:::de:::5.88 50.60 6.58 50.99:294951::
 
 my $heatmap = $ENV{TILES_DIR} || "tile";
-my $step    = 4;
+my $step = 4;
 
 my $fs;    # file step
 for ( -180 .. 179 ) {
     $fs = $_ if $_ % $step == 0;
-    $a  = $fs + $step;
+    $a = $fs + $step;
 
     print
       qq[time make -s -f Makefile.osm],

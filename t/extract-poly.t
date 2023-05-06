@@ -91,7 +91,7 @@ is(
 );
 
 # URL parameter string
-$data   = join( "|", map { join( ",", @{$_} ) } @$coords );
+$data = join( "|", map { join( ",", @{$_} ) } @$coords );
 @coords = $poly->parse_coords($data);
 is( perl2string( \@coords ),
     perl2string($coords), "parse coords from URL string" );

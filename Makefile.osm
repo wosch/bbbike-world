@@ -1190,8 +1190,10 @@ tile-db-clean:
 tile-lng-clean:
 	rm -rf ${TILES_DIR}/lng
 
-tile-distclean: tile-db-clean
+tile-clean: tile-db-clean
 	rm -rf ${TILES_DIR}
+tile-distclean: tile-clean
+
 
 tile-rsync:
 	rsync -av ${TILES_DIR}/lnglat/ ${BBBIKE_WEBSERVER_DOWNLOAD_DIR}/osm/planet/${TILES_DIR}/lnglat/
