@@ -28,7 +28,7 @@ SKIP: {
       if !( -e $poly && -e $sub_planet );
 
     my $tmpfile = File::Temp->new( UNLINK => 0, SUFFIX => ".pbf" );
-    my @system  = (
+    my @system = (
         "./world/bin/osmconvert-wrapper",
         "-o", $tmpfile, "-B=$poly",
         "--drop-author", "--drop-version", "--out-pbf", $sub_planet

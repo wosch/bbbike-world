@@ -104,7 +104,7 @@ sub _running_users {
             next;
         }
 
-        my $json      = new JSON;
+        my $json = new JSON;
         my $json_perl = eval { $json->decode($json_text) };
         die "json $file $@" if $@;
 

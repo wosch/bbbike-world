@@ -23,7 +23,7 @@ plan tests => 9;
 
 sub md5_file {
     my $file = shift;
-    my $fh   = new IO::File $file, "r";
+    my $fh = new IO::File $file, "r";
     die "open file $file: $!\n" if !defined $fh;
 
     my $data;

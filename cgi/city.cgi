@@ -159,7 +159,7 @@ EOF
         }
         $dh->close;
 
-        my %hash     = map { $_ => 1 } @list;
+        my %hash = map { $_ => 1 } @list;
         my %ext_name = ( "md5" => "MD5" );
 
         my $prefix = $offline ? "." : "$download_bbbike_org/osm/bbbike/$city";
@@ -321,7 +321,7 @@ my $db = BBBike::WorldDB->new( 'database' => $database, 'debug' => 0 );
 print $q->header( -charset => 'utf-8', -expires => '+30m' ) if !$offline;
 
 my $city_area = $q->param('city') || "";
-my $city      = $q->param('city') || $offline_city || $city_default;
+my $city = $q->param('city') || $offline_city || $city_default;
 
 print &header( $q, $offline, $city );
 print &css_map;

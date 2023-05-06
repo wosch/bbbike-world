@@ -66,7 +66,7 @@ my $min_size = 100_000;
 
 sub md5_file {
     my $file = shift;
-    my $fh   = new IO::File $file, "r";
+    my $fh = new IO::File $file, "r";
     die "open file $file: $!\n" if !defined $fh;
 
     my $data;
@@ -142,7 +142,7 @@ sub check_permissions {
 
 sub writable_directory {
     my $file = shift;
-    my $fh   = IO::File->new( $file, "w" )
+    my $fh = IO::File->new( $file, "w" )
       or die "cannot create file '$file': $!\n";
     $fh->close;
     unlink($file) or die "unlink '$file': $!\n";

@@ -47,7 +47,7 @@ my $pbf_md5 = "58a25e3bae9321015f2dae553672cdcf";
 
 sub md5_file {
     my $file = shift;
-    my $fh   = new IO::File $file, "r";
+    my $fh = new IO::File $file, "r";
     die "open file $file: $!\n" if !defined $fh;
 
     my $data = "";

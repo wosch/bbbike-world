@@ -46,7 +46,7 @@ plan tests => scalar(@homepages) * LANG * ( API_CHECK + $test->myget_counter );
 sub api_check {
     my $url = shift;
 
-    my $res  = $test->myget( "$url", 168 );
+    my $res = $test->myget( "$url", 168 );
     my $perl = decode_json( $res->decoded_content );
 
     is( $res->content_type, "application/json", "application/json" );

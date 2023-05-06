@@ -83,7 +83,7 @@ EOF
 }
 
 sub interval {
-    my $value  = shift;
+    my $value = shift;
     my $period = shift || $interval;
 
     $period = 1 if $period <= 0;
@@ -253,7 +253,7 @@ sub parse_log {
     my $interval = $args{'interval'};
     $database .= "-$<-$type.txt";
 
-    my $st     = stat($logfile) or die "stat $logfile: $!";
+    my $st = stat($logfile) or die "stat $logfile: $!";
     my $offset = $st->size;
 
     # check for stale databases which are too old
@@ -356,7 +356,7 @@ sub get_offset {
         return 0;
     }
 
-    my $fh     = IO::File->new( $file, "r" ) or die "open $file: $!\n";
+    my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
     my $number = <$fh>;
 
     if ( defined $number ) {
@@ -437,7 +437,7 @@ sub count_pref {
     }
 
     my $counter = 0;
-    my $res     = { "speed" => 0 };
+    my $res = { "speed" => 0 };
     while (<$fh>) {
         next if !/" 200 /;    # successfull requests only
 
@@ -677,7 +677,7 @@ sub parse_config {
 
     warn "Open config file $file\n" if $debug;
 
-    return              if !-f $file;
+    return if !-f $file;
     warn "open $file\n" if $debug;
     my $fh = IO::File->new( $file, "r" ) or die "open $file: $!\n";
 
@@ -720,7 +720,7 @@ GetOptions(
     "help"                   => \$help,
 ) or die usage;
 
-die usage                               if $help;
+die usage if $help;
 die "Unknown type '$type'\n\n" . &usage if !grep { $type eq $_ } &get_types;
 
 if ( defined $ARGV[0] && $ARGV[0] eq 'config' ) {

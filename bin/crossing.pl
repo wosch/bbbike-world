@@ -45,7 +45,7 @@ EOF
 # fill wgs84 coordinate with trailing "0" if to short
 # or cut if to long
 sub padding {
-    my $x    = shift;
+    my $x = shift;
     my $gran = shift || $granularity;
 
     my $len = length($granularity);

@@ -20,7 +20,7 @@ my $debug = 1;
 # fake server hostname
 $ENV{HTTP_HOST} = "extract.bbbike.org";
 
-my $q         = new CGI;
+my $q = new CGI;
 my $analytics = BBBike::Analytics->new( 'q' => $q )->google_analytics;
 
 diag "analytics code: $analytics\n" if $debug >= 2;

@@ -93,7 +93,7 @@ sub git_status_time {
     print "bbbike_git_status_time.value @{[ status($st->mtime) ]}\n";
 
     $file = "$bbbike_dir/world/.git/FETCH_HEAD";
-    $st   = stat($file) or die "stat $file: $!\n";
+    $st = stat($file) or die "stat $file: $!\n";
 
     print "world_git_status_time.value @{[ status($st->mtime) ]}\n";
 }

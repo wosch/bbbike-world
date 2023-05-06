@@ -16,7 +16,7 @@ use warnings;
 binmode \*STDIN,  ":utf8";
 binmode \*STDOUT, ":utf8";
 
-my $debug    = $ENV{DEBUG};
+my $debug = $ENV{DEBUG};
 my $homepage = $ENV{BBBIKE_HOMEPAGE} || 'https://www.bbbike.org';
 
 sub extract_coords {
@@ -100,7 +100,7 @@ sub bbbike2opensearch {
     # omit english or german link if equal with local language
     #
     for my $city (@cities) {
-        my $c          = $db->city->{$city};
+        my $c = $db->city->{$city};
         my $local_lang = $c->{"local_lang"} || "en";
 
         my @lang = qw(en de);

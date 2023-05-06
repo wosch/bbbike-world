@@ -36,7 +36,7 @@ plan tests => scalar(@homepages) * ( $test->myget_counter + 13 );
 sub livesearch_extract {
     my $url = shift;
 
-    my $res     = $test->myget( $url, 4_600 );
+    my $res = $test->myget( $url, 4_600 );
     my $content = $res->decoded_content();
 
     like( $content, qr|Content-Type" content="text/html; charset=utf-8"|,

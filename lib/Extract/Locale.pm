@@ -124,7 +124,7 @@ sub get_msg {
     }
     $fh->close;
 
-    my $json      = new JSON;
+    my $json = new JSON;
     my $json_perl = eval { $json->decode($json_text) };
     die "json $file $@" if $@;
 

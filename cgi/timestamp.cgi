@@ -84,7 +84,7 @@ if ( my $d = $q->param('debug') || $q->param('d') ) {
 
 my $expire = $debug >= 2 ? '+1s' : '+1h';
 
-my $res    = &get_timestamp($q);
+my $res = &get_timestamp($q);
 my $status = $res ? 200 : 500;
 
 print $q->header(

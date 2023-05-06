@@ -124,7 +124,7 @@ sub check_bbbike_cities {
         my @coord = split( /\s+/, $coord );
 
         my $city_polygon = get_polygon( $city, \@coord );
-        my $inner        = $planet->sub_polygon(
+        my $inner = $planet->sub_polygon(
             'inner' => $city_polygon,
             'outer' => $planet_polygon
         );

@@ -52,7 +52,7 @@ die usage if $help;
 
 my $config = new Extract::Config;
 
-my $planet        = new Extract::Planet( 'debug' => $debug );
+my $planet = new Extract::Planet( 'debug' => $debug );
 my $extract_utils = Extract::Utils->new( 'debug' => $debug );
 die "No file given\n" if !@ARGV;
 

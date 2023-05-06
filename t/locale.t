@@ -26,7 +26,7 @@ $Extract::Locale::option->{"message_path"} = "./world/etc/extract";
 
 ##########################################################################
 # standard english
-my $q      = new CGI;
+my $q = new CGI;
 my $locale = Extract::Locale->new( 'q' => $q );
 
 isnt( $locale, undef, "locale class is success" );

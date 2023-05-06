@@ -34,7 +34,7 @@ my $ne_lng = 13.6763;
 my $ne_lat = 52.744;
 
 # list of supported languages
-my @lang  = ( "en", "de", "fr", "" );
+my @lang = ( "en", "de", "fr", "" );
 my @words = (
     "Saarbrücken",
     "Berlin",

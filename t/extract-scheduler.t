@@ -37,7 +37,7 @@ my $expected_result_running = {
 ###########################################################################
 # test success
 my $scheduler = new Extract::Scheduler( 'debug' => $debug );
-my @files     = glob('world/t/extract/confirmed/[0-9a-f]*[0-9-a-f].json');
+my @files = glob('world/t/extract/confirmed/[0-9a-f]*[0-9-a-f].json');
 
 # test with explicit list of files
 my $hash = $scheduler->running_users( \@files );

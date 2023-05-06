@@ -377,7 +377,7 @@ sub get_server_list {
 
     my $debug = $self->{'debug'};
 
-    my @list   = ();
+    my @list = ();
     my $server = $option->{'server'} || $server;
     warn Dumper($server) if $debug >= 2;
 
