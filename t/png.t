@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2023 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     print "1..0 # skip due problems with Maperitive\n";
@@ -127,7 +127,7 @@ qq[world/bin/bomb --timeout=$timeout --screenshot-file=$pbf_file.png -- world/bi
         $test->validate;
     }
 
-    unlink( $out, "$out.md5", "$out.sha256" );
+    unlink( $out, "$out.md5" );
     return $counter + $test->counter;
 }
 

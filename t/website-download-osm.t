@@ -32,16 +32,13 @@ my @homepages = qw[
 ];
 
 my $urls = [
-    [ "/osm/planet/planet-latest.osm.pbf.md5",        52 ],
-    [ "/osm/planet/planet-latest-nometa.osm.pbf.md5", 52 ],
-    [ "/osm/planet/planet-daily.osm.pbf.md5",         52 ],
+    [ "/osm/planet/planet-latest.osm.pbf.md5", 52 ],
+    [ "/osm/planet/planet-daily.osm.pbf.md5",  52 ],
 
-    [ "/osm/planet/planet-latest.osm.pbf.timestamp",        20 ],
-    [ "/osm/planet/planet-latest-nometa.osm.pbf.timestamp", 20 ],
-    [ "/osm/planet/planet-daily.osm.pbf.timestamp",         20 ],
+    [ "/osm/planet/planet-latest.osm.pbf.timestamp", 20 ],
+    [ "/osm/planet/planet-daily.osm.pbf.timestamp",  20 ],
 
-    [ "/osm/planet/planet-latest.osm.pbf",        19_000_000_000 ],
-    [ "/osm/planet/planet-latest-nometa.osm.pbf", 23_000_000_000 ],
+    [ "/osm/planet/planet-latest.osm.pbf", 69_000_000_000 ],
 
     [ "/bbbike/BBBike-3.18-devel-Intel.dmg", 33_000 ],
     [ "/bbbike/data-osm/Ottawa.tbz",         32_000 ],
@@ -59,7 +56,7 @@ my $urls = [
 
     [ "/osm/index.html",        1_000 ],
     [ "/osm/extract/",          1_000 ],
-    [ "/osm/planet/HEADER.txt", 440 ],
+    [ "/osm/planet/HEADER.txt", 400 ],
 ];
 
 # no need for latlon SRTM data

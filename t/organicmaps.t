@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2022 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2023 Wolfram Schneider, https://bbbike.org
 
 use FindBin;
 use lib "$FindBin::RealBin/../lib";
@@ -83,10 +83,10 @@ sub convert_format {
     my $size = $st->size;
     cmp_ok( $size, '>', $min_size, "$out: $size > $min_size" );
 
-    $counter += 3;
+    $counter += 2;
     $test->validate;
 
-    unlink( $out, "$out.md5", "$out.sha256" );
+    unlink( $out, "$out.md5" );
     return $counter + $test->counter;
 }
 

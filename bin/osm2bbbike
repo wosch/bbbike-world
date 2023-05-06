@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2022 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2023 Wolfram Schneider, https://bbbike.org
 #
 # osm2bbbike - convert a osm/pbf file to perl/tk bbbike data
 #
@@ -9,7 +9,6 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmpfs"}
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
-: ${SHA="shasum -a 256"}
 : ${GIT_ID=$(git show | head -n1 | awk '{ print $2 }')}
 
 set -e
@@ -113,7 +112,8 @@ case $BBBIKE_EXTRACT_LANG in
    * ) ext2=$(echo $ext | perl -npe "s/\.zip\$/.${BBBIKE_EXTRACT_LANG}.zip/") ;;
 esac
 
-( $MD5 $(find bbbike-data/ -type f); $SHA $(find bbbike-data/ -type f); ) > .checksum.txt; mv -f .checksum.txt CHECKSUM.txt
+$MD5 $(find bbbike-data/ -type f) > .checksum.txt
+mv -f .checksum.txt CHECKSUM.txt
 
 cd ..
 bbbike_zip=`dirname $file`/$bbbike.osm.$ext2

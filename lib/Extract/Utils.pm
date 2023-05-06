@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2012-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2023 Wolfram Schneider, https://bbbike.org
 #
 # extract helper functions
 
@@ -444,11 +444,11 @@ sub store_json {
 # compute SHA2 checksum for extract file
 sub checksum {
     my $file = shift;
-    my $type = shift || 'sha256';
+    my $type = shift || 'md5';
 
     die "file $file does not exists\n" if !-f $file;
 
-    my @checksum_command = $type eq 'md5' ? qw/md5sum/ : qw/shasum -a 256/;
+    my @checksum_command = $type eq 'md5' ? qw/md5sum/ : qw/false/;
 
     if ( my $pid = open( C, "-|" ) ) {
     }

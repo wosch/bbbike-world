@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) Sep 2011-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2011-2023 Wolfram Schneider, https://bbbike.org
 #
 # usage: /etc/munin/plugins/extract-users [ config ]
 #
@@ -10,14 +10,6 @@
 =head1 NAME
 
 extract-users  - Plugin to monitor running extract users
-
-=head1 ABOUT
-
-[...]
-
-=head1 USAGE
-
-[...]
 
 =head1 CONFIGURATION
 
@@ -33,7 +25,7 @@ if you need to override the defaults below:
 =cut
 
 
-PATH=/bin:/usr/bin; export PATH
+PATH="/bin:/usr/bin"; export PATH
 
 config=$1
 
@@ -68,12 +60,12 @@ users.label Running users 24h $pro
 users.min 0
 EOF
 
-echo "users.warning $users_warning"
-echo "users.critical $users_critical"
 echo "users3.warning $users_warning"
 echo "users3.critical $users_critical"
 echo "users12.warning $users_warning"
 echo "users12.critical $users_critical"
+echo "users.warning $users_warning"
+echo "users.critical $users_critical"
 
     exit 0
 fi
@@ -82,8 +74,8 @@ fi
 # main
 #
 
-echo "users.value" $(find $extract_dir/trash   -type f -mtime  -1 -print0 | xargs -0 egrep -h email | sed 's/,$//' | sort -u | wc -l)
 echo "users3.value" $(find $extract_dir/trash  -type f -mmin -180 -print0 | xargs -0 egrep -h email | sed 's/,$//' | sort -u | wc -l)
 echo "users12.value" $(find $extract_dir/trash -type f -mmin -720 -print0 | xargs -0 egrep -h email | sed 's/,$//' | sort -u | wc -l)
+echo "users.value" $(find $extract_dir/trash   -type f -mtime  -1 -print0 | xargs -0 egrep -h email | sed 's/,$//' | sort -u | wc -l)
 
 # EOF

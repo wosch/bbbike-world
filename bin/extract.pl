@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2011-2021 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2011-2023 Wolfram Schneider, https://bbbike.org
 #
 # extract.pl - extracts areas in a batch job
 #
@@ -1504,8 +1504,7 @@ sub _convert_send_email {
         $url = $option->{"aws_s3"}->{"homepage"} . "/" . $aws->aws_s3_path($to);
     }
 
-    my $checksum_sha256 = checksum( $to, "sha256" );
-    my $checksum_md5    = checksum( $to, "md5" );
+    my $checksum_md5 = checksum( $to, "md5" );
     $obj->{"checksum_md5"} = $checksum_md5;
 
     # unlink temporary .pbf files after all files are proceeds
@@ -1592,7 +1591,6 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
         $granularity,    #$osmosis_options,
         $obj->{"format"},
         $file_size,
-        $checksum_sha256,
         $checksum_md5,
         $database_update,
         $optional_message
@@ -1616,7 +1614,7 @@ qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
 # Granularity: 10,000 (1.1 meters)
 # Format: $obj->{"format"}
 # File size: $file_size
-# SHA256 checksum: $checksum
+# MD5 checksum: $checksum
 # Last planet.osm database update: $database_update
 # License: OpenStreetMap License
 #

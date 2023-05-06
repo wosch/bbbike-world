@@ -32,14 +32,19 @@ our $area = {
     'north-america-west' => { 'poly' => [ -138.7,   23.5,   -92.2,   61 ] },
     'south-america'      => { 'poly' => [ -97.53,   -59.13, -28.544, 20.217 ] },
     'africa'             => { 'poly' => [ -23.196,  -39.96, 61.949,  38.718 ] },
-    'asia'           => { 'poly' => [ 43.505,  -53.122, 179.99, 63.052 ] },
-    'asia-south'     => { 'poly' => [ 60.0,    -12.0,   131,    56 ] },
-    'europe'         => { 'poly' => [ -27.472, 26.682,  50.032, 72.282 ] },
-    'europe-central' => { 'poly' => [ 3.295,   45.3,    29.482, 63 ] },
-    'europe-germany' => { 'poly' => [ 4.892,   45.097,  17.614, 56.612 ] },
+    'africa-equatorial'  => { 'poly' => [ -18,      -11,    52,      17 ] },
+    'asia'             => { 'poly' => [ 43.505,  -53.122, 179.99, 63.052 ] },
+    'asia-south'       => { 'poly' => [ 60.0,    -12.0,   131,    56 ] },
+    'asia-south-india' => { 'poly' => [ 66.1,    4.6,     90.6,   30.2 ] },
+    'asia-south-china' => { 'poly' => [ 95.1,    19.1,    123.5,  45.1 ] },
+    'europe'           => { 'poly' => [ -27.472, 26.682,  50.032, 72.282 ] },
+    'europe-central'   => { 'poly' => [ 3.295,   45.3,    29.482, 63 ] },
+    'europe-germany'   => { 'poly' => [ 4.892,   45.097,  17.614, 56.612 ] },
     'europe-germany-brandenburg' =>
       { 'poly' => [ 11.64, 51.58, 15.07, 53.31 ] },
     'europe-south'     => { 'poly' => [ -11.86, 28.29, 51.0,  46.7 ] },
+    'europe-southwest' => { 'poly' => [ -11,    33,    19,    46 ] },
+    'europe-southeast' => { 'poly' => [ 16,     25,    51.0,  48 ] },
     'europe-northwest' => { 'poly' => [ -26.60, 45.2,  8.3,   67.9 ] },
     'europe-east'      => { 'poly' => [ 13.15,  44.0,  42.58, 61.7 ] },
 
@@ -336,7 +341,8 @@ sub create_poly_data {
     $counter += $#c;
 
     if ($error) {
-        warn "Poly file is corrupt, no valid coordinates are given\n";
+        warn
+"Poly file is corrupt, no valid coordinates are given for city '$city'\n";
         return ( "", 0 );
     }
     else {

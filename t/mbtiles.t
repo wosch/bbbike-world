@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2021 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2023 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     system( "env", "PATH=/bin:/usr/bin:/usr/local/bin", "which", "tilemaker" );
@@ -105,10 +105,10 @@ sub convert_format {
         my $image_size = `cat $tempfile` * 1024;
         cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
 
-        $counter += 5;
+        $counter += 4;
         $test->validate( 'style' => $style );
 
-        unlink( $out, "$out.md5", "$out.sha256" );
+        unlink( $out, "$out.md5" );
     }
 
     return $counter + $test->counter;

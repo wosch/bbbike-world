@@ -136,21 +136,29 @@ sub http_accept_language {
     my $self = shift;
     my $q    = $self->{'q'};
 
-    my $requested_language = $q->http('Accept-language') || "";
+    # cached entry
+    return $self->{'http_accept_language'}
+      if exists $self->{'http_accept_language'};
+
+    my $requested_language = $q->http('Accept-language') // "";
 
     return "" if !$requested_language;
 
     my @lang = Locale::Util::parse_http_accept_language($requested_language);
-    warn "Accept-language: " . join( ", ", @lang ) if $debug >= 2;
+    if ( $debug >= 1 ) {
+        warn "Accept-language: $requested_language\n";
+        warn "User prefered languages: " . join( ", ", @lang ) . "\n";
+    }
 
     foreach my $l (@lang) {
         if ( grep { $l eq $_ } @{ $option->{supported_languages} } ) {
             warn "Select language by browser: $l\n" if $debug >= 1;
-            return $l;
+            return $self->{'http_accept_language'} = $l;
         }
     }
 
-    return "";
+    warn "No supported language found: $requested_language\n" if $debug >= 1;
+    return $self->{'http_accept_language'} = "";
 }
 
 sub language_links {

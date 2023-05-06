@@ -26,9 +26,6 @@ LANG=en_US.UTF-8
 # bitrot?
 #25 * * * * $HOME/projects/bbbike/world/bin/planet-checksum
 
-# nightly extract-pro update
-30 0 * * * $HOME/projects/bbbike/world/bin/planet-download-replication
-
 MAILTO=wosch
 # m h  dom mon dow   command
 #4 17-2 * * *     cd $HOME/projects/bbbike/ && world/bin/planet-download-alert
