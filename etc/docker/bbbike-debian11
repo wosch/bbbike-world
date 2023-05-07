@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update -q && \
   apt-get upgrade -y && \
-  apt-get install -y git make sudo gnupg vim && \
+  env RUN_MANDB=no apt-get install -y git make sudo gnupg vim && \
   apt-get clean
 
 RUN mkdir -p /bbbike/projects
@@ -24,7 +24,7 @@ RUN . ./world/etc/env/dot.bbbikerc
 RUN ./world/bin/bbbike-deb-repository-setup.sh
 
 RUN apt-get update -q && \
-  apt-get install -y bbbike-world && \
+  env RUN_MANDB=no apt-get install -y -t bullseye-backports bbbike-world && \
   apt-get clean
 
 RUN make -f world/Makefile.osm create-bbbike-web-symlinks
