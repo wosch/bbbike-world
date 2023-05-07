@@ -43,6 +43,13 @@ my $days_daily_critical = $ENV{"days_daily_critical"} // 5;            # in days
 
 $ENV{PATH} = '/bin:/usr/bin';
 
+my $planet_enabled = {
+    'planet_latest'           => 1,
+    'planet_daily'            => 1,
+    'sub_latest_europe'       => 0,
+    'sub_latest_daily_europe' => 1
+};
+
 sub usage {
     <<EOF;
 usage: $0 [ options ] config
@@ -80,6 +87,9 @@ EOF
 sub config_planet_file {
     my ( $name, $warning, $critical ) = @_;
 
+    # not installed
+    return if !$planet_enabled->{$name};
+
     <<EOF;
 bbbike_${name}_status_time.label BBBike ${name} status time
 bbbike_${name}_status_time.min 0
@@ -101,6 +111,8 @@ sub planet_status_time {
     my $planet_dir  = $args{'planet_dir'};
     my $planet_file = $args{'planet_file'};
     my $tag         = $args{'tag'};
+
+    return if !$planet_enabled->{$tag};
 
     my $file = "$planet_dir/$planet_file";
 
