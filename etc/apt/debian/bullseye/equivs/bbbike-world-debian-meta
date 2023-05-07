@@ -46,6 +46,6 @@ Depends: pbzip2, bzip2, xz-utils, pixz, ncdu, git-core, screen, curl, wget, time
  libcompress-raw-bzip2-perl, libcompress-raw-zlib-perl, libio-compress-perl,
  libcanary-stability-perl, pkwalify, libinline-c-perl, libclone-perl,
  libhtml-format-perl, libinline-c-perl,
- pyosmium>=3.6
+ pyosmium (>=3.6)
 Description: BBBike @ World standard debian packages
  BBBike @ World standard debian packages
