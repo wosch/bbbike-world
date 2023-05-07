@@ -1650,7 +1650,6 @@ docker-build-libosmium-all:
 
 DOCKER_CHECK_ALL_COMMAND=docker-check
 docker-check-all:
-		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian9  ${DOCKER_CHECK_ALL_COMMAND}
 		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian10 ${DOCKER_CHECK_ALL_COMMAND}
 		#${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian11 ${DOCKER_CHECK_ALL_COMMAND}
 		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu18 ${DOCKER_CHECK_ALL_COMMAND}
@@ -1662,15 +1661,11 @@ docker-check-w-all:
 
 
 # debian
-docker-build-extract-debian9:
-	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-debian9 DOCKER_BBBIKE_TAG=bbbike/extract-debian9 docker-build
 docker-build-extract-debian10:
 	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-debian10 DOCKER_BBBIKE_TAG=bbbike/extract-debian10 docker-build
 docker-build-extract-debian11:
 	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-debian11 DOCKER_BBBIKE_TAG=bbbike/extract-debian11 docker-build
 
-docker-build-libosmium-debian9:
-	${BBMAKE} DOCKER_IMAGE_FILE=libosmium-debian9 DOCKER_BBBIKE_TAG=bbbike/libosmium-debian9 docker-build
 docker-build-libosmium-debian10:
 	${BBMAKE} DOCKER_IMAGE_FILE=libosmium-debian10 DOCKER_BBBIKE_TAG=bbbike/libosmium-debian10 docker-build
 docker-build-libosmium-debian11:
@@ -1829,7 +1824,7 @@ help:
 	@echo ""
 	@echo "  [ docker-build | docker-shell ]"
 	@echo "  [ docker-check | docker-check-w | docker-check-all ]"
-	@echo "  [ DOCKER_BBBIKE_TAG=bbbike/extract-debian9  docker-check-w ]"
+	@echo "  [ DOCKER_BBBIKE_TAG=bbbike/extract-debian11  docker-check-w ]"
 	@echo "  [ docker-build-tile | docker-shell-tile ]"
 	@echo "  [ docker-build-extract-debian11 | docker-build-extract-debian10 ]"
 	@echo "  [ docker-build-extract-ubuntu18 | docker-build-extract-ubuntu20 ]"
