@@ -3,16 +3,17 @@ MAINTAINER Wolfram Schneider <wosch@FreeBSD.org>
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update -q && apt-get upgrade -y && \
-  apt-get install -y git make sudo gnupg vim
+RUN apt-get update -q && \
+  apt-get upgrade -y && \
+  apt-get install -y git make sudo gnupg vim && \
+  apt-get clean
 
 RUN mkdir -p /bbbike/projects
 WORKDIR /bbbike/projects
 ENV HOME /bbbike
 RUN useradd -ms /bin/bash bbbike && \
-  echo 'bbbike   ALL=NOPASSWD: ALL' >> /etc/sudoers
+  echo 'bbbike ALL=NOPASSWD: ALL' >> /etc/sudoers
 
-#ADD . bbbike
 RUN git clone --depth=200 https://github.com/wosch/bbbike.git && \
   cd bbbike && git clone --depth=200 https://github.com/wosch/bbbike-world.git world && \
   make -f world/Makefile.osm create-makefile-symlinks
@@ -22,17 +23,17 @@ WORKDIR /bbbike/projects/bbbike
 RUN . ./world/etc/env/dot.bbbikerc 
 RUN ./world/bin/bbbike-deb-repository-setup.sh
 
-RUN sudo apt-get update -q && \
-  sudo apt-get install -y bbbike-world
+RUN apt-get update -q && \
+  apt-get install -y bbbike-world && \
+  apt-get clean
 
 RUN make -f world/Makefile.osm create-bbbike-web-symlinks
-#RUN cd world && git pull
-RUN sudo cp world/etc/env/dot.bbbikerc $HOME/.bbbikerc
+RUN cp world/etc/env/dot.bbbikerc $HOME/.bbbikerc
 RUN make bbbike-bootstrap || true
 RUN make update-files
 
 RUN echo '. $HOME/.bbbikerc' >> $HOME/.bashrc && \
-    echo 'export BBBIKE_TEST_DOCKER=1' >> $HOME/.bashrc
+  echo 'export BBBIKE_TEST_DOCKER=1' >> $HOME/.bashrc
 RUN chown -R bbbike:bbbike /bbbike/
 USER bbbike
 
