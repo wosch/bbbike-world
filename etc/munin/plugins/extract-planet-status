@@ -62,9 +62,9 @@ EOF
 sub config_planet {
 
     my $data = <<EOF;
-graph_title BBBike planet status time
+graph_title Extract planet status time
 graph_vlabel BBBike planet status time
-graph_category bbbikesystem
+graph_category extractadmin
 graph_info BBBike planet status time
 graph_period hour
 EOF

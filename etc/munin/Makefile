@@ -6,7 +6,6 @@
 
 MUNIN_BBBIKE_SYSTEM= 	bbbike-processes \
 			bbbike-data-status \
-			bbbike-planet-status \
 			bbbike-tagname-status \
 			bbbike-git-status
 
@@ -28,6 +27,7 @@ MUNIN_EXTRACT= 		extract-diskusage \
 			extract-http404 \
 			extract-wait \
 			extract-download \
+			extract-planet-status \
 			extract-stale
 
 MUNIN_EXTRACT_WEB= 	extract-services-format \
