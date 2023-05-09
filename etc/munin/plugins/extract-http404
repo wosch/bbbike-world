@@ -24,7 +24,8 @@ if you need to override the defaults below:
 
 
 PATH="/bin:/usr/bin"; export PATH
-LANG="C"
+LANG="C"; export LANG
+
 log_dir="/var/log/lighttpd"
 log_files="api.bbbike.log bbbike.log dev.bbbike.log download.bbbike.log extract.bbbike.log m.bbbike.log search.bbbike.log"
 log_files_extract="dev.bbbike.log extract.bbbike.log"

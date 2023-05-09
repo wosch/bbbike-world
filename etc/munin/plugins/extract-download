@@ -23,10 +23,11 @@ if you need to override the defaults below:
 
 =cut
 
-
 set -e
+
 PATH="/bin:/usr/bin"; export PATH
 LANG="C"; export LANG
+
 log_dir="/var/log/lighttpd"
 formats="bbbike garmin mapsforge mbtiles pmtiles organicmaps"
 download="planet_latest planet_daily extract other ALL"

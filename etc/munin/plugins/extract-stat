@@ -24,7 +24,8 @@ if you need to override the defaults below:
 
 
 PATH="/bin:/usr/bin"; export PATH
-LANG="C"
+LANG="C"; export LANG
+
 extract_dir="/var/cache/extract/"
 language="en de fr ru"
 extract_time="convert_time extract_time"
