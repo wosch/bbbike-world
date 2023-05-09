@@ -28,6 +28,7 @@ install:
 
 	mkdir -p $(CURDIR)/debian/src
 	cd $(CURDIR)/debian/src; \
+	  set -e; \
 	  for i in ${JAVALIBS_TARBALL}; do \
 		if ! test -e $$i; then \
 		  echo "download ${HOMEPAGE_TARBALL}/src/$$i"; \
