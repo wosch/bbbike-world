@@ -31,6 +31,7 @@ LANG="C"; export LANG
 log_dir="/var/log/lighttpd"
 formats="bbbike garmin mapsforge mbtiles pmtiles organicmaps"
 download="planet_latest planet_daily extract other ALL"
+grep='grep -E -a'
 
 config=$1
 
@@ -72,7 +73,6 @@ cd $log_dir
 
 trap 'rm -f $log_file' 0
 days=30
-grep='grep -E -a'
 log_file=$(mktemp /tmp/munin-extract-download.XXXXXXXX)
 zcat -f $(ls -tr download* | tail -n $days) /dev/null | $grep -v '/html/|\?|/tmp/' | awk '{ if ($10 > 50*1024) { print $7, $10 } }' > $log_file
 

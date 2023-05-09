@@ -25,6 +25,7 @@ if you need to override the defaults below:
 
 PATH="/bin:/usr/bin"; export PATH
 LANG="C"; export LANG
+grep='grep -E -a'
 
 extract_dir="/var/cache/extract/"
 language="en de fr ru"
@@ -87,10 +88,10 @@ EOF
 fi
 
 tmpfile=$(mktemp)
-find $extract_dir/trash -mtime -1 -name '*.json' | xargs egrep -h '"(lang|planet_osm_sub|convert_time|extract_time)" : ' > $tmpfile
+find $extract_dir/trash -mtime -1 -name '*.json' | xargs $grep -h '"(lang|planet_osm_sub|convert_time|extract_time)" : ' > $tmpfile
 
 echo "multigraph language"
-egrep '"lang" : ' $tmpfile | sort | uniq -c | perl -npe 's/[",]//g' |
+$grep '"lang" : ' $tmpfile | sort | uniq -c | perl -npe 's/[",]//g' |
   awk '{ print $4 ".value " $1 }'
 
 for i in $planets
@@ -98,15 +99,15 @@ do
   p=$(echo $i | sed 's/-/_/g')
   echo ""
   echo "multigraph $p"
-  egrep '"planet_osm_sub" : ' $tmpfile | egrep "/$i/" | sort | uniq -c |
+  $grep '"planet_osm_sub" : ' $tmpfile | $grep "/$i/" | sort | uniq -c |
     perl -npe 's/""/"full"/; s/[",]//g; s,\.\./.*/,,; s/\.osm\.pbf//; s/-/_/g' |
     awk '{ print $4 ".value " $1 }'
 done
 
 echo ""
 echo "multigraph run_time"
-egrep '"extract_time" : ' $tmpfile | sed -e 's/,//' -e 's/"//g' | awk '{ s += $3 } END { print "extract_time.value", s/NR }'
-egrep '"convert_time" : ' $tmpfile | sed 's/,//' | awk '{ s += $3 } END { print "convert_time.value", s/NR }'
+$grep '"extract_time" : ' $tmpfile | sed -e 's/,//' -e 's/"//g' | awk '{ s += $3 } END { print "extract_time.value", s/NR }'
+$grep '"convert_time" : ' $tmpfile | sed 's/,//' | awk '{ s += $3 } END { print "convert_time.value", s/NR }'
 
 exit 0
 

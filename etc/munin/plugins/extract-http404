@@ -25,6 +25,7 @@ if you need to override the defaults below:
 
 PATH="/bin:/usr/bin"; export PATH
 LANG="C"; export LANG
+grep='grep -E -a'
 
 log_dir="/var/log/lighttpd"
 log_files="api.bbbike.log bbbike.log dev.bbbike.log download.bbbike.log extract.bbbike.log m.bbbike.log search.bbbike.log"
@@ -76,7 +77,7 @@ for file in $log_files
 do
   item=$(basename $file .log | sed 's/\./_/g')
   echo -n "$item.value "
-  grep '" 404 ' $file | grep -E -v 'bot|/apple|cyberscan| //|\.php |/wp-[a-z]' | awk '{ print $1 }' | sort -u | wc -l
+  $grep '" 404 ' $file | $grep -v 'bot|/apple|cyberscan| //|\.php |/wp-[a-z]' | awk '{ print $1 }' | sort -u | wc -l
 done
 
 echo ""
@@ -85,7 +86,7 @@ for file in $log_files_extract
 do
   item=$(basename $file .log | sed 's/\./_/g')
   echo -n "$item.value "
-  grep '" 520 ' $file | awk '{ print $1 }' | sort -u | wc -l
+  $grep '" 520 ' $file | awk '{ print $1 }' | sort -u | wc -l
 done
 
 exit 0

@@ -30,6 +30,7 @@ formats="csv.gz csv.xz garmin-bbbike.zip garmin-cycle.zip garmin-leisure.zip gar
 
 LANG="C"; export LANG
 config=$1
+grep='grep -E -a'
 
 if [ "$1" = "config" ]; then
     : ${warning=240000000000}
@@ -89,7 +90,7 @@ du_k=$(mktemp /tmp/munin-bbbike.XXXXXXXXX)
 for f in $formats
 do
     ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
-    echo "$ff.value"     $( egrep "${f}$" < $du_k | awk '{ s += $1 * 1024 } END { if (NR==0) { print 0} else { print s } }' )
+    echo "$ff.value"     $( $grep "${f}$" < $du_k | awk '{ s += $1 * 1024 } END { if (NR==0) { print 0} else { print s } }' )
 done
 
 rm -f $du_k

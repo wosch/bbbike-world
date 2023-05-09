@@ -27,6 +27,7 @@ if you need to override the defaults below:
 
 PATH="/bin:/usr/bin"; export PATH
 LANG="C"; export LANG
+grep='grep -E -a'
 
 config=$1
 
@@ -75,8 +76,8 @@ fi
 # main
 #
 
-echo "users3.value" $(find $extract_dir/trash  -type f -mmin -180 -print0 | xargs -0 egrep -h email | sed 's/,$//' | sort -u | wc -l)
-echo "users12.value" $(find $extract_dir/trash -type f -mmin -720 -print0 | xargs -0 egrep -h email | sed 's/,$//' | sort -u | wc -l)
-echo "users.value" $(find $extract_dir/trash   -type f -mtime  -1 -print0 | xargs -0 egrep -h email | sed 's/,$//' | sort -u | wc -l)
+echo "users3.value" $(find $extract_dir/trash  -type f -mmin -180 -print0 | xargs -0 $grep -h email | sed 's/,$//' | sort -u | wc -l)
+echo "users12.value" $(find $extract_dir/trash -type f -mmin -720 -print0 | xargs -0 $grep -h email | sed 's/,$//' | sort -u | wc -l)
+echo "users.value" $(find $extract_dir/trash   -type f -mtime  -1 -print0 | xargs -0 $grep -h email | sed 's/,$//' | sort -u | wc -l)
 
 # EOF

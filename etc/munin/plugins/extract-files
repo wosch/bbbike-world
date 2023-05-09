@@ -37,6 +37,7 @@ formats="csv.gz csv.xz garmin-bbbike.zip garmin-cycle.zip garmin-leisure.zip gar
 
 config=$1
 LANG="C"; export LANG
+grep='grep -E -a'
 
 if [ "$1" = "config" ]; then
     : ${warning=2500}
@@ -96,14 +97,14 @@ find_download=$(mktemp /tmp/munin-bbbike.XXXXXXXXX)
 
 echo "multigraph pbf_pbf"
 echo "ALL.value" 	$( wc -l < $ls_download )
-echo "osm_pbf.value" 	$( egrep "\.osm\.pbf$" < $ls_download | wc -l )
-echo "other.value" 	$( egrep -v "\.osm\.pbf$" < $ls_download | wc -l )
+echo "osm_pbf.value" 	$( $grep "\.osm\.pbf$" < $ls_download | wc -l )
+echo "other.value" 	$( $grep -v "\.osm\.pbf$" < $ls_download | wc -l )
 
 echo ""
 echo "multigraph pbf_pbf_day"
 echo "ALL.value" 	$( wc -l < $find_download )
-echo "osm_pbf.value" 	$( egrep "\.osm\.pbf$" < $find_download | wc -l )
-echo "other.value" 	$( egrep -v "\.osm\.pbf$" < $find_download | wc -l )
+echo "osm_pbf.value" 	$( $grep "\.osm\.pbf$" < $find_download | wc -l )
+echo "other.value" 	$( $grep -v "\.osm\.pbf$" < $find_download | wc -l )
 
 echo ""
 echo "multigraph pbf_other"
@@ -112,7 +113,7 @@ for f in $formats
 do
     ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
     f=$(echo $f | perl -npe 's/(srtm(-europe)?)/${1}.*/g')
-    echo "$ff.value"     $( egrep "${f}$" < $ls_download | wc -l )
+    echo "$ff.value"     $( $grep "${f}$" < $ls_download | wc -l )
 done
 
 rm -f $ls_download $find_download

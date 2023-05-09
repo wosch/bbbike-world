@@ -39,6 +39,7 @@ if you need to override the defaults below:
 
 PATH=/bin:/usr/bin; export PATH
 LANG="C"; export LANG
+grep='grep -E -a'
 
 config=$1
 
@@ -124,13 +125,13 @@ done
 echo "proc.value $count"
 
 echo "users.value" \
-  $(egrep -h '"email"' $extract_dir_running/*/*.json 2>/dev/null | sed 's/,$//' | sort -u | wc -l) 
+  $($grep -h '"email"' $extract_dir_running/*/*.json 2>/dev/null | sed 's/,$//' | sort -u | wc -l) 
 echo "waiting.value" \
   $(ls $extract_dir_running/../confirmed/*.json 2>/dev/null | wc -l) 
 echo "waiting_max_per_user.value" \
-  $(egrep -h '"email"' $extract_dir_running/../confirmed/*.json 2>/dev/null |\
+  $($grep -h '"email"' $extract_dir_running/../confirmed/*.json 2>/dev/null |\
   sed 's/,$//' | sort | uniq -c | sort -nr | awk '{ print $1 } END { if ($NR==0) { print "0" } }' | head -n 1)
 echo "users_waiting.value" \
-  $(egrep -h '"email"' $extract_dir_running/../confirmed/*.json 2>/dev/null | sed 's/,$//' | sort -u | wc -l) 
+  $($grep -h '"email"' $extract_dir_running/../confirmed/*.json 2>/dev/null | sed 's/,$//' | sort -u | wc -l) 
 
 # EOF

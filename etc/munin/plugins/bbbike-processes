@@ -38,6 +38,8 @@ if you need to override the defaults below:
 PATH=/bin:/usr/bin; export PATH
 LANG="C"; export LANG
 
+grep='grep -E -a'
+
 # the file must exists in /etc/init.d or a dummy file in /etc/init.d/.<name>
 # optional
 : ${process_names_opt="lighttpd apache2 varnishncsa renderd postgres Xvfb memcached z3950proxy.pl java munin-cgi-graph hitch"}
@@ -93,26 +95,26 @@ fi
 for pp in $process_names
 do
   	p=$(pname $pp)
-   	echo "$p.value" $(egrep "^${pp}$" /proc/*/comm | wc -l)
+   	echo "$p.value" $($grep "^${pp}$" /proc/*/comm | wc -l)
 done
 for pp in $process_names_opt
 do
     if [ -e /etc/init.d/$pp -o -e /etc/init.d/.$pp ]; then
     	p=$(pname $pp)
-    	echo "$p.value" $(egrep "^${pp}$" /proc/*/comm | wc -l)
+    	echo "$p.value" $($grep "^${pp}$" /proc/*/comm | wc -l)
     fi
 done
 
 for pp in $process_names_d
 do
    	p=$(pname $pp)
-   	echo "$p.value" $(egrep "^${pp}d$" /proc/*/comm | wc -l)
+   	echo "$p.value" $($grep "^${pp}d$" /proc/*/comm | wc -l)
 done
 for pp in $process_names_opt_d
 do
     if [ -e /etc/init.d/$pp ]; then
     	p=$(pname $pp)
-    	echo "$p.value" $(egrep "^${pp}d$" /proc/*/comm | wc -l)
+    	echo "$p.value" $($grep "^${pp}d$" /proc/*/comm | wc -l)
     fi
 done
 
