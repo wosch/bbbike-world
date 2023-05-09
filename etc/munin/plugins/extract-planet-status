@@ -89,7 +89,7 @@ sub config_planet_file {
     my ( $name, $warning, $critical ) = @_;
 
     # not installed
-    return if !$planet_enabled->{$name};
+    return "" if !$planet_enabled->{$name};
 
     <<EOF;
 bbbike_${name}_status_time.label BBBike ${name} status time
