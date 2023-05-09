@@ -31,6 +31,9 @@ sudo ./world/bin/bbbike-deb-repository-setup.sh
 # see world/etc/apt/equivs
 sudo apt-get install bbbike-world
 
+# with backports?
+#sudo apt-get install -y -t bullseye-backports pyosmium osmium-tool libosmium2-dev 
+
 make -f world/Makefile.osm bbbike-bootstrap
 make -f world/Makefile.osm distclean-real
 
