@@ -13,6 +13,9 @@ use CGI;
 use strict;
 use warnings;
 
+$ENV{PATH} = '/bin:/usr/bin';
+$ENV{LANG} = 'C';
+
 # 0: quiet, 1: normal, 2: verbose
 my $debug = defined $ENV{MUNIN_BBBIKE_DEBUG} ? $ENV{MUNIN_BBBIKE_DEBUG} : 0;
 

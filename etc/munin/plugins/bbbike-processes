@@ -36,6 +36,7 @@ if you need to override the defaults below:
 
 
 PATH=/bin:/usr/bin; export PATH
+LANG="C"; export LANG
 
 # the file must exists in /etc/init.d or a dummy file in /etc/init.d/.<name>
 # optional

@@ -36,6 +36,7 @@ extract_dir=/var/cache/extract
 formats="csv.gz csv.xz garmin-bbbike.zip garmin-cycle.zip garmin-leisure.zip garmin-onroad.zip garmin-ontrail.zip garmin-opentopo.zip garmin-openfietslite.zip garmin-openfietsfull.zip garmin-oseam.zip garmin-osm.zip mapsforge-osm.zip organicmaps-osm.zip o5m.gz o5m.xz obf.zip opl.xz osm.bz2 osm.gz osm.pbf osm.xz png-cadastre.zip png-google.zip png-hiking.zip png-osm.zip png-urbanight.zip png-wireframe.zip shp.zip srtm-europe.garmin-srtm.zip srtm-europe.obf.zip srtm-europe.osm.pbf srtm-europe.osm.xz srtm.garmin-srtm.zip srtm.obf.zip srtm.osm.pbf srtm.osm.xz svg-cadastre.zip svg-google.zip svg-hiking.zip svg-osm.zip svg-urbanight.zip svg-wireframe.zip mbtiles-openmaptiles.zip"
 
 config=$1
+LANG="C"; export LANG
 
 if [ "$1" = "config" ]; then
     : ${warning=2500}

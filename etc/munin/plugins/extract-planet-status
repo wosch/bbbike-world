@@ -42,6 +42,7 @@ my $days_daily_warning  = $ENV{"days_daily_warnings"} // 2;            # in days
 my $days_daily_critical = $ENV{"days_daily_critical"} // 5;            # in days
 
 $ENV{PATH} = '/bin:/usr/bin';
+$ENV{LANG} = 'C';
 
 my $planet_enabled = {
     'planet_latest'           => 1,
