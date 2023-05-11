@@ -1,3 +1,9 @@
+bbbike-world-bin-misc (1.15-2) unstable; urgency=low
+
+  * fix package name
+
+ -- Wolfram Schneider <wosch@freebsd.org>  Tue May  9 16:39:25 UTC 2023
+
 bbbike-world-bin-misc (1.15-1) unstable; urgency=low
 
   * refactor, cleanup for debian11
