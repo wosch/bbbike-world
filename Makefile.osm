@@ -689,6 +689,9 @@ sub-planet sub-planet-daily sub-srtm: sub-planet-clean
 	make -C world/etc/$@
 	program=$@ ./world/bin/sub-planet
 
+srtm-download:
+	./world/bin/$@.sh
+
 sub-planet-statistic:
 	find ../extract/trash -mtime -7 -type f  | xargs ./world/bin/sub-planet-statistic.pl | awk '{ print $$2 }' | sort | uniq -c | sort -nr
 
@@ -1782,7 +1785,7 @@ help:
 	@echo ""
 	@echo "  [ planet-download | planet-download-alert | planet-daily-update-cron ]"
 	@echo "  [ sub-planet | sub-planet-daily ]"
-	@echo "  [ sub-srtm | sub-planet-statistic ]"
+	@echo "  [ srtm-download | sub-srtm | sub-planet-statistic ]"
 	@echo "  [ update-database | update-files ]"
 	@echo "  [ planet-daily-update ]"
 	@echo "  [ download-bbbike-org-install ]"
