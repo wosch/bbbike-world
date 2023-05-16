@@ -1739,6 +1739,8 @@ garmin-borders:
 	  rm -f bounds-latest.zip; \
 	fi
 
+download-planet-data: srtm-download sub-srtm planet-download-alert planet-daily-update-cron
+
 build-tagname-db:
 	nice -10 ${MAKE} -C ../tagname $@
 build-tagname-db-geofabrik:
@@ -1784,6 +1786,7 @@ help:
 	@echo "  [ planet-download | planet-download-alert | planet-daily-update-cron ]"
 	@echo "  [ sub-planet | sub-planet-daily ]"
 	@echo "  [ srtm-download | sub-srtm | sub-planet-statistic ]"
+	@echo "  [ download-planet-data ]"
 	@echo "  [ update-database | update-files ]"
 	@echo "  [ planet-daily-update ]"
 	@echo "  [ download-bbbike-org-install ]"
