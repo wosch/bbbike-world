@@ -18,6 +18,11 @@ available_disk_size ()
 {
     disk=$1
     min_disk_size=$2
+    if [ ! -e $disk ]; then
+	echo "$disk does not exists, ignore"
+        return
+    fi
+
     available_disk_size=$(df -k $disk | tail -1 | awk '{ print int($4/1024/1024) }')
     if [ $available_disk_size -le $min_disk_size ]; then
         echo "Required disk space in $disk: $available_disk_size < $min_disk_size GB"
@@ -54,6 +59,7 @@ commands="$bbbike_build $bbbike_extract $bbbike_convert $bbbike_install $bbbike_
 
 begin="$(date '+%F %T %Z')"
 
+exit 3
 for i in $commands
 do
     # compress old log files
