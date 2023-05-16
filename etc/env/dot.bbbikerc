@@ -1,11 +1,10 @@
-# Copyright (c) 2009-2017 Wolfram Schneider, https://bbbike.org
-#
+# Copyright (c) 2009-2023 Wolfram Schneider, https://bbbike.org
 #
 ##################################################################
 # Planet.osm download server
 #
-planet_osm_server=https://planet.openstreetmap.org/pbf
-planet_osm_server_bzip2=https://planet.openstreetmap.org/planet
+#planet_osm_server=https://planet.openstreetmap.org/pbf
+planet_osm_server="https://download3.bbbike.org/tmp/pbf"
 
 # do not build garmin images etc., just the routing
 #bbbike_format=""
