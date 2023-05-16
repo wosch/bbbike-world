@@ -1460,9 +1460,7 @@ bbbike-c:
 
 DOWNLOAD_PREFIX=/usr/local/www/download.bbbike.org
 download-bbbike-org-install:
-	mkdir -p ${DOWNLOAD_PREFIX}
-	mkdir -p ${DOWNLOAD_PREFIX}/osm/planet
-	mkdir -p ${DOWNLOAD_PREFIX}/bbbike
+	mkdir -p ${DOWNLOAD_PREFIX} && cd ${DOWNLOAD_PREFIX} && mkdir -p osm/planet bbbike osm/bbbike
 	set -e; cd ${DOWNLOAD_PREFIX}; \
 	  ln -fs ../bbbike.org/world/download/favicon.ico; \
 	  ln -fs ../bbbike.org/world/download/index.html; \
