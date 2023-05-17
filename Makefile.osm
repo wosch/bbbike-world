@@ -1460,20 +1460,18 @@ bbbike-c:
 
 DOWNLOAD_PREFIX=/usr/local/www/download.bbbike.org
 download-bbbike-org-install:
-	mkdir -p ${DOWNLOAD_PREFIX}
-	mkdir -p ${DOWNLOAD_PREFIX}/osm/planet
-	mkdir -p ${DOWNLOAD_PREFIX}/bbbike
-	cd ${DOWNLOAD_PREFIX}; \
+	mkdir -p ${DOWNLOAD_PREFIX} && cd ${DOWNLOAD_PREFIX} && mkdir -p osm/planet bbbike osm/bbbike
+	set -e; cd ${DOWNLOAD_PREFIX}; \
 	  ln -fs ../bbbike.org/world/download/favicon.ico; \
 	  ln -fs ../bbbike.org/world/download/index.html; \
 	  ln -fs ../bbbike.org/world/web/robots-download.txt robots.txt
-	cd ${DOWNLOAD_PREFIX}/osm; \
+	set -e; cd ${DOWNLOAD_PREFIX}/osm; \
 	  if ! test -e bbbike; then ln -fs ../../bbbike.org/osm bbbike; fi; \
 	  ln -fs ../../bbbike.org/world/download/osm/index.html; \
 	  ln -fs ${EXTRACTS_SPOOL_DIR}/download extract
-	cd ${DOWNLOAD_PREFIX}/osm/bbbike; \
+	set -e; cd ${DOWNLOAD_PREFIX}/osm/bbbike; \
 	  ln -fs ../world/download/osm/bbbike/HEADER.txt .; \
-	cd ${DOWNLOAD_PREFIX}/osm/planet; \
+	set -e; cd ${DOWNLOAD_PREFIX}/osm/planet; \
 	  ln -fs $$HOME/projects/osm/download/planet-latest.osm.pbf . ;\
 	  ln -fs $$HOME/projects/osm/download/planet-latest.osm.pbf.md5 . ;\
 	  ln -fs $$HOME/projects/osm/download/planet-latest.osm.pbf.timestamp . ;\
@@ -1481,12 +1479,12 @@ download-bbbike-org-install:
 	  ln -fs $$HOME/projects/osm/download/planet-daily.osm.pbf.md5 . ;\
 	  ln -fs $$HOME/projects/osm/download/planet-daily.osm.pbf.timestamp . ;\
 	  ln -fs ../../../bbbike.org/world/download/osm/planet/HEADER.txt .
-	cd ${DOWNLOAD_PREFIX}/osm/planet; \
+	set -e; cd ${DOWNLOAD_PREFIX}/osm/planet; \
 	  ln -fs $$HOME/projects/osm/download/sub-planet .
-	cd ${DOWNLOAD_PREFIX}/osm/planet; \
-	if [ -e $$HOME/projects/osm/download/sub-planet-daily ]; then \
-	  ln -fs $$HOME/projects/osm/download/sub-planet-daily .; \
-	fi
+	set -e; cd ${DOWNLOAD_PREFIX}/osm/planet; \
+	  if [ -e $$HOME/projects/osm/download/sub-planet-daily ]; then \
+	    ln -fs $$HOME/projects/osm/download/sub-planet-daily .; \
+	  fi
 	${MAKE} download-srtm-bbbike-org-install
 
 # http://download.freizeitkarte-osm.de/Development/ele_25_250_500/Hoehendaten_Freizeitkarte_Europe.osm.pbf
@@ -1741,6 +1739,8 @@ garmin-borders:
 	  rm -f bounds-latest.zip; \
 	fi
 
+download-planet-data: srtm-download sub-srtm planet-download-alert planet-daily-update-cron
+
 build-tagname-db:
 	nice -10 ${MAKE} -C ../tagname $@
 build-tagname-db-geofabrik:
@@ -1786,6 +1786,7 @@ help:
 	@echo "  [ planet-download | planet-download-alert | planet-daily-update-cron ]"
 	@echo "  [ sub-planet | sub-planet-daily ]"
 	@echo "  [ srtm-download | sub-srtm | sub-planet-statistic ]"
+	@echo "  [ download-planet-data ]"
 	@echo "  [ update-database | update-files ]"
 	@echo "  [ planet-daily-update ]"
 	@echo "  [ download-bbbike-org-install ]"

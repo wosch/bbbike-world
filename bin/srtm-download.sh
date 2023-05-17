@@ -8,7 +8,7 @@ set -e
 PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
 
 files="CHECKSUM.txt planet-srtm-e40.osm.pbf.timestamp planet-srtm-e40.osm.pbf"
-srtm_download_url="https://download3.bbbike.org/osm/planet/srtm/"
+srtm_download_url="https://download3.bbbike.org/osm/planet/srtm"
 
 if [ -e "$bbbikerc" ]; then
     . "$bbbikerc"
@@ -27,4 +27,3 @@ do
 done
 
 #EOF
-
