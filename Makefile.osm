@@ -1656,8 +1656,6 @@ docker-build-extract-debian10:
 docker-build-extract-debian11:
 	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-debian11 DOCKER_BBBIKE_TAG=bbbike/extract-debian11 docker-build
 
-docker-build-libosmium-debian10:
-	${BBMAKE} DOCKER_IMAGE_FILE=libosmium-debian10 DOCKER_BBBIKE_TAG=bbbike/libosmium-debian10 docker-build
 docker-build-libosmium-debian11:
 	${BBMAKE} DOCKER_IMAGE_FILE=libosmium-debian11 DOCKER_BBBIKE_TAG=bbbike/libosmium-debian11 docker-build
 
@@ -1813,7 +1811,7 @@ help:
 	@echo "  [ docker-build-tile | docker-shell-tile ]"
 	@echo "  [ docker-build-extract-debian11 | docker-build-extract-debian10 ]"
 	@echo "  [ docker-build-extract-ubuntu22 ]"
-	@echo "  [ docker-build-libosmium-debian11 | docker-build-libosmium-debian10 ]"
+	@echo "  [ docker-build-libosmium-debian11 ]"
 	@echo "  [ docker-build-libosmium-ubuntu22 ]"
 	@echo "  [ docker-build-tilemaker-ubuntu16 ]"
 	@echo "  [ docker-build-all | docker-build-libosmium-all ]"
