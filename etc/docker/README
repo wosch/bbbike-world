@@ -38,5 +38,5 @@ cd bbbike
 make docker-build
 
 or:
-sudo docker build -f world/etc/docker/bbbike-debian8 -t bbbike/extract .
+sudo docker build -f world/etc/docker/bbbike-debian11 -t bbbike/extract .
 
