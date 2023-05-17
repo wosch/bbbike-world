@@ -4,7 +4,7 @@
 # curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
 #
 # cat /etc/apt/sources.list.d/docker.list 
-#  deb [arch=amd64] https://download.docker.com/linux/debian stretch stable 
+#  deb [arch=amd64] https://download.docker.com/linux/debian buster stable 
 #
 # sudo apt-get update
 # sudo apt-get install docker-ce
