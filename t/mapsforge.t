@@ -3,7 +3,7 @@
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_MAPSFORGE_DISABLED} || $ENV{BBBIKE_TEST_DOCKER} ) {
-        print "1..0 # skip, mapsforge disabled\n";
+        print "1..0 # skip, mapsforge disabled or running on docker\n";
         exit;
     }
 }
