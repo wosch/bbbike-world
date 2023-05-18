@@ -59,7 +59,6 @@ commands="$bbbike_build $bbbike_extract $bbbike_convert $bbbike_install $bbbike_
 
 begin="$(date '+%F %T %Z')"
 
-exit 3
 for i in $commands
 do
     # compress old log files
