@@ -690,6 +690,12 @@ planet-daily-update-cron:
 
 bbbike-deb-repository-setup:
 	@./world/bin/$@.sh
+bbbike-deb-repository-install:
+	sudo apt-get update -q
+	sudo apt-get install -y -t bullseye-backports pyosmium osmium-tool libosmium2-dev
+	sudo apt-get install -y bbbike-world
+	sudo apt-get install -y mono-devel xvfb x11-apps 
+	sudo apt-get clean
 
 sub-planet sub-planet-daily sub-srtm: sub-planet-clean
 	mkdir -p ../osm/download/$@
@@ -1785,6 +1791,7 @@ help:
 	@echo "  [ sub-planet | sub-planet-daily ]"
 	@echo "make sub-planet-statistic"
 	@echo "make bbbike-deb-repository-setup"
+	@echo "make bbbike-deb-repository-install"
 	@echo ""
 	@echo ""
 	@echo "  [ staging | garmin-legend ]"
