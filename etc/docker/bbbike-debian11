@@ -25,16 +25,11 @@ RUN git clone --depth=200 https://github.com/wosch/bbbike.git && \
 WORKDIR /bbbike/projects/bbbike
 
 RUN make bbbike-deb-repository-setup
+RUN make bbbike-deb-repository-install
 
-RUN sudo apt-get update -q && \
-  env RUN_MANDB=no sudo apt-get install -y -t bullseye-backports pyosmium osmium-tool libosmium2-dev && \
-  env RUN_MANDB=no sudo apt-get install -y bbbike-world && \
-  env RUN_MANDB=no sudo apt-get install -y mono-devel xvfb x11-apps && \
-  sudo apt-get clean
-
-RUN cp world/etc/env/dot.bbbikerc $HOME/.bbbikerc
 RUN make bbbike-bootstrap || true
 
+RUN cp world/etc/env/dot.bbbikerc $HOME/.bbbikerc
 RUN echo '. $HOME/.bbbikerc' >> $HOME/.bashrc && \
   echo 'export BBBIKE_TEST_DOCKER=1' >> $HOME/.bashrc
 
