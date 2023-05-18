@@ -647,7 +647,11 @@ bbbike-tile-update-real:
 	time ${MAKE} bbbike-mapnik-postgis${POSTGIS_VERSION} > tmp/log.bbbike-mapnik-postgis${POSTGIS_VERSION} 2>&1
 	cd ../bbbike-eserte; git log --format=oneline | head -1 | awk '{ print $$1 }' > .tile-status
 	${MAKE} tile-cache-cleanup
+	${MAKE} bbbike-tile-git-gc
 	#prove world/t/mc-tilecheck.t ./world/t/websites.t
+
+bbbike-tile-git-gc:
+	cd ../bbbike-eserte && git gc -q
 
 bbbike-mapnik-config8:
 	if test -e ${POSTGIS_STYLE}; then \
