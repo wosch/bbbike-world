@@ -26,7 +26,7 @@ tmpfile=$(mktemp)
 trap 'rm -f $tmpfile' 0
 
 cd $dir
-ls *.pbf | xargs -n1 -P8 $md5sum | awk '{ print $2, $1 }' | sort > $tmpfile
+ls *.pbf | xargs -n1 -P8 $md5sum | sort -k2 > $tmpfile
 
 cp -f $tmpfile CHECKSUM.txt
 chmod 644 CHECKSUM.txt

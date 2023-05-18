@@ -1,7 +1,0 @@
-#
-# all you neeed for debian9 (stretch)
-#
-
-#deb     http://cdn.debian.net/debian/     testing main contrib non-free
-#deb http://security.debian.org/ testing/updates main
-

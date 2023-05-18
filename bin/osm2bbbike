@@ -7,7 +7,7 @@
 PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_EXTRACT_LANG="en"}
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
-: ${BBBIKE_TMPFS="/tmpfs"}
+: ${BBBIKE_TMPFS="/tmp"}
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
 : ${GIT_ID=$(git show | head -n1 | awk '{ print $2 }')}
 

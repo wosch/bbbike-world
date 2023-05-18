@@ -66,8 +66,8 @@ sub regions {
 
     my $poly = new Extract::Poly( 'debug' => $debug );
     my @regions = reverse $poly->list_subplanets(
-        'sort_by'        => 'disk',                        # by size
-        'sub_planet_dir' => '../osm/download/sub-planet'
+        'sort_by'        => 'disk',           # by size
+        'sub_planet_dir' => $sub_planet_dir
     );
 
     my @shell;
