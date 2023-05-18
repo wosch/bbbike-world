@@ -1490,12 +1490,14 @@ download-bbbike-org-install: create-usr-local-www
 
 # http://download.freizeitkarte-osm.de/Development/ele_25_250_500/Hoehendaten_Freizeitkarte_Europe.osm.pbf
 download-srtm-bbbike-org-install:
-	cd ${DOWNLOAD_PREFIX}/osm/planet; mkdir -p srtm; cd srtm; \
+	set -e; cd ${DOWNLOAD_PREFIX}/osm/planet; mkdir -p srtm; cd srtm; \
 	  ln -fs $$HOME/projects/osm/download/srtm/planet-srtm-e40.osm.pbf .; \
 	  ln -fs $$HOME/projects/osm/download/srtm/planet-srtm-e40.osm.pbf.timestamp .; \
 	  ln -fs $$HOME/projects/osm/download/srtm/CHECKSUM.txt .
-	cd ${DOWNLOAD_PREFIX}/osm/planet; mkdir -p sub-srtm; cd sub-srtm; \
-	  ln -fs $$HOME/projects/osm/download/sub-srtm/* .
+	set -e; cd ${DOWNLOAD_PREFIX}/osm/planet; \
+	  if [ -e $$HOME/projects/osm/download/sub-srtm ]; then \
+	    ln -fs $$HOME/projects/osm/download/sub-srtm .; \
+	  fi
 
 UPDATE_APT=deb-perl deb-equivs deb-bin deb-repo-upload
 
