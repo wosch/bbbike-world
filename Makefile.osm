@@ -688,6 +688,9 @@ planet-download-alert:
 planet-daily-update-cron:
 	@./world/bin/$@.sh
 
+bbbike-deb-repository-setup:
+	@./world/bin/$@.sh
+
 sub-planet sub-planet-daily sub-srtm: sub-planet-clean
 	mkdir -p ../osm/download/$@
 	make -C world/etc/$@
@@ -1781,6 +1784,7 @@ help:
 	@echo "  [ planet-download | planet-download-alert | planet-daily-update-cron ]"
 	@echo "  [ sub-planet | sub-planet-daily ]"
 	@echo "make sub-planet-statistic"
+	@echo "make bbbike-deb-repository-setup"
 	@echo ""
 	@echo ""
 	@echo "  [ staging | garmin-legend ]"
