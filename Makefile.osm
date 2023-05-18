@@ -1541,6 +1541,16 @@ test prove: lighttpd-restart perlcheck-bbbike-cgi
 jasmine-node test-js:
 	jasmine-node world/t/spec
 
+# add remote github repo
+github-remote-add: github-remote-add-bbbike github-remote-add-bbbike-world
+
+github-remote-add-bbbike:
+	git remote | grep -q '^eserte$$' || git remote add eserte https://github.com/eserte/bbbike.git
+	git remote | grep -q '^github$$' || git remote add github https://github.com/wosch/bbbike.git
+
+github-remote-add-bbbike-world:
+	cd world; git remote | grep -q '^github$$' || git remote add github https://github.com/wosch/bbbike-world.git
+
 # run a git fetch on all remote git repos
 git-fetch: git-fetch-world
 	git fetch eserte
@@ -1817,6 +1827,7 @@ help:
 	@echo ""
 	@echo "make download-bbbike-org-install"
 	@echo "make extract-bbbike-org-install"
+	@echo "make github-remote-add"
 	@echo ""
 	@echo "after failed install/cache update:"
 	@echo "bbbike_download= bbbike_extract= bbbike_convert= bbbike_install= make update-database"
