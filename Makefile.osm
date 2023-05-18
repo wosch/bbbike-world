@@ -1373,7 +1373,7 @@ deb-repo-upload: deb2deb
 
 deb-bootstrap debian-bootstrap: deb-bootstrap-dir
 bbbike-bootstrap: bbbike-partition debian-bootstrap update-files #install-backend-lighttpd
-	sudo ${BBMAKE} extract-bbbike-org-install
+	${BBMAKE} extract-bbbike-org-install
 	${BBMAKE} download-bbbike-org-install
 	${BBMAKE} install-xvfb
 	${BBMAKE} github-remote-add-bbbike
