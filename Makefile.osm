@@ -962,10 +962,10 @@ cache-install:
 
 # make EXTRACTS_SPOOL_DIR=/var/cache/extract-pro extract-bbbike-org-install
 extract-bbbike-org-install:
-	mkdir -p ${BBBIKE_PARTITION}/$$(basename ${EXTRACTS_SPOOL_DIR})
-	#chown -R ${LOGNAME} ${BBBIKE_PARTITION}/
+	sudo mkdir -p ${BBBIKE_PARTITION}/$$(basename ${EXTRACTS_SPOOL_DIR})
+	sudo chown -R ${LOGNAME} ${BBBIKE_PARTITION}/$$(basename ${EXTRACTS_SPOOL_DIR})
 	if [ ! -e ${EXTRACTS_SPOOL_DIR} ]; then \
-	   ln -fs ${BBBIKE_PARTITION}/$$(basename ${EXTRACTS_SPOOL_DIR}) ${EXTRACTS_SPOOL_DIR}; \
+	   sudo ln -fs ${BBBIKE_PARTITION}/$$(basename ${EXTRACTS_SPOOL_DIR}) ${EXTRACTS_SPOOL_DIR}; \
 	fi
 	ln -fs ${BBBIKE_PARTITION}/projects/osm /var/cache/osm; \
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/confirmed
@@ -975,8 +975,8 @@ extract-bbbike-org-install:
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/trash
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/failed
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/failed2
+	sudo chown -R ${LOGNAME}:${WEB_GROUP} ${EXTRACTS_SPOOL_DIR}/
 	chmod -R a+rX,gu+w ${EXTRACTS_SPOOL_DIR}/
-	chown -R ${LOGNAME}:${WEB_GROUP} ${EXTRACTS_SPOOL_DIR}/
 	sudo cp -f world/bin/osmconvert-wrapper /usr/local/bin
 	mkdir -p /usr/local/www
 	sudo chown -R ${LOGNAME} /usr/local/www
@@ -1377,6 +1377,7 @@ deb-bootstrap debian-bootstrap: deb-bootstrap-dir
 bbbike-bootstrap: bbbike-partition debian-bootstrap update-files #install-backend-lighttpd
 	sudo ${BBMAKE} extract-bbbike-org-install
 	${BBMAKE} download-bbbike-org-install
+	${BBMAKE} install-xvfb
 	-sudo ${BBMAKE} cache-clean
 	sudo ${MAKE} -C./world/etc crontab-root
 	sudo ${MAKE} -C./world/etc/munin install-munin-bbbike
