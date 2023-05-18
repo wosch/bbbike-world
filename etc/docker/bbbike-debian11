@@ -8,11 +8,15 @@ RUN apt-get update -q && \
   env RUN_MANDB=no apt-get install -y git make sudo gnupg vim && \
   apt-get clean
 
-RUN mkdir -p /bbbike/projects
-WORKDIR /bbbike/projects
-ENV HOME /bbbike
 RUN useradd -ms /bin/bash bbbike && \
   echo 'bbbike ALL=NOPASSWD: ALL' >> /etc/sudoers
+
+RUN mkdir -p /bbbike/projects
+RUN chown -R bbbike:bbbike /bbbike/
+
+USER bbbike
+WORKDIR /bbbike/projects
+ENV HOME /bbbike
 
 RUN git clone --depth=200 https://github.com/wosch/bbbike.git && \
   cd bbbike && git clone --depth=200 https://github.com/wosch/bbbike-world.git world && \
@@ -23,11 +27,11 @@ WORKDIR /bbbike/projects/bbbike
 RUN . ./world/etc/env/dot.bbbikerc 
 RUN ./world/bin/bbbike-deb-repository-setup.sh
 
-RUN apt-get update -q && \
-  env RUN_MANDB=no apt-get install -y -t bullseye-backports pyosmium osmium-tool libosmium2-dev && \
-  env RUN_MANDB=no apt-get install -y bbbike-world && \
-  env RUN_MANDB=no apt-get install -y mono-devel xvfb x11-apps && \
-  apt-get clean
+RUN sudo apt-get update -q && \
+  env RUN_MANDB=no sudo apt-get install -y -t bullseye-backports pyosmium osmium-tool libosmium2-dev && \
+  env RUN_MANDB=no sudo apt-get install -y bbbike-world && \
+  env RUN_MANDB=no sudo apt-get install -y mono-devel xvfb x11-apps && \
+  sudo apt-get clean
 
 RUN cp world/etc/env/dot.bbbikerc $HOME/.bbbikerc
 RUN make -f world/Makefile.osm create-bbbike-web-symlinks
@@ -35,11 +39,5 @@ RUN make bbbike-bootstrap || true
 
 RUN echo '. $HOME/.bbbikerc' >> $HOME/.bashrc && \
   echo 'export BBBIKE_TEST_DOCKER=1' >> $HOME/.bashrc
-RUN chown -R bbbike:bbbike /bbbike/
-USER bbbike
-
-#EXPOSE 80
 
 CMD ["bash"]
-
-# see ./README
