@@ -32,7 +32,7 @@ init_splitter () {
     : ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
     : ${BBBIKE_SPLITTER_VERSION="splitter"}
     : ${BBBIKE_TMPDIR="/bbbike/tmp"}
-    : ${BBBIKE_TMPFS="/tmpfs"}
+    : ${BBBIKE_TMPFS="/tmp"}
 
     : ${debug=false}
 
