@@ -28,10 +28,9 @@ RUN apt-get update -q && \
   env RUN_MANDB=no apt-get install -y bbbike-world && \
   apt-get clean
 
-RUN make -f world/Makefile.osm create-bbbike-web-symlinks download-bbbike-org-install
 RUN cp world/etc/env/dot.bbbikerc $HOME/.bbbikerc
+RUN make -f world/Makefile.osm create-bbbike-web-symlinks
 RUN make bbbike-bootstrap || true
-RUN make update-files
 
 RUN echo '. $HOME/.bbbikerc' >> $HOME/.bashrc && \
   echo 'export BBBIKE_TEST_DOCKER=1' >> $HOME/.bashrc
