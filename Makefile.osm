@@ -961,7 +961,7 @@ cache-install:
 	ln -fs ${BBBIKE_PARTITION}/cache ${BBBIKE_CACHE_DIR}
 
 # make EXTRACTS_SPOOL_DIR=/var/cache/extract-pro extract-bbbike-org-install
-extract-bbbike-org-install:
+extract-bbbike-org-install: create-usr-local-www
 	sudo mkdir -p ${BBBIKE_PARTITION}/$$(basename ${EXTRACTS_SPOOL_DIR})
 	sudo chown -R ${LOGNAME} ${BBBIKE_PARTITION}/$$(basename ${EXTRACTS_SPOOL_DIR})
 	if [ ! -e ${EXTRACTS_SPOOL_DIR} ]; then \
@@ -978,8 +978,6 @@ extract-bbbike-org-install:
 	sudo chown -R ${LOGNAME}:${WEB_GROUP} ${EXTRACTS_SPOOL_DIR}/
 	chmod -R a+rX,gu+w ${EXTRACTS_SPOOL_DIR}/
 	sudo cp -f world/bin/osmconvert-wrapper /usr/local/bin
-	mkdir -p /usr/local/www
-	sudo chown -R ${LOGNAME} /usr/local/www
 	${MAKE} osmconvert-install
 
 osmconvert-install:
@@ -1458,9 +1456,12 @@ maperitive-bootstrap:
 bbbike-c:
 	${MAKE} -s -C./ext all install >/dev/null 2>&1
 
+create-usr-local-www:
+	sudo mkdir -p /usr/local/www
+	sudo chown -R ${LOGNAME} /usr/local/www
 
 DOWNLOAD_PREFIX=/usr/local/www/download.bbbike.org
-download-bbbike-org-install:
+download-bbbike-org-install: create-usr-local-www
 	mkdir -p ${DOWNLOAD_PREFIX} && cd ${DOWNLOAD_PREFIX} && mkdir -p osm/planet bbbike osm/bbbike
 	set -e; cd ${DOWNLOAD_PREFIX}; \
 	  ln -fs ../bbbike.org/world/download/favicon.ico; \
