@@ -1546,11 +1546,11 @@ jasmine-node test-js:
 github-remote-add: github-remote-add-bbbike github-remote-add-bbbike-world
 
 github-remote-add-bbbike:
-	git remote | grep -q '^eserte$$' || git remote add eserte https://github.com/eserte/bbbike.git
-	git remote | grep -q '^github$$' || git remote add github https://github.com/wosch/bbbike.git
+	git remote show eserte  > /dev/null 2>&1 || git remote add eserte https://github.com/eserte/bbbike.git
+	git remote show github  > /dev/null 2>&1  || git remote add github https://github.com/wosch/bbbike.git
 
 github-remote-add-bbbike-world:
-	cd world; git remote | grep -q '^github$$' || git remote add github https://github.com/wosch/bbbike-world.git
+	cd world; git remote show github > /dev/null 2>&1 || git remote add github https://github.com/wosch/bbbike-world.git
 
 # run a git fetch on all remote git repos
 git-fetch: git-fetch-world
