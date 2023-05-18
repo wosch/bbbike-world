@@ -1483,8 +1483,6 @@ download-bbbike-org-install: create-usr-local-www
 	  ln -fs $$HOME/projects/osm/download/planet-daily.osm.pbf.timestamp . ;\
 	  ln -fs ../../../bbbike.org/world/download/osm/planet/HEADER.txt .
 	set -e; cd ${DOWNLOAD_PREFIX}/osm/planet; \
-	  ln -fs $$HOME/projects/osm/download/sub-planet .
-	set -e; cd ${DOWNLOAD_PREFIX}/osm/planet; \
 	  if [ -e $$HOME/projects/osm/download/sub-planet-daily ]; then \
 	    ln -fs $$HOME/projects/osm/download/sub-planet-daily .; \
 	  fi
