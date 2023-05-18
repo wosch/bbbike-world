@@ -21,7 +21,7 @@ RUN git clone --depth=200 https://github.com/wosch/bbbike.git && \
 WORKDIR /bbbike/projects/bbbike
 
 RUN . ./world/etc/env/dot.bbbikerc 
-RUN ./world/bin/bbbike-deb-repository-setup.sh
+RUN make bbbike-deb-repository-setup
 
 RUN apt-get update -q && \
   env RUN_MANDB=no apt-get install -y -t bullseye-backports pyosmium osmium-tool libosmium2-dev && \
