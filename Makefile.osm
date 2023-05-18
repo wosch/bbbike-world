@@ -1376,6 +1376,7 @@ bbbike-bootstrap: bbbike-partition debian-bootstrap update-files #install-backen
 	sudo ${BBMAKE} extract-bbbike-org-install
 	${BBMAKE} download-bbbike-org-install
 	${BBMAKE} install-xvfb
+	${BBMAKE} github-remote-add-bbbike
 	-sudo ${BBMAKE} cache-clean
 	sudo ${MAKE} -C./world/etc crontab-root
 	sudo ${MAKE} -C./world/etc/munin install-munin-bbbike
