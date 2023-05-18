@@ -967,7 +967,7 @@ extract-bbbike-org-install: create-usr-local-www
 	if [ ! -e ${EXTRACTS_SPOOL_DIR} ]; then \
 	   sudo ln -fs ${BBBIKE_PARTITION}/$$(basename ${EXTRACTS_SPOOL_DIR}) ${EXTRACTS_SPOOL_DIR}; \
 	fi
-	ln -fs ${BBBIKE_PARTITION}/projects/osm /var/cache/osm; \
+	sudo ln -fs ${BBBIKE_PARTITION}/projects/osm /var/cache/osm
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/confirmed
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/running
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/osm
