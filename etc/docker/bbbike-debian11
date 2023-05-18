@@ -24,7 +24,6 @@ RUN git clone --depth=200 https://github.com/wosch/bbbike.git && \
 
 WORKDIR /bbbike/projects/bbbike
 
-RUN . ./world/etc/env/dot.bbbikerc 
 RUN make bbbike-deb-repository-setup
 
 RUN sudo apt-get update -q && \
@@ -34,7 +33,6 @@ RUN sudo apt-get update -q && \
   sudo apt-get clean
 
 RUN cp world/etc/env/dot.bbbikerc $HOME/.bbbikerc
-RUN make -f world/Makefile.osm create-bbbike-web-symlinks
 RUN make bbbike-bootstrap || true
 
 RUN echo '. $HOME/.bbbikerc' >> $HOME/.bashrc && \
