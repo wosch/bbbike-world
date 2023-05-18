@@ -1827,7 +1827,7 @@ help:
 	@echo "make planet-daily-update"
 	@echo "make download-bbbike-org-install"
 	@echo "make extract-bbbike-org-install"
-	@echo "make make garmin-borders"
+	@echo "make garmin-borders"
 	@echo "make bbbike-bootstrap"
 	@echo ""
 	@echo "make docker-build"
