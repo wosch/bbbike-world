@@ -691,10 +691,10 @@ planet-daily-update-cron:
 bbbike-deb-repository-setup:
 	@./world/bin/$@.sh
 bbbike-deb-repository-install:
-	sudo apt-get update -q
-	sudo apt-get install -y -t bullseye-backports pyosmium osmium-tool libosmium2-dev
-	sudo apt-get install -y bbbike-world
-	sudo apt-get install -y mono-devel xvfb x11-apps 
+	sudo apt-get update -qq
+	sudo apt-get install -q -y -t bullseye-backports pyosmium osmium-tool libosmium2-dev
+	sudo apt-get install -q -y bbbike-world
+	sudo apt-get install -q -y mono-devel xvfb x11-apps 
 	sudo apt-get clean
 
 sub-planet sub-planet-daily sub-srtm: sub-planet-clean
