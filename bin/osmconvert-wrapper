@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2015-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2015-2023 Wolfram Schneider, https://bbbike.org
 #
 # a wrapper to sent osmconvert output to a file
 #
@@ -11,12 +11,15 @@ PATH=/usr/local/bin:/bin:/usr/bin
 
 tmpfile=""
 
-# cleanup after signal, but show errors first
-trap 'rm -f "$tmpfile"' INT QUIT USR1
+# always cleanup 
+trap 'rm -f "$tmpfile"' 0
 
 case $1 in
-  -o | --o ) out=$2
-             tmpfile=$(mktemp "$out.XXXXXXXX.tmp")
+  -o | --o ) out="$2"
+	     dirname=$(dirname "$out")
+	     basename=$(basename "$out")
+	    
+             tmpfile=$(mktemp "$dirname/.tmp.$basename.XXXXXXXXXX.tmp")
 	     shift; shift
 	     ;;
   *  ) ;;
@@ -28,6 +31,7 @@ $osmconvert_program $@ > "$tmpfile"
 chmod 644 "$tmpfile"
 
 # create real output file on success
-mv -f "$tmpfile" "$out"
+mv -f "$tmpfile" "$out.tmp"
+mv -f "$out.tmp" "$out"
 
 #EOF
