@@ -31,7 +31,6 @@ $osmconvert_program $@ > "$tmpfile"
 chmod 644 "$tmpfile"
 
 # create real output file on success
-mv -f "$tmpfile" "$out.tmp"
-mv -f "$out.tmp" "$out"
+mv -f "$tmpfile" "$out"
 
 #EOF
