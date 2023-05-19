@@ -79,9 +79,10 @@ help-update:
 
 install-munin-bbbike: clean-install install-munin-bbbike-system install-munin-bbbike-web \
 			install-munin-extract install-munin-apt
-	${MAKE} munin-restart-help
+	${MAKE} munin-restart
 
 install-munin-bbbike-system:
+	set -e; \
 	for i in ${MUNIN_BBBIKE_SYSTEM}; do \
 	   sudo ln -fs `pwd`/plugins/$$i ${MUNIN_PLUGINS_DIR}/$$i; \
 	done
@@ -91,12 +92,14 @@ install-munin-bbbike-system:
 	
 	
 install-munin-bbbike-web: 
+	set -e; \
 	for i in ${MUNIN_BBBIKE_WEB}; do \
 	   sudo ln -fs `pwd`/plugins/bbbike-services ${MUNIN_PLUGINS_DIR}/$$i; \
 	done
 	${MAKE} munin-restart-help
 
 install-munin-extract-web: 
+	set -e; \
 	for i in ${MUNIN_EXTRACT_WEB}; do \
 	   sudo ln -fs `pwd`/plugins/extract-services ${MUNIN_PLUGINS_DIR}/$$i; \
 	done
@@ -104,13 +107,15 @@ install-munin-extract-web:
 
 
 install-munin-varnish: 
+	set -e; \
 	for i in ${MUNIN_VARNISH}; do \
 	   sudo ln -fs /usr/share/munin/plugins/varnish_ ${MUNIN_PLUGINS_DIR}/varnish_$$i; \
 	done
 	${MAKE} munin-restart-help
 
 install-munin-extract: 
-	sudo ln -fs `pwd`/plugins/extract-services ${MUNIN_PLUGINS_DIR}/extract-services; \
+	sudo ln -fs `pwd`/plugins/extract-services ${MUNIN_PLUGINS_DIR}/extract-services
+	set -e; \
 	for i in ${MUNIN_EXTRACT}; do \
 	   sudo ln -fs `pwd`/plugins/$$i ${MUNIN_PLUGINS_DIR}/$$i; \
 	done
