@@ -20,11 +20,11 @@ my @prod = qw(
   /var/cache/bbbike
   /var/lib/bbbike
   /etc/munin
+  /var/lib/bbbike/opt/share
 );
 
-if ( !$ENV{BBBIKE_TEST_DOCKER} ) {
-    push @prod,
-      qw(/usr/local/www/download.bbbike.org /var/lib/bbbike/opt/share);
+if ( !$ENV{BBBIKE_TEST_DOCKER} && !$ENV{BBBIKE_TEST_FAST}) {
+    push @prod, qw(/usr/local/www/download.bbbike.org);
 }
 
 my @path = qw( . $HOME/.openstreetmap );
