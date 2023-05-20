@@ -116,6 +116,9 @@ BBBIKE_PARTITION=	/bbbike
 
 OSMOSIS_PLUGIN_DIR=$$HOME/.openstreetmap/osmosis/plugins
 
+# for tile-extract
+OSM_PLANET_PBF=        ../osm/download/planet-daily.osm.pbf
+
 
 # BBBIKE_RANDOM_FILES=1
 PROVE_FILES=	t/*.t world/t/*.t
