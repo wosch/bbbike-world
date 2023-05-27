@@ -23,7 +23,7 @@ my @prod = qw(
   /var/lib/bbbike/opt/share
 );
 
-if ( !$ENV{BBBIKE_TEST_DOCKER} && !$ENV{BBBIKE_TEST_FAST}) {
+if ( !$ENV{BBBIKE_TEST_DOCKER} && !$ENV{BBBIKE_TEST_FAST} ) {
     push @prod, qw(/usr/local/www/download.bbbike.org);
 }
 
