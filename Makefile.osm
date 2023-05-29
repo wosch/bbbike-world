@@ -986,8 +986,11 @@ extract-bbbike-org-install: create-usr-local-www
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/failed2
 	sudo chown -R ${LOGNAME}:${WEB_GROUP} ${EXTRACTS_SPOOL_DIR}/
 	chmod -R a+rX,gu+w ${EXTRACTS_SPOOL_DIR}/
-	sudo cp -f world/bin/osmconvert-wrapper /usr/local/bin
 	${MAKE} osmconvert-install
+	${MAKE} extract-bin-install
+
+extract-bin-install:
+	cd world/bin; sudo cp -f osmconvert-wrapper md5sum.sh /usr/local/bin
 
 osmconvert-install:
 	${MAKE} -C ./world/src/osmconvert install
