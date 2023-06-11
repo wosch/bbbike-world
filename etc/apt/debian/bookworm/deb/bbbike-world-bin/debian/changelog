@@ -1,0 +1,73 @@
+bbbike-world-bin-misc (1.15-2) unstable; urgency=low
+
+  * fix package name
+
+ -- Wolfram Schneider <wosch@freebsd.org>  Tue May  9 16:39:25 UTC 2023
+
+bbbike-world-bin-misc (1.15-1) unstable; urgency=low
+
+  * refactor, cleanup for debian11
+
+ -- Wolfram Schneider <wosch@freebsd.org>  Tue May  9 16:39:25 UTC 2023
+
+bbbike-world-bin-misc (1.14-1) unstable; urgency=low
+
+  * supports osmium with SQLlite
+
+bbbike-world-bin-misc (1.12-2) unstable; urgency=low
+
+  * supports osmium with GeoJSON
+
+bbbike-world-bin-misc (1.11-1) unstable; urgency=low
+
+  * supports Maperitive
+
+ -- Wolfram Schneider <wosch@freebsd.org>  Fri, 29 Mar 2013 14:48:00 +0000
+
+bbbike-world-bin-misc (1.8-1) unstable; urgency=low
+
+  * supports maps.me
+
+ -- Wolfram Schneider <wosch@freebsd.org>  Fri, 29 Mar 2013 14:48:00 +0000
+
+bbbike-world-bin-misc (1.7-1) unstable; urgency=low
+
+  * osmium_convert
+
+ -- Wolfram Schneider <wosch@freebsd.org>  Fri, 29 Mar 2013 14:48:00 +0000
+
+bbbike-world-bin-misc (1.6-1) unstable; urgency=low
+
+  * osmconvert 0.8.3 
+
+ -- Wolfram Schneider <wosch@freebsd.org>  Fri, 29 Mar 2013 14:48:00 +0000
+
+bbbike-world-bin-misc (1.5-1) unstable; urgency=low
+
+  * debian6 compat
+
+ -- Wolfram Schneider <wosch@freebsd.org>  Fri, 29 Mar 2013 14:48:00 +0000
+
+bbbike-world-bin-misc (1.4-1) unstable; urgency=low
+
+  * new osmconvert
+
+ -- Wolfram Schneider <wosch@freebsd.org>  Fri, 29 Mar 2013 14:48:00 +0000
+
+bbbike-world-bin-misc (1.3-1) unstable; urgency=low
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- Wolfram Schneider <wosch@freebsd.org>  Fri, 29 Mar 2013 14:48:00 +0000
+
+bbbike-world-bin-misc (1.1-2) unstable; urgency=low
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- Wolfram Schneider <wosch@freebsd.org>  Fri, 29 Mar 2013 14:48:00 +0000
+
+bbbike-world-bin-misc (1.0-1) unstable; urgency=low
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- Wolfram Schneider <wosch@freebsd.org>  Fri, 29 Mar 2013 14:48:00 +0000
