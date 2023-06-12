@@ -3,7 +3,7 @@ Priority: optional
 Standards-Version: 3.6.2
 
 Package: bbbike-world-debian-meta
-Version: 1.1.58
+Version: 1.1.59
 Maintainer: Wolfram Schneider <wosch@freebsd.org>
 Depends: pbzip2, bzip2, xz-utils, pixz, ncdu, git-core, screen, curl, wget, time,
  lsof, whois, pigz, make, acct, dnsutils, sysstat, buffer, mbuffer,
@@ -48,6 +48,7 @@ Depends: pbzip2, bzip2, xz-utils, pixz, ncdu, git-core, screen, curl, wget, time
  libhtml-format-perl, libinline-c-perl, libjson-xs-perl,
  libqt5network5, libicu63,
  pyosmium (>=3.6), osmium-tool(>=1.15),
+ libgdal32,
  google-sitemapgen
 Description: BBBike @ World standard debian packages
  BBBike @ World standard debian packages
