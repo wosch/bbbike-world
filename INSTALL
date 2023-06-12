@@ -40,8 +40,6 @@ sudo apt-get install bbbike-world
 make -f world/Makefile.osm bbbike-bootstrap
 make -f world/Makefile.osm distclean-real
 
-
-sudo apt-get install -y mono-devel xvfb x11-apps
 make install-xvfb
 #sudo world/etc/init.d/xvfb start
 #sudo /etc/init.d/xvfb start
