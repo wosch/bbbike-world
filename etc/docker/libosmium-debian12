@@ -35,6 +35,7 @@ RUN sudo rsync -a libosmium/include/* /usr/local/include
 
 RUN cd osmium-tool && mkdir build && cd build && cmake .. && make -j$(cat /var/run/ncpu) && make test && sudo make install
 
+RUN cd osm-gis-export && perl -i.bak -npe 's/proj_api.h/proj.h/' cmake/FindOsmium.cmake
 RUN cd osm-gis-export && mkdir build && cd build && cmake .. && make -j$(cat /var/run/ncpu) && sudo make install
 
 CMD ["bash"]
