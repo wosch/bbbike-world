@@ -1,3 +1,9 @@
+bbbike-world-bin-misc (1.16-1) unstable; urgency=low
+
+  * osmium_toogr2 for debian12 
+
+ -- Wolfram Schneider <wosch@freebsd.org>  Tue Jun 12 16:39:25 UTC 2023
+
 bbbike-world-bin-misc (1.15-2) unstable; urgency=low
 
   * fix package name
