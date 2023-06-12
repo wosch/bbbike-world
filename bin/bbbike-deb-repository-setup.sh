@@ -1,10 +1,10 @@
 #!/bin/sh
-# Copyright (c) 2016-2021 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2016-2023 Wolfram Schneider, https://bbbike.org
 #
 # init bbbike.org ubuntu deb repository
 
 : ${DEBUG=false}
-: ${enable_mono="YES"}
+: ${enable_mono="NO"}
 enable_legacy="YES"
 
 if $DEBUG; then
