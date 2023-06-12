@@ -1295,7 +1295,11 @@ COPY_DEB?= true
 # don't forget to run deb-clean first
 # --requiredeps
 #
-# in case of strange errors, please cleanup ~/perl5 first!
+# in case of strange errors, please cleanup ~/perl5 first
+# and check in ~/.bashrc for PERL5LIB variables!
+#
+# check the content of a *.deb archive:
+# dpkg -c ./tmp/deb/debian/bookworm/libgis-distance-lite-perl_1.0-1_all.deb
 #
 deb-perl: deb-clean perl-cpan
 	mkdir -p ${DEB_DIR}
