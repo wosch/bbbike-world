@@ -1450,12 +1450,13 @@ deb-bootstrap-dir: osmosis-bootstrap deb-opt-dir-version
 	test -e /usr/lib/libprotobuf-lite.so.6.0.0 || sudo ln -fs ${DEB_OPT_DIR}/lib/libprotobuf-lite.so.6.0.0 /usr/lib/libprotobuf-lite.so.6.0.0
 	test -e /usr/lib/libprotobuf-lite.so.6     || sudo ln -fs ${DEB_OPT_DIR}/lib/libprotobuf-lite.so.6     /usr/lib/libprotobuf-lite.so.6
 	set -e; \
-	lib=$$(dpkg -S 'libgeos-3*.so' | awk '{ print $$2 }'); dir=$$(dirname $$lib); \
-	cd $$dir;  \
-	if [ ! -e libgeos-3.2.2.so ]; then \
-	    sudo ln -fs $$(basename $$lib) libgeos-3.2.2.so; \
-	fi; \
-	wc -c libgeos-3.2.2.so
+	  lib=$$(dpkg -S 'libgeos*.so' | egrep 'libgeos-3.*\.so$$|libgeos\.so\.3\.' | awk '{ print $$2 }'); \
+	  dir=$$(dirname $$lib); \
+	  cd $$dir;  \
+	  if [ ! -e libgeos-3.2.2.so ]; then \
+	      sudo ln -fs $$(basename $$lib) libgeos-3.2.2.so; \
+	  fi; \
+	  wc -c libgeos-3.2.2.so
 	test -e /usr/local/bin/osmosis || sudo ln -sf ${DEB_OPT_DIR}/osmosis/bin/osmosis /usr/local/bin/osmosis
 	test -e /usr/local/bin/generator_tool || sudo ln -sf ${DEB_OPT_DIR}/bin/generator_tool /usr/local/bin/generator_tool
 	sudo mkdir -p /bbbike/tmp
