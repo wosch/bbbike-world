@@ -1456,7 +1456,7 @@ deb-bootstrap-dir: osmosis-bootstrap deb-opt-dir-version
 	  if [ ! -e libgeos-3.2.2.so ]; then \
 	      sudo ln -fs $$(basename $$lib) libgeos-3.2.2.so; \
 	  fi; \
-	  wc -c libgeos-3.2.2.so
+	  ls -l libgeos-3.2.2.so; ls -lL libgeos-3.2.2.so
 	test -e /usr/local/bin/osmosis || sudo ln -sf ${DEB_OPT_DIR}/osmosis/bin/osmosis /usr/local/bin/osmosis
 	test -e /usr/local/bin/generator_tool || sudo ln -sf ${DEB_OPT_DIR}/bin/generator_tool /usr/local/bin/generator_tool
 	sudo mkdir -p /bbbike/tmp
