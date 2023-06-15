@@ -64,7 +64,7 @@ sub regions {
     my $sub_planet_conf_dir = $args{'sub_planet_conf_dir'};
     my $planet_osm          = $args{'planet_osm'};
 
-    if (!($force || glob( "$sub_planet_dir/*.pbf"))) {
+    if ( !( $force || glob("$sub_planet_dir/*.pbf") ) ) {
         return;
     }
 
