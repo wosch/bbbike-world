@@ -1763,6 +1763,9 @@ build-tagname-db:
 build-tagname-db-geofabrik:
 	-nice -10 ${MAKE} -C ../tagname $@ || nice -10 ${MAKE} -C ../tagname $@ 
 
+make:
+	@echo "no op"
+
 help:
 	@echo "bbbike version: ${GIT_ID}"
 	@echo ""
