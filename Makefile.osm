@@ -1668,7 +1668,7 @@ docker-build-all:
 docker-build-libosmium-all:
 	${NICE} ${BBMAKE} -j${MAX_CPU} \
 	  docker-build-libosmium-debian11 \
-	  docker-build-libosmium-debian12 \
+	  #docker-build-libosmium-debian12 \
 	  #docker-build-libosmium-ubuntu22 \
 
 
