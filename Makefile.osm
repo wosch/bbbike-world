@@ -695,6 +695,7 @@ bbbike-deb-repository-install:
 	egrep -q '^VERSION_CODENAME=bullseye' /usr/lib/os-release && opt='-t bullseye-backports'; \
 	  sudo apt-get install -qq -y $$opt pyosmium osmium-tool libosmium2-dev
 	sudo apt-get install -qq -y bbbike-world
+	sudo apt-get install -qq -y bbbike-world-debian-meta-dev
 	sudo apt-get clean
 
 sub-planet sub-planet-daily sub-srtm: sub-planet-clean
