@@ -1388,19 +1388,14 @@ deb-repo-upload: deb2deb
 	ssh debian.bbbike.org 'cd ~/projects/bbbike && make DEB_VENDOR=${DEB_VENDOR} DEB_RELEASE=${DEB_RELEASE} deb-repo'
 
 deb-bootstrap debian-bootstrap: deb-bootstrap-dir
-bbbike-bootstrap: bbbike-partition debian-bootstrap update-files #install-backend-lighttpd
+bbbike-bootstrap: bbbike-partition debian-bootstrap update-files
 	${BBMAKE} extract-bbbike-org-install
 	${BBMAKE} download-bbbike-org-install
 	${BBMAKE} install-xvfb
 	${BBMAKE} github-remote-add-bbbike
 	-sudo ${BBMAKE} cache-clean
 	sudo ${MAKE} -C./world/etc crontab-root
-	sudo ${MAKE} -C./world/etc/munin install-munin-bbbike
-	sudo update-rc.d lighttpd defaults
 	rm -f ./HEADER.txt
-	-sudo /etc/init.d/lighttpd stop
-	sleep 0.5
-	sudo /etc/init.d/lighttpd start
 	@echo ""
 	@echo "You may also run: make staging"
 
