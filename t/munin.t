@@ -20,6 +20,7 @@ use strict;
 use warnings;
 
 my @munin_scripts = glob("/etc/munin/plugins/bbbike-*");
+push @munin_scripts, glob("/etc/munin/plugins/extract-*");
 plan tests => 1 + scalar(@munin_scripts) * 3;
 
 ######################################################################
