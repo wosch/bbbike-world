@@ -78,9 +78,18 @@ sub data_status_time {
 
     my $time = time();
     my $file = "$bbbike_dir/data-osm/$city/strassen";
-    my $st   = stat($file) or die "stat $file: $!\n";
 
-    print "bbbike_data_status_time.value @{[ status($st->mtime) ]}\n";
+    my $st    = stat($file);
+    my $mtime = 0;
+
+    if ( defined $st ) {
+        $mtime = $st->mtime;
+    }
+    else {
+        warn "stat $file: $!\n";
+    }
+
+    print "bbbike_data_status_time.value @{[ status($mtime) ]}\n";
 }
 
 #############################################
