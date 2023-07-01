@@ -1478,7 +1478,7 @@ create-usr-local-www:
 
 DOWNLOAD_PREFIX=/usr/local/www/download.bbbike.org
 download-bbbike-org-install: create-usr-local-www
-	mkdir -p ${DOWNLOAD_PREFIX} && cd ${DOWNLOAD_PREFIX} && mkdir -p osm/planet bbbike osm/bbbike
+	mkdir -p ${DOWNLOAD_PREFIX} && cd ${DOWNLOAD_PREFIX} && mkdir -p osm/planet bbbike garmin/example
 	set -e; cd ${DOWNLOAD_PREFIX}; \
 	  ln -fs ../bbbike.org/world/download/favicon.ico; \
 	  ln -fs ../bbbike.org/world/download/index.html; \
