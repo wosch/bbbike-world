@@ -52,11 +52,15 @@ sub get_timestamp {
     my $pwd = "../";
 
     my $timestamp_file = "${pwd}${file}.timestamp";
-    die "timestamp file $timestamp_file does not exists\n"
-      if !-e $timestamp_file;
+    my $timestamp      = "1970-0l-01T00:00:00Z";
 
-    my $timestamp = &get_file_content($timestamp_file);
-    chomp($timestamp);
+    if ( -e $timestamp_file ) {
+        $timestamp = &get_file_content($timestamp_file);
+        chomp($timestamp);
+    }
+    else {
+        warn "timestamp file $timestamp_file does not exists\n";
+    }
 
     return <<EOF;
 {
@@ -84,7 +88,7 @@ if ( my $d = $q->param('debug') || $q->param('d') ) {
 
 my $expire = $debug >= 2 ? '+1s' : '+1h';
 
-my $res = &get_timestamp($q);
+my $res    = &get_timestamp($q);
 my $status = $res ? 200 : 500;
 
 print $q->header(
