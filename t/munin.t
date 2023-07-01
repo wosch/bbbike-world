@@ -41,8 +41,8 @@ is( $status, 0,
 
 foreach my $script (@munin_scripts) {
     is( -e $script && -x $script, 1, "munin script $script is executable\n" );
-    is( system("$script config >/dev/null"), 0, "check config\n" );
-    is( system("$script >/dev/null"),        0, "check output\n" );
+    is( system("$script config >/dev/null"), 0, "check config: $script config\n" );
+    is( system("$script >/dev/null"),        0, "check output: $script\n" );
 }
 
 __END__
