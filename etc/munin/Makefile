@@ -68,7 +68,7 @@ install-munin-stats:
 
 # sensors
 install-munin-acpi:
-	cd ${MUNIN_PLUGINS_DIR} && sudo ln -fs /usr/local/www/bbbike/world/src/munin/acpi .
+	cd ${MUNIN_PLUGINS_DIR} && sudo ln -fs /usr/local/www/bbbike.org/world/src/munin/acpi .
 	${MAKE} munin-restart-help
 
 
