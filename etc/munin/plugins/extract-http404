@@ -77,7 +77,11 @@ for file in $log_files
 do
   item=$(basename $file .log | sed 's/\./_/g')
   echo -n "$item.value "
-  $grep '" 404 ' $file | $grep -v 'bot|/apple|cyberscan| //|\.php |/wp-[a-z]' | awk '{ print $1 }' | sort -u | wc -l
+  if [ -e $file ]; then
+    $grep '" 404 ' $file | $grep -v 'bot|/apple|cyberscan| //|\.php |/wp-[a-z]' | awk '{ print $1 }' | sort -u | wc -l
+  else 
+    echo "0"
+  fi
 done
 
 echo ""
