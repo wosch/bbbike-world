@@ -1752,7 +1752,7 @@ garmin-borders:
 	  rm -f bounds-latest.zip; \
 	fi
 
-download-planet-data: srtm-download sub-srtm planet-download-alert planet-daily-update-cron
+download-planet-data: planet-download-alert planet-daily-update-cron
 
 build-tagname-db:
 	nice -10 ${MAKE} -C ../tagname $@
