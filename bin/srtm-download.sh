@@ -11,7 +11,7 @@ files="CHECKSUM.txt planet-srtm-e40.osm.pbf.timestamp planet-srtm-e40.osm.pbf"
 srtm_download_url="https://download3.bbbike.org/osm/planet/srtm"
 
 if [ -e "$bbbikerc" ]; then
-    . "$bbbikerc"
+  . "$bbbikerc"
 fi
 
 dir=$HOME/projects/osm/download/srtm
@@ -22,7 +22,8 @@ cd $dir
 for i in $files
 do
   if [ ! -e "$i" ]; then
-    curl -sSf --connect-timeout 5 -m 3600 -O "$srtm_download_url/$i"
+    curl -sSf --connect-timeout 5 -m 3600 -o $i.tmp "$srtm_download_url/$i"
+    mv -f $i.tmp $i
   fi
 done
 
