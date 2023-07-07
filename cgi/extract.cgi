@@ -73,6 +73,7 @@ our $option = {
 
     'with_google_maps'        => 0,
     'enable_google_analytics' => 1,
+    'enable_lnglatbox'        => 0,
 
     # scheduler with priorities (by IP or user agent)
     'enable_priority' => 1,

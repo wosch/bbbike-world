@@ -112,13 +112,13 @@ sub convert_format {
         my $image_size = `cat $tempfile` * 1024;
         cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
 
-        $counter += 5;
+        $counter += 4;
         $test->validate( 'style' => $style );
 
         #system(qq[world/bin/mbtiles2pmtiles $out]);
         #is( $?, 0, "world/bin/mbtiles2pmtiles $out" );
 
-        unlink( $out, "$out.md5", "$out.sha256" );
+        unlink( $out, "$out.md5" );
         unlink($pmtiles_zip);
     }
 

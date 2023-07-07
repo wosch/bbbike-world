@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2021 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2023 Wolfram Schneider, https://bbbike.org
 #
 # create poly sub-planet files
 
@@ -18,9 +18,10 @@ chdir("$FindBin::RealBin/../..")
   or die "Cannot find bbbike world root directory\n";
 
 my $debug            = 0;
+my $force            = 0;
 my $prefix_default   = 'sub-planet';
 my $prefix           = $prefix_default;
-my $planet_osm       = "../osm/download/planet-latest-nometa.osm.pbf";
+my $planet_osm       = "../osm/download/planet-latest.osm.pbf";
 my $planet_osm_daily = "../osm/download/planet-daily.osm.pbf";
 my $planet_srtm      = "../osm/download/srtm/planet-srtm-e40.osm.pbf";
 
@@ -32,6 +33,7 @@ usage: $0 [options]
 --debug=0..2            debug option
 --prefix= { sup-planet | sub-planet-daily | sub-srtm } default: $prefix
 --planet=planet.osm.pbf default: $planet_osm
+--force=0..1            force rebuild, default: $force
 
 EOF
 }
@@ -62,12 +64,16 @@ sub regions {
     my $sub_planet_conf_dir = $args{'sub_planet_conf_dir'};
     my $planet_osm          = $args{'planet_osm'};
 
+    if ( !( $force || glob("$sub_planet_dir/*.pbf") ) ) {
+        return;
+    }
+
     my $osmconvert_factor = 1.2;    # full Granularity
 
     my $poly = new Extract::Poly( 'debug' => $debug );
     my @regions = reverse $poly->list_subplanets(
-        'sort_by'        => 'disk',                        # by size
-        'sub_planet_dir' => '../osm/download/sub-planet'
+        'sort_by'        => 'disk',           # by size
+        'sub_planet_dir' => $sub_planet_dir
     );
 
     my @shell;
@@ -102,6 +108,7 @@ sub regions {
 my @args = @ARGV;
 GetOptions(
     "debug=i"  => \$debug,
+    "force=i"  => \$force,
     "prefix=s" => \$prefix,
     "planet=s" => \$planet_osm,
 ) or die usage;
@@ -131,7 +138,7 @@ if (@shell) {
     store_data( $script, join "\n", @shell, "" );
 }
 else {
-    die "No data to write to $script, give up\n";
+    warn "No data to write to $script, give up, maybe use flag --force=1\n";
 }
 
 __END__

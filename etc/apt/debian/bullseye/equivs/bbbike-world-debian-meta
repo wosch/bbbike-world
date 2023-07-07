@@ -3,13 +3,13 @@ Priority: optional
 Standards-Version: 3.6.2
 
 Package: bbbike-world-debian-meta
-Version: 1.1.49
+Version: 1.1.58
 Maintainer: Wolfram Schneider <wosch@freebsd.org>
 Depends: pbzip2, bzip2, xz-utils, pixz, ncdu, git-core, screen, curl, wget, time,
  lsof, whois, pigz, make, acct, dnsutils, sysstat, buffer, mbuffer,
  pktstat, unzip, gcc, zlib1g-dev, perltidy, tidy, bsd-mailx,
- perl-doc, zip, sudo, munin-node, htop, strace, python, openjdk-17-jdk,
- python3-apt, rsync,
+ perl-doc, zip, sudo, munin-node, htop, strace, python, openjdk-11-jdk,
+ python3-apt, rsync, lynx,
  libhtml-tagcloud-perl, libtext-unidecode-perl,
  g++, sockstat, libhtml-tagcloud-perl, libtext-unidecode-perl,
  libxml-atom-simplefeed-perl, libjson-perl, liburi-perl, libxml-libxml-perl,
@@ -45,7 +45,10 @@ Depends: pbzip2, bzip2, xz-utils, pixz, ncdu, git-core, screen, curl, wget, time
  libjpeg-progs, libplack-perl, libimager-qrcode-perl,
  libcompress-raw-bzip2-perl, libcompress-raw-zlib-perl, libio-compress-perl,
  libcanary-stability-perl, pkwalify, libinline-c-perl, libclone-perl,
- libhtml-format-perl, libinline-c-perl,
- libboost-program-options1.74.0, pyosmium
+ libhtml-format-perl, libinline-c-perl, libjson-xs-perl,
+ libqt5network5, libicu63,
+ pyosmium (>=3.6), osmium-tool(>=1.15),
+ mono-devel, xvfb, x11-apps,
+ google-sitemapgen, lighttpd-mod-openssl
 Description: BBBike @ World standard debian packages
  BBBike @ World standard debian packages

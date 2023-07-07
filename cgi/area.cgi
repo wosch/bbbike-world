@@ -44,6 +44,7 @@ my %prio = (
     'garmin-osm.zip'             => -70,
     'geojson.xz'                 => -50,
     'mapsforge-osm.zip'          => -40,
+    'mbtiles-openmaptiles.zip'   => -35,
     'organicmaps-osm.zip'        => -30,
     'svg-osm.zip'                => -45,
 );
@@ -175,7 +176,7 @@ EOF
         $dh->close;
 
         my %hash = map { $_ => 1 } @list;
-        my %ext_name = ( "md5" => "MD5", "sha256" => "SHA" );
+        my %ext_name = ( "md5" => "MD5" );
 
         my $prefix = $offline ? "." : "$download_bbbike_org/osm/bbbike/$city";
         my @list_format = grep { /\.(pbf|gz|xz|zip)$/ } @list;
@@ -191,7 +192,7 @@ EOF
             # ???
             my $data_checksum;
             if ( !$has_checksum_file ) {
-                for my $ext ( "md5", "sha256" ) {
+                for my $ext ("md5") {
                     my $file_ext = "$file.$ext";
                     if ( exists $hash{$file_ext} ) {
                         $data_checksum .= ", " if $data_checksum;

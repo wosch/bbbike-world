@@ -12,7 +12,7 @@ update update-poly:
 	else \
 	   echo "there are no sub-planet files, cannot update config"; \
 	fi
-	@git diff .
+	@env PAGER=cat git diff .
 
 help:
 	@echo "make [ update | help ]"

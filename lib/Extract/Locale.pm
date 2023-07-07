@@ -39,7 +39,7 @@ our $option = {
 };
 
 # global variables
-our $debug = 1;
+our $debug = 0;
 my $msg;    # translations
 my $language;
 
@@ -136,7 +136,11 @@ sub http_accept_language {
     my $self = shift;
     my $q    = $self->{'q'};
 
-    my $requested_language = $q->http('Accept-language') || "";
+    # cached entry
+    return $self->{'http_accept_language'}
+      if exists $self->{'http_accept_language'};
+
+    my $requested_language = $q->http('Accept-language') // "";
 
     return "" if !$requested_language;
 
@@ -149,11 +153,12 @@ sub http_accept_language {
     foreach my $l (@lang) {
         if ( grep { $l eq $_ } @{ $option->{supported_languages} } ) {
             warn "Select language by browser: $l\n" if $debug >= 1;
-            return $l;
+            return $self->{'http_accept_language'} = $l;
         }
     }
 
-    return "";
+    warn "No supported language found: $requested_language\n" if $debug >= 1;
+    return $self->{'http_accept_language'} = "";
 }
 
 sub language_links {

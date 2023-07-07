@@ -1,9 +1,9 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2023 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
-    if ( $ENV{BBBIKE_TEST_FAST} && !$ENV{BBBIKE_TEST_LONG} ) {
-        print "1..0 # skip BBBIKE_TEST_FAST\n";
+    if ( $ENV{BBBIKE_TEST_MAPSFORGE_DISABLED} || $ENV{BBBIKE_TEST_DOCKER} ) {
+        print "1..0 # skip, mapsforge disabled or running on docker\n";
         exit;
     }
 }
@@ -90,9 +90,9 @@ sub convert_format {
     my $size = $st->size;
     cmp_ok( $size, '>', $min_size, "$out: $size > $min_size" );
 
-    $counter += 3;
+    $counter += 2;
     $test->validate;
-    unlink( $out, "$out.md5", "$out.sha256" );
+    unlink( $out, "$out.md5" );
 
     return $counter + $test->counter;
 }

@@ -49,6 +49,17 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
+    title   => qq{enable lng/lat box for everybody},
+    id      => '32377b4213bfade6c7074f6ebb801acd',
+    content => {
+        type    => 'html',
+        content => qq{enable lng/lat box for everybody},
+    },
+    updated  => '2023-05-00T18:30:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title   => qq{larger Garmin extracts},
     id      => '32377b4212bfade6c7074f6ebb801acd',
     content => {

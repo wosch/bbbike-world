@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2012-2022 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2023 Wolfram Schneider, https://bbbike.org
 #
 # osm2garmin - convert a osm/pbf file to garmin
 #
@@ -15,9 +15,8 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_MKGMAP_SEA_DIR="/var/lib/bbbike/opt/share/garmin/sea"}
 : ${BBBIKE_MKGMAP_BOUNDS_DIR="/var/lib/bbbike/opt/share/garmin/bounds"}
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
-: ${BBBIKE_TMPFS="/tmpfs"}
+: ${BBBIKE_TMPFS="/tmp"}
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
-: ${SHA="shasum -a 256"}
 : ${BBBIKE_BASECAMP_MACOS="true"}
 : ${BBBIKE_EXTRACT_GARMIN_VERSION="mkgmap"}
 
@@ -86,7 +85,7 @@ case $ext in
         : ${java_heap=6G}
         ;;
     *)
-        : ${java_heap=3G}
+        : ${java_heap=4G}
         if [ $size -gt 6000000 ]; then
            java_heap=24G
         elif [ $size -gt 3000000 ]; then
@@ -99,10 +98,8 @@ case $ext in
            java_heap=8G
         elif [ $size -gt 250000 ]; then
            java_heap=6G
-        elif [ $size -gt 150000 ]; then
-           java_heap=5G
         elif [ $size -gt 100000 ]; then
-           java_heap=4G
+           java_heap=5G
         fi
         ;;
 esac
@@ -479,7 +476,8 @@ case $BBBIKE_EXTRACT_LANG in
    * ) ext2=$(echo $ext | perl -npe "s/\.zip\$/.${BBBIKE_EXTRACT_LANG}.zip/") ;;
 esac
 
-( $MD5 gmapsupp.img; $SHA gmapsupp.img ) > .checksum.txt; mv -f .checksum.txt CHECKSUM.txt
+$MD5 gmapsupp.img > .checksum.txt
+mv -f .checksum.txt CHECKSUM.txt
 
 # support Garmin Basecamp installation
 $BBBIKE_BASECAMP_MACOS && cp $dirname/basecamp-macos.sh .

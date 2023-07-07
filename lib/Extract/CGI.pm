@@ -350,7 +350,7 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
     <a target="_help" href="/extract.html">@{[ M("help") ]}</a> |
     <a target="_garmin" href="/garmin.html">@{[ M("garmin") ]}</a> |
     <a href="$server_status_url" target="_blank">@{[ M("status") ]}</a> |
-    <!-- <a href="//mc.bbbike.org/mc/$mc_parameters" id="mc_link" target="_blank">map compare</a> | -->
+    <!-- <a href="https://mc.bbbike.org/mc/$mc_parameters" id="mc_link" target="_blank">map compare</a> | -->
     <a href="$download_homepage">@{[ M("download") ]}</a> |
     <a href="/support.html">@{[ M("commercial support") ]}</a>
     $locate
@@ -421,9 +421,12 @@ qq{\n<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js
           qq[ jQuery(document).ready(function () { gpsies_route("$route"); }) ];
     }
 
-    my $extract_pro = $option->{'pro'} // 0;
+    my $extract_pro      = $option->{'pro'} // 0;
+    my $enable_lnglatbox = $option->{'enable_lnglatbox'} // 0;
     my $extract_pro_js =
-      $extract_pro ? '$(".lnglatbox_toggle").css("display", "inline")' : "";
+      $enable_lnglatbox
+      ? '$(".lnglatbox_toggle").css("display", "inline")'
+      : "";
 
     my $download_url = $args{'download_url'} // "";
 

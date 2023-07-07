@@ -1,10 +1,11 @@
 #!/bin/sh
-# Copyright (c) 2009-2017 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2023 Wolfram Schneider, https://bbbike.org
 #
 # test if all programs are installed
 #
 
 set -e
+PATH="/usr/local/bin:/bin:/bin:/usr/bin"; export PATH
 
 commands_general="
 bash
@@ -26,6 +27,9 @@ xargs
 "
 
 commands_bbbike="
+osmium
+osmium_toogr2
+osmium2shape
 osmconvert
 osmconvert-wrapper
 jsbeautifier

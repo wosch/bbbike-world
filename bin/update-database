@@ -1,12 +1,14 @@
 #!/bin/sh
-# Copyright (c) 2009-2021 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2023 Wolfram Schneider, https://bbbike.org
 #
 # wrapper for Makefile
 #
 # e.g. run after convert-wgs8 failure:
-# bbbike_download="" bbbike_download_convert="" bbbike_extract="" /path/to/this/file
+#
+#   env bbbike_extract="" /path/to/this/file
 
 set -e
+PATH="/usr/local/bin:/bin:/bin:/usr/bin"; export PATH
 
 if [ -e $HOME/.bbbikerc ]; then
     . $HOME/.bbbikerc
@@ -16,6 +18,11 @@ available_disk_size ()
 {
     disk=$1
     min_disk_size=$2
+    if [ ! -e $disk ]; then
+	echo "$disk does not exists, ignore"
+        return
+    fi
+
     available_disk_size=$(df -k $disk | tail -1 | awk '{ print int($4/1024/1024) }')
     if [ $available_disk_size -le $min_disk_size ]; then
         echo "Required disk space in $disk: $available_disk_size < $min_disk_size GB"
@@ -27,14 +34,12 @@ available_disk_size ()
     fi
 }
 #########################################################################
-# we need ca. 100GB free disk space to update bbbike
-# we need ca. 220GB free disk space for a fresh installation
+# we need ca. 300GB free disk space for a fresh installation
 #
 # du -hs bbbike osm/download/planet-latest*pbf osm/download/sub-planet
-# 67G     bbbike
-# 33G     osm/download/planet-latest-nometa.osm.pbf
-# 41G     osm/download/planet-latest.osm.pbf
-# 72G     osm/download/sub-planet
+# 100G     bbbike
+# 73G     osm/download/planet-daily.osm.pbf
+# 127G     osm/download/sub-planet-daily
 #
 
 available_disk_size . 100
@@ -43,23 +48,14 @@ available_disk_size /usr/local/www/bbbike.org/ 50
 tmp=tmp
 mkdir -p $tmp
 
-: ${bbbike_build="build-runtime update-files"}
-: ${bbbike_download="planet-download"}
-: ${bbbike_download_convert="sub-planet"}
+: ${bbbike_build="build-runtime"}
 : ${bbbike_extract="distclean-osm distclean update-files cities-parallel"}
 : ${bbbike_convert="convert-wgs84 convert-post check-data-osm convert-bbbike update-files"}
 : ${bbbike_install="rsync-tgz _rsync cache-heater-k"}
 : ${bbbike_format="pbf2osm pbf2csv pbf2geojson osm2shape osm2organicmaps osm2garmin osm2mbtiles osm2mapsforge osm2svg"}
 : ${bbbike_post="osm-html rsync rsync-osm-full"}
-: ${bbbike_post2=""}
 
-commands="$bbbike_build $bbbike_download $bbbike_download_convert $bbbike_extract $bbbike_convert $bbbike_install $bbbike_format $bbbike_post $bbbike_post2"
-
-# lower I/O nice level on linux
-if which ionice >/dev/null 2>&1; then
-   ionice=ionice
-   ionice_opt="-c 2 -n 6"
-fi
+commands="$bbbike_build $bbbike_extract $bbbike_convert $bbbike_install $bbbike_format $bbbike_post"
 
 begin="$(date '+%F %T %Z')"
 
@@ -70,15 +66,8 @@ do
          gzip -f tmp/log.$i
     fi
 
-    case $i in
-        # in background
-        rsync-osm | rsync-bg ) time $ionice $ionice_opt make -s $i > tmp/log.$i 2>&1 & ;;
-
-            # foreground
-            * )         ( date; time $ionice $ionice_opt make -s $i; date ) > tmp/log.$i 2>&1 ;;
-	esac
+    ( date; time make -s $i; date ) > tmp/log.$i 2>&1
 done
-wait
 
 # set an notice
 (

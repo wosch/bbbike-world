@@ -1,10 +1,10 @@
 #!/bin/sh
-# Copyright (c) 2012-2021 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2023 Wolfram Schneider, https://bbbike.org
 #
 # osm-checksum-dir - compute checksum in a given directory
 #
 
-PATH=/bin:/sbin:/usr/bin:/usr/local/bin; export PATH
+PATH="/bin:/sbin:/usr/bin:/usr/local/bin"; export PATH
 set -e
 
 : ${OSM_CHECKSUM=true}
@@ -20,23 +20,14 @@ $OSM_CHECKSUM || exit 0
 
 dir="$1"
 test -d "$dir" || usage "dir $dir does not exists"
-: ${enable_sha=true}
 
 md5sum=`which md5 md5sum false 2>/dev/null | head -n 1`
-: ${SHA="shasum -a 256"}
-
 tmpfile=$(mktemp)
+trap 'rm -f $tmpfile' 0
 
 cd $dir
-for file in *.pbf
-do
-    # to keep the cache hot we run md5 & shasum at the same time
-    $md5sum $file &
-    if $enable_sha; then
-       $SHA $file &
-    fi
-    wait
-done | awk '{ print $2, $1 }' | sort > $tmpfile
+ls *.pbf | xargs -n1 -P8 $md5sum | sort -k2 > $tmpfile
+
 cp -f $tmpfile CHECKSUM.txt
 chmod 644 CHECKSUM.txt
 
@@ -49,6 +40,5 @@ done > $tmpfile
 cp -f $tmpfile TIMESTAMP.txt
 chmod 644 TIMESTAMP.txt
 
-rm -f $tmpfile
 #EOF
 

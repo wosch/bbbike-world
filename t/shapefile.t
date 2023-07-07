@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2023 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     system("which osmium2shape >/dev/null");
@@ -113,7 +113,7 @@ sub convert_format {
 
     $counter += $test->validate;
 
-    unlink( $out, "$out.md5", "$out.sha256" );
+    unlink( $out, "$out.md5" );
     return $counter;
 }
 

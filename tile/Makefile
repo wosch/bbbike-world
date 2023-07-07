@@ -18,7 +18,7 @@ APACHE2_MODULES=	apache2=${APACHE2_VERSION} apache2-bin=${APACHE2_VERSION} apach
 DEBIAN_MODULES_SYTEM= 	unzip bzip2 make tidy gcc git munin-node time
 
 DEBIAN_MODULES= 	libimager-perl imagemagick libinline-perl libhtml-tagcloud-perl \
-        		libtie-ixhash-perl libhtml-parser-perl libwww-perl
+        		libtie-ixhash-perl libhtml-parser-perl libwww-perl lighttpd
 
 TILE_MODULES= 	postgresql-${POSTGRES_VERSION}-postgis-2.1=${POSTGIS_VERSION} \
 		postgis=${POSTGIS_VERSION} \
@@ -182,7 +182,7 @@ manual:
 	@echo ""
 
 install-stage1: osm-repo nodejs-repo install-packages-system
-install-stage2: repo-checkout bbbike-world install-packages
+install-stage2: repo-checkout install-packages
 install-stage3: symlinks munin postgis bbbike-mapnik mapnik-restart
 install-all: git-pull install-stage1 install-stage2 install-stage3 apt-hold check
 
@@ -212,10 +212,8 @@ check:
 
 apt-autoremove:
 	sudo apt-get autoremove -y
-bbbike-world:
-	${APT_INSTALL} bbbike-world
 
-reinstall: distclean apt-distclean bbbike-world install-all apt-autoremove
+reinstall: distclean apt-distclean install-all apt-autoremove
 
 help:
 	@echo ""

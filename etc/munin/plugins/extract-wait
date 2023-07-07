@@ -63,6 +63,7 @@ sub init {
     my $arg = shift;
 
     $ENV{PATH} = '/bin:/usr/bin:/usr/local/www/bbbike.org/world/bin';
+    $ENV{LANG} = 'C';
 
     if ( $0 =~ /-pro$/ ) {
         $extract_dir = "/var/cache/extract-pro";

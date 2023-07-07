@@ -10,8 +10,11 @@
 export DH_VERBOSE=1
 export DH_OPTIONS
 
+JAVALIBS_TARBALL=       bbbike-world-bin-debian-bullseye-1.11.0.tar.gz \
+                        organicmaps-data-1.0.tar.gz \
+                        Maperitive-2.4.3.tar.gz \
+                        bbbike-world-compat-squeeze-1.0.tar.gz
 
-JAVALIBS_TARBALL=	bbbike-world-bin-1.6.0.tar.gz organicmaps-1.0.tar.gz Maperitive-2.4.1.tar.gz bbbike-world-compat-squeeze-1.0.tar.gz
 HOMEPAGE_TARBALL=	https://debian.bbbike.org
 JAVALIBS_DIR=	/var/lib/bbbike/opt
 
@@ -28,6 +31,7 @@ install:
 
 	mkdir -p $(CURDIR)/debian/src
 	cd $(CURDIR)/debian/src; \
+	  set -e; \
 	  for i in ${JAVALIBS_TARBALL}; do \
 		if ! test -e $$i; then \
 		  echo "download ${HOMEPAGE_TARBALL}/src/$$i"; \

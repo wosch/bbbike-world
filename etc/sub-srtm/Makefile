@@ -8,7 +8,7 @@ all: update
 
 update update-poly:
 	cd ../../.. && ./world/bin/sub-planet.pl --prefix=sub-srtm
-	@git diff .
+	@env PAGER=cat git diff .
 
 help:
 	@echo "make [ update | help ]"

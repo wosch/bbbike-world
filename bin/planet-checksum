@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2023 Wolfram Schneider, https://bbbike.org
 #
 # planet-checksum - bitrot checksum test of latest planet osm file
 #
@@ -12,17 +12,13 @@ PATH=/bin:/usr/bin:/usr/local/bin; export PATH
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
 nice="nice -n 9"
 
-: ${file="planet-latest-nometa.osm.pbf"}
+: ${file="planet-daily.osm.pbf"}
 dir=$HOME/projects/osm/download
-
-# lower I/O nice level on linux
-if which ionice >/dev/null 2>&1; then
-   nice="$nice ionice -c 2 -n 6"
-fi
 
 cd $dir
 
 tmp=$(mktemp ${BBBIKE_TMPDIR}/md5.XXXXXXXXXXX)
+trap 'rm -rf $tmp' 0
 $nice $MD5 $file > $tmp
 
 if diff $file.md5 $tmp; then
@@ -38,7 +34,5 @@ else
    $nice $MD5 $file
    cat $file.md5
 fi
-
-rm -f $tmp
 
 #EOF

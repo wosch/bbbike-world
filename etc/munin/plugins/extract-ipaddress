@@ -24,6 +24,8 @@ if you need to override the defaults below:
 
 
 PATH="/bin:/usr/bin"; export PATH
+LANG="C"; export LANG
+grep='grep -E -a'
 
 config=$1
 
@@ -63,7 +65,7 @@ fi
 
 printf "users.value " 
 find $extract_dir/trash -type f -mmin  -120 -print0 | \
-  xargs -0 egrep -h ip_address | sed 's/,$//' | \
+  xargs -0 $grep -h ip_address | sed 's/,$//' | \
   sort | uniq -c |sort -nr | head -1 | awk '{ print $1 }'
 
 # EOF

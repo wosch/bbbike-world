@@ -1,10 +1,10 @@
 #!/bin/sh
-# Copyright (c) 2016-2021 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2016-2023 Wolfram Schneider, https://bbbike.org
 #
 # init bbbike.org ubuntu deb repository
 
 : ${DEBUG=false}
-: ${enable_mono="YES"}
+: ${enable_mono="NO"}
 enable_legacy="YES"
 
 if $DEBUG; then
@@ -30,20 +30,22 @@ init_apt_bbbike() {
     list_d="world/etc/apt/$os/$codename/sources.list.d"
     flag=0
 
-    for file in $list_d/*.list
-    do
-      # should never happens
-      if [ ! -e "$file" ]; then
-        echo "file '$file' does not exist, give up. Wrong cwd?"
-        exit 2
-      fi
+    if [ -d $list_d ]; then
+      for file in $list_d/*.list
+      do
+        # should never happens
+        if [ ! -e "$file" ]; then
+          echo "file '$file' does not exist, give up. Wrong cwd?"
+          exit 2
+        fi
 
-      f=$sources_list_d/$(basename $file)
-      if [ ! -e $f ]; then
-        sudo cp $file $f
-      fi
-      flag=1
-    done
+        f=$sources_list_d/$(basename $file)
+        if [ ! -e $f ]; then
+          sudo cp $file $f
+        fi
+        flag=1
+      done
+    fi
 
     if [ $enable_legacy = "YES" ]; then
       file="world/etc/apt/ubuntu/trusty-legacy/sources.list.d/bbbike-legacy.list"
