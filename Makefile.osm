@@ -1739,15 +1739,13 @@ garmin-borders:
 	cd ${GARMIN_BORDERS_DIR}; \
 	if [ ! -d sea ]; then \
 	  curl -sSf -O https://debian.bbbike.org/mirror/mkgmap/sea-latest.zip; \
-	  unzip -t -q sea-latest.zip; \
 	  unzip -q sea-latest.zip; \
 	  rm -f sea-latest.zip; \
 	fi; \
-	if [ ! -d bounds ]; then \
+	if [ ! -d b/var/lib/bbbike/opt/share/garminounds ]; then \
 	  mkdir bounds; \
 	  cd bounds; \
 	  curl -sSf -O https://debian.bbbike.org/mirror/mkgmap/bounds-latest.zip; \
-	  unzip -t -q bounds-latest.zip ; \
 	  unzip -q bounds-latest.zip; \
 	  rm -f bounds-latest.zip; \
 	fi
