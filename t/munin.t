@@ -7,6 +7,10 @@ BEGIN {
         print "1..0 # no running munin daemon found, skip tests\n";
         exit;
     }
+    if ($ENV{BBBIKE_TEST_FAST} && ! -e "/usr/local/www/bbbike.org/data-osm/Hamburg/strassen") {
+        print "1..0 # skip due no build yet\n";
+        exit;
+    }
 
     my $logfile = "/var/log/lighttpd/bbbike.log";
     if ( !-f $logfile ) {
