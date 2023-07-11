@@ -1732,22 +1732,19 @@ check-tileserver:
 
 # install Boundary and Sea files for Garmin extracts
 GARMIN_BORDERS_DIR=/var/lib/bbbike/opt/share/garmin
+
 garmin-borders:
 	set -e; \
 	sudo mkdir -p ${GARMIN_BORDERS_DIR}; \
 	sudo chown ${LOGNAME} ${GARMIN_BORDERS_DIR}; \
 	cd ${GARMIN_BORDERS_DIR}; \
 	if [ ! -d sea ]; then \
-	  curl -sSf -O https://debian.bbbike.org/mirror/mkgmap/sea-latest.zip; \
-	  unzip -q sea-latest.zip; \
-	  rm -f sea-latest.zip; \
+	  curl -sSf https://debian.bbbike.org/mirror/mkgmap/sea-latest.txz | pixz -d | tar xf - ; \
 	fi; \
 	if [ ! -d bounds ]; then \
 	  mkdir bounds; \
 	  cd bounds; \
-	  curl -sSf -O https://debian.bbbike.org/mirror/mkgmap/bounds-latest.zip; \
-	  unzip -q bounds-latest.zip; \
-	  rm -f bounds-latest.zip; \
+	  curl -sSf https://debian.bbbike.org/mirror/mkgmap/bounds-latest.txz | pixz -d | tar xf - ; \
 	fi
 
 download-planet-data: planet-download-alert planet-daily-update-cron
