@@ -45,6 +45,7 @@ my $bbbike_dir    = "/usr/local/www/bbbike.org";
 my $wait_warning  = 7;                             # in days
 my $wait_critical = 16;                            # in #days
 $ENV{PATH} = '/bin:/usr/bin';
+$ENV{LANG} = 'C';
 
 sub usage {
     <<EOF;

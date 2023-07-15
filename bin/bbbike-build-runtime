@@ -27,6 +27,9 @@ xargs
 "
 
 commands_bbbike="
+osmium
+osmium_toogr2
+osmium2shape
 osmconvert
 osmconvert-wrapper
 jsbeautifier

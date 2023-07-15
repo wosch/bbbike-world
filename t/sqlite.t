@@ -77,12 +77,12 @@ my $tempfile = File::Temp->new( SUFFIX => ".osm" );
 is( md5_file($pbf_file), $pbf_md5, "md5 checksum matched" );
 
 system(qq[world/bin/pbf2osm --sqlite $pbf_file]);
-is( $?, 0, "pbf2osm --sqlite converter" );
+is( $?, 0, "world/bin/pbf2osm --sqlite $pbf_file" );
 cmp_ok( -s $osm_file, ">=", 2_000_000, "sqlite output size large enough" );
 cmp_ok( -s $osm_file, "<=", 3_000_000, "sqlite output size small enough" );
 
 system(qq[world/bin/pbf2osm --sqlite-xz $pbf_file]);
-is( $?, 0, "pbf2osm --sqlite-xz converter" );
+is( $?, 0, "world/bin/pbf2osm --sqlite-xz $pbf_file" );
 cmp_ok( -s $osm_file_xz, ">=", 700_000, "sqlite output size large enough" );
 cmp_ok( -s $osm_file_xz, "<=", 990_000, "sqlite output size small enough" );
 

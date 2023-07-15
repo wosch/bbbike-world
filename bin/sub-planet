@@ -14,7 +14,7 @@ fi
 : ${program="sub-planet"}
 # program=sub-srtm
 
-nice='nice -5 ionice -c 2 -n 6'
+nice='nice -5'
 time=time
 cpu=$(world/bin/ncpu)
 

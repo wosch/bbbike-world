@@ -36,6 +36,8 @@ extract_dir=/var/cache/extract
 formats="csv.gz csv.xz garmin-bbbike.zip garmin-cycle.zip garmin-leisure.zip garmin-onroad.zip garmin-ontrail.zip garmin-opentopo.zip garmin-openfietslite.zip garmin-openfietsfull.zip garmin-oseam.zip garmin-osm.zip mapsforge-osm.zip organicmaps-osm.zip o5m.gz o5m.xz obf.zip opl.xz osm.bz2 osm.gz osm.pbf osm.xz png-cadastre.zip png-google.zip png-hiking.zip png-osm.zip png-urbanight.zip png-wireframe.zip shp.zip srtm-europe.garmin-srtm.zip srtm-europe.obf.zip srtm-europe.osm.pbf srtm-europe.osm.xz srtm.garmin-srtm.zip srtm.obf.zip srtm.osm.pbf srtm.osm.xz svg-cadastre.zip svg-google.zip svg-hiking.zip svg-osm.zip svg-urbanight.zip svg-wireframe.zip mbtiles-openmaptiles.zip"
 
 config=$1
+LANG="C"; export LANG
+grep='grep -E -a'
 
 if [ "$1" = "config" ]; then
     : ${warning=2500}
@@ -95,14 +97,14 @@ find_download=$(mktemp /tmp/munin-bbbike.XXXXXXXXX)
 
 echo "multigraph pbf_pbf"
 echo "ALL.value" 	$( wc -l < $ls_download )
-echo "osm_pbf.value" 	$( egrep "\.osm\.pbf$" < $ls_download | wc -l )
-echo "other.value" 	$( egrep -v "\.osm\.pbf$" < $ls_download | wc -l )
+echo "osm_pbf.value" 	$( $grep "\.osm\.pbf$" < $ls_download | wc -l )
+echo "other.value" 	$( $grep -v "\.osm\.pbf$" < $ls_download | wc -l )
 
 echo ""
 echo "multigraph pbf_pbf_day"
 echo "ALL.value" 	$( wc -l < $find_download )
-echo "osm_pbf.value" 	$( egrep "\.osm\.pbf$" < $find_download | wc -l )
-echo "other.value" 	$( egrep -v "\.osm\.pbf$" < $find_download | wc -l )
+echo "osm_pbf.value" 	$( $grep "\.osm\.pbf$" < $find_download | wc -l )
+echo "other.value" 	$( $grep -v "\.osm\.pbf$" < $find_download | wc -l )
 
 echo ""
 echo "multigraph pbf_other"
@@ -111,7 +113,7 @@ for f in $formats
 do
     ff=$(echo $f | perl -npe 's/[\.\-]/_/g')
     f=$(echo $f | perl -npe 's/(srtm(-europe)?)/${1}.*/g')
-    echo "$ff.value"     $( egrep "${f}$" < $ls_download | wc -l )
+    echo "$ff.value"     $( $grep "${f}$" < $ls_download | wc -l )
 done
 
 rm -f $ls_download $find_download

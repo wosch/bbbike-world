@@ -20,11 +20,11 @@ my @prod = qw(
   /var/cache/bbbike
   /var/lib/bbbike
   /etc/munin
+  /var/lib/bbbike/opt/share
 );
 
-if ( !$ENV{BBBIKE_TEST_DOCKER} ) {
-    push @prod,
-      qw(/usr/local/www/download.bbbike.org /var/lib/bbbike/opt/share);
+if ( !$ENV{BBBIKE_TEST_DOCKER} && !$ENV{BBBIKE_TEST_FAST} ) {
+    push @prod, qw(/usr/local/www/download.bbbike.org);
 }
 
 my @path = qw( . $HOME/.openstreetmap );
@@ -47,7 +47,7 @@ sub stale_symlinks {
     my $prog =
         q[ find ]
       . $path
-      . q[ -type l -print0 | perl -0e 'while(<>) { chomp; next if m,^\./tmp/,; if (! -e $_) { print "$_\n"; $exit=1}}; exit $exit' ];
+      . q[ -type l -print0 | perl -0e 'while(<>) { chomp; next if m,^\./tmp/,; if (! -e $_) { print STDERR "$_\n"; $exit=1}}; exit $exit' ];
     system($prog);
     is( $?, 0, "stale symlinks in $path" );
 }

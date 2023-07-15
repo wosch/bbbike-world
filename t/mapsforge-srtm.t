@@ -2,8 +2,8 @@
 # Copyright (c) Sep 2012-2023 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
-    if ( $ENV{BBBIKE_TEST_FAST} && !$ENV{BBBIKE_TEST_LONG} ) {
-        print "1..0 # skip BBBIKE_TEST_FAST\n";
+    if ( $ENV{BBBIKE_TEST_MAPSFORGE_DISABLED} || $ENV{BBBIKE_TEST_DOCKER} ) {
+        print "1..0 # skip, mapsforge disabled or running on docker\n";
         exit;
     }
 }

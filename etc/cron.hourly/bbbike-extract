@@ -3,7 +3,7 @@
 #
 # cleanup stale temp files from extract.bbbike.org service
 
-tmp_dir=/tmpfs
+tmp_dir=/tmp
 username=wosch
 set -e
 

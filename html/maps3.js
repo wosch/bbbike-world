@@ -721,7 +721,7 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
             "description": "German Mapnik, by OpenStreetMap.de"
         },
         getTileUrl: function (a, z) {
-            return "https://" + randomServerOSM(4) + ".tile.openstreetmap.de/tiles/osmde/" + z + "/" + a.x + "/" + a.y + ".png";
+            return "https://tile.openstreetmap.de/tiles/osmde/" + z + "/" + a.x + "/" + a.y + ".png";
         },
         isPng: true,
         opacity: 1.0,

@@ -44,6 +44,7 @@ my %prio = (
     'garmin-osm.zip'             => -70,
     'geojson.xz'                 => -50,
     'mapsforge-osm.zip'          => -40,
+    'mbtiles-openmaptiles.zip'   => -35,
     'organicmaps-osm.zip'        => -30,
     'svg-osm.zip'                => -45,
 );

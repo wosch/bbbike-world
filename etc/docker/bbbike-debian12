@@ -1,0 +1,36 @@
+FROM debian:bookworm
+MAINTAINER Wolfram Schneider <wosch@FreeBSD.org>
+
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get update -q && \
+  apt-get upgrade -y && \
+  env RUN_MANDB=no apt-get install -y git make sudo gnupg vim && \
+  apt-get clean
+
+RUN useradd -ms /bin/bash bbbike && \
+  echo 'bbbike ALL=NOPASSWD: ALL' >> /etc/sudoers
+
+RUN mkdir -p /bbbike/projects
+RUN chown -R bbbike:bbbike /bbbike/
+
+USER bbbike
+WORKDIR /bbbike/projects
+ENV HOME /bbbike
+
+RUN git clone --depth=200 https://github.com/wosch/bbbike.git && \
+  cd bbbike && git clone --depth=200 https://github.com/wosch/bbbike-world.git world && \
+  make -f world/Makefile.osm create-makefile-symlinks
+
+WORKDIR /bbbike/projects/bbbike
+
+RUN make bbbike-deb-repository-setup
+RUN make bbbike-deb-repository-install
+
+RUN make bbbike-bootstrap || true
+
+RUN cp world/etc/env/dot.bbbikerc $HOME/.bbbikerc
+RUN echo '. $HOME/.bbbikerc' >> $HOME/.bashrc && \
+  echo 'export BBBIKE_TEST_DOCKER=1' >> $HOME/.bashrc
+
+CMD ["bash"]

@@ -1,0 +1,7 @@
+Origin: BBBike
+Label: BBBike
+Codename: bookworm
+Architectures: amd64
+Components: main
+Description: BBBike.org
+SignWith: B1826CDD

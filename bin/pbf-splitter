@@ -32,7 +32,7 @@ init_splitter () {
     : ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
     : ${BBBIKE_SPLITTER_VERSION="splitter"}
     : ${BBBIKE_TMPDIR="/bbbike/tmp"}
-    : ${BBBIKE_TMPFS="/tmpfs"}
+    : ${BBBIKE_TMPFS="/tmp"}
 
     : ${debug=false}
 
@@ -48,11 +48,13 @@ init_splitter () {
             : ${splitter_keep_complete="--keep-complete=false"}
             ;;
         *)
-            : ${java_heap_splitter=3G}
-            if [ $size -gt 6000000 ]; then
-           	java_heap_splitter=16G
-            elif [ $size -gt 3000000 ]; then
-           	java_heap_splitter=6G
+            : ${java_heap_splitter="6G"}
+            if [ $size -gt 3000000 ]; then
+           	java_heap_splitter="16G"
+            elif [ $size -gt 500000 ]; then
+           	java_heap_splitter="12G"
+            elif [ $size -gt 100000 ]; then
+           	java_heap_splitter="8G"
 	    fi
             ;;
     esac

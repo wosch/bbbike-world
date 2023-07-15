@@ -1,7 +1,0 @@
-#
-# all you neeed for debian11 (bullseye)
-#
-
-#deb [arch=amd64] https://cdn.debian.net/debian/     bullseye main contrib non-free
-#deb [arch=amd64] https://security.debian.org/ bullseye/updates main
-

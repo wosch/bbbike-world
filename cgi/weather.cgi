@@ -144,6 +144,8 @@ my $wettermeldung_file_json = "$wettermeldung_file.$lang.json";
 my $weather_forecast        = "$wettermeldung_file.forecast.$lang.json";
 
 my %weather;
+my $timeout = 5;
+
 if ( my $content = get_data_from_cache($wettermeldung_file_json) ) {
     my $forecast = get_data_from_cache($weather_forecast) || "{}";
 
@@ -158,6 +160,7 @@ elsif ( $lat && $lng ) {
 
     my $ua = LWP::UserAgent->new;
     $ua->agent("MyApp/0.1 ");
+    $ua->timeout($timeout);
 
     my $req = HTTP::Request->new( GET => $url );
     my $res = $ua->request($req);

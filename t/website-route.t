@@ -38,6 +38,12 @@ my @homepages = $extract_config->get_server_list(qw/extract dev/);
 if ( $ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
     @homepages = ();
 }
+
+# the route.cgi script is no longer used in production
+if (1) {
+    @homepages = ();
+}
+
 unshift @homepages, @homepages_localhost;
 
 sub route_check {
@@ -91,7 +97,7 @@ sub route_check {
 
     like(
         $location,
-qr[https?://(extract|garmin|dev)[0-9]?\.bbbike\.org(/cgi/extract\.cgi)?\?.*appid=.+],
+qr[https?://(cloud|extract|garmin|dev)[0-9]?\.bbbike\.org(/cgi/extract\.cgi)?\?.*appid=.+],
         "redirect to extract.cgi: $script_url"
     );
     if ($fail) {
@@ -99,7 +105,7 @@ qr[https?://(extract|garmin|dev)[0-9]?\.bbbike\.org(/cgi/extract\.cgi)?\?.*appid
         # check for error parameter
         like(
             $location,
-qr[https?://(dev|garmin|extract)[0-9]?\.bbbike\.org(/cgi/extract\.cgi)?\?.*error=],
+qr[https?://(cloud|dev|garmin|extract)[0-9]?\.bbbike\.org(/cgi/extract\.cgi)?\?.*error=],
             "redirect to extract.cgi: $script_url"
         );
     }

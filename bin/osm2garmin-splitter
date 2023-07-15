@@ -15,7 +15,7 @@ PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 : ${BBBIKE_MKGMAP_SEA_DIR="/var/lib/bbbike/opt/share/garmin/sea"}
 : ${BBBIKE_MKGMAP_BOUNDS_DIR="/var/lib/bbbike/opt/share/garmin/bounds"}
 : ${BBBIKE_TMPDIR="/bbbike/tmp"}
-: ${BBBIKE_TMPFS="/tmpfs"}
+: ${BBBIKE_TMPFS="/tmp"}
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
 : ${BBBIKE_BASECAMP_MACOS="true"}
 : ${BBBIKE_EXTRACT_GARMIN_VERSION="mkgmap"}
@@ -85,7 +85,7 @@ case $ext in
         : ${java_heap=6G}
         ;;
     *)
-        : ${java_heap=3G}
+        : ${java_heap=4G}
         if [ $size -gt 6000000 ]; then
            java_heap=24G
         elif [ $size -gt 3000000 ]; then
@@ -98,10 +98,8 @@ case $ext in
            java_heap=8G
         elif [ $size -gt 250000 ]; then
            java_heap=6G
-        elif [ $size -gt 150000 ]; then
-           java_heap=5G
         elif [ $size -gt 100000 ]; then
-           java_heap=4G
+           java_heap=5G
         fi
         ;;
 esac
