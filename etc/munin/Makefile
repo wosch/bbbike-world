@@ -131,9 +131,8 @@ install-munin-lighttpd:
 	${MAKE} munin-restart-help
 
 munin-restart:
-	sudo /etc/init.d/munin-node stop
-	sleep 0.2
-	sudo /etc/init.d/munin-node start
+	( sudo /etc/init.d/munin-node stop; sleep 0.8; sudo /etc/init.d/munin-node start ) &
+
 munin-restart-help:
 	@echo "don't forget to run: ${MAKE} munin-restart"
 
