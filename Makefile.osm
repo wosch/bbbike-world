@@ -1079,11 +1079,11 @@ tile-pbf-check:
 tile-convert: \
 		tile-convert-shp \
 		tile-convert-garmin-all \
-		tile-convert-mapsforge \
 		tile-convert-osmand \
 		tile-convert-osm \
-		tile-convert-mbtiles \
-		tile-convert-organicmaps
+		#tile-convert-mapsforge \
+		#tile-convert-mbtiles \
+		#tile-convert-organicmaps
 
 tile-convert-srtm: tile-convert-garmin-srtm tile-convert-osmand
 
