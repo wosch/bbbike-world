@@ -11,7 +11,7 @@
   <subtitle>BBBike is a route planner for cyclists in Berlin. It is now ported to other cities around the world - thanks to the
   OpenStreetMap project!</subtitle>
   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af7</id>
-  <generator uri="https://metacpan.org/pod/XML::Atom::SimpleFeed" version="0.905">XML::Atom::SimpleFeed</generator>
+  <generator uri="https://metacpan.org/pod/XML::Atom::SimpleFeed" version="0.902">XML::Atom::SimpleFeed</generator>
   <entry>
     <title>enable lng/lat box for everybody</title>
     <id>32377b4213bfade6c7074f6ebb801acd</id>
