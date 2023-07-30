@@ -87,6 +87,7 @@ sub data_status_time {
     }
     else {
         warn "stat $file: $!\n";
+        $mtime = time();
     }
 
     print "bbbike_data_status_time.value @{[ status($mtime) ]}\n";
