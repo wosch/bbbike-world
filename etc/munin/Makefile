@@ -78,7 +78,7 @@ help-update:
 	@echo  "don't forget to update /etc/munin/plugin-conf.d/munin-node, see ./README"
 
 install-munin-bbbike: clean-install install-munin-bbbike-system install-munin-bbbike-web \
-			install-munin-extract install-munin-apt
+			install-munin-extract 
 	${MAKE} munin-restart
 
 install-munin-bbbike-system:
