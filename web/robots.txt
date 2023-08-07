@@ -40,6 +40,10 @@ User-agent: yourtraces
 User-agent: zoominfo
 Disallow: /
 
+# AI
+User-agent: GPTBot
+Disallow: /osm/
+
 User-agent: *
 Disallow: /bbbike/cgi
 Disallow: /cgi
