@@ -66,6 +66,6 @@ fi
 printf "users.value " 
 find $extract_dir/trash -type f -mmin  -120 -print0 | \
   xargs -0 $grep -h ip_address | sed 's/,$//' | \
-  sort | uniq -c |sort -nr | head -1 | awk '{ print $1 }'
+  sort | uniq -c | sort -nr | head -1 | awk '{ print $1 } END { if (NR == 0) { print "0" }}'
 
 # EOF
