@@ -106,8 +106,8 @@ done
 
 echo ""
 echo "multigraph run_time"
-$grep '"extract_time" : ' $tmpfile | sed -e 's/,//' -e 's/"//g' | awk '{ s += $3 } END { print "extract_time.value", s/NR }'
-$grep '"convert_time" : ' $tmpfile | sed 's/,//' | awk '{ s += $3 } END { print "convert_time.value", s/NR }'
+$grep '"extract_time" : ' $tmpfile | sed -e 's/,//' -e 's/"//g' | awk '{ s += $3 } END { print "extract_time.value", (NR > 0 ? s/NR : 0) }'
+$grep '"convert_time" : ' $tmpfile | sed 's/,//'                | awk '{ s += $3 } END { print "convert_time.value", (NR > 0 ? s/NR : 0) }'
 
 exit 0
 
