@@ -38,12 +38,12 @@ LANG="C"; export LANG
 
 config=$1
 
-
 if [ "$1" = "config" ]; then
-  : ${read_warning=10000}
-  : ${write_warning=10000}
-  : ${read_critical=100000}
-  : ${write_critical=100000}
+  # in TB, 200TB => 200*10^12
+  : ${read_warning="800000000000000"}
+  : ${write_warning="200000000000000"}
+  : ${read_critical="2000000000000000"}
+  : ${write_critical="600000000000000"}
      
     cat <<EOF
 graph_title nvme i/o
