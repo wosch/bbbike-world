@@ -130,7 +130,7 @@ echo "waiting.value" \
   $(ls $extract_dir_running/../confirmed/*.json 2>/dev/null | wc -l) 
 echo "waiting_max_per_user.value" \
   $($grep -h '"email"' $extract_dir_running/../confirmed/*.json 2>/dev/null |\
-  sed 's/,$//' | sort | uniq -c | sort -nr | awk '{ print $1 } END { if ($NR==0) { print "0" } }' | head -n 1)
+  sed 's/,$//' | sort | uniq -c | sort -nr | awk '{ print $1 } END { if (NR == 0) { print "0" } }' | head -n 1)
 echo "users_waiting.value" \
   $($grep -h '"email"' $extract_dir_running/../confirmed/*.json 2>/dev/null | sed 's/,$//' | sort -u | wc -l) 
 
