@@ -4,9 +4,10 @@
 # munin setup
 #
 
-MUNIN_BBBIKE_SYSTEM= 	bbbike-processes \
+MUNIN_BBBIKE_SYSTEM= 	nvme_io \
+			bbbike-processes \
 			bbbike-data-status \
-			bbbike-git-status
+			bbbike-git-status \
 
 MUNIN_BBBIKE_WEB=	bbbike-services-ajax \
 			bbbike-services-output \
