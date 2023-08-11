@@ -1,0 +1,81 @@
+#!/bin/sh
+# Copyright (c) Sep 2011-2023 Wolfram Schneider, https://bbbike.org
+#
+# usage: /etc/munin/plugins/nvme_io [ config ]
+#
+# get documentation with: perldoc /path/to/script
+
+: << =cut
+
+=head1 NAME
+
+nvme_io  - Plugin to monitor data units read/write from NVMe disks
+
+=head1 ABOUT
+
+[...]
+
+=head1 USAGE
+
+[...]
+
+=head1 CONFIGURATION
+
+Configuration parameters for /etc/munin/plugin-conf.d/munin-node
+if you need to override the defaults below:
+
+ [nvme_io]
+   env.read_warning    - 
+   env.read_critical   -
+   env.write_warning   -
+   env.write_critical  -
+
+=cut
+
+
+PATH="/bin:/usr/bin"; export PATH
+LANG="C"; export LANG
+
+config=$1
+
+
+if [ "$1" = "config" ]; then
+  : ${read_warning=10000}
+  : ${write_warning=10000}
+  : ${read_critical=100000}
+  : ${write_critical=100000}
+     
+    cat <<EOF
+graph_title nvme i/o
+graph_vlabel data read/write in bytes
+graph_category disk
+graph_info nvme
+graph_period minute
+EOF
+
+  for i in $(seq 0 11)
+  do
+    disk="nvme${i}"
+    if [ -e /dev/$disk ]; then
+      echo "${disk}_r.label $disk read"
+      echo "${disk}_r.warning $read_warning"
+      echo "${disk}_r.critical $read_critical"
+      echo "${disk}_w.label $disk write"
+      echo "${disk}_w.warning $write_warning"
+      echo "${disk}_w.critical $write_critical"
+    fi
+  done
+
+  exit 0
+fi
+
+# main
+for i in $(seq 0 11)
+do
+  disk="nvme${i}"
+  if [ -e /dev/$disk ]; then
+    /usr/sbin/smartctl  -A /dev/$disk | perl -ne 's/,//g; print qq['${disk}'_r.value ], $1*512*1024, "\n" if /^Data Units Read:\s+([\d]+)/; print qq['${disk}'_w.value ]. $1*512*1024, "\n" if /^Data Units Written:\s+([\d]+)/'
+  fi
+done
+
+#EOF
