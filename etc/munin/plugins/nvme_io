@@ -40,10 +40,10 @@ config=$1
 
 if [ "$1" = "config" ]; then
   # in TB, 200TB => 200*10^12
-  : ${read_warning="800000000000000"}
-  : ${write_warning="200000000000000"}
-  : ${read_critical="2000000000000000"}
-  : ${write_critical="600000000000000"}
+  : ${read_warning="1200000000000000"}
+  : ${write_warning="800000000000000"}
+  : ${read_critical="3000000000000000"}
+  : ${write_critical="1600000000000000"}
      
     cat <<EOF
 graph_title nvme i/o
