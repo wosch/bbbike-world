@@ -6,7 +6,7 @@
 # the subject line contains the exit status
 
 PATH=/bin:/usr/bin; export PATH
-: ${BBBIKE_TMPDIR="/bbbike/tmp"}
+: ${BBBIKE_TMPDIR="/opt/bbbike/tmp"}
 #set -e
 
 # load standard BBBike extract config

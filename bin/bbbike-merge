@@ -8,7 +8,7 @@ set -e
 : ${debug=false}
 : ${bbbike_fast_checkout=true}
 : ${bbbike_test=true}
-: ${BBBIKE_TMPDIR="/bbbike/tmp"}
+: ${BBBIKE_TMPDIR="/opt/bbbike/tmp"}
 
 dir=`dirname $0`
 PATH=$PATH:$dir; export PATH

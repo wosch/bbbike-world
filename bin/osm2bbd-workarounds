@@ -5,7 +5,7 @@
 
 set -e
 export LANG=C
-: ${BBBIKE_TMPDIR="/bbbike/tmp"}
+: ${BBBIKE_TMPDIR="/opt/bbbike/tmp"}
 
 prefix=$1
 city=$2

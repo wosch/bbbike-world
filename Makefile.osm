@@ -90,7 +90,7 @@ DATA_OSM_DIR=	data-osm
 DATA_OSM_BBBIKE_DIR=	data-osm.bbbike
 OSMBIKE_DATA=	${DATA_OSM_BBBIKE_DIR}.tgz
 DATA_DIR=	data
-BBBIKE_CACHE_DIR=	/var/cache/bbbike
+BBBIKE_CACHE_DIR=	/opt/bbbike/cache
 LIGHTTPD_CACHE_DIR=	/var/cache/lighttpd
 MAX_OSMOSIS=	${MAX_CPU}
 MAX_OSMCONVERT=	${MAX_CPU}
@@ -112,7 +112,7 @@ BBBIKE_WEB_SERVER	?= www.bbbike.org
 BBBIKE_API_SERVER	?= api.bbbike.org
 API_DIR=	api/0.2
 LOG_DIR=tmp
-BBBIKE_PARTITION=	/bbbike
+BBBIKE_PARTITION=	/opt/bbbike
 
 OSMOSIS_PLUGIN_DIR=$$HOME/.openstreetmap/osmosis/plugins
 
@@ -1225,7 +1225,7 @@ data-distclean distclean-data: cache-clean-local
 	rm -f data-osm/bbbike/*.inx[456] data-osm/bbbike/*.st data-osm/bbbike/*.lock
 	find ext -name .lock -type f -print0 | xargs -0 rm -f
 	rm -rf ${TMP_DIR}
-	rm -f /bbbike/tmp/bbbike_*
+	rm -f /opt/bbbike/tmp/bbbike_*
 	rm -f ../osm/download/sub-*/*.tmp
 	find . -name '*.inx*' -print
 	find . -name '*.lock' -print
@@ -1457,8 +1457,8 @@ deb-bootstrap-dir: osmosis-bootstrap deb-opt-dir-version
 	  ls -l libgeos-3.2.2.so; ls -lL libgeos-3.2.2.so
 	test -e /usr/local/bin/osmosis || sudo ln -sf ${DEB_OPT_DIR}/osmosis/bin/osmosis /usr/local/bin/osmosis
 	test -e /usr/local/bin/generator_tool || sudo ln -sf ${DEB_OPT_DIR}/bin/generator_tool /usr/local/bin/generator_tool
-	sudo mkdir -p /bbbike/tmp
-	sudo chmod 7777 /bbbike/tmp
+	sudo mkdir -p /opt/bbbike/tmp
+	sudo chmod 7777 /opt/bbbike/tmp
 	${MAKE} -f world/Makefile.osm bbbike-c
 
 osmosis-bootstrap:

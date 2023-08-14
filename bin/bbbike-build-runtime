@@ -40,7 +40,7 @@ generator_tool
 
 commands="$commands_general $commands_bbbike"
 
-tmpdirs="/bbbike/tmp /tmp $BBBIKE_TMPDIR $BBBIKE_TMPFS"
+tmpdirs="/opt/bbbike/tmp /tmp $BBBIKE_TMPDIR $BBBIKE_TMPFS"
 for c in $tmpdirs
 do
    if [ ! -d $c ]; then

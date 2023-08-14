@@ -8,7 +8,7 @@ set -e
 PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
 
 : ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
-: ${BBBIKE_TMPDIR="/bbbike/tmp"}
+: ${BBBIKE_TMPDIR="/opt/bbbike/tmp"}
 : ${BBBIKE_EXTRACT_LANG="en"}
 
 : ${BBBIKE_MAPERITIVE_VERSION="Maperitive"}

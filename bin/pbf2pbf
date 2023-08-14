@@ -6,7 +6,7 @@
 # make sure all GPS points inside a rectangle of -180..-90 .. 180..90
 
 set -e
-: ${BBBIKE_TMPDIR="/bbbike/tmp"}
+: ${BBBIKE_TMPDIR="/opt/bbbike/tmp"}
 
 if [ -z "$1" ]; then
     echo >&2 "usage: $0 file...."

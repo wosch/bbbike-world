@@ -6,7 +6,7 @@
 set -e
 : ${bbbike_src=$HOME/src/bbbike.tgz}
 : ${bbbike_checkout=bbbike-checkout}
-: ${BBBIKE_TMPDIR="/bbbike/tmp"}
+: ${BBBIKE_TMPDIR="/opt/bbbike/tmp"}
 
 if [ ! -d ${BBBIKE_TMPDIR} ]; then
   BBBIKE_TMPDIR=/tmp

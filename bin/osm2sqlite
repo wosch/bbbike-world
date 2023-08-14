@@ -3,7 +3,7 @@
 #
 # osm2sqlite  - convert a .pbf file to SQLite
 
-: ${BBBIKE_TMPDIR="/bbbike/tmp"}
+: ${BBBIKE_TMPDIR="/opt/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmp"}
 : ${osmium_toogr2="osmium_toogr2"}
 

@@ -7,7 +7,7 @@
 PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
 : ${BBBIKE_EXTRACT_LANG="en"}
 : ${MD5=$(which md5 md5sum false 2>/dev/null | head -1)}
-: ${BBBIKE_TMPDIR="/bbbike/tmp"}
+: ${BBBIKE_TMPDIR="/opt/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmp"}
 : ${logfile_max_size="3000k"}
 : ${osm2xxx_max_jobs="3"}
