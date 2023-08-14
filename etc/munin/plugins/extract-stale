@@ -40,9 +40,9 @@ config=$1
 
 case $0 in 
     *-pro* ) pro="pro"
-              : ${extract_dir="/var/cache/extract-pro"}
+              : ${extract_dir="/opt/bbbike/extract-pro"}
             ;;
-    *)        : ${extract_dir="/var/cache/extract"}
+    *)        : ${extract_dir="/opt/bbbike/extract"}
             ;;
 esac
 

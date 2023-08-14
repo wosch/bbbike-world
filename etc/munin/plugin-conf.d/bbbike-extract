@@ -4,5 +4,5 @@ env.process_names lighttpd exim4 sshd ntpd
 
 # bbbike pro
 [bbbike-extract-pro-jobs]
-env.extract_dir /var/cache/extract-pro/running
+env.extract_dir /opt/bbbike/extract-pro/running
 

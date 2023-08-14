@@ -19,7 +19,7 @@ echo 'running format: '
 $running_extract format | sort | uniq -c | sort -r
 
 echo 'waitung format: '
-egrep -h '"format"' /var/cache/${extract}/confirmed/*.json 2>/dev/null | awk '{ print $3 }' | sed 's/,//g' | sort | uniq -c | sort -nr 
+egrep -h '"format"' /opt/bbbike/${extract}/confirmed/*.json 2>/dev/null | awk '{ print $3 }' | sed 's/,//g' | sort | uniq -c | sort -nr 
 
 echo 'planet: '
 ps xuawww | egrep 'osmconvert-wrapper .*extract/running' | egrep -v 'grep' | awk '{print $NF}' | sort | uniq -c| sort -r
@@ -30,11 +30,11 @@ $running_extract email | sort | uniq -c | sort -r
 tmp=$(mktemp)
 $running_extract email | awk '{ print $3 }' | sort -u > $tmp
 echo 'waiting new: '
-egrep -h '"email" : ".*@' /var/cache/${extract}/confirmed/*.json 2>/dev/null | perl -npe 's/,//' | sort | uniq -c | sort -nr -k1 -k3 | fgrep -v -F -f $tmp
+egrep -h '"email" : ".*@' /opt/bbbike/${extract}/confirmed/*.json 2>/dev/null | perl -npe 's/,//' | sort | uniq -c | sort -nr -k1 -k3 | fgrep -v -F -f $tmp
 rm -f $tmp
 
 echo 'waiting: '
-egrep -h '"email" : ".*@' /var/cache/${extract}/confirmed/*.json 2>/dev/null | perl -npe 's/,//' | sort | uniq -c | sort -nr -k1 -k3
+egrep -h '"email" : ".*@' /opt/bbbike/${extract}/confirmed/*.json 2>/dev/null | perl -npe 's/,//' | sort | uniq -c | sort -nr -k1 -k3
 
 
 echo 'running ip address: '

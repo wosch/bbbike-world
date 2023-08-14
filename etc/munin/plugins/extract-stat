@@ -27,7 +27,7 @@ PATH="/bin:/usr/bin"; export PATH
 LANG="C"; export LANG
 grep='grep -E -a'
 
-extract_dir="/var/cache/extract/"
+extract_dir="/opt/bbbike/extract/"
 language="en de fr ru"
 extract_time="convert_time extract_time"
 home="/usr/local/www/bbbike.org"

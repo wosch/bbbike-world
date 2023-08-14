@@ -105,7 +105,7 @@ BBBIKE_WEB_DIR= ./
 CACHE_HEATER_MAX=50
 TMP=world/tmp
 WEB_GROUP=	www-data
-EXTRACTS_SPOOL_DIR=/var/cache/extract
+EXTRACTS_SPOOL_DIR=/opt/bbbike/extract
 POSTGIS_STYLE=/usr/share/osm2pgsql/osm2pgsql/bbbike.style
 POSTGIS_STYLE9=/usr/share/osm2pgsql/bbbike.style
 BBBIKE_WEB_SERVER	?= www.bbbike.org
@@ -973,7 +973,7 @@ cache-install:
 	cd ${BBBIKE_PARTITION}; mkdir -p cache
 	ln -fs ${BBBIKE_PARTITION}/cache ${BBBIKE_CACHE_DIR}
 
-# make EXTRACTS_SPOOL_DIR=/var/cache/extract-pro extract-bbbike-org-install
+# make EXTRACTS_SPOOL_DIR=/opt/bbbike/extract-pro extract-bbbike-org-install
 extract-bbbike-org-install: create-usr-local-www
 	sudo mkdir -p ${BBBIKE_PARTITION}/$$(basename ${EXTRACTS_SPOOL_DIR})
 	mkdir -p ${BBBIKE_PARTITION}/projects/osm/download

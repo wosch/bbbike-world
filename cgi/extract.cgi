@@ -35,11 +35,11 @@ our $option = {
     'server_status_url_pro' => 'https://download.bbbike.org/osm/extract/',
 
     # spool directory. Should be at least 100GB large
-    'spool_dir' => '/var/cache/extract',
+    'spool_dir' => '/opt/bbbike/extract',
 
     # A seperate spool directory for pro users.
     # Currently not activated, all users share the same spool directory
-    'spool_dir_pro' => '/var/cache/extract',
+    'spool_dir_pro' => '/opt/bbbike/extract',
 
     'download'     => '/osm/extract/',
     'download_pro' => '/osm/extract/',

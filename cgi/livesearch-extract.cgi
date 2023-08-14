@@ -22,7 +22,7 @@ binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 $ENV{PATH} = "/bin:/usr/bin";
 
-my $log_dir = '/var/cache/extract/trash';
+my $log_dir = '/opt/bbbike/extract/trash';
 
 my $max                       = 25;
 my $only_production_statistic = 1;

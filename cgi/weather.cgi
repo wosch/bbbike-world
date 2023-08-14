@@ -20,7 +20,7 @@ $ENV{PATH} = "/bin:/usr/bin";
 
 my $q         = new CGI;
 my $debug     = 2;
-my $cache_dir = "/var/cache/bbbike";
+my $cache_dir = "/opt/bbbike/cache";
 
 sub cache_file {
     my $q = shift;

@@ -12,7 +12,7 @@ case $0 in
     *pro ) dir="extract-pro";;
 esac
 
-: ${extract_dir=/var/cache/$dir/$extract_type}
+: ${extract_dir=/opt/bbbike/$dir/$extract_type}
 
 term="$1"
 case $term in

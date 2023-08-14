@@ -21,7 +21,7 @@ LANG=en_US.UTF-8
 8 */2 * * * $HOME/projects/bbbike/world/bin/extract-watermark
 
 # cleanup old extracts
-*/15 * * * * cd /usr/local/www/bbbike.org/ && make -s extract-gc7 extract-gc && make -s EXTRACTS_SPOOL_DIR=/var/cache/extract-pro extract-gc7 extract-gc
+*/15 * * * * cd /usr/local/www/bbbike.org/ && make -s extract-gc7 extract-gc && make -s EXTRACTS_SPOOL_DIR=/opt/bbbike/extract-pro extract-gc7 extract-gc
 
 # bitrot?
 #25 * * * * $HOME/projects/bbbike/world/bin/planet-checksum
@@ -32,4 +32,4 @@ MAILTO=wosch
 43 9-23,0-3 * * *     cd $HOME/projects/bbbike/ && world/bin/planet-download-alert
 
 # stale jobs?
-49 * * * *     find /var/cache/extract/confirmed -name '*.json' -mtime +240 -ls
+49 * * * *     find /opt/bbbike/extract/confirmed -name '*.json' -mtime +240 -ls

@@ -9,9 +9,9 @@ set -e
 PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 
 disk=/bbbike
-failed=/var/cache/extract/failed
-failed2=/var/cache/extract/failed2
-running=/var/cache/extract/running
+failed=/opt/bbbike/extract/failed
+failed2=/opt/bbbike/extract/failed2
+running=/opt/bbbike/extract/running
 : ${rename=true}
 
 df -h $disk |tail -1 | perl -npe 's/%//' | awk '{if ($5 > 85) { print }}'
@@ -27,8 +27,8 @@ if [ $(ls $failed | wc -l) -gt 0 ]; then
     fi
 fi
 
-if [ $(ls /var/cache/extract/confirmed/| wc -l) -gt 30 ]; then
-    echo "many waitung jobs: $(ls /var/cache/extract/confirmed/| wc -l)"
+if [ $(ls /opt/bbbike/extract/confirmed/| wc -l) -gt 30 ]; then
+    echo "many waitung jobs: $(ls /opt/bbbike/extract/confirmed/| wc -l)"
 fi
 
 # checked for failed running processes in run queue

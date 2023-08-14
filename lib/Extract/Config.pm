@@ -204,7 +204,7 @@ our $formats_menu = {
 };
 
 # Note: may be later this will be expanded to a full path
-# 'confirmed' => '/var/cache/extract/confirmed',
+# 'confirmed' => '/opt/bbbike/extract/confirmed',
 our $spool = {
     'confirmed' => "confirmed",    # ready to run
     'running'   => "running",      # currently running job
@@ -213,7 +213,7 @@ our $spool = {
     'failed'    => "failed",       # keep record of failed runs
 };
 
-our $spool_dir = '/var/cache/extract';
+our $spool_dir = '/opt/bbbike/extract';
 
 our $planet_osm = {
 

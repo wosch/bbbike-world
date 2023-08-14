@@ -43,8 +43,8 @@ our $option = {
     'pro'          => 0,
 
     # spool directory. Should be at least 100GB large
-    'spool_dir'     => '/var/cache/extract',
-    'spool_dir_pro' => '/var/cache/extract',
+    'spool_dir'     => '/opt/bbbike/extract',
+    'spool_dir_pro' => '/opt/bbbike/extract',
 
     'download'     => '/osm/extract/',
     'download_pro' => '/osm/extract/',

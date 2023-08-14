@@ -23,7 +23,7 @@ server=nytperf
 umask 002
 set -e
 
-cache_dir=/var/cache/bbbike/${server}/$city
+cache_dir="/opt/bbbike/cache/${server}/$city"
 if [ "$server" = "localhost" ]; then
     cache_dir=/tmp/bbbike-${server}-$(whoami)/$city
 fi

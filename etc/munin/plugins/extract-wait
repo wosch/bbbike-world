@@ -66,17 +66,17 @@ sub init {
     $ENV{LANG} = 'C';
 
     if ( $0 =~ /-pro$/ ) {
-        $extract_dir = "/var/cache/extract-pro";
+        $extract_dir = "/opt/bbbike/extract-pro";
     }
     else {
-        $extract_dir = "/var/cache/extract";
+        $extract_dir = "/opt/bbbike/extract";
     }
     if ( $0 =~ /-new$/ ) {
         $new      = "new";
         $new_user = 1;
     }
     else {
-        $extract_dir = "/var/cache/extract";
+        $extract_dir = "/opt/bbbike/extract";
     }
 
     $wait_warning  = int( 1200 / $minutes );

@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2009-2014 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2023 Wolfram Schneider, https://bbbike.org
 #
 # world.cgi - cgi/shell wrapper for bbbike @ world city
 
@@ -55,7 +55,7 @@ case $server in
     dev* | localhost ) export BBBIKE_RENICE=1 ;;
 esac
 
-cache_dir=/var/cache/bbbike/${server}/$name
+cache_dir="/opt/bbbike/cache/${server}/$name"
 if [ "$server" = "localhost" ]; then
     cache_dir=/tmp/bbbike-${server}-$(whoami)/$name
 fi

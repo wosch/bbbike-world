@@ -17,7 +17,7 @@ my @prod = qw(
   /usr/local/www/bbbike
   /usr/local/www/bbbike.org
   /etc/lighttpd
-  /var/cache/bbbike
+  /opt/bbbike/cache
   /var/lib/bbbike
   /etc/munin
   /var/lib/bbbike/opt/share
