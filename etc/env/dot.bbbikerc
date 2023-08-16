@@ -12,7 +12,7 @@ planet_osm_server="https://download3.bbbike.org/tmp/pbf"
 ##################################################################
 # General
 #
-export BBBIKE_TMPDIR=/bbbike/tmp
+export BBBIKE_TMPDIR=/opt/bbbike/tmp
 export BBBIKE_TMPFS=/tmp
 
 ###################################################################
