@@ -6,37 +6,93 @@ Disallow: /
 
 # rough bots & seo
 User-agent: Ezooms
+Disallow: /
+
 User-agent: Purebot
+Disallow: /
+
 User-agent: Java
+Disallow: /
+
 User-agent: Nutch
+Disallow: /
+
 User-agent: SnapPreviewBot
+Disallow: /
+
 User-agent: ScoutJet
+Disallow: /
+
 User-agent: MLBot
+Disallow: /
+
 User-agent: sitebot
+Disallow: /
+
 User-agent: MJ12bot
+Disallow: /
+
 User-agent: Linguee
+Disallow: /
+
 User-agent: discobot
+Disallow: /
+
 User-agent: ip-web-crawler.com
+Disallow: /
+
 User-agent: AppEngine-Google
+Disallow: /
+
 User-agent: BLEXBot
+Disallow: /
+
 User-agent: spbot
+Disallow: /
+
 User-agent: BUbiNG
 Disallow: /
 
 # people search engines
 User-agent: 123People
+Disallow: /
+
 User-agent: findestars
+Disallow: /
+
 User-agent: MyOnID
+Disallow: /
+
 User-agent: peekyou
+Disallow: /
+
 User-agent: Pipl
+Disallow: /
+
 User-agent: rapleaf
+Disallow: /
+
 User-agent: snitch
+Disallow: /
+
 User-agent: spock
+Disallow: /
+
 User-agent: tweepz
+Disallow: /
+
 User-agent: wink
+Disallow: /
+
 User-agent: Yasni
+Disallow: /
+
 User-agent: yoname
+Disallow: /
+
 User-agent: yourtraces
+Disallow: /
+
 User-agent: zoominfo
 Disallow: /
 
@@ -44,6 +100,10 @@ Disallow: /
 User-agent: GPTBot
 Disallow: /osm/
 
+User-agent: CCBot
+Disallow: /osm
+
+# sub-directories
 User-agent: *
 Disallow: /bbbike/cgi
 Disallow: /cgi
@@ -53,6 +113,7 @@ Disallow: /bbbike
 Disallow: /osp
 Disallow: /honey
 Disallow: /.well-known/
+
 
 Disallow: /de/
 Disallow: /es/
