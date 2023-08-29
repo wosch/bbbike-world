@@ -1571,12 +1571,11 @@ github-remote-add-bbbike-world:
 	cd world; git remote show github > /dev/null 2>&1 || git remote add github https://github.com/wosch/bbbike-world.git
 
 # run a git fetch on all remote git repos
-GIT_DEPTH=--depth=50
 git-fetch: git-fetch-world
-	git fetch ${GIT_DEPTH} eserte
+	git fetch eserte
 	git status -b -u no -s | egrep -w behind | wc -l > .git-fetch-status-eserte
-	git fetch ${GIT_DEPTH} origin
-	git fetch ${GIT_DEPTH} github
+	git fetch origin
+	git fetch github
 
 download-symlink-distclean:
 	find /usr/local/www/download.bbbike.org -type l -print0 | perl -0e 'while(<>) { next if m,^\./tmp/,; if (! -e $$_) { unlink } }'
