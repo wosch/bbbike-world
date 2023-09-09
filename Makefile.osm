@@ -971,7 +971,6 @@ symlink-download:
 
 cache-install:
 	cd ${BBBIKE_PARTITION}; mkdir -p cache
-	ln -fs ${BBBIKE_PARTITION}/cache ${BBBIKE_CACHE_DIR}
 
 # make EXTRACTS_SPOOL_DIR=/opt/bbbike/extract-pro extract-bbbike-org-install
 extract-bbbike-org-install: create-usr-local-www
