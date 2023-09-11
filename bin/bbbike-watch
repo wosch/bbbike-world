@@ -15,6 +15,9 @@ esac
 running_extract=running-${extract}
 
 echo ""
+echo "done in last 60 minutes: $(find /opt/bbbike/${extract}/trash -name '*.json' -mmin -60 | wc -l)"
+
+echo ""
 echo 'running format: '
 $running_extract format | sort | uniq -c | sort -r
 
