@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2023 Wolfram Schneider, https://bbbike.org
 #
 # extract-watermark - check if extract service is healthy
 #
@@ -8,7 +8,7 @@ set -e
 
 PATH=/usr/local/bin:/bin:/usr/bin; export PATH
 
-disk=/bbbike
+disk=/opt/bbbike
 failed=/opt/bbbike/extract/failed
 failed2=/opt/bbbike/extract/failed2
 running=/opt/bbbike/extract/running
