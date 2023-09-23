@@ -10,7 +10,7 @@
 export DH_VERBOSE=1
 export DH_OPTIONS
 
-JAVALIBS_TARBALL=       bbbike-world-bin-debian-bookworm-1.12.0.tar.gz \
+JAVALIBS_TARBALL=       bbbike-world-bin-debian-bookworm-1.13.0.tar.gz \
                         organicmaps-data-1.0.tar.gz \
                         Maperitive-2.4.3.tar.gz \
                         bbbike-world-compat-squeeze-1.0.tar.gz
