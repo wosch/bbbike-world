@@ -1458,6 +1458,8 @@ deb-bootstrap-dir: osmosis-bootstrap deb-opt-dir-version
 	test -e /usr/local/bin/generator_tool || sudo ln -sf ${DEB_OPT_DIR}/bin/generator_tool /usr/local/bin/generator_tool
 	sudo mkdir -p /opt/bbbike/tmp
 	sudo chmod 7777 /opt/bbbike/tmp
+	test -e /usr/local/bin/plocate || sudo ln -sf ${DEB_OPT_DIR}/bin/plocate /usr/local/bin/plocate
+	test -e /usr/local/bin/plocate-build || sudo ln -sf ${DEB_OPT_DIR}/bin/plocate-build /usr/local/bin/plocate-build
 	${MAKE} -f world/Makefile.osm bbbike-c
 
 osmosis-bootstrap:
