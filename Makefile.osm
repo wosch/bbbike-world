@@ -1457,6 +1457,8 @@ deb-bootstrap-dir: osmosis-bootstrap deb-opt-dir-version
 	  ls -l libgeos-3.2.2.so; ls -lL libgeos-3.2.2.so
 	test -e /usr/local/bin/osmosis || sudo ln -sf ${DEB_OPT_DIR}/osmosis/bin/osmosis /usr/local/bin/osmosis
 	test -e /usr/local/bin/generator_tool || sudo ln -sf ${DEB_OPT_DIR}/bin/generator_tool /usr/local/bin/generator_tool
+	test -e /usr/local/bin/plocate || sudo ln -sf ${DEB_OPT_DIR}/bin/plocate /usr/local/bin/plocate
+	test -e /usr/local/bin/plocate-build || sudo ln -sf ${DEB_OPT_DIR}/bin/plocate-build /usr/local/bin/plocate-build
 	sudo mkdir -p /bbbike/tmp
 	sudo chmod 7777 /bbbike/tmp
 	${MAKE} -f world/Makefile.osm bbbike-c
