@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Nov 2015-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Nov 2015-2023 Wolfram Schneider, https://bbbike.org
 #
 # extract-formats.pl - test all extract formats
 
@@ -18,7 +18,7 @@ use warnings;
 my $debug      = 1;
 my $random     = 1;
 my $appid      = "";
-my $route      = "";                    # gpsies gpx route
+my $route      = "";                    # gpx route
 my $with_lang  = 1;                     # test with random lang
 my $user_agent = "BBBike-Test/1.0.0";
 my $help;

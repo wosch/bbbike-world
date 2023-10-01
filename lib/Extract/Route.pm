@@ -83,7 +83,7 @@ sub init {
 # Route functions
 #
 
-# validate the JSON file which we downloaded from GPSies.com
+# validate the JSON file which we downloaded from GPS
 sub is_valid {
     my $self = shift;
     my $q    = $self->{'q'};
@@ -154,7 +154,7 @@ sub fetch_route {
     my $self  = shift;
     my $route = shift;
 
-    my $file = "../world/t/data-gpsies/$route.js";
+    my $file = "../world/t/data-gps/$route.js";
     my $url  = $self->create_fetch_url($route);
 
     my $data = "";
@@ -213,14 +213,14 @@ sub fetch_url {
     }
 }
 
-# fjurfvdctnlcmqtu -> https://www.gpsies.com/files/geojson/f/j/u/fjurfvdctnlcmqtu.js
+# fjurfvdctnlcmqtu -> /files/geojson/f/j/u/fjurfvdctnlcmqtu.js
 sub create_fetch_url {
     my $self  = shift;
     my $route = shift // "";
 
     return "" if !$self->valid_route($route);
 
-    my $prefix = "https://www.gpsies.com/files/geojson";
+    my $prefix = "/files/geojson";
 
     # fjurfvdctnlcmqtu -> f/j/u/fjurfvdctnlcmqtu
     if ( $route =~ m,(.)(.)(.)(.+), ) {
@@ -238,8 +238,8 @@ sub error_message {
     my $q               = $self->{'q'};
     my $script_homepage = $self->{'option'}->{'script_homepage'};
 
-    my $appid = $q->param("appid") // "gpsies1";
-    my $ref   = $q->param("ref") // "gpsies.com";
+    my $appid = $q->param("appid") // "gps1";
+    my $ref   = $q->param("ref") // "gps";
 
     my $uri = URI->new($script_homepage);
     $uri->query_form( "error" => $error, "appid" => $appid, "ref" => $ref );
@@ -343,14 +343,14 @@ sub redirect {
     $bbox = $self->increase_bbox($bbox);
 
     my $city = $self->{"route"}{"features"}[0]{"properties"}{"name"}
-      // "gpsies map";
+      // "gps map";
     my $email = $q->param("email")
       // $self->{'option'}->{'route_cgi'}->{'email'};    # nobody
     my $format = $q->param("format")
       // $self->{'option'}->{'route_cgi'}->{'format'}
       ;    # "garmin-cycle-latin1.zip";
-    my $appid = $q->param("appid") // "gpsies1";
-    my $ref   = $q->param("ref") // "gpsies.com";
+    my $appid = $q->param("appid") // "gps1";
+    my $ref   = $q->param("ref") // "gps";
     my $route = $q->param("route") // "";
 
     $uri->query_form(

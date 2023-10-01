@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2011-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2011-2023 Wolfram Schneider, https://bbbike.org
 #
 # bbbike-services - munin statistics for BBBike, searches per interval
 
@@ -49,7 +49,7 @@ my $reset = 0;
 my $config = {
     'ajax'   => [qw/api log street-coord crossing maptype weather location/],
     'output' => [
-        qw/print gpx-track gpx-route kml-track pdf png palmdoc googlemaps mapserv xml gpsies/
+        qw/print gpx-track gpx-route kml-track pdf png palmdoc googlemaps mapserv xml/
     ],
     'pref' => [
         qw/speed cat_np cat_N1 cat_N2 cat_H1 cat_H2 cat_N_RW cat_N_RW1
@@ -621,12 +621,7 @@ sub count_output {
 
         next if $ignore_localrequests && localrequest($_);
 
-        # gpsies.com
-        if ( /^188\.40\.84\.75 / && /Jakarta Commons-HttpClient/ ) {
-            $counter->{"gpsies"}++;
-        }
-
-        elsif (m,"GET /\S+output_as=(.*?)[;&\s],) {
+        if (m,"GET /\S+output_as=(.*?)[;&\s],) {
             $counter->{$1}++;
         }
 

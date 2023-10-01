@@ -81,7 +81,7 @@ if ( $route_cgi->is_valid ) {
 
     #
     # Workaround for Access-Control-Allow-Origin:
-    # the browser cannot fetch the JSON file itself from gpsies.com,
+    # the browser cannot fetch the JSON file itself from other sites,
     # so we will fetch it for a browser with a cgi script
     #
     if ( $route_cgi->want_json_output ) {
@@ -101,4 +101,3 @@ else {
 
 __END__;
 https://extract.bbbike.org/cgi/route.cgi?route=htvrzxsdzbhhinis
-https://www.gpsies.com/files/geojson/f/j/u/fjurfvdctnlcmqtu.js
