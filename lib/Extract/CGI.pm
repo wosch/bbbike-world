@@ -418,7 +418,7 @@ qq{\n<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js
     my $route_js = escapeHTML($route);
     if ( $route_js ne "" ) {
         $route_js =
-          qq[ jQuery(document).ready(function () { gpsies_route("$route"); }) ];
+          qq[ jQuery(document).ready(function () { gps_route("$route"); }) ];
     }
 
     my $extract_pro      = $option->{'pro'} // 0;

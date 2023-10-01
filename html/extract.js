@@ -2262,16 +2262,16 @@ function plot_line(coords) {
 // EOF
 /* /cgi/route.cgi */
 
-function gpsies_route(route) {
+function gps_route(route) {
     debug("start route search: " + route);
 
     // async request for download json files, to bypass Access-Control-Allow-Origin check
     var url = '/cgi/route.cgi?output=json&route=' + route;
 
-    // https://www.gpsies.com/files/geojson/t/q/w/tqwfwdjuhcjuzjzp.js
+    // /files/geojson/t/q/w/tqwfwdjuhcjuzjzp.js
     $.getJSON(url, function (data) {
-        state.gpsies_data = data; // data.features[0].geometry.coordinates[0];
-        plot_line(state.gpsies_data.features[0].geometry.coordinates[0]);
+        state.gps_data = data; // data.features[0].geometry.coordinates[0];
+        plot_line(state.gps_data.features[0].geometry.coordinates[0]);
     })
 
     .fail(function (data, textStatus, error) {

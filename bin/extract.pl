@@ -1573,13 +1573,6 @@ sub _convert_send_email {
     # here we can put any optional messages, at once
     my $optional_message = "";
 
-    if ( $obj->{"route"} ne "" && $obj->{"appid"} eq "gpsies1" ) {
-        $optional_message =
-            " Route: "
-          . "https://www.gpsies.com/map.do?fileId="
-          . $obj->{"route"};
-    }
-
     my $message = sprintf(
         $text,
         $obj->{'city'},

@@ -26,10 +26,10 @@ use GIS::Distance::Lite;
 use strict;
 use warnings;
 
-my $debug           = 0;
-my $test            = BBBike::Test->new();
-my $extract_config  = Extract::Config->new()->load_config_nocgi();
-my $can_gpsies_link = 0;
+my $debug          = 0;
+my $test           = BBBike::Test->new();
+my $extract_config = Extract::Config->new()->load_config_nocgi();
+my $can_gps_link   = 0;
 
 my @homepages_localhost =
   ( $ENV{BBBIKE_TEST_SERVER} ? $ENV{BBBIKE_TEST_SERVER} : "http://localhost" );
@@ -81,18 +81,14 @@ sub route_check {
             $uri->query_param("format"),
             $args{"format"} // "garmin-cycle-latin1.zip",
             "default format"
-        ) if $can_gpsies_link;
+        ) if $can_gps_link;
 
         is(
             $uri->query_param("appid"),
-            $args{"appid"} // "gpsies1",
+            $args{"appid"} // "gps1",
             "default appid "
         );
-        is(
-            $uri->query_param("ref"),
-            $args{"ref"} // "gpsies.com",
-            "default ref"
-        );
+        is( $uri->query_param("ref"), $args{"ref"} // "gps", "default ref" );
     }
 
     like(
@@ -116,12 +112,12 @@ qr[https?://(cloud|dev|garmin|extract)[0-9]?\.bbbike\.org(/cgi/extract\.cgi)?\?.
             $location,
 qr[https?://(dev|extract|garmin)[0-9]?\.bbbike\.org(/cgi/extract\.cgi)?\?.*error=],
             "redirect to extract.cgi: $script_url"
-        ) if $can_gpsies_link;
+        ) if $can_gps_link;
     }
 
 # validate bbox from redirect URL
-# https://extract.bbbike.org?ne_lng=12.91614&ne_lat=50.67381&sw_lng=12.62077&sw_lat=50.45206&format=garmin-cycle-latin1.zip&city=gpsies+map&appid=gpsies1&ref=gpsies.com&email=nobody
-    if ( $bbox && !$fail && $can_gpsies_link ) {
+# https://extract.bbbike.org?ne_lng=12.91614&ne_lat=50.67381&sw_lng=12.62077&sw_lat=50.45206&format=garmin-cycle-latin1.zip&city=gps+map&appid=gps1&ref=gps&email=nobody
+    if ( $bbox && !$fail && $can_gps_link ) {
         my $uri = URI->new($location);
         ok($uri);
 
@@ -201,7 +197,7 @@ foreach my $home_url (
 
         "format" => "garmin-cycle.zip",
         "email"  => q[nobody@bbbike.org],
-        "appid"  => "gpsies1",
+        "appid"  => "gps1",
         "ref"    => "ref",
         "route"  => "fjurfvdctnlcmqtu"
     );
