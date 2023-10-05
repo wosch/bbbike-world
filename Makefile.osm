@@ -1010,12 +1010,12 @@ extract-distclean:
 
 # garbage collection, 2 days
 extract-gc:
-	cd ${EXTRACTS_SPOOL_DIR}; find confirmed running download/ -type f -mtime +3 -print0 | xargs -0 rm -f
+	cd ${EXTRACTS_SPOOL_DIR}; find confirmed running download/ -type f -mtime +3 -print0 2>/dev/null | xargs -0 rm -f
 	# remove large files earlier
-	cd ${EXTRACTS_SPOOL_DIR}; find confirmed running download/ -type f -mtime +2 -size +250M -print0 | xargs -0 rm -f
+	cd ${EXTRACTS_SPOOL_DIR}; find confirmed running download/ -type f -mtime +2 -size +250M -print0 2>/dev/null | xargs -0 rm -f
 	# delete large osm.pbf files earlier, after one day
-	cd ${EXTRACTS_SPOOL_DIR}; find download/ -type f -mmin +240 -size +250M -name '*.pbf' -print0 | xargs -0 rm -f
-	find /tmp/ \( ! -name "tmp" -user root -prune \) -or -type f -mtime +1 -user $$(whoami) -print0 | xargs -0 rm -f
+	cd ${EXTRACTS_SPOOL_DIR}; find download/ -type f -mmin +240 -size +250M -name '*.pbf' -print0 2>/dev/null | xargs -0 rm -f
+	find /tmp/ \( ! -name "tmp" -user root -prune \) -or -type f -mtime +1 -user $$(whoami) -print0 2>/dev/null | xargs -0 rm -f
 
 # tidy up to speedup download.cgi script
 extract-trash-gc:
