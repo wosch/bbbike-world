@@ -43,7 +43,7 @@ if ($status) {
 }
 
 is( $status, 0,
-    "munin bbbike script is running and can read /var/log/lighttpd" );
+    "munin bbbike-processes script is running and can read /var/log/lighttpd" );
 
 foreach my $script (@munin_scripts) {
     is( -e $script && -x $script, 1, "munin script $script is executable\n" );
