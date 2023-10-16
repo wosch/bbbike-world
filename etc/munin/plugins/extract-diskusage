@@ -44,14 +44,10 @@ graph_vlabel Extracts disk usage PBF
 graph_category extractadmin
 graph_info Disk usage
 graph_period minute
-osm.label Disk usage PBF
-osm.min 0
 download.label Disk usage PBF+other
 download.min 0
 EOF
 
-    echo "osm.warning $warning"
-    echo "osm.critical $critical"
     echo "download.warning $warning"
     echo "download.critical $critical"
 
@@ -78,7 +74,6 @@ EOF
 fi
 
 echo "multigraph disksize_pbf"
-echo "osm.value" 	`( cd $extract_dir/ &&  du -ks osm | awk '{ print $1 * 1024 }' )`
 echo "download.value" 	`( cd $extract_dir/ && du -ks -D download | awk '{ print $1 * 1024 }' )`
 
 echo ""
