@@ -562,7 +562,7 @@ create-bbbike-web-symlinks: create-usr-local-bin-symlink create-bbbike-web-symli
 	cd cgi; ln -fs ../world/cgi/bbbike.cgi.config .
 	cd world/web; \
 	  for i in images html cgi osm data-osm doc osp; do \
-	    ln -fs ../../$$i .; \
+	    ln -fs -T ../../$$i $$i ; \
 	  done; \
 	  ln -fs images/srtbike1.ico favicon.ico # buggy browsers
 	cd world/web && \
@@ -574,7 +574,7 @@ create-bbbike-web-symlinks: create-usr-local-bin-symlink create-bbbike-web-symli
 		ln -fs ../../../cgi/bbbike.cgi $$city.cgi; \
 		); \
 		for lang in ${LANGUAGES}; do \
-		  ( cd $$lang && ln -fs ../$$city ); \
+		  ( cd $$lang && ln -fs -T ../$$city $$city ); \
 		done; \
 	done
 	for script in MyCgiSimple.pm api.cgi area.cgi city.cgi livesearch.cgi location.cgi maptype.cgi street-coord.cgi crossing.cgi weather.cgi languages.cgi extract.cgi extract-email.cgi tile-size.cgi livesearch-extract.cgi download.cgi log.cgi route.cgi timestamp.cgi; do \
@@ -595,7 +595,7 @@ create-bbbike-org-symlinks:
 	cd cgi/msg/; ln -fs ../../world/cgi/msg/* .
 
 bbbike-org-t:
-	cd world/web; ln -fs ../../data
+	cd world/web; ln -fs -T ../../data data
 	cd cgi; ln -fs bbbike.cgi bbbike-test.cgi
 
 TAGCLOUD=	world/bin/tagcloud
@@ -978,7 +978,7 @@ extract-bbbike-org-install: create-usr-local-www
 	mkdir -p ${BBBIKE_PARTITION}/projects/osm/download
 	sudo chown -R ${LOGNAME} ${BBBIKE_PARTITION}/$$(basename ${EXTRACTS_SPOOL_DIR})
 	if [ ! -e ${EXTRACTS_SPOOL_DIR} ]; then \
-	   sudo ln -fs ${BBBIKE_PARTITION}/$$(basename ${EXTRACTS_SPOOL_DIR}) ${EXTRACTS_SPOOL_DIR}; \
+	   sudo ln -fs -T ${BBBIKE_PARTITION}/$$(basename ${EXTRACTS_SPOOL_DIR}) ${EXTRACTS_SPOOL_DIR}; \
 	fi
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/confirmed
 	mkdir -p ${EXTRACTS_SPOOL_DIR}/running
@@ -1000,7 +1000,7 @@ osmconvert-install:
 
 bbbike-cache-install:
 	mkdir -p ${BBBIKE_PARTITION}/cache
-	ln -fs ${BBBIKE_PARTITION}/cache ${BBBIKE_CACHE_DIR}; \
+	ln -fs -T ${BBBIKE_PARTITION}/cache ${BBBIKE_CACHE_DIR}; \
 	chown -R ${WEB_GROUP}:${WEB_GROUP} ${BBBIKE_PARTITION}/cache
 	chmod -R g+w ${BBBIKE_PARTITION}/cache
 
@@ -1408,13 +1408,13 @@ deb-opt-dir-version:
 	sudo chown -R ${LOGNAME} ${MAPERITIVE_LOGDIR}
 	cd ${DEB_OPT_DIR}; \
 	  sudo rm -f osmosis splitter mkgmap OsmAndMapCreator mapsforge organicmaps Maperitive; \
-	  sudo ln -fs osmosis-0.48.3 osmosis; \
-	  sudo ln -fs splitter-r652 splitter; \
-	  sudo ln -fs mkgmap-r4905 mkgmap; \
-	  sudo ln -fs OsmAndMapCreator-2022-07-26 OsmAndMapCreator; \
-	  sudo ln -fs mapsforge-0.18.0 mapsforge; \
-	  sudo ln -fs organicmaps-1.0 organicmaps; \
-	  sudo ln -fs Maperitive-2.4.3 Maperitive
+	  sudo ln -fs -T osmosis-0.48.3 osmosis; \
+	  sudo ln -fs -T splitter-r652 splitter; \
+	  sudo ln -fs -T mkgmap-r4905 mkgmap; \
+	  sudo ln -fs -T OsmAndMapCreator-2022-07-26 OsmAndMapCreator; \
+	  sudo ln -fs -T mapsforge-0.18.0 mapsforge; \
+	  sudo ln -fs -T organicmaps-1.0 organicmaps; \
+	  sudo ln -fs -T Maperitive-2.4.3 Maperitive
 	${BBMAKE} maperitive-bootstrap
 	${BBMAKE} osmosis-bootstrap
 
