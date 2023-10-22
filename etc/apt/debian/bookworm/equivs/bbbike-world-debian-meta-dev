@@ -3,10 +3,10 @@ Priority: optional
 Standards-Version: 3.6.2
 
 Package: bbbike-world-debian-meta-dev
-Version: 1.9
+Version: 1.10
 Maintainer: Wolfram Schneider <wosch@freebsd.org>
 Depends: telnet, bc, emacs, vim, mutt, p7zip-full,
   docker.io, apparmor, bsdmainutils, smartmontools,
-  psmisc, ripgrep, tiptop, mailutils
+  psmisc, ripgrep, tiptop, mailutils, gnutls-bin 
 Description: BBBike @ World standard debian packages
  BBBike @ World development debian packages
