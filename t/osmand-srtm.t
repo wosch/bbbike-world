@@ -39,7 +39,7 @@ my $min_size = 501_000;
 
 sub md5_file {
     my $file = shift;
-    my $fh = new IO::File $file, "r";
+    my $fh   = new IO::File $file, "r";
     die "open file $file: $!\n" if !defined $fh;
 
     my $data;
@@ -109,7 +109,7 @@ sub cleanup {
 is( md5_file($pbf_file), $pbf_md5, "md5 checksum matched" );
 
 my $counter = 0;
-my @lang = ( "en", "de" );
+my @lang    = ( "en", "de" );
 
 if ( !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG} ) {
     push @lang, ( "fr", "es", "ru", "" );

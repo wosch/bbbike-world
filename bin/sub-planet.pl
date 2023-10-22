@@ -70,7 +70,7 @@ sub regions {
 
     my $osmconvert_factor = 1.2;    # full Granularity
 
-    my $poly = new Extract::Poly( 'debug' => $debug );
+    my $poly    = new Extract::Poly( 'debug' => $debug );
     my @regions = reverse $poly->list_subplanets(
         'sort_by'        => 'disk',           # by size
         'sub_planet_dir' => $sub_planet_dir

@@ -126,7 +126,7 @@ sub get_extract_from_file {
         }
     }
 
-    warn Dumper($obj) if $debug >= 2;
+    warn Dumper($obj)             if $debug >= 2;
     warn Dumper( $args, $coords ) if $debug >= 2;
 
     return (
@@ -146,7 +146,7 @@ sub perl2coords {
     }
 
     warn "perl2coords: " . Dumper($list) if $debug >= 2;
-    warn "$data\n" if $debug >= 2;
+    warn "$data\n"                       if $debug >= 2;
 
     return $data;
 }

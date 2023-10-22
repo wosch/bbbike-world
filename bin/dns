@@ -52,7 +52,7 @@ sub reverselookup {
 
     return $address if !defined $iaddr;
 
-    my $host = gethostbyaddr( $iaddr, AF_INET );
+    my $host   = gethostbyaddr( $iaddr, AF_INET );
     my $classC = $1 if $address =~ /^(\d+\.\d+\.\d+)/;
     my $classD = $1 if $address =~ /^(\d+\.\d+)/;
 

@@ -76,7 +76,7 @@ sub config_success {
         "email_allow_nobody changed"
     );
     isnt( $homepage, $option->{'homepage'}, "homepage changed" );
-    isnt( $homepage, "", "homepage not empty" );
+    isnt( $homepage, "",                    "homepage not empty" );
     is( $option->{'pro'}, 0, "pro changed" );
 
     diag( Dumper($option) ) if $debug >= 2;
@@ -130,7 +130,7 @@ sub config_failed {
     $option = clone($conf);
 
     my $homepage = $option->{'homepage'};
-    my $config = Extract::Config->new( 'q' => $q, 'option' => $option );
+    my $config   = Extract::Config->new( 'q' => $q, 'option' => $option );
     $config->load_config();    #'/bbbike-extract.rc');
     is( $homepage, $option->{'homepage'},
         "homepage not changed for default config" );

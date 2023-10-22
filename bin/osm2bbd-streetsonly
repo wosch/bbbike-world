@@ -160,7 +160,7 @@ if ( !$parsefor ) {
 
 # fallback
 sub M ($) { $_[0] }
-sub Mfmt { sprintf( shift, @_ ) }
+sub Mfmt  { sprintf( shift, @_ ) }
 
 if ($lang) {
     $lang = '' if $lang eq 'de';
@@ -554,7 +554,7 @@ for my $osm_file (@osm_files) {
 
             my @or;
 
-            my $name = $tag{'name'} || '';
+            my $name   = $tag{'name'} || '';
             my $height = exists $tag{'height'} ? $tag{'height'} : $tag{'ele'};
             warn "height: $height, $name\n" if $height && $debug >= 2;
 
@@ -802,7 +802,7 @@ for my $osm_file (@osm_files) {
                 $nodes[0] == $nodes[-1];
             };
 
-            my $name = $tag{'name'} || '';
+            my $name   = $tag{'name'} || '';
             my $height = exists $tag{'height'} ? $tag{'height'} : $tag{'ele'};
 
             if ( exists $tag{'ref'} ) {
@@ -1047,7 +1047,7 @@ for my $osm_file (@osm_files) {
                 elsif ( $highway_cat eq 'path' ) {
                     push @or, [ "strassen", "NN" . $addcat ];
                     if ( !defined $quality_cat ) {
-                        $quality_cat = "Q3";
+                        $quality_cat  = "Q3";
                         $quality_name = $lang eq 'en' ? $highway_cat : "Pfad";
                     }
                 }
@@ -1343,7 +1343,7 @@ for my $osm_file (@osm_files) {
                 elsif ( $landuse =~ m{^(?:grass|village_green)$} ) {
                     push @or,
                       [ "flaechen", "F:Green" ];    # XXX not definitely clear
-                      #XXX ja? nein? } elsif ($landuse eq 'water') { push @or, ["wasserstrassen", "F:W"];
+                     #XXX ja? nein? } elsif ($landuse eq 'water') { push @or, ["wasserstrassen", "F:W"];
                 }
                 elsif ( $landuse eq 'residential' ) {
                     add_underline( \@or, "_building", "F:#d0d0d0" );
@@ -1695,7 +1695,7 @@ EOF
             print $ofh $name, "\n";
             next;
         }
-        my $namecat = "$name\t$cat";
+        my $namecat      = "$name\t$cat";
         my $coord_string = join( " ", @$coords );
         if ( $splitlonglines
             && length($namecat) + length($coord_string) + 2 >= MAXLINELENGTH )
@@ -1904,7 +1904,7 @@ sub parse_warning {
 
 sub epoch2isodate (;$) {
     my $time = shift || time;
-    my @l = localtime $time;
+    my @l    = localtime $time;
     sprintf(
         "%04d%02d%02d%02d%02d%02d",
         $l[5] + 1900,

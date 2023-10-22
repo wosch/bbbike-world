@@ -64,7 +64,7 @@ sub images {
     my $homepage = shift;
 
     foreach my $image (@images) {
-        my $res = $test->myget( "$homepage/images/$image", 60 );
+        my $res       = $test->myget( "$homepage/images/$image", 60 );
         my $mime_type = "^image/"
           . (
               $image =~ /\.gif$/ ? "gif"

@@ -99,7 +99,7 @@ sub extract_areas {
     while ( defined( my $file = $dh->read ) ) {
         next if $file !~ /\.json$/;
 
-        my $f = "$log_dir/$file";
+        my $f  = "$log_dir/$file";
         my $st = stat($f) or die "stat $f: $!\n";
         $hash{$f} = $st->mtime;
     }
@@ -122,7 +122,7 @@ sub extract_areas {
     my $json = new JSON;
     for ( my $i = 0 ; $i < scalar(@list) && $i < $max ; $i++ ) {
         my $file = $list[$i];
-        my $fh = new IO::File $file, "r" or die "open $file: $!\n";
+        my $fh   = new IO::File $file, "r" or die "open $file: $!\n";
         binmode $fh, ":utf8";
 
         my $data = "";

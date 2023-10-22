@@ -58,7 +58,7 @@ sub route_check {
 
     my $script_url = URI->new("$home_url/cgi/route.cgi");
     my %query_form;
-    $query_form{"route"} = $route if $route ne "";
+    $query_form{"route"}   = $route   if $route ne "";
     $query_form{"padding"} = $padding if $route ne "" && defined $padding;
 
     foreach my $arg (qw/email format appid ref/) {
@@ -155,7 +155,7 @@ qr[https?://(dev|extract|garmin)[0-9]?\.bbbike\.org(/cgi/extract\.cgi)?\?.*error
 # main
 #
 
-my $bbox = [ 10.92079, 51.83964, 10.7935, 51.78166 ];
+my $bbox     = [ 10.92079, 51.83964, 10.7935, 51.78166 ];
 my $distance = GIS::Distance::Lite::distance(@$bbox) / 1000;
 is( $distance, 15.507231100269823, "test distance" );
 

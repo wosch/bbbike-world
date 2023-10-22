@@ -174,7 +174,7 @@ sub header {
     }
 
     my @status = ( -status => $error ? 520 : 200 );
-    my $data = "";
+    my $data   = "";
 
     $data .= $q->header( @status, -charset => 'utf-8', @cookie, @expires );
 
@@ -321,7 +321,7 @@ qq{<p class="normalscreen" id="extract-pro" title="you are using the extract pro
           . qq{"/></a></p>};
     }
 
-    my $home = $q->url( -query => 0, -relative => 1 ) || "/";
+    my $home          = $q->url( -query => 0, -relative => 1 ) || "/";
     my $mc_parameters = $self->mc_parameters($q);
 
     my $homepage =
@@ -371,7 +371,7 @@ sub footer {
       ? BBBike::Analytics->new( 'q' => $q, 'tracker_id' => "UA-286675-21" )
       ->google_analytics
       : "";
-    my $url = $q->url( -relative => 1 );
+    my $url   = $q->url( -relative => 1 );
     my $error = $args{'error'} || 0;
 
     my $locate =
@@ -414,14 +414,14 @@ qq{\n<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js
     my $disable_intro =
       $option->{'enable_introjs'} ? "" : '$(".extract-introjs").hide();';
 
-    my $route = Param( $q, "route" );
+    my $route    = Param( $q, "route" );
     my $route_js = escapeHTML($route);
     if ( $route_js ne "" ) {
         $route_js =
           qq[ jQuery(document).ready(function () { gps_route("$route"); }) ];
     }
 
-    my $extract_pro      = $option->{'pro'} // 0;
+    my $extract_pro      = $option->{'pro'}              // 0;
     my $enable_lnglatbox = $option->{'enable_lnglatbox'} // 0;
     my $extract_pro_js =
       $enable_lnglatbox
@@ -1100,7 +1100,7 @@ sub homepage {
     my $lat = qq{<span title='Latitude'>lat</span>};
     my $lng = qq{<span title='Longitude'>lng</span>};
 
-    my $default_email = $q->cookie( -name => "email" ) || "";
+    my $default_email  = $q->cookie( -name => "email" ) || "";
     my $default_format = $q->cookie( -name => "format" )
       || $option->{'default_format'};
 
@@ -1367,7 +1367,7 @@ sub submit_url {
     $qq->param( "expire", time );
 
     my $script_homepage_api = $option->{'script_homepage_api'} // "";
-    my $url = $qq->url( -query => 1, -absolute => 1 );
+    my $url                 = $qq->url( -query => 1, -absolute => 1 );
 
     my $html =
       qq[<img hight="0" width="0" src="$script_homepage_api$url"></img>\n];

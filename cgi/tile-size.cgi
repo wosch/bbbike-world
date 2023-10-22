@@ -80,7 +80,7 @@ binmode( \*STDOUT, ":raw" );
 
 my $q = new CGI;
 
-my $area = $q->param('area');
+my $area      = $q->param('area');
 my $namespace = $q->param('namespace') || $q->param('ns') || '0';
 
 if ( my $d = $q->param('debug') || $q->param('d') ) {

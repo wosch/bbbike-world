@@ -69,7 +69,7 @@ sub parse_json_file {
     }
     $fh->close;
 
-    my $json = new JSON;
+    my $json      = new JSON;
     my $json_perl = eval { $json->decode($json_text) };
     if ($@) {
         warn "parse json file '$file' $@\n";
@@ -330,7 +330,7 @@ sub get_loadavg {
 # display output of a program to STDERR
 sub program_output {
     my $program = shift;
-    my $fh = shift || \*STDERR;
+    my $fh      = shift || \*STDERR;
 
     if ( -e $program && -x $program ) {
         open( OUT, "$program |" ) or die "$program: $!\n";
@@ -495,7 +495,7 @@ sub file_lnglat {
     my $obj    = shift;
     my $option = shift;
 
-    my $file = get_file_prefix($obj);
+    my $file   = get_file_prefix($obj);
     my $coords = $obj->{coords} || [];
 
     # rectangle
@@ -505,7 +505,7 @@ sub file_lnglat {
 
     # polygon
     else {
-        my $c = join '|', ( map { "$_->[0],$_->[1]" } @$coords );
+        my $c     = join '|', ( map { "$_->[0],$_->[1]" } @$coords );
         my $first = $coords->[0];
 
         my $md5 =

@@ -165,7 +165,7 @@ sub out_message {
 sub send_email {
     my ( $to, $subject, $message, $bcc ) = @_;
     my $mail_server = "localhost";
-    my @to = split /,/, $to;
+    my @to          = split /,/, $to;
 
     my $from         = $option->{'email_from'};
     my @bcc          = split /,/, $bcc;
@@ -186,7 +186,7 @@ sub send_email {
         $smtp->bcc(@bcc) or die "can't use SMTP recipient '$bcc'";
     }
     $smtp->data($data) or die "can't email data to '$to'";
-    $smtp->quit() or die "can't send email to '$to'";
+    $smtp->quit()      or die "can't send email to '$to'";
 
     warn "\n$data\n" if $debug >= 3;
 }
