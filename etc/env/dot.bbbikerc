@@ -3,8 +3,7 @@
 ##################################################################
 # Planet.osm download server
 #
-#planet_osm_server=https://planet.openstreetmap.org/pbf
-planet_osm_server="https://download3.bbbike.org/tmp/pbf"
+planet_osm_server=https://planet.openstreetmap.org/pbf
 
 # do not build garmin images etc., just the routing
 #bbbike_format=""
@@ -76,6 +75,6 @@ if [ -e /var/lib/jenkins/dot.bbbikerc-phantomjs ]; then
 fi
 
 # regression tests
-export NO_PROXY=locahost
+export NO_PROXY=localhost
 
 #EOF
