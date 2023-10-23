@@ -11,18 +11,18 @@ RUN apt-get update -q && \
 RUN useradd -ms /bin/bash bbbike && \
   echo 'bbbike ALL=NOPASSWD: ALL' >> /etc/sudoers
 
-RUN mkdir -p /bbbike/projects
-RUN chown -R bbbike:bbbike /bbbike/
+RUN mkdir -p /opt/bbbike/projects
+RUN chown -R bbbike:bbbike /opt/bbbike/
 
 USER bbbike
-WORKDIR /bbbike/projects
-ENV HOME /bbbike
+WORKDIR /opt/bbbike/projects
+ENV HOME /opt/bbbike
 
 RUN git clone --depth=200 https://github.com/wosch/bbbike.git && \
   cd bbbike && git clone --depth=200 https://github.com/wosch/bbbike-world.git world && \
   make -f world/Makefile.osm create-makefile-symlinks
 
-WORKDIR /bbbike/projects/bbbike
+WORKDIR /opt/bbbike/projects/bbbike
 
 RUN make bbbike-deb-repository-setup
 RUN make bbbike-deb-repository-install
