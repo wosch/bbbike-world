@@ -21,27 +21,24 @@ use warnings;
 chdir("$FindBin::RealBin/../..")
   or die "Cannot find bbbike world root directory\n";
 
+# test only one style
 my @garmin_styles = qw/osm/;
+
+# test 2 more styles if not running fast
 push @garmin_styles, qw/leisure cycle/
   if !$ENV{BBBIKE_TEST_FAST} || $ENV{BBBIKE_TEST_LONG};
 
+# test 7 styles more for long run
 push @garmin_styles,
   qw/bbbike openfietslite openfietsfull onroad ontrail oseam opentopo/
   if $ENV{BBBIKE_TEST_LONG};
 
-if ( $0 =~ /garmin-(ascii|latin1).t$/ ) {
-    if ( $ENV{BBBIKE_TEST_LONG} ) {
-        if ( $0 =~ /garmin-ascii.t$/ ) {
-            @garmin_styles =
-              qw/bbbike-ascii openfietslite-ascii openfietsfull-ascii cycle-ascii leisure-ascii osm-ascii onroad-ascii ontrail-ascii oseam-ascii opentopo-ascii/;
-        }
-        else {
-            @garmin_styles =
-              qw/bbbike-latin1 openfietslite-latin1 openfietsfull-latin1 cycle-latin1 leisure-latin1 osm-latin1 onroad-latin1 ontrail-latin1 oseam-latin1 opentopo-latin1/;
-        }
+if ( $ENV{BBBIKE_TEST_LONG} ) {
+    if ( $0 =~ /garmin-latin1\.t$/ ) {
+        @garmin_styles = map { $_ . "-latin1" } @garmin_styles;
     }
-    else {
-        @garmin_styles = ();
+    elsif ( $0 =~ /garmin-ascii\.t$/ ) {
+        @garmin_styles = map { $_ . "-ascii" } @garmin_styles;
     }
 }
 
