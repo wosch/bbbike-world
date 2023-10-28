@@ -93,7 +93,7 @@ sub route_check {
 
     like(
         $location,
-qr[https?://(cloud|extract|garmin|dev)[0-9]?\.bbbike\.org(/cgi/extract\.cgi)?\?.*appid=.+],
+qr[https?://(cloud|extract|garmin|dev)[0-9]?\.bbbike\.org/(cgi/extract\.cgi)?\?.*appid=.+],
         "redirect to extract.cgi: $script_url"
     );
     if ($fail) {
@@ -101,7 +101,7 @@ qr[https?://(cloud|extract|garmin|dev)[0-9]?\.bbbike\.org(/cgi/extract\.cgi)?\?.
         # check for error parameter
         like(
             $location,
-qr[https?://(cloud|dev|garmin|extract)[0-9]?\.bbbike\.org(/cgi/extract\.cgi)?\?.*error=],
+qr[https?://(cloud|dev|garmin|extract)[0-9]?\.bbbike\.org/(cgi/extract\.cgi)?\?.*error=],
             "redirect to extract.cgi: $script_url"
         );
     }
@@ -110,7 +110,7 @@ qr[https?://(cloud|dev|garmin|extract)[0-9]?\.bbbike\.org(/cgi/extract\.cgi)?\?.
         # check for error parameter
         unlike(
             $location,
-qr[https?://(dev|extract|garmin)[0-9]?\.bbbike\.org(/cgi/extract\.cgi)?\?.*error=],
+qr[https?://(dev|extract|garmin)[0-9]?\.bbbike\.org/(cgi/extract\.cgi)?\?.*error=],
             "redirect to extract.cgi: $script_url"
         ) if $can_gps_link;
     }
