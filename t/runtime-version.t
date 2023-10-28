@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Aug 2013-2013 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Aug 2013-2023 Wolfram Schneider, https://bbbike.org
 #
 # bbbike-org-runtime-version.t - check if we are using the right command versions
 #
@@ -26,7 +26,7 @@ my $versions = {
         ],
         [
             [qw/java -version/],
-            qr/^(openjdk|java) version "11.0.(16|18|20)" /m
+            qr/^(openjdk|java) version "11.0.(16|18|20|21)" /m
         ],
         [
             [qw/java -version/],
