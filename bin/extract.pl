@@ -75,8 +75,8 @@ our $option = {
     # XXX?
     'homepage' => 'https://download.bbbike.org/osm/extract',
 
-    'script_homepage'     => 'https://extract.bbbike.org',
-    'script_homepage_pro' => 'https://extract-pro.bbbike.org',
+    'script_homepage'     => 'https://extract.bbbike.org/',
+    'script_homepage_pro' => 'https://extract-pro.bbbike.org/',
 
     'server_status_url'     => 'https://download.bbbike.org/osm/extract',
     'server_status_url_pro' => 'https://download.bbbike.org/osm/extract',
