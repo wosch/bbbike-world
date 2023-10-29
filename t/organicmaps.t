@@ -1,6 +1,14 @@
 #!/usr/local/bin/perl
 # Copyright (c) Sep 2012-2023 Wolfram Schneider, https://bbbike.org
 
+BEGIN {
+    if ( $ENV{BBBIKE_TEST_FAST} ) {
+        print
+"1..0 # skip, organicmaps disabled due not setting BBBIKE_TEST_FAST\n";
+        exit;
+    }
+}
+
 use FindBin;
 use lib "$FindBin::RealBin/../lib";
 
