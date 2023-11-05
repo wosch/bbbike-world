@@ -64,7 +64,7 @@ if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
     my $counter_html = ( $test->myget_counter * 11 ) + 2;
     my $counter_cities =
       scalar(@cities) *
-      ( $test->myget_counter * 2 + 26 ) *
+      ( $test->myget_counter * 2 + 25 ) *
       ( scalar(@lang) + 1 );
     my $counter_ads = 0;
 
