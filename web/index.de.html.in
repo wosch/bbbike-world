@@ -30,7 +30,7 @@
 
       <div id="header_links">
 	<span id="social">
-        <a href="https://twitter.com/BBBikeWorld" target="_new"><img class="logo" width="16" height="16" src="/images/twitter-t.png" alt="" title="Follow us on twitter.com/BBBikeWorld"/></a>
+        <!-- <a href="https://twitter.com/BBBikeWorld" target="_new"><img class="logo" width="16" height="16" src="/images/twitter-t.png" alt="" title="Follow us on twitter.com/BBBikeWorld"/></a> -->
 	</span>
 
 	&nbsp;
@@ -91,7 +91,7 @@
 
 	<div id="footer_community">
 	  <a href="/community.de.html"><img class="logo" height="19" width="64" src="/images/donate.png" alt="Spende" title="Spende an bbbike.org" /></a>
-	  <a href="https://twitter.com/BBBikeWorld"><img class="logo" src="/images/twitter-b.png" alt="" title="Folge uns auf Twitter" /></a>
+	  <!-- <a href="https://twitter.com/BBBikeWorld"><img class="logo" src="/images/twitter-b.png" alt="" title="Folge uns auf Twitter" /></a> -->
 	  <a href="/feed/bbbike-world.xml"><img class="logo" width="14" height="14" title="Was gibt es Neues auf BBBike.org" src="/images/rss-icon.png" alt="" /></a>
          </div>
 	</div>
