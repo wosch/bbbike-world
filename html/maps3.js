@@ -1270,8 +1270,8 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
 
     function nokia(a, z, name, servers) {
         // [http://4.maptile.lbs.ovi.com/maptiler/v2/maptile/a2e328a0c5/normal.day/${z}/${x}/${y}/256/png8?app_id=g7UuRR708Tsut4YSnDLy&token=fVzaDAdRK62zo3CuNcPtDg&lg=ENG"]
-        var app_id = "xWVIueSv6JL0aJ5xqTxb";
-        var token = "djPZyynKsbTjIUDOBcHZ2g" + "&lg";
+        var app_id = "pcXBZARHILwXlCihx8d6";
+        var token = "dzJKV7oQT-zs-vRT_KqiLA" + "&lg";
         var tile_style_version = "newest";
 
         if (!servers || servers.length == 0) {
