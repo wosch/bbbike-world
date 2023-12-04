@@ -639,8 +639,8 @@ junction = roundabout & highway = residential  {set fzkrouting=yes} [0x0c road_c
 
 # --------------------------------------------
 # Access=no Wege, fuer Indexsuche, (Nur Wege mit Namen machen Sinn)
-# Basecamp ignoriert foot = no, access = no fuer Fussgaenger
-# Damit in Basecamp nicht als Fussgaenger drueber geroutet wird, wird die Strasse als road_class=4 (Autobahn) festgelegt,
+# BaseCamp ignoriert foot = no, access = no fuer Fussgaenger
+# Damit in BaseCamp nicht als Fussgaenger drueber geroutet wird, wird die Strasse als road_class=4 (Autobahn) festgelegt,
 # durch toll / carpool wird sie jedoch fuer autos nicht routbar.
 # --------------------------------------------
 # 0x12 = Bitmap 2 (transparent, nur fuer Routing, NoLabel)

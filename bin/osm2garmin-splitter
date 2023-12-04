@@ -479,7 +479,7 @@ esac
 $MD5 gmapsupp.img > .checksum.txt
 mv -f .checksum.txt CHECKSUM.txt
 
-# support Garmin Basecamp installation
+# support Garmin BaseCamp installation
 $BBBIKE_BASECAMP_MACOS && cp $dirname/basecamp-macos.sh .
 
 cd ..
