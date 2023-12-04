@@ -1,0 +1,266 @@
+# -------------------------------------------------------------------
+# This is a mkgmap style file for converting OSM nodes into Garmin POIs.
+# Any line prefaced with # is a comment and will not be applied.
+# Each line is a rule, of the generalised format:
+#  OSM_tag(s)_to_match  [Garmin_type_code resolution]
+# See http://wiki.openstreetmap.org/wiki/Mkgmap/help/style_rules
+# and http://wiki.openstreetmap.org/wiki/Mkgmap/help/Custom_styles
+# for more information.
+
+# Edge 705 displays 0x650a,0x6511,0x6512,0x6513,0x6603,0x6614 as hollow white circles, no menu
+natural=glacier [0x650a resolution 21]
+
+# The use of these values has been checked
+
+place=city {name '${name}'} [0x0400 resolution 17]
+place=town {name '${name}'} [0x0800 resolution 18]
+place=suburb {name '${name}'} [0x0a00 resolution 20]
+place=village {name '${name}'} [0x0b00 resolution 20]
+place=hamlet {name '${name}'} [0x0c00 resolution 20]
+place=locality {name '${name}'} [0x0c00 resolution 20]
+
+waterway=lock_gate {name '${name}'} [0x1607 resolution 21]
+
+highway=motorway_junction {name '${name}'} [0x2000 resolution 20]
+
+highway=services {name '${name}'} [0x210f resolution 20]
+
+# Current restaurant usage in this style differs significantly from the norm.
+# See below for previous usage (commented out)
+
+amenity=restaurant {name '${name}'} [0x2a00 resolution 20]
+amenity=fast_food_burger {name '${name}'} [0x2a01 resolution 20]
+amenity=fast_food_chicken {name '${name}'} [0x2a03 resolution 20]
+amenity=fast_food_chinese {name '${name}'} [0x2a04 resolution 20]
+shop=bakery {name '${name}'} [0x2a05 resolution 20]
+amenity=fast_food_kebab {name '${name}'} [0x2a06 resolution 20]
+amenity=fast_food_pie {name '${name}'} [0x2a07 resolution 20]
+amenity=restaurant_italian {name '${name}'} [0x2a08 resolution 20]
+amenity=fast_food_indian {name '${name}'} [0x2a09 resolution 20]
+amenity=fast_food_pizza {name '${name}'} [0x2a0a resolution 20]
+amenity=fast_food_fish_and_chips {name '${name}'} [0x2a0b resolution 20]
+amenity=restaurant_steak {name '${name}'} [0x2a0c resolution 20]
+amenity=fast_food_ice_cream {name '${name}'} [0x2a0d resolution 20]
+amenity=cafe {name '${name}'} [0x2a0e resolution 21]
+amenity=restaurant_indian {name '${name}'} [0x2a0f resolution 20]
+amenity=restaurant_chinese {name '${name}'} [0x2a10 resolution 20]
+amenity=bar {name '${name} (${operator})' | '${name}' } [0x2a11 resolution 20]
+amenity=pub {name '${name} (${operator})' | '${name}' } [0x2a11 resolution 20]
+
+#amenity=restaurant & cuisine=american {name '${name}'} [0x2a01 resolution 20]
+#amenity=restaurant & cuisine=asian {name '${name}'} [0x2a02 resolution 20]
+#amenity=restaurant & cuisine=japanese {name '${name}'} [0x2a02 resolution 20]
+#amenity=restaurant & cuisine=korean {name '${name}'} [0x2a02 resolution 20]
+#amenity=restaurant & cuisine=thai {name '${name}'} [0x2a02 resolution 20]
+#amenity=restaurant & cuisine=barbecue {name '${name}'} [0x2a03 resolution 20]
+#amenity=restaurant & cuisine=grill {name '${name}'} [0x2a03 resolution 20]
+#amenity=fast_food & cuisine=grill {name '${name}'} [0x2a03 resolution 20]
+#amenity=restaurant & cuisine=chinese {name '${name}'} [0x2a04 resolution 20]
+#amenity=restaurant & cuisine=deli {name '${name}'} [0x2a05 resolution 20]
+#amenity=restaurant & cuisine=international {name '${name}'} [0x2a06 resolution 20]
+#amenity=fast_food { name '${operator}: ${name}' | '${name}' | '${operator}' } [0x2a07 resolution 21]
+#amenity=restaurant & cuisine=mexican {name '${name}'} [0x2a09 resolution 20]
+#amenity=restaurant & cuisine=spanish {name '${name}'} [0x2a09 resolution 20]
+#amenity=restaurant & cuisine ~ '.*pizza.*' {name '${name}'} [0x2a0a resolution 20]
+#amenity=restaurant & cuisine='pizza;kebab' {name '${name}'} [0x2a0a resolution 20]
+#amenity=fast_food & cuisine ~ '.*pizza.*' {name '${name}'} [0x2a0a resolution 20]
+#amenity=fast_food & cuisine='pizza;kebab' {name '${name}'} [0x2a0a resolution 20]
+#amenity=restaurant & cuisine=sea_food {name '${name}'} [0x2a0b resolution 20]
+#amenity=restaurant & cuisine=steak {name '${name}'} [0x2a0c resolution 20]
+#amenity=restaurant & cuisine=bagel {name '${name}'} [0x2a0d resolution 20]
+#amenity=restaurant & cuisine='cafe/diner' {name '${name}'} [0x2a0e resolution 21]
+#amenity=restaurant & cuisine=french {name '${name}'} [0x2a0f resolution 20]
+#amenity=restaurant & (cuisine=german | cuisine=bavarian) {name '${name}'} [0x2a10 resolution 20]
+#amenity=restaurant & cuisine=british {name '${name}'} [0x2a11 resolution 20]
+#amenity=restaurant & cuisine=speciality {name '${name}'} [0x2a12 resolution 20]
+#amenity=restaurant & cuisine=* {name '${name}'} [0x2a13 resolution 20]
+#amenity=food_court {name '${name}'} [0x2a13 resolution 20]
+
+tourism=hotel {name '${name}'} [0x2b01 resolution 20]
+tourism=bed_and_breakfast {name '${name}'} [0x2b02 resolution 20]
+tourism=guest_house {name '${name}'} [0x2b02 resolution 20]
+tourism=singlechalet {name '${name}'} [0x2b02 resolution 20]
+# 0x2b03 appears in all pois as lodging, but not in search menus.
+tourism=resort {name '${name}'} [0x2b04 resolution 21]
+tourism=camp_site {name '${name}'} [0x2b05 resolution 20]
+tourism=caravan_site {name '${name}'} [0x2b05 resolution 20]
+tourism=hostel {name '${name}'} [0x2b05 resolution 20]
+
+tourism=theme_park {name '${name}'} [0x2c01 resolution 20]
+tourism=museum {name '${name}'} [0x2c02 resolution 20]
+historic=memorial {name '${name}'} [0x2c02 resolution 20]
+historic=archaeological_site {name '${name}'} [0x2c02 resolution 21]
+historic=ruins {name '${name}'} [0x2c02 resolution 20]
+amenity=library {name '${name}'} [0x2c03 resolution 21]
+amenity=arts_centre {name '${name}'} [0x2c04 resolution 20]
+tourism=artwork {name '${name}'} [0x2c04 resolution 20]
+tourism=attraction {name '${name}'} [0x2c04 resolution 20]
+aeroway=military {name '${name}'} [0x2c04 resolution 20]
+railway=tourismstation {name '${name}'} [0x2c04 resolution 20]
+tourism=viewpoint {name '${name} - ${description}' | '${name}'} [0x2c04 resolution 20]
+amenity=school {name '${name}'} [0x2c05 resolution 20]
+
+# One of these will be chosen in lua depending on whether a name is present
+# Lots of other green landuse are mapped through to these.
+leisure=park {name '${name}'} [0x2c06 resolution 21]
+leisure=unnamed_park {name '${name}'} [0x6600 resolution 21]
+
+tourism=zoo {name '${name}'} [0x2c07 resolution 20]
+tourism=aquarium {name '${name}'} [0x2c07 resolution 20]
+leisure=pitch { name '${name}' } [0x2c08 resolution 21]
+leisure=stadium { name '${name}' } [0x2c08 resolution 21]
+leisure=track { name '${name}' } [0x2c08 resolution 21]
+amenity=concert_hall {name '${name}'} [0x2c09 resolution 20]
+amenity=conference_centre {name '${name}'} [0x2c09 resolution 20]
+craft=winery {name '${name}'} [0x2c0a resolution 20]
+landuse=vineyard {name '${name}'} [0x2c0a resolution 20]
+amenity=place_of_worship {name '${name}'} [0x2c0b resolution 21]
+
+amenity=theatre {name '${name}'} [0x2d01 resolution 21]
+amenity=nightclub {name '${name}'} [0x2d02 resolution 21]
+amenity=cinema {name '${name}'} [0x2d03 resolution 20]
+amenity=casino {name '${name}'} [0x2d04 resolution 20]
+leisure=golf_course {name '${name}'} [0x2d05 resolution 21]
+sport=skiing {name '${name}'} [0x2d06 resolution 20]
+sport=9pin {name '${name}'} [0x2d07 resolution 20]
+sport=10pin {name '${name}'} [0x2d07 resolution 20]
+leisure=ice_rink {name '${name}'} [0x2d08 resolution 20]
+sport=skating {name '${name}'} [0x2d08 resolution 20]
+sport=swimming {name '${name}'} [0x2d09 resolution 20]
+#sport=multi {name '${name}'} [0x2d0a resolution 20]
+leisure=sports_centre { name '${name}' } [0x2d0a resolution 20]
+sport=airport {name '${name}'} [0x2d0b resolution 19]
+
+shop=department_store {name '${name}'} [0x2e01 resolution 19]
+shop=supermarket {name '${name}'} [0x2e02 resolution 20 default_name 'Supermarket' ]
+shop=general {name '${name}'} [0x2e03 resolution 20]
+shop=catalogue {name '${name}'} [0x2e03 resolution 20]
+shop=mall {name '${name}'} [0x2e04 resolution 20]
+shop=chemist {name '${name}'} [0x2e05 resolution 20]
+amenity=pharmacy {name '${name}'} [0x2e05 resolution 20]
+amenity=fuel & shop=convenience {name '${name}'} [ 0x2e06 resolution 19 ]
+shop=clothes {name '${name}'} [0x2e07 resolution 20]
+shop=shoes {name '${name}'} [0x2e07 resolution 20]
+shop=garden_centre {name '${name}'} [0x2e08 resolution 20]
+shop=doityourself {name '${name}'} [0x2e09 resolution 20]
+shop=specialty {name '${name}'} [0x2e0a resolution 20]
+craft=brewery {name '${name}'} [0x2e0a resolution 20]
+shop=computer {name '${name}'} [0x2e0b resolution 20]
+shop=butcher {name '${name}'} [0x2e0c resolution 20]
+# 0x2e0c may also be used for wildcards, see below
+# 0x2e0d is Shopping / Shopping Center (like 0x2e04)
+shop=convenience {name '${name}'} [0x2e0e resolution 20]
+shop=florist {name '${name}'} [0x2e0f resolution 20]
+shop=gift {name '${name}'} [0x2e10 resolution 20]
+shop=music {name '${name}'} [0x2e11 resolution 20]
+shop=sports {name '${name}'} [0x2e12 resolution 20]
+shop=alcohol {name '${name}'} [0x2e13 resolution 20]
+shop=books {name '${name}'} [0x2e14 resolution 20]
+# 0x2e15 may be used for wildcards, see below
+# 0x2e15 (presumably through to 0x2e2f) appears in "All POIs" but not on any menu.
+
+amenity=fuel {name '${name}'} [0x2f01 resolution 19 ]
+shop=car_rental {name '${name}'} [0x2f02 resolution 20]
+shop=car_repair {name '${name}'} [0x2f03 resolution 20]
+aeroway=aerodrome {name '${name}'} [0x2f04 resolution 20]
+aeroway=terminal {name '${name}'} [0x2f04 resolution 20]
+amenity=post_office {name '${name}'} [0x2f05 resolution 20]
+amenity=bank {name '${name}'} [0x2f06 resolution 21]
+shop=car {name '${name}'} [0x2f07 resolution 20]
+shop=car_parts {name '${name}'} [0x2f07 resolution 20]
+railway=halt {name '${name}'} [0x2f08 resolution 21]
+railway=station {name '${name}'} [0x2f08 resolution 20]
+amenity=bus_station {name '${name}'} [0x2f08 resolution 20]
+amenity=ferry_terminal {name '${name}'} [0x2f08 resolution 19]
+amenity=bicycle_rental {name '${name}'} [0x2f08 resolution 19]
+shop=boat {name '${name}'} [0x2f09 resolution 20]
+# 0x2f0a ("Wrecker Service") can be used to isolate wildcard values
+shop=car_wrecker {name '${name}'} [0x2f0a resolution 20]
+amenity=parking {name '${name}'} [0x2f0b resolution 21]
+amenity=toilets {name '${name}'} [0x2f0c resolution 20]
+amenity=car_sharing {name '${name}'} [0x2f0d resolution 20]
+amenity=car_wash {name '${name}'} [0x2f0e resolution 21]
+barrier=gate [0x2f0f resolution 23 default_name 'Gate']
+barrier=kissing_gate [0x2f0f resolution 23 default_name 'Kissing Gate']
+barrier=lift_gate [0x2f0f resolution 23 default_name 'Lift Gate']
+amenity=bench {name '${name}'} [0x2f10 resolution 23 default_name 'Bench']
+amenity=shelter {name '${name}'} [0x2f10 resolution 20 default_name 'shelter']
+
+emergency=phone {name '${name}'} [0x2f12 resolution 21 default_name 'Emergency Phone']
+shop=bicycle {name '${name}'} [0x2f13 resolution 20]
+# barrier=stile {name '${name}'} [0x2f14 resolution 23]
+# barrier=cycle_barrier {name '${name}'} [0x2f14 resolution 23]
+man_made=thing {name '${name}'}  [0x2f14 resolution 20]
+amenity=recycling {name '${name}'} [0x2f15 resolution 20]
+railway=tram_stop {name '${name}'} [0x2f17 resolution 21]
+highway=bus_stop {name '${name}'} [0x2f17 resolution 20]
+aeroway=gate {name '${name}'} [0x2f17 resolution 20]
+amenity=taxi {name '${name}'} [0x2f17 resolution 20]
+
+amenity=police {name '${name}'} [0x3001 resolution 21]
+amenity=doctors {name '${name}'} [0x3002 resolution 20]
+amenity=hospital {name '${name}'} [0x3002 resolution 20]
+amenity=townhall {name '${name}'} [0x3003 resolution 21]
+amenity=courthouse {name '${name}'} [0x3004 resolution 20]
+amenity=community_centre {name '${name}'} [0x3005 resolution 20]
+barrier=border_control {name '${name}'} [0x3006 resolution 18]
+government=customs {name '${name}'} [0x3006 resolution 20]
+office=government {name '${name}'} [0x3007 resolution 21]
+amenity=fire_station {name '${name}'} [0x3008 resolution 21]
+
+leisure=marina {name '${name}'} [0x4300 resolution 21]
+tourism=picnic_site {name '${name}'} [0x4a00 resolution 20]
+man_made=marker {name '${name}'}  [0x4c00 resolution 20]
+tourism=information {name '${name}'} [0x4c00 resolution 20]
+# The lua file translates this to amenity=community_centre, hence commented out here
+# leisure=social_club {name '${name}'} [0x4f00 resolution 21]
+
+amenity=drinking_water {name '${name}'} [0x5000 resolution 23]
+amenity=telephone {name '${name}'} [0x5100 resolution 21]
+aeroway=helipad {name '${name}'} [0x5904 resolution 20]
+
+amenity=grave_yard {name '${name}'} [0x6403 resolution 21]
+landuse=cemetery {name '${name}'} [0x6403 resolution 21]
+amenity=bus_depot {name '${name}'} [0x6405 resolution 21]
+amenity=depot {name '${name}'} [0x6405 resolution 21]
+man_made=tower {name '${name}'} [0x6411 resolution 21]
+man_made=mast {name '${name}'} [0x6411 resolution 21]
+landuse=military {name '${name}'} [0x640b resolution 21]
+
+waterway=waterfall {name '${name}'} [0x6508 resolution 21]
+place=island {name '${name}'} [0x650c resolution 20]
+natural=water {name '${name}'} [0x650d resolution 21]
+landuse=reservoir {name '${name}'} [0x650f resolution 21]
+natural=spring {name '${name}'} [0x6511 resolution 21]
+# This isn't in the data, hence commented out here
+# barrier=ford [0x6512 resolution 21]
+natural=wetland {name '${name}'} [0x6513 resolution 21]
+amenity=fountain {name '${name}'} [0x6509 resolution 21]
+
+landuse=allotments {name '${name}'} [0x6600 resolution 21]
+natural=tree {name '${name}'} [0x6600 resolution 21]
+# 0x6600 ("Land Feature") is also used for leisure=unnamed_park above
+natural=cave_entrance {name '${name}'} [0x6601 resolution 19]
+landuse=basin {name '${name}'} [0x6603 resolution 21]
+natural=beach {name '${name}'} [0x6604 resolution 21]
+natural=cliff {name '${name}'} [0x6607 resolution 21]
+
+barrier=bollard
+    {add access = no; add bicycle = yes; add foot = yes name '${name}'} [0x660f resolution 21]
+barrier=cycle_barrier | barrier=stile
+    {add access = no; add foot = yes name '${name}'} [0x660f resolution 21]
+
+leisure=nature_reserve {name '${name}'} [0x6612 resolution 18]
+natural=rock {name '${name}'} [0x6614 resolution 21]
+natural=peak {name '${name|def:}${ele|height:m=>ft|def:}' } [0x6616 resolution 18]
+natural=volcano {name '${name|def:}${ele|height:m=>ft|def:}' } [0x6616 resolution 18]
+natural=col {name '${name|def:}${ele|height:m=>ft|def:}' } [0x6616 resolution 18]
+natural=rocks {name '${name|def:}${ele|height:m=>ft|def:}' } [0x6616 resolution 18]
+man_made=survey_point {name '${name|def:}${ele|height:m=>ft|def:}' } [0x6616 resolution 18]
+landuse=forest {name '${name}'} [0x6618 resolution 21]
+natural=wood {name '${name}'} [0x6618 resolution 21]
+
+# Wildcards
+#shop=* {name '${name}'} [0x2e15 resolution 20]
+#office=* {name '${name}'} [0x2e15 resolution 20]
+

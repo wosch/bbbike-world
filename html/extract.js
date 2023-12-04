@@ -55,6 +55,9 @@ var config = {
         "garmin-osm.zip": 1500,
         "garmin-osm-ascii.zip": 1500,
         "garmin-osm-latin1.zip": 1500,
+        "garmin-ajt03.zip": 1500,
+        "garmin-ajt03-ascii.zip": 1500,
+        "garmin-ajt03-latin1.zip": 1500,
         "garmin-cycle.zip": 1500,
         "garmin-cycle-ascii.zip": 1500,
         "garmin-cycle-latin1.zip": 1500,
@@ -146,6 +149,10 @@ var config = {
         "garmin-oseam.zip": "/images/garmin-oseam2-small.png",
         "garmin-oseam-ascii.zip": "/images/garmin-oseam2-small.png",
         "garmin-oseam-latin1.zip": "/images/garmin-oseam2-small.png",
+
+        "garmin-ajt03.zip": "/images/garmin-bbbike-small.png",
+        "garmin-ajt03-ascii.zip": "/images/garmin-bbbike-small.png",
+        "garmin-ajt03-latin1.zip": "/images/garmin-bbbike-small.png",
 
         "svg-google.zip": "/images/svg-google-small.png",
         "svg-osm.zip": "/images/svg-osm-small.png",
@@ -1474,6 +1481,18 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "time": 3
         },
         "garmin-osm-latin1.zip": {
+            "size": 0.67,
+            "time": 3
+        },
+        "garmin-ajt03.zip": {
+            "size": 0.8,
+            "time": 3
+        },
+        "garmin-ajt03-ascii.zip": {
+            "size": 0.67,
+            "time": 3
+        },
+        "garmin-ajt03-latin1.zip": {
             "size": 0.67,
             "time": 3
         },

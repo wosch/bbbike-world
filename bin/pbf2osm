@@ -103,6 +103,7 @@ usage [ option ] file.osm.pbf
 
 --garmin-all --garmin-all-latin1
 --garmin-osm --garmin-osm-ascii --garmin-osm-latin1
+--garmin-ajt03 --garmin-ajt03-ascii --garmin-ajt03-latin1
 --garmin-cycle --garmin-cycle-ascii --garmin-cycle-latin1
 --garmin-leisure --garmin-leisure-ascii --garmin-leisure-latin1
 --garmin-bbbike --garmin-bbbike-ascii --garmin-bbbike-latin1
@@ -164,10 +165,11 @@ case $format in
     --shape | --shp | --shapefile ) shift; compress=shape ;;
     --osmand | --obf ) 		    shift; compress=osmand ;;
 
-    --garmin-all) garmin_style="osm:cycle:leisure:bbbike:onroad:ontrail:openfietslite:openfietsfull:oseam:opentopo"; shift; compress=garmin ;;
-    --garmin-all-latin1) garmin_style="osm-latin1:cycle-latin1:leisure-latin1:bbbike-latin1:onroad-latin1:ontrail-latin1:openfietslite-latin1:openfietsfull-latin1:oseam-latin1:opentopo-latin1"; shift; compress=garmin ;;
+    --garmin-all) garmin_style="osm:ajt03:cycle:leisure:bbbike:onroad:ontrail:openfietslite:openfietsfull:oseam:opentopo"; shift; compress=garmin ;;
+    --garmin-all-latin1) garmin_style="osm-latin1:ajt03-latin1:cycle-latin1:leisure-latin1:bbbike-latin1:onroad-latin1:ontrail-latin1:openfietslite-latin1:openfietsfull-latin1:oseam-latin1:opentopo-latin1"; shift; compress=garmin ;;
 
     --garmin-osm | --garmin-osm-ascii | --garmin-osm-latin1 | \
+    --garmin-ajt03 | --garmin-ajt03-ascii | --garmin-ajt03-latin1 | \
     --garmin-cycle | --garmin-cycle-ascii | --garmin-cycle-latin1 | \
     --garmin-leisure | --garmin-leisure-ascii | --garmin-leisure-latin1 | \
     --garmin-bbbike | --garmin-bbbike-ascii | --garmin-bbbike-latin1 | \

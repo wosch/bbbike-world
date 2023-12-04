@@ -28,6 +28,7 @@ usage () {
 cat <<EOF
 usage $0 file [ format ] [ title ]
 
+  ajt03-latin1
   bbbike bbbike-ascii bbbike-latin1
   cycle cycle-ascii cycle-latin1
   leisure leisure-ascii leisure-latin1
@@ -128,6 +129,25 @@ case $ext in
 esac
 
 case $ext in
+   ajt03 )
+        ext=garmin-ajt03.zip
+        mkgmap_map=--style-file=$etc_dir/style/ajt03
+        mkgmap_map_style=ajt03
+        mkgmap_map_type=""
+        ;;
+   ajt03-ascii )
+        ext=garmin-ajt03-ascii.zip
+        mkgmap_map=--style-file=$etc_dir/style/ajt03
+        mkgmap_map_style=ajt03
+        mkgmap_map_type=""
+        ;;
+   ajt03-latin1 )
+        ext=garmin-ajt03-latin1.zip
+        mkgmap_map=--style-file=$etc_dir/style/ajt03
+        mkgmap_map_style=ajt03
+        mkgmap_map_type=""
+        ;;
+
    cycle )
         ext=garmin-cycle.zip
         mkgmap_map=--style-file=$etc_dir/style/cyclemap
@@ -328,11 +348,12 @@ case $ext in
    *bbbike* )  garmin_product_id=4 ;;
    *srtm* )    garmin_product_id=5 ;;
    *onroad* )  garmin_product_id=6 ;;
-   *openfietslite* )  garmin_product_id=7 ;;
-   *oseam* )   garmin_product_id=8 ;;
-   *opentopo* )garmin_product_id=9 ;;
-   *openfietsfull* )  garmin_product_id=10 ;;
-   *ontrail* )  garmin_product_id=11 ;;
+   *openfietslite* )  	garmin_product_id=7 ;;
+   *oseam* )   		garmin_product_id=8 ;;
+   *opentopo* )       	garmin_product_id=9 ;;
+   *openfietsfull* )  	garmin_product_id=10 ;;
+   *ontrail* ) garmin_product_id=11 ;;
+   *ajt03* )   garmin_product_id=12 ;;
 esac
 
 garmin_family_id=$(basename $file | perl -npe 's/(\.pbf|\.gz|\.bz2)?$//')

@@ -26,7 +26,7 @@ if you need to override the defaults below:
 
 PATH=/bin:/usr/bin; export PATH
 extract_dir=/opt/bbbike/extract
-formats="csv.gz csv.xz garmin-bbbike.zip garmin-cycle.zip garmin-leisure.zip garmin-onroad.zip garmin-ontrail.zip garmin-opentopo.zip garmin-openfietslite-latin1.zip garmin-openfietslite.zip garmin-openfietsfull-latin1.zip garmin-openfietsfull.zip garmin-oseam.zip garmin-osm.zip mapsforge-osm.zip organicmaps-osm.zip o5m.gz o5m.xz obf.zip opl.xz osm.bz2 osm.gz osm.pbf osm.xz png-cadastre.zip png-google.zip png-hiking.zip png-osm.zip png-urbanight.zip png-wireframe.zip shp.zip srtm-europe.garmin-srtm.zip srtm-europe.obf.zip srtm-europe.osm.pbf srtm-europe.osm.xz srtm.garmin-srtm.zip srtm.obf.zip srtm.osm.pbf srtm.osm.xz svg-cadastre.zip svg-google.zip svg-hiking.zip svg-osm.zip svg-urbanight.zip svg-wireframe.zip mbtiles-openmaptiles.zip"
+formats="csv.gz csv.xz garmin-bbbike.zip garmin-ajt03.zip garmin-cycle.zip garmin-leisure.zip garmin-onroad.zip garmin-ontrail.zip garmin-opentopo.zip garmin-openfietslite-latin1.zip garmin-openfietslite.zip garmin-openfietsfull-latin1.zip garmin-openfietsfull.zip garmin-oseam.zip garmin-osm.zip mapsforge-osm.zip organicmaps-osm.zip o5m.gz o5m.xz obf.zip opl.xz osm.bz2 osm.gz osm.pbf osm.xz png-cadastre.zip png-google.zip png-hiking.zip png-osm.zip png-urbanight.zip png-wireframe.zip shp.zip srtm-europe.garmin-srtm.zip srtm-europe.obf.zip srtm-europe.osm.pbf srtm-europe.osm.xz srtm.garmin-srtm.zip srtm.obf.zip srtm.osm.pbf srtm.osm.xz svg-cadastre.zip svg-google.zip svg-hiking.zip svg-osm.zip svg-urbanight.zip svg-wireframe.zip mbtiles-openmaptiles.zip"
 
 LANG="C"; export LANG
 config=$1

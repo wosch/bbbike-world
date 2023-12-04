@@ -12,7 +12,7 @@ set -o pipefail
 : ${debug=false}
 : ${max_days="3"}
 #: ${garmin_formats="all-latin1"}
-: ${garmin_formats="osm:cycle:leisure:bbbike:onroad:ontrail:openfietslite:openfietsfull:oseam:opentopo:osm-latin1:cycle-latin1:leisure-latin1:bbbike-latin1:onroad-latin1:ontrail-latin1:openfietslite-latin1:openfietsfull-latin1:oseam-latin1:opentopo-latin1"}
+: ${garmin_formats="osm:ajt03:cycle:leisure:bbbike:onroad:ontrail:openfietslite:openfietsfull:oseam:opentopo:osm-latin1:ajt03-latin1:cycle-latin1:leisure-latin1:bbbike-latin1:onroad-latin1:ontrail-latin1:openfietslite-latin1:openfietsfull-latin1:oseam-latin1:opentopo-latin1"}
 countries="europe/luxembourg asia/jordan asia/cambodia"
 example_dir="/usr/local/www/download.bbbike.org/osm/garmin/example"
 

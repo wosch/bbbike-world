@@ -30,7 +30,7 @@ push @garmin_styles, qw/leisure cycle/
 
 # test 7 styles more for long run
 push @garmin_styles,
-  qw/bbbike openfietslite openfietsfull onroad ontrail oseam opentopo/
+  qw/bbbike openfietslite openfietsfull onroad ontrail oseam opentopo ajt03/
   if $ENV{BBBIKE_TEST_LONG};
 
 if ( $ENV{BBBIKE_TEST_LONG} ) {

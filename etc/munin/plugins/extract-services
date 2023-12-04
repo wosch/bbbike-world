@@ -49,6 +49,8 @@ my $config = {
           csv.xz
           garmin-bbbike-latin1.zip
           garmin-bbbike.zip
+          garmin-ajt03-latin1.zip
+          garmin-ajt03.zip
           garmin-cycle-latin1.zip
           garmin-cycle.zip
           garmin-leisure-latin1.zip
