@@ -1235,42 +1235,27 @@ data-distclean distclean-data: cache-clean-local
 
 #########################################################################
 # Note: you need at least 620GB free disk space to run this command!!!
-#       this may run 2 days on a 12 core machine
-#
-# quad core:
-# real    3570m39.458s
-# user    25849m45.852s
-# sys     870m48.760s
+#       this may run 25h on a 16 core machine
 #
 # tail -n2 *run | grep -v swap
 # ==> log.tile-lng-run <==
-# 118651.85user 270.53system 4:31:47elapsed 729%CPU (0avgtext+0avgdata 4487732maxresident)k
-#
+# 141207.47user 711.74system 4:10:55elapsed 942%CPU (0avgtext+0avgdata 4811440maxresident)k
+# 
 # ==> log.tile-lnglat-run <==
-# 270131.80user 2225.13system 10:28:15elapsed 722%CPU (0avgtext+0avgdata 2448768maxresident)k
-#
-#
-# tail -n2 log.tile-convert-* | grep -v swaps
-# ==> log.tile-convert-osmand <==
-# 478053.52user 17962.09system 18:42:39elapsed 736%CPU (0avgtext+0avgdata 3470212maxresident)k
-#
-# ==> log.tile-convert-garmin <==
-# 263711.54user 7440.43system 9:35:07elapsed 785%CPU (0avgtext+0avgdata 2761256maxresident)k
-#
-# ==> log.tile-convert-mapsforge <==
-# 184392.70user 6650.27system 7:07:21elapsed 745%CPU (0avgtext+0avgdata 8157268maxresident)k
-#
-# ==> log.tile-convert-garmin-onroad <==
-# 174377.54user 6966.74system 6:25:58elapsed 783%CPU (0avgtext+0avgdata 2367180maxresident)k
-#
-# ==> log.tile-convert-shp <==
-# 15353.14user 7242.06system 48:50.42elapsed 771%CPU (0avgtext+0avgdata 1655804maxresident)k
-#
-# ==> log.tile-convert-mbtiles <==
-# 149723.33user 6004.79system 5:33:07elapsed 779%CPU (0avgtext+0avgdata 2666748maxresident)k
-#
+# 169847.75user 740.15system 3:40:54elapsed 1287%CPU (0avgtext+0avgdata 3554116maxresident)k
+# 
+# tail -n2 log.tile-convert-* |grep -v swap
+# ==> log.tile-convert-garmin-all <==
+# 298703.11user 5928.46system 6:08:53elapsed 1376%CPU (0avgtext+0avgdata 5680196maxresident)k
+# 
 # ==> log.tile-convert-osm <==
-# 16477.70user 441.64system 36:40.86elapsed 768%CPU (0avgtext+0avgdata 198320maxresident)k
+# 15232.44user 346.36system 26:18.17elapsed 987%CPU (0avgtext+0avgdata 206976maxresident)k
+# 
+# ==> log.tile-convert-osmand <==
+# 403828.26user 13230.44system 10:31:54elapsed 1099%CPU (0avgtext+0avgdata 8946908maxresident)k
+# 
+# ==> log.tile-convert-shp <==
+# 13205.15user 3690.54system 18:01.93elapsed 1561%CPU (0avgtext+0avgdata 2000612maxresident)k
 
 #
 # for errors look in ./tile/tmp
