@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -T
-# Copyright (c) 2012-2023 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2024 Wolfram Schneider, https://bbbike.org
 #
 # download.cgi - extract.bbbike.org live extracts
 
@@ -321,7 +321,7 @@ sub footer {
 </div> <!-- footer_top -->
 
 <div id="copyright">
-(&copy;) 2008-2023 <a href="https://www.bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
+(&copy;) 2008-2024 <a href="https://www.bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
 </div> <!-- copyright -->
 
 </div> <!-- footer -->
@@ -778,7 +778,7 @@ sub download_json {
     );
     my $perl = {
         "copyright" =>
-          "Copyright (c) 2023 Wolfram Schneider, https://extract.bbbike.org",
+          "Copyright (c) 2024 Wolfram Schneider, https://extract.bbbike.org",
         "ready" => $trash_perl
     };
 
