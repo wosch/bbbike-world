@@ -24,10 +24,7 @@ my $versions = {
             [qw/pigz --version/],
             qr/^pigz (2\.1\.6|2\.2\.[4-9]|2\.3\.1|2\.[346])/
         ],
-        [
-            [qw/java -version/],
-            qr/^(openjdk|java) version "11.0.(21|22)" /m
-        ],
+        [ [qw/java -version/], qr/^(openjdk|java) version "11.0.(21|22)" /m ],
         [
             [qw/java -version/],
             qr/^(OpenJDK|Java HotSpot\(TM\)) (64-Bit )?Server VM/m
