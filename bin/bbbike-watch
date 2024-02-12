@@ -16,6 +16,7 @@ running_extract=running-${extract}
 
 echo ""
 echo "done in last 60 minutes: $(find /opt/bbbike/${extract}/trash -name '*.json' -mmin -60 | wc -l)"
+echo "done in last 24 hours:   $(find /opt/bbbike/${extract}/trash -name '*.json' -mmin -1440 | wc -l)"
 
 echo ""
 echo 'running format: '
