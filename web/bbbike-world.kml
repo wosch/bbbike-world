@@ -1321,6 +1321,16 @@
     </Point>
   </Placemark>
   <Placemark>
+    <name>Los Angeles</name>
+    <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/LosAngeles/">BBBike @ Los Angeles</a></span><p/>
+	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=LosAngeles">extract</a></span>
+	]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-118.25,33.95,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
     <name>Lübeck</name>
     <description><![CDATA[Start <span style="color:rgb(0, 0, 238);text-decoration:underline"><a href="https://www.bbbike.org/Luebeck/">BBBike @ Lübeck</a></span><p/>
 	OpenStreetMap data <a href="https://www.bbbike.org/cgi/area.cgi?city=Luebeck">extract</a></span>
