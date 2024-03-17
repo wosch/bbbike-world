@@ -49,6 +49,19 @@ my $feed = XML::Atom::SimpleFeed->new(
 #
 
 $feed->add_entry(
+    title => 'Added new city Los Angeles',
+    id    => '9aa4d72f3095d339b49223e24e9db6fb',
+
+    content => {
+        type    => 'text',
+        content => qq{New city: Los Angeles},
+    },
+
+    updated  => '2024-03-17T12:31:02Z',
+    category => 'News',
+);
+
+$feed->add_entry(
     title   => qq{enable lng/lat box for everybody},
     id      => '32377b4213bfade6c7074f6ebb801acd',
     content => {

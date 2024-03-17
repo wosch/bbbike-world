@@ -13,6 +13,13 @@
   <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af7</id>
   <generator uri="https://metacpan.org/pod/XML::Atom::SimpleFeed" version="0.904">XML::Atom::SimpleFeed</generator>
   <entry>
+    <title>Added new city Los Angeles</title>
+    <id>9aa4d72f3095d339b49223e24e9db6fb</id>
+    <content>New city: Los Angeles</content>
+    <updated>2024-03-17T12:31:02Z</updated>
+    <category term="News" />
+  </entry>
+  <entry>
     <title>enable lng/lat box for everybody</title>
     <id>32377b4213bfade6c7074f6ebb801acd</id>
     <content>enable lng/lat box for everybody</content>
