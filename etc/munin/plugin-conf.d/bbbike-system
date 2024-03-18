@@ -16,3 +16,7 @@ env.apps_critical 80%
 [nvme_io]
 user root
 
+[exim_mailqueue]
+env.PATH /bin:/usr/bin:/usr/local/bin
+user Debian-exim
+
