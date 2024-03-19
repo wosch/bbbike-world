@@ -23,6 +23,7 @@ MUNIN_EXTRACT= 		extract-diskusage \
 			extract-users \
 			extract-users1h \
 			extract-stat \
+			extract-country-status \
 			extract-ipaddress \
 			extract-http404 \
 			extract-wait \
