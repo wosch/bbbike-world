@@ -221,7 +221,7 @@ sub display() {
     }
     foreach my $msg (
         sort {
-            $opt{R}
+                $opt{R}
               ? $id{$b}{birth} <=> $id{$a}{birth}
               : $id{$a}{birth} <=> $id{$b}{birth}
         } keys(%id)
