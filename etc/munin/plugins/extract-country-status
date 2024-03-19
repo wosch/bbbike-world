@@ -40,11 +40,6 @@ my $days_critical = $ENV{"days_critical"} // 18;                # in days
 $ENV{PATH} = '/bin:/usr/bin';
 $ENV{LANG} = 'C';
 
-my $format_enabled = {
-    'garmin'    => 1,
-    'mapsforge' => 1,
-};
-
 my @garmin_format_simple =
   qw/bbbike-latin1 ontrail-latin1 openfietslite-latin1 opentopo-latin1/;
 my @garmin_format_all =
@@ -158,6 +153,8 @@ sub country_status_time {
     my $tag          = &path_to_name($country_file);
 
     my $file = "$prefix_dir/$country_file";
+    return "" if !-e $file;
+
     my $f    = $format;
     $f =~ s/-/_/g;
     $tag .= "_" . $f;
