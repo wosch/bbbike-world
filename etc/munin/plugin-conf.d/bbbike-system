@@ -1,6 +1,6 @@
 [df*]
 env.warning 85
-env.critical 96
+env.critical 94
 env.exclude_re ^/run/user
 
 [load]
@@ -17,6 +17,14 @@ env.apps_critical 80%
 user root
 
 [exim_mailqueue]
-env.PATH /bin:/usr/bin:/usr/local/bin
 user Debian-exim
+group adm
+env.PATH /bin:/usr/bin:/usr/local/bin
+
+[exim_mailstats]
+user Debian-exim
+group adm
+
+[ip_*]
+user root
 
