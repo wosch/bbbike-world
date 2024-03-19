@@ -1,0 +1,235 @@
+#!/usr/local/bin/perl
+# Copyright (c) May 2018-2024 Wolfram Schneider, https://bbbike.org
+#
+# usage: /etc/munin/plugins/bbbike-country-status [ config ]
+#
+# get documentation with: perldoc /path/to/script
+
+use Getopt::Long;
+use File::stat;
+use IO::File;
+
+use strict;
+use warnings;
+
+=head1 NAME
+
+bbbike-country-status - monitor time pre-extracted countries for garmin and mapsforge
+
+=head1 CONFIGURATION
+
+Configuration parameters for /etc/munin/plugin-conf.d/bbbike-local
+if you need to override the defaults below:
+
+ [bbbike-country-status]
+   env.days_warnings NN - Generate a warning if country is out of date
+   env.days_critical NN - Generate a critical if country is really out of date
+
+=cut
+
+########################################################################
+# init
+#
+my $debug = 0;
+my $help  = 0;
+
+my $prefix_dir    = "/usr/local/www/download.bbbike.org/osm";
+my $days_warning  = $ENV{"days_warning"} // 9;                  # in days
+my $days_critical = $ENV{"days_critical"} // 18;                # in days
+
+$ENV{PATH} = '/bin:/usr/bin';
+$ENV{LANG} = 'C';
+
+my $format_enabled = {
+    'garmin'    => 1,
+    'mapsforge' => 1,
+};
+
+my @garmin_format_simple =
+  qw/bbbike-latin1 ontrail-latin1 openfietslite-latin1 opentopo-latin1/;
+my @garmin_format_all =
+  qw/ajt03-latin1 ajt03 bbbike-latin1 bbbike cycle-latin1 cycle leisure-latin1 leisure onroad-latin1 onroad ontrail-latin1 ontrail openfietsfull-latin1 openfietsfull openfietslite-latin1 openfietslite opentopo-latin1 opentopo oseam-latin1 oseam osm-latin1 osm/;
+my @mapsforge_format_simple = qw/osm/;
+
+sub usage {
+    <<EOF;
+usage: $0 [ options ] config
+
+--debug=0..2               default: $debug
+--bbbike-dir=/path/to/dir  default: $prefix_dir
+EOF
+}
+
+sub config_country {
+
+    my $data = <<EOF;
+graph_title Extract country status time
+graph_vlabel BBBike country status time
+graph_category extractadmin
+graph_info BBBike country status time
+graph_period hour
+EOF
+
+    # Garmin country extracts
+    $data .= &config_country_file( 'garmin/region/europe/albania',
+        \@garmin_format_simple, $days_warning, $days_critical );
+
+    $data .=
+      &config_country_file( 'garmin/region/asia/japan', \@garmin_format_simple,
+        $days_warning, $days_critical );
+
+    $data .= &config_country_file( 'garmin/region/north-america/canada/quebec',
+        \@garmin_format_simple, $days_warning, $days_critical );
+
+    # Garmin examples for all available formats
+    $data .= &config_country_file( 'garmin/example/asia/cambodia',
+        \@garmin_format_all, $days_warning, $days_critical );
+
+    $data .=
+      &config_country_file( 'garmin/example/asia/jordan', \@garmin_format_all,
+        $days_warning, $days_critical );
+
+    # mapsforge
+    $data .= &config_country_file( 'mapsforge/region/europe/albania',
+        \@mapsforge_format_simple, $days_warning, $days_critical );
+
+    $data .= &config_country_file( 'mapsforge/region/asia/japan/tohoku',
+        \@mapsforge_format_simple, $days_warning, $days_critical );
+
+    $data .=
+      &config_country_file( 'mapsforge/region/north-america/canada/quebec',
+        \@mapsforge_format_simple, $days_warning, $days_critical );
+
+    return $data;
+}
+
+sub config_country_file {
+    my ( $path, $formats, $warning, $critical ) = @_;
+
+    # not installed
+    return "" if !-e "$prefix_dir/$path";
+    return "" if ( ref $formats ) ne 'ARRAY';
+
+    my $data = "";
+    my $name = &path_to_name($path);
+
+    foreach my $format (@$formats) {
+        my $f = $format;
+        $f =~ s/-/_/g;
+
+        $data .= <<EOF;
+${name}_${f}_status_time.label BBBike ${name} status time
+${name}_${f}_status_time.min 0
+${name}_${f}_status_time.warning $warning
+${name}_${f}_status_time.critical $critical
+EOF
+    }
+
+    return $data;
+}
+
+# garmin/example/asia/cambodia -> garmin_asia_cambodia
+sub path_to_name {
+    my $name = shift;
+
+    # a file
+    $name =~ s,/[^/]+\.zip$,,;
+
+    # directory
+    $name =~ s,^([^/]+)/[^/]+/,$1/,g;
+    $name =~ s,/,_,g;
+    $name =~ s,-,_,g;
+
+    return $name;
+}
+
+sub status {
+    my $mtime = shift;
+    my $time  = time;
+
+    return ( $time - $mtime ) / ( 24 * 60 * 60 );
+}
+
+sub country_status_time {
+
+    my $country_file = shift;
+    my $format       = shift;
+    my $tag          = &path_to_name($country_file);
+
+    my $file = "$prefix_dir/$country_file";
+    my $f    = $format;
+    $f =~ s/-/_/g;
+    $tag .= "_" . $f;
+
+    # /etc/systemd/system/multi-user.target.wants/munin-node.service
+    # ProtectHome=read-only
+    #
+    my $st = stat($file)
+      or die
+      "stat $file: $! - did you enabled ProtectHome=read-only in systemd?\n";
+
+    print "${tag}_status_time.value @{[ status($st->mtime) ]}\n";
+}
+
+sub country_status_time_all {
+
+    # Garmin country extracts
+    foreach my $format (@garmin_format_simple) {
+        &country_status_time(
+            "garmin/region/europe/albania/albania.osm.garmin-$format.zip",
+            $format );
+        &country_status_time(
+            "garmin/region/asia/japan/japan.osm.garmin-$format.zip", $format );
+        &country_status_time(
+"garmin/region/north-america/canada/quebec/quebec.osm.garmin-$format.zip",
+            $format
+        );
+    }
+
+    # Garmin examples for all available formats
+    foreach my $format (@garmin_format_all) {
+        &country_status_time(
+            "garmin/example/asia/cambodia/cambodia.osm.garmin-$format.zip",
+            $format );
+        &country_status_time(
+            "garmin/example/asia/jordan/jordan.osm.garmin-$format.zip",
+            $format );
+    }
+
+    # mapsforge
+    foreach my $format (@mapsforge_format_simple) {
+        &country_status_time(
+            "mapsforge/region/europe/albania/albania.osm.mapsforge-$format.zip",
+            $format
+        );
+        &country_status_time(
+"mapsforge/region/asia/japan/tohoku/tohoku.osm.mapsforge-$format.zip",
+            $format
+        );
+        &country_status_time(
+"mapsforge/region/north-america/canada/quebec/quebec.osm.mapsforge-$format.zip",
+            $format
+        );
+    }
+}
+
+#############################################
+# main
+#
+
+GetOptions(
+    "debug=i"      => \$debug,
+    "bbbike-dir=s" => \$prefix_dir,
+    "help"         => \$help,
+) or die usage;
+
+die usage if $help;
+
+if ( defined $ARGV[0] && $ARGV[0] eq 'config' ) {
+    print &config_country;
+}
+else {
+    &country_status_time_all;
+}
+
+# EOF
