@@ -155,7 +155,7 @@ sub country_status_time {
     my $file = "$prefix_dir/$country_file";
     return "" if !-e $file;
 
-    my $f    = $format;
+    my $f = $format;
     $f =~ s/-/_/g;
     $tag .= "_" . $f;
 
