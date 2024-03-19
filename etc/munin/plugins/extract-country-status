@@ -14,7 +14,7 @@ use warnings;
 
 =head1 NAME
 
-bbbike-country-status - monitor time pre-extracted countries for garmin and mapsforge
+extract-country-status - monitor time pre-extracted countries for garmin and mapsforge
 
 =head1 CONFIGURATION
 
