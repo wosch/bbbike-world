@@ -124,7 +124,7 @@ EOF
     return $data;
 }
 
-# garmin/example/asia/cambodia -> garmin_asia_cambodia
+# garmin/example/asia/cambodia -> garmin_cambodia
 sub path_to_name {
     my $name = shift;
 
@@ -132,7 +132,7 @@ sub path_to_name {
     $name =~ s,/[^/]+\.zip$,,;
 
     # directory
-    $name =~ s,^([^/]+)/[^/]+/,$1/,g;
+    $name =~ s,^([^/]+)/[^/]+/[^/]+/,$1/,g;
     $name =~ s,/,_,g;
     $name =~ s,-,_,g;
 
