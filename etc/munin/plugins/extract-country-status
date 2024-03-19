@@ -71,6 +71,7 @@ graph_period hour
 EOF
 
     # Garmin country extracts
+    # Do not mix countries with examples!
     $data .= &config_country_file( 'garmin/region/europe/albania',
         \@garmin_format_simple, $days_warning, $days_critical );
 
