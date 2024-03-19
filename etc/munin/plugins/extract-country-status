@@ -114,7 +114,7 @@ sub config_country_file {
         $f =~ s/-/_/g;
 
         $data .= <<EOF;
-${name}_${f}_time.label ${name}
+${name}_${f}_time.label ${name}_${f}
 ${name}_${f}_time.min 0
 ${name}_${f}_time.warning $warning
 ${name}_${f}_time.critical $critical
