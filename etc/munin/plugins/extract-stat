@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) Sep 2011-2023 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2011-2024 Wolfram Schneider, https://bbbike.org
 #
 # usage: /path/to/script [ config ]
 #
@@ -31,6 +31,7 @@ extract_dir="/opt/bbbike/extract/"
 language="en de fr ru"
 extract_time="convert_time extract_time"
 home="/usr/local/www/bbbike.org"
+# will be visible as "sub_planet" etc: "-" -> "_"
 planets="sub-planet sub-planet-daily sub-srtm"
 
 trap 'rm -f $tmpfile' 0
