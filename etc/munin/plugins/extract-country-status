@@ -21,7 +21,7 @@ extract-country-status - monitor time pre-extracted countries for garmin and map
 Configuration parameters for /etc/munin/plugin-conf.d/bbbike-local
 if you need to override the defaults below:
 
- [bbbike-country-status]
+ [extract-country-status]
    env.days_warnings NN - Generate a warning if country is out of date
    env.days_critical NN - Generate a critical if country is really out of date
 
