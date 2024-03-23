@@ -30,15 +30,15 @@ if you need to override the defaults below:
 ########################################################################
 # init
 #
+$ENV{'PATH'} = '/bin:/usr/bin';
+$ENV{'LANG'} = 'C';
+
 my $debug = 0;
 my $help  = 0;
 
 my $prefix_dir    = "/usr/local/www/download.bbbike.org/osm";
 my $days_warning  = $ENV{"days_warning"} // 9;                  # in days
 my $days_critical = $ENV{"days_critical"} // 18;                # in days
-
-$ENV{PATH} = '/bin:/usr/bin';
-$ENV{LANG} = 'C';
 
 my @garmin_format_simple =
   qw/bbbike-latin1 ontrail-latin1 openfietslite-latin1 opentopo-latin1/;
