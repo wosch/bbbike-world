@@ -206,9 +206,7 @@ EOF
 
             }
 
-            $data .=
-              qq{<span class="size">} . file_size("$dir/$file") . "</span>\n";
-            $data .= "</a>\n";
+            $data .= qq{<span class="size">} . file_size("$dir/$file") . "</span></a><br/>\n";
         }
 
         if ($has_checksum_file) {
