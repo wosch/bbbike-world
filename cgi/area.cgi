@@ -186,7 +186,7 @@ EOF
             my $date = localtime( &mtime("$dir/$file") );
 
             $data .=
-              qq{<a class="download_link" href="$prefix/$file" title="$date"> }
+qq{<a class="download_link" href="$prefix/$file" title="last update: $date UTC"> }
               . &human_redable_file_format( $city, $file ) . qq{ };
 
             # ???
@@ -206,7 +206,10 @@ EOF
 
             }
 
-            $data .= qq{<span class="size">} . file_size("$dir/$file") . "</span></a><br/>\n";
+            $data .=
+                qq{<span class="size">}
+              . file_size("$dir/$file")
+              . "</span></a><br/>\n";
         }
 
         if ($has_checksum_file) {
