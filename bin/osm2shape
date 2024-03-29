@@ -54,7 +54,7 @@ if $fixpbf; then
 fi
 
 # cleanup at exit
-trap 'rm -rf $tmpdir $tmpfile tmpdir_pbf' 0
+trap 'rm -rf $tmpdir $tmpfile $tmpdir_pbf' 0
 
 shape=`basename "$file" | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//'`
 shape_dir=$tmpdir/${shape}-shp
