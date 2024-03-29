@@ -14,6 +14,7 @@ MUNIN_BBBIKE_WEB=	bbbike-services-ajax \
 			bbbike-services-pref \
 			bbbike-services-maptype \
 			bbbike-services-route \
+			bbbike-cities \
 			bbbike-services-appid
 
 MUNIN_EXTRACT= 		extract-diskusage \
