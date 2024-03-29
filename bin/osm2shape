@@ -43,6 +43,9 @@ tmpdir=`mktemp -d ${BBBIKE_TMPFS}/osm2shape.XXXXXXXXXXX`
 tmpdir_pbf=`mktemp -d ${BBBIKE_TMPFS}/pbf2pbf.XXXXXXXXXXX`
 tmpfile=$tmpdir_pbf/$(basename $file)
 
+# cleanup at exit
+trap 'rm -rf $tmpdir $tmpfile $tmpdir_pbf' 0
+
 # keep old name for results
 file_orig=$file
 
@@ -52,9 +55,6 @@ if $fixpbf; then
     $(dirname $0)/pbf2pbf $tmpfile
     file=$tmpfile	
 fi
-
-# cleanup at exit
-trap 'rm -rf $tmpdir $tmpfile $tmpdir_pbf' 0
 
 shape=`basename "$file" | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//'`
 shape_dir=$tmpdir/${shape}-shp
