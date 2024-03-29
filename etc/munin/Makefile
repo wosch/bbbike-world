@@ -8,13 +8,13 @@ MUNIN_BBBIKE_SYSTEM= 	nvme_io \
 			bbbike-processes \
 			bbbike-data-status \
 			bbbike-git-status \
+			bbbike-cities \
 
 MUNIN_BBBIKE_WEB=	bbbike-services-ajax \
 			bbbike-services-output \
 			bbbike-services-pref \
 			bbbike-services-maptype \
 			bbbike-services-route \
-			bbbike-cities \
 			bbbike-services-appid
 
 MUNIN_EXTRACT= 		extract-diskusage \
