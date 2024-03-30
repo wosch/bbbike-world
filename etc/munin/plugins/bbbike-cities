@@ -37,7 +37,6 @@ if [ "$1" = "config" ]; then
     : ${critical="100"}
      
     cat <<EOF
-multigraph BBBike city routes
 graph_args --base 1024 --lower-limit 0
 graph_title BBBike city routes
 graph_vlabel BBBike city routes
@@ -45,12 +44,12 @@ graph_category bbbike
 graph_info city routes
 graph_period minute
 EOF
-    for ff in $(ls $data_dir)
+    for f in $(ls $data_dir)
     do
-        echo "$ff.label $f"
-        echo "$ff.min 0"
-        echo "$ff.warning $warning"
-        echo "$ff.critical $critical"
+        echo "$f.label $f"
+        echo "$f.min 0"
+        echo "$f.warning $warning"
+        echo "$f.critical $critical"
     done
     
     exit 0
