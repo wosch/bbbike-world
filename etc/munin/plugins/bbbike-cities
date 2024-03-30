@@ -37,10 +37,10 @@ if [ "$1" = "config" ]; then
     : ${critical="100"}
      
     cat <<EOF
-multigraph city routes
+multigraph BBBike city routes
 graph_args --base 1024 --lower-limit 0
-graph_title city routes - average
-graph_vlabel city routes - average
+graph_title BBBike city routes
+graph_vlabel BBBike city routes
 graph_category bbbike
 graph_info city routes
 graph_period minute
@@ -65,7 +65,6 @@ ls $data_dir | perl -ne 'chomp; print qq[1 2 3 4 5 "GET /$_/?start 8\n]' > $citi
 
 trap 'rm -f $cities' 0
 
-echo "multigraph city routes"
 egrep -h '"GET /[a-zA-Z]+/\?[a-z]+' $logfile $cities | $grep -v cache | 
   awk '{ print $7 }'| perl -npe 's,\?.*,,; s,/,,g;' | sort | uniq -c | sort -k2 |
   awk '{ print $2 ".value", ($1 - 1) }'
