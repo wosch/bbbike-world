@@ -1,12 +1,12 @@
 #!/bin/bash
-# Copyright (c) 2015-2023 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2015-2024 Wolfram Schneider, https://bbbike.org
 #
 # a wrapper to sent osmconvert output to a file
 #
 # usage: ./osmconvert_wrapper -o outfile.pbf [ osmconvert parameters ]
 
 set -e
-PATH=/usr/local/bin:/bin:/usr/bin
+PATH="/usr/local/bin:/bin:/usr/bin"
 : ${osmconvert_program="osmconvert"}
 
 tmpfile=""
@@ -19,7 +19,7 @@ case $1 in
 	     dirname=$(dirname "$out")
 	     basename=$(basename "$out")
 	    
-             tmpfile=$(mktemp "$dirname/.tmp.$basename.XXXXXXXXXX.tmp")
+             tmpfile=$(mktemp "$dirname/.tmp.osmconvert_wrapper.$basename.XXXXXXXXXX")
 	     shift; shift
 	     ;;
   *  ) ;;
