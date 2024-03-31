@@ -1479,7 +1479,9 @@ sub _convert_send_email {
     &move( $pbf_file, $to );
 
     my $aws = Extract::AWS->new( 'option' => $option, 'debug' => $debug );
-    $aws->aws_s3_put( 'file' => $to );
+    if ( $option->{"aws_s3_enabled"} ) {
+        $aws->aws_s3_put( 'file' => $to );
+    }
 
     my $file_size = file_size_mb($to) . " MB";
     warn "generated file size $to: $file_size\n" if $debug >= 1;
@@ -1490,7 +1492,9 @@ sub _convert_send_email {
         $to = $spool->{'download'} . "/" . basename($file);
         &check_download_cache( $to, $start_time );
 
-        $aws->aws_s3_put( 'file' => $file );
+        if ( $option->{"aws_s3_enabled"} ) {
+            $aws->aws_s3_put( 'file' => $file );
+        }
         move( $file, $to );
 
         $file_size = file_size_mb($to) . " MB";
