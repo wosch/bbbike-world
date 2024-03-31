@@ -3,7 +3,7 @@
 #
 # a wrapper to sent osmconvert output to a file
 #
-# usage: ./osmconvert_wrapper -o outfile.pbf [ osmconvert parameters ]
+# usage: ./osmconvert-wrapper -o outfile.pbf [ osmconvert parameters ]
 
 set -e
 PATH="/usr/local/bin:/bin:/usr/bin"
@@ -19,7 +19,7 @@ case $1 in
 	     dirname=$(dirname "$out")
 	     basename=$(basename "$out")
 	    
-             tmpfile=$(mktemp "$dirname/.tmp.osmconvert_wrapper.$basename.XXXXXXXXXX")
+             tmpfile=$(mktemp "$dirname/.tmp.osmconvert-wrapper.$basename.XXXXXXXXXX")
 	     shift; shift
 	     ;;
   *  ) ;;
