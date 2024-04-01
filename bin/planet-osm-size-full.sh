@@ -5,9 +5,11 @@
 #                        this includes the full history of OSM
 #
 # ./planet-osm-size-full.sh
-# PBF size:   51.6 GB
-# OSM size:   90.7 GB
-# XML size: 1256.2 GB
+# Running at date: 2024-04-01
+#
+# PBF size:      125.7 GB
+# OSM.bz2 size:  211.4 GB
+# XML size:     3795.6 GB
 #
 
 set -e
