@@ -11,7 +11,7 @@
 #
 
 set -e
-PATH="/bin:/usr/bin"; export PATH
+PATH="/bin:/usr/bin:/usr/local/bin"; export PATH
 
 # https://planet.openstreetmap.org
 : ${osm_server="https://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org"}
