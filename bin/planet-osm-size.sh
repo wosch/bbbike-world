@@ -49,4 +49,6 @@ pbf_size
 osm_size
 xml_size
 
+echo ""
+
 #EOF
