@@ -27,6 +27,9 @@ city="$2"
 
 test -e "$file" || usage "file $file does not exists"
 
+# absolute file path
+case $file in /*) ;; *) file=$(pwd)/$file ;; esac
+
 : ${debug=false}
 pwd=$(pwd)
 
@@ -66,7 +69,7 @@ case $text2html in /*) ;; *) text2html=$(pwd)/$text2html ;; esac
 logfile=$shape_dir/logfile.txt
 echo "osmium2shape version $shape_version" >> $logfile
 
-if LD_LIBRARY_PATH=$BBBIKE_LD_LIBRARY_PATH osmium2shape -d $shape_dir/shape $file >> $logfile 2>&1; then
+if ( cd $shape_dir/shape && env LD_LIBRARY_PATH=$BBBIKE_LD_LIBRARY_PATH osmium2shape $file ) >> $logfile 2>&1; then
    :
 else
    exit=$?
