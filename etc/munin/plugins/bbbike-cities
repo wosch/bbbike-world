@@ -33,8 +33,8 @@ logfile="/var/log/lighttpd/bbbike.log"
 config=$1
 
 if [ "$1" = "config" ]; then
-    : ${warning="20"}
-    : ${critical="100"}
+    : ${warning="50"}
+    : ${critical="200"}
      
     cat <<EOF
 graph_args --base 1024 --lower-limit 0
