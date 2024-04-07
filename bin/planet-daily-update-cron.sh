@@ -12,6 +12,11 @@ if [ -f $HOME/.bbbikerc ]; then
     . $HOME/.bbbikerc
 fi
 
+# tagname config
+if [ -f $HOME/.tagnamerc ]; then
+    . $HOME/.tagnamerc
+fi
+
 : ${time="time nice -6"}
 
 cd $HOME/projects/bbbike
