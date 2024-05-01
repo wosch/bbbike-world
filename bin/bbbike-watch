@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2017-2021 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2017-2024 Wolfram Schneider, https://bbbike.org
 #
 # bbbike-watch - live statistics
 #
@@ -31,11 +31,12 @@ ps xuawww | egrep 'osmconvert-wrapper .*extract/running' | egrep -v 'grep' | awk
 echo 'running: '
 $running_extract email | sort | uniq -c | sort -r
 
-tmp=$(mktemp)
-$running_extract email | awk '{ print $3 }' | sort -u > $tmp
+tmpfile=$(mktemp /tmp/tmp.bbbike-watch.XXXXXXXXXX)
+trap 'rm -f $tmpfile' 0
+
+$running_extract email | awk '{ print $3 }' | sort -u > $tmpfile
 echo 'waiting new: '
-egrep -h '"email" : ".*@' /opt/bbbike/${extract}/confirmed/*.json 2>/dev/null | perl -npe 's/,//' | sort | uniq -c | sort -nr -k1 -k3 | fgrep -v -F -f $tmp
-rm -f $tmp
+egrep -h '"email" : ".*@' /opt/bbbike/${extract}/confirmed/*.json 2>/dev/null | perl -npe 's/,//' | sort | uniq -c | sort -nr -k1 -k3 | fgrep -v -F -f $tmpfile
 
 echo 'waiting: '
 egrep -h '"email" : ".*@' /opt/bbbike/${extract}/confirmed/*.json 2>/dev/null | perl -npe 's/,//' | sort | uniq -c | sort -nr -k1 -k3
