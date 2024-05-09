@@ -1069,24 +1069,6 @@ function bbbike_maps_init(maptype, marker_list, lang, without_area, region, zoom
         maxZoom: 17
     };
 
-/*
-    var mapbox_options = {
-        bbbike: {
-            "name": "MapBox",
-            "description": "MapBox OSM, by mapbox.com"
-        },
-        getTileUrl: function (a, z) {
-            return "http://" + randomServerOSM() + ".tiles.mapbox.com/v3/examples.map-vyofok3q/" + z + "/" + a.x + "/" + a.y + ".png";
-        },
-        isPng: true,
-        opacity: 1.0,
-        tileSize: new google.maps.Size(256, 256),
-        name: "MapQuest",
-        minZoom: 1,
-        maxZoom: 17
-    };
-    */
-
     var apple_options = {
         bbbike: {
             "name": "Apple",
@@ -2269,7 +2251,6 @@ function translate_mapcontrol(word, lang) {
             "SlideShow": "Slide Show",
             "esri": "Esri",
             "esri_topo": "Esri Topo",
-            //"mapbox": "MapBox",
             "apple": "Apple",
             "VeloLayer": "Velo-Layer",
             "MaxSpeed": "Speed Limit",

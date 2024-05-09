@@ -390,15 +390,6 @@ function init_map() {
         numZoomLevels: 18
     }));
 
-    map.addLayer(new OpenLayers.Layer.OSM("Mapbox Satellite", ["https://api.mapbox.com/v4/mapbox.satellite/${z}/${x}/${y}@2x.jpg90?access_token=pk.eyJ1IjoibWFwYm94YmJiIiwiYSI6ImNsZno4MjlzbTBtb24zZ3FybGp6bjNvMXkifQ.N6Fhq0aixmR3was6z8sSBQ"], {
-        attribution: '<a href="https://www.mapbox.com/">(&copy) mapbox</a>',
-        tileOptions: {
-            crossOriginKeyword: null
-        },
-        numZoomLevels: 20
-    }));
-
-
     // Bing roads and Satellite/Hybrid
     // disabled due wrong billing
     // add_bing_maps(map);
