@@ -99,8 +99,8 @@ cd $tmpdir
 trap 'rm -rf $tmpdir $tmpfile' 0
 
 logfile=$tmpdir/logfile.txt
-touch $logfile
-echo "Maperitive version: $maperitive_version" >> $logfile
+echo "Maperitive version: $maperitive_version" > $logfile
+osmium fileinfo $file >> $logfile
 
 config_file=config.mscript
 image_file=$(basename $file | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//')-${map_style}.${type}

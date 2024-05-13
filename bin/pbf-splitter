@@ -95,7 +95,9 @@ run_splitter () {
     logfile=$3
     size=$4
 
-    echo ">>> Run splitter" > $logfile
+    osmium fileinfo $file > $logfile
+    echo ">>> Run splitter" >> $logfile
+
     ( set -x;
       java -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar --version
       $time nice -n${nice_level} java $java_splitter_opt -jar $BBBIKE_OPT_DIR/$BBBIKE_SPLITTER_VERSION/splitter.jar \

@@ -64,6 +64,7 @@ text2html=$(dirname $0)/text2html.sh
 case $text2html in /*) ;; *) text2html=$(pwd)/$text2html ;; esac
 
 logfile=$shape_dir/logfile.txt
+osmium fileinfo $file > $logfile
 echo "osmium2shape version $shape_version" >> $logfile
 
 if LD_LIBRARY_PATH=$BBBIKE_LD_LIBRARY_PATH osmium2shape -d $shape_dir/shape $file >> $logfile 2>&1; then

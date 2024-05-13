@@ -105,7 +105,7 @@ mapsforge_dir=$tmpdir/$mapsforge-$(basename $ext .zip)
 mkdir -p $mapsforge_dir
 
 logfile=$mapsforge_dir/logfile.txt
-touch $logfile
+osmium fileinfo $file > $logfile
 
 # mkgmap bug
 if [ ! -s $file ]; then
