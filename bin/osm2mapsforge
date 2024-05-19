@@ -67,8 +67,7 @@ if [ $size -gt $max_file_size_mapsforge_ram ]; then
   BBBIKE_TMPFS=$BBBIKE_TMPDIR
   osm2xxx_max_jobs="1"
 elif [ $size -gt 250000 ]; then
-  java_heap="22G"
-  osm2xxx_max_jobs="2"
+  java_heap="20G"
 elif [ $size -gt 100000 ]; then
   java_heap="16G"
 elif [ $size -gt  50000 ]; then
@@ -126,7 +125,7 @@ $text2html < README.txt > README.html
 $debug && echo "hd_mode=$hd_mode java_heap=$java_heap BBBIKE_TMPFS=$BBBIKE_TMPFS osm2xxx_max_jobs=$osm2xxx_max_jobs"
 
 echo ">>> Run osmosis, mapsforge writer map style: $map_style" >> $logfile
-osmosis --read-pbf-fast $file --mapfile-writer $hd_mode file=$mapsforge.map threads=$osm2xxx_max_jobs>> $logfile  2>&1 || error
+osmosis --read-pbf-fast $file --mapfile-writer $hd_mode file=$mapsforge.map threads=$osm2xxx_max_jobs >> $logfile  2>&1 || error
 
 if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
     echo "logfile $logfile is to big: $(ls -l $logfile)"
