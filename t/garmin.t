@@ -105,7 +105,7 @@ sub convert_format {
 
         diag "garmin style=$style, lang=$lang";
 
-        system(qq[world/bin/pbf2osm --garmin-$style $pbf_file $city]);
+        system(qq[world/bin/pbf2osm --garmin-$style $pbf_file "$city"]);
         is( $?, 0, "pbf2osm --garmin-$style $pbf_file" );
 
         system(qq[unzip -tqq $out]);
