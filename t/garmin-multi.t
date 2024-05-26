@@ -75,8 +75,8 @@ sub convert_format {
     my $styles = join( ":", @garmin_styles );
 
     diag "garmin style=$styles, lang=$lang";
-    system(qq[world/bin/osm2garmin $pbf_file $styles $city]);
-    is( $?, 0, "world/bin/osm2garmin $pbf_file $styles $city" );
+    system(qq[world/bin/osm2garmin $pbf_file $styles "$city"]);
+    is( $?, 0, qq[world/bin/osm2garmin $pbf_file $styles "$city"] );
     $counter++;
 
     # known styles

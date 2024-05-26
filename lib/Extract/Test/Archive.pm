@@ -341,7 +341,8 @@ qr"^Script URL: https?://.*bbbike.org/.*\?.*format=.+.*city="
             ),
             "url"
         );
-        ok( ( grep { /^Name des Gebietes: ${city}$/ } @data ), qq[name: "$city"] );
+        ok( ( grep { /^Name des Gebietes: ${city}$/ } @data ),
+            qq[name: "$city"] );
 
         ok( ( grep { /^Spenden sind willkommen/ } @data ), "feedback" );
         ok(

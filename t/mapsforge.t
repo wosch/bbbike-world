@@ -84,7 +84,7 @@ sub convert_format {
     my $out = $test->out($style);
     unlink $out;
 
-    my $command = qq[world/bin/pbf2osm --mapsforge-$style $pbf_file $city];
+    my $command = qq[world/bin/pbf2osm --mapsforge-$style $pbf_file "$city"];
     system($command);
     is( $?, 0, $command );
     $st = stat($out) or die "Cannot stat $out\n";
