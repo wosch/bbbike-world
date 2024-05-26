@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2023 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2024 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     system("which osmium2shape >/dev/null");

@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2011-2023 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2011-2024 Wolfram Schneider, https://bbbike.org
 #
 # extract.pl - extracts areas in a batch job
 #
