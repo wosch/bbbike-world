@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2023 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2024 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_FAST} ) {
@@ -81,8 +81,8 @@ sub convert_format {
     my $out = $test->out($style);
     unlink $out;
 
-    system(qq[world/bin/pbf2osm --organicmaps-$style $pbf_file $city]);
-    is( $?, 0, "world/bin/pbf2osm --organicmaps-$style $pbf_file $city" );
+    system(qq[world/bin/pbf2osm --organicmaps-$style $pbf_file "$city"]);
+    is( $?, 0, qq[world/bin/pbf2osm --organicmaps-$style $pbf_file "$city"] );
     $st = stat($out) or die "Cannot stat $out\n";
 
     system(qq[unzip -t $out]);

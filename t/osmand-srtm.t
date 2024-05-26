@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2023 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2024 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_FAST} && !$ENV{BBBIKE_TEST_LONG} ) {
@@ -77,8 +77,8 @@ sub convert_format {
     my $out = $test->out();
     unlink $out;
 
-    system(qq[world/bin/pbf2osm --osmand $pbf_file $city]);
-    is( $?, 0, "pbf2osm --osmand converter" );
+    system(qq[world/bin/pbf2osm --osmand $pbf_file "$city"]);
+    is( $?, 0, qq[pbf2osm --osmand "$pbf_file "$city"] );
     $st = stat($out) or die "Cannot stat $out\n";
 
     system(qq[unzip -t $out]);

@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2023 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2024 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     my $display = $ENV{BBBIKE_MAPERITIVE_DISPLAY} || $ENV{DISPLAY} || ":200";
@@ -105,7 +105,7 @@ sub convert_format {
         unlink($out);
 
         system(
-qq[world/bin/bomb --timeout=$timeout --screenshot-file=$pbf_file.png -- world/bin/pbf2osm --$format-$style $pbf_file $city]
+qq[world/bin/bomb --timeout=$timeout --screenshot-file=$pbf_file.png -- world/bin/pbf2osm --$format-$style $pbf_file "$city"]
         );
         is( $?, 0, "pbf2osm --$format-$style converter" );
 
