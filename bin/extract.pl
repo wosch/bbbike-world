@@ -644,7 +644,12 @@ sub run_extracts {
         }
 
         if ($use_tempfiles) {
-            my $tempfile = File::Temp->new( SUFFIX => ".osm.pbf" );
+            my $tempdir  = $ENV{BBBIKE_TMPDIR} || $ENV{BBBIKE_TMPFS} || "/tmp";
+            my $tempfile = File::Temp->new(
+                "osmconvert-wrapper.XXXXXXXXXX",
+                DIR    => $tempdir,
+                SUFFIX => ".osm.pbf"
+            );
 
             symlink( $tempfile, $out )
               or die "cannot symlink $tempfile => $out\n";
