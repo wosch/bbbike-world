@@ -66,11 +66,11 @@ if [ $size -gt $max_file_size_mapsforge_ram ]; then
   java_heap="32G"
   BBBIKE_TMPFS=$BBBIKE_TMPDIR
 elif [ $size -gt 310000 ]; then
-  java_heap="32G"
-elif [ $size -gt 200000 ]; then
   java_heap="24G"
-elif [ $size -gt 100000 ]; then
+elif [ $size -gt 200000 ]; then
   java_heap="16G"
+elif [ $size -gt 100000 ]; then
+  java_heap="12G"
 elif [ $size -gt  50000 ]; then
   java_heap="8G"
 fi
