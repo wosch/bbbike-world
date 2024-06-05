@@ -96,7 +96,7 @@ mkdir -p $tmpdir
 cd $tmpdir
 
 # cleanup at exit
-trap 'rm -rf $tmpdir $tmpfile' 0
+trap 'rm -rf ${_tmpdir} $tmpfile' 0
 
 logfile=$tmpdir/logfile.txt
 echo "Maperitive version: $maperitive_version" > $logfile
