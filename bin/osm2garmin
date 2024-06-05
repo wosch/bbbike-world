@@ -30,17 +30,19 @@ formats=$(echo $format | perl -npe 's/:/ /g')
 
 # splitter.jar runs faster with osmium based pbf files, factor 3
 file_fast=$(mktemp $BBBIKE_TMPDIR/osm2garmin-splitter.XXXXXXXX.osm.pbf)
+trap 'rm -f $file_fast' 0
+
 osmium cat --overwrite --no-progress -o $file_fast $file
 
 # run splitter.jar
 split_dir=$($dirname/pbf-splitter $file_fast $format)
 rm -f $file_fast
 
+trap 'rm -rf $split_dir' 0
+
 for f in $formats
 do
     env BBBIKE_SPLIT_DIR=$split_dir $program $file $f "$city"
 done
-
-rm -rf $split_dir
 
 #EOF
