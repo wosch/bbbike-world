@@ -63,7 +63,7 @@ if [ $size -gt $max_file_size_mapsforge_ram ]; then
   # switch to disk mode if larger than 600MB,
   # maybe 8 times slower, 3 times more cpu time
   hd_mode="type=hd"
-  java_heap="32G"
+  java_heap="40G"
   BBBIKE_TMPFS=$BBBIKE_TMPDIR
 elif [ $size -gt 310000 ]; then
   java_heap="24G"
