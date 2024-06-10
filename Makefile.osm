@@ -114,6 +114,7 @@ BBBIKE_API_SERVER	?= api.bbbike.org
 API_DIR=	api/0.2
 LOG_DIR=tmp
 BBBIKE_PARTITION=	/opt/bbbike
+BBBIKE_ESERTE_DIR=	../bbbike-eserte
 
 OSMOSIS_PLUGIN_DIR=$$HOME/.openstreetmap/osmosis/plugins
 
@@ -637,27 +638,27 @@ bbbike2wgs84-mapnik:
 	mv -f ${LOG_DIR}/bbbike-mapnik.osm.gz.tmp ${LOG_DIR}/bbbike-mapnik.osm.gz
 
 bbbike-tile-update:
-	cd ../bbbike-eserte; \
+	cd ${BBBIKE_ESERTE_DIR} && \
 	  git pull -q; \
 	  git log --format=oneline | head -1 | awk '{ print $$1 }' > .tile-status.new
 	# skip update if there are no new git commits
-	if cmp ../bbbike-eserte/.tile-status ../bbbike-eserte/.tile-status.new; then \
+	if cmp ${BBBIKE_ESERTE_DIR}/.tile-status ${BBBIKE_ESERTE_DIR}/.tile-status.new; then \
 	  true; \
 	else \
 	  ${MAKE} bbbike-tile-update-real; \
 	fi
 
 bbbike-tile-update-real:
-	@echo "Updating postgis database..., see tmp/log.bbbike-mapnik-postgis${POSTGIS_VERSION}"
-	${MAKE} DATA_DIR=../bbbike-eserte/data bbbike2wgs84-mapnik
+	@echo "Updating postgis database from ${BBBIKE_ESERTE_DIR}..., see tmp/log.bbbike-mapnik-postgis${POSTGIS_VERSION}"
+	${MAKE} DATA_DIR=${BBBIKE_ESERTE_DIR}/data bbbike2wgs84-mapnik
 	time ${MAKE} bbbike-mapnik-postgis${POSTGIS_VERSION} > tmp/log.bbbike-mapnik-postgis${POSTGIS_VERSION} 2>&1
-	cd ../bbbike-eserte; git log --format=oneline | head -1 | awk '{ print $$1 }' > .tile-status
+	cd ${BBBIKE_ESERTE_DIR} && git log --format=oneline | head -1 | awk '{ print $$1 }' > .tile-status
 	${MAKE} tile-cache-cleanup
 	${MAKE} bbbike-tile-git-gc
 	#prove world/t/mc-tilecheck.t ./world/t/websites.t
 
 bbbike-tile-git-gc:
-	cd ../bbbike-eserte && git gc -q
+	cd ${BBBIKE_ESERTE_DIR} && git gc -q
 
 bbbike-mapnik-config8:
 	if test -e ${POSTGIS_STYLE}; then \
