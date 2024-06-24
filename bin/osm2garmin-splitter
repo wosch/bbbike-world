@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2012-2023 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2024 Wolfram Schneider, https://bbbike.org
 #
 # osm2garmin - convert a osm/pbf file to garmin
 #
@@ -7,7 +7,7 @@
 set -e
 set -o pipefail # bash only
 
-PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
+PATH="/usr/local/bin:/bin:/bin:/usr/bin"; export PATH
 
 : ${BBBIKE_EXTRACT_LANG=en}
 : ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
@@ -53,10 +53,15 @@ error () {
     exit 1
 }
 
+# command line arguments
 file=$1
-city=$3
+ext=${2-"osm-latin1"}
+city=${3-"none"}
 
 test -z "$file" && usage
+test -s "$file" || usage "file $file does not exists"
+
+: ${debug=false}
 
 # absolute file path
 case $file in /*) ;; *) file=$(pwd)/$file ;; esac
@@ -65,18 +70,9 @@ dirname=$(dirname $0)
 case $dirname in /*) ;; *) dirname=$(pwd)/$dirname ;; esac
 
 text2html=$dirname/text2html.sh
-
-test -e "$file" || usage "file $file does not exists"
-: ${osm_checksum=$dirname/osm-checksum}
-
 template=$dirname/../etc/extract/$(basename $0 -splitter).$BBBIKE_EXTRACT_LANG.sh
-
-if [ -z "$ext" ]; then
-    ext=${2-"osm"}
-fi
-ext_orig=$ext
-
-: ${debug=false}
+: ${osm_checksum=$dirname/osm-checksum}
+: ${time=time}
 
 size=$(du -ks -L "$file" | awk '{ print $1}')
 
@@ -104,10 +100,6 @@ case $ext in
         fi
         ;;
 esac
-
-
-time=time
-#case $ext in *leisure* ) java_heap=3500M ;; esac
 
 pwd=$(pwd)
 license_file="license.txt"
@@ -389,7 +381,7 @@ case $ext in
             ;;
 esac
 
-tmpdir=`mktemp -d ${BBBIKE_TMPDIR}/osm2garmin.$(basename $ext .zip).XXXXXXXXXXX`
+tmpdir=$(mktemp -d ${BBBIKE_TMPDIR}/osm2garmin.$(basename $ext .zip).XXXXXXXXXXX)
 
 # cleanup at exit
 trap 'rm -rf $tmpdir' 0
@@ -512,7 +504,5 @@ zip -q -r - -- `basename $garmin_dir` | \
     chmod 644 $garmin_zip
     $osm_checksum $garmin_zip
   )
-
-rm -rf $tmpdir
 
 #EOF
