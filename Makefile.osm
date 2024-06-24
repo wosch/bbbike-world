@@ -1611,8 +1611,8 @@ git-commit-world:
 mygit: git-fetch git-pull git-push
 
 git-gc:
-	du -hs .git; git gc; du -hs .git
-	cd world; du -hs .git; git gc; du -hs .git
+	du -hs .git; git gc -q; du -hs .git
+	cd world; du -hs .git; git gc -q; du -hs .git
 
 apt-clean:
 	sudo apt-get clean
