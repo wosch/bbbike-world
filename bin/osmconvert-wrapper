@@ -6,7 +6,7 @@
 # usage: ./osmconvert-wrapper -o outfile.pbf [ osmconvert parameters ]
 
 set -e
-PATH="/usr/local/bin:/bin:/usr/bin"
+PATH="/usr/local/bin:/bin:/usr/bin"; export PATH
 : ${osmconvert_program="osmconvert"}
 
 tmpfile=""
@@ -25,7 +25,10 @@ case $1 in
   *  ) ;;
 esac
 
-$osmconvert_program $@ > "$tmpfile"
+
+#$osmconvert_program "$@" > "$tmpfile"
+# generate PBF file with smaller buffers 
+$osmconvert_program "$@" | osmium cat -f pbf -F pbf > "$tmpfile"
 
 # mktemp creates not world readable files
 chmod 644 "$tmpfile"
