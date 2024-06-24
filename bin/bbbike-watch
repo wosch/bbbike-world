@@ -31,8 +31,8 @@ ps xuawww | egrep 'osmconvert-wrapper .*extract/running' | egrep -v 'grep' | awk
 echo 'running: '
 $running_extract email | sort | uniq -c | sort -r
 
-tmpfile=$(mktemp /tmp/tmp.bbbike-watch.XXXXXXXXXX)
 trap 'rm -f $tmpfile' 0
+tmpfile=$(mktemp /tmp/bbbike-watch.XXXXXXXXXX)
 
 $running_extract email | awk '{ print $3 }' | sort -u > $tmpfile
 echo 'waiting new: '
