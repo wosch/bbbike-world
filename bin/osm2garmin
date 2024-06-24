@@ -21,23 +21,15 @@ file=$1
 format=${2-"osm"}
 city=$3
 
-# wrong arguments
-if [ -z "$file" -o ! -e "$file" ]; then
+# wrong arguments, error handling by osm2garmin-splitter program
+if [ -z "$file" -o ! -s "$file" ]; then
     $program
 fi
 
 formats=$(echo $format | perl -npe 's/:/ /g')
 
-# splitter.jar runs faster with osmium based pbf files, factor 3
-file_fast=$(mktemp $BBBIKE_TMPDIR/osm2garmin-splitter.XXXXXXXX.osm.pbf)
-trap 'rm -f $file_fast' 0
-
-osmium cat --overwrite --no-progress -o $file_fast $file
-
 # run splitter.jar
-split_dir=$($dirname/pbf-splitter $file_fast $format)
-rm -f $file_fast
-
+split_dir=$($dirname/pbf-splitter $file $format)
 trap 'rm -rf $split_dir' 0
 
 for f in $formats
