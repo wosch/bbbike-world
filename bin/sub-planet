@@ -1,5 +1,5 @@
 #!/usr/local/bin/bash
-# Copyright (c) 2009-2018 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2024 Wolfram Schneider, https://bbbike.org
 #
 # sub-planet - convert a planet.osm to a smaller files for each continent
 #
@@ -16,7 +16,7 @@ fi
 
 nice='nice -5'
 time=time
-cpu=$(world/bin/ncpu)
+cpu=$(world/bin/ncpu hcpu)
 
 perl -npe 's/\n/\0/g' world/etc/$program/$program.sh | \
 	$nice $time xargs -0 -n1 -P$cpu /bin/sh -c
