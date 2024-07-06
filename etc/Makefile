@@ -6,7 +6,7 @@
 
 MUNIN_PLUGINS_DIR=	/etc/munin/plugins
 
-CRONTAB_ROOT=/etc/cron.d/bbbike.root
+CRONTAB_ROOT=/etc/cron.d/bbbike
 
 all: help
 
@@ -47,7 +47,7 @@ install-backend-lighttpd:
 
 crontab-root:
 	if [ ! -e ${CRONTAB_ROOT} ]; then \
-	   sudo ln -fs `pwd`/crontab.root ${CRONTAB_ROOT}; \
+	   sudo cp cron.d/bbbike ${CRONTAB_ROOT}; \
 	fi
 
 perltidy perlcheck:

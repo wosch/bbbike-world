@@ -1,8 +1,8 @@
 # delete old BBBike cache files
-PATH=/bin:/usr/bin
+PATH="/bin:/usr/bin"
 MAILTO=root
 
-2 */6    * * *   root   find /opt/bbbike/cache/ /var/cache/lighttpd/ -type f -atime +10 -print0 | xargs -0 rm -f
-3 */6    * * *   root   find /opt/bbbike/cache/ /var/cache/lighttpd/ -type f -mtime +16 -print0 | xargs -0 rm -f
+#2 */6    * * *   root   find /opt/bbbike/cache/ /var/cache/lighttpd/ -type f -atime +10 -print0 | xargs -0 rm -f
+#3 */6    * * *   root   find /opt/bbbike/cache/ /var/cache/lighttpd/ -type f -mtime +16 -print0 | xargs -0 rm -f
 #4 */6    * * *   root   mkdir -p /tmp/dummy-dir && find /var/cache/bbbike/ /var/cache/lighttpd/ -type d -mtime +18 -print0 | xargs -0 rmdir /tmp/dummy-dir
 
