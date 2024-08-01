@@ -17,10 +17,11 @@ PATH="/bin:/usr/bin:/usr/local/bin"; export PATH
 
 # https://planet.openstreetmap.org
 : ${osm_server="https://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org"}
+: ${curl_opt="-sSf --connect-timeout 5 -m 36000"}
 
 pbf_size ()
 {
-    curl -D /dev/stdout -sSfL --head \
+    curl $curl_opt -D /dev/stdout -L --head \
 	$osm_server/pbf/full-history/history-latest.osm.pbf 2>/dev/null | \
 	egrep -i '^Content-Length: ' | head -n 1 | \
         awk '{ printf("PBF size:     %6.1f GB\n", $2 / 1024 /1024 / 1024) }'
@@ -28,7 +29,7 @@ pbf_size ()
 
 osm_size ()
 {
-    curl -D /dev/stdout -sSfL --head \
+    curl $curl_opt -D /dev/stdout -L --head \
 	$osm_server/planet/full-history/history-latest.osm.bz2 2>/dev/null | \
 	egrep -i '^Content-Length: ' | head -n 1 | \
 	awk '{ printf("OSM.bz2 size: %6.1f GB\n", $2 / 1024 /1024 / 1024) }'
@@ -36,7 +37,7 @@ osm_size ()
 
 xml_size ()
 {
-    curl -L -sSf $osm_server/planet/full-history/history-latest.osm.bz2 | \
+    curl $curl_opt -L $osm_server/planet/full-history/history-latest.osm.bz2 | \
 	nice -n 15 pbzip2 -d | wc -c | \
         awk '{ printf("XML size:     %6.1f GB\n", $1 / 1024 / 1024 / 1024) }'
 }
