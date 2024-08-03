@@ -33,7 +33,8 @@ MUNIN_EXTRACT= 		extract-diskusage \
 			extract-stale
 
 MUNIN_EXTRACT_WEB= 	extract-services-format \
-			extract-services-tilesize
+			extract-services-failed \
+			extract-services-tilesize \
 
 
 MUNIN_VARNISH=	data_structures vcl_and_bans lru objects_per_objhead obj_sendfile_vs_write losthdr esi hcb shm shm_writes overflow session session_herd	

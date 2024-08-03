@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2011-2021 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2011-2024 Wolfram Schneider, https://bbbike.org
 #
 # extract-services - munin statistics for BBBike extract service
 
@@ -36,6 +36,8 @@ my $type = 'extract';
 
 # reset offset
 my $reset = 0;
+
+my $days_failed = 90;
 
 # keep in sync with world/lib/Extract/Config.pm
 #
@@ -122,7 +124,7 @@ EOF
 }
 
 sub get_types {
-    my @types = qw/tilesize extract format/;
+    my @types = qw/tilesize extract format failed/;
     return sort @types;
 }
 
@@ -191,12 +193,32 @@ EOF
     return $data;
 }
 
+sub config_failed () {
+    my $data = <<EOF;
+graph_title Extract failed
+graph_vlabel Format
+graph_category extract
+graph_info Number Requests by failed Format in $days_failed days
+graph_period minute
+graph_scale no
+EOF
+
+    foreach my $label ( sort @{ $config->{'tilesize'} } ) {
+        my $label_e = escape_label($label);
+        $data .= "$label_e.label $label\n";
+        $data .= "$label_e.min $min_value\n";
+    }
+
+    return $data;
+}
+
 sub config {
     my $type = shift;
 
     return
         $type eq 'tilesize' ? &config_tilesize
       : $type eq 'format'   ? &config_format
+      : $type eq 'failed'   ? &config_failed
       : $type eq 'extract'  ? &config_extract
       :                       die "Unknown stat type: $type\n";
 }
@@ -284,6 +306,11 @@ sub parse_log {
         $data = display_results( $config->{'tilesize'}, $count );
     }
 
+    elsif ( $type eq 'failed' ) {
+        my $count = &count_failed( 'days' => $days_failed );
+        $data = display_results( $config->{'tilesize'}, $count );
+    }
+
     else {
         die "Unknown type: $type\n";
     }
@@ -348,6 +375,29 @@ sub count_format {
         if (m,"GET /(cgi/extract\.cgi)?\?.*format=([^&" ]+),) {
             $counter->{$2}++;
         }
+    }
+
+    return $counter;
+}
+
+#
+# parse the failed2 directory for errors
+#
+sub count_failed {
+    my %args = @_;
+    my $days = $args{'days'} // 30;
+
+    my $counter = {};
+
+    my $shell =
+        qq#find /opt/bbbike/extract/failed2/ -mtime -$days -name '*json'#
+      . q# | xargs  egrep  -h '"format" :' | sort | uniq -c | sort -nr | sed -e  's/[",]//g;' | awk '{ print $4, $1 }'#;
+    open( IN, "$shell |" ) or die "open $shell\n";
+
+    while (<IN>) {
+        chomp;
+        my ( $key, $value ) = split;
+        $counter->{$key} = $value;
     }
 
     return $counter;
