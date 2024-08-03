@@ -158,7 +158,7 @@ EOF
 sub config_tilesize () {
     my $data = <<EOF;
 graph_title Extract Tile Size
-graph_vlabel Format
+graph_vlabel number of tile requests
 graph_category extract
 graph_info Number of Tile Size Requests by Format
 graph_period minute
@@ -177,7 +177,7 @@ EOF
 sub config_format () {
     my $data = <<EOF;
 graph_title Extract formats
-graph_vlabel Format
+graph_vlabel number of formats
 graph_category extract
 graph_info Number Requests by Format
 graph_period minute
@@ -196,7 +196,7 @@ EOF
 sub config_failed () {
     my $data = <<EOF;
 graph_title Extract failed
-graph_vlabel Format
+graph_vlabel number of failed in $days_failed days
 graph_category extract
 graph_info Number Requests by failed Format in $days_failed days
 graph_period minute
