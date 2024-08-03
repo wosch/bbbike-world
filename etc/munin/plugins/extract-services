@@ -37,7 +37,9 @@ my $type = 'extract';
 # reset offset
 my $reset = 0;
 
-my $days_failed = 90;
+my $days_failed     = 90;
+my $failed_warning  = 16;
+my $failed_critical = 48;
 
 # keep in sync with world/lib/Extract/Config.pm
 #
@@ -207,6 +209,8 @@ EOF
         my $label_e = escape_label($label);
         $data .= "$label_e.label $label\n";
         $data .= "$label_e.min $min_value\n";
+        $data .= "$label_e.warning $failed_warning\n";
+        $data .= "$label_e.critical $failed_critical\n";
     }
 
     return $data;
