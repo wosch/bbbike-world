@@ -1,5 +1,5 @@
 #!/usr/local/bin/bash
-# Copyright (c) 2009-2022 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2024 Wolfram Schneider, https://bbbike.org
 #
 # pbf2osm - convert PBF format to OSM XML / Garmin / Shape
 #
@@ -45,7 +45,7 @@ esac
 : ${max_file_size_maperitive=90000}
 : ${max_file_size_mbtiles=980000}
 
-: ${pbf2osm_max_cpu_time=7200}
+: ${pbf2osm_max_cpu_time=14400}
 
 # use max. configured CPUs
 if which pbzip2 >/dev/null 2>&1; then
