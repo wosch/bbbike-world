@@ -37,7 +37,7 @@ my $type = 'extract';
 # reset offset
 my $reset = 0;
 
-my $days_failed     = 90;
+my $days_failed     = 30;
 my $failed_warning  = 16;
 my $failed_critical = 48;
 
