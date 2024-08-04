@@ -408,7 +408,7 @@ sub count_failed {
 
     my $shell =
         qq#find /opt/bbbike/extract/failed2/ -mtime -$days -name '*json'#
-      . q# | xargs  egrep  -h '"format" :' | sort | uniq -c | sort -nr | sed -e  's/[",]//g;' | awk '{ print $4, $1 }'#;
+      . q# | xargs  egrep  -h '"format" :' | sed -e  's/[",]//g;' | sort | uniq -c | sort -nr | awk '{ print $4, $1 }'#;
     open( IN, "$shell |" ) or die "open $shell\n";
 
     while (<IN>) {
