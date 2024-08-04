@@ -44,41 +44,57 @@ my $failed_critical = 48;
 # keep in sync with world/lib/Extract/Config.pm
 #
 # to update manually, run:
-# perl -I world/lib/ -e 'use Extract::Config; print join "\n", sort keys $Extract::Config::formats'
+# perl -I world/lib/ -e 'use Extract::Config; print join "\n", sort keys %$Extract::Config::formats'
 #
 my $config = {
     'tilesize' => [
         qw/
+          bbbike-perltk.zip
           csv.gz
           csv.xz
-          garmin-bbbike-latin1.zip
-          garmin-bbbike.zip
+          garmin-ajt03-ascii.zip
           garmin-ajt03-latin1.zip
           garmin-ajt03.zip
+          garmin-bbbike-ascii.zip
+          garmin-bbbike-latin1.zip
+          garmin-bbbike.zip
+          garmin-cycle-ascii.zip
           garmin-cycle-latin1.zip
           garmin-cycle.zip
+          garmin-leisure-ascii.zip
           garmin-leisure-latin1.zip
           garmin-leisure.zip
+          garmin-onroad-ascii.zip
           garmin-onroad-latin1.zip
           garmin-onroad.zip
+          garmin-ontrail-ascii.zip
           garmin-ontrail-latin1.zip
           garmin-ontrail.zip
-          garmin-opentopo-latin1.zip
-          garmin-opentopo.zip
-          garmin-openfietslite-latin1.zip
-          garmin-openfietslite.zip
+          garmin-openfietsfull-ascii.zip
           garmin-openfietsfull-latin1.zip
           garmin-openfietsfull.zip
+          garmin-openfietslite-ascii.zip
+          garmin-openfietslite-latin1.zip
+          garmin-openfietslite.zip
+          garmin-opentopo-ascii.zip
+          garmin-opentopo-latin1.zip
+          garmin-opentopo.zip
+          garmin-oseam-ascii.zip
           garmin-oseam-latin1.zip
           garmin-oseam.zip
+          garmin-osm-ascii.zip
           garmin-osm-latin1.zip
           garmin-osm.zip
+          geojson.xz
+          geojsonseq.xz
           mapsforge-osm.zip
-          organicmaps-osm.zip
+          mbtiles-basic.zip
+          mbtiles-openmaptiles.zip
           o5m.gz
           o5m.xz
           obf.zip
           opl.xz
+          organicmaps-osm.zip
           osm.bz2
           osm.gz
           osm.pbf
@@ -90,10 +106,7 @@ my $config = {
           png-urbanight.zip
           png-wireframe.zip
           shp.zip
-          srtm-europe.garmin-srtm.zip
-          srtm-europe.obf.zip
-          srtm-europe.osm.pbf
-          srtm-europe.osm.xz
+          sqlite.xz
           srtm.garmin-srtm.zip
           srtm.obf.zip
           srtm.osm.pbf
@@ -104,7 +117,7 @@ my $config = {
           svg-osm.zip
           svg-urbanight.zip
           svg-wireframe.zip
-          mbtiles-openmaptiles.zip
+          text.xz
           /
     ]
 };
