@@ -119,7 +119,7 @@ qq[world/bin/bomb --timeout=$timeout --screenshot-file=$pbf_file.png -- world/bi
         system(qq[world/bin/extract-disk-usage.sh $out > $tempfile]);
         is( $?, 0, "extract disk usage check" );
 
-        my $image_size = (`cat $tempfile` || 0) * 1024;
+        my $image_size = ( `cat $tempfile` || 0 ) * 1024;
         cmp_ok( $image_size, '>', $size, "image size: $image_size > $size" );
 
         $counter += 4;
