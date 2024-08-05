@@ -104,10 +104,10 @@ sub convert_format {
         my $out = $test->out($style);
         unlink($out);
 
-        system(
-qq[world/bin/bomb --timeout=$timeout --screenshot-file=$pbf_file.png -- world/bin/pbf2osm --$format-$style $pbf_file "$city"]
-        );
-        is( $?, 0, "pbf2osm --$format-$style converter" );
+        my $system =
+qq[world/bin/bomb --timeout=$timeout --screenshot-file=$pbf_file.png -- world/bin/pbf2osm --$format-$style $pbf_file "$city"];
+        system($system);
+        is( $?, 0, "$system" );
 
         system(qq[unzip -tqq $out]);
         is( $?, 0, "valid zip file" );

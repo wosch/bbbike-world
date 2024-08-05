@@ -1,5 +1,5 @@
 #!/usr/local/bin/bash
-# Copyright (c) 2015 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2015-2024 Wolfram Schneider, https://bbbike.org
 #
 # bomb - wrapper to stop a process after N seconds
 #        job control in bourne shell
@@ -10,7 +10,8 @@
 set -o monitor
 
 # the maximum amount of cpu time in seconds
-ulimit -t 7600
+# Note: must be higher than any default value in world/bin/pbf2osm
+ulimit -t 36000
 
 # now run the perl script in foreground and with job control
 $0.pl "$@"
