@@ -24,7 +24,7 @@ logfile="tmp/log.planet-daily-update"
 touch $logfile
 
 sub_planet="sub-planet-daily"
-tagname="build-tagname-db build-tagname-db-geofabrik"
+tagname="build-tagname-db"
 
 # ignore missing tagname repo
 if [ ! -e ../tagname ]; then
