@@ -32,8 +32,8 @@ osm2mbtiles=$dirname/osm2mbtiles
 # max. file size in KB
 # larger value for special garmin format
 case $format in
-  --garmin-onroad* ) : ${max_file_size_garmin=7950000} ;;
-  --garmin-ontrail* ) : ${max_file_size_garmin=6950000} ;;
+  --garmin-onroad*  ) : ${max_file_size_garmin=9950000} ;;
+  --garmin-ontrail* ) : ${max_file_size_garmin=8950000} ;;
 esac
 
 : ${max_file_size_bbbike=90000}
