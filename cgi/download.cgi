@@ -810,11 +810,8 @@ sub current_user {
     my $q = shift;
 
     # limit to current user
-    my $email = "";
-    if ( $q->param("me") ) {
-        $email = $q->cookie('email') // "";
-        $email .= '@bbbike.org' if $email eq 'nobody';
-    }
+    my $email = $q->cookie('email') // "";
+    $email .= '@bbbike.org' if $email eq 'nobody';
 
     return $email;
 }
@@ -865,13 +862,14 @@ EOF
     my @extracts = ();
 
     my $sort_by = $q->param('sort_by') || $q->param("sort");
+    my $email   = &current_user($q);
 
     my @extracts_trash = &extract_areas(
         'log_dir'       => "$spool_dir/" . $spool->{"trash"},
         'max'           => $max,
         'sort_by'       => $sort_by,
         'filter_format' => $filter_format,
-        'email'         => &current_user($q),
+        'email'         => $email,
         'date'          => $date
     );
 
@@ -891,22 +889,24 @@ EOF
  <span>@{[ M("Last update") ]}: $current_date</span>
 EOF
 
-    if ( !$me ) {
-        my $qq = new CGI($q);
-        $qq->param( "me", "1" );
-        my $url = $qq->url( -query => 1, -relative => 1 );
-        print qq|<a href="$url">|, M("only my extracts"), qq|</a>|;
-    }
-    else {
-        my $qq = new CGI($q);
-        $qq->delete("me");
-        my $url = $qq->url( -query => 1, -relative => 1 );
-        print qq|<a href="$url">|, M("all extracts"), qq|</a>|;
+    if ($email) {
+        if ( !$me ) {
+            my $qq = new CGI($q);
+            $qq->param( "me", "1" );
+            my $url = $qq->url( -query => 1, -relative => 1 );
+            print qq|<a href="$url">|, M("only my extracts"), qq|</a>|;
+        }
+        else {
+            my $qq = new CGI($q);
+            $qq->delete("me");
+            my $url = $qq->url( -query => 1, -relative => 1 );
+            print qq|<a href="$url">|, M("all extracts"), qq|</a>|;
+        }
+        print " - \n";
     }
 
     if ( $option->{'auto_refresh'}->{'enabled'} ) {
         print <<EOF;
- -
 <a title="enable/disable auto refresh every $time seconds" onclick="javascript:auto_refresh($count);"
 style="display: inline;"> 
 @{[ $count == 0 || $count >= $max_count ? M("enable auto refresh") : M("disable auto refresh") ]}</a>
