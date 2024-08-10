@@ -102,9 +102,14 @@ sub header {
     if ( $type eq 'check_input' || $type eq 'homepage' ) {
         my @cookies;
         my @cookie_opt = (
-            -path    => $q->url( -absolute => 1, -query => 0 ),
+            -path    => '/',     #$q->url( -absolute => 1, -query => 0 ),
             -expires => '+30d'
         );
+
+        if ( $option->{cookie_domain} ) {
+            push @cookie_opt, ( -domain => $option->{cookie_domain} );
+            warn Dumper( \@cookie_opt );
+        }
 
         my $format = $q->param("format");
         push @cookies,

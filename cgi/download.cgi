@@ -103,6 +103,7 @@ sub extract_areas {
     my $devel         = $args{'devel'} || 0;
     my $sort_by       = $args{'sort_by'} || "time";
     my $date          = $args{'date'} || "";
+    my $email         = $args{'email'} || "";
     my $filter_format = $args{'filter_format'} || "";
 
     my $max_days = 6;
@@ -114,8 +115,16 @@ sub extract_areas {
     my %hash;
     foreach my $f (`find $log_dir/ -name '*.json' -mtime -${max_days} -print`) {
         chomp $f;
-        my $st = stat($f) or die "stat $f: $!\n";
-        $hash{$f} = $st->mtime;
+
+        my $st = stat($f);
+        if ( !$st ) {
+
+            # already gone?
+            warn "stat $f: $!\n";
+        }
+        else {
+            $hash{$f} = $st->mtime;
+        }
     }
 
     # newest first
@@ -133,6 +142,11 @@ sub extract_areas {
         my $obj  = $extract_utils->parse_json_file( $file, 1 );
 
         next if !exists $obj->{'date'};
+
+        # show only my extracts
+        if ( $email && $obj->{'email'} ne $email ) {
+            next;
+        }
 
         my $pbf_file = $download_dir . "/" . basename( $obj->{"pbf_file"} );
         my $format   = $obj->{"format"};
@@ -241,8 +255,11 @@ sub running_extract_areas {
 
     my %hash;
     foreach my $f ( glob("$log_dir/*.json"), glob("$log_dir/*/*.json") ) {
-        my $st = stat($f) or die "stat $f: $!\n";
-        $hash{$f} = $st->mtime;
+        my $st = stat($f);
+        if ( !$st ) { warn "stat $f: $!\n"; }
+        else {
+            $hash{$f} = $st->mtime;
+        }
     }
 
     # newest first
@@ -252,6 +269,7 @@ sub running_extract_areas {
     my $json         = new JSON;
     my $download_dir = "$spool_dir/" . $spool->{"download"};
 
+    my $email = &current_user($q);
     my %unique;
     for ( my $i = 0 ; $i < scalar(@list) && $i < $max ; $i++ ) {
         my $file = $list[$i];
@@ -271,6 +289,9 @@ sub running_extract_areas {
         }
 
         next if !exists $obj->{'date'};
+        if ( $email && $obj->{'email'} ne $email ) {
+            next;
+        }
 
         if ( $filter_format ne "" ) {
             if ( index( $obj->{"format"}, $filter_format ) != 0 ) {
@@ -785,6 +806,19 @@ sub download_json {
     print JSON->new->pretty(1)->canonical->encode($perl);
 }
 
+sub current_user {
+    my $q = shift;
+
+    # limit to current user
+    my $email = "";
+    if ( $q->param("me") ) {
+        $email = $q->cookie('email') // "";
+        $email .= '@bbbike.org' if $email eq 'nobody';
+    }
+
+    return $email;
+}
+
 sub download_html {
     my $q      = shift;
     my $locale = Extract::Locale->new( 'q' => $q );
@@ -830,16 +864,18 @@ EOF
 
     my @extracts = ();
 
-    my $sort_by        = $q->param('sort_by') || $q->param("sort");
+    my $sort_by = $q->param('sort_by') || $q->param("sort");
+
     my @extracts_trash = &extract_areas(
         'log_dir'       => "$spool_dir/" . $spool->{"trash"},
         'max'           => $max,
         'sort_by'       => $sort_by,
         'filter_format' => $filter_format,
+        'email'         => &current_user($q),
         'date'          => $date
     );
 
-    my ( $count, $max_count, $time ) = activate_auto_refresh($q);
+    my ( $count, $max_count, $time, $me ) = &activate_auto_refresh($q);
 
     print <<EOF;
 
@@ -855,9 +891,9 @@ EOF
 
     if ( $option->{'auto_refresh'}->{'enabled'} ) {
         print <<EOF;
- -
+-
 <a title="enable/disable auto refresh every $time seconds" onclick="javascript:auto_refresh($count);"
-style="display: inline;">
+style="display: inline;"> 
 @{[ $count == 0 || $count >= $max_count ? M("Enable auto refresh") : M("Disable auto refresh") ]}</a>
 EOF
     }
@@ -938,6 +974,7 @@ sub activate_auto_refresh {
 
     my $max  = $option->{'auto_refresh'}->{'max'};
     my $time = $option->{'auto_refresh'}->{'delay_seconds'};
+    my $me   = $q->param("me") // 0;
 
     my $count = $q->param("count") || 0;
     $count = int($count);
@@ -947,6 +984,7 @@ sub activate_auto_refresh {
 
     my $qq = CGI->new($q);
     $qq->param( "count", $count + 1 );
+
     my $url  = $qq->url( -query => 1, -path => 1 );
     my $url2 = $q->url( -query => 0, -path => 1 );
 
@@ -964,7 +1002,7 @@ function auto_refresh (flag) {
 var _auto_refresh_start = $count;
 </script>
 EOF
-    return ( $count, $max, $time );
+    return ( $count, $max, $time, $me );
 }
 
 ##############################################################################################
