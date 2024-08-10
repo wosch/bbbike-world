@@ -36,7 +36,7 @@ case $format in
   --garmin-ontrail* ) : ${max_file_size_garmin=8950000} ;;
 esac
 
-: ${max_file_size_bbbike=90000}
+: ${max_file_size_bbbike=160000}
 : ${max_file_size_garmin=3950000}
 : ${max_file_size_mapsforge=1234000}
 : ${max_file_size_osmand=500000}
