@@ -108,7 +108,6 @@ sub header {
 
         if ( $option->{cookie_domain} ) {
             push @cookie_opt, ( -domain => $option->{cookie_domain} );
-            warn Dumper( \@cookie_opt );
         }
 
         my $format = $q->param("format");
