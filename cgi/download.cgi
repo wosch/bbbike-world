@@ -875,7 +875,9 @@ EOF
         'date'          => $date
     );
 
-    my ( $count, $max_count, $time, $me ) = &activate_auto_refresh($q);
+    my ( $count, $max_count, $time ) = &activate_auto_refresh($q);
+
+    my $me = $q->param("me") || 0;
 
     print <<EOF;
 
@@ -889,12 +891,25 @@ EOF
  <span>@{[ M("Last update") ]}: $current_date</span>
 EOF
 
+    if ( !$me ) {
+        my $qq = new CGI($q);
+        $qq->param( "me", "1" );
+        my $url = $qq->url( -query => 1, -relative => 1 );
+        print qq|<a href="$url">|, M("only my extracts"), qq|</a>|;
+    }
+    else {
+        my $qq = new CGI($q);
+        $qq->delete("me");
+        my $url = $qq->url( -query => 1, -relative => 1 );
+        print qq|<a href="$url">|, M("all extracts"), qq|</a>|;
+    }
+
     if ( $option->{'auto_refresh'}->{'enabled'} ) {
         print <<EOF;
--
+ -
 <a title="enable/disable auto refresh every $time seconds" onclick="javascript:auto_refresh($count);"
 style="display: inline;"> 
-@{[ $count == 0 || $count >= $max_count ? M("Enable auto refresh") : M("Disable auto refresh") ]}</a>
+@{[ $count == 0 || $count >= $max_count ? M("enable auto refresh") : M("disable auto refresh") ]}</a>
 EOF
     }
 
@@ -974,7 +989,6 @@ sub activate_auto_refresh {
 
     my $max  = $option->{'auto_refresh'}->{'max'};
     my $time = $option->{'auto_refresh'}->{'delay_seconds'};
-    my $me   = $q->param("me") // 0;
 
     my $count = $q->param("count") || 0;
     $count = int($count);
@@ -1002,7 +1016,7 @@ function auto_refresh (flag) {
 var _auto_refresh_start = $count;
 </script>
 EOF
-    return ( $count, $max, $time, $me );
+    return ( $count, $max, $time );
 }
 
 ##############################################################################################
