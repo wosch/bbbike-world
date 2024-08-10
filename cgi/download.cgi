@@ -889,7 +889,7 @@ EOF
  <span>@{[ M("Last update") ]}: $current_date</span>
 EOF
 
-    if ($email) {
+    if (0 && $email) {
         if ( !$me ) {
             my $qq = new CGI($q);
             $qq->param( "me", "1" );
