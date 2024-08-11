@@ -876,8 +876,6 @@ EOF
 
     my ( $count, $max_count, $time ) = &activate_auto_refresh($q);
 
-    my $me = $q->param("me") || 0;
-
     print <<EOF;
 
 <table id="donate">
