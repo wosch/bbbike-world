@@ -28,7 +28,7 @@ usage () {
 cat <<EOF
 usage $0 file [ format ] [ title ]
 
-  ajt03-latin1
+  ajt03 ajt03-ascii ajt03-latin1
   bbbike bbbike-ascii bbbike-latin1
   cycle cycle-ascii cycle-latin1
   leisure leisure-ascii leisure-latin1
