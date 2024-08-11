@@ -863,13 +863,14 @@ EOF
 
     my $sort_by = $q->param('sort_by') || $q->param("sort");
     my $email   = &current_user($q);
+    my $me      = $q->param("me") || 0;
 
     my @extracts_trash = &extract_areas(
         'log_dir'       => "$spool_dir/" . $spool->{"trash"},
         'max'           => $max,
         'sort_by'       => $sort_by,
         'filter_format' => $filter_format,
-        'email'         => $email,
+        'email'         => $me ? $email : "",
         'date'          => $date
     );
 
@@ -889,15 +890,14 @@ EOF
  <span>@{[ M("Last update") ]}: $current_date</span>
 EOF
 
-    if (0 && $email) {
+    if ($email) {
+        my $qq = new CGI($q);
         if ( !$me ) {
-            my $qq = new CGI($q);
             $qq->param( "me", "1" );
             my $url = $qq->url( -query => 1, -relative => 1 );
             print qq|<a href="$url">|, M("only my extracts"), qq|</a>|;
         }
         else {
-            my $qq = new CGI($q);
             $qq->delete("me");
             my $url = $qq->url( -query => 1, -relative => 1 );
             print qq|<a href="$url">|, M("all extracts"), qq|</a>|;
