@@ -892,12 +892,12 @@ EOF
         my $qq = new CGI($q);
         if ( !$me ) {
             $qq->param( "me", "1" );
-            my $url = $qq->url( -query => 1, -relative => 1 );
+            my $url = $qq->url( -query => 1, -absolute => 1 );
             print qq|<a href="$url">|, M("only my extracts"), qq|</a>|;
         }
         else {
             $qq->delete("me");
-            my $url = $qq->url( -query => 1, -relative => 1 );
+            my $url = $qq->url( -query => 1, -absolute => 1 );
             print qq|<a href="$url">|, M("all extracts"), qq|</a>|;
         }
         print " - \n";
