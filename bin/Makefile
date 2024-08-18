@@ -3,7 +3,7 @@
 all: help
 NCPU=`../bin/ncpu`
 
-ALL:=	$(shell file * | egrep -w 'perl|Perl|Perl5' | awk '{print $$1}' | perl -ne 's/://; print if !/.(bak|tdy|ERR)$$/' | sort)
+ALL:=	$(shell file * | egrep -w 'perl|Perl|Perl5' | awk '{print $$1}' | perl -ne 's/://; print if !/.(bak|tdy|ERR|\~)$$/' | sort)
 
 perlcheck:
 	${MAKE} _perlcheck 2>/dev/null || ${MAKE} _perlcheck
