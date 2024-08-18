@@ -67,7 +67,7 @@ else
        ) >> $logfile
       
 
-       if time make planet-download-pbf >> $logfile 2>&1; then
+       if \time make planet-download-pbf >> $logfile 2>&1; then
          echo "done updated: $(date)" >> $logfile
          cp -f $update_new $update
 
