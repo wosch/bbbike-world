@@ -423,7 +423,7 @@ fi
 
 # the limit for description field is 50 bytes
 coords=$(echo $garmin | perl -npe 's,planet_,,; s/_/ /g')
-description=$(echo $description | perl -npe 'binmode \*STDIN, ":raw"; binmode \*STDOUT, ":raw"; $_ = substr($_, 0, 47)')
+description=$(echo $description | $dirname/garmin-description-limit.pl)
 
 set_typ=$dirname/freizeitkarte-set-typ.pl
 
