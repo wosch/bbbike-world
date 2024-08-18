@@ -13,7 +13,7 @@ use warnings;
 
 # garmin max. description byte limit
 my $limit = $ENV{GARMIN_DESCRIPTION_LIMIT} // 50;
-my $debug = 1;
+my $debug = 0;
 
 # byte input
 binmode \*STDOUT, ":raw";
@@ -46,8 +46,32 @@ warn "Length final utf8: '", encode( "UTF-8", $final_string ), "' ",
   length($final_string), " characters\n"
   if $debug;
 
-my $octets = encode( "UTF-8", $final_string );
-warn "Length final octets '$octets' ", length($octets), " bytes\n" if $debug;
+# count every Unicode character as 4 byte (UTF-32?) for java
+my $counter   = 0;
+my $string_32 = "";
+foreach my $c ( split( //, $final_string ) ) {
+    my $bytes = encode( "UTF-8", $c );
+
+    my $length = length($bytes);
+
+    # non latin1 are stored as 32 bit
+    $length = $length > 1 ? 4 : $length;
+
+    if ( $counter + $length > $limit ) {
+        last;
+    }
+
+    $string_32 .= $c;
+    $counter += $length;
+}
+
+warn "Length final utf8/4bytes: '", encode( "UTF-8", $string_32 ), "' ",
+  length($string_32), " characters\n"
+  if $debug;
+
+my $octets = encode( "UTF-8", $string_32 );
+warn "Length final octets '$octets' ", length($octets), "/$counter bytes\n"
+  if $debug;
 
 # final output
 print $octets;
