@@ -159,6 +159,7 @@ our $formats_menu = {
             'garmin-openfietsfull-latin1.zip',
             'garmin-oseam-latin1.zip',
             'garmin-opentopo-latin1.zip',
+
             #'garmin-ajt03-latin1.zip',
 
             # utf-8
@@ -172,6 +173,7 @@ our $formats_menu = {
             'garmin-openfietsfull.zip',
             'garmin-oseam.zip',
             'garmin-opentopo.zip',
+
             #'garmin-ajt03.zip',
         ]
     },
