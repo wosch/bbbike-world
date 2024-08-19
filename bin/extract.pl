@@ -91,8 +91,8 @@ our $option = {
     'pause_file'    => '/tmp/extract-pause',
 
     # timeout handling
-    'alarm'         => 210 * 60,    # extract
-    'alarm_convert' => 90 * 60,     # convert
+    'alarm'         => 3.5 * 3600,    # extract
+    'alarm_convert' => 5.0 * 3600,    # convert to garmin/mapsforge
 
     # run with lower priority
     'nice_level' => 2,
