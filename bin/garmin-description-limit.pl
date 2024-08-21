@@ -11,8 +11,8 @@ use utf8;
 use strict;
 use warnings;
 
-# garmin max. description byte limit
-my $limit = $ENV{GARMIN_DESCRIPTION_LIMIT} // 50;
+# garmin max. description byte limit of 50 (LANG=C) or 49 (LANG=en_US.UTF-8)
+my $limit = $ENV{GARMIN_DESCRIPTION_LIMIT} // 49;
 my $debug = $ENV{DEBUG} // 0;
 
 # byte input
