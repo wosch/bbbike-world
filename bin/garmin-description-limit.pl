@@ -13,7 +13,7 @@ use warnings;
 
 # garmin max. description byte limit
 my $limit = $ENV{GARMIN_DESCRIPTION_LIMIT} // 50;
-my $debug = 0;
+my $debug = $ENV{DEBUG} // 0;
 
 # byte input
 binmode \*STDOUT, ":raw";
