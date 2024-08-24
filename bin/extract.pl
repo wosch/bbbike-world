@@ -2121,7 +2121,8 @@ while ( my ( $key, $val ) = each %$spool ) {
 }
 
 # get a list of waiting jobs Extract::Utils::get_jobs
-my @files = get_jobs( $spool->{'confirmed'}, 256 );
+# XXX: should be a random list
+my @files = get_jobs( $spool->{'confirmed'}, 2048 );
 
 if ( !scalar(@files) ) {
     print "Nothing to do in $spool->{'confirmed'}\n" if $debug >= 2;
