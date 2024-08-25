@@ -19,16 +19,15 @@ my $debug = $ENV{DEBUG}                    // 0;
 binmode \*STDOUT, ":raw";
 binmode \*STDIN,  ":raw";
 
-my $string;
+my $string = "";
 while (<>) {
     $string = $_;
     last;
 }
-$string //= "";
-chomp($string);
 
+chomp($string);
 if ( $string eq "" ) {
-    die "usage: $0 string\n";
+    die "usage: $0 < file\n";
 }
 
 # $string = "北京中轴线 osm/latin1 BBBike.org 18-Aug-2024";
