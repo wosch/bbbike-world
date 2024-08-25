@@ -1,19 +1,12 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2024 Wolfram Schneider, https://bbbike.org
-
-use FindBin;
-use lib "$FindBin::RealBin/../lib";
+# Copyright (c) Aug 2024-2024 Wolfram Schneider, https://bbbike.org
 
 use Test::More;
 use IO::File;
 use File::Basename;
 
-use Test::More::UTF8;
-
 use strict;
 use warnings;
-
-#chdir("$FindBin::RealBin/../..") or die "Cannot find bbbike world root directory\n";
 
 my @description_files = qw/hongkong.txt numbers.txt/;
 my @description_files_extra =
