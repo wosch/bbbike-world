@@ -209,7 +209,6 @@ sub extract_areas {
 
         warn "found download file $download_file\n" if $debug >= 3;
 
-        warn "xxx: ", Dumper($obj) if $debug >= 3;
         push @area, $obj;
     }
 
@@ -250,6 +249,7 @@ sub running_extract_areas {
     my $devel         = $args{'devel'} || 0;
     my $sort_by       = $args{'sort_by'} || "time";
     my $filter_format = $args{'filter_format'} || "";
+    my $email         = $args{'email'} || "";
 
     warn "download: log dir: $log_dir, max: $max, devel: $devel\n" if $debug;
 
@@ -269,7 +269,6 @@ sub running_extract_areas {
     my $json         = new JSON;
     my $download_dir = "$spool_dir/" . $spool->{"download"};
 
-    my $email = &current_user($q);
     my %unique;
     for ( my $i = 0 ; $i < scalar(@list) && $i < $max ; $i++ ) {
         my $file = $list[$i];
@@ -310,7 +309,6 @@ sub running_extract_areas {
         }
         $unique{$script_url} = 1;
 
-        warn "xxx: ", Dumper($obj) if $debug >= 3;
         push @area, $obj;
     }
 
@@ -931,6 +929,7 @@ EOF
     @extracts = &running_extract_areas(
         'log_dir'       => "$spool_dir/" . $spool->{"confirmed"},
         'filter_format' => $filter_format,
+        'email'         => $me ? $email : "",
         'max'           => $max
     );
 
@@ -944,6 +943,7 @@ EOF
     @extracts = &running_extract_areas(
         'log_dir'       => "$spool_dir/" . $spool->{"running"},
         'filter_format' => $filter_format,
+        'email'         => $me ? $email : "",
         'max'           => $max
     );
 
