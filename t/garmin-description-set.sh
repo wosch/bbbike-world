@@ -12,7 +12,7 @@ tmpdir=$(mktemp -d)
 
 dir=$(dirname $0)
 
-file=$dir/data-osm/Cusco.osm.pbf
+file=$dir/data-osm/Oderberg.osm.pbf
 
 cp $file $tmpdir
 $dir/../bin/osm2garmin $file osm "$garmin_description osm/UTF-8 BBBike.org 2024-08-24"
