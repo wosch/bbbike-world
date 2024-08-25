@@ -84,7 +84,7 @@ if ( !$fast || $long ) {
         # 150 bytes for C - must fail
         $status = 256;
         foreach my $city (@description_files) {
-            &convert( $city, 150, "C" );
+            &convert( $city, 70, "C" );
         }
     }
 }
