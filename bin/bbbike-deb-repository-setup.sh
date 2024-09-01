@@ -1,10 +1,9 @@
 #!/bin/sh
-# Copyright (c) 2016-2023 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2016-2024 Wolfram Schneider, https://bbbike.org
 #
 # init bbbike.org ubuntu deb repository
 
 : ${DEBUG=false}
-: ${enable_mono="NO"}
 enable_legacy="YES"
 
 if $DEBUG; then
@@ -63,23 +62,6 @@ init_apt_bbbike() {
     fi
 }
 
-init_apt_mono() {
-    mono_list=mono-xamarin.list
-    mono_deb_url=https://download.mono-project.com/repo
-
-    file="$sources_list_d/$mono_list"
-    os=debian
-    codename=buster
-
-    if [ ! -e $file ]; then
-        sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-
-        sudo sh -c "echo \"deb [arch=amd64] $mono_deb_url/${os} ${codename} main\" > $file.tmp"
-        sudo mv -f $file.tmp $file
-        sudo apt-get update -qq
-    fi
-}
-
 # required packages for this script
 init_apt_deb() {
     sudo apt-get install -qq -y lsb-release wget curl gnupg dirmngr
@@ -87,9 +69,5 @@ init_apt_deb() {
 
 init_apt_deb
 init_apt_bbbike
-
-if [ $enable_mono = "YES" ]; then
-  init_apt_mono
-fi
 
 #EOF
