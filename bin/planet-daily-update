@@ -11,8 +11,8 @@ nice="nice -n 9"
 : ${debug=false}
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
 
-# need 4GB per 7 days of OSM updates
-program="time pyosmium-up-to-date --socket-timeout 30 --size 12000 -v -v --format pbf"
+# need 5GB per 7 days of OSM updates
+program="time pyosmium-up-to-date --socket-timeout 30 --size 18000 -v -v --format pbf"
 umask 002
 
 md5sum=$(which md5 md5sum false 2>/dev/null | head -n 1)

@@ -42,7 +42,7 @@ MAX_OSM2GARMIN=	$$(( ${MAX_CPU} / 4 + 1 ))
 MAX_OSM2PNG=	${MAX_CPU2}
 MAX_OSM2SVG=	${MAX_CPU}
 MAX_OSM2MAPSFORGE= $$(( ${MAX_CPU} / 3 + 1 ))
-MAX_OSM2MBTILES=${MAX_CPU}
+MAX_OSM2MBTILES=${MAX_CPU3}
 MAX_CPU_20=	$$(( ${MAX_CPU} * 2 / 10 + 1 ))
 MAX_CPU_30=	$$(( ${MAX_CPU} * 3 / 10 + 1 ))
 MAX_CPU_40=	$$(( ${MAX_CPU} * 4 / 10 + 1 ))
@@ -63,6 +63,7 @@ PBF2PBF=	world/bin/pbf2pbf
 OSM2GARMIN=		world/bin/pbf2osm --garmin-osm
 OSM2GARMIN_CYCLE=	world/bin/pbf2osm --garmin-cycle
 OSM2GARMIN_ONROAD=	world/bin/pbf2osm --garmin-onroad
+OSM2GARMIN_AJT03=	world/bin/pbf2osm --garmin-ajt03
 OSM2GARMIN_ONTRAIL=	world/bin/pbf2osm --garmin-ontrail
 OSM2GARMIN_ALL=		world/bin/pbf2osm --garmin-osm:onroad
 OSM2GARMIN_OSEAM=	world/bin/pbf2osm --garmin-oseam
@@ -113,6 +114,7 @@ BBBIKE_API_SERVER	?= api.bbbike.org
 API_DIR=	api/0.2
 LOG_DIR=tmp
 BBBIKE_PARTITION=	/opt/bbbike
+BBBIKE_ESERTE_DIR=	../bbbike-eserte
 
 OSMOSIS_PLUGIN_DIR=$$HOME/.openstreetmap/osmosis/plugins
 
@@ -282,7 +284,7 @@ _pbf2pbf-checksum:
 osm2garmin: osm2garmin-multi
 osm2garmin-single: osm2garmin-osm osm2garmin-onroad osm2garmin-opentopo # osm2garmin-ontrail osm2garmin-oseam osm2garmin-cycle osm2garmin-leisure osm2garmin-bbbike osm2garmin-openfietslite osm2garmin-openfietsfull check-zip
 osm2garmin-multi:
-	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,world/bin/osm2garmin '${OSM_DIR}'/$$_/$$_.osm.pbf onroad-latin1:ontrail-latin1:osm:opentopo-latin1\0, ' | env osm2xxx_max_jobs=1 java_heap=5G ${XARGS} -n 1 -0 -P${MAX_CPU3} /bin/sh -c
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,world/bin/osm2garmin '${OSM_DIR}'/$$_/$$_.osm.pbf onroad-latin1:ontrail-latin1:osm:opentopo-latin1\0, ' | env osm2xxx_max_jobs=1 java_heap=5G ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} /bin/sh -c
 
 osm2garmin-osm:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
@@ -295,6 +297,8 @@ osm2garmin-bbbike:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ext=bbbike ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
 osm2garmin-onroad:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ext=onroad ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
+osm2garmin-ajt03:
+	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ext=ajt03 ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
 osm2garmin-ontrail:
 	echo ${CITIES} | ${PERL} -npe 's/\s+/\n/g' | ${PERL} -ne 'chomp; print qq,'${OSM_DIR}'/$$_/$$_.osm.pbf\0, ' | env osm2xxx_max_jobs=1 ext=ontrail ${XARGS} -n 1 -0 -P${MAX_OSM2GARMIN} ${OSM2GARMIN}
 osm2garmin-opentopo:
@@ -629,32 +633,34 @@ bbbike2wgs84:
 	./world/bin/bbbike2wgs84
 
 bbbike2wgs84-mapnik:
-	if test -e ${LOG_DIR}/bbbike-mapnik.osm.gz; then mv -f ${LOG_DIR}/bbbike-mapnik.osm.gz ${LOG_DIR}/bbbike-mapnik.osm.gz.old; fi
-	${NICE} ./miscsrc/bbd2osm --optimize-for=mapnik-bbbike --experiment=cycle-route ${DATA_DIR} | ${GZIP} > ${LOG_DIR}/bbbike-mapnik.osm.gz.tmp
+	if [ -e ${LOG_DIR}/bbbike-mapnik.osm.gz ]; then \
+	  mv -f ${LOG_DIR}/bbbike-mapnik.osm.gz ${LOG_DIR}/bbbike-mapnik.osm.gz.old; \
+	fi
+	${NICE} ${BBBIKE_ESERTE_DIR}/miscsrc/bbd2osm --optimize-for=mapnik-bbbike --experiment=cycle-route ${DATA_DIR} | ${GZIP} > ${LOG_DIR}/bbbike-mapnik.osm.gz.tmp
 	mv -f ${LOG_DIR}/bbbike-mapnik.osm.gz.tmp ${LOG_DIR}/bbbike-mapnik.osm.gz
 
 bbbike-tile-update:
-	cd ../bbbike-eserte; \
+	cd ${BBBIKE_ESERTE_DIR} && \
 	  git pull -q; \
 	  git log --format=oneline | head -1 | awk '{ print $$1 }' > .tile-status.new
 	# skip update if there are no new git commits
-	if cmp ../bbbike-eserte/.tile-status ../bbbike-eserte/.tile-status.new; then \
+	if cmp ${BBBIKE_ESERTE_DIR}/.tile-status ${BBBIKE_ESERTE_DIR}/.tile-status.new; then \
 	  true; \
 	else \
 	  ${MAKE} bbbike-tile-update-real; \
 	fi
 
 bbbike-tile-update-real:
-	@echo "Updating postgis database..., see tmp/log.bbbike-mapnik-postgis${POSTGIS_VERSION}"
-	${MAKE} DATA_DIR=../bbbike-eserte/data bbbike2wgs84-mapnik
+	@echo "Updating postgis database from ${BBBIKE_ESERTE_DIR}..., see tmp/log.bbbike-mapnik-postgis${POSTGIS_VERSION}"
+	${MAKE} DATA_DIR=${BBBIKE_ESERTE_DIR}/data bbbike2wgs84-mapnik
 	time ${MAKE} bbbike-mapnik-postgis${POSTGIS_VERSION} > tmp/log.bbbike-mapnik-postgis${POSTGIS_VERSION} 2>&1
-	cd ../bbbike-eserte; git log --format=oneline | head -1 | awk '{ print $$1 }' > .tile-status
+	cd ${BBBIKE_ESERTE_DIR} && git log --format=oneline | head -1 | awk '{ print $$1 }' > .tile-status
 	${MAKE} tile-cache-cleanup
 	${MAKE} bbbike-tile-git-gc
 	#prove world/t/mc-tilecheck.t ./world/t/websites.t
 
 bbbike-tile-git-gc:
-	cd ../bbbike-eserte && git gc -q
+	cd ${BBBIKE_ESERTE_DIR} && git gc -q
 
 bbbike-mapnik-config8:
 	if test -e ${POSTGIS_STYLE}; then \
@@ -1232,42 +1238,27 @@ data-distclean distclean-data: cache-clean-local
 
 #########################################################################
 # Note: you need at least 620GB free disk space to run this command!!!
-#       this may run 2 days on a 12 core machine
-#
-# quad core:
-# real    3570m39.458s
-# user    25849m45.852s
-# sys     870m48.760s
+#       this may run 25h on a 16 core machine
 #
 # tail -n2 *run | grep -v swap
 # ==> log.tile-lng-run <==
-# 118651.85user 270.53system 4:31:47elapsed 729%CPU (0avgtext+0avgdata 4487732maxresident)k
-#
+# 141207.47user 711.74system 4:10:55elapsed 942%CPU (0avgtext+0avgdata 4811440maxresident)k
+# 
 # ==> log.tile-lnglat-run <==
-# 270131.80user 2225.13system 10:28:15elapsed 722%CPU (0avgtext+0avgdata 2448768maxresident)k
-#
-#
-# tail -n2 log.tile-convert-* | grep -v swaps
-# ==> log.tile-convert-osmand <==
-# 478053.52user 17962.09system 18:42:39elapsed 736%CPU (0avgtext+0avgdata 3470212maxresident)k
-#
-# ==> log.tile-convert-garmin <==
-# 263711.54user 7440.43system 9:35:07elapsed 785%CPU (0avgtext+0avgdata 2761256maxresident)k
-#
-# ==> log.tile-convert-mapsforge <==
-# 184392.70user 6650.27system 7:07:21elapsed 745%CPU (0avgtext+0avgdata 8157268maxresident)k
-#
-# ==> log.tile-convert-garmin-onroad <==
-# 174377.54user 6966.74system 6:25:58elapsed 783%CPU (0avgtext+0avgdata 2367180maxresident)k
-#
-# ==> log.tile-convert-shp <==
-# 15353.14user 7242.06system 48:50.42elapsed 771%CPU (0avgtext+0avgdata 1655804maxresident)k
-#
-# ==> log.tile-convert-mbtiles <==
-# 149723.33user 6004.79system 5:33:07elapsed 779%CPU (0avgtext+0avgdata 2666748maxresident)k
-#
+# 169847.75user 740.15system 3:40:54elapsed 1287%CPU (0avgtext+0avgdata 3554116maxresident)k
+# 
+# tail -n2 log.tile-convert-* |grep -v swap
+# ==> log.tile-convert-garmin-all <==
+# 298703.11user 5928.46system 6:08:53elapsed 1376%CPU (0avgtext+0avgdata 5680196maxresident)k
+# 
 # ==> log.tile-convert-osm <==
-# 16477.70user 441.64system 36:40.86elapsed 768%CPU (0avgtext+0avgdata 198320maxresident)k
+# 15232.44user 346.36system 26:18.17elapsed 987%CPU (0avgtext+0avgdata 206976maxresident)k
+# 
+# ==> log.tile-convert-osmand <==
+# 403828.26user 13230.44system 10:31:54elapsed 1099%CPU (0avgtext+0avgdata 8946908maxresident)k
+# 
+# ==> log.tile-convert-shp <==
+# 13205.15user 3690.54system 18:01.93elapsed 1561%CPU (0avgtext+0avgdata 2000612maxresident)k
 
 #
 # for errors look in ./tile/tmp
@@ -1364,7 +1355,7 @@ deb-repo-dir:
 # should be part of world/etc/apt/Makefile
 # fix & sign debian packages	
 deb-repo: deb-repo-dir
-	dpkg-sig -k B1826CDD --sign builder ${DEB_DIR}/*.deb
+	env GPG_TTY=/dev/null dpkg-sig -k 2DB98706008E4DF7D875FC92E7035A3A3EA486AB --sign builder ${DEB_DIR}/*.deb
 	set -e; pwd=`pwd`; cd ${DEB_REPO_DIR}/${DEB_VENDOR}/${DEB_RELEASE}; \
 	for i in $$pwd/${DEB_DIR}/*.deb; do \
  	   package=$$(echo $$i | perl -npe 's,.*/,,; s,_[\d+\.\-]+\_(all|amd64|i386)\.deb$$,,'); \
@@ -1620,8 +1611,8 @@ git-commit-world:
 mygit: git-fetch git-pull git-push
 
 git-gc:
-	du -hs .git; git gc; du -hs .git
-	cd world; du -hs .git; git gc; du -hs .git
+	du -hs .git; git gc -q; du -hs .git
+	cd world; du -hs .git; git gc -q; du -hs .git
 
 apt-clean:
 	sudo apt-get clean
@@ -1815,14 +1806,14 @@ help:
 	@echo "  [ test-org | lighttpd-restart | test ]"
 	@echo "  [ jasmine-node | test-js ]"
 	@echo ""
-	@echo "  [ deb-perl | deb-equivs | deb-bin ]"
-	@echo "  [ deb-clean | deb-distclean | deb-repo | deb-repo-upload | deb-legacy ]"
-	@echo "  [ make deb-distclean deb-perl deb-equivs deb-bin deb-repo-upload ]"
-	@echo "  [ make deb-distclean deb-perl deb-repo-upload ]"
+	@echo "  [ make deb-distclean deb-equivs deb-perl deb-bin deb-repo-upload ]"
 	@echo "  [ make deb-clean deb-equivs deb-repo-upload ]"
+	@echo "  [ make deb-distclean deb-perl deb-repo-upload ]"
 	@echo "  [ make deb-clean deb-bin deb-repo-upload ]"
 	@echo "  [ make deb-clean deb-bin-x86 deb-repo-upload ]"
 	@echo "  [ make deb-clean deb-bin-java deb-repo-upload ]"
+	@echo "  [ deb-perl | deb-equivs | deb-bin ]"
+	@echo "  [ deb-clean | deb-distclean | deb-repo | deb-repo-upload | deb-legacy ]"
 	@echo ""
 	@echo ""
 	@echo "  make build-tagname-db"

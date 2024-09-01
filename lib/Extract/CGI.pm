@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2011-2023 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2011-2024 Wolfram Schneider, https://bbbike.org
 #
 # helper functions for extract.cgi
 
@@ -102,9 +102,13 @@ sub header {
     if ( $type eq 'check_input' || $type eq 'homepage' ) {
         my @cookies;
         my @cookie_opt = (
-            -path    => $q->url( -absolute => 1, -query => 0 ),
+            -path    => '/',     #$q->url( -absolute => 1, -query => 0 ),
             -expires => '+30d'
         );
+
+        if ( $option->{cookie_domain} ) {
+            push @cookie_opt, ( -domain => $option->{cookie_domain} );
+        }
 
         my $format = $q->param("format");
         push @cookies,
@@ -436,7 +440,7 @@ qq{\n<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js
   @{[ $self->footer_top($q, 'error' => $error, 'map' => $args{'map'}, 'css' => $args{'css'} ) ]}
   <hr/>
   <div id="copyright" class="normalscreen">
-    (&copy;) 2023 <a href="https://www.bbbike.org">BBBike.org</a>
+    (&copy;) 2024 <a href="https://www.bbbike.org">BBBike.org</a>
     @{[ M("by") ]} <a href="https://wolfram.schneider.org">Wolfram Schneider</a><br/>
     Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
   <div id="footer_community"></div>
@@ -474,7 +478,7 @@ sub social_links {
 
     <<EOF;
     <span id="social">
-    <a href="https://twitter.com/BBBikeWorld" target="_new"><img class="logo" width="16" height="16" src="/images/twitter-t.png" alt="" title="Follow us on twitter.com/BBBikeWorld" /></a>
+    <!-- <a href="https://twitter.com/BBBikeWorld" target="_new"><img class="logo" width="16" height="16" src="/images/twitter-t.png" alt="" title="Follow us on twitter.com/BBBikeWorld" /></a> -->
     <a href="https://www.bbbike.org/feed/bbbike-world.xml"><img class="logo" width="14" height="14" title="What's new on BBBike.org" src="/images/rss-icon.png" alt="" /></a>
     </span>
 EOF

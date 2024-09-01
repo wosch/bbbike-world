@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2011-2023 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2011-2024 Wolfram Schneider, https://bbbike.org
 #
 # extract.pl - extracts areas in a batch job
 #
@@ -91,8 +91,8 @@ our $option = {
     'pause_file'    => '/tmp/extract-pause',
 
     # timeout handling
-    'alarm'         => 210 * 60,    # extract
-    'alarm_convert' => 90 * 60,     # convert
+    'alarm'         => 3.5 * 3600,    # extract
+    'alarm_convert' => 5.0 * 3600,    # convert to garmin/mapsforge
 
     # run with lower priority
     'nice_level' => 2,
@@ -644,7 +644,12 @@ sub run_extracts {
         }
 
         if ($use_tempfiles) {
-            my $tempfile = File::Temp->new( SUFFIX => ".osm.pbf" );
+            my $tempdir  = $ENV{BBBIKE_TMPDIR} || $ENV{BBBIKE_TMPFS} || "/tmp";
+            my $tempfile = File::Temp->new(
+                "osmconvert-wrapper.XXXXXXXXXX",
+                DIR    => $tempdir,
+                SUFFIX => ".osm.pbf"
+            );
 
             symlink( $tempfile, $out )
               or die "cannot symlink $tempfile => $out\n";
@@ -858,6 +863,9 @@ sub reorder_pbf {
         'garmin-osm.zip'             => 3,
         'garmin-osm-ascii.zip'       => 3,
         'garmin-osm-latin1.zip'      => 3,
+        'garmin-ajt03.zip'           => 3,
+        'garmin-ajt03-ascii.zip'     => 3,
+        'garmin-ajt03-latin1.zip'    => 3,
         'garmin-cycle.zip'           => 3,
         'garmin-cycle-ascii.zip'     => 3,
         'garmin-cycle-latin1.zip'    => 3,
@@ -1476,7 +1484,9 @@ sub _convert_send_email {
     &move( $pbf_file, $to );
 
     my $aws = Extract::AWS->new( 'option' => $option, 'debug' => $debug );
-    $aws->aws_s3_put( 'file' => $to );
+    if ( $option->{"aws_s3_enabled"} ) {
+        $aws->aws_s3_put( 'file' => $to );
+    }
 
     my $file_size = file_size_mb($to) . " MB";
     warn "generated file size $to: $file_size\n" if $debug >= 1;
@@ -1487,7 +1497,9 @@ sub _convert_send_email {
         $to = $spool->{'download'} . "/" . basename($file);
         &check_download_cache( $to, $start_time );
 
-        $aws->aws_s3_put( 'file' => $file );
+        if ( $option->{"aws_s3_enabled"} ) {
+            $aws->aws_s3_put( 'file' => $file );
+        }
         move( $file, $to );
 
         $file_size = file_size_mb($to) . " MB";
@@ -2109,7 +2121,8 @@ while ( my ( $key, $val ) = each %$spool ) {
 }
 
 # get a list of waiting jobs Extract::Utils::get_jobs
-my @files = get_jobs( $spool->{'confirmed'}, 256 );
+# XXX: should be a random list
+my @files = get_jobs( $spool->{'confirmed'}, 2048 );
 
 if ( !scalar(@files) ) {
     print "Nothing to do in $spool->{'confirmed'}\n" if $debug >= 2;

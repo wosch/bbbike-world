@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) Sep 2011-2023 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2011-2024 Wolfram Schneider, https://bbbike.org
 #
 # usage: /path/to/script [ config ]
 #
@@ -31,9 +31,10 @@ extract_dir="/opt/bbbike/extract/"
 language="en de fr ru"
 extract_time="convert_time extract_time"
 home="/usr/local/www/bbbike.org"
+# will be visible as "sub_planet" etc: "-" -> "_"
 planets="sub-planet sub-planet-daily sub-srtm"
 
-trap 'rm -f $tmpfile' 0
+trap 'rm -f $tmpfile $tmpfile_config' 0
 
 config=$1
 
@@ -88,6 +89,7 @@ EOF
 fi
 
 tmpfile=$(mktemp)
+tmpfile_config=$tmpfile.config
 find $extract_dir/trash -mtime -1 -name '*.json' | xargs $grep -h '"(lang|planet_osm_sub|convert_time|extract_time)" : ' > $tmpfile
 
 echo "multigraph language"
@@ -96,12 +98,15 @@ $grep '"lang" : ' $tmpfile | sort | uniq -c | perl -npe 's/[",]//g' |
 
 for i in $planets
 do
+  # make sure we always print all regions with a value, otherwise we will get a "-nan" from munin
+  find $home/world/etc/$i -name '*.poly' | perl -npe 's,.*/,,; s/\.poly//; s/-/_/g' | perl -npe "s,^,   \"planet_osm_sub\" : ../$i/," > $tmpfile_config
+
   p=$(echo $i | sed 's/-/_/g')
   echo ""
   echo "multigraph $p"
-  $grep '"planet_osm_sub" : ' $tmpfile | $grep "/$i/" | sort | uniq -c |
+  $grep -h '"planet_osm_sub" : ' $tmpfile $tmpfile_config | $grep "/$i/" | sort | uniq -c |
     perl -npe 's/""/"full"/; s/[",]//g; s,\.\./.*/,,; s/\.osm\.pbf//; s/-/_/g' |
-    awk '{ print $4 ".value " $1 }'
+    awk '{ print $4 ".value", ($1 - 1) }'
 done
 
 echo ""

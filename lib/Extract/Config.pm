@@ -38,6 +38,9 @@ our $formats = {
     'garmin-osm.zip'                  => "Garmin OSM (UTF-8)",
     'garmin-osm-ascii.zip'            => "Garmin OSM (ASCII)",
     'garmin-osm-latin1.zip'           => "Garmin OSM (latin1)",
+    'garmin-ajt03.zip'                => "Garmin ajt03 (UTF-8)",
+    'garmin-ajt03-ascii.zip'          => "Garmin ajt03 (ASCII)",
+    'garmin-ajt03-latin1.zip'         => "Garmin ajt03 (latin1)",
     'garmin-cycle.zip'                => "Garmin Cycle (UTF-8)",
     'garmin-cycle-ascii.zip'          => "Garmin Cycle (ASCII)",
     'garmin-cycle-latin1.zip'         => "Garmin Cycle (latin1)",
@@ -157,6 +160,8 @@ our $formats_menu = {
             'garmin-oseam-latin1.zip',
             'garmin-opentopo-latin1.zip',
 
+            #'garmin-ajt03-latin1.zip',
+
             # utf-8
             'garmin-osm.zip',
             'garmin-cycle.zip',
@@ -168,11 +173,14 @@ our $formats_menu = {
             'garmin-openfietsfull.zip',
             'garmin-oseam.zip',
             'garmin-opentopo.zip',
+
+            #'garmin-ajt03.zip',
         ]
     },
     'android' => {
-        'title'   => "Android",
-        'formats' => [ 'obf.zip', 'mapsforge-osm.zip', 'organicmaps-osm.zip' ]
+        'title' => "Android",
+        'formats' =>
+          [ 'obf.zip', 'mapsforge-osm.zip' ]    #, 'organicmaps-osm.zip' ]
     },
     'shape' => { 'title' => "Shapefile", 'formats' => ['shp.zip'] },
     'svg'   => {

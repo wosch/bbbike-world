@@ -276,6 +276,7 @@ Disallow: /Liverpool/?
 Disallow: /Ljubljana/?
 Disallow: /Lodz/?
 Disallow: /London/?
+Disallow: /LosAngeles/?
 Disallow: /Luebeck/?
 Disallow: /Luxemburg/?
 Disallow: /Lyon/?
@@ -602,6 +603,7 @@ Disallow: /en/Eugene/
 Disallow: /en/Lisbon/?
 Disallow: /en/Sarajewo/
 Disallow: /en/SanFrancisco/
+Disallow: /en/LosAngeles/
 Disallow: /en/Curitiba/
 Disallow: /en/CapeTown/
 Disallow: /en/Davis/

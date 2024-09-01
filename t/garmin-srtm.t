@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2023 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2024 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_FAST} && !$ENV{BBBIKE_TEST_LONG} ) {
@@ -79,8 +79,8 @@ sub convert_format {
         my $out = $test->out($style);
         unlink $out;
 
-        system(qq[world/bin/pbf2osm --garmin-$style $pbf_file $city]);
-        is( $?, 0, "pbf2osm --garmin-$style converter" );
+        system(qq[world/bin/pbf2osm --garmin-$style $pbf_file "$city"]);
+        is( $?, 0, qq[pbf2osm --garmin-$style $pbf_file "$city"] );
 
         system(qq[unzip -tqq $out]);
         is( $?, 0, "valid zip file" );

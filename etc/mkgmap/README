@@ -11,6 +11,12 @@ bike-ontrail - A Garmin style for older devices with less space - usually 1/5
 	      https://github.com/raintonr/mkgmap-bike-onroad.git
 	      Optimized for hike & bike.
 
+ajt03    - It's designed to show information that's specifically useful to
+           rural pedestrians - things like public footpaths and bridleways,
+           and which roads you can safely walk along because there's
+           a roadside pavement or verge.  Dec 2023
+           https://map.atownsend.org.uk/maps/map/about.html
+
 cyclemap - Cycle Map, May 2012,
 	   https://wiki.openstreetmap.org/wiki/OSM_Map_On_Garmin/Cycle_map
 

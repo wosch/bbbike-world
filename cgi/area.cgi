@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -T
-# Copyright (c) 2009-2023 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2024 Wolfram Schneider, https://bbbike.org
 #
 # area.cgi - which areas are covered by bbbike.org
 
@@ -89,7 +89,7 @@ sub footer {
 <hr/>
 
 <div id="copyright" style="text-align: center; font-size: x-small; margin-top: 1em;" >
-  (&copy;) 2008-2023 <a href="https://bbbike.org">BBBike.org</a> //
+  (&copy;) 2008-2024 <a href="https://bbbike.org">BBBike.org</a> //
   Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors <br/>
   <a href="https://mc.bbbike.org/mc/">map compare</a> - <a href="https://extract.bbbike.org/">osm extract service</a>
 
@@ -186,7 +186,7 @@ EOF
             my $date = localtime( &mtime("$dir/$file") );
 
             $data .=
-              qq{<a class="download_link" href="$prefix/$file" title="$date"> }
+qq{<a class="download_link" href="$prefix/$file" title="last update: $date UTC"> }
               . &human_redable_file_format( $city, $file ) . qq{ };
 
             # ???
@@ -207,8 +207,9 @@ EOF
             }
 
             $data .=
-              qq{<span class="size">} . file_size("$dir/$file") . "</span>\n";
-            $data .= "</a>\n";
+                qq{<span class="size">}
+              . file_size("$dir/$file")
+              . "</span></a><br/>\n";
         }
 
         if ($has_checksum_file) {

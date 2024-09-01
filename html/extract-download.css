@@ -152,6 +152,10 @@ span.format_garmin_bbbike_zip { color: #DAA520; }
 span.format_garmin_bbbike_ascii_zip { color: #DAA520; }
 span.format_garmin_bbbike_latin1_zip { color: #DAA520; }
 
+span.format_garmin_ajt03_zip { color: #DAA524; }
+span.format_garmin_ajt03_ascii_zip { color: #DAA524; }
+span.format_garmin_ajt03_latin1_zip { color: #DAA524; }
+
 span.format_garmin_cycle_zip { color: #DAA520; }
 span.format_garmin_cycle_ascii_zip { color: #DAA520; }
 span.format_garmin_cycle_latin1_zip { color: #DAA520; }

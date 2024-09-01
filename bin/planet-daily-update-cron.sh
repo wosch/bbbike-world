@@ -12,6 +12,11 @@ if [ -f $HOME/.bbbikerc ]; then
     . $HOME/.bbbikerc
 fi
 
+# tagname config
+if [ -f $HOME/.tagnamerc ]; then
+    . $HOME/.tagnamerc
+fi
+
 : ${time="time nice -6"}
 
 cd $HOME/projects/bbbike
@@ -19,7 +24,7 @@ logfile="tmp/log.planet-daily-update"
 touch $logfile
 
 sub_planet="sub-planet-daily"
-tagname="build-tagname-db build-tagname-db-geofabrik"
+tagname="build-tagname-db"
 
 # ignore missing tagname repo
 if [ ! -e ../tagname ]; then

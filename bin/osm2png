@@ -93,10 +93,10 @@ mkdir -p $tmpdir
 cd $tmpdir
 
 # cleanup at exit
-trap 'rm -rf $tmpdir $tmpfile' 0
+trap 'rm -rf $tmpdir' 0
 
 logfile=$tmpdir/logfile.txt
-touch $logfile
+osmium fileinfo $file > $logfile
 
 config_file=config.mscript
 image_file=$(basename $file | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//')-${map_style}.${type}

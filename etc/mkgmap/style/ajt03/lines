@@ -1,0 +1,137 @@
+# -------------------------------------------------------------------
+# This is a mkgmap style file for converting OSM ways into Garmin lines.
+# Any line prefaced with # is a comment and will not be applied.
+# Each line is a rule, of the generalised format:
+#  OSM_tag(s)_to_match  [Garmin_type_code resolution]
+# See http://wiki.openstreetmap.org/wiki/Mkgmap/help/style_rules
+# and http://wiki.openstreetmap.org/wiki/Mkgmap/help/Custom_styles
+# for more information.
+
+# The use of these values has either been checked is or not directly output as a code.
+
+route=hiking {name '${name} (${route_ref})' | '(${route_ref})' }
+
+aeroway=runway {name '${name}'} [0x27 resolution 20]
+aeroway=taxiway {name '${name}'} [0x27 resolution 24]
+
+# Hide inaccessible tunnels
+highway=* & tunnel=yes & (access=no)
+& foot!=* & bicycle!=* {delete highway;delete junction}
+# Disable dead-end-checks for unaccessible oneways
+highway=* & oneway=yes & (access=no)
+{add mkgmap:dead-end-check=false}
+
+# Set highway names to include the reference if there is one
+highway=motorway {name '${ref|highway-symbol:hbox} ${name}' | '${ref|highway-symbol:hbox}' | '${name}' }
+highway=trunk {name '${ref|highway-symbol:hbox} ${name}' | '${ref|highway-symbol:hbox}' | '${name}'; add display_name = '${name} (${ref})' }
+highway=primary {name '${ref|highway-symbol:box} ${name}' | '${ref|highway-symbol:box}' | '${name}'; add display_name = '${name} (${ref})' }
+highway=secondary {name '${ref|highway-symbol:oval} ${name}' | '${ref|highway-symbol:oval}' | '${name}'; add display_name = '${name} (${ref})' }
+highway=* {name '${ref} ${name}' | '${ref}' | '${name}' }
+
+# Flag unpaved roads.
+highway=*
+& (surface=cobblestone | surface=compacted | surface=dirt |
+   surface=earth | surface=grass | surface=grass_paver |
+   surface=gravel | surface=grit | surface=ground | surface=mud |
+   surface=pebblestone | surface=sand | surface=unpaved |
+   mtb:scale=* |
+   tracktype ~ 'grade[2-6]' |
+   smoothness ~ '.*(bad|horrible|impassable)' |
+   sac_scale ~ '.*(mountain|alpine)_hiking' |
+   sport=via_ferrata)
+{ add mkgmap:unpaved=1 }
+(highway=bridleway | highway=path | highway=track | highway=unsurfaced)
+& surface!=* & tracktype!=* & smoothness!=* & sac_scale!=*
+{ add mkgmap:unpaved=1 }
+
+# Convert generic path to most specific
+highway=path & (bicycle=designated|bicycle=official) {set highway=cycleway }
+highway=path & (horse=designated|horse=official) {set highway=bridleway }
+highway=path & (foot=designated|foot=official) {set highway=footway }
+
+# Roundabouts
+junction=roundabout & highway=trunk [0x0c road_class=3 road_speed=2 resolution 18]
+junction=roundabout & highway=primary [0x0c road_class=3 road_speed=2 resolution 19]
+junction=roundabout & highway=secondary [0x0c road_class=2 road_speed=2 resolution 20]
+junction=roundabout & highway=tertiary [0x0c road_class=1 road_speed=1 resolution 21]
+junction=roundabout & highway=unclassified [0x0c road_class=1 road_speed=1 resolution 21]
+junction=roundabout [0x0c road_class=0 road_speed=1 resolution 21]
+
+# Ways that may or may not be usable
+
+# Treat ways under construction as highway=path
+highway=construction | highway=* & construction=* {add access = no; add bicycle = yes; add foot = yes; add mkgmap:dead-end-check = false } [0x16 road_class=0 road_speed=1 resolution 23]
+# Treat disused ways as highway=service, but at lower road_speed.
+highway=* & disused=yes [0x07 road_class=0 road_speed=1 resolution 22]
+
+highway=proposed {name '${name}'}  [0x1d resolution 20]
+
+# Ways sorted roughly by descending order of class
+highway=motorway {add oneway = yes; add bicycle = no; add foot = no } [0x01 road_class=4 road_speed=7 resolution 14]
+highway=motorway_link {add oneway = yes; add bicycle = no; add foot = no } [0x09 road_class=3 road_speed=2 resolution 16]
+highway=* & motorroad=yes {add bicycle = no; add foot = no}
+highway=trunk [0x02 road_class=4 road_speed=5 resolution 16]
+highway=trunk_link [0x09 road_class=3 road_speed=2 resolution 18]
+highway=* & motorroad=yes [0x02 road_class=4 road_speed=4 resolution 16]
+highway=primary [0x03 road_class=3 road_speed=4 resolution 19]
+highway=primary_link [0x08 road_class=3 road_speed=1 resolution 19]
+highway=secondary [0x04 road_class=2 road_speed=3 resolution 20]
+highway=secondary_link [0x08 road_class=2 road_speed=1 resolution 20]
+highway=tertiary [0x05 road_class=1 road_speed=3 resolution 20]
+highway=tertiary_link [0x08 road_class=1 road_speed=1 resolution 20]
+highway=unclassified [0x06 road_class=0 road_speed=3 resolution 21]
+
+highway=pedestrian & area!=yes {add access = no; add foot = yes} [0x06 road_class=0 road_speed=0 resolution 22]
+highway=living_street [0x06 road_class=0 road_speed=1 resolution 22]
+highway=residential [0x06 road_class=0 road_speed=2 resolution 22]
+
+highway=bridleway {add access = no; add foot = yes; name '${name}' | '' } [0x16 road_class=0 road_speed=0 resolution 23]
+
+highway=service & access=no {delete highway}
+highway=service {add access = no; add foot = yes; name '${name}' | '' } [0x06 road_class=0 road_speed=2 resolution 22]
+
+highway=raceway [0x06 road_class=0 road_speed=2 resolution 22]
+highway=cycleway {add access = no; add bicycle = yes; add foot = yes} [0x16 road_class=0 road_speed=1 resolution 23]
+
+highway=footway {add access = no; add foot = yes; name '${name}' | '' } [0x16 road_class=0 road_speed=0 resolution 23]
+
+highway=path {add access = no; add bicycle = no; add foot = yes} [0x16 road_class=0 road_speed=0 resolution 23]
+highway=steps {add access = no; add foot = yes} [0x16 road_class=0 road_speed=0 resolution 23]
+
+highway=track & access=no {delete highway}
+highway=track {add access = no; add foot = yes; name '${name}' | '' } [0x0a road_class=0 road_speed=1 resolution 21]
+
+highway=road { add mkgmap:dead-end-check = false} [0x06 road_class=0 road_speed=1 resolution 21]
+
+# The use of these values has not yet been checked
+
+natural=coastline [0x15 resolution 12]
+power=line [0x29 resolution 20]
+
+barrier=wall {name '${name}'} [0x1d resolution 20]
+barrier=fence {name '${name}'} [0x1d resolution 20]
+barrier=hedge {name '${name}'} [0x1d resolution 20]
+natural=tree_row {name '${name}'} [0x1d resolution 20]
+natural=cliff {name '${name}'} [0x1d resolution 20]
+
+railway=abandoned {name '${name}'} [0x1d road_class=0 road_speed=1 resolution 17]
+railway=light_rail & !(tunnel=yes) {name '${name}'} [0x14 resolution 17]
+railway=narrow_gauge & !(tunnel=yes) {name '${name}'} [0x14 resolution 17]
+railway=preserved & !(tunnel=yes) {name '${name}'} [0x14 resolution 17]
+railway=rail & !(tunnel=yes) {name '${name}'} [0x14 resolution 17]
+railway=subway & !(tunnel=yes) {name '${name}'} [0x14 resolution 17]
+railway=tram & !(tunnel=yes) {name '${name}'} [0x14 resolution 18]
+
+route=ferry {add mkgmap:ferry=1 name '${name}'} [0x1b road_class=3 road_speed=0 resolution 18]
+
+waterway=river {name '${name}'} [0x1f resolution 18]
+waterway=stream {name '${name}'} [0x18 resolution 22]
+waterway=derelict_canal {name '${name}'} [0x1d resolution 18]
+leisure=slipway {name '${name}'} [0x1d resolution 18]
+aerialway=yes {name '${name}'} [0x1d resolution 18]
+
+man_made=pipeline {name '${name}'} [0x28 resolution 23]
+
+# Most man_made=levee are assigned in the lua rather then being in the data.
+man_made=levee {name '${name}'} [0x1d resolution 18]
+

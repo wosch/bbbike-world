@@ -46,6 +46,9 @@ tmpdir=`mktemp -d ${BBBIKE_TMPFS}/osm2shape.XXXXXXXXXXX`
 tmpdir_pbf=`mktemp -d ${BBBIKE_TMPFS}/pbf2pbf.XXXXXXXXXXX`
 tmpfile=$tmpdir_pbf/$(basename $file)
 
+# cleanup at exit
+trap 'rm -rf $tmpdir $tmpfile $tmpdir_pbf' 0
+
 # keep old name for results
 file_orig=$file
 
@@ -56,9 +59,6 @@ if $fixpbf; then
     file=$tmpfile	
 fi
 
-# cleanup at exit
-trap 'rm -rf $tmpdir $tmpfile tmpdir_pbf' 0
-
 shape=`basename "$file" | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//'`
 shape_dir=$tmpdir/${shape}-shp
 mkdir -p $shape_dir $shape_dir/shape
@@ -67,6 +67,7 @@ text2html=$(dirname $0)/text2html.sh
 case $text2html in /*) ;; *) text2html=$(pwd)/$text2html ;; esac
 
 logfile=$shape_dir/logfile.txt
+osmium fileinfo $file > $logfile
 echo "osmium2shape version $shape_version" >> $logfile
 
 if ( cd $shape_dir/shape && env LD_LIBRARY_PATH=$BBBIKE_LD_LIBRARY_PATH osmium2shape $file ) >> $logfile 2>&1; then

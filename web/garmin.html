@@ -62,6 +62,11 @@ a.x-large {
         <p>There are several YouTube tutorials available how to use the BBBike extract service for Garmin.
 	The videos are available in different languages, in English, German, Spanish, Polish, and Ukrainian etc.
 	</p>
+
+	<h4>How to Download Free Trail Maps on Garmin GPS (English)</h4>
+	<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/_HMkuttRuhQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+	<hr/>
+
 	<h4>FREE World-Wide Garmin EDGE Maps // BBBike Updated Info! (English)</h4>
 	<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/A82Ap_Wp-vs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 	<hr/>
@@ -104,7 +109,7 @@ a.x-large {
 	<hr/>
 
 	<h4>Jak dodać własny i darmowy fragment mapy do Garmina (Polish)</h4>
-	<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/N_7V8x3y9uI?si=YVWUOKyXTWAceaxb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+	<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/N_7V8x3y9uI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 	<hr/>
 
 	<h4>ВСТАНОВИ КАРТИ САМ - швидкий та простий гайд для годинників Garmin (Ukrainian)</h4>
@@ -112,7 +117,7 @@ a.x-large {
 	<hr/>
 
 	<h4>Как настроить бесплатные карты на GARMIN устройствах (Russian)</h4>
-	<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/_wTOuAE72z0?si=UtMl4M_8vhxqsR5Q" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+	<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/_wTOuAE72z0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 	<hr/>
 
         <h4>Garmin echoMAP 52dv CHIRP - OpenSeaMap installation (English)</h4>
@@ -143,25 +148,35 @@ a.x-large {
 	 In this special case please use the <i>latin1</i> variant.
 	 Garmin SRTM extracts use always the ASCII/latin1 character set.
 
-         <br/><br/>
-         Here are some small example extracts with all Garmin styles for:
+        <h4><a href="extract-screenshots.html">Screenshots of Garmin styles</a></h4>
+        <a href="extract-screenshots.html">
+                <img src="/images/garmin-osm2-small.png" alt="" title="garmin osm"/>
+                <img src="/images/garmin-cycle2-small.png" alt="" title="garmin cycle"/>
+                <img src="/images/garmin-onroad3-small.png" alt="" title="garmin onroad"/>
+        </a>
+
+        <br/><br/>
+
+        Here are some small example extracts with all Garmin styles for:
          <a href="https://download.bbbike.org/osm/garmin/example/europe/luxembourg/">Luxembourg</a>,
          <a href="https://download.bbbike.org/osm/garmin/example/asia/jordan/">Jordan</a>, and
          <a href="https://download.bbbike.org/osm/garmin/example/asia/cambodia/">Cambodia</a>.
 	</p>
 
-	<h3>Garmin Styles</h3>
+	<h3 id="garminstyles">Garmin Styles</h3>
 	<p/>
+
 	<table border="1" align="center">
-	  <tr><td>osm</td><td>standard <a target="_new" href="https://www.openstreetmap.org">OpenStreetMap style</a></td></tr>
-	  <tr><td>cycle</td><td>map style similar to <a target="_new" href="https://www.opencyclemap.org">opencyclemap.org</a></td></tr>
+	  <tr><td>osm</td><td>standard <a target="_new" href="https://www.openstreetmap.org">OpenStreetMap style</a>, best for cars</td></tr>
+	  <tr><td>ajt03</td><td>map style for <a target="_new" href="https://map.atownsend.org.uk/">atownsend.org.uk</a>, specifically useful to rural pedestrians</td></tr>
+	  <tr><td>cycle</td><td>map style similar to <a target="_new" href="https://www.opencyclemap.org">opencyclemap.org</a>, for cyclist</td></tr>
 	  <tr><td>leisure</td><td>map style from <a target="_new" href="http://www.freizeitkarte-osm.de">freizeitkarte-osm.de</a>, for outdoor activities. The .img file is ~30% larger than the osm/cycle file</td></tr>
-	  <tr><td>bbbike</td><td>map style from <a target="_new" href="http://www.bbbike.de/">bbbike.de</a>, for outdoor activities.</td></tr>
-	  <tr><td>onroad</td><td>A Garmin style for older devices with less space - usually 1/10 the size of Garmin OSM, see <a target="_new" href="https://github.com/raintonr/mkgmap-bike-onroad">github.com/raintonr/mkgmap-bike-onroad</a>, for outdoor activities / racing bikes. For Garmin devices with 5-120 MB storage.</td></tr>
-	  <tr><td>ontrail</td><td>A Garmin style for older devices with less space - usually 1/5 the size of Garmin OSM, see <a target="_new" href="https://github.com/raintonr/mkgmap-bike-onroad">github.com/raintonr/mkgmap-bike-onroad</a>, for outdoor activities / hike &amp; bike. For Garmin devices with less than 500 MB storage.</td></tr>
+	  <tr><td>bbbike</td><td>map style from <a target="_new" href="http://www.bbbike.de/">bbbike.de</a> similar to German maps, for outdoor activities</td></tr>
+	  <tr><td>onroad</td><td>a Garmin style for older devices with less space - usually 1/10 the size of Garmin OSM, see <a target="_new" href="https://github.com/raintonr/mkgmap-bike-onroad">github.com/raintonr/mkgmap-bike-onroad</a>, for outdoor activities / racing bikes</td></tr>
+	  <tr><td>ontrail</td><td>a Garmin style for older devices with less space - usually 1/5 the size of Garmin OSM, see <a target="_new" href="https://github.com/raintonr/mkgmap-bike-onroad">github.com/raintonr/mkgmap-bike-onroad</a>, for outdoor activities / hike &amp; bike</td></tr>
 	  <tr><td>openfietslite</td><td>map style from <a target="_new" href="http://www.openfietsmap.nl/">OpenFietsMap.nl</a>, for outdoor activities. Lite version</td></tr>
 	  <tr><td>openfietsfull</td><td>map style from <a target="_new" href="http://www.openfietsmap.nl/">OpenFietsMap.nl</a>, for outdoor activities. Full version</td></tr>
-	  <tr><td>opentopo</td><td>map style from <a target="_new" href="https://opentopomap.org/">OpenTopoMap.org</a></td></tr>
+	  <tr><td>opentopo</td><td>map style from <a target="_new" href="https://opentopomap.org/">OpenTopoMap.org</a>, topographic map style with high contrast</td></tr>
 	  <tr><td>oseam</td><td>map style from <a target="_new" href="http://openseamap.org/">OpenSeaMap.org</a>, the free nautical chart</td></tr>
 	</table>
 
@@ -192,13 +207,13 @@ a.x-large {
 			<a href="/community.html">donate</a>
 		
 			<span id="social" class="right">
-			  <a href="https://twitter.com/BBBikeWorld" target="_new"><img class="logo" width="16" height="16" src="/images/twitter-t.png" alt="" title="Follow us on twitter.com/BBBikeWorld" /></a>
+			  <!-- <a href="https://twitter.com/BBBikeWorld" target="_new"><img class="logo" width="16" height="16" src="/images/twitter-t.png" alt="" title="Follow us on twitter.com/BBBikeWorld" /></a> -->
 			  <a href="https://www.bbbike.org/feed/bbbike-world.xml"><img class="logo" width="14" height="14" title="What's new on BBBike.org" src="/images/rss-icon.png" alt="" /></a>
 			</span>
           </div>
 
           <hr />
-          (&copy;) 2011-2023 <a href="https://bbbike.org">BBBike.org</a>
+          (&copy;) 2011-2024 <a href="https://bbbike.org">BBBike.org</a>
 		  by <a href="https://wolfram.schneider.org">Wolfram Schneider</a> -
 		  Map data (&copy;) <a href="https://www.openstreetmap.org/" title="OpenStreetMap License">OpenStreetMap.org</a> contributors<br/>
 		  <a href="https://www.bbbike.org/">cycle route planner</a> -

@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) 2012-2023 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2024 Wolfram Schneider, https://bbbike.org
 #
 # extract config and libraries
 
@@ -121,7 +121,7 @@ sub init_cusco {
 
     $ENV{BBBIKE_EXTRACT_COORDS} = "-72.329,-13.711 x -71.531,-13.216";
 
-    return $self->{'city'} = 'Cusco';
+    return $self->{'city'} = 'Cusco, Peru';
 }
 
 sub init_lang {
@@ -280,6 +280,8 @@ sub check_readme {
 
     my @data = $self->extract_file('README.txt');
 
+    my $city = $self->{'city'};
+
     cmp_ok( scalar(@data), ">", "20",
         "README.txt must be at least 20 lines long $#data, lang='$lang'" );
 
@@ -339,7 +341,8 @@ qr"^Script URL: https?://.*bbbike.org/.*\?.*format=.+.*city="
             ),
             "url"
         );
-        ok( ( grep { /^Name des Gebietes: \S+/ } @data ), "name" );
+        ok( ( grep { /^Name des Gebietes: ${city}$/ } @data ),
+            qq[name: "$city"] );
 
         ok( ( grep { /^Spenden sind willkommen/ } @data ), "feedback" );
         ok(
@@ -390,7 +393,8 @@ qr"^Script URL: https?://.*bbbike.org/.*\?.*format=.+.*city="
             ),
             "url"
         );
-        ok( ( grep { /^Name of area: \S+/ } @data ), "name" );
+
+        ok( ( grep { /^Name of area: ${city}$/ } @data ), qq[name: "$city"] );
 
         ok( ( grep { /^We appreciate any feedback/ } @data ), "feedback" );
         ok(

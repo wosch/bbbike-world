@@ -68,7 +68,7 @@ if ( !$ENV{BBBIKE_TEST_SLOW_NETWORK} ) {
     my $counter_html = ( $test->myget_counter * 11 ) + 2;
     my $counter_cities =
       scalar(@cities) *
-      ( $test->myget_counter * 2 + 26 ) *
+      ( $test->myget_counter * 2 + 25 ) *
       ( scalar(@lang) + 1 );
     my $counter_ads = 0;
 
@@ -142,8 +142,9 @@ qr{type="application/atom\+xml" .*href="/feed/bbbike-world.xml| href="/feed/bbbi
     like( $content, qr|src="/html/bbbike(-js)?.js"|, "bbbike(-js)?.js" );
     like( $content, qr|href="/html/bbbike.css"|,     "bbbike.css" );
     like( $content, qr|<span id="language_switch">|, "language switch" );
-    like( $content, qr|href="https://twitter.com/BBBikeWorld"|, "twitter" );
-    like( $content, qr|class="mobile_link|,                     "mobile link" );
+
+    #like( $content, qr|href="https://twitter.com/BBBikeWorld"|, "twitter" );
+    like( $content, qr|class="mobile_link|,              "mobile link" );
     like( $content, qr|#suggest_start\'\).autocomplete|, "autocomplete start" );
     like( $content, qr|#suggest_via\'\).autocomplete|,   "autocomplete via" );
     like( $content, qr|#suggest_ziel\'\).autocomplete|,  "autocomplete ziel" );

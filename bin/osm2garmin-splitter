@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2012-2023 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2024 Wolfram Schneider, https://bbbike.org
 #
 # osm2garmin - convert a osm/pbf file to garmin
 #
@@ -7,7 +7,7 @@
 set -e
 set -o pipefail # bash only
 
-PATH=/usr/local/bin:/bin:/bin:/usr/bin; export PATH
+PATH="/usr/local/bin:/bin:/bin:/usr/bin"; export PATH
 
 : ${BBBIKE_EXTRACT_LANG=en}
 : ${BBBIKE_OPT_DIR="/var/lib/bbbike/opt"}
@@ -28,6 +28,7 @@ usage () {
 cat <<EOF
 usage $0 file [ format ] [ title ]
 
+  ajt03 ajt03-ascii ajt03-latin1
   bbbike bbbike-ascii bbbike-latin1
   cycle cycle-ascii cycle-latin1
   leisure leisure-ascii leisure-latin1
@@ -52,10 +53,15 @@ error () {
     exit 1
 }
 
+# command line arguments
 file=$1
-city=$3
+ext=${2-"osm-latin1"}
+city=${3-"none"}
 
 test -z "$file" && usage
+test -s "$file" || usage "file $file does not exists"
+
+: ${debug=false}
 
 # absolute file path
 case $file in /*) ;; *) file=$(pwd)/$file ;; esac
@@ -64,18 +70,9 @@ dirname=$(dirname $0)
 case $dirname in /*) ;; *) dirname=$(pwd)/$dirname ;; esac
 
 text2html=$dirname/text2html.sh
-
-test -e "$file" || usage "file $file does not exists"
-: ${osm_checksum=$dirname/osm-checksum}
-
 template=$dirname/../etc/extract/$(basename $0 -splitter).$BBBIKE_EXTRACT_LANG.sh
-
-if [ -z "$ext" ]; then
-    ext=${2-"osm"}
-fi
-ext_orig=$ext
-
-: ${debug=false}
+: ${osm_checksum=$dirname/osm-checksum}
+: ${time=time}
 
 size=$(du -ks -L "$file" | awk '{ print $1}')
 
@@ -104,10 +101,6 @@ case $ext in
         ;;
 esac
 
-
-time=time
-#case $ext in *leisure* ) java_heap=3500M ;; esac
-
 pwd=$(pwd)
 license_file="license.txt"
 copyright_file="copyright.txt"
@@ -128,6 +121,25 @@ case $ext in
 esac
 
 case $ext in
+   ajt03 )
+        ext=garmin-ajt03.zip
+        mkgmap_map=--style-file=$etc_dir/style/ajt03
+        mkgmap_map_style=ajt03
+        mkgmap_map_type=""
+        ;;
+   ajt03-ascii )
+        ext=garmin-ajt03-ascii.zip
+        mkgmap_map=--style-file=$etc_dir/style/ajt03
+        mkgmap_map_style=ajt03
+        mkgmap_map_type=""
+        ;;
+   ajt03-latin1 )
+        ext=garmin-ajt03-latin1.zip
+        mkgmap_map=--style-file=$etc_dir/style/ajt03
+        mkgmap_map_style=ajt03
+        mkgmap_map_type=""
+        ;;
+
    cycle )
         ext=garmin-cycle.zip
         mkgmap_map=--style-file=$etc_dir/style/cyclemap
@@ -328,11 +340,12 @@ case $ext in
    *bbbike* )  garmin_product_id=4 ;;
    *srtm* )    garmin_product_id=5 ;;
    *onroad* )  garmin_product_id=6 ;;
-   *openfietslite* )  garmin_product_id=7 ;;
-   *oseam* )   garmin_product_id=8 ;;
-   *opentopo* )garmin_product_id=9 ;;
-   *openfietsfull* )  garmin_product_id=10 ;;
-   *ontrail* )  garmin_product_id=11 ;;
+   *openfietslite* )  	garmin_product_id=7 ;;
+   *oseam* )   		garmin_product_id=8 ;;
+   *opentopo* )       	garmin_product_id=9 ;;
+   *openfietsfull* )  	garmin_product_id=10 ;;
+   *ontrail* ) garmin_product_id=11 ;;
+   *ajt03* )   garmin_product_id=12 ;;
 esac
 
 garmin_family_id=$(basename $file | perl -npe 's/(\.pbf|\.gz|\.bz2)?$//')
@@ -368,7 +381,7 @@ case $ext in
             ;;
 esac
 
-tmpdir=`mktemp -d ${BBBIKE_TMPDIR}/osm2garmin.$(basename $ext .zip).XXXXXXXXXXX`
+tmpdir=$(mktemp -d ${BBBIKE_TMPDIR}/osm2garmin.$(basename $ext .zip).XXXXXXXXXXX)
 
 # cleanup at exit
 trap 'rm -rf $tmpdir' 0
@@ -410,7 +423,7 @@ fi
 
 # the limit for description field is 50 bytes
 coords=$(echo $garmin | perl -npe 's,planet_,,; s/_/ /g')
-description=$(echo $description | perl -npe 'binmode \*STDIN, ":raw"; binmode \*STDOUT, ":raw"; $_ = substr($_, 0, 47)')
+description=$(echo $description | $dirname/garmin-description-limit.pl)
 
 set_typ=$dirname/freizeitkarte-set-typ.pl
 
@@ -479,7 +492,7 @@ esac
 $MD5 gmapsupp.img > .checksum.txt
 mv -f .checksum.txt CHECKSUM.txt
 
-# support Garmin Basecamp installation
+# support Garmin BaseCamp installation
 $BBBIKE_BASECAMP_MACOS && cp $dirname/basecamp-macos.sh .
 
 cd ..
@@ -491,7 +504,5 @@ zip -q -r - -- `basename $garmin_dir` | \
     chmod 644 $garmin_zip
     $osm_checksum $garmin_zip
   )
-
-rm -rf $tmpdir
 
 #EOF

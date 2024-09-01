@@ -134,10 +134,6 @@ function init() {
 
     map.addLayer(new OpenLayers.Layer.OSM('Lyrk Retina (OSM)', "https://tiles.lyrk.org/lr/${z}/${x}/${y}?apikey=e9f8eb3824344d18a5b4b657773caf30", layer_options)),
 
-    map.addLayer(new OpenLayers.Layer.OSM("MapBox Satellite", ["https://api.mapbox.com/v4/mapbox.satellite/${z}/${x}/${y}@2x.jpg90?access_token=pk.eyJ1IjoibWFwYm94YmJiIiwiYSI6ImNsZno4MjlzbTBtb24zZ3FybGp6bjNvMXkifQ.N6Fhq0aixmR3was6z8sSBQ"], {
-        numZoomLevels:20
-    }));
-
     map.addLayer(new OpenLayers.Layer.OSM("Maptookit Topo (OSM)", ['http://tile1.maptoolkit.net/terrain/${z}/${x}/${y}.png', 'http://tile2.maptoolkit.net/terrain/${z}/${x}/${y}.png'], {
         numZoomLevels: 19,
         tileOptions: {

@@ -1,5 +1,5 @@
 #!/usr/local/bin/bash
-# Copyright (c) 2009-2022 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2009-2024 Wolfram Schneider, https://bbbike.org
 #
 # pbf2osm - convert PBF format to OSM XML / Garmin / Shape
 #
@@ -32,20 +32,20 @@ osm2mbtiles=$dirname/osm2mbtiles
 # max. file size in KB
 # larger value for special garmin format
 case $format in
-  --garmin-onroad* ) : ${max_file_size_garmin=7950000} ;;
-  --garmin-ontrail* ) : ${max_file_size_garmin=6950000} ;;
+  --garmin-onroad*  ) : ${max_file_size_garmin=9950000} ;;
+  --garmin-ontrail* ) : ${max_file_size_garmin=8950000} ;;
 esac
 
-: ${max_file_size_bbbike=90000}
-: ${max_file_size_garmin=3950000}
-: ${max_file_size_mapsforge=666000}
+: ${max_file_size_bbbike=160000}
+: ${max_file_size_garmin=4450000}
+: ${max_file_size_mapsforge=1234000}
 : ${max_file_size_osmand=500000}
 : ${max_file_size_shape=866000}
 : ${max_file_size_organicmaps=966000}
 : ${max_file_size_maperitive=90000}
 : ${max_file_size_mbtiles=980000}
 
-: ${pbf2osm_max_cpu_time=7200}
+: ${pbf2osm_max_cpu_time=14400}
 
 # use max. configured CPUs
 if which pbzip2 >/dev/null 2>&1; then
@@ -103,6 +103,7 @@ usage [ option ] file.osm.pbf
 
 --garmin-all --garmin-all-latin1
 --garmin-osm --garmin-osm-ascii --garmin-osm-latin1
+--garmin-ajt03 --garmin-ajt03-ascii --garmin-ajt03-latin1
 --garmin-cycle --garmin-cycle-ascii --garmin-cycle-latin1
 --garmin-leisure --garmin-leisure-ascii --garmin-leisure-latin1
 --garmin-bbbike --garmin-bbbike-ascii --garmin-bbbike-latin1
@@ -164,10 +165,11 @@ case $format in
     --shape | --shp | --shapefile ) shift; compress=shape ;;
     --osmand | --obf ) 		    shift; compress=osmand ;;
 
-    --garmin-all) garmin_style="osm:cycle:leisure:bbbike:onroad:ontrail:openfietslite:openfietsfull:oseam:opentopo"; shift; compress=garmin ;;
-    --garmin-all-latin1) garmin_style="osm-latin1:cycle-latin1:leisure-latin1:bbbike-latin1:onroad-latin1:ontrail-latin1:openfietslite-latin1:openfietsfull-latin1:oseam-latin1:opentopo-latin1"; shift; compress=garmin ;;
+    --garmin-all) garmin_style="osm:ajt03:cycle:leisure:bbbike:onroad:ontrail:openfietslite:openfietsfull:oseam:opentopo"; shift; compress=garmin ;;
+    --garmin-all-latin1) garmin_style="osm-latin1:ajt03-latin1:cycle-latin1:leisure-latin1:bbbike-latin1:onroad-latin1:ontrail-latin1:openfietslite-latin1:openfietsfull-latin1:oseam-latin1:opentopo-latin1"; shift; compress=garmin ;;
 
     --garmin-osm | --garmin-osm-ascii | --garmin-osm-latin1 | \
+    --garmin-ajt03 | --garmin-ajt03-ascii | --garmin-ajt03-latin1 | \
     --garmin-cycle | --garmin-cycle-ascii | --garmin-cycle-latin1 | \
     --garmin-leisure | --garmin-leisure-ascii | --garmin-leisure-latin1 | \
     --garmin-bbbike | --garmin-bbbike-ascii | --garmin-bbbike-latin1 | \

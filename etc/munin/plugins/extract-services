@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2011-2021 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2011-2024 Wolfram Schneider, https://bbbike.org
 #
 # extract-services - munin statistics for BBBike extract service
 
@@ -37,42 +37,64 @@ my $type = 'extract';
 # reset offset
 my $reset = 0;
 
+my $days_failed     = 30;
+my $failed_warning  = 16;
+my $failed_critical = 48;
+
 # keep in sync with world/lib/Extract/Config.pm
 #
 # to update manually, run:
-# perl -I world/lib/ -e 'use Extract::Config; print join "\n", sort keys $Extract::Config::formats'
+# perl -I world/lib/ -e 'use Extract::Config; print join "\n", sort keys %$Extract::Config::formats'
 #
 my $config = {
     'tilesize' => [
         qw/
+          bbbike-perltk.zip
           csv.gz
           csv.xz
+          garmin-ajt03-ascii.zip
+          garmin-ajt03-latin1.zip
+          garmin-ajt03.zip
+          garmin-bbbike-ascii.zip
           garmin-bbbike-latin1.zip
           garmin-bbbike.zip
+          garmin-cycle-ascii.zip
           garmin-cycle-latin1.zip
           garmin-cycle.zip
+          garmin-leisure-ascii.zip
           garmin-leisure-latin1.zip
           garmin-leisure.zip
+          garmin-onroad-ascii.zip
           garmin-onroad-latin1.zip
           garmin-onroad.zip
+          garmin-ontrail-ascii.zip
           garmin-ontrail-latin1.zip
           garmin-ontrail.zip
-          garmin-opentopo-latin1.zip
-          garmin-opentopo.zip
-          garmin-openfietslite-latin1.zip
-          garmin-openfietslite.zip
+          garmin-openfietsfull-ascii.zip
           garmin-openfietsfull-latin1.zip
           garmin-openfietsfull.zip
+          garmin-openfietslite-ascii.zip
+          garmin-openfietslite-latin1.zip
+          garmin-openfietslite.zip
+          garmin-opentopo-ascii.zip
+          garmin-opentopo-latin1.zip
+          garmin-opentopo.zip
+          garmin-oseam-ascii.zip
           garmin-oseam-latin1.zip
           garmin-oseam.zip
+          garmin-osm-ascii.zip
           garmin-osm-latin1.zip
           garmin-osm.zip
+          geojson.xz
+          geojsonseq.xz
           mapsforge-osm.zip
-          organicmaps-osm.zip
+          mbtiles-basic.zip
+          mbtiles-openmaptiles.zip
           o5m.gz
           o5m.xz
           obf.zip
           opl.xz
+          organicmaps-osm.zip
           osm.bz2
           osm.gz
           osm.pbf
@@ -84,10 +106,7 @@ my $config = {
           png-urbanight.zip
           png-wireframe.zip
           shp.zip
-          srtm-europe.garmin-srtm.zip
-          srtm-europe.obf.zip
-          srtm-europe.osm.pbf
-          srtm-europe.osm.xz
+          sqlite.xz
           srtm.garmin-srtm.zip
           srtm.obf.zip
           srtm.osm.pbf
@@ -98,7 +117,7 @@ my $config = {
           svg-osm.zip
           svg-urbanight.zip
           svg-wireframe.zip
-          mbtiles-openmaptiles.zip
+          text.xz
           /
     ]
 };
@@ -120,7 +139,7 @@ EOF
 }
 
 sub get_types {
-    my @types = qw/tilesize extract format/;
+    my @types = qw/tilesize extract format failed/;
     return sort @types;
 }
 
@@ -154,7 +173,7 @@ EOF
 sub config_tilesize () {
     my $data = <<EOF;
 graph_title Extract Tile Size
-graph_vlabel Format
+graph_vlabel number of tile requests
 graph_category extract
 graph_info Number of Tile Size Requests by Format
 graph_period minute
@@ -173,7 +192,7 @@ EOF
 sub config_format () {
     my $data = <<EOF;
 graph_title Extract formats
-graph_vlabel Format
+graph_vlabel number of formats
 graph_category extract
 graph_info Number Requests by Format
 graph_period minute
@@ -189,12 +208,34 @@ EOF
     return $data;
 }
 
+sub config_failed () {
+    my $data = <<EOF;
+graph_title Extract failed
+graph_vlabel number of failed in $days_failed days
+graph_category extract
+graph_info Number Requests by failed Format in $days_failed days
+graph_period minute
+graph_scale no
+EOF
+
+    foreach my $label ( sort @{ $config->{'tilesize'} } ) {
+        my $label_e = escape_label($label);
+        $data .= "$label_e.label $label\n";
+        $data .= "$label_e.min $min_value\n";
+        $data .= "$label_e.warning $failed_warning\n";
+        $data .= "$label_e.critical $failed_critical\n";
+    }
+
+    return $data;
+}
+
 sub config {
     my $type = shift;
 
     return
         $type eq 'tilesize' ? &config_tilesize
       : $type eq 'format'   ? &config_format
+      : $type eq 'failed'   ? &config_failed
       : $type eq 'extract'  ? &config_extract
       :                       die "Unknown stat type: $type\n";
 }
@@ -282,6 +323,11 @@ sub parse_log {
         $data = display_results( $config->{'tilesize'}, $count );
     }
 
+    elsif ( $type eq 'failed' ) {
+        my $count = &count_failed( 'days' => $days_failed );
+        $data = display_results( $config->{'tilesize'}, $count );
+    }
+
     else {
         die "Unknown type: $type\n";
     }
@@ -346,6 +392,29 @@ sub count_format {
         if (m,"GET /(cgi/extract\.cgi)?\?.*format=([^&" ]+),) {
             $counter->{$2}++;
         }
+    }
+
+    return $counter;
+}
+
+#
+# parse the failed2 directory for errors
+#
+sub count_failed {
+    my %args = @_;
+    my $days = $args{'days'} // 30;
+
+    my $counter = {};
+
+    my $shell =
+        qq#find /opt/bbbike/extract/failed2/ -mtime -$days -name '*json'#
+      . q# | xargs  egrep  -h '"format" :' | sed -e  's/[",]//g;' | sort | uniq -c | sort -nr | awk '{ print $4, $1 }'#;
+    open( IN, "$shell |" ) or die "open $shell\n";
+
+    while (<IN>) {
+        chomp;
+        my ( $key, $value ) = split;
+        $counter->{$key} = $value;
     }
 
     return $counter;

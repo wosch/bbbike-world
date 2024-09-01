@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2023 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2024 Wolfram Schneider, https://bbbike.org
 
 use FindBin;
 use lib "$FindBin::RealBin/../lib";
@@ -30,7 +30,7 @@ push @garmin_styles, qw/leisure cycle/
 
 # test 7 styles more for long run
 push @garmin_styles,
-  qw/bbbike openfietslite openfietsfull onroad ontrail oseam opentopo/
+  qw/bbbike openfietslite openfietsfull onroad ontrail oseam opentopo ajt03/
   if $ENV{BBBIKE_TEST_LONG};
 
 if ( $ENV{BBBIKE_TEST_LONG} ) {
@@ -105,8 +105,8 @@ sub convert_format {
 
         diag "garmin style=$style, lang=$lang";
 
-        system(qq[world/bin/pbf2osm --garmin-$style $pbf_file $city]);
-        is( $?, 0, "pbf2osm --garmin-$style $pbf_file" );
+        system(qq[world/bin/pbf2osm --garmin-$style $pbf_file "$city"]);
+        is( $?, 0, qq[pbf2osm --garmin-$style $pbf_file "$city"] );
 
         system(qq[unzip -tqq $out]);
         is( $?, 0, "valid zip file" );

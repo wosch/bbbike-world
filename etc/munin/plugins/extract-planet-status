@@ -120,7 +120,9 @@ sub planet_status_time {
     # /etc/systemd/system/multi-user.target.wants/munin-node.service
     # ProtectHome=read-only
     #
-    my $st = stat($file) or die "stat $file: $!\n";
+    my $st = stat($file)
+      or die
+      "stat $file: $! - did you enabled ProtectHome=read-only in systemd?\n";
 
     print "bbbike_${tag}_status_time.value @{[ status($st->mtime) ]}\n";
 }

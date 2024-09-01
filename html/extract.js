@@ -55,6 +55,9 @@ var config = {
         "garmin-osm.zip": 1500,
         "garmin-osm-ascii.zip": 1500,
         "garmin-osm-latin1.zip": 1500,
+        "garmin-ajt03.zip": 1500,
+        "garmin-ajt03-ascii.zip": 1500,
+        "garmin-ajt03-latin1.zip": 1500,
         "garmin-cycle.zip": 1500,
         "garmin-cycle-ascii.zip": 1500,
         "garmin-cycle-latin1.zip": 1500,
@@ -146,6 +149,10 @@ var config = {
         "garmin-oseam.zip": "/images/garmin-oseam2-small.png",
         "garmin-oseam-ascii.zip": "/images/garmin-oseam2-small.png",
         "garmin-oseam-latin1.zip": "/images/garmin-oseam2-small.png",
+
+        "garmin-ajt03.zip": "/images/garmin-bbbike-small.png",
+        "garmin-ajt03-ascii.zip": "/images/garmin-bbbike-small.png",
+        "garmin-ajt03-latin1.zip": "/images/garmin-bbbike-small.png",
 
         "svg-google.zip": "/images/svg-google-small.png",
         "svg-osm.zip": "/images/svg-osm-small.png",
@@ -382,15 +389,6 @@ function init_map() {
         attribution: '<a href="https://www.OpenStreetmap.org/copyright">(&copy) OpenStreetMap contributors</a>, <a href="https://www.opencyclemap.org/">(&copy) OpenCycleMap</a>',
         numZoomLevels: 18
     }));
-
-    map.addLayer(new OpenLayers.Layer.OSM("Mapbox Satellite", ["https://api.mapbox.com/v4/mapbox.satellite/${z}/${x}/${y}@2x.jpg90?access_token=pk.eyJ1IjoibWFwYm94YmJiIiwiYSI6ImNsZno4MjlzbTBtb24zZ3FybGp6bjNvMXkifQ.N6Fhq0aixmR3was6z8sSBQ"], {
-        attribution: '<a href="https://www.mapbox.com/">(&copy) mapbox</a>',
-        tileOptions: {
-            crossOriginKeyword: null
-        },
-        numZoomLevels: 20
-    }));
-
 
     // Bing roads and Satellite/Hybrid
     // disabled due wrong billing
@@ -770,7 +768,7 @@ function extract_init_pro(opt) {
         config.max_size["osm.pbf"] *= 6;
         config.max_size["osm.xz"] *= 6;
         config.max_size["osm.gz"] *= 6;
-        config.max_size["shp.zip"] *= 4;
+        config.max_size["shp.zip"] *= 16;
         config.max_skm *= 2;
 
         config.extract_pro = 1;
@@ -1474,6 +1472,18 @@ function show_filesize(skm, real_size, sub_planet_factor) {
             "time": 3
         },
         "garmin-osm-latin1.zip": {
+            "size": 0.67,
+            "time": 3
+        },
+        "garmin-ajt03.zip": {
+            "size": 0.8,
+            "time": 3
+        },
+        "garmin-ajt03-ascii.zip": {
+            "size": 0.67,
+            "time": 3
+        },
+        "garmin-ajt03-latin1.zip": {
             "size": 0.67,
             "time": 3
         },

@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl -T
-# Copyright (c) 2012-2023 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2024 Wolfram Schneider, https://bbbike.org
 #
 # download.cgi - extract.bbbike.org live extracts
 
@@ -103,6 +103,7 @@ sub extract_areas {
     my $devel         = $args{'devel'} || 0;
     my $sort_by       = $args{'sort_by'} || "time";
     my $date          = $args{'date'} || "";
+    my $email         = $args{'email'} || "";
     my $filter_format = $args{'filter_format'} || "";
 
     my $max_days = 6;
@@ -114,8 +115,16 @@ sub extract_areas {
     my %hash;
     foreach my $f (`find $log_dir/ -name '*.json' -mtime -${max_days} -print`) {
         chomp $f;
-        my $st = stat($f) or die "stat $f: $!\n";
-        $hash{$f} = $st->mtime;
+
+        my $st = stat($f);
+        if ( !$st ) {
+
+            # already gone?
+            warn "stat $f: $!\n";
+        }
+        else {
+            $hash{$f} = $st->mtime;
+        }
     }
 
     # newest first
@@ -133,6 +142,11 @@ sub extract_areas {
         my $obj  = $extract_utils->parse_json_file( $file, 1 );
 
         next if !exists $obj->{'date'};
+
+        # show only my extracts
+        if ( $email && $obj->{'email'} ne $email ) {
+            next;
+        }
 
         my $pbf_file = $download_dir . "/" . basename( $obj->{"pbf_file"} );
         my $format   = $obj->{"format"};
@@ -195,7 +209,6 @@ sub extract_areas {
 
         warn "found download file $download_file\n" if $debug >= 3;
 
-        warn "xxx: ", Dumper($obj) if $debug >= 3;
         push @area, $obj;
     }
 
@@ -236,13 +249,17 @@ sub running_extract_areas {
     my $devel         = $args{'devel'} || 0;
     my $sort_by       = $args{'sort_by'} || "time";
     my $filter_format = $args{'filter_format'} || "";
+    my $email         = $args{'email'} || "";
 
     warn "download: log dir: $log_dir, max: $max, devel: $devel\n" if $debug;
 
     my %hash;
     foreach my $f ( glob("$log_dir/*.json"), glob("$log_dir/*/*.json") ) {
-        my $st = stat($f) or die "stat $f: $!\n";
-        $hash{$f} = $st->mtime;
+        my $st = stat($f);
+        if ( !$st ) { warn "stat $f: $!\n"; }
+        else {
+            $hash{$f} = $st->mtime;
+        }
     }
 
     # newest first
@@ -271,6 +288,9 @@ sub running_extract_areas {
         }
 
         next if !exists $obj->{'date'};
+        if ( $email && $obj->{'email'} ne $email ) {
+            next;
+        }
 
         if ( $filter_format ne "" ) {
             if ( index( $obj->{"format"}, $filter_format ) != 0 ) {
@@ -289,7 +309,6 @@ sub running_extract_areas {
         }
         $unique{$script_url} = 1;
 
-        warn "xxx: ", Dumper($obj) if $debug >= 3;
         push @area, $obj;
     }
 
@@ -321,7 +340,7 @@ sub footer {
 </div> <!-- footer_top -->
 
 <div id="copyright">
-(&copy;) 2008-2023 <a href="https://www.bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
+(&copy;) 2008-2024 <a href="https://www.bbbike.org">BBBike.org</a> // Map data (&copy;) <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap License">OpenStreetMap.org</a> contributors
 </div> <!-- copyright -->
 
 </div> <!-- footer -->
@@ -778,11 +797,21 @@ sub download_json {
     );
     my $perl = {
         "copyright" =>
-          "Copyright (c) 2023 Wolfram Schneider, https://extract.bbbike.org",
+          "Copyright (c) 2024 Wolfram Schneider, https://extract.bbbike.org",
         "ready" => $trash_perl
     };
 
     print JSON->new->pretty(1)->canonical->encode($perl);
+}
+
+sub current_user {
+    my $q = shift;
+
+    # limit to current user
+    my $email = $q->cookie('email') // "";
+    $email .= '@bbbike.org' if $email eq 'nobody';
+
+    return $email;
 }
 
 sub download_html {
@@ -830,16 +859,20 @@ EOF
 
     my @extracts = ();
 
-    my $sort_by        = $q->param('sort_by') || $q->param("sort");
+    my $sort_by = $q->param('sort_by') || $q->param("sort");
+    my $email   = &current_user($q);
+    my $me      = $q->param("me") || 0;
+
     my @extracts_trash = &extract_areas(
         'log_dir'       => "$spool_dir/" . $spool->{"trash"},
         'max'           => $max,
         'sort_by'       => $sort_by,
         'filter_format' => $filter_format,
+        'email'         => $me ? $email : "",
         'date'          => $date
     );
 
-    my ( $count, $max_count, $time ) = activate_auto_refresh($q);
+    my ( $count, $max_count, $time ) = &activate_auto_refresh($q);
 
     print <<EOF;
 
@@ -853,12 +886,26 @@ EOF
  <span>@{[ M("Last update") ]}: $current_date</span>
 EOF
 
+    if ($email) {
+        my $qq = new CGI($q);
+        if ( !$me ) {
+            $qq->param( "me", "1" );
+            my $url = $qq->url( -query => 1, -absolute => 1 );
+            print qq|<a href="$url">|, M("only my extracts"), qq|</a>|;
+        }
+        else {
+            $qq->delete("me");
+            my $url = $qq->url( -query => 1, -absolute => 1 );
+            print qq|<a href="$url">|, M("all extracts"), qq|</a>|;
+        }
+        print " - \n";
+    }
+
     if ( $option->{'auto_refresh'}->{'enabled'} ) {
         print <<EOF;
- -
 <a title="enable/disable auto refresh every $time seconds" onclick="javascript:auto_refresh($count);"
-style="display: inline;">
-@{[ $count == 0 || $count >= $max_count ? M("Enable auto refresh") : M("Disable auto refresh") ]}</a>
+style="display: inline;"> 
+@{[ $count == 0 || $count >= $max_count ? M("enable auto refresh") : M("disable auto refresh") ]}</a>
 EOF
     }
 
@@ -882,6 +929,7 @@ EOF
     @extracts = &running_extract_areas(
         'log_dir'       => "$spool_dir/" . $spool->{"confirmed"},
         'filter_format' => $filter_format,
+        'email'         => $me ? $email : "",
         'max'           => $max
     );
 
@@ -895,6 +943,7 @@ EOF
     @extracts = &running_extract_areas(
         'log_dir'       => "$spool_dir/" . $spool->{"running"},
         'filter_format' => $filter_format,
+        'email'         => $me ? $email : "",
         'max'           => $max
     );
 
@@ -947,6 +996,7 @@ sub activate_auto_refresh {
 
     my $qq = CGI->new($q);
     $qq->param( "count", $count + 1 );
+
     my $url  = $qq->url( -query => 1, -path => 1 );
     my $url2 = $q->url( -query => 0, -path => 1 );
 

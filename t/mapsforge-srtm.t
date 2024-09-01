@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2023 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2024 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_MAPSFORGE_DISABLED} || $ENV{BBBIKE_TEST_DOCKER} ) {
@@ -80,8 +80,8 @@ sub convert_format {
     my $out = $test->out($style);
     unlink $out;
 
-    system(qq[world/bin/pbf2osm --mapsforge-osm $pbf_file $city]);
-    is( $?, 0, "pbf2osm --mapsforge-osm converter" );
+    system(qq[world/bin/pbf2osm --mapsforge-osm $pbf_file "$city"]);
+    is( $?, 0, qq[pbf2osm --mapsforge-osm $pbf_file "$city"] );
     $st = stat($out) or die "Cannot stat $out\n";
 
     system(qq[unzip -t $out]);

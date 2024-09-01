@@ -96,7 +96,7 @@ mbtiles_dir=$tmpdir/$mbtiles-`basename $ext .zip`
 mkdir -p $mbtiles_dir
 
 logfile=$mbtiles_dir/logfile.txt
-touch $logfile
+osmium fileinfo $file > $logfile
 
 date=$(date -u)
 date_short=$(date -u '+%d-%b-%Y')

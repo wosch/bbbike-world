@@ -95,26 +95,26 @@ fi
 for pp in $process_names
 do
   	p=$(pname $pp)
-   	echo "$p.value" $($grep "^${pp}$" /proc/*/comm | wc -l)
+   	echo "$p.value" $($grep "^${pp}$" /proc/*/comm 2>/dev/null | wc -l)
 done
 for pp in $process_names_opt
 do
     if [ -e /etc/init.d/$pp -o -e /etc/init.d/.$pp ]; then
     	p=$(pname $pp)
-    	echo "$p.value" $($grep "^${pp}$" /proc/*/comm | wc -l)
+    	echo "$p.value" $($grep "^${pp}$" /proc/*/comm 2>/dev/null | wc -l)
     fi
 done
 
 for pp in $process_names_d
 do
    	p=$(pname $pp)
-   	echo "$p.value" $($grep "^${pp}d$" /proc/*/comm | wc -l)
+   	echo "$p.value" $($grep "^${pp}d$" /proc/*/comm 2>/dev/null | wc -l)
 done
 for pp in $process_names_opt_d
 do
     if [ -e /etc/init.d/$pp ]; then
     	p=$(pname $pp)
-    	echo "$p.value" $($grep "^${pp}d$" /proc/*/comm | wc -l)
+    	echo "$p.value" $($grep "^${pp}d$" /proc/*/comm 2>/dev/null | wc -l)
     fi
 done
 

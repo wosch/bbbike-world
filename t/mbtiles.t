@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2023 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2024 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     system( "env", "PATH=/bin:/usr/bin:/usr/local/bin", "which", "tilemaker" );
@@ -88,8 +88,8 @@ sub convert_format {
 
         diag "mbtiles style=$style, lang=$lang";
 
-        system(qq[world/bin/pbf2osm --mbtiles-$style $pbf_file $city]);
-        is( $?, 0, "pbf2osm --mbtiles-$style $pbf_file" );
+        system(qq[world/bin/pbf2osm --mbtiles-$style $pbf_file "$city"]);
+        is( $?, 0, qq[pbf2osm --mbtiles-$style $pbf_file "$city"] );
 
         system(qq[unzip -tqq $out]);
         is( $?, 0, "valid zip file" );

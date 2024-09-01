@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Copyright (c) Sep 2012-2023 Wolfram Schneider, https://bbbike.org
+# Copyright (c) Sep 2012-2024 Wolfram Schneider, https://bbbike.org
 
 BEGIN {
     if ( $ENV{BBBIKE_TEST_MAPSFORGE_DISABLED} || $ENV{BBBIKE_TEST_DOCKER} ) {
@@ -84,7 +84,7 @@ sub convert_format {
     my $out = $test->out($style);
     unlink $out;
 
-    my $command = qq[world/bin/pbf2osm --mapsforge-$style $pbf_file $city];
+    my $command = qq[world/bin/pbf2osm --mapsforge-$style $pbf_file "$city"];
     system($command);
     is( $?, 0, $command );
     $st = stat($out) or die "Cannot stat $out\n";
