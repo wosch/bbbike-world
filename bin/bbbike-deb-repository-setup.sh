@@ -15,12 +15,12 @@ sources_list_d=/etc/apt/sources.list.d
 
 init_apt_bbbike() {
     bbbike_list=bbbike.list
-    apt_key=https://raw.githubusercontent.com/wosch/bbbike-world/world/etc/apt/debian/bullseye/gpg/bbbike.asc
     deb_url=https://debian.bbbike.org
 
     file="$sources_list_d/$bbbike_list"
     os=$(lsb_release -i | perl -npe 's,^Distributor ID:\s+,,; $_=lc($_)')
     codename=$(lsb_release -cs)
+    apt_key="$deb_url/$os/$codename/bbbike.asc"
 
     #
     # install all given *.list files which are not
