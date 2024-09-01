@@ -37,7 +37,7 @@ case $format in
 esac
 
 : ${max_file_size_bbbike=160000}
-: ${max_file_size_garmin=3950000}
+: ${max_file_size_garmin=4450000}
 : ${max_file_size_mapsforge=1234000}
 : ${max_file_size_osmand=500000}
 : ${max_file_size_shape=866000}
