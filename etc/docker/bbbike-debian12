@@ -1,4 +1,4 @@
-FROM debian:bookworm
+FROM debian:bookworm-slim
 MAINTAINER Wolfram Schneider <wosch@FreeBSD.org>
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -23,6 +23,9 @@ RUN git clone --depth=200 https://github.com/wosch/bbbike.git && \
   make -f world/Makefile.osm create-makefile-symlinks
 
 WORKDIR /opt/bbbike/projects/bbbike
+
+# workaround for new ca-certificates-java which does not support old java releases
+RUN sudo apt-get purge ca-certificates-java && sudo apt-get install -y ca-certificates-java=20230620~deb12u1
 
 RUN make bbbike-deb-repository-setup
 RUN make bbbike-deb-repository-install
