@@ -1649,7 +1649,6 @@ docker-check-w:
 
 docker-build-all:
 	${NICE} ${BBMAKE} -j${MAX_CPU} \
-	  docker-build-extract-debian10 \
 	  docker-build-extract-debian11 \
 	  #docker-build-extract-debian12 \
 
@@ -1657,22 +1656,17 @@ docker-build-libosmium-all:
 	${NICE} ${BBMAKE} -j${MAX_CPU} \
 	  docker-build-libosmium-debian11 \
 	  #docker-build-libosmium-debian12 \
-	  #docker-build-libosmium-ubuntu22 \
 
 
 DOCKER_CHECK_ALL_COMMAND=docker-check
 docker-check-all:
 		${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian11 ${DOCKER_CHECK_ALL_COMMAND}
-		#${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-debian10 ${DOCKER_CHECK_ALL_COMMAND}
-		#${BBMAKE} DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu22 ${DOCKER_CHECK_ALL_COMMAND}
 
 docker-check-w-all:
 		${BBMAKE} DOCKER_CHECK_ALL_COMMAND=docker-check-w docker-check-all
 
 
 # debian
-docker-build-extract-debian10:
-	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-debian10 DOCKER_BBBIKE_TAG=bbbike/extract-debian10 docker-build
 docker-build-extract-debian11:
 	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-debian11 DOCKER_BBBIKE_TAG=bbbike/extract-debian11 docker-build
 docker-build-extract-debian12:
@@ -1686,9 +1680,6 @@ docker-build-libosmium-debian12:
 # ubuntu
 docker-build-extract-ubuntu22:
 	${BBMAKE} DOCKER_IMAGE_FILE=bbbike-ubuntu22 DOCKER_BBBIKE_TAG=bbbike/extract-ubuntu22 docker-build
-
-docker-build-libosmium-ubuntu22:
-	${BBMAKE} DOCKER_IMAGE_FILE=libosmium-ubuntu22 DOCKER_BBBIKE_TAG=bbbike/libosmium-ubuntu22 docker-build
 
 docker-build-tilemaker-ubuntu16:
 	${BBMAKE} DOCKER_IMAGE_FILE=tilemaker-ubuntu16 DOCKER_BBBIKE_TAG=bbbike/tilemaker-ubuntu16 docker-build
