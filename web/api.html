@@ -30,12 +30,9 @@
 	  The appid is identifying the application and mandatory. The appid is allotted by the BBBike developers. Please contact us to get an application appid!
 	</p>
 
-        <h4>XML API in a Nutshell</h4>
+        <h4>XML/JSON API in a Nutshell</h4>
 	<p>
-	BBBike has a simple XML API. You can get the routing results in the formats GPS routes, GPS tracks and Google Earth (KML).</p>
-	
-
-
+	BBBike has a simple XML/JSON API. You can get the routing results in the formats GPS routes, GPS tracks and Google Earth (KML).</p>
 
 	<p>
 	After the prefix follows the city name, e.g. for the original bbbike data: <tt>https://api.bbbike.org/api/0.2/bbbike/</tt>
@@ -73,7 +70,7 @@
 	<tr><td>Name</td><td>parameters</td><td>description</td></tr>
 	<tr><td>GPS Route</td><td><tt>output_as=gpx-route</tt></td><td>GPX route with waypoints for GPS navigation, up to 256 points</td></tr>
 	<tr><td>GPS Track</td><td><tt>output_as=gpx-track</tt></td><td>GPX with up to 1024 points, no navigation</td></tr>
-	<tr><td>Google Earth (KML)</td><td><tt>output_as=kml-track</tt></td><td>view route with Google Earth</td></tr>
+	<tr><td>Google Earth (KML)</td><td><tt>output_as=kml-track</tt></td><td>view route with Google Earth or Garmin BaseCamp</td></tr>
 	<tr><td>XML</td><td><tt>output_as=xml</tt></td><td>route with waypoints and decriptions in XML format</td></tr>
 	<tr><td>JSON</td><td><tt>output_as=json</tt></td><td>route with waypoints and decriptions in JavaScript JSON format</td></tr>
 	<tr><td>YAML</td><td><tt>output_as=yaml</tt></td><td>route with waypoints and decriptions in YAML format</td></tr>
