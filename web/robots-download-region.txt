@@ -9,3 +9,7 @@ Disallow: /osm/extract
 Disallow: /bbbike
 Disallow: /.well-known/
 
+# legacy
+Disallow: /osm/mbtiles
+Disallow: /osm/organicmaps
+Disallow: /osm/misc
