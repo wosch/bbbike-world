@@ -1,0 +1,11 @@
+# https://download3.bbbike.org/
+
+User-agent: *
+Disallow: /osm/planet/planet
+Disallow: /osm/planet/srtm/
+Disallow: /osm/planet/sub-srtm/
+Disallow: /osm/planet/sub-planet/
+Disallow: /osm/extract
+Disallow: /bbbike
+Disallow: /.well-known/
+
