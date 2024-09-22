@@ -9,3 +9,9 @@ Disallow: /osm/extract
 Disallow: /bbbike
 Disallow: /.well-known/
 
+# mirror/backup for download3
+Disallow: /osm/garmin
+Disallow: /osm/mapsforge
+Disallow: /osm/mbtiles
+Disallow: /osm/organicmaps
+Disallow: /osm/misc
