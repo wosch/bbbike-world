@@ -136,7 +136,7 @@ our $option = {
 
     'show_image_size' => 1,
 
-    'osmconvert_options'  => ["--drop-broken-refs"],
+    'osmconvert_options' => ["--drop-broken-refs"],
 
     'bots' => {
         'names'       => [qw/curl Wget Zend python-requests/],
