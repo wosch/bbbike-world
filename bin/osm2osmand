@@ -96,6 +96,7 @@ text2html=$dirname/text2html.sh
 case $text2html in /*) ;; *) text2html=$(pwd)/$text2html ;; esac
 
 logfile=$obf_dir/logfile.txt
+osmium fileinfo $file > $logfile
 
 #mkdir $obf_dir/data $obf_dir/data/osm $obf_dir/data/indexes
 
