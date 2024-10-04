@@ -63,10 +63,6 @@ umask(002);
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
-# backward compatible
-$ENV{BBBIKE_PLANET_OSM_GRANULARITY} = "granularity=100"
-  if !defined $ENV{BBBIKE_PLANET_OSM_GRANULARITY};
-
 our $option = {
 
     # max. different polygon per extract
@@ -1565,39 +1561,25 @@ sub _convert_send_email {
     my $script_url      = &script_url( $option, $obj );
     my $database_update = gmctime($planet_osm_mtime) . " UTC";
 
-    my $text = M("EXTRACT_EMAIL");
-    my $granularity;
-    if ( grep { /^granularity=10000$/ } @{ $option->{"osmosis_options"} } ) {
-        $granularity = "10,000 (1.1 meters)";
-    }
-    elsif ( grep { /^granularity=1000$/ } @{ $option->{"osmosis_options"} } ) {
-        $granularity = "1,000 (11 cm)";
-    }
-    elsif ( grep { /^granularity=100$/ } @{ $option->{"osmosis_options"} } ) {
-        $granularity = "100 (1.1 cm)";
-    }
-    else {
-        $granularity = "full";
-    }
+    my $text        = M("EXTRACT_EMAIL");
+    my $granularity = "100 (1.1 cm)";       # legacy
 
     # here we can put any optional messages, at once
     my $optional_message = "";
 
-    my $message = sprintf(
-        $text,
+    my $message = sprintf( $text,
         $obj->{'city'},
         $url,
         $obj->{'city'},
 qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
         $script_url,
         $square_km,
-        $granularity,    #$osmosis_options,
+        $granularity,
         $obj->{"format"},
         $file_size,
         $checksum_md5,
         $database_update,
-        $optional_message
-    );
+        $optional_message );
 
 #        my $message = <<EOF;
 #Hi,
