@@ -95,7 +95,13 @@ run_splitter () {
     logfile=$3
     size=$4
 
-    osmium fileinfo $file > $logfile
+    (
+      osmium fileinfo $file
+      echo ""
+      java -version 2>&1
+      echo ""
+    ) > $logfile
+
     echo ">>> Run splitter" >> $logfile
 
     ( set -x;
