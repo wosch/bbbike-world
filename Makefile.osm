@@ -55,11 +55,11 @@ CURL_USER_AGENT=	-A "BBBike.org-CacheHeater/1.0"
 XARGS=		${NICE} `which gxargs xargs | head -1`
 XARGS5=		`which gxargs xargs | head -1`
 TIME=		time
-OSM2PBF=	world/bin/osm2pbf
+OSM2PBF=	world/legacy/bin/osm2pbf
 
 PBF2OSM=	world/bin/pbf2osm
 OSM_CHECKSUM=	world/bin/osm-checksum
-PBF2PBF=	world/bin/pbf2pbf
+PBF2PBF=	world/legacy/bin/pbf2pbf
 OSM2GARMIN=		world/bin/pbf2osm --garmin-osm
 OSM2GARMIN_CYCLE=	world/bin/pbf2osm --garmin-cycle
 OSM2GARMIN_ONROAD=	world/bin/pbf2osm --garmin-onroad

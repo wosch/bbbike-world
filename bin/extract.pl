@@ -136,8 +136,6 @@ our $option = {
 
     'show_image_size' => 1,
 
-    'pbf2pbf_postprocess' => 1,
-    'osmconvert_enabled'  => 1,
     'osmconvert_options'  => ["--drop-broken-refs"],
 
     'bots' => {
@@ -1718,34 +1716,6 @@ sub check_domain_only {
     return @list;
 }
 
-#
-# pbf2pbf postprocess
-# e.g. make sure that lat,lon are in valid range -180 .. +180
-#
-sub fix_pbf {
-    my $files     = shift;
-    my $test_mode = shift;
-
-    # all scripts are in these directory
-    my $dirname = dirname($0);
-    my $pbf2pbf = "$dirname/pbf2pbf";
-
-    my @nice = ( "nice", "-n", $nice_level + 1 );
-    my @system;
-    if ( $option->{"pbf2pbf_postprocess"} ) {
-        warn "Run pbf2pbf post process\n" if $debug >= 1;
-
-        foreach my $pbf (@$files) {
-            @system = ( @nice, $pbf2pbf, $pbf );
-            warn "Fix pbf $pbf\n" if $debug >= 2;
-            @system = 'true' if $test_mode;
-
-            system(@system) == 0
-              or die "system @system failed: $?";
-        }
-    }
-}
-
 sub get_msg {
     my $language = shift || $option->{'language'};
 
@@ -2004,12 +1974,6 @@ sub run_jobs {
 
     my $extract_time = time() - $time;
     warn "Running extract time: $extract_time seconds\n" if $debug >= 1;
-
-    if ( !$option->{'osmconvert_enabled'} ) {
-        &fix_pbf( $new_pbf_files, $test_mode );
-        warn "Running fix pbf time: ", time() - $time, " seconds\n"
-          if $debug >= 1;
-    }
 
     # send out mail
     $time = time();
