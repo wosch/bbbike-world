@@ -96,15 +96,18 @@ text2html=$dirname/text2html.sh
 case $text2html in /*) ;; *) text2html=$(pwd)/$text2html ;; esac
 
 logfile=$obf_dir/logfile.txt
-osmium fileinfo $file > $logfile
-
-#mkdir $obf_dir/data $obf_dir/data/osm $obf_dir/data/indexes
+( 
+  osmium fileinfo $file
+  echo ""
+  java -version 2>&1
+  echo ""
+  echo "OsmAnd version: $osmand_version"
+  echo ""
+) > $logfile
 
 cd $obf_dir
 counter=0
-
 class_path="$osmand_home/OsmAndMapCreator.jar:$osmand_home/lib/OsmAnd-core.jar:$osmand_home/lib/*.jar"
-echo "OsmAnd version: $osmand_version" >> $logfile
 
 ( 
   mkdir tmp
