@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2023 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2024 Wolfram Schneider, https://bbbike.org
 #
 # osm2bbbike - convert a osm/pbf file to perl/tk bbbike data
 #
@@ -82,7 +82,12 @@ bbbike_dir=$tmpdir/$bbbike-`basename $ext .zip`
 mkdir -p $bbbike_dir
 
 logfile=$bbbike_dir/logfile.txt
-touch $logfile
+(
+  osmium fileinfo $file
+  echo ""
+  head -n1 $(dirname $0)/../../CHANGES
+  echo ""
+) > $logfile
 
 date=$(date -u)
 
