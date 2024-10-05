@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2012-2023 Wolfram Schneider, https://bbbike.org
+# Copyright (c) 2012-2024 Wolfram Schneider, https://bbbike.org
 #
 # osm2shape  - convert a osm/pbf file to shape
 #
@@ -7,7 +7,6 @@
 PATH=/bin:/usr/bin:/usr/local/bin; export PATH
 : ${BBBIKE_EXTRACT_LANG=en}
 : ${MD5=`which md5 md5sum false 2>/dev/null | head -1`}
-: ${fixpbf=false}
 : ${BBBIKE_TMPDIR="/opt/bbbike/tmp"}
 : ${BBBIKE_TMPFS="/tmp"}
 : ${BBBIKE_LD_LIBRARY_PATH="/var/lib/bbbike/opt/lib"}
@@ -39,25 +38,15 @@ case $template in /*) ;; *) template=$(pwd)/$template ;; esac
 
 test -z "$file" && usage
 : ${osm_checksum=`dirname $0`/osm-checksum}
-osm_fixme=`dirname $0`/pbf2pbf
 
 # use RAM disk
 tmpdir=`mktemp -d ${BBBIKE_TMPFS}/osm2shape.XXXXXXXXXXX`
-tmpdir_pbf=`mktemp -d ${BBBIKE_TMPFS}/pbf2pbf.XXXXXXXXXXX`
-tmpfile=$tmpdir_pbf/$(basename $file)
 
 # cleanup at exit
-trap 'rm -rf $tmpdir $tmpfile $tmpdir_pbf' 0
+trap 'rm -rf $tmpdir' 0
 
 # keep old name for results
 file_orig=$file
-
-# fix broken pbf first
-if $fixpbf; then
-    cp -f $file $tmpfile
-    $(dirname $0)/pbf2pbf $tmpfile
-    file=$tmpfile	
-fi
 
 shape=`basename "$file" | perl -npe 's/\.(pbf|osm\.pbf|osm|osm\.gz|osm\.bz2)$//'`
 shape_dir=$tmpdir/${shape}-shp
@@ -78,7 +67,6 @@ else
    tail -c 256K $logfile
    exit $exit
 fi
-#rm -f $file_fixme
 
 if test -n "$(find $logfile -size +$logfile_max_size -print)"; then
     echo "logfile $logfile is to big: $(ls -l $logfile)"

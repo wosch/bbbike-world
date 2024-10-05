@@ -63,10 +63,6 @@ umask(002);
 binmode \*STDOUT, ":utf8";
 binmode \*STDERR, ":utf8";
 
-# backward compatible
-$ENV{BBBIKE_PLANET_OSM_GRANULARITY} = "granularity=100"
-  if !defined $ENV{BBBIKE_PLANET_OSM_GRANULARITY};
-
 our $option = {
 
     # max. different polygon per extract
@@ -119,8 +115,6 @@ our $option = {
     'language'     => "en",
     'message_path' => "world/etc/extract",
 
-    'osmosis_options' => [ $ENV{BBBIKE_PLANET_OSM_GRANULARITY} ],
-
     'aws_s3_enabled' => 0,
     'aws_s3'         => {
         'bucket'      => 'bbbike',
@@ -136,9 +130,7 @@ our $option = {
 
     'show_image_size' => 1,
 
-    'pbf2pbf_postprocess' => 1,
-    'osmconvert_enabled'  => 1,
-    'osmconvert_options'  => ["--drop-broken-refs"],
+    'osmconvert_options' => ["--drop-broken-refs"],
 
     'bots' => {
         'names'       => [qw/curl Wget Zend python-requests/],
@@ -197,11 +189,6 @@ my $email_from = $option->{"email_from"};
 my $planet_osm = $option->{"planet_osm"} || $option->{"planet"}->{"planet.osm"};
 my $debug      = $option->{"debug"};
 my $test       = $option->{"test"};
-
-if ( $option->{"pro"} ) {
-    $option->{"osmosis_options"} = [];
-}
-my $osmosis_options = join( " ", @{ $option->{"osmosis_options"} } );
 
 # test & debug
 $planet_osm =
@@ -1567,39 +1554,25 @@ sub _convert_send_email {
     my $script_url      = &script_url( $option, $obj );
     my $database_update = gmctime($planet_osm_mtime) . " UTC";
 
-    my $text = M("EXTRACT_EMAIL");
-    my $granularity;
-    if ( grep { /^granularity=10000$/ } @{ $option->{"osmosis_options"} } ) {
-        $granularity = "10,000 (1.1 meters)";
-    }
-    elsif ( grep { /^granularity=1000$/ } @{ $option->{"osmosis_options"} } ) {
-        $granularity = "1,000 (11 cm)";
-    }
-    elsif ( grep { /^granularity=100$/ } @{ $option->{"osmosis_options"} } ) {
-        $granularity = "100 (1.1 cm)";
-    }
-    else {
-        $granularity = "full";
-    }
+    my $text        = M("EXTRACT_EMAIL");
+    my $granularity = "100 (1.1 cm)";       # legacy
 
     # here we can put any optional messages, at once
     my $optional_message = "";
 
-    my $message = sprintf(
-        $text,
+    my $message = sprintf( $text,
         $obj->{'city'},
         $url,
         $obj->{'city'},
 qq[$obj->{"sw_lng"},$obj->{"sw_lat"} x $obj->{"ne_lng"},$obj->{"ne_lat"}],
         $script_url,
         $square_km,
-        $granularity,    #$osmosis_options,
+        $granularity,
         $obj->{"format"},
         $file_size,
         $checksum_md5,
         $database_update,
-        $optional_message
-    );
+        $optional_message );
 
 #        my $message = <<EOF;
 #Hi,
@@ -1716,34 +1689,6 @@ sub check_domain_only {
     }
 
     return @list;
-}
-
-#
-# pbf2pbf postprocess
-# e.g. make sure that lat,lon are in valid range -180 .. +180
-#
-sub fix_pbf {
-    my $files     = shift;
-    my $test_mode = shift;
-
-    # all scripts are in these directory
-    my $dirname = dirname($0);
-    my $pbf2pbf = "$dirname/pbf2pbf";
-
-    my @nice = ( "nice", "-n", $nice_level + 1 );
-    my @system;
-    if ( $option->{"pbf2pbf_postprocess"} ) {
-        warn "Run pbf2pbf post process\n" if $debug >= 1;
-
-        foreach my $pbf (@$files) {
-            @system = ( @nice, $pbf2pbf, $pbf );
-            warn "Fix pbf $pbf\n" if $debug >= 2;
-            @system = 'true' if $test_mode;
-
-            system(@system) == 0
-              or die "system @system failed: $?";
-        }
-    }
 }
 
 sub get_msg {
@@ -2004,12 +1949,6 @@ sub run_jobs {
 
     my $extract_time = time() - $time;
     warn "Running extract time: $extract_time seconds\n" if $debug >= 1;
-
-    if ( !$option->{'osmconvert_enabled'} ) {
-        &fix_pbf( $new_pbf_files, $test_mode );
-        warn "Running fix pbf time: ", time() - $time, " seconds\n"
-          if $debug >= 1;
-    }
 
     # send out mail
     $time = time();

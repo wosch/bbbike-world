@@ -3,7 +3,7 @@
 # 3 Principal HW
 # 2 Arterial St / Other HW
 # 1 Roundabout / Collector
-# 0 Residential Street / Unpaved road / Trail
+# 0 Residential Street / Unpaved road / Trail/ Service
 
 # streets and paths
 highway=* & highway ~ '(fiets|Fiets|mtb|Mtb|bike|Bike|rad|Rad|cycleway;|;cycleway)' {set highway=cycleway}
@@ -19,6 +19,9 @@ highway=residential & !(surface=unpaved) [ 0x06 road_class=0 resolution 22]
 highway=residential & surface=unpaved [ 0x0a road_class=0 resolution 22]
 highway=unclassified & !(surface=unpaved) [ 0x06 road_class=0 resolution 22]
 highway=unclassified & surface=unpaved [ 0x0a road_class=0 resolution 22]
+
+# service
+highway=service & !(access=no | access=private | service=driveway) [ 0x0a road_class=0 resolution 22]
 
 highway=path & bicycle=designated [ 0x07 road_class=0 resolution 22]
 highway=cycleway [ 0x07 road_class=0 resolution 22]
