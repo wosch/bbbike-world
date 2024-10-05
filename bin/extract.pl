@@ -115,8 +115,6 @@ our $option = {
     'language'     => "en",
     'message_path' => "world/etc/extract",
 
-    'osmosis_options' => [ $ENV{BBBIKE_PLANET_OSM_GRANULARITY} ],
-
     'aws_s3_enabled' => 0,
     'aws_s3'         => {
         'bucket'      => 'bbbike',
@@ -191,11 +189,6 @@ my $email_from = $option->{"email_from"};
 my $planet_osm = $option->{"planet_osm"} || $option->{"planet"}->{"planet.osm"};
 my $debug      = $option->{"debug"};
 my $test       = $option->{"test"};
-
-if ( $option->{"pro"} ) {
-    $option->{"osmosis_options"} = [];
-}
-my $osmosis_options = join( " ", @{ $option->{"osmosis_options"} } );
 
 # test & debug
 $planet_osm =
