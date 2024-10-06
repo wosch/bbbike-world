@@ -79,9 +79,9 @@ our $factor = {
     'garmin-leisure-ascii.zip'  => 0.551,
     'garmin-leisure-latin1.zip' => 0.552,
 
-    'garmin-osm.zip'        => 0.683,
-    'garmin-osm-ascii.zip'  => 0.684,
-    'garmin-osm-latin1.zip' => 0.685,
+    'garmin-osm.zip'        => 0.451,
+    'garmin-osm-ascii.zip'  => 0.452,
+    'garmin-osm-latin1.zip' => 0.453,
 
     'garmin-srtm.zip' => 1.3,
 
