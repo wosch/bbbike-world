@@ -1400,9 +1400,9 @@ deb-opt-dir-version:
 	cd ${DEB_OPT_DIR}; \
 	  sudo rm -f osmosis splitter mkgmap OsmAndMapCreator mapsforge organicmaps Maperitive; \
 	  sudo ln -fs -T osmosis-0.48.3 osmosis; \
-	  sudo ln -fs -T splitter-r652 splitter; \
-	  sudo ln -fs -T mkgmap-r4905 mkgmap; \
-	  sudo ln -fs -T OsmAndMapCreator-2022-07-26 OsmAndMapCreator; \
+	  sudo ln -fs -T splitter-r654 splitter; \
+	  sudo ln -fs -T mkgmap-r4921 mkgmap; \
+	  sudo ln -fs -T OsmAndMapCreator-2024-10-04 OsmAndMapCreator; \
 	  sudo ln -fs -T mapsforge-0.18.0 mapsforge; \
 	  sudo ln -fs -T organicmaps-1.0 organicmaps; \
 	  sudo ln -fs -T Maperitive-2.4.3 Maperitive
