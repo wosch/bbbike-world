@@ -1,3 +1,9 @@
+bbbike-world-javalibs-misc (1.16-1) unstable; urgency=low
+
+  * upgrade java libs OsmAndMapCreator-2024-10-04.tar.gz, mkgmap-r4921.tar.gz, splitter-r654.tar.gz
+
+ -- Wolfram Schneider <wosch@freebsd.org>  Sun Oct  6 10:10:10 AM UTC 2024
+ 
 bbbike-world-javalibs-misc (1.15-1) unstable; urgency=low
 
   * upgrade java libs OsmAndMapCreator-2022-07-26.tar.gz
