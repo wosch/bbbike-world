@@ -1355,7 +1355,7 @@ deb-repo-dir:
 # should be part of world/etc/apt/Makefile
 # fix & sign debian packages	
 deb-repo: deb-repo-dir
-	env GPG_TTY=/dev/null dpkg-sig -k 624D31EE374A64D7BAE9533337E0E77B5F64CF9 --sign builder ${DEB_DIR}/*.deb
+	env GPG_TTY=/dev/null dpkg-sig -k 624D31EE374A64D7BAE9533337E0E77B5F64CF9A --sign builder ${DEB_DIR}/*.deb
 	set -e; pwd=`pwd`; cd ${DEB_REPO_DIR}/${DEB_VENDOR}/${DEB_RELEASE}; \
 	for i in $$pwd/${DEB_DIR}/*.deb; do \
  	   package=$$(echo $$i | perl -npe 's,.*/,,; s,_[\d+\.\-]+\_(all|amd64|i386)\.deb$$,,'); \
