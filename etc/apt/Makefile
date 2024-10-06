@@ -37,7 +37,7 @@ build:
 	fi
 
 #deb-repo:
-#	dpkg-sig -k 2DB98706008E4DF7D875FC92E7035A3A3EA486AB --sign builder 	${LIB}*.deb
+#	dpkg-sig -k 624D31EE374A64D7BAE9533337E0E77B5F64CF9 --sign builder 	${LIB}*.deb
 #	pwd=$$(pwd); cd ${DEB_REPO_DIR}/${DEB_RELEASE}; \
 #	  reprepro --ignore=undefinedtarget -Vb . removematched ${DEB_RELEASE} ${LIB}-misc; \
 #	  reprepro --ignore=undefinedtarget -Vb . includedeb ${DEB_RELEASE} $$pwd/${LIB}*.deb

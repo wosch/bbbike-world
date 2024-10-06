@@ -78,7 +78,7 @@ do
   item=$(basename $file .log | sed 's/\./_/g')
   echo -n "$item.value "
   if [ -e $file ]; then
-    $grep '" 404 ' $file | $grep -v 'bot|/apple|cyberscan| //|\.php |/wp-[a-z]' | awk '{ print $1 }' | sort -u | wc -l
+    $grep '" 404 ' $file | $grep -v 'bot|/apple|cyberscan|BBBike.org-Test|curl/| //|\.php |/wp-[a-z]|GET /(apple-|ads.txt |app-ads.txt |.well-known/)|"HEAD /|/ARRAY\(' | awk '{ print $1 }' | sort -u | wc -l
   else 
     echo "0"
   fi
