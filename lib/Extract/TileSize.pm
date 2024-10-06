@@ -36,6 +36,9 @@ our $default_size = 4;
 # if a storable cache is rotten, delete it
 our $unlink_broken_storable = 1;
 
+# grow of planet-latest.pbf since last database update
+our $grow_factor = 1.2;
+
 #
 # guess size based on factor of known size of osm.pbf
 # PS: dont forget to update tile-size.cgi code as well
@@ -191,7 +194,7 @@ sub factor_format {
         warn "no matching factor format: $format, ext: $ext\n" if $debug;
     }
 
-    return $factor_format;
+    return ( $factor_format * $grow_factor );
 }
 
 sub valid_hostname {
