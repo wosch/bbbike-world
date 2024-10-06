@@ -24,9 +24,6 @@ RUN git clone --depth=200 https://github.com/wosch/bbbike.git && \
 
 WORKDIR /opt/bbbike/projects/bbbike
 
-# workaround for new ca-certificates-java which does not support old java releases
-RUN sudo apt-get purge ca-certificates-java && sudo apt-get install -y ca-certificates-java=20230620~deb12u1
-
 RUN make bbbike-deb-repository-setup
 RUN make bbbike-deb-repository-install
 
