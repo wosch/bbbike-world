@@ -194,7 +194,10 @@ sub factor_format {
         warn "no matching factor format: $format, ext: $ext\n" if $debug;
     }
 
-    return ( $factor_format * $grow_factor );
+    my $result = $factor_format * $grow_factor;
+    warn "factor_format=$factor_format\n" if $debug;
+
+    return $result;
 }
 
 sub valid_hostname {
