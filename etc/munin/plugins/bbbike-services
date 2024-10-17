@@ -61,7 +61,7 @@ my $config = {
           public_transport roadmap satellite tah terrain/
     ],
     'appid' => [
-        qw/android-0 vmz ios1 ios2 android1 android2 wp0 last0 bbbikede guest other useragent/
+        qw/android-0 vmz ios1 ios2 android1 android2 wp0 last0 bbbikede sut nicolas smatthies guest other useragent/
     ],
 };
 
