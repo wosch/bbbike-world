@@ -1,4 +1,0 @@
-# dom0
-[bbbike-processes]
-env.process_names lighttpd exim4 sshd ntpd varnishd varnishncsa
-

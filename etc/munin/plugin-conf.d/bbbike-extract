@@ -1,8 +1,0 @@
-# bbbike
-[bbbike-processes]
-env.process_names lighttpd exim4 sshd ntpd
-
-# bbbike pro
-[bbbike-extract-pro-jobs]
-env.extract_dir /opt/bbbike/extract-pro/running
-

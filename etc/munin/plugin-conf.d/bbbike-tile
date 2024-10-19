@@ -1,4 +1,0 @@
-# tile.dev
-[bbbike-processes]
-env.process_names apache2 exim4 sshd ntpd renderd postgres
-
