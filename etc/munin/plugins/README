@@ -1,7 +1,0 @@
-#
-# keep list of formats in sync with world/lib/Extract/Config.pm
-#
-# to update manually, run:
-# perl -I world/lib/ -e 'use Extract::Config; print join "\n", sort keys $Extract::Config::formats'
-#
-
